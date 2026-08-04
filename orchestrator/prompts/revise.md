@@ -1,0 +1,1 @@
+Revise the idea in response to `critique.md`. Narrow it to one clean question. Remove unnecessary architecture. Preserve a meaningful negative outcome. Update `idea_card.json` and write `revision.md` describing every material change. Do not write code.

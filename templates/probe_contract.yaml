@@ -1,0 +1,22 @@
+idea_id: "000"
+track: exploratory
+question: ""
+risky_assumption_tested: ""
+primary_metric: ""
+secondary_metrics: []
+baselines: []
+dataset: ""
+split_policy: "development split only; untouched test set unavailable to probe"
+maximum_variants: 3
+maximum_gpu_minutes: 45
+maximum_seeds: 1
+stopping_rule: "Stop after the preregistered variants complete or the budget is exhausted."
+positive_pattern: ""
+negative_pattern: ""
+invalidating_failures: []
+required_outputs:
+  - resolved_config.json
+  - per_sample.csv
+  - summary.json
+  - environment.txt
+human_approved: false
