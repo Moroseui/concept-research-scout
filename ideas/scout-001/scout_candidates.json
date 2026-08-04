@@ -1,0 +1,543 @@
+{
+  "cycle": "scout-001",
+  "stage": "scout",
+  "generated_on": "2026-08-04",
+  "charter_version_seen": "CHARTER.md as of commit 7f91959",
+  "method_note": "Candidates were sought by looking for published assets that stop one step short of a decisive conclusion (a published bound nobody tested models against, a public label file nobody used as an endpoint, a paired-modality dataset nobody split by modality, a released checkpoint with a headline claim nobody stress-tested). All identifiers below were retrieved during this session; each candidate carries an explicit list of claims that were NOT verified against a primary source.",
+  "evidence_standard": {
+    "verified_by_primary_fetch": "Identifier and content read directly from arXiv abstract page, publisher page, official dataset page, or official repository during this session.",
+    "verified_by_search_summary_only": "Numeric or factual claim appeared in a search-result summary but the primary document was not opened; treated as UNVERIFIED and flagged per candidate.",
+    "not_checked": "Explicitly listed under unverified_claims."
+  },
+  "global_caveat": "Absence of a prior paper was not established for any candidate. Searches covered arXiv, publisher pages, and general web indexes only; no systematic search of PubMed, MICCAI/IPMI/MIDL proceedings indexes, or non-English literature was performed. Every novelty_confidence score below is therefore capped at 3.",
+
+  "candidates": [
+    {
+      "id": "C1",
+      "title": "Do soft concept bottleneck models on Derm7pt beat the published concept-sufficiency ceiling, and is the excess leakage or label noise?",
+      "question": "Does a soft concept bottleneck model trained on Derm7pt exceed the split-local rough-set accuracy ceiling that any concept-faithful classifier cannot exceed, and if so, how much of the excess survives controls for concept-label noise?",
+      "concept_definition": "A concept is one of the seven binary/ordinal dermoscopic criteria of the 7-point melanoma checklist as annotated per case in Derm7pt: pigment network, streaks, pigmentation, regression structures, dots and globules, blue-whitish veil, vascular structures. These are expert-assigned perceptual findings with an independent clinical definition and an established diagnostic role, so they satisfy the charter's requirement that concepts not be mere class labels or report text.",
+      "medical_relevance": "The clinical argument for concept bottleneck models in melanoma triage is that the dermatologist can read and correct the intermediate reasoning. If the label head is reading information that bypasses the seven criteria, the displayed criteria are decoration and any clinician who audits or overrides them is being misled about what drove the prediction. This is a precondition question for deploying any concept-mediated skin lesion tool.",
+      "closest_work": [
+        {
+          "citation": "Napoles G., Grau I., Salgueiro Y. Concept Inconsistency in Dermoscopic Concept Bottleneck Models: A Rough-Set Analysis of the Derm7pt Dataset.",
+          "identifier": "arXiv:2604.19323",
+          "also_published_as": "Scientific Reports (2026), article s41598-026-56927-2",
+          "source_type": "preprint + peer-reviewed journal",
+          "verification": "verified_by_primary_fetch (arXiv abstract page and arXiv HTML v1 opened)",
+          "what_it_establishes": "Over the 1011-case Derm7pt dataset there are 305 unique 7-criteria concept profiles; 50 of them (16.4%) map to conflicting melanoma/non-melanoma labels, spanning 306 images (30.3%). This yields a proven bound: any classifier depending only on the seven dermoscopic concepts satisfies acc(h) <= 0.921 on the full unfiltered dataset. They release Derm7pt+ (705-image symmetric, 841-image asymmetric consistent subsets).",
+          "exact_delta": "They deliberately did not run this comparison. Quoted from the paper: 'The original unfiltered Derm7pt dataset is not considered in this evaluation since it has been sufficiently explored in the literature.' Their evaluation is hard-CBM-only on the filtered subsets. They also state as future work: 'Future work should investigate soft and probabilistic concept representations that can accommodate annotation uncertainty without discarding data.' The ceiling therefore exists as a published bound that has never been used as an audit instrument against the soft CBMs that actually populate the Derm7pt literature."
+        },
+        {
+          "citation": "Mahinpei A., Clark J., Lage I., Doshi-Velez F., Pan W. Promises and Pitfalls of Black-Box Concept Learning Models.",
+          "identifier": "arXiv:2106.13314",
+          "source_type": "preprint",
+          "verification": "verified_by_primary_fetch",
+          "what_it_establishes": "Soft concept representations encode information beyond the specified concepts, and standard mitigations do not fully work. This is the theoretical basis for expecting exceedance.",
+          "exact_delta": "Establishes the mechanism in general; provides no medical-imaging quantification and no absolute reference bound to measure exceedance against. The Derm7pt ceiling supplies exactly that missing reference."
+        },
+        {
+          "citation": "Makonnen M., Vandenhirtz M., Laguna S., Vogt J.E. Measuring Leakage in Concept-Based Methods: An Information Theoretic Approach.",
+          "identifier": "arXiv:2504.09459",
+          "venue": "ICLR 2025 Workshop on XAI4Science",
+          "source_type": "workshop paper",
+          "verification": "verified_by_primary_fetch",
+          "what_it_establishes": "An information-theoretic leakage measure, evaluated on controlled synthetic experiments only. The authors state 'future work can extend its application to real-world datasets'.",
+          "exact_delta": "Their measure has never been applied to any medical dataset. Derm7pt with a known ceiling is the cleanest possible first real-world application, because the accuracy-based and information-theoretic leakage signals can be cross-checked against each other."
+        },
+        {
+          "citation": "Kawahara J., Daneshvar S., Argenziano G., Hamarneh G. Seven-Point Checklist and Skin Lesion Classification Using Multitask Multimodal Neural Nets.",
+          "identifier": "IEEE Journal of Biomedical and Health Informatics, 2019; repository https://github.com/jeremykawahara/derm7pt",
+          "source_type": "journal + official repository",
+          "verification": "verified_by_search_summary_only (DOI not retrieved; repository URL confirmed via search result title)",
+          "what_it_establishes": "The Derm7pt dataset itself: 1011 cases, each with a paired clinical and dermoscopic image, five diagnosis categories (BCC, NEV, MEL, MISC, SK), and the seven checklist labels.",
+          "exact_delta": "Source dataset, not a competing analysis."
+        }
+      ],
+      "existing_legwork": [
+        "The ceiling is proven and published (92.1% on the full dataset, binary melanoma vs non-melanoma).",
+        "The 50 inconsistent concept profiles and the 306 affected images are identified and released.",
+        "github.com/gnapoles/Consistent-Derm7pt contains 383x384 cropped clinical and dermoscopic images, a meta.csv with all seven criteria plus diagnosis, symmetric and asymmetric split files, and a working Derm7pt_CBM.ipynb reference notebook (verified_by_primary_fetch of the repository page).",
+        "Soft, hard, and joint CBM training recipes are standard and published; no new architecture is required.",
+        "A published soft/concept-based comparison point exists on a Derm7pt nevus-vs-melanoma subset (MICA, arXiv:2401.08527, reported 76.0% accuracy / 78.6% AUC on 827 images) — flagged unverified, see below."
+      ],
+      "missing_step": "Nobody has computed the rough-set ceiling on the exact frozen train/validation/test split used to train a model and then asked whether that model's test accuracy exceeds its own split's ceiling. The paper's own theorem note says the bound is global and that 'the local ceiling will vary across training, validation, and test splits depending on how inconsistent concept profiles are distributed' — so the split-local ceiling, which is the only one a measured test accuracy can legitimately be compared against, has never been computed.",
+      "why_it_matters": "Exceedance of a split-local ceiling by a soft CBM is a proof, not an inference, that the label head is using non-concept information. It converts leakage from a qualitative worry into a single number with a known null value, on a dataset that the medical concept-learning community actually uses.",
+      "dataset": {
+        "primary": "Derm7pt via github.com/gnapoles/Consistent-Derm7pt (images and metadata bundled)",
+        "fallback": "Original derm7pt distribution via github.com/jeremykawahara/derm7pt",
+        "size": "1011 cases, paired clinical + dermoscopic images",
+        "access": "Public. Split files and metadata MIT-licensed; images governed by the original Derm7pt CC BY-NC-ND 4.0 license (non-commercial research use).",
+        "access_risk": "Low. No DUA, no application. Redistribution of derived images would be restricted by CC BY-NC-ND; publishing metrics and code is not.",
+        "verification": "verified_by_primary_fetch of the repository page"
+      },
+      "compute_readiness": "Trivially within Colab-class budget. 1011 images, ImageNet-pretrained ResNet-50 or similar backbone, five seeds x four model variants is on the order of a few GPU-hours total.",
+      "minimal_experiment": "Freeze a stratified train/val/test split before any modelling. Compute the rough-set ceiling separately on each partition using the released inconsistent-profile identifiers. Then train, on identical splits and seeds, four models: (a) hard CBM (discrete concept bottleneck, stop-gradient), (b) soft/joint CBM, (c) an oracle logistic regression that sees only ground-truth concept vectors — the empirical realisation of the ceiling, and (d) an unconstrained black box as the upper reference. The primary readout is a single pre-registered quantity: test accuracy of (b) minus the test-split ceiling, with bootstrap confidence intervals over five seeds. Secondary readout: the exceedance restricted to the 306 inconsistent-profile images versus the consistent remainder, which separates 'leakage exploited on ambiguous cases' from a uniform effect.",
+      "critical_confound": "Split-local ceiling drift. Because inconsistent profiles are unevenly distributed, a small test split can have a ceiling well above or below 92.1% purely by sampling, and an apparent exceedance could be a split artefact rather than leakage. This must be handled by computing the ceiling per split, repeating over multiple frozen splits, and reporting the distribution of exceedance rather than a single number.",
+      "secondary_confound": "Concept-label noise. Two cases with an identical recorded profile may genuinely differ because an annotator missed a criterion, not because the concepts are insufficient. Rough-set inconsistency cannot distinguish these. The consistent-subset comparison partially controls this but does not eliminate it.",
+      "risky_assumption": "That the seven recorded criteria are the complete concept vocabulary the clinical rule intends. If the operative clinical rule also depends on lesion size or patient context, the 'ceiling' is a ceiling on an incomplete vocabulary, and exceedance would partly reflect a legitimately missing concept rather than illegitimate leakage.",
+      "positive_interpretation": "If soft CBMs reliably exceed their split-local ceiling while hard CBMs do not, this is direct, bounded evidence that the concept layer in the standard medical CBM recipe is not the operative explanation — the first such demonstration on a real clinical concept vocabulary with a proven reference bound.",
+      "negative_interpretation": "If soft CBMs sit at or below the ceiling, the leakage concern imported from synthetic benchmarks does not manifest at this scale on this vocabulary. That is a genuinely useful reassurance for the derm CBM literature and would redirect scrutiny toward concept-annotation quality instead of architecture.",
+      "why_negative_is_useful": "Either outcome resolves a live disagreement with a number rather than an argument, and the experiment cost is low enough that the negative result is not a wasted budget.",
+      "scores": {
+        "clarity": {"value": 5, "why": "The hypothesis reduces to one signed scalar with a known null value: test accuracy minus split-local ceiling."},
+        "medical_relevance": {"value": 3, "why": "Bears on whether a deployed melanoma triage explanation is trustworthy, but does not itself change a diagnostic decision or an outcome."},
+        "interest": {"value": 4, "why": "Turns an abstract interpretability worry into a falsifiable inequality against a published bound; readable outside the subfield."},
+        "prior_legwork": {"value": 5, "why": "Ceiling proven, inconsistent cases enumerated, images and splits and a reference CBM notebook all in one public repository."},
+        "feasibility": {"value": 5, "why": "1011 images, standard backbones, first result within days."},
+        "data_readiness": {"value": 5, "why": "Public, no application, images bundled with the metadata."},
+        "evaluation_readiness": {"value": 5, "why": "Accuracy against a published bound; baselines (hard CBM, oracle-concept, black box) are all standard and defined."},
+        "negative_result_value": {"value": 4, "why": "A null directly weakens a widely repeated caution about medical CBMs."},
+        "novelty_confidence": {"value": 3, "why": "The source paper explicitly excluded this comparison and named soft concepts as future work, but the ceiling was published in 2026 and a concurrent group could plausibly be doing the same thing."}
+      },
+      "priority_score": 4.35,
+      "priority_arithmetic": "0.20*5 + 0.15*5 + 0.15*3 + 0.15*4 + 0.10*5 + 0.10*4 + 0.05*5 + 0.05*5 + 0.05*3 = 4.35",
+      "regret": {"value": 4, "why": "A proven bound sitting unused next to the models it bounds is the kind of thing that looks obvious once someone does it."},
+      "recommendation": "SHORTLIST",
+      "unverified_claims": [
+        "The MICA numbers (76.0% accuracy, 78.6% AUC on an 827-image Derm7pt subset) come from a search summary; arXiv:2401.08527 was not opened. Both the numbers and the subset definition must be read from the primary source before being used as a comparison point.",
+        "The Kawahara et al. JBHI 2019 DOI was not retrieved; only the repository URL and the venue name were confirmed.",
+        "Whether the ceiling paper's binary task is melanoma-vs-all-others or melanoma-vs-nevus-only in every reported figure was inferred from the abstract and HTML; the theorem's exact label partition must be re-read before the split-local ceiling is recomputed.",
+        "No search was run for a paper that has already compared soft CBM accuracy to this specific ceiling. Given the ceiling was published in April 2026, this check is mandatory before proceeding."
+      ]
+    },
+
+    {
+      "id": "C2",
+      "title": "Have lung nodule concept models been validated against radiologist opinion rather than against disease?",
+      "question": "Do the nine LIDC-IDRI semantic nodule attributes predict pathology-confirmed malignancy as well as they predict the radiologist-assigned malignancy rating that the entire LIDC concept literature uses as its endpoint?",
+      "concept_definition": "A concept is one of the eight non-malignancy LIDC-IDRI nodule characteristics rated on ordinal scales by each reading radiologist: subtlety, internal structure, calcification, sphericity, margin, lobulation, spiculation, and texture/radiographic solidity. The ninth field, 'likelihood of malignancy', is deliberately excluded from the concept set and treated as what it is — a subjective outcome opinion, not a perceptual concept. This exclusion is the crux of the candidate.",
+      "medical_relevance": "Essentially every interpretable lung nodule model reports how well its concepts predict malignancy, where 'malignancy' is a radiologist's five-point guess on the same image the model saw. If concept-to-opinion agreement is much stronger than concept-to-pathology agreement, then the field has been measuring how well models reproduce a reader's impression, not how well they detect cancer. That distinction determines whether any of these systems could support a biopsy-or-surveillance decision.",
+      "closest_work": [
+        {
+          "citation": "Armato S.G. III et al. The Lung Image Database Consortium (LIDC) and Image Database Resource Initiative (IDRI): A completed reference database of lung nodules on CT scans.",
+          "identifier": "Medical Physics 38:915-931 (2011); collection DOI 10.7937/K9/TCIA.2015.LO9QL9SX",
+          "source_type": "journal + official archive",
+          "verification": "verified_by_primary_fetch of the TCIA collection page",
+          "what_it_establishes": "The dataset, its CC BY 3.0 license, the XML annotation format (LIDC-XML-only.zip) containing per-reader 1-5 characteristic ratings from up to four thoracic radiologists, and crucially the existence of a separate patient-level and nodule-level diagnosis file, tcia-diagnosis-data-2012-04-20.xls, categorising cases as unknown, benign, primary lung cancer, or metastatic. TCIA states 'this project has concluded and we are not able to obtain any additional diagnosis data.'",
+          "exact_delta": "Provides both endpoints. Nobody is prevented from using the pathology endpoint; it is simply not what the concept literature reports against."
+        },
+        {
+          "citation": "Shen S. et al. An interpretable deep hierarchical semantic convolutional neural network (HSCNN) for lung nodule malignancy classification.",
+          "identifier": "Expert Systems with Applications, 2019 (ScienceDirect S0957417419300545); CVPRW 2019 Explainable AI workshop version",
+          "source_type": "journal + workshop paper",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "The canonical LIDC concept-bottleneck-style model: low-level semantic attribute outputs feeding a high-level malignancy prediction, framed as expert-interpretable.",
+          "exact_delta": "Its malignancy target is the radiologist rating. The pathology endpoint is not used."
+        },
+        {
+          "citation": "Zhang H. et al. Re-thinking and Re-labeling LIDC-IDRI for Robust Pulmonary Cancer Prediction.",
+          "identifier": "arXiv:2207.14238",
+          "source_type": "preprint",
+          "verification": "verified_by_primary_fetch",
+          "what_it_establishes": "Directly documents the problem: LIDC radiologist malignancy ratings can differ from pathological ground truth, introducing supervision bias. They relabel using metric learning guided by a reference set of 180 pathologically diagnosed nodules, and conclude 'building a large pathological-proven nodule database provides the long-term solution.'",
+          "exact_delta": "They fix the label to build better predictors. They do not ask the concept question — whether the semantic attributes themselves lose predictive validity when the endpoint changes from opinion to pathology. That is a different and cheaper question, and their work establishes both that the discrepancy is real and that the pathology subset is usable."
+        },
+        {
+          "citation": "Concept-based Explainable Malignancy Scoring on Pulmonary Nodules in CT Images.",
+          "identifier": "arXiv:2405.17483",
+          "source_type": "preprint",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "A recent concept-based malignancy scoring framework evaluated on LIDC-IDRI, reporting alignment with clinical practice patterns.",
+          "exact_delta": "Again evaluated against the radiologist rating. Reinforces that the endpoint substitution is the field norm rather than an isolated choice."
+        }
+      ],
+      "existing_legwork": [
+        "Both endpoints are already in the public archive under CC BY 3.0 with no DUA.",
+        "The per-reader attribute ratings are parsed by mature open tooling (pylidc and equivalents) that the community already uses.",
+        "The discrepancy between radiologist ratings and pathology is already documented (arXiv:2207.14238), so the premise does not need establishing.",
+        "Standard concept-to-outcome modelling here is ordinal logistic regression or gradient boosting on an eight-dimensional feature vector — no deep model is strictly required for the core comparison."
+      ],
+      "missing_step": "The paired comparison has not been made. What is missing is a single table: for the same nodules, the discriminative power of the eight semantic attributes against (a) the consensus radiologist malignancy rating and (b) the pathology-confirmed label from tcia-diagnosis-data-2012-04-20.xls, with the gap between them reported as the quantity of interest.",
+      "why_it_matters": "If the gap is large, then the reported performance of every LIDC concept model overstates its clinical validity by a measurable amount, and the correct interpretation of that literature changes. If the gap is small, the field's endpoint substitution is empirically defensible and can stop being an unexamined assumption.",
+      "dataset": {
+        "primary": "LIDC-IDRI via The Cancer Imaging Archive",
+        "license": "CC BY 3.0",
+        "access": "Public download via TCIA Data Retriever. No DUA identified on the collection page.",
+        "key_files": ["LIDC-XML-only.zip (per-reader nodule characteristic ratings)", "tcia-diagnosis-data-2012-04-20.xls (patient- and nodule-level diagnosis, ~45 KB)"],
+        "size_constraint": "The pathology-confirmed subset is small. TCIA describes it as limited; secondary reports place it around 157 patients, with one report isolating 77 biopsy/resection-confirmed cancers and 36 non-cancers. This is the dominant feasibility limit.",
+        "verification": "File names, license, and collection DOI verified_by_primary_fetch; the 157/77/36 counts are verified_by_search_summary_only"
+      },
+      "compute_readiness": "The core comparison needs no imaging model at all — it operates on the released attribute ratings, so it is CPU-only and runs in minutes. Only the optional arm (an image-to-concept predictor, to check whether a model's *predicted* concepts behave like the annotated ones) needs a GPU, and that is one small 2D or 2.5D CNN over cropped nodule patches.",
+      "minimal_experiment": "Step 1, no modelling: link nodules in the pathology-confirmed subset to their per-reader attribute ratings and to their consensus malignancy rating. Step 2: fit the same simple classifier (penalised logistic regression, nested cross-validation) from the eight attributes to each endpoint separately, and report AUC with bootstrap CIs for both, plus the paired difference. Step 3, pre-registered subgroup: restrict to cases where the radiologist consensus and pathology disagree, and ask which attributes carry the disagreement. The whole of step 1-3 is a defensible standalone result. Only if that succeeds is the image-based arm worth adding.",
+      "critical_confound": "Verification bias. Nodules that received biopsy or resection were selected for it precisely because they looked suspicious, so the pathology-confirmed subset is systematically enriched for high-suspicion nodules and has compressed variance in exactly the attributes under study. A raw AUC comparison across the two endpoints on differently-shaped populations is not a fair comparison. Mitigation: compute both endpoints on the *same* nodules only (the confirmed subset), never comparing a confirmed-subset AUC to a full-dataset AUC.",
+      "secondary_confound": "Nodule-to-patient linkage. The diagnosis file is partly patient-level while attributes are nodule-level; a patient with a confirmed cancer may have several nodules of which only one is malignant. Any mislinkage inflates apparent disagreement. Linkage rules must be frozen and reported before analysis, and cases with ambiguous linkage excluded a priori rather than adjudicated after seeing results.",
+      "risky_assumption": "That the pathology field in a 2012 spreadsheet is reliable enough to serve as ground truth at this sample size. TCIA itself flags the diagnosis data as limited.",
+      "positive_interpretation": "A demonstrated gap would identify a decisive, previously unquantified confound in a large and active literature, and would be reportable as a short, high-value methodological paper.",
+      "negative_interpretation": "A small gap licenses the field's endpoint substitution with evidence for the first time, which is a real contribution because that substitution is currently made silently.",
+      "why_negative_is_useful": "Both directions change how a reader should interpret roughly a decade of LIDC concept results, and the null is the more reassuring but equally publishable outcome.",
+      "scores": {
+        "clarity": {"value": 5, "why": "One sentence, one paired comparison, one number."},
+        "medical_relevance": {"value": 5, "why": "Distinguishes predicting a reader's impression from predicting cancer, which is the difference between a plausible tool and a clinically meaningful one."},
+        "interest": {"value": 5, "why": "'A whole literature validated against opinion instead of disease' is compelling well outside the subfield."},
+        "prior_legwork": {"value": 4, "why": "Both endpoints public, tooling mature, discrepancy already documented — but no released checkpoint or ready-made linkage table."},
+        "feasibility": {"value": 4, "why": "The core analysis is CPU-only and quick; the linkage work and the small confirmed subset are the real costs."},
+        "data_readiness": {"value": 4, "why": "Fully public with a permissive license, but the pathology subset is small and the diagnosis file is acknowledged by TCIA as limited."},
+        "evaluation_readiness": {"value": 4, "why": "AUC and paired bootstrap are standard, but the small n gives wide intervals and an underpowered null is a real risk."},
+        "negative_result_value": {"value": 5, "why": "Either result resolves an assumption the field currently makes without evidence."},
+        "novelty_confidence": {"value": 3, "why": "Relabeling work exists and is close by; no paper making this exact paired concept comparison was found, but the search was not exhaustive."}
+      },
+      "priority_score": 4.45,
+      "priority_arithmetic": "0.20*4 + 0.15*4 + 0.15*5 + 0.15*5 + 0.10*5 + 0.10*5 + 0.05*4 + 0.05*4 + 0.05*3 = 4.45",
+      "regret": {"value": 5, "why": "A public pathology label file has been sitting alongside the attribute annotations since 2012 while the field optimised against a surrogate."},
+      "unverified_claims": [
+        "The exact size and composition of the pathology-confirmed subset (157 patients; 77 cancer / 36 non-cancer) is from search summaries only. The spreadsheet must be downloaded and counted directly before feasibility is asserted.",
+        "Whether tcia-diagnosis-data-2012-04-20.xls provides nodule-level or only patient-level linkage for most cases was described on the TCIA page as 'both patient and nodule level' but the actual per-row granularity was not inspected. This is the single biggest feasibility risk and should be checked first, before any other work.",
+        "HSCNN's exact target definition and reported metrics are from a search summary; the ScienceDirect or CVPRW primary text was not read.",
+        "The claim that no published LIDC concept study evaluates against the pathology subset is an inference from the papers surfaced, not a systematic check. A PubMed and MICCAI proceedings search is required."
+      ],
+      "recommendation": "SHORTLIST"
+    },
+
+    {
+      "id": "C3",
+      "title": "Dermoscopic concepts predicted from non-dermoscopic photographs: genuine visibility or shortcut?",
+      "question": "Can a model predict the seven dermoscopic checklist criteria from Derm7pt's paired clinical photographs — where those criteria are by definition not visible — and if it can, does the ability survive controls that remove lesion-identity shortcuts?",
+      "concept_definition": "A concept is one of the seven 7-point checklist dermoscopic criteria as defined in C1. The defining feature of this candidate is that these criteria are specified with reference to dermoscopic magnification and lighting; structures such as pigment network and blue-whitish veil are dermoscopic findings, and the clinical photograph of the same lesion is not the medium in which they are assessed. Derm7pt nevertheless attaches the same case-level criteria labels to both images of the pair.",
+      "medical_relevance": "Teledermatology and consumer skin-check applications operate on ordinary photographs. If a model can be trained to emit confident dermoscopic-criterion readouts from a photograph and those readouts appear to work, users will act on structured findings that the input medium cannot support. The question is whether apparent cross-modality concept prediction reflects a real correlate visible at clinical resolution, or a shortcut through diagnosis-correlated appearance.",
+      "closest_work": [
+        {
+          "citation": "Kawahara J. et al. Seven-Point Checklist and Skin Lesion Classification Using Multitask Multimodal Neural Nets.",
+          "identifier": "IEEE JBHI 2019; https://github.com/jeremykawahara/derm7pt",
+          "source_type": "journal + official repository",
+          "verification": "verified_by_search_summary_only for the venue; repository URL confirmed",
+          "what_it_establishes": "The paired-modality dataset with 1011 cases, each having both a clinical and a dermoscopic image, and multitask prediction of the checklist criteria alongside diagnosis.",
+          "exact_delta": "The original and subsequent multimodal work fuses the two modalities and reports fused performance. Fusion is designed to maximise combined accuracy; it does not isolate what each modality contributes per concept, which is the only configuration that answers the validity question."
+        },
+        {
+          "citation": "Napoles G., Grau I., Salgueiro Y. Concept Inconsistency in Dermoscopic Concept Bottleneck Models.",
+          "identifier": "arXiv:2604.19323; Sci Rep s41598-026-56927-2; https://github.com/gnapoles/Consistent-Derm7pt",
+          "source_type": "journal + repository",
+          "verification": "verified_by_primary_fetch",
+          "what_it_establishes": "Confirms the paired structure and, importantly, ships both the clinical and dermoscopic crops at 383x384 alongside meta.csv and frozen split files.",
+          "exact_delta": "Concerned with concept-label consistency, not with modality. Supplies the ready-to-use paired data."
+        },
+        {
+          "citation": "Representative multimodal Derm7pt follow-ups: 'A Novel Perspective for Multi-modal Multi-label Skin Lesion Classification' (arXiv:2409.12390); 'Self-Supervised Multi-Modality Learning for Multi-Label Skin Lesion Classification' (arXiv:2310.18583); MICA (arXiv:2401.08527).",
+          "source_type": "preprints",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "A substantial body of work treats clinical and dermoscopic images as two complementary views to be aligned or fused.",
+          "exact_delta": "The framing is 'combine the views for accuracy'. The framing here is 'the views are not equally entitled to the label' — a validity claim rather than a performance claim. Whether any of these papers reports a clinical-only per-concept ablation is the key thing to check."
+        }
+      ],
+      "existing_legwork": [
+        "Paired within-lesion images with identical concept labels already exist for all 1011 cases — this is a naturally controlled design that would normally require deliberate data collection.",
+        "Cropped, size-normalised images for both modalities plus frozen splits are downloadable from a single repository.",
+        "No new annotation of any kind is needed; the comparison is entirely within existing labels.",
+        "Concept-level AUC is already the standard reporting metric in this literature, so the metric needs no invention."
+      ],
+      "missing_step": "A per-concept, per-modality breakdown with shortcut controls. The literature reports fused performance; what is missing is the clinical-only concept AUC for each of the seven criteria, benchmarked against the dermoscopic-only concept AUC and against a diagnosis-shortcut control that shows how much of the clinical-image performance is recoverable from lesion appearance correlated with diagnosis alone.",
+      "why_it_matters": "This is the cleanest available test of whether a named clinical concept, learned by a model, is actually grounded in the image or is a proxy for the diagnosis. The paired design removes patient, lesion, and label variation, leaving imaging medium as the only manipulated factor.",
+      "dataset": {
+        "primary": "Derm7pt paired clinical/dermoscopic images",
+        "source": "github.com/gnapoles/Consistent-Derm7pt (bundled) or github.com/jeremykawahara/derm7pt (original)",
+        "access": "Public; metadata MIT, images CC BY-NC-ND 4.0",
+        "access_risk": "Low",
+        "verification": "verified_by_primary_fetch of the repository page"
+      },
+      "compute_readiness": "Same as C1 — a few GPU-hours. Seven concepts x two modalities x five seeds on 1011 images is small.",
+      "minimal_experiment": "On frozen splits, train identical concept predictors on (a) dermoscopic images only and (b) clinical images only, and report per-concept test AUC for each of the seven criteria in both arms. Add two controls that make the result interpretable: (c) a diagnosis-only predictor of each concept — a model with no image access that predicts the concept from the diagnosis label alone, giving the accuracy attributable purely to concept-diagnosis correlation; and (d) a label-permutation run establishing the chance floor. The decisive readout is whether clinical-image concept AUC exceeds the diagnosis-only control (c) for any concept. Exceeding (c) means something genuinely visible in the photograph is being used; failing to exceed (c) means the apparent concept prediction is diagnosis correlation wearing a concept's name.",
+      "critical_confound": "Concept-diagnosis correlation, which is exactly what control (c) exists to absorb. Without it, a clinical-image model that has merely learned 'this looks like a melanoma, and melanomas usually have blue-whitish veil' would be misread as detecting blue-whitish veil. Any version of this experiment lacking control (c) is not worth running.",
+      "secondary_confound": "Cross-modality information leakage through image provenance. If clinical and dermoscopic images of the same case share compression artefacts, colour calibration, or acquisition-site signature, a clinical-image model could partially identify the case. Splits must be case-level, which the released split files already are, and this should be verified rather than assumed.",
+      "risky_assumption": "That the criteria labels in Derm7pt were assigned from the dermoscopic image alone. If the annotating clinicians had access to both images or to the clinical context when assigning criteria, some genuine clinical-image signal would be expected by construction and the framing weakens. This must be established from the original Kawahara et al. annotation protocol before the experiment is designed.",
+      "positive_interpretation": "If clinical-image concept prediction does not beat the diagnosis-only control, that is a clean, visually intuitive demonstration that a model's named concepts can be entirely ungrounded while looking competent — a result that generalises far beyond dermatology.",
+      "negative_interpretation": "If some criteria are genuinely predictable from photographs above the diagnosis control, that is a substantive and clinically useful finding in its own right: it identifies which dermoscopic criteria have clinical-photograph correlates, which is directly relevant to teledermatology triage design.",
+      "why_negative_is_useful": "There is no uninformative outcome. One direction is a general warning about concept grounding; the other is a concrete teledermatology finding.",
+      "scores": {
+        "clarity": {"value": 5, "why": "One manipulated factor, one control, seven pre-specified readouts."},
+        "medical_relevance": {"value": 4, "why": "Bears directly on teledermatology and consumer skin apps, though it does not by itself alter a diagnostic pathway."},
+        "interest": {"value": 4, "why": "The setup is immediately graspable — 'predict a microscope finding from a snapshot' — and the paired design is elegant."},
+        "prior_legwork": {"value": 4, "why": "The naturally paired data and labels exist and are packaged; only the ablation and controls are absent."},
+        "feasibility": {"value": 5, "why": "Small data, standard models, first result in days."},
+        "data_readiness": {"value": 5, "why": "Public, bundled, split files included."},
+        "evaluation_readiness": {"value": 4, "why": "Per-concept AUC is standard; the diagnosis-only control is a custom but simple addition."},
+        "negative_result_value": {"value": 4, "why": "Both directions are informative and neither is a dead end."},
+        "novelty_confidence": {"value": 2, "why": "Derm7pt is heavily studied and a per-modality concept ablation is the kind of thing that plausibly appears inside an existing paper's supplementary material. This is the weakest link in the candidate and must be checked before any work begins."}
+      },
+      "priority_score": 4.25,
+      "priority_arithmetic": "feasibility 0.20*5 + prior_legwork 0.15*4 + medical_relevance 0.15*4 + interest 0.15*4 + clarity 0.10*5 + negative_result_value 0.10*4 + data_readiness 0.05*5 + evaluation_readiness 0.05*4 + novelty_confidence 0.05*2 = 4.25",
+      "regret": {"value": 4, "why": "A within-lesion paired modality control is unusually clean and the data has been public since 2019."},
+      "unverified_claims": [
+        "That no existing multimodal Derm7pt paper reports clinical-only per-concept AUC. This is the decisive novelty check and was NOT performed; the multimodal papers listed were seen only as search summaries. Reading the ablation tables of arXiv:2409.12390, arXiv:2310.18583, and arXiv:2401.08527 is a prerequisite.",
+        "The Derm7pt annotation protocol — specifically whether criteria were assigned from the dermoscopic image alone — was not verified and materially affects the framing.",
+        "Whether the released split files are case-level rather than image-level was assumed from the repository description, not confirmed by inspecting the files."
+      ],
+      "recommendation": "SHORTLIST"
+    },
+
+    {
+      "id": "C4",
+      "title": "Does BI-RADS concept intervention survive realistic clinician behaviour, and does it beat simply reading the BI-RADS category?",
+      "question": "Does the reported gain from radiologist concept intervention in a breast ultrasound concept bottleneck model persist when interventions are partial, noisy, and clinician-selected rather than complete and oracle-correct, and does the intervened model outperform the trivial baseline of using the radiologist's own BI-RADS assessment directly?",
+      "concept_definition": "A concept is a BI-RADS lexicon descriptor of a breast lesion as standardised by the American College of Radiology — shape, margin, orientation, echo pattern, posterior features and similar categorical descriptors. These are a formally defined, externally standardised clinical vocabulary with training and reporting requirements attached, which is a stronger justification for concept status than most vocabularies in this space. The final BI-RADS assessment category (2-5) is explicitly NOT a concept here; it is an outcome judgement and serves as the comparison baseline.",
+      "medical_relevance": "Test-time intervention is the single most-cited clinical justification for concept bottleneck models: the radiologist can correct a wrong concept and improve the prediction. If the achievable gain is small, requires near-complete oracle correction, and is smaller than what the radiologist's unaided BI-RADS category already delivers, then the intervention argument does not support deployment and the field should stop offering it as one.",
+      "closest_work": [
+        {
+          "citation": "Bunnell A., Glaser Y., Valdez D., Wolfgruber T., Altamirano A., Zamora Gonzalez C., Hernandez B.Y., Sadowski P., Shepherd J.A. Learning a Clinically-Relevant Concept Bottleneck for Lesion Detection in Breast Ultrasound.",
+          "identifier": "arXiv:2407.00267; MICCAI 2024; code at https://github.com/hawaii-ai/bus-cbm; CC BY 4.0",
+          "source_type": "conference paper + official repository",
+          "verification": "verified_by_primary_fetch of the arXiv abstract page",
+          "what_it_establishes": "A BI-RADS concept bottleneck model developed on 8,854 images from 994 women with expert annotations and histological cancer labels, and the specific headline claim that 'concept intervention is shown to increase performance from 0.876 to 0.885 area under the receiver operating characteristic curve'. Training and evaluation code is public.",
+          "exact_delta": "The reported gain is 0.009 AUC. The paper demonstrates that intervention is possible and directionally positive under what is almost certainly an oracle protocol — all concepts replaced with ground truth. What is absent is any characterisation of the gain under the conditions a radiologist would actually create: correcting one or two descriptors they happen to disagree with, sometimes incorrectly, and choosing which to correct non-randomly. Also absent is a comparison against the clinician's own assessment, which is the real-world alternative to the model."
+        },
+        {
+          "citation": "Gomez-Flores W., Gregorio-Calas M.J., de Albuquerque Pereira W.C. BUS-BRA: A breast ultrasound dataset for assessing computer-aided diagnosis systems.",
+          "identifier": "Medical Physics 51:3110-3123 (2024); DOI 10.1002/mp.16812; data at Zenodo record 8231412; CC BY 4.0",
+          "source_type": "journal + open data repository",
+          "verification": "verified_by_search_summary_only (Zenodo record ID, DOI, and license consistently reported across multiple sources; the record itself was not opened)",
+          "what_it_establishes": "1,875 anonymised images from 1,064 patients across four scanners, biopsy-proven tumours (722 benign, 342 malignant), BI-RADS categories 2-5, and ground-truth lesion delineations, under CC BY 4.0.",
+          "exact_delta": "Supplies a public, biopsy-proven, multi-scanner evaluation set with the radiologist's BI-RADS category — precisely what is needed for the baseline comparison. Whether it also carries the per-lesion BI-RADS descriptors needed for the intervention arm is unresolved and is this candidate's main risk."
+        },
+        {
+          "citation": "Post-Hoc Explainability of BI-RADS Descriptors in a Multi-task Framework for Breast Cancer Detection and Segmentation.",
+          "identifier": "arXiv:2308.14213",
+          "source_type": "preprint",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "Related BI-RADS descriptor modelling in a multi-task rather than bottleneck framing.",
+          "exact_delta": "Post-hoc rather than interventional; does not address intervention robustness."
+        }
+      ],
+      "existing_legwork": [
+        "Training and evaluation code for the target model is public under CC BY 4.0 (github.com/hawaii-ai/bus-cbm).",
+        "The headline intervention number to be stress-tested is published and precise (0.876 to 0.885).",
+        "A public, biopsy-proven, multi-scanner breast ultrasound dataset with BI-RADS categories exists under CC BY 4.0 with a permanent Zenodo record.",
+        "Intervention protocols (random-order, uncertainty-ordered, group-wise) are established in the general CBM literature and need no invention."
+      ],
+      "missing_step": "An intervention-response curve rather than a single oracle point. Specifically: AUC as a function of the number of concepts corrected, under (i) random selection, (ii) clinician-plausible selection biased toward visually salient descriptors, and (iii) imperfect correction where the intervening reader is themselves wrong at a realistic rate; all plotted against the horizontal line representing the radiologist's own BI-RADS category performance.",
+      "why_it_matters": "A 0.009 AUC oracle gain is the ceiling of the intervention benefit, not its expected value. If the realistic-conditions curve is flat or crosses below the clinician baseline, the central deployment argument for medical CBMs loses its main empirical support in the one modality where it has been most concretely demonstrated.",
+      "dataset": {
+        "primary": "BUS-BRA (Zenodo 8231412, CC BY 4.0) for the external and baseline arms",
+        "secondary": "BUSI (public) as an additional external set",
+        "unavailable": "The authors' own 8,854-image development cohort is not public, so their exact model cannot be reproduced end to end; only their released code and architecture can be reused with retraining.",
+        "access_risk": "Moderate. The datasets are open, but the training cohort is not, so this becomes a retrain-and-replicate study rather than a checkpoint audit.",
+        "blocking_uncertainty": "Whether BUS-BRA provides per-lesion BI-RADS descriptors or only the BI-RADS assessment category. Sources consistently describe 'BI-RADS categories 2, 3, 4, and 5', which suggests category only. If descriptors are absent, the intervention arm cannot run on BUS-BRA and this candidate must be rescoped."
+      },
+      "compute_readiness": "Retraining a BUS CBM on ~1,875 images is Colab-feasible. The intervention sweep is inference-only and cheap. Total well within a single-GPU budget.",
+      "minimal_experiment": "Resolve the blocking uncertainty first by inspecting the BUS-BRA record for descriptor-level fields — this is a one-hour check that determines whether the candidate proceeds. If descriptors exist: retrain the released bus-cbm architecture on frozen BUS-BRA splits, then produce the intervention-response curve across the three protocols above with the clinician BI-RADS-category baseline overlaid, reporting every authorised protocol rather than the best. If descriptors do not exist: the candidate reduces to the baseline comparison alone (does the CBM beat the radiologist's recorded BI-RADS category on biopsy-proven outcomes), which is still worth something but is a materially weaker story and should be rescored.",
+      "critical_confound": "Concept-set redundancy. If several BI-RADS descriptors carry overlapping information about malignancy, correcting any one of them moves the prediction very little, and a flat intervention curve would reflect vocabulary redundancy rather than a failure of the intervention mechanism. This must be measured directly — pairwise concept mutual information and a leave-one-concept-out analysis — and reported alongside the curve, or the negative result will be misattributed.",
+      "secondary_confound": "Scanner and site shift. BUS-BRA spans four ultrasound scanners; a model retrained on it and evaluated across scanners may show intervention effects that are really domain-shift effects. Splits should be stratified by scanner and a per-scanner breakdown reported.",
+      "risky_assumption": "That the original 0.876 to 0.885 gain was measured under an oracle full-replacement protocol. The abstract does not state the protocol. If the authors already used a partial or realistic protocol, the delta of this candidate shrinks substantially. This must be read from the full paper before committing.",
+      "positive_interpretation": "A characterised intervention-response curve, showing how much correction is needed for how much benefit relative to the clinician's own judgement, is directly actionable for anyone designing a concept-based clinical interface.",
+      "negative_interpretation": "If the gain is robust and exceeds the clinician baseline even under noisy partial intervention, that materially strengthens the deployment case for BI-RADS CBMs and is a useful confirmatory result.",
+      "why_negative_is_useful": "The clinician-baseline comparison is informative regardless of the intervention findings, so the study yields something even if the intervention arm is inconclusive.",
+      "scores": {
+        "clarity": {"value": 4, "why": "The question is precise but has two parts (robustness and baseline comparison) that could be separated."},
+        "medical_relevance": {"value": 5, "why": "Directly tests the main clinical selling point of concept bottleneck models, against a biopsy-proven endpoint."},
+        "interest": {"value": 4, "why": "'The interpretability feature everyone advertises is worth 0.009 AUC under ideal conditions' is a pointed framing, though narrower than C2 or C3."},
+        "prior_legwork": {"value": 4, "why": "Public code, a precise published claim, and an open biopsy-proven evaluation set — but no public training cohort and no released checkpoint."},
+        "feasibility": {"value": 3, "why": "Requires retraining rather than auditing, and is gated on an unresolved question about descriptor availability in BUS-BRA."},
+        "data_readiness": {"value": 3, "why": "Both candidate datasets are openly licensed, but the specific labels the intervention arm needs are unconfirmed."},
+        "evaluation_readiness": {"value": 4, "why": "AUC, intervention curves, and a clinician baseline are all standard; only the realistic-intervention protocol needs specification."},
+        "negative_result_value": {"value": 5, "why": "A flat realistic-intervention curve would directly undercut a headline claim in a MICCAI paper and the field's general argument."},
+        "novelty_confidence": {"value": 3, "why": "Intervention-robustness studies exist in the general CBM literature; whether one covers this medical setting was not checked."}
+      },
+      "priority_score": 3.95,
+      "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*5 + 0.15*4 + 0.10*4 + 0.10*5 + 0.05*3 + 0.05*4 + 0.05*3 = 3.95",
+      "regret": {"value": 3, "why": "Worth doing, but the retraining requirement and the descriptor uncertainty make it less of an obvious missed opportunity than C1-C3."},
+      "unverified_claims": [
+        "BLOCKING: whether BUS-BRA contains per-lesion BI-RADS descriptors or only the assessment category. All sources describe categories 2-5 only, which points toward category-only. Must be resolved by opening Zenodo record 8231412 before any other work.",
+        "The intervention protocol used to produce 0.876 to 0.885 was not stated in the abstract and is assumed to be oracle full-replacement. This assumption underpins the entire candidate and must be read from the full MICCAI paper.",
+        "The exact BI-RADS descriptors used in the bottleneck layer were not enumerated in the abstract.",
+        "The BUS-BRA Zenodo record ID, DOI, license, and case counts are from search summaries; the record was not opened.",
+        "Whether a released checkpoint exists in github.com/hawaii-ai/bus-cbm (as opposed to training code only) was not checked, and materially affects feasibility."
+      ],
+      "recommendation": "REVISE",
+      "revision_note": "Resolve the BUS-BRA descriptor question and the original intervention protocol first. If descriptors are absent, rescope to the clinician-baseline comparison and rescore; if the original protocol was already realistic, drop the candidate."
+    },
+
+    {
+      "id": "C5",
+      "title": "Is dermatology AI's skin-tone disparity a concept-detection failure or a concept-to-diagnosis mapping failure?",
+      "question": "When a concept-based dermatology model underperforms on darker skin, does the error arise because the clinical concepts are detected less reliably, or because the mapping from correctly-detected concepts to diagnosis is itself skin-tone dependent?",
+      "concept_definition": "A concept is one of the 48 dermatologist-defined clinical morphology descriptors annotated in SkinCon — terms such as plaque, scale, erosion — restricted in practice to the 22 that have at least 50 supporting images. These are the descriptive vocabulary dermatologists use to characterise a lesion independently of its diagnosis, chosen by two dermatologists specifically for this purpose, which meets the charter's bar for a justified concept vocabulary.",
+      "medical_relevance": "Dermatology AI is known to underperform on darker skin, and the standard responses are reweighting, augmentation, or fine-tuning on diverse data. Those are blind interventions unless the locus of the failure is known. If concepts are detected equally well across skin tones but the concept-to-diagnosis mapping differs, the fix is a mapping-level one and image-level augmentation will not help; if concept detection itself degrades, the fix is at the perception stage. The decomposition tells you which.",
+      "closest_work": [
+        {
+          "citation": "Daneshjou R., Yuksekgonul M., Cai Z.R., Novoa R., Zou J. SkinCon: A skin disease dataset densely annotated by domain experts for fine-grained model debugging and analysis.",
+          "identifier": "arXiv:2302.00785; NeurIPS 2022 Datasets and Benchmarks Track; https://skincon-dataset.github.io/",
+          "source_type": "conference paper + official dataset site",
+          "verification": "verified_by_primary_fetch of the arXiv abstract page",
+          "what_it_establishes": "3,230 Fitzpatrick17k images and 656 Diverse Dermatology Images annotated with the same 48 clinical concepts, 22 with at least 50 images. Explicitly motivated for 'probing models, concept-based explanations, and concept bottlenecks', with demonstrated post-hoc CBM use cases.",
+          "exact_delta": "The paper demonstrates that concepts help debug a dermatology model and that a post-hoc CBM can be built. It does not decompose subgroup performance into a concept-detection component and a concept-to-label component. That decomposition is the missing analysis, and SkinCon's design — same concept set applied to a skin-tone-diverse external set — is what makes it possible."
+        },
+        {
+          "citation": "Daneshjou R. et al. Disparities in dermatology AI performance on a diverse, curated clinical image set.",
+          "identifier": "Science Advances, DOI 10.1126/sciadv.abq6147; preprint arXiv:2111.08006; dataset at https://ddi-dataset.github.io/",
+          "source_type": "journal + official dataset site",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "The DDI dataset — pathologically confirmed, skin-tone-diverse (reported as 208 images FST I-II, 241 FST III-IV, 207 FST V-VI) — and the finding that state-of-the-art dermatology models degrade substantially on dark skin tones and uncommon diseases.",
+          "exact_delta": "Establishes the disparity at the diagnosis level and provides the external evaluation set. Does not attribute the disparity to a stage of the pipeline."
+        },
+        {
+          "citation": "Groh M. et al., Fitzpatrick17k dataset.",
+          "identifier": "https://github.com/mattgroh/fitzpatrick17k",
+          "source_type": "official repository",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "16,577 clinical images with skin condition and Fitzpatrick skin type labels, sourced from DermaAmin and Atlas Dermatologico.",
+          "exact_delta": "Supplies the training pool and the skin type variable."
+        }
+      ],
+      "existing_legwork": [
+        "The same 48-concept vocabulary is already annotated on both an in-distribution pool (Fitzpatrick17k) and a skin-tone-diverse, pathology-confirmed external set (DDI) — an unusually well-matched pair that would otherwise require a dedicated annotation campaign.",
+        "Fitzpatrick skin type labels are attached to both sets, so the stratifying variable requires no new derivation.",
+        "Baseline post-hoc CBM numbers on DDI already exist in the SkinCon paper, giving a reference point (reported as overall AUC 0.639 versus DeepDerm 0.595, and 0.727 versus 0.632 on FST III-IV — see unverified claims).",
+        "Post-hoc CBM implementations are public and the method requires no training of a new backbone."
+      ],
+      "missing_step": "The stratified decomposition. Nobody reports per-concept detection AUC broken down by Fitzpatrick group, nor the counterfactual that isolates the mapping stage: feeding ground-truth concepts (rather than predicted ones) into the diagnosis head and measuring whether the subgroup gap persists.",
+      "why_it_matters": "Feeding ground-truth concepts is a clean intervention that shuts off the perception stage entirely. If the disparity survives that intervention, it lives in the mapping and no amount of better image representation will fix it. This is a decisive, single-experiment attribution of a well-known clinical fairness problem to a specific pipeline stage.",
+      "dataset": {
+        "primary": "SkinCon annotations over Fitzpatrick17k (3,230 images) and DDI (656 images)",
+        "annotations_access": "SkinCon annotation files are distributed from skincon-dataset.github.io",
+        "images_access": "BOTH image sets require a separate application. Fitzpatrick17k images are obtained via github.com/mattgroh/fitzpatrick17k and DDI via ddi-dataset.github.io; both are for scientific, non-commercial use and require registration or an application step.",
+        "access_risk": "HIGH relative to the other candidates. This is not a DUA in the restricted-data sense the charter warns about, but it is an unconfirmed application with an unknown turnaround, and the charter requires access to be confirmed rather than assumed. Nothing should start until both applications are granted.",
+        "verification": "Annotation counts verified_by_primary_fetch; access requirements verified_by_search_summary_only"
+      },
+      "compute_readiness": "Low compute. 3,886 images total, a frozen pretrained backbone, and linear concept probes. Post-hoc CBM specifically avoids backbone training. Comfortably Colab-class.",
+      "minimal_experiment": "After access is granted, freeze splits and stratify by Fitzpatrick group. Report three quantities. First, per-concept detection AUC by skin tone group, restricted to the 22 concepts with adequate support, with per-group prevalence reported alongside so that AUC differences are not confused with base-rate differences. Second, diagnosis performance by group using predicted concepts. Third, the key counterfactual: diagnosis performance by group using ground-truth concepts. The difference between the second and third quantities, per group, attributes the disparity to detection versus mapping. A permutation-based null and bootstrap CIs are needed because the DDI subgroups are only ~200 images each.",
+      "critical_confound": "Concept prevalence differing by skin tone. Some morphological descriptors genuinely present differently or occur at different rates across skin tones and across the disease mix that happens to populate each subgroup. A lower detection AUC in a group with fewer positive examples of a concept is a statistical artefact, not evidence of perceptual failure. Prevalence must be reported per concept per group, and any AUC comparison must be restricted to concepts with adequate positive counts in both groups — a restriction that may leave very few usable concepts, which is itself a feasibility risk worth surfacing early.",
+      "secondary_confound": "Disease composition differs across Fitzpatrick groups in these datasets. A subgroup gap could reflect a harder disease mix rather than skin tone. Where sample size permits, the comparison should be conditioned on disease category, though the small subgroup sizes will limit this severely.",
+      "risky_assumption": "That the SkinCon annotations are equally reliable across skin tones. If the annotating dermatologists found morphology harder to assess on darker skin, the concept labels themselves carry a tone-dependent noise term and the detection arm would measure annotation quality rather than model perception. The SkinCon paper reports high inter-annotator agreement overall; whether that agreement is uniform across skin tone was not established and should be checked.",
+      "positive_interpretation": "A clean attribution of a well-documented clinical fairness problem to a specific, fixable pipeline stage, with an obvious follow-on intervention.",
+      "negative_interpretation": "If the decomposition is inconclusive because subgroup sizes are too small, that is itself a valuable feasibility result: it would establish that the existing public concept-annotated dermatology data cannot support subgroup concept auditing, and would quantify what sample size would be needed.",
+      "why_negative_is_useful": "The feasibility finding would prevent other groups from repeating an underpowered analysis, which the charter explicitly counts as success.",
+      "scores": {
+        "clarity": {"value": 4, "why": "The decomposition is precise, but the question needs the ground-truth-concept counterfactual spelled out to be fully unambiguous."},
+        "medical_relevance": {"value": 5, "why": "Skin-tone disparity in dermatology AI is a documented clinical safety problem with a pathology-confirmed evaluation set."},
+        "interest": {"value": 5, "why": "Attributing a fairness gap to a specific pipeline stage is compelling well beyond dermatology."},
+        "prior_legwork": {"value": 4, "why": "Matched concept annotations on an in-distribution and an external diverse set, plus published baseline numbers — but no released model and no existing stratified analysis."},
+        "feasibility": {"value": 3, "why": "Compute is trivial, but two access applications gate the start and the analysis may be underpowered at ~200 images per subgroup."},
+        "data_readiness": {"value": 2, "why": "Both image sets require applications with unconfirmed turnaround. The charter requires confirmed access; this is not yet confirmed."},
+        "evaluation_readiness": {"value": 4, "why": "AUC by subgroup and the ground-truth-concept counterfactual are standard, but prevalence-adjusted concept comparison needs care."},
+        "negative_result_value": {"value": 4, "why": "An underpowered outcome is still a publishable feasibility finding about the limits of current public concept data."},
+        "novelty_confidence": {"value": 3, "why": "Much fairness work exists on these datasets; whether anyone has done the concept-stage decomposition specifically was not established."}
+      },
+      "priority_score": 3.95,
+      "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*5 + 0.15*5 + 0.10*4 + 0.10*4 + 0.05*2 + 0.05*4 + 0.05*3 = 3.95",
+      "regret": {"value": 4, "why": "The matched concept annotations across a diverse external set are a rare asset and the decomposition is a natural use of them."},
+      "unverified_claims": [
+        "BLOCKING: access turnaround for Fitzpatrick17k and DDI image applications is unknown. Under the charter this counts as unconfirmed access and must be resolved before the candidate advances.",
+        "The PCBM-on-DDI numbers (0.639 overall versus DeepDerm 0.595; 0.727 versus 0.632 on FST III-IV) are from a search summary; arXiv:2302.00785 full text was not read for these figures.",
+        "The DDI subgroup counts (208 / 241 / 207) are from a search summary.",
+        "The Science Advances DOI for the disparities paper was seen in a search result but the article was not opened.",
+        "Whether SkinCon inter-annotator agreement is uniform across Fitzpatrick groups was not checked and is a prerequisite for interpreting the detection arm.",
+        "How many of the 22 well-supported concepts retain adequate positive counts within each Fitzpatrick subgroup is unknown and could reduce the analysis to a handful of concepts."
+      ],
+      "recommendation": "REVISE",
+      "revision_note": "Submit both data applications immediately since they are on the critical path and cost nothing to start. In parallel, compute from the public SkinCon annotation file alone how many concepts survive a per-subgroup positive-count threshold — this is a labels-only calculation that needs no images and would settle the power question before any access is granted."
+    },
+
+    {
+      "id": "C6",
+      "title": "Do concept-based diabetic retinopathy models reproduce the grading rule they claim to implement?",
+      "question": "When a concept-based diabetic retinopathy model predicts a severity grade, does its concept-to-grade mapping agree with the ICDR severity scale — a rule that is itself written entirely in terms of those same lesion concepts?",
+      "concept_definition": "A concept is a retinal lesion type with an explicit role in the international grading rule: microaneurysms, haemorrhages, hard exudates, soft exudates (cotton-wool spots), intraretinal microvascular abnormalities, and neovascularisation. These are the strongest concepts in this portfolio by the charter's standard, because the diagnostic label is not merely correlated with them — the ICDR severity scale is *defined* as a function of their presence, count, and distribution. The concept-to-label mapping is therefore known a priori rather than learned.",
+      "medical_relevance": "DR screening is one of the most widely deployed applications of medical AI. A grading model whose internal concept-to-grade logic contradicts the international standard is producing the right answer for reasons a clinician cannot endorse, which matters directly for regulatory justification and for any referral decision made on the basis of a grade.",
+      "closest_work": [
+        {
+          "citation": "Looking into Concept Explanation Methods for Diabetic Retinopathy Classification.",
+          "identifier": "arXiv:2410.03188",
+          "source_type": "preprint",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "Sequential bottleneck models built on DenseNet-121 and Inception-V3 backbones, fine-tuned to predict six diagnostic concepts, with logistic regression mapping concepts to DR levels. Notes that FGADR is the only dataset annotated with both DR levels and all six concepts, and that a reduced four-concept model (MA, HE, EX, SE) permits DDR, IDRiD, and DIARETDB1 to be used.",
+          "exact_delta": "Builds and compares concept explanation methods and reports predictive performance. Does not test the learned concept-to-grade mapping against the ICDR rule itself. The comparison target — a published, deterministic clinical rule over exactly these concepts — is available and unused."
+        },
+        {
+          "citation": "Zhou Y. et al. A Benchmark for Studying Diabetic Retinopathy: Segmentation, Grading, and Transferability (FGADR dataset).",
+          "identifier": "arXiv:2008.09772; dataset at https://csyizhou.github.io/FGADR/",
+          "source_type": "preprint + official dataset site",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "FGADR contains 2,842 images, of which 1,842 carry pixel-level lesion annotations across six lesion types (MA, HE, EX, SE, IRMA, NV) and 1,000 carry image-level grades from six board-certified ophthalmologists.",
+          "exact_delta": "Supplies the only dataset with the full concept vocabulary and grades together."
+        },
+        {
+          "citation": "Porwal P. et al. Indian Diabetic Retinopathy Image Dataset (IDRiD): A Database for Diabetic Retinopathy Screening Research.",
+          "identifier": "Data 3(3):25 (2018); IEEE DataPort, CC BY 4.0; https://idrid.grand-challenge.org/",
+          "source_type": "journal + open data repository",
+          "verification": "verified_by_search_summary_only",
+          "what_it_establishes": "An openly licensed DR dataset with segmentation and grading subsets.",
+          "exact_delta": "Openly licensed and therefore the safer data option, but carries only four of the six lesion types and a small pixel-annotated subset, which truncates the ICDR rule (IRMA and NV are exactly the concepts that separate the severe and proliferative grades)."
+        }
+      ],
+      "existing_legwork": [
+        "The ICDR severity scale is a published, deterministic function of the lesion concepts — the ground-truth mapping needs no estimation.",
+        "Concept-annotated DR datasets exist with pixel-level lesion labels.",
+        "Sequential bottleneck baselines for this exact task and concept set already exist (arXiv:2410.03188), so the model side is established.",
+        "Lesion segmentation and detection pipelines for these lesion types are mature and widely published."
+      ],
+      "missing_step": "A rule-agreement evaluation. What is missing is a measurement of how often the model's concept-to-grade mapping agrees with the ICDR rule applied to the same concept values, and a characterisation of the disagreements — in particular whether the model's grade responds to concepts the rule says are irrelevant at that grade, or fails to respond to concepts the rule says are decisive.",
+      "why_it_matters": "This is the rare case where a concept-based model's mapping stage can be checked against an external ground truth rather than only against outcomes. Most concept faithfulness work has to infer what the mapping should be; here it is written down.",
+      "dataset": {
+        "primary": "FGADR — the only set with all six concepts plus grades",
+        "fallback": "IDRiD (CC BY 4.0, openly licensed) with the reduced four-concept vocabulary",
+        "access": "FGADR requires registering, signing a form, and emailing it to the maintainer to receive a download link, for non-commercial research only; it is also listed on IEEE DataPort where access requires a subscription. IDRiD is CC BY 4.0 and openly accessible.",
+        "access_risk": "HIGH for FGADR (individual email-based approval, unknown turnaround, possible subscription paywall). LOW for IDRiD, but IDRiD alone cannot support the full rule.",
+        "verification": "verified_by_search_summary_only for both"
+      },
+      "compute_readiness": "Fundus images are large and lesion segmentation is more demanding than the classification tasks in C1-C5, but 1,842 annotated images with a standard segmentation backbone remains within a single-GPU Colab budget. This is the heaviest candidate in the portfolio but not out of scope.",
+      "minimal_experiment": "Using ground-truth lesion annotations, first verify that the ICDR rule applied to the annotated concepts reproduces the recorded grades — this is a labels-only sanity check requiring no model, and if it fails, the entire premise collapses and the candidate should be abandoned cheaply. Only if it holds: train a sequential bottleneck model, then compare its concept-to-grade head against the ICDR rule on identical concept inputs, reporting agreement rate and a confusion structure over grades, plus a sensitivity analysis showing which concepts the learned head actually responds to versus which the rule says it should.",
+      "critical_confound": "The ICDR rule depends on lesion counts and quadrant distribution, not merely lesion presence. A binary presence-style concept vector cannot express the rule, so a model built on binary concepts would be guaranteed to disagree for reasons of representational inadequacy rather than unfaithfulness. The concept representation must encode counts and spatial distribution, or the study measures the wrong thing. This is the single most likely way to produce a meaningless negative result.",
+      "secondary_confound": "Grade labels in these datasets are assigned by ophthalmologists viewing the image, and may not themselves strictly follow the ICDR rule. The labels-only sanity check above exists precisely to quantify this before any modelling.",
+      "risky_assumption": "That the recorded grades in FGADR were assigned by applying the ICDR scale rather than by overall clinical impression. If graders used impression, the rule is not the operative mapping in the data and the comparison target is wrong.",
+      "positive_interpretation": "A quantified discrepancy between a deployed-style DR model's internal logic and the international grading standard, with the specific concepts responsible identified.",
+      "negative_interpretation": "High agreement would be a genuine positive for the field: it would show that concept-based DR models internalise the clinical rule rather than an arbitrary correlate, which is a stronger faithfulness result than anything currently demonstrated in this area.",
+      "why_negative_is_useful": "The labels-only sanity check yields a useful result regardless — it establishes how well the public DR datasets' own grades conform to the standard they cite, which nobody appears to have reported.",
+      "scores": {
+        "clarity": {"value": 4, "why": "The question is precise, but 'agreement with the rule' needs a concrete metric definition that does not yet exist."},
+        "medical_relevance": {"value": 4, "why": "DR screening is widely deployed and the grading standard is regulatory-relevant, though the study audits reasoning rather than outcomes."},
+        "interest": {"value": 4, "why": "A known ground-truth concept-to-label rule is a genuinely unusual and appealing setup for faithfulness work."},
+        "prior_legwork": {"value": 3, "why": "Concept-annotated data and bottleneck baselines exist, but the rule-agreement evaluation has no precedent to build on and must be constructed."},
+        "feasibility": {"value": 3, "why": "Heaviest compute in the portfolio, fundus preprocessing overhead, and a gated primary dataset."},
+        "data_readiness": {"value": 2, "why": "The only dataset with the full concept vocabulary requires individual email approval or an IEEE DataPort subscription; the open alternative covers only four of six concepts and omits exactly the ones that define the top grades."},
+        "evaluation_readiness": {"value": 3, "why": "A rule-agreement metric must be designed; standard metrics do not cover this."},
+        "negative_result_value": {"value": 4, "why": "The labels-only sanity check produces a reportable finding independent of the modelling outcome."},
+        "novelty_confidence": {"value": 3, "why": "No paper testing DR concept models against the ICDR rule was surfaced, but the search was shallow and the ophthalmology literature was not searched."}
+      },
+      "priority_score": 3.45,
+      "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*4 + 0.15*4 + 0.10*4 + 0.10*4 + 0.05*2 + 0.05*3 + 0.05*3 = 3.45",
+      "regret": {"value": 3, "why": "Attractive in principle, but the data gate and the count/spatial representation requirement make it markedly less tractable than the top three."},
+      "unverified_claims": [
+        "BLOCKING: FGADR access mechanism and turnaround. Email-based individual approval is reported but unconfirmed, and the IEEE DataPort listing may require a paid subscription. Under the charter this is unconfirmed access.",
+        "FGADR composition (2,842 images; 1,842 pixel-annotated; six lesion types) is from a search summary; neither arXiv:2008.09772 nor the dataset site was opened.",
+        "The claim that FGADR is the only dataset with DR levels and all six concepts comes from arXiv:2410.03188's summary, not from independent verification.",
+        "The exact ICDR severity scale definition was NOT retrieved from a primary ophthalmology source in this session. Since the entire candidate rests on it, the authoritative scale definition must be obtained before proceeding.",
+        "Whether FGADR and IDRiD grades were assigned by applying ICDR or by clinical impression is unknown and determines whether the comparison target is valid.",
+        "IDRiD's pixel-annotated subset size was not confirmed."
+      ],
+      "recommendation": "PAUSE",
+      "pause_note": "Hold pending two cheap checks that need no data access: retrieve the authoritative ICDR scale definition, and confirm from the FGADR site what the access process actually requires. Reconsider if both clear."
+    }
+  ],
+
+  "portfolio_summary": {
+    "ranking_by_priority": [
+      {"id": "C2", "score": 4.45, "recommendation": "SHORTLIST"},
+      {"id": "C1", "score": 4.35, "recommendation": "SHORTLIST"},
+      {"id": "C3", "score": 4.25, "recommendation": "SHORTLIST"},
+      {"id": "C4", "score": 3.95, "recommendation": "REVISE"},
+      {"id": "C5", "score": 3.95, "recommendation": "REVISE"},
+      {"id": "C6", "score": 3.45, "recommendation": "PAUSE"}
+    ],
+    "regret_reported_separately": {"C2": 5, "C1": 4, "C3": 4, "C5": 4, "C4": 3, "C6": 3},
+    "charter_theme_coverage": {
+      "1_reliability_and_causal_validity": ["C2", "C6"],
+      "2_specified_vs_discovered_concepts": [],
+      "3_concept_leakage_and_residual_information": ["C1", "C3"],
+      "4_faithfulness_of_concept_mediated_reasoning": ["C3", "C6"],
+      "5_concept_stability_across_shifts_and_groups": ["C3", "C5"],
+      "6_concept_supervision_for_calibration_robustness_failure_detection": [],
+      "7_low_cost_audits_of_published_models": ["C1", "C4"],
+      "coverage_gap_note": "Themes 2 (specified versus discovered concepts) and 6 (whether concept supervision improves calibration, robustness, or failure detection) are not represented in this portfolio. This was not deliberate — no candidate in these themes met the 'partially completed story' bar during this cycle's search. Theme 6 in particular looks under-served relative to its charter prominence and would be a reasonable target for a second scouting pass."
+    },
+    "dataset_concentration_note": "Three of six candidates (C1, C3, and the closest work for C5) sit in dermatology, and two of those (C1, C3) share the Derm7pt dataset. That concentration reflects where public concept annotations actually exist rather than a search bias, and it has a practical upside — C1 and C3 share preprocessing, splits, and infrastructure, so running both costs substantially less than twice one. It also carries a correlated risk: a problem with Derm7pt's annotation protocol would weaken both simultaneously.",
+    "recommended_next_action": "C1 is the cheapest path to a first result and shares infrastructure with C3, but C2 scores highest and rests on the most consequential claim. The distinguishing factor is that C2 has a single cheap gating check — the per-row granularity of tcia-diagnosis-data-2012-04-20.xls — that decides whether it is feasible at all. That check requires downloading one 45 KB spreadsheet and no modelling. Recommendation: run the C2 gating check and the C3 novelty check (reading the ablation tables of the three named multimodal Derm7pt papers) before committing to any single candidate. Both are literature-and-inspection tasks, not code, and neither requires the coding gate.",
+    "coding_gate_status": "NOT SATISFIED for any candidate. Per docs/COLLABORATOR_RULES.md, probe code requires a reviewed idea card, a feasibility memo, a probe contract, and explicit human approval. This document is a scouting portfolio only; no idea card has been reviewed and no probe contract exists. No code was written in this stage."
+  },
+
+  "stage_limitations": [
+    "Literature search was conducted through general web search and direct fetches of arXiv, publisher, archive, and repository pages. No systematic search of PubMed, Embase, Google Scholar citation graphs, or conference proceedings indexes (MICCAI, IPMI, MIDL, SPIE) was performed. Novelty confidence is correspondingly capped at 3 for every candidate.",
+    "Several numeric claims are marked verified_by_search_summary_only, meaning they were read from a search engine's synthesis of a page rather than from the page itself. These are listed per candidate under unverified_claims and must be confirmed against primary sources before any of them is used in a feasibility memo.",
+    "No dataset was downloaded and no file was inspected during this stage, so all size, label-granularity, and access claims are documentary rather than empirical. The two blocking uncertainties this creates (C2's diagnosis file granularity, C4's BI-RADS descriptor availability) are flagged as first-action items on their respective candidates.",
+    "Priority scores are a transparent weighted sum as required by docs/SCORING_RUBRIC.md. They are not probabilities and the differences among C1, C2, and C3 (4.25 to 4.45) are well within the noise of subjective 1-5 ratings and should not be treated as a meaningful ordering. Likewise C4 and C5 are exactly tied at 3.95 and their listed order is arbitrary.",
+    "MIMIC-CXR-based chest radiography candidates were considered and excluded because MIMIC requires credentialed PhysioNet access, which the charter treats as unconfirmed DUA-gated data. This removed an otherwise active area (radiologist-guided causal CBMs for chest X-ray, e.g. arXiv:2605.07785) from consideration. If credentialed access is in fact already held, that decision should be revisited and would likely produce additional candidates."
+  ]
+}
