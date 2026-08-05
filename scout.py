@@ -43,7 +43,7 @@ def build_prompt(stage, target):
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
     if target.exists():
         for p in sorted(target.glob('*')):
-            if p.is_file() and p.suffix.lower() in {'.md','.json','.yaml','.yml','.csv'}:
+            if p.is_file() and not p.name.startswith('prompt_') and p.suffix.lower() in {'.md','.json','.yaml','.yml','.csv'}:
                 context += f'\n\n===== {p.relative_to(ROOT)} =====\n{read_text(p)}'
     task = read_text(PROMPTS/f'{stage}.md')
     return f"""You are a critical research collaborator working inside this repository.
@@ -286,8 +286,8 @@ def _debate_should_stop(target):
     if len(last) < 2:
         return None
     c, p = last['critic'], last['proposer']
-    if c == 'CONVERGED' and p == 'CONVERGED':
-        return 'both sides converged'
+    if {c, p} <= {'CONVERGED', 'CONCEDED'}:
+        return f'both sides settled (critic={c}, proposer={p})'
     if 'IRREDUCIBLE DISAGREEMENT' in (c, p) and None not in (c, p):
         # one side declared it; the other has now had its turn to respond
         # Only ONE side need declare it. Requiring both to agree that they
@@ -312,6 +312,11 @@ def debate(args):
     t = target / 'debate.md'
     if not t.exists():
         t.write_text('# Debate transcript\n\n')
+
+    _pre = _debate_should_stop(target)
+    if _pre:
+        print('Already settled: ' + _pre)
+        return _close_debate(target, critic)
 
     for r in range(1, max_rounds + 1):
         for side, agent, other in (('critic', critic, proposer),
