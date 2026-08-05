@@ -313,6 +313,11 @@ def debate(args):
     if not t.exists():
         t.write_text('# Debate transcript\n\n')
 
+    _pre = _debate_should_stop(target)
+    if _pre:
+        print('Already settled: ' + _pre)
+        return _close_debate(target, critic)
+
     for r in range(1, max_rounds + 1):
         for side, agent, other in (('critic', critic, proposer),
                                    ('proposer', proposer, critic)):

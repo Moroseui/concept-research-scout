@@ -30,7 +30,7 @@ Whether such a mapping already exists is also factually unresolved. Neither side
 - **Proposer, Round 3 — earned concession.** In response to that explicit consequence, the proposer moved from leaving an internal gate attached to a paused idea to recommending outright rejection, while preserving the underlying question as unresolved.
 - **Critic, Round 4 — earned concession.** In response to the proposer's adoption of rejection and a concrete reopening condition, the critic stated that no substantive objection remained and tightened the condition to require a pre-modeling precision demonstration using independently validated counts.
 - **Proposer, Round 5 — earned concession.** The proposer adopted the critic's tighter reopening language and declared convergence.
-- **Critic Round 6, proposer Round 7, critic Round 8, and proposer Round 9 — UNEARNED/redundant concessions.** No new argument or evidence was introduced after convergence in Round 5. These rounds restate the settled disposition and reopening test and should not be counted as additional consensus-building moves.
+- **Critic Rounds 6, 8, and 10, and proposer Rounds 7, 9, and 11 — UNEARNED/redundant concessions.** No new argument or evidence was introduced after convergence in Round 5. These rounds restate the settled disposition and reopening test and should not be counted as additional consensus-building moves.
 
 ## Amendments made
 

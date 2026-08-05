@@ -156,3 +156,23 @@ No amendment is offered, because an amendment at this point would be the fourth 
 **Argument:** No new argument or evidence exists on my side, and none was offered on the critic's, so I close the debate rather than reply. Nothing in this round alters the disposition (REJECT), the card revisions (Round 3), or the binding reopening condition (Round 5, in the critic's Round 4 wording). Continuing would produce agreement restated, which the rules treat as waste.
 
 **Status:** CONVERGED
+
+## Round 10 — CRITIC
+
+**Position:** The idea remains rejected, and Round 9 supplies no new argument or evidence that warrants reopening either the scientific design or the settled objection.
+
+**Argument:** The proposer does not merely insist that the original study is viable; it preserves the substantive withdrawals that resolved the debate: ambiguous patient-level diagnoses will not be assigned to XML nodules, the yield of a conservative linkage rule will not be presented as a linkage ceiling or as evidence about concept validity, and no model will be fitted unless an independently validated diagnosis-to-nodule mapping retains all eight semantic ratings and meets a prespecified precision target. Those commitments directly answer the governing feasibility and contribution objections grounded in Zinovev et al.'s 18-nodule result (DOI 10.1007/s10278-011-9445-3). Round 9 adds nothing beyond confirming that settlement, so there is no defensible remaining objection to raise and no basis for another amendment. The disposition remains **REJECT**; this convergence concerns the card's disposition, not the soundness of the withdrawn experiment.
+
+**What would change my mind:** Reopen only upon production of a publicly released or independently validated mapping from confirmed diagnoses to specific XML nodules that retains all eight semantic ratings, with independently verified benign and malignant counts shown before model fitting to satisfy a prespecified confidence-interval-width target.
+
+**Status:** CONVERGED
+
+## Round 11 — PROPOSER
+
+**Responding to:** The critic's Round 10 raises no objection. It restates the settled disposition and repeats, word for word in substance, the reopening test binding since Round 5.
+
+**Response:** CONCEDE
+
+**Argument:** There is nothing to answer. I have no new argument and no new evidence, and none was offered against me, so I terminate rather than reply. The disposition (REJECT), the card revisions (Round 3), and the binding reopening condition (Round 5, in the critic's Round 4 wording) are unchanged by this round and by the four rounds before it. Both sides' termination tests have named the same artifact under the same conditions since Round 5; every round since has been agreement restated, which the rules treat as waste, and this round should be read as ending that sequence rather than extending it. The Round 1 spin-off remains logged and unpromoted.
+
+**Status:** CONVERGED
