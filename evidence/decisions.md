@@ -43,3 +43,19 @@ labels; CT-CLIP GitHub v1.0.0 has no release assets; checkpoints are not on
 the authors HF account. Inference must be run locally.
 Scope: download 850 volumes (425 pairs), not 3,039. Inference code exists at
 scripts/data_inference_nii.py and run_forward_data.py.
+
+## 2026-08-04 - Idea 002 PAUSE (Derm7pt clinical photo concepts)
+Annotation provenance undocumented: unknown whether checklist annotators saw
+the paired clinical photograph. A positive result would have two materially
+different explanations. Unblocked only by author correspondence.
+
+## 2026-08-04 - Idea 003 REJECT (BI-RADS intervention realism)
+BUS-BRA releases BI-RADS assessment categories, not lexicon descriptors - no
+concepts to intervene on. Debate ran six rounds; amendments achieved
+feasibility by abandoning the intervention question entirely.
+
+## 2026-08-04 - Idea 005 PAUSE (LIDC concept discriminant validity)
+MTMM requires independent measurement methods. LIDC released reads are from the
+unblinded phase after readers saw each others marks, and reader IDs are not
+stable across scans. Keystone error: verified that multiple opinions exist
+(true) rather than that they are independent measurement methods (false).

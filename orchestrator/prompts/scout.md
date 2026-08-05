@@ -1,79 +1,110 @@
-Generate **4** candidate research ideas that fit the charter, then rank them.
+## Step 1 — Generate ten questions before developing any of them
 
-Four, not six. Depth of verification matters more than breadth this cycle.
+Write ten one-line research questions. Do not elaborate. Do not score. Do not
+check feasibility yet.
 
-## Before you write anything
+The point of this step is to search a wider space than you would if you were
+optimizing a complete idea card from the first sentence. Cards written
+end-to-end select for ideas that were safe by sentence two.
 
-Read `evidence/decisions.md` and `ledger/`-equivalent records of prior cycles.
-Do not re-propose a killed idea or a thin variant of one.
+Include in the ten:
+- questions you suspect are too hard
+- questions you are not sure are answerable
+- at least two that connect medical imaging to a field outside it
+- at least one that sounds obviously wrong but that you cannot immediately
+  refute
 
-## Mode and quota requirements
+Then pick **five** to develop. Pick on interest and mechanism clarity, not on
+how defensible they will be. The critic exists to handle the rest.
 
-- Each candidate declares `search_mode: A` or `search_mode: B` (see charter).
-- **At least two candidates must be Mode B** — questions nobody framed, not
-  gaps somebody left.
-- **At least three of four must be radiology or CT.**
-- At most one dermatology candidate.
-- No more than two on the same dataset.
-- No more than two whose method is a concept bottleneck model.
+Record all ten in `all_questions`, and for the five you dropped, one line each
+on why.
 
-If you cannot meet a quota with a candidate you believe in, say so explicitly
-in a `quota_note` field rather than padding with a weak idea. An honest short
-list beats a padded one.
+## Step 2 — Mode and entry-point quotas
 
-## The keystone check comes first
+Of the five developed candidates:
 
-For each candidate, before scoring anything:
+- **1 Mode A** (unfinished story)
+- **2 Mode B** (unasked question)
+- **2 Mode C** (speculative — lower feasibility bar, higher mechanism bar)
 
-1. Name the `keystone_prerequisite` — the single fact which, if false, makes
-   the study impossible or uninterpretable.
-2. **Actually go and check it.** Open the file listing, the data dictionary,
-   the methods section, the repository contents. Not the collection homepage,
-   not the abstract, not a search-engine summary.
-3. Record `keystone_status` as one of:
-   - `INSPECTED_TRUE` — you looked at the primary artifact and it holds
-   - `INSPECTED_FALSE` — you looked and it does not hold (discard the candidate
-     or reformulate around what you found)
-   - `NOT_INSPECTED` — you could not verify it, and say why
+At least three of five in radiology or CT. At most one dermatology.
+No more than two on any single dataset.
 
-`feasibility` and `novelty_confidence` are capped at 3 unless
-`keystone_status` is `INSPECTED_TRUE`. This cap is not negotiable.
+Each candidate also declares `entry_point`:
+- `1` — starts from a documented model-beats-human gap
+- `2` — starts from a well-performing model, looking for unexpected signal
 
-"The dataset exists" is not the keystone. The keystone is the specific linkage,
-label, protocol, or artifact the experiment depends on.
+Both are allowed. Entry point 2 requires naming the specific measurement that
+would detect the unexpected signal and the specific artifact it would be
+confused with.
 
-## Per candidate, write
+If you cannot fill a quota with something you believe in, say so in
+`quota_note`. An honest short list beats a padded one.
 
-1. `search_mode` and `title`
+## Step 3 — Read the record first
+
+`evidence/decisions.md` is in your context. Read it before developing anything.
+
+For every candidate, fill `dies_like_prior`: name the prior killed candidate it
+most resembles and say what makes this one different, or state plainly that no
+prior failure mode applies and why.
+
+The dominant prior failure is annotation provenance — the study needed to know
+who assigned labels and what they could see, and that was undocumented or
+contaminated. If your candidate's keystone depends on annotation conditions,
+say so directly rather than discovering it in critique.
+
+## Step 4 — Keystone, checked before scoring
+
+Name `keystone_prerequisite`: the single fact which, if false, makes the study
+impossible or uninterpretable.
+
+State it as the thing your *inference* needs, not the thing that is easy to
+check. A prior candidate verified "multiple opinions exist per lesion" (true)
+when the real keystone was "those opinions are independent measurement
+methods" (false). That error cost a full critique and debate cycle.
+
+Then go and check it — the actual file listing, data dictionary, schema, or
+methods section. Not the collection homepage. Not an abstract.
+
+`keystone_status`: `INSPECTED_TRUE` / `INSPECTED_FALSE` / `NOT_INSPECTED`.
+
+`feasibility` and `novelty_confidence` cap at 3 unless `INSPECTED_TRUE`.
+Mode C candidates may honestly report `NOT_INSPECTED`; that is expected.
+
+## Step 5 — Per candidate, write
+
+1. `search_mode`, `entry_point`, `title`
 2. `question` — one sentence, ending in a question mark
-3. `why_unasked` (Mode B) or `what_was_left_undone` (Mode A)
-4. `concept_definition` — exactly what counts as a concept here
-5. `keystone_prerequisite`, `keystone_status`, `keystone_evidence` (what you
-   opened and what it said)
-6. `closest_prior_work` — with identifiers, and what it did *not* do
-7. `existing_assets` — data, labels, code, checkpoints already available
-8. `smallest_decisive_experiment` — the cheapest thing that answers it
-9. `alternative_explanations` — two or three other things that could produce a
-   positive result, and which ones the design rules out
-10. `anticipated_negative` — classified as decisive / sensitivity-limited /
-    uninterpretable, per the charter
-11. `remaining_legwork` — not just what exists, but what still has to be built:
-    data cleaning, linkage risk, provenance risk, author correspondence,
-    statistical development, expected time to first decision
-12. `cross_domain` — if applicable: borrowed construct, the measurement it
-    implies, and what would change if the analogy were dropped
-13. `scores` per `docs/SCORING_RUBRIC.md`, including `identifiability`
-14. `unverified_claims` — everything you did not check directly
+3. `rung` — 1, 2, or 3 per the charter, and what would move it up
+4. `suspected_signal` — what you think the model is using, physically or
+   biologically. Required for Mode C. "Some feature" is not an answer.
+5. `keystone_prerequisite`, `keystone_status`, `keystone_evidence`
+6. `dies_like_prior`
+7. `closest_prior_work` with identifiers, and what it did not do
+8. `existing_assets`
+9. `smallest_decisive_experiment`
+10. `standing_confounds_addressed` — scanner, vendor, protocol, reconstruction,
+    site, positioning, habitus, prevalence, referral pathway, label leakage.
+    Name which the design rules out and which it does not.
+11. `alternative_explanations` and which the design excludes
+12. `anticipated_negative` — decisive / sensitivity-limited / uninterpretable
+13. `cross_domain` if applicable: borrowed construct, the measurement it
+    implies, and **what would change if the analogy were dropped**
+14. `remaining_legwork` — time to first decision, not just what exists
+15. `scores` per the rubric, including `identifiability`
+16. `unverified_claims`
 
 ## Style
 
-Prefer the small check over the large study. A question answerable in an
-afternoon that changes how a literature is read is worth more here than a
-well-scoped three-month replication.
+Prefer designs whose primary readout does not need trustworthy labels. The one
+candidate that has survived this loop compared a model to itself across two
+reconstructions of the same anatomy — no ground truth entered the primary
+measurement. That structural move is available more often than it is used.
 
 Be suspicious of your own good sentences. If a candidate's appeal is mostly in
-how it sounds, say so in `alternative_explanations` and score
-`identifiability` accordingly.
+how it sounds, say so in `alternative_explanations` and score identifiability
+accordingly.
 
-Write `scout_candidates.json` in the assigned scouting folder. Do not write
-code.
+Write `scout_candidates.json`. Do not write code.

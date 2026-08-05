@@ -44,3 +44,27 @@ weak scientific value.
 Identifiability enters at 15% because the first cycle produced several
 candidates with strong headlines whose designs could not isolate the stated
 phenomenon. Interest was compensating for weak measurement validity.
+
+## Mode C scoring
+
+Mode C (speculative) candidates are scored differently. Do **not** demote a
+Mode C candidate for low feasibility or thin prior legwork — that is what the
+mode is for. Do demote it for being untestable.
+
+For Mode C, replace the priority weighting with:
+
+- 30% mechanism clarity (is the suspected physical/biological signal named?)
+- 25% identifiability
+- 20% interest
+- 15% medical relevance
+- 10% clarity
+
+Report feasibility and novelty confidence for information, outside the score.
+A Mode C candidate that would take three weeks is fine. One that could not be
+falsified in three years is not.
+
+**Mechanism clarity, 1-5:**
+
+| 1 | 3 | 5 |
+|---|---|---|
+| "probe the representation and see what is there" | a named signal family, unclear how to isolate it | a specific physical or biological quantity, and the measurement that would show the model uses it |
