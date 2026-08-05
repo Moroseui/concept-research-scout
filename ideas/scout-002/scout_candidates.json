@@ -1,0 +1,520 @@
+{
+  "cycle": "scout-002",
+  "stage": "scout",
+  "generated_on": "2026-08-04",
+  "charter_version_seen": "CHARTER.md as of commit 431a6ea (charter v2: search modes, radiology quotas, keystone prerequisite, identifiability)",
+
+  "prior_cycle_review": {
+    "records_read": [
+      "evidence/decisions.md",
+      "ideas/scout-001/scout_candidates.json (all six candidates, full text)",
+      "ideas/001/consensus.md",
+      "ideas/002/consensus.md",
+      "ideas/003/consensus.md",
+      "portfolio/ideas.csv",
+      "evidence/literature.csv (empty except header)",
+      "evidence/datasets.csv (empty except header)"
+    ],
+    "killed_or_blocked_and_deliberately_avoided": [
+      "Idea 001 (LIDC semantic concepts vs pathology-confirmed diagnosis): REJECTED. The reopen trigger requires a released, independently validated diagnosis-to-XML-nodule mapping. No candidate in this cycle uses tcia-diagnosis-data-2012-04-20.xls or any pathology endpoint on LIDC. Candidates C2 and C3 use LIDC but never touch the diagnosis file, and both exclude the malignancy rating from the concept set.",
+      "Idea 002 (Derm7pt clinical vs dermoscopic concept prediction): paused on unresolvable annotation provenance. No dermatology candidate is proposed this cycle and Derm7pt is not used.",
+      "Idea 003 (BI-RADS concept intervention): REJECTED, BUS-BRA has no lexicon descriptors. No breast ultrasound or intervention-robustness candidate is proposed. The residual BrEaST prediction-rule benchmark flagged in ideas/003/consensus.md is deliberately NOT resurrected here; it would need to be scored as its own candidate and I judged it weaker than all four below.",
+      "MIMIC-CXR was excluded in scout-001 as credentialed/DUA-gated. C4 still depends on it and is scored down accordingly rather than being quietly waved through."
+    ],
+    "unresolved_objection_carried_forward": "evidence/decisions.md logs an objection that was raised but never debated: in LIDC the eight characteristics and the malignancy rating come from the same reader in the same session, so concept-to-suspicion prediction measures rating-form consistency rather than concept validity. C2 and C3 are constructed so that this objection does not apply: neither uses the malignancy rating as an endpoint, and C4 generalises the objection into its own research question."
+  },
+
+  "evidence_standard": {
+    "INSPECTED": "I opened the primary artifact myself in this session - the actual repository file tree, the raw README, or the Methods section of the paper - and quote what it said.",
+    "SEARCH_SUMMARY_ONLY": "The claim appeared in a search engine's synthesis of a page. Treated as unverified and listed per candidate.",
+    "NOT_CHECKED": "Listed explicitly under unverified_claims."
+  },
+
+  "method_note": "This cycle had no shell network access, so every check was a direct fetch of a primary artifact (HuggingFace file trees, raw GitHub README, PMC full text, arXiv HTML). No dataset file was downloaded and no numeric column was counted by hand. Where a keystone is marked INSPECTED_TRUE, the evidence field names the exact artifact and quotes it. Two keystone checks changed a candidate: the CT-RATE label-provenance candidate I intended to write was largely pre-empted by arXiv:2606.22382 and was dropped; the LIDC blinded-versus-unblinded reliability candidate I intended to write was killed by the Armato Methods text and was reformulated into C2 with the non-independence stated as a known upper-bound caveat rather than a measurable quantity.",
+
+  "quota_compliance": {
+    "search_mode_A": ["C4"],
+    "search_mode_B": ["C1", "C2", "C3"],
+    "mode_B_requirement": "SATISFIED (3 of 4, minimum 2). Both modes represented.",
+    "radiology_or_CT": "4 of 4 (minimum 3). C1 and C2/C3 are chest CT; C4 is chest radiography.",
+    "dermatology": "0 of 4 (maximum 1).",
+    "dataset_concentration": "LIDC-IDRI x2 (C2, C3), CT-RATE x1 (C1), MIMIC-CXR x1 (C4). At the cap of 2, not over.",
+    "concept_bottleneck_method": "1 of 4 (C4). C1, C2 and C3 are measurements, not architectures.",
+    "quota_note": "Three honest disclosures. (1) C2 and C3 are siblings: same dataset, same parsed artifact, same afternoon of infrastructure. They are listed separately because their claims, their failure modes and their negative results differ, not because they are independent bets. If a reviewer wants to merge them into one study, that is a reasonable call and I would not resist it. (2) I could not find a Mode A candidate in radiology whose keystone I was able to directly inspect. C4 is the Mode A representative and it is the weakest candidate in the portfolio on data readiness; I am including it rather than padding with a fifth Mode B LIDC variant, but it should be read as the honest floor of this cycle rather than as a recommendation. (3) The charter names vascular and tubular anatomy as an emphasis. I searched for a public vascular or airway CT corpus carrying named clinical concepts rather than segmentation masks and did not find one I could verify. Rather than dress a segmentation dataset up as a concept dataset - which the charter's constraints explicitly forbid - I am reporting the gap. Finding a concept-annotated vascular corpus is a worthwhile standalone errand for a future cycle."
+  },
+
+  "candidates": [
+    {
+      "id": "C1",
+      "search_mode": "B",
+      "title": "The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition",
+      "question": "When the same chest CT acquisition is reconstructed twice, how much does a released chest-CT foundation model's predicted abnormality concept change, and does the CT-RATE validation benchmark's per-volume unit of analysis overstate the precision of every number reported on it?",
+
+      "why_unasked": "Reconstruction-kernel sensitivity is a well-studied nuisance in radiomics and in CT harmonisation, always framed as domain shift between cohorts. Inside CT-RATE the same variation exists as a paired repeat measurement of one patient's anatomy - 25,692 scans expand to 50,188 volumes through reconstructions - but the corpus was built to be trained and evaluated on, so the duplicates were absorbed as extra samples rather than recognised as repeats. Two habits keep the question invisible. First, the field's unit of analysis is the volume, so a validation set described as 3,075 volumes reads as 3,075 cases when it is 1,314 patients. Second, reliability is not part of the reporting vocabulary in this literature at all: papers report AUROC, never a repeatability coefficient, so there is no slot in a results table where this number would go. Nobody left it as future work because nobody framed the duplicates as repeats.",
+
+      "concept_definition": "A concept here is one of the 18 named thoracic abnormality categories that CT-RATE attaches to each volume (pleural effusion, emphysema, lymphadenopathy, and so on). These are named radiological findings with independent clinical definitions, not task-invented class labels. Their CT-RATE provenance is weak - a RadBERT text classifier applied to the report - and I make no claim that they are validly assigned. That weakness is precisely why this candidate is designed around the model's *output score* for a concept and not around the label: a test-retest measurement compares the model to itself on two images of the same anatomy and requires no ground truth at all. Label provenance cannot contaminate the primary readout. It re-enters only in the secondary benchmark-correction arm, and is bounded there.",
+
+      "keystone_prerequisite": "CT-RATE contains more than one reconstruction of the same acquisition (same patient, same scan), and those pairs are identifiable from released filenames or metadata without needing the raw sinograms - so that paired volumes with identical underlying anatomy exist and can be found.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "I fetched the raw official CT-CLIP README at raw.githubusercontent.com/ibrahimethemhamamci/CT-CLIP/main/README.md. It documents the naming convention as split_patientID_scanID_reconstructionID, giving the worked example valid_53_a_1 where the trailing index is the reconstruction number and the preceding letter is the scan from that patient. It states the dataset 'comprises 25,692 non-contrast chest CT volumes, which expand to 50,188 volumes through various reconstructions,' i.e. a mean of ~1.95 reconstructions per acquisition dataset-wide, and that CT-CLIP, VocabFine, ClassFine and RadBertClassifier checkpoints are hosted on HuggingFace. Separately I fetched the HuggingFace file tree at huggingface.co/datasets/ibrahimhamamci/CT-RATE/tree/main/dataset and confirmed the folders anatomy_segmentation_labels/, metadata/, multi_abnormality_labels/, radiology_text_reports/, train/, valid/, ts_seg/, vqa/; inside multi_abnormality_labels/ the files are train_predicted_labels.csv (2.76 MB) and valid_predicted_labels.csv (174 kB), and inside metadata/ they are Metadata_Attributes.xlsx, train_metadata.csv, validation_metadata.csv, no_chest_train.txt, no_chest_valid.txt. Independently, arXiv:2503.20652 (HTML read directly) states the split as '17,799 unique patients corresponding to 34,781 CT volumes for the train set, 1,314 unique patients, corresponding to 3,075 CT volumes for the validation set' - 2.34 volumes per validation patient. The pairing structure therefore exists, is encoded in filenames, and is dense enough to matter. RESIDUAL, stated plainly: I could not open valid_predicted_labels.csv or validation_metadata.csv because the repository is gated, so I have not counted how much of the 2.34 volumes-per-patient ratio is multiple reconstructions of one scan versus multiple scans of one patient. The dataset-wide 25,692-to-50,188 expansion is reconstruction by construction, but the validation-split breakdown is inferred. Counting it is a one-CSV, no-GPU task and is step zero of the experiment.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Hamamci I.E. et al. Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography.",
+          "identifier": "arXiv:2403.17834 (v3, 4 Apr 2025)",
+          "verification": "INSPECTED (arXiv abstract page)",
+          "what_it_did": "Released CT-RATE (25,692 non-contrast chest CT volumes, 21,304 patients, paired reports) and the CT-CLIP / CT-CHAT models as open source.",
+          "what_it_did_not_do": "Reports evaluation per volume. Does not report any within-scan repeatability of its own predictions, and does not treat the reconstruction duplicates as anything other than additional samples."
+        },
+        {
+          "citation": "Imitating Radiological Scrolling: A Global-Local Attention Model for 3D Chest CT Volumes Multi-Label Anomaly Classification.",
+          "identifier": "arXiv:2503.20652",
+          "verification": "INSPECTED (arXiv HTML)",
+          "what_it_did": "Benchmarks on CT-RATE against 3D CNN, CT-ViT, Swin3D and CT-Net baselines; states the validation split as 1,314 patients / 3,075 volumes; reports aggregate AUROC, accuracy, F1 across the 18 abnormalities.",
+          "what_it_did_not_do": "Evaluates over volumes with no clustering by patient or scan, and reports no per-abnormality breakdown. This is the concrete instance of the unit-of-analysis habit the candidate targets - and it is representative, not an outlier."
+        },
+        {
+          "citation": "Yamagishi Y. et al. Large Language Model-Assisted Cleaning of Report-Derived Labels in a Large-Scale Chest CT Dataset.",
+          "identifier": "arXiv:2606.22382 (submitted 21 June 2026)",
+          "verification": "INSPECTED (arXiv abstract page)",
+          "what_it_did": "Used GPT-5.4 to relabel 24,434 CT-RATE reports across the 18 abnormality categories; 96.4% agreement with the original labels, Cohen's kappa 0.884; lymphadenopathy worst; radiologist adjudication favoured the LLM labels in 72 of 97 discordant cases; cleaned labels to be released.",
+          "what_it_did_not_do": "Addresses label fidelity to the report. Says nothing about duplicate reconstructions, about the unit of analysis, or about model repeatability. This paper is also the reason a CT-RATE label-provenance candidate is NOT in this portfolio - I intended to write one and found it substantially pre-empted."
+        },
+        {
+          "citation": "CT reconstruction-kernel effects on quantitative imaging: e.g. deep-learning kernel conversion for interstitial lung disease quantification (Acad Radiol, S1076-6332(23)00302-1) and kernel-induced radiomic feature variability via noise power spectra.",
+          "identifier": "S1076-6332(23)00302-1 and related",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Establishes at length that reconstruction kernel changes move quantitative CT biomarkers and degrade model accuracy, and develops harmonisation and kernel-conversion remedies.",
+          "what_it_did_not_do": "Concerns handcrafted quantitative biomarkers and radiomic features, and frames the effect as accuracy loss under domain shift. It does not express the effect as a reliability coefficient for a *named clinical concept* emitted by a foundation model, does not derive the attenuation bound that such a coefficient places on downstream claims about that concept, and does not touch the benchmark-precision consequence. This is the honest delta and it is a narrower one than the headline suggests: that kernels move model outputs is expected, not news. What is news would be the size of the coefficient, and what it forbids."
+        }
+      ],
+
+      "existing_assets": [
+        "CT-RATE volumes, 18-abnormality label CSVs, per-volume metadata CSVs and free-text reports, all in one HuggingFace repository.",
+        "Released checkpoints: CT-CLIP, VocabFine, ClassFine (supervised 18-abnormality classifier) and RadBertClassifier - so the reliability arm is inference-only with no training.",
+        "The pairing key is free: it is in the filename, requiring no linkage work of the kind that killed idea 001.",
+        "Published benchmark numbers on the same validation split to compare a corrected computation against.",
+        "HuggingFace supports selective per-file download, so the volume subsample can be fetched without pulling the whole corpus."
+      ],
+
+      "smallest_decisive_experiment": "Stage 0, no images and no GPU, hours not days. Download only valid_predicted_labels.csv (174 kB) and validation_metadata.csv. Parse the filenames into (patient, scan, reconstruction). Report: how many validation scans carry two or more reconstructions; the distribution of reconstructions per scan; the intra-cluster correlation of the 18 label vectors within a scan (which is 1.0 by construction if reconstructions share a report - confirm rather than assume); and the resulting design effect, i.e. the factor by which a naive per-volume confidence interval is too narrow relative to a scan-clustered one. This alone settles the unit-of-analysis claim with arithmetic and no model. Stage 1, bounded GPU. Take every validation scan with two or more reconstructions, or a 300-scan subsample if that set is large. Run the released ClassFine checkpoint once per volume. Primary readout: per-concept agreement between paired reconstructions - ICC(2,1) on the continuous score, plus the flip rate of the thresholded decision, plus a minimum detectable change. Secondary readout: recompute the published AUROC restricted to one randomly chosen volume per scan, resampled, with scan-clustered bootstrap intervals, and report the shift against the published per-volume number. Control that makes Stage 1 interpretable: run the model twice on one identical volume to establish the pure software noise floor, so that reconstruction-induced variation is measured against it rather than against zero.",
+
+      "alternative_explanations": [
+        "The paired volumes are not the same acquisition but repeat scans of the same patient, in which case genuinely different anatomy would explain any disagreement and the whole framing collapses. RULED OUT by design: the filename fixes scanID, and the metadata check in Stage 0 (acquisition time, series description, reconstruction parameters) confirms it. This is the single most important check and it comes first.",
+        "The variation is preprocessing and resampling instability in the inference pipeline rather than anything about the image content. RULED OUT by the identical-volume repeat control, which gives the software noise floor that reconstruction-induced variation must exceed.",
+        "The benchmark shift in the secondary arm is driven by label duplication rather than by anything about model behaviour. SEPARATED, not ruled out: the reliability arm uses no labels whatsoever, so a finding there stands regardless of what the label arm shows. The two arms fail independently, which is the point of splitting them.",
+        "Residual that the design does NOT rule out: scans selected for multiple reconstructions are not a random sample - a lung kernel is more likely to be reconstructed when lung pathology is suspected. The measured reliability therefore applies to the subpopulation of multiply-reconstructed scans and should be reported as such, not generalised to the corpus. Reporting the case mix of that subpopulation is the mitigation; there is no way to remove the selection with these data."
+      ],
+
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reasoning": "If paired reconstructions produce near-identical concept scores (say ICC above 0.95 with flip rates in the low single digits) and the scan-clustered benchmark recomputation reproduces the published numbers within their intervals, that is a clean, citable robustness result: the CT-RATE leaderboard is not inflated by duplication, and these concept outputs survive the reconstruction variation actually present in the corpus. That meaningfully weakens a live worry rather than merely failing to confirm it, so it is type 1. The design effect calculation in Stage 0 is arithmetic and yields a reportable number whichever way it comes out."
+      },
+
+      "remaining_legwork": [
+        "Accept the HuggingFace gated-access terms. UNKNOWN whether approval is automatic on acceptance or manually reviewed; this is on the critical path and costs nothing to start, so it should be done first. License is CC BY-NC-SA 4.0, research use only, no redistribution.",
+        "Count the validation-split reconstruction structure from the label CSV - the residual left open by the keystone check. Half a day.",
+        "Confirm from Metadata_Attributes.xlsx and validation_metadata.csv that reconstruction parameters (kernel, slice thickness, kVp) are recorded per volume, which is needed to describe what varies between a pair. If they are not recorded, the reliability number is still valid but becomes uninterpretable as to cause, and the study should be reported as repeatability-under-unspecified-reconstruction-variation.",
+        "Selective download of the paired subsample. Chest CT volumes are large; budget disk and time, and prefer the smallest sufficient scan count established by a power calculation on the ICC.",
+        "Statistical development: scan-clustered bootstrap, ICC with confidence intervals for a 18-outcome multiple-comparison setting, and a prespecified equivalence margin so that a high-reliability result is reported as equivalence rather than as non-rejection.",
+        "Expected time to first decision: Stage 0 within two days of access being granted. Stage 1 within one to two weeks."
+      ],
+
+      "cross_domain": {
+        "borrowed_construct": "Test-retest reliability and the repeatability coefficient from classical test theory, as operationalised for imaging in the quantitative imaging biomarker tradition (ICC, repeatability coefficient, minimum detectable change).",
+        "measurement_it_implies": "Report ICC(2,1) per concept over reconstruction pairs with confidence intervals, plus a minimum detectable change; then apply the attenuation bound - any correlation between that concept score and an external outcome cannot exceed the square root of its reliability. That converts a repeatability number into an explicit ceiling on downstream claims.",
+        "what_changes_if_the_analogy_is_dropped": "You would report a flip rate and stop. A flip rate has no interpretation without a reference: 8% sounds tolerable and 8% sounds alarming depending on what you compare it to. The reliability coefficient supplies the comparison and the attenuation bound turns it into a statement of the form 'no study using this concept score can report a correlation above X, so a published correlation of Y is impossible.' That statement does not exist without the borrowed construct, so this is not decoration."
+      },
+
+      "scores": {
+        "clarity": {"value": 5, "why": "One paired comparison on identical anatomy, one reliability coefficient per concept, one recomputed benchmark number. The question states its own null."},
+        "identifiability": {"value": 4, "why": "The paired design fixes patient, anatomy, pathology and label by construction, and the software-noise control separates pipeline jitter from image content. Held below 5 by the non-random selection of which scans get multiple reconstructions, which the design can describe but cannot remove."},
+        "medical_relevance": {"value": 4, "why": "A concept output that changes when the technologist picks a different reconstruction is not a finding a clinician can act on, and the attenuation bound limits every downstream claim built on that concept. Held below 5 because the study audits measurement stability rather than changing a diagnostic pathway."},
+        "interest": {"value": 4, "why": "'The benchmark has been counting the same patient twice, and the model disagrees with itself about the same lungs' is graspable outside the subfield. Held below 5 because reconstruction sensitivity is not itself a surprise to anyone in CT."},
+        "prior_legwork": {"value": 4, "why": "Data, labels, metadata, pairing key and four released checkpoints all exist; the pairing needs no linkage work. Short of 5 only because no prior repeatability analysis exists to build the statistics on."},
+        "feasibility": {"value": 4, "why": "Cap lifted, keystone INSPECTED_TRUE. Stage 0 needs one 174 kB CSV and no GPU. Stage 1 is inference-only with a released checkpoint on a bounded subsample. Held to 4 by the size of 3D CT downloads and the gated-access step."},
+        "data_readiness": {"value": 3, "why": "Fully public in the sense that anyone can get it, but behind a click-through research-use agreement whose approval mechanism I did not verify. Under the charter that is accessible-with-work, not directly usable."},
+        "evaluation_readiness": {"value": 4, "why": "ICC, repeatability coefficient and clustered bootstrap are all standard and have accepted reporting conventions. Only the mapping onto the 18-concept multiple-comparison structure needs specification."},
+        "negative_result_value": {"value": 5, "why": "A high-reliability, benchmark-unchanged outcome is a decisive reassurance for a corpus the field is standardising on, and is as publishable as the positive."},
+        "novelty_confidence": {"value": 3, "why": "Cap lifted by the keystone, but held at 3 honestly: I searched arXiv and general web indexes only, found no within-scan repeatability analysis of CT-RATE, and did not search MICCAI, SPIE Medical Imaging or the medical physics literature, which is exactly where a repeatability study would live if one exists."}
+      },
+      "priority_score": 4.10,
+      "priority_arithmetic": "0.20*4 (feas) + 0.15*4 (ident) + 0.15*4 (med) + 0.10*4 (legwork) + 0.10*4 (interest) + 0.10*5 (clarity) + 0.10*5 (neg) + 0.05*3 (data) + 0.05*3 (novelty) = 0.80+0.60+0.60+0.40+0.40+0.50+0.50+0.15+0.15 = 4.10",
+      "regret": {"value": 4, "why": "A paired repeat-measurement design normally has to be funded and collected. This one is sitting in the filenames of the corpus the field is currently building on."},
+      "recommendation": "SHORTLIST",
+
+      "unverified_claims": [
+        "How many validation-split scans actually carry two or more reconstructions. The dataset-wide 25,692-to-50,188 expansion is documented, but the validation breakdown is inferred from the 1,314-patient / 3,075-volume figure. FIRST THING TO CHECK; the candidate's cost profile depends on it.",
+        "Whether the HuggingFace gate is auto-approved on acceptance or manually reviewed, and the turnaround if manual.",
+        "Whether validation_metadata.csv and Metadata_Attributes.xlsx record reconstruction kernel and slice thickness per volume.",
+        "Whether all reconstructions of one scan share a single report and therefore a single label vector. Strongly implied by the one-report-per-scan design but not confirmed against the CSV.",
+        "The ClassFine checkpoint's exact input preprocessing and whether it is deterministic at inference. Needed before the software-noise control can be interpreted.",
+        "Whether any CT-RATE benchmark paper reports per-abnormality AUROC. arXiv:2503.20652 does not; the CT-CLIP paper may. Not confirmed, and the secondary arm is more informative if per-abnormality numbers exist to compare against.",
+        "That no repeatability analysis of CT-RATE exists. Not established. Searches did not cover MICCAI, SPIE, Medical Physics or Radiology: Artificial Intelligence."
+      ]
+    },
+
+    {
+      "id": "C2",
+      "search_mode": "B",
+      "title": "How much of a LIDC concept label is decided by which radiologists happened to read the scan?",
+      "question": "For each LIDC semantic characteristic, how often does the derived consensus label that the concept-model literature trains and evaluates against change when one of the four readers is removed, and how does the resulting churn compare with the per-characteristic performance differences those papers report?",
+
+      "why_unasked": "Two literatures sit one step apart and nobody joined them. The observer-variability literature measures disagreement between radiologists and reports a coefficient (Wang et al., Acad Radiol 2017). The concept-model literature consumes a *derived* label - a median or mode over however many readers marked that nodule - and reports per-characteristic accuracy against it. The reliability coefficient is never propagated into the modelling result, so a sentence like 'spiculation is the hardest characteristic to predict' is published without anyone establishing how much of its difficulty is the label moving underneath the model. The reason this is unasked is structural: reliability is an observer-study output and accuracy is a modelling output, and the two are written up by different people in different venues with no shared table.",
+
+      "concept_definition": "A concept is one of the eight non-malignancy LIDC-IDRI nodule characteristics - subtlety, internal structure, calcification, sphericity, margin, lobulation, spiculation, texture - as rated on its ordinal scale by an individual reading radiologist in the released XML. The malignancy rating is excluded and is not used as an endpoint anywhere in this candidate; it is a subjective outcome opinion, and using it would revive the unresolved same-reader-same-session objection logged in evidence/decisions.md. The object under study is specifically the *derived* consensus label, not the individual rating, because the derived label is what models are actually trained and scored against.",
+
+      "keystone_prerequisite": "The released LIDC XML preserves each radiologist's characteristic ratings separately rather than merging them, and enough nodules carry ratings from all four readers to support leave-one-reader-out resampling.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "I read the Methods of Armato S.G. III et al., 'The Lung Image Database Consortium (LIDC) and Image Database Resource Initiative (IDRI): A completed reference database of lung nodules on CT scans', Med Phys 38:915-931 (2011), via PMC3041807. Three statements matter and all three are verbatim from that section. (a) Per-reader preservation: 'Each radiologist's lesion-category designation and associated marks ... for each lesion were stored in a single XML file for each scan after the unblinded read phase.' The ratings are individually recoverable, not merged. (b) Sample size: '2669 lesions were considered to be a nodule >= 3 mm by at least one radiologist' and '928 (34.8%) of these lesions received nodule >= 3 mm marks from all four radiologists.' 928 four-reader nodules is ample for leave-one-out resampling. (c) A finding that changes the candidate: 'the LIDC/IDRI Database only contains the final set of post-unblinded-read-phase marks in each of the 1018 XML files.' The blinded first-read annotations were never released. I had intended to propose measuring how much peer exposure inflates agreement; that is not measurable with public data and the candidate was reformulated. The consequence is now a stated property of the design rather than a hidden assumption: because every released rating was made after the reader saw the other three's marks, any reliability estimate from LIDC is an UPPER BOUND on what four independent readers would produce, and any churn estimate is a LOWER BOUND. That direction is favourable - a large churn under a bound that flatters agreement is a stronger result, not a weaker one.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Wang Y. et al. Measuring Interobserver Disagreement in Rating Diagnostic Characteristics of Pulmonary Nodule Using the Lung Imaging Database Consortium and Image Database Resource Initiative.",
+          "identifier": "Academic Radiology, Feb 2017, PII S1076-6332(17)30009-0",
+          "verification": "SEARCH_SUMMARY_ONLY - the publisher page returned HTTP 403 and I could not open the article. Abstract text was recovered from a search summary.",
+          "what_it_did": "Histogram-based accumulated nodule-level disagreement across 1880 distinct nodules from the 1018 scans, using both original and LIDC-combined ratings; mean disagreement 0.0052 to 0.2341, highest for subtlety, lowest for internal structure.",
+          "what_it_did_not_do": "Measures disagreement among raters. Does not examine the stability of the derived consensus label under different rater subsets, does not compute a reliability ceiling on model-label agreement, and makes no contact with the machine-learning literature that consumes those labels. THIS IS THE NEAREST WORK AND IT IS NEAR. The delta is the propagation step, not the measurement step, and the fact that I could not open the full text is the largest single risk to this candidate's novelty."
+        },
+        {
+          "citation": "Zinovev D., Duo Y., Raicu D.S., Furst J., Armato S.G. Consensus Versus Disagreement in Imaging Research: a Case Study Using the LIDC Database.",
+          "identifier": "J Digit Imaging (2011/2012), DOI 10.1007/s10278-011-9445-3, PMID 22193755, PMC3348979",
+          "verification": "INSPECTED (PMC full text)",
+          "what_it_did": "Belief decision trees that learn from the full distribution of four radiologists' ratings rather than a consensus label, reporting 28-30% improvement over consensus-trained decision trees; motivated by 'avoid[ing] the loss of potentially important information when [the] classification system has no knowledge on radiologists' level of expertise.'",
+          "what_it_did_not_do": "Proposes an alternative to the consensus label. Does not measure how the consensus label itself changes with rater subset, and does not quantify the ceiling that label instability imposes on any method, including their own. Note: this is the same paper that supplied the evidence rejecting idea 001. Using it here is deliberate and its role is entirely different."
+        },
+        {
+          "citation": "Shen S. et al. HSCNN: An interpretable deep hierarchical semantic convolutional neural network for lung nodule malignancy classification; and Semantic characteristic grading of pulmonary nodules based on deep neural networks.",
+          "identifier": "arXiv:1806.00712 / Expert Systems with Applications 2019; BMC Medical Imaging (2023) DOI 10.1186/s12880-023-01112-4",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Representative of the literature that reports per-characteristic prediction performance against a consensus LIDC label.",
+          "what_it_did_not_do": "Reports no reliability ceiling and no label-churn bound alongside the accuracy figures. These are the numbers the candidate would place on a common axis."
+        }
+      ],
+
+      "existing_assets": [
+        "LIDC-XML-only.zip under CC BY 3.0 with no DUA - the single artifact the whole primary analysis needs.",
+        "Mature open parsers (pylidc and equivalents) that already implement cross-reader nodule clustering, so the hardest engineering step is done and community-standard.",
+        "928 nodules with marks from all four readers, verified from the Methods, which is the resampling base.",
+        "Published per-characteristic model performance numbers in several papers, available as the comparison axis without running anything.",
+        "Published per-characteristic disagreement values (Wang et al. 2017) to sanity-check the reliability computation against."
+      ],
+
+      "smallest_decisive_experiment": "Entirely CPU, no images, no GPU, hours. Parse LIDC-XML-only.zip; cluster annotations across readers with a frozen, pre-declared clustering rule; restrict to nodules with four reader ratings. For each of the eight characteristics: (i) compute the derived label under the aggregation rule actually used in the literature (median, rounded; also mode, as a sensitivity analysis, because the rule is not standardised); (ii) recompute it under each of the four leave-one-reader-out triples and report the proportion of nodules whose derived label changes, plus the distribution of change magnitude, per characteristic; (iii) compute a per-characteristic reliability coefficient and the attenuation-implied ceiling on any model's agreement with that label; (iv) compute the human benchmark - how well one held-out reader agrees with the other three's consensus - and place the published per-characteristic model numbers on the same axis to see which characteristics have models at, below, or implausibly above reader-level agreement. Step (iv) is the payload: 'this model predicts spiculation at 0.82' means something different once you know a radiologist predicts it at 0.79.",
+
+      "alternative_explanations": [
+        "Visual difficulty and rater disagreement are confounded by nature: a subtle nodule is both hard to see and hard to agree about. So a correlation between churn and model difficulty does not establish that churn *causes* the reported difficulty ranking. The design CANNOT rule this out and I am not going to pretend otherwise - it can only bound how much of the ranking churn could account for. This is the reason identifiability is scored 3 and not higher, and it is the candidate's real weakness.",
+        "The published per-characteristic numbers come from different splits, different aggregation rules and different metrics, so any cross-paper correlation could be an artifact of heterogeneous reporting rather than of label quality. PARTIALLY RULED OUT by adding one internally consistent arm: train a single small model on frozen splits and read all eight characteristics off it, so the comparison axis is generated under one protocol.",
+        "The eight scales differ in effective granularity - internal structure is near-degenerate, with almost all mass on one level - so both churn and measured performance may be driven by label entropy rather than by anything about reliability. RULED OUT by reporting churn against a permutation baseline and conditioning on per-characteristic label entropy, which is cheap and should be prespecified.",
+        "Suspicion about my own framing: 'the ground truth depends on who was in the room' is a good sentence, and good sentences are exactly what the charter warns about. The honest version of the finding is narrower - it is a decision-consistency index for one aggregation rule on one dataset with peer-exposed readers. It should be written that way."
+      ],
+
+      "anticipated_negative": {
+        "classification": "decisive for the primary readout, sensitivity-limited for the secondary",
+        "reasoning": "The primary readout - the per-characteristic churn rate - is a direct computation with no power problem at n=928, so a small churn (say under 5% for most characteristics) decisively dismisses the label-instability worry and licenses the field's current practice with evidence rather than by default. That is type 1. The secondary claim - that churn explains the reported per-characteristic difficulty ranking - can fail for reasons of power and confounding with genuine visual difficulty, so a null there is type 2 and needs a prespecified minimum detectable effect. The two must be reported separately and the paper's claim should rest on the primary."
+      },
+
+      "remaining_legwork": [
+        "Download LIDC-XML-only.zip from TCIA. Public, CC BY 3.0, no application. Low risk.",
+        "Freeze the cross-reader nodule clustering rule BEFORE looking at any characteristic ratings, and report yield under it. Clustering is the one genuine linkage risk here, and it is the same class of risk that killed idea 001 - the difference is that failure is visible immediately in the yield count rather than hidden downstream.",
+        "Confirm that all four readers supply all eight characteristic ratings on four-reader nodules, or characterise the missingness. Ratings were required for nodules >= 3 mm but I did not verify completeness.",
+        "Decide and prespecify the aggregation rule, and report both median and mode, since the literature is not consistent.",
+        "Collect published per-characteristic performance numbers from primary sources, recording split, aggregation rule and metric for each. This is the slowest part and is literature work, not code.",
+        "Optional internal-model arm: a small 2.5D CNN over cropped nodule patches on frozen splits, which needs the DICOM images and a GPU-hour or two.",
+        "Expected time to first decision: two to three days for the labels-only primary readout."
+      ],
+
+      "cross_domain": {
+        "borrowed_construct": "Correction for attenuation (Spearman, 1904) and the reliability ceiling from classical test theory, together with the generalizability-theory point that a measurement's dependability is defined relative to the facet it is generalised over - here, the rater panel (Cronbach, Gleser, Nanda and Rajaratnam, 1972).",
+        "measurement_it_implies": "Two concrete quantities that would not otherwise be computed: (a) a decision-consistency index - the leave-one-rater-out probability that the derived label changes - which is generalizability theory's question 'would you get the same decision with a different panel?' rendered as an experiment; and (b) an attenuation-derived ceiling converting a reliability coefficient into the maximum agreement any model can achieve with that label, which is the number that makes a published accuracy interpretable.",
+        "what_changes_if_the_analogy_is_dropped": "You compute kappa per characteristic, observe that it varies, and stop - which is what the 2017 observer study already did. The borrowed constructs are what turn a coefficient into a ceiling that published model numbers can be tested against, and what turn 'readers disagree' into 'the label a model is scored on flips with probability p when the panel changes'. Without them there is no experiment here, only a restatement."
+      },
+
+      "scores": {
+        "clarity": {"value": 5, "why": "One resampling procedure, one churn rate per characteristic, one ceiling per characteristic. No modelling required for the primary result."},
+        "identifiability": {"value": 3, "why": "The churn measurement itself is unambiguous, but the interesting claim - that churn explains the reported difficulty ranking - cannot be separated from genuine visual difficulty, which co-varies with rater disagreement by nature. The design bounds the contribution; it does not isolate it."},
+        "medical_relevance": {"value": 3, "why": "Bears on how a decade of lung-nodule concept results should be read, and on whether a displayed concept could support a management decision. But it audits label quality rather than affecting a patient pathway, and the concepts here are descriptive rather than actionable on their own."},
+        "interest": {"value": 4, "why": "'The ground truth your model is scored against flips when a different radiologist is on the panel' travels well beyond the subfield. Held below 5 because observer variability is not news to radiologists - only its propagation into ML reporting is."},
+        "prior_legwork": {"value": 4, "why": "Data, parsers, cross-reader clustering, published disagreement values and published model numbers all exist. Short of 5 because the churn and ceiling computations have no precedent to reuse."},
+        "feasibility": {"value": 5, "why": "Cap lifted, keystone INSPECTED_TRUE. One public zip file, CPU only, first result within days, no access application, no GPU for the primary arm."},
+        "data_readiness": {"value": 5, "why": "Public, CC BY 3.0, no DUA, no application, and the exact file needed is a standard published artifact."},
+        "evaluation_readiness": {"value": 4, "why": "Reliability coefficients and resampling are standard; the decision-consistency index and the attenuation ceiling need explicit definition for ordinal scales with unequal granularity."},
+        "negative_result_value": {"value": 4, "why": "A small-churn result is a genuine, reportable licensing of current practice. Held below 5 because the secondary claim's null is sensitivity-limited and cannot carry the paper."},
+        "novelty_confidence": {"value": 3, "why": "Cap lifted by the keystone, but held at 3 for a specific reason rather than as a default: the nearest prior work (Wang et al. 2017) returned HTTP 403 and I could not read its full text. If that paper already reports consensus-label stability under rater subsets, the primary readout is not new. Reading it is the first prerequisite, before any download."}
+      },
+      "priority_score": 4.00,
+      "priority_arithmetic": "0.20*5 (feas) + 0.15*3 (ident) + 0.15*3 (med) + 0.10*4 (legwork) + 0.10*4 (interest) + 0.10*5 (clarity) + 0.10*4 (neg) + 0.05*5 (data) + 0.05*3 (novelty) = 1.00+0.45+0.45+0.40+0.40+0.50+0.40+0.25+0.15 = 4.00",
+      "regret": {"value": 4, "why": "The four per-reader ratings have been public since 2011 and the field has been reporting accuracy against a collapsed version of them ever since."},
+      "recommendation": "SHORTLIST",
+
+      "unverified_claims": [
+        "BLOCKING FOR NOVELTY: the full text of Wang et al., Acad Radiol 2017 (S1076-6332(17)30009-0). The publisher returned 403. If that paper already varies the rater subset, the primary readout is pre-empted. Obtain it before anything else.",
+        "Whether all four readers supply complete eight-characteristic ratings on four-reader nodules, or whether characteristic-level missingness reduces the usable n below 928.",
+        "The exact aggregation rule used in each published concept-model paper. I assume median-rounded is dominant; this was not verified per paper and it determines which derived label is the right target.",
+        "Whether the 928 figure counts distinct lesions after cross-reader clustering or counts marks. The Methods sentence refers to lesions receiving marks from all four radiologists, which I read as post-clustering, but the clustering the paper used may differ from the one pylidc implements.",
+        "Whether the reported per-characteristic model numbers in HSCNN and the BMC Med Imaging 2023 paper are accuracy, AUC or something else, and on which splits. Both were read from search summaries only.",
+        "That no paper has computed an attenuation-corrected ceiling for LIDC concept prediction. Not established; PubMed, MICCAI/SPIE proceedings and the medical physics literature were not searched."
+      ]
+    },
+
+    {
+      "id": "C3",
+      "search_mode": "B",
+      "title": "Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary",
+      "question": "In the radiologists' own ratings, do the eight LIDC semantic characteristics agree with themselves across readers more than they correlate with each other within a reader - and if not, how many distinct dimensions does a concept model that reports eight separate concept predictions actually have?",
+
+      "why_unasked": "Concept-based models report per-concept accuracy on an assumption nobody states: that the named concepts are separate attributes rather than several names for one underlying impression. Psychometrics has a standard test for exactly this and has had it since 1959 - the multitrait-multimethod matrix, in which convergent validity lives on the diagonal and discriminant validity lives on the off-diagonal - but concept-based ML reports only the diagonal. The off-diagonal has never been assembled because there is no convention that asks for it: a concept-accuracy table has one row per concept and one column for performance, and there is nowhere to put a concept-by-concept matrix. Descriptive correlations among LIDC characteristics have been noted in passing (margin with texture, spiculation with malignancy) but never set against the between-reader agreement that would make them interpretable.",
+
+      "concept_definition": "The same eight non-malignancy LIDC characteristics as in C2, again excluding the malignancy rating. Here the unit of analysis is the individual reader's rating vector for a nodule, and the object of study is the construct structure of the vocabulary itself - not any model's ability to predict it. This is a question about the concepts, not about a classifier.",
+
+      "keystone_prerequisite": "The released XML supplies, for the same nodule, multiple readers' ratings AND multiple characteristics per reader - so that the same-characteristic-across-readers cells and the different-characteristic-within-reader cells of the matrix can both be filled from the same nodules.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Same artifact as C2: Armato et al. 2011 Med Phys 38:915-931, Methods, via PMC3041807, read directly. Per-reader preservation is verbatim ('Each radiologist's lesion-category designation and associated marks ... were stored in a single XML file for each scan after the unblinded read phase'), and 928 of 2669 lesions carry marks from all four readers, giving the reader facet. The Methods also confirm that the nine subjective characteristics - subtlety, internal structure, spiculation, lobulation, sphericity, solidity/texture, margin, calcification, and likelihood of malignancy - were assessed for nodules >= 3 mm, giving the characteristic facet. Both facets are therefore present on the same nodules, which is exactly what a multitrait-multimethod matrix requires. IMPORTANT CAVEAT, same source, same verbatim quote as in C2: only post-unblinded-read ratings are released, so the between-reader cells are inflated by peer exposure. This biases the comparison in the CONSERVATIVE direction for this candidate: inflated convergent (diagonal) values make it harder, not easier, to conclude that discriminant validity fails. A positive finding under this bias is therefore stronger than it looks. RESIDUAL: I did not verify that every reader rates all eight characteristics on every nodule they marked; characteristic-level missingness would thin the within-reader off-diagonal cells and is the first thing to count.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Campbell D.T., Fiske D.W. Convergent and discriminant validation by the multitrait-multimethod matrix.",
+          "identifier": "Psychological Bulletin 56(2):81-105 (1959)",
+          "verification": "NOT_CHECKED in this session - cited from standing knowledge, and must be verified against the primary text before use.",
+          "what_it_did": "Defines the criteria: a trait's measurements should correlate more with other measurements of the same trait than with measurements of different traits by the same method.",
+          "what_it_did_not_do": "Not applied to medical imaging concept vocabularies, which is the borrow."
+        },
+        {
+          "citation": "Semantic characteristic grading of pulmonary nodules based on deep neural networks.",
+          "identifier": "BMC Medical Imaging (2023), DOI 10.1186/s12880-023-01112-4",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Reports that spiculation has the highest correlation with malignancy, followed by lobulation, calcification, subtlety, margin, sphericity, internal structure and texture; notes that 'high correlations exist between different semantic terms, such as margin and texture'.",
+          "what_it_did_not_do": "Uses correlations descriptively to select features for a malignancy model. Does not compare the between-characteristic correlations against the between-reader agreement for the same characteristic, which is the comparison that turns 'these correlate' into 'these are not distinguishable constructs'. Does not estimate the vocabulary's effective dimensionality or draw any consequence for concept-model reporting."
+        },
+        {
+          "citation": "Nodule2vec: a 3D Deep Learning System for Pulmonary Nodule Retrieval Using Semantic Representation; and Bridging Computational Features Toward Multiple Semantic Features with Multi-task Regression.",
+          "identifier": "arXiv:2007.07081; Springer, DOI 10.1007/978-3-319-46723-8_7",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Learn joint representations over the LIDC semantic characteristics, implicitly exploiting their correlation.",
+          "what_it_did_not_do": "Exploit the redundancy without measuring or reporting it, and without asking whether reporting eight separate concept accuracies is meaningful when the underlying vocabulary has fewer degrees of freedom."
+        },
+        {
+          "citation": "Mapping LIDC, RadLex and lung nodule image features.",
+          "identifier": "PMC3056962",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Maps LIDC terminology onto a standard radiology lexicon.",
+          "what_it_did_not_do": "Terminological alignment, not empirical construct structure. A term can be well-defined in RadLex and still not be separately measurable by readers, which is the distinction this candidate is about."
+        }
+      ],
+
+      "existing_assets": [
+        "The same single public artifact as C2 - LIDC-XML-only.zip, CC BY 3.0 - and the same parsers. Running C2 and C3 together roughly doubles the output for less than double the work.",
+        "928 four-reader nodules and 2669 lesions with at least one reader, giving both a strict and a permissive analysis set.",
+        "Established statistical machinery: polychoric correlations for ordinal ratings, ordinal factor analysis, parallel analysis for dimensionality, all in standard open packages.",
+        "Published descriptive correlations to sanity-check the matrix against."
+      ],
+
+      "smallest_decisive_experiment": "CPU only, no images, no model, hours. On four-reader nodules, build the full multitrait-multimethod matrix where the traits are the eight characteristics and the methods are the four reader slots. Fill three families of cells: (a) same characteristic, different readers - convergent; (b) different characteristics, same reader - discriminant, and the one nobody reports; (c) different characteristics, different readers. Apply the Campbell-Fiske criteria explicitly and report how many characteristics pass. Then estimate effective dimensionality: polychoric correlation matrix over the eight characteristics, ordinal factor analysis, and parallel analysis to choose the number of retained dimensions, reported with bootstrap confidence intervals. The headline number is the count of latent dimensions relative to eight. The decisive twist that makes it more than an exercise: repeat the dimensionality estimate after disattenuating the correlation matrix for the between-reader reliability of each characteristic (which C2 produces for free), so the result cannot be dismissed as 'you just measured noise'.",
+
+      "alternative_explanations": [
+        "Shared method variance: one reader rating eight characteristics in one sitting will produce correlated ratings through halo effects, fatigue, or a global impression of the nodule, independent of whether the underlying attributes are distinct. This is a genuine competing explanation and it is exactly what the (c) family of cells is for - if different-characteristic correlations survive when the two ratings come from *different* readers, halo within a single rater cannot be the whole story. This is the design's main identifying move and it is why the four-reader subset matters.",
+        "Scale degeneracy: internal structure and calcification are heavily concentrated on one level, which compresses correlations and distorts factor structure. RULED OUT by using polychoric rather than Pearson correlations, reporting per-characteristic response distributions alongside the matrix, and running the analysis with and without the near-degenerate characteristics.",
+        "Genuine biological co-occurrence: spiculated nodules really do tend to be lobulated. A low-dimensional structure could reflect the world rather than the vocabulary. The design does NOT rule this out and cannot - but it does not need to. The consequence for concept modelling is identical either way: if the vocabulary has three degrees of freedom in the data, then eight reported concept accuracies are not eight independent results and eight intervention handles are not eight independent handles, regardless of why."
+      ],
+
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reasoning": "If the Campbell-Fiske criteria are satisfied - each characteristic agrees with itself across readers more than it correlates with any other characteristic - and parallel analysis retains something close to eight dimensions, that is a clean, positive validation of a clinical concept vocabulary as separately measurable. That result does not currently exist for any medical concept vocabulary that I am aware of, and it would be the strongest available justification for the practice of reporting per-concept performance. It meaningfully strengthens the assumption rather than merely failing to reject it, so it is type 1."
+      },
+
+      "remaining_legwork": [
+        "Same download and same frozen cross-reader clustering rule as C2. Shared cost.",
+        "Count characteristic-level missingness per reader per nodule - the keystone residual - which determines whether the strict four-reader analysis has enough complete cells.",
+        "Statistical development: assigning readers to stable 'method' slots is not trivial, because LIDC readers are not a fixed panel across scans. The matrix must either use exchangeable reader slots with an appropriate variance model, or restrict to scans read by an identifiable reader set. This is the single largest piece of unbuilt methodology in the candidate and should be settled before any computation.",
+        "Verify the Campbell-Fiske primary text and choose a modern operationalisation, since the 1959 criteria are informal by contemporary standards; a confirmatory factor model with correlated traits and methods is the standard replacement and should be prespecified.",
+        "Expected time to first decision: three to four days, most of it on the reader-slot modelling rather than on computation."
+      ],
+
+      "cross_domain": {
+        "borrowed_construct": "The multitrait-multimethod matrix and the convergent/discriminant validity distinction (Campbell and Fiske, 1959), plus effective dimensionality from ordinal factor analysis.",
+        "measurement_it_implies": "Compute and report the full eight-by-eight concept matrix with reader identity as the method facet, apply the discriminant criterion cell by cell, and report the number of retained latent dimensions after disattenuation. Concretely: a table that currently has one column gains sixty-four cells.",
+        "what_changes_if_the_analogy_is_dropped": "Without it you report eight per-concept accuracies and a passing remark that some concepts correlate - which is what the literature already does. The borrowed construct supplies the decision rule (a concept fails discriminant validity when its cross-concept correlation exceeds its own cross-reader agreement) and the consequence (an eight-concept bottleneck with three effective dimensions cannot support eight independent interventions). Neither the rule nor the consequence is reachable from the ML vocabulary alone, so this is load-bearing rather than decorative."
+      },
+
+      "scores": {
+        "clarity": {"value": 4, "why": "The comparison is precise, but 'effective dimensionality' requires a stated estimator and retention criterion to be unambiguous, and the reader-slot construction needs specification before the question is fully well-posed."},
+        "identifiability": {"value": 4, "why": "The different-characteristic-different-reader cells specifically separate halo-within-rater from genuine construct overlap, which is the main alternative explanation. Held below 5 because genuine biological co-occurrence is not separable from vocabulary redundancy - though the consequence for concept modelling is the same either way."},
+        "medical_relevance": {"value": 3, "why": "If a taught clinical vocabulary has fewer usable dimensions than terms, that matters for structured reporting and for concept-based interfaces. But it is a statement about descriptive vocabulary rather than about a diagnostic decision, and no patient outcome is involved."},
+        "interest": {"value": 4, "why": "'Eight concepts, three dimensions' is a compact and portable result, and the psychometric framing is unfamiliar enough in this field to be genuinely useful. Held below 5 because the finding that morphological descriptors correlate will surprise no radiologist; only its quantification and its consequence for concept models will."},
+        "prior_legwork": {"value": 4, "why": "Data, parsers, statistical packages and descriptive correlations all exist. Short of 5 because the reader-as-method-facet construction has to be built."},
+        "feasibility": {"value": 5, "why": "Cap lifted, keystone INSPECTED_TRUE. One public file, CPU only, no model, no access application, and it shares all infrastructure with C2."},
+        "data_readiness": {"value": 5, "why": "Public, CC BY 3.0, no application, directly usable."},
+        "evaluation_readiness": {"value": 3, "why": "Polychoric correlations and parallel analysis are standard, but there is no accepted convention for a multitrait-multimethod analysis with non-fixed raters, and no baseline in this literature to compare a dimensionality estimate against. The metric has to be argued for, not merely cited."},
+        "negative_result_value": {"value": 4, "why": "A pass on the Campbell-Fiske criteria would be the first empirical validation of a medical concept vocabulary as separately measurable, which is a real positive contribution. Held below 5 because a pass is somewhat less consequential for practice than a failure would be."},
+        "novelty_confidence": {"value": 3, "why": "Cap lifted by the keystone, but held at 3: descriptive correlation analyses of LIDC characteristics clearly exist, and I did not search the psychometrics-in-radiology literature, observer-performance journals, or Academic Radiology systematically. A convergent/discriminant framing may exist there under different vocabulary, which is precisely the kind of thing a shallow arXiv-and-web search misses."}
+      },
+      "priority_score": 4.05,
+      "priority_arithmetic": "0.20*5 (feas) + 0.15*4 (ident) + 0.15*3 (med) + 0.10*4 (legwork) + 0.10*4 (interest) + 0.10*4 (clarity) + 0.10*4 (neg) + 0.05*5 (data) + 0.05*3 (novelty) = 1.00+0.60+0.45+0.40+0.40+0.40+0.40+0.25+0.15 = 4.05",
+      "regret": {"value": 4, "why": "A sixty-year-old validity test, a public ratings file, and an entire subfield reporting only the diagonal."},
+      "recommendation": "SHORTLIST",
+
+      "unverified_claims": [
+        "Whether every reader rates all eight characteristics on every nodule they mark. Characteristic-level missingness directly determines the usable cell counts and is the first count to run.",
+        "How reader identity is represented in the XML and whether readers can be assigned to stable slots across scans. If readers are fully anonymous and non-tracked, the method facet must be modelled as exchangeable, which weakens the Campbell-Fiske application. THIS IS THE LARGEST DESIGN RISK and it is a fact about the XML I did not inspect.",
+        "The Campbell and Fiske 1959 primary text was not opened in this session.",
+        "The BMC Medical Imaging 2023 correlation findings and the 'margin and texture' remark are from a search summary only.",
+        "Whether an ordinal factor analysis of the LIDC characteristics has already been published. Not established; observer-performance and radiology methodology journals were not searched."
+      ]
+    },
+
+    {
+      "id": "C4",
+      "search_mode": "A",
+      "title": "When concepts and diagnoses are extracted from the same sentence, what is left for the image to explain?",
+      "question": "In chest-imaging concept models whose concept labels and disease labels are both derived from the same radiology reports by the same rule pipeline, what fraction of the learned concept-to-disease association is fixed by the extraction rules before any image is seen?",
+
+      "what_was_left_undone": "XpertCausal (arXiv:2605.07785) builds a radiologist-guided causal concept bottleneck for chest X-ray in which pathologies are modelled as causing radiographic findings, inverted by Bayesian inference at test time. I read its HTML directly. It states that both the concept annotations and the pathology labels were derived 'directly from the associated radiology reports using a rule-based extraction pipeline, using radiologist-curated phrase lists and negation handling', with Findings and Impression sections extracted before phrase mapping, and 11 concepts refined by a board-certified radiologist. Its stated limitations are about scale and single-radiologist design: 'the radiologist-defined association matrix used in this work reflects a relatively limited concept space of 11 concepts and six target labels ... both the concept definitions and the association matrix were designed by a single board-certified radiologist', with future work naming 'larger concept and pathology spaces' and 'a formal radiologist evaluation of explanation quality'. What is not named anywhere is the independence of the two extractions. If one sentence - 'focal consolidation consistent with pneumonia' - triggers both the concept consolidation and the label pneumonia, then the concept-to-pathology edge that the causal model recovers was manufactured by the annotation pipeline, and the image is not needed to explain it. The paper stops one experiment short of checking whether its causal structure survives when the concept and the label cannot come from the same sentence.",
+
+      "concept_definition": "A concept is one of the 11 radiographic findings that XpertCausal extracts from report text via curated phrase lists (consolidation, opacity, effusion and similar). These are named radiographic findings with independent definitions, which meets the charter's bar; what is at issue is not whether the *term* is a legitimate concept but whether the *label* carries information separate from the disease label it is supposed to explain. The charter's constraint that report text must not be treated as a concept without justification is exactly the pressure point: here the justification is a curated phrase list, and the question is whether that justification survives contact with the sentences it is applied to.",
+
+      "keystone_prerequisite": "The concept phrase lists and the pathology phrase lists are released as separate inspectable artifacts, so that their lexical overlap can be measured without needing the report corpus at all.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "I attempted to open the repository the paper names as public - https://anonymous.4open.science/r/XpertCausal-4D74/ - and received HTTP 403 Forbidden. The anonymous-review host blocks automated fetching, so I could not see the file tree, could not confirm that concept and pathology phrase lists are shipped as separate files, and could not read a single phrase. The paper's own text states code and radiologist-curated phrase lists are 'publicly available' at that URL, and notes that permanent availability depends on post-publication hosting. Everything I know about this candidate's central artifact therefore comes from the paper's description of it, which is exactly the failure mode the charter's keystone rule exists to prevent. Feasibility and novelty_confidence are capped at 3. Separately and independently blocking: the study uses MIMIC-CXR (40,083 PA CXR-report pairs, one image per study, 80/10/10 split), which requires credentialed PhysioNet access. Under the charter that is unconfirmed DUA-gated data, and scout-001 excluded MIMIC on the same ground.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Radiologist-Guided Causal Concept Bottleneck Models for Chest X-Ray Interpretation (XpertCausal).",
+          "identifier": "arXiv:2605.07785",
+          "verification": "INSPECTED (arXiv HTML)",
+          "what_it_did": "Combines an interpretable concept bottleneck with a noisy-OR generative model in which 'multiple independent pathologies may each contribute to the presence of a radiographic finding', inverted by Bayesian inference; 11 concepts, six target labels, association matrix specified by a radiologist; concepts and labels both extracted from MIMIC-CXR reports by one rule pipeline.",
+          "what_it_did_not_do": "Never tests whether concept and label extraction are independent. The causal direction is imposed by design and validated against labels produced by the same pipeline as the concepts. Its own limitations section is about concept-space size, not about extraction circularity."
+        },
+        {
+          "citation": "Towards Interpretable Radiology Report Generation via Concept Bottlenecks Using a Multi-agentic RAG.",
+          "identifier": "arXiv:2412.16086; Springer DOI 10.1007/978-3-031-88714-7_18",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Report generation mediated by concept bottlenecks, again with report-derived concepts.",
+          "what_it_did_not_do": "Same unexamined assumption. Listed to establish that the practice is a field norm rather than one paper's choice - which is what makes the question worth asking about the practice rather than about one system."
+        },
+        {
+          "citation": "Zinovev et al. 2012 (DOI 10.1007/s10278-011-9445-3) and the objection logged in evidence/decisions.md that LIDC's eight characteristics and its malignancy rating come from the same reader in the same session.",
+          "identifier": "internal ledger + PMC3348979",
+          "verification": "INSPECTED (project ledger; PMC full text)",
+          "what_it_did": "Established, in this project, that same-source concept and outcome annotation makes concept-to-outcome prediction a measure of annotation consistency rather than concept validity.",
+          "what_it_did_not_do": "The objection was logged as unresolved and never turned into an experiment. C4 is the attempt to turn it into one, generalised from a shared reader to a shared sentence."
+        },
+        {
+          "citation": "Measuring What Matters: Synthetic Benchmarks for Concept Bottleneck Models.",
+          "identifier": "arXiv:2606.04326 (3 June 2026)",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Synthetic benchmarks that vary annotation quality and completeness to isolate what drives concept-bottleneck performance, motivated by the scarcity of concept-labelled datasets.",
+          "what_it_did_not_do": "Controls annotation quality synthetically. Does not measure annotation-induced association on a real corpus, which is the quantity here."
+        }
+      ],
+
+      "existing_assets": [
+        "The XpertCausal paper's full design, concept list and association matrix are published.",
+        "Phrase lists and code are stated to be released - UNVERIFIED, see keystone.",
+        "Open-i / Indiana University chest X-ray collection is a genuinely public report-plus-image corpus and is the fallback corpus if MIMIC credentialing is not obtained - UNVERIFIED in this session as to size, licence and report-section structure.",
+        "The measurement is text-only: no imaging model, no GPU, no training. Whatever else is true, this is not a compute-limited candidate."
+      ],
+
+      "smallest_decisive_experiment": "Three arms in increasing cost, and the first needs no data at all. Arm (a), artifact-only: take the released phrase lists and compute, for each of the 66 concept-by-pathology pairs, whether the trigger phrases overlap or are substrings of one another. Any overlap is an association guaranteed by the pipeline before an image is seen, and finding one is itself the result - this is a one-hour check that either kills or licenses the rest. Arm (b), corpus-level, text-only: run the released extraction on a report corpus and measure the sentence-level co-trigger rate - the fraction of pathology-positive studies whose concept positives are produced by the SAME sentence as the pathology label. Arm (c), the decisive one: recompute concept labels using only sentences DISJOINT from the sentence that produced the pathology label, refit the concept-to-pathology association, and report how much of it survives. An association that survives sentence-disjoint recomputation is evidence of genuine clinical co-occurrence; one that collapses was extraction. Arm (c) is what separates this from a complaint.",
+
+      "alternative_explanations": [
+        "Genuine clinical co-occurrence: consolidation really does accompany pneumonia, so phrase overlap or co-triggering is not by itself proof of circularity. This is the central competing explanation and arm (c) is built specifically to address it - but only partially, because a radiologist who writes the finding and the diagnosis in one sentence may simply be writing efficiently about a real co-occurrence. The design bounds the extraction-induced share; it does not cleanly isolate it.",
+        "Negation-handling errors in the rule pipeline could produce spurious associations that look like circularity but are ordinary label noise. PARTIALLY RULED OUT by reporting negated and hedged sentences separately and by checking whether the effect concentrates in them.",
+        "Corpus substitution: if MIMIC is unavailable and the fallback corpus is used, any finding is about the pipeline applied to a different corpus with different reporting conventions, not about the published numbers. NOT RULED OUT, and it must be stated in the title of any write-up rather than in a footnote.",
+        "Suspicion about my own framing: 'what is left for the image to explain' is a better sentence than the experiment currently deserves. Arms (a) and (b) are descriptive statistics about an annotation pipeline. Only arm (c) touches the causal claim, and arm (c) needs the corpus the charter says we should not depend on. Identifiability is scored 3 for that reason and the headline should be resisted until arm (c) actually runs."
+      ],
+
+      "anticipated_negative": {
+        "classification": "decisive for this pipeline, sensitivity-limited for the general claim",
+        "reasoning": "If concept and pathology triggers turn out to be lexically disjoint and the association survives sentence-disjoint recomputation, that is a decisive endorsement of report-derived concept supervision for this specific pipeline, and it converts a standing objection in this project's own ledger into a resolved one. It does not generalise to other extraction pipelines, whose phrase lists differ, so the general claim would remain open at whatever sensitivity one corpus supports."
+      },
+
+      "remaining_legwork": [
+        "BLOCKING FIRST STEP: obtain the phrase lists. The anonymous host returns 403 to automated fetching; a browser may succeed, and if not, author correspondence is required. Until this is done the candidate has no inspected keystone and arm (a) cannot run.",
+        "Decide the MIMIC question. PhysioNet credentialing requires CITI training and a reviewed application; the charter treats it as unconfirmed. Either the credential is obtained - in which case this candidate improves substantially and its scores should be revised upward - or the study is rebuilt on a public corpus and its claims narrowed to that corpus.",
+        "If the fallback route is taken: verify the Open-i / Indiana collection's licence, size, report-section structure and whether Findings and Impression are separately delimited, since the extraction pipeline depends on that split.",
+        "Reimplement or adapt the released extraction code, including negation handling, and validate it reproduces the paper's reported concept prevalences before any conclusion is drawn from it.",
+        "Statistical development: define the share of association attributable to extraction, with a confidence interval, in a way that does not depend on an arbitrary model class.",
+        "Expected time to first decision: one hour after the phrase lists arrive, for arm (a). Weeks for arms (b) and (c), dominated by the access decision rather than by any computation."
+      ],
+
+      "cross_domain": {
+        "borrowed_construct": "Criterion contamination from psychometrics and personnel selection - the situation in which a predictor and the criterion it is validated against share a common source, so their observed relationship is partly an artifact of measurement rather than of the construct.",
+        "measurement_it_implies": "Quantify shared-source variance directly by re-deriving the predictor from a source disjoint from the criterion - here, sentences that did not produce the label - and reporting the drop in association. That is arm (c), and it is a specific procedure rather than a mood.",
+        "what_changes_if_the_analogy_is_dropped": "You would observe that concepts and labels come from the same reports, call it a limitation, and move on - which is what the field currently does. Criterion contamination supplies the design that turns the limitation into a measured quantity: the disjoint-source re-derivation. Without it there is no arm (c), and without arm (c) this candidate is a complaint rather than an experiment. So the borrow is load-bearing, and it is the reason the candidate is included at all despite its access problems."
+      },
+
+      "scores": {
+        "clarity": {"value": 4, "why": "The question is precise and arm (c) is a well-defined procedure, but 'fraction of the association fixed by the rules' needs an estimator specified before it is unambiguous."},
+        "identifiability": {"value": 3, "why": "Arm (c) addresses the main alternative - genuine clinical co-occurrence - but does not cleanly separate it from efficient report writing, and arms (a) and (b) on their own are descriptive. The design rules out negation-error artifacts and rules in extraction-induced association as a bounded share; it does not isolate the mechanism."},
+        "medical_relevance": {"value": 4, "why": "If the explanatory concepts in a chest-imaging model are a restatement of the diagnosis label, a clinician auditing that explanation is being shown their own report back. That bears directly on whether concept-mediated explanations can be trusted in reporting workflows. Held below 5 because it audits an annotation practice rather than a clinical decision."},
+        "interest": {"value": 4, "why": "The generalisation from this project's own logged LIDC objection - same reader, same session - to same sentence is a clean line, and it applies to a large share of report-derived concept work. Held below 5 because circularity worries about report-derived labels are already voiced in the field, if not measured."},
+        "prior_legwork": {"value": 3, "why": "A well-specified target paper with a published design and stated-public artifacts, but the artifacts are unverified, no corpus access is confirmed, and the extraction pipeline would likely need reimplementation."},
+        "feasibility": {"value": 3, "why": "CAPPED at 3: keystone_status is NOT_INSPECTED. Independently, this cap is not merely formal - the MIMIC dependency and the 403 on the artifact host are both real barriers, and I would not score this above 3 even if the cap were lifted."},
+        "data_readiness": {"value": 2, "why": "The primary corpus is credentialed PhysioNet data, which the charter treats as unconfirmed and which scout-001 excluded on the same ground. The public fallback corpus is unverified as to structure and licence."},
+        "evaluation_readiness": {"value": 3, "why": "Phrase overlap and co-trigger rates are trivial to compute, but the disjoint-source association estimator has to be designed and has no established baseline in this literature."},
+        "negative_result_value": {"value": 3, "why": "A clean pass would resolve a standing objection in this project's ledger, which is worth something. Held down because the result would be specific to one pipeline and one corpus, and because a null from arm (a) alone is not informative on its own."},
+        "novelty_confidence": {"value": 3, "why": "CAPPED at 3 by the keystone status. Independently uncertain: the target paper is very recent, and I did not search for existing critiques of report-derived concept supervision, which is a plausible place for this exact argument to have been made already."}
+      },
+      "priority_score": 3.30,
+      "priority_arithmetic": "0.20*3 (feas) + 0.15*3 (ident) + 0.15*4 (med) + 0.10*3 (legwork) + 0.10*4 (interest) + 0.10*4 (clarity) + 0.10*3 (neg) + 0.05*2 (data) + 0.05*3 (novelty) = 0.60+0.45+0.60+0.30+0.40+0.40+0.30+0.10+0.15 = 3.30",
+      "regret": {"value": 3, "why": "The question is worth asking and the ledger already contains its ancestor, but nothing about the opportunity is time-limited and the access barrier is real."},
+      "recommendation": "REVISE",
+      "revision_note": "Do arm (a) first and nothing else. Obtaining the phrase lists costs an email and settles whether there is a study here: if concept and pathology triggers overlap lexically, the candidate becomes strong and should be rescored; if they are disjoint, the interesting version requires MIMIC and the candidate should be paused pending a decision on PhysioNet credentialing. Do not begin the corpus work before the phrase lists are in hand.",
+
+      "unverified_claims": [
+        "BLOCKING: whether the XpertCausal repository actually contains separate, inspectable concept and pathology phrase lists. The host returned 403 and I saw nothing. Everything downstream depends on this.",
+        "BLOCKING: whether PhysioNet credentialed access to MIMIC-CXR is held or obtainable within a useful timeframe. If not, the study changes corpus and its claims narrow correspondingly.",
+        "Whether the Open-i / Indiana chest X-ray collection is genuinely download-free, what its licence is, how many report-image pairs it contains, and whether Findings and Impression are separately delimited. Asserted from standing knowledge, checked nowhere in this session.",
+        "The Campbell-Fiske-adjacent criterion-contamination literature was not cited to a primary source and must be before the cross-domain claim is made in writing.",
+        "Whether the extraction pipeline's released code is complete enough to rerun, or whether only the phrase lists are shipped.",
+        "Whether anyone has already published a circularity critique of report-derived concept supervision in chest imaging. Not searched.",
+        "The arXiv:2412.16086 and arXiv:2606.04326 descriptions are from search summaries; neither was opened."
+      ]
+    }
+  ],
+
+  "portfolio_summary": {
+    "ranking_by_priority": [
+      {"id": "C1", "score": 4.10, "search_mode": "B", "keystone": "INSPECTED_TRUE", "recommendation": "SHORTLIST"},
+      {"id": "C3", "score": 4.05, "search_mode": "B", "keystone": "INSPECTED_TRUE", "recommendation": "SHORTLIST"},
+      {"id": "C2", "score": 4.00, "search_mode": "B", "keystone": "INSPECTED_TRUE", "recommendation": "SHORTLIST"},
+      {"id": "C4", "score": 3.30, "search_mode": "A", "keystone": "NOT_INSPECTED", "recommendation": "REVISE"}
+    ],
+    "ranking_caveat": "C1, C3 and C2 span 0.10 points. That is far inside the noise of subjective 1-5 ratings and the ordering among them should not be treated as meaningful. The only ranking statement I will defend is that all three sit clearly above C4, and that C4's gap is driven by two verified barriers rather than by taste.",
+    "regret_reported_separately": {"C1": 4, "C2": 4, "C3": 4, "C4": 3},
+    "evaluation_readiness_reported_separately": {"C1": 4, "C2": 4, "C3": 3, "C4": 3},
+
+    "what_changed_from_scout_001": "Scout-001 produced six candidates of which three died on a single unchecked fact each. This cycle inverted the order of operations: keystones were checked before scores were written, and two intended candidates were killed or reformulated by that check before they reached the page. A CT-RATE label-provenance candidate was dropped after arXiv:2606.22382 turned out to have done most of it in June 2026. A LIDC blinded-versus-unblinded reliability candidate was killed by the Armato Methods sentence stating that only post-unblinded-read marks were released, and was reformulated into C2 with the non-independence stated as a directional bound rather than as a measurable quantity. Neither of those deaths appears in the portfolio, which is the point.",
+
+    "correlated_risks": [
+      "C2 and C3 share a dataset, an artifact, a parser and a frozen clustering rule. A problem with cross-reader nodule clustering in LIDC damages both at once. That clustering step is the same class of hazard - linkage assumed rather than verified - that killed idea 001, with one important difference: here the failure is visible immediately as a low yield count, before any analysis, rather than surfacing after a result has been formed.",
+      "C1 and C4 are both gated, in different ways and to different degrees. C1's gate is a click-through research-use agreement of unknown approval mechanism; C4's is credentialed PhysioNet access that the charter explicitly treats as unconfirmed. These are not equivalent barriers and should not be scored as if they were.",
+      "Three of four candidates are measurement studies whose value depends on the measurement being new. My novelty search was arXiv, publisher pages and general web indexes only. No systematic search of PubMed, MICCAI, SPIE Medical Imaging, Medical Physics, Academic Radiology or Radiology: Artificial Intelligence was run - and for C2 and C3 in particular, observer-performance and radiology-methodology journals are exactly where a prior version of these analyses would live. Every novelty_confidence in this portfolio is 3 and none of them should be read as better than that."
+    ],
+
+    "charter_theme_coverage": {
+      "1_reliability_and_causal_validity": ["C1", "C2", "C3"],
+      "2_specified_vs_discovered_concepts": [],
+      "3_concept_leakage_and_residual_information": [],
+      "4_faithfulness_of_concept_mediated_reasoning": ["C4"],
+      "5_concept_stability_across_shifts_and_groups": ["C1"],
+      "6_concept_supervision_for_calibration_robustness_failure_detection": [],
+      "7_low_cost_audits_of_published_models": ["C1", "C4"],
+      "8_provenance_and_construction_of_concept_labels": ["C2", "C4"],
+      "coverage_note": "Theme 6 was flagged in scout-001 as under-served and remains uncovered - I did not find a candidate in it that could clear a keystone check this cycle, and I am not going to invent one. Theme 3 lost its representation when the CT-RATE provenance candidate was dropped. Theme 1 is now over-represented at three of four, which is a direct consequence of the keystone rule: reliability questions are the ones whose prerequisites can actually be verified from public artifacts in an afternoon. That is a real selection effect on this portfolio and it is worth naming rather than presenting the concentration as a judgement about where the best questions are."
+    },
+
+    "recommended_next_action": "Two literature checks and one arithmetic check, none of which need code, data access or the coding gate. First, obtain the full text of Wang et al., Acad Radiol 2017 (S1076-6332(17)30009-0) - the publisher returned 403 to me. If that paper already varies the rater subset, C2's primary readout is pre-empted and the LIDC pair collapses to C3 alone. Second, request the XpertCausal phrase lists, since arm (a) of C4 is an hour's work once they exist and settles that candidate either way. Third, accept the CT-RATE terms and count the validation-split reconstruction structure from the 174 kB label CSV - this is the only remaining residual on C1's keystone and it decides the candidate's cost profile. All three are inspection tasks. My preference, stated as a preference rather than as a conclusion: C1 is the most likely of the four to produce something the field has to react to, because it is the only one whose primary readout needs no ground truth at all.",
+
+    "coding_gate_status": "NOT SATISFIED for any candidate. Per docs/COLLABORATOR_RULES.md, probe code requires a reviewed idea card, a feasibility memo, a probe contract and explicit human approval. This document is a scouting portfolio only. No code was written in this stage."
+  },
+
+  "stage_limitations": [
+    "No shell network access was available, so nothing was downloaded and no data file was opened. Every keystone marked INSPECTED_TRUE rests on a directly fetched primary artifact - a raw repository README, a HuggingFace file tree, or a paper's Methods section - and not on a downloaded dataset. Where a claim required opening a gated CSV, it is listed under unverified_claims rather than being asserted.",
+    "Three primary sources I wanted resisted retrieval and this shaped the portfolio: the Academic Radiology 2017 observer study returned 403 (it is C2's nearest prior work and its largest novelty risk), the XpertCausal anonymous repository returned 403 (it is C4's keystone artifact, which is why that candidate is capped), and CT-RATE's CSVs are behind a click-through gate (which is why C1's keystone carries a named residual). Each is recorded against the candidate it affects rather than in a general disclaimer.",
+    "Novelty search covered arXiv, publisher landing pages and general web indexes. It did not cover PubMed, Embase, Google Scholar citation graphs, or the proceedings of MICCAI, IPMI, MIDL and SPIE Medical Imaging. For C2 and C3 the relevant literature is as likely to sit in observer-performance and medical-physics venues as in ML venues, and none of those were searched. 'I did not find it' is not evidence that it does not exist, and every novelty_confidence score here is 3 for that reason.",
+    "Priority scores are the transparent weighted sum defined in docs/SCORING_RUBRIC.md. They are not probabilities. The top three differ by 0.10 and should be treated as tied.",
+    "The charter's emphasis on vascular and tubular anatomy is not represented. I looked for a public vascular or airway CT corpus carrying named clinical concepts rather than segmentation masks and did not find one I could verify, and the charter forbids treating segmentation labels as concepts without justification. Reported as a gap rather than filled with a candidate I do not believe in.",
+    "C4 depends on MIMIC-CXR, which the charter treats as unconfirmed DUA-gated data and which scout-001 excluded on that basis. It is included as the cycle's Mode A representative with that violation stated plainly and scored into data_readiness, not smoothed over. If credentialed PhysioNet access is in fact already held, that changes this candidate materially and would also reopen the chest-radiography candidates scout-001 set aside - which would be worth saying out loud before the next cycle."
+  ]
+}
