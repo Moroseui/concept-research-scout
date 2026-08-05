@@ -1,0 +1,11 @@
+# Debate transcript
+
+## Round 1 — CRITIC
+
+**Position:** The observational score–measurement analysis cannot identify that CT-CLIP uses absolute heart volume in millilitres, so it cannot support the original rung-3 deliverable or the claimed body-size-dependent over/under-calling.
+
+**Argument:** Heart volume, transverse diameter, axial silhouette area, chamber shape, pericardial contour, diaphragm contact, pulmonary vascular changes, and thorax occupancy are correlated consequences of the same anatomy. A monotone association, partial regression, or matched-volume comparison can show only which automatic measurement predicts the frozen ClassFine cardiomegaly score better in CT-RATE; it cannot distinguish a model that uses volumetric extent from one that uses any correlated two-dimensional or morphological cue. The proposed natural variation in frame fraction is not a clean discriminator: the official CT-CLIP loader resamples to 0.75 x 0.75 x 1.5 mm and then center-crops or pads to 480 x 480 x 240, so frame occupancy also varies with coverage, table position, truncation, and preprocessing. Moreover, the clause that the model therefore over-calls large patients and under-calls small ones requires an independent clinical reference standard and a prespecified decision threshold; neither the label-free association nor CT-RATE's report-derived Cardiomegaly label supplies one. The repair suggested in the critique—asking whether score is better explained by whole-heart volume than by width, area, or an indexed measure—is a useful screening question, but the identity check fails: it replaces causal cue identification with comparative prediction and therefore no longer answers the original question, "is the model using millilitres?" It should remain a gate for a later intervention, not be accepted as the original candidate's result.
+
+**What would change my mind:** Show a preregistered, in-distribution intervention or naturally paired same-patient design that changes physical heart volume relative to a stable thorax while holding the leading correlated cues and preprocessing artifacts fixed or measuring them as negative controls, and demonstrate a corresponding score change; separately, support the over/under-calling clause with an independent clinical reference and frozen operating threshold.
+
+**Status:** OPEN
