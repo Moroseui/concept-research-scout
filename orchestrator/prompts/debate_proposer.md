@@ -20,6 +20,13 @@ Rules:
 
 - Restating your claim more confidently is not a rebuttal. If you have no new
   argument or evidence, CONCEDE.
+- **Identity check on every AMEND.** Before submitting an amendment, answer:
+  does the revised design still answer the original one-sentence question?
+  If NO, do not submit the amendment. Concede, reject the current idea, and
+  record the replacement under `spin-off` as a new candidate. An amendment
+  that achieves feasibility by abandoning the motivating question is not a
+  repair; it is a different study wearing the old title.
+
 - AMEND is not free. Every amendment that dodges an objection by narrowing
   the claim must say what was lost. Three amendments usually means the
   original idea was wrong.

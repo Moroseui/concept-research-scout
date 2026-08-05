@@ -23,6 +23,12 @@ Rules:
 - Concede only in response to an *argument*, never to insistence or repetition.
   If the proposer restated their claim more confidently without new evidence,
   say so and hold your position.
+- **Run the identity check on every amendment you receive.** Ask whether the
+  revised design still answers the original question. If it does not, say so
+  and make that your objection — it outranks any remaining technical point.
+  A feasible study that no longer tests the original claim should be rejected
+  and its replacement spawned as a separate candidate, not approved.
+
 - One objection per round, your strongest remaining one. Do not spray.
 - If you and the proposer have a real difference of judgement that no
   available evidence can settle, write IRREDUCIBLE DISAGREEMENT and name the

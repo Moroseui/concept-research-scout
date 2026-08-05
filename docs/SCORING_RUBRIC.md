@@ -1,32 +1,46 @@
 # Idea scoring rubric
 
-Score each dimension from 1 to 5. Explain every score.
+Score each dimension 1-5. Explain every score.
 
 | Dimension | 1 | 3 | 5 |
 |---|---|---|---|
 | Clarity | vague | testable with refinement | one-sentence precise question |
+| **Identifiability** | a positive result has many explanations | design rules out the main alternative | design isolates the claimed mechanism |
 | Medical relevance | cosmetic | plausible utility | clear meaningful consequence |
 | Interest | routine | useful niche result | surprising or broadly compelling |
-| Prior legwork | little exists | some reusable assets | data/code/labels/checkpoints largely ready |
+| Prior legwork | little exists | some reusable assets | data/code/labels/checkpoints ready |
 | Feasibility | major barriers | manageable | first result in days |
 | Data readiness | uncertain/restricted | accessible with work | public and directly usable |
 | Evaluation readiness | unclear | custom metrics needed | accepted metrics and baselines exist |
-| Negative-result value | low | diagnostic | directly resolves a live claim |
+| Negative-result value | uninterpretable null | sensitivity-limited null | decisive negative |
 | Novelty confidence | likely covered | uncertain | precise verified gap |
 | Regret | little concern | worth considering | obvious-in-hindsight opportunity |
 
+## Hard caps
+
+`feasibility` and `novelty_confidence` may not exceed **3** unless
+`keystone_status` is `INSPECTED_TRUE`. See the charter.
+
+`negative_result_value` may not exceed **2** if the anticipated negative is
+classified as uninterpretable.
+
 ## Priority score
 
-Use a transparent weighted score, not a fake probability:
+Transparent weighted sum, not a fake probability:
 
 - 20% feasibility
-- 15% prior legwork
+- **15% identifiability**
 - 15% medical relevance
-- 15% interest
+- 10% prior legwork
+- 10% interest
 - 10% clarity
 - 10% negative-result value
 - 5% data readiness
-- 5% evaluation readiness
 - 5% novelty confidence
 
-Regret is reported separately and must not override weak scientific value.
+Evaluation readiness and regret are reported separately and must not override
+weak scientific value.
+
+Identifiability enters at 15% because the first cycle produced several
+candidates with strong headlines whose designs could not isolate the stated
+phenomenon. Interest was compensating for weak measurement validity.
