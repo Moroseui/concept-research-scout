@@ -1,0 +1,147 @@
+{
+  "id": "C2",
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "Ask the chest-CT foundation model to diagnose a volume with no patient in it",
+  "question": "When every voxel inside the body contour is replaced with a constant and only the air, table, positioning aids and reconstruction field-of-view boundary are left, how much of the released chest-CT foundation model's abnormality AUROC survives?",
+  "why_unasked": "The question is unasked because it is embarrassing to ask and cheap to answer, which is an unstable combination. Two habits keep it invisible. First, in 3D CT the analysis unit is the volume and the body fills most of it, so 'the background' is not a category anyone names - unlike histopathology, where whitespace is an explicit preprocessing concern and where background and site signatures are known to survive stain normalisation. Second, CT is trusted because it is calibrated: air is minus one thousand Hounsfield units everywhere, so it feels definitionally information-free. But air is not information-free. It carries the quantum noise magnitude set by the tube current, the noise correlation structure set by the reconstruction kernel, the reconstruction field-of-view boundary, truncation and beam-hardening streaks radiating from the body, the table and mattress, positioning aids, arm position, and the extent of the scan - and every one of those is a function of the scanner, the protocol, the technologist and the patient's size. Nobody asked because everyone assumes the answer, and the assumption has never been priced.",
+  "rung": {
+    "current": 2,
+    "why": "This is a pure rung 2 instrument. It does not ask what biological thing the model found; it asks whether what the model found is present in a region that contains no biology at all. A positive result is a direct artifact demonstration.",
+    "what_would_move_it_up": "Nothing here moves to rung 3, and that is deliberate. This candidate's job is to place a floor under every rung-3 claim made on this corpus: any concept whose body-excluded AUROC is materially above chance has that much of its apparent performance unattributable to anatomy until proven otherwise."
+  },
+  "suspected_signal": "Quantum noise magnitude (voxel standard deviation in air, which scales inversely with the square root of the tube-current-time product and therefore encodes the automatic-exposure-control response to the patient's attenuation, i.e. body habitus), the noise correlation structure imposed by the reconstruction kernel, the reconstruction field-of-view diameter and the resulting circular boundary, truncation and beam-hardening streaks whose amplitude scales with body size and arm position, and the presence and shape of the table, mattress and positioning aids. All of these are scanner-and-protocol properties, and all are visible to a convolutional or transformer encoder that sees the whole 480 by 480 by 240 grid.",
+  "keystone_prerequisite": "The released CT-RATE volumes retain the region outside the patient's body, AND the released checkpoint's own preprocessing pipeline neither masks nor crops that region away - so that a body-excluded input is both constructible and in-distribution for the model rather than an out-of-distribution image whose score means nothing. The second clause is what my inference needs: if the pipeline already discarded the exterior, a body-excluded input would be a novel image type and any score on it would be uninterpretable.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "I fetched and read the official preprocessing script at raw.githubusercontent.com/ibrahimethemhamamci/CT-CLIP/main/scripts/data_inference_nii.py. It applies the per-volume rescale slope and intercept ('img_data = slope * img_data + intercept'), clips to 'hu_min, hu_max = -1000, 1000', resamples to 'target_x_spacing = 0.75, target_y_spacing = 0.75, target_z_spacing = 1.5' by trilinear interpolation, crops or pads to 'target_shape = (480,480,240)', and normalises by dividing by one thousand. There is no body mask, no lung mask, no thresholding to tissue, and no anatomical cropping anywhere in the pipeline; the full volume is processed. The lower clip bound of exactly minus one thousand Hounsfield units is the attenuation of air, which confirms the exterior is retained at full dynamic range rather than being floored away. The transverse extent kept is 480 voxels at 0.75 mm, i.e. 360 mm, which for a typical chest reconstruction field of view retains the peripheral air, the boundary and generally the table. RESIDUAL, stated plainly: I inferred the field-of-view arithmetic rather than measuring the actual body-to-frame ratio on a real CT-RATE volume, and a centred 360 mm crop could clip the table in large-field reconstructions. Measuring the distribution of body-fraction-of-frame over a sample of volumes is the first step of the experiment, not an assumption of it.",
+  "dies_like_prior": "No prior failure mode applies, because no label enters the primary comparison. The readout is the drop in the model's own score between the full volume and the body-excluded volume of the same patient - the model measured against itself, which is the structural move that let idea 004 survive. Label quality enters only in the secondary AUROC arm, and it enters in the safe direction: CT-RATE's labels are RadBERT-extracted from reports and therefore noisy, but label noise attenuates a measured association toward chance. A body-excluded AUROC that is substantially above chance despite noisy labels is therefore a lower bound on the artifact, not an artifact of the labels. That asymmetry is the reason this candidate cannot die the way ideas 001, 002, 003 and 005 died.",
+  "closest_prior_work": [
+    {
+      "citation": "Hamamci I.E. et al. Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography (CT-RATE, CT-CLIP, CT-CHAT).",
+      "identifier": "arXiv:2403.17834",
+      "verification": "INSPECTED (arXiv abstract record) plus INSPECTED preprocessing script in the official repository.",
+      "what_it_did": "Released the corpus, the 18-abnormality labels and the CT-CLIP, VocabFine, ClassFine and RadBertClassifier checkpoints.",
+      "what_it_did_not_do": "Reports zero-shot and supervised AUROC. Performs no region ablation of any kind and offers no evidence that the reported performance comes from within the body."
+    },
+    {
+      "citation": "Shortcut Learning in Medical Image Segmentation.",
+      "identifier": "arXiv:2403.06748",
+      "verification": "SEARCH_SUMMARY_ONLY",
+      "what_it_did": "Catalogues shortcut cues in medical imaging - annotations, ink markings, rulers, calipers, text burned into ultrasound.",
+      "what_it_did_not_do": "The catalogued shortcuts are all marks a human placed on the image. The hypothesis here is different in kind: the shortcut is the physics of the acquisition recorded in empty space, which no human placed and no annotation removal would catch."
+    },
+    {
+      "citation": "Histopathology shortcut and site-signature literature (e.g. Shortcut Learning in Glomerular AI, arXiv:2604.07936, and the general finding that residual site-specific signatures survive stain normalisation and bias predictions).",
+      "identifier": "arXiv:2604.07936 and related",
+      "verification": "SEARCH_SUMMARY_ONLY",
+      "what_it_did": "Established in pathology that site and processing signatures survive normalisation and drive predictions, and that non-tissue background is a real channel.",
+      "what_it_did_not_do": "This is the precedent that makes the question askable rather than absurd, and it is the honest source of the hypothesis. It has not been transferred to 3D CT, where the exterior region is far larger in absolute voxel count and where the 'background' is a calibrated physical measurement of scanner behaviour rather than a slide artifact."
+    },
+    {
+      "citation": "Moreno-Aguado R., Magallon A., Moreno V., Fang Y., Yang G. Learning Robust Visual Features in Computed Tomography Enables Efficient Transfer Learning for Clinical Tasks.",
+      "identifier": "arXiv:2604.04133",
+      "verification": "SEARCH_SUMMARY_ONLY (the retrieved quotation is from a search synthesis of the PDF; my direct PDF fetch did not surface the relevant section).",
+      "what_it_did": "Reports all evaluated CT foundation models performing near chance on an instance retrieval benchmark, and states that scanner manufacturer, acquisition protocol, reconstruction kernel, patient demographics and imaged extent 'can dominate the similarity structure of the embedding space, such that the most similar scans by cosine distance share acquisition characteristics rather than clinical findings.'",
+      "what_it_did_not_do": "Establishes that acquisition dominates the embedding's similarity geometry. It does not localise that dominance to a spatial region, does not ablate anything, and does not convert the observation into a bound on benchmark AUROC. It is the strongest existing reason to expect this candidate to come back positive, and it is also the reason a merely qualitative result here would not be news - the contribution has to be the number, and the region."
+    }
+  ],
+  "existing_assets": [
+    "CT-RATE volumes, labels, metadata and reports in one repository, with a released supervised 18-abnormality classifier (ClassFine) so the whole study is inference-only.",
+    "The official preprocessing script, read and confirmed, so the ablation can be inserted at exactly the right point in the pipeline.",
+    "CT-RATE ships TotalSegmentator outputs (ts_seg) and anatomy_segmentation_labels, which give a body mask essentially for free; a simple minus-500 HU threshold plus largest-connected-component and hole-filling is an independent fallback that needs no learning.",
+    "Idea 004 is already scoped to download 850 CT-RATE validation volumes. If those are on disk, this candidate's marginal data cost is zero.",
+    "Published AUROC on the same validation split to compare the ablated number against."
+  ],
+  "smallest_decisive_experiment": "One afternoon of GPU time on volumes that are already being downloaded. Build the body mask two independent ways - the shipped segmentation and a threshold-plus-morphology rule - and report both, so the finding does not depend on one segmenter. Construct four inputs per volume: (A) unmodified; (B) body-excluded, every voxel inside the body contour set to a constant, exterior untouched; (C) exterior-excluded, the complement of B, every voxel outside the body set to minus one thousand HU with the table removed; (D) a scrambled control in which the exterior is replaced with the exterior of a randomly chosen different volume, which breaks the pairing while preserving the marginal statistics of exterior content. Run the released ClassFine checkpoint on all four. PRIMARY READOUT, no labels: per concept, the distribution of score change from A to B and from A to C, and the rank correlation between the A scores and the B scores across volumes - if the model's ranking of patients is preserved when the patients are removed, that is the whole result and it needs no ground truth. SECONDARY: AUROC of the B inputs against the released labels, per concept, with scan-clustered bootstrap intervals, reported against both chance and the published full-volume number. The D control is what distinguishes 'the exterior carries information about this specific patient' from 'the ablation produced a degenerate input that the model maps to a fixed prevalence-like prior' - if B and D behave identically, the effect is a prior, not a signal, and that is a different and much less interesting finding.",
+  "standing_confounds_addressed": {
+    "scanner_and_vendor": "NOT RULED OUT - IT IS THE HYPOTHESIS. A positive result is a demonstration that scanner and protocol signal is present outside the body and is being used. The design's job is to establish that, not to remove it. Reporting the body-excluded AUROC stratified by manufacturer says how much of it is vendor-level.",
+    "acquisition_protocol": "Same - this is the suspected mechanism, not a nuisance.",
+    "reconstruction": "Same, and partially separable: because CT-RATE contains multiple reconstructions of one acquisition (verified in idea 004's Stage 0 - 425 strictly clean geometry-matched kernel pairs), the exterior-only score can be compared across kernels on identical anatomy, which isolates the kernel's contribution to the exterior signal.",
+    "site": "NOT ADDRESSED. CT-RATE is single-institution as far as I know, so site variation is limited, but this also means the result may understate what a multi-site corpus would show. State as a limitation, not a control.",
+    "positioning": "PARTIALLY MEASURED. Arm position and table height are literally part of the exterior region and are therefore candidate carriers. The design can describe them by measuring the table position and body centroid, but it does not remove them - nor should it.",
+    "habitus": "PARTIALLY ADDRESSED. Body size determines the body mask itself and therefore the size of the excluded region, so mask geometry leaks habitus even after the interior is blanked. MITIGATION, and it is essential: report a variant in which the body region is replaced with a smooth soft-tissue-valued ellipse of matched area rather than a constant, so the silhouette is destroyed while the exterior is preserved. Without this variant, a positive result is confounded by silhouette and the study is much weaker.",
+    "prevalence": "ADDRESSED by the D control, which detects a degenerate collapse to a prevalence-like prior.",
+    "referral_pathway": "NOT ADDRESSED, and it is a live alternative: if sicker patients get different protocols, exterior signal could encode the indication. The design cannot separate this and it must be stated.",
+    "label_leakage": "NOT APPLICABLE to the primary readout, which uses no labels. In the secondary arm CT-RATE labels are RadBERT-extracted from reports, and that noise attenuates toward chance, so it cannot manufacture a positive."
+  },
+  "alternative_explanations": [
+    "The ablated input is out of distribution and the model emits a near-constant per-concept prior that happens to beat chance because prevalence is skewed. EXCLUDED by the D control and by reporting the across-volume variance of the B scores - a prior has near-zero variance, a signal does not.",
+    "The body mask is imperfect and leaks a rim of lung or chest wall. EXCLUDED by dilating the mask by increasing margins (5, 10, 20 mm) and showing the effect persists as the margin grows; if it decays to chance by 10 mm, it was leakage and the finding dies. This must be prespecified.",
+    "The silhouette of the blanked body region carries the signal, so 'the exterior' is really 'the patient's outline.' ADDRESSED by the matched-ellipse variant. This is the most plausible innocent explanation and the design must run that variant to claim anything.",
+    "Honest self-assessment: 'the model diagnoses a scan with no patient in it' is a headline, and the headline is doing work the measurement may not support. A body-excluded AUROC of 0.60 against a full-volume 0.75 is a genuinely important number; a body-excluded AUROC of 0.53 is a footnote dressed as a scandal. The result must be reported as a fraction of the full-volume performance with intervals, and the write-up should be drafted so that it reads honestly at 0.53."
+  ],
+  "anticipated_negative": {
+    "classification": "decisive",
+    "reasoning": "If body-excluded inputs give AUROC indistinguishable from chance across all 18 concepts with tight intervals, and the A-to-B rank correlation collapses, that is a clean, quotable robustness result for the corpus the field is standardising on: the reported performance comes from inside the patient. It meaningfully weakens a live and well-motivated worry rather than merely failing to confirm it. Because the intervals are computed on thousands of volumes with an inference-only pipeline, a null here will be tight rather than underpowered - but an equivalence margin must be prespecified so the null is reported as equivalence and not as non-rejection."
+  },
+  "sibling_disclosure": "C2 and C3 are two halves of one rung-2 audit of the same corpus: C2 asks whether non-anatomical signal is present in image space, C3 asks whether it is present in metadata space. They share a dataset and, if idea 004 proceeds, a download. They do not share a failure mode - C2 can be defeated by mask leakage or by an out-of-distribution collapse, C3 by neither - and a reviewer merging them would be trading two independent checks for one. C2 additionally overlaps idea 004 in infrastructure only, not in question.",
+  "remaining_legwork": [
+    "HuggingFace gated-access acceptance for CT-RATE, shared with idea 004 and already on that critical path.",
+    "Measure the body-fraction-of-frame distribution over a sample of volumes and confirm the 360 mm crop retains the table and boundary - this closes the keystone's stated residual. Hours.",
+    "Validate the body mask by visual inspection on 30 volumes and by agreement between the two independent mask methods. One day.",
+    "Prespecify the mask-dilation series, the equivalence margin, and the multiple-comparison handling across 18 concepts before running anything.",
+    "Time to first decision: two to three days after the volumes are on disk, and if idea 004 has already downloaded them, essentially immediately."
+  ],
+  "cross_domain": {
+    "borrowed_construct": "The background-patch and site-signature test from computational pathology, where models are probed on tissue-free whitespace and residual site signatures are shown to survive stain normalisation.",
+    "measurement_it_implies": "Ablate to the complement of the object of interest and re-run the frozen model, reporting performance on the object-free input as a fraction of full performance, with a scrambled-pairing control to distinguish signal from prior.",
+    "what_changes_if_the_analogy_is_dropped": "Without it you would run gradient saliency on the full volume, observe that attention sits on the lungs, and conclude the model looks at the anatomy - which is exactly the standard failure the charter names, because saliency is not a controlled ablation and a model can be highly sensitive to a region it barely attends to. The borrowed construct changes the code: it says build the complement image and evaluate on it, which is a different experiment producing a number with an interpretation, not a picture. It also supplies the scrambled-pairing control, which I would not have thought to include from a saliency mindset. This is not decoration."
+  },
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "One ablation, one frozen model, one number per concept, and the null is stated in the question. There is nothing to interpret about what was asked."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "The D control separates signal from prior, the dilation series separates signal from mask leakage, the matched-ellipse variant separates exterior content from silhouette, and the kernel-pair comparison isolates reconstruction. Held below 5 because a positive result names a region, not a cause: it would show non-anatomical signal exists without saying whether it is noise magnitude, table, or protocol, and because referral pathway remains unseparated."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "A model whose performance partly comes from outside the patient will fail on transfer in ways its benchmark cannot predict, and this is the corpus a growing number of chest-CT foundation models are evaluated on. Held below 5 because the study audits a benchmark rather than changing a clinical pathway."
+    },
+    "interest": {
+      "value": 5,
+      "why": "'We deleted the patient and it still worked' is intelligible to anyone and consequential if true. It is also genuinely uncertain - the pathology precedent says yes, calibrated CT intuition says no."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Released checkpoint, released segmentations, verified preprocessing, published baseline numbers, and a download already scoped by idea 004. Short of 5 only because no CT precedent exists to inherit an analysis protocol from."
+    },
+    "feasibility": {
+      "value": 4,
+      "why": "Cap lifted, keystone INSPECTED_TRUE. Inference-only, no training, four forward passes per volume, mask construction is a threshold and a morphological operation. Held to 4 by CT-RATE's gated access and the size of 3D downloads, both shared with idea 004."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Public but behind a click-through research-use agreement (CC BY-NC-SA 4.0, no redistribution) whose approval mechanism remains unverified. Accessible with work."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "AUROC, clustered bootstrap and rank correlation are standard; the ablation-fraction metric and the equivalence margin need specification but not invention."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A tight null is a genuine reassurance about a corpus the field is standardising on and is publishable as such. Held below 5 because a null is somewhat expected by the calibrated-CT intuition, so it moves less belief than the positive would."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Cap lifted by the keystone, held at 3 on the evidence. I found no CT background-ablation study, but 'I did not find it' is not proof, my searches did not cover MICCAI, SPIE or Medical Physics, and arXiv:2604.04133 shows the field is actively circling this territory. If someone has run a background ablation on CT-RATE, it would most likely appear in exactly the venues I did not search."
+    }
+  },
+  "priority_score": 4.1,
+  "priority_arithmetic": "0.20*4 (feas) + 0.15*4 (ident) + 0.15*4 (med) + 0.10*4 (legwork) + 0.10*5 (interest) + 0.10*5 (clarity) + 0.10*4 (neg) + 0.05*3 (data) + 0.05*3 (novelty) = 0.80+0.60+0.60+0.40+0.50+0.50+0.40+0.15+0.15 = 4.10",
+  "regret": {
+    "value": 5,
+    "why": "Four forward passes per volume on a checkpoint that is already downloaded, answering a question that bounds every claim made on the corpus. If it comes back positive and nobody checked, that is the worst kind of hindsight."
+  },
+  "recommendation": "SHORTLIST",
+  "unverified_claims": [
+    "The actual body-fraction-of-frame in CT-RATE volumes, and whether the centred 360 mm crop retains the table. Inferred from the crop arithmetic; measurable in hours.",
+    "Whether ClassFine inference is deterministic. Needed so that score changes are attributable to the ablation rather than to sampling. Shared with idea 004's noise-floor control.",
+    "Whether CT-RATE's ts_seg outputs include a usable body or torso mask, or only organ classes. The threshold fallback removes the dependency but has not been validated on these volumes.",
+    "Whether CT-RATE is genuinely single-institution. Assumed, not verified, and it materially affects how the site limitation is stated.",
+    "That no background-region ablation of a CT foundation model has been published. Not established; MICCAI, SPIE, Medical Physics and Radiology: Artificial Intelligence were not searched.",
+    "The exact content of arXiv:2604.04133's instance-retrieval section. The key quotation reached me through a search synthesis, not a direct read of the PDF, and it must be verified before being cited."
+  ]
+}
