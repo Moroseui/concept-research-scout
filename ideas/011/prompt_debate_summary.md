@@ -843,6 +843,96 @@ Three consequences, and the middle one is against the candidate.
 
 **Status:** OPEN
 
+## Round 12 — PROPOSER
+
+**Responding to:** The maximum claim I preregistered in round 10 — "removing mineralization from voxels an automated segmenter assigns to costal cartilage lowers predicted age more than matched disturbances that preserve it" — describes a response to one deletion operator. Passing the mask-precision gate makes the edited voxels genuinely cartilage, but it cannot convert an operation-specific response into use of the native feature, because the unmatched mineralized-to-soft-tissue transition from rounds 5 and 8 is still unresolved. So the estimand has silently changed from native feature use to intervention sensitivity, the study-level identity check fails, and the disposition should be: pause idea 011, spawn the operator-sensitivity study as a separate rung-1 candidate.
+
+**Response:** CONCEDE
+
+**Argument:**
+
+The objection is correct and I do not have the control it asks for. I have no matched deletion in hand, no registered natural within-patient mineralization contrast in the available corpora, and no argument that the three arms plus cross-model replication plus the aortic comparison add up to native-feature use. Round 5 has been open for seven rounds, round 8 restated it and I answered with a partial bearing that I labelled partial at the time, and round 10 accepted its ceiling. A ceiling I accept and cannot lift is a concession, not a live position. The candidate cannot deliver its deliverable sentence and should not proceed on the current design.
+
+**One scope note, which is not a rebuttal and does not rescue anything.** The round-11 argument runs two claims together and only one of them is doing work.
+
+- (i) *The operator's effect is not attributable to mineralization rather than to the deletion's own signature*, because Arm S never performs the mineralized-to-soft transition and Arm P performs it twice at two footprints. This is a defect of my design. It is repairable in principle and unrepaired in fact.
+- (ii) *An interventional effect cannot license a statement about native inference at all.* This is a property of perturbation attribution in general, not of this candidate. The charter defines rung 1 as "ablation, probing, perturbation, occlusion with proper controls," so if (ii) held in full generality no charter-compliant rung-1 candidate could exist, and the objection would not be about idea 011.
+
+Round 11 explicitly grounds the gap in (i) — "because the unmatched mineralized-to-soft-tissue transition from Rounds 5 and 8 remains unresolved" — so (i) is the operative objection and I take it as such. I record the distinction only so that the ledger entry says the candidate died of an unbuilt control, which is fixable by someone with the right data, rather than of a general impossibility, which is not.
+
+**Where I disagree, and it is about disposal rather than about the claim.** I do not think the operator-sensitivity study should be spawned as a separate candidate. Stripped to its own terms its question is "do two age models respond when mineralized voxels are deleted from the costal cartilage region," and it enters scouting with no positive sentence a radiologist could agree or disagree with, novelty at 1 against Sipahioglu's bone-window ablation, and the charter's named standard failure — reaching rung 1 and asserting rung 3 — available as its only route to being interesting. What made the design worth eleven rounds was the anatomical-identity comparison, and that is exactly the part the spin-off would drop. The charter permits a candidate that can reach only rung 2 provided it says so and names what would move it up; it does not obviously want a rung-1-only candidate whose honest deliverable is a null-shaped sentence about an operator. So: pause idea 011 with a named reopening condition, and put nothing new into scouting from this branch except the round-7 supervision-asymmetry spin-off, which is a different question and stands.
+
+**The reopening condition, offered as specification and not as defence.** Round 8's demand, read literally, is unsatisfiable in one respect: no control can delete costal cartilage mineralization while preserving costal cartilage mineralization at the same location. Any control that performs the same source transition must therefore move it somewhere else, and the design question is what it should be matched on. Two structures are worth costing out before this reopens, and both have a disqualifying feature I can already name:
+
+- **Tracheobronchial cartilage.** The same tissue — hyaline cartilage undergoing age-related mineralization — so the operator performs an identical mineralized-to-soft source transition on an identical tissue class, which aorta cannot. Component count, volume and post-preprocessing attenuation histogram are matchable. Under the round-8 alternative ("loss of native calcium-like components *anywhere* in an age-correlated region"), the two responses per unit deleted mineralization should be equal; under the specific account they differ. The disqualifying feature: it is central and mediastinal, not anterior, so a differential result confounds structure identity with anterior-versus-central location, which is the same substitution error the aortic arm makes in a different direction. Provenance: the class map read directly for ribs, sternum and costal cartilage also carries a trachea class, but I did not record its number and I am not relying on that from memory; a re-read is a line item. The age-relatedness of tracheobronchial cartilage calcification is textbook but I have not verified a primary source in this round and will not cite one I have not read.
+- **Internal thoracic artery calcification.** Correct location — parasternal, immediately adjacent, anterior, age-dependent — and therefore the control that would separate structure from region, which tracheal cartilage cannot. Wrong tissue, no class in the total task, and it is the same contaminant I raised against myself in round 10 as the one that defeats both annotation-free bounds. That inversion is worth recording on its own: the structure most likely to corrupt the mask is also the ideal matched control, and both uses need the same thing — a validated way to find it, which does not currently exist.
+
+The only version of Arm R I can construct in which the de-mineralized appearance is *measured rather than synthesised* is a dual-energy substitution: reconstruct the same acquisition at high keV, where calcium attenuation falls toward soft tissue while anatomy, position, noise realisation and patient are identical, and substitute that appearance inside the cartilage mask only. Every voxel in the result is a real measurement of that tissue at that instant, so the class transition round 5 says Arm S cannot reproduce is performed by physics rather than by resampling. This is the thing that would actually close round 5. It is also not an amendment: it needs a dual-energy chest corpus with released per-scan ages and a target age model that transfers to it, and this study has neither. I am putting it in the record as the shape of the missing instrument, not as a design I am proposing.
+
+**What the concession costs.**
+
+1. **Identifiability drops to 2** — a positive result has more than one explanation and the design does not rule out the main alternative. That is the rubric's 2, not the 3 I claimed in round 10 on the strength of a ceiling I now accept I cannot lift.
+2. **Interest drops from 4 to 3.** Interest scores the result the design can actually produce. "Two models respond to this deletion operator" is a useful niche result, not a surprising one.
+3. **Mode C total: 0.30×4 (mechanism) + 0.25×2 (identifiability) + 0.20×3 (interest) + 0.15×3 (medical relevance) + 0.10×4 (clarity) = 1.20 + 0.50 + 0.60 + 0.45 + 0.40 = 3.15**, down from 3.60 in round 10 and 3.90 on the card. The trajectory across the debate — 3.90, 3.85, 3.85, 3.60, 3.15 — is monotone downward, and that is the honest summary of what eleven rounds established.
+4. **The rung falls to 1, conditional.** Not "rung 3 conditional on gates" as the card says, and not the rung-2-with-a-route-up the charter permits. The design reaches rung 1 for an operator, and the step from there to rung 3 is the unbuilt control, not a gate I can schedule.
+
+**Why I am not amending, stated as the identity check on the amendment I did not submit.** The only amendment available to me this round was to redefine the estimand as sensitivity to the removal operator and keep the title. That fails the identity check for exactly the reason the debate rule names: it would achieve feasibility by abandoning the motivating question while wearing its name. The critic reached the same place from the other side. Conceding is the rule-compliant move and it is also the correct one.
+
+**Ledger lines I think this branch earned, beyond the PAUSE.**
+
+- **Operationalisation leaking into the deliverable sentence** (round 4): the deliverable was written around MESA's statistic, "volume above 180 HU," rather than around the thing a radiologist has a word for. A sentence containing a threshold looks more rigorous and is a specific way to fail rung 3 while appearing to pass it.
+- **The instrument nominated to validate the keystone was not capable of validating it** (round 10): the card named segmenter accuracy as its own residual and nominated a landmark box as the remedy; the remedy could not fail in the informative direction. Self-awareness about a weak point is not the same as a check.
+- **Five successive local repairs, none of which touched the identification gap** (this round). Endpoint, scalar X, sham adequacy, target model, anatomical instrument: each amendment was locally valid and the gap opened in round 5 survived all of them. The signal was available at round 5 and I spent five rounds not reading it. That is the thing to watch for next time — an objection that keeps being *carried forward* rather than closed is the objection that decides the candidate.
+- **This does not die like ideas 001, 002 or 005.** No human judgment enters the estimand at any point; annotation enters only instrument validation. The failure is identification, not annotation provenance.
+
+**Reopening condition for the ledger:** a control that performs the same mineralized-to-soft-tissue source transition on real tissue while leaving costal cartilage mineralization intact — a matched non-cartilage anterior structure, or a dual-energy substitution in which the de-mineralized appearance is measured rather than synthesised — together with the round-10 Stage 0 gate sequence. Absent that, idea 011 stays paused.
+
+**Status:** CONCEDED
+
+## Round 13 — CRITIC
+
+**Position:** The proposer has accepted the decisive identifiability failure and the correct disposition is to pause Idea 011, not to advance either the original claim or an operator-sensitivity spin-off.
+
+**Argument:** The concession is substantive rather than rhetorical: it explicitly accepts that Arm R's mineralized-to-soft-cartilage transition is unmatched by Arms P and S, withdraws the claim that the three-arm contrast identifies native use of costal-cartilage mineralization, lowers identifiability to 2 and the attainable rung to an intervention-scoped 1, and declines the identity-breaking amendment that would retain the title while changing the estimand. That resolves my Round 11 objection. The proposer also gives a concrete reopening condition that targets the actual failure: a control using real measured tissue that reproduces the calcium-removal transition while separating cartilage identity from deletion signature, together with the older-adult mask-precision gates. I agree with the further judgment not to spawn the deletion-operator study as a separate candidate. Its honest positive sentence would concern a synthetic operation rather than a named anatomical or physiological signal, and its closest contribution is already weak against Sipahioglu et al. (PMID 42172947). The proposed dual-energy route is appropriately recorded only as a possible future instrument: without a confirmed paired dual-energy chest corpus carrying age labels and a transferable target model, it is not a present repair. The identity check therefore has a clear result: the original question remains scientifically coherent, but the available design does not answer it. Idea 011 should remain paused under the stated reopening condition.
+
+**What would change my mind:** Inspect and confirm a suitable paired dual-energy or registered longitudinal chest-CT resource, then show prospectively that its measured contrast supplies a control matched after preprocessing on calcium-component loss, attenuation distribution, edge energy, topology, and location while passing the older-adult costal-cartilage mask-precision gate; only then should the original native-feature-use claim re-enter critique.
+
+**Status:** CONCEDED
+
+## Round 14 — PROPOSER
+
+**Responding to:** Round 13 accepts the concession, agrees the disposition is PAUSE rather than a spawned operator-sensitivity candidate, and names the single thing that would let the native-feature-use claim re-enter critique: inspect and confirm a paired dual-energy or registered longitudinal chest-CT resource, and show prospectively that its measured contrast supplies a control matched after preprocessing on calcium-component loss, attenuation distribution, edge energy, topology and location, while passing the older-adult mask-precision gate.
+
+**Response:** CONCEDE
+
+**Argument:**
+
+The substantive question is closed and I am not reopening it. What round 13 asks for is an inspection rather than an argument, and I ran it rather than leaving it in the ledger as prose. The result changes nothing about the pause and it changes the reopening condition, which is the only thing a closing round can usefully affect. Both branches I offered in round 12 came back worse than I wrote them: the dual-energy branch is narrower than I specified, and the longitudinal branch is probably dead on arithmetic that uses numbers already inspected in the card.
+
+**The dual-energy branch: not found, and the requirement is narrower than I stated it.**
+
+What surfaced as publicly released spectral CT is phantom-scale. A cone-beam photon-counting dataset published in *Scientific Data* (DOI 10.1038/s41597-025-06246-4) is fifteen walnuts on a custom micro-PCCT system, 172,800 raw projections at two energy thresholds; a prototype photon-counting-detector material-decomposition release on Borealis (doi:10.5683/SP3/GE6YLE) is projection and flat-field data, not patients. Neither is human, neither is chest, neither carries age. No public dual-energy or photon-counting *chest* corpus releasing per-scan age surfaced. Provenance and honesty about the negative: this was collection-level searching, not a systematic sweep of institutional spectral archives, and the collaborator rules are explicit that not finding it is not proof it does not exist. Clinical DECT chest volume is enormous; the barrier is release, not existence. So the correct statement is that the instrument is unavailable *to me*, and is plausibly in the hands of any group with a spectral scanner and its own patients — which is precisely the group that could reopen this.
+
+One requirement got stricter when I looked at it properly, and it is my error rather than the critic's. The substitution needs the *same acquisition* reconstructed at two energies, which means retained spectral raw or base-material data, not virtual monoenergetic images at whatever keV was clinically chosen and archived. Round 12 said "a dual-energy chest corpus with released per-scan ages." The real requirement is "a chest corpus retaining spectral base-material or dual-kV raw data, with released per-scan ages." That is a materially rarer object and the looser version would have sent someone looking for the wrong thing.
+
+**The longitudinal branch: the arithmetic disqualifies it before availability does.**
+
+MESA's inspected per-year gradients are 2.6% in females and 1.5% in males (PMID 34966360). Any within-patient contrast is therefore bounded by the interval on offer: roughly 2% at one year, 3–5% at two. The only public same-patient repeat chest CT I could confirm is RIDER Lung CT — 32 non-small-cell lung cancer patients, *same-day* repeat, GE equipment, reconstructed into six settings from three slice thicknesses and two kernels (TCIA collection page, read directly). Same-day means the expected mineralization contrast is exactly zero by construction. NLST's screening interval is one year, and it sits behind CDAS at ~11.9 TB, already recorded in the critique as not lower-hanging. The literature also states plainly that published costal-cartilage calcification work is cross-sectional and that longitudinal progression has not been established, so there is no external estimate of within-patient rate to lean on either.
+
+The useful inversion is that RIDER is worthless as a mineralization contrast and is close to ideal as the *denominator* of the same comparison. Running the eroded-mask mineralization vector on both same-day acquisitions and across all six reconstructions measures the reproducibility floor of the measurement under repositioning, rescanning and kernel or slice-thickness variation — 64 acquisitions, no annotator, no age field required. If that floor is large relative to a 1.5–2.6% per-year gradient, then no within-patient longitudinal contrast at any interval a public corpus offers is detectable, and the longitudinal branch of my own reopening condition should be struck rather than left standing as something that looks revivable. Caveats before anyone runs it: the collection page does not confirm an age field (not needed for this use), the cohort is NSCLC on a single vendor, and per-scan anterior chest wall coverage has to be checked before the mask means anything.
+
+I am not proposing that as work now and it is not an amendment — the candidate is paused and this round does not unpause it. It is the costing of a reopening condition I wrote myself, and the reason to do it at the moment of writing is that an uncosted reopening condition is not a route back into the loop; it is a sentence that makes a dead candidate look revivable.
+
+**A fourth source on the sex direction, flagged rather than used.** The card already carries three mutually inconsistent sources: MESA's roughly 2.6-fold higher male volume, Goh and Anderson's pQCT finding of more calcification in females, and Middleham's failure to sex a single male among 41 cadavers by Rejtarova's pattern. A recent ¹⁸F-NaF PET/CT quantification line appears to report that only males show a significant age-based increase. That is search-snippet level and I have not read it, so it enters as a flag and not as evidence: whoever reopens this should treat the sex-specific ossification pattern as an unresolved disagreement in the source literature rather than as the hard-to-fake confirmatory prediction the card originally wanted. Identifiability was already scored down for this and nothing moves.
+
+**What this round changes.** No scores. The candidate stays paused, Mode C 3.15, rung 1 intervention-scoped, keystone `NOT_INSPECTED`. What changes is the reopening condition, which should go into the ledger in this form rather than round 12's:
+
+> **(a)** A chest CT corpus retaining spectral base-material or dual-kV raw data — not merely released virtual monoenergetic images — with per-scan age, so that the de-mineralized appearance inside the cartilage mask is *measured* rather than synthesised; **and (b)** the round-10 ordered Stage 0 gate sequence, including the older-adult mask-precision gate. **(c)** The registered-longitudinal alternative is downgraded from a second route to a conditional one, admissible only if a same-day repeat reproducibility floor for the mineralization vector is small relative to the 1.5–2.6% per-year gradient across the interval available; if it is not, strike (c) entirely.
+
+**One ledger line this round earned, beyond those in round 12.** *A reopening condition is a feasibility claim and should be checked when it is written, not when someone tries to use it.* I wrote two routes in round 12 as specification. Checking them took a fraction of the effort of any single earlier round and showed that one is narrower than I stated and the other is probably arithmetically dead. A paused candidate carrying an uncosted reopening condition is worse for the loop than a rejected one, because it occupies a slot and offers a return path that nobody has priced.
+
+**Status:** CONVERGED
+
 
 ===== ideas/011/idea_card.json =====
 {
@@ -1014,306 +1104,36 @@ Three consequences, and the middle one is against the candidate.
 
 
 ===== STAGE TASK =====
-Defend or amend the idea. Append one round to `debate.md` in the idea folder.
+Read the full `debate.md` and write `consensus.md`. You are summarizing, not
+adjudicating: do not declare a winner.
 
-Format your append exactly as:
+```markdown
+# Debate summary — idea NNN
 
+## Agreed
+- [points both sides accept, with the round where agreement occurred]
+
+## Unresolved
+For each: the question, the proposer's position, the critic's position, and
+**what evidence would settle it**. If no evidence could settle it, say that
+plainly — it means the disagreement is about values or taste, not facts.
+
+## Positions that moved
+For each concession: who conceded, in which round, and in response to what
+argument. If someone conceded without being given a new argument, flag it as
+UNEARNED — capitulation is not agreement and should not be recorded as
+consensus.
+
+## Amendments made
+What the idea now claims versus what it claimed at round zero. Note anything
+lost.
+
+## Recommendation
+ADVANCE | REVISE | PAUSE | REJECT — plus the single most important thing the
+human should look at before deciding.
 ```
-## Round N — PROPOSER
 
-**Responding to:** [the critic's objection, restated in your own words]
-
-**Response:** REBUT | AMEND | CONCEDE
-
-**Argument:** [if rebutting: why the objection does not hold, with specifics.
-If amending: exactly what changes in the idea, and whether that weakens the
-contribution. If conceding: say plainly that the objection is correct.]
-
-**Status:** OPEN | CONCEDED | IRREDUCIBLE DISAGREEMENT | CONVERGED
-```
-
-Rules:
-
-- Restating your claim more confidently is not a rebuttal. If you have no new
-  argument or evidence, CONCEDE.
-- **Identity check on every AMEND.** Before submitting an amendment, answer:
-  does the revised design still answer the original one-sentence question?
-  If NO, do not submit the amendment. Concede, reject the current idea, and
-  record the replacement under `spin-off` as a new candidate. An amendment
-  that achieves feasibility by abandoning the motivating question is not a
-  repair; it is a different study wearing the old title.
-
-- AMEND is not free. Every amendment that dodges an objection by narrowing
-  the claim must say what was lost. Three amendments usually means the
-  original idea was wrong.
-- If the critic is right, say so in round one. Speed of concession is a
-  feature. Defending a dead idea across three rounds wastes the loop.
-- Do not introduce a new idea mid-debate. If the discussion reveals a better
-  question, note it under "spin-off" and keep defending the original.
-- Append only. Never edit earlier rounds.
-
-
-
-===== DEBATE STATE =====
-You are claude. Your interlocutor is codex.
-This is round 2. Do not restate agreement you already reached.
-
-===== TRANSCRIPT SO FAR =====
-# Debate transcript
-
-## Round 1 — CRITIC
-
-**Position:** The localized intervention repair preserves the original question, but it still cannot identify use of *calcified costal cartilage volume* unless the edit changes that scalar quantity without introducing a distinguishable synthetic-edit signal.
-
-**Argument:** Replacing or retaining voxels inside a cartilage mask changes several things simultaneously: calcified volume above 180 HU, spatial pattern and edge structure, local texture, cartilage morphology, and the boundary with rib and sternum. It may also create interpolation or inpainting artifacts. Larger paired age-prediction changes than equally sized edits to adjacent bone, aortic calcium, or anterior soft tissue would therefore establish sensitivity to this edited anterior-chest region, not use of the named X. The proposed agreement across multiple edit types does not solve this if every edit shares mask-boundary or distribution-shift cues; complementary retention is especially far out of distribution. This matters because the closest prior work already shows that costal-cartilage images predict age (Lu et al., PMID 37231070), so the remaining scientific delta is precisely causal attribution of the whole-chest model to the measured calcification clock, not generic regional sensitivity. The amendment passes the identity check—it still asks whether the model uses cartilage—but its current endpoint would earn only a region-level rung-1 claim and not the proposed human-legible volume claim.
-
-**What would change my mind:** Show, on the untouched test set, a preregistered monotonic dose-response under a validated edit that varies only the number of >180-HU voxels within an accurate cartilage mask while preserving mask geometry, noncalcified-cartilage texture, surrounding anatomy, and acquisition noise; include pixel-matched sham edits using subthreshold intensities in the same mask and an artifact detector that cannot distinguish edited from native local patches above a prespecified equivalence criterion. The model-output effect must track the induced change in measured calcified volume and exceed the within-mask sham effect.
-
-**Status:** OPEN
-
-## Round 2 — PROPOSER
-
-**Responding to:** An edit inside the cartilage mask changes the >180 HU voxel count and, simultaneously, the local pattern, edge structure, texture, morphology and mask boundary, plus whatever synthetic-edit signature the operator leaves behind. So "cartilage edit moves the prediction more than an equally sized rib, aorta or soft-tissue edit" licenses only "the model is sensitive to this edited anterior-chest region" — a region-level rung-1 claim — and not "the model uses calcified costal cartilage volume." Multiple edit types do not fix this if they share the same distribution-shift cue, and complementary retention is the worst offender.
-
-**Response:** AMEND
-
-**Argument:**
-
-The objection is correct as applied to the endpoint I proposed, and I accept the endpoint it names. What I dispute is the implied conclusion that a within-mask edit cannot separate the scalar from the edit. It can, because calcified costal cartilage has a property the objection does not use: within the mask, calcification is *sparse and discrete*. The suprathreshold voxels are a subset, not a contiguous block — this is exactly what the ossification-pattern literature already inspected in the card describes (Rejtarova's peripheral-versus-central types; Zhang, PMID 28592818, on dual-energy CT). That sparsity makes the scalar X manipulable by *subset selection* rather than by synthesis, and subset selection admits controls that hold X exactly fixed while applying the identical operator. The concession and the repair are both below.
-
-**What I concede outright.** Complementary retention is dropped. Calcification *addition* is dropped from the primary and demoted to exploratory: writing calcium where none exists is the OOD direction and I will not defend it. Mediation is already descriptive-only. Agreement-across-edit-families is withdrawn as an identification argument — the critic is right that shared distribution shift defeats it, and "several biased estimates agree" was never an argument, only a hope.
-
-**The amended primary endpoint: a difference of slopes, not a difference of magnitudes.**
-
-Three arms, all using the *same* operator — reassign a set of voxels inside an eroded cartilage mask to intensities resampled from that patient's own local subthreshold cartilage neighbourhood. Only the *selection rule* differs.
-
-- **Arm R (removal ladder).** Select a random fraction f ∈ {0, 0.25, 0.50, 0.75, 1.00} of the *suprathreshold* voxels. X falls monotonically; the number of voxels touched is n_f.
-- **Arm P (permutation sham).** Relocate the suprathreshold voxels to new positions *within the same eroded mask*, sampled to match the local subthreshold-neighbourhood statistics at the destination, at the same ladder fractions. The intensity histogram of the volume is preserved *exactly* — no new values are introduced, nothing is interpolated — and X is unchanged by construction. Only spatial pattern moves.
-- **Arm S (subthreshold sham ladder).** Apply the operator to n_f *subthreshold* voxels inside the same mask, matched to Arm R on voxel count and on per-voxel |ΔHU|. Edit footprint and edit energy matched; X unchanged.
-
-The estimand is **slope_R − slope_S** and **slope_R − slope_P**, where each slope regresses paired change in predicted age on the number of voxels touched (Arm R additionally on the *measured* post-edit X, recomputed by the same extractor after editing, not on the nominal f). This is the specific thing the previous endpoint got wrong. Any artifact channel that scales with how much of the image you disturbed — interpolation signature, texture flattening, boundary cues, local-variance change — contributes to *all three* slopes. Under the critic's null, "the model is sensitive to edits in this region and indifferent to the scalar," the three slopes are equal and the contrast is zero. A nonzero slope_R − slope_S with slope_P ≈ 0 is not explicable by region sensitivity, because the region, the operator, the voxel count and the edit energy are held fixed across arms and only X moves. Arm P is the sharper of the two shams and I regard it as the load-bearing one: it holds the global intensity histogram exactly and asks whether the model tracks *how much* calcium there is or *where* it is. If slope_P is large, the deliverable sentence is wrong in an informative way — the model is using ossification pattern, not volume — and that is a publishable answer rather than a failed experiment.
-
-Two further conditions I accept as preregistered gates, both from the critic's list: a patch-level discriminator trained to separate edited from native local patches, with an equivalence criterion fixed before unblinding (upper 95% bound on AUC below a prespecified value); and a minimum detectable slope difference fixed before any test-set contact. I add one the critic did not ask for: the removal direction moves each scan *toward* the observed appearance of real young cartilage, so the edited volumes can be checked against genuine low-calcification scans from the same corpus rather than only against a synthetic-artifact criterion. That is the material difference from idea 006, where the intervention had no real-world counterpart to be checked against.
-
-**What this costs, stated rather than absorbed.**
-
-1. **Age range narrows.** A dose ladder needs enough native suprathreshold voxels to have rungs. Young subjects have almost none, so the primary estimate is confined to the calcified subsample — in practice the older half of the corpus, where predictions may also be closest to saturation. The claim becomes "in scans with measurable calcification," not "in chest CT."
-2. **Mask erosion loses the periphery, sex-differentially.** Editing must stay clear of the rib and sternal boundary, which preferentially removes the peripheral calcification that Rejtarova describes as the male pattern. Editable fraction must be reported per sex and the arms stratified from the start; if editable coverage differs sharply by sex, the male estimate is the weaker one.
-3. **Direction is asymmetric.** The result will support "removing calcification lowers predicted age," not the symmetric statement. The clock claim is therefore one-sided.
-4. **The competing-mediator comparison shrinks.** Only calcium-family controls admit this operator. Aortic calcification does (same >180 HU operator, aorta mask, same three arms) and stays as an intervention control. Vertebral trabecular attenuation and LAA%−950 do not — they are diffuse, not sparse-suprathreshold — so they drop to descriptive covariates. **The deliverable's "rather than aortic calcification, vertebral bone density or emphysema" clause must lose two of its three comparators.** The defensible sentence becomes: *this model's predicted age tracks the volume of calcified costal cartilage itself, not merely the presence of a disturbance there, and more strongly than it tracks aortic calcium under the identical manipulation.*
-5. **The mask-accuracy keystone gets heavier, not lighter.** Arms P and S require reliably distinguishing subthreshold *cartilage* from subthreshold non-cartilage inside the mask. The critique's gate 4 — direct accuracy assessment against a small reference set stratified by age and calcification severity — is now a hard precondition of the primary endpoint rather than a robustness check. I accept that, including that it costs a small annotation set.
-
-**Identity check.** Does this still answer "does a chest-CT age model that was never told where to look recover the costal cartilage calcification clock?" Yes. It asks whether the model's output causally tracks calcified cartilage volume, which is the original question with the associational endpoint replaced by an interventional one. Nothing was narrowed to buy feasibility — the amendment is strictly harder to run than what it replaces. What narrowed is the *comparator set* in the deliverable sentence and the *age range* of the estimate, both recorded above as losses.
-
-This is amendment two (localized intervention, then difference-of-slopes). A third would be the signal that the original framing was wrong, and I will treat it that way.
-
-**Status:** OPEN
-
-## Round 3 — CRITIC
-
-**Position:** The difference-of-slopes repair still does not identify use of *volume above 180 HU*, because Arm R changes the entire calcium-intensity distribution while Arms P and S preserve the threshold count, so the arms do not differ only in X.
-
-**Argument:** The amendment passes the identity check: it still asks whether an unguided whole-chest age model recovered the costal-cartilage clock. It also adequately answers my earlier generic edit-footprint objection by adding a dose ladder, within-mask shams, an artifact discriminator, and a test-set equivalence gate. I concede that part. But the claimed isolation of the scalar is false. Replacing a suprathreshold voxel with local subthreshold cartilage simultaneously reduces (i) the number of voxels above 180 HU, (ii) integrated calcium/HU burden, (iii) the upper-tail histogram and maximum attenuation, (iv) the number and size of connected calcified components, and (v) high-contrast calcium–cartilage edges. Arm P preserves the global histogram and threshold count while changing topology; Arm S preserves the threshold count and, because it edits only subthreshold voxels, cannot generally reproduce the source-class transition from mineralized to nonmineralized tissue. Matching voxel count and |ΔHU| does not match these calcium-specific changes. A positive slope_R−slope_P with slope_P near zero is therefore equally compatible with a model using integrated mineral burden, peak attenuation, or disappearance of calcified components rather than the proposed thresholded volume. A patch discriminator below an AUC ceiling only addresses detectable synthetic artifacts; it cannot distinguish among these real, jointly changed biological/physical quantities. This is consequential because the deliverable says the model uses *volume itself*, not merely costal-cartilage mineralization. The one-direction deletion design cannot independently vary threshold count from calcium mass without additional manipulations, so the amendment currently earns the weaker sentence: “removing mineralized costal-cartilage voxels changes this model’s predicted age.”
-
-**What would change my mind:** Show a factorial intervention with independently varied post-edit >180-HU voxel count and integrated suprathreshold HU burden, plus a topology-matched series, and demonstrate that prediction follows voxel count after conditioning on calcium mass, upper-tail attenuation, component count, and edge energy. The edited local-patch distributions must satisfy the preregistered native-equivalence gate. If such independent variation cannot be made plausibly in-distribution without adding synthetic calcium, narrow X and the deliverable to “costal-cartilage mineralization” and treat that as a materially revised candidate rather than claiming thresholded volume.
-
-**Status:** OPEN
-
-## Round 4 — PROPOSER
-
-**Responding to:** Removing a suprathreshold voxel does not move one scalar. It lowers the >180 HU count, the integrated mineral burden, the upper tail and maximum attenuation, the number and size of connected calcified components, and the calcium–cartilage edge energy, all at once. Arms P and S hold the threshold count fixed but do not hold those other quantities fixed, so a nonzero slope_R − slope_S with slope_P ≈ 0 is equally well explained by the model using mineral mass, peak attenuation, or the presence of calcified components. The design earns "removing mineralized cartilage voxels changes the prediction," not "the model uses volume above 180 HU."
-
-**Response:** CONCEDE
-
-**Argument:**
-
-The objection is correct and I am not going to argue with it. The three-arm design separates the scalar family from region sensitivity — which the critic granted in round 3 and I am not relitigating — but it does not separate members *within* that family, and my round-2 estimand was written as though it did. `slope_R − slope_S` is an estimate of sensitivity to mineralization, not to a threshold count. I withdraw the thresholded-volume claim.
-
-**The diagnosis I owe, per my own round-2 rule.**
-
-I said a third amendment would mean the original framing was wrong and that I would treat it that way. It is the third, and here is what was wrong — one root error, not three separate stumbles.
-
-I wrote the deliverable sentence around the *statistic* rather than around the *thing*. MESA published a per-year gradient in "volume of pixels above HU>180," so I took that quantity, put it in the deliverable sentence, and then spent two rounds trying to build an intervention that could identify a threshold count. But the charter's rung 3 asks for "a named, human-legible thing" — and the human-legible thing here was never the threshold. No radiologist has the concept "volume above 180 HU." They have the concept "costal cartilage calcification." The threshold was my measurement instrument, and I promoted the instrument's output into the claim. Every subsequent difficulty — needing a factorial to break count from mass, needing topology-matched series, needing peak-attenuation controls — is downstream of asking an experiment to identify a quantity that only exists because I chose a cutoff.
-
-That is worth recording in the ledger as its own failure mode, distinct from the wrong-keystone pattern: **operationalization leaking into the deliverable sentence.** It is a specific way to fail the rung-3 test while appearing to pass it, because the sentence contains a number and therefore looks more rigorous than the correct, vaguer-sounding one.
-
-**What I adopt.**
-
-The critic's fallback, in the critic's own terms. X becomes **costal cartilage mineralization** — the degree to which the costal cartilages are mineralized, measured *jointly* by suprathreshold volume, integrated suprathreshold burden, component count, and peak attenuation, reported as a vector rather than reduced to one number. The deliverable sentence:
-
-> *For this frozen chest-CT age model, removing mineralization from the costal cartilages lowers predicted age more than matched disturbances that preserve mineralization within the same mask, and more than the identical manipulation applied to aortic calcium.*
-
-I also accept "materially revised candidate": the card needs rewriting, not annotating. Both the endpoint (mediation → intervention) and X (threshold volume → mineralization) have changed since it was written, and the ledger entry should say so.
-
-**Two things the revised card should carry, offered as specification rather than as a defense of the conceded claim.**
-
-*First, the factorial the critic asked for is constructible from native voxels, and belongs in the card as exploratory.* Suprathreshold cartilage voxels span a wide intensity range, so removing many low-intensity voxels and few high-intensity voxels dissociates count from mass without writing any synthetic calcium — the operator stays subtractive and every removed voxel is real. A (count × mass) grid is therefore realizable in principle. I am not offering this as a rescue of the volume claim, because it has a limitation I can already name: high-intensity voxels sit in the cores of calcified plaques and low-intensity voxels sit at their margins, so buying count–mass decorrelation *induces* a topology and edge-energy correlation. It converts one confusion into another. It is worth preregistering as a descriptive decomposition of which component of mineralization the model tracks; it is not worth claiming in advance that it will identify one.
-
-*Second, CT-CLIP's preprocessing bounds which of the critic's alternatives the model can even see, and this is verified rather than assumed.* Idea 006's keystone evidence records a direct read of the authors' `scripts/data_inference_nii.py`: HU are clipped to `hu_min, hu_max = -1000, 1000`, trilinearly resampled to 0.75 × 0.75 × 1.5 mm, cropped or padded to 480 × 480 × 240, and divided by 1000. Two consequences:
-
-- **Peak attenuation is truncated at +1000 HU by construction.** Whatever fraction of suprathreshold cartilage voxels exceeds that clip is invisible to the encoder as a peak. That fraction is directly measurable at Stage 0 and I do not know it — I am not asserting it is large. But it is the one competing quantity on the critic's list whose availability to the model is a *fact about the pipeline* rather than a fact about the intervention, and it should be measured before it is controlled for.
-- **The design matrix must be computed on the preprocessed tensor, not on native voxels.** Trilinear resampling to a coarser Z spacing blends voxels, so native count and native mass are not the count and mass the encoder receives. Every quantity in the conditioning set — count, burden, component count, edge energy — has to be recomputed post-preprocessing, and the realizable design space has to be assessed there. This is the same lesson idea 007 and idea 004 both landed on, and I should have applied it a round earlier.
-
-**What the concession costs, stated rather than absorbed.**
-
-- **Novelty narrows to its true residual.** With X coarsened to mineralization, the finding is "an unguided whole-chest age model relies on costal cartilage calcification" — which is the direction Sipahioglu's bone-window ablation and Grad-CAM already pointed, without measuring. The delta is that this measures it interventionally. Novelty confidence stays at 2 and I would not defend 3.
-- **Mechanism clarity drops from 5 to 4.** I scored 5 on "a specific physical quantity with a published per-year gradient." The named signal family survives and the measurement survives, but the specific scalar is now explicitly unidentified, which is the rubric's 4, not its 5.
-- **Identifiability rises from 3 to 4**, for the coarser X only. The round-2 arms do rule out the main alternative — region sensitivity to the edit — which the mediation design could not. It is not 5 because the sex pathway and the mask-accuracy keystone are both still live.
-- **Mode C score: 0.30×4 + 0.25×4 + 0.20×4 + 0.15×3 + 0.10×4 = 1.20 + 1.00 + 0.80 + 0.45 + 0.40 = 3.85**, marginally below the card's 3.90. The design got better and the claim got smaller by almost exactly the same amount, which seems like the right shape for an honest concession.
-
-The candidate survives this; the sentence I opened with does not. Nothing here changes that the keystone remains NOT_INSPECTED — a released per-scan age field, and a costal-cartilage mask whose accuracy does not itself track calcification severity — and no version of this design means anything until both are checked.
-
-**Status:** CONCEDED
-
-## Round 5 — CRITIC
-
-**Position:** The narrowed mineralization claim passes the identity check, but the proposed shams still do not isolate mineralization from a calcium-specific deletion signature because Arm P is not the same intervention as Arm R and Arm S cannot reproduce the mineralized-to-soft-cartilage transition.
-
-**Argument:** I accept the proposer’s substantive concession that the radiologist-legible X is costal cartilage mineralization, not the HU>180 voxel count; that correction preserves the original question—whether an unguided whole-chest age model found the costal-cartilage clock—and appropriately treats count, burden, topology, and attenuation as measurements of one coarser physical phenomenon. The remaining causal control is nevertheless overstated. Arm R replaces mineralized source voxels with subthreshold cartilage, destroying calcium–cartilage interfaces and the local high-attenuation tail. Arm S edits only subthreshold source voxels and therefore cannot match that class transition, however closely voxel count and |ΔHU| are matched. Arm P is more different still: relocating calcium requires both removing it from source locations and inserting it at destinations, so it changes roughly two spatial footprints, creates new calcium–cartilage interfaces, and preserves mineralization only globally while altering its topology. Consequently `slope_R − slope_S` or `slope_R − slope_P` can be driven by the model’s response to the distinctive disappearance of native high-contrast objects, rather than by their anatomical identity as costal-cartilage mineralization. A patch discriminator against unedited native patches does not close this contrast: even if every arm separately resembles native tissue marginally, unequal edit operators can remain distinguishable from one another, and the age model may respond to precisely those arm-specific features. The aortic-calcium comparison also does not repair the inference because plaque size, surrounding tissue, partial-volume behavior, motion, and segmentation geometry differ systematically between aorta and cartilage. The defensible result remains “this model responds when mineralized voxels are removed from the costal-cartilage region,” not yet “the model uses costal cartilage mineralization.”
-
-**What would change my mind:** Demonstrate before test-set evaluation that a classifier cannot distinguish Arm R from each sham on paired local patches under a preregistered equivalence bound—not merely edited from native—and match the arms after preprocessing on source/destination footprint, local attenuation histogram, component loss, edge-energy change, and spatial topology. More convincingly, show the same monotonic model response in naturally occurring within-patient scans where costal-cartilage mineralization differs while registration, scanner/protocol, and other anatomy are controlled; absent such evidence, narrow the claim explicitly to sensitivity under this intervention family.
-
-**Status:** OPEN
-
-## Round 6 — CRITIC
-
-**Position:** Even if the intervention arms become indistinguishable, a CT-CLIP linear age probe cannot establish that an unguided age model independently found the cartilage clock unless the probe is prevented from exploiting an age direction already injected by report-supervised pretraining.
-
-**Argument:** The revised intervention still passes the identity check: it asks whether a whole-chest model uses costal-cartilage mineralization, rather than substituting a mere cartilage-versus-age association. But the proposed target model is not simply an image model “given nothing but an age label.” CT-CLIP learned its image representation by alignment to CT-RATE reports, and the card has not inspected how often those reports explicitly state age or contain age-linked phrases. If age is written in reports, contrastive pretraining directly rewards image embeddings that align with an explicit age token; even if age is absent, report indications and diagnoses can strongly encode age. A subsequently fitted linear probe may therefore select a report-derived age axis rather than demonstrate that an age model trained unguidedly on anatomy discovered the forensic marker. The localized intervention can show that this particular representation/probe is sensitive to removing mineralized cartilage, but it cannot support the candidate’s central convergence story—independent rediscovery by a model told only chronological age—because the representation’s supervision history contains a plausible age channel. Patient-level splits, image-only inference, arm-equivalence tests, and protocol adjustment do not remove information learned during pretraining. This matters especially because the residual novelty over Lu et al. (PMID 37231070) and Sipahioglu et al. (PMID 42172947) is precisely that the model allegedly found the structure without being directed to it; if report supervision supplied age semantics, that delta is no longer identified.
-
-**What would change my mind:** Directly inspect the CT-RATE training reports and show, under a prespecified audit, that explicit age and near-deterministic age phrases are absent or removed during CT-CLIP pretraining; then replicate the intervention effect in an image encoder trained from scratch for chronological age on patient-level splits with reports and report-derived labels never entering training. Comparable monotonic effects in that clean model and CT-CLIP would support independent anatomical convergence. If only CT-CLIP is tested, narrow the claim to “a report-supervised CT-CLIP age probe is sensitive to costal-cartilage mineralization” and drop the assertion that an unguided model rediscovered the clock.
-
-**Status:** OPEN
-
-## Round 7 — PROPOSER
-
-**Responding to:** CT-CLIP is not a model "given nothing but an age label." Its image representation was learned by contrastive alignment to CT-RATE reports. If those reports state age, or carry age-diagnostic content, pretraining injected an age direction into the embedding and a linear probe merely reads it back. The intervention could then show that this representation is sensitive to removing mineralized cartilage while saying nothing about whether an unguided model independently found the forensic marker — and that convergence story is precisely the residual novelty over Lu et al. and Sipahioglu et al.
-
-**Response:** AMEND
-
-**Argument:**
-
-I went and read the supervision channel rather than arguing about it, and the result narrows the objection sharply without disposing of it. The narrowing is a fact about the code; the residual is real and I am adding a design arm for it.
-
-**What the training loader actually reads.** `scripts/data.py` in the authors' repository builds its text map as `accession_to_text[row['VolumeName']] = row["Findings_EN"], row['Impressions_EN']`, and the string handed to the tokenizer is element `[0]` of that tuple — `Findings_EN`. The misleading local variable name is `impression_text`; the content is the findings section. `ClinicalInformation_EN` is never read. This matters because CT-RATE reports have four sections — clinical information, technique, findings, impressions — and the clinical-information section is where a Turkish chest-CT report would carry "62-year-old male, dyspnoea." The critic's primary mechanism, "contrastive pretraining directly rewards image embeddings that align with an explicit age token," requires that token to be in the training string, and on this evidence the section that would contain it is not loaded. Provenance caveat, stated rather than hidden: I read this through a fetch-and-summarise step, not a local file read, so it is source-supported and not yet `INSPECTED_TRUE`. Re-reading `data.py` and `run_train.py` locally is now a Stage 0 line item, and if the column list turns out different the objection returns at full strength.
-
-Two other things fell out of the same pass, both bearing on this candidate's keystone and neither of which I will overstate. A curated mirror of the dataset card (openmedlab/Awesome-Medical-Dataset) lists the released files as `train_metadata.csv` / `validation_metadata.csv` with "age, sex, scanner manufacturer, slice thickness" among the fields. That is a secondary source describing a gated primary one, so the keystone stays `NOT_INSPECTED`; it raises my prior and changes nothing about the gate. Second, the released label set is eighteen findings including *arterial wall calcification* and *coronary artery wall calcification*, and nothing about cartilage.
-
-**The version of the objection the critic did not make, which is worse, and which I am raising against myself.** Explicit age in findings text is unlikely. Findings text *naming the structure* is not. Chest-CT findings sections do sometimes read "costal cartilage calcification is observed." If they do at any material rate, then CT-CLIP was pointed at this exact structure by name during pretraining — not localised, but named — and "the model found it on its own" collapses for reasons that have nothing to do with age tokens. That is the audit that matters, and it is cheaper than the one requested: a string search of `Findings_EN` for costal / chondral / rib-cartilage calcification terms, with a threshold fixed in advance.
-
-**Where I think the objection over-reaches, and it is one specific place.** "Unguided" has two readings and only one is damaged. The *spatial* reading — the model was handed a 480×480×240 whole-thorax volume and never a crop, mask, region label or coordinate — is untouched by report supervision, because text alignment does not localise. The *supervision-purity* reading — the only age information the model ever saw was a chronological age scalar — is damaged, and I concede it outright for CT-CLIP. The reason this distinction is load-bearing rather than semantic: the card's novelty deltas do not rest on supervision purity. The delta over Lu et al. (PMID 37231070) is that they trained on cropped costal-cartilage reconstructions and this does not — a spatial delta. The delta over Sipahioglu et al. (PMID 42172947) is interventional measurement in place of Grad-CAM and a window ablation — and Sipahioglu's model is already the clean label-only case, so supervision purity was never my delta against the nearest prior work. What the objection kills is a sentence in my title, not the contribution.
-
-**A supervision asymmetry that runs against my own hypothesis, and should be preregistered as an interpretive rule.** Report supervision named arterial and coronary wall calcification in eighteen labels and never named cartilage. Whatever text-derived calcium sensitivity CT-CLIP has was therefore trained *toward the aortic control arm and away from the cartilage arm*. So the head-to-head in the deliverable is biased against the claim: a cartilage-beats-aorta result is conservative with respect to this objection, while an aorta-beats-cartilage result is confounded by it and must not be read as evidence about anatomy. I will fix that reading before unblinding rather than after.
-
-**The amendment.**
-
-*Gate A — supervision audit, Stage 0, before any modelling.* Search `Findings_EN` and `Impressions_EN` across the training split for (i) explicit age patterns and (ii) costal/chondral cartilage calcification mentions, with prespecified thresholds. Report both rates. If cartilage naming exceeds threshold, CT-CLIP is a named-supervision model for this structure and the discovery framing dies for CT-CLIP regardless of what the intervention shows.
-
-*Arm 2 — a second target model with a disjoint supervision history.* A 3D age regressor trained from scratch on CT-RATE volumes using only the released per-scan age field, with reports and report-derived labels never entering training, patient-level splits, one reconstruction per scan. The identical three-arm intervention runs on both models. The estimand becomes cross-model replication of the mineralization slope. This is the critic's request adopted, not a substitute for it.
-
-*Rewritten question and deliverable.* Question: *does a chest-CT age model given the whole thoracic volume and no regional supervision causally rely on costal cartilage mineralization, and does that reliance replicate across two models with disjoint supervision histories?* Deliverable: *for a chest-CT age model given the whole thoracic volume and no cartilage crop, mask or region label, removing mineralization from the costal cartilages lowers predicted age more than matched disturbances that preserve mineralization within the same mask, and more than the identical manipulation applied to aortic calcium — and this holds both for the report-supervised encoder and for an encoder trained on chronological age alone.* The word "unguided" comes out of the title and is replaced by the spatial statement it was standing in for.
-
-**Identity check.** Does this still answer "does a chest-CT age model that was never told where to look recover the costal cartilage calcification clock?" Yes, and the label-only arm answers it more directly than the original design did, since that model is by construction told nothing but age. Nothing was narrowed to buy feasibility; feasibility got materially worse.
-
-**What this costs.**
-
-1. **The cheapest asset in the card is gone.** "An age model is a linear probe on frozen embeddings rather than a training run" was listed as an existing asset and is now false for the primary design. Uncapped feasibility drops from 3 to 2.
-2. **The two models will not see the same input.** A from-scratch 3D regressor at 480×480×240 is not a Colab Pro+ single-GPU proposition; it will run at reduced resolution, and resolution determines how much fine mineralization survives to the encoder. So cross-model agreement is agreement across supervision *and* input resolution, and disagreement is not attributable to supervision alone. This is a genuine weakening of the contrast and I do not have a fix for it within the compute constraint.
-3. **A new failure mode with no downstream recovery.** If the from-scratch model's age MAE is poor, it is not a usable target and the contrast collapses. A usefulness floor must be fixed before fitting, and the honest floor is roughly the published whole-chest-CT range (Sipahioglu 4.89 years, Azarfar's NLST model) rather than something I can hit easily.
-4. **The contrast controls supervision, not acquisition.** Both models train on the same corpus, scanners, protocols and referral pathway, so this does nothing for rung 2. Site and protocol still require an external cohort.
-5. **Framing loss is permanent if Gate A fails.** If findings text names costal cartilage at any material rate, the study reduces to "these two models are sensitive to cartilage mineralization," with the discovery story unavailable for the report-supervised one.
-
-**Round 5 is not answered here and I am not treating it as answered.** The arm-equivalence objection — that Arm R destroys calcium–cartilage interfaces in a way Arms P and S cannot match, so the contrast may track a calcium-specific deletion signature rather than anatomical identity — stands open. One partial bearing, labelled as partial: an arm-specific artifact explanation must, under cross-model replication, posit that two independently trained encoders respond to the same artifact with the same monotone slope. That raises the bar without clearing it, since both models share corpus and preprocessing family and would share resampling-induced artifacts. It is a narrowing of the alternative, not an exclusion of it, and the round-5 requirement of arm-versus-arm discriminator equivalence remains a precondition.
-
-**On the amendment count.** Objections have now landed on the endpoint (round 1), the scalar X (round 3), sham adequacy (round 5, open), and the target model (round 6) — four of the card's load-bearing components. The card in the folder no longer describes the study. My recommendation is that this is the last debate round against the current card: the candidate should exit debate, be rewritten around the interventional endpoint, the mineralization X, and the two-model contrast, and re-enter critique as a materially revised candidate. Continuing to amend against an obsolete card is how a debate produces motion without progress.
-
-**Score effect.** Mode C total unchanged at 3.85 — mechanism clarity 4, identifiability 4 (held there by open round 5, not raised for the cross-model arm), interest 4, medical relevance 3, clarity 4 on the rewritten question. Outside the score, feasibility 3 → 2 uncapped and prior legwork drops with the loss of the linear-probe route. Novelty confidence stays 2 and becomes conditional on Gate A.
-
-**Spin-off, noted not pursued.** The supervision asymmetry is a general instrument: CT-CLIP was text-supervised on arterial and coronary calcification and never on cartilage, so the same intervention family applied to a named structure versus an unnamed one measures how much of a report-supervised encoder's anatomical sensitivity is inherited from report vocabulary rather than learned from pixels. That is a question about foundation-model supervision rather than about aging, and it belongs in scouting as its own candidate.
-
-**Status:** OPEN
-
-## Round 8 — CRITIC
-
-**Position:** The two-model amendment passes the identity check and adequately repairs the supervision-history objection, but it leaves the earlier sham-identifiability failure intact, so cross-model replication would still show shared sensitivity to a calcium-deletion operation rather than causal use of costal cartilage mineralization.
-
-**Argument:** Training a second age regressor from scratch using only chronological age is a substantive answer to Round 6: if the report audit passes and the effect replicates in that label-only model, report-supervised pretraining is no longer a sufficient explanation. The revised question also still asks the original scientific question—whether a whole-thorax age model found the costal-cartilage clock—so the amendment passes the identity check. But the proposer explicitly leaves Round 5 open, and cross-model agreement does not narrow its central alternative enough to license the revised deliverable. Arm R uniquely deletes native high-attenuation objects and their interfaces; Arm S never performs a mineralized-to-soft-cartilage transition, while Arm P removes calcium at one footprint and inserts it at another. Two models trained on the same CT-RATE images can learn the same generic response to disappearance of high-contrast calcific objects because that response is supplied by the shared image distribution, not by shared supervision or architecture. A monotone age decrease in both models could therefore arise if both treat loss of native calcium-like components anywhere in an age-correlated anterior-chest region as evidence of a younger or less familiar scan. The aortic arm does not isolate anatomical identity because cartilage and aortic plaques differ in component geometry, surrounding attenuation, motion, partial volume, and preprocessing survival. Nor does an arm-versus-arm discriminator equivalence result establish causal equivalence: failure of a separate classifier to distinguish edits within a power bound does not show that the age models are insensitive to the unmatched calcium-interface features. Thus the strongest defensible sentence remains intervention-scoped: “in two age models with different supervision histories, this mineralized-voxel removal operation lowers predicted age when applied in the costal-cartilage region.” That is useful rung-1 evidence, but it is not yet “the models use costal cartilage mineralization.”
-
-**What would change my mind:** Produce a control that applies the same mineralized-to-soft-tissue source transition, with matched post-preprocessing component loss, edge-energy change, attenuation histogram, topology, and spatial footprint, while preserving the anatomical costal-cartilage mineralization quantity being claimed—or provide registered within-patient scans showing naturally differing cartilage mineralization with stable scanner, protocol, registration, and other anatomy. Absent one of those, preregister the intervention-scoped sentence as the maximum claim and score identifiability no higher than 3.
-
-**Status:** OPEN
-
-## Round 9 — CRITIC
-
-**Position:** Even if the calcium-deletion contrast were repaired, the revised study still cannot reach its discovery claim because the load-bearing anatomical measurement—an accurate costal-cartilage mask whose error is independent of age and mineralization—remains unvalidated and the proposed intervention conditions on that same potentially biased mask.
-
-**Argument:** The two-model amendment passes the identity check: a chronological-age-only whole-thorax model still tests whether a model without regional supervision found the costal-cartilage clock. The supervision-history repair is therefore adequate, and I do not reopen Round 6. But every intervention arm now depends more heavily than the original mediation design on TotalSegmentator class 117 correctly separating costal cartilage from adjacent rib, sternum, soft tissue, and vascular calcium across the full age range. The inspected fact is only that the class exists, not that its boundary accuracy is stable as cartilage changes from low-contrast unmineralized tissue to high-attenuation mineralized tissue. If the segmenter preferentially includes conspicuous calcified cartilage in older scans and omits low-contrast cartilage or adjacent bone inconsistently, Arm R selects a severity-dependent mixture of true cartilage calcium and boundary contaminants; erosion does not cure this because it can preferentially retain central calcification while discarding the peripheral male pattern described by Rejtarova and Zhang (PMID 28592818). The age model may then respond to removal of rib/sternal cortex or other high-attenuation contaminants, while the analysis names the affected voxels “costal cartilage mineralization.” Reproducing Shabani et al.'s age slope (PMID 34966360) cannot validate the mask because age-dependent segmentation error produces exactly that slope, and a broad landmark box cannot distinguish cartilage from adjacent bone or vascular calcium. This is the same wrong-keystone structure recorded for ideas 005 and 006: existence of a usable class map is the nearest checkable fact, while unbiased instance-level localization is the fact the causal inference needs. Until that is directly established, even a perfectly matched edit and replicated model response supports only sensitivity to voxels selected by this segmenter, not the radiologist-legible X. The current card's claim that X is computable “today without asking anyone” is therefore unsupported. A small reference set does not violate the ban on a large annotation campaign, but it changes the data-readiness claim and is a hard prerequisite, not a downstream robustness check.
-
-**What would change my mind:** Before fitting or intervening on either age model, evaluate the exact post-preprocessing masks against an independent reference on a prespecified, age-by-sex-by-mineralization-severity sample, reporting cartilage-versus-rib/sternum confusion, boundary error, editable true-positive fraction, and whether each error metric is equivalent across strata; require a fixed minimum precision for every edited voxel, not merely aggregate Dice. If no annotation-free validated reference exists, obtain a small blinded consensus reference set and stop the candidate if the precision or cross-stratum equivalence gate fails.
-
-**Status:** OPEN
-
-## Round 10 — PROPOSER
-
-**Responding to:** Every intervention arm now conditions on TotalSegmentator class 117. The inspected fact is that the class exists; the fact the causal inference needs is that its boundary accuracy does not itself track age and mineralization. If the segmenter preferentially captures conspicuous calcified cartilage in older scans, omits low-contrast cartilage in the young, or admits rib cortex, sternal cortex, or vascular calcium, then Arm R deletes a severity-dependent mixture and the analysis names it "costal cartilage mineralization." Erosion does not cure this and may preferentially discard the peripheral male pattern. Reproducing the MESA age slope cannot validate the mask, because age-dependent segmentation error produces exactly that slope; a landmark box cannot separate cartilage from adjacent bone or vascular calcium. This is the ideas 005/006 wrong-keystone structure again, the card's claim that X is computable "today without asking anyone" is unsupported, and a validated reference is a hard precondition rather than a downstream robustness check.
-
-**Response:** AMEND
-
-**Argument:**
-
-I accept the requirement in full and I am deleting the card's two proposed validation instruments rather than defending them. What I contest is the scope: the critic asks for cross-stratum equivalence of *every* error metric, and the interventional design makes only one of them load-bearing. Below: what dies, what property actually matters, two annotation-free bounds and the one contaminant that defeats both, and an existing expert reference I went and checked — which reduces the cost of the gate and simultaneously supplies a stronger version of the critic's objection than the critic made.
-
-**What dies, without repair.** The MESA-slope check in Stage 0 and the landmark-box replication in Stage 3 both come out of the card. The critic's argument against the first is correct and I have no counter: an age-dependent recall bias manufactures the published gradient, so agreement with Shabani et al. is consistent with the exact failure it was supposed to exclude. The landmark box is worse than non-validating — a >180 HU count in a rib–sternum box contains rib cortex, sternal cortex, internal mammary calcification and devices by construction, so it is not a second measurement of the same quantity. This deletion is larger than it looks: the card's own `keystone_residual_assumption` field named segmenter accuracy as the real keystone and nominated the landmark box as its remedy. The remedy was itself invalid. That is a distinct failure mode from the ones already in the ledger and I think it deserves its own line: **the instrument nominated to validate the keystone was not capable of validating it.** The card looked self-aware about its weakest point while proposing a check that could not fail in the informative direction.
-
-**Where the scope is wrong: the mask is a selection rule, not a measuring instrument.** In the mediation design the mask produced a covariate, and unbiased volumetry was genuinely required. In the interventional design the mask chooses *which voxels get edited*, and the ladder regresses model output on quantities recomputed from the preprocessed tensor after editing. That splits the critic's concern in two, and the halves have different consequences.
-
-- **Recall failure** — the mask misses true cartilage, more so where it is unmineralized and low-contrast. Consequence: less dose delivered, and an editable fraction that varies with age and sex. This is a power and external-validity problem. It does not make the claim about the edited voxels false; it makes the estimate apply to a subset of the cartilage and, as recorded in round 2, to the calcified subsample of the corpus. I will report editable fraction by age × sex as a limitation. I do not accept recall equivalence across strata as a gate, because failing it would not invalidate anything.
-- **Precision failure** — the edited set contains rib cortex, sternal cortex, or vascular calcium. Consequence: the voxels are mis-named, and the deliverable sentence attributes to costal cartilage a response caused by removing bone or arterial calcium. This is the identification failure and it is unaddressed in the card. The critic's own closing sentence names the right metric — minimum precision for every edited voxel, not aggregate Dice — and that is the gate I adopt. Agreement on the metric, disagreement on the breadth.
-
-**Two annotation-free bounds, and what neither can do.**
-
-*First, class-competitor exclusion.* The total task's class map, read directly and recorded in the card, carries ribs 1–12 left and right and sternum as class 116 alongside costal_cartilages as 117. The editable set becomes the eroded cartilage mask minus a dilated union of ribs, sternum, aorta, heart and lungs. Stated honestly, this is weaker than it sounds: the network emits a single argmax label map, so a voxel called cartilage was by construction not called rib, and the subtraction only removes the boundary collar where the two labels abut. It bounds boundary bleed. It cannot detect wholesale misassignment of a structure.
-
-*Second — and this one I think is new to the debate — the young-corpus specificity bound.* The contaminants the critic names are **age-stationary**. Rib cortex, sternal cortex and the costochondral junction are present at 25 and at 75. Real costal cartilage mineralization is near-absent at 25. So run the exact editable-mask pipeline, unchanged, on the youngest decile of the corpus and count suprathreshold voxels inside it. Under a clean mask that count is near zero. Whatever it is, it is an upper bound on the age-stationary contamination the intervention would mis-name, and it is computable on CT-RATE alone with no annotator and no external dataset.
-
-The reason this is not the check the critic just refuted: the MESA-slope check asked whether a quantity that *should* rise with age does rise with age, and an age-dependent artifact satisfies it. This asks whether a quantity that should be *absent* at one end of the age axis is absent, and the artifacts it is aimed at do not disappear in the young. The null quantity is age-stationary, which is precisely why age-dependent segmentation error cannot manufacture a pass.
-
-*The contaminant that defeats both, raised against myself.* Internal thoracic (internal mammary) artery calcification runs in the parasternal region immediately adjacent to the costal cartilages, it is strongly age-dependent, and the total task has no internal thoracic artery class — so it is not excludable by the first bound and not bounded by the second. It is exactly the "vascular calcium" in the critic's list and it is the worst case, because it would mimic the target's age dependence in the target's location. Partial handling is geometric and per-component: internal mammary calcification is tubular and follows a longitudinal parasternal course, cartilage mineralization is patchy and arcuate, and the two differ in distance from the sternal border. I am recording that as a screen, not as a solution. It does not close the objection and the reference set remains required.
-
-**The reference set: it may already exist, and checking it produced a fact that hurts me.**
-
-Zhang et al. (arXiv:2408.07444; *Expert Systems with Applications* 2026) released **CCSeg**: 165 CT cases with voxel-wise costal cartilage annotation, segmented by four plastic surgery residents under radiology supervision with senior review, plus a ten-patient out-of-domain GE set. It is stratified on exactly the axis the critic demands — school-age with minimal calcification, adolescent with minimal calcification, adult with mild-to-moderate calcification, and a post-surgical group with extensive calcification. The repository README points to an OSF-hosted release under CC-BY-SA; I could not resolve the OSF page itself, so availability is source-supported, not `INSPECTED_TRUE`, and it is a Stage 0 line item. I also checked CADS (22,022 scans, 167 structures) as an alternative and it does not contain a costal cartilage class, and its labels are automated pseudo-labels, so it is a reference for nothing here.
-
-Three consequences, and the middle one is against the candidate.
-
-1. *The precision gate may not need a new annotation campaign*, and the severity stratification the critic asks for is already built into the reference's design rather than something I would have to construct.
-2. *The prior on this mask is bad, not merely unverified.* The best purpose-built method in that benchmark — trained in-domain on this structure — reaches DSC 78.5 ± 1.0 and NSD 74.7 ± 1.4. TotalSegmentator's class 117 is one incidental class in a 117-class general model and has no claim to beat a dedicated one. This is a stronger statement of the critic's position than the critic made, and I am putting it in the record rather than waiting for it. Whether ~78 Dice is compatible with adequate *precision on an eroded interior* is a genuinely open empirical question — Dice on a thin elongated structure is dominated by boundary error, and erosion attacks exactly that term — but it is now an empirical question I have to answer, not a concern I can wave at.
-3. *CCSeg covers the wrong end of my age axis.* Its only extensively calcified stratum is post-surgical, with partial cartilage absence; the normal 50-to-90-year-olds with heavy mineralization, who are the population the primary estimate lives in, are essentially absent, and the acquisition is 1 mm Philips and pediatric-weighted, unlike CT-RATE. So CCSeg can **falsify** the mask cheaply and cannot **certify** it where this study runs. If precision passes on CCSeg's adult stratum, it must still be repeated on a small blinded CT-RATE reference in the older strata. The existing asset lowers the cost of the gate; it does not remove the annotation set I accepted in round 2.
-
-**On "computable today without asking anyone."** The card's answer — "Yes. Free tool, free class, a threshold, a voxel count" — is false as written and comes out. But the distinction that decides whether this dies like ideas 001, 002 and 005 is worth stating precisely, because it is not the same structure. Those died because a human judgment entered the **readout**: the thing being predicted or explained was a reader's opinion formed under viewing conditions that were undocumented or contaminated. Here no annotation enters the estimand at any point — the models see pixels, the intervention is an automated operator, the outcome is a model output. Annotation enters only the **validation of an instrument**, and its failure mode is different in kind: an imperfect reference set weakens the gate's power to detect a bad mask, it does not contaminate the causal contrast. That asymmetry is also why the gate must be precision-directioned. A merely decent reference can still show that edited voxels sit on rib cortex, and that is the direction that kills the candidate.
-
-**The amendment to the stage plan.** Stage 0 becomes an ordered sequence of kill gates, cheapest first, none of which costs anything downstream: (0a) the released per-scan age field; (0b) Gate A, the round-7 supervision audit; (0c) the young-corpus specificity bound, which runs on CT-RATE alone; (0d) precision of class 117's eroded editable set against CCSeg, adult stratum, conditional on the OSF release resolving; (0e) a small blinded CT-RATE reference in the older strata, only if 0d passes. Failure at 0c, 0d or 0e stops the candidate. For a candidate this heavily amended, that ordering is the point: the two new gates can end it before any model is fitted.
-
-**What this costs.**
-
-1. **Data readiness drops from 3 to 2.** The card's claim that X is public and directly usable is withdrawn. The validated form of X depends on an external dataset whose release I have not resolved, plus an annotation set.
-2. **The keystone is restated for the third time, and the drift is itself the finding.** It began as "a per-scan age field is released," the card's own residual moved it to "the segmenter is accurate," and it is now "the eroded editable voxel set is precise in heavily mineralized older adults." Each restatement was narrower and harder than the last. Status stays `NOT_INSPECTED`; the feasibility and novelty caps stay.
-3. **Identifiability goes back down to 3.** I raised it to 4 in round 4 on the strength of the three-arm design. Round 8 left one unclosed channel and round 9 adds a second, and I accept the critic's instruction to preregister the intervention-scoped sentence as the maximum claim. Mode C total: 0.30×4 + 0.25×3 + 0.20×4 + 0.15×3 + 0.10×4 = 1.20 + 0.75 + 0.80 + 0.45 + 0.40 = **3.60**, down from 3.85.
-4. **The maximum claim becomes mask-scoped as well as intervention-scoped:** *in two chest-CT age models with disjoint supervision histories, removing mineralization from voxels an automated segmenter assigns to costal cartilage lowers predicted age more than matched disturbances that preserve mineralization in the same voxels, and more than the identical manipulation applied to aortic calcium.* Note what the precision gate is doing structurally — it is the step that converts "voxels the segmenter chose" into "costal cartilage." For this candidate the mask gate *is* the rung-2-to-rung-3 transition, not a robustness check attached to it, and the deliverable sentence cannot be written in radiologist's words until it passes.
-
-**Identity check.** Does this still answer "does a chest-CT age model that was never told where to look recover the costal cartilage calcification clock?" Yes. Nothing in this round changes the question; it changes what has to be true before the answer means anything. Feasibility got worse again and I am not trading any of it for scope.
-
-**Where this leaves the debate.** Objections have now landed on the endpoint, the scalar X, sham adequacy, the target model, and the anatomical instrument — five load-bearing components, of which two remain open. I repeat the round-7 recommendation more strongly: the card in the folder describes none of this study, and further rounds against it produce motion without progress. The candidate should exit debate, be rewritten around the interventional endpoint, the mineralization X, the two-model contrast and the ordered Stage 0 gate sequence, and re-enter critique as a materially revised candidate carrying rounds 5 and 8 forward as unresolved.
-
-**Status:** OPEN
-
-## Round 11 — CRITIC
-
-**Position:** The latest amendment responsibly repairs the mask-validation plan, but its preregistered maximum claim no longer answers the original question, because sensitivity to a segmenter-selected mineralized-voxel deletion operation is not evidence that either model “found” or uses the costal-cartilage clock.
-
-**Argument:** The amendment gives a substantive answer to Round 9: it deletes the invalid MESA-slope and landmark-box checks, distinguishes precision from recall, makes edited-voxel precision in heavily mineralized older CT-RATE cases a hard gate, and identifies an appropriate role and limitation for CCSeg. I concede the anatomical-instrument objection conditional on the proposed older-adult reference-set precision gate passing. The identity check nevertheless fails at the study level. The proposer now explicitly accepts Round 8’s intervention-scoped ceiling and writes the maximum claim as “removing mineralization from voxels an automated segmenter assigns to costal cartilage lowers predicted age.” That statement describes a response to one deletion operator; it does not establish that native model predictions use costal-cartilage mineralization, because the unmatched mineralized-to-soft-tissue transition from Rounds 5 and 8 remains unresolved. Passing mask precision converts “voxels the segmenter chose” into anatomically genuine cartilage voxels, but it cannot convert an operation-specific response into use of the native feature. The two-model replication, age-only supervision arm, aortic comparison, young-subject bound, and CCSeg/CT-RATE precision gates all leave that logical gap intact. Consequently the revised experiment can reach rung 1 only for the claim “these models respond to this operation in costal cartilage”; it cannot deliver the required positive sentence “the models use costal-cartilage mineralization,” nor the original convergence claim that they recovered the forensic clock. This is not a minor narrowing of population or comparator set: it changes the estimand from native feature use to intervention sensitivity. Under the debate rule, that feasible replacement should be a separate candidate, while Idea 011 remains paused unless the sham-identifiability problem is solved.
-
-**What would change my mind:** Either provide the matched control or registered natural within-patient contrast specified in Round 8 that identifies native costal-cartilage mineralization use, then retain the proposed precision gates; or explicitly close Idea 011 as paused and spawn a separate rung-1 candidate whose question and deliverable are limited from the outset to sensitivity to the mineralized-voxel removal operation.
-
-**Status:** OPEN
+If the debate converged in one round with no real objection raised, say so
+explicitly. That is evidence the critic is not working, and it matters more
+than the idea under discussion.
 
