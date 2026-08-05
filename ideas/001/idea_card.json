@@ -1,0 +1,119 @@
+{
+  "id": "C2",
+  "title": "Have lung nodule concept models been validated against radiologist opinion rather than against disease?",
+  "question": "Do the nine LIDC-IDRI semantic nodule attributes predict pathology-confirmed malignancy as well as they predict the radiologist-assigned malignancy rating that the entire LIDC concept literature uses as its endpoint?",
+  "concept_definition": "A concept is one of the eight non-malignancy LIDC-IDRI nodule characteristics rated on ordinal scales by each reading radiologist: subtlety, internal structure, calcification, sphericity, margin, lobulation, spiculation, and texture/radiographic solidity. The ninth field, 'likelihood of malignancy', is deliberately excluded from the concept set and treated as what it is \u2014 a subjective outcome opinion, not a perceptual concept. This exclusion is the crux of the candidate.",
+  "medical_relevance": "Essentially every interpretable lung nodule model reports how well its concepts predict malignancy, where 'malignancy' is a radiologist's five-point guess on the same image the model saw. If concept-to-opinion agreement is much stronger than concept-to-pathology agreement, then the field has been measuring how well models reproduce a reader's impression, not how well they detect cancer. That distinction determines whether any of these systems could support a biopsy-or-surveillance decision.",
+  "closest_work": [
+    {
+      "citation": "Armato S.G. III et al. The Lung Image Database Consortium (LIDC) and Image Database Resource Initiative (IDRI): A completed reference database of lung nodules on CT scans.",
+      "identifier": "Medical Physics 38:915-931 (2011); collection DOI 10.7937/K9/TCIA.2015.LO9QL9SX",
+      "source_type": "journal + official archive",
+      "verification": "verified_by_primary_fetch of the TCIA collection page",
+      "what_it_establishes": "The dataset, its CC BY 3.0 license, the XML annotation format (LIDC-XML-only.zip) containing per-reader 1-5 characteristic ratings from up to four thoracic radiologists, and crucially the existence of a separate patient-level and nodule-level diagnosis file, tcia-diagnosis-data-2012-04-20.xls, categorising cases as unknown, benign, primary lung cancer, or metastatic. TCIA states 'this project has concluded and we are not able to obtain any additional diagnosis data.'",
+      "exact_delta": "Provides both endpoints. Nobody is prevented from using the pathology endpoint; it is simply not what the concept literature reports against."
+    },
+    {
+      "citation": "Shen S. et al. An interpretable deep hierarchical semantic convolutional neural network (HSCNN) for lung nodule malignancy classification.",
+      "identifier": "Expert Systems with Applications, 2019 (ScienceDirect S0957417419300545); CVPRW 2019 Explainable AI workshop version",
+      "source_type": "journal + workshop paper",
+      "verification": "verified_by_search_summary_only",
+      "what_it_establishes": "The canonical LIDC concept-bottleneck-style model: low-level semantic attribute outputs feeding a high-level malignancy prediction, framed as expert-interpretable.",
+      "exact_delta": "Its malignancy target is the radiologist rating. The pathology endpoint is not used."
+    },
+    {
+      "citation": "Zhang H. et al. Re-thinking and Re-labeling LIDC-IDRI for Robust Pulmonary Cancer Prediction.",
+      "identifier": "arXiv:2207.14238",
+      "source_type": "preprint",
+      "verification": "verified_by_primary_fetch",
+      "what_it_establishes": "Directly documents the problem: LIDC radiologist malignancy ratings can differ from pathological ground truth, introducing supervision bias. They relabel using metric learning guided by a reference set of 180 pathologically diagnosed nodules, and conclude 'building a large pathological-proven nodule database provides the long-term solution.'",
+      "exact_delta": "They fix the label to build better predictors. They do not ask the concept question \u2014 whether the semantic attributes themselves lose predictive validity when the endpoint changes from opinion to pathology. That is a different and cheaper question, and their work establishes both that the discrepancy is real and that the pathology subset is usable."
+    },
+    {
+      "citation": "Concept-based Explainable Malignancy Scoring on Pulmonary Nodules in CT Images.",
+      "identifier": "arXiv:2405.17483",
+      "source_type": "preprint",
+      "verification": "verified_by_search_summary_only",
+      "what_it_establishes": "A recent concept-based malignancy scoring framework evaluated on LIDC-IDRI, reporting alignment with clinical practice patterns.",
+      "exact_delta": "Again evaluated against the radiologist rating. Reinforces that the endpoint substitution is the field norm rather than an isolated choice."
+    }
+  ],
+  "existing_legwork": [
+    "Both endpoints are already in the public archive under CC BY 3.0 with no DUA.",
+    "The per-reader attribute ratings are parsed by mature open tooling (pylidc and equivalents) that the community already uses.",
+    "The discrepancy between radiologist ratings and pathology is already documented (arXiv:2207.14238), so the premise does not need establishing.",
+    "Standard concept-to-outcome modelling here is ordinal logistic regression or gradient boosting on an eight-dimensional feature vector \u2014 no deep model is strictly required for the core comparison."
+  ],
+  "missing_step": "The paired comparison has not been made. What is missing is a single table: for the same nodules, the discriminative power of the eight semantic attributes against (a) the consensus radiologist malignancy rating and (b) the pathology-confirmed label from tcia-diagnosis-data-2012-04-20.xls, with the gap between them reported as the quantity of interest.",
+  "why_it_matters": "If the gap is large, then the reported performance of every LIDC concept model overstates its clinical validity by a measurable amount, and the correct interpretation of that literature changes. If the gap is small, the field's endpoint substitution is empirically defensible and can stop being an unexamined assumption.",
+  "dataset": {
+    "primary": "LIDC-IDRI via The Cancer Imaging Archive",
+    "license": "CC BY 3.0",
+    "access": "Public download via TCIA Data Retriever. No DUA identified on the collection page.",
+    "key_files": [
+      "LIDC-XML-only.zip (per-reader nodule characteristic ratings)",
+      "tcia-diagnosis-data-2012-04-20.xls (patient- and nodule-level diagnosis, ~45 KB)"
+    ],
+    "size_constraint": "The pathology-confirmed subset is small. TCIA describes it as limited; secondary reports place it around 157 patients, with one report isolating 77 biopsy/resection-confirmed cancers and 36 non-cancers. This is the dominant feasibility limit.",
+    "verification": "File names, license, and collection DOI verified_by_primary_fetch; the 157/77/36 counts are verified_by_search_summary_only"
+  },
+  "compute_readiness": "The core comparison needs no imaging model at all \u2014 it operates on the released attribute ratings, so it is CPU-only and runs in minutes. Only the optional arm (an image-to-concept predictor, to check whether a model's *predicted* concepts behave like the annotated ones) needs a GPU, and that is one small 2D or 2.5D CNN over cropped nodule patches.",
+  "minimal_experiment": "Step 1, no modelling: link nodules in the pathology-confirmed subset to their per-reader attribute ratings and to their consensus malignancy rating. Step 2: fit the same simple classifier (penalised logistic regression, nested cross-validation) from the eight attributes to each endpoint separately, and report AUC with bootstrap CIs for both, plus the paired difference. Step 3, pre-registered subgroup: restrict to cases where the radiologist consensus and pathology disagree, and ask which attributes carry the disagreement. The whole of step 1-3 is a defensible standalone result. Only if that succeeds is the image-based arm worth adding.",
+  "critical_confound": "Verification bias. Nodules that received biopsy or resection were selected for it precisely because they looked suspicious, so the pathology-confirmed subset is systematically enriched for high-suspicion nodules and has compressed variance in exactly the attributes under study. A raw AUC comparison across the two endpoints on differently-shaped populations is not a fair comparison. Mitigation: compute both endpoints on the *same* nodules only (the confirmed subset), never comparing a confirmed-subset AUC to a full-dataset AUC.",
+  "secondary_confound": "Nodule-to-patient linkage. The diagnosis file is partly patient-level while attributes are nodule-level; a patient with a confirmed cancer may have several nodules of which only one is malignant. Any mislinkage inflates apparent disagreement. Linkage rules must be frozen and reported before analysis, and cases with ambiguous linkage excluded a priori rather than adjudicated after seeing results.",
+  "risky_assumption": "That the pathology field in a 2012 spreadsheet is reliable enough to serve as ground truth at this sample size. TCIA itself flags the diagnosis data as limited.",
+  "positive_interpretation": "A demonstrated gap would identify a decisive, previously unquantified confound in a large and active literature, and would be reportable as a short, high-value methodological paper.",
+  "negative_interpretation": "A small gap licenses the field's endpoint substitution with evidence for the first time, which is a real contribution because that substitution is currently made silently.",
+  "why_negative_is_useful": "Both directions change how a reader should interpret roughly a decade of LIDC concept results, and the null is the more reassuring but equally publishable outcome.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "One sentence, one paired comparison, one number."
+    },
+    "medical_relevance": {
+      "value": 5,
+      "why": "Distinguishes predicting a reader's impression from predicting cancer, which is the difference between a plausible tool and a clinically meaningful one."
+    },
+    "interest": {
+      "value": 5,
+      "why": "'A whole literature validated against opinion instead of disease' is compelling well outside the subfield."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Both endpoints public, tooling mature, discrepancy already documented \u2014 but no released checkpoint or ready-made linkage table."
+    },
+    "feasibility": {
+      "value": 4,
+      "why": "The core analysis is CPU-only and quick; the linkage work and the small confirmed subset are the real costs."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Fully public with a permissive license, but the pathology subset is small and the diagnosis file is acknowledged by TCIA as limited."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "AUC and paired bootstrap are standard, but the small n gives wide intervals and an underpowered null is a real risk."
+    },
+    "negative_result_value": {
+      "value": 5,
+      "why": "Either result resolves an assumption the field currently makes without evidence."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Relabeling work exists and is close by; no paper making this exact paired concept comparison was found, but the search was not exhaustive."
+    }
+  },
+  "priority_score": 4.45,
+  "priority_arithmetic": "0.20*4 + 0.15*4 + 0.15*5 + 0.15*5 + 0.10*5 + 0.10*5 + 0.05*4 + 0.05*4 + 0.05*3 = 4.45",
+  "regret": {
+    "value": 5,
+    "why": "A public pathology label file has been sitting alongside the attribute annotations since 2012 while the field optimised against a surrogate."
+  },
+  "unverified_claims": [
+    "The exact size and composition of the pathology-confirmed subset (157 patients; 77 cancer / 36 non-cancer) is from search summaries only. The spreadsheet must be downloaded and counted directly before feasibility is asserted.",
+    "Whether tcia-diagnosis-data-2012-04-20.xls provides nodule-level or only patient-level linkage for most cases was described on the TCIA page as 'both patient and nodule level' but the actual per-row granularity was not inspected. This is the single biggest feasibility risk and should be checked first, before any other work.",
+    "HSCNN's exact target definition and reported metrics are from a search summary; the ScienceDirect or CVPRW primary text was not read.",
+    "The claim that no published LIDC concept study evaluates against the pathology subset is an inference from the papers surfaced, not a systematic check. A PubMed and MICCAI proceedings search is required."
+  ],
+  "recommendation": "SHORTLIST"
+}
