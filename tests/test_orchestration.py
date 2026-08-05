@@ -92,7 +92,7 @@ command = ["{sys.executable}", "{self.fake}"]
 ''')
         # A shortlisted idea to operate on.
         d = self.repo / "ideas" / "001"
-        d.mkdir(parents=True)
+        d.mkdir(parents=True, exist_ok=True)
         (d / "idea_card.json").write_text(json.dumps({"title": "Test idea"}) + "\n")
         (self.repo / "orchestrator" / "state.json").write_text(
             json.dumps({"next_scout": 2, "selected_idea": 1}) + "\n")
