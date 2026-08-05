@@ -2,3 +2,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 001,Have lung nodule concept models been validated against radiologist opinion rather than against disease?,ACTIVE,,,CRITIQUE,
 002,Dermoscopic concepts predicted from non-dermoscopic photographs: genuine visibility or shortcut?,ACTIVE,,,CRITIQUE,
 003,"Does BI-RADS concept intervention survive realistic clinician behaviour, and does it beat simply reading the BI-RADS category?",ACTIVE,,,CRITIQUE,
+004,The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition,ACTIVE,,,CRITIQUE,
