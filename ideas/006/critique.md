@@ -1,0 +1,130 @@
+FATAL OBJECTION: Deleting the entire patient is an extreme out-of-distribution intervention, so scores on that input cannot establish that CT-CLIP uses exterior signal on intact CTs.
+EVIDENCE: The inspected `data_inference_nii.py` only shows that preprocessing retains exterior voxels; no source or experiment shows that a constant-filled body is in the training distribution, and the proposed scramble control leaves this defect unchanged.
+REPAIRABLE WITHOUT CHANGING THE QUESTION? NO
+DECISION: PAUSE
+
+# Adversarial review
+
+## Bottom line
+
+The interesting scientific question is whether a chest-CT model relies on information outside the patient. The proposed experiment does not identify that claim. It asks the frozen model to process an image unlike any diagnostic CT: most of the central field is replaced by a constant while peripheral remnants remain. A nonconstant or label-associated output on such inputs can arise from extrapolation, interactions between the artificial boundary and learned filters, positional embeddings, padding/cropping conventions, or genuine exterior information. A chance output can arise because the intervention destroys the internal feature context needed to read exterior cues even if those cues influence predictions on intact scans. Neither direction cleanly answers whether exterior content is used in normal operation.
+
+This is not a small missing control. It falsifies the card's `INSPECTED_TRUE` keystone. The script inspection verified that exterior voxels survive preprocessing; it did **not** verify the second clause, that a body-excluded input is in-distribution. Indeed, the intervention itself makes that clause implausible. Under the charter's cap, feasibility and novelty confidence must return to at most 3 until a valid intervention and accessible checkpoint are directly exercised.
+
+The idea should pause rather than be rejected because a nearby, less destructive paired intervention can test the underlying motivation. It is not the headline experiment “diagnose a volume with no patient in it.”
+
+## 1. Endpoint failure: the label-free arm does not diagnose signal use
+
+The proposed primary endpoint is the rank correlation of full-volume scores with body-excluded scores and their score difference. That endpoint requires no labels, but being label-free does not make it valid.
+
+- High rank correlation does not show that the retained ranking is medically informative. It may reflect a patient-specific mask boundary, body cross-sectional area, scan length, padding fraction, or stable extrapolation of the network on an artificial input.
+- Low rank correlation does not show that the intact model ignores the exterior. Destroying anatomy can also destroy feature interactions required for the model to exploit exterior context.
+- A score change after removing virtually all meaningful image content is not attributable to the removed region or its complement. Occlusion attribution is especially non-additive when nearly the entire input is replaced.
+- The proposed A-versus-C comparison has the same problem in reverse. Setting the exterior to exactly −1000 HU changes noise, table, truncation streaks, and the body/exterior boundary simultaneously; it does not isolate a carrier.
+
+The card therefore overstates rung 2. At best this is a behavioral stress test on synthetic images. It is not evidence that “the model uses signal X” on intact scans and not a direct artifact demonstration.
+
+## 2. The controls do not cure out-of-distribution extrapolation
+
+### Scrambled exterior
+
+The D control is described as distinguishing patient-specific information from a prevalence-like prior. It does not. Both B and D contain a deleted patient and therefore share the dominant distribution shift. If B differs from D, the difference can result from seams, incompatible field-of-view geometry, interpolation texture, or interactions between the foreign exterior and the synthetic body boundary. If they agree, both may simply have collapsed under the common intervention. Across-volume score variance is also not sufficient: a deterministic model can produce variable extrapolations from nuisance geometry without reading disease-related signal.
+
+### Mask dilation
+
+Dilation can test whether residual anatomy close to the segmentation boundary carries the result. It cannot prove that all anatomy is gone. Beam-hardening and truncation streaks outside the contour are caused by the patient's attenuation; table overlap, arms, lines, clothing, and supports complicate a threshold-derived body definition. More importantly, even perfect masking does not repair the extrapolation problem.
+
+### Matched ellipse
+
+The matched-ellipse proposal does not “destroy the silhouette while preserving the exterior.” Its area is explicitly matched to the patient, so it retains an encoded habitus measurement; its dimensions and placement may retain more. It also introduces a large, smooth, soft-tissue object not generated by CT physics. Comparing two artificial replacements cannot identify which behavior on intact images depends on exterior content.
+
+### Multiple mask methods
+
+Agreement between TotalSegmentator-derived and threshold/morphology masks is not independent validation of the estimand. TotalSegmentator organ masks are not necessarily a complete external body contour, while thresholding can merge the table or exclude low-density material. The card has not directly inspected the released `ts_seg` schema, so “a body mask essentially for free” remains unverified.
+
+## 3. The secondary AUROC is the only clinically interpretable endpoint, but it has unresolved leakage and sampling problems
+
+AUROC on body-excluded inputs at least asks whether those synthetic scores rank report-labelled abnormalities. It still cannot show exterior reliance on intact inputs, and several statements about labels are wrong.
+
+The claim that report-label noise “attenuates toward chance” and therefore cannot manufacture a positive is false without nondifferential-error assumptions. CT-RATE labels are derived from reports for the same examinations. Protocol, scan extent, referral pathway, disease severity, and reporting practices may jointly affect both exterior appearance and what is mentioned in the report. Differential omissions or report wording correlated with protocol can create or strengthen an exterior-label association. This is not concept-label circularity in the LIDC sense, but it is **target/protocol coupling**, precisely the artifact the study is trying to measure. A positive AUROC would demonstrate predictability of released labels in this cohort, not diagnosis of biological abnormalities.
+
+The existing 850-volume download from idea 004 is also not automatically an adequate evaluation set. It is a selected set of 425 multi-reconstruction pairs, overwhelmingly Siemens, rather than the entire prespecified validation cohort. It changes the case mix, duplicates report labels across reconstructions, and may have too few positives for rare abnormalities. Confidence intervals must cluster at least by patient, not merely by scan, because the ledger reports 1,564 scans from 1,304 patients. One reconstruction per scan is the cleanest main analysis; reconstruction variants can be a separate mechanistic analysis. Power and an equivalence margin must be computed per abnormality before calling a null decisive.
+
+The promised “fraction of full-volume performance” is itself underspecified. AUROC has a 0.5 floor, so `AUROC_B/AUROC_A` is misleading. If retained discrimination is reported, use an explicit scale such as `(AUROC_B - 0.5)/(AUROC_A - 0.5)`, with paired uncertainty and rules for concepts whose full AUROC is weak. This still remains descriptive, not a fraction of causal signal.
+
+## 4. The anticipated negative is not decisive
+
+The card classifies a tight chance AUROC plus collapsed rank correlation as decisive evidence that performance “comes from inside the patient.” That conclusion does not follow. A negative on an extreme intervention is sensitivity-limited or uninterpretable because:
+
+1. exterior cues may operate only jointly with anatomical features;
+2. the model may fail under the synthetic distribution shift before any retained cue can be expressed;
+3. finite positive counts may leave individual abnormalities underpowered; and
+4. exterior information may affect calibration or decisions without preserving global rank.
+
+Thus the original negative is type 3 for the causal claim and at best type 1 for the narrow statement “this frozen model does not diagnose from these particular synthetic inputs within a prespecified margin.” The negative-result-value score of 4 is not supportable for the stated motivation.
+
+## 5. Assets, access, compute, and reproducibility
+
+There is no evidence of excessive inference compute. The official CT-CLIP repository reports approximately 0.5 seconds per ClassFine volume and says inference can run on smaller GPUs. That supports a bounded pilot, although changing patch size affects performance and therefore is not an acceptable reproduction shortcut. Official repository: https://github.com/ibrahimethemhamamci/CT-CLIP ; primary paper: Hamamci et al., arXiv:2403.17834, now listed by the official dataset card as *Nature Biomedical Engineering* (2026).
+
+Data/model readiness is weaker than the card's phrasing suggests:
+
+- **Verified official documentation:** CT-RATE is 21.3 TB in total, gated by agreement to share contact information, prohibits redistribution, and contains 50,188 released reconstruction volumes from 21,304 patients. https://huggingface.co/datasets/ibrahimhamamci/CT-RATE
+- **Verified official documentation:** the repository's ClassFine link targets `models/CT-CLIP-Related/CT_LiPro_v2.pt` inside that gated dataset repository. It is therefore not an independently downloadable public model artifact for a logged-out user.
+- **Inspected local evidence:** the 2026-08-04 decision ledger says no per-volume ClassFine scores are released and that local inference is required. It also documents 425 clean paired reconstructions and an 850-volume scoped download, not a complete disease-evaluation cohort.
+- **Not inspected here:** successful authenticated download of the checkpoint and sample images; exact checkpoint hash; successful unmodified validation inference; usable body-contour labels in `ts_seg`; and actual exterior fraction after preprocessing.
+
+Consequently the experiment is not yet “inference-only with a checkpoint already downloaded” on the evidence available. It may become so after access acceptance, but Stage 0 must verify the actual files, hashes, input pipeline, and reproduction of unmodified scores. This is a pause condition, not a permanent data rejection.
+
+## 6. Prior-work overlap and novelty
+
+The exact CT-RATE exterior intervention was not established as published in this review; that absence is not a novelty claim. The card's literature foundation is too weak because two of its closest items were only search summaries and one cited 2026 pathology preprint postdates the card's core precedent without direct inspection.
+
+The broader methodological space is already occupied. Boland et al. explicitly study shortcut localization and utilization in medical-image classifiers, so generic claims that region intervention reveals shortcut use are not novel: “There Are No Shortcuts to Anywhere Worth Going,” MIDL 2024, PMLR 250:131–150, official proceedings https://proceedings.mlr.press/v250/boland24a.html . This does not pre-empt a CT-RATE-specific exterior audit; it narrows the contribution to the dataset/model result and the validity of its counterfactual design.
+
+The idea card must directly inspect the 2026 Moreno-Aguado paper before using its claimed quotation or asserting the exact delta. It must also search MICCAI, MIDL, SPIE Medical Imaging, Medical Physics, and Radiology: Artificial Intelligence. Until then, novelty confidence should be 2–3, never framed as “nobody asked.”
+
+## 7. Standing confounds and claim identifiability
+
+A positive body-excluded AUROC has several surviving explanations:
+
+- **scanner/vendor, acquisition protocol, and reconstruction:** plausible exterior carriers, but demonstrating their association with labels is not the same as showing the intact model relies on them;
+- **body habitus and positioning:** encoded by contour geometry, air path, arms, table height, and truncation; neither the ellipse nor dilation isolates these;
+- **referral pathway and sampled prevalence:** can determine protocol and report findings jointly; exterior scrambling does not separate the pathway;
+- **report-label leakage/coupling:** protocol-dependent reporting error can induce label association and need not attenuate AUROC;
+- **site:** CT-RATE is attributed by the official card to Istanbul Medipol University Mega Hospital, but the exact number of scanners/sites and acquisition locations must be read from the paper/metadata rather than called “single-institution as far as I know”; and
+- **synthetic-distribution response:** the largest unresolved alternative and the reason for pausing.
+
+Kernel-matched pairs from idea 004 can identify end-to-end score sensitivity across released reconstruction variants. They cannot by themselves isolate “the kernel's contribution to exterior signal,” because paired releases may bundle spacing, field of view, interpolation, and other preprocessing differences; idea 004's own critique already records this limitation.
+
+## 8. A repair that preserves the motivation, not the original headline
+
+The defensible intervention leaves the patient untouched and perturbs only exterior content. On intact validation scans, construct geometrically compatible exterior swaps between scans matched on body-mask geometry, field of view, scan length, padding, manufacturer, kernel, dose proxy, and positioning as far as metadata permit. Composite each donor exterior outside a dilated recipient body mask, with a prespecified transition band, while keeping every recipient body voxel fixed. Compare frozen ClassFine outputs for original versus swapped-exterior images.
+
+The primary endpoint should be paired score/decision sensitivity to exterior identity, with identical-body negative controls and seam controls. The medically relevant secondary endpoint is the change in patient-clustered AUROC and calibration relative to unmodified inputs. If exterior swaps alter scores beyond matched sham swaps, the result directly supports reliance on exterior content under a substantially smaller distribution shift. If they do not within a prespecified equivalence margin, the negative is more informative than the patient-deletion null, though still limited to the modeled family of exterior substitutions.
+
+This formulation is harder to headline but easier to interpret. It also separates confirmatory and exploratory work: confirm the aggregate exterior-swap effect first; only afterward explore air-noise magnitude, table, field-of-view boundary, or reconstruction signatures as candidate carriers.
+
+## 9. Low-hanging fruit
+
+The cheapest useful precursor needs no checkpoint and may use the 850 already-scoped volumes plus released metadata: quantify what exterior information is actually retained after official preprocessing. Measure exterior fraction, air-noise summaries, field-of-view/padding geometry, table presence/position, and their repeatability/change across the 425 clean reconstruction pairs. This directly tests whether the proposed channel exists and which carriers survive preprocessing. It does **not** test model use and should not be sold as the final study, but it prevents a large invalid ablation and informs matching for the exterior-swap experiment.
+
+A second cheap baseline, once labels and metadata are accessible, is an exterior-feature/metadata-only abnormality predictor evaluated by patient split or cross-fitting. That tests label predictability from acquisition context, not CT-CLIP reliance. It is worth running as a diagnostic control because it can reveal referral/protocol coupling before GPU inference, but it should not become a standalone discovery claim.
+
+The checkpoint-enabled low-hanging fruit is a small, blinded pilot of approximately 30–50 validation scans: reproduce unmodified logits, run several matched exterior swaps and sham recompositions, and inspect whether the perturbation effect exceeds numerical and compositing noise. This is a feasibility gate, not a hypothesis test, and should not consume the untouched confirmatory sample.
+
+## Required revision conditions
+
+1. Change the claimed estimand from “diagnosis with no patient” to sensitivity of intact-image predictions to controlled exterior substitution.
+2. Replace the false `INSPECTED_TRUE` keystone with successful checkpoint/sample access plus evidence that matched swaps produce images close enough to the observed exterior distribution for a controlled comparison.
+3. Make paired exterior-swap sensitivity the primary endpoint; retain AUROC/calibration change as the medically relevant secondary endpoint.
+4. Use one reconstruction per scan in the main disease analysis and patient-clustered inference; reserve reconstruction pairs for a separate acquisition-mechanism analysis.
+5. Prespecify matching variables, mask dilation, seam/sham controls, equivalence margins, abnormality inclusion thresholds, and multiplicity handling.
+6. Stop claiming report-label error can only attenuate associations.
+7. Verify authenticated assets and reproduce unmodified validation behavior before sizing the confirmatory run.
+8. Complete direct primary-source searches before any novelty language.
+
+NEAREST DEFENSIBLE HIGH-VALUE QUESTION: Holding every voxel inside a dilated patient contour fixed, how much do matched substitutions of the scan exterior change CT-CLIP ClassFine abnormality scores and patient-clustered validation performance?
+RETAINS ORIGINAL MEDICAL MOTIVATION? YES
+SHOULD IT BECOME A SEPARATE CANDIDATE? NO
+IS IT ACTUALLY WORTH DOING? Yes—it directly tests whether an intact chest-CT classifier depends on nonpatient image content, and the existing CT-RATE pairs, metadata, code, labels, and gated checkpoint make a small feasibility pilot cheap once access is verified.
