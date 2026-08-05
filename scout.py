@@ -286,8 +286,8 @@ def _debate_should_stop(target):
     if len(last) < 2:
         return None
     c, p = last['critic'], last['proposer']
-    if c == 'CONVERGED' and p == 'CONVERGED':
-        return 'both sides converged'
+    if {c, p} <= {'CONVERGED', 'CONCEDED'}:
+        return f'both sides settled (critic={c}, proposer={p})'
     if 'IRREDUCIBLE DISAGREEMENT' in (c, p) and None not in (c, p):
         # one side declared it; the other has now had its turn to respond
         # Only ONE side need declare it. Requiring both to agree that they

@@ -90,3 +90,69 @@ For the record, one thing that is *not* conceded is a scientific claim but a sco
 Card revisions that follow, consistent with Round 2: `recommendation` → REJECT, priority score down to the critique's 2.85, `negative_result_value` and `novelty_confidence` reduced, and `unverified_claims` updated to record that the 18-nodule linkage limitation is the governing prior result. The Round 1 spin-off remains logged and unpromoted.
 
 **Status:** CONCEDED
+
+## Round 4 — CRITIC
+
+**Position:** The proposer has fully accepted the feasibility and contribution objections, so the debate is resolved in favor of rejecting the idea as carded rather than keeping it paused.
+
+**Argument:** I concede because the Round 3 response makes the decisive substantive move: it no longer treats the internal linkage check as evidence that a viable study remains, adopts **REJECT**, and preserves the underlying medical question without falsely presenting a dataset-instrument failure as a finding about concept validity. This is responsive to the prior argument, not mere agreement. The operative reopening condition is also appropriately specific: a public or independently validated diagnosis-to-XML-nodule mapping that retains the eight semantic ratings, plus enough benign and malignant nodules to satisfy a prespecified precision target. Until that evidence exists, Zinovev et al.'s documented 18-nodule conservative linkage result (DOI 10.1007/s10278-011-9445-3), the absence of a verified larger mapping, and the lack of a valid manual-adjudication route jointly defeat the proposed paired endpoint comparison. I have no remaining objection worth introducing against a project the proposer has now correctly rejected.
+
+**What would change my mind:** Produce the stated reopening artifact and demonstrate, before model fitting, that its independently validated class counts meet a prespecified confidence-interval-width target for the paired endpoint effect.
+
+**Status:** CONCEDED
+
+## Round 5 — PROPOSER
+
+**Responding to:** The critic accepts the rejection and states no remaining objection, adding one tightening to the reopening test: the artifact's class counts must be *independently validated* and shown to meet a prespecified CI-width target *before* any model is fitted.
+
+**Response:** CONCEDE
+
+**Argument:** I have no new argument or evidence, and no objection remains open on either side, so I close rather than continue. Two closing items, neither of which reopens settled ground:
+
+1. **I adopt the critic's Round 4 wording as the binding form of the reopening condition**, in preference to my own Round 3 phrasing. The difference is not cosmetic: my version said "enough benign and malignant cases to meet a prespecified precision target," which leaves open who counts them and when. The critic's version requires that the counts be independently validated and checked against the CI-width target *before model fitting*, which closes the loophole where I inspect the mapping, fit anyway, and rationalise the precision afterwards. That is the version that goes on the card.
+
+2. **The debate is converged, not merely conceded.** Both sides' final tests now name the same artifact under the same conditions, so there is no residual gap between our positions to resolve by further rounds. Further rounds would produce agreement restated, which the rules correctly treat as waste.
+
+No amendment is offered, because an amendment at this point would be the fourth narrowing of a claim already rejected on its mechanism. The card's outstanding revisions are those recorded in Round 3 (`recommendation` → REJECT, priority 2.85, `negative_result_value` and `novelty_confidence` reduced, `unverified_claims` updated to record Zinovev et al.'s 18-nodule linkage limitation as the governing prior result, DOI 10.1007/s10278-011-9445-3), plus the reopening condition in the critic's Round 4 form. The Round 1 spin-off remains logged and unpromoted; promoting it would be a new idea, which does not belong in this debate.
+
+**Status:** CONVERGED
+
+## Round 6 — CRITIC
+
+**Position:** No substantive objection remains because the proposer has accepted that the idea as carded must be rejected and has adopted a concrete, pre-modeling reopening condition.
+
+**Argument:** I concede in response to the proposer’s substantive commitments, not merely its agreement: it accepts that the released LIDC diagnosis file cannot currently support the proposed concept-validity inference; it does not promote the linkage recount or unverified manual matching as a publishable substitute; and it adopts independent validation of the diagnosis-to-XML-nodule mapping and a prespecified confidence-interval-width check before model fitting. Those commitments preserve the distinction between an unresolved medical question and an unusable dataset instrument. With Zinovev et al.’s conservative 18-nodule linkage result (DOI 10.1007/s10278-011-9445-3) still governing feasibility and no verified larger mapping supplied, rejection is the scientifically defensible disposition. There is no new objection to add without repeating an issue the proposer has already answered by withdrawing the study.
+
+**What would change my mind:** Reopen only if a publicly released or independently validated mapping links confirmed diagnoses to specific XML nodules, retains all eight semantic ratings, and its independently verified benign and malignant counts satisfy a prespecified confidence-interval-width target before any model is fitted.
+
+**Status:** CONCEDED
+
+## Round 7 — PROPOSER
+
+**Responding to:** The critic's Round 6 raises no new objection and restates the reopening test in the form I already adopted in Round 5.
+
+**Response:** CONCEDE
+
+**Argument:** Nothing to answer and nothing new to offer, so I terminate rather than reply. The card revisions and the binding reopening condition are those already recorded in Rounds 3 and 5; this round adds none and changes none. Any further round would be agreement restated.
+
+**Status:** CONVERGED
+
+## Round 8 — CRITIC
+
+**Position:** The idea remains rejected, and the proposer’s final response leaves no unanswered objection or defensible basis for another amendment.
+
+**Argument:** I concede in response to the proposer’s decision to terminate rather than manufacture a new defense after accepting the governing evidence and the pre-modeling reopening condition. That is substantively adequate: the proposer has withdrawn the paired analysis on the ambiguous released labels, declined to treat a linkage recount as concept-validity evidence, and agreed that Zinovev et al.’s 18-nodule conservative linkage result (DOI 10.1007/s10278-011-9445-3) governs feasibility unless an independently validated diagnosis-to-XML-nodule mapping is produced. Because the card is rejected rather than claimed sound, there is no remaining scientific objection to attack within its present scope; adding one would only repeat a resolved failure mode.
+
+**What would change my mind:** Reopen only if a publicly released or independently validated mapping links confirmed diagnoses to specific XML nodules, retains all eight semantic ratings, and its independently verified benign and malignant counts satisfy a prespecified confidence-interval-width target before model fitting.
+
+**Status:** CONCEDED
+
+## Round 9 — PROPOSER
+
+**Responding to:** The critic's Round 8 introduces no objection and restates, unchanged, the reopening test already binding since Round 5.
+
+**Response:** CONCEDE
+
+**Argument:** No new argument or evidence exists on my side, and none was offered on the critic's, so I close the debate rather than reply. Nothing in this round alters the disposition (REJECT), the card revisions (Round 3), or the binding reopening condition (Round 5, in the critic's Round 4 wording). Continuing would produce agreement restated, which the rules treat as waste.
+
+**Status:** CONVERGED
