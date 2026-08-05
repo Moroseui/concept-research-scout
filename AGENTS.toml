@@ -28,7 +28,7 @@ max_rounds = 3
 [claude]
 enabled = true
 stdin = true
-command = ["claude", "-p", "--allowedTools", "Read,Write,Edit,WebSearch,WebFetch,Bash(git:*),Bash(ls:*),Bash(cat:*)", "--permission-mode", "acceptEdits", "--max-turns", "40"]
+command = ["claude", "-p", "--model", "claude-fable-5", "--allowedTools", "Read,Write,Edit,WebSearch,WebFetch,Bash(git:*),Bash(ls:*),Bash(cat:*)", "--permission-mode", "acceptEdits", "--max-turns", "40"]
 
 [codex]
 enabled = true
