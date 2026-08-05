@@ -5,3 +5,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 004,The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition,ACTIVE,,,CRITIQUE,
 005,"Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary",ACTIVE,,,CRITIQUE,
 006,Ask the chest-CT foundation model to diagnose a volume with no patient in it,ACTIVE,,,CRITIQUE,
+007,"The same patient, twice, ten minutes apart, differing only in how much air is in the lungs",ACTIVE,,,CRITIQUE,
