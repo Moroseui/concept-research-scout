@@ -43,7 +43,7 @@ def build_prompt(stage, target):
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
     if target.exists():
         for p in sorted(target.glob('*')):
-            if p.is_file() and p.suffix.lower() in {'.md','.json','.yaml','.yml','.csv'}:
+            if p.is_file() and not p.name.startswith('prompt_') and p.suffix.lower() in {'.md','.json','.yaml','.yml','.csv'}:
                 context += f'\n\n===== {p.relative_to(ROOT)} =====\n{read_text(p)}'
     task = read_text(PROMPTS/f'{stage}.md')
     return f"""You are a critical research collaborator working inside this repository.
