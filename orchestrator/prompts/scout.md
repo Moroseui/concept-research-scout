@@ -7,12 +7,21 @@ The point of this step is to search a wider space than you would if you were
 optimizing a complete idea card from the first sentence. Cards written
 end-to-end select for ideas that were safe by sentence two.
 
+**Every question must be answerable with a sentence of the form "the model is
+using X."** Not "the model is not using the scanner." A question whose best
+possible answer is the absence of a confound is not eligible this cycle — write
+a different one.
+
+X must be computable from an image today, by an existing tool or a well-defined
+measurement, without a human annotator. See the charter's hard constraint.
+
 Include in the ten:
 - questions you suspect are too hard
 - questions you are not sure are answerable
 - at least two that connect medical imaging to a field outside it
 - at least one that sounds obviously wrong but that you cannot immediately
   refute
+- at least three where X is a quantity a radiologist already has a word for
 
 Then pick **five** to develop. Pick on interest and mechanism clarity, not on
 how defensible they will be. The critic exists to handle the rest.
@@ -78,23 +87,49 @@ Mode C candidates may honestly report `NOT_INSPECTED`; that is expected.
 1. `search_mode`, `entry_point`, `title`
 2. `question` — one sentence, ending in a question mark
 3. `rung` — 1, 2, or 3 per the charter, and what would move it up
-4. `suspected_signal` — what you think the model is using, physically or
-   biologically. Required for Mode C. "Some feature" is not an answer.
-5. `keystone_prerequisite`, `keystone_status`, `keystone_evidence`
-6. `dies_like_prior`
-7. `closest_prior_work` with identifiers, and what it did not do
-8. `existing_assets`
-9. `smallest_decisive_experiment`
-10. `standing_confounds_addressed` — scanner, vendor, protocol, reconstruction,
+4. `deliverable_sentence` — the single sentence a radiologist could agree or
+   disagree with, of the form "the model is using X." Write it now, before the
+   design. If you cannot write it, the candidate is not eligible.
+5. `X_measurement` — how X is computed from an image, naming the tool or
+   formula, and a citation if one exists. Then answer: *could I compute X on a
+   scan the model has never seen, today, without asking anyone?* If no, the
+   candidate is ineligible regardless of how interesting it is.
+6. `suspected_signal` — the physical or biological mechanism by which X would
+   be present in the image. Required for Mode C. "Some feature" is not an
+   answer.
+7. `keystone_prerequisite`, `keystone_status`, `keystone_evidence`
+8. `keystone_residual_assumption` — having verified the nearest checkable
+   thing, what are you still assuming? If that assumption is load-bearing, it
+   is the real keystone. This error has occurred three times; see the charter.
+9. `rung_reached` — 1, 2, or 3, and what would move it up
+10. `dies_like_prior`
+11. `closest_prior_work` with identifiers, and what it did not do
+12. `existing_assets`
+13. `smallest_decisive_experiment`
+14. `standing_confounds_addressed` — scanner, vendor, protocol, reconstruction,
     site, positioning, habitus, prevalence, referral pathway, label leakage.
     Name which the design rules out and which it does not.
-11. `alternative_explanations` and which the design excludes
-12. `anticipated_negative` — decisive / sensitivity-limited / uninterpretable
-13. `cross_domain` if applicable: borrowed construct, the measurement it
+15. `alternative_explanations` and which the design excludes
+16. `anticipated_negative` — decisive / sensitivity-limited / uninterpretable
+17. `cross_domain` if applicable: borrowed construct, the measurement it
     implies, and **what would change if the analogy were dropped**
-14. `remaining_legwork` — time to first decision, not just what exists
-15. `scores` per the rubric, including `identifiability`
-16. `unverified_claims`
+18. `remaining_legwork` — time to first decision, not just what exists
+19. `scores` per the rubric, including `identifiability`
+20. `unverified_claims`
+
+## What went wrong last cycle, and what to do differently
+
+All ten questions last cycle were confound-elimination: does the model read
+the dose, the scanner, the table, the motion artifact. Those are good
+questions and they are not this program. Their best possible answer is the
+*absence* of an explanation, which does not help a physician understand a
+decision.
+
+Confound elimination is the validity gate that earns the right to say "the
+model is using X." It is not X.
+
+This cycle, lead with X. Ask what a physician would want to hear, then work
+backwards to what would make it credible.
 
 ## Style
 

@@ -16,23 +16,66 @@ found — rather than as a supervision constraint imposed in advance. That is
 the inverse of standard concept-bottleneck work and it is the more interesting
 direction.
 
+### The deliverable
+
+**Every candidate must end in a sentence a radiologist could read and either
+agree or disagree with.**
+
+Of the form: *the model is using X*, where X is a named anatomical,
+physiological, or physical thing. Not "the model is not using the scanner."
+Not "performance drops when we ablate region R." A positive statement, in
+words a physician already has.
+
+That sentence is the point. Everything else is what makes it credible.
+
 ### The three rungs
 
-Every candidate must state which rung it is on and what would move it up.
+State which rung the candidate reaches and what would move it up.
 
-1. **The model uses signal X.** A measurement. Comparatively easy: ablation,
-   masking, probing, perturbation, saliency with proper controls.
+1. **The model uses signal X.** Ablation, probing, perturbation, occlusion
+   with proper controls. Comparatively easy.
 2. **X is not an artifact.** Not scanner, site, protocol, reconstruction,
-   position, dose, body habitus, referral pattern, or label leakage. This is
-   where most projects quietly fail, and it is where most of the real work is.
-3. **X is biologically meaningful and not already known.** The actual
-   discovery. Rare, and it usually requires evidence from outside the imaging
-   dataset.
+   position, dose, habitus, referral pattern, or label leakage. This is the
+   validity gate — necessary, and where most projects quietly fail.
+3. **X is a named, human-legible thing.** The deliverable sentence.
 
-A project that does rung 1 and asserts rung 3 is the standard failure of this
-literature. A project that does rung 2 honestly is a contribution **even when
-the answer is "it was the scanner."** Negative results at rung 2 are among the
-most valuable outputs available here.
+Rung 2 is a **gate, not a destination.** A study that only eliminates
+confounds tells a physician what the model is *not* doing, which does not help
+them understand a decision. Confound elimination earns the right to make the
+rung-3 claim; it is not the claim.
+
+A candidate that can reach only rung 2 is allowed, but must say so and must
+name what would be needed to reach rung 3. A candidate that reaches rung 1 and
+asserts rung 3 is the standard failure of this literature.
+
+### The hard constraint on X
+
+**X must be independently measurable without a human annotator.**
+
+This is the constraint that makes the program feasible for you, and it is not
+optional. Six prior candidates died because they required knowing what a human
+saw when they assigned a label, and that was undocumented, unavailable, or
+contaminated. Do not walk back into that.
+
+X qualifies if it can be computed from the image by an existing, citable tool
+or a well-defined measurement. Examples of the right shape:
+
+- parenchymal texture statistics, emphysema percentage, density histograms
+- vessel blood volume by calibre, airway wall thickness, luminal area
+- muscle or fat attenuation in Hounsfield units, sarcopenia indices
+- cardiac chamber size, aortic diameter, coronary calcium
+- bone mineral density, vertebral morphometry
+- organ volumes from an off-the-shelf segmentation tool
+
+X does **not** qualify if establishing it requires a radiologist to look at
+images and agree, or if it exists only as a rating in a dataset whose
+annotation conditions are undocumented.
+
+The test: *could you compute X on a scan the model has never seen, today,
+without asking anyone?* If not, pick a different X.
+
+This constraint is what separates a concept the model found from a concept you
+asserted.
 
 ### The two precedents to hold in mind
 
@@ -144,7 +187,21 @@ page, abstract, or search summary.
 `keystone_status` is `INSPECTED_TRUE`. Mode C candidates may honestly report
 `NOT_INSPECTED` and accept the cap; that is expected and not a defect.
 
-Watch for the C3 error: verifying the *wrong* fact. "Multiple opinions exist
+**The wrong-keystone error has now occurred three times.** It is the dominant
+failure of this loop, ahead of annotation provenance. In each case the easy
+adjacent fact was verified and the load-bearing one assumed:
+
+- idea 005: verified that multiple opinions exist per lesion (true); needed
+  that they are independent measurement methods (false).
+- idea 006: verified that exterior voxels survive preprocessing (true); needed
+  that a body-excluded volume is in-distribution (unverified, and probably
+  false).
+
+Procedure, mandatory: write the keystone, then write the sentence *"if I have
+only verified the nearest checkable thing, what am I still assuming?"* and
+answer it. If the answer is load-bearing, that is the real keystone.
+
+Watch for the same error: "Multiple opinions exist
 per lesion" was inspected true. "Those opinions constitute independent
 measurement methods" was the real keystone, and it was false. State the keystone
 as the thing your inference needs, not the thing that is easy to check.

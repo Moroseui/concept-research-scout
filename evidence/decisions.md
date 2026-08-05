@@ -59,3 +59,15 @@ MTMM requires independent measurement methods. LIDC released reads are from the
 unblinded phase after readers saw each others marks, and reader IDs are not
 stable across scans. Keystone error: verified that multiple opinions exist
 (true) rather than that they are independent measurement methods (false).
+
+## 2026-08-05 - Idea 006 PAUSE (CT-CLIP non-tissue voxel prediction)
+Patient-deletion is an extreme OOD intervention; neither direction identifies
+exterior reliance during intact inference. Wrong-keystone error, third
+occurrence: verified that exterior voxels survive preprocessing (true) when the
+inference required that a body-excluded volume is in-distribution (unverified).
+Reopening condition: inspect CT-CLIP training loader for large-region masking
+or cutout with matching fill value.
+SPIN-OFF, endorsed by both critique and debate: hold every voxel inside a
+dilated patient contour fixed and substitute only the scan exterior between
+geometry-matched scans; measure paired ClassFine score change. Separate
+estimand, enter as a new candidate.
