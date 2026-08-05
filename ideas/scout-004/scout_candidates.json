@@ -1,0 +1,897 @@
+{
+  "cycle": "scout-004",
+  "stage": "scout",
+  "generated_on": "2026-08-05",
+  "charter_version_seen": "CHARTER.md as of commit 6d876f2 (charter v4: rung 3 as deliverable, X must be machine-measurable)",
+
+  "evidence_standard": {
+    "INSPECTED": "The primary artifact was opened in this session - the actual source file, raw script, repository file tree, PubMed/PMC full text, or collection data-file listing - and the text is quoted.",
+    "SEARCH_SUMMARY_ONLY": "The claim appeared in a search engine's synthesis of a page not opened directly, or in an abstract-level record only. Treated as unverified and listed per candidate.",
+    "NOT_FOUND": "Searched and not located. The queries run are recorded. This is not proof of absence."
+  },
+
+  "method_note": "Verification ran before development, not after, and it changed the portfolio four times. (1) The prior ledger entry saying CT-CLIP checkpoints are unavailable is wrong - see record_corrections - which revived two candidates. (2) The reconstruction-kernel manipulation that was to be candidate C1's primary arm turned out to be partly published (Simon et al. 2024), so C1 was rebuilt around what that paper did not do rather than around what it did. (3) The costal-cartilage age clock is substantially more crowded than expected - MESA has semi-automated volumetry at n=2,305 and a 2023 Eur Radiol paper has deep-learning age-from-cartilage at n=2,700 - so C4's novelty confidence was cut to 2 and its question was narrowed to whether an unguided model recovers the clock rather than whether the clock exists. (4) The Murray's-law framing survives only as a Mode C extension: the entire human evidence base for a pulmonary branching exponent is about 23 subjects across two papers, with standard deviations that exclude almost nothing, so BV5 carries the measurement weight in C5 and the exponent carries the mechanism.",
+
+  "record_corrections": [
+    {
+      "correction": "evidence/decisions.md, entry '2026-08-04 - Idea 004 Stage 0 COMPLETE', states 'checkpoints are not on the authors HF account. Inference must be run locally.' The first clause is FALSE and should be amended.",
+      "evidence": "INSPECTED - the CT-CLIP GitHub README links all three checkpoints directly into the CT-RATE *dataset* repository: CT-CLIP at models/CT-CLIP-Related/CT-CLIP_v2.pt, VocabFine at models/CT-CLIP-Related/CT_VocabFine_v2.pt, ClassFine at models/CT-CLIP-Related/CT_LiPro_v2.pt, and the text classifier at models/RadBertClassifier.pth. The HuggingFace file tree confirms all three exist at 1.77 GB each; RadBertClassifier.pth is 499 MB. Access is a free click-through contact-sharing agreement under CC-BY-NC-SA 4.0; anonymous blob fetches return HTTP 401.",
+      "why_it_was_missed": "A naming trap. ClassFine is stored as CT_LiPro_v2.pt - LiPro for linear probe - so a filename search for 'ClassFine' finds nothing, and the weights sit under a dataset repo rather than a model repo. The second half of the prior note is correct: GitHub release v1.0.0 genuinely has an empty assets array.",
+      "consequence": "Inference-only CT-RATE studies are cheaper than the ledger implies. C2 and C4 depend on this."
+    },
+    {
+      "correction": "Standing finding relevant to any future NLST candidate, including the race candidate carried forward from scout-003 as C1 there: the NLST screening centre can never be controlled for.",
+      "evidence": "INSPECTED - the TCIA NLST data dictionary defines the variable as 'Cen: Screening Center (masked)'. It is masked in the FULL application-gated CDAS release, not merely absent from the public subset. No unmasked site identifier was located anywhere.",
+      "consequence": "Any NLST design whose identifiability depends on separating an effect from site is not merely blocked pending a download - it is permanently unable to do so. Scout-003's C1 named exactly this variable as the decisive clause of its keystone and rated the risk as closable by one download. It is not closable. That candidate should be re-scored as INSPECTED_FALSE on its stated keystone rather than left at NOT_INSPECTED.",
+      "offsetting_good_news": "The NLST public CC BY 4.0 subset is richer than assumed in other respects. The lung cancer outcome table nlst_canc is public, carrying candx_days ('Number of days from randomization to first diagnosis of lung cancer'), stage and topography fields, and IDC documents that dicom_patient_id 'is identical to the PatientID field in the DICOM files'. Outcome linkage needs no application and no data transfer agreement."
+    },
+    {
+      "correction": "Methodological novelty warning that applies to this entire cycle, not to one candidate.",
+      "evidence": "INSPECTED - Graziani, Andrearczyk and Mueller, 'Regression Concept Vectors for Bidirectional Explanations in Histopathology' (arXiv:1904.04520, DOI 10.1007/978-3-030-02628-8_14, MICCAI iMIMIC 2018) already formalizes continuous segmentation-derived measurements as interpretability concepts: 'we propose a methodology to exploit continuous concept measures as Regression Concept Vectors (RCVs) in the activation space of a layer.' The survey arXiv:2111.02398 has a settled paragraph on it: 'Radiomics features can be used as continuous-valued concepts as they are understandable by humans.'",
+      "consequence": "No candidate in this cycle may claim novelty for the idea of relating a model's internals or outputs to a quantitative imaging biomarker. That is named prior art from 2018. Novelty must sit in the specific X, the specific model, and the causal decomposition - and the least-occupied corner, NOT_FOUND across five queries, is mediation analysis of a deep-learning imaging score through a measured imaging biomarker."
+    }
+  ],
+
+  "prior_cycle_review": {
+    "records_read": [
+      "evidence/decisions.md (full, as injected)",
+      "ideas/scout-003/scout_candidates.json (all ten questions, and C1 and C2 in full)",
+      "ideas/006/consensus.md (full - the debate that produced the PAUSE and the spin-off)",
+      "ideas/006/idea_card.json (recommendation field only; the card was never updated to PAUSE and still reads SHORTLIST, which is a stale artifact a reader could be misled by)"
+    ],
+    "killed_or_blocked_and_deliberately_avoided": [
+      "Idea 001 (LIDC concepts vs pathology diagnosis) REJECTED on diagnosis-file linkage. No candidate uses LIDC, the diagnosis file, or any pathology endpoint.",
+      "Idea 002 (Derm7pt) PAUSED on undocumented annotation provenance. No dermatology candidate this cycle; the quota permits one and none was worth writing.",
+      "Idea 003 (BI-RADS intervention) REJECTED, no lexicon descriptors released. No breast ultrasound candidate.",
+      "Idea 005 (LIDC semantic ratings) PAUSED, peer-exposed reads and unstable reader IDs. No candidate uses any human rating as a measurement. Every X in this cycle is computed by a released tool from voxels.",
+      "Idea 006 (CT-CLIP patient deletion) PAUSED on intervention validity. Its lesson is applied structurally, not just cited - see interventions_are_in_distribution below."
+    ],
+    "interventions_are_in_distribution": "Idea 006 died because a constant-filled body deletion is an extreme distribution shift, so neither direction of the result identified anything about intact inference. Three of the five candidates here manipulate the image, and in every case the manipulation is a REAL ACQUISITION that already exists in the corpus rather than a synthetic edit: C1 compares two reconstruction kernels of one raw acquisition, C3 compares two breath-hold acquisitions of one patient in one session, and C5's comparison is observational. Nothing is blanked, masked, inpainted or generated anywhere in this portfolio. This is the single most important design constraint carried out of the last cycle, and it is why no candidate here needs a distribution-shift defence.",
+    "exterior_swap_spinoff_deliberately_excluded": "decisions.md endorses the exterior-swap study - hold every voxel inside a dilated patient contour fixed and substitute only the scan exterior between geometry-matched scans - as a new candidate. It is NOT in this portfolio, and the omission is deliberate rather than an oversight. Its best possible positive answer is 'the model is sensitive to the identity of the scan exterior', which names a REGION, not an anatomical, physiological or physical thing, and this cycle's task states that a question whose best possible answer is the absence or presence of a confound is not eligible. It remains a legitimate rung-2 audit and should be entered in a cycle that is scoped for rung-2 instruments. Excluding it cost the portfolio nothing, because it would have been a sixth CT-RATE-family candidate in a cycle already at the dataset cap.",
+    "structural_lesson_applied": "The one candidate that has survived this loop removed labels from its primary readout. All five here do the same, by four different routes. C1, C2 and C4 regress a model's continuous score against a quantity computed from the same voxels - the ground truth never enters. C3 compares a model to itself across two acquisitions of one patient. C5 compares two competing measured explanations against each other. Human-assigned labels appear in this portfolio only in C1's optional third arm, where the label is a registry-recorded cancer diagnosis date rather than a reader's impression of an image.",
+    "unresolved_objection_carried_forward": "decisions.md logs an undebated objection from idea 001: when concepts and the endpoint come from the same reader in the same session, prediction measures rating-form consistency rather than validity. No candidate here has a human reader on both sides of any comparison. C2 is the only one where a reader-authored label exists at all - CT-RATE's RadBERT-extracted 'Cardiomegaly' - and it is deliberately kept out of the primary readout for exactly this reason."
+  },
+
+  "all_questions": [
+    {
+      "n": 1,
+      "q": "Sybil predicts lung cancer up to six years ahead from a single low-dose CT, and keeps most of that ability on scans with no visible nodule at the future cancer site - is the residual signal quantitative emphysema, the fraction of lung below minus 950 Hounsfield units?",
+      "status": "DEVELOPED as C1",
+      "note": "X is a word a radiologist already has: emphysema."
+    },
+    {
+      "n": 2,
+      "q": "When CT-CLIP calls cardiomegaly on a non-contrast chest CT, is its score a monotone function of total heart volume in millilitres, and does it track absolute volume or volume relative to the thorax?",
+      "status": "DEVELOPED as C2",
+      "note": "X is a word a radiologist already has: heart size. Chosen partly because the human label for this finding is admitted gestalt, so the model may be the better instrument."
+    },
+    {
+      "n": 3,
+      "q": "Across two breath-hold acquisitions of the same patient in the same session differing only in lung inflation, does a chest-CT foundation model's finding scores move as a function of total lung volume?",
+      "status": "DEVELOPED as C3",
+      "note": "X is a word a radiologist already has: degree of inspiration. This is the strongest identifiability in the portfolio because everything except the exposure is held fixed by the acquisition itself."
+    },
+    {
+      "n": 4,
+      "q": "Does a chest-CT age model that was never told where to look recover the costal cartilage calcification clock that forensic anthropologists validated on skeletons?",
+      "status": "DEVELOPED as C4",
+      "note": "Cross-domain: forensic anthropology and forensic radiology age-at-death estimation."
+    },
+    {
+      "n": 5,
+      "q": "Is the non-nodular part of a lung cancer risk model's signal pulmonary vascular pruning - small-vessel blood volume, and the departure of the arterial tree's branching exponent from Murray's cube law - rather than parenchymal destruction?",
+      "status": "DEVELOPED as C5",
+      "note": "Cross-domain: vascular network allometry and optimal-transport scaling laws. Suspected too hard, developed anyway per the charter's Mode C instruction."
+    },
+    {
+      "n": 6,
+      "q": "When a chest-CT model reports emphysema, is it reading parenchymal texture or small-vessel blood volume below 5 square millimetres cross-section?",
+      "status": "DROPPED",
+      "why_dropped": "Folded into C5, where the parenchyma-versus-vessel competition is the whole point rather than a side question. Kept separate it would have been a third correlated bet on one axis, and scout-003 dropped the same question for a related reason - this is now the second cycle in which the charter's named vascular emphasis has been served by one candidate rather than a dedicated line."
+    },
+    {
+      "n": 7,
+      "q": "Is a chest-CT prognostic model reading the anteroposterior parenchymal density gradient - dependent atelectasis, and therefore how long the patient lay supine before the scan?",
+      "status": "DROPPED",
+      "why_dropped": "The gradient is trivially measurable as mean attenuation in the posterior third minus the anterior third of the lung mask, but no public corpus records time-on-table or time-supine, so the exposure has nothing to anchor to and a positive result could not be attributed to duration rather than to disease that is itself gravity-dependent."
+    },
+    {
+      "n": 8,
+      "q": "Is the mortality signal in an opportunistic chest-CT model paraspinal skeletal muscle attenuation - sarcopenia measured in Hounsfield units?",
+      "status": "DROPPED",
+      "why_dropped": "The measurement requires TotalSegmentator's tissue_types task, which is behind a license key rather than in the free Apache-2.0 default task, and the opportunistic body-composition space is heavily worked. Both are surmountable; neither is interesting enough to spend a slot on against the five chosen."
+    },
+    {
+      "n": 9,
+      "q": "Is a chest-CT model's estimate of age or frailty carried by vertebral trabecular attenuation - opportunistic bone mineral density?",
+      "status": "DROPPED",
+      "why_dropped": "Same target as C4 but through a marker that is confounded by disease, steroids, smoking and menopause, where costal cartilage calcification is developmental. C4 is the sharper version of this question and they would compete for the same slot; vertebral attenuation instead enters C4 as a named competing mediator."
+    },
+    {
+      "n": 10,
+      "q": "Is a chest-CT model's score for a thoracic finding partly driven by liver attenuation - hepatic steatosis - visible only at the dome of the liver at the bottom of the field of view?",
+      "status": "DROPPED",
+      "why_dropped": "This is the obviously-wrong-sounding entry, and I could not refute it: the liver dome is in nearly every chest CT, liver attenuation is a single well-defined Hounsfield measurement, and metabolic syndrome plausibly correlates with almost any thoracic outcome. It was dropped on measurement rather than on plausibility - the amount of liver included varies with the caudal extent of the scan, so the measurement is least reliable in exactly the scans where the claim would be most interesting, and inferior coverage would confound the exposure with the field of view."
+    }
+  ],
+
+  "quota_compliance": {
+    "search_mode_A": ["C1"],
+    "search_mode_B": ["C2", "C3"],
+    "search_mode_C": ["C4", "C5"],
+    "quota_status": "MET exactly: 1 Mode A, 2 Mode B, 2 Mode C.",
+    "entry_point_1": ["C1", "C4"],
+    "entry_point_2": ["C2", "C3", "C5"],
+    "radiology_or_CT": "5 of 5, minimum 3. All chest CT.",
+    "dermatology": "0 of 5, maximum 1.",
+    "dataset_concentration": "NLST x2 (C1, C5), CT-RATE x2 (C2, C4), TCIA CT-vs-PET-Ventilation-Imaging x1 (C3). At the cap of 2 on two datasets, not over.",
+    "keystone_inspected_true": ["C1", "C2", "C3"],
+    "keystone_not_inspected": ["C4", "C5"],
+    "quota_note": "Five honest disclosures. (1) Three of five keystones reached INSPECTED_TRUE against one of five last cycle, and the two that did not are both Mode C, which the charter expects. That is a real improvement, but it was bought by choosing candidates whose keystones were checkable, which is a selection pressure worth naming rather than celebrating. (2) C1 and C5 are siblings on Sybil and NLST, proposing COMPETING named explanations - parenchymal destruction versus vascular pruning - for the same documented gap. I list them separately because a reviewer should be able to fund one and not the other, and because Estepar et al. 2013 reports that LAA-950 'was inversely related to all calculated vascular ratios', which means running both without a plan to separate them would produce two positives and no answer. If only one slot exists, run C1 and treat C5's BV5 as a covariate inside it. (3) C2 and C4 share the CT-RATE download and the CT-CLIP encoder but nothing else; they can fail independently. (4) C4's entry point is declared as 1 on a technicality I should flag rather than bury: the documented model-beats-human age gap is on chest RADIOGRAPHS - model mean absolute error 3.53 years against three radiologists at 11.84 years, replicated independently in Japan at about 10 years for seven clinicians - and no head-to-head human-versus-model age estimation on chest CT exists at all. The gap motivating C4 is therefore borrowed from an adjacent modality. (5) I could not fill the dermatology slot with anything I believe in and did not pad it. The charter permits one; zero is the honest number."
+  },
+
+  "portfolio_ranking": {
+    "by_priority_score": "C1 4.35, C3 4.25, C4 3.90 (Mode C weighting), C2 3.85, C5 3.75 (Mode C weighting).",
+    "caution_on_comparing_across_modes": "Mode A/B and Mode C scores are computed with different weightings per the rubric and are NOT commensurable. C4's 3.90 is not evidence that it beats C2's 3.85; the Mode C formula does not include feasibility, data readiness, prior legwork or negative-result value at all. Compare C1 against C2 and C3; compare C4 against C5; do not compare across the line.",
+    "recommendation_if_one_candidate_is_chosen": "C1. It has the clearest documented gap, the only fully open weights and outcomes in the portfolio, and two published papers that stop exactly one experiment short of it in the same direction.",
+    "recommendation_if_two": "C1 and C3. They share no dataset, no model, no failure mode and no confound structure, and C3's identifiability is the highest in the portfolio while its data is the only ungated corpus here."
+  },
+
+  "candidates": [
+    {
+      "id": "C1",
+      "search_mode": "A",
+      "entry_point": 1,
+      "title": "Two papers say Sybil's residual signal is the background, one of them names emphysema, and neither measured it",
+
+      "question": "On low-dose CT scans with no visible nodule at the site of the subsequent cancer, where Sybil still reaches a 2-year AUC of 0.81, is its risk score a function of quantitative emphysema - the percentage of lung voxels below minus 950 Hounsfield units - measured on the same scan?",
+
+      "deliverable_sentence": "Sybil is using emphysema, and it reads it in a way that survives a change of reconstruction kernel that moves the standard quantitative emphysema index by about ten percentage points.",
+
+      "rung": {
+        "current": 3,
+        "why": "The claim is a named parenchymal abnormality that a chest radiologist reports by name in ordinary practice, measured in calibrated units by a released tool. It is not a region and not an absence.",
+        "what_would_move_it_up": "Nothing above rung 3 exists. What would strengthen the rung-3 claim rather than raise it: external replication of the score-to-emphysema relationship in the MGH or CGMH validation cohorts used by the original paper, and a demonstration that the relationship holds within strata of pack-years, since emphysema and smoking dose are entangled."
+      },
+
+      "X_measurement": {
+        "X": "Quantitative emphysema, primarily LAA%-950 - the percentage of lung voxels with attenuation below minus 950 HU - with Perc15, the 15th percentile of the lung attenuation histogram, as the pre-registered co-primary because it is less threshold-brittle.",
+        "how": "Segment lung with lungmask (github.com/JoHof/lungmask, Apache-2.0, pip-installable, model R231 or LTRCLobes_R231), then count voxels below the threshold inside the mask. There is no model fitting and no annotation step; it is a threshold and a division.",
+        "citations": "Threshold validated against macroscopic morphometry by Gevenois PA, de Maertelaer V, De Vuyst P, Zanen J, Yernault JC, Am J Respir Crit Care Med 1995;152(2):653-7, PMID 7633722, DOI 10.1164/ajrccm.152.2.7633722, which reports that minus 950 HU was 'the only level for which no statistically significant difference was found between the HRCT and the morphometric data'. Segmentation tool: Hofmanninger J et al., Eur Radiol Exp 2020;4:50, DOI 10.1186/s41747-020-00173-2.",
+        "could_I_compute_it_today_without_asking_anyone": "Yes. pip install lungmask, run it on a DICOM series, count voxels. No annotator, no license key, no application. This is the cleanest X in the portfolio on the charter's test.",
+        "known_weakness_of_X_stated_up_front": "LAA%-950 is a fragile measurement and the charter deserves to hear that before the design rather than in critique. In NLST its association with cancer is real but tiny - Labaki WW et al., Chest 2021;159(5):1812-1820, PMID 33326807, reports 'Every 1% increase in %LAA was independently associated with higher hazards of lung cancer incidence (hazard ratio [HR], 1.02; 95% CI, 1.01-1.03; P = .004)' on a variable whose median is 0.8% - and in a separate NLST case-control it discriminated barely at all, Gierada DS et al., Radiology 2011;261(3):950-959, PMID 21900623, reporting the relationship as 'weak (R2 = 0.015, P < .001, c = 0.57)' with 'no potential practical value for clinical risk stratification'. In PLuSS it was null outright, Wilson DO et al., J Thorac Oncol 2011, PMID 21610523: 'The relationship between visual assessment of emphysema and increased lung cancer risk could not be verified by quantitative analysis of low-dose screening CT scans.' This does NOT sink the candidate, because the study does not ask whether LAA predicts cancer - that is settled and weak. It asks whether SYBIL'S SCORE tracks LAA, which is a different and potentially much larger association. But it does mean a null must be interpreted against a measurement known to be noisy, which is why Perc15 is co-primary and why the kernel is fixed for the primary analysis."
+      },
+
+      "suspected_signal": "Emphysematous destruction enlarges distal airspaces and reduces tissue per unit volume, which lowers X-ray attenuation in a spatially textured way that a 3D convolutional encoder can read directly off the calibrated voxel values. The biological link to cancer is independently established and not assumed here: chronic inflammation, impaired mucociliary clearance and altered repair in destroyed parenchyma raise malignant transformation risk, and CT emphysema carries a pooled odds ratio around 2.3 for lung cancer - Yang X et al., Radiology 2022;304(2):322-330, PMID 35503012, DOI 10.1148/radiol.212904, reporting visual 'pooled OR, 2.3; 95% CI: 1.9, 2.6' and quantitative 'pooled OR, 2.2; 95% CI: 1.8, 2.8'. So a positive result would say the model found a real, known, named risk substrate on its own, in a spatial pattern it was never shown.",
+
+      "keystone_prerequisite": "Sybil's risk score and LAA%-950 can be placed side by side, per scan, on NLST series that (a) Sybil did not train on and (b) share a single reconstruction kernel - because the kernel moves LAA%-950 by more than the disease does, so a mixed-kernel sample would measure the kernel and call it emphysema.",
+
+      "keystone_status": "INSPECTED_TRUE",
+
+      "keystone_evidence": "Four separate inspections. (1) WEIGHTS AND CODE: sybil/model.py contains the hardcoded, unauthenticated CHECKPOINT_URL 'https://github.com/reginabarzilaygroup/Sybil/releases/download/v1.5.0/sybil_checkpoints.zip'; LICENSE.txt reads 'MIT License', 'Copyright (c) 2022 Peter Mikhael & Jeremy Wohlwend'; GitHub release assets confirm sybil_checkpoints.zip on v1.5.0, v1.1.0 and v1.0.3. No application, no data transfer agreement. Note the packaging trap: setup.cfg declares name = sybil but pypi.org/project/sybil is an unrelated documentation-testing package, so pip install sybil fetches the wrong software and installation must be from source. (2) HELD-OUT SPLIT: no split file ships - files/lung_cancer_dataset.csv is a header-only template with columns patient_id, exam_id, series_id, exam_date, ever_has_future_cancer, years_to_cancer, years_to_last_negative_followup, file_path, slice_position, split and zero data rows. But scripts/data/create_nlst_metadata_json.py shows exactly how the split was made: test_google_data = pd.read_excel(args.test_google_splits) with default path ending TEST_41591_2019_447_MOESM5_ESM.xlsx, then 'if pid in test_google_pids: split_group = test'. That file is the supplementary material of Ardila et al., Nat Med 2019, DOI 10.1038/s41591-019-0447-x, and it downloads from static-content.springer.com with HTTP 200, 1.1 MB, no login. Sybil's held-out NLST test set is therefore the Ardila test participant IDs. (3) FIXED KERNEL AVAILABLE: TCIA NLST holds 203,099 series across 73,116 studies, 2.78 series per screening exam, and the PUBLIC nlst_screen table carries columns ct_recon_filter3 and ct_recon_filter4, so up to four reconstruction filters are recorded per exam. Kernel names across the three vendors are Siemens B50f and B30f, GE BONE, LUNG and STANDARD, and Philips D and C. (4) THE NON-NODULAR SIGNAL IS REAL: Mikhael et al., J Clin Oncol 2023;41(12):2191-2200, PMID 36634294, PMC10419602, full text inspected: 'Sybil's performance was hampered by removing visible nodules, obtaining a 2-year AUC of 0.81 (95% CI, 0.74 to 0.86) and a 6-year AUC of 0.69 (95% CI, 0.63 to 0.74).'",
+
+      "keystone_residual_assumption": "Having verified that the Ardila supplementary file downloads and that Sybil's own script reads a patient_id column from it, I am still assuming that the identifiers in that column are NLST participant IDs in the form that joins to TCIA's DICOM PatientID. The xlsx was not parsed - the verification environment could not unzip it. There is a specific reason not to wave this through: Simon et al. describe the Sybil internal-validation subset as 'n = 13,326 series of 6883 LDCTs in 2328 participants', while the JCO paper describes 'a heldout set of 6,282 LDCTs from NLST participants', and neither number is obviously the Ardila test set size. Those three numbers need reconciling before the split is trusted. This is load-bearing for contamination control but NOT for the existence of the study - a score-versus-biomarker association is estimable on any scans, and training contamination would have to act through memorization to distort it. A reviewer who judges the contamination control load-bearing should demote this keystone to NOT_INSPECTED and cap feasibility and novelty confidence at 3. The check costs one unzip and one join.",
+
+      "rung_reached": {
+        "value": 3,
+        "conditional_on": "The rung-3 sentence is earned only if the association survives the fixed-kernel primary analysis AND the nodule-free subset AND adjustment for pack-years. If it survives only in the full sample, the honest claim drops to rung 1 - the model uses something that correlates with the density histogram - because emphysema, smoking dose and nodule burden are entangled in a screening cohort by construction."
+      },
+
+      "dies_like_prior": "No prior failure mode applies, and for a structural reason rather than by luck. The five annotation-provenance kills - ideas 001, 002, 003, 005 and the diagnosis-linkage half of 001 - all required knowing which human assigned a label and what that human could see. Here nothing is assigned by a human: X is a voxel count produced by a threshold, and the model's score is a number produced by a released checkpoint. The idea-006 intervention-validity failure also does not apply, because the only manipulation is a swap between two reconstructions that the scanner actually produced from one acquisition, so both arms are real clinical images and neither is off-manifold. The nearest resemblance is to scout-003's C1, which also sat on NLST and also depended on a data-linkage step - but that candidate's decisive variable was the screening centre, which record_corrections now establishes is masked even in the gated release, whereas this candidate's decisive variable is the reconstruction kernel, which is public in nlst_screen and redundantly encoded in the TCIA SeriesDescription.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Sobieski B, Grzywaczewski A, Dobiczek F, Wojcik P, Bartczak M, Szatkowski F, Bombinski P, Tivnan M, Biecek P. Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions.",
+          "identifier": "arXiv:2602.02560, ICML 2026 poster 66127",
+          "verification": "INSPECTED (arXiv HTML v2, full text)",
+          "what_it_did": "Built a causal attribution method, S(H)NAP, using 3D diffusion-bridge edits to add and remove pulmonary nodules, and decomposed Sybil's risk into nodule-specific and background terms. Found that Sybil 'functions as a linear model with pairwise interactions over pulmonary nodules', that it has a radial sensitivity bias attributed to 'zero-padding in 3D convolutions', and that it responds to clinically unjustified artifacts including hospital-gown metal snaps and ECG leads, where it 'appears to correlate these leads with critical conditions'.",
+          "what_it_did_not_do": "This is the unfinished story, and the gap is stated in the paper's own words. It intervened on PULMONARY NODULES ONLY - no other structure is causally manipulated. It isolates the background term and then sets it aside: 'While not our primary focus, analyzing this baseline offers complementary insights', reporting only a regression of the baseline term on patient age. And it names the very hypothesis this candidate tests, as speculation, without measuring it: 'Intuitively, low nodule contribution aligns with clinical reasoning: absent pathology, risk estimates should rely on background markers like emphysema.' The word emphysema appears as an intuition. No LAA-950, no Perc15, no parenchymal quantification anywhere. Methodological note in this candidate's favour: their diffusion edits required a radiologist realism check to defend, where 'their performance is statistically indistinguishable from random guessing (exact binomial test, point estimate 0.57)'. A kernel swap needs no such defence because both images are real."
+        },
+        {
+          "citation": "Simon J, Mikhael P, Graur A, Chang AEB, Skates SJ, Osarogiagbon RU, Sequist LV, Fintelmann FJ. Significance of Image Reconstruction Parameters for Future Lung Cancer Risk Prediction Using a Deep Learning Model.",
+          "identifier": "Invest Radiol 2024, PMID 39437009, PMC12129392, DOI 10.1097/RLI.0000000000001131",
+          "verification": "INSPECTED (PMC full text, results section)",
+          "what_it_did": "Ran Sybil across matched NLST series differing in exactly one reconstruction parameter - 1,961 standard-versus-lung pairs and 1,049 standard-versus-bone pairs - and found population AUCs indistinguishable: standard versus lung at year 6 was '0.82 [95% CI: 0.77-0.86] standard vs 0.80 [95% CI: 0.76-0.85] lung, P = 0.71'. Concluded that 'Sybil's predictive performance for future lung cancer risk is robust across different reconstruction filters and axial slice thicknesses'.",
+          "what_it_did_not_do": "Three omissions, and the candidate lives in all three. First, it measured NO IMAGE PROPERTY AT ALL - matching was on 'Digital Imaging and Communications in Medicine header metadata', so score stability is never linked to any quantity that actually changed in the pixels. Second, it reports only SIGNED mean differences, which cancel to approximately zero by construction - minus 0.0005 with SD 0.07 for standard versus lung - and gives no absolute difference, no ICC, no Bland-Altman limits, and no reclassification analysis, so individual-level agreement is unmeasured on a score whose SD is 0.07 against an event rate of one to two percent. Third, the robustness conclusion rests on DeLong non-rejection with P values from 0.71 to 0.86 and NO PRESPECIFIED EQUIVALENCE MARGIN, and one comparison has a year-1 CI of 0.70 to 0.99. Under this charter's own rule that non-rejection is not evidence of independence, that conclusion is a type-2 result presented as type 1."
+        },
+        {
+          "citation": "Jin H, Heo C, Kim JH. Deep learning-enabled accurate normalization of reconstruction kernel effects on emphysema quantification in low-dose CT.",
+          "identifier": "Phys Med Biol 2019;64(13):135010, PMID 31185463, DOI 10.1088/1361-6560/ab28a1",
+          "verification": "INSPECTED",
+          "what_it_did": "On 353 NLST scans reconstructed both ways across four scanner models: 'The mean of pair-wise differences in RA950 between standard and sharp kernel reconstructions was reduced from 10.75% to -0.07% using kernel normalization. The difference for perc15 decreased from -31.03 HU to -0.30 HU after kernel normalization.'",
+          "what_it_did_not_do": "Treated the kernel effect as a nuisance to be removed. This candidate treats it as a free, in-distribution, physically calibrated exposure manipulation of the measurement channel - the same raw data, a known and large shift in X, and a model score to watch. Corroborated independently by Gallardo-Estrella L et al., Eur Radiol 2016, PMID 26002132, with Siemens b31f versus b45f emphysema score differing by '7.7 +/- 2.7' points, and by a virtual imaging trial with known ground truth, Abadi E, Lynch DA, Samei E et al., Chest 2023;163(5):1084-1100, PMID 36462532, where I31 minus I70 is minus 8.6 +/- 5.7 for LAA-950."
+        },
+        {
+          "citation": "Graziani M, Andrearczyk V, Mueller H. Regression Concept Vectors for Bidirectional Explanations in Histopathology.",
+          "identifier": "arXiv:1904.04520, DOI 10.1007/978-3-030-02628-8_14",
+          "verification": "INSPECTED",
+          "what_it_did": "Formalized continuous, segmentation-derived measurements as interpretability concepts and measured network sensitivity along them by directional derivative.",
+          "what_it_did_not_do": "This is the methodological prior art that bounds the novelty claim and it must be cited, not discovered in review. It works in the activation space of a chosen layer on histopathology and needs a trained concept regressor per concept. The delta here is narrow and should be stated narrowly: a specific deployed clinical risk model, a specific validated biomarker with a published measurement protocol, an in-distribution physical manipulation of that biomarker, and a mediation decomposition against a registry outcome - the last of which was NOT_FOUND across five queries for radiology generally."
+        },
+        {
+          "citation": "Labaki WW et al. Quantitative Emphysema on Low-Dose CT Imaging and Risk of Lung Cancer and Death.",
+          "identifier": "Chest 2021;159(5):1812-1820, PMID 33326807, DOI 10.1016/j.chest.2020.12.004",
+          "verification": "INSPECTED",
+          "what_it_did": "Established on 7,262 NLST participants that LAA%-950 independently predicts lung cancer incidence, lung cancer mortality and all-cause mortality.",
+          "what_it_did_not_do": "Related the biomarker to outcomes, not to any model. It also does not specify the reconstruction kernel used, which given the 10.75-point kernel effect is a material omission and one this candidate must not repeat."
+        }
+      ],
+
+      "existing_assets": [
+        "Sybil weights and inference code under MIT, auto-downloading from a hardcoded URL. No gate of any kind.",
+        "NLST imaging on TCIA under CC BY 4.0, 26,254 subjects, no application.",
+        "NLST lung cancer outcomes in the PUBLIC subset - nlst_canc with candx_days - queryable as bigquery-public-data.idc_current_clinical.nlst_canc with no credentials, and joinable by dicom_patient_id which IDC documents 'is identical to the PatientID field in the DICOM files'.",
+        "Reconstruction filters recorded per exam in the public nlst_screen table (ct_recon_filter1 through 4) and redundantly in TCIA's coded SeriesDescription, field 5.",
+        "lungmask, pip-installable, Apache-2.0, for the lung mask; LAA%-950 is then a voxel count.",
+        "Published kernel effect sizes on NLST data specifically (10.75 points for RA950, 31.03 HU for Perc15) so the manipulation's expected magnitude is known before running anything.",
+        "A published nodule-free performance benchmark (2-year AUC 0.81) so the residual signal's size is known and need not be re-established."
+      ],
+
+      "smallest_decisive_experiment": "Stage 0, two days, go/no-go: reconcile the three participant counts named in keystone_residual_assumption, confirm the Ardila supplementary column joins to TCIA PatientID, and tabulate how many held-out participants have at least one series in each of the common kernels. Stage 1 is the whole hypothesis and needs no outcomes and no labels: on held-out NLST scans restricted to ONE kernel, run Sybil and compute LAA%-950 and Perc15 on the identical series, then estimate the association between the risk score and each biomarker, with the nodule-free subset as the pre-registered primary population. A model that is using emphysema will show a monotone score gradient across Perc15 deciles. Stage 2 is the manipulation and is the part no one has run: on the standard-versus-lung and standard-versus-bone pairs, compute the PER-PATIENT change in LAA%-950 and the PER-PATIENT change in Sybil's score, and regress one on the other. This is the analysis Simon et al. could not do because they measured no image property. It separates three outcomes that their signed means conflate - the score tracks the histogram, in which case the per-patient slope is positive and the model is reading a kernel-contaminated measurement; the score is flat while the biomarker moves 10 points, in which case the model has learned a reconstruction-invariant estimate of emphysema that is better than LAA-950 itself; or the score moves but not in proportion to the biomarker shift, which is a constant kernel offset and means the model reads the kernel rather than the emphysema. Stage 3, only if Stage 1 is positive: mediation of the score-to-cancer association through Perc15 using the public candx_days outcome, which is the NOT_FOUND corner of the methodology literature.",
+
+      "standing_confounds_addressed": {
+        "scanner_and_vendor": "ADDRESSED in Stage 2 by construction, because the pair is two reconstructions of one acquisition on one scanner. ADDRESSED in Stage 1 by stratification, since manufacturer and model are retained in the public DICOM release.",
+        "acquisition_protocol": "PARTLY ADDRESSED. NLST is a protocolised screening trial, and kVp and mAs are recoverable from the coded SeriesDescription. Note that XRayTubeCurrent as a distinct tag was NOT located in the public release - mAs and effective mAs are what is exposed.",
+        "reconstruction": "This is the manipulated variable in Stage 2 and a stratification variable in Stage 1. It is the single most dangerous confound for this X - the kernel moves LAA%-950 by 7 to 11 points while the disease effect is HR 1.02 per point - and the design's central discipline is that the primary analysis never pools kernels.",
+        "site": "NOT ADDRESSED AND NOT ADDRESSABLE. NLST's screening centre is 'Cen: Screening Center (masked)' in the full release. Stage 2 is immune because the pairing is within-scan, but Stage 1 and Stage 3 cannot exclude site, and this must be stated as a permanent limitation rather than a pending download.",
+        "positioning": "ADDRESSED in Stage 2, identical by construction. NOT ADDRESSED in Stage 1, though the biomarker is computed inside an anatomically defined lung mask, which makes it position-invariant to first order.",
+        "habitus": "NOT ADDRESSED directly. Body size affects noise via automatic exposure control, which affects LAA%-950. Mitigated by including effective mAs as a covariate and by the Stage 2 within-patient design where habitus is identical.",
+        "prevalence": "ADDRESSED by construction - NLST is a single screening cohort with uniform eligibility, so there is no between-population prevalence contrast.",
+        "referral_pathway": "ADDRESSED by construction. Participants were trial-enrolled against fixed criteria, not referred for a clinical indication.",
+        "label_leakage": "NOT APPLICABLE to Stages 1 and 2, which use no labels at all. In Stage 3 the outcome is a registry-recorded cancer diagnosis date, which cannot leak from a radiology report into an image."
+      },
+
+      "alternative_explanations": [
+        "Smoking dose. Pack-years cause both emphysema and cancer risk, and the JCO paper notes that 'traditional clinical risk factors such as smoking duration can be predicted directly from the LDCT images'. If Sybil is reading a smoking-dose signature of which emphysema is one component, the association is real but the named X is too narrow. PARTLY EXCLUDED by adjusting for pack-years - conditional on pkyr surviving into the public nlst_prsn cut, which is unverified and is the one query Stage 0 must run.",
+        "Vascular pruning rather than parenchymal destruction. Estepar et al. 2013 reports that '%LAA-950 was inversely related to all calculated vascular ratios', so BV5 and LAA-950 move together and a positive for one is weak evidence against the other. NOT EXCLUDED by this design on its own; this is precisely why C5 exists, and the honest resolution is to measure both and report the partial associations.",
+        "Residual nodule signal. The nodule-free subset is defined by radiologist annotation of visible nodules at the future cancer site - a human judgment, and the only one anywhere in this candidate. Sub-threshold nodularity would still be present. PARTLY EXCLUDED, and worth noting that the audit paper's diffusion-based nodule removal is a stronger control that this design deliberately declines to use because it reintroduces the distribution-shift problem that killed idea 006.",
+        "Honest self-assessment. The appealing sentence here is 'the model learned a better emphysema measurement than the one radiologists use', which would arise from the flat-score-moving-biomarker branch of Stage 2. That branch is also exactly what a model that simply ignores the parenchyma would produce. The two are distinguished ONLY by Stage 1 showing a cross-sectional association at fixed kernel first. If Stage 1 is null, Stage 2's flatness means nothing at all, and the write-up must not be allowed to reach for the better sentence. I would put this in the protocol as a gating rule rather than trusting discipline at analysis time."
+      ],
+
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reasoning": "If Sybil's score on nodule-free, fixed-kernel scans shows no association with Perc15 or LAA%-950 within a prespecified equivalence margin, it falsifies the only positive hypothesis anyone has put in print about this model's residual signal - the audit paper's sentence that risk 'should rely on background markers like emphysema'. That is a named hypothesis from a named paper being eliminated, not a failure to find something. It also sharpens the open question, because the JCO nodule-free AUC of 0.81 does not go away. The margin must be prespecified against the score's own SD of 0.07 from Simon et al., and the sample sized to it, or the null degrades to sensitivity-limited."
+      },
+
+      "remaining_legwork": [
+        "Reconcile the 6,282 / 6,883 / 2,328 participant counts and parse the Ardila supplementary xlsx. Two days, and it is the keystone residual.",
+        "One BigQuery INFORMATION_SCHEMA query on nlst_prsn to confirm pack-years, age and sex survived into the public cut. Minutes, no credentials, but it gates the smoking-dose adjustment.",
+        "Select the fixed-kernel cohort and size it against a prespecified minimum detectable association. Three days.",
+        "Download the subset. This is the real cost - NLST is an 11 TB collection and even a held-out, single-kernel, nodule-free subset is a substantial transfer.",
+        "Validate lungmask on low-dose screening CT, which is noisier than the diagnostic CT these tools are usually shown on. Half a week.",
+        "Time to first decision: Stage 0 in two days; Stage 1 answers the substantive question in about three weeks."
+      ],
+
+      "scores": {
+        "clarity": {"value": 5, "why": "One sentence naming the model, the population, the biomarker, the threshold and the tool. The null is stated in the question."},
+        "identifiability": {"value": 4, "why": "Stage 2 is within-scan, which eliminates scanner, vendor, site, positioning, habitus and prevalence simultaneously, and it distinguishes three named mechanisms rather than two. Stage 1 fixes the kernel, which is the dominant threat to this particular X. Held below 5 because site is permanently unaddressable in NLST, because smoking dose is a genuine competing cause that adjustment only partly handles, and because BV5 and LAA-950 are inversely correlated so a positive does not by itself exclude the vascular explanation."},
+        "medical_relevance": {"value": 4, "why": "It would tell a radiologist that a screening risk score is partly reading a finding they already report by name, which changes how the score is interpreted at the point of care and suggests emphysema should be read alongside it. Held below 5 because it does not by itself change management."},
+        "interest": {"value": 5, "why": "A deployed, validated, FDA-adjacent risk model whose most-discussed property is that it works without a visible nodule, and two independent papers stop one measurement short of saying what it is using. The answer is interesting in every branch, including the flat-score branch."},
+        "prior_legwork": {"value": 5, "why": "Open weights, open images, open outcomes, a pip-installable measurement tool, a published nodule-free benchmark, a published kernel effect size on this exact dataset, and a published paired-series construction to copy."},
+        "feasibility": {"value": 4, "why": "Cap lifted, keystone INSPECTED_TRUE. Inference-only, single GPU, no training. Held to 4 by the size of the NLST transfer and by the split-reconciliation step, which is cheap but genuinely unfinished."},
+        "data_readiness": {"value": 5, "why": "CC BY 4.0 imaging with no application, public outcome table with no credentials, MIT weights with no gate. Nothing in this candidate is behind any door."},
+        "evaluation_readiness": {"value": 4, "why": "AUC, rank correlation, per-patient paired regression and mediation are all standard, and there are published reference values for both the biomarker and the kernel shift. Only the equivalence margin needs specifying."},
+        "negative_result_value": {"value": 4, "why": "A tight null eliminates the field's only stated positive hypothesis about this model's background signal. Held below 5 because it requires the equivalence margin to be prespecified and because a null on a measurement as noisy as LAA-950 will always attract a power objection."},
+        "novelty_confidence": {"value": 4, "why": "Cap lifted. The specific link - Sybil's score against quantitative emphysema - was NOT_FOUND across seven distinct queries, and both interpretation papers explicitly leave the background term unmeasured, one of them naming emphysema as an untested intuition. Held at 4 rather than 5 because Regression Concept Vectors already occupy the general methodology, because at least six published works already exploit NLST paired-kernel reconstructions for harmonization, and because the searches did not cover RSNA, SPIE, Medical Physics or thoracic-imaging conference abstracts."}
+      },
+      "priority_score": 4.35,
+      "priority_arithmetic": "0.20*4 (feas) + 0.15*4 (ident) + 0.15*4 (med) + 0.10*5 (legwork) + 0.10*5 (interest) + 0.10*5 (clarity) + 0.10*4 (neg) + 0.05*5 (data) + 0.05*4 (novelty) = 0.80+0.60+0.60+0.50+0.50+0.50+0.40+0.25+0.20 = 4.35",
+      "regret": {"value": 5, "why": "The weights download from a hardcoded URL, the images are CC BY, the biomarker is a threshold and a voxel count, and a 2026 ICML paper wrote the hypothesis down in a sentence and moved on. If the answer is yes and nobody checked, it was sitting behind about a week of work."},
+      "recommendation": "SHORTLIST - highest-ranked candidate in the portfolio.",
+
+      "unverified_claims": [
+        "That the patient_id column of Ardila et al. supplementary MOESM5 contains NLST participant IDs joinable to TCIA PatientID. Inferred from Sybil's own script reading that column from that filename; the file was downloaded but not parsed.",
+        "That the 6,282 LDCT held-out set in JCO, the 2,328 participants in Simon et al., and the Ardila test set are mutually consistent. Three numbers, no reconciliation attempted.",
+        "That pack-years, age and sex survived into the public nlst_prsn table. The table is public and is the CDAS Participant dataset, but its column list was not inspected.",
+        "That train-versus-dev is irrecoverable. Based on reading np.random.choice with no seed set in create_nlst_metadata_json.py. Only train-union-dev is reconstructible; this does not affect the design, which needs only the test set.",
+        "That lungmask performs acceptably on NLST low-dose screening CT. Untested here.",
+        "The claim that the ConvolutionKernel DICOM tag may be uninformative in NLST, with identical labels across reconstructions, comes from a single 2026 preprint (arXiv:2606.12824) and was not independently confirmed. If true, kernel identity must be read from the coded SeriesDescription instead. Cheap to check, but it would silently corrupt the Stage 1 stratification if wrong.",
+        "That no CT emphysema-versus-Sybil analysis exists in venues not searched: RSNA, SPIE, Medical Physics, Radiology Artificial Intelligence, and thoracic society abstracts."
+      ]
+    },
+    {
+      "id": "C2",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "Cardiomegaly on a CT report is admitted gestalt - ask whether the model has quietly turned it into millilitres",
+
+      "question": "Is CT-CLIP's cardiomegaly score a monotone function of total heart volume in millilitres measured by TotalSegmentator on the same volume, and does it track absolute volume or volume relative to the thoracic cavity?",
+
+      "deliverable_sentence": "CT-CLIP's cardiomegaly detector is using absolute heart volume in millilitres, not heart size relative to the chest, which means it over-calls cardiomegaly in large patients and under-calls it in small ones.",
+
+      "why_unasked": "Because everyone assumes the answer is trivially yes and nobody has priced what 'yes' would cost. Two habits hide it. First, cardiomegaly is treated as a solved, boring finding - the model gets it right, move on - so no one asks WHICH quantity the model recovered. Second, and more interesting: there is no reference standard to compare against, so the question looks unanswerable. The radiology literature says so explicitly. Hota and Simpson, Radiol Cardiothorac Imaging 2019, PMID 33778499: 'a standardized method for evaluating and reporting cardiac chamber size does not exist. This has led to heterogeneity in the reporting of cardiac enlargement at routine multidetector CT with most readers often using gestalt assessment.' That absence is normally treated as a reason not to ask. It is actually the reason the question is worth asking: if the model's score is a clean function of a physical volume, the model has extracted a reproducible measurement from an unstandardized human impression.",
+
+      "rung": {
+        "current": 3,
+        "why": "Heart volume in millilitres is as human-legible and as physical as this program gets, and a radiologist can disagree with the sentence immediately.",
+        "what_would_move_it_up": "Nothing above rung 3. What would strengthen it: showing the score's implied decision boundary in millilitres is stable across manufacturers, since CT-RATE is 61.5% Philips and 30.1% Siemens, and comparing that boundary against the two incompatible published definitions of heart volume named below."
+      },
+
+      "X_measurement": {
+        "X": "Total heart volume in millilitres - the voxel count of the TotalSegmentator 'heart' class times voxel volume. Co-primary comparator: the ratio of heart volume to thoracic cavity volume, which is the volumetric analogue of the cardiothoracic ratio.",
+        "how": "TotalSegmentator v2 default task 'total' contains class 117 costal_cartilages and a single whole-organ class 'heart'; it is Apache-2.0 and needs no license key. Note that v2 collapsed the four chambers and myocardium of v1 into one 'heart' label, and chamber-level segmentation now sits in heartchambers_highres which DOES require a license key - so this candidate deliberately uses the whole-organ class that is free. Thoracic cavity volume comes from the same run.",
+        "citations": "Wasserthal J et al., TotalSegmentator, Radiology: Artificial Intelligence 2023, DOI 10.1148/ryai.230024.",
+        "could_I_compute_it_today_without_asking_anyone": "Yes, and possibly without even running it: CT-RATE ships precomputed outputs at dataset/ts_seg/ts_total, alongside ts_lung_nodules and ts_pleural_pericard_effusion, plus train_label_summary.xlsx and valid_label_summary.xlsx which may already contain per-structure volumes.",
+        "known_weakness_of_X_stated_up_front": "There is no agreed definition of 'heart volume' on CT and the literature disagrees by a factor of two. A 2026 Radiology Advances study of non-gated non-contrast chest CT reports 'Median TCVAI was higher in patients with cardiomegaly than those without (1061.9 vs 798.4 mL; P < .001)', while a 2025 Diagnostics reference-subgroup study defining total heart volume as the sum of both atria and both ventricles with the septum reports females 405.3 +/- 73.0 mL and males 506.9 +/- 89.5 mL. Those are the same words for different quantities. The design is insulated because it never compares against a normative threshold - it asks whether the model's score is a function of a volume the design itself defines and reports."
+      },
+
+      "suspected_signal": "Cardiac enlargement displaces lung, flattens the left hemidiaphragm, alters the cardiac silhouette against adjacent low-attenuation lung, and shifts the position of the interface between blood-attenuation myocardium and air-attenuation parenchyma. All of it is geometry at a high-contrast boundary, which is the easiest kind of signal for a 3D encoder to pick up, and none of it requires the model to have learned anything about the ratio a human would use.",
+
+      "keystone_prerequisite": "The released ClassFine checkpoint can be run to produce a per-volume cardiomegaly score, and a per-volume heart volume in millilitres exists for those same volumes - so that a score and a physical measurement can be paired on the identical image.",
+
+      "keystone_status": "INSPECTED_TRUE",
+
+      "keystone_evidence": "The CT-CLIP GitHub README links ClassFine directly as models/CT-CLIP-Related/CT_LiPro_v2.pt inside the CT-RATE HuggingFace dataset repository, and the file tree confirms it exists at 1.77 GB alongside CT-CLIP_v2.pt and CT_VocabFine_v2.pt. The 18 abnormality labels were read from the authors' own scripts/zero_shot.py and 'Cardiomegaly' is the third entry. dataset/ts_seg/ contains ts_total, and TotalSegmentator's map_to_binary.py confirms 'heart' is in the free default 'total' class map. This overturns the prior ledger entry - see record_corrections.",
+
+      "keystone_residual_assumption": "Having verified the file exists in the tree, I am still assuming it loads and runs, since anonymous fetches return HTTP 401 and nothing was downloaded. Three further assumptions are unverified and one of them is load-bearing for identifiability rather than existence. Not load-bearing: the ts_seg TotalSegmentator version, inferred from folder names matching v2-only subtasks rather than read from the gated ts_seg/README.md and requirements.txt. Not load-bearing: whether the metadata CSV carries Manufacturer and reconstruction fields - the paper reports per-scan manufacturer distributions so they were captured, but the column headers are gated and unread. LOAD-BEARING: that CT-RATE contains enough joint variation in heart volume and thoracic cavity volume to separate absolute size from relative size. If large hearts occur almost exclusively in large chests in this corpus, the two hypotheses are collinear and the headline question is unanswerable however good the segmentation is. That is the real keystone for the INTERESTING half of the candidate, it is not inspected, and it is the first thing to check after the gate.",
+
+      "rung_reached": {
+        "value": 3,
+        "conditional_on": "Reaching the absolute-versus-relative distinction. If the joint variation is insufficient, the candidate degrades to 'the model is using heart size', which is true, uninteresting, and would not have been worth the download."
+      },
+
+      "dies_like_prior": "It does not die like ideas 001, 002, 003 or 005, because no human-assigned label enters the primary readout at all. This matters more here than elsewhere: CT-RATE's Cardiomegaly label is RadBERT-extracted from a free-text report whose author was, by the radiology literature's own admission, using gestalt. That label is exactly the kind of contaminated annotation that killed the earlier candidates - so the design keeps it out of the primary comparison entirely and uses it only in a clearly-labelled secondary arm asking a different question (does the model agree with the reporting radiologist more or less than volume does). It does not die like idea 006 either, because there is no intervention: every image is unmodified. The honest resemblance is to no prior candidate; the honest risk is collinearity, which is a power problem rather than a validity problem.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Hamamci IE et al. Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography.",
+          "identifier": "arXiv:2403.17834; Nature Biomedical Engineering, DOI 10.1038/s41551-025-01599-y; PubMed 41680439",
+          "verification": "INSPECTED (arXiv HTML v1 and v3; authors' zero_shot.py; HuggingFace file tree)",
+          "what_it_did": "Released CT-RATE, the 18-label benchmark and the CT-CLIP, VocabFine and ClassFine checkpoints, plus precomputed TotalSegmentator outputs.",
+          "what_it_did_not_do": "Reported performance per abnormality without asking what quantity any score corresponds to. Important reporting caveat found during verification: the published text gives only AUROC DELTAS against a CT-Net baseline - 'the zero-shot CT-CLIP model achieves a mean AUROC that is 0.102 higher and a mean F1 score that is 0.050 higher than the supervised baseline' - and the absolute per-abnormality numbers appear only in figures. Secondary sources quoting absolutes disagree with each other (0.704, 0.734, 0.900 all seen) and none is citable. Any baseline number for this candidate must come from the Nature source data or be re-measured."
+        },
+        {
+          "citation": "Hota P, Simpson S. Going Beyond Cardiomegaly: Evaluation of Cardiac Chamber Enlargement at Non-Electrocardiographically Gated Multidetector CT.",
+          "identifier": "Radiol Cardiothorac Imaging 2019, PMID 33778499, DOI 10.1148/ryct.2019180024",
+          "verification": "INSPECTED",
+          "what_it_did": "Documented that no standardized method exists and that most readers use gestalt.",
+          "what_it_did_not_do": "Diagnosed the problem for humans and proposed human remedies. It never asks whether a model trained on those gestalt reports has converged on a physical quantity - which is the only reason this candidate is interesting rather than routine."
+        },
+        {
+          "citation": "Kim et al. Cardiothoracic ratio measured on CT as a predictor of left ventricular systolic dysfunction.",
+          "identifier": "Clin Exp Emerg Med 2023, PMID 36787898, DOI 10.15441/ceem.22.382",
+          "verification": "INSPECTED",
+          "what_it_did": "In 444 patients: 'The best cutoff value for a CT-measured cardiothoracic ratio suggestive of LVSD was 0.56, which is very different from the 0.50 value typically considered an abnormal cardiothoracic ratio', with AUCs of only 0.653 to 0.690 and a median CT-CTR of 0.54 in patients with normal ejection fraction.",
+          "what_it_did_not_do": "Establishes that the ratio a radiologist would nominally use is itself poorly calibrated on CT, which is what makes the absolute-versus-relative question substantive rather than pedantic. Says nothing about models."
+        },
+        {
+          "citation": "Whole heart volume and major adverse cardiac events.",
+          "identifier": "Eur Radiol 2021, PMID 33501599, DOI 10.1007/s00330-021-07695-2",
+          "verification": "INSPECTED",
+          "what_it_did": "In 3,798 patients found that 'Small WHV was associated with over 4.4-fold risk of MACE (HR (per one standard deviation) = 0.221; 95% CI: 0.068-0.721; p = 0.012)'.",
+          "what_it_did_not_do": "This is a direction warning rather than a competitor, and it should be carried into the write-up: bigger heart equals worse is NOT a safe prior for undifferentiated whole-heart volume. If the model's score rises monotonically with volume, that is a statement about what the model learned from reports, not an endorsement of the biomarker."
+        },
+        {
+          "citation": "Kenia et al. Anatomy Contextualized Adaptation of CT Foundation Models.",
+          "identifier": "arXiv:2607.27154",
+          "verification": "INSPECTED",
+          "what_it_did": "Uses TotalSegmentator masks to pool CT-CLIP and Merlin features into anatomy-level embeddings.",
+          "what_it_did_not_do": "Uses segmentation to build better features, not to interrogate output scores. No volumetric correlation of any score. This is the nearest neighbour and it is doing the opposite thing - the closest work found in five queries, all of which returned NOT_FOUND for the specific link proposed here."
+        }
+      ],
+
+      "existing_assets": [
+        "ClassFine checkpoint, 1.77 GB, behind a free click-through under CC-BY-NC-SA 4.0.",
+        "Precomputed TotalSegmentator outputs shipped with the corpus at dataset/ts_seg/ts_total, so the measurement may require no segmentation run at all.",
+        "train_label_summary.xlsx and valid_label_summary.xlsx, which may already hold per-structure volumes - worth opening before writing any code.",
+        "Idea 004 has already scoped a CT-RATE download of 850 validation volumes; if those are on disk the marginal data cost is near zero.",
+        "TotalSegmentator's free whole-organ heart class as an independent check on the shipped segmentations."
+      ],
+
+      "smallest_decisive_experiment": "Accept the gate, then before anything else answer the collinearity question: extract heart volume and thoracic cavity volume from the shipped ts_total for the validation split and plot one against the other. If the joint distribution has no spread at fixed thoracic volume, stop - the interesting question is not identifiable in this corpus and the candidate should be re-scoped or dropped. If it does, run ClassFine over the same volumes and estimate the association between the cardiomegaly score and each of the two measurements, then the partial association of each conditional on the other. The design's discriminating move needs no intervention and no synthetic edit: CT-RATE has real, naturally occurring variation in reconstruction field of view and in-plane pixel spacing, so among patients matched on heart volume in millilitres the heart occupies materially different fractions of the frame. If the score follows millilitres and ignores the fraction, the model is using absolute volume; if it follows the fraction, it is using apparent size. Secondary, clearly separated: compare the score against the RadBERT Cardiomegaly label and against volume, to ask whether the model agrees with the reporting radiologist or with the ruler.",
+
+      "standing_confounds_addressed": {
+        "scanner_and_vendor": "PARTLY ADDRESSED by stratifying on manufacturer, which the paper reports as 61.5% Philips, 30.1% Siemens, 8.4% PNMS. Conditional on the metadata column existing, which is unverified.",
+        "acquisition_protocol": "NOT ADDRESSED beyond stratification. Contrast phase in particular is unmeasured and materially affects the visibility of the cardiac border.",
+        "reconstruction": "PARTLY ADDRESSED. Kernel affects the segmentation boundary less than it affects a density threshold, so this X is far more kernel-robust than C1's - which is a genuine advantage worth stating.",
+        "site": "NOT ADDRESSED. CT-RATE is single-institution, which limits site variation but also means the result may not transfer.",
+        "positioning": "NOT ADDRESSED. Arm position and table height shift the heart within the frame and would act through exactly the apparent-size channel the design is trying to isolate. This is the most under-controlled confound in the candidate and it should be measured, via body centroid and table position, even though it cannot be removed.",
+        "habitus": "THIS IS THE HYPOTHESIS, not a nuisance. The absolute-versus-relative question is a question about habitus, and the design's whole point is to report it rather than adjust it away.",
+        "prevalence": "NOT APPLICABLE to the primary readout, which is a within-corpus association rather than a comparison between populations.",
+        "referral_pathway": "NOT ADDRESSED and live - sicker patients get scanned differently and also have bigger hearts.",
+        "label_leakage": "NOT APPLICABLE to the primary readout, which uses no labels. In the secondary arm the label is RadBERT-extracted from the report and label noise attenuates toward the null, so it cannot manufacture a positive."
+      },
+
+      "alternative_explanations": [
+        "Pericardial effusion. It is a separate label in the same 18 and it enlarges the cardiac silhouette without enlarging the heart. TotalSegmentator's whole-organ heart class may or may not include the effusion, which would make the measurement and the model wrong in the same direction and produce a spuriously clean association. PARTLY EXCLUDED by using the shipped ts_pleural_pericard_effusion output as a covariate and by reporting the analysis with effusion cases removed. This is the most dangerous confound in the candidate and it is specific to it.",
+        "Collinearity of heart and thorax. Discussed as the keystone residual; if unresolved, a positive is uninterpretable between the two named hypotheses.",
+        "The model tracks neither and the association is driven by whatever else correlates with body size in a single-institution corpus. PARTLY EXCLUDED by the matched-volume, varying-frame-fraction comparison.",
+        "Honest self-assessment. 'The model turned a gestalt impression into millilitres' is a better sentence than the likely result deserves. The realistic outcome is a strong but unsurprising monotone association with volume plus an ambiguous partial association with the ratio, which is a modest finding. And the field has no gold standard here - two published definitions of heart volume differ by a factor of two - so a WEAK correlation would be genuinely uninterpretable between a bad model and a bad measurement. Identifiability is scored 3 for that reason and not only for collinearity."
+      ],
+
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reasoning": "A strong monotone association with volume is nearly certain and is not the finding. The finding is the absolute-versus-relative partial association, and a null THERE has several surviving explanations - insufficient joint variation, positioning noise acting through apparent size, or segmentation error correlated with body size. It is not uninterpretable, because the collinearity check is run first and reported, but it is not decisive either. Honest classification is type 2, and negative_result_value is scored accordingly rather than being talked up."
+      },
+
+      "remaining_legwork": [
+        "Accept the CT-RATE gate; shared with idea 004 and already on that critical path.",
+        "Open dataset/ts_seg/README.md and requirements.txt for the TotalSegmentator version, and the two label_summary.xlsx files to see whether volumes are precomputed. Hours, and it may remove a whole pipeline stage.",
+        "Run head -1 on validation_metadata.csv for the acquisition columns. Minutes.",
+        "The collinearity check. One day, and it is a genuine go/no-go for the interesting half.",
+        "Validate the shipped heart segmentation against a local TotalSegmentator run on 30 volumes, with attention to whether pericardial fluid is included. Two days.",
+        "Time to first decision: about a week after the gate, assuming idea 004's volumes are already on disk."
+      ],
+
+      "scores": {
+        "clarity": {"value": 5, "why": "One model, one score, one measurement in millilitres, and a named binary alternative. Nothing about the question needs interpretation."},
+        "identifiability": {"value": 3, "why": "The matched-volume varying-frame-fraction comparison genuinely separates absolute from relative size using existing variation rather than a synthetic edit, and pericardial effusion is controllable via a shipped segmentation. But there is no intervention anywhere, positioning is uncontrolled and acts through the very channel being isolated, referral pathway is unaddressed, and the collinearity that would make the question answerable is unverified. Three is the honest score."},
+        "medical_relevance": {"value": 4, "why": "If the model is using absolute volume, it systematically over-calls cardiomegaly in large patients and under-calls it in small ones - a concrete, testable, correctable deployment failure in a finding that appears on a large share of chest CT reports. Held below 5 because cardiomegaly rarely drives management on its own."},
+        "interest": {"value": 4, "why": "The framing - the model may have converted an admitted gestalt into a reproducible physical measurement - is genuinely surprising, and the inverted whole-heart-volume prognosis literature makes it less obvious than it first sounds. Held below 5 because the headline association is nearly certain and only the second-order question is uncertain."},
+        "prior_legwork": {"value": 5, "why": "Checkpoint, labels, precomputed segmentations, possibly precomputed volumes, and a scoped download all in one gated repository."},
+        "feasibility": {"value": 4, "why": "Cap lifted, keystone INSPECTED_TRUE. Inference-only on a released checkpoint with segmentations that may already exist. Held to 4 by the gate, by 3D download volume, and by the fact that nothing has actually been downloaded and run."},
+        "data_readiness": {"value": 3, "why": "Public but behind a click-through contact-sharing agreement under CC-BY-NC-SA 4.0 with no redistribution, and the metadata columns the design wants are unread. Accessible with work."},
+        "evaluation_readiness": {"value": 3, "why": "Rank correlation and partial association are standard, but there is no accepted normal range for heart volume on non-contrast CT and two published definitions differ by a factor of two, so any threshold-style claim needs its own justification. Custom metrics needed."},
+        "negative_result_value": {"value": 3, "why": "Capped by the sensitivity-limited classification. A null on the second-order question has several surviving explanations, though the collinearity check being reported first keeps it out of uninterpretable territory."},
+        "novelty_confidence": {"value": 3, "why": "Cap lifted but held at 3 on the evidence. The specific link was NOT_FOUND across four queries and the nearest work uses segmentation for feature pooling rather than score interrogation - but Regression Concept Vectors already formalize the general move, and this is the sort of quick analysis that could easily exist as a workshop paper in venues not searched."}
+      },
+      "priority_score": 3.85,
+      "priority_arithmetic": "0.20*4 (feas) + 0.15*3 (ident) + 0.15*4 (med) + 0.10*5 (legwork) + 0.10*4 (interest) + 0.10*5 (clarity) + 0.10*3 (neg) + 0.05*3 (data) + 0.05*3 (novelty) = 0.80+0.45+0.60+0.50+0.40+0.50+0.30+0.15+0.15 = 3.85",
+      "regret": {"value": 3, "why": "Worth considering rather than obvious-in-hindsight. If the model over-calls cardiomegaly in large patients, that will surface eventually in deployment; catching it first is useful but not the kind of finding that reframes a field."},
+      "recommendation": "SHORTLIST CONDITIONAL - run the collinearity check first and re-score before committing to the full study.",
+
+      "unverified_claims": [
+        "That CT_LiPro_v2.pt loads and produces per-abnormality scores as expected. The file was seen in the tree at 1.77 GB; nothing was downloaded.",
+        "That dataset/ts_seg/ts_total was produced by TotalSegmentator v2. Inferred from sibling folder names matching v2-only subtasks, not read from the gated README or requirements.txt.",
+        "That the metadata CSVs contain Manufacturer, ManufacturerModelName, kernel, KVP and SliceThickness columns. Strongly implied by the paper reporting per-scan distributions, but the headers are gated and unread. Only VolumeName, RescaleSlope, RescaleIntercept, XYSpacing and ZSpacing are confirmed, from the authors' own inference script.",
+        "That heart volume and thoracic cavity volume vary sufficiently independently in CT-RATE. Not checked, and load-bearing for the interesting half of the question.",
+        "That the TotalSegmentator heart class excludes pericardial fluid. Not verified, and it is the candidate's most specific technical risk.",
+        "Any absolute AUROC for CT-CLIP. The published text reports deltas only; three mutually inconsistent absolutes were seen in secondary sources and none is citable.",
+        "That CT-RATE is single-institution. Assumed from prior cycles' notes rather than verified here."
+      ]
+    },
+    {
+      "id": "C3",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The same patient, twice, ten minutes apart, differing only in how much air is in the lungs",
+
+      "question": "When one patient receives an inhale and an exhale breath-hold CT in a single session on one scanner at matched exposure, how much do a chest-CT foundation model's finding scores move, and do they move as a function of total lung volume in litres?",
+
+      "deliverable_sentence": "The model is using the degree of lung inflation - total lung volume and the mean parenchymal attenuation it sets - as a component of its emphysema, mosaic attenuation, atelectasis and lung opacity scores, so a patient who cannot hold a full breath receives a different diagnosis.",
+
+      "why_unasked": "Radiologists correct for inspiratory effort constantly and without comment; it is one of the first things taught about reading a chest study, and an expiratory scan that looks like ground glass is a standing joke rather than a research question. Because the correction is so automatic in humans, nobody has asked whether the model does it. The benchmark cannot reveal it either: every corpus used to evaluate these models has ONE scan per patient, so inflation state is a fixed property of each case and is silently absorbed into the label. The confound is invisible by construction, and it becomes visible only when you have the same patient twice.",
+
+      "rung": {
+        "current": 3,
+        "why": "Degree of inspiration is a named physiological state that every chest radiologist assesses on every study, and total lung volume is its calibrated measure in litres.",
+        "what_would_move_it_up": "Nothing above rung 3. What would strengthen it: replication in a non-oncological population, since the available corpora are lung cancer and radiotherapy patients, and extension to a second foundation model to show the behaviour is not one checkpoint's quirk."
+      },
+
+      "X_measurement": {
+        "X": "Total lung volume in litres, with mean lung attenuation in Hounsfield units as the co-primary because it is the channel through which inflation most plausibly acts.",
+        "how": "lungmask (Apache-2.0, pip-installable) or TotalSegmentator's free lung lobe classes give the mask; volume is a voxel count times voxel volume and mean attenuation is an average inside it. LAA%-950 is reported alongside as the clinically named quantity that inflation is known to corrupt.",
+        "citations": "Effect size anchored in real paired patients: Eur Radiol 2002, PMID 12386770, DOI 10.1007/s00330-002-1514-z, n=155 paired full-inspiration and full-expiration HRCT, reporting mean lung density of minus 813 HU at full inspiration and minus 736 HU at full expiration - a 77 HU shift. Controlled-inflation within-subject support: Madani, Van Muylem, Gevenois, Radiology 2010;257(1):260-268, PMID 20663967, imaging the same subjects at 100, 90, 80, 70 and 50 percent of vital capacity and concluding that 'submaximal inspiration induces underestimation of pulmonary emphysema'.",
+        "could_I_compute_it_today_without_asking_anyone": "Yes. Lung segmentation and a voxel count, on a corpus that downloads without any agreement."
+      },
+
+      "suspected_signal": "Inflation is a physical dilution. At full inspiration the same tissue mass occupies more volume, so every parenchymal voxel contains proportionally more air and reads lower in Hounsfield units; at expiration the parenchyma is denser, vessels crowd together, dependent regions collapse, and the appearance converges on what ground glass, mosaic attenuation and atelectasis look like. A model trained on single-phase scans has no way to distinguish a patient with genuinely dense lung from a patient who exhaled, unless it has learned an inflation-invariant representation - and nothing in its training objective asked it to.",
+
+      "keystone_prerequisite": "A public corpus, with no application or data transfer agreement, provides at least two breath-hold chest CT acquisitions of the same patient in one session at different inflation states, with matched acquisition parameters and whole-thorax coverage - so that inflation is the only thing that differs and both images are real full-dose reconstructions rather than phase bins.",
+
+      "keystone_status": "INSPECTED_TRUE",
+
+      "keystone_evidence": "TCIA collection CT-vs-PET-Ventilation-Imaging, DOI 10.7937/3ppx-7s22, collection page inspected and quoted: 'For this study, 20 lung cancer patients underwent exhale/inhale breath hold CT (BHCT), free-breathing four-dimensional CT (4DCT) and Galligas PET ventilation scans in a single session on a combined 4DPET/CT scanner.' Breath holds were at 'approximately 80% of maximum inhalation and exhalation' with audiovisual biofeedback, at 120 kVp, 120 mAs, 0.8 pitch, 10 second breath-hold - so exposure is matched between the two arms. Coverage is 'approximately 50 cm from the pharynx to the stomach', which is whole-thorax rather than a radiotherapy crop. Non-contrast, DICOM, 14.93 GB, CC BY 4.0, fully public with no application. Scanner is a single Siemens Biograph mCT.S/64. The same session additionally provides a 10-phase 4DCT, giving a within-patient dose-response with ten points. Source paper Eslick et al., Radiother Oncol 2018;127:267-273, PMID 29290405. Every alternative was checked and gated: DIR-Lab requires a Qualtrics request form and an emailed Dropbox password; COPDGene requires an ancillary study proposal and a DUA with National Jewish Health; LTRC requires BioLINCC committee approval; EMPIRE10 is effectively defunct. Learn2Reg Task 2 is ungated but preprocessed and resampled with unverified HU retention.",
+
+      "keystone_residual_assumption": "Having verified that two matched-exposure breath-hold acquisitions exist per patient, I am still assuming that the score difference between them is attributable to INFLATION rather than to everything else that moves when a patient breathes. Two things move: the tumour and any adjacent atelectasis change position and can change apparent size, and the diaphragm and mediastinum shift. This is load-bearing for the causal claim, and it is why the design does not rest on the paired difference alone. The mitigation is built in rather than bolted on: total lung volume is used as a CONTINUOUS exposure across the 10-phase 4DCT of the same patient in the same session, so the claim becomes a within-patient dose-response slope rather than a two-point difference, and a tumour-position artifact would not produce a monotone relationship with lung volume across ten phases. Also unverified: slice thickness is not stated on the collection page, and n is 20.",
+
+      "rung_reached": {
+        "value": 3,
+        "conditional_on": "The dose-response holding across the 4DCT phases and not only between the two breath holds. A two-point difference alone would support rung 1 - the model is sensitive to something that changes with breathing - but not the named claim."
+      },
+
+      "dies_like_prior": "No prior failure mode applies. No annotation enters anywhere: the primary readout is the same model's score on the same patient under two acquisitions, compared to itself, which is the exact structural move that let idea 004 survive and it is used here in its purest form - there is no ground truth in this study at all. It does not die like idea 006 either, and the contrast is worth stating precisely, because this candidate is what idea 006 should have been: idea 006 tried to create a counterfactual image by deleting the patient, and died because the deleted image was off-manifold. Here the counterfactual was created by the scanner. Both images are real, both are full-dose, both are diagnostic-quality chest CT, and the intervention was performed by the patient's own diaphragm. There is no distribution-shift defence to make because there is no distribution shift.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Eslick EM et al. CT ventilation imaging derived from breath hold CT exhibits good regional accuracy with Galligas PET.",
+          "identifier": "Radiother Oncol 2018;127:267-273, PMID 29290405; TCIA collection DOI 10.7937/3ppx-7s22",
+          "verification": "INSPECTED (collection page; abstract-level for the paper)",
+          "what_it_did": "Acquired the paired breath-hold CTs to derive regional ventilation maps and validate them against Galligas PET.",
+          "what_it_did_not_do": "Used the inflation contrast as a physiological signal to be measured. It never runs a diagnostic model of any kind across the pair. The dataset was built for ventilation imaging and is being repurposed here as a natural experiment, which is the whole reason it is available and unclaimed."
+        },
+        {
+          "citation": "Foundation model embeddings for quantitative tumor imaging biomarkers (test-retest stability on RIDER).",
+          "identifier": "PMID 40502795, Research Square rs-6630446",
+          "verification": "SEARCH_SUMMARY_ONLY",
+          "what_it_did": "Measured embedding stability across two scans of the same patient 15 minutes apart in 26 patients, reporting cosine similarity of 0.97 to 1.00 for most models, with Merlin at 0.81 and CT-CLIP at 0.93.",
+          "what_it_did_not_do": "This is the nearest existing measurement and it is a weak proxy. RIDER's repeat scans are free-breathing, so inflation varies uncontrolled and unmeasured - the variation is noise rather than a designed contrast, and the study reports embedding similarity rather than per-finding scores. It cannot say whether the instability it sees IS inflation. That CT-CLIP sits at 0.93 rather than 1.00 is a reason to expect this candidate to find something."
+        },
+        {
+          "citation": "Kavuri et al. Effect of inspiration level on quantitative emphysema (virtual imaging trial).",
+          "identifier": "Acad Radiol 2025;32(8):4913-4921, PMID 40348708, DOI 10.1016/j.acra.2025.04.042",
+          "verification": "INSPECTED",
+          "what_it_did": "Using DukeSim on 20 emphysema models at 70 to 100 percent of full inspiration: 'LAA-950 underestimat[es] the amount of emphysema by 1.44 +/- 0.32% (mean +/- standard error) for every 1-liter deviation from full inspiration.'",
+          "what_it_did_not_do": "Quantifies the effect on the BIOMARKER, not on a model. It is simulation rather than patients, so it is cited as a magnitude expectation with the 2002 and 2010 papers as the empirical anchors. It also supplies the per-litre scaling this candidate's dose-response should be compared against - if the model's score moves less per litre than LAA-950 does, the model is more inflation-robust than the standard index."
+        },
+        {
+          "citation": "Cardiothoracic ratio variation with respiration on CT.",
+          "identifier": "PMID 26151361",
+          "verification": "INSPECTED",
+          "what_it_did": "Reports CT-CTR of 44.3 +/- 5.1 inspiratory versus 48.8 +/- 5.5 expiratory - a 4.5 point swing straddling the conventional 0.5 threshold.",
+          "what_it_did_not_do": "Concerns humans and the heart rather than models and lungs, but it is the reason this candidate should also score CT-CLIP's Cardiomegaly output on the same pairs. That makes C3 a partial, free, within-patient probe of C2's question, and the overlap should be exploited rather than hidden."
+        }
+      ],
+
+      "existing_assets": [
+        "TCIA CT-vs-PET-Ventilation-Imaging: 20 patients, paired matched-exposure breath-hold CT plus 10-phase 4DCT in one session, CC BY 4.0, 14.93 GB, no gate whatsoever.",
+        "TCIA 4D-Lung, DOI 10.7937/K9/TCIA.2016.ELN8YGLE, CC BY 3.0: 20 more patients, 10 phases, 82 4DCT sessions including weekly repeats in 14 subjects - a second, independent, ungated corpus, with the caveat that its phases share one binned acquisition so noise is not matched and coverage is a radiotherapy extent.",
+        "The CT-CLIP ClassFine checkpoint, per C2's keystone.",
+        "lungmask for the exposure measurement.",
+        "Published per-litre and per-phase effect sizes for the biomarker, so the model's sensitivity has something to be compared against rather than being reported in a vacuum."
+      ],
+
+      "smallest_decisive_experiment": "One afternoon of inference on a 15 GB ungated download. For each patient compute total lung volume and mean lung attenuation on the inhale and exhale breath-hold scans, run ClassFine on both, and report the paired per-finding score change with the lung volume change as the exposure. The primary readout is entirely label-free: the within-patient slope of score against lung volume in litres, per finding, with the paired difference as a secondary summary. Then use the 10-phase 4DCT from the same session to convert the two-point contrast into a ten-point dose-response inside each patient, which is what separates 'inflation' from 'something else that moved'. Report the model's per-litre sensitivity next to the published per-litre sensitivity of LAA%-950 (1.44 percent per litre), so the result is expressed as whether the model is more or less inflation-robust than the standard quantitative index rather than as an uncalibrated number. Pre-register which findings are expected to move - emphysema, mosaic attenuation, atelectasis, lung opacity, consolidation - and which are not - medical material, arterial wall calcification, coronary artery wall calcification - because the calcification findings are an internal negative control that should be flat, and if they move too, the model is sensitive to the acquisition rather than to inflation specifically. That control costs nothing and it is what turns a suggestive result into an identified one.",
+
+      "standing_confounds_addressed": {
+        "scanner_and_vendor": "ELIMINATED BY CONSTRUCTION. One scanner, one patient, one session.",
+        "acquisition_protocol": "ELIMINATED BY CONSTRUCTION for the breath-hold pair - 120 kVp, 120 mAs, 0.8 pitch on both arms.",
+        "reconstruction": "ELIMINATED for the breath-hold pair. Not eliminated across the 4DCT phases, where each phase is reconstructed from a different subset of projections and therefore has a different noise realization - which is exactly why the breath-hold pair is primary and the phases are the dose-response.",
+        "site": "ELIMINATED BY CONSTRUCTION.",
+        "positioning": "ELIMINATED BY CONSTRUCTION - the patient does not move off the table between the two breath holds.",
+        "habitus": "ELIMINATED BY CONSTRUCTION - the same body.",
+        "prevalence": "ELIMINATED BY CONSTRUCTION - within-patient comparison, so there is no population to differ.",
+        "referral_pathway": "ELIMINATED BY CONSTRUCTION.",
+        "label_leakage": "NOT APPLICABLE - no labels are used anywhere in this study.",
+        "what_is_left": "Exactly two things: tumour and atelectasis motion between the breath holds, handled by the ten-point dose-response and the calcification negative controls; and the generalizability of a 20-patient lung cancer and radiotherapy population. This is the shortest residual-confound list in the portfolio and it is the candidate's main argument."
+      },
+
+      "alternative_explanations": [
+        "The score change reflects tumour and atelectasis displacement, not inflation. PARTLY EXCLUDED by the monotone dose-response across ten phases and by restricting a sensitivity analysis to the lung contralateral to the tumour.",
+        "The score change reflects general acquisition sensitivity rather than inflation specifically - the model is simply jittery. EXCLUDED by the calcification negative controls, which have no physiological reason to move with inflation. If they move as much as the parenchymal findings, the finding is jitter and the candidate has produced a different and less interesting result, which the design will detect rather than hide.",
+        "Breath-hold at 80 percent of maximum is a smaller contrast than the full-inspiration-to-full-expiration range that the 77 HU literature figure comes from, so the exposure may be weaker than the anchor implies. NOT EXCLUDED - it is a real reason a null could be underpowered, and it must enter the minimum-detectable-effect calculation rather than being discovered afterwards.",
+        "Honest self-assessment. The appeal here is genuinely in the design rather than the sentence, which is unusual for this portfolio and is why identifiability is the highest score I have given. The weakness is not identification but SCALE: 20 patients is a small study, and a null would be argued about. The result that would matter most - a large, monotone, per-finding inflation sensitivity - is also the one this design is best powered to detect, which is a fortunate alignment but should be stated as a limitation of what the study can rule out rather than what it can find."
+      ],
+
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reasoning": "With 20 patients the paired design is well powered for large within-subject effects and poorly powered for small ones, and the breath-hold contrast is narrower than the full vital-capacity range. A null therefore needs an explicit equivalence margin expressed in the same units as the comparison - the model's score change per litre against LAA-950's published 1.44 percent per litre - and a minimum-detectable-effect computed before any inference is run. It is honestly type 2, not type 1, and I decline to upgrade it on the strength of the design's cleanliness: clean identification does not create statistical power. The 4D-Lung corpus adds 20 more patients and 82 sessions if more is needed, at the cost of matched noise."
+      },
+
+      "cross_domain": {
+        "applicable": false,
+        "note": "No borrowed construct. The design is native to radiology and the analogy budget is spent in C4 and C5."
+      },
+
+      "remaining_legwork": [
+        "Download 14.93 GB from TCIA via NBIA Data Retriever. No agreement, no form. Hours.",
+        "Confirm slice thickness and that both breath-hold series are present for all 20 patients - the collection page does not state thickness. Half a day.",
+        "Accept the CT-RATE gate for the ClassFine checkpoint, shared with C2 and idea 004.",
+        "Confirm the breath-hold volumes preprocess sanely through the CT-CLIP pipeline - they are 50 cm coverage against a pipeline that crops to 480x480x240 at 0.75 by 0.75 by 1.5 mm, so more of the abdomen and neck will be in frame than in CT-RATE. This is a real risk of exactly the kind this program keeps hitting, and it should be checked before any scores are interpreted. One day.",
+        "Pre-register the expected-to-move and expected-not-to-move finding lists and the equivalence margin.",
+        "Time to first decision: three to four days after the checkpoint is available, and the data itself is a same-day download."
+      ],
+
+      "scores": {
+        "clarity": {"value": 5, "why": "One patient, two scans, one named exposure measured in litres, one score per finding. The comparison is stated completely in the question."},
+        "identifiability": {"value": 5, "why": "Scanner, vendor, protocol, site, positioning, habitus, prevalence, referral pathway and label leakage are all eliminated by the acquisition itself rather than by statistical adjustment, and reconstruction is eliminated for the primary pair. The exposure is continuous and measured, the dose-response has ten points within each patient, and there are pre-registered negative-control findings that should not move. This is what isolating a mechanism looks like and I do not think the portfolio contains a cleaner design."},
+        "medical_relevance": {"value": 5, "why": "A model whose finding scores move with breath-hold quality will systematically misread frail patients, the elderly, and anyone in pain - precisely the people most likely to be scanned. Radiologists already discount expiratory scans by hand; if the model does not, the failure is silent and clinically consequential."},
+        "interest": {"value": 4, "why": "The design is elegant and the question is one every chest radiologist will immediately understand and have an opinion about. Held below 5 because a positive result confirms rather than overturns what an experienced reader would guess, and the surprise is in the magnitude rather than the direction."},
+        "prior_legwork": {"value": 3, "why": "The corpus exists and is ungated, the model is released, and there are published biomarker effect sizes to calibrate against - but nothing has been done on this question, so there is no analysis protocol to inherit and the finding-level expectations must be written from scratch."},
+        "feasibility": {"value": 4, "why": "Cap lifted, keystone INSPECTED_TRUE. A 15 GB ungated download and inference-only on a released checkpoint. Held to 4 by dependence on the CT-RATE gate for the weights and by the preprocessing-compatibility risk of a 50 cm field of view."},
+        "data_readiness": {"value": 5, "why": "CC BY 4.0, no application, no form, no password, DICOM, 14.93 GB. The only genuinely unrestricted dataset in this portfolio."},
+        "evaluation_readiness": {"value": 3, "why": "Paired within-subject slopes and dose-response regression are standard, but there is no accepted metric for per-finding inflation sensitivity and the comparison against LAA-950's per-litre figure has to be constructed. Custom metrics needed."},
+        "negative_result_value": {"value": 3, "why": "Capped by the sensitivity-limited classification. A tight null would be a genuine and useful robustness result for a model the field is building on, but at n=20 with a sub-maximal breath-hold contrast, tightness is the thing in doubt."},
+        "novelty_confidence": {"value": 4, "why": "Cap lifted. NOT_FOUND across seven distinct queries for any work applying a chest-CT foundation model across respiratory phases or measuring finding-sensitivity to inflation, and the nearest proxy does not control inflation at all. Held at 4 rather than 5 because robustness evaluations of foundation models are proliferating quickly and this is a natural thing for a benchmark paper to include as one panel."}
+      },
+      "priority_score": 4.25,
+      "priority_arithmetic": "0.20*4 (feas) + 0.15*5 (ident) + 0.15*5 (med) + 0.10*3 (legwork) + 0.10*4 (interest) + 0.10*5 (clarity) + 0.10*3 (neg) + 0.05*5 (data) + 0.05*4 (novelty) = 0.80+0.75+0.75+0.30+0.40+0.50+0.30+0.25+0.20 = 4.25",
+      "regret": {"value": 5, "why": "A free 15 GB download and an afternoon of inference, answering a question that bounds every finding score these models produce, on a dataset that has been sitting on TCIA under CC BY since 2022 for a completely different purpose."},
+      "recommendation": "SHORTLIST - best identifiability in the portfolio, and the only candidate whose data has no gate at all.",
+
+      "unverified_claims": [
+        "Slice thickness of the breath-hold CTs. NOT_FOUND on the collection page.",
+        "That both inhale and exhale breath-hold series are present and usable for all 20 patients. The collection describes the protocol; per-patient completeness was not checked.",
+        "That 50 cm pharynx-to-stomach coverage passes through CT-CLIP's preprocessing without pathological cropping. This is the candidate's main technical risk and it is unverified.",
+        "That the 4D-Lung collection has adequate thoracic coverage for a second cohort. NOT_FOUND on its collection page; radiotherapy planning extent is assumed, not verified.",
+        "That the 4D-Lung and CT-vs-PET 4DCT phases are retrospectively binned from a single acquisition. Strongly supported by the collection descriptions quoting phase-based binning, but the source paper's methods section could not be opened.",
+        "The RIDER test-retest embedding stability figures, including CT-CLIP at 0.93. SEARCH_SUMMARY_ONLY.",
+        "The exact per-step effect sizes in Madani et al. 2010. The conclusion sentence is inspected; the per-vital-capacity-step numbers are paywalled."
+      ]
+    },
+    {
+      "id": "C4",
+      "search_mode": "C",
+      "entry_point": 1,
+      "title": "Forensic anthropologists age a skeleton by its rib cartilage - ask whether an unguided CT model found the same clock",
+
+      "question": "Does a chest-CT age model that was never told where to look recover the costal cartilage calcification clock, such that conditioning on calcified cartilage volume attenuates its age prediction more than conditioning on the aging markers a radiologist would name first?",
+
+      "deliverable_sentence": "The chest-CT age model is using calcified costal cartilage volume - the same structure a forensic anthropologist scores to age an unidentified body - rather than aortic calcification, vertebral bone density or emphysema.",
+
+      "rung": {
+        "current": 3,
+        "why": "Costal cartilage calcification is a structure a radiologist sees on every chest CT and has a name for, and its volume is a threshold measurement in cubic millimetres.",
+        "what_would_move_it_up": "Nothing above rung 3. What would strengthen it: showing the model's residual age error carries the sex-specific pattern the forensic literature describes, which is a hard-to-fake prediction - though see the contradiction flagged below, which weakens this test more than I would like."
+      },
+
+      "X_measurement": {
+        "X": "Calcified costal cartilage volume - the volume of voxels above a fixed Hounsfield threshold inside the costal cartilage mask - reported both absolutely in cubic millimetres and as a fraction of total cartilage volume.",
+        "how": "TotalSegmentator's default 'total' task, class 117 costal_cartilages, then threshold. Apache-2.0, no license key.",
+        "citations": "Segmentation: Wasserthal J et al., Radiology: Artificial Intelligence 2023, DOI 10.1148/ryai.230024, class map inspected directly in totalsegmentator/map_to_binary.py. Threshold and prior volumetry: Shabani M, Pishgar F, Akhtarkhavari S et al., Front Endocrinol 2021;12:785957, PMID 34966360, DOI 10.3389/fendo.2021.785957, in MESA at n=2,305: 'The volume of bilateral CCC was quantified in high-density pixels (threshold of Hounsfield Unit>180)'.",
+        "could_I_compute_it_today_without_asking_anyone": "Yes. Free tool, free class, a threshold, a voxel count.",
+        "published_age_gradient_to_calibrate_against": "MESA reports a '2.6% increase per each year [95%CI: 2.0-3.2%]' in females and '1.5% [1.0-2.1%]' in males, with median volume 1158 mm3 in females versus 3054 mm3 in males. Having a published per-year slope means the measurement can be validated before it is used to explain anything."
+      },
+
+      "suspected_signal": "Costal cartilage undergoes progressive dystrophic and metaplastic calcification through adult life, converting a structure that is invisible at soft-tissue window in a young adult into a high-attenuation, spatially extensive, bilaterally symmetric structure in an older one. It is a developmental clock rather than a disease marker, which is what distinguishes it from every aging feature a radiologist would name first - aortic calcification, vertebral height loss, emphysema, coronary calcium - all of which are pathological and therefore confounded by comorbidity rather than tracking chronology. It sits in the anterior chest, in the field of view of every chest CT ever acquired, at an attenuation that separates cleanly from surrounding soft tissue.",
+
+      "keystone_prerequisite": "Costal cartilage can be segmented on ordinary ungated chest CT by a free tool, AND a public chest-CT corpus provides per-scan patient age across a range wide enough to fit an age model - so that a model's age prediction and a cartilage calcification volume exist for the same scans.",
+
+      "keystone_status": "NOT_INSPECTED",
+
+      "keystone_evidence": "The first clause is INSPECTED_TRUE and is not the problem. TotalSegmentator's map_to_binary.py was read directly and the 'total' class map contains 116: 'sternum', 117: 'costal_cartilages'; the README confirms 'total: default task containing 117 main classes' and lists it among tasks 'Openly available for any usage (Apache-2.0 license)', unlike tissue_types, heartchambers_highres and coronary_arteries which require a license key. The second clause is NOT inspected and that is why the compound status is NOT_INSPECTED. The CT-CLIP paper reports a per-scan age range of 18 to 102 for CT-RATE, which is the wide span this candidate needs, but the metadata CSV column headers are behind the HuggingFace gate and returned HTTP 401; only VolumeName, RescaleSlope, RescaleIntercept, XYSpacing and ZSpacing are confirmed to exist, from the authors' own inference script. So I have confirmed that ages were RECORDED and not that a per-volume PatientAge column is RELEASED. As a Mode C candidate this cap is accepted rather than argued around, per the charter.",
+
+      "keystone_residual_assumption": "Two, and the second is the one that would actually sink it. First, that TotalSegmentator's costal cartilage class performs acceptably on the corpus in question - it exists in the class map, which says nothing about its accuracy on a structure whose whole point is that it changes attenuation dramatically with age, and a segmenter that under-segments uncalcified cartilage in the young would manufacture the age gradient it is meant to measure. That failure mode is specific, plausible, and would produce a beautiful false positive. It must be checked by segmenting a fixed anatomical volume defined by rib and sternum landmarks INSTEAD OF by the cartilage mask, as a segmentation-independent replication. Second, that a chest CT reconstructed for diagnosis resolves the cartilage adequately at the slice thickness of the corpus. Neither is inspected.",
+
+      "rung_reached": {
+        "value": 3,
+        "conditional_on": "The segmentation-independent replication agreeing with the mask-based measurement. Without it, the claim is about a segmentation tool rather than about anatomy."
+      },
+
+      "dies_like_prior": "It does not die like the annotation-provenance candidates: age is an administrative field recorded at registration, not a judgment anyone made by looking at the image, so there is no reader, no session, and no peer exposure. It does not die like idea 006, since nothing is ablated or edited. The failure mode it genuinely shares with idea 005 is the WRONG-KEYSTONE structure, and I am naming it rather than waiting for critique: the easy checkable fact is that a costal cartilage class exists, and I checked it and it is true; the fact my inference actually needs is that the class measures cartilage calcification rather than measuring the segmenter's own age-dependent behaviour. That is stated as the first residual assumption and it is, on reflection, the real keystone.",
+
+      "closest_prior_work": [
+        {
+          "citation": "Lu T, Deng ZH et al. Forensic age estimation based on costal cartilage CT using deep learning.",
+          "identifier": "Eur Radiol 2023;33(11):7519, PMID 37231070, DOI 10.1007/s00330-023-09761-3",
+          "verification": "INSPECTED",
+          "what_it_did": "n=2,700, ages 20 to 70, volume-rendered and maximum-intensity-projection multimodal deep learning: 'The best-performing multi-modality model obtained the lowest MAEs of 3.78 in males and 3.40 in females', against a manual visual scoring method at 8.90 and 6.42.",
+          "what_it_did_not_do": "This is the most dangerous prior work for the candidate and it must be confronted rather than minimized. It establishes that a model CAN estimate age from costal cartilage - but it TRAINED ON CROPPED COSTAL CARTILAGE RECONSTRUCTIONS, so the model was told exactly where to look. The question here is the inverse and it is the one this program exists to ask: does a model given a whole chest CT and only an age label FIND that structure on its own. Those are different claims, but the delta is narrower than I would like and a reviewer could reasonably say the interesting part - that cartilage carries age - is already known."
+        },
+        {
+          "citation": "Shabani M, Pishgar F, Akhtarkhavari S et al. Costal Cartilage Calcification in MESA.",
+          "identifier": "Front Endocrinol 2021;12:785957, PMID 34966360, DOI 10.3389/fendo.2021.785957",
+          "verification": "INSPECTED",
+          "what_it_did": "Semi-automated HU>180 volumetry in 2,305 MESA participants with sex-stratified per-year age gradients, inter-reader reliability 88.7.",
+          "what_it_did_not_do": "Uses the measurement as a cardiovascular risk marker on gated coronary-calcium scans, and the quantification is SEMI-automated with manual ROIs on a gated protocol. The open corner is fully automated volumetry on ordinary UNGATED chest CT - which is a narrow corner, and I would rather say so now than have it discovered in review. An entire MESA line follows this paper (Radiol Cardiothorac Imaging 2025 PMID 41342680; Acad Radiol 2025 PMID 40764198; Eur Radiol 2026 PMID 40782222), so the measurement itself is well occupied."
+        },
+        {
+          "citation": "MacPherson M, Goh V, Montana G et al. Deep learning age estimation from chest radiographs versus radiologists.",
+          "identifier": "arXiv:2207.01302, DOI 10.1007/978-3-031-16449-1_25, MICCAI 2022",
+          "verification": "INSPECTED",
+          "what_it_did": "The documented model-beats-human gap this candidate's entry point rests on: 'the regression model achieves an R2 of 0.94, MAE 3.53 years' against 'the radiologists achieve R2 of 0.27 with MAE 11.84 years'. Independently replicated in Japan by Ieki et al., Commun Med 2022, PMID 36494479, with seven clinicians at 'MAE 10.06 [95% CI, 9.17-10.94] years'.",
+          "what_it_did_not_do": "Is on RADIOGRAPHS, not CT, and offers no explanation of the signal. NOT_FOUND, across three queries: any human-versus-model free age estimation on whole chest CT. The one adjacent CT comparison is anatomically narrow and shows essentially no gap once the human has a validated scoring system - Wesp et al., Int J Legal Med 2024, PMID 38286953, clavicle CT, model MAE 1.65 years versus human 1.84 years. So the gap motivating this candidate is borrowed from an adjacent modality, and if a human chest-CT baseline is needed it would have to be collected."
+        },
+        {
+          "citation": "Sipahioglu et al. Age estimation from chest CT with window-specific deep learning.",
+          "identifier": "Forensic Sci Int 2026, PMID 42172947, DOI 10.1016/j.forsciint.2026.113014",
+          "verification": "INSPECTED",
+          "what_it_did": "n=1,278, ages 20 to 80, MAE 4.89 years, and reports that 'The bone-window model achieved the lowest MAE among single-window approaches, emphasizing the role of skeletal features', with Grad-CAM.",
+          "what_it_did_not_do": "Points at skeletal features with a saliency method and a window ablation rather than measuring any quantity. It is the closest existing answer to this candidate's question and it stops precisely where measurement would begin - which is the standard failure this charter names."
+        },
+        {
+          "citation": "Rejtarova O et al., Forensic Sci Int 2009, PMID 19646830; Zhang S et al., Sci Rep 2017, PMID 28592818; Middleham et al., Clin Anat 2015, PMID 25534066.",
+          "identifier": "as listed",
+          "verification": "INSPECTED (all three)",
+          "what_it_did": "Rejtarova established the sex-dimorphic ossification pattern - male 'peripheral ossification pattern', female 'central lingual ossification pattern' - and Zhang confirmed it on dual-energy CT in 154 patients: 'An increasing C pattern of cartilage was displayed in females, while P type preferred in males as age increased.'",
+          "what_it_did_not_do": "And here is the contradiction I am not going to bury, because it damages the candidate's best identifiability test. Middleham et al. applied Rejtarova's method to 41 Scottish cadavers and sexed ZERO males correctly. Separately, Goh and Anderson, JBMR Plus 2025, PMID 39697522, report by pQCT that 'there was more calcification volume in cartilage of females than males' - the OPPOSITE direction to MESA's 1158 versus 3054 mm3. The sex-specific pattern is therefore not a reliable enough fingerprint to serve as the confirmatory test I originally wanted it to be, and identifiability is scored down accordingly rather than the test being quietly kept."
+        }
+      ],
+
+      "existing_assets": [
+        "TotalSegmentator costal_cartilages in the free default task.",
+        "A published per-year age gradient in a 2,305-person cohort, sex-stratified, to validate the extractor against before it is used.",
+        "CT-RATE with a reported 18-to-102 age span and the CT-CLIP encoder, so an age model is a linear probe on frozen embeddings rather than a training run.",
+        "Competing mediators all measurable with the same free tool - aorta for calcification, vertebrae for trabecular attenuation, lungs for LAA%-950 - so the comparison set costs one extra segmentation pass."
+      ],
+
+      "smallest_decisive_experiment": "Three stages, and the first is the go/no-go the keystone demands. Stage 0: confirm a per-volume age column is actually released, then run TotalSegmentator on 200 volumes spanning the age range and check that calcified cartilage volume reproduces the published per-year gradient of about 2.6 percent in females and 1.5 percent in males. If the extractor cannot recover a known, published, sex-stratified age slope, nothing downstream means anything and the candidate stops here. Stage 1: fit an age model as a linear probe on frozen CT-CLIP embeddings, which needs no training run and no architecture choices, and record its predictions on held-out scans. Stage 2, the actual question: mediation of the model's age prediction through calcified cartilage volume, against a pre-registered panel of competing mediators measured by the same tool - aortic calcification volume, vertebral trabecular attenuation, LAA%-950, and total heart volume. The claim is comparative, not absolute: cartilage must attenuate the prediction MORE than the markers a radiologist would name first, or the candidate has not earned its sentence. Stage 3, the segmentation-independent replication named in the residual: repeat the measurement inside a fixed anatomical box defined by rib and sternum landmarks rather than by the cartilage mask, to show the result is about anatomy rather than about the segmenter's age-dependent behaviour.",
+
+      "standing_confounds_addressed": {
+        "scanner_and_vendor": "PARTLY ADDRESSED by stratification, conditional on the metadata columns existing. A high-attenuation threshold measurement is less kernel-sensitive than a low-attenuation one, which helps.",
+        "acquisition_protocol": "NOT ADDRESSED. Contrast phase in particular could affect the threshold measurement at the cartilage boundary.",
+        "reconstruction": "PARTLY ADDRESSED - a 180 HU threshold on a high-contrast structure is far more kernel-robust than the minus 950 HU threshold C1 depends on, which is a real advantage of this X.",
+        "site": "NOT ADDRESSED, single-institution corpus.",
+        "positioning": "ADDRESSED by construction - the measurement is defined by an anatomical mask, so it is invariant to where the patient sits in the frame.",
+        "habitus": "NOT ADDRESSED, and it is live: body size correlates with both cartilage volume and with age-related change. Mitigated by reporting the calcified FRACTION of cartilage as well as the absolute volume, since the fraction is size-normalized by construction.",
+        "prevalence": "NOT APPLICABLE - the outcome is chronological age, which has no prevalence.",
+        "referral_pathway": "NOT ADDRESSED, and it matters more than usual here: who gets a chest CT is strongly age-dependent and indication-dependent, so the age distribution is not a population age distribution.",
+        "label_leakage": "PARTIALLY LIVE and worth naming - if age appears in the radiology report and the corpus's text was used in pretraining the encoder, an embedding-based age probe could be reading a textual association rather than an anatomical one. The linear probe is fit on IMAGE embeddings only, but CT-CLIP's image encoder was trained against report text, so this cannot be fully excluded and should be stated."
+      },
+
+      "alternative_explanations": [
+        "The segmenter, not the anatomy. Named as the real keystone above; addressed only by the Stage 3 landmark-box replication, and a positive result without that replication should not be believed.",
+        "Cartilage calcification is a proxy for general vascular and dystrophic calcification, so the model is reading calcium everywhere and cartilage is merely one convenient readout. PARTLY EXCLUDED by the competing-mediator panel, which includes aortic calcification specifically - but the two are correlated and the comparison is relative rather than clean.",
+        "Sex, not age. The measurement is strongly sex-dimorphic - by a factor of about 2.6 in MESA - and models predict sex from chest CT near ceiling, so an apparent age mediation could partly be a sex pathway. EXCLUDED only by fitting everything sex-stratified from the start, which must be pre-registered rather than added later.",
+        "Honest self-assessment. 'The model rediscovered the forensic anthropologist's clock' is the most seductive sentence in this portfolio and it is doing more work than the evidence will. Two things puncture it: a 2023 paper already showed deep learning can age costal cartilage, and MESA already showed the volumetry tracks age, so the genuinely new part is only that an UNGUIDED model converges on it. That is a narrower claim than the sentence implies, and I have scored novelty confidence 2 rather than dressing it up."
+      ],
+
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reasoning": "Provided Stage 0 passes - the extractor reproduces the published age gradient - a null in Stage 2 is genuinely informative: it says that an unguided chest-CT age model is NOT using the structure that forensic science validated and that a bone-window ablation study pointed toward, which redirects the search to the competing mediators measured in the same pass. The comparative design is what makes the negative decisive rather than empty, because the competing mediators are measured simultaneously and one of them will be the answer. If Stage 0 fails, the study produces a feasibility result instead, which the charter also counts as success."
+      },
+
+      "cross_domain": {
+        "borrowed_construct": "Age-at-death estimation from costal cartilage calcification in forensic anthropology and forensic radiology, where the marker has been scored on skeletons and post-mortem CT for decades.",
+        "measurement_it_implies": "Segment costal cartilage, threshold at a fixed Hounsfield value, take the volume, stratify by sex, and compare against a published per-year gradient before using it for anything.",
+        "what_changes_if_the_analogy_is_dropped": "The candidate becomes a different and worse study. Without forensic anthropology you would ask what a radiologist thinks makes a chest look old, and you would measure aortic calcification, vertebral height and bone density, emphysema, and thymic involution - every one of which is a DISEASE marker whose relationship to chronological age is mediated by comorbidity, so a positive would be uninterpretable between aging and illness. Forensic science's whole problem is estimating age in people about whom nothing else is known, which forced it toward markers that are developmental rather than pathological, and costal cartilage is the one that happens to sit inside a chest CT field of view. Concretely different code: you run TotalSegmentator's costal cartilage class and threshold at 180 HU, which nobody in radiology AI does, and you stratify by sex from the outset because the forensic literature says the pattern differs. It also supplied the sex-dimorphism confirmatory test - which, as recorded above, the same literature then undermined by contradicting itself. That is what a live analogy looks like as opposed to a decorative one: it changed the measurement, and it also cost me a test I wanted."
+      },
+
+      "remaining_legwork": [
+        "Confirm a per-volume age column exists in the gated CT-RATE metadata. Minutes after the gate, and it is the keystone.",
+        "Stage 0 extractor validation against the published MESA gradient on 200 volumes. One week including segmentation time.",
+        "Build the landmark-box replication measurement. One week, and it is not optional.",
+        "Fit the linear age probe on frozen embeddings and pre-register the mediator panel and sex stratification. One week.",
+        "Time to first decision: Stage 0 within two weeks, and it can kill the candidate before any modelling."
+      ],
+
+      "scores": {
+        "mechanism_clarity": {"value": 5, "why": "A specific physical quantity - volume of voxels above 180 HU inside the costal cartilage - measured by a named free tool with a named class number, with a published per-year gradient in a 2,305-person cohort to validate against, and a named biological process for why it changes with age. This is the top of the rubric's description and I do not think it is arguable."},
+        "identifiability": {"value": 3, "why": "The competing-mediator panel is measured in the same pass with the same tool, which is the design's strength, and the landmark-box replication separates anatomy from segmenter behaviour. But the mediation is observational, cartilage calcification correlates with vascular calcification, sex is a strong parallel pathway, and the sex-dimorphism test I wanted as confirmation is undermined by a direct contradiction in the source literature. Three is honest."},
+        "interest": {"value": 4, "why": "A model given nothing but an age label converging on the marker forensic science spent decades validating is a genuinely good result, and the cross-domain route is not one this field would have taken. Held below 5 because a 2023 paper already aged costal cartilage with deep learning, so the surprise is about convergence rather than about the clock."},
+        "medical_relevance": {"value": 3, "why": "Plausible utility rather than clear consequence. Understanding what a biological-age model reads matters for whether such scores mean anything clinically, and there is a real forensic application. But no management decision changes, and costal cartilage calcification is not itself actionable."},
+        "clarity": {"value": 4, "why": "The question names the structure, the tool, the comparison set and the comparative criterion. Held below 5 because 'recovers the clock' is operationalized as relative mediation strength against a panel, which is a threshold-free comparison that will need a pre-registered decision rule to avoid being argued about afterwards."}
+      },
+      "mode_c_priority_score": 3.90,
+      "mode_c_priority_arithmetic": "0.30*5 (mechanism) + 0.25*3 (ident) + 0.20*4 (interest) + 0.15*3 (med) + 0.10*4 (clarity) = 1.50+0.75+0.80+0.45+0.40 = 3.90",
+      "reported_outside_the_score": {
+        "feasibility": {"value": 3, "why": "CAPPED at 3, keystone NOT_INSPECTED. The uncapped estimate would be about 3 anyway: TotalSegmentator over thousands of volumes is many GPU-hours, and Stage 0 could fail."},
+        "novelty_confidence": {"value": 2, "why": "CAPPED at 3 but scored 2 on the evidence, which is a deliberate mark-down rather than a cap. MESA has semi-automated volumetry at n=2,305 and Eur Radiol has deep-learning age-from-cartilage at n=2,700, both with sex-stratified results. The residual gap is narrow - fully automated volumetry on ungated chest CT, used to explain an unguided model - and 'likely covered in part' is the honest reading."},
+        "data_readiness": {"value": 3, "why": "Behind the CT-RATE click-through, with the needed column unverified."},
+        "evaluation_readiness": {"value": 3, "why": "Mediation analysis is standard; a decision rule for 'recovers the clock' is not, and must be written."},
+        "negative_result_value": {"value": 4, "why": "Decisive, conditional on Stage 0 passing, because the competing mediators are measured simultaneously."}
+      },
+      "regret": {"value": 3, "why": "Worth considering. If it is true it is a lovely result, but nothing downstream is blocked by not knowing."},
+      "recommendation": "DEVELOP FURTHER, DO NOT SHORTLIST YET - Stage 0 is cheap and the candidate should not be funded past it until the extractor reproduces the published age gradient.",
+
+      "unverified_claims": [
+        "That CT-RATE releases a per-volume PatientAge column. The paper reports an 18 to 102 age range, so ages were recorded; the column list is gated and unread. This is the keystone.",
+        "That TotalSegmentator's costal cartilage class is accurate on ungated diagnostic chest CT, and specifically that its accuracy does not itself vary with the degree of calcification. This is the real keystone and it is unverified.",
+        "That the MESA per-year gradients transfer to an ungated non-cardiac-protocol corpus with different slice thickness.",
+        "That the sex-dimorphic ossification pattern is reliable. Two inspected sources contradict each other on the direction of the sex difference in volume, and a third failed to replicate the pattern for sex estimation entirely.",
+        "That a linear probe on frozen CT-CLIP embeddings gives a usable age model. Untested; the encoder was trained against report text rather than for age.",
+        "That no unguided-model age-attribution study exists. Searches did not cover forensic radiology conference proceedings, where this community publishes heavily."
+      ]
+    },
+    {
+      "id": "C5",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "Murray's cube law says how a branching tree should be built - ask whether the risk model is reading the lung's departure from it",
+
+      "question": "Is the non-nodular part of Sybil's risk signal carried by pulmonary vascular pruning - small-vessel blood volume, and the departure of the arterial tree's caliber-ratio exponent from Murray's cube law - rather than by the parenchymal destruction that C1 proposes?",
+
+      "deliverable_sentence": "The model is using pulmonary vascular pruning - the loss of blood volume in vessels below 5 square millimetres in cross-section, and the shift in the branching exponent away from the cube law that accompanies it - not parenchymal destruction.",
+
+      "rung": {
+        "current": 3,
+        "why": "Vascular pruning is a named phenomenon with a named measurement that a thoracic radiologist recognizes, and the branching exponent is a physical quantity with a derivation.",
+        "what_would_move_it_up": "Nothing above rung 3. What the claim needs to be credible rather than higher: the exponent measurement validated against something, which currently does not exist at cohort scale - see the honest assessment below."
+      },
+
+      "X_measurement": {
+        "X": "Two quantities, deliberately ordered by how much weight each can bear. PRIMARY, because it is validated: BV5, the aggregate blood vessel volume in vessels under 5 square millimetres cross-section, normalized to total blood vessel volume. SECONDARY, because it is the mechanism but the measurement is immature: the caliber-ratio exponent k fitted from parent and daughter radii at detected bifurcations, r_parent^k = sum of r_daughter^k.",
+        "how": "TotalSegmentator's free lung_vessels task gives lung_arteries, lung_veins, lung_airways and lung_airways_wall - confirmed Apache-2.0 and free, and the README cites Sci Data 2025 s41597-025-06074-6 and arXiv:2404.03010 for it. Cross-sectional area binning for BV5 is not provided off the shelf and must be implemented, or ChestImagingPlatform used, which is source-build only with no pip or conda package and a custom non-OSI license. The exponent additionally requires skeletonization, bifurcation detection and per-branch radius estimation.",
+        "citations": "BV5 definition and original: San Jose Estepar R, Washko GR et al., Am J Respir Crit Care Med 2013;188(2):231-239, PMID 23656466, PMC3778757, defining it as 'the aggregate vessel volume for vessels less than 5 mm2' and concluding that 'Smoking-related chronic obstructive pulmonary disease is characterized by distal pruning of the small blood vessels (<5 mm2) and loss of tissue in excess of the vasculature.' Mortality anchor: Synn AJ, Rice MB et al., Am J Respir Crit Care Med 2021;203(2):251-254, PMID 32926788, Framingham n=2,470: 'Each SD lower BV5/TBV (i.e., more severe pruning) was associated with a 35% greater rate of death (HR, 1.35; 95% CI, 1.09-1.68; P = 0.006).' Histologic validation: Synn AJ et al., Pulm Circ 2021, PMID 34881020, n=138, correlation of BV5/TBV with vessel wall area percent of minus 0.41. Exponent reference: Altieri Correa S, Chesler NC et al., J Biomech Eng 2025;147(8):081006, PMID 40489106.",
+        "could_I_compute_it_today_without_asking_anyone": "BV5, yes with implementation work - the segmentation is free and the binning is geometry. The exponent, yes in principle and not reliably in practice at the vessel calibres that matter on low-dose screening CT. That distinction is the candidate's central feasibility problem and it is why BV5 is primary."
+      },
+
+      "suspected_signal": "Murray's law follows from minimizing the sum of two costs: the viscous power dissipated driving flow through a tube, which falls steeply with radius, and the metabolic cost of maintaining the blood it contains, which rises with radius. Minimizing the total gives flow proportional to radius cubed, hence a conserved cube of radius across a bifurcation. Smoking-related vascular remodeling destroys and narrows the distal small vessels first - the pruning that BV5 measures directly - which changes the ratio of maintenance cost to dissipation cost the tree is optimizing, and therefore shifts the exponent away from the healthy value. So the exponent is not a redescription of pruning; it is a scale-free summary of the same remodeling that is invariant to overall lung size and to inflation level, where BV5 is a bulk volume that is not. Pruning is in turn a plausible substrate for cancer risk through chronic hypoxia, impaired immune surveillance in underperfused parenchyma, and its established association with mortality.",
+
+      "keystone_prerequisite": "Pulmonary arterial and venous trees can be segmented from NLST low-dose screening CT by a free tool at sufficient fidelity that per-vessel cross-sectional area can be binned, and bifurcations resolved, in the calibre range where pruning occurs.",
+
+      "keystone_status": "NOT_INSPECTED",
+
+      "keystone_evidence": "What is established: TotalSegmentator's lung_vessels task exists, is free under Apache-2.0, and outputs lung_arteries and lung_veins as separate classes - read directly from map_to_binary.py. What is NOT established, and is exactly what the inference needs: its performance on LOW-DOSE screening CT at 1 to 2.5 mm slice thickness, in vessels around and below 2 mm diameter, which is at the resolution limit. No off-the-shelf calibre binning exists in that tool. ChestImagingPlatform, the public descendant of the software the BV5 literature actually used, has no pip or conda package and no tagged releases - the README defers dependency resolution to an external link - and the original BV5 paper used 'in-house software' rather than CIP. Mode C permits this status and I am reporting it rather than working around it.",
+
+      "keystone_residual_assumption": "Having established that a free vessel segmenter exists, I am still assuming the entire measurement chain downstream of it: that cross-sectional area can be estimated per vessel segment accurately enough to bin at a 5 square millimetre boundary on low-dose data, and - for the secondary quantity - that radii at bifurcations can be estimated well enough to fit an exponent. The second assumption is almost certainly too optimistic, and the literature says so implicitly: the ENTIRE human evidence base for a pulmonary Murray exponent is about 23 subjects across two papers, reporting 2.31 +/- 0.60 and 2.92 +/- 1.07. Those standard deviations exclude essentially nothing, on hand-curated angiographic geometries, which is a strong signal that the measurement is hard even under favourable conditions. I would rather state that the exponent is the mechanism and BV5 is the measurement than pretend both are equally available.",
+
+      "rung_reached": {
+        "value": 3,
+        "conditional_on": "BV5 carrying the result. If only the exponent moves and BV5 does not, the finding should be treated as a measurement artifact until independently replicated, given how underpowered the exponent literature is."
+      },
+
+      "dies_like_prior": "No annotation-provenance failure applies - both quantities are computed from voxels by tools, and the model score is a checkpoint output. No intervention-validity failure applies, because nothing is edited. The candidate's own most likely death is neither of those: it is that the measurement is not achievable at the resolution of low-dose screening CT, which is a feasibility death rather than a validity death, and Mode C exists to permit exactly that risk. The one prior pattern it does share is scout-003's dropped question 7, which died because a pulmonary vascular class could not be confirmed in a released segmentation output. That specific blocker is now resolved - lung_vessels exists and is free - so the vascular question has advanced one step in two cycles, from 'no tool confirmed' to 'tool confirmed, fidelity unknown'.",
+
+      "closest_prior_work": [
+        {
+          "citation": "San Jose Estepar R, Washko GR et al. Computed Tomographic Measures of Pulmonary Vascular Morphology in Smokers and Their Clinical Implications.",
+          "identifier": "Am J Respir Crit Care Med 2013;188(2):231-239, PMID 23656466, PMC3778757",
+          "verification": "INSPECTED",
+          "what_it_did": "Defined BV5, established distal pruning in smoking-related COPD in 359 smokers and 82 never-smoker controls.",
+          "what_it_did_not_do": "Relates the measurement to disease, not to any model. Critically for this cycle, it also reports that '%LAA-950 was inversely related to all calculated vascular ratios' - which is the single most important sentence for the C1-versus-C5 comparison, because it means the two candidates' named explanations move together and a positive for either is weak evidence against the other. Any design that runs both must report partial associations, not marginal ones."
+        },
+        {
+          "citation": "Altieri Correa S, Kachabi A, Colebank MJ, Miles CE, Chesler NC. Revisiting Murray's Law in Pulmonary Arteries.",
+          "identifier": "J Biomech Eng 2025;147(8):081006, PMID 40489106, DOI 10.1115/1.4068886",
+          "verification": "INSPECTED (abstract; the human-cohort modality detail is SEARCH_SUMMARY_ONLY)",
+          "what_it_did": "Measured the exponent across four species: 'an average exponent value of 2.31(+/-0.60) in human... all lower than the predicted value of 3.0 from Murray's Law.' Human n=7, on geometries reported by a search summary to be mixed CT and MR angiography.",
+          "what_it_did_not_do": "n=7 humans on curated angiographic geometries. It gives the candidate a reference value and simultaneously warns that the measurement is imprecise. Corroborating and diverging: Dong M, Marsden AL, Feinstein JA et al., Am J Physiol Heart Circ Physiol 2020, PMID 32618514, n=16, reports 2.92 +/- 1.07. Theory permits the departure - Kassab GS, 2006, PMID 16143652: 'The exponent of the diameter-flow rate relation is not necessarily equal to 3.0 as required by Murray's law but depends on the ratio of metabolic to viscous power dissipation.' NOT_FOUND across four queries: any human study measuring a pulmonary Murray exponent in COPD, smoking, pulmonary hypertension or fibrosis. The only disease-related shift is ovine - Ghorishi Z, Eldridge MW et al., 2007, PMID 17308003, where shunt-hypertensive lambs retain the fetal exponent."
+        },
+        {
+          "citation": "Helmberger M, Olschewski H, Balint Z et al. Quantification of Tortuosity and Fractal Dimension of the Lung Vessels in Pulmonary Hypertension Patients.",
+          "identifier": "PLoS One 2014;9(1):e87515, PMID 24498123",
+          "verification": "INSPECTED",
+          "what_it_did": "Measured 3D fractal dimension and tortuosity of the pulmonary vascular tree on contrast CT.",
+          "what_it_did_not_do": "Found 3D fractal dimension NOT significantly different in pulmonary hypertension, with only tortuosity tracking mean pulmonary artery pressure. This directly contradicts a 2D fractal dimension result - Sun H et al., Korean J Radiol 2011, PMID 21603288, reporting 1.64 versus 1.54 - and the inconsistency is a warning that geometric summaries of this tree are unstable across methods. It is the reason the exponent is secondary here."
+        },
+        {
+          "citation": "Mikhael et al. JCO 2023 and Sobieski et al. arXiv:2602.02560, as detailed under C1.",
+          "identifier": "PMID 36634294; arXiv:2602.02560",
+          "verification": "INSPECTED",
+          "what_it_did": "Established the non-nodular residual signal and audited nodule contributions.",
+          "what_it_did_not_do": "Neither paper measures anything vascular. The audit paper's speculation names emphysema, not pruning - so this candidate is proposing an explanation nobody has put in print, which is the point of Mode C and also the reason it carries more risk than C1."
+        }
+      ],
+
+      "existing_assets": [
+        "TotalSegmentator lung_vessels, free and Apache-2.0, with separate artery and vein classes - the blocker that killed this question in the previous cycle.",
+        "Sybil weights under MIT and NLST imaging under CC BY 4.0, shared with C1, so the model and data cost nothing beyond what C1 already pays.",
+        "A mature outcome-anchored literature for BV5 including a Framingham mortality hazard ratio and histologic validation, so the biomarker's meaning does not have to be argued from scratch.",
+        "A published human reference value for the exponent, with honest uncertainty attached.",
+        "If C1 runs, the entire pipeline except the vessel analysis already exists, which is the strongest practical argument for running this as an arm of C1 rather than as a separate study."
+      ],
+
+      "smallest_decisive_experiment": "Stage 0 is a pure feasibility probe and it decides everything: run TotalSegmentator lung_vessels on 50 NLST low-dose scans and 50 matched diagnostic-quality chest CTs, and measure whether the artery and vein trees are recovered to a consistent depth and whether cross-sectional areas can be estimated stably around the 5 square millimetre boundary. Report the calibre at which recovery degrades. If the tree is only reliable above 5 square millimetres, BV5 is not measurable on this data and the candidate stops - a feasibility result the charter counts as success, and one that would also tell the vascular-imaging community something useful about applying a free tool to screening CT. Stage 1, if Stage 0 passes: compute BV5 normalized to total blood vessel volume on held-out nodule-free NLST scans at fixed kernel, and estimate its association with Sybil's score. Stage 2 is the only analysis that distinguishes this candidate from C1 and it must be pre-registered as the primary comparison rather than an add-on: compute LAA%-950 on the same scans and report the PARTIAL association of the score with each, conditional on the other. Given that the two are known to be inversely related, marginal associations would produce two positives and no answer. Stage 3, exploratory and labelled as such: fit the branching exponent on the subset where the tree is recovered deeply enough, and ask whether it adds anything after BV5 - with the pre-registered expectation that it probably will not, and that a positive here without a BV5 positive should be disbelieved.",
+
+      "standing_confounds_addressed": {
+        "scanner_and_vendor": "PARTLY ADDRESSED by stratification. Vessel segmentation fidelity varies with scanner and reconstruction more than a bulk density measure does, which makes this worse here than in C1.",
+        "acquisition_protocol": "NOT ADDRESSED beyond stratification. NLST is non-contrast, which is a genuine limitation for vessel work - most of the BV5 literature and all of the exponent literature uses better-contrasted or contrast-enhanced data.",
+        "reconstruction": "PARTLY ADDRESSED by fixing the kernel, and the same paired-kernel manipulation available to C1 applies here and should be used - if BV5 shifts across kernels the way LAA-950 does, the same discipline is required.",
+        "site": "NOT ADDRESSED AND NOT ADDRESSABLE, per the masked screening centre.",
+        "positioning": "PARTLY ADDRESSED - the measurement is defined on a segmented tree rather than on fixed coordinates. But gravity-dependent perfusion differences between dependent and non-dependent lung are real and are not removed.",
+        "habitus": "NOT ADDRESSED. Body size affects both vessel volume and image noise, and noise affects small-vessel recovery. Mitigated by normalizing BV5 to total blood vessel volume, which is the convention the source literature uses for exactly this reason.",
+        "prevalence": "ADDRESSED by construction, single screening cohort.",
+        "referral_pathway": "ADDRESSED by construction, trial enrollment.",
+        "label_leakage": "NOT APPLICABLE - no labels in the primary readout.",
+        "inflation_level": "NOT ADDRESSED and specific to this candidate: bulk vessel volume depends on how inflated the lung is, which C3 shows is uncontrolled in any single-scan corpus. The exponent is scale-free and therefore immune, which is the one respect in which the secondary quantity is better than the primary one - and it is the concrete reason the Murray framing is not decorative."
+      },
+
+      "alternative_explanations": [
+        "Parenchymal destruction, i.e. C1's explanation. NOT EXCLUDED by design, only by partial association, because the two quantities are inversely correlated by the source literature's own report. This is the candidate's central identifiability problem and it is why C1 and C5 should probably be run as one study with two named mediators rather than as two studies.",
+        "Vessel segmentation fidelity varying with disease severity. Emphysematous lung has less contrast around vessels, so the segmenter may recover fewer small vessels in exactly the patients who are sickest - which would manufacture the pruning association from a tool artifact. This is the same shape of failure as C4's segmenter risk and it is at least as likely here. PARTLY EXCLUDED by reporting recovery depth as a covariate and by the Stage 0 calibre-degradation curve.",
+        "Noise. Small-vessel recovery on low-dose CT is noise-limited, and noise scales with body size and with automatic exposure control. PARTLY EXCLUDED by including effective mAs as a covariate.",
+        "Honest self-assessment. Murray's law is the most attractive-sounding idea in this portfolio and the one most at risk of being decoration. The charter's test is what would change if the analogy were dropped, and the answer is given under cross_domain below - it is a real answer, involving different code and a specific invariance property. But I want to be plain that the exponent is very unlikely to be measurable at NLST resolution, that its human evidence base is 23 subjects, and that if this candidate produces a result it will almost certainly be a BV5 result with the exponent as an unfalsified aside. Anyone reading the title should read that sentence too."
+      ],
+
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reasoning": "Conditional on Stage 0 passing, a null in Stage 2 - BV5 showing no partial association with Sybil's score once LAA%-950 is conditioned on - is decisive for the vascular hypothesis and simultaneously strengthens C1's parenchymal one, because the two are tested against each other on the same scans in the same model. That is the value of running competing named explanations jointly: neither can produce an uninterpretable null, because the alternative is measured in the same breath. If Stage 0 fails the result is a feasibility finding about applying free vessel segmentation to low-dose screening CT, which is useful and publishable but is not an answer to the question asked."
+      },
+
+      "cross_domain": {
+        "borrowed_construct": "Optimal-transport scaling laws for biological distribution networks - Murray's 1926 minimization of viscous dissipation plus metabolic maintenance cost, and its descendants in allometric scaling theory - which predict a conserved power of radius across every bifurcation of a well-built tree.",
+        "measurement_it_implies": "Do not measure how much vasculature there is. Measure the RATIO between parent and daughter calibres at bifurcations, and fit the exponent that makes it conserved. That is a scale-free quantity: it does not change if the lung is bigger, and it does not change if the patient inhaled more deeply.",
+        "what_changes_if_the_analogy_is_dropped": "You measure BV5 and stop. BV5 is a bulk volume, so it inherits every problem that C3 exists to demonstrate: it depends on how inflated the lung was, on body size, and on total lung volume, and none of those are controlled in a single-scan corpus. The scaling-law framing says the informative quantity is a ratio at a junction, which is invariant to all three by construction, and it supplies a predicted value - 3 for laminar flow - that the measurement can be checked against rather than merely reported. Concretely different code: skeletonize the segmented tree, detect bifurcations, estimate radii on both sides, fit an exponent - none of which appears in a BV5 pipeline. It also generates a falsifiable prediction the bulk measure cannot: the exponent should be stable across C3's inflation states while BV5 should not, which is a test that can actually be run on the CT-vs-PET breath-hold pairs. That test is the strongest evidence that the analogy is load-bearing rather than ornamental, and it costs one extra analysis on data another candidate is already downloading."
+      },
+
+      "remaining_legwork": [
+        "Stage 0 vessel-recovery feasibility probe on 50 low-dose and 50 diagnostic scans. Two weeks including segmentation time, and it is a hard go/no-go.",
+        "Implement calibre binning, since no free tool provides it. Two to three weeks.",
+        "Decide whether to build ChestImagingPlatform from source as a reference implementation, given no pip package and a custom license. One week, possibly wasted.",
+        "If Stage 3 is attempted: skeletonization and bifurcation radius estimation. A month, with a high chance of producing a number nobody should believe.",
+        "Time to first decision: Stage 0 in about two weeks, and it is likely to be the decision."
+      ],
+
+      "scores": {
+        "mechanism_clarity": {"value": 4, "why": "Two specifically named physical quantities with derivations and measurement definitions, one of them - BV5 - validated against histology and anchored to a mortality hazard ratio in Framingham. Held below 5 because the quantity that carries the MECHANISM, the exponent, does not have a usable measurement at this resolution, and the quantity that has a usable measurement is a bulk volume whose mechanistic story is thinner. A candidate whose mechanism and whose measurement sit on different variables is not at the top of this scale."},
+        "identifiability": {"value": 3, "why": "The partial-association design against C1's named alternative is genuinely discriminating, and the inflation-invariance prediction is a real test that can be run on C3's data. But BV5 and LAA-950 are known to be inversely correlated, segmentation fidelity plausibly varies with the disease being measured, and the whole thing is observational. Three."},
+        "interest": {"value": 4, "why": "Proposing a vascular rather than parenchymal explanation for a documented gap is a genuine claim nobody has published, and it serves the charter's named vascular emphasis, which has gone unfilled for two cycles. Held below 5 because the likely outcome is a feasibility wall rather than an answer."},
+        "medical_relevance": {"value": 4, "why": "Pruning is outcome-anchored - a 35 percent higher death rate per standard deviation in Framingham - and unlike emphysema it is not something a radiologist reads off a screening CT today, so a positive would point at a finding that is currently invisible in practice. Held below 5 because nothing in management changes on this result alone."},
+        "clarity": {"value": 4, "why": "The question names two quantities, the competing explanation, and the comparison. Held below 5 because carrying a primary and a secondary X makes the claim compound, and a result that splits between them will be harder to state in one sentence than the deliverable implies."}
+      },
+      "mode_c_priority_score": 3.75,
+      "mode_c_priority_arithmetic": "0.30*4 (mechanism) + 0.25*3 (ident) + 0.20*4 (interest) + 0.15*4 (med) + 0.10*4 (clarity) = 1.20+0.75+0.80+0.60+0.40 = 3.75",
+      "reported_outside_the_score": {
+        "feasibility": {"value": 2, "why": "CAPPED at 3, scored 2 on the evidence. Vessel segmentation on non-contrast low-dose screening CT at the calibres that matter is the hardest measurement in the portfolio, no free tool does calibre binning, and the reference implementation has no installable package. Mode C explicitly forbids demoting the candidate for this, and the score here is reported outside the priority calculation for that reason."},
+        "novelty_confidence": {"value": 3, "why": "CAPPED at 3, and 3 is also the honest estimate. No human study measures a pulmonary Murray exponent in disease, and no study relates vascular pruning to a lung cancer risk model. But BV5 is a well-worked field with an active group, and a pruning-versus-Sybil analysis is a natural thing for that group to do next."},
+        "data_readiness": {"value": 5, "why": "Shared with C1: CC BY 4.0 imaging, MIT weights, public outcomes, no gate."},
+        "evaluation_readiness": {"value": 2, "why": "BV5 has published conventions but no accessible reference implementation; the exponent has no accepted CT measurement protocol at all. Unclear, and much would have to be invented."},
+        "negative_result_value": {"value": 4, "why": "Decisive conditional on Stage 0, because the competing explanation is measured simultaneously on the same scans."}
+      },
+      "sibling_disclosure": "C5 and C1 share Sybil, NLST, the held-out split, the kernel discipline and the nodule-free population, and they propose COMPETING explanations for the same residual signal. They are not independent bets and a reviewer should not count them as two. My recommendation is explicit: do not fund them separately. Run C1, and add BV5 as a second pre-registered mediator inside it, with the partial-association analysis as the primary comparison. That gets the scientific benefit of the competition - neither explanation can produce an uninterpretable null when the other is measured alongside it - at a fraction of the cost, and it removes the temptation to report whichever marginal association came out larger.",
+      "regret": {"value": 4, "why": "If the answer is vascular and everyone spends five years measuring parenchyma because one ICML paper wrote the word emphysema in a speculative sentence, that would be a costly and avoidable wrong turn. The regret is real; the probability of getting to an answer is what is low."},
+      "recommendation": "DO NOT SHORTLIST AS A STANDALONE STUDY. Run Stage 0 as a two-week feasibility probe, and if it passes, fold BV5 into C1 as a competing mediator rather than running this separately. The Murray exponent should be carried as an explicitly exploratory arm and reported as such however it comes out.",
+
+      "unverified_claims": [
+        "That TotalSegmentator lung_vessels recovers vessels at the calibres BV5 requires, on non-contrast low-dose screening CT. Completely untested and it is the keystone.",
+        "That cross-sectional area can be estimated stably enough to bin at 5 square millimetres on this data.",
+        "That the branching exponent is measurable at all from NLST-quality data. I doubt it, and I have said so rather than letting the title imply otherwise.",
+        "The modality of the human geometries in Altieri Correa et al. A search summary indicates mixed CT and MR angiography; the methods section could not be opened.",
+        "That ChestImagingPlatform builds from source in a reasonable time. No pip package, no tagged releases, custom license.",
+        "That vessel segmentation fidelity does not itself vary with emphysema severity. Untested, and it is the most plausible route to a false positive.",
+        "That no BV5-versus-risk-model analysis exists. The BV5 literature is concentrated in a small number of groups and searches did not cover ATS or thoracic society abstracts, where that community publishes first."
+      ]
+    }
+  ]
+}
