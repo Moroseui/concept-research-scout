@@ -6,3 +6,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 005,"Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary",ACTIVE,,,CRITIQUE,
 006,Ask the chest-CT foundation model to diagnose a volume with no patient in it,ACTIVE,,,CRITIQUE,
 007,"The same patient, twice, ten minutes apart, differing only in how much air is in the lungs",ACTIVE,,,CRITIQUE,
+008,"Two papers say Sybil's residual signal is the background, one of them names emphysema, and neither measured it",ACTIVE,,,CRITIQUE,
