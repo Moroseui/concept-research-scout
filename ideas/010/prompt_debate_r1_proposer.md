@@ -596,6 +596,16 @@ IS IT ACTUALLY WORTH DOING? Yes as a cheap, preregistered screening gate that ca
 
 **Status:** OPEN
 
+## Round 2 — CRITIC
+
+**Position:** No proposer rebuttal or amended design has been supplied, so the original claim remains unsupported and there is nothing new to concede.
+
+**Argument:** The only design presently on the record is still the CT-RATE observational comparison of a frozen ClassFine cardiomegaly score with automatically measured heart volume, transverse size, and thorax-indexed size. Round 1 identified the decisive identity failure: comparative prediction among correlated measurements does not test whether the model uses volume in millilitres, and it cannot establish body-size-dependent over- or under-calling without an independent clinical reference and frozen threshold. Because the transcript contains no subsequent argument, evidence, intervention, or naturally paired design from the proposer, repeating or softening that objection would manufacture progress that has not occurred. The proposed screening audit may remain a go/no-go analysis, but accepting it as the answer would replace the original mechanistic question with a different associational one.
+
+**What would change my mind:** A proposer response that specifies an in-distribution intervention or a verified naturally paired same-patient asset that changes three-dimensional cardiac volume relative to a stable thorax, prespecifies controls for diameter, silhouette area, shape, coverage, and interpolation artifacts, and supplies an independent reference plus frozen operating threshold for any over/under-calling claim.
+
+**Status:** OPEN
+
 
 ===== ideas/010/idea_card.json =====
 {
@@ -818,6 +828,16 @@ This is round 1. Do not restate agreement you already reached.
 **Argument:** Heart volume, transverse diameter, axial silhouette area, chamber shape, pericardial contour, diaphragm contact, pulmonary vascular changes, and thorax occupancy are correlated consequences of the same anatomy. A monotone association, partial regression, or matched-volume comparison can show only which automatic measurement predicts the frozen ClassFine cardiomegaly score better in CT-RATE; it cannot distinguish a model that uses volumetric extent from one that uses any correlated two-dimensional or morphological cue. The proposed natural variation in frame fraction is not a clean discriminator: the official CT-CLIP loader resamples to 0.75 x 0.75 x 1.5 mm and then center-crops or pads to 480 x 480 x 240, so frame occupancy also varies with coverage, table position, truncation, and preprocessing. Moreover, the clause that the model therefore over-calls large patients and under-calls small ones requires an independent clinical reference standard and a prespecified decision threshold; neither the label-free association nor CT-RATE's report-derived Cardiomegaly label supplies one. The repair suggested in the critique—asking whether score is better explained by whole-heart volume than by width, area, or an indexed measure—is a useful screening question, but the identity check fails: it replaces causal cue identification with comparative prediction and therefore no longer answers the original question, "is the model using millilitres?" It should remain a gate for a later intervention, not be accepted as the original candidate's result.
 
 **What would change my mind:** Show a preregistered, in-distribution intervention or naturally paired same-patient design that changes physical heart volume relative to a stable thorax while holding the leading correlated cues and preprocessing artifacts fixed or measuring them as negative controls, and demonstrate a corresponding score change; separately, support the over/under-calling clause with an independent clinical reference and frozen operating threshold.
+
+**Status:** OPEN
+
+## Round 2 — CRITIC
+
+**Position:** No proposer rebuttal or amended design has been supplied, so the original claim remains unsupported and there is nothing new to concede.
+
+**Argument:** The only design presently on the record is still the CT-RATE observational comparison of a frozen ClassFine cardiomegaly score with automatically measured heart volume, transverse size, and thorax-indexed size. Round 1 identified the decisive identity failure: comparative prediction among correlated measurements does not test whether the model uses volume in millilitres, and it cannot establish body-size-dependent over- or under-calling without an independent clinical reference and frozen threshold. Because the transcript contains no subsequent argument, evidence, intervention, or naturally paired design from the proposer, repeating or softening that objection would manufacture progress that has not occurred. The proposed screening audit may remain a go/no-go analysis, but accepting it as the answer would replace the original mechanistic question with a different associational one.
+
+**What would change my mind:** A proposer response that specifies an in-distribution intervention or a verified naturally paired same-patient asset that changes three-dimensional cardiac volume relative to a stable thorax, prespecifies controls for diameter, silhouette area, shape, coverage, and interpolation artifacts, and supplies an independent reference plus frozen operating threshold for any over/under-calling claim.
 
 **Status:** OPEN
 

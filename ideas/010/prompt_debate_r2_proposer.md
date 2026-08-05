@@ -596,6 +596,46 @@ IS IT ACTUALLY WORTH DOING? Yes as a cheap, preregistered screening gate that ca
 
 **Status:** OPEN
 
+## Round 2 — CRITIC
+
+**Position:** No proposer rebuttal or amended design has been supplied, so the original claim remains unsupported and there is nothing new to concede.
+
+**Argument:** The only design presently on the record is still the CT-RATE observational comparison of a frozen ClassFine cardiomegaly score with automatically measured heart volume, transverse size, and thorax-indexed size. Round 1 identified the decisive identity failure: comparative prediction among correlated measurements does not test whether the model uses volume in millilitres, and it cannot establish body-size-dependent over- or under-calling without an independent clinical reference and frozen threshold. Because the transcript contains no subsequent argument, evidence, intervention, or naturally paired design from the proposer, repeating or softening that objection would manufacture progress that has not occurred. The proposed screening audit may remain a go/no-go analysis, but accepting it as the answer would replace the original mechanistic question with a different associational one.
+
+**What would change my mind:** A proposer response that specifies an in-distribution intervention or a verified naturally paired same-patient asset that changes three-dimensional cardiac volume relative to a stable thorax, prespecifies controls for diameter, silhouette area, shape, coverage, and interpolation artifacts, and supplies an independent reference plus frozen operating threshold for any over/under-calling claim.
+
+**Status:** OPEN
+
+## Round 3 — PROPOSER
+
+**Responding to:** The design is observational throughout, so it can at most rank which automatic measurement predicts the frozen ClassFine cardiomegaly score better in CT-RATE. Ranking correlated measurements of the same anatomy is not evidence about which quantity the model uses, so the card cannot support "the model is using absolute heart volume in millilitres"; and the second clause about over-calling in large patients and under-calling in small ones needs an independent reference standard and a frozen operating threshold, neither of which exists here.
+
+**Response:** CONCEDE
+
+**Argument:** The objection is correct, and I have evidence that makes it worse than the critic stated rather than any evidence that answers it.
+
+The card's only claimed discriminator was natural variation in reconstruction field of view and in-plane pixel spacing: among patients matched on heart volume in millilitres, the heart was supposed to occupy materially different fractions of the model's input frame, so a score that follows millilitres and ignores the fraction would indicate absolute volume. That premise is false, and the file that shows it was already read directly in this repository during idea 006 (`ideas/006/idea_card.json`, `keystone_evidence`, from `scripts/data_inference_nii.py`). The official loader resamples every volume from its recorded metadata spacing to a fixed 0.75 x 0.75 x 1.5 mm grid and then centre-crops or pads to 480 x 480 x 240 — a fixed 360 x 360 x 360 mm physical box. The heart's voxel count in the tensor is therefore heart volume in millilitres divided by a constant, and frame fraction is heart volume divided by a constant. They are the same variable. Matching on millilitres matches frame fraction by construction. Whatever residual variation in frame occupancy survives comes from crop truncation, table position, coverage, and errors in the recorded spacing — that is, from preprocessing artifacts, which is precisely what the design must not be reading as apparent size. So the discriminating move does not merely fail to identify the mechanism; it has no contrast to exploit.
+
+That collapse also disposes of the version of the study I would otherwise have defended. Absolute physical size and apparent size on the model's input grid are not two hypotheses in CT-RATE; the loader makes them one. What remains distinguishable by observation is only absolute size versus size indexed to the thorax, and the critic is right that even that reduces to model selection among correlated regressors — heart volume, maximum transverse diameter, axial silhouette area, and thorax-indexed size are all consequences of one anatomy, and geometric scaling couples volume to diameter almost exactly, leaving only cardiac shape as the residual that could in principle separate them. Choosing the better-fitting regressor from that residual is a statement about the corpus, not about the model. Under the charter's rungs the design as written does not reach rung 1 at all: there is no ablation, probe, perturbation, or occlusion anywhere in it. Claiming rung 3 from it is the standard failure this program exists to avoid.
+
+I also concede two subsidiary points from the critique that I have no answer to. The over/under-calling clause must be struck from the deliverable sentence: it needs a prespecified threshold in millilitres, an independent reference standard for a wrong call, and a definition of "large patient," and CT-RATE supplies none of them — the RadBERT Cardiomegaly label is extracted from the same report domain the ClassFine head was trained to reproduce, so agreement with it measures reproduction of report semantics, not clinical error. And `keystone_status` was wrong: `INSPECTED_TRUE` was asserted on the nearest checkable fact (the checkpoint file appears in the tree at 1.77 GB, and `heart` exists in TotalSegmentator's free `total` class map) when the load-bearing fact is that CT-RATE contains enough conditional variation, valid same-volume masks, and score dynamic range to separate the prespecified models. Nothing was downloaded or run. That is `NOT_INSPECTED`, which caps feasibility and novelty confidence at 3 and makes the recorded feasibility of 4 impermissible. This is the fourth occurrence of the wrong-keystone pattern in the ledger and it happened here in the same shape as the previous three. The card's own residual note named the real keystone correctly and then the status field contradicted it; the status field should have been governed by the residual, not by the file listing.
+
+I am not offering an amendment. The screening audit the critique proposed — is the score better explained by whole-heart volume than by transverse size or an indexed measure — fails the identity check: it answers "which measurement predicts the score in this corpus," not "is the model using millilitres." Submitting it under this title would be a different study wearing the old name, which is exactly what killed idea 003.
+
+**Spin-off, not defended here and not part of this candidate.** The loader fact that destroys the observational design also names the one intervention that would bear on the original question, and it has the structural shape the ledger says survives — the model compared against itself on identical anatomy. Because the loader maps metadata spacing to a fixed physical grid, resampling a volume to a target spacing scaled by a factor k produces an input in which every physical dimension of the patient is multiplied by k while every ratio — cardiothoracic ratio, heart shape, heart-to-body proportion, and the relative geometry of every other structure — is held exactly fixed. A score that is invariant to k is not tracking absolute millilitres, and that negative is decisive rather than sensitivity-limited. Required controls, which are the whole cost of the design: a net-unity scale-up-then-down pass to isolate trilinear interpolation blur; the distribution of natural body dimensions in the corpus to bound k inside the range where the scaled image is a plausible larger or smaller patient rather than an out-of-distribution input, which is the error idea 006 made; measurement of truncation at the 360 mm crop boundary as a function of k; and the response of size-irrelevant labels under the same k as a negative control. It is honestly narrower than the original question — it tests sensitivity to absolute physical scale, not to cardiac millilitres specifically, and a positive result would need a heart-only deformation arm the assets for which are not identified. It should be scored as a new candidate against that narrower sentence, not credited to this one.
+
+**Status:** CONCEDED
+
+## Round 4 — CRITIC
+
+**Position:** The proposer has established that the original candidate is unsound and should be rejected; the proposed scale intervention is explicitly a separate, narrower candidate and does not rescue this one.
+
+**Argument:** I concede in response to the proposer's loader-based identity argument. The inspected CT-CLIP preprocessing maps each scan to a fixed-spacing, fixed-size physical box, so the card's intended natural contrast between heart volume in millilitres and heart fraction of the input frame collapses: absent truncation or metadata error, voxel occupancy is just physical volume divided by a constant. The remaining observational comparison among volume, diameter, silhouette area, and thorax-indexed size cannot establish which correlated cardiac cue the model uses and therefore does not reach rung 1, much less support the rung-3 sentence. The proposer also correctly withdraws the over/under-calling claim because CT-RATE lacks an independent clinical error reference and frozen operating threshold, and correctly reclassifies the load-bearing keystone as uninspected. The suggested whole-body scale perturbation does not pass the identity check for this candidate: it tests sensitivity to global absolute physical scale, not specifically use of cardiac volume, and the proposer appropriately treats it as a spin-off requiring its own card and OOD controls. There is consequently no remaining defended version of Idea 010 to attack or approve.
+
+**What would change my mind:** Reopen Idea 010 only with an independently validated, in-distribution heart-specific intervention or naturally paired same-patient asset that changes three-dimensional cardiac volume while holding thoracic scale, leading silhouette and shape cues, preprocessing artifacts, and noncardiac anatomy fixed; any clinical over/under-calling clause would additionally require an independent reference standard and frozen threshold.
+
+**Status:** CONVERGED
+
 
 ===== ideas/010/idea_card.json =====
 {
@@ -764,51 +804,49 @@ IS IT ACTUALLY WORTH DOING? Yes as a cheap, preregistered screening gate that ca
 
 
 ===== STAGE TASK =====
-Attack the idea. Append one round to `debate.md` in the idea folder.
+Defend or amend the idea. Append one round to `debate.md` in the idea folder.
 
 Format your append exactly as:
 
 ```
-## Round N — CRITIC
+## Round N — PROPOSER
 
-**Position:** [one sentence: what you think is wrong]
+**Responding to:** [the critic's objection, restated in your own words]
 
-**Argument:** [the reasoning, with specifics — dataset, metric, prior paper,
-mechanism. Not "this may be difficult."]
+**Response:** REBUT | AMEND | CONCEDE
 
-**What would change my mind:** [a concrete thing the proposer could show]
+**Argument:** [if rebutting: why the objection does not hold, with specifics.
+If amending: exactly what changes in the idea, and whether that weakens the
+contribution. If conceding: say plainly that the objection is correct.]
 
 **Status:** OPEN | CONCEDED | IRREDUCIBLE DISAGREEMENT | CONVERGED
 ```
 
 Rules:
 
-- Read every prior round. Do not repeat an objection already answered — if
-  the proposer's rebuttal was adequate, write CONCEDED and say which argument
-  moved you and why.
-- Concede only in response to an *argument*, never to insistence or repetition.
-  If the proposer restated their claim more confidently without new evidence,
-  say so and hold your position.
-- **Run the identity check on every amendment you receive.** Ask whether the
-  revised design still answers the original question. If it does not, say so
-  and make that your objection — it outranks any remaining technical point.
-  A feasible study that no longer tests the original claim should be rejected
-  and its replacement spawned as a separate candidate, not approved.
+- Restating your claim more confidently is not a rebuttal. If you have no new
+  argument or evidence, CONCEDE.
+- **Identity check on every AMEND.** Before submitting an amendment, answer:
+  does the revised design still answer the original one-sentence question?
+  If NO, do not submit the amendment. Concede, reject the current idea, and
+  record the replacement under `spin-off` as a new candidate. An amendment
+  that achieves feasibility by abandoning the motivating question is not a
+  repair; it is a different study wearing the old title.
 
-- One objection per round, your strongest remaining one. Do not spray.
-- If you and the proposer have a real difference of judgement that no
-  available evidence can settle, write IRREDUCIBLE DISAGREEMENT and name the
-  experiment or fact that *would* settle it. This is a good outcome, not a
-  failure.
-- Write CONVERGED only if you now think the idea is sound AND you have no
-  remaining objection worth stating.
+- AMEND is not free. Every amendment that dodges an objection by narrowing
+  the claim must say what was lost. Three amendments usually means the
+  original idea was wrong.
+- If the critic is right, say so in round one. Speed of concession is a
+  feature. Defending a dead idea across three rounds wastes the loop.
+- Do not introduce a new idea mid-debate. If the discussion reveals a better
+  question, note it under "spin-off" and keep defending the original.
 - Append only. Never edit earlier rounds.
 
 
 
 ===== DEBATE STATE =====
-You are codex. Your interlocutor is claude.
-This is round 1. Do not restate agreement you already reached.
+You are claude. Your interlocutor is codex.
+This is round 2. Do not restate agreement you already reached.
 
 ===== TRANSCRIPT SO FAR =====
 # Debate transcript
@@ -822,4 +860,44 @@ This is round 1. Do not restate agreement you already reached.
 **What would change my mind:** Show a preregistered, in-distribution intervention or naturally paired same-patient design that changes physical heart volume relative to a stable thorax while holding the leading correlated cues and preprocessing artifacts fixed or measuring them as negative controls, and demonstrate a corresponding score change; separately, support the over/under-calling clause with an independent clinical reference and frozen operating threshold.
 
 **Status:** OPEN
+
+## Round 2 — CRITIC
+
+**Position:** No proposer rebuttal or amended design has been supplied, so the original claim remains unsupported and there is nothing new to concede.
+
+**Argument:** The only design presently on the record is still the CT-RATE observational comparison of a frozen ClassFine cardiomegaly score with automatically measured heart volume, transverse size, and thorax-indexed size. Round 1 identified the decisive identity failure: comparative prediction among correlated measurements does not test whether the model uses volume in millilitres, and it cannot establish body-size-dependent over- or under-calling without an independent clinical reference and frozen threshold. Because the transcript contains no subsequent argument, evidence, intervention, or naturally paired design from the proposer, repeating or softening that objection would manufacture progress that has not occurred. The proposed screening audit may remain a go/no-go analysis, but accepting it as the answer would replace the original mechanistic question with a different associational one.
+
+**What would change my mind:** A proposer response that specifies an in-distribution intervention or a verified naturally paired same-patient asset that changes three-dimensional cardiac volume relative to a stable thorax, prespecifies controls for diameter, silhouette area, shape, coverage, and interpolation artifacts, and supplies an independent reference plus frozen operating threshold for any over/under-calling claim.
+
+**Status:** OPEN
+
+## Round 3 — PROPOSER
+
+**Responding to:** The design is observational throughout, so it can at most rank which automatic measurement predicts the frozen ClassFine cardiomegaly score better in CT-RATE. Ranking correlated measurements of the same anatomy is not evidence about which quantity the model uses, so the card cannot support "the model is using absolute heart volume in millilitres"; and the second clause about over-calling in large patients and under-calling in small ones needs an independent reference standard and a frozen operating threshold, neither of which exists here.
+
+**Response:** CONCEDE
+
+**Argument:** The objection is correct, and I have evidence that makes it worse than the critic stated rather than any evidence that answers it.
+
+The card's only claimed discriminator was natural variation in reconstruction field of view and in-plane pixel spacing: among patients matched on heart volume in millilitres, the heart was supposed to occupy materially different fractions of the model's input frame, so a score that follows millilitres and ignores the fraction would indicate absolute volume. That premise is false, and the file that shows it was already read directly in this repository during idea 006 (`ideas/006/idea_card.json`, `keystone_evidence`, from `scripts/data_inference_nii.py`). The official loader resamples every volume from its recorded metadata spacing to a fixed 0.75 x 0.75 x 1.5 mm grid and then centre-crops or pads to 480 x 480 x 240 — a fixed 360 x 360 x 360 mm physical box. The heart's voxel count in the tensor is therefore heart volume in millilitres divided by a constant, and frame fraction is heart volume divided by a constant. They are the same variable. Matching on millilitres matches frame fraction by construction. Whatever residual variation in frame occupancy survives comes from crop truncation, table position, coverage, and errors in the recorded spacing — that is, from preprocessing artifacts, which is precisely what the design must not be reading as apparent size. So the discriminating move does not merely fail to identify the mechanism; it has no contrast to exploit.
+
+That collapse also disposes of the version of the study I would otherwise have defended. Absolute physical size and apparent size on the model's input grid are not two hypotheses in CT-RATE; the loader makes them one. What remains distinguishable by observation is only absolute size versus size indexed to the thorax, and the critic is right that even that reduces to model selection among correlated regressors — heart volume, maximum transverse diameter, axial silhouette area, and thorax-indexed size are all consequences of one anatomy, and geometric scaling couples volume to diameter almost exactly, leaving only cardiac shape as the residual that could in principle separate them. Choosing the better-fitting regressor from that residual is a statement about the corpus, not about the model. Under the charter's rungs the design as written does not reach rung 1 at all: there is no ablation, probe, perturbation, or occlusion anywhere in it. Claiming rung 3 from it is the standard failure this program exists to avoid.
+
+I also concede two subsidiary points from the critique that I have no answer to. The over/under-calling clause must be struck from the deliverable sentence: it needs a prespecified threshold in millilitres, an independent reference standard for a wrong call, and a definition of "large patient," and CT-RATE supplies none of them — the RadBERT Cardiomegaly label is extracted from the same report domain the ClassFine head was trained to reproduce, so agreement with it measures reproduction of report semantics, not clinical error. And `keystone_status` was wrong: `INSPECTED_TRUE` was asserted on the nearest checkable fact (the checkpoint file appears in the tree at 1.77 GB, and `heart` exists in TotalSegmentator's free `total` class map) when the load-bearing fact is that CT-RATE contains enough conditional variation, valid same-volume masks, and score dynamic range to separate the prespecified models. Nothing was downloaded or run. That is `NOT_INSPECTED`, which caps feasibility and novelty confidence at 3 and makes the recorded feasibility of 4 impermissible. This is the fourth occurrence of the wrong-keystone pattern in the ledger and it happened here in the same shape as the previous three. The card's own residual note named the real keystone correctly and then the status field contradicted it; the status field should have been governed by the residual, not by the file listing.
+
+I am not offering an amendment. The screening audit the critique proposed — is the score better explained by whole-heart volume than by transverse size or an indexed measure — fails the identity check: it answers "which measurement predicts the score in this corpus," not "is the model using millilitres." Submitting it under this title would be a different study wearing the old name, which is exactly what killed idea 003.
+
+**Spin-off, not defended here and not part of this candidate.** The loader fact that destroys the observational design also names the one intervention that would bear on the original question, and it has the structural shape the ledger says survives — the model compared against itself on identical anatomy. Because the loader maps metadata spacing to a fixed physical grid, resampling a volume to a target spacing scaled by a factor k produces an input in which every physical dimension of the patient is multiplied by k while every ratio — cardiothoracic ratio, heart shape, heart-to-body proportion, and the relative geometry of every other structure — is held exactly fixed. A score that is invariant to k is not tracking absolute millilitres, and that negative is decisive rather than sensitivity-limited. Required controls, which are the whole cost of the design: a net-unity scale-up-then-down pass to isolate trilinear interpolation blur; the distribution of natural body dimensions in the corpus to bound k inside the range where the scaled image is a plausible larger or smaller patient rather than an out-of-distribution input, which is the error idea 006 made; measurement of truncation at the 360 mm crop boundary as a function of k; and the response of size-irrelevant labels under the same k as a negative control. It is honestly narrower than the original question — it tests sensitivity to absolute physical scale, not to cardiac millilitres specifically, and a positive result would need a heart-only deformation arm the assets for which are not identified. It should be scored as a new candidate against that narrower sentence, not credited to this one.
+
+**Status:** CONCEDED
+
+## Round 4 — CRITIC
+
+**Position:** The proposer has established that the original candidate is unsound and should be rejected; the proposed scale intervention is explicitly a separate, narrower candidate and does not rescue this one.
+
+**Argument:** I concede in response to the proposer's loader-based identity argument. The inspected CT-CLIP preprocessing maps each scan to a fixed-spacing, fixed-size physical box, so the card's intended natural contrast between heart volume in millilitres and heart fraction of the input frame collapses: absent truncation or metadata error, voxel occupancy is just physical volume divided by a constant. The remaining observational comparison among volume, diameter, silhouette area, and thorax-indexed size cannot establish which correlated cardiac cue the model uses and therefore does not reach rung 1, much less support the rung-3 sentence. The proposer also correctly withdraws the over/under-calling claim because CT-RATE lacks an independent clinical error reference and frozen operating threshold, and correctly reclassifies the load-bearing keystone as uninspected. The suggested whole-body scale perturbation does not pass the identity check for this candidate: it tests sensitivity to global absolute physical scale, not specifically use of cardiac volume, and the proposer appropriately treats it as a spin-off requiring its own card and OOD controls. There is consequently no remaining defended version of Idea 010 to attack or approve.
+
+**What would change my mind:** Reopen Idea 010 only with an independently validated, in-distribution heart-specific intervention or naturally paired same-patient asset that changes three-dimensional cardiac volume while holding thoracic scale, leading silhouette and shape cues, preprocessing artifacts, and noncardiac anatomy fixed; any clinical over/under-calling clause would additionally require an independent reference standard and frozen threshold.
+
+**Status:** CONVERGED
 
