@@ -71,3 +71,15 @@ SPIN-OFF, endorsed by both critique and debate: hold every voxel inside a
 dilated patient contour fixed and substitute only the scan exterior between
 geometry-matched scans; measure paired ClassFine score change. Separate
 estimand, enter as a new candidate.
+
+## 2026-08-05 - Idea 007 ADVANCE TO REVISION (lung inflation, CT-CLIP)
+Paired inhale/exhale BHCT + 4DCT confirmed: 20 patients, one session, one
+scanner, TCIA DOI 10.7937/3ppx-7s22, ungated, 14.93 GB.
+4DCT phases are NOT calibrated inflation levels - phase is time position, not
+fraction of vital capacity; same amplitude occurs on both limbs; phase-sorting
+artifacts. Dose-response arm demoted to exploratory.
+Preprocessing confound is the live keystone residual: fixed-size crop may admit
+different anatomy at different diaphragm positions. Stage 0 gate.
+CT-CLIP has no mosaic attenuation head - card claimed a nonexistent output.
+Claim demoted rung 3 -> rung 1: sensitivity to respiratory state, not
+identification of total lung volume as the cue.
