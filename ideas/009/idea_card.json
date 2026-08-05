@@ -1,0 +1,162 @@
+{
+  "id": "C5",
+  "search_mode": "C",
+  "entry_point": 2,
+  "title": "Murray's cube law says how a branching tree should be built - ask whether the risk model is reading the lung's departure from it",
+  "question": "Is the non-nodular part of Sybil's risk signal carried by pulmonary vascular pruning - small-vessel blood volume, and the departure of the arterial tree's caliber-ratio exponent from Murray's cube law - rather than by the parenchymal destruction that C1 proposes?",
+  "deliverable_sentence": "The model is using pulmonary vascular pruning - the loss of blood volume in vessels below 5 square millimetres in cross-section, and the shift in the branching exponent away from the cube law that accompanies it - not parenchymal destruction.",
+  "rung": {
+    "current": 3,
+    "why": "Vascular pruning is a named phenomenon with a named measurement that a thoracic radiologist recognizes, and the branching exponent is a physical quantity with a derivation.",
+    "what_would_move_it_up": "Nothing above rung 3. What the claim needs to be credible rather than higher: the exponent measurement validated against something, which currently does not exist at cohort scale - see the honest assessment below."
+  },
+  "X_measurement": {
+    "X": "Two quantities, deliberately ordered by how much weight each can bear. PRIMARY, because it is validated: BV5, the aggregate blood vessel volume in vessels under 5 square millimetres cross-section, normalized to total blood vessel volume. SECONDARY, because it is the mechanism but the measurement is immature: the caliber-ratio exponent k fitted from parent and daughter radii at detected bifurcations, r_parent^k = sum of r_daughter^k.",
+    "how": "TotalSegmentator's free lung_vessels task gives lung_arteries, lung_veins, lung_airways and lung_airways_wall - confirmed Apache-2.0 and free, and the README cites Sci Data 2025 s41597-025-06074-6 and arXiv:2404.03010 for it. Cross-sectional area binning for BV5 is not provided off the shelf and must be implemented, or ChestImagingPlatform used, which is source-build only with no pip or conda package and a custom non-OSI license. The exponent additionally requires skeletonization, bifurcation detection and per-branch radius estimation.",
+    "citations": "BV5 definition and original: San Jose Estepar R, Washko GR et al., Am J Respir Crit Care Med 2013;188(2):231-239, PMID 23656466, PMC3778757, defining it as 'the aggregate vessel volume for vessels less than 5 mm2' and concluding that 'Smoking-related chronic obstructive pulmonary disease is characterized by distal pruning of the small blood vessels (<5 mm2) and loss of tissue in excess of the vasculature.' Mortality anchor: Synn AJ, Rice MB et al., Am J Respir Crit Care Med 2021;203(2):251-254, PMID 32926788, Framingham n=2,470: 'Each SD lower BV5/TBV (i.e., more severe pruning) was associated with a 35% greater rate of death (HR, 1.35; 95% CI, 1.09-1.68; P = 0.006).' Histologic validation: Synn AJ et al., Pulm Circ 2021, PMID 34881020, n=138, correlation of BV5/TBV with vessel wall area percent of minus 0.41. Exponent reference: Altieri Correa S, Chesler NC et al., J Biomech Eng 2025;147(8):081006, PMID 40489106.",
+    "could_I_compute_it_today_without_asking_anyone": "BV5, yes with implementation work - the segmentation is free and the binning is geometry. The exponent, yes in principle and not reliably in practice at the vessel calibres that matter on low-dose screening CT. That distinction is the candidate's central feasibility problem and it is why BV5 is primary."
+  },
+  "suspected_signal": "Murray's law follows from minimizing the sum of two costs: the viscous power dissipated driving flow through a tube, which falls steeply with radius, and the metabolic cost of maintaining the blood it contains, which rises with radius. Minimizing the total gives flow proportional to radius cubed, hence a conserved cube of radius across a bifurcation. Smoking-related vascular remodeling destroys and narrows the distal small vessels first - the pruning that BV5 measures directly - which changes the ratio of maintenance cost to dissipation cost the tree is optimizing, and therefore shifts the exponent away from the healthy value. So the exponent is not a redescription of pruning; it is a scale-free summary of the same remodeling that is invariant to overall lung size and to inflation level, where BV5 is a bulk volume that is not. Pruning is in turn a plausible substrate for cancer risk through chronic hypoxia, impaired immune surveillance in underperfused parenchyma, and its established association with mortality.",
+  "keystone_prerequisite": "Pulmonary arterial and venous trees can be segmented from NLST low-dose screening CT by a free tool at sufficient fidelity that per-vessel cross-sectional area can be binned, and bifurcations resolved, in the calibre range where pruning occurs.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "What is established: TotalSegmentator's lung_vessels task exists, is free under Apache-2.0, and outputs lung_arteries and lung_veins as separate classes - read directly from map_to_binary.py. What is NOT established, and is exactly what the inference needs: its performance on LOW-DOSE screening CT at 1 to 2.5 mm slice thickness, in vessels around and below 2 mm diameter, which is at the resolution limit. No off-the-shelf calibre binning exists in that tool. ChestImagingPlatform, the public descendant of the software the BV5 literature actually used, has no pip or conda package and no tagged releases - the README defers dependency resolution to an external link - and the original BV5 paper used 'in-house software' rather than CIP. Mode C permits this status and I am reporting it rather than working around it.",
+  "keystone_residual_assumption": "Having established that a free vessel segmenter exists, I am still assuming the entire measurement chain downstream of it: that cross-sectional area can be estimated per vessel segment accurately enough to bin at a 5 square millimetre boundary on low-dose data, and - for the secondary quantity - that radii at bifurcations can be estimated well enough to fit an exponent. The second assumption is almost certainly too optimistic, and the literature says so implicitly: the ENTIRE human evidence base for a pulmonary Murray exponent is about 23 subjects across two papers, reporting 2.31 +/- 0.60 and 2.92 +/- 1.07. Those standard deviations exclude essentially nothing, on hand-curated angiographic geometries, which is a strong signal that the measurement is hard even under favourable conditions. I would rather state that the exponent is the mechanism and BV5 is the measurement than pretend both are equally available.",
+  "rung_reached": {
+    "value": 3,
+    "conditional_on": "BV5 carrying the result. If only the exponent moves and BV5 does not, the finding should be treated as a measurement artifact until independently replicated, given how underpowered the exponent literature is."
+  },
+  "dies_like_prior": "No annotation-provenance failure applies - both quantities are computed from voxels by tools, and the model score is a checkpoint output. No intervention-validity failure applies, because nothing is edited. The candidate's own most likely death is neither of those: it is that the measurement is not achievable at the resolution of low-dose screening CT, which is a feasibility death rather than a validity death, and Mode C exists to permit exactly that risk. The one prior pattern it does share is scout-003's dropped question 7, which died because a pulmonary vascular class could not be confirmed in a released segmentation output. That specific blocker is now resolved - lung_vessels exists and is free - so the vascular question has advanced one step in two cycles, from 'no tool confirmed' to 'tool confirmed, fidelity unknown'.",
+  "closest_prior_work": [
+    {
+      "citation": "San Jose Estepar R, Washko GR et al. Computed Tomographic Measures of Pulmonary Vascular Morphology in Smokers and Their Clinical Implications.",
+      "identifier": "Am J Respir Crit Care Med 2013;188(2):231-239, PMID 23656466, PMC3778757",
+      "verification": "INSPECTED",
+      "what_it_did": "Defined BV5, established distal pruning in smoking-related COPD in 359 smokers and 82 never-smoker controls.",
+      "what_it_did_not_do": "Relates the measurement to disease, not to any model. Critically for this cycle, it also reports that '%LAA-950 was inversely related to all calculated vascular ratios' - which is the single most important sentence for the C1-versus-C5 comparison, because it means the two candidates' named explanations move together and a positive for either is weak evidence against the other. Any design that runs both must report partial associations, not marginal ones."
+    },
+    {
+      "citation": "Altieri Correa S, Kachabi A, Colebank MJ, Miles CE, Chesler NC. Revisiting Murray's Law in Pulmonary Arteries.",
+      "identifier": "J Biomech Eng 2025;147(8):081006, PMID 40489106, DOI 10.1115/1.4068886",
+      "verification": "INSPECTED (abstract; the human-cohort modality detail is SEARCH_SUMMARY_ONLY)",
+      "what_it_did": "Measured the exponent across four species: 'an average exponent value of 2.31(+/-0.60) in human... all lower than the predicted value of 3.0 from Murray's Law.' Human n=7, on geometries reported by a search summary to be mixed CT and MR angiography.",
+      "what_it_did_not_do": "n=7 humans on curated angiographic geometries. It gives the candidate a reference value and simultaneously warns that the measurement is imprecise. Corroborating and diverging: Dong M, Marsden AL, Feinstein JA et al., Am J Physiol Heart Circ Physiol 2020, PMID 32618514, n=16, reports 2.92 +/- 1.07. Theory permits the departure - Kassab GS, 2006, PMID 16143652: 'The exponent of the diameter-flow rate relation is not necessarily equal to 3.0 as required by Murray's law but depends on the ratio of metabolic to viscous power dissipation.' NOT_FOUND across four queries: any human study measuring a pulmonary Murray exponent in COPD, smoking, pulmonary hypertension or fibrosis. The only disease-related shift is ovine - Ghorishi Z, Eldridge MW et al., 2007, PMID 17308003, where shunt-hypertensive lambs retain the fetal exponent."
+    },
+    {
+      "citation": "Helmberger M, Olschewski H, Balint Z et al. Quantification of Tortuosity and Fractal Dimension of the Lung Vessels in Pulmonary Hypertension Patients.",
+      "identifier": "PLoS One 2014;9(1):e87515, PMID 24498123",
+      "verification": "INSPECTED",
+      "what_it_did": "Measured 3D fractal dimension and tortuosity of the pulmonary vascular tree on contrast CT.",
+      "what_it_did_not_do": "Found 3D fractal dimension NOT significantly different in pulmonary hypertension, with only tortuosity tracking mean pulmonary artery pressure. This directly contradicts a 2D fractal dimension result - Sun H et al., Korean J Radiol 2011, PMID 21603288, reporting 1.64 versus 1.54 - and the inconsistency is a warning that geometric summaries of this tree are unstable across methods. It is the reason the exponent is secondary here."
+    },
+    {
+      "citation": "Mikhael et al. JCO 2023 and Sobieski et al. arXiv:2602.02560, as detailed under C1.",
+      "identifier": "PMID 36634294; arXiv:2602.02560",
+      "verification": "INSPECTED",
+      "what_it_did": "Established the non-nodular residual signal and audited nodule contributions.",
+      "what_it_did_not_do": "Neither paper measures anything vascular. The audit paper's speculation names emphysema, not pruning - so this candidate is proposing an explanation nobody has put in print, which is the point of Mode C and also the reason it carries more risk than C1."
+    }
+  ],
+  "existing_assets": [
+    "TotalSegmentator lung_vessels, free and Apache-2.0, with separate artery and vein classes - the blocker that killed this question in the previous cycle.",
+    "Sybil weights under MIT and NLST imaging under CC BY 4.0, shared with C1, so the model and data cost nothing beyond what C1 already pays.",
+    "A mature outcome-anchored literature for BV5 including a Framingham mortality hazard ratio and histologic validation, so the biomarker's meaning does not have to be argued from scratch.",
+    "A published human reference value for the exponent, with honest uncertainty attached.",
+    "If C1 runs, the entire pipeline except the vessel analysis already exists, which is the strongest practical argument for running this as an arm of C1 rather than as a separate study."
+  ],
+  "smallest_decisive_experiment": "Stage 0 is a pure feasibility probe and it decides everything: run TotalSegmentator lung_vessels on 50 NLST low-dose scans and 50 matched diagnostic-quality chest CTs, and measure whether the artery and vein trees are recovered to a consistent depth and whether cross-sectional areas can be estimated stably around the 5 square millimetre boundary. Report the calibre at which recovery degrades. If the tree is only reliable above 5 square millimetres, BV5 is not measurable on this data and the candidate stops - a feasibility result the charter counts as success, and one that would also tell the vascular-imaging community something useful about applying a free tool to screening CT. Stage 1, if Stage 0 passes: compute BV5 normalized to total blood vessel volume on held-out nodule-free NLST scans at fixed kernel, and estimate its association with Sybil's score. Stage 2 is the only analysis that distinguishes this candidate from C1 and it must be pre-registered as the primary comparison rather than an add-on: compute LAA%-950 on the same scans and report the PARTIAL association of the score with each, conditional on the other. Given that the two are known to be inversely related, marginal associations would produce two positives and no answer. Stage 3, exploratory and labelled as such: fit the branching exponent on the subset where the tree is recovered deeply enough, and ask whether it adds anything after BV5 - with the pre-registered expectation that it probably will not, and that a positive here without a BV5 positive should be disbelieved.",
+  "standing_confounds_addressed": {
+    "scanner_and_vendor": "PARTLY ADDRESSED by stratification. Vessel segmentation fidelity varies with scanner and reconstruction more than a bulk density measure does, which makes this worse here than in C1.",
+    "acquisition_protocol": "NOT ADDRESSED beyond stratification. NLST is non-contrast, which is a genuine limitation for vessel work - most of the BV5 literature and all of the exponent literature uses better-contrasted or contrast-enhanced data.",
+    "reconstruction": "PARTLY ADDRESSED by fixing the kernel, and the same paired-kernel manipulation available to C1 applies here and should be used - if BV5 shifts across kernels the way LAA-950 does, the same discipline is required.",
+    "site": "NOT ADDRESSED AND NOT ADDRESSABLE, per the masked screening centre.",
+    "positioning": "PARTLY ADDRESSED - the measurement is defined on a segmented tree rather than on fixed coordinates. But gravity-dependent perfusion differences between dependent and non-dependent lung are real and are not removed.",
+    "habitus": "NOT ADDRESSED. Body size affects both vessel volume and image noise, and noise affects small-vessel recovery. Mitigated by normalizing BV5 to total blood vessel volume, which is the convention the source literature uses for exactly this reason.",
+    "prevalence": "ADDRESSED by construction, single screening cohort.",
+    "referral_pathway": "ADDRESSED by construction, trial enrollment.",
+    "label_leakage": "NOT APPLICABLE - no labels in the primary readout.",
+    "inflation_level": "NOT ADDRESSED and specific to this candidate: bulk vessel volume depends on how inflated the lung is, which C3 shows is uncontrolled in any single-scan corpus. The exponent is scale-free and therefore immune, which is the one respect in which the secondary quantity is better than the primary one - and it is the concrete reason the Murray framing is not decorative."
+  },
+  "alternative_explanations": [
+    "Parenchymal destruction, i.e. C1's explanation. NOT EXCLUDED by design, only by partial association, because the two quantities are inversely correlated by the source literature's own report. This is the candidate's central identifiability problem and it is why C1 and C5 should probably be run as one study with two named mediators rather than as two studies.",
+    "Vessel segmentation fidelity varying with disease severity. Emphysematous lung has less contrast around vessels, so the segmenter may recover fewer small vessels in exactly the patients who are sickest - which would manufacture the pruning association from a tool artifact. This is the same shape of failure as C4's segmenter risk and it is at least as likely here. PARTLY EXCLUDED by reporting recovery depth as a covariate and by the Stage 0 calibre-degradation curve.",
+    "Noise. Small-vessel recovery on low-dose CT is noise-limited, and noise scales with body size and with automatic exposure control. PARTLY EXCLUDED by including effective mAs as a covariate.",
+    "Honest self-assessment. Murray's law is the most attractive-sounding idea in this portfolio and the one most at risk of being decoration. The charter's test is what would change if the analogy were dropped, and the answer is given under cross_domain below - it is a real answer, involving different code and a specific invariance property. But I want to be plain that the exponent is very unlikely to be measurable at NLST resolution, that its human evidence base is 23 subjects, and that if this candidate produces a result it will almost certainly be a BV5 result with the exponent as an unfalsified aside. Anyone reading the title should read that sentence too."
+  ],
+  "anticipated_negative": {
+    "classification": "decisive",
+    "reasoning": "Conditional on Stage 0 passing, a null in Stage 2 - BV5 showing no partial association with Sybil's score once LAA%-950 is conditioned on - is decisive for the vascular hypothesis and simultaneously strengthens C1's parenchymal one, because the two are tested against each other on the same scans in the same model. That is the value of running competing named explanations jointly: neither can produce an uninterpretable null, because the alternative is measured in the same breath. If Stage 0 fails the result is a feasibility finding about applying free vessel segmentation to low-dose screening CT, which is useful and publishable but is not an answer to the question asked."
+  },
+  "cross_domain": {
+    "borrowed_construct": "Optimal-transport scaling laws for biological distribution networks - Murray's 1926 minimization of viscous dissipation plus metabolic maintenance cost, and its descendants in allometric scaling theory - which predict a conserved power of radius across every bifurcation of a well-built tree.",
+    "measurement_it_implies": "Do not measure how much vasculature there is. Measure the RATIO between parent and daughter calibres at bifurcations, and fit the exponent that makes it conserved. That is a scale-free quantity: it does not change if the lung is bigger, and it does not change if the patient inhaled more deeply.",
+    "what_changes_if_the_analogy_is_dropped": "You measure BV5 and stop. BV5 is a bulk volume, so it inherits every problem that C3 exists to demonstrate: it depends on how inflated the lung was, on body size, and on total lung volume, and none of those are controlled in a single-scan corpus. The scaling-law framing says the informative quantity is a ratio at a junction, which is invariant to all three by construction, and it supplies a predicted value - 3 for laminar flow - that the measurement can be checked against rather than merely reported. Concretely different code: skeletonize the segmented tree, detect bifurcations, estimate radii on both sides, fit an exponent - none of which appears in a BV5 pipeline. It also generates a falsifiable prediction the bulk measure cannot: the exponent should be stable across C3's inflation states while BV5 should not, which is a test that can actually be run on the CT-vs-PET breath-hold pairs. That test is the strongest evidence that the analogy is load-bearing rather than ornamental, and it costs one extra analysis on data another candidate is already downloading."
+  },
+  "remaining_legwork": [
+    "Stage 0 vessel-recovery feasibility probe on 50 low-dose and 50 diagnostic scans. Two weeks including segmentation time, and it is a hard go/no-go.",
+    "Implement calibre binning, since no free tool provides it. Two to three weeks.",
+    "Decide whether to build ChestImagingPlatform from source as a reference implementation, given no pip package and a custom license. One week, possibly wasted.",
+    "If Stage 3 is attempted: skeletonization and bifurcation radius estimation. A month, with a high chance of producing a number nobody should believe.",
+    "Time to first decision: Stage 0 in about two weeks, and it is likely to be the decision."
+  ],
+  "scores": {
+    "mechanism_clarity": {
+      "value": 4,
+      "why": "Two specifically named physical quantities with derivations and measurement definitions, one of them - BV5 - validated against histology and anchored to a mortality hazard ratio in Framingham. Held below 5 because the quantity that carries the MECHANISM, the exponent, does not have a usable measurement at this resolution, and the quantity that has a usable measurement is a bulk volume whose mechanistic story is thinner. A candidate whose mechanism and whose measurement sit on different variables is not at the top of this scale."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "The partial-association design against C1's named alternative is genuinely discriminating, and the inflation-invariance prediction is a real test that can be run on C3's data. But BV5 and LAA-950 are known to be inversely correlated, segmentation fidelity plausibly varies with the disease being measured, and the whole thing is observational. Three."
+    },
+    "interest": {
+      "value": 4,
+      "why": "Proposing a vascular rather than parenchymal explanation for a documented gap is a genuine claim nobody has published, and it serves the charter's named vascular emphasis, which has gone unfilled for two cycles. Held below 5 because the likely outcome is a feasibility wall rather than an answer."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Pruning is outcome-anchored - a 35 percent higher death rate per standard deviation in Framingham - and unlike emphysema it is not something a radiologist reads off a screening CT today, so a positive would point at a finding that is currently invisible in practice. Held below 5 because nothing in management changes on this result alone."
+    },
+    "clarity": {
+      "value": 4,
+      "why": "The question names two quantities, the competing explanation, and the comparison. Held below 5 because carrying a primary and a secondary X makes the claim compound, and a result that splits between them will be harder to state in one sentence than the deliverable implies."
+    }
+  },
+  "mode_c_priority_score": 3.75,
+  "mode_c_priority_arithmetic": "0.30*4 (mechanism) + 0.25*3 (ident) + 0.20*4 (interest) + 0.15*4 (med) + 0.10*4 (clarity) = 1.20+0.75+0.80+0.60+0.40 = 3.75",
+  "reported_outside_the_score": {
+    "feasibility": {
+      "value": 2,
+      "why": "CAPPED at 3, scored 2 on the evidence. Vessel segmentation on non-contrast low-dose screening CT at the calibres that matter is the hardest measurement in the portfolio, no free tool does calibre binning, and the reference implementation has no installable package. Mode C explicitly forbids demoting the candidate for this, and the score here is reported outside the priority calculation for that reason."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "CAPPED at 3, and 3 is also the honest estimate. No human study measures a pulmonary Murray exponent in disease, and no study relates vascular pruning to a lung cancer risk model. But BV5 is a well-worked field with an active group, and a pruning-versus-Sybil analysis is a natural thing for that group to do next."
+    },
+    "data_readiness": {
+      "value": 5,
+      "why": "Shared with C1: CC BY 4.0 imaging, MIT weights, public outcomes, no gate."
+    },
+    "evaluation_readiness": {
+      "value": 2,
+      "why": "BV5 has published conventions but no accessible reference implementation; the exponent has no accepted CT measurement protocol at all. Unclear, and much would have to be invented."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "Decisive conditional on Stage 0, because the competing explanation is measured simultaneously on the same scans."
+    }
+  },
+  "sibling_disclosure": "C5 and C1 share Sybil, NLST, the held-out split, the kernel discipline and the nodule-free population, and they propose COMPETING explanations for the same residual signal. They are not independent bets and a reviewer should not count them as two. My recommendation is explicit: do not fund them separately. Run C1, and add BV5 as a second pre-registered mediator inside it, with the partial-association analysis as the primary comparison. That gets the scientific benefit of the competition - neither explanation can produce an uninterpretable null when the other is measured alongside it - at a fraction of the cost, and it removes the temptation to report whichever marginal association came out larger.",
+  "regret": {
+    "value": 4,
+    "why": "If the answer is vascular and everyone spends five years measuring parenchyma because one ICML paper wrote the word emphysema in a speculative sentence, that would be a costly and avoidable wrong turn. The regret is real; the probability of getting to an answer is what is low."
+  },
+  "recommendation": "DO NOT SHORTLIST AS A STANDALONE STUDY. Run Stage 0 as a two-week feasibility probe, and if it passes, fold BV5 into C1 as a competing mediator rather than running this separately. The Murray exponent should be carried as an explicitly exploratory arm and reported as such however it comes out.",
+  "unverified_claims": [
+    "That TotalSegmentator lung_vessels recovers vessels at the calibres BV5 requires, on non-contrast low-dose screening CT. Completely untested and it is the keystone.",
+    "That cross-sectional area can be estimated stably enough to bin at 5 square millimetres on this data.",
+    "That the branching exponent is measurable at all from NLST-quality data. I doubt it, and I have said so rather than letting the title imply otherwise.",
+    "The modality of the human geometries in Altieri Correa et al. A search summary indicates mixed CT and MR angiography; the methods section could not be opened.",
+    "That ChestImagingPlatform builds from source in a reasonable time. No pip package, no tagged releases, custom license.",
+    "That vessel segmentation fidelity does not itself vary with emphysema severity. Untested, and it is the most plausible route to a false positive.",
+    "That no BV5-versus-risk-model analysis exists. The BV5 literature is concentrated in a small number of groups and searches did not cover ATS or thoracic society abstracts, where that community publishes first."
+  ]
+}
