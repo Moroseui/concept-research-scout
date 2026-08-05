@@ -1,0 +1,125 @@
+{
+  "id": "C3",
+  "search_mode": "B",
+  "title": "Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary",
+  "question": "In the radiologists' own ratings, do the eight LIDC semantic characteristics agree with themselves across readers more than they correlate with each other within a reader - and if not, how many distinct dimensions does a concept model that reports eight separate concept predictions actually have?",
+  "why_unasked": "Concept-based models report per-concept accuracy on an assumption nobody states: that the named concepts are separate attributes rather than several names for one underlying impression. Psychometrics has a standard test for exactly this and has had it since 1959 - the multitrait-multimethod matrix, in which convergent validity lives on the diagonal and discriminant validity lives on the off-diagonal - but concept-based ML reports only the diagonal. The off-diagonal has never been assembled because there is no convention that asks for it: a concept-accuracy table has one row per concept and one column for performance, and there is nowhere to put a concept-by-concept matrix. Descriptive correlations among LIDC characteristics have been noted in passing (margin with texture, spiculation with malignancy) but never set against the between-reader agreement that would make them interpretable.",
+  "concept_definition": "The same eight non-malignancy LIDC characteristics as in C2, again excluding the malignancy rating. Here the unit of analysis is the individual reader's rating vector for a nodule, and the object of study is the construct structure of the vocabulary itself - not any model's ability to predict it. This is a question about the concepts, not about a classifier.",
+  "keystone_prerequisite": "The released XML supplies, for the same nodule, multiple readers' ratings AND multiple characteristics per reader - so that the same-characteristic-across-readers cells and the different-characteristic-within-reader cells of the matrix can both be filled from the same nodules.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "Same artifact as C2: Armato et al. 2011 Med Phys 38:915-931, Methods, via PMC3041807, read directly. Per-reader preservation is verbatim ('Each radiologist's lesion-category designation and associated marks ... were stored in a single XML file for each scan after the unblinded read phase'), and 928 of 2669 lesions carry marks from all four readers, giving the reader facet. The Methods also confirm that the nine subjective characteristics - subtlety, internal structure, spiculation, lobulation, sphericity, solidity/texture, margin, calcification, and likelihood of malignancy - were assessed for nodules >= 3 mm, giving the characteristic facet. Both facets are therefore present on the same nodules, which is exactly what a multitrait-multimethod matrix requires. IMPORTANT CAVEAT, same source, same verbatim quote as in C2: only post-unblinded-read ratings are released, so the between-reader cells are inflated by peer exposure. This biases the comparison in the CONSERVATIVE direction for this candidate: inflated convergent (diagonal) values make it harder, not easier, to conclude that discriminant validity fails. A positive finding under this bias is therefore stronger than it looks. RESIDUAL: I did not verify that every reader rates all eight characteristics on every nodule they marked; characteristic-level missingness would thin the within-reader off-diagonal cells and is the first thing to count.",
+  "closest_prior_work": [
+    {
+      "citation": "Campbell D.T., Fiske D.W. Convergent and discriminant validation by the multitrait-multimethod matrix.",
+      "identifier": "Psychological Bulletin 56(2):81-105 (1959)",
+      "verification": "NOT_CHECKED in this session - cited from standing knowledge, and must be verified against the primary text before use.",
+      "what_it_did": "Defines the criteria: a trait's measurements should correlate more with other measurements of the same trait than with measurements of different traits by the same method.",
+      "what_it_did_not_do": "Not applied to medical imaging concept vocabularies, which is the borrow."
+    },
+    {
+      "citation": "Semantic characteristic grading of pulmonary nodules based on deep neural networks.",
+      "identifier": "BMC Medical Imaging (2023), DOI 10.1186/s12880-023-01112-4",
+      "verification": "SEARCH_SUMMARY_ONLY",
+      "what_it_did": "Reports that spiculation has the highest correlation with malignancy, followed by lobulation, calcification, subtlety, margin, sphericity, internal structure and texture; notes that 'high correlations exist between different semantic terms, such as margin and texture'.",
+      "what_it_did_not_do": "Uses correlations descriptively to select features for a malignancy model. Does not compare the between-characteristic correlations against the between-reader agreement for the same characteristic, which is the comparison that turns 'these correlate' into 'these are not distinguishable constructs'. Does not estimate the vocabulary's effective dimensionality or draw any consequence for concept-model reporting."
+    },
+    {
+      "citation": "Nodule2vec: a 3D Deep Learning System for Pulmonary Nodule Retrieval Using Semantic Representation; and Bridging Computational Features Toward Multiple Semantic Features with Multi-task Regression.",
+      "identifier": "arXiv:2007.07081; Springer, DOI 10.1007/978-3-319-46723-8_7",
+      "verification": "SEARCH_SUMMARY_ONLY",
+      "what_it_did": "Learn joint representations over the LIDC semantic characteristics, implicitly exploiting their correlation.",
+      "what_it_did_not_do": "Exploit the redundancy without measuring or reporting it, and without asking whether reporting eight separate concept accuracies is meaningful when the underlying vocabulary has fewer degrees of freedom."
+    },
+    {
+      "citation": "Mapping LIDC, RadLex and lung nodule image features.",
+      "identifier": "PMC3056962",
+      "verification": "SEARCH_SUMMARY_ONLY",
+      "what_it_did": "Maps LIDC terminology onto a standard radiology lexicon.",
+      "what_it_did_not_do": "Terminological alignment, not empirical construct structure. A term can be well-defined in RadLex and still not be separately measurable by readers, which is the distinction this candidate is about."
+    }
+  ],
+  "existing_assets": [
+    "The same single public artifact as C2 - LIDC-XML-only.zip, CC BY 3.0 - and the same parsers. Running C2 and C3 together roughly doubles the output for less than double the work.",
+    "928 four-reader nodules and 2669 lesions with at least one reader, giving both a strict and a permissive analysis set.",
+    "Established statistical machinery: polychoric correlations for ordinal ratings, ordinal factor analysis, parallel analysis for dimensionality, all in standard open packages.",
+    "Published descriptive correlations to sanity-check the matrix against."
+  ],
+  "smallest_decisive_experiment": "CPU only, no images, no model, hours. On four-reader nodules, build the full multitrait-multimethod matrix where the traits are the eight characteristics and the methods are the four reader slots. Fill three families of cells: (a) same characteristic, different readers - convergent; (b) different characteristics, same reader - discriminant, and the one nobody reports; (c) different characteristics, different readers. Apply the Campbell-Fiske criteria explicitly and report how many characteristics pass. Then estimate effective dimensionality: polychoric correlation matrix over the eight characteristics, ordinal factor analysis, and parallel analysis to choose the number of retained dimensions, reported with bootstrap confidence intervals. The headline number is the count of latent dimensions relative to eight. The decisive twist that makes it more than an exercise: repeat the dimensionality estimate after disattenuating the correlation matrix for the between-reader reliability of each characteristic (which C2 produces for free), so the result cannot be dismissed as 'you just measured noise'.",
+  "alternative_explanations": [
+    "Shared method variance: one reader rating eight characteristics in one sitting will produce correlated ratings through halo effects, fatigue, or a global impression of the nodule, independent of whether the underlying attributes are distinct. This is a genuine competing explanation and it is exactly what the (c) family of cells is for - if different-characteristic correlations survive when the two ratings come from *different* readers, halo within a single rater cannot be the whole story. This is the design's main identifying move and it is why the four-reader subset matters.",
+    "Scale degeneracy: internal structure and calcification are heavily concentrated on one level, which compresses correlations and distorts factor structure. RULED OUT by using polychoric rather than Pearson correlations, reporting per-characteristic response distributions alongside the matrix, and running the analysis with and without the near-degenerate characteristics.",
+    "Genuine biological co-occurrence: spiculated nodules really do tend to be lobulated. A low-dimensional structure could reflect the world rather than the vocabulary. The design does NOT rule this out and cannot - but it does not need to. The consequence for concept modelling is identical either way: if the vocabulary has three degrees of freedom in the data, then eight reported concept accuracies are not eight independent results and eight intervention handles are not eight independent handles, regardless of why."
+  ],
+  "anticipated_negative": {
+    "classification": "decisive",
+    "reasoning": "If the Campbell-Fiske criteria are satisfied - each characteristic agrees with itself across readers more than it correlates with any other characteristic - and parallel analysis retains something close to eight dimensions, that is a clean, positive validation of a clinical concept vocabulary as separately measurable. That result does not currently exist for any medical concept vocabulary that I am aware of, and it would be the strongest available justification for the practice of reporting per-concept performance. It meaningfully strengthens the assumption rather than merely failing to reject it, so it is type 1."
+  },
+  "remaining_legwork": [
+    "Same download and same frozen cross-reader clustering rule as C2. Shared cost.",
+    "Count characteristic-level missingness per reader per nodule - the keystone residual - which determines whether the strict four-reader analysis has enough complete cells.",
+    "Statistical development: assigning readers to stable 'method' slots is not trivial, because LIDC readers are not a fixed panel across scans. The matrix must either use exchangeable reader slots with an appropriate variance model, or restrict to scans read by an identifiable reader set. This is the single largest piece of unbuilt methodology in the candidate and should be settled before any computation.",
+    "Verify the Campbell-Fiske primary text and choose a modern operationalisation, since the 1959 criteria are informal by contemporary standards; a confirmatory factor model with correlated traits and methods is the standard replacement and should be prespecified.",
+    "Expected time to first decision: three to four days, most of it on the reader-slot modelling rather than on computation."
+  ],
+  "cross_domain": {
+    "borrowed_construct": "The multitrait-multimethod matrix and the convergent/discriminant validity distinction (Campbell and Fiske, 1959), plus effective dimensionality from ordinal factor analysis.",
+    "measurement_it_implies": "Compute and report the full eight-by-eight concept matrix with reader identity as the method facet, apply the discriminant criterion cell by cell, and report the number of retained latent dimensions after disattenuation. Concretely: a table that currently has one column gains sixty-four cells.",
+    "what_changes_if_the_analogy_is_dropped": "Without it you report eight per-concept accuracies and a passing remark that some concepts correlate - which is what the literature already does. The borrowed construct supplies the decision rule (a concept fails discriminant validity when its cross-concept correlation exceeds its own cross-reader agreement) and the consequence (an eight-concept bottleneck with three effective dimensions cannot support eight independent interventions). Neither the rule nor the consequence is reachable from the ML vocabulary alone, so this is load-bearing rather than decorative."
+  },
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "The comparison is precise, but 'effective dimensionality' requires a stated estimator and retention criterion to be unambiguous, and the reader-slot construction needs specification before the question is fully well-posed."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "The different-characteristic-different-reader cells specifically separate halo-within-rater from genuine construct overlap, which is the main alternative explanation. Held below 5 because genuine biological co-occurrence is not separable from vocabulary redundancy - though the consequence for concept modelling is the same either way."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "If a taught clinical vocabulary has fewer usable dimensions than terms, that matters for structured reporting and for concept-based interfaces. But it is a statement about descriptive vocabulary rather than about a diagnostic decision, and no patient outcome is involved."
+    },
+    "interest": {
+      "value": 4,
+      "why": "'Eight concepts, three dimensions' is a compact and portable result, and the psychometric framing is unfamiliar enough in this field to be genuinely useful. Held below 5 because the finding that morphological descriptors correlate will surprise no radiologist; only its quantification and its consequence for concept models will."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Data, parsers, statistical packages and descriptive correlations all exist. Short of 5 because the reader-as-method-facet construction has to be built."
+    },
+    "feasibility": {
+      "value": 5,
+      "why": "Cap lifted, keystone INSPECTED_TRUE. One public file, CPU only, no model, no access application, and it shares all infrastructure with C2."
+    },
+    "data_readiness": {
+      "value": 5,
+      "why": "Public, CC BY 3.0, no application, directly usable."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Polychoric correlations and parallel analysis are standard, but there is no accepted convention for a multitrait-multimethod analysis with non-fixed raters, and no baseline in this literature to compare a dimensionality estimate against. The metric has to be argued for, not merely cited."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A pass on the Campbell-Fiske criteria would be the first empirical validation of a medical concept vocabulary as separately measurable, which is a real positive contribution. Held below 5 because a pass is somewhat less consequential for practice than a failure would be."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Cap lifted by the keystone, but held at 3: descriptive correlation analyses of LIDC characteristics clearly exist, and I did not search the psychometrics-in-radiology literature, observer-performance journals, or Academic Radiology systematically. A convergent/discriminant framing may exist there under different vocabulary, which is precisely the kind of thing a shallow arXiv-and-web search misses."
+    }
+  },
+  "priority_score": 4.05,
+  "priority_arithmetic": "0.20*5 (feas) + 0.15*4 (ident) + 0.15*3 (med) + 0.10*4 (legwork) + 0.10*4 (interest) + 0.10*4 (clarity) + 0.10*4 (neg) + 0.05*5 (data) + 0.05*3 (novelty) = 1.00+0.60+0.45+0.40+0.40+0.40+0.40+0.25+0.15 = 4.05",
+  "regret": {
+    "value": 4,
+    "why": "A sixty-year-old validity test, a public ratings file, and an entire subfield reporting only the diagonal."
+  },
+  "recommendation": "SHORTLIST",
+  "unverified_claims": [
+    "Whether every reader rates all eight characteristics on every nodule they mark. Characteristic-level missingness directly determines the usable cell counts and is the first count to run.",
+    "How reader identity is represented in the XML and whether readers can be assigned to stable slots across scans. If readers are fully anonymous and non-tracked, the method facet must be modelled as exchangeable, which weakens the Campbell-Fiske application. THIS IS THE LARGEST DESIGN RISK and it is a fact about the XML I did not inspect.",
+    "The Campbell and Fiske 1959 primary text was not opened in this session.",
+    "The BMC Medical Imaging 2023 correlation findings and the 'margin and texture' remark are from a search summary only.",
+    "Whether an ordinal factor analysis of the LIDC characteristics has already been published. Not established; observer-performance and radiology methodology journals were not searched."
+  ]
+}
