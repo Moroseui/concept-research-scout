@@ -29,3 +29,17 @@ Separate unresolved objection, raised in critique but never debated: the eight
 characteristics and the malignancy rating come from the same reader in the same
 session, so concept-to-suspicion prediction measures rating-form consistency,
 not concept validity.
+
+## 2026-08-04 - Idea 004 Stage 0 COMPLETE
+3,039 validation volumes / 1,564 scans / 1,304 patients.
+1,432 of 1,564 scans multi-reconstruction (92%).
+425 strictly clean geometry-matched kernel pairs after excluding slice-count,
+position, and acquisition-parameter drift.
+Contrasts: Br40f|Br60f 237, Bl56f|Br40f 126, Bl57d|Br36d 58, Br40f|Br44f 4.
+462/464 Siemens - findings vendor-specific, state as limitation.
+Labels identical across reconstructions: 1.00 (exact duplication).
+No released per-volume ClassFine scores: CT-RATE has only RadBERT report
+labels; CT-CLIP GitHub v1.0.0 has no release assets; checkpoints are not on
+the authors HF account. Inference must be run locally.
+Scope: download 850 volumes (425 pairs), not 3,039. Inference code exists at
+scripts/data_inference_nii.py and run_forward_data.py.
