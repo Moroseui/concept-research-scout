@@ -1,0 +1,105 @@
+{
+  "id": "C3",
+  "title": "Dermoscopic concepts predicted from non-dermoscopic photographs: genuine visibility or shortcut?",
+  "question": "Can a model predict the seven dermoscopic checklist criteria from Derm7pt's paired clinical photographs \u2014 where those criteria are by definition not visible \u2014 and if it can, does the ability survive controls that remove lesion-identity shortcuts?",
+  "concept_definition": "A concept is one of the seven 7-point checklist dermoscopic criteria as defined in C1. The defining feature of this candidate is that these criteria are specified with reference to dermoscopic magnification and lighting; structures such as pigment network and blue-whitish veil are dermoscopic findings, and the clinical photograph of the same lesion is not the medium in which they are assessed. Derm7pt nevertheless attaches the same case-level criteria labels to both images of the pair.",
+  "medical_relevance": "Teledermatology and consumer skin-check applications operate on ordinary photographs. If a model can be trained to emit confident dermoscopic-criterion readouts from a photograph and those readouts appear to work, users will act on structured findings that the input medium cannot support. The question is whether apparent cross-modality concept prediction reflects a real correlate visible at clinical resolution, or a shortcut through diagnosis-correlated appearance.",
+  "closest_work": [
+    {
+      "citation": "Kawahara J. et al. Seven-Point Checklist and Skin Lesion Classification Using Multitask Multimodal Neural Nets.",
+      "identifier": "IEEE JBHI 2019; https://github.com/jeremykawahara/derm7pt",
+      "source_type": "journal + official repository",
+      "verification": "verified_by_search_summary_only for the venue; repository URL confirmed",
+      "what_it_establishes": "The paired-modality dataset with 1011 cases, each having both a clinical and a dermoscopic image, and multitask prediction of the checklist criteria alongside diagnosis.",
+      "exact_delta": "The original and subsequent multimodal work fuses the two modalities and reports fused performance. Fusion is designed to maximise combined accuracy; it does not isolate what each modality contributes per concept, which is the only configuration that answers the validity question."
+    },
+    {
+      "citation": "Napoles G., Grau I., Salgueiro Y. Concept Inconsistency in Dermoscopic Concept Bottleneck Models.",
+      "identifier": "arXiv:2604.19323; Sci Rep s41598-026-56927-2; https://github.com/gnapoles/Consistent-Derm7pt",
+      "source_type": "journal + repository",
+      "verification": "verified_by_primary_fetch",
+      "what_it_establishes": "Confirms the paired structure and, importantly, ships both the clinical and dermoscopic crops at 383x384 alongside meta.csv and frozen split files.",
+      "exact_delta": "Concerned with concept-label consistency, not with modality. Supplies the ready-to-use paired data."
+    },
+    {
+      "citation": "Representative multimodal Derm7pt follow-ups: 'A Novel Perspective for Multi-modal Multi-label Skin Lesion Classification' (arXiv:2409.12390); 'Self-Supervised Multi-Modality Learning for Multi-Label Skin Lesion Classification' (arXiv:2310.18583); MICA (arXiv:2401.08527).",
+      "source_type": "preprints",
+      "verification": "verified_by_search_summary_only",
+      "what_it_establishes": "A substantial body of work treats clinical and dermoscopic images as two complementary views to be aligned or fused.",
+      "exact_delta": "The framing is 'combine the views for accuracy'. The framing here is 'the views are not equally entitled to the label' \u2014 a validity claim rather than a performance claim. Whether any of these papers reports a clinical-only per-concept ablation is the key thing to check."
+    }
+  ],
+  "existing_legwork": [
+    "Paired within-lesion images with identical concept labels already exist for all 1011 cases \u2014 this is a naturally controlled design that would normally require deliberate data collection.",
+    "Cropped, size-normalised images for both modalities plus frozen splits are downloadable from a single repository.",
+    "No new annotation of any kind is needed; the comparison is entirely within existing labels.",
+    "Concept-level AUC is already the standard reporting metric in this literature, so the metric needs no invention."
+  ],
+  "missing_step": "A per-concept, per-modality breakdown with shortcut controls. The literature reports fused performance; what is missing is the clinical-only concept AUC for each of the seven criteria, benchmarked against the dermoscopic-only concept AUC and against a diagnosis-shortcut control that shows how much of the clinical-image performance is recoverable from lesion appearance correlated with diagnosis alone.",
+  "why_it_matters": "This is the cleanest available test of whether a named clinical concept, learned by a model, is actually grounded in the image or is a proxy for the diagnosis. The paired design removes patient, lesion, and label variation, leaving imaging medium as the only manipulated factor.",
+  "dataset": {
+    "primary": "Derm7pt paired clinical/dermoscopic images",
+    "source": "github.com/gnapoles/Consistent-Derm7pt (bundled) or github.com/jeremykawahara/derm7pt (original)",
+    "access": "Public; metadata MIT, images CC BY-NC-ND 4.0",
+    "access_risk": "Low",
+    "verification": "verified_by_primary_fetch of the repository page"
+  },
+  "compute_readiness": "Same as C1 \u2014 a few GPU-hours. Seven concepts x two modalities x five seeds on 1011 images is small.",
+  "minimal_experiment": "On frozen splits, train identical concept predictors on (a) dermoscopic images only and (b) clinical images only, and report per-concept test AUC for each of the seven criteria in both arms. Add two controls that make the result interpretable: (c) a diagnosis-only predictor of each concept \u2014 a model with no image access that predicts the concept from the diagnosis label alone, giving the accuracy attributable purely to concept-diagnosis correlation; and (d) a label-permutation run establishing the chance floor. The decisive readout is whether clinical-image concept AUC exceeds the diagnosis-only control (c) for any concept. Exceeding (c) means something genuinely visible in the photograph is being used; failing to exceed (c) means the apparent concept prediction is diagnosis correlation wearing a concept's name.",
+  "critical_confound": "Concept-diagnosis correlation, which is exactly what control (c) exists to absorb. Without it, a clinical-image model that has merely learned 'this looks like a melanoma, and melanomas usually have blue-whitish veil' would be misread as detecting blue-whitish veil. Any version of this experiment lacking control (c) is not worth running.",
+  "secondary_confound": "Cross-modality information leakage through image provenance. If clinical and dermoscopic images of the same case share compression artefacts, colour calibration, or acquisition-site signature, a clinical-image model could partially identify the case. Splits must be case-level, which the released split files already are, and this should be verified rather than assumed.",
+  "risky_assumption": "That the criteria labels in Derm7pt were assigned from the dermoscopic image alone. If the annotating clinicians had access to both images or to the clinical context when assigning criteria, some genuine clinical-image signal would be expected by construction and the framing weakens. This must be established from the original Kawahara et al. annotation protocol before the experiment is designed.",
+  "positive_interpretation": "If clinical-image concept prediction does not beat the diagnosis-only control, that is a clean, visually intuitive demonstration that a model's named concepts can be entirely ungrounded while looking competent \u2014 a result that generalises far beyond dermatology.",
+  "negative_interpretation": "If some criteria are genuinely predictable from photographs above the diagnosis control, that is a substantive and clinically useful finding in its own right: it identifies which dermoscopic criteria have clinical-photograph correlates, which is directly relevant to teledermatology triage design.",
+  "why_negative_is_useful": "There is no uninformative outcome. One direction is a general warning about concept grounding; the other is a concrete teledermatology finding.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "One manipulated factor, one control, seven pre-specified readouts."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Bears directly on teledermatology and consumer skin apps, though it does not by itself alter a diagnostic pathway."
+    },
+    "interest": {
+      "value": 4,
+      "why": "The setup is immediately graspable \u2014 'predict a microscope finding from a snapshot' \u2014 and the paired design is elegant."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "The naturally paired data and labels exist and are packaged; only the ablation and controls are absent."
+    },
+    "feasibility": {
+      "value": 5,
+      "why": "Small data, standard models, first result in days."
+    },
+    "data_readiness": {
+      "value": 5,
+      "why": "Public, bundled, split files included."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Per-concept AUC is standard; the diagnosis-only control is a custom but simple addition."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "Both directions are informative and neither is a dead end."
+    },
+    "novelty_confidence": {
+      "value": 2,
+      "why": "Derm7pt is heavily studied and a per-modality concept ablation is the kind of thing that plausibly appears inside an existing paper's supplementary material. This is the weakest link in the candidate and must be checked before any work begins."
+    }
+  },
+  "priority_score": 4.25,
+  "priority_arithmetic": "feasibility 0.20*5 + prior_legwork 0.15*4 + medical_relevance 0.15*4 + interest 0.15*4 + clarity 0.10*5 + negative_result_value 0.10*4 + data_readiness 0.05*5 + evaluation_readiness 0.05*4 + novelty_confidence 0.05*2 = 4.25",
+  "regret": {
+    "value": 4,
+    "why": "A within-lesion paired modality control is unusually clean and the data has been public since 2019."
+  },
+  "unverified_claims": [
+    "That no existing multimodal Derm7pt paper reports clinical-only per-concept AUC. This is the decisive novelty check and was NOT performed; the multimodal papers listed were seen only as search summaries. Reading the ablation tables of arXiv:2409.12390, arXiv:2310.18583, and arXiv:2401.08527 is a prerequisite.",
+    "The Derm7pt annotation protocol \u2014 specifically whether criteria were assigned from the dermoscopic image alone \u2014 was not verified and materially affects the framing.",
+    "Whether the released split files are case-level rather than image-level was assumed from the repository description, not confirmed by inspecting the files."
+  ],
+  "recommendation": "SHORTLIST"
+}
