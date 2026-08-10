@@ -11,7 +11,7 @@
     "stages": {
       "scout": "done",
       "merge": "done",
-      "novelty_audit": "failed"
+      "novelty_audit": "running"
     }
   }
 }
