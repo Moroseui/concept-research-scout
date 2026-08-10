@@ -721,13 +721,16 @@ def cycle(args):
         raise SystemExit(f'Unknown track(s): {", ".join(bad)}. Known: {", ".join(TRACKS)}')
     s = load_state()
     pending = s.get('cycle') and any(v != 'done' for v in s['cycle']['stages'].values())
+    n = s['next_scout']
+    if args.dry_run:
+        if pending:
+            print(f"Note: cycle {s['cycle']['scout']:03d} is unfinished; "
+                  "a real run with --resume-or-new will resume it.")
+        _print_plan(n, tracks, _cycle_stage_list(tracks), cfg)
+        return
     if args.resume_or_new and pending:
         print('Unfinished cycle found; resuming it instead of starting a new one.')
         return resume(args)
-    n = s['next_scout']
-    if args.dry_run:
-        _print_plan(n, tracks, _cycle_stage_list(tracks), cfg)
-        return
     _require_clean_tree('cycle')
     d = scout_dir(n)
     d.mkdir(parents=True, exist_ok=False)

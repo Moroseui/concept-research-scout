@@ -323,6 +323,18 @@ class TestCycle(Harness):
         state = json.loads((self.repo / "orchestrator" / "state.json").read_text())
         self.assertTrue(all(v == "done" for v in state["cycle"]["stages"].values()))
 
+    def test_dry_run_with_pending_cycle_does_not_resume(self):
+        # Regression: --dry-run --resume-or-new used to resume the real cycle.
+        self.start_state(9)
+        self.scout("cycle", "--tracks", "fiction", action="cycle_auto",
+                   FAKE_FAIL_STAGE="fiction_extract")
+        r = self.scout("cycle", "--dry-run", "--resume-or-new", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("unfinished", r.stdout)
+        state = json.loads((self.repo / "orchestrator" / "state.json").read_text())
+        self.assertEqual(state["cycle"]["stages"]["fiction_extract"], "failed",
+                         "dry run resumed the pending cycle")
+
     def test_baseline_cycle_default_and_dry_run_spends_nothing(self):
         self.start_state(9)
         r = self.scout("cycle", "--dry-run", action="cycle_auto")
