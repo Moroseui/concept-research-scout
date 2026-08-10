@@ -9,7 +9,7 @@
     ],
     "started": "2026-08-10T06:07:24+00:00",
     "stages": {
-      "scout": "running",
+      "scout": "done",
       "merge": "pending",
       "novelty_audit": "pending"
     }
