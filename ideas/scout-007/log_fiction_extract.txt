@@ -1,0 +1,7 @@
+Done. `ideas/scout-007/fiction_pitch.md` is written with the three required sections:
+
+- **Claimed finding** — one impersonal, present-tense paragraph stating the discovery at the source's strength: STARE vessel masks encode a ~210-micron periodic arteriolar caliber modulation attributed to Mönckeberg calcification, dataset-separable at 99.2% and disease-separable at AUC 0.96.
+- **Materials** — bullet list of the three datasets, the Hoover vessel-type labels, the classifier, saliency maps, centerline width profiles, spectral analysis, and the named quantities (210 µm wavelength, 11.4× arteriole/venule power ratio, AUC 0.96) with their definitions as given.
+- **Verification procedure** — the five numbered steps as the source ran them: mask-only database classifier, saliency inspection, width-spectrum analysis, the arteriole-vs-venule control for instrumental artifacts, and the diagnosis-code split.
+
+No narrative elements, character names, or evaluation were carried over, and no other files were touched.
