@@ -1,0 +1,13 @@
+Done. I wrote `ideas/015/critique.md`. Verdict: **ADVANCE TO REVISION** — no fatal objection, but with required repairs.
+
+**What I verified externally (primary sources):**
+- **Novelty survives, but the card's closest prior work is missing.** The most threatening prior work is *Radiology: AI* ryai.240417 ("Using Explainable AI to Characterize Features in the Mirai Model"), which ran Mirai on 29,374 EMBED exams and showed Mirai keys on *calcification* features — same model, same proposed cohort. Neither it nor the card's cited phenotype preprint (arXiv:2606.26431, whose phenotypes are dense tissue, microcalcifications, and clip artifacts — no arteries) distinguishes *arterial* from *lesion* calcification. So the BAC-specific question is genuinely open, but the delta must be reframed as "arterial vs lesion calcification," not "does Mirai use calcification" (answered: yes).
+- **A public BAC segmenter with code/weights exists** (Maguire 2025 `bac-model-code`; SCU-Net), so the tool is less of a gate than the card claims.
+- **Mirai requires four-view Hologic "For Presentation" DICOMs** and "may not properly convert" other manufacturers — EMBED is the proven-compatible cohort.
+
+**The three substantive objections (all repairable within the same question):**
+1. **Keystone is misidentified.** The "does Mirai *use* BAC" question needs no future-cancer labels — it's answered by Mirai's own risk-score change under intervention. The real gate is Mirai-DICOM compatibility plus spatial registration of the BAC mask to Mirai's input tensor, on a confirmed-compatible cohort.
+2. **The design leads with its weakest instrument** (embedding-direction erasure, which entangles with age). The stronger, available move is an image-space BAC-inpainting intervention with a matched sham deletion — localized, causal, label-free, the same "compare the model to itself" structure that let the one prior survivor avoid labels.
+3. **The endpoint over-claims by one rung.** "Vascular clock / vascular-age signal" asserts systemic-ageing extraction the design can't reach and can't separate from lesion-mimicry; the honest reachable claim is "Mirai's risk responds specifically to breast arterial calcification" (rung 1–2), with "vascular age" kept only as the labelled rung-3 target.
+
+The closing section names the nearest defensible question (the sham-controlled inpainting test), judges it worth doing as the revision rather than a separate fork, contingent on Stage 0 confirming the Mirai-cohort/BAC-mask join and EMBED access terms.
