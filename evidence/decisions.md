@@ -83,3 +83,19 @@ different anatomy at different diaphragm positions. Stage 0 gate.
 CT-CLIP has no mosaic attenuation head - card claimed a nonexistent output.
 Claim demoted rung 3 -> rung 1: sensitivity to respiratory state, not
 identification of total lung volume as the cue.
+
+## 2026-08-10 — Idea 015 REJECTED (superseded) + claim-identity governance rule
+
+The narrowed BAC-response experiment survives on its merits, but removing the
+vascular-age interpretation changed the deliverable claim's identity. Rule
+going forward: revision-in-place is for narrowing scope or fixing design
+within the same deliverable sentence; when the deliverable sentence or the
+prohibited-conclusions set changes, the idea is REJECTED (superseded) and the
+successor registers as a NEW candidate with parent_ids for lineage. The
+successor re-enters through a normal scouting cycle, receives its own novelty
+audit, and is re-ranked in the backlog on current merit — no inherited queue
+position. For idea 015 specifically: the successor keeps the agreed
+BAC-specific design and prohibited conclusions, and remains conditional on
+Stage 0 confirming an obtainable Mirai-compatible cohort and spatial
+registration between the BAC mask and Mirai's exact input tensor.
+
