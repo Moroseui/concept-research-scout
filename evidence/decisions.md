@@ -109,3 +109,18 @@ registration. This is also a live test of the revival machinery. If S2 has
 not resurfaced within a few cycles despite this note, that is a finding
 about the revival path, not about S2.
 
+
+## 2026-08-10 — Idea 006 unblock check: FAILED (evidence-quoted)
+
+Released CT-CLIP training uses deterministic preprocessing only (CTReportDataset,
+scripts/data.py): rescale, resample, HU clip [-1000,1000], /1000, center
+crop/pad (fill -1, data.py:156). No masking/cutout/erasing augmentation
+exists; visual SSL is present in the library but disabled (use_visual_ssl
+default False; not enabled in run_train.py). Body-excluded volumes are out-
+of-distribution for this checkpoint; the deletion intervention is
+indefensible per the debate's condition. Idea 006 stays PAUSED, hardened;
+the exterior-swap spin-off (idea 004 pairs) is the only live path.
+Side finding for idea 013 Stage 0: CT-CLIP clips at +1000 HU, so calcium
+density saturates — compute the automated calcium measure on the same
+clipped range.
+
