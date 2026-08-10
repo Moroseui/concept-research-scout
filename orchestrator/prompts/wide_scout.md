@@ -63,5 +63,9 @@ without evidence is mechanically demoted to NOT_INSPECTED at merge.
    for human verification, never proof of novelty.
 4. Set `"track": "wide"` on every candidate.
 
-Write `wide_candidates.json` with the shape `{"candidates": [...]}`.
+Write `wide_candidates.json` with the shape
+`{"candidates": [...], "dropped": [{"question": "...", "why": "..."}]}`.
+The `candidates` array contains ONLY the three fully developed candidates;
+the one-line notes on dropped questions go under `dropped`, never as stub
+entries in `candidates` (stubs are filtered out at merge and waste the slot).
 Do not write code. Do not modify any other file.

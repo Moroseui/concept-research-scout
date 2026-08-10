@@ -22,7 +22,7 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-007-c06** [UNAUDITED] -- The effusion model may be reading whether pleural fluid still obeys gravity
 - **scout-007-c07** [UNAUDITED] -- The fibrosis model may be counting holes at the pleural edge
 - **scout-007-c08** [UNAUDITED] -- The PE model may be reading how completely blood and contrast have mixed
-- ... and 6 more (python scout.py backlog)
+- ... and 1 more (python scout.py backlog)
 
 ## Ideas
 
@@ -52,8 +52,8 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-007-c06** [SCOUT_ONLY/SCOUTED/wide] -- The effusion model may be reading whether pleural fluid still obeys gravity
 - **scout-007-c07** [SCOUT_ONLY/SCOUTED/wide] -- The fibrosis model may be counting holes at the pleural edge
 - **scout-007-c08** [SCOUT_ONLY/SCOUTED/wide] -- The PE model may be reading how completely blood and contrast have mixed
-- **scout-007-c09** [SCOUT_ONLY/SCOUTED/wide] -- (untitled)
-- **scout-007-c10** [SCOUT_ONLY/SCOUTED/wide] -- (untitled)
-- **scout-007-c11** [SCOUT_ONLY/SCOUTED/wide] -- (untitled)
-- **scout-007-c12** [SCOUT_ONLY/SCOUTED/wide] -- (untitled)
-- **scout-007-c13** [SCOUT_ONLY/SCOUTED/wide] -- (untitled)
+- **scout-007-c09** [REJECTED/SCOUTED/wide] -- (untitled)
+- **scout-007-c10** [REJECTED/SCOUTED/wide] -- (untitled)
+- **scout-007-c11** [REJECTED/SCOUTED/wide] -- (untitled)
+- **scout-007-c12** [REJECTED/SCOUTED/wide] -- (untitled)
+- **scout-007-c13** [REJECTED/SCOUTED/wide] -- (untitled)

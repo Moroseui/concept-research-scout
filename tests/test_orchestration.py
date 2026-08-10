@@ -532,6 +532,20 @@ class TestVerdictAutomation(Harness):
         e = sc.ledger_mod.load()["scout-060-c01"]
         self.assertEqual(e.get("seed_source"), "human")
 
+    def test_merge_filters_titleless_stubs(self):
+        sc = self._sc()
+        d = self.repo / "ideas" / "scout-061"; d.mkdir()
+        (d / "wide_candidates.json").write_text(json.dumps({"candidates": [
+            {"title": "real one", "question": "q?", "track": "wide"},
+            {"question": "dropped: too vague"},
+            {"title": "", "question": "", "note": "stub"}]}))
+        sc._merge_candidates(d, ["wide"], 61)
+        merged = json.loads((d / "candidates_all.json").read_text())
+        self.assertEqual(len(merged["candidates"]), 1)
+        self.assertEqual(merged["notes"].get("wide_skipped_stubs"), 2)
+        rows = [k for k in sc.ledger_mod.load() if k.startswith("scout-061")]
+        self.assertEqual(rows, ["scout-061-c01"], "stub reached the ledger")
+
     def test_seed_draw_override_records_human_source(self):
         sc = self._sc()
         s = sc.seed_draw(concepts_override=["information entropy", "concept network"])

@@ -771,8 +771,12 @@ def _merge_candidates(target, tracks, cycle_no):
         if data.get('no_testable_kernel'):
             notes[track] = f"NO_TESTABLE_KERNEL: {data['no_testable_kernel']}"
         cands = data.get('candidates', data if isinstance(data, list) else [])
+        skipped = 0
         for c in cands:
             if isinstance(c, dict):
+                if not (c.get('title') and c.get('question')):
+                    skipped += 1  # stubs/drop-notes are not candidates
+                    continue
                 c.setdefault('track', track)
                 if c.get('keystone_status') == 'INSPECTED_TRUE' and not c.get('keystone_evidence'):
                     c['keystone_status'] = 'NOT_INSPECTED'
@@ -780,6 +784,8 @@ def _merge_candidates(target, tracks, cycle_no):
                     notes.setdefault('keystone_demotions', []) if isinstance(notes.get('keystone_demotions'), list) else None
                     notes['keystone_demotions'] = notes.get('keystone_demotions', []) + [c.get('title', '')[:60]]
                 merged.append(c)
+        if skipped:
+            notes[f'{track}_skipped_stubs'] = skipped
     out = {'cycle': cycle_no, 'tracks': list(tracks), 'notes': notes, 'candidates': merged}
     (target / 'candidates_all.json').write_text(json.dumps(out, indent=2, ensure_ascii=False) + '\n')
     for i, c in enumerate(merged, 1):
