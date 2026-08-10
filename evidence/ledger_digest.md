@@ -9,6 +9,7 @@ A candidate that dies like a prior one must say what makes it different.
 
 - **DATA_INSUFFICIENT** x1: The subset that actually supports the inference is too small or unreachable.
 - **CIRCULARITY** x1: The endpoint is a re-encoding of the input or of the thing being tested.
+- **UNCLASSIFIED** x1: Kill reason recorded free-text only; classify when pattern recurs.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
@@ -38,7 +39,7 @@ A candidate that dies like a prior one must say what makes it different.
 - **idea-013** [SHORTLISTED/DEBATED/baseline] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - **idea-014** [PAUSED/DEBATED/baseline] -- The knee-pain model may be reading trabecular stress architecture that KL grade throws away
 - **idea-015** [SHORTLISTED/DEBATED/baseline] -- A breast-cancer risk model may be reading the arteries as a vascular clock
-- **idea-016** [SHORTLISTED/CRITIQUED/baseline] -- The PE model may read contrast flowing backward as a pressure gauge
+- **idea-016** [REJECTED/DEBATED/baseline] -- The PE model may read contrast flowing backward as a pressure gauge -- killed: UNCLASSIFIED
 - **scout-006-c01** [SHORTLISTED/SCOUTED/baseline] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - **scout-006-c02** [SHORTLISTED/SCOUTED/baseline] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - **scout-006-c03** [SCOUT_ONLY/SCOUTED/baseline] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver

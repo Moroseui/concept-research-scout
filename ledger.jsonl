@@ -69,3 +69,5 @@
 {"ledger_id": "idea-015", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-10T17:19:14+00:00"}
 {"ledger_id": "idea-015", "status": "SHORTLISTED", "notes": "debate: Choose revision-in-place versus re-registration, then update the card to the agreed BAC-specific claim and verify the Mirai-input/BAC-mask join on an obtainable compatible cohort.", "recorded_at": "2026-08-10T17:19:14+00:00"}
 {"ledger_id": "idea-016", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-10T17:23:16+00:00"}
+{"ledger_id": "idea-016", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-10T17:27:20+00:00"}
+{"ledger_id": "idea-016", "status": "REJECTED", "kill_code": "UNCLASSIFIED", "kill_reason": "debate: Locate and directly inspect a CTPA cohort with per-scan injection protocol metadata, an independent pressure or TR-velocity readout, fixed-protocol reflux variation, and a runnable frozen strain model.", "recorded_at": "2026-08-10T17:27:20+00:00"}
