@@ -58,4 +58,4 @@ jobs:
           git add -A
           git diff --cached --quiet || git commit -m "librarian: workflow checkpoint"
           git pull --rebase origin ${GITHUB_REF_NAME} || true
-          git push origin HEAD:${GITHUB_REF_NAME} || true
+          git push origin HEAD:${GITHUB_REF_NAME}

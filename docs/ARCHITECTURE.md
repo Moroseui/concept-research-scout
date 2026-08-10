@@ -157,9 +157,13 @@ Each of these was added after the system's own behavior demonstrated the gap:
   debate found unsupported.
 - **Scope guard** (git-enforced per-stage path allowlists): models are asked
   nicely *and* checked; the guard has caught the system's own test code.
-- **Checkpoint = commit**: runners are ephemeral and jobs are killable at
-  6 h; committing each stage makes any failure cost one stage and makes the
-  same button a resume. Clean-tree enforcement between stages preserves
+- **Checkpoint = commit AND push**: runners are ephemeral and jobs are
+  killable at 6 h; an external review caught that stage commits lived only
+  on the runner until a final swallowed-failure push, so hard runner death
+  could lose every "checkpointed" stage. Stages now push immediately in CI
+  (rebase-retry once, loud failure otherwise), and workflow-final pushes are
+  never silenced. A checkpoint that can die with the runner was never a
+  checkpoint. Clean-tree enforcement between stages preserves
   attribution of every change to the stage that made it.
 - **CI sandbox variant** (`SCOUT_CI` selects a bypassed Codex sandbox on
   runners only): Codex's bubblewrap sandbox cannot initialize on GitHub
@@ -221,7 +225,7 @@ matters: review the diff, not the description.
 
 ## Testing philosophy
 
-32 deterministic tests run before every remote stage spends a token. Agents
+The deterministic suite runs before every remote stage spends a token. Agents
 are faked; orchestration, contracts, blindness, rotation, resume, ranking,
 and verdict automation are real. Three production incidents were tests
 inheriting the live repo's accumulating state (real cycles, ideas, and
@@ -235,4 +239,11 @@ artifact family must be added to `make_hermetic()` in the same patch that
 introduces it. The standing
 rule: **tests may not depend on what the repository has lived through, and
 new test classes inherit hermeticity rather than rediscover the need for
-it.**
+it.** The complementary rule, learned when fabricated fixtures masked a
+ranking bug that zeroed every production score: **at least one golden
+fixture per structured artifact must be a verbatim copy of a real
+production artifact**, so tests exercise what the agents actually produce,
+not the author's model of it. Structured artifacts additionally pass
+deterministic jsonschema validation at merge and shortlist -- existence
+contracts catch empty stages; schema contracts catch shape drift.
+

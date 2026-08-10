@@ -63,7 +63,7 @@ elif action == "cycle_auto":
     m2 = re.search("Assigned output directory: (\\S+)", prompt)
     outdir = root / (m2.group(1) if m2 else target)
     outdir.mkdir(parents=True, exist_ok=True)
-    cand = '{"candidates": [{"title": "Fake STAGE", "question": "q?", "dataset": "D"}]}'
+    cand = '{"candidates": [{"title": "Fake STAGE", "question": "is the fake model using fake signal?", "deliverable_sentence": "the model is using fake signal", "dataset": "D"}]}'
     if stage == "scout":
         (outdir / "scout_candidates.json").write_text(cand.replace("STAGE", "baseline") + NL)
     elif stage == "wide_scout":
@@ -81,7 +81,7 @@ elif action == "cycle_auto":
         (outdir / "verdict_updates.json").write_text(
             '{"updates": [{"ledger_id": "scout-050-c01", "novelty_verdict": "NOVEL_VERIFIED", "reason": "test"}]}' + NL)
         (outdir / "librarian_proposals.json").write_text(
-            '{"proposals": [{"title": "revived idea", "question": "q?", "parent_ids": ["idea-011"], "revival_basis": "b", "sketch": "s"}]}' + NL)
+            '{"proposals": [{"title": "revived idea", "question": "is the model using the fixture signal?", "parent_ids": ["idea-011"], "revival_basis": "b", "sketch": "s"}]}' + NL)
     elif stage == "actioner":
         (outdir / "actions.md").write_text("## Decisions waiting on the human" + NL + "- none" + NL)
     elif "TRANSCRIPT SO FAR" in prompt:
@@ -157,6 +157,18 @@ command = ["{sys.executable}", "{self.fake}"]
 
     def tearDown(self):
         shutil.rmtree(self.dir, ignore_errors=True)
+
+    def _sc(self):
+        """Import the repo-copy scout module with paths patched to the harness."""
+        sys.path.insert(0, str(self.repo))
+        import importlib, scout as sc
+        importlib.reload(sc)
+        sc.ROOT = self.repo
+        sc.BRIEF = self.repo / "evidence" / "portfolio_brief.md"
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        return sc
 
     def make_hermetic(self, wipe_idea_dirs=False):
         """Erase the live repo's accumulated state from the harness copy.
@@ -312,6 +324,145 @@ class TestLedger(Harness):
         self.assertNotEqual(r.returncode, 0)
 
 
+# Golden production artifact: a verbatim candidate from real cycle 007.
+# Fabricated fixtures encoded stale assumptions and masked the scoring bug
+# (flat numbers vs {value, why} objects); tests must also run against what
+# the agents actually produce.
+GOLDEN_CANDIDATE = json.loads(r"""{
+ "id": "C1",
+ "parent_ids": [],
+ "revival_basis": null,
+ "search_mode": "A",
+ "entry_point": 1,
+ "title": "The knee-pain model may be reading trabecular stress architecture that KL grade throws away",
+ "question": "Is the knee-pain model of Pierson et al. using directional medial tibial subchondral trabecular texture, rather than only joint-space narrowing and osteophytes, to recover pain that radiographic Kellgren-Lawrence grading misses?",
+ "rung": {
+  "target": 3,
+  "current": 0,
+  "move_up": "A validated texture measurement and score association are exploratory; a selective loss of pain prediction after erasing the texture direction, with matched nuisance-direction controls and bilateral/longitudinal replication, reaches rung 1. Acquisition harmonization and site-held-out replication gate rung 2; the named texture then supplies rung 3."
+ },
+ "deliverable_sentence": "The knee-pain model is using medial tibial subchondral trabecular texture\u2014directional thickening and rarefaction of the load-bearing bone beneath the cartilage.",
+ "X_measurement": {
+  "X": "Directional fractal signature of medial tibial subchondral trabecular bone, summarized across horizontal and vertical scales in a landmark-defined ROI.",
+  "how": "Locate tibial plateau landmarks with a released knee landmark model or deterministic geometry, place the published subchondral ROI, and compute variance-orientation-transform fractal signatures. Janvier et al. used this measurement on OAI radiographs (DOI 10.1016/j.joca.2017.09.004; PMID 28935435); the OARSI/FNIH consortium used validated semiautomated software (PMID 29024470).",
+  "could_compute_today_without_asking_anyone": "Yes in principle: the formula is defined and requires pixels plus geometric landmarks, not a radiologist. The exact validated implementation and landmark model still need to be obtained or reproduced before a confirmatory run."
+ },
+ "suspected_signal": "Subchondral bone remodels along habitual load paths. Horizontal trabecular thickening and direction-dependent rarefaction alter radiographic texture at scales not represented by the coarse KL vocabulary and may track painful bone stress or marrow pathology.",
+ "keystone_prerequisite": "The frozen Pierson pain model or exactly reproducible checkpoint can be run on OAI images that also support stable, automated directional fractal-signature measurement, and the measured texture has enough within-KL and within-person variation to identify a selective model-use effect.",
+ "keystone_status": "NOT_INSPECTED",
+ "keystone_evidence": "Nearest facts inspected: Pierson et al., Nature Medicine 2021, DOI 10.1038/s41591-020-01192-7, states that OAI images/clinical data reproduce the analysis; Janvier et al., DOI 10.1016/j.joca.2017.09.004, measured subchondral texture in OAI. The actual checkpoint-to-image pipeline and joint distribution were not inspected.",
+ "keystone_residual_assumption": "The easy facts are that the pain model and texture literature both use OAI. I am still assuming the exact frozen model is runnable and that texture varies independently of joint-space width, osteophytes, alignment, and acquisition processing. That independence is load-bearing and is therefore included in the keystone.",
+ "rung_reached": "No rung yet. Conditional rung 1 after selective internal concept erasure; rung 2 after site/acquisition and alignment controls; rung 3 only then.",
+ "dies_like_prior": "It resembles idea-001 in using OAI clinical labels, but pain-label provenance is not the concept measurement and the primary readout is a frozen model's score change after an image-computable texture-direction intervention. It avoids DATA_INSUFFICIENT by gating on the actual model/OAI join and avoids CIRCULARITY because X is not the pain label or KL grade.",
+ "closest_prior_work": [
+  {
+   "citation": "Pierson et al., Nature Medicine 2021",
+   "identifier": "DOI 10.1038/s41591-020-01192-7",
+   "verified_fact": "A deep model predicted knee pain from OAI radiographs and explained pain variation beyond radiologist-assigned severity.",
+   "delta": "The paper did not name or measure directional subchondral trabecular texture as the model-used signal."
+  },
+  {
+   "citation": "Janvier et al., Osteoarthritis and Cartilage 2017",
+   "identifier": "DOI 10.1016/j.joca.2017.09.004; PMID 28935435",
+   "verified_fact": "Directional trabecular texture on OAI radiographs predicted incident radiographic OA.",
+   "delta": "It studied OA incidence, not what a pain-prediction network uses."
+  }
+ ],
+ "existing_assets": [
+  "OAI bilateral longitudinal knee radiographs and WOMAC pain data (registration-controlled access, not an unconfirmed DUA-gated dependency for the card)",
+  "Published pain-model architecture/reproduction materials",
+  "Published fractal-signature formula and OAI texture precedents"
+ ],
+ "smallest_decisive_experiment": "Stage 0: verify checkpoint inference and texture repeatability, then quantify within-KL texture variation. Exploratory: fit a validation-only probe from frozen embeddings to X. Confirmatory: freeze that direction, erase only it from test embeddings, and compare the change in knee-specific pain score with equal-norm random directions, KL/joint-space directions, and left-right within-person contrasts. The model uses X only if texture erasure selectively harms prediction and the effect scales with measured X.",
+ "use_vs_association": "A score-X regression is exploratory. The use claim requires selective frozen-representation erasure of the validation-learned X direction, with matched-direction controls, and must replicate within bilateral or longitudinal comparisons.",
+ "standing_confounds_addressed": {
+  "scanner_vendor_protocol_reconstruction_site": "Site-held-out evaluation and acquisition/processing strata; not fully ruled out until Stage 0 confirms metadata.",
+  "positioning": "Alignment and flexion landmarks are explicit nuisance concepts and matched erasure controls.",
+  "habitus": "Bilateral within-person contrasts hold BMI/habitus fixed; residual side-specific loading remains.",
+  "prevalence_referral": "Single prospective OAI cohort limits spectrum; not ruled out externally.",
+  "label_leakage": "Pain is self-report, not available in pixels or radiology annotations; laterality/joint identifiers must be stripped."
+ },
+ "alternative_explanations": [
+  {
+   "alternative": "Texture is a proxy for malalignment or joint-space narrowing.",
+   "resolution": "Measure both, learn nuisance directions, and require texture erasure to add harm beyond them."
+  },
+  {
+   "alternative": "Computed-radiography post-processing creates texture differences.",
+   "resolution": "Site/acquisition strata and bilateral same-image contrasts address much, but external device replication remains necessary."
+  },
+  {
+   "alternative": "Erasure removes generic image information rather than X.",
+   "resolution": "Equal-norm random, landmark, and KL-direction erasures plus retained reconstruction performance test selectivity."
+  }
+ ],
+ "anticipated_negative": {
+  "classification": "sensitivity-limited",
+  "reason": "A null erasure effect could mean the representation distributes texture nonlinearly. It becomes decisive only after a prespecified probe-reliability floor and minimum score-change equivalence margin are met."
+ },
+ "cross_domain": {
+  "borrowed_construct": "Load-path adaptation from bone mechanobiology.",
+  "measurement_implied": "Directional, scale-dependent trabecular fractal signature rather than generic image texture.",
+  "if_analogy_dropped": "The experiment would otherwise test undirected texture. The analogy changes the preregistered X to horizontal-versus-vertical signatures and predicts the sign/scales of the effect."
+ },
+ "remaining_legwork": "2 days to inspect checkpoint/reproduction assets; 3-5 days for an OAI access and join audit; 1 week for texture repeatability and collinearity Stage 0. First scientific decision in about 2 weeks if access is active.",
+ "scores": {
+  "clarity": {
+   "value": 5,
+   "why": "One model, one named bone compartment, one defined texture measurement."
+  },
+  "identifiability": {
+   "value": 3,
+   "why": "Internal erasure and bilateral controls improve on association, but texture is entangled with alignment and erasure may not be specific."
+  },
+  "medical_relevance": {
+   "value": 4,
+   "why": "It could name the missing radiographic substrate behind clinically important pain discordance."
+  },
+  "interest": {
+   "value": 5,
+   "why": "It attempts to decode a documented model-human gap with a bone quantity clinicians can recognize."
+  },
+  "prior_legwork": {
+   "value": 4,
+   "why": "Both the gap and the exact measurement have OAI precedents."
+  },
+  "feasibility": {
+   "value": 3,
+   "why": "Capped: keystone not inspected; access and checkpoint reproducibility remain."
+  },
+  "data_readiness": {
+   "value": 3,
+   "why": "OAI is established but registration-controlled."
+  },
+  "evaluation_readiness": {
+   "value": 3,
+   "why": "Fractal metrics exist; selective-erasure calibration needs custom controls."
+  },
+  "negative_result_value": {
+   "value": 2,
+   "why": "The anticipated null is sensitivity-limited."
+  },
+  "novelty_confidence": {
+   "value": 3,
+   "why": "Capped and no exhaustive review; the precise model-to-texture link was not located."
+  },
+  "regret": {
+   "value": 5,
+   "why": "Two mature OAI literatures sit one model-use experiment apart."
+  }
+ },
+ "priority_score": 3.65,
+ "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*4 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*2 + 0.05*3 + 0.05*3 = 3.65",
+ "unverified_claims": [
+  "A runnable Pierson checkpoint is currently available",
+  "Texture varies sufficiently within KL grade and acquisition strata",
+  "The validation-learned concept direction is selectively erasable"
+ ],
+ "track": "baseline"
+}""")
+
+
 class TestPipeline(Harness):
     def setUp(self):
         # Hermetic: the harness copies the real repo, which accumulates real
@@ -324,13 +475,54 @@ class TestPipeline(Harness):
     def make_cycle_outputs(self, scoutdir, verdicts):
         d = self.repo / "ideas" / scoutdir
         d.mkdir(parents=True, exist_ok=True)
-        cands = [{"title": f"cand {i}", "question": "q?",
-                  "scores": {"interest": 5 - i}} for i in range(1, len(verdicts) + 1)]
+        cands = []
+        for i in range(1, len(verdicts) + 1):
+            c = dict(GOLDEN_CANDIDATE)
+            c["title"] = f"cand {i}"
+            c["question"] = "Does the fixture rank correctly?"
+            c["deliverable_sentence"] = "the model is using fixture signal"
+            c["priority_score"] = float(5 - i)
+            c["priority_arithmetic"] = "fixture"
+            cands.append(c)
         (d / "candidates_all.json").write_text(json.dumps(
             {"cycle": 9, "tracks": ["baseline"], "notes": {}, "candidates": cands}) + "\n")
         rows = "".join(f"| C{i} | `{v}` | `NEW_CAPABILITY` |\n"
                        for i, v in enumerate(verdicts, 1))
         (d / "novelty_audit.md").write_text("# audit\n\n| Candidate | Verdict | code |\n|---|---|---|\n" + rows)
+
+    def test_golden_candidate_scores_nonzero_and_validates(self):
+        # Regression for the 0.0-scoring bug: the REAL production card must
+        # produce its own priority_score and pass schema validation.
+        sc = self._sc()
+        self.assertAlmostEqual(sc._mean_score(GOLDEN_CANDIDATE),
+                               GOLDEN_CANDIDATE["priority_score"], places=2)
+        self.assertGreater(sc._mean_score(GOLDEN_CANDIDATE), 0.0)
+        self.assertIsNone(sc._validate_card(GOLDEN_CANDIDATE),
+                          "real production card fails the schema")
+
+    def test_disagreeing_priority_score_falls_back_to_rubric(self):
+        sc = self._sc()
+        c = dict(GOLDEN_CANDIDATE)
+        c["priority_score"] = 9.9  # lies about its own arithmetic
+        s = sc._mean_score(c)
+        self.assertLess(abs(s - 3.65), 0.3, f"rubric fallback not used: {s}")
+
+    def test_merge_rejects_schema_invalid_candidate(self):
+        try:
+            import jsonschema  # noqa: F401
+        except ImportError:
+            self.skipTest("jsonschema not installed; validation is best-effort without it")
+        sc = self._sc()
+        d = self.repo / "ideas" / "scout-064"; d.mkdir()
+        good = dict(GOLDEN_CANDIDATE); good["title"] = "valid one"
+        bad = {"title": "no question or deliverable"}
+        (d / "scout_candidates.json").write_text(json.dumps(
+            {"candidates": [good, {"title": "x", "question": "long enough q?",
+                                   "deliverable_sentence": 7}, bad]}))
+        sc._merge_candidates(d, ["baseline"], 64)
+        merged = json.loads((d / "candidates_all.json").read_text())
+        self.assertEqual(len(merged["candidates"]), 1)
+        self.assertTrue(merged["notes"].get("schema_rejected"))
 
     def test_ranking_prefers_verdict_then_score_and_drops_duplicates(self):
         self.make_cycle_outputs("scout-009",
@@ -497,7 +689,7 @@ class TestPortfolioBrief(Harness):
         d = self.repo / "ideas" / "scout-042"
         d.mkdir(parents=True)
         (d / "scout_candidates.json").write_text(json.dumps({"candidates": [
-            {"title": "revival", "question": "q?", "parent_ids": ["idea-012"]}]}))
+            {"title": "revival", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using revived signal", "parent_ids": ["idea-012"]}]}))
         (self.repo / "orchestrator" / "state.json").write_text(json.dumps(
             {"next_scout": 43, "selected_idea": 1,
              "cycle": {"scout": 42, "tracks": ["baseline"], "stages": {}}}) + "\n")
@@ -622,8 +814,7 @@ class TestVerdictAutomation(Harness):
         sc = self._sc()
         d = self.repo / "ideas" / "scout-060"; d.mkdir()
         (d / "fiction_candidates.json").write_text(json.dumps({"candidates": [
-            {"title": "f", "question": "q?", "track": "fiction",
-             "keystone_status": "INSPECTED_TRUE"}]}))
+            {"title": "fiction fixture", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using fiction signal", "track": "fiction", "keystone_status": "INSPECTED_TRUE"}]}))
         (d / "fiction_seed.json").write_text('{"source": "human", "concepts": ["a","b"]}')
         sc._merge_candidates(d, ["fiction"], 60)
         merged = json.loads((d / "candidates_all.json").read_text())
@@ -635,7 +826,7 @@ class TestVerdictAutomation(Harness):
         sc = self._sc()
         d = self.repo / "ideas" / "scout-061"; d.mkdir()
         (d / "wide_candidates.json").write_text(json.dumps({"candidates": [
-            {"title": "real one", "question": "q?", "track": "wide"},
+            {"title": "real one", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using wide signal", "track": "wide"},
             {"question": "dropped: too vague"},
             {"title": "", "question": "", "note": "stub"}]}))
         sc._merge_candidates(d, ["wide"], 61)
@@ -649,8 +840,8 @@ class TestVerdictAutomation(Harness):
         # Real cycle-007 drift: descriptive cells, extra track column, W-numbering.
         sc = self._sc()
         d = self.repo / "ideas" / "scout-062"; d.mkdir()
-        cands = [{"title": f"b{i}", "question": "q?", "track": "baseline"} for i in range(3)]
-        cands += [{"title": "w1", "question": "q?", "track": "wide"}]
+        cands = [{"title": f"b{i}", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using s", "track": "baseline"} for i in range(3)]
+        cands += [{"title": "w1", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using s", "track": "wide"}]
         (d / "candidates_all.json").write_text(json.dumps({"candidates": cands}))
         (d / "novelty_audit.md").write_text(
             "# audit\n\n| Candidate | Track | Verdict | Why |\n|---|---|---|---|\n"

@@ -126,6 +126,19 @@ completes them.
   prompt-forbidden targets. Operate brief-mode for a while before first
   pressing improvement mode.
 
+- [x] **Review Patch A (external-review response, correctness).** (1) Ranking
+  bug fixed: production scores are {value, why} objects, so every candidate
+  ranked 0.0 -- now the card's priority_score, validated ±0.25 against a
+  rubric-weighted recompute, with weighted/plain-mean fallbacks; ledger
+  backfill corrects stored zeros on next sync. (2) Checkpoint durability:
+  per-stage push in CI with rebase-retry and loud failure; workflow-final
+  pushes un-silenced. (3) Schema rewritten to production shape and enforced
+  via jsonschema at merge (invalid candidates excluded + noted; an
+  all-invalid track fails the stage) and shortlist (hard fail). (4) Golden
+  production fixture (verbatim cycle-007 candidate) + production-shaped test
+  candidates. Patch B (novelty vocabulary + manifest, keystone stage, design
+  templates, claim retention, death stage, provenance record-not-pin) next.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists

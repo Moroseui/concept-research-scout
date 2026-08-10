@@ -1,77 +1,92 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Candidate / idea card (production shape, post-review)",
   "type": "object",
   "required": [
     "title",
     "question",
-    "concept_definition",
-    "medical_relevance",
-    "closest_work",
-    "missing_step",
-    "dataset",
-    "minimal_experiment",
-    "critical_confound",
-    "risky_assumption",
-    "positive_interpretation",
-    "negative_interpretation",
-    "scores",
-    "recommendation"
+    "deliverable_sentence"
   ],
   "properties": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "minLength": 3
     },
     "question": {
+      "type": "string",
+      "minLength": 10
+    },
+    "deliverable_sentence": {
+      "type": "string",
+      "minLength": 10
+    },
+    "X_measurement": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "suspected_signal": {
       "type": "string"
     },
-    "concept_definition": {
+    "keystone_prerequisite": {
       "type": "string"
     },
-    "medical_relevance": {
+    "keystone_status": {
       "type": "string"
     },
-    "closest_work": {
-      "type": "array",
-      "items": {
-        "type": "object"
-      }
-    },
-    "existing_legwork": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "missing_step": {
+    "keystone_evidence": {
       "type": "string"
     },
-    "dataset": {
-      "type": "object"
-    },
-    "minimal_experiment": {
+    "keystone_residual_assumption": {
       "type": "string"
     },
-    "critical_confound": {
+    "dies_like_prior": {
+      "type": [
+        "string",
+        "object",
+        "array"
+      ]
+    },
+    "closest_prior_work": {
+      "type": [
+        "string",
+        "array",
+        "object"
+      ]
+    },
+    "smallest_decisive_experiment": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "standing_confounds_addressed": {
+      "type": [
+        "string",
+        "array",
+        "object"
+      ]
+    },
+    "use_vs_association": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "use_vs_association_design": {
       "type": "string"
     },
-    "risky_assumption": {
-      "type": "string"
+    "anticipated_negative": {
+      "type": [
+        "string",
+        "object"
+      ]
     },
-    "positive_interpretation": {
-      "type": "string"
-    },
-    "negative_interpretation": {
-      "type": "string"
-    },
-    "scores": {
-      "type": "object"
-    },
-    "recommendation": {
-      "enum": [
-        "SHORTLIST",
-        "REVISE",
-        "PAUSE",
-        "REJECT"
+    "unverified_claims": {
+      "type": [
+        "array",
+        "string"
       ]
     },
     "track": {
@@ -81,21 +96,6 @@
         "fiction"
       ]
     },
-    "use_vs_association_design": {
-      "type": "string"
-    },
-    "novelty_neighbors": {
-      "type": "array"
-    },
-    "novelty_delta": {
-      "type": "string"
-    },
-    "why_not_done": {
-      "type": "string"
-    },
-    "kernel_provenance": {
-      "type": "string"
-    },
     "parent_ids": {
       "type": "array",
       "items": {
@@ -103,10 +103,51 @@
       }
     },
     "revival_basis": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "kernel_provenance": {
       "type": "string"
     },
-    "keystone_evidence": {
+    "design_template": {
       "type": "string"
+    },
+    "rung": {},
+    "search_mode": {
+      "type": "string"
+    },
+    "priority_score": {
+      "type": "number"
+    },
+    "priority_arithmetic": {
+      "type": "string"
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "object",
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "why": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
     }
-  }
+  },
+  "additionalProperties": true
 }

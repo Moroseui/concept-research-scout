@@ -297,6 +297,10 @@ def _do_shortlist(scout_no, cand_no, track=None):
     idx = cand_no-1
     if idx < 0 or idx >= len(candidates):
         raise SystemExit('Candidate index out of range.')
+    err = _validate_card(candidates[idx])
+    if err:
+        raise SystemExit(f'Candidate {cand_no} fails schema validation ({err}); '
+                         'not promoting an invalid card.')
     existing = [int(p.name) for p in (ROOT/'ideas').iterdir() if p.is_dir() and p.name.isdigit()]
     n = max(existing, default=0)+1
     d = idea_dir(n); d.mkdir()
@@ -734,12 +738,30 @@ def _git(*cmd, check=True):
     return subprocess.run(['git', *cmd], cwd=ROOT, capture_output=True, text=True, check=check)
 
 
+def _push_checkpoint():
+    """Durability for stage checkpoints on ephemeral runners: a local commit
+    that dies with the runner was never a checkpoint. Push after every stage
+    commit in CI; retry once through a rebase for pushes racing the human or
+    another workflow; a checkpoint that cannot be pushed is a FAILED stage,
+    loudly -- never silently swallowed."""
+    r = _git('push', check=False)
+    if r.returncode == 0:
+        return
+    _git('pull', '--rebase', check=False)
+    r = _git('push', check=False)
+    if r.returncode != 0:
+        raise SystemExit('Checkpoint push failed after rebase retry:\n'
+                         + (r.stderr or r.stdout or '')[-800:])
+
+
 def _commit_all(message):
     _git('add', '-A')
     r = _git('diff', '--cached', '--quiet', check=False)
     if r.returncode == 0:
         return False  # nothing to commit
     _git('commit', '-q', '-m', message)
+    if os.environ.get('SCOUT_CI'):
+        _push_checkpoint()
     return True
 
 
@@ -766,6 +788,27 @@ def _require_artifact(stage, target):
             f"Stage {stage!r} exited cleanly but did not write {expected!r}. "
             f"Treating as failed. Check {target.relative_to(ROOT)}/log_{stage}.txt "
             f"for what the agent did instead.")
+
+
+def _validate_card(card):
+    """Deterministic semantic validation against the production schema.
+    Returns None if valid, else a short error string. Existence-level
+    artifact contracts caught empty stages; this catches shape drift --
+    the scoring-representation change broke ranking silently for weeks
+    because nothing validated structure."""
+    try:
+        import jsonschema
+    except ImportError:
+        return None  # validation is best-effort if the dep is absent locally
+    try:
+        schema = json.loads(read_text(ROOT/'templates'/'idea_card.schema.json'))
+        jsonschema.validate(card, schema)
+    except jsonschema.ValidationError as e:
+        path = '.'.join(str(x) for x in e.absolute_path) or '(root)'
+        return f'{path}: {e.message[:160]}'
+    except Exception as e:
+        return f'schema error: {e}'
+    return None
 
 
 CANDIDATE_FILES = {'baseline': 'scout_candidates.json',
@@ -808,6 +851,11 @@ def _merge_candidates(target, tracks, cycle_no):
                     skipped += 1  # stubs/drop-notes are not candidates
                     continue
                 c.setdefault('track', track)
+                err = _validate_card(c)
+                if err:
+                    notes.setdefault('schema_rejected', []).append(
+                        f"{track}: {c.get('title','')[:50]} -- {err}")
+                    continue
                 if c.get('keystone_status') == 'INSPECTED_TRUE' and not c.get('keystone_evidence'):
                     c['keystone_status'] = 'NOT_INSPECTED'
                     c['keystone_demotion'] = 'claimed INSPECTED_TRUE without keystone_evidence'
@@ -816,6 +864,14 @@ def _merge_candidates(target, tracks, cycle_no):
                 merged.append(c)
         if skipped:
             notes[f'{track}_skipped_stubs'] = skipped
+    for track in tracks:
+        rej = [x for x in notes.get('schema_rejected', []) if x.startswith(track + ':')]
+        f = target / CANDIDATE_FILES[track]
+        if rej and f.exists() and not any(c.get('track') == track for c in merged):
+            raise SystemExit(
+                f'All {track} candidates failed schema validation:\n  '
+                + '\n  '.join(rej)
+                + '\n  Fix the generating prompt or the schema; nothing merged from this track.')
     out = {'cycle': cycle_no, 'tracks': list(tracks), 'notes': notes, 'candidates': merged}
     (target / 'candidates_all.json').write_text(json.dumps(out, indent=2, ensure_ascii=False) + '\n')
     for i, c in enumerate(merged, 1):
@@ -1025,10 +1081,50 @@ def _audit_verdicts(target):
     return out
 
 
+# Rubric weights (docs/SCORING_RUBRIC.md). Used to VALIDATE the card's own
+# priority_score; regret/evaluation_readiness are reported outside the score.
+RUBRIC_WEIGHTS = {
+    'feasibility': 0.20, 'identifiability': 0.15, 'medical_relevance': 0.15,
+    'prior_legwork': 0.10, 'interest': 0.10, 'clarity': 0.10,
+    'negative_result_value': 0.10, 'data_readiness': 0.05,
+    'novelty_confidence': 0.05,
+}
+
+
+def _score_value(v):
+    """Scores appear as bare numbers (legacy) or {value, why} objects."""
+    if isinstance(v, (int, float)):
+        return float(v)
+    if isinstance(v, dict) and isinstance(v.get('value'), (int, float)):
+        return float(v['value'])
+    return None
+
+
 def _mean_score(card):
-    vals = [v for v in (card.get('scores') or {}).values()
-            if isinstance(v, (int, float))]
-    return sum(vals)/len(vals) if vals else 0.0
+    """Ranking score for a candidate card.
+
+    Preference order (post-review fix -- the old implementation summed bare
+    numbers and returned 0.0 for every production card once scores became
+    {value, why} objects, silently degrading backlog order for weeks):
+      1. The card's own priority_score, ACCEPTED ONLY IF it agrees (±0.25)
+         with a recomputation from the rubric weights over its nested scores.
+      2. The rubric-weighted recomputation itself.
+      3. Unweighted mean over whatever score values exist.
+    """
+    scores = card.get('scores') or {}
+    vals = {k: _score_value(v) for k, v in scores.items()}
+    vals = {k: v for k, v in vals.items() if v is not None}
+    weighted = None
+    if all(k in vals for k in RUBRIC_WEIGHTS):
+        weighted = sum(RUBRIC_WEIGHTS[k] * vals[k] for k in RUBRIC_WEIGHTS)
+    ps = card.get('priority_score')
+    if isinstance(ps, (int, float)):
+        if weighted is None or abs(float(ps) - weighted) <= 0.25:
+            return float(ps)
+        return weighted  # card's arithmetic disagrees with the rubric: trust the rubric
+    if weighted is not None:
+        return weighted
+    return sum(vals.values()) / len(vals) if vals else 0.0
 
 
 def _rank_candidates(scout_no):
@@ -1080,8 +1176,9 @@ def _sync_backlog():
                             'track': c.get('track','baseline'),
                             'status': 'SCOUT_ONLY', 'scrutiny': 'SCOUTED',
                             'source': str(d.relative_to(ROOT))})
-            if cur.get('scores_mean') in (None, '') and _mean_score(c):
-                rec['scores_mean'] = _mean_score(c)
+            new_score = _mean_score(c)
+            if new_score and abs(float(cur.get('scores_mean') or 0) - new_score) > 1e-9:
+                rec['scores_mean'] = new_score
             v = verdicts.get(i)
             if v and cur.get('novelty_verdict') != v:
                 rec['novelty_verdict'] = v
