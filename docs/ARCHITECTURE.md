@@ -74,6 +74,18 @@ pairs are pre-selected for promise and would inflate survival stats.
 The persona-separation itself is, per the survey, undocumented in the
 literature; it is run as an experiment, not a certainty.
 
+**Fiction v2** (after the first production run): the seed card gained a
+**named public model** as a third prop and the dataset list was curated to
+substrates that can power a charter-compliant experiment (with scale/access
+annotations). Run 1's honorable exit was correct but traced to the props,
+not the idea: a tiny dataset that no story could make testable, and no model
+in the scene to hang a "the model is using X" claim on. The honorable exit
+also gained an optional `adjacent_question` field -- run 1's exit reasoning
+contained a well-formed nearby question that then evaporated; near-misses
+are now banked to the ledger (outside the backlog) for librarian/scout
+adoption. All fiction rows carry `fiction_version` so the head-to-head
+stratifies by instrument version instead of pooling across changes.
+
 ## Novelty: searched, cited, calibrated — never self-reported
 
 **Mechanism.** A dedicated audit stage per cycle: three closest prior works

@@ -102,6 +102,16 @@ completes them.
   `seed_source` on fiction candidates' ledger rows for clean head-to-head
   stats.
 
+- [x] **Fiction v2** (post-run-1): curated seed datasets with scale/access
+  annotations; named public model as a third seed prop (discovery must be
+  about the model); `adjacent_question` near-miss banking on the honorable
+  exit (ledger rows outside the backlog); `fiction_version` stamped through
+  seed and ledger for stratified head-to-head stats. Creative core
+  (blindness, twist deck, verification scene, cross-family refine) frozen.
+- [x] **Taxonomy: IDENTIFIABILITY_FAILURE** added after two occurrences
+  (013 localisation, 016 injector confound); debate-summary prompts now
+  carry the live taxonomy so verdict blocks pick from the menu.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists

@@ -42,6 +42,7 @@ TAXONOMY = {
     'COMPUTE_INFEASIBLE': 'Cannot be tested inside one compute envelope (one Colab GPU session).',
     'DUPLICATE_PRIOR': 'Already done; no defensible delta to the closest prior work.',
     'NO_TESTABLE_KERNEL': 'No measurable quantity survives translation from the source idea (fiction-track exit).',
+    'IDENTIFIABILITY_FAILURE': 'The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.',
     'UNCLASSIFIED': 'Kill reason recorded free-text only; classify when pattern recurs.',
 }
 

@@ -9,13 +9,21 @@
     "lung parenchyma fractal dimension", "skin lesion border gradient"
   ],
   "datasets": [
-    "CT-RATE (public chest CT + reports)",
-    "LIDC-IDRI (lung nodules, per-reader ratings)",
-    "TopCoW (Circle of Willis arterial masks)",
-    "Derm7pt (dermoscopic + clinical photos, 7-point checklist)",
-    "DRIVE/STARE/CHASE (retinal vessel masks)",
-    "NLST (lung screening CT, outcomes)",
-    "MIMIC-CXR (chest radiographs + reports)"
+    {"name": "CT-RATE", "scale": "~25k chest CT volumes with reports; paired reconstructions for a subset", "access": "public (Hugging Face)"},
+    {"name": "NLST via TCIA/IDC", "scale": "~26k participants, low-dose chest CT, mortality + cancer outcomes", "access": "public (CC BY, no application)"},
+    {"name": "LIDC-IDRI", "scale": "1,018 chest CTs with four independent reader annotations per nodule", "access": "public (TCIA)"},
+    {"name": "CheXpert", "scale": "~224k chest radiographs with 14 labels", "access": "public with registration"},
+    {"name": "EyePACS/APTOS fundus", "scale": "~35k retinal fundus photos with diabetic retinopathy grades", "access": "public (Kaggle)"},
+    {"name": "Derm7pt", "scale": "~1k dermoscopic+clinical image pairs with 7-point checklist labels", "access": "public"}
+  ],
+  "models": [
+    {"name": "Sybil", "what": "lung-cancer risk from a single low-dose chest CT", "access": "MIT weights, auto-download"},
+    {"name": "CT-CLIP / CT-CHAT", "what": "chest-CT vision-language model with per-finding heads", "access": "public weights"},
+    {"name": "Merlin", "what": "abdominal CT foundation model with clinical prediction heads", "access": "public weights"},
+    {"name": "Mirai", "what": "breast-cancer risk from mammography", "access": "public weights"},
+    {"name": "TotalSegmentator", "what": "whole-body CT segmentation, 100+ structures", "access": "public"},
+    {"name": "AI-CAC", "what": "coronary calcium scoring on non-gated chest CT", "access": "MIT weights"},
+    {"name": "lungmask", "what": "lung + lobe segmentation on CT", "access": "public"}
   ],
   "twists": [
     "The two measurements disagree, and the disagreement is the signal.",

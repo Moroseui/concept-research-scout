@@ -71,3 +71,4 @@
 {"ledger_id": "idea-016", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-10T17:23:16+00:00"}
 {"ledger_id": "idea-016", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-10T17:27:20+00:00"}
 {"ledger_id": "idea-016", "status": "REJECTED", "kill_code": "UNCLASSIFIED", "kill_reason": "debate: Locate and directly inspect a CTPA cohort with per-scan injection protocol metadata, an independent pressure or TR-velocity readout, fixed-protocol reflux variation, and a runnable frozen strain model.", "recorded_at": "2026-08-10T17:27:20+00:00"}
+{"ledger_id": "idea-016", "status": "REJECTED", "kill_code": "IDENTIFIABILITY_FAILURE", "kill_reason": "cannot separate right-heart physiology from power-injector protocol in any obtainable CTPA cohort", "recorded_at": "2026-08-10T17:33:44+00:00"}

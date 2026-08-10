@@ -564,6 +564,36 @@ class TestVerdictAutomation(Harness):
                              3: "NOVEL_UNVERIFIED", 4: "NOVEL_VERIFIED"},
                          f"parser returned {v}")
 
+    def test_seed_v2_has_model_prop_and_version(self):
+        sc = self._sc()
+        s = sc.seed_draw()
+        self.assertEqual(s["fiction_version"], 2)
+        self.assertIsInstance(s["dataset"], dict)
+        self.assertIn("name", s["dataset"])
+        self.assertIsInstance(s.get("model"), dict)
+        self.assertIn("name", s["model"])
+
+    def test_adjacent_question_banked_but_not_in_backlog(self):
+        sc = self._sc()
+        d = self.repo / "ideas" / "scout-063"; d.mkdir()
+        (d / "fiction_seed.json").write_text('{"source": "random", "fiction_version": 2}')
+        (d / "fiction_candidates.json").write_text(json.dumps(
+            {"candidates": [], "no_testable_kernel": "nope",
+             "adjacent_question": "does automated caliber periodicity on EyePACS track DR grade?"}))
+        sc._merge_candidates(d, ["fiction"], 63)
+        e = sc.ledger_mod.load().get("scout-063-fadj")
+        self.assertIsNotNone(e, "near-miss not banked")
+        self.assertEqual(e["status"], "PAUSED")
+        self.assertEqual(e["fiction_version"], 2)
+        ids = [f"{s:03d}-c{c}" for s, c, _ in sc._ranked_backlog()]
+        self.assertTrue(all("063" not in i for i in ids), "near-miss leaked into backlog")
+
+    def test_debate_summary_prompt_carries_taxonomy(self):
+        sc = self._sc()
+        codes = sc._taxonomy_block()
+        self.assertIn("IDENTIFIABILITY_FAILURE", codes)
+        self.assertIn("USE_VS_ASSOCIATION", codes)
+
     def test_seed_draw_override_records_human_source(self):
         sc = self._sc()
         s = sc.seed_draw(concepts_override=["information entropy", "concept network"])

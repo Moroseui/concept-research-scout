@@ -13,10 +13,16 @@ fixes the story's props, nothing else:
 
 - **Setting:** the present day, a real research lab. No new physics, no future
   technology, no equipment that does not exist right now.
-- **Props:** the protagonist works with the dataset named on the seed card,
-  using ordinary tools a researcher has today.
+- **Props:** the protagonist works with the dataset AND the released AI model
+  named on the seed card, using ordinary tools a researcher has today. The
+  model is a real, public, working system -- the character can run it, probe
+  it, feed it altered inputs, read its scores.
 - **Ingredients:** the two seed concepts must both matter to the discovery.
   The twist card is a structural constraint on the plot -- honor it.
+- **The discovery is about the model.** Whatever strange thing is found, it
+  is found in what the model does -- what it reads, responds to, ignores, or
+  secretly measures. A discovery about the data alone, with no model in the
+  scene, is a different story than the one your editor bought.
 
 Within those props, the *discovery itself* may be as strange as you like. Do
 not aim for plausibility. Aim for the kind of discovery that makes a reader

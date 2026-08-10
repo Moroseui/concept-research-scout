@@ -411,6 +411,13 @@ def record_result(args):
 # on max_rounds, or when a side declares the disagreement irreducible.
 # --------------------------------------------------------------------------
 
+def _taxonomy_block():
+    lines = ['===== KILL CODE TAXONOMY (use one of these in the verdict block) =====']
+    for code, desc in ledger_mod.TAXONOMY.items():
+        lines.append(f'{code}: {desc}')
+    return '\n'.join(lines)
+
+
 def _debate_prompt(target, round_no, side, agent_name, other_name):
     transcript = read_text(target / 'debate.md') or '(no rounds yet)'
     base = build_prompt(f'debate_{side}', target)
@@ -512,6 +519,7 @@ def debate(args):
 
 def _close_debate(target, critic, idea=None):
     p = write_prompt('debate_summary', target)
+    p.write_text(p.read_text() + '\n' + _taxonomy_block() + '\n')
     run_agent(p, critic, stage='debate-summary')
     _check_scope('debate')
     idea = idea or load_state().get('selected_idea')
@@ -681,10 +689,17 @@ def seed_draw(rng=None, concepts_override=None):
         chosen, source = list(concepts_override)[:2], 'human'
     else:
         chosen, source = rng.sample(concepts, min(2, len(concepts))), 'random'
+    ds = rng.choice(datasets)
+    if isinstance(ds, str):
+        ds = {'name': ds}
+    models = seeds.get('models') or []
+    model = rng.choice(models) if models else None
     return {
+        'fiction_version': 2,
         'concepts': chosen,
         'source': source,
-        'dataset': rng.choice(datasets),
+        'dataset': ds,
+        'model': model,
         'twist': rng.choice(twists),
         'drawn_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
     }
@@ -770,6 +785,19 @@ def _merge_candidates(target, tracks, cycle_no):
             continue
         if data.get('no_testable_kernel'):
             notes[track] = f"NO_TESTABLE_KERNEL: {data['no_testable_kernel']}"
+        if track == 'fiction' and data.get('adjacent_question'):
+            seed = json.loads(read_text(target/'fiction_seed.json') or '{}')
+            ledger_mod.append({
+                'ledger_id': f'scout-{cycle_no:03d}-fadj',
+                'title': 'Fiction near-miss (not a candidate)',
+                'claim': str(data['adjacent_question'])[:600],
+                'track': 'fiction', 'status': 'PAUSED', 'scrutiny': 'SCOUTED',
+                'seed_source': seed.get('source', ''),
+                'fiction_version': seed.get('fiction_version', 1),
+                'notes': 'adjacent question banked from an honorable exit; librarian/scout may adopt',
+                'source': str(target.relative_to(ROOT)),
+            })
+            notes['fiction_adjacent'] = str(data['adjacent_question'])[:200]
         cands = data.get('candidates', data if isinstance(data, list) else [])
         skipped = 0
         for c in cands:
@@ -801,6 +829,8 @@ def _merge_candidates(target, tracks, cycle_no):
             'parent_ids': c.get('parent_ids', []),
             'seed_source': (json.loads(read_text(target/'fiction_seed.json') or '{}').get('source', '')
                             if c.get('track') == 'fiction' else ''),
+            'fiction_version': (json.loads(read_text(target/'fiction_seed.json') or '{}').get('fiction_version', 1)
+                                if c.get('track') == 'fiction' else None),
             'source': str(target.relative_to(ROOT)),
         })
     ledger_mod.digest()

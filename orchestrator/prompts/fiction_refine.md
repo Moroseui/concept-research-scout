@@ -22,7 +22,7 @@ decisive experiment cannot fit one Colab GPU session on public data -- say so
 and stop. In that case write:
 
 ```json
-{"candidates": [], "no_testable_kernel": "<one paragraph naming precisely which requirement fails and why>"}
+{"candidates": [], "no_testable_kernel": "<one paragraph naming precisely which requirement fails and why>", "adjacent_question": "<OPTIONAL: if your exit reasoning surfaced a well-formed nearby question that WOULD be testable on other public assets, state it in one or two sentences. This is a banked note for future scouts, not a candidate, and including it does not weaken the exit. Omit the field if nothing genuine surfaced.>"}
 ```
 
 Do NOT rationalize. The characteristic failure of this stage is building an
