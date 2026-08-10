@@ -56,3 +56,5 @@
 {"ledger_id": "scout-007-c06", "novelty_verdict": "NOVEL_UNVERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
 {"ledger_id": "scout-007-c07", "novelty_verdict": "NOVEL_UNVERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
 {"ledger_id": "scout-007-c08", "novelty_verdict": "NOVEL_UNVERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "idea-014", "title": "The knee-pain model may be reading trabecular stress architecture that KL grade throws away", "claim": "The knee-pain model is using medial tibial subchondral trabecular texture—directional thickening and rarefaction of the load-bearing bone beneath the cartilage.", "track": "baseline", "status": "SHORTLISTED", "scrutiny": "SCOUTED", "source": "ideas/014", "recorded_at": "2026-08-10T16:54:51+00:00"}
+{"ledger_id": "scout-007-c01", "status": "SHORTLISTED", "notes": "promoted to idea-014", "recorded_at": "2026-08-10T16:54:51+00:00"}

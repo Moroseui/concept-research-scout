@@ -1,0 +1,133 @@
+{
+  "id": "C1",
+  "parent_ids": [],
+  "revival_basis": null,
+  "search_mode": "A",
+  "entry_point": 1,
+  "title": "The knee-pain model may be reading trabecular stress architecture that KL grade throws away",
+  "question": "Is the knee-pain model of Pierson et al. using directional medial tibial subchondral trabecular texture, rather than only joint-space narrowing and osteophytes, to recover pain that radiographic Kellgren-Lawrence grading misses?",
+  "rung": {
+    "target": 3,
+    "current": 0,
+    "move_up": "A validated texture measurement and score association are exploratory; a selective loss of pain prediction after erasing the texture direction, with matched nuisance-direction controls and bilateral/longitudinal replication, reaches rung 1. Acquisition harmonization and site-held-out replication gate rung 2; the named texture then supplies rung 3."
+  },
+  "deliverable_sentence": "The knee-pain model is using medial tibial subchondral trabecular texture\u2014directional thickening and rarefaction of the load-bearing bone beneath the cartilage.",
+  "X_measurement": {
+    "X": "Directional fractal signature of medial tibial subchondral trabecular bone, summarized across horizontal and vertical scales in a landmark-defined ROI.",
+    "how": "Locate tibial plateau landmarks with a released knee landmark model or deterministic geometry, place the published subchondral ROI, and compute variance-orientation-transform fractal signatures. Janvier et al. used this measurement on OAI radiographs (DOI 10.1016/j.joca.2017.09.004; PMID 28935435); the OARSI/FNIH consortium used validated semiautomated software (PMID 29024470).",
+    "could_compute_today_without_asking_anyone": "Yes in principle: the formula is defined and requires pixels plus geometric landmarks, not a radiologist. The exact validated implementation and landmark model still need to be obtained or reproduced before a confirmatory run."
+  },
+  "suspected_signal": "Subchondral bone remodels along habitual load paths. Horizontal trabecular thickening and direction-dependent rarefaction alter radiographic texture at scales not represented by the coarse KL vocabulary and may track painful bone stress or marrow pathology.",
+  "keystone_prerequisite": "The frozen Pierson pain model or exactly reproducible checkpoint can be run on OAI images that also support stable, automated directional fractal-signature measurement, and the measured texture has enough within-KL and within-person variation to identify a selective model-use effect.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "Nearest facts inspected: Pierson et al., Nature Medicine 2021, DOI 10.1038/s41591-020-01192-7, states that OAI images/clinical data reproduce the analysis; Janvier et al., DOI 10.1016/j.joca.2017.09.004, measured subchondral texture in OAI. The actual checkpoint-to-image pipeline and joint distribution were not inspected.",
+  "keystone_residual_assumption": "The easy facts are that the pain model and texture literature both use OAI. I am still assuming the exact frozen model is runnable and that texture varies independently of joint-space width, osteophytes, alignment, and acquisition processing. That independence is load-bearing and is therefore included in the keystone.",
+  "rung_reached": "No rung yet. Conditional rung 1 after selective internal concept erasure; rung 2 after site/acquisition and alignment controls; rung 3 only then.",
+  "dies_like_prior": "It resembles idea-001 in using OAI clinical labels, but pain-label provenance is not the concept measurement and the primary readout is a frozen model's score change after an image-computable texture-direction intervention. It avoids DATA_INSUFFICIENT by gating on the actual model/OAI join and avoids CIRCULARITY because X is not the pain label or KL grade.",
+  "closest_prior_work": [
+    {
+      "citation": "Pierson et al., Nature Medicine 2021",
+      "identifier": "DOI 10.1038/s41591-020-01192-7",
+      "verified_fact": "A deep model predicted knee pain from OAI radiographs and explained pain variation beyond radiologist-assigned severity.",
+      "delta": "The paper did not name or measure directional subchondral trabecular texture as the model-used signal."
+    },
+    {
+      "citation": "Janvier et al., Osteoarthritis and Cartilage 2017",
+      "identifier": "DOI 10.1016/j.joca.2017.09.004; PMID 28935435",
+      "verified_fact": "Directional trabecular texture on OAI radiographs predicted incident radiographic OA.",
+      "delta": "It studied OA incidence, not what a pain-prediction network uses."
+    }
+  ],
+  "existing_assets": [
+    "OAI bilateral longitudinal knee radiographs and WOMAC pain data (registration-controlled access, not an unconfirmed DUA-gated dependency for the card)",
+    "Published pain-model architecture/reproduction materials",
+    "Published fractal-signature formula and OAI texture precedents"
+  ],
+  "smallest_decisive_experiment": "Stage 0: verify checkpoint inference and texture repeatability, then quantify within-KL texture variation. Exploratory: fit a validation-only probe from frozen embeddings to X. Confirmatory: freeze that direction, erase only it from test embeddings, and compare the change in knee-specific pain score with equal-norm random directions, KL/joint-space directions, and left-right within-person contrasts. The model uses X only if texture erasure selectively harms prediction and the effect scales with measured X.",
+  "use_vs_association": "A score-X regression is exploratory. The use claim requires selective frozen-representation erasure of the validation-learned X direction, with matched-direction controls, and must replicate within bilateral or longitudinal comparisons.",
+  "standing_confounds_addressed": {
+    "scanner_vendor_protocol_reconstruction_site": "Site-held-out evaluation and acquisition/processing strata; not fully ruled out until Stage 0 confirms metadata.",
+    "positioning": "Alignment and flexion landmarks are explicit nuisance concepts and matched erasure controls.",
+    "habitus": "Bilateral within-person contrasts hold BMI/habitus fixed; residual side-specific loading remains.",
+    "prevalence_referral": "Single prospective OAI cohort limits spectrum; not ruled out externally.",
+    "label_leakage": "Pain is self-report, not available in pixels or radiology annotations; laterality/joint identifiers must be stripped."
+  },
+  "alternative_explanations": [
+    {
+      "alternative": "Texture is a proxy for malalignment or joint-space narrowing.",
+      "resolution": "Measure both, learn nuisance directions, and require texture erasure to add harm beyond them."
+    },
+    {
+      "alternative": "Computed-radiography post-processing creates texture differences.",
+      "resolution": "Site/acquisition strata and bilateral same-image contrasts address much, but external device replication remains necessary."
+    },
+    {
+      "alternative": "Erasure removes generic image information rather than X.",
+      "resolution": "Equal-norm random, landmark, and KL-direction erasures plus retained reconstruction performance test selectivity."
+    }
+  ],
+  "anticipated_negative": {
+    "classification": "sensitivity-limited",
+    "reason": "A null erasure effect could mean the representation distributes texture nonlinearly. It becomes decisive only after a prespecified probe-reliability floor and minimum score-change equivalence margin are met."
+  },
+  "cross_domain": {
+    "borrowed_construct": "Load-path adaptation from bone mechanobiology.",
+    "measurement_implied": "Directional, scale-dependent trabecular fractal signature rather than generic image texture.",
+    "if_analogy_dropped": "The experiment would otherwise test undirected texture. The analogy changes the preregistered X to horizontal-versus-vertical signatures and predicts the sign/scales of the effect."
+  },
+  "remaining_legwork": "2 days to inspect checkpoint/reproduction assets; 3-5 days for an OAI access and join audit; 1 week for texture repeatability and collinearity Stage 0. First scientific decision in about 2 weeks if access is active.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "One model, one named bone compartment, one defined texture measurement."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Internal erasure and bilateral controls improve on association, but texture is entangled with alignment and erasure may not be specific."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "It could name the missing radiographic substrate behind clinically important pain discordance."
+    },
+    "interest": {
+      "value": 5,
+      "why": "It attempts to decode a documented model-human gap with a bone quantity clinicians can recognize."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Both the gap and the exact measurement have OAI precedents."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped: keystone not inspected; access and checkpoint reproducibility remain."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "OAI is established but registration-controlled."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Fractal metrics exist; selective-erasure calibration needs custom controls."
+    },
+    "negative_result_value": {
+      "value": 2,
+      "why": "The anticipated null is sensitivity-limited."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped and no exhaustive review; the precise model-to-texture link was not located."
+    },
+    "regret": {
+      "value": 5,
+      "why": "Two mature OAI literatures sit one model-use experiment apart."
+    }
+  },
+  "priority_score": 3.65,
+  "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*4 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*2 + 0.05*3 + 0.05*3 = 3.65",
+  "unverified_claims": [
+    "A runnable Pierson checkpoint is currently available",
+    "Texture varies sufficiently within KL grade and acquisition strata",
+    "The validation-learned concept direction is selectively erasable"
+  ],
+  "track": "baseline"
+}
