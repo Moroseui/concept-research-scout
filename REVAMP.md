@@ -1,5 +1,10 @@
 # Revamp punch-list
 
+> Orientation for newcomers: README.md is the front door (what + how to
+> operate); docs/ARCHITECTURE.md is the rationale (why each mechanism
+> exists, with the failure or finding that motivated it); this file is the
+> status ledger (done vs pending, with designs for pending work).
+
 Living checklist for the post-cycle-one revamp. Future agent cycles: read this
 to know what is done versus pending; check items off in the same commit that
 completes them.

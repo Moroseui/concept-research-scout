@@ -1,135 +1,150 @@
 # Concept Research Scout
 
-A lightweight, human-supervised research discovery loop for finding **interesting, feasible, concept-focused medical-imaging projects**—especially partially completed research stories and meaningful “low-hanging fruit.”
+A human-supervised research discovery loop for finding **interesting,
+feasible, concept-focused medical-imaging projects** — run by two AI agent
+families (Claude and Codex) under strict evidence rules, operated entirely
+from a phone via three GitHub Actions buttons, with every artifact and
+decision versioned in this repository.
 
-The system deliberately delays coding. It first scouts literature-grounded ideas, stress-tests them through agent debate, verifies data and implementation feasibility, and only then permits a small computational probe.
+The system deliberately delays coding. It scouts literature-grounded ideas,
+audits their novelty by search, stress-tests survivors through cross-model
+debate, and only then permits a small human-approved computational probe.
+A clean negative result is success; an invalid experiment is not a negative
+result.
 
-## What this is
+**Read next:** `docs/ARCHITECTURE.md` for *why* each mechanism exists (each
+one traces to a specific failure or finding), `REVAMP.md` for what is done
+versus pending, `CHARTER.md` for the research scope and evidence rules.
 
-- A research-idea incubator, not an autonomous scientist.
-- A structured memory for candidate ideas, evidence, rejected directions, and negative results.
-- A way to use Claude Code and/or Codex as research collaborators.
-- A bridge to Colab for bounded feasibility experiments.
+## The loop
 
-## What this is not
-
-- A publication generator.
-- A license to claim novelty from model memory.
-- A system that optimizes until something becomes positive.
-- A replacement for human review of medical relevance, leakage, or conclusions.
-
-## The funnel
-
-1. **Scout**: Generate a portfolio of grounded candidate ideas.
-2. **Debate**: Proposer and critic refine one idea over multiple rounds.
-3. **Verify**: Check closest papers, dataset access, labels, compute, and evaluation.
-4. **Probe plan**: Define the smallest test of the riskiest assumption.
-5. **Probe**: Generate and run minimal code only after human approval.
-6. **Interpret**: Record positive, negative, ambiguous, and invalid outcomes.
-7. **Decide**: Advance, revise, pause, or reject.
-
-## Fast setup
-
-Requirements: Python 3.10+, Git, and at least one supported coding-agent CLI.
-
-```bash
-unzip concept-research-scout.zip
-cd concept-research-scout
-python setup.py
-python scout.py doctor
+```
+        (nightly cron, or Run workflow)             (Run workflow)
+ ┌─────────────── scout-cycle ───────────────┐   ┌─ idea-pipeline ─┐
+ │ scout tracks: baseline | wide | fiction   │   │ shortlist top-N │
+ │      -> merge -> novelty audit            │──>│ from BACKLOG    │
+ │      -> ranked cross-cycle BACKLOG        │   │ -> critique     │
+ └───────────────────────────────────────────┘   │ -> debate       │
+                                                 │ -> verdict      │
+ ┌─────────────── librarian ─────────────────┐   │    -> ledger    │
+ │ on demand: whole-corpus dossier ->        │   └────────┬────────┘
+ │ connection map + stale-verdict re-audit   │            │ human reads
+ │ + revival proposals for future scouts     │            v consensus.md
+ └───────────────────────────────────────────┘   PAUSE / REVISE / KILL /
+                                                 PROCEED -> feasibility ->
+                                                 human-approved probe
 ```
 
-Optional agent CLIs:
+Everything runs on GitHub-hosted runners using subscription (not API) agent
+auth. Every completed stage is a git commit — the commit *is* the
+checkpoint, so any failure (rate limit, timeout, job kill) costs one stage
+and the same button resumes it.
+
+## Operating it (the three buttons)
+
+**scout-cycle** — feeds the queue. Inputs: `tracks`
+(`baseline`,`wide`,`fiction`, comma-separated) and `dry_run` (print the plan,
+spend nothing). Also runs nightly (baseline-only) on cron. Each cycle:
+scouts per track, merges candidates, audits novelty by literature search,
+and files everything into the cross-cycle backlog.
+
+**idea-pipeline** — drains the queue. `top_n: N` processes the next N
+candidates from the *global ranked backlog* (best verdict first, then rubric
+score; in-flight ideas are finished before new ones are drawn, so the button
+doubles as resume). Or target `candidate: K` / `idea: N` with a `stages`
+list (`critique,revise,feasibility,debate`). Debate summaries end in a
+machine-readable verdict that updates the ledger automatically.
+
+**librarian** — curates the corpus. Manual-only (it costs tokens per entry).
+Reads a full-detail dossier of every idea and backlog candidate, writes a
+connection map, re-audits stale novelty verdicts (applied to the ledger),
+and leaves revival/recombination proposals that future scouting cycles may
+adopt.
+
+The human gates are: reading each idea's `consensus.md` before acting on it,
+`approve-probe` before any code is generated, and interpreting probe
+results. Nothing launches expensive compute without an explicit command.
+
+## Institutional memory (what the agents know)
+
+- `ledger.jsonl` — append-only event log; one row per idea/candidate with
+  status, scrutiny level (SCOUTED < CRITIQUED < DEBATED < PROBED), novelty
+  verdict + audit date, kill code from a controlled taxonomy, and lineage
+  (`parent_ids`).
+- `evidence/ledger_digest.md` — regenerated each cycle; the one-line index
+  of everything plus the **kill-code frequency table** (used as a
+  generation-time checklist) and the ranked candidate backlog. In every
+  non-blind prompt.
+- `evidence/portfolio_brief.md` — full verdicts, unblock conditions, and
+  unresolved questions for actionable (paused/revisable) ideas; enables
+  bounded revival/recombination candidates in scouting.
+- `evidence/librarian_proposals.md` — standing suggestions from the last
+  librarian pass.
+- `evidence/decisions.md` — human decision log, injected into all prompts.
+
+The one deliberate exception: the fiction-track story writer sees none of
+this (enforced by tests) — divergence runs memory-blind.
+
+## Local commands
 
 ```bash
-npm install -g @anthropic-ai/claude-code
-npm install -g @openai/codex
-```
-
-Then edit `CHARTER.md` and run:
-
-```bash
-python scout.py new-scout
-python scout.py run scout
-```
-
-The command prints the output paths and never launches expensive compute without an explicit command.
-
-## Minimal manual workflow
-
-You can use the repository even without CLI automation:
-
-1. Give `CHARTER.md`, `docs/COLLABORATOR_RULES.md`, and the relevant prompt under `orchestrator/prompts/` to Claude.
-2. Ask it to write the named output into the current idea folder.
-3. Review the short artifact.
-4. Move to the next stage only when satisfied.
-
-## Typical commands
-
-```bash
-python scout.py new-scout                 # create a scouting cycle
-python scout.py run scout                 # ask an agent for candidate ideas
-python scout.py shortlist 001 2           # select candidate 2
-python scout.py run critique --idea 001   # adversarial critique
-python scout.py run revise --idea 001     # revise after critique
-python scout.py run feasibility --idea 001
-python scout.py approve-probe 001         # explicit human gate
-python scout.py run probe-plan --idea 001
-python scout.py run probe-code --idea 001
-python scout.py verify-probe 001          # deterministic checks
-python scout.py package-colab 001         # create a small Colab launcher
-python scout.py record-result 001 result.json
-python scout.py run interpret --idea 001
+python scout.py doctor                      # environment + role/rotation check
+python scout.py cycle --tracks baseline,wide,fiction [--dry-run] [--seed-concepts "a,b"]
+python scout.py resume                      # continue an interrupted cycle
+python scout.py pipeline --top 2            # shortlist+critique+debate next 2 from backlog
+python scout.py pipeline --idea 13 --stages revise
+python scout.py librarian                   # whole-corpus curation pass
+python scout.py backlog                     # print the ranked queue
+python scout.py brief                       # regenerate the portfolio brief
+python scout.py ledger list|show|search|kill|set-status|taxonomy
+python scout.py approve-probe N | verify-probe N | package-colab N | record-result N f
 python scout.py status
 ```
 
 ## Repository layout
 
 ```text
-CHARTER.md                     standing research interests and constraints
-AGENTS.toml                    optional agent CLI configuration
-scout.py                       lightweight orchestration CLI
-setup.py                       one-command local initialization
-portfolio/ideas.csv            ranked idea portfolio
-ideas/NNN/                     complete record for one idea
-  idea_card.json
-  critique.md
-  revision.md
-  feasibility.md
-  probe_contract.yaml
-  decision.md
-probes/NNN/                    minimal probe code and outputs
-  run.py
-  requirements.txt
-  README.md
-  results/
-evidence/                      literature and dataset evidence ledger
-templates/                     schemas and examples
-docs/                          rules, scoring rubric, and handoff guide
+CHARTER.md                  research scope, hard constraints, evidence rules
+AGENTS.toml                 agent commands, roles, [rotation], [limits], CI variants
+scout.py                    all orchestration (cycles, pipeline, librarian, ledger glue)
+orchestrator/
+  ledger.py                 append-only ledger, kill taxonomy, digest
+  prompts/*.md              one prompt file per stage (incl. fiction_* and librarian)
+  seeds.json                fiction seed deck (concepts, datasets, twist cards)
+ledger.jsonl                the event log (created on first cycle)
+ideas/
+  NNN/                      one idea: card, critique, debate, consensus, logs
+  scout-NNN/                one scouting cycle: per-track candidates, merged pool,
+                            novelty audit, fiction story/pitch, agent logs
+  librarian-NNN/            one librarian pass: dossier, report, updates
+probes/NNN/                 human-approved probe code + results
+evidence/                   digests, briefs, proposals, decisions, datasets
+portfolio/ideas.csv         flat idea list (legacy view; ledger is authoritative)
+templates/                  idea-card schema, probe contract
+tests/test_orchestration.py 32 deterministic tests (fake agents; run in CI first)
+.github/workflows/          scout-cycle, idea-pipeline, librarian, checks
+docs/ARCHITECTURE.md        design rationale: every mechanism and why it exists
+REVAMP.md                   done/pending punch-list with designs for pending work
 ```
 
-## Recommended operating principle
+## Safety and honesty invariants
 
-The objective is not “maximize performance.” It is:
+- **Artifact contracts**: an agent exiting cleanly without writing its
+  required output is a *failed* stage, never a silent success.
+- **Scope guard**: each stage may touch only its allowed paths; violations
+  fail the stage (enforced by git, not by asking nicely).
+- **Keystone evidence**: `INSPECTED_TRUE` claims without a quoted artifact
+  are mechanically demoted to `NOT_INSPECTED` at merge.
+- **No novelty from memory**: novelty claims require searched, cited
+  neighbors; `NO_NEIGHBORS_FOUND` flags for human check, never counts as
+  proof.
+- **Blindness**: fiction writer sees no charter/memory; fiction refiner
+  never sees the story or seed; debate cannot end on one side's say-so.
+- Full rationale for each: `docs/ARCHITECTURE.md`.
 
-> Resolve a worthwhile scientific uncertainty as cheaply, clearly, and honestly as possible.
+## First-time setup
 
-A clean negative result is success. An invalid experiment is not a negative result. Exploratory findings remain exploratory until independently tested.
-
-## Revamp additions (cycle 2+)
-
-```
-python scout.py cycle --tracks baseline,wide,fiction   # multi-track scouting cycle
-python scout.py cycle --dry-run                        # print plan, spend nothing
-python scout.py resume                                 # continue after limit/timeout
-python scout.py ledger list|show|search|kill|taxonomy  # idea ledger (ledger.jsonl)
-```
-
-- Every completed stage is a git commit (the checkpoint). A failed stage
-  commits partial output; `resume` picks up at the first incomplete stage.
-- `[rotation]` in AGENTS.toml swaps the two model families on odd cycles.
-- Fiction track: blind seeded story -> extraction -> cross-family refinement
-  with a NO_TESTABLE_KERNEL exit. See REVAMP.md for the design and the
-  planned head-to-head demo.
-- Remote operation: `.github/workflows/scout-cycle.yml` (mobile Run-workflow
-  button + nightly cron). Setup steps: REVAMP.md "First-run checklist".
+See `REVAMP.md` "First-run checklist" (secrets, spending cap, smoke test)
+and `docs/SETUP.md` for local details. Requirements: Python 3.10+, git, and
+the two agent CLIs for local runs (`npm i -g @anthropic-ai/claude-code
+@openai/codex`).
