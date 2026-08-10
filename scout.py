@@ -959,12 +959,37 @@ VERDICT_RANK = {'NOVEL_VERIFIED': 0, 'NOVEL_UNVERIFIED': 1, 'INCREMENTAL': 2,
 
 
 def _audit_verdicts(target):
-    """Parse the summary table of novelty_audit.md -> {candidate_no: verdict}."""
+    """Parse the summary table of novelty_audit.md -> {merged_candidate_no: verdict}.
+
+    Robust to model formatting drift: descriptive first cells, extra columns,
+    and per-track renumbering (W1.. for wide, F1.. for fiction) are all
+    accepted. W/F indices are mapped onto merged candidates_all order using
+    the per-track counts."""
     import re
-    out = {}
     body = read_text(target/'novelty_audit.md')
-    for m in re.finditer(r'^\|\s*C(\d+)\s*\|\s*`?([A-Z_]+)`?\s*\|', body, flags=re.M):
-        out[int(m.group(1))] = m.group(2)
+    if not body:
+        return {}
+    offsets = {'C': 0, 'W': 0, 'F': 0}
+    try:
+        cands = json.loads(read_text(target/'candidates_all.json') or '{}').get('candidates', [])
+        n_base = sum(1 for c in cands if c.get('track', 'baseline') == 'baseline')
+        n_wide = sum(1 for c in cands if c.get('track') == 'wide')
+        offsets = {'C': 0, 'W': n_base, 'F': n_base + n_wide}
+    except json.JSONDecodeError:
+        pass
+    out = {}
+    for line in body.splitlines():
+        if not line.lstrip().startswith('|'):
+            continue
+        cells = [c.strip().strip('`').strip('*') for c in line.strip().strip('|').split('|')]
+        if not cells:
+            continue
+        m = re.match(r'([CWF])\s*-?\s*(\d+)\b', cells[0])
+        if not m:
+            continue
+        verdict = next((c for c in cells[1:] if c in VALID_VERDICTS), None)
+        if verdict:
+            out[offsets.get(m.group(1), 0) + int(m.group(2))] = verdict
     return out
 
 

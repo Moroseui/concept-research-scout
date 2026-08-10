@@ -48,3 +48,11 @@
 {"ledger_id": "scout-007-c11", "status": "REJECTED", "notes": "blank stub from wide drop-notes, filtered going forward", "recorded_at": "2026-08-10T16:49:16+00:00"}
 {"ledger_id": "scout-007-c12", "status": "REJECTED", "notes": "blank stub from wide drop-notes, filtered going forward", "recorded_at": "2026-08-10T16:49:16+00:00"}
 {"ledger_id": "scout-007-c13", "status": "REJECTED", "notes": "blank stub from wide drop-notes, filtered going forward", "recorded_at": "2026-08-10T16:49:16+00:00"}
+{"ledger_id": "scout-007-c01", "novelty_verdict": "NOVEL_VERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "scout-007-c02", "novelty_verdict": "NOVEL_VERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "scout-007-c03", "novelty_verdict": "NOVEL_UNVERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "scout-007-c04", "novelty_verdict": "NOVEL_VERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "scout-007-c05", "novelty_verdict": "NOVEL_VERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "scout-007-c06", "novelty_verdict": "NOVEL_UNVERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "scout-007-c07", "novelty_verdict": "NOVEL_UNVERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}
+{"ledger_id": "scout-007-c08", "novelty_verdict": "NOVEL_UNVERIFIED", "audited_at": "2026-08-10T16:52:09+00:00", "recorded_at": "2026-08-10T16:52:09+00:00"}

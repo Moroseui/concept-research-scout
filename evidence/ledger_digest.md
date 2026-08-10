@@ -12,16 +12,16 @@ A candidate that dies like a prior one must say what makes it different.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
+- **scout-007-c01** [NOVEL_VERIFIED, audited 2026-08-10] -- The knee-pain model may be reading trabecular stress architecture that KL grade throws away
+- **scout-007-c02** [NOVEL_VERIFIED, audited 2026-08-10] -- A breast-cancer risk model may be reading the arteries as a vascular clock
+- **scout-007-c04** [NOVEL_VERIFIED, audited 2026-08-10] -- The PE model may read contrast flowing backward as a pressure gauge
+- **scout-007-c05** [NOVEL_VERIFIED, audited 2026-08-10] -- A lung-cancer model may be reading a mechanically remodeled trachea
 - **scout-006-c04** [NOVEL_UNVERIFIED, audited 2026-08-10] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
 - **scout-006-c05** [NOVEL_UNVERIFIED, audited 2026-08-10] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
-- **scout-007-c01** [UNAUDITED] -- The knee-pain model may be reading trabecular stress architecture that KL grade throws away
-- **scout-007-c02** [UNAUDITED] -- A breast-cancer risk model may be reading the arteries as a vascular clock
-- **scout-007-c03** [UNAUDITED] -- Merlin may be reading fatty kidney rather than kidney shape
-- **scout-007-c04** [UNAUDITED] -- The PE model may read contrast flowing backward as a pressure gauge
-- **scout-007-c05** [UNAUDITED] -- A lung-cancer model may be reading a mechanically remodeled trachea
-- **scout-007-c06** [UNAUDITED] -- The effusion model may be reading whether pleural fluid still obeys gravity
-- **scout-007-c07** [UNAUDITED] -- The fibrosis model may be counting holes at the pleural edge
-- **scout-007-c08** [UNAUDITED] -- The PE model may be reading how completely blood and contrast have mixed
+- **scout-007-c03** [NOVEL_UNVERIFIED, audited 2026-08-10] -- Merlin may be reading fatty kidney rather than kidney shape
+- **scout-007-c06** [NOVEL_UNVERIFIED, audited 2026-08-10] -- The effusion model may be reading whether pleural fluid still obeys gravity
+- **scout-007-c07** [NOVEL_UNVERIFIED, audited 2026-08-10] -- The fibrosis model may be counting holes at the pleural edge
+- **scout-007-c08** [NOVEL_UNVERIFIED, audited 2026-08-10] -- The PE model may be reading how completely blood and contrast have mixed
 - ... and 1 more (python scout.py backlog)
 
 ## Ideas

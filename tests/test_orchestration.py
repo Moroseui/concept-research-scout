@@ -546,6 +546,24 @@ class TestVerdictAutomation(Harness):
         rows = [k for k in sc.ledger_mod.load() if k.startswith("scout-061")]
         self.assertEqual(rows, ["scout-061-c01"], "stub reached the ledger")
 
+    def test_audit_parser_handles_drifted_table_formats(self):
+        # Real cycle-007 drift: descriptive cells, extra track column, W-numbering.
+        sc = self._sc()
+        d = self.repo / "ideas" / "scout-062"; d.mkdir()
+        cands = [{"title": f"b{i}", "question": "q?", "track": "baseline"} for i in range(3)]
+        cands += [{"title": "w1", "question": "q?", "track": "wide"}]
+        (d / "candidates_all.json").write_text(json.dumps({"candidates": cands}))
+        (d / "novelty_audit.md").write_text(
+            "# audit\n\n| Candidate | Track | Verdict | Why |\n|---|---|---|---|\n"
+            "| C1 — long descriptive name | baseline (A) | NOVEL_VERIFIED | BLIND_SPOT |\n"
+            "| C2 — another | baseline | `INCREMENTAL` | X |\n"
+            "| C3 — third | baseline | NOVEL_UNVERIFIED | X |\n"
+            "| W1 — wide one | wide | NOVEL_VERIFIED | NEW_CAPABILITY |\n")
+        v = sc._audit_verdicts(d)
+        self.assertEqual(v, {1: "NOVEL_VERIFIED", 2: "INCREMENTAL",
+                             3: "NOVEL_UNVERIFIED", 4: "NOVEL_VERIFIED"},
+                         f"parser returned {v}")
+
     def test_seed_draw_override_records_human_source(self):
         sc = self._sc()
         s = sc.seed_draw(concepts_override=["information entropy", "concept network"])

@@ -29,6 +29,9 @@ For each candidate, in order:
 Write `novelty_audit.md` in the assigned output directory: one section per
 candidate, headed by the candidate's title and track, containing exactly the
 four items above. Close the file with a summary table: candidate / verdict /
-why-not-done code.
+why-not-done code. Number candidates by their position in
+`candidates_all.json` as C1..Cn across ALL tracks -- do not renumber per
+track (no W1/F1); the orchestrator maps the summary table back to the ledger
+by these merged indices.
 
 Do not write code. Do not modify any other file.
