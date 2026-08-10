@@ -1,4 +1,17 @@
 {
-  "next_scout": 5,
-  "selected_idea": 11
+  "next_scout": 6,
+  "selected_idea": 11,
+  "active_cycle": 5,
+  "cycle": {
+    "scout": 5,
+    "tracks": [
+      "baseline"
+    ],
+    "started": "2026-08-10T06:07:24+00:00",
+    "stages": {
+      "scout": "pending",
+      "merge": "pending",
+      "novelty_audit": "pending"
+    }
+  }
 }
