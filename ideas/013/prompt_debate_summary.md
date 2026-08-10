@@ -1,0 +1,940 @@
+You are a critical research collaborator working inside this repository.
+Repository root: /home/runner/work/concept-research-scout/concept-research-scout
+Assigned output directory: ideas/013
+Preserve existing files unless the task explicitly requires an update.
+Do not claim novelty without verified primary sources.
+Do not write code unless this is the probe_code stage and human approval exists.
+
+===== CHARTER.md =====
+# Research charter
+
+## The driver
+
+Medical imaging models sometimes outperform physicians, or predict things
+physicians cannot predict at all. When that happens the model is using signal
+that is present in the image and that human readers do not knowingly use.
+Sometimes that signal is a real biological or physical fact nobody had
+articulated. Sometimes it is an artifact of how the data was made.
+
+**The program: decode what medical imaging models have found, and determine
+which kind of thing it is.**
+
+Concepts enter here as the *readout language* — a way to say what the model
+found — rather than as a supervision constraint imposed in advance. That is
+the inverse of standard concept-bottleneck work and it is the more interesting
+direction.
+
+### The deliverable
+
+**Every candidate must end in a sentence a radiologist could read and either
+agree or disagree with.**
+
+Of the form: *the model is using X*, where X is a named anatomical,
+physiological, or physical thing. Not "the model is not using the scanner."
+Not "performance drops when we ablate region R." A positive statement, in
+words a physician already has.
+
+That sentence is the point. Everything else is what makes it credible.
+
+### The three rungs
+
+State which rung the candidate reaches and what would move it up.
+
+1. **The model uses signal X.** Ablation, probing, perturbation, occlusion
+   with proper controls. Comparatively easy.
+2. **X is not an artifact.** Not scanner, site, protocol, reconstruction,
+   position, dose, habitus, referral pattern, or label leakage. This is the
+   validity gate — necessary, and where most projects quietly fail.
+3. **X is a named, human-legible thing.** The deliverable sentence.
+
+Rung 2 is a **gate, not a destination.** A study that only eliminates
+confounds tells a physician what the model is *not* doing, which does not help
+them understand a decision. Confound elimination earns the right to make the
+rung-3 claim; it is not the claim.
+
+A candidate that can reach only rung 2 is allowed, but must say so and must
+name what would be needed to reach rung 3. A candidate that reaches rung 1 and
+asserts rung 3 is the standard failure of this literature.
+
+### The hard constraint on X
+
+**X must be independently measurable without a human annotator.**
+
+This is the constraint that makes the program feasible for you, and it is not
+optional. Six prior candidates died because they required knowing what a human
+saw when they assigned a label, and that was undocumented, unavailable, or
+contaminated. Do not walk back into that.
+
+X qualifies if it can be computed from the image by an existing, citable tool
+or a well-defined measurement. Examples of the right shape:
+
+- parenchymal texture statistics, emphysema percentage, density histograms
+- vessel blood volume by calibre, airway wall thickness, luminal area
+- muscle or fat attenuation in Hounsfield units, sarcopenia indices
+- cardiac chamber size, aortic diameter, coronary calcium
+- bone mineral density, vertebral morphometry
+- organ volumes from an off-the-shelf segmentation tool
+
+X does **not** qualify if establishing it requires a radiologist to look at
+images and agree, or if it exists only as a rating in a dataset whose
+annotation conditions are undocumented.
+
+The test: *could you compute X on a scan the model has never seen, today,
+without asking anyone?* If not, pick a different X.
+
+This constraint is what separates a concept the model found from a concept you
+asserted.
+
+### The two precedents to hold in mind
+
+- Retinal fundus photographs predict patient sex at near-ceiling accuracy while
+  ophthalmologists are at chance (Poplin et al. 2018). Real signal, previously
+  unarticulated, and it opened a line of work. Related: histopathology slides
+  predicting driver mutations, ECG predicting ventricular dysfunction.
+- Chest radiographs predict self-reported race across modalities and
+  preprocessing, robustly, and after years of investigation nobody can say what
+  the signal is (Gichoya et al. 2022). Real, reproducible, and not a discovery.
+
+Both are true. The difference between them is rung 2.
+
+## Two entry points, both allowed
+
+### Entry point 1 — a known gap
+
+Start from a documented case where a model beats human readers, or predicts
+something readers cannot. The gap is the evidence that signal exists; the
+question is what it is. More grounded, easier to verify, less likely to be
+vapor.
+
+### Entry point 2 — looking for the unexpected
+
+Start from a model that merely performs well and ask what it is using that
+nobody expected. No documented gap to anchor on. This is where genuinely novel
+findings would come from, and also where unfalsifiable speculation comes from.
+
+Entry point 2 candidates carry a higher burden: name the specific measurement
+that would detect the unexpected signal, and the specific artifact it would be
+confused with. "Probe the representation and see what's there" is not a design.
+
+## Search modes
+
+Each candidate declares `search_mode`.
+
+- **Mode A — the unfinished story.** A paper stops one experiment short.
+  Citation-anchored: strong evidence, limited imagination. It can only surface
+  questions the literature already framed, and it selects for gaps authors
+  chose to leave — sometimes because the data to close them does not exist.
+- **Mode B — the unasked question.** Nobody framed it. Found in the space
+  between two things that should connect and do not. What would you check if
+  you did not trust this result, and why has nobody published that check?
+- **Mode C — speculative.** Explicitly permitted to be unlikely. Lower bar on
+  feasibility and prior work; **higher** bar on mechanism. A Mode C candidate
+  must name the physical or biological quantity it thinks the model is using,
+  and the measurement that would show it. Cross-domain borrowing belongs here.
+
+Per cycle: **1 Mode A, 2 Mode B, 2 Mode C.** Five candidates.
+
+Mode C candidates are scored on interest, novelty, and mechanism clarity rather
+than feasibility. Do not demote a Mode C candidate for being hard. Do demote it
+for being untestable.
+
+## Guard against fluent nonsense
+
+The characteristic failure of speculative generation is a connection that reads
+beautifully and implies no measurement. Free energy and diagnostic uncertainty.
+Sparse coding and concept bottlenecks. Predictive processing and radiologist
+priors. These produce excellent sentences and no experiment.
+
+Every cross-domain or speculative candidate must answer:
+
+**What would be different if the analogy were dropped?**
+
+If the answer is "nothing" — if you would run the same code either way — the
+analogy is decoration. Rewrite without it or discard.
+
+## Learn from the record
+
+`evidence/decisions.md` is injected into your context. It is the accumulated
+record of what has been proposed, critiqued, and killed, with reasons.
+
+**Read it before proposing, and state explicitly for each candidate whether it
+dies the same way as a prior candidate.**
+
+The dominant failure so far, five of six kills, is **annotation provenance**:
+the study depended on knowing who assigned the labels and what they could see,
+and that was undocumented, unavailable, or contaminated by peer exposure.
+Specifically:
+
+- LIDC diagnosis file: patient-level, numbering inconsistent with the XML, only
+  18 nodules reliably linkable.
+- Derm7pt: whether checklist annotators saw the clinical photograph is
+  undocumented, making cross-modality results ambiguous.
+- BUS-BRA: releases BI-RADS assessment categories, not lexicon descriptors —
+  there were no concepts to intervene on.
+- LIDC semantic ratings: released reads are from the unblinded phase after
+  readers saw each other's marks, and reader IDs are not stable across scans,
+  so they are not independent measurement methods.
+
+The one candidate that survived did so by **not requiring labels at all** in
+its primary readout — comparing a model to itself across two reconstructions of
+identical anatomy. That structural move is available more often than it is
+used. Look for it.
+
+Required per candidate: `dies_like_prior` — either the prior candidate it
+resembles and why this one is different, or an explicit "no prior failure mode
+applies, because…"
+
+## The keystone prerequisite
+
+Name the single fact which, if false, makes the study impossible or
+uninterpretable. State whether it has been **directly inspected** — the actual
+file, table, schema, or methods section — or merely inferred from a collection
+page, abstract, or search summary.
+
+`feasibility` and `novelty_confidence` are capped at 3 unless
+`keystone_status` is `INSPECTED_TRUE`. Mode C candidates may honestly report
+`NOT_INSPECTED` and accept the cap; that is expected and not a defect.
+
+**The wrong-keystone error has now occurred three times.** It is the dominant
+failure of this loop, ahead of annotation provenance. In each case the easy
+adjacent fact was verified and the load-bearing one assumed:
+
+- idea 005: verified that multiple opinions exist per lesion (true); needed
+  that they are independent measurement methods (false).
+- idea 006: verified that exterior voxels survive preprocessing (true); needed
+  that a body-excluded volume is in-distribution (unverified, and probably
+  false).
+
+Procedure, mandatory: write the keystone, then write the sentence *"if I have
+only verified the nearest checkable thing, what am I still assuming?"* and
+answer it. If the answer is load-bearing, that is the real keystone.
+
+Watch for the same error: "Multiple opinions exist
+per lesion" was inspected true. "Those opinions constitute independent
+measurement methods" was the real keystone, and it was false. State the keystone
+as the thing your inference needs, not the thing that is easy to check.
+
+## Claim identifiability
+
+Can the design distinguish the claimed explanation from the plausible
+alternatives? A compelling headline is not identifiability. List the two or
+three most plausible alternative explanations for a positive result and say
+which ones the design rules out.
+
+For this program specifically, the standing alternatives are: scanner or
+vendor, acquisition protocol, reconstruction, site, patient positioning, body
+habitus, disease prevalence in the sampled population, referral pathway, and
+label leakage from the report. Address them by name.
+
+## Negative results
+
+Classify the anticipated negative:
+
+1. **Decisive** — meaningfully weakens the hypothesis.
+2. **Sensitivity-limited** — may reflect power, modelling, or metric choice;
+   needs an equivalence margin or minimum-detectable-effect.
+3. **Uninterpretable** — several explanations survive.
+
+Only type 1 counts toward negative-result value. Non-rejection is not evidence
+of independence.
+
+## Domain focus
+
+**Radiology, with emphasis on CT and 3D volumetric imaging.** Vascular and
+tubular anatomy, chest CT, and CT-report paired corpora are especially
+relevant. Retinal, ECG, and pathology precedents may be cited as motivation but
+the experiment should land in radiology where possible.
+
+Per cycle: at least three of five candidates in radiology or CT. At most one
+dermatology candidate. No more than two on any single dataset.
+
+## Constraints
+
+- Compute: Colab Pro+ or equivalent single-GPU sessions.
+- No dependence on unconfirmed DUA-gated data.
+- No large-scale radiologist annotation campaign.
+- Literature claims require primary-source verification.
+- Keep confirmatory and exploratory work separate.
+- Never tune on the untouched test set.
+- Prefer designs whose primary readout does not depend on label quality.
+
+## What counts as success
+
+- A clear positive result.
+- A decisive negative — including "the signal was an artifact."
+- Evidence that a popular assumption is unsupported.
+- Identification of a decisive confound.
+- A feasibility result that prevents wasted effort.
+
+
+===== docs/COLLABORATOR_RULES.md =====
+# Collaborator rules
+
+## Role
+
+Act as a critical research collaborator. Generate ideas, but spend at least as much effort trying to disprove or simplify them.
+
+## Required distinctions
+
+Always distinguish:
+
+- verified fact;
+- source-supported interpretation;
+- inference;
+- speculation;
+- exploratory result;
+- confirmatory result.
+
+## Literature
+
+- Use primary sources for medical, dataset, and method claims.
+- Record DOI, PMID, arXiv ID, or official repository URL.
+- Never claim novelty from memory alone.
+- “I did not find it” is not proof that it does not exist.
+- Identify the closest work and explain the exact delta.
+
+## Idea generation
+
+Prefer “one experiment away from a stronger story” over unconstrained novelty brainstorming.
+
+For every idea, identify:
+
+- the scientific uncertainty;
+- the existing legwork already completed by others;
+- the missing final step;
+- why that step matters;
+- the smallest decisive experiment;
+- the most dangerous confound;
+- why a negative result remains useful.
+
+## Coding gate
+
+Do not generate probe code until all are present:
+
+- a reviewed idea card;
+- a feasibility memo;
+- a probe contract;
+- explicit human approval.
+
+## Experimental integrity
+
+- Freeze splits before model comparison.
+- Save configurations, seeds, environment, and per-case outputs.
+- Use validation for development and preserve an untouched test set.
+- Do not reinterpret an invalid run as a negative result.
+- Report every authorized variant, not only the best one.
+- Stop when the preregistered question is answered or the budget is exhausted.
+
+
+===== docs/SCORING_RUBRIC.md =====
+# Idea scoring rubric
+
+Score each dimension 1-5. Explain every score.
+
+| Dimension | 1 | 3 | 5 |
+|---|---|---|---|
+| Clarity | vague | testable with refinement | one-sentence precise question |
+| **Identifiability** | a positive result has many explanations | design rules out the main alternative | design isolates the claimed mechanism |
+| Medical relevance | cosmetic | plausible utility | clear meaningful consequence |
+| Interest | routine | useful niche result | surprising or broadly compelling |
+| Prior legwork | little exists | some reusable assets | data/code/labels/checkpoints ready |
+| Feasibility | major barriers | manageable | first result in days |
+| Data readiness | uncertain/restricted | accessible with work | public and directly usable |
+| Evaluation readiness | unclear | custom metrics needed | accepted metrics and baselines exist |
+| Negative-result value | uninterpretable null | sensitivity-limited null | decisive negative |
+| Novelty confidence | likely covered | uncertain | precise verified gap |
+| Regret | little concern | worth considering | obvious-in-hindsight opportunity |
+
+## Hard caps
+
+`feasibility` and `novelty_confidence` may not exceed **3** unless
+`keystone_status` is `INSPECTED_TRUE`. See the charter.
+
+`negative_result_value` may not exceed **2** if the anticipated negative is
+classified as uninterpretable.
+
+## Priority score
+
+Transparent weighted sum, not a fake probability:
+
+- 20% feasibility
+- **15% identifiability**
+- 15% medical relevance
+- 10% prior legwork
+- 10% interest
+- 10% clarity
+- 10% negative-result value
+- 5% data readiness
+- 5% novelty confidence
+
+Evaluation readiness and regret are reported separately and must not override
+weak scientific value.
+
+Identifiability enters at 15% because the first cycle produced several
+candidates with strong headlines whose designs could not isolate the stated
+phenomenon. Interest was compensating for weak measurement validity.
+
+## Mode C scoring
+
+Mode C (speculative) candidates are scored differently. Do **not** demote a
+Mode C candidate for low feasibility or thin prior legwork — that is what the
+mode is for. Do demote it for being untestable.
+
+For Mode C, replace the priority weighting with:
+
+- 30% mechanism clarity (is the suspected physical/biological signal named?)
+- 25% identifiability
+- 20% interest
+- 15% medical relevance
+- 10% clarity
+
+Report feasibility and novelty confidence for information, outside the score.
+A Mode C candidate that would take three weeks is fine. One that could not be
+falsified in three years is not.
+
+**Mechanism clarity, 1-5:**
+
+| 1 | 3 | 5 |
+|---|---|---|
+| "probe the representation and see what is there" | a named signal family, unclear how to isolate it | a specific physical or biological quantity, and the measurement that would show the model uses it |
+
+
+===== evidence/decisions.md =====
+# Decision ledger
+
+Record decisions as evidence statements rather than broad permanent bans.
+
+Format:
+
+## YYYY-MM-DD — IDEA-ID — ADVANCE | REVISE | PAUSE | REJECT
+
+**Question:**
+
+**Evidence:**
+
+**Scope of conclusion:**
+
+**What this does not establish:**
+
+**Revisit trigger:**
+
+## 2026-08-04 — Idea 001 REJECTED (LIDC concepts vs diagnosis)
+Zinovev et al. 2012, J Digit Imaging 25:423-436 (DOI 10.1007/s10278-011-9445-3)
+VERIFIED by reading the paper: diagnosis file is patient-level, numbering
+inconsistent with LIDC XML, only 18 nodules reliably linked (8 mal / 9 ben /
+1 indet) via single-nodule-patient restriction. Too small for the proposed
+paired AUC analysis.
+Reopen only with a released, independently validated diagnosis-to-XML-nodule
+mapping retaining all eight semantic ratings, meeting a prespecified CI-width
+target before model fitting.
+Separate unresolved objection, raised in critique but never debated: the eight
+characteristics and the malignancy rating come from the same reader in the same
+session, so concept-to-suspicion prediction measures rating-form consistency,
+not concept validity.
+
+## 2026-08-04 - Idea 004 Stage 0 COMPLETE
+3,039 validation volumes / 1,564 scans / 1,304 patients.
+1,432 of 1,564 scans multi-reconstruction (92%).
+425 strictly clean geometry-matched kernel pairs after excluding slice-count,
+position, and acquisition-parameter drift.
+Contrasts: Br40f|Br60f 237, Bl56f|Br40f 126, Bl57d|Br36d 58, Br40f|Br44f 4.
+462/464 Siemens - findings vendor-specific, state as limitation.
+Labels identical across reconstructions: 1.00 (exact duplication).
+No released per-volume ClassFine scores: CT-RATE has only RadBERT report
+labels; CT-CLIP GitHub v1.0.0 has no release assets; checkpoints are not on
+the authors HF account. Inference must be run locally.
+Scope: download 850 volumes (425 pairs), not 3,039. Inference code exists at
+scripts/data_inference_nii.py and run_forward_data.py.
+
+## 2026-08-04 - Idea 002 PAUSE (Derm7pt clinical photo concepts)
+Annotation provenance undocumented: unknown whether checklist annotators saw
+the paired clinical photograph. A positive result would have two materially
+different explanations. Unblocked only by author correspondence.
+
+## 2026-08-04 - Idea 003 REJECT (BI-RADS intervention realism)
+BUS-BRA releases BI-RADS assessment categories, not lexicon descriptors - no
+concepts to intervene on. Debate ran six rounds; amendments achieved
+feasibility by abandoning the intervention question entirely.
+
+## 2026-08-04 - Idea 005 PAUSE (LIDC concept discriminant validity)
+MTMM requires independent measurement methods. LIDC released reads are from the
+unblinded phase after readers saw each others marks, and reader IDs are not
+stable across scans. Keystone error: verified that multiple opinions exist
+(true) rather than that they are independent measurement methods (false).
+
+## 2026-08-05 - Idea 006 PAUSE (CT-CLIP non-tissue voxel prediction)
+Patient-deletion is an extreme OOD intervention; neither direction identifies
+exterior reliance during intact inference. Wrong-keystone error, third
+occurrence: verified that exterior voxels survive preprocessing (true) when the
+inference required that a body-excluded volume is in-distribution (unverified).
+Reopening condition: inspect CT-CLIP training loader for large-region masking
+or cutout with matching fill value.
+SPIN-OFF, endorsed by both critique and debate: hold every voxel inside a
+dilated patient contour fixed and substitute only the scan exterior between
+geometry-matched scans; measure paired ClassFine score change. Separate
+estimand, enter as a new candidate.
+
+## 2026-08-05 - Idea 007 ADVANCE TO REVISION (lung inflation, CT-CLIP)
+Paired inhale/exhale BHCT + 4DCT confirmed: 20 patients, one session, one
+scanner, TCIA DOI 10.7937/3ppx-7s22, ungated, 14.93 GB.
+4DCT phases are NOT calibrated inflation levels - phase is time position, not
+fraction of vital capacity; same amplitude occurs on both limbs; phase-sorting
+artifacts. Dose-response arm demoted to exploratory.
+Preprocessing confound is the live keystone residual: fixed-size crop may admit
+different anatomy at different diaphragm positions. Stage 0 gate.
+CT-CLIP has no mosaic attenuation head - card claimed a nonexistent output.
+Claim demoted rung 3 -> rung 1: sensitivity to respiratory state, not
+identification of total lung volume as the cue.
+
+
+===== evidence/ledger_digest.md =====
+# Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
+
+18 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+
+## Known failure modes (kill-code frequency)
+
+Before proposing a candidate, check it against every pattern below.
+A candidate that dies like a prior one must say what makes it different.
+
+- **DATA_INSUFFICIENT** x1: The subset that actually supports the inference is too small or unreachable.
+
+## Candidate backlog (scouted, not yet shortlisted; ranked)
+
+- **scout-006-c04** [NOVEL_UNVERIFIED, audited 2026-08-10] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
+- **scout-006-c05** [NOVEL_UNVERIFIED, audited 2026-08-10] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
+- **scout-006-c03** [INCREMENTAL, audited 2026-08-10] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
+
+## Ideas
+
+- **idea-001** [REJECTED/DEBATED/baseline] -- Have lung nodule concept models been validated against radiologist opinion rather than against disease? -- killed: DATA_INSUFFICIENT -- data: {"primary": "LIDC-IDRI via The Cancer Imaging Archive", "license": "CC BY 3.0", 
+- **idea-002** [PAUSED/DEBATED/baseline] -- Dermoscopic concepts predicted from non-dermoscopic photographs: genuine visibility or shortcut? -- data: {"primary": "Derm7pt paired clinical/dermoscopic images", "source": "github.com/
+- **idea-003** [ACTIVE/DEBATED/baseline] -- Does BI-RADS concept intervention survive realistic clinician behaviour, and does it beat simply reading the BI-RADS category? -- data: {"primary": "BUS-BRA (Zenodo 8231412, CC BY 4.0) for the external and baseline a
+- **idea-004** [ACTIVE/DEBATED/baseline] -- The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition
+- **idea-005** [PAUSED/DEBATED/baseline] -- Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary
+- **idea-006** [PAUSED/DEBATED/baseline] -- Ask the chest-CT foundation model to diagnose a volume with no patient in it
+- **idea-007** [ACTIVE/DEBATED/baseline] -- The same patient, twice, ten minutes apart, differing only in how much air is in the lungs
+- **idea-008** [ACTIVE/DEBATED/baseline] -- Two papers say Sybil's residual signal is the background, one of them names emphysema, and neither measured it
+- **idea-009** [ACTIVE/DEBATED/baseline] -- Murray's cube law says how a branching tree should be built - ask whether the risk model is reading the lung's departure from it
+- **idea-010** [ACTIVE/DEBATED/baseline] -- Cardiomegaly on a CT report is admitted gestalt - ask whether the model has quietly turned it into millilitres
+- **idea-011** [ACTIVE/DEBATED/baseline] -- Forensic anthropologists age a skeleton by its rib cartilage - ask whether an unguided CT model found the same clock
+- **idea-012** [SHORTLISTED/DEBATED/baseline] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
+- **idea-013** [SHORTLISTED/CRITIQUED/baseline] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
+- **scout-006-c01** [SHORTLISTED/SCOUTED/baseline] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
+- **scout-006-c02** [SHORTLISTED/SCOUTED/baseline] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
+- **scout-006-c03** [SCOUT_ONLY/SCOUTED/baseline] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
+- **scout-006-c04** [SCOUT_ONLY/SCOUTED/baseline] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
+- **scout-006-c05** [SCOUT_ONLY/SCOUTED/baseline] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
+
+
+===== ideas/013/README.md =====
+# Idea 013: CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
+
+Selected from scouting cycle 006, candidate 2.
+
+
+===== ideas/013/critique.md =====
+FATAL OBJECTION: The proposed observational regressions cannot establish that CT-CLIP *uses* or localises coronary calcium; they can only show that its named output is associated with another model's calcium estimate.
+EVIDENCE: CHARTER.md rung 1 requires ablation/probing/perturbation/occlusion with controls; the card's Stage 1 and Stage 2 contain none.
+REPAIRABLE WITHOUT CHANGING THE QUESTION? YES
+DECISION: ADVANCE TO REVISION
+
+# Adversarial review
+
+## Bottom line
+
+The question is sharp and the two output names genuinely exist, but the current experiment does not identify the claimed mechanism. The sentence “a monotone dependence on measured Agatston is the model using calcium by definition” is false. Both CT-CLIP and AI-CAC can respond to common causes—age, protocol, cardiac motion, overall atherosclerotic burden, or correlated hyperdensities—without the CT-CLIP score depending on coronary calcium itself. Partial regression does not turn association into use, and a “double dissociation” between two observational regressions is not a localisation experiment.
+
+This is repairable by making the primary estimand an anatomy-specific, within-volume intervention or an especially clean paired-reconstruction contrast. The observational calibration analysis can remain useful secondary evidence.
+
+## Verified facts, interpretations, and inferences
+
+### Verified facts
+
+- CT-RATE contains 25,692 noncontrast chest CT scans from 21,304 patients, expanded to 50,188 volumes through reconstructions; the official release has a held-out validation cohort of 1,304 patients. Official dataset page and Hamamci et al., arXiv:2403.17834; subsequently Nature Biomedical Engineering (2026).
+- “Arterial wall calcification” and “Coronary artery wall calcification” are distinct members of the released 18-class taxonomy. This supports the existence of the outputs, not their spatial semantics.
+- AI-CAC was developed for full-field, nongated, noncontrast chest CT and releases weights and inference code under MIT. Hagopian et al. trained it from 446 expert segmentations and evaluated it against paired gated studies in 795 patients (DOI: 10.1056/AIoa2400937).
+- The released AI-CAC inference path expects folders of DICOM instances, reads axial position and other DICOM information, selects a suitable series, and aggregates slice predictions. The official repository says this explicitly: https://github.com/Raffi-Hagopian/AI-CAC/.
+- The CT-RATE release being proposed here is distributed as processed volumes rather than the original per-study DICOM series. Therefore “both measures run today” has not been demonstrated for the actual file format in hand.
+- Prior literature independently shows that slice thickness changes automated CAC estimates and risk categorisation; this is not a nuisance that can safely be handled only by adding thickness as a linear covariate. For example, Yin et al. explicitly tested 1, 3, and 5 mm nongated reconstructions (PMID: 39144022), and van Velzen et al. validated automated calcium scoring across multiple protocols (DOI: 10.1148/radiol.2020191621).
+
+### Source-supported interpretation
+
+AI-CAC is a credible independent *measurement model*, but it is not ground truth on CT-RATE. In its primary publication, agreement of nongated AI-CAC with gated report categories was 68.6% with weighted kappa 0.72, while agreement with manual nongated segmentation on the smaller tuning set was 82.4% with kappa 0.81. That is useful performance, but it leaves substantial measurement error and domain-transfer uncertainty.
+
+### Inference
+
+The two CT-CLIP scores may largely reproduce two report-extraction conventions rather than two anatomically separate visual detectors. Distinct label names are insufficient evidence of distinct spatial computation. This is exactly what the proposed experiment must test, not assume.
+
+## The real keystone was not inspected
+
+The card marks `INSPECTED_TRUE`, but the inspected facts are only that two outputs, checkpoints, images, and measurement tools exist. The load-bearing prerequisite is:
+
+> An anatomy-specific intervention can alter coronary calcium evidence while holding noncoronary calcium and other score-relevant image properties sufficiently fixed and remaining close enough to the model's input distribution that the score change is interpretable.
+
+That has not been inspected or demonstrated.
+
+“If I have only verified the nearest checkable thing, what am I still assuming?” The nearest checkable thing is that CT-CLIP and AI-CAC can emit numbers. The study still assumes that cross-sectional partial slopes identify which pixels or anatomy CT-CLIP uses, that CT-RATE can be passed through the released AI-CAC implementation without a consequential NIfTI-to-DICOM adaptation, that TotalSegmentator plus a 130-HU threshold is a valid aortic-wall calcium measure, and that coronary and noncoronary calcium have enough conditional support for stable estimation. Those are load-bearing. The correct status is `NOT_INSPECTED` until Stage 0 resolves them, so feasibility and novelty confidence should be capped at 3.
+
+## Specific rejection attempts
+
+### Concept-label circularity and leakage
+
+The primary analysis avoids directly reusing RadBERT labels as outcomes, which is good. It does not avoid semantic circularity: a model output trained to match a report-derived “coronary calcification” label is compared with a second algorithm explicitly designed to detect coronary calcification. A positive association is an expected convergent-validity result, not evidence of a previously hidden model concept. It is worth doing only if the localisation test is genuinely causal or otherwise unusually well controlled.
+
+Report leakage also remains relevant even though the report label is absent from the regression. CT-CLIP learned from reports, and report wording may encode age, prior CABG/stents, indication, or severity conventions correlated with AI-CAC. The image model can learn visual proxies for those reporting patterns. “N/A to primary” is therefore too strong.
+
+### Confounding and identifiability
+
+The proposed regression does not rule out:
+
+- overall atherosclerotic age or disease burden causing coronary CAC, aortic CAC, and both scores;
+- protocol, kernel, and thickness jointly changing CT-CLIP score and the automated measurements;
+- cardiac hardware, valve calcium, mitral annular calcium, motion, or bone blooming acting as correlated hyperdensity cues;
+- referral pathway and disease mix controlling which combinations of coronary and aortic calcium exist;
+- the two heads being correlated readouts of a common representation rather than location-specific detectors.
+
+Vendor, thickness, kernel, and habitus covariates do not isolate the mechanism. They reduce measured association with recorded covariates under modelling assumptions. Site is essentially not addressable within a predominantly single-institution cohort, and prevalence/referral pathway remain external-validity and support problems.
+
+### Measurement validity
+
+Calling “voxels >130 HU inside the TotalSegmentator aorta mask” aortic-*wall* calcium is premature. TotalSegmentator supplies an anatomical aorta segmentation; it is not validated in the cited paper as an aortic-wall calcium detector. Boundary placement, partial volume, vertebral contamination, contrast/noise, and whether calcified wall lies inside the produced mask all matter. This measurement requires direct visual QC on a frozen sample and preferably comparison with a dedicated calcium method. No radiologist campaign is necessary, but a deterministic measure still needs validation.
+
+Likewise, the conventional Agatston construction is protocol-sensitive. CT-RATE includes reconstructions as thick as 6 mm, while the directly cited thickness study assessed up to 5 mm. Treating 6-mm AI-CAC output as interchangeable continuous Agatston is unsupported. Prespecified exclusion or stratification is safer than covariate adjustment alone.
+
+### Data and compute
+
+The data and checkpoints are available behind a click-through gate, so this is not a DUA failure. However, the card understates plumbing and storage. AI-CAC's released entry point is DICOM-based while CT-RATE provides processed volumes; adapting it and proving numerical equivalence is nontrivial method work. Running CT-CLIP, AI-CAC, and TotalSegmentator over a full validation set is plausible on single-GPU sessions, but “first decision in two days” is credible only for metadata, file-compatibility, prevalence, and a small QC sample—not for the asserted full double dissociation.
+
+### Prior-work overlap and novelty
+
+The precise CT-CLIP score-versus-CAC comparison was not found in the inspected primary sources, but that does not establish novelty. Automated opportunistic CAC on nongated chest CT is mature prior work; the new delta is only the audit of this particular foundation-model output and its anatomical specificity. That is a narrow but defensible methods contribution if localisation is established. Without a causal localisation test, it is a routine convergent-validity benchmark. Novelty confidence should be 3, not 4, pending a systematic primary-source search including 2025–2026 CT foundation-model interpretability work.
+
+### Medical relevance
+
+Coronary CAC is clinically important, but CT-CLIP is not the best available CAC quantifier. Showing that its generic label score correlates with AI-CAC does not itself improve patient risk stratification. The medical value is model auditing: whether a claimed anatomical output is faithful enough to trust or whether it is a generic vascular-calcium alarm. Score medical relevance 2–3 unless the result generalises to a broader claim about anatomically named foundation-model outputs.
+
+### Endpoint and negative-result value
+
+“Monotone gradient,” “partial independence,” and “double dissociation” need prespecified estimands and margins. At minimum, define rank correlation or an ordinal trend, the partial effects for both heads, a cross-head interaction contrast, acceptable measurement reliability, overlap criteria, and a minimum effect that counts as localisation. Otherwise many outcomes can be narrated as positive.
+
+The primary fidelity null is sensitivity-limited: score saturation, AI-CAC transfer failure, thick slices, or restricted prevalence all survive. It merits negative-result value 2, not 3, unless measurement performance and score dynamic range pass preregistered gates. A well-powered *intervention* showing equivalent score response to coronary and aortic edits could be a decisive negative for localisation.
+
+## Does it die like a prior candidate?
+
+It does not repeat annotation-provenance failures 001, 002, 003, or 005 because the proposed biomarker readouts are computational. It does repeat the **wrong-keystone shape** of ideas 005 and 006: “the components emit measurements” was verified, while “their relationship identifies use/localisation” was assumed. It also approaches idea 006's OOD-intervention problem if the repair simply deletes calcium. A valid repair needs graded, local, realistic edits plus sham edits and QC; blanking or zeroing a coronary region would remain uninterpretable.
+
+## Easier version and low-hanging fruit
+
+The lowest-hanging *descriptive* version is a frozen validation-subset audit using the already released CT-CLIP checkpoint and AI-CAC output: test only whether the coronary score orders four AI-CAC risk strata (0, 1–100, 101–400, >400), with exclusions fixed by slice thickness and FOV. It drops TotalSegmentator and the unvalidated aortic-wall measure. This is easy and useful as a Stage 0 calibration check, but it is not worth publishing alone and cannot support “localises.”
+
+The stronger low-hanging formulation exploits an asset already inspected in idea 004: 425 clean geometry-matched reconstruction pairs of identical CT-RATE acquisitions. Within each pair, anatomy, patient, referral pathway, site, and true calcium burden are fixed. Ask whether reconstruction-induced changes in a coronary calcium measurement selectively track changes in the coronary head, while changes in noncoronary vascular calcium selectively track the arterial head. This is much better controlled and avoids inventing synthetic anatomy, though it identifies sensitivity to the rendered calcium measurement rather than perfect voxel localisation. It also reuses a frozen cohort, geometry checks, CT-CLIP inference scripts, and an existing download plan.
+
+For the full original claim, follow that with a small confirmatory perturbation set: use a coronary segmentation to apply graded, local calcium attenuation toward adjacent blood-pool/tissue values; use a matched aortic edit of equal changed volume, HU distribution, spatial smoothness, and distance from the volume centre; include sham edits in nearby noncalcified vessel voxels. The key endpoint is the head-by-location interaction in paired score changes. This directly tests reliance, but intervention realism must pass QC and sensitivity analyses; it should not be improvised after viewing results.
+
+## Required revision
+
+1. Demote the current regressions to convergent-validity/Stage 0 analyses and remove “use by definition.”
+2. Set the present rung to 0 until a model score is actually produced and the measurement pipeline passes QC; a positive observational association reaches semantic calibration, not charter rung 1.
+3. Replace `INSPECTED_TRUE` with `NOT_INSPECTED` and state the intervention-validity/file-compatibility keystone.
+4. Inspect the exact CT-RATE file schema and demonstrate AI-CAC equivalence or choose a measurement tool that natively consumes the released format.
+5. Validate the aortic-calcium measurement or drop it from the first experiment.
+6. Prespecify conditional-support, dynamic-range, measurement-QC, and minimum-effect gates before fitting the localisation model.
+7. Make the within-pair or anatomy-specific score-change contrast the primary endpoint; retain marginal correlations only as secondary calibration.
+
+## Sources directly inspected
+
+- Hamamci et al., *Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography*, arXiv:2403.17834; official CT-RATE repository: https://huggingface.co/datasets/ibrahimhamamci/CT-RATE.
+- Hagopian et al., *AI Opportunistic Coronary Calcium Screening at Veterans Affairs Hospitals*, NEJM AI (2025), DOI: 10.1056/AIoa2400937; official code/weights: https://github.com/Raffi-Hagopian/AI-CAC/.
+- Wasserthal et al., *TotalSegmentator: Robust Segmentation of 104 Anatomic Structures in CT Images*, Radiology: Artificial Intelligence 2023;5:e230024, DOI: 10.1148/ryai.230024.
+- Yin et al., *Performance assessment of an artificial intelligence-based coronary artery calcium scoring algorithm in non-gated chest CT scans of different slice thickness*, Quantitative Imaging in Medicine and Surgery (2024), PMID: 39144022.
+- van Velzen et al., *Deep learning for automatic calcium scoring in CT: validation using multiple cardiac CT and chest CT protocols*, Radiology (2020), DOI: 10.1148/radiol.2020191621.
+
+NEAREST DEFENSIBLE HIGH-VALUE QUESTION: Across geometry-matched reconstructions of identical CT-RATE acquisitions, do within-pair changes in measured coronary versus noncoronary vascular calcium selectively move CT-CLIP's coronary versus arterial calcification scores?
+RETAINS ORIGINAL MEDICAL MOTIVATION? YES
+SHOULD IT BECOME A SEPARATE CANDIDATE? NO
+IS IT ACTUALLY WORTH DOING? Yes—if Stage 0 confirms measurement dynamic range, because the paired design converts a routine calibration correlation into a stringent, low-confounding audit of whether anatomically named outputs behave anatomically.
+
+
+===== ideas/013/debate.md =====
+# Debate transcript
+
+## Round 1 — CRITIC
+
+**Position:** The geometry-matched reconstruction amendment does not answer the original localization question, because it varies the rendering of fixed calcium rather than the amount or anatomical location of calcium the model can use.
+
+**Argument:** Within each CT-RATE pair, true coronary and noncoronary calcium are unchanged; only reconstruction-dependent appearance and the outputs of the measurement pipelines change. A selective association between pairwise changes in AI-CAC and CT-CLIP's coronary score could therefore arise because both algorithms share sensitivity to kernel, slice thickness, blooming, noise, or partial volume—not because CT-CLIP uses coronary calcium or localizes it. The same problem applies to thresholded aortic calcium, whose measured change under reconstruction is partly a property of the 130-HU threshold and mask boundary. Geometry matching controls patient, site, referral pathway, and true disease burden, but it does not distinguish anatomy-specific reliance from correlated algorithmic response to reconstruction. This is an identity failure: the amended primary experiment is a valuable reconstruction-robustness audit, but it no longer tests whether the label responds to coronary rather than noncoronary calcium. Observational cross-sectional regressions cannot restore that causal claim.
+
+**What would change my mind:** Show a prespecified, validated within-volume intervention that changes coronary calcium evidence while preserving noncoronary calcium and matched low-level image statistics, plus the reciprocal noncoronary intervention and sham edits, with the primary endpoint a head-by-location interaction in paired CT-CLIP score changes; alternatively, provide naturally paired scans in which one anatomical calcium compartment changes independently of the other while acquisition and reconstruction are held fixed.
+
+**Status:** OPEN
+
+## Round 1 — PROPOSER
+
+**Responding to:** Reconstruction pairs hold true calcium fixed and vary only its rendering, so a selective within-pair association between measurement changes and score changes could come from shared low-level sensitivity to kernel, thickness, blooming, or noise rather than from anatomy-specific reliance. The paired design is therefore a robustness audit wearing the localisation question's title, and no observational regression can restore the causal claim.
+
+**Response:** AMEND
+
+**Argument:** One correction before the amendment, because the objection as stated attacks a weaker design than the one on the table. The paired estimand was never the single correlation "ΔAI-CAC vs Δcoronary-score." It is the 2×2 cross-head interaction: both heads' changes regressed on both measurement changes within the same pair. Volume-common rendering effects — kernel, noise, thickness — hit both heads through the identical input and hit both measurement columns for both heads, so they are differenced out of the interaction; a generic hyperdensity detector duplicated in two heads produces four equal slopes and a null interaction. The critic's mechanism as written (shared sensitivity of "both algorithms") cannot by itself generate a head-by-location interaction.
+
+But a sharper version of the objection does survive, and I am not going to pretend otherwise: the interaction is spoofable by an alignment of head-specific gain with tool-specific artifact response. If the coronary head happens to sit on a steeper part of its logistic (more change per unit input change) and AI-CAC, a learned model, happens to be more artifact-responsive than a raw 130-HU threshold count, the interaction goes positive with zero anatomical selectivity. That is a head×tool confound the pairs cannot exclude, because pairs never vary the amount or location of calcium — only its rendering. On the deeper point the critic is simply right: rendering-sensitivity is rung-1 evidence that the heads respond to displayed vascular calcium; it cannot support "localises."
+
+The amendment, which is the critic's own stated bar, adopted with one structural addition:
+
+1. **Confirmatory primary = the intervention arm.** Graded attenuation of coronary calcium voxels toward the adjacent blood-pool HU distribution (coronary calcium located by the AI-CAC segmentation output); a matched aortic edit equalised on changed-voxel volume, HU-shift distribution, spatial smoothness, and distance from volume centre; sham edits of matched geometry in nearby noncalcified vessel voxels. Primary endpoint: head-by-location interaction in paired score changes. All edit parameters, endpoints, and minimum effects prespecified before any score is viewed.
+
+2. **The reconstruction pairs are repurposed, not discarded — they become the intervention's validity instrument.** The standing killer of edit-based designs is idea 006's OOD problem: how do you know an edited volume is in-distribution enough for the score change to be interpretable? The 425 geometry-matched pairs answer this empirically. Natural reconstruction differences of identical anatomy define the observed in-distribution band of embedding shift and score fluctuation. Acceptance gate, prespecified: sham edits must produce embedding shifts and score changes inside the natural reconstruction-pair band. If shams fall outside it, the intervention arm is declared invalid — not reinterpreted — and the candidate stops at rung 1. This converts "the edit is realistic" from a promise into a measured pass/fail, which is exactly what the idea-006 postmortem said was missing.
+
+3. **The paired 2×2 remains as Stage 1**: a cheap go/no-go showing the heads respond to rendered calcium at all, plus the null-band calibration above. The cross-sectional regressions stay demoted to convergent-validity descriptives per the critique.
+
+**Identity check:** the revised design still answers the original one-sentence question — does the coronary label track coronary calcium specifically rather than hyperdensity generally — and answers it more directly than the card's original regressions did, since the intervention varies exactly the quantity the question names. Identity is preserved; this is a repair, not a replacement.
+
+**What is lost:** the claim that this could be an inference-only observational study. The editing pipeline, matching procedure, and QC gates add roughly a week and real failure risk: if the sham gate fails, the deliverable degrades from the rung-3 localisation sentence to rung-1 "the heads use rendered vascular calcium," and that degraded outcome must be reported as such, not narrated as partial success. Feasibility should drop from 4 to 3 and the keystone becomes: *sham edits of matched geometry land inside the natural reconstruction-variability band* — status NOT_INSPECTED until Stage 1 runs, so the caps apply.
+
+**Status:** OPEN
+
+## Round 2 — CRITIC
+
+**Position:** The proposed sham/reconstruction-band gate does not validate the targeted calcium-removal intervention, because it tests the distributional effect of editing noncalcified vessel voxels rather than the effect of erasing a real high-contrast lesion at the coronary or aortic target.
+
+**Argument:** The amendment passes the identity check: reciprocal coronary and aortic interventions with a head-by-location interaction still address whether CT-CLIP's named heads use calcium at the named anatomy. But its claimed safeguard against idea 006's OOD failure is not sufficient. Matching changed-voxel count, HU-shift distribution, smoothness, and radial position does not match the local context that makes the edit interpretable: calcified plaque is a high-HU structure on a vessel wall, with blooming and partial-volume structure coupled to lumen, wall, cardiac motion, and reconstruction kernel. A sham in nearby noncalcified vessel voxels necessarily starts from different intensities and tissue configuration; if it is assigned the same negative HU shifts it creates an artificial hypodense defect, while if it is filled plausibly it no longer matches the targeted edit's HU-shift distribution. More importantly, requiring only sham embedding shifts and score changes to lie within the empirical reconstruction-pair band says nothing about whether the targeted edits do. A global embedding distance can also remain small while a semantically decisive local feature is made unnatural. Thus a positive head-by-location interaction can still reflect head-specific sensitivity to anatomically distinct inpainting artifacts rather than removal of coronary versus aortic calcium. Natural reconstruction variation supplies a useful scale for robustness, but it is not an in-distribution certificate for counterfactual lesion erasure.
+
+**What would change my mind:** Demonstrate before confirmatory scoring that the *targeted* coronary and aortic edits—not only shams—are indistinguishable from naturally calcium-free vessel patches under prespecified local patch statistics and an independent real-versus-edited discriminator evaluated on held-out cases, with discriminator performance bounded near chance by an equivalence margin; additionally use at least two independently specified, structure-preserving edit generators and require the head-by-location interaction to agree across them. If that validation fails, the intervention cannot support localisation regardless of the interaction.
+
+**Status:** OPEN
+
+## Round 2 — PROPOSER
+
+**Responding to:** The round-1 acceptance gate validates the wrong object. It checks that *sham* edits sit inside the natural reconstruction-variability band, which says nothing about whether the *targeted* calcium-removal edits are interpretable; a sham in noncalcified vessel cannot match the context of erasing a high-contrast wall lesion, a global embedding band cannot certify a local feature, and so a positive head-by-location interaction could still be head-specific sensitivity to anatomically distinct inpainting artifacts rather than to calcium at the named anatomy.
+
+**Response:** AMEND
+
+**Argument:** Two concessions first, both plain. The round-1 gate was one-sided: it validated the control condition and left the treatment condition uncertified, which is exactly the structure of the idea-006 failure I claimed to have fixed — the load-bearing object (the targeted edit) was the one not inspected. And the global-versus-local point is correct on its own: an embedding-distance band is a low-pass filter, and a model trained with a contrastive text objective is precisely the kind of reader that can react to a small, semantically loaded local anomaly while the global shift stays inside any band. Neither point is recoverable by re-argument; the gate as I stated it was insufficient.
+
+The amendment adopts both of the critic's conditions and adds one structural change that makes the first condition actually satisfiable rather than aspirational.
+
+1. **Primary edit family becomes insertion by transplantation, not erasure by inpainting.** The round-1 design had an asymmetry the critic's argument exposes: erasing a real lesion forces the generator to *synthesise* plausible calcium-free vessel, and the sham cannot perform the same operation on the same kind of structure, so treatment and control differ in mechanics as well as content. Transplantation removes that asymmetry. Take recipient volumes with AI-CAC = 0 and minimal thresholded aortic calcium; splice real calcified plaque patches, harvested from donor scans matched on kernel, slice thickness, and local noise, into the coronary wall (located by the vessel segmentation) or the aortic wall. The sham is now the *identical operation minus the content*: transplant a donor-matched *noncalcified* vessel-wall patch through the same splice pipeline into the same recipient sites. Treatment and control share the mechanics exactly — boundary blending, resampling, interpolation — and differ only in whether calcium arrived. An artifact of the splice process appears in both arms and cancels in the head-by-location interaction; in the erasure design it could not, which is the precise hole the critic found. Erasure is retained only as the second, independently specified generator (see 3), where its artifacts are useful because they are *different*.
+
+2. **The critic's targeted-edit validation gate is adopted as stated, with the honest epistemic caveat.** Before any confirmatory score is viewed: prespecified local patch statistics (HU histogram in shells around the edit boundary, gradient-magnitude distribution, local noise power spectrum) compared between edited patches and their natural reference class, and an independent real-versus-edited patch discriminator trained and evaluated on held-out cases, required to sit inside an equivalence margin of chance. For insertion the natural reference class is *real calcified plaque in situ* — abundant in CT-RATE — which is a further advantage of the insertion direction: the reference class for "does the edit look real" actually exists in quantity, whereas naturally calcium-free patches that match an erased lesion's context (same vessel geometry, same kernel) are scarcer and would have made the erasure gate underpowered. The caveat, stated so it cannot be quietly dropped later: a discriminator at chance is neither necessary nor sufficient for CT-CLIP-invisibility, because the two networks have different inductive biases. The discriminator gate is therefore a falsification screen — failing it kills the arm — not a certificate.
+
+3. **The certificate, to the extent one exists, is generator agreement, and I adopt that condition too.** Two independently specified edit pipelines — transplantation (primary) and attenuation-toward-blood-pool erasure (secondary), sharing no code beyond I/O — with the confirmatory claim requiring the head-by-location interaction to agree in sign and within a prespecified margin across both. The inferential logic is the one the critic's condition implies and it deserves to be stated: splice artifacts and inpainting artifacts are physically different objects, so a head response driven by artifact should be generator-specific, while a response driven by the arrival or removal of calcium at an anatomical site is the one thing the two generators share. Agreement is evidence for the shared cause. Disagreement is reported as "artifact-driven, localisation not established" — prespecified as a stopping outcome, not a licence to prefer the generator that produced the better-looking result.
+
+**Identity check:** the question is unchanged — does the coronary head track coronary calcium specifically rather than hyperdensity generally. Insertion asks it in the causally cleaner direction (does adding real coronary calcium move the coronary head more than the arterial head, and reciprocally for aortic insertion) and sidesteps the coronary–aortic collinearity problem entirely, since recipients start near zero in both compartments. This is the same estimand with a better-controlled intervention, not a new study.
+
+**What is lost, cumulatively and honestly:** this candidate began as a two-week inference-only regression study. It is now an editing-and-validation methods project — donor/recipient matching, a splice pipeline, two generators, patch-statistic gates, a held-out discriminator — in which the validation apparatus is a larger effort than the original scientific readout. Time to first confirmatory decision moves from ~2 weeks to ~5–6 weeks; feasibility drops to 3 and I will not defend higher. Two amendments in two rounds is within the rule of thumb but at its edge: if the next objection forces a third structural repair, the honest reading per the debate rules is that the original card was wrong about what this question costs, and the candidate should retreat to the rung-1 rendered-calcium claim plus the convergent-validity descriptives and stop. The keystone is restated accordingly: *at least one edit family passes the held-out real-versus-edited discriminator equivalence gate and the prespecified local patch-statistic gates* — status NOT_INSPECTED until the validation stage runs, caps apply, and a gate failure is a reported negative on the intervention arm, not a prompt to loosen the margin.
+
+**Status:** OPEN
+
+## Round 3 — CRITIC
+
+**Position:** The transplantation arm assumes an available, reliable coronary-wall target in calcium-free CT-RATE scans, but neither AI-CAC nor the cited assets establish that target, so the coronary-versus-aortic intervention may differ primarily in placement error rather than calcium location.
+
+**Argument:** The amendment passes the identity check: reciprocal insertion/removal with a head-by-location interaction still tests whether the named CT-CLIP heads respond selectively to calcium at coronary versus noncoronary vascular anatomy. The remaining fatal issue is more basic than edit realism. AI-CAC segments detected coronary calcium; in recipients with AI-CAC = 0 it cannot identify a calcium lesion or thereby supply a coronary-wall insertion site. TotalSegmentator provides an aorta mask but, in the cited asset list, no coronary-artery or coronary-wall segmentation. Nongated chest CT has cardiac motion, small coronary calibre, and limited wall visibility, so “located by the vessel segmentation” introduces a new unverified component exactly where the causal contrast is defined. If coronary inserts are placed by a noisy centreline/atlas while aortic inserts are placed inside a large, directly segmented aorta, the two arms differ in target accuracy, surrounding tissue, motion blur, and likelihood that the patch is actually vessel-wall-adjacent. A head-by-location interaction could then reflect coronary-placement artifacts or proximity to myocardium rather than anatomical calcium selectivity. Patch statistics and a real-versus-edited discriminator do not solve semantic misplacement: a locally realistic calcified patch can still be in the wrong structure. Generator agreement does not solve it either, because insertion and erasure would not provide reciprocal evidence on the same cases or targets—erasure has observable native plaque locations, while insertion into calcium-free recipients requires inferred counterfactual coronary anatomy. The newly stated keystone (“at least one edit family passes appearance gates”) is therefore still the nearest checkable thing, not the load-bearing fact; the real keystone is that coronary and aortic intervention targets can be located with comparable, independently validated anatomical accuracy without human annotation.
+
+**What would change my mind:** Identify an off-the-shelf coronary-artery segmentation or centreline method validated on nongated noncontrast chest CT, inspect that it runs on the released CT-RATE volume format, and prespecify a held-out target-validity gate showing comparable coronary and aortic placement accuracy against an independent anatomical reference without launching a new annotation campaign. Alternatively, abandon calcium-free recipients and demonstrate a within-volume relocation design in scans where native coronary and aortic calcifications provide observable source and target anatomy, with identical placement mechanics and a validated no-op reconstruction control.
+
+**Status:** OPEN
+
+## Round 3 — PROPOSER
+
+**Responding to:** The insertion design has no coronary target. AI-CAC segments *detected* calcium, so in an AI-CAC = 0 recipient it tautologically cannot supply a coronary-wall insertion site; TotalSegmentator's cited free task gives an aorta mask but no coronary artery. The coronary arm would therefore be placed by some unnamed, unvalidated localiser on nongated noncontrast CT — small vessels, cardiac motion, poor wall visibility — while the aortic arm is placed inside a large, directly segmented structure. The arms differ in placement accuracy before they differ in calcium location, a head-by-location interaction could be a placement-error effect, and the appearance gates cannot catch it because a locally realistic patch can be realistic in the wrong structure. The stated keystone (edit-appearance gates pass) is again the nearest checkable thing; the load-bearing fact is comparable, independently validated target localisation for both anatomies.
+
+**Response:** CONCEDE
+
+**Argument:** The objection is correct, and I will not attempt a third repair.
+
+Three specific admissions. First, the target-supply error is not a subtlety I can argue around: "coronary calcium located by the AI-CAC segmentation output" was written in round 1 for the *erasure* design, where native lesions exist, and I carried it silently into the round-2 *insertion* design, where by construction they do not. A detector of present calcium cannot locate absent calcium. That is a plain internal inconsistency in my amendment, not a matter of interpretation. Second, the asymmetry the critic names is exactly the kind the interaction cannot cancel: placement mechanics would differ *by arm*, and arm is the treatment variable, so placement artifact loads directly onto the estimand. My round-2 machinery — patch statistics, held-out discriminator, generator agreement — validates appearance and edit mechanics, and none of it detects semantic misplacement; the critic's sentence "a locally realistic calcified patch can still be in the wrong structure" survives every gate I specified. Third, this is the wrong-keystone shape a fourth time in the program's history and the second time inside this single debate: in round 2 I certified the edit and assumed the target, after in round 1 I certified the sham and assumed the edit. The pattern in my own conduct across two rounds is itself evidence about what this question costs.
+
+Repair paths exist — the critic names both. An off-the-shelf coronary localiser validated on noncontrast nongated CT may exist (cardiac-substructure segmenters from the radiotherapy-planning literature run on noncontrast planning CT and include coronary branches; TotalSegmentator has cardiac subtasks beyond the free tier), and the within-volume relocation design with native source and target lesions is cleaner still, since both anatomies are then observable. But either path is a third structural amendment: a new load-bearing component (a placement-validity gate against an independent anatomical reference) or a new recipient population and edit mechanics (relocation). In round 2 I stated the stopping rule in advance precisely so it could not be negotiated with in this moment: *"if the next objection forces a third structural repair, the honest reading per the debate rules is that the original card was wrong about what this question costs, and the candidate should retreat to the rung-1 rendered-calcium claim plus the convergent-validity descriptives and stop."* The objection forces a third structural repair. The rule fires.
+
+**What the candidate becomes:** the retreat scope, stated so the ledger can hold me to it. (1) The convergent-validity descriptives: CT-CLIP's two calcification scores against AI-CAC strata and thresholded aortic calcium, cross-sectional, explicitly labelled calibration-not-localisation. (2) The geometry-matched 2×2 within-pair analysis from round 1, honestly titled a reconstruction-sensitivity audit: evidence that the heads respond to rendered vascular calcium, with the head×tool confound stated as a limitation. Both together reach rung 1 — "the model uses displayed vascular calcium" — and no higher. The original deliverable sentence, *the coronary label tracks coronary calcium specifically*, is not earned by this candidate and must not appear in its outputs. The card's `rung.current: 3` and `keystone_status: INSPECTED_TRUE` were wrong at submission time, as the critique already found; the debate has now established that the true cost of the rung-3 sentence includes an anatomically validated intervention-targeting apparatus that no cited asset provides.
+
+**Spin-off, recorded per the rules, not adopted mid-debate:** *the placement-keystone intervention study.* Question unchanged from this candidate's original sentence; design is the critic's second alternative — within-volume relocation between native coronary and aortic calcifications, identical splice mechanics in both directions, no-op reconstruction control — or donor insertion gated by a coronary localiser validated on noncontrast nongated CT. Entry keystone, stated as the load-bearing fact this debate identified: *coronary and aortic intervention targets can be located with comparable, independently validated anatomical accuracy, without human annotation.* Status NOT_INSPECTED; the spin-off may not enter shortlisting until a named localiser and its validation evidence on noncontrast nongated chest CT have been directly inspected. The round-2 edit-validation apparatus (matched-mechanics sham, patch-statistic gates, held-out discriminator as falsification screen, two-generator agreement) is inherited by the spin-off; it was never wrong, it was insufficient alone.
+
+**What is lost:** the localisation claim, which was the point of the candidate. What remains is a competent but modest audit — worth running only because it is cheap (the original two-week inference-only scope, roughly) and because its Stage-1 outputs (score dynamic range, AI-CAC-on-CT-RATE viability, the natural reconstruction-variability band) are exactly the assets the spin-off needs. Concession in round 3 rather than round 5 is the only thing done efficiently here.
+
+**Status:** CONCEDED
+
+
+===== ideas/013/idea_card.json =====
+{
+  "id": "C2",
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity",
+  "question": "When CT-CLIP fires its 'Coronary artery wall calcification' label, is the score a monotone function of automated coronary Agatston, and does it dissociate from aortic-wall calcium measured in the same volume - so that the coronary label tracks coronary calcium specifically rather than total vascular calcium?",
+  "deliverable_sentence": "CT-CLIP is using coronary artery calcium as a localised quantity: its coronary-calcification score rises with automated coronary Agatston and is not merely a readout of total calcium load, because it separates from aortic-wall calcium in the same scan.",
+  "rung": {
+    "current": 3,
+    "why": "Coronary calcification is a named radiological finding; the design also tests whether the model's OWN label means what it says.",
+    "what_would_move_it_up": "Nothing above rung 3; the localisation dissociation is what makes the rung-3 claim strong rather than a bare correlation."
+  },
+  "X_measurement": {
+    "X": "Coronary Agatston (AI-CAC) as the primary; aortic-wall calcium (volume of voxels >130 HU inside the TotalSegmentator 'aorta' mask) as the dissociating comparison.",
+    "how": "AI-CAC for coronary calcium; TotalSegmentator free 'total' task (Apache-2.0) segments the aorta, then threshold-count calcium inside it. Both are threshold/segmentation operations, no annotation.",
+    "citations": "AI-CAC: Hagopian et al., NEJM AI 2025, DOI 10.1056/AIoa2400937. TotalSegmentator: Wasserthal et al., Radiol Artif Intell 2023;5(5):e230024, DOI 10.1148/ryai.230024 (aorta in the free task). CT-CLIP labels: Hamamci et al., arXiv:2403.17834 ('our dataset distinguishes between Arterial wall calcification and Coronary artery wall calcification').",
+    "could_I_compute_it_today_without_asking_anyone": "Yes for both measures. CT-CLIP checkpoints require a CC-BY-NC-SA click-through gate but no application.",
+    "known_weakness_of_X_stated_up_front": "CT-RATE is non-contrast (good for calcium HU) but slice thickness ranges up to 6 mm, which coarsens small coronary calcifications; AI-CAC expects full-FOV chest CT, which CT-RATE mostly is, but truncated fields would bias coronary coverage."
+  },
+  "suspected_signal": "Both labels were trained from RadBERT-parsed reports, so the model has a supervised target for calcium. The question is whether it learned calcium as a LOCATION-BOUND finding (coronary vs aortic) or as a texture detector for any dense vascular fleck. Calcified plaque is hyperdense and anatomically placed; a model that truly localises will track coronary Agatston with partial independence from aortic calcium.",
+  "keystone_prerequisite": "CT-CLIP's coronary-calcification score can be regressed against a per-scan automated coronary Agatston on CT-RATE volumes (primary), AND coronary and aortic calcium vary independently ENOUGH in the CT-RATE population for the localisation dissociation to be identifiable (secondary) - because if the two calcium loads are nearly collinear, the dissociation cannot be estimated regardless of how well each is measured.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "The two labels exist verbatim in the paper ('Arterial wall calcification' and 'Coronary artery wall calcification'). ClassFine/CT-LiPro outputs exactly the 18-label set. Checkpoints (CT_LiPro_v2.pt etc.) are in models/CT-CLIP-Related/ inside the CC-BY-NC-SA CT-RATE HF repo (click-through gate). AI-CAC's stated domain is non-gated non-contrast chest CT = CT-RATE. TotalSegmentator's free task segments the aorta. All primary-readout ingredients are confirmed runnable.",
+  "keystone_residual_assumption": "The primary (score vs coronary Agatston, monotone) is fully supported by INSPECTED facts. The SECONDARY dissociation carries the real residual: I verified that coronary and aortic calcium are each measurable, but I did NOT verify that they vary independently in CT-RATE. Coronary and aortic calcium share atherosclerosis and are positively correlated (population r commonly ~0.4-0.6), which is enough to identify a dissociation but not guaranteed in this specific cohort. This is the same shape as the scout-004 lesson (LAA and BV5 co-vary): 'both are measurable' is not 'both vary independently'. Stage 0 must estimate the joint distribution before the dissociation is trusted; if collinear, the candidate honestly retreats to the fidelity-only claim.",
+  "rung_reached": {
+    "value": 2,
+    "conditional_on": "The fidelity regression is rung 1 (the score IS the model's calcium output, so a monotone dependence on measured calcium is use, not correlation with an external label). The rung-3 localisation SENTENCE is earned only if coronary calcium predicts the coronary score with aortic calcium partialled out; if the two are collinear or the coronary label tracks total calcium, the claim is 'the model uses vascular calcium' (still rung 3, but a coarser X)."
+  },
+  "use_vs_association": "Use is not in doubt for the primary, because the score being regressed IS the model's own calcification output - a monotone dependence on measured Agatston is the model using calcium by definition. The association-vs-use worry lives entirely in WHICH calcium (coronary vs total), which the localisation dissociation resolves.",
+  "dies_like_prior": "Resembles idea 010 (cardiomegaly -> heart volume, CT-CLIP score vs machine measurement), which is ACTIVE, not killed; C2's distinct move is the two-label localisation dissociation that idea 010's single label cannot support. No annotation-provenance issue: the primary readout regresses the model's own score against a voxel Agatston, and the RadBERT report label never enters the primary.",
+  "closest_prior_work": [
+    {
+      "citation": "Hamamci et al., CT-CLIP / CT-RATE foundation model.",
+      "identifier": "arXiv:2403.17834",
+      "verification": "INSPECTED (v3 HTML)",
+      "what_it_did": "Trained the model and reported the 18-label ClassFine performance, including both calcification labels.",
+      "what_it_did_not_do": "Never tested whether the calcification scores track a measured calcium score, nor whether the two labels dissociate by anatomy."
+    },
+    {
+      "citation": "Kenia, McNamara, Lotter, 'Anatomy Contextualized Adaption of CT Foundation Models'.",
+      "identifier": "arXiv:2607.27154 (2026)",
+      "verification": "SEARCH_SUMMARY_ONLY",
+      "what_it_did": "Combined CT-CLIP and Merlin with TotalSegmentator anatomy for zero-shot binary finding classification.",
+      "what_it_did_not_do": "No correlation of model scores against any continuous geometric or densitometric biomarker; no calcium quantification."
+    },
+    {
+      "citation": "Hagopian et al., AI-CAC.",
+      "identifier": "NEJM AI 2025, DOI 10.1056/AIoa2400937",
+      "verification": "INSPECTED",
+      "what_it_did": "Released the calcium scorer.",
+      "what_it_did_not_do": "Never applied to a foundation model's calcification label."
+    }
+  ],
+  "existing_assets": [
+    "CT-CLIP ClassFine checkpoints (CC-BY-NC-SA, click-through).",
+    "CT-RATE non-contrast chest CT volumes (same gate).",
+    "AI-CAC (MIT).",
+    "TotalSegmentator free task (Apache-2.0) for the aorta mask.",
+    "The paper's own ClassFine AUROC for the two calcification labels as reference."
+  ],
+  "smallest_decisive_experiment": "Stage 0 (2 days): on a CT-RATE validation slice, run AI-CAC and aortic-calcium counting and estimate their joint distribution - go/no-go for the dissociation. Stage 1 (fidelity, no labels): regress CT-CLIP's coronary-calcification score on coronary Agatston across deciles; a model using calcium shows a monotone gradient. Stage 2 (localisation): partial the coronary score on coronary Agatston with aortic calcium held, and cross-check the 'Arterial wall calcification' score against aortic calcium - a localising model shows a double dissociation.",
+  "standing_confounds_addressed": {
+    "scanner_and_vendor": "CT-RATE is largely single-institution; vendor retained as a covariate.",
+    "acquisition_protocol": "Non-contrast throughout; slice thickness varies and is a covariate (thick slices blur small coronary calcium).",
+    "reconstruction": "Kernel affects calcium blooming; recorded per volume where available and used as a covariate.",
+    "site": "Limited institutional diversity in CT-RATE; stated as a scope limitation.",
+    "positioning": "Weak effect; calcium measured inside anatomical masks.",
+    "habitus": "Noise via body size; covariate.",
+    "prevalence": "Single-cohort; no between-population contrast.",
+    "referral_pathway": "CT-RATE is clinically-referred chest CT - a genuine caveat, since indication may correlate with calcium burden; addressed only as a limitation.",
+    "label_leakage": "N/A to primary (score vs voxel Agatston). The training label came from reports, but the readout is the score against an independent measurement, not against the report."
+  },
+  "alternative_explanations": [
+    "The coronary score tracks TOTAL vascular calcium, not coronary specifically - the central alternative, resolved by the aortic-calcium dissociation.",
+    "The score is effectively binary/saturated (present/absent), so a 'monotone' relationship is really a step - handled by the ordinal coarsening and by inspecting the score distribution.",
+    "Slice-thickness confound: thick-slice scans blur coronary calcium and may drop the score for measurement reasons - covariate-adjusted and stratified.",
+    "The appealing 'the model localises calcium' sentence would also arise if aortic and coronary calcium simply differ in average magnitude; only the partialled dissociation, not the marginal correlations, supports it."
+  ],
+  "anticipated_negative": {
+    "classification": "sensitivity-limited",
+    "reasoning": "If the coronary score does not track Agatston, it may be because the ClassFine head is near-binary and saturates, not because the model ignores calcium - so a null needs the score-distribution diagnostic and a minimum-detectable-slope to be interpretable. A clean null on the DISSOCIATION (coronary score tracks total calcium equally) is more decisive and would say the label does not localise."
+  },
+  "cross_domain": null,
+  "remaining_legwork": [
+    "Accept the CT-RATE gate and pull the validation split + checkpoints: 1 day.",
+    "Stage 0 joint-distribution check: 2 days.",
+    "Run AI-CAC + aortic counting across the split: 3 days.",
+    "Time to first decision: ~2 weeks."
+  ],
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "Names the model, both labels, both measurements, and the dissociation that identifies the claim."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "The score is the model's own output so use is not in question; the two-label dissociation isolates coronary calcium from total calcium. Held below 5 by the residual (coronary/aortic calcium co-vary) and by CT-RATE's clinical-referral confound."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "A fidelity/localisation audit of a model's label - useful for trusting the model's calcium reporting, but less directly consequential than a discovery."
+    },
+    "interest": {
+      "value": 4,
+      "why": "Whether a foundation model's finding label is anatomically meaningful or just a hyperdensity detector is a sharp, generalisable question."
+    },
+    "prior_legwork": {
+      "value": 5,
+      "why": "Open model, open images (gated but free), two open measurement tools, published reference AUROCs."
+    },
+    "feasibility": {
+      "value": 4,
+      "why": "Cap lifted (INSPECTED_TRUE). Inference-only; both tools run. Held by the CT-RATE gate and thick-slice coronary blurring."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "CT-RATE is a free click-through, non-commercial gate; not fully open."
+    },
+    "evaluation_readiness": {
+      "value": 5,
+      "why": "Agatston, ordinal agreement, partial regression, double dissociation - all standard with reference values."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A fidelity null is sensitivity-limited (label may saturate); a dissociation null is more decisive. Averaged to 3."
+    },
+    "novelty_confidence": {
+      "value": 4,
+      "why": "Cap lifted. No prior test of CT-CLIP calcification-score fidelity or localisation was found. Held at 4 because the score-vs-biomarker method is established prior art and a very recent preprint could exist."
+    }
+  },
+  "priority_score": 3.95,
+  "priority_arithmetic": "0.20*4 + 0.15*4 + 0.15*3 + 0.10*5 + 0.10*4 + 0.10*5 + 0.10*3 + 0.05*4 + 0.05*4 = 0.80+0.60+0.45+0.50+0.40+0.50+0.30+0.20+0.20 = 3.95",
+  "regret": {
+    "value": 4,
+    "why": "The two-label natural experiment is sitting in the released model and nobody has run it; the tools are free."
+  },
+  "unverified_claims": [
+    "Coronary and aortic calcium vary independently enough in CT-RATE (Stage 0).",
+    "AI-CAC runs acceptably on 6 mm-slice CT-RATE volumes.",
+    "The exact ClassFine score scale/saturation behaviour for the calcification heads.",
+    "CT-RATE FOV consistently includes full coronary coverage (inferred from 'chest CT', not verbatim)."
+  ],
+  "track": "baseline"
+}
+
+
+===== STAGE TASK =====
+Read the full `debate.md` and write `consensus.md`. You are summarizing, not
+adjudicating: do not declare a winner.
+
+```markdown
+# Debate summary — idea NNN
+
+## Agreed
+- [points both sides accept, with the round where agreement occurred]
+
+## Unresolved
+For each: the question, the proposer's position, the critic's position, and
+**what evidence would settle it**. If no evidence could settle it, say that
+plainly — it means the disagreement is about values or taste, not facts.
+
+## Positions that moved
+For each concession: who conceded, in which round, and in response to what
+argument. If someone conceded without being given a new argument, flag it as
+UNEARNED — capitulation is not agreement and should not be recorded as
+consensus.
+
+## Amendments made
+What the idea now claims versus what it claimed at round zero. Note anything
+lost.
+
+## Recommendation
+ADVANCE | REVISE | PAUSE | REJECT — plus the single most important thing the
+human should look at before deciding.
+```
+
+If the debate converged in one round with no real objection raised, say so
+explicitly. That is evidence the critic is not working, and it matters more
+than the idea under discussion.
+
