@@ -1,0 +1,32 @@
+{
+  "concepts": [
+    "vessel caliber taper", "reconstruction kernel", "respiratory phase",
+    "costal cartilage calcification", "Murray's law exponent", "emphysema score",
+    "cardiothoracic ratio", "bone mineral density", "airway branching angle",
+    "hepatic attenuation", "scanner vendor signature", "slice thickness",
+    "pericardial fat volume", "aortic calcification", "diaphragm excursion",
+    "trabecular texture", "contrast bolus timing", "vertebral height loss",
+    "lung parenchyma fractal dimension", "skin lesion border gradient"
+  ],
+  "datasets": [
+    "CT-RATE (public chest CT + reports)",
+    "LIDC-IDRI (lung nodules, per-reader ratings)",
+    "TopCoW (Circle of Willis arterial masks)",
+    "Derm7pt (dermoscopic + clinical photos, 7-point checklist)",
+    "DRIVE/STARE/CHASE (retinal vessel masks)",
+    "NLST (lung screening CT, outcomes)",
+    "MIMIC-CXR (chest radiographs + reports)"
+  ],
+  "twists": [
+    "The two measurements disagree, and the disagreement is the signal.",
+    "The effect reverses at a scale nobody usually looks at.",
+    "An old, unfashionable instrument sees what the new one misses.",
+    "The discovery is only visible in data everyone routinely discards.",
+    "Two unrelated clocks in the body turn out to be synchronized.",
+    "The model is right for a reason its builders would find embarrassing.",
+    "A law from a distant field predicts the anomaly exactly.",
+    "The control group is the interesting group.",
+    "Something meant to be identical twice is informatively different.",
+    "The absence everyone corrected for was carrying the information."
+  ]
+}

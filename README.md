@@ -115,3 +115,21 @@ The objective is not “maximize performance.” It is:
 > Resolve a worthwhile scientific uncertainty as cheaply, clearly, and honestly as possible.
 
 A clean negative result is success. An invalid experiment is not a negative result. Exploratory findings remain exploratory until independently tested.
+
+## Revamp additions (cycle 2+)
+
+```
+python scout.py cycle --tracks baseline,wide,fiction   # multi-track scouting cycle
+python scout.py cycle --dry-run                        # print plan, spend nothing
+python scout.py resume                                 # continue after limit/timeout
+python scout.py ledger list|show|search|kill|taxonomy  # idea ledger (ledger.jsonl)
+```
+
+- Every completed stage is a git commit (the checkpoint). A failed stage
+  commits partial output; `resume` picks up at the first incomplete stage.
+- `[rotation]` in AGENTS.toml swaps the two model families on odd cycles.
+- Fiction track: blind seeded story -> extraction -> cross-family refinement
+  with a NO_TESTABLE_KERNEL exit. See REVAMP.md for the design and the
+  planned head-to-head demo.
+- Remote operation: `.github/workflows/scout-cycle.yml` (mobile Run-workflow
+  button + nightly cron). Setup steps: REVAMP.md "First-run checklist".

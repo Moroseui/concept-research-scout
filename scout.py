@@ -4,15 +4,34 @@
 No expensive compute is launched automatically. Agent CLI commands are best-effort
 because vendor flags change; every stage also writes a complete prompt file that
 can be handed to an agent manually.
+
+Revamp additions (see REVAMP.md):
+  * `cycle` / `resume`: multi-track scouting (baseline | wide | fiction) with
+    per-stage git-commit checkpoints, so a rate limit or timeout costs one
+    stage, not the run.
+  * Ledger: append-only ledger.jsonl + evidence/ledger_digest.md injected into
+    scout prompts (orchestrator/ledger.py).
+  * Rotation: [rotation] in AGENTS.toml swaps the two model families on odd
+    cycles, so both play scout and critic across cycles.
+  * Fiction track: blind, seed-constrained story generation -> mechanical
+    extraction -> cross-model refinement with an honorable NO_TESTABLE_KERNEL
+    exit.
 """
 from __future__ import annotations
-import argparse, csv, json, os, shutil, subprocess, sys, textwrap
+import argparse, csv, json, os, random, shutil, subprocess, sys, textwrap
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 STATE = ROOT/'orchestrator'/'state.json'
 PROMPTS = ROOT/'orchestrator'/'prompts'
+SEEDS = ROOT/'orchestrator'/'seeds.json'
+
+sys.path.insert(0, str(ROOT/'orchestrator'))
+import ledger as ledger_mod  # noqa: E402
+ledger_mod.ROOT = ROOT
+ledger_mod.LEDGER = ROOT/'ledger.jsonl'
+ledger_mod.DIGEST = ROOT/'evidence'/'ledger_digest.md'
 
 
 def load_state():
@@ -38,14 +57,61 @@ def scout_dir(i):
     return ROOT/'ideas'/f'scout-{int(i):03d}'
 
 
-def build_prompt(stage, target):
-    files = [ROOT/'CHARTER.md', ROOT/'docs'/'COLLABORATOR_RULES.md', ROOT/'docs'/'SCORING_RUBRIC.md', ROOT/'evidence'/'decisions.md']
-    context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
+# --------------------------------------------------------------------------
+# Prompt building. Fiction-track early stages are BLIND: the writer must not
+# see the charter, rules, rubric, or institutional memory, or it will start
+# self-censoring toward plausibility -- exactly what the track exists to avoid.
+# The refiner sees everything EXCEPT the story: it must judge the pitch, not
+# the fiction it came from.
+# --------------------------------------------------------------------------
+
+BLIND_STAGES = {'fiction_scout', 'fiction_extract'}
+STAGE_CONTEXT_EXCLUDE = {
+    # The refiner judges the pitch as a colleague's pitch. Neither the story
+    # nor the seed card (which reveals the constructed origin) may leak in.
+    'fiction_refine': {'fiction_story.md', 'fiction_seed.json'},
+}
+
+
+def _target_context(stage, target):
+    parts = []
+    include_only = {'fiction_scout': {'fiction_seed.json'},
+                    'fiction_extract': {'fiction_story.md'}}.get(stage)
+    exclude = STAGE_CONTEXT_EXCLUDE.get(stage, set())
     if target.exists():
         for p in sorted(target.glob('*')):
-            if p.is_file() and not p.name.startswith('prompt_') and p.suffix.lower() in {'.md','.json','.yaml','.yml','.csv'}:
-                context += f'\n\n===== {p.relative_to(ROOT)} =====\n{read_text(p)}'
+            if not p.is_file() or p.name.startswith('prompt_'):
+                continue
+            if p.suffix.lower() not in {'.md', '.json', '.yaml', '.yml', '.csv'}:
+                continue
+            if include_only is not None and p.name not in include_only:
+                continue
+            if p.name in exclude:
+                continue
+            parts.append(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}')
+    return '\n\n'.join(parts)
+
+
+def build_prompt(stage, target):
     task = read_text(PROMPTS/f'{stage}.md')
+    if stage in BLIND_STAGES:
+        return f"""You are a writer working inside this repository.
+Repository root: {ROOT}
+Assigned output directory: {target.relative_to(ROOT)}
+Write only the file the task names. Preserve all other files.
+
+{_target_context(stage, target)}
+
+===== STAGE TASK =====
+{task}
+"""
+    files = [ROOT/'CHARTER.md', ROOT/'docs'/'COLLABORATOR_RULES.md',
+             ROOT/'docs'/'SCORING_RUBRIC.md', ROOT/'evidence'/'decisions.md',
+             ROOT/'evidence'/'ledger_digest.md']
+    context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
+    tctx = _target_context(stage, target)
+    if tctx:
+        context += '\n\n' + tctx
     return f"""You are a critical research collaborator working inside this repository.
 Repository root: {ROOT}
 Assigned output directory: {target.relative_to(ROOT)}
@@ -75,11 +141,33 @@ def load_agent_config():
         return {}
 
 
+# --------------------------------------------------------------------------
+# Role rotation: on odd cycles the two model families swap, so each plays
+# every role across cycles without any concurrency or extra infrastructure.
+# --------------------------------------------------------------------------
+
+def effective_agent(agent, cfg=None, cycle_no=None):
+    cfg = cfg or load_agent_config()
+    rot = cfg.get('rotation', {})
+    if not rot.get('enabled', False) or agent is None:
+        return agent
+    if cycle_no is None:
+        cycle_no = load_state().get('active_cycle') or 0
+    if cycle_no % 2 == 1:
+        a, b = rot.get('pair', ['claude', 'codex'])[:2]
+        if agent == a:
+            return b
+        if agent == b:
+            return a
+    return agent
+
+
 def run_agent(prompt_path, agent=None, stage=None):
     cfg = load_agent_config()
     if agent is None and stage:
         agent = cfg.get('roles', {}).get(stage.replace('-', '_'))
     agent = agent or cfg.get('default',{}).get('agent','claude')
+    agent = effective_agent(agent, cfg)
     print(f'[stage={stage} agent={agent}]')
     acfg = cfg.get(agent,{})
     if not acfg.get('enabled', False):
@@ -99,11 +187,12 @@ def run_agent(prompt_path, agent=None, stage=None):
         return
     print('Running:', ' '.join(command[:3]), '...')
     stdin_text = prompt_text if use_stdin else None
+    timeout = int(cfg.get('limits', {}).get('stage_timeout', 3600))
     try:
-        proc = subprocess.run(command, cwd=ROOT, text=True, timeout=3600,
+        proc = subprocess.run(command, cwd=ROOT, text=True, timeout=timeout,
                               input=stdin_text)
     except subprocess.TimeoutExpired:
-        raise SystemExit('Agent timed out after one hour.')
+        raise SystemExit(f'Agent timed out after {timeout}s.')
     if proc.returncode:
         raise SystemExit(f'Agent exited with code {proc.returncode}. Prompt retained at {prompt_path}')
 
@@ -126,12 +215,23 @@ def doctor(_):
                       f"  (max {d.get('max_rounds', 3)} rounds)")
                 continue
             en = cfg.get(v, {}).get('enabled', False)
-            print(f'  {k:<12} -> {v}' + ('' if en else '   [DISABLED - fix AGENTS.toml]'))
+            eff = effective_agent(v, cfg)
+            note = '' if en else '   [DISABLED - fix AGENTS.toml]'
+            if eff != v:
+                note += f'   [rotated -> {eff} this cycle]'
+            print(f'  {k:<12} -> {v}' + note)
         concrete = [v for v in roles.values() if v != 'alternating']
         if len(set(concrete)) < 2:
             print('  WARNING: one model holds every role. It will be critiquing itself.')
     else:
         print('\nNo [roles] table in AGENTS.toml - all stages use the default agent.')
+    rot = cfg.get('rotation', {})
+    print(f"\nRotation: {'enabled' if rot.get('enabled') else 'disabled'}"
+          f" (pair={rot.get('pair', ['claude','codex'])},"
+          f" active_cycle={load_state().get('active_cycle')})")
+    entries = ledger_mod.load()
+    print(f'Ledger: {len(entries)} entr{"y" if len(entries)==1 else "ies"} '
+          f'({"present" if ledger_mod.LEDGER.exists() else "missing - run: python scout.py ledger migrate"})')
     print('\nColab execution is intentionally optional. package-colab creates a launcher notebook.')
 
 
@@ -145,8 +245,13 @@ def new_scout(_):
 
 def shortlist(args):
     src=scout_dir(args.scout)/'scout_candidates.json'
+    merged=scout_dir(args.scout)/'candidates_all.json'
+    if args.track and merged.exists():
+        src=merged
     if not src.exists(): raise SystemExit(f'Missing {src}. Run or complete the scout stage first.')
     data=json.loads(src.read_text()); candidates=data.get('candidates',data if isinstance(data,list) else [])
+    if args.track:
+        candidates=[c for c in candidates if c.get('track','baseline')==args.track]
     idx=args.candidate-1
     if idx<0 or idx>=len(candidates): raise SystemExit('Candidate index out of range.')
     existing=[int(p.name) for p in (ROOT/'ideas').iterdir() if p.is_dir() and p.name.isdigit()]
@@ -156,11 +261,16 @@ def shortlist(args):
     s=load_state(); s['selected_idea']=n; save_state(s)
     with (ROOT/'portfolio'/'ideas.csv').open('a',newline='') as f:
         csv.writer(f).writerow([f'{n:03d}',card.get('title',''), 'ACTIVE','',card.get('scores',{}).get('regret',''),'CRITIQUE',''])
+    ledger_mod.append({'ledger_id': f'idea-{n:03d}', 'title': card.get('title',''),
+                       'claim': card.get('deliverable_sentence') or card.get('question',''),
+                       'track': card.get('track','baseline'), 'status': 'SHORTLISTED',
+                       'scrutiny': 'SCOUTED', 'source': f'ideas/{n:03d}'})
+    ledger_mod.digest()
     print(f'Shortlisted as idea {n:03d}')
 
 
 def stage_target(stage, idea):
-    if stage=='scout':
+    if stage in ('scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit'):
         scouts=sorted((ROOT/'ideas').glob('scout-*'))
         if not scouts: raise SystemExit('Run new-scout first.')
         return scouts[-1]
@@ -182,6 +292,8 @@ def run_stage(args):
     print('Prompt:',p.relative_to(ROOT))
     run_agent(p, args.agent, stage=args.stage)
     _check_scope(args.stage)
+    if args.stage=='critique' and args.idea:
+        ledger_mod.raise_scrutiny(f'idea-{args.idea:03d}', 'CRITIQUED')
 
 
 def approve_probe(args):
@@ -229,6 +341,8 @@ def package_colab(args):
 def record_result(args):
     src=Path(args.result); d=ROOT/'probes'/f'{args.idea:03d}'/'results'; d.mkdir(parents=True,exist_ok=True)
     shutil.copy2(src,d/src.name); print('Copied to', (d/src.name).relative_to(ROOT))
+    ledger_mod.raise_scrutiny(f'idea-{args.idea:03d}', 'PROBED', note=f'result {src.name}')
+    ledger_mod.digest()
 
 
 
@@ -300,8 +414,8 @@ def _debate_should_stop(target):
 def debate(args):
     cfg = load_agent_config()
     dcfg = cfg.get('debate', {})
-    proposer = dcfg.get('proposer', 'claude')
-    critic = dcfg.get('critic', 'codex')
+    proposer = effective_agent(dcfg.get('proposer', 'claude'), cfg)
+    critic = effective_agent(dcfg.get('critic', 'codex'), cfg)
     max_rounds = args.rounds or int(dcfg.get('max_rounds', 3))
     if proposer == critic:
         raise SystemExit('debate.proposer and debate.critic must differ; '
@@ -316,7 +430,7 @@ def debate(args):
     _pre = _debate_should_stop(target)
     if _pre:
         print('Already settled: ' + _pre)
-        return _close_debate(target, critic)
+        return _close_debate(target, critic, args.idea)
 
     for r in range(1, max_rounds + 1):
         for side, agent, other in (('critic', critic, proposer),
@@ -332,15 +446,19 @@ def debate(args):
         reason = _debate_should_stop(target)
         if reason:
             print(f'Stopping: {reason}.')
-            return _close_debate(target, critic)
+            return _close_debate(target, critic, args.idea)
     print(f'\nReached max_rounds={max_rounds} without convergence.')
-    _close_debate(target, critic)
+    _close_debate(target, critic, args.idea)
 
 
-def _close_debate(target, critic):
+def _close_debate(target, critic, idea=None):
     p = write_prompt('debate_summary', target)
     run_agent(p, critic, stage='debate-summary')
     _check_scope('debate')
+    idea = idea or load_state().get('selected_idea')
+    if idea:
+        ledger_mod.raise_scrutiny(f'idea-{int(idea):03d}', 'DEBATED')
+        ledger_mod.digest()
     c = target / 'consensus.md'
     if c.exists():
         print('\n' + read_text(c)[:2000])
@@ -361,6 +479,11 @@ STAGE_SCOPE = {
     'probe-plan':  ['ideas/', 'probes/'],
     'probe-code':  ['probes/'],
     'scout':       ['ideas/'],
+    'wide-scout':  ['ideas/'],
+    'fiction-scout':   ['ideas/'],
+    'fiction-extract': ['ideas/'],
+    'fiction-refine':  ['ideas/'],
+    'novelty-audit':   ['ideas/'],
 }
 
 
@@ -406,18 +529,263 @@ def status(_):
     print(read_text(ROOT/'portfolio'/'ideas.csv'))
 
 
+# ==========================================================================
+# Cycle orchestration: multi-track scouting with checkpoint/resume.
+#
+# Design notes:
+#  * Every completed stage is committed to git immediately. The commit IS the
+#    checkpoint: a rate limit, timeout, or 6-hour Actions kill costs one
+#    stage, and it keeps the clean-tree guard satisfied between stages.
+#  * A failed stage's partial output is committed too (marked FAILED) so no
+#    agent work is ever lost and `resume` starts from a clean tree.
+#  * Fiction refine runs on the OPPOSITE model family from the fiction writer:
+#    a model may half-recognise its own fictional register, so the cross-model
+#    handoff is what makes the persona separation real.
+# ==========================================================================
+
+TRACKS = ('baseline', 'wide', 'fiction')
+
+
+def seed_draw(rng=None):
+    rng = rng or random.Random()
+    seeds = json.loads(read_text(SEEDS) or '{}')
+    concepts = list(seeds.get('concepts', []))
+    entries = ledger_mod.load()
+    for e in entries.values():
+        concepts += [t for t in e.get('tags', []) if isinstance(t, str)]
+    concepts = sorted(set(c for c in concepts if c)) or ['vessel caliber', 'reconstruction kernel']
+    datasets = seeds.get('datasets') or ['CT-RATE (public chest CT + reports)']
+    twists = seeds.get('twists') or ['The two measurements disagree, and the disagreement is the signal.']
+    return {
+        'concepts': rng.sample(concepts, min(2, len(concepts))),
+        'dataset': rng.choice(datasets),
+        'twist': rng.choice(twists),
+        'drawn_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+    }
+
+
+def _fiction_writer_and_refiner(cfg, cycle_no=None):
+    writer = cfg.get('roles', {}).get('fiction_scout') or cfg.get('roles', {}).get('scout', 'claude')
+    writer = effective_agent(writer, cfg, cycle_no)
+    pair = cfg.get('rotation', {}).get('pair', ['claude', 'codex'])[:2]
+    refiner = pair[1] if writer == pair[0] else pair[0]
+    return writer, refiner
+
+
+def _cycle_stage_list(tracks):
+    stages = []
+    if 'baseline' in tracks:
+        stages.append(('scout', 'role'))
+    if 'wide' in tracks:
+        stages.append(('wide_scout', 'role'))
+    if 'fiction' in tracks:
+        stages += [('fiction_scout', 'fiction_writer'),
+                   ('fiction_extract', 'fiction_writer'),
+                   ('fiction_refine', 'fiction_refiner')]
+    stages.append(('merge', 'python'))
+    stages.append(('novelty_audit', 'role'))
+    return stages
+
+
+def _git(*cmd, check=True):
+    return subprocess.run(['git', *cmd], cwd=ROOT, capture_output=True, text=True, check=check)
+
+
+def _commit_all(message):
+    _git('add', '-A')
+    r = _git('diff', '--cached', '--quiet', check=False)
+    if r.returncode == 0:
+        return False  # nothing to commit
+    _git('commit', '-q', '-m', message)
+    return True
+
+
+CANDIDATE_FILES = {'baseline': 'scout_candidates.json',
+                   'wide': 'wide_candidates.json',
+                   'fiction': 'fiction_candidates.json'}
+
+
+def _merge_candidates(target, tracks, cycle_no):
+    merged, notes = [], {}
+    for track in tracks:
+        f = target / CANDIDATE_FILES[track]
+        if not f.exists():
+            notes[track] = 'no candidate file produced'
+            continue
+        try:
+            data = json.loads(f.read_text())
+        except json.JSONDecodeError:
+            notes[track] = 'candidate file was not valid JSON'
+            continue
+        if data.get('no_testable_kernel'):
+            notes[track] = f"NO_TESTABLE_KERNEL: {data['no_testable_kernel']}"
+        cands = data.get('candidates', data if isinstance(data, list) else [])
+        for c in cands:
+            if isinstance(c, dict):
+                c.setdefault('track', track)
+                merged.append(c)
+    out = {'cycle': cycle_no, 'tracks': list(tracks), 'notes': notes, 'candidates': merged}
+    (target / 'candidates_all.json').write_text(json.dumps(out, indent=2, ensure_ascii=False) + '\n')
+    for i, c in enumerate(merged, 1):
+        ledger_mod.append({
+            'ledger_id': f'scout-{cycle_no:03d}-c{i:02d}',
+            'title': c.get('title', ''),
+            'claim': c.get('deliverable_sentence') or c.get('question', ''),
+            'track': c.get('track', 'baseline'),
+            'dataset': (c.get('dataset', {}) or {}).get('name', '') if isinstance(c.get('dataset'), dict) else str(c.get('dataset', '')),
+            'status': 'SCOUT_ONLY',
+            'scrutiny': 'SCOUTED',
+            'source': str(target.relative_to(ROOT)),
+        })
+    ledger_mod.digest()
+    print(f'Merged {len(merged)} candidate(s) across {len(tracks)} track(s) -> candidates_all.json')
+    for track, note in notes.items():
+        print(f'  note[{track}]: {note}')
+
+
+def _print_plan(cycle_no, tracks, stages, cfg):
+    print(f'Cycle {cycle_no:03d} plan  (tracks: {", ".join(tracks)})')
+    writer, refiner = _fiction_writer_and_refiner(cfg, cycle_no)
+    for name, kind in stages:
+        if kind == 'python':
+            agent = '(python, no agent)'
+        elif kind == 'fiction_writer':
+            agent = writer
+        elif kind == 'fiction_refiner':
+            agent = refiner
+        else:
+            role = cfg.get('roles', {}).get(name, cfg.get('roles', {}).get('scout', 'claude'))
+            agent = effective_agent(role, cfg, cycle_no)
+        print(f'  {name:<16} -> {agent}')
+    if 'fiction' in tracks:
+        print('  sample seed draw:', json.dumps(seed_draw(random.Random(cycle_no))))
+    rot = cfg.get('rotation', {})
+    if rot.get('enabled'):
+        print(f'  rotation: enabled (cycle parity {"odd -> swapped" if cycle_no % 2 else "even -> normal"})')
+
+
+def _run_cycle_stage(name, kind, target, cfg, cycle_no):
+    if name == 'merge':
+        tracks = load_state()['cycle']['tracks']
+        _merge_candidates(target, tracks, cycle_no)
+        return
+    if name == 'fiction_scout':
+        seed = seed_draw(random.Random())
+        (target / 'fiction_seed.json').write_text(json.dumps(seed, indent=2) + '\n')
+    writer, refiner = _fiction_writer_and_refiner(cfg, cycle_no)
+    agent = {'fiction_writer': writer, 'fiction_refiner': refiner}.get(kind)
+    p = write_prompt(name, target)
+    run_agent(p, agent, stage=name.replace('_', '-'))
+    _check_scope(name.replace('_', '-'))
+
+
+def _cycle_loop(cycle_no, target, tracks, cfg):
+    s = load_state()
+    stages = _cycle_stage_list(tracks)
+    for name, kind in stages:
+        st = s['cycle']['stages'].get(name)
+        if st == 'done':
+            print(f'[skip] {name} already done')
+            continue
+        s['cycle']['stages'][name] = 'running'
+        save_state(s)
+        _commit_all(f'cycle {cycle_no:03d}: start {name}')
+        try:
+            _run_cycle_stage(name, kind, target, cfg, cycle_no)
+        except SystemExit as e:
+            s = load_state()
+            s['cycle']['stages'][name] = 'failed'
+            save_state(s)
+            _commit_all(f'cycle {cycle_no:03d}: {name} FAILED (partial output preserved)')
+            print(f'\nStage {name!r} failed: {e}')
+            print('Work so far is committed. Continue later with:\n  python scout.py resume')
+            raise SystemExit(1)
+        s = load_state()
+        s['cycle']['stages'][name] = 'done'
+        save_state(s)
+        _commit_all(f'cycle {cycle_no:03d}: {name} done')
+        print(f'[done] {name} (checkpoint committed)')
+    s = load_state()
+    s['cycle']['finished'] = datetime.now(timezone.utc).isoformat(timespec='seconds')
+    save_state(s)
+    _commit_all(f'cycle {cycle_no:03d}: complete')
+    print(f'\nCycle {cycle_no:03d} complete. Review {target.relative_to(ROOT)}/candidates_all.json '
+          f'and novelty_audit.md, then shortlist:\n  python scout.py shortlist {cycle_no} <n> [--track TRACK]')
+
+
+def cycle(args):
+    cfg = load_agent_config()
+    tracks = [t.strip() for t in (args.tracks or 'baseline').split(',') if t.strip()]
+    bad = [t for t in tracks if t not in TRACKS]
+    if bad:
+        raise SystemExit(f'Unknown track(s): {", ".join(bad)}. Known: {", ".join(TRACKS)}')
+    s = load_state()
+    pending = s.get('cycle') and any(v != 'done' for v in s['cycle']['stages'].values())
+    if args.resume_or_new and pending:
+        print('Unfinished cycle found; resuming it instead of starting a new one.')
+        return resume(args)
+    n = s['next_scout']
+    if args.dry_run:
+        _print_plan(n, tracks, _cycle_stage_list(tracks), cfg)
+        return
+    _require_clean_tree('cycle')
+    d = scout_dir(n)
+    d.mkdir(parents=True, exist_ok=False)
+    (d / 'README.md').write_text(f'# Scouting cycle {n:03d}\n\nTracks: {", ".join(tracks)}\n')
+    if not ledger_mod.LEDGER.exists():
+        print('Ledger absent; running first-time migration from existing ideas.')
+        ledger_mod.migrate()
+    ledger_mod.digest()
+    s['next_scout'] = n + 1
+    s['active_cycle'] = n
+    s['cycle'] = {'scout': n, 'tracks': tracks,
+                  'started': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+                  'stages': {name: 'pending' for name, _ in _cycle_stage_list(tracks)}}
+    save_state(s)
+    _commit_all(f'cycle {n:03d}: begin (tracks: {", ".join(tracks)})')
+    _cycle_loop(n, d, tracks, cfg)
+
+
+def resume(_args):
+    s = load_state()
+    c = s.get('cycle')
+    if not c:
+        raise SystemExit('No cycle recorded. Start one with: python scout.py cycle --tracks baseline')
+    if all(v == 'done' for v in c['stages'].values()):
+        print(f"Cycle {c['scout']:03d} already complete.")
+        return
+    n = c['scout']
+    s['active_cycle'] = n
+    save_state(s)
+    _require_clean_tree('resume')
+    print(f"Resuming cycle {n:03d} (tracks: {', '.join(c['tracks'])})")
+    for name, st in c['stages'].items():
+        print(f'  {name:<16} {st}')
+    _cycle_loop(n, scout_dir(n), c['tracks'], load_agent_config())
+
+
 def main():
     ap=argparse.ArgumentParser(); sp=ap.add_subparsers(dest='cmd',required=True)
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
     p=sp.add_parser('new-scout'); p.set_defaults(fn=new_scout)
-    p=sp.add_parser('shortlist'); p.add_argument('scout',type=int); p.add_argument('candidate',type=int); p.set_defaults(fn=shortlist)
-    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','critique','revise','feasibility','probe-plan','probe-code','interpret']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
+    p=sp.add_parser('shortlist'); p.add_argument('scout',type=int); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
+    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('result'); p.set_defaults(fn=record_result)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
+    p=sp.add_parser('cycle'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.set_defaults(fn=cycle)
+    p=sp.add_parser('resume'); p.set_defaults(fn=resume)
+    p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
+    for c in ('migrate','digest','list','taxonomy'):
+        q=lsp.add_parser(c)
+        if c=='migrate': q.add_argument('--force',action='store_true')
+    q=lsp.add_parser('show'); q.add_argument('id')
+    q=lsp.add_parser('search'); q.add_argument('query')
+    q=lsp.add_parser('kill'); q.add_argument('id'); q.add_argument('code'); q.add_argument('reason')
+    p.set_defaults(fn=ledger_mod.cli)
     args=ap.parse_args(); args.fn(args)
 
 if __name__=='__main__': main()

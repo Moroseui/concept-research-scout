@@ -1,3 +1,14 @@
+<!-- stage: scout -->
+## Step 0 -- Read the ledger digest
+
+`evidence/ledger_digest.md` is in your context. It is the institutional memory
+of every idea this program has tracked: statuses, scrutiny levels, and the
+kill-code frequency table. The kill-code table is a generation-time checklist:
+before developing any candidate, check it against every listed failure mode.
+USE_VS_ASSOCIATION killed nine of eleven ideas in cycle one -- every candidate
+must state in one line how its design distinguishes "the model uses X" from
+"X is merely correlated with the label."
+
 ## Step 1 — Generate ten questions before developing any of them
 
 Write ten one-line research questions. Do not elaborate. Do not score. Do not

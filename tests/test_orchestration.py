@@ -52,9 +52,37 @@ elif action == "clean_debate_then_sneak_on_summary":
 elif action.startswith("debate:"):
     _, side, status = action.split(":", 2)
     add_round(side, status)
+elif action == "cycle_auto":
+    import re
+    m = re.search("<!-- stage: ([a-z_]+) -->", prompt)
+    stage = m.group(1) if m else ""
+    if stage and stage == os.environ.get("FAKE_FAIL_STAGE", ""):
+        sys.exit(1)
+    m2 = re.search("Assigned output directory: (\\S+)", prompt)
+    outdir = root / (m2.group(1) if m2 else target)
+    outdir.mkdir(parents=True, exist_ok=True)
+    cand = '{"candidates": [{"title": "Fake STAGE", "question": "q?", "dataset": "D"}]}'
+    if stage == "scout":
+        (outdir / "scout_candidates.json").write_text(cand.replace("STAGE", "baseline") + NL)
+    elif stage == "wide_scout":
+        (outdir / "wide_candidates.json").write_text(cand.replace("STAGE", "wide") + NL)
+    elif stage == "fiction_scout":
+        (outdir / "fiction_story.md").write_text("A story. ZZSTORYMARKERZZ. The check held." + NL)
+    elif stage == "fiction_extract":
+        (outdir / "fiction_pitch.md").write_text("## Claimed finding" + NL + "Pitch body." + NL)
+    elif stage == "fiction_refine":
+        (outdir / "fiction_candidates.json").write_text(cand.replace("STAGE", "fiction") + NL)
+    elif stage == "novelty_audit":
+        (outdir / "novelty_audit.md").write_text("audit" + NL)
 else:
     (root / target).mkdir(parents=True, exist_ok=True)
     (root / target / "critique.md").write_text("fake critique" + NL)
+
+# Per-stage receipt copy so tests can inspect individual prompts of a cycle.
+import re as _re
+_m = _re.search("<!-- stage: ([a-z_]+) -->", prompt)
+if _m:
+    pathlib.Path(os.environ["FAKE_RECEIPT"] + "." + _m.group(1)).write_text(prompt)
 """
 
 
@@ -201,6 +229,112 @@ class TestDebate(Harness):
         self.assertNotEqual(r.returncode, 0,
                             "debate turn wrote outside scope without failing")
         self.assertIn("SCOPE VIOLATION", r.stdout + r.stderr)
+
+
+
+
+class TestLedger(Harness):
+    def test_migrate_backfills_from_ideas_and_decisions(self):
+        r = self.scout("ledger", "migrate")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        lj = self.repo / "ledger.jsonl"
+        self.assertTrue(lj.exists(), "ledger.jsonl not created")
+        recs = [json.loads(x) for x in lj.read_text().splitlines() if x.strip()]
+        ids = {x.get("ledger_id") for x in recs}
+        self.assertGreaterEqual(len(ids), 11, f"expected >=11 migrated ideas, got {sorted(ids)}")
+        by_id = {}
+        for rec in recs:
+            by_id.setdefault(rec["ledger_id"], {}).update({k: v for k, v in rec.items() if v})
+        self.assertEqual(by_id.get("idea-001", {}).get("status"), "REJECTED",
+                         "decisions.md REJECTED verdict not picked up for idea 001")
+        self.assertTrue((self.repo / "evidence" / "ledger_digest.md").exists())
+
+    def test_kill_records_taxonomy_code_and_refreshes_digest(self):
+        self.scout("ledger", "migrate")
+        self.commit()
+        r = self.scout("ledger", "kill", "idea-003", "USE_VS_ASSOCIATION", "test reason")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        digest = (self.repo / "evidence" / "ledger_digest.md").read_text()
+        self.assertIn("USE_VS_ASSOCIATION", digest)
+
+    def test_unknown_kill_code_is_rejected(self):
+        self.scout("ledger", "migrate")
+        r = self.scout("ledger", "kill", "idea-003", "NOT_A_CODE", "reason")
+        self.assertNotEqual(r.returncode, 0)
+
+
+class TestRotation(Harness):
+    def test_pair_swaps_on_odd_cycles_only(self):
+        sys.path.insert(0, str(self.repo))
+        import importlib, scout as sc
+        importlib.reload(sc)
+        cfg = {"rotation": {"enabled": True, "pair": ["claude", "codex"]}}
+        self.assertEqual(sc.effective_agent("claude", cfg, cycle_no=2), "claude")
+        self.assertEqual(sc.effective_agent("claude", cfg, cycle_no=3), "codex")
+        self.assertEqual(sc.effective_agent("codex", cfg, cycle_no=3), "claude")
+        cfg["rotation"]["enabled"] = False
+        self.assertEqual(sc.effective_agent("claude", cfg, cycle_no=3), "claude")
+
+
+class TestCycle(Harness):
+    def start_state(self, n=9):
+        (self.repo / "orchestrator" / "state.json").write_text(
+            json.dumps({"next_scout": n, "selected_idea": 1}) + "\n")
+        self.commit()
+
+    def test_fiction_cycle_is_blind_and_merges(self):
+        self.start_state(9)
+        r = self.scout("cycle", "--tracks", "fiction", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        d = self.repo / "ideas" / "scout-009"
+        merged = json.loads((d / "candidates_all.json").read_text())
+        tracks = {c.get("track") for c in merged["candidates"]}
+        self.assertEqual(tracks, {"fiction"})
+        # Writer prompt must be blind: no charter/rules/memory context.
+        writer_prompt = Path(str(self.receipt) + ".fiction_scout").read_text()
+        for leak in ("critical research collaborator", "COLLABORATOR_RULES",
+                     "ledger_digest", "SCORING_RUBRIC"):
+            self.assertNotIn(leak, writer_prompt, f"fiction writer saw {leak}")
+        self.assertIn("fiction_seed.json", writer_prompt)
+        # Refiner must not see the story or the seed card.
+        refiner_prompt = Path(str(self.receipt) + ".fiction_refine").read_text()
+        self.assertNotIn("ZZSTORYMARKERZZ", refiner_prompt, "refiner saw the fiction")
+        self.assertNotIn('"twist"', refiner_prompt, "refiner saw the seed card")
+        self.assertIn("Claimed finding", refiner_prompt)
+        # Scouted candidates land in the ledger at SCOUTED scrutiny.
+        recs = (self.repo / "ledger.jsonl").read_text()
+        self.assertIn("scout-009-c01", recs)
+
+    def test_failed_stage_checkpoints_and_resume_completes(self):
+        self.start_state(9)
+        r = self.scout("cycle", "--tracks", "fiction", action="cycle_auto",
+                       FAKE_FAIL_STAGE="fiction_extract")
+        self.assertNotEqual(r.returncode, 0)
+        state = json.loads((self.repo / "orchestrator" / "state.json").read_text())
+        self.assertEqual(state["cycle"]["stages"]["fiction_scout"], "done")
+        self.assertEqual(state["cycle"]["stages"]["fiction_extract"], "failed")
+        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=self.repo,
+                               capture_output=True, text=True).stdout.strip()
+        self.assertEqual(dirty, "", "failed stage left the tree dirty; resume would be blocked")
+        r2 = self.scout("resume", action="cycle_auto")
+        self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
+        d = self.repo / "ideas" / "scout-009"
+        self.assertTrue((d / "fiction_candidates.json").exists())
+        state = json.loads((self.repo / "orchestrator" / "state.json").read_text())
+        self.assertTrue(all(v == "done" for v in state["cycle"]["stages"].values()))
+
+    def test_baseline_cycle_default_and_dry_run_spends_nothing(self):
+        self.start_state(9)
+        r = self.scout("cycle", "--dry-run", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertFalse((self.repo / "ideas" / "scout-009").exists(),
+                         "dry run created a scout dir")
+        r = self.scout("cycle", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        d = self.repo / "ideas" / "scout-009"
+        self.assertTrue((d / "scout_candidates.json").exists())
+        self.assertTrue((d / "candidates_all.json").exists())
+        self.assertTrue((d / "novelty_audit.md").exists())
 
 
 if __name__ == "__main__":

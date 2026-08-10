@@ -1,22 +1,100 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["title", "question", "concept_definition", "medical_relevance", "closest_work", "missing_step", "dataset", "minimal_experiment", "critical_confound", "risky_assumption", "positive_interpretation", "negative_interpretation", "scores", "recommendation"],
+  "required": [
+    "title",
+    "question",
+    "concept_definition",
+    "medical_relevance",
+    "closest_work",
+    "missing_step",
+    "dataset",
+    "minimal_experiment",
+    "critical_confound",
+    "risky_assumption",
+    "positive_interpretation",
+    "negative_interpretation",
+    "scores",
+    "recommendation"
+  ],
   "properties": {
-    "title": {"type": "string"},
-    "question": {"type": "string"},
-    "concept_definition": {"type": "string"},
-    "medical_relevance": {"type": "string"},
-    "closest_work": {"type": "array", "items": {"type": "object"}},
-    "existing_legwork": {"type": "array", "items": {"type": "string"}},
-    "missing_step": {"type": "string"},
-    "dataset": {"type": "object"},
-    "minimal_experiment": {"type": "string"},
-    "critical_confound": {"type": "string"},
-    "risky_assumption": {"type": "string"},
-    "positive_interpretation": {"type": "string"},
-    "negative_interpretation": {"type": "string"},
-    "scores": {"type": "object"},
-    "recommendation": {"enum": ["SHORTLIST", "REVISE", "PAUSE", "REJECT"]}
+    "title": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "concept_definition": {
+      "type": "string"
+    },
+    "medical_relevance": {
+      "type": "string"
+    },
+    "closest_work": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "existing_legwork": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missing_step": {
+      "type": "string"
+    },
+    "dataset": {
+      "type": "object"
+    },
+    "minimal_experiment": {
+      "type": "string"
+    },
+    "critical_confound": {
+      "type": "string"
+    },
+    "risky_assumption": {
+      "type": "string"
+    },
+    "positive_interpretation": {
+      "type": "string"
+    },
+    "negative_interpretation": {
+      "type": "string"
+    },
+    "scores": {
+      "type": "object"
+    },
+    "recommendation": {
+      "enum": [
+        "SHORTLIST",
+        "REVISE",
+        "PAUSE",
+        "REJECT"
+      ]
+    },
+    "track": {
+      "enum": [
+        "baseline",
+        "wide",
+        "fiction"
+      ]
+    },
+    "use_vs_association_design": {
+      "type": "string"
+    },
+    "novelty_neighbors": {
+      "type": "array"
+    },
+    "novelty_delta": {
+      "type": "string"
+    },
+    "why_not_done": {
+      "type": "string"
+    },
+    "kernel_provenance": {
+      "type": "string"
+    }
   }
 }

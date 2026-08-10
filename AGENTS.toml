@@ -18,6 +18,9 @@ feasibility = "codex"
 probe_plan = "claude"
 probe_code = "claude"
 interpret  = "codex"
+wide_scout = "claude"
+fiction_scout = "claude"   # fiction refiner is always the opposite family (derived)
+novelty_audit = "codex"
 
 # Which model plays which side during debate rounds.
 [debate]
@@ -34,3 +37,14 @@ command = ["claude", "-p", "--model", "claude-fable-5", "--allowedTools", "Read,
 enabled = true
 stdin = true
 command = ["codex", "exec", "--full-auto", "-"]
+
+# Role rotation: on odd cycle numbers the two families in `pair` swap across
+# every role (including debate sides), so each model plays scout and critic
+# across cycles. Disable to pin roles exactly as written above.
+[rotation]
+enabled = true
+pair = ["claude", "codex"]
+
+# Operational limits. stage_timeout is per agent invocation, in seconds.
+[limits]
+stage_timeout = 3600

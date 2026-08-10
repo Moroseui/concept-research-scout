@@ -1,0 +1,91 @@
+name: scout-cycle
+
+# Runs a full scouting cycle on a GitHub-hosted runner using your Claude Max
+# and ChatGPT subscriptions (no API billing when the OAuth secrets are used).
+#
+# Required repository secrets:
+#   CLAUDE_CODE_OAUTH_TOKEN  from `claude setup-token` on your machine
+#   CODEX_AUTH_JSON          base64 of ~/.codex/auth.json after
+#                            `codex login --device-auth`
+#
+# Every completed stage is committed and pushed, so a 6-hour job kill or a
+# rate limit costs one stage; the retry job (or the next trigger) resumes.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tracks:
+        description: 'Tracks to run (comma-separated: baseline,wide,fiction)'
+        default: 'baseline'
+        required: true
+      dry_run:
+        description: 'Print the plan without spending tokens'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 6 * * *'   # nightly 06:00 UTC; edit to taste
+
+concurrency:
+  group: scout-cycle
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install agent CLIs
+        run: |
+          npm install -g @anthropic-ai/claude-code @openai/codex
+          claude --version || true
+          codex --version || true
+
+      - name: Restore Codex auth
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          mkdir -p ~/.codex
+          echo "${{ secrets.CODEX_AUTH_JSON }}" | base64 -d > ~/.codex/auth.json
+          chmod 600 ~/.codex/auth.json
+
+      - name: Install python deps
+        run: pip install -r requirements.txt
+
+      - name: Deterministic tests first
+        run: python tests/test_orchestration.py
+
+      - name: Git identity
+        run: |
+          git config user.name  "scout-bot"
+          git config user.email "scout-bot@users.noreply.github.com"
+
+      - name: Run cycle (resume if one is unfinished)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          python scout.py cycle \
+            --tracks "${{ inputs.tracks || 'baseline' }}" \
+            --resume-or-new \
+            ${{ inputs.dry_run == true && '--dry-run' || '' }}
+
+      - name: Push checkpoints
+        if: always()
+        run: |
+          git add -A
+          git diff --cached --quiet || git commit -m "cycle: workflow checkpoint"
+          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          git push origin HEAD:${GITHUB_REF_NAME} || true
