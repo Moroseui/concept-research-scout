@@ -66,3 +66,5 @@
 {"ledger_id": "idea-014", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-10T17:09:15+00:00"}
 {"ledger_id": "idea-014", "status": "PAUSED", "notes": "debate: Demonstrate at least two independently trained Pierson-recipe models that pass preregistered pain-performance and disparity reproduction gates on a frozen OAI split within the available access and compute constraints.", "recorded_at": "2026-08-10T17:09:15+00:00"}
 {"ledger_id": "idea-015", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-10T17:13:24+00:00"}
+{"ledger_id": "idea-015", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-10T17:19:14+00:00"}
+{"ledger_id": "idea-015", "status": "SHORTLISTED", "notes": "debate: Choose revision-in-place versus re-registration, then update the card to the agreed BAC-specific claim and verify the Mirai-input/BAC-mask join on an obtainable compatible cohort.", "recorded_at": "2026-08-10T17:19:14+00:00"}
