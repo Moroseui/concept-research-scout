@@ -13,3 +13,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 012,Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan,ACTIVE,,,CRITIQUE,
 013,CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity,ACTIVE,,,CRITIQUE,
 014,The knee-pain model may be reading trabecular stress architecture that KL grade throws away,ACTIVE,,"{'value': 5, 'why': 'Two mature OAI literatures sit one model-use experiment apart.'}",CRITIQUE,
+015,A breast-cancer risk model may be reading the arteries as a vascular clock,ACTIVE,,"{'value': 4, 'why': 'Cheap once the BAC quantifier and compatible images are joined.'}",CRITIQUE,

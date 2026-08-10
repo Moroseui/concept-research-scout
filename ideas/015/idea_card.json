@@ -1,0 +1,136 @@
+{
+  "id": "C2",
+  "parent_ids": [],
+  "revival_basis": null,
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "A breast-cancer risk model may be reading the arteries as a vascular clock",
+  "question": "Is Mirai using breast arterial calcification as a vascular-age signal in its five-year breast-cancer risk prediction, independently of breast density and chronological age?",
+  "rung": {
+    "target": 3,
+    "current": 0,
+    "move_up": "Automated BAC association is exploratory; validation-learned BAC-direction erasure with age/density/device controls reaches rung 1; external-device replication gates rung 2 and the named BAC claim at rung 3."
+  },
+  "deliverable_sentence": "Mirai is using breast arterial calcification\u2014the linear tram-track calcium in mammary arteries\u2014as a vascular-age signal in breast-cancer risk prediction.",
+  "X_measurement": {
+    "X": "Total breast arterial calcification length or segmented pixel area across the four standard mammographic views.",
+    "how": "Use an existing BAC segmentation network or a deterministic vessel-like high-intensity segmentation calibrated on a validation subset. Mobini et al. report automated BAC detection/quantification (primary paper summarized in the open review; direct model artifact still to inspect).",
+    "could_compute_today_without_asking_anyone": "Not yet established for the chosen cohort. The quantity is computable without a human, but availability and transfer of an executable BAC segmenter is the keystone gate."
+  },
+  "suspected_signal": "Medial arterial calcification produces high-contrast, paired linear densities. It rises strongly with age and metabolic/vascular disease, so a risk model may exploit it as an image-derived systemic ageing marker even though it is not breast parenchymal biology.",
+  "specific_artifact_confused_with_signal": "Detector/vendor processing and vascular-like skin folds can produce high-intensity linear structures; chronological age and breast density are biological confounds, not acquisition artifacts.",
+  "keystone_prerequisite": "An executable, validated, annotation-free BAC quantifier transfers to the same four-view mammograms on which frozen Mirai can run, with enough BAC-positive cases and age/density overlap to separate BAC use from age, density, and device.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "Nearest inspected artifact: official MIT Mirai repository https://github.com/reginabarzilaygroup/Mirai states that trained model and code are MIT-licensed, gives the four-view inference command, and lists supported Hologic acquisition. BAC automation is supported by Mobini et al., Diagnostics 2024, PMCID PMC11247067, but an executable compatible quantifier and joint cohort were not inspected.",
+  "keystone_residual_assumption": "Verifying that Mirai runs and BAC can be detected in someone else's cohort does not verify the join. I am still assuming a BAC tool transfers to Mirai-compatible presentation images and that BAC is not nearly deterministic from age in the usable sample. That is the real keystone.",
+  "rung_reached": "No rung yet; conditional rung 1 after selective erasure, rung 2 after device/site and age-density controls, rung 3 thereafter.",
+  "dies_like_prior": "It resembles idea-002 only in crossing concepts and a second image task; unlike Derm7pt, BAC is computed from the same mammogram and no undocumented annotator viewing condition is needed. It avoids CIRCULARITY because BAC is not Mirai's cancer-risk target.",
+  "closest_prior_work": [
+    {
+      "citation": "Yala et al., Towards Robust Mammography-Based Models for Breast Cancer Risk",
+      "identifier": "official code https://github.com/reginabarzilaygroup/Mirai; primary model paper linked there",
+      "verified_fact": "Mirai predicts annual risk to five years and releases inference code/weights under MIT.",
+      "delta": "The repository/paper does not establish whether BAC drives risk."
+    },
+    {
+      "citation": "Mobini et al., Deep transfer learning for detection of breast arterial calcifications",
+      "identifier": "PMCID PMC11247067",
+      "verified_fact": "BAC is machine-detectable on four-view mammograms.",
+      "delta": "It detects BAC; it does not test Mirai or breast-cancer risk-model reliance."
+    },
+    {
+      "citation": "Revealing Mammographic Phenotypes in Deep Learning Breast Cancer Risk Models",
+      "identifier": "arXiv:2606.26431",
+      "verified_fact": "A 2026 preprint clusters Mirai patch embeddings into risk-linked phenotypes.",
+      "delta": "This is the closest warning against novelty: the exact phenotype inventory must be inspected for BAC before advancement."
+    }
+  ],
+  "existing_assets": [
+    "Mirai code and weights (MIT)",
+    "Four-view public mammography resources such as EMBED, subject to their actual access terms",
+    "Published BAC segmentation methods"
+  ],
+  "smallest_decisive_experiment": "Stage 0: inspect the 2026 phenotype paper for BAC, run Mirai and the BAC quantifier on 200 age/device-stratified exams, and verify BAC repeatability across views. Confirmatory: learn a BAC direction on validation embeddings, erase it on a locked test set, and compare five-year risk change against age-, density-, and device-direction erasures plus equal-norm random controls; exploit unilateral BAC burden as a within-woman check of view contributions.",
+  "use_vs_association": "BAC-risk correlation is not enough. The claim requires selective loss or calibrated change of Mirai risk after frozen-representation BAC-direction erasure, beyond age, density, and device directions.",
+  "standing_confounds_addressed": {
+    "scanner_vendor_protocol_reconstruction_site": "Device direction and site-held-out analysis; Mirai's official repository warns its original devices were Hologic, so transfer is a gate.",
+    "positioning": "Four standard views required; view-level BAC repeatability check.",
+    "habitus": "Breast thickness/compression and density measured as nuisance concepts.",
+    "prevalence_referral": "Screening-only cohorts; external screening site required.",
+    "label_leakage": "Future cancer label is not visually printed; prior biopsy markers/CAD overlays must be excluded."
+  },
+  "alternative_explanations": [
+    {
+      "alternative": "BAC merely indexes chronological age.",
+      "resolution": "Age-matched strata and separate age-direction erasure; require BAC-specific incremental effect."
+    },
+    {
+      "alternative": "BAC pixels resemble suspicious calcifications.",
+      "resolution": "Spatial BAC mask, morphology separation, and comparison with parenchymal-calcification direction."
+    },
+    {
+      "alternative": "Vendor processing creates both BAC visibility and risk shifts.",
+      "resolution": "Within-device analysis and external device replication; unresolved without both."
+    }
+  ],
+  "anticipated_negative": {
+    "classification": "sensitivity-limited",
+    "reason": "BAC may be sparse and nonlinear in embeddings; a null is decisive only above preregistered BAC-probe AUROC/reliability and prevalence gates."
+  },
+  "cross_domain": null,
+  "remaining_legwork": "1 day to inspect the 2026 phenotype preprint; 3 days to locate/test an executable BAC quantifier; up to 1 week for compatible mammography access. First go/no-go in 1-2 weeks.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "Specific model, visible quantity, and rival age/density explanations."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Concept erasure plus age/device controls is plausible, but BAC-age entanglement and internal-intervention specificity remain."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Changes interpretation of a widely evaluated risk score and may expose systemic rather than breast-specific signal."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A breast model reading vascular disease is surprising and physician-legible."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Open Mirai and mature BAC detection work exist."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped; BAC tool/corpus join is uninspected."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Potential public resources exist but exact access and presentation-view compatibility need inspection."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "BAC metrics exist; erasure selectivity must be calibrated."
+    },
+    "negative_result_value": {
+      "value": 2,
+      "why": "Sensitivity-limited null."
+    },
+    "novelty_confidence": {
+      "value": 2,
+      "why": "A very recent Mirai phenotype preprint may already touch the signal and has not yet been fully inspected."
+    },
+    "regret": {
+      "value": 4,
+      "why": "Cheap once the BAC quantifier and compatible images are joined."
+    }
+  },
+  "priority_score": 3.6,
+  "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*4 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*2 + 0.05*3 + 0.05*2 = 3.60",
+  "unverified_claims": [
+    "An open BAC segmenter with weights transfers to Mirai inputs",
+    "EMBED or another obtainable set has adequate BAC prevalence and outcomes",
+    "arXiv:2606.26431 does not already test BAC"
+  ],
+  "track": "baseline"
+}
