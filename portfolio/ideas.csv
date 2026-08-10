@@ -14,3 +14,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 013,CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity,ACTIVE,,,CRITIQUE,
 014,The knee-pain model may be reading trabecular stress architecture that KL grade throws away,ACTIVE,,"{'value': 5, 'why': 'Two mature OAI literatures sit one model-use experiment apart.'}",CRITIQUE,
 015,A breast-cancer risk model may be reading the arteries as a vascular clock,ACTIVE,,"{'value': 4, 'why': 'Cheap once the BAC quantifier and compatible images are joined.'}",CRITIQUE,
+016,The PE model may read contrast flowing backward as a pressure gauge,ACTIVE,,"{'value': 4, 'why': 'A small coverage audit quickly determines whether a striking mechanism is real work or fantasy.'}",CRITIQUE,
