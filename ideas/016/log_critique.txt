@@ -1,0 +1,13 @@
+I've written the adversarial critique to `ideas/016/critique.md`. Here's the decision and the reasoning behind it.
+
+## Decision: ADVANCE TO REVISION (hard-gated on Stage 0)
+
+No single objection kills the *question* — "does the PE strain model read the refluxed contrast column rather than chamber geometry?" is a legitimate, physician-legible Mode-C shortcut question. But three defects must be fixed, and all are repairable inside the same question.
+
+**The strongest objection — the rung-3 deliverable is unreachable as written.** I verified against Yeh et al. (AJR 2004) that IVC/hepatic reflux is a real, named sign of right-heart dysfunction — so the mechanism isn't fluent nonsense. But the *same* paper shows **injection rate is an independent cause of identical reflux**, and reflux appears in normal individuals at injection rates above ~3 mL/s. To claim reflux is a "sign of elevated right-sided pressure" you must exclude the power-injector explanation, which needs per-scan injection metadata — and RSNA-STR is de-identified challenge DICOM that almost certainly lacks it. So the deliverable over-claims by a full rung, the same way idea-007 was demoted 3→1.
+
+**The instrument is the weak one.** The design leads with embedding-direction erasure to separate reflux from RV dilation — but those two are *physiologically collinear* (one pressure state causes both), so the erasure gives a sensitivity-limited null, not the "decisive" negative the card scores (negative_result_value = 5 is over-stated). The fix is the idea-004/idea-015 move: a sham-controlled image-space intervention (inpaint the reflux to blood-pool baseline, measure the model's paired self-change), which also cleanly reaches rung 1 *without* needing injection metadata.
+
+**Two uninspected feasibility gates.** Hepatic-vein/IVC coverage on CTPA is genuinely uncertain and, if truncated caudally, destroys the "normalized reflux extent" that the mechanism's whole argument rests on. And there is **no released frozen RV-strain checkpoint** — only Kaggle competition solutions — so "reproduce a checkpoint" is the real, understated cost.
+
+If Stage 0 shows the hepatic veins aren't consistently in frame with measurable extent, or that no checkpoint can be reproduced at acceptable cost, it's not worth doing. Otherwise the demoted, image-space version is a clean single-GPU test worth running.
