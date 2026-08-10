@@ -1,0 +1,15 @@
+I've completed the novelty audit and written `ideas/scout-007/novelty_audit.md`. Each of the eight developed candidates was audited by fresh web search across four axes (neighbors, delta, why-not-done, verdict), and the file closes with a summary table.
+
+**Headline results:**
+
+- **No candidate duplicates a prior work** — none is recommended for a novelty kill.
+- **Four verified novel** (search located every component but never the combination): C1 (ALG-P knee-pain / subchondral trabecular texture), C2 (Mirai / breast arterial calcification), C4 (PE model / IVC contrast reflux), C5 (Sybil / saber-sheath trachea). All are `BLIND_SPOT` — two non-communicating literatures that no one joined with a concept-erasure probe.
+- **Four unverified** (novel but blocked by access or an undercut premise): C3, W1, W2, W3.
+
+**Two findings worth flagging to the human:**
+
+1. **C2's feared duplicate was cleared.** The 2026 preprint arXiv:2606.26431 is real and *does* phenotype Mirai embeddings, but its phenotypes are dense tissue, microcalcifications, and clip artifacts — it does not isolate BAC or any vascular signal. That was the single load-bearing novelty check for C2, and it passed.
+
+2. **C3 has a provenance caution stronger than its verdict.** An already-published clinical study (Białek et al. 2025, DOI 10.3390/jcm14165888) finds that renal *sinus* fat is **not** independently predictive of CKD once perirenal fat and kidney volume are included. The representation-level test on Merlin is still unclaimed, but the biology undercuts the payoff. Recommendation in the file: reframe toward perirenal fat / kidney volume, or position as a representation-level replication of that negative finding.
+
+Three `NOVEL_UNVERIFIED` verdicts (W1, W2, C3) turn on full texts that were paywalled or 403'd during the audit — those should be dereferenced before any priority claim. All verdicts rest on the absence of a located duplicate, and every candidate remains pre-keystone, so novelty alone does not justify advancement. I did not modify any other file.
