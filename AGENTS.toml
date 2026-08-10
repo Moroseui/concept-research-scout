@@ -36,7 +36,7 @@ command = ["claude", "-p", "--model", "claude-fable-5", "--allowedTools", "Read,
 [codex]
 enabled = true
 stdin = true
-command = ["codex", "exec", "-s", "workspace-write", "-"]
+command = ["codex", "exec", "-s", "workspace-write", "-c", "sandbox_workspace_write.network_access=true", "-"]
 
 # Role rotation: on odd cycle numbers the two families in `pair` swap across
 # every role (including debate sides), so each model plays scout and critic

@@ -58,6 +58,8 @@ elif action == "cycle_auto":
     stage = m.group(1) if m else ""
     if stage and stage == os.environ.get("FAKE_FAIL_STAGE", ""):
         sys.exit(1)
+    if stage and stage == os.environ.get("FAKE_SKIP_WRITE_STAGE", ""):
+        sys.exit(0)  # exit clean but write nothing
     m2 = re.search("Assigned output directory: (\\S+)", prompt)
     outdir = root / (m2.group(1) if m2 else target)
     outdir.mkdir(parents=True, exist_ok=True)
@@ -322,6 +324,22 @@ class TestCycle(Harness):
         self.assertTrue((d / "fiction_candidates.json").exists())
         state = json.loads((self.repo / "orchestrator" / "state.json").read_text())
         self.assertTrue(all(v == "done" for v in state["cycle"]["stages"].values()))
+
+    def test_stage_writing_nothing_is_a_failed_stage(self):
+        # Regression for cycle 005: agent exited 0 without writing its artifact
+        # and an empty pool sailed through merge and audit.
+        self.start_state(9)
+        r = self.scout("cycle", action="cycle_auto", FAKE_SKIP_WRITE_STAGE="scout")
+        self.assertNotEqual(r.returncode, 0, "silent-empty scout stage passed")
+        self.assertIn("did not write", r.stdout + r.stderr)
+        state = json.loads((self.repo / "orchestrator" / "state.json").read_text())
+        self.assertEqual(state["cycle"]["stages"]["scout"], "failed")
+        # Agent output is preserved for post-mortem.
+        self.assertTrue((self.repo / "ideas" / "scout-009" / "log_scout.txt").exists())
+        # And it is resumable once the agent behaves.
+        r2 = self.scout("resume", action="cycle_auto")
+        self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
+        self.assertTrue((self.repo / "ideas" / "scout-009" / "scout_candidates.json").exists())
 
     def test_dry_run_with_pending_cycle_does_not_resume(self):
         # Regression: --dry-run --resume-or-new used to resume the real cycle.

@@ -162,7 +162,7 @@ def effective_agent(agent, cfg=None, cycle_no=None):
     return agent
 
 
-def run_agent(prompt_path, agent=None, stage=None):
+def run_agent(prompt_path, agent=None, stage=None, log_path=None):
     cfg = load_agent_config()
     if agent is None and stage:
         agent = cfg.get('roles', {}).get(stage.replace('-', '_'))
@@ -188,11 +188,35 @@ def run_agent(prompt_path, agent=None, stage=None):
     print('Running:', ' '.join(command[:3]), '...')
     stdin_text = prompt_text if use_stdin else None
     timeout = int(cfg.get('limits', {}).get('stage_timeout', 3600))
+    lines = []
+    import time
+    deadline = time.monotonic() + timeout
+    proc = subprocess.Popen(command, cwd=ROOT, text=True,
+                            stdin=subprocess.PIPE if use_stdin else None,
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     try:
-        proc = subprocess.run(command, cwd=ROOT, text=True, timeout=timeout,
-                              input=stdin_text)
+        if use_stdin:
+            try:
+                proc.stdin.write(stdin_text)
+                proc.stdin.close()
+            except BrokenPipeError:
+                pass
+        for line in proc.stdout:
+            print(line, end='', flush=True)
+            lines.append(line)
+            if time.monotonic() > deadline:
+                proc.kill()
+                raise SystemExit(f'Agent timed out after {timeout}s.')
+        proc.wait(timeout=max(1, deadline - time.monotonic()))
     except subprocess.TimeoutExpired:
+        proc.kill()
         raise SystemExit(f'Agent timed out after {timeout}s.')
+    finally:
+        if log_path:
+            try:
+                Path(log_path).write_text(''.join(lines))
+            except OSError as e:
+                print(f'(could not write agent log: {e})')
     if proc.returncode:
         raise SystemExit(f'Agent exited with code {proc.returncode}. Prompt retained at {prompt_path}')
 
@@ -290,7 +314,9 @@ def run_stage(args):
     _require_clean_tree(args.stage)
     p=write_prompt(args.stage.replace('-','_'), target)
     print('Prompt:',p.relative_to(ROOT))
-    run_agent(p, args.agent, stage=args.stage)
+    run_agent(p, args.agent, stage=args.stage,
+              log_path=target / f"log_{args.stage.replace('-', '_')}.txt")
+    _require_artifact(args.stage.replace('-', '_'), target)
     _check_scope(args.stage)
     if args.stage=='critique' and args.idea:
         ledger_mod.raise_scrutiny(f'idea-{args.idea:03d}', 'CRITIQUED')
@@ -600,6 +626,27 @@ def _commit_all(message):
     return True
 
 
+# A stage "succeeding" while producing nothing is how cycle 005 shipped an
+# empty candidate pool to the audit. Exit code 0 is not success; the artifact is.
+STAGE_ARTIFACTS = {
+    'scout': 'scout_candidates.json',
+    'wide_scout': 'wide_candidates.json',
+    'fiction_scout': 'fiction_story.md',
+    'fiction_extract': 'fiction_pitch.md',
+    'fiction_refine': 'fiction_candidates.json',
+    'novelty_audit': 'novelty_audit.md',
+}
+
+
+def _require_artifact(stage, target):
+    expected = STAGE_ARTIFACTS.get(stage)
+    if expected and not (target / expected).exists():
+        raise SystemExit(
+            f"Stage {stage!r} exited cleanly but did not write {expected!r}. "
+            f"Treating as failed. Check {target.relative_to(ROOT)}/log_{stage}.txt "
+            f"for what the agent did instead.")
+
+
 CANDIDATE_FILES = {'baseline': 'scout_candidates.json',
                    'wide': 'wide_candidates.json',
                    'fiction': 'fiction_candidates.json'}
@@ -675,7 +722,9 @@ def _run_cycle_stage(name, kind, target, cfg, cycle_no):
     writer, refiner = _fiction_writer_and_refiner(cfg, cycle_no)
     agent = {'fiction_writer': writer, 'fiction_refiner': refiner}.get(kind)
     p = write_prompt(name, target)
-    run_agent(p, agent, stage=name.replace('_', '-'))
+    run_agent(p, agent, stage=name.replace('_', '-'),
+              log_path=target / f'log_{name}.txt')
+    _require_artifact(name, target)
     _check_scope(name.replace('_', '-'))
 
 
