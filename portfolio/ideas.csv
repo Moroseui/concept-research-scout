@@ -11,3 +11,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 010,Cardiomegaly on a CT report is admitted gestalt - ask whether the model has quietly turned it into millilitres,ACTIVE,,,CRITIQUE,
 011,Forensic anthropologists age a skeleton by its rib cartilage - ask whether an unguided CT model found the same clock,ACTIVE,,,CRITIQUE,
 012,Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan,ACTIVE,,,CRITIQUE,
+013,CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity,ACTIVE,,,CRITIQUE,
