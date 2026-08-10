@@ -92,7 +92,11 @@ elif action == "cycle_auto":
         t.write_text(prev + "## Round " + str(n) + " - " + side + NL + NL
                      + "**Status:** CONVERGED" + NL + NL)
     elif "consensus.md" in prompt:
-        (outdir / "consensus.md").write_text("fake consensus" + NL)
+        v = os.environ.get("FAKE_CONSENSUS_VERDICT", "")
+        body = "fake consensus" + NL
+        if v:
+            body += NL + "```json" + NL + '{"verdict": "' + v + '", "unblock": "sync the card"}' + NL + "```" + NL
+        (outdir / "consensus.md").write_text(body)
     elif "Adversarially review" in prompt:
         (outdir / "critique.md").write_text("fake critique" + NL)
 else:
@@ -402,6 +406,43 @@ class TestPipeline(Harness):
         digest = (self.repo / "evidence" / "ledger_digest.md").read_text()
         self.assertIn("Candidate backlog", digest)
         self.assertIn("scout-008-c02", digest)
+
+    def test_debate_revise_verdict_triggers_auto_revise(self):
+        self.make_cycle_outputs("scout-009", ["NOVEL_VERIFIED"])
+        (self.repo / "orchestrator" / "state.json").write_text(
+            json.dumps({"next_scout": 10, "selected_idea": 1}) + "\n")
+        self.commit()
+        # fake debate summary emits REVISE via consensus json in cycle_auto?
+        # cycle_auto writes plain consensus; append a REVISE block via a
+        # post-consensus hook: easiest is to pre-write the summary the fake
+        # will overwrite -- instead patch fake consensus to include REVISE.
+        r = self.scout("pipeline", "--top", "1", action="cycle_auto",
+                       FAKE_CONSENSUS_VERDICT="REVISE")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("auto-revising card", r.stdout)
+        e = json.loads((self.repo / "ledger.jsonl").read_text().splitlines()[-2] if False else "{}") if False else None
+        rows = {}
+        for ln in (self.repo / "ledger.jsonl").read_text().splitlines():
+            rec = json.loads(ln)
+            rows.setdefault(rec["ledger_id"], {}).update({k: v for k, v in rec.items() if v is not None})
+        self.assertTrue(rows["idea-002"].get("card_synced"),
+                        "auto-revise did not mark the card synced")
+
+    def test_revise_debt_batch_finds_pre_automation_revises(self):
+        # idea 001 has a consensus with REVISE but no card_synced flag
+        (self.repo / "ideas" / "001" / "consensus.md").write_text(
+            "# s\n\n## Recommendation\n\n**REVISE.** Update the card.\n")
+        self.commit()
+        r = self.scout("pipeline", "--revise-debt", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("Revise debt: 001", r.stdout)
+        rows = {}
+        for ln in (self.repo / "ledger.jsonl").read_text().splitlines():
+            rec = json.loads(ln)
+            rows.setdefault(rec["ledger_id"], {}).update({k: v for k, v in rec.items() if v is not None})
+        self.assertTrue(rows.get("idea-001", {}).get("card_synced"))
+        r2 = self.scout("pipeline", "--revise-debt", action="cycle_auto")
+        self.assertIn("No revise debt", r2.stdout)
 
     def test_pipeline_specific_idea_runs_stages_only(self):
         self.commit()

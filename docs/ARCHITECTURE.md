@@ -135,7 +135,12 @@ Claude and GPT share failure modes), which is why the structural mechanisms
 (blindness, rotation, filters) carry the diversity burden. Verdict
 automation exists because verdicts previously lived only in prose and ledger
 status drifted from reality within one week of operation (idea 010 was
-REJECT in its consensus and ACTIVE in the ledger).
+REJECT in its consensus and ACTIVE in the ledger). REVISE verdicts also
+auto-run the revise stage in the same pipeline job (`card_synced` tracked in
+the ledger; `--revise-debt` batch-clears pre-automation stragglers): a
+verdict whose bookkeeping requires a separate human button press is a
+verdict half-applied, and stale cards mislead every downstream stage that
+reads them.
 
 ## Operational honesty: contracts, scope, evidence, logs
 

@@ -23,6 +23,10 @@ on:
         description: 'Stages to run, comma-separated (critique,revise,feasibility,debate)'
         default: 'critique,debate'
         required: true
+      revise_debt:
+        description: 'Instead of all the above: batch-sync every REVISE-verdicted idea whose card is stale'
+        type: boolean
+        default: false
 
 concurrency:
   group: scout-cycle   # same group as the cycle workflow: never run both at once
@@ -77,7 +81,9 @@ jobs:
           SCOUT_CI: '1'
         run: |
           ARGS=""
-          if [ -n "${{ inputs.idea }}" ]; then
+          if [ "${{ inputs.revise_debt }}" = "true" ]; then
+            ARGS="--revise-debt"
+          elif [ -n "${{ inputs.idea }}" ]; then
             ARGS="--idea ${{ inputs.idea }}"
           elif [ -n "${{ inputs.candidate }}" ]; then
             ARGS="--candidate ${{ inputs.candidate }}"

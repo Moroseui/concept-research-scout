@@ -1160,6 +1160,35 @@ def _pipeline_stage(idea, stage):
     if stage == 'critique':
         ledger_mod.raise_scrutiny(f'idea-{idea:03d}', 'CRITIQUED')
         ledger_mod.digest()
+    if stage == 'revise':
+        ledger_mod.append({'ledger_id': f'idea-{idea:03d}', 'card_synced': True,
+                           'notes': 'card revised to debate-converged state'})
+        ledger_mod.digest()
+
+
+def _revise_debt_ideas():
+    """Live ideas whose debate verdict is REVISE but whose card has not been
+    synced. Covers pre-automation debates by falling back to parsing the
+    consensus Recommendation when no ledger flag exists."""
+    import re
+    entries = ledger_mod.load()
+    out = []
+    for d in sorted((ROOT/'ideas').glob('[0-9][0-9][0-9]')):
+        n = int(d.name)
+        lid = f'idea-{d.name}'
+        e = entries.get(lid, {})
+        if e.get('status') == 'REJECTED':
+            continue
+        if e.get('card_synced') is True:
+            continue
+        if e.get('card_synced') is False:
+            out.append(n)
+            continue
+        body = read_text(d/'consensus.md')
+        rec = _extract_section(body, 'Recommendation') if body else ''
+        if re.search(r'\bREVISE\b', rec):
+            out.append(n)
+    return out
 
 
 def pipeline(args):
@@ -1168,7 +1197,14 @@ def pipeline(args):
     if bad:
         raise SystemExit(f'Unknown stage(s): {", ".join(bad)}. Known: {", ".join(PIPELINE_STAGES)}')
     _require_clean_tree('pipeline')
-    if args.idea:
+    if getattr(args, 'revise_debt', False):
+        ideas = _revise_debt_ideas()
+        if not ideas:
+            print('No revise debt: every REVISE-verdicted card is synced.')
+            return
+        print('Revise debt: ' + ', '.join(f'{i:03d}' for i in ideas))
+        stages = ['revise']
+    elif args.idea:
         ideas = [args.idea]
     else:
         if args.candidate:
@@ -1211,6 +1247,19 @@ def pipeline(args):
                 break  # later stages of this idea depend on this one
             _commit_all(f'idea {idea:03d}: {stage} done')
             print(f'[done] idea {idea:03d} {stage} (checkpoint committed)')
+            if stage == 'debate' and 'revise' not in stages:
+                e = ledger_mod.load().get(f'idea-{idea:03d}', {})
+                if e.get('card_synced') is False:
+                    print(f'=== idea {idea:03d}: debate verdict REVISE -> auto-revising card ===')
+                    try:
+                        _pipeline_stage(idea, 'revise')
+                    except SystemExit as ex:
+                        _commit_all(f'idea {idea:03d}: auto-revise FAILED (partial output preserved)')
+                        print(f'Auto-revise failed for idea {idea:03d}: {ex}')
+                        failures.append((idea, 'revise'))
+                        continue
+                    _commit_all(f'idea {idea:03d}: auto-revise done')
+                    print(f'[done] idea {idea:03d} auto-revise (checkpoint committed)')
     print('\nPipeline summary:')
     for idea in ideas:
         status = next((f'FAILED at {st}' for i, st in failures if i == idea), 'complete')
@@ -1364,8 +1413,11 @@ def _apply_consensus_verdict(idea):
     elif verdict == 'PAUSE':
         ledger_mod.append({'ledger_id': lid, 'status': 'PAUSED', 'notes': note})
     elif verdict in ('REVISE', 'PROCEED'):
-        ledger_mod.append({'ledger_id': lid, 'status': 'SHORTLISTED' if verdict == 'REVISE' else 'ACTIVE',
-                           'notes': note})
+        rec = {'ledger_id': lid, 'status': 'SHORTLISTED' if verdict == 'REVISE' else 'ACTIVE',
+               'notes': note}
+        if verdict == 'REVISE':
+            rec['card_synced'] = False
+        ledger_mod.append(rec)
     else:
         return None
     ledger_mod.digest()
@@ -1499,7 +1551,7 @@ def main():
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
-    p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='critique,debate'); p.set_defaults(fn=pipeline)
+    p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
     for c in ('migrate','digest','list','taxonomy'):
         q=lsp.add_parser(c)

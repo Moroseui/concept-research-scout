@@ -89,6 +89,11 @@ completes them.
   to the ledger with refreshed audited_at), and revival scan producing
   proposals (evidence/librarian_proposals.md, injected into scout prompts;
   adoption counts against the scout revival quota and gets full filtering).
+- [x] **Auto-revise on REVISE verdicts** (+ `--revise-debt` batch for
+  pre-automation stragglers; `card_synced` tracked in the ledger). Scout
+  revival stays reserved for dead/paused ideas with changed world
+  conditions; card-syncing is bookkeeping on an already-adjudicated verdict
+  and never re-enters the gauntlet.
 - [x] **Structured debate verdict -> ledger.** debate_summary emits a fenced
   json verdict block; `_close_debate` parses it and sets PAUSED / REJECTED
   (+validated kill code, UNCLASSIFIED fallback) / SHORTLISTED / ACTIVE
