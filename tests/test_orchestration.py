@@ -277,6 +277,19 @@ class TestLedger(Harness):
 
 
 class TestPipeline(Harness):
+    def setUp(self):
+        # Hermetic: the harness copies the real repo, which accumulates real
+        # scouting cycles and ledger rows over time. The backlog is global by
+        # design, so pipeline tests must start from an empty world or every
+        # new real cycle would change their results.
+        super().setUp()
+        import shutil as _sh
+        for d in (self.repo / "ideas").glob("scout-*"):
+            _sh.rmtree(d)
+        for f in ("ledger.jsonl", "evidence/ledger_digest.md"):
+            (self.repo / f).unlink(missing_ok=True)
+        self.commit()
+
     def make_cycle_outputs(self, scoutdir, verdicts):
         d = self.repo / "ideas" / scoutdir
         d.mkdir(parents=True, exist_ok=True)
@@ -315,13 +328,53 @@ class TestPipeline(Harness):
         self.assertTrue((d / "consensus.md").exists())
         recs = (self.repo / "ledger.jsonl").read_text()
         self.assertIn('"DEBATED"', recs)
-        # Re-run: nothing new shortlisted, stages skipped.
+        # Re-run advances the queue: C2 is done, so C1 is drawn next.
         r2 = self.scout("pipeline", "--top", "1", action="cycle_auto")
         self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
-        self.assertIn("already shortlisted", r2.stdout)
-        self.assertIn("[skip]", r2.stdout)
+        d13 = self.repo / "ideas" / "013"
+        self.assertTrue((d13 / "idea_card.json").exists(), "queue did not advance")
+        self.assertIn("cand 1", (d13 / "idea_card.json").read_text())
+        # Third press: backlog empty, nothing in flight -> clean no-op.
+        r3 = self.scout("pipeline", "--top", "1", action="cycle_auto")
+        self.assertEqual(r3.returncode, 0, r3.stdout + r3.stderr)
+        self.assertIn("Nothing to do", r3.stdout)
+        self.assertFalse((self.repo / "ideas" / "014").exists())
+
+    def test_inflight_idea_is_finished_before_new_candidates(self):
+        self.make_cycle_outputs("scout-009", ["NOVEL_UNVERIFIED", "NOVEL_VERIFIED"])
+        (self.repo / "orchestrator" / "state.json").write_text(
+            json.dumps({"next_scout": 10, "selected_idea": 1}) + "\n")
+        self.commit()
+        # First run dies at debate for idea 012 (C2).
+        r = self.scout("pipeline", "--top", "1", action="cycle_auto",
+                       FAKE_FAIL_STAGE="")  # critique fine
+        # simulate failure: remove consensus to mark debate incomplete
+        (self.repo / "ideas" / "012" / "consensus.md").unlink()
+        (self.repo / "ideas" / "012" / "debate.md").unlink()
+        self.commit()
+        r2 = self.scout("pipeline", "--top", "1", action="cycle_auto")
+        self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
+        self.assertIn("Finishing in-flight", r2.stdout)
+        self.assertTrue((self.repo / "ideas" / "012" / "consensus.md").exists())
         self.assertFalse((self.repo / "ideas" / "013").exists(),
-                         "re-run duplicated the shortlist")
+                         "drew a new candidate while one was in flight")
+
+    def test_sync_backfills_verdicts_for_old_cycles(self):
+        self.make_cycle_outputs("scout-008", ["INCREMENTAL", "NOVEL_VERIFIED"])
+        self.commit()
+        sys.path.insert(0, str(self.repo))
+        import importlib, scout as sc
+        importlib.reload(sc)
+        sc.ROOT = self.repo
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        rows = sc._ranked_backlog()
+        pair = [(s, c) for s, c, _ in rows if s == 8]
+        self.assertEqual(pair[0], (8, 2), "NOVEL_VERIFIED not ranked first after backfill")
+        digest = (self.repo / "evidence" / "ledger_digest.md").read_text()
+        self.assertIn("Candidate backlog", digest)
+        self.assertIn("scout-008-c02", digest)
 
     def test_pipeline_specific_idea_runs_stages_only(self):
         self.commit()

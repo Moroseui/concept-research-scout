@@ -227,6 +227,23 @@ def digest() -> Path:
         for code, cnt in sorted(kills.items(), key=lambda kv: -kv[1]):
             lines.append(f'- **{code}** x{cnt}: {TAXONOMY.get(code, "")}')
         lines.append('')
+    entriesv = entries
+    backlog = [(e.get('novelty_verdict','UNAUDITED'), e) for e in entriesv.values()
+               if e.get('status') == 'SCOUT_ONLY']
+    if backlog:
+        vrank = {'NOVEL_VERIFIED': 0, 'NOVEL_UNVERIFIED': 1, 'UNAUDITED': 3,
+                 'INCREMENTAL': 4, 'DUPLICATE_PRIOR': 9}
+        backlog.sort(key=lambda ve: (vrank.get(ve[0], 5),
+                                     -float(ve[1].get('scores_mean') or 0)))
+        lines += ['## Candidate backlog (scouted, not yet shortlisted; ranked)', '']
+        for v, e in backlog[:10]:
+            lines.append(f"- **{e['ledger_id']}** [{v}"
+                         + (f", score {e['scores_mean']:.1f}" if e.get('scores_mean') else '')
+                         + (f", audited {e['audited_at'][:10]}" if e.get('audited_at') else '')
+                         + f"] -- {e.get('title','')}")
+        if len(backlog) > 10:
+            lines.append(f'- ... and {len(backlog)-10} more (python scout.py backlog)')
+        lines.append('')
     lines += ['## Ideas', '']
     for lid in sorted(entries):
         e = entries[lid]

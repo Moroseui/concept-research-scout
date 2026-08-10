@@ -312,6 +312,10 @@ def _do_shortlist(scout_no, cand_no, track=None):
                        'claim': card.get('deliverable_sentence') or card.get('question',''),
                        'track': card.get('track','baseline'), 'status': 'SHORTLISTED',
                        'scrutiny': 'SCOUTED', 'source': f'ideas/{n:03d}'})
+    if track is None:
+        # Retire the source candidate from the backlog and point at its idea.
+        ledger_mod.append({'ledger_id': f'scout-{scout_no:03d}-c{cand_no:02d}',
+                           'status': 'SHORTLISTED', 'notes': f'promoted to idea-{n:03d}'})
     ledger_mod.digest()
     print(f'Shortlisted as idea {n:03d}')
     return n
@@ -638,6 +642,7 @@ def _cycle_stage_list(tracks):
                    ('fiction_refine', 'fiction_refiner')]
     stages.append(('merge', 'python'))
     stages.append(('novelty_audit', 'role'))
+    stages.append(('backlog', 'python'))
     return stages
 
 
@@ -712,6 +717,7 @@ def _merge_candidates(target, tracks, cycle_no):
             'dataset': (c.get('dataset', {}) or {}).get('name', '') if isinstance(c.get('dataset'), dict) else str(c.get('dataset', '')),
             'status': 'SCOUT_ONLY',
             'scrutiny': 'SCOUTED',
+            'scores_mean': _mean_score(c),
             'source': str(target.relative_to(ROOT)),
         })
     ledger_mod.digest()
@@ -745,6 +751,13 @@ def _run_cycle_stage(name, kind, target, cfg, cycle_no):
     if name == 'merge':
         tracks = load_state()['cycle']['tracks']
         _merge_candidates(target, tracks, cycle_no)
+        return
+    if name == 'backlog':
+        _sync_backlog()
+        ledger_mod.digest()
+        rows = _ranked_backlog()
+        print(f'Backlog now holds {len(rows)} candidate(s); top of queue: '
+              + (', '.join(f'{s:03d}-C{c}' for s, c, _ in rows[:5]) or '(empty)'))
         return
     if name == 'fiction_scout':
         seed = seed_draw(random.Random())
@@ -897,6 +910,92 @@ def _latest_scout_no():
     return int(scouts[-1].name.split('-')[1])
 
 
+def _sync_backlog():
+    """Idempotently upsert every scouted candidate of every cycle into the
+    ledger with its rubric score and (when the audit exists) novelty verdict.
+    Backfills cycles that ran before these fields existed."""
+    entries = ledger_mod.load()
+    changed = False
+    for d in sorted((ROOT/'ideas').glob('scout-*')):
+        if not (d/'candidates_all.json').exists():
+            continue
+        scout_no = int(d.name.split('-')[1])
+        try:
+            cands = json.loads((d/'candidates_all.json').read_text()).get('candidates', [])
+        except json.JSONDecodeError:
+            continue
+        verdicts = _audit_verdicts(d)
+        audited = datetime.now(timezone.utc).isoformat(timespec='seconds') if verdicts else None
+        for i, c in enumerate(cands, 1):
+            lid = f'scout-{scout_no:03d}-c{i:02d}'
+            cur = entries.get(lid, {})
+            rec = {'ledger_id': lid}
+            if not cur:
+                rec.update({'title': c.get('title',''),
+                            'claim': c.get('deliverable_sentence') or c.get('question',''),
+                            'track': c.get('track','baseline'),
+                            'status': 'SCOUT_ONLY', 'scrutiny': 'SCOUTED',
+                            'source': str(d.relative_to(ROOT))})
+            if cur.get('scores_mean') in (None, '') and _mean_score(c):
+                rec['scores_mean'] = _mean_score(c)
+            v = verdicts.get(i)
+            if v and cur.get('novelty_verdict') != v:
+                rec['novelty_verdict'] = v
+                rec['audited_at'] = audited
+            if len(rec) > 1:
+                ledger_mod.append(rec)
+                changed = True
+    if changed:
+        ledger_mod.digest()
+
+
+def _ranked_backlog():
+    """All unshortlisted scouted candidates across every cycle, best first.
+    Returns [(scout_no, cand_no, ledger_entry), ...]."""
+    _sync_backlog()
+    out = []
+    for lid, e in ledger_mod.load().items():
+        if e.get('status') != 'SCOUT_ONLY':
+            continue
+        m = __import__('re').match(r'scout-(\d+)-c(\d+)$', lid)
+        if not m:
+            continue
+        v = e.get('novelty_verdict', 'UNAUDITED')
+        if v == 'DUPLICATE_PRIOR':
+            continue
+        rank = {'NOVEL_VERIFIED': 0, 'NOVEL_UNVERIFIED': 1, 'UNAUDITED': 3,
+                'INCREMENTAL': 4}.get(v, 5)
+        out.append(((rank, -float(e.get('scores_mean') or 0), -int(m.group(1))),
+                    int(m.group(1)), int(m.group(2)), e))
+    out.sort(key=lambda x: x[0])
+    return [(s, c, e) for _, s, c, e in out]
+
+
+def backlog_cmd(_args):
+    rows = _ranked_backlog()
+    if not rows:
+        print('Backlog empty: every scouted candidate is shortlisted or killed.')
+        return
+    for s, c, e in rows:
+        v = e.get('novelty_verdict', 'UNAUDITED')
+        sm = e.get('scores_mean')
+        print(f"cycle {s:03d} C{c}  [{v}{', %.1f' % sm if sm else ''}]  {e.get('title','')[:80]}")
+
+
+def _incomplete_pipeline_ideas(stages):
+    """Shortlisted ideas whose requested final artifact is missing -- these are
+    in-flight and must be finished before new candidates are drawn."""
+    final = STAGE_DONE_MARKER.get(stages[-1])
+    out = []
+    for lid, e in sorted(ledger_mod.load().items()):
+        if e.get('status') != 'SHORTLISTED' or not lid.startswith('idea-'):
+            continue
+        n = int(lid.split('-')[1])
+        if final and not (idea_dir(n)/final).exists():
+            out.append(n)
+    return out
+
+
 PIPELINE_STAGES = ('critique', 'revise', 'feasibility', 'debate')
 STAGE_DONE_MARKER = {'critique': 'critique.md', 'revise': 'idea_card.json',
                      'feasibility': 'feasibility.md', 'debate': 'consensus.md'}
@@ -928,19 +1027,29 @@ def pipeline(args):
     if args.idea:
         ideas = [args.idea]
     else:
-        scout_no = args.scout or _latest_scout_no()
         if args.candidate:
-            picks = [args.candidate]
+            scout_no = args.scout or _latest_scout_no()
+            picks = [(scout_no, args.candidate)]
         else:
             n = max(1, int(args.top or 1))
-            order = _rank_candidates(scout_no)
-            picks = order[:n]
-            print(f'Cycle {scout_no:03d} ranking (best first): '
-                  + ', '.join(f'C{i}' for i in order) + f' -> taking {picks}')
-        ideas = []
-        for cand in picks:
+            inflight = _incomplete_pipeline_ideas(stages)
+            if inflight:
+                print('Finishing in-flight idea(s) first: '
+                      + ', '.join(f'{i:03d}' for i in inflight[:n]))
+            rows = _ranked_backlog()
+            if args.scout:
+                rows = [r for r in rows if r[0] == args.scout]
+            print('Backlog (best first): '
+                  + (', '.join(f'{s:03d}-C{c}' for s, c, _ in rows[:8]) or '(empty)'))
+            picks = [(s, c) for s, c, _ in rows[:max(0, n - len(inflight[:n]))]]
+            ideas_prefix = inflight[:n]
+        ideas = list(locals().get('ideas_prefix', []))
+        for scout_no, cand in picks:
             ideas.append(_do_shortlist(scout_no, cand))
             _commit_all(f'pipeline: shortlist C{cand} of cycle {scout_no:03d}')
+        if not ideas:
+            print('Nothing to do: backlog empty and no in-flight ideas.')
+            return
     failures = []
     for idea in ideas:
         for stage in stages:
@@ -982,6 +1091,7 @@ def main():
     p=sp.add_parser('status'); p.set_defaults(fn=status)
     p=sp.add_parser('cycle'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.set_defaults(fn=cycle)
     p=sp.add_parser('resume'); p.set_defaults(fn=resume)
+    p=sp.add_parser('backlog'); p.set_defaults(fn=backlog_cmd)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='critique,debate'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
     for c in ('migrate','digest','list','taxonomy'):

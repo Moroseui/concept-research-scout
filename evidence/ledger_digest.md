@@ -9,6 +9,14 @@ A candidate that dies like a prior one must say what makes it different.
 
 - **DATA_INSUFFICIENT** x1: The subset that actually supports the inference is too small or unreachable.
 
+## Candidate backlog (scouted, not yet shortlisted; ranked)
+
+- **scout-006-c01** [NOVEL_UNVERIFIED, audited 2026-08-10] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
+- **scout-006-c02** [NOVEL_UNVERIFIED, audited 2026-08-10] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
+- **scout-006-c04** [NOVEL_UNVERIFIED, audited 2026-08-10] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
+- **scout-006-c05** [NOVEL_UNVERIFIED, audited 2026-08-10] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
+- **scout-006-c03** [INCREMENTAL, audited 2026-08-10] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
+
 ## Ideas
 
 - **idea-001** [REJECTED/DEBATED/baseline] -- Have lung nodule concept models been validated against radiologist opinion rather than against disease? -- killed: DATA_INSUFFICIENT -- data: {"primary": "LIDC-IDRI via The Cancer Imaging Archive", "license": "CC BY 3.0", 

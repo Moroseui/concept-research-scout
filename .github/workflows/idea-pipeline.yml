@@ -10,11 +10,11 @@ on:
   workflow_dispatch:
     inputs:
       top_n:
-        description: 'Shortlist + run the top N candidates from the latest cycle'
+        description: 'Process the next N candidates from the global ranked backlog (finishes in-flight ideas first)'
         default: '1'
         required: true
       candidate:
-        description: 'Instead: shortlist this candidate # from the latest cycle (overrides top_n)'
+        description: 'Instead: shortlist candidate # from the latest cycle (overrides top_n)'
         default: ''
       idea:
         description: 'Instead: run stages on this existing idea # (overrides both)'

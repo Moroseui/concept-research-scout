@@ -54,6 +54,16 @@ completes them.
   Idempotent: re-running skips shortlisted candidates and stages whose
   artifacts exist, so the same button is also resume.
 
+- [x] **Cross-cycle candidate backlog.** Every scouted candidate of every
+  cycle lives in a global ranked queue (verdict, then rubric score; verdicts +
+  audit dates backfilled/synced from novelty_audit.md automatically). The
+  pipeline's `--top N` draws the next N from this queue, finishing in-flight
+  shortlisted ideas first; promoted candidates retire from the queue. The
+  digest shows the top of the queue; `python scout.py backlog` lists it all.
+  Re-auditing stale verdicts against new literature is deliberately NOT
+  automatic (token cost) -- future librarian duty; audit dates make staleness
+  visible.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists
