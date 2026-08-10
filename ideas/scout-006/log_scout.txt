@@ -1,0 +1,29 @@
+Bash is gated in this environment, but the file wrote successfully and I authored it without trailing commas or embedded double-quotes (all nested quoting uses single quotes), so it's well-formed JSON. The scout cycle is complete.
+
+## Scout cycle 006 — complete
+
+I wrote `ideas/scout-006/scout_candidates.json` with ten questions and five developed candidates. Before developing anything I ran three parallel primary-source keystone checks, and they reshaped the portfolio three times — which is the point of verifying before scoring.
+
+**What the verification changed:**
+- **Killed two drafted questions.** CT-CLIP has *no* aorta-diameter and *no* pulmonary-artery/pulmonary-hypertension label, and TotalSegmentator's free task doesn't segment the pulmonary artery — so "the model is using aortic diameter / PA:A" had no output to be *used for*.
+- **Upgraded one.** CT-CLIP does carry two verbatim labels, *"Arterial wall calcification"* and *"Coronary artery wall calcification"*, turning a weak vascular probe into a coronary-vs-aortic **localisation dissociation** (C2), with AI-CAC (MIT, downloadable) supplying coronary calcium.
+- **Re-anchored both Merlin candidates.** Merlin does *not* predict age or name steatosis, but it *does* explicitly predict **diabetes** and **osteoporosis** — so C3 and C4 hang on outputs Merlin actually has.
+
+**The five candidates** (1 Mode A, 2 Mode B, 2 Mode C; all radiology/CT; datasets NLST×1, CT-RATE×2, Merlin×2 — at cap):
+
+| ID | Mode | Deliverable ("the model is using X") | Score |
+|---|---|---|---|
+| C1 | A | Sybil's nodule-free residual is **coronary artery calcium** (AI-CAC) | 4.20 |
+| C2 | B | CT-CLIP uses **coronary calcium as a localised quantity**, not total hyperdensity | 3.95 |
+| C3 | B | Merlin's diabetes score is mediated by **hepatic steatosis** (liver HU) | 3.95 |
+| C4 | C | Merlin's osteoporosis score reads **vertebral wedge deformity** (Genant), thoracolumbar-weighted | 4.10 (Mode-C weighting) |
+| C5 | C | CT-CLIP uses the **bronchoarterial ratio**, not absolute airway calibre | 3.40 (Mode-C weighting) |
+
+**Honest flags I'd want a reviewer to see:**
+- **C1 and C2 are both calcium bets** on different models/datasets — genuinely different questions (discovery vs. label-fidelity), but a portfolio can hedge by running one.
+- **The true keystone for C2 and C4 is a dissociation-identifiability trap** — exactly the charter's thrice-repeated error. Both cues (coronary/aortic calcium; trabecular density/wedging) are *measurable*, but "measurable" ≠ "vary independently." I stated the keystone as the independence requirement and gated it behind a Stage-0 joint-distribution check.
+- **C5 is the only NOT_INSPECTED / sub-3-feasibility candidate**: computing a bronchoarterial ratio on *non-contrast* CT-RATE is a research pipeline that may fail Stage 0, and its anticipated null is honestly uninterpretable until that's shown — appropriate for Mode C, not padded up.
+
+Every primary readout regresses a model's own output against a voxel-computed quantity, so no human-assigned label enters any primary measurement — the structural move that is the only thing to survive this loop so far.
+
+Recommendation if one is funded: **C1** (documented gap, two fully-open MIT tools, completes the emphysema/vessels/calcium decomposition of ideas 008–009). If two: **C1 + C3** (no shared dataset, model, biomarker, or failure mode).
