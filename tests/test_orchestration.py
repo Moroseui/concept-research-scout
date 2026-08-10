@@ -515,6 +515,17 @@ class TestActioner(Harness):
         self.assertIn("Backlog", state)
         self.assertTrue((self.repo / "evidence" / "actions.md").exists(),
                         "brief not published to evidence/")
+        self.assertIn("first brief; no persistence claims", state,
+                      "first-brief marker missing from state")
+
+    def test_previous_brief_feeds_next_state(self):
+        (self.repo / "evidence" / "actions.md").write_text(
+            "## Decisions waiting on the human\n- PREVBRIEFMARKER item\n")
+        self.commit()
+        r = self.scout("actioner", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        state = (self.repo / "ideas" / "actioner-001" / "action_state.md").read_text()
+        self.assertIn("PREVBRIEFMARKER", state, "previous brief not fed into state")
 
     def test_improve_flag_reaches_prompt(self):
         self.commit()

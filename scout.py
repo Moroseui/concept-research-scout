@@ -1441,6 +1441,12 @@ def write_action_state(target):
         for x in pend:
             lines.append('- ' + x[:120])
         lines.append('')
+    prev = read_text(ROOT/'evidence'/'actions.md')
+    if prev:
+        lines += ['## Previous brief (verbatim -- ground persistence and resolution claims here)',
+                  '', prev[:4000], '']
+    else:
+        lines += ['## Previous brief', '', '(none -- this is the first brief; no persistence claims are possible)', '']
     out = target/'action_state.md'
     out.write_text('\n'.join(lines) + '\n')
     return out
