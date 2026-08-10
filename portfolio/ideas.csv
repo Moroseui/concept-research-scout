@@ -10,3 +10,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 009,Murray's cube law says how a branching tree should be built - ask whether the risk model is reading the lung's departure from it,ACTIVE,,,CRITIQUE,
 010,Cardiomegaly on a CT report is admitted gestalt - ask whether the model has quietly turned it into millilitres,ACTIVE,,,CRITIQUE,
 011,Forensic anthropologists age a skeleton by its rib cartilage - ask whether an unguided CT model found the same clock,ACTIVE,,,CRITIQUE,
+012,Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan,ACTIVE,,,CRITIQUE,
