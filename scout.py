@@ -174,6 +174,9 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
         print(f'Agent {agent!r} is disabled. Use this prompt manually:\n{prompt_path}')
         return
     command = acfg.get('command', [])
+    if os.environ.get('SCOUT_CI') and acfg.get('command_ci'):
+        command = acfg['command_ci']
+        print('(SCOUT_CI set: using command_ci variant)')
     if not command:
         print(f'No command configured. Use prompt manually:\n{prompt_path}')
         return

@@ -265,6 +265,34 @@ class TestLedger(Harness):
         self.assertNotEqual(r.returncode, 0)
 
 
+class TestCiCommandVariant(Harness):
+    def test_scout_ci_selects_command_ci(self):
+        # command_ci writes a marker; SCOUT_CI must select it, absence must not.
+        marker = self.dir / "ci_variant_used.txt"
+        fake_ci = self.dir / "fake_ci.py"
+        fake_ci.write_text(
+            "#!/usr/bin/env python3\n"
+            "import os, sys, pathlib\n"
+            "sys.stdin.read()\n"
+            "root = pathlib.Path(os.environ['FAKE_REPO'])\n"
+            f"pathlib.Path({str(marker)!r}).write_text('yes')\n"
+            "(root / 'ideas' / '001').mkdir(parents=True, exist_ok=True)\n"
+            "(root / 'ideas' / '001' / 'critique.md').write_text('ci critique')\n")
+        toml = (self.repo / "AGENTS.toml").read_text()
+        toml = toml.replace('[codex]\nenabled = true\nstdin = true',
+                            '[codex]\nenabled = true\nstdin = true\n'
+                            f'command_ci = ["{sys.executable}", "{fake_ci}"]')
+        (self.repo / "AGENTS.toml").write_text(toml)
+        self.commit()
+        r = self.scout("run", "critique", "--idea", "1")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertFalse(marker.exists(), "command_ci used without SCOUT_CI")
+        self.commit()
+        r = self.scout("run", "critique", "--idea", "1", SCOUT_CI="1")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertTrue(marker.exists(), "SCOUT_CI did not select command_ci")
+
+
 class TestRotation(Harness):
     def test_pair_swaps_on_odd_cycles_only(self):
         sys.path.insert(0, str(self.repo))

@@ -76,6 +76,7 @@ jobs:
       - name: Run cycle (resume if one is unfinished)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          SCOUT_CI: '1'
         run: |
           python scout.py cycle \
             --tracks "${{ inputs.tracks || 'baseline' }}" \

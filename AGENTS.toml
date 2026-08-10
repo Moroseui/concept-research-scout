@@ -37,6 +37,12 @@ command = ["claude", "-p", "--model", "claude-fable-5", "--allowedTools", "Read,
 enabled = true
 stdin = true
 command = ["codex", "exec", "-s", "workspace-write", "-c", "sandbox_workspace_write.network_access=true", "-"]
+# On GitHub Actions runners, codex's own sandbox (bubblewrap) cannot initialize
+# (unprivileged user-namespace restrictions: uid-map / loopback failures).
+# The ephemeral runner VM is itself the sandbox, which is the documented use
+# case for the bypass flag. Selected only when SCOUT_CI is set; local runs
+# keep the normal sandbox above.
+command_ci = ["codex", "exec", "--dangerously-bypass-approvals-and-sandbox", "-"]
 
 # Role rotation: on odd cycle numbers the two families in `pair` swap across
 # every role (including debate sides), so each model plays scout and critic
