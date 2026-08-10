@@ -1,145 +1,134 @@
 {
-  "id": "C2",
+  "id": "idea-013",
+  "parent_ids": ["scout-006-c02"],
   "search_mode": "B",
   "entry_point": 2,
-  "title": "CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity",
-  "question": "When CT-CLIP fires its 'Coronary artery wall calcification' label, is the score a monotone function of automated coronary Agatston, and does it dissociate from aortic-wall calcium measured in the same volume - so that the coronary label tracks coronary calcium specifically rather than total vascular calcium?",
-  "deliverable_sentence": "CT-CLIP is using coronary artery calcium as a localised quantity: its coronary-calcification score rises with automated coronary Agatston and is not merely a readout of total calcium load, because it separates from aortic-wall calcium in the same scan.",
+  "title": "Does CT-CLIP's coronary-calcification score follow reconstruction-dependent changes in displayed coronary calcium?",
+  "question": "Across geometry-matched alternative reconstructions of the same CT-RATE acquisition, do within-pair changes in an automated coronary-calcium measurement covary with changes in CT-CLIP's coronary-artery-wall-calcification score?",
+  "deliverable_sentence": "Within the tested reconstruction contrasts, CT-CLIP uses displayed coronary-calcium signal when producing its coronary-artery-wall-calcification score.",
+  "claim_rung": 1,
   "rung": {
-    "current": 3,
-    "why": "Coronary calcification is a named radiological finding; the design also tests whether the model's OWN label means what it says.",
-    "what_would_move_it_up": "Nothing above rung 3; the localisation dissociation is what makes the rung-3 claim strong rather than a bare correlation."
+    "current": 1,
+    "why": "A paired association between reconstruction-induced changes in an independent coronary-calcium measurement and changes in the frozen model score is evidence of sensitivity to displayed calcium signal, while anatomy and true calcium burden are fixed. It does not establish anatomical localisation or freedom from a shared reconstruction-response confound.",
+    "what_would_move_it_up": "Rung 2 requires separating CT-CLIP's response from reconstruction, measurement-tool, scanner, vendor, and site effects. Rung 3 requires a validated anatomy-specific intervention with comparable coronary and noncoronary targeting; that is a separate successor study, not part of this card."
   },
+  "scientific_uncertainty": "It is unknown whether reconstruction-induced changes in the visible coronary-calcium signal move CT-CLIP's named coronary-calcification score in the same direction when patient anatomy and true disease burden are held fixed.",
+  "existing_legwork": "Idea 004 directly inspected the CT-RATE validation metadata and found 425 strict geometry-matched same-acquisition reconstruction pairs after excluding slice-count, position, and acquisition-parameter drift. The dominant contrasts were Br40f|Br60f (237), Bl56f|Br40f (126), and Bl57d|Br36d (58). The CT-CLIP taxonomy contains a coronary-artery-wall-calcification output. AI-CAC was developed for full-field nongated noncontrast chest CT, but its released inference path is DICOM-oriented and has not been validated on the processed CT-RATE volumes.",
+  "missing_final_step": "Demonstrate a valid coronary-calcium measurement on the released CT-RATE representation, obtain the frozen CT-CLIP checkpoint with provenance, freeze the pair list and analysis, and run paired inference without using report labels.",
   "X_measurement": {
-    "X": "Coronary Agatston (AI-CAC) as the primary; aortic-wall calcium (volume of voxels >130 HU inside the TotalSegmentator 'aorta' mask) as the dissociating comparison.",
-    "how": "AI-CAC for coronary calcium; TotalSegmentator free 'total' task (Apache-2.0) segments the aorta, then threshold-count calcium inside it. Both are threshold/segmentation operations, no annotation.",
-    "citations": "AI-CAC: Hagopian et al., NEJM AI 2025, DOI 10.1056/AIoa2400937. TotalSegmentator: Wasserthal et al., Radiol Artif Intell 2023;5(5):e230024, DOI 10.1148/ryai.230024 (aorta in the free task). CT-CLIP labels: Hamamci et al., arXiv:2403.17834 ('our dataset distinguishes between Arterial wall calcification and Coronary artery wall calcification').",
-    "could_I_compute_it_today_without_asking_anyone": "Yes for both measures. CT-CLIP checkpoints require a CC-BY-NC-SA click-through gate but no application.",
-    "known_weakness_of_X_stated_up_front": "CT-RATE is non-contrast (good for calcium HU) but slice thickness ranges up to 6 mm, which coarsens small coronary calcifications; AI-CAC expects full-FOV chest CT, which CT-RATE mostly is, but truncated fields would bias coronary coverage."
+    "X": "Displayed coronary-calcium signal, operationalised as the automated coronary-calcium quantity produced separately for each reconstruction of the same acquisition.",
+    "how": "Use AI-CAC only if Stage 0 establishes a documented, numerically defensible path from CT-RATE's processed volumes to the model's expected input and acceptable output reliability on the eligible thickness and field-of-view strata. Exclude unsupported strata rather than adjust them into validity.",
+    "citations": [
+      "Hagopian et al., AI Opportunistic Coronary Calcium Screening at Veterans Affairs Hospitals, NEJM AI (2025), DOI: 10.1056/AIoa2400937; official repository https://github.com/Raffi-Hagopian/AI-CAC/",
+      "Yin et al., Performance assessment of an artificial intelligence-based coronary artery calcium scoring algorithm in non-gated chest CT scans of different slice thickness, PMID: 39144022",
+      "Hamamci et al., Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography, arXiv:2403.17834"
+    ],
+    "could_I_compute_it_today_without_asking_anyone": "Not yet on the actual released CT-RATE representation. The software is available, but file-format compatibility and numerical validity have not been demonstrated.",
+    "known_weakness_of_X_stated_up_front": "The measurement is protocol- and reconstruction-sensitive and is not ground truth. That sensitivity supplies within-pair variation but also creates the central alternative explanation: CT-CLIP and AI-CAC may share a response to kernel, noise, blooming, slice thickness, or partial volume."
   },
-  "suspected_signal": "Both labels were trained from RadBERT-parsed reports, so the model has a supervised target for calcium. The question is whether it learned calcium as a LOCATION-BOUND finding (coronary vs aortic) or as a texture detector for any dense vascular fleck. Calcified plaque is hyperdense and anatomically placed; a model that truly localises will track coronary Agatston with partial independence from aortic calcium.",
-  "keystone_prerequisite": "CT-CLIP's coronary-calcification score can be regressed against a per-scan automated coronary Agatston on CT-RATE volumes (primary), AND coronary and aortic calcium vary independently ENOUGH in the CT-RATE population for the localisation dissociation to be identifiable (secondary) - because if the two calcium loads are nearly collinear, the dissociation cannot be estimated regardless of how well each is measured.",
-  "keystone_status": "INSPECTED_TRUE",
-  "keystone_evidence": "The two labels exist verbatim in the paper ('Arterial wall calcification' and 'Coronary artery wall calcification'). ClassFine/CT-LiPro outputs exactly the 18-label set. Checkpoints (CT_LiPro_v2.pt etc.) are in models/CT-CLIP-Related/ inside the CC-BY-NC-SA CT-RATE HF repo (click-through gate). AI-CAC's stated domain is non-gated non-contrast chest CT = CT-RATE. TotalSegmentator's free task segments the aorta. All primary-readout ingredients are confirmed runnable.",
-  "keystone_residual_assumption": "The primary (score vs coronary Agatston, monotone) is fully supported by INSPECTED facts. The SECONDARY dissociation carries the real residual: I verified that coronary and aortic calcium are each measurable, but I did NOT verify that they vary independently in CT-RATE. Coronary and aortic calcium share atherosclerosis and are positively correlated (population r commonly ~0.4-0.6), which is enough to identify a dissociation but not guaranteed in this specific cohort. This is the same shape as the scout-004 lesson (LAA and BV5 co-vary): 'both are measurable' is not 'both vary independently'. Stage 0 must estimate the joint distribution before the dissociation is trusted; if collinear, the candidate honestly retreats to the fidelity-only claim.",
-  "rung_reached": {
-    "value": 2,
-    "conditional_on": "The fidelity regression is rung 1 (the score IS the model's calcium output, so a monotone dependence on measured calcium is use, not correlation with an external label). The rung-3 localisation SENTENCE is earned only if coronary calcium predicts the coronary score with aortic calcium partialled out; if the two are collinear or the coronary label tracks total calcium, the claim is 'the model uses vascular calcium' (still rung 3, but a coarser X)."
-  },
-  "use_vs_association": "Use is not in doubt for the primary, because the score being regressed IS the model's own calcification output - a monotone dependence on measured Agatston is the model using calcium by definition. The association-vs-use worry lives entirely in WHICH calcium (coronary vs total), which the localisation dissociation resolves.",
-  "dies_like_prior": "Resembles idea 010 (cardiomegaly -> heart volume, CT-CLIP score vs machine measurement), which is ACTIVE, not killed; C2's distinct move is the two-label localisation dissociation that idea 010's single label cannot support. No annotation-provenance issue: the primary readout regresses the model's own score against a voxel Agatston, and the RadBERT report label never enters the primary.",
+  "keystone_prerequisite": "AI-CAC, or a named replacement validated for the same domain, produces a reliable per-reconstruction coronary-calcium measurement from the released CT-RATE volumes, and the eligible geometry-matched pairs contain enough above-noise within-pair measurement variation to estimate the preregistered coupling effect.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "The actual CT-RATE-to-AI-CAC conversion and its numerical equivalence have not been inspected, and the distribution and repeatability of within-pair calcium changes have not been measured. If I have only verified the nearest checkable thing, what am I still assuming? I verified that AI-CAC targets nongated noncontrast chest CT and that clean CT-RATE reconstruction pairs exist; I am still assuming that AI-CAC remains valid on CT-RATE's processed-volume format and that reconstruction creates measurable calcium variation rather than tool noise. Those assumptions are load-bearing and form the keystone.",
+  "dies_like_prior": "It repeats the wrong-keystone shape of ideas 005 and 006 if software availability is mistaken for measurement validity on the actual files. This revision differs by marking that fact NOT_INSPECTED and making it a Stage 0 stop gate. It does not repeat the annotation-provenance failures because the primary endpoint uses no report label or human semantic rating. It remains vulnerable to the identifiability pattern in idea 009: shared reconstruction sensitivity of CT-CLIP and the measurement tool is not ruled out, so the claim is capped at rung 1 and localisation is prohibited.",
   "closest_prior_work": [
     {
-      "citation": "Hamamci et al., CT-CLIP / CT-RATE foundation model.",
+      "citation": "Hamamci et al., CT-CLIP / CT-RATE",
       "identifier": "arXiv:2403.17834",
-      "verification": "INSPECTED (v3 HTML)",
-      "what_it_did": "Trained the model and reported the 18-label ClassFine performance, including both calcification labels.",
-      "what_it_did_not_do": "Never tested whether the calcification scores track a measured calcium score, nor whether the two labels dissociate by anatomy."
+      "verification": "PRIMARY SOURCE AND OFFICIAL REPOSITORY INSPECTED in prior review",
+      "what_it_did": "Introduced the dataset, model, and separate arterial and coronary calcification labels.",
+      "delta": "Did not report this geometry-matched within-acquisition coupling between a continuous coronary-calcium measurement and the coronary score."
     },
     {
-      "citation": "Kenia, McNamara, Lotter, 'Anatomy Contextualized Adaption of CT Foundation Models'.",
-      "identifier": "arXiv:2607.27154 (2026)",
-      "verification": "SEARCH_SUMMARY_ONLY",
-      "what_it_did": "Combined CT-CLIP and Merlin with TotalSegmentator anatomy for zero-shot binary finding classification.",
-      "what_it_did_not_do": "No correlation of model scores against any continuous geometric or densitometric biomarker; no calcium quantification."
+      "citation": "Hagopian et al., AI-CAC",
+      "identifier": "DOI: 10.1056/AIoa2400937",
+      "verification": "PRIMARY SOURCE AND OFFICIAL CODE INSPECTED in prior review",
+      "what_it_did": "Developed automated coronary-calcium screening for nongated noncontrast chest CT.",
+      "delta": "Did not use paired reconstructions to audit a foundation model's named calcification score."
     },
     {
-      "citation": "Hagopian et al., AI-CAC.",
-      "identifier": "NEJM AI 2025, DOI 10.1056/AIoa2400937",
-      "verification": "INSPECTED",
-      "what_it_did": "Released the calcium scorer.",
-      "what_it_did_not_do": "Never applied to a foundation model's calcification label."
+      "citation": "Yin et al., slice-thickness assessment of automated CAC",
+      "identifier": "PMID: 39144022",
+      "verification": "PRIMARY SOURCE INSPECTED in prior review",
+      "what_it_did": "Showed that slice thickness affects automated CAC estimates on nongated chest CT.",
+      "delta": "Establishes the measurement sensitivity motivating the audit, but does not test CT-CLIP."
     }
   ],
-  "existing_assets": [
-    "CT-CLIP ClassFine checkpoints (CC-BY-NC-SA, click-through).",
-    "CT-RATE non-contrast chest CT volumes (same gate).",
-    "AI-CAC (MIT).",
-    "TotalSegmentator free task (Apache-2.0) for the aorta mask.",
-    "The paper's own ClassFine AUROC for the two calcification labels as reference."
-  ],
-  "smallest_decisive_experiment": "Stage 0 (2 days): on a CT-RATE validation slice, run AI-CAC and aortic-calcium counting and estimate their joint distribution - go/no-go for the dissociation. Stage 1 (fidelity, no labels): regress CT-CLIP's coronary-calcification score on coronary Agatston across deciles; a model using calcium shows a monotone gradient. Stage 2 (localisation): partial the coronary score on coronary Agatston with aortic calcium held, and cross-check the 'Arterial wall calcification' score against aortic calcium - a localising model shows a double dissociation.",
-  "standing_confounds_addressed": {
-    "scanner_and_vendor": "CT-RATE is largely single-institution; vendor retained as a covariate.",
-    "acquisition_protocol": "Non-contrast throughout; slice thickness varies and is a covariate (thick slices blur small coronary calcium).",
-    "reconstruction": "Kernel affects calcium blooming; recorded per volume where available and used as a covariate.",
-    "site": "Limited institutional diversity in CT-RATE; stated as a scope limitation.",
-    "positioning": "Weak effect; calcium measured inside anatomical masks.",
-    "habitus": "Noise via body size; covariate.",
-    "prevalence": "Single-cohort; no between-population contrast.",
-    "referral_pathway": "CT-RATE is clinically-referred chest CT - a genuine caveat, since indication may correlate with calcium burden; addressed only as a limitation.",
-    "label_leakage": "N/A to primary (score vs voxel Agatston). The training label came from reports, but the readout is the score against an independent measurement, not against the report."
+  "novelty_statement": "No novelty is claimed. The precise within-acquisition CT-CLIP audit was not found in the primary sources already inspected, but a targeted 2025-2026 primary-source search is still required before calling the delta previously unreported.",
+  "smallest_decisive_experiment": {
+    "population": "The Stage-0-confirmed geometry-matched CT-RATE pairs for which checkpoint provenance, final-tensor comparability, coronary coverage, supported slice thickness, and calcium-measurement QC all pass. Major kernel contrasts are analysed separately; patients are not split across development and test partitions.",
+    "frozen_elements": "Before CT-CLIP scores are inspected, freeze the eligible pair list, checkpoint checksum, preprocessing, measurement implementation, development/test split, score scale, primary contrast, minimum detectable coupling, measurement repeatability threshold, outlier rule, and multiplicity rule.",
+    "primary_readout": "On the untouched test set, estimate the patient-clustered association between within-pair change in automated coronary calcium and within-pair change in the coronary-calcification logit, stratified by the prespecified major reconstruction contrasts. Report the slope and confidence interval; do not pool opposite contrast directions without harmonising their orientation in advance.",
+    "controls": "Repeatability or near-identical-image controls define the calcium tool's noise floor where obtainable; pair eligibility requires matched anatomy, acquisition, geometry, and final model framing. Other CT-CLIP heads may be shown only as exploratory specificity checks and cannot rescue or establish the primary claim.",
+    "stop_rule": "Stop at feasibility if the checkpoint is unavailable, the processed-volume measurement path fails QC, within-pair calcium variation is below the frozen noise or precision threshold, or too few pairs remain for the prespecified minimum detectable effect. Do not substitute cross-sectional regressions or synthetic edits under this idea identity."
   },
-  "alternative_explanations": [
-    "The coronary score tracks TOTAL vascular calcium, not coronary specifically - the central alternative, resolved by the aortic-calcium dissociation.",
-    "The score is effectively binary/saturated (present/absent), so a 'monotone' relationship is really a step - handled by the ordinal coarsening and by inspecting the score distribution.",
-    "Slice-thickness confound: thick-slice scans blur coronary calcium and may drop the score for measurement reasons - covariate-adjusted and stratified.",
-    "The appealing 'the model localises calcium' sentence would also arise if aortic and coronary calcium simply differ in average magnitude; only the partialled dissociation, not the marginal correlations, supports it."
-  ],
+  "claim_identifiability": {
+    "identified": "A positive paired coupling shows that, under the observed real reconstruction changes, the model's coronary score moves with an independently computed displayed-coronary-calcium quantity while true anatomy and calcium burden are fixed.",
+    "alternatives": [
+      {
+        "explanation": "Different patient anatomy, body habitus, disease prevalence, referral pathway, positioning, site, or report leakage",
+        "status": "Ruled out within each pair because both images derive from the same acquisition and the primary endpoint uses neither reports nor labels."
+      },
+      {
+        "explanation": "Kernel, noise, blooming, slice thickness, partial volume, or another reconstruction property independently drives both AI-CAC and CT-CLIP",
+        "status": "Not ruled out. Stratification and measurement-noise controls describe it but cannot separate a shared tool response from use of calcium itself. This is the reason the study cannot claim localisation or pass rung 2."
+      },
+      {
+        "explanation": "A generic hyperdensity or global image-quality response, rather than coronary anatomy, drives the CT-CLIP score",
+        "status": "Not ruled out by this one-head experiment. The prior two-head observational interaction was dropped because it was vulnerable to head-by-tool artifacts and did not identify localisation."
+      },
+      {
+        "explanation": "Scanner, vendor, or site modifies the observed relationship",
+        "status": "Not ruled out externally. The audited pairs are overwhelmingly Siemens, so any result is explicitly scoped to the observed cohort and contrasts."
+      }
+    ]
+  },
+  "standing_confounds": {
+    "scanner_vendor_site": "Held fixed within pair but not eliminated as an effect modifier; external generalisation is prohibited.",
+    "acquisition_protocol_positioning_habitus": "Held fixed within the same acquisition; reconstruction parameters themselves are the perturbation and remain mechanistically entangled.",
+    "disease_prevalence_referral_pathway": "Held fixed within pair; they still constrain population scope.",
+    "label_leakage": "No label or report enters the primary endpoint, although report-derived training may explain why the named head exists.",
+    "measurement_tool": "Central unresolved confound; Stage 0 can bound reliability but cannot prove that shared reconstruction response equals calcium use."
+  },
+  "anticipated_positive": "A prespecified positive within-pair coupling exceeding the minimum effect supports only the narrow rung-1 sentence that the score uses displayed coronary-calcium signal under these reconstruction contrasts, with shared tool/reconstruction response stated as an unresolved alternative.",
   "anticipated_negative": {
-    "classification": "sensitivity-limited",
-    "reasoning": "If the coronary score does not track Agatston, it may be because the ClassFine head is near-binary and saturates, not because the model ignores calcium - so a null needs the score-distribution diagnostic and a minimum-detectable-slope to be interpretable. A clean null on the DISSOCIATION (coronary score tracks total calcium equally) is more decisive and would say the label does not localise."
+    "classification": "decisive if an equivalence interval lies wholly inside a preregistered coupling margin after measurement and dynamic-range gates pass; otherwise sensitivity-limited",
+    "reasoning": "A powered equivalence result would weaken the hypothesis that reconstruction-induced changes in measured displayed coronary calcium materially move this score in the tested contrasts. Mere failure to reject a zero slope is sensitivity-limited. Stage 0 failure is a feasibility result, not evidence that the score ignores calcium."
   },
-  "cross_domain": null,
+  "prohibited_conclusions": [
+    "Do not claim that CT-CLIP localises coronary calcium or distinguishes coronary from aortic or other hyperdensity.",
+    "Do not claim that AI-CAC is ground truth or that correlated reconstruction responses prove a causal calcium mechanism.",
+    "Do not call cross-sectional score-versus-Agatston association evidence of model use.",
+    "Do not claim artifact freedom, clinical validity, risk calibration, or generalisation beyond the tested predominantly Siemens cohort and reconstruction contrasts.",
+    "Do not revive synthetic insertion, erasure, transplantation, aortic threshold counting, or the two-head double dissociation inside this candidate."
+  ],
+  "gated_spin_off": {
+    "status": "NOT_PART_OF_CURRENT_CANDIDATE",
+    "question": "Does CT-CLIP respond selectively to calcium placed at coronary rather than noncoronary vascular anatomy?",
+    "entry_keystone": "Coronary and aortic intervention targets can be located with comparable, independently validated anatomical accuracy on nongated noncontrast CT without human annotation.",
+    "keystone_status": "NOT_INSPECTED",
+    "note": "Per the debate, this would be a separate successor candidate and requires its own novelty audit and ranking."
+  },
   "remaining_legwork": [
-    "Accept the CT-RATE gate and pull the validation split + checkpoints: 1 day.",
-    "Stage 0 joint-distribution check: 2 days.",
-    "Run AI-CAC + aortic counting across the split: 3 days.",
-    "Time to first decision: ~2 weeks."
+    "Inspect and freeze the exact CT-CLIP checkpoint, configuration, preprocessing, checksum, and licence.",
+    "Demonstrate and document a valid CT-RATE processed-volume path for AI-CAC or a named replacement; quantify reliability and exclude unsupported thickness/FOV strata.",
+    "Measure within-pair calcium variation without viewing CT-CLIP scores and apply a prespecified noise, support, and confidence-width gate.",
+    "Freeze development and untouched test partitions at patient level and justify the equivalence and minimum-effect margins externally.",
+    "Complete a targeted primary-source novelty audit covering 2025-2026 CT foundation-model interpretability work."
   ],
   "scores": {
-    "clarity": {
-      "value": 5,
-      "why": "Names the model, both labels, both measurements, and the dissociation that identifies the claim."
-    },
-    "identifiability": {
-      "value": 4,
-      "why": "The score is the model's own output so use is not in question; the two-label dissociation isolates coronary calcium from total calcium. Held below 5 by the residual (coronary/aortic calcium co-vary) and by CT-RATE's clinical-referral confound."
-    },
-    "medical_relevance": {
-      "value": 3,
-      "why": "A fidelity/localisation audit of a model's label - useful for trusting the model's calcium reporting, but less directly consequential than a discovery."
-    },
-    "interest": {
-      "value": 4,
-      "why": "Whether a foundation model's finding label is anatomically meaningful or just a hyperdensity detector is a sharp, generalisable question."
-    },
-    "prior_legwork": {
-      "value": 5,
-      "why": "Open model, open images (gated but free), two open measurement tools, published reference AUROCs."
-    },
-    "feasibility": {
-      "value": 4,
-      "why": "Cap lifted (INSPECTED_TRUE). Inference-only; both tools run. Held by the CT-RATE gate and thick-slice coronary blurring."
-    },
-    "data_readiness": {
-      "value": 4,
-      "why": "CT-RATE is a free click-through, non-commercial gate; not fully open."
-    },
-    "evaluation_readiness": {
-      "value": 5,
-      "why": "Agatston, ordinal agreement, partial regression, double dissociation - all standard with reference values."
-    },
-    "negative_result_value": {
-      "value": 3,
-      "why": "A fidelity null is sensitivity-limited (label may saturate); a dissociation null is more decisive. Averaged to 3."
-    },
-    "novelty_confidence": {
-      "value": 4,
-      "why": "Cap lifted. No prior test of CT-CLIP calcification-score fidelity or localisation was found. Held at 4 because the score-vs-biomarker method is established prior art and a very recent preprint could exist."
-    }
+    "clarity": {"value": 5, "why": "One model head, one independently computed measurement, one natural paired perturbation, and one within-pair coupling estimand."},
+    "identifiability": {"value": 2, "why": "Pairing removes patient-level confounding, but shared response of CT-CLIP and AI-CAC to reconstruction cannot be separated from genuine use of displayed calcium."},
+    "medical_relevance": {"value": 3, "why": "It audits whether an anatomically named output behaves coherently under routine reconstruction changes, but does not establish clinical calcium quantification or localisation."},
+    "interest": {"value": 3, "why": "The same-acquisition self-audit is stringent and concrete, though the reduced result is a robustness finding rather than the original localisation discovery."},
+    "prior_legwork": {"value": 4, "why": "The 425-pair cohort and major contrast counts are already inspected; checkpoint provenance and the measurement path remain unresolved."},
+    "feasibility": {"value": 3, "why": "Capped because the measurement-validity keystone is NOT_INSPECTED; conditional on it, the existing 850-volume download plan is manageable."},
+    "data_readiness": {"value": 3, "why": "Pair metadata are inspected, but images and checkpoints are gated and the measurement tool does not natively consume the released representation."},
+    "evaluation_readiness": {"value": 3, "why": "Paired slopes and clustered intervals are standard, but reliability, minimum-effect, and equivalence margins still require prospective specification."},
+    "negative_result_value": {"value": 4, "why": "After measurement and power gates pass, a confidence interval within a frozen equivalence margin decisively bounds material coupling for the tested contrasts."},
+    "novelty_confidence": {"value": 3, "why": "Capped by the uninspected keystone and limited because the exact 2025-2026 overlap search is incomplete."}
   },
-  "priority_score": 3.95,
-  "priority_arithmetic": "0.20*4 + 0.15*4 + 0.15*3 + 0.10*5 + 0.10*4 + 0.10*5 + 0.10*3 + 0.05*4 + 0.05*4 = 0.80+0.60+0.45+0.50+0.40+0.50+0.30+0.20+0.20 = 3.95",
-  "regret": {
-    "value": 4,
-    "why": "The two-label natural experiment is sitting in the released model and nobody has run it; the tools are free."
-  },
-  "unverified_claims": [
-    "Coronary and aortic calcium vary independently enough in CT-RATE (Stage 0).",
-    "AI-CAC runs acceptably on 6 mm-slice CT-RATE volumes.",
-    "The exact ClassFine score scale/saturation behaviour for the calcification heads.",
-    "CT-RATE FOV consistently includes full coronary coverage (inferred from 'chest CT', not verbatim)."
-  ],
-  "track": "baseline"
+  "priority_score": 3.25,
+  "priority_arithmetic": "0.20*3 + 0.15*2 + 0.15*3 + 0.10*4 + 0.10*3 + 0.10*5 + 0.10*4 + 0.05*3 + 0.05*3 = 3.25",
+  "regret": {"value": 3, "why": "The natural pairs are unusually clean and reusable, but the surviving claim is modest and shares assets with idea 004."},
+  "recommendation": "REVISE_AND_ADVANCE_ONLY_TO_STAGE_0"
 }
