@@ -142,6 +142,34 @@ verdict whose bookkeeping requires a separate human button press is a
 verdict half-applied, and stale cards mislead every downstream stage that
 reads them.
 
+## The keystone screen and calibrated novelty (external-review responses)
+
+**Keystone screen.** The kill history is dominated by Stage-0-shaped facts
+(unreleased annotations, unlinked files, OOD interventions) discovered at
+debate prices; a human check of CT-CLIP's dataloader settling idea 006 with
+one quoted line became the template. The screen is now a default pipeline
+stage before critique: full network access, mandatory verbatim evidence and
+source per verdict, an explicit wrong-keystone follow-up, and an early KILL
+path (death_stage=keystone) the verdict automation applies. UNVERIFIABLE is
+an honest pass-through, never a guess.
+
+**Calibrated novelty vocabulary.** `NOVEL_VERIFIED` overclaimed what the
+audit's own prose disavows: absence of a found duplicate is not verified
+novelty. Audits now emit NO_DUPLICATE_FOUND_HIGH_CONFIDENCE /
+NO_DUPLICATE_FOUND_LIMITED_SEARCH / INCREMENTAL / DUPLICATE_FOUND, plus a
+machine-readable novelty_manifest.json (queries, sources, access level,
+establishing passages) so audits are reproducible searches rather than good
+prose. Old names remain accepted synonyms; history is not rewritten.
+
+**Homogenization instrument.** Candidates carry a controlled
+`design_template` (the experimental grammar); the digest counts
+concentration. Measurement precedes quotas. Claim retention
+(deliverable_original at shortlist, same/narrowed/different at revise) and
+death_stage on kills make claim-shrinkage and stage-of-death first-class
+metrics for the v1 evaluation. run_provenance.json records (never pins) CLI
+versions, prompt hashes, and commit per cycle so comparisons stratify by
+what actually ran.
+
 ## Operational honesty: contracts, scope, evidence, logs
 
 Each of these was added after the system's own behavior demonstrated the gap:

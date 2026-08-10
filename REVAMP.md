@@ -139,6 +139,14 @@ completes them.
   candidates. Patch B (novelty vocabulary + manifest, keystone stage, design
   templates, claim retention, death stage, provenance record-not-pin) next.
 
+- [x] **Review Patch B (calibration + metrics).** Calibrated novelty
+  vocabulary + novelty_manifest.json; keystone screen as default pipeline
+  stage (evidence-quoted, early kill, checker-mode formalized);
+  design_template vocabulary + digest concentration counts; claim-retention
+  and death_stage fields; run_provenance.json (record, never pin, per
+  Partho's call). Next: freeze Scout v1 and design the prospective
+  simple-baseline comparison.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists

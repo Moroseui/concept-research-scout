@@ -232,8 +232,10 @@ def digest() -> Path:
     backlog = [(e.get('novelty_verdict','UNAUDITED'), e) for e in entriesv.values()
                if e.get('status') == 'SCOUT_ONLY']
     if backlog:
-        vrank = {'NOVEL_VERIFIED': 0, 'NOVEL_UNVERIFIED': 1, 'UNAUDITED': 3,
-                 'INCREMENTAL': 4, 'DUPLICATE_PRIOR': 9}
+        vrank = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE': 0, 'NOVEL_VERIFIED': 0,
+                 'NO_DUPLICATE_FOUND_LIMITED_SEARCH': 1, 'NOVEL_UNVERIFIED': 1,
+                 'UNAUDITED': 3, 'INCREMENTAL': 4,
+                 'DUPLICATE_FOUND': 9, 'DUPLICATE_PRIOR': 9}
         backlog.sort(key=lambda ve: (vrank.get(ve[0], 5),
                                      -float(ve[1].get('scores_mean') or 0)))
         lines += ['## Candidate backlog (scouted, not yet shortlisted; ranked)', '']
@@ -244,6 +246,18 @@ def digest() -> Path:
                          + f"] -- {e.get('title','')}")
         if len(backlog) > 10:
             lines.append(f'- ... and {len(backlog)-10} more (python scout.py backlog)')
+        lines.append('')
+    templates = {}
+    for e in entries.values():
+        dt = e.get('design_template')
+        if dt:
+            templates[dt] = templates.get(dt, 0) + 1
+    if templates:
+        lines += ['## Design-template concentration (homogenization watch)', '',
+                  'The research GRAMMAR, not the nouns. High concentration means the',
+                  'portfolio explores one scientific move with rotating vocabulary.', '']
+        for k, v in sorted(templates.items(), key=lambda kv: -kv[1]):
+            lines.append(f'- {k}: {v}')
         lines.append('')
     lines += ['## Ideas', '']
     for lid in sorted(entries):

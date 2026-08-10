@@ -52,7 +52,10 @@ and files everything into the cross-cycle backlog.
 candidates from the *global ranked backlog* (best verdict first, then rubric
 score; in-flight ideas are finished before new ones are drawn, so the button
 doubles as resume). Or target `candidate: K` / `idea: N` with a `stages`
-list (`critique,revise,feasibility,debate`). Debate summaries end in a
+list (`keystone,critique,revise,feasibility,debate`). Every idea first passes a **keystone screen** -- one cheap
+evidence-quoting agent pass (clone the repo, read the loader, check the
+release page) that can kill at screen prices before critique or debate is
+paid for. Debate summaries end in a
 machine-readable verdict that updates the ledger automatically; a REVISE
 verdict also auto-runs the revise stage in the same job, and a
 `revise_debt` toggle batch-syncs any stale REVISE-verdicted cards.

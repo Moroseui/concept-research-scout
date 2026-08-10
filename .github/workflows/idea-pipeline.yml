@@ -21,7 +21,7 @@ on:
         default: ''
       stages:
         description: 'Stages to run, comma-separated (critique,revise,feasibility,debate)'
-        default: 'critique,debate'
+        default: 'keystone,critique,debate'
         required: true
       revise_debt:
         description: 'Instead of all the above: batch-sync every REVISE-verdicted idea whose card is stale'

@@ -82,6 +82,14 @@ elif action == "cycle_auto":
             '{"updates": [{"ledger_id": "scout-050-c01", "novelty_verdict": "NOVEL_VERIFIED", "reason": "test"}]}' + NL)
         (outdir / "librarian_proposals.json").write_text(
             '{"proposals": [{"title": "revived idea", "question": "is the model using the fixture signal?", "parent_ids": ["idea-011"], "revival_basis": "b", "sketch": "s"}]}' + NL)
+    elif stage == "keystone":
+        v = os.environ.get("FAKE_KEYSTONE_VERDICT", "PASS")
+        kc = '"kill_code": "DATA_ACCESS", ' if v == "KILL" else ""
+        (outdir / "keystone_screen.md").write_text(
+            "# screen" + NL + NL + "```json" + NL
+            + '{"verdict": "' + v + '", ' + kc
+            + '"evidence": "quoted line", "source": "https://x/y#L1", "note": "fake"}'
+            + NL + "```" + NL)
     elif stage == "actioner":
         (outdir / "actions.md").write_text("## Decisions waiting on the human" + NL + "- none" + NL)
     elif "TRANSCRIPT SO FAR" in prompt:
@@ -157,6 +165,24 @@ command = ["{sys.executable}", "{self.fake}"]
 
     def tearDown(self):
         shutil.rmtree(self.dir, ignore_errors=True)
+
+    def make_cycle_outputs(self, scoutdir, verdicts):
+        d = self.repo / "ideas" / scoutdir
+        d.mkdir(parents=True, exist_ok=True)
+        cands = []
+        for i in range(1, len(verdicts) + 1):
+            c = dict(GOLDEN_CANDIDATE)
+            c["title"] = f"cand {i}"
+            c["question"] = "Does the fixture rank correctly?"
+            c["deliverable_sentence"] = "the model is using fixture signal"
+            c["priority_score"] = float(5 - i)
+            c["priority_arithmetic"] = "fixture"
+            cands.append(c)
+        (d / "candidates_all.json").write_text(json.dumps(
+            {"cycle": 9, "tracks": ["baseline"], "notes": {}, "candidates": cands}) + "\n")
+        rows = "".join(f"| C{i} | `{v}` | `NEW_CAPABILITY` |\n"
+                       for i, v in enumerate(verdicts, 1))
+        (d / "novelty_audit.md").write_text("# audit\n\n| Candidate | Verdict | code |\n|---|---|---|\n" + rows)
 
     def _sc(self):
         """Import the repo-copy scout module with paths patched to the harness."""
@@ -472,23 +498,6 @@ class TestPipeline(Harness):
         super().setUp()
         self.make_hermetic(wipe_idea_dirs=True)
 
-    def make_cycle_outputs(self, scoutdir, verdicts):
-        d = self.repo / "ideas" / scoutdir
-        d.mkdir(parents=True, exist_ok=True)
-        cands = []
-        for i in range(1, len(verdicts) + 1):
-            c = dict(GOLDEN_CANDIDATE)
-            c["title"] = f"cand {i}"
-            c["question"] = "Does the fixture rank correctly?"
-            c["deliverable_sentence"] = "the model is using fixture signal"
-            c["priority_score"] = float(5 - i)
-            c["priority_arithmetic"] = "fixture"
-            cands.append(c)
-        (d / "candidates_all.json").write_text(json.dumps(
-            {"cycle": 9, "tracks": ["baseline"], "notes": {}, "candidates": cands}) + "\n")
-        rows = "".join(f"| C{i} | `{v}` | `NEW_CAPABILITY` |\n"
-                       for i, v in enumerate(verdicts, 1))
-        (d / "novelty_audit.md").write_text("# audit\n\n| Candidate | Verdict | code |\n|---|---|---|\n" + rows)
 
     def test_golden_candidate_scores_nonzero_and_validates(self):
         # Regression for the 0.0-scoring bug: the REAL production card must
@@ -737,6 +746,36 @@ class TestLibrarian(Harness):
         d = self.repo / "ideas" / "lib-test"; d.mkdir()
         out = sc.write_librarian_dossier(d).read_text()
         self.assertIn("idea-001", out)
+
+
+class TestKeystoneScreen(Harness):
+    def setUp(self):
+        super().setUp()
+        self.make_hermetic(wipe_idea_dirs=True)
+
+    def test_keystone_kill_stops_pipeline_early(self):
+        self.make_cycle_outputs("scout-009", ["NOVEL_VERIFIED"])
+        (self.repo / "orchestrator" / "state.json").write_text(
+            json.dumps({"next_scout": 10, "selected_idea": 1}) + "\n")
+        self.commit()
+        r = self.scout("pipeline", "--top", "1", action="cycle_auto",
+                       FAKE_KEYSTONE_VERDICT="KILL")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("killed at keystone screen", r.stdout)
+        d = self.repo / "ideas" / "002"
+        self.assertTrue((d / "keystone_screen.md").exists())
+        self.assertFalse((d / "critique.md").exists(),
+                         "critique ran despite keystone kill")
+        rows = {}
+        for ln in (self.repo / "ledger.jsonl").read_text().splitlines():
+            rec = json.loads(ln)
+            rows.setdefault(rec["ledger_id"], {}).update(
+                {k: v for k, v in rec.items() if v is not None})
+        e = rows["idea-002"]
+        self.assertEqual(e["status"], "REJECTED")
+        self.assertEqual(e["death_stage"], "keystone")
+        self.assertEqual(e["kill_code"], "DATA_ACCESS")
+        self.assertIn("quoted line", e.get("keystone_evidence", ""))
 
 
 class TestActioner(Harness):

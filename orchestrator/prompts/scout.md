@@ -181,3 +181,14 @@ how it sounds, say so in `alternative_explanations` and score identifiability
 accordingly.
 
 Write `scout_candidates.json`. Do not write code.
+
+## Design template (required field)
+
+Set `design_template` to the experimental GRAMMAR of the candidate, one of:
+natural-paired, cross-reconstruction, regional-removal,
+regional-substitution, representation-erasure, counterfactual-synthesis,
+conditional-observational, longitudinal-within-subject,
+cross-model-disagreement, model-output-perturbation.
+The digest counts these: homogenization is measured by repeated grammar,
+not repeated nouns. Pick the closest; if truly none fits, use
+`other:<short-name>` and justify it in the card.

@@ -23,8 +23,16 @@ For each candidate, in order:
      incentive, disciplinary boundary);
    - `TRIED_AND_FAILED` -- cite the attempt. Red flag: explain what would be
      different this time or recommend the kill.
-4. **Verdict.** `NOVEL_VERIFIED`, `NOVEL_UNVERIFIED` (search inconclusive),
-   `INCREMENTAL`, or `DUPLICATE_PRIOR` (recommend kill with the citation).
+4. **Verdict.** Calibrated vocabulary -- absence of a found duplicate is NOT
+   verified novelty: `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` (thorough
+   multi-source search, neighbors found and distinguished),
+   `NO_DUPLICATE_FOUND_LIMITED_SEARCH` (search bounded or access-limited),
+   `INCREMENTAL`, or `DUPLICATE_FOUND` (recommend kill with the citation).
+
+Also write `novelty_manifest.json` -- the reproducibility record:
+`{"searched_at": "...", "queries": [{"query": "...", "source": "..."}],
+"neighbors": [{"candidate": "C1", "identifier": "...", "access":
+"full_text|abstract|search_summary", "establishing_passage": "..."}]}`.
 
 Write `novelty_audit.md` in the assigned output directory: one section per
 candidate, headed by the candidate's title and track, containing exactly the

@@ -53,3 +53,14 @@ idea failed in the source or in the translation.
 Write `fiction_candidates.json` with the shape
 `{"candidates": [...]}` (plus `no_testable_kernel` when taking the exit).
 Do not write code. Do not modify any other file.
+
+## Design template (required field)
+
+Set `design_template` to the experimental GRAMMAR of the candidate, one of:
+natural-paired, cross-reconstruction, regional-removal,
+regional-substitution, representation-erasure, counterfactual-synthesis,
+conditional-observational, longitudinal-within-subject,
+cross-model-disagreement, model-output-perturbation.
+The digest counts these: homogenization is measured by repeated grammar,
+not repeated nouns. Pick the closest; if truly none fits, use
+`other:<short-name>` and justify it in the card.

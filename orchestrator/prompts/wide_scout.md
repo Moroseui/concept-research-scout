@@ -69,3 +69,14 @@ The `candidates` array contains ONLY the three fully developed candidates;
 the one-line notes on dropped questions go under `dropped`, never as stub
 entries in `candidates` (stubs are filtered out at merge and waste the slot).
 Do not write code. Do not modify any other file.
+
+## Design template (required field)
+
+Set `design_template` to the experimental GRAMMAR of the candidate, one of:
+natural-paired, cross-reconstruction, regional-removal,
+regional-substitution, representation-erasure, counterfactual-synthesis,
+conditional-observational, longitudinal-within-subject,
+cross-model-disagreement, model-output-perturbation.
+The digest counts these: homogenization is measured by repeated grammar,
+not repeated nouns. Pick the closest; if truly none fits, use
+`other:<short-name>` and justify it in the card.

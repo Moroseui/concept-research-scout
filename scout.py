@@ -315,6 +315,7 @@ def _do_shortlist(scout_no, cand_no, track=None):
         csv.writer(f).writerow([f'{n:03d}', card.get('title',''), 'ACTIVE', '', card.get('scores',{}).get('regret',''), 'CRITIQUE', ''])
     ledger_mod.append({'ledger_id': f'idea-{n:03d}', 'title': card.get('title',''),
                        'claim': card.get('deliverable_sentence') or card.get('question',''),
+                       'deliverable_original': card.get('deliverable_sentence', ''),
                        'track': card.get('track','baseline'), 'status': 'SHORTLISTED',
                        'scrutiny': 'SCOUTED', 'source': f'ideas/{n:03d}'})
     if track is None:
@@ -558,6 +559,7 @@ STAGE_SCOPE = {
     'novelty-audit':   ['ideas/'],
     'librarian':       ['ideas/'],
     'actioner':        ['ideas/'],
+    'keystone':        ['ideas/'],
 }
 
 
@@ -774,6 +776,7 @@ STAGE_ARTIFACTS = {
     'fiction_extract': 'fiction_pitch.md',
     'fiction_refine': 'fiction_candidates.json',
     'novelty_audit': 'novelty_audit.md',
+    'keystone': 'keystone_screen.md',
     'librarian': 'librarian_report.md',
     'actioner': 'actions.md',
     'critique': 'critique.md',
@@ -884,6 +887,7 @@ def _merge_candidates(target, tracks, cycle_no):
             'status': 'SCOUT_ONLY',
             'scrutiny': 'SCOUTED',
             'scores_mean': _mean_score(c),
+            'design_template': c.get('design_template', ''),
             'parent_ids': c.get('parent_ids', []),
             'seed_source': (json.loads(read_text(target/'fiction_seed.json') or '{}').get('source', '')
                             if c.get('track') == 'fiction' else ''),
@@ -977,6 +981,39 @@ def _cycle_loop(cycle_no, target, tracks, cfg):
           f'and novelty_audit.md, then shortlist:\n  python scout.py shortlist {cycle_no} <n> [--track TRACK]')
 
 
+DESIGN_TEMPLATES = ('natural-paired', 'cross-reconstruction', 'regional-removal',
+                    'regional-substitution', 'representation-erasure',
+                    'counterfactual-synthesis', 'conditional-observational',
+                    'longitudinal-within-subject', 'cross-model-disagreement',
+                    'model-output-perturbation')
+
+
+def write_run_provenance(target, tracks, seed_concepts=None):
+    """Record (never pin) everything a later comparison must stratify by:
+    the treatment is allowed to improve under us, but not silently."""
+    import hashlib as _h
+    def ver(cmd):
+        try:
+            r = subprocess.run(cmd, capture_output=True, text=True, check=False)
+        except (FileNotFoundError, OSError):
+            return 'not installed'
+        out = (r.stdout or r.stderr or '').strip()
+        return out.splitlines()[0] if out else 'unknown'
+    prov = {
+        'timestamp': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+        'git_commit': subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True,
+                                     text=True, check=False).stdout.strip(),
+        'claude_cli': ver(['claude', '--version']),
+        'codex_cli': ver(['codex', '--version']),
+        'tracks': list(tracks),
+        'seed_concepts': seed_concepts,
+        'prompt_hashes': {f.name: _h.sha256(f.read_bytes()).hexdigest()[:16]
+                          for f in sorted((ROOT/'orchestrator'/'prompts').glob('*.md'))},
+        'agents_toml_hash': _h.sha256((ROOT/'AGENTS.toml').read_bytes()).hexdigest()[:16],
+    }
+    (target/'run_provenance.json').write_text(json.dumps(prov, indent=2) + '\n')
+
+
 def cycle(args):
     cfg = load_agent_config()
     tracks = [t.strip() for t in (args.tracks or 'baseline').split(',') if t.strip()]
@@ -1012,6 +1049,7 @@ def cycle(args):
                   'started': datetime.now(timezone.utc).isoformat(timespec='seconds'),
                   'stages': {name: 'pending' for name, _ in _cycle_stage_list(tracks)}}
     save_state(s)
+    write_run_provenance(d, tracks, s['cycle'].get('seed_concepts'))
     _commit_all(f'cycle {n:03d}: begin (tracks: {", ".join(tracks)})')
     _cycle_loop(n, d, tracks, cfg)
 
@@ -1202,10 +1240,9 @@ def _ranked_backlog():
         if not m:
             continue
         v = e.get('novelty_verdict', 'UNAUDITED')
-        if v == 'DUPLICATE_PRIOR':
+        if VERDICT_TIER.get(v, 5) >= 9:
             continue
-        rank = {'NOVEL_VERIFIED': 0, 'NOVEL_UNVERIFIED': 1, 'UNAUDITED': 3,
-                'INCREMENTAL': 4}.get(v, 5)
+        rank = VERDICT_TIER.get(v, 5)
         out.append(((rank, -float(e.get('scores_mean') or 0), -int(m.group(1))),
                     int(m.group(1)), int(m.group(2)), e))
     out.sort(key=lambda x: x[0])
@@ -1237,9 +1274,34 @@ def _incomplete_pipeline_ideas(stages):
     return out
 
 
-PIPELINE_STAGES = ('critique', 'revise', 'feasibility', 'debate')
+PIPELINE_STAGES = ('keystone', 'critique', 'revise', 'feasibility', 'debate')
 STAGE_DONE_MARKER = {'critique': 'critique.md', 'revise': 'idea_card.json',
                      'feasibility': 'feasibility.md', 'debate': 'consensus.md'}
+
+
+PIPELINE_PROMPT = {'keystone': 'keystone_screen'}
+
+
+def _apply_keystone_verdict(idea):
+    import re
+    body = read_text(idea_dir(idea)/'keystone_screen.md')
+    blocks = re.findall(r'```json\s*(\{.*?\})\s*```', body, flags=re.S)
+    if not blocks:
+        return None
+    try:
+        v = json.loads(blocks[-1])
+    except json.JSONDecodeError:
+        return None
+    verdict = str(v.get('verdict', '')).upper()
+    lid = f'idea-{int(idea):03d}'
+    if verdict == 'KILL':
+        code = v.get('kill_code') if v.get('kill_code') in ledger_mod.TAXONOMY else 'UNCLASSIFIED'
+        ledger_mod.append({'ledger_id': lid, 'status': 'REJECTED', 'kill_code': code,
+                           'kill_reason': ('keystone screen: ' + str(v.get('note', '')))[:400],
+                           'death_stage': 'keystone',
+                           'keystone_evidence': str(v.get('evidence', ''))[:500]})
+        ledger_mod.digest()
+    return verdict
 
 
 def _pipeline_stage(idea, stage):
@@ -1250,16 +1312,31 @@ def _pipeline_stage(idea, stage):
         if not (target/'consensus.md').exists():
             raise SystemExit(f'Debate for idea {idea:03d} ended without consensus.md.')
         return
-    p = write_prompt(stage, target)
+    p = write_prompt(PIPELINE_PROMPT.get(stage, stage), target)
     run_agent(p, None, stage=stage, log_path=target/f'log_{stage}.txt')
     _check_scope(stage)
     _require_artifact(stage, target)
+    if stage == 'keystone':
+        kv = _apply_keystone_verdict(idea)
+        if kv:
+            print(f'Keystone screen verdict: {kv}')
     if stage == 'critique':
         ledger_mod.raise_scrutiny(f'idea-{idea:03d}', 'CRITIQUED')
         ledger_mod.digest()
     if stage == 'revise':
-        ledger_mod.append({'ledger_id': f'idea-{idea:03d}', 'card_synced': True,
-                           'notes': 'card revised to debate-converged state'})
+        import re as _re
+        rec = {'ledger_id': f'idea-{idea:03d}', 'card_synced': True,
+               'notes': 'card revised to debate-converged state'}
+        body = read_text(target/'revision.md')
+        m2 = _re.findall(r'```json\s*(\{.*?\})\s*```', body, flags=_re.S)
+        if m2:
+            try:
+                cr = json.loads(m2[-1]).get('claim_retention', '')
+                if cr in ('same', 'narrowed', 'different'):
+                    rec['claim_retention'] = cr
+            except json.JSONDecodeError:
+                pass
+        ledger_mod.append(rec)
         ledger_mod.digest()
 
 
@@ -1344,6 +1421,10 @@ def pipeline(args):
                 break  # later stages of this idea depend on this one
             _commit_all(f'idea {idea:03d}: {stage} done')
             print(f'[done] idea {idea:03d} {stage} (checkpoint committed)')
+            if stage == 'keystone':
+                if ledger_mod.load().get(f'idea-{idea:03d}', {}).get('status') == 'REJECTED':
+                    print(f'idea {idea:03d} killed at keystone screen; skipping remaining stages.')
+                    break
             if stage == 'debate' and 'revise' not in stages:
                 e = ledger_mod.load().get(f'idea-{idea:03d}', {})
                 if e.get('card_synced') is False:
@@ -1373,7 +1454,15 @@ def pipeline(args):
 # the ledger's verdicts, and leaves proposals for future scouts to adopt.
 # ==========================================================================
 
-VALID_VERDICTS = {'NOVEL_VERIFIED', 'NOVEL_UNVERIFIED', 'INCREMENTAL', 'DUPLICATE_PRIOR'}
+VERDICT_SYNONYMS = {'NOVEL_VERIFIED': 'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE',
+                    'NOVEL_UNVERIFIED': 'NO_DUPLICATE_FOUND_LIMITED_SEARCH',
+                    'DUPLICATE_PRIOR': 'DUPLICATE_FOUND'}
+VALID_VERDICTS = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE', 'NO_DUPLICATE_FOUND_LIMITED_SEARCH',
+                  'INCREMENTAL', 'DUPLICATE_FOUND'} | set(VERDICT_SYNONYMS)
+VERDICT_TIER = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE': 0, 'NOVEL_VERIFIED': 0,
+                'NO_DUPLICATE_FOUND_LIMITED_SEARCH': 1, 'NOVEL_UNVERIFIED': 1,
+                'UNAUDITED': 3, 'INCREMENTAL': 4,
+                'DUPLICATE_FOUND': 9, 'DUPLICATE_PRIOR': 9}
 
 
 def _dossier_entry_idea(d, entries):
@@ -1506,7 +1595,8 @@ def _apply_consensus_verdict(idea):
     if verdict == 'KILL':
         code = v.get('kill_code') if v.get('kill_code') in ledger_mod.TAXONOMY else 'UNCLASSIFIED'
         ledger_mod.append({'ledger_id': lid, 'status': 'REJECTED',
-                           'kill_code': code, 'kill_reason': note})
+                           'kill_code': code, 'kill_reason': note,
+                           'death_stage': 'debate'})
     elif verdict == 'PAUSE':
         ledger_mod.append({'ledger_id': lid, 'status': 'PAUSED', 'notes': note})
     elif verdict in ('REVISE', 'PROCEED'):
@@ -1648,7 +1738,7 @@ def main():
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
-    p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
+    p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
     for c in ('migrate','digest','list','taxonomy'):
         q=lsp.add_parser(c)
