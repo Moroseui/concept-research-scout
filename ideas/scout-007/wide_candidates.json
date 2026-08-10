@@ -1,0 +1,347 @@
+{
+  "candidates": [
+    {
+      "id": "W1",
+      "track": "wide",
+      "status": "DEVELOPED",
+      "outside_field": "capillarity and hydrostatics",
+      "question": "Is CT-CLIP's pleural-effusion score using the gravity-conforming free-fluid sheet, rather than merely total low-attenuation pleural volume?",
+      "title": "The effusion model may be reading whether pleural fluid still obeys gravity",
+      "deliverable_sentence": "CT-CLIP is using the gravity-conforming shape of free pleural fluid: a posterior dependent sheet with a smooth meniscus, rather than fluid volume alone.",
+      "rung": {
+        "current": 0,
+        "target": 3,
+        "move_up": "Reliable automated geometry and association are exploratory. A selective loss of the pleural-effusion score after erasing the geometry direction while preserving volume reaches rung 1; position/protocol and disease controls gate rung 2; only then is the named free-fluid geometry a rung-3 claim."
+      },
+      "X_measurement": {
+        "X": "Gravity conformity of segmented pleural fluid: fraction of fluid in the dependent posterior pleural band, cranio-caudal continuity, surface-area-to-volume ratio, and the distribution of fluid-lung contact angles; volume is a separate nuisance measurement.",
+        "how": "Run the open pleural-effusion segmenter of Jungblut et al.; derive the gravity axis from DICOM ImageOrientationPatient, calculate the dependent-coordinate distribution and mesh curvature/contact angles, and residualize these quantities against fluid volume. No visual rating is used.",
+        "could_compute_today_without_asking_anyone": "The formula is fully specified and the authors state that their algorithm and model are open, but the actual weights and license have not been locally inspected."
+      },
+      "borrowed_construct": {
+        "field": "capillarity and hydrostatics",
+        "construct": "A mobile fluid minimizes gravitational plus interfacial energy, while adhesions compartmentalize it and break gravity conformity.",
+        "measurement_implied": "Dependent occupancy, smooth meniscus curvature, and connected sheet geometry at fixed volume.",
+        "if_analogy_dropped": "The experiment would reduce to effusion volume. The transplant forces a volume-matched geometry test and predicts failure on loculated or non-supine fluid."
+      },
+      "use_vs_association": "A marginal score-shape relation is exploratory; use requires validation-learned geometry-direction erasure to change the frozen effusion score more than equal-norm volume, position, random, and reconstruction directions, with volume decoding retained.",
+      "keystone_prerequisite": "CT-RATE contains enough automatically segmentable effusions with overlapping volumes but different gravity conformity, and CT-CLIP's final representation preserves that geometry independently of patient position and scan framing.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Nearest facts directly inspected in primary sources: Jungblut et al. report median Dice 0.89 and open code for CT effusion segmentation (PMCID PMC9390225); CT-CLIP/CT-RATE is arXiv:2403.17834. The CT-RATE joint distribution of volume, geometry, position, and score has not been inspected.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? That a segmenter exists does not show that volume-matched free and loculated geometries occur in CT-RATE or survive preprocessing. That is the load-bearing assumption.",
+      "dies_like_prior": "It does not repeat DATA_INSUFFICIENT silently: the usable volume-overlap subset is the explicit Stage-0 gate. It avoids CIRCULARITY because geometry is dissociated from the model's effusion output by holding volume fixed. It differs from idea-006 because no anatomy is deleted and the intervention is internal, with matched directions. Annotation provenance does not define X.",
+      "closest_prior_work": [
+        {
+          "citation": "Jungblut et al., Automated Detection, Segmentation, and Classification of Pleural Effusion From CT",
+          "identifier": "PMCID PMC9390225",
+          "verified_fact": "The study segmented effusions and used density, shape, and radiomics features to classify simple versus complex fluid.",
+          "delta": "It did not test what a frozen general chest-CT model uses for its effusion score."
+        },
+        {
+          "citation": "Yao et al., Automatic segmentation and measurement of pleural effusions on CT",
+          "identifier": "DOI 10.1109/TBME.2013.2243446; PMID 23372069",
+          "verified_fact": "It provided automated CT effusion segmentation and volumetry.",
+          "delta": "Its posterior-fluid assumption excluded loculated geometry and it did not decode a model."
+        },
+        {
+          "citation": "Draelos et al., Machine-Learning-Based Multiple Abnormality Prediction with Large-Scale Chest CT Volumes",
+          "identifier": "arXiv:2002.04752",
+          "verified_fact": "A whole-volume CT model predicted pleural effusion among many report-derived abnormalities.",
+          "delta": "It reported classification performance, not a volume-matched physical explanation."
+        }
+      ],
+      "novelty_neighbors": [
+        "PMCID PMC9390225",
+        "DOI 10.1109/TBME.2013.2243446",
+        "arXiv:2002.04752"
+      ],
+      "novelty_delta": "No neighbor tests whether a frozen chest-CT model's effusion score relies specifically on hydrostatic shape after fluid volume is held fixed.",
+      "why_not_done": {
+        "category": "NEW_CAPABILITY",
+        "reason": "Open volumetric foundation-model outputs and a robust open effusion segmenter now make a model-to-physics dissociation possible without new contouring."
+      },
+      "smallest_decisive_experiment": "Stage 0 on 150 CT-RATE validation volumes: verify segmentation, orientation metadata, and volume-overlap support. Freeze a geometry probe and orthogonal volume/position probes on validation embeddings. On 250 untouched test volumes, erase each direction separately and jointly. A geometry-specific score decrement at fixed volume, with retained volume decoding and equal-norm random controls, supports use.",
+      "compute_envelope": "One Colab Pro+ session: one frozen CT-CLIP forward pass plus CPU mesh metrics for at most 400 downsampled volumes; cache embeddings, then run only small linear probes and erasures. No training of a 3D encoder.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction": "Stratify vendor, slice thickness, kernel, and contrast; matched reconstruction pairs test geometry stability.",
+        "site": "CT-RATE is institution-concentrated, so site is not eliminated; external replication is required for rung 2.",
+        "positioning": "DICOM-derived gravity axis and supine-only confirmatory analysis; prone/decubitus cases are excluded or analyzed separately.",
+        "body_habitus": "Thoracic cross-section and pleural volume are nuisance variables.",
+        "disease_prevalence_referral": "Clinical referral and causes of loculation remain; within-output model-use erasure reduces but does not eliminate spectrum bias.",
+        "label_leakage": "X and the primary readout use voxels and the frozen score only; burned-in text and drains are excluded."
+      },
+      "alternative_explanations": [
+        {"alternative": "The score uses fluid volume.", "resolution": "Volume is decoded and erased separately; geometry cases are volume-overlap matched."},
+        {"alternative": "Geometry is a proxy for supine position or crop extent.", "resolution": "Use the DICOM gravity axis, restrict the confirmatory set to supine complete-thorax scans, and erase position/framing directions."},
+        {"alternative": "The model uses pleural thickening, gas, or drains that accompany loculation.", "resolution": "Measure/exclude these features and require the effect in simple fluid as a continuous conformity gradient."}
+      ],
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reason": "A null is decisive only if geometry is reliably decoded, volume-overlap support passes, and the preregistered erasure-specificity floor is met."
+      },
+      "scores": {
+        "clarity": {"value": 5, "why": "One output and a volume-controlled physical geometry."},
+        "identifiability": {"value": 4, "why": "Separate geometry, volume, position, and pleural-complexity directions attack the main alternatives; internal erasure remains imperfect."},
+        "medical_relevance": {"value": 4, "why": "If true, the score may under-detect loculated fluid that changes drainage planning."},
+        "interest": {"value": 5, "why": "A generic model reading whether fluid obeys gravity is mechanistically surprising."},
+        "prior_legwork": {"value": 4, "why": "Open model family and an open segmentation precedent exist."},
+        "feasibility": {"value": 3, "why": "Capped because the volume-overlap and preprocessing keystone is uninspected."},
+        "data_readiness": {"value": 3, "why": "CT-RATE is obtainable but gated and the usable subset is unknown."},
+        "evaluation_readiness": {"value": 4, "why": "Geometry, volume matching, probe reliability, and score effects are prespecifiable."},
+        "negative_result_value": {"value": 2, "why": "The anticipated null is sensitivity-limited."},
+        "novelty_confidence": {"value": 3, "why": "Capped; a bounded primary-source search found close segmentation and classification work but not the reliance test."},
+        "regret": {"value": 5, "why": "A cheap representation audit could expose a clinically meaningful failure on loculated fluid."}
+      },
+      "priority_score": 3.9,
+      "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*4 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*2 + 0.05*3 + 0.05*3 = 3.90",
+      "unverified_claims": [
+        "The Jungblut weights and license are usable without restriction",
+        "CT-RATE has enough volume-matched variation in gravity conformity",
+        "CT-CLIP preprocessing preserves the relevant mesh geometry",
+        "A linear erasure isolates geometry rather than distributed effusion evidence"
+      ]
+    },
+    {
+      "id": "W2",
+      "track": "wide",
+      "status": "DEVELOPED",
+      "outside_field": "algebraic topology and fracture mechanics",
+      "question": "Is CT-CLIP's pulmonary-fibrosis score using the connected, multilayer subpleural cyst topology of honeycombing rather than generic peripheral high-frequency texture?",
+      "title": "The fibrosis model may be counting holes at the pleural edge",
+      "deliverable_sentence": "CT-CLIP is using honeycombing—the connected multilayer subpleural cyst network of end-stage fibrotic lung—rather than generic coarse lung texture.",
+      "rung": {
+        "current": 0,
+        "target": 3,
+        "move_up": "Automated topology association is exploratory; selective topology-direction erasure with emphysema, reticulation, density, and kernel controls reaches rung 1; reconstruction and external-site replication gate rung 2; the named honeycombing claim then reaches rung 3."
+      },
+      "X_measurement": {
+        "X": "Subpleural honeycomb topology: count and volume of 3-10 mm air components with complete walls, adjacency/stacking depth, distance to pleura, and persistent Betti-1/Euler-characteristic summaries across HU and wall-thickness thresholds.",
+        "how": "Segment lungs, define a 15-mm subpleural shell, identify wall-bounded air components across prespecified HU thresholds, remove components connected to the airway tree, and compute connected components, loops, stacking depth, and persistence. These are deterministic voxel/graph measurements; no reader label defines X.",
+        "could_compute_today_without_asking_anyone": "Yes as a well-defined formula using a lung mask and connected-component/persistent-homology operations, although its agreement with true honeycombing on routine thick-slice CT is uninspected."
+      },
+      "borrowed_construct": {
+        "field": "algebraic topology and fracture mechanics",
+        "construct": "End-stage remodeling creates a connected cellular void network at a stressed boundary; topology distinguishes that network from isolated low-density holes.",
+        "measurement_implied": "Persistent component/loop counts, wall completeness, adjacency, and multilayer depth in the subpleural shell.",
+        "if_analogy_dropped": "The study would use generic radiomics. The transplant forces threshold-persistent topology and a direct dissociation from isolated paraseptal emphysema."
+      },
+      "use_vs_association": "Use requires that erasing a validation-learned honeycomb-topology direction selectively lowers the frozen fibrosis score beyond erasing matched density, reticulation, emphysema, kernel, and random directions; score-topology correlation alone is not evidence of use.",
+      "keystone_prerequisite": "Routine CT-RATE resolution and CT-CLIP preprocessing preserve enough wall completeness and cyst adjacency to distinguish honeycombing topology from paraseptal emphysema and traction bronchiolectasis without human labels.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Primary neighbors establish the adjacent facts: official Pulmonary Fibrosis Foundation recommendations define honeycomb cysts as contiguous subpleural cysts with complete walls and distinguish them from paraseptal emphysema (PMCID PMC7977697); topological ILD texture classification exists (arXiv:1005.5086); CT-CLIP/CT-RATE is arXiv:2403.17834. No native-to-final-tensor topology audit was inspected.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? A clinical definition and an old topology classifier do not show that CT-RATE slice thickness or CT-CLIP resampling preserves 3-10 mm cyst walls. Preservation, not formula availability, is the real keystone.",
+      "dies_like_prior": "It resembles idea-008 only in the Sybil/fibrosis neighborhood, but uses a different frozen output and a positive named structure. It avoids idea-006's OOD deletion by internal direction erasure. It avoids CIRCULARITY because the model output is broad fibrosis while X is a dissociated morphologic component. DATA_INSUFFICIENT is an explicit prevalence/resolution gate.",
+      "closest_prior_work": [
+        {
+          "citation": "Sluimer et al., Classification of Interstitial Lung Disease Patterns with Topological Texture Features",
+          "identifier": "arXiv:1005.5086",
+          "verified_fact": "Euler/topological texture features were used to classify ILD patterns, including honeycombing.",
+          "delta": "It classified texture patches rather than testing reliance of a frozen report-supervised fibrosis model."
+        },
+        {
+          "citation": "Lynch et al., Practical Imaging Interpretation in Patients Suspected of IPF",
+          "identifier": "PMCID PMC7977697",
+          "verified_fact": "It defines honeycomb cysts by subpleural contiguity, wall completeness, and frequent multilayering, and names emphysema as a mimic.",
+          "delta": "It is a clinical definition, not an automated model-use experiment."
+        },
+        {
+          "citation": "Hamada et al., Deep-Learning Reconstruction of HRCT Improves Interobserver Agreement for Pulmonary Fibrosis",
+          "identifier": "DOI 10.1177/08465371241228468",
+          "verified_fact": "Reconstruction method changes agreement for honeycombing assessment.",
+          "delta": "It highlights the reconstruction threat but does not decode a fibrosis network."
+        }
+      ],
+      "novelty_neighbors": [
+        "arXiv:1005.5086",
+        "PMCID PMC7977697",
+        "DOI 10.1177/08465371241228468"
+      ],
+      "novelty_delta": "The proposed study asks whether a frozen volumetric foundation model relies on threshold-persistent honeycomb topology, not whether topology can classify ILD patches or readers can see honeycombing.",
+      "why_not_done": {
+        "category": "BLIND_SPOT",
+        "reason": "Fibrosis explainability usually maps saliency or predicts reader lexicon labels; topology provides an annotation-free morphologic instrument but has rarely been used as the readout language for a foundation model."
+      },
+      "smallest_decisive_experiment": "Stage 0 on 120 validation scans spanning slice thickness/kernel strata: test native-to-model-tensor stability and separability from automated emphysema, airway connectivity, lung density, and reticulation proxies. Freeze all directions. On 250 test scans erase topology and nuisance directions separately/jointly; require a fibrosis-score effect specific to topology and stable across thin-slice reconstruction strata.",
+      "compute_envelope": "One Colab Pro+ session: frozen CT-CLIP inference on at most 370 volumes; CPU connected components and cubical persistence on downsampled subpleural shells; linear probes only.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction": "Thin-slice confirmatory stratum, explicit kernel/slice-thickness directions, and reconstruction-pair repeatability; failure to preserve topology kills the study.",
+        "site": "Single/institution-concentrated CT-RATE cannot eliminate site; external ILD replication is needed for rung 2.",
+        "positioning": "Subpleural coordinates are anatomy-relative; dependent atelectasis is measured and prone scans handled separately.",
+        "body_habitus": "Noise and dose proxies enter nuisance directions.",
+        "disease_prevalence_referral": "Clinical referral enriches ILD and emphysema; spectrum is reported and external screening replication is required.",
+        "label_leakage": "Reports do not define X or the primary self-change readout; visible text is excluded."
+      },
+      "alternative_explanations": [
+        {"alternative": "The topology measure is paraseptal emphysema.", "resolution": "Require complete walls, multilayer adjacency, no airway connection, and separate emphysema-direction erasure."},
+        {"alternative": "The model uses generic reticulation or density.", "resolution": "Erase density and high-frequency reticulation directions separately and require an incremental topology effect."},
+        {"alternative": "Reconstruction creates or removes apparent cyst walls.", "resolution": "Native/tensor and paired-reconstruction stability are keystone gates, not post hoc covariates."}
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If topology is reliably encoded and separable, yet its erasure has an equivalently null effect while reticulation erasure changes the fibrosis score, the honeycombing-use hypothesis is directly weakened."
+      },
+      "scores": {
+        "clarity": {"value": 5, "why": "The claim names honeycombing and the competing generic textures."},
+        "identifiability": {"value": 4, "why": "Topology, emphysema, reticulation, density, and reconstruction are explicitly dissociated; erasure specificity is still imperfect."},
+        "medical_relevance": {"value": 5, "why": "Honeycombing changes UIP interpretation and prognosis, and confusion with emphysema is clinically consequential."},
+        "interest": {"value": 5, "why": "A model effectively counting connected subpleural holes is a surprising physician-legible mechanism."},
+        "prior_legwork": {"value": 4, "why": "Definitions, topology precedent, model, and public data family exist."},
+        "feasibility": {"value": 3, "why": "Capped; routine-CT and final-tensor topology preservation is uninspected."},
+        "data_readiness": {"value": 3, "why": "CT-RATE is obtainable but gated; thin-slice positive support is unknown."},
+        "evaluation_readiness": {"value": 4, "why": "Persistent features and nuisance dissociations are prespecifiable, though validation floors are custom."},
+        "negative_result_value": {"value": 5, "why": "After encoding gates, a topology-null/reticulation-positive result is decisive."},
+        "novelty_confidence": {"value": 3, "why": "Capped; no direct foundation-model reliance study was found in a bounded search."},
+        "regret": {"value": 5, "why": "The relevant topology is cheap to compute and could explain an important model output."}
+      },
+      "priority_score": 4.3,
+      "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*5 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*5 + 0.05*3 + 0.05*3 = 4.30",
+      "unverified_claims": [
+        "CT-CLIP exposes a stable pulmonary-fibrosis score in the obtainable checkpoint",
+        "CT-RATE has enough thin-slice honeycombing",
+        "The proposed topology distinguishes honeycombing from emphysema without annotations",
+        "Topology is linearly and selectively erasable"
+      ]
+    },
+    {
+      "id": "W3",
+      "track": "wide",
+      "status": "DEVELOPED",
+      "outside_field": "tracer transport and fluid mixing",
+      "question": "Is an RSNA-STR pulmonary-embolism model using pulmonary-artery contrast mixing entropy as a transient marker of low forward flow when it predicts right-heart strain?",
+      "title": "The PE model may be reading how completely blood and contrast have mixed",
+      "deliverable_sentence": "The pulmonary-embolism model is using heterogeneous contrast mixing in the main and lobar pulmonary arteries as a sign of impaired forward flow and right-heart strain.",
+      "rung": {
+        "current": 0,
+        "target": 3,
+        "move_up": "A score association is exploratory. Selective mixing-direction erasure after RV/LV, clot, reflux, and protocol controls reaches rung 1; injection/site replication gates rung 2; the named contrast-mixing claim reaches rung 3 only then."
+      },
+      "X_measurement": {
+        "X": "Contrast mixing heterogeneity inside the main and first-order pulmonary arteries: normalized HU coefficient of variation, spatial autocorrelation, axial gradient, and entropy after excluding embolus voxels and normalizing to mean pulmonary-artery enhancement.",
+        "how": "Segment the pulmonary-artery lumen, exclude low-HU connected filling defects conservatively, normalize HU by the central arterial mean, and compute preregistered first-order and spatial mixing statistics. This uses calibrated voxels and geometry, not a human flow-artifact label.",
+        "could_compute_today_without_asking_anyone": "The measurement is defined, but an open validated pulmonary-artery and embolus segmentation pipeline on RSNA-STR has not been inspected."
+      },
+      "borrowed_construct": {
+        "field": "tracer transport and fluid mixing",
+        "construct": "A contrast bolus is a transient tracer; incomplete convective mixing and prolonged transit leave spatial concentration gradients whose magnitude depends on inflow, output, and timing.",
+        "measurement_implied": "Normalized intraluminal HU entropy, autocorrelation, and cranio-caudal gradient rather than mean enhancement alone.",
+        "if_analogy_dropped": "The study would use scan quality or mean HU. The transplant changes X to spatial mixing after mean enhancement is fixed and predicts a distinct failure under inspiration-related IVC dilution."
+      },
+      "use_vs_association": "Use requires mixing-direction erasure to change the frozen RV-strain score beyond mean enhancement, QA-contrast, RV/LV, clot burden, reflux, scanner, and random directions; correlation with RV strain alone is insufficient.",
+      "keystone_prerequisite": "A reproducible frozen RSNA-STR right-heart-strain model and an automated pulmonary-artery mask exist, and residual mixing heterogeneity remains measurable after excluding emboli and controlling global enhancement despite missing injection metadata.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "The dataset paper directly confirms RV/LV >=1, QA-contrast, and flow-artifact labels (DOI 10.1148/ryai.2021200254), and the open AWS registry identifies the dataset. Chaturvedi et al. describe abnormal contrast flow/mixing and patient versus injection causes (DOI 10.1007/s13244-016-0524-3). Neither a frozen checkpoint nor an adequate segmentation/protocol join was inspected.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? Public CTPA and a flow-artifact label do not make mixing a physiologic instrument. I am still assuming that mean-normalized spatial heterogeneity can be separated from injection timing, inspiration, embolus, and reconstruction. That is the real keystone.",
+      "dies_like_prior": "It is adjacent to baseline C4/idea-007's contrast reflux question, but X is forward pulmonary-artery mixing rather than retrograde IVC reflux and the two are explicit rival directions. It may still die from the same protocol-identifiability problem; nothing currently makes it different enough to assert rung 2. It avoids patient deletion and annotation provenance. DATA_INSUFFICIENT is gated on the actual checkpoint/mask/protocol subset.",
+      "closest_prior_work": [
+        {
+          "citation": "Colak et al., The RSNA Pulmonary Embolism CT Dataset",
+          "identifier": "DOI 10.1148/ryai.2021200254; PMCID PMC8043364",
+          "verified_fact": "It releases CTPA with RV/LV, QA-contrast, and flow-artifact labels.",
+          "delta": "It does not compute mixing entropy or test model reliance."
+        },
+        {
+          "citation": "Chaturvedi et al., Contrast opacification on thoracic CT angiography: challenges and solutions",
+          "identifier": "DOI 10.1007/s13244-016-0524-3; PMID 27858323",
+          "verified_fact": "It explains contrast mixing patterns from cardiac output, venous return, inspiration, and injection factors.",
+          "delta": "It is a physics/interpretation review, not a quantitative model-use study."
+        },
+        {
+          "citation": "Deep Learning for Pulmonary Embolism Detection: Tackling the RSNA 2020 AI Challenge",
+          "identifier": "DOI 10.1148/ryai.2021210068",
+          "verified_fact": "Challenge systems predicted PE-related study outputs including RV/LV class.",
+          "delta": "The work evaluates prediction, not whether contrast-mixing physics drives it."
+        }
+      ],
+      "novelty_neighbors": [
+        "DOI 10.1148/ryai.2021200254",
+        "DOI 10.1007/s13244-016-0524-3",
+        "DOI 10.1148/ryai.2021210068"
+      ],
+      "novelty_delta": "No neighbor tests whether an RV-strain network uses spatially heterogeneous pulmonary-artery contrast mixing after mean enhancement, anatomy, embolus, and reflux are separated.",
+      "why_not_done": {
+        "category": "BLIND_SPOT",
+        "reason": "Flow heterogeneity is normally treated as scan-quality nuisance or a PE mimic, while explainability studies focus on clot and chamber anatomy."
+      },
+      "smallest_decisive_experiment": "Stage 0 on 100 validation CTPAs: inspect masks, embolus exclusion, checkpoint reproducibility, and whether mixing retains variance after mean enhancement and QA labels. Freeze mixing, mean-HU, RV/LV, clot, reflux, and protocol-proxy directions. On 250 untouched studies compare separate and joint erasures; require a mixing-specific RV-strain score effect and no comparable change in PE laterality outputs.",
+      "compute_envelope": "One Colab Pro+ session: frozen inference and lightweight arterial segmentation on at most 350 CTPAs, with cached embeddings and CPU HU statistics; no encoder training.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction": "Vendor/kernel/kVp and QA-contrast directions are controls; absent injection rate/delay remains potentially fatal.",
+        "site": "Use hospital/site splits if exposed; otherwise rung 2 is unavailable.",
+        "positioning": "Inspiratory dilution is proxied by IVC-to-SVC enhancement and lung volume, but cannot be fully eliminated without injection/breathing metadata.",
+        "body_habitus": "Body diameter, noise, and mean enhancement controls.",
+        "disease_prevalence_referral": "All cases are referred CTPA; PE/no-PE and clot-burden strata are reported, but referral bias remains.",
+        "label_leakage": "X is voxel-derived and no report enters the primary readout; the RV/LV training label affects model training but does not define X."
+      },
+      "alternative_explanations": [
+        {"alternative": "Mixing is injection timing or inspiratory interruption, not low output.", "resolution": "Control mean HU, SVC/IVC gradients, lung volume, and QA; missing protocol metadata may still kill rung 2."},
+        {"alternative": "Emboli themselves create HU heterogeneity.", "resolution": "Exclude filling-defect voxels, control clot burden/location, and repeat in RV-strain cases without central clot."},
+        {"alternative": "The model uses RV dilation or IVC reflux.", "resolution": "Separate and joint RV/LV, reflux, and mixing erasures; require incremental mixing effect."}
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If mixing is reliably encoded and separable but its erasure is equivalently null while RV/LV erasure changes the score, the mixing-use mechanism is directly weakened."
+      },
+      "scores": {
+        "clarity": {"value": 5, "why": "A named output, compartment, quantity, and principal rival are explicit."},
+        "identifiability": {"value": 3, "why": "Multiple separate erasures help, but unrecorded injection timing may be inseparable from physiology."},
+        "medical_relevance": {"value": 4, "why": "It would reveal whether an acuity score depends on a fragile bolus-state cue."},
+        "interest": {"value": 5, "why": "A PE model using tracer mixing as a transient flowmeter is surprising."},
+        "prior_legwork": {"value": 3, "why": "Public data and labels exist, but checkpoint and segmentation are not secured."},
+        "feasibility": {"value": 2, "why": "Capped and reduced further by missing injection metadata and checkpoint uncertainty."},
+        "data_readiness": {"value": 4, "why": "RSNA-STR is openly distributed, though the decisive metadata may be absent."},
+        "evaluation_readiness": {"value": 3, "why": "Statistics are clear but embolus exclusion and equivalence floors require validation."},
+        "negative_result_value": {"value": 5, "why": "After reliability gates, the contrast with RV/LV erasure is decisive."},
+        "novelty_confidence": {"value": 3, "why": "Capped; no direct reliance study was found in a bounded search."},
+        "regret": {"value": 4, "why": "A small audit can expose either a new physiologic cue or a dangerous protocol shortcut."}
+      },
+      "priority_score": 3.6,
+      "priority_arithmetic": "0.20*2 + 0.15*3 + 0.15*4 + 0.10*3 + 0.10*5 + 0.10*5 + 0.10*5 + 0.05*4 + 0.05*3 = 3.60",
+      "unverified_claims": [
+        "A reproducible frozen RV-strain checkpoint is available",
+        "An automated arterial/embolus mask works on RSNA-STR",
+        "Residual mixing is separable from injection and inspiration",
+        "The model representation encodes mixing independently of RV/LV and reflux"
+      ]
+    },
+    {
+      "id": "W4",
+      "track": "wide",
+      "status": "DROPPED",
+      "outside_field": "shell mechanics",
+      "question": "Is a chest-CT respiratory model using diaphragm dome curvature as a pressure-volume gauge?",
+      "why_dropped": "One step past defensible: diaphragm curvature is computable, but abdominal pressure, posture, inspiration, paresis, and crop extent create too many equally plausible causes, and no public frozen output/data pairing isolates pressure-volume mechanics in one GPU session."
+    },
+    {
+      "id": "W5",
+      "track": "wide",
+      "status": "DROPPED",
+      "outside_field": "ecological network resilience",
+      "question": "Is a COPD model using loss of airway-tree branch-order diversity as the analogue of ecological network collapse?",
+      "why_dropped": "The analogy does not buy an identifiable measurement beyond airway branch count and taper, and incomplete segmentation of distal branches is confounded with dose/kernel; dropping the ecology language leaves essentially the same experiment."
+    },
+    {
+      "id": "W6",
+      "track": "wide",
+      "status": "DROPPED",
+      "outside_field": "forensic decomposition",
+      "question": "Is an abdominal-CT mortality model using portal-venous gas bubble size distribution as a clock of bowel injury?",
+      "why_dropped": "One step past defensible: the image quantity is clear, but the sign is rare, urgent, and likely report-label leakage adjacent; the usable public checkpoint/cohort subset would almost certainly repeat DATA_INSUFFICIENT."
+    },
+    {
+      "id": "W7",
+      "track": "wide",
+      "status": "DROPPED",
+      "outside_field": "heat transfer",
+      "question": "Is an appendicitis CT model using the radial attenuation gradient in periappendiceal fat as a diffusion length for inflammation?",
+      "why_dropped": "The radial gradient is computable and mechanistic, but no suitable open frozen volumetric model plus untouched public cohort was verified; it would become a data-access project before a model-decoding study."
+    },
+    {
+      "id": "W8",
+      "track": "wide",
+      "status": "DROPPED",
+      "outside_field": "information theory",
+      "question": "Is a unilateral pneumonia model using left-right lung histogram divergence as an information-theoretic abnormality detector?",
+      "why_dropped": "The measurement is too generic for rung 3: asymmetry can arise from positioning, mastectomy, effusion, atelectasis, prior surgery, or beam hardening, so a positive result would not yield a named anatomical or physiological X."
+    }
+  ]
+}
