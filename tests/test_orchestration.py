@@ -154,6 +154,24 @@ command = ["{sys.executable}", "{self.fake}"]
     def tearDown(self):
         shutil.rmtree(self.dir, ignore_errors=True)
 
+    def make_hermetic(self, wipe_idea_dirs=False):
+        """Erase the live repo's accumulated state from the harness copy.
+        Tests must never depend on what the repository has lived through:
+        ledger rows, digests, and (optionally) idea/scout dirs accumulate
+        from real runs and have now broken three test classes the same way."""
+        import shutil as _sh
+        for f in ("ledger.jsonl", "evidence/ledger_digest.md",
+                  "evidence/portfolio_brief.md", "evidence/librarian_proposals.md",
+                  "evidence/actions.md"):
+            (self.repo / f).unlink(missing_ok=True)
+        if wipe_idea_dirs:
+            for d in (self.repo / "ideas").glob("scout-*"):
+                _sh.rmtree(d)
+            for d in (self.repo / "ideas").glob("[0-9][0-9][0-9]"):
+                if d.name != "001":
+                    _sh.rmtree(d)
+        self.commit()
+
     def commit(self):
         subprocess.run(["git", "add", "-A"], cwd=self.repo, check=True)
         subprocess.run(["git", "commit", "-qm", "wip", "--allow-empty"],
@@ -291,19 +309,7 @@ class TestPipeline(Harness):
         # design, so pipeline tests must start from an empty world or every
         # new real cycle would change their results.
         super().setUp()
-        import shutil as _sh
-        for d in (self.repo / "ideas").glob("scout-*"):
-            _sh.rmtree(d)
-        # Also wipe accumulated real ideas (keep 001 for --idea tests): the
-        # repo gains numeric idea dirs over time and shortlist numbering,
-        # backlog contents, and in-flight detection must not depend on them.
-        for d in (self.repo / "ideas").glob("[0-9][0-9][0-9]"):
-            if d.name != "001":
-                _sh.rmtree(d)
-        for f in ("ledger.jsonl", "evidence/ledger_digest.md",
-                  "evidence/portfolio_brief.md", "evidence/librarian_proposals.md"):
-            (self.repo / f).unlink(missing_ok=True)
-        self.commit()
+        self.make_hermetic(wipe_idea_dirs=True)
 
     def make_cycle_outputs(self, scoutdir, verdicts):
         d = self.repo / "ideas" / scoutdir
@@ -491,6 +497,10 @@ class TestLibrarian(Harness):
 
 
 class TestActioner(Harness):
+    def setUp(self):
+        super().setUp()
+        self.make_hermetic()
+
     def test_state_collection_and_brief_publication(self):
         # a paused idea with consensus + a live one; state file must carry both facts
         (self.repo / "ideas" / "001" / "consensus.md").write_text(

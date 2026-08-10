@@ -218,8 +218,12 @@ matters: review the diff, not the description.
 
 32 deterministic tests run before every remote stage spends a token. Agents
 are faked; orchestration, contracts, blindness, rotation, resume, ranking,
-and verdict automation are real. Two production incidents were tests
-inheriting the live repo's accumulating state (real cycles and ideas leaking
-into the harness world), so pipeline tests now construct a hermetic world —
-the standing rule: **tests may not depend on what the repository has lived
-through.**
+and verdict automation are real. Three production incidents were tests
+inheriting the live repo's accumulating state (real cycles, ideas, and
+ledger rows leaking into the harness world) — the third arriving in a brand
+new test class after the rule was declared, proving the rule must be a
+*default*, not a per-class fix. The harness now provides `make_hermetic()`
+and every stateful test class starts from an erased world. The standing
+rule: **tests may not depend on what the repository has lived through, and
+new test classes inherit hermeticity rather than rediscover the need for
+it.**
