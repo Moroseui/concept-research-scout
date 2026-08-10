@@ -4,10 +4,10 @@ workdir: /home/runner/work/concept-research-scout/concept-research-scout
 model: gpt-5.6-sol
 provider: openai
 approval: never
-sandbox: workspace-write [workdir, /tmp, $TMPDIR] (network access enabled)
+sandbox: danger-full-access
 reasoning effort: none
 reasoning summaries: none
-session id: 019fea82-2d57-7980-809b-60f97e125014
+session id: 019fea8c-b0f4-7582-8356-4a04a5965397
 --------
 user
 You are a critical research collaborator working inside this repository.
@@ -1799,68 +1799,323 @@ why-not-done code.
 Do not write code. Do not modify any other file.
 
 
-warning: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.com/codex/concepts/sandboxing#prerequisites. Codex will use the bundled bubblewrap in the meantime.
 codex
-I’ll audit all five candidates against current primary literature, then write only `ideas/scout-006/novelty_audit.md`. I’ll treat absence of a hit as inconclusive, not as novelty.
+I’ll audit all five claims against current primary literature and write only `ideas/scout-006/novelty_audit.md`. I’ll treat absence cautiously: an unlocated paper yields `NOVEL_UNVERIFIED`, not verified novelty.
 web search: 
-web search: Sybil lung cancer risk coronary artery calcium CT model ...
+web search: Sybil lung cancer risk coronary artery calcium CT model interpretation ...
 web search: 
-web search: CT-CLIP coronary artery wall calcification Agatston score ...
+web search: site:arxiv.org CT-CLIP interpretability calcification coronary aortic calcium ...
 web search: 
-web search: Merlin abdominal CT diabetes hepatic steatosis liver attenuation interpretability ...
+web search: deep learning bronchiectasis bronchoarterial ratio CT automated measurement ...
 web search: 
-web search: Merlin osteoporosis vertebral attenuation wedge deformity CT ...
+web search: "Merlin" "hepatic steatosis" CT diabetes ...
 web search: 
+web search: "Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning" ...
 codex
-The searches are already changing the audit: several candidates have close quantitative-imaging neighbors, but I have not yet found a study that performs the proposed model-output-to-measurement attribution. The distinction will be between a new audit question and a new biomarker—which these generally are not.
-web search: 
-web search: automated bronchoarterial ratio CT deep learning bronchiectasis ...
+The closest-neighbor search materially weakens two pitches. C3 sits beside a 2022 Radiology study that already used average liver attenuation in an automated CT diabetes model, so its novelty is the audit of Merlin—not the liver/diabetes connection. C5’s BAR measurement is also established, including a 2023 automated pairing pipeline and a 2023 COPDGene study; its delta is solely testing what CT-CLIP’s score uses.
 apply patch
-patch: failed
+patch: completed
 /home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md
-2026-08-10T07:14:42.218078Z ERROR codex_core::tools::router: error=Exit code: 1
-Wall time: 0.1 seconds
-Output:
-Failed to write file /home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md
+diff --git a/ideas/scout-006/novelty_audit.md b/ideas/scout-006/novelty_audit.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f4dd4643541963b2929059f0bb5eba271038ae1
+--- /dev/null
++++ b/ideas/scout-006/novelty_audit.md
+@@ -0,0 +1,44 @@
++# Novelty audit — scouting cycle 006
++
++## Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan — baseline
++
++1. **Neighbors.** (i) Mikhael et al., “Sybil: A Validated Deep Learning Model to Predict Future Lung Cancer Risk From a Single Low-Dose Chest Computed Tomography,” *Journal of Clinical Oncology* 2023, [DOI 10.1200/JCO.22.01345; PMID 36634294](https://pmc.ncbi.nlm.nih.gov/articles/PMC10419602/): established Sybil and quantified its residual performance when visible nodules at the future cancer site were removed, but did not quantify CAC. (ii) Sobieski et al., “Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions,” [arXiv:2602.02560](https://arxiv.org/abs/2602.02560): intervened on pulmonary nodules and identified non-nodule/background contributions and artifacts, without measuring coronary calcium. (iii) Zollinger et al., “Adapting Coronary CT for Lung Cancer Risk Prediction Using a Radiomic Deep Learning Model,” AATS 106th Annual Meeting 2026, abstract P205 (exact title/venue/year; [primary conference abstract](https://www.aats.org/resources/adapting-coronary-ct-for-lung--12651)): ran Sybil on noncontrast coronary CT and related its score to lung-cancer risk and emphysema, but did not test whether CAC explains the score.
++2. **Delta.** The candidate uniquely places automated CAC, emphysema, and pulmonary-vessel measurements beside Sybil on the same nodule-free screening scans to estimate CAC's conditional contribution; this is a mechanism audit, not merely another validation cohort or a test of Sybil on cardiac CT.
++3. **Why not done — `NEW_CAPABILITY`.** The openly released AI-CAC nongated-chest-CT scorer from Hagopian et al. (NEJM AI 2025, [DOI 10.1056/AIoa2400937; PMID 40746702](https://pubmed.ncbi.nlm.nih.gov/40746702/)) makes scan-level CAC measurement at NLST scale newly practical alongside open Sybil inference.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched primary work directly tested whether CAC explains Sybil's score, but the 2026 coronary-CT Sybil study is extremely close and only an abstract was available; the exact covariates and any unreported CAC analysis require full-text or author verification.
++
++## CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity — baseline
++
++1. **Neighbors.** (i) Hamamci et al., “Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography,” [arXiv:2403.17834](https://arxiv.org/abs/2403.17834): introduced CT-RATE/CT-CLIP and separate coronary-artery-wall and arterial-wall calcification labels, but evaluated them against report-derived labels rather than continuous, anatomy-specific calcium burdens. (ii) van Velzen et al., “Automatic calcium scoring in low-dose chest CT using deep neural networks with dilated convolutions,” [arXiv:1711.00349](https://arxiv.org/abs/1711.00349): automatically detected and separately quantified coronary, thoracic-aortic, and valvular calcium on low-dose chest CT. (iii) Winkel et al., “Automatic coronary calcium scoring in chest CT using a deep neural network in direct comparison with non-contrast cardiac CT: A validation study,” *European Journal of Radiology* 2021, [DOI 10.1016/j.ejrad.2020.109428; PMID 33285350](https://pubmed.ncbi.nlm.nih.gov/33285350/): validated automated coronary calcium quantification on routine chest CT against dedicated cardiac CT and expert assessment.
++2. **Delta.** Rather than building or validating another calcium detector, the candidate audits whether a generalist model's two report-trained output heads quantitatively and anatomically dissociate coronary from aortic calcium on the same volumes.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP/CT-RATE ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies one frozen model with both anatomically distinct output scores and its evaluation volumes; older calcium work supplied measurements but no such foundation-model semantics to audit.
++4. **Verdict — `NOVEL_UNVERIFIED`.** The searched works do not perform this CT-CLIP double dissociation, but the search cannot establish absence across the rapidly moving 2025–2026 CT-foundation-model literature.
++
++## An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver — baseline
++
++1. **Neighbors.** (i) Tallam et al., “Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning,” *Radiology* 2022, [DOI 10.1148/radiol.211914; PMID 35380492](https://pmc.ncbi.nlm.nih.gov/articles/PMC9270681/): predicted/associated type 2 diabetes with automated abdominal CT biomarkers, and its selected multivariable predictors explicitly included average liver attenuation alongside pancreatic, visceral-fat, plaque, and BMI measures. (ii) Tran et al., “Hepatic and abdominal adiposity in type 2 diabetes as assessed with machine learning on computed tomography scans,” *Diabetes, Obesity and Metabolism* 2026, [DOI 10.1111/dom.70557; PMID 41705581](https://pubmed.ncbi.nlm.nih.gov/41705581/): quantified spleen–liver attenuation difference and abdominal adiposity and related those phenotypes to type 2 diabetes. (iii) Blankemeier et al., “Merlin: A Vision Language Foundation Model for 3D Computed Tomography,” [arXiv:2406.06512](https://arxiv.org/abs/2406.06512): introduced Merlin and its diabetes prediction capability but did not decompose that output into liver, pancreas, and visceral-fat cues.
++2. **Delta.** The only strong delta is model auditing: it asks whether an already-trained Merlin diabetes score depends uniquely on liver attenuation after competing abdominal phenotypes are controlled; liver attenuation as a diabetes biomarker is established, so presenting that biological connection itself as new would be incorrect.
++3. **Why not done — `NEW_CAPABILITY`.** The released Merlin model and continuous diabetes output ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly make it possible to audit a general abdominal foundation model rather than train a bespoke biomarker classifier.
++4. **Verdict — `INCREMENTAL`.** Tallam et al. already put automated liver attenuation into a multivariable CT diabetes model. Probing Merlin rather than a handcrafted phenotype model is a real but narrow interpretability delta, not a new imaging–disease discovery.
++
++## Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle — baseline
++
++1. **Neighbors.** (i) Burns et al., “Vertebral Body Compression Fractures and Bone Density: Automated Detection and Classification on CT Images,” *Radiology* 2017, [DOI 10.1148/radiol.2017162100; PMID 28301777](https://pubmed.ncbi.nlm.nih.gov/28301777/): jointly detected/localized Genant-type vertebral compression and calculated vertebral bone density, directly establishing that both proposed quantities can be extracted together. (ii) Nicolaes et al., “Detection of vertebral fractures in CT using 3D Convolutional Neural Networks,” [arXiv:1911.01816](https://arxiv.org/abs/1911.01816): learned 3D CT features for patient- and vertebra-level compression-fracture detection with explicit localization. (iii) Inigo et al., “An Intrinsically Explainable Approach to Detecting Vertebral Compression Fractures in CT Scans via Neurosymbolic Modeling,” [arXiv:2412.17258](https://arxiv.org/abs/2412.17258): combined learned vertebral segmentation with rule-based height-distribution analysis for interpretable CT fracture detection.
++2. **Delta.** The candidate does not invent density-versus-morphometry measurement; it uniquely decomposes a frozen generalist model's osteoporosis score between those two established quantities and adds a preregistered vertebral-level concentration test.
++3. **Why not done — `NEW_CAPABILITY`.** Merlin ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly provides an open abdominal foundation model with an osteoporosis output whose latent cue choice can be audited; prior systems were purpose-built osteoporosis or fracture detectors.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched neighbor decomposed Merlin's osteoporosis output, but the underlying joint density/morphometry analysis is mature and the claimed thoracolumbar mechanical interpretation was not independently verified in this audit.
++
++## An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two — baseline
++
++1. **Neighbors.** (i) Diaz et al., “Artificial Intelligence–based CT Assessment of Bronchiectasis: The COPDGene Study,” *Radiology* 2023, [DOI 10.1148/radiol.221109](https://pmc.ncbi.nlm.nih.gov/articles/PMC10068886/): reconstructed airway and vessel trees, separated arteries from veins, paired airways with arteries, and related automated airway-to-artery ratios to visual severity and outcomes. (ii) Beeravolu et al., “An Automated Broncho-Arterial (BA) Pair Segmentation Process and Assessment of BA Ratios in Children with Bronchiectasis Using Lung HRCT Scans: A Pilot Study,” *Diagnostics* 2023, [DOI 10.3390/diagnostics13142361; PMID 37509513](https://pmc.ncbi.nlm.nih.gov/articles/PMC10376950/): automatically detected BA pairs and calculated multiple diameter ratios on HRCT. (iii) Chen et al., “Automatic analysis of bronchus-artery ratios and mucus plugs of 640 chest CTs of EMBARC bronchiectasis patients,” *European Respiratory Journal* 2024 conference abstract PA652, [DOI 10.1183/13993003.congress-2024.PA652](https://publications.ersnet.org/content/erj/64/suppl68/pa652): applied automated bronchus–artery and mucus-plug quantification at registry scale.
++2. **Delta.** Automated BAR is not new; the candidate's precise delta is to compare BAR with absolute airway calibre as explanations of CT-CLIP's frozen bronchiectasis score.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies a released generalist bronchiectasis output to audit, whereas the closest BAR studies quantified disease directly and did not explain a foundation model.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched work linked CT-CLIP's score to BAR, but the measurement and absolute-versus-relative-calibre debate are established; novelty is confined to the model-specific audit, and incomplete indexing of recent foundation-model probes prevents a verified verdict.
++
++| Candidate | Verdict | Why-not-done code |
++|---|---|---|
++| C1 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C2 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C3 | `INCREMENTAL` | `NEW_CAPABILITY` |
++| C4 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C5 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
 
-apply patch
-patch: failed
-/home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md
-2026-08-10T07:16:03.230504Z ERROR codex_core::tools::router: error=Exit code: 1
-Wall time: 0.1 seconds
-Output:
-Failed to write file /home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md
+diff --git a/ideas/scout-006/novelty_audit.md b/ideas/scout-006/novelty_audit.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f4dd4643541963b2929059f0bb5eba271038ae1
+--- /dev/null
++++ b/ideas/scout-006/novelty_audit.md
+@@ -0,0 +1,44 @@
++# Novelty audit — scouting cycle 006
++
++## Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan — baseline
++
++1. **Neighbors.** (i) Mikhael et al., “Sybil: A Validated Deep Learning Model to Predict Future Lung Cancer Risk From a Single Low-Dose Chest Computed Tomography,” *Journal of Clinical Oncology* 2023, [DOI 10.1200/JCO.22.01345; PMID 36634294](https://pmc.ncbi.nlm.nih.gov/articles/PMC10419602/): established Sybil and quantified its residual performance when visible nodules at the future cancer site were removed, but did not quantify CAC. (ii) Sobieski et al., “Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions,” [arXiv:2602.02560](https://arxiv.org/abs/2602.02560): intervened on pulmonary nodules and identified non-nodule/background contributions and artifacts, without measuring coronary calcium. (iii) Zollinger et al., “Adapting Coronary CT for Lung Cancer Risk Prediction Using a Radiomic Deep Learning Model,” AATS 106th Annual Meeting 2026, abstract P205 (exact title/venue/year; [primary conference abstract](https://www.aats.org/resources/adapting-coronary-ct-for-lung--12651)): ran Sybil on noncontrast coronary CT and related its score to lung-cancer risk and emphysema, but did not test whether CAC explains the score.
++2. **Delta.** The candidate uniquely places automated CAC, emphysema, and pulmonary-vessel measurements beside Sybil on the same nodule-free screening scans to estimate CAC's conditional contribution; this is a mechanism audit, not merely another validation cohort or a test of Sybil on cardiac CT.
++3. **Why not done — `NEW_CAPABILITY`.** The openly released AI-CAC nongated-chest-CT scorer from Hagopian et al. (NEJM AI 2025, [DOI 10.1056/AIoa2400937; PMID 40746702](https://pubmed.ncbi.nlm.nih.gov/40746702/)) makes scan-level CAC measurement at NLST scale newly practical alongside open Sybil inference.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched primary work directly tested whether CAC explains Sybil's score, but the 2026 coronary-CT Sybil study is extremely close and only an abstract was available; the exact covariates and any unreported CAC analysis require full-text or author verification.
++
++## CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity — baseline
++
++1. **Neighbors.** (i) Hamamci et al., “Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography,” [arXiv:2403.17834](https://arxiv.org/abs/2403.17834): introduced CT-RATE/CT-CLIP and separate coronary-artery-wall and arterial-wall calcification labels, but evaluated them against report-derived labels rather than continuous, anatomy-specific calcium burdens. (ii) van Velzen et al., “Automatic calcium scoring in low-dose chest CT using deep neural networks with dilated convolutions,” [arXiv:1711.00349](https://arxiv.org/abs/1711.00349): automatically detected and separately quantified coronary, thoracic-aortic, and valvular calcium on low-dose chest CT. (iii) Winkel et al., “Automatic coronary calcium scoring in chest CT using a deep neural network in direct comparison with non-contrast cardiac CT: A validation study,” *European Journal of Radiology* 2021, [DOI 10.1016/j.ejrad.2020.109428; PMID 33285350](https://pubmed.ncbi.nlm.nih.gov/33285350/): validated automated coronary calcium quantification on routine chest CT against dedicated cardiac CT and expert assessment.
++2. **Delta.** Rather than building or validating another calcium detector, the candidate audits whether a generalist model's two report-trained output heads quantitatively and anatomically dissociate coronary from aortic calcium on the same volumes.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP/CT-RATE ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies one frozen model with both anatomically distinct output scores and its evaluation volumes; older calcium work supplied measurements but no such foundation-model semantics to audit.
++4. **Verdict — `NOVEL_UNVERIFIED`.** The searched works do not perform this CT-CLIP double dissociation, but the search cannot establish absence across the rapidly moving 2025–2026 CT-foundation-model literature.
++
++## An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver — baseline
++
++1. **Neighbors.** (i) Tallam et al., “Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning,” *Radiology* 2022, [DOI 10.1148/radiol.211914; PMID 35380492](https://pmc.ncbi.nlm.nih.gov/articles/PMC9270681/): predicted/associated type 2 diabetes with automated abdominal CT biomarkers, and its selected multivariable predictors explicitly included average liver attenuation alongside pancreatic, visceral-fat, plaque, and BMI measures. (ii) Tran et al., “Hepatic and abdominal adiposity in type 2 diabetes as assessed with machine learning on computed tomography scans,” *Diabetes, Obesity and Metabolism* 2026, [DOI 10.1111/dom.70557; PMID 41705581](https://pubmed.ncbi.nlm.nih.gov/41705581/): quantified spleen–liver attenuation difference and abdominal adiposity and related those phenotypes to type 2 diabetes. (iii) Blankemeier et al., “Merlin: A Vision Language Foundation Model for 3D Computed Tomography,” [arXiv:2406.06512](https://arxiv.org/abs/2406.06512): introduced Merlin and its diabetes prediction capability but did not decompose that output into liver, pancreas, and visceral-fat cues.
++2. **Delta.** The only strong delta is model auditing: it asks whether an already-trained Merlin diabetes score depends uniquely on liver attenuation after competing abdominal phenotypes are controlled; liver attenuation as a diabetes biomarker is established, so presenting that biological connection itself as new would be incorrect.
++3. **Why not done — `NEW_CAPABILITY`.** The released Merlin model and continuous diabetes output ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly make it possible to audit a general abdominal foundation model rather than train a bespoke biomarker classifier.
++4. **Verdict — `INCREMENTAL`.** Tallam et al. already put automated liver attenuation into a multivariable CT diabetes model. Probing Merlin rather than a handcrafted phenotype model is a real but narrow interpretability delta, not a new imaging–disease discovery.
++
++## Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle — baseline
++
++1. **Neighbors.** (i) Burns et al., “Vertebral Body Compression Fractures and Bone Density: Automated Detection and Classification on CT Images,” *Radiology* 2017, [DOI 10.1148/radiol.2017162100; PMID 28301777](https://pubmed.ncbi.nlm.nih.gov/28301777/): jointly detected/localized Genant-type vertebral compression and calculated vertebral bone density, directly establishing that both proposed quantities can be extracted together. (ii) Nicolaes et al., “Detection of vertebral fractures in CT using 3D Convolutional Neural Networks,” [arXiv:1911.01816](https://arxiv.org/abs/1911.01816): learned 3D CT features for patient- and vertebra-level compression-fracture detection with explicit localization. (iii) Inigo et al., “An Intrinsically Explainable Approach to Detecting Vertebral Compression Fractures in CT Scans via Neurosymbolic Modeling,” [arXiv:2412.17258](https://arxiv.org/abs/2412.17258): combined learned vertebral segmentation with rule-based height-distribution analysis for interpretable CT fracture detection.
++2. **Delta.** The candidate does not invent density-versus-morphometry measurement; it uniquely decomposes a frozen generalist model's osteoporosis score between those two established quantities and adds a preregistered vertebral-level concentration test.
++3. **Why not done — `NEW_CAPABILITY`.** Merlin ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly provides an open abdominal foundation model with an osteoporosis output whose latent cue choice can be audited; prior systems were purpose-built osteoporosis or fracture detectors.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched neighbor decomposed Merlin's osteoporosis output, but the underlying joint density/morphometry analysis is mature and the claimed thoracolumbar mechanical interpretation was not independently verified in this audit.
++
++## An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two — baseline
++
++1. **Neighbors.** (i) Diaz et al., “Artificial Intelligence–based CT Assessment of Bronchiectasis: The COPDGene Study,” *Radiology* 2023, [DOI 10.1148/radiol.221109](https://pmc.ncbi.nlm.nih.gov/articles/PMC10068886/): reconstructed airway and vessel trees, separated arteries from veins, paired airways with arteries, and related automated airway-to-artery ratios to visual severity and outcomes. (ii) Beeravolu et al., “An Automated Broncho-Arterial (BA) Pair Segmentation Process and Assessment of BA Ratios in Children with Bronchiectasis Using Lung HRCT Scans: A Pilot Study,” *Diagnostics* 2023, [DOI 10.3390/diagnostics13142361; PMID 37509513](https://pmc.ncbi.nlm.nih.gov/articles/PMC10376950/): automatically detected BA pairs and calculated multiple diameter ratios on HRCT. (iii) Chen et al., “Automatic analysis of bronchus-artery ratios and mucus plugs of 640 chest CTs of EMBARC bronchiectasis patients,” *European Respiratory Journal* 2024 conference abstract PA652, [DOI 10.1183/13993003.congress-2024.PA652](https://publications.ersnet.org/content/erj/64/suppl68/pa652): applied automated bronchus–artery and mucus-plug quantification at registry scale.
++2. **Delta.** Automated BAR is not new; the candidate's precise delta is to compare BAR with absolute airway calibre as explanations of CT-CLIP's frozen bronchiectasis score.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies a released generalist bronchiectasis output to audit, whereas the closest BAR studies quantified disease directly and did not explain a foundation model.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched work linked CT-CLIP's score to BAR, but the measurement and absolute-versus-relative-calibre debate are established; novelty is confined to the model-specific audit, and incomplete indexing of recent foundation-model probes prevents a verified verdict.
++
++| Candidate | Verdict | Why-not-done code |
++|---|---|---|
++| C1 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C2 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C3 | `INCREMENTAL` | `NEW_CAPABILITY` |
++| C4 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C5 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
 
-apply patch
-patch: failed
-/home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md
-2026-08-10T07:16:13.371842Z ERROR codex_core::tools::router: error=Exit code: 1
-Wall time: 0.1 seconds
-Output:
-Failed to write file /home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md
+exec
+/bin/bash -lc 'git status --short ideas/scout-006 && git diff -- ideas/scout-006/novelty_audit.md' in /home/runner/work/concept-research-scout/concept-research-scout
+ succeeded in 0ms:
+?? ideas/scout-006/novelty_audit.md
+
+diff --git a/ideas/scout-006/novelty_audit.md b/ideas/scout-006/novelty_audit.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f4dd4643541963b2929059f0bb5eba271038ae1
+--- /dev/null
++++ b/ideas/scout-006/novelty_audit.md
+@@ -0,0 +1,44 @@
++# Novelty audit — scouting cycle 006
++
++## Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan — baseline
++
++1. **Neighbors.** (i) Mikhael et al., “Sybil: A Validated Deep Learning Model to Predict Future Lung Cancer Risk From a Single Low-Dose Chest Computed Tomography,” *Journal of Clinical Oncology* 2023, [DOI 10.1200/JCO.22.01345; PMID 36634294](https://pmc.ncbi.nlm.nih.gov/articles/PMC10419602/): established Sybil and quantified its residual performance when visible nodules at the future cancer site were removed, but did not quantify CAC. (ii) Sobieski et al., “Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions,” [arXiv:2602.02560](https://arxiv.org/abs/2602.02560): intervened on pulmonary nodules and identified non-nodule/background contributions and artifacts, without measuring coronary calcium. (iii) Zollinger et al., “Adapting Coronary CT for Lung Cancer Risk Prediction Using a Radiomic Deep Learning Model,” AATS 106th Annual Meeting 2026, abstract P205 (exact title/venue/year; [primary conference abstract](https://www.aats.org/resources/adapting-coronary-ct-for-lung--12651)): ran Sybil on noncontrast coronary CT and related its score to lung-cancer risk and emphysema, but did not test whether CAC explains the score.
++2. **Delta.** The candidate uniquely places automated CAC, emphysema, and pulmonary-vessel measurements beside Sybil on the same nodule-free screening scans to estimate CAC's conditional contribution; this is a mechanism audit, not merely another validation cohort or a test of Sybil on cardiac CT.
++3. **Why not done — `NEW_CAPABILITY`.** The openly released AI-CAC nongated-chest-CT scorer from Hagopian et al. (NEJM AI 2025, [DOI 10.1056/AIoa2400937; PMID 40746702](https://pubmed.ncbi.nlm.nih.gov/40746702/)) makes scan-level CAC measurement at NLST scale newly practical alongside open Sybil inference.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched primary work directly tested whether CAC explains Sybil's score, but the 2026 coronary-CT Sybil study is extremely close and only an abstract was available; the exact covariates and any unreported CAC analysis require full-text or author verification.
++
++## CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity — baseline
++
++1. **Neighbors.** (i) Hamamci et al., “Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography,” [arXiv:2403.17834](https://arxiv.org/abs/2403.17834): introduced CT-RATE/CT-CLIP and separate coronary-artery-wall and arterial-wall calcification labels, but evaluated them against report-derived labels rather than continuous, anatomy-specific calcium burdens. (ii) van Velzen et al., “Automatic calcium scoring in low-dose chest CT using deep neural networks with dilated convolutions,” [arXiv:1711.00349](https://arxiv.org/abs/1711.00349): automatically detected and separately quantified coronary, thoracic-aortic, and valvular calcium on low-dose chest CT. (iii) Winkel et al., “Automatic coronary calcium scoring in chest CT using a deep neural network in direct comparison with non-contrast cardiac CT: A validation study,” *European Journal of Radiology* 2021, [DOI 10.1016/j.ejrad.2020.109428; PMID 33285350](https://pubmed.ncbi.nlm.nih.gov/33285350/): validated automated coronary calcium quantification on routine chest CT against dedicated cardiac CT and expert assessment.
++2. **Delta.** Rather than building or validating another calcium detector, the candidate audits whether a generalist model's two report-trained output heads quantitatively and anatomically dissociate coronary from aortic calcium on the same volumes.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP/CT-RATE ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies one frozen model with both anatomically distinct output scores and its evaluation volumes; older calcium work supplied measurements but no such foundation-model semantics to audit.
++4. **Verdict — `NOVEL_UNVERIFIED`.** The searched works do not perform this CT-CLIP double dissociation, but the search cannot establish absence across the rapidly moving 2025–2026 CT-foundation-model literature.
++
++## An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver — baseline
++
++1. **Neighbors.** (i) Tallam et al., “Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning,” *Radiology* 2022, [DOI 10.1148/radiol.211914; PMID 35380492](https://pmc.ncbi.nlm.nih.gov/articles/PMC9270681/): predicted/associated type 2 diabetes with automated abdominal CT biomarkers, and its selected multivariable predictors explicitly included average liver attenuation alongside pancreatic, visceral-fat, plaque, and BMI measures. (ii) Tran et al., “Hepatic and abdominal adiposity in type 2 diabetes as assessed with machine learning on computed tomography scans,” *Diabetes, Obesity and Metabolism* 2026, [DOI 10.1111/dom.70557; PMID 41705581](https://pubmed.ncbi.nlm.nih.gov/41705581/): quantified spleen–liver attenuation difference and abdominal adiposity and related those phenotypes to type 2 diabetes. (iii) Blankemeier et al., “Merlin: A Vision Language Foundation Model for 3D Computed Tomography,” [arXiv:2406.06512](https://arxiv.org/abs/2406.06512): introduced Merlin and its diabetes prediction capability but did not decompose that output into liver, pancreas, and visceral-fat cues.
++2. **Delta.** The only strong delta is model auditing: it asks whether an already-trained Merlin diabetes score depends uniquely on liver attenuation after competing abdominal phenotypes are controlled; liver attenuation as a diabetes biomarker is established, so presenting that biological connection itself as new would be incorrect.
++3. **Why not done — `NEW_CAPABILITY`.** The released Merlin model and continuous diabetes output ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly make it possible to audit a general abdominal foundation model rather than train a bespoke biomarker classifier.
++4. **Verdict — `INCREMENTAL`.** Tallam et al. already put automated liver attenuation into a multivariable CT diabetes model. Probing Merlin rather than a handcrafted phenotype model is a real but narrow interpretability delta, not a new imaging–disease discovery.
++
++## Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle — baseline
++
++1. **Neighbors.** (i) Burns et al., “Vertebral Body Compression Fractures and Bone Density: Automated Detection and Classification on CT Images,” *Radiology* 2017, [DOI 10.1148/radiol.2017162100; PMID 28301777](https://pubmed.ncbi.nlm.nih.gov/28301777/): jointly detected/localized Genant-type vertebral compression and calculated vertebral bone density, directly establishing that both proposed quantities can be extracted together. (ii) Nicolaes et al., “Detection of vertebral fractures in CT using 3D Convolutional Neural Networks,” [arXiv:1911.01816](https://arxiv.org/abs/1911.01816): learned 3D CT features for patient- and vertebra-level compression-fracture detection with explicit localization. (iii) Inigo et al., “An Intrinsically Explainable Approach to Detecting Vertebral Compression Fractures in CT Scans via Neurosymbolic Modeling,” [arXiv:2412.17258](https://arxiv.org/abs/2412.17258): combined learned vertebral segmentation with rule-based height-distribution analysis for interpretable CT fracture detection.
++2. **Delta.** The candidate does not invent density-versus-morphometry measurement; it uniquely decomposes a frozen generalist model's osteoporosis score between those two established quantities and adds a preregistered vertebral-level concentration test.
++3. **Why not done — `NEW_CAPABILITY`.** Merlin ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly provides an open abdominal foundation model with an osteoporosis output whose latent cue choice can be audited; prior systems were purpose-built osteoporosis or fracture detectors.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched neighbor decomposed Merlin's osteoporosis output, but the underlying joint density/morphometry analysis is mature and the claimed thoracolumbar mechanical interpretation was not independently verified in this audit.
++
++## An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two — baseline
++
++1. **Neighbors.** (i) Diaz et al., “Artificial Intelligence–based CT Assessment of Bronchiectasis: The COPDGene Study,” *Radiology* 2023, [DOI 10.1148/radiol.221109](https://pmc.ncbi.nlm.nih.gov/articles/PMC10068886/): reconstructed airway and vessel trees, separated arteries from veins, paired airways with arteries, and related automated airway-to-artery ratios to visual severity and outcomes. (ii) Beeravolu et al., “An Automated Broncho-Arterial (BA) Pair Segmentation Process and Assessment of BA Ratios in Children with Bronchiectasis Using Lung HRCT Scans: A Pilot Study,” *Diagnostics* 2023, [DOI 10.3390/diagnostics13142361; PMID 37509513](https://pmc.ncbi.nlm.nih.gov/articles/PMC10376950/): automatically detected BA pairs and calculated multiple diameter ratios on HRCT. (iii) Chen et al., “Automatic analysis of bronchus-artery ratios and mucus plugs of 640 chest CTs of EMBARC bronchiectasis patients,” *European Respiratory Journal* 2024 conference abstract PA652, [DOI 10.1183/13993003.congress-2024.PA652](https://publications.ersnet.org/content/erj/64/suppl68/pa652): applied automated bronchus–artery and mucus-plug quantification at registry scale.
++2. **Delta.** Automated BAR is not new; the candidate's precise delta is to compare BAR with absolute airway calibre as explanations of CT-CLIP's frozen bronchiectasis score.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies a released generalist bronchiectasis output to audit, whereas the closest BAR studies quantified disease directly and did not explain a foundation model.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched work linked CT-CLIP's score to BAR, but the measurement and absolute-versus-relative-calibre debate are established; novelty is confined to the model-specific audit, and incomplete indexing of recent foundation-model probes prevents a verified verdict.
++
++| Candidate | Verdict | Why-not-done code |
++|---|---|---|
++| C1 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C2 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C3 | `INCREMENTAL` | `NEW_CAPABILITY` |
++| C4 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C5 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
+
+exec
+/bin/bash -lc "rg -n '"'^## |''^[1-4]'"\\. \\*\\*|"'^'"\\| C[1-5]' ideas/scout-006/novelty_audit.md" in /home/runner/work/concept-research-scout/concept-research-scout
+ succeeded in 0ms:
+3:## Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan — baseline
+5:1. **Neighbors.** (i) Mikhael et al., “Sybil: A Validated Deep Learning Model to Predict Future Lung Cancer Risk From a Single Low-Dose Chest Computed Tomography,” *Journal of Clinical Oncology* 2023, [DOI 10.1200/JCO.22.01345; PMID 36634294](https://pmc.ncbi.nlm.nih.gov/articles/PMC10419602/): established Sybil and quantified its residual performance when visible nodules at the future cancer site were removed, but did not quantify CAC. (ii) Sobieski et al., “Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions,” [arXiv:2602.02560](https://arxiv.org/abs/2602.02560): intervened on pulmonary nodules and identified non-nodule/background contributions and artifacts, without measuring coronary calcium. (iii) Zollinger et al., “Adapting Coronary CT for Lung Cancer Risk Prediction Using a Radiomic Deep Learning Model,” AATS 106th Annual Meeting 2026, abstract P205 (exact title/venue/year; [primary conference abstract](https://www.aats.org/resources/adapting-coronary-ct-for-lung--12651)): ran Sybil on noncontrast coronary CT and related its score to lung-cancer risk and emphysema, but did not test whether CAC explains the score.
+6:2. **Delta.** The candidate uniquely places automated CAC, emphysema, and pulmonary-vessel measurements beside Sybil on the same nodule-free screening scans to estimate CAC's conditional contribution; this is a mechanism audit, not merely another validation cohort or a test of Sybil on cardiac CT.
+7:3. **Why not done — `NEW_CAPABILITY`.** The openly released AI-CAC nongated-chest-CT scorer from Hagopian et al. (NEJM AI 2025, [DOI 10.1056/AIoa2400937; PMID 40746702](https://pubmed.ncbi.nlm.nih.gov/40746702/)) makes scan-level CAC measurement at NLST scale newly practical alongside open Sybil inference.
+8:4. **Verdict — `NOVEL_UNVERIFIED`.** No searched primary work directly tested whether CAC explains Sybil's score, but the 2026 coronary-CT Sybil study is extremely close and only an abstract was available; the exact covariates and any unreported CAC analysis require full-text or author verification.
+10:## CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity — baseline
+12:1. **Neighbors.** (i) Hamamci et al., “Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography,” [arXiv:2403.17834](https://arxiv.org/abs/2403.17834): introduced CT-RATE/CT-CLIP and separate coronary-artery-wall and arterial-wall calcification labels, but evaluated them against report-derived labels rather than continuous, anatomy-specific calcium burdens. (ii) van Velzen et al., “Automatic calcium scoring in low-dose chest CT using deep neural networks with dilated convolutions,” [arXiv:1711.00349](https://arxiv.org/abs/1711.00349): automatically detected and separately quantified coronary, thoracic-aortic, and valvular calcium on low-dose chest CT. (iii) Winkel et al., “Automatic coronary calcium scoring in chest CT using a deep neural network in direct comparison with non-contrast cardiac CT: A validation study,” *European Journal of Radiology* 2021, [DOI 10.1016/j.ejrad.2020.109428; PMID 33285350](https://pubmed.ncbi.nlm.nih.gov/33285350/): validated automated coronary calcium quantification on routine chest CT against dedicated cardiac CT and expert assessment.
+13:2. **Delta.** Rather than building or validating another calcium detector, the candidate audits whether a generalist model's two report-trained output heads quantitatively and anatomically dissociate coronary from aortic calcium on the same volumes.
+14:3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP/CT-RATE ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies one frozen model with both anatomically distinct output scores and its evaluation volumes; older calcium work supplied measurements but no such foundation-model semantics to audit.
+15:4. **Verdict — `NOVEL_UNVERIFIED`.** The searched works do not perform this CT-CLIP double dissociation, but the search cannot establish absence across the rapidly moving 2025–2026 CT-foundation-model literature.
+17:## An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver — baseline
+19:1. **Neighbors.** (i) Tallam et al., “Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning,” *Radiology* 2022, [DOI 10.1148/radiol.211914; PMID 35380492](https://pmc.ncbi.nlm.nih.gov/articles/PMC9270681/): predicted/associated type 2 diabetes with automated abdominal CT biomarkers, and its selected multivariable predictors explicitly included average liver attenuation alongside pancreatic, visceral-fat, plaque, and BMI measures. (ii) Tran et al., “Hepatic and abdominal adiposity in type 2 diabetes as assessed with machine learning on computed tomography scans,” *Diabetes, Obesity and Metabolism* 2026, [DOI 10.1111/dom.70557; PMID 41705581](https://pubmed.ncbi.nlm.nih.gov/41705581/): quantified spleen–liver attenuation difference and abdominal adiposity and related those phenotypes to type 2 diabetes. (iii) Blankemeier et al., “Merlin: A Vision Language Foundation Model for 3D Computed Tomography,” [arXiv:2406.06512](https://arxiv.org/abs/2406.06512): introduced Merlin and its diabetes prediction capability but did not decompose that output into liver, pancreas, and visceral-fat cues.
+20:2. **Delta.** The only strong delta is model auditing: it asks whether an already-trained Merlin diabetes score depends uniquely on liver attenuation after competing abdominal phenotypes are controlled; liver attenuation as a diabetes biomarker is established, so presenting that biological connection itself as new would be incorrect.
+21:3. **Why not done — `NEW_CAPABILITY`.** The released Merlin model and continuous diabetes output ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly make it possible to audit a general abdominal foundation model rather than train a bespoke biomarker classifier.
+22:4. **Verdict — `INCREMENTAL`.** Tallam et al. already put automated liver attenuation into a multivariable CT diabetes model. Probing Merlin rather than a handcrafted phenotype model is a real but narrow interpretability delta, not a new imaging–disease discovery.
+24:## Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle — baseline
+26:1. **Neighbors.** (i) Burns et al., “Vertebral Body Compression Fractures and Bone Density: Automated Detection and Classification on CT Images,” *Radiology* 2017, [DOI 10.1148/radiol.2017162100; PMID 28301777](https://pubmed.ncbi.nlm.nih.gov/28301777/): jointly detected/localized Genant-type vertebral compression and calculated vertebral bone density, directly establishing that both proposed quantities can be extracted together. (ii) Nicolaes et al., “Detection of vertebral fractures in CT using 3D Convolutional Neural Networks,” [arXiv:1911.01816](https://arxiv.org/abs/1911.01816): learned 3D CT features for patient- and vertebra-level compression-fracture detection with explicit localization. (iii) Inigo et al., “An Intrinsically Explainable Approach to Detecting Vertebral Compression Fractures in CT Scans via Neurosymbolic Modeling,” [arXiv:2412.17258](https://arxiv.org/abs/2412.17258): combined learned vertebral segmentation with rule-based height-distribution analysis for interpretable CT fracture detection.
+27:2. **Delta.** The candidate does not invent density-versus-morphometry measurement; it uniquely decomposes a frozen generalist model's osteoporosis score between those two established quantities and adds a preregistered vertebral-level concentration test.
+28:3. **Why not done — `NEW_CAPABILITY`.** Merlin ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly provides an open abdominal foundation model with an osteoporosis output whose latent cue choice can be audited; prior systems were purpose-built osteoporosis or fracture detectors.
+29:4. **Verdict — `NOVEL_UNVERIFIED`.** No searched neighbor decomposed Merlin's osteoporosis output, but the underlying joint density/morphometry analysis is mature and the claimed thoracolumbar mechanical interpretation was not independently verified in this audit.
+31:## An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two — baseline
+33:1. **Neighbors.** (i) Diaz et al., “Artificial Intelligence–based CT Assessment of Bronchiectasis: The COPDGene Study,” *Radiology* 2023, [DOI 10.1148/radiol.221109](https://pmc.ncbi.nlm.nih.gov/articles/PMC10068886/): reconstructed airway and vessel trees, separated arteries from veins, paired airways with arteries, and related automated airway-to-artery ratios to visual severity and outcomes. (ii) Beeravolu et al., “An Automated Broncho-Arterial (BA) Pair Segmentation Process and Assessment of BA Ratios in Children with Bronchiectasis Using Lung HRCT Scans: A Pilot Study,” *Diagnostics* 2023, [DOI 10.3390/diagnostics13142361; PMID 37509513](https://pmc.ncbi.nlm.nih.gov/articles/PMC10376950/): automatically detected BA pairs and calculated multiple diameter ratios on HRCT. (iii) Chen et al., “Automatic analysis of bronchus-artery ratios and mucus plugs of 640 chest CTs of EMBARC bronchiectasis patients,” *European Respiratory Journal* 2024 conference abstract PA652, [DOI 10.1183/13993003.congress-2024.PA652](https://publications.ersnet.org/content/erj/64/suppl68/pa652): applied automated bronchus–artery and mucus-plug quantification at registry scale.
+34:2. **Delta.** Automated BAR is not new; the candidate's precise delta is to compare BAR with absolute airway calibre as explanations of CT-CLIP's frozen bronchiectasis score.
+35:3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies a released generalist bronchiectasis output to audit, whereas the closest BAR studies quantified disease directly and did not explain a foundation model.
+36:4. **Verdict — `NOVEL_UNVERIFIED`.** No searched work linked CT-CLIP's score to BAR, but the measurement and absolute-versus-relative-calibre debate are established; novelty is confined to the model-specific audit, and incomplete indexing of recent foundation-model probes prevents a verified verdict.
+40:| C1 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
+41:| C2 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
+42:| C3 | `INCREMENTAL` | `NEW_CAPABILITY` |
+43:| C4 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
+44:| C5 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
+
+diff --git a/ideas/scout-006/novelty_audit.md b/ideas/scout-006/novelty_audit.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f4dd4643541963b2929059f0bb5eba271038ae1
+--- /dev/null
++++ b/ideas/scout-006/novelty_audit.md
+@@ -0,0 +1,44 @@
++# Novelty audit — scouting cycle 006
++
++## Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan — baseline
++
++1. **Neighbors.** (i) Mikhael et al., “Sybil: A Validated Deep Learning Model to Predict Future Lung Cancer Risk From a Single Low-Dose Chest Computed Tomography,” *Journal of Clinical Oncology* 2023, [DOI 10.1200/JCO.22.01345; PMID 36634294](https://pmc.ncbi.nlm.nih.gov/articles/PMC10419602/): established Sybil and quantified its residual performance when visible nodules at the future cancer site were removed, but did not quantify CAC. (ii) Sobieski et al., “Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions,” [arXiv:2602.02560](https://arxiv.org/abs/2602.02560): intervened on pulmonary nodules and identified non-nodule/background contributions and artifacts, without measuring coronary calcium. (iii) Zollinger et al., “Adapting Coronary CT for Lung Cancer Risk Prediction Using a Radiomic Deep Learning Model,” AATS 106th Annual Meeting 2026, abstract P205 (exact title/venue/year; [primary conference abstract](https://www.aats.org/resources/adapting-coronary-ct-for-lung--12651)): ran Sybil on noncontrast coronary CT and related its score to lung-cancer risk and emphysema, but did not test whether CAC explains the score.
++2. **Delta.** The candidate uniquely places automated CAC, emphysema, and pulmonary-vessel measurements beside Sybil on the same nodule-free screening scans to estimate CAC's conditional contribution; this is a mechanism audit, not merely another validation cohort or a test of Sybil on cardiac CT.
++3. **Why not done — `NEW_CAPABILITY`.** The openly released AI-CAC nongated-chest-CT scorer from Hagopian et al. (NEJM AI 2025, [DOI 10.1056/AIoa2400937; PMID 40746702](https://pubmed.ncbi.nlm.nih.gov/40746702/)) makes scan-level CAC measurement at NLST scale newly practical alongside open Sybil inference.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched primary work directly tested whether CAC explains Sybil's score, but the 2026 coronary-CT Sybil study is extremely close and only an abstract was available; the exact covariates and any unreported CAC analysis require full-text or author verification.
++
++## CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity — baseline
++
++1. **Neighbors.** (i) Hamamci et al., “Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography,” [arXiv:2403.17834](https://arxiv.org/abs/2403.17834): introduced CT-RATE/CT-CLIP and separate coronary-artery-wall and arterial-wall calcification labels, but evaluated them against report-derived labels rather than continuous, anatomy-specific calcium burdens. (ii) van Velzen et al., “Automatic calcium scoring in low-dose chest CT using deep neural networks with dilated convolutions,” [arXiv:1711.00349](https://arxiv.org/abs/1711.00349): automatically detected and separately quantified coronary, thoracic-aortic, and valvular calcium on low-dose chest CT. (iii) Winkel et al., “Automatic coronary calcium scoring in chest CT using a deep neural network in direct comparison with non-contrast cardiac CT: A validation study,” *European Journal of Radiology* 2021, [DOI 10.1016/j.ejrad.2020.109428; PMID 33285350](https://pubmed.ncbi.nlm.nih.gov/33285350/): validated automated coronary calcium quantification on routine chest CT against dedicated cardiac CT and expert assessment.
++2. **Delta.** Rather than building or validating another calcium detector, the candidate audits whether a generalist model's two report-trained output heads quantitatively and anatomically dissociate coronary from aortic calcium on the same volumes.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP/CT-RATE ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies one frozen model with both anatomically distinct output scores and its evaluation volumes; older calcium work supplied measurements but no such foundation-model semantics to audit.
++4. **Verdict — `NOVEL_UNVERIFIED`.** The searched works do not perform this CT-CLIP double dissociation, but the search cannot establish absence across the rapidly moving 2025–2026 CT-foundation-model literature.
++
++## An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver — baseline
++
++1. **Neighbors.** (i) Tallam et al., “Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning,” *Radiology* 2022, [DOI 10.1148/radiol.211914; PMID 35380492](https://pmc.ncbi.nlm.nih.gov/articles/PMC9270681/): predicted/associated type 2 diabetes with automated abdominal CT biomarkers, and its selected multivariable predictors explicitly included average liver attenuation alongside pancreatic, visceral-fat, plaque, and BMI measures. (ii) Tran et al., “Hepatic and abdominal adiposity in type 2 diabetes as assessed with machine learning on computed tomography scans,” *Diabetes, Obesity and Metabolism* 2026, [DOI 10.1111/dom.70557; PMID 41705581](https://pubmed.ncbi.nlm.nih.gov/41705581/): quantified spleen–liver attenuation difference and abdominal adiposity and related those phenotypes to type 2 diabetes. (iii) Blankemeier et al., “Merlin: A Vision Language Foundation Model for 3D Computed Tomography,” [arXiv:2406.06512](https://arxiv.org/abs/2406.06512): introduced Merlin and its diabetes prediction capability but did not decompose that output into liver, pancreas, and visceral-fat cues.
++2. **Delta.** The only strong delta is model auditing: it asks whether an already-trained Merlin diabetes score depends uniquely on liver attenuation after competing abdominal phenotypes are controlled; liver attenuation as a diabetes biomarker is established, so presenting that biological connection itself as new would be incorrect.
++3. **Why not done — `NEW_CAPABILITY`.** The released Merlin model and continuous diabetes output ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly make it possible to audit a general abdominal foundation model rather than train a bespoke biomarker classifier.
++4. **Verdict — `INCREMENTAL`.** Tallam et al. already put automated liver attenuation into a multivariable CT diabetes model. Probing Merlin rather than a handcrafted phenotype model is a real but narrow interpretability delta, not a new imaging–disease discovery.
++
++## Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle — baseline
++
++1. **Neighbors.** (i) Burns et al., “Vertebral Body Compression Fractures and Bone Density: Automated Detection and Classification on CT Images,” *Radiology* 2017, [DOI 10.1148/radiol.2017162100; PMID 28301777](https://pubmed.ncbi.nlm.nih.gov/28301777/): jointly detected/localized Genant-type vertebral compression and calculated vertebral bone density, directly establishing that both proposed quantities can be extracted together. (ii) Nicolaes et al., “Detection of vertebral fractures in CT using 3D Convolutional Neural Networks,” [arXiv:1911.01816](https://arxiv.org/abs/1911.01816): learned 3D CT features for patient- and vertebra-level compression-fracture detection with explicit localization. (iii) Inigo et al., “An Intrinsically Explainable Approach to Detecting Vertebral Compression Fractures in CT Scans via Neurosymbolic Modeling,” [arXiv:2412.17258](https://arxiv.org/abs/2412.17258): combined learned vertebral segmentation with rule-based height-distribution analysis for interpretable CT fracture detection.
++2. **Delta.** The candidate does not invent density-versus-morphometry measurement; it uniquely decomposes a frozen generalist model's osteoporosis score between those two established quantities and adds a preregistered vertebral-level concentration test.
++3. **Why not done — `NEW_CAPABILITY`.** Merlin ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly provides an open abdominal foundation model with an osteoporosis output whose latent cue choice can be audited; prior systems were purpose-built osteoporosis or fracture detectors.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched neighbor decomposed Merlin's osteoporosis output, but the underlying joint density/morphometry analysis is mature and the claimed thoracolumbar mechanical interpretation was not independently verified in this audit.
++
++## An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two — baseline
++
++1. **Neighbors.** (i) Diaz et al., “Artificial Intelligence–based CT Assessment of Bronchiectasis: The COPDGene Study,” *Radiology* 2023, [DOI 10.1148/radiol.221109](https://pmc.ncbi.nlm.nih.gov/articles/PMC10068886/): reconstructed airway and vessel trees, separated arteries from veins, paired airways with arteries, and related automated airway-to-artery ratios to visual severity and outcomes. (ii) Beeravolu et al., “An Automated Broncho-Arterial (BA) Pair Segmentation Process and Assessment of BA Ratios in Children with Bronchiectasis Using Lung HRCT Scans: A Pilot Study,” *Diagnostics* 2023, [DOI 10.3390/diagnostics13142361; PMID 37509513](https://pmc.ncbi.nlm.nih.gov/articles/PMC10376950/): automatically detected BA pairs and calculated multiple diameter ratios on HRCT. (iii) Chen et al., “Automatic analysis of bronchus-artery ratios and mucus plugs of 640 chest CTs of EMBARC bronchiectasis patients,” *European Respiratory Journal* 2024 conference abstract PA652, [DOI 10.1183/13993003.congress-2024.PA652](https://publications.ersnet.org/content/erj/64/suppl68/pa652): applied automated bronchus–artery and mucus-plug quantification at registry scale.
++2. **Delta.** Automated BAR is not new; the candidate's precise delta is to compare BAR with absolute airway calibre as explanations of CT-CLIP's frozen bronchiectasis score.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies a released generalist bronchiectasis output to audit, whereas the closest BAR studies quantified disease directly and did not explain a foundation model.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched work linked CT-CLIP's score to BAR, but the measurement and absolute-versus-relative-calibre debate are established; novelty is confined to the model-specific audit, and incomplete indexing of recent foundation-model probes prevents a verified verdict.
++
++| Candidate | Verdict | Why-not-done code |
++|---|---|---|
++| C1 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C2 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C3 | `INCREMENTAL` | `NEW_CAPABILITY` |
++| C4 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C5 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
 
 codex
-I completed the literature audit, but could not write `ideas/scout-006/novelty_audit.md`: the workspace rejected both patch writes and read-only shell inspection with a sandbox `uid map: Permission denied` error.
+Created [novelty_audit.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md).
 
-No repository files were modified. The audit conclusions were:
+Key outcome: C3 is `INCREMENTAL`; C1, C2, C4, and C5 remain `NOVEL_UNVERIFIED`. No other files were modified.
+diff --git a/ideas/scout-006/novelty_audit.md b/ideas/scout-006/novelty_audit.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f4dd4643541963b2929059f0bb5eba271038ae1
+--- /dev/null
++++ b/ideas/scout-006/novelty_audit.md
+@@ -0,0 +1,44 @@
++# Novelty audit — scouting cycle 006
++
++## Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan — baseline
++
++1. **Neighbors.** (i) Mikhael et al., “Sybil: A Validated Deep Learning Model to Predict Future Lung Cancer Risk From a Single Low-Dose Chest Computed Tomography,” *Journal of Clinical Oncology* 2023, [DOI 10.1200/JCO.22.01345; PMID 36634294](https://pmc.ncbi.nlm.nih.gov/articles/PMC10419602/): established Sybil and quantified its residual performance when visible nodules at the future cancer site were removed, but did not quantify CAC. (ii) Sobieski et al., “Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions,” [arXiv:2602.02560](https://arxiv.org/abs/2602.02560): intervened on pulmonary nodules and identified non-nodule/background contributions and artifacts, without measuring coronary calcium. (iii) Zollinger et al., “Adapting Coronary CT for Lung Cancer Risk Prediction Using a Radiomic Deep Learning Model,” AATS 106th Annual Meeting 2026, abstract P205 (exact title/venue/year; [primary conference abstract](https://www.aats.org/resources/adapting-coronary-ct-for-lung--12651)): ran Sybil on noncontrast coronary CT and related its score to lung-cancer risk and emphysema, but did not test whether CAC explains the score.
++2. **Delta.** The candidate uniquely places automated CAC, emphysema, and pulmonary-vessel measurements beside Sybil on the same nodule-free screening scans to estimate CAC's conditional contribution; this is a mechanism audit, not merely another validation cohort or a test of Sybil on cardiac CT.
++3. **Why not done — `NEW_CAPABILITY`.** The openly released AI-CAC nongated-chest-CT scorer from Hagopian et al. (NEJM AI 2025, [DOI 10.1056/AIoa2400937; PMID 40746702](https://pubmed.ncbi.nlm.nih.gov/40746702/)) makes scan-level CAC measurement at NLST scale newly practical alongside open Sybil inference.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched primary work directly tested whether CAC explains Sybil's score, but the 2026 coronary-CT Sybil study is extremely close and only an abstract was available; the exact covariates and any unreported CAC analysis require full-text or author verification.
++
++## CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity — baseline
++
++1. **Neighbors.** (i) Hamamci et al., “Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography,” [arXiv:2403.17834](https://arxiv.org/abs/2403.17834): introduced CT-RATE/CT-CLIP and separate coronary-artery-wall and arterial-wall calcification labels, but evaluated them against report-derived labels rather than continuous, anatomy-specific calcium burdens. (ii) van Velzen et al., “Automatic calcium scoring in low-dose chest CT using deep neural networks with dilated convolutions,” [arXiv:1711.00349](https://arxiv.org/abs/1711.00349): automatically detected and separately quantified coronary, thoracic-aortic, and valvular calcium on low-dose chest CT. (iii) Winkel et al., “Automatic coronary calcium scoring in chest CT using a deep neural network in direct comparison with non-contrast cardiac CT: A validation study,” *European Journal of Radiology* 2021, [DOI 10.1016/j.ejrad.2020.109428; PMID 33285350](https://pubmed.ncbi.nlm.nih.gov/33285350/): validated automated coronary calcium quantification on routine chest CT against dedicated cardiac CT and expert assessment.
++2. **Delta.** Rather than building or validating another calcium detector, the candidate audits whether a generalist model's two report-trained output heads quantitatively and anatomically dissociate coronary from aortic calcium on the same volumes.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP/CT-RATE ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies one frozen model with both anatomically distinct output scores and its evaluation volumes; older calcium work supplied measurements but no such foundation-model semantics to audit.
++4. **Verdict — `NOVEL_UNVERIFIED`.** The searched works do not perform this CT-CLIP double dissociation, but the search cannot establish absence across the rapidly moving 2025–2026 CT-foundation-model literature.
++
++## An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver — baseline
++
++1. **Neighbors.** (i) Tallam et al., “Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning,” *Radiology* 2022, [DOI 10.1148/radiol.211914; PMID 35380492](https://pmc.ncbi.nlm.nih.gov/articles/PMC9270681/): predicted/associated type 2 diabetes with automated abdominal CT biomarkers, and its selected multivariable predictors explicitly included average liver attenuation alongside pancreatic, visceral-fat, plaque, and BMI measures. (ii) Tran et al., “Hepatic and abdominal adiposity in type 2 diabetes as assessed with machine learning on computed tomography scans,” *Diabetes, Obesity and Metabolism* 2026, [DOI 10.1111/dom.70557; PMID 41705581](https://pubmed.ncbi.nlm.nih.gov/41705581/): quantified spleen–liver attenuation difference and abdominal adiposity and related those phenotypes to type 2 diabetes. (iii) Blankemeier et al., “Merlin: A Vision Language Foundation Model for 3D Computed Tomography,” [arXiv:2406.06512](https://arxiv.org/abs/2406.06512): introduced Merlin and its diabetes prediction capability but did not decompose that output into liver, pancreas, and visceral-fat cues.
++2. **Delta.** The only strong delta is model auditing: it asks whether an already-trained Merlin diabetes score depends uniquely on liver attenuation after competing abdominal phenotypes are controlled; liver attenuation as a diabetes biomarker is established, so presenting that biological connection itself as new would be incorrect.
++3. **Why not done — `NEW_CAPABILITY`.** The released Merlin model and continuous diabetes output ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly make it possible to audit a general abdominal foundation model rather than train a bespoke biomarker classifier.
++4. **Verdict — `INCREMENTAL`.** Tallam et al. already put automated liver attenuation into a multivariable CT diabetes model. Probing Merlin rather than a handcrafted phenotype model is a real but narrow interpretability delta, not a new imaging–disease discovery.
++
++## Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle — baseline
++
++1. **Neighbors.** (i) Burns et al., “Vertebral Body Compression Fractures and Bone Density: Automated Detection and Classification on CT Images,” *Radiology* 2017, [DOI 10.1148/radiol.2017162100; PMID 28301777](https://pubmed.ncbi.nlm.nih.gov/28301777/): jointly detected/localized Genant-type vertebral compression and calculated vertebral bone density, directly establishing that both proposed quantities can be extracted together. (ii) Nicolaes et al., “Detection of vertebral fractures in CT using 3D Convolutional Neural Networks,” [arXiv:1911.01816](https://arxiv.org/abs/1911.01816): learned 3D CT features for patient- and vertebra-level compression-fracture detection with explicit localization. (iii) Inigo et al., “An Intrinsically Explainable Approach to Detecting Vertebral Compression Fractures in CT Scans via Neurosymbolic Modeling,” [arXiv:2412.17258](https://arxiv.org/abs/2412.17258): combined learned vertebral segmentation with rule-based height-distribution analysis for interpretable CT fracture detection.
++2. **Delta.** The candidate does not invent density-versus-morphometry measurement; it uniquely decomposes a frozen generalist model's osteoporosis score between those two established quantities and adds a preregistered vertebral-level concentration test.
++3. **Why not done — `NEW_CAPABILITY`.** Merlin ([arXiv:2406.06512](https://arxiv.org/abs/2406.06512)) newly provides an open abdominal foundation model with an osteoporosis output whose latent cue choice can be audited; prior systems were purpose-built osteoporosis or fracture detectors.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched neighbor decomposed Merlin's osteoporosis output, but the underlying joint density/morphometry analysis is mature and the claimed thoracolumbar mechanical interpretation was not independently verified in this audit.
++
++## An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two — baseline
++
++1. **Neighbors.** (i) Diaz et al., “Artificial Intelligence–based CT Assessment of Bronchiectasis: The COPDGene Study,” *Radiology* 2023, [DOI 10.1148/radiol.221109](https://pmc.ncbi.nlm.nih.gov/articles/PMC10068886/): reconstructed airway and vessel trees, separated arteries from veins, paired airways with arteries, and related automated airway-to-artery ratios to visual severity and outcomes. (ii) Beeravolu et al., “An Automated Broncho-Arterial (BA) Pair Segmentation Process and Assessment of BA Ratios in Children with Bronchiectasis Using Lung HRCT Scans: A Pilot Study,” *Diagnostics* 2023, [DOI 10.3390/diagnostics13142361; PMID 37509513](https://pmc.ncbi.nlm.nih.gov/articles/PMC10376950/): automatically detected BA pairs and calculated multiple diameter ratios on HRCT. (iii) Chen et al., “Automatic analysis of bronchus-artery ratios and mucus plugs of 640 chest CTs of EMBARC bronchiectasis patients,” *European Respiratory Journal* 2024 conference abstract PA652, [DOI 10.1183/13993003.congress-2024.PA652](https://publications.ersnet.org/content/erj/64/suppl68/pa652): applied automated bronchus–artery and mucus-plug quantification at registry scale.
++2. **Delta.** Automated BAR is not new; the candidate's precise delta is to compare BAR with absolute airway calibre as explanations of CT-CLIP's frozen bronchiectasis score.
++3. **Why not done — `NEW_CAPABILITY`.** CT-CLIP ([arXiv:2403.17834](https://arxiv.org/abs/2403.17834)) newly supplies a released generalist bronchiectasis output to audit, whereas the closest BAR studies quantified disease directly and did not explain a foundation model.
++4. **Verdict — `NOVEL_UNVERIFIED`.** No searched work linked CT-CLIP's score to BAR, but the measurement and absolute-versus-relative-calibre debate are established; novelty is confined to the model-specific audit, and incomplete indexing of recent foundation-model probes prevents a verified verdict.
++
++| Candidate | Verdict | Why-not-done code |
++|---|---|---|
++| C1 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C2 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C3 | `INCREMENTAL` | `NEW_CAPABILITY` |
++| C4 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
++| C5 | `NOVEL_UNVERIFIED` | `NEW_CAPABILITY` |
 
-- C1: `NOVEL_UNVERIFIED`
-- C2: `NOVEL_UNVERIFIED`
-- C3: `INCREMENTAL`
-- C4: `INCREMENTAL`
-- C5: `INCREMENTAL`
-
-The workspace permissions/runtime must be repaired before I can deliver the required file.
 tokens used
-110,881
-I completed the literature audit, but could not write `ideas/scout-006/novelty_audit.md`: the workspace rejected both patch writes and read-only shell inspection with a sandbox `uid map: Permission denied` error.
+100,876
+Created [novelty_audit.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/scout-006/novelty_audit.md).
 
-No repository files were modified. The audit conclusions were:
-
-- C1: `NOVEL_UNVERIFIED`
-- C2: `NOVEL_UNVERIFIED`
-- C3: `INCREMENTAL`
-- C4: `INCREMENTAL`
-- C5: `INCREMENTAL`
-
-The workspace permissions/runtime must be repaired before I can deliver the required file.
+Key outcome: C3 is `INCREMENTAL`; C1, C2, C4, and C5 remain `NOVEL_UNVERIFIED`. No other files were modified.
