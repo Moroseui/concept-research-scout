@@ -3,6 +3,18 @@
 Actionable ideas with debate verdicts. A revival/recombination
 candidate MUST cite the specific condition below that has changed.
 
+## idea-015 [SHORTLISTED] -- A breast-cancer risk model may be reading the arteries as a vascular clock
+
+**Verdict:** **REVISE.** The scientific design has converged, but the card has not been updated and the candidate-registration dispute remains irreducible. Before deciding, the human should make one explicit portfolio-governance choice: whether removal of the original vascular-age interpretation is an allowed rung demotion within Idea 015 or requires the agreed BAC-response experiment to be registered as a new candidate. Either choice should preserve the same narrowed experiment and prohibited conclusions; advancement should then remain conditional on Stage 0 confirming an obtainable Mirai-compatible cohort and spatial registration between the BAC mask and Mirai's exact input tensor. ```json {"verdict":"REVISE","unblock":"Choose revision-in-place versus re-registration, then update the card to the agreed BAC-specific claim and verify the Mirai-input/BAC-mask join on an obtainable compatible cohort."} ```
+
+**Unresolved:** Should the narrowed BAC-response study remain Idea 015 or be registered separately?; What would restore the original vascular-age claim?
+
+## idea-014 [PAUSED] -- The knee-pain model may be reading trabecular stress architecture that KL grade throws away
+
+**Verdict:** **PAUSE.** The revised question remains scientifically coherent, but the rate-limiting model asset has not been reproduced, and the final edit-validity amendment has not been tested or answered by the critic. The single most important thing for the human to inspect before deciding is whether the released Pierson pipeline can, with available OAI access and the allowed compute, produce at least two independent models that pass preregistered better-than-KLG and disparity-signature gates on a frozen split. Without that, there is no model family to decode; editor validity is the next gate only after reproduction succeeds. ```json {"verdict": "PAUSE", "unblock": "Demonstrate at least two independently trained Pierson-recipe models that pass preregistered pain-performance and disparity reproduction gates on a frozen OAI split within the available access and compute constraints."} ```
+
+**Unresolved:** Can the published model family be reproduced under the access and compute constraints?; Does the revised image edit identify use of the declared fractal-signature X rather than edit artifacts?; Is directional fractal signature a medically legitimate name for the model-used signal, and how much biological gloss may it carry?; Does discriminator equivalence adequately establish in-distribution editi
+
 ## idea-013 [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 
 **Verdict:** **REVISE.** Rewrite the idea card around the reduced rung-1 calibration and reconstruction-sensitivity audit, with localisation explicitly excluded and the keystone set to `NOT_INSPECTED`. The single most important thing for the human to inspect before deciding is whether a validated, annotation-free coronary target localiser for nongated noncontrast CT actually exists and runs on CT-RATE; that fact determines whether the high-value localisation question has a credible spin-off or whether idea 013 should remain only a modest robustness audit.
@@ -34,16 +46,4 @@ candidate MUST cite the specific condition below that has changed.
 **Verdict:** **REVISE.** Update the idea card to the converged state-level claim and corrected scores, then require Stage 0 before a probe contract. The single most important thing for the human to inspect is the prespecified DICOM-to-final-tensor comparability gate: whether enough inhale/exhale pairs truly retain matched reconstruction, coordinates, physical scale, and thoracic coverage through the complete pinned CT-CLIP preprocessing pipeline.
 
 **Unresolved:** Do enough actual pairs pass the reconstruction and framing gate?; Is a common physical box compatible with CT-CLIP preprocessing without state-dependent framing?; Is the optional matched-volume 4DCT jitter floor usable?
-
-## idea-006 [PAUSED] -- Ask the chest-CT foundation model to diagnose a volume with no patient in it
-
-**Verdict:** **PAUSE.** Before deciding whether the pause is reversible, the human should inspect the official CT-CLIP training data loader and augmentation configuration for large-region masking or cutout with a matching fill value. Absence would make the original intervention indefensible for this checkpoint; presence would justify distributional validation, not automatic advancement.
-
-**Unresolved:** Did CT-CLIP training make large constant-filled occlusions sufficiently familiar?; Could the original question be valid for a different chest-CT model?
-
-## idea-005 [PAUSED] -- Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary
-
-**Verdict:** **REJECT** the original idea as currently framed. The single most important thing for the human to inspect is whether to promote spin-off S2—the direct test of reader-slot exchangeability—into a fresh candidate, because it preserves the cheap public-data audit while avoiding the undefined dimension-count estimand.
-
-**Unresolved:** Can a narrower pairwise latent-correlation audit be scientifically useful?; Can a global partition estimator recover a defensible dimension count?; Are LIDC reader slots empirically exchangeable?
 
