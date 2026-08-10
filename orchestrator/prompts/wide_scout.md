@@ -34,6 +34,13 @@ claimed, conservative in how it would be shown.
 - Read `evidence/ledger_digest.md` (in your context) before writing anything.
   Fill `dies_like_prior` against the kill-code table, per candidate.
 
+## Keystone evidence rule
+
+Any `keystone_status: INSPECTED_TRUE` claim MUST include a
+`keystone_evidence` field quoting the artifact that proves it (URL,
+file path, table row, or verbatim excerpt). A bare INSPECTED_TRUE
+without evidence is mechanically demoted to NOT_INSPECTED at merge.
+
 ## Procedure
 
 1. Write **eight** one-line questions. At least five must connect medical

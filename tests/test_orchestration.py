@@ -76,6 +76,12 @@ elif action == "cycle_auto":
         (outdir / "fiction_candidates.json").write_text(cand.replace("STAGE", "fiction") + NL)
     elif stage == "novelty_audit":
         (outdir / "novelty_audit.md").write_text("audit" + NL)
+    elif stage == "librarian":
+        (outdir / "librarian_report.md").write_text("report" + NL)
+        (outdir / "verdict_updates.json").write_text(
+            '{"updates": [{"ledger_id": "scout-050-c01", "novelty_verdict": "NOVEL_VERIFIED", "reason": "test"}]}' + NL)
+        (outdir / "librarian_proposals.json").write_text(
+            '{"proposals": [{"title": "revived idea", "question": "q?", "parent_ids": ["idea-011"], "revival_basis": "b", "sketch": "s"}]}' + NL)
     elif "TRANSCRIPT SO FAR" in prompt:
         t = outdir / "debate.md"
         prev = t.read_text() if t.exists() else "# Debate transcript" + NL + NL
@@ -286,7 +292,14 @@ class TestPipeline(Harness):
         import shutil as _sh
         for d in (self.repo / "ideas").glob("scout-*"):
             _sh.rmtree(d)
-        for f in ("ledger.jsonl", "evidence/ledger_digest.md"):
+        # Also wipe accumulated real ideas (keep 001 for --idea tests): the
+        # repo gains numeric idea dirs over time and shortlist numbering,
+        # backlog contents, and in-flight detection must not depend on them.
+        for d in (self.repo / "ideas").glob("[0-9][0-9][0-9]"):
+            if d.name != "001":
+                _sh.rmtree(d)
+        for f in ("ledger.jsonl", "evidence/ledger_digest.md",
+                  "evidence/portfolio_brief.md", "evidence/librarian_proposals.md"):
             (self.repo / f).unlink(missing_ok=True)
         self.commit()
 
@@ -321,8 +334,8 @@ class TestPipeline(Harness):
         r = self.scout("pipeline", "--top", "1", action="cycle_auto")
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         # C2 (NOVEL_VERIFIED) should have been picked -> new idea 012
-        d = self.repo / "ideas" / "012"
-        self.assertTrue((d / "idea_card.json").exists())
+        d = self.repo / "ideas" / "002"
+        self.assertTrue((d / "idea_card.json").exists(), "first shortlist should create idea 002")
         self.assertIn("cand 2", (d / "idea_card.json").read_text())
         self.assertTrue((d / "critique.md").exists())
         self.assertTrue((d / "consensus.md").exists())
@@ -331,14 +344,14 @@ class TestPipeline(Harness):
         # Re-run advances the queue: C2 is done, so C1 is drawn next.
         r2 = self.scout("pipeline", "--top", "1", action="cycle_auto")
         self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
-        d13 = self.repo / "ideas" / "013"
-        self.assertTrue((d13 / "idea_card.json").exists(), "queue did not advance")
-        self.assertIn("cand 1", (d13 / "idea_card.json").read_text())
+        d3 = self.repo / "ideas" / "003"
+        self.assertTrue((d3 / "idea_card.json").exists(), "queue did not advance")
+        self.assertIn("cand 1", (d3 / "idea_card.json").read_text())
         # Third press: backlog empty, nothing in flight -> clean no-op.
         r3 = self.scout("pipeline", "--top", "1", action="cycle_auto")
         self.assertEqual(r3.returncode, 0, r3.stdout + r3.stderr)
         self.assertIn("Nothing to do", r3.stdout)
-        self.assertFalse((self.repo / "ideas" / "014").exists())
+        self.assertFalse((self.repo / "ideas" / "004").exists())
 
     def test_inflight_idea_is_finished_before_new_candidates(self):
         self.make_cycle_outputs("scout-009", ["NOVEL_UNVERIFIED", "NOVEL_VERIFIED"])
@@ -349,14 +362,14 @@ class TestPipeline(Harness):
         r = self.scout("pipeline", "--top", "1", action="cycle_auto",
                        FAKE_FAIL_STAGE="")  # critique fine
         # simulate failure: remove consensus to mark debate incomplete
-        (self.repo / "ideas" / "012" / "consensus.md").unlink()
-        (self.repo / "ideas" / "012" / "debate.md").unlink()
+        (self.repo / "ideas" / "002" / "consensus.md").unlink()
+        (self.repo / "ideas" / "002" / "debate.md").unlink()
         self.commit()
         r2 = self.scout("pipeline", "--top", "1", action="cycle_auto")
         self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
         self.assertIn("Finishing in-flight", r2.stdout)
-        self.assertTrue((self.repo / "ideas" / "012" / "consensus.md").exists())
-        self.assertFalse((self.repo / "ideas" / "013").exists(),
+        self.assertTrue((self.repo / "ideas" / "002" / "consensus.md").exists())
+        self.assertFalse((self.repo / "ideas" / "003").exists(),
                          "drew a new candidate while one was in flight")
 
     def test_sync_backfills_verdicts_for_old_cycles(self):
@@ -382,6 +395,149 @@ class TestPipeline(Harness):
                        action="cycle_auto")
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertTrue((self.repo / "ideas" / "001" / "critique.md").exists())
+
+
+class TestPortfolioBrief(Harness):
+    def _sc(self):
+        sys.path.insert(0, str(self.repo))
+        import importlib, scout as sc
+        importlib.reload(sc)
+        sc.ROOT = self.repo
+        sc.BRIEF = self.repo / "evidence" / "portfolio_brief.md"
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        return sc
+
+    def test_brief_extracts_verdicts_and_skips_killed(self):
+        d = self.repo / "ideas" / "030"
+        d.mkdir(parents=True)
+        (d / "idea_card.json").write_text('{"title": "Paused idea"}\n')
+        (d / "consensus.md").write_text(
+            "# s\n\n## Agreed\n\n- x\n\n## Unresolved\n\n### Open q one\n\nbody\n\n"
+            "## Recommendation\n\n**PAUSE.** Await the membership release.\n")
+        k = self.repo / "ideas" / "031"
+        k.mkdir()
+        (k / "idea_card.json").write_text('{"title": "Killed idea"}\n')
+        (k / "consensus.md").write_text("# s\n\n## Recommendation\n\n**KILL.**\n")
+        sc = self._sc()
+        sc.ledger_mod.append({"ledger_id": "idea-030", "status": "PAUSED"})
+        sc.ledger_mod.append({"ledger_id": "idea-031", "status": "REJECTED"})
+        out = sc.write_portfolio_brief().read_text()
+        self.assertIn("idea-030", out)
+        self.assertIn("Await the membership release", out)
+        self.assertIn("Open q one", out)
+        self.assertNotIn("idea-031", out, "killed idea leaked into the brief")
+
+    def test_ledger_set_status(self):
+        self.scout("ledger", "migrate")
+        self.commit()
+        r = self.scout("ledger", "set-status", "idea-002", "PAUSED", "--note", "test")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        r = self.scout("ledger", "set-status", "idea-002", "NOT_A_STATUS")
+        self.assertNotEqual(r.returncode, 0)
+
+    def test_merge_carries_parent_ids_to_ledger(self):
+        sc = self._sc()
+        d = self.repo / "ideas" / "scout-042"
+        d.mkdir(parents=True)
+        (d / "scout_candidates.json").write_text(json.dumps({"candidates": [
+            {"title": "revival", "question": "q?", "parent_ids": ["idea-012"]}]}))
+        (self.repo / "orchestrator" / "state.json").write_text(json.dumps(
+            {"next_scout": 43, "selected_idea": 1,
+             "cycle": {"scout": 42, "tracks": ["baseline"], "stages": {}}}) + "\n")
+        import importlib, scout as sc2
+        sc2 = self._sc()
+        sc2._merge_candidates(d, ["baseline"], 42)
+        e = sc2.ledger_mod.load()["scout-042-c01"]
+        self.assertEqual(e.get("parent_ids"), ["idea-012"])
+
+
+class TestLibrarian(Harness):
+    def test_librarian_pass_applies_verdicts_and_publishes_proposals(self):
+        (self.repo / "ledger.jsonl").unlink(missing_ok=True)
+        with (self.repo / "ledger.jsonl").open("w") as f:
+            f.write(json.dumps({"ledger_id": "scout-050-c01", "status": "SCOUT_ONLY",
+                                "scrutiny": "SCOUTED", "title": "old cand",
+                                "recorded_at": "2026-01-01T00:00:00+00:00"}) + "\n")
+        self.commit()
+        r = self.scout("librarian", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        d = self.repo / "ideas" / "librarian-001"
+        self.assertTrue((d / "dossier.md").exists())
+        self.assertTrue((d / "librarian_report.md").exists())
+        recs = (self.repo / "ledger.jsonl").read_text()
+        self.assertIn("NOVEL_VERIFIED", recs, "verdict update not applied")
+        props = (self.repo / "evidence" / "librarian_proposals.md").read_text()
+        self.assertIn("revived idea", props)
+        self.assertIn("idea-011", props)
+        # dossier carries consensus detail for debated ideas (repo has idea 001+)
+        self.assertIn("idea-001", (d / "dossier.md").read_text())
+
+    def test_dossier_includes_card_and_backlog_detail(self):
+        sys.path.insert(0, str(self.repo))
+        import importlib, scout as sc
+        importlib.reload(sc)
+        sc.ROOT = self.repo
+        sc.BRIEF = self.repo / "evidence" / "portfolio_brief.md"
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        d = self.repo / "ideas" / "lib-test"; d.mkdir()
+        out = sc.write_librarian_dossier(d).read_text()
+        self.assertIn("idea-001", out)
+
+
+class TestVerdictAutomation(Harness):
+    def _sc(self):
+        sys.path.insert(0, str(self.repo))
+        import importlib, scout as sc
+        importlib.reload(sc)
+        sc.ROOT = self.repo
+        sc.BRIEF = self.repo / "evidence" / "portfolio_brief.md"
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        return sc
+
+    def test_consensus_json_block_updates_ledger(self):
+        sc = self._sc()
+        sc.ledger_mod.append({"ledger_id": "idea-001", "status": "SHORTLISTED"})
+        (self.repo / "ideas" / "001" / "consensus.md").write_text(
+            "# s\n\nprose\n\n```json\n"
+            '{"verdict": "PAUSE", "unblock": "await release"}\n```\n')
+        self.assertEqual(sc._apply_consensus_verdict(1), "PAUSE")
+        self.assertEqual(sc.ledger_mod.load()["idea-001"]["status"], "PAUSED")
+
+    def test_kill_verdict_with_bad_code_falls_back_unclassified(self):
+        sc = self._sc()
+        sc.ledger_mod.append({"ledger_id": "idea-001", "status": "SHORTLISTED"})
+        (self.repo / "ideas" / "001" / "consensus.md").write_text(
+            "```json\n{\"verdict\": \"KILL\", \"kill_code\": \"MADE_UP\", \"unblock\": \"n/a\"}\n```\n")
+        self.assertEqual(sc._apply_consensus_verdict(1), "KILL")
+        e = sc.ledger_mod.load()["idea-001"]
+        self.assertEqual(e["status"], "REJECTED")
+        self.assertEqual(e["kill_code"], "UNCLASSIFIED")
+
+    def test_merge_demotes_unevidenced_keystone_and_stamps_seed_source(self):
+        sc = self._sc()
+        d = self.repo / "ideas" / "scout-060"; d.mkdir()
+        (d / "fiction_candidates.json").write_text(json.dumps({"candidates": [
+            {"title": "f", "question": "q?", "track": "fiction",
+             "keystone_status": "INSPECTED_TRUE"}]}))
+        (d / "fiction_seed.json").write_text('{"source": "human", "concepts": ["a","b"]}')
+        sc._merge_candidates(d, ["fiction"], 60)
+        merged = json.loads((d / "candidates_all.json").read_text())
+        self.assertEqual(merged["candidates"][0]["keystone_status"], "NOT_INSPECTED")
+        e = sc.ledger_mod.load()["scout-060-c01"]
+        self.assertEqual(e.get("seed_source"), "human")
+
+    def test_seed_draw_override_records_human_source(self):
+        sc = self._sc()
+        s = sc.seed_draw(concepts_override=["information entropy", "concept network"])
+        self.assertEqual(s["source"], "human")
+        self.assertEqual(s["concepts"], ["information entropy", "concept network"])
+        self.assertEqual(sc.seed_draw()["source"], "random")
 
 
 class TestCiCommandVariant(Harness):
@@ -442,7 +598,7 @@ class TestCycle(Harness):
         # Writer prompt must be blind: no charter/rules/memory context.
         writer_prompt = Path(str(self.receipt) + ".fiction_scout").read_text()
         for leak in ("critical research collaborator", "COLLABORATOR_RULES",
-                     "ledger_digest", "SCORING_RUBRIC"):
+                     "ledger_digest", "SCORING_RUBRIC", "portfolio_brief"):
             self.assertNotIn(leak, writer_prompt, f"fiction writer saw {leak}")
         self.assertIn("fiction_seed.json", writer_prompt)
         # Refiner must not see the story or the seed card.

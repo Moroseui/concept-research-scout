@@ -27,3 +27,6 @@
 {"ledger_id": "idea-012", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-10T08:03:11+00:00"}
 {"ledger_id": "idea-013", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-10T08:05:59+00:00"}
 {"ledger_id": "idea-013", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-10T08:16:03+00:00"}
+{"ledger_id": "idea-010", "status": "REJECTED", "kill_code": "CIRCULARITY", "kill_reason": "loader collapse: occupancy proportional to volume, no independent contrast", "recorded_at": "2026-08-10T16:16:02+00:00"}
+{"ledger_id": "idea-012", "status": "PAUSED", "notes": "await MD.ai cohort membership release", "recorded_at": "2026-08-10T16:16:02+00:00"}
+{"ledger_id": "idea-011", "status": "PAUSED", "notes": "needs spectral/dual-kV matched mineralization control", "recorded_at": "2026-08-10T16:16:02+00:00"}

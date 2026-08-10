@@ -38,7 +38,8 @@ one or at most two candidates in the same JSON shape as scout candidates, each
 with: `title`, `question`, `deliverable_sentence` (form: "the model is using
 X"), `X_measurement` (tool or formula, computable today, no annotator),
 `suspected_signal`, `keystone_prerequisite` + `keystone_status` (checking is
-encouraged but `NOT_INSPECTED` is honest and acceptable here),
+encouraged but `NOT_INSPECTED` is honest and acceptable here; INSPECTED_TRUE
+requires a `keystone_evidence` quote or it is demoted at merge),
 `use_vs_association_design` (one line: how the design separates use from
 correlation), `dataset` (public, named), `smallest_decisive_experiment` (must
 fit one Colab GPU session), `closest_prior_work` (search; if none found, write

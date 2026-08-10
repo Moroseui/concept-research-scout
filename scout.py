@@ -107,7 +107,8 @@ Write only the file the task names. Preserve all other files.
 """
     files = [ROOT/'CHARTER.md', ROOT/'docs'/'COLLABORATOR_RULES.md',
              ROOT/'docs'/'SCORING_RUBRIC.md', ROOT/'evidence'/'decisions.md',
-             ROOT/'evidence'/'ledger_digest.md']
+             ROOT/'evidence'/'ledger_digest.md', ROOT/'evidence'/'portfolio_brief.md',
+             ROOT/'evidence'/'librarian_proposals.md']
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
     tctx = _target_context(stage, target)
     if tctx:
@@ -516,6 +517,7 @@ def _close_debate(target, critic, idea=None):
     idea = idea or load_state().get('selected_idea')
     if idea:
         ledger_mod.raise_scrutiny(f'idea-{int(idea):03d}', 'DEBATED')
+        _apply_consensus_verdict(idea)
         ledger_mod.digest()
     c = target / 'consensus.md'
     if c.exists():
@@ -542,6 +544,7 @@ STAGE_SCOPE = {
     'fiction-extract': ['ideas/'],
     'fiction-refine':  ['ideas/'],
     'novelty-audit':   ['ideas/'],
+    'librarian':       ['ideas/'],
 }
 
 
@@ -587,6 +590,66 @@ def status(_):
     print(read_text(ROOT/'portfolio'/'ideas.csv'))
 
 
+BRIEF = ROOT/'evidence'/'portfolio_brief.md'
+
+
+def _extract_section(body, header):
+    import re
+    m = re.search(rf'^## {header}\s*$(.*?)(?=^## |\Z)', body, flags=re.M | re.S)
+    return m.group(1).strip() if m else ''
+
+
+def write_portfolio_brief(max_ideas=8, max_chars=1500):
+    """Rich context on ACTIONABLE ideas (those with a debate consensus and a
+    live status) for portfolio-aware scouting: the verdict, its unblock
+    conditions, and unresolved questions. The digest stays the one-line index;
+    this is the detail tier for ideas a scout might revive or recombine."""
+    entries = ledger_mod.load()
+    lines = ['# Portfolio brief (auto-generated; run `python scout.py brief`)', '',
+             'Actionable ideas with debate verdicts. A revival/recombination',
+             'candidate MUST cite the specific condition below that has changed.', '']
+    dirs = sorted((ROOT/'ideas').glob('[0-9][0-9][0-9]'), reverse=True)
+    n = 0
+    for d in dirs:
+        if n >= max_ideas:
+            break
+        cpath = d/'consensus.md'
+        if not cpath.exists():
+            continue
+        lid = f'idea-{d.name}'
+        e = entries.get(lid, {})
+        if e.get('status') == 'REJECTED':
+            continue  # killed ideas stay in the digest kill table, not here
+        body = read_text(cpath)
+        rec = _extract_section(body, 'Recommendation')
+        unres = _extract_section(body, 'Unresolved')
+        import re
+        unres_heads = re.findall(r'^### (.+)$', unres, flags=re.M)
+        title = ''
+        card = d/'idea_card.json'
+        if card.exists():
+            try:
+                title = json.loads(card.read_text()).get('title', '')
+            except json.JSONDecodeError:
+                pass
+        chunk = [f"## {lid} [{e.get('status','?')}] -- {title}", '']
+        if rec:
+            chunk += ['**Verdict:** ' + ' '.join(rec.split())[:max_chars], '']
+        if unres_heads:
+            chunk += ['**Unresolved:** ' + '; '.join(unres_heads)[:400], '']
+        lines += chunk
+        n += 1
+    if n == 0:
+        lines += ['(No ideas with debate consensus yet.)', '']
+    BRIEF.parent.mkdir(parents=True, exist_ok=True)
+    BRIEF.write_text('\n'.join(lines) + '\n')
+    return BRIEF
+
+
+def brief_cmd(_args):
+    print(write_portfolio_brief().relative_to(ROOT))
+
+
 # ==========================================================================
 # Cycle orchestration: multi-track scouting with checkpoint/resume.
 #
@@ -604,7 +667,7 @@ def status(_):
 TRACKS = ('baseline', 'wide', 'fiction')
 
 
-def seed_draw(rng=None):
+def seed_draw(rng=None, concepts_override=None):
     rng = rng or random.Random()
     seeds = json.loads(read_text(SEEDS) or '{}')
     concepts = list(seeds.get('concepts', []))
@@ -614,8 +677,13 @@ def seed_draw(rng=None):
     concepts = sorted(set(c for c in concepts if c)) or ['vessel caliber', 'reconstruction kernel']
     datasets = seeds.get('datasets') or ['CT-RATE (public chest CT + reports)']
     twists = seeds.get('twists') or ['The two measurements disagree, and the disagreement is the signal.']
+    if concepts_override:
+        chosen, source = list(concepts_override)[:2], 'human'
+    else:
+        chosen, source = rng.sample(concepts, min(2, len(concepts))), 'random'
     return {
-        'concepts': rng.sample(concepts, min(2, len(concepts))),
+        'concepts': chosen,
+        'source': source,
         'dataset': rng.choice(datasets),
         'twist': rng.choice(twists),
         'drawn_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
@@ -668,6 +736,7 @@ STAGE_ARTIFACTS = {
     'fiction_extract': 'fiction_pitch.md',
     'fiction_refine': 'fiction_candidates.json',
     'novelty_audit': 'novelty_audit.md',
+    'librarian': 'librarian_report.md',
     'critique': 'critique.md',
     'feasibility': 'feasibility.md',
 }
@@ -705,6 +774,11 @@ def _merge_candidates(target, tracks, cycle_no):
         for c in cands:
             if isinstance(c, dict):
                 c.setdefault('track', track)
+                if c.get('keystone_status') == 'INSPECTED_TRUE' and not c.get('keystone_evidence'):
+                    c['keystone_status'] = 'NOT_INSPECTED'
+                    c['keystone_demotion'] = 'claimed INSPECTED_TRUE without keystone_evidence'
+                    notes.setdefault('keystone_demotions', []) if isinstance(notes.get('keystone_demotions'), list) else None
+                    notes['keystone_demotions'] = notes.get('keystone_demotions', []) + [c.get('title', '')[:60]]
                 merged.append(c)
     out = {'cycle': cycle_no, 'tracks': list(tracks), 'notes': notes, 'candidates': merged}
     (target / 'candidates_all.json').write_text(json.dumps(out, indent=2, ensure_ascii=False) + '\n')
@@ -718,6 +792,9 @@ def _merge_candidates(target, tracks, cycle_no):
             'status': 'SCOUT_ONLY',
             'scrutiny': 'SCOUTED',
             'scores_mean': _mean_score(c),
+            'parent_ids': c.get('parent_ids', []),
+            'seed_source': (json.loads(read_text(target/'fiction_seed.json') or '{}').get('source', '')
+                            if c.get('track') == 'fiction' else ''),
             'source': str(target.relative_to(ROOT)),
         })
     ledger_mod.digest()
@@ -760,7 +837,8 @@ def _run_cycle_stage(name, kind, target, cfg, cycle_no):
               + (', '.join(f'{s:03d}-C{c}' for s, c, _ in rows[:5]) or '(empty)'))
         return
     if name == 'fiction_scout':
-        seed = seed_draw(random.Random())
+        override = load_state().get('cycle', {}).get('seed_concepts')
+        seed = seed_draw(random.Random(), concepts_override=override)
         (target / 'fiction_seed.json').write_text(json.dumps(seed, indent=2) + '\n')
     writer, refiner = _fiction_writer_and_refiner(cfg, cycle_no)
     agent = {'fiction_writer': writer, 'fiction_refiner': refiner}.get(kind)
@@ -831,9 +909,12 @@ def cycle(args):
         print('Ledger absent; running first-time migration from existing ideas.')
         ledger_mod.migrate()
     ledger_mod.digest()
+    write_portfolio_brief()
     s['next_scout'] = n + 1
     s['active_cycle'] = n
     s['cycle'] = {'scout': n, 'tracks': tracks,
+                  'seed_concepts': ([x.strip() for x in args.seed_concepts.split(',')][:2]
+                                    if getattr(args, 'seed_concepts', None) else None),
                   'started': datetime.now(timezone.utc).isoformat(timespec='seconds'),
                   'stages': {name: 'pending' for name, _ in _cycle_stage_list(tracks)}}
     save_state(s)
@@ -1077,6 +1158,158 @@ def pipeline(args):
     print('Read each idea\'s critique.md, debate.md and consensus.md yourself before proceeding.')
 
 
+# ==========================================================================
+# Librarian: an on-demand whole-corpus pass (separate from cycles and the
+# idea pipeline). Reads a full-detail dossier no other stage gets, maintains
+# the ledger's verdicts, and leaves proposals for future scouts to adopt.
+# ==========================================================================
+
+VALID_VERDICTS = {'NOVEL_VERIFIED', 'NOVEL_UNVERIFIED', 'INCREMENTAL', 'DUPLICATE_PRIOR'}
+
+
+def _dossier_entry_idea(d, entries):
+    lid = f'idea-{d.name}'
+    e = entries.get(lid, {})
+    parts = [f"## {lid} [{e.get('status','?')}/{e.get('scrutiny','?')}]"]
+    card = {}
+    if (d/'idea_card.json').exists():
+        try:
+            card = json.loads((d/'idea_card.json').read_text())
+        except json.JSONDecodeError:
+            pass
+    for k in ('title', 'question', 'deliverable_sentence', 'dataset',
+              'keystone_prerequisite', 'keystone_status'):
+        v = card.get(k)
+        if v:
+            parts.append(f'- {k}: {json.dumps(v) if not isinstance(v, str) else v}'[:400])
+    if e.get('kill_code'):
+        parts.append(f"- KILLED: {e['kill_code']} -- {e.get('kill_reason','')[:300]}")
+    body = read_text(d/'consensus.md')
+    if body:
+        for header in ('Recommendation', 'Unresolved', 'Amendments made'):
+            sec = _extract_section(body, header)
+            if sec:
+                parts.append(f'### {header}\n' + ' '.join(sec.split())[:1600])
+    return '\n'.join(parts)
+
+
+def write_librarian_dossier(target):
+    entries = ledger_mod.load()
+    chunks = ['# Librarian dossier (auto-generated)', '']
+    for d in sorted((ROOT/'ideas').glob('[0-9][0-9][0-9]')):
+        chunks.append(_dossier_entry_idea(d, entries))
+        chunks.append('')
+    chunks.append('# Backlog candidates')
+    for lid, e in sorted(entries.items()):
+        if not lid.startswith('scout-'):
+            continue
+        chunks.append(f"- {lid} [{e.get('status','?')}] verdict={e.get('novelty_verdict','UNAUDITED')}"
+                      f" audited={str(e.get('audited_at',''))[:10]} score={e.get('scores_mean','')}"
+                      f" -- {e.get('title','')[:120]}"
+                      + (f" (kill: {e['kill_code']})" if e.get('kill_code') else ''))
+    out = target/'dossier.md'
+    out.write_text('\n'.join(chunks) + '\n')
+    return out
+
+
+def _apply_librarian_outputs(target):
+    applied = []
+    vpath = target/'verdict_updates.json'
+    if vpath.exists():
+        try:
+            ups = json.loads(vpath.read_text()).get('updates', [])
+        except json.JSONDecodeError:
+            ups = []
+        for u in ups:
+            lid, v = u.get('ledger_id'), u.get('novelty_verdict')
+            if lid and v in VALID_VERDICTS and lid in ledger_mod.load():
+                ledger_mod.append({'ledger_id': lid, 'novelty_verdict': v,
+                                   'audited_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+                                   'notes': ('librarian: ' + u.get('reason', ''))[:500]})
+                applied.append(f'{lid} -> {v}')
+    ppath = target/'librarian_proposals.json'
+    if ppath.exists():
+        try:
+            props = json.loads(ppath.read_text()).get('proposals', [])
+        except json.JSONDecodeError:
+            props = []
+        if props:
+            lines = ['# Librarian proposals (for future scouting cycles to adopt or ignore)',
+                     f'Generated from {target.relative_to(ROOT)}.', '']
+            for pr in props:
+                lines.append(f"## {pr.get('title','(untitled)')}")
+                lines.append(f"- parents: {', '.join(pr.get('parent_ids', []) or ['(none)'])}")
+                if pr.get('revival_basis'):
+                    lines.append(f"- basis: {pr['revival_basis'][:500]}")
+                if pr.get('sketch'):
+                    lines.append(f"- sketch: {pr['sketch'][:500]}")
+                lines.append('')
+            (ROOT/'evidence'/'librarian_proposals.md').write_text('\n'.join(lines) + '\n')
+    ledger_mod.digest()
+    write_portfolio_brief()
+    if applied:
+        print('Verdict updates applied: ' + '; '.join(applied))
+    return applied
+
+
+def librarian(args):
+    _require_clean_tree('librarian')
+    existing = sorted((ROOT/'ideas').glob('librarian-*'))
+    n = (int(existing[-1].name.split('-')[1]) + 1) if existing else 1
+    d = ROOT/'ideas'/f'librarian-{n:03d}'
+    d.mkdir(parents=True)
+    _sync_backlog()
+    write_librarian_dossier(d)
+    _commit_all(f'librarian {n:03d}: dossier')
+    p = write_prompt('librarian', d)
+    try:
+        run_agent(p, args.agent if hasattr(args, 'agent') else None,
+                  stage='librarian', log_path=d/'log_librarian.txt')
+        _check_scope('librarian')
+        _require_artifact('librarian', d)
+    except SystemExit as e:
+        _commit_all(f'librarian {n:03d}: FAILED (partial output preserved)')
+        print(f'Librarian pass failed: {e}')
+        raise SystemExit(1)
+    _commit_all(f'librarian {n:03d}: report')
+    _apply_librarian_outputs(d)
+    _commit_all(f'librarian {n:03d}: verdicts + proposals applied')
+    print(f'Librarian pass {n:03d} complete. Read {d.relative_to(ROOT)}/librarian_report.md.')
+
+
+# ---- structured debate verdict -> ledger ----
+
+def _apply_consensus_verdict(idea):
+    """Parse the machine-readable verdict block at the end of consensus.md and
+    reflect it on the idea's ledger row. Graceful no-op when absent."""
+    import re
+    body = read_text(idea_dir(idea)/'consensus.md')
+    blocks = re.findall(r'```json\s*(\{.*?\})\s*```', body, flags=re.S)
+    if not blocks:
+        return None
+    try:
+        v = json.loads(blocks[-1])
+    except json.JSONDecodeError:
+        return None
+    lid = f'idea-{int(idea):03d}'
+    verdict = str(v.get('verdict', '')).upper()
+    note = ('debate: ' + str(v.get('unblock', v.get('reason', ''))))[:500]
+    if verdict == 'KILL':
+        code = v.get('kill_code') if v.get('kill_code') in ledger_mod.TAXONOMY else 'UNCLASSIFIED'
+        ledger_mod.append({'ledger_id': lid, 'status': 'REJECTED',
+                           'kill_code': code, 'kill_reason': note})
+    elif verdict == 'PAUSE':
+        ledger_mod.append({'ledger_id': lid, 'status': 'PAUSED', 'notes': note})
+    elif verdict in ('REVISE', 'PROCEED'):
+        ledger_mod.append({'ledger_id': lid, 'status': 'SHORTLISTED' if verdict == 'REVISE' else 'ACTIVE',
+                           'notes': note})
+    else:
+        return None
+    ledger_mod.digest()
+    print(f'Ledger updated from consensus: {lid} -> {verdict}')
+    return verdict
+
+
 def main():
     ap=argparse.ArgumentParser(); sp=ap.add_subparsers(dest='cmd',required=True)
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
@@ -1089,9 +1322,11 @@ def main():
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('result'); p.set_defaults(fn=record_result)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
-    p=sp.add_parser('cycle'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.set_defaults(fn=cycle)
+    p=sp.add_parser('cycle'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)
     p=sp.add_parser('resume'); p.set_defaults(fn=resume)
     p=sp.add_parser('backlog'); p.set_defaults(fn=backlog_cmd)
+    p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
+    p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='critique,debate'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
     for c in ('migrate','digest','list','taxonomy'):
@@ -1100,6 +1335,7 @@ def main():
     q=lsp.add_parser('show'); q.add_argument('id')
     q=lsp.add_parser('search'); q.add_argument('query')
     q=lsp.add_parser('kill'); q.add_argument('id'); q.add_argument('code'); q.add_argument('reason')
+    q=lsp.add_parser('set-status'); q.add_argument('id'); q.add_argument('status'); q.add_argument('--note',default='')
     p.set_defaults(fn=ledger_mod.cli)
     args=ap.parse_args(); args.fn(args)
 

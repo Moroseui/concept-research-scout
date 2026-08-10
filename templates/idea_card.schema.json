@@ -95,6 +95,18 @@
     },
     "kernel_provenance": {
       "type": "string"
+    },
+    "parent_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "revival_basis": {
+      "type": "string"
+    },
+    "keystone_evidence": {
+      "type": "string"
     }
   }
 }

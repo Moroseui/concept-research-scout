@@ -64,6 +64,39 @@ completes them.
   automatic (token cost) -- future librarian duty; audit dates make staleness
   visible.
 
+- [x] **Portfolio-aware scouting (revival quota).** `evidence/portfolio_brief.md`
+  (auto-generated each cycle; `python scout.py brief`) gives scouts the full
+  verdicts, unblock conditions, and unresolved questions of actionable ideas
+  (PAUSED/REVISE/DEBATED with consensus; killed ideas excluded -- they stay in
+  the kill table). Scout prompt allows at most 2 of 5 candidates as revivals/
+  recombinations, each requiring `parent_ids` + a `revival_basis` citing the
+  specific changed condition with a source; zero revivals is the mandated
+  default when nothing changed. Lineage flows to ledger rows. Blind fiction
+  writer still sees none of it. `ledger set-status` added (e.g. PAUSED for
+  idea 012). This is the scout-level half of the evolution track; the full
+  breeding operators remain pending below.
+
+- [x] **Librarian pipeline** (`librarian` workflow + `scout.py librarian`,
+  manual-only by design -- token cost). Whole-corpus pass with a full-detail
+  dossier (cards + verdicts + unresolved + kill reasons + backlog with audit
+  dates) that no other stage gets. Three duties: connection map
+  (librarian_report.md), stale-verdict re-audit (verdict_updates.json applied
+  to the ledger with refreshed audited_at), and revival scan producing
+  proposals (evidence/librarian_proposals.md, injected into scout prompts;
+  adoption counts against the scout revival quota and gets full filtering).
+- [x] **Structured debate verdict -> ledger.** debate_summary emits a fenced
+  json verdict block; `_close_debate` parses it and sets PAUSED / REJECTED
+  (+validated kill code, UNCLASSIFIED fallback) / SHORTLISTED / ACTIVE
+  automatically. Manual set-status/kill remain for human overrides.
+- [x] **Keystone evidence rule.** INSPECTED_TRUE requires `keystone_evidence`
+  (quoted artifact) in scout/wide/fiction-refine prompts; merge mechanically
+  demotes unevidenced claims to NOT_INSPECTED (noted in candidates_all
+  notes). Response to idea 013's overclaim.
+- [x] **Directed fiction seeds.** `cycle --seed-concepts "a,b"` overrides the
+  draw; `source: human|random` recorded in fiction_seed.json and stamped as
+  `seed_source` on fiction candidates' ledger rows for clean head-to-head
+  stats.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists
@@ -86,8 +119,23 @@ completes them.
 - [ ] **True intra-stage batching** for the scout stage (generate candidates
   in batches of 3-4 with per-batch checkpoints). Current granularity is
   per-stage, which is acceptable but coarser.
-- [ ] **Librarian stage.** Periodic agent pass over the full ledger proposing
-  cross-idea connections; candidates it proposes enter as a normal track.
+- [ ] **Evolution track.** A fourth scout track ("evolve") that breeds the
+  existing corpus instead of generating fresh: draw 2 parent ideas from the
+  ledger (weighted by verdict/scrutiny; killed ideas are eligible as gene
+  donors -- the kill code says which part died, so the surviving part can be
+  recombined), then apply an operator: recombine (cross one idea's mechanism
+  with another's dataset/measurement), mutate (vary a single facet: endpoint,
+  dataset, measurement, population), or rescue (dead idea's question x live
+  idea's viable design). Literature basis: MOOSE-Chem's evolutionary
+  population, IdeaSynth's facet recombination, Co-Scientist's evolution
+  agent. Record `parent_ids` on every evolved candidate's ledger row so
+  lineage is traceable and evolved-vs-fresh survival rates are measurable
+  (same built-in experiment structure as fiction-mode's head-to-head).
+  Same filters apply downstream -- recombination is exactly where
+  use-vs-association slop re-enters. Relationship to the librarian: the
+  librarian *proposes* cross-idea connections during its ledger pass; the
+  evolve track *operationalizes* them into candidates -- librarian output is
+  a natural seed source alongside random parent draws.
 - [ ] **VPS self-hosted runner** — only if cycles routinely exceed the 6-hour
   Actions cap or Codex token refresh becomes annoying. Same mobile UX.
 

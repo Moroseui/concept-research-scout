@@ -9,6 +9,33 @@ USE_VS_ASSOCIATION killed nine of eleven ideas in cycle one -- every candidate
 must state in one line how its design distinguishes "the model uses X" from
 "X is merely correlated with the label."
 
+## Step 0b -- Portfolio revivals (optional, bounded)
+
+`evidence/portfolio_brief.md` (in your context) holds the full verdicts and
+unblock conditions for actionable existing ideas. Up to TWO of your developed
+candidates may be REVIVALS or RECOMBINATIONS of existing ideas instead of new
+questions; at least the remainder must be brand new. Rules:
+
+- A revival/recombination must set `parent_ids` (e.g. ["idea-012"]) and a
+  `revival_basis`: quote the specific blocking condition or objection from the
+  brief, then state the NEW fact that changes it, with a checkable source
+  (a release, a paper, a newly available asset). No new fact, no revival --
+  re-proposing an idea against an unchanged objection is forbidden.
+- A recombination crosses parts of two entries (e.g. a paused idea's question
+  with another idea's validated measurement); it must name both parents and
+  say which part of each survives and why the combination dodges what killed
+  or blocked the parents.
+- ZERO revivals is the correct number when nothing in the brief has genuinely
+  changed. Never manufacture a revival to fill the quota; brand-new questions
+  are always the default.
+
+## Keystone evidence rule
+
+Any `keystone_status: INSPECTED_TRUE` claim MUST include a
+`keystone_evidence` field quoting the artifact that proves it (URL,
+file path, table row, or verbatim excerpt). A bare INSPECTED_TRUE
+without evidence is mechanically demoted to NOT_INSPECTED at merge.
+
 ## Step 1 — Generate ten questions before developing any of them
 
 Write ten one-line research questions. Do not elaborate. Do not score. Do not

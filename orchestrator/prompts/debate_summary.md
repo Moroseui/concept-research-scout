@@ -30,3 +30,13 @@ human should look at before deciding.
 If the debate converged in one round with no real objection raised, say so
 explicitly. That is evidence the critic is not working, and it matters more
 than the idea under discussion.
+
+
+## Machine-readable verdict (required)
+
+End `consensus.md` with exactly one fenced json block encoding the verdict so
+the orchestrator can update the ledger:
+
+```json
+{"verdict": "PAUSE|REVISE|KILL|PROCEED", "kill_code": "<taxonomy code, only for KILL>", "unblock": "<one line: the condition that would change the verdict>"}
+```

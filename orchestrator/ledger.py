@@ -294,6 +294,15 @@ def cli(args) -> None:
                 'kill_code': args.code, 'kill_reason': args.reason})
         digest()
         print(f'Recorded kill for {args.id} ({args.code}); digest refreshed.')
+    elif cmd == 'set-status':
+        if args.status not in STATUSES:
+            raise SystemExit('Unknown status. Known: ' + ', '.join(STATUSES))
+        if args.id not in load():
+            raise SystemExit(f'No ledger entry {args.id!r}. Try: python scout.py ledger list')
+        append({'ledger_id': args.id, 'status': args.status,
+                'notes': getattr(args, 'note', '') or ''})
+        digest()
+        print(f'{args.id} -> {args.status}; digest refreshed.')
     elif cmd == 'taxonomy':
         for code, desc in TAXONOMY.items():
             print(f'{code:<22} {desc}')
