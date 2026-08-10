@@ -188,6 +188,32 @@ The revival scan exists because kill codes like DATA_ACCESS and
 COMPUTE_INFEASIBLE describe conditions the world can change, and nothing
 else ever revisits the killed pile.
 
+## The actioner: synthesis for the human, self-improvement as pull requests
+
+**Mechanism.** Deterministic Python collects the full "awaiting a human"
+state (consensus recommendations, paused unblock notes, near-misses, queue,
+latest librarian findings, REVAMP pending list) into `action_state.md`; one
+agent pass synthesizes and prioritizes it into `evidence/actions.md`. An
+opt-in improvement mode lets the agent additionally author at most ONE pull
+request against main.
+
+**Why this shape.** The synthesis half exists because decisions accumulated
+across disparate files (a governance question in one consensus, a
+reproduction gate in another, librarian warnings injected nowhere) with no
+single surface. The self-improvement half deliberately does NOT let an agent
+commit to main: the system's integrity story is that deterministic guards
+check the agents, and an agent that can rewrite guards, tests, or the
+orchestrator dissolves that -- self-modification is also the documented
+failure mode of autonomous-research systems (AI Scientist's timeout edits,
+recursive self-spawn, checkpoint floods). Pull requests fix the trust
+geometry with machinery that does not have to be trusted anew: the diff is
+the proposal, the checks workflow gates it with the full suite, and the
+human merge button is the approval. Blast-radius rules are in the prompt
+(prompts/seeds/docs freely; scout.py/tests single-purpose and flagged;
+workflows, credentials, and guard logic never) -- and the residual risk, a
+diff that does not match its description, is addressed by the one rule that
+matters: review the diff, not the description.
+
 ## Testing philosophy
 
 32 deterministic tests run before every remote stage spends a token. Agents

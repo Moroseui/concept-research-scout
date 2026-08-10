@@ -22,6 +22,7 @@ wide_scout = "claude"
 fiction_scout = "claude"   # fiction refiner is always the opposite family (derived)
 novelty_audit = "codex"
 librarian = "claude"
+actioner = "claude"
 
 # Which model plays which side during debate rounds.
 [debate]

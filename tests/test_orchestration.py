@@ -82,6 +82,8 @@ elif action == "cycle_auto":
             '{"updates": [{"ledger_id": "scout-050-c01", "novelty_verdict": "NOVEL_VERIFIED", "reason": "test"}]}' + NL)
         (outdir / "librarian_proposals.json").write_text(
             '{"proposals": [{"title": "revived idea", "question": "q?", "parent_ids": ["idea-011"], "revival_basis": "b", "sketch": "s"}]}' + NL)
+    elif stage == "actioner":
+        (outdir / "actions.md").write_text("## Decisions waiting on the human" + NL + "- none" + NL)
     elif "TRANSCRIPT SO FAR" in prompt:
         t = outdir / "debate.md"
         prev = t.read_text() if t.exists() else "# Debate transcript" + NL + NL
@@ -486,6 +488,31 @@ class TestLibrarian(Harness):
         d = self.repo / "ideas" / "lib-test"; d.mkdir()
         out = sc.write_librarian_dossier(d).read_text()
         self.assertIn("idea-001", out)
+
+
+class TestActioner(Harness):
+    def test_state_collection_and_brief_publication(self):
+        # a paused idea with consensus + a live one; state file must carry both facts
+        (self.repo / "ideas" / "001" / "consensus.md").write_text(
+            "# s\n\n## Recommendation\n\n**PAUSE.** Await the widget.\n")
+        self.commit()
+        r = self.scout("actioner", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        d = self.repo / "ideas" / "actioner-001"
+        state = (d / "action_state.md").read_text()
+        self.assertIn("idea-001", state)
+        self.assertIn("Await the widget", state)
+        self.assertIn("Backlog", state)
+        self.assertTrue((self.repo / "evidence" / "actions.md").exists(),
+                        "brief not published to evidence/")
+
+    def test_improve_flag_reaches_prompt(self):
+        self.commit()
+        r = self.scout("actioner", "--improve", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        prompt = (self.repo / "ideas" / "actioner-001" / "prompt_actioner.md").read_text()
+        self.assertIn("IMPROVEMENT MODE ENABLED", prompt)
+        self.assertIn("NEVER propose changes to .github/workflows/", prompt)
 
 
 class TestVerdictAutomation(Harness):

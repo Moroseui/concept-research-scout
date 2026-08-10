@@ -553,6 +553,7 @@ STAGE_SCOPE = {
     'fiction-refine':  ['ideas/'],
     'novelty-audit':   ['ideas/'],
     'librarian':       ['ideas/'],
+    'actioner':        ['ideas/'],
 }
 
 
@@ -752,6 +753,7 @@ STAGE_ARTIFACTS = {
     'fiction_refine': 'fiction_candidates.json',
     'novelty_audit': 'novelty_audit.md',
     'librarian': 'librarian_report.md',
+    'actioner': 'actions.md',
     'critique': 'critique.md',
     'feasibility': 'feasibility.md',
 }
@@ -1371,6 +1373,108 @@ def _apply_consensus_verdict(idea):
     return verdict
 
 
+# ==========================================================================
+# Actioner: aggregates everything awaiting the human into one phone-readable
+# brief. Collection is deterministic python; the agent only synthesizes and
+# prioritizes. Improvement mode (separate workflow input) may additionally
+# author ONE pull request -- never a commit to main; the merge button is the
+# approval gate and the checks workflow gates it with the full test suite.
+# ==========================================================================
+
+def _pending_decisions():
+    out = []
+    entries = ledger_mod.load()
+    for d in sorted((ROOT/'ideas').glob('[0-9][0-9][0-9]')):
+        lid = f'idea-{d.name}'
+        e = entries.get(lid, {})
+        if e.get('status') == 'REJECTED':
+            continue
+        body = read_text(d/'consensus.md')
+        if not body:
+            continue
+        rec = ' '.join(_extract_section(body, 'Recommendation').split())
+        if rec:
+            out.append((lid, e.get('status', '?'), rec[:900]))
+    return out
+
+
+def write_action_state(target):
+    entries = ledger_mod.load()
+    lines = ['# Action state (mechanically collected -- facts, not judgments)', '']
+    lines.append('## Consensus recommendations for live ideas')
+    for lid, status, rec in _pending_decisions():
+        lines += [f'- **{lid}** [{status}]: {rec}', '']
+    lines.append('## Paused ideas and their unblock notes')
+    for lid, e in sorted(entries.items()):
+        if e.get('status') == 'PAUSED' and lid.startswith('idea-'):
+            lines.append(f"- {lid}: {e.get('notes','(no note)')[:300]}")
+    lines.append('')
+    lines.append('## Banked fiction near-misses (unadopted)')
+    found = False
+    for lid, e in sorted(entries.items()):
+        if lid.endswith('-fadj'):
+            found = True
+            lines.append(f"- {lid}: {e.get('claim','')[:250]}")
+    if not found:
+        lines.append('- (none)')
+    lines.append('')
+    rows = _ranked_backlog()
+    lines.append(f'## Backlog ({len(rows)} candidates, best first)')
+    for s, c, e in rows[:12]:
+        lines.append(f"- {s:03d}-C{c} [{e.get('novelty_verdict','UNAUDITED')}"
+                     f"{', audited ' + str(e.get('audited_at',''))[:10] if e.get('audited_at') else ''}]"
+                     f" {e.get('title','')[:90]}")
+    lines.append('')
+    libs = sorted((ROOT/'ideas').glob('librarian-*'))
+    if libs:
+        rep = read_text(libs[-1]/'librarian_report.md')
+        summ = ' '.join(_extract_section(rep, 'Summary').split())[:700]
+        lines += [f'## Latest librarian pass ({libs[-1].name})', f'- {summ}', '']
+        conn = _extract_section(rep, 'Duty 1 -- Connection map') or _extract_section(rep, 'Duty 1 — Connection map')
+        heads = [ln for ln in conn.splitlines() if ln.startswith('**')]
+        if heads:
+            lines.append('- Connections mapped: ' + '; '.join(h.strip('*.') for h in heads)[:600])
+            lines.append('')
+    pend = [ln[6:] for ln in read_text(ROOT/'REVAMP.md').splitlines() if ln.startswith('- [ ] ')]
+    if pend:
+        lines.append('## REVAMP pending items')
+        for x in pend:
+            lines.append('- ' + x[:120])
+        lines.append('')
+    out = target/'action_state.md'
+    out.write_text('\n'.join(lines) + '\n')
+    return out
+
+
+def actioner(args):
+    _require_clean_tree('actioner')
+    existing = sorted((ROOT/'ideas').glob('actioner-*'))
+    n = (int(existing[-1].name.split('-')[1]) + 1) if existing else 1
+    d = ROOT/'ideas'/f'actioner-{n:03d}'
+    d.mkdir(parents=True)
+    _sync_backlog()
+    write_action_state(d)
+    _commit_all(f'actioner {n:03d}: state collected')
+    p = write_prompt('actioner', d)
+    if getattr(args, 'improve', False):
+        p.write_text(p.read_text() + '\n===== IMPROVEMENT MODE ENABLED =====\n'
+                     'Include the "Proposed improvement" section: ONE change only.\n'
+                     'Allowed targets: orchestrator/prompts/*, orchestrator/seeds.json, docs/*.\n'
+                     'scout.py or tests/ changes must be single-purpose and prominently flagged.\n'
+                     'NEVER propose changes to .github/workflows/, AGENTS.toml auth, or the scope/artifact guards.\n')
+    try:
+        run_agent(p, getattr(args, 'agent', None), stage='actioner', log_path=d/'log_actioner.txt')
+        _check_scope('actioner')
+        _require_artifact('actioner', d)
+    except SystemExit as e:
+        _commit_all(f'actioner {n:03d}: FAILED (partial output preserved)')
+        print(f'Actioner pass failed: {e}')
+        raise SystemExit(1)
+    shutil.copy2(d/'actions.md', ROOT/'evidence'/'actions.md')
+    _commit_all(f'actioner {n:03d}: brief published')
+    print(f'Actioner brief: evidence/actions.md (source: {d.relative_to(ROOT)})')
+
+
 def main():
     ap=argparse.ArgumentParser(); sp=ap.add_subparsers(dest='cmd',required=True)
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
@@ -1388,6 +1492,7 @@ def main():
     p=sp.add_parser('backlog'); p.set_defaults(fn=backlog_cmd)
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
+    p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='critique,debate'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
     for c in ('migrate','digest','list','taxonomy'):

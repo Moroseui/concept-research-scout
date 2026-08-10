@@ -55,6 +55,13 @@ doubles as resume). Or target `candidate: K` / `idea: N` with a `stages`
 list (`critique,revise,feasibility,debate`). Debate summaries end in a
 machine-readable verdict that updates the ledger automatically.
 
+**actioner** — synthesizes the state. Aggregates every pending human
+decision, unblock condition, near-miss, queue snapshot, and the latest
+librarian findings into one phone-readable brief (`evidence/actions.md`).
+With `propose_improvement` enabled it may additionally author **one pull
+request** — never a commit to main; the PR diff, the checks workflow's test
+run, and your merge button are the approval gate.
+
 **librarian** — curates the corpus. Manual-only (it costs tokens per entry).
 Reads a full-detail dossier of every idea and backlog candidate, writes a
 connection map, re-audits stale novelty verdicts (applied to the ledger),

@@ -112,6 +112,15 @@ completes them.
   (013 localisation, 016 injector confound); debate-summary prompts now
   carry the live taxonomy so verdict blocks pick from the menu.
 
+- [x] **Actioner** (`actioner` workflow + `scout.py actioner [--improve]`).
+  Deterministic state collection -> agent-synthesized phone brief in
+  evidence/actions.md (pending decisions, checks worth making, system
+  observations, latest librarian connections -- closing the report-reaches-
+  nobody gap). Improvement mode authors at most one PR via a branch; merge
+  button + checks suite are the gate; workflows/credentials/guards are
+  prompt-forbidden targets. Operate brief-mode for a while before first
+  pressing improvement mode.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists
