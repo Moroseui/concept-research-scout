@@ -223,7 +223,11 @@ inheriting the live repo's accumulating state (real cycles, ideas, and
 ledger rows leaking into the harness world) — the third arriving in a brand
 new test class after the rule was declared, proving the rule must be a
 *default*, not a per-class fix. The harness now provides `make_hermetic()`
-and every stateful test class starts from an erased world. The standing
+and every stateful test class starts from an erased world — and after a
+fourth strain (new librarian/actioner output dirs shifting run numbering),
+the helper's own coverage is part of the rule: any newly added accumulating
+artifact family must be added to `make_hermetic()` in the same patch that
+introduces it. The standing
 rule: **tests may not depend on what the repository has lived through, and
 new test classes inherit hermeticity rather than rediscover the need for
 it.**

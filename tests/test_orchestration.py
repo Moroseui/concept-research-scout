@@ -164,6 +164,12 @@ command = ["{sys.executable}", "{self.fake}"]
                   "evidence/portfolio_brief.md", "evidence/librarian_proposals.md",
                   "evidence/actions.md"):
             (self.repo / f).unlink(missing_ok=True)
+        # Outputs of the features under test always start from zero: real
+        # librarian/actioner passes accumulate in the live repo and broke a
+        # fourth test class by shifting run numbering.
+        for pat in ("librarian-*", "actioner-*"):
+            for d in (self.repo / "ideas").glob(pat):
+                _sh.rmtree(d)
         if wipe_idea_dirs:
             for d in (self.repo / "ideas").glob("scout-*"):
                 _sh.rmtree(d)
@@ -462,6 +468,10 @@ class TestPortfolioBrief(Harness):
 
 
 class TestLibrarian(Harness):
+    def setUp(self):
+        super().setUp()
+        self.make_hermetic()
+
     def test_librarian_pass_applies_verdicts_and_publishes_proposals(self):
         (self.repo / "ledger.jsonl").unlink(missing_ok=True)
         with (self.repo / "ledger.jsonl").open("w") as f:
