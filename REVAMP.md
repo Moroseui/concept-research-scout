@@ -47,6 +47,13 @@ completes them.
 - [x] Tests extended to 15 (ledger migrate/kill, rotation parity, full fiction
   cycle with blindness assertions, fail-then-resume, dry-run spends nothing).
 
+- [x] **Mobile post-scout pipeline** (`idea-pipeline` workflow +
+  `scout.py pipeline`): shortlist the top-N candidates of the latest cycle
+  (ranked by audit verdict, then mean rubric score; DUPLICATE_PRIOR excluded)
+  and run critique/debate per idea, or target `--candidate` / `--idea`.
+  Idempotent: re-running skips shortlisted candidates and stages whose
+  artifacts exist, so the same button is also resume.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists

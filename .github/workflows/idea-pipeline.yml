@@ -1,0 +1,95 @@
+name: idea-pipeline
+
+# Phone-triggerable post-scout pipeline: shortlist the top N candidates of the
+# latest completed cycle and run critique + debate on each, or target a
+# specific candidate/idea. Idempotent: re-running the same button skips
+# already-shortlisted candidates and stages whose artifacts exist, so it
+# doubles as resume after a failure or the 6-hour job cap.
+
+on:
+  workflow_dispatch:
+    inputs:
+      top_n:
+        description: 'Shortlist + run the top N candidates from the latest cycle'
+        default: '1'
+        required: true
+      candidate:
+        description: 'Instead: shortlist this candidate # from the latest cycle (overrides top_n)'
+        default: ''
+      idea:
+        description: 'Instead: run stages on this existing idea # (overrides both)'
+        default: ''
+      stages:
+        description: 'Stages to run, comma-separated (critique,revise,feasibility,debate)'
+        default: 'critique,debate'
+        required: true
+
+concurrency:
+  group: scout-cycle   # same group as the cycle workflow: never run both at once
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install agent CLIs
+        run: |
+          npm install -g @anthropic-ai/claude-code @openai/codex
+          claude --version || true
+          codex --version || true
+
+      - name: Restore Codex auth
+        run: |
+          mkdir -p ~/.codex
+          echo "${{ secrets.CODEX_AUTH_JSON }}" | base64 -d > ~/.codex/auth.json
+          chmod 600 ~/.codex/auth.json
+
+      - name: Install python deps
+        run: pip install -r requirements.txt
+
+      - name: Deterministic tests first
+        run: python tests/test_orchestration.py
+
+      - name: Git identity
+        run: |
+          git config user.name  "scout-bot"
+          git config user.email "scout-bot@users.noreply.github.com"
+
+      - name: Run pipeline
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          SCOUT_CI: '1'
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.idea }}" ]; then
+            ARGS="--idea ${{ inputs.idea }}"
+          elif [ -n "${{ inputs.candidate }}" ]; then
+            ARGS="--candidate ${{ inputs.candidate }}"
+          else
+            ARGS="--top ${{ inputs.top_n }}"
+          fi
+          python scout.py pipeline $ARGS --stages "${{ inputs.stages }}"
+
+      - name: Push checkpoints
+        if: always()
+        run: |
+          git add -A
+          git diff --cached --quiet || git commit -m "pipeline: workflow checkpoint"
+          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          git push origin HEAD:${GITHUB_REF_NAME} || true

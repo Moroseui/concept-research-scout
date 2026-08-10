@@ -76,6 +76,17 @@ elif action == "cycle_auto":
         (outdir / "fiction_candidates.json").write_text(cand.replace("STAGE", "fiction") + NL)
     elif stage == "novelty_audit":
         (outdir / "novelty_audit.md").write_text("audit" + NL)
+    elif "TRANSCRIPT SO FAR" in prompt:
+        t = outdir / "debate.md"
+        prev = t.read_text() if t.exists() else "# Debate transcript" + NL + NL
+        side = "PROPOSER" if prev.count("CRITIC") > prev.count("PROPOSER") else "CRITIC"
+        n = prev.count("## Round ") + 1
+        t.write_text(prev + "## Round " + str(n) + " - " + side + NL + NL
+                     + "**Status:** CONVERGED" + NL + NL)
+    elif "consensus.md" in prompt:
+        (outdir / "consensus.md").write_text("fake consensus" + NL)
+    elif "Adversarially review" in prompt:
+        (outdir / "critique.md").write_text("fake critique" + NL)
 else:
     (root / target).mkdir(parents=True, exist_ok=True)
     (root / target / "critique.md").write_text("fake critique" + NL)
@@ -263,6 +274,61 @@ class TestLedger(Harness):
         self.scout("ledger", "migrate")
         r = self.scout("ledger", "kill", "idea-003", "NOT_A_CODE", "reason")
         self.assertNotEqual(r.returncode, 0)
+
+
+class TestPipeline(Harness):
+    def make_cycle_outputs(self, scoutdir, verdicts):
+        d = self.repo / "ideas" / scoutdir
+        d.mkdir(parents=True, exist_ok=True)
+        cands = [{"title": f"cand {i}", "question": "q?",
+                  "scores": {"interest": 5 - i}} for i in range(1, len(verdicts) + 1)]
+        (d / "candidates_all.json").write_text(json.dumps(
+            {"cycle": 9, "tracks": ["baseline"], "notes": {}, "candidates": cands}) + "\n")
+        rows = "".join(f"| C{i} | `{v}` | `NEW_CAPABILITY` |\n"
+                       for i, v in enumerate(verdicts, 1))
+        (d / "novelty_audit.md").write_text("# audit\n\n| Candidate | Verdict | code |\n|---|---|---|\n" + rows)
+
+    def test_ranking_prefers_verdict_then_score_and_drops_duplicates(self):
+        self.make_cycle_outputs("scout-009",
+            ["INCREMENTAL", "NOVEL_UNVERIFIED", "NOVEL_VERIFIED", "DUPLICATE_PRIOR"])
+        sys.path.insert(0, str(self.repo))
+        import importlib, scout as sc
+        importlib.reload(sc)
+        sc.ROOT = self.repo
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        self.assertEqual(sc._rank_candidates(9), [3, 2, 1])
+
+    def test_top_n_pipeline_shortlists_runs_and_is_idempotent(self):
+        self.make_cycle_outputs("scout-009", ["NOVEL_UNVERIFIED", "NOVEL_VERIFIED"])
+        (self.repo / "orchestrator" / "state.json").write_text(
+            json.dumps({"next_scout": 10, "selected_idea": 1}) + "\n")
+        self.commit()
+        r = self.scout("pipeline", "--top", "1", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        # C2 (NOVEL_VERIFIED) should have been picked -> new idea 012
+        d = self.repo / "ideas" / "012"
+        self.assertTrue((d / "idea_card.json").exists())
+        self.assertIn("cand 2", (d / "idea_card.json").read_text())
+        self.assertTrue((d / "critique.md").exists())
+        self.assertTrue((d / "consensus.md").exists())
+        recs = (self.repo / "ledger.jsonl").read_text()
+        self.assertIn('"DEBATED"', recs)
+        # Re-run: nothing new shortlisted, stages skipped.
+        r2 = self.scout("pipeline", "--top", "1", action="cycle_auto")
+        self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
+        self.assertIn("already shortlisted", r2.stdout)
+        self.assertIn("[skip]", r2.stdout)
+        self.assertFalse((self.repo / "ideas" / "013").exists(),
+                         "re-run duplicated the shortlist")
+
+    def test_pipeline_specific_idea_runs_stages_only(self):
+        self.commit()
+        r = self.scout("pipeline", "--idea", "1", "--stages", "critique",
+                       action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertTrue((self.repo / "ideas" / "001" / "critique.md").exists())
 
 
 class TestCiCommandVariant(Harness):

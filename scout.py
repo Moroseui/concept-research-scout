@@ -270,30 +270,55 @@ def new_scout(_):
     print(d.relative_to(ROOT)); print('Prompt:',p.relative_to(ROOT))
 
 
-def shortlist(args):
-    src=scout_dir(args.scout)/'scout_candidates.json'
-    merged=scout_dir(args.scout)/'candidates_all.json'
-    if args.track and merged.exists():
-        src=merged
-    if not src.exists(): raise SystemExit(f'Missing {src}. Run or complete the scout stage first.')
-    data=json.loads(src.read_text()); candidates=data.get('candidates',data if isinstance(data,list) else [])
-    if args.track:
-        candidates=[c for c in candidates if c.get('track','baseline')==args.track]
-    idx=args.candidate-1
-    if idx<0 or idx>=len(candidates): raise SystemExit('Candidate index out of range.')
-    existing=[int(p.name) for p in (ROOT/'ideas').iterdir() if p.is_dir() and p.name.isdigit()]
-    n=max(existing,default=0)+1; d=idea_dir(n); d.mkdir()
-    card=candidates[idx]; (d/'idea_card.json').write_text(json.dumps(card,indent=2)+'\n')
-    (d/'README.md').write_text(f"# Idea {n:03d}: {card.get('title','Untitled')}\n\nSelected from scouting cycle {args.scout:03d}, candidate {args.candidate}.\n")
-    s=load_state(); s['selected_idea']=n; save_state(s)
-    with (ROOT/'portfolio'/'ideas.csv').open('a',newline='') as f:
-        csv.writer(f).writerow([f'{n:03d}',card.get('title',''), 'ACTIVE','',card.get('scores',{}).get('regret',''),'CRITIQUE',''])
+def _load_candidates(scout_no, track=None):
+    src = scout_dir(scout_no)/'scout_candidates.json'
+    merged = scout_dir(scout_no)/'candidates_all.json'
+    if merged.exists():
+        src = merged
+    if not src.exists():
+        raise SystemExit(f'Missing {src}. Run or complete the scout stage first.')
+    data = json.loads(src.read_text())
+    candidates = data.get('candidates', data if isinstance(data, list) else [])
+    if track:
+        candidates = [c for c in candidates if c.get('track', 'baseline') == track]
+    return candidates
+
+
+def _do_shortlist(scout_no, cand_no, track=None):
+    """Shortlist candidate cand_no (1-based) from cycle scout_no. Idempotent per
+    cycle: a candidate already shortlisted returns its existing idea number."""
+    s = load_state()
+    done = s.setdefault('shortlisted', {}).setdefault(str(scout_no), {})
+    if str(cand_no) in done:
+        print(f'Candidate {cand_no} of cycle {scout_no:03d} already shortlisted as idea {done[str(cand_no)]:03d}.')
+        return done[str(cand_no)]
+    candidates = _load_candidates(scout_no, track)
+    idx = cand_no-1
+    if idx < 0 or idx >= len(candidates):
+        raise SystemExit('Candidate index out of range.')
+    existing = [int(p.name) for p in (ROOT/'ideas').iterdir() if p.is_dir() and p.name.isdigit()]
+    n = max(existing, default=0)+1
+    d = idea_dir(n); d.mkdir()
+    card = candidates[idx]
+    (d/'idea_card.json').write_text(json.dumps(card, indent=2)+'\n')
+    (d/'README.md').write_text(f"# Idea {n:03d}: {card.get('title','Untitled')}\n\nSelected from scouting cycle {scout_no:03d}, candidate {cand_no}.\n")
+    s = load_state()
+    s['selected_idea'] = n
+    s.setdefault('shortlisted', {}).setdefault(str(scout_no), {})[str(cand_no)] = n
+    save_state(s)
+    with (ROOT/'portfolio'/'ideas.csv').open('a', newline='') as f:
+        csv.writer(f).writerow([f'{n:03d}', card.get('title',''), 'ACTIVE', '', card.get('scores',{}).get('regret',''), 'CRITIQUE', ''])
     ledger_mod.append({'ledger_id': f'idea-{n:03d}', 'title': card.get('title',''),
                        'claim': card.get('deliverable_sentence') or card.get('question',''),
                        'track': card.get('track','baseline'), 'status': 'SHORTLISTED',
                        'scrutiny': 'SCOUTED', 'source': f'ideas/{n:03d}'})
     ledger_mod.digest()
     print(f'Shortlisted as idea {n:03d}')
+    return n
+
+
+def shortlist(args):
+    _do_shortlist(args.scout, args.candidate, args.track)
 
 
 def stage_target(stage, idea):
@@ -319,8 +344,8 @@ def run_stage(args):
     print('Prompt:',p.relative_to(ROOT))
     run_agent(p, args.agent, stage=args.stage,
               log_path=target / f"log_{args.stage.replace('-', '_')}.txt")
-    _require_artifact(args.stage.replace('-', '_'), target)
     _check_scope(args.stage)
+    _require_artifact(args.stage.replace('-', '_'), target)
     if args.stage=='critique' and args.idea:
         ledger_mod.raise_scrutiny(f'idea-{args.idea:03d}', 'CRITIQUED')
 
@@ -638,6 +663,8 @@ STAGE_ARTIFACTS = {
     'fiction_extract': 'fiction_pitch.md',
     'fiction_refine': 'fiction_candidates.json',
     'novelty_audit': 'novelty_audit.md',
+    'critique': 'critique.md',
+    'feasibility': 'feasibility.md',
 }
 
 
@@ -727,8 +754,8 @@ def _run_cycle_stage(name, kind, target, cfg, cycle_no):
     p = write_prompt(name, target)
     run_agent(p, agent, stage=name.replace('_', '-'),
               log_path=target / f'log_{name}.txt')
-    _require_artifact(name, target)
     _check_scope(name.replace('_', '-'))
+    _require_artifact(name, target)
 
 
 def _cycle_loop(cycle_no, target, tracks, cfg):
@@ -819,6 +846,128 @@ def resume(_args):
     _cycle_loop(n, scout_dir(n), c['tracks'], load_agent_config())
 
 
+# ==========================================================================
+# Post-scout pipeline: shortlist the strongest candidates of the latest
+# completed cycle and drive each through critique/debate, phone-triggerable
+# via the idea-pipeline workflow. Idempotent: re-running skips candidates
+# already shortlisted and stages whose artifacts already exist, so the same
+# button doubles as resume after a failure or job kill.
+# ==========================================================================
+
+VERDICT_RANK = {'NOVEL_VERIFIED': 0, 'NOVEL_UNVERIFIED': 1, 'INCREMENTAL': 2,
+                'DUPLICATE_PRIOR': 9}
+
+
+def _audit_verdicts(target):
+    """Parse the summary table of novelty_audit.md -> {candidate_no: verdict}."""
+    import re
+    out = {}
+    body = read_text(target/'novelty_audit.md')
+    for m in re.finditer(r'^\|\s*C(\d+)\s*\|\s*`?([A-Z_]+)`?\s*\|', body, flags=re.M):
+        out[int(m.group(1))] = m.group(2)
+    return out
+
+
+def _mean_score(card):
+    vals = [v for v in (card.get('scores') or {}).values()
+            if isinstance(v, (int, float))]
+    return sum(vals)/len(vals) if vals else 0.0
+
+
+def _rank_candidates(scout_no):
+    """Return candidate numbers (1-based), best first. Order: audit verdict,
+    then mean rubric score, then original order. DUPLICATE_PRIOR is excluded."""
+    candidates = _load_candidates(scout_no)
+    verdicts = _audit_verdicts(scout_dir(scout_no))
+    ranked = []
+    for i, card in enumerate(candidates, 1):
+        v = verdicts.get(i, 'UNAUDITED')
+        if v == 'DUPLICATE_PRIOR':
+            print(f'  skipping C{i}: audit verdict DUPLICATE_PRIOR')
+            continue
+        ranked.append((VERDICT_RANK.get(v, 5), -_mean_score(card), i))
+    ranked.sort()
+    return [i for _, _, i in ranked]
+
+
+def _latest_scout_no():
+    scouts = sorted((ROOT/'ideas').glob('scout-*'))
+    if not scouts:
+        raise SystemExit('No scouting cycles exist yet.')
+    return int(scouts[-1].name.split('-')[1])
+
+
+PIPELINE_STAGES = ('critique', 'revise', 'feasibility', 'debate')
+STAGE_DONE_MARKER = {'critique': 'critique.md', 'revise': 'idea_card.json',
+                     'feasibility': 'feasibility.md', 'debate': 'consensus.md'}
+
+
+def _pipeline_stage(idea, stage):
+    target = idea_dir(idea)
+    if stage == 'debate':
+        import types
+        debate(types.SimpleNamespace(idea=idea, rounds=None))
+        if not (target/'consensus.md').exists():
+            raise SystemExit(f'Debate for idea {idea:03d} ended without consensus.md.')
+        return
+    p = write_prompt(stage, target)
+    run_agent(p, None, stage=stage, log_path=target/f'log_{stage}.txt')
+    _check_scope(stage)
+    _require_artifact(stage, target)
+    if stage == 'critique':
+        ledger_mod.raise_scrutiny(f'idea-{idea:03d}', 'CRITIQUED')
+        ledger_mod.digest()
+
+
+def pipeline(args):
+    stages = [x.strip() for x in (args.stages or 'critique,debate').split(',') if x.strip()]
+    bad = [x for x in stages if x not in PIPELINE_STAGES]
+    if bad:
+        raise SystemExit(f'Unknown stage(s): {", ".join(bad)}. Known: {", ".join(PIPELINE_STAGES)}')
+    _require_clean_tree('pipeline')
+    if args.idea:
+        ideas = [args.idea]
+    else:
+        scout_no = args.scout or _latest_scout_no()
+        if args.candidate:
+            picks = [args.candidate]
+        else:
+            n = max(1, int(args.top or 1))
+            order = _rank_candidates(scout_no)
+            picks = order[:n]
+            print(f'Cycle {scout_no:03d} ranking (best first): '
+                  + ', '.join(f'C{i}' for i in order) + f' -> taking {picks}')
+        ideas = []
+        for cand in picks:
+            ideas.append(_do_shortlist(scout_no, cand))
+            _commit_all(f'pipeline: shortlist C{cand} of cycle {scout_no:03d}')
+    failures = []
+    for idea in ideas:
+        for stage in stages:
+            marker = STAGE_DONE_MARKER.get(stage)
+            if stage != 'revise' and marker and (idea_dir(idea)/marker).exists():
+                print(f'[skip] idea {idea:03d} {stage}: {marker} already exists')
+                continue
+            print(f'\n=== idea {idea:03d}: {stage} ===')
+            try:
+                _pipeline_stage(idea, stage)
+            except SystemExit as e:
+                _commit_all(f'idea {idea:03d}: {stage} FAILED (partial output preserved)')
+                print(f'Stage {stage!r} failed for idea {idea:03d}: {e}')
+                failures.append((idea, stage))
+                break  # later stages of this idea depend on this one
+            _commit_all(f'idea {idea:03d}: {stage} done')
+            print(f'[done] idea {idea:03d} {stage} (checkpoint committed)')
+    print('\nPipeline summary:')
+    for idea in ideas:
+        status = next((f'FAILED at {st}' for i, st in failures if i == idea), 'complete')
+        print(f'  idea {idea:03d}: {status}')
+    if failures:
+        print('Re-run the same pipeline command to resume: completed stages are skipped.')
+        raise SystemExit(1)
+    print('Read each idea\'s critique.md, debate.md and consensus.md yourself before proceeding.')
+
+
 def main():
     ap=argparse.ArgumentParser(); sp=ap.add_subparsers(dest='cmd',required=True)
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
@@ -833,6 +982,7 @@ def main():
     p=sp.add_parser('status'); p.set_defaults(fn=status)
     p=sp.add_parser('cycle'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.set_defaults(fn=cycle)
     p=sp.add_parser('resume'); p.set_defaults(fn=resume)
+    p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='critique,debate'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
     for c in ('migrate','digest','list','taxonomy'):
         q=lsp.add_parser(c)
