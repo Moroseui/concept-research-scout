@@ -99,3 +99,13 @@ BAC-specific design and prohibited conclusions, and remains conditional on
 Stage 0 confirming an obtainable Mirai-compatible cohort and spatial
 registration between the BAC mask and Mirai's exact input tensor.
 
+
+## 2026-08-10 — Idea 005 spin-off S2 (reader-slot exchangeability): deliberate wait
+
+S2 is a legitimate successor under the claim-identity rule (different
+estimand; parent idea-005) and should re-enter, if at all, through a normal
+scout revival or librarian proposal with parent_ids — not manual
+registration. This is also a live test of the revival machinery. If S2 has
+not resurfaced within a few cycles despite this note, that is a finding
+about the revival path, not about S2.
+
