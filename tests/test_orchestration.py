@@ -1024,6 +1024,27 @@ class TestProbeBuild(Harness):
         self.assertTrue((self.repo / "probes" / "001" / "verification.json").exists(),
                         "verify-probe did not run at the end of the loop")
 
+    def test_probe_build_resumes_existing_code_and_normalizes_dir(self):
+        # Real incident: generator wrote probes/idea-004/, artifact check
+        # failed post-generation pre-commit. Rerun must normalize the dir and
+        # review the existing code instead of regenerating.
+        self._arm()
+        alias = self.repo / "probes" / "idea-001"
+        alias.mkdir(parents=True)
+        (alias / "run.py").write_text(
+            "import argparse\nap = argparse.ArgumentParser()\n"
+            "ap.add_argument('--smoke-test', action='store_true')\n"
+            "ap.parse_args()\nprint('recovered probe')\n")
+        (alias / "README.md").write_text("# probe\n")
+        self.commit()
+        r = self.scout("probe-build", "1", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("Normalized", r.stdout)
+        self.assertIn("skipping generation", r.stdout)
+        self.assertIn("recovered probe",
+                      (self.repo / "probes" / "001" / "run.py").read_text())
+        self.assertTrue((self.repo / "probes" / "001" / "verification.json").exists())
+
     def test_probe_build_blocked_without_human_gate(self):
         d = self.repo / "ideas" / "001"
         (d / "feasibility.md").write_text("# memo\n")

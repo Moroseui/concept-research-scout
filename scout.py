@@ -388,35 +388,52 @@ def probe_build(args):
     base = (cfg.get('roles', {}) or {}).get('probe_code', cfg.get('default', {}).get('agent', 'claude'))
     if base not in ('claude', 'codex'):
         base = 'claude'
-    gen = effective_agent(base, cfg) or base
-    rev = 'codex' if gen == 'claude' else 'claude'
-    print(f'Probe generator: {gen}; adversarial reviewer: {rev}')
-    for round_no in (1, 2):
-        p1 = write_prompt('probe_code', d)
-        if round_no == 2:
-            p1.write_text(p1.read_text() + '\n===== REVISION ROUND =====\n'
-                          'A reviewer found blocking issues (see probe_review.md in your '
-                          'context). Fix ONLY those findings; do not expand scope.\n')
-        run_agent(p1, gen, stage='probe_code', log_path=d/'log_probe_code.txt')
-        _check_scope('probe-code')
-        pdir = ROOT/'probes'/f'{args.idea:03d}'
-        for fname in ('run.py', 'README.md', 'requirements.txt'):
-            if not (pdir/fname).exists():
-                raise SystemExit(f'probe_code wrote no {fname} in {pdir.relative_to(ROOT)}; '
-                                 'the probe contract requires it.')
-        _commit_all(f'idea {args.idea:03d}: probe code (round {round_no}, {gen})')
-        p2 = write_prompt('probe_review', d)
-        run_agent(p2, rev, stage='probe_review', log_path=d/'log_probe_review.txt')
-        _require_artifact('probe_review', d)
-        _commit_all(f'idea {args.idea:03d}: probe review (round {round_no}, {rev})')
-        v = _probe_review_verdict(d) or {}
-        if v.get('verdict') == 'APPROVE':
-            print(f'Probe code APPROVED by {rev} on round {round_no}.')
-            break
-        if round_no == 2:
-            raise SystemExit('Probe code still has blocking findings after one revision; '
-                             'read probe_review.md and decide by hand.')
-        print(f'Reviewer requests revision: {", ".join(v.get("blocking", [])[:3])}')
+    # run_agent applies rotation itself; pass base names so gen/rev stay
+    # opposite families after any swap (a pre-swap here double-rotated).
+    gen = base
+    rev = 'codex' if base == 'claude' else 'claude'
+    print(f'Probe generator role: {gen}; reviewer role: {rev} '
+          '(rotation may swap which family is which; they always differ).')
+    pdir = ROOT/'probes'/f'{args.idea:03d}'
+    alias = ROOT/'probes'/f'idea-{args.idea:03d}'
+    try:
+        for round_no in (1, 2):
+            if alias.exists() and not pdir.exists():
+                alias.rename(pdir)  # normalize the contract's idea-NNN naming
+                print(f'Normalized {alias.name}/ -> {pdir.name}/')
+            if (pdir/'run.py').exists() and round_no == 1 and not _probe_review_verdict(d):
+                print('Existing probe code found; skipping generation, going straight to review.')
+            else:
+                p1 = write_prompt('probe_code', d)
+                if round_no == 2:
+                    p1.write_text(p1.read_text() + '\n===== REVISION ROUND =====\n'
+                                  'A reviewer found blocking issues (see probe_review.md in your '
+                                  'context). Fix ONLY those findings; do not expand scope.\n')
+                run_agent(p1, gen, stage='probe_code', log_path=d/'log_probe_code.txt')
+                _check_scope('probe-code')
+                if alias.exists() and not pdir.exists():
+                    alias.rename(pdir)
+                    print(f'Normalized {alias.name}/ -> {pdir.name}/')
+            for fname in ('run.py', 'README.md'):
+                if not (pdir/fname).exists():
+                    raise SystemExit(f'probe_code wrote no {fname} in {pdir.relative_to(ROOT)}; '
+                                     'the probe contract requires it.')
+            _commit_all(f'idea {args.idea:03d}: probe code (round {round_no})')
+            p2 = write_prompt('probe_review', d)
+            run_agent(p2, rev, stage='probe_review', log_path=d/'log_probe_review.txt')
+            _require_artifact('probe_review', d)
+            _commit_all(f'idea {args.idea:03d}: probe review (round {round_no})')
+            v = _probe_review_verdict(d) or {}
+            if v.get('verdict') == 'APPROVE':
+                print(f'Probe code APPROVED on round {round_no}.')
+                break
+            if round_no == 2:
+                raise SystemExit('Probe code still has blocking findings after one revision; '
+                                 'read probe_review.md and decide by hand.')
+            print(f'Reviewer requests revision: {", ".join(v.get("blocking", [])[:3])}')
+    except SystemExit:
+        _commit_all(f'idea {args.idea:03d}: probe-build FAILED (partial output preserved)')
+        raise
     verify_probe(args)
 
 
