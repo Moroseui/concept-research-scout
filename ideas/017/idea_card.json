@@ -4,135 +4,131 @@
   "revival_basis": null,
   "search_mode": "C",
   "entry_point": 2,
-  "title": "A lung-cancer model may be reading a mechanically remodeled trachea",
-  "question": "Is Sybil using the minimum intrathoracic tracheal index\u2014the transverse-to-anteroposterior ratio that defines saber-sheath trachea\u2014as a mechanically accumulated sign of COPD and smoking injury?",
+  "title": "Can Sybil's tracheal-deformity question be identified in NLST?",
+  "question": "On recoverable Sybil-held-out NLST scans, is continuous minimum intrathoracic tracheal index preserved by Sybil preprocessing, stable across annual scans, and supported independently of sex, LAA-950 emphysema, lung volume, and reconstruction well enough to justify a future model-use experiment?",
+  "deliverable_original": "Sybil is using saber-sheath tracheal deformity—the fixed side-to-side narrowing of the intrathoracic trachea—as a record of chronic obstructive lung injury.",
+  "deliverable_sentence": "Eventual target, not testable at this stage: Sybil is using saber-sheath tracheal deformity—the fixed side-to-side narrowing of the intrathoracic trachea—as a record of chronic obstructive lung injury.",
+  "why_it_matters": "A named, automatically measurable airway shape could make part of a lung-cancer model's signal legible. The present study asks only whether the obtainable data and model input preserve enough independent tracheal variation to make that use claim identifiable; it can prevent an attractive but confounded experiment from proceeding.",
+  "claim_boundaries": {
+    "claimed_if_stage_0_passes": "Only that a future controlled model-use experiment is technically and statistically askable in the inspected cohort.",
+    "not_claimed": [
+      "That Sybil uses tracheal index or saber-sheath deformity.",
+      "That a score-index association establishes model use.",
+      "That high longitudinal stability establishes model use or chronic causation.",
+      "That tracheal deformity mediates smoking-related lung-cancer risk.",
+      "That covariate adjustment separates a constitutively entangled biological signal.",
+      "That results generalize beyond the inspected Sybil output and cohort."
+    ]
+  },
   "rung": {
-    "target": 3,
     "current": 0,
-    "move_up": "Selective tracheal-index erasure and paired inspiration/reconstruction stability reach rung 1; separation from emphysema, sex, lung volume, and kernel plus external replication gates rung 2; saber-sheath trachea is the rung-3 name."
+    "target": 3,
+    "why": "The four analyses are feasibility gates only. Even if every gate passes, no charter rung has been reached because no valid intervention tests model use.",
+    "what_would_move_it_up": "After all Stage 0 gates pass, rung 1 requires a validated in-distribution input-space tracheal-reshaping intervention on an untouched split. The edit must change continuous tracheal index, preserve all non-tracheal content within prespecified equivalence margins, pass a matched sham-edit tolerance, and produce the preregistered Sybil risk response. Rungs 2 and 3 additionally require exclusion of acquisition and population artifacts and support for the named anatomical interpretation."
   },
-  "deliverable_sentence": "Sybil is using saber-sheath tracheal deformity\u2014the fixed side-to-side narrowing of the intrathoracic trachea\u2014as a record of chronic obstructive lung injury.",
   "X_measurement": {
-    "X": "Minimum intrathoracic tracheal index: transverse lumen diameter divided by anteroposterior diameter on planes perpendicular to the tracheal centerline, with <0.67 as a conventional severe-deformity threshold.",
-    "how": "Automatically segment the tracheal lumen by HU threshold/region growing, extract a centerline, reformat perpendicular planes from the lung apex to 2 cm above the carina, and take the minimum transverse/AP ratio. Pompe et al. describe this automatic procedure (PMCID PMC6052793).",
-    "could_compute_today_without_asking_anyone": "Yes. The published algorithm uses voxel thresholding, centerline geometry, and a formula; it needs no human judgment."
+    "X": "Continuous minimum intrathoracic tracheal index: transverse lumen diameter divided by anteroposterior diameter on planes perpendicular to the tracheal centerline. Published categorical cutoffs (<0.67 and <=0.5) are descriptive only.",
+    "how": "Automatically segment the tracheal lumen, extract its centerline, create perpendicular cross-sections from the lung apex to 2 cm above the carina, and take the minimum transverse/AP ratio using the procedure described by Pompe et al. (PMCID: PMC6052793).",
+    "could_compute_today_without_asking_anyone": "Yes. X is derived from image intensity, geometry, and a fixed formula without human concept annotation. Tool QC and agreement on NLST remain Stage 0 checks."
   },
-  "suspected_signal": "Repeated cough and elevated intrathoracic pressure cause chronic tracheal-cartilage remodeling: coronal narrowing with sagittal widening. Unlike instantaneous lung inflation, the shape may integrate years of obstructive mechanics and smoking injury.",
-  "specific_artifact_confused_with_signal": "Respiratory phase, gantry angle, non-perpendicular axial measurement, tracheal secretions, intubation, and crop/resampling anisotropy can all change apparent index.",
-  "keystone_prerequisite": "Sybil's final input tensor preserves tracheal cross-sectional geometry accurately enough for minimum tracheal index to be measured and encoded, and NLST contains enough low-index cases independent of sex, emphysema, lung volume, and reconstruction for a selective-use test.",
+  "suspected_signal": "Chronic obstructive mechanics may remodel the trachea anisotropically, producing fixed coronal narrowing relative to sagittal diameter rather than merely changing airway calibre.",
+  "specific_artifact_confused_with_signal": "Respiratory inflation, reconstruction kernel, gantry or neck angle, secretions, intubation, interpolation, crop loss, and anisotropic resampling can change the apparent ratio.",
+  "keystone_prerequisite": "A recoverable Sybil-held-out or suitable external cohort must contain enough continuous tracheal-index variation that survives the complete Sybil preprocessing pipeline and has adequate joint support beyond sex, LAA-950 emphysema, lung volume, and reconstruction for a future intervention study.",
   "keystone_status": "NOT_INSPECTED",
-  "keystone_evidence": "Nearest primary evidence inspected: Pompe et al., PMCID PMC6052793, specifies an automatic centerline/perpendicular-plane tracheal-index algorithm and reports that tracheal shape adds to emphysema for COPD severity assessment. Sybil/NLST availability is established in the ledger, but preservation of tracheal geometry through the final tensor and the NLST joint distribution were not inspected.",
-  "keystone_residual_assumption": "The easy facts are that native CT supports tracheal index and Sybil accepts NLST CT. I am still assuming resampling/cropping preserves this ratio and that saber-sheath variation is not effectively a male-sex/emphysema indicator. Those are the real load-bearing facts.",
-  "rung_reached": "No rung yet. Mode C score reflects mechanism quality, not accomplished evidence.",
-  "dies_like_prior": "It resembles idea-007 because respiratory state can change geometry. The difference is that saber-sheath deformity is hypothesized as fixed chronic remodeling and is measured on perpendicular planes; nevertheless paired inspiration/expiration stability is an explicit gate. It differs from idea-006 by using no patient deletion. DATA_INSUFFICIENT is checked through the low-index prevalence gate.",
+  "keystone_evidence": "Official Sybil code at commit d9fc81b93c1c6239a570c1c570c1f2a2e6266a4a was inspected and shows resampling to 0.703125 x 0.703125 x 2.5 mm followed by crop/pad to 256 x 256 x 200. Mikhael et al. (DOI: 10.1200/JCO.22.01345; PMCID: PMC10419602) report an NLST sample of 15,000 participants. Neither source establishes native-to-final-tensor tracheal-index agreement, held-out case linkage, longitudinal stability, or independent joint support.",
+  "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? Equal target in-plane spacing and a large NLST cohort do not establish that the minimum centerline-perpendicular ratio survives interpolation and cropping, that the relevant segment remains in frame, that held-out cases are recoverable, or that low-index variation exists outside the male/COPD/emphysema tail. Those are the load-bearing assumptions.",
+  "rung_reached": "No rung. A favorable Stage 0 result grants permission to design a use experiment; it is not evidence that Sybil uses X.",
+  "stage_0_gate": {
+    "timing": "Before measuring Sybil score associations, freeze cohort linkage rules, sampling, the primary index implementation, geometry-agreement margin, ICC criterion, covariates, support metric, minimum effective low-index sample, and all go/no-go thresholds.",
+    "inspect": [
+      "Geometry preservation: paired continuous-index agreement between native NLST DICOM and Sybil's final tensor, including retention of the complete measured tracheal segment.",
+      "Split integrity: direct linkage of obtainable images to a released Sybil-held-out split, or a prespecified suitable external evaluation cohort, with no training cases in any score analysis.",
+      "Trait stability: within-subject continuous-index ICC across NLST T0/T1/T2 annual scans, with lung volume reported as an inflation-sensitive comparator and reconstruction differences handled prospectively.",
+      "Joint support: effective continuous-index support after conditioning on sex, LAA-950 emphysema, lung volume, and reconstruction kernel, including a prespecified minimum effective low-index sample."
+    ],
+    "decision": "GO to intervention feasibility only if every gate passes. Failure of geometry preservation or independent joint support is a decisive feasibility negative for this Sybil/NLST route. Unrecoverable held-out linkage is a data-access stop. Low ICC weakens the fixed-remodeling mechanism but does not test model use."
+  },
+  "dies_like_prior": "The principal precedent is idea 009: a mechanically meaningful quantity was not identifiable apart from co-varying population factors. Gate four is the explicit lives-or-dies-like-009 test; this candidate is different only if direct inspection finds adequate tracheal-index support beyond sex, emphysema, lung volume, and reconstruction. It does not share the annotation-provenance failures of ideas 001, 002, 003, or 005 because X and the primary Stage 0 readouts require no human concept labels. It avoids idea 006's out-of-distribution deletion because no model intervention occurs at this stage, but a future edit would inherit the intervention-validity burden of ideas 008, 011, and 014.",
   "closest_prior_work": [
     {
-      "citation": "Mikhael et al., Sybil",
-      "identifier": "DOI 10.1200/JCO.22.01345; PMCID PMC10419602",
-      "verified_fact": "Sybil predicts future lung cancer from a single low-dose chest CT and retains residual performance when visible nodules are removed.",
-      "delta": "It did not measure tracheal index."
+      "citation": "Mikhael PG et al., Sybil, J Clin Oncol 2023;41:2191-2200",
+      "identifier": "DOI: 10.1200/JCO.22.01345; PMCID: PMC10419602",
+      "verified_fact": "Sybil predicts future lung cancer from a single low-dose chest CT and was developed using an NLST sample.",
+      "delta": "It did not measure tracheal index or establish model use of tracheal shape."
     },
     {
-      "citation": "Pompe et al., CT quantification of tracheal abnormalities in COPD",
-      "identifier": "PMCID PMC6052793",
-      "verified_fact": "It defines an automated minimum tracheal index and found tracheal-shape information can add to emphysema in COPD severity assessment.",
-      "delta": "It did not study a lung-cancer risk model or model reliance."
+      "citation": "Pompe E et al., CT quantification of tracheal abnormalities in COPD",
+      "identifier": "PMCID: PMC6052793",
+      "verified_fact": "The primary full text describes an automated centerline/perpendicular-plane tracheal-index procedure and reports 11 categorical saber-sheath cases among 200 COPDGene participants.",
+      "delta": "It did not study a lung-cancer model, Sybil preprocessing, or model reliance."
+    },
+    {
+      "citation": "Sobieski B et al., Auditing Sybil: Explaining Deep Lung Cancer Risk Prediction Through Generative Interventional Attributions",
+      "identifier": "arXiv:2602.02560",
+      "verified_fact": "The inspected primary preprint intervenes on nodules and reports artifact sensitivity and radial bias.",
+      "delta": "It does not measure or intervene on tracheal shape."
     }
   ],
-  "existing_assets": [
-    "Sybil code/weights and NLST pathway established in prior cycles",
-    "Simple published automatic tracheal-index algorithm",
-    "NLST acquisition metadata and repeat/reconstruction subsets"
-  ],
-  "smallest_decisive_experiment": "Stage 0: measure native-DICOM versus final-tensor tracheal-index agreement; estimate prevalence and partial correlation with sex, LAA-950 emphysema, lung volume, BMI proxy, and kernel; test repeatability on paired reconstructions and any available respiratory pairs. Confirmatory: learn a validation-only tracheal-index direction, erase it from frozen Sybil embeddings, and compare risk-score change against emphysema, lung-volume, sex, and random-direction erasures on untouched cases.",
-  "use_vs_association": "The model uses tracheal deformity only if its validated concept direction can be selectively removed and Sybil risk changes beyond emphysema/sex/lung-volume erasures. Score-index association alone remains exploratory.",
-  "standing_confounds_addressed": {
-    "scanner_vendor_protocol_reconstruction_site": "Paired reconstructions assess kernel sensitivity; scanner/vendor covariates possible; NLST site is masked and remains a limitation.",
-    "positioning": "Centerline-perpendicular planes remove gantry/neck-angle bias; lung inflation remains an explicit control.",
-    "habitus": "Body diameter/BMI proxy and thoracic cage ratio controls.",
-    "prevalence_referral": "NLST uniform screening pathway addresses clinical referral but only in heavy smokers.",
-    "label_leakage": "Cancer outcome is not used in X and cannot be printed into tracheal geometry."
+  "novelty_statement": "No novelty claim is made. A bounded primary-source search found no direct Sybil/tracheal-index study, but absence was not exhaustively established; status is NO_DUPLICATE_FOUND_LIMITED_SEARCH.",
+  "smallest_decisive_experiment": {
+    "design": "Run only the four frozen Stage 0 audits on a recoverable Sybil-held-out or suitable external cohort. Continuous index is primary; categorical cutoffs are descriptive. Do not perform any representation intervention, score-based model-use test, or image edit.",
+    "primary_decision": "Whether all four gates jointly permit development of a future controlled input-space intervention.",
+    "positive_interpretation": "Passing all gates means only that the use question is askable in this route.",
+    "negative_interpretation": "Failure of the prespecified native-to-tensor agreement margin or independent-support threshold decisively stops this route. Low longitudinal stability weakens the fixed-remodeling premise. Held-out linkage failure is a data-access result. None is a negative finding about what Sybil uses."
   },
-  "alternative_explanations": [
-    {
-      "alternative": "The index is only a proxy for male sex or body size.",
-      "resolution": "Sex- and thoracic-ratio matched analysis plus separate concept erasures."
-    },
-    {
-      "alternative": "The index is only emphysema/hyperinflation.",
-      "resolution": "Joint LAA-950, lung-volume, and tracheal-index erasures; require incremental selective effect."
-    },
-    {
-      "alternative": "Apparent shape is respiratory phase or preprocessing anisotropy.",
-      "resolution": "Native-to-tensor agreement and paired respiratory/reconstruction repeatability gates."
-    }
-  ],
+  "use_vs_association": "Stage 0 does not test use. Neither correlation with Sybil score, high ICC, nor covariate-adjusted association may be presented as evidence of use. Only a later validated in-distribution tracheal-reshaping intervention with preservation, sham, equivalence, and untouched-split controls could reach rung 1.",
+  "claim_identifiability": {
+    "scanner_vendor_site_protocol_reconstruction": "Reconstruction is included in the joint-support audit; scanner, vendor, protocol, and site are tabulated where available. Masked or unavailable site prevents site-level exclusion and limits any future rung-2 claim.",
+    "positioning_and_respiratory_state": "Centerline-perpendicular measurement reduces gantry and neck-angle bias. Annual repeat stability and lung-volume comparison test whether X behaves like fixed remodeling rather than an unstable inflation measurement, without pretending to isolate every respiratory effect.",
+    "body_habitus": "Sex and lung volume are mandatory joint-support variables; an automatically measured thoracic or body-size proxy is descriptive if available. Residual habitus confounding remains for any later association.",
+    "disease_prevalence_and_referral": "NLST's screening pathway narrows referral variation but represents heavy smokers. The support audit asks whether X varies independently within that population; it does not establish transportability.",
+    "label_leakage": "X is computed from pixels and no report or cancer label enters any Stage 0 endpoint. Held-out linkage is nevertheless mandatory before inspecting model scores to avoid training-case contamination.",
+    "remaining_alternatives_after_stage_0": "Even after all gates pass, sex-linked anatomy, COPD severity, emphysema, smoking injury, habitus, site, and unmeasured acquisition factors can still explain an observational score-index association. Stage 0 rules none of these into a model-use claim."
+  },
   "anticipated_negative": {
-    "classification": "decisive",
-    "reason": "If tracheal index is accurately encoded and reliably measurable, yet its erasure has an equivalently null effect while emphysema erasure changes Sybil, the specific chronic-remodeling hypothesis is weakened."
+    "classification": "mixed: decisive feasibility negatives and sensitivity-limited model-use nulls",
+    "meaningful_negative": "Agreement outside the frozen native-to-tensor margin decisively shows that this implementation cannot measure the same X at Sybil input. Independent support below the frozen effective-sample threshold decisively shows that the obtainable cohort cannot separate X from the named dominant correlates. Low ICC is decisive against treating X as a stable trait under the chosen threshold, though not necessarily against all chronic remodeling.",
+    "non_decisive_negative": "A null score-index association is sensitivity-limited and is not a test of use. Held-out linkage failure and segmentation failure are access or tool-feasibility outcomes, not evidence against the biological or model-use hypothesis."
   },
   "cross_domain": {
-    "borrowed_construct": "Fatigue/remodeling of a pressure-loaded cartilaginous tube.",
-    "measurement_implied": "A fixed minimum transverse/AP ratio and its respiratory stability, rather than generic airway size.",
-    "if_analogy_dropped": "The experiment would measure tracheal caliber. The mechanics analogy changes X to anisotropic shape, predicts a low transverse/AP ratio, and requires stability across respiratory state."
+    "borrowed_construct": "Remodeling of a pressure-loaded cartilaginous tube.",
+    "measurement_implied": "A stable anisotropic transverse/AP ratio rather than generic airway calibre.",
+    "if_analogy_dropped": "The study would measure generic tracheal size and would not require longitudinal trait stability. The mechanics hypothesis selects anisotropy, predicts the ratio's direction, and makes stability a falsifiable gate."
   },
-  "remaining_legwork": "2 days for preprocessing geometry audit, 3 days for NLST prevalence/collinearity on a small sample, and 2 days for repeatability. First go/no-go in one week.",
-  "scores": {
-    "mechanism_clarity": {
-      "value": 5,
-      "why": "A precise ratio, anatomical level, predicted direction, and chronic mechanical cause."
-    },
-    "identifiability": {
-      "value": 4,
-      "why": "Internal erasure plus emphysema/sex/volume controls and real paired scans attack the main alternatives; masked site remains."
-    },
-    "interest": {
-      "value": 5,
-      "why": "An under-read tracheal shape as a long-term smoking mechanics recorder is surprising."
-    },
-    "medical_relevance": {
-      "value": 4,
-      "why": "It could explain risk as chronic obstructive injury rather than occult tumor signal."
-    },
-    "clarity": {
-      "value": 5,
-      "why": "The model-uses-X sentence is concrete and falsifiable."
-    },
-    "feasibility": {
-      "value": 3,
-      "why": "Capped; measurement is easy but tensor preservation and prevalence are uninspected."
-    },
-    "novelty_confidence": {
-      "value": 3,
-      "why": "Capped; no direct Sybil/tracheal-index study was found in a bounded search."
-    },
-    "prior_legwork": {
-      "value": 4,
-      "why": "Sybil assets and an automatic X algorithm already exist."
-    },
-    "data_readiness": {
-      "value": 4,
-      "why": "NLST/Sybil pathway is established in the repository record."
-    },
-    "evaluation_readiness": {
-      "value": 4,
-      "why": "Ratio, repeatability, partial association, and erasure controls are prespecifiable."
-    },
-    "negative_result_value": {
-      "value": 5,
-      "why": "After the encoding/reliability gate, a null erasure directly rejects the named mechanism."
-    },
-    "regret": {
-      "value": 5,
-      "why": "A one-week geometry audit could expose a simple overlooked signal."
-    }
+  "data_and_compute": {
+    "data": "Candidate imaging source is publicly downloadable NLST CT through TCIA/IDC with limited clinical data. Exact linkage to the released Sybil-held-out split, repeat-scan counts, and required covariate availability remain uninspected gates; the study must not depend on unconfirmed DUA-gated variables.",
+    "model": "Official Sybil code and released checkpoint, pinned by commit and checksum before any score analysis.",
+    "compute": "Automated geometry measurements and limited frozen-model inference are compatible with single-GPU sessions; no model training is proposed."
   },
-  "mode_c_priority_score": 4.6,
-  "priority_arithmetic": "0.30*5 + 0.25*4 + 0.20*5 + 0.15*4 + 0.10*5 = 4.60",
-  "unverified_claims": [
-    "Sybil preprocessing preserves tracheal aspect ratio",
-    "Low tracheal index is prevalent enough in NLST",
-    "The tracheal-index direction is separable from sex/emphysema/lung volume"
+  "remaining_legwork": [
+    "Inspect and join actual Sybil split identifiers to obtainable NLST images; freeze a held-out or external cohort before score access.",
+    "Prespecify numeric geometry agreement, ICC, joint-support, effective-sample, and missingness thresholds before measurement.",
+    "Verify that required sex and reconstruction fields are public and compute emphysema and lung volume automatically without human adjudication.",
+    "Power the low-index support audit using the continuous distribution rather than categorical saber-sheath prevalence.",
+    "If and only if all gates pass, prepare a separate feasibility memo for an in-distribution tracheal-reshaping editor; no probe code is authorized."
   ],
-  "track": "baseline"
+  "scores": {
+    "mechanism_clarity": {"value": 5, "why": "The suspected quantity is a specific anatomical ratio with a predicted direction, mechanical interpretation, and automatic measurement."},
+    "identifiability": {"value": 2, "why": "Stage 0 can identify whether the question is askable but cannot identify model use; the dominant biological correlates may be inseparable in NLST."},
+    "interest": {"value": 5, "why": "A mechanically remodeled trachea as a latent smoking-injury signal is surprising and physician-legible."},
+    "medical_relevance": {"value": 4, "why": "It could clarify a lung-cancer risk model's residual signal, but this stage produces no clinical or model-use conclusion."},
+    "clarity": {"value": 5, "why": "One Stage 0 question asks whether one continuous X survives preprocessing and has stable, independent support."},
+    "feasibility": {"value": 3, "why": "Capped because the keystone is NOT_INSPECTED. The audits are modest, but held-out linkage and public covariates remain uncertain."},
+    "novelty_confidence": {"value": 3, "why": "Capped because the keystone is NOT_INSPECTED and the no-duplicate finding comes from a bounded search."},
+    "prior_legwork": {"value": 4, "why": "The model, official preprocessing, public imaging route, longitudinal scans, and automatic measurement method exist; their exact join has not been inspected."},
+    "data_readiness": {"value": 3, "why": "NLST images are public, but held-out identifiers, usable repeats, covariates, and support counts have not been directly joined."},
+    "evaluation_readiness": {"value": 3, "why": "Agreement, ICC, and support analyses are standard, but their numeric go/no-go thresholds still require prospective specification."},
+    "negative_result_value": {"value": 3, "why": "Geometry or joint-support failure decisively stops this route, while score-association nulls and several access failures remain non-decisive about model use."},
+    "regret": {"value": 4, "why": "A relatively cheap audit can prevent a confounded intervention project and may unlock a highly legible use question."}
+  },
+  "mode_c_priority_score": 4.1,
+  "priority_arithmetic": "0.30*5 + 0.25*2 + 0.20*5 + 0.15*4 + 0.10*5 = 4.10",
+  "unverified_claims": [
+    "The released Sybil-held-out NLST cases can be linked to publicly obtainable images.",
+    "Sybil preprocessing preserves continuous minimum tracheal index within a defensible margin.",
+    "Continuous tracheal index is longitudinally stable enough to represent fixed remodeling.",
+    "Adequate index support remains beyond sex, LAA-950 emphysema, lung volume, and reconstruction."
+  ],
+  "track": "baseline",
+  "recommendation": "REVISE COMPLETE; proceed only to a feasibility memo that freezes the four Stage 0 gates. No probe code or model-use claim is authorized."
 }
