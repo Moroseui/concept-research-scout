@@ -1,0 +1,20 @@
+{
+  "fiction_version": 2,
+  "concepts": [
+    "aortic calcification",
+    "diaphragm excursion"
+  ],
+  "source": "random",
+  "dataset": {
+    "name": "NLST via TCIA/IDC",
+    "scale": "~26k participants, low-dose chest CT, mortality + cancer outcomes",
+    "access": "public (CC BY, no application)"
+  },
+  "model": {
+    "name": "CT-CLIP / CT-CHAT",
+    "what": "chest-CT vision-language model with per-finding heads",
+    "access": "public weights"
+  },
+  "twist": "The effect reverses at a scale nobody usually looks at.",
+  "drawn_at": "2026-08-11T10:06:53+00:00"
+}
