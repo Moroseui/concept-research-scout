@@ -1,0 +1,7 @@
+Wrote `ideas/scout-009/fiction_pitch.md` — a plain technical note with the three required sections, stripped of all narrative elements.
+
+- **Claimed finding**: states, at the source's strength, that CT-CLIP's aortic-calcification head scores diaphragm position rather than the aorta at volume level, with the sign inversion between whole-volume (HR 0.74) and slice-wise mean (HR 1.58) scores and the r = 0.81 residual–excursion correlation.
+- **Materials**: NLST via IDC (1,912 participants, seven-year vital status), CT-CLIP in volume and 3-mm slice-wise modes, the model-free 130-HU Agatston-style threshold, the apex-to-dome excursion proxy via ITK, the residual score, occlusion tooling, and the adjusted Cox model.
+- **Verification procedure**: nine numbered steps reproducing the analysis as given — single-case occlusions, monotonic dome-translation sweep, slice-vs-volume comparison, cohort assembly, ground-truth computation, Cox regressions, residual correlation, and the T1 longitudinal check — without filling in gaps or adding methodology.
+
+No other files were touched.
