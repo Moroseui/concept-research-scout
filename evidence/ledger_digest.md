@@ -1,6 +1,6 @@
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-49 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+50 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -15,7 +15,6 @@ A candidate that dies like a prior one must say what makes it different.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
-- **scout-009-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-11] -- The brain-tumor prognosticator may be weighing the chewing muscle
 - **scout-007-c07** [NOVEL_UNVERIFIED, score 4.3, audited 2026-08-10] -- The fibrosis model may be counting holes at the pleural edge
 - **scout-006-c04** [NOVEL_UNVERIFIED, score 4.1, audited 2026-08-10] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
 - **scout-009-c08** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.1, audited 2026-08-11] -- The glioblastoma prognosticator may be reading the invasion front's roughness
@@ -25,7 +24,8 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-008-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.9, audited 2026-08-11] -- The lung-cancer model may read the aorta as an ageing clock
 - **scout-009-c09** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-08-11] -- The arterial-calcification score may be reading inspiratory depth
 - **scout-009-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-11] -- The risk model may be reading the breast's lines of force
-- ... and 11 more (python scout.py backlog)
+- **scout-007-c08** [NOVEL_UNVERIFIED, score 3.6, audited 2026-08-10] -- The PE model may be reading how completely blood and contrast have mixed
+- ... and 10 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
@@ -58,6 +58,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-015** [REJECTED/DEBATED/baseline] -- A breast-cancer risk model may be reading the arteries as a vascular clock
 - **idea-016** [REJECTED/DEBATED/baseline] -- The PE model may read contrast flowing backward as a pressure gauge -- killed: IDENTIFIABILITY_FAILURE
 - **idea-017** [SHORTLISTED/SCOUTED/baseline] -- A lung-cancer model may be reading a mechanically remodeled trachea
+- **idea-018** [SHORTLISTED/SCOUTED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle
 - **scout-006-c01** [SHORTLISTED/SCOUTED/baseline] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - **scout-006-c02** [SHORTLISTED/SCOUTED/baseline] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - **scout-006-c03** [SCOUT_ONLY/SCOUTED/baseline] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
@@ -83,7 +84,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-008-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The lung-cancer model may read the aorta as an ageing clock
 - **scout-009-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The CT spirometer may be measuring remodeled airway walls
 - **scout-009-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The kidney model may be reading fat packed into the renal sinus
-- **scout-009-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle
+- **scout-009-c03** [SHORTLISTED/SCOUTED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle
 - **scout-009-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The risk model may be reading the breast's lines of force
 - **scout-009-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The lung-cancer model may be reading the marrow as a smoking dosimeter
 - **scout-009-c06** [SCOUT_ONLY/SCOUTED/wide] -- The CT spirometer may be reading the diaphragm as a pressure-loaded membrane

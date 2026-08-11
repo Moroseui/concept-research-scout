@@ -1,0 +1,131 @@
+{
+  "id": "C3",
+  "parent_ids": [],
+  "revival_basis": null,
+  "search_mode": "B",
+  "entry_point": 2,
+  "design_template": "longitudinal-within-subject",
+  "title": "The brain-tumor prognosticator may be weighing the chewing muscle",
+  "question": "Is a whole-head glioblastoma survival model using temporalis muscle thickness as a frailty cue rather than only tumor biology?",
+  "rung": {
+    "target": 3,
+    "current": 0,
+    "move_up": "Tumor-stable within-patient score tracking plus selective temporalis substitution reaches rung 1; acquisition/treatment controls gate rung 2; temporalis thickness provides rung 3."
+  },
+  "deliverable_sentence": "The glioblastoma survival model is using temporalis muscle thickness as an image marker of systemic frailty.",
+  "X_measurement": {
+    "X": "Bilateral temporalis muscle cross-sectional area and thickness on axial T1 MRI, normalized to cranial size.",
+    "how": "Automatically segment left and right temporalis at standardized orbital/temporal levels and compute area and maximum orthogonal thickness. A multi-dataset deep-learning implementation and prognostic validation were reported by Surov et al./Furtner-related work (Neurooncol Adv 2022, PMCID PMC8770629).",
+    "could_compute_today_without_asking_anyone": "Yes; an automated segmentation produces continuous geometry without a radiologist rating."
+  },
+  "suspected_signal": "Cancer cachexia, corticosteroid exposure, inactivity, and frailty reduce craniofacial skeletal muscle; whole-head models can see this extracranial tissue even when the tumor is stable.",
+  "specific_artifact_confused_with_signal": "Head field-of-view cropping, coil bias, slice angulation, edema, and postsurgical change can alter apparent thickness or model framing.",
+  "keystone_prerequisite": "A runnable whole-head survival model retains extracranial temporalis in its exact input tensor, and enough longitudinal MRIs have stable tumor burden but measurable temporalis change to separate frailty from tumor progression.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "Primary full text inspected: PMCID PMC8770629 reports automated temporalis segmentation across four datasets; GRASP, PMID 38285679, reports whole-brain post-radiotherapy MRI survival prediction. The exact GRASP preprocessing, checkpoint availability, and count of tumor-stable longitudinal pairs retaining temporalis were not established.",
+  "keystone_residual_assumption": "The adjacent facts are that temporalis predicts prognosis and an MRI model predicts survival. I am still assuming the survival model actually sees extracranial muscle and an obtainable longitudinal subset decorrelates muscle loss from tumor change; that is the real keystone.",
+  "rung_reached": "No rung; longitudinal association alone is insufficient. Rung 1 needs convergent within-subject and selective-substitution evidence.",
+  "dies_like_prior": "No annotation-provenance failure applies because muscle geometry and tumor volume are automated. It risks the same use-versus-association error seen across early cycles, so longitudinal correlation is explicitly exploratory and regional substitution is required for the use claim.",
+  "closest_prior_work": [
+    {
+      "citation": "Deep learning-based quantification of temporalis muscle has prognostic value in glioblastoma",
+      "identifier": "PMCID PMC8770629",
+      "verified_fact": "Automated temporalis quantification generalized across four datasets and was prognostic.",
+      "delta": "It did not test reliance by a whole-image survival model."
+    },
+    {
+      "citation": "GRASP study",
+      "identifier": "PMID 38285679",
+      "verified_fact": "A whole-brain post-radiotherapy MRI model predicted glioblastoma survival.",
+      "delta": "It did not isolate extracranial muscle as a used signal."
+    }
+  ],
+  "existing_assets": [
+    "Public brain-tumor MRI collections with serial imaging",
+    "Automated tumor and temporalis segmentation methods",
+    "Published survival-model recipes"
+  ],
+  "smallest_decisive_experiment": "Freeze a survival model and identify serial scans with stable automated enhancing/nonenhancing tumor volume. Test whether score change tracks temporalis change, then substitute only extracranial temporalis patches between same-sequence scans with matched coil-field intensity. Require dose response, unchanged tumor embeddings, and null scalp/fat shams.",
+  "use_vs_association": "The within-subject relationship is only triangulation; the use claim requires temporalis-only substitution to move survival score while brain/tumor tensors and tumor embeddings remain fixed.",
+  "standing_confounds_addressed": {
+    "scanner_vendor_protocol_reconstruction_site": "Same-sequence within-patient pairs and intensity-matched substitutions reduce them; coil/site replication remains.",
+    "positioning": "Rigid cranial registration and standardized planes.",
+    "habitus": "Within-subject design controls baseline habitus, not systemic treatment changes.",
+    "prevalence_referral": "Paired estimand is robust but GBM treatment cohort limits scope.",
+    "label_leakage": "No report text or survival label is used in the paired substitution readout."
+  },
+  "alternative_explanations": [
+    {
+      "alternative": "Tumor progression causes both score and wasting.",
+      "resolution": "Prespecified stable-tumor pairs plus tumor-fixed substitution."
+    },
+    {
+      "alternative": "Steroid treatment changes both muscle and brain edema.",
+      "resolution": "Medication adjustment where available; substitution holds brain fixed but biological interpretation remains limited."
+    },
+    {
+      "alternative": "The model responds to extracranial edit seams.",
+      "resolution": "Scalp/fat and left-right sham substitutions with distribution checks."
+    }
+  ],
+  "anticipated_negative": {
+    "classification": "sensitivity-limited",
+    "reason": "A null can reflect a tumor-cropped model or insufficient muscle change; becomes decisive only after confirmed visibility and positive-control sensitivity."
+  },
+  "cross_domain": null,
+  "remaining_legwork": "2-3 days to inspect model input/preprocessing; 1 week for longitudinal pair counts; 2 weeks to first intervention result.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "Named muscle metric and explicit whole-head outcome."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Tumor-fixed regional substitution directly separates muscle from tumor burden, subject to seam validity."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Would reveal frailty contamination or useful holistic prognostication."
+    },
+    "interest": {
+      "value": 4,
+      "why": "A brain-tumor model using chewing muscle is surprising and clinically legible."
+    },
+    "prior_legwork": {
+      "value": 3,
+      "why": "Both component literatures exist, but runnable convergence is unclear."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped; model visibility and longitudinal subset uninspected."
+    },
+    "data_readiness": {
+      "value": 2,
+      "why": "Serial survival-linked MRI access and checkpoint need confirmation."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Muscle/tumor metrics exist; edit validation is custom."
+    },
+    "negative_result_value": {
+      "value": 2,
+      "why": "Null is sensitivity-limited."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped; bounded search found association studies but no use audit."
+    },
+    "regret": {
+      "value": 5,
+      "why": "Extracranial tissue is easy to overlook and may dominate prognosis."
+    }
+  },
+  "priority_score": 3.45,
+  "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*4 + 0.10*3 + 0.10*4 + 0.10*5 + 0.10*2 + 0.05*2 + 0.05*3 = 3.45",
+  "unverified_claims": [
+    "An obtainable survival model retains temporalis",
+    "Enough tumor-stable serial pairs exist",
+    "Temporalis-only substitution can pass distribution checks"
+  ],
+  "track": "baseline"
+}
