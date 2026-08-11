@@ -1033,7 +1033,7 @@ class TestProbeBuild(Harness):
         alias.mkdir(parents=True)
         (alias / "run.py").write_text(
             "import argparse\nap = argparse.ArgumentParser()\n"
-            "ap.add_argument('--smoke-test', action='store_true')\n"
+            "ap.add_argument('--smoke', action='store_true')  # only the short flag: exercises verify fallback\n"
             "ap.parse_args()\nprint('recovered probe')\n")
         (alias / "README.md").write_text("# probe\n")
         self.commit()

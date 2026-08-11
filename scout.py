@@ -453,7 +453,11 @@ def verify_probe(args):
     if (p/'run.py').exists():
         r=subprocess.run([sys.executable,'-m','py_compile',str(p/'run.py')],capture_output=True,text=True)
         if r.returncode: issues.append('syntax error: '+r.stderr[-500:])
-        smoke=subprocess.run([sys.executable,str(p/'run.py'),'--smoke-test'],cwd=p,capture_output=True,text=True,timeout=300)
+        smoke=None
+        for flag in ('--smoke-test','--smoke'):
+            smoke=subprocess.run([sys.executable,str(p/'run.py'),flag],cwd=p,capture_output=True,text=True,timeout=300)
+            if smoke.returncode==0 or 'unrecognized arguments' not in (smoke.stderr or ''):
+                break  # ran (pass or real failure); only retry on flag-spelling rejection
         if smoke.returncode: issues.append('smoke test failed: '+(smoke.stderr or smoke.stdout)[-1000:])
     out={'idea_id':f'{args.idea:03d}','passed':not issues,'issues':issues,'checked_at':datetime.now(timezone.utc).isoformat()}
     (p/'verification.json').write_text(json.dumps(out,indent=2)+'\n')
