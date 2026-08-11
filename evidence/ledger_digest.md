@@ -7,9 +7,9 @@
 Before proposing a candidate, check it against every pattern below.
 A candidate that dies like a prior one must say what makes it different.
 
+- **DATA_ACCESS** x2: Required data, checkpoints, or mappings are not obtainable in practice.
 - **IDENTIFIABILITY_FAILURE** x2: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
 - **DATA_INSUFFICIENT** x1: The subset that actually supports the inference is too small or unreachable.
-- **DATA_ACCESS** x1: Required data, checkpoints, or mappings are not obtainable in practice.
 - **ANNOTATION_PROVENANCE** x1: Inference depends on who assigned labels / what they could see, and that is undocumented or contaminated.
 - **CIRCULARITY** x1: The endpoint is a re-encoding of the input or of the thing being tested.
 
@@ -58,7 +58,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-015** [REJECTED/DEBATED/baseline] -- A breast-cancer risk model may be reading the arteries as a vascular clock
 - **idea-016** [REJECTED/DEBATED/baseline] -- The PE model may read contrast flowing backward as a pressure gauge -- killed: IDENTIFIABILITY_FAILURE
 - **idea-017** [SHORTLISTED/DEBATED/baseline] -- A lung-cancer model may be reading a mechanically remodeled trachea
-- **idea-018** [SHORTLISTED/CRITIQUED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle
+- **idea-018** [REJECTED/DEBATED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle -- killed: DATA_ACCESS
 - **idea-019** [SHORTLISTED/SCOUTED/wide] -- The fibrosis model may be counting holes at the pleural edge
 - **scout-006-c01** [SHORTLISTED/SCOUTED/baseline] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - **scout-006-c02** [SHORTLISTED/SCOUTED/baseline] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
