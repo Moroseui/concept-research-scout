@@ -1,0 +1,60 @@
+{
+  "idea_id": "idea-004",
+  "stage": "probe_code",
+  "date": "2026-08-11",
+  "artifact": "probes/idea-004/run.py",
+  "approval_gate": {
+    "status": "PASS",
+    "detail": "ideas/004/HUMAN_APPROVED_PROBE exists (committed 3ecee0e, 2026-08-11T23:08:04Z). The contract YAML's human_approved flag was left false in that same commit; run.py gates on the committed marker file and this discrepancy is documented in run.py and README.md."
+  },
+  "checks": [
+    {
+      "name": "syntax_compile",
+      "command": "python3 -m py_compile run.py",
+      "status": "NOT_RUN",
+      "reason": "This sandbox denies python script execution without interactive approval, and the session is autonomous. python3 --version works; running scripts does not."
+    },
+    {
+      "name": "smoke_run",
+      "command": "python3 run.py --smoke",
+      "status": "NOT_RUN",
+      "reason": "Same sandbox restriction. The smoke mode is stdlib-only, needs no network or GPU, finishes in seconds, and is the first thing the human should run.",
+      "expected_when_run": "exit 0; outputs_smoke/ contains all seven contract-required files; summary.json has contract_satisfied=false, harness_checks all true, and 54 rows in per_sample.csv (3 executions x 18 heads)."
+    },
+    {
+      "name": "static_review_pair_selection",
+      "status": "PASS",
+      "detail": "Hand-traced select_pair() on the synthetic table: 3 non-validation rows (2 train, 1 test) refused by the split guard; decoys for slice-count drift, ZSpacing drift, wrong kernel contrast (Br44f), and singleton scan all excluded; exactly one qualifying pair (valid_1_a_1|valid_1_a_2) selected by the deterministic sort-and-take-first rule. Smoke mode asserts each of these counts and exits 12 on any mismatch."
+    },
+    {
+      "name": "static_review_contract_mapping",
+      "status": "PASS",
+      "detail": "Each of the contract's seven invalidating_failures maps to a distinct exit code (3-9); the three executions (A, B, A-repeat) are hardcoded with no CLI knobs beyond --smoke, batch size 1, one seed (0), and the 45-GPU-minute cumulative cap is checked after every execution. Contract caps are re-read from probe_contract.yaml at startup and the run aborts (exit 2) if they differ from the frozen constants."
+    },
+    {
+      "name": "static_review_required_outputs",
+      "status": "PASS",
+      "detail": "Both modes write all seven required_outputs: resolved_config.json, per_sample.csv, summary.json, environment.txt, provenance.json, input_manifest.csv, run_log.txt. In real mode provenance.json (repo revision, checkpoint SHA-256, code commit, table hashes) is written before any inference; volume hashes are appended at download time, still before inference."
+    },
+    {
+      "name": "static_review_split_guards",
+      "status": "PASS",
+      "detail": "assert_validation_only() refuses any resource whose path or name indicates train or test split, and is applied to every hub download and both pair members; assert_pair_valid() additionally asserts A != B, same patient+scan, distinct reconstruction ids. No labels enter any endpoint; the validation labels CSV is read only because the released dataset class requires the file and for the head-name/order check."
+    },
+    {
+      "name": "released_api_fidelity",
+      "status": "PASS_WITH_CAVEAT",
+      "detail": "Model construction (CTViT/CTCLIP constructor arguments, ImageLatentsClassifier 512->18, sigmoid readout, empty-string text tokens) and the 18 head names were transcribed from the official CT-CLIP repository (scripts/ct_lipro_inference.py, scripts/data_inference_nii.py, fetched 2026-08-11). Exact constructor/call signatures were summarized, not executed; if the released signatures differ, run.py fails with exit 5/7/9 and the driver must be corrected to match the released code, never the reverse. That failure would itself be a valid probe observation under invalidating_failures[2]."
+    },
+    {
+      "name": "expensive_compute",
+      "status": "NOT_LAUNCHED",
+      "detail": "No downloads, no GPU work, no gated-data access performed at this stage, per the stage instructions."
+    }
+  ],
+  "next_actions_for_human": [
+    "python3 run.py --smoke  (seconds; verifies the harness end to end)",
+    "Accept the CT-RATE gate on Hugging Face and log in (HF token), on a machine with a CUDA GPU and the CT-CLIP dependencies",
+    "python3 run.py  (the real probe: ~3 GB download, three executions, <45 GPU minutes)"
+  ]
+}

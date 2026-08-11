@@ -1,9 +1,51 @@
-# Probe plan — idea 004
+# Probe — idea 004 (load probe, contract v1)
 
-This directory is reserved for the exploratory load probe defined in
-[`ideas/004/probe_contract.yaml`](../../ideas/004/probe_contract.yaml). No probe
-code has been implemented and no execution is authorized while
-`human_approved: false`.
+This directory implements the exploratory load probe defined in
+[`ideas/004/probe_contract.yaml`](../../ideas/004/probe_contract.yaml). Human
+approval exists as the committed marker `ideas/004/HUMAN_APPROVED_PROBE`
+(2026-08-11); note the contract YAML's `human_approved` flag was left `false`
+in the approval commit — `run.py` gates on the marker file, which is the
+human's actual approval act.
+
+## How to run
+
+```bash
+# Harness self-test: synthetic data, stdlib only, no network/GPU, seconds.
+# Cannot satisfy the contract; verifies gate, split guards, pair selection,
+# per-sample outputs, bit-identity and budget checks.
+python3 run.py --smoke
+
+# The real probe. Prerequisites: CT-RATE gate accepted on Hugging Face and a
+# logged-in HF token; CUDA GPU; torch, nibabel, pandas, transformers,
+# huggingface_hub installed (the CT-CLIP requirements). ~3 GB download,
+# exactly three executions, hard 45-GPU-minute cap.
+python3 run.py
+```
+
+Exit codes map one-to-one to the contract's invalidating failures (see the
+`run.py` docstring): 0 pass, 2 gate, 3 access, 4 provenance, 5 checkpoint
+load, 6 output shape, 7 pair validity, 8 determinism, 9 budget, 11 missing
+dependency, 12 internal error (never to be reinterpreted as a negative
+result). Outputs land in `outputs/` (real) or `outputs_smoke/` (smoke):
+`resolved_config.json`, `per_sample.csv`, `summary.json`, `environment.txt`,
+`provenance.json`, `input_manifest.csv`, `run_log.txt`.
+
+The one probe pair is not hardcoded: it is derived deterministically from the
+released `validation_metadata.csv` by re-applying the frozen Stage-0 rules
+(exact string equality on RescaleSlope, RescaleIntercept, XYSpacing, ZSpacing,
+NumberofSlices, plus position/acquisition columns where present), restricting
+to the Br40f|Br60f contrast, sorting by the Br40f member's volume name, and
+taking the first — selected before any score is inspected. The count of
+qualifying pairs is logged as a cross-check against Stage 0's 237.
+
+If the released code's constructor or call signatures differ from the
+transcription in `run.py` (taken from `scripts/ct_lipro_inference.py` on
+2026-08-11), the probe fails with exit 5/7/9; fix the driver to match the
+released code, never the released code to match the driver.
+
+`verification.json` records the local checks done at implementation time; the
+sandbox used for implementation could not execute python, so the smoke run is
+the human's first step.
 
 ## Purpose
 
@@ -51,7 +93,7 @@ paper tables before paired scores are inspected.
 
 ## Expected artifacts
 
-The eventual authorized run must preserve `resolved_config.json`,
-`per_sample.csv`, `summary.json`, `environment.txt`, `provenance.json`,
-`input_manifest.csv`, and `run_log.txt`. These files do not exist yet because this
-stage creates a plan only.
+The authorized run preserves `resolved_config.json`, `per_sample.csv`,
+`summary.json`, `environment.txt`, `provenance.json`, `input_manifest.csv`,
+and `run_log.txt`, written by `run.py` into `outputs/` (or `outputs_smoke/`
+for the harness self-test). They exist only after a run.

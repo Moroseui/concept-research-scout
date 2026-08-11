@@ -1,0 +1,7 @@
+# Bulk artifacts the probe downloads or stages; never committed.
+work/
+vendor/
+__pycache__/
+# Real-run outputs may be committed after human review; smoke outputs are
+# regenerable in seconds.
+outputs_smoke/
