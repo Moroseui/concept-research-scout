@@ -1,3 +1,4 @@
+<!-- stage: probe_code -->
 Human approval has been granted. Implement only the approved `probe_contract.yaml` in probes/IDEA_ID/.
 
 Requirements:

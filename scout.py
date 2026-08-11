@@ -360,6 +360,66 @@ def run_stage(args):
         ledger_mod.raise_scrutiny(f'idea-{args.idea:03d}', 'CRITIQUED')
 
 
+def _probe_review_verdict(target):
+    import re
+    body = read_text(target/'probe_review.md')
+    m = re.findall(r'```json\s*(\{.*?\})\s*```', body, flags=re.S)
+    if not m:
+        return None
+    try:
+        return json.loads(m[-1])
+    except json.JSONDecodeError:
+        return None
+
+
+def probe_build(args):
+    """Generate Stage 0 probe code with cross-model adversarial review:
+    probe-code (one family) -> probe-review (the other) -> at most one
+    revision -> deterministic verify. The goal is fixed beforehand by the
+    human-approved feasibility memo + contract; review checks fidelity to
+    that goal, never expands it."""
+    d = idea_dir(args.idea)
+    if not (d/'HUMAN_APPROVED_PROBE').exists():
+        raise SystemExit('Run approve-probe first: the human gate precedes any code.')
+    if not (d/'probe_contract.yaml').exists():
+        raise SystemExit('probe_contract.yaml missing: run `run --stage probe-plan` first.')
+    _require_clean_tree('probe-build')
+    cfg = load_agent_config()
+    base = (cfg.get('roles', {}) or {}).get('probe_code', cfg.get('default', {}).get('agent', 'claude'))
+    if base not in ('claude', 'codex'):
+        base = 'claude'
+    gen = effective_agent(base, cfg) or base
+    rev = 'codex' if gen == 'claude' else 'claude'
+    print(f'Probe generator: {gen}; adversarial reviewer: {rev}')
+    for round_no in (1, 2):
+        p1 = write_prompt('probe_code', d)
+        if round_no == 2:
+            p1.write_text(p1.read_text() + '\n===== REVISION ROUND =====\n'
+                          'A reviewer found blocking issues (see probe_review.md in your '
+                          'context). Fix ONLY those findings; do not expand scope.\n')
+        run_agent(p1, gen, stage='probe_code', log_path=d/'log_probe_code.txt')
+        _check_scope('probe-code')
+        pdir = ROOT/'probes'/f'{args.idea:03d}'
+        for fname in ('run.py', 'README.md', 'requirements.txt'):
+            if not (pdir/fname).exists():
+                raise SystemExit(f'probe_code wrote no {fname} in {pdir.relative_to(ROOT)}; '
+                                 'the probe contract requires it.')
+        _commit_all(f'idea {args.idea:03d}: probe code (round {round_no}, {gen})')
+        p2 = write_prompt('probe_review', d)
+        run_agent(p2, rev, stage='probe_review', log_path=d/'log_probe_review.txt')
+        _require_artifact('probe_review', d)
+        _commit_all(f'idea {args.idea:03d}: probe review (round {round_no}, {rev})')
+        v = _probe_review_verdict(d) or {}
+        if v.get('verdict') == 'APPROVE':
+            print(f'Probe code APPROVED by {rev} on round {round_no}.')
+            break
+        if round_no == 2:
+            raise SystemExit('Probe code still has blocking findings after one revision; '
+                             'read probe_review.md and decide by hand.')
+        print(f'Reviewer requests revision: {", ".join(v.get("blocking", [])[:3])}')
+    verify_probe(args)
+
+
 def approve_probe(args):
     d=idea_dir(args.idea)
     if not (d/'feasibility.md').exists(): raise SystemExit('Feasibility memo missing.')
@@ -560,6 +620,8 @@ STAGE_SCOPE = {
     'librarian':       ['ideas/'],
     'actioner':        ['ideas/'],
     'keystone':        ['ideas/'],
+    'probe-code':      ['ideas/', 'probes/'],
+    'probe-build':     ['ideas/', 'probes/'],
 }
 
 
@@ -777,6 +839,7 @@ STAGE_ARTIFACTS = {
     'fiction_refine': 'fiction_candidates.json',
     'novelty_audit': ('novelty_audit.md', 'novelty_manifest.json'),
     'keystone': 'keystone_screen.md',
+    'probe_review': 'probe_review.md',
     'librarian': 'librarian_report.md',
     'actioner': 'actions.md',
     'critique': 'critique.md',
@@ -1801,6 +1864,7 @@ def main():
     p=sp.add_parser('backlog'); p.set_defaults(fn=backlog_cmd)
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
+    p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)

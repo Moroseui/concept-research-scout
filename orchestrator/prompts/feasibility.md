@@ -1,3 +1,4 @@
+<!-- stage: feasibility -->
 Verify whether the selected idea is actually feasible. Use primary sources and official dataset documentation.
 
 Check:

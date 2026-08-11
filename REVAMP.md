@@ -173,6 +173,13 @@ completes them.
   requests (not requires) Mode-C scoring. Rule: the schema enforces the
   scientific contract, not bookkeeping the orchestrator derives itself.
 
+- [x] **Probe build with cross-model review.** `scout.py probe-build N`:
+  probe-code (one family) -> probe_review (the other; contract-fidelity,
+  silent-failure surfaces, claim discipline, Colab practicalities; verdict
+  json) -> at most one revision -> verify-probe. Human gates unchanged
+  (feasibility memo + approve-probe precede any code; the review checks
+  fidelity to the fixed goal, never expands it).
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists

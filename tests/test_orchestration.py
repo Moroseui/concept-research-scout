@@ -98,6 +98,25 @@ elif action == "cycle_auto":
             + '{"verdict": "' + v + '", ' + kc
             + '"evidence": "quoted line", "source": "https://x/y#L1", "note": "fake"}'
             + NL + "```" + NL)
+    elif stage == "probe_code":
+        idea = outdir.name if outdir.name.isdigit() else "001"
+        pdir = root / "probes" / idea
+        pdir.mkdir(parents=True, exist_ok=True)
+        (pdir / "run.py").write_text(
+            "import argparse" + NL
+            + "ap = argparse.ArgumentParser()" + NL
+            + "ap.add_argument('--smoke-test', action='store_true')" + NL
+            + "ap.add_argument('--output-dir', default='.')" + NL
+            + "print('probe ok')" + NL)
+        (pdir / "README.md").write_text("# probe" + NL)
+        (pdir / "requirements.txt").write_text("pandas" + NL)
+    elif stage == "probe_review":
+        v = os.environ.get("FAKE_PROBE_REVIEW", "APPROVE")
+        blocking = '["missing summary.json"]' if v == "REVISE" else "[]"
+        (outdir / "probe_review.md").write_text(
+            "# review" + NL + "```json" + NL
+            + '{"verdict": "' + v + '", "blocking": ' + blocking + ', "note": "fake"}'
+            + NL + "```" + NL)
     elif stage == "actioner":
         (outdir / "actions.md").write_text("## Decisions waiting on the human" + NL + "- none" + NL)
     elif "TRANSCRIPT SO FAR" in prompt:
@@ -981,6 +1000,38 @@ class TestKeystoneScreen(Harness):
         self.assertEqual(e["death_stage"], "keystone")
         self.assertEqual(e["kill_code"], "DATA_ACCESS")
         self.assertIn("quoted line", e.get("keystone_evidence", ""))
+
+
+class TestProbeBuild(Harness):
+    def setUp(self):
+        super().setUp()
+        self.make_hermetic()
+
+    def _arm(self):
+        d = self.repo / "ideas" / "001"
+        (d / "feasibility.md").write_text("# memo\ngoal\n")
+        (d / "probe_contract.yaml").write_text("idea_id: '001'\nprimary_metric: 'x'\n")
+        (d / "HUMAN_APPROVED_PROBE").write_text("approved\n")
+        self.commit()
+
+    def test_probe_build_generates_reviews_and_approves(self):
+        self._arm()
+        r = self.scout("probe-build", "1", action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("APPROVED", r.stdout)
+        self.assertTrue((self.repo / "probes" / "001" / "run.py").exists())
+        self.assertTrue((self.repo / "ideas" / "001" / "probe_review.md").exists())
+        self.assertTrue((self.repo / "probes" / "001" / "verification.json").exists(),
+                        "verify-probe did not run at the end of the loop")
+
+    def test_probe_build_blocked_without_human_gate(self):
+        d = self.repo / "ideas" / "001"
+        (d / "feasibility.md").write_text("# memo\n")
+        (d / "probe_contract.yaml").write_text("idea_id: '001'\n")
+        self.commit()
+        r = self.scout("probe-build", "1", action="cycle_auto")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("approve-probe first", r.stdout + r.stderr)
 
 
 class TestActioner(Harness):
