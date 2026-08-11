@@ -1,0 +1,114 @@
+{
+  "candidates": [
+    {
+      "id": "F1",
+      "track": "fiction",
+      "parent_ids": [],
+      "search_mode": "C",
+      "entry_point": 2,
+      "design_template": "counterfactual-synthesis",
+      "title": "The arterial-calcification score may be reading inspiratory depth",
+      "question": "Is CT-CLIP's arterial-wall-calcification output using normalized diaphragm dome height as an image cue?",
+      "deliverable_sentence": "The model is using normalized diaphragm dome height as an image cue for arterial wall calcification.",
+      "kernel_provenance": "The kernel comes from the pitch's asserted score collapse after changing the left hemidiaphragm and its proposed monotonic response to dome translation; the mortality, slice-wise, longitudinal, and numerical claims were discarded as unverified.",
+      "X_measurement": {
+        "X": "Normalized diaphragm dome height, measured separately for each hemidiaphragm as the craniocaudal apex-to-dome distance divided by thoracic craniocaudal length, with total segmented lung volume as a companion inspiratory-depth measure.",
+        "how": "Automatically segment the lungs, identify the most caudal point of each lung-diaphragm interface and the ipsilateral lung apex in physical coordinates, and divide their distance by thoracic length. The calculation is deterministic and can be repeated after the model's exact preprocessing.",
+        "could_compute_today_without_asking_anyone": "Yes. It is a geometric measurement over automated masks and voxel coordinates; no reader label is required."
+      },
+      "suspected_signal": "Inspiratory depth changes diaphragm position, lung volume, and the craniocaudal arrangement of thoracic anatomy. A volume classifier trained on report-derived labels could therefore use this global respiratory-state cue as a correlate of the population in which arterial calcification is reported, rather than localizing calcified plaque.",
+      "keystone_prerequisite": "A plaque-preserving counterfactual can change normalized diaphragm dome height across the natural NLST range while keeping every aortic and other hyperattenuating voxel, final-tensor framing, and local image texture unchanged enough that matched sham edits are indistinguishable from the active edit.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "The official CT-CLIP repository states that pretrained CT-CLIP variants and inference code are released and that inference can run on smaller GPUs (official repository: https://github.com/ibrahimethemhamamci/CT-CLIP). The official TCIA NLST collection page lists public CT images under CC BY 4.0 (https://www.cancerimagingarchive.net/collection/nlst/). These verify the adjacent model/data facts, not the load-bearing counterfactual-validity conjunction.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? I verified that the model family, inference path, and public scans exist; I am still assuming that diaphragm height can be changed without the model responding to boundary warping, altered lung shape, or crop/framing changes. That is the real keystone.",
+      "use_vs_association_design": "Hold the original aorta and all calcified voxels exactly fixed, apply a bidirectional dose series of diaphragm-height edits, and require a larger ordered output response than equal-energy pleural-boundary and spatially shifted sham edits; an observational score-X correlation is exploratory only.",
+      "dataset": {
+        "primary": "National Lung Screening Trial low-dose chest CT collection on The Cancer Imaging Archive (NLST; TCIA)",
+        "access": "Public imaging collection, CC BY 4.0; use a small prespecified sample without relying on restricted clinical outcomes.",
+        "official_url": "https://www.cancerimagingarchive.net/collection/nlst/"
+      },
+      "smallest_decisive_experiment": "Select 32 NLST noncontrast inspiratory CT volumes spanning the natural diaphragm-height distribution and containing both low and high automated thoracic-aortic calcium burden. Run one frozen CT-CLIP arterial-wall-calcification output. For each scan, create two or three small cranial and caudal diaphragm-boundary displacements confined to a thin caudal lung band while copying the entire aorta, heart, spine, all voxels above 130 HU, and the final crop coordinates unchanged. Compare paired output slopes against equal-energy lateral-pleural, left-right-swapped, and phase-scrambled displacement shams. Preregister a natural-range X change, a sham-effect ceiling, and an output-equivalence margin. Batched inference over fewer than 300 volumes fits one Colab GPU session; counterfactual construction is CPU-side.",
+      "closest_prior_work": [
+        {
+          "citation": "Hamamci et al., A foundation model utilizing chest CT volumes and radiology reports for supervised-level zero-shot detection of abnormalities",
+          "identifier": "arXiv:2403.17834; official repository https://github.com/ibrahimethemhamamci/CT-CLIP",
+          "verified_fact": "CT-CLIP performs volume-level multi-abnormality detection from 3D chest CT and its official repository provides inference code and pretrained-model links.",
+          "delta": "The primary paper did not test whether its arterial-wall-calcification output uses diaphragm position."
+        },
+        {
+          "citation": "Bak et al., Automated evaluation of diaphragm configuration based on chest CT in COPD patients",
+          "identifier": "PMID 39090324",
+          "verified_fact": "An automated CT diaphragm index was measured in 8,431 COPDGene participants and was associated with COPD severity, FEV1 percent predicted, and emphysema score.",
+          "delta": "This establishes computable diaphragm geometry, not use by a calcification classifier."
+        },
+        {
+          "citation": "van Velzen et al., Deep Learning for Automatic Calcium Scoring in CT: Validation Using Multiple Cardiac CT and Chest CT Protocols",
+          "identifier": "PMID 32043947",
+          "verified_fact": "A location-aware deep-learning method quantified coronary and thoracic-aortic calcification across multiple noncontrast CT protocols.",
+          "delta": "It provides a local-calcium comparator and shows that anatomically grounded scoring is feasible; it did not audit CT-CLIP or diaphragm reliance."
+        }
+      ],
+      "novelty_statement": "NO NOVELTY CLAIM. A bounded primary-source search found the CT-CLIP model paper, quantitative diaphragm work, and automated thoracic-calcium work, but not this specific causal audit; human verification is still required.",
+      "critical_confound": "The active edit may create an unnatural lung-diaphragm boundary or alter global lung shape/framing, so a positive result could reflect sensitivity to synthetic geometry rather than native use of inspiratory depth.",
+      "alternative_explanations": [
+        {
+          "alternative": "CT-CLIP responds to interpolation or boundary seams.",
+          "control": "Equal-energy lateral-pleural and phase-scrambled boundary shams, multiple interpolation kernels, and a blinded active-versus-sham edit discriminator."
+        },
+        {
+          "alternative": "The edit changes lung volume or crop occupancy rather than diaphragm height.",
+          "control": "Match final-tensor framing exactly and either preserve total lung volume with local compensation or estimate diaphragm-height and lung-volume effects separately in a factorial edit."
+        },
+        {
+          "alternative": "The output is driven by actual calcium or reconstruction noise.",
+          "control": "Copy all hyperattenuating and aortic voxels bit-for-bit, stratify by automated calcium burden and reconstruction metadata, and use only within-volume comparisons."
+        }
+      ],
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Held fixed within each edited volume; stratified replication tests effect stability but does not establish broad generalization.",
+        "patient_positioning": "The source scan and crop are fixed; native positioning cannot explain paired changes, although the edit may resemble a positioning artifact.",
+        "body_habitus": "Held fixed by self-comparison.",
+        "disease_prevalence_and_referral_pathway": "Cannot cause paired output changes, but could explain why a model learned the cue and limits interpretation.",
+        "label_leakage_from_report": "No report or label enters the primary paired readout; report-derived training labels could still explain why the shortcut was learned."
+      },
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If validated edits span the natural diaphragm-height range, the model responds to a positive control, sham effects remain below threshold, and the arterial-wall-calcification output remains within a preregistered equivalence margin, appreciable use of this defined X is weakened. If edit-validity gates fail, the result is uninterpretable and is not counted as a negative."
+      },
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "A validated plaque-preserving perturbation can reach rung 1. Replication across reconstruction/vendor strata and rejection of framing artifacts gates rung 2. Only then does the named normalized diaphragm-height sentence qualify as rung 3; the experiment does not establish why the association was learned or any mortality effect."
+      },
+      "dies_like_prior": "It most closely resembles idea-006 because a large synthetic intervention could be out of distribution, and idea-007 because respiratory state co-varies with final-tensor framing. It differs by prohibiting patient deletion, using small natural-range bidirectional boundary edits, preserving plaque voxels, and making sham/distribution gates prerequisites. It still dies the same way if those gates fail. Annotation provenance does not apply because X and the primary readout are computed without labels.",
+      "scores": {
+        "clarity": {"value": 5, "why": "One released model output, one geometric X, and one directional paired test are specified."},
+        "identifiability": {"value": 3, "why": "Plaque-preserving paired edits rule out patient-level confounds, but separating diaphragm height from synthetic boundary and lung-shape effects remains difficult."},
+        "medical_relevance": {"value": 3, "why": "It could expose a clinically misleading respiratory-state shortcut in an arterial-calcification output, but it does not itself improve calcium quantification or outcomes."},
+        "interest": {"value": 4, "why": "A calcification score driven by respiratory geometry would be surprising and consequential for interpretation."},
+        "prior_legwork": {"value": 4, "why": "Model code/weights, public CT, quantitative diaphragm geometry, and automated thoracic-calcium comparators exist."},
+        "feasibility": {"value": 3, "why": "Capped because counterfactual validity is not inspected; the small inference workload otherwise fits one Colab GPU session."},
+        "data_readiness": {"value": 4, "why": "NLST CT images are publicly listed by TCIA and the primary test needs neither outcomes nor manual annotations."},
+        "evaluation_readiness": {"value": 4, "why": "Paired slope, sham ceiling, equivalence margin, X range, and voxel-preservation checks are definable before inference."},
+        "negative_result_value": {"value": 5, "why": "After all sensitivity and edit-validity gates pass, equivalence directly weakens use of this X."},
+        "novelty_confidence": {"value": 3, "why": "Capped by the uninspected keystone and a bounded rather than exhaustive primary-source search."},
+        "regret": {"value": 4, "why": "The first gated test is small and could cheaply falsify a striking shortcut hypothesis."}
+      },
+      "mechanism_clarity": 4,
+      "priority_score": 3.7,
+      "priority_arithmetic": "Mode C: 0.30*4 + 0.25*3 + 0.20*4 + 0.15*3 + 0.10*5 = 3.70",
+      "unverified_claims": [
+        "The current released CT-CLIP checkpoint and label mapping expose the exact arterial-wall-calcification output reproducibly.",
+        "Natural-range diaphragm-height edits can pass the declared distribution and sham gates.",
+        "The defined output uses diaphragm height in intact unedited scans.",
+        "No prior study has performed this exact causal audit."
+      ],
+      "prohibited_conclusions": [
+        "Do not call the output an aortic-specific head without verifying the released label mapping.",
+        "Do not infer that CT-CLIP contains separate slice-wise and volume-wise detectors.",
+        "Do not infer mortality prediction, sign inversion, longitudinal drift, or causation from smoking or COPD.",
+        "Do not interpret a failed edit-validity gate as a negative result."
+      ]
+    }
+  ]
+}
