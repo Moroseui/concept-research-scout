@@ -1,8 +1,6 @@
 {
   "idea_id": "004",
-  "passed": false,
-  "issues": [
-    "smoke test failed: usage: run.py [-h] [--smoke] [--output-dir OUTPUT_DIR]\nrun.py: error: unrecognized arguments: --smoke-test\n"
-  ],
-  "checked_at": "2026-08-11T23:55:47.956517+00:00"
+  "passed": true,
+  "issues": [],
+  "checked_at": "2026-08-11T23:59:32.656605+00:00"
 }
