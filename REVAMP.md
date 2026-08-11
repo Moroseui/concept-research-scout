@@ -147,6 +147,24 @@ completes them.
   Partho's call). Next: freeze Scout v1 and design the prospective
   simple-baseline comparison.
 
+- [x] **Review Patch C (round-2 correctness).** Mode-C ranking uses the
+  Mode-C rubric with its own golden fixture (real 007-C4, 4.35); a card whose
+  rubric cannot be recomputed NEVER names its own rank; schema requires the
+  scientific contract (keystone pair, scores bounded 1-5, one priority field,
+  Mode-C conditionals; design_template/search_mode soft-noted for one grace
+  cycle, then tighten); keystone evidence/source mechanically required (empty
+  -> UNVERIFIABLE, never a kill); novelty_manifest.json is a required,
+  validated artifact; librarian emits calibrated vocabulary and legacy names
+  normalize on ingestion; canonical VERDICT_TIER lives in ledger.py alone;
+  keystone has a done-marker (idempotent resume); stage-level provenance
+  (stage_provenance.jsonl per idea). Fiction head-to-head protocol note: the
+  two arms are not capacity-matched -- default claim is PRACTICAL utility
+  (report survivors per token); a matched-refinement control arm is required
+  before any claim that blind fictional generation itself adds diversity.
+- [ ] **Test-suite scaling.** Harness copies the full growing repo per test
+  (~10 MB now); build a small deterministic fixture repo before the corpus
+  makes CI test time material.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists

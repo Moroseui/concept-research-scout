@@ -63,7 +63,11 @@ elif action == "cycle_auto":
     m2 = re.search("Assigned output directory: (\\S+)", prompt)
     outdir = root / (m2.group(1) if m2 else target)
     outdir.mkdir(parents=True, exist_ok=True)
-    cand = '{"candidates": [{"title": "Fake STAGE", "question": "is the fake model using fake signal?", "deliverable_sentence": "the model is using fake signal", "dataset": "D"}]}'
+    cand = ('{"candidates": [{"title": "Fake STAGE", "question": "is the fake model using fake signal?", '
+        '"deliverable_sentence": "the model is using fake signal", "keystone_prerequisite": "the fixture asset exists", "keystone_status": "NOT_INSPECTED", "priority_score": 3.0, "scores": {"interest": {"value": 3, "why": "fx"}}, "dataset": "D", '
+        '"keystone_prerequisite": "the fake asset exists and is linkable", '
+        '"keystone_status": "NOT_INSPECTED", "priority_score": 3.0, '
+        '"scores": {"interest": {"value": 3, "why": "fixture"}}}]}')
     if stage == "scout":
         (outdir / "scout_candidates.json").write_text(cand.replace("STAGE", "baseline") + NL)
     elif stage == "wide_scout":
@@ -75,6 +79,10 @@ elif action == "cycle_auto":
     elif stage == "fiction_refine":
         (outdir / "fiction_candidates.json").write_text(cand.replace("STAGE", "fiction") + NL)
     elif stage == "novelty_audit":
+        (outdir / "novelty_manifest.json").write_text(
+            '{"searched_at": "2026-08-10", "queries": [{"query": "q", "source": "s"}], '
+            '"neighbors": [{"candidate": "C1", "identifier": "PMID:1", "access": "abstract"}]}' + NL)
+
         (outdir / "novelty_audit.md").write_text("audit" + NL)
     elif stage == "librarian":
         (outdir / "librarian_report.md").write_text("report" + NL)
@@ -489,6 +497,146 @@ GOLDEN_CANDIDATE = json.loads(r"""{
 }""")
 
 
+GOLDEN_MODE_C = json.loads(r"""{
+ "id": "C4",
+ "parent_ids": [],
+ "revival_basis": null,
+ "search_mode": "C",
+ "entry_point": 2,
+ "title": "The PE model may read contrast flowing backward as a pressure gauge",
+ "question": "Is a pulmonary-embolism CTPA model using contrast reflux into the inferior vena cava and hepatic veins as a hydraulic back-pressure signal when it predicts right-heart strain?",
+ "rung": {
+  "target": 3,
+  "current": 0,
+  "move_up": "A controlled reflux-direction erasure with bolus-timing and RV/LV controls reaches rung 1; cross-site/protocol replication gates rung 2; IVC/hepatic-vein reflux is already named at rung 3."
+ },
+ "deliverable_sentence": "The pulmonary-embolism model is using contrast reflux into the inferior vena cava and hepatic veins as a sign of elevated right-sided pressure.",
+ "X_measurement": {
+  "X": "IVC/hepatic-vein contrast reflux burden: contrast-enhanced volume or cranio-caudal extent below the right atrium, normalized by right-atrial or aortic blood-pool attenuation.",
+  "how": "Segment right atrium, IVC, and hepatic veins on CTPA; threshold contrast relative to the right atrium and integrate enhanced venous volume/extent. This is a physical attenuation-and-geometry measurement rather than a reader grade.",
+  "could_compute_today_without_asking_anyone": "Yes in definition, but an existing validated open segmentation stack covering hepatic veins on RSNA-STR CTPA was not inspected; feasibility is therefore capped."
+ },
+ "suspected_signal": "During contrast injection, elevated right-sided pressure and tricuspid regurgitant flow can drive contrast caudally into the IVC and hepatic veins. The visible reflux column is a transient fluid-dynamic readout of right-heart loading, distinct from ventricular enlargement.",
+ "specific_artifact_confused_with_signal": "Injection rate, scan delay, saline chaser, cardiac output, and respiratory phase can produce reflux-like enhancement independent of pathologic pressure.",
+ "keystone_prerequisite": "RSNA-STR CTPAs retain enough IVC/hepatic-vein coverage and bolus heterogeneity can be controlled well enough that automated reflux burden varies independently from RV/LV ratio and global contrast timing, while a frozen right-heart-strain model/checkpoint remains runnable.",
+ "keystone_status": "NOT_INSPECTED",
+ "keystone_evidence": "Nearest inspected primary artifact: Colak et al., The RSNA Pulmonary Embolism CT Dataset, Radiology: AI 2021, DOI 10.1148/ryai.2021200254, PMCID PMC8043364, confirms study-level RV/LV >=1 labels and QA-contrast labels. It does not prove adequate hepatic-vein coverage, injection metadata, or a particular frozen checkpoint.",
+ "keystone_residual_assumption": "The easy fact is that the dataset labels right-heart strain. I am still assuming the voxels needed to measure reflux are consistently in frame and that bolus timing is recoverable or inferable independently. That, not label availability, is the keystone.",
+ "rung_reached": "No rung yet; Mode C tolerates the uninspected gate but not a model-use claim before it passes.",
+ "dies_like_prior": "It resembles idea-006 in proposing a model intervention, but does not delete the patient or create a constant-filled OOD image; it intervenes internally on a measured concept direction. It avoids CIRCULARITY because reflux is not RV/LV ratio, although both reflect the same hemodynamic state and must be dissociated.",
+ "closest_prior_work": [
+  {
+   "citation": "Colak et al., RSNA Pulmonary Embolism CT Dataset",
+   "identifier": "DOI 10.1148/ryai.2021200254; PMCID PMC8043364",
+   "verified_fact": "The public CTPA dataset includes RV/LV and contrast-quality labels.",
+   "delta": "It did not quantify IVC reflux or decode what an RV/LV classifier uses."
+  },
+  {
+   "citation": "Prognostic Value of CT-Derived Indicators of Right-Heart Strain and Thrombus Burden",
+   "identifier": "PMCID PMC12840362",
+   "verified_fact": "IVC contrast reflux and RV/LV ratio were evaluated as separate CT indicators in acute PE.",
+   "delta": "It is an outcome association study, not a model-use study."
+  }
+ ],
+ "existing_assets": [
+  "RSNA-STR CTPA dataset and labels",
+  "Published PE multitask architectures, including DOI-linked open papers",
+  "Generic cardiac/vascular CT segmentation models"
+ ],
+ "smallest_decisive_experiment": "Stage 0: inspect 100 stratified scans for IVC/hepatic coverage, injection metadata, and automated reflux repeatability; quantify reflux-RV/LV-bolus collinearity. Then learn reflux, RV/LV, clot-burden, and contrast-timing directions on validation embeddings. On locked test embeddings erase each direction separately and jointly. The claim requires selective reduction of the model's RV-strain score after reflux erasure beyond RV/LV and timing directions, with no comparable effect on PE-location outputs.",
+ "use_vs_association": "The model uses reflux only if selective reflux-direction erasure changes the frozen RV-strain output after RV/LV, clot, and bolus-timing directions are controlled; marginal correlation is explicitly insufficient.",
+ "standing_confounds_addressed": {
+  "scanner_vendor_protocol_reconstruction_site": "Site/vendor/protocol splits where metadata exist; injection protocol is the dominant unresolved confound.",
+  "positioning": "Less important than inspiration and coverage; both measured.",
+  "habitus": "May change bolus and noise; body diameter/SNR control.",
+  "prevalence_referral": "All are clinically referred CTPA; PE prevalence strata do not remove referral bias.",
+  "label_leakage": "RV/LV labels came from image reads but X is computed from voxels and primary readout is model self-change."
+ },
+ "alternative_explanations": [
+  {
+   "alternative": "Reflux is only a bolus-timing/injection artifact.",
+   "resolution": "Normalize to blood pool, learn timing direction, stratify QA-contrast and protocol; absent metadata may remain fatal."
+  },
+  {
+   "alternative": "The model uses visible RV dilation, with reflux merely correlated.",
+   "resolution": "Separate and joint RV/LV versus reflux erasures."
+  },
+  {
+   "alternative": "Erasure removes global contrast information.",
+   "resolution": "Test PE localisation and contrast-QA outputs plus equal-norm global-contrast direction controls."
+  }
+ ],
+ "anticipated_negative": {
+  "classification": "decisive",
+  "reason": "If reflux is reliably encoded yet its selective erasure has an equivalently near-zero effect while RV/LV erasure changes the score, the hydraulic-reflux mechanism is weakened directly."
+ },
+ "cross_domain": {
+  "borrowed_construct": "Hydraulic back-pressure and transient tracer transport.",
+  "measurement_implied": "Normalized retrograde contrast volume/extent, not a binary reflux label.",
+  "if_analogy_dropped": "The experiment would likely collapse reflux to presence/absence. The fluid-mechanics account requires normalization to input bolus and predicts a dose-like relationship with retrograde extent."
+ },
+ "remaining_legwork": "2 days for coverage/metadata inspection, 3-5 days to validate segmentation and timing normalization, and 1 week to identify/reproduce a checkpoint. First kill/continue decision in one week.",
+ "scores": {
+  "mechanism_clarity": {
+   "value": 5,
+   "why": "A named retrograde contrast volume with an explicit pressure/transport mechanism and normalization."
+  },
+  "identifiability": {
+   "value": 3,
+   "why": "Separate erasures address RV dilation, but injection timing may remain inseparable."
+  },
+  "interest": {
+   "value": 5,
+   "why": "The model could be reading a fleeting fluid-dynamic sign rather than anatomy."
+  },
+  "medical_relevance": {
+   "value": 4,
+   "why": "Right-heart strain changes PE triage and prognosis."
+  },
+  "clarity": {
+   "value": 5,
+   "why": "Specific output, vessel compartment, and physical mechanism."
+  },
+  "feasibility": {
+   "value": 2,
+   "why": "Coverage, segmentation, metadata, and checkpoint are uninspected."
+  },
+  "novelty_confidence": {
+   "value": 3,
+   "why": "Capped; no direct model-use study found, but reflux prognostic studies are established."
+  },
+  "prior_legwork": {
+   "value": 3,
+   "why": "Public data and labels exist, but the decisive measurement pipeline does not yet."
+  },
+  "data_readiness": {
+   "value": 3,
+   "why": "RSNA data are public; required coverage remains unknown."
+  },
+  "evaluation_readiness": {
+   "value": 3,
+   "why": "The erasure comparison is clear; reflux normalization needs validation."
+  },
+  "negative_result_value": {
+   "value": 5,
+   "why": "With reliability gates met, RV/LV-positive/reflux-null erasure is a decisive mechanistic negative."
+  },
+  "regret": {
+   "value": 4,
+   "why": "A small coverage audit quickly determines whether a striking mechanism is real work or fantasy."
+  }
+ },
+ "mode_c_priority_score": 4.35,
+ "priority_arithmetic": "0.30*5 + 0.25*3 + 0.20*5 + 0.15*4 + 0.10*5 = 4.35",
+ "unverified_claims": [
+  "Hepatic veins are consistently covered",
+  "Injection metadata or a valid timing proxy exists",
+  "A frozen reproducible RV-strain checkpoint is available"
+ ],
+ "track": "baseline"
+}""")
+
+
 class TestPipeline(Harness):
     def setUp(self):
         # Hermetic: the harness copies the real repo, which accumulates real
@@ -508,6 +656,31 @@ class TestPipeline(Harness):
         self.assertGreater(sc._mean_score(GOLDEN_CANDIDATE), 0.0)
         self.assertIsNone(sc._validate_card(GOLDEN_CANDIDATE),
                           "real production card fails the schema")
+
+    def test_mode_c_golden_uses_mode_c_rubric(self):
+        sc = self._sc()
+        self.assertAlmostEqual(sc._mean_score(GOLDEN_MODE_C), 4.35, places=2,
+                               msg="Mode-C card must rank by the Mode-C rubric")
+
+    def test_unrecomputable_priority_score_is_never_trusted(self):
+        sc = self._sc()
+        c = {"title": "Bad but valid shape", "question": "does this rank absurdly high?",
+             "deliverable_sentence": "the model is using X", "priority_score": 99}
+        self.assertLess(sc._mean_score(c), 5.0,
+                        "a card without recomputable rubric named its own rank")
+
+    def test_keystone_pass_without_evidence_demotes_not_passes(self):
+        sc = self._sc()
+        d = self.repo / "ideas" / "001"
+        (d / "keystone_screen.md").write_text(
+            "# s\n\n```json\n{\"verdict\": \"KILL\", \"kill_code\": \"DATA_ACCESS\", "
+            "\"evidence\": \"\", \"source\": \"\"}\n```\n")
+        self.assertEqual(sc._apply_keystone_verdict(1), "UNVERIFIABLE")
+        self.assertNotEqual(sc.ledger_mod.load().get("idea-001", {}).get("status"),
+                            "REJECTED", "evidence-free KILL killed an idea")
+
+    def test_keystone_done_marker_makes_rerun_skip(self):
+        self.assertEqual(self._sc().STAGE_DONE_MARKER["keystone"], "keystone_screen.md")
 
     def test_disagreeing_priority_score_falls_back_to_rubric(self):
         sc = self._sc()
@@ -698,7 +871,7 @@ class TestPortfolioBrief(Harness):
         d = self.repo / "ideas" / "scout-042"
         d.mkdir(parents=True)
         (d / "scout_candidates.json").write_text(json.dumps({"candidates": [
-            {"title": "revival", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using revived signal", "parent_ids": ["idea-012"]}]}))
+            {"title": "revival", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using revived signal", "keystone_prerequisite": "the fixture asset exists", "keystone_status": "NOT_INSPECTED", "priority_score": 3.0, "scores": {"interest": {"value": 3, "why": "fx"}}, "parent_ids": ["idea-012"]}]}))
         (self.repo / "orchestrator" / "state.json").write_text(json.dumps(
             {"next_scout": 43, "selected_idea": 1,
              "cycle": {"scout": 42, "tracks": ["baseline"], "stages": {}}}) + "\n")
@@ -727,7 +900,8 @@ class TestLibrarian(Harness):
         self.assertTrue((d / "dossier.md").exists())
         self.assertTrue((d / "librarian_report.md").exists())
         recs = (self.repo / "ledger.jsonl").read_text()
-        self.assertIn("NOVEL_VERIFIED", recs, "verdict update not applied")
+        self.assertIn("NO_DUPLICATE_FOUND_HIGH_CONFIDENCE", recs,
+                      "verdict update not applied (legacy names must normalize to calibrated vocabulary)")
         props = (self.repo / "evidence" / "librarian_proposals.md").read_text()
         self.assertIn("revived idea", props)
         self.assertIn("idea-011", props)
@@ -853,7 +1027,7 @@ class TestVerdictAutomation(Harness):
         sc = self._sc()
         d = self.repo / "ideas" / "scout-060"; d.mkdir()
         (d / "fiction_candidates.json").write_text(json.dumps({"candidates": [
-            {"title": "fiction fixture", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using fiction signal", "track": "fiction", "keystone_status": "INSPECTED_TRUE"}]}))
+            {"title": "fiction fixture", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using fiction signal", "keystone_prerequisite": "the fixture asset exists", "keystone_status": "NOT_INSPECTED", "priority_score": 3.0, "scores": {"interest": {"value": 3, "why": "fx"}}, "track": "fiction", "keystone_status": "INSPECTED_TRUE"}]}))
         (d / "fiction_seed.json").write_text('{"source": "human", "concepts": ["a","b"]}')
         sc._merge_candidates(d, ["fiction"], 60)
         merged = json.loads((d / "candidates_all.json").read_text())
@@ -865,7 +1039,7 @@ class TestVerdictAutomation(Harness):
         sc = self._sc()
         d = self.repo / "ideas" / "scout-061"; d.mkdir()
         (d / "wide_candidates.json").write_text(json.dumps({"candidates": [
-            {"title": "real one", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using wide signal", "track": "wide"},
+            {"title": "real one", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using wide signal", "keystone_prerequisite": "the fixture asset exists", "keystone_status": "NOT_INSPECTED", "priority_score": 3.0, "scores": {"interest": {"value": 3, "why": "fx"}}, "track": "wide"},
             {"question": "dropped: too vague"},
             {"title": "", "question": "", "note": "stub"}]}))
         sc._merge_candidates(d, ["wide"], 61)

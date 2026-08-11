@@ -133,7 +133,7 @@ probes/NNN/                 human-approved probe code + results
 evidence/                   digests, briefs, proposals, decisions, datasets
 portfolio/ideas.csv         flat idea list (legacy view; ledger is authoritative)
 templates/                  idea-card schema, probe contract
-tests/test_orchestration.py 32 deterministic tests (fake agents; run in CI first)
+tests/test_orchestration.py deterministic suite (fake agents; run in CI first)
 .github/workflows/          scout-cycle, idea-pipeline, librarian, checks
 docs/ARCHITECTURE.md        design rationale: every mechanism and why it exists
 REVAMP.md                   done/pending punch-list with designs for pending work

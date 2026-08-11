@@ -19,7 +19,10 @@ For backlog candidates whose `audited_at` is old or whose verdict is
 NOVEL_UNVERIFIED, re-search the literature. Where the verdict should change,
 record it in `verdict_updates.json` as
 `{"updates": [{"ledger_id": "...", "novelty_verdict": "...", "reason": "... (citation)"}]}`
-using only NOVEL_VERIFIED, NOVEL_UNVERIFIED, INCREMENTAL, or DUPLICATE_PRIOR.
+using only NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, NO_DUPLICATE_FOUND_LIMITED_SEARCH,
+INCREMENTAL, or DUPLICATE_FOUND (calibrated vocabulary: absence of a found
+duplicate is not verified novelty; legacy names in old records stay readable
+but are never emitted anew).
 Only include entries whose verdict actually changes; an empty list is normal.
 
 ## Duty 3 -- Revival scan and proposals

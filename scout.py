@@ -775,7 +775,7 @@ STAGE_ARTIFACTS = {
     'fiction_scout': 'fiction_story.md',
     'fiction_extract': 'fiction_pitch.md',
     'fiction_refine': 'fiction_candidates.json',
-    'novelty_audit': 'novelty_audit.md',
+    'novelty_audit': ('novelty_audit.md', 'novelty_manifest.json'),
     'keystone': 'keystone_screen.md',
     'librarian': 'librarian_report.md',
     'actioner': 'actions.md',
@@ -784,13 +784,34 @@ STAGE_ARTIFACTS = {
 }
 
 
+def _validate_novelty_manifest(f):
+    try:
+        d = json.loads(f.read_text())
+    except json.JSONDecodeError as e:
+        raise SystemExit(f'novelty_manifest.json is not valid JSON: {e}')
+    if not (isinstance(d.get('queries'), list) and d.get('queries')):
+        raise SystemExit('novelty_manifest.json: "queries" must be a non-empty list -- '
+                         'an audit without recorded queries is not a reproducible search.')
+    if not isinstance(d.get('neighbors'), list):
+        raise SystemExit('novelty_manifest.json: "neighbors" must be a list.')
+    for n in d['neighbors']:
+        if not (isinstance(n, dict) and n.get('identifier') and n.get('access')):
+            raise SystemExit('novelty_manifest.json: every neighbor needs "identifier" and "access".')
+
+
 def _require_artifact(stage, target):
     expected = STAGE_ARTIFACTS.get(stage)
-    if expected and not (target / expected).exists():
-        raise SystemExit(
-            f"Stage {stage!r} exited cleanly but did not write {expected!r}. "
-            f"Treating as failed. Check {target.relative_to(ROOT)}/log_{stage}.txt "
-            f"for what the agent did instead.")
+    if not expected:
+        return
+    names = (expected,) if isinstance(expected, str) else expected
+    for name in names:
+        if not (target / name).exists():
+            raise SystemExit(
+                f"Stage {stage!r} exited cleanly but did not write {name!r}. "
+                f"Treating as failed. Check {target.relative_to(ROOT)}/log_{stage}.txt "
+                f"for what the agent did instead.")
+    if stage == 'novelty_audit':
+        _validate_novelty_manifest(target / 'novelty_manifest.json')
 
 
 def _validate_card(card):
@@ -854,6 +875,9 @@ def _merge_candidates(target, tracks, cycle_no):
                     skipped += 1  # stubs/drop-notes are not candidates
                     continue
                 c.setdefault('track', track)
+                for soft in ('design_template', 'search_mode'):
+                    if not c.get(soft):
+                        notes[f'{soft}_missing'] = notes.get(f'{soft}_missing', 0) + 1
                 err = _validate_card(c)
                 if err:
                     notes.setdefault('schema_rejected', []).append(
@@ -1080,8 +1104,6 @@ def resume(_args):
 # button doubles as resume after a failure or job kill.
 # ==========================================================================
 
-VERDICT_RANK = {'NOVEL_VERIFIED': 0, 'NOVEL_UNVERIFIED': 1, 'INCREMENTAL': 2,
-                'DUPLICATE_PRIOR': 9}
 
 
 def _audit_verdicts(target):
@@ -1121,6 +1143,8 @@ def _audit_verdicts(target):
 
 # Rubric weights (docs/SCORING_RUBRIC.md). Used to VALIDATE the card's own
 # priority_score; regret/evaluation_readiness are reported outside the score.
+MODE_C_WEIGHTS = {'mechanism_clarity': 0.30, 'identifiability': 0.25,
+                  'interest': 0.20, 'medical_relevance': 0.15, 'clarity': 0.10}
 RUBRIC_WEIGHTS = {
     'feasibility': 0.20, 'identifiability': 0.15, 'medical_relevance': 0.15,
     'prior_legwork': 0.10, 'interest': 0.10, 'clarity': 0.10,
@@ -1152,15 +1176,19 @@ def _mean_score(card):
     scores = card.get('scores') or {}
     vals = {k: _score_value(v) for k, v in scores.items()}
     vals = {k: v for k, v in vals.items() if v is not None}
+    mode_c = (card.get('search_mode') == 'C'
+              or isinstance(card.get('mode_c_priority_score'), (int, float)))
+    weights = MODE_C_WEIGHTS if mode_c else RUBRIC_WEIGHTS
+    ps = card.get('mode_c_priority_score') if mode_c else card.get('priority_score')
     weighted = None
-    if all(k in vals for k in RUBRIC_WEIGHTS):
-        weighted = sum(RUBRIC_WEIGHTS[k] * vals[k] for k in RUBRIC_WEIGHTS)
-    ps = card.get('priority_score')
-    if isinstance(ps, (int, float)):
-        if weighted is None or abs(float(ps) - weighted) <= 0.25:
-            return float(ps)
-        return weighted  # card's arithmetic disagrees with the rubric: trust the rubric
+    if all(k in vals for k in weights):
+        weighted = sum(weights[k] * vals[k] for k in weights)
+    # Trust policy (review round 2): a model-authored priority score is
+    # accepted ONLY when the rubric recomputation exists and agrees. An
+    # unrecomputable card never names its own rank.
     if weighted is not None:
+        if isinstance(ps, (int, float)) and abs(float(ps) - weighted) <= 0.25:
+            return float(ps)
         return weighted
     return sum(vals.values()) / len(vals) if vals else 0.0
 
@@ -1176,7 +1204,7 @@ def _rank_candidates(scout_no):
         if v == 'DUPLICATE_PRIOR':
             print(f'  skipping C{i}: audit verdict DUPLICATE_PRIOR')
             continue
-        ranked.append((VERDICT_RANK.get(v, 5), -_mean_score(card), i))
+        ranked.append((ledger_mod.VERDICT_TIER.get(v, 5), -_mean_score(card), i))
     ranked.sort()
     return [i for _, _, i in ranked]
 
@@ -1275,7 +1303,7 @@ def _incomplete_pipeline_ideas(stages):
 
 
 PIPELINE_STAGES = ('keystone', 'critique', 'revise', 'feasibility', 'debate')
-STAGE_DONE_MARKER = {'critique': 'critique.md', 'revise': 'idea_card.json',
+STAGE_DONE_MARKER = {'keystone': 'keystone_screen.md','critique': 'critique.md', 'revise': 'idea_card.json',
                      'feasibility': 'feasibility.md', 'debate': 'consensus.md'}
 
 
@@ -1293,6 +1321,11 @@ def _apply_keystone_verdict(idea):
     except json.JSONDecodeError:
         return None
     verdict = str(v.get('verdict', '')).upper()
+    if verdict in ('PASS', 'KILL') and not (str(v.get('evidence', '')).strip()
+                                            and str(v.get('source', '')).strip()):
+        print(f'Keystone verdict {verdict} lacked evidence/source; demoted to UNVERIFIABLE '
+              '(the evidence rule is mechanical, not a prompt promise).')
+        verdict = 'UNVERIFIABLE'
     lid = f'idea-{int(idea):03d}'
     if verdict == 'KILL':
         code = v.get('kill_code') if v.get('kill_code') in ledger_mod.TAXONOMY else 'UNCLASSIFIED'
@@ -1302,6 +1335,35 @@ def _apply_keystone_verdict(idea):
                            'keystone_evidence': str(v.get('evidence', ''))[:500]})
         ledger_mod.digest()
     return verdict
+
+
+_CLI_VERSIONS = None
+
+
+def _cli_versions():
+    global _CLI_VERSIONS
+    if _CLI_VERSIONS is None:
+        def ver(cmd):
+            try:
+                r = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            except (FileNotFoundError, OSError):
+                return 'not installed'
+            out = (r.stdout or r.stderr or '').strip()
+            return out.splitlines()[0] if out else 'unknown'
+        _CLI_VERSIONS = {'claude': ver(['claude', '--version']),
+                         'codex': ver(['codex', '--version'])}
+    return _CLI_VERSIONS
+
+
+def _record_stage_provenance(idea, stage):
+    rec = dict(_cli_versions())
+    rec.update({'stage': stage,
+                'ts': datetime.now(timezone.utc).isoformat(timespec='seconds'),
+                'git_commit': subprocess.run(['git', 'rev-parse', 'HEAD'],
+                                             capture_output=True, text=True,
+                                             check=False).stdout.strip()})
+    with (idea_dir(idea) / 'stage_provenance.jsonl').open('a') as f:
+        f.write(json.dumps(rec) + '\n')
 
 
 def _pipeline_stage(idea, stage):
@@ -1316,6 +1378,7 @@ def _pipeline_stage(idea, stage):
     run_agent(p, None, stage=stage, log_path=target/f'log_{stage}.txt')
     _check_scope(stage)
     _require_artifact(stage, target)
+    _record_stage_provenance(idea, stage)
     if stage == 'keystone':
         kv = _apply_keystone_verdict(idea)
         if kv:
@@ -1459,10 +1522,7 @@ VERDICT_SYNONYMS = {'NOVEL_VERIFIED': 'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE',
                     'DUPLICATE_PRIOR': 'DUPLICATE_FOUND'}
 VALID_VERDICTS = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE', 'NO_DUPLICATE_FOUND_LIMITED_SEARCH',
                   'INCREMENTAL', 'DUPLICATE_FOUND'} | set(VERDICT_SYNONYMS)
-VERDICT_TIER = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE': 0, 'NOVEL_VERIFIED': 0,
-                'NO_DUPLICATE_FOUND_LIMITED_SEARCH': 1, 'NOVEL_UNVERIFIED': 1,
-                'UNAUDITED': 3, 'INCREMENTAL': 4,
-                'DUPLICATE_FOUND': 9, 'DUPLICATE_PRIOR': 9}
+VERDICT_TIER = ledger_mod.VERDICT_TIER  # canonical table lives in ledger.py
 
 
 def _dossier_entry_idea(d, entries):
@@ -1520,6 +1580,7 @@ def _apply_librarian_outputs(target):
             ups = []
         for u in ups:
             lid, v = u.get('ledger_id'), u.get('novelty_verdict')
+            v = VERDICT_SYNONYMS.get(v, v)  # legacy names normalized on ingestion
             if lid and v in VALID_VERDICTS and lid in ledger_mod.load():
                 ledger_mod.append({'ledger_id': lid, 'novelty_verdict': v,
                                    'audited_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),

@@ -103,3 +103,7 @@
 {"ledger_id": "scout-008-c03", "novelty_verdict": "INCREMENTAL", "audited_at": "2026-08-11T07:05:38+00:00", "recorded_at": "2026-08-11T07:05:38+00:00"}
 {"ledger_id": "scout-008-c04", "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH", "audited_at": "2026-08-11T07:05:38+00:00", "recorded_at": "2026-08-11T07:05:38+00:00"}
 {"ledger_id": "scout-008-c05", "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH", "audited_at": "2026-08-11T07:05:38+00:00", "recorded_at": "2026-08-11T07:05:38+00:00"}
+{"ledger_id": "scout-007-c04", "scores_mean": 4.35, "recorded_at": "2026-08-11T09:53:32+00:00"}
+{"ledger_id": "scout-007-c05", "scores_mean": 4.6, "recorded_at": "2026-08-11T09:53:32+00:00"}
+{"ledger_id": "scout-008-c04", "scores_mean": 3.9, "recorded_at": "2026-08-11T09:53:32+00:00"}
+{"ledger_id": "scout-008-c05", "scores_mean": 3.9, "recorded_at": "2026-08-11T09:53:32+00:00"}

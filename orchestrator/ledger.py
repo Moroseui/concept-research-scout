@@ -31,6 +31,11 @@ STATUSES = ['SCOUT_ONLY', 'ACTIVE', 'SHORTLISTED', 'PAUSED', 'REJECTED', 'DONE']
 
 # Controlled kill-reason taxonomy. Grow it deliberately: add a code here when a
 # genuinely new failure pattern appears, not per idea.
+VERDICT_TIER = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE': 0, 'NOVEL_VERIFIED': 0,
+                'NO_DUPLICATE_FOUND_LIMITED_SEARCH': 1, 'NOVEL_UNVERIFIED': 1,
+                'UNAUDITED': 3, 'INCREMENTAL': 4,
+                'DUPLICATE_FOUND': 9, 'DUPLICATE_PRIOR': 9}
+
 TAXONOMY = {
     'USE_VS_ASSOCIATION': 'Studies what a model associates with X, not whether it causally uses X.',
     'ANNOTATION_PROVENANCE': 'Inference depends on who assigned labels / what they could see, and that is undocumented or contaminated.',
@@ -232,10 +237,7 @@ def digest() -> Path:
     backlog = [(e.get('novelty_verdict','UNAUDITED'), e) for e in entriesv.values()
                if e.get('status') == 'SCOUT_ONLY']
     if backlog:
-        vrank = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE': 0, 'NOVEL_VERIFIED': 0,
-                 'NO_DUPLICATE_FOUND_LIMITED_SEARCH': 1, 'NOVEL_UNVERIFIED': 1,
-                 'UNAUDITED': 3, 'INCREMENTAL': 4,
-                 'DUPLICATE_FOUND': 9, 'DUPLICATE_PRIOR': 9}
+        vrank = VERDICT_TIER
         backlog.sort(key=lambda ve: (vrank.get(ve[0], 5),
                                      -float(ve[1].get('scores_mean') or 0)))
         lines += ['## Candidate backlog (scouted, not yet shortlisted; ranked)', '']
