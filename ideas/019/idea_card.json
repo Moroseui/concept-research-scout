@@ -1,143 +1,132 @@
 {
   "id": "W2",
+  "parent_ids": [],
+  "search_mode": "C",
+  "entry_point": 2,
   "track": "wide",
-  "status": "DEVELOPED",
-  "outside_field": "algebraic topology and fracture mechanics",
-  "question": "Is CT-CLIP's pulmonary-fibrosis score using the connected, multilayer subpleural cyst topology of honeycombing rather than generic peripheral high-frequency texture?",
-  "title": "The fibrosis model may be counting holes at the pleural edge",
-  "deliverable_sentence": "CT-CLIP is using honeycombing\u2014the connected multilayer subpleural cyst network of end-stage fibrotic lung\u2014rather than generic coarse lung texture.",
+  "status": "SUPERSEDE_RECOMMENDED",
+  "title": "Does CT-CLIP use a subpleural cyst-network topology index?",
+  "question": "Conditional on adequate CT-RATE support and a validated latent intervention, does CT-CLIP's pulmonary-fibrotic-sequela score use information carried by a prespecified subpleural cyst-network topology index beyond generic scar burden, density, and emphysema directions?",
+  "deliverable_original": "CT-CLIP is using honeycombing—the connected multilayer subpleural cyst network of end-stage fibrotic lung—rather than generic coarse lung texture.",
+  "deliverable_sentence": "CT-CLIP's pulmonary-fibrotic-sequela score uses information carried by the prespecified subpleural cyst-network topology index, as linearly encoded in its representation, beyond generic scar burden, density, and emphysema directions.",
+  "claim_identity": "The revised sentence does not establish that the index is honeycombing. Because the named X in the original deliverable has changed from a physician-level entity to an unvalidated computed index, this is a different deliverable under the 2026-08-10 claim-identity rule and should be registered as a successor rather than advanced as idea 019 in place.",
+  "claim_boundaries": {
+    "claimed_only_if_all_gates_pass": "Use of information along the frozen topology-index direction by ClassFine output 11 on the untouched test set.",
+    "not_claimed": [
+      "That the index denotes honeycombing.",
+      "That CT-CLIP has a pulmonary-fibrosis or UIP output.",
+      "That the model uses native honeycombing rather than every correlate carried by the validated direction.",
+      "That report honeycomb mentions validate X.",
+      "That the result generalizes beyond the inspected checkpoint and CT-RATE population."
+    ]
+  },
   "rung": {
     "current": 0,
-    "target": 3,
-    "move_up": "Automated topology association is exploratory; selective topology-direction erasure with emphysema, reticulation, density, and kernel controls reaches rung 1; reconstruction and external-site replication gate rung 2; the named honeycombing claim then reaches rung 3."
+    "target": 1,
+    "why": "A gated latent intervention can test use of the computed index, but the index lacks independent construct validity as honeycombing and artifact exclusion is incomplete.",
+    "move_up": "Rung 1 requires K1, topology-encoding, G2a, and G2b to pass before locked test evaluation. Rung 2 requires exclusion or replication across scanner, vendor, protocol, reconstruction, site, positioning, habitus, prevalence, referral, and report leakage. Rung 3 requires an obtainable citable honeycombing quantifier with released weights and external validation against paraseptal emphysema and traction bronchiolectasis, or independent adjudicated construct validation followed by transport of frozen thresholds to CT-RATE."
   },
   "X_measurement": {
-    "X": "Subpleural honeycomb topology: count and volume of 3-10 mm air components with complete walls, adjacency/stacking depth, distance to pleura, and persistent Betti-1/Euler-characteristic summaries across HU and wall-thickness thresholds.",
-    "how": "Segment lungs, define a 15-mm subpleural shell, identify wall-bounded air components across prespecified HU thresholds, remove components connected to the airway tree, and compute connected components, loops, stacking depth, and persistence. These are deterministic voxel/graph measurements; no reader label defines X.",
-    "could_compute_today_without_asking_anyone": "Yes as a well-defined formula using a lung mask and connected-component/persistent-homology operations, although its agreement with true honeycombing on routine thick-slice CT is uninspected."
+    "X": "Prespecified subpleural cyst-network topology index: threshold-persistent summaries of 3–10 mm wall-bounded air components, adjacency, stacking depth, pleural distance, Betti-1, and Euler characteristic.",
+    "how": "Automatically segment the lungs, define a 15 mm subpleural shell, identify wall-bounded air components over frozen HU and wall-thickness thresholds, exclude components connected to the segmented airway tree, and compute the frozen graph and persistent-topology summary.",
+    "could_compute_today_without_asking_anyone": "Yes as a deterministic formula on an unseen scan. Whether it denotes honeycombing and survives routine CT-RATE acquisition and preprocessing remains uninspected."
   },
-  "borrowed_construct": {
-    "field": "algebraic topology and fracture mechanics",
-    "construct": "End-stage remodeling creates a connected cellular void network at a stressed boundary; topology distinguishes that network from isolated low-density holes.",
-    "measurement_implied": "Persistent component/loop counts, wall completeness, adjacency, and multilayer depth in the subpleural shell.",
-    "if_analogy_dropped": "The study would use generic radiomics. The transplant forces threshold-persistent topology and a direct dissociation from isolated paraseptal emphysema."
-  },
-  "use_vs_association": "Use requires that erasing a validation-learned honeycomb-topology direction selectively lowers the frozen fibrosis score beyond erasing matched density, reticulation, emphysema, kernel, and random directions; score-topology correlation alone is not evidence of use.",
-  "keystone_prerequisite": "Routine CT-RATE resolution and CT-CLIP preprocessing preserve enough wall completeness and cyst adjacency to distinguish honeycombing topology from paraseptal emphysema and traction bronchiolectasis without human labels.",
+  "keystone_prerequisite": "On the obtainable CT-RATE evaluation data, there must be enough thin-slice topology-bearing fibrotic-sequela-positive cases, and the frozen topology index must be measurably encoded while an affine erasure of that encoding passes both native-manifold equivalence and case-matched sham-effect gates.",
   "keystone_status": "NOT_INSPECTED",
-  "keystone_evidence": "Primary neighbors establish the adjacent facts: official Pulmonary Fibrosis Foundation recommendations define honeycomb cysts as contiguous subpleural cysts with complete walls and distinguish them from paraseptal emphysema (PMCID PMC7977697); topological ILD texture classification exists (arXiv:1005.5086); CT-CLIP/CT-RATE is arXiv:2403.17834. No native-to-final-tensor topology audit was inspected.",
-  "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? A clinical definition and an old topology classifier do not show that CT-RATE slice thickness or CT-CLIP resampling preserves 3-10 mm cyst walls. Preservation, not formula availability, is the real keystone.",
-  "dies_like_prior": "It resembles idea-008 only in the Sybil/fibrosis neighborhood, but uses a different frozen output and a positive named structure. It avoids idea-006's OOD deletion by internal direction erasure. It avoids CIRCULARITY because the model output is broad fibrosis while X is a dissociated morphologic component. DATA_INSUFFICIENT is an explicit prevalence/resolution gate.",
+  "keystone_evidence": "Official CT-CLIP code at commit a2a155c601987820433c01db69b64d701d3d229d was directly inspected: ClassFine index 11 is `Pulmonary fibrotic sequela`; preprocessing uses trilinear resampling to nominal 0.75 x 0.75 x 1.5 mm and center crop/pad. Those facts do not establish evaluation support, index encoding, construct validity, or intervention validity.",
+  "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? Verifying the output name and preprocessing does not show that enough topology-bearing cases exist, that routine acquisition preserves the index, that CT-CLIP encodes it, or that erasure stays on-manifold and has an effect beyond sensitivity-matched shams. Those are the load-bearing assumptions.",
+  "stage_gates": {
+    "K1_support_before_image_download": "Freeze report regexes and partitions, then require at least 30 honeycomb-mentioning, RadBERT fibrotic-sequela-positive evaluation volumes, including at least 15 in the required thin-slice stratum. Report text is only a support gate, never X or construct validation. Failure ends the route as DATA_INSUFFICIENT.",
+    "K2_measurement_and_encoding": "On validation data only, freeze the topology formula and require adequate repeatability from native volume to final model tensor plus prespecified out-of-sample encoding of the continuous index. This establishes preservation and encoding, not honeycombing denotation.",
+    "G2a_manifold_validity": "After minimal-displacement affine erasure, projected validation embeddings must meet frozen k-nearest-neighbor-distance and density-equivalence margins relative to native validation embeddings.",
+    "G2b_case_matched_shams": "For each validation case, compare the topology erasure with sham directions matched for embedding displacement and local ClassFine-head directional sensitivity. The topology effect must exceed the frozen sham-effect criterion.",
+    "test_lock": "Use the untouched test set only if K1, K2, G2a, and G2b pass. Otherwise cancel confirmatory erasure and report only feasibility and explicitly exploratory association or reconstruction-pair results."
+  },
+  "smallest_decisive_experiment": {
+    "design": "Run K1 without image download. If it passes, use validation data to freeze the topology index, nuisance directions, affine erasure, and K2/G2a/G2b thresholds. Only after every validation gate passes, estimate on the untouched test set whether topology-index erasure changes ClassFine index 11 more than the case-matched sham distribution and beyond separate scar-burden, density, and emphysema erasures.",
+    "primary_readout": "Paired change in pulmonary-fibrotic-sequela score under topology-index erasure relative to the prespecified case-matched sham effect, with incremental comparison against the frozen nuisance erasures.",
+    "positive_interpretation": "Conditional rung 1: the score uses information carried along the validated linear topology-index direction beyond the tested nuisance directions.",
+    "negative_interpretation": "K1 failure decisively shows insufficient support for this route. G2a or G2b failure decisively invalidates this intervention but says nothing about model use. After all gates pass and power is adequate, an equivalently null topology effect with a positive-control nuisance effect meaningfully weakens linear use of this index; it does not exclude nonlinear use or honeycombing use."
+  },
+  "use_vs_association": "Score-index correlation and within-kernel-pair co-change are exploratory associations. Only the locked test result after K1/K2/G2a/G2b can support rung 1, and even then only for information carried by the linear index direction.",
+  "complementary_analysis": "In geometry-matched same-acquisition reconstruction pairs from idea 004, test whether paired score changes track paired topology-index changes after measured noise and spectral band-power changes. This holds anatomy, site, referral, habitus, and positioning fixed but cannot separate wall topology from all reconstruction-induced high-frequency changes, so it is not the causal instrument.",
+  "dies_like_prior": "It resembles idea 006 because an intervention may create inputs outside the classifier head's training distribution. It differs only if G2a and G2b directly validate the latent intervention; gate failure means it dies like idea 006 for rung-1 purposes. It inherits the annotation-provenance lesson from ideas 002 and 005: report language may gate support but cannot give the computed index the name honeycombing. The primary analysis itself does not require reader labels. It avoids idea 010's circularity because X is computed from voxel topology rather than from the output label or report.",
   "closest_prior_work": [
     {
-      "citation": "Sluimer et al., Classification of Interstitial Lung Disease Patterns with Topological Texture Features",
+      "citation": "Hamamci IE et al., CT-CLIP / CT-RATE",
+      "identifier": "arXiv:2403.17834; official repository https://github.com/ibrahimethemhamamci/CT-CLIP",
+      "verified_fact": "The directly inspected official code maps ClassFine output index 11 to `Pulmonary fibrotic sequela`.",
+      "delta": "It does not test whether that output uses the proposed topology index."
+    },
+    {
+      "citation": "Sluimer I et al., Classification of Interstitial Lung Disease Patterns with Topological Texture Features",
       "identifier": "arXiv:1005.5086",
-      "verified_fact": "Euler/topological texture features were used to classify ILD patterns, including honeycombing.",
-      "delta": "It classified texture patches rather than testing reliance of a frozen report-supervised fibrosis model."
+      "verified_fact": "The primary work used topological texture features for ILD-pattern classification.",
+      "delta": "It classified image texture rather than testing reliance of a frozen report-supervised volumetric model."
     },
     {
-      "citation": "Lynch et al., Practical Imaging Interpretation in Patients Suspected of IPF",
-      "identifier": "PMCID PMC7977697",
-      "verified_fact": "It defines honeycomb cysts by subpleural contiguity, wall completeness, and frequent multilayering, and names emphysema as a mimic.",
-      "delta": "It is a clinical definition, not an automated model-use experiment."
+      "citation": "Lynch DA et al., Practical Imaging Interpretation in Patients Suspected of IPF",
+      "identifier": "PMCID: PMC7977697",
+      "verified_fact": "The source defines honeycombing using contiguous subpleural cysts with complete walls and frequent multilayering and discusses emphysema as a mimic.",
+      "delta": "A clinical definition does not validate the automated index on CT-RATE."
     },
     {
-      "citation": "Hamada et al., Deep-Learning Reconstruction of HRCT Improves Interobserver Agreement for Pulmonary Fibrosis",
-      "identifier": "DOI 10.1177/08465371241228468",
-      "verified_fact": "Reconstruction method changes agreement for honeycombing assessment.",
-      "delta": "It highlights the reconstruction threat but does not decode a fibrosis network."
+      "citation": "Humphries SM et al., deep-learning CT analysis in IPF progression",
+      "identifier": "DOI: 10.1164/rccm.202311-2185OC",
+      "verified_fact": "This is a primary lead for automated honeycombing quantification; released-weight availability and validation suitability for the named mimics have not been inspected.",
+      "delta": "It may supply future construct validation but does not establish CT-CLIP's use of the index."
     }
   ],
-  "novelty_neighbors": [
-    "arXiv:1005.5086",
-    "PMCID PMC7977697",
-    "DOI 10.1177/08465371241228468"
-  ],
-  "novelty_delta": "The proposed study asks whether a frozen volumetric foundation model relies on threshold-persistent honeycomb topology, not whether topology can classify ILD patches or readers can see honeycombing.",
-  "why_not_done": {
-    "category": "BLIND_SPOT",
-    "reason": "Fibrosis explainability usually maps saliency or predicts reader lexicon labels; topology provides an annotation-free morphologic instrument but has rarely been used as the readout language for a foundation model."
+  "novelty_statement": "No novelty claim is made. Prior bounded searches found no direct test of CT-CLIP reliance on this topology index, but the gap is not exhaustively verified.",
+  "claim_identifiability": {
+    "scanner_vendor_site_protocol_reconstruction": "The same-acquisition pair analysis controls anatomy and many population factors but not generic reconstruction texture. Acquisition metadata and reconstruction strata are mandatory; single-site concentration prevents a rung-2 site claim.",
+    "positioning": "An anatomy-relative pleural shell reduces coordinate dependence; paired reconstructions hold positioning fixed. Positioning remains a possible explanation in unpaired analyses.",
+    "body_habitus": "Dose/noise and automatic body-size proxies enter nuisance analyses; residual habitus effects remain possible.",
+    "disease_prevalence_and_referral": "K1 establishes support only. CT-RATE prevalence and referral pattern may shape encoding and limit transportability.",
+    "label_leakage": "Reports and RadBERT labels are restricted to K1 support gating. X and the confirmatory paired score response are image-derived; report language cannot validate X.",
+    "remaining_alternatives": [
+      "The frozen index mixes paraseptal emphysema, traction bronchiolectasis, and reconstruction-created wall closure.",
+      "The erased direction contains distributed scar severity despite the tested nuisance directions.",
+      "A passed local manifold test may not capture every way projected embeddings differ from the head's training distribution."
+    ]
   },
-  "smallest_decisive_experiment": "Stage 0 on 120 validation scans spanning slice thickness/kernel strata: test native-to-model-tensor stability and separability from automated emphysema, airway connectivity, lung density, and reticulation proxies. Freeze all directions. On 250 test scans erase topology and nuisance directions separately/jointly; require a fibrosis-score effect specific to topology and stable across thin-slice reconstruction strata.",
-  "compute_envelope": "One Colab Pro+ session: frozen CT-CLIP inference on at most 370 volumes; CPU connected components and cubical persistence on downsampled subpleural shells; linear probes only.",
-  "standing_confounds_addressed": {
-    "scanner_vendor_protocol_reconstruction": "Thin-slice confirmatory stratum, explicit kernel/slice-thickness directions, and reconstruction-pair repeatability; failure to preserve topology kills the study.",
-    "site": "Single/institution-concentrated CT-RATE cannot eliminate site; external ILD replication is needed for rung 2.",
-    "positioning": "Subpleural coordinates are anatomy-relative; dependent atelectasis is measured and prone scans handled separately.",
-    "body_habitus": "Noise and dose proxies enter nuisance directions.",
-    "disease_prevalence_referral": "Clinical referral enriches ILD and emphysema; spectrum is reported and external screening replication is required.",
-    "label_leakage": "Reports do not define X or the primary self-change readout; visible text is excluded."
-  },
-  "alternative_explanations": [
-    {
-      "alternative": "The topology measure is paraseptal emphysema.",
-      "resolution": "Require complete walls, multilayer adjacency, no airway connection, and separate emphysema-direction erasure."
-    },
-    {
-      "alternative": "The model uses generic reticulation or density.",
-      "resolution": "Erase density and high-frequency reticulation directions separately and require an incremental topology effect."
-    },
-    {
-      "alternative": "Reconstruction creates or removes apparent cyst walls.",
-      "resolution": "Native/tensor and paired-reconstruction stability are keystone gates, not post hoc covariates."
-    }
-  ],
   "anticipated_negative": {
-    "classification": "decisive",
-    "reason": "If topology is reliably encoded and separable, yet its erasure has an equivalently null effect while reticulation erasure changes the fibrosis score, the honeycombing-use hypothesis is directly weakened."
+    "classification": "mixed: decisive route-stopping negatives and a sensitivity-limited model-use null",
+    "meaningful_negative": "K1 failure decisively establishes inadequate obtainable support. G2a/G2b failure decisively establishes that this erasure cannot identify use. If all gates and the minimum-detectable-effect requirement pass, an equivalently null topology effect with a functioning positive control weakens use of the linearly encoded index.",
+    "not_established": "No negative result establishes that CT-CLIP does not use honeycombing or a nonlinear topology representation."
+  },
+  "cross_domain": {
+    "borrowed_construct": "Persistent topology of a connected boundary-adjacent void network.",
+    "measurement_implied": "Threshold-persistent component and loop counts, adjacency, wall completeness, multilayer depth, and pleural distance.",
+    "if_analogy_dropped": "The experiment would use generic radiomics and would not specifically require threshold persistence, connectedness, or multilayer adjacency. The borrowed construct selects the exact measurable index; it does not supply the clinical name honeycombing."
+  },
+  "data_and_compute": {
+    "data": "CT-RATE reports and labels for K1, followed only after K1 by an obtainable gated CT-RATE evaluation subset and geometry-matched reconstruction pairs already inventoried for idea 004.",
+    "model": "Official CT-CLIP ClassFine checkpoint, with output mapping, commit, and checksum pinned before inference.",
+    "compute": "Frozen-model inference, CPU topology measurements, and linear affine interventions fit within Colab Pro+ scale; no model training or annotation campaign is proposed."
   },
   "scores": {
-    "clarity": {
-      "value": 5,
-      "why": "The claim names honeycombing and the competing generic textures."
-    },
-    "identifiability": {
-      "value": 4,
-      "why": "Topology, emphysema, reticulation, density, and reconstruction are explicitly dissociated; erasure specificity is still imperfect."
-    },
-    "medical_relevance": {
-      "value": 5,
-      "why": "Honeycombing changes UIP interpretation and prognosis, and confusion with emphysema is clinically consequential."
-    },
-    "interest": {
-      "value": 5,
-      "why": "A model effectively counting connected subpleural holes is a surprising physician-legible mechanism."
-    },
-    "prior_legwork": {
-      "value": 4,
-      "why": "Definitions, topology precedent, model, and public data family exist."
-    },
-    "feasibility": {
-      "value": 3,
-      "why": "Capped; routine-CT and final-tensor topology preservation is uninspected."
-    },
-    "data_readiness": {
-      "value": 3,
-      "why": "CT-RATE is obtainable but gated; thin-slice positive support is unknown."
-    },
-    "evaluation_readiness": {
-      "value": 4,
-      "why": "Persistent features and nuisance dissociations are prespecifiable, though validation floors are custom."
-    },
-    "negative_result_value": {
-      "value": 5,
-      "why": "After encoding gates, a topology-null/reticulation-positive result is decisive."
-    },
-    "novelty_confidence": {
-      "value": 3,
-      "why": "Capped; no direct foundation-model reliance study was found in a bounded search."
-    },
-    "regret": {
-      "value": 5,
-      "why": "The relevant topology is cheap to compute and could explain an important model output."
-    }
+    "mechanism_clarity": {"value": 5, "why": "The suspected quantity is a frozen, deterministic topology index and the exact representation-level test is specified."},
+    "identifiability": {"value": 3, "why": "G2a/G2b and nuisance erasures address major intervention alternatives, but construct validity and correlated nonlinear information remain unresolved."},
+    "interest": {"value": 4, "why": "A scarring head using connected subpleural void topology is compelling, though less so without the physician-level honeycombing name."},
+    "medical_relevance": {"value": 3, "why": "The endpoint is broad fibrotic sequela and the index lacks clinical construct validation, limiting direct ILD interpretation."},
+    "clarity": {"value": 5, "why": "One conditional question tests use of one prespecified index by one verified output."},
+    "feasibility": {"value": 3, "why": "Capped because the keystone is NOT_INSPECTED; K1 is cheap, but case support and intervention validity may fail."},
+    "novelty_confidence": {"value": 3, "why": "Capped and based only on a bounded search; no novelty claim is made."},
+    "prior_legwork": {"value": 4, "why": "The model code, checkpoint route, report gate, topology precedent, and reconstruction-pair inventory exist."},
+    "data_readiness": {"value": 3, "why": "Reports permit the first gate, while images are gated and the qualifying support count is unknown."},
+    "evaluation_readiness": {"value": 3, "why": "The gate families and controls are specified, but numeric margins, power, and sham construction require preregistration."},
+    "negative_result_value": {"value": 3, "why": "Support or intervention-validity failures decisively stop the route, while a model-use null remains limited to the tested linear encoding."},
+    "regret": {"value": 4, "why": "A cheap first gate can kill an unsupported story or justify a distinctive model-decoding experiment."}
   },
-  "priority_score": 4.3,
-  "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*5 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*5 + 0.05*3 + 0.05*3 = 4.30",
+  "mode_c_priority_score": 4.05,
+  "priority_arithmetic": "0.30*5 + 0.25*3 + 0.20*4 + 0.15*3 + 0.10*5 = 4.05",
   "unverified_claims": [
-    "CT-CLIP exposes a stable pulmonary-fibrosis score in the obtainable checkpoint",
-    "CT-RATE has enough thin-slice honeycombing",
-    "The proposed topology distinguishes honeycombing from emphysema without annotations",
-    "Topology is linearly and selectively erasable"
-  ]
+    "K1 finds at least 30 honeycomb-mentioning fibrotic-sequela-positive evaluation volumes, including 15 thin-slice volumes.",
+    "The frozen topology index is preserved and encoded on obtainable CT-RATE images.",
+    "Minimal-displacement affine erasure passes G2a manifold-equivalence margins.",
+    "Topology erasure exceeds displacement- and local-sensitivity-matched sham effects.",
+    "An obtainable external quantifier or adjudicated resource can validate the index as honeycombing."
+  ],
+  "recommendation": "SUPERSEDE idea 019 and register this index-level design as a new successor with parent_ids [\"idea-019\"]. If governance nevertheless permits revision in place, run K1 only; no image download, probe code, or model-use claim is authorized before a reviewed feasibility memo and probe contract."
 }
