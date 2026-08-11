@@ -1,0 +1,143 @@
+{
+  "id": "W2",
+  "track": "wide",
+  "status": "DEVELOPED",
+  "outside_field": "algebraic topology and fracture mechanics",
+  "question": "Is CT-CLIP's pulmonary-fibrosis score using the connected, multilayer subpleural cyst topology of honeycombing rather than generic peripheral high-frequency texture?",
+  "title": "The fibrosis model may be counting holes at the pleural edge",
+  "deliverable_sentence": "CT-CLIP is using honeycombing\u2014the connected multilayer subpleural cyst network of end-stage fibrotic lung\u2014rather than generic coarse lung texture.",
+  "rung": {
+    "current": 0,
+    "target": 3,
+    "move_up": "Automated topology association is exploratory; selective topology-direction erasure with emphysema, reticulation, density, and kernel controls reaches rung 1; reconstruction and external-site replication gate rung 2; the named honeycombing claim then reaches rung 3."
+  },
+  "X_measurement": {
+    "X": "Subpleural honeycomb topology: count and volume of 3-10 mm air components with complete walls, adjacency/stacking depth, distance to pleura, and persistent Betti-1/Euler-characteristic summaries across HU and wall-thickness thresholds.",
+    "how": "Segment lungs, define a 15-mm subpleural shell, identify wall-bounded air components across prespecified HU thresholds, remove components connected to the airway tree, and compute connected components, loops, stacking depth, and persistence. These are deterministic voxel/graph measurements; no reader label defines X.",
+    "could_compute_today_without_asking_anyone": "Yes as a well-defined formula using a lung mask and connected-component/persistent-homology operations, although its agreement with true honeycombing on routine thick-slice CT is uninspected."
+  },
+  "borrowed_construct": {
+    "field": "algebraic topology and fracture mechanics",
+    "construct": "End-stage remodeling creates a connected cellular void network at a stressed boundary; topology distinguishes that network from isolated low-density holes.",
+    "measurement_implied": "Persistent component/loop counts, wall completeness, adjacency, and multilayer depth in the subpleural shell.",
+    "if_analogy_dropped": "The study would use generic radiomics. The transplant forces threshold-persistent topology and a direct dissociation from isolated paraseptal emphysema."
+  },
+  "use_vs_association": "Use requires that erasing a validation-learned honeycomb-topology direction selectively lowers the frozen fibrosis score beyond erasing matched density, reticulation, emphysema, kernel, and random directions; score-topology correlation alone is not evidence of use.",
+  "keystone_prerequisite": "Routine CT-RATE resolution and CT-CLIP preprocessing preserve enough wall completeness and cyst adjacency to distinguish honeycombing topology from paraseptal emphysema and traction bronchiolectasis without human labels.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "Primary neighbors establish the adjacent facts: official Pulmonary Fibrosis Foundation recommendations define honeycomb cysts as contiguous subpleural cysts with complete walls and distinguish them from paraseptal emphysema (PMCID PMC7977697); topological ILD texture classification exists (arXiv:1005.5086); CT-CLIP/CT-RATE is arXiv:2403.17834. No native-to-final-tensor topology audit was inspected.",
+  "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? A clinical definition and an old topology classifier do not show that CT-RATE slice thickness or CT-CLIP resampling preserves 3-10 mm cyst walls. Preservation, not formula availability, is the real keystone.",
+  "dies_like_prior": "It resembles idea-008 only in the Sybil/fibrosis neighborhood, but uses a different frozen output and a positive named structure. It avoids idea-006's OOD deletion by internal direction erasure. It avoids CIRCULARITY because the model output is broad fibrosis while X is a dissociated morphologic component. DATA_INSUFFICIENT is an explicit prevalence/resolution gate.",
+  "closest_prior_work": [
+    {
+      "citation": "Sluimer et al., Classification of Interstitial Lung Disease Patterns with Topological Texture Features",
+      "identifier": "arXiv:1005.5086",
+      "verified_fact": "Euler/topological texture features were used to classify ILD patterns, including honeycombing.",
+      "delta": "It classified texture patches rather than testing reliance of a frozen report-supervised fibrosis model."
+    },
+    {
+      "citation": "Lynch et al., Practical Imaging Interpretation in Patients Suspected of IPF",
+      "identifier": "PMCID PMC7977697",
+      "verified_fact": "It defines honeycomb cysts by subpleural contiguity, wall completeness, and frequent multilayering, and names emphysema as a mimic.",
+      "delta": "It is a clinical definition, not an automated model-use experiment."
+    },
+    {
+      "citation": "Hamada et al., Deep-Learning Reconstruction of HRCT Improves Interobserver Agreement for Pulmonary Fibrosis",
+      "identifier": "DOI 10.1177/08465371241228468",
+      "verified_fact": "Reconstruction method changes agreement for honeycombing assessment.",
+      "delta": "It highlights the reconstruction threat but does not decode a fibrosis network."
+    }
+  ],
+  "novelty_neighbors": [
+    "arXiv:1005.5086",
+    "PMCID PMC7977697",
+    "DOI 10.1177/08465371241228468"
+  ],
+  "novelty_delta": "The proposed study asks whether a frozen volumetric foundation model relies on threshold-persistent honeycomb topology, not whether topology can classify ILD patches or readers can see honeycombing.",
+  "why_not_done": {
+    "category": "BLIND_SPOT",
+    "reason": "Fibrosis explainability usually maps saliency or predicts reader lexicon labels; topology provides an annotation-free morphologic instrument but has rarely been used as the readout language for a foundation model."
+  },
+  "smallest_decisive_experiment": "Stage 0 on 120 validation scans spanning slice thickness/kernel strata: test native-to-model-tensor stability and separability from automated emphysema, airway connectivity, lung density, and reticulation proxies. Freeze all directions. On 250 test scans erase topology and nuisance directions separately/jointly; require a fibrosis-score effect specific to topology and stable across thin-slice reconstruction strata.",
+  "compute_envelope": "One Colab Pro+ session: frozen CT-CLIP inference on at most 370 volumes; CPU connected components and cubical persistence on downsampled subpleural shells; linear probes only.",
+  "standing_confounds_addressed": {
+    "scanner_vendor_protocol_reconstruction": "Thin-slice confirmatory stratum, explicit kernel/slice-thickness directions, and reconstruction-pair repeatability; failure to preserve topology kills the study.",
+    "site": "Single/institution-concentrated CT-RATE cannot eliminate site; external ILD replication is needed for rung 2.",
+    "positioning": "Subpleural coordinates are anatomy-relative; dependent atelectasis is measured and prone scans handled separately.",
+    "body_habitus": "Noise and dose proxies enter nuisance directions.",
+    "disease_prevalence_referral": "Clinical referral enriches ILD and emphysema; spectrum is reported and external screening replication is required.",
+    "label_leakage": "Reports do not define X or the primary self-change readout; visible text is excluded."
+  },
+  "alternative_explanations": [
+    {
+      "alternative": "The topology measure is paraseptal emphysema.",
+      "resolution": "Require complete walls, multilayer adjacency, no airway connection, and separate emphysema-direction erasure."
+    },
+    {
+      "alternative": "The model uses generic reticulation or density.",
+      "resolution": "Erase density and high-frequency reticulation directions separately and require an incremental topology effect."
+    },
+    {
+      "alternative": "Reconstruction creates or removes apparent cyst walls.",
+      "resolution": "Native/tensor and paired-reconstruction stability are keystone gates, not post hoc covariates."
+    }
+  ],
+  "anticipated_negative": {
+    "classification": "decisive",
+    "reason": "If topology is reliably encoded and separable, yet its erasure has an equivalently null effect while reticulation erasure changes the fibrosis score, the honeycombing-use hypothesis is directly weakened."
+  },
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "The claim names honeycombing and the competing generic textures."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Topology, emphysema, reticulation, density, and reconstruction are explicitly dissociated; erasure specificity is still imperfect."
+    },
+    "medical_relevance": {
+      "value": 5,
+      "why": "Honeycombing changes UIP interpretation and prognosis, and confusion with emphysema is clinically consequential."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A model effectively counting connected subpleural holes is a surprising physician-legible mechanism."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Definitions, topology precedent, model, and public data family exist."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped; routine-CT and final-tensor topology preservation is uninspected."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "CT-RATE is obtainable but gated; thin-slice positive support is unknown."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Persistent features and nuisance dissociations are prespecifiable, though validation floors are custom."
+    },
+    "negative_result_value": {
+      "value": 5,
+      "why": "After encoding gates, a topology-null/reticulation-positive result is decisive."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped; no direct foundation-model reliance study was found in a bounded search."
+    },
+    "regret": {
+      "value": 5,
+      "why": "The relevant topology is cheap to compute and could explain an important model output."
+    }
+  },
+  "priority_score": 4.3,
+  "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*5 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*5 + 0.05*3 + 0.05*3 = 4.30",
+  "unverified_claims": [
+    "CT-CLIP exposes a stable pulmonary-fibrosis score in the obtainable checkpoint",
+    "CT-RATE has enough thin-slice honeycombing",
+    "The proposed topology distinguishes honeycombing from emphysema without annotations",
+    "Topology is linearly and selectively erasable"
+  ]
+}
