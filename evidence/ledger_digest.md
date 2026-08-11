@@ -16,15 +16,15 @@ A candidate that dies like a prior one must say what makes it different.
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
 - **scout-007-c05** [NOVEL_VERIFIED, score 4.6, audited 2026-08-10] -- A lung-cancer model may be reading a mechanically remodeled trachea
+- **scout-009-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-11] -- The brain-tumor prognosticator may be weighing the chewing muscle
 - **scout-007-c07** [NOVEL_UNVERIFIED, score 4.3, audited 2026-08-10] -- The fibrosis model may be counting holes at the pleural edge
 - **scout-006-c04** [NOVEL_UNVERIFIED, score 4.1, audited 2026-08-10] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
+- **scout-009-c08** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.1, audited 2026-08-11] -- The glioblastoma prognosticator may be reading the invasion front's roughness
+- **scout-009-c06** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-11] -- The CT spirometer may be reading the diaphragm as a pressure-loaded membrane
 - **scout-007-c06** [NOVEL_UNVERIFIED, score 3.9, audited 2026-08-10] -- The effusion model may be reading whether pleural fluid still obeys gravity
 - **scout-008-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.9, audited 2026-08-11] -- The emphysema call may read the shape of the holes, not just how many
 - **scout-008-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.9, audited 2026-08-11] -- The lung-cancer model may read the aorta as an ageing clock
-- **scout-007-c08** [NOVEL_UNVERIFIED, score 3.6, audited 2026-08-10] -- The PE model may be reading how completely blood and contrast have mixed
-- **scout-006-c05** [NOVEL_UNVERIFIED, score 3.4, audited 2026-08-10] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
-- **scout-007-c03** [NOVEL_UNVERIFIED, score 3.4, audited 2026-08-10] -- Merlin may be reading fatty kidney rather than kidney shape
-- **scout-008-c02** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.1, audited 2026-08-11] -- The chest-CT model may see the heart by watching the airway splay
+- **scout-009-c09** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-08-11] -- The arterial-calcification score may be reading inspiratory depth
 - ... and 12 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
