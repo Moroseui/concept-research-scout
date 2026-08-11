@@ -134,3 +134,4 @@
 {"ledger_id": "idea-017", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-11T11:01:40+00:00"}
 {"ledger_id": "idea-017", "status": "SHORTLISTED", "notes": "debate: Rewrite the idea card as a four-gate Stage 0-only study with no erasure or use claim, then prespecify and inspect adequate independent tracheal-index support in a recoverable Sybil-held-out or external cohort.", "card_synced": false, "recorded_at": "2026-08-11T11:01:40+00:00"}
 {"ledger_id": "idea-017", "card_synced": true, "notes": "card revised to debate-converged state", "claim_retention": "narrowed", "recorded_at": "2026-08-11T11:04:11+00:00"}
+{"ledger_id": "idea-018", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-11T11:10:33+00:00"}
