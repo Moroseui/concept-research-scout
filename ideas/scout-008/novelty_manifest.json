@@ -1,0 +1,37 @@
+{
+  "searched_at": "2026-08-11T00:00:00Z",
+  "queries": [
+    {"query": "Merlin CT cirrhosis liver surface nodularity foundation model", "source": "web search"},
+    {"query": "deep learning CT liver cirrhosis liver surface nodularity model", "source": "web search"},
+    {"query": "Merlin cirrhosis phenotype CT foundation model", "source": "web search"},
+    {"query": "CT-CLIP cardiomegaly subcarinal angle deep learning", "source": "web search"},
+    {"query": "subcarinal angle CT left atrial enlargement determinants DOI", "source": "web search"},
+    {"query": "CT assessment of tracheal carinal angle and its determinants", "source": "web search"},
+    {"query": "CT foundation model anemia blood attenuation contrast CT", "source": "web search"},
+    {"query": "deep learning anemia detection CT blood attenuation", "source": "web search"},
+    {"query": "CT-CLIP emphysema low attenuation cluster fractal complexity", "source": "web search"},
+    {"query": "Mishima 1999 emphysema complexity low attenuation clusters DOI", "source": "web search"},
+    {"query": "Sybil lung cancer risk aorta tortuosity CT model attribution", "source": "web search"},
+    {"query": "Auditing Sybil aortic vascular attribution", "source": "web search"},
+    {"query": "arXiv 2602.02560 Auditing Sybil", "source": "web search"},
+    {"query": "aortic tortuosity age thoracic CT DOI lung cancer risk", "source": "web search"},
+    {"query": "aortic tortuosity deep learning lung cancer CT risk", "source": "web search"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "10.1148/radiol.2016151542", "access": "abstract", "establishing_passage": "The study developed a computer LSN score and reported accurate, reproducible differentiation of cirrhotic from noncirrhotic livers."},
+    {"candidate": "C1", "identifier": "10.1016/j.ejro.2017.07.001", "access": "full_text", "establishing_passage": "LSN measurement was highly reproducible on noncontrast CT, while CT and MRI produced different scores."},
+    {"candidate": "C1", "identifier": "PMC10584300", "access": "full_text", "establishing_passage": "The AI cirrhosis study included a morphomic nodularity feature defined from smoothed and original liver perimeters."},
+    {"candidate": "C2", "identifier": "10.1259/bjr/75107416", "access": "abstract", "establishing_passage": "The CT study evaluated left atrial size, body habitus, thoracic dimensions, and carinal position as angle determinants."},
+    {"candidate": "C2", "identifier": "10.2214/ajr.164.5.7717208", "access": "abstract", "establishing_passage": "Carinal angles correlated poorly with left atrial size and had low sensitivity and specificity."},
+    {"candidate": "C2", "identifier": "10.5830/CVJA-2010-008", "access": "full_text", "establishing_passage": "Subcarinal measurements were repeatable but not accurate predictors of left atrial enlargement."},
+    {"candidate": "C3", "identifier": "PMID 12625080", "access": "abstract", "establishing_passage": "Unenhanced thoracic CT blood attenuation and visual signs were evaluated for prediction of anemia."},
+    {"candidate": "C3", "identifier": "10.3390/diagnostics13162702", "access": "full_text", "establishing_passage": "An XGBoost model used virtual-noncontrast blood attenuation; descending-aortic attenuation had the highest feature importance."},
+    {"candidate": "C3", "identifier": "10.1148/radiol.220063", "access": "search_summary", "establishing_passage": "Photon-counting contrast CT blood-pool measurements were used to quantify hemoglobin and detect anemia."},
+    {"candidate": "C4", "identifier": "10.1073/pnas.96.16.8829", "access": "search_summary", "establishing_passage": "The work assessed terminal-airspace complexity from the power-law distribution of CT low-attenuation cluster sizes."},
+    {"candidate": "C4", "identifier": "10.1007/s00330-018-5551-7", "access": "abstract", "establishing_passage": "Low morphometric complexity predicted COPD survival independently of emphysema extent."},
+    {"candidate": "C4", "identifier": "10.1016/j.chest.2018.09.009", "access": "full_text", "establishing_passage": "Three-dimensional low-attenuation super-clusters tracked emphysema progression and motivated a force-driven coalescence mechanism."},
+    {"candidate": "C5", "identifier": "10.1200/JCO.22.01345", "access": "full_text", "establishing_passage": "Sybil predicted future lung cancer from LDCT and showed some spatial localization of high-risk signals."},
+    {"candidate": "C5", "identifier": "arXiv:2602.02560", "access": "abstract", "establishing_passage": "The interventional Sybil audit reported nodule discrimination, clinically unjustified artifact sensitivity, and radial bias."},
+    {"candidate": "C5", "identifier": "10.1371/journal.pone.0215549", "access": "full_text", "establishing_passage": "The study measured descending thoracic aortic tortuosity on CT and established age-stratified normal values."}
+  ]
+}
