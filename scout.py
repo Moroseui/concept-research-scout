@@ -878,6 +878,9 @@ def _merge_candidates(target, tracks, cycle_no):
                 for soft in ('design_template', 'search_mode'):
                     if not c.get(soft):
                         notes[f'{soft}_missing'] = notes.get(f'{soft}_missing', 0) + 1
+                if c.get('search_mode') == 'C' and not isinstance(
+                        c.get('mode_c_priority_score'), (int, float)):
+                    notes['mode_c_score_missing'] = notes.get('mode_c_score_missing', 0) + 1
                 err = _validate_card(c)
                 if err:
                     notes.setdefault('schema_rejected', []).append(

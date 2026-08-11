@@ -679,6 +679,32 @@ class TestPipeline(Harness):
         self.assertNotEqual(sc.ledger_mod.load().get("idea-001", {}).get("status"),
                             "REJECTED", "evidence-free KILL killed an idea")
 
+    def test_fiction_kernel_without_self_score_merges(self):
+        # Regression for the run that killed fiction v2's first kernel: a
+        # schema-valid Mode-C card lacking mode_c_priority_score must MERGE
+        # (ranking recomputes and never trusts self-scores anyway), with the
+        # gap soft-noted.
+        sc = self._sc()
+        d = self.repo / "ideas" / "scout-065"; d.mkdir()
+        c = {"title": "CT-CLIP calc vs diaphragm height",
+             "question": "does the calcification head use diaphragm height?",
+             "deliverable_sentence": "the model is using diaphragm height",
+             "keystone_prerequisite": "per-finding head exists",
+             "keystone_status": "NOT_INSPECTED", "search_mode": "C",
+             "scores": {"mechanism_clarity": {"value": 4, "why": "x"},
+                        "identifiability": {"value": 3, "why": "x"},
+                        "interest": {"value": 4, "why": "x"},
+                        "medical_relevance": {"value": 3, "why": "x"},
+                        "clarity": {"value": 4, "why": "x"}}}
+        (d / "fiction_candidates.json").write_text(json.dumps({"candidates": [c]}))
+        (d / "fiction_seed.json").write_text('{"source": "random", "fiction_version": 2}')
+        sc._merge_candidates(d, ["fiction"], 65)
+        merged = json.loads((d / "candidates_all.json").read_text())
+        self.assertEqual(len(merged["candidates"]), 1, "kernel was rejected again")
+        self.assertEqual(merged["notes"].get("mode_c_score_missing"), 1)
+        self.assertAlmostEqual(sc._mean_score(c), 3.60, places=2,
+                               msg="Mode-C recompute should rank the scoreless card")
+
     def test_keystone_done_marker_makes_rerun_skip(self):
         self.assertEqual(self._sc().STAGE_DONE_MARKER["keystone"], "keystone_screen.md")
 

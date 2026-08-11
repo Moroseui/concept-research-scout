@@ -64,3 +64,13 @@ cross-model-disagreement, model-output-perturbation.
 The digest counts these: homogenization is measured by repeated grammar,
 not repeated nouns. Pick the closest; if truly none fits, use
 `other:<short-name>` and justify it in the card.
+
+## Scoring (Mode C)
+
+Fiction candidates are Mode-C by nature (mechanism-first). Score with the
+Mode-C rubric -- mechanism_clarity (30%), identifiability (25%), interest
+(20%), medical_relevance (15%), clarity (10%) -- each as {value, why},
+and include `search_mode: "C"`, `mode_c_priority_score`, and its
+arithmetic. The orchestrator recomputes and never trusts a self-score it
+cannot verify, so honest arithmetic costs nothing and disagreement is
+auto-corrected.

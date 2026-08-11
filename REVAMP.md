@@ -165,6 +165,14 @@ completes them.
   (~10 MB now); build a small deterministic fixture repo before the corpus
   makes CI test time material.
 
+- [x] **Patch D (hotfix): self-scores are advisory, never load-bearing.**
+  Patch C required mode_c_priority_score for Mode-C cards; the first fiction
+  v2 kernel (CT-CLIP calcification x diaphragm height) was schema-killed at
+  merge for lacking a number the ranking recomputes and refuses to trust
+  anyway. Requirements dropped; Mode-C gaps soft-noted; fiction_refine now
+  requests (not requires) Mode-C scoring. Rule: the schema enforces the
+  scientific contract, not bookkeeping the orchestrator derives itself.
+
 ## Pending (dependency order)
 
 - [ ] **Executable Stage 0 gating.** Probe machinery exists
