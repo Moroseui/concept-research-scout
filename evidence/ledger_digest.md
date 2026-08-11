@@ -1,6 +1,6 @@
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-34 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+39 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -22,7 +22,19 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-007-c08** [NOVEL_UNVERIFIED, score 3.6, audited 2026-08-10] -- The PE model may be reading how completely blood and contrast have mixed
 - **scout-006-c05** [NOVEL_UNVERIFIED, score 3.4, audited 2026-08-10] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
 - **scout-007-c03** [NOVEL_UNVERIFIED, score 3.4, audited 2026-08-10] -- Merlin may be reading fatty kidney rather than kidney shape
-- **scout-006-c03** [INCREMENTAL, score 4.0, audited 2026-08-10] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
+- **scout-008-c04** [UNAUDITED, score 3.8] -- The emphysema call may read the shape of the holes, not just how many
+- **scout-008-c05** [UNAUDITED, score 3.8] -- The lung-cancer model may read the aorta as an ageing clock
+- **scout-008-c03** [UNAUDITED, score 3.5] -- The model that 'predicts a blood count' may just be reading how bright the blood is
+- ... and 3 more (python scout.py backlog)
+
+## Design-template concentration (homogenization watch)
+
+The research GRAMMAR, not the nouns. High concentration means the
+portfolio explores one scientific move with rotating vocabulary.
+
+- counterfactual-synthesis: 2
+- representation-erasure: 2
+- natural-paired: 1
 
 ## Ideas
 
@@ -60,3 +72,8 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-007-c11** [REJECTED/SCOUTED/wide] -- (untitled)
 - **scout-007-c12** [REJECTED/SCOUTED/wide] -- (untitled)
 - **scout-007-c13** [REJECTED/SCOUTED/wide] -- (untitled)
+- **scout-008-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The cirrhosis model may be reading the bumpiness of the liver's edge
+- **scout-008-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The chest-CT model may see the heart by watching the airway splay
+- **scout-008-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The model that 'predicts a blood count' may just be reading how bright the blood is
+- **scout-008-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The emphysema call may read the shape of the holes, not just how many
+- **scout-008-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The lung-cancer model may read the aorta as an ageing clock
