@@ -17,7 +17,7 @@
       "fiction_scout": "done",
       "fiction_extract": "done",
       "fiction_refine": "done",
-      "merge": "running",
+      "merge": "failed",
       "novelty_audit": "pending",
       "backlog": "pending"
     }
