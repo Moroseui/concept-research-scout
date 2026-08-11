@@ -220,6 +220,11 @@ command = ["{sys.executable}", "{self.fake}"]
         for pat in ("librarian-*", "actioner-*"):
             for d in (self.repo / "ideas").glob(pat):
                 _sh.rmtree(d)
+        # In-flight real cycles leak through state.json (strain five: a live
+        # repo mid-cycle broke TestCycle via a colliding scout dir number).
+        # Neutral state, numbered above any real scout dir.
+        (self.repo / "orchestrator" / "state.json").write_text(
+            '{"next_scout": 50, "selected_idea": 1}\n')
         if wipe_idea_dirs:
             for d in (self.repo / "ideas").glob("scout-*"):
                 _sh.rmtree(d)
@@ -1173,6 +1178,10 @@ class TestRotation(Harness):
 
 
 class TestCycle(Harness):
+    def setUp(self):
+        super().setUp()
+        self.make_hermetic(wipe_idea_dirs=True)
+
     def start_state(self, n=9):
         (self.repo / "orchestrator" / "state.json").write_text(
             json.dumps({"next_scout": n, "selected_idea": 1}) + "\n")

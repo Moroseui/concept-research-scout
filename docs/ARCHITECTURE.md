@@ -264,7 +264,9 @@ and every stateful test class starts from an erased world — and after a
 fourth strain (new librarian/actioner output dirs shifting run numbering),
 the helper's own coverage is part of the rule: any newly added accumulating
 artifact family must be added to `make_hermetic()` in the same patch that
-introduces it. The standing
+introduces it — a rule then violated once more (an in-flight cycle leaking
+through state.json into cycle tests), which is the strongest argument for
+having it; state.json is now reset by the helper too. The standing
 rule: **tests may not depend on what the repository has lived through, and
 new test classes inherit hermeticity rather than rediscover the need for
 it.** The complementary rule, learned when fabricated fixtures masked a
