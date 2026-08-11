@@ -19,7 +19,12 @@ Review against, in order of severity:
 3. **Claim discipline.** No analysis beyond the contract; no test-set
    contact; deterministic seeds; results labeled with the contract's
    positive_pattern / negative_pattern language, never stronger.
-4. **Practicalities.** Will it actually run in Colab: paths, pip pins,
+4. **Readability.** The human runs this personally: module docstring
+   explaining the experiment, narrated phase comments, thresholds annotated
+   with provenance, progress printing, plain-English summary at the end.
+   Blocking only when the code is genuinely opaque; otherwise list as
+   non-blocking findings.
+5. **Practicalities.** Will it actually run in Colab: paths, pip pins,
    Drive output dir taken from --output-dir, no interactive prompts.
 
 Write `probe_review.md`: findings by severity with file/line references,
