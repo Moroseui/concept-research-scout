@@ -124,3 +124,19 @@ Side finding for idea 013 Stage 0: CT-CLIP clips at +1000 HU, so calcium
 density saturates — compute the automated calcium measure on the same
 clipped range.
 
+
+## 2026-08-11 — Idea 004 Stage 0: feasibility memo accepted with four contract pins
+
+GO per feasibility.md, with the probe contract required to encode: (1) primary
+readout is per-head (18) x per-stratum paired-difference distributions; no
+cross-head averaging; the 4-pair Br40f|Br44f stratum is exploratory only.
+(2) Two-tier readout: tier 1 label-free per-head deltas (the floor, primary,
+no margin needed); tier 2 label-dependent AUROC shift judged against the
+CT-Scroll between-method spread, margin fixed from the PDF tables BEFORE any
+paired score is seen. (3) Probes are phased: contract v1 is exactly the
+section-9 load probe (gate, checkpoint hash, 18-output load, one-pair
+inference, bit-determinism); the bulk 425-pair floor study is a separate
+later contract requiring fresh human approval. (4) Freeze HF commit hash and
+checkpoint SHA-256 at download time; attribution limited to 'released v2
+ClassFine checkpoint' until paper-number correspondence is checked.
+
