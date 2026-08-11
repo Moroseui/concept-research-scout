@@ -1,0 +1,138 @@
+{
+  "id": "C5",
+  "parent_ids": [],
+  "revival_basis": null,
+  "search_mode": "C",
+  "entry_point": 2,
+  "title": "A lung-cancer model may be reading a mechanically remodeled trachea",
+  "question": "Is Sybil using the minimum intrathoracic tracheal index\u2014the transverse-to-anteroposterior ratio that defines saber-sheath trachea\u2014as a mechanically accumulated sign of COPD and smoking injury?",
+  "rung": {
+    "target": 3,
+    "current": 0,
+    "move_up": "Selective tracheal-index erasure and paired inspiration/reconstruction stability reach rung 1; separation from emphysema, sex, lung volume, and kernel plus external replication gates rung 2; saber-sheath trachea is the rung-3 name."
+  },
+  "deliverable_sentence": "Sybil is using saber-sheath tracheal deformity\u2014the fixed side-to-side narrowing of the intrathoracic trachea\u2014as a record of chronic obstructive lung injury.",
+  "X_measurement": {
+    "X": "Minimum intrathoracic tracheal index: transverse lumen diameter divided by anteroposterior diameter on planes perpendicular to the tracheal centerline, with <0.67 as a conventional severe-deformity threshold.",
+    "how": "Automatically segment the tracheal lumen by HU threshold/region growing, extract a centerline, reformat perpendicular planes from the lung apex to 2 cm above the carina, and take the minimum transverse/AP ratio. Pompe et al. describe this automatic procedure (PMCID PMC6052793).",
+    "could_compute_today_without_asking_anyone": "Yes. The published algorithm uses voxel thresholding, centerline geometry, and a formula; it needs no human judgment."
+  },
+  "suspected_signal": "Repeated cough and elevated intrathoracic pressure cause chronic tracheal-cartilage remodeling: coronal narrowing with sagittal widening. Unlike instantaneous lung inflation, the shape may integrate years of obstructive mechanics and smoking injury.",
+  "specific_artifact_confused_with_signal": "Respiratory phase, gantry angle, non-perpendicular axial measurement, tracheal secretions, intubation, and crop/resampling anisotropy can all change apparent index.",
+  "keystone_prerequisite": "Sybil's final input tensor preserves tracheal cross-sectional geometry accurately enough for minimum tracheal index to be measured and encoded, and NLST contains enough low-index cases independent of sex, emphysema, lung volume, and reconstruction for a selective-use test.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "Nearest primary evidence inspected: Pompe et al., PMCID PMC6052793, specifies an automatic centerline/perpendicular-plane tracheal-index algorithm and reports that tracheal shape adds to emphysema for COPD severity assessment. Sybil/NLST availability is established in the ledger, but preservation of tracheal geometry through the final tensor and the NLST joint distribution were not inspected.",
+  "keystone_residual_assumption": "The easy facts are that native CT supports tracheal index and Sybil accepts NLST CT. I am still assuming resampling/cropping preserves this ratio and that saber-sheath variation is not effectively a male-sex/emphysema indicator. Those are the real load-bearing facts.",
+  "rung_reached": "No rung yet. Mode C score reflects mechanism quality, not accomplished evidence.",
+  "dies_like_prior": "It resembles idea-007 because respiratory state can change geometry. The difference is that saber-sheath deformity is hypothesized as fixed chronic remodeling and is measured on perpendicular planes; nevertheless paired inspiration/expiration stability is an explicit gate. It differs from idea-006 by using no patient deletion. DATA_INSUFFICIENT is checked through the low-index prevalence gate.",
+  "closest_prior_work": [
+    {
+      "citation": "Mikhael et al., Sybil",
+      "identifier": "DOI 10.1200/JCO.22.01345; PMCID PMC10419602",
+      "verified_fact": "Sybil predicts future lung cancer from a single low-dose chest CT and retains residual performance when visible nodules are removed.",
+      "delta": "It did not measure tracheal index."
+    },
+    {
+      "citation": "Pompe et al., CT quantification of tracheal abnormalities in COPD",
+      "identifier": "PMCID PMC6052793",
+      "verified_fact": "It defines an automated minimum tracheal index and found tracheal-shape information can add to emphysema in COPD severity assessment.",
+      "delta": "It did not study a lung-cancer risk model or model reliance."
+    }
+  ],
+  "existing_assets": [
+    "Sybil code/weights and NLST pathway established in prior cycles",
+    "Simple published automatic tracheal-index algorithm",
+    "NLST acquisition metadata and repeat/reconstruction subsets"
+  ],
+  "smallest_decisive_experiment": "Stage 0: measure native-DICOM versus final-tensor tracheal-index agreement; estimate prevalence and partial correlation with sex, LAA-950 emphysema, lung volume, BMI proxy, and kernel; test repeatability on paired reconstructions and any available respiratory pairs. Confirmatory: learn a validation-only tracheal-index direction, erase it from frozen Sybil embeddings, and compare risk-score change against emphysema, lung-volume, sex, and random-direction erasures on untouched cases.",
+  "use_vs_association": "The model uses tracheal deformity only if its validated concept direction can be selectively removed and Sybil risk changes beyond emphysema/sex/lung-volume erasures. Score-index association alone remains exploratory.",
+  "standing_confounds_addressed": {
+    "scanner_vendor_protocol_reconstruction_site": "Paired reconstructions assess kernel sensitivity; scanner/vendor covariates possible; NLST site is masked and remains a limitation.",
+    "positioning": "Centerline-perpendicular planes remove gantry/neck-angle bias; lung inflation remains an explicit control.",
+    "habitus": "Body diameter/BMI proxy and thoracic cage ratio controls.",
+    "prevalence_referral": "NLST uniform screening pathway addresses clinical referral but only in heavy smokers.",
+    "label_leakage": "Cancer outcome is not used in X and cannot be printed into tracheal geometry."
+  },
+  "alternative_explanations": [
+    {
+      "alternative": "The index is only a proxy for male sex or body size.",
+      "resolution": "Sex- and thoracic-ratio matched analysis plus separate concept erasures."
+    },
+    {
+      "alternative": "The index is only emphysema/hyperinflation.",
+      "resolution": "Joint LAA-950, lung-volume, and tracheal-index erasures; require incremental selective effect."
+    },
+    {
+      "alternative": "Apparent shape is respiratory phase or preprocessing anisotropy.",
+      "resolution": "Native-to-tensor agreement and paired respiratory/reconstruction repeatability gates."
+    }
+  ],
+  "anticipated_negative": {
+    "classification": "decisive",
+    "reason": "If tracheal index is accurately encoded and reliably measurable, yet its erasure has an equivalently null effect while emphysema erasure changes Sybil, the specific chronic-remodeling hypothesis is weakened."
+  },
+  "cross_domain": {
+    "borrowed_construct": "Fatigue/remodeling of a pressure-loaded cartilaginous tube.",
+    "measurement_implied": "A fixed minimum transverse/AP ratio and its respiratory stability, rather than generic airway size.",
+    "if_analogy_dropped": "The experiment would measure tracheal caliber. The mechanics analogy changes X to anisotropic shape, predicts a low transverse/AP ratio, and requires stability across respiratory state."
+  },
+  "remaining_legwork": "2 days for preprocessing geometry audit, 3 days for NLST prevalence/collinearity on a small sample, and 2 days for repeatability. First go/no-go in one week.",
+  "scores": {
+    "mechanism_clarity": {
+      "value": 5,
+      "why": "A precise ratio, anatomical level, predicted direction, and chronic mechanical cause."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Internal erasure plus emphysema/sex/volume controls and real paired scans attack the main alternatives; masked site remains."
+    },
+    "interest": {
+      "value": 5,
+      "why": "An under-read tracheal shape as a long-term smoking mechanics recorder is surprising."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "It could explain risk as chronic obstructive injury rather than occult tumor signal."
+    },
+    "clarity": {
+      "value": 5,
+      "why": "The model-uses-X sentence is concrete and falsifiable."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped; measurement is easy but tensor preservation and prevalence are uninspected."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped; no direct Sybil/tracheal-index study was found in a bounded search."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Sybil assets and an automatic X algorithm already exist."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "NLST/Sybil pathway is established in the repository record."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Ratio, repeatability, partial association, and erasure controls are prespecifiable."
+    },
+    "negative_result_value": {
+      "value": 5,
+      "why": "After the encoding/reliability gate, a null erasure directly rejects the named mechanism."
+    },
+    "regret": {
+      "value": 5,
+      "why": "A one-week geometry audit could expose a simple overlooked signal."
+    }
+  },
+  "mode_c_priority_score": 4.6,
+  "priority_arithmetic": "0.30*5 + 0.25*4 + 0.20*5 + 0.15*4 + 0.10*5 = 4.60",
+  "unverified_claims": [
+    "Sybil preprocessing preserves tracheal aspect ratio",
+    "Low tracheal index is prevalent enough in NLST",
+    "The tracheal-index direction is separable from sex/emphysema/lung volume"
+  ],
+  "track": "baseline"
+}
