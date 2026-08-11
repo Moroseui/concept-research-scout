@@ -1,6 +1,7 @@
-# Frozen driver dependencies for the idea-004 load probe.
-# The two released CT-CLIP packages are installed by run.py from its pinned clone.
+# Frozen driver and released-code import dependencies for idea-004.
+# Install this file before starting run.py; run.py never mutates its own environment.
 torch==2.5.1
+torchvision==0.20.1
 numpy==1.26.4
 nibabel==5.2.1
 pandas==2.2.2
@@ -8,3 +9,13 @@ transformers==4.38.2
 huggingface-hub==0.22.2
 scikit-learn==1.4.2
 tqdm==4.66.4
+vector-quantize-pytorch==1.1.2
+ema-pytorch==0.7.7
+einops==0.8.0
+beartype==0.19.0
+accelerate==0.33.0
+h5py==3.11.0
+matplotlib==3.9.2
+seaborn==0.13.2
+scipy==1.14.1
+pillow==10.4.0

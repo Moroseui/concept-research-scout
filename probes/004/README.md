@@ -3,9 +3,8 @@
 This directory implements the exploratory load probe defined in
 [`ideas/004/probe_contract.yaml`](../../ideas/004/probe_contract.yaml). Human
 approval exists as the committed marker `ideas/004/HUMAN_APPROVED_PROBE`
-(2026-08-11); note the contract YAML's `human_approved` flag was left `false`
-in the approval commit — `run.py` gates on the marker file, which is the
-human's actual approval act.
+(2026-08-11), and the contract's `human_approved` field is synchronized to
+`true`. `run.py` gates on the marker file, which is the human's approval act.
 
 ## How to run
 
@@ -15,8 +14,8 @@ human's actual approval act.
 # per-sample outputs, bit-identity and budget checks.
 python3 run.py --smoke
 
-# Install the pinned driver environment once. run.py installs the two released
-# packages from its provenance-frozen CT-CLIP clone using pip install --no-deps -e.
+# Install the pinned environment before starting the probe. The driver then
+# imports the two released packages directly from its provenance-frozen clone.
 python3 -m pip install -r requirements.txt
 
 # Real probe: write artifacts to persistent storage (for example mounted Drive).
@@ -24,10 +23,10 @@ python3 -m pip install -r requirements.txt
 python3 run.py --output-dir /path/on/drive/idea004
 ```
 
-Exit codes map one-to-one to the contract's invalidating failures (see the
+Exit codes distinguish contract failures from environment failures (see the
 `run.py` docstring): 0 pass, 2 gate, 3 access, 4 provenance, 5 checkpoint
 load, 6 output shape, 7 pair validity, 8 determinism, 9 budget, 11 missing
-dependency, 12 internal error (never to be reinterpreted as a negative
+dependency/GPU, 10 model/tokenizer access, 12 internal error (never to be reinterpreted as a negative
 result). Outputs land in `--output-dir` when supplied, otherwise `outputs/`
 (real) or `outputs_smoke/` (smoke):
 `resolved_config.json`, `per_sample.csv`, `summary.json`, `environment.txt`,
@@ -38,8 +37,8 @@ released `validation_metadata.csv` by re-applying the frozen Stage-0 rules
 (exact string equality on RescaleSlope, RescaleIntercept, XYSpacing, ZSpacing,
 NumberofSlices, plus position/acquisition columns where present), restricting
 to the Br40f|Br60f contrast, sorting by the Br40f member's volume name, and
-taking the first — selected before any score is inspected. The count of
-qualifying pairs is logged as a cross-check against Stage 0's 237.
+taking the first — selected before any score is inspected. The run stops if
+the qualifying count differs from Stage 0's frozen count of 237.
 
 If the released code's constructor or call signatures differ from the
 transcription in `run.py` (taken from `scripts/ct_lipro_inference.py` on

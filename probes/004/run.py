@@ -3,10 +3,9 @@
 loaded unchanged, and made to emit deterministic 18-head scores for one pair?
 
 Contract: ideas/004/probe_contract.yaml (v1, the section-9 "load probe").
-Approval: ideas/004/HUMAN_APPROVED_PROBE (committed 2026-08-11). Note the
-contract YAML's `human_approved` flag was left `false` in the approval commit;
-the committed marker file is the human's approval act and is what this gate
-checks.
+Approval: ideas/004/HUMAN_APPROVED_PROBE (committed 2026-08-11), with the
+contract's `human_approved` field synchronized to true in this revision. The
+committed marker file remains the executable approval gate.
 
 WHAT THIS PROBE IS, in one paragraph: CT-RATE stores several reconstructions
 of the same CT acquisition. The eventual study asks how much the released
@@ -46,7 +45,8 @@ Exit codes (each maps to a contract invalidating_failure or a harness fault):
     7   pair-validity failure: Stage-0 rules or preprocessing (invalidating_failures[4])
     8   determinism failure: repeat-A not bit-identical (invalidating_failures[5])
     9   budget failure: memory/crash/45-GPU-minute cap (invalidating_failures[6])
-    11  missing dependency (environment, not a contract result)
+    10  model/tokenizer access failure (environment, not a contract result)
+    11  missing dependency/GPU (environment, not a contract result)
     12  unexpected internal error (not a contract result; do NOT reinterpret as negative)
 """
 
@@ -92,6 +92,10 @@ TOKENIZER_NAME = "microsoft/BiomedVLP-CXR-BERT-specialized"
 # before Br60f, so A = Br40f member, B = Br60f member (fixed rule, no choice).
 KERNEL_A = "Br40f"
 KERNEL_B = "Br60f"
+# Stage 0 directly counted 237 clean pairs for this contrast. A different
+# count means release contents or filtering logic drifted, so do not silently
+# select from a changed manifest.
+EXPECTED_QUALIFYING_PAIRS = 237
 
 # The 18 head names in released order. Source: scripts/ct_lipro_inference.py in
 # the official CT-CLIP repository (fetched 2026-08-11); the same order is the
@@ -286,20 +290,25 @@ def phase1_environment(out_dir, smoke):
             # meaningful if nondeterministic kernels are disabled up front.
             torch.backends.cudnn.deterministic = True
             torch.backends.cudnn.benchmark = False
-            torch.use_deterministic_algorithms(True)
+            # warn_only lets the empirical repeat-A bit check arbitrate if a
+            # released CUDA operation lacks a deterministic implementation.
+            torch.use_deterministic_algorithms(True, warn_only=True)
             env_lines.append(f"torch: {torch.__version__} (cuda {torch.version.cuda})")
             env_lines.append(f"numpy: {numpy.__version__}")
-            if torch.cuda.is_available():
-                env_lines.append(f"gpu: {torch.cuda.get_device_name(0)}")
-            else:
-                env_lines.append("gpu: NONE VISIBLE")
+            if not torch.cuda.is_available():
+                fail(11, "no CUDA GPU is visible; select a GPU runtime "
+                         "(environment failure, not a contract result)")
+            env_lines.append(f"gpu: {torch.cuda.get_device_name(0)}")
             for mod in ("nibabel", "pandas", "transformers", "huggingface_hub",
-                        "sklearn", "tqdm"):
+                        "sklearn", "tqdm", "torchvision", "einops", "beartype",
+                        "ema_pytorch", "accelerate", "h5py", "matplotlib",
+                        "seaborn", "scipy", "PIL", "vector_quantize_pytorch"):
                 try:
                     m = __import__(mod)
                     env_lines.append(f"{mod}: {getattr(m, '__version__', 'unknown')}")
-                except ImportError:
-                    fail(11, f"missing real-mode dependency: {mod}; install "
+                except Exception as e:
+                    fail(11, f"real-mode dependency {mod} is not importable "
+                             f"({e!r}); install "
                              f"probes/004/requirements.txt before rerunning "
                              f"(environment failure, not a contract result)")
         except ImportError as e:
@@ -474,7 +483,11 @@ def run_three_executions(score_fn, pair, head_names, out_dir):
         log(f"  running {exec_id} (reconstruction {role}: "
             f"{pair[role]['VolumeName']})")
         start = time.monotonic()
-        scores = score_fn(role)
+        score_result = score_fn(role)
+        if isinstance(score_result, tuple):
+            scores, execution_metrics = score_result
+        else:
+            scores, execution_metrics = score_result, {}
         elapsed = time.monotonic() - start
         total_seconds += elapsed
 
@@ -498,7 +511,11 @@ def run_three_executions(score_fn, pair, head_names, out_dir):
                 "score": repr(s),
                 "score_hex": float(s).hex(),
             })
-        results[exec_id] = {"scores": scores, "seconds": elapsed}
+        results[exec_id] = {
+            "scores": scores,
+            "seconds": elapsed,
+            **execution_metrics,
+        }
         log(f"    {exec_id}: 18 finite scores in {elapsed:.1f}s "
             f"(cumulative {total_seconds/60:.1f} min)")
 
@@ -530,6 +547,10 @@ def run_three_executions(score_fn, pair, head_names, out_dir):
         "bit_identical_repeat": bit_identical,
         "total_minutes": total_seconds / 60.0,
         "max_abs_AB_diff_DIAGNOSTIC_ONLY": max(ab_diffs),
+        "execution_metrics": {
+            exec_id: {k: v for k, v in result.items() if k != "scores"}
+            for exec_id, result in results.items() if not exec_id.startswith("_")
+        },
     }
     return results
 
@@ -647,6 +668,7 @@ def run_smoke(out_dir):
             "within_time_budget": checks["total_minutes"] < MAX_GPU_MINUTES,
         },
         "total_minutes": checks["total_minutes"],
+        "execution_metrics": checks["execution_metrics"],
         "max_abs_AB_diff_DIAGNOSTIC_ONLY": checks["max_abs_AB_diff_DIAGNOSTIC_ONLY"],
         "interpretation": (
             "SMOKE MODE ONLY. This run used synthetic volumes and a mock "
@@ -753,25 +775,19 @@ def run_real(out_dir, config):
         fail(5, f"released-code clone has local modifications:\n{dirty}")
     log(f"  released code commit: {code_commit}")
 
-    # The official repository ships these as two editable-install projects,
-    # not importable modules at the clone root. Install them exactly as its
-    # README directs. Installation failure is an environment failure (11),
-    # never evidence that the released checkpoint is incompatible (5).
-    editable_projects = [
+    # The released packages live one directory below their project roots.
+    # Add those project roots directly; unlike an in-process editable install,
+    # this takes effect immediately and does not mutate the environment.
+    released_import_roots = [
         ctclip_dir / "transformer_maskgit",
         ctclip_dir / "CT_CLIP",
     ]
-    for project in editable_projects:
+    for project in released_import_roots:
         if not (project / "setup.py").is_file():
-            fail(11, f"released editable package is missing setup.py: {project} "
+            fail(11, f"released package root is missing setup.py: {project} "
                      f"(environment/repository-layout failure, not a contract result)")
-        log(f"  installing released package in editable mode: {project.name}")
-        install = subprocess.run(
-            [sys.executable, "-m", "pip", "install", "--no-deps", "-e", str(project)],
-            capture_output=True, text=True)
-        if install.returncode != 0:
-            fail(11, f"editable install failed for {project}: {install.stderr} "
-                     f"(environment failure, not a contract result)")
+        sys.path.insert(0, str(project))
+        log(f"  released import root added: {project}")
 
     # ---- PHASE 2c: provenance BEFORE inference (contract requires this order).
     log("  hashing all inputs (provenance is recorded before any inference)")
@@ -791,9 +807,9 @@ def run_real(out_dir, config):
         "hf_dataset_repo": HF_DATASET_REPO,
         "hf_revision": revision,
         "code": {"git_url": CTCLIP_GIT_URL, "commit": code_commit},
-        "released_package_installation": {
-            "method": "pip install --no-deps -e",
-            "projects": [str(p) for p in editable_projects],
+        "released_package_import": {
+            "method": "direct sys.path insertion; dependencies preinstalled",
+            "projects": [str(p) for p in released_import_roots],
         },
         "tokenizer": TOKENIZER_NAME,
         "checkpoint": {
@@ -817,6 +833,10 @@ def run_real(out_dir, config):
     log(f"  qualifying Br40f|Br60f geometry-matched pairs: "
         f"{audit['qualifying_pairs']} (Stage-0 counted 237; a large mismatch "
         f"means the matching rules drifted and should be investigated)")
+    if audit["qualifying_pairs"] != EXPECTED_QUALIFYING_PAIRS:
+        fail(7, f"qualifying-pair count {audit['qualifying_pairs']} differs "
+                f"from the frozen Stage-0 count {EXPECTED_QUALIFYING_PAIRS}; "
+                f"release contents or matching logic drifted")
     if pair is None:
         fail(7, "no qualifying geometry-matched Br40f|Br60f pair found in the "
                 "released metadata")
@@ -867,9 +887,13 @@ def run_real(out_dir, config):
         from ct_lipro_inference import ImageLatentsClassifier
         from transformers import BertTokenizer, BertModel
 
-        tokenizer = BertTokenizer.from_pretrained(TOKENIZER_NAME,
-                                                  do_lower_case=True)
-        text_encoder = BertModel.from_pretrained(TOKENIZER_NAME)
+        try:
+            tokenizer = BertTokenizer.from_pretrained(TOKENIZER_NAME,
+                                                      do_lower_case=True)
+            text_encoder = BertModel.from_pretrained(TOKENIZER_NAME)
+        except Exception as e:
+            fail(10, f"tokenizer/text-encoder access failed: {e!r} "
+                     f"(environment/access failure, not a contract result)")
         image_encoder = CTViT(
             dim=512, codebook_size=8192, image_size=480, patch_size=20,
             temporal_patch_size=10, spatial_depth=4, temporal_depth=4,
@@ -953,7 +977,7 @@ def run_real(out_dir, config):
         scores = torch.sigmoid(logits).flatten().double().cpu().tolist()
         peak_gb = torch.cuda.max_memory_allocated() / 1e9
         log(f"    peak GPU memory: {peak_gb:.2f} GB")
-        return scores
+        return scores, {"peak_gpu_memory_gb": peak_gb}
 
     try:
         results = run_three_executions(real_score, pair, EXPECTED_PATHOLOGIES,
@@ -990,6 +1014,7 @@ def run_real(out_dir, config):
         "pair": {r: pair[r]["VolumeName"] for r in ("A", "B")},
         "qualifying_pairs_found": None,  # filled below for the cross-check
         "total_minutes": checks["total_minutes"],
+        "execution_metrics": checks["execution_metrics"],
         "max_abs_AB_diff_DIAGNOSTIC_ONLY": checks["max_abs_AB_diff_DIAGNOSTIC_ONLY"],
         "interpretation": (
             "POSITIVE per the contract's positive_pattern: the pinned "

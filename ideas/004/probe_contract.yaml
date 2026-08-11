@@ -33,4 +33,4 @@ required_outputs:
   - provenance.json
   - input_manifest.csv
   - run_log.txt
-human_approved: false
+human_approved: true
