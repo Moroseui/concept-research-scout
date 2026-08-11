@@ -1,54 +1,8 @@
 {
-  "idea_id": "idea-004",
-  "stage": "probe_code_revision_round_3",
-  "date": "2026-08-12",
-  "review_addressed": "ideas/004/probe_review.md",
-  "checks": [
-    {
-      "name": "syntax_compile",
-      "command": "python3 -m py_compile probes/004/run.py",
-      "status": "PASS"
-    },
-    {
-      "name": "smoke_run_with_external_output_dir",
-      "command": "python3 probes/004/run.py --smoke --output-dir /tmp/idea004-smoke-20260811-r3b",
-      "status": "PASS",
-      "detail": "Exit 0; all seven required artifacts were written outside the probe directory; summary.json kept contract_satisfied=false; all harness checks passed; per_sample.csv contained 54 data rows (3 executions x 18 heads)."
-    },
-    {
-      "name": "released_call_signature",
-      "status": "PASS_STATIC",
-      "detail": "The scoring call is model(False, text_tokens, video, device=device), matching the released ImageLatentsClassifier call form identified by review B1. No real inference was launched."
-    },
-    {
-      "name": "released_package_import_path_and_provisioning",
-      "status": "PASS_STATIC",
-      "detail": "Real mode no longer runs pip inside its interpreter. After freezing the clone commit it inserts the two released project roots into sys.path, while requirements.txt preinstalls the verified import-time dependency set including matched torch 2.5.1/torchvision 0.20.1 and vector-quantize-pytorch 1.1.2. The import method and roots are recorded in provenance.json."
-    },
-    {
-      "name": "dependency_failure_routing",
-      "status": "PASS_STATIC",
-      "detail": "Phase 1 fails with exit 11 when CUDA is absent or any declared dependency is unimportable, including non-ImportError ABI failures. Model and preprocessing import failures use exit 11. Tokenizer/text-encoder retrieval failures use exit 10. These are explicitly environment/access failures, not contract results."
-    },
-    {
-      "name": "pinned_requirements",
-      "status": "PASS_STATIC",
-      "detail": "requirements.txt pins the driver plus verified released-code import dependencies, including a matched torch/torchvision pair, vector-quantize-pytorch 1.1.2, ema-pytorch, einops, beartype, accelerate, and eval.py dependencies. torch.load sets weights_only=False. Installation was not run locally because it is unnecessary for stdlib smoke mode and could be expensive."
-    },
-    {
-      "name": "secondary_metrics_persisted",
-      "status": "PASS",
-      "detail": "summary.json now records per-execution wall seconds; real-mode scoring additionally records peak GPU memory in GB for each execution. The smoke summary confirmed the schema."
-    },
-    {
-      "name": "manifest_drift_gate",
-      "status": "PASS_STATIC",
-      "detail": "Real mode now stops with pair-validity exit 7 unless the deterministic filter reproduces the directly inspected Stage-0 count of 237 Br40f|Br60f pairs."
-    },
-    {
-      "name": "scope_and_compute",
-      "status": "PASS",
-      "detail": "Only review blockers B1-B5 were changed. No gated data, checkpoint, network download, CUDA inference, or expensive compute was launched."
-    }
-  ]
+  "idea_id": "004",
+  "passed": false,
+  "issues": [
+    "smoke test failed: usage: run.py [-h] [--smoke] [--output-dir OUTPUT_DIR]\nrun.py: error: unrecognized arguments: --smoke-test\n"
+  ],
+  "checked_at": "2026-08-11T23:55:47.956517+00:00"
 }
