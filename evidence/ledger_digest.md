@@ -1,6 +1,6 @@
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-39 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+48 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -25,16 +25,19 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-006-c05** [NOVEL_UNVERIFIED, score 3.4, audited 2026-08-10] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
 - **scout-007-c03** [NOVEL_UNVERIFIED, score 3.4, audited 2026-08-10] -- Merlin may be reading fatty kidney rather than kidney shape
 - **scout-008-c02** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.1, audited 2026-08-11] -- The chest-CT model may see the heart by watching the airway splay
-- ... and 3 more (python scout.py backlog)
+- ... and 12 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- counterfactual-synthesis: 2
-- representation-erasure: 2
-- natural-paired: 1
+- counterfactual-synthesis: 3
+- representation-erasure: 3
+- regional-substitution: 3
+- natural-paired: 2
+- model-output-perturbation: 2
+- longitudinal-within-subject: 1
 
 ## Ideas
 
@@ -77,3 +80,12 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-008-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The model that 'predicts a blood count' may just be reading how bright the blood is
 - **scout-008-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The emphysema call may read the shape of the holes, not just how many
 - **scout-008-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The lung-cancer model may read the aorta as an ageing clock
+- **scout-009-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The CT spirometer may be measuring remodeled airway walls
+- **scout-009-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The kidney model may be reading fat packed into the renal sinus
+- **scout-009-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle
+- **scout-009-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The risk model may be reading the breast's lines of force
+- **scout-009-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The lung-cancer model may be reading the marrow as a smoking dosimeter
+- **scout-009-c06** [SCOUT_ONLY/SCOUTED/wide] -- The CT spirometer may be reading the diaphragm as a pressure-loaded membrane
+- **scout-009-c07** [SCOUT_ONLY/SCOUTED/wide] -- Mirai may be detecting broken bilateral symmetry before a lesion exists
+- **scout-009-c08** [SCOUT_ONLY/SCOUTED/wide] -- The glioblastoma prognosticator may be reading the invasion front's roughness
+- **scout-009-c09** [SCOUT_ONLY/SCOUTED/fiction] -- The arterial-calcification score may be reading inspiratory depth

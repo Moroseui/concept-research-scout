@@ -1,0 +1,1322 @@
+{
+  "cycle": 9,
+  "tracks": [
+    "baseline",
+    "wide",
+    "fiction"
+  ],
+  "notes": {
+    "mode_c_score_missing": 4
+  },
+  "candidates": [
+    {
+      "id": "C1",
+      "parent_ids": [],
+      "revival_basis": null,
+      "search_mode": "A",
+      "entry_point": 2,
+      "design_template": "representation-erasure",
+      "title": "The CT spirometer may be measuring remodeled airway walls",
+      "question": "Is the Park et al. chest-CT pulmonary-function model using Pi10, the standardized airway-wall thickness, when it predicts FEV1?",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "Validated selective erasure reaches rung 1; reconstruction/site replication gates rung 2; Pi10 supplies the named rung-3 vocabulary."
+      },
+      "deliverable_sentence": "The pulmonary-function model is using standardized airway-wall thickness (Pi10) as an image cue for airflow obstruction.",
+      "X_measurement": {
+        "X": "Pi10: the square root of airway wall area predicted for an airway with internal perimeter 10 mm.",
+        "how": "Segment the airway tree, measure lumen and outer wall cross-sections orthogonal to branch centerlines, regress square-root wall area on internal perimeter, and evaluate at 10 mm. Automated airway/vessel morphometry was validated by Nardelli et al. (Med Image Anal 2020, arXiv:2002.05702).",
+        "could_compute_today_without_asking_anyone": "Yes; it is a formula over automated airway masks and CT voxels, without reader labels."
+      },
+      "suspected_signal": "Chronic airway inflammation and remodeling thicken bronchial walls and narrow conducting airways, raising resistance and lowering FEV1.",
+      "specific_artifact_confused_with_signal": "Sharp kernels, slice thickness, partial volume, and inspiration level alter apparent wall thickness.",
+      "keystone_prerequisite": "The published Park pulmonary-function model (or a faithfully obtainable checkpoint) can be run on scans on which a Pi10 direction can be selectively removed without also erasing emphysema extent or lung volume.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Inspected primary methods/abstract: Park et al., Radiology 2023, DOI 10.1148/radiol.221488, PMID 36786699, trained on 16,148 same-day LDCT/spirometry examinations and reported test CCC 0.91 for FEV1. No public checkpoint or validated selective Pi10 erasure was established.",
+      "keystone_residual_assumption": "The nearby verified fact is that CT predicts FEV1 and Pi10 is computable. I am still assuming the exact model is obtainable and that its Pi10 representation is separable from emphysema and lung size; that conjunction is the real keystone.",
+      "rung_reached": "No rung yet; rung 1 requires a causal score change after validated selective erasure, rung 2 requires acquisition robustness, and rung 3 follows only if both hold.",
+      "dies_like_prior": "It resembles idea-007 because respiratory state can change both airway caliber and framing. It differs by targeting fixed airway-wall remodeling and explicitly matching lung volume/inspiration; nevertheless preprocessing comparability remains a Stage-0 gate. Annotation provenance does not apply because Pi10 is voxel-computed.",
+      "closest_prior_work": [
+        {
+          "citation": "Park et al., Deep Learning-based Approach to Predict Pulmonary Function at Chest CT",
+          "identifier": "DOI 10.1148/radiol.221488; PMID 36786699",
+          "verified_fact": "The CNN predicted FEV1 and FVC from LDCT.",
+          "delta": "It did not establish that Pi10 was used."
+        },
+        {
+          "citation": "Nardelli et al., Generative-based Airway and Vessel Morphology Quantification",
+          "identifier": "arXiv:2002.05702",
+          "verified_fact": "Automated cross-sectional airway wall and lumen measurements were related to Pi10 and FEV1%.",
+          "delta": "It measured airways rather than decoding a pulmonary-function network."
+        }
+      ],
+      "existing_assets": [
+        "Published pulmonary-function architecture and cohort description",
+        "Automated airway-tree and cross-sectional morphometry methods",
+        "Accepted FEV1 and Pi10 endpoints"
+      ],
+      "smallest_decisive_experiment": "First reproduce the frozen model. Fit a Pi10 probe on training data only, erase its validation-selected representation direction, and test paired FEV1-output change on an untouched test set while preserving total lung volume, emphysema percentage, airway count, and reconstruction strata. A matched random-direction erasure is the sham.",
+      "use_vs_association": "A score-Pi10 correlation is exploratory; use requires a selective representation erasure that changes predicted FEV1 more than matched random erasures while leaving emphysema and volume decoding intact.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Stratify and replicate; not ruled out at scout stage.",
+        "positioning": "Match lung volume and supine position.",
+        "habitus": "Adjust thoracic size and BMI where available.",
+        "prevalence_referral": "Temporal external test helps but screening spectrum remains.",
+        "label_leakage": "Same-day spirometry is not visible in the image/report; primary test is self-comparison."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "The erased direction is emphysema extent.",
+          "resolution": "Require retained emphysema-percentage decoding and compare an emphysema-direction erasure."
+        },
+        {
+          "alternative": "The model uses lung size/inspiration rather than wall thickness.",
+          "resolution": "Match lung volume and require preserved lung-volume decoding."
+        },
+        {
+          "alternative": "Kernel-dependent edge sharpness creates Pi10.",
+          "resolution": "Kernel-stratified replication and within-kernel calibration; not fully excluded without multi-site data."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reason": "A null erasure can reflect nonlinear or distributed encoding; it is decisive only after a preregistered probe-recovery floor."
+      },
+      "cross_domain": null,
+      "remaining_legwork": "2 days to locate/verify checkpoint availability; 1 week for airway measurement and probe reliability; first go/no-go in 10 days.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One model output and one standardized measurement."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Selective erasure and retained-rival decoding address the main alternatives, but distributed encoding remains."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Would connect a black-box CT spirometer to airway remodeling."
+        },
+        "interest": {
+          "value": 4,
+          "why": "Separates airway disease from the obvious lung-volume explanation."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Model study, endpoint, and airway measurement exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because the runnable checkpoint/edit keystone is uninspected."
+        },
+        "data_readiness": {
+          "value": 2,
+          "why": "The original cohort and checkpoint are not confirmed public."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "FEV1, Pi10, and retained-decoding controls are defined."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "Null is sensitivity-limited."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; bounded search found no causal Pi10 audit."
+        },
+        "regret": {
+          "value": 4,
+          "why": "A modest audit could explain a high-performing physiological predictor."
+        }
+      },
+      "priority_score": 3.4,
+      "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*4 + 0.10*4 + 0.10*4 + 0.10*5 + 0.10*2 + 0.05*2 + 0.05*3 = 3.40",
+      "unverified_claims": [
+        "The Park checkpoint is obtainable",
+        "Pi10 can be selectively erased",
+        "No prior causal Pi10 audit exists"
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "C2",
+      "parent_ids": [],
+      "revival_basis": null,
+      "search_mode": "B",
+      "entry_point": 2,
+      "design_template": "regional-substitution",
+      "title": "The kidney model may be reading fat packed into the renal sinus",
+      "question": "Is Merlin using renal sinus fat fraction as a compressive metabolic cue when it predicts chronic kidney disease?",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "A renal-sinus-only substitution reaches rung 1; vendor/phase/site controls gate rung 2; renal sinus fat is already named for rung 3."
+      },
+      "deliverable_sentence": "Merlin is using renal sinus fat fraction as an image cue for chronic kidney disease.",
+      "X_measurement": {
+        "X": "Renal sinus fat volume divided by kidney volume.",
+        "how": "Segment kidneys and renal sinus; classify fat voxels by calibrated CT attenuation (typically -190 to -30 HU), sum voxel volume, and normalize by kidney volume. Fujioka et al. used CT renal sinus fat volume in CKD (Clin Exp Nephrol 2023, DOI 10.1007/s10157-023-02350-0; PMID 37095344).",
+        "could_compute_today_without_asking_anyone": "Yes; segmentation plus an HU threshold is independently executable on a new CT."
+      },
+      "suspected_signal": "Ectopic fat within the nonexpandable renal sinus may compress low-pressure veins and lymphatics and accompanies obesity, hypertension, and renal impairment.",
+      "specific_artifact_confused_with_signal": "Contrast phase changes soft-tissue boundaries; thick slices and partial volume alter small sinus-fat pockets; visceral adiposity is the biological rival.",
+      "keystone_prerequisite": "An obtainable Merlin CKD output and compatible abdominal CTs permit renal-sinus fat to be changed while preserving kidney parenchyma, collecting system, total visceral fat, and input distribution.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Inspected primary artifacts: Blankemeier et al., Nature 2026, DOI 10.1038/s41586-026-10181-8, PMID 41781626, reports 692 phenotypes and six 5-year chronic diseases; Fujioka et al. directly measured renal sinus fat in 56 CKD patients. The exact released CKD head and edit validity were not inspected.",
+      "keystone_residual_assumption": "The easy facts are that Merlin predicts chronic disease and renal sinus fat is measurable. I am still assuming CKD is an exposed score and that a sinus-only tissue-for-tissue substitution can preserve surrounding anatomy and distribution; this is load-bearing.",
+      "rung_reached": "No rung. A validated sinus-only substitution could reach rung 1; external protocol replication is required for rung 2 and hence the rung-3 sentence.",
+      "dies_like_prior": "It resembles scout-006-c03 (Merlin diabetes/liver fat) but uses a different disease, organ compartment, and proposed compressive mechanism. It avoids association-only inference through sinus-only substitution and visceral-fat-matched controls. No annotation provenance is required.",
+      "closest_prior_work": [
+        {
+          "citation": "Blankemeier et al., Merlin",
+          "identifier": "DOI 10.1038/s41586-026-10181-8; PMID 41781626",
+          "verified_fact": "Merlin was evaluated over 752 tasks including chronic-disease prediction.",
+          "delta": "The paper did not identify renal sinus fat as a CKD cue."
+        },
+        {
+          "citation": "Fujioka et al., Prognostic impact of renal sinus fat accumulation in CKD",
+          "identifier": "DOI 10.1007/s10157-023-02350-0; PMID 37095344",
+          "verified_fact": "Normalized renal sinus fat was associated with hypertension and future eGFR decline in a small biopsy cohort.",
+          "delta": "It studied patient biology, not model use."
+        }
+      ],
+      "existing_assets": [
+        "Released Merlin code/models",
+        "Whole-kidney segmentation tools",
+        "HU-defined fat measurement",
+        "Published CKD association"
+      ],
+      "smallest_decisive_experiment": "On a frozen cohort, replace only renal-sinus fat voxels with anatomically registered, attenuation-matched sinus tissue from low-fat donors while holding kidney, perirenal fat, and total visceral fat fixed; compare paired CKD-score changes with equal-volume perirenal-fat and random-sinus shams.",
+      "use_vs_association": "Observed CKD score versus sinus fat is exploratory. The use claim requires a dose-ordered paired response to sinus-only substitutions beyond perirenal and visceral-fat shams.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Within-scan edits remove case-level factors; replicate by phase/vendor/site.",
+        "positioning": "Within-scan comparison largely rules it out.",
+        "habitus": "Hold total visceral and perirenal fat fixed; residual anatomy remains.",
+        "prevalence_referral": "Does not affect paired score change but limits generalization.",
+        "label_leakage": "No reports or CKD labels enter the primary paired readout."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "The model uses total visceral adiposity.",
+          "resolution": "Keep total fat constant and use equal-volume perirenal-fat controls."
+        },
+        {
+          "alternative": "The edit disrupts renal-hilum anatomy.",
+          "resolution": "Registration, topology checks, discriminator equivalence, and random-sinus sham; remains the chief risk."
+        },
+        {
+          "alternative": "Contrast phase, not fat, drives the score.",
+          "resolution": "Within-scan edit plus phase-stratified replication."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reason": "A null may mean failed realistic substitution; after edit-detectability and positive-control gates it becomes a meaningful rejection of appreciable use."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Fat packing in a constrained compartment from renal biomechanics.",
+        "measurement_implied": "Sinus-fat fraction normalized to kidney volume, not generic visceral fat.",
+        "if_analogy_dropped": "The experiment would measure general obesity; the packing mechanism dictates the confined renal-sinus compartment and perirenal-fat control."
+      },
+      "remaining_legwork": "1 day to inspect Merlin outputs; 3-5 days to test renal-sinus segmentation; about 2 weeks to validate substitutions.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "Specific compartment, ratio, output, and intervention."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Within-scan compartment substitution separates general adiposity, but edit realism is uncertain."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Could expose an actionable ectopic-fat substrate of CKD prediction."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A kidney model reading fat inside the hilum is unexpected yet mechanistic."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Model and measurement exist; sinus segmentation/editing need work."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; output and edit keystone uninspected."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Merlin assets are released, compatible scoring cohort still needs audit."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "X is defined but substitution validity metrics are custom."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "Initially sensitivity-limited."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; no direct decoding study found in bounded search."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The compartment is routinely present and cheap to quantify."
+        }
+      },
+      "priority_score": 3.35,
+      "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*4 + 0.10*3 + 0.10*4 + 0.10*5 + 0.10*2 + 0.05*3 + 0.05*3 = 3.35",
+      "unverified_claims": [
+        "Merlin exposes a CKD score",
+        "A renal-sinus substitution can be in-distribution",
+        "The effect is separable from total adiposity"
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "C3",
+      "parent_ids": [],
+      "revival_basis": null,
+      "search_mode": "B",
+      "entry_point": 2,
+      "design_template": "longitudinal-within-subject",
+      "title": "The brain-tumor prognosticator may be weighing the chewing muscle",
+      "question": "Is a whole-head glioblastoma survival model using temporalis muscle thickness as a frailty cue rather than only tumor biology?",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "Tumor-stable within-patient score tracking plus selective temporalis substitution reaches rung 1; acquisition/treatment controls gate rung 2; temporalis thickness provides rung 3."
+      },
+      "deliverable_sentence": "The glioblastoma survival model is using temporalis muscle thickness as an image marker of systemic frailty.",
+      "X_measurement": {
+        "X": "Bilateral temporalis muscle cross-sectional area and thickness on axial T1 MRI, normalized to cranial size.",
+        "how": "Automatically segment left and right temporalis at standardized orbital/temporal levels and compute area and maximum orthogonal thickness. A multi-dataset deep-learning implementation and prognostic validation were reported by Surov et al./Furtner-related work (Neurooncol Adv 2022, PMCID PMC8770629).",
+        "could_compute_today_without_asking_anyone": "Yes; an automated segmentation produces continuous geometry without a radiologist rating."
+      },
+      "suspected_signal": "Cancer cachexia, corticosteroid exposure, inactivity, and frailty reduce craniofacial skeletal muscle; whole-head models can see this extracranial tissue even when the tumor is stable.",
+      "specific_artifact_confused_with_signal": "Head field-of-view cropping, coil bias, slice angulation, edema, and postsurgical change can alter apparent thickness or model framing.",
+      "keystone_prerequisite": "A runnable whole-head survival model retains extracranial temporalis in its exact input tensor, and enough longitudinal MRIs have stable tumor burden but measurable temporalis change to separate frailty from tumor progression.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Primary full text inspected: PMCID PMC8770629 reports automated temporalis segmentation across four datasets; GRASP, PMID 38285679, reports whole-brain post-radiotherapy MRI survival prediction. The exact GRASP preprocessing, checkpoint availability, and count of tumor-stable longitudinal pairs retaining temporalis were not established.",
+      "keystone_residual_assumption": "The adjacent facts are that temporalis predicts prognosis and an MRI model predicts survival. I am still assuming the survival model actually sees extracranial muscle and an obtainable longitudinal subset decorrelates muscle loss from tumor change; that is the real keystone.",
+      "rung_reached": "No rung; longitudinal association alone is insufficient. Rung 1 needs convergent within-subject and selective-substitution evidence.",
+      "dies_like_prior": "No annotation-provenance failure applies because muscle geometry and tumor volume are automated. It risks the same use-versus-association error seen across early cycles, so longitudinal correlation is explicitly exploratory and regional substitution is required for the use claim.",
+      "closest_prior_work": [
+        {
+          "citation": "Deep learning-based quantification of temporalis muscle has prognostic value in glioblastoma",
+          "identifier": "PMCID PMC8770629",
+          "verified_fact": "Automated temporalis quantification generalized across four datasets and was prognostic.",
+          "delta": "It did not test reliance by a whole-image survival model."
+        },
+        {
+          "citation": "GRASP study",
+          "identifier": "PMID 38285679",
+          "verified_fact": "A whole-brain post-radiotherapy MRI model predicted glioblastoma survival.",
+          "delta": "It did not isolate extracranial muscle as a used signal."
+        }
+      ],
+      "existing_assets": [
+        "Public brain-tumor MRI collections with serial imaging",
+        "Automated tumor and temporalis segmentation methods",
+        "Published survival-model recipes"
+      ],
+      "smallest_decisive_experiment": "Freeze a survival model and identify serial scans with stable automated enhancing/nonenhancing tumor volume. Test whether score change tracks temporalis change, then substitute only extracranial temporalis patches between same-sequence scans with matched coil-field intensity. Require dose response, unchanged tumor embeddings, and null scalp/fat shams.",
+      "use_vs_association": "The within-subject relationship is only triangulation; the use claim requires temporalis-only substitution to move survival score while brain/tumor tensors and tumor embeddings remain fixed.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Same-sequence within-patient pairs and intensity-matched substitutions reduce them; coil/site replication remains.",
+        "positioning": "Rigid cranial registration and standardized planes.",
+        "habitus": "Within-subject design controls baseline habitus, not systemic treatment changes.",
+        "prevalence_referral": "Paired estimand is robust but GBM treatment cohort limits scope.",
+        "label_leakage": "No report text or survival label is used in the paired substitution readout."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "Tumor progression causes both score and wasting.",
+          "resolution": "Prespecified stable-tumor pairs plus tumor-fixed substitution."
+        },
+        {
+          "alternative": "Steroid treatment changes both muscle and brain edema.",
+          "resolution": "Medication adjustment where available; substitution holds brain fixed but biological interpretation remains limited."
+        },
+        {
+          "alternative": "The model responds to extracranial edit seams.",
+          "resolution": "Scalp/fat and left-right sham substitutions with distribution checks."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reason": "A null can reflect a tumor-cropped model or insufficient muscle change; becomes decisive only after confirmed visibility and positive-control sensitivity."
+      },
+      "cross_domain": null,
+      "remaining_legwork": "2-3 days to inspect model input/preprocessing; 1 week for longitudinal pair counts; 2 weeks to first intervention result.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "Named muscle metric and explicit whole-head outcome."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Tumor-fixed regional substitution directly separates muscle from tumor burden, subject to seam validity."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Would reveal frailty contamination or useful holistic prognostication."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A brain-tumor model using chewing muscle is surprising and clinically legible."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Both component literatures exist, but runnable convergence is unclear."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; model visibility and longitudinal subset uninspected."
+        },
+        "data_readiness": {
+          "value": 2,
+          "why": "Serial survival-linked MRI access and checkpoint need confirmation."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Muscle/tumor metrics exist; edit validation is custom."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "Null is sensitivity-limited."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; bounded search found association studies but no use audit."
+        },
+        "regret": {
+          "value": 5,
+          "why": "Extracranial tissue is easy to overlook and may dominate prognosis."
+        }
+      },
+      "priority_score": 3.45,
+      "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*4 + 0.10*3 + 0.10*4 + 0.10*5 + 0.10*2 + 0.05*2 + 0.05*3 = 3.45",
+      "unverified_claims": [
+        "An obtainable survival model retains temporalis",
+        "Enough tumor-stable serial pairs exist",
+        "Temporalis-only substitution can pass distribution checks"
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "C4",
+      "parent_ids": [],
+      "revival_basis": null,
+      "search_mode": "C",
+      "entry_point": 2,
+      "design_template": "model-output-perturbation",
+      "title": "The risk model may be reading the breast's lines of force",
+      "question": "Is Mirai using radial alignment of fibroglandular strands toward the nipple as a stromal-tension cue for future breast cancer?",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "Orientation-selective perturbation reaches rung 1; vendor/compression replication gates rung 2; radial stromal alignment is the proposed rung-3 term."
+      },
+      "deliverable_sentence": "Mirai is using radial alignment of fibroglandular strands toward the nipple as an image marker of breast-cancer risk.",
+      "X_measurement": {
+        "X": "Radial alignment index: mean cosine-of-double-angle agreement between local ridge orientation and the pixel-to-nipple radial vector, within fibroglandular tissue.",
+        "how": "Segment breast and nipple, estimate ridge orientation using a multiscale Hessian/structure tensor, and average cos(2(delta angle)) weighted by ridge strength; compare with tangential and shuffled orientation controls.",
+        "could_compute_today_without_asking_anyone": "Yes; it is a deterministic image measurement requiring no semantic labels."
+      },
+      "suspected_signal": "Collagen and Cooper-ligament organization transmit mechanical tension through glandular tissue; persistent radial alignment could encode involution, stromal remodeling, or occult field effects before a mass is visible.",
+      "specific_artifact_confused_with_signal": "Compression direction, pectoral edge, detector processing, view geometry, and nipple localization can manufacture radial line structure.",
+      "keystone_prerequisite": "Radial alignment is reproducible across CC/MLO views and serial exams after controlling compression and detector processing, and can be perturbed without changing density, low-frequency anatomy, or creating line artifacts.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Official Mirai repository inspected: https://github.com/reginabarzilaygroup/Mirai states released research code/model and external C-indices 0.76-0.81. Yala et al., J Clin Oncol 2022, 'Towards Robust Mammography-Based Models for Breast Cancer Risk' is the primary model report. No primary source establishing this radial-alignment keystone was found.",
+      "keystone_residual_assumption": "The easy facts are that Mirai runs and mammographic texture predicts risk. I am still assuming radial orientation is a stable biological quantity rather than compression geometry and that an orientation-only edit is valid; that is the load-bearing keystone.",
+      "rung_reached": "No rung. Because this is Mode C, a failed reproducibility gate is itself an early kill; only a validated orientation perturbation reaches rung 1.",
+      "dies_like_prior": "It resembles idea-015 only by using Mirai; it does not revive BAC or vascular age and uses a different tensor-native measurement and mechanism. It avoids annotation provenance because alignment is computed, but could die by identifiability if compression cannot be separated from biology.",
+      "closest_prior_work": [
+        {
+          "citation": "Yala et al., Towards Robust Mammography-Based Models for Breast Cancer Risk",
+          "identifier": "J Clin Oncol 2022; official repository https://github.com/reginabarzilaygroup/Mirai",
+          "verified_fact": "Mirai predicts 1-5-year risk and is released for research.",
+          "delta": "It did not name radial fibroglandular alignment."
+        },
+        {
+          "citation": "Using Explainable AI to Characterize Features in Mirai",
+          "identifier": "DOI 10.1148/ryai.240417",
+          "verified_fact": "Feature-centric analysis linked Mirai features to calcifications, masses, and breast anatomy.",
+          "delta": "It did not causally test the defined radial-alignment index."
+        },
+        {
+          "citation": "Automated percent density, texture variation, and breast cancer risk",
+          "identifier": "PMCID PMC8166859",
+          "verified_fact": "Automated texture variation contributed risk information beyond density.",
+          "delta": "It did not measure radial orientation or model reliance."
+        }
+      ],
+      "existing_assets": [
+        "Released Mirai model",
+        "Public mammograms sufficient for label-free score perturbation",
+        "Structure-tensor and breast/nipple segmentation methods"
+      ],
+      "smallest_decisive_experiment": "On frozen CC/MLO exams, phase-randomize only the high-frequency oriented fibroglandular component within local patches to reduce radial alignment while preserving power spectrum, density, breast outline, and nipple location. Compare Mirai risk change against tangentialized, orientation-shuffled, and fat-region shams; require consistent effects across both views and vendors.",
+      "use_vs_association": "Risk-alignment correlation is not evidence of use. The claim requires dose-ordered Mirai score response to alignment-selective perturbation with density and spatial spectrum held fixed.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Within-image perturbation holds them fixed; cross-vendor replication tests generality.",
+        "positioning": "CC/MLO concordance and nipple-relative coordinates; compression remains dangerous.",
+        "habitus": "Breast area and density held fixed.",
+        "prevalence_referral": "No labels needed for primary response; does not establish clinical causality.",
+        "label_leakage": "No reports or risk labels enter perturbation readout."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "Mirai reacts to generic high-frequency texture damage.",
+          "resolution": "Power-spectrum-matched tangential and shuffled controls."
+        },
+        {
+          "alternative": "Radial alignment is compression geometry, not stroma.",
+          "resolution": "Cross-view/serial reproducibility and compression metadata where available; may remain fatal."
+        },
+        {
+          "alternative": "The nipple detector leaks view position into X.",
+          "resolution": "Perturb nipple localization and repeat with independently defined breast centroid."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If a powered, spectrum-preserving dose series changes X substantially but leaves Mirai risk within a prespecified equivalence margin, it directly weakens use of this X."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Principal stress-line alignment from soft-tissue mechanics and fiber-composite analysis.",
+        "measurement_implied": "A nipple-relative orientation order parameter, not generic texture entropy.",
+        "if_analogy_dropped": "The experiment would revert to undirected texture variation; the mechanics analogy uniquely dictates orientation, radial coordinates, and tangential controls."
+      },
+      "remaining_legwork": "3 days for repeatability screen; 1 week for perturbation validation; first decisive model result in about 2 weeks.",
+      "mechanism_clarity": 5,
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "A formula, coordinate system, and perturbation are explicit."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Spectrum-matched controls isolate orientation, but compression may be inseparable."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Could reveal a preclinical stromal risk substrate, though biological interpretation is speculative."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A model reading tissue lines of force would be broadly compelling."
+        },
+        "prior_legwork": {
+          "value": 2,
+          "why": "Model and texture tools exist; biological bridge is thin."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; keystone not inspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Primary readout needs only runnable Mirai and mammograms."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Alignment metric is defined but not standardized clinically."
+        },
+        "negative_result_value": {
+          "value": 5,
+          "why": "A validated equivalence result is decisive for this X."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; bounded search only."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The experiment is inexpensive relative to the mechanism's interest."
+        }
+      },
+      "priority_score": 4.1,
+      "priority_arithmetic": "Mode C: 0.30*5 + 0.25*3 + 0.20*5 + 0.15*3 + 0.10*5 = 4.10",
+      "unverified_claims": [
+        "Radial alignment is biologically stable",
+        "Orientation-only perturbations are in-distribution",
+        "No prior study tested this exact X"
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "C5",
+      "parent_ids": [],
+      "revival_basis": null,
+      "search_mode": "C",
+      "entry_point": 2,
+      "design_template": "regional-substitution",
+      "title": "The lung-cancer model may be reading the marrow as a smoking dosimeter",
+      "question": "Is Sybil using vertebral marrow attenuation heterogeneity as an image signature of smoking-related marrow remodeling?",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "Vertebra-only substitution reaches rung 1; reconstruction/site/smoking-stratum controls gate rung 2; marrow attenuation heterogeneity supplies rung 3."
+      },
+      "deliverable_sentence": "Sybil is using vertebral marrow attenuation heterogeneity as an image marker of smoking-related systemic remodeling.",
+      "X_measurement": {
+        "X": "Within-vertebral trabecular marrow HU distribution: median, interquartile range, and spatial variogram after excluding cortex, focal lesions, and vessels.",
+        "how": "Automatically segment T1-T12 vertebrae, erode cortex, exclude fracture/focal-lesion outliers, then compute calibrated HU histogram dispersion and a 3D semivariogram normalized by reconstruction noise.",
+        "could_compute_today_without_asking_anyone": "Yes; the measurement is fully specified over automated vertebral masks and CT voxels."
+      },
+      "suspected_signal": "Smoking, aging, inflammation, and altered hematopoiesis change marrow cellularity and fat conversion; the vertebral body could therefore carry a distributed exposure signature visible on LDCT.",
+      "specific_artifact_confused_with_signal": "Kernel, dose, photon noise, beam hardening, vertebral level, osteoporosis, anemia, and occult metastasis all alter marrow HU heterogeneity.",
+      "keystone_prerequisite": "After noise normalization and vertebral-level matching, marrow heterogeneity remains a reproducible patient property that can be substituted between LDCTs without changing bone cortex, reconstruction texture, or model input distribution.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Primary Sybil full text inspected: Mikhael et al., J Clin Oncol 2023, DOI 10.1200/JCO.22.01345, PMCID PMC10419602, used whole-volume LDCT and no clinical variables, validated on 6,282 NLST, 8,821 MGH, and 12,280 CGMH scans. No primary evidence established the marrow-heterogeneity keystone or smoking mechanism.",
+      "keystone_residual_assumption": "The verified nearby fact is that Sybil sees the whole CT and generalizes across cohorts. I am still assuming marrow texture exceeds reconstruction noise and that tissue substitution can isolate marrow from bone density and age; that is the real keystone.",
+      "rung_reached": "No rung. Mode C Stage 0 first tests repeatability; rung 1 needs vertebra-only causal response, and the systemic-remodeling gloss waits for rung 2.",
+      "dies_like_prior": "It resembles idea-011 in proposing a skeletal aging/exposure clock. It differs by using native within-marrow tissue substitution rather than deletion of mineralized cartilage, with cortex-preserving, level-matched donor tissue and explicit noise controls. It still dies if edit validity cannot be demonstrated. Annotation provenance does not apply.",
+      "closest_prior_work": [
+        {
+          "citation": "Mikhael et al., Sybil",
+          "identifier": "DOI 10.1200/JCO.22.01345; PMCID PMC10419602",
+          "verified_fact": "Sybil predicts 1-6-year lung cancer risk from the entire LDCT without clinical variables.",
+          "delta": "It did not test vertebral marrow as a cue."
+        },
+        {
+          "citation": "Auditing Sybil: Generative Interventional Attributions",
+          "identifier": "arXiv:2602.02560",
+          "verified_fact": "A 2026 preprint reports object-specific generative interventions and artifacts/radial bias.",
+          "delta": "The bounded search did not find a vertebral-marrow heterogeneity intervention; novelty remains unverified."
+        }
+      ],
+      "existing_assets": [
+        "Released Sybil model",
+        "TCIA/NLST application pathway and other LDCT cohorts",
+        "Automated vertebral segmentation",
+        "HU and noise measurements"
+      ],
+      "smallest_decisive_experiment": "First estimate test-retest/reconstruction repeatability of marrow dispersion on same-acquisition pairs. If it passes, transplant eroded trabecular marrow texture between level-, sex-, age-, BMD-, and noise-matched vertebrae while leaving cortex and surrounding anatomy fixed. Test paired Sybil risk response against phase-scrambled same-HU, paraspinal-muscle, and cortical-bone shams.",
+      "use_vs_association": "Smoking/marrow/risk correlations are exploratory only. Use requires a dose-ordered Sybil response to marrow-only substitution beyond noise- and HU-matched shams.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Same-acquisition repeatability gate and within-image edits; cross-site replication remains required.",
+        "positioning": "Vertebral registration makes it minor.",
+        "habitus": "Match paraspinal muscle and body size; not fully ruled out.",
+        "prevalence_referral": "Paired response is label-free, but screening-cohort spectrum limits interpretation.",
+        "label_leakage": "No reports or outcomes enter primary substitution."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "Sybil uses osteoporosis/age rather than marrow remodeling.",
+          "resolution": "Match BMD, cortex, age and vertebral level; separately substitute mean HU versus spatial heterogeneity."
+        },
+        {
+          "alternative": "It responds to reconstruction noise.",
+          "resolution": "Same-acquisition repeatability, local noise normalization, and noise-matched shams."
+        },
+        {
+          "alternative": "Occult metastasis or focal lesion drives the signal.",
+          "resolution": "Automated focal-outlier exclusion and require diffuse multi-level consistency."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If repeatability and substitution-sensitivity controls pass yet large marrow changes keep Sybil risk within an equivalence margin, appreciable use of this X is weakened."
+      },
+      "cross_domain": {
+        "borrowed_construct": "A dosimeter/readout of cumulative exposure, borrowed from hematopoietic ecology and materials heterogeneity.",
+        "measurement_implied": "Diffuse level-normalized marrow HU dispersion and spatial correlation, not mean bone density.",
+        "if_analogy_dropped": "The experiment would test generic vertebral attenuation; the dosimeter idea dictates diffuse multilevel consistency, texture heterogeneity, and smoking-stratified validation."
+      },
+      "remaining_legwork": "3-5 days for repeatability on reconstruction pairs; 1 week for marrow masks/noise normalization; 2-3 weeks to first substitution result.",
+      "mechanism_clarity": 4,
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "X and intervention are explicit, while the exact biological substrate remains composite."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Matching and component-wise substitution address age/BMD/noise, but marrow biology remains mixed."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Would reveal a systemic exposure cue behind cancer risk prediction."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A lung-risk model reading vertebral marrow would be genuinely surprising."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Model and vertebral tools exist; marrow validation is thin."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; repeatability/edit keystone uninspected."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Model is released; in-domain scans require an established access route."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "HU/noise metrics are defined but no accepted marrow heterogeneity standard exists."
+        },
+        "negative_result_value": {
+          "value": 5,
+          "why": "After repeatability gates, equivalence is decisive for this X."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; recent Sybil audits make novelty particularly uncertain."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Same-acquisition repeatability cheaply kills or licenses the idea."
+        }
+      },
+      "priority_score": 3.95,
+      "priority_arithmetic": "Mode C: 0.30*4 + 0.25*3 + 0.20*5 + 0.15*4 + 0.10*4 = 3.95",
+      "unverified_claims": [
+        "Marrow heterogeneity is repeatable on LDCT",
+        "It reflects smoking-related remodeling",
+        "Marrow substitution can be in-distribution",
+        "No recent Sybil audit already tested it"
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "W1",
+      "track": "wide",
+      "parent_ids": [],
+      "search_mode": "B",
+      "entry_point": 2,
+      "design_template": "regional-substitution",
+      "title": "The CT spirometer may be reading the diaphragm as a pressure-loaded membrane",
+      "question": "Is the Park et al. chest-CT pulmonary-function model using diaphragmatic dome curvature as a mechanical signature of chronic hyperinflation when it predicts FEV1?",
+      "outside_field": "Membrane mechanics: pressure, tension, and curvature are linked by the Young-Laplace relation.",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "A validated diaphragm-only curvature intervention reaches rung 1; robustness to inspiration, reconstruction, and site gates rung 2; mean principal curvature/diaphragm index supplies the named rung-3 vocabulary."
+      },
+      "deliverable_sentence": "The pulmonary-function model is using diaphragmatic dome curvature as an image cue for chronic hyperinflation.",
+      "X_measurement": {
+        "X": "Left and right hemidiaphragm dome curvature, summarized by mean principal curvature and the diaphragm index (surface area divided by projected area).",
+        "how": "Segment the caudal lung-diaphragm interfaces, fit robust quadratic surfaces, compute principal curvatures in physical units, and compute surface-area/projected-area. Chang et al. defined a volumetric CT curvature measurement (PMID 27370142); Bak et al. automated a diaphragm index in 8,431 COPDGene subjects (PMID 39090324).",
+        "could_compute_today_without_asking_anyone": "Yes. It is a geometric formula over an automated lung or diaphragm surface and needs no reader label."
+      },
+      "suspected_signal": "Long-standing lung hyperinflation shortens and flattens the diaphragm; the network may therefore infer airflow obstruction from a remodeled pressure-bearing boundary rather than from airway or parenchymal disease directly.",
+      "specific_artifact_confused_with_signal": "Inspiratory effort, scan coverage, prone/supine position, and center-crop framing can change apparent dome geometry without chronic remodeling.",
+      "keystone_prerequisite": "A runnable version of the Park FEV1 model retains the complete diaphragmatic domes in its exact input tensor, and dome curvature can be altered while lung volume, emphysema, chest-wall geometry, and preprocessing support remain effectively fixed.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Primary sources inspected through PubMed: Park et al. reported CT prediction of pulmonary function (DOI 10.1148/radiol.221488; PMID 36786699); Chang et al. measured CT diaphragm curvature (DOI 10.1118/1.4953451; PMID 27370142); Bak et al. reported an automated diaphragm index associated with FEV1% predicted (PMID 39090324). These establish the adjacent facts, not checkpoint availability or selective-edit validity.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? I have verified that CT models predict FEV1 and diaphragm geometry is measurable; I am still assuming the frozen model sees the domes and that curvature can be changed without changing lung volume or introducing a boundary artifact. That conjunction is load-bearing.",
+      "rung_reached": "No rung. Correlation between output and curvature is exploratory; only a validated selective intervention can establish model use.",
+      "dies_like_prior": "It resembles idea-007 because inspiration changes both respiratory anatomy and model framing. It differs by holding the entire lung tensor fixed and editing only a thin caudal boundary, but it still dies by IDENTIFIABILITY_FAILURE if curvature cannot be separated from lung volume or edit seams. Annotation provenance does not apply because X is computed.",
+      "closest_prior_work": [
+        {
+          "citation": "Park et al., Deep Learning-based Approach to Predict Pulmonary Function at Chest CT",
+          "identifier": "DOI 10.1148/radiol.221488; PMID 36786699",
+          "verified_fact": "A chest-CT CNN predicted FEV1 and FVC.",
+          "delta": "The study did not establish use of diaphragm curvature."
+        },
+        {
+          "citation": "Bak et al., Automated evaluation of diaphragm configuration based on chest CT in COPD patients",
+          "identifier": "PMID 39090324",
+          "verified_fact": "An automated diaphragm index was associated with GOLD stage and FEV1% predicted in COPDGene.",
+          "delta": "It measured patient morphology, not reliance by a pulmonary-function model."
+        },
+        {
+          "citation": "Chang et al., Three-dimensional quadratic modeling and quantitative evaluation of the diaphragm",
+          "identifier": "DOI 10.1118/1.4953451; PMID 27370142",
+          "verified_fact": "Quadratic surfaces and principal curvature quantified diaphragm shape on volumetric CT.",
+          "delta": "It supplied the measurement but did not decode a neural predictor."
+        }
+      ],
+      "novelty_neighbors": [
+        {
+          "work": "Park et al. CT pulmonary-function model",
+          "identifier": "DOI 10.1148/radiol.221488; PMID 36786699"
+        },
+        {
+          "work": "Bak et al. automated diaphragm index",
+          "identifier": "PMID 39090324"
+        },
+        {
+          "work": "Chang et al. quadratic diaphragm curvature",
+          "identifier": "DOI 10.1118/1.4953451; PMID 27370142"
+        }
+      ],
+      "novelty_delta": "The searched neighbors establish prediction and the curvature biomarker separately; the proposed experiment asks causally whether the frozen predictor uses that biomarker.",
+      "why_not_done": {
+        "category": "BLIND_SPOT",
+        "detail": "Pulmonary-function interpretability has centered on lung volume, emphysema, and airways; the mechanically informative diaphragm is an input boundary that is easy to treat as framing."
+      },
+      "existing_assets": [
+        "Published pulmonary-function model architecture",
+        "Automated lung/diaphragm surface methods",
+        "Physical-space curvature and FEV1 endpoints"
+      ],
+      "smallest_decisive_experiment": "Freeze the model and test 40-80 public thin-section chest CTs. Warp only a 10-15 mm caudal lung-diaphragm boundary band to flatten or steepen each dome, then restore the original total lung volume by an equal-volume local compensation away from the dome. Require unchanged emphysema percentage, airway Pi10, lung bounding box, and a patch-discriminator equivalence gate. Compare paired FEV1 changes with equal-energy lateral pleural-boundary and phase-scrambled displacement shams.",
+      "compute_envelope": "One Colab Pro+ GPU session: at most 80 volumes, one frozen forward model, precomputed segmentations, no model training beyond a small edit discriminator.",
+      "use_vs_association": "The use claim requires a dose-ordered paired FEV1 response to curvature-only edits beyond equal-energy boundary shams; an output-curvature correlation alone is explicitly insufficient.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Within-scan edits hold them fixed; repeat the effect across kernel/vendor strata.",
+        "positioning": "Supine-only primary analysis; lung box and volume fixed, but inspiratory-state generalization remains a rung-2 issue.",
+        "body_habitus": "Self-comparison holds habitus fixed.",
+        "disease_prevalence_referral": "Does not explain paired score movement, but limits external interpretation.",
+        "label_leakage_from_report": "No text or labels enter the paired primary readout."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "The model responds to a synthetic caudal edge.",
+          "resolution": "Equal-energy pleural shams, local discriminator equivalence, and bidirectional dose response; not ruled out until these pass."
+        },
+        {
+          "alternative": "The edit changes effective lung volume or crop framing.",
+          "resolution": "Exact volume compensation and equality of the final model tensor bounding box."
+        },
+        {
+          "alternative": "Curvature is merely emphysema or airway remodeling.",
+          "resolution": "Hold all non-boundary voxels fixed and require stable automated emphysema and Pi10 measurements."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "After a preregistered large, realistic curvature change and positive-control sensitivity, equivalence of FEV1 output would directly weaken appreciable use of this X."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Young-Laplace membrane curvature from biomechanics.",
+        "measurement_implied": "Principal curvature in mm^-1 and surface/projected-area ratio.",
+        "if_analogy_dropped": "The experiment would become generic diaphragm occlusion; membrane mechanics dictates curvature-preserving volume controls and directional flattening/steepening."
+      },
+      "remaining_legwork": "Inspect exact checkpoint/input availability first; then one day for coverage counts and 3-5 days for edit-validity pilots.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One frozen output, one geometric X, and a directional intervention."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Non-boundary anatomy is fixed and explicit edge/volume shams address the leading rivals; edit realism remains."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "It would distinguish a mechanical hyperinflation cue from direct airway/parenchymal measurement."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A CT spirometer reading a pressure-loaded boundary is surprising and legible."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "The predictor and two quantitative diaphragm methods already exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because checkpoint visibility and selective editing are not inspected."
+        },
+        "data_readiness": {
+          "value": 2,
+          "why": "A public compatible checkpoint/cohort conjunction is not confirmed."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Curvature, volume, emphysema, Pi10, and paired output are defined."
+        },
+        "negative_result_value": {
+          "value": 5,
+          "why": "A gated equivalence result is decisive for this X."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; a bounded primary-source search found no model-use audit."
+        },
+        "regret": {
+          "value": 5,
+          "why": "The boundary is routinely retained and may be an overlooked dominant cue."
+        }
+      },
+      "priority_score": 3.95,
+      "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*4 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*5 + 0.05*2 + 0.05*3 = 3.95",
+      "unverified_claims": [
+        "The Park checkpoint is obtainable",
+        "Its exact tensor retains both diaphragmatic domes",
+        "A curvature-only edit can pass the distribution gate",
+        "No prior causal audit tested this X"
+      ]
+    },
+    {
+      "id": "W2",
+      "track": "wide",
+      "parent_ids": [],
+      "search_mode": "B",
+      "entry_point": 2,
+      "design_template": "natural-paired",
+      "title": "Mirai may be detecting broken bilateral symmetry before a lesion exists",
+      "question": "Is Mirai using left-right mammographic parenchymal asymmetry as a field-effect cue for future breast cancer?",
+      "outside_field": "Developmental biology and quality-control engineering: bilateral organs provide an internal matched reference, and symmetry breaking is a sensitive deviation signal.",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "Contralateral homologous-patch equalization plus a natural bilateral dose response reaches rung 1; view/vendor/positioning replication gates rung 2; bilateral parenchymal asymmetry supplies rung 3."
+      },
+      "deliverable_sentence": "Mirai is using bilateral parenchymal asymmetry as an image marker of breast-cancer risk.",
+      "X_measurement": {
+        "X": "A bilateral parenchymal asymmetry index: the multiscale difference in density, local ridge orientation, and texture energy between deformably registered left-right homologous breast regions, computed separately for CC and MLO views.",
+        "how": "Reflect one breast, register breast outline/nipple/pectoral coordinates to its contralateral mate, compute homologous patch differences at prespecified spatial scales, and aggregate robustly while excluding the pectoral muscle and skin line.",
+        "could_compute_today_without_asking_anyone": "Yes. Registration and pixel-derived density/texture differences are deterministic and require no semantic annotation."
+      },
+      "suspected_signal": "A future-cancer breast may depart subtly from its contralateral developmental control through field change, involution, occult architectural distortion, or asymmetric tissue aging before a discrete lesion is called.",
+      "specific_artifact_confused_with_signal": "Unequal compression, positioning, exposure processing, prior unilateral surgery, and natural constitutional asymmetry can all manufacture the index.",
+      "keystone_prerequisite": "After view-specific deformable registration and positioning-quality gates, the asymmetry index is repeatable across serial negative exams and can be selectively reduced in one breast without erasing focal lesions, changing global density, or producing a registration-looking artifact to Mirai.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Primary sources inspected through PubMed: Mirai predicts 1-5-year risk across international cohorts (PMID 33504648); Wang et al. computed bilateral tissue asymmetry for future-risk prediction (DOI 10.1016/j.medengphy.2011.03.001; PMID 21482168); a later near-term study again used computerized bilateral features (PMID 24725671). None proves repeatable X or a valid Mirai intervention.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? I have verified that bilateral asymmetry predicts risk and Mirai predicts risk; I am still assuming the asymmetry is stable beyond positioning and can be changed without deleting occult disease or creating a synthetic cue. That is the real keystone.",
+      "rung_reached": "No rung. Existing asymmetry-risk prediction is association; a selective paired intervention is necessary for model use.",
+      "dies_like_prior": "It shares idea-015's Mirai model but not its BAC, vascular-age claim, or required calcium mask, so it is not a revival. It risks IDENTIFIABILITY_FAILURE from compression/positioning and fails unless serial and cross-view repeatability gates pass. Annotation provenance does not apply because X is pixel-computed.",
+      "closest_prior_work": [
+        {
+          "citation": "Yala et al., Toward robust mammography-based models for breast cancer risk",
+          "identifier": "PMID 33504648",
+          "verified_fact": "Mirai predicted risk at multiple horizons and generalized across MGH, Karolinska, and CGMH.",
+          "delta": "The report did not establish reliance on bilateral asymmetry."
+        },
+        {
+          "citation": "Wang et al., Computerized prediction of risk based on bilateral mammographic tissue asymmetry",
+          "identifier": "DOI 10.1016/j.medengphy.2011.03.001; PMID 21482168",
+          "verified_fact": "Twenty bilateral features supported near-term risk classification.",
+          "delta": "It built an asymmetry predictor rather than decoding Mirai."
+        },
+        {
+          "citation": "Zheng et al., Prediction of near-term risk using computerized features from bilateral mammograms",
+          "identifier": "PMID 24725671",
+          "verified_fact": "Global bilateral asymmetry predicted abnormalities or cancer at the next screen in a small cohort.",
+          "delta": "It did not test a modern long-horizon risk network or causal use."
+        }
+      ],
+      "novelty_neighbors": [
+        {
+          "work": "Yala et al. Mirai",
+          "identifier": "PMID 33504648"
+        },
+        {
+          "work": "Wang et al. bilateral asymmetry risk scheme",
+          "identifier": "DOI 10.1016/j.medengphy.2011.03.001; PMID 21482168"
+        },
+        {
+          "work": "Zheng et al. near-term bilateral feature prediction",
+          "identifier": "PMID 24725671"
+        }
+      ],
+      "novelty_delta": "Prior work shows that asymmetry itself predicts risk, but the proposed study asks whether Mirai's score causally depends on a preregistered asymmetry index after density and focal content are held fixed.",
+      "why_not_done": {
+        "category": "NEW_CAPABILITY",
+        "detail": "A released multi-view, multi-horizon model plus modern dense registration and tissue-preserving image translation now permit model-self-comparison rather than training another asymmetry classifier."
+      },
+      "existing_assets": [
+        "Released Mirai model",
+        "Paired bilateral CC/MLO inputs intrinsic to screening",
+        "Published computerized bilateral-asymmetry measurements"
+      ],
+      "smallest_decisive_experiment": "On 100 public four-view screening exams, register contralateral homologous tissue. Replace only the low-frequency-normalized parenchymal residual of one high-asymmetry patch with a convex blend toward its mirrored mate, excluding any region flagged by an independent lesion detector. Preserve breast outline, global density histogram, and power spectrum. Test a dose series against same-breast patch shuffles, left-right label swaps, and equal-energy nonhomologous blends; require concordant Mirai changes in CC and MLO.",
+      "compute_envelope": "One Colab Pro+ GPU session: 100 exams, frozen Mirai inference, cached registration, no outcome-model training.",
+      "use_vs_association": "Use is supported only if selective asymmetry equalization moves Mirai risk monotonically beyond spectrum- and energy-matched shams; natural asymmetry-risk correlation is exploratory.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Within-exam edits hold these fixed; vendor-stratified replication tests generality.",
+        "positioning": "Cross-view concordance, nipple/pectoral registration, and serial repeatability are mandatory; unequal compression remains the kill gate.",
+        "body_habitus": "Contralateral self-control and fixed breast outline/density reduce habitus effects.",
+        "disease_prevalence_referral": "Primary model-self-comparison is label-free; screening spectrum still limits scope.",
+        "label_leakage_from_report": "No reports or outcomes enter the primary readout."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "Mirai detects generic blending or registration artifacts.",
+          "resolution": "Equal-energy nonhomologous and same-breast shams plus a blinded edit discriminator."
+        },
+        {
+          "alternative": "The edit removes an occult focal lesion rather than asymmetry.",
+          "resolution": "Exclude independent lesion-detector regions and repeat using diffuse low-amplitude patches only; residual occult disease cannot be fully excluded."
+        },
+        {
+          "alternative": "X is compression asymmetry.",
+          "resolution": "Require CC/MLO and serial consistency; failure is fatal to the biological claim."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If a validated dose series substantially reduces X while Mirai risk remains within a prespecified equivalence margin, appreciable use of this defined X is weakened."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Bilateral fluctuating asymmetry from developmental biology, used as an internal-control signal of perturbation.",
+        "measurement_implied": "Registered left-right homologous tissue differences, not unilateral texture entropy.",
+        "if_analogy_dropped": "The study would perturb generic texture; bilateral symmetry uniquely dictates the matched contralateral reference and cross-view consistency tests."
+      },
+      "remaining_legwork": "Two days to inspect Mirai's preprocessing of laterality and four-view fusion; 3-5 days for registration repeatability and edit-discriminator pilots.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "The model, bilateral X, and equalization operation are explicit."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Matched shams isolate asymmetry response, but compression and occult lesions remain serious rivals."
+        },
+        "medical_relevance": {
+          "value": 5,
+          "why": "If true, asymmetry could explain risk and expose sensitivity to unilateral positioning or surgery."
+        },
+        "interest": {
+          "value": 5,
+          "why": "The contralateral breast acting as the model's hidden control is broadly compelling."
+        },
+        "prior_legwork": {
+          "value": 5,
+          "why": "Mirai and multiple bilateral-risk studies already exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because intervention validity is uninspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public four-view mammograms and Mirai are available, though preprocessing compatibility needs audit."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Paired score, X-dose, density preservation, and shams are defined."
+        },
+        "negative_result_value": {
+          "value": 5,
+          "why": "A gated equivalence result is decisive for the specified X."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; close asymmetry literature makes the gap precise but not verified exhaustive."
+        },
+        "regret": {
+          "value": 5,
+          "why": "Bilateral inputs are already present, making this an unusually cheap explanation audit."
+        }
+      },
+      "priority_score": 4.15,
+      "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*5 + 0.10*5 + 0.10*5 + 0.10*5 + 0.10*5 + 0.05*4 + 0.05*3 = 4.15",
+      "unverified_claims": [
+        "Mirai fuses laterality in a way that permits this audit",
+        "The asymmetry index is serially repeatable",
+        "Equalization can preserve occult focal content and input distribution",
+        "No prior paper causally tested Mirai's use of bilateral asymmetry"
+      ]
+    },
+    {
+      "id": "W3",
+      "track": "wide",
+      "parent_ids": [],
+      "search_mode": "C",
+      "entry_point": 2,
+      "design_template": "model-output-perturbation",
+      "title": "The glioblastoma prognosticator may be reading the invasion front's roughness",
+      "question": "Is a whole-brain glioblastoma survival model using the fractal roughness of the T2/FLAIR abnormality boundary as an image signature of infiltrative growth?",
+      "outside_field": "Invasion ecology and reaction-diffusion physics: a spreading front's geometry records heterogeneity in dispersal and substrate resistance.",
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "A volume- and intensity-preserving boundary-roughness intervention reaches rung 1; sequence/site and edema-mechanism controls gate rung 2; boundary fractal dimension/lacunarity supplies rung 3."
+      },
+      "deliverable_sentence": "The glioblastoma survival model is using fractal roughness of the peritumoral T2/FLAIR abnormality boundary as an image marker of infiltrative growth.",
+      "X_measurement": {
+        "X": "Multiscale box-counting dimension and lacunarity of the 3D T2/FLAIR abnormality boundary after surface-area and volume normalization.",
+        "how": "Use an automated glioma segmentation, extract the edema/FLAIR surface, estimate box counts over preregistered physically resolvable scales, and compute lacunarity on the boundary occupancy map; report stability to voxel size and segmentation perturbation.",
+        "could_compute_today_without_asking_anyone": "Yes. Existing automated tumor segmentation plus explicit geometric formulas suffice; no radiologist rating is needed."
+      },
+      "suspected_signal": "An irregular, multiscale edema front may reflect anisotropic invasion along white-matter tracts or spatially heterogeneous vascular permeability, giving a survival network information beyond lesion volume.",
+      "specific_artifact_confused_with_signal": "Voxel anisotropy, skull stripping, edema-segmentation error, treatment-related change, and sequence resolution can create or erase boundary roughness.",
+      "keystone_prerequisite": "The exact whole-brain survival model is runnable on T2/FLAIR inputs, and boundary fractal dimension can be varied over resolvable scales while total abnormality volume, surface area, intensity histogram, distance to ventricles/cortex, and model-input distribution remain fixed.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Primary full text/search records inspected: GRASP used whole-brain post-radiotherapy T1c and T2 MRI and achieved amalgamated-test AUC 0.93 (DOI 10.1093/neuonc/noae017; PMID 38285679; PMCID PMC11145448); Tate et al. found edema fractal dimension prognostic (PMID 34853344); Schoenegger et al. reported prognostic edema extent (DOI 10.1111/j.1468-1331.2009.02613.x; PMID 19473360). None establishes a runnable checkpoint plus selective boundary edit.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? I verified that a whole-brain model predicts survival and roughness is prognostic. I am still assuming the checkpoint is obtainable and a roughness-only edit can preserve volume, surface area, location, intensity, and treatment appearance. That is the load-bearing conjunction.",
+      "rung_reached": "No rung. Published prognostic association does not show the network uses X; the perturbation gate is essential.",
+      "dies_like_prior": "No annotation-provenance failure applies because segmentation and X are automated. It risks the portfolio's recurrent USE_VS_ASSOCIATION error; the proposed boundary intervention is what makes it different. It dies by IDENTIFIABILITY_FAILURE if smoothing necessarily changes surface area, anatomy, or treatment-related texture.",
+      "closest_prior_work": [
+        {
+          "citation": "Chelliah et al., GRASP study",
+          "identifier": "DOI 10.1093/neuonc/noae017; PMID 38285679; PMCID PMC11145448",
+          "verified_fact": "A whole-brain post-radiotherapy MRI model predicted 8-month survival across multiple centers.",
+          "delta": "It did not identify edema-boundary roughness as a used signal."
+        },
+        {
+          "citation": "Tate et al., Shape matters: morphological metrics of glioblastoma imaging abnormalities",
+          "identifier": "PMID 34853344",
+          "verified_fact": "Fractal dimension and lacunarity of GBM abnormalities, especially T2/FLAIR edema, were associated with survival.",
+          "delta": "It tested a handcrafted prognostic biomarker, not model reliance."
+        },
+        {
+          "citation": "Schoenegger et al., Peritumoral edema on MRI at initial diagnosis",
+          "identifier": "DOI 10.1111/j.1468-1331.2009.02613.x; PMID 19473360",
+          "verified_fact": "Edema extent was evaluated as an independent prognostic factor.",
+          "delta": "It addressed extent, not multiscale boundary roughness or neural-model use."
+        }
+      ],
+      "novelty_neighbors": [
+        {
+          "work": "Chelliah et al. GRASP",
+          "identifier": "DOI 10.1093/neuonc/noae017; PMID 38285679"
+        },
+        {
+          "work": "Tate et al. fractal/lacunarity GBM morphology",
+          "identifier": "PMID 34853344"
+        },
+        {
+          "work": "Schoenegger et al. edema prognosis",
+          "identifier": "DOI 10.1111/j.1468-1331.2009.02613.x; PMID 19473360"
+        }
+      ],
+      "novelty_delta": "The neighbors establish a strong whole-brain predictor and a prognostic fractal biomarker separately; the delta is a controlled use test that preserves edema amount and intensity while changing only resolvable boundary roughness.",
+      "why_not_done": {
+        "category": "BLIND_SPOT",
+        "detail": "Interpretation work typically localizes attention or correlates radiomics with output; it rarely constructs geometry-matched counterfactuals that distinguish boundary organization from edema volume."
+      },
+      "existing_assets": [
+        "GRASP architecture and multicenter full text",
+        "Public glioma MRI and automated tumor segmentation",
+        "Published fractal-dimension and lacunarity definitions"
+      ],
+      "smallest_decisive_experiment": "On 50-75 public post-treatment glioblastoma MRIs, generate paired signed-distance-field edits that exchange fine-scale boundary protrusions and indentations while exactly matching lesion volume, surface area, centroid, ventricular/cortical distance distribution, and within-mask T2 histogram. Test survival-score response across three resolvable scale bands against rigidly rotated boundary-displacement and intensity-only shams. Preserve an untouched test set and preregister an output-equivalence margin.",
+      "compute_envelope": "One Colab Pro+ GPU session: at most 75 volumes, one frozen predictor, CPU-side signed-distance edits, cached segmentations, and batched inference only.",
+      "use_vs_association": "Use requires scale-specific, dose-ordered score changes under roughness-only edits beyond geometry- and energy-matched shams; score-fractal correlation alone remains exploratory.",
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Within-scan perturbations hold them fixed; repeat by sequence resolution and site.",
+        "positioning": "Rigid within-scan geometry makes positioning irrelevant to the paired estimand.",
+        "body_habitus": "Not a material brain-MRI alternative and fixed within scan.",
+        "disease_prevalence_referral": "Cannot explain paired output change but limits generalization.",
+        "label_leakage_from_report": "No reports or survival labels enter the primary paired readout."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "The model responds to interpolation or segmentation seams.",
+          "resolution": "Rotated-displacement shams, boundary-band discriminator, and multiple interpolation kernels."
+        },
+        {
+          "alternative": "It uses surface area or edema volume, not fractal organization.",
+          "resolution": "Match both exactly in physical space and verify after final preprocessing."
+        },
+        {
+          "alternative": "Roughness represents radiotherapy change rather than invasion.",
+          "resolution": "The intervention can establish use of X but not its biological meaning; pretreatment replication or treatment-stratified evidence is required for rung 2/3 gloss."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If validated edits span the natural X range while preserving rival geometry and the frozen output stays within an equivalence margin, appreciable use of boundary roughness is weakened."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Rough invasion fronts from reaction-diffusion ecology.",
+        "measurement_implied": "Scale-resolved boundary fractal dimension and lacunarity, rather than generic radiomic texture.",
+        "if_analogy_dropped": "The experiment would smooth lesions arbitrarily; invasion-front theory requires scale-specific roughness edits and separates front geometry from occupied volume."
+      },
+      "remaining_legwork": "First inspect released GRASP weights and exact preprocessing; then 2-3 days for segmentation/scale stability and roughly one week for counterfactual validation.",
+      "mechanism_clarity": 5,
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "X, physical scales, preserved rivals, and output are explicit."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Exact volume/surface/location controls isolate organization, though treatment biology remains a separate interpretation risk."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Could reveal whether survival prediction reads infiltrative morphology or treatment-related edema."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A network reading the geometry of an invasion front is mechanistically striking."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Both the predictor and prognostic fractal biomarker have been published."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; checkpoint and edit validity are uninspected."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Public glioma MRI exists, but exact model/data compatibility needs audit."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Geometric invariants, scale stability, shams, and equivalence are defined."
+        },
+        "negative_result_value": {
+          "value": 5,
+          "why": "A gated equivalence result directly tests this X."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; bounded search found no controlled use experiment."
+        },
+        "regret": {
+          "value": 5,
+          "why": "Existing radiomic evidence makes the missing causal test unusually obvious in hindsight."
+        }
+      },
+      "priority_score": 4.55,
+      "priority_arithmetic": "Mode C: 0.30*5 + 0.25*4 + 0.20*5 + 0.15*4 + 0.10*5 = 4.55",
+      "unverified_claims": [
+        "GRASP weights are obtainable and runnable",
+        "Compatible public post-radiotherapy MRI exists",
+        "Roughness can be changed while matching all declared geometry",
+        "Fractal roughness reflects invasion rather than treatment effect",
+        "No prior causal use audit exists"
+      ]
+    },
+    {
+      "id": "F1",
+      "track": "fiction",
+      "parent_ids": [],
+      "search_mode": "C",
+      "entry_point": 2,
+      "design_template": "counterfactual-synthesis",
+      "title": "The arterial-calcification score may be reading inspiratory depth",
+      "question": "Is CT-CLIP's arterial-wall-calcification output using normalized diaphragm dome height as an image cue?",
+      "deliverable_sentence": "The model is using normalized diaphragm dome height as an image cue for arterial wall calcification.",
+      "kernel_provenance": "The kernel comes from the pitch's asserted score collapse after changing the left hemidiaphragm and its proposed monotonic response to dome translation; the mortality, slice-wise, longitudinal, and numerical claims were discarded as unverified.",
+      "X_measurement": {
+        "X": "Normalized diaphragm dome height, measured separately for each hemidiaphragm as the craniocaudal apex-to-dome distance divided by thoracic craniocaudal length, with total segmented lung volume as a companion inspiratory-depth measure.",
+        "how": "Automatically segment the lungs, identify the most caudal point of each lung-diaphragm interface and the ipsilateral lung apex in physical coordinates, and divide their distance by thoracic length. The calculation is deterministic and can be repeated after the model's exact preprocessing.",
+        "could_compute_today_without_asking_anyone": "Yes. It is a geometric measurement over automated masks and voxel coordinates; no reader label is required."
+      },
+      "suspected_signal": "Inspiratory depth changes diaphragm position, lung volume, and the craniocaudal arrangement of thoracic anatomy. A volume classifier trained on report-derived labels could therefore use this global respiratory-state cue as a correlate of the population in which arterial calcification is reported, rather than localizing calcified plaque.",
+      "keystone_prerequisite": "A plaque-preserving counterfactual can change normalized diaphragm dome height across the natural NLST range while keeping every aortic and other hyperattenuating voxel, final-tensor framing, and local image texture unchanged enough that matched sham edits are indistinguishable from the active edit.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "The official CT-CLIP repository states that pretrained CT-CLIP variants and inference code are released and that inference can run on smaller GPUs (official repository: https://github.com/ibrahimethemhamamci/CT-CLIP). The official TCIA NLST collection page lists public CT images under CC BY 4.0 (https://www.cancerimagingarchive.net/collection/nlst/). These verify the adjacent model/data facts, not the load-bearing counterfactual-validity conjunction.",
+      "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? I verified that the model family, inference path, and public scans exist; I am still assuming that diaphragm height can be changed without the model responding to boundary warping, altered lung shape, or crop/framing changes. That is the real keystone.",
+      "use_vs_association_design": "Hold the original aorta and all calcified voxels exactly fixed, apply a bidirectional dose series of diaphragm-height edits, and require a larger ordered output response than equal-energy pleural-boundary and spatially shifted sham edits; an observational score-X correlation is exploratory only.",
+      "dataset": {
+        "primary": "National Lung Screening Trial low-dose chest CT collection on The Cancer Imaging Archive (NLST; TCIA)",
+        "access": "Public imaging collection, CC BY 4.0; use a small prespecified sample without relying on restricted clinical outcomes.",
+        "official_url": "https://www.cancerimagingarchive.net/collection/nlst/"
+      },
+      "smallest_decisive_experiment": "Select 32 NLST noncontrast inspiratory CT volumes spanning the natural diaphragm-height distribution and containing both low and high automated thoracic-aortic calcium burden. Run one frozen CT-CLIP arterial-wall-calcification output. For each scan, create two or three small cranial and caudal diaphragm-boundary displacements confined to a thin caudal lung band while copying the entire aorta, heart, spine, all voxels above 130 HU, and the final crop coordinates unchanged. Compare paired output slopes against equal-energy lateral-pleural, left-right-swapped, and phase-scrambled displacement shams. Preregister a natural-range X change, a sham-effect ceiling, and an output-equivalence margin. Batched inference over fewer than 300 volumes fits one Colab GPU session; counterfactual construction is CPU-side.",
+      "closest_prior_work": [
+        {
+          "citation": "Hamamci et al., A foundation model utilizing chest CT volumes and radiology reports for supervised-level zero-shot detection of abnormalities",
+          "identifier": "arXiv:2403.17834; official repository https://github.com/ibrahimethemhamamci/CT-CLIP",
+          "verified_fact": "CT-CLIP performs volume-level multi-abnormality detection from 3D chest CT and its official repository provides inference code and pretrained-model links.",
+          "delta": "The primary paper did not test whether its arterial-wall-calcification output uses diaphragm position."
+        },
+        {
+          "citation": "Bak et al., Automated evaluation of diaphragm configuration based on chest CT in COPD patients",
+          "identifier": "PMID 39090324",
+          "verified_fact": "An automated CT diaphragm index was measured in 8,431 COPDGene participants and was associated with COPD severity, FEV1 percent predicted, and emphysema score.",
+          "delta": "This establishes computable diaphragm geometry, not use by a calcification classifier."
+        },
+        {
+          "citation": "van Velzen et al., Deep Learning for Automatic Calcium Scoring in CT: Validation Using Multiple Cardiac CT and Chest CT Protocols",
+          "identifier": "PMID 32043947",
+          "verified_fact": "A location-aware deep-learning method quantified coronary and thoracic-aortic calcification across multiple noncontrast CT protocols.",
+          "delta": "It provides a local-calcium comparator and shows that anatomically grounded scoring is feasible; it did not audit CT-CLIP or diaphragm reliance."
+        }
+      ],
+      "novelty_statement": "NO NOVELTY CLAIM. A bounded primary-source search found the CT-CLIP model paper, quantitative diaphragm work, and automated thoracic-calcium work, but not this specific causal audit; human verification is still required.",
+      "critical_confound": "The active edit may create an unnatural lung-diaphragm boundary or alter global lung shape/framing, so a positive result could reflect sensitivity to synthetic geometry rather than native use of inspiratory depth.",
+      "alternative_explanations": [
+        {
+          "alternative": "CT-CLIP responds to interpolation or boundary seams.",
+          "control": "Equal-energy lateral-pleural and phase-scrambled boundary shams, multiple interpolation kernels, and a blinded active-versus-sham edit discriminator."
+        },
+        {
+          "alternative": "The edit changes lung volume or crop occupancy rather than diaphragm height.",
+          "control": "Match final-tensor framing exactly and either preserve total lung volume with local compensation or estimate diaphragm-height and lung-volume effects separately in a factorial edit."
+        },
+        {
+          "alternative": "The output is driven by actual calcium or reconstruction noise.",
+          "control": "Copy all hyperattenuating and aortic voxels bit-for-bit, stratify by automated calcium burden and reconstruction metadata, and use only within-volume comparisons."
+        }
+      ],
+      "standing_confounds_addressed": {
+        "scanner_vendor_protocol_reconstruction_site": "Held fixed within each edited volume; stratified replication tests effect stability but does not establish broad generalization.",
+        "patient_positioning": "The source scan and crop are fixed; native positioning cannot explain paired changes, although the edit may resemble a positioning artifact.",
+        "body_habitus": "Held fixed by self-comparison.",
+        "disease_prevalence_and_referral_pathway": "Cannot cause paired output changes, but could explain why a model learned the cue and limits interpretation.",
+        "label_leakage_from_report": "No report or label enters the primary paired readout; report-derived training labels could still explain why the shortcut was learned."
+      },
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If validated edits span the natural diaphragm-height range, the model responds to a positive control, sham effects remain below threshold, and the arterial-wall-calcification output remains within a preregistered equivalence margin, appreciable use of this defined X is weakened. If edit-validity gates fail, the result is uninterpretable and is not counted as a negative."
+      },
+      "rung": {
+        "target": 3,
+        "current": 0,
+        "move_up": "A validated plaque-preserving perturbation can reach rung 1. Replication across reconstruction/vendor strata and rejection of framing artifacts gates rung 2. Only then does the named normalized diaphragm-height sentence qualify as rung 3; the experiment does not establish why the association was learned or any mortality effect."
+      },
+      "dies_like_prior": "It most closely resembles idea-006 because a large synthetic intervention could be out of distribution, and idea-007 because respiratory state co-varies with final-tensor framing. It differs by prohibiting patient deletion, using small natural-range bidirectional boundary edits, preserving plaque voxels, and making sham/distribution gates prerequisites. It still dies the same way if those gates fail. Annotation provenance does not apply because X and the primary readout are computed without labels.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One released model output, one geometric X, and one directional paired test are specified."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Plaque-preserving paired edits rule out patient-level confounds, but separating diaphragm height from synthetic boundary and lung-shape effects remains difficult."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "It could expose a clinically misleading respiratory-state shortcut in an arterial-calcification output, but it does not itself improve calcium quantification or outcomes."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A calcification score driven by respiratory geometry would be surprising and consequential for interpretation."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Model code/weights, public CT, quantitative diaphragm geometry, and automated thoracic-calcium comparators exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because counterfactual validity is not inspected; the small inference workload otherwise fits one Colab GPU session."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "NLST CT images are publicly listed by TCIA and the primary test needs neither outcomes nor manual annotations."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Paired slope, sham ceiling, equivalence margin, X range, and voxel-preservation checks are definable before inference."
+        },
+        "negative_result_value": {
+          "value": 5,
+          "why": "After all sensitivity and edit-validity gates pass, equivalence directly weakens use of this X."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped by the uninspected keystone and a bounded rather than exhaustive primary-source search."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The first gated test is small and could cheaply falsify a striking shortcut hypothesis."
+        }
+      },
+      "mechanism_clarity": 4,
+      "priority_score": 3.7,
+      "priority_arithmetic": "Mode C: 0.30*4 + 0.25*3 + 0.20*4 + 0.15*3 + 0.10*5 = 3.70",
+      "unverified_claims": [
+        "The current released CT-CLIP checkpoint and label mapping expose the exact arterial-wall-calcification output reproducibly.",
+        "Natural-range diaphragm-height edits can pass the declared distribution and sham gates.",
+        "The defined output uses diaphragm height in intact unedited scans.",
+        "No prior study has performed this exact causal audit."
+      ],
+      "prohibited_conclusions": [
+        "Do not call the output an aortic-specific head without verifying the released label mapping.",
+        "Do not infer that CT-CLIP contains separate slice-wise and volume-wise detectors.",
+        "Do not infer mortality prediction, sign inversion, longitudinal drift, or causation from smoking or COPD.",
+        "Do not interpret a failed edit-validity gate as a negative result."
+      ]
+    }
+  ]
+}
