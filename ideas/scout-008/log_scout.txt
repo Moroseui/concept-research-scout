@@ -1,0 +1,25 @@
+Bash requires interactive approval in this environment, so I can't run the parser, but the file was written successfully and mirrors the verified scout-007 schema (no internal double-quotes, no trailing commas). Here's the summary.
+
+## scout-008 candidates written
+
+`ideas/scout-008/scout_candidates.json` — ten questions generated, five developed. Every candidate leads with a positive **"the model is using X"** where X is computable from voxels today by a citable tool, and each primary readout is an intervention (erasure, counterfactual, or a label-free paired contrast), not a bare association. Zero portfolio revivals — nothing in the brief has a genuinely changed blocking fact.
+
+| ID | Mode | Design grammar | Dataset/model | Deliverable X | Score |
+|----|------|----------------|---------------|---------------|-------|
+| C1 | A | counterfactual-synthesis | Merlin / abd CT | liver **surface nodularity** → cirrhosis | 3.35 |
+| C2 | B | representation-erasure | CT-CLIP / CT-RATE | **subcarinal angle** (airway splay) → cardiomegaly | 3.10 |
+| C3 | B | natural-paired | Merlin / abd CT | **blood-pool attenuation** (haematocrit) → anemia | 3.55 |
+| C4 | C | representation-erasure | CT-CLIP / CT-RATE | emphysema **cluster-complexity exponent** → emphysema call | 3.90 (Mode-C) |
+| C5 | C | counterfactual-synthesis | Sybil / NLST | **aortic tortuosity** (buckling) → lung-cancer risk | 3.90 (Mode-C) |
+
+Quotas met exactly: 1 A / 2 B / 2 C; datasets Merlin×2, CT-RATE×2, NLST×1 (cap respected); 5/5 radiology-CT; 0 derm. Design grammar deliberately diversified after scout-007 used representation-erasure for all five — this cycle adds the label-free **natural-paired** move (C3) that is the loop's only surviving structure, plus two counterfactual-synthesis designs.
+
+**The strongest candidate is C3.** It reuses the survivor pattern (model-vs-itself across two acquisitions of identical anatomy): haematocrit is fixed within a session but contrast forces blood HU up by hundreds of units, so if the anemia readout swings, the model is provably reading Beer-Lambert blood radiodensity — no label enters the primary measurement, and a no-swing result is a decisive negative.
+
+Verified against primary sources: Mishima PNAS 1999 (cluster power-law), Smith Radiology 2016 + Auto-LSN 2026 (LSN tools), blood-HU↔haemoglobin (r≈0.56–0.59), subcarinal-angle↔LA volume (r≈0.34–0.40, sex/obesity-confounded — I scored C2's identifiability down to 2 for exactly this), aortic tortuosity age norms (PLOS One 2019), CT-RATE's 18-label set (confirms Cardiomegaly + Emphysema exist), and Sybil's nodule-removed residual (JCO 2023).
+
+Two honesty flags I built into the cards:
+- **All five are entry-point 2** and all keystones are `NOT_INSPECTED` (feasibility/novelty capped at 3). No documented model-beats-radiologist gap with an obtainable checkpoint surfaced that the backlog hadn't already taken; I noted this in `quota_note` rather than padding with a weak entry-1.
+- **C5 novelty is downgraded to 2**: I found a 2026 preprint *"Auditing Sybil: Generative Interventional Attributions"* (arXiv:2602.02560) — a near neighbour that must be inspected for vascular features before C5 advances.
+
+Every card's `keystone_residual_assumption` separates the easy check (the biomarker is real) from the load-bearing one (the model output exists **and** X varies independently of the dominant confound), the error that has cost this loop three cycles.
