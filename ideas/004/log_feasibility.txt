@@ -1,0 +1,15 @@
+Feasibility check complete. **Decision: GO** — and the headline is that Stage 0's blocking finding was wrong.
+
+**The keystone flipped to INSPECTED_TRUE.** Stage 0 concluded the ClassFine checkpoint was unobtainable after checking GitHub release assets and the authors' Hugging Face model account — but the official README links the model downloads to a `models/` folder **inside the gated CT-RATE dataset repo itself**. I directly inspected the file listing today: `CT_LiPro_v2.pt` (which the README explicitly labels "CT-CLIP (ClassFine)"), plus the CT-CLIP and VocabFine checkpoints, each 1.77 GB, confirmed present. The gate is `auto` — automatic approval on a click-through sharing contact info, no manual review — so this doesn't violate the charter's DUA constraint. License is CC-BY-NC-SA-4.0, fine for research use.
+
+**What remains unverified, stated honestly in the memo:**
+- Whether the checkpoint *loads and runs unchanged* with the released inference code — this is the residual load-bearing assumption, and it's the smallest probe: gate acceptance + ~3 GB download (checkpoint + one Br40f|Br60f pair) kills or confirms it in under an hour, before any bulk download.
+- Whether the v2 weights correspond exactly to the published paper's numbers — doesn't threaten the model-vs-itself primary readout, but constrains attribution until checked.
+- The CT-Scroll paper (arXiv:2503.20652) exists and evaluates on CT-RATE, but its AUROC tables — needed as the external equivalence-margin anchor — still need PDF extraction before any paired score is seen.
+- Novelty: targeted searches found no prior paired, geometry-matched audit of ClassFine on CT-RATE, but the proceedings sweep is outstanding, so novelty confidence stays at 3.
+
+**Compute is download-dominated, not GPU-dominated:** ~360 GB for the 850 volumes (chunked download-infer-delete fits Colab Pro+), ~0.5 s/volume inference, single-digit hours of CPU preprocessing.
+
+Files written: `ideas/004/feasibility.md` (with a verification ledger and recommended score updates — feasibility 3→4, data readiness 3→4, priority 3.55→3.90; I did not modify the idea card itself), plus populated rows in `evidence/literature.csv` (7 citations with verification status) and `evidence/datasets.csv`.
+
+One caution flagged for the probe stage: the ClassFine checkpoint file is named `CT_LiPro_v2.pt` — the README's mapping is explicit, but the load probe should confirm the inference scripts consume this file for the 18-output head before anything is frozen.
