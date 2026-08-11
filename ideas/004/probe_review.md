@@ -1,211 +1,164 @@
-# Probe code review — idea 004 (load probe, contract v1)
+# Probe code review — idea 004 (load probe, contract v1) — ROUND 2
 
-**Reviewed artifacts:** `probes/004/run.py` (1,014 lines), `probes/004/README.md`,
-`probes/004/verification.json`, `probes/004/.gitignore`. **Note:** the stage names
-`run.py` + `requirements.txt` as the generated pair; no probe `requirements.txt`
-exists (the repo-root `requirements.txt` is the scout harness's, not the probe's).
+**Reviewed artifacts:** `probes/004/run.py` (1,061 lines, revision commit
+f238a49), `probes/004/requirements.txt` (new), `probes/004/README.md`,
+`probes/004/verification.json`. Round-1 review (commit b48c464) issued REVISE
+with five blocking findings B1–B5; this round verifies the fixes and re-reviews
+the result.
 
-**Review method.** The coder's `verification.json` marks `released_api_fidelity`
-as `PASS_WITH_CAVEAT` because their sandbox could not execute or test anything
-against the released code. I closed that caveat by fetching the official CT-CLIP
-sources on 2026-08-12 (repo tree; raw `scripts/ct_lipro_inference.py`; raw
-`scripts/data_inference_nii.py`; `CT_CLIP/` and `transformer_maskgit/` listings)
-and comparing them line-by-line against the transcriptions in `run.py`. Much of
-the transcription is accurate — but two load-bearing pieces are wrong, and both
-would cause the probe to report a **contract invalidating failure whose true
-cause is a driver bug**. That is the one outcome this probe must never produce:
-per its own docstring, exits 3–9 are contract results that feed the ADVANCE/kill
-decision for idea 004.
+**Review method.** Re-fetched the official CT-CLIP sources on 2026-08-12 and
+compared against the revised driver: `scripts/ct_lipro_inference.py` (imports,
+`ImageLatentsClassifier` incl. `forward`/`load`, checkpoint-load line, inference
+call site), `scripts/data_inference_nii.py` (`CTReportDatasetinfer.__init__`
+signature, three-level glob, `__getitem__` return arity), `scripts/eval.py`
+(imports), `transformer_maskgit/setup.py` and `CT_CLIP/setup.py`
+(`install_requires`), and the package `__init__` chains
+(`transformer_maskgit/__init__.py` → `MaskGITTransformer.py`, `ctvit_trainer.py`;
+`ct_clip/__init__.py` → `ct_clip.py`).
 
-**Verdict: REVISE.** The harness scaffolding (gate, split guards, deterministic
-pair selection, provenance-before-inference, bit-identity check, budget caps,
-output files) is genuinely good and should be kept as-is. The defects are
-confined to real mode's PHASE 4 and the environment story.
+**Verdict: REVISE.** All five round-1 blockers were addressed in intent, and
+B1 (the model-call signature) and B5 (`--output-dir`) are fixed and verified.
+But the B2/B4 remedy — installing the released packages with
+`pip install --no-deps -e` from inside the running probe — cannot work as
+implemented: the environment it builds is missing verified import-time
+dependencies, and even a fully provisioned editable install is not importable
+by the process that performed it. A second, narrower residue of B3 remains:
+non-ImportError environment failures inside PHASE 4 (no GPU, tokenizer
+download, torch/torchvision ABI errors) still misroute to contract exit 5.
+Both are small, mechanical fixes; nothing touches the experiment's scope.
 
 ---
+
+## Round-1 blocker status
+
+| # | Status | Evidence |
+|---|---|---|
+| B1 (call signature) | **FIXED, verified** | `run.py:952` now `model(False, text_tokens, video, device=device)`. Released call site (fetched 2026-08-12): `output = model(False, text_tokens, inputs, device=device, return_latents=True)`. The omitted `return_latents=True` is a no-op difference — released `forward` unconditionally sets `kwargs['return_latents'] = True`. Load path also matches: released `.load()` is `torch.load(file_path)` + `load_state_dict` (default strict); driver's `map_location="cpu"` + `.cuda()` and explicit `strict=True` (`run.py:887-891`) are equivalent, and `weights_only=False` matches released behavior under the pinned torch. |
+| B2 (import path) | **ATTEMPTED, defective** | Editable-install approach adopted (`run.py:756-774`) but fails in-process — see R1. |
+| B3 (exit-code routing) | **MOSTLY FIXED** | Phase 1 now fails fast at exit 11 per missing dependency (`run.py:296-304`); PHASE 4 `ImportError`/`ModuleNotFoundError` separately routed to 11 (`run.py:895-897, 933-935`). Non-ImportError environment failures still leak to exit 5 — see R2. |
+| B4 (requirements.txt) | **PARTIAL** | File exists with driver pins and the `weights_only` choice is explicit. But the released packages' import-time dependency set is absent and `torchvision` is unpinned — see R1. |
+| B5 (--output-dir) | **FIXED, verified** | `run.py:1026-1037`; coder's smoke run wrote all seven artifacts to an external dir (`verification.json`). |
 
 ## Blocking findings
 
-### B1. The model call does not match the released forward signature — guaranteed wrong result (rule 2: silent-failure surface; rule 1: contract fidelity)
+### R1. Real mode cannot reach the released imports on a fresh session — the `--no-deps` in-process editable install is triply defective (rule 5: practicalities; rule 2: one branch yields a false contract result)
 
-`run.py:913`:
+`run.py:764-774` runs `pip install --no-deps -e` on the two released projects
+after the interpreter has started, then imports them at `run.py:865-867` in the
+same process. Three independent defects:
 
-```python
-logits = model(text_tokens, video)
-```
+**(a) `--no-deps` skips dependencies the released packages need at import
+time, and `requirements.txt` does not supply them.** Verified from the fetched
+sources: `from transformer_maskgit import CTViT` executes the package
+`__init__`, which imports `MaskGITTransformer.py` (→ `beartype`, `einops`) and
+`ctvit_trainer.py` (→ `torchvision`, `einops`, `ema_pytorch`, `accelerate`,
+`beartype`); the released `setup.py` additionally pins
+`vector-quantize-pytorch==1.1.2` (pulled by `ctvit.py`, and API-sensitive — the
+released code predates that library's breaking changes, so "latest" is not a
+substitute). `from ct_lipro_inference import ImageLatentsClassifier` imports
+`eval.py` → `h5py`, `matplotlib`, `seaborn`, `scipy`, `PIL`, `torchvision`.
+Of this set, `probes/004/requirements.txt` pins none; `ema-pytorch` and
+`vector-quantize-pytorch` are not in stock Colab at all. Result: guaranteed
+`ModuleNotFoundError` → exit 11 on every run until the human hand-installs
+packages documented nowhere.
 
-Released `scripts/ct_lipro_inference.py` (fetched 2026-08-12, verbatim):
+**(b) An editable install performed mid-process is not importable by that
+process.** `pip install -e` registers the package via a `.pth`/import-hook file
+in site-packages, which the `site` module processes only at interpreter
+startup. So even with every dependency present, the first invocation of
+`run.py` installs the packages and then fails its own imports at
+`run.py:865-866` → exit 11; only a rerun (new interpreter) can succeed. The
+shipped one-command probe deterministically fails its first real invocation in
+a perfect environment.
 
-```python
-def forward(self, latents=False, *args, **kwargs):
-    kwargs['return_latents'] = True
-    _, image_latents, _ = self.trained_model(*args, **kwargs)
-    image_latents = self.relu(image_latents)
-    if latents:
-        return image_latents
-    ...
-    return self.classifier(image_latents)
-```
+**(c) `torch==2.5.1` is pinned without a matched `torchvision`.** On Colab,
+force-installing torch 2.5.1 under the preinstalled (newer, ABI-mismatched)
+torchvision makes `import torchvision` raise `RuntimeError` (custom C++ ops),
+not `ImportError` — which the PHASE 4 handler routes to
+`fail(5, "released checkpoint/code failed to load unchanged")`
+(`run.py:898-899`): a pip problem recorded as the contract-invalidating result
+the probe exists to test. This sub-case is rule 2, not just rule 5.
 
-and the released call site:
+**Required fix (any one of):** provision before the interpreter starts —
+extend `requirements.txt` with the verified import-time set
+(`torchvision==0.20.1` to match torch 2.5.1, `vector-quantize-pytorch==1.1.2`,
+`ema-pytorch`, `einops`, `beartype`, `accelerate`, `h5py`, `matplotlib`,
+`seaborn`, `scipy`) and move the two `-e` installs to a documented pre-step in
+README (drop them from `run.py`, keeping only a PHASE 1 importability check);
+**or** keep everything in-process but replace pip with the round-1 alternative:
+`sys.path.insert` of the two inner package parents
+(`vendor/CT-CLIP/transformer_maskgit` and `vendor/CT-CLIP/CT_CLIP`), which
+needs no `.pth` processing — still with the transitive pins added. Either way,
+verify with a clean-venv `pip install -r` + import smoke test.
 
-```python
-output = model(False, text_tokens, inputs, device=device, ...)
-```
+### R2. Non-ImportError environment failures inside PHASE 4 still misroute to contract exit 5 (rule 2: silent-failure surface — same class as round-1 B3)
 
-`run.py`'s call binds `text_tokens` to the `latents` **flag** and passes only
-`video` into `self.trained_model(...)` — i.e. `CTCLIP.forward` receives the CT
-volume as its `text` argument and no image at all. Two possible outcomes, both
-fatal to the probe's purpose:
+The B3 fix catches only `ImportError`/`ModuleNotFoundError`. Three concrete
+environment failures raise other exception types inside the PHASE 4 try-block
+and land in `except Exception → fail(5)` (`run.py:898-899`) — recorded as
+contract `invalidating_failures[2]`:
 
-- **Most likely:** `TypeError` inside `CTCLIP.forward` → caught at
-  `run.py:926-927` → `fail(9, "inference crashed")` → reported as contract
-  `invalidating_failures[6]` ("crashes"). A healthy released pipeline would be
-  recorded as an invalidating contract failure.
-- **If it somehow does not crash:** `latents` is truthy (a `BatchEncoding`), so
-  `forward` returns the 512-dim latent vector, not 18 logits → `fail(6)` →
-  reported as contract `invalidating_failures[3]` ("does not emit exactly 18
-  scores"). Same misdiagnosis, different exit code.
+- **CPU-only runtime** (the most common Colab slip): PHASE 1 logs
+  `"gpu: NONE VISIBLE"` and continues (`run.py:292-295`); `model.cuda()` at
+  `run.py:892` then raises `RuntimeError` → false exit 5. One-line fix: in
+  real mode, `fail(11)` from PHASE 1 when `torch.cuda.is_available()` is
+  False.
+- **Tokenizer/text-encoder download**: `BertTokenizer.from_pretrained` /
+  `BertModel.from_pretrained` (`run.py:870-872`) fetch
+  `microsoft/BiomedVLP-CXR-BERT-specialized` from the network inside the try;
+  an HTTP/OSError failure is an access problem (exit 3 family), not "released
+  checkpoint/code failed to load unchanged". Route it separately.
+- **torch/torchvision ABI mismatch** — R1(c) above.
 
-**Required fix:** mirror the released call verbatim —
-`model(False, text_tokens, video, device=device)` — including the `device`
-kwarg the released loop passes. (The rest of the load block is a faithful
-transcription: the `CTViT`/`CTCLIP` constructor arguments at `run.py:845-855`
-and the 18 head names at `run.py:100-119` match the fetched source exactly, and
-`CTReportDatasetinfer(data_folder=..., reports_file=..., meta_file=...,
-labels=...)` at `run.py:881-883` matches the released signature
-`(data_folder, reports_file, meta_file, min_slices=20, labels="labels.csv")`.)
+The probe's exit codes feed the ADVANCE/kill decision (its own docstring);
+every environment-shaped failure must be unreachable from exits 3–9.
 
-### B2. The `sys.path` import strategy cannot resolve the released packages — real mode dies at exit 5 falsely (rule 5: practicalities; rule 2: silent-failure surface)
+## Non-blocking findings (carried or new)
 
-`run.py:830-831` inserts the clone root and `scripts/` onto `sys.path`, then
-`run.py:837-838` does `from transformer_maskgit import CTViT` and
-`from ct_clip import CTCLIP`. Verified repo layout (fetched 2026-08-12): both
-are **installable projects**, not flat modules —
-`transformer_maskgit/setup.py` + inner `transformer_maskgit/` package, and
-`CT_CLIP/setup.py` + inner `ct_clip/` package. The released README installs
-them with `cd transformer_maskgit && pip install -e .` and
-`cd CT_CLIP && pip install -e .`. With only the clone root on `sys.path`,
-`ct_clip` does not exist as a top-level importable name at all, and
-`transformer_maskgit` resolves to the outer project directory (a namespace
-package with no `CTViT`). The import raises, is caught by the blanket handler
-at `run.py:864-865`, and becomes `fail(5, "released checkpoint/code failed to
-load unchanged")` — contract `invalidating_failures[2]`, the exact claim the
-probe exists to test, asserted on a driver environment gap.
+1. **Contract secondary metrics still not persisted** (round-1 #2, unaddressed;
+   coder scoped the revision to blockers only). Peak GPU memory
+   (`run.py:954-955`) and per-execution seconds (computed in
+   `run_three_executions`) go to `run_log.txt` only; `summary.json` has
+   `total_minutes` alone. The contract lists these as secondary metrics — add
+   them to `summary.json`; they are already computed.
+2. **`torch.use_deterministic_algorithms(True)`** (round-1 #3, unaddressed):
+   an op without a deterministic CUDA implementation raises `RuntimeError`
+   during scoring → caught at `run.py:965-966` as `fail(9, "inference
+   crashed")`. Catch that specific error distinctly or use `warn_only=True`
+   with the empirical bit-identity check as arbiter.
+3. **Qualifying-pair count logged but not gated** (round-1 #4, partially
+   addressed): `run.py:817-819` now prints the Stage-0 reference count of 237
+   with a warning sentence, but nothing stops a wildly divergent count. A
+   sanity band would make the cross-check enforceable.
+4. **Reruns clobber prior artifacts** (round-1 #6, unaddressed):
+   `run.py:1039` truncates `run_log.txt`; all outputs overwrite in place. More
+   salient now that R1(b) forces at least one rerun and `--output-dir` may
+   point at a persistent Drive folder holding the previous attempt.
+5. **Approval-flag discrepancy** (round-1 #1, human action still pending):
+   `probe_contract.yaml` ends `human_approved: false` while the committed
+   `HUMAN_APPROVED_PROBE` marker is the gate the code checks; the docstring now
+   documents this (`run.py:6-9`), which is an improvement, but the flag should
+   be flipped by the human in a commit.
+6. **Trivial:** `device = torch.device("cuda")` (`run.py:858`) is used only in
+   the model call while `.cuda()` strings appear elsewhere; harmless
+   inconsistency.
 
-**Required fix:** install the two released packages the way the released README
-does (e.g. `pip install -e` on both project dirs from the pinned clone, recorded
-in `provenance.json`), or insert the correct inner directories; and see B3 for
-the exception routing.
+## Verified faithful this round (no action)
 
-### B3. Missing-dependency and ImportError paths are mapped to contract invalidating exits instead of exit 11 (rule 2: silent-failure surface)
-
-The probe's own exit-code scheme says 11 = "missing dependency (environment,
-not a contract result)". But in real mode:
-
-- `run.py:295-300` records third-party modules as `"MISSING"` in
-  `environment.txt` and **continues** instead of `fail(11)`.
-- The PHASE 4 load block (`run.py:832-865`) wraps all imports — including
-  `ct_lipro_inference`, whose module top-level (verified) imports `src.args`,
-  `eval` (which pulls sklearn/matplotlib-class dependencies), `tqdm`, `pandas`,
-  `numpy`, `sklearn` — in `except Exception → fail(5)`. A missing `sklearn`
-  becomes "checkpoint failed to load unchanged."
-- The preprocessing block (`run.py:870-900`) maps any exception, including
-  ImportError from `data_inference_nii`'s dependencies (`nibabel`, `tqdm`), to
-  `fail(7)` — contract `invalidating_failures[4]`, "pair fails the released
-  preprocessing," on a pip problem.
-
-**Required fix:** fail fast at PHASE 1 (exit 11) if any real-mode dependency is
-missing, and catch `ImportError`/`ModuleNotFoundError` separately from other
-exceptions in PHASE 4, routing them to exit 11 with an explicit "environment,
-not a contract result" message.
-
-### B4. No probe `requirements.txt` with pins (rule 5: practicalities; named stage deliverable)
-
-The stage deliverable pair is `run.py` + `requirements.txt`; only `run.py` was
-produced. `probes/004/README.md:19-21` lists five unpinned package names and
-omits the two editable installs (B2) plus the transitive set (`sklearn`,
-`tqdm`, whatever `scripts/src/` and `eval.py` pull in). Version pinning is not
-cosmetic here: `run.py:857` calls `torch.load(...)` without `weights_only`,
-whose default flipped to `True` in torch ≥ 2.6 — on a current unpinned Colab
-torch, a checkpoint containing any non-tensor pickled object fails to load and
-becomes another false exit-5 invalidating failure. Unpinned `transformers`
-similarly risks tokenizer/`BertModel` behavior drift against 2024-era released
-code. **Required fix:** ship `probes/004/requirements.txt` with working pins
-(torch, transformers, huggingface_hub, nibabel, pandas, scikit-learn, tqdm) and
-the two `-e` installs documented, and pass an explicit `weights_only` choice to
-`torch.load` that matches the released loader's behavior.
-
-### B5. Outputs are hardcoded beside the script; no `--output-dir` (rule 5: practicalities — explicit checklist item)
-
-`run.py:989` fixes the output directory to `probes/004/outputs`. The review
-checklist requires the Drive output dir to come from `--output-dir`. In Colab
-the clone lives on ephemeral VM disk, so a successful 45-GPU-minute gated run's
-seven contract artifacts (and the frozen provenance hashes) vanish with the
-session unless the human remembers to copy them. **Required fix:** add
-`--output-dir` (default: current behavior) and write all seven required
-outputs there. This does not add a contract "variant" — it relocates artifacts
-only.
-
----
-
-## Non-blocking findings
-
-1. **Approval-flag discrepancy** (`ideas/004/probe_contract.yaml:` last line,
-   `human_approved: false` vs the committed `HUMAN_APPROVED_PROBE` marker). The
-   code documents and gates on the marker (`run.py:229-252`), which is
-   defensible, but the approved preregistration document contradicting itself
-   is the kind of thing a later reader trips over. Recommend the human flip the
-   flag in a commit rather than any agent editing an approved contract.
-2. **Contract secondary metrics not persisted in structured outputs.** Peak GPU
-   memory (`run.py:915-916`) and per-execution wall-clock (`run.py:497`) go
-   only to `run_log.txt`; download/model-load times are only inferable from log
-   timestamps. The contract lists these as secondary metrics — put them in
-   `summary.json` (they are already computed).
-3. **`torch.use_deterministic_algorithms(True)`** (`run.py:288`) can raise on
-   ops without deterministic CUDA implementations; that RuntimeError would land
-   in the `fail(9)` bucket as a "crash." Since bit-identity is checked
-   empirically anyway (`run.py:517-520`), consider catching that specific error
-   and reporting it distinctly, or `warn_only=True` with the empirical check as
-   the arbiter — documented either way.
-4. **Qualifying-pair drift is logged but not gated** (`run.py:789-791`). If the
-   re-derived rules diverge wildly from Stage 0's 237, the selected pair may
-   not be in the frozen Stage-0 425. A sanity band (e.g., abort if count is 0
-   or > 2× Stage 0's) would make the cross-check enforceable. Related repo gap,
-   not a code defect: the Stage-0 pair list itself was never committed, which
-   is why the code must re-derive it.
-5. **`find_repo_file` ambiguity → exit 3** (`run.py:719-721`): two matching repo
-   files is a naming-drift condition, not an "access failure"; the message is
-   clear enough, but the exit-code mapping is loose.
-6. **Reruns clobber prior artifacts** (`run.py:992` truncates `run_log.txt`;
-   all outputs overwrite in place). For a probe whose artifacts are the
-   deliverable, refusing to overwrite an existing `summary.json` (or
-   timestamping the output dir) would be safer.
-7. **Readability is good.** Docstring explains the experiment and the exit-code
-   map; phases are narrated; constants carry provenance comments; smoke mode's
-   planted decoys are self-asserting. No blocking readability findings.
-8. **Trivial:** released code tokenizes `""`, driver tokenizes `[""]`
-   (`run.py:903`) — same batch of one; released readout applies a hand-rolled
-   sigmoid where the driver uses `torch.sigmoid` (`run.py:914`) —
-   mathematically identical, only internal consistency matters for this probe.
-
-## What was verified as faithful (kept, no action)
-
-- Contract caps re-read and asserted at startup (`run.py:243-251`); executions,
-  seed, batch size hardcoded; no CLI knobs beyond `--smoke` (rule 1 satisfied
-  in structure).
-- All seven `required_outputs` written in both modes; provenance (HF revision,
-  checkpoint SHA-256, code commit, table and volume hashes) recorded **before**
-  inference (`run.py:753-782, 812-815`).
-- Split guards on every download and both pair members; pair-validity
-  assertions; labels used only for the head-order check, never in an endpoint.
-- Bit-identity via raw byte comparison, not tolerance (`run.py:517-520`).
-- Claim discipline: smoke `contract_satisfied: false`; A-vs-B differences
-  labeled `DIAGNOSTIC_ONLY` everywhere; interpretation strings track the
-  contract's positive/negative-pattern language, never stronger.
-- The 18 head names, their order, and the `CTViT`/`CTCLIP` constructor
-  arguments match the released source exactly (fetched 2026-08-12).
+- Staging layout `stage/valid/valid_P/valid_P_S/*.nii.gz` matches the released
+  three-level glob in `prepare_samples` (fetched source), and the 4-tuple
+  unpack at `run.py:921` matches `__getitem__`'s
+  `return video_tensor, input_text, onehotlabels, name_acc`.
+- `CTReportDatasetinfer(data_folder=..., reports_file=..., meta_file=...,
+  labels=...)` matches the released `__init__` signature; both staged volumes
+  have rows in the official reports/labels/metadata tables by construction.
+- Head-order check against the released labels CSV columns, split guards on
+  every download, provenance-before-inference ordering, contract-cap
+  assertions, bit-identity via raw bytes, and the smoke mode's planted-decoy
+  self-tests are unchanged from round 1 and remain correct.
+- Scope discipline held: the diff touches only the five blockers plus their
+  documentation; no new analysis, no extra executions, no contract drift.
 
 ```json
-{"verdict": "REVISE", "blocking": ["B1: model call `model(text_tokens, video)` (run.py:913) misbinds text_tokens to the released forward's `latents` flag and passes the CT volume as CTCLIP's text argument; must be `model(False, text_tokens, video, device=device)` per released ct_lipro_inference.py — as written, a healthy pipeline is reported as contract invalidating failure 6 or 3", "B2: `from ct_clip import CTCLIP` / `from transformer_maskgit import CTViT` cannot resolve via sys.path insertion of the clone root (run.py:830-838); both are pip-install -e projects with inner packages, so real mode dies with a false exit-5 'checkpoint failed to load unchanged'", "B3: ImportError/missing-dependency paths are funneled to contract exits 5/7 instead of environment exit 11 (run.py:295-300, 864-865, 899-900), so a pip problem masquerades as a contract-invalidating result", "B4: probe requirements.txt (a named stage deliverable) is missing; unpinned torch risks the >=2.6 weights_only default breaking torch.load at run.py:857 as another false exit-5", "B5: no --output-dir flag (run.py:989); the stage's Colab practicality checklist requires it, and a successful gated run's artifacts die with the VM"], "note": "Scaffolding (gate, guards, provenance, bit-identity, caps) is faithful and well-narrated; PHASE 4's released-API transcription is broken in two load-bearing places, each converting a driver/environment bug into a contract invalidating failure."}
+{"verdict": "REVISE", "blocking": ["R1: real mode cannot reach the released imports — `pip install --no-deps -e` at run.py:764-774 omits verified import-time deps (ema-pytorch, vector-quantize-pytorch==1.1.2, einops, beartype, accelerate, torchvision, h5py/matplotlib/seaborn/scipy via eval.py) that requirements.txt does not pin, a mid-process editable install is not importable until the next interpreter start, and the unmatched torch==2.5.1/torchvision pair turns a Colab ABI mismatch into a false exit-5 contract failure", "R2: non-ImportError environment failures inside PHASE 4 still misroute to contract exit 5 (run.py:898-899) — a CPU-only runtime (phase 1 logs 'gpu: NONE VISIBLE' and continues, run.py:292-295, then model.cuda() raises RuntimeError) and a failed tokenizer/BERT download (run.py:870-872) would both be recorded as 'released checkpoint/code failed to load unchanged'"], "note": "B1 and B5 verified fixed against the released sources and B3 mostly fixed; the remaining defects are environment provisioning and exit-code routing, both mechanical, neither touching experiment scope."}
 ```
