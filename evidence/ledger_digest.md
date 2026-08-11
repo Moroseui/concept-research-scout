@@ -57,7 +57,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-014** [PAUSED/DEBATED/baseline] -- The knee-pain model may be reading trabecular stress architecture that KL grade throws away
 - **idea-015** [REJECTED/DEBATED/baseline] -- A breast-cancer risk model may be reading the arteries as a vascular clock
 - **idea-016** [REJECTED/DEBATED/baseline] -- The PE model may read contrast flowing backward as a pressure gauge -- killed: IDENTIFIABILITY_FAILURE
-- **idea-017** [SHORTLISTED/SCOUTED/baseline] -- A lung-cancer model may be reading a mechanically remodeled trachea
+- **idea-017** [SHORTLISTED/CRITIQUED/baseline] -- A lung-cancer model may be reading a mechanically remodeled trachea
 - **idea-018** [SHORTLISTED/SCOUTED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle
 - **idea-019** [SHORTLISTED/SCOUTED/wide] -- The fibrosis model may be counting holes at the pleural edge
 - **scout-006-c01** [SHORTLISTED/SCOUTED/baseline] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
