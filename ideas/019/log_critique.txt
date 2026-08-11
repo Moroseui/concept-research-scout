@@ -1,0 +1,13 @@
+Critique complete: `ideas/019/critique.md` is written, with decision **ADVANCE TO REVISION** and no fatal objection that survives repair.
+
+The headline findings from the adversarial review:
+
+1. **The card decodes a nonexistent output.** CT-CLIP has no "pulmonary fibrosis" score. The actual CT-RATE label is **"pulmonary fibrotic sequela"** — verified against two independent papers quoting the full 18-label vocabulary (arXiv:2603.06467, arXiv:2607.02998; primary is arXiv:2403.17834, whose PDF I could not fetch this session — flagged for confirmation in revision). In a general Istanbul hospital cohort that phrase mostly means post-infectious scarring, not UIP honeycombing, which deflates both the prior plausibility and the `medical_relevance = 5`. Same error as idea 007's phantom mosaic-attenuation head, and repairable the same way, so it is not fatal.
+
+2. **The linear-erasure instrument has weak causal semantics.** Erasing a direction removes everything correlated with it (topology will be collinear with severity), and a frozen head on a projected-out embedding is idea-006's OOD error moved into latent space. The "decisive" negative is actually sensitivity-limited without prespecified collinearity gates; I required score downgrades (identifiability 4→3, negative-result value 5→3). Representation-erasure is also already at ×3 on the homogenization watch.
+
+3. **Missed low-hanging fruit, now required as Stage 0a:** CT-RATE's English reports and labels are free without any image download — a honeycomb regex gives the prevalence/power gate in hours, and score stratification by honeycomb mention (exploratory only) can deflate the hypothesis before any topology instrument exists. I also proposed an erasure-free rung-1 arm reusing idea 004's 425 geometry-matched kernel pairs.
+
+4. **One correction to the record:** checkpoints are obtainable (`CT-CLIP_v2.pt` linked from the official README into the gated HF repo), so the Aug-4 ledger note saying checkpoints are missing is stale.
+
+The constructive close keeps this as revision-in-place (same deliverable sentence) rather than a new candidate, and judges the revised version genuinely worth doing given the hours-scale kill test now in front of it.
