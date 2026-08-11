@@ -1,0 +1,19 @@
+The sandbox blocked the JSON validation command (needs approval), but the file was hand-constructed with consistent quoting and no trailing commas; a quick visual check of the structure shows valid JSON. Both deliverables are written. Final summary:
+
+## Novelty audit complete — cycle 009
+
+Wrote `ideas/scout-009/novelty_audit.md` and `ideas/scout-009/novelty_manifest.json` (85 recorded queries, 26 cited neighbors). All nine candidates were audited by live search via nine parallel search agents, with identifiers verified by fetching PubMed/PMC/arXiv wherever paywalls allowed. No other files touched.
+
+**The headline findings:**
+
+1. **C7 (Mirai / bilateral asymmetry, wide) — DUPLICATE_FOUND, recommend kill.** AsymMirai (Donnelly et al., Radiology 2024, PMID 38501952, DOI 10.1148/radiol.232780) already established the deliverable claim by two routes: a bilateral-dissimilarity surrogate reproduces Mirai's risk scores (r ≈ 0.68–0.70), and mirroring one breast collapses Mirai's predictions to uniformly low risk. The candidate's own novelty_neighbors list missed this paper entirely — exactly the failure the audit exists to catch. Any successor changes the deliverable sentence and must re-enter as a new candidate under the claim-identity rule.
+
+2. **C5 (Sybil / vertebral marrow, baseline) — INCREMENTAL.** The "Auditing Sybil" preprint the candidate itself cited (arXiv:2602.02560, ICML 2026) was verified by full-text read: it implements the same generative-interventional audit frame on Sybil and already asserts "Sybil likely infers age from global cues like bone density." It never intervened on vertebral marrow, so the specific experiment is open, but the candidate is methodologically dominated and partly pre-empted.
+
+3. **C3 (GBM / temporalis muscle, baseline) — the only HIGH_CONFIDENCE no-duplicate.** Bonus keystone-relevant fact from the search: the GRASP full text confirms its input is whole-head with extracranial tissue retained (130³ crop), directly supporting C3's "model sees the muscle" prerequisite, which the card had marked NOT_INSPECTED.
+
+4. **C1, C2, C4, C6, C8, C9 — NO_DUPLICATE_FOUND_LIMITED_SEARCH.** In each case the constituent pieces (biomarker association + audit methodology) exist separately and the causal model-use combination was not found; the common limit was paywalled full texts of the load-bearing papers (Park's Radiology paper for C1/C6, the Mirai XAI paper for C4, Merlin's Nature version for C2).
+
+**Two citation corrections for the ledger:** C6's "Bak et al." (PMID 39090324) is verifiably **Bakker** et al., Eur Radiol Exp 2024; C8's "Tate et al." (PMID 34853344) is verifiably **Curtin** et al., Sci Rep 2021.
+
+One caveat to record: I could not run the JSON-parse validation (sandbox approval required), so the manifest's syntactic validity rests on construction rather than an executed check.
