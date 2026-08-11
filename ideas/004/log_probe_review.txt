@@ -1,0 +1,15 @@
+**Verdict: REVISE** — written to `ideas/004/probe_review.md`, with five blocking findings.
+
+The decisive step was closing the caveat the coder's own `verification.json` admitted: their sandbox couldn't execute anything, so the released-API transcription was "summarized, not executed." I fetched the official CT-CLIP sources today and compared line-by-line. Most of the transcription is accurate (constructor args, 18 head names, dataset signature all match), but two load-bearing pieces are wrong, and both share the worst possible failure shape for this probe: **a driver bug that would be reported as a contract invalidating failure**, feeding a false kill signal into the idea-004 decision.
+
+Blocking findings:
+
+1. **The model call is wrong** (`run.py:913`). The released forward is `forward(self, latents=False, *args, **kwargs)`, called in the official code as `model(False, text_tokens, inputs, device=device)`. The driver calls `model(text_tokens, video)`, which binds the tokens to the `latents` flag and feeds the CT volume into CTCLIP as its *text* argument. It either crashes (→ exit 9, "contract invalidating failure: crash") or returns 512 latents instead of 18 logits (→ exit 6). Either way a healthy released pipeline gets recorded as an invalidating result.
+2. **The imports can't resolve.** `ct_clip` and `transformer_maskgit` are `pip install -e` projects with inner packages; putting the clone root on `sys.path` (`run.py:830-838`) can't find them, so real mode dies with a false exit-5 "checkpoint failed to load unchanged."
+3. **ImportErrors are misrouted to contract exits.** Missing pip packages (sklearn, tqdm, etc. — pulled in by `ct_lipro_inference`'s module-level imports) land in exits 5/7 instead of the environment exit 11 the code itself defines; phase 1 even logs modules as "MISSING" and continues.
+4. **No probe `requirements.txt`** — a named stage deliverable — and unpinned torch risks the ≥2.6 `weights_only` default breaking `torch.load` as yet another false exit-5.
+5. **No `--output-dir`** (explicit Colab checklist item); a successful 45-GPU-minute gated run's artifacts die with the VM.
+
+Non-blocking notes include the `human_approved: false` flag contradicting the committed approval marker (recommend the human flip it, not an agent), secondary metrics living only in `run_log.txt`, and the ungated qualifying-pair-count drift check.
+
+Credit where due: the scaffolding — approval gate, split guards, provenance-before-inference, byte-level bit-identity check, hardcoded caps, decoy-asserting smoke mode, claim-discipline language — is faithful to the contract and well narrated. The revision only needs to fix PHASE 4's released-API fidelity and the environment story; nothing about the experiment's scope should change.
