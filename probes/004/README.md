@@ -15,18 +15,21 @@ human's actual approval act.
 # per-sample outputs, bit-identity and budget checks.
 python3 run.py --smoke
 
-# The real probe. Prerequisites: CT-RATE gate accepted on Hugging Face and a
-# logged-in HF token; CUDA GPU; torch, nibabel, pandas, transformers,
-# huggingface_hub installed (the CT-CLIP requirements). ~3 GB download,
-# exactly three executions, hard 45-GPU-minute cap.
-python3 run.py
+# Install the pinned driver environment once. run.py installs the two released
+# packages from its provenance-frozen CT-CLIP clone using pip install --no-deps -e.
+python3 -m pip install -r requirements.txt
+
+# Real probe: write artifacts to persistent storage (for example mounted Drive).
+# Requires the accepted CT-RATE gate, a logged-in HF token, and a CUDA GPU.
+python3 run.py --output-dir /path/on/drive/idea004
 ```
 
 Exit codes map one-to-one to the contract's invalidating failures (see the
 `run.py` docstring): 0 pass, 2 gate, 3 access, 4 provenance, 5 checkpoint
 load, 6 output shape, 7 pair validity, 8 determinism, 9 budget, 11 missing
 dependency, 12 internal error (never to be reinterpreted as a negative
-result). Outputs land in `outputs/` (real) or `outputs_smoke/` (smoke):
+result). Outputs land in `--output-dir` when supplied, otherwise `outputs/`
+(real) or `outputs_smoke/` (smoke):
 `resolved_config.json`, `per_sample.csv`, `summary.json`, `environment.txt`,
 `provenance.json`, `input_manifest.csv`, `run_log.txt`.
 

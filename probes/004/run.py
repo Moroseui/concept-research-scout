@@ -31,7 +31,8 @@ difference is logged as a pipeline diagnostic ONLY; per the contract it is
 scientifically uninterpretable in either direction (one pair answers nothing).
 
 Usage (one command):
-    python run.py            # the real probe (needs HF gate accepted + token + GPU)
+    python run.py --output-dir /path/on/drive/idea004
+                             # real probe (needs HF gate + token + GPU)
     python run.py --smoke    # synthetic, stdlib-only, no network/GPU; tests the
                              # harness plumbing, NOT the contract's assumption
 
@@ -292,12 +293,15 @@ def phase1_environment(out_dir, smoke):
                 env_lines.append(f"gpu: {torch.cuda.get_device_name(0)}")
             else:
                 env_lines.append("gpu: NONE VISIBLE")
-            for mod in ("nibabel", "pandas", "transformers", "huggingface_hub"):
+            for mod in ("nibabel", "pandas", "transformers", "huggingface_hub",
+                        "sklearn", "tqdm"):
                 try:
                     m = __import__(mod)
-                    env_lines.append(f"{mod}: {m.__version__}")
+                    env_lines.append(f"{mod}: {getattr(m, '__version__', 'unknown')}")
                 except ImportError:
-                    env_lines.append(f"{mod}: MISSING")
+                    fail(11, f"missing real-mode dependency: {mod}; install "
+                             f"probes/004/requirements.txt before rerunning "
+                             f"(environment failure, not a contract result)")
         except ImportError as e:
             fail(11, f"missing real-mode dependency: {e}")
 
@@ -749,6 +753,26 @@ def run_real(out_dir, config):
         fail(5, f"released-code clone has local modifications:\n{dirty}")
     log(f"  released code commit: {code_commit}")
 
+    # The official repository ships these as two editable-install projects,
+    # not importable modules at the clone root. Install them exactly as its
+    # README directs. Installation failure is an environment failure (11),
+    # never evidence that the released checkpoint is incompatible (5).
+    editable_projects = [
+        ctclip_dir / "transformer_maskgit",
+        ctclip_dir / "CT_CLIP",
+    ]
+    for project in editable_projects:
+        if not (project / "setup.py").is_file():
+            fail(11, f"released editable package is missing setup.py: {project} "
+                     f"(environment/repository-layout failure, not a contract result)")
+        log(f"  installing released package in editable mode: {project.name}")
+        install = subprocess.run(
+            [sys.executable, "-m", "pip", "install", "--no-deps", "-e", str(project)],
+            capture_output=True, text=True)
+        if install.returncode != 0:
+            fail(11, f"editable install failed for {project}: {install.stderr} "
+                     f"(environment failure, not a contract result)")
+
     # ---- PHASE 2c: provenance BEFORE inference (contract requires this order).
     log("  hashing all inputs (provenance is recorded before any inference)")
     # Contract invalidating_failures[1]: every artifact must be
@@ -767,6 +791,10 @@ def run_real(out_dir, config):
         "hf_dataset_repo": HF_DATASET_REPO,
         "hf_revision": revision,
         "code": {"git_url": CTCLIP_GIT_URL, "commit": code_commit},
+        "released_package_installation": {
+            "method": "pip install --no-deps -e",
+            "projects": [str(p) for p in editable_projects],
+        },
         "tokenizer": TOKENIZER_NAME,
         "checkpoint": {
             "repo_path": CHECKPOINT_REPO_PATH,
@@ -827,8 +855,8 @@ def run_real(out_dir, config):
     # ---- PHASE 4: load released code + checkpoint unchanged, run 3 executions.
     log("PHASE 4: loading released model (unchanged) and running executions")
     import torch
+    device = torch.device("cuda")  # released inference target; batch size remains 1
     sys.path.insert(0, str(ctclip_dir / "scripts"))
-    sys.path.insert(0, str(ctclip_dir))
     try:
         # These imports and constructor arguments mirror the released
         # scripts/ct_lipro_inference.py exactly. Any deviation needed to make
@@ -854,13 +882,19 @@ def run_real(out_dir, config):
             downsample_image_embeds=False, use_all_token_embeds=False,
         )
         model = ImageLatentsClassifier(clip, 512, num_classes=18)
-        state = torch.load(str(checkpoint_path), map_location="cpu")
+        # PyTorch 2.6 changed the default weights_only behavior. False matches
+        # the released loader's historical full-checkpoint behavior explicitly.
+        state = torch.load(str(checkpoint_path), map_location="cpu",
+                           weights_only=False)
         # strict=True: the contract forbids adapting the architecture to fit
         # the weights; a key mismatch must fail here, not be papered over.
         model.load_state_dict(state, strict=True)
         model = model.cuda().eval()
     except SystemExit:
         raise
+    except (ImportError, ModuleNotFoundError) as e:
+        fail(11, f"released model dependency/import missing: {e!r} "
+                 f"(environment failure, not a contract result)")
     except Exception as e:
         fail(5, f"released checkpoint/code failed to load unchanged: {e!r}")
     log("  checkpoint loaded unchanged (strict state dict match)")
@@ -896,6 +930,9 @@ def run_real(out_dir, config):
             index_for[role] = items[match[0]]
     except SystemExit:
         raise
+    except (ImportError, ModuleNotFoundError) as e:
+        fail(11, f"released preprocessing dependency/import missing: {e!r} "
+                 f"(environment failure, not a contract result)")
     except Exception as e:
         fail(7, f"released preprocessing failed on the selected pair: {e!r}")
 
@@ -910,7 +947,9 @@ def run_real(out_dir, config):
         video = video.unsqueeze(0).cuda()  # batch size 1, per contract
         torch.cuda.reset_peak_memory_stats()
         with torch.no_grad():
-            logits = model(text_tokens, video)
+            # Exact released ImageLatentsClassifier call signature: False asks
+            # for classifier logits rather than the 512-dimensional latents.
+            logits = model(False, text_tokens, video, device=device)
         scores = torch.sigmoid(logits).flatten().double().cpu().tolist()
         peak_gb = torch.cuda.max_memory_allocated() / 1e9
         log(f"    peak GPU memory: {peak_gb:.2f} GB")
@@ -984,10 +1023,18 @@ def main():
     parser.add_argument("--smoke", action="store_true",
                         help="synthetic stdlib-only harness test; no network, "
                              "no GPU, cannot satisfy the contract")
+    parser.add_argument(
+        "--output-dir", type=Path,
+        help="artifact directory (use a persistent Drive path in Colab); "
+             "defaults to outputs/ or outputs_smoke/ beside run.py")
     args = parser.parse_args()
 
-    out_dir = PROBE_DIR / ("outputs_smoke" if args.smoke else "outputs")
-    out_dir.mkdir(exist_ok=True)
+    default_name = "outputs_smoke" if args.smoke else "outputs"
+    if args.output_dir:
+        out_dir = args.output_dir.expanduser().resolve()
+    else:
+        out_dir = PROBE_DIR / default_name
+    out_dir.mkdir(parents=True, exist_ok=True)
     _LOG_FILE = out_dir / "run_log.txt"
     _LOG_FILE.write_text("")  # fresh log per run
 
