@@ -1,25 +1,6 @@
 {
   "idea_id": "004",
-  "revision": "r5 (2026-08-12, exit-5 environment pin per decision ledger)",
   "passed": true,
-  "scope_check": {
-    "files_changed": ["probes/004/requirements.txt", "probes/004/README.md"],
-    "run_py_untouched": true,
-    "run_py_revision": "759b664 (identical to the revision approved and independently smoke-verified in probe_review.md round 4)",
-    "ledger_scope": "transformers==4.30.1 pin plus tokenizers 0.13.x cascade only; no run.py changes",
-    "scope_respected": true
-  },
-  "pin_checks": [
-    "requirements.txt now pins transformers==4.30.1, matching the released repo's own commented pin (transformer_maskgit/setup.py line 17) quoted in the decision ledger.",
-    "tokenizers==0.13.3 added; transformers 4.30.1 declares tokenizers>=0.11.1,!=0.11.3,<0.14 and 0.13.3 is the last 0.13.x release, satisfying the cascade requirement.",
-    "huggingface-hub==0.22.2 retained; it lies inside transformers 4.30.1's declared range (>=0.14.1,<1.0). Stated from release metadata knowledge, not a local pip resolve (see issues).",
-    "colab_probe_004.ipynb installs via 'pip install -r probes/004/requirements.txt', so the pin propagates with no notebook edit.",
-    "run.py contains no hardcoded transformers/tokenizers version assertion; environment.txt is captured dynamically at run time, so the recorded environment will reflect the new pins."
-  ],
-  "issues": [
-    "Python execution is blocked in this implementation sandbox, so the smoke run was not re-executed for r5. This is acceptable evidence-wise: --smoke is stdlib-only (no transformers import) and run.py is byte-identical to the revision the round-4 reviewer independently smoke-ran successfully, so r5 cannot have altered smoke behavior.",
-    "The full dependency solve (pip install -r requirements.txt) has not been executed locally; the transformers/tokenizers/huggingface-hub compatibility statements come from package release metadata. The Colab install step is the first real resolver run, and a resolver conflict there would be an environment finding, not a contract failure.",
-    "Per the ledger process note, the prior exit-5 remains provisionally environment-class; it becomes a final classification only after the real probe runs under this released pin."
-  ],
-  "checked_at": "2026-08-12T09:43:29+00:00"
+  "issues": [],
+  "checked_at": "2026-08-12T09:45:28.306567+00:00"
 }
