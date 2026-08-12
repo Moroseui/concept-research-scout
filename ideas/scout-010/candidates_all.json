@@ -1,0 +1,392 @@
+{
+  "cycle": 10,
+  "tracks": [
+    "baseline"
+  ],
+  "notes": {
+    "mode_c_score_missing": 2
+  },
+  "candidates": [
+    {
+      "id": "scout-010-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "title": "CXR-Age put back together from parts a radiologist can measure",
+      "question": "Is CXR-Age's biological-age output assembled from automatically measurable chest-film geometry - cardiothoracic ratio and projected lung area - or does the mortality signal live in a residual those measurements miss?",
+      "rung": "Targets rung 1 (CXR-Age uses thoracic geometry) with an explicit path to rung 3, because X is already a named clinical quantity (cardiothoracic ratio). Moves up to a use-claim via the prespecified dissociation-strata arm and, conditional on a training-distribution check, a PA/AP projection natural experiment.",
+      "deliverable_sentence": "CXR-Age is using the cardiothoracic ratio and projected lung area - the measurable geometry of the chest film - as principal drivers of its biological-age output.",
+      "X_measurement": "CTR = maximal horizontal cardiac width / maximal inner thoracic width, and projected lung area, both computed from CheXmask heart and lung masks (HybridGNet; PhysioNet 'chexmask-cxr-segmentation-data', open access, CC BY 4.0, precomputed for ChestX-ray8, CheXpert, MIMIC-CXR-JPG, PadChest, VinDr-CXR; masks for 'Left Lung', 'Right Lung', 'Heart' - quoted from the PhysioNet page, fetched 2026-08-12). Could I compute X on a new film today without asking anyone? Yes - masks are precomputed for the public datasets, and HybridGNet code is public for new images.",
+      "suspected_signal": "Aging remodels chest geometry in ways visible on a frontal film: LV remodeling and aortic unfolding raise CTR; hyperinflation and kyphosis change projected lung area; both carry independent mortality risk. The hypothesis is that CXR-Age's phenotypic-age head largely re-derives this geometry rather than a texture-level signal.",
+      "keystone_prerequisite": "The inference needs: the released checkpoint IS the published CXR-Age model, runs with documented preprocessing, and produces the published output semantics (a number in years reflecting mortality risk). If the checkpoint is not faithful or not runnable, every downstream decomposition is uninterpretable.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "github.com/circ-ml/CXR-Age README (fetched 2026-08-12): 'Weights for the CXR-Age model are in development/models/PLCO_Fine_Tuned_120419.pth' and 'CXR-Age outputs a number (in years) reflecting all-cause mortality risk based on only a single chest radiograph image.' MIT license, 'not for clinical care or commercial use'.",
+      "keystone_residual_assumption": "Having verified the weights exist with documented output semantics, I am still assuming the checkpoint reproduces published behavior (e.g., high correlation with chronological age in healthy subsets) and that repo preprocessing is complete enough to run it unambiguously. This is load-bearing and is therefore Stage 0 gate #1: run the checkpoint on a public dataset with age metadata (ChestX-ray8 has ages) and require the published-magnitude age correlation before any decomposition is interpreted. Second residual: CheXmask mask quality bounds the attainable R-squared - a measurement-noise ceiling must be estimated (mask test-retest across near-duplicate films) and prespecified before the decomposition is read.",
+      "rung_reached": "Rung 1 if the variance decomposition plus dissociation strata show CXR-Age tracking geometry within chronological-age-and-sex-matched strata. Moves to rung 2/3 because X is artifact-checkable (geometry is measured, not annotated) and already physician-named; the main rung-2 residual is inspiration depth, which is partially self-controlling (deep inspiration lowers CTR but raises lung area, so the two X's dissociate under it).",
+      "dies_like_prior": "Closest prior failure is USE_VS_ASSOCIATION (cycle-one kills): a decomposition is an association. Difference: the design prespecifies dissociation strata (films matched on chronological age, sex, and view where CTR differs materially) so the claim is conditional tracking, not raw correlation; and the quasi-interventional PA/AP arm is available but explicitly gated on verifying AP views are in CXR-Age's training distribution - stated up front to avoid the idea-006 OOD-intervention trap rather than discovering it in critique. No annotation-provenance exposure: no human label enters the primary readout.",
+      "closest_prior_work": "qCXR-bioage (Radiology: Cardiothoracic Imaging, DOI 10.1148/ryct.250327): builds its OWN explainable biological age from automated CXR quantifications (lung area, emphysema probability, aortic diameter, heart area, bone density) and shows it predicts mortality. It does NOT decode the existing CXR-Age checkpoint - it shows the vocabulary suffices, not that Lu/Raghu's model uses it. Raghu et al., CXR-Age, JACC Cardiovasc Imaging 2021 (DOI 10.1016/j.jcmg.2021.01.008, unverified-from-memory): built the model, published saliency only. Project Baseline preprint (medrxiv 2025.01.02.24319734): CXR-Age vs epigenetic clocks, associations only. The exact delta: nobody has published a variance decomposition + dissociation analysis of the released CXR-Age checkpoint against automatically measured film geometry.",
+      "existing_assets": "CXR-Age weights (MIT, path verified); CheXmask precomputed masks for the exact public datasets (CC BY 4.0, verified open); ChestX-ray8 and PadChest fully public with age/sex/view metadata; qCXR-bioage as the published biomarker vocabulary to decompose against.",
+      "smallest_decisive_experiment": "Run the checkpoint on ~10k ChestX-ray8 films with CheXmask masks. Gate 1: reproduce published age correlation. Then: (a) R-squared of CXR-Age on {CTR, lung area, chronological age, sex}; (b) within strata matched on chronological age/sex/view, test whether CXR-Age monotonically tracks CTR. Decision: if conditional tracking is strong and R-squared approaches the mask-noise ceiling, the deliverable sentence stands at rung 1; if R-squared is low with tracking absent, the geometry hypothesis is dead and the residual (texture/bone) becomes the finding.",
+      "standing_confounds_addressed": "Scanner/site/protocol: analysis is within-dataset and within-view; site enters only if geometry measurement itself is site-biased (masks are geometric, not intensity-based - low risk). Positioning/inspiration: named residual; partially separable because inspiration moves CTR and lung area in opposite directions. Habitus: a real correlate of both geometry and mortality - the claim is about what the model uses, so habitus driving geometry does not confound rung 1, only the rung-3 gloss. Label leakage/prevalence/referral: no labels in the primary readout. NOT ruled out: inspiration depth as a shared cause of score and CTR within strata.",
+      "alternative_explanations": "(1) CXR-Age uses fine texture (bone density, vascular markings) that merely correlates with geometry - addressed by the dissociation strata and by reporting the residual's mortality-relevant correlates; (2) mask errors correlate with disease severity, inflating apparent tracking - addressed by the prespecified noise ceiling and QC subset; (3) the appeal of this candidate is partly that it sounds like a tidy accounting exercise - the honest risk is a mushy middle result (R-squared ~ 0.4) that neither confirms nor kills; the margin structure below is designed for exactly that.",
+      "anticipated_negative": "Sensitivity-limited unless the mask-noise ceiling is estimated first; with the ceiling prespecified, a low conditional R-squared with an equivalence margin is decisive AGAINST geometry-as-principal-driver and is itself publishable (the mortality signal is not the geometry radiologists would first name).",
+      "cross_domain": null,
+      "remaining_legwork": "Download weights + verify runnable (half a day); pull CheXmask + join to ChestX-ray8 metadata (half a day); noise-ceiling estimation (1 day); decomposition + strata (1-2 days). First decision in under a week on Colab-class compute.",
+      "design_template": "conditional-observational",
+      "use_vs_association": "Distinguishes use from correlation by (a) conditioning on chronological age/sex/view so geometry cannot ride on demographics, (b) dissociation strata where CTR and lung area decouple, and (c) a gated PA/AP projection arm in which apparent CTR changes while anatomy is fixed - a natural intervention on X, run only if AP is verified in-distribution.",
+      "dataset": "ChestX-ray8 (primary), PadChest (replication); CheXmask for both.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "reason": "One-sentence question with a named X; loses a point because 'principal drivers' needs a prespecified threshold to be fully crisp."
+        },
+        "identifiability": {
+          "value": 3,
+          "reason": "Conditional tracking + dissociation strata rule out demographics and dataset mix; texture-correlated-with-geometry survives unless the PA/AP arm clears its distribution gate."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "reason": "CXR-Age is proposed for mortality triage; whether it is CTR-plus-lung-area in a trench coat determines both trust and whether a transparent two-measurement surrogate suffices."
+        },
+        "interest": {
+          "value": 4,
+          "reason": "Either answer is compelling: a famous black-box clock reduced to two classroom measurements, or a demonstrated residual that geometry cannot explain."
+        },
+        "prior_legwork": {
+          "value": 5,
+          "reason": "Weights public, masks precomputed for the exact datasets, biomarker vocabulary published (qCXR-bioage); nothing needs annotation."
+        },
+        "feasibility": {
+          "value": 4,
+          "reason": "Keystone INSPECTED_TRUE lifts the cap; all assets verified open; days-scale on single-GPU."
+        },
+        "data_readiness": {
+          "value": 5,
+          "reason": "Everything is public and directly usable (CC BY 4.0 masks, public CXR sets, MIT weights)."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "reason": "R-squared decomposition and matched-strata analysis are standard; the noise ceiling requires custom but well-defined work."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "reason": "Sensitivity-limited without the noise ceiling; decisive with it - scored at the honest midpoint since the ceiling is planned but not yet estimated."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "reason": "qCXR-bioage is adjacent and recent; the decode-the-existing-checkpoint delta is real but the space is active - capped by my own uncertainty, not the rule."
+        },
+        "regret": {
+          "value": 4,
+          "reason": "If someone else publishes the CXR-Age decomposition with these exact public assets, it will look obvious in hindsight."
+        }
+      },
+      "priority_score": 3.85,
+      "unverified_claims": [
+        "Raghu et al. CXR-Age DOI (10.1016/j.jcmg.2021.01.008) and Lu et al. CXR-risk DOI cited from memory - verify before the idea card.",
+        "That ChestX-ray8 metadata age fields are reliable enough for the Stage 0 faithfulness gate (known to contain some noise).",
+        "That CXR-Age pretraining included AP views (determines whether the PA/AP arm is in-distribution).",
+        "qCXR-bioage seen via search result and abstract only; full methods not read."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-010-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "Atelectasis vs consolidation: has CT-CLIP learned the radiologist's volume-loss rule?",
+      "question": "When CT-CLIP scores atelectasis above consolidation on the same scan, is it using measured lobar volume loss to make that separation?",
+      "rung": "Targets rung 1 (the model uses lobar volume loss for the atelectasis/consolidation contrast). Moves toward rung 3 cheaply because X is the textbook criterion radiologists themselves use - if rung 1 and the rung 2 checks hold, the deliverable sentence is immediate.",
+      "deliverable_sentence": "CT-CLIP is using lobar volume loss to separate atelectasis from consolidation.",
+      "X_measurement": "Lobar volumes from TotalSegmentator lung-lobe classes ('lung_upper_lobe_left', 'lung_lower_lobe_left', 'lung_upper_lobe_right', 'lung_middle_lobe_right', 'lung_lower_lobe_right' - verbatim from totalsegmentator/map_to_binary.py, fetched 2026-08-12). Volume-loss index: affected-lobe fractional volume relative to the scan's remaining lobes, plus fissure-shift proxy (lobe centroid displacement). Competing signal measured in the same pass: opacity burden = volume of intra-lobar voxels above -300 HU. Computable today on any chest CT without asking anyone: yes; the closest published validation is nnU-Net-based lobar volumetry of postoperative atelectasis (npj Digital Medicine, nature.com/articles/s41746-026-02683-6).",
+      "suspected_signal": "The physiologic distinction itself: atelectasis is collapse (volume loss, fissure displacement, crowding), consolidation is alveolar filling with volume preserved. A report-supervised model could learn either the real volumetric criterion or a co-occurrence shortcut (tubes, effusions, basal location). The question is which.",
+      "keystone_prerequisite": "The inference needs: the released CT-CLIP/ClassFine checkpoint exposes SEPARATE atelectasis and consolidation outputs whose within-scan contrast is non-degenerate (not near-duplicate scores).",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "ideas/004/log_probe_code.txt, EXPECTED_PATHOLOGIES ('The 18 head names in released order. Source: scripts/ct_lipro_inference.py in the official CT-CLIP repository (fetched 2026-08-11)') lists 'Atelectasis' and 'Consolidation' as distinct heads, alongside 'Pleural effusion' and 'Cardiomegaly'. The idea-004 probe contract already verified 18-output load and one-pair inference on this checkpoint (decisions.md 2026-08-11).",
+      "keystone_residual_assumption": "Verified that two distinct heads exist; I am still assuming (a) their scores are not collapsed in practice (within-scan correlation must be checked and bounded at Stage 0 - if the heads are near-duplicates the contrast carries no information), and (b) TotalSegmentator lobar segmentation does not fail exactly where volume loss is largest - collapsed lobes are the known hard case for lobe tools, and this is the genuinely load-bearing assumption. Mitigation is prespecified: restrict primary analysis to mild-to-moderate volume loss with a fissure-completeness QC gate, and treat severe collapse as exploratory.",
+      "rung_reached": "Rung 1 via the conditional contrast analysis. Rung 2 is unusually cheap here because the primary readout is within-scan (scanner, protocol, reconstruction, positioning, habitus all shared between the two head scores); the remaining rung-2 item is measurement validity of lobar volumetry in diseased lungs. Rung 3 is the same sentence as rung 1 since X is already the physician's own criterion.",
+      "dies_like_prior": "Closest risk is USE_VS_ASSOCIATION. Difference: the readout is the within-scan two-head CONTRAST - every scan-level confound is differenced out by construction - and the main rival cue (opacity burden) is measured and conditioned on rather than left as an unnamed alternative. A representation-erasure upgrade (project the lobar-volume direction out of the shared embedding, watch the contrast collapse) is prespecified as phase 2 but not required for the screen. No annotation-provenance exposure: report-derived labels are used only for exploratory case enrichment, never in the primary readout.",
+      "closest_prior_work": "Hamamci et al., CT-RATE/CT-CLIP (arXiv 2403.17834): built the model, reported per-label AUCs, never asked how any two labels are separated. npj Digital Medicine postoperative-atelectasis paper (s41746-026-02683-6): validates automated lobar volume-loss quantification as a measurement, does not connect it to any foundation model's decision. Draelos et al. RAD-ChestCT (DOI 10.1016/j.media.2020.101857, unverified-from-memory): multi-abnormality CT prediction, same silence on mechanism. Exact delta: nobody has tested whether a report-supervised chest-CT model's atelectasis/consolidation separation tracks the volumetric criterion that defines the distinction clinically.",
+      "existing_assets": "Local, verified CT-CLIP inference pipeline from idea-004 (scripts, checkpoint hash procedure, bit-determinism check); CT-RATE validation-split inventory already characterized (3,039 volumes / 1,564 scans); TotalSegmentator public and verified to include lobe classes; published validation that lobar volumetry of atelectasis is measurable.",
+      "smallest_decisive_experiment": "On ~300 CT-RATE validation scans enriched for report-labeled atelectasis and/or consolidation (enrichment only; labels not in the readout): compute per-scan head contrast (atelectasis minus consolidation logit), lobar volume-loss index, and opacity burden. Decision rule: partial association of contrast with volume-loss conditional on opacity burden, against a prespecified minimum effect. Positive = deliverable sentence at rung 1. Null with adequate power = the model does not use the radiologist's rule, which is a decisive and publishable negative for a deployed report-generation model.",
+      "standing_confounds_addressed": "Scanner, vendor, protocol, reconstruction, site, positioning, habitus: all shared within scan, differenced out of the contrast. Prevalence/referral: affects the enrichment set's composition, not the within-scan readout; reported as scope limitation. Label leakage: no labels in the readout. NOT ruled out by design: cues that co-vary with volume loss inside the same scan (fissure shift, crowding - these are the volume-loss family and refine rather than refute X; air bronchograms - a consolidation-side cue that is genuinely distinct and is named as the open alternative).",
+      "alternative_explanations": "(1) The model separates via air bronchograms or bronchial patency rather than volume - not excluded; named as the residual, and a bronchogram proxy (air-filled airway voxels inside opacity) can be added exploratorily; (2) heads are near-duplicates and the contrast is noise - Stage 0 gate; (3) TotalSegmentator errors correlate with collapse severity, manufacturing the association - handled by the QC gate and severity restriction.",
+      "anticipated_negative": "Decisive: with the contrast design, adequate power, and a prespecified minimum effect, a null says the model's separation of these two labels does not use the criterion that defines them - a finding radiologists reading CT-CLIP-family reports would want to know.",
+      "cross_domain": null,
+      "remaining_legwork": "Volume download for the enriched subset (~300 scans, within established CT-RATE access); TotalSegmentator pass (GPU-days: ~1); head-correlation Stage 0 gate (hours, pipeline exists). First decision in roughly one week.",
+      "design_template": "conditional-observational",
+      "use_vs_association": "The within-scan two-head contrast differences out everything the scan shares; conditioning on measured opacity burden separates 'reads volume loss' from 'sees dense tissue'; the prespecified erasure arm upgrades the conditional association to a use claim if the screen is positive.",
+      "dataset": "CT-RATE (validation split; established access and local pipeline).",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "reason": "One precise question, a named X that is the clinical definition itself, and a single prespecified decision rule."
+        },
+        "identifiability": {
+          "value": 4,
+          "reason": "Within-scan contrast is the strongest observational identification available; the air-bronchogram alternative and segmentation-error pathway keep it from 5."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "reason": "Atelectasis-vs-consolidation drives different management (suction/bronchoscopy vs antibiotics); whether a deployed report generator makes the distinction for the right reason is directly consequential."
+        },
+        "interest": {
+          "value": 4,
+          "reason": "Either outcome informs the whole report-supervision paradigm: the model learned the physician's rule from text alone, or it fakes the distinction via co-occurrence."
+        },
+        "prior_legwork": {
+          "value": 5,
+          "reason": "The idea-004 pipeline, checkpoint verification, and dataset inventory already exist in this repo; the measurement tool is public and validated for this exact clinical problem."
+        },
+        "feasibility": {
+          "value": 4,
+          "reason": "Keystone INSPECTED_TRUE; the one real risk (lobe segmentation on collapse) has a prespecified mitigation and cheap Stage 0 check."
+        },
+        "data_readiness": {
+          "value": 4,
+          "reason": "CT-RATE is click-gated but program-established; volumes still need downloading."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "reason": "Partial-association analysis with a minimum effect is standard; the fissure-QC gate needs definition."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "reason": "Decisive under the powered contrast design; not 5 because the severe-collapse exclusion narrows the negative's scope."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "reason": "Limited search found measurement papers and model papers but not the connection; the space is active enough that 3 is the honest ceiling without a full audit."
+        },
+        "regret": {
+          "value": 4,
+          "reason": "The assets are sitting in this repo; if another group publishes it first with the same public pieces, that is a pure execution loss."
+        }
+      },
+      "priority_score": 4.15,
+      "unverified_claims": [
+        "Draelos RAD-ChestCT DOI cited from memory.",
+        "That atelectasis/consolidation label co-occurrence in CT-RATE leaves enough dissociated cases for enrichment (checkable from the released label CSVs before any download).",
+        "That the two heads are not score-collapsed (Stage 0 gate).",
+        "npj Digital Medicine atelectasis-volumetry paper seen via search snippet; full methods not read."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-010-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "Merlin's cirrhosis signal may be the spleen",
+      "question": "Is Merlin's chronic-liver-disease score using splenic volume - congestive splenomegaly, the portal-pressure gauge - rather than the liver itself?",
+      "rung": "Targets rung 1 (the model uses splenic volume in its liver-disease output). Rung 3 is close behind because splenomegaly is already the physician's word; rung 2 requires the non-hepatic-splenomegaly dissociation cases described below.",
+      "deliverable_sentence": "Merlin is using splenic volume - congestive splenomegaly - in its chronic-liver-disease prediction.",
+      "X_measurement": "Spleen volume from TotalSegmentator 'spleen' class (verbatim in map_to_binary.py, task 'total'; fetched 2026-08-12), in cm3. Competing liver-side signals measured in the same pass: liver volume, liver-to-spleen mean attenuation ratio, and liver-contour irregularity (surface-to-volume ratio of the TS liver mask as a nodularity proxy). Computable today on any abdominal CT without asking anyone: yes.",
+      "suspected_signal": "Portal hypertension produces congestive splenomegaly; spleen volume is a validated correlate of cirrhosis severity and varices. A model trained with ICD-code supervision may have latched onto the spleen - a large, high-contrast, easily represented organ - rather than the subtler liver morphology a hepatologist would name.",
+      "keystone_prerequisite": "The inference needs: a released Merlin output that produces a per-scan cirrhosis/chronic-liver-disease score on new abdominal CTs - either an exposed phecode-phenotype output or a zero-shot text-prompt score via the released image+text towers.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Supporting but not sufficient: huggingface.co/stanfordmimi/Merlin (fetched 2026-08-12) lists downloadable weights including 'i3_resnet_clinical_longformer_best_clip_04-02-2024_23-21-36_epoch_99.pt' (an image+text CLIP-style checkpoint), MIT license, with inference demos; the paper (arXiv 2406.06512) maps '16,553 ICD-9 and ICD-10 codes to 1,692 hierarchical phenotypes' via PheWAS Phecodes. NOT yet inspected: whether chronic liver disease is among the evaluable phenotypes with an exposed head, or whether zero-shot prompting is a documented usage mode producing calibrated-enough scores.",
+      "keystone_residual_assumption": "Even after confirming a cirrhosis score exists, I am still assuming the score has enough dynamic range on public evaluation CTs (AMOS / TotalSegmentator-dataset populations are not hepatology cohorts; if almost no scan moves the score, the regression is uninformative). That prevalence-of-signal check is Stage 0 gate #2 and could be the real killer.",
+      "rung_reached": "Rung 1 via conditional association plus dissociation cases. The rung-2 lever is specific and natural: splenomegaly WITHOUT liver disease (hematologic, thrombotic) versus cirrhotic-morphology liver WITHOUT splenomegaly - if the score follows the spleen in the first group, the model is using the spleen, not the liver.",
+      "dies_like_prior": "Closest prior kill is DATA_ACCESS (idea-018, chewing muscle: required model/data not obtainable). Difference: Merlin weights are verified downloadable under MIT and evaluation CTs are public; the unverified piece is a single output-head question answerable in about an hour once weights are pulled, and it is declared as the keystone rather than assumed. USE_VS_ASSOCIATION is the second resemblance; the dissociation-case design is the stated answer.",
+      "closest_prior_work": "Blankemeier et al., Merlin (arXiv 2406.06512): built and evaluated the model; no per-phenotype mechanism analysis. Backlog neighbors: scout-006-c03 (Merlin/diabetes/liver fat) and scout-008-c01 (cirrhosis model reading liver-edge bumpiness) - this candidate differs from both in X (spleen, not liver fat or liver edge) and in that it names the specific wrong-patient failure mode (non-hepatic splenomegaly) that makes the question clinically urgent. Spleen-volume-in-cirrhosis clinical literature is extensive (unverified specific citations; to be pinned in the idea card).",
+      "existing_assets": "Merlin weights (MIT, HF, verified listed); TotalSegmentator (spleen class verified); AMOS 2022 and the public TotalSegmentator CT dataset (CC BY) as label-free evaluation cohorts; no annotation needed anywhere.",
+      "smallest_decisive_experiment": "Run Merlin's liver-disease score and TotalSegmentator on ~500 public abdominal CTs. Decision: partial association of score with spleen volume conditional on liver volume, attenuation ratio, and contour irregularity - plus the dissociation read: in scans in the top spleen-volume decile with liver measures normal, does the score rise? Positive on both = deliverable at rung 1. Requires Stage 0 gates: (1) a usable cirrhosis output exists; (2) score dynamic range on public cohorts.",
+      "standing_confounds_addressed": "Contrast phase: spleen VOLUME is phase-robust but the model's score may not be - analysis stratified by phase (phase classifiable from aortic/portal HU). Habitus: spleen scales with body size - normalize by an L3 body-cross-section from the same segmentation pass. Scanner/site: public multi-site cohorts, within-dataset analyses. Prevalence/referral: the readout is label-free, so cohort mix affects power, not validity. Label leakage: no labels used. NOT ruled out: liver texture the chosen liver measures miss (named as the open alternative - a positive spleen result does not exclude additional liver signal).",
+      "alternative_explanations": "(1) Score tracks spleen only because spleen tracks unmeasured liver texture - partially addressed by the non-hepatic-splenomegaly dissociation cases, which break that path; (2) contrast-phase artifacts move both score and apparent organ boundaries - phase stratification; (3) low score dynamic range on healthy public cohorts makes everything null - Stage 0 gate, and the honest reason feasibility is capped.",
+      "anticipated_negative": "Sensitivity-limited: a null needs a prespecified minimum detectable partial correlation and the dynamic-range gate passed; without those it is uninterpretable, and the card says so rather than promising a decisive negative it cannot deliver.",
+      "cross_domain": null,
+      "remaining_legwork": "Pull weights, answer the keystone (1 day); assemble public cohort + segmentation pass (2 days); association + dissociation analysis (2 days). First decision inside two weeks, with two explicit Stage 0 kill switches before any heavy compute.",
+      "design_template": "conditional-observational",
+      "use_vs_association": "Distinguishes use from correlation via natural wrong-cause cases: splenomegaly of non-hepatic origin. If the model's liver-disease score follows the spleen where the liver is normal, spleen size is being used, not merely correlated with liver disease.",
+      "dataset": "Public abdominal CT (AMOS 2022, TotalSegmentator public dataset); Merlin checkpoint from HF.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "reason": "Named X, named rival (liver morphology), named dissociation lever; slightly below 5 because 'chronic-liver-disease score' awaits the keystone's answer on which output exactly."
+        },
+        "identifiability": {
+          "value": 3,
+          "reason": "Spleen-liver collinearity is severe in true cirrhosis; identification rests on the non-hepatic-splenomegaly cases, whose frequency in public cohorts is unknown."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "reason": "If the answer is spleen, Merlin-style opportunistic liver screening systematically misfires on hematologic and thrombotic splenomegaly - an actionable, testable deployment warning."
+        },
+        "interest": {
+          "value": 4,
+          "reason": "A foundation model reading the neighbor organ rather than the named one is exactly the program's motivating phenomenon."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "reason": "Weights, tools, and cohorts exist and are open; no local pipeline for Merlin yet, unlike CT-CLIP."
+        },
+        "feasibility": {
+          "value": 3,
+          "reason": "Capped: keystone NOT_INSPECTED (which output exposes the score), plus the dynamic-range risk on healthy public cohorts."
+        },
+        "data_readiness": {
+          "value": 4,
+          "reason": "All public or MIT; nothing gated beyond HF click-through."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "reason": "Partial-correlation framework is standard but the dissociation-case definition and phase stratification need custom, prespecified work."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "reason": "Sensitivity-limited by construction; honest margin machinery is specified but a null will not kill the broader question."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "reason": "Capped by rule and by honesty: Merlin-mechanism work is young but moving fast; no full audit yet."
+        },
+        "regret": {
+          "value": 3,
+          "reason": "Worth doing while Merlin is the reference abdominal model; moderate regret if scooped since the assets are public."
+        }
+      },
+      "priority_score": 3.5,
+      "unverified_claims": [
+        "That chronic liver disease / cirrhosis is among Merlin's evaluable phenotypes with >20 positives (paper subset criterion) - the keystone.",
+        "That zero-shot text prompting is a supported Merlin usage mode.",
+        "Spleen-volume/cirrhosis clinical correlation citations - from general knowledge, to be pinned to primary sources at idea-card stage.",
+        "That AMOS/TotalSegmentator-dataset metadata suffice for phase stratification.",
+        "TotalSegmentator paper DOI (10.1148/ryai.230024) cited from memory."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-010-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The inferior vena cava as a manometer: does the chest model read venous pressure?",
+      "question": "Are CT-CLIP's pleural-effusion and cardiomegaly heads using the distension and roundness of the intrahepatic inferior vena cava as a central-venous-pressure gauge?",
+      "rung": "Targets rung 1 (the heads use IVC geometry). Rung 3 is unusually reachable for a Mode C because the X is already physician-named ('distended IVC', 'flat IVC') and mechanistically understood; what moves it up is the within-patient conditional analysis showing score movement with IVC geometry when fluid and heart size are held fixed.",
+      "deliverable_sentence": "CT-CLIP is using the distension and roundness of the intrahepatic inferior vena cava - a central-venous-pressure gauge - in its pleural-effusion and cardiomegaly scores.",
+      "X_measurement": "IVC cross-sectional area and flatness index (short/long axis ratio) on the axial slab between the diaphragm and the hepatic-vein confluence, from the TotalSegmentator 'inferior_vena_cava' class (verbatim in map_to_binary.py, task 'total'; fetched 2026-08-12). Both are established bedside quantities: the flat-IVC sign of hypovolemia and the ultrasound IVC distension/collapsibility index for right-atrial pressure (ASE guideline lineage; primary citations to be pinned). Computable today on any chest CT that includes the upper abdomen, without asking anyone: yes, if segmentation holds on non-contrast (see residual).",
+      "suspected_signal": "Hydrostatics: the IVC is a thin-walled capacitance vessel whose cross-section and roundness track transmural pressure. Elevated right-heart pressure - the same physiology that produces transudative pleural effusions and cardiomegaly - distends and rounds it. Radiologists read this on ultrasound daily but rarely quantify it on chest CT; a report-supervised model exposed to thousands of heart-failure chests could have learned the gauge.",
+      "keystone_prerequisite": "The inference needs: (a) the intrahepatic IVC is inside the CT-RATE field of view and segmentable on non-contrast volumes at usable reliability, and (b) enough patients have >=2 separate scan sessions for a within-patient design.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_evidence": "Parts inspected: repeat sessions exist - decisions.md (2026-08-04, directly inspected counts) records '3,039 validation volumes / 1,564 scans / 1,304 patients', implying ~260 extra scan-sessions in validation alone, with the far larger train split unexamined; TotalSegmentator includes 'inferior_vena_cava' (verbatim, map_to_binary.py). NOT inspected, and load-bearing: IVC in-FOV rate in CT-RATE and non-contrast IVC segmentation reliability (low vessel-liver contrast is exactly where it could fail).",
+      "keystone_residual_assumption": "Having verified repeats exist and the tool has the class, I am still assuming the tool's IVC mask on NON-CONTRAST chest-CT bases is accurate enough that area/flatness changes are signal rather than segmentation noise. That is the real keystone; Stage 0 is therefore a 30-scan manual-free QC: test-retest IVC geometry across the idea-004 geometry-matched reconstruction pairs, which gives a segmentation noise floor WITHOUT any human annotation - the same self-comparison move that saved idea 004.",
+      "rung_reached": "Rung 1 if within-patient score changes track IVC geometry changes conditional on measured effusion and heart size. The design borrows rung-2 strength from the within-patient structure (habitus, sex, site, referral fixed); the named residual is respiratory state, which is conditioned on via measured lung volume from the same segmentation pass.",
+      "dies_like_prior": "Closest prior kill is idea-016 (contrast reflux as pressure gauge - IDENTIFIABILITY_FAILURE because reflux was inseparable from injection protocol). Difference: CT-RATE is non-contrast, so the entire injection-protocol axis is absent by construction; IVC geometry is anatomy, not contrast dynamics; and the within-patient longitudinal design removes the population covariates that idea-016 could not. The wrong-keystone error (charter, three occurrences) is guarded by naming segmentation-on-non-contrast as the real keystone rather than the easy adjacent facts already verified.",
+      "closest_prior_work": "Idea-016's debate record (this repo) for the pressure-gauge framing and its failure mode. Clinical literature on CT IVC flatness/distension as volume-status markers (trauma flat-cava sign; unverified primary citations). CT-CLIP papers: no mechanism analysis of the effusion/cardiomegaly heads. No work found connecting a chest-CT foundation model's outputs to quantified IVC geometry - unverified negative, limited search.",
+      "existing_assets": "The complete idea-004 apparatus: local CT-CLIP inference, checkpoint verification, geometry-matched reconstruction pairs (the free test-retest noise floor for BOTH the model scores and the IVC measurement), CT-RATE inventory with patient-level linkage ('split_patientID_scanID_reconstructionID' folder structure, HF dataset page). TotalSegmentator public.",
+      "smallest_decisive_experiment": "Stage 0: IVC segmentation noise floor on 30 reconstruction pairs (no annotation needed). Then: identify patients with >=2 sessions (start with the ~200-260 in validation), compute within-patient deltas of effusion/cardiomegaly scores vs deltas of IVC area/flatness, conditional on delta-effusion-proxy (dependent pleural HU volume), delta-heart cross-section, and delta-lung volume (respiratory state). Decision: conditional within-patient association exceeding the reconstruction-pair noise floor. The most interesting prespecified cell: scans with NO visible effusion in either session, where a score-IVC association cannot be 'the model sees the fluid'.",
+      "standing_confounds_addressed": "Habitus, sex, site, referral pathway, prevalence: fixed within patient. Scanner/protocol/reconstruction: CT-RATE repeats are same-center; reconstruction handled by using the idea-004 noise floor and matching kernels where possible. Positioning and respiratory state: the named residuals - respiration moves IVC caliber directly; conditioned via measured lung volume, and reported as the limiting alternative if conditioning is weak. Label leakage: no labels in the readout.",
+      "alternative_explanations": "(1) Respiratory state drives both IVC caliber and apparent lung base appearance the model reads - the serious one; lung-volume conditioning is the answer and its adequacy is reportable; (2) segmentation noise on non-contrast manufactures or masks the effect - Stage 0 noise floor; (3) the model reads right-heart chamber enlargement directly and IVC merely co-varies - conditioning on heart cross-section addresses the crude version, and a positive should honestly be stated as 'venous-congestion geometry including the IVC' if heart conditioning is imperfect.",
+      "anticipated_negative": "Sensitivity-limited, honestly: the within-patient n is modest and two noise floors (model score, segmentation) stack. The card inherits a real mitigation - the idea-004 reconstruction pairs quantify both floors before the main analysis, so the minimum detectable effect is estimable in advance rather than post hoc.",
+      "cross_domain": "Borrowed construct: pressure-vessel mechanics / fluid statics - a compliant tube's cross-section is a transmural-pressure readout. The measurement it implies: IVC area plus roundness (not area alone - roundness is the pressurization signature). What would change if the analogy were dropped: there would be no reason to select IVC geometry as X at all, no prediction that ROUNDNESS carries signal beyond area, and no prediction that the association should persist in effusion-free scans (the gauge reads pressure before fluid appears). The analogy dictates the feature set, the direction, and the most interesting analysis cell; it is not decoration.",
+      "remaining_legwork": "Stage 0 noise floor (2-3 days, assets local); repeat-session inventory of train split (1 day, metadata only); main within-patient analysis (3-4 days). Mode C: feasibility reported for information, not scored.",
+      "design_template": "longitudinal-within-subject",
+      "use_vs_association": "Within-patient change decouples the claim from every stable patient-level correlate; conditioning on measured fluid, heart size, and lung volume separates 'reads the venous gauge' from 'sees the effusion, which co-varies with the gauge'; the effusion-free cell makes the association impossible to attribute to visible fluid.",
+      "dataset": "CT-RATE (repeat-session subset; second and final CT-RATE candidate this cycle).",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 5,
+          "reason": "A specific physical quantity (transmural venous pressure) read through two named geometric measurements (IVC area, roundness), with the measurement that would show the model uses it fully specified."
+        },
+        "identifiability": {
+          "value": 3,
+          "reason": "Within-subject design plus conditioning is strong for an observational study, but respiratory state is a genuine common cause that conditioning may only partially remove."
+        },
+        "interest": {
+          "value": 4,
+          "reason": "A model quietly performing bedside hemodynamic assessment on every chest CT would be a genuinely new capability claim; a clean negative also matters for the 'foundation models read physiology' narrative."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "reason": "If true, effusion/cardiomegaly scores partly encode volume status - both an explanation of false positives and a free hemodynamic signal clinicians do not currently get from chest CT."
+        },
+        "clarity": {
+          "value": 4,
+          "reason": "Precise X and design; slightly held back because the deliverable spans two heads and the claim may need narrowing to one."
+        },
+        "feasibility_info_only": {
+          "value": 3,
+          "reason": "Reported outside the Mode C score: assets are local and the design is cheap, but the non-contrast segmentation keystone is uninspected."
+        },
+        "novelty_confidence_info_only": {
+          "value": 3,
+          "reason": "Limited search found no model-IVC connection; capped and reported outside the score."
+        }
+      },
+      "priority_score": 4.05,
+      "priority_note": "Mode C weighting: 0.3*mechanism_clarity + 0.25*identifiability + 0.2*interest + 0.15*medical_relevance + 0.1*clarity = 1.5+0.75+0.8+0.6+0.4 = 4.05.",
+      "unverified_claims": [
+        "IVC in-FOV rate in CT-RATE volumes (keystone half a).",
+        "Non-contrast IVC segmentation reliability of TotalSegmentator (keystone half b).",
+        "Flat-cava / IVC-distension clinical citations from general knowledge; primary sources to be pinned.",
+        "That train-split repeat sessions are numerous enough if validation's ~200-260 prove insufficient."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-010-c05",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "Aortic tortuosity as a buckled column: is the hypertension head reading exceeded critical pressure?",
+      "question": "Is Merlin's five-year hypertension prediction using abdominal aortic tortuosity - the buckled geometry of a chronically over-pressurized elastic tube - as its cue?",
+      "rung": "Targets rung 1 (the model uses aortic tortuosity). Rung 2 hinges on separating tortuosity from age; rung 3 is available because 'tortuous aorta' is already a report phrase - the buckling frame adds the mechanism, not the vocabulary.",
+      "deliverable_sentence": "Merlin is using abdominal aortic tortuosity - the buckled shape of a vessel whose critical buckling pressure has been exceeded - in its five-year hypertension prediction.",
+      "X_measurement": "Tortuosity index = centerline arc length / straight-line chord of the abdominal aorta (diaphragmatic hiatus to bifurcation), centerline by skeletonization of the TotalSegmentator 'aorta' mask (verbatim class, map_to_binary.py; fetched 2026-08-12), plus undulation wavelength and amplitude from the centerline's curvature spectrum. Arterial tortuosity indices are established measurements (review literature in Hypertension; primary citations to be pinned). Computable today on any abdominal CT without asking anyone: yes.",
+      "suspected_signal": "Elastic stability: a pressurized tube with axial pre-stretch buckles when transmural pressure exceeds a critical value set by wall stiffness and tethering; sustained hypertension plus elastin fragmentation lowers that threshold, and the buckled (tortuous) shape is permanent. Tortuosity is therefore a manometer with memory - a geometric record of chronic pressure load, distinct from the instantaneous pressure at scan time. Biomechanical theory: Han's artery-buckling work (J Vasc Res, circa 2012; to be pinned).",
+      "keystone_prerequisite": "The inference needs: Merlin's released five-year disease-prediction assets include a hypertension output that can be run on new abdominal CTs.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Two artifacts, both fetched 2026-08-12: (1) arXiv 2406.06512 (HTML full text) names the five-year targets verbatim: 'chronic kidney disease, osteoporosis, cardiovascular disease, ischemic heart disease, hypertension, and diabetes'; (2) huggingface.co/stanfordmimi/Merlin lists downloadable weights explicitly including 'Five Year Disease Prediction' alongside the main checkpoint, MIT license, with inference demos referenced.",
+      "keystone_residual_assumption": "Having verified the head exists and its weights are listed, I am still assuming (a) the released five-year weights load and their output ordering/documentation identifies the hypertension logit, and (b) the evaluation cohort problem is solvable: separating tortuosity from AGE requires age metadata on public abdominal CTs, and whether AMOS or the TotalSegmentator dataset expose usable age fields is unverified. Assumption (b) is load-bearing for identifiability, not just convenience, and is Stage 0 gate #1.",
+      "rung_reached": "Rung 1 via conditional association (score vs tortuosity, conditional on age, aortic diameter, and calcification burden). What moves it up is the buckling-specific signature: theory predicts onset nonlinearity and an undulation wavelength scaling with vessel radius - signatures that age-driven uniform elongation does not produce, giving the design a way to distinguish 'reads pressure-buckled geometry' from 'reads age'.",
+      "dies_like_prior": "Dies, if it dies, exactly like idea-009 (Murray's law - IDENTIFIABILITY_FAILURE: the geometric quantity was inseparable from co-varying acquisition and population factors). Stated differences: tortuosity is a centimeter-scale, voxel-size-robust measurement where Murray exponents needed sub-voxel calibre precision; the dominant rival (age) is named up front with the design conditional on it rather than discovering the collinearity in debate; and the buckling wavelength signature provides a discriminating prediction Murray's-law candidate never had. If age metadata cannot be obtained, this candidate should be killed at Stage 0 for the same reason as idea-009 - the card says so explicitly.",
+      "closest_prior_work": "Han HC, biomechanics of artery buckling (J Vasc Res ~2012, unverified from memory): theory and bench validation, never connected to a learned model. Clinical tortuosity-hypertension association literature (Hypertension review, unverified): establishes the correlation in humans, does not involve any imaging model. Merlin (arXiv 2406.06512): reports hypertension AUC, no mechanism. Exact delta: nobody has asked whether a CT foundation model's hypertension output is mediated by measured aortic geometry, nor tested buckling-theory signatures in a model's learned cue.",
+      "existing_assets": "Merlin weights incl. five-year head (verified listed, MIT); TotalSegmentator aorta class (verified); public abdominal CT cohorts; established tortuosity metrics; buckling theory with quantitative predictions.",
+      "smallest_decisive_experiment": "Stage 0: confirm the hypertension logit loads and identify a public cohort with age fields (kill if none). Then on ~500 public abdominal CTs: score vs tortuosity index conditional on age, aortic diameter, and calcification burden (calcium measured on the same clipped HU range noted in decisions.md 2026-08-10 if Merlin preprocessing clips similarly - check). Decision: conditional partial association with a prespecified minimum effect; exploratory second read: onset nonlinearity and radius-scaled wavelength as the buckling signature.",
+      "standing_confounds_addressed": "Age: THE confound - conditioned on directly; candidate dies at Stage 0 without age metadata. Aortic calcification: measured and conditioned (the rival cue a model would plausibly use for hypertension). Scanner/site/protocol/reconstruction: geometry measurement is robust to kernel; within-dataset analyses. Habitus: weakly linked to tortuosity; body-cross-section covariate available from the same pass. Prevalence/referral/label leakage: label-free readout, unaffected.",
+      "alternative_explanations": "(1) The model reads age (from bone, organs, everything) and age drives tortuosity - the design's central rival, handled by conditioning plus the buckling-signature analysis; residual confounding by age is the honest limit and is why identifiability is not scored higher; (2) the model reads aortic calcification which co-travels with tortuosity - measured and conditioned; (3) the model reads aortic diameter (ectasia) - measured, conditioned, and geometrically separable from tortuosity.",
+      "anticipated_negative": "Sensitivity-limited: conditioning on age absorbs much of the real signal's variance, so a null needs the prespecified minimum-detectable-effect framework; a null on the buckling SIGNATURE with a positive plain association degrades gracefully to 'uses tortuosity, mechanism unresolved' and the card claims no more.",
+      "cross_domain": "Borrowed construct: elastic stability / column buckling from structural engineering. The measurement it implies: not just a tortuosity index but its decomposition - onset nonlinearity in the score-tortuosity relation and undulation wavelength scaling with vessel radius, the fingerprints of a buckling instability. What would change if the analogy were dropped: the analysis would collapse to a linear score-vs-tortuosity regression; the theory is what licenses the wavelength and threshold analyses that can separate pressure-buckling from uniform age-related elongation. The analogy changes the experiment, so it stays.",
+      "remaining_legwork": "Stage 0 gates (weights load + age metadata: 1-2 days); segmentation and centerline pipeline (2-3 days); analysis (2-3 days). Mode C: feasibility reported for information.",
+      "design_template": "conditional-observational",
+      "use_vs_association": "Distinguishes use from correlation by conditioning on the named common causes (age, diameter, calcification) and by the buckling-signature analysis: a model merely correlated with tortuosity through age should show neither onset nonlinearity nor radius-scaled wavelength dependence in its score response.",
+      "dataset": "Public abdominal CT with age metadata (candidate cohorts: AMOS 2022, TotalSegmentator public dataset - metadata adequacy is Stage 0); Merlin checkpoint from HF. Second and final Merlin/public-abdominal candidate this cycle.",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 5,
+          "reason": "A specific physical quantity (critical transmural buckling pressure of an elastic tube) with a specific geometric readout (tortuosity index plus wavelength scaling) and quantitative theory behind it."
+        },
+        "identifiability": {
+          "value": 3,
+          "reason": "Age collinearity is severe and conditioning is imperfect; the buckling signature is a genuine discriminator but exploratory - without it this would be a 2."
+        },
+        "interest": {
+          "value": 4,
+          "reason": "A learned model rediscovering an elastic-stability threshold would be a striking instance of the program's thesis; the wavelength test is the kind of analysis nobody runs on foundation models."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "reason": "Opportunistic hypertension flagging from abdominal CT is plausible but not yet a clinical pathway; knowing the cue is tortuosity would matter mainly for trust and for vascular-aging research."
+        },
+        "clarity": {
+          "value": 4,
+          "reason": "Precise question and X; the two-layer claim (uses tortuosity; tortuosity is buckling) needs the card to keep the layers separate, which costs a point."
+        },
+        "feasibility_info_only": {
+          "value": 3,
+          "reason": "Reported outside the Mode C score: keystone inspected, but the age-metadata gate and centerline pipeline are real work."
+        },
+        "novelty_confidence_info_only": {
+          "value": 3,
+          "reason": "No audit yet; vascular-aging imaging is an active field and a tortuosity-model connection may exist somewhere."
+        }
+      },
+      "priority_score": 3.9,
+      "priority_note": "Mode C weighting: 0.3*5 + 0.25*3 + 0.2*4 + 0.15*3 + 0.1*4 = 1.5+0.75+0.8+0.45+0.4 = 3.9.",
+      "unverified_claims": [
+        "Han artery-buckling citation and Hypertension tortuosity review cited from memory - pin before idea card.",
+        "Age metadata availability in AMOS / TotalSegmentator public dataset (Stage 0 gate).",
+        "That the released five-year weights expose an identifiable hypertension logit.",
+        "Whether Merlin preprocessing clips HU in a way that affects the calcification covariate (check per decisions.md 2026-08-10 side finding)."
+      ],
+      "track": "baseline"
+    }
+  ]
+}
