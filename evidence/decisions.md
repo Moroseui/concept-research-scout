@@ -158,3 +158,22 @@ output dir. (3) Record the normalized kernel per selected volume in
 input_manifest.csv. Geometry list-string columns compare same-format
 row-vs-row and need no change. No other scope.
 
+
+## 2026-08-12 - Probe 004 exit-5 root cause (evidence-quoted): transformers pin, not the checkpoint
+
+Load failed on exactly one unexpected key, "trained_model.text_transformer.
+embeddings.position_ids". Transformers 4.31.0 changed BERT position_ids
+from a persistent to a non-persistent buffer, so checkpoints saved under
+<=4.30.x carry the key and models instantiated under >=4.31 do not expect
+it. The released repo own transformer_maskgit/setup.py line 17 contains
+the commented pin "#transformers==4.30.1" - the authors environment.
+Verdict: environment-alignment failure, not a checkpoint/code
+incompatibility; exit 5 is provisionally reclassified as environment-class
+pending a run under the released pin. Revision, and ONLY this: in
+probes/004/requirements.txt set transformers==4.30.1 and cascade
+tokenizers to a compatible 0.13.x (4.30.1 requires tokenizers<0.14);
+no run.py changes. Process note for the floor-study contract: an exit-5
+load classification is only final after the released environment pin has
+been tested - version-semantics mismatches must not masquerade as
+checkpoint facts.
+
