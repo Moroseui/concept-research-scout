@@ -32,5 +32,6 @@ required_outputs:
   - environment.txt
   - provenance.json
   - input_manifest.csv
+  - selection_audit.json
   - run_log.txt
 human_approved: true

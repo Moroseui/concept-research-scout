@@ -7,6 +7,19 @@ Approval: ideas/004/HUMAN_APPROVED_PROBE (committed 2026-08-11), with the
 contract's `human_approved` field synchronized to true in this revision. The
 committed marker file remains the executable approval gate.
 
+Revision 2026-08-12 (decision ledger "Probe 004 exit-7 root cause"): the real
+run exited 7 because validation_metadata.csv stores ConvolutionKernel as a
+stringified Python list ("['Br40f', '3']") while the selection predicate
+compared the raw string to 'Br40f', matching zero rows. This revision, and
+ONLY this revision: (1) the kernel field is normalized before comparison
+(list literal -> element 0, otherwise the stripped raw string, robust to both
+formats); (2) pair selection always writes selection_audit.json, and any
+shortfall vs the frozen 237-pair count also dumps top-10 distinct kernel
+values with counts, example VolumeNames, and per-filter drop counts to the
+run log; (3) input_manifest.csv records each selected volume's normalized
+(and raw) kernel from its own metadata row. Geometry list-string columns
+compare same-format row-vs-row and are unchanged.
+
 WHAT THIS PROBE IS, in one paragraph: CT-RATE stores several reconstructions
 of the same CT acquisition. The eventual study asks how much the released
 CT-CLIP "ClassFine" model's 18 abnormality scores move between two
@@ -51,6 +64,7 @@ Exit codes (each maps to a contract invalidating_failure or a harness fault):
 """
 
 import argparse
+import ast
 import csv
 import hashlib
 import json
@@ -331,6 +345,8 @@ def phase1_environment(out_dir, smoke):
         "required_match_columns": REQUIRED_MATCH_COLUMNS,
         "optional_match_columns": OPTIONAL_MATCH_COLUMNS,
         "pair_selection_rule": (
+            "normalize the ConvolutionKernel field (a stringified Python "
+            "list takes element 0; a plain string is stripped), then "
             "restrict validation metadata to scans with both Br40f and Br60f "
             "reconstructions passing exact string equality on all match "
             "columns; sort qualifying pairs by the Br40f member's VolumeName; "
@@ -360,14 +376,38 @@ def parse_volume_name(name):
     return m.group(1), m.group(2), m.group(3)
 
 
+def normalize_kernel(raw):
+    """Return the kernel name from a raw ConvolutionKernel metadata value.
+
+    The frozen release stores this field as a stringified Python list, e.g.
+    "['Br40f', '3']", whose element 0 is the kernel name (decision ledger
+    2026-08-12, exit-7 root cause). Rule, per that revision spec: if the value
+    parses as a Python list literal, take element 0; otherwise use the
+    stripped raw string. Robust to both formats.
+    """
+    text = (raw or "").strip()
+    if text.startswith("["):
+        try:
+            parsed = ast.literal_eval(text)
+        except (ValueError, SyntaxError):
+            return text  # not a parsable literal -> stripped raw string
+        if isinstance(parsed, (list, tuple)) and parsed:
+            return str(parsed[0]).strip()
+    return text
+
+
 def select_pair(rows):
     """Apply the frozen Stage-0 matching rules and return the one probe pair.
 
     `rows` is a list of dicts (CSV rows). Returns (pair, audit) where pair is
-    {"A": row, "B": row} and audit records what was filtered and why.
+    {"A": row, "B": row} and audit records what was filtered and why —
+    including the kernel-value tally and per-filter drop counts required by
+    the 2026-08-12 revision, so a selection shortfall is diagnosable from the
+    audit alone.
     """
     audit = {"total_rows": len(rows), "non_validation_refused": 0,
-             "match_columns_used": [], "qualifying_pairs": 0}
+             "match_columns_used": [], "qualifying_pairs": 0,
+             "kernel_values_top10": [], "filter_drop_counts": {}}
 
     # Split guard at the metadata level: anything not valid_* is dropped and
     # counted. Train/test rows must never even enter pair consideration.
@@ -397,27 +437,74 @@ def select_pair(rows):
     ]
     audit["match_columns_used"] = match_columns
 
+    # Kernel-field tally (2026-08-12 revision, requirement 2): record the
+    # top-10 distinct raw kernel values with counts, their normalized forms,
+    # and example VolumeNames. The exit-7 root cause was a format drift in
+    # exactly this field, so the audit must show what the field looks like.
+    kernel_tally = {}
+    for row in validation_rows:
+        raw = row.get(KERNEL_COLUMN) or ""
+        entry = kernel_tally.setdefault(raw, {"count": 0, "examples": []})
+        entry["count"] += 1
+        if len(entry["examples"]) < 3:
+            entry["examples"].append(row["VolumeName"])
+    top10 = sorted(kernel_tally.items(),
+                   key=lambda kv: (-kv[1]["count"], kv[0]))[:10]
+    audit["kernel_values_top10"] = [
+        {"raw": raw, "normalized": normalize_kernel(raw),
+         "count": entry["count"], "example_volume_names": entry["examples"]}
+        for raw, entry in top10
+    ]
+
     # Group reconstructions by (patient, scan) = one acquisition.
     scans = {}
     for row in validation_rows:
         patient, scan, recon = parse_volume_name(row["VolumeName"])
         scans.setdefault((patient, scan), []).append(row)
 
+    # Per-filter drop counts (2026-08-12 revision, requirement 2): every scan
+    # group that fails to yield a qualifying pair is counted under the filter
+    # that dropped it.
+    drops = {
+        "validation_scans_total": len(scans),
+        "scans_without_one_Br40f_and_one_Br60f_member": 0,
+        "scans_with_duplicate_contrast_members": 0,
+        "candidate_pairs_failing_geometry_match": 0,
+        "geometry_mismatches_by_column": {},
+    }
+
     qualifying = []
     for (patient, scan), members in sorted(scans.items()):
         # Need exactly one Br40f member and one Br60f member to form the
         # predeclared contrast (ambiguous multi-member kernels are skipped:
-        # the probe needs one clean pair, not maximal recall).
-        a_members = [r for r in members if r[KERNEL_COLUMN].strip() == KERNEL_A]
-        b_members = [r for r in members if r[KERNEL_COLUMN].strip() == KERNEL_B]
-        if len(a_members) != 1 or len(b_members) != 1:
+        # the probe needs one clean pair, not maximal recall). The kernel
+        # field is NORMALIZED before comparison (see normalize_kernel).
+        a_members = [r for r in members
+                     if normalize_kernel(r.get(KERNEL_COLUMN)) == KERNEL_A]
+        b_members = [r for r in members
+                     if normalize_kernel(r.get(KERNEL_COLUMN)) == KERNEL_B]
+        if len(a_members) == 0 or len(b_members) == 0:
+            drops["scans_without_one_Br40f_and_one_Br60f_member"] += 1
+            continue
+        if len(a_members) > 1 or len(b_members) > 1:
+            drops["scans_with_duplicate_contrast_members"] += 1
             continue
         row_a, row_b = a_members[0], b_members[0]
         # Exact string equality on every match column: identical preprocessing
-        # inputs, per the Stage-0 "strictly clean" definition.
-        if all(row_a.get(c, "") == row_b.get(c, "") for c in match_columns):
-            qualifying.append((row_a["VolumeName"], row_a, row_b))
+        # inputs, per the Stage-0 "strictly clean" definition. Geometry
+        # list-string columns compare same-format row-vs-row, so they need no
+        # normalization (2026-08-12 revision spec, explicitly out of scope).
+        mismatched = [c for c in match_columns
+                      if row_a.get(c, "") != row_b.get(c, "")]
+        if mismatched:
+            drops["candidate_pairs_failing_geometry_match"] += 1
+            for c in mismatched:
+                drops["geometry_mismatches_by_column"][c] = (
+                    drops["geometry_mismatches_by_column"].get(c, 0) + 1)
+            continue
+        qualifying.append((row_a["VolumeName"], row_a, row_b))
 
+    audit["filter_drop_counts"] = drops
     audit["qualifying_pairs"] = len(qualifying)
     if not qualifying:
         return None, audit
@@ -445,19 +532,44 @@ def assert_pair_valid(pair):
         f"distinct reconstructions {pa[2]} vs {pb[2]}")
 
 
+def report_selection_shortfall(audit, expected, out_dir):
+    """Dump selection diagnostics to the run log on a count shortfall.
+
+    2026-08-12 revision, requirement 2: on any selection shortfall vs the
+    frozen count, the top-10 distinct kernel values (with counts and example
+    VolumeNames) and the per-filter drop counts go to the run log AND to
+    selection_audit.json (the caller writes that file unconditionally).
+    """
+    log(f"  SELECTION SHORTFALL: {audit['qualifying_pairs']} qualifying "
+        f"pairs vs frozen expectation {expected}; diagnostics follow")
+    log(f"  top-10 distinct {KERNEL_COLUMN} values "
+        f"(raw -> normalized: count, example VolumeNames):")
+    for item in audit["kernel_values_top10"]:
+        log(f"    {item['raw']!r} -> {item['normalized']!r}: "
+            f"{item['count']} (e.g. {', '.join(item['example_volume_names'])})")
+    log("  per-filter drop counts: "
+        f"{json.dumps(audit['filter_drop_counts'], sort_keys=True)}")
+    log(f"  full audit: {out_dir / 'selection_audit.json'}")
+
+
 def write_manifest(out_dir, pair, file_info):
     """input_manifest.csv: the deterministic split manifest for this probe.
 
     file_info maps role -> {"path": ..., "sha256": ..., "size_bytes": ...}.
+    2026-08-12 revision, requirement 3: the kernel recorded per selected
+    volume is the normalized value from that volume's own metadata row (the
+    raw field is kept alongside for provenance), not a hardcoded constant.
     """
     manifest_path = out_dir / "input_manifest.csv"
     with open(manifest_path, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["role", "volume_name", "kernel", "local_path",
-                         "sha256", "size_bytes"])
-        for role, kernel in [("A", KERNEL_A), ("B", KERNEL_B)]:
+        writer.writerow(["role", "volume_name", "kernel_normalized",
+                         "kernel_raw", "local_path", "sha256", "size_bytes"])
+        for role in ("A", "B"):
             info = file_info[role]
-            writer.writerow([role, pair[role]["VolumeName"], kernel,
+            raw_kernel = pair[role].get(KERNEL_COLUMN) or ""
+            writer.writerow([role, pair[role]["VolumeName"],
+                             normalize_kernel(raw_kernel), raw_kernel,
                              info["path"], info["sha256"], info["size_bytes"]])
     log(f"  input_manifest.csv written ({manifest_path})")
 
@@ -557,19 +669,24 @@ def run_three_executions(score_fn, pair, head_names, out_dir):
 
 # ---------------------------------------------------------------------------
 # SMOKE MODE. Synthetic, stdlib-only, no network, no GPU, seconds to run.
-# It exercises the harness: gate, config/environment capture, pair selection
+# It exercises the harness: gate, config/environment capture, kernel-field
+# normalization in both released formats (2026-08-12 revision), pair selection
 # with planted decoys (wrong kernel, slice-count drift, spacing drift,
-# singleton, train/test rows that the split guard must refuse), manifest
-# writing, the three-execution loop, the 18-finite check, the bit-identity
-# check, and summary writing. It does NOT touch the real checkpoint, so it can
-# never satisfy the contract's primary metric -- summary.json says so.
+# singleton, train/test rows that the split guard must refuse), the selection
+# audit's drop counts and kernel tally, manifest writing, the three-execution
+# loop, the 18-finite check, the bit-identity check, and summary writing. It
+# does NOT touch the real checkpoint, so it can never satisfy the contract's
+# primary metric -- summary.json says so.
 # ---------------------------------------------------------------------------
 
 def synthetic_metadata():
     """A tiny metadata table with exactly one clean Br40f|Br60f pair.
 
     Every decoy exists to prove a specific filter works; the expected outcome
-    is asserted in run_smoke().
+    is asserted in run_smoke(). The clean pair stores its kernel in the
+    frozen release's stringified-list format ("['Br40f', '3']", the exit-7
+    root cause) while the decoys use the plain-string format, so BOTH
+    branches of normalize_kernel are exercised through real selection.
     """
     def row(name, kernel, slices="240", zsp="1.0", xysp="[0.75, 0.75]"):
         return {
@@ -579,8 +696,8 @@ def synthetic_metadata():
             "KVP": "120", "ImagePositionPatient": "[0,0,0]",
         }
     return [
-        row("valid_1_a_1.nii.gz", "Br40f"),          # the clean pair (A)
-        row("valid_1_a_2.nii.gz", "Br60f"),          # the clean pair (B)
+        row("valid_1_a_1.nii.gz", "['Br40f', '3']"),  # the clean pair (A), list format
+        row("valid_1_a_2.nii.gz", "['Br60f', '3']"),  # the clean pair (B), list format
         row("valid_2_a_1.nii.gz", "Br40f"),          # decoy: slice-count drift
         row("valid_2_a_2.nii.gz", "Br60f", slices="200"),
         row("valid_3_a_1.nii.gz", "Br40f"),          # decoy: wrong contrast
@@ -598,8 +715,24 @@ def run_smoke(out_dir):
     log("PHASE 2 (smoke): building synthetic metadata and volumes")
     rows = synthetic_metadata()
 
+    # Self-tests for the 2026-08-12 kernel normalization: both formats named
+    # in the revision spec, plus the unparsable fallback.
+    log("PHASE 3 (smoke): kernel-normalization self-tests")
+    for raw, want in [
+        ("['Br40f', '3']", "Br40f"),   # frozen release: stringified list
+        ("  Br60f ", "Br60f"),          # plain string (pre-drift format)
+        ("['Bl56f']", "Bl56f"),         # one-element list literal
+        ("[not a literal", "[not a literal"),  # unparsable -> stripped raw
+    ]:
+        got = normalize_kernel(raw)
+        if got != want:
+            fail(12, f"normalize_kernel({raw!r}) = {got!r}, expected "
+                     f"{want!r}; harness bug")
+    log("  normalize_kernel handles list, plain, and unparsable formats")
+
     log("PHASE 3 (smoke): deterministic pair selection with planted decoys")
     pair, audit = select_pair(rows)
+    write_json(out_dir / "selection_audit.json", audit)
     if pair is None:
         fail(12, "smoke selection returned no pair; harness bug")
     # Harness self-tests: the planted decoys must have been filtered.
@@ -612,8 +745,27 @@ def run_smoke(out_dir):
     if (pair["A"]["VolumeName"], pair["B"]["VolumeName"]) != (
             "valid_1_a_1.nii.gz", "valid_1_a_2.nii.gz"):
         fail(12, "smoke selected the wrong pair; harness bug")
+    # The audit's diagnostics must match the planted decoys exactly:
+    # valid_3 (wrong contrast) + valid_4 (singleton) lack a Br60f member;
+    # valid_2 (slice count) + valid_5 (ZSpacing) fail geometry, one column each.
+    drops = audit["filter_drop_counts"]
+    expected_drops = {
+        "validation_scans_total": 5,
+        "scans_without_one_Br40f_and_one_Br60f_member": 2,
+        "scans_with_duplicate_contrast_members": 0,
+        "candidate_pairs_failing_geometry_match": 2,
+        "geometry_mismatches_by_column": {"NumberofSlices": 1, "ZSpacing": 1},
+    }
+    if drops != expected_drops:
+        fail(12, f"per-filter drop counts {drops} do not match the planted "
+                 f"decoys {expected_drops}; harness bug")
+    by_raw = {item["raw"]: item for item in audit["kernel_values_top10"]}
+    if by_raw.get("['Br40f', '3']", {}).get("normalized") != "Br40f":
+        fail(12, "kernel audit did not record the stringified-list value "
+                 "normalized to Br40f; harness bug")
     assert_pair_valid(pair)
     log(f"  selected pair: {pair['A']['VolumeName']} | {pair['B']['VolumeName']}")
+    log("  selection audit (drop counts, kernel tally) matches planted decoys")
 
     # Synthetic "volumes": fixed byte blobs. Same bytes -> same mock scores,
     # so the bit-identity check is genuinely exercised end to end.
@@ -661,6 +813,8 @@ def run_smoke(out_dir):
             "gate_passed": True,
             "split_guard_refused_train_test_rows": True,
             "decoy_pairs_all_filtered": True,
+            "kernel_normalization_both_formats": True,
+            "selection_audit_matches_planted_decoys": True,
             "pair_selection_deterministic_rule_applied": True,
             "three_executions_completed": True,
             "heads_exactly_18_finite_per_execution": True,
@@ -830,13 +984,18 @@ def run_real(out_dir, config):
     with open(metadata_path, newline="") as f:
         rows = list(csv.DictReader(f))
     pair, audit = select_pair(rows)
+    # The selection audit is always written (2026-08-12 revision), so any
+    # shortfall is diagnosable from the output directory alone.
+    write_json(out_dir / "selection_audit.json", audit)
     log(f"  qualifying Br40f|Br60f geometry-matched pairs: "
         f"{audit['qualifying_pairs']} (Stage-0 counted 237; a large mismatch "
         f"means the matching rules drifted and should be investigated)")
     if audit["qualifying_pairs"] != EXPECTED_QUALIFYING_PAIRS:
+        report_selection_shortfall(audit, EXPECTED_QUALIFYING_PAIRS, out_dir)
         fail(7, f"qualifying-pair count {audit['qualifying_pairs']} differs "
                 f"from the frozen Stage-0 count {EXPECTED_QUALIFYING_PAIRS}; "
-                f"release contents or matching logic drifted")
+                f"release contents or matching logic drifted -- see "
+                f"selection_audit.json and the diagnostics above")
     if pair is None:
         fail(7, "no qualifying geometry-matched Br40f|Br60f pair found in the "
                 "released metadata")

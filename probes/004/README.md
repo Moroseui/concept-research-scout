@@ -30,7 +30,8 @@ dependency/GPU, 10 model/tokenizer access, 12 internal error (never to be reinte
 result). Outputs land in `--output-dir` when supplied, otherwise `outputs/`
 (real) or `outputs_smoke/` (smoke):
 `resolved_config.json`, `per_sample.csv`, `summary.json`, `environment.txt`,
-`provenance.json`, `input_manifest.csv`, `run_log.txt`.
+`provenance.json`, `input_manifest.csv`, `selection_audit.json`,
+`run_log.txt`.
 
 The one probe pair is not hardcoded: it is derived deterministically from the
 released `validation_metadata.csv` by re-applying the frozen Stage-0 rules
@@ -39,6 +40,19 @@ NumberofSlices, plus position/acquisition columns where present), restricting
 to the Br40f|Br60f contrast, sorting by the Br40f member's volume name, and
 taking the first — selected before any score is inspected. The run stops if
 the qualifying count differs from Stage 0's frozen count of 237.
+
+Revision 2026-08-12 (exit-7 root cause, decision ledger): the released
+metadata stores `ConvolutionKernel` as a stringified Python list
+(`"['Br40f', '3']"`), which the original raw-string predicate matched zero
+times. The kernel field is now normalized before comparison (a parsable list
+literal takes element 0; anything else uses the stripped raw string — robust
+to both formats). Pair selection always writes `selection_audit.json`
+(kernel-value tally with counts and example VolumeNames, per-filter drop
+counts), and any shortfall against the frozen 237 count also dumps those
+diagnostics to `run_log.txt` before the exit-7 stop. `input_manifest.csv`
+records each selected volume's normalized and raw kernel from its own
+metadata row. Geometry list-string columns compare same-format row-vs-row
+and are unchanged.
 
 If the released code's constructor or call signatures differ from the
 transcription in `run.py` (taken from `scripts/ct_lipro_inference.py` on
