@@ -20,6 +20,23 @@ run log; (3) input_manifest.csv records each selected volume's normalized
 (and raw) kernel from its own metadata row. Geometry list-string columns
 compare same-format row-vs-row and are unchanged.
 
+Revision r6 2026-08-12 (decision ledger "Probe 004 r5 environment dead end;
+r6 pivot to enumerated-key-tolerant load"): the r5 released-environment pin
+(transformers 4.30.1 / tokenizers 0.13.3) does not install on Colab Python
+3.12, so requirements.txt is reverted to the r4 closure (transformers 4.38.2 /
+tokenizers 0.15.2). transformers 4.31.0 made BERT's embeddings.position_ids a
+non-persistent buffer, so the <=4.30-era checkpoint carries exactly one key a
+4.38-era model does not expect. This revision, and ONLY this: before
+load_state_dict, keys matching *.embeddings.position_ids (a non-learnable
+arange buffer; the same keys from_pretrained drops across framework eras) are
+removed from the loaded state dict. The removal is enumerated and audited:
+the removed set must be EXACTLY ONE key matching that pattern (anything else
+exits 5), the removed key is logged to the run log and provenance.json, and
+strict=True loading is preserved so any OTHER unexpected or missing key still
+exits 5. Startup logs the installed transformers version. Exit-5 semantics: a
+load is "unchanged" modulo enumerated, provenance-logged framework-era buffer
+keys only.
+
 WHAT THIS PROBE IS, in one paragraph: CT-RATE stores several reconstructions
 of the same CT acquisition. The eventual study asks how much the released
 CT-CLIP "ClassFine" model's 18 abnormality scores move between two
@@ -53,7 +70,9 @@ Exit codes (each maps to a contract invalidating_failure or a harness fault):
     2   approval/contract gate failure (missing approval marker, cap mismatch)
     3   access failure: gate/token/download (invalidating_failures[0])
     4   provenance failure: cannot hash/pin artifacts (invalidating_failures[1])
-    5   checkpoint load/compatibility failure (invalidating_failures[2])
+    5   checkpoint load/compatibility failure (invalidating_failures[2]);
+        "unchanged" is modulo the single enumerated, provenance-logged
+        position_ids buffer key (r6) -- any other mismatch still exits 5
     6   output-shape failure: not exactly 18 finite named scores (invalidating_failures[3])
     7   pair-validity failure: Stage-0 rules or preprocessing (invalidating_failures[4])
     8   determinism failure: repeat-A not bit-identical (invalidating_failures[5])
@@ -325,8 +344,26 @@ def phase1_environment(out_dir, smoke):
                              f"({e!r}); install "
                              f"probes/004/requirements.txt before rerunning "
                              f"(environment failure, not a contract result)")
+            # r6: the load's tolerance is version-semantic, so the installed
+            # transformers version is logged up front, not just filed away in
+            # environment.txt.
+            import transformers
+            log(f"  transformers {transformers.__version__} installed "
+                f"(requirements pin 4.38.2; PHASE 4 strips the one "
+                f"position_ids buffer key that this >=4.31 era rejects)")
         except ImportError as e:
             fail(11, f"missing real-mode dependency: {e}")
+    else:
+        # Smoke mode is stdlib-only, but still reports the transformers
+        # version when one happens to be installed (r6 startup requirement).
+        try:
+            import transformers
+            log(f"  transformers {transformers.__version__} installed")
+            env_lines.append(f"transformers: {transformers.__version__}")
+        except Exception:
+            log("  transformers not importable here (fine for smoke mode; "
+                "the real run requires the pinned 4.38.2)")
+            env_lines.append("transformers: not installed (smoke)")
 
     (out_dir / "environment.txt").write_text("\n".join(env_lines) + "\n")
 
@@ -575,6 +612,38 @@ def write_manifest(out_dir, pair, file_info):
 
 
 # ---------------------------------------------------------------------------
+# PHASE 4 (shared logic) -- ENUMERATED FRAMEWORK-ERA BUFFER STRIP (r6).
+# transformers 4.31.0 made BERT's embeddings.position_ids a non-persistent
+# buffer, so the <=4.30-era checkpoint stores one key that a 4.38-era model
+# rejects on strict load. position_ids is torch.arange(max_position_embeddings)
+# -- a non-learnable index buffer the model reconstructs itself -- and
+# from_pretrained silently drops exactly these keys across framework eras.
+# The probe replicates that documented behavior explicitly and audibly:
+# remove keys matching *.embeddings.position_ids, insist there is EXACTLY ONE,
+# log it, and leave every other key to the strict load.
+# ---------------------------------------------------------------------------
+
+# Glob *.embeddings.position_ids from the decision ledger: at least one leading
+# component, then the literal suffix. Nothing else (e.g. position_embeddings
+# weights, or keys merely containing the substring) may match.
+POSITION_ID_BUFFER_PATTERN = re.compile(r".+\.embeddings\.position_ids$")
+
+
+def strip_position_id_buffer_keys(state):
+    """Remove *.embeddings.position_ids keys from a state dict, in place.
+
+    Returns the sorted list of removed keys. The CALLER must enforce the r6
+    contract semantics: exactly one removed key is tolerable; zero or several
+    mean the checkpoint is not the understood <=4.30-era artifact and the
+    load must fail with exit 5.
+    """
+    removed = sorted(k for k in state if POSITION_ID_BUFFER_PATTERN.match(k))
+    for key in removed:
+        del state[key]
+    return removed
+
+
+# ---------------------------------------------------------------------------
 # PHASE 4/5 (shared logic) -- EXECUTIONS AND CHECKS. Three scoring executions
 # (A, B, A again), per-sample rows, then the contract checks: 18 finite
 # scores each, stable head order, bit-identical repeat, budget respected.
@@ -730,6 +799,38 @@ def run_smoke(out_dir):
                      f"{want!r}; harness bug")
     log("  normalize_kernel handles list, plain, and unparsable formats")
 
+    # Self-tests for the r6 enumerated buffer strip: the exact key observed in
+    # the real exit-5 failure must match; near-miss keys must not; and the
+    # zero- and two-key cases the real caller maps to exit 5 must be reported
+    # faithfully by the helper.
+    log("PHASE 3 (smoke): r6 position_ids buffer-strip self-tests")
+    observed_key = "trained_model.text_transformer.embeddings.position_ids"
+    near_misses = {
+        # No leading component: the ledger glob *.embeddings.position_ids
+        # requires one.
+        "embeddings.position_ids": 0,
+        # Learnable position-embedding WEIGHTS are not the arange buffer.
+        "trained_model.text_transformer.embeddings.position_embeddings.weight": 1,
+        # Suffix must be anchored.
+        "a.embeddings.position_ids_extra": 2,
+    }
+    one_key_state = dict.fromkeys([observed_key, *near_misses], 0)
+    removed = strip_position_id_buffer_keys(one_key_state)
+    if removed != [observed_key]:
+        fail(12, f"buffer strip removed {removed}, expected exactly "
+                 f"[{observed_key!r}]; harness bug")
+    if set(one_key_state) != set(near_misses):
+        fail(12, "buffer strip disturbed non-matching keys; harness bug")
+    if strip_position_id_buffer_keys(dict(near_misses)) != []:
+        fail(12, "buffer strip matched a near-miss key; harness bug")
+    two_key_state = {observed_key: 0,
+                     "other.encoder.embeddings.position_ids": 1}
+    if len(strip_position_id_buffer_keys(two_key_state)) != 2:
+        fail(12, "buffer strip failed to report both matching keys; the real "
+                 "caller could not enforce the exactly-one rule; harness bug")
+    log("  strip matches the observed checkpoint key only, and reports the "
+        "zero/two-key cases the real run maps to exit 5")
+
     log("PHASE 3 (smoke): deterministic pair selection with planted decoys")
     pair, audit = select_pair(rows)
     write_json(out_dir / "selection_audit.json", audit)
@@ -814,6 +915,7 @@ def run_smoke(out_dir):
             "split_guard_refused_train_test_rows": True,
             "decoy_pairs_all_filtered": True,
             "kernel_normalization_both_formats": True,
+            "r6_buffer_strip_enumerated_and_anchored": True,
             "selection_audit_matches_planted_decoys": True,
             "pair_selection_deterministic_rule_applied": True,
             "three_executions_completed": True,
@@ -1069,8 +1171,35 @@ def run_real(out_dir, config):
         # the released loader's historical full-checkpoint behavior explicitly.
         state = torch.load(str(checkpoint_path), map_location="cpu",
                            weights_only=False)
+        # r6 tolerant load: remove the framework-era position_ids buffer key
+        # (see strip_position_id_buffer_keys). The removed set must be exactly
+        # one key; zero means the checkpoint is not the understood <=4.30-era
+        # artifact, several means the architecture understanding is wrong.
+        # Either way the load claim would be false, so both exit 5.
+        removed_keys = strip_position_id_buffer_keys(state)
+        if len(removed_keys) != 1:
+            fail(5, f"expected exactly one *.embeddings.position_ids buffer "
+                    f"key in the checkpoint state dict, found "
+                    f"{len(removed_keys)}: {removed_keys}; the checkpoint is "
+                    f"not the understood <=4.30-era artifact and the r6 "
+                    f"tolerant-load claim does not apply")
+        log(f"  r6 enumerated buffer strip: removed {removed_keys[0]!r} "
+            f"(non-learnable arange buffer; transformers-4.31 era change)")
+        # The removal is part of the load's provenance: record it before the
+        # load so a later reader can see exactly what "unchanged modulo
+        # enumerated buffer keys" meant for this run.
+        provenance["state_dict_keys_removed_before_load"] = {
+            "pattern": POSITION_ID_BUFFER_PATTERN.pattern,
+            "removed_keys": removed_keys,
+            "reason": ("transformers 4.31.0 made BERT embeddings.position_ids "
+                       "a non-persistent buffer; the <=4.30-era checkpoint "
+                       "carries it, the 4.38-era model does not expect it "
+                       "(decision ledger r6, 2026-08-12)"),
+        }
+        write_json(out_dir / "provenance.json", provenance)
         # strict=True: the contract forbids adapting the architecture to fit
-        # the weights; a key mismatch must fail here, not be papered over.
+        # the weights; any OTHER unexpected or missing key must fail here,
+        # not be papered over.
         model.load_state_dict(state, strict=True)
         model = model.cuda().eval()
     except SystemExit:
@@ -1080,7 +1209,8 @@ def run_real(out_dir, config):
                  f"(environment failure, not a contract result)")
     except Exception as e:
         fail(5, f"released checkpoint/code failed to load unchanged: {e!r}")
-    log("  checkpoint loaded unchanged (strict state dict match)")
+    log("  checkpoint loaded: strict state dict match modulo the one "
+        "enumerated, provenance-logged position_ids buffer key (r6)")
 
     # Released preprocessing via the released dataset class, pointed at a
     # staging folder containing ONLY our two volumes plus the official CSVs.
@@ -1162,7 +1292,10 @@ def run_real(out_dir, config):
         "checks": {
             "approval_gate": True,
             "provenance_recorded_before_inference": True,
-            "checkpoint_loaded_unchanged_strict": True,
+            # r6: "unchanged" is modulo the enumerated, provenance-logged
+            # framework-era buffer key(s) listed right below.
+            "checkpoint_loaded_strict_modulo_enumerated_buffer_keys": True,
+            "state_dict_keys_removed_before_load": removed_keys,
             "pair_passes_stage0_rules": True,
             "three_executions_completed": True,
             "heads_exactly_18_finite_per_execution": True,
@@ -1178,7 +1311,9 @@ def run_real(out_dir, config):
         "interpretation": (
             "POSITIVE per the contract's positive_pattern: the pinned "
             "released v2 ClassFine artifact loaded without architecture or "
-            "preprocessing changes, every execution produced exactly 18 "
+            "preprocessing changes -- strictly, modulo the single enumerated, "
+            "provenance-logged position_ids buffer key removed per the r6 "
+            "decision-ledger semantics -- every execution produced exactly 18 "
             "finite named scores, the repeated execution of reconstruction A "
             "was bit-identical, and the run stayed within 45 GPU minutes at "
             "batch size 1. This authorizes ONLY a later request for human "

@@ -1,6 +1,20 @@
 {
   "idea_id": "004",
+  "revision": "r6 (enumerated-key-tolerant load; decision ledger 2026-08-12)",
   "passed": true,
+  "checks_performed": [
+    "requirements.txt reverted to the r4 closure (transformers==4.38.2, tokenizers==0.15.2) that the ledger records as having installed cleanly twice on Colab; diffed against git revision 7518780 to confirm the closure matches, with tokenizers now pinned explicitly",
+    "static review of the full run.py diff: the strip helper is module-level and defined before both callers; re is already imported; provenance and out_dir are in scope at the load site; removed_keys is defined on every path that reaches the PHASE 5 summary",
+    "regex reviewed against the ledger glob *.embeddings.position_ids: requires a leading component, suffix-anchored; matches the observed key trained_model.text_transformer.embeddings.position_ids and rejects bare embeddings.position_ids, position_embeddings weights, and suffix-extended keys",
+    "smoke mode gained self-tests covering the exactly-one, zero-key, two-key, and near-miss cases; the real caller exits 5 unless the removed set is exactly one key; strict=True load is preserved for all other keys",
+    "provenance.json gains state_dict_keys_removed_before_load (pattern, keys, reason) written before load_state_dict; the removed key is also logged to run_log.txt; summary.json discloses the removed keys and renames the load check to checkpoint_loaded_strict_modulo_enumerated_buffer_keys",
+    "startup logs the installed transformers version in real mode (and best-effort in smoke mode)",
+    "no probe-scope change: pair selection, three-execution plan, caps, seeds, and required outputs are untouched"
+  ],
   "issues": [],
-  "checked_at": "2026-08-12T09:45:28.306567+00:00"
+  "not_verified": [
+    "python execution is blocked in this implementation sandbox, so py_compile and the smoke run could not be executed here; running `python3 run.py --smoke` is the human's first step and exercises the new buffer-strip self-tests",
+    "whether CT_LiPro_v2.pt now loads under transformers 4.38.2 with the single enumerated key removed is the probe's primary question and can only be answered by the real run"
+  ],
+  "checked_at": "2026-08-12T09:57:32+00:00"
 }

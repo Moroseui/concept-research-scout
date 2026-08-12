@@ -5,13 +5,14 @@ torchvision==0.20.1
 numpy==1.26.4
 nibabel==5.2.1
 pandas==2.2.2
-# transformers is pinned to the authors' released environment (transformer_maskgit/setup.py
-# line 17, commented pin "#transformers==4.30.1"). 4.31.0 made BERT position_ids a
-# non-persistent buffer, so the <=4.30.x-saved checkpoint carries a key that >=4.31 models
-# reject on strict load (probe exit 5, root-caused 2026-08-12). tokenizers cascades:
-# transformers 4.30.1 requires tokenizers<0.14, and 0.13.3 is the last 0.13.x release.
-transformers==4.30.1
-tokenizers==0.13.3
+# r6 (decision ledger 2026-08-12): back to the r4 closure that installed cleanly
+# twice on Colab. The r5 released-environment pin (transformers 4.30.1 /
+# tokenizers 0.13.3) is uninstallable on Colab Python 3.12 -- tokenizers <0.14
+# ships no cp312 wheels and the Rust source build fails. The checkpoint-era
+# position_ids buffer key that 4.38.2 rejects on strict load is instead removed
+# by run.py's enumerated, provenance-logged strip (see its PHASE 4).
+transformers==4.38.2
+tokenizers==0.15.2
 huggingface-hub==0.22.2
 scikit-learn==1.4.2
 tqdm==4.66.4

@@ -59,13 +59,24 @@ Revision 2026-08-12 r5 (exit-5 root cause, decision ledger): the earlier
 one unexpected key, `trained_model.text_transformer.embeddings.position_ids`.
 Transformers 4.31.0 changed BERT `position_ids` from a persistent to a
 non-persistent buffer, so a checkpoint saved under <=4.30.x carries the key
-while a model instantiated under >=4.31 does not expect it. The released
-repo's own `transformer_maskgit/setup.py` (line 17) carries the commented pin
-`#transformers==4.30.1` — the authors' environment. `requirements.txt` now
-pins `transformers==4.30.1` with `tokenizers==0.13.3` (4.30.1 requires
-tokenizers<0.14). No `run.py` change; the exit-5 classification is
-provisionally environment-class and becomes final only after a run under this
-released pin.
+while a model instantiated under >=4.31 does not expect it. r5 pinned the
+authors' released environment (`transformers==4.30.1` / `tokenizers==0.13.3`,
+per the commented pin in the released `transformer_maskgit/setup.py`).
+
+Revision 2026-08-12 r6 (r5 environment dead end, decision ledger): the r5 pin
+is uninstallable on Colab Python 3.12 — `tokenizers<0.14` ships no cp312
+wheels and the Rust source build fails. `requirements.txt` is reverted to the
+r4 closure that installed cleanly twice (`transformers==4.38.2` /
+`tokenizers==0.15.2`), and `run.py` instead removes state-dict keys matching
+`*.embeddings.position_ids` before `load_state_dict` — the non-learnable
+arange buffer that `from_pretrained` itself silently drops across framework
+eras. The tolerance is enumerated and audited: the removed set must be
+exactly one key matching that pattern (zero or several exits 5), the removed
+key is written to `run_log.txt` and `provenance.json`
+(`state_dict_keys_removed_before_load`), strict loading is preserved so any
+other unexpected or missing key still exits 5, and startup logs the installed
+transformers version. Exit-5 semantics accordingly: a load is "unchanged"
+modulo enumerated, provenance-logged framework-era buffer keys only.
 
 If the released code's constructor or call signatures differ from the
 transcription in `run.py` (taken from `scripts/ct_lipro_inference.py` on
