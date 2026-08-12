@@ -151,3 +151,4 @@
 {"ledger_id": "scout-010-c03", "novelty_verdict": "NO_DUPLICATE_FOUND_HIGH_CONFIDENCE", "audited_at": "2026-08-12T07:31:43+00:00", "recorded_at": "2026-08-12T07:31:43+00:00"}
 {"ledger_id": "scout-010-c04", "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH", "audited_at": "2026-08-12T07:31:43+00:00", "recorded_at": "2026-08-12T07:31:43+00:00"}
 {"ledger_id": "scout-010-c05", "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH", "audited_at": "2026-08-12T07:31:43+00:00", "recorded_at": "2026-08-12T07:31:43+00:00"}
+{"ledger_id": "idea-004", "scrutiny": "PROBED", "notes": "result summary.json", "recorded_at": "2026-08-12T10:30:22+00:00"}
