@@ -196,3 +196,24 @@ missing key still exits 5. (3) Startup logs the installed transformers
 version. Exit-5 semantics update: a load is "unchanged" modulo enumerated,
 provenance-logged framework-era buffer keys only.
 
+
+## 2026-08-12 — Probe 004 contract v1 ADVANCE (load probe passed)
+
+The authorized real A/B/A run satisfied every load-probe contract gate. The frozen
+`CT_LiPro_v2.pt` artifact (SHA-256
+`9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d`)
+loaded strictly under CT-CLIP commit `a2a155c601987820433c01db69b64d701d3d229d`,
+modulo exactly the single r6-authorized and provenance-recorded
+`trained_model.text_transformer.embeddings.position_ids` buffer key. The selected
+Stage-0-valid Br40f|Br60f pair produced 18 finite named scores for A, B, and repeated
+A; the A repeat was bit-identical. All three executions completed at batch size one
+without patch-size changes in 0.250 GPU minutes with 4.10 GB peak memory, under the
+45-minute cap. All authorized variants are reported in `ideas/004/decision.md`.
+
+Scope: this demonstrates checkpoint/pipeline compatibility, output shape,
+determinism, and bounded single-pair inference only. The one-pair A-versus-B score
+differences are diagnostic and scientifically uninterpretable; they establish
+nothing about reconstruction sensitivity, equivalence, accuracy, or concept
+validity. No validity failure occurred. ADVANCE means only that a separate 425-pair
+floor-study contract may now be drafted and submitted for fresh human approval; no
+bulk inference is authorized by this decision.
