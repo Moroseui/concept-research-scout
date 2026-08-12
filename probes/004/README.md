@@ -54,6 +54,19 @@ records each selected volume's normalized and raw kernel from its own
 metadata row. Geometry list-string columns compare same-format row-vs-row
 and are unchanged.
 
+Revision 2026-08-12 r5 (exit-5 root cause, decision ledger): the earlier
+`transformers==4.38.2` pin caused the observed exit-5 load failure on exactly
+one unexpected key, `trained_model.text_transformer.embeddings.position_ids`.
+Transformers 4.31.0 changed BERT `position_ids` from a persistent to a
+non-persistent buffer, so a checkpoint saved under <=4.30.x carries the key
+while a model instantiated under >=4.31 does not expect it. The released
+repo's own `transformer_maskgit/setup.py` (line 17) carries the commented pin
+`#transformers==4.30.1` — the authors' environment. `requirements.txt` now
+pins `transformers==4.30.1` with `tokenizers==0.13.3` (4.30.1 requires
+tokenizers<0.14). No `run.py` change; the exit-5 classification is
+provisionally environment-class and becomes final only after a run under this
+released pin.
+
 If the released code's constructor or call signatures differ from the
 transcription in `run.py` (taken from `scripts/ct_lipro_inference.py` on
 2026-08-11), the probe fails with exit 5/7/9; fix the driver to match the
