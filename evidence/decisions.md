@@ -140,3 +140,21 @@ later contract requiring fresh human approval. (4) Freeze HF commit hash and
 checkpoint SHA-256 at download time; attribution limited to 'released v2
 ClassFine checkpoint' until paper-number correspondence is checked.
 
+
+## 2026-08-12 - Probe 004 exit-7 root cause (evidence-quoted) and revision spec
+
+Diagnostic on the frozen revision (deeca4d8) of validation_metadata.csv:
+ConvolutionKernel values are stringified lists - value_counts shows
+"['Br40f', '3']": 425 and "['Br60f', '3']": 239 - while run.py matches
+row['ConvolutionKernel'].strip() == 'Br40f', which matches zero rows. World
+matches Stage 0 (239 Br60f volumes ~ frozen 237 pairs); only the predicate
+drifted. Revision requirements, and ONLY these: (1) normalize the kernel
+field before comparison - if it parses as a Python list literal take element
+0, else use the stripped raw string - then compare to Br40f/Br60f; robust to
+both formats. (2) Diagnosability: on any selection shortfall vs the frozen
+count, dump top-10 distinct kernel values with counts, example VolumeNames,
+and per-filter drop counts to the run log AND selection_audit.json in the
+output dir. (3) Record the normalized kernel per selected volume in
+input_manifest.csv. Geometry list-string columns compare same-format
+row-vs-row and need no change. No other scope.
+
