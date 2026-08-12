@@ -1,75 +1,76 @@
-# Probe code review — idea 004 (load probe, contract v1) — ROUND 4
+# Probe code review — idea 004 (load probe, contract v1) — ROUND 5
 
-**Reviewed artifacts:** `probes/004/run.py` (revision `759b664`),
-`probes/004/requirements.txt`, `probes/004/README.md`,
-`probes/004/verification.json`, and `ideas/004/probe_contract.yaml`.
-This review is limited to the decision-ledger-authorized exit-7 repair: kernel
-normalization, selection diagnostics, and manifest provenance. The previously
+**Reviewed artifacts:** `probes/004/run.py` (unchanged from approved revision
+`759b664`), `probes/004/requirements.txt`, `probes/004/README.md`,
+`probes/004/verification.json`, and `ideas/004/probe_contract.yaml`. This review
+is limited to the decision-ledger-authorized exit-5 environment repair:
+`transformers==4.30.1` and its compatible `tokenizers` cascade. The previously
 approved one-pair, three-execution probe remains unchanged.
 
-**Verdict: APPROVE.** The repair fixes the observed predicate drift without
-expanding the experiment. I independently compiled the script and ran
-`python probes/004/run.py --smoke --output-dir <temporary-directory>`; it
-completed successfully, wrote all required smoke artifacts including the new
-`selection_audit.json`, produced 54 per-head rows, and retained the explicit
-`contract_satisfied: false` smoke interpretation.
+**Verdict: APPROVE.** The repair aligns model construction with the released
+repository's documented Transformers pin without weakening strict checkpoint
+loading or expanding the experiment. I independently compiled `run.py`, ran
+`python probes/004/run.py --smoke --output-dir <temporary-directory>`, and
+confirmed successful completion with all eight required artifacts, 54 per-head
+rows, and `contract_satisfied: false`. I also ran a Python-3.11-targeted pip
+dry-resolution of `transformers==4.30.1`, `tokenizers==0.13.3`, and
+`huggingface-hub==0.22.2`; the resolver accepted the combination.
 
 ## Contract fidelity
 
-- **No scope or cap drift.** The real path still selects exactly one
-  predeclared validation pair and runs A, B, A-repeat only. The 45-minute,
-  three-execution, one-seed gates and the diagnostic-only treatment of A-vs-B
-  differences are unchanged (`run.py:982-1002`, `run.py:1141-1194`).
-- **Kernel repair matches the ledger.** `normalize_kernel` strips a raw string
-  and, for a parsable list literal, uses element 0; selection applies that
-  function only to Br40f/Br60f membership (`run.py:376-397`,
-  `run.py:477-483`). Geometry fields remain exact row-to-row comparisons
-  (`run.py:491-502`).
-- **Required outputs are covered.** `selection_audit.json` was added to the
-  contract and documentation. Real mode writes it before enforcing the frozen
-  237-pair count, so an exit-7 mismatch leaves the diagnostic artifact behind
-  (`run.py:986-998`). Successful real mode still writes the other required
-  artifacts through the previously approved paths.
-- **Manifest provenance is faithful.** Each selected volume's raw and
-  normalized kernel values come from its own metadata row, rather than from a
-  role-based constant (`run.py:557-568`).
+- **No probe-logic or scope drift.** `run.py` is byte-unchanged from the Round-4
+  approved revision, so the frozen pair selection, A/B/A-repeat execution count,
+  one-seed limit, 45-GPU-minute cap, strict load path, output-shape checks, and
+  required artifacts remain as previously reviewed.
+- **The environment repair matches the ledger exactly.** The dependency file
+  replaces the later Transformers release with `transformers==4.30.1` and adds
+  `tokenizers==0.13.3`; its comments state both the released-repository provenance
+  and the position-buffer incompatibility being tested
+  (`probes/004/requirements.txt:8-15`). No checkpoint key is dropped, renamed, or
+  loaded non-strictly.
+- **The repair propagates through the existing run instructions.** The documented
+  installation still consumes the single pinned requirements file before invoking
+  the unchanged driver (`probes/004/README.md:17-25`).
 
-## Silent-failure review
+## Silent-failure surfaces
 
-No blocking silent-failure surface was introduced. A count differing from 237
-still stops before volume inference. Before that stop, the code writes the
-top-ten raw kernel values with counts, normalized values and example volume
-names, plus per-filter drop counts, to both the JSON audit and run log
-(`run.py:437-455`, `run.py:468-507`, `run.py:535-550`, `run.py:986-998`). The
-smoke test asserts the exact planted-decoy drop counts and verifies both the
-list-form and plain-string paths (`run.py:715-764`).
+No blocking silent-failure surface was introduced. A real run under the older
+Transformers version still exercises the same strict checkpoint load and exits on
+incompatibility; the version change does not catch or suppress that failure. The
+README correctly says the prior exit-5 classification remains provisional until
+the real checkpoint is tested under the released pin
+(`probes/004/README.md:57-69`).
 
-The independent smoke run confirmed that `"['Br40f', '3']"` and
-`"['Br60f', '3']"` select the intended pair, while slice-count and spacing
-decoys are rejected. The generated audit reported five validation scans, two
-missing-contrast drops, two geometry drops, and the expected per-column
-mismatch counts.
+## Claim discipline
 
-## Claim discipline and readability
+The smoke run remains explicitly non-scientific: its summary reports
+`contract_satisfied: false` and says that it establishes nothing about checkpoint
+compatibility or reconstruction sensitivity. The environment change introduces no
+new data contact, variant, score analysis, threshold, or scientific conclusion.
 
-The summary language remains contract-correct: smoke mode cannot satisfy the
-contract, and a real passing run authorizes only a request for a later bulk
-contract. The new module and phase comments explain the exit-7 cause and the
-normalization provenance. No test split, extra pair, threshold, margin, or
-scientific reconstruction-sensitivity analysis was added.
+## Readability and practicalities
+
+The new requirements comments explain why the two versions are pinned and identify
+their provenance (`probes/004/requirements.txt:8-14`). The README separately
+narrates the exit-5 cause, the exact repair, and the required next evidentiary step
+(`probes/004/README.md:57-69`). The targeted Python 3.11 dependency resolution
+found no conflict among Transformers, Tokenizers, and Hugging Face Hub, which is
+the compatibility surface changed in this revision.
 
 ## Non-blocking findings
 
-1. **Reruns still overwrite an existing output directory.** `run_log.txt` is
-   truncated and artifacts are rewritten in place (`run.py:1218-1219`). This
-   was carried from the prior approved revision; use a fresh persistent output
-   directory for each real attempt.
-2. **Committed verification text understates current verification.** The
-   bundled `verification.json` says the revised smoke run could not be
-   executed in the coder's sandbox. This review independently executed it
-   successfully, so that historical statement is no longer a project-level
-   uncertainty and does not require a code change.
+1. **The real load result remains intentionally unknown.** Neither smoke mode nor
+   dependency resolution can prove that `CT_LiPro_v2.pt` loads; that is the approved
+   probe's primary metric, not a code-review defect.
+2. **The committed verification note is historically stale.**
+   `probes/004/verification.json` says Python execution was blocked during
+   implementation. This review independently executed the smoke run successfully;
+   no probe artifact or code change is required.
+3. **A full requirements solve was not reproduced on this host.** Its Python 3.13
+   environment has no wheel for the older pinned `torchvision==0.20.1`. That is not
+   evidence of a Colab incompatibility and predates this revision; the changed
+   three-package compatibility set resolves for Python 3.11.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "The exit-7 repair faithfully normalizes list-form kernels, emits pre-failure selection diagnostics, records row-derived kernel provenance, and passes an independent smoke run without scope or cap drift."}
+{"verdict": "APPROVE", "blocking": [], "note": "The r5 repair faithfully pins the released Transformers environment and a compatible tokenizer, leaves the approved probe logic unchanged, and passes compilation, smoke, and targeted dependency-resolution checks."}
 ```
