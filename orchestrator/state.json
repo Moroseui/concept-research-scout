@@ -1,27 +1,20 @@
 {
-  "next_scout": 10,
+  "next_scout": 11,
   "selected_idea": 19,
-  "active_cycle": 9,
+  "active_cycle": 10,
   "cycle": {
-    "scout": 9,
+    "scout": 10,
     "tracks": [
-      "baseline",
-      "wide",
-      "fiction"
+      "baseline"
     ],
     "seed_concepts": null,
-    "started": "2026-08-11T09:57:38+00:00",
+    "started": "2026-08-12T07:09:25+00:00",
     "stages": {
-      "scout": "done",
-      "wide_scout": "done",
-      "fiction_scout": "done",
-      "fiction_extract": "done",
-      "fiction_refine": "done",
-      "merge": "done",
-      "novelty_audit": "done",
-      "backlog": "done"
-    },
-    "finished": "2026-08-11T10:43:05+00:00"
+      "scout": "pending",
+      "merge": "pending",
+      "novelty_audit": "pending",
+      "backlog": "pending"
+    }
   },
   "shortlisted": {
     "6": {
