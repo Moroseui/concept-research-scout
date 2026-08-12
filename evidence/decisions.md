@@ -177,3 +177,22 @@ load classification is only final after the released environment pin has
 been tested - version-semantics mismatches must not masquerade as
 checkpoint facts.
 
+
+## 2026-08-12 - Probe 004 r5 environment dead end; r6 pivot to enumerated-key-tolerant load
+
+The r5 pin (transformers 4.30.1 / tokenizers 0.13.3) is uninstallable on
+Colab Python 3.12: tokenizers <0.14 ships no cp312 wheels and the Rust
+source build fails (pip error captured 2026-08-12). Pinning backward to the
+authors 2023 environment is not viable on current runtimes. Revision r6,
+and ONLY this: (1) revert requirements.txt to the r4 closure that installed
+cleanly twice (transformers 4.38.2 / tokenizers 0.15.2). (2) In run.py,
+before load_state_dict, remove state-dict keys matching
+*.embeddings.position_ids - the non-learnable arange buffer that
+transformers 4.31 made non-persistent; this replicates from_pretrained
+documented cross-era behavior. Strictness otherwise preserved: assert the
+removed set is exactly one key matching that pattern, log the removed
+key(s) to provenance.json and the run log, and any OTHER unexpected or
+missing key still exits 5. (3) Startup logs the installed transformers
+version. Exit-5 semantics update: a load is "unchanged" modulo enumerated,
+provenance-logged framework-era buffer keys only.
+
