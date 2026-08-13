@@ -1,0 +1,20 @@
+Novelty audit for cycle 011 is complete. I ran five parallel search passes (one per candidate, 9–13 queries each across general web, PubMed-scoped, and arXiv-scoped search) and wrote `ideas/scout-011/novelty_audit.md` and `ideas/scout-011/novelty_manifest.json`. No other files were touched.
+
+**Verdicts:**
+
+| Candidate | Verdict | Why not done |
+|---|---|---|
+| C1 hand-radiograph sex classifier | NO_DUPLICATE_FOUND_LIMITED_SEARCH | BLIND_SPOT |
+| C2 Merlin CKD / renal atrophy | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C3 CT-CLIP edema / cephalization | NO_DUPLICATE_FOUND_LIMITED_SEARCH | NEW_CAPABILITY |
+| C4 air bronchogram topology | NO_DUPLICATE_FOUND_LIMITED_SEARCH | NEW_CAPABILITY |
+| C5 Merlin diabetes / pancreatic fat | **INCREMENTAL** | BLIND_SPOT |
+
+Findings that matter beyond the table:
+
+- **C5 is downgraded to INCREMENTAL.** Tallam et al. (Radiology 2022, DOI 10.1148/radiol.211914) already predicts diabetes from automated pancreas CT features in ~9,000 patients with intrapancreatic fat as the *top-ranked* predictor, and it already includes the liver-fat and visceral-fat context C5 planned as controls. A 2024 study (PMC11226987, read in full text) validates the exact pancreas-to-spleen HU ratio, and a 2025 Academic Radiology paper already uses TotalSegmentator for these biomarkers. The only unduplicated element is decoding Merlin's learned head — a narrow delta over a mature literature, consistent with the candidate's own self-reported novelty score of 2.
+- **C3 carries a scientific risk flag, recorded in the audit:** retrieved physiology literature states the upright craniocaudal blood-volume gradient is largely abolished in supine CT and replaced by a ventrodorsal gradient. That is plausibly *why* nobody quantified an upper/lower vessel ratio on supine CT, and it means the candidate's cranial axis may be the wrong operationalization — the anterior–posterior axis should be treated as the leading alternative before any design freeze.
+- **C2 got the only high-confidence verdict:** all three neighbors were read in full text, including a 2025 BMC Medical Imaging paper whose automated renal-surface-nodularity pipeline is exactly the measurement class C2 proposes (never connected to any model's prediction). Sole caveat: Merlin's Nature supplement was not inspected.
+- **C1 and C4 share the same access limitation:** their closest methodological neighbor (RoentMod, npj Digital Medicine 2026 — counterfactual radiograph editing to expose model shortcuts) was paywalled, so non-overlap rests on abstracts and search summaries; both were therefore held at LIMITED_SEARCH rather than high confidence.
+
+Per the charter's calibration rule, none of the NO_DUPLICATE verdicts constitute verified novelty — they record that a genuine multi-source search found distinguishable neighbors and no duplicate.

@@ -1,0 +1,167 @@
+{
+  "searched_at": "2026-08-13T07:23:21+00:00",
+  "method": "Five parallel search agents (one per candidate), each running 9-13 distinct queries across general web search, PubMed-scoped search, and arXiv-scoped search, with WebFetch full-text/abstract retrieval where accessible. Paywalled sources noted per neighbor via the access field.",
+  "queries": [
+    {"query": "Yune hand radiograph sex classification CNN deep learning interpretability what features", "source": "web_search", "candidate": "C1"},
+    {"query": "deep learning sex determination hand bone age radiograph explainability class activation map metacarpal", "source": "web_search", "candidate": "C1"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov second metacarpal cortical thickness sex differences radiogrammetry metacarpal index", "source": "web_search_pubmed", "candidate": "C1"},
+    {"query": "metacarpal cortical index sex differences radiograph cortical thickness men women radiogrammetry", "source": "web_search", "candidate": "C1"},
+    {"query": "trabecular bone anisotropy sex differences radiograph structure tensor orientation metacarpal", "source": "web_search", "candidate": "C1"},
+    {"query": "counterfactual perturbation edit radiograph test what deep learning classifier uses bone feature causal attribution", "source": "web_search", "candidate": "C1"},
+    {"query": "arxiv counterfactual explanation chest radiograph generative edit classifier sex shortcut medical imaging", "source": "web_search_arxiv", "candidate": "C1"},
+    {"query": "radiomics sex determination hand radiograph handcrafted features cortical bone classification", "source": "web_search", "candidate": "C1"},
+    {"query": "follow-up Yune sexual dimorphism hand wrist deep learning which anatomical feature identified cortical metacarpal 2019 2023", "source": "web_search", "candidate": "C1"},
+    {"query": "image editing perturbation cortical thickness sham control test bone classifier hand radiograph sex feature attribution", "source": "web_search", "candidate": "C1"},
+    {"query": "structure tensor orientation coherence trabecular metacarpal base radiograph sex classifier deep learning probe deterministic measurement", "source": "web_search", "candidate": "C1"},
+    {"query": "Merlin abdominal CT foundation model CKD prediction interpretability Blankemeier", "source": "web_search", "candidate": "C2"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov CT kidney volume eGFR prediction deep learning", "source": "web_search_pubmed", "candidate": "C2"},
+    {"query": "opportunistic screening chronic kidney disease abdominal CT deep learning renal atrophy", "source": "web_search", "candidate": "C2"},
+    {"query": "arXiv Merlin CT foundation model probing saliency attribution disease prediction kidney", "source": "web_search_arxiv", "candidate": "C2"},
+    {"query": "automated kidney surface irregularity nodularity CT quantification chronic kidney disease", "source": "web_search", "candidate": "C2"},
+    {"query": "TotalSegmentator kidney volume chronic kidney disease eGFR opportunistic", "source": "web_search", "candidate": "C2"},
+    {"query": "\"Merlin\" CT foundation model \"chronic kidney disease\" prediction \"Grad-CAM\" OR \"saliency\" OR \"explainability\" OR \"what features\"", "source": "web_search", "candidate": "C2"},
+    {"query": "mediation analysis deep learning imaging prediction explained by organ volume segmentation biomarker probing foundation model", "source": "web_search", "candidate": "C2"},
+    {"query": "site:arxiv.org abdominal CT foundation model opportunistic disease prediction interpretability concept attribution body composition", "source": "web_search_arxiv", "candidate": "C2"},
+    {"query": "\"linear probing\" OR \"probe\" CT foundation model embeddings encode organ volume kidney \"TotalSegmentator\"", "source": "web_search", "candidate": "C2"},
+    {"query": "\"renal atrophy\" deep learning CT detection kidney volume longitudinal eGFR decline prediction", "source": "web_search", "candidate": "C2"},
+    {"query": "quantitative CT pulmonary vascular redistribution cephalization upper lobe vessel volume heart failure", "source": "web_search", "candidate": "C3"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov upper lobe pulmonary blood volume CT heart failure vessel segmentation", "source": "web_search_pubmed", "candidate": "C3"},
+    {"query": "CT-CLIP CT-RATE interpretability explainability pulmonary edema chest CT vision-language model", "source": "web_search", "candidate": "C3"},
+    {"query": "deep learning pulmonary edema severity assessment chest radiograph interpretability MIT cephalization features", "source": "web_search", "candidate": "C3"},
+    {"query": "arXiv counterfactual intervention vessel segmentation explain chest CT deep learning model edema heart failure score", "source": "web_search_arxiv", "candidate": "C3"},
+    {"query": "small vessel volume BV5 quantitative CT left heart failure pulmonary congestion decompensation", "source": "web_search", "candidate": "C3"},
+    {"query": "craniocaudal distribution pulmonary blood volume CT supine gravity vessel volume upper lower lung ratio", "source": "web_search", "candidate": "C3"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov quantitative CT pulmonary congestion vascular redistribution heart failure vessel volume", "source": "web_search_pubmed", "candidate": "C3"},
+    {"query": "arXiv probing chest CT foundation model learned features TotalSegmentator counterfactual \"CT-CLIP\"", "source": "web_search_arxiv", "candidate": "C3"},
+    {"query": "\"Detection of Pulmonary Congestion in Heart Failure With Preserved Ejection Fraction Using Quantitative Chest CT\" vessel volume", "source": "web_search", "candidate": "C3"},
+    {"query": "Rahaghi pulmonary blood vessel volume distribution CT pulmonary venous hypertension left heart disease arterial venous", "source": "web_search", "candidate": "C3"},
+    {"query": "saliency map chest x-ray deep learning congestive heart failure model uses cephalization vascular redistribution evaluation", "source": "web_search", "candidate": "C3"},
+    {"query": "automatic air bronchogram detection CT quantification deep learning", "source": "web_search", "candidate": "C4"},
+    {"query": "air bronchogram sign radiomics nodule malignancy CT automated measurement", "source": "web_search", "candidate": "C4"},
+    {"query": "counterfactual editing lung CT deep learning interpretability pneumonia consolidation which radiologic signs", "source": "web_search", "candidate": "C4"},
+    {"query": "airway segmentation within consolidation opacified lung ATM22 challenge deep learning", "source": "web_search_arxiv", "candidate": "C4"},
+    {"query": "counterfactual explanation medical imaging generative editing test model reliance on radiologic feature", "source": "web_search", "candidate": "C4"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov air bronchogram quantification automated CT", "source": "web_search_pubmed", "candidate": "C4"},
+    {"query": "CT-CLIP CT-RATE chest CT vision language model consolidation interpretability feature attribution", "source": "web_search_arxiv", "candidate": "C4"},
+    {"query": "air bronchogram topology airway centerline connectivity feature lung disease model quantitative", "source": "web_search", "candidate": "C4"},
+    {"query": "air bronchogram sign automatic segmentation consolidation pneumonia CT model explanation counterfactual insert airway lumen", "source": "web_search", "candidate": "C4"},
+    {"query": "RoentMod chest x-ray counterfactual shortcut consolidation edit npj digital medicine pathology insert", "source": "web_search", "candidate": "C4"},
+    {"query": "pancreatic attenuation CT incident type 2 diabetes pancreas-to-spleen ratio", "source": "web_search", "candidate": "C5"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov pancreatic steatosis CT attenuation incident diabetes", "source": "web_search_pubmed", "candidate": "C5"},
+    {"query": "deep learning opportunistic abdominal CT diabetes prediction pancreas segmentation", "source": "web_search", "candidate": "C5"},
+    {"query": "Tallam \"fully automated abdominal CT biomarkers\" type 2 diabetes Radiology 2022 pancreas fat pmc", "source": "web_search", "candidate": "C5"},
+    {"query": "pancreas radiomics CT type 2 diabetes prediction opportunistic screening automated", "source": "web_search", "candidate": "C5"},
+    {"query": "TotalSegmentator pancreatic fat quantification CT automated pancreas attenuation biomarker", "source": "web_search", "candidate": "C5"},
+    {"query": "Merlin abdominal CT foundation model Blankemeier interpretability attribution diabetes prediction", "source": "web_search", "candidate": "C5"},
+    {"query": "arxiv Merlin 3D vision language foundation model abdominal CT phenotype prediction diabetes", "source": "web_search_arxiv", "candidate": "C5"},
+    {"query": "\"foundation model\" OR \"deep learning\" CT diabetes prediction saliency attribution \"what the model learned\" body composition explanation", "source": "web_search", "candidate": "C5"},
+    {"query": "site:arxiv.org abdominal CT foundation model probing body composition features explain metabolic disease prediction", "source": "web_search_arxiv", "candidate": "C5"},
+    {"query": "Merlin CT foundation model diabetes prediction pancreatic fat attenuation attribution explanation biomarker substitution", "source": "web_search", "candidate": "C5"},
+    {"query": "\"pancreas\" foundation model CT diabetes prediction driven by intrapancreatic fat feature attribution 2025 2026", "source": "web_search", "candidate": "C5"}
+  ],
+  "neighbors": [
+    {
+      "candidate": "C1",
+      "identifier": "DOI 10.1007/s10278-018-0148-x (PMID 30478479, PMC6646498) — Yune et al., J Digit Imaging 2019",
+      "access": "full_text",
+      "establishing_passage": "The class activation maps showed that the model mostly focused on the 2nd and 3rd metacarpal base or thumb sesamoid in women, and distal radioulnar joint, distal radial physis and epiphysis, or 3rd metacarpophalangeal joint in men... radiologists reviewed 70 cases... but they could not find any patterns that distinguish the two sexes."
+    },
+    {
+      "candidate": "C1",
+      "identifier": "DOI 10.1038/s41746-026-02497-6 (arXiv:2509.08640) — RoentMod, npj Digital Medicine 2026",
+      "access": "search_summary",
+      "establishing_passage": "RoentMod, a counterfactual image editing framework that generates realistic chest radiographs with user-specified and synthetic pathology while maintaining the original anatomical features. Deep learning models for CXR interpretation are vulnerable to shortcut learning, where spurious correlations drive decision-making."
+    },
+    {
+      "candidate": "C1",
+      "identifier": "J Clin Med 2024;13(7):1904 (MDPI) — Sex Differentiation of Trabecular Bone Structure Based on Textural Analysis of Pelvic Radiographs",
+      "access": "search_summary",
+      "establishing_passage": "Assessed sex determination from trabecular bone structures in the pelvic region, analyzing digital radiographs of 343 patients using textural parameters."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.3390/jcm14165888 (PMC12387138) — Opportunistic Detection of CKD Using CT-Based Measurements of Kidney Volume and Perirenal Fat, J Clin Med 2025",
+      "access": "full_text",
+      "establishing_passage": "KV and PrFT emerged as independent predictors of CKD, forming the basis of a simplified model with potential for opportunistic clinical application (kidney volume OR 0.249, 95% CI 0.146-0.422; test AUC 0.894)."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.1186/s12880-025-01995-5 — Quantitative renal surface nodularity and renal dysfunction progression, BMC Medical Imaging 2025",
+      "access": "full_text",
+      "establishing_passage": "Automated pipeline (renal segmentation, edge extraction, surface curve fitting) computing three roughness metrics on CT in 242 hypertensive patients; renal dysfunction progression was independently associated with all three after adjusting for eGFR and renal volume (RSN group HR 5.22)."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.1038/s41586-026-10181-8 (arXiv:2406.06512) — Blankemeier et al., Merlin, Nature 2026",
+      "access": "full_text",
+      "establishing_passage": "We fine-tune Merlin for predicting chronic disease onset in otherwise healthy patients within 5-years (six diseases including CKD, mean AUROC ~0.757); the retrieved article text contains no saliency, probing, mediation, or feature-attribution analysis of the CKD head. Supplement not inspected."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "DOI 10.1002/pul2.12321 (PMC10719487) — Cajigas et al., Pulmonary Circulation 2023",
+      "access": "full_text",
+      "establishing_passage": "Quantified pulmonary vascular distribution using BV5 (volume of vessels <5 mm2 cross-sectional area), BV10%, and fractal dimension. The study did not measure cranial/caudal or upper versus lower lung redistribution; the analysis examined vessel volume distribution by size category only, not by anatomical location within the lungs."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "arXiv:2008.05975 (Radiology: AI 2021) — Horng, Liao et al., Deep Learning to Quantify Pulmonary Edema in Chest Radiographs",
+      "access": "abstract",
+      "establishing_passage": "Trained on 369,071 MIMIC-CXR radiographs to grade edema severity on a 4-level ordinal scale (0 none, 1 vascular congestion, 2 interstitial, 3 alveolar), AUC 0.99 for alveolar-vs-none; the abstract includes no analysis of specific radiographic features (such as cephalization or vascular redistribution) that the models use."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "Seah et al., Chest Radiographs in Congestive Heart Failure: Visualizing Neural Network Learning, Radiology 2019",
+      "access": "search_summary",
+      "establishing_passage": "GAN-based generative visual rationales on CXR: the correctly trained model highlighted cardiomegaly (75%) and pleural effusions (23.5%); no mention of cephalization or vascular redistribution appears in the article."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "DOI 10.1038/s41598-024-72786-1 — Upright vs supine CT pulmonary gradients, Scientific Reports 2024 (risk-flag context, not a neighbor)",
+      "access": "search_summary",
+      "establishing_passage": "The upright craniocaudal perfusion/blood-volume gradient is largely abolished in supine CT and replaced by a ventrodorsal gradient — recorded as a scientific risk flag for the candidate's choice of the cranial axis."
+    },
+    {
+      "candidate": "C4",
+      "identifier": "DOI 10.1038/s41746-026-02497-6 (arXiv:2509.08640) — RoentMod, npj Digital Medicine 2026",
+      "access": "search_summary",
+      "establishing_passage": "State-of-the-art multi-task and foundation models frequently exploit off-target pathology as shortcuts, limiting their specificity... Incorporating RoentMod-generated counterfactual images during training mitigated this vulnerability. 2D CXR pathology-presence edits; no airway-topology manipulation, no CT."
+    },
+    {
+      "candidate": "C4",
+      "identifier": "Medicine (Baltimore) 2018, journals.lww.com/md-journal (ResearchGate PUB 327342125) — The value of the air bronchogram sign on CT image in the identification of different solitary pulmonary consolidation lesions",
+      "access": "search_summary",
+      "establishing_passage": "The length of the involved bronchus with air bronchogram sign, the length of lesion... and the ratio between the length of the involved bronchus and that of the lesion were evaluated (manual measurement, diagnostic use, cancer vs TB vs pneumonia)."
+    },
+    {
+      "candidate": "C4",
+      "identifier": "DOI 10.1016/j.media.2023.102957 (arXiv:2303.05745) — ATM'22 airway tree modeling benchmark, Medical Image Analysis 2023",
+      "access": "abstract",
+      "establishing_passage": "The dataset further included a portion of noisy COVID-19 CTs with ground-glass opacity and consolidation; models embedded with the topological continuity enhancement achieved superior performance."
+    },
+    {
+      "candidate": "C5",
+      "identifier": "DOI 10.1148/radiol.211914 — Tallam et al., Fully Automated Abdominal CT Biomarkers for Type 2 Diabetes Using Deep Learning, Radiology 2022",
+      "access": "search_summary",
+      "establishing_passage": "Patients with type 2 diabetes mellitus had lower pancreatic CT attenuation and greater visceral fat volume... The best predictors included intrapancreatic fat percentage, pancreatic fractal dimension, plaque severity between the L1 and L4 vertebra levels, average liver CT attenuation, and body mass index (n=8,992)."
+    },
+    {
+      "candidate": "C5",
+      "identifier": "PMID 38974951 (PMC11226987) — CT Quantitation and Prediction of the Risk of T2DM in Non-Obese Patients with Pancreatic Fatty Infiltration, DMSO 2024",
+      "access": "full_text",
+      "establishing_passage": "Groups b, c, d, and e had an increased risk of developing diabetes by 3.981, 4.452, 6.037, and 12.937 versus group a; the pancreas-to-spleen attenuation ratio is more objective than other markers."
+    },
+    {
+      "candidate": "C5",
+      "identifier": "Academic Radiology 2025, S1076-6332(25)00191-6 — Assessing the Reliability of Pancreatic CT Imaging Biomarkers for Diabetes Prediction: A Dual Center Retrospective Study",
+      "access": "abstract",
+      "establishing_passage": "Pancreatic imaging biomarkers were measured using three pancreatic segmentation algorithms (TotalSegmentator, nnU-Net, and DM-UNet) to test whether they are resilient to changes in segmentation quality and contrast status for predicting diabetes."
+    }
+  ],
+  "verdicts": {
+    "C1": {"verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH", "why_not_done": "BLIND_SPOT"},
+    "C2": {"verdict": "NO_DUPLICATE_FOUND_HIGH_CONFIDENCE", "why_not_done": "NEW_CAPABILITY"},
+    "C3": {"verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH", "why_not_done": "NEW_CAPABILITY"},
+    "C4": {"verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH", "why_not_done": "NEW_CAPABILITY"},
+    "C5": {"verdict": "INCREMENTAL", "why_not_done": "BLIND_SPOT"}
+  }
+}
