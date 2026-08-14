@@ -1,0 +1,15 @@
+Cycle 012 scouting is complete: `ideas/scout-012/scout_candidates.json` is written and validates (10 questions, 5 developed candidates, modes A/B/B/C/C, quotas met). Per the cycle instruction, every candidate leads with a positive X a radiologist has a word for, not a confound to eliminate.
+
+**The five developed candidates:**
+
+1. **Mode A (scout-012-c01, priority 3.8)** — *Does the Gichoya race-from-chest-CT classifier use vertebral trabecular bone attenuation?* Keystone **inspected true against the full paper** (PMC9650160): their CT experiments were NLST (AUC 0.92 slice / 0.96 study), and their only bone test was bright-pixel clipping on uncalibrated radiographs — quantitative BMD was never measured, and no bone test was run on CT at all. The famous "nobody knows what the signal is" story is missing exactly one measurable experiment.
+
+2. **Mode B (c02, priority 4.1, top-ranked)** — *Does CT-CLIP's fibrosis score use the air-filled dilated esophagus* (the CTD-ILD clue)? Keystone inspected locally: the "Pulmonary fibrotic sequela" head is at `probes/004/run.py:150` and the probe-verified pipeline already scores it deterministically. Primary readout is label-free (digital esophageal collapse vs sham, within-scan) — the structural move the charter asks for.
+
+3. **Mode B (c03, priority 3.95)** — *Does Merlin's chronic-airway-obstruction phenotype read the emphysema in the lung bases caught at the top of abdominal CTs?* Keystone inspected: the released checkpoint includes `Merlin(PhenotypeCls=True)` and the repo's `phenotypes.csv` contains "496, Chronic airway obstruction" / "496.1, Emphysema". Uses a grammar new to the portfolio: regional-removal via *natural-range* FOV truncation, explicitly gated on loader inspection so it cannot repeat idea-006's OOD error.
+
+4. **Mode C (c04, 3.85)** — *Do CT-CLIP's cardiac heads read heart rate from motion-banding periodicity?* The cycle's "obviously wrong but unrefuted" entry; cross-domain construct (stroboscopic sampling) supplies an explicit formula, and Phase 1 validates the measurement on gated CT with recorded DICOM heart rate before the model is consulted. Honestly `NOT_INSPECTED`, identifiability scored 2.
+
+5. **Mode C (c05, 4.2)** — *Does the Pease et al. TBI outcome model (Radiology 2022, beat IMPACT) read midline shift out of proportion to lesion volume — the Monro-Kellie compliance signature?* Model access is declared the keystone up front (dies like idea-018 if correspondence fails, and says so); Stage 0a (automated-MLS pipeline validated on public CQ500) is runnable today regardless.
+
+Zero revivals — nothing in the portfolio brief has a genuinely new unblocking fact. Dropped questions include a note the critic may want: the mosaic-attenuation head **does** exist (`run.py:152`), which reads differently than the idea-007 ledger note suggests; I queued that candidate for cycle 013 rather than break the CT-RATE quota. All memory-derived claims (NHANES BMD magnitudes, esophagus–CTD-ILD citation, Merlin index mapping, etc.) are flagged per candidate in `unverified_claims`.
