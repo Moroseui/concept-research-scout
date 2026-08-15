@@ -11,7 +11,7 @@
     "started": "2026-08-14T07:10:02+00:00",
     "stages": {
       "scout": "done",
-      "merge": "failed",
+      "merge": "running",
       "novelty_audit": "pending",
       "backlog": "pending"
     }
