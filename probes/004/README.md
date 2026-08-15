@@ -1,121 +1,85 @@
-# Probe — idea 004
+# Probe 004 — contract v2: the 425-pair reconstruction-sensitivity floor study
 
-This directory holds the probe artifacts for idea 004. Two contracts exist:
+`run.py` implements `ideas/004/probe_contract.yaml` (contract_version: 2),
+which supersedes the executed v1 load probe (PASSED 2026-08-12; the v1
+driver, README, and notebook are preserved in git history, and the v1 output
+bundle remains in `results/`).
 
-- **Contract v1** (load probe): executed and **PASSED 2026-08-12**. Its code
-  (`run.py`, `requirements.txt`, `colab_probe_004.ipynb`) and outputs
-  (`results/`, `outputs_smoke/`) remain in this directory as the frozen v1
-  record.
-- **Contract v2** (the 425-pair floor study):
-  [`ideas/004/probe_contract.yaml`](../../ideas/004/probe_contract.yaml)
-  with `contract_version: 2`, drafted 2026-08-14 from the human-authored
-  requirements file
-  [`ideas/004/contract_requirements.md`](../../ideas/004/contract_requirements.md).
-  **No v2 code exists yet.** The v1 `run.py` implements contract v1 only and
-  must not be used for the floor study.
+The study: run the frozen released v2 ClassFine checkpoint on 425 predeclared
+geometry-matched same-acquisition reconstruction pairs of the CT-RATE
+validation split, and report per-head (18) x per-stratum paired score-change
+distributions (tier 1, label-free, primary) plus a descriptive per-head
+delta-AUROC against the released report-derived labels (tier 2, secondary,
+zero threshold language). Any magnitude profile is a valid descriptive
+outcome; the deliverable is the measured baseline itself.
 
-## Contract v2 status and approval flow
+## Two-phase approval (mechanically enforced)
 
-The v2 contract supersedes v1 in `ideas/004/probe_contract.yaml` (v1 is
-preserved in git history and in the PROBED ledger record). Approval is
-hash-bound: `HUMAN_APPROVED_PROBE` records the contract's git blob hash, and
-the probe-code gate blocks on any mismatch. The marker currently in
-`ideas/004/` is bound to the superseded v1 blob, so it correctly authorizes
-nothing for v2.
+The driver recomputes the git blob of the contract and compares it to the
+`contract_blob` recorded in `ideas/004/HUMAN_APPROVED_PROBE`. That single
+check makes the contract's two-phase flow mechanical:
 
-The v2 execution is phased, and the phasing is part of the contract:
+1. **Phase M — manifest freeze (authorized by the current phase-1 approval).**
+   Metadata only: downloads at most the three pinned CSV tables, regenerates
+   the frozen 425-pair manifest, hard-gates the per-stratum counts against
+   237/126/58/4, and prints the two values the operator must record.
+   No image download, no inference, no score of any kind.
+2. **Operator amendment.** Record `pair_manifest_sha256` and
+   `unique_volume_count` in the contract (replacing every
+   `TO_BE_RECORDED_AT_MANIFEST_FREEZE` placeholder), commit, and re-run
+   approve-probe. The amendment changes the contract blob, which stales the
+   phase-1 marker by construction.
+3. **Phase B — bulk study (requires the fresh phase-2 approval).** The driver
+   refuses phase B while any placeholder remains or the marker blob does not
+   match the amended contract. Then: chunked download → hash → preprocess →
+   infer → delete over 17 chunks of 25 pairs, anchor drift-detector at every
+   session start, preregistered spot-checks, and the frozen two-tier
+   analysis once all chunks are complete.
 
-1. **Approval #1** (`python scout.py approve-probe 4` against the drafted
-   contract) authorizes **Phase M only**: a metadata-only manifest freeze
-   that re-derives the 425 frozen Stage-0 pairs from the pinned
-   `validation_metadata.csv`, hard-gates on the exact stratum counts
-   (237/126/58/4), and writes `pair_manifest.csv` plus a selection audit.
-   No image download, no inference, no scores.
-2. The operator records the manifest SHA-256 and the manifest-derived
-   unique-volume count in the contract (replacing the
-   `TO_BE_RECORDED_AT_MANIFEST_FREEZE` placeholders). This amendment changes
-   the contract blob, so the Phase-M approval goes stale by construction.
-3. **Approval #2** (re-run `approve-probe`) binds to the amended blob and
-   authorizes **Phase B**: chunked bulk inference over the manifest
-   (17 chunks × 25 pairs, download → hash-verify → preprocess → infer →
-   delete), followed by the frozen two-tier analysis.
+## One command per phase
 
-Any Phase B activity while a placeholder remains, or without a marker bound
-to the amended blob, is an invalidating failure under the contract.
+```
+pip install -r probes/004/requirements.txt   # pinned r6 closure
 
-## What contract v2 measures
+python probes/004/run.py --smoke             # synthetic harness test:
+                                             # no network, no GPU, no gate.
+                                             # Run it AFTER installing
+                                             # requirements so the analysis
+                                             # code is covered too.
 
-- **Tier 1 (primary, label-free, confirmatory):** per-head (18) ×
-  per-stratum signed paired score differences on probability and logit
-  scales, with |Δ| quantiles and patient-cluster bootstrap intervals. No
-  cross-head averaging anywhere. The Br40f|Br44f stratum (4 pairs) is
-  exploratory only.
-- **Tier 2 (secondary, descriptive, runs only if tier 1 completes):**
-  per-head per-stratum paired ΔAUROC against the released report-derived
-  validation labels, with a preregistered sparse-label eligibility rule
-  (≥10 positive and ≥10 negative pairs per cell) and a mandatory
-  excluded-cell table. Zero threshold language, per the 2026-08-14
-  amendment to pin 2: benchmark numbers from the ratified CT-Scroll context
-  memo (git blob `6668a313ae83779ef2a74d1982dd287d504a7e0d`) are context
-  only and carry no pass/fail semantics.
+python probes/004/run.py --phase M --output-dir <BUNDLE_DIR>
+python probes/004/run.py --phase B --output-dir <BUNDLE_DIR>
+```
 
-Execution safeguards: the v1 pair (`valid_1004_a_1|a_2`) runs as a
-session-start anchor with within-session bit-identity and a preregistered
-cross-session tolerance (≤1.0e-4 max per-head probability deviation against
-the v1 reference scores, `results/per_sample.csv` @ git blob
-`ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1`); its deltas are excluded from
-all confirmatory statistics. Both members of every pair run in the same
-session; interrupted chunks are redone in full. Budgets are capped in
-volumes and sessions, not GPU minutes (425 pairs; unique-volume cap fixed at
-manifest freeze; QA/retry allowance of 20% of unique volumes; 30 sessions).
+`<BUNDLE_DIR>` is the results bundle (contract `results_bundle_layout`). On
+Colab use a persistent Drive path: phase B is multi-session and resumes by
+reading the bundle. One invocation of `--phase B` is one session (session cap
+30); interrupted chunks are detected next session and redone in full. Phase B
+always needs a GPU runtime — the anchor protocol runs at every session start,
+including a final analysis-only session.
 
-The result, whatever its magnitude, is a reconstruction-sensitivity
-baseline for the released v2 ClassFine checkpoint on these contrasts, in a
-predominantly Siemens cohort. It is not a universal measurement floor, not
-an equivalence claim, and not evidence about concept validity, accuracy, or
-clinical reliability.
+Real runs additionally need the CT-RATE gate accepted on Hugging Face and a
+logged-in HF token in the environment.
 
-## Contract v1 record (executed, PASSED 2026-08-12)
+## Notes for the operator
 
-The v1 load probe tested only the load-bearing feasibility assumption:
-whether the officially released `CT_LiPro_v2.pt` checkpoint could be frozen
-by hash, loaded unchanged with the released CT-CLIP inference path (modulo
-exactly one provenance-logged `*.embeddings.position_ids` framework-era
-buffer key, per the r6 ledger decision), and made to emit 18 finite,
-bit-deterministic ClassFine scores for one Stage-0-valid Br40f|Br60f pair
-at batch size 1. All contract gates passed in 0.250 GPU minutes at 4.10 GB
-peak; see `results/summary.json` and `ideas/004/decision.md`. The one-pair
-A-versus-B differences are diagnostics, declared scientifically
-uninterpretable by the v1 contract.
+- The anchor volumes are cached at `<BUNDLE_DIR>/../anchor_cache_004/`
+  (SHA-256 verified before every use). Keep it on Drive to avoid re-download.
+- The cross-session anchor check compares against the v1 reference scores in
+  `probes/004/results/per_sample.csv`, pinned by git blob
+  `ea1cdd3f...` in the contract. Do not modify or delete that file; it is
+  load-bearing for phase B.
+- `results_v2/` and smoke outputs are gitignored by default; commit the
+  bundle (or at least `manifest/`, `analysis/`, `summary.json`,
+  `provenance.json`, `anchor/`) with `git add -f` after human review.
+- Exit codes are enumerated in the `run.py` module docstring; every one maps
+  to a contract invalidating-failure class or an environment/harness fault.
+  An invalidating failure is never a negative result.
 
-v1 operational notes retained for the v2 implementation (full history in
-git and the decision ledger):
+## Verification status
 
-- **Kernel normalization (r5):** the released metadata stores
-  `ConvolutionKernel` as a stringified Python list (`"['Br40f', '3']"`); a
-  parsable list literal takes element 0, anything else uses the stripped
-  raw string. Selection always writes `selection_audit.json`; any shortfall
-  against frozen counts also dumps diagnostics to the run log before
-  stopping.
-- **Environment (r6):** `transformers==4.38.2` / `tokenizers==0.15.2` (the
-  authors' 2023 pin is uninstallable on Colab Python 3.12). Exactly one
-  state-dict key matching `*.embeddings.position_ids` is removed before
-  strict loading and logged to `provenance.json`; any other unexpected or
-  missing key is a hard failure.
-- **Harness:** `python3 run.py --smoke` self-tests the v1 harness with
-  synthetic data (stdlib only, no network/GPU); it cannot satisfy any
-  contract. The launcher notebook is a thin driver that runs `run.py` as a
-  subprocess and never imports the model stack into its own kernel.
-- If released-code signatures differ from the driver's transcription, fix
-  the driver to match the released code, never the reverse.
-
-## Next steps
-
-1. Operator reviews the v2 contract draft, including its two flagged open
-   questions (the two-approval reading of R1, and the anchor-pair exclusion
-   from confirmatory counting).
-2. `approve-probe` (approval #1) → probe-code stage implements the v2
-   driver → Phase M manifest freeze.
-3. Contract amendment with the manifest hash and unique-volume count →
-   `approve-probe` (approval #2) → Phase B bulk run → interpret stage
-   consumes `probes/004/results_v2/`.
+See `verification.json`. This revision of the driver was written in a
+sandbox that cannot execute Python, so verification there is static
+(constants cross-checked against the approved contract by text search, plus
+an independent code review). **The smoke run is therefore the first command
+to execute — run it before phase M and read its `harness_checks`.**

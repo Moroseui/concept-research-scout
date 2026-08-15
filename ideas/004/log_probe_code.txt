@@ -1,15 +1,1 @@
-The r6 revision is implemented and verified as far as this sandbox allows. Summary of what changed:
-
-**`probes/004/requirements.txt`** — reverted to the r4 closure the ledger names (`transformers==4.38.2`, now with an explicit `tokenizers==0.15.2` pin), with a comment explaining why the r5 released-environment pin was abandoned (no cp312 tokenizers wheels on Colab Python 3.12) and pointing to the run.py strip that replaces it.
-
-**`probes/004/run.py`** — three changes, exactly the ledger's r6 scope, with the previously approved probe logic otherwise untouched:
-
-1. **Enumerated tolerant load.** A module-level helper (`strip_position_id_buffer_keys`, suffix-anchored regex for `*.embeddings.position_ids` requiring a leading component) removes the framework-era buffer key from the loaded state dict before `load_state_dict`. The real caller exits 5 unless the removed set is **exactly one** key; the removed key is logged to the run log and written into `provenance.json` under `state_dict_keys_removed_before_load` (pattern, keys, reason) *before* the load; `strict=True` is preserved so any other unexpected or missing key still exits 5.
-2. **Startup version log.** Real mode logs the installed transformers version up front (smoke mode best-effort); it also remains in `environment.txt`.
-3. **Honest reporting.** The exit-5 docstring entry, the "loaded unchanged" log line, and the real-run `summary.json` (check renamed to `checkpoint_loaded_strict_modulo_enumerated_buffer_keys`, removed keys listed, interpretation text qualified) all state the new semantics: a load is "unchanged" modulo the enumerated, provenance-logged buffer key only.
-
-**Smoke self-tests** were added in the established planted-decoy style: the exact key from the real exit-5 failure must match; bare `embeddings.position_ids`, learnable `position_embeddings.weight`, and suffix-extended keys must not; and the zero-key and two-key cases the real run maps to exit 5 are exercised. The smoke summary gains a `r6_buffer_strip_enumerated_and_anchored` check.
-
-**`probes/004/README.md`** — the r5 paragraph now ends at the pin's rationale, and a new r6 paragraph documents the dead end, the reverted closure, the audited strip, and the updated exit-5 semantics. The contract file is untouched, per the ledger's "ONLY this" scope.
-
-**One caveat, recorded honestly in `verification.json`:** python execution is blocked in this sandbox (as in round 1), so I could not run `py_compile` or the smoke test here — verification was by static review of the full diff (scoping of `provenance`/`removed_keys`, regex behavior against the observed key and near-misses, indentation, imports). `python3 run.py --smoke` is the human's first step and now exercises the new buffer-strip self-tests; nothing expensive was launched. I did not commit, leaving that to you as in prior rounds.
+Error: Reached max turns (40)
