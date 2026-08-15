@@ -217,3 +217,37 @@ nothing about reconstruction sensitivity, equivalence, accuracy, or concept
 validity. No validity failure occurred. ADVANCE means only that a separate 425-pair
 floor-study contract may now be drafted and submitted for fresh human approval; no
 bulk inference is authorized by this decision.
+
+## 2026-08-14 - AMENDMENT to 2026-08-11 pin 2: CT-Scroll demoted from tier-2 equivalence margin to benchmark context
+
+Pin 2 required the tier-2 AUROC margin to be fixed from the CT-Scroll
+(arXiv 2503.20652) PDF tables before any paired score is seen. External
+review (2026-08-14) found the margin estimand mismatched: the CT-Scroll
+headline table reportedly gives CT-RATE TEST-set results averaged across
+18 labels, while this study analyzes the VALIDATION split per head. A
+formal per-head equivalence margin derived from an aggregate spread on a
+different split would be worse than honest description.
+
+Amended pin 2: CT-Scroll supplies benchmark CONTEXT, not a margin.
+Tier 2 is a purely descriptive secondary endpoint - per-head paired
+delta-AUROC with patient-cluster bootstrap confidence intervals,
+contextualized against published between-model differences on the same
+benchmark. Contract v2 must contain ZERO threshold language for tier 2
+(no "meaningful", "material", or numeric cutoffs), or an implicit margin
+re-enters at interpretation time. Tier 2 measures benchmark
+discrimination against the released report-derived labels of CT-RATE,
+never clinical diagnostic accuracy.
+
+The extraction stage (context memo, formerly margin memo) must verify
+the split claim of the reviewer from the primary source with quoted
+table and page identifiers - checker-mode applies to reviewers too - and
+must state on the record that the v1 load probe exposed the per-head
+diagnostic scores of one pair (declared uninterpretable in the v1
+contract), and why this does not compromise tier 2: context numbers
+derive solely from published CT-Scroll tables, and tier 1 is label-free.
+
+All other 2026-08-11 pins stand unchanged. The equivalence-margin
+wording in the idea-004 card is updated to match in the commit following
+this ratification. Preregistration discipline preserved: the analysis is
+still frozen before the 425 pairs are scored; what changed is that no
+external number now plays a pass/fail role.
