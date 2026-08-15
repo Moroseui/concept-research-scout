@@ -1812,6 +1812,11 @@ class TestResultsTransport(Harness):
         self.assertIn("!python probes/001/run.py", src)
         self.assertNotIn("import torch", src)
         self.assertIn("userdata.get('SCOUT_RESULTS_PAT')", src)
+        self.assertIn("os.environ['HF_TOKEN']", src)
+        self.assertIn("driver_console.log", src)
+        # transport ordering: branch checkout must precede the bundle copy
+        self.assertLess(src.index("git('checkout', '-B', RESULTS_BRANCH"),
+                        src.index("shutil.copytree(OUTPUT_DIR, dest)"))
         self.assertIn(f"results/probe-001-{chash[:12]}", src)
         self.assertIn("PIN_COMMIT", src)
         self.assertNotIn("ghp_", src)

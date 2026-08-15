@@ -758,8 +758,10 @@ def package_colab(args):
         f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_v2'"),
       nbf.v4.new_code_cell(
         "from google.colab import drive, userdata\n"
+        "import os\n"
         "drive.mount('/content/drive')\n"
-        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed"),
+        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed\n"
+        "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed"),
       nbf.v4.new_code_cell(
         "!rm -rf /content/scout-repo\n"
         "!git clone {REPO_URL} /content/scout-repo\n"
@@ -768,15 +770,18 @@ def package_colab(args):
       nbf.v4.new_code_cell(
         f"!pip install -q -r probes/{nn}/requirements.txt"),
       nbf.v4.new_code_cell(
-        f"!python probes/{nn}/run.py --phase {{PHASE}} --output-dir {{OUTPUT_DIR}}"),
+        "# Console (incl. any crash traceback) persists to Drive; refresh-proof.\n"
+        f"!mkdir -p {{OUTPUT_DIR}}\n"
+        f"!python probes/{nn}/run.py --phase {{PHASE}} --output-dir {{OUTPUT_DIR}} 2>&1 | tee -a {{OUTPUT_DIR}}/driver_console.log"),
       nbf.v4.new_code_cell(
         "# E1 transport: mirror the bundle onto the contract-bound results\n"
-        "# branch. The PAT rides in a header, never in argv or output.\n"
+        "# branch. ORDER MATTERS: check out the branch FIRST, then overlay the\n"
+        "# bundle (copy-then-checkout fails after session 1: git refuses to\n"
+        "# overwrite untracked files the branch already tracks). The PAT rides\n"
+        "# in a header, never in argv or output.\n"
         "import shutil, subprocess, pathlib, base64, datetime\n"
         "repo = pathlib.Path('/content/scout-repo')\n"
         f"dest = repo / 'probes/{nn}/results_v2'\n"
-        "if dest.exists(): shutil.rmtree(dest)\n"
-        "shutil.copytree(OUTPUT_DIR, dest)\n"
         "def git(*a, **k):\n"
         "    r = subprocess.run(['git', *a], cwd=repo, capture_output=True, text=True, **k)\n"
         "    if r.returncode: raise SystemExit(f'git {a[0]} failed: {r.stderr[-400:]}')\n"
@@ -789,9 +794,11 @@ def package_colab(args):
         "    git('checkout', '-B', RESULTS_BRANCH, f'origin/{RESULTS_BRANCH}')\n"
         "else:\n"
         "    git('checkout', '-B', RESULTS_BRANCH, PIN_COMMIT)\n"
+        "if dest.exists(): shutil.rmtree(dest)\n"
+        "shutil.copytree(OUTPUT_DIR, dest)\n"
         f"git('add', '-f', 'probes/{nn}/results_v2')\n"
-        "stamp = datetime.datetime.utcnow().isoformat(timespec='seconds')\n"
-        "subprocess.run(['git', 'commit', '-m', f'session results {stamp}Z'], cwd=repo, capture_output=True)\n"
+        "stamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')\n"
+        "subprocess.run(['git', 'commit', '-m', f'session results {stamp}'], cwd=repo, capture_output=True)\n"
         "git('-c', hdr, 'push', 'origin', RESULTS_BRANCH)\n"
         "print('pushed', RESULTS_BRANCH)"),
       nbf.v4.new_markdown_cell(
