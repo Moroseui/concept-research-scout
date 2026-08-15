@@ -38,9 +38,9 @@
   "novelty_statement": "No broad novelty is claimed: reconstruction sensitivity of CT models is established. The narrow potential delta is a geometry-matched, within-acquisition audit of the published ClassFine abnormality scores on CT-RATE. Exact novelty remains unverified pending a targeted proceedings and citation search.",
   "smallest_decisive_experiment": {
     "population": "The 425 Stage-0-confirmed geometry-matched same-acquisition pairs; retain the three adequately sized named kernel contrasts as separate strata and leave the four-pair stratum exploratory.",
-    "frozen_elements": "Exact checkpoint checksum, released preprocessing, pair inclusion list, score scale, reconstruction strata, multiplicity rule, and equivalence margins are fixed before inspecting paired scores.",
+    "frozen_elements": "Exact checkpoint checksum, released preprocessing, pair inclusion list (hash-frozen manifest), score scale, reconstruction strata, canonical sign direction, and multiplicity rule are fixed before inspecting paired scores. Per the 2026-08-14 amendment to pin 2, no equivalence margin exists to freeze: tier 2 is descriptive.",
     "primary_readout": "For each abnormality output and reconstruction stratum, paired score differences on the probability and logit scales, summarized by the median, upper quantile of absolute change, and bootstrap confidence interval with patient as the outer resampling unit.",
-    "equivalence_rule": "A negative is decisive only where a prespecified, externally justified score-change margin is met by the full confidence interval and the stratum has adequate precision. The margin may not be chosen from these 425 pairs.",
+    "equivalence_rule": "SUPERSEDED by the 2026-08-14 pin-2 amendment (evidence/decisions.md): no formal equivalence test is performed and no external margin plays a pass/fail role. A negative is reported as the measured per-head, per-stratum bound on reconstruction-induced score change with patient-cluster bootstrap intervals; CT-Scroll published between-model differences serve as benchmark context only. The analysis remains frozen before the 425 pairs are scored.",
     "secondary_readout": "Descriptive reconstruction-swap rank changes may be reported, but AUROC, threshold flips, and benchmark interval correction are excluded from the clean primary question because they reintroduce labels, calibration choices, and a second estimand.",
     "stop_rule": "Stop before image inference if the exact checkpoint cannot be obtained and provenance-verified. Do not substitute a retrained model under this idea identity."
   },
@@ -65,10 +65,10 @@
       }
     ]
   },
-  "anticipated_positive": "At least one prespecified output and major reconstruction contrast has an absolute-change bound exceeding its external margin, supporting the narrow claim that this model uses reconstruction-dependent spatial-frequency content for that output.",
+  "anticipated_positive": "At least one prespecified head and major reconstruction contrast shows a paired score-change distribution whose bootstrap interval excludes negligible change on both probability and logit scales, supporting the narrow claim that this checkpoint's scores depend on reconstruction choice with anatomy fixed. Magnitude is reported descriptively and contextualized against published between-model differences on the same benchmark; no threshold declares it 'meaningful' (pin-2 amendment, 2026-08-14).",
   "anticipated_negative": {
-    "classification": "decisive conditional on margin and precision; otherwise sensitivity-limited",
-    "reasoning": "If every adequately powered major contrast has a confidence bound wholly within its prespecified external equivalence margin, the result decisively weakens the hypothesis that the observed CT-RATE reconstruction variation materially changes ClassFine scores. Failure to reject zero, or an interval crossing the margin, is only sensitivity-limited."
+    "classification": "sensitivity-bounded descriptive null",
+    "reasoning": "If every adequately covered head and major contrast shows paired changes tightly bounded near zero (bootstrap intervals narrow and centered on no change), the result bounds reconstruction sensitivity for this checkpoint and these contrasts without a formal equivalence claim: per the 2026-08-14 pin-2 amendment there is no prespecified margin, so the null is reported as the measured bound itself, which downstream work must exceed to be attributable to anything beyond rendering."
   },
   "prohibited_conclusions": [
     "Do not call the pairs test-retest scans; the acquisition was not repeated.",
@@ -78,7 +78,7 @@
     "Do not attribute a paired effect to a specific anatomical feature or frequency band without an independent intervention or measurement."
   ],
   "remaining_legwork": [
-    "Resolve the checkpoint keystone by inspecting an official weight file, checksum, model configuration, and license; author correspondence is acceptable evidence of access but the actual artifact must be inspected before feasibility can advance.",
+    "Checkpoint keystone RESOLVED 2026-08-12 (load probe ADVANCE): CT_LiPro_v2.pt frozen by SHA-256 and loaded under pinned commit. Remaining: run the context-memo stage (CT-Scroll table extraction with split verification, per the pin-2 amendment), then draft contract v2.",
     "Perform a targeted primary-source novelty audit of MICCAI, MIDL, SPIE Medical Imaging, Medical Physics, Radiology: Artificial Intelligence, and papers citing CT-RATE/CT-CLIP.",
     "Specify external equivalence margins without examining paired scores and document the clinical or benchmark consequence used to justify them.",
     "Audit equality of every preprocessing-relevant field and final tensor geometry for the frozen pair list before inference.",
@@ -115,11 +115,11 @@
     },
     "evaluation_readiness": {
       "value": 3,
-      "why": "Paired summaries and patient bootstrap are standard, but external equivalence margins still require prespecification."
+      "why": "Paired summaries and patient-cluster bootstrap are standard; the pin-2 amendment removed the external-margin prespecification burden, leaving only the frozen descriptive analysis plan."
     },
     "negative_result_value": {
       "value": 4,
-      "why": "A powered equivalence result would decisively bound sensitivity for the observed contrasts and checkpoint; without the margin it falls to type 2."
+      "why": "A tight measured bound on reconstruction-induced change is decisive as a sensitivity reference for all downstream effect claims on this checkpoint, without requiring a formal equivalence margin (pin-2 amendment 2026-08-14)."
     },
     "novelty_confidence": {
       "value": 3,
