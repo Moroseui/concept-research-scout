@@ -60,6 +60,12 @@ reading the bundle. One invocation of `--phase B` is one session (session cap
 always needs a GPU runtime — the anchor protocol runs at every session start,
 including a final analysis-only session.
 
+Session accounting is fail-closed: every `--phase B` invocation registers
+itself in `<BUNDLE_DIR>/sessions/session_attempts.csv` at entry, before any
+download, model, or anchor work. A session that crashes during setup still
+counts against the cap of 30, and attempt 31 is refused before it begins.
+Do not edit or delete that file; it is the R8 budget record.
+
 Real runs additionally need the CT-RATE gate accepted on Hugging Face and a
 logged-in HF token in the environment.
 

@@ -1761,7 +1761,10 @@ def run_phase_m(out_dir, gate_info):
 # analysis. Interrupted chunks are detected on the next session and redone in
 # full. Session count, distinct-volume downloads, and QA/retry downloads are
 # capped; reaching a cap stops the run as budget exhaustion, never as a
-# scientific result.
+# scientific result. The session cap is enforced from a durable
+# session-attempt registry written at session entry, BEFORE any access,
+# model, or anchor work, so a session that fails during setup still consumes
+# the cap (probe_review.md blocking finding).
 # ---------------------------------------------------------------------------
 
 CHUNK_PER_SAMPLE_COLUMNS = [
@@ -1781,6 +1784,9 @@ ACCOUNTING_COLUMNS = [
     "timestamp_utc", "session_id", "context", "volume_name", "sha256",
     "size_bytes", "category",
 ]
+SESSION_ATTEMPT_COLUMNS = [
+    "session_id", "started_utc", "phase",
+]
 
 
 def read_csv_rows(path):
@@ -1799,6 +1805,44 @@ def append_csv_rows(path, rows, fieldnames):
         if new_file:
             writer.writeheader()
         writer.writerows(rows)
+
+
+def register_session_attempt(out_dir, session_id):
+    """Fail-closed R8 session accounting (probe_review.md blocking finding).
+
+    Every phase-B invocation registers itself here at session entry, BEFORE
+    any access, model, or anchor work, so a session that dies during
+    environment capture, table/checkpoint download, checkpoint loading, or
+    the anchor protocol still consumes the 30-session cap. The cap check runs
+    before the append, so attempt 31 is refused before it begins and is NOT
+    itself registered. Both enforcement and summary.json's sessions_used
+    derive from this registry -- never from anchor_log.csv, which is only
+    written after the anchor protocol succeeds and therefore undercounts
+    failed sessions.
+
+    Returns the number of sessions used, this attempt included.
+    """
+    path = out_dir / "sessions" / "session_attempts.csv"
+    prior = {r["session_id"] for r in read_csv_rows(path)}
+    if len(prior) >= SESSION_CAP:
+        fail(9, f"session cap {SESSION_CAP} reached: {len(prior)} session "
+                f"attempts already registered in sessions/"
+                f"session_attempts.csv; refusing to begin attempt "
+                f"{len(prior) + 1}; stopping as budget exhaustion "
+                f"(not a scientific result)")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    new_file = not path.exists()
+    with open(path, "a", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=SESSION_ATTEMPT_COLUMNS)
+        if new_file:
+            writer.writeheader()
+        writer.writerow({"session_id": session_id,
+                         "started_utc": utc_now(), "phase": "B"})
+        # The record must be durable before any session work begins; a crash
+        # later in this session must still leave the attempt counted.
+        f.flush()
+        os.fsync(f.fileno())
+    return len(prior) + 1
 
 
 def chunk_plan(pairs, chunk_size):
@@ -2312,23 +2356,19 @@ def run_analysis(out_dir, pairs, chunks, tables, metadata_by_volume):
 
 def run_phase_b(out_dir, gate_info):
     log("PHASE B: bulk 425-pair floor study (session start)")
+    session_id = (time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+                  + "-" + os.urandom(4).hex())
+    # Session cap (contract R8), fail-closed: register this attempt in the
+    # durable session registry BEFORE any access, model, or anchor work, so
+    # a session that fails at any later step still consumes the cap, and
+    # attempt 31 is refused right here (probe_review.md blocking finding).
+    sessions_used = register_session_attempt(out_dir, session_id)
+    log(f"  session {session_id} "
+        f"(attempt {sessions_used} of session cap {SESSION_CAP})")
+
     env_info = capture_environment(out_dir, "B", need_gpu=True)
     work_dir = PROBE_DIR / "work"
     work_dir.mkdir(exist_ok=True)
-
-    session_id = (time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
-                  + "-" + os.urandom(4).hex())
-    # Session cap (contract R8): sessions are counted by their anchor-log
-    # entries, because the anchor protocol is mandatory at every session
-    # start; a 31st session must not begin.
-    prior_sessions = {r["session_id"] for r in read_csv_rows(
-        out_dir / "anchor" / "anchor_log.csv")}
-    if len(prior_sessions) >= SESSION_CAP:
-        fail(9, f"session cap {SESSION_CAP} reached "
-                f"({len(prior_sessions)} prior sessions); stopping as "
-                f"budget exhaustion (not a scientific result)")
-    log(f"  session {session_id} "
-        f"({len(prior_sessions)} prior sessions, cap {SESSION_CAP})")
 
     write_resolved_config(out_dir, "B", extra={"session_id": session_id})
 
@@ -2441,7 +2481,9 @@ def run_phase_b(out_dir, gate_info):
         "mode": "real",
         "contract_satisfied": True,
         "session_id": session_id,
-        "sessions_used": len(prior_sessions) + 1,
+        # From the durable session-attempt registry (this attempt included),
+        # so failed sessions are counted too (probe_review.md finding).
+        "sessions_used": sessions_used,
         "session_cap": SESSION_CAP,
         "pair_count": len(pairs),
         "pair_manifest_sha256": manifest_sha,
@@ -2734,6 +2776,34 @@ def run_smoke(out_dir, gate_info):
     smoke_assert(ok and sha == "a" * 64 and count == 15,
                  "phase B accepts a properly amended contract")
     checks["phase_b_accepts_amended"] = True
+
+    # R8 session accounting is fail-closed (probe_review.md blocking
+    # finding): every phase-B attempt registers durably at entry, so a
+    # session that dies mid-setup still consumes the cap, and attempt
+    # SESSION_CAP+1 is refused (exit 9) before it begins and without being
+    # registered. Exercised in an isolated subdirectory with mock ids.
+    reg_dir = out_dir / "session_registry_selftest"
+    if reg_dir.exists():
+        shutil.rmtree(reg_dir)
+    for i in range(SESSION_CAP):
+        used = register_session_attempt(reg_dir, f"smoke-attempt-{i + 1:02d}")
+        smoke_assert(used == i + 1,
+                     f"attempt {i + 1} counted as session {used}")
+    reg_path = reg_dir / "sessions" / "session_attempts.csv"
+    smoke_assert(len(read_csv_rows(reg_path)) == SESSION_CAP,
+                 "every session attempt persisted to the registry")
+    log("  (the next FAIL line is the DELIBERATE over-cap refusal "
+        "self-test; it is expected in a passing smoke run)")
+    refused_code = None
+    try:
+        register_session_attempt(reg_dir, "smoke-attempt-over-cap")
+    except SystemExit as e:   # fail(9) raises SystemExit; catch ONLY here
+        refused_code = e.code
+    smoke_assert(refused_code == 9,
+                 f"over-cap attempt refusal code {refused_code!r} != 9")
+    smoke_assert(len(read_csv_rows(reg_path)) == SESSION_CAP,
+                 "the refused over-cap attempt was not registered")
+    checks["session_cap_fail_closed_at_entry"] = True
 
     value, clipped = logit_clipped(0.5)
     smoke_assert(value == 0.0 and not clipped, "logit at 0.5")

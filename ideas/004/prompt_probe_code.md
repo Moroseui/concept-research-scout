@@ -2381,81 +2381,94 @@ human_approved: false  # fresh approval required; the existing marker is bound t
 
 
 ===== ideas/004/probe_review.md =====
-# Probe code review — idea 004 (load probe, contract v1) — ROUND 6
+# Probe code review — idea 004, contract v2
 
-**Reviewed artifacts:** `probes/004/run.py`, `probes/004/requirements.txt`,
-`probes/004/README.md`, `ideas/004/probe_contract.yaml`, and the 2026-08-12 r6
-decision-ledger authorization. This review is limited to the authorized r6 repair:
-restore the previously installable Transformers closure and tolerate exactly the
-enumerated framework-era `*.embeddings.position_ids` buffer key while preserving
-strict loading for everything else.
+**Verdict: REVISE.** The manifest, inference, and analysis implementation is
+substantially faithful, but the session budget is not fail-closed. Phase B can
+consume an unlimited number of failed Colab sessions without those sessions
+counting toward the contract's cap of 30.
 
-**Verdict: APPROVE.** The repair implements the ledger specification without
-expanding the experiment or concealing checkpoint incompatibility. I compiled
-`run.py`, ran its smoke mode into a fresh temporary output directory, and confirmed
-all eight required artifacts, 54 per-head rows, and `contract_satisfied: false`.
+## Blocking finding
 
-## Contract fidelity
+### 1. The session cap counts successful anchor-log sessions, not Phase B sessions
 
-- **The authorized compatibility exception is exact and fail-closed.** The regex
-  is suffix-anchored and requires a leading component
-  (`probes/004/run.py:626-643`). The real load requires exactly one matching key;
-  zero or multiple matches exit 5, and `strict=True` still rejects every other
-  missing or unexpected key (`probes/004/run.py:1174-1203`). This matches the r6
-  ledger's updated meaning of “unchanged modulo enumerated, provenance-logged
-  framework-era buffer keys.”
-- **The exception is auditable.** The removed key, pattern, and reason are written
-  to `provenance.json` before strict loading and printed to the run log
-  (`probes/004/run.py:1186-1199`). The installed Transformers version is captured
-  in `environment.txt` and logged at startup (`probes/004/run.py:335-353`).
-- **No experiment-scope drift.** Pair selection, the A/B/A execution sequence,
-  one-seed limit, 45-minute cap, 18-output checks, bit-determinism check, and
-  required outputs remain intact. The dependency closure is restored to
-  `transformers==4.38.2` and `tokenizers==0.15.2` as directed
-  (`probes/004/requirements.txt:8-16`).
+Contract R8 freezes a cap of 30 **sessions**. The driver instead reconstructs
+usage solely from distinct `session_id` values in `anchor/anchor_log.csv`
+(`probes/004/run.py:2321-2329`). A new session is not durably registered at
+entry. The anchor log is written only after the model and both anchor inputs
+have loaded and all three anchor executions have completed
+(`probes/004/run.py:1959-1995`).
 
-## Silent-failure surfaces
+Consequently, Phase B sessions that fail during environment capture, metadata
+or checkpoint access, checkpoint loading, anchor preprocessing, or anchor
+inference do not consume the session cap. The operator can retry those paths
+indefinitely while the code continues to report fewer than 30 sessions. This
+violates `budgets.session_cap: 30` and the stopping rule requiring the run to
+stop when any R8 cap would be exceeded. It is also a silent accounting error:
+`summary.json` reports `sessions_used` from the same incomplete anchor-derived
+count (`probes/004/run.py:2443-2445`).
 
-No blocking silent-failure surface was found. The buffer strip cannot silently
-generalize to arbitrary checkpoint differences: near-miss names remain untouched,
-and strict loading follows immediately. Smoke mode explicitly tests the observed
-key, near misses, and zero/two-match behavior (`probes/004/run.py:802-832`). Any
-other load problem remains an exit-5 failure rather than a successful result.
+Required repair: persist a Phase B session-attempt record before any access,
+model, or anchor work, refuse the 31st attempt before it begins, and derive
+both enforcement and `sessions_used` from that durable record. Do not expand
+the experiment or alter any scientific endpoint.
 
-## Claim discipline
+## Contract fidelity otherwise verified
 
-The summary describes success as strict loading **modulo the one enumerated key**
-and continues to label A-versus-B differences scientifically uninterpretable
-(`probes/004/run.py:1288-1327`). Smoke mode cannot satisfy the contract and says so
-in `summary.json` (`probes/004/run.py:908-945`). No new data, execution, head
-selection, threshold, or scientific analysis was added.
+- Phase M is metadata-only and the current hash-bound approval cannot authorize
+  Phase B while the manifest placeholders remain (`probes/004/run.py:431-518`,
+  `1627-1747`). The current approval marker matches the contract blob.
+- The manifest is regenerated from the pinned metadata, hard-gated at
+  237/126/58/4, serialized deterministically, and hash-checked before bulk work
+  (`probes/004/run.py:593-741`, `2341-2371`). No unmanifested scientific volume
+  enters analysis.
+- Canonical direction is fixed independently of row order. Tier 1 is per-head
+  and per-stratum on probability and logit scales, excludes the exposed anchor
+  from confirmatory summaries, does not summarize across heads, and uses the
+  patient-cluster bootstrap (`probes/004/run.py:866-1032`).
+- Tier 2 runs only after tier 1, remains per-head/per-stratum, applies the
+  preregistered 10-positive/10-negative rule, and reports every excluded cell
+  (`probes/004/run.py:1065-1191`, `2274-2309`). It contains no analytical
+  margin, cutoff, operating-point, or pass/fail rule.
+- Same-session pairing is structural; interrupted chunks are redone in full;
+  the four frozen spot-check pairs are rerun bit-identically; and the anchor
+  pair is excluded from scientific statistics (`probes/004/run.py:2010-2178`).
+- The r6 environment pins and exactly-one `position_ids` exception are
+  fail-closed (`probes/004/run.py:1206-1273`, `1462-1538`).
+- Required final artifacts are represented in the documented bundle layout,
+  including root configuration/provenance/summary files, per-chunk manifests
+  and environments, global per-sample/input manifests, both tier tables, and
+  the sparse-label exclusion table (`probes/004/run.py:2227-2309`,
+  `2437-2484`).
+
+## Silent-failure and claim-discipline review
+
+No second blocking silent-failure surface was found. Empty or drifted inputs,
+selection shortfalls, label mismatch, non-finite outputs, model-key mismatch,
+within-session nondeterminism, anchor drift, and incomplete chunks all fail
+explicitly. Broad exception handlers map failures to non-scientific exit
+classes rather than printing a result. The final summary uses the contract's
+descriptive outcome language and explicitly prohibits equivalence, robustness,
+accuracy, concept-validity, localization, and cross-vendor conclusions
+(`probes/004/run.py:2463-2482`).
 
 ## Readability and practicalities
 
-The module docstring and README explain why the old pin cannot install on Colab
-Python 3.12, what key is removed, why that key is non-learnable, and which failures
-remain fatal (`probes/004/run.py:23-38`; `probes/004/README.md:66-84`). The smoke
-run completed successfully and wrote `resolved_config.json`, `per_sample.csv`,
-`summary.json`, `environment.txt`, `provenance.json`, `input_manifest.csv`,
-`selection_audit.json`, and `run_log.txt` to the supplied `--output-dir`.
+The module docstring explains the experiment, phases, stopping rule, outcome
+language, and exit codes. Phase comments and progress messages are clear. The
+output directory is supplied by `--output-dir`; the launcher design is
+non-interactive and suitable for persistent Drive storage.
 
-## Non-blocking findings
-
-1. **The real checkpoint result remains unknown by design.** The smoke test proves
-   only harness behavior; only the approved real run can establish whether the
-   checkpoint contains exactly the understood buffer key and otherwise loads
-   strictly.
-2. **The README's verification note is stale.** It says the implementation sandbox
-   could not execute Python (`probes/004/README.md:86-88`), whereas this review
-   successfully compiled and smoke-tested the driver. This does not affect probe
-   execution or interpretation.
-3. **No full Colab dependency installation was repeated in this review.** The r6
-   closure is the ledger-designated return to the version set previously installed
-   successfully twice; the decisive practical check remains the human's Colab
-   installation and real run.
+Non-blocking: `probes/004/README.md:84-87` and
+`probes/004/verification.json` say Python compilation and smoke execution were
+not possible in the writing sandbox. In this review, `python -m py_compile
+probes/004/run.py` passed and the smoke harness completed successfully. The
+analysis portion was skipped because NumPy is absent in this review
+environment; the README correctly requires rerunning smoke after installing
+the pinned requirements before a real phase.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "The r6 repair tolerates only the single provenance-logged framework-era position_ids buffer key, preserves strict loading and the approved probe scope, and passes compilation plus the complete smoke harness."}
+{"verdict": "REVISE", "blocking": ["R8 session accounting derives usage from anchor_log.csv, so any Phase B session that fails before the anchor log is written does not consume the 30-session cap; persist and count every Phase B session attempt at entry and refuse attempt 31 before work begins."], "note": "Scientific scope and analysis are faithful, but the session budget is not fail-closed across retries."}
 ```
 
 
@@ -2551,3 +2564,6 @@ Write for a researcher reviewing results the next morning, not for a machine:
   negative_pattern -- never a stronger claim.
 - No cleverness: prefer three obvious lines over one dense one.
 
+
+===== REVISION ROUND =====
+A reviewer found blocking issues (see probe_review.md in your context). Fix ONLY those findings; do not expand scope.
