@@ -719,11 +719,66 @@ while placeholders remain is invalidating. (2) The v1-exposed anchor
 pair is excluded from all confirmatory statistics (236 counted
 Br40f|Br60f pairs), per the exposure argument in the ratified memo.
 
+## 2026-08-15 - A2 phase M complete: manifest frozen, contract amended
+
+Phase M ran metadata-only under the phase-1 approval (marker and
+contract both blob a84b617cd5a0...). The frozen Stage-0 selection was
+reproduced EXACTLY from raw released metadata: 237/126/58/4 per
+stratum, 425 pairs, 850 unique volumes (no volume participates in two
+pairs). pair_manifest.csv frozen at SHA-256
+5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38.
+Anchor pair p001 flagged anchor_excluded per the resolved A2 question.
+The contract amendment replaces the sha, count, and cap placeholders
+with these values; the invalidating-failure rule line retains the
+placeholder token by design (it is the rule that polices placeholders,
+not a placeholder). The QA/retry allowance remains in formula form,
+now fully resolvable from concrete in-file values (170); converting it
+to the literal is out of the authorized amendment scope and deferred.
+Per the two-phase design this amendment stales the phase-1 approval by
+construction. Phase-2 approval is DEFERRED until the results-transport
+machinery (E1/E2) lands; no bulk activity is authorized in the
+interim, and the driver refuses phase B regardless.
+
+## 2026-08-15 - A2 amendment 2: placeholder rule line reworded
+
+Audit of run.py found the phase-B placeholder check is a full-file
+scan (run.py:411). The invalidating-failure rule line retained the
+literal token by design and would therefore refuse phase B forever.
+Resolution on the contract side, zero code change: the rule line now
+says "TO_BE_RECORDED placeholder token" instead of the full literal.
+Rule meaning unchanged. Timed before phase-2 approval, so no extra
+approval staleness is incurred (the phase-1 marker was already stale
+from amendment 1). The naive scan itself goes on the run.py polish
+list, not a revision: it is fail-safe in direction and now correct
+in effect.
+
+## 2026-08-15 - Probe 004 v2 revision spec r1 (harness fault, exit 12)
+
+Observed in production (attempt 3, driver_console.log on the results
+branch, commit da85a52): after anchor volume cache hits,
+UNEXPECTED INTERNAL ERROR (exit 12): OSError(18, Invalid cross-device
+link). Root cause class: a file relocation using rename semantics
+between the Drive-mounted output directory and local scratch, which
+are different filesystems; rename cannot cross devices. Attempt 2
+died identically (silent, pre-console-log).
+
+Revision requirements, and ONLY these:
+1. Every file relocation that can cross the boundary between
+   --output-dir and local working storage must use EXDEV-safe
+   semantics (e.g. shutil.move, or copy-verify-delete); no bare
+   os.rename / Path.rename across that boundary anywhere in run.py.
+2. The exit-12 unexpected-error handler must emit the full traceback
+   to stderr, not only the exception repr, so future harness faults
+   are diagnosable from the persisted console log.
+No scientific scope, endpoint, gate, cap, or analysis change of any
+kind. The contract is untouched; exit 12 is a harness fault by the
+taxonomy, so the phase-2 approval remains bound and valid.
+
 
 ===== evidence/ledger_digest.md =====
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-66 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+71 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -738,29 +793,29 @@ A candidate that dies like a prior one must say what makes it different.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
+- **scout-013-c05** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.4, audited 2026-08-15] -- Collateral failure written in the cortical veins
+- **scout-013-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.2, audited 2026-08-15] -- The vessel map inside the mosaic-attenuation score
 - **scout-012-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.1, audited 2026-08-15] -- The dilated esophagus inside the fibrosis score
 - **scout-010-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-12] -- CXR-Age put back together from parts a radiologist can measure
 - **scout-012-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.8, audited 2026-08-15] -- The race signal in chest CT: measure the bone density everyone names and nobody measured
 - **scout-010-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-12] -- Merlin's cirrhosis signal may be the spleen
 - **scout-011-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.3, audited 2026-08-13] -- Does Merlin read renal atrophy when it predicts future CKD?
-- **scout-011-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.4, audited 2026-08-13] -- The air bronchogram as a topological cue
-- **scout-010-c02** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-12] -- Atelectasis vs consolidation: has CT-CLIP learned the radiologist's volume-loss rule?
-- **scout-006-c04** [NOVEL_UNVERIFIED, score 4.1, audited 2026-08-10] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
-- **scout-009-c08** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.1, audited 2026-08-11] -- The glioblastoma prognosticator may be reading the invasion front's roughness
-- **scout-010-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-12] -- The inferior vena cava as a manometer: does the chest model read venous pressure?
-- ... and 24 more (python scout.py backlog)
+- **scout-013-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.2, audited 2026-08-15] -- Name the skeletal frailty inside mortality prediction
+- **scout-013-c04** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.1, audited 2026-08-15] -- The renal artery as a buckled pressure line
+- **scout-013-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 2.9, audited 2026-08-15] -- The open fissure inside lung-cancer risk
+- ... and 29 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- regional-substitution: 7
-- conditional-observational: 6
+- regional-substitution: 9
+- conditional-observational: 8
 - counterfactual-synthesis: 5
 - representation-erasure: 3
+- natural-paired: 3
 - longitudinal-within-subject: 3
-- natural-paired: 2
 - model-output-perturbation: 2
 - regional-removal: 1
 
@@ -832,6 +887,11 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-012-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Merlin's COPD call may come from the lungs it wasn't asked to look at -- data: Public abdominal CT (AMOS 2022 / TotalSegmentator public dataset) + released Merlin checkpoint
 - **scout-012-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The non-gated chest CT contains an ECG: heart rate written in motion banding -- data: CT-RATE (second and final CT-RATE candidate this cycle); TCIA gated collections only for validating the X-measurement
 - **scout-012-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The prognosis model as a manometer: midline shift is pressure the skull wrote down -- data: Anchor model's cohort (single-institution + TRACK-TBI) - access is the declared rate-limiter; CQ500 (public, has MLS/mass-effect reads but no outcomes) for X-measurement development only
+- **scout-013-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The vessel map inside the mosaic-attenuation score -- data: CT-RATE validation split
+- **scout-013-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The open fissure inside lung-cancer risk -- data: NLST held-out scans scored by a reproduced or released Sybil model
+- **scout-013-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Name the skeletal frailty inside mortality prediction -- data: Public chest-radiograph mortality anchor cohort if obtainable; external measurement development on MIMIC-CXR
+- **scout-013-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The renal artery as a buckled pressure line -- data: Public contrast-enhanced abdominal CT compatible with released Merlin checkpoint
+- **scout-013-c05** [SCOUT_ONLY/SCOUTED/baseline] -- Collateral failure written in the cortical veins -- data: Paired baseline NCCT and CTA/CTP or DWI stroke cohort from the anchor model; public CQ500 only for measurement robustness
 
 
 ===== evidence/portfolio_brief.md =====
@@ -2139,8 +2199,8 @@ frozen_scope:
     pair_id_rule: "p001..p425, assigned in manifest order: strata in the fixed order [Br40f|Br60f, Bl56f|Br40f, Bl57d|Br36d, Br40f|Br44f], then within each stratum ascending lexicographic order of volume_name_softer. patient_id is the valid_<N> prefix of the VolumeName."
     generation: "Deterministically re-derived in the manifest-freeze phase (see approval_and_phasing) from validation_metadata.csv at the pinned HF revision and SHA-256, by re-applying the frozen Stage-0 matching rules (exact string equality on RescaleSlope, RescaleIntercept, XYSpacing, ZSpacing, NumberofSlices, plus position/acquisition columns where present) with the r5 kernel-field normalization. Hard gate: per-stratum counts must equal the frozen counts above exactly; any mismatch is an invalidating failure with a mandatory selection audit."
     analysis_population_rule: "The analysis population is pair_manifest.csv byte-for-byte, identified by the SHA-256 recorded below -- not the counts."
-  pair_manifest_sha256: "TO_BE_RECORDED_AT_MANIFEST_FREEZE"   # filling this amends the contract; re-approval is machinery-enforced
-  unique_volume_count: "TO_BE_RECORDED_AT_MANIFEST_FREEZE"    # computed as distinct VolumeNames in the manifest; 425 x 2 = 850 is NOT assumed
+  pair_manifest_sha256: "5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38"   # filling this amends the contract; re-approval is machinery-enforced
+  unique_volume_count: 850    # computed as distinct VolumeNames in the manifest; 425 x 2 = 850 is NOT assumed
   anchor_pair_exclusion: "The v1 load-probe pair (valid_1004_a_1.nii.gz | valid_1004_a_2.nii.gz), whose per-head scores were exposed by contract v1 and declared uninterpretable there, appears in the manifest flagged anchor_excluded=true. Its paired deltas are excluded from every tier-1 and tier-2 confirmatory statistic (context memo section 4; v1 contract terms) and are reported only as anchor diagnostics. Confirmatory Br40f|Br60f statistics therefore use 236 pairs; both raw and counted denominators are reported."
   vendor_scope_limitation: "462 of 464 Stage-0-audited volumes are Siemens. Every claim from this study is vendor-scoped (predominantly single-vendor); no cross-vendor or cross-site statement is permitted."
 
@@ -2245,7 +2305,7 @@ execution_model:
 # ---------------------------------------------------------------------------
 budgets:
   pair_count_cap: 425
-  unique_volume_cap: "TO_BE_RECORDED_AT_MANIFEST_FREEZE (equals frozen_scope.unique_volume_count; the cap on distinct scientific volumes downloaded and inferred)"
+  unique_volume_cap: 850
   qa_retry_download_allowance: "ceil(0.20 x unique_volume_cap) volumes, frozen as a number at manifest freeze. Covers redone chunks and anchor re-runs (anchor volumes count once if cached in persistent storage, once per re-download otherwise)."
   session_cap: 30
   gpu_minutes: "Not a governing cap (R8: a single total-download or GPU-minute cap is incoherent under resumability). Informational estimate: ~5 s inference/volume (v1-measured) -> roughly 1.5-2 GPU-hours total including anchors and spot-checks; CPU preprocessing dominates wall-clock."
@@ -2294,7 +2354,7 @@ invalidating_failures:
   - "Anchor drift: cross-session anchor deviation beyond the preregistered 1.0e-4 per-head probability tolerance (invalidates that session's chunks; they are redone after diagnosis)."
   - "Environment drift: any session deviating from the pinned transformers/tokenizers closure, or missing startup version logging, or a chunk missing its environment record."
   - "Pair splitting: any pair whose two members were scored in different sessions, including via an interrupted chunk not redone in full."
-  - "Premature bulk start: any Phase B activity while a TO_BE_RECORDED_AT_MANIFEST_FREEZE placeholder remains in this contract, or without HUMAN_APPROVED_PROBE bound to the amended contract blob."
+  - "Premature bulk start: any Phase B activity while a TO_BE_RECORDED placeholder remains in this contract, or without HUMAN_APPROVED_PROBE bound to the amended contract blob."
   - "Budget overrun: continuing past the pair, unique-volume, QA/retry, or session cap."
   - "Configuration deviation: batch size other than 1, or any patch-size, target-shape, weight, architecture, or preprocessing modification."
   - "Label integrity (tier 2): a manifest pair whose members carry differing released label rows (contradicts the Stage-0 finding of exact duplication; world drift, stop and report)."
@@ -2383,92 +2443,74 @@ human_approved: false  # fresh approval required; the existing marker is bound t
 ===== ideas/004/probe_review.md =====
 # Probe code review — idea 004, contract v2
 
-**Verdict: REVISE.** The manifest, inference, and analysis implementation is
-substantially faithful, but the session budget is not fail-closed. Phase B can
-consume an unlimited number of failed Colab sessions without those sessions
-counting toward the contract's cap of 30.
+**Verdict: APPROVE.** The revision closes the prior R8 blocker without changing
+the scientific scope, endpoints, frozen population, or analysis.
 
-## Blocking finding
+## Blocking findings
 
-### 1. The session cap counts successful anchor-log sessions, not Phase B sessions
+None.
 
-Contract R8 freezes a cap of 30 **sessions**. The driver instead reconstructs
-usage solely from distinct `session_id` values in `anchor/anchor_log.csv`
-(`probes/004/run.py:2321-2329`). A new session is not durably registered at
-entry. The anchor log is written only after the model and both anchor inputs
-have loaded and all three anchor executions have completed
-(`probes/004/run.py:1959-1995`).
+## Resolution of the prior blocker
 
-Consequently, Phase B sessions that fail during environment capture, metadata
-or checkpoint access, checkpoint loading, anchor preprocessing, or anchor
-inference do not consume the session cap. The operator can retry those paths
-indefinitely while the code continues to report fewer than 30 sessions. This
-violates `budgets.session_cap: 30` and the stopping rule requiring the run to
-stop when any R8 cap would be exceeded. It is also a silent accounting error:
-`summary.json` reports `sessions_used` from the same incomplete anchor-derived
-count (`probes/004/run.py:2443-2445`).
+The driver now persists every Phase B attempt in
+`sessions/session_attempts.csv` before environment capture, data access, model
+loading, or anchor work (`probes/004/run.py:1810-1845`,
+`probes/004/run.py:2357-2369`). The record is flushed and `fsync`ed before work
+continues. The cap check precedes the append, so attempt 31 exits as budget
+exhaustion without beginning or being registered. `summary.json` derives
+`sessions_used` from the same registry rather than from the post-anchor
+diagnostic log (`probes/004/run.py:2477-2487`). This satisfies the exact repair
+required by the preceding review.
 
-Required repair: persist a Phase B session-attempt record before any access,
-model, or anchor work, refuse the 31st attempt before it begins, and derive
-both enforcement and `sessions_used` from that durable record. Do not expand
-the experiment or alter any scientific endpoint.
+The smoke harness independently registers 30 attempts, verifies every row is
+durable, refuses attempt 31 with exit 9, and verifies that refusal does not add
+a row (`probes/004/run.py:2780-2806`). The operator documentation also states
+the accounting rule and identifies the registry as the R8 budget record
+(`probes/004/README.md:56-67`).
 
-## Contract fidelity otherwise verified
+## Contract and requirements fidelity
 
-- Phase M is metadata-only and the current hash-bound approval cannot authorize
-  Phase B while the manifest placeholders remain (`probes/004/run.py:431-518`,
-  `1627-1747`). The current approval marker matches the contract blob.
-- The manifest is regenerated from the pinned metadata, hard-gated at
-  237/126/58/4, serialized deterministically, and hash-checked before bulk work
-  (`probes/004/run.py:593-741`, `2341-2371`). No unmanifested scientific volume
-  enters analysis.
-- Canonical direction is fixed independently of row order. Tier 1 is per-head
-  and per-stratum on probability and logit scales, excludes the exposed anchor
-  from confirmatory summaries, does not summarize across heads, and uses the
-  patient-cluster bootstrap (`probes/004/run.py:866-1032`).
+- The earlier line-by-line findings remain valid: Phase M is metadata-only;
+  Phase B is hash-gated on the amended contract and frozen manifest; the
+  manifest is regenerated and checked against the fixed 237/126/58/4 strata;
+  no unmanifested scientific volume enters analysis.
+- Tier 1 remains per-head and per-stratum on probability and logit scales,
+  with no cross-head averaging, patient-cluster bootstrap, and confirmatory
+  exclusion of the exposed anchor pair.
 - Tier 2 runs only after tier 1, remains per-head/per-stratum, applies the
-  preregistered 10-positive/10-negative rule, and reports every excluded cell
-  (`probes/004/run.py:1065-1191`, `2274-2309`). It contains no analytical
-  margin, cutoff, operating-point, or pass/fail rule.
-- Same-session pairing is structural; interrupted chunks are redone in full;
-  the four frozen spot-check pairs are rerun bit-identically; and the anchor
-  pair is excluded from scientific statistics (`probes/004/run.py:2010-2178`).
-- The r6 environment pins and exactly-one `position_ids` exception are
-  fail-closed (`probes/004/run.py:1206-1273`, `1462-1538`).
-- Required final artifacts are represented in the documented bundle layout,
-  including root configuration/provenance/summary files, per-chunk manifests
-  and environments, global per-sample/input manifests, both tier tables, and
-  the sparse-label exclusion table (`probes/004/run.py:2227-2309`,
-  `2437-2484`).
+  preregistered 10-positive/10-negative eligibility rule, reports all excluded
+  cells, and introduces no margin, cutoff, operating point, or pass/fail
+  semantics.
+- Same-session pairing, whole-chunk redo, anchor drift checks, four frozen
+  bit-identical spot checks, the r6 dependency closure, and the exactly-one
+  `position_ids` exception remain fail-closed.
+- The required machine-readable outputs remain represented in the frozen
+  bundle layout. The added session registry is budget provenance, not a new
+  scientific output or analysis.
 
-## Silent-failure and claim-discipline review
+## Silent failure, claims, readability, and practicalities
 
-No second blocking silent-failure surface was found. Empty or drifted inputs,
-selection shortfalls, label mismatch, non-finite outputs, model-key mismatch,
-within-session nondeterminism, anchor drift, and incomplete chunks all fail
-explicitly. Broad exception handlers map failures to non-scientific exit
-classes rather than printing a result. The final summary uses the contract's
-descriptive outcome language and explicitly prohibits equivalence, robustness,
-accuracy, concept-validity, localization, and cross-vendor conclusions
-(`probes/004/run.py:2463-2482`).
+No new silent-failure surface was found. The session record specifically
+closes failures occurring before the anchor log exists. Existing checks still
+fail explicitly on missing or drifted inputs, selection shortfall, label
+mismatch, non-finite scores, model-key mismatch, nondeterminism, anchor drift,
+pair splitting, incomplete chunks, and cap overruns.
 
-## Readability and practicalities
+The result language remains descriptive and checkpoint/contrast/vendor scoped.
+The module and README explain phases, stopping, progress, outputs, and Colab
+operation; `--output-dir` supports persistent Drive storage and no interactive
+prompt is introduced.
 
-The module docstring explains the experiment, phases, stopping rule, outcome
-language, and exit codes. Phase comments and progress messages are clear. The
-output directory is supplied by `--output-dir`; the launcher design is
-non-interactive and suitable for persistent Drive storage.
-
-Non-blocking: `probes/004/README.md:84-87` and
-`probes/004/verification.json` say Python compilation and smoke execution were
-not possible in the writing sandbox. In this review, `python -m py_compile
-probes/004/run.py` passed and the smoke harness completed successfully. The
-analysis portion was skipped because NumPy is absent in this review
-environment; the README correctly requires rerunning smoke after installing
-the pinned requirements before a real phase.
+Verification performed in this review: `python -m py_compile
+probes/004/run.py` passed, and the smoke harness passed every runnable check,
+including `session_cap_fail_closed_at_entry`. The analysis portion was skipped
+because NumPy is absent in this review environment; this is non-blocking because
+NumPy is pinned in `probes/004/requirements.txt:5`, and the README requires a
+full smoke rerun after installing the pinned requirements and before a real
+phase.
 
 ```json
-{"verdict": "REVISE", "blocking": ["R8 session accounting derives usage from anchor_log.csv, so any Phase B session that fails before the anchor log is written does not consume the 30-session cap; persist and count every Phase B session attempt at entry and refuse attempt 31 before work begins."], "note": "Scientific scope and analysis are faithful, but the session budget is not fail-closed across retries."}
+{"verdict": "APPROVE", "blocking": [], "note": "The session cap is now fail-closed at Phase B entry, and the revision preserves the approved scientific scope and analysis."}
 ```
 
 
@@ -2564,6 +2606,3 @@ Write for a researcher reviewing results the next morning, not for a machine:
   negative_pattern -- never a stronger claim.
 - No cleverness: prefer three obvious lines over one dense one.
 
-
-===== REVISION ROUND =====
-A reviewer found blocking issues (see probe_review.md in your context). Fix ONLY those findings; do not expand scope.

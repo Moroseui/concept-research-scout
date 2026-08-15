@@ -102,6 +102,7 @@ import re
 import shutil
 import sys
 import time
+import traceback
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -1577,13 +1578,19 @@ def dataset_index_for(index_by_name, volume_name):
 
 
 def stage_volume(local_path, staging_root, volume_name):
-    """Hard-link one downloaded volume into the released dataset layout."""
+    """Copy one downloaded volume into the released dataset layout.
+
+    The persistent ``--output-dir`` may be a Drive mount while the released
+    loader's staging tree is on local scratch. A hard link or rename cannot
+    cross that filesystem boundary (EXDEV), so staging deliberately uses a
+    byte copy. The source remains intact until explicit post-inference cleanup.
+    """
     patient, scan, _ = parse_volume_name(volume_name)
     dest = staging_root / f"valid_{patient}" / f"valid_{patient}_{scan}"
     dest.mkdir(parents=True, exist_ok=True)
     link = dest / volume_name
     if not link.exists():
-        os.link(local_path, link)
+        shutil.copyfile(local_path, link)
     return link
 
 
@@ -3116,4 +3123,7 @@ if __name__ == "__main__":
     except Exception as e:  # never silently swallow a harness fault
         print(f"UNEXPECTED INTERNAL ERROR (exit 12, not a contract result): "
               f"{e!r}", file=sys.stderr)
+        # stderr is persisted by the launcher; the exception repr alone did
+        # not identify the cross-filesystem failure in production attempt 3.
+        traceback.print_exc(file=sys.stderr)
         sys.exit(12)

@@ -1,6 +1,17 @@
 {
   "idea_id": "004",
   "passed": true,
-  "issues": [],
-  "checked_at": "2026-08-15T04:51:02.228968+00:00"
+  "checked_at": "2026-08-15T13:53:25-04:00",
+  "scope": "Authorized r1 harness repair only; no bulk inference or expensive compute launched.",
+  "checks": {
+    "python_compile": "passed",
+    "synthetic_smoke_harness": "passed",
+    "cross_filesystem_safe_staging_copy": "passed",
+    "no_bare_os_link_or_rename_in_run_py": "passed",
+    "exit_12_full_traceback_handler": "passed"
+  },
+  "smoke_analysis_coverage": "skipped_no_numpy",
+  "issues": [
+    "The optional NumPy-backed smoke-analysis portion was skipped because NumPy is absent from the local review environment; NumPy remains pinned in requirements.txt and the full smoke must be rerun after installing pinned dependencies before a real phase-B run."
+  ]
 }
