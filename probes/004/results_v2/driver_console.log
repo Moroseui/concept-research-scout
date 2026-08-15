@@ -1,0 +1,30 @@
+[10:24:08] idea-004 contract-v2 driver starting (phase B)
+[10:24:08] PHASE 0: approval and contract gate
+[10:24:08]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
+[10:24:08]   contract actual blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
+[10:24:08]   hash-bound approval VERIFIED: marker matches the contract blob
+[10:24:08]   contract caps and provenance pins match the frozen constants
+[10:24:08]   phase B entry conditions hold: manifest sha 5dc0f07fbc9a..., unique volumes 850
+[10:24:08] PHASE B: bulk 425-pair floor study (session start)
+[10:24:09]   session 20260815T102408Z-a8c6497b (attempt 3 of session cap 30)
+[10:24:09] environment: seeds, determinism switches, version capture
+[10:24:11]   transformers 4.38.2 / tokenizers 0.15.2 match the pinned r6 closure
+[10:24:13]   resolved_config.json written to /content/drive/MyDrive/concept-research-scout-results/004_v2
+[10:27:52]   validation_metadata.csv: downloaded and hash-verified
+[10:31:10]   valid_predicted_labels.csv: downloaded and hash-verified
+[10:34:23]   validation_reports.csv: downloaded and hash-verified
+[10:34:24]   manifest verified against contract hash (5dc0f07fbc9a..., 425 pairs, 850 unique volumes)
+[10:34:24]   preregistered spot-check pairs: ['p001', 'p238', 'p364', 'p422']
+[10:37:01]   checkpoint hash verified against the v1-frozen pin
+[10:37:03]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
+[10:37:03]   v1 anchor reference loaded (git blob verified)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:261: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:391: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+[10:38:18]   r6 enumerated buffer strip: removed 'trained_model.text_transformer.embeddings.position_ids'
+[10:38:19]   checkpoint loaded: strict modulo the one enumerated, provenance-logged position_ids buffer key (r6)
+[10:38:20] anchor protocol: session drift detector (A, B, A-repeat)
+[10:38:22]   anchor valid_1004_a_1.nii.gz: cache hit, hash verified
+[10:38:24]   anchor valid_1004_a_2.nii.gz: cache hit, hash verified
+UNEXPECTED INTERNAL ERROR (exit 12, not a contract result): OSError(18, 'Invalid cross-device link')

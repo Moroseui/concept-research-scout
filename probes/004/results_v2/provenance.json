@@ -1,0 +1,29 @@
+{
+  "approval_marker_blob": "8b68640183ee796e85f83fd47851c6a5eae51bdc",
+  "checkpoint": {
+    "attribution_note": "attribution limited to 'released v2 ClassFine checkpoint' until paper-number correspondence is checked (2026-08-11 pin 4)",
+    "repo_path": "models/CT-CLIP-Related/CT_LiPro_v2.pt",
+    "sha256": "9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d"
+  },
+  "code_commit": "a2a155c601987820433c01db69b64d701d3d229d",
+  "contract_blob": "8b68640183ee796e85f83fd47851c6a5eae51bdc",
+  "hf_dataset_repo": "ibrahimhamamci/CT-RATE",
+  "hf_revision": "deeca4d89e9f978d4d1bccd88a55071ddbb146bb",
+  "pair_manifest_sha256": "5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38",
+  "phase": "B",
+  "session_id": "20260815T102408Z-a8c6497b",
+  "state_dict_keys_removed_before_load": {
+    "pattern": ".+\\.embeddings\\.position_ids$",
+    "reason": "transformers 4.31.0 made BERT embeddings.position_ids a non-persistent buffer; the <=4.30-era checkpoint carries it (r6 ledger, 2026-08-12)",
+    "removed_keys": [
+      "trained_model.text_transformer.embeddings.position_ids"
+    ]
+  },
+  "tables_sha256_verified": {
+    "valid_predicted_labels.csv": "2356c549da0398dd8bc8d8b007fc78c5c4e489d8b54049b8bbc122a11d429b22",
+    "validation_metadata.csv": "7ae04aaf59e946f8805c940697820f8fd97b56b9634cadd725269b3f6ed9cae1",
+    "validation_reports.csv": "e0538498de92e19b3bb6b70643d5c78edda146e4f480f159825202bf78ed4620"
+  },
+  "timestamp_utc": "2026-08-15T10:37:03Z",
+  "v1_anchor_reference_blob": "ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1"
+}

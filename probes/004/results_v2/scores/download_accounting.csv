@@ -1,0 +1,3 @@
+timestamp_utc,session_id,context,volume_name,sha256,size_bytes,category
+2026-08-15T09:57:01Z,20260815T094338Z-571b8061,anchor,valid_1004_a_1.nii.gz,b058a53eff9f226dbff9725fade98fde412ac56e78a976e404e5c77e8e84f7bd,151159501,qa_retry
+2026-08-15T09:57:25Z,20260815T094338Z-571b8061,anchor,valid_1004_a_2.nii.gz,dd581f82142646a4ad616cfc6f6b4a6ce8a058f029d47cff04004f1fc7bc2751,169076848,qa_retry
