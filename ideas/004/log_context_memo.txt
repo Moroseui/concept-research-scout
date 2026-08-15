@@ -1,0 +1,13 @@
+The context memo is written at `ideas/004/context_memo.md`, ready for ratification. The headline findings:
+
+**The reviewer's split claim was half right, and the half that was wrong matters.** "Label-averaged" is confirmed verbatim — Section 6.1 states "On the test set, we compute the average of each metric across all labels," and a targeted search confirmed no per-label table exists anywhere in the paper. But the "different split" premise is refuted at the volume level: v1's partition sentence gives the test set as "1,314 unique patients, corresponding to 3,039 CT volumes" — exactly the official CT-RATE validation split's volume count from Stage 0. CT-Scroll's "test set" is almost certainly the official validation split relabeled (recorded as a source-supported inference, since the paper never states the mapping — that absence was verified too). The amendment's context-not-margin conclusion still stands, just on the aggregation mismatch and two new legs rather than on the split premise.
+
+**The extracted context (v6, Table 1, CT-RATE, AUROC ×100, 18-label average):** ViViT† 79.19 ± 0.28, CT-Net 79.37 ± 0.27, Swin3D† 79.94 ± 0.15, 3D CNN† 81.47 ± 0.78, CT-Scroll 81.80 ± 0.22. Between-model spread 2.61 points, adjacent-rank gaps 0.18–1.53, all ten pairwise gaps tabulated and labeled context-only.
+
+**Two source defects surfaced during extraction, both now on the record:**
+- **Version instability.** v1 compared a different baseline set (CT-ViT 73.92, 3D CNN 76.49), giving a spread of 7.88 — three times v6's 2.61. The debate-era reference to "the CT-ViT spread" was reading the old table. A margin anchored here would have tripled or shrunk depending on fetch date, which retroactively vindicates the amendment.
+- **Internal inconsistency.** v6 prints ViViT as 79.19 in Table 1 but 73.19 in Table 2 (same ±0.28), with Table 2's split unstated. Flagged so ViViT-involved gaps carry the caveat.
+
+The memo also contains the mandated exposure statement (the one-pair load-probe scores, and why tier 2 is untouched: context numbers are author-fixed publication values and no pass/fail number exists to steer), plus a caveat that the ± terms are 5-seed training variance, not sampling variance — not comparable to our patient-cluster bootstrap intervals. Quotes were WebFetch-extracted from the arXiv HTML with double-transcription cross-checks; identifiers are table/section numbers since the HTML carries no pagination, and the memo says so for the ratifier's spot-check.
+
+No other file was touched, and I left the memo uncommitted pending your ratification.
