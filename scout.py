@@ -163,35 +163,109 @@ def effective_agent(agent, cfg=None, cycle_no=None):
     return agent
 
 
-def run_agent(prompt_path, agent=None, stage=None, log_path=None):
-    cfg = load_agent_config()
-    if agent is None and stage:
-        agent = cfg.get('roles', {}).get(stage.replace('-', '_'))
-    agent = agent or cfg.get('default',{}).get('agent','claude')
-    agent = effective_agent(agent, cfg)
-    print(f'[stage={stage} agent={agent}]')
-    acfg = cfg.get(agent,{})
-    if not acfg.get('enabled', False):
-        print(f'Agent {agent!r} is disabled. Use this prompt manually:\n{prompt_path}')
-        return
-    command = acfg.get('command', [])
-    if os.environ.get('SCOUT_CI') and acfg.get('command_ci'):
-        command = acfg['command_ci']
-        print('(SCOUT_CI set: using command_ci variant)')
-    if not command:
-        print(f'No command configured. Use prompt manually:\n{prompt_path}')
-        return
-    prompt_text = Path(prompt_path).read_text()
-    use_stdin = acfg.get('stdin', True)
-    command = [x.replace('{prompt_file}', str(prompt_path))
-                .replace('{prompt_text}', prompt_text)
-                .replace('{repo}', str(ROOT)) for x in command]
-    if shutil.which(command[0]) is None:
-        print(f'{command[0]} not found. Use prompt manually:\n{prompt_path}')
-        return
-    print('Running:', ' '.join(command[:3]), '...')
-    stdin_text = prompt_text if use_stdin else None
-    timeout = int(cfg.get('limits', {}).get('stage_timeout', 3600))
+# --------------------------------------------------------------------------
+# Workstream D (2026-08-14): model-limit fallback with visible provenance.
+# Same-family only by construction: fallback_models lives under the family's
+# own AGENTS.toml section and the chain never crosses to the other family --
+# adversarial stages (see FAMILY_OPPOSITIONS) fail cleanly and wait for the
+# reset instead. Patterns below are PROVISIONAL best guesses to be refined
+# from the first real limit event; override via AGENTS.toml [fallback].
+# --------------------------------------------------------------------------
+LIMIT_PATTERNS = {
+    # Account-wide exhaustion: no same-family model can rescue the stage.
+    'global': [r'(overall|all[ -]?models?|account|plan)[^\n]{0,60}(usage |weekly )?limit',
+               r'weekly (usage )?limit[^\n]{0,50}(account|plan|all models)'],
+    # The configured model is not offered to this account: skip it, not a limit.
+    'unavailable': [r'unknown model', r'model[^\n]{0,40}not (found|available|recognized)',
+                    r'invalid model'],
+    # Model-specific allowance: the next model in the chain may rescue.
+    'model': [r'(fable|opus|sonnet|haiku|this model)[^\n]{0,60}(usage |weekly )?(limit|allowance)',
+              r'limit[^\n]{0,80}switch(ing)? model',
+              r'usage limit reached'],
+}
+
+LAST_RUN = None  # provenance of the most recent run_agent call; merged into
+                 # stage_provenance.jsonl by _record_stage_provenance.
+
+
+def _classify_agent_failure(output, cfg=None):
+    """Classify a nonzero agent exit from its output. Order matters:
+    global beats model (an account-wide message often names a model too).
+    Returns 'global' | 'unavailable' | 'model' | None."""
+    pats = dict(LIMIT_PATTERNS)
+    for k, v in (cfg or {}).get('fallback', {}).items():
+        if k in pats and isinstance(v, list):
+            pats[k] = v
+    low = (output or '').lower()
+    import re
+    for cls in ('global', 'unavailable', 'model'):
+        if any(re.search(p, low) for p in pats[cls]):
+            return cls
+    return None
+
+
+def _command_model(command):
+    """The value following --model in a command list, else None."""
+    try:
+        return command[command.index('--model') + 1]
+    except (ValueError, IndexError):
+        return None
+
+
+def _with_model(command, model):
+    out = list(command)
+    out[out.index('--model') + 1] = model
+    return out
+
+
+def _quarantine_attempt(qbase, stage, attempt_no, model, exclude=()):
+    """Transactional attempt isolation (D2): move everything the failed
+    attempt wrote out of the working tree into an attempt directory so a
+    fallback model starts clean, never primed by a half-written artifact.
+    Stages start from a clean tree, so all dirt is the failed attempt's.
+    Untracked files are moved; modified tracked files are copied then
+    restored via git. No-op (with a note) when git is unavailable."""
+    q = Path(qbase) / 'attempts' / f'{stage or "stage"}-attempt{attempt_no}-{model}'
+    st = subprocess.run(['git', 'status', '--porcelain'], cwd=ROOT,
+                        capture_output=True, text=True, check=False)
+    moved, restored = [], []
+    if st.returncode == 0:
+        try:
+            skip_prefix = str(q.parent.relative_to(ROOT))
+        except ValueError:
+            skip_prefix = None
+        excl = {str(Path(e).resolve()) for e in exclude if e}
+        for line in st.stdout.splitlines():
+            code, path = line[:2], line[3:].strip().strip('"')
+            if not path or (skip_prefix and path.startswith(skip_prefix)):
+                continue
+            if str((ROOT / path).resolve()) in excl:
+                continue  # the stage's own prompt/log, not attempt output
+            src = ROOT / path
+            if not src.is_file():
+                continue
+            q.mkdir(parents=True, exist_ok=True)
+            dest = q / path.replace('/', '__')
+            if code.strip() == '??':
+                shutil.move(str(src), dest)
+                moved.append(path)
+            else:
+                shutil.copy2(src, dest)
+                subprocess.run(['git', 'checkout', '--', path], cwd=ROOT, check=False)
+                restored.append(path)
+    if moved or restored:
+        q.mkdir(parents=True, exist_ok=True)
+        (q / 'ATTEMPT.json').write_text(json.dumps(
+            {'stage': stage, 'model': model, 'attempt': attempt_no,
+             'moved': moved, 'restored_tracked': restored,
+             'ts': datetime.now(timezone.utc).isoformat(timespec='seconds')},
+            indent=2) + '\n')
+        print(f'Quarantined {len(moved) + len(restored)} partial file(s) from the '
+              f'failed attempt into {q.relative_to(ROOT)}')
+
+
+def _invoke_agent(command, use_stdin, prompt_text, timeout, log_path):
+    """One agent attempt. Returns (returncode, combined_output)."""
     lines = []
     import time
     deadline = time.monotonic() + timeout
@@ -201,7 +275,7 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
     try:
         if use_stdin:
             try:
-                proc.stdin.write(stdin_text)
+                proc.stdin.write(prompt_text)
                 proc.stdin.close()
             except BrokenPipeError:
                 pass
@@ -221,8 +295,134 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
                 Path(log_path).write_text(''.join(lines))
             except OSError as e:
                 print(f'(could not write agent log: {e})')
-    if proc.returncode:
-        raise SystemExit(f'Agent exited with code {proc.returncode}. Prompt retained at {prompt_path}')
+    return proc.returncode, ''.join(lines)
+
+
+def run_agent(prompt_path, agent=None, stage=None, log_path=None):
+    global LAST_RUN
+    cfg = load_agent_config()
+    if agent is None and stage:
+        agent = cfg.get('roles', {}).get(stage.replace('-', '_'))
+    agent = agent or cfg.get('default',{}).get('agent','claude')
+    agent = effective_agent(agent, cfg)
+    print(f'[stage={stage} agent={agent}]')
+    acfg = cfg.get(agent,{})
+    if not acfg.get('enabled', False):
+        print(f'Agent {agent!r} is disabled. Use this prompt manually:\n{prompt_path}')
+        return
+    if agent == 'claude' and os.environ.get('ANTHROPIC_API_KEY') \
+            and not acfg.get('allow_api_billing', False):
+        raise SystemExit(
+            'ANTHROPIC_API_KEY is set: Claude Code would authenticate against '
+            'API billing instead of the subscription (D2 billing guard). Unset '
+            'the variable, or set allow_api_billing = true under [claude] in '
+            'AGENTS.toml as a deliberate, recorded choice. No tokens were spent.')
+    command = acfg.get('command', [])
+    if os.environ.get('SCOUT_CI') and acfg.get('command_ci'):
+        command = acfg['command_ci']
+        print('(SCOUT_CI set: using command_ci variant)')
+    if not command:
+        print(f'No command configured. Use prompt manually:\n{prompt_path}')
+        return
+    prompt_text = Path(prompt_path).read_text()
+    use_stdin = acfg.get('stdin', True)
+    command = [x.replace('{prompt_file}', str(prompt_path))
+                .replace('{prompt_text}', prompt_text)
+                .replace('{repo}', str(ROOT)) for x in command]
+    if shutil.which(command[0]) is None:
+        print(f'{command[0]} not found. Use prompt manually:\n{prompt_path}')
+        return
+    timeout = int(cfg.get('limits', {}).get('stage_timeout', 3600))
+    primary = _command_model(command)
+    chain = [primary] + list(acfg.get('fallback_models', [])) if primary else [primary]
+    qbase = Path(log_path).parent if log_path else ROOT / 'orchestrator'
+    attempts = []
+    for i, model in enumerate(chain):
+        cmd = command if i == 0 else _with_model(command, model)
+        print('Running:', ' '.join(cmd[:3]), '...'
+              + (f' [fallback attempt {i+1}/{len(chain)}: {model}]' if i else ''))
+        rc, output = _invoke_agent(cmd, use_stdin, prompt_text, timeout, log_path)
+        attempts.append({'model': model, 'returncode': rc})
+        if rc == 0:
+            LAST_RUN = {'agent': agent, 'stage': stage,
+                        'model_requested': chain[0], 'model_used': model,
+                        'fallback': i > 0, 'attempts': attempts}
+            if i > 0:
+                print(f'FALLBACK: stage completed on {model} '
+                      f'(requested {chain[0]}). Recorded in stage provenance; '
+                      'rotation identity unchanged (family, not model).')
+            return
+        cls = _classify_agent_failure(output, cfg)
+        attempts[-1]['failure_class'] = cls
+        LAST_RUN = {'agent': agent, 'stage': stage,
+                    'model_requested': chain[0], 'model_used': None,
+                    'fallback': i > 0, 'attempts': attempts}
+        if cls == 'global':
+            raise SystemExit(
+                'Agent hit the ACCOUNT-WIDE usage limit; no same-family '
+                'fallback can rescue this stage (D2 limit classification). '
+                f'Wait for the weekly reset. Prompt retained at {prompt_path}')
+        if cls in ('model', 'unavailable') and i + 1 < len(chain):
+            _quarantine_attempt(qbase, stage, i + 1, model,
+                                exclude=(prompt_path, log_path))
+            reason = ('model-specific limit' if cls == 'model'
+                      else 'model unavailable to this account')
+            print(f'{reason} on {model}; retrying with {chain[i+1]}.')
+            continue
+        raise SystemExit(f'Agent exited with code {rc}. Prompt retained at {prompt_path}')
+
+
+# --------------------------------------------------------------------------
+# D3/D4 (2026-08-14): one declarative table of required family oppositions,
+# validated identically by doctor, cycle start, and tests, so independent
+# guards cannot drift apart. Stages here derive their scientific integrity
+# from two DIFFERENT model families opposing each other; they must fail
+# cleanly (and wait for quota) rather than ever collapse into one family.
+# --------------------------------------------------------------------------
+FAMILY_OPPOSITIONS = [
+    ('scout', 'critique'),
+    ('probe_code', 'probe_review'),
+    ('debate_proposer', 'debate_critic'),
+    ('fiction_writer', 'fiction_refiner'),
+    ('scout', 'connection_check'),   # E3 stage; skipped until the role exists
+]
+
+
+def _resolve_role_family(cfg, role, cycle_no=None):
+    """Family playing `role` this cycle, or None if the role is not
+    configured (e.g. connection_check before E3 lands)."""
+    if role in ('debate_proposer', 'debate_critic'):
+        side = cfg.get('debate', {}).get(role.split('_')[1])
+        return effective_agent(side, cfg, cycle_no) if side else None
+    if role in ('fiction_writer', 'fiction_refiner'):
+        writer, refiner = _fiction_writer_and_refiner(cfg, cycle_no)
+        return writer if role == 'fiction_writer' else refiner
+    if role == 'probe_review':
+        explicit = cfg.get('roles', {}).get('probe_review')
+        if explicit:
+            return effective_agent(explicit, cfg, cycle_no)
+        gen = _resolve_role_family(cfg, 'probe_code', cycle_no)
+        pair = cfg.get('rotation', {}).get('pair', ['claude', 'codex'])[:2]
+        return (pair[1] if gen == pair[0] else pair[0]) if gen else None
+    assigned = cfg.get('roles', {}).get(role)
+    return effective_agent(assigned, cfg, cycle_no) if assigned else None
+
+
+def _check_family_opposition(cfg, cycle_no=None):
+    """Raise before any tokens are spent if an adversarial pairing has
+    collapsed into one family (misconfiguration, rotation bug, or a
+    future fallback path crossing families)."""
+    problems = []
+    for a, b in FAMILY_OPPOSITIONS:
+        fa = _resolve_role_family(cfg, a, cycle_no)
+        fb = _resolve_role_family(cfg, b, cycle_no)
+        if fa and fb and fa == fb:
+            problems.append(f'{a} and {b} would both run as {fa!r}')
+    if problems:
+        raise SystemExit(
+            'FAMILY OPPOSITION VIOLATION (D3): ' + '; '.join(problems) + '. '
+            'Adversarial stages require opposite model families; fix '
+            'AGENTS.toml roles/rotation. No tokens were spent.')
 
 
 def doctor(_):
@@ -253,6 +453,21 @@ def doctor(_):
             print('  WARNING: one model holds every role. It will be critiquing itself.')
     else:
         print('\nNo [roles] table in AGENTS.toml - all stages use the default agent.')
+    print('\nFamily oppositions (D3):')
+    try:
+        _check_family_opposition(cfg)
+        for a, b in FAMILY_OPPOSITIONS:
+            fa = _resolve_role_family(cfg, a)
+            fb = _resolve_role_family(cfg, b)
+            state = 'skipped (role absent)' if not (fa and fb) else f'{fa} vs {fb}  OK'
+            print(f'  {a:<16} <-> {b:<16} {state}')
+    except SystemExit as e:
+        print(f'  {e}')
+    fb_chain = cfg.get('claude', {}).get('fallback_models', [])
+    _prim = _command_model(cfg.get('claude', {}).get('command', []))
+    print('Fallback chain [claude]:',
+          ' -> '.join([str(_prim)] + list(fb_chain)) if fb_chain
+          else 'none configured (D1 pending)')
     rot = cfg.get('rotation', {})
     print(f"\nRotation: {'enabled' if rot.get('enabled') else 'disabled'}"
           f" (pair={rot.get('pair', ['claude','codex'])},"
@@ -1179,6 +1394,7 @@ def cycle(args):
         print('Unfinished cycle found; resuming it instead of starting a new one.')
         return resume(args)
     _require_clean_tree('cycle')
+    _check_family_opposition(cfg, n)
     d = scout_dir(n)
     d.mkdir(parents=True, exist_ok=False)
     (d / 'README.md').write_text(f'# Scouting cycle {n:03d}\n\nTracks: {", ".join(tracks)}\n')
@@ -1212,6 +1428,7 @@ def resume(_args):
     s['active_cycle'] = n
     save_state(s)
     _require_clean_tree('resume')
+    _check_family_opposition(load_agent_config(), n)
     print(f"Resuming cycle {n:03d} (tracks: {', '.join(c['tracks'])})")
     for name, st in c['stages'].items():
         print(f'  {name:<16} {st}')
@@ -1484,6 +1701,14 @@ def _record_stage_provenance(idea, stage):
                 'git_commit': subprocess.run(['git', 'rev-parse', 'HEAD'],
                                              capture_output=True, text=True,
                                              check=False).stdout.strip()})
+    if LAST_RUN and LAST_RUN.get('stage') == stage:
+        # D2 visibility: which model actually ran, and whether it was a
+        # fallback. record-never-pin extended to graceful degradation.
+        rec.update({k: LAST_RUN[k] for k in
+                    ('model_requested', 'model_used', 'fallback')
+                    if k in LAST_RUN})
+        if LAST_RUN.get('fallback'):
+            rec['attempts'] = LAST_RUN['attempts']
     with (idea_dir(idea) / 'stage_provenance.jsonl').open('a') as f:
         f.write(json.dumps(rec) + '\n')
 

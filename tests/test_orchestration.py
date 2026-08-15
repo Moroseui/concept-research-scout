@@ -70,6 +70,27 @@ def sneak():
     (root / "probes").mkdir(exist_ok=True)
     (root / "probes" / "sneaky.py").write_text("# out of lane" + NL)
 
+def limit_once():
+    # D tests: first call writes a partial artifact then fails with a
+    # model-limit message; second call (the fallback model) succeeds.
+    # marker lives OUTSIDE the repo: it is fake-agent state, and the
+    # quarantine sweep must be free to clean everything in-tree.
+    marker = pathlib.Path(os.environ["FAKE_RECEIPT"]).parent / "limit_marker"
+    junk = root / "ideas" / "001" / "partial_from_failed_attempt.txt"
+    junk.parent.mkdir(parents=True, exist_ok=True)
+    if not marker.exists():
+        marker.write_text("1")
+        junk.write_text("half-written by the limited model" + NL)
+        print("Fable 5 usage limit reached for this model; "
+              "you can switch models to continue.")
+        sys.exit(1)
+    print("ok after fallback")
+
+def global_limit():
+    print("You have reached your overall weekly usage limit for all "
+          "models on this account.")
+    sys.exit(1)
+
 def add_round(side, status):
     t = root / target / "debate.md"
     t.parent.mkdir(parents=True, exist_ok=True)
@@ -80,6 +101,10 @@ def add_round(side, status):
 
 if action == "out_of_scope":
     sneak()
+elif action == "limit_once":
+    limit_once()
+elif action == "global_limit":
+    global_limit()
 elif action == "clean_debate_then_sneak_on_summary":
     # The summary prompt is the only one that mentions consensus.md.
     if "consensus.md" in prompt:
@@ -1462,6 +1487,147 @@ class TestSchemaNormalization(unittest.TestCase):
         after = self.sc._mean_score(c)
         self.assertGreater(after, 0.0, "ranking must see normalized values")
         self.assertGreaterEqual(after, before)
+
+
+class TestFallbackAndOpposition(Harness):
+    """Workstream D: model-limit fallback (D1/D2) and the family
+    opposition invariant (D3/D4)."""
+
+    def _cfg_with_fallback(self):
+        (self.repo / "AGENTS.toml").write_text(f'''
+[default]
+agent = "claude"
+[roles]
+critique = "codex"
+[debate]
+proposer = "claude"
+critic = "codex"
+[claude]
+enabled = true
+stdin = true
+fallback_models = ["backup-model"]
+command = ["{sys.executable}", "{self.fake}", "--model", "primary-model"]
+[codex]
+enabled = true
+stdin = true
+command = ["{sys.executable}", "{self.fake}"]
+[rotation]
+enabled = false
+[limits]
+stage_timeout = 60
+''')
+
+    def _direct(self, action, agent="claude", stage="critique"):
+        import scout as sc
+        sc.ROOT = self.repo
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.LAST_RUN = None
+        target = self.repo / "ideas" / "001"
+        target.mkdir(parents=True, exist_ok=True)
+        prompt = target / "prompt_test.md"
+        prompt.write_text("test prompt")
+        env = {"FAKE_REPO": str(self.repo), "FAKE_RECEIPT": str(self.receipt),
+               "FAKE_AGENT_ACTION": action, "FAKE_TARGET": "ideas/001"}
+        old = {k: os.environ.get(k) for k in env}
+        os.environ.update(env)
+        try:
+            sc.run_agent(prompt, agent, stage=stage,
+                         log_path=target / "log_test.txt")
+        finally:
+            for k, v in old.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+        return sc, target
+
+    def _git_init(self):
+        for cmd in (["git", "init", "-q"],
+                    ["git", "config", "user.email", "t@t"],
+                    ["git", "config", "user.name", "t"],
+                    ["git", "add", "-A"],
+                    ["git", "commit", "-qm", "base"]):
+            subprocess.run(cmd, cwd=self.repo, check=True,
+                           capture_output=True)
+
+    def test_model_limit_falls_back_and_records_provenance(self):
+        self._cfg_with_fallback()
+        self._git_init()
+        sc, target = self._direct("limit_once")
+        self.assertIsNotNone(sc.LAST_RUN)
+        self.assertTrue(sc.LAST_RUN["fallback"])
+        self.assertEqual(sc.LAST_RUN["model_requested"], "primary-model")
+        self.assertEqual(sc.LAST_RUN["model_used"], "backup-model")
+        self.assertEqual(len(sc.LAST_RUN["attempts"]), 2)
+        self.assertEqual(sc.LAST_RUN["attempts"][0]["failure_class"], "model")
+
+    def test_failed_attempt_partial_output_is_quarantined(self):
+        self._cfg_with_fallback()
+        self._git_init()
+        sc, target = self._direct("limit_once")
+        junk = target / "partial_from_failed_attempt.txt"
+        self.assertFalse(junk.exists(),
+                         "partial artifact must not remain for the fallback")
+        attempts = list((target / "attempts").glob("*/ATTEMPT.json"))
+        self.assertEqual(len(attempts), 1)
+        rec = json.loads(attempts[0].read_text())
+        self.assertIn("ideas/001/partial_from_failed_attempt.txt",
+                      rec["moved"])
+
+    def test_global_limit_fails_cleanly_without_retry(self):
+        self._cfg_with_fallback()
+        self._git_init()
+        with self.assertRaises(SystemExit) as cm:
+            self._direct("global_limit")
+        self.assertIn("ACCOUNT-WIDE", str(cm.exception))
+        import scout as sc
+        self.assertEqual(len(sc.LAST_RUN["attempts"]), 1,
+                         "global exhaustion must not burn fallback retries")
+
+    def test_billing_guard_refuses_api_key(self):
+        self._cfg_with_fallback()
+        os.environ["ANTHROPIC_API_KEY"] = "sk-test"
+        try:
+            with self.assertRaises(SystemExit) as cm:
+                self._direct("noop")
+            self.assertIn("billing guard", str(cm.exception))
+            self.assertIn("No tokens were spent", str(cm.exception))
+        finally:
+            os.environ.pop("ANTHROPIC_API_KEY", None)
+
+    def test_opposition_map_rejects_collapsed_families(self):
+        import scout as sc
+        bad = {"roles": {"scout": "claude", "critique": "claude"},
+               "debate": {"proposer": "claude", "critic": "codex"},
+               "rotation": {"enabled": False, "pair": ["claude", "codex"]}}
+        with self.assertRaises(SystemExit) as cm:
+            sc._check_family_opposition(bad)
+        self.assertIn("FAMILY OPPOSITION VIOLATION", str(cm.exception))
+        self.assertIn("No tokens were spent", str(cm.exception))
+
+    def test_opposition_map_passes_normal_config_and_survives_rotation(self):
+        import scout as sc
+        good = {"roles": {"scout": "claude", "critique": "codex",
+                          "probe_code": "claude", "fiction_scout": "claude"},
+                "debate": {"proposer": "claude", "critic": "codex"},
+                "rotation": {"enabled": True, "pair": ["claude", "codex"]}}
+        for cycle in (2, 3):  # even (normal) and odd (swapped) parity
+            sc._check_family_opposition(good, cycle)
+        # connection_check absent -> pair skipped, no error
+        self.assertIsNone(sc._resolve_role_family(good, "connection_check"))
+
+    def test_failure_classifier_precedence(self):
+        import scout as sc
+        self.assertEqual(sc._classify_agent_failure(
+            "You have reached your overall weekly usage limit for all models"),
+            "global")
+        self.assertEqual(sc._classify_agent_failure(
+            "Fable 5 usage limit reached; switch models to continue"),
+            "model")
+        self.assertEqual(sc._classify_agent_failure(
+            "Error: unknown model 'claude-sonnet-9'"), "unavailable")
+        self.assertIsNone(sc._classify_agent_failure("segfault"))
 
 
 if __name__ == "__main__":
