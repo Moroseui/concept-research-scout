@@ -1,16 +1,22 @@
-[03:46:43] idea-004 contract-v2 driver starting (phase M)
-[03:46:43] PHASE 0: approval and contract gate
-[03:46:43]   approval marker blob: a84b617cd5a099b85467b43c88831933ea69dec3
-[03:46:43]   contract actual blob: a84b617cd5a099b85467b43c88831933ea69dec3
-[03:46:43]   hash-bound approval VERIFIED: marker matches the contract blob
-[03:46:43]   contract caps and provenance pins match the frozen constants
-[03:46:43] PHASE M: metadata-only manifest freeze
-[03:46:43] environment: seeds, determinism switches, version capture
-[03:46:43]   resolved_config.json written to /home/partho/concept-research-scout-v4/concept-research-scout/probes/004/results_v2
-[03:51:12]   validation_metadata.csv: downloaded and hash-verified
-[03:53:49]   valid_predicted_labels.csv: downloaded and hash-verified
-[03:55:39]   validation_reports.csv: downloaded and hash-verified
-[03:55:39]   head-name/order mapping confirmed against released labels CSV
-[03:55:39]   selected per-stratum counts: {'Br40f|Br60f': 237, 'Bl56f|Br40f': 126, 'Bl57d|Br36d': 58, 'Br40f|Br44f': 4}
-[03:55:39]   anchor pair p001 (valid_1004_a_1.nii.gz | valid_1004_a_2.nii.gz) flagged anchor_excluded
-[03:55:39]   pair_manifest.csv written: 425 pairs, 850 unique volumes, sha256 5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38
+
+===== phase-B session starting 2026-08-15T09:02:35Z =====
+[09:02:35] idea-004 contract-v2 driver starting (phase B)
+[09:02:35] PHASE 0: approval and contract gate
+[09:02:35]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
+[09:02:35]   contract actual blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
+[09:02:35]   hash-bound approval VERIFIED: marker matches the contract blob
+[09:02:35]   contract caps and provenance pins match the frozen constants
+[09:02:35]   phase B entry conditions hold: manifest sha 5dc0f07fbc9a..., unique volumes 850
+[09:02:35] PHASE B: bulk 425-pair floor study (session start)
+[09:02:35]   session 20260815T090235Z-845af11a (attempt 1 of session cap 30)
+[09:02:35] environment: seeds, determinism switches, version capture
+[09:02:37]   transformers 4.38.2 / tokenizers 0.15.2 match the pinned r6 closure
+[09:02:38]   resolved_config.json written to /content/drive/MyDrive/concept-research-scout-results/004_v2
+[09:08:12]   validation_metadata.csv: downloaded and hash-verified
+[09:12:41]   valid_predicted_labels.csv: downloaded and hash-verified
+[09:16:38]   validation_reports.csv: downloaded and hash-verified
+[09:16:38]   manifest verified against contract hash (5dc0f07fbc9a..., 425 pairs, 850 unique volumes)
+[09:16:38]   preregistered spot-check pairs: ['p001', 'p238', 'p364', 'p422']
+[09:18:24]   checkpoint hash verified against the v1-frozen pin
+[09:18:29]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
+[09:18:29] FAIL (exit 3): v1 anchor reference not found at /content/scout-repo/probes/004/results/per_sample.csv; the cross-session anchor check cannot run (contract provenance_pins.v1_anchor_reference_scores)
