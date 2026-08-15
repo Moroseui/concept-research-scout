@@ -344,3 +344,25 @@ approval staleness is incurred (the phase-1 marker was already stale
 from amendment 1). The naive scan itself goes on the run.py polish
 list, not a revision: it is fail-safe in direction and now correct
 in effect.
+
+## 2026-08-15 - Probe 004 v2 revision spec r1 (harness fault, exit 12)
+
+Observed in production (attempt 3, driver_console.log on the results
+branch, commit da85a52): after anchor volume cache hits,
+UNEXPECTED INTERNAL ERROR (exit 12): OSError(18, Invalid cross-device
+link). Root cause class: a file relocation using rename semantics
+between the Drive-mounted output directory and local scratch, which
+are different filesystems; rename cannot cross devices. Attempt 2
+died identically (silent, pre-console-log).
+
+Revision requirements, and ONLY these:
+1. Every file relocation that can cross the boundary between
+   --output-dir and local working storage must use EXDEV-safe
+   semantics (e.g. shutil.move, or copy-verify-delete); no bare
+   os.rename / Path.rename across that boundary anywhere in run.py.
+2. The exit-12 unexpected-error handler must emit the full traceback
+   to stderr, not only the exception repr, so future harness faults
+   are diagnosable from the persisted console log.
+No scientific scope, endpoint, gate, cap, or analysis change of any
+kind. The contract is untouched; exit 12 is a harness fault by the
+taxonomy, so the phase-2 approval remains bound and valid.
