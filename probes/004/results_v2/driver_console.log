@@ -28,3 +28,614 @@
 [10:38:22]   anchor valid_1004_a_1.nii.gz: cache hit, hash verified
 [10:38:24]   anchor valid_1004_a_2.nii.gz: cache hit, hash verified
 UNEXPECTED INTERNAL ERROR (exit 12, not a contract result): OSError(18, 'Invalid cross-device link')
+[18:05:44] idea-004 contract-v2 driver starting (phase B)
+[18:05:44] PHASE 0: approval and contract gate
+[18:05:44]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
+[18:05:44]   contract actual blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
+[18:05:44]   hash-bound approval VERIFIED: marker matches the contract blob
+[18:05:44]   contract caps and provenance pins match the frozen constants
+[18:05:44]   phase B entry conditions hold: manifest sha 5dc0f07fbc9a..., unique volumes 850
+[18:05:44] PHASE B: bulk 425-pair floor study (session start)
+[18:05:45]   session 20260815T180544Z-f80be290 (attempt 4 of session cap 30)
+[18:05:45] environment: seeds, determinism switches, version capture
+[18:05:48]   transformers 4.38.2 / tokenizers 0.15.2 match the pinned r6 closure
+[18:05:50]   resolved_config.json written to /content/drive/MyDrive/concept-research-scout-results/004_v2
+[18:12:06]   validation_metadata.csv: downloaded and hash-verified
+[18:17:28]   valid_predicted_labels.csv: downloaded and hash-verified
+[18:21:56]   validation_reports.csv: downloaded and hash-verified
+[18:21:58]   manifest verified against contract hash (5dc0f07fbc9a..., 425 pairs, 850 unique volumes)
+[18:21:58]   preregistered spot-check pairs: ['p001', 'p238', 'p364', 'p422']
+[18:22:23]   checkpoint hash verified against the v1-frozen pin
+[18:22:27]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
+[18:22:27]   v1 anchor reference loaded (git blob verified)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:261: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:391: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+[18:22:49]   r6 enumerated buffer strip: removed 'trained_model.text_transformer.embeddings.position_ids'
+[18:22:50]   checkpoint loaded: strict modulo the one enumerated, provenance-logged position_ids buffer key (r6)
+[18:22:50] anchor protocol: session drift detector (A, B, A-repeat)
+[18:22:52]   anchor valid_1004_a_1.nii.gz: cache hit, hash verified
+[18:22:54]   anchor valid_1004_a_2.nii.gz: cache hit, hash verified
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 555.39it/s]
+test all pooling
+[18:23:09]   anchor_A: 18 finite scores
+test all pooling
+[18:23:14]   anchor_B: 18 finite scores
+test all pooling
+[18:23:19]   anchor_A_repeat: 18 finite scores
+[18:23:19]   anchor in tolerance (dev_A=0.00e+00, dev_B=0.00e+00, tol=0.0001); A-repeat bit-identical
+[18:23:19]   chunks already complete: none
+[18:23:19] chunk 01: 25 pairs (p001..p025)
+[18:23:22]   [1/50] downloaded+hashed valid_1004_a_1.nii.gz (151 MB, scientific_first_time)
+[18:23:25]   [2/50] downloaded+hashed valid_1004_a_2.nii.gz (169 MB, scientific_first_time)
+[18:23:33]   [3/50] downloaded+hashed valid_100_a_1.nii.gz (173 MB, scientific_first_time)
+[18:23:50]   [4/50] downloaded+hashed valid_100_a_2.nii.gz (194 MB, scientific_first_time)
+[18:24:08]   [5/50] downloaded+hashed valid_1016_c_1.nii.gz (147 MB, scientific_first_time)
+[18:24:27]   [6/50] downloaded+hashed valid_1016_c_2.nii.gz (167 MB, scientific_first_time)
+[18:24:44]   [7/50] downloaded+hashed valid_1016_d_1.nii.gz (137 MB, scientific_first_time)
+[18:24:59]   [8/50] downloaded+hashed valid_1016_d_2.nii.gz (156 MB, scientific_first_time)
+[18:25:15]   [9/50] downloaded+hashed valid_1016_e_1.nii.gz (137 MB, scientific_first_time)
+[18:25:32]   [10/50] downloaded+hashed valid_1016_e_2.nii.gz (154 MB, scientific_first_time)
+[18:25:50]   [11/50] downloaded+hashed valid_1016_f_1.nii.gz (139 MB, scientific_first_time)
+[18:26:08]   [12/50] downloaded+hashed valid_1016_f_2.nii.gz (158 MB, scientific_first_time)
+[18:26:24]   [13/50] downloaded+hashed valid_101_b_1.nii.gz (149 MB, scientific_first_time)
+[18:26:38]   [14/50] downloaded+hashed valid_101_b_2.nii.gz (170 MB, scientific_first_time)
+[18:26:55]   [15/50] downloaded+hashed valid_1021_a_1.nii.gz (143 MB, scientific_first_time)
+[18:27:14]   [16/50] downloaded+hashed valid_1021_a_2.nii.gz (163 MB, scientific_first_time)
+[18:27:23]   [17/50] downloaded+hashed valid_1025_b_1.nii.gz (174 MB, scientific_first_time)
+[18:27:45]   [18/50] downloaded+hashed valid_1025_b_2.nii.gz (199 MB, scientific_first_time)
+[18:28:05]   [19/50] downloaded+hashed valid_1040_a_1.nii.gz (171 MB, scientific_first_time)
+[18:28:27]   [20/50] downloaded+hashed valid_1040_a_2.nii.gz (194 MB, scientific_first_time)
+[18:28:43]   [21/50] downloaded+hashed valid_1043_a_1.nii.gz (154 MB, scientific_first_time)
+[18:29:04]   [22/50] downloaded+hashed valid_1043_a_2.nii.gz (173 MB, scientific_first_time)
+[18:29:24]   [23/50] downloaded+hashed valid_1055_a_1.nii.gz (183 MB, scientific_first_time)
+[18:29:45]   [24/50] downloaded+hashed valid_1055_a_2.nii.gz (207 MB, scientific_first_time)
+[18:30:06]   [25/50] downloaded+hashed valid_1060_a_1.nii.gz (156 MB, scientific_first_time)
+[18:30:23]   [26/50] downloaded+hashed valid_1060_a_2.nii.gz (176 MB, scientific_first_time)
+[18:30:38]   [27/50] downloaded+hashed valid_1062_a_1.nii.gz (128 MB, scientific_first_time)
+[18:30:56]   [28/50] downloaded+hashed valid_1062_a_2.nii.gz (147 MB, scientific_first_time)
+[18:31:16]   [29/50] downloaded+hashed valid_1065_a_1.nii.gz (158 MB, scientific_first_time)
+[18:31:36]   [30/50] downloaded+hashed valid_1065_a_2.nii.gz (177 MB, scientific_first_time)
+[18:31:51]   [31/50] downloaded+hashed valid_1069_b_1.nii.gz (131 MB, scientific_first_time)
+[18:32:09]   [32/50] downloaded+hashed valid_1069_b_2.nii.gz (148 MB, scientific_first_time)
+[18:32:25]   [33/50] downloaded+hashed valid_1070_a_1.nii.gz (137 MB, scientific_first_time)
+[18:32:43]   [34/50] downloaded+hashed valid_1070_a_2.nii.gz (156 MB, scientific_first_time)
+[18:33:03]   [35/50] downloaded+hashed valid_1081_b_1.nii.gz (166 MB, scientific_first_time)
+[18:33:24]   [36/50] downloaded+hashed valid_1081_b_2.nii.gz (188 MB, scientific_first_time)
+[18:33:42]   [37/50] downloaded+hashed valid_1082_a_1.nii.gz (143 MB, scientific_first_time)
+[18:34:01]   [38/50] downloaded+hashed valid_1082_a_2.nii.gz (162 MB, scientific_first_time)
+[18:34:23]   [39/50] downloaded+hashed valid_1088_a_1.nii.gz (156 MB, scientific_first_time)
+[18:34:43]   [40/50] downloaded+hashed valid_1088_a_2.nii.gz (178 MB, scientific_first_time)
+[18:35:03]   [41/50] downloaded+hashed valid_1091_a_1.nii.gz (174 MB, scientific_first_time)
+[18:35:25]   [42/50] downloaded+hashed valid_1091_a_2.nii.gz (198 MB, scientific_first_time)
+[18:35:43]   [43/50] downloaded+hashed valid_1094_a_1.nii.gz (154 MB, scientific_first_time)
+[18:36:04]   [44/50] downloaded+hashed valid_1094_a_2.nii.gz (173 MB, scientific_first_time)
+[18:36:17]   [45/50] downloaded+hashed valid_1097_b_1.nii.gz (138 MB, scientific_first_time)
+[18:36:36]   [46/50] downloaded+hashed valid_1097_b_2.nii.gz (156 MB, scientific_first_time)
+[18:36:56]   [47/50] downloaded+hashed valid_1100_a_1.nii.gz (178 MB, scientific_first_time)
+[18:37:20]   [48/50] downloaded+hashed valid_1100_a_2.nii.gz (203 MB, scientific_first_time)
+[18:37:37]   [49/50] downloaded+hashed valid_1119_a_1.nii.gz (144 MB, scientific_first_time)
+[18:37:53]   [50/50] downloaded+hashed valid_1119_a_2.nii.gz (165 MB, scientific_first_time)
+[18:37:53]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/22 [00:00<?, ?it/s]100%|██████████| 22/22 [00:00<00:00, 754.75it/s]
+test all pooling
+test all pooling
+[18:42:11]   [1/25] scored pair p001 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:42:22]   [2/25] scored pair p002 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:42:32]   [3/25] scored pair p003 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:42:40]   [4/25] scored pair p004 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:42:49]   [5/25] scored pair p005 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:42:57]   [6/25] scored pair p006 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:43:07]   [7/25] scored pair p007 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:43:16]   [8/25] scored pair p008 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:43:27]   [9/25] scored pair p009 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:43:38]   [10/25] scored pair p010 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:43:48]   [11/25] scored pair p011 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:43:59]   [12/25] scored pair p012 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:44:09]   [13/25] scored pair p013 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:44:17]   [14/25] scored pair p014 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:44:27]   [15/25] scored pair p015 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:44:35]   [16/25] scored pair p016 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:44:44]   [17/25] scored pair p017 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:44:55]   [18/25] scored pair p018 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:45:04]   [19/25] scored pair p019 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:45:14]   [20/25] scored pair p020 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:45:24]   [21/25] scored pair p021 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:45:34]   [22/25] scored pair p022 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:45:44]   [23/25] scored pair p023 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:45:55]   [24/25] scored pair p024 (Br40f|Br60f)
+test all pooling
+test all pooling
+[18:46:04]   [25/25] scored pair p025 (Br40f|Br60f)
+[18:46:04]   spot-check re-run for p001 (preregistered subset)
+test all pooling
+test all pooling
+[18:46:14]   spot-check p001: bit-identical
+[18:46:15]   chunk 01: image files deleted
+[18:46:15]   chunk 01 COMPLETE (1376s wall, 6s inference, peak 4.10 GB)
+[18:46:15] chunk 02: 25 pairs (p026..p050)
+[18:46:33]   [1/50] downloaded+hashed valid_1121_a_1.nii.gz (142 MB, scientific_first_time)
+[18:46:52]   [2/50] downloaded+hashed valid_1121_a_2.nii.gz (162 MB, scientific_first_time)
+[18:47:05]   [3/50] downloaded+hashed valid_1123_a_1.nii.gz (142 MB, scientific_first_time)
+[18:47:36]   [4/50] downloaded+hashed valid_1123_a_2.nii.gz (161 MB, scientific_first_time)
+[18:47:58]   [5/50] downloaded+hashed valid_1124_a_1.nii.gz (190 MB, scientific_first_time)
+[18:48:16]   [6/50] downloaded+hashed valid_1124_a_2.nii.gz (214 MB, scientific_first_time)
+[18:48:31]   [7/50] downloaded+hashed valid_1131_b_1.nii.gz (142 MB, scientific_first_time)
+[18:48:50]   [8/50] downloaded+hashed valid_1131_b_2.nii.gz (160 MB, scientific_first_time)
+[18:49:08]   [9/50] downloaded+hashed valid_1132_a_1.nii.gz (170 MB, scientific_first_time)
+[18:49:30]   [10/50] downloaded+hashed valid_1132_a_2.nii.gz (193 MB, scientific_first_time)
+[18:49:48]   [11/50] downloaded+hashed valid_1140_a_1.nii.gz (146 MB, scientific_first_time)
+[18:50:07]   [12/50] downloaded+hashed valid_1140_a_2.nii.gz (163 MB, scientific_first_time)
+[18:50:25]   [13/50] downloaded+hashed valid_1145_a_1.nii.gz (149 MB, scientific_first_time)
+[18:50:43]   [14/50] downloaded+hashed valid_1145_a_2.nii.gz (170 MB, scientific_first_time)
+[18:51:02]   [15/50] downloaded+hashed valid_1148_a_1.nii.gz (165 MB, scientific_first_time)
+[18:51:23]   [16/50] downloaded+hashed valid_1148_a_2.nii.gz (187 MB, scientific_first_time)
+[18:51:37]   [17/50] downloaded+hashed valid_1151_a_1.nii.gz (127 MB, scientific_first_time)
+[18:51:49]   [18/50] downloaded+hashed valid_1151_a_2.nii.gz (145 MB, scientific_first_time)
+[18:52:08]   [19/50] downloaded+hashed valid_1165_a_1.nii.gz (150 MB, scientific_first_time)
+[18:52:28]   [20/50] downloaded+hashed valid_1165_a_2.nii.gz (172 MB, scientific_first_time)
+[18:52:41]   [21/50] downloaded+hashed valid_1167_a_1.nii.gz (162 MB, scientific_first_time)
+[18:53:02]   [22/50] downloaded+hashed valid_1167_a_2.nii.gz (184 MB, scientific_first_time)
+[18:53:09]   [23/50] downloaded+hashed valid_1169_a_1.nii.gz (120 MB, scientific_first_time)
+[18:53:27]   [24/50] downloaded+hashed valid_1169_a_2.nii.gz (137 MB, scientific_first_time)
+[18:53:40]   [25/50] downloaded+hashed valid_1170_c_1.nii.gz (123 MB, scientific_first_time)
+[18:53:52]   [26/50] downloaded+hashed valid_1170_c_2.nii.gz (138 MB, scientific_first_time)
+[18:54:10]   [27/50] downloaded+hashed valid_1174_a_1.nii.gz (161 MB, scientific_first_time)
+[18:54:29]   [28/50] downloaded+hashed valid_1174_a_2.nii.gz (182 MB, scientific_first_time)
+[18:54:47]   [29/50] downloaded+hashed valid_1178_a_1.nii.gz (137 MB, scientific_first_time)
+[18:55:04]   [30/50] downloaded+hashed valid_1178_a_2.nii.gz (156 MB, scientific_first_time)
+[18:55:16]   [31/50] downloaded+hashed valid_1192_a_1.nii.gz (145 MB, scientific_first_time)
+[18:55:41]   [32/50] downloaded+hashed valid_1192_a_2.nii.gz (166 MB, scientific_first_time)
+[18:55:54]   [33/50] downloaded+hashed valid_1192_b_1.nii.gz (101 MB, scientific_first_time)
+[18:56:08]   [34/50] downloaded+hashed valid_1192_b_2.nii.gz (116 MB, scientific_first_time)
+[18:56:35]   [35/50] downloaded+hashed valid_1196_a_1.nii.gz (148 MB, scientific_first_time)
+[18:56:52]   [36/50] downloaded+hashed valid_1196_a_2.nii.gz (168 MB, scientific_first_time)
+[18:57:10]   [37/50] downloaded+hashed valid_120_a_1.nii.gz (159 MB, scientific_first_time)
+[18:57:24]   [38/50] downloaded+hashed valid_120_a_2.nii.gz (179 MB, scientific_first_time)
+[18:57:42]   [39/50] downloaded+hashed valid_1213_a_1.nii.gz (147 MB, scientific_first_time)
+[18:58:02]   [40/50] downloaded+hashed valid_1213_a_2.nii.gz (168 MB, scientific_first_time)
+[18:58:19]   [41/50] downloaded+hashed valid_1221_a_1.nii.gz (138 MB, scientific_first_time)
+[18:58:38]   [42/50] downloaded+hashed valid_1221_a_2.nii.gz (158 MB, scientific_first_time)
+[18:58:54]   [43/50] downloaded+hashed valid_1229_a_1.nii.gz (168 MB, scientific_first_time)
+[18:59:15]   [44/50] downloaded+hashed valid_1229_a_2.nii.gz (191 MB, scientific_first_time)
+[18:59:25]   [45/50] downloaded+hashed valid_122_a_1.nii.gz (157 MB, scientific_first_time)
+[18:59:45]   [46/50] downloaded+hashed valid_122_a_2.nii.gz (179 MB, scientific_first_time)
+[18:59:55]   [47/50] downloaded+hashed valid_1250_a_1.nii.gz (186 MB, scientific_first_time)
+Error while downloading from https://us.aws.cdn.hf.co/xet-bridge-us/65c666da10735dcd76ea29e1/be78e9eea129fb52ce752e4cb86a5dd8c54a302f2b3c4320a3fbec2c9c41bf6e?X-Xet-Cas-Uid=69e122d507bd77d7aa29a2ba&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27valid_1250_a_2.nii.gz%3B+filename%3D%22valid_1250_a_2.nii.gz%22%3B&user_id=69e122d507bd77d7aa29a2ba&response-content-type=application%2Fgzip&Expires=1786823995&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjVjNjY2ZGExMDczNWRjZDc2ZWEyOWUxL2JlNzhlOWVlYTEyOWZiNTJjZTc1MmU0Y2I4NmE1ZGQ4YzU0YTMwMmYyYjNjNDMyMGEzZmJlYzJjOWM0MWJmNmVcXD9YLVhldC1DYXMtVWlkPTY5ZTEyMmQ1MDdiZDc3ZDdhYTI5YTJiYSZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRfMTI1MF9hXzIubmlpLmd6JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRfMTI1MF9hXzIubmlpLmd6JTIyJTNCJnVzZXJfaWQ9NjllMTIyZDUwN2JkNzdkN2FhMjlhMmJhJnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1hcHBsaWNhdGlvbiUyRmd6aXAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkVwb2NoVGltZSI6MTc4NjgyMzk5NX19fV19&Signature=MEUCIQDPFfbch8P4VtIzpf7wLpaxE%7EYXGffWdQUqa%7Ec96pAjMgIgR00l7V3lKJHTT%7EMeZQ6JbuFcRe0NoOxLggEiwsMJw7o_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F: HTTPSConnectionPool(host='us.aws.cdn.hf.co', port=443): Read timed out.
+Trying to resume download...
+Error while downloading from https://us.aws.cdn.hf.co/xet-bridge-us/65c666da10735dcd76ea29e1/be78e9eea129fb52ce752e4cb86a5dd8c54a302f2b3c4320a3fbec2c9c41bf6e?X-Xet-Cas-Uid=69e122d507bd77d7aa29a2ba&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27valid_1250_a_2.nii.gz%3B+filename%3D%22valid_1250_a_2.nii.gz%22%3B&user_id=69e122d507bd77d7aa29a2ba&response-content-type=application%2Fgzip&Expires=1786823995&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjVjNjY2ZGExMDczNWRjZDc2ZWEyOWUxL2JlNzhlOWVlYTEyOWZiNTJjZTc1MmU0Y2I4NmE1ZGQ4YzU0YTMwMmYyYjNjNDMyMGEzZmJlYzJjOWM0MWJmNmVcXD9YLVhldC1DYXMtVWlkPTY5ZTEyMmQ1MDdiZDc3ZDdhYTI5YTJiYSZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRfMTI1MF9hXzIubmlpLmd6JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRfMTI1MF9hXzIubmlpLmd6JTIyJTNCJnVzZXJfaWQ9NjllMTIyZDUwN2JkNzdkN2FhMjlhMmJhJnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1hcHBsaWNhdGlvbiUyRmd6aXAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkVwb2NoVGltZSI6MTc4NjgyMzk5NX19fV19&Signature=MEUCIQDPFfbch8P4VtIzpf7wLpaxE%7EYXGffWdQUqa%7Ec96pAjMgIgR00l7V3lKJHTT%7EMeZQ6JbuFcRe0NoOxLggEiwsMJw7o_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F: HTTPSConnectionPool(host='us.aws.cdn.hf.co', port=443): Read timed out.
+Trying to resume download...
+[19:00:48]   [48/50] downloaded+hashed valid_1250_a_2.nii.gz (212 MB, scientific_first_time)
+[19:01:10]   [49/50] downloaded+hashed valid_1250_b_1.nii.gz (192 MB, scientific_first_time)
+[19:01:30]   [50/50] downloaded+hashed valid_1250_b_2.nii.gz (218 MB, scientific_first_time)
+[19:01:30]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/23 [00:00<?, ?it/s]100%|██████████| 23/23 [00:00<00:00, 790.33it/s]
+test all pooling
+test all pooling
+[19:05:42]   [1/25] scored pair p026 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:05:51]   [2/25] scored pair p027 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:06:03]   [3/25] scored pair p028 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:06:12]   [4/25] scored pair p029 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:06:23]   [5/25] scored pair p030 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:06:32]   [6/25] scored pair p031 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:06:41]   [7/25] scored pair p032 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:06:52]   [8/25] scored pair p033 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:07:00]   [9/25] scored pair p034 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:07:09]   [10/25] scored pair p035 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:07:19]   [11/25] scored pair p036 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:07:27]   [12/25] scored pair p037 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:07:34]   [13/25] scored pair p038 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:07:44]   [14/25] scored pair p039 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:07:52]   [15/25] scored pair p040 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:08:01]   [16/25] scored pair p041 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:08:08]   [17/25] scored pair p042 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:08:18]   [18/25] scored pair p043 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:08:28]   [19/25] scored pair p044 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:08:37]   [20/25] scored pair p045 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:08:46]   [21/25] scored pair p046 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:08:56]   [22/25] scored pair p047 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:09:06]   [23/25] scored pair p048 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:09:17]   [24/25] scored pair p049 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:09:29]   [25/25] scored pair p050 (Br40f|Br60f)
+[19:09:30]   chunk 02: image files deleted
+[19:09:30]   chunk 02 COMPLETE (1395s wall, 7s inference, peak 4.10 GB)
+[19:09:30] chunk 03: 25 pairs (p051..p075)
+[19:09:49]   [1/50] downloaded+hashed valid_1253_a_1.nii.gz (151 MB, scientific_first_time)
+[19:10:09]   [2/50] downloaded+hashed valid_1253_a_2.nii.gz (170 MB, scientific_first_time)
+[19:10:24]   [3/50] downloaded+hashed valid_1256_a_1.nii.gz (148 MB, scientific_first_time)
+[19:10:44]   [4/50] downloaded+hashed valid_1256_a_2.nii.gz (167 MB, scientific_first_time)
+[19:11:05]   [5/50] downloaded+hashed valid_1259_a_1.nii.gz (190 MB, scientific_first_time)
+[19:11:26]   [6/50] downloaded+hashed valid_1259_a_2.nii.gz (218 MB, scientific_first_time)
+[19:11:42]   [7/50] downloaded+hashed valid_125_a_1.nii.gz (162 MB, scientific_first_time)
+[19:12:02]   [8/50] downloaded+hashed valid_125_a_2.nii.gz (183 MB, scientific_first_time)
+[19:12:21]   [9/50] downloaded+hashed valid_1272_a_1.nii.gz (162 MB, scientific_first_time)
+[19:12:42]   [10/50] downloaded+hashed valid_1272_a_2.nii.gz (185 MB, scientific_first_time)
+[19:13:00]   [11/50] downloaded+hashed valid_1273_a_1.nii.gz (141 MB, scientific_first_time)
+[19:13:14]   [12/50] downloaded+hashed valid_1273_a_2.nii.gz (161 MB, scientific_first_time)
+[19:13:29]   [13/50] downloaded+hashed valid_1281_a_1.nii.gz (131 MB, scientific_first_time)
+[19:13:44]   [14/50] downloaded+hashed valid_1281_a_2.nii.gz (149 MB, scientific_first_time)
+[19:13:56]   [15/50] downloaded+hashed valid_1292_a_1.nii.gz (122 MB, scientific_first_time)
+[19:14:14]   [16/50] downloaded+hashed valid_1292_a_2.nii.gz (141 MB, scientific_first_time)
+[19:14:23]   [17/50] downloaded+hashed valid_1294_a_1.nii.gz (133 MB, scientific_first_time)
+[19:14:40]   [18/50] downloaded+hashed valid_1294_a_2.nii.gz (150 MB, scientific_first_time)
+[19:14:54]   [19/50] downloaded+hashed valid_12_a_1.nii.gz (166 MB, scientific_first_time)
+[19:15:10]   [20/50] downloaded+hashed valid_12_a_2.nii.gz (186 MB, scientific_first_time)
+[19:15:27]   [21/50] downloaded+hashed valid_133_a_1.nii.gz (165 MB, scientific_first_time)
+[19:15:47]   [22/50] downloaded+hashed valid_133_a_2.nii.gz (190 MB, scientific_first_time)
+[19:16:03]   [23/50] downloaded+hashed valid_135_a_1.nii.gz (154 MB, scientific_first_time)
+[19:16:23]   [24/50] downloaded+hashed valid_135_a_2.nii.gz (176 MB, scientific_first_time)
+[19:16:35]   [25/50] downloaded+hashed valid_138_a_1.nii.gz (118 MB, scientific_first_time)
+[19:16:52]   [26/50] downloaded+hashed valid_138_a_2.nii.gz (136 MB, scientific_first_time)
+[19:17:07]   [27/50] downloaded+hashed valid_13_a_1.nii.gz (169 MB, scientific_first_time)
+[19:17:17]   [28/50] downloaded+hashed valid_13_a_2.nii.gz (196 MB, scientific_first_time)
+[19:17:30]   [29/50] downloaded+hashed valid_166_a_1.nii.gz (125 MB, scientific_first_time)
+[19:17:49]   [30/50] downloaded+hashed valid_166_a_2.nii.gz (144 MB, scientific_first_time)
+[19:18:08]   [31/50] downloaded+hashed valid_167_a_1.nii.gz (163 MB, scientific_first_time)
+[19:18:27]   [32/50] downloaded+hashed valid_167_a_2.nii.gz (184 MB, scientific_first_time)
+[19:18:42]   [33/50] downloaded+hashed valid_16_a_1.nii.gz (151 MB, scientific_first_time)
+[19:18:56]   [34/50] downloaded+hashed valid_16_a_2.nii.gz (174 MB, scientific_first_time)
+[19:19:15]   [35/50] downloaded+hashed valid_177_a_1.nii.gz (159 MB, scientific_first_time)
+[19:19:30]   [36/50] downloaded+hashed valid_177_a_2.nii.gz (180 MB, scientific_first_time)
+[19:19:48]   [37/50] downloaded+hashed valid_180_a_1.nii.gz (169 MB, scientific_first_time)
+[19:20:22]   [38/50] downloaded+hashed valid_180_a_2.nii.gz (191 MB, scientific_first_time)
+[19:20:42]   [39/50] downloaded+hashed valid_180_b_1.nii.gz (165 MB, scientific_first_time)
+[19:21:01]   [40/50] downloaded+hashed valid_180_b_2.nii.gz (185 MB, scientific_first_time)
+[19:21:19]   [41/50] downloaded+hashed valid_209_a_1.nii.gz (154 MB, scientific_first_time)
+[19:21:34]   [42/50] downloaded+hashed valid_209_a_2.nii.gz (175 MB, scientific_first_time)
+[19:21:49]   [43/50] downloaded+hashed valid_213_a_1.nii.gz (154 MB, scientific_first_time)
+[19:22:07]   [44/50] downloaded+hashed valid_213_a_2.nii.gz (176 MB, scientific_first_time)
+[19:22:17]   [45/50] downloaded+hashed valid_230_a_1.nii.gz (179 MB, scientific_first_time)
+[19:22:41]   [46/50] downloaded+hashed valid_230_a_2.nii.gz (204 MB, scientific_first_time)
+[19:22:56]   [47/50] downloaded+hashed valid_234_a_1.nii.gz (141 MB, scientific_first_time)
+[19:23:15]   [48/50] downloaded+hashed valid_234_a_2.nii.gz (161 MB, scientific_first_time)
+[19:23:23]   [49/50] downloaded+hashed valid_23_a_1.nii.gz (167 MB, scientific_first_time)
+[19:23:44]   [50/50] downloaded+hashed valid_23_a_2.nii.gz (191 MB, scientific_first_time)
+[19:23:44]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/24 [00:00<?, ?it/s]100%|██████████| 24/24 [00:00<00:00, 769.87it/s]
+test all pooling
+test all pooling
+[19:28:04]   [1/25] scored pair p051 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:28:13]   [2/25] scored pair p052 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:28:25]   [3/25] scored pair p053 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:28:35]   [4/25] scored pair p054 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:28:45]   [5/25] scored pair p055 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:28:54]   [6/25] scored pair p056 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:29:03]   [7/25] scored pair p057 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:29:10]   [8/25] scored pair p058 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:29:19]   [9/25] scored pair p059 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:29:30]   [10/25] scored pair p060 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:29:41]   [11/25] scored pair p061 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:29:51]   [12/25] scored pair p062 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:29:58]   [13/25] scored pair p063 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:30:09]   [14/25] scored pair p064 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:30:17]   [15/25] scored pair p065 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:30:27]   [16/25] scored pair p066 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:30:37]   [17/25] scored pair p067 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:30:47]   [18/25] scored pair p068 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:30:58]   [19/25] scored pair p069 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:31:09]   [20/25] scored pair p070 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:31:19]   [21/25] scored pair p071 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:31:29]   [22/25] scored pair p072 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:31:39]   [23/25] scored pair p073 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:31:49]   [24/25] scored pair p074 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:31:59]   [25/25] scored pair p075 (Br40f|Br60f)
+[19:32:00]   chunk 03: image files deleted
+[19:32:00]   chunk 03 COMPLETE (1350s wall, 7s inference, peak 4.10 GB)
+[19:32:00] chunk 04: 25 pairs (p076..p100)
+[19:32:20]   [1/50] downloaded+hashed valid_246_a_1.nii.gz (177 MB, scientific_first_time)
+[19:32:44]   [2/50] downloaded+hashed valid_246_a_2.nii.gz (203 MB, scientific_first_time)
+[19:33:02]   [3/50] downloaded+hashed valid_264_a_1.nii.gz (168 MB, scientific_first_time)
+[19:33:23]   [4/50] downloaded+hashed valid_264_a_2.nii.gz (191 MB, scientific_first_time)
+[19:33:40]   [5/50] downloaded+hashed valid_265_a_1.nii.gz (140 MB, scientific_first_time)
+[19:33:59]   [6/50] downloaded+hashed valid_265_a_2.nii.gz (159 MB, scientific_first_time)
+[19:34:17]   [7/50] downloaded+hashed valid_271_a_1.nii.gz (144 MB, scientific_first_time)
+[19:34:37]   [8/50] downloaded+hashed valid_271_a_2.nii.gz (165 MB, scientific_first_time)
+[19:34:55]   [9/50] downloaded+hashed valid_278_a_1.nii.gz (164 MB, scientific_first_time)
+[19:35:13]   [10/50] downloaded+hashed valid_278_a_2.nii.gz (186 MB, scientific_first_time)
+[19:35:33]   [11/50] downloaded+hashed valid_279_a_1.nii.gz (165 MB, scientific_first_time)
+[19:35:53]   [12/50] downloaded+hashed valid_279_a_2.nii.gz (186 MB, scientific_first_time)
+[19:36:11]   [13/50] downloaded+hashed valid_284_a_1.nii.gz (144 MB, scientific_first_time)
+[19:36:31]   [14/50] downloaded+hashed valid_284_a_2.nii.gz (164 MB, scientific_first_time)
+[19:36:51]   [15/50] downloaded+hashed valid_300_a_1.nii.gz (170 MB, scientific_first_time)
+[19:37:11]   [16/50] downloaded+hashed valid_300_a_2.nii.gz (192 MB, scientific_first_time)
+[19:37:30]   [17/50] downloaded+hashed valid_303_a_1.nii.gz (153 MB, scientific_first_time)
+[19:37:45]   [18/50] downloaded+hashed valid_303_a_2.nii.gz (173 MB, scientific_first_time)
+[19:38:00]   [19/50] downloaded+hashed valid_304_a_1.nii.gz (154 MB, scientific_first_time)
+[19:38:18]   [20/50] downloaded+hashed valid_304_a_2.nii.gz (177 MB, scientific_first_time)
+[19:38:38]   [21/50] downloaded+hashed valid_305_a_1.nii.gz (162 MB, scientific_first_time)
+[19:38:58]   [22/50] downloaded+hashed valid_305_a_2.nii.gz (184 MB, scientific_first_time)
+[19:39:13]   [23/50] downloaded+hashed valid_306_a_1.nii.gz (163 MB, scientific_first_time)
+[19:39:31]   [24/50] downloaded+hashed valid_306_a_2.nii.gz (182 MB, scientific_first_time)
+[19:39:50]   [25/50] downloaded+hashed valid_320_a_1.nii.gz (148 MB, scientific_first_time)
+[19:40:09]   [26/50] downloaded+hashed valid_320_a_2.nii.gz (166 MB, scientific_first_time)
+[19:40:22]   [27/50] downloaded+hashed valid_328_a_1.nii.gz (154 MB, scientific_first_time)
+[19:40:37]   [28/50] downloaded+hashed valid_328_a_2.nii.gz (173 MB, scientific_first_time)
+[19:40:47]   [29/50] downloaded+hashed valid_329_a_1.nii.gz (127 MB, scientific_first_time)
+[19:40:59]   [30/50] downloaded+hashed valid_329_a_2.nii.gz (147 MB, scientific_first_time)
+[19:41:20]   [31/50] downloaded+hashed valid_331_d_1.nii.gz (171 MB, scientific_first_time)
+[19:41:29]   [32/50] downloaded+hashed valid_331_d_2.nii.gz (191 MB, scientific_first_time)
+[19:41:44]   [33/50] downloaded+hashed valid_33_a_1.nii.gz (155 MB, scientific_first_time)
+[19:42:01]   [34/50] downloaded+hashed valid_33_a_2.nii.gz (178 MB, scientific_first_time)
+[19:42:16]   [35/50] downloaded+hashed valid_349_a_1.nii.gz (131 MB, scientific_first_time)
+[19:42:28]   [36/50] downloaded+hashed valid_349_a_2.nii.gz (149 MB, scientific_first_time)
+[19:42:36]   [37/50] downloaded+hashed valid_350_a_1.nii.gz (128 MB, scientific_first_time)
+[19:42:57]   [38/50] downloaded+hashed valid_350_a_2.nii.gz (146 MB, scientific_first_time)
+[19:43:09]   [39/50] downloaded+hashed valid_353_a_1.nii.gz (152 MB, scientific_first_time)
+[19:43:29]   [40/50] downloaded+hashed valid_353_a_2.nii.gz (172 MB, scientific_first_time)
+[19:43:48]   [41/50] downloaded+hashed valid_373_a_1.nii.gz (160 MB, scientific_first_time)
+[19:44:06]   [42/50] downloaded+hashed valid_373_a_2.nii.gz (182 MB, scientific_first_time)
+[19:44:21]   [43/50] downloaded+hashed valid_373_b_1.nii.gz (159 MB, scientific_first_time)
+[19:44:41]   [44/50] downloaded+hashed valid_373_b_2.nii.gz (179 MB, scientific_first_time)
+[19:44:55]   [45/50] downloaded+hashed valid_388_b_1.nii.gz (128 MB, scientific_first_time)
+[19:45:10]   [46/50] downloaded+hashed valid_388_b_2.nii.gz (145 MB, scientific_first_time)
+[19:45:27]   [47/50] downloaded+hashed valid_394_a_1.nii.gz (137 MB, scientific_first_time)
+[19:45:40]   [48/50] downloaded+hashed valid_394_a_2.nii.gz (156 MB, scientific_first_time)
+[19:45:58]   [49/50] downloaded+hashed valid_399_a_1.nii.gz (145 MB, scientific_first_time)
+[19:46:16]   [50/50] downloaded+hashed valid_399_a_2.nii.gz (166 MB, scientific_first_time)
+[19:46:17]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/24 [00:00<?, ?it/s]100%|██████████| 24/24 [00:00<00:00, 809.64it/s]
+test all pooling
+test all pooling
+[19:50:34]   [1/25] scored pair p076 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:50:44]   [2/25] scored pair p077 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:50:54]   [3/25] scored pair p078 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:51:03]   [4/25] scored pair p079 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:51:13]   [5/25] scored pair p080 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:51:24]   [6/25] scored pair p081 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:51:33]   [7/25] scored pair p082 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:51:44]   [8/25] scored pair p083 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:51:53]   [9/25] scored pair p084 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:52:02]   [10/25] scored pair p085 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:52:12]   [11/25] scored pair p086 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:52:23]   [12/25] scored pair p087 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:52:32]   [13/25] scored pair p088 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:52:42]   [14/25] scored pair p089 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:52:50]   [15/25] scored pair p090 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:53:01]   [16/25] scored pair p091 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:53:11]   [17/25] scored pair p092 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:53:19]   [18/25] scored pair p093 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:53:27]   [19/25] scored pair p094 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:53:37]   [20/25] scored pair p095 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:53:47]   [21/25] scored pair p096 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:53:57]   [22/25] scored pair p097 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:54:05]   [23/25] scored pair p098 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:54:14]   [24/25] scored pair p099 (Br40f|Br60f)
+test all pooling
+test all pooling
+[19:54:23]   [25/25] scored pair p100 (Br40f|Br60f)
+[19:54:24]   chunk 04: image files deleted
+[19:54:24]   chunk 04 COMPLETE (1345s wall, 7s inference, peak 4.10 GB)
+[19:54:24] chunk 05: 25 pairs (p101..p125)
+[19:54:42]   [1/50] downloaded+hashed valid_404_a_1.nii.gz (141 MB, scientific_first_time)
+[19:54:55]   [2/50] downloaded+hashed valid_404_a_2.nii.gz (161 MB, scientific_first_time)
+[19:55:08]   [3/50] downloaded+hashed valid_410_a_1.nii.gz (145 MB, scientific_first_time)
+[19:55:25]   [4/50] downloaded+hashed valid_410_a_2.nii.gz (165 MB, scientific_first_time)
+[19:55:34]   [5/50] downloaded+hashed valid_413_a_1.nii.gz (153 MB, scientific_first_time)
+[19:55:53]   [6/50] downloaded+hashed valid_413_a_2.nii.gz (174 MB, scientific_first_time)
+[19:55:57]   [7/50] downloaded+hashed valid_414_b_1.nii.gz (169 MB, scientific_first_time)
+[19:56:13]   [8/50] downloaded+hashed valid_414_b_2.nii.gz (192 MB, scientific_first_time)
+[19:56:32]   [9/50] downloaded+hashed valid_423_c_1.nii.gz (149 MB, scientific_first_time)
+[19:56:46]   [10/50] downloaded+hashed valid_423_c_2.nii.gz (169 MB, scientific_first_time)
+[19:56:55]   [11/50] downloaded+hashed valid_424_a_1.nii.gz (138 MB, scientific_first_time)
+[19:57:13]   [12/50] downloaded+hashed valid_424_a_2.nii.gz (159 MB, scientific_first_time)
+[19:57:22]   [13/50] downloaded+hashed valid_427_a_1.nii.gz (130 MB, scientific_first_time)
+[19:57:37]   [14/50] downloaded+hashed valid_427_a_2.nii.gz (147 MB, scientific_first_time)
+[19:57:47]   [15/50] downloaded+hashed valid_432_a_1.nii.gz (144 MB, scientific_first_time)
+[19:58:05]   [16/50] downloaded+hashed valid_432_a_2.nii.gz (164 MB, scientific_first_time)
+[19:58:08]   [17/50] downloaded+hashed valid_433_a_1.nii.gz (142 MB, scientific_first_time)
+[19:58:27]   [18/50] downloaded+hashed valid_433_a_2.nii.gz (161 MB, scientific_first_time)
+[19:58:47]   [19/50] downloaded+hashed valid_442_a_1.nii.gz (169 MB, scientific_first_time)
+[19:59:08]   [20/50] downloaded+hashed valid_442_a_2.nii.gz (192 MB, scientific_first_time)
+[19:59:26]   [21/50] downloaded+hashed valid_446_b_1.nii.gz (144 MB, scientific_first_time)
+[19:59:41]   [22/50] downloaded+hashed valid_446_b_2.nii.gz (164 MB, scientific_first_time)
+[19:59:59]   [23/50] downloaded+hashed valid_448_a_1.nii.gz (151 MB, scientific_first_time)
+[20:00:19]   [24/50] downloaded+hashed valid_448_a_2.nii.gz (172 MB, scientific_first_time)
+[20:00:33]   [25/50] downloaded+hashed valid_44_a_1.nii.gz (122 MB, scientific_first_time)
+[20:00:56]   [26/50] downloaded+hashed valid_44_a_2.nii.gz (138 MB, scientific_first_time)
+[20:01:08]   [27/50] downloaded+hashed valid_452_a_1.nii.gz (154 MB, scientific_first_time)
+[20:01:38]   [28/50] downloaded+hashed valid_452_a_2.nii.gz (177 MB, scientific_first_time)
+[20:01:56]   [29/50] downloaded+hashed valid_456_a_1.nii.gz (149 MB, scientific_first_time)
+[20:02:15]   [30/50] downloaded+hashed valid_456_a_2.nii.gz (170 MB, scientific_first_time)
+[20:02:29]   [31/50] downloaded+hashed valid_456_b_1.nii.gz (118 MB, scientific_first_time)
+[20:02:40]   [32/50] downloaded+hashed valid_456_b_2.nii.gz (131 MB, scientific_first_time)
+[20:02:44]   [33/50] downloaded+hashed valid_458_a_1.nii.gz (132 MB, scientific_first_time)
+[20:03:00]   [34/50] downloaded+hashed valid_458_a_2.nii.gz (150 MB, scientific_first_time)
+[20:03:18]   [35/50] downloaded+hashed valid_470_a_1.nii.gz (143 MB, scientific_first_time)
+[20:03:39]   [36/50] downloaded+hashed valid_470_a_2.nii.gz (162 MB, scientific_first_time)
+[20:03:43]   [37/50] downloaded+hashed valid_473_a_1.nii.gz (160 MB, scientific_first_time)
+[20:04:03]   [38/50] downloaded+hashed valid_473_a_2.nii.gz (184 MB, scientific_first_time)
+[20:04:21]   [39/50] downloaded+hashed valid_474_a_1.nii.gz (139 MB, scientific_first_time)
+[20:04:40]   [40/50] downloaded+hashed valid_474_a_2.nii.gz (160 MB, scientific_first_time)
+[20:04:47]   [41/50] downloaded+hashed valid_482_d_1.nii.gz (165 MB, scientific_first_time)
+[20:05:08]   [42/50] downloaded+hashed valid_482_d_2.nii.gz (188 MB, scientific_first_time)
+[20:05:27]   [43/50] downloaded+hashed valid_482_e_1.nii.gz (160 MB, scientific_first_time)
+[20:05:39] FAIL (exit 3): download failed for dataset/valid/valid_482/valid_482_e/valid_482_e_2.nii.gz at pinned revision deeca4d89e9f978d4d1bccd88a55071ddbb146bb: ('Connection broken: IncompleteRead(152736463 bytes read, 28306724 more expected)', IncompleteRead(152736463 bytes read, 28306724 more expected))
