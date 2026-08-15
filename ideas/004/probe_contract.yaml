@@ -58,8 +58,8 @@ frozen_scope:
     pair_id_rule: "p001..p425, assigned in manifest order: strata in the fixed order [Br40f|Br60f, Bl56f|Br40f, Bl57d|Br36d, Br40f|Br44f], then within each stratum ascending lexicographic order of volume_name_softer. patient_id is the valid_<N> prefix of the VolumeName."
     generation: "Deterministically re-derived in the manifest-freeze phase (see approval_and_phasing) from validation_metadata.csv at the pinned HF revision and SHA-256, by re-applying the frozen Stage-0 matching rules (exact string equality on RescaleSlope, RescaleIntercept, XYSpacing, ZSpacing, NumberofSlices, plus position/acquisition columns where present) with the r5 kernel-field normalization. Hard gate: per-stratum counts must equal the frozen counts above exactly; any mismatch is an invalidating failure with a mandatory selection audit."
     analysis_population_rule: "The analysis population is pair_manifest.csv byte-for-byte, identified by the SHA-256 recorded below -- not the counts."
-  pair_manifest_sha256: "TO_BE_RECORDED_AT_MANIFEST_FREEZE"   # filling this amends the contract; re-approval is machinery-enforced
-  unique_volume_count: "TO_BE_RECORDED_AT_MANIFEST_FREEZE"    # computed as distinct VolumeNames in the manifest; 425 x 2 = 850 is NOT assumed
+  pair_manifest_sha256: "5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38"   # filling this amends the contract; re-approval is machinery-enforced
+  unique_volume_count: 850    # computed as distinct VolumeNames in the manifest; 425 x 2 = 850 is NOT assumed
   anchor_pair_exclusion: "The v1 load-probe pair (valid_1004_a_1.nii.gz | valid_1004_a_2.nii.gz), whose per-head scores were exposed by contract v1 and declared uninterpretable there, appears in the manifest flagged anchor_excluded=true. Its paired deltas are excluded from every tier-1 and tier-2 confirmatory statistic (context memo section 4; v1 contract terms) and are reported only as anchor diagnostics. Confirmatory Br40f|Br60f statistics therefore use 236 pairs; both raw and counted denominators are reported."
   vendor_scope_limitation: "462 of 464 Stage-0-audited volumes are Siemens. Every claim from this study is vendor-scoped (predominantly single-vendor); no cross-vendor or cross-site statement is permitted."
 
@@ -164,7 +164,7 @@ execution_model:
 # ---------------------------------------------------------------------------
 budgets:
   pair_count_cap: 425
-  unique_volume_cap: "TO_BE_RECORDED_AT_MANIFEST_FREEZE (equals frozen_scope.unique_volume_count; the cap on distinct scientific volumes downloaded and inferred)"
+  unique_volume_cap: 850
   qa_retry_download_allowance: "ceil(0.20 x unique_volume_cap) volumes, frozen as a number at manifest freeze. Covers redone chunks and anchor re-runs (anchor volumes count once if cached in persistent storage, once per re-download otherwise)."
   session_cap: 30
   gpu_minutes: "Not a governing cap (R8: a single total-download or GPU-minute cap is incoherent under resumability). Informational estimate: ~5 s inference/volume (v1-measured) -> roughly 1.5-2 GPU-hours total including anchors and spot-checks; CPU preprocessing dominates wall-clock."
