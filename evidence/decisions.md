@@ -251,3 +251,18 @@ wording in the idea-004 card is updated to match in the commit following
 this ratification. Preregistration discipline preserved: the analysis is
 still frozen before the 425 pairs are scored; what changed is that no
 external number now plays a pass/fail role.
+
+## 2026-08-14 - A1 revision spec r1 (context memo, idea 004)
+
+Ratification review found one internal inconsistency. Revision scope,
+and ONLY this: section 5, caveat 6 says "the three ViViT-free pairwise
+gaps" and then lists six values (0.57, 1.53, 2.10, 0.33, 1.86, 2.43).
+The word and the list disagree. Resolve the inconsistency: either the
+count is wrong and should match the list, or the word "three" reflects
+an intended narrower meaning, in which case state that meaning
+explicitly so the sentence and the list agree on their own terms.
+Whichever way it resolves, the resolution must be internally consistent
+and the six gap values themselves must not change unless the resolution
+gives a stated reason. No other content, number, or quote may be
+altered. Re-run of the context-memo stage authorized for this revision
+only.
