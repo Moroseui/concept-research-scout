@@ -311,3 +311,23 @@ against the amended blob authorizes bulk execution; bulk activity
 while placeholders remain is invalidating. (2) The v1-exposed anchor
 pair is excluded from all confirmatory statistics (236 counted
 Br40f|Br60f pairs), per the exposure argument in the ratified memo.
+
+## 2026-08-15 - A2 phase M complete: manifest frozen, contract amended
+
+Phase M ran metadata-only under the phase-1 approval (marker and
+contract both blob a84b617cd5a0...). The frozen Stage-0 selection was
+reproduced EXACTLY from raw released metadata: 237/126/58/4 per
+stratum, 425 pairs, 850 unique volumes (no volume participates in two
+pairs). pair_manifest.csv frozen at SHA-256
+5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38.
+Anchor pair p001 flagged anchor_excluded per the resolved A2 question.
+The contract amendment replaces the sha, count, and cap placeholders
+with these values; the invalidating-failure rule line retains the
+placeholder token by design (it is the rule that polices placeholders,
+not a placeholder). The QA/retry allowance remains in formula form,
+now fully resolvable from concrete in-file values (170); converting it
+to the literal is out of the authorized amendment scope and deferred.
+Per the two-phase design this amendment stales the phase-1 approval by
+construction. Phase-2 approval is DEFERRED until the results-transport
+machinery (E1/E2) lands; no bulk activity is authorized in the
+interim, and the driver refuses phase B regardless.
