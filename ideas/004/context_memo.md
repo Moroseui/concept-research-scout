@@ -246,7 +246,7 @@ Why this does not compromise tier 2:
 6. **Source-internal inconsistency.** The v6 ViViT value differs between
    Table 1 (79.19) and Table 2 (73.19) with no stated explanation (§2). If
    the interpret stage cites the ViViT-involved gaps, it must carry this
-   caveat; the three ViViT-free pairwise gaps among CT-Net/Swin3D/3D CNN/
+   caveat; the six ViViT-free pairwise gaps among CT-Net/Swin3D/3D CNN/
    CT-Scroll (0.57, 1.53, 2.10, 0.33, 1.86, 2.43) are unaffected.
 
 ---
