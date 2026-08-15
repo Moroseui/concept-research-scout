@@ -1,89 +1,71 @@
 # Probe code review — idea 004, contract v2
 
-**Verdict: REVISE.** The manifest, inference, and analysis implementation is
-substantially faithful, but the session budget is not fail-closed. Phase B can
-consume an unlimited number of failed Colab sessions without those sessions
-counting toward the contract's cap of 30.
+**Verdict: APPROVE.** The revision closes the prior R8 blocker without changing
+the scientific scope, endpoints, frozen population, or analysis.
 
-## Blocking finding
+## Blocking findings
 
-### 1. The session cap counts successful anchor-log sessions, not Phase B sessions
+None.
 
-Contract R8 freezes a cap of 30 **sessions**. The driver instead reconstructs
-usage solely from distinct `session_id` values in `anchor/anchor_log.csv`
-(`probes/004/run.py:2321-2329`). A new session is not durably registered at
-entry. The anchor log is written only after the model and both anchor inputs
-have loaded and all three anchor executions have completed
-(`probes/004/run.py:1959-1995`).
+## Resolution of the prior blocker
 
-Consequently, Phase B sessions that fail during environment capture, metadata
-or checkpoint access, checkpoint loading, anchor preprocessing, or anchor
-inference do not consume the session cap. The operator can retry those paths
-indefinitely while the code continues to report fewer than 30 sessions. This
-violates `budgets.session_cap: 30` and the stopping rule requiring the run to
-stop when any R8 cap would be exceeded. It is also a silent accounting error:
-`summary.json` reports `sessions_used` from the same incomplete anchor-derived
-count (`probes/004/run.py:2443-2445`).
+The driver now persists every Phase B attempt in
+`sessions/session_attempts.csv` before environment capture, data access, model
+loading, or anchor work (`probes/004/run.py:1810-1845`,
+`probes/004/run.py:2357-2369`). The record is flushed and `fsync`ed before work
+continues. The cap check precedes the append, so attempt 31 exits as budget
+exhaustion without beginning or being registered. `summary.json` derives
+`sessions_used` from the same registry rather than from the post-anchor
+diagnostic log (`probes/004/run.py:2477-2487`). This satisfies the exact repair
+required by the preceding review.
 
-Required repair: persist a Phase B session-attempt record before any access,
-model, or anchor work, refuse the 31st attempt before it begins, and derive
-both enforcement and `sessions_used` from that durable record. Do not expand
-the experiment or alter any scientific endpoint.
+The smoke harness independently registers 30 attempts, verifies every row is
+durable, refuses attempt 31 with exit 9, and verifies that refusal does not add
+a row (`probes/004/run.py:2780-2806`). The operator documentation also states
+the accounting rule and identifies the registry as the R8 budget record
+(`probes/004/README.md:56-67`).
 
-## Contract fidelity otherwise verified
+## Contract and requirements fidelity
 
-- Phase M is metadata-only and the current hash-bound approval cannot authorize
-  Phase B while the manifest placeholders remain (`probes/004/run.py:431-518`,
-  `1627-1747`). The current approval marker matches the contract blob.
-- The manifest is regenerated from the pinned metadata, hard-gated at
-  237/126/58/4, serialized deterministically, and hash-checked before bulk work
-  (`probes/004/run.py:593-741`, `2341-2371`). No unmanifested scientific volume
-  enters analysis.
-- Canonical direction is fixed independently of row order. Tier 1 is per-head
-  and per-stratum on probability and logit scales, excludes the exposed anchor
-  from confirmatory summaries, does not summarize across heads, and uses the
-  patient-cluster bootstrap (`probes/004/run.py:866-1032`).
+- The earlier line-by-line findings remain valid: Phase M is metadata-only;
+  Phase B is hash-gated on the amended contract and frozen manifest; the
+  manifest is regenerated and checked against the fixed 237/126/58/4 strata;
+  no unmanifested scientific volume enters analysis.
+- Tier 1 remains per-head and per-stratum on probability and logit scales,
+  with no cross-head averaging, patient-cluster bootstrap, and confirmatory
+  exclusion of the exposed anchor pair.
 - Tier 2 runs only after tier 1, remains per-head/per-stratum, applies the
-  preregistered 10-positive/10-negative rule, and reports every excluded cell
-  (`probes/004/run.py:1065-1191`, `2274-2309`). It contains no analytical
-  margin, cutoff, operating-point, or pass/fail rule.
-- Same-session pairing is structural; interrupted chunks are redone in full;
-  the four frozen spot-check pairs are rerun bit-identically; and the anchor
-  pair is excluded from scientific statistics (`probes/004/run.py:2010-2178`).
-- The r6 environment pins and exactly-one `position_ids` exception are
-  fail-closed (`probes/004/run.py:1206-1273`, `1462-1538`).
-- Required final artifacts are represented in the documented bundle layout,
-  including root configuration/provenance/summary files, per-chunk manifests
-  and environments, global per-sample/input manifests, both tier tables, and
-  the sparse-label exclusion table (`probes/004/run.py:2227-2309`,
-  `2437-2484`).
+  preregistered 10-positive/10-negative eligibility rule, reports all excluded
+  cells, and introduces no margin, cutoff, operating point, or pass/fail
+  semantics.
+- Same-session pairing, whole-chunk redo, anchor drift checks, four frozen
+  bit-identical spot checks, the r6 dependency closure, and the exactly-one
+  `position_ids` exception remain fail-closed.
+- The required machine-readable outputs remain represented in the frozen
+  bundle layout. The added session registry is budget provenance, not a new
+  scientific output or analysis.
 
-## Silent-failure and claim-discipline review
+## Silent failure, claims, readability, and practicalities
 
-No second blocking silent-failure surface was found. Empty or drifted inputs,
-selection shortfalls, label mismatch, non-finite outputs, model-key mismatch,
-within-session nondeterminism, anchor drift, and incomplete chunks all fail
-explicitly. Broad exception handlers map failures to non-scientific exit
-classes rather than printing a result. The final summary uses the contract's
-descriptive outcome language and explicitly prohibits equivalence, robustness,
-accuracy, concept-validity, localization, and cross-vendor conclusions
-(`probes/004/run.py:2463-2482`).
+No new silent-failure surface was found. The session record specifically
+closes failures occurring before the anchor log exists. Existing checks still
+fail explicitly on missing or drifted inputs, selection shortfall, label
+mismatch, non-finite scores, model-key mismatch, nondeterminism, anchor drift,
+pair splitting, incomplete chunks, and cap overruns.
 
-## Readability and practicalities
+The result language remains descriptive and checkpoint/contrast/vendor scoped.
+The module and README explain phases, stopping, progress, outputs, and Colab
+operation; `--output-dir` supports persistent Drive storage and no interactive
+prompt is introduced.
 
-The module docstring explains the experiment, phases, stopping rule, outcome
-language, and exit codes. Phase comments and progress messages are clear. The
-output directory is supplied by `--output-dir`; the launcher design is
-non-interactive and suitable for persistent Drive storage.
-
-Non-blocking: `probes/004/README.md:84-87` and
-`probes/004/verification.json` say Python compilation and smoke execution were
-not possible in the writing sandbox. In this review, `python -m py_compile
-probes/004/run.py` passed and the smoke harness completed successfully. The
-analysis portion was skipped because NumPy is absent in this review
-environment; the README correctly requires rerunning smoke after installing
-the pinned requirements before a real phase.
+Verification performed in this review: `python -m py_compile
+probes/004/run.py` passed, and the smoke harness passed every runnable check,
+including `session_cap_fail_closed_at_entry`. The analysis portion was skipped
+because NumPy is absent in this review environment; this is non-blocking because
+NumPy is pinned in `probes/004/requirements.txt:5`, and the README requires a
+full smoke rerun after installing the pinned requirements and before a real
+phase.
 
 ```json
-{"verdict": "REVISE", "blocking": ["R8 session accounting derives usage from anchor_log.csv, so any Phase B session that fails before the anchor log is written does not consume the 30-session cap; persist and count every Phase B session attempt at entry and refuse attempt 31 before work begins."], "note": "Scientific scope and analysis are faithful, but the session budget is not fail-closed across retries."}
+{"verdict": "APPROVE", "blocking": [], "note": "The session cap is now fail-closed at Phase B entry, and the revision preserves the approved scientific scope and analysis."}
 ```
