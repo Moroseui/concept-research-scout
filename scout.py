@@ -919,6 +919,35 @@ def _validate_card(card):
     return None
 
 
+def _normalize_candidate(card):
+    """Normalize KNOWN legacy aliases to the canonical schema shape, in
+    place. Returns a list of fix descriptions (empty if nothing changed).
+
+    P0.1 (2026-08-14): cycle 012 emitted {"score": N, "why": ...} where the
+    schema mandates {"value": N, "why": ...}, plus keystone_evidence: null
+    against a string-only schema. The schema correctly caught the drift and
+    is deliberately NOT loosened. Chain: prompt specifies the canonical
+    shape (docs/SCORING_RUBRIC.md) -> this parser maps known aliases onto
+    it -> _validate_card validates the canonical form -> the
+    production-shaped regression fixture in tests keeps all three aligned.
+    Anything not on the known-alias list still fails validation."""
+    fixes = []
+    scores = card.get('scores')
+    if isinstance(scores, dict):
+        for k, v in scores.items():
+            if (isinstance(v, dict) and 'value' not in v
+                    and isinstance(v.get('score'), (int, float))):
+                v['value'] = v.pop('score')
+                fixes.append(f'scores.{k}: score->value')
+    if 'keystone_evidence' in card and card['keystone_evidence'] is None:
+        # Schema permits absence but not null. Dropping the key lets the
+        # existing INSPECTED_TRUE-without-evidence demotion in the merge
+        # loop apply honestly instead of inventing evidence.
+        del card['keystone_evidence']
+        fixes.append('keystone_evidence: null->absent')
+    return fixes
+
+
 CANDIDATE_FILES = {'baseline': 'scout_candidates.json',
                    'wide': 'wide_candidates.json',
                    'fiction': 'fiction_candidates.json'}
@@ -965,6 +994,10 @@ def _merge_candidates(target, tracks, cycle_no):
                 if c.get('search_mode') == 'C' and not isinstance(
                         c.get('mode_c_priority_score'), (int, float)):
                     notes['mode_c_score_missing'] = notes.get('mode_c_score_missing', 0) + 1
+                fixes = _normalize_candidate(c)
+                if fixes:
+                    notes.setdefault('normalized', []).append(
+                        f"{track}: {c.get('title','')[:50]} -- {', '.join(fixes)}")
                 err = _validate_card(c)
                 if err:
                     notes.setdefault('schema_rejected', []).append(

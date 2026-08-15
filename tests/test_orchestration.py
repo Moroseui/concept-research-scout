@@ -17,6 +17,46 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
+# ---------------------------------------------------------------------------
+# P0.4 fixture repo (2026-08-14). The suite used to copytree the entire live
+# repo (~29 MB, dominated by ideas/ logs and prompts) into a temp dir for
+# EVERY test, so wall time scaled with project history. Tests only actually
+# depend on the small structural surface: code-adjacent data (templates,
+# orchestrator, docs, evidence, ledger, charter) plus empty ideas/ and
+# probes/ that helpers mkdir into. The fixture is built ONCE per session by
+# pruning the live repo -- never a hand-maintained synthetic copy, so it
+# cannot drift from production the way fabricated fixtures did (see the
+# scoring-bug note below). Anything new a test legitimately needs must be
+# added to _FIXTURE_KEEP, which is a deliberate, reviewable act.
+# ---------------------------------------------------------------------------
+_FIXTURE_KEEP = ("CHARTER.md", "AGENTS.toml", "Makefile", ".gitignore",
+                 "ledger.jsonl", "requirements.txt",
+                 "scout.py", "setup.py",
+                 "templates", "orchestrator", "docs", "evidence", "portfolio")
+_FIXTURE_CACHE = None
+
+
+def fixture_repo():
+    """Build (once) and return the pruned fixture repo path."""
+    global _FIXTURE_CACHE
+    if _FIXTURE_CACHE is not None:
+        return _FIXTURE_CACHE
+    base = Path(tempfile.mkdtemp(prefix="scout-fixture-")) / "repo"
+    base.mkdir()
+    for name in _FIXTURE_KEEP:
+        src = REPO / name
+        if not src.exists():
+            continue
+        if src.is_dir():
+            shutil.copytree(src, base / name, ignore=shutil.ignore_patterns(
+                "__pycache__", "*.pyc"))
+        else:
+            shutil.copy2(src, base / name)
+    (base / "ideas").mkdir()
+    (base / "probes").mkdir()
+    _FIXTURE_CACHE = base
+    return base
+
 FAKE_AGENT = r"""#!/usr/bin/env python3
 import os, sys, pathlib
 prompt = sys.stdin.read()
@@ -151,8 +191,7 @@ class Harness(unittest.TestCase):
         self.dir = Path(tempfile.mkdtemp())
         self.repo = self.dir / "repo"
         self.receipt = self.dir / "receipt.txt"
-        shutil.copytree(REPO, self.repo, ignore=shutil.ignore_patterns(
-            "__pycache__", "*.pyc", ".git"))
+        shutil.copytree(fixture_repo(), self.repo)
 
         self.fake = self.dir / "fake_agent.py"
         self.fake.write_text(FAKE_AGENT)
@@ -1340,6 +1379,89 @@ class TestCycle(Harness):
         self.assertTrue((d / "scout_candidates.json").exists())
         self.assertTrue((d / "candidates_all.json").exists())
         self.assertTrue((d / "novelty_audit.md").exists())
+
+
+class TestSchemaNormalization(unittest.TestCase):
+    """P0.1 regression tests on the REAL cycle-012 output that failed merge.
+
+    The fixture is the verbatim production file (all five candidates emit
+    scores.<dim>.score instead of .value; two emit keystone_evidence:
+    null). Fabricated fixtures encoded stale assumptions and masked the
+    scoring bug for weeks; this one is the actual drift, frozen. The
+    schema is deliberately strict: these tests assert BOTH directions --
+    known aliases normalize and validate, unknown shapes still fail."""
+
+    FIXTURE = REPO / "tests" / "fixtures" / "scout012_production_candidates.json"
+
+    def setUp(self):
+        sys.path.insert(0, str(REPO))
+        import scout as sc
+        self.sc = sc
+        # Harness tests repoint the shared module's ROOT at their temp
+        # repos and do not restore it; pin it so this class is
+        # order-independent regardless of what ran before.
+        sc.ROOT = REPO
+        self.cards = json.loads(self.FIXTURE.read_text())["candidates"]
+        self.assertEqual(len(self.cards), 5, "fixture must hold the five real cards")
+
+    def test_production_cards_fail_schema_before_normalization(self):
+        errs = [self.sc._validate_card(dict(c)) for c in
+                (json.loads(json.dumps(c)) for c in self.cards)]
+        self.assertTrue(all(errs), f"expected every raw card to fail; got {errs}")
+
+    def test_normalization_makes_every_production_card_valid(self):
+        for c in (json.loads(json.dumps(c)) for c in self.cards):
+            fixes = self.sc._normalize_candidate(c)
+            self.assertTrue(fixes, "every drifted card should report fixes")
+            err = self.sc._validate_card(c)
+            self.assertIsNone(err, f"{c.get('id')}: still invalid after "
+                                   f"normalization: {err}")
+
+    def test_score_alias_is_renamed_not_duplicated(self):
+        c = json.loads(json.dumps(self.cards[0]))
+        self.sc._normalize_candidate(c)
+        for k, v in c["scores"].items():
+            self.assertIn("value", v, f"scores.{k} missing value")
+            self.assertNotIn("score", v, f"scores.{k} retains legacy key")
+
+    def test_null_keystone_evidence_dropped_enabling_honest_demotion(self):
+        nulls = [c for c in self.cards if c.get("keystone_evidence") is None
+                 and "keystone_evidence" in c]
+        self.assertEqual(len(nulls), 2, "fixture should hold the two null cards")
+        for c in (json.loads(json.dumps(c)) for c in nulls):
+            claimed_true = c.get("keystone_status") == "INSPECTED_TRUE"
+            fixes = self.sc._normalize_candidate(c)
+            self.assertIn("keystone_evidence: null->absent", fixes)
+            self.assertNotIn("keystone_evidence", c)
+            if claimed_true:
+                # The merge loop's existing guard now demotes honestly
+                # instead of validation dying on the null.
+                self.assertFalse(c.get("keystone_evidence"))
+
+    def test_schema_is_not_loosened_by_normalization(self):
+        c = json.loads(json.dumps(self.cards[0]))
+        c["scores"]["clarity"] = {"grade": 4, "why": "unknown alias"}
+        self.sc._normalize_candidate(c)
+        self.assertIsNotNone(self.sc._validate_card(c),
+                             "an unknown score alias must still fail")
+        c2 = json.loads(json.dumps(self.cards[0]))
+        c2["scores"]["clarity"] = {"score": 9, "why": "out of range"}
+        self.sc._normalize_candidate(c2)
+        self.assertIsNotNone(self.sc._validate_card(c2),
+                             "normalized but out-of-range value must still fail")
+        c3 = json.loads(json.dumps(self.cards[0]))
+        del c3["deliverable_sentence"]
+        self.sc._normalize_candidate(c3)
+        self.assertIsNotNone(self.sc._validate_card(c3),
+                             "missing required field must still fail")
+
+    def test_mean_score_recovers_after_normalization(self):
+        c = json.loads(json.dumps(self.cards[0]))
+        before = self.sc._mean_score(c)
+        self.sc._normalize_candidate(c)
+        after = self.sc._mean_score(c)
+        self.assertGreater(after, 0.0, "ranking must see normalized values")
+        self.assertGreaterEqual(after, before)
 
 
 if __name__ == "__main__":

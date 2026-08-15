@@ -2,6 +2,11 @@
 
 Score each dimension 1-5. Explain every score.
 
+**Canonical shape (mandatory):** emit each score in the `scores` object as
+`{"value": N, "why": "..."}` — the key is `value`, never `score`. Omit
+`keystone_evidence` entirely when there is none; never emit `null` for it.
+Cards violating the shape are rejected at merge.
+
 | Dimension | 1 | 3 | 5 |
 |---|---|---|---|
 | Clarity | vague | testable with refinement | one-sentence precise question |
