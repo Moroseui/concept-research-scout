@@ -8,12 +8,12 @@
   "claim_rung": 1,
   "what_would_move_it_up": "Rung 2 would require showing that the paired effect persists after stratification or adjustment for every remaining measured acquisition and preprocessing difference and across vendors/sites; rung 3 would require a validated, independently computable image measurement that names the responsible content more specifically than reconstruction-dependent spatial frequency.",
   "scientific_uncertainty": "It is unknown whether a frozen chest-CT classifier assigns operationally equivalent scores to two images reconstructed from the same acquisition when anatomy, geometry, and deterministic preprocessing transformations are held fixed.",
-  "existing_legwork": "The completed Stage 0 audit inspected 3,039 validation volumes from 1,564 scans and 1,304 patients. It found 1,432 multi-reconstruction scans and 425 strict geometry-matched pairs after excluding slice-count, position, and acquisition-parameter drift. The main contrasts were Br40f|Br60f (237), Bl56f|Br40f (126), and Bl57d|Br36d (58). Labels were exact duplicates within pairs, but labels are not used in the primary readout. The released inference scripts were identified; no official per-volume ClassFine scores or checkpoint release assets were found in the inspected official locations.",
+  "existing_legwork": "The completed Stage 0 audit inspected 3,039 validation volumes from 1,564 scans and 1,304 patients. It found 1,432 multi-reconstruction scans and 425 strict geometry-matched pairs after excluding slice-count, position, and acquisition-parameter drift. The main contrasts were Br40f|Br60f (237), Bl56f|Br40f (126), and Bl57d|Br36d (58). Labels were exact duplicates within pairs, but labels are not used in the primary readout. The released inference scripts were identified. A subsequent contract-v1 load probe (PASSED 2026-08-12) obtained and froze the CT_LiPro_v2.pt checkpoint (SHA-256 recorded), loaded it under a pinned CT-CLIP commit with a single enumerated framework-era buffer-key exception, and demonstrated bit-deterministic 18-head inference on one Stage-0-valid pair; the one-pair score differences are diagnostic only and scientifically uninterpretable per the contract.",
   "missing_final_step": "Obtain and cryptographically freeze the exact ClassFine weights used with the released inference pipeline, then run paired inference on the 425 predeclared geometry-matched pairs and estimate score-change bounds by reconstruction contrast.",
   "concept_definition": "The candidate X is reconstruction-dependent spatial-frequency content: the frequency and noise texture imposed by a named reconstruction-kernel contrast while the acquisition and voxel geometry remain fixed. X is independently measurable without annotation using image-domain noise-power-spectrum or local frequency-energy statistics and the recorded kernel contrast. The study does not claim that any report-derived abnormality label is valid, nor that it has localized the responsible frequency band.",
   "keystone_prerequisite": "The exact frozen ClassFine checkpoint corresponding to the released architecture and preprocessing is obtainable with sufficient provenance to make the resulting scores attributable to the published model.",
-  "keystone_status": "NOT_INSPECTED",
-  "keystone_evidence": "Direct Stage 0 inspection found no released per-volume ClassFine scores, no GitHub v1.0.0 release assets, and no checkpoint files on the authors' inspected Hugging Face account. The repository contains inference code, but code alone does not establish that the published weights are obtainable. If I have only verified the nearest checkable thing, what am I still assuming? I verified that inference code exists and that 425 clean pairs exist; I am still assuming that the exact published checkpoint can be obtained and loaded unchanged. That assumption is load-bearing and is therefore the keystone.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "Superseded Stage-0 finding (no checkpoint located) resolved by the contract-v1 load probe, PASSED 2026-08-12 (evidence/decisions.md, 'Probe 004 contract v1 ADVANCE'): the frozen CT_LiPro_v2.pt artifact (SHA-256 9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d) loaded strictly under CT-CLIP commit a2a155c601987820433c01db69b64d701d3d229d, modulo exactly the single r6-authorized, provenance-recorded trained_model.text_transformer.embeddings.position_ids buffer key; a Stage-0-valid Br40f|Br60f pair produced 18 finite named scores for A, B, and repeated A with the repeat bit-identical, in 0.250 GPU minutes at 4.10 GB peak. Residual assumption unchanged in kind but narrowed: attribution is limited to 'released v2 ClassFine checkpoint' until paper-number correspondence is checked (2026-08-11 pin 4).",
   "dies_like_prior": "It risks the DATA_ACCESS failure seen in idea 003: the needed model asset may not be obtainable. Unlike idea 003, the image pairs, metadata, and primary annotation-free readout are already confirmed; however, that does not rescue the study if the exact checkpoint is unavailable. No annotation-provenance failure applies because the primary endpoint compares the model with itself and uses no labels.",
   "closest_prior_work": [
     {
@@ -85,19 +85,52 @@
     "Calculate confidence-width or minimum-detectable-effect gates per output and contrast before designating analyses confirmatory."
   ],
   "scores": {
-    "clarity": {"value": 5, "why": "One frozen model, one set of same-acquisition geometry-matched pairs, and one paired score-change estimand."},
-    "identifiability": {"value": 4, "why": "Pairing and strict geometry matching remove the main patient, acquisition, and preprocessing alternatives; vendor/site generalization and the responsible frequency property remain unresolved."},
-    "medical_relevance": {"value": 3, "why": "The result determines whether named chest-CT outputs are stable to common reconstruction choices, but the research model is not a clinical device and accuracy is not tested."},
-    "interest": {"value": 3, "why": "A within-acquisition self-disagreement is concrete, though reconstruction sensitivity is already an established concern."},
-    "prior_legwork": {"value": 4, "why": "Stage 0 already produced 425 clean pairs and dominant contrast counts; the missing checkpoint is a major remaining asset."},
-    "feasibility": {"value": 3, "why": "Capped because the true checkpoint keystone is NOT_INSPECTED; conditional on weights, only 850 volumes require inference."},
-    "data_readiness": {"value": 3, "why": "Pair membership and metadata are inspected, but image access is gated and the checkpoint is not confirmed."},
-    "evaluation_readiness": {"value": 3, "why": "Paired summaries and patient bootstrap are standard, but external equivalence margins still require prespecification."},
-    "negative_result_value": {"value": 4, "why": "A powered equivalence result would decisively bound sensitivity for the observed contrasts and checkpoint; without the margin it falls to type 2."},
-    "novelty_confidence": {"value": 3, "why": "Capped by the uninspected keystone and held at uncertainty because exact prior-art searching is incomplete."}
+    "clarity": {
+      "value": 5,
+      "why": "One frozen model, one set of same-acquisition geometry-matched pairs, and one paired score-change estimand."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Pairing and strict geometry matching remove the main patient, acquisition, and preprocessing alternatives; vendor/site generalization and the responsible frequency property remain unresolved."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "The result determines whether named chest-CT outputs are stable to common reconstruction choices, but the research model is not a clinical device and accuracy is not tested."
+    },
+    "interest": {
+      "value": 3,
+      "why": "A within-acquisition self-disagreement is concrete, though reconstruction sensitivity is already an established concern."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Stage 0 already produced 425 clean pairs and dominant contrast counts; the missing checkpoint is a major remaining asset."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because the true checkpoint keystone is NOT_INSPECTED; conditional on weights, only 850 volumes require inference."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Pair membership and metadata are inspected, but image access is gated and the checkpoint is not confirmed."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired summaries and patient bootstrap are standard, but external equivalence margins still require prespecification."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A powered equivalence result would decisively bound sensitivity for the observed contrasts and checkpoint; without the margin it falls to type 2."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped by the uninspected keystone and held at uncertainty because exact prior-art searching is incomplete."
+    }
   },
   "priority_score": 3.55,
   "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*3 + 0.10*4 + 0.10*3 + 0.10*5 + 0.10*4 + 0.05*3 + 0.05*3 = 3.55",
-  "regret": {"value": 4, "why": "The corpus supplies hundreds of unusually clean paired perturbations, so abandoning the question without first resolving the checkpoint would waste a rare natural control."},
+  "regret": {
+    "value": 4,
+    "why": "The corpus supplies hundreds of unusually clean paired perturbations, so abandoning the question without first resolving the checkpoint would waste a rare natural control."
+  },
   "recommendation": "REVISE_AND_GATE_ON_CHECKPOINT"
 }
