@@ -1,46 +1,6 @@
 {
   "idea_id": "004",
-  "contract_version": 2,
   "passed": true,
   "issues": [],
-  "checked_at": "2026-08-15T04:52:00Z",
-  "revision_round": {
-    "trigger": "probe_review.md verdict REVISE with one blocking finding: R8 session accounting derived usage from anchor/anchor_log.csv, which is written only after the anchor protocol succeeds, so phase-B sessions failing during environment capture, table/checkpoint access, checkpoint loading, or anchor work never consumed the 30-session cap.",
-    "fix": "run.py now persists a session-attempt record to <BUNDLE_DIR>/sessions/session_attempts.csv (register_session_attempt) as the FIRST act of run_phase_b -- before capture_environment, any download, model load, or anchor work -- with flush+fsync so the record survives a crash later in the session. The cap check runs before the append: attempt 31 is refused with exit 9 before any work begins and is not itself registered. Both enforcement and summary.json's sessions_used now derive from this registry; anchor_log.csv reverts to a pure anchor diagnostic record.",
-    "boundary_note": "Registration happens after phase0_gate (purely local contract/marker file reads, verified line-by-line: no network, no model, no bundle writes) and before everything else. A gate-refused invocation performs no phase-B activity and is not counted; every reviewer-listed failure path (environment capture, metadata/checkpoint access, checkpoint loading, anchor preprocessing, anchor inference) now falls after registration and consumes the cap.",
-    "scope": "No scientific endpoint, statistic, stratum, cap value, pin, or analysis line was touched. Changes: SESSION_ATTEMPT_COLUMNS + register_session_attempt helper, run_phase_b entry reorder, summary.json sessions_used source, a smoke self-test of the registry, one phase-B section-comment sentence, and a README operator note.",
-    "smoke_coverage_added": "run_smoke registers SESSION_CAP mock attempts in an isolated subdirectory, asserts each increments the durable count, asserts the over-cap attempt is refused with exit 9 BEFORE being registered, and asserts the registry row count is unchanged by the refusal (checks.session_cap_fail_closed_at_entry). The deliberate FAIL line is announced in the log so a passing smoke run reads correctly."
-  },
-  "method": "static (this sandbox cannot execute Python; py_compile and the smoke run were NOT executed here -- the prior review round independently ran both successfully on the pre-fix code). Verification of this revision is a full read of every changed hunk plus mechanical text cross-checks. The smoke run remains the mandatory first command on the real machine, before phase M, and now also covers the session-registry logic.",
-  "checks": {
-    "approval_gate": "HUMAN_APPROVED_PROBE contract_blob a84b617cd5a099b85467b43c88831933ea69dec3 equals git hash-object of ideas/004/probe_contract.yaml (phase-1 approval, manifest freeze only); run.py recomputes this same blob binding at every start and refuses phase B while any TO_BE_RECORDED_AT_MANIFEST_FREEZE placeholder remains or the marker blob is stale. The contract file was NOT modified in this revision, so the marker remains valid.",
-    "session_cap_fail_closed": "register_session_attempt is called as the first statement after session-id generation in run_phase_b; grep confirms no remaining enforcement or sessions_used read of anchor_log.csv (its only writer is the anchor protocol's diagnostic append); the cap comparison (len(prior) >= SESSION_CAP) precedes the append, so the refused attempt is never registered",
-    "provenance_pins_cross_checked": "checkpoint SHA-256, code commit, HF revision, all three table SHA-256s, both anchor-volume SHA-256s, v1 reference git blob, and both bootstrap seeds each appear in BOTH the contract and run.py (grep-verified, exact strings; unchanged this revision)",
-    "v1_anchor_reference_blob": "probes/004/results/per_sample.csv hashes to ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1, equal to the contract pin; file is load-bearing for the phase-B cross-session anchor check (unchanged)",
-    "head_order": "EXPECTED_PATHOLOGIES matches the 18 head names and order in the v1 reference per_sample.csv exactly (unchanged)",
-    "contract_scalar_uniqueness": "every key phase0_gate reads line-wise (idea_id, contract_version, maximum_variants, maximum_seeds, session_cap, pair_count_cap, pair_manifest_sha256, unique_volume_count) matches exactly one contract line (unchanged)",
-    "docstring_balance": "104 triple-quote occurrences (even; was 102, +2 for the register_session_attempt docstring); file ends with a complete entry point; no TODO/FIXME markers",
-    "stage_requirements": {
-      "minimal_dependencies": "phase M and the smoke core are stdlib + huggingface_hub only; numpy/sklearn are needed for analysis and probed gracefully in smoke; the fix adds no dependency (csv/os are stdlib)",
-      "one_command_to_run": "one command per phase: --smoke, --phase M, --phase B",
-      "fixed_seed": "SEED=0 for inference determinism switches; bootstrap streams preregistered (20260814 tier 1, 20260815 tier 2)",
-      "deterministic_split_manifest": "pair_manifest.csv serialized byte-stably, double-serialization asserted identical, SHA-256 recorded; phase B regenerates it and requires byte-identity with the contract-recorded hash",
-      "split_overlap_assertions": "assert_validation_only refuses any train/test path or name; build_pair_manifest drops and counts non-validation rows; smoke plants 2 train + 1 test decoys and asserts all 3 refused",
-      "smoke_mode": "synthetic, no network, no GPU, no HF gate; exercises the real approval gate, both phase-B refusal branches, the fail-closed session registry (new), manifest decoys, chunk interruption/redo, spot-check and anchor logic, and tier-1/tier-2 analysis on mock scores; summary.json hard-codes contract_satisfied false",
-      "per_sample_outputs": "per-chunk per_sample.csv with score and float64 score_hex per head, plus global scores/per_sample.csv and input_manifest.csv",
-      "resolved_config_and_environment": "resolved_config.json restates every frozen constant; environment.txt at bundle level; per-chunk environment.json with GPU/CUDA/torch/package versions and session id, written LAST as the chunk-completion marker; sessions/session_attempts.csv is the durable R8 session record (new)",
-      "no_test_set_access": "validation split only; split guard on every repo path and volume name; tier 2 uses released validation labels descriptively; no threshold or operating point is fit anywhere",
-      "no_unapproved_variants": "no tunable knobs (maximum_variants 1, maximum_seeds 1, batch size 1, released patch size); phase0_gate cross-checks caps and pins against the approved contract text so silent contract edits cannot drift past the code",
-      "clear_failure_exit_codes": "exit codes 0 and 2-13 enumerated in the module docstring, each mapped to a contract invalidating-failure class or an environment/harness fault; the over-cap session refusal uses the existing exit 9 (budget stop); invalidating failures are never reported as negative results"
-    },
-    "smoke_arithmetic_hand_verified": "planted stratum counts 5/2/1/1, unique-volume count 17, chunk plan 4+4+1, spot-check subset {p001,p006,p008,p009}, tier-2 eligible cells 1 and excluded cells 71 (unchanged this revision); new registry self-test arithmetic: 30 registrations -> 30 rows -> attempt 31 refused with 30 rows remaining, re-derived by hand from the loop bounds",
-    "bundle_layout_note": "sessions/session_attempts.csv is not in the contract's results_bundle_layout, exactly like the pre-existing scores/download_accounting.csv that enforces the R8 volume caps; both are R8 budget records the review mandated ('persist a Phase B session-attempt record'), and the contract file itself was not edited, preserving the approval binding"
-  },
-  "not_verified_here": [
-    "Python syntax/compile check (blocked sandbox) - mitigated by a full read of every changed hunk; the prior review round ran py_compile and smoke successfully on the pre-fix code, and the smoke run on the real machine is the first executable check covering every harness path including the new registry self-test",
-    "real HF access, checkpoint load, and released-code import (phase B only, by design)",
-    "fsync durability semantics on Colab/Drive mounts (best available primitive; the registry append also closes the file, matching every other bundle artifact's persistence path)",
-    "the contract's risky assumption itself: whether the pipeline scales to 425 pairs (only the approved real phases can test this)"
-  ],
-  "expensive_compute_launched": false
+  "checked_at": "2026-08-15T04:51:02.228968+00:00"
 }
