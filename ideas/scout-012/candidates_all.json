@@ -1,0 +1,414 @@
+{
+  "cycle": 12,
+  "tracks": [
+    "baseline"
+  ],
+  "notes": {
+    "normalized": [
+      "baseline: The race signal in chest CT: measure the bone dens -- scores.clarity: score->value, scores.identifiability: score->value, scores.medical_relevance: score->value, scores.interest: score->value, scores.prior_legwork: score->value, scores.feasibility: score->value, scores.data_readiness: score->value, scores.evaluation_readiness: score->value, scores.negative_result_value: score->value, scores.novelty_confidence: score->value, scores.regret: score->value",
+      "baseline: The dilated esophagus inside the fibrosis score -- scores.clarity: score->value, scores.identifiability: score->value, scores.medical_relevance: score->value, scores.interest: score->value, scores.prior_legwork: score->value, scores.feasibility: score->value, scores.data_readiness: score->value, scores.evaluation_readiness: score->value, scores.negative_result_value: score->value, scores.novelty_confidence: score->value, scores.regret: score->value",
+      "baseline: Merlin's COPD call may come from the lungs it wasn -- scores.clarity: score->value, scores.identifiability: score->value, scores.medical_relevance: score->value, scores.interest: score->value, scores.prior_legwork: score->value, scores.feasibility: score->value, scores.data_readiness: score->value, scores.evaluation_readiness: score->value, scores.negative_result_value: score->value, scores.novelty_confidence: score->value, scores.regret: score->value",
+      "baseline: The non-gated chest CT contains an ECG: heart rate -- scores.mechanism_clarity: score->value, scores.identifiability: score->value, scores.interest: score->value, scores.medical_relevance: score->value, scores.clarity: score->value, scores.feasibility_informational: score->value, scores.novelty_confidence_informational: score->value, scores.negative_result_value_informational: score->value, keystone_evidence: null->absent",
+      "baseline: The prognosis model as a manometer: midline shift  -- scores.mechanism_clarity: score->value, scores.identifiability: score->value, scores.interest: score->value, scores.medical_relevance: score->value, scores.clarity: score->value, scores.feasibility_informational: score->value, scores.novelty_confidence_informational: score->value, scores.negative_result_value_informational: score->value, keystone_evidence: null->absent"
+    ],
+    "mode_c_score_missing": 2
+  },
+  "candidates": [
+    {
+      "id": "scout-012-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "title": "The race signal in chest CT: measure the bone density everyone names and nobody measured",
+      "question": "Does the chest-CT race classifier of Gichoya et al., trained on NLST, use vertebral trabecular attenuation - the opportunistic bone-density measure already validated in screening CT?",
+      "design_template": "regional-substitution",
+      "dataset": "NLST (CDAS; same cohort the anchor paper trained on)",
+      "rung": "Targets rung 2 with a rung-3 sentence conditional on the substitution arm. Rung 1 is delivered by the substitution readout; rung 2 by site/scanner/habitus stratification available in NLST metadata; rung 3 (the sentence below) requires both plus a mediated-fraction estimate.",
+      "deliverable_sentence": "The race classifier is using the trabecular bone mineral attenuation of the visible vertebrae.",
+      "X_measurement": "Mean trabecular attenuation (HU) inside eroded vertebral-body masks from TotalSegmentator (Wasserthal et al. 2023, Radiology: AI, DOI 10.1148/ryai.230024; vertebrae are named classes), the standard opportunistic-osteoporosis measurement (Pickhardt et al. 2013, Ann Intern Med, DOI 10.7326/0003-4819-158-9-201305070-00003, L1 trabecular HU; thoracic-level variants validated in lung-screening LDCT). Computable today on a scan the model has never seen, with no human annotator: YES.",
+      "suspected_signal": "Population-level BMD differences by self-reported race are among the largest documented imaging-visible anthropometric differences (NHANES DXA: higher mean femoral/lumbar BMD in Black adults). Trabecular attenuation is directly rendered in calibrated CT HU, is spatially diffuse (consistent with the signal surviving patch ablation in prior work), and survives resolution degradation (consistent with the low-frequency robustness the anchor paper reported).",
+      "use_vs_association": "Association arm is explicitly labeled association; USE is carried by sham-controlled substitution: swap the trabecular interior between geometry-matched patients of discordant self-reported race, with same-race swaps as the sham floor - score movement above sham distinguishes use from correlation.",
+      "keystone_prerequisite": "What the inference needs: (a) the demonstrated NLST chest-CT race signal is reproducible with slice-level models at single-GPU compute on scans where (b) vertebral trabecular HU is measurable, and (c) the anchor study genuinely left quantitative BMD unmeasured (the Mode A gap exists).",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Component (c) and the CT anchor inspected in the full text (PMC9650160, 'AI recognition of patient race in medical imaging: a modelling study'): chest CT experiments used NLST with race-prediction AUC 0.92 (slice) / 0.96 (study), external validation on EM-CT and RSPECT; the only bone-related test was removal of brightest pixels on radiographs ('deep learning models effectively predicted patient race even when the bone density information was removed', AUC 0.960/0.945 on MIMIC-CXR/CheXpert) - bone mineral density was never quantitatively measured, and never tested on CT at all. Component (b): TotalSegmentator vertebral classes are documented in the cited paper/tool. Component (a) is NOT inspectable in advance and is listed as the residual assumption.",
+      "keystone_residual_assumption": "Load-bearing residuals, stated per the three-strikes rule: (1) the NLST CDAS delivery links self-reported race to the imaging at the scan level (race was collected in NLST; the linkage in the delivered tables is inferred, not inspected); (2) a slice-level classifier at AUC >= 0.85 is reproducible within Colab-class compute (the anchor used slice-level training, which argues yes, but this is assumed until run); (3) within age-sex-site strata there remains enough trabecular-HU variance to test mediation. If (1) or (2) fails, the candidate is dead, not merely weakened.",
+      "rung_reached": "1 by design (use of X via substitution); moves to 2 with site/scanner stratification and habitus conditioning; the mediated fraction determines whether the rung-3 sentence is 'is using' or 'is partly using'.",
+      "dies_like_prior": "No annotation-provenance failure applies: self-reported race is subject-reported demographic data, independent of any image reader. Closest prior kill is idea-009 (IDENTIFIABILITY_FAILURE: index inseparable from covariates in any obtainable cohort); the difference is that identifiability here is not carried observationally but by within-pair trabecular substitution with a same-race sham floor, and NLST's uniform screening eligibility plus 33-site metadata gives real stratification support that idea-009 never had.",
+      "closest_prior_work": "Gichoya et al. 2022, Lancet Digit Health 4:e406-14 (DOI 10.1016/S2589-7500(22)00063-2; preprint arXiv:2107.10356). They established the phenomenon across modalities including NLST chest CT and tested many candidate explanations - but their bone test was brightness clipping on uncalibrated radiographs, which removes cortical extremes, not the trabecular mean, and no bone test was performed on CT. Follow-up literature (e.g., frequency-domain and anatomical-region ablations) remains confound-elimination; I found no study regressing or intervening on quantitative CT BMD. That absence is a search result, not proof.",
+      "existing_assets": "Anchor paper's public training code (Emory-HITI 'AI-vengers' repo - existence recalled, unverified); NLST already the working cohort of ideas 008/012/017 in this portfolio; TotalSegmentator off-the-shelf; opportunistic-BMD literature supplies validated thresholds and expected effect sizes.",
+      "smallest_decisive_experiment": "On an NLST subset: (i) reproduce the slice-level race classifier (their recipe); (ii) compute trabecular HU per scan with TotalSegmentator; (iii) report fraction of race-score variance explained by trabecular HU within age-sex-site strata; (iv) in ~100 geometry-matched cross-race pairs, substitute vertebral trabecular interiors (same-race substitution as sham) and read the score shift. (iii) is association, labeled as such; (iv) is the use readout.",
+      "standing_confounds_addressed": "Scanner/site: NLST race composition varies by site, so all observational readouts stratify by site and scanner model (metadata available); the paired substitution arm is within-pair immune. Protocol/reconstruction: stratify by kernel as in the anchor cohort. Habitus: condition on body cross-sectional area computed from the same scan. Prevalence/referral: screening trial with uniform eligibility - the strongest referral-pathway control available anywhere. Label leakage: no reports involved. NOT ruled out observationally: body-composition axes correlated with BMD (muscle attenuation, marrow fat) - measured and co-modeled, but only the substitution arm separates them.",
+      "alternative_explanations": "(1) BMD is a marker, not the signal - the model reads correlated soft-tissue composition; substitution arm with trabecular-only edits addresses this, observational arm cannot. (2) Substitution edits are out-of-distribution and the score shift measures edit artifact - addressed by the same-race sham floor and a prespecified sham-effect tolerance (idea-008's lesson). (3) The anchor's own CXR bright-pixel result suggests bone is not the signal - acknowledged honestly; that experiment removed clipped cortical brightness on uncalibrated radiographs and is weak evidence about calibrated trabecular HU on CT, which is exactly why the direct measurement is the missing experiment.",
+      "anticipated_negative": "Decisive, with an equivalence margin: if trabecular HU explains less than a prespecified fraction of stratified score variance AND substitution moves the score by less than the sham-derived margin, the most-cited candidate explanation for the field's most famous unexplained signal is dead on the modality where it is most measurable. That is a publishable type-1 negative.",
+      "cross_domain": null,
+      "remaining_legwork": "CDAS project scope/approval for race+images subset (weeks, administrative); classifier reproduction (~days of Colab); TotalSegmentator batch run (~days); substitution tooling reusing portfolio edit-validity machinery. First decision (observational arm): ~2-3 weeks after data in hand.",
+      "scores": {
+        "clarity": {
+          "why": "One named X, one named model, one sentence; loses a point because 'the race signal' is a family of models, not one checkpoint.",
+          "value": 4
+        },
+        "identifiability": {
+          "why": "Observational arm is confounded by correlated body composition; the sham-controlled substitution arm carries identification but inherits edit-validity risk.",
+          "value": 3
+        },
+        "medical_relevance": {
+          "why": "Mechanism of the most-discussed algorithmic-bias vector in radiology; a positive names the shortcut vector deployed models carry.",
+          "value": 4
+        },
+        "interest": {
+          "why": "Four years of literature says 'nobody knows what the signal is'; this is the named-X experiment that literature keeps gesturing at.",
+          "value": 5
+        },
+        "prior_legwork": {
+          "why": "Anchor code public, cohort known, X-measurement tools validated; nothing needs inventing.",
+          "value": 4
+        },
+        "feasibility": {
+          "why": "Cap lifted by INSPECTED_TRUE but honestly 3: NLST delivery, classifier training, and edit machinery are each real work.",
+          "value": 3
+        },
+        "data_readiness": {
+          "why": "NLST via CDAS: obtainable with administrative latency, precedented in this portfolio, not in hand.",
+          "value": 3
+        },
+        "evaluation_readiness": {
+          "why": "AUC for reproduction, variance-explained and paired score-shift with sham floor are all standard.",
+          "value": 4
+        },
+        "negative_result_value": {
+          "why": "Type-1 decisive against the field's most-cited hypothesis, with margins.",
+          "value": 5
+        },
+        "novelty_confidence": {
+          "why": "The gap is verified inside the anchor paper, but the follow-up literature is large and my search for a quantitative-BMD test was not exhaustive.",
+          "value": 3
+        },
+        "regret": {
+          "why": "If someone else runs this first it will look obvious in hindsight.",
+          "value": 5
+        }
+      },
+      "priority_score": 3.8,
+      "unverified_claims": [
+        "NHANES-scale BMD differences by self-reported race (direction and rough magnitude from memory; needs primary citation).",
+        "Public availability and completeness of the Emory-HITI training code (from memory).",
+        "NLST CDAS delivery links self-reported race to scans (inferred from trial design; data dictionary not inspected).",
+        "Thoracic-level opportunistic BMD validation in LDCT (literature recalled, specific citation needed)."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-012-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The dilated esophagus inside the fibrosis score",
+      "question": "Does CT-CLIP's pulmonary-fibrotic-sequela score use the air-filled dilated esophagus - the connective-tissue-disease clue radiologists read alongside the lungs?",
+      "design_template": "regional-substitution",
+      "dataset": "CT-RATE (validation split; local inference pipeline already frozen and probe-verified)",
+      "entry_point_2_requirements": "Measurement that would detect the unexpected signal: partial association of the fibrosis score with esophageal air volume conditional on a lung-only quantitative fibrosis surrogate, then digital esophageal collapse with sham. Artifact it would be confused with: contrastive label binding from reports that co-mention esophageal dilation (a training-provenance fact that does not change the image-use claim, but changes its interpretation), and positioning/aerophagia correlates.",
+      "rung": "Targets rung 1 (use), with rung 2 within reach because the decisive readout is within-scan paired and label-free; rung 3 sentence below is the honest endpoint if the substitution arm is positive and sham-clean.",
+      "deliverable_sentence": "The model's fibrosis score is using the air-filled, dilated esophagus.",
+      "X_measurement": "Esophageal air volume and maximal luminal diameter: TotalSegmentator 'esophagus' class (Wasserthal et al. 2023, DOI 10.1148/ryai.230024), air = voxels < -500 HU within the (slightly dilated) mask; diameter from per-slice mask geometry. Computable today without an annotator: YES.",
+      "suspected_signal": "Esophageal dysmotility in systemic sclerosis and other CTD-ILD produces a patulous, air-filled esophagus; a visibly dilated esophagus on chest CT is a standard clue toward CTD-ILD in fibrosis workup. A contrastive model trained on image-report pairs would be rewarded for binding this extra-pulmonary cue to fibrosis language.",
+      "use_vs_association": "Primary conditional association is labeled association; USE is carried by a within-scan intervention - digitally collapsing the esophagus (replace luminal air with adjacent mediastinal soft-tissue HU) against a sham edit of matched voxel count elsewhere, reading the paired fibrosis-score change.",
+      "keystone_prerequisite": "What the inference needs: a locally computable per-volume 'Pulmonary fibrotic sequela' score from the released CT-CLIP checkpoint on CT-RATE volumes.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "probes/004/run.py:150 lists \"Pulmonary fibrotic sequela\" in EXPECTED_PATHOLOGIES (18 heads), and the 2026-08-12 ledger decision records the load probe producing '18 finite named scores' bit-deterministically from the frozen CT_LiPro_v2.pt checkpoint (SHA-256 9246d9c8...) under the pinned pipeline. The scoring machinery for this exact head is verified working on this machine's lineage.",
+      "keystone_residual_assumption": "Still assumed, load-bearing for power rather than possibility: (1) CT-RATE fibrosis-positive volumes contain enough variance in esophageal air (prevalence of visible dilation is unknown until counted - Stage 0 gate with a prespecified minimum); (2) TotalSegmentator's esophagus class performs adequately on CT-RATE's resampled geometry (spot-check gate); (3) the collapse edit can pass a sham-effect tolerance (idea-008's edit-validity lesson, prespecified before any score is read).",
+      "rung_reached": "1 if substitution is positive and sham-clean; 2 requires the confound work below (much of it comes free from the paired design); 3 is the deliverable sentence itself, which is already stated in words a chest radiologist uses.",
+      "dies_like_prior": "Not annotation-provenance: the primary readout is the model against its own edited input - no label enters the primary measurement (the structural move the charter says has saved the one surviving candidate). Not idea-010 circularity: the esophagus is not part of the fibrosis label's definition. The live inherited risk is idea-008's edit-validity objection - addressed by prespecified sham tolerance, not assumed away.",
+      "closest_prior_work": "CT-CLIP/CT-RATE (Hamamci et al., arXiv:2403.17834) provides model and labels but no per-concept decoding of the fibrosis head. Radiology literature documents esophageal dilation as a CTD-ILD marker (primary citation to be pinned in feasibility; currently from memory). I found no work probing any chest-CT foundation model for extra-pulmonary reliance of a fibrosis output; not exhaustively searched.",
+      "existing_assets": "Frozen CT-CLIP checkpoint + pinned environment + validated metadata/selection machinery from probe 004 (the portfolio's most de-risked pipeline); TotalSegmentator; CT-RATE validation volumes enumerable locally.",
+      "smallest_decisive_experiment": "Stage 0: count fibrosis-positive validation volumes with measurable esophageal air (gate). Then: (i) fibrosis score vs esophageal air conditional on %high-attenuation-area of the lungs (an automated lung-only fibrosis surrogate) and lung volume; (ii) in the top-decile dilated-esophagus volumes, collapse the esophagus digitally, sham edit control, read paired score change on ~100 volumes (~0.25 GPU-min/volume per probe 004 timing).",
+      "standing_confounds_addressed": "Scanner/protocol/reconstruction/site: within-scan paired edits are immune; observational arm stratifies by kernel using the frozen metadata pipeline. Positioning/habitus: unchanged within pair; conditioned in the observational arm. Prevalence/referral: single-center CT-RATE limits external generalization, not internal validity - stated as scope limit. Label leakage: labels never enter the primary readout; report co-mention explains mechanism of acquisition, not the image-use claim.",
+      "alternative_explanations": "(1) Score shift measures edit artifact, not esophagus use - sham floor with prespecified tolerance addresses; if sham fails tolerance the candidate stops rather than reinterprets. (2) The model reads adjacent mediastinal changes the edit disturbs (hiatal hernia head shares anatomy) - check cross-head specificity: the esophageal collapse should move the fibrosis head more than unrelated heads. (3) Esophageal air proxies supine dwell time/aerophagia correlated with sicker patients - the conditional arm cannot fully exclude this; the substitution arm can, because the claim is about the image cue, whatever its upstream cause.",
+      "anticipated_negative": "Decisive for the named X given gates pass: no conditional association AND no paired score response beyond sham tolerance in adequately dilated cases kills the hypothesis. If the Stage 0 prevalence gate fails, the result is 'not testable in this cohort', declared as such, not a negative.",
+      "cross_domain": null,
+      "remaining_legwork": "Stage 0 prevalence count + esophagus segmentation spot-check (~2-3 days); edit implementation with sham calibration (~1 week); scoring runs are cheap on the existing pipeline. First decision: ~2 weeks.",
+      "scores": {
+        "clarity": {
+          "why": "One head, one named organ, one intervention, one sentence.",
+          "value": 5
+        },
+        "identifiability": {
+          "why": "Within-scan paired edit with sham floor and cross-head specificity check; residual edit-validity risk keeps it from 5.",
+          "value": 4
+        },
+        "medical_relevance": {
+          "why": "If fibrosis scores lean on the esophagus they inherit CTD-ILD case-mix bias and mislead in non-CTD fibrosis - directly deployment-relevant.",
+          "value": 4
+        },
+        "interest": {
+          "why": "An extra-pulmonary organ inside a pulmonary score is the kind of finding a radiologist immediately understands and did not expect a probe to establish.",
+          "value": 4
+        },
+        "prior_legwork": {
+          "why": "Rides the only probe-verified pipeline in the portfolio; every tool named is in hand or off-the-shelf.",
+          "value": 5
+        },
+        "feasibility": {
+          "why": "INSPECTED_TRUE; scoring machinery verified; the only real work is the edit and the gates.",
+          "value": 4
+        },
+        "data_readiness": {
+          "why": "CT-RATE validation split enumerated and frozen locally.",
+          "value": 5
+        },
+        "evaluation_readiness": {
+          "why": "Paired score deltas with sham margins follow the accepted idea-004 readout pattern.",
+          "value": 4
+        },
+        "negative_result_value": {
+          "why": "Decisive against the named X conditional on the prevalence and sham gates.",
+          "value": 4
+        },
+        "novelty_confidence": {
+          "why": "No probe of CT-CLIP extra-pulmonary reliance found, but search was limited; capped by honesty, not by rule.",
+          "value": 3
+        },
+        "regret": {
+          "why": "Cheap, fast, and the positive is a memorable sentence.",
+          "value": 4
+        }
+      },
+      "priority_score": 4.1,
+      "unverified_claims": [
+        "Esophageal dilation as a CTD-ILD clue: standard radiology teaching, but the primary citation is from memory and must be pinned.",
+        "Prevalence of visible esophageal air/dilation in CT-RATE fibrosis positives: unknown until Stage 0.",
+        "TotalSegmentator esophagus-class accuracy on CT-RATE resampled volumes: assumed pending spot-check."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-012-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "Merlin's COPD call may come from the lungs it wasn't asked to look at",
+      "question": "Does Merlin use the emphysema visible in the lung bases captured at the top of an abdominal CT when it scores the chronic-airway-obstruction phenotype?",
+      "design_template": "regional-removal",
+      "dataset": "Public abdominal CT (AMOS 2022 / TotalSegmentator public dataset) + released Merlin checkpoint",
+      "entry_point_2_requirements": "Measurement that would detect the unexpected signal: %LAA-950 within the imaged basal lung, and the dose-response of the phenotype score to natural-range superior truncation. Artifact it would be confused with: scan superior extent itself covaries with protocol and habitus (longer coverage on some indications), so score-versus-extent must be separated from score-versus-removed-emphysema; the paired within-scan design plus regressing score change on removed-slab content does that separation explicitly.",
+      "rung": "Targets rung 1-2 in one design: the primary readout is label-free and within-scan (rung 1 use), and the natural-variation framing plus content regression does most rung-2 work structurally.",
+      "deliverable_sentence": "The model is using emphysematous destruction of the lung bases imaged at the top of the scan.",
+      "X_measurement": "%LAA-950: percentage of imaged lung voxels below -950 HU within TotalSegmentator lung masks restricted to the field of view - the standard quantitative emphysema index (Gevenois et al. 1996, Am J Respir Crit Care Med, DOI 10.1164/ajrccm.154.1.8680679). Computable today without an annotator: YES.",
+      "suspected_signal": "Emphysema is visible at the lung bases; standard abdominal protocols begin above the diaphragm, so several centimeters of lung enter every abdominal CT; Merlin's phecode supervision (496, chronic airway obstruction) pairs those voxels with COPD outcomes at training time. The model has both the cue and the incentive.",
+      "use_vs_association": "USE is read directly: progressively truncate the superior slab within the naturally occurring range of scan starts and regress the paired score change on the emphysema content of the removed slab (vs its total volume, cardiac volume, and atelectasis content) - an input intervention, not a correlation.",
+      "keystone_prerequisite": "What the inference needs: the released Merlin checkpoint exposes a per-scan phenotype head that includes a COPD-family phenotype.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "GitHub StanfordMIMI/Merlin README documents initialization modes including Merlin(PhenotypeCls=True) (phenotype classification head released, MIT license, pip 'merlin-vlm', HF stanfordmimi/Merlin); documentation/phenotypes.csv in the same repo contains rows '496,Chronic airway obstruction' and '496.1,Emphysema' (also 496.2 chronic bronchitis, 496.3 bronchiectasis). Both fetched and read 2026-08-14.",
+      "keystone_residual_assumption": "Still assumed, and stated as the real remaining keystones: (1) the phenotype head's output index mapping to phenotypes.csv rows is documented or recoverable from the released code (inferred from repo structure, not yet traced); (2) Merlin's preprocessing handles variable superior extent through the same deterministic path, so truncated volumes are in-distribution - this is exactly the idea-006 lesson, and Stage 0 must inspect Merlin's released dataloader the way the idea-006 unblock check inspected CT-CLIP's, plus quantify the empirical distribution of scan starts in the public cohort and stay inside it; (3) AMOS/TotalSegmentator-dataset scans actually include lung bases at useful frequency (anatomically near-certain for standard protocols, uncounted).",
+      "rung_reached": "1 on a positive dose-response attributable to removed emphysema; 2 largely structural (within-scan pairing kills scanner/site/positioning; content regression separates emphysema from generic slab removal); 3 is the deliverable sentence, already in physician vocabulary.",
+      "dies_like_prior": "Closest prior kill is idea-006 (PAUSED: patient-deletion was an extreme OOD intervention). The difference is explicit and testable: superior truncation reproduces a natural axis of acquisition variation present in Merlin's training distribution (scan coverage varies patient to patient), the truncation range is confined to the empirically observed range of scan starts, and the in-distribution claim is gated on dataloader inspection BEFORE any inference - the exact procedure that idea-006 learned the hard way. No annotation-provenance dependence: primary readout is label-free.",
+      "closest_prior_work": "Merlin (Blankemeier et al., arXiv:2406.06512): reports phenotype AUROCs, including respiratory phecodes, but no attribution of any phenotype to specific anatomy. The opportunistic-screening literature runs the reverse direction (measure lung bases, predict COPD) and never asks what a trained foundation model actually uses. Backlog Merlin candidates (spleen, renal atrophy, pancreatic fat, osteoporosis) target abdominal organs; none touches the imaged thorax spillover.",
+      "existing_assets": "Merlin: MIT-licensed weights, pip package, demo inference scripts (all public); AMOS 2022 and TotalSegmentator dataset public; TotalSegmentator for lung masks and %LAA; no labels required for the primary readout.",
+      "smallest_decisive_experiment": "Stage 0: inspect Merlin loader for z-extent handling; measure the natural distribution of superior scan starts and basal-lung inclusion in the public cohort. Then on ~200 public abdominal CTs spanning basal %LAA: score each scan at 3-4 nested natural-range superior extents; regress paired chronic-airway-obstruction score change on removed-slab %LAA vs removed-slab lung volume, cardiac volume, and atelectasis content.",
+      "standing_confounds_addressed": "Scanner/vendor/protocol/site/positioning: within-scan paired truncation is immune to all of them. Habitus: unchanged within scan; conditioned across scans. Prevalence/referral: no outcome labels in the primary readout, so case-mix cannot leak into it; cross-sectional secondary analyses inherit case-mix caveats and say so. Label leakage: none (label-free primary). Reconstruction: fixed within scan. The design does NOT rule out: the possibility that the score responds to any removed thoracic content - handled by the content regression, which is the identifiability core and must be adequately powered.",
+      "alternative_explanations": "(1) Score drop reflects removed lung volume generically, not emphysema - separated by the regression contrast (low-%LAA truncations as controls). (2) Truncated volumes are subtly OOD despite loader compatibility - bounded by staying inside the empirical scan-start distribution and by a negative-control head (a purely abdominal phenotype, e.g. a renal code, should not respond to thoracic truncation). (3) The COPD head has near-zero signal on this external cohort and there is nothing to decode - bounded by a Stage 0 sanity check that the score distribution has variance and tracks basal %LAA cross-sectionally at all.",
+      "anticipated_negative": "Decisive for the named X if gates pass: a flat dose-response against removed emphysema, inside the natural range, with the negative-control head behaving, means Merlin's COPD phenotype does not read the imaged lung bases - itself a striking, publishable statement given the cue is sitting in the scan. Gate failures are declared 'not testable', not negatives.",
+      "cross_domain": null,
+      "remaining_legwork": "Stage 0 loader inspection + scan-start census (~2-3 days); index-mapping trace (~1 day); inference over ~800 scan-variants on a single GPU (Merlin trains on one GPU; inference is light) (~2-3 days). First decision: ~1.5 weeks.",
+      "scores": {
+        "clarity": {
+          "why": "One phenotype, one named cue, one intervention; slightly diffuse because 'COPD-family' spans four phecodes.",
+          "value": 4
+        },
+        "identifiability": {
+          "why": "Within-scan pairing plus content regression plus negative-control head; residual OOD risk is gated, not assumed away.",
+          "value": 4
+        },
+        "medical_relevance": {
+          "why": "Opportunistic COPD signal on abdominal CT is clinically actionable, and knowing the model reads real emphysema (vs abdominal correlates) determines whether to trust it.",
+          "value": 4
+        },
+        "interest": {
+          "why": "'The abdominal model is reading the chest' is surprising to exactly the audience the program serves.",
+          "value": 4
+        },
+        "prior_legwork": {
+          "why": "Everything public and documented; nothing yet run locally (unlike CT-CLIP).",
+          "value": 4
+        },
+        "feasibility": {
+          "why": "INSPECTED_TRUE; single-GPU by the model's own design; public data.",
+          "value": 4
+        },
+        "data_readiness": {
+          "why": "All public, immediate; basal-lung inclusion rate uncounted.",
+          "value": 4
+        },
+        "evaluation_readiness": {
+          "why": "Paired deltas and regression contrasts; no custom metrics.",
+          "value": 4
+        },
+        "negative_result_value": {
+          "why": "Decisive conditional on gates; the flat result is itself informative.",
+          "value": 4
+        },
+        "novelty_confidence": {
+          "why": "No FOV-spillover probe of Merlin found; search limited.",
+          "value": 3
+        },
+        "regret": {
+          "why": "Cheap, novel grammar for the portfolio, obvious in hindsight.",
+          "value": 4
+        }
+      },
+      "priority_score": 3.95,
+      "unverified_claims": [
+        "Phenotype-head output indexing corresponds to phenotypes.csv row order (inferred; to be traced in released code).",
+        "Merlin loader tolerance of variable z-extent (uninspected; Stage 0 gate, idea-006 procedure).",
+        "Basal lung inclusion frequency in AMOS/TotalSegmentator scans (anatomically expected, uncounted).",
+        "Merlin phenotype AUROC for phecode 496 specifically (paper reports macro averages; per-phenotype value not checked)."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-012-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The non-gated chest CT contains an ECG: heart rate written in motion banding",
+      "question": "Do CT-CLIP's cardiac heads use the patient's heart rate, read from the periodic motion banding a beating heart writes into a non-gated helical acquisition?",
+      "design_template": "conditional-observational",
+      "dataset": "CT-RATE (second and final CT-RATE candidate this cycle); TCIA gated collections only for validating the X-measurement",
+      "entry_point_2_requirements": "Measurement: banding-wavelength-derived heart rate at the left cardiac border (construction below). Artifact it would be confused with: rotation time and pitch (protocol) set the sampling geometry - they are recorded in metadata and enter the formula rather than confounding it; respiratory motion and aortic pulsation are the confusable periodicities and must be separated by frequency band and location.",
+      "rung": "Targets rung 1 only, and says so: establishing that a cardiac score covaries with banding-derived HR conditional on measured anatomy. Moving up requires an intervention (banding-smoothing edit) whose validity is a separate, harder project.",
+      "deliverable_sentence": "The model is using the patient's heart rate, recorded in the scan as periodic cardiac motion banding.",
+      "X_measurement": "A well-defined construction rather than an off-the-shelf tool (permitted by the charter): segment the heart (TotalSegmentator), track the left-heart border position slice-by-slice along z, take the spatial FFT of border displacement; the dominant banding frequency f_band, with table speed and gantry rotation period from acquisition metadata, yields an aliased candidate set of heart rates via beat-frequency arithmetic (stroboscopic sampling). Validate the construction once on gated cardiac CT collections where DICOM records HeartRate (0018,1088). Computable on an unseen scan without an annotator: YES, given acquisition metadata; the aliasing means HR is recovered as a small candidate set, honestly reported.",
+      "suspected_signal": "Physiology, not electronics: tachycardia accompanies acute illness, heart failure, pericardial effusion. A model trained on image-report pairs has an incentive to use any image-visible correlate of clinical acuity; banding periodicity is exactly such a correlate, present in every non-gated chest CT and invisible-as-information to human readers, who file it under 'artifact'.",
+      "use_vs_association": "This candidate honestly reaches association-with-named-competitors only: cardiac-head scores vs banding-HR conditional on measured chamber size, pericardial fluid, and effusion presence from the same scan. The one-line distinction: competitors are named, measured quantities from the same image, so a surviving partial association localizes the signal to the banding periodicity rather than to the anatomy the heads nominally measure. A banding-smoothing intervention is named as the upgrade path, not claimed.",
+      "keystone_prerequisite": "What the inference needs: banding periodicity survives CT-RATE's released preprocessing (resampling to fixed spacing may low-pass it away), and acquisition metadata (rotation time, pitch/table speed) is present per volume to invert the formula.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The keystone above is already stated as the load-bearing fact (survival of banding through resampling), not the easy adjacent fact (that motion artifacts exist in chest CT, which is textbook). Additionally assumed: rotation time is in CT-RATE metadata (the Stage 0 record confirms rich acquisition metadata exists but I have not looked for RevolutionTime specifically); and that banding-HR has enough between-patient variance in a resting outpatient population.",
+      "rung_reached": "1 at best this cycle, declared. Up: validated banding-smoothing edit (counterfactual with sham), or a cohort with recorded HR for direct anchoring.",
+      "dies_like_prior": "Most resembles idea-007 (respiratory state), which survived by demoting its claim from mechanism-identification to state-sensitivity - this card starts at the demoted rung deliberately. No annotation-provenance dependence (no labels in the readout). The idea-006 OOD trap is avoided by not intervening at all this cycle.",
+      "closest_prior_work": "Cardiac motion artifacts in non-gated CT are extensively documented as nuisance (coronary calcium scoring literature); I found no work extracting heart rate from banding periodicity as a signal, and no work asking whether any model uses it. Sanity check ('is it even recoverable?') has no published answer I could find - which is why the X-validation on gated data with recorded HR comes first. Absence of prior work is asserted from limited search.",
+      "cross_domain": {
+        "borrowed_construct": "Stroboscopic/aliased sampling (signal processing; rolling-shutter imaging): a rotating gantry samples a periodic motion, so the artifact pattern's spatial frequency encodes the beat frequency between heart rate and rotation rate.",
+        "implied_measurement": "The FFT-of-border-displacement construction above, with the aliasing arithmetic that maps banding wavelength to an HR candidate set given rotation period and table speed.",
+        "what_changes_if_dropped": "Everything: without the sampling-theory construct, banding is 'motion artifact', a nuisance with no formula, and there is no measurement to run. The analogy is not decoration; it is the instrument."
+      },
+      "existing_assets": "CT-RATE volumes + frozen metadata pipeline + working CT-CLIP scoring (probe 004); TotalSegmentator heart class; TCIA gated cardiac collections for X-validation (specific collection to be chosen; DICOM HR tag standard).",
+      "smallest_decisive_experiment": "Phase 1 (X-validation, no model): on a gated collection with recorded HR, run the banding extractor on the non-gated-equivalent series and test recovery of HR within the aliased candidate set. Phase 2 (only if Phase 1 passes): on CT-RATE validation volumes, cardiomegaly/pericardial-effusion score vs banding-HR conditional on segmented cardiac volume and effusion measures.",
+      "standing_confounds_addressed": "Protocol (rotation time/pitch): enters the formula from metadata, converted from confound to parameter; stratify by rotation time as a check. Scanner/vendor: 462/464 Siemens in the frozen subset - near-constant, stated as scope limit. Respiratory motion and aortic pulsation: separated by anatomical location (cardiac vs aortic border) and frequency band; imperfect, named. Habitus: noise floor of border tracking scales with image noise - conditioned. Prevalence/referral/label leakage: no labels in readout. NOT ruled out: HR correlates with true cardiac pathology the heads read directly from anatomy - the conditional design attenuates but cannot eliminate this; scored accordingly.",
+      "alternative_explanations": "(1) Any surviving association reflects residual anatomical pathology imperfectly captured by the conditioning segmentations - the main threat, named, and the reason this is rung 1. (2) Banding amplitude (motion severity), not periodicity (rate), drives the score - distinguishable because amplitude and wavelength are separately measurable; test both. (3) The extractor measures noise - killed or confirmed by Phase 1 before the model is ever consulted.",
+      "anticipated_negative": "Sensitivity-limited, declared: a Phase-1 failure (banding unrecoverable post-resampling) says nothing about the model; a Phase-2 null under a passing Phase 1 is evidence against use but bounded by conditioning quality. negative_result_value scored 2 accordingly.",
+      "remaining_legwork": "Choose and download a gated collection with HR tags (~days); build the border-tracking extractor (~1 week); Phase 2 rides existing pipeline (~days). First decision (Phase 1): ~2 weeks.",
+      "scores": {
+        "mechanism_clarity": {
+          "why": "A specific physiological quantity (heart rate), a specific physical encoding (beat-frequency banding), and an explicit formula with a validation dataset named.",
+          "value": 5
+        },
+        "identifiability": {
+          "why": "HR covaries with exactly the pathology the cardiac heads measure; conditioning on segmented anatomy attenuates but cannot sever this. Honest ceiling without an intervention.",
+          "value": 2
+        },
+        "interest": {
+          "why": "'The artifact is an instrument' - the strongest sounds-wrong-but-maybe-isn't question this cycle, and physicians would genuinely not expect it.",
+          "value": 5
+        },
+        "medical_relevance": {
+          "why": "If models read physiological state through artifacts, anatomical scores drift with acuity - a real deployment concern, one step removed from decisions.",
+          "value": 3
+        },
+        "clarity": {
+          "why": "Precise question; the aliasing candidate-set complication costs a point.",
+          "value": 4
+        },
+        "feasibility_informational": {
+          "why": "Capped by NOT_INSPECTED anyway; Phase 1 is genuinely uncertain.",
+          "value": 2
+        },
+        "novelty_confidence_informational": {
+          "why": "Nothing found on banding-as-signal; limited search; capped.",
+          "value": 3
+        },
+        "negative_result_value_informational": {
+          "why": "Sensitivity-limited as classified.",
+          "value": 2
+        }
+      },
+      "priority_score": 3.85,
+      "priority_note": "Mode C weighting: 0.30*5 + 0.25*2 + 0.20*5 + 0.15*3 + 0.10*4 = 3.85; feasibility and novelty reported outside the score per rubric.",
+      "unverified_claims": [
+        "Banding periodicity survives CT-RATE resampling (the keystone; unknown).",
+        "RevolutionTime/pitch present per-volume in CT-RATE metadata (acquisition metadata exists per Stage 0 record; these tags not specifically confirmed).",
+        "A TCIA gated collection retains DICOM HeartRate tags after de-identification (standard tag, but de-id profiles vary).",
+        "The beat-frequency formula as sketched (derived here; not yet checked against the CT physics literature on banding artifacts)."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-012-c05",
+      "search_mode": "C",
+      "entry_point": 1,
+      "title": "The prognosis model as a manometer: midline shift is pressure the skull wrote down",
+      "question": "Does the head-CT TBI outcome model of Pease et al. use midline shift out of proportion to lesion volume - the Monro-Kellie signature of exhausted intracranial compliance - beyond the hemorrhage it can see directly?",
+      "design_template": "conditional-observational",
+      "dataset": "Anchor model's cohort (single-institution + TRACK-TBI) - access is the declared rate-limiter; CQ500 (public, has MLS/mass-effect reads but no outcomes) for X-measurement development only",
+      "rung": "Targets rung 1 (the model uses shift-beyond-volume), honestly conditional on model access; rung 2 would need acquisition stratification within the anchor cohort; the rung-3 sentence is below and is already radiologist vocabulary.",
+      "deliverable_sentence": "The model is using midline shift out of proportion to lesion volume - the image signature of exhausted intracranial compliance.",
+      "X_measurement": "Midline shift in millimeters: automated as the deviation of the septum pellucidum / third ventricle from the ideal midline plane (skull-symmetry registration + ventricle segmentation; automated MLS algorithms are published and validated, e.g. the CQ500 line of work - specific tool to be pinned in feasibility). Lesion+edema volume: public intracranial hemorrhage segmentation models. The compliance construct is the residual of MLS regressed on lesion+edema volume - a formula, not a judgment. Computable on an unseen head CT today without an annotator: YES.",
+      "suspected_signal": "Monro-Kellie: the cranium is a closed, fixed-volume vessel; CSF and venous buffering absorb early mass effect, so once shift grows disproportionate to lesion volume, compliance is exhausted and intracranial pressure is rising. Shift-conditional-on-volume is therefore a pressure state written in geometry - precisely the kind of physiological quantity an outcome-trained CNN would find, since ICP, not hemorrhage volume, is what kills.",
+      "use_vs_association": "Association with named competitors, declared as such: model risk score vs automated MLS conditional on lesion+edema volume (and vs the interaction - shift per unit volume). A surviving conditional dependence localizes the signal to displacement rather than lesion burden; upgrading to use requires access to run the model on counterfactually warped inputs, named as future work, not claimed.",
+      "keystone_prerequisite": "What the inference needs: the trained Pease et al. model (weights or scored outputs on a shareable cohort) is obtainable, since the claim is about what THAT documented-gap model uses; a re-trained substitute would change the claim's identity.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The keystone is already the load-bearing fact: model availability. Not inspected; probably not publicly released; the honest path is author correspondence or a hosted-inference arrangement, and this card accepts the caps that follow. Also assumed: automated MLS tools transfer to the anchor cohort's acquisition profile, and MLS variance conditional on volume is adequate in severe TBI (clinically expected - the shift-out-of-proportion patient is a recognized archetype - but unmeasured here).",
+      "rung_reached": "1 conditional on access; without access, 0 - stated plainly. Up: counterfactual midline-restoring warps with sham-warp controls, if edit validity can be established in brain CT (a hard, separate problem).",
+      "dies_like_prior": "Most resembles idea-018 (DATA_ACCESS kill: required model/data not obtainable) and says so upfront - the difference is only that this card declares access as its keystone from the start, requests correspondence as Stage 0, and stops if it fails rather than substituting a retrained model (which would repeat the idea-015 claim-identity error). No annotation-provenance issue: MLS and volumes are computed, not read; outcome labels (GOS) are trial-adjudicated, not image-derived.",
+      "closest_prior_work": "Pease et al., Radiology 2022;304(2):385-394 (DOI 10.1148/radiol.212181, PMID 35471108): DL on admission head CT + clinical variables predicted 6-month outcome in severe TBI, evaluated against the IMPACT model and neurosurgeon predictions, with external TRACK-TBI validation - the documented gap. Their interpretability stopped at saliency-style inspection; no quantitative decomposition of the image signal into named radiological quantities. IMPACT itself uses human-read CT class (Marshall) - the model beating it while reading CT directly is exactly an undecoded signal.",
+      "existing_assets": "Anchor paper with external validation; automated MLS literature; public ICH segmentation models; CQ500 (public) for building and sanity-checking the X pipeline against its expert MLS reads before any anchor-cohort contact.",
+      "smallest_decisive_experiment": "Stage 0a: build the MLS+volume pipeline on CQ500 and check automated MLS against CQ500's released reads (tool validation, no model involved). Stage 0b: author correspondence for scored outputs or hosted inference. Then: variance decomposition of the model's image-derived risk into lesion volume, MLS, and MLS-conditional-on-volume.",
+      "standing_confounds_addressed": "Scanner/protocol/site: anchor cohort is one institution + 18-site TRACK-TBI; stratify by site in the external set if access includes it. Positioning: head tilt corrupts naive MLS - the registration-based ideal-midline method addresses this and is why the tool must be validated first. Habitus/prevalence/referral: outcome model, single defined population (severe TBI admissions); referral homogeneous by definition. Label leakage: outcomes are 6-month GOS, not report-derived. NOT ruled out observationally: MLS correlates with everything severe (multiple lesions, cisternal effacement) - hence rung 1 and the named-competitor framing.",
+      "alternative_explanations": "(1) The model reads cisternal effacement or other severity correlates and MLS merely tags along - partially separable by adding automated cistern volume to the competitor set; acknowledged residual. (2) The clinical-fusion pathway (GCS, pupils) carries the compliance information and the image contributes little - separable if the released design allows image-only scoring (the paper reports an image-only variant). (3) A null could reflect the model genuinely compressing everything into lesion burden - that is the decisive negative, and it is interesting: the celebrated model would be shown to ignore the quantity neurosurgeons act on.",
+      "anticipated_negative": "Decisive for the named X given access and tool validation: if the image-derived score has no MLS-conditional-on-volume component, the model does not read the pressure signature - a clinically pointed finding. Without access, no experiment exists; that outcome is a feasibility result (idea-018 pattern), recorded and closed cheaply.",
+      "cross_domain": {
+        "borrowed_construct": "Closed-vessel mechanics / Monro-Kellie doctrine: in a rigid container, displacement out of proportion to added volume signals exhausted compliance and rising pressure.",
+        "implied_measurement": "Not MLS alone but the residual of MLS on lesion+edema volume - shift per unit mass - as the pressure-state variable the model is tested against.",
+        "what_changes_if_dropped": "Without the construct you would test 'model uses lesion size' or 'model uses MLS' marginally; the construct specifically predicts the conditional/residual term carries the outcome signal, which is a different regression and a different claim."
+      },
+      "remaining_legwork": "CQ500 pipeline build + validation (~1-2 weeks, fully public, zero model risk); correspondence (unbounded latency, cheap to initiate); analysis itself is days once scores exist. First decision point (Stage 0a tool validation) is independent of access and useful to two future candidates.",
+      "scores": {
+        "mechanism_clarity": {
+          "why": "A named physiological quantity (intracranial pressure state via compliance), a physical law that predicts its geometric signature, and an explicit residual-regression measurement.",
+          "value": 5
+        },
+        "identifiability": {
+          "why": "MLS-vs-volume are separable in principle and clinically distinct in practice, but severity correlates (cisterns, multiplicity) remain partially entangled without intervention.",
+          "value": 3
+        },
+        "interest": {
+          "why": "A prognosis model shown to read the quantity surgeons actually act on would be the program's cleanest rung-3 story; the access risk is what keeps this from 5.",
+          "value": 4
+        },
+        "medical_relevance": {
+          "why": "ICP management is THE decision in severe TBI; a model that reads compliance is a model a neurosurgeon can reason with.",
+          "value": 5
+        },
+        "clarity": {
+          "why": "Precise conditional claim; loses a point for depending on which model variant (fusion vs image-only) access provides.",
+          "value": 4
+        },
+        "feasibility_informational": {
+          "why": "Model access unestablished and probably hard; capped and honestly low regardless.",
+          "value": 1
+        },
+        "novelty_confidence_informational": {
+          "why": "No decoding of TBI outcome models into named CT quantities found; limited search; capped.",
+          "value": 3
+        },
+        "negative_result_value_informational": {
+          "why": "Decisive if access exists; the access-failure outcome is only a feasibility note.",
+          "value": 3
+        }
+      },
+      "priority_score": 4.2,
+      "priority_note": "Mode C weighting: 0.30*5 + 0.25*3 + 0.20*4 + 0.15*5 + 0.10*4 = 4.20; feasibility and novelty reported outside the score per rubric - the rubric explicitly forbids demoting Mode C for being hard, and the untestability escape hatch (Stage 0a is runnable today on public data) is what keeps this eligible.",
+      "unverified_claims": [
+        "Pease et al. model weights are not publicly released (presumed; not yet checked against the paper's data-availability statement).",
+        "The paper reports an image-only model variant (recalled from search summary; must be verified in the full text).",
+        "Automated MLS tool accuracy at CQ500-scale (published claims not yet read in primary form).",
+        "CQ500 licensing permits this derivative use (public research release; terms not re-read this cycle)."
+      ],
+      "track": "baseline"
+    }
+  ]
+}
