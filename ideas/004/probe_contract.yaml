@@ -213,7 +213,7 @@ invalidating_failures:
   - "Anchor drift: cross-session anchor deviation beyond the preregistered 1.0e-4 per-head probability tolerance (invalidates that session's chunks; they are redone after diagnosis)."
   - "Environment drift: any session deviating from the pinned transformers/tokenizers closure, or missing startup version logging, or a chunk missing its environment record."
   - "Pair splitting: any pair whose two members were scored in different sessions, including via an interrupted chunk not redone in full."
-  - "Premature bulk start: any Phase B activity while a TO_BE_RECORDED_AT_MANIFEST_FREEZE placeholder remains in this contract, or without HUMAN_APPROVED_PROBE bound to the amended contract blob."
+  - "Premature bulk start: any Phase B activity while a TO_BE_RECORDED placeholder remains in this contract, or without HUMAN_APPROVED_PROBE bound to the amended contract blob."
   - "Budget overrun: continuing past the pair, unique-volume, QA/retry, or session cap."
   - "Configuration deviation: batch size other than 1, or any patch-size, target-shape, weight, architecture, or preprocessing modification."
   - "Label integrity (tier 2): a manifest pair whose members carry differing released label rows (contradicts the Stage-0 finding of exact duplication; world drift, stop and report)."
