@@ -10,3 +10,4 @@ probes/*/results/*
 *.ckpt
 .DS_Store
 *:Zone.Identifier
+probes/*/work/
