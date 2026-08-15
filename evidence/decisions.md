@@ -299,3 +299,15 @@ hand; the artifact remains machine-produced end to end.
 Contract v2 drafting is now authorized as the next stage, to begin once
 the v2 contract-drafting machinery lands; the current probe-plan prompt
 is not to be used for the floor study.
+
+## 2026-08-14 - A2 flagged questions resolved (contract v2, idea 004)
+
+Both open questions in the v2 draft are resolved as drafted. (1)
+Two-phase approval adopted: phase-1 approval authorizes only the
+metadata-only manifest freeze; recording the manifest hash and
+unique-volume count amends the contract; the hash-bound gate treats
+the phase-1 approval as stale by construction; phase-2 approval
+against the amended blob authorizes bulk execution; bulk activity
+while placeholders remain is invalidating. (2) The v1-exposed anchor
+pair is excluded from all confirmatory statistics (236 counted
+Br40f|Br60f pairs), per the exposure argument in the ratified memo.
