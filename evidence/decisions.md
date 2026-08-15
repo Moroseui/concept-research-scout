@@ -266,3 +266,36 @@ and the six gap values themselves must not change unless the resolution
 gives a stated reason. No other content, number, or quote may be
 altered. Re-run of the context-memo stage authorized for this revision
 only.
+
+## 2026-08-14 - A1 RATIFIED: CT-Scroll context memo (idea 004, r1)
+
+The context memo at ideas/004/context_memo.md (git blob
+6668a313ae83779ef2a74d1982dd287d504a7e0d) is ratified after spot-check
+of the load-bearing quotes against arXiv 2503.20652 v6 and v1, an
+arithmetic audit of all derived gaps, and review of the r1 diff, which
+contained the specified section-5.6 resolution and nothing beyond it.
+
+Frozen as benchmark context, version-pinned to arXiv v6 (v1 for volume
+counts): five trained-model 18-label-averaged AUROC values (ViViT 79.19,
+CT-Net 79.37, Swin3D 79.94, 3D CNN 81.47, CT-Scroll 81.80), max-min
+spread 2.61, all ten pairwise gaps as tabulated. Context only; no number
+carries pass/fail semantics anywhere (amended pin 2).
+
+Findings of record: (1) the external reviewer was half right - label
+averaging confirmed by quote; the different-split premise refuted at the
+volume level, with the papers test set almost certainly the official
+validation split relabeled (source-supported inference from the exact
+3,039-volume match; mapping never stated in the paper). (2) Version
+instability: the v1 table gives a 7.88 spread vs v6s 2.61 - threefold -
+because the baseline set changed between revisions; retroactive
+vindication of the pin-2 amendment. (3) v6-internal ViViT inconsistency
+(Table 1: 79.19 vs Table 2: 73.19) recorded for the interpret stage.
+(4) The 1,314-vs-1,304 patient bookkeeping discrepancy remains
+unresolved and non-blocking. (5) The mandated exposure statement is
+present and its no-margin-to-steer argument is accepted. (6) Revision
+r1 was specified in decisions.md and executed by the stage, not by
+hand; the artifact remains machine-produced end to end.
+
+Contract v2 drafting is now authorized as the next stage, to begin once
+the v2 contract-drafting machinery lands; the current probe-plan prompt
+is not to be used for the floor study.
