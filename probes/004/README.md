@@ -1,139 +1,121 @@
-# Probe — idea 004 (load probe, contract v1)
+# Probe — idea 004
 
-This directory implements the exploratory load probe defined in
-[`ideas/004/probe_contract.yaml`](../../ideas/004/probe_contract.yaml). Human
-approval exists as the committed marker `ideas/004/HUMAN_APPROVED_PROBE`
-(2026-08-11), and the contract's `human_approved` field is synchronized to
-`true`. `run.py` gates on the marker file, which is the human's approval act.
+This directory holds the probe artifacts for idea 004. Two contracts exist:
 
-## How to run
+- **Contract v1** (load probe): executed and **PASSED 2026-08-12**. Its code
+  (`run.py`, `requirements.txt`, `colab_probe_004.ipynb`) and outputs
+  (`results/`, `outputs_smoke/`) remain in this directory as the frozen v1
+  record.
+- **Contract v2** (the 425-pair floor study):
+  [`ideas/004/probe_contract.yaml`](../../ideas/004/probe_contract.yaml)
+  with `contract_version: 2`, drafted 2026-08-14 from the human-authored
+  requirements file
+  [`ideas/004/contract_requirements.md`](../../ideas/004/contract_requirements.md).
+  **No v2 code exists yet.** The v1 `run.py` implements contract v1 only and
+  must not be used for the floor study.
 
-```bash
-# Harness self-test: synthetic data, stdlib only, no network/GPU, seconds.
-# Cannot satisfy the contract; verifies gate, split guards, pair selection,
-# per-sample outputs, bit-identity and budget checks.
-python3 run.py --smoke
+## Contract v2 status and approval flow
 
-# Install the pinned environment before starting the probe. The driver then
-# imports the two released packages directly from its provenance-frozen clone.
-python3 -m pip install -r requirements.txt
+The v2 contract supersedes v1 in `ideas/004/probe_contract.yaml` (v1 is
+preserved in git history and in the PROBED ledger record). Approval is
+hash-bound: `HUMAN_APPROVED_PROBE` records the contract's git blob hash, and
+the probe-code gate blocks on any mismatch. The marker currently in
+`ideas/004/` is bound to the superseded v1 blob, so it correctly authorizes
+nothing for v2.
 
-# Real probe: write artifacts to persistent storage (for example mounted Drive).
-# Requires the accepted CT-RATE gate, a logged-in HF token, and a CUDA GPU.
-python3 run.py --output-dir /path/on/drive/idea004
-```
+The v2 execution is phased, and the phasing is part of the contract:
 
-Exit codes distinguish contract failures from environment failures (see the
-`run.py` docstring): 0 pass, 2 gate, 3 access, 4 provenance, 5 checkpoint
-load, 6 output shape, 7 pair validity, 8 determinism, 9 budget, 11 missing
-dependency/GPU, 10 model/tokenizer access, 12 internal error (never to be reinterpreted as a negative
-result). Outputs land in `--output-dir` when supplied, otherwise `outputs/`
-(real) or `outputs_smoke/` (smoke):
-`resolved_config.json`, `per_sample.csv`, `summary.json`, `environment.txt`,
-`provenance.json`, `input_manifest.csv`, `selection_audit.json`,
-`run_log.txt`.
+1. **Approval #1** (`python scout.py approve-probe 4` against the drafted
+   contract) authorizes **Phase M only**: a metadata-only manifest freeze
+   that re-derives the 425 frozen Stage-0 pairs from the pinned
+   `validation_metadata.csv`, hard-gates on the exact stratum counts
+   (237/126/58/4), and writes `pair_manifest.csv` plus a selection audit.
+   No image download, no inference, no scores.
+2. The operator records the manifest SHA-256 and the manifest-derived
+   unique-volume count in the contract (replacing the
+   `TO_BE_RECORDED_AT_MANIFEST_FREEZE` placeholders). This amendment changes
+   the contract blob, so the Phase-M approval goes stale by construction.
+3. **Approval #2** (re-run `approve-probe`) binds to the amended blob and
+   authorizes **Phase B**: chunked bulk inference over the manifest
+   (17 chunks × 25 pairs, download → hash-verify → preprocess → infer →
+   delete), followed by the frozen two-tier analysis.
 
-The one probe pair is not hardcoded: it is derived deterministically from the
-released `validation_metadata.csv` by re-applying the frozen Stage-0 rules
-(exact string equality on RescaleSlope, RescaleIntercept, XYSpacing, ZSpacing,
-NumberofSlices, plus position/acquisition columns where present), restricting
-to the Br40f|Br60f contrast, sorting by the Br40f member's volume name, and
-taking the first — selected before any score is inspected. The run stops if
-the qualifying count differs from Stage 0's frozen count of 237.
+Any Phase B activity while a placeholder remains, or without a marker bound
+to the amended blob, is an invalidating failure under the contract.
 
-Revision 2026-08-12 (exit-7 root cause, decision ledger): the released
-metadata stores `ConvolutionKernel` as a stringified Python list
-(`"['Br40f', '3']"`), which the original raw-string predicate matched zero
-times. The kernel field is now normalized before comparison (a parsable list
-literal takes element 0; anything else uses the stripped raw string — robust
-to both formats). Pair selection always writes `selection_audit.json`
-(kernel-value tally with counts and example VolumeNames, per-filter drop
-counts), and any shortfall against the frozen 237 count also dumps those
-diagnostics to `run_log.txt` before the exit-7 stop. `input_manifest.csv`
-records each selected volume's normalized and raw kernel from its own
-metadata row. Geometry list-string columns compare same-format row-vs-row
-and are unchanged.
+## What contract v2 measures
 
-Revision 2026-08-12 r5 (exit-5 root cause, decision ledger): the earlier
-`transformers==4.38.2` pin caused the observed exit-5 load failure on exactly
-one unexpected key, `trained_model.text_transformer.embeddings.position_ids`.
-Transformers 4.31.0 changed BERT `position_ids` from a persistent to a
-non-persistent buffer, so a checkpoint saved under <=4.30.x carries the key
-while a model instantiated under >=4.31 does not expect it. r5 pinned the
-authors' released environment (`transformers==4.30.1` / `tokenizers==0.13.3`,
-per the commented pin in the released `transformer_maskgit/setup.py`).
+- **Tier 1 (primary, label-free, confirmatory):** per-head (18) ×
+  per-stratum signed paired score differences on probability and logit
+  scales, with |Δ| quantiles and patient-cluster bootstrap intervals. No
+  cross-head averaging anywhere. The Br40f|Br44f stratum (4 pairs) is
+  exploratory only.
+- **Tier 2 (secondary, descriptive, runs only if tier 1 completes):**
+  per-head per-stratum paired ΔAUROC against the released report-derived
+  validation labels, with a preregistered sparse-label eligibility rule
+  (≥10 positive and ≥10 negative pairs per cell) and a mandatory
+  excluded-cell table. Zero threshold language, per the 2026-08-14
+  amendment to pin 2: benchmark numbers from the ratified CT-Scroll context
+  memo (git blob `6668a313ae83779ef2a74d1982dd287d504a7e0d`) are context
+  only and carry no pass/fail semantics.
 
-Revision 2026-08-12 r6 (r5 environment dead end, decision ledger): the r5 pin
-is uninstallable on Colab Python 3.12 — `tokenizers<0.14` ships no cp312
-wheels and the Rust source build fails. `requirements.txt` is reverted to the
-r4 closure that installed cleanly twice (`transformers==4.38.2` /
-`tokenizers==0.15.2`), and `run.py` instead removes state-dict keys matching
-`*.embeddings.position_ids` before `load_state_dict` — the non-learnable
-arange buffer that `from_pretrained` itself silently drops across framework
-eras. The tolerance is enumerated and audited: the removed set must be
-exactly one key matching that pattern (zero or several exits 5), the removed
-key is written to `run_log.txt` and `provenance.json`
-(`state_dict_keys_removed_before_load`), strict loading is preserved so any
-other unexpected or missing key still exits 5, and startup logs the installed
-transformers version. Exit-5 semantics accordingly: a load is "unchanged"
-modulo enumerated, provenance-logged framework-era buffer keys only.
+Execution safeguards: the v1 pair (`valid_1004_a_1|a_2`) runs as a
+session-start anchor with within-session bit-identity and a preregistered
+cross-session tolerance (≤1.0e-4 max per-head probability deviation against
+the v1 reference scores, `results/per_sample.csv` @ git blob
+`ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1`); its deltas are excluded from
+all confirmatory statistics. Both members of every pair run in the same
+session; interrupted chunks are redone in full. Budgets are capped in
+volumes and sessions, not GPU minutes (425 pairs; unique-volume cap fixed at
+manifest freeze; QA/retry allowance of 20% of unique volumes; 30 sessions).
 
-If the released code's constructor or call signatures differ from the
-transcription in `run.py` (taken from `scripts/ct_lipro_inference.py` on
-2026-08-11), the probe fails with exit 5/7/9; fix the driver to match the
-released code, never the released code to match the driver.
+The result, whatever its magnitude, is a reconstruction-sensitivity
+baseline for the released v2 ClassFine checkpoint on these contrasts, in a
+predominantly Siemens cohort. It is not a universal measurement floor, not
+an equivalence claim, and not evidence about concept validity, accuracy, or
+clinical reliability.
 
-`verification.json` records the local checks done at implementation time; the
-sandbox used for implementation could not execute python, so the smoke run is
-the human's first step.
+## Contract v1 record (executed, PASSED 2026-08-12)
 
-## Purpose
+The v1 load probe tested only the load-bearing feasibility assumption:
+whether the officially released `CT_LiPro_v2.pt` checkpoint could be frozen
+by hash, loaded unchanged with the released CT-CLIP inference path (modulo
+exactly one provenance-logged `*.embeddings.position_ids` framework-era
+buffer key, per the r6 ledger decision), and made to emit 18 finite,
+bit-deterministic ClassFine scores for one Stage-0-valid Br40f|Br60f pair
+at batch size 1. All contract gates passed in 0.250 GPU minutes at 4.10 GB
+peak; see `results/summary.json` and `ideas/004/decision.md`. The one-pair
+A-versus-B differences are diagnostics, declared scientifically
+uninterpretable by the v1 contract.
 
-The probe tests only the remaining load-bearing feasibility assumption: whether
-the officially released `CT_LiPro_v2.pt` checkpoint can be frozen by hash, loaded
-unchanged with the released CT-CLIP inference path, and made to emit 18 finite,
-deterministic ClassFine scores for one Stage-0-approved validation pair.
+v1 operational notes retained for the v2 implementation (full history in
+git and the decision ledger):
 
-It is not the 425-pair reconstruction-sensitivity study. The A-versus-B score
-difference is logged solely to confirm that paired outputs can be produced. It
-must not be used to choose heads, margins, thresholds, transformations, or later
-analysis variants.
+- **Kernel normalization (r5):** the released metadata stores
+  `ConvolutionKernel` as a stringified Python list (`"['Br40f', '3']"`); a
+  parsable list literal takes element 0, anything else uses the stripped
+  raw string. Selection always writes `selection_audit.json`; any shortfall
+  against frozen counts also dumps diagnostics to the run log before
+  stopping.
+- **Environment (r6):** `transformers==4.38.2` / `tokenizers==0.15.2` (the
+  authors' 2023 pin is uninstallable on Colab Python 3.12). Exactly one
+  state-dict key matching `*.embeddings.position_ids` is removed before
+  strict loading and logged to `provenance.json`; any other unexpected or
+  missing key is a hard failure.
+- **Harness:** `python3 run.py --smoke` self-tests the v1 harness with
+  synthetic data (stdlib only, no network/GPU); it cannot satisfy any
+  contract. The launcher notebook is a thin driver that runs `run.py` as a
+  subprocess and never imports the model stack into its own kernel.
+- If released-code signatures differ from the driver's transcription, fix
+  the driver to match the released code, never the reverse.
 
-## Authorized shape after human approval
+## Next steps
 
-- Data: one predeclared geometry-matched `Br40f|Br60f` validation pair.
-- Executions: reconstruction A, reconstruction B, then reconstruction A again.
-- Model: the official v2 ClassFine artifact identified by the CT-CLIP README,
-  with its Hugging Face revision and SHA-256/LFS identity recorded.
-- Pipeline: released preprocessing and architecture, batch size 1, with no patch-
-  size, target-shape, weight, or model-structure changes.
-- Budget: one seed, at most three executions, at most 45 cumulative GPU minutes.
-
-The identical-file rerun tests software determinism only. It does not establish
-that preprocessing is harmless and does not support a reconstruction-content
-claim.
-
-## Decision rule
-
-The probe passes only if the artifact and inputs have recorded provenance, the
-checkpoint loads unchanged, all three executions return exactly 18 finite scores
-with a stable name/order mapping, the repeated-A result is bit-identical, and the
-run stays within the compute cap.
-
-Access, provenance, compatibility, output-shape, pair-validity, determinism,
-memory, crash, and budget failures are invalidating failures as enumerated in the
-contract. Conversely, an A-versus-B difference of any size—including zero—is not
-a negative result; one pair cannot answer the scientific question.
-
-Passing this probe does not authorize bulk inference. The 425-pair floor study
-requires a separate contract and fresh explicit human approval. Before that later
-study, its primary per-head × per-stratum readout must remain unpooled, and any
-label-dependent AUROC tier must have its CT-Scroll-derived margin frozen from the
-paper tables before paired scores are inspected.
-
-## Expected artifacts
-
-The authorized run preserves `resolved_config.json`, `per_sample.csv`,
-`summary.json`, `environment.txt`, `provenance.json`, `input_manifest.csv`,
-and `run_log.txt`, written by `run.py` into `outputs/` (or `outputs_smoke/`
-for the harness self-test). They exist only after a run.
+1. Operator reviews the v2 contract draft, including its two flagged open
+   questions (the two-approval reading of R1, and the anchor-pair exclusion
+   from confirmatory counting).
+2. `approve-probe` (approval #1) → probe-code stage implements the v2
+   driver → Phase M manifest freeze.
+3. Contract amendment with the manifest hash and unique-volume count →
+   `approve-probe` (approval #2) → Phase B bulk run → interpret stage
+   consumes `probes/004/results_v2/`.
