@@ -1630,5 +1630,74 @@ stage_timeout = 60
         self.assertIsNone(sc._classify_agent_failure("segfault"))
 
 
+class TestContractBinding(Harness):
+    """Contract-v2 machinery: approvals bind to a contract blob hash and
+    the probe-code gate rejects stale bindings; contract_requirements.md
+    reaches the probe-plan prompt via target context."""
+
+    def _idea(self, n=1):
+        d = self.repo / "ideas" / f"{n:03d}"
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "feasibility.md").write_text("goal fixed here\n")
+        (d / "probe_contract.yaml").write_text("contract_version: 2\nquestion: q\n")
+        return d
+
+    def _commit_all(self):
+        # Harness.setUp already git-inits the repo; just commit the state
+        # so clean-tree checks pass. Tolerant of an already-clean tree.
+        subprocess.run(["git", "add", "-A"], cwd=self.repo, check=True,
+                       capture_output=True)
+        subprocess.run(["git", "commit", "-qm", "base"], cwd=self.repo,
+                       check=False, capture_output=True)
+
+    def test_approve_binds_hash_and_stale_approval_blocks(self):
+        d = self._idea()
+        self._commit_all()
+        r = self.scout("approve-probe", "1")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        marker = (d / "HUMAN_APPROVED_PROBE").read_text()
+        self.assertIn("contract_blob:", marker)
+        # mutate the contract after approval -> gate must block
+        (d / "probe_contract.yaml").write_text("contract_version: 2\nquestion: CHANGED\n")
+        self._commit_all()
+        r2 = self.scout("run", "probe-code", "--idea", "1")
+        self.assertNotEqual(r2.returncode, 0)
+        self.assertIn("Stale approvals never authorize new contracts",
+                      r2.stdout + r2.stderr)
+
+    def test_legacy_hashless_marker_fails_closed(self):
+        d = self._idea()
+        self._commit_all()
+        (d / "HUMAN_APPROVED_PROBE").write_text("Approved by human at T\n")
+        self._commit_all()
+        r = self.scout("run", "probe-code", "--idea", "1")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("predates hash binding", r.stdout + r.stderr)
+
+    def test_reapproval_after_change_unblocks(self):
+        d = self._idea()
+        self._commit_all()
+        self._commit_all()
+        self.scout("approve-probe", "1")
+        (d / "probe_contract.yaml").write_text("contract_version: 2\nquestion: CHANGED\n")
+        self._commit_all()
+        r = self.scout("approve-probe", "1")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self._commit_all()
+        r2 = self.scout("run", "probe-code", "--idea", "1",
+                        action="cycle_auto")
+        self.assertNotIn("Stale approvals", r2.stdout + r2.stderr)
+
+    def test_requirements_file_reaches_probe_plan_prompt(self):
+        d = self._idea()
+        (d / "contract_requirements.md").write_text(
+            "R1 ZZREQMARKERZZ the manifest is hash-frozen\n")
+        self._commit_all()
+        self.scout("run", "probe-plan", "--idea", "1", action="cycle_auto")
+        prompt = (d / "prompt_probe_plan.md").read_text()
+        self.assertIn("ZZREQMARKERZZ", prompt,
+                      "requirements file must be injected into probe-plan context")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
