@@ -331,6 +331,11 @@ Do not generate probe code until all are present:
 
 Score each dimension 1-5. Explain every score.
 
+**Canonical shape (mandatory):** emit each score in the `scores` object as
+`{"value": N, "why": "..."}` — the key is `value`, never `score`. Omit
+`keystone_evidence` entirely when there is none; never emit `null` for it.
+Cards violating the shape are rejected at merge.
+
 | Dimension | 1 | 3 | 5 |
 |---|---|---|---|
 | Clarity | vague | testable with refinement | one-sentence precise question |
@@ -599,11 +604,126 @@ version. Exit-5 semantics update: a load is "unchanged" modulo enumerated,
 provenance-logged framework-era buffer keys only.
 
 
+## 2026-08-12 — Probe 004 contract v1 ADVANCE (load probe passed)
+
+The authorized real A/B/A run satisfied every load-probe contract gate. The frozen
+`CT_LiPro_v2.pt` artifact (SHA-256
+`9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d`)
+loaded strictly under CT-CLIP commit `a2a155c601987820433c01db69b64d701d3d229d`,
+modulo exactly the single r6-authorized and provenance-recorded
+`trained_model.text_transformer.embeddings.position_ids` buffer key. The selected
+Stage-0-valid Br40f|Br60f pair produced 18 finite named scores for A, B, and repeated
+A; the A repeat was bit-identical. All three executions completed at batch size one
+without patch-size changes in 0.250 GPU minutes with 4.10 GB peak memory, under the
+45-minute cap. All authorized variants are reported in `ideas/004/decision.md`.
+
+Scope: this demonstrates checkpoint/pipeline compatibility, output shape,
+determinism, and bounded single-pair inference only. The one-pair A-versus-B score
+differences are diagnostic and scientifically uninterpretable; they establish
+nothing about reconstruction sensitivity, equivalence, accuracy, or concept
+validity. No validity failure occurred. ADVANCE means only that a separate 425-pair
+floor-study contract may now be drafted and submitted for fresh human approval; no
+bulk inference is authorized by this decision.
+
+## 2026-08-14 - AMENDMENT to 2026-08-11 pin 2: CT-Scroll demoted from tier-2 equivalence margin to benchmark context
+
+Pin 2 required the tier-2 AUROC margin to be fixed from the CT-Scroll
+(arXiv 2503.20652) PDF tables before any paired score is seen. External
+review (2026-08-14) found the margin estimand mismatched: the CT-Scroll
+headline table reportedly gives CT-RATE TEST-set results averaged across
+18 labels, while this study analyzes the VALIDATION split per head. A
+formal per-head equivalence margin derived from an aggregate spread on a
+different split would be worse than honest description.
+
+Amended pin 2: CT-Scroll supplies benchmark CONTEXT, not a margin.
+Tier 2 is a purely descriptive secondary endpoint - per-head paired
+delta-AUROC with patient-cluster bootstrap confidence intervals,
+contextualized against published between-model differences on the same
+benchmark. Contract v2 must contain ZERO threshold language for tier 2
+(no "meaningful", "material", or numeric cutoffs), or an implicit margin
+re-enters at interpretation time. Tier 2 measures benchmark
+discrimination against the released report-derived labels of CT-RATE,
+never clinical diagnostic accuracy.
+
+The extraction stage (context memo, formerly margin memo) must verify
+the split claim of the reviewer from the primary source with quoted
+table and page identifiers - checker-mode applies to reviewers too - and
+must state on the record that the v1 load probe exposed the per-head
+diagnostic scores of one pair (declared uninterpretable in the v1
+contract), and why this does not compromise tier 2: context numbers
+derive solely from published CT-Scroll tables, and tier 1 is label-free.
+
+All other 2026-08-11 pins stand unchanged. The equivalence-margin
+wording in the idea-004 card is updated to match in the commit following
+this ratification. Preregistration discipline preserved: the analysis is
+still frozen before the 425 pairs are scored; what changed is that no
+external number now plays a pass/fail role.
+
+## 2026-08-14 - A1 revision spec r1 (context memo, idea 004)
+
+Ratification review found one internal inconsistency. Revision scope,
+and ONLY this: section 5, caveat 6 says "the three ViViT-free pairwise
+gaps" and then lists six values (0.57, 1.53, 2.10, 0.33, 1.86, 2.43).
+The word and the list disagree. Resolve the inconsistency: either the
+count is wrong and should match the list, or the word "three" reflects
+an intended narrower meaning, in which case state that meaning
+explicitly so the sentence and the list agree on their own terms.
+Whichever way it resolves, the resolution must be internally consistent
+and the six gap values themselves must not change unless the resolution
+gives a stated reason. No other content, number, or quote may be
+altered. Re-run of the context-memo stage authorized for this revision
+only.
+
+## 2026-08-14 - A1 RATIFIED: CT-Scroll context memo (idea 004, r1)
+
+The context memo at ideas/004/context_memo.md (git blob
+6668a313ae83779ef2a74d1982dd287d504a7e0d) is ratified after spot-check
+of the load-bearing quotes against arXiv 2503.20652 v6 and v1, an
+arithmetic audit of all derived gaps, and review of the r1 diff, which
+contained the specified section-5.6 resolution and nothing beyond it.
+
+Frozen as benchmark context, version-pinned to arXiv v6 (v1 for volume
+counts): five trained-model 18-label-averaged AUROC values (ViViT 79.19,
+CT-Net 79.37, Swin3D 79.94, 3D CNN 81.47, CT-Scroll 81.80), max-min
+spread 2.61, all ten pairwise gaps as tabulated. Context only; no number
+carries pass/fail semantics anywhere (amended pin 2).
+
+Findings of record: (1) the external reviewer was half right - label
+averaging confirmed by quote; the different-split premise refuted at the
+volume level, with the papers test set almost certainly the official
+validation split relabeled (source-supported inference from the exact
+3,039-volume match; mapping never stated in the paper). (2) Version
+instability: the v1 table gives a 7.88 spread vs v6s 2.61 - threefold -
+because the baseline set changed between revisions; retroactive
+vindication of the pin-2 amendment. (3) v6-internal ViViT inconsistency
+(Table 1: 79.19 vs Table 2: 73.19) recorded for the interpret stage.
+(4) The 1,314-vs-1,304 patient bookkeeping discrepancy remains
+unresolved and non-blocking. (5) The mandated exposure statement is
+present and its no-margin-to-steer argument is accepted. (6) Revision
+r1 was specified in decisions.md and executed by the stage, not by
+hand; the artifact remains machine-produced end to end.
+
+Contract v2 drafting is now authorized as the next stage, to begin once
+the v2 contract-drafting machinery lands; the current probe-plan prompt
+is not to be used for the floor study.
+
+## 2026-08-14 - A2 flagged questions resolved (contract v2, idea 004)
+
+Both open questions in the v2 draft are resolved as drafted. (1)
+Two-phase approval adopted: phase-1 approval authorizes only the
+metadata-only manifest freeze; recording the manifest hash and
+unique-volume count amends the contract; the hash-bound gate treats
+the phase-1 approval as stale by construction; phase-2 approval
+against the amended blob authorizes bulk execution; bulk activity
+while placeholders remain is invalidating. (2) The v1-exposed anchor
+pair is excluded from all confirmatory statistics (236 counted
+Br40f|Br60f pairs), per the exposure argument in the ratified memo.
+
 
 ===== evidence/ledger_digest.md =====
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-56 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+66 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -618,37 +738,38 @@ A candidate that dies like a prior one must say what makes it different.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
+- **scout-012-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.1, audited 2026-08-15] -- The dilated esophagus inside the fibrosis score
 - **scout-010-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-12] -- CXR-Age put back together from parts a radiologist can measure
+- **scout-012-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.8, audited 2026-08-15] -- The race signal in chest CT: measure the bone density everyone names and nobody measured
 - **scout-010-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-12] -- Merlin's cirrhosis signal may be the spleen
+- **scout-011-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.3, audited 2026-08-13] -- Does Merlin read renal atrophy when it predicts future CKD?
+- **scout-011-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.4, audited 2026-08-13] -- The air bronchogram as a topological cue
 - **scout-010-c02** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-12] -- Atelectasis vs consolidation: has CT-CLIP learned the radiologist's volume-loss rule?
 - **scout-006-c04** [NOVEL_UNVERIFIED, score 4.1, audited 2026-08-10] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
 - **scout-009-c08** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.1, audited 2026-08-11] -- The glioblastoma prognosticator may be reading the invasion front's roughness
 - **scout-010-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-12] -- The inferior vena cava as a manometer: does the chest model read venous pressure?
-- **scout-009-c06** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-11] -- The CT spirometer may be reading the diaphragm as a pressure-loaded membrane
-- **scout-007-c06** [NOVEL_UNVERIFIED, score 3.9, audited 2026-08-10] -- The effusion model may be reading whether pleural fluid still obeys gravity
-- **scout-008-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.9, audited 2026-08-11] -- The emphysema call may read the shape of the holes, not just how many
-- **scout-008-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.9, audited 2026-08-11] -- The lung-cancer model may read the aorta as an ageing clock
-- ... and 14 more (python scout.py backlog)
+- ... and 24 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- conditional-observational: 4
-- counterfactual-synthesis: 3
+- regional-substitution: 7
+- conditional-observational: 6
+- counterfactual-synthesis: 5
 - representation-erasure: 3
-- regional-substitution: 3
+- longitudinal-within-subject: 3
 - natural-paired: 2
-- longitudinal-within-subject: 2
 - model-output-perturbation: 2
+- regional-removal: 1
 
 ## Ideas
 
 - **idea-001** [REJECTED/DEBATED/baseline] -- Have lung nodule concept models been validated against radiologist opinion rather than against disease? -- killed: DATA_INSUFFICIENT -- data: {"primary": "LIDC-IDRI via The Cancer Imaging Archive", "license": "CC BY 3.0", 
 - **idea-002** [PAUSED/DEBATED/baseline] -- Dermoscopic concepts predicted from non-dermoscopic photographs: genuine visibility or shortcut? -- data: {"primary": "Derm7pt paired clinical/dermoscopic images", "source": "github.com/
 - **idea-003** [REJECTED/DEBATED/baseline] -- Does BI-RADS concept intervention survive realistic clinician behaviour, and does it beat simply reading the BI-RADS category? -- killed: DATA_ACCESS -- data: {"primary": "BUS-BRA (Zenodo 8231412, CC BY 4.0) for the external and baseline a
-- **idea-004** [ACTIVE/DEBATED/baseline] -- The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition
+- **idea-004** [ACTIVE/PROBED/baseline] -- The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition
 - **idea-005** [REJECTED/DEBATED/baseline] -- Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary -- killed: ANNOTATION_PROVENANCE
 - **idea-006** [PAUSED/DEBATED/baseline] -- Ask the chest-CT foundation model to diagnose a volume with no patient in it
 - **idea-007** [ACTIVE/DEBATED/baseline] -- The same patient, twice, ten minutes apart, differing only in how much air is in the lungs
@@ -701,6 +822,16 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-010-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Merlin's cirrhosis signal may be the spleen -- data: Public abdominal CT (AMOS 2022, TotalSegmentator public dataset); Merlin checkpoint from HF.
 - **scout-010-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The inferior vena cava as a manometer: does the chest model read venous pressure? -- data: CT-RATE (repeat-session subset; second and final CT-RATE candidate this cycle).
 - **scout-010-c05** [SCOUT_ONLY/SCOUTED/baseline] -- Aortic tortuosity as a buckled column: is the hypertension head reading exceeded critical pressure? -- data: Public abdominal CT with age metadata (candidate cohorts: AMOS 2022, TotalSegmentator public dataset - metadata adequacy is Stage 0); Merlin checkpoint from HF. Second and final Merlin/public-abdominal candidate this cycle.
+- **scout-011-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Name the bone phenotype hidden in a near-perfect hand-radiograph sex classifier
+- **scout-011-c02** [SCOUT_ONLY/SCOUTED/baseline] -- Does Merlin read renal atrophy when it predicts future CKD?
+- **scout-011-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Cephalization in 3D: decode CT-CLIP's pulmonary-edema score
+- **scout-011-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The air bronchogram as a topological cue
+- **scout-011-c05** [SCOUT_ONLY/SCOUTED/baseline] -- A pancreatic fat gauge inside Merlin's diabetes forecast
+- **scout-012-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The race signal in chest CT: measure the bone density everyone names and nobody measured -- data: NLST (CDAS; same cohort the anchor paper trained on)
+- **scout-012-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The dilated esophagus inside the fibrosis score -- data: CT-RATE (validation split; local inference pipeline already frozen and probe-verified)
+- **scout-012-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Merlin's COPD call may come from the lungs it wasn't asked to look at -- data: Public abdominal CT (AMOS 2022 / TotalSegmentator public dataset) + released Merlin checkpoint
+- **scout-012-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The non-gated chest CT contains an ECG: heart rate written in motion banding -- data: CT-RATE (second and final CT-RATE candidate this cycle); TCIA gated collections only for validating the X-measurement
+- **scout-012-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The prognosis model as a manometer: midline shift is pressure the skull wrote down -- data: Anchor model's cohort (single-institution + TRACK-TBI) - access is the declared rate-limiter; CQ500 (public, has MLS/mass-effect reads but no outcomes) for X-measurement development only
 
 
 ===== evidence/portfolio_brief.md =====
@@ -844,6 +975,439 @@ There is no remaining proposer–critic disagreement about the revised design. T
 ## Recommendation
 
 **REVISE.** The debate converged on a defensible design, but the current idea card still contains claims and scores that the debate explicitly withdrew. Before deciding whether to advance to a feasibility memo, the human should look first at the direct Stage 0 metadata counts—especially the number and parameter makeup of geometry-matched same-acquisition pairs—because that single inspection determines whether the stronger reconstruction-content study exists or only the narrower composite pipeline audit remains.
+
+
+===== ideas/004/context_memo.md =====
+# Context memo — CT-Scroll benchmark context for idea 004 (tier 2)
+
+**Stage:** context-memo extraction per the 2026-08-14 amendment to pin 2
+(`evidence/decisions.md`). **Access date:** 2026-08-14. **Status:** for human
+ratification. Checker-mode: every substantive claim carries a verbatim quote
+with a table/section identifier and an epistemic label.
+
+**Standing rule restated:** every number in this memo is benchmark CONTEXT for
+descriptive comparison. No number here plays a pass/fail role anywhere in the
+idea-004 study. This memo contains no equivalence margin, no threshold, and no
+cutoff language, per the amended pin 2.
+
+**Extraction method and identifier caveat, on the record:** all quotes were
+obtained 2026-08-14 via WebFetch of the official arXiv HTML renderings
+(`arxiv.org/html/2503.20652v6` and `...v1`) and cross-checked against the
+ar5iv rendering. Table 1 (v6) was transcribed twice in independent passes with
+full agreement; the partition sentence was transcribed three times (twice v6,
+once v1) with a targeted numeric probe. Identifiers are **table and section
+numbers**, not PDF page numbers: the HTML rendering carries no pagination.
+Residual risk: WebFetch extraction is mediated by a small model; the ratifier
+can spot-check any quote against the PDF in minutes, and the table/section
+identifiers below are given to make that cheap.
+
+---
+
+## 1. Split determination (gates everything else)
+
+### What the paper says
+
+**Verified quote — v6 and v1, Section 3 (Dataset), partition sentence.** v6:
+
+> "The dataset is partitioned as follows: 17,799 unique patients for the train
+> set, 1,314 unique patients for the validation set and 1,314 unique patients
+> for the test set."
+
+v1 of the same sentence carries the volume counts that v6 dropped:
+
+> "The dataset is partitioned as follows: 17,799 unique patients corresponding
+> to 34,781 CT volumes for the train set, 1,314 unique patients, corresponding
+> to 3,075 CT volumes for the validation set and 1,314 unique patients,
+> corresponding to 3,039 CT volumes for the test set."
+
+A targeted probe of v6 confirmed the numbers 34,781 / 3,075 / 3,039 appear
+nowhere in the v6 Dataset section — the volume counts exist only in earlier
+versions.
+
+**Verified quote — v6 Table 1 caption (Section 6, Experimental Results):**
+
+> "Quantitative evaluation on the CT-RATE and Rad-ChestCT test sets. Reported
+> mean and standard deviation metrics were computed over 5 independant runs.
+> Best results are in bold, second best are underlined. (†) refers to
+> weight-inflation."
+
+(The spelling "independant" is the paper's.)
+
+**Verified quote — v6 Section 6.1 (Quantitative results), aggregation:**
+
+> "On the test set, we compute the average of each metric across all labels, as
+> well as the weighted average F1 Score (W. F1 Score) based on label
+> frequencies in the test set."
+
+**Verified quote — v6 Section 6.1, role of their validation split:**
+
+> "For classification, we determine the threshold that maximizes the F1-Score
+> for each of the 18 labels on the validation set"
+
+**Verified absence — v6, targeted search:** no sentence anywhere in the paper
+states how the 17,799/1,314/1,314 partition maps to the official CT-RATE
+release (which has only a train split and a validation split). No footnote or
+citation is attached to the partition sentence.
+
+### Verdict on the reviewer's claim ("test-set, label-averaged")
+
+- **Label-averaged: CONFIRMED** by the Section 6.1 quote above. Table 1 AUROC
+  is the average across all 18 labels. A targeted search confirmed **no
+  per-label results table exists anywhere in the paper** (main text or
+  appendix; the four tables are enumerated in §6 below).
+- **"Test set": CONFIRMED as the paper's wording, but the substantive
+  split-mismatch premise is REFUTED at the volume level.**
+  *Source-supported interpretation, clearly labeled as such:* the paper's
+  "test set" is 1,314 patients / **3,039 CT volumes** (v1 sentence). 3,039 is
+  exactly the volume count of the official CT-RATE validation split as
+  directly audited in Stage 0 (3,039 validation volumes / 1,564 scans / 1,304
+  patients, 2026-08-04 ledger entry). The paper's "test set" is therefore
+  almost certainly the official CT-RATE **validation** split relabeled, with
+  the authors' own "validation" (3,075 volumes) carved from the official train
+  data. The paper never states this mapping (verified absence above), so this
+  is an inference from an exact count match, not a verified fact.
+- **Residual discrepancy, unresolved:** CT-Scroll counts 1,314 patients where
+  the official card and Stage 0 count 1,304 for the same 3,039 volumes. This
+  10-patient bookkeeping difference was already flagged in `feasibility.md`
+  and remains unexplained. It does not affect the volume-level identity of the
+  3,039-volume pool.
+
+**Consequence for the amendment:** the reviewer's conclusion (context, not
+margin) survives, but partly on different legs than their premise. The
+aggregation mismatch (18-label average vs per-head) is confirmed and alone
+justifies the amendment. The split mismatch is weaker than claimed: CT-Scroll's
+numbers were most likely computed on the same 3,039-volume pool our study
+draws its 425 pairs from. Two further mismatches found during extraction
+(§5, items 3–5: model provenance, seed-variance vs sampling-variance, and
+version instability of the table) independently reinforce the demotion to
+context-only. Checker-mode applied to the reviewer as required: their claim
+was directionally right for the wrong split reason.
+
+---
+
+## 2. Extracted values (v6, Table 1, CT-RATE block)
+
+**Primary context version: arXiv v6** (latest, 26 Dec 2025). All values are
+AUROC on the 0–100 scale, mean ± std over 5 training runs, averaged across the
+18 labels, from **Table 1** ("Quantitative evaluation on the CT-RATE and
+Rad-ChestCT test sets"), CT-RATE rows, transcribed twice with agreement:
+
+| Method (as printed) | AUROC (verbatim) |
+|---|---|
+| Random Predictions | 49.88 ± 0.62 |
+| ViViT† | 79.19 ± 0.28 |
+| Swin3D† | 79.94 ± 0.15 |
+| CT-Net | 79.37 ± 0.27 |
+| 3D CNN† | 81.47 ± 0.78 |
+| CT-Scroll (ours) | **81.80 ± 0.22** (bold in source) |
+
+Rad-ChestCT rows exist in the same table but concern a different dataset and
+are out of scope for this context.
+
+**Internal inconsistency in the source, on the record:** v6 Table 2
+("Comparison of performance across different modules", Section 6.2) lists the
+ViViT AUROC as **73.19 ± 0.28**, while Table 1 prints **79.19 ± 0.28** — same
+±, different leading digits. Every other method shared between the two tables
+carries identical values (Swin3D 79.94 ± 0.15, CT-Net 79.37 ± 0.27, 3D CNN
+81.47 ± 0.78, CT-Scroll 81.80 ± 0.22), and no sentence states which dataset or
+split Table 2 uses (verified absence). One of the two ViViT entries is
+presumably a typo; the source does not say which. Table 1 is used for the
+context spread; the inconsistency is recorded so the interpret stage inherits
+it.
+
+---
+
+## 3. Derived spread — CONTEXT ONLY
+
+**Label:** the numbers below are descriptive benchmark context. They are not a
+margin, not a threshold, and carry no pass/fail semantics anywhere in the
+idea-004 analysis (amended pin 2). Random Predictions is excluded from the
+spread: it is a floor diagnostic, not a trained model.
+
+**v6, trained models (ViViT 79.19, CT-Net 79.37, Swin3D 79.94, 3D CNN 81.47,
+CT-Scroll 81.80), 18-label-averaged AUROC points on the 0–100 scale:**
+
+- **Max − min spread: 81.80 − 79.19 = 2.61**
+- All pairwise gaps:
+
+| Pair | Gap |
+|---|---|
+| CT-Net − ViViT | 0.18 |
+| CT-Scroll − 3D CNN | 0.33 |
+| Swin3D − CT-Net | 0.57 |
+| Swin3D − ViViT | 0.75 |
+| 3D CNN − Swin3D | 1.53 |
+| CT-Scroll − Swin3D | 1.86 |
+| 3D CNN − CT-Net | 2.10 |
+| 3D CNN − ViViT | 2.28 |
+| CT-Scroll − CT-Net | 2.43 |
+| CT-Scroll − ViViT | 2.61 |
+
+Adjacent-rank gaps: 0.18, 0.57, 1.53, 0.33 — the smallest distinction the
+benchmark is used to adjudicate between neighboring methods is ~0.2–0.3
+AUROC points; the full between-model range is ~2.6.
+
+**Version sensitivity of the spread (new finding, reinforces the amendment):**
+v1 of the same table (caption identical minus the "(†)" sentence) compared a
+different baseline set — verbatim v1 CT-RATE rows: Random Predictions
+49.88 ± 0.62, 3D CNN 76.49 ± 0.28, CT-ViT 73.92 ± 1.17, Swin3D 79.94 ± 0.15,
+CT-Net 79.37 ± 0.27, CT-Scroll (ours) 81.80 ± 0.22. The v1 trained-model
+spread is 81.80 − 73.92 = **7.88** — three times the v6 spread — because
+between versions the authors replaced CT-ViT (73.92) with ViViT (79.19) and
+their 3D CNN baseline moved from 76.49 to 81.47. The ar5iv rendering
+independently corroborates the old-version values. The debate-era reference to
+"the CT-Net / Swin3D / CT-ViT / global-local spread" described the earlier
+table. A margin anchored to this table would have tripled or shrunk by a
+factor of three depending on which arXiv revision was fetched — concrete
+evidence that the amendment's demotion of CT-Scroll to context was correct.
+Any future citation of these numbers must name the arXiv version.
+
+---
+
+## 4. Exposure statement (mandatory, on the record)
+
+The contract-v1 load probe (real A/B/A run, 2026-08-12) exposed the per-head
+diagnostic scores of exactly one Stage-0-valid Br40f|Br60f pair — 18 heads for
+A, B, and repeated A, with a maximum absolute A-versus-B difference of
+0.0070026815 — and those scores were declared scientifically uninterpretable
+in the v1 contract itself. The author of this memo has also seen that summary
+in `ideas/004/decision.md`.
+
+Why this does not compromise tier 2:
+
+1. **The context numbers cannot be influenced by the exposure.** Every number
+   in this memo derives solely from CT-Scroll's published tables, fixed by its
+   authors before this program existed. Nothing observed in the load probe
+   entered §2 or §3.
+2. **There is no margin to steer.** Under the amended pin 2, tier 2 contains
+   zero threshold language; no number extracted here acquires pass/fail
+   semantics. The classic risk of exposure — tuning a margin so that an
+   already-seen result clears or fails it — has no target to act on.
+3. **Tier 1 is label-free and unaffected.** The primary floor readout
+   (per-head, per-stratum paired-difference distributions) uses no labels and
+   no external number at all.
+4. The one exposed pair is 1 of 425; its diagnostic deltas remain excluded
+   from any confirmatory statistic by the v1 contract's own terms, and the
+   contract-v2 analysis plan is frozen before any bulk score is seen.
+
+---
+
+## 5. Mismatch caveats (inherited by the interpret stage)
+
+1. **Aggregation level.** Table 1 AUROC is averaged across all 18 labels
+   (quoted, §1). The 425-pair study reports per-head quantities. A between-
+   model gap of 2.61 in the 18-label average says nothing direct about any
+   single head; per-head between-model gaps could be larger or smaller, and
+   the paper publishes no per-label breakdown to check (verified absence).
+2. **Split naming vs split identity.** The table says "test set"; that set is
+   almost certainly the official CT-RATE validation split (3,039 volumes)
+   relabeled (§1, source-supported interpretation). So the volume pool likely
+   matches ours; the residual differences are the 1,314-vs-1,304 patient
+   bookkeeping and the fact that CT-Scroll's models were trained on a
+   34,781-volume subset of official train (v1 sentence) whose selection rule
+   is unstated — official train contains ~47k volumes, so ~9k volumes are
+   unaccounted for by any sentence in the paper.
+3. **Model provenance.** The spread is between models trained by the CT-Scroll
+   authors (5 seeds each, their own train subset). ClassFine — the checkpoint
+   our study probes — does not appear in the table. The context is "how far
+   apart published methods sit on this benchmark," not "how variable is our
+   model."
+4. **Uncertainty concept.** The ± terms are std across 5 training seeds
+   (between-run training variance; caption, §1), not sampling variance over
+   scans or patients. Our tier 2 reports patient-cluster bootstrap confidence
+   intervals — a different uncertainty object. The two are not comparable as
+   error bars.
+5. **Scale and label source.** Table 1 is on the 0–100 AUROC scale; our
+   deltas will be computed on [0,1] and must be scale-converted when
+   contextualized. Both CT-Scroll's labels and CT-RATE's released validation
+   labels are RadBERT report-derived; tier 2 therefore measures benchmark
+   discrimination against report-derived labels, never clinical diagnostic
+   accuracy (amended pin 2, restated).
+6. **Source-internal inconsistency.** The v6 ViViT value differs between
+   Table 1 (79.19) and Table 2 (73.19) with no stated explanation (§2). If
+   the interpret stage cites the ViViT-involved gaps, it must carry this
+   caveat; the six ViViT-free pairwise gaps among CT-Net/Swin3D/3D CNN/
+   CT-Scroll (0.57, 1.53, 2.10, 0.33, 1.86, 2.43) are unaffected.
+
+---
+
+## 6. Sources
+
+- **Primary:** arXiv:2503.20652, "Imitating Radiological Scrolling: A
+  Global-Local Attention Model for 3D Chest CT Volumes Multi-Label Anomaly
+  Classification," Theo Di Piazza, Carole Lazarus, Olivier Nempont, Loic
+  Boussel. Comments field: "13 pages, 4 figures. Accepted for publication at
+  MIDL 2025."
+- **Version used for primary context: v6** (Fri, 26 Dec 2025 — latest at
+  access). Version history on the abs page: v1 26 Mar 2025, v2 27 Mar 2025,
+  v3 28 May 2025, v4 6 Jun 2025, v5 4 Sep 2025, v6 26 Dec 2025.
+- **Version used for the volume-count sentence and version-sensitivity
+  check: v1** (26 Mar 2025), corroborated by the ar5iv rendering (version
+  banner not displayed; content matches v1's partition sentence and baseline
+  set).
+- Renderings fetched 2026-08-14: `arxiv.org/abs/2503.20652`,
+  `arxiv.org/html/2503.20652v6` (four extraction passes),
+  `arxiv.org/html/2503.20652v1`, `ar5iv.labs.arxiv.org/html/2503.20652`.
+- Tables in the paper (captions enumerated, v6): Table 1 "Quantitative
+  evaluation on the CT-RATE and Rad-ChestCT test sets."; Table 2 "Comparison
+  of performance across different modules."; Table 3 "Impact of the sliding
+  window size."; Table 4 (Appendix A) "Baseline results with and without
+  weight inflation from ImageNet-pretrained 2D models."
+- The MIDL 2025 proceedings version was not extracted; the amendment pins the
+  arXiv source. If the interpret stage ever cites the proceedings version,
+  the table values must be re-verified there — this memo's quotes bind only
+  to arXiv v6/v1.
+
+**Next step (not this stage):** human ratification of this memo, then contract
+v2 drafting as a separate stage.
+
+
+===== ideas/004/contract_requirements.md =====
+# Contract requirements — idea 004, contract v2 (425-pair study)
+
+**Status:** human-authored requirements, reviewed and committed by the
+operator. Authorized by: the 2026-08-11 pins as amended 2026-08-14
+(pin 2), the 2026-08-12 ADVANCE, and the A1 ratification of the
+CT-Scroll context memo (blob 6668a313ae83779ef2a74d1982dd287d504a7e0d).
+The contract drafted from these requirements is `probe_contract.yaml`
+with `contract_version: 2`, superseding the executed v1 load-probe
+contract (preserved in git history and in the PROBED ledger record).
+Every requirement below is binding; the reviewer checks conformance
+line by line.
+
+## R1. Scope and manifest
+
+- Exactly the frozen Stage-0 pair list: 425 geometry-matched pairs
+  (Br40f|Br60f 237, Bl56f|Br40f 126, Bl57d|Br36d 58, Br40f|Br44f 4).
+  No additions, no substitutions.
+- The contract materializes the pair list as `pair_manifest.csv`
+  (pair id, patient id, both VolumeNames, stratum, normalized kernels)
+  and records its SHA-256 in the contract. The analysis population is
+  the manifest byte-for-byte, not the counts.
+- The unique-volume count is computed from the manifest and recorded in
+  the contract; 425 x 2 is not assumed.
+- The Br40f|Br44f stratum (4 pairs) is exploratory only and excluded
+  from every confirmatory statement.
+- Vendor scope (462/464 Siemens) stated as a limitation in the
+  contract's claim language.
+
+## R2. Canonical sign direction
+
+- One canonical direction per stratum, defined explicitly in the
+  contract BEFORE any score is seen, with the rule stated (e.g.
+  sharper-minus-softer with the ordering justified from kernel naming,
+  or a stated lexicographic convention). Pair ordering in the data may
+  never determine sign.
+
+## R3. Tier 1 (primary, label-free)
+
+- Per-head (18) x per-stratum signed paired score differences on BOTH
+  probability and logit scales.
+- Empirical absolute-difference quantiles per head per stratum.
+- Patient-cluster bootstrap confidence intervals: the patient is the
+  resampling unit (patients contribute multiple scans).
+- NO cross-head averaging anywhere in any tier-1 statistic.
+- The term "repeatability coefficient" and its machinery are not used:
+  these are intentionally different conditions, not repeated identical
+  measurements.
+
+## R4. Tier 2 (secondary, descriptive; amended pin 2)
+
+- Per-head paired delta-AUROC against CT-RATE's released
+  RadBERT-derived validation labels, with patient-cluster bootstrap
+  intervals.
+- ZERO threshold language: no margin, cutoff, "meaningful", "material",
+  or pass/fail semantics anywhere in tier 2. Context for magnitude is
+  the ratified memo's arXiv-v6-pinned values (spread 2.61, adjacent
+  gaps 0.18-1.53), cited by memo blob hash, with these inherited
+  caveats stated in the contract: 18-label-average vs per-head
+  aggregation mismatch; 0-100 vs [0,1] scale conversion; the memo's
+  seed-variance-vs-sampling-variance non-comparability; the v6 ViViT
+  Table-1/Table-2 inconsistency for ViViT-involved gaps; framing as
+  benchmark discrimination against report-derived labels, never
+  clinical accuracy.
+- Preregistered sparse-label rule: minimum positive AND negative counts
+  per head per stratum for AUROC computation, and how excluded
+  head-stratum cells are reported, fixed in the contract before any
+  score is seen.
+- Tier 2 runs only if tier 1 completes.
+
+## R5. Environment (r6 closure)
+
+- transformers 4.38.2 / tokenizers 0.15.2 pinned; exactly the single
+  enumerated `*.embeddings.position_ids` buffer key removed and
+  provenance-logged; any other unexpected or missing key is a hard
+  failure. Startup logs all installed versions.
+- Checkpoint identity: CT_LiPro_v2.pt by recorded SHA-256 under the
+  pinned CT-CLIP commit; attribution language per pin 4 (released v2
+  ClassFine checkpoint).
+
+## R6. Selection (r5 closure)
+
+- Kernel-field normalization: parse list-literal, take element 0, else
+  stripped raw string.
+- On any shortfall vs the frozen manifest: diagnostic audit (top-10
+  kernel values with counts, example VolumeNames, per-filter drops) to
+  the run log AND selection_audit.json; shortfall without a matching
+  audit is invalidating.
+- Normalized kernel recorded per volume in input_manifest.csv.
+
+## R7. Execution model
+
+- Chunked download -> preprocess -> infer -> delete, chunk size stated
+  and sized to Colab Pro+ disk.
+- Per-chunk manifest with input-file SHA-256 hashes, committed before
+  the next chunk begins; an interrupted chunk is redone in full.
+- Both members of every pair run in the SAME session/environment.
+- Per-chunk environment record: GPU model, CUDA and PyTorch versions,
+  package versions, session identifier.
+- Anchor pair: the v1 load-probe pair (scores already exposed and
+  declared uninterpretable) re-run at every session start as a drift
+  detector, excluded from all scientific counting. Within-session
+  repeat: bit-identical. Cross-session anchor: a numerical tolerance on
+  logits/probabilities, its value fixed in the contract before bulk
+  execution, with the rationale (hardware may differ across sessions;
+  same-session pairing is the load-bearing protection).
+- The launcher notebook is a thin driver: it clones, installs pinned
+  requirements, and runs run.py as a subprocess; it never imports the
+  model stack into its own kernel (no restart may exist in the
+  workflow).
+
+## R8. Budgets
+
+- Caps expressed in volumes processed and sessions, not GPU minutes.
+- Three separate frozen numbers: pair count (425), unique-volume count
+  (from the manifest), and a QA/retry download allowance covering
+  redone chunks and anchor re-runs. A single total-download cap is
+  incoherent under resumability and is not used.
+
+## R9. Determinism and stopping
+
+- Preregistered within-session spot-check subset (stated in the
+  contract, e.g. first pair of each stratum), re-run bit-identical.
+- Invalidating failures, enumerated v1-style and each distinct from a
+  negative outcome: provenance mismatch, selection shortfall without
+  audit, spot-check non-determinism, environment drift, anchor drift
+  beyond the preregistered tolerance.
+
+## R10. Outputs
+
+- The v1 output set, plus: pair_manifest.csv (hash-recorded), per-chunk
+  manifests, per-chunk environment records, input_manifest.csv,
+  selection_audit.json when triggered, and a results-bundle layout
+  (documented in the contract) that the interpret stage and a
+  deterministic validator can both consume.
+- The contract cites: this requirements file, the pin-2 amendment, the
+  A1 ratification entry, and the context memo blob hash.
+
+## R11. Claim discipline
+
+- The result is a reconstruction-sensitivity baseline for this
+  checkpoint on these contrasts, vendor-scoped; not a universal
+  measurement floor, and no artifact may state the universal-threshold
+  interpretation.
+- The one-pair diagnostic exposure and its non-compromise argument
+  (memo section 4) are restated in the contract's assumptions.
 
 
 ===== ideas/004/critique.md =====
@@ -1085,6 +1649,111 @@ One bounded note on the benchmark arm, which does not reopen Round 1. `eval.py` 
 I accept the whole of the critic's prespecification list — frozen checkpoint and preprocessing, comparable strata, audit-pair-independent thresholds, justified margins, exploratory labelling of underpowered outputs — and (a)–(c) above fill the two places where that list was not yet operational: where the thresholds come from, and what the margin is denominated in. What I cannot supply is the demonstration the list ends with, that the intervals fall inside the margins. That requires gated data and a GPU, so it is the next gate rather than this debate's business. There is no remaining disagreement about the design; there are three empirical gates — geometry-matched pairs exist, singleton scans suffice for thresholds, per-output positive counts support the analysis — any of which can still kill the study before it runs.
 
 
+===== ideas/004/decision.md =====
+# Probe decision — idea 004 load probe (contract v1)
+
+**Date:** 2026-08-12  
+**Decision:** **ADVANCE** — the exploratory load probe satisfied its contract. This
+authorizes drafting and seeking separate human approval for the 425-pair floor-study
+contract; it does not authorize that bulk run.
+
+## Strict contract result
+
+`probes/004/results/summary.json` reports `contract_satisfied: true`. All three
+authorized variants ran, in the preregistered order and with one seed:
+
+| Execution | Input | Result | Time | Peak GPU memory |
+|---|---|---|---:|---:|
+| `exec1_A` | Br40f `valid_1004_a_1.nii.gz` | 18 finite named scores | 5.21 s | 4.10 GB |
+| `exec2_B` | Br60f `valid_1004_a_2.nii.gz` | 18 finite named scores | 4.96 s | 4.10 GB |
+| `exec3_A_repeat` | repeated Br40f A | 18 finite named scores, bit-identical to `exec1_A` | 4.81 s | 4.10 GB |
+
+Total recorded GPU time was 0.250 minutes, below the 45-minute cap. Batch size was
+one, patch size was unchanged, and no additional pair or seed was run.
+
+## Demonstrates
+
+- The frozen official artifact `CT_LiPro_v2.pt` (SHA-256
+  `9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d`)
+  is obtainable and loads with official CT-CLIP code commit
+  `a2a155c601987820433c01db69b64d701d3d229d` and CT-RATE revision
+  `deeca4d89e9f978d4d1bccd88a55071ddbb146bb`.
+- Loading is strict modulo exactly the r6-authorized, provenance-recorded removal of
+  `trained_model.text_transformer.embeddings.position_ids`. No other missing or
+  unexpected state-dict key was tolerated.
+- The released pipeline emits exactly 18 finite scores with a stable recorded
+  head-name/order mapping for both members of the selected pair.
+- The identical-file A rerun is bit-deterministic in the recorded one-seed
+  environment.
+- The current pipeline fits the tested A100 compute envelope easily at batch size
+  one. These are hard feasibility outcomes and do not depend on estimating an
+  effect size, so `DEMONSTRATES` is appropriate despite the single seed.
+- The repaired selection logic reproduces all 237 frozen qualifying Br40f|Br60f
+  pairs, and the selected pair passes the Stage-0 matching rules.
+
+## Suggests
+
+- The resource cost of model inference itself is unlikely to be the limiting factor
+  for the proposed floor study on comparable hardware: each execution took about
+  five seconds and used 4.10 GB peak GPU memory. This remains a one-pair observation;
+  it does not measure bulk download, preprocessing, session-recovery, or storage
+  costs.
+- The two reconstructions produce numerically different outputs for all 18 heads in
+  this pair (14 lower and 4 higher for B; maximum absolute diagnostic difference
+  0.0070026815). Because there is only one pair and one seed, and because the
+  contract explicitly classifies A-versus-B differences as diagnostics, this does
+  not support a scientific or head-specific conclusion.
+
+## Does not establish
+
+- It does not establish that ClassFine uses reconstruction-dependent
+  spatial-frequency content, that any head is reconstruction-sensitive, or that the
+  observed differences are systematic. One pair cannot estimate the prespecified
+  paired-difference distributions, and the single seed cannot separate a metric
+  movement from seed-specific behavior.
+- It does not establish equivalence, robustness, accuracy, concept validity,
+  localization, clinical reliability, or cross-vendor/site generalization.
+- It does not validate the correspondence between these v2 weights and any specific
+  published paper table. Attribution remains limited to the “released v2 ClassFine
+  checkpoint.”
+- Bit-identical A reruns establish software determinism only; they do not rule out
+  deterministic preprocessing effects between distinct inputs.
+- It does not authorize the 425-pair study, margin selection, threshold fitting,
+  AUROC analysis, or confirmatory interpretation.
+
+## Findings
+
+**Positive findings:** Every positive-pattern clause passed: frozen provenance,
+strict-compatible load under the enumerated r6 exception, 18 finite named outputs,
+bit-identical A repeat, unchanged batch/patch configuration, three completed
+executions, and completion far inside the GPU budget.
+
+**Negative findings:** No contract-negative pattern occurred. In particular, there
+was no access, hashing, pair-validity, load, output-shape, finiteness, determinism,
+memory, crash, or time-cap failure. “Negative” here does not mean scientific
+evidence of no reconstruction effect; the probe was incapable of producing such a
+result by design.
+
+## Validity failures
+
+None. The `position_ids` removal is not treated as a validity failure because the
+2026-08-12 r6 ledger explicitly authorized that single non-learnable framework-era
+buffer exception, required it to be exact and provenance-logged, and preserved
+strict loading for all other keys. The artifacts show exactly that behavior.
+
+## Next decision
+
+**ADVANCE** to preparation and human review of a new, separate contract for the
+425-pair label-free floor study. Before any bulk score is inspected, that contract
+must freeze the per-head/per-stratum readout, the three confirmatory contrast strata
+(with Br40f|Br44f exploratory), patient-level resampling, score scales, precision
+gates, and any externally justified margin. The bulk run requires fresh explicit
+human approval. If a later scientific comparison uses stochastic seeds, repeat with
+at least three seeds; this load probe itself needs no seed replication because its
+passing outcomes are hard pipeline and determinism checks.
+
+
+
 ===== ideas/004/feasibility.md =====
 # Feasibility memo — idea 004
 
@@ -1281,12 +1950,12 @@ inspection of the official download path.
   "claim_rung": 1,
   "what_would_move_it_up": "Rung 2 would require showing that the paired effect persists after stratification or adjustment for every remaining measured acquisition and preprocessing difference and across vendors/sites; rung 3 would require a validated, independently computable image measurement that names the responsible content more specifically than reconstruction-dependent spatial frequency.",
   "scientific_uncertainty": "It is unknown whether a frozen chest-CT classifier assigns operationally equivalent scores to two images reconstructed from the same acquisition when anatomy, geometry, and deterministic preprocessing transformations are held fixed.",
-  "existing_legwork": "The completed Stage 0 audit inspected 3,039 validation volumes from 1,564 scans and 1,304 patients. It found 1,432 multi-reconstruction scans and 425 strict geometry-matched pairs after excluding slice-count, position, and acquisition-parameter drift. The main contrasts were Br40f|Br60f (237), Bl56f|Br40f (126), and Bl57d|Br36d (58). Labels were exact duplicates within pairs, but labels are not used in the primary readout. The released inference scripts were identified; no official per-volume ClassFine scores or checkpoint release assets were found in the inspected official locations.",
+  "existing_legwork": "The completed Stage 0 audit inspected 3,039 validation volumes from 1,564 scans and 1,304 patients. It found 1,432 multi-reconstruction scans and 425 strict geometry-matched pairs after excluding slice-count, position, and acquisition-parameter drift. The main contrasts were Br40f|Br60f (237), Bl56f|Br40f (126), and Bl57d|Br36d (58). Labels were exact duplicates within pairs, but labels are not used in the primary readout. The released inference scripts were identified. A subsequent contract-v1 load probe (PASSED 2026-08-12) obtained and froze the CT_LiPro_v2.pt checkpoint (SHA-256 recorded), loaded it under a pinned CT-CLIP commit with a single enumerated framework-era buffer-key exception, and demonstrated bit-deterministic 18-head inference on one Stage-0-valid pair; the one-pair score differences are diagnostic only and scientifically uninterpretable per the contract.",
   "missing_final_step": "Obtain and cryptographically freeze the exact ClassFine weights used with the released inference pipeline, then run paired inference on the 425 predeclared geometry-matched pairs and estimate score-change bounds by reconstruction contrast.",
   "concept_definition": "The candidate X is reconstruction-dependent spatial-frequency content: the frequency and noise texture imposed by a named reconstruction-kernel contrast while the acquisition and voxel geometry remain fixed. X is independently measurable without annotation using image-domain noise-power-spectrum or local frequency-energy statistics and the recorded kernel contrast. The study does not claim that any report-derived abnormality label is valid, nor that it has localized the responsible frequency band.",
   "keystone_prerequisite": "The exact frozen ClassFine checkpoint corresponding to the released architecture and preprocessing is obtainable with sufficient provenance to make the resulting scores attributable to the published model.",
-  "keystone_status": "NOT_INSPECTED",
-  "keystone_evidence": "Direct Stage 0 inspection found no released per-volume ClassFine scores, no GitHub v1.0.0 release assets, and no checkpoint files on the authors' inspected Hugging Face account. The repository contains inference code, but code alone does not establish that the published weights are obtainable. If I have only verified the nearest checkable thing, what am I still assuming? I verified that inference code exists and that 425 clean pairs exist; I am still assuming that the exact published checkpoint can be obtained and loaded unchanged. That assumption is load-bearing and is therefore the keystone.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "Superseded Stage-0 finding (no checkpoint located) resolved by the contract-v1 load probe, PASSED 2026-08-12 (evidence/decisions.md, 'Probe 004 contract v1 ADVANCE'): the frozen CT_LiPro_v2.pt artifact (SHA-256 9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d) loaded strictly under CT-CLIP commit a2a155c601987820433c01db69b64d701d3d229d, modulo exactly the single r6-authorized, provenance-recorded trained_model.text_transformer.embeddings.position_ids buffer key; a Stage-0-valid Br40f|Br60f pair produced 18 finite named scores for A, B, and repeated A with the repeat bit-identical, in 0.250 GPU minutes at 4.10 GB peak. Residual assumption unchanged in kind but narrowed: attribution is limited to 'released v2 ClassFine checkpoint' until paper-number correspondence is checked (2026-08-11 pin 4).",
   "dies_like_prior": "It risks the DATA_ACCESS failure seen in idea 003: the needed model asset may not be obtainable. Unlike idea 003, the image pairs, metadata, and primary annotation-free readout are already confirmed; however, that does not rescue the study if the exact checkpoint is unavailable. No annotation-provenance failure applies because the primary endpoint compares the model with itself and uses no labels.",
   "closest_prior_work": [
     {
@@ -1311,9 +1980,9 @@ inspection of the official download path.
   "novelty_statement": "No broad novelty is claimed: reconstruction sensitivity of CT models is established. The narrow potential delta is a geometry-matched, within-acquisition audit of the published ClassFine abnormality scores on CT-RATE. Exact novelty remains unverified pending a targeted proceedings and citation search.",
   "smallest_decisive_experiment": {
     "population": "The 425 Stage-0-confirmed geometry-matched same-acquisition pairs; retain the three adequately sized named kernel contrasts as separate strata and leave the four-pair stratum exploratory.",
-    "frozen_elements": "Exact checkpoint checksum, released preprocessing, pair inclusion list, score scale, reconstruction strata, multiplicity rule, and equivalence margins are fixed before inspecting paired scores.",
+    "frozen_elements": "Exact checkpoint checksum, released preprocessing, pair inclusion list (hash-frozen manifest), score scale, reconstruction strata, canonical sign direction, and multiplicity rule are fixed before inspecting paired scores. Per the 2026-08-14 amendment to pin 2, no equivalence margin exists to freeze: tier 2 is descriptive.",
     "primary_readout": "For each abnormality output and reconstruction stratum, paired score differences on the probability and logit scales, summarized by the median, upper quantile of absolute change, and bootstrap confidence interval with patient as the outer resampling unit.",
-    "equivalence_rule": "A negative is decisive only where a prespecified, externally justified score-change margin is met by the full confidence interval and the stratum has adequate precision. The margin may not be chosen from these 425 pairs.",
+    "equivalence_rule": "SUPERSEDED by the 2026-08-14 pin-2 amendment (evidence/decisions.md): no formal equivalence test is performed and no external margin plays a pass/fail role. A negative is reported as the measured per-head, per-stratum bound on reconstruction-induced score change with patient-cluster bootstrap intervals; CT-Scroll published between-model differences serve as benchmark context only. The analysis remains frozen before the 425 pairs are scored.",
     "secondary_readout": "Descriptive reconstruction-swap rank changes may be reported, but AUROC, threshold flips, and benchmark interval correction are excluded from the clean primary question because they reintroduce labels, calibration choices, and a second estimand.",
     "stop_rule": "Stop before image inference if the exact checkpoint cannot be obtained and provenance-verified. Do not substitute a retrained model under this idea identity."
   },
@@ -1338,10 +2007,10 @@ inspection of the official download path.
       }
     ]
   },
-  "anticipated_positive": "At least one prespecified output and major reconstruction contrast has an absolute-change bound exceeding its external margin, supporting the narrow claim that this model uses reconstruction-dependent spatial-frequency content for that output.",
+  "anticipated_positive": "At least one prespecified head and major reconstruction contrast shows a paired score-change distribution whose bootstrap interval excludes negligible change on both probability and logit scales, supporting the narrow claim that this checkpoint's scores depend on reconstruction choice with anatomy fixed. Magnitude is reported descriptively and contextualized against published between-model differences on the same benchmark; no threshold declares it 'meaningful' (pin-2 amendment, 2026-08-14).",
   "anticipated_negative": {
-    "classification": "decisive conditional on margin and precision; otherwise sensitivity-limited",
-    "reasoning": "If every adequately powered major contrast has a confidence bound wholly within its prespecified external equivalence margin, the result decisively weakens the hypothesis that the observed CT-RATE reconstruction variation materially changes ClassFine scores. Failure to reject zero, or an interval crossing the margin, is only sensitivity-limited."
+    "classification": "sensitivity-bounded descriptive null",
+    "reasoning": "If every adequately covered head and major contrast shows paired changes tightly bounded near zero (bootstrap intervals narrow and centered on no change), the result bounds reconstruction sensitivity for this checkpoint and these contrasts without a formal equivalence claim: per the 2026-08-14 pin-2 amendment there is no prespecified margin, so the null is reported as the measured bound itself, which downstream work must exceed to be attributable to anything beyond rendering."
   },
   "prohibited_conclusions": [
     "Do not call the pairs test-retest scans; the acquisition was not repeated.",
@@ -1351,59 +2020,340 @@ inspection of the official download path.
     "Do not attribute a paired effect to a specific anatomical feature or frequency band without an independent intervention or measurement."
   ],
   "remaining_legwork": [
-    "Resolve the checkpoint keystone by inspecting an official weight file, checksum, model configuration, and license; author correspondence is acceptable evidence of access but the actual artifact must be inspected before feasibility can advance.",
+    "Checkpoint keystone RESOLVED 2026-08-12 (load probe ADVANCE): CT_LiPro_v2.pt frozen by SHA-256 and loaded under pinned commit. Remaining: run the context-memo stage (CT-Scroll table extraction with split verification, per the pin-2 amendment), then draft contract v2.",
     "Perform a targeted primary-source novelty audit of MICCAI, MIDL, SPIE Medical Imaging, Medical Physics, Radiology: Artificial Intelligence, and papers citing CT-RATE/CT-CLIP.",
     "Specify external equivalence margins without examining paired scores and document the clinical or benchmark consequence used to justify them.",
     "Audit equality of every preprocessing-relevant field and final tensor geometry for the frozen pair list before inference.",
     "Calculate confidence-width or minimum-detectable-effect gates per output and contrast before designating analyses confirmatory."
   ],
   "scores": {
-    "clarity": {"value": 5, "why": "One frozen model, one set of same-acquisition geometry-matched pairs, and one paired score-change estimand."},
-    "identifiability": {"value": 4, "why": "Pairing and strict geometry matching remove the main patient, acquisition, and preprocessing alternatives; vendor/site generalization and the responsible frequency property remain unresolved."},
-    "medical_relevance": {"value": 3, "why": "The result determines whether named chest-CT outputs are stable to common reconstruction choices, but the research model is not a clinical device and accuracy is not tested."},
-    "interest": {"value": 3, "why": "A within-acquisition self-disagreement is concrete, though reconstruction sensitivity is already an established concern."},
-    "prior_legwork": {"value": 4, "why": "Stage 0 already produced 425 clean pairs and dominant contrast counts; the missing checkpoint is a major remaining asset."},
-    "feasibility": {"value": 3, "why": "Capped because the true checkpoint keystone is NOT_INSPECTED; conditional on weights, only 850 volumes require inference."},
-    "data_readiness": {"value": 3, "why": "Pair membership and metadata are inspected, but image access is gated and the checkpoint is not confirmed."},
-    "evaluation_readiness": {"value": 3, "why": "Paired summaries and patient bootstrap are standard, but external equivalence margins still require prespecification."},
-    "negative_result_value": {"value": 4, "why": "A powered equivalence result would decisively bound sensitivity for the observed contrasts and checkpoint; without the margin it falls to type 2."},
-    "novelty_confidence": {"value": 3, "why": "Capped by the uninspected keystone and held at uncertainty because exact prior-art searching is incomplete."}
+    "clarity": {
+      "value": 5,
+      "why": "One frozen model, one set of same-acquisition geometry-matched pairs, and one paired score-change estimand."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Pairing and strict geometry matching remove the main patient, acquisition, and preprocessing alternatives; vendor/site generalization and the responsible frequency property remain unresolved."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "The result determines whether named chest-CT outputs are stable to common reconstruction choices, but the research model is not a clinical device and accuracy is not tested."
+    },
+    "interest": {
+      "value": 3,
+      "why": "A within-acquisition self-disagreement is concrete, though reconstruction sensitivity is already an established concern."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Stage 0 already produced 425 clean pairs and dominant contrast counts; the missing checkpoint is a major remaining asset."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because the true checkpoint keystone is NOT_INSPECTED; conditional on weights, only 850 volumes require inference."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Pair membership and metadata are inspected, but image access is gated and the checkpoint is not confirmed."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired summaries and patient-cluster bootstrap are standard; the pin-2 amendment removed the external-margin prespecification burden, leaving only the frozen descriptive analysis plan."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A tight measured bound on reconstruction-induced change is decisive as a sensitivity reference for all downstream effect claims on this checkpoint, without requiring a formal equivalence margin (pin-2 amendment 2026-08-14)."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped by the uninspected keystone and held at uncertainty because exact prior-art searching is incomplete."
+    }
   },
   "priority_score": 3.55,
   "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*3 + 0.10*4 + 0.10*3 + 0.10*5 + 0.10*4 + 0.05*3 + 0.05*3 = 3.55",
-  "regret": {"value": 4, "why": "The corpus supplies hundreds of unusually clean paired perturbations, so abandoning the question without first resolving the checkpoint would waste a rare natural control."},
+  "regret": {
+    "value": 4,
+    "why": "The corpus supplies hundreds of unusually clean paired perturbations, so abandoning the question without first resolving the checkpoint would waste a rare natural control."
+  },
   "recommendation": "REVISE_AND_GATE_ON_CHECKPOINT"
 }
 
 
 ===== ideas/004/probe_contract.yaml =====
+# ===========================================================================
+# Probe contract v2 -- idea 004: the 425-pair reconstruction-sensitivity
+# floor study (bulk paired inference + frozen two-tier analysis).
+#
+# Drafted 2026-08-14 at the probe_plan stage from the human-authored
+# requirements file ideas/004/contract_requirements.md (git blob
+# 25095632ee84bae8c4919ad48293021f21c59410), which OVERRIDES the probe-plan
+# defaults (variant count, seed rule, 45-GPU-minute cap, probe scale) per the
+# contract-v2 machinery. Supersedes the executed contract v1 (load probe,
+# PASSED 2026-08-12), which is preserved in git history and in the PROBED
+# ledger record. No code exists for this contract yet: probe_code requires
+# a HUMAN_APPROVED_PROBE marker hash-bound to THIS file's git blob.
+# ===========================================================================
+
 idea_id: "idea-004"
-track: exploratory
-question: "Can the officially released v2 ClassFine checkpoint be provenance-frozen, loaded unchanged with the released inference pipeline, and used to emit deterministic 18-head scores for one predeclared CT-RATE validation reconstruction pair?"
-risky_assumption_tested: "The officially linked CT_LiPro_v2.pt artifact is compatible with the frozen released code and preprocessing, represents an 18-output ClassFine head, and can run unchanged at batch size 1 within the available compute envelope."
-primary_metric: "Successful end-to-end completion: verified checkpoint and code provenance, exactly 18 finite output scores for each inference execution, and bit-identical scores for the repeated execution of reconstruction A."
+contract_version: 2
+supersedes: "contract v1 (exploratory load probe, executed and PASSED 2026-08-12; preserved in git history and in the PROBED ledger record)"
+track: confirmatory  # tier 1 on the three adequately sized strata; every exploratory carve-out is enumerated in frozen_scope and claim_discipline
+
+# ---------------------------------------------------------------------------
+# Authorities. This contract implements, and must be reviewed line by line
+# against, the requirements file; it cites every decision entry that file
+# names.
+# ---------------------------------------------------------------------------
+authorities:
+  requirements_file:
+    path: "ideas/004/contract_requirements.md"
+    git_blob: "25095632ee84bae8c4919ad48293021f21c59410"
+  decision_entries:
+    - "2026-08-11 -- Idea 004 Stage 0: feasibility memo accepted with four contract pins"
+    - "2026-08-14 -- AMENDMENT to 2026-08-11 pin 2: CT-Scroll demoted from tier-2 equivalence margin to benchmark context"
+    - "2026-08-12 -- Probe 004 contract v1 ADVANCE (load probe passed)"
+    - "2026-08-14 -- A1 RATIFIED: CT-Scroll context memo (idea 004, r1)"
+    - "2026-08-12 -- Probe 004 exit-7 root cause and revision spec (kernel-field normalization; selection audit)"
+    - "2026-08-12 -- Probe 004 exit-5 root cause (transformers pin, not the checkpoint)"
+    - "2026-08-12 -- Probe 004 r5 environment dead end; r6 pivot to enumerated-key-tolerant load"
+  context_memo:
+    path: "ideas/004/context_memo.md"
+    git_blob: "6668a313ae83779ef2a74d1982dd287d504a7e0d"  # ratified A1, 2026-08-14; verified equal to the working tree at contract-draft time
+
+question: "Across the 425 frozen geometry-matched same-acquisition reconstruction pairs of the CT-RATE validation split, what are the per-head, per-stratum paired changes in the released v2 ClassFine scores (tier 1, label-free, primary), and descriptively, the per-head paired delta-AUROC against the released report-derived validation labels (tier 2, secondary, no pass/fail semantics)?"
+
+risky_assumption_tested: "The v1-verified provenance-frozen load-and-infer pipeline scales to 425 pairs across chunked multi-session execution while preserving bit-determinism within session, provenance for every input byte, and same-session pairing -- so that the resulting per-head paired-difference distributions constitute a valid reconstruction-sensitivity baseline for this checkpoint on these contrasts."
+
+# ---------------------------------------------------------------------------
+# R1 -- Frozen scope and manifest.
+# ---------------------------------------------------------------------------
+frozen_scope:
+  pair_population: "Exactly the frozen Stage-0 pair list: 425 geometry-matched same-acquisition pairs. No additions, no substitutions."
+  strata_frozen_counts:
+    "Br40f|Br60f": 237
+    "Bl56f|Br40f": 126
+    "Bl57d|Br36d": 58
+    "Br40f|Br44f": 4   # exploratory only; excluded from every confirmatory statement
+  manifest:
+    file: "pair_manifest.csv"
+    columns: [pair_id, patient_id, volume_name_softer, volume_name_sharper, stratum, kernel_normalized_softer, kernel_normalized_sharper, anchor_excluded]
+    pair_id_rule: "p001..p425, assigned in manifest order: strata in the fixed order [Br40f|Br60f, Bl56f|Br40f, Bl57d|Br36d, Br40f|Br44f], then within each stratum ascending lexicographic order of volume_name_softer. patient_id is the valid_<N> prefix of the VolumeName."
+    generation: "Deterministically re-derived in the manifest-freeze phase (see approval_and_phasing) from validation_metadata.csv at the pinned HF revision and SHA-256, by re-applying the frozen Stage-0 matching rules (exact string equality on RescaleSlope, RescaleIntercept, XYSpacing, ZSpacing, NumberofSlices, plus position/acquisition columns where present) with the r5 kernel-field normalization. Hard gate: per-stratum counts must equal the frozen counts above exactly; any mismatch is an invalidating failure with a mandatory selection audit."
+    analysis_population_rule: "The analysis population is pair_manifest.csv byte-for-byte, identified by the SHA-256 recorded below -- not the counts."
+  pair_manifest_sha256: "TO_BE_RECORDED_AT_MANIFEST_FREEZE"   # filling this amends the contract; re-approval is machinery-enforced
+  unique_volume_count: "TO_BE_RECORDED_AT_MANIFEST_FREEZE"    # computed as distinct VolumeNames in the manifest; 425 x 2 = 850 is NOT assumed
+  anchor_pair_exclusion: "The v1 load-probe pair (valid_1004_a_1.nii.gz | valid_1004_a_2.nii.gz), whose per-head scores were exposed by contract v1 and declared uninterpretable there, appears in the manifest flagged anchor_excluded=true. Its paired deltas are excluded from every tier-1 and tier-2 confirmatory statistic (context memo section 4; v1 contract terms) and are reported only as anchor diagnostics. Confirmatory Br40f|Br60f statistics therefore use 236 pairs; both raw and counted denominators are reported."
+  vendor_scope_limitation: "462 of 464 Stage-0-audited volumes are Siemens. Every claim from this study is vendor-scoped (predominantly single-vendor); no cross-vendor or cross-site statement is permitted."
+
+# ---------------------------------------------------------------------------
+# Approval and phasing. Resolves R1's requirement that the manifest SHA-256
+# be recorded in the contract, under the coding gate (no code before an
+# approved contract) and the hash-bound approval machinery (any contract
+# edit after approval blocks probe-code until re-approval).
+# ---------------------------------------------------------------------------
+approval_and_phasing:
+  phase_M_manifest_freeze:
+    scope: "Metadata only. Downloads at most the three pinned metadata tables at the pinned HF revision (hashes in provenance_pins). Generates pair_manifest.csv, computes its SHA-256 and the unique-volume count, always writes selection_audit.json (kernel-value tally with counts, example VolumeNames, per-filter drop counts). NO image download, NO inference, NO score of any kind."
+    exit: "The operator records pair_manifest_sha256 and unique_volume_count in this contract (a one-commit amendment changing this file's git blob) and re-runs approve-probe. The stale v1-bound or phase-M-bound marker then no longer authorizes anything -- the gate enforces this."
+  phase_B_bulk:
+    entry_condition: "Permitted only when (a) pair_manifest_sha256 and unique_volume_count are non-placeholder, and (b) HUMAN_APPROVED_PROBE is bound to the git blob of this contract as amended. Any Phase B activity before both hold is an invalidating failure."
+    scope: "Chunked download -> preprocess -> infer -> delete over the manifest, then the frozen deterministic analysis (tier 1; tier 2 only if tier 1 completes)."
+  note_for_reviewer_and_human: "R1 says the contract 'materializes the pair list ... and records its SHA-256 in the contract'. The pair list can only be materialized by code, and code requires an approved contract; this two-phase, two-approval flow is the designed resolution, enforced automatically by the hash-bound approve-probe gate. It is flagged here rather than silently assumed. If the operator intends a different flow, say so at first approval."
+
+# ---------------------------------------------------------------------------
+# R2 -- Canonical sign direction, fixed before any score is seen.
+# ---------------------------------------------------------------------------
+canonical_sign:
+  rule: "For every pair, the signed difference is d = s(higher-index kernel) - s(lower-index kernel), where the index is the two-digit number in the normalized Siemens kernel name. Within a kernel family this is sharper-minus-softer (the numeric index tracks the reconstruction's spatial-frequency emphasis in Siemens nomenclature: Br60f sharper than Br40f). For the cross-family strata (Bl56f|Br40f, Bl57d|Br36d) the same numeric rule applies as a stated convention; the stratum label preserves the full composite contrast, and no within-family interpretation is implied. Ties in the numeric index (none occur in the frozen strata) would fall back to lexicographically-greater-minus-lesser on the full normalized kernel string. Pair ordering in the released files, filenames, or metadata rows NEVER determines sign."
+  per_stratum_directions:
+    "Br40f|Br60f": "s(Br60f) - s(Br40f)"
+    "Bl56f|Br40f": "s(Bl56f) - s(Br40f)"
+    "Bl57d|Br36d": "s(Bl57d) - s(Br36d)"
+    "Br40f|Br44f": "s(Br44f) - s(Br40f)"
+
+# ---------------------------------------------------------------------------
+# R3 -- Tier 1: primary, label-free, confirmatory.
+# ---------------------------------------------------------------------------
+tier1_analysis:
+  unit: "Per head (18) x per stratum. NO cross-head averaging appears anywhere in any tier-1 statistic, table, or figure."
+  scales: "Signed paired differences on BOTH the probability scale and the logit scale. logit(p) = ln(p/(1-p)) with p clipped to [1e-6, 1 - 1e-6] before transformation; the clip bounds are preregistered here and the count of clipped values is reported per head per stratum."
+  statistics_per_cell:
+    - "N pairs (raw and confirmatory-counted, per the anchor exclusion)"
+    - "median and mean signed difference"
+    - "empirical quantiles of |d| at 0.50, 0.75, 0.90, 0.95, and 1.00 (max)"
+  bootstrap:
+    resampling_unit: "patient (patients contribute multiple scans; all manifest pairs of a resampled patient enter with multiplicity)"
+    replicates: 2000
+    interval: "percentile, 95%"
+    rng: "numpy default_rng(20260814), fixed here"
+    bootstrapped_statistics: "median signed d, mean signed d, and the 0.95 quantile of |d|, per head per stratum, on both scales"
+  exploratory_stratum: "Br40f|Br44f (4 pairs): raw per-pair values listed, labeled exploratory; no bootstrap interval is computed or reported for it."
+  terminology: "The term 'repeatability coefficient' and its machinery are not used anywhere: these are intentionally different reconstruction conditions, not repeated identical measurements."
+
+# ---------------------------------------------------------------------------
+# R4 -- Tier 2: secondary, descriptive, label-dependent (amended pin 2).
+# ---------------------------------------------------------------------------
+tier2_analysis:
+  ordering: "Tier 2 runs only if tier 1 completes."
+  estimand: "Per head, per stratum: delta-AUROC = AUROC(higher-index-kernel member scores) - AUROC(lower-index-kernel member scores), computed against the released RadBERT-derived validation labels (valid_predicted_labels.csv at the pinned hash; labels are duplicated within pair, so each pair contributes one label), with patient-cluster bootstrap percentile 95% intervals (2000 replicates, numpy default_rng(20260815), both AUROCs and the delta recomputed per replicate). Reported on the [0,1] scale; multiplied by 100 only when set beside the context values."
+  sparse_label_rule: "Preregistered before any score is seen: a (head, stratum) cell's AUROCs are computed only if the stratum contains at least 10 positive AND at least 10 negative pairs for that head by the released labels. These counts are computation-eligibility conditions only; they carry no interpretive semantics. Every excluded cell is reported in a mandatory table with its positive and negative counts and the label 'insufficient labels for AUROC'; excluded cells are never imputed, zero-filled, or silently dropped."
+  threshold_language: "ZERO threshold language, per the 2026-08-14 amendment to pin 2: no margin, no cutoff, no numeric criterion, and no pass/fail wording attaches to any tier-2 quantity in this contract, in the run outputs, or in the interpret stage's use of them."
+  benchmark_context: "Context for magnitude is the ratified context memo (git blob 6668a313ae83779ef2a74d1982dd287d504a7e0d), arXiv-2503.20652-v6-pinned: five trained-model 18-label-averaged AUROC values (ViViT 79.19, CT-Net 79.37, Swin3D 79.94, 3D CNN 81.47, CT-Scroll 81.80), max-min spread 2.61, adjacent-rank gaps 0.18-1.53. Context only; no number carries pass/fail semantics."
+  inherited_caveats_stated:
+    - "Aggregation mismatch: the context values are 18-label averages; this study is per-head. A between-model gap in the average says nothing direct about any single head."
+    - "Scale: context values are on the 0-100 AUROC scale; this study computes on [0,1] and must convert when contextualizing."
+    - "Uncertainty concept: the context's +/- terms are std across 5 training seeds; this study's intervals are patient-cluster bootstrap sampling intervals. The two are not comparable as error bars."
+    - "Source inconsistency: the v6 ViViT value differs between Table 1 (79.19) and Table 2 (73.19); any use of ViViT-involved gaps carries this caveat. The six ViViT-free pairwise gaps (0.57, 1.53, 2.10, 0.33, 1.86, 2.43) are unaffected."
+    - "Framing: both the context's labels and this study's labels are report-derived. Tier 2 measures benchmark discrimination against the released report-derived labels of CT-RATE, never clinical diagnostic accuracy."
+
+# ---------------------------------------------------------------------------
+# R5 -- Environment (r6 closure).
+# ---------------------------------------------------------------------------
+environment:
+  pinned_closure: "transformers==4.38.2, tokenizers==0.15.2 (the r6 closure, installed cleanly twice and used by the passed v1 run)"
+  state_dict_exception: "Exactly one state-dict key matching the suffix-anchored pattern *.embeddings.position_ids is removed before strict loading and written to provenance.json and the run log. Zero or multiple matches, or any OTHER unexpected or missing key, is a hard load failure. This replicates from_pretrained's documented cross-era buffer behavior (r6 ledger semantics)."
+  startup_logging: "Every session start logs all installed versions (transformers, tokenizers, torch, CUDA) before any model work."
+  cross_session_rule: "The transformers/tokenizers pins are absolute across sessions; a deviation in any session is environment drift and invalidating. torch/CUDA/GPU model may differ between sessions (Colab does not guarantee them); they are recorded per chunk, and the anchor cross-session check plus same-session pairing are the load-bearing protections (rationale in execution_model.anchor)."
+
+# ---------------------------------------------------------------------------
+# R6 -- Selection (r5 closure).
+# ---------------------------------------------------------------------------
+selection:
+  kernel_normalization: "The ConvolutionKernel field is normalized before any comparison: if it parses as a Python list literal, element 0 is used; otherwise the stripped raw string. Robust to both released formats."
+  shortfall_diagnostics: "On ANY shortfall versus the frozen manifest (phase M) or versus the manifest's pair list (phase B), a diagnostic audit is written to the run log AND selection_audit.json: top-10 distinct kernel values with counts, example VolumeNames, and per-filter drop counts. A shortfall without a matching audit is itself invalidating."
+  per_volume_record: "The normalized kernel (and the raw field it came from) is recorded per selected volume in input_manifest.csv."
+
+# ---------------------------------------------------------------------------
+# R7 -- Execution model.
+# ---------------------------------------------------------------------------
+execution_model:
+  chunking: "17 chunks of exactly 25 pairs (425 = 17 x 25), assigned deterministically in manifest order. Cycle per chunk: download -> hash-verify -> preprocess -> infer -> delete image files. 25 pairs is at most ~50 volumes x ~0.5 GB = ~25 GB transient disk, sized well inside Colab Pro+ local disk."
+  chunk_atomicity: "A chunk executes wholly within one session. Both members of every pair run in the SAME session and environment -- guaranteed structurally by whole-pair chunks plus this rule: an interrupted chunk is redone IN FULL in a later session (both members re-inferred, even if one member had completed). A pair whose members were scored in different sessions is invalidating."
+  per_chunk_manifest: "Each chunk writes chunk_manifest.csv (every input file's SHA-256, sizes, VolumeNames, pair_ids) persisted to the results bundle before the next chunk begins."
+  per_chunk_environment: "Each chunk writes environment.json: GPU model, CUDA version, PyTorch version, package versions, session identifier."
+  anchor:
+    pair: "valid_1004_a_1.nii.gz (Br40f) | valid_1004_a_2.nii.gz (Br60f) -- the v1 load-probe pair, scores already exposed and declared uninterpretable"
+    input_sha256:
+      valid_1004_a_1.nii.gz: "b058a53eff9f226dbff9725fade98fde412ac56e78a976e404e5c77e8e84f7bd"
+      valid_1004_a_2.nii.gz: "dd581f82142646a4ad616cfc6f6b4a6ce8a058f029d47cff04004f1fc7bc2751"
+    protocol: "At every session start, before any chunk work: obtain the anchor volumes (persistent-storage caching across sessions is permitted; SHA-256 verified before every use), run A, run B, run A again. Within-session check: the A repeat must be bit-identical (score_hex equality). Cross-session check: per-head probabilities of A and B are compared to the v1 reference (probes/004/results/per_sample.csv, git blob ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1, rows exec1_A and exec2_B)."
+    cross_session_tolerance: "Maximum per-head absolute difference on the probability scale <= 1.0e-4, fixed here before bulk execution. Rationale: hardware may legitimately differ across sessions and floating-point reduction order with it, so bit-identity cannot be demanded cross-session; same-session pairing is the load-bearing protection for the paired estimand. 1.0e-4 is ~70x smaller than the one observed diagnostic A-vs-B reconstruction difference (7.0e-3, v1) while generous to cross-GPU arithmetic variation. Anchor drift beyond tolerance is invalidating for the session (no chunk from it counts; the chunk is redone after diagnosis)."
+    counting: "All anchor executions are excluded from every scientific statistic; they are logged to anchor_log.csv."
+  launcher: "The launcher notebook is a thin driver: it clones the repo, installs the pinned requirements, and runs run.py as a subprocess. It NEVER imports the model stack into its own kernel, so no kernel restart can exist in the workflow."
+
+# ---------------------------------------------------------------------------
+# R8 -- Budgets. Caps are in volumes processed and sessions, not GPU minutes.
+# ---------------------------------------------------------------------------
+budgets:
+  pair_count_cap: 425
+  unique_volume_cap: "TO_BE_RECORDED_AT_MANIFEST_FREEZE (equals frozen_scope.unique_volume_count; the cap on distinct scientific volumes downloaded and inferred)"
+  qa_retry_download_allowance: "ceil(0.20 x unique_volume_cap) volumes, frozen as a number at manifest freeze. Covers redone chunks and anchor re-runs (anchor volumes count once if cached in persistent storage, once per re-download otherwise)."
+  session_cap: 30
+  gpu_minutes: "Not a governing cap (R8: a single total-download or GPU-minute cap is incoherent under resumability). Informational estimate: ~5 s inference/volume (v1-measured) -> roughly 1.5-2 GPU-hours total including anchors and spot-checks; CPU preprocessing dominates wall-clock."
+  overrun_rule: "Reaching any cap stops the run; the stop is reported as budget exhaustion, never reinterpreted as a scientific result. Continuing past a cap is invalidating."
+
+# ---------------------------------------------------------------------------
+# R9 -- Determinism and stopping.
+# ---------------------------------------------------------------------------
+determinism:
+  spot_check_subset: "Preregistered: the first pair of each stratum in manifest order (4 pairs: the first Br40f|Br60f, Bl56f|Br40f, Bl57d|Br36d, and Br40f|Br44f pair). Each is re-run -- both members -- within the same session that scored it, and the re-run must be bit-identical (score_hex equality). Spot-check re-runs are excluded from scientific statistics."
+  within_session: "Bit-identity is the standard for every within-session repeat (anchor A-repeat and spot-checks)."
+  cross_session: "Governed solely by the anchor tolerance above; no cross-session bit-identity is demanded."
+
+stopping_rule: "Stop when all 425 manifest pairs are scored, all spot-checks and per-chunk artifacts are complete, and the frozen analysis has run (tier 2 only if tier 1 completes); or immediately on any invalidating failure; or when any R8 cap would be exceeded. No additional pair, volume, head, seed, scale, statistic, or analysis variant may be run."
+
+# ---------------------------------------------------------------------------
+# Template fields (contract-v2 readings; the requirements file overrides
+# probe-plan defaults).
+# ---------------------------------------------------------------------------
+primary_metric: "Tier 1: per-head (18) x per-stratum signed paired score-difference distributions on probability and logit scales -- N, median and mean signed difference, |d| quantiles (0.50/0.75/0.90/0.95/max), with patient-cluster bootstrap 95% intervals. No cross-head averaging."
 secondary_metrics:
-  - "Peak GPU memory and total GPU minutes for each inference execution."
-  - "Wall-clock download, preprocessing, model-load, and inference times."
-  - "Per-head scores for reconstruction A and B and their paired differences, retained only as pipeline diagnostics and not as a scientific reconstruction-sensitivity estimate."
+  - "Tier 2 (descriptive, only if tier 1 completes): per-head per-stratum paired delta-AUROC against the released report-derived validation labels, patient-cluster bootstrap intervals, sparse-label-rule exclusions tabulated; benchmark context per the ratified memo, zero threshold language."
+  - "Anchor diagnostics: within-session bit-identity and cross-session max per-head probability deviation per session."
+  - "Resource accounting: volumes downloaded and inferred (scientific / QA-retry / anchor), sessions used, per-chunk wall-clock and peak GPU memory."
 baselines:
-  - "Identical-file determinism control: run reconstruction A twice from the same frozen input bytes and configuration."
-dataset: "Exactly one frozen Stage-0 geometry-matched Br40f|Br60f pair from the CT-RATE validation split (two volumes), selected before score inspection; CT_LiPro_v2.pt from the official CT-RATE dataset repository."
-split_policy: "validation split only; this is an exploratory feasibility/load probe, and no model selection, threshold fitting, margin selection, or test-set analysis is permitted"
-maximum_variants: 3
-maximum_gpu_minutes: 45
-maximum_seeds: 1
-stopping_rule: "Run only three preregistered executions (A, B, repeated A). Stop immediately on an invalidating failure, after all three executions complete, or when 45 cumulative GPU minutes are exhausted. Do not download or score any additional pair."
-positive_pattern: "The pinned artifact loads without architecture or preprocessing changes; each execution produces exactly 18 finite named scores; repeated A is bit-identical; and the three executions finish within 45 GPU minutes at batch size 1 without changing patch size. This authorizes only a later request for human approval of the separate 425-pair floor-study contract."
-negative_pattern: "Any magnitude or direction of A-versus-B score differences, including exactly zero difference across all heads, is a scientifically uninterpretable probe observation rather than evidence for or against reconstruction sensitivity. A compatible but slow run that completes correctly within the cap is a feasibility cost finding, not a negative scientific result."
+  - "Anchor pair at every session start: within-session bit-identity plus cross-session tolerance against the pinned v1 reference scores (drift detector; excluded from all scientific counting)."
+  - "Within-session spot-check re-runs of the preregistered 4-pair subset: bit-identical or invalidating."
+dataset: "The 425 frozen Stage-0 geometry-matched same-acquisition pairs of the CT-RATE validation split, materialized as pair_manifest.csv (hash-recorded in this contract at manifest freeze) from validation_metadata.csv at the pinned revision; CT_LiPro_v2.pt from the official CT-RATE dataset repository; released labels valid_predicted_labels.csv for tier 2 only."
+split_policy: "Validation split only. Tier 1 is label-free. Tier 2 uses the released validation labels descriptively; nothing is tuned, no threshold or operating point is fit anywhere, and no training-split or test-set analysis exists in this contract."
+maximum_variants: 1   # one frozen pipeline configuration; the requirements file overrides the probe-plan default of 3 small-probe variants
+maximum_gpu_minutes: null  # per R8 the governing caps are volumes and sessions; GPU minutes are recorded and reported, not capped
+maximum_seeds: 1      # inference is deterministic (one seed); the two fixed bootstrap RNG streams (20260814, 20260815) are preregistered analysis constants, not seed variants
+
+positive_pattern: "Phase M reproduces the frozen stratum counts exactly and freezes the manifest by hash; every chunk completes with verified provenance, same-session pairing, bit-identical spot-checks, and in-tolerance anchors; all 425 pairs are scored; tier 1 produces the full per-head x per-stratum paired-difference tables with bootstrap intervals; tier 2 (if tier 1 completes) produces the delta-AUROC tables with its exclusion table. ANY resulting magnitude profile -- near-zero, large, or mixed across heads and strata -- is a valid descriptive outcome: the deliverable is the measured reconstruction-sensitivity baseline itself."
+
+negative_pattern: "There is no failing magnitude. Tightly-bounded-near-zero paired differences are the sensitivity-bounded descriptive null of the idea card: the measured bound is the result, which downstream work on this checkpoint must exceed to attribute an effect to anything beyond rendering (no equivalence claim is made -- amended pin 2 removed all margins). Large paired differences are equally valid descriptively. Tier-2 cells excluded by the sparse-label rule, wide bootstrap intervals, in-tolerance nonzero anchor deviation, and slow-but-correct sessions are reporting outcomes, not failures. None of these may be reinterpreted as an invalidating failure, and no invalidating failure may be reinterpreted as a negative result."
+
 invalidating_failures:
-  - "The official gate cannot be accepted or either of the two frozen validation volumes or CT_LiPro_v2.pt cannot be obtained from the recorded official revision."
-  - "The checkpoint file, repository revision, or input volumes cannot be cryptographically identified; record the Hugging Face commit hash, checkpoint SHA-256/LFS object identity, code commit, and input-file hashes before inference."
-  - "CT_LiPro_v2.pt does not load with the released architecture and inference path without modifying weights, model structure, preprocessing, target shape, or patch size."
-  - "The loaded model does not emit exactly 18 finite output scores with a stable head-name/order mapping."
-  - "Either member of the selected pair fails the frozen Stage-0 geometry and acquisition matching rules or does not survive the released preprocessing path."
-  - "Repeated inference on reconstruction A is not bit-identical under the recorded environment and deterministic evaluation configuration."
-  - "Batch-size-1 inference exceeds available memory, crashes, or reaches the 45 GPU-minute cap before the three executions finish."
+  - "Access: the CT-RATE gate, any pinned metadata table, either anchor volume, any manifest volume, or the checkpoint cannot be obtained at the pinned revision."
+  - "Provenance mismatch: any SHA-256 mismatch -- checkpoint, metadata tables, anchor inputs, or any chunk input against its recorded hash -- or inference on a volume before its hash is recorded."
+  - "Manifest-freeze failure: phase-M stratum counts differ from the frozen 237/126/58/4 (with the mandatory selection audit written); or pair_manifest.csv omits or alters any frozen pair."
+  - "Selection shortfall without a matching diagnostic audit in both the run log and selection_audit.json (the shortfall is invalidating regardless; the missing audit is a second, independent invalidation)."
+  - "Load failure: any missing or unexpected state-dict key beyond exactly one provenance-logged *.embeddings.position_ids buffer key."
+  - "Output shape: any execution not producing exactly 18 finite named scores with the stable v1 head-name/order mapping."
+  - "Determinism: any within-session anchor repeat or preregistered spot-check re-run not bit-identical."
+  - "Anchor drift: cross-session anchor deviation beyond the preregistered 1.0e-4 per-head probability tolerance (invalidates that session's chunks; they are redone after diagnosis)."
+  - "Environment drift: any session deviating from the pinned transformers/tokenizers closure, or missing startup version logging, or a chunk missing its environment record."
+  - "Pair splitting: any pair whose two members were scored in different sessions, including via an interrupted chunk not redone in full."
+  - "Premature bulk start: any Phase B activity while a TO_BE_RECORDED_AT_MANIFEST_FREEZE placeholder remains in this contract, or without HUMAN_APPROVED_PROBE bound to the amended contract blob."
+  - "Budget overrun: continuing past the pair, unique-volume, QA/retry, or session cap."
+  - "Configuration deviation: batch size other than 1, or any patch-size, target-shape, weight, architecture, or preprocessing modification."
+  - "Label integrity (tier 2): a manifest pair whose members carry differing released label rows (contradicts the Stage-0 finding of exact duplication; world drift, stop and report)."
+  - "Missing chunk artifacts: a chunk's manifest or environment record not persisted before the next chunk begins."
+
+# ---------------------------------------------------------------------------
+# R11 -- Claim discipline.
+# ---------------------------------------------------------------------------
+claim_discipline:
+  permitted_claim: "A reconstruction-sensitivity baseline for the released v2 ClassFine checkpoint on the observed CT-RATE kernel contrasts, in a predominantly single-vendor (Siemens) cohort: per-head, per-stratum distributions of paired score change under same-acquisition reconstruction substitution, with a descriptive label-dependent secondary tier."
+  prohibited:
+    - "The universal-threshold interpretation: no artifact of this study may present the measured bound as a universal measurement floor, a general reconstruction-robustness fact, or a property of chest-CT foundation models beyond this checkpoint, these contrasts, and this cohort."
+    - "All idea-card prohibited conclusions remain in force: no test-retest language, no kernel-invariance/clinical-reliability/concept-validity/localization claims, no attenuation-ceiling inference, no accuracy or actionability claims for stable scores, no attribution to a specific anatomical feature or frequency band without independent intervention or measurement."
+    - "Attribution language: 'released v2 ClassFine checkpoint' until paper-number correspondence is checked (2026-08-11 pin 4)."
+  exposure_assumption_restated: "The v1 load probe exposed the per-head diagnostic scores of exactly one Stage-0-valid pair (max |A-B| difference 0.0070026815), declared scientifically uninterpretable in the v1 contract. Per the ratified context memo section 4, this does not compromise tier 2: the context numbers derive solely from CT-Scroll's published tables fixed before this program existed; under amended pin 2 there is no margin to steer; tier 1 is label-free and unaffected; and the exposed pair is excluded from every confirmatory statistic (frozen_scope.anchor_pair_exclusion). This contract's analysis plan is frozen before any bulk score is seen."
+
+# ---------------------------------------------------------------------------
+# Provenance pins (v1-verified identities; every one re-verified at run time).
+# ---------------------------------------------------------------------------
+provenance_pins:
+  checkpoint:
+    repo_path: "models/CT-CLIP-Related/CT_LiPro_v2.pt"
+    sha256: "9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d"
+  code_commit: "a2a155c601987820433c01db69b64d701d3d229d"  # github.com/ibrahimethemhamamci/CT-CLIP
+  hf_dataset_repo: "ibrahimhamamci/CT-RATE"
+  hf_revision: "deeca4d89e9f978d4d1bccd88a55071ddbb146bb"
+  tables_sha256:
+    validation_metadata.csv: "7ae04aaf59e946f8805c940697820f8fd97b56b9634cadd725269b3f6ed9cae1"
+    valid_predicted_labels.csv: "2356c549da0398dd8bc8d8b007fc78c5c4e489d8b54049b8bbc122a11d429b22"
+    validation_reports.csv: "e0538498de92e19b3bb6b70643d5c78edda146e4f480f159825202bf78ed4620"
+  tokenizer: "microsoft/BiomedVLP-CXR-BERT-specialized"
+  v1_anchor_reference_scores: "probes/004/results/per_sample.csv @ git blob ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1"
+
+# ---------------------------------------------------------------------------
+# R10 -- Results bundle. Consumable by the interpret stage and by a
+# deterministic validator (fixed paths, machine-readable formats).
+# ---------------------------------------------------------------------------
+results_bundle_layout: |
+  probes/004/results_v2/
+    manifest/pair_manifest.csv            # the frozen population (hash recorded in this contract)
+    manifest/selection_audit.json         # always written by phase M
+    chunks/chunk_01 .. chunk_17/
+      chunk_manifest.csv                  # input SHA-256s, persisted before the next chunk
+      environment.json                    # GPU, CUDA, torch, packages, session id
+      per_sample.csv                      # per-volume, per-head scores with score_hex
+    anchor/anchor_log.csv                 # every anchor execution, per session, with deviations
+    scores/per_sample.csv                 # global concatenation of all scientific executions
+    scores/input_manifest.csv             # per-volume normalized+raw kernel, hashes, roles
+    analysis/tier1_differences.csv        # per-pair signed differences, both scales
+    analysis/tier1_stats.csv              # per head x stratum summary statistics
+    analysis/tier1_bootstrap.csv          # bootstrap intervals per cell
+    analysis/tier2_auroc.csv              # per head x stratum AUROCs and deltas with intervals
+    analysis/tier2_excluded_cells.csv     # sparse-label exclusions with pos/neg counts
+    resolved_config.json
+    provenance.json
+    environment.txt                       # global summary; per-chunk records are authoritative
+    summary.json
+    run_log.txt
+
 required_outputs:
   - resolved_config.json
   - per_sample.csv
@@ -1413,85 +2363,99 @@ required_outputs:
   - input_manifest.csv
   - selection_audit.json
   - run_log.txt
-human_approved: true
+  - pair_manifest.csv
+  - chunk_manifest.csv (per chunk)
+  - environment.json (per chunk)
+  - anchor_log.csv
+  - tier1_differences.csv
+  - tier1_stats.csv
+  - tier1_bootstrap.csv
+  - tier2_auroc.csv
+  - tier2_excluded_cells.csv
+
+open_questions_for_human:
+  - "Approval flow confirmation (flagged, not a deviation): approving this contract authorizes Phase M (metadata-only manifest freeze) only. Bulk execution requires the post-freeze amendment recording pair_manifest_sha256 and unique_volume_count, and a fresh approve-probe run binding to the amended blob -- the gate enforces this mechanically. Confirm this two-approval reading of R1 at first approval, or direct otherwise."
+  - "The anchor pair is one of the 425 (Br40f|Br60f). This contract excludes its deltas from all confirmatory statistics (memo section 4; v1 terms), leaving 236 counted pairs in that stratum. If the operator instead wants it retained with an exposure footnote, that is a contract amendment before approval, not an execution-time choice."
+
+human_approved: false  # fresh approval required; the existing marker is bound to the superseded v1 contract blob and correctly fails the gate
 
 
 ===== ideas/004/probe_review.md =====
-# Probe code review — idea 004 (load probe, contract v1) — ROUND 5
+# Probe code review — idea 004 (load probe, contract v1) — ROUND 6
 
-**Reviewed artifacts:** `probes/004/run.py` (unchanged from approved revision
-`759b664`), `probes/004/requirements.txt`, `probes/004/README.md`,
-`probes/004/verification.json`, and `ideas/004/probe_contract.yaml`. This review
-is limited to the decision-ledger-authorized exit-5 environment repair:
-`transformers==4.30.1` and its compatible `tokenizers` cascade. The previously
-approved one-pair, three-execution probe remains unchanged.
+**Reviewed artifacts:** `probes/004/run.py`, `probes/004/requirements.txt`,
+`probes/004/README.md`, `ideas/004/probe_contract.yaml`, and the 2026-08-12 r6
+decision-ledger authorization. This review is limited to the authorized r6 repair:
+restore the previously installable Transformers closure and tolerate exactly the
+enumerated framework-era `*.embeddings.position_ids` buffer key while preserving
+strict loading for everything else.
 
-**Verdict: APPROVE.** The repair aligns model construction with the released
-repository's documented Transformers pin without weakening strict checkpoint
-loading or expanding the experiment. I independently compiled `run.py`, ran
-`python probes/004/run.py --smoke --output-dir <temporary-directory>`, and
-confirmed successful completion with all eight required artifacts, 54 per-head
-rows, and `contract_satisfied: false`. I also ran a Python-3.11-targeted pip
-dry-resolution of `transformers==4.30.1`, `tokenizers==0.13.3`, and
-`huggingface-hub==0.22.2`; the resolver accepted the combination.
+**Verdict: APPROVE.** The repair implements the ledger specification without
+expanding the experiment or concealing checkpoint incompatibility. I compiled
+`run.py`, ran its smoke mode into a fresh temporary output directory, and confirmed
+all eight required artifacts, 54 per-head rows, and `contract_satisfied: false`.
 
 ## Contract fidelity
 
-- **No probe-logic or scope drift.** `run.py` is byte-unchanged from the Round-4
-  approved revision, so the frozen pair selection, A/B/A-repeat execution count,
-  one-seed limit, 45-GPU-minute cap, strict load path, output-shape checks, and
-  required artifacts remain as previously reviewed.
-- **The environment repair matches the ledger exactly.** The dependency file
-  replaces the later Transformers release with `transformers==4.30.1` and adds
-  `tokenizers==0.13.3`; its comments state both the released-repository provenance
-  and the position-buffer incompatibility being tested
-  (`probes/004/requirements.txt:8-15`). No checkpoint key is dropped, renamed, or
-  loaded non-strictly.
-- **The repair propagates through the existing run instructions.** The documented
-  installation still consumes the single pinned requirements file before invoking
-  the unchanged driver (`probes/004/README.md:17-25`).
+- **The authorized compatibility exception is exact and fail-closed.** The regex
+  is suffix-anchored and requires a leading component
+  (`probes/004/run.py:626-643`). The real load requires exactly one matching key;
+  zero or multiple matches exit 5, and `strict=True` still rejects every other
+  missing or unexpected key (`probes/004/run.py:1174-1203`). This matches the r6
+  ledger's updated meaning of “unchanged modulo enumerated, provenance-logged
+  framework-era buffer keys.”
+- **The exception is auditable.** The removed key, pattern, and reason are written
+  to `provenance.json` before strict loading and printed to the run log
+  (`probes/004/run.py:1186-1199`). The installed Transformers version is captured
+  in `environment.txt` and logged at startup (`probes/004/run.py:335-353`).
+- **No experiment-scope drift.** Pair selection, the A/B/A execution sequence,
+  one-seed limit, 45-minute cap, 18-output checks, bit-determinism check, and
+  required outputs remain intact. The dependency closure is restored to
+  `transformers==4.38.2` and `tokenizers==0.15.2` as directed
+  (`probes/004/requirements.txt:8-16`).
 
 ## Silent-failure surfaces
 
-No blocking silent-failure surface was introduced. A real run under the older
-Transformers version still exercises the same strict checkpoint load and exits on
-incompatibility; the version change does not catch or suppress that failure. The
-README correctly says the prior exit-5 classification remains provisional until
-the real checkpoint is tested under the released pin
-(`probes/004/README.md:57-69`).
+No blocking silent-failure surface was found. The buffer strip cannot silently
+generalize to arbitrary checkpoint differences: near-miss names remain untouched,
+and strict loading follows immediately. Smoke mode explicitly tests the observed
+key, near misses, and zero/two-match behavior (`probes/004/run.py:802-832`). Any
+other load problem remains an exit-5 failure rather than a successful result.
 
 ## Claim discipline
 
-The smoke run remains explicitly non-scientific: its summary reports
-`contract_satisfied: false` and says that it establishes nothing about checkpoint
-compatibility or reconstruction sensitivity. The environment change introduces no
-new data contact, variant, score analysis, threshold, or scientific conclusion.
+The summary describes success as strict loading **modulo the one enumerated key**
+and continues to label A-versus-B differences scientifically uninterpretable
+(`probes/004/run.py:1288-1327`). Smoke mode cannot satisfy the contract and says so
+in `summary.json` (`probes/004/run.py:908-945`). No new data, execution, head
+selection, threshold, or scientific analysis was added.
 
 ## Readability and practicalities
 
-The new requirements comments explain why the two versions are pinned and identify
-their provenance (`probes/004/requirements.txt:8-14`). The README separately
-narrates the exit-5 cause, the exact repair, and the required next evidentiary step
-(`probes/004/README.md:57-69`). The targeted Python 3.11 dependency resolution
-found no conflict among Transformers, Tokenizers, and Hugging Face Hub, which is
-the compatibility surface changed in this revision.
+The module docstring and README explain why the old pin cannot install on Colab
+Python 3.12, what key is removed, why that key is non-learnable, and which failures
+remain fatal (`probes/004/run.py:23-38`; `probes/004/README.md:66-84`). The smoke
+run completed successfully and wrote `resolved_config.json`, `per_sample.csv`,
+`summary.json`, `environment.txt`, `provenance.json`, `input_manifest.csv`,
+`selection_audit.json`, and `run_log.txt` to the supplied `--output-dir`.
 
 ## Non-blocking findings
 
-1. **The real load result remains intentionally unknown.** Neither smoke mode nor
-   dependency resolution can prove that `CT_LiPro_v2.pt` loads; that is the approved
-   probe's primary metric, not a code-review defect.
-2. **The committed verification note is historically stale.**
-   `probes/004/verification.json` says Python execution was blocked during
-   implementation. This review independently executed the smoke run successfully;
-   no probe artifact or code change is required.
-3. **A full requirements solve was not reproduced on this host.** Its Python 3.13
-   environment has no wheel for the older pinned `torchvision==0.20.1`. That is not
-   evidence of a Colab incompatibility and predates this revision; the changed
-   three-package compatibility set resolves for Python 3.11.
+1. **The real checkpoint result remains unknown by design.** The smoke test proves
+   only harness behavior; only the approved real run can establish whether the
+   checkpoint contains exactly the understood buffer key and otherwise loads
+   strictly.
+2. **The README's verification note is stale.** It says the implementation sandbox
+   could not execute Python (`probes/004/README.md:86-88`), whereas this review
+   successfully compiled and smoke-tested the driver. This does not affect probe
+   execution or interpretation.
+3. **No full Colab dependency installation was repeated in this review.** The r6
+   closure is the ledger-designated return to the version set previously installed
+   successfully twice; the decisive practical check remains the human's Colab
+   installation and real run.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "The r5 repair faithfully pins the released Transformers environment and a compatible tokenizer, leaves the approved probe logic unchanged, and passes compilation, smoke, and targeted dependency-resolution checks."}
+{"verdict": "APPROVE", "blocking": [], "note": "The r6 repair tolerates only the single provenance-logged framework-era position_ids buffer key, preserves strict loading and the approved probe scope, and passes compilation plus the complete smoke harness."}
 ```
 
 
@@ -1578,7 +2542,16 @@ Review against, in order of severity:
    with provenance, progress printing, plain-English summary at the end.
    Blocking only when the code is genuinely opaque; otherwise list as
    non-blocking findings.
-5. **Practicalities.** Will it actually run in Colab: paths, pip pins,
+5. **Requirements conformance (when present).** If the idea folder
+   contains `contract_requirements.md`, verify the contract against it
+   line by line; every unmet requirement is BLOCKING. For a
+   requirements-governed contract additionally verify, each blocking:
+   no threshold/cutoff/margin language anywhere in tier-2 or secondary
+   endpoints; no cross-head or cross-label averaging in any analysis
+   step; scope exactly the frozen manifest (hash present in the
+   contract) with no data beyond it; session-integrity, anchor-pair,
+   and sparse-label rules present if the requirements name them.
+6. **Practicalities.** Will it actually run in Colab: paths, pip pins,
    Drive output dir taken from --output-dir, no interactive prompts.
 
 Write `probe_review.md`: findings by severity with file/line references,
