@@ -1,0 +1,17 @@
+{
+  "approval_marker_blob": "a84b617cd5a099b85467b43c88831933ea69dec3",
+  "contract_blob": "a84b617cd5a099b85467b43c88831933ea69dec3",
+  "hf_dataset_repo": "ibrahimhamamci/CT-RATE",
+  "hf_revision": "deeca4d89e9f978d4d1bccd88a55071ddbb146bb",
+  "no_image_download": true,
+  "no_inference": true,
+  "pair_manifest_sha256": "5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38",
+  "phase": "M",
+  "tables_sha256_verified": {
+    "valid_predicted_labels.csv": "2356c549da0398dd8bc8d8b007fc78c5c4e489d8b54049b8bbc122a11d429b22",
+    "validation_metadata.csv": "7ae04aaf59e946f8805c940697820f8fd97b56b9634cadd725269b3f6ed9cae1",
+    "validation_reports.csv": "e0538498de92e19b3bb6b70643d5c78edda146e4f480f159825202bf78ed4620"
+  },
+  "timestamp_utc": "2026-08-15T07:55:39Z",
+  "unique_volume_count": 850
+}

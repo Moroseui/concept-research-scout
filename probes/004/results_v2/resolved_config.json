@@ -1,0 +1,146 @@
+{
+  "anchor": {
+    "cross_session_tolerance": 0.0001,
+    "input_sha256": {
+      "valid_1004_a_1.nii.gz": "b058a53eff9f226dbff9725fade98fde412ac56e78a976e404e5c77e8e84f7bd",
+      "valid_1004_a_2.nii.gz": "dd581f82142646a4ad616cfc6f6b4a6ce8a058f029d47cff04004f1fc7bc2751"
+    },
+    "v1_reference_git_blob": "ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1",
+    "volume_A": "valid_1004_a_1.nii.gz",
+    "volume_B": "valid_1004_a_2.nii.gz"
+  },
+  "batch_size": 1,
+  "budgets": {
+    "pair_count_cap": 425,
+    "qa_retry_fraction": 0.2,
+    "session_cap": 30
+  },
+  "checkpoint_repo_path": "models/CT-CLIP-Related/CT_LiPro_v2.pt",
+  "checkpoint_sha256_pinned": "9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d",
+  "chunking": {
+    "chunk_count": 17,
+    "chunk_size_pairs": 25
+  },
+  "code_commit_pinned": "a2a155c601987820433c01db69b64d701d3d229d",
+  "contract_version": 2,
+  "ctclip_git_url": "https://github.com/ibrahimethemhamamci/CT-CLIP",
+  "environment_pins": {
+    "tokenizers": "0.15.2",
+    "transformers": "4.38.2"
+  },
+  "expected_pathologies": [
+    "Medical material",
+    "Arterial wall calcification",
+    "Cardiomegaly",
+    "Pericardial effusion",
+    "Coronary artery wall calcification",
+    "Hiatal hernia",
+    "Lymphadenopathy",
+    "Emphysema",
+    "Atelectasis",
+    "Lung nodule",
+    "Lung opacity",
+    "Pulmonary fibrotic sequela",
+    "Pleural effusion",
+    "Mosaic attenuation pattern",
+    "Peribronchial thickening",
+    "Consolidation",
+    "Bronchiectasis",
+    "Interlobular septal thickening"
+  ],
+  "exploratory_strata": [
+    "Br40f|Br44f"
+  ],
+  "frozen_stratum_counts": {
+    "Bl56f|Br40f": 126,
+    "Bl57d|Br36d": 58,
+    "Br40f|Br44f": 4,
+    "Br40f|Br60f": 237
+  },
+  "hf_dataset_repo": "ibrahimhamamci/CT-RATE",
+  "hf_revision_pinned": "deeca4d89e9f978d4d1bccd88a55071ddbb146bb",
+  "idea_id": "idea-004",
+  "optional_match_columns": [
+    "ImagePositionPatient",
+    "ImageOrientationPatient",
+    "PatientPosition",
+    "SliceThickness",
+    "ReconstructionDiameter",
+    "KVP",
+    "XRayTubeCurrent",
+    "ExposureTime",
+    "Exposure"
+  ],
+  "patch_size_modified": false,
+  "phase": "M",
+  "required_match_columns": [
+    "RescaleSlope",
+    "RescaleIntercept",
+    "XYSpacing",
+    "ZSpacing",
+    "NumberofSlices"
+  ],
+  "seed": 0,
+  "sign_directions": {
+    "Bl56f|Br40f": {
+      "sharper": "Bl56f",
+      "softer": "Br40f"
+    },
+    "Bl57d|Br36d": {
+      "sharper": "Bl57d",
+      "softer": "Br36d"
+    },
+    "Br40f|Br44f": {
+      "sharper": "Br44f",
+      "softer": "Br40f"
+    },
+    "Br40f|Br60f": {
+      "sharper": "Br60f",
+      "softer": "Br40f"
+    }
+  },
+  "sign_rule": "d = s(sharper) - s(softer); sharper = higher numeric kernel index (contract R2); pair ordering in the data never determines sign",
+  "strata_order": [
+    "Br40f|Br60f",
+    "Bl56f|Br40f",
+    "Bl57d|Br36d",
+    "Br40f|Br44f"
+  ],
+  "tables_sha256_pinned": {
+    "valid_predicted_labels.csv": "2356c549da0398dd8bc8d8b007fc78c5c4e489d8b54049b8bbc122a11d429b22",
+    "validation_metadata.csv": "7ae04aaf59e946f8805c940697820f8fd97b56b9634cadd725269b3f6ed9cae1",
+    "validation_reports.csv": "e0538498de92e19b3bb6b70643d5c78edda146e4f480f159825202bf78ed4620"
+  },
+  "tier1": {
+    "abs_quantiles": [
+      0.5,
+      0.75,
+      0.9,
+      0.95,
+      1.0
+    ],
+    "bootstrap_seed": 20260814,
+    "bootstrapped_statistics": [
+      "median_signed",
+      "mean_signed",
+      "q95_abs"
+    ],
+    "interval_percentiles": [
+      2.5,
+      97.5
+    ],
+    "logit_clip": 1e-06,
+    "quantile_method": "numpy default (linear interpolation)",
+    "replicates": 2000,
+    "resample_design": "one rng stream, strata in fixed order; per stratum, one patient resample per replicate reused across heads, scales, and statistics"
+  },
+  "tier2": {
+    "bootstrap_seed": 20260815,
+    "replicates": 2000,
+    "scale": "[0,1] AUROC",
+    "sparse_min_negative": 10,
+    "sparse_min_positive": 10,
+    "threshold_language": "none anywhere (amended pin 2)"
+  },
+  "tokenizer": "microsoft/BiomedVLP-CXR-BERT-specialized"
+}

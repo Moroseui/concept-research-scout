@@ -1,0 +1,16 @@
+[03:46:43] idea-004 contract-v2 driver starting (phase M)
+[03:46:43] PHASE 0: approval and contract gate
+[03:46:43]   approval marker blob: a84b617cd5a099b85467b43c88831933ea69dec3
+[03:46:43]   contract actual blob: a84b617cd5a099b85467b43c88831933ea69dec3
+[03:46:43]   hash-bound approval VERIFIED: marker matches the contract blob
+[03:46:43]   contract caps and provenance pins match the frozen constants
+[03:46:43] PHASE M: metadata-only manifest freeze
+[03:46:43] environment: seeds, determinism switches, version capture
+[03:46:43]   resolved_config.json written to /home/partho/concept-research-scout-v4/concept-research-scout/probes/004/results_v2
+[03:51:12]   validation_metadata.csv: downloaded and hash-verified
+[03:53:49]   valid_predicted_labels.csv: downloaded and hash-verified
+[03:55:39]   validation_reports.csv: downloaded and hash-verified
+[03:55:39]   head-name/order mapping confirmed against released labels CSV
+[03:55:39]   selected per-stratum counts: {'Br40f|Br60f': 237, 'Bl56f|Br40f': 126, 'Bl57d|Br36d': 58, 'Br40f|Br44f': 4}
+[03:55:39]   anchor pair p001 (valid_1004_a_1.nii.gz | valid_1004_a_2.nii.gz) flagged anchor_excluded
+[03:55:39]   pair_manifest.csv written: 425 pairs, 850 unique volumes, sha256 5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38

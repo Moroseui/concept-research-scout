@@ -1,0 +1,181 @@
+{
+  "counts_match": true,
+  "frozen_counts": {
+    "Bl56f|Br40f": 126,
+    "Bl57d|Br36d": 58,
+    "Br40f|Br44f": 4,
+    "Br40f|Br60f": 237
+  },
+  "kernel_values_top10": [
+    {
+      "count": 852,
+      "example_volume_names": [
+        "valid_1_a_2.nii.gz",
+        "valid_3_a_2.nii.gz",
+        "valid_4_a_2.nii.gz"
+      ],
+      "normalized": "B",
+      "raw": "B"
+    },
+    {
+      "count": 779,
+      "example_volume_names": [
+        "valid_1_a_1.nii.gz",
+        "valid_3_a_1.nii.gz",
+        "valid_4_a_1.nii.gz"
+      ],
+      "normalized": "YA",
+      "raw": "YA"
+    },
+    {
+      "count": 425,
+      "example_volume_names": [
+        "valid_5_a_1.nii.gz",
+        "valid_12_a_1.nii.gz",
+        "valid_13_a_1.nii.gz"
+      ],
+      "normalized": "Br40f",
+      "raw": "['Br40f', '3']"
+    },
+    {
+      "count": 239,
+      "example_volume_names": [
+        "valid_5_a_2.nii.gz",
+        "valid_12_a_2.nii.gz",
+        "valid_13_a_2.nii.gz"
+      ],
+      "normalized": "Br60f",
+      "raw": "['Br60f', '3']"
+    },
+    {
+      "count": 180,
+      "example_volume_names": [
+        "valid_25_a_1.nii.gz",
+        "valid_26_a_1.nii.gz",
+        "valid_27_a_1.nii.gz"
+      ],
+      "normalized": "Bl56f",
+      "raw": "['Bl56f', '3']"
+    },
+    {
+      "count": 125,
+      "example_volume_names": [
+        "valid_19_a_1.nii.gz",
+        "valid_30_a_1.nii.gz",
+        "valid_32_a_1.nii.gz"
+      ],
+      "normalized": "EA",
+      "raw": "EA"
+    },
+    {
+      "count": 102,
+      "example_volume_names": [
+        "valid_18_a_1.nii.gz",
+        "valid_82_a_1.nii.gz",
+        "valid_141_a_1.nii.gz"
+      ],
+      "normalized": "A",
+      "raw": "A"
+    },
+    {
+      "count": 93,
+      "example_volume_names": [
+        "valid_18_a_2.nii.gz",
+        "valid_82_a_2.nii.gz",
+        "valid_141_a_2.nii.gz"
+      ],
+      "normalized": "L",
+      "raw": "L"
+    },
+    {
+      "count": 65,
+      "example_volume_names": [
+        "valid_20_a_2.nii.gz",
+        "valid_35_a_2.nii.gz",
+        "valid_39_a_2.nii.gz"
+      ],
+      "normalized": "YB",
+      "raw": "YB"
+    },
+    {
+      "count": 60,
+      "example_volume_names": [
+        "valid_2_a_1.nii.gz",
+        "valid_21_a_1.nii.gz",
+        "valid_41_b_1.nii.gz"
+      ],
+      "normalized": "Bl57d",
+      "raw": "['Bl57d', '3']"
+    }
+  ],
+  "match_columns_used": [
+    "RescaleSlope",
+    "RescaleIntercept",
+    "XYSpacing",
+    "ZSpacing",
+    "NumberofSlices",
+    "ImagePositionPatient",
+    "ImageOrientationPatient",
+    "PatientPosition",
+    "ReconstructionDiameter",
+    "XRayTubeCurrent",
+    "ExposureTime",
+    "Exposure"
+  ],
+  "non_validation_refused": 0,
+  "per_stratum": {
+    "Bl56f|Br40f": {
+      "candidate_pairs_failing_geometry_match": 54,
+      "geometry_mismatches_by_column": {
+        "ImagePositionPatient": 54,
+        "NumberofSlices": 26,
+        "ReconstructionDiameter": 20,
+        "XYSpacing": 20
+      },
+      "scans_total": 1564,
+      "scans_with_duplicate_contrast_members": 0,
+      "scans_without_one_member_of_each_kernel": 1384,
+      "selected_pairs": 126
+    },
+    "Bl57d|Br36d": {
+      "candidate_pairs_failing_geometry_match": 1,
+      "geometry_mismatches_by_column": {
+        "NumberofSlices": 1
+      },
+      "scans_total": 1564,
+      "scans_with_duplicate_contrast_members": 1,
+      "scans_without_one_member_of_each_kernel": 1504,
+      "selected_pairs": 58
+    },
+    "Br40f|Br44f": {
+      "candidate_pairs_failing_geometry_match": 2,
+      "geometry_mismatches_by_column": {
+        "ImagePositionPatient": 2,
+        "ReconstructionDiameter": 1,
+        "XYSpacing": 1
+      },
+      "scans_total": 1564,
+      "scans_with_duplicate_contrast_members": 0,
+      "scans_without_one_member_of_each_kernel": 1558,
+      "selected_pairs": 4
+    },
+    "Br40f|Br60f": {
+      "candidate_pairs_failing_geometry_match": 1,
+      "geometry_mismatches_by_column": {
+        "NumberofSlices": 1
+      },
+      "scans_total": 1564,
+      "scans_with_duplicate_contrast_members": 0,
+      "scans_without_one_member_of_each_kernel": 1326,
+      "selected_pairs": 237
+    }
+  },
+  "selected_counts": {
+    "Bl56f|Br40f": 126,
+    "Bl57d|Br36d": 58,
+    "Br40f|Br44f": 4,
+    "Br40f|Br60f": 237
+  },
+  "total_rows": 3039,
+  "unique_volume_count": 850
+}
