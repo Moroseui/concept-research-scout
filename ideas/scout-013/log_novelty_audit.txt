@@ -1,0 +1,11 @@
+Novelty audit complete for all five cycle-013 candidates. I wrote `ideas/scout-013/novelty_audit.md` (per-candidate neighbors, delta, why-not-done, verdict, plus the summary table keyed C1–C5) and `ideas/scout-013/novelty_manifest.json` (46 recorded queries and 15 neighbor records with access levels). No other files were touched and no code was written.
+
+**Verdicts:** all five received `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` — every candidate had a thorough multi-angle search with neighbors found and distinguished, and no duplicate of any candidate's specific question surfaced. Why-not-done codes: C1 and C4 `NEW_CAPABILITY` (CT-CLIP and Merlin releases only recently supplied the model-side readout); C2, C3, C5 `BLIND_SPOT` (disciplinary boundaries between measurement communities and model-audit communities).
+
+Three findings from the search matter beyond the verdicts:
+
+1. **C2's card is stale.** An interventional attribution audit of Sybil already exists — *Auditing Sybil*, arXiv:2602.02560, ICML 2026 (read at full text). It never tests fissures, so C2 survives as novel, but it found Sybil behaves roughly as a nodule-linear model with an age/bone-density baseline, which is adverse prior evidence against an independent fissure signal and also supplies reusable intervention machinery. Any revision must engage it.
+2. **C5's novelty is certified but its physics got weaker.** Every existing venous-asymmetry/collateral result rides on SWI deoxyhemoglobin susceptibility or CTA contrast opacification — mechanisms absent on non-contrast CT. The unoccupied niche may be unoccupied because the signal doesn't exist there, which makes the card's model-free Phase-1 gate load-bearing (consistent with its "sounds probably wrong" self-label).
+3. **C3 gains prior legwork.** Lin et al. 2024 (J Med Syst, DOI 10.1007/s10916-023-02030-2) demonstrated a CXR-derived osteoporosis signal independently stratifies mortality (HR 1.67), so the skeletal-frailty premise is now demonstrated rather than hypothesized; the unresolved risk remains anchor-model access, as the card already says.
+
+One calibration note: most establishing passages are at `search_summary` or `abstract` access level (paywalls/403s); only the Auditing Sybil paper was read at full text. That's recorded per neighbor in the manifest for downstream verification.
