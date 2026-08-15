@@ -331,3 +331,16 @@ Per the two-phase design this amendment stales the phase-1 approval by
 construction. Phase-2 approval is DEFERRED until the results-transport
 machinery (E1/E2) lands; no bulk activity is authorized in the
 interim, and the driver refuses phase B regardless.
+
+## 2026-08-15 - A2 amendment 2: placeholder rule line reworded
+
+Audit of run.py found the phase-B placeholder check is a full-file
+scan (run.py:411). The invalidating-failure rule line retained the
+literal token by design and would therefore refuse phase B forever.
+Resolution on the contract side, zero code change: the rule line now
+says "TO_BE_RECORDED placeholder token" instead of the full literal.
+Rule meaning unchanged. Timed before phase-2 approval, so no extra
+approval staleness is incurred (the phase-1 marker was already stale
+from amendment 1). The naive scan itself goes on the run.py polish
+list, not a revision: it is fail-safe in direction and now correct
+in effect.
