@@ -23,6 +23,7 @@ fiction_scout = "claude"   # fiction refiner is always the opposite family (deri
 novelty_audit = "codex"
 librarian = "claude"
 actioner = "claude"
+context_memo = "claude"   # A1: WebFetch extraction; checker-mode, human-ratified
 
 # Which model plays which side during debate rounds.
 [debate]
