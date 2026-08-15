@@ -1,6 +1,36 @@
 {
   "idea_id": "004",
+  "contract_version": 2,
   "passed": true,
   "issues": [],
-  "checked_at": "2026-08-12T09:59:37.691071+00:00"
+  "checked_at": "2026-08-15T04:40:13Z",
+  "method": "static (this sandbox cannot execute Python; py_compile and the smoke run were NOT executed here). Verification is a full line-by-line read of run.py plus mechanical text cross-checks against the approved contract. The smoke run is the mandatory first command on the real machine, before phase M.",
+  "checks": {
+    "approval_gate": "HUMAN_APPROVED_PROBE contract_blob a84b617cd5a099b85467b43c88831933ea69dec3 equals git hash-object of ideas/004/probe_contract.yaml (phase-1 approval, manifest freeze only); run.py recomputes this same blob binding at every start and refuses phase B while any TO_BE_RECORDED_AT_MANIFEST_FREEZE placeholder remains or the marker blob is stale",
+    "provenance_pins_cross_checked": "checkpoint SHA-256, code commit, HF revision, all three table SHA-256s, both anchor-volume SHA-256s, v1 reference git blob, and both bootstrap seeds each appear in BOTH the contract and run.py (grep-verified, exact strings)",
+    "v1_anchor_reference_blob": "probes/004/results/per_sample.csv hashes to ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1, equal to the contract pin; file is load-bearing for the phase-B cross-session anchor check",
+    "head_order": "EXPECTED_PATHOLOGIES matches the 18 head names and order in the v1 reference per_sample.csv exactly",
+    "contract_scalar_uniqueness": "every key phase0_gate reads line-wise (idea_id, contract_version, maximum_variants, maximum_seeds, session_cap, pair_count_cap, pair_manifest_sha256, unique_volume_count) matches exactly one contract line",
+    "docstring_balance": "102 triple-quote occurrences (even); file ends with a complete entry point; no TODO/FIXME markers",
+    "stage_requirements": {
+      "minimal_dependencies": "phase M and the smoke core are stdlib + huggingface_hub only; numpy/sklearn are needed for analysis and probed gracefully in smoke",
+      "one_command_to_run": "one command per phase: --smoke, --phase M, --phase B",
+      "fixed_seed": "SEED=0 for inference determinism switches; bootstrap streams preregistered (20260814 tier 1, 20260815 tier 2)",
+      "deterministic_split_manifest": "pair_manifest.csv serialized byte-stably, double-serialization asserted identical, SHA-256 recorded; phase B regenerates it and requires byte-identity with the contract-recorded hash",
+      "split_overlap_assertions": "assert_validation_only refuses any train/test path or name; build_pair_manifest drops and counts non-validation rows; smoke plants 2 train + 1 test decoys and asserts all 3 refused",
+      "smoke_mode": "synthetic, no network, no GPU, no HF gate; exercises the real approval gate, both phase-B refusal branches, manifest decoys, chunk interruption/redo, spot-check and anchor logic, and tier-1/tier-2 analysis on mock scores; summary.json hard-codes contract_satisfied false",
+      "per_sample_outputs": "per-chunk per_sample.csv with score and float64 score_hex per head, plus global scores/per_sample.csv and input_manifest.csv",
+      "resolved_config_and_environment": "resolved_config.json restates every frozen constant; environment.txt at bundle level; per-chunk environment.json with GPU/CUDA/torch/package versions and session id, written LAST as the chunk-completion marker",
+      "no_test_set_access": "validation split only; split guard on every repo path and volume name; tier 2 uses released validation labels descriptively; no threshold or operating point is fit anywhere",
+      "no_unapproved_variants": "no tunable knobs (maximum_variants 1, maximum_seeds 1, batch size 1, released patch size); phase0_gate cross-checks caps and pins against the approved contract text so silent contract edits cannot drift past the code",
+      "clear_failure_exit_codes": "exit codes 0 and 2-13 enumerated in the module docstring, each mapped to a contract invalidating-failure class or an environment/harness fault; invalidating failures are never reported as negative results"
+    },
+    "smoke_arithmetic_hand_verified": "planted stratum counts 5/2/1/1, unique-volume count 17 (one volume shared across strata), chunk plan 4+4+1, spot-check subset {p001,p006,p008,p009}, tier-2 eligible cells 1 and excluded cells 71 were all re-derived by hand from smoke_metadata_rows and agree with the assertions in run_smoke"
+  },
+  "not_verified_here": [
+    "Python syntax/compile check (blocked sandbox) - mitigated by the full manual read; the smoke run on the real machine is the first executable check and covers every harness path",
+    "real HF access, checkpoint load, and released-code import (phase B only, by design)",
+    "the contract's risky assumption itself: whether the pipeline scales to 425 pairs (only the approved real phases can test this)"
+  ],
+  "expensive_compute_launched": false
 }

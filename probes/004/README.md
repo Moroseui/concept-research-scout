@@ -42,7 +42,9 @@ check makes the contract's two-phase flow mechanical:
 pip install -r probes/004/requirements.txt   # pinned r6 closure
 
 python probes/004/run.py --smoke             # synthetic harness test:
-                                             # no network, no GPU, no gate.
+                                             # no network, no GPU, no HF
+                                             # gate (the hash-bound human-
+                                             # approval gate DOES run).
                                              # Run it AFTER installing
                                              # requirements so the analysis
                                              # code is covered too.

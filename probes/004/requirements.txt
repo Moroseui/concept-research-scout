@@ -10,7 +10,7 @@ pandas==2.2.2
 # tokenizers 0.13.3) is uninstallable on Colab Python 3.12 -- tokenizers <0.14
 # ships no cp312 wheels and the Rust source build fails. The checkpoint-era
 # position_ids buffer key that 4.38.2 rejects on strict load is instead removed
-# by run.py's enumerated, provenance-logged strip (see its PHASE 4).
+# by run.py's enumerated, provenance-logged strip (load_released_model).
 transformers==4.38.2
 tokenizers==0.15.2
 huggingface-hub==0.22.2
