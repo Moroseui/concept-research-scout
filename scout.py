@@ -708,27 +708,248 @@ def verify_probe(args):
 
 
 def package_colab(args):
+    """E2 launcher generator. The notebook is a THIN DRIVER: it never
+    imports the model stack into its own kernel (pip installs feed the
+    `!python` child process, so no restart exists in the workflow), pins
+    the repo commit and results branch at packaging time, reads the GitHub
+    PAT from Colab Secrets (zero credentials in the committed notebook),
+    and pushes each session's bundle to a contract-bound results branch
+    (E1 transport). Deterministic machinery, not agent output: no review
+    cycle applies."""
     try:
         import nbformat as nbf
     except ImportError:
         raise SystemExit('Install nbformat: pip install nbformat')
-    p=ROOT/'probes'/f'{args.idea:03d}'; p.mkdir(parents=True,exist_ok=True)
-    nb=nbf.v4.new_notebook()
-    nb.cells=[
-      nbf.v4.new_markdown_cell(f'# Feasibility probe {args.idea:03d}\nThis notebook treats Colab only as a compute worker.'),
-      nbf.v4.new_code_cell("from google.colab import drive\ndrive.mount('/content/drive')"),
-      nbf.v4.new_code_cell("REPO_URL = 'PASTE_YOUR_GITHUB_REPO_URL_HERE'\nBRANCH = 'main'"),
-      nbf.v4.new_code_cell("!git clone -b {BRANCH} {REPO_URL} /content/concept-research-scout\n%cd /content/concept-research-scout"),
-      nbf.v4.new_code_cell(f"!pip install -r probes/{args.idea:03d}/requirements.txt"),
-      nbf.v4.new_code_cell(f"!python probes/{args.idea:03d}/run.py --output-dir /content/drive/MyDrive/concept-research-scout-results/{args.idea:03d}"),
+    p = ROOT / 'probes' / f'{args.idea:03d}'
+    p.mkdir(parents=True, exist_ok=True)
+    phase = getattr(args, 'phase', 'B') or 'B'
+    remote = subprocess.run(['git', 'config', '--get', 'remote.origin.url'],
+                            cwd=ROOT, capture_output=True, text=True,
+                            check=False).stdout.strip() or 'PASTE_REPO_URL'
+    if remote.startswith('git@github.com:'):
+        remote = 'https://github.com/' + remote.split(':', 1)[1]
+    pin = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
+                         capture_output=True, text=True,
+                         check=False).stdout.strip()
+    chash = _contract_hash(idea_dir(args.idea)) or 'nocontract'
+    branch = f'results/probe-{args.idea:03d}-{chash[:12]}'
+    nn = f'{args.idea:03d}'
+    nb = nbf.v4.new_notebook()
+    nb.cells = [
+      nbf.v4.new_markdown_cell(
+        f'# Probe {nn} launcher (phase {phase})\n'
+        'Colab is a compute worker only. This driver kernel NEVER imports '
+        'the model stack -- `run.py` runs as a child process, so no kernel '
+        'restart is ever needed.\n\n'
+        '**One-time setup:** create a fine-grained GitHub PAT scoped to '
+        'this single repository, Contents: Read and write, with an expiry. '
+        'In Colab: key icon (Secrets) -> add `SCOUT_RESULTS_PAT` -> enable '
+        'notebook access. The PAT never appears in this notebook or its '
+        'output.\n\n'
+        f'Results branch (contract-bound): `{branch}`\n\n'
+        'Per session: run all cells top to bottom. After a disconnect, '
+        'rerun all cells -- run.py resumes from the bundle on Drive, and '
+        'the transport cell pushes whatever is new.'),
+      nbf.v4.new_code_cell(
+        f"PHASE = '{phase}'\n"
+        f"REPO_URL = '{remote}'\n"
+        f"PIN_COMMIT = '{pin}'\n"
+        f"RESULTS_BRANCH = '{branch}'\n"
+        f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_v2'"),
+      nbf.v4.new_code_cell(
+        "from google.colab import drive, userdata\n"
+        "drive.mount('/content/drive')\n"
+        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed"),
+      nbf.v4.new_code_cell(
+        "!rm -rf /content/scout-repo\n"
+        "!git clone {REPO_URL} /content/scout-repo\n"
+        "%cd /content/scout-repo\n"
+        "!git checkout {PIN_COMMIT}"),
+      nbf.v4.new_code_cell(
+        f"!pip install -q -r probes/{nn}/requirements.txt"),
+      nbf.v4.new_code_cell(
+        f"!python probes/{nn}/run.py --phase {{PHASE}} --output-dir {{OUTPUT_DIR}}"),
+      nbf.v4.new_code_cell(
+        "# E1 transport: mirror the bundle onto the contract-bound results\n"
+        "# branch. The PAT rides in a header, never in argv or output.\n"
+        "import shutil, subprocess, pathlib, base64, datetime\n"
+        "repo = pathlib.Path('/content/scout-repo')\n"
+        f"dest = repo / 'probes/{nn}/results_v2'\n"
+        "if dest.exists(): shutil.rmtree(dest)\n"
+        "shutil.copytree(OUTPUT_DIR, dest)\n"
+        "def git(*a, **k):\n"
+        "    r = subprocess.run(['git', *a], cwd=repo, capture_output=True, text=True, **k)\n"
+        "    if r.returncode: raise SystemExit(f'git {a[0]} failed: {r.stderr[-400:]}')\n"
+        "    return r.stdout\n"
+        "git('config', 'user.email', 'colab-runner@scout.local')\n"
+        "git('config', 'user.name', 'scout colab runner')\n"
+        "auth = base64.b64encode(f'x-access-token:{GH_PAT}'.encode()).decode()\n"
+        "hdr = f'http.extraheader=AUTHORIZATION: basic {auth}'\n"
+        "if subprocess.run(['git', '-c', hdr, 'fetch', 'origin', RESULTS_BRANCH], cwd=repo, capture_output=True).returncode == 0:\n"
+        "    git('checkout', '-B', RESULTS_BRANCH, f'origin/{RESULTS_BRANCH}')\n"
+        "else:\n"
+        "    git('checkout', '-B', RESULTS_BRANCH, PIN_COMMIT)\n"
+        f"git('add', '-f', 'probes/{nn}/results_v2')\n"
+        "stamp = datetime.datetime.utcnow().isoformat(timespec='seconds')\n"
+        "subprocess.run(['git', 'commit', '-m', f'session results {stamp}Z'], cwd=repo, capture_output=True)\n"
+        "git('-c', hdr, 'push', 'origin', RESULTS_BRANCH)\n"
+        "print('pushed', RESULTS_BRANCH)"),
+      nbf.v4.new_markdown_cell(
+        'When `run.py` reports the study complete, the results-validate '
+        'workflow on the pushed branch verifies the bundle and opens the '
+        'record-result PR. Merging that PR is the human gate.'),
     ]
-    out=p/f'colab_probe_{args.idea:03d}.ipynb'; nbf.write(nb,out); print(out.relative_to(ROOT))
+    out = p / f'colab_probe_{args.idea:03d}.ipynb'
+    nbf.write(nb, out)
+    print(out.relative_to(ROOT))
+    print(f'  pinned commit  {pin[:12]}\n  results branch {branch}\n'
+          f'  phase          {phase}\n'
+          '  secret needed  SCOUT_RESULTS_PAT (Colab Secrets)')
+
+
+def _contract_field(idea, field):
+    """Scalar field from the idea's probe_contract.yaml, or None."""
+    try:
+        import yaml
+    except ImportError:
+        raise SystemExit('Install PyYAML: pip install PyYAML')
+    f = idea_dir(idea) / 'probe_contract.yaml'
+    if not f.exists():
+        return None
+    def _find(node):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k == field and isinstance(v, (str, int, float)):
+                    return v
+                got = _find(v)
+                if got is not None:
+                    return got
+        elif isinstance(node, list):
+            for v in node:
+                got = _find(v)
+                if got is not None:
+                    return got
+        return None
+    return _find(yaml.safe_load(f.read_text()))
+
+
+def validate_bundle(idea, bundle):
+    """Deterministic results-bundle validation (E1). Single source of truth
+    for CI (results-validate workflow) and record-result. Returns a list of
+    failure strings; empty list = valid. Checks:
+      1. core files present (summary.json, provenance.json,
+         resolved_config.json, environment.txt, manifest/pair_manifest.csv)
+      2. provenance.contract_blob == the CURRENT contract's git blob
+         (results produced under a superseded contract never import)
+      3. sha256(manifest/pair_manifest.csv) == the contract's frozen
+         pair_manifest_sha256 (when the contract records one)
+      4. summary.json sanity: parses, idea matches, phase in {M, B}
+      5. every chunk manifest that lists sha256 entries verifies against
+         the bundle files it names (phase B)
+    """
+    bundle = Path(bundle)
+    fails = []
+    core = ['summary.json', 'provenance.json', 'resolved_config.json',
+            'environment.txt', 'manifest/pair_manifest.csv']
+    for rel in core:
+        if not (bundle / rel).exists():
+            fails.append(f'missing required bundle file: {rel}')
+    if fails:
+        return fails
+    try:
+        summary = json.loads((bundle / 'summary.json').read_text())
+        prov = json.loads((bundle / 'provenance.json').read_text())
+    except (json.JSONDecodeError, OSError) as e:
+        return [f'unparseable bundle json: {e}']
+    current = _contract_hash(idea_dir(idea))
+    got = prov.get('contract_blob')
+    if not current:
+        fails.append('idea has no probe_contract.yaml to validate against')
+    elif got != current:
+        fails.append(f'contract blob mismatch: bundle produced under '
+                     f'{str(got)[:12]}, current contract is {current[:12]} '
+                     '(results from a superseded contract never import)')
+    pinned_sha = _contract_field(idea, 'pair_manifest_sha256')
+    if isinstance(pinned_sha, str) and len(pinned_sha) == 64:
+        actual = sha256_of(bundle / 'manifest' / 'pair_manifest.csv')
+        if actual != pinned_sha:
+            fails.append(f'pair_manifest.csv sha {actual[:12]} != contract '
+                         f'pin {pinned_sha[:12]}')
+    sid = str(summary.get('idea_id', ''))
+    if f'{idea:03d}' not in sid:
+        fails.append(f'summary idea_id {sid!r} does not name idea {idea:03d}')
+    if summary.get('phase') not in ('M', 'B'):
+        fails.append(f'summary phase {summary.get("phase")!r} not in M/B')
+    for cm in sorted(bundle.glob('chunks/*/chunk_manifest.json')):
+        try:
+            entries = json.loads(cm.read_text())
+        except (json.JSONDecodeError, OSError) as e:
+            fails.append(f'{cm.relative_to(bundle)}: unparseable: {e}')
+            continue
+        for rel, sha in (entries.get('sha256') or {}).items():
+            f = bundle / rel
+            if not f.exists():
+                fails.append(f'{cm.parent.name}: manifest names missing file {rel}')
+            elif sha256_of(f) != sha:
+                fails.append(f'{cm.parent.name}: sha mismatch for {rel}')
+    return fails
+
+
+def sha256_of(path):
+    import hashlib
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for chunk in iter(lambda: f.read(1 << 20), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def cmd_validate_bundle(args):
+    fails = validate_bundle(args.idea, args.bundle)
+    if fails:
+        print(f'BUNDLE INVALID ({len(fails)} failure(s)):')
+        for f in fails:
+            print(' -', f)
+        raise SystemExit(2)
+    print('Bundle valid: core files, contract blob, manifest pin, and '
+          'chunk manifests all check.')
 
 
 def record_result(args):
-    src=Path(args.result); d=ROOT/'probes'/f'{args.idea:03d}'/'results'; d.mkdir(parents=True,exist_ok=True)
-    shutil.copy2(src,d/src.name); print('Copied to', (d/src.name).relative_to(ROOT))
-    ledger_mod.raise_scrutiny(f'idea-{args.idea:03d}', 'PROBED', note=f'result {src.name}')
+    """E1: import a VALIDATED results bundle and only then raise scrutiny.
+    The v1 single-file copy marked PROBED with zero validation and left the
+    actual bundle gitignored -- the first at-scale result will not repeat
+    that. Import = validate -> copy tree -> force-add (results/ is
+    gitignored by default; entering history is a deliberate act) -> commit
+    -> PROBED."""
+    if not args.bundle:
+        raise SystemExit('record-result now imports validated bundles: '
+                         'record-result IDEA --bundle DIR  (the single-file '
+                         'path is retired; see validate-bundle)')
+    bundle = Path(args.bundle)
+    fails = validate_bundle(args.idea, bundle)
+    if fails:
+        print(f'REFUSED: bundle failed validation ({len(fails)}):')
+        for f in fails:
+            print(' -', f)
+        raise SystemExit(2)
+    summary = json.loads((bundle / 'summary.json').read_text())
+    dest = ROOT / 'probes' / f'{args.idea:03d}' / 'results' / bundle.name
+    if dest.exists():
+        raise SystemExit(f'{dest.relative_to(ROOT)} already exists; bundles '
+                         'are immutable once imported.')
+    shutil.copytree(bundle, dest)
+    subprocess.run(['git', 'add', '-f', str(dest)], cwd=ROOT, check=True)
+    subprocess.run(['git', 'commit', '-m',
+                    f'idea {args.idea:03d}: validated results bundle '
+                    f'{bundle.name} (phase {summary.get("phase")})'],
+                   cwd=ROOT, check=True, capture_output=True)
+    print(f'Imported {dest.relative_to(ROOT)} (committed).')
+    ledger_mod.raise_scrutiny(
+        f'idea-{args.idea:03d}', 'PROBED',
+        note=f'validated bundle {bundle.name}, phase '
+             f'{summary.get("phase")}, contract '
+             f'{str(_contract_hash(idea_dir(args.idea)))[:12]}')
     ledger_mod.digest()
 
 
@@ -2163,8 +2384,9 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.set_defaults(fn=package_colab)
-    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('result'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B',choices=['M','B']); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
     p=sp.add_parser('cycle'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)

@@ -257,6 +257,14 @@ command = ["{sys.executable}", "{self.fake}"]
     def tearDown(self):
         shutil.rmtree(self.dir, ignore_errors=True)
 
+    def _commit_all(self):
+        # Harness.setUp already git-inits the repo; just commit the state
+        # so clean-tree checks pass. Tolerant of an already-clean tree.
+        subprocess.run(["git", "add", "-A"], cwd=self.repo, check=True,
+                       capture_output=True)
+        subprocess.run(["git", "commit", "-qm", "base"], cwd=self.repo,
+                       check=False, capture_output=True)
+
     def make_cycle_outputs(self, scoutdir, verdicts):
         d = self.repo / "ideas" / scoutdir
         d.mkdir(parents=True, exist_ok=True)
@@ -1642,14 +1650,6 @@ class TestContractBinding(Harness):
         (d / "probe_contract.yaml").write_text("contract_version: 2\nquestion: q\n")
         return d
 
-    def _commit_all(self):
-        # Harness.setUp already git-inits the repo; just commit the state
-        # so clean-tree checks pass. Tolerant of an already-clean tree.
-        subprocess.run(["git", "add", "-A"], cwd=self.repo, check=True,
-                       capture_output=True)
-        subprocess.run(["git", "commit", "-qm", "base"], cwd=self.repo,
-                       check=False, capture_output=True)
-
     def test_approve_binds_hash_and_stale_approval_blocks(self):
         d = self._idea()
         self._commit_all()
@@ -1697,6 +1697,124 @@ class TestContractBinding(Harness):
         prompt = (d / "prompt_probe_plan.md").read_text()
         self.assertIn("ZZREQMARKERZZ", prompt,
                       "requirements file must be injected into probe-plan context")
+
+
+class TestResultsTransport(Harness):
+    """E1/E2: bundle validation is the single gate for record-result, and
+    the generated launcher is a thin driver with contract-bound transport."""
+
+    SHA_OK = None  # set per-bundle
+
+    def _idea_with_contract(self, manifest_text="p1,x,y\n"):
+        d = self.repo / "ideas" / "001"
+        d.mkdir(parents=True, exist_ok=True)
+        import hashlib
+        msha = hashlib.sha256(manifest_text.encode()).hexdigest()
+        (d / "probe_contract.yaml").write_text(
+            "contract_version: 2\n"
+            f"pair_manifest_sha256: \"{msha}\"\n")
+        self._commit_all()
+        return d, msha
+
+    def _bundle(self, msha_text="p1,x,y\n", blob=None, phase="M",
+                complete=True):
+        import scout as sc
+        sc.ROOT = self.repo
+        b = self.dir / "bundle_x"
+        (b / "manifest").mkdir(parents=True, exist_ok=True)
+        (b / "manifest" / "pair_manifest.csv").write_text(msha_text)
+        blob = blob or sc._contract_hash(self.repo / "ideas" / "001")
+        (b / "provenance.json").write_text(json.dumps({"contract_blob": blob}))
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": phase,
+             "phase_m_complete": complete}))
+        (b / "resolved_config.json").write_text("{}")
+        (b / "environment.txt").write_text("py\n")
+        return b
+
+    def _sc(self):
+        import scout as sc
+        sc.ROOT = self.repo
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        return sc
+
+    def test_valid_bundle_passes(self):
+        sc = self._sc()
+        self._idea_with_contract()
+        b = self._bundle()
+        self.assertEqual(sc.validate_bundle(1, b), [])
+
+    def test_contract_blob_mismatch_fails(self):
+        sc = self._sc()
+        self._idea_with_contract()
+        b = self._bundle(blob="deadbeef" * 5)
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("contract blob mismatch" in f for f in fails))
+
+    def test_manifest_pin_mismatch_fails(self):
+        sc = self._sc()
+        self._idea_with_contract(manifest_text="p1,x,y\n")
+        b = self._bundle(msha_text="TAMPERED\n")
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("!= contract" in f for f in fails), fails)
+
+    def test_missing_core_file_fails(self):
+        sc = self._sc()
+        self._idea_with_contract()
+        b = self._bundle()
+        (b / "environment.txt").unlink()
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("environment.txt" in f for f in fails))
+
+    def test_chunk_manifest_sha_verified(self):
+        sc = self._sc()
+        self._idea_with_contract()
+        b = self._bundle()
+        (b / "chunks" / "chunk_001").mkdir(parents=True)
+        (b / "chunks" / "chunk_001" / "scores.csv").write_text("s\n")
+        good = sc.sha256_of(b / "chunks" / "chunk_001" / "scores.csv")
+        (b / "chunks" / "chunk_001" / "chunk_manifest.json").write_text(
+            json.dumps({"sha256": {"chunks/chunk_001/scores.csv": good}}))
+        self.assertEqual(sc.validate_bundle(1, b), [])
+        (b / "chunks" / "chunk_001" / "scores.csv").write_text("mutated\n")
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("sha mismatch" in f for f in fails))
+
+    def test_record_result_refuses_invalid_and_imports_valid(self):
+        sc = self._sc()
+        self._idea_with_contract()
+        bad = self._bundle(blob="deadbeef" * 5)
+        r = self.scout("record-result", "1", "--bundle", str(bad))
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("REFUSED", r.stdout + r.stderr)
+        self.assertNotIn("PROBED", (self.repo / "ledger.jsonl").read_text()
+                         .split("idea-001")[-1][:400])
+        good = self._bundle()
+        r2 = self.scout("record-result", "1", "--bundle", str(good))
+        self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
+        self.assertTrue((self.repo / "probes" / "001" / "results" /
+                         "bundle_x" / "summary.json").exists())
+        last = [json.loads(l) for l in
+                (self.repo / "ledger.jsonl").read_text().splitlines()
+                if '"idea-001"' in l][-1]
+        self.assertEqual(last.get("scrutiny"), "PROBED")
+
+    def test_launcher_is_thin_driver_with_bound_transport(self):
+        sc = self._sc()
+        self._idea_with_contract()
+        chash = sc._contract_hash(self.repo / "ideas" / "001")
+        class A: idea = 1; phase = "B"
+        sc.package_colab(A())
+        nb = json.loads((self.repo / "probes" / "001" /
+                         "colab_probe_001.ipynb").read_text())
+        src = "".join("".join(c.get("source", [])) for c in nb["cells"])
+        self.assertIn("!python probes/001/run.py", src)
+        self.assertNotIn("import torch", src)
+        self.assertIn("userdata.get('SCOUT_RESULTS_PAT')", src)
+        self.assertIn(f"results/probe-001-{chash[:12]}", src)
+        self.assertIn("PIN_COMMIT", src)
+        self.assertNotIn("ghp_", src)
 
 
 if __name__ == "__main__":
