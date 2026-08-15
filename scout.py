@@ -564,6 +564,18 @@ def run_stage(args):
         contract=target/'probe_contract.yaml'
         if not approval.exists() or not contract.exists():
             raise SystemExit('Probe code blocked: probe contract and HUMAN_APPROVED_PROBE are required.')
+        bound = next((ln.split(':',1)[1].strip() for ln in
+                      approval.read_text().splitlines()
+                      if ln.startswith('contract_blob:')), None)
+        current = _contract_hash(target)
+        if bound != current:
+            raise SystemExit(
+                'Probe code blocked: HUMAN_APPROVED_PROBE is bound to '
+                f'contract blob {str(bound)[:12]} but probe_contract.yaml is now '
+                f'{str(current)[:12]}. The contract changed after approval '
+                '(or predates hash binding). Re-run approve-probe to approve '
+                'the CURRENT contract. Stale approvals never authorize new '
+                'contracts.')
     _require_clean_tree(args.stage)
     p=write_prompt(args.stage.replace('-','_'), target)
     print('Prompt:',p.relative_to(ROOT))
@@ -652,12 +664,27 @@ def probe_build(args):
     verify_probe(args)
 
 
+def _contract_hash(d):
+    """git blob hash of the idea's probe_contract.yaml, or None."""
+    f = d / 'probe_contract.yaml'
+    if not f.exists():
+        return None
+    r = subprocess.run(['git', 'hash-object', str(f)], cwd=ROOT,
+                       capture_output=True, text=True, check=False)
+    return r.stdout.strip() or None
+
+
 def approve_probe(args):
     d=idea_dir(args.idea)
     if not (d/'feasibility.md').exists(): raise SystemExit('Feasibility memo missing.')
+    ch = _contract_hash(d)
+    if not ch:
+        raise SystemExit('probe_contract.yaml missing: approval binds to a '
+                         'specific contract; run probe-plan first.')
     marker=d/'HUMAN_APPROVED_PROBE'
-    marker.write_text(f'Approved by human at {datetime.now(timezone.utc).isoformat()}\n')
-    print('Approved probe for',d.name)
+    marker.write_text(f'Approved by human at {datetime.now(timezone.utc).isoformat()}\n'
+                      f'contract_blob: {ch}\n')
+    print(f'Approved probe for {d.name} (bound to contract blob {ch[:12]})')
 
 
 def verify_probe(args):

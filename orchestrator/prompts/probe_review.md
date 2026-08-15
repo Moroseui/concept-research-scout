@@ -24,7 +24,16 @@ Review against, in order of severity:
    with provenance, progress printing, plain-English summary at the end.
    Blocking only when the code is genuinely opaque; otherwise list as
    non-blocking findings.
-5. **Practicalities.** Will it actually run in Colab: paths, pip pins,
+5. **Requirements conformance (when present).** If the idea folder
+   contains `contract_requirements.md`, verify the contract against it
+   line by line; every unmet requirement is BLOCKING. For a
+   requirements-governed contract additionally verify, each blocking:
+   no threshold/cutoff/margin language anywhere in tier-2 or secondary
+   endpoints; no cross-head or cross-label averaging in any analysis
+   step; scope exactly the frozen manifest (hash present in the
+   contract) with no data beyond it; session-integrity, anchor-pair,
+   and sparse-label rules present if the requirements name them.
+6. **Practicalities.** Will it actually run in Colab: paths, pip pins,
    Drive output dir taken from --output-dir, no interactive prompts.
 
 Write `probe_review.md`: findings by severity with file/line references,
