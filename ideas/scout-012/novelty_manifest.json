@@ -1,0 +1,41 @@
+{
+  "searched_at": "2026-08-14T12:00:00-04:00",
+  "queries": [
+    {"query": "Gichoya race chest CT bone mineral density vertebral attenuation model race prediction", "source": "web search"},
+    {"query": "medical imaging AI race prediction bone density CT quantitative BMD", "source": "web search"},
+    {"query": "patient race prediction chest CT anatomical regions frequency domain study", "source": "web search"},
+    {"query": "explain race prediction medical images deep learning chest xray frequency spectrum anatomical region", "source": "web search"},
+    {"query": "racial identity prediction chest radiographs saliency bone density study", "source": "web search"},
+    {"query": "systemic sclerosis interstitial lung disease CT esophageal dilatation quantitative diameter fibrosis", "source": "web search"},
+    {"query": "deep learning CT pulmonary fibrosis esophagus dilation model shortcut", "source": "web search"},
+    {"query": "CT-CLIP pulmonary fibrotic sequela interpretability esophagus", "source": "web search"},
+    {"query": "Merlin medical foundation model abdominal CT COPD chronic airway obstruction emphysema lung bases", "source": "web search"},
+    {"query": "abdominal CT lung bases emphysema COPD prediction opportunistic screening", "source": "web search"},
+    {"query": "limited lung bases abdominal CT emphysema quantitative LAA COPD", "source": "web search"},
+    {"query": "heart rate estimation non gated helical CT cardiac motion artifact banding periodicity", "source": "web search"},
+    {"query": "helical CT cardiac motion artifact heart rate rotation time banding", "source": "web search"},
+    {"query": "CT motion artifact pulse rate extraction cardiac border", "source": "web search"},
+    {"query": "Pease deep learning CT severe traumatic brain injury outcome midline shift lesion volume Radiology 2022", "source": "web search"},
+    {"query": "deep learning TBI outcome CT midline shift hematoma volume interpretability", "source": "web search"},
+    {"query": "automated midline shift lesion volume intracranial pressure CT prediction outcome", "source": "web search"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "10.1016/S2589-7500(22)00063-2", "access": "full_text", "establishing_passage": "Reported race prediction across radiographs, mammography, and NLST chest CT; tested frequency spectra, anatomical regions, covariates, and radiographic bright-pixel suppression."},
+    {"candidate": "C1", "identifier": "PMCID PMC10400898", "access": "full_text", "establishing_passage": "Studied self-reported race prediction from chest-radiograph pixel-intensity counts and stratified acquisition variables."},
+    {"candidate": "C1", "identifier": "arXiv:2306.00985 / PMCID PMC10993140", "access": "full_text", "establishing_passage": "Used generative counterfactual radiographs and expert review; discussed skeletal conspicuity as a possible race-associated feature."},
+    {"candidate": "C2", "identifier": "10.1016/j.semarthrit.2016.02.004", "access": "full_text", "establishing_passage": "Measured widest esophageal diameter on HRCT and found adjusted associations with ILD, fibrosis, and pulmonary function in systemic sclerosis."},
+    {"candidate": "C2", "identifier": "PMID 29641847", "access": "abstract", "establishing_passage": "In 145 SSc-ILD patients, related esophageal diameter and hiatal hernia to fibrosis severity and longitudinal progression."},
+    {"candidate": "C2", "identifier": "PMCID PMC8975317", "access": "full_text", "establishing_passage": "Tested HRCT esophageal dilation as a discriminator of systemic sclerosis among ILD patients."},
+    {"candidate": "C2", "identifier": "Prediction Degeneracy in Medical Vision-Language Models, ICCV VLM3D Workshop 2025", "access": "full_text", "establishing_passage": "Evaluated degeneracy and interpretability concerns for CT-CLIP outputs, including pulmonary fibrotic sequela, without an esophagus-specific probe."},
+    {"candidate": "C3", "identifier": "10.1038/s41586-026-10181-8 / arXiv:2406.06512", "access": "full_text", "establishing_passage": "Released Merlin, trained on abdominal CT, reports, and EHR codes, with phenotype classification and chronic disease prediction."},
+    {"candidate": "C3", "identifier": "arXiv:2409.11686", "access": "search_summary", "establishing_passage": "Applied deep learning to abdominal CT for opportunistic detection of underdiagnosed medical conditions."},
+    {"candidate": "C3", "identifier": "PMID 23971478", "access": "abstract", "establishing_passage": "Quantified LAA-950, air trapping, and airway dimensions on COPDGene chest CT and related them to spirometry."},
+    {"candidate": "C4", "identifier": "10.1148/rg.2016160079", "access": "abstract", "establishing_passage": "Reviewed cardiac CT artifact physics and solutions, including dependencies on heart rate, temporal resolution, and reconstruction."},
+    {"candidate": "C4", "identifier": "PMCID PMC6360940", "access": "full_text", "establishing_passage": "Described cardiac banding/step artifacts as longitudinal discontinuities caused by heart motion and gating/reconstruction mismatch."},
+    {"candidate": "C4", "identifier": "Influence of heart rate and phase of the cardiac cycle on the occurrence of motion artifact in dual-source CT angiography of the coronary arteries, Journal of Cardiovascular Computed Tomography, 2012", "access": "abstract", "establishing_passage": "Evaluated how heart rate and cardiac phase influence coronary motion artifact."},
+    {"candidate": "C5", "identifier": "10.1148/radiol.212181", "access": "full_text", "establishing_passage": "Developed and externally evaluated a deep model using admission head CT plus clinical variables to predict six-month severe-TBI outcome."},
+    {"candidate": "C5", "identifier": "10.1089/neu.2010.1558", "access": "abstract", "establishing_passage": "Jointly evaluated intracranial lesion volume and midline shift as outcome predictors in moderate and severe TBI."},
+    {"candidate": "C5", "identifier": "Quantification of midline shift as a predictor of poor outcome following head injury, Surgical Neurology, 1991; PII 0090-3019(91)90069-L", "access": "search_summary", "establishing_passage": "Reported midline shift out of proportion to intracranial hemorrhage as a useful predictor of poor outcome."},
+    {"candidate": "C5", "identifier": "PMCID PMC6551991", "access": "full_text", "establishing_passage": "Validated automated measurement of acute intracranial lesion volume, cistern volume, and midline shift on multicenter TBI CT."}
+  ]
+}
