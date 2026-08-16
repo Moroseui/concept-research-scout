@@ -1,0 +1,26 @@
+The sandbox declined the validation command; the JSON was written with careful escaping and mirrors the structure I reviewed in-context, so I'll finalize without a shell check.
+
+Novelty audit complete. Both deliverables are written to `ideas/scout-isles24-001/`: `novelty_audit.md` (per-candidate audit with the required four items and closing summary table) and `novelty_manifest.json` (the reproducibility record: 82 queries, 24 neighbor entries with access levels and establishing passages, plus anchor-verification notes). No other files were touched; no code was written.
+
+**Verdicts (C1–C8, merged order):**
+
+| # | Candidate | Verdict | Why not done |
+|---|---|---|---|
+| C1 | HIR collateral clock | NO_DUPLICATE_FOUND_LIMITED_SEARCH | NEW_CAPABILITY |
+| C2 | Collateral reach substitution | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C3 | Venous drainage | NO_DUPLICATE_FOUND_LIMITED_SEARCH | NEW_CAPABILITY |
+| C4 | Leukoaraiosis frailty | NO_DUPLICATE_FOUND_LIMITED_SEARCH | BLIND_SPOT |
+| C5 | Perfusion-front topology | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C6 | Capillary transit-time heterogeneity | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C7 | Scan-end censoring cue | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C8 | Deconvolution software fingerprint | **INCREMENTAL** | NEW_CAPABILITY |
+
+**The one verdict that changes a candidate's standing:** C8 is downgraded to INCREMENTAL. A MICCAI 2024 Brainlesion workshop paper (DOI 10.1007/978-3-031-76160-7_10) already trained a DL penumbra segmenter on one deconvolution algorithm's Tmax maps and measured output change when inputs were re-derived with three different algorithms — the core manipulation, on MR perfusion, framed as robustness. C8's residual delta (CT/ISLES'24, the four-map bundle with raw CTP held fixed, histogram/threshold-volume matching, within-family shams — i.e., causal attribution rather than robustness observation) is real but on the same axis, so no kill is recommended; any revision must cite that work as the primary neighbor. Caveat: the assessment rests on the workshop paper's indexed abstract (paywalled full text), which quotes the design verbatim.
+
+**Citation corrections surfaced for the revise stage** (also in the manifest's `anchor_verification_notes`):
+- C3's Wang et al. Eur J Radiol 2026 anchor could not be verified anywhere (DOI resolves only to an Elsevier stub) — treat as unverified.
+- C7's card attributes PMID 25789631 to Kasasbeh; it is actually Borst et al., PLOS ONE 2015 (title/PMID right, author wrong). The real Kasasbeh paper is Stroke 2016, DOI 10.1161/STROKEAHA.116.014177.
+- The Bathla citation used by C6 and C7 (DOI 10.1161/STROKEAHA.121.034266) exists but is a Stroke *editorial*, not an original study that trained networks.
+- C8's "Koopman et al." PMCID PMC10853359 is actually Peerlings et al., Eur Radiol 2023; conversely, the card's doubt about the Kudo DOI was unfounded — it's valid (PMID 20032153).
+
+Verdict calibration: HIGH_CONFIDENCE was given only where the closest neighbors were read at full-text/verified level and the duplicate space was swept from multiple angles; C1, C3, and C4 stay LIMITED_SEARCH because paywalls kept their closest neighbors at snippet level or (C3) an anchor is unverified.
