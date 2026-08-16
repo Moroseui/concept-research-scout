@@ -1,0 +1,25 @@
+stratum,head_index,head_name,n_counted_pairs,n_positive,n_negative,reason
+Bl57d|Br36d,2,Cardiomegaly,58,5,53,insufficient labels for AUROC
+Bl57d|Br36d,3,Pericardial effusion,58,5,53,insufficient labels for AUROC
+Bl57d|Br36d,13,Mosaic attenuation pattern,58,3,55,insufficient labels for AUROC
+Bl57d|Br36d,14,Peribronchial thickening,58,7,51,insufficient labels for AUROC
+Bl57d|Br36d,16,Bronchiectasis,58,6,52,insufficient labels for AUROC
+Bl57d|Br36d,17,Interlobular septal thickening,58,5,53,insufficient labels for AUROC
+Br40f|Br44f,0,Medical material,4,3,1,insufficient labels for AUROC
+Br40f|Br44f,1,Arterial wall calcification,4,2,2,insufficient labels for AUROC
+Br40f|Br44f,2,Cardiomegaly,4,2,2,insufficient labels for AUROC
+Br40f|Br44f,3,Pericardial effusion,4,0,4,insufficient labels for AUROC
+Br40f|Br44f,4,Coronary artery wall calcification,4,3,1,insufficient labels for AUROC
+Br40f|Br44f,5,Hiatal hernia,4,0,4,insufficient labels for AUROC
+Br40f|Br44f,6,Lymphadenopathy,4,0,4,insufficient labels for AUROC
+Br40f|Br44f,7,Emphysema,4,0,4,insufficient labels for AUROC
+Br40f|Br44f,8,Atelectasis,4,3,1,insufficient labels for AUROC
+Br40f|Br44f,9,Lung nodule,4,3,1,insufficient labels for AUROC
+Br40f|Br44f,10,Lung opacity,4,4,0,insufficient labels for AUROC
+Br40f|Br44f,11,Pulmonary fibrotic sequela,4,1,3,insufficient labels for AUROC
+Br40f|Br44f,12,Pleural effusion,4,1,3,insufficient labels for AUROC
+Br40f|Br44f,13,Mosaic attenuation pattern,4,3,1,insufficient labels for AUROC
+Br40f|Br44f,14,Peribronchial thickening,4,1,3,insufficient labels for AUROC
+Br40f|Br44f,15,Consolidation,4,2,2,insufficient labels for AUROC
+Br40f|Br44f,16,Bronchiectasis,4,0,4,insufficient labels for AUROC
+Br40f|Br44f,17,Interlobular septal thickening,4,1,3,insufficient labels for AUROC

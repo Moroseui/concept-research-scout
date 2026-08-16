@@ -4,7 +4,7 @@ machine: x86_64
 seed: 0
 phase: B
 CUBLAS_WORKSPACE_CONFIG: :4096:8
-gpu: NVIDIA A100-SXM4-80GB
+gpu: NVIDIA A100-SXM4-40GB
 torch: 2.5.1+cu124
 cuda: 12.4
 numpy: 1.26.4

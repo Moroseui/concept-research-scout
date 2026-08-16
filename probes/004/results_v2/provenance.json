@@ -11,7 +11,7 @@
   "hf_revision": "deeca4d89e9f978d4d1bccd88a55071ddbb146bb",
   "pair_manifest_sha256": "5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38",
   "phase": "B",
-  "session_id": "20260815T180544Z-f80be290",
+  "session_id": "20260815T231124Z-8e185556",
   "state_dict_keys_removed_before_load": {
     "pattern": ".+\\.embeddings\\.position_ids$",
     "reason": "transformers 4.31.0 made BERT embeddings.position_ids a non-persistent buffer; the <=4.30-era checkpoint carries it (r6 ledger, 2026-08-12)",
@@ -24,6 +24,6 @@
     "validation_metadata.csv": "7ae04aaf59e946f8805c940697820f8fd97b56b9634cadd725269b3f6ed9cae1",
     "validation_reports.csv": "e0538498de92e19b3bb6b70643d5c78edda146e4f480f159825202bf78ed4620"
   },
-  "timestamp_utc": "2026-08-15T18:22:27Z",
+  "timestamp_utc": "2026-08-15T23:23:19Z",
   "v1_anchor_reference_blob": "ea1cdd3fb463cafa9c1f7bc7ec048d2c7c320cc1"
 }
