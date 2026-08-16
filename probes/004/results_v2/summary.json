@@ -1,24 +1,46 @@
 {
-  "anchor_pair_id": "p001",
-  "contract_satisfied": false,
+  "analysis": {
+    "tier1_bootstrap_rows": 324,
+    "tier1_difference_rows": 7650,
+    "tier1_stat_cells": 108,
+    "tier2_computed_cells": 48,
+    "tier2_excluded_cells": 24
+  },
+  "anchor_pair_confirmatory_exclusion": "Br40f|Br60f confirmatory statistics use 236 counted pairs (237 raw); the anchor pair's deltas are excluded everywhere",
+  "chunks_complete": 17,
+  "contract_satisfied": true,
   "contract_version": 2,
-  "frozen_counts_reproduced_exactly": true,
+  "download_accounting": {
+    "qa_retry": 2,
+    "qa_retry_allowance": 170,
+    "scientific_first_time": 850,
+    "unique_volume_cap": 850
+  },
   "idea_id": "idea-004",
-  "interpretation": "PHASE M ONLY. This run downloaded at most the three pinned metadata tables, reproduced the frozen Stage-0 pair list exactly (237/126/58/4 per stratum -- the first clause of the contract's positive_pattern), and froze it by hash. No image was downloaded, no inference ran, and no score of any kind exists, so nothing scientific can be read from this phase. Bulk execution (phase B) remains blocked until the contract is amended with the two recorded values and freshly approved.",
+  "interpretation": "POSITIVE per the contract's positive_pattern: the frozen manifest was reproduced and hash-verified, every chunk completed with verified provenance, same-session pairing, bit-identical spot-checks, and in-tolerance anchors; all 425 pairs were scored and the frozen two-tier analysis ran. ANY resulting magnitude profile -- near-zero, large, or mixed across heads and strata -- is a valid descriptive outcome: the deliverable is the measured reconstruction-sensitivity baseline itself, for the released v2 ClassFine checkpoint on these CT-RATE kernel contrasts in a predominantly single-vendor (Siemens) cohort. Per the negative_pattern there is no failing magnitude: tightly-bounded-near-zero paired differences are the sensitivity-bounded descriptive null, and large paired differences are equally valid descriptively. No equivalence, robustness, accuracy, concept-validity, localization, or cross-vendor claim is made or implied; tier-2 numbers are benchmark discrimination against report-derived labels, never clinical accuracy, and carry no pass/fail semantics.",
   "mode": "real",
-  "next_step": "Operator: record pair_manifest_sha256=5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38 and unique_volume_count=850 in ideas/004/probe_contract.yaml (replacing every TO_BE_RECORDED_AT_MANIFEST_FREEZE placeholder), commit that one amendment, and re-run approve-probe against the amended blob. Only then can phase B start; this driver refuses it until both hold.",
-  "no_image_download": true,
-  "no_inference": true,
+  "outputs": {
+    "tier1": [
+      "analysis/tier1_differences.csv",
+      "analysis/tier1_stats.csv",
+      "analysis/tier1_bootstrap.csv"
+    ],
+    "tier2": [
+      "analysis/tier2_auroc.csv",
+      "analysis/tier2_excluded_cells.csv"
+    ]
+  },
   "pair_count": 425,
   "pair_manifest_sha256": "5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38",
-  "phase": "M",
-  "phase_m_complete": true,
-  "qa_retry_allowance_volumes": 170,
-  "stratum_counts": {
-    "Bl56f|Br40f": 126,
-    "Bl57d|Br36d": 58,
-    "Br40f|Br44f": 4,
-    "Br40f|Br60f": 237
-  },
+  "phase": "B",
+  "session_cap": 30,
+  "session_id": "20260815T231124Z-8e185556",
+  "sessions_used": 5,
+  "spot_check_pairs": [
+    "p001",
+    "p238",
+    "p364",
+    "p422"
+  ],
   "unique_volume_count": 850
 }

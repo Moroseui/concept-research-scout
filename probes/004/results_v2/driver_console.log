@@ -1,54 +1,3 @@
-
-===== phase-B session starting 2026-08-15T09:02:35Z =====
-[09:02:35] idea-004 contract-v2 driver starting (phase B)
-[09:02:35] PHASE 0: approval and contract gate
-[09:02:35]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
-[09:02:35]   contract actual blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
-[09:02:35]   hash-bound approval VERIFIED: marker matches the contract blob
-[09:02:35]   contract caps and provenance pins match the frozen constants
-[09:02:35]   phase B entry conditions hold: manifest sha 5dc0f07fbc9a..., unique volumes 850
-[09:02:35] PHASE B: bulk 425-pair floor study (session start)
-[09:02:35]   session 20260815T090235Z-845af11a (attempt 1 of session cap 30)
-[09:02:35] environment: seeds, determinism switches, version capture
-[09:02:37]   transformers 4.38.2 / tokenizers 0.15.2 match the pinned r6 closure
-[09:02:38]   resolved_config.json written to /content/drive/MyDrive/concept-research-scout-results/004_v2
-[09:08:12]   validation_metadata.csv: downloaded and hash-verified
-[09:12:41]   valid_predicted_labels.csv: downloaded and hash-verified
-[09:16:38]   validation_reports.csv: downloaded and hash-verified
-[09:16:38]   manifest verified against contract hash (5dc0f07fbc9a..., 425 pairs, 850 unique volumes)
-[09:16:38]   preregistered spot-check pairs: ['p001', 'p238', 'p364', 'p422']
-[09:18:24]   checkpoint hash verified against the v1-frozen pin
-[09:18:29]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
-[09:18:29] FAIL (exit 3): v1 anchor reference not found at /content/scout-repo/probes/004/results/per_sample.csv; the cross-session anchor check cannot run (contract provenance_pins.v1_anchor_reference_scores)
-
-===== phase-B session starting 2026-08-15T09:43:38Z =====
-[09:43:38] idea-004 contract-v2 driver starting (phase B)
-[09:43:38] PHASE 0: approval and contract gate
-[09:43:38]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
-[09:43:38]   contract actual blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
-[09:43:38]   hash-bound approval VERIFIED: marker matches the contract blob
-[09:43:38]   contract caps and provenance pins match the frozen constants
-[09:43:38]   phase B entry conditions hold: manifest sha 5dc0f07fbc9a..., unique volumes 850
-[09:43:38] PHASE B: bulk 425-pair floor study (session start)
-[09:43:39]   session 20260815T094338Z-571b8061 (attempt 2 of session cap 30)
-[09:43:39] environment: seeds, determinism switches, version capture
-[09:43:42]   transformers 4.38.2 / tokenizers 0.15.2 match the pinned r6 closure
-[09:43:49]   resolved_config.json written to /content/drive/MyDrive/concept-research-scout-results/004_v2
-[09:48:26]   validation_metadata.csv: downloaded and hash-verified
-[09:52:17]   valid_predicted_labels.csv: downloaded and hash-verified
-[09:55:46]   validation_reports.csv: downloaded and hash-verified
-[09:55:47]   manifest verified against contract hash (5dc0f07fbc9a..., 425 pairs, 850 unique volumes)
-[09:55:47]   preregistered spot-check pairs: ['p001', 'p238', 'p364', 'p422']
-[09:56:14]   checkpoint hash verified against the v1-frozen pin
-[09:56:17]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
-[09:56:17]   v1 anchor reference loaded (git blob verified)
-[09:56:44]   r6 enumerated buffer strip: removed 'trained_model.text_transformer.embeddings.position_ids'
-[09:56:45]   checkpoint loaded: strict modulo the one enumerated, provenance-logged position_ids buffer key (r6)
-[09:56:45] anchor protocol: session drift detector (A, B, A-repeat)
-[09:57:01]   anchor valid_1004_a_1.nii.gz: downloaded, hash verified
-[09:57:25]   anchor valid_1004_a_2.nii.gz: downloaded, hash verified
-
-===== phase-B session starting 2026-08-15T10:24:07Z =====
 [10:24:08] idea-004 contract-v2 driver starting (phase B)
 [10:24:08] PHASE 0: approval and contract gate
 [10:24:08]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
@@ -69,13 +18,16 @@
 [10:37:01]   checkpoint hash verified against the v1-frozen pin
 [10:37:03]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
 [10:37:03]   v1 anchor reference loaded (git blob verified)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:261: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:391: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
 [10:38:18]   r6 enumerated buffer strip: removed 'trained_model.text_transformer.embeddings.position_ids'
 [10:38:19]   checkpoint loaded: strict modulo the one enumerated, provenance-logged position_ids buffer key (r6)
 [10:38:20] anchor protocol: session drift detector (A, B, A-repeat)
 [10:38:22]   anchor valid_1004_a_1.nii.gz: cache hit, hash verified
 [10:38:24]   anchor valid_1004_a_2.nii.gz: cache hit, hash verified
-
-===== phase-B session starting 2026-08-15T18:05:44Z =====
+UNEXPECTED INTERNAL ERROR (exit 12, not a contract result): OSError(18, 'Invalid cross-device link')
 [18:05:44] idea-004 contract-v2 driver starting (phase B)
 [18:05:44] PHASE 0: approval and contract gate
 [18:05:44]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
@@ -96,13 +48,21 @@
 [18:22:23]   checkpoint hash verified against the v1-frozen pin
 [18:22:27]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
 [18:22:27]   v1 anchor reference loaded (git blob verified)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:261: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:391: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
 [18:22:49]   r6 enumerated buffer strip: removed 'trained_model.text_transformer.embeddings.position_ids'
 [18:22:50]   checkpoint loaded: strict modulo the one enumerated, provenance-logged position_ids buffer key (r6)
 [18:22:50] anchor protocol: session drift detector (A, B, A-repeat)
 [18:22:52]   anchor valid_1004_a_1.nii.gz: cache hit, hash verified
 [18:22:54]   anchor valid_1004_a_2.nii.gz: cache hit, hash verified
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 555.39it/s]
+test all pooling
 [18:23:09]   anchor_A: 18 finite scores
+test all pooling
 [18:23:14]   anchor_B: 18 finite scores
+test all pooling
 [18:23:19]   anchor_A_repeat: 18 finite scores
 [18:23:19]   anchor in tolerance (dev_A=0.00e+00, dev_B=0.00e+00, tol=0.0001); A-repeat bit-identical
 [18:23:19]   chunks already complete: none
@@ -158,32 +118,85 @@
 [18:37:37]   [49/50] downloaded+hashed valid_1119_a_1.nii.gz (144 MB, scientific_first_time)
 [18:37:53]   [50/50] downloaded+hashed valid_1119_a_2.nii.gz (165 MB, scientific_first_time)
 [18:37:53]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/22 [00:00<?, ?it/s]100%|██████████| 22/22 [00:00<00:00, 754.75it/s]
+test all pooling
+test all pooling
 [18:42:11]   [1/25] scored pair p001 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:42:22]   [2/25] scored pair p002 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:42:32]   [3/25] scored pair p003 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:42:40]   [4/25] scored pair p004 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:42:49]   [5/25] scored pair p005 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:42:57]   [6/25] scored pair p006 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:43:07]   [7/25] scored pair p007 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:43:16]   [8/25] scored pair p008 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:43:27]   [9/25] scored pair p009 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:43:38]   [10/25] scored pair p010 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:43:48]   [11/25] scored pair p011 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:43:59]   [12/25] scored pair p012 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:44:09]   [13/25] scored pair p013 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:44:17]   [14/25] scored pair p014 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:44:27]   [15/25] scored pair p015 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:44:35]   [16/25] scored pair p016 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:44:44]   [17/25] scored pair p017 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:44:55]   [18/25] scored pair p018 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:45:04]   [19/25] scored pair p019 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:45:14]   [20/25] scored pair p020 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:45:24]   [21/25] scored pair p021 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:45:34]   [22/25] scored pair p022 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:45:44]   [23/25] scored pair p023 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:45:55]   [24/25] scored pair p024 (Br40f|Br60f)
+test all pooling
+test all pooling
 [18:46:04]   [25/25] scored pair p025 (Br40f|Br60f)
 [18:46:04]   spot-check re-run for p001 (preregistered subset)
+test all pooling
+test all pooling
 [18:46:14]   spot-check p001: bit-identical
 [18:46:15]   chunk 01: image files deleted
 [18:46:15]   chunk 01 COMPLETE (1376s wall, 6s inference, peak 4.10 GB)
@@ -235,34 +248,89 @@
 [18:59:25]   [45/50] downloaded+hashed valid_122_a_1.nii.gz (157 MB, scientific_first_time)
 [18:59:45]   [46/50] downloaded+hashed valid_122_a_2.nii.gz (179 MB, scientific_first_time)
 [18:59:55]   [47/50] downloaded+hashed valid_1250_a_1.nii.gz (186 MB, scientific_first_time)
+Error while downloading from https://us.aws.cdn.hf.co/xet-bridge-us/65c666da10735dcd76ea29e1/be78e9eea129fb52ce752e4cb86a5dd8c54a302f2b3c4320a3fbec2c9c41bf6e?X-Xet-Cas-Uid=69e122d507bd77d7aa29a2ba&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27valid_1250_a_2.nii.gz%3B+filename%3D%22valid_1250_a_2.nii.gz%22%3B&user_id=69e122d507bd77d7aa29a2ba&response-content-type=application%2Fgzip&Expires=1786823995&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjVjNjY2ZGExMDczNWRjZDc2ZWEyOWUxL2JlNzhlOWVlYTEyOWZiNTJjZTc1MmU0Y2I4NmE1ZGQ4YzU0YTMwMmYyYjNjNDMyMGEzZmJlYzJjOWM0MWJmNmVcXD9YLVhldC1DYXMtVWlkPTY5ZTEyMmQ1MDdiZDc3ZDdhYTI5YTJiYSZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRfMTI1MF9hXzIubmlpLmd6JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRfMTI1MF9hXzIubmlpLmd6JTIyJTNCJnVzZXJfaWQ9NjllMTIyZDUwN2JkNzdkN2FhMjlhMmJhJnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1hcHBsaWNhdGlvbiUyRmd6aXAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkVwb2NoVGltZSI6MTc4NjgyMzk5NX19fV19&Signature=MEUCIQDPFfbch8P4VtIzpf7wLpaxE%7EYXGffWdQUqa%7Ec96pAjMgIgR00l7V3lKJHTT%7EMeZQ6JbuFcRe0NoOxLggEiwsMJw7o_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F: HTTPSConnectionPool(host='us.aws.cdn.hf.co', port=443): Read timed out.
+Trying to resume download...
+Error while downloading from https://us.aws.cdn.hf.co/xet-bridge-us/65c666da10735dcd76ea29e1/be78e9eea129fb52ce752e4cb86a5dd8c54a302f2b3c4320a3fbec2c9c41bf6e?X-Xet-Cas-Uid=69e122d507bd77d7aa29a2ba&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27valid_1250_a_2.nii.gz%3B+filename%3D%22valid_1250_a_2.nii.gz%22%3B&user_id=69e122d507bd77d7aa29a2ba&response-content-type=application%2Fgzip&Expires=1786823995&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjVjNjY2ZGExMDczNWRjZDc2ZWEyOWUxL2JlNzhlOWVlYTEyOWZiNTJjZTc1MmU0Y2I4NmE1ZGQ4YzU0YTMwMmYyYjNjNDMyMGEzZmJlYzJjOWM0MWJmNmVcXD9YLVhldC1DYXMtVWlkPTY5ZTEyMmQ1MDdiZDc3ZDdhYTI5YTJiYSZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRfMTI1MF9hXzIubmlpLmd6JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRfMTI1MF9hXzIubmlpLmd6JTIyJTNCJnVzZXJfaWQ9NjllMTIyZDUwN2JkNzdkN2FhMjlhMmJhJnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1hcHBsaWNhdGlvbiUyRmd6aXAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkVwb2NoVGltZSI6MTc4NjgyMzk5NX19fV19&Signature=MEUCIQDPFfbch8P4VtIzpf7wLpaxE%7EYXGffWdQUqa%7Ec96pAjMgIgR00l7V3lKJHTT%7EMeZQ6JbuFcRe0NoOxLggEiwsMJw7o_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F: HTTPSConnectionPool(host='us.aws.cdn.hf.co', port=443): Read timed out.
+Trying to resume download...
 [19:00:48]   [48/50] downloaded+hashed valid_1250_a_2.nii.gz (212 MB, scientific_first_time)
 [19:01:10]   [49/50] downloaded+hashed valid_1250_b_1.nii.gz (192 MB, scientific_first_time)
 [19:01:30]   [50/50] downloaded+hashed valid_1250_b_2.nii.gz (218 MB, scientific_first_time)
 [19:01:30]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/23 [00:00<?, ?it/s]100%|██████████| 23/23 [00:00<00:00, 790.33it/s]
+test all pooling
+test all pooling
 [19:05:42]   [1/25] scored pair p026 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:05:51]   [2/25] scored pair p027 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:06:03]   [3/25] scored pair p028 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:06:12]   [4/25] scored pair p029 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:06:23]   [5/25] scored pair p030 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:06:32]   [6/25] scored pair p031 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:06:41]   [7/25] scored pair p032 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:06:52]   [8/25] scored pair p033 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:07:00]   [9/25] scored pair p034 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:07:09]   [10/25] scored pair p035 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:07:19]   [11/25] scored pair p036 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:07:27]   [12/25] scored pair p037 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:07:34]   [13/25] scored pair p038 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:07:44]   [14/25] scored pair p039 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:07:52]   [15/25] scored pair p040 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:08:01]   [16/25] scored pair p041 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:08:08]   [17/25] scored pair p042 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:08:18]   [18/25] scored pair p043 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:08:28]   [19/25] scored pair p044 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:08:37]   [20/25] scored pair p045 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:08:46]   [21/25] scored pair p046 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:08:56]   [22/25] scored pair p047 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:09:06]   [23/25] scored pair p048 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:09:17]   [24/25] scored pair p049 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:09:29]   [25/25] scored pair p050 (Br40f|Br60f)
 [19:09:30]   chunk 02: image files deleted
 [19:09:30]   chunk 02 COMPLETE (1395s wall, 7s inference, peak 4.10 GB)
@@ -318,30 +386,81 @@
 [19:23:23]   [49/50] downloaded+hashed valid_23_a_1.nii.gz (167 MB, scientific_first_time)
 [19:23:44]   [50/50] downloaded+hashed valid_23_a_2.nii.gz (191 MB, scientific_first_time)
 [19:23:44]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/24 [00:00<?, ?it/s]100%|██████████| 24/24 [00:00<00:00, 769.87it/s]
+test all pooling
+test all pooling
 [19:28:04]   [1/25] scored pair p051 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:28:13]   [2/25] scored pair p052 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:28:25]   [3/25] scored pair p053 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:28:35]   [4/25] scored pair p054 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:28:45]   [5/25] scored pair p055 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:28:54]   [6/25] scored pair p056 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:29:03]   [7/25] scored pair p057 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:29:10]   [8/25] scored pair p058 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:29:19]   [9/25] scored pair p059 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:29:30]   [10/25] scored pair p060 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:29:41]   [11/25] scored pair p061 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:29:51]   [12/25] scored pair p062 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:29:58]   [13/25] scored pair p063 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:30:09]   [14/25] scored pair p064 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:30:17]   [15/25] scored pair p065 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:30:27]   [16/25] scored pair p066 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:30:37]   [17/25] scored pair p067 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:30:47]   [18/25] scored pair p068 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:30:58]   [19/25] scored pair p069 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:31:09]   [20/25] scored pair p070 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:31:19]   [21/25] scored pair p071 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:31:29]   [22/25] scored pair p072 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:31:39]   [23/25] scored pair p073 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:31:49]   [24/25] scored pair p074 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:31:59]   [25/25] scored pair p075 (Br40f|Br60f)
 [19:32:00]   chunk 03: image files deleted
 [19:32:00]   chunk 03 COMPLETE (1350s wall, 7s inference, peak 4.10 GB)
@@ -397,30 +516,81 @@
 [19:45:58]   [49/50] downloaded+hashed valid_399_a_1.nii.gz (145 MB, scientific_first_time)
 [19:46:16]   [50/50] downloaded+hashed valid_399_a_2.nii.gz (166 MB, scientific_first_time)
 [19:46:17]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/24 [00:00<?, ?it/s]100%|██████████| 24/24 [00:00<00:00, 809.64it/s]
+test all pooling
+test all pooling
 [19:50:34]   [1/25] scored pair p076 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:50:44]   [2/25] scored pair p077 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:50:54]   [3/25] scored pair p078 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:51:03]   [4/25] scored pair p079 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:51:13]   [5/25] scored pair p080 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:51:24]   [6/25] scored pair p081 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:51:33]   [7/25] scored pair p082 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:51:44]   [8/25] scored pair p083 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:51:53]   [9/25] scored pair p084 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:52:02]   [10/25] scored pair p085 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:52:12]   [11/25] scored pair p086 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:52:23]   [12/25] scored pair p087 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:52:32]   [13/25] scored pair p088 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:52:42]   [14/25] scored pair p089 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:52:50]   [15/25] scored pair p090 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:53:01]   [16/25] scored pair p091 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:53:11]   [17/25] scored pair p092 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:53:19]   [18/25] scored pair p093 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:53:27]   [19/25] scored pair p094 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:53:37]   [20/25] scored pair p095 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:53:47]   [21/25] scored pair p096 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:53:57]   [22/25] scored pair p097 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:54:05]   [23/25] scored pair p098 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:54:14]   [24/25] scored pair p099 (Br40f|Br60f)
+test all pooling
+test all pooling
 [19:54:23]   [25/25] scored pair p100 (Br40f|Br60f)
 [19:54:24]   chunk 04: image files deleted
 [19:54:24]   chunk 04 COMPLETE (1345s wall, 7s inference, peak 4.10 GB)
@@ -469,8 +639,6 @@
 [20:05:08]   [42/50] downloaded+hashed valid_482_d_2.nii.gz (188 MB, scientific_first_time)
 [20:05:27]   [43/50] downloaded+hashed valid_482_e_1.nii.gz (160 MB, scientific_first_time)
 [20:05:39] FAIL (exit 3): download failed for dataset/valid/valid_482/valid_482_e/valid_482_e_2.nii.gz at pinned revision deeca4d89e9f978d4d1bccd88a55071ddbb146bb: ('Connection broken: IncompleteRead(152736463 bytes read, 28306724 more expected)', IncompleteRead(152736463 bytes read, 28306724 more expected))
-
-===== phase-B session starting 2026-08-15T23:11:23Z =====
 [23:11:24] idea-004 contract-v2 driver starting (phase B)
 [23:11:24] PHASE 0: approval and contract gate
 [23:11:24]   approval marker blob: 8b68640183ee796e85f83fd47851c6a5eae51bdc
@@ -491,13 +659,21 @@
 [23:23:18]   checkpoint hash verified against the v1-frozen pin
 [23:23:19]   released code pinned at commit a2a155c601987820433c01db69b64d701d3d229d
 [23:23:19]   v1 anchor reference loaded (git blob verified)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:261: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/usr/local/lib/python3.12/dist-packages/vector_quantize_pytorch/vector_quantize_pytorch.py:391: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
 [23:23:38]   r6 enumerated buffer strip: removed 'trained_model.text_transformer.embeddings.position_ids'
 [23:23:39]   checkpoint loaded: strict modulo the one enumerated, provenance-logged position_ids buffer key (r6)
 [23:23:41] anchor protocol: session drift detector (A, B, A-repeat)
 [23:23:46]   anchor valid_1004_a_1.nii.gz: cache hit, hash verified
 [23:23:50]   anchor valid_1004_a_2.nii.gz: cache hit, hash verified
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:00<00:00, 561.26it/s]
+test all pooling
 [23:24:04]   anchor_A: 18 finite scores
+test all pooling
 [23:24:09]   anchor_B: 18 finite scores
+test all pooling
 [23:24:14]   anchor_A_repeat: 18 finite scores
 [23:24:14]   anchor in tolerance (dev_A=0.00e+00, dev_B=0.00e+00, tol=0.0001); A-repeat bit-identical
 [23:24:17]   chunks already complete: [1, 2, 3, 4]
@@ -553,30 +729,81 @@
 [23:27:20]   [49/50] downloaded+hashed valid_488_a_1.nii.gz (165 MB, scientific_first_time)
 [23:27:24]   [50/50] downloaded+hashed valid_488_a_2.nii.gz (189 MB, scientific_first_time)
 [23:27:24]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/23 [00:00<?, ?it/s]100%|██████████| 23/23 [00:00<00:00, 777.10it/s]
+test all pooling
+test all pooling
 [23:31:34]   [1/25] scored pair p101 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:31:43]   [2/25] scored pair p102 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:31:52]   [3/25] scored pair p103 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:32:03]   [4/25] scored pair p104 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:32:13]   [5/25] scored pair p105 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:32:21]   [6/25] scored pair p106 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:32:30]   [7/25] scored pair p107 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:32:39]   [8/25] scored pair p108 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:32:48]   [9/25] scored pair p109 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:32:58]   [10/25] scored pair p110 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:33:07]   [11/25] scored pair p111 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:33:17]   [12/25] scored pair p112 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:33:24]   [13/25] scored pair p113 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:33:34]   [14/25] scored pair p114 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:33:43]   [15/25] scored pair p115 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:33:51]   [16/25] scored pair p116 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:33:59]   [17/25] scored pair p117 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:34:08]   [18/25] scored pair p118 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:34:18]   [19/25] scored pair p119 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:34:27]   [20/25] scored pair p120 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:34:37]   [21/25] scored pair p121 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:34:48]   [22/25] scored pair p122 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:34:56]   [23/25] scored pair p123 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:35:07]   [24/25] scored pair p124 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:35:17]   [25/25] scored pair p125 (Br40f|Br60f)
 [23:35:18]   chunk 05: image files deleted
 [23:35:18]   chunk 05 COMPLETE (661s wall, 7s inference, peak 4.10 GB)
@@ -632,30 +859,81 @@
 [23:38:21]   [49/50] downloaded+hashed valid_606_b_1.nii.gz (159 MB, scientific_first_time)
 [23:38:25]   [50/50] downloaded+hashed valid_606_b_2.nii.gz (182 MB, scientific_first_time)
 [23:38:26]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/25 [00:00<?, ?it/s]100%|██████████| 25/25 [00:00<00:00, 832.43it/s]
+test all pooling
+test all pooling
 [23:42:40]   [1/25] scored pair p126 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:42:50]   [2/25] scored pair p127 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:42:59]   [3/25] scored pair p128 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:43:09]   [4/25] scored pair p129 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:43:17]   [5/25] scored pair p130 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:43:28]   [6/25] scored pair p131 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:43:38]   [7/25] scored pair p132 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:43:49]   [8/25] scored pair p133 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:43:57]   [9/25] scored pair p134 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:44:06]   [10/25] scored pair p135 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:44:17]   [11/25] scored pair p136 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:44:25]   [12/25] scored pair p137 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:44:33]   [13/25] scored pair p138 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:44:44]   [14/25] scored pair p139 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:44:53]   [15/25] scored pair p140 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:45:02]   [16/25] scored pair p141 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:45:11]   [17/25] scored pair p142 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:45:21]   [18/25] scored pair p143 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:45:31]   [19/25] scored pair p144 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:45:40]   [20/25] scored pair p145 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:45:50]   [21/25] scored pair p146 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:45:57]   [22/25] scored pair p147 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:46:06]   [23/25] scored pair p148 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:46:15]   [24/25] scored pair p149 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:46:25]   [25/25] scored pair p150 (Br40f|Br60f)
 [23:46:26]   chunk 06: image files deleted
 [23:46:26]   chunk 06 COMPLETE (668s wall, 7s inference, peak 4.10 GB)
@@ -711,30 +989,81 @@
 [23:49:22]   [49/50] downloaded+hashed valid_703_a_1.nii.gz (138 MB, scientific_first_time)
 [23:49:25]   [50/50] downloaded+hashed valid_703_a_2.nii.gz (156 MB, scientific_first_time)
 [23:49:25]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/24 [00:00<?, ?it/s]100%|██████████| 24/24 [00:00<00:00, 812.00it/s]
+test all pooling
+test all pooling
 [23:53:38]   [1/25] scored pair p151 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:53:48]   [2/25] scored pair p152 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:53:56]   [3/25] scored pair p153 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:54:06]   [4/25] scored pair p154 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:54:15]   [5/25] scored pair p155 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:54:24]   [6/25] scored pair p156 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:54:32]   [7/25] scored pair p157 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:54:39]   [8/25] scored pair p158 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:54:48]   [9/25] scored pair p159 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:54:58]   [10/25] scored pair p160 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:55:07]   [11/25] scored pair p161 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:55:17]   [12/25] scored pair p162 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:55:27]   [13/25] scored pair p163 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:55:36]   [14/25] scored pair p164 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:55:45]   [15/25] scored pair p165 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:55:54]   [16/25] scored pair p166 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:56:05]   [17/25] scored pair p167 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:56:15]   [18/25] scored pair p168 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:56:24]   [19/25] scored pair p169 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:56:34]   [20/25] scored pair p170 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:56:45]   [21/25] scored pair p171 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:56:55]   [22/25] scored pair p172 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:57:03]   [23/25] scored pair p173 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:57:14]   [24/25] scored pair p174 (Br40f|Br60f)
+test all pooling
+test all pooling
 [23:57:23]   [25/25] scored pair p175 (Br40f|Br60f)
 [23:57:24]   chunk 07: image files deleted
 [23:57:24]   chunk 07 COMPLETE (658s wall, 7s inference, peak 4.10 GB)
@@ -790,30 +1119,81 @@
 [00:00:15]   [49/50] downloaded+hashed valid_815_b_1.nii.gz (133 MB, scientific_first_time)
 [00:00:19]   [50/50] downloaded+hashed valid_815_b_2.nii.gz (151 MB, scientific_first_time)
 [00:00:20]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/21 [00:00<?, ?it/s]100%|██████████| 21/21 [00:00<00:00, 692.75it/s]
+test all pooling
+test all pooling
 [00:04:31]   [1/25] scored pair p176 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:04:41]   [2/25] scored pair p177 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:04:50]   [3/25] scored pair p178 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:05:01]   [4/25] scored pair p179 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:05:10]   [5/25] scored pair p180 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:05:18]   [6/25] scored pair p181 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:05:27]   [7/25] scored pair p182 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:05:36]   [8/25] scored pair p183 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:05:46]   [9/25] scored pair p184 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:05:55]   [10/25] scored pair p185 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:06:05]   [11/25] scored pair p186 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:06:16]   [12/25] scored pair p187 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:06:26]   [13/25] scored pair p188 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:06:35]   [14/25] scored pair p189 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:06:43]   [15/25] scored pair p190 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:06:53]   [16/25] scored pair p191 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:07:03]   [17/25] scored pair p192 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:07:11]   [18/25] scored pair p193 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:07:22]   [19/25] scored pair p194 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:07:30]   [20/25] scored pair p195 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:07:41]   [21/25] scored pair p196 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:07:51]   [22/25] scored pair p197 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:08:01]   [23/25] scored pair p198 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:08:09]   [24/25] scored pair p199 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:08:18]   [25/25] scored pair p200 (Br40f|Br60f)
 [00:08:19]   chunk 08: image files deleted
 [00:08:19]   chunk 08 COMPLETE (654s wall, 7s inference, peak 4.10 GB)
@@ -869,30 +1249,81 @@
 [00:12:00]   [49/50] downloaded+hashed valid_930_a_1.nii.gz (126 MB, scientific_first_time)
 [00:12:04]   [50/50] downloaded+hashed valid_930_a_2.nii.gz (144 MB, scientific_first_time)
 [00:12:05]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/22 [00:00<?, ?it/s]100%|██████████| 22/22 [00:00<00:00, 750.37it/s]
+test all pooling
+test all pooling
 [00:16:23]   [1/25] scored pair p201 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:16:32]   [2/25] scored pair p202 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:16:41]   [3/25] scored pair p203 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:16:51]   [4/25] scored pair p204 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:17:01]   [5/25] scored pair p205 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:17:10]   [6/25] scored pair p206 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:17:18]   [7/25] scored pair p207 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:17:28]   [8/25] scored pair p208 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:17:38]   [9/25] scored pair p209 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:17:47]   [10/25] scored pair p210 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:17:57]   [11/25] scored pair p211 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:18:08]   [12/25] scored pair p212 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:18:16]   [13/25] scored pair p213 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:18:26]   [14/25] scored pair p214 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:18:38]   [15/25] scored pair p215 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:18:48]   [16/25] scored pair p216 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:18:56]   [17/25] scored pair p217 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:19:04]   [18/25] scored pair p218 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:19:14]   [19/25] scored pair p219 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:19:24]   [20/25] scored pair p220 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:19:35]   [21/25] scored pair p221 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:19:44]   [22/25] scored pair p222 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:19:52]   [23/25] scored pair p223 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:20:04]   [24/25] scored pair p224 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:20:13]   [25/25] scored pair p225 (Br40f|Br60f)
 [00:20:14]   chunk 09: image files deleted
 [00:20:14]   chunk 09 COMPLETE (715s wall, 7s inference, peak 4.10 GB)
@@ -948,32 +1379,85 @@
 [00:23:24]   [49/50] downloaded+hashed valid_1175_a_2.nii.gz (103 MB, scientific_first_time)
 [00:23:26]   [50/50] downloaded+hashed valid_1175_a_1.nii.gz (119 MB, scientific_first_time)
 [00:23:26]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/24 [00:00<?, ?it/s]100%|██████████| 24/24 [00:00<00:00, 755.99it/s]
+test all pooling
+test all pooling
 [00:27:28]   [1/25] scored pair p226 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:27:38]   [2/25] scored pair p227 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:27:47]   [3/25] scored pair p228 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:27:57]   [4/25] scored pair p229 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:28:06]   [5/25] scored pair p230 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:28:15]   [6/25] scored pair p231 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:28:25]   [7/25] scored pair p232 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:28:35]   [8/25] scored pair p233 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:28:44]   [9/25] scored pair p234 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:28:56]   [10/25] scored pair p235 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:29:08]   [11/25] scored pair p236 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:29:18]   [12/25] scored pair p237 (Br40f|Br60f)
+test all pooling
+test all pooling
 [00:29:27]   [13/25] scored pair p238 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:29:36]   [14/25] scored pair p239 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:29:43]   [15/25] scored pair p240 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:29:51]   [16/25] scored pair p241 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:00]   [17/25] scored pair p242 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:07]   [18/25] scored pair p243 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:15]   [19/25] scored pair p244 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:24]   [20/25] scored pair p245 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:31]   [21/25] scored pair p246 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:41]   [22/25] scored pair p247 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:48]   [23/25] scored pair p248 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:30:57]   [24/25] scored pair p249 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:31:03]   [25/25] scored pair p250 (Bl56f|Br40f)
 [00:31:03]   spot-check re-run for p238 (preregistered subset)
+test all pooling
+test all pooling
 [00:31:11]   spot-check p238: bit-identical
 [00:31:12]   chunk 10: image files deleted
 [00:31:12]   chunk 10 COMPLETE (659s wall, 7s inference, peak 4.10 GB)
@@ -1029,30 +1513,81 @@
 [00:34:21]   [49/50] downloaded+hashed valid_153_a_2.nii.gz (108 MB, scientific_first_time)
 [00:34:24]   [50/50] downloaded+hashed valid_153_a_1.nii.gz (125 MB, scientific_first_time)
 [00:34:24]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/21 [00:00<?, ?it/s]100%|██████████| 21/21 [00:00<00:00, 711.18it/s]
+test all pooling
+test all pooling
 [00:38:04]   [1/25] scored pair p251 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:38:12]   [2/25] scored pair p252 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:38:20]   [3/25] scored pair p253 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:38:27]   [4/25] scored pair p254 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:38:34]   [5/25] scored pair p255 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:38:43]   [6/25] scored pair p256 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:38:52]   [7/25] scored pair p257 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:01]   [8/25] scored pair p258 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:09]   [9/25] scored pair p259 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:17]   [10/25] scored pair p260 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:25]   [11/25] scored pair p261 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:34]   [12/25] scored pair p262 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:42]   [13/25] scored pair p263 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:50]   [14/25] scored pair p264 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:39:58]   [15/25] scored pair p265 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:40:08]   [16/25] scored pair p266 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:40:16]   [17/25] scored pair p267 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:40:23]   [18/25] scored pair p268 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:40:32]   [19/25] scored pair p269 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:40:40]   [20/25] scored pair p270 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:40:48]   [21/25] scored pair p271 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:40:57]   [22/25] scored pair p272 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:41:05]   [23/25] scored pair p273 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:41:13]   [24/25] scored pair p274 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:41:21]   [25/25] scored pair p275 (Bl56f|Br40f)
 [00:41:22]   chunk 11: image files deleted
 [00:41:22]   chunk 11 COMPLETE (610s wall, 7s inference, peak 4.10 GB)
@@ -1108,30 +1643,81 @@
 [00:44:03]   [49/50] downloaded+hashed valid_362_a_2.nii.gz (107 MB, scientific_first_time)
 [00:44:08]   [50/50] downloaded+hashed valid_362_a_1.nii.gz (122 MB, scientific_first_time)
 [00:44:09]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/20 [00:00<?, ?it/s]100%|██████████| 20/20 [00:00<00:00, 657.76it/s]
+test all pooling
+test all pooling
 [00:47:48]   [1/25] scored pair p276 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:47:57]   [2/25] scored pair p277 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:48:06]   [3/25] scored pair p278 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:48:14]   [4/25] scored pair p279 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:48:22]   [5/25] scored pair p280 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:48:31]   [6/25] scored pair p281 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:48:38]   [7/25] scored pair p282 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:48:47]   [8/25] scored pair p283 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:48:53]   [9/25] scored pair p284 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:01]   [10/25] scored pair p285 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:11]   [11/25] scored pair p286 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:19]   [12/25] scored pair p287 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:26]   [13/25] scored pair p288 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:34]   [14/25] scored pair p289 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:41]   [15/25] scored pair p290 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:49]   [16/25] scored pair p291 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:49:57]   [17/25] scored pair p292 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:50:04]   [18/25] scored pair p293 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:50:13]   [19/25] scored pair p294 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:50:20]   [20/25] scored pair p295 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:50:29]   [21/25] scored pair p296 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:50:37]   [22/25] scored pair p297 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:50:45]   [23/25] scored pair p298 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:50:53]   [24/25] scored pair p299 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:51:00]   [25/25] scored pair p300 (Bl56f|Br40f)
 [00:51:01]   chunk 12: image files deleted
 [00:51:01]   chunk 12 COMPLETE (579s wall, 7s inference, peak 4.10 GB)
@@ -1187,30 +1773,81 @@
 [00:53:58]   [49/50] downloaded+hashed valid_569_c_2.nii.gz (128 MB, scientific_first_time)
 [00:54:02]   [50/50] downloaded+hashed valid_569_c_1.nii.gz (149 MB, scientific_first_time)
 [00:54:02]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/20 [00:00<?, ?it/s]100%|██████████| 20/20 [00:00<00:00, 650.57it/s]
+test all pooling
+test all pooling
 [00:57:31]   [1/25] scored pair p301 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:57:39]   [2/25] scored pair p302 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:57:46]   [3/25] scored pair p303 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:57:54]   [4/25] scored pair p304 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:01]   [5/25] scored pair p305 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:08]   [6/25] scored pair p306 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:16]   [7/25] scored pair p307 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:24]   [8/25] scored pair p308 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:32]   [9/25] scored pair p309 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:39]   [10/25] scored pair p310 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:46]   [11/25] scored pair p311 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:53]   [12/25] scored pair p312 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:58:59]   [13/25] scored pair p313 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:59:07]   [14/25] scored pair p314 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:59:16]   [15/25] scored pair p315 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:59:25]   [16/25] scored pair p316 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:59:34]   [17/25] scored pair p317 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:59:42]   [18/25] scored pair p318 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:59:51]   [19/25] scored pair p319 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [00:59:59]   [20/25] scored pair p320 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:00:07]   [21/25] scored pair p321 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:00:15]   [22/25] scored pair p322 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:00:22]   [23/25] scored pair p323 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:00:31]   [24/25] scored pair p324 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:00:40]   [25/25] scored pair p325 (Bl56f|Br40f)
 [01:00:41]   chunk 13: image files deleted
 [01:00:41]   chunk 13 COMPLETE (580s wall, 7s inference, peak 4.10 GB)
@@ -1266,30 +1903,81 @@
 [01:03:35]   [49/50] downloaded+hashed valid_864_a_2.nii.gz (125 MB, scientific_first_time)
 [01:03:41]   [50/50] downloaded+hashed valid_864_a_1.nii.gz (146 MB, scientific_first_time)
 [01:03:41]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/24 [00:00<?, ?it/s]100%|██████████| 24/24 [00:00<00:00, 746.88it/s]
+test all pooling
+test all pooling
 [01:07:13]   [1/25] scored pair p326 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:07:20]   [2/25] scored pair p327 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:07:26]   [3/25] scored pair p328 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:07:34]   [4/25] scored pair p329 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:07:43]   [5/25] scored pair p330 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:07:51]   [6/25] scored pair p331 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:07:58]   [7/25] scored pair p332 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:08:07]   [8/25] scored pair p333 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:08:14]   [9/25] scored pair p334 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:08:22]   [10/25] scored pair p335 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:08:31]   [11/25] scored pair p336 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:08:40]   [12/25] scored pair p337 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:08:48]   [13/25] scored pair p338 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:08:56]   [14/25] scored pair p339 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:05]   [15/25] scored pair p340 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:13]   [16/25] scored pair p341 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:21]   [17/25] scored pair p342 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:29]   [18/25] scored pair p343 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:37]   [19/25] scored pair p344 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:44]   [20/25] scored pair p345 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:52]   [21/25] scored pair p346 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:09:59]   [22/25] scored pair p347 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:10:06]   [23/25] scored pair p348 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:10:14]   [24/25] scored pair p349 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:10:22]   [25/25] scored pair p350 (Bl56f|Br40f)
 [01:10:23]   chunk 14: image files deleted
 [01:10:23]   chunk 14 COMPLETE (582s wall, 7s inference, peak 4.10 GB)
@@ -1345,32 +2033,85 @@
 [01:12:58]   [49/50] downloaded+hashed valid_117_b_2.nii.gz (96 MB, scientific_first_time)
 [01:13:01]   [50/50] downloaded+hashed valid_117_b_1.nii.gz (112 MB, scientific_first_time)
 [01:13:01]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/22 [00:00<?, ?it/s]100%|██████████| 22/22 [00:00<00:00, 685.77it/s]
+test all pooling
+test all pooling
 [01:16:25]   [1/25] scored pair p351 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:16:34]   [2/25] scored pair p352 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:16:43]   [3/25] scored pair p353 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:16:52]   [4/25] scored pair p354 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:01]   [5/25] scored pair p355 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:08]   [6/25] scored pair p356 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:15]   [7/25] scored pair p357 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:23]   [8/25] scored pair p358 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:31]   [9/25] scored pair p359 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:38]   [10/25] scored pair p360 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:46]   [11/25] scored pair p361 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:17:55]   [12/25] scored pair p362 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:18:05]   [13/25] scored pair p363 (Bl56f|Br40f)
+test all pooling
+test all pooling
 [01:18:11]   [14/25] scored pair p364 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:18:19]   [15/25] scored pair p365 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:18:26]   [16/25] scored pair p366 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:18:32]   [17/25] scored pair p367 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:18:40]   [18/25] scored pair p368 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:18:47]   [19/25] scored pair p369 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:18:55]   [20/25] scored pair p370 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:19:02]   [21/25] scored pair p371 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:19:09]   [22/25] scored pair p372 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:19:16]   [23/25] scored pair p373 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:19:23]   [24/25] scored pair p374 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:19:29]   [25/25] scored pair p375 (Bl57d|Br36d)
 [01:19:29]   spot-check re-run for p364 (preregistered subset)
+test all pooling
+test all pooling
 [01:19:36]   spot-check p364: bit-identical
 [01:19:37]   chunk 15: image files deleted
 [01:19:37]   chunk 15 COMPLETE (554s wall, 7s inference, peak 4.10 GB)
@@ -1426,30 +2167,81 @@
 [01:21:44]   [49/50] downloaded+hashed valid_60_c_2.nii.gz (109 MB, scientific_first_time)
 [01:21:48]   [50/50] downloaded+hashed valid_60_c_1.nii.gz (127 MB, scientific_first_time)
 [01:21:48]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/23 [00:00<?, ?it/s]100%|██████████| 23/23 [00:00<00:00, 682.85it/s]
+test all pooling
+test all pooling
 [01:24:36]   [1/25] scored pair p376 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:24:42]   [2/25] scored pair p377 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:24:47]   [3/25] scored pair p378 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:24:52]   [4/25] scored pair p379 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:24:59]   [5/25] scored pair p380 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:07]   [6/25] scored pair p381 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:14]   [7/25] scored pair p382 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:20]   [8/25] scored pair p383 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:25]   [9/25] scored pair p384 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:30]   [10/25] scored pair p385 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:37]   [11/25] scored pair p386 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:44]   [12/25] scored pair p387 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:51]   [13/25] scored pair p388 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:25:57]   [14/25] scored pair p389 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:04]   [15/25] scored pair p390 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:11]   [16/25] scored pair p391 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:17]   [17/25] scored pair p392 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:24]   [18/25] scored pair p393 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:31]   [19/25] scored pair p394 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:37]   [20/25] scored pair p395 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:44]   [21/25] scored pair p396 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:50]   [22/25] scored pair p397 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:26:56]   [23/25] scored pair p398 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:27:03]   [24/25] scored pair p399 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:27:10]   [25/25] scored pair p400 (Bl57d|Br36d)
 [01:27:11]   chunk 16: image files deleted
 [01:27:11]   chunk 16 COMPLETE (454s wall, 7s inference, peak 4.10 GB)
@@ -1505,32 +2297,85 @@
 [01:29:34]   [49/50] downloaded+hashed valid_804_b_1.nii.gz (155 MB, scientific_first_time)
 [01:29:38]   [50/50] downloaded+hashed valid_804_b_2.nii.gz (158 MB, scientific_first_time)
 [01:29:38]   chunk_manifest.csv persisted (50 volumes) BEFORE inference
+  0%|          | 0/23 [00:00<?, ?it/s]100%|██████████| 23/23 [00:00<00:00, 759.76it/s]
+test all pooling
+test all pooling
 [01:32:46]   [1/25] scored pair p401 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:32:52]   [2/25] scored pair p402 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:00]   [3/25] scored pair p403 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:07]   [4/25] scored pair p404 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:13]   [5/25] scored pair p405 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:20]   [6/25] scored pair p406 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:27]   [7/25] scored pair p407 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:35]   [8/25] scored pair p408 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:41]   [9/25] scored pair p409 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:47]   [10/25] scored pair p410 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:33:54]   [11/25] scored pair p411 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:02]   [12/25] scored pair p412 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:09]   [13/25] scored pair p413 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:16]   [14/25] scored pair p414 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:23]   [15/25] scored pair p415 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:31]   [16/25] scored pair p416 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:38]   [17/25] scored pair p417 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:44]   [18/25] scored pair p418 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:52]   [19/25] scored pair p419 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:34:58]   [20/25] scored pair p420 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:35:05]   [21/25] scored pair p421 (Bl57d|Br36d)
+test all pooling
+test all pooling
 [01:35:14]   [22/25] scored pair p422 (Br40f|Br44f)
+test all pooling
+test all pooling
 [01:35:23]   [23/25] scored pair p423 (Br40f|Br44f)
+test all pooling
+test all pooling
 [01:35:30]   [24/25] scored pair p424 (Br40f|Br44f)
+test all pooling
+test all pooling
 [01:35:40]   [25/25] scored pair p425 (Br40f|Br44f)
 [01:35:40]   spot-check re-run for p422 (preregistered subset)
+test all pooling
+test all pooling
 [01:35:49]   spot-check p422: bit-identical
 [01:35:49]   chunk 17: image files deleted
 [01:35:49]   chunk 17 COMPLETE (518s wall, 7s inference, peak 4.10 GB)
@@ -1540,3 +2385,56 @@
 [01:35:57]   tier 1 complete: 7650 difference rows, 108 stat cells, 324 bootstrap rows (exploratory Br40f|Br44f listed per pair only; anchor pair excluded from all summaries)
 [01:35:57] ANALYSIS tier 2: descriptive per-head delta-AUROC (secondary; zero threshold language)
 [01:39:46]   tier 2 complete: 48 computed cells, 24 excluded cells (sparse-label rule; computation-eligibility only, no interpretive semantics)
+
+{
+  "analysis": {
+    "tier1_bootstrap_rows": 324,
+    "tier1_difference_rows": 7650,
+    "tier1_stat_cells": 108,
+    "tier2_computed_cells": 48,
+    "tier2_excluded_cells": 24
+  },
+  "anchor_pair_confirmatory_exclusion": "Br40f|Br60f confirmatory statistics use 236 counted pairs (237 raw); the anchor pair's deltas are excluded everywhere",
+  "chunks_complete": 17,
+  "contract_satisfied": true,
+  "contract_version": 2,
+  "download_accounting": {
+    "qa_retry": 2,
+    "qa_retry_allowance": 170,
+    "scientific_first_time": 850,
+    "unique_volume_cap": 850
+  },
+  "idea_id": "idea-004",
+  "interpretation": "POSITIVE per the contract's positive_pattern: the frozen manifest was reproduced and hash-verified, every chunk completed with verified provenance, same-session pairing, bit-identical spot-checks, and in-tolerance anchors; all 425 pairs were scored and the frozen two-tier analysis ran. ANY resulting magnitude profile -- near-zero, large, or mixed across heads and strata -- is a valid descriptive outcome: the deliverable is the measured reconstruction-sensitivity baseline itself, for the released v2 ClassFine checkpoint on these CT-RATE kernel contrasts in a predominantly single-vendor (Siemens) cohort. Per the negative_pattern there is no failing magnitude: tightly-bounded-near-zero paired differences are the sensitivity-bounded descriptive null, and large paired differences are equally valid descriptively. No equivalence, robustness, accuracy, concept-validity, localization, or cross-vendor claim is made or implied; tier-2 numbers are benchmark discrimination against report-derived labels, never clinical accuracy, and carry no pass/fail semantics.",
+  "mode": "real",
+  "outputs": {
+    "tier1": [
+      "analysis/tier1_differences.csv",
+      "analysis/tier1_stats.csv",
+      "analysis/tier1_bootstrap.csv"
+    ],
+    "tier2": [
+      "analysis/tier2_auroc.csv",
+      "analysis/tier2_excluded_cells.csv"
+    ]
+  },
+  "pair_count": 425,
+  "pair_manifest_sha256": "5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38",
+  "phase": "B",
+  "session_cap": 30,
+  "session_id": "20260815T231124Z-8e185556",
+  "sessions_used": 5,
+  "spot_check_pairs": [
+    "p001",
+    "p238",
+    "p364",
+    "p422"
+  ],
+  "unique_volume_count": 850
+}
+
+Plain-English read: the study is complete. The per-head,
+per-stratum tables under analysis/ ARE the deliverable -- a
+reconstruction-sensitivity baseline for this checkpoint on these
+contrasts. Interpretation belongs to the interpret stage; no
+magnitude here passes or fails anything.

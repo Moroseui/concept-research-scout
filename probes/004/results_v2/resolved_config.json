@@ -72,7 +72,7 @@
     "Exposure"
   ],
   "patch_size_modified": false,
-  "phase": "M",
+  "phase": "B",
   "required_match_columns": [
     "RescaleSlope",
     "RescaleIntercept",
@@ -81,6 +81,7 @@
     "NumberofSlices"
   ],
   "seed": 0,
+  "session_id": "20260815T231124Z-8e185556",
   "sign_directions": {
     "Bl56f|Br40f": {
       "sharper": "Bl56f",

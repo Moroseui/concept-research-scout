@@ -1,0 +1,901 @@
+session_id,chunk,execution,pair_id,role,volume_name,stratum,head_index,head_name,score,score_hex
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5988081693649292,0x1.3296fc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.606005072593689,0x1.36464c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6080225706100464,0x1.374ebc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6298355460166931,0x1.4279ce0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6150532364845276,0x1.3ae8420000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.533795952796936,0x1.114db40000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5809752345085144,0x1.2975960000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5481992959976196,0x1.18ad940000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5708516836166382,0x1.2446ac0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5052051544189453,0x1.02aa400000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5491434931755066,0x1.1929560000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5397017598152161,0x1.1453ca0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5886840224266052,0x1.2d67fe0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5825625061988831,0x1.2a45a20000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5807197690010071,0x1.29541a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5747338533401489,0x1.2643840000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5239562392234802,0x1.0c43fe0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_softer,p051,softer,valid_1253_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5630893707275391,0x1.204d400000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5992830395698547,0x1.32d53a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.606105387210846,0x1.3653720000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6095938682556152,0x1.381cb00000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6278359889984131,0x1.4173b80000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.615842342376709,0x1.3b4fb00000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5334941148757935,0x1.1126240000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5811086297035217,0x1.2987120000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5479745864868164,0x1.1890200000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5707646012306213,0x1.243b420000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5049425363540649,0x1.0287d40000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5500714778900146,0x1.19a2f80000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5401787161827087,0x1.14924e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5907775163650513,0x1.2e7a640000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5820870399475098,0x1.2a07500000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5817127823829651,0x1.29d6420000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5755869150161743,0x1.26b3540000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5241739153862,0x1.0c60860000000p-1
+20260815T180544Z-f80be290,chunk_03,p051_sharper,p051,sharper,valid_1253_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5655466318130493,0x1.218f540000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5644647479057312,0x1.2101860000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5461173057556152,0x1.179cb00000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.519036054611206,0x1.09bf180000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6035560965538025,0x1.35054e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5500777959823608,0x1.19a3cc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5097756385803223,0x1.0501500000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5450916886329651,0x1.1716420000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5241654515266418,0x1.0c5f6a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5452963709831238,0x1.1731160000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5025477409362793,0x1.014df00000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5519629120826721,0x1.1a9ae20000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.533481776714325,0x1.1124860000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5332626700401306,0x1.1107ce0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5329184532165527,0x1.10dab00000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5774392485618591,0x1.27a61e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.589874267578125,0x1.2e04000000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5152642130851746,0x1.07d0b60000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_softer,p052,softer,valid_1256_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5404265522956848,0x1.14b2ca0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5626130700111389,0x1.200ed20000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.546631932258606,0x1.17e0240000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5143369436264038,0x1.07572c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5992447733879089,0x1.32d0360000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5513704419136047,0x1.1a4d3a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5138922333717346,0x1.071ce20000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5428698658943176,0x1.15f30a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5248527526855469,0x1.0cb9800000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5454249978065491,0x1.1741f20000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5055612921714783,0x1.02d8ee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5492899417877197,0x1.193c880000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5358514189720154,0x1.125b1e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5270419120788574,0x1.0dd8700000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5313841104507446,0x1.1011940000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5787127017974854,0x1.284d080000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5852048397064209,0x1.2b9ff80000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5179684162139893,0x1.0933280000000p-1
+20260815T180544Z-f80be290,chunk_03,p052_sharper,p052,sharper,valid_1256_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5363075137138367,0x1.1296e60000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.524276077747345,0x1.0c6dea0000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.4711950421333313,0x1.e280f40000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.41863444447517395,0x1.acae820000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5281162858009338,0x1.0e65420000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.49898603558540344,0x1.fef6320000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.45559290051460266,0x1.d286f20000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.48939910531044006,0x1.f5250a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5164159536361694,0x1.0867ac0000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.4768451154232025,0x1.e84a160000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5238478779792786,0x1.0c35ca0000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4977317750453949,0x1.fdad660000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5452561378479004,0x1.172bd00000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.40621453523635864,0x1.9ff6b40000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.45902496576309204,0x1.d60aa40000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5515564680099487,0x1.1a659c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.4815615713596344,0x1.ed1e7a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5503025054931641,0x1.19c1400000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_softer,p053,softer,valid_1259_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.462502121925354,0x1.d99a280000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5206248760223389,0x1.0a8f580000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.4721111059188843,0x1.e371180000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.419246107339859,0x1.ad4eda0000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.522236168384552,0x1.0b628a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.49809423089027405,0x1.fe0c6a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4593396782875061,0x1.d65d240000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4868374168872833,0x1.f285820000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5152864456176758,0x1.07d3a00000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.4752572476863861,0x1.e6a9d60000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.525654137134552,0x1.0d228a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.4901227653026581,0x1.f5e2be0000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5454608201980591,0x1.1746a40000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.4024861454963684,0x1.9c25540000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4594414532184601,0x1.d677d20000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.548470675945282,0x1.18d1260000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4703580439090729,0x1.e1a58a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5477656722068787,0x1.1874be0000000p-1
+20260815T180544Z-f80be290,chunk_03,p053_sharper,p053,sharper,valid_1259_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.45292219519615173,0x1.cfcad60000000p-2
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5954133868217468,0x1.30da060000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.6062688827514648,0x1.3668e00000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6141467094421387,0x1.3a71700000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6253438591957092,0x1.402d120000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.613309383392334,0x1.3a03b00000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5320266485214233,0x1.1065cc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5772156715393066,0x1.2788d00000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5447840094566345,0x1.16edee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5668911337852478,0x1.223f8e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5022337436676025,0x1.0124c80000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5464939475059509,0x1.17ce0e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5357463955879211,0x1.124d5a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5819066762924194,0x1.29efac0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5943526029586792,0x1.304efc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5753520727157593,0x1.26948c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.569419801235199,0x1.238afe0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5203865170478821,0x1.0a701a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_softer,p054,softer,valid_125_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.563907265663147,0x1.20b8740000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5960719585418701,0x1.3130580000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.6058897376060486,0x1.36372e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.615338921546936,0x1.3b0db40000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6243953108787537,0x1.3fb0be0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6135393381118774,0x1.3a21d40000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5320003032684326,0x1.1062580000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5775177478790283,0x1.27b0680000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5446853041648865,0x1.16e0fe0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5667621493339539,0x1.222ea60000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5020899176597595,0x1.0111ee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5468478202819824,0x1.17fc700000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.53631591796875,0x1.1298000000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5837560296058655,0x1.2ae2120000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5935701727867126,0x1.2fe86e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5768861770629883,0x1.275da00000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5692646503448486,0x1.2376a80000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5202292203903198,0x1.0a5b7c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p054_sharper,p054,sharper,valid_125_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5649176836013794,0x1.213ce40000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5124703645706177,0x1.0662840000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.4129296541213989,0x1.a6d7080000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.38752084970474243,0x1.8cd2440000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5241917967796326,0x1.0c62de0000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.41937723755836487,0x1.ad713a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.45197468996047974,0x1.ced2740000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4617113769054413,0x1.d8cade0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.47777804732322693,0x1.e93ea60000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.4684424102306366,0x1.dfaf5e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5097983479499817,0x1.05044a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.48489871621131897,0x1.f0894a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.518274188041687,0x1.095b3c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.38848623633384705,0x1.8dcf560000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.46035048365592957,0x1.d7661e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5319673418998718,0x1.105e060000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.49875664710998535,0x1.feba100000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5257912874221802,0x1.0d34840000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_softer,p055,softer,valid_1272_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.45001456141471863,0x1.ccd09e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5310770869255066,0x1.0fe9560000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.43485403060913086,0x1.bd4a600000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.4088422954082489,0x1.a2a78e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5396196842193604,0x1.1449080000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.442121684551239,0x1.c4bb8c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.46165603399276733,0x1.d8bc5c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4743751883506775,0x1.e5c29c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.48593035340309143,0x1.f197ba0000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.47961077094078064,0x1.eb1f160000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5110836029052734,0x1.05acc00000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.49549105763435364,0x1.fb62020000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5250081419944763,0x1.0ccdde0000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.4082828462123871,0x1.a214e60000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.47270143032073975,0x1.e40bd80000000p-2
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5380504727363586,0x1.137b5a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5129002332687378,0x1.069adc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5279842615127563,0x1.0e53f40000000p-1
+20260815T180544Z-f80be290,chunk_03,p055_sharper,p055,sharper,valid_1272_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4644293189048767,0x1.db935c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.48865991830825806,0x1.f463440000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.44218477606773376,0x1.c4cc160000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.4056694507598877,0x1.9f67d00000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5336316823959351,0x1.11382c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.4485645890235901,0x1.cb54840000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4853917360305786,0x1.f10a880000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.47628405690193176,0x1.e7b7020000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.4757554829120636,0x1.e72c720000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.48741641640663147,0x1.f31d4a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5172199606895447,0x1.08d10e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4703497588634491,0x1.e1a35e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5191473960876465,0x1.09cdb00000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.3756559193134308,0x1.80abf20000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5032187104225159,0x1.01a5e20000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5315139293670654,0x1.1022980000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.4751933813095093,0x1.e699180000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5252074003219604,0x1.0ce7fc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_softer,p056,softer,valid_1273_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4211322069168091,0x1.af3d480000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.49299246072769165,0x1.f8d3040000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.44942280650138855,0x1.cc357e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.4093151092529297,0x1.a323800000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.533730149269104,0x1.1145140000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.45614683628082275,0x1.d318280000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.48976951837539673,0x1.f586240000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4783685505390167,0x1.e9d9720000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.4800148904323578,0x1.eb89060000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.490314245223999,0x1.f614f00000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5195881724357605,0x1.0a07760000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.47103172540664673,0x1.e256240000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5238423347473145,0x1.0c35100000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.3786204755306244,0x1.83b5160000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5063667297363281,0x1.0342800000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.534077525138855,0x1.11729c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4746720790863037,0x1.e610700000000p-2
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5274382829666138,0x1.0e0c640000000p-1
+20260815T180544Z-f80be290,chunk_03,p056_sharper,p056,sharper,valid_1273_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4225187599658966,0x1.b0a8c20000000p-2
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.6062254905700684,0x1.3663300000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5958163738250732,0x1.310ed80000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6148829460144043,0x1.3ad1f00000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6359474062919617,0x1.459ae60000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6022899746894836,0x1.345f5a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5235556364059448,0x1.0c0f7c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5760940313339233,0x1.26f5cc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5332428216934204,0x1.1105340000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5702268481254578,0x1.23f4c60000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.4962236285209656,0x1.fc220c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5529288053512573,0x1.1b197c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5266621112823486,0x1.0da6a80000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.6080106496810913,0x1.374d2c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.584724485874176,0x1.2b61020000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5677124857902527,0x1.22ab360000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5836350917816162,0x1.2ad2380000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5099501609802246,0x1.0518300000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_softer,p057,softer,valid_1281_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5687053203582764,0x1.232d580000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.6060056686401367,0x1.3646600000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5958119034767151,0x1.310e420000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6158924102783203,0x1.3b56400000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6345928311347961,0x1.44e95a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6016125679016113,0x1.3406900000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5244885683059692,0x1.0c89c40000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5756753087043762,0x1.26beea0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5324774384498596,0x1.10a0e20000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5703814029693604,0x1.2409080000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.4956437647342682,0x1.fb8a0a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5527467727661133,0x1.1b01a00000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5259233713150024,0x1.0d45d40000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.6074701547622681,0x1.3706540000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5874171853065491,0x1.2cc1f20000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5670636892318726,0x1.22562c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5837210416793823,0x1.2add7c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5084866285324097,0x1.04585c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p057_sharper,p057,sharper,valid_1281_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5694898962974548,0x1.23942e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5982458591461182,0x1.324d480000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.575559675693512,0x1.26afc20000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5995299220085144,0x1.32f5960000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6107626557350159,0x1.38b5e20000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5817335844039917,0x1.29d8fc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5152536630630493,0x1.07cf540000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5712218880653381,0x1.2477320000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5297911167144775,0x1.0f40c80000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.565311849117279,0x1.21708e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.49305644631385803,0x1.f8e3ca0000000p-2
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5546057820320129,0x1.1bf54a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5243900418281555,0x1.0c7cda0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5852624773979187,0x1.2ba7860000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5909260511398315,0x1.2e8ddc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5684329271316528,0x1.2309a40000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5933839082717896,0x1.2fd0040000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.498190313577652,0x1.fe259a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p058_softer,p058,softer,valid_1292_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5550046563148499,0x1.1c29920000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.594636857509613,0x1.30743e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5675933361053467,0x1.229b980000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5944831371307373,0x1.3060180000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6054824590682983,0x1.3601cc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5741868615150452,0x1.25fbd20000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5153954029083252,0x1.07e1e80000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5681726336479187,0x1.22e7860000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5246654152870178,0x1.0ca0f20000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5627275109291077,0x1.201dd20000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.4912990629673004,0x1.f7171a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5529050230979919,0x1.1b165e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.521571695804596,0x1.0b0b720000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5800158381462097,0x1.28f7d60000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5898849964141846,0x1.2e05680000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5645127892494202,0x1.2107d20000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5934915542602539,0x1.2fde200000000p-1
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.49375808238983154,0x1.f99bb80000000p-2
+20260815T180544Z-f80be290,chunk_03,p058_sharper,p058,sharper,valid_1292_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5501822829246521,0x1.19b17e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.6018630266189575,0x1.3427640000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.6011605262756348,0x1.33cb500000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.616655707359314,0x1.3bba4c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.634931206703186,0x1.4515b40000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.60601407289505,0x1.36477a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5282332301139832,0x1.0e74960000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5762243866920471,0x1.2706e20000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5365344882011414,0x1.12b4a60000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5714959502220154,0x1.249b1e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.49801018834114075,0x1.fdf6620000000p-2
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5497856736183167,0x1.197d820000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5285541415214539,0x1.0e9ea60000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.6013748645782471,0x1.33e7680000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5939363837242126,0x1.30186e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5709832906723022,0x1.2457ec0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5791757702827454,0x1.2889ba0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.512168288230896,0x1.063aec0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_softer,p059,softer,valid_1294_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5667700171470642,0x1.222fae0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.6015188097953796,0x1.33fa460000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.601285994052887,0x1.33dbc20000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6167994737625122,0x1.3bcd240000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.634494423866272,0x1.44dc740000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6057864427566528,0x1.3629a40000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5282914638519287,0x1.0e7c380000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5761590003967285,0x1.26fe500000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5359443426132202,0x1.12674c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5712146162986755,0x1.24763e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.4979787766933441,0x1.fdee260000000p-2
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5497751832008362,0x1.197c220000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5281290411949158,0x1.0e66ee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5995659232139587,0x1.32fa4e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5952417254447937,0x1.30c3860000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.570530354976654,0x1.241c8e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5795599222183228,0x1.28bc140000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5115982890129089,0x1.05f0360000000p-1
+20260815T180544Z-f80be290,chunk_03,p059_sharper,p059,sharper,valid_1294_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5668884515762329,0x1.223f340000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.6047897338867188,0x1.35a7000000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5916552543640137,0x1.2eed700000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6113677620887756,0x1.3905320000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.631347119808197,0x1.433fee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5996564030647278,0x1.33062a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5245863199234009,0x1.0c96940000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5772958993911743,0x1.2793540000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5340167284011841,0x1.116aa40000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5672582983970642,0x1.226fae0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.49441397190093994,0x1.fa47a80000000p-2
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5569881200790405,0x1.1d2d8c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.528099000453949,0x1.0e62fe0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.6117902398109436,0x1.393c920000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5735995173454285,0x1.25aed60000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5660679936408997,0x1.21d3aa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5907233357429504,0x1.2e734a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5110163688659668,0x1.05a3f00000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_softer,p060,softer,valid_12_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5748909711837769,0x1.26581c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.6048713326454163,0x1.35b1b20000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5929763913154602,0x1.2f9a9a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.6131829023361206,0x1.39f31c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6302072405815125,0x1.42aa860000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6003895401954651,0x1.3366420000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5259721875190735,0x1.0d4c3a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5770238637924194,0x1.276fac0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5343447923660278,0x1.1195a40000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5678272843360901,0x1.22ba420000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.4946334958076477,0x1.fa81340000000p-2
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.556196928024292,0x1.1cc5d80000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.528419017791748,0x1.0e8cf00000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.6103629469871521,0x1.38817e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5755940675735474,0x1.26b4440000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5656302571296692,0x1.219a4a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5892831087112427,0x1.2db6840000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5107290148735046,0x1.057e460000000p-1
+20260815T180544Z-f80be290,chunk_03,p060_sharper,p060,sharper,valid_12_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5745956301689148,0x1.2631660000000p-1
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.4575073719024658,0x1.d47cd00000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.36935776472091675,0x1.7a38ec0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3521924316883087,0x1.68a5220000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.47195523977279663,0x1.e3483c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.3814322054386139,0x1.86962a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.44249388575553894,0x1.c51d1e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4373844265937805,0x1.bfe1b40000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.44832828640937805,0x1.cb16920000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.439602255821228,0x1.c227180000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5054646730422974,0x1.02cc440000000p-1
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4619987905025482,0x1.d916360000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5011184215545654,0x1.0092980000000p-1
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.3568672239780426,0x1.6d6e9a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4223826825618744,0x1.b085160000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.49114108085632324,0x1.f6edb00000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.46142420172691345,0x1.d87f960000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.510648250579834,0x1.0573b00000000p-1
+20260815T180544Z-f80be290,chunk_03,p061_softer,p061,softer,valid_133_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41781583428382874,0x1.abd7ea0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.45426681637763977,0x1.d12b520000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.3702211380004883,0x1.7b1b400000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3497931659221649,0x1.66302e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.46905091404914856,0x1.e04ee20000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.3811763823032379,0x1.86531a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4475480616092682,0x1.ca4a0a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.43647515773773193,0x1.bef3580000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.44951653480529785,0x1.cc4e100000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.43942227959632874,0x1.c1f7ea0000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5068427324295044,0x1.0380e40000000p-1
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.45939329266548157,0x1.d66b320000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5014437437057495,0x1.00bd3c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35231828689575195,0x1.68c6200000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4215303659439087,0x1.afa5a80000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.4916570782661438,0x1.f774f40000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.45713409781455994,0x1.d41af60000000p-2
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5098803639411926,0x1.050f0a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p061_sharper,p061,sharper,valid_133_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4133525490760803,0x1.a745e40000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.4570401906967163,0x1.d402580000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.37155041098594666,0x1.7c77b60000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.35651201009750366,0x1.6d117c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.48062050342559814,0x1.ec27c80000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.37887313961982727,0x1.83f7520000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.44314509630203247,0x1.c5c7d40000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.43414613604545593,0x1.bc90ce0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.44623225927352905,0x1.c8f11c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.43721839785575867,0x1.bfb62e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5053644776344299,0x1.02bf220000000p-1
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4575038254261017,0x1.d47be20000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5002530217170715,0x1.00212a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35596218705177307,0x1.6c815a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.43610650300979614,0x1.be92b40000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.498227596282959,0x1.fe2f600000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.45149463415145874,0x1.ce549c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5021606087684631,0x1.011b320000000p-1
+20260815T180544Z-f80be290,chunk_03,p062_softer,p062,softer,valid_135_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4138638377189636,0x1.a7cbec0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.4634130299091339,0x1.da88f20000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.37614765763282776,0x1.812cda0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3598771393299103,0x1.7083a20000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4885457456111908,0x1.f445560000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.3831198811531067,0x1.8850940000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.44337719678878784,0x1.c604ac0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4359982907772064,0x1.be76560000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.44681382179260254,0x1.c989900000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.43853920698165894,0x1.c1106c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5060704350471497,0x1.031baa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.4586324691772461,0x1.d5a3c00000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5024672150611877,0x1.0143620000000p-1
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35949015617370605,0x1.701e300000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4386175572872162,0x1.c124f60000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5000827312469482,0x1.000ad80000000p-1
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4512636065483093,0x1.ce180c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5036461353302002,0x1.01dde80000000p-1
+20260815T180544Z-f80be290,chunk_03,p062_sharper,p062,sharper,valid_135_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41643208265304565,0x1.aa6d2c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.4599323272705078,0x1.d6f8800000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.40417560935020447,0x1.9de0360000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3709322214126587,0x1.7bd5a80000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4709998369216919,0x1.e24dc80000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.40555843710899353,0x1.9f4ab60000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4606539011001587,0x1.d7b5a80000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4434684216976166,0x1.c61c960000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.4523147642612457,0x1.cf2b9a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.4579048454761505,0x1.d4e5020000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5041612386703491,0x1.02216c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4751165211200714,0x1.e684f20000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5005976557731628,0x1.004e560000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.3547936975955963,0x1.6b4f0a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.47681352496147156,0x1.e841ce0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.502313494682312,0x1.012f3c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.48530614376068115,0x1.f0f4180000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5031113624572754,0x1.0197d00000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_softer,p063,softer,valid_138_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.42861080169677734,0x1.b6e5c00000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.47154176235198975,0x1.e2dbd80000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.41578546166419983,0x1.a9c3aa0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.383783757686615,0x1.88fe9c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4792950749397278,0x1.eacc540000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.4173979163169861,0x1.ab6a5c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4678928852081299,0x1.df1f500000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.45160800218582153,0x1.ce72540000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.4546409845352173,0x1.d18d680000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.4677281975746155,0x1.def4240000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.504088819026947,0x1.0217ee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.48123976588249207,0x1.ecca1e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5018903017044067,0x1.00f7c40000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.36345624923706055,0x1.742de00000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4919872581958771,0x1.f7cb820000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5059369802474976,0x1.030a2c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4947235584259033,0x1.fa98d00000000p-2
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5021644830703735,0x1.011bb40000000p-1
+20260815T180544Z-f80be290,chunk_03,p063_sharper,p063,sharper,valid_138_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4343532919883728,0x1.bcc71c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.4678058922290802,0x1.df08820000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.3920714259147644,0x1.917b2c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3542664349079132,0x1.6ac4d20000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4594423770904541,0x1.d678100000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.40009692311286926,0x1.99b3020000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.44836828112602234,0x1.cb210e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.44198375940322876,0x1.c497640000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.47858527302742004,0x1.ea12420000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.4517015814781189,0x1.ce8adc0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.517219603061676,0x1.08d1020000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.46423542499542236,0x1.db60880000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5190458297729492,0x1.09c0600000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35865655541419983,0x1.6f43aa0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.428567111492157,0x1.b6da4c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5218138694763184,0x1.0b2b300000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.4568284749984741,0x1.d3cad80000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5296067595481873,0x1.0f289e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_softer,p064,softer,valid_13_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41501718759536743,0x1.a8fa440000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.4639355540275574,0x1.db11ec0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.38722825050354004,0x1.8c85900000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3509499430656433,0x1.675f6c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4590147137641907,0x1.d607f40000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.3946879506111145,0x1.9429140000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4479927122592926,0x1.cabe9a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4396793842315674,0x1.c23b500000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.47387996315956116,0x1.e540ca0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.4488378167152405,0x1.cb9c240000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5164891481399536,0x1.0871440000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.4627428948879242,0x1.d9d9460000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5170643329620361,0x1.08bca80000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35549747943878174,0x1.6c07880000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4273466169834137,0x1.b59a5a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.517078161239624,0x1.08be780000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4550272822380066,0x1.d1f2ac0000000p-2
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5257987976074219,0x1.0d35800000000p-1
+20260815T180544Z-f80be290,chunk_03,p064_sharper,p064,sharper,valid_13_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41295379400253296,0x1.a6dd5c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.45660698413848877,0x1.d390c80000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.37897989153862,0x1.84134e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3639024794101715,0x1.74a2da0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.47142139077186584,0x1.e2bc4a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.37961676716804504,0x1.84ba420000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4442380666732788,0x1.c6e6580000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.43215441703796387,0x1.ba86b00000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.4440544545650482,0x1.c6b6360000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.4453360438346863,0x1.c8062c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5028063058853149,0x1.016fd40000000p-1
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4680030345916748,0x1.df3c300000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.4961481988430023,0x1.fc0e460000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35419732332229614,0x1.6ab2b40000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4531160295009613,0x1.cffda60000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.501539945602417,0x1.00c9d80000000p-1
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.46708762645721436,0x1.de4c380000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.49549269676208496,0x1.fb62700000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_softer,p065,softer,valid_166_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41506195068359375,0x1.a906000000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.4524172246456146,0x1.cf46760000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.3754367232322693,0x1.80727c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.358293741941452,0x1.6ee48e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.466909795999527,0x1.de1d9a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.3768109977245331,0x1.81dabe0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.44410622119903564,0x1.c6c3c80000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.43009617924690247,0x1.b86b220000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.4432853162288666,0x1.c5ec960000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.4413040280342102,0x1.c3e5340000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5036476850509644,0x1.01de1c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.4645542800426483,0x1.dbb41e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.4967181086540222,0x1.fca3ac0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.3532094359397888,0x1.69afbc0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.44446346163749695,0x1.c7216e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.4950801432132721,0x1.faf64a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.46126842498779297,0x1.d856c00000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.4955538213253021,0x1.fb72760000000p-2
+20260815T180544Z-f80be290,chunk_03,p065_sharper,p065,sharper,valid_166_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41296371817588806,0x1.a6dff60000000p-2
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.6002634763717651,0x1.3355bc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5917696356773376,0x1.2efc6e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5973384976387024,0x1.31d65a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6328422427177429,0x1.4403e60000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6013461351394653,0x1.33e3a40000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.521285355091095,0x1.0ae5ea0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5804632306098938,0x1.29327a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5457912087440491,0x1.1771f20000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5673247575759888,0x1.2278640000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.49989762902259827,0x1.ffe52a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5578066110610962,0x1.1d98d40000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5373693704605103,0x1.1322140000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.6028702259063721,0x1.34ab680000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5638476014137268,0x1.20b0a20000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5731788873672485,0x1.2577b40000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5901346206665039,0x1.2e26200000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5237846374511719,0x1.0c2d800000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_softer,p066,softer,valid_167_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.571943461894989,0x1.24d5c60000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.599186897277832,0x1.32c8a00000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5927032828330994,0x1.2f76ce0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5954246520996094,0x1.30db800000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6326766610145569,0x1.43ee320000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6022508144378662,0x1.345a380000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5224996209144592,0x1.0b85120000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5793387293815613,0x1.289f160000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5475223660469055,0x1.1854da0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5668454170227051,0x1.2239900000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5007790327072144,0x1.00661c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5573907494544983,0x1.1d62520000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5387833118438721,0x1.13db680000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.6002401113510132,0x1.3352ac0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5621881484985352,0x1.1fd7200000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5738185048103333,0x1.25cb8a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5887113213539124,0x1.2d6b920000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5261196494102478,0x1.0d5f8e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p066_sharper,p066,sharper,valid_167_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5712012052536011,0x1.24747c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5471186637878418,0x1.181ff00000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.49270904064178467,0x1.f888b80000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.4710545837879181,0x1.e25c220000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.571666955947876,0x1.24b1880000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5064941048622131,0x1.0353320000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.49373748898506165,0x1.f996520000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5258575081825256,0x1.0d3d320000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5244315266609192,0x1.0c824a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5275999903678894,0x1.0e21960000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5141310095787048,0x1.073c2e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5064182877540588,0x1.0349420000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5383552312850952,0x1.13a34c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.4450611174106598,0x1.c7be1a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.48441338539123535,0x1.f00a100000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5642829537391663,0x1.20e9b20000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5258049368858337,0x1.0d364e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5478724241256714,0x1.1882bc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_softer,p067,softer,valid_16_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.49156904220581055,0x1.f75de00000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5414378046989441,0x1.1537560000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.4916105270385742,0x1.f768c00000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.4579399526119232,0x1.d4ee360000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5641076564788818,0x1.20d2b80000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5061511397361755,0x1.03263e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4932865500450134,0x1.f9201c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5234280228614807,0x1.0bfec20000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5275079607963562,0x1.0e15860000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5225884318351746,0x1.0b90b60000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5175241827964783,0x1.08f8ee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5064271092414856,0x1.034a6a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5423644185066223,0x1.15b0ca0000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.4416957497596741,0x1.c44be40000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4722161293029785,0x1.e38ca00000000p-2
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5670511722564697,0x1.2254880000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5222945213317871,0x1.0b6a300000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5574557185173035,0x1.1d6ad60000000p-1
+20260815T180544Z-f80be290,chunk_03,p067_sharper,p067,sharper,valid_16_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4873237609863281,0x1.f305000000000p-2
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5939366221427917,0x1.3018760000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.561654806137085,0x1.1f91380000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5739216804504395,0x1.25d9100000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6177394986152649,0x1.3c485a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5728244185447693,0x1.25493e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5028372406959534,0x1.0173e20000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5659277439117432,0x1.21c1480000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5198892951011658,0x1.0a2eee0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5514317154884338,0x1.1a55420000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.49805572628974915,0x1.fe02520000000p-2
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5450236201286316,0x1.170d560000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5288827419281006,0x1.0ec9b80000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5638981461524963,0x1.20b7420000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5728070735931396,0x1.2546f80000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.571887195110321,0x1.24ce660000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5803872346878052,0x1.2928840000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5099050998687744,0x1.0512480000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_softer,p068,softer,valid_177_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5537891983985901,0x1.1b8a420000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5952905416488647,0x1.30c9ec0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5638885498046875,0x1.20b6000000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5706505179405212,0x1.242c4e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6173365712165833,0x1.3c138a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5757968425750732,0x1.26ced80000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.504645586013794,0x1.0260e80000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5666383504867554,0x1.221e6c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5236929655075073,0x1.0c217c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5519281625747681,0x1.1a96540000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5003613829612732,0x1.002f5e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5462018251419067,0x1.17a7c40000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5339583158493042,0x1.1162fc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5622842311859131,0x1.1fe3b80000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5691897869110107,0x1.236cd80000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5755470991134644,0x1.26ae1c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5811308026313782,0x1.2989fa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5122984647750854,0x1.064bfc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p068_sharper,p068,sharper,valid_177_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5540355443954468,0x1.1baa8c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.569407045841217,0x1.2389520000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5292437672615051,0x1.0ef90a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.48405921459198,0x1.efad380000000p-2
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6017553806304932,0x1.3419480000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5492381453514099,0x1.1935be0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4946492910385132,0x1.fa85580000000p-2
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5392737984657288,0x1.141bb20000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5265577435493469,0x1.0d98fa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5330886840820312,0x1.10f1000000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5161975622177124,0x1.084b0c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5284779667854309,0x1.0e94aa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5473252534866333,0x1.183b040000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5181669592857361,0x1.094d2e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4953625500202179,0x1.fb40520000000p-2
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5728698968887329,0x1.254f340000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5444343686103821,0x1.16c01a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5473988652229309,0x1.1844aa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_softer,p069,softer,valid_180_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5167891979217529,0x1.0898980000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5704443454742432,0x1.2411480000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5306640863418579,0x1.0fb3340000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.4861379563808441,0x1.f1ce260000000p-2
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6025590896606445,0x1.3482a00000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5505826473236084,0x1.19e5f80000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4949728548526764,0x1.fada2a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5401986241340637,0x1.1494ea0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5265430808067322,0x1.0d970e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5335685610771179,0x1.112fe60000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5160868167877197,0x1.083c880000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5297698378562927,0x1.0f3dfe0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.548374593257904,0x1.18c48e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5212163329124451,0x1.0adcde0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.498492032289505,0x1.fe74b20000000p-2
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5767048597335815,0x1.2745dc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5444002747535706,0x1.16bba20000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5479324460029602,0x1.188a9a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p069_sharper,p069,sharper,valid_180_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5192127823829651,0x1.09d6420000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,0,Medical material,0.5802575349807739,0x1.2917840000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5628138184547424,0x1.2029220000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.542140781879425,0x1.15937a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6182485818862915,0x1.3c8b140000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5741506218910217,0x1.25f7120000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5095293521881104,0x1.04e1080000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5627346038818359,0x1.201ec00000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5240781903266907,0x1.0c53fa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.546083390712738,0x1.17983e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.4990825355052948,0x1.ff0f7e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5547411441802979,0x1.1c07080000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5363668203353882,0x1.129eac0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5682916641235352,0x1.22f7200000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5301656723022461,0x1.0f71e00000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.560813307762146,0x1.1f22ec0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5948088765144348,0x1.308aca0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5273735523223877,0x1.0e03e80000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_softer,p070,softer,valid_180_b_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.559661865234375,0x1.1e8c000000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,0,Medical material,0.5826656222343445,0x1.2a53260000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5630143880844116,0x1.20436c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5418694615364075,0x1.156fea0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6180459856987,0x1.3c70860000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.5759167671203613,0x1.26de900000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5089229345321655,0x1.04918c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.563098669052124,0x1.204e780000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5261754989624023,0x1.0d66e00000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5472050905227661,0x1.182b440000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5006392002105713,0x1.0053c80000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5553032755851746,0x1.1c50b60000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5393232107162476,0x1.14222c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5716079473495483,0x1.24a9cc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5271716117858887,0x1.0de9700000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5643990635871887,0x1.20f8ea0000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5930820107460022,0x1.2fa8720000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5285835862159729,0x1.0ea2820000000p-1
+20260815T180544Z-f80be290,chunk_03,p070_sharper,p070,sharper,valid_180_b_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.558388352394104,0x1.1de5140000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.4482169449329376,0x1.caf9620000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.382529616355896,0x1.87b5d80000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3479560911655426,0x1.644e9a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4590051770210266,0x1.d605740000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.39518827199935913,0x1.94ac3c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.45230358839035034,0x1.cf28ac0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4422476291656494,0x1.c4dc900000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.45950984954833984,0x1.d689c00000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.43967777490615845,0x1.c23ae40000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5135058760643005,0x1.06ea3e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.454902321100235,0x1.d1d1ea0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5117824673652649,0x1.06085a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35252153873443604,0x1.68fb680000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4238522946834564,0x1.b206560000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5059264302253723,0x1.0308ca0000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.4479933977127075,0x1.cabec80000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5188168883323669,0x1.09a25e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_softer,p071,softer,valid_209_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4118778109550476,0x1.a5c34c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.4498578906059265,0x1.cca78c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.3852599561214447,0x1.8a81960000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.34771302342414856,0x1.640ee20000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.45956316590309143,0x1.d697ba0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.3983813524246216,0x1.97f1480000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4540713131427765,0x1.d0f8120000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4441968500614166,0x1.c6db8a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.4620509445667267,0x1.d923e20000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.4407353699207306,0x1.c350220000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.515272319316864,0x1.07d1c60000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.4549318253993988,0x1.d1d9a60000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5143487453460693,0x1.0758b80000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.35238322615623474,0x1.68d7260000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4238123595714569,0x1.b1fbde0000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5091155171394348,0x1.04aaca0000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4468601942062378,0x1.c995b80000000p-2
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5216206312179565,0x1.0b11dc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p071_sharper,p071,sharper,valid_209_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41136881709098816,0x1.a53dde0000000p-2
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.587384045124054,0x1.2cbd9a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5925546884536743,0x1.2f63540000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5674982666969299,0x1.228f220000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6219207048416138,0x1.3e6c640000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.602094829082489,0x1.3445c60000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.5317402482032776,0x1.1040420000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5722962617874146,0x1.2504040000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.5502228140830994,0x1.19b6ce0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5592671036720276,0x1.1e58420000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5120793581008911,0x1.062f440000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5396523475646973,0x1.144d500000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5450941324234009,0x1.1716940000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5404919981956482,0x1.14bb5e0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5740864872932434,0x1.25eeaa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.586588442325592,0x1.2c55520000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5663294792175293,0x1.21f5f00000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5285003185272217,0x1.0e97980000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_softer,p072,softer,valid_213_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5400636792182922,0x1.14833a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5875529646873474,0x1.2cd3be0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.5961364507675171,0x1.3138cc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.5649593472480774,0x1.21425a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.6166024208068848,0x1.3bb3500000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.6039469838142395,0x1.35388a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.536167323589325,0x1.1284860000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5710374712944031,0x1.245f060000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.5512601733207703,0x1.1a3ec60000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5597760677337646,0x1.1e9af80000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5155003666877747,0x1.07efaa0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.5363333225250244,0x1.129a480000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5484828352928162,0x1.18d2be0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5338014364242554,0x1.114e6c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.5753811597824097,0x1.26985c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5848642587661743,0x1.2b73540000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5612378716468811,0x1.1f5a920000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5312402844429016,0x1.0ffeba0000000p-1
+20260815T180544Z-f80be290,chunk_03,p072_sharper,p072,sharper,valid_213_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5343387722969055,0x1.1194da0000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.5539420247077942,0x1.1b9e4a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.47318530082702637,0x1.e48ab00000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.48004183173179626,0x1.eb90160000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5853011608123779,0x1.2bac980000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.4837604761123657,0x1.ef5ee80000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4666239023208618,0x1.ddd2a80000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.516254186630249,0x1.0852780000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.49022844433784485,0x1.f5fe720000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.5073983073234558,0x1.03c9b60000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.4954723119735718,0x1.fb5d180000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.5305717587471008,0x1.0fa71a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5159966945648193,0x1.0830b80000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.4884002208709717,0x1.f41f300000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.49852463603019714,0x1.fe7d3e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5455145239830017,0x1.174dae0000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.5635530948638916,0x1.208a080000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5174376964569092,0x1.08ed980000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_softer,p073,softer,valid_230_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5310115814208984,0x1.0fe0c00000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.5557913184165955,0x1.1c90ae0000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.48369064927101135,0x1.ef4c9a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.489185631275177,0x1.f4ed140000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.5897074937820435,0x1.2dee240000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.49219170212745667,0x1.f8011a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.47130391001701355,0x1.e29d7e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.5208664536476135,0x1.0aaf020000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.49631622433662415,0x1.fc3a520000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.5133830904960632,0x1.06da260000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.4962994456291199,0x1.fc35ec0000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.534279465675354,0x1.118d140000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5195847749710083,0x1.0a07040000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.5010166168212891,0x1.0085400000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.499316543340683,0x1.ff4cd60000000p-2
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5465479493141174,0x1.17d5220000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.5674717426300049,0x1.228ba80000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5180173516273499,0x1.0939920000000p-1
+20260815T180544Z-f80be290,chunk_03,p073_sharper,p073,sharper,valid_230_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.5367670059204102,0x1.12d3200000000p-1
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.4593479037284851,0x1.d65f4c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.3841535449028015,0x1.895f8c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.3622937798500061,0x1.72fd240000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4674621820449829,0x1.deae680000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.39298215508461,0x1.9269ea0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4530259072780609,0x1.cfe6060000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4396277666091919,0x1.c22dc80000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.44889742136001587,0x1.cbabc40000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.44320759177207947,0x1.c5d8360000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5090949535369873,0x1.04a8180000000p-1
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4614861011505127,0x1.d88fd00000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.4983288049697876,0x1.fe49e80000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.3543919324874878,0x1.6ae5b80000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.43895676732063293,0x1.c17de20000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.4861631989479065,0x1.f1d4c40000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.45415106415748596,0x1.d10cfa0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5013135671615601,0x1.00ac2c0000000p-1
+20260815T180544Z-f80be290,chunk_03,p074_softer,p074,softer,valid_234_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.41325774788856506,0x1.a72d0a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.4617050290107727,0x1.d8c9340000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.39003828167915344,0x1.8f66320000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.36619123816490173,0x1.76fad60000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.47002050280570984,0x1.e14d0e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.39729779958724976,0x1.96d53c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.4589827358722687,0x1.d5ff920000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4424269497394562,0x1.c50b920000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.4519922435283661,0x1.ced70e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.44544264674186707,0x1.c8221e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.5108650326728821,0x1.05901a0000000p-1
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.4616822600364685,0x1.d8c33c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5004758834838867,0x1.003e600000000p-1
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.3524208068847656,0x1.68e1000000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.44319260120391846,0x1.c5d4480000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.4880080223083496,0x1.f3b8600000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4532986581325531,0x1.d02d860000000p-2
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5019282102584839,0x1.00fcbc0000000p-1
+20260815T180544Z-f80be290,chunk_03,p074_sharper,p074,sharper,valid_234_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.4130619764328003,0x1.a6f9b80000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,0,Medical material,0.45073017477989197,0x1.cd8c360000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.3837147653102875,0x1.88ec860000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.34494748711586,0x1.6139ea0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4693455994129181,0x1.e09c220000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.39409705996513367,0x1.938e2e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.45628732442855835,0x1.d33cfc0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4401366710662842,0x1.c2b3300000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,7,Emphysema,0.46198341250419617,0x1.d9122e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,8,Atelectasis,0.4394811689853668,0x1.c2075a0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,9,Lung nodule,0.5176435112953186,0x1.0908920000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,10,Lung opacity,0.4534943699836731,0x1.d060d40000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5104923844337463,0x1.055f420000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,12,Pleural effusion,0.34157565236091614,0x1.5dc6020000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.425508588552475,0x1.b3b8860000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5065016746520996,0x1.0354300000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,15,Consolidation,0.43966299295425415,0x1.c237040000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.5204315185546875,0x1.0a76000000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_softer,p075,softer,valid_23_a_1.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.40870556235313416,0x1.a283b60000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,0,Medical material,0.4531474709510803,0x1.d005e40000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,1,Arterial wall calcification,0.38708844780921936,0x1.8c60ea0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,2,Cardiomegaly,0.34690648317337036,0x1.633b740000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,3,Pericardial effusion,0.4696122109889984,0x1.e0e2060000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,4,Coronary artery wall calcification,0.39757075905799866,0x1.971cca0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,5,Hiatal hernia,0.45698118209838867,0x1.d3f2e00000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,6,Lymphadenopathy,0.4405688941478729,0x1.c3247e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,7,Emphysema,0.46331146359443665,0x1.da6e520000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,8,Atelectasis,0.4402582347393036,0x1.c2d30e0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,9,Lung nodule,0.517958402633667,0x1.0931d80000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,10,Lung opacity,0.4545730948448181,0x1.d17b9c0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,11,Pulmonary fibrotic sequela,0.5120631456375122,0x1.062d240000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,12,Pleural effusion,0.343226820230484,0x1.5f76da0000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,13,Mosaic attenuation pattern,0.4267256557941437,0x1.b4f7920000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,14,Peribronchial thickening,0.5081616640090942,0x1.042dc40000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,15,Consolidation,0.4386763572692871,0x1.c134600000000p-2
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,16,Bronchiectasis,0.521984338760376,0x1.0b41880000000p-1
+20260815T180544Z-f80be290,chunk_03,p075_sharper,p075,sharper,valid_23_a_2.nii.gz,Br40f|Br60f,17,Interlobular septal thickening,0.40902382135391235,0x1.a2d7240000000p-2

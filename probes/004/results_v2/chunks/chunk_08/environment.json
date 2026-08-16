@@ -1,0 +1,17 @@
+{
+  "chunk": "chunk_08",
+  "chunk_complete": true,
+  "cuda": "12.4",
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "inference_seconds": 6.871785704001013,
+  "numpy": "1.26.4",
+  "peak_gpu_memory_gb": 4.09787392,
+  "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+  "redo": false,
+  "session_id": "20260815T231124Z-8e185556",
+  "timestamp_utc": "2026-08-16T00:08:19Z",
+  "tokenizers": "0.15.2",
+  "torch": "2.5.1+cu124",
+  "transformers": "4.38.2",
+  "wall_seconds": 654.480293611
+}
