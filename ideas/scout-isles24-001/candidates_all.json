@@ -1,0 +1,951 @@
+{
+  "cycle": 1,
+  "charter": "isles24",
+  "tracks": [
+    "baseline",
+    "wide",
+    "fiction"
+  ],
+  "notes": {
+    "fiction": "NO_TESTABLE_KERNEL: No testable kernel exists under the isles24 charter. The pitch's central quantity—an aortic-calcification logit from CT-CLIP applied to a Derm7pt image—is not a defined measurement on the named input: CT-CLIP's official repository specifies inference on preprocessed 3D chest-CT volumes, whereas Derm7pt provides 2D clinical and dermoscopic color images. Any conversion of a skin photograph into a CT-like volume would be an arbitrary, out-of-distribution adapter, so a response could not distinguish use of bright-speckle structure from adapter, dimensionality, intensity-scaling, or generic OOD effects. More decisively, Derm7pt is not ISLES'24, so ISLES'24 is not load-bearing and the proposal falls outside the charter. The asserted vendor counts, perfect device split, Gutenberg–Richter fit, synthetic-speckle response, and b-value are also unverified claimed results rather than a prospective model-use design. No modest reformulation preserves the pitch's kernel while satisfying the required ISLES'24 role, computable image quantity, use-versus-association distinction, and one-session decisive experiment."
+  },
+  "candidates": [
+    {
+      "id": "isles24-scout-001-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "title": "Does the winning model rediscover the collateral clock?",
+      "question": "Is an ISLES'24 final-infarct model using hypoperfusion intensity ratio (HIR), the fraction of delayed tissue with severe Tmax delay?",
+      "rung": "Target rung 1: model use of HIR; move to rung 2 with center-held-out replication and a map intervention that changes HIR while preserving total Tmax>6 volume.",
+      "deliverable_sentence": "The final-infarct model is using hypoperfusion intensity ratio, a quantitative marker of collateral failure and fast infarct growth.",
+      "X_measurement": "HIR = volume(Tmax >10 s) / volume(Tmax >6 s), computed directly from the released Tmax NIfTI after brain masking; no annotator is needed. The established formula and relation to angiographic collaterals are reported in Guenego et al., Eur J Neurol 2020, DOI 10.1111/ene.14181, PMID 32068938. Compute-today test: YES.",
+      "suspected_signal": "Severely delayed tissue occupies a larger fraction of the hypoperfused territory when collateral delivery is poor, so less threatened tissue remains viable until reperfusion.",
+      "use_vs_association": "Hold total Tmax>6 volume and occlusion territory fixed, then erase the scalar HIR direction from a frozen model representation; a selective loss in prediction and HIR-decoding, beyond matched random directions, distinguishes use from case-level association.",
+      "keystone_prerequisite": "A reproducible high-performing ISLES'24 model or checkpoint exposes an internal representation in which HIR is decodable while total hypoperfusion volume can be matched.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The challenge paper verifies that the best multimodal nnU-Net reached only modest Dice, but it does not establish checkpoint availability or HIR decodability; those are the actual load-bearing checks.",
+      "rung_reached": "0 now; rung 1 after selective representation erasure; rung 2 after held-out-center and input-space intervention agreement.",
+      "dies_like_prior": "Closest is idea-010 (CIRCULARITY). Different because HIR is an independently computed physical ratio and the endpoint is a change in frozen model output under selective erasure, not prediction of a training label from its synonym. DATA_ACCESS remains a live risk because a winning checkpoint was not verified.",
+      "closest_prior_work": "de la Rosa et al., arXiv:2408.10966 reports challenge performance and modality use but not a model-use audit for HIR. Guenego et al. (DOI 10.1111/ene.14181) establishes HIR as a collateral/growth marker but studies patients, not model representations. Exact delta: test whether an outcome model operationalizes that named marker.",
+      "existing_assets": "149 public cases with Tmax, final masks and clinical tables; official metric code; nnU-Net baseline family; published HIR formula.",
+      "smallest_decisive_experiment": "Freeze a model and split by center; within the validation center, match cases on Tmax>6 volume and occlusion territory, train a linear HIR probe on development representations, erase its direction, and compare per-case prediction change with 100 norm-matched random directions. About 149 cases, one model, three seeds, <20 GPU-hours after model availability.",
+      "standing_confounds_addressed": "Matching addresses deficit volume and territory; center-held-out evaluation addresses site/vendor partially; random-direction controls address generic representation damage. It does not rule out HIR as a proxy for unmeasured time-to-reperfusion or deconvolution bias. Labels are unused in the primary score-change test; annotation provenance therefore does not drive it.",
+      "alternative_explanations": [
+        "Erasure removes a broader severity direction; volume/NIHSS probes before and after are mandatory specificity controls.",
+        "HIR reflects vendor-specific deconvolution; center-held-out replication reduces but does not eliminate this.",
+        "The model uses a correlated spatial pattern rather than HIR itself; an input-space HIR edit is required to move beyond rung 1."
+      ],
+      "anticipated_negative": "Sensitivity-limited: a null is informative only if HIR is decoded above a preregistered cross-validated threshold and positive-control lesion-volume erasure changes output.",
+      "cross_domain": {
+        "borrowed_construct": "A reserve-rate ratio analogous to severity fractions in reliability engineering.",
+        "measurement_it_implies": "The severe-delay fraction within the whole delayed territory.",
+        "what_changes_if_dropped": "Nothing essential; the clinical HIR definition and experiment remain intact."
+      },
+      "remaining_legwork": "1-2 days to locate/reproduce a checkpoint, 2 days for metadata audit and split freeze, roughly one week to first decision after a usable model exists.",
+      "design_template": "representation-erasure",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One named scalar and one selective-use test."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Erasure plus controls tests use, but correlated severity directions remain."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "HIR is a recognized collateral and growth marker."
+        },
+        "interest": {
+          "value": 4,
+          "why": "It asks whether multimodal AI learned a clinician-legible physiological rule."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Data, formula, metrics and model family exist; checkpoint status is open."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because the checkpoint/decodability keystone is uninspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public noncommercial training data; hidden test remains server-only."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Official segmentation metrics and standard probe controls exist."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Useful only after probe sensitivity and positive controls pass."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "No verified exhaustive novelty search; precise delta found in primary anchors."
+        },
+        "regret": {
+          "value": 4,
+          "why": "A cheap interpretability layer on an already trained model."
+        }
+      },
+      "unverified_claims": [
+        "Winning checkpoint availability",
+        "HIR decodability",
+        "adequate matched support across centers",
+        "novelty beyond searched primary anchors"
+      ],
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-001-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The vascular detour the segmentation model can see",
+      "question": "Is an ISLES'24 model using arterial collateral reach from the CTA occlusion to the threatened territory rather than perfusion-deficit volume alone?",
+      "rung": "Target rung 1; move toward rung 3 only if the machine measure agrees with an established collateral score in an external labeled cohort.",
+      "deliverable_sentence": "The final-infarct model is using the amount of distal arterial territory reached around the occlusion—collateral reach—not merely the size of the perfusion deficit.",
+      "X_measurement": "From CTA, use the released TopCoW-style vessel mask plus occlusion mask to compute affected/contralateral distal vessel-length density within atlas-defined downstream territories, normalized by territory volume. This is fully automatic graph/mask arithmetic on a new scan. Compute-today test: YES, conditional on the released pseudolabel files being present per case.",
+      "suspected_signal": "Pial and communicating collateral pathways preserve distal arterial filling beyond an occlusion and delay irreversible tissue failure after proximal flow stops.",
+      "use_vs_association": "Remove only distal vessel voxels downstream of the occlusion and replace them with contralateral, intensity-matched vessel/background patches while holding CTP and lesion-size priors fixed; a selective output change relative to upstream-vessel and nonvascular shams tests use.",
+      "keystone_prerequisite": "The public 149-case release actually contains per-case occlusion masks and Circle-of-Willis/distal-vessel pseudolabels in a coordinate system usable with CTA, with sufficient distal coverage for the proposed reach measure.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The 2026 paper verifies the pseudolabel-generation method, but the official README tree does not enumerate these files; file-level completeness and distal-vessel coverage are the real keystone.",
+      "rung_reached": "0; rung 1 after validated regional substitutions; rung 2 after cross-center consistency; rung 3 after measurement validation.",
+      "dies_like_prior": "Closest is idea-006: its deletion was extreme OOD. This uses tissue-for-tissue, contralateral intensity-matched substitution and requires discriminator/segmentation-validity gates. Closest kill code is IDENTIFIABILITY_FAILURE; holding the CTP channels fixed separates vascular depiction from perfusion volume, subject to edit validity.",
+      "closest_prior_work": "Yang et al., TopCoW challenge, arXiv:2312.17670, supplies topology-aware vessel segmentation; Riedel et al., DOI 10.1148/ryai.250603 documents ISLES'24 vessel pseudolabels. Neither tests whether a final-infarct predictor uses patient-specific distal arterial reach.",
+      "existing_assets": "CTA registered to NCCT, occlusion/vessel pseudolabel method, contralateral anatomy, final masks, two-center cohort.",
+      "smallest_decisive_experiment": "Stage 0 on 20 cases: verify masks and stable reach measurement. Then train one CTA+CTP model on a frozen center-stratified split and run downstream-vessel, upstream-vessel and nonvascular matched substitutions on 40 held-out cases; report lesion-probability change inside the threatened territory. Approximately 30 GPU-hours plus segmentation QA; no new annotation.",
+      "standing_confounds_addressed": "Within-scan contralateral construction holds patient, site, scanner, habitus and referral fixed; keeping CTP fixed separates displayed vessels from perfusion. It does not remove bolus-timing asymmetry, registration error or pseudolabel error. Training-mask provenance is documented; vessel pseudolabels are explicitly nonexpert references and are not treated as ground truth.",
+      "alternative_explanations": [
+        "The edit changes contrast texture rather than vessels; vessel-free intensity-matched shams test this.",
+        "The model reads occlusion laterality; upstream-vessel control tests this.",
+        "Pseudolabel truncation creates the apparent reach; file/coverage Stage 0 is mandatory."
+      ],
+      "anticipated_negative": "Decisive only if edits preserve global intensity distributions, remain in-distribution to a held-out discriminator, and a positive-control occlusion edit moves output; otherwise uninterpretable.",
+      "remaining_legwork": "One day for Zenodo file audit, 2-3 days for 20-case measurement validation, 1-2 weeks to first model-use result.",
+      "design_template": "regional-substitution",
+      "entry_point_2_requirements": "Measurement: affected/contralateral distal vessel-length density. Artifact confusion: bolus timing and substitution seams; both receive explicit controls.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "Named vascular quantity, though its exact distal territory needs freezing."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Modalities are held fixed and shams are strong, but edit validity is load-bearing."
+        },
+        "medical_relevance": {
+          "value": 5,
+          "why": "Collateral supply governs tissue survival and transfer/treatment decisions."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A patient-specific vascular detour inside a voxel model is compelling and legible."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Registered CTA and vessel-label method exist; per-case files unverified."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped by uninspected file coverage and edit validity."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Public under noncommercial terms but file completeness needs inspection."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Official output metrics exist; intervention validity metrics are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "A gated clean null would exclude a specific vascular channel."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Precise gap not exhaustively audited."
+        },
+        "regret": {
+          "value": 5,
+          "why": "The dataset uniquely co-releases the needed vascular and outcome views."
+        }
+      },
+      "unverified_claims": [
+        "Per-case public vessel/occlusion mask completeness",
+        "distal-vessel resolution",
+        "in-distribution substitution",
+        "checkpoint availability"
+      ],
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-001-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "Read the stroke from the blood leaving, not only entering",
+      "question": "Is an ISLES'24 raw-CTP model using delayed cortical venous drainage as a vascular-reserve signal?",
+      "rung": "Target rung 1; move to rung 2 with center-held-out temporal controls and to rung 3 only after external validation against COVES/time-resolved venous scoring.",
+      "deliverable_sentence": "The raw-CTP model is using delayed cortical venous drainage on the affected side as a marker of tissue that will infarct despite reperfusion.",
+      "X_measurement": "Segment major cortical veins/sinuses from late 4D-CTP frames, extract affected/contralateral time-to-peak and area-under-curve ratios, and aggregate vein of Labbé, superficial middle cerebral and Trolard territories. Singh et al., Neuroradiology 2022, PMID 34704112, established time-resolved venous opacification; Wang et al., Eur J Radiol 2026, DOI 10.1016/j.ejrad.2026.112671, gives HU-ratio formulas. Compute-today test: YES as a defined automatic intensity/time-curve measurement, although a released vein segmenter was not verified.",
+      "suspected_signal": "Slow or incomplete venous filling integrates upstream collateral delivery and microvascular transit; ischemic tissue with poor inflow/outflow reserve has delayed, asymmetric venous return.",
+      "use_vs_association": "Temporally replace only venous-phase curves in affected venous masks with contralateral curves while preserving arterial bolus, baseline anatomy and perfusion-map channels; compare against equal-volume parenchymal and temporal-shift shams.",
+      "keystone_prerequisite": "The released 1-frame/s motion-corrected 4D CTP retains late venous coverage and sufficient temporal duration to estimate affected/contralateral cortical-vein curves in most cases.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The methods verify resampling and raw-series release but do not report temporal coverage or venous visibility; this is deliberately the true inference prerequisite, not merely 'raw CTP exists'.",
+      "rung_reached": "0; rung 1 after valid venous-curve substitutions; higher only after cross-center and clinical-measure validation.",
+      "dies_like_prior": "Closest is idea-016, killed because reflux and protocol were inseparable. This design uses within-scan affected/contralateral timing and preserves the patient's arterial input function during substitution, but injection timing and truncation remain explicit threats. It also inherits idea-006's OOD warning and gates edits.",
+      "closest_prior_work": "Singh et al. (PMID 34704112) associated temporal venous scores with outcome but found no added outcome benefit beyond arterial collaterals; Wang et al. (DOI 10.1016/j.ejrad.2026.112671) quantified CTA venous HU ratios. Neither asks whether a raw-CTP infarct model uses venous dynamics. Negative prior evidence makes the model-use question sharper, not novel by assertion.",
+      "existing_assets": "Raw 4D CTP, registered maps, final masks, two centers, contralateral internal control, established vein/time-curve definitions.",
+      "smallest_decisive_experiment": "Stage 0: inspect time axes and vein contrast in all 149 headers plus 20 representative series; require >=80% analyzable late venous curves. If passed, train raw-CTP and map-only matched models, then run venous substitutions on 40 frozen cases. Roughly two weeks and 40-80 GPU-hours; no annotation.",
+      "standing_confounds_addressed": "Within-scan ratios hold patient/site/vendor/habitus fixed; preserving arterial input reduces injection-timing confounding; map-only model is a modality control. Not ruled out: center-specific temporal truncation, motion correction artifacts and vein-segmentation error. Labels are unnecessary for the primary paired output delta.",
+      "alternative_explanations": [
+        "The model reads generic late enhancement; equal-volume parenchymal controls test this.",
+        "The model reads arterial delay leaking into vein masks; eroded venous masks and arterial-curve preservation test this.",
+        "Temporal truncation encodes site; center-held-out and duration stratification are mandatory."
+      ],
+      "anticipated_negative": "Decisive if venous curves are measurable and raw-CTP model responds to arterial positive-control edits; otherwise sensitivity-limited.",
+      "remaining_legwork": "1-2 days for header audit, 3-5 days for automated vein-mask feasibility, 2 weeks to first result if the gate passes.",
+      "design_template": "regional-substitution",
+      "entry_point_2_requirements": "Measurement: affected/contralateral venous time-to-peak and AUC. Artifact confusion: site-specific truncation and arterial contamination.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "Specific vessels, curves and intervention."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Within-scan temporal intervention is strong but mask contamination remains."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Venous reserve could explain failure despite arterial reperfusion."
+        },
+        "interest": {
+          "value": 5,
+          "why": "Most stroke AI looks at inflow; testing outflow is a sharp inversion."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Clinical measures and raw data exist; no verified automatic vein tool."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; temporal coverage is uninspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Raw time series are explicitly released."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired deltas are simple; vein-quality gates are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Useful after coverage and positive-control gates."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "No exhaustive search."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The rare raw time series makes the question unusually cheap here."
+        }
+      },
+      "unverified_claims": [
+        "Late venous temporal coverage",
+        "automatic vein-mask accuracy",
+        "raw-CTP model performance",
+        "clean arterial/venous separation"
+      ],
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-001-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The frail brain around the threatened territory",
+      "question": "Is an ISLES'24 model using leukoaraiosis burden as a brain-frailty modifier of final infarction?",
+      "rung": "Mode C, target rung 1. Move up only with spatially localized edits and replication outside this successful-reperfusion cohort.",
+      "deliverable_sentence": "The final-infarct model is using pre-existing leukoaraiosis—the chronic white-matter injury visible on NCCT—as a modifier of which hypoperfused tissue dies.",
+      "X_measurement": "Compute bilateral periventricular/deep white-matter low-attenuation burden from NCCT using atlas registration, CSF exclusion and age-adjusted HU z-scores; report volume and radial distribution. This is a deterministic image measurement on an unseen scan with no annotator, though clinical validity on acute defaced NCCT is unverified. Compute-today test: YES technically.",
+      "suspected_signal": "Chronic small-vessel injury reduces microvascular reserve and tissue resilience, so equal acute hypoperfusion may yield different final injury in a structurally frail white-matter bed.",
+      "use_vs_association": "Within narrow HIR, deficit-volume, age and NIHSS strata, remove the learned leukoaraiosis representation and require region-specific output changes inside threatened white matter; observational association alone is explicitly insufficient.",
+      "keystone_prerequisite": "An automatic NCCT leukoaraiosis measure has test-retest/contrast robustness adequate to separate chronic white-matter low attenuation from acute ischemia and CSF in ISLES'24.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "NCCT and follow-up DWI are verified, but the measurement's construct validity in acute stroke is unverified and load-bearing; a clean-looking segmentation is not enough.",
+      "rung_reached": "0; rung 1 after measurement validation plus selective representation removal; rung 2 requires external replication.",
+      "dies_like_prior": "Closest is idea-005 (ANNOTATION_PROVENANCE), but no human rating is used. The more relevant danger is CIRCULARITY: acute hypodensity could be mislabeled as chronic leukoaraiosis. Contralateral symmetry, DWI exclusion and periventricular priors reduce but may not eliminate it; failure of that gate kills the idea.",
+      "closest_prior_work": "The ISLES'24 papers do not report leukoaraiosis decomposition. Clinical literature relates white-matter disease to stroke outcomes, but a primary automated-NCCT measurement paper and exact model-use duplicate remain to be pinned; novelty is not claimed.",
+      "existing_assets": "Baseline NCCT, registered acute modalities, follow-up DWI lesion mask, age and NIHSS, two-center design, public brain atlases.",
+      "smallest_decisive_experiment": "Stage 0 on 30 cases: compute the measure twice across plausible NCCT windows/registrations, exclude acute DWI territory mapped back to NCCT, and require stability plus age association. If passed, probe/erase the leukoaraiosis direction in one frozen model on center-held-out cases. 2-3 weeks, <30 GPU-hours.",
+      "standing_confounds_addressed": "Age, HIR, deficit volume, NIHSS, center/vendor and territory enter matching; DWI exclusion addresses acute-lesion contamination. Not ruled out: generalized atrophy, occult old infarcts, scanner HU calibration and referral selection. Label provenance is documented but follow-up labels are not the primary use readout.",
+      "alternative_explanations": [
+        "The measure is atrophy/CSF partial volume; explicit CSF distance and brain-volume controls test this.",
+        "It captures acute ischemia; mapped DWI/acute perfusion exclusion tests this imperfectly.",
+        "It is an age proxy; age matching tests measured age but not all aging phenotypes."
+      ],
+      "anticipated_negative": "Uninterpretable if measurement validity fails; otherwise sensitivity-limited because representation removal may miss distributed use.",
+      "cross_domain": {
+        "borrowed_construct": "Material fatigue: chronic microvascular damage as reduced reserve before an acute load.",
+        "measurement_it_implies": "Background white-matter damage burden interacting with acute perfusion stress.",
+        "what_changes_if_dropped": "The experiment survives; only the mechanistic metaphor and interaction emphasis weaken."
+      },
+      "remaining_legwork": "One week literature/tool audit, one week 30-case measurement gate, another week for a first model test.",
+      "design_template": "representation-erasure",
+      "entry_point_2_requirements": "Measurement: automatic chronic white-matter low-attenuation burden. Artifact confusion: acute ischemia and CSF partial volume.",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 4,
+          "why": "Named chronic microvascular injury and reserve interaction, with a concrete measure."
+        },
+        "identifiability": {
+          "value": 2,
+          "why": "Acute/chronic hypodensity and age remain difficult to separate."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Tissue resilience could alter prognostication at equal perfusion."
+        },
+        "interest": {
+          "value": 4,
+          "why": "It reframes background brain disease as a model-used modifier."
+        },
+        "clarity": {
+          "value": 4,
+          "why": "Precise claim, with a candid measurement caveat."
+        },
+        "prior_legwork": {
+          "value": 2,
+          "why": "Dataset assets exist but the measurement tool is not pinned."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "Construct validation is a serious barrier."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "All required images/covariates are in the public train set."
+        },
+        "evaluation_readiness": {
+          "value": 2,
+          "why": "No verified accepted NCCT leukoaraiosis benchmark in this cohort."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "Distributed-use and measurement sensitivity limit a null."
+        },
+        "novelty_confidence": {
+          "value": 2,
+          "why": "Closest-work audit incomplete."
+        },
+        "regret": {
+          "value": 3,
+          "why": "High upside but measurement validity may consume the story."
+        }
+      },
+      "mode_c_priority_score": 3.6,
+      "unverified_claims": [
+        "NCCT leukoaraiosis construct validity",
+        "robust automated measurement",
+        "independent joint support",
+        "novelty"
+      ],
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-001-c05",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "A spreading front inside the perfusion deficit",
+      "question": "Is an ISLES'24 model using the topology of the perfusion-deficit boundary to distinguish tissue that will die from tissue that will recover?",
+      "rung": "Mode C, target rung 1; move up by reproducing the effect across deconvolution implementations and centers.",
+      "deliverable_sentence": "The final-infarct model is using the shape of the severe-delay front—its fragmentation, curvature and contact with the existing core—not only perfusion volumes.",
+      "X_measurement": "Threshold Tmax at 6 and 10 s; compute connected-component count, Euler characteristic, surface-to-volume ratio, boundary curvature and contact fraction between Tmax>10 and low-CBF regions using standard voxel morphology. Every quantity is deterministic on a new scan without annotation. Compute-today test: YES.",
+      "suspected_signal": "Collateral failure advances through vascular territories as a spatial front: compact severe-delay regions contiguous with core may represent coherent failing supply, whereas fragmented peripheral delay may be better collateralized or artifactual.",
+      "use_vs_association": "Generate topology-swapped Tmax fields that preserve the exact value histogram, total threshold volumes, hemisphere, distance-to-occlusion and smoothness spectrum but alter component connectivity/contact; paired prediction changes test topology use rather than volume association.",
+      "keystone_prerequisite": "A counterfactual generator can alter connectedness/contact while preserving clinically salient Tmax intensity, territory and spatial-frequency distributions closely enough to remain in-distribution.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The maps and target are verified; intervention validity, not map availability, is the true keystone. No existing generator satisfying these constraints was verified.",
+      "rung_reached": "0; rung 1 only after all counterfactual validity gates pass; no higher claim from this cohort alone.",
+      "dies_like_prior": "Closest is idea-008's unresolved edit-validity problem and idea-006's OOD deletion. This proposes value-histogram- and spectrum-preserving topology swaps plus sham edits, but until a discriminator and blinded image-statistic suite pass, the study is explicitly speculative. Annotation provenance does not enter the primary paired delta.",
+      "closest_prior_work": "ISLES'24 challenge methods optimize voxelwise final-infarct prediction; no primary source located that isolates perfusion-front topology at fixed perfusion volumes. Prior perfusion literature, including Guenego et al. DOI 10.1111/ene.14181, emphasizes threshold volumes/ratios, not topology. This is a search result, not proof of novelty.",
+      "existing_assets": "Registered Tmax/CBF maps, raw CTP for realism checks, final masks, official per-lesion metrics and two centers.",
+      "smallest_decisive_experiment": "On 30 held-out cases, create five topology-altered and five topology-preserving sham maps per case at exactly matched histograms/volumes; require a held-out real-vs-edit discriminator near chance and preserved standard perfusion summaries, then measure local output changes. About 3 weeks and 50 GPU-hours after a frozen model.",
+      "standing_confounds_addressed": "Exact volume/histogram matching rules out threshold-volume explanations; territory/distance matching addresses occlusion geography; shams address generic editing. It does not fully rule out deconvolution artifacts, unmeasured vascular topology or generator fingerprints. Center-held-out replication is required.",
+      "alternative_explanations": [
+        "Generator seams drive output; spectrum-preserving shams and discriminator gate test this.",
+        "Curvature proxies distance from core/occlusion; those distances are explicitly matched.",
+        "Map topology is deconvolution software topology, not physiology; raw-CTP-derived replication is needed to move up."
+      ],
+      "anticipated_negative": "Decisive only after a powered sensitivity test using a positive-control volume edit; otherwise sensitivity-limited.",
+      "cross_domain": {
+        "borrowed_construct": "Reaction-front geometry from combustion/percolation physics.",
+        "measurement_it_implies": "Connectivity, curvature and core-contact of severe-delay regions at fixed mass.",
+        "what_changes_if_dropped": "The exact morphological experiment remains; only the biological story becomes a generic shape-use audit."
+      },
+      "remaining_legwork": "1 week to audit topology literature, 1-2 weeks to validate counterfactuals, one week for the first paired model test.",
+      "design_template": "counterfactual-synthesis",
+      "entry_point_2_requirements": "Measurement: topology statistics at fixed perfusion volume. Artifact confusion: generator fingerprints and deconvolution-induced islands.",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 5,
+          "why": "A named failing-supply front and exact topology measurements/intervention."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Fixed histograms and geography isolate topology if edit realism passes."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Could improve tissue-fate explanation, though clinical terminology is less established."
+        },
+        "interest": {
+          "value": 5,
+          "why": "Tests whether spatial organization carries fate information beyond standard volumes."
+        },
+        "clarity": {
+          "value": 4,
+          "why": "Precise family of quantities; one must be frozen before testing."
+        },
+        "prior_legwork": {
+          "value": 2,
+          "why": "Data and morphology operators exist; valid generator does not."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "Edit realism is hard but appropriate for Mode C."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Required registered maps are released."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Official lesion metrics help; counterfactual validity remains custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "A gated null would reject topology beyond volume for this model."
+        },
+        "novelty_confidence": {
+          "value": 2,
+          "why": "No exhaustive verified gap search."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Standard perfusion summaries may be throwing away exactly this structure."
+        }
+      },
+      "mode_c_priority_score": 4.1,
+      "unverified_claims": [
+        "In-distribution topology generator",
+        "topology not already covered in stroke AI",
+        "adequate topological variation",
+        "raw-CTP replication feasibility"
+      ],
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-001-w01",
+      "track": "wide",
+      "parent_ids": [],
+      "search_mode": "B",
+      "entry_point": 2,
+      "design_template": "counterfactual-synthesis",
+      "title": "The capillary traffic jam hidden behind the same mean transit time",
+      "question": "Is an ISLES'24 raw-CTP final-infarct model using capillary transit-time heterogeneity within hypoperfused tissue, rather than only mean flow and delay?",
+      "outside_field": "Chemical-reaction engineering: residence-time distributions distinguish two flow systems with the same mean transit time but different mixing and extraction efficiency.",
+      "rung": {
+        "target": 1,
+        "current": 0,
+        "move_up": "A validated paired intervention that changes transit-time dispersion while preserving voxelwise first moments and standard released perfusion summaries establishes model use; external physiological validation would be required for a higher biological claim."
+      },
+      "deliverable_sentence": "The raw-CTP final-infarct model is using capillary transit-time heterogeneity, a dispersion property of microvascular passage that standard mean perfusion maps compress away.",
+      "X_measurement": {
+        "X": "Within each threatened-tissue neighborhood, the dispersion of deconvolved residue-function transit times, summarized by the coefficient of variation and interquantile width after a single frozen arterial-input-function procedure.",
+        "how": "Estimate an arterial input function automatically, deconvolve each tissue attenuation curve with one preregistered delay-insensitive method, normalize each nonnegative residue curve to unit mass, and compute its transit-time variance and coefficient of variation. Aggregate only within a fixed Tmax>6 s region and report stability to the deconvolution regularizer.",
+        "could_compute_today_without_asking_anyone": "Yes as a well-defined tracer-kinetic calculation on the released raw 4D CTP; no human annotation is required. Construct validity in ISLES'24 remains a gate."
+      },
+      "suspected_signal": "At equal mean delivery, heterogeneous capillary passage can reduce effective oxygen extraction because some blood transits too quickly while other paths stagnate; this may distinguish tissue that dies despite successful macroscopic reperfusion.",
+      "specific_artifact_confused_with_signal": "Noise amplification during deconvolution, partial volume in the arterial input function, motion correction, temporal resampling to 1 Hz, and scan truncation can all broaden the estimated transit distribution without reflecting microvascular physiology.",
+      "keystone_prerequisite": "ISLES'24 raw CTP has sufficient temporal duration, signal-to-noise ratio, and post-bolus sampling to produce CTH estimates stable across plausible arterial-input-function choices and deconvolution regularization in a substantial fraction of the public cases.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The dataset paper and repository verify release of motion-corrected 1-Hz raw CTP, but neither proves that the time axis is long enough or that CTH is identifiable after this resampling. The published clinical association does not validate the measurement on ISLES'24.",
+      "rung_reached": "No rung. Patient-level correlation between CTH and final infarct is association; only a selective, validated paired intervention supports the use sentence.",
+      "dies_like_prior": "It risks IDENTIFIABILITY_FAILURE like idea-016 if curve dispersion cannot be separated from injection protocol or truncation. It differs by using within-case, moment-matched temporal counterfactuals and by making temporal-coverage stability the first gate; failure of either gate kills it. It also inherits idea-006's OOD warning, so synthetic curves require real-versus-edit and forward-model residual gates.",
+      "closest_prior_work": [
+        {
+          "citation": "Potreck et al., Increased volumes of mildly elevated capillary transit time heterogeneity positively predict favorable outcome and negatively predict intracranial hemorrhage in acute ischemic stroke with large vessel occlusion",
+          "identifier": "DOI 10.1007/s00330-019-06064-4; PMID 30887195",
+          "verified_fact": "The primary study computed CTH maps in 131 thrombectomy patients and reported associations with favorable outcome and intracranial hemorrhage.",
+          "delta": "It studied a patient biomarker, not whether a raw-CTP infarct model uses CTH at fixed standard perfusion summaries."
+        },
+        {
+          "citation": "Bathla et al., Computed Tomography Perfusion-Based Prediction of Core Infarct and Tissue at Risk: Can Artificial Intelligence Help Reduce Radiation Exposure?",
+          "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412",
+          "verified_fact": "The study trained arterial-input-function-independent neural networks on complete and partial CTP series.",
+          "delta": "It tested prediction from temporal data, not selective reliance on transit-time dispersion."
+        },
+        {
+          "citation": "Riedel et al., The ISLES'24 Dataset",
+          "identifier": "DOI 10.1148/ryai.250603; PMID 42017802",
+          "verified_fact": "The dataset contains hyperacute raw CTP, standard perfusion maps, and postinterventional DWI-derived final-infarct masks in successfully reperfused patients.",
+          "delta": "The dataset paper benchmarks lesion prediction but does not report a CTH model-use audit."
+        }
+      ],
+      "novelty_neighbors": [
+        {
+          "work": "Potreck et al. CTH outcome study",
+          "identifier": "DOI 10.1007/s00330-019-06064-4; PMID 30887195"
+        },
+        {
+          "work": "Bathla et al. complete/partial raw-CTP neural prediction",
+          "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412"
+        },
+        {
+          "work": "Riedel et al. ISLES'24 dataset and benchmark",
+          "identifier": "DOI 10.1148/ryai.250603; PMID 42017802"
+        }
+      ],
+      "novelty_delta": "The searched neighbors establish CTH as a stroke biomarker and raw-CTP neural prediction separately; the proposed experiment tests whether a frozen final-infarct model uses CTH after mean delay, flow, volume, spatial support, and curve energy are held fixed.",
+      "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+      "why_not_done": {
+        "category": "NEW_CAPABILITY",
+        "detail": "ISLES'24 newly co-releases raw motion-corrected 4D CTP, conventional maps, and delayed DWI fate labels for a public successful-reperfusion cohort, making a map-versus-distribution audit possible without private data."
+      },
+      "existing_assets": [
+        "149 public ISLES'24 training cases with raw CTP and registered standard maps",
+        "DWI-derived final-infarct masks and official segmentation metrics",
+        "Published CTH tracer-kinetic construct and automatic arterial-input-function methods"
+      ],
+      "smallest_decisive_experiment": "Stage 0 inspects all 149 time axes and estimates CTH stability on 20 cases. If at least 80% have complete curves and the within-case CTH rank correlation is at least 0.8 across two frozen regularizers and two automatic AIF choices, freeze one already trained raw-CTP model. On 30 untouched cases, generate three local curve mixtures per case that alter residue-time variance across the natural interquartile range while exactly preserving curve integral, first temporal moment, peak time, Tmax>6/Tmax>10 volumes, and spatial support; compare local lesion-probability changes with equal-energy phase-scramble and mean-shift positive-control edits.",
+      "compute_envelope": "One Colab GPU session after cached CPU deconvolution: at most 30 cases, seven variants per case, one frozen model, batch-size-one inference, and no retraining. Estimated GPU budget under 8 hours and 16 GB VRAM.",
+      "use_vs_association": "Use requires a dose-ordered local prediction response to CTH-only counterfactuals beyond moment-matched shams; CTH decoding or case-level correlation alone is explicitly insufficient.",
+      "standing_confounds_addressed": {
+        "site_vendor_protocol": "Paired within-scan edits hold acquisition fixed; the effect must replicate by center and acquisition-duration stratum.",
+        "deficit_severity": "Standard map values, threshold volumes, first temporal moment, and affected territory are fixed after final preprocessing.",
+        "injection_and_cardiac_output": "The patient's global arterial input function is unchanged in the paired estimand.",
+        "annotation_provenance": "No new annotation is used in the primary paired output test; DWI labels are used only to train/evaluate the frozen predictor.",
+        "treatment_selection": "Successful reperfusion is fixed by cohort design but limits the conclusion to this selected population."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "The model responds to synthetic temporal texture.",
+          "resolution": "Require a held-out real-versus-edit discriminator near chance, low forward-model residuals, and equal-energy temporal shams."
+        },
+        {
+          "alternative": "CTH is deconvolution noise.",
+          "resolution": "The Stage-0 cross-AIF and cross-regularizer stability gate is fatal if it fails."
+        },
+        {
+          "alternative": "The edit changes an unreported conventional perfusion statistic.",
+          "resolution": "Recompute CBF, CBV, MTT, Tmax, HIR, peak, integral, and first moment after final preprocessing and require prespecified tolerances."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reason": "A null is useful only if edits span the natural CTH range, remain in-distribution, and the same model responds to a preregistered mean-delay positive control."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Residence-time-distribution variance from chemical-reaction engineering.",
+        "measurement_implied": "Variance and coefficient of variation of the normalized residue-function transit-time distribution at fixed mean residence time.",
+        "if_analogy_dropped": "The experiment would collapse back to MTT or Tmax; the outside-field construct specifically motivates comparing distributions with identical means."
+      },
+      "remaining_legwork": "One day for a file/header audit, two to four days for the 20-case measurement-stability gate, and a separate checkpoint/reproduction audit before any intervention.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "The named distributional X, preserved first moments, and paired output are explicit."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Moment-matched interventions isolate dispersion if deconvolution and edit-validity gates pass, but temporal artifacts remain serious."
+        },
+        "medical_relevance": {
+          "value": 5,
+          "why": "Microvascular oxygen extraction could explain tissue death despite macroscopic reperfusion."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A model distinguishing capillary traffic patterns that standard maps average away is mechanistically surprising."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "The biomarker, raw data, fate labels, and prediction task exist; a usable frozen model is not yet pinned."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because temporal adequacy, CTH stability, checkpoint, and edit realism are uninspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "The public noncommercial release contains the required raw and derived images, subject to access registration."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Standard output metrics exist, but tracer-kinetic and edit-validity gates are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "A gated null excludes this defined dispersion signal, but inadequate model sensitivity would limit it."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "A bounded primary-source search found no selective model-use audit; no exhaustive novelty claim is made."
+        },
+        "regret": {
+          "value": 5,
+          "why": "The raw time series may contain a physiologically important distribution that released summary maps necessarily compress."
+        }
+      },
+      "priority_score": 3.9,
+      "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*5 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*3 + 0.05*4 + 0.05*3 = 3.85, rounded to 3.9",
+      "unverified_claims": [
+        "Adequate late temporal coverage in at least 80% of public cases",
+        "Stable CTH recovery after 1-Hz resampling",
+        "Availability or reproducibility of a performant raw-CTP model within the compute budget",
+        "In-distribution CTH-only counterfactuals",
+        "No prior selective model-use experiment for CTH"
+      ],
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-001-w02",
+      "track": "wide",
+      "parent_ids": [],
+      "search_mode": "B",
+      "entry_point": 2,
+      "design_template": "natural-paired",
+      "title": "Does the model mistake the end of the scan for the end of the bolus?",
+      "question": "Is an ISLES'24 raw-CTP final-infarct model using terminal-curve incompleteness as a severity cue, creating a hidden dependence on acquisition duration?",
+      "outside_field": "Survival analysis and missing-data theory: a curve cut off by the scanner is right-censored, and the censoring boundary must not be mistaken for a biological event.",
+      "rung": {
+        "target": 1,
+        "current": 0,
+        "move_up": "Nested prefixes of the same complete acquisition can establish use of the censoring margin; cross-center duration replication would show a benchmark failure mode, not biological mechanism."
+      },
+      "deliverable_sentence": "The raw-CTP final-infarct model is using terminal-curve incompleteness—the distance between residual contrast washout and the scan boundary—as an image cue for tissue fate.",
+      "X_measurement": {
+        "X": "A terminal completeness index: the affected-tissue attenuation above prebolus baseline at the final frame, divided by peak enhancement, together with the terminal fitted washout slope and seconds from estimated 90% washout to scan end.",
+        "how": "Estimate baseline and peak per voxel from raw CTP, compute the normalized last-frame residual and a robust slope over the final five available seconds, then summarize within the fixed threatened region and contralateral homolog. Record acquisition duration directly from the fourth dimension and sidecar timing when available.",
+        "could_compute_today_without_asking_anyone": "Yes. It is deterministic curve arithmetic on the released 4D CTP and requires no annotation."
+      },
+      "suspected_signal": "Severely delayed tissue is most likely still enhanced when a short acquisition stops, so a network may learn the coincidence between lesion severity and the dataset-specific temporal boundary rather than a duration-invariant hemodynamic property.",
+      "specific_artifact_confused_with_signal": "True slow washout, poor cardiac output, delayed collateral arrival, differing injection timing, and simple zero-padding can all resemble truncation.",
+      "keystone_prerequisite": "A sufficient subset of ISLES'24 cases has complete long acquisitions that can be shortened to multiple still-clinically-plausible prefixes without changing sampling rate or preprocessing, and the frozen model accepts variable-length series or a masking scheme seen during training.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Raw CTP release is verified, but the public paper does not establish per-case acquisition durations, curve completeness, padding semantics, or a model architecture that permits a clean prefix experiment.",
+      "rung_reached": "No rung. An association between last-frame residual and infarct merely recapitulates delayed flow; model use requires a within-acquisition censoring intervention.",
+      "dies_like_prior": "It differs from idea-016 because the claim is explicitly acquisition-boundary use, not physiology, and nested prefixes hold patient, injection, anatomy, and the observed early bolus fixed. It still dies by IDENTIFIABILITY_FAILURE if padding/masking artifacts cannot be separated from loss of late information, or by DATA_INSUFFICIENT if few curves are complete enough to censor.",
+      "closest_prior_work": [
+        {
+          "citation": "Kasasbeh et al., Effect of extended CT perfusion acquisition time on ischemic core and penumbra volume estimation",
+          "identifier": "PMID 25789631",
+          "verified_fact": "In 36 patients, 48-second acquisitions truncated core curves in 67% of cases; extended acquisitions yielded smaller estimated cores and larger penumbras, with phantom confirmation.",
+          "delta": "The study evaluated conventional estimates, not whether a neural final-infarct model uses the censoring boundary."
+        },
+        {
+          "citation": "Copen et al., Exposing hidden truncation-related errors in acute stroke perfusion imaging",
+          "identifier": "PMID 25500309",
+          "verified_fact": "Progressive deletion of late frames from 110-second perfusion MRI caused substantial duration-dependent changes and lesion reversals in hemodynamic maps.",
+          "delta": "It established truncation error in postprocessing, not a controlled neural-model reliance test on CT."
+        },
+        {
+          "citation": "Bathla et al., AI prediction from complete and partial CTP",
+          "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412",
+          "verified_fact": "The study tested neural prediction using complete and partial CTP data.",
+          "delta": "It addressed feasibility under partial data, not whether terminal incompleteness itself becomes a learned severity cue."
+        }
+      ],
+      "novelty_neighbors": [
+        {
+          "work": "Kasasbeh et al. extended-acquisition truncation study",
+          "identifier": "PMID 25789631"
+        },
+        {
+          "work": "Copen et al. progressive truncation experiment",
+          "identifier": "PMID 25500309"
+        },
+        {
+          "work": "Bathla et al. partial-CTP neural prediction",
+          "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412"
+        }
+      ],
+      "novelty_delta": "Prior work shows that truncation changes perfusion estimates and that networks can consume partial series; the proposed audit asks whether a frozen outcome model treats the censoring margin itself as fate evidence under nested prefixes from the same scan.",
+      "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+      "why_not_done": {
+        "category": "BLIND_SPOT",
+        "detail": "Acquisition-duration studies usually evaluate derived perfusion maps, while raw-CTP AI papers emphasize accuracy or radiation reduction; the scan boundary is rarely treated as a candidate learned feature."
+      },
+      "existing_assets": [
+        "Public ISLES'24 raw 4D CTP and delayed DWI fate masks",
+        "A within-acquisition nested-prefix design needing no new labels",
+        "Published human and phantom evidence that truncation changes conventional perfusion estimates"
+      ],
+      "smallest_decisive_experiment": "Stage 0 audits all 149 time axes and identifies at least 30 cases whose contralateral and affected curves both return within 10% of baseline before scan end. For one frozen raw-CTP model, evaluate each complete case at the full duration and at three nested prefixes ending 5, 10, and 15 seconds earlier. Use two controls: censor then extrapolate the tail with a preregistered gamma-variate fit, and mask the same number of interior frames while retaining the true terminal frames. Primary readout is the within-voxel lesion-probability slope per second removed inside the threatened territory, stratified by whether the removed tail contains residual enhancement.",
+      "compute_envelope": "One Colab GPU session: at most 40 cases, five variants per case, one frozen model, no retraining, under 6 GPU-hours and 16 GB VRAM.",
+      "use_vs_association": "Use is supported only if nested censoring changes predictions more when it removes residual washout and the effect is rescued by plausible tail extrapolation but not reproduced by equal-count interior-frame masking.",
+      "standing_confounds_addressed": {
+        "site_vendor_protocol": "The paired prefix comparison fixes the acquired scan; duration distributions and effects are still reported separately by center.",
+        "injection_and_cardiac_output": "All prefixes share the same injection and early arterial input; terminal residual is additionally normalized to peak.",
+        "padding_artifact": "Identical tensor length and an explicit temporal mask are required; synthetic padding styles are crossed as a nuisance factor.",
+        "disease_severity": "Patient and true trajectory are fixed within scan; the estimand is response to hiding late observations.",
+        "annotation_provenance": "The primary paired score-change endpoint is label-free; existing masks are used for spatial summaries only."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "Any missing frames reduce useful information.",
+          "resolution": "Equal-count interior-frame masking distinguishes generic missingness from terminal censoring."
+        },
+        {
+          "alternative": "The network responds to zeros or repeated-frame padding.",
+          "resolution": "Use an explicit mask if supported and require concordance across three padding conventions; otherwise the use claim is invalid."
+        },
+        {
+          "alternative": "Late frames contain genuine physiology, so sensitivity is appropriate.",
+          "resolution": "Tail extrapolation separates dependence on approximate washout information from dependence on the abrupt boundary; the claim remains about censoring, not that all late-frame use is bad."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "decisive",
+        "reason": "If adequately complete scans, validated masks, and a positive-control temporal shift are present, stable predictions across clinically plausible censoring weaken dependence on the acquisition boundary."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Right censoring from survival analysis and missing-data theory.",
+        "measurement_implied": "Residual event-process mass at the observation boundary and sensitivity across nested censoring times.",
+        "if_analogy_dropped": "The experiment would merely ablate frames; censoring theory dictates nested prefixes, risk-set-style conditioning on complete scans, and explicit separation of boundary loss from generic missingness."
+      },
+      "remaining_legwork": "One day for time-axis and completeness auditing; two days to inspect candidate raw-CTP architectures for masking/padding behavior; no experiment is valid until both pass.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "The acquisition-boundary X and nested-prefix intervention are one-sentence precise."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Same-scan prefixes, tail rescue, and interior-frame controls isolate censoring better than an observational duration comparison."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "A duration shortcut would threaten deployment across stroke centers and scanning protocols."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A model reading when the scanner stopped as tissue fate is a surprising and actionable failure mode."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Human, phantom, and partial-series evidence already establish the technical risk."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because long complete cases and clean model masking semantics are uninspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Raw time series are released, though access is registration-bound and duration adequacy is unknown."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Nested paired slopes, rescue, missing-frame controls, and official spatial metrics are defined."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A powered gated null directly supports duration robustness over the tested range."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "The exact model-use delta survived a bounded primary-source search, not an exhaustive review."
+        },
+        "regret": {
+          "value": 5,
+          "why": "The audit is cheap and could expose a clinically consequential benchmark shortcut."
+        }
+      },
+      "priority_score": 3.95,
+      "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*4 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*4 + 0.05*4 + 0.05*3 = 3.95",
+      "unverified_claims": [
+        "At least 30 sufficiently complete public acquisitions",
+        "Reliable time metadata after the released 1-Hz resampling",
+        "A performant model with clean temporal masking or padding semantics",
+        "Tail extrapolation can pass physiological plausibility gates",
+        "No prior model-use audit treated truncation as a learned feature"
+      ],
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-001-w03",
+      "track": "wide",
+      "parent_ids": [],
+      "search_mode": "C",
+      "entry_point": 2,
+      "design_template": "cross-model-disagreement",
+      "title": "The deconvolution algorithm may have signed the image",
+      "question": "Is an ISLES'24 multimodal final-infarct model using the algorithm-specific residual between raw CTP and released perfusion maps as a center or severity cue?",
+      "outside_field": "Software forensics and system identification: an unknown transformation can be fingerprinted by structured residuals between its input and a family of independently reconstructed outputs.",
+      "rung": {
+        "target": 1,
+        "current": 0,
+        "move_up": "A map-family substitution with raw CTP held fixed can establish use of a processing fingerprint; center-held-out replication would establish benchmark fragility, not a physiological mechanism."
+      },
+      "deliverable_sentence": "The multimodal final-infarct model is using a perfusion-software fingerprint—the structured disagreement between raw CTP and its released CBF, CBV, MTT, and Tmax maps—as an image cue for tissue fate.",
+      "X_measurement": {
+        "X": "A deconvolution residual vector formed by the voxelwise and regional differences between each released perfusion map and maps re-derived from the same raw CTP with preregistered delay-sensitive and delay-insensitive algorithms, after affine intensity calibration on the contralateral hemisphere.",
+        "how": "Run two open, frozen deconvolution implementations with the same automatic AIF and preprocessing; for each released map, compute calibrated residual magnitude, spatial autocorrelation, threshold-volume disagreement, and which reconstruction family it most resembles.",
+        "could_compute_today_without_asking_anyone": "Yes in principle from co-released raw CTP and perfusion maps using explicit algorithms and formulas, with no annotator. Reproduction fidelity and map provenance are unverified."
+      },
+      "suspected_signal": "Perfusion software choices imprint structured delay-sensitive errors that correlate with collateral delay, center, and apparent core size; a network given both raw data and derived maps may exploit that deterministic processing signature instead of learning a portable tissue-fate rule.",
+      "specific_artifact_confused_with_signal": "Imperfect reproduction of motion correction, AIF selection, scaling, registration, clipping, and temporal sampling can create residuals that falsely look like a vendor fingerprint.",
+      "keystone_prerequisite": "The released perfusion maps were generated with sufficiently documented or internally consistent pipelines that at least one open reconstruction family can approximate them, and residual structure varies independently enough from true perfusion severity to support matched substitutions.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The official repository verifies co-release of raw CTP plus CBF, CBV, MTT, and Tmax maps, but it does not identify map-generation software in the inspected README or prove multiple processing families across cases. That provenance and residual support are the real keystones.",
+      "rung_reached": "No rung. Center decodability from maps would show association only; use requires raw-fixed replacement of the derived-map family.",
+      "dies_like_prior": "This is at high risk of IDENTIFIABILITY_FAILURE because algorithm residuals co-vary with true delay and site. It differs from prior acquisition-confounding failures by holding each patient's raw CTP fixed and swapping only a deterministic reprocessing of that same source. It dies if residual magnitude cannot be matched on standard perfusion summaries or if released-map provenance is homogeneous and unrecoverable.",
+      "closest_prior_work": [
+        {
+          "citation": "Kudo et al., Differences in CT Perfusion Maps Generated by Different Commercial Software",
+          "identifier": "DOI 10.1148/radiol.254082000",
+          "verified_fact": "Five commercial packages applied to identical acute-stroke source data produced significantly different CBF and MTT abnormalities, grouping by delay sensitivity.",
+          "delta": "The study measured software disagreement but did not test whether an outcome network uses its fingerprint."
+        },
+        {
+          "citation": "Zussman et al., The relative effect of vendor variability in CT perfusion results",
+          "identifier": "DOI 10.2214/AJR.10.6058; PMID 21785096",
+          "verified_fact": "Across identical data, vendor software contributed more CBF, CBV, and MTT variability than operator or repeat processing.",
+          "delta": "It did not pair raw and derived channels inside a neural model or intervene on the processing family."
+        },
+        {
+          "citation": "Koopman et al., Standardizing the estimation of ischemic regions can harmonize CT perfusion stroke imaging",
+          "identifier": "PMCID PMC10853359",
+          "verified_fact": "A multicenter phantom study found visually dissimilar maps across vendor software and reported software as the primary source of CTP-image variation.",
+          "delta": "It studied harmonization, not learned reliance by a final-infarct predictor."
+        }
+      ],
+      "novelty_neighbors": [
+        {
+          "work": "Kudo et al. identical-source commercial-software comparison",
+          "identifier": "DOI 10.1148/radiol.254082000"
+        },
+        {
+          "work": "Zussman et al. vendor/operator variability comparison",
+          "identifier": "DOI 10.2214/AJR.10.6058; PMID 21785096"
+        },
+        {
+          "work": "Koopman et al. multicenter CTP harmonization study",
+          "identifier": "PMCID PMC10853359"
+        }
+      ],
+      "novelty_delta": "Prior work establishes that processing software fingerprints identical raw CTP; the proposed study asks whether a final-infarct network causally uses that fingerprint when raw data and physiological summaries are held fixed.",
+      "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+      "why_not_done": {
+        "category": "NEW_CAPABILITY",
+        "detail": "ISLES'24 co-releases raw CTP, registered derived maps, and delayed infarct outcomes case by case, enabling source-fixed forensic reconstruction in a public benchmark."
+      },
+      "existing_assets": [
+        "Case-matched raw CTP and four released perfusion-map families",
+        "Published evidence and open formulas for delay-sensitive versus delay-insensitive deconvolution",
+        "Two-center cohort and final-infarct masks"
+      ],
+      "smallest_decisive_experiment": "Stage 0 on 20 cases reconstructs maps with one delay-sensitive and one delay-insensitive open implementation, calibrates them contralaterally, and requires reproducible residual-family separation plus overlap in standard CBF/CBV/MTT/Tmax summaries. If passed, use one frozen raw+map model on 30 cases and swap only the four-map bundle between the two reconstructions while raw CTP, NCCT, CTA, map histograms, threshold volumes, and spatial support remain matched. Compare local prediction changes with within-family parameter-perturbation shams and a map-blanking positive control.",
+      "compute_envelope": "One Colab GPU session after CPU map reconstruction: at most 30 cases, four map variants each, one frozen model, under 8 GPU-hours and 16 GB VRAM.",
+      "use_vs_association": "Use requires prediction changes under source-fixed map-family substitution beyond matched within-family shams; center decoding or residual-output correlation alone is insufficient.",
+      "standing_confounds_addressed": {
+        "site_vendor_protocol": "Raw source is identical within each paired substitution; effects are still stratified by center because reconstruction fidelity may be site-dependent.",
+        "perfusion_severity": "Map histograms, threshold volumes, spatial support, HIR, and raw CTP are matched; residual delay sensitivity is the intended contrast.",
+        "registration": "All alternatives are generated directly in the released NCCT-space grid and checked after the exact model preprocessing.",
+        "model_modality_balance": "A raw-only model is a negative control and a map-only model localizes which input family permits the effect.",
+        "annotation_provenance": "No new annotation enters the paired use test."
+      },
+      "alternative_explanations": [
+        {
+          "alternative": "The model responds to crude differences in map calibration.",
+          "resolution": "Contralateral affine calibration and exact histogram/threshold-volume matching are preregistered gates."
+        },
+        {
+          "alternative": "Open reconstructions are simply wrong, not alternative valid processing families.",
+          "resolution": "Require phantom or internally simulated forward-model checks and resemblance to published delay-sensitive/delay-insensitive behavior; failure kills the claim."
+        },
+        {
+          "alternative": "The output change reflects real hemodynamic information retained by one algorithm.",
+          "resolution": "That remains possible; the result establishes use of processing-family-dependent content, while calling it a nonphysiological shortcut requires cross-software external replication."
+        }
+      ],
+      "anticipated_negative": {
+        "classification": "sensitivity-limited",
+        "reason": "A null is useful only if the two valid map families are measurably distinct after matching and the model demonstrably uses map channels in the blanking positive control."
+      },
+      "cross_domain": {
+        "borrowed_construct": "Transformation fingerprinting from software forensics and system identification.",
+        "measurement_implied": "Structured input-output residuals under multiple candidate transfer functions, including residual autocorrelation and nearest-family identity.",
+        "if_analogy_dropped": "The study would merely compare map accuracy; forensic residuals motivate holding the raw source fixed and testing whether the model recognizes the transformation rather than the patient."
+      },
+      "remaining_legwork": "Inspect the dataset paper/supplement and file metadata for map-generation provenance; then spend three to five days on a 20-case reconstruction and joint-support gate. This candidate stops if only arbitrary-looking reprocessing differences can be produced.",
+      "mechanism_clarity": 4,
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "The source-fixed residual X is explicit, though the exact open algorithms must be frozen."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Raw-fixed substitutions isolate processing family if summary matching succeeds; physiological information may still differ subtly."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Software-sensitive predictions would threaten portability and treatment-support interpretation."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A network recognizing the algorithm that drew a perfusion map rather than tissue physiology is a sharp benchmark critique."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Intersoftware variability is well established and the paired raw/maps dataset exists, but exact provenance is missing."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "Map reproduction and joint-support matching are substantial uninspected barriers."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "The necessary paired image families are in the public training release."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Residual and paired-output measures are defined, but valid-family equivalence gates are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "A gated null is informative for the tested families; failure to reproduce valid maps makes it uninterpretable."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "A bounded primary-source search found variability studies but no causal neural-use audit."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The co-release makes an otherwise difficult software-forensics audit unusually direct."
+        }
+      },
+      "mode_c_priority_score": 3.95,
+      "priority_arithmetic": "Mode C: 0.30*4 + 0.25*3 + 0.20*5 + 0.15*4 + 0.10*4 = 3.95",
+      "unverified_claims": [
+        "Released-map generation provenance and heterogeneity",
+        "Open reconstruction fidelity after the dataset's preprocessing",
+        "Adequate joint support at matched standard perfusion summaries",
+        "Availability or reproducibility of a performant raw-plus-map model",
+        "No prior causal use audit of a CTP software fingerprint"
+      ],
+      "charter": "isles24"
+    }
+  ]
+}
