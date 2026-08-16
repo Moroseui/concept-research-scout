@@ -1,0 +1,7 @@
+Done. I wrote `ideas/scout-isles24-001/fiction_pitch.md` with the three required sections, stripping the narrative and stating the claim at the source's strength:
+
+- **Claimed finding** — one impersonal paragraph: CT-CLIP's aortic-calcification head, run on Derm7pt, acts as a bright-speckle detector that fires only on MoleMax dermoscopic images, and the logit distribution follows Gutenberg–Richter with b = 0.968 ± 0.021 against the textbook 0.97.
+- **Materials** — the dataset, model, logits-as-magnitudes convention, the Gutenberg–Richter law with its reference value, Aki's maximum-likelihood estimator, the noise spectrum, and the JPEG re-encoding tool.
+- **Verification procedure** — the eight steps as the source gives them: negative-control run, vendor split via metadata, the log-count histogram, the pre-registered threshold counts (411/168/70/29/12/5 predicted vs. 409/171/69/30/11/5 observed), metadata-strip re-encoding, synthetic-speckle injection into Heine images, and the final maximum-likelihood b-value estimate.
+
+No other files were touched, and per the task I did not evaluate or hedge the claim.
