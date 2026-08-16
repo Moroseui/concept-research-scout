@@ -53,8 +53,26 @@ def idea_dir(i):
     return ROOT/'ideas'/f'{int(i):03d}'
 
 
-def scout_dir(i):
+def scout_dir(i, charter=None):
+    if charter:
+        return ROOT/'ideas'/f'scout-{charter}-{int(i):03d}'
     return ROOT/'ideas'/f'scout-{int(i):03d}'
+
+
+def charter_path(name):
+    """Charter file for a named charter; the baseline lives at ROOT/CHARTER.md."""
+    if not name:
+        return ROOT/'CHARTER.md'
+    p = ROOT/'charters'/name/'CHARTER.md'
+    if not p.exists():
+        raise SystemExit(f'Unknown charter {name!r}: {p.relative_to(ROOT)} does not exist. '
+                         'Create it (a human-authored governance document) before cycling.')
+    return p
+
+
+def _active_charter():
+    """Charter of the in-flight cycle, if any (reader-side default: baseline)."""
+    return (load_state().get('cycle') or {}).get('charter')
 
 
 # --------------------------------------------------------------------------
@@ -105,7 +123,7 @@ Write only the file the task names. Preserve all other files.
 ===== STAGE TASK =====
 {task}
 """
-    files = [ROOT/'CHARTER.md', ROOT/'docs'/'COLLABORATOR_RULES.md',
+    files = [charter_path(_active_charter()), ROOT/'docs'/'COLLABORATOR_RULES.md',
              ROOT/'docs'/'SCORING_RUBRIC.md', ROOT/'evidence'/'decisions.md',
              ROOT/'evidence'/'ledger_digest.md', ROOT/'evidence'/'portfolio_brief.md',
              ROOT/'evidence'/'librarian_proposals.md']
@@ -480,6 +498,11 @@ def doctor(_):
     print(f"\nRotation: {'enabled' if rot.get('enabled') else 'disabled'}"
           f" (pair={rot.get('pair', ['claude','codex'])},"
           f" active_cycle={load_state().get('active_cycle')})")
+    chs = sorted(p.parent.name for p in (ROOT/'charters').glob('*/CHARTER.md')) if (ROOT/'charters').exists() else []
+    if chs:
+        cst = load_state().get('charters', {})
+        print('Charters: ' + ', '.join(
+            f"{c} (next cycle {cst.get(c, {}).get('next_scout', 1):03d})" for c in chs))
     entries = ledger_mod.load()
     print(f'Ledger: {len(entries)} entr{"y" if len(entries)==1 else "ies"} '
           f'({"present" if ledger_mod.LEDGER.exists() else "missing - run: python scout.py ledger migrate"})')
@@ -543,7 +566,7 @@ def _do_shortlist(scout_no, cand_no, track=None):
                        'scrutiny': 'SCOUTED', 'source': f'ideas/{n:03d}'})
     if track is None:
         # Retire the source candidate from the backlog and point at its idea.
-        ledger_mod.append({'ledger_id': f'scout-{scout_no:03d}-c{cand_no:02d}',
+        ledger_mod.append({'ledger_id': _scout_lid(_active_charter(), scout_no, f'c{cand_no:02d}'),
                            'status': 'SHORTLISTED', 'notes': f'promoted to idea-{n:03d}'})
     ledger_mod.digest()
     print(f'Shortlisted as idea {n:03d}')
@@ -1522,7 +1545,7 @@ def _merge_candidates(target, tracks, cycle_no):
         if track == 'fiction' and data.get('adjacent_question'):
             seed = json.loads(read_text(target/'fiction_seed.json') or '{}')
             ledger_mod.append({
-                'ledger_id': f'scout-{cycle_no:03d}-fadj',
+                'ledger_id': _scout_lid(_active_charter(), cycle_no, 'fadj'),
                 'title': 'Fiction near-miss (not a candidate)',
                 'claim': str(data['adjacent_question'])[:600],
                 'track': 'fiction', 'status': 'PAUSED', 'scrutiny': 'SCOUTED',
@@ -1571,11 +1594,14 @@ def _merge_candidates(target, tracks, cycle_no):
                 f'All {track} candidates failed schema validation:\n  '
                 + '\n  '.join(rej)
                 + '\n  Fix the generating prompt or the schema; nothing merged from this track.')
-    out = {'cycle': cycle_no, 'tracks': list(tracks), 'notes': notes, 'candidates': merged}
+    out = {'cycle': cycle_no, 'charter': _active_charter(), 'tracks': list(tracks),
+           'notes': notes, 'candidates': merged}
+    for c in merged:
+        c.setdefault('charter', _active_charter())
     (target / 'candidates_all.json').write_text(json.dumps(out, indent=2, ensure_ascii=False) + '\n')
     for i, c in enumerate(merged, 1):
         ledger_mod.append({
-            'ledger_id': f'scout-{cycle_no:03d}-c{i:02d}',
+            'ledger_id': _scout_lid(_active_charter(), cycle_no, f'c{i:02d}'),
             'title': c.get('title', ''),
             'claim': c.get('deliverable_sentence') or c.get('question', ''),
             'track': c.get('track', 'baseline'),
@@ -1717,8 +1743,13 @@ def cycle(args):
     if bad:
         raise SystemExit(f'Unknown track(s): {", ".join(bad)}. Known: {", ".join(TRACKS)}')
     s = load_state()
+    charter = getattr(args, 'charter', None) or None
+    charter_path(charter)  # existence check before anything spends
     pending = s.get('cycle') and any(v != 'done' for v in s['cycle']['stages'].values())
-    n = s['next_scout']
+    if charter:
+        n = s.setdefault('charters', {}).setdefault(charter, {}).setdefault('next_scout', 1)
+    else:
+        n = s['next_scout']
     if args.dry_run:
         if pending:
             print(f"Note: cycle {s['cycle']['scout']:03d} is unfinished; "
@@ -1730,24 +1761,31 @@ def cycle(args):
         return resume(args)
     _require_clean_tree('cycle')
     _check_family_opposition(cfg, n)
-    d = scout_dir(n)
+    d = scout_dir(n, charter)
     d.mkdir(parents=True, exist_ok=False)
-    (d / 'README.md').write_text(f'# Scouting cycle {n:03d}\n\nTracks: {", ".join(tracks)}\n')
+    cid = f'{charter}-{n:03d}' if charter else f'{n:03d}'
+    (d / 'README.md').write_text(
+        f'# Scouting cycle {cid}\n\nTracks: {", ".join(tracks)}\n'
+        + (f'Charter: {charter} (charters/{charter}/CHARTER.md; scores are scoped '
+           f'to this charter and not comparable across charters)\n' if charter else ''))
     if not ledger_mod.LEDGER.exists():
         print('Ledger absent; running first-time migration from existing ideas.')
         ledger_mod.migrate()
     ledger_mod.digest()
     write_portfolio_brief()
-    s['next_scout'] = n + 1
-    s['active_cycle'] = n
-    s['cycle'] = {'scout': n, 'tracks': tracks,
+    if charter:
+        s['charters'][charter]['next_scout'] = n + 1
+    else:
+        s['next_scout'] = n + 1
+    s['active_cycle'] = n  # rotation parity runs on the charter's own counter
+    s['cycle'] = {'scout': n, 'charter': charter, 'tracks': tracks,
                   'seed_concepts': ([x.strip() for x in args.seed_concepts.split(',')][:2]
                                     if getattr(args, 'seed_concepts', None) else None),
                   'started': datetime.now(timezone.utc).isoformat(timespec='seconds'),
                   'stages': {name: 'pending' for name, _ in _cycle_stage_list(tracks)}}
     save_state(s)
     write_run_provenance(d, tracks, s['cycle'].get('seed_concepts'))
-    _commit_all(f'cycle {n:03d}: begin (tracks: {", ".join(tracks)})')
+    _commit_all(f'cycle {cid}: begin (tracks: {", ".join(tracks)})')
     _cycle_loop(n, d, tracks, cfg)
 
 
@@ -1764,10 +1802,12 @@ def resume(_args):
     save_state(s)
     _require_clean_tree('resume')
     _check_family_opposition(load_agent_config(), n)
-    print(f"Resuming cycle {n:03d} (tracks: {', '.join(c['tracks'])})")
+    ch = c.get('charter')
+    cid = f'{ch}-{n:03d}' if ch else f'{n:03d}'
+    print(f"Resuming cycle {cid} (tracks: {', '.join(c['tracks'])})")
     for name, st in c['stages'].items():
         print(f'  {name:<16} {st}')
-    _cycle_loop(n, scout_dir(n), c['tracks'], load_agent_config())
+    _cycle_loop(n, scout_dir(n, ch), c['tracks'], load_agent_config())
 
 
 # ==========================================================================
@@ -1883,11 +1923,26 @@ def _rank_candidates(scout_no):
     return [i for _, _, i in ranked]
 
 
+def _parse_scout_dir(name):
+    """'scout-013' -> (None, 13); 'scout-isles24-001' -> ('isles24', 1)."""
+    parts = name.split('-')
+    if len(parts) == 2:
+        return None, int(parts[1])
+    return '-'.join(parts[1:-1]), int(parts[-1])
+
+
+def _scout_lid(charter, scout_no, suffix):
+    """Charter-prefixed ledger ids: scout-013-c01 / isles24-scout-001-c01."""
+    base = f'scout-{scout_no:03d}-{suffix}'
+    return f'{charter}-{base}' if charter else base
+
+
 def _latest_scout_no():
-    scouts = sorted((ROOT/'ideas').glob('scout-*'))
+    scouts = sorted(p for p in (ROOT/'ideas').glob('scout-*')
+                    if _parse_scout_dir(p.name)[0] is None)
     if not scouts:
         raise SystemExit('No scouting cycles exist yet.')
-    return int(scouts[-1].name.split('-')[1])
+    return _parse_scout_dir(scouts[-1].name)[1]
 
 
 def _sync_backlog():
@@ -1899,7 +1954,7 @@ def _sync_backlog():
     for d in sorted((ROOT/'ideas').glob('scout-*')):
         if not (d/'candidates_all.json').exists():
             continue
-        scout_no = int(d.name.split('-')[1])
+        d_charter, scout_no = _parse_scout_dir(d.name)
         try:
             cands = json.loads((d/'candidates_all.json').read_text()).get('candidates', [])
         except json.JSONDecodeError:
@@ -1907,7 +1962,7 @@ def _sync_backlog():
         verdicts = _audit_verdicts(d)
         audited = datetime.now(timezone.utc).isoformat(timespec='seconds') if verdicts else None
         for i, c in enumerate(cands, 1):
-            lid = f'scout-{scout_no:03d}-c{i:02d}'
+            lid = _scout_lid(d_charter, scout_no, f'c{i:02d}')
             cur = entries.get(lid, {})
             rec = {'ledger_id': lid}
             if not cur:
@@ -2476,7 +2531,7 @@ def main():
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
-    p=sp.add_parser('cycle'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)
+    p=sp.add_parser('cycle'); p.add_argument('--charter',default=None,help='named charter under charters/<name>/CHARTER.md; omit for the baseline'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)
     p=sp.add_parser('resume'); p.set_defaults(fn=resume)
     p=sp.add_parser('backlog'); p.set_defaults(fn=backlog_cmd)
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)

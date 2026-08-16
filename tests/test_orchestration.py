@@ -1919,5 +1919,49 @@ class TestInterpretBuild(Harness):
             sc._check_family_opposition(bad)
 
 
+class TestMultiCharter(Harness):
+    """B0 shrunk: per-charter counters, prefixed cycle dirs, charter text
+    injected into prompts, baseline untouched."""
+
+    def _mk_charter(self, name="isles24", text="CHARTER-MARKER-ZZQ isles"):
+        p = self.repo / "charters" / name
+        p.mkdir(parents=True, exist_ok=True)
+        (p / "CHARTER.md").write_text(text + "\n")
+        self._commit_all()
+
+    def test_unknown_charter_refuses_before_spend(self):
+        r = self.scout("cycle", "--charter", "nope", "--tracks", "baseline")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("Unknown charter", r.stdout + r.stderr)
+
+    def test_charter_cycle_prefixed_dir_and_scoped_counter(self):
+        self._mk_charter()
+        import scout as sc; sc.ROOT = self.repo
+        baseline_next = json.loads((self.repo / "orchestrator" / "state.json")
+                                   .read_text())["next_scout"]
+        r = self.scout("cycle", "--charter", "isles24", "--tracks", "baseline",
+                       action="cycle_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertTrue((self.repo / "ideas" / "scout-isles24-001").exists())
+        st = json.loads((self.repo / "orchestrator" / "state.json").read_text())
+        self.assertEqual(st["charters"]["isles24"]["next_scout"], 2)
+        self.assertEqual(st["next_scout"], baseline_next,
+                         "baseline counter must be untouched by a charter cycle")
+        merged = json.loads((self.repo / "ideas" / "scout-isles24-001" /
+                             "candidates_all.json").read_text())
+        self.assertEqual(merged.get("charter"), "isles24")
+
+    def test_charter_text_reaches_prompt_baseline_does_not(self):
+        self._mk_charter()
+        self.scout("cycle", "--charter", "isles24", "--tracks", "baseline",
+                   action="cycle_auto")
+        from pathlib import Path
+        receipt = Path(self.receipt).read_text()
+        self.assertIn("CHARTER-MARKER-ZZQ", receipt)
+        self.assertNotIn("## The driver", receipt.split("STAGE TASK")[0].split(
+            "COLLABORATOR_RULES")[0],
+            "baseline charter body must not be injected for a charter cycle")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

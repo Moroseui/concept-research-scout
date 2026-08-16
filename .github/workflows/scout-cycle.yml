@@ -18,6 +18,10 @@ on:
         description: 'Tracks to run (comma-separated: baseline,wide,fiction)'
         default: 'baseline'
         required: true
+      charter:
+        description: 'Named charter (charters/<name>/CHARTER.md); empty = baseline'
+        default: ''
+        required: false
       dry_run:
         description: 'Print the plan without spending tokens'
         type: boolean
@@ -81,6 +85,7 @@ jobs:
           python scout.py cycle \
             --tracks "${{ inputs.tracks || 'baseline' }}" \
             --resume-or-new \
+            ${{ inputs.charter != '' && inputs.charter != null && format('--charter {0}', inputs.charter) || '' }} \
             ${{ inputs.dry_run == true && '--dry-run' || '' }}
 
       - name: Push checkpoints
