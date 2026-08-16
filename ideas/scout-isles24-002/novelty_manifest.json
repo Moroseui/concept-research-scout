@@ -1,0 +1,43 @@
+{
+  "searched_at": "2026-08-16T21:15:00Z",
+  "queries": [
+    {"query": "stroke final infarct prediction deep learning net water uptake model NCCT perfusion", "source": "web search (publisher, PubMed/PMC, arXiv)"},
+    {"query": "stroke deep learning contralateral hemisphere normalization CTP final infarct prediction", "source": "web search (publisher, PubMed/PMC)"},
+    {"query": "deep learning tissue specific gray white matter thresholds final infarct prediction CTP", "source": "web search (PubMed/PMC, publisher)"},
+    {"query": "deep learning CT perfusion permeability blood brain barrier final infarct prediction raw CTP", "source": "web search (PubMed/PMC, arXiv)"},
+    {"query": "deep learning stroke thrombus perviousness final infarct prediction CTA", "source": "web search (PubMed/PMC, publisher)"},
+    {"query": "deep learning stroke CT perfusion head motion model shortcut final infarct", "source": "web search (PubMed, publisher)"},
+    {"query": "deep learning cerebral autoregulation CBV CBF final infarct prediction interaction", "source": "web search (PubMed/PMC, arXiv)"},
+    {"query": "stroke CT perfusion connectivity topology hypoperfusion deep learning final infarct", "source": "web search (PubMed/PMC, publisher, arXiv)"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov stroke thrombus perviousness outcome Santos 2016", "source": "PubMed-targeted web search"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov head movement CT perfusion acute stroke 2013 2021", "source": "PubMed-targeted web search"},
+    {"query": "site:pubmed.ncbi.nlm.nih.gov CT perfusion permeability infarct hemorrhagic transformation Patlak", "source": "PubMed-targeted web search"},
+    {"query": "percolation cerebral perfusion stroke imaging; connectivity Tmax hypoperfusion stroke CT perfusion; topology hypoperfusion field stroke final infarct", "source": "multi-term web search (PMC, publisher, arXiv)"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "PMCID PMC11624201", "access": "full_text", "establishing_passage": "The study trained an NCCT deep-learning biomarker of lesion age and compared it with relative intensity equivalent to NWU."},
+    {"candidate": "C1", "identifier": "PMCID PMC9271791", "access": "full_text", "establishing_passage": "The paper automated mirrored-region NWU using baseline CTP core and follow-up lesion segmentation."},
+    {"candidate": "C1", "identifier": "DOI 10.1016/j.jrras.2026.102324", "access": "abstract", "establishing_passage": "A 390-patient study stratified CTP core thresholds by NWU and evaluated final infarct and long-term outcome."},
+    {"candidate": "C2", "identifier": "DOI 10.1016/j.media.2023.102749", "access": "abstract", "establishing_passage": "PerfU-Net is explicitly symmetry-aware and jointly exploits infarcted and healthy hemispheres."},
+    {"candidate": "C2", "identifier": "PMCID PMC9826796", "access": "full_text", "establishing_passage": "The DL core/penumbra method was compared with clinical contralateral-relative threshold software."},
+    {"candidate": "C2", "identifier": "DOI 10.1161/STROKEAHA.111.618355", "access": "abstract", "establishing_passage": "Contralateral-normalized relative CBF was evaluated as the optimal CTP core definition."},
+    {"candidate": "C3", "identifier": "DOI 10.1177/0271678X17744453", "access": "full_text", "establishing_passage": "The study estimated distinct gray- and white-matter perfusion thresholds for infarction."},
+    {"candidate": "C3", "identifier": "PMCID PMC7964729", "access": "full_text", "establishing_passage": "Patient-tailored perfusion transformations improved tissue-fate prediction and included separate GM/WM modeling."},
+    {"candidate": "C3", "identifier": "PMCID PMC11864740", "access": "full_text", "establishing_passage": "An Attention U-Net predicted follow-up infarct core from multiple CTP maps and baseline CT."},
+    {"candidate": "C4", "identifier": "DOI 10.3174/ajnr.A0539", "access": "abstract", "establishing_passage": "Patlak permeability maps from first-pass CTP showed elevated PS in ischemia and association with hemorrhagic transformation."},
+    {"candidate": "C4", "identifier": "PMID 26233188", "access": "abstract", "establishing_passage": "Nonlinear-regression relative PS outperformed standard Patlak estimates for hemorrhagic-transformation discrimination."},
+    {"candidate": "C4", "identifier": "DOI 10.1016/j.media.2022.102610", "access": "abstract", "establishing_passage": "A spatio-temporal network predicted treatment-specific lesion outcome directly from raw 4D CTP."},
+    {"candidate": "C5", "identifier": "DOI 10.1161/STROKEAHA.115.011187", "access": "abstract", "establishing_passage": "CTA attenuation increase quantified thrombus perviousness and associated with recanalization, outcome, and smaller infarct volume."},
+    {"candidate": "C5", "identifier": "PMCID PMC8463362", "access": "full_text", "establishing_passage": "CTA-index was proposed as a simplified thrombus-perviousness measure with outcome-prediction utility."},
+    {"candidate": "C5", "identifier": "PMID 34281377", "access": "abstract", "establishing_passage": "A seven-trial pooled analysis related perviousness to functional outcome, infarct volume, and EVT treatment effect."},
+    {"candidate": "C6", "identifier": "DOI 10.1016/j.ejrad.2013.08.039", "access": "abstract", "establishing_passage": "Registration quantified head motion during CTP; moderate or severe motion occurred in roughly one quarter of patients."},
+    {"candidate": "C6", "identifier": "DOI 10.1016/j.ejrad.2021.109979", "access": "abstract", "establishing_passage": "Motion severity was characterized and associated with NIHSS, age, and onset time."},
+    {"candidate": "C6", "identifier": "DOI 10.1136/neurintsurg-2021-017510", "access": "abstract", "establishing_passage": "Phantom motion altered automated RAPID core, penumbra, and mismatch estimates."},
+    {"candidate": "C7", "identifier": "DOI 10.1161/01.STR.0000209238.61459.39", "access": "abstract", "establishing_passage": "The study evaluated perfusion-CT definitions of infarct core and penumbra centered on CBV physiology."},
+    {"candidate": "C7", "identifier": "DOI 10.1161/STROKEAHA.111.618355", "access": "abstract", "establishing_passage": "Relative CBF was found preferable to CBV as a core-defining CTP parameter."},
+    {"candidate": "C7", "identifier": "DOI 10.1016/j.media.2019.101589", "access": "abstract", "establishing_passage": "A deep model predicted final infarct from native CTP and treatment metadata and reported input/metadata ablations."},
+    {"candidate": "C8", "identifier": "PMID 27758775", "access": "full_text", "establishing_passage": "Acute infarct topology was related to lesion volume and neurological severity on MRI."},
+    {"candidate": "C8", "identifier": "DOI 10.1016/j.media.2022.102610", "access": "abstract", "establishing_passage": "Spatial-temporal processing of raw 4D CTP improved lesion-outcome prediction."},
+    {"candidate": "C8", "identifier": "arXiv:2502.01334", "access": "full_text", "establishing_passage": "Deep generative perfusion-deficit mapping modeled disrupted-perfusion topology to localize NIHSS substrates."}
+  ]
+}
