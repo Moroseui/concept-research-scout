@@ -366,3 +366,23 @@ Revision requirements, and ONLY these:
 No scientific scope, endpoint, gate, cap, or analysis change of any
 kind. The contract is untouched; exit 12 is a harness fault by the
 taxonomy, so the phase-2 approval remains bound and valid.
+
+## 2026-08-16 - RECORD-RESULT: idea 004 425-pair bundle merged (the gate)
+
+The results PR from branch results/probe-004-8b68640183ee was merged
+after deterministic validation (validate-bundle: core files, contract
+blob, manifest pin, chunk manifests all pass) and operator-side audit.
+Study facts of record: 425/425 pairs scored across 5 of 30 sessions;
+anchor pair excluded from confirmatory statistics (236 counted
+Br40f|Br60f); anchors in tolerance every session with dev 0.00e+00;
+850 scientific volumes, 2 QA retries of a 170 allowance; all
+spot-checks bit-identical. The auto-PR condition in results-validate
+missed because run.py emits contract_satisfied/chunks_complete rather
+than study_complete -- key-schema mismatch, polish list; the PR was
+opened manually and the gate semantics are unchanged. Interpretation
+is NOT made here: the interpret stage runs only after the
+interpret-review machinery (cross-family checker-mode review of the
+interpretation, mirroring probe-build) lands, per the operator
+decision of this date. Until then the tables in
+probes/004/results_v2/analysis/ are the deliverable and carry no
+narrative.
