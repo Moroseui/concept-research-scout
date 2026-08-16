@@ -16,15 +16,15 @@ A candidate that dies like a prior one must say what makes it different.
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
 - **scout-013-c05** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.4, audited 2026-08-15] -- Collateral failure written in the cortical veins
-- **scout-013-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.2, audited 2026-08-15] -- The vessel map inside the mosaic-attenuation score
-- **scout-012-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.1, audited 2026-08-15] -- The dilated esophagus inside the fibrosis score
+- **scout-012-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.2, audited 2026-08-15] -- The dilated esophagus inside the fibrosis score
+- **isles24-scout-001-c05** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.1, audited 2026-08-16] -- A spreading front inside the perfusion deficit
+- **scout-013-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.1, audited 2026-08-15] -- The vessel map inside the mosaic-attenuation score
+- **isles24-scout-001-c07** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-16] -- Does the model mistake the end of the scan for the end of the bolus?
 - **scout-010-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-12] -- CXR-Age put back together from parts a radiologist can measure
+- **isles24-scout-001-c06** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-16] -- The capillary traffic jam hidden behind the same mean transit time
 - **scout-014-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.8, audited 2026-08-16] -- Redraw the same airway walls with a sharper pencil: does the peribronchial-thickening score follow Pi10?
-- **scout-012-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.8, audited 2026-08-15] -- The race signal in chest CT: measure the bone density everyone names and nobody measured
-- **scout-010-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-12] -- Merlin's cirrhosis signal may be the spleen
-- **scout-011-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.3, audited 2026-08-13] -- Does Merlin read renal atrophy when it predicts future CKD?
-- **scout-013-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.2, audited 2026-08-15] -- Name the skeletal frailty inside mortality prediction
-- **scout-013-c04** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.1, audited 2026-08-15] -- The renal artery as a buckled pressure line
+- **scout-012-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.7, audited 2026-08-15] -- The race signal in chest CT: measure the bone density everyone names and nobody measured
+- **isles24-scout-001-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.7, audited 2026-08-16] -- The vascular detour the segmentation model can see
 - ... and 42 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
