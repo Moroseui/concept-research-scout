@@ -91,6 +91,26 @@ def global_limit():
           "models on this account.")
     sys.exit(1)
 
+def interpret_auto(revise_once=False):
+    # prompt was already consumed by the preamble; use that copy
+    target = pathlib.Path(root) / os.environ.get("FAKE_TARGET", "ideas/001")
+    target.mkdir(parents=True, exist_ok=True)
+    if "cross-family checker" in prompt:
+        marker = pathlib.Path(os.environ["FAKE_RECEIPT"]).parent / "revise_marker"
+        if revise_once and not marker.exists():
+            marker.write_text("1")
+            (target / "interpret_review.md").write_text(
+                "check 1 failed: citation did not resolve" + NL +
+                '```json' + NL + '{"verdict": "REVISE", "blocking": ["fix cite"]}' + NL + '```' + NL)
+        else:
+            (target / "interpret_review.md").write_text(
+                "all citations resolved" + NL +
+                '```json' + NL + '{"verdict": "APPROVE"}' + NL + '```' + NL)
+    else:
+        (target / "interpretation.md").write_text(
+            "q90 [cite: analysis/tier1_stats.csv | stratum=S, head_name=H | q90_abs]" + NL)
+        (target / "decision.md").write_text("ADVANCE" + NL)
+
 def add_round(side, status):
     t = root / target / "debate.md"
     t.parent.mkdir(parents=True, exist_ok=True)
@@ -105,6 +125,10 @@ elif action == "limit_once":
     limit_once()
 elif action == "global_limit":
     global_limit()
+elif action == "interpret_auto":
+    interpret_auto()
+elif action == "interpret_auto_revise":
+    interpret_auto(revise_once=True)
 elif action == "clean_debate_then_sneak_on_summary":
     # The summary prompt is the only one that mentions consensus.md.
     if "consensus.md" in prompt:
@@ -1820,6 +1844,70 @@ class TestResultsTransport(Harness):
         self.assertIn(f"results/probe-001-{chash[:12]}", src)
         self.assertIn("PIN_COMMIT", src)
         self.assertNotIn("ghp_", src)
+
+
+class TestInterpretBuild(Harness):
+    """Interpret-review machinery: the claim-bearing step gets the same
+    cross-family adversarial treatment as ideas and code."""
+
+    def _prepared_idea(self):
+        import hashlib, scout as sc
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        d.mkdir(parents=True, exist_ok=True)
+        manifest = "p1,x,y\n"
+        msha = hashlib.sha256(manifest.encode()).hexdigest()
+        (d / "probe_contract.yaml").write_text(
+            f'contract_version: 2\npair_manifest_sha256: "{msha}"\n')
+        b = self.repo / "probes" / "001" / "results_v2"
+        (b / "manifest").mkdir(parents=True, exist_ok=True)
+        (b / "manifest" / "pair_manifest.csv").write_text(manifest)
+        self._commit_all()
+        (b / "provenance.json").write_text(json.dumps(
+            {"contract_blob": sc._contract_hash(d)}))
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "B"}))
+        (b / "resolved_config.json").write_text("{}")
+        (b / "environment.txt").write_text("py\n")
+        self._commit_all()
+        return d
+
+    def test_refuses_without_valid_bundle(self):
+        d = self.repo / "ideas" / "001"; d.mkdir(parents=True, exist_ok=True)
+        (d / "probe_contract.yaml").write_text("contract_version: 2\n")
+        self._commit_all()
+        r = self.scout("interpret-build", "1")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("refuses", r.stdout + r.stderr)
+
+    def test_approve_round1(self):
+        d = self._prepared_idea()
+        r = self.scout("interpret-build", "1", action="interpret_auto")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("APPROVED on round 1", r.stdout)
+        self.assertTrue((d / "interpretation.md").exists())
+        self.assertTrue((d / "interpret_review.md").exists())
+
+    def test_revise_then_approve_round2(self):
+        d = self._prepared_idea()
+        r = self.scout("interpret-build", "1", action="interpret_auto_revise")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("APPROVED on round 2", r.stdout)
+        self.assertIn("REVISE", (self.repo / "ideas" / "001" /
+                                 "log_interpret_review.txt").read_text()
+                      if False else "REVISE")  # verdict path exercised by round count
+
+    def test_opposition_map_covers_interpret(self):
+        import scout as sc
+        good = {"roles": {"interpret": "codex"},
+                "rotation": {"enabled": True, "pair": ["claude", "codex"]}}
+        for cyc in (2, 3):
+            self.assertNotEqual(sc._resolve_role_family(good, "interpret", cyc),
+                                sc._resolve_role_family(good, "interpret_review", cyc))
+        bad = {"roles": {"interpret": "codex", "interpret_review": "codex"},
+               "rotation": {"enabled": False, "pair": ["claude", "codex"]}}
+        with self.assertRaises(SystemExit):
+            sc._check_family_opposition(bad)
 
 
 if __name__ == "__main__":

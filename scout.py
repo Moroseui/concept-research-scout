@@ -385,6 +385,7 @@ FAMILY_OPPOSITIONS = [
     ('debate_proposer', 'debate_critic'),
     ('fiction_writer', 'fiction_refiner'),
     ('scout', 'connection_check'),   # E3 stage; skipped until the role exists
+    ('interpret', 'interpret_review'),
 ]
 
 
@@ -397,6 +398,13 @@ def _resolve_role_family(cfg, role, cycle_no=None):
     if role in ('fiction_writer', 'fiction_refiner'):
         writer, refiner = _fiction_writer_and_refiner(cfg, cycle_no)
         return writer if role == 'fiction_writer' else refiner
+    if role == 'interpret_review':
+        explicit = cfg.get('roles', {}).get('interpret_review')
+        if explicit:
+            return effective_agent(explicit, cfg, cycle_no)
+        gen = _resolve_role_family(cfg, 'interpret', cycle_no)
+        pair = cfg.get('rotation', {}).get('pair', ['claude', 'codex'])[:2]
+        return (pair[1] if gen == pair[0] else pair[0]) if gen else None
     if role == 'probe_review':
         explicit = cfg.get('roles', {}).get('probe_review')
         if explicit:
@@ -672,6 +680,76 @@ def _contract_hash(d):
     r = subprocess.run(['git', 'hash-object', str(f)], cwd=ROOT,
                        capture_output=True, text=True, check=False)
     return r.stdout.strip() or None
+
+
+def _interpret_review_verdict(target):
+    import re
+    body = read_text(target/'interpret_review.md')
+    m = re.findall(r'```json\s*(\{.*?\})\s*```', body, flags=re.S)
+    if not m:
+        return None
+    try:
+        return json.loads(m[-1])
+    except json.JSONDecodeError:
+        return None
+
+
+def interpret_build(args):
+    """Cross-family adversarial interpretation (mirrors probe-build):
+    interpret (one family) writes interpretation.md under a hard citation
+    mandate -> interpret-review (the other family) resolves every citation
+    against the actual analysis files and checks claim bounds -> at most
+    one revision. The single most claim-bearing step in the pipeline no
+    longer runs unopposed."""
+    d = idea_dir(args.idea)
+    bundle = ROOT/'probes'/f'{args.idea:03d}'/'results_v2'
+    if not bundle.exists():
+        cands = sorted((ROOT/'probes'/f'{args.idea:03d}'/'results').glob('*/summary.json'))
+        if cands:
+            bundle = cands[-1].parent
+    fails = validate_bundle(args.idea, bundle) if bundle.exists() else ['no results bundle found']
+    if fails:
+        raise SystemExit('interpret-build refuses: bundle invalid or missing: '
+                         + '; '.join(fails[:3]))
+    _require_clean_tree('interpret-build')
+    cfg = load_agent_config()
+    base = (cfg.get('roles', {}) or {}).get('interpret', cfg.get('default', {}).get('agent', 'codex'))
+    if base not in ('claude', 'codex'):
+        base = 'codex'
+    gen = base
+    rev = 'codex' if base == 'claude' else 'claude'
+    print(f'Interpreter role: {gen}; reviewer role: {rev} '
+          '(rotation may swap which family is which; they always differ).')
+    try:
+        for round_no in (1, 2):
+            p1 = write_prompt('interpret', d)
+            if round_no == 2:
+                p1.write_text(p1.read_text() + '\n===== REVISION ROUND =====\n'
+                              'The checker found blocking issues (see interpret_review.md '
+                              'in your context). Fix ONLY those findings in '
+                              'interpretation.md and decision.md; do not expand scope.\n')
+            run_agent(p1, gen, stage='interpret', log_path=d/'log_interpret.txt')
+            _check_scope('interpret')
+            if not (d/'interpretation.md').exists():
+                raise SystemExit('interpret wrote no interpretation.md; the citation '
+                                 'mandate requires it before decision.md.')
+            _commit_all(f'idea {args.idea:03d}: interpretation (round {round_no})')
+            p2 = write_prompt('interpret_review', d)
+            run_agent(p2, rev, stage='interpret_review', log_path=d/'log_interpret_review.txt')
+            _require_artifact('interpret_review', d)
+            _commit_all(f'idea {args.idea:03d}: interpret review (round {round_no})')
+            v = _interpret_review_verdict(d) or {}
+            if v.get('verdict') == 'APPROVE':
+                print(f'Interpretation APPROVED on round {round_no}. '
+                      'Human ratification of the decision entry remains yours.')
+                break
+            if round_no == 2:
+                raise SystemExit('Interpretation still blocked after one revision round; '
+                                 'human review of interpret_review.md required.')
+            print('Reviewer requested revision; running the one allowed round.')
+    except SystemExit:
+        _commit_all(f'idea {args.idea:03d}: interpret-build FAILED (partial output preserved)')
+        raise
 
 
 def approve_probe(args):
@@ -1114,6 +1192,7 @@ STAGE_SCOPE = {
     'probe-code':      ['ideas/', 'probes/'],
     'probe-build':     ['ideas/', 'probes/'],
     'context-memo':    ['ideas/'],
+    'interpret-build':  ['ideas/', 'evidence/', 'portfolio/'],
 }
 
 
@@ -1332,6 +1411,7 @@ STAGE_ARTIFACTS = {
     'novelty_audit': ('novelty_audit.md', 'novelty_manifest.json'),
     'keystone': 'keystone_screen.md',
     'probe_review': 'probe_review.md',
+    'interpret_review': 'interpret_review.md',
     'librarian': 'librarian_report.md',
     'actioner': 'actions.md',
     'critique': 'critique.md',
@@ -2402,6 +2482,7 @@ def main():
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
     p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
+    p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.set_defaults(fn=interpret_build)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)

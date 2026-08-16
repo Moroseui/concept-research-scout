@@ -41,3 +41,33 @@ the seed rule above does not apply. Uncertainty lives at the case level
   uncertainty treatment as the reason.
 - Sample-size and coverage limits (n per stratum, vendor scope) still
   bound every claim and must be stated.
+
+## Citation mandate (results-bundle probes)
+
+When the idea's probe produced a results bundle (probes/NNN/results_v2
+or an imported bundle under probes/NNN/results/), every quantitative
+claim you make MUST carry an inline citation resolving to the exact
+place the number lives, in this form:
+
+    [cite: analysis/tier1_stats.csv | stratum=Bl56f|Br40f,
+     head_name=Pleural effusion, scale=probability | q90_abs]
+
+(file relative to the bundle root | row selector as column=value pairs
+| column). A number without a citation, or with a citation that does
+not resolve to that number, is a blocking defect: a cross-family
+reviewer will open the files and check every citation by hand. Do not
+round beyond the precision needed for the sentence; state the value as
+cited.
+
+Claim discipline inherited from the contract, restated as hard rules:
+no threshold, cutoff, margin, or pass/fail language for tier 2
+(benchmark context may be CITED for scale, never used to judge); no
+cross-head or cross-stratum averaging that the analysis files do not
+themselves contain; vendor scope and the anchor-pair exclusion stated
+wherever counts appear; the result is a reconstruction-sensitivity
+baseline for this checkpoint on these contrasts, never a universal
+measurement floor. Write the interpretation to `interpretation.md` in
+the idea folder BEFORE writing decision.md; decision.md then summarizes
+it. Do not append to evidence/decisions.md until the interpretation has
+passed review (the interpret-build loop tells you which round you are
+in; in round 1 write interpretation.md and decision.md only).
