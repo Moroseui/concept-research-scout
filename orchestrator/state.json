@@ -13,7 +13,7 @@
     "seed_concepts": null,
     "started": "2026-08-16T19:39:11+00:00",
     "stages": {
-      "scout": "pending",
+      "scout": "running",
       "wide_scout": "pending",
       "fiction_scout": "pending",
       "fiction_extract": "pending",
