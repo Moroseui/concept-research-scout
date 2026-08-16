@@ -1,0 +1,457 @@
+{
+  "cycle": 14,
+  "tracks": [
+    "baseline"
+  ],
+  "notes": {
+    "mode_c_score_missing": 2
+  },
+  "candidates": [
+    {
+      "id": "scout-014-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "title": "The fat around the heart inside the CVD-mortality score: finish the observation Chao et al. started",
+      "question": "Is Tri2D-Net's CVD-mortality score using epicardial adipose tissue volume over and above coronary calcium?",
+      "deliverable_sentence": "The CVD-mortality model is using epicardial adipose tissue - the fat within the pericardial sac - in addition to coronary calcium.",
+      "rung": "Target rung 1 (the model uses EAT), with a stated path to rung 2: NLST is a single screening trial with registry outcomes (no referral or label-leakage pathway), and scanner/kernel/site are recorded covariates; rung 3 is the deliverable sentence itself since X is already a named clinical quantity.",
+      "rung_reached": "1 anticipated from the smallest experiment; moves toward 2 by showing the EAT partial effect survives scanner/kernel/site/BMI covariates and by the epicardial-vs-paracardial discriminator below.",
+      "unfinished_story": "Chao et al. (Nat Commun 2021) trained Tri2D-Net on NLST heart crops, showed it beats radiologist CAC grading for CVD mortality (sensitivity 80.8% vs CAC grade 2+ at matched PPV 10.8%), and themselves reported that 'the attention block noticed abundant juxtacardiac fat' with the score correlating r=0.199 (p<0.0001) with juxtacardiac fat volume - higher than the score's correlation with either radiologist or DL CAC. They stopped there: no decomposition of the score into calcium + fat. Foldyna et al. (Commun Med 2024) then built and validated automated EAT quantification on the same NLST LDCTs and showed EAT independently predicts CVD mortality - without ever connecting it to the released risk model. The two halves of the experiment exist, published, on the same cohort; nobody has joined them.",
+      "X_measurement": "EAT volume (and mean attenuation) = fat-attenuation voxels (-190 to -30 HU) within the pericardial sac, via the deep-learning EAT pipeline validated on NLST non-gated LDCT (Foldyna et al., Commun Med 4:44, 2024, DOI 10.1038/s43856-024-00475-1, PMID 38480863); fallback tools: DeepFat (Sci Rep 2022, DOI 10.1038/s41598-022-06351-z) or pericardium segmentation + thresholding, a well-defined measurement. CAC arm: automated calcium scoring on LDCT via DeepCAC (Zeleznik et al., Nat Commun 2021, DOI 10.1038/s41467-021-20966-2, github.com/AIM-Harvard/DeepCAC). Compute-today test: YES conditional on one Stage 0 check - the Foldyna model's release location must be confirmed; the fallback threshold-in-pericardium measurement passes unconditionally.",
+      "suspected_signal": "Epicardial fat is metabolically active visceral fat sharing microcirculation with the coronaries; its inflammatory adipokine milieu promotes atherosclerosis and it predicts events independent of calcium. It is directly visible in the model's input as a large low-HU compartment. The model's own attention analysis already flagged it.",
+      "use_vs_association": "One line: the model's entire input is a 128x128x128 heart crop, so the universe of things it could be using is enumerable (CAC, EAT, chamber size, aortic/valve calcium, myocardial density, motion artifact) and each is measurable - a nonzero EAT partial coefficient in score ~ CAC + EAT + chamber volume + BMI, plus a larger coefficient for epicardial than for paracardial fat (outside the pericardium but inside the same crop), is evidence of use rather than population correlation with an out-of-crop cause.",
+      "keystone_prerequisite": "Tri2D-Net scores can be produced locally: the OneDrive-released checkpoint is still downloadable and the released pipeline (RetinaNet heart detection, 128-cubed crop, -300 to 500 HU normalization) runs on current tooling against NLST DICOMs.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "I inspected the README (2026-08-16: 'The trained model can be downloaded through this link', checkpoint goes in ./checkpoint, demos included) - but a README is a claim, not a download. Still assumed and load-bearing: (a) the 2021 OneDrive link is live in 2026; (b) the 2021-era environment is reconstructable (the probe-004 transformers-pin saga says treat this as a real risk); (c) the Foldyna EAT tool is actually released, not just published - only its existence and NLST validation are verified. (a) and (c) are one-day Stage 0 checks and both are named gates.",
+      "dies_like_prior": "Closest kill is idea-018 (DATA_ACCESS: cohort and model unobtainable). Different because the model weights are released with run instructions and demo cases, and NLST LDCT + cause-of-death is CDAS-precedented for exactly this topic (approved project NLST-367 is 'deep learning ... for predicting incident cardiovascular events', cdas.cancer.gov/approved-projects/1695). Annotation provenance does not apply: the outcome is registry cause of death and X is machine-computed; no human annotator's field of view matters anywhere.",
+      "closest_prior_work": "Chao et al. 2021 (DOI 10.1038/s41467-021-23235-4; github.com/DIAL-RPI/CVD-Risk-Estimator) - built the model, noted the fat attention and r=0.199, did not decompose. Foldyna et al. 2024 (DOI 10.1038/s43856-024-00475-1) - measured EAT on NLST and showed independent prognostic value, did not touch the model. Delta: mediation/decomposition of a released model's score into two automated, named measurements on the same scans.",
+      "existing_assets": "Released Tri2D-Net checkpoint + demo pipeline (non-commercial license, acceptable for research); released DeepCAC; published NLST-validated EAT method; NLST CDAS precedent in this program (scout-012-c01 planning); Colab-scale compute suffices (inference only, 128-cubed inputs).",
+      "smallest_decisive_experiment": "On ~500 NLST test-set scans obtained via CDAS: run Tri2D-Net, automated CAC, and automated EAT; fit score ~ CAC + EAT + heart/chamber volume + BMI + scanner/kernel; report the EAT partial coefficient and the epicardial-vs-paracardial contrast. First decision: does EAT carry independent weight in the score at fixed calcium?",
+      "standing_confounds_addressed": "Scanner/vendor/kernel/site: recorded in NLST metadata, entered as covariates (ruled out at covariate level, not by design). Positioning: normalized away by the heart-crop input. Habitus: BMI covariate plus the paracardial-fat contrast (general adiposity raises both depots; use should weight the epicardial one). Prevalence/referral: single screening trial, uniform pathway - ruled out. Label leakage: none possible, outcome is death registry. NOT ruled out: non-calcified plaque correlated with EAT (below).",
+      "alternative_explanations": [
+        "EAT proxies general/visceral adiposity - partially excluded by BMI covariate and the epicardial-vs-paracardial discriminator.",
+        "The model reads non-calcified coronary plaque, which correlates with EAT - NOT excluded at rung 1; would require plaque-visible imaging to separate; stated as the honest ceiling on the claim.",
+        "Chamber enlargement co-varies with EAT - excluded by chamber-volume covariate (TotalSegmentator heartchambers or crop-derived heart volume)."
+      ],
+      "anticipated_negative": "Sensitivity-limited: EAT measurement error on 3-5 mm non-gated LDCT attenuates the coefficient; report a minimum detectable effect against the Foldyna tool's published reproducibility before interpreting a null.",
+      "remaining_legwork": "Day 1: test the checkpoint link and the Foldyna code-availability statement. Weeks 1-4: CDAS application (the rate limiter). Then ~1-2 weeks of tool assembly and inference. First decision in roughly 4-6 weeks, dominated by data access.",
+      "design_template": "conditional-observational",
+      "data": {
+        "primary": "NLST via CDAS (LDCT + cause of death + metadata); first of two NLST candidates this cycle",
+        "model": "Tri2D-Net released checkpoint (github.com/DIAL-RPI/CVD-Risk-Estimator)"
+      },
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question with named quantities; loses a point because 'using EAT' vs 'using something EAT-correlated inside the crop' needs the enumerability argument to be crisp."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "The enumerable-crop argument plus the epicardial-vs-paracardial contrast rule out the main out-of-crop alternatives, but non-calcified plaque correlated with EAT survives a positive result."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "If screening LDCT risk scores are partly EAT, that names an actionable, measurable cardiometabolic signal free-riding on lung screening - a concrete added-value claim for a huge existing pipeline."
+        },
+        "interest": {
+          "value": 4,
+          "why": "The model's authors pointed at the fat themselves and the field left the experiment on the table for five years."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Model released with demos; CAC tool released; EAT method published and NLST-validated but its release location unconfirmed - that gap keeps this from 5."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped: keystone NOT_INSPECTED (checkpoint link and environment untested). Substantively also honest: CDAS approval and 2021-era environment reconstruction are real work."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "NLST is access-controlled via CDAS; precedented but not in hand."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Partial regression coefficients, mediation share, and AUC decomposition are standard; the Foldyna paper supplies effect-size benchmarks on the same cohort."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Sensitivity-limited null with a computable minimum-detectable-effect from published tool reproducibility."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped. Also honest: I verified nobody joined these two specific papers, but a 2024-2026 mediation study could exist that I did not find."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Both halves are published on the same cohort; if someone else joins them first it will look obvious in hindsight."
+        }
+      },
+      "unverified_claims": [
+        "Foldyna et al. EAT tool release location (existence and NLST validation verified from search results; code-availability statement not read).",
+        "DeepCAC runs on NLST LDCT out of the box (published for that setting; repo not inspected this session).",
+        "OneDrive checkpoint link liveness.",
+        "Kernel/scanner covariate completeness in CDAS-delivered metadata (assumed from prior program work)."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-014-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "Redraw the same airway walls with a sharper pencil: does the peribronchial-thickening score follow Pi10?",
+      "question": "Does CT-CLIP's peribronchial-thickening score track the airway-wall thickness index Pi10 when a reconstruction-kernel change redraws the same anatomy's walls?",
+      "deliverable_sentence": "The peribronchial-thickening score is using displayed airway wall thickness - the same quantity Pi10 measures.",
+      "rung": "Target rung 1-2 in one design: the paired-reconstruction readout is label-free and holds patient, scanner, site, positioning, habitus, and prevalence fixed by construction, so a positive result arrives with most of rung 2 already paid for. Rung 3 is the deliverable sentence, since Pi10 is a named quantity radiologists and pulmonologists already use.",
+      "rung_reached": "1-2 anticipated; what moves it to a full rung-3 claim is dose-response - within-pair score changes scaling with within-pair Pi10 changes, specifically for this head and not for unrelated heads.",
+      "X_measurement": "Pi10: square root of airway wall area regressed to a hypothetical airway of internal perimeter 10 mm, the standard QCT airway-wall index; computed per volume by open tools - Chest Imaging Platform (chestimagingplatform.org, open-source C++/Python, 3D Slicer integration), opfront (Petersen et al., optimal-surface airway segmentation), or AirQuant. Fallback X if Pi10 regression is unstable on these volumes: mean wall-area fraction of segmental airways from the same tools. Compute-today test: YES in principle (tools are public and citable); whether they run on CT-RATE reconstructions specifically is the keystone, below.",
+      "suspected_signal": "Bronchial wall thickening is the radiological substrate of the report phrase 'peribronchial thickening'. Sharper Siemens kernels (Br60f) versus softer ones (Br40f) systematically change the apparent thickness of the same physical walls - a documented kernel dependence in the quantitative-CT literature. If the head reads wall morphology, its score should co-move with the tool-measured wall shift, pair by pair, on bit-identical anatomy.",
+      "use_vs_association": "One line: anatomy is identical within a pair and only the rendering changes, so a within-pair score delta that scales with the within-pair Pi10 delta across 237 pairs cannot come from case mix, population correlation, or labels (labels are exactly duplicated across reconstructions - verified in idea-004 Stage 0).",
+      "keystone_prerequisite": "An existing open airway tool produces per-scan Pi10 (or segmental wall-area fraction) on CT-RATE Br40f/Br60f reconstructions, and that measurement shifts consistently between the paired kernels. This includes slice-geometry adequacy: if these volumes are effectively thick-slice, wall measurement fails and the study is impossible.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest checkable things ARE inspected: the head exists (18 named finite scores produced by the passed v1 probe, decisions 2026-08-12) and the 237 Br40f|Br60f pairs are frozen with hash (2026-08-15). What I am still assuming is the load-bearing part: airway-tool viability on this data - including the meaning of the '3' in the stringified kernel field ['Br40f','3'] (iterative-strength level vs slice thickness in mm), which nobody has resolved. If it means 3 mm slices, Pi10 likely dies. That metadata inspection plus a 10-pair tool run is the whole Stage 0.",
+      "dies_like_prior": "Checked against CIRCULARITY (idea-010): not circular - X is an independent physical measurement by an external tool and the primary readout is label-free paired deltas, not a re-encoding of the label the head was trained on. Annotation provenance: no labels anywhere in the primary readout. The candidate deliberately reuses the grammar of the only surviving idea (004) and shortlisted idea 013 - that is design-template borrowing from live ideas, not a prior failure mode.",
+      "closest_prior_work": "CT-CLIP/CT-RATE (arXiv 2403.17834) reports peribronchial-thickening AUROC and never asks what drives it. Idea-004 (internal) established the paired-reconstruction machinery but studies score stability, not score decoding against a named physical quantity. QCT literature documents kernel dependence of airway wall measures (COPDGene/phantom studies) but never connects it to a vision-language model's outputs. Delta: using the kernel as a natural experiment ON the model, with Pi10 as the decoded X.",
+      "existing_assets": "Frozen 425-pair manifest with 237 Br40f|Br60f pairs (SHA-256 recorded, decisions 2026-08-15); probe-passed CT-CLIP inference pipeline with pinned checkpoint hash; and a major synergy: the ratified idea-004 phase-B floor study will compute all 18 per-head scores, including peribronchial thickening, on all 425 pairs - the model side of this candidate may come free as a byproduct. Only the airway-measurement arm is new compute, and it is CPU-side.",
+      "smallest_decisive_experiment": "Stage 0: resolve the kernel-field '3', download ~10 pairs, run one airway tool, confirm Pi10 is computable and shifts with kernel. Then: across the frozen pairs, correlate within-pair delta-score (peribronchial head) with within-pair delta-Pi10; test dose-response; use the other 17 heads' deltas as specificity controls (does delta-peribronchial track delta-Pi10 better than delta-cardiomegaly does?).",
+      "standing_confounds_addressed": "Scanner, vendor, protocol, site, positioning, habitus, prevalence, referral: all fixed within pair by construction. Reconstruction: the instrument, not a confound. Label leakage: labels unused and identical across the pair anyway. NOT ruled out and named: the kernel changes noise and texture globally, so a head could respond to kernel without reading walls - addressed by dose-response in delta-Pi10 magnitude and by cross-head specificity, and honestly only mitigated, not eliminated.",
+      "alternative_explanations": [
+        "Global kernel response (noise/texture sensitivity of the score, unrelated to walls) - mitigated by dose-response and cross-head specificity; the main survivor of a weak positive.",
+        "Vessel-edge sharpening co-varying with wall sharpening (vessels and airway walls both get crisper) - partially separable because Pi10 tools measure walls specifically; a score tracking vessel deltas better than wall deltas would show it.",
+        "Tool artifact: Pi10 itself responds to kernel partly through measurement error, not displayed morphology - bounded by the tool's phantom literature; affects interpretation of magnitude, not existence, of the model-side response."
+      ],
+      "anticipated_negative": "Decisive within scope: if delta-Pi10 spans a real spread and the head's delta-score is uncorrelated with it (while the tool verifiably measured the shift), the head does not respond to displayed wall-thickness change through the reconstruction channel. Scope note: this does not rule out wall-thickness use expressed only across patients; that restriction is stated up front.",
+      "remaining_legwork": "Stage 0 (kernel-field metadata + 10-pair tool run): days, no new approvals - the 10 pairs can be drawn from volumes already authorized for download under idea-004 phase-M/B machinery or downloaded independently from the public dataset. Full readout waits on idea-004 phase-B scores (governance-bound) or its own probe contract. First decision (keystone alive or dead): under 2 weeks.",
+      "design_template": "cross-reconstruction",
+      "entry_point_2_requirements": "Measurement that detects the signal: within-pair delta-Pi10 vs delta-score correlation. Artifact it would be confused with: global kernel response of the score - named, with the two mitigations above.",
+      "data": {
+        "primary": "CT-RATE validation split, frozen idea-004 pair manifest (first of two CT-RATE candidates this cycle)",
+        "governance": "No CT-CLIP bulk inference is authorized by this card; model-side scores come from the ratified idea-004 floor study as exploratory reuse, or via a fresh contract."
+      },
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One sentence, one named index, one instrument, one readout."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Within-pair design eliminates every population-level alternative by construction; the one survivor (global kernel response) is named with two partial mitigations - short of 5 because it cannot be fully excluded."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Grounds a report-language head in a named physiological index; useful for trusting CT-CLIP-style models, not itself a clinical consequence."
+        },
+        "interest": {
+          "value": 4,
+          "why": "Turns the program's surviving structural move from a stability audit into a decoding instrument - if it works it is a reusable method, not just a result."
+        },
+        "prior_legwork": {
+          "value": 5,
+          "why": "Frozen manifest, hashed checkpoint, passed load probe, and the floor study computing the model side anyway; open airway tools exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped: keystone NOT_INSPECTED. The honest risk is real too - airway-wall measurement on non-research-protocol CT of unknown slice geometry fails often."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public dataset, local pipeline, frozen manifest; only the tool arm is new."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired-delta correlation and dose-response are simple, but no accepted benchmark exists for 'score tracks Pi10'; specificity controls are custom."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A clean null with a verified Pi10 shift is a decisive, scope-limited negative about the reconstruction channel."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; also honest - kernel-perturbation studies of medical vision-language model outputs may exist unfound."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The model side is about to be computed anyway; not asking this question of that data would be a waste of a paid-for experiment."
+        }
+      },
+      "unverified_claims": [
+        "Kernel dependence of airway-wall measures asserted from QCT literature memory; primary source to be pinned at novelty audit.",
+        "Chest Imaging Platform / opfront / AirQuant run-today status and license terms not inspected this session.",
+        "Meaning of the '3' in CT-RATE's stringified ConvolutionKernel field (iterative strength vs slice thickness) - unresolved, inside the keystone.",
+        "CT-RATE slice spacing adequacy for wall measurement."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-014-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The cardiomegaly head may be reading the rib cage: Haller index beyond heart volume",
+      "question": "Is CT-CLIP's cardiomegaly score using thoracic-cage geometry - the Haller index - beyond the heart's actual volume?",
+      "deliverable_sentence": "The cardiomegaly score is using rib-cage geometry: at the same heart volume, a flatter chest (higher Haller index) raises the model's cardiomegaly score.",
+      "rung": "Target rung 1 (the head uses cage geometry). Rung 2 path: the readout uses no labels, and the main artifact alternatives (habitus, sex, lung volume) are measurable in the same volumes; full rung 2 requires showing the geometry gradient survives all of them. Rung 3 is the deliverable sentence - Haller index and pectus are words every radiologist has.",
+      "rung_reached": "1 anticipated; moves up by chamber-level conditioning (heartchambers_highres, license permitting) and by an extreme-tail check: do frank pectus cases with normal heart volume receive elevated scores?",
+      "X_measurement": "Haller index = inner transverse thoracic diameter divided by inner AP diameter at the deepest sternovertebral level (Haller et al. 1987, J Pediatr Surg 22:904-906), computed from TotalSegmentator v2 masks: ribs (classes rib_left_1..rib_right_12, indices 92-115), sternum (116), vertebrae (Wasserthal et al., Radiol AI 2023, DOI 10.1148/ryai.230024). Conditioning variable: heart volume from class 51 ('heart'). Compute-today test: YES - class list inspected 2026-08-16 in map_to_binary.py; the tool is public and citable and the index is a two-diameter formula on its masks.",
+      "suspected_signal": "AP flattening of the chest compresses and displaces the heart, enlarging its axial silhouette at fixed volume; radiologists over-call cardiomegaly in pectus configurations, and report-derived training labels inherit that behavior. Either the model learned cage geometry directly, or it faithfully learned the readers' geometry-contaminated concept - in both cases the score uses X, and the card claims only that; which of the two it is, is stated as the follow-on question, not smuggled into the claim.",
+      "use_vs_association": "One line: conditioning the score on measured heart volume (plus sex and lung volume) separates 'the score responds to cage geometry' from 'cage geometry merely co-varies with heart size' - within narrow heart-volume strata, a Haller-index gradient in the score is the use readout.",
+      "keystone_prerequisite": "Within narrow heart-volume strata of CT-RATE validation there remains enough Haller-index variation (and enough joint support) to estimate a conditional gradient with useful precision. If cage geometry and heart volume are near-collinear in this cohort, the study is uninterpretable - the idea-017/idea-009 lesson, applied to myself.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The easy adjacent facts are inspected (cardiomegaly is one of the 18 probe-verified heads; TotalSegmentator classes exist). Still assumed, load-bearing: (a) the joint-support fact above - checkable only by running segmentation on ~500-1000 volumes, which is exactly Stage 0; (b) that whole-heart volume adequately captures the legitimate signal - if the head reads chamber-specific or shape-specific enlargement, whole-heart conditioning under-adjusts and residual 'geometry' signal could be heart shape, not cage; named as the top alternative and partially addressable with the chambers subtask.",
+      "dies_like_prior": "Closest prior is idea-010, killed CIRCULARITY for asking whether the cardiomegaly concept re-encodes heart size. This candidate is built on that grave: it targets precisely the non-circular complement - the component of the score that heart size does NOT explain - so the thing that killed 010 is the null hypothesis here. Also checked against idea-009's IDENTIFIABILITY_FAILURE (inseparable covariates): the joint-support keystone is that check, run before commitment rather than after. Annotation provenance: no labels in the readout.",
+      "closest_prior_work": "Idea-010 (internal, killed). Pectus-mimics-cardiomegaly is textbook radiology (Haller 1987 and CXR literature on pectus and apparent cardiac enlargement). No published decoding of a CT vision-language model's cardiomegaly output against cage geometry found from memory - unverified, and capped accordingly.",
+      "existing_assets": "Probe-verified CT-CLIP pipeline; floor-study synergy (cardiomegaly scores on 850 volumes arrive as an idea-004 phase-B byproduct, subject to governance); TotalSegmentator public and Colab-viable; CT-RATE metadata local.",
+      "smallest_decisive_experiment": "Stage 0: TotalSegmentator on ~500-1000 validation volumes; compute Haller index, heart volume, lung volume; establish joint support (the keystone gate). Then: score ~ heart_volume + Haller + sex + lung_volume; the Haller coefficient, plus the pectus-tail check, is the first decision.",
+      "standing_confounds_addressed": "Label leakage: none in the readout (scores vs measurements; labels unused). Positioning: supine standard in CT, arms irrelevant to cage geometry. Scanner/vendor/protocol/reconstruction: CT-RATE is near-single-vendor (462/464 Siemens, known from idea-004) - a generalization limitation, stated, not a within-study confound since X and score come from the same volumes; kernel entered as covariate. Habitus: the central threat - AP:transverse ratio co-varies with body shape, sex, and COPD barrel chest; addressed by sex, lung-volume, and emphysema (-950 HU LAA%) covariates, all machine-computable. Prevalence/referral: shape the cohort, not the within-cohort conditional gradient.",
+      "alternative_explanations": [
+        "Residual heart-shape signal (chamber-specific enlargement not captured by whole-heart volume) - the strongest; partially excluded via chambers subtask or shape covariates; honestly stated as capping the claim at 'geometry beyond whole-heart volume'.",
+        "Barrel-chest/emphysema co-variation - excluded to covariate level via lung volume and LAA%.",
+        "Mediastinal crowding response (the head reads a crowded mediastinum generally, of which Haller geometry is one cause) - not excluded at rung 1; would still be a cage-geometry-driven score, so it refines rather than defeats the deliverable sentence."
+      ],
+      "anticipated_negative": "Sensitivity-limited: if Haller variation within heart-volume strata is modest, a null needs a minimum-detectable-effect statement from the Stage 0 joint-support data before it means anything. The Stage 0 gate exists to catch the uninterpretable version before spending.",
+      "remaining_legwork": "Segmentation of ~1000 volumes: about a week of Colab time (CPU/GPU mix). Model scores: free via floor study or a small contract. First decision (joint support, then gradient): 2-3 weeks.",
+      "design_template": "conditional-observational",
+      "entry_point_2_requirements": "Measurement: conditional Haller gradient in the score at fixed heart volume. Artifact confusion: body-habitus co-variation and residual heart-shape signal - both named, first excluded to covariate level, second only partially excludable and stated as such.",
+      "data": {
+        "primary": "CT-RATE validation split (second and final CT-RATE candidate this cycle)"
+      },
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "Precise conditional question with named quantities; the whole-heart vs chamber-shape caveat costs the point."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Conditioning design rules out the main size-covariation alternative and habitus to covariate level; residual heart-shape signal survives and is only partially excludable."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Explains a systematic over-call the model would inherit or invent - directly relevant to anyone consuming these scores in pectus/asthenic patients, but not itself a treatment-changing finding."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A cardiac label partially explained by the skeleton is the kind of sentence a radiologist will argue about, which is the program's stated deliverable shape."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Pipeline verified, scores arriving as a byproduct, segmentation tool public; nothing needs building except the index computation."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped: the joint-support keystone is uninspected. Otherwise this is among the cheapest candidates ever proposed here."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public data, local pipeline; no approvals beyond the governance note on score reuse."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Conditional regression is standard; no accepted benchmark for 'geometry gradient in a score', so effect-size context must be built from the pectus literature."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Sensitivity-limited with a preplanned MDE from Stage 0; the gate design prevents the uninterpretable variant."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; the specific decoding appears unasked but the search was from memory."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Cheap, adjacent to paid-for compute; moderate rather than high because the claim ceiling (rung 1 with a shape caveat) is known in advance."
+        }
+      },
+      "unverified_claims": [
+        "Radiologist over-calling of cardiomegaly in pectus asserted from textbook knowledge; primary source to be pinned at audit.",
+        "TotalSegmentator executes cleanly on CT-RATE chest volumes (designed for chest CT; untested on these specific files).",
+        "Haller-index distribution in a general chest-CT cohort (assumed continuous with a usable spread)."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-014-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "Sybil was never given the patient's age; the thymus wrote it down anyway",
+      "question": "Is Sybil using thymic fatty involution - the age recorded in the anterior mediastinum - as an age proxy in lung-cancer risk?",
+      "deliverable_sentence": "Sybil is using thymic involution: the soft-tissue remnant in the thymic bed, which fades to fat with age, contributes to its risk score independent of nodules, emphysema, and coronary calcium.",
+      "rung": "Target rung 1. This is a Mode C candidate: the mechanism is the point and the identifiability is admitted to be the weakest of the cycle. Rung 2 would require separating thymic involution from the many other age-monotonic features in the same volume; the named escalation is a thymic-bed-localized, in-distribution substitution between age-discordant geometry-matched scans, carrying the idea-006 OOD lesson as an explicit design constraint.",
+      "rung_reached": "1 anticipated at best; what moves it up is the substitution escalation passing an in-distribution validity gate of the kind idea-008's debate specified.",
+      "X_measurement": "Thymic-bed soft-tissue burden: define the anterior mediastinal compartment geometrically (posterior to sternum, TotalSegmentator class 116; anterior to heart/aorta/pulmonary artery masks; between the mediastinal pleural surfaces), then measure soft-tissue-attenuation island volume (-30 to +60 HU) and compartment mean HU - the automated analogue of the established CT thymus grading scale (Ackman et al., thymus CT attenuation and age - identifiers to be pinned at audit). TotalSegmentator has NO thymus class (inspected 2026-08-16), so X is a well-defined measurement rather than a released tool - admitted as the weaker form the charter allows. Compute-today test: YES, without any annotator.",
+      "suspected_signal": "Thymic involution is near-monotonic fat replacement of the thymus across adult life - one of the most reliable age-written-in-the-image structures in the chest. Age is the strongest lung-cancer risk factor, and Sybil receives no demographic inputs (JCO 2023: requires only the LDCT), so any age signal in its score must be read from the image. The thymic bed is a concentrated, spatially compact place to read it.",
+      "cross_domain": {
+        "borrowed_construct": "Thymic involution as an immune-age clock (immunosenescence literature).",
+        "implied_measurement": "Thymic-bed fat-replacement fraction as an age dial the model could be reading.",
+        "what_changes_if_dropped": "Honestly: the immune interpretation is decoration and the card says so. The measurement and the claim (age proxy read from fat replacement) survive with the analogy deleted; what the immunology adds is only why this structure is unusually age-monotonic. Per the fluent-nonsense guard, the candidate is written to stand without it."
+      },
+      "use_vs_association": "One line: mediation - does the thymic measure explain a share of Sybil's score-age gradient among cancer-free scans after conditioning on rival measurable age proxies in the same volumes (automated CAC, emphysema LAA%, aortic calcification) - with the honest admission that unmeasured age-correlates survive any observational version; the substitution escalation is what would convert association into use.",
+      "keystone_prerequisite": "Sybil's score, on scans of participants who did not develop cancer, carries an age gradient at all. If Sybil is age-flat conditional on visible pathology, there is no age signal to decompose and the study is pointless.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Even granted an age gradient, I am assuming the gradient is image-derived age proxy rather than age-correlated true risk morphology (nodule character, parenchymal texture) - these are not cleanly separable in principle, which is exactly why this is Mode C and scored on mechanism, not feasibility. The wrong-keystone check: 'Sybil is released and runs' (verified: MIT-licensed weights, sybil_1..5 + ensemble, github.com/reginabarzilaygroup/Sybil releases) is NOT the keystone; the age gradient is.",
+      "dies_like_prior": "No kill-code match. Annotation provenance N/A: readout is score + registry age + machine measurement. The Sybil-residual family (ideas 008, 012, scout-013-c02) is alive, not killed; this adds a disjoint X (anterior mediastinum vs parenchyma/coronaries/fissures). The idea-006 lesson (deletion interventions are OOD) is inherited as a constraint on the escalation, not a flaw of the primary observational readout.",
+      "closest_prior_work": "Sybil (Mikhael et al., J Clin Oncol 2023, DOI 10.1200/JCO.22.01345) - no decoding of an age proxy. Internal: scout-008-c05 (aorta as ageing clock, scout-only) is the nearest sibling; different structure, and thymic involution is more age-specific and less disease-entangled than aortic calcification, which is the point of the swap. CXR-Age decomposition (scout-010-c01) targets a different model and modality where the thymus is invisible.",
+      "existing_assets": "Sybil weights (MIT) with documented inference; NLST via CDAS (age, smoking, outcomes in metadata); TotalSegmentator for the compartment boundaries; DeepCAC for the rival-proxy arm.",
+      "smallest_decisive_experiment": "On cancer-free NLST test scans (CDAS): run Sybil ensemble; confirm/measure the score-age gradient (keystone gate); compute thymic-bed measure + rival proxies; report the mediated share. First decision is the keystone gate itself, which needs only Sybil scores and ages.",
+      "standing_confounds_addressed": "Scanner/site/kernel: NLST metadata covariates. Positioning/habitus: BMI recorded; mediastinal fat scales with adiposity - BMI conditioning is mandatory and named. Prevalence/referral: single screening trial. Label leakage: none - outcome registry and no reports involved. NOT addressed and admitted: the open set of unmeasured age-correlates; this is the structural ceiling of the observational design.",
+      "alternative_explanations": [
+        "Any unmeasured age-monotonic feature (vascular, parenchymal, skeletal) - not excluded; the reason this is Mode C.",
+        "General mediastinal/visceral adiposity rather than thymic-bed-specific replacement - partially excluded by BMI conditioning and by contrasting the thymic bed against a control mediastinal fat compartment.",
+        "Smoking-dose burden correlating with both age and score - partially excluded via pack-years from NLST metadata."
+      ],
+      "anticipated_negative": "Sensitivity-limited: a null mediated share is bounded by the noise of a geometric compartment measurement; report the thymic measure's own age correlation first - if the measurement cannot see involution, the null says nothing about Sybil.",
+      "remaining_legwork": "CDAS application shared with c01 (one application can cover both - they use the same collection). Sybil setup: days (documented). Compartment measurement development: 1-2 weeks. First decision (keystone gate): ~1 week after data access.",
+      "design_template": "conditional-observational",
+      "entry_point_2_requirements": "Measurement: mediated share of the score-age gradient through the thymic-bed measure. Artifact confusion: mediastinal adiposity/habitus and the open class of age proxies - named, with the first handled and the second admitted.",
+      "data": {
+        "primary": "NLST via CDAS (second and final NLST candidate this cycle)",
+        "model": "Sybil released ensemble (MIT license)"
+      },
+      "scores": {
+        "mechanism_clarity": {
+          "value": 4,
+          "why": "A specific biological process (fat replacement of the thymus), a specific place, a defined measurement, and a stated causal path into the score; short of 5 because the isolation step from other age proxies is not solved."
+        },
+        "identifiability": {
+          "value": 2,
+          "why": "Age proxies are legion and the observational design separates only the measurable ones; scored honestly as the cycle's weakest."
+        },
+        "interest": {
+          "value": 4,
+          "why": "'The risk model found the patient's age in the thymus' is a genuinely surprising, physician-legible sentence, and age-proxy decoding generalizes to every demographic-free model."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Clarifies what a deployed screening model's risk score contains (silent age reading has fairness and calibration consequences), without changing treatment directly."
+        },
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question and deliverable; the compartment-measurement definition carries some arbitrariness."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "Informational (Mode C, outside score): CDAS access + custom measurement + ensemble inference is real work, and the keystone is uninspected."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Informational, capped; thymus-as-model-feature appears unstudied but the search was shallow."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Informational: model and metadata exist; the measurement does not."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Informational: CDAS-gated."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Informational: mediation analysis is standard; no benchmark for the thymic measure."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "Informational: sensitivity-limited at best, and dependent on the custom measurement's validity."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Informational: if age-proxy decoding becomes a standard audit, the thymus will look like the obvious first place to have checked."
+        }
+      },
+      "unverified_claims": [
+        "Ackman thymus-CT-grading citation details (from memory; to be pinned).",
+        "Sybil score carries an age gradient (the keystone; unknown).",
+        "Rate and monotonicity of involution in the 55-74 NLST age band is sufficient to matter (involution is largely complete by late adulthood - this could kill the effect size and is flagged for critique).",
+        "NLST metadata fields (BMI, pack-years) available at needed completeness."
+      ],
+      "track": "baseline"
+    },
+    {
+      "id": "scout-014-c05",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "Chronic anemia turns the marrow back on: is Merlin reading red marrow, not just pale blood?",
+      "question": "Is Merlin's anemia prediction using increased vertebral marrow attenuation - red-marrow expansion - rather than only the faded aortic blood pool?",
+      "deliverable_sentence": "The anemia model is using red-marrow expansion: higher vertebral trabecular attenuation from hematopoietic marrow reconversion, over and above the low-attenuation blood pool.",
+      "rung": "Target rung 1. Rung 2 path: the design's spine is that the dominant artifact (bone mineral density loss with age and chronic disease) predicts the OPPOSITE sign - chronic illness lowers trabecular HU while marrow reconversion raises it - so a positive conditional association with HIGHER vertebral HU is sign-protected against the usual BMD confounding. Rung 3 is the deliverable sentence: red marrow is a thing radiologists name daily.",
+      "rung_reached": "1 anticipated; moves up if the sign-discriminated association holds within non-contrast scans and across age strata.",
+      "X_measurement": "Median trabecular attenuation of L1-L3 vertebral bodies: TotalSegmentator vertebral masks eroded to the trabecular core, standard opportunistic-CT measurement (Pickhardt et al., Ann Intern Med 2013, DOI 10.7326/0003-4819-158-8-201304160-00003, for L1 trabecular HU methodology). Rival direct cue measured in the same volumes: aortic blood-pool HU (TotalSegmentator class 52, lumen-eroded ROI). Compute-today test: YES for both, no annotator anywhere.",
+      "suspected_signal": "Chronic anemia triggers marrow reconversion: fatty yellow marrow reverts to hematopoietic red marrow, raising marrow attenuation - an established phenomenon in the marrow-imaging literature. Simultaneously, hemoglobin loss lowers blood-pool attenuation (~1-2 HU per g/dL on non-contrast CT). One phenotype, two physical signatures, opposite in sign and in location - which is what makes the decoding question well-posed rather than rhetorical.",
+      "use_vs_association": "One line: score ~ vertebral HU conditional on aortic HU, age, and sex, restricted to non-contrast scans - a positive vertebral-HU coefficient is sign-protected against BMD confounding (which runs the other way) and location-protected against being a re-read of the blood pool (which is conditioned on).",
+      "keystone_prerequisite": "The released Merlin artifacts expose an anemia phenotype output - a phecode-285-family head among the 1,692 mapped phenotypes - or ship the phenotype-task weights/labels needed to instantiate one. Without an anemia output there is no score to decode.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Explicitly applying the idea-005 lesson: 'Merlin is released' IS inspected (paper: 'We release our trained models, code, and dataset'; github.com/StanfordMIMI/Merlin, HF stanfordmimi/Merlin) and is NOT the keystone - the paper text I read confirms 1,692 phecode phenotypes but never names anemia, and whether the released artifacts include per-phenotype heads (vs only the encoder) is exactly the load-bearing unknown. Second load-bearing assumption: contrast phase is identifiable from metadata so the blood-pool conditioning is not confounded by injection protocol; if phase metadata is absent, the non-contrast restriction fails and the design degrades.",
+      "dies_like_prior": "Sibling of scout-008-c03 ('the blood-count model may just read how bright the blood is', scout-only, never developed, never killed) - different X (marrow vs blood pool), different mechanism (compensatory organ response vs direct analyte visibility), and the design treats the sibling's hypothesis as the rival to condition on rather than the claim. No kill-code applies; annotation provenance N/A (phecode labels are EHR-derived but unused in the readout, which is score-vs-measurement).",
+      "closest_prior_work": "Merlin (Blankemeier et al., arXiv 2406.06512; Nature 2026, 1,692 phecode phenotypes, AUROC >0.85 for 258 of them) - no decoding of any phenotype head against a physical measurement. Opportunistic-CT literature ties vertebral HU to BMD and marrow state but not to a foundation model's outputs. Internal sibling as above.",
+      "existing_assets": "Merlin checkpoint public (GitHub + HuggingFace); TotalSegmentator; public abdominal CT with mixed metadata (AMOS 2022, TotalSegmentator public dataset); the L1-HU opportunistic measurement is among the best-validated automated measurements in CT.",
+      "smallest_decisive_experiment": "Stage 0 (zero GPU, ~1 day): inspect the Merlin repo/HF artifacts for the phenotype task head list and confirm an anemia output exists - the keystone, checked before anything else. Then: on ~200 public non-contrast abdominal CTs, compute anemia score, vertebral HU, aortic HU; fit the sign-discriminated conditional model. First decision: the sign and significance of the vertebral-HU coefficient.",
+      "standing_confounds_addressed": "Contrast/protocol: the central threat to the blood-pool arm - handled by non-contrast restriction (keystone-adjacent, metadata-dependent). Scanner/vendor/kernel: HU calibration varies; site/scanner covariates, and the sign argument is robust to calibration shifts that affect both measures. Habitus: weakly coupled to marrow HU; BMI covariate where available. Age/sex: mandatory covariates (both drive marrow fat and BMD). Prevalence/referral: clinical abdominal CT cohorts are referral-shaped - affects generalization, not the within-cohort conditional sign. Label leakage: none in the readout.",
+      "alternative_explanations": [
+        "BMD variation - the elephant, and it predicts the opposite sign; a positive result is protected, a negative result is not (BMD noise can swamp a real marrow effect).",
+        "Renal-disease pathway (CKD causes anemia AND renal osteodystrophy with complex bone changes) - not excluded; named; addressable by excluding scans with severe renal atrophy via segmentation.",
+        "Sclerotic/metastatic marrow disease raising HU while causing anemia through infiltration - a true mechanism but a different X; bounded by excluding scans with focal vertebral lesions (outlier HU distribution) and admitted as residual.",
+        "Contrast-phase residue if phase metadata is unreliable - keystone-adjacent, named."
+      ],
+      "anticipated_negative": "Sensitivity-limited: the marrow effect size (tens of HU at most, against a BMD standard deviation of similar magnitude) may be undetectable at feasible N; report the minimum detectable effect from the observed HU variance before interpreting a null.",
+      "remaining_legwork": "Stage 0 artifact inspection: 1 day. Inference + measurement on public data: ~2 weeks on Colab. First decision inside 3 weeks of a live keystone.",
+      "design_template": "conditional-observational",
+      "entry_point_2_requirements": "Measurement: sign-discriminated conditional association of the anemia score with vertebral trabecular HU at fixed blood-pool HU. Artifact confusion: BMD (opposite sign, named), contrast phase (restricted), marrow infiltration (excluded by outlier screening, residual admitted).",
+      "data": {
+        "primary": "Public abdominal CT (AMOS 2022 / TotalSegmentator public dataset) + Merlin released checkpoint"
+      },
+      "scores": {
+        "mechanism_clarity": {
+          "value": 4,
+          "why": "A named physiological process (marrow reconversion), a named measurement (trabecular HU), and a sign prediction that distinguishes it from its main confound; short of 5 because the effect size in a general cohort is uncharacterized."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "The opposite-sign structure is a real identification device rare in this portfolio; residual pathways (CKD, infiltration) survive and are named."
+        },
+        "interest": {
+          "value": 3,
+          "why": "A clean example of one phenotype, two separable physical signatures - methodologically instructive; the clinical claim itself is modest."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Whether opportunistic hematology-from-CT reads physiology or artifact matters for an actively commercializing field."
+        },
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question, two named quantities, a sign prediction."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "Informational (Mode C): keystone uninspected and the anemia head may simply not be exposed; everything else is cheap."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Informational, capped; no decoding of Merlin phenotype heads found, shallow search."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Informational: model and measurement tools public; nothing connecting them exists."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Informational: public data, but contrast-phase metadata completeness unknown."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Informational: conditional regression standard; effect-size context must come from marrow literature."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "Informational: sensitivity-limited against BMD variance."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Informational: cheap and structurally novel (sign-discrimination); moderate stakes."
+        }
+      },
+      "unverified_claims": [
+        "Anemia phecode present among Merlin's evaluated phenotypes and exposed in released artifacts (the keystone).",
+        "Marrow reconversion raises trabecular HU by a detectable margin in chronic anemia (direction well-supported in marrow literature from memory; magnitude on CT unpinned).",
+        "~1-2 HU per g/dL blood-pool effect (from memory; to be pinned).",
+        "Contrast-phase metadata availability in AMOS / TotalSegmentator dataset."
+      ],
+      "track": "baseline"
+    }
+  ]
+}

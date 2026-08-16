@@ -1,6 +1,6 @@
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-71 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+76 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -25,21 +25,22 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-013-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.2, audited 2026-08-15] -- Name the skeletal frailty inside mortality prediction
 - **scout-013-c04** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.1, audited 2026-08-15] -- The renal artery as a buckled pressure line
 - **scout-013-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 2.9, audited 2026-08-15] -- The open fissure inside lung-cancer risk
-- ... and 29 more (python scout.py backlog)
+- ... and 34 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
+- conditional-observational: 12
 - regional-substitution: 9
-- conditional-observational: 8
 - counterfactual-synthesis: 5
 - representation-erasure: 3
 - natural-paired: 3
 - longitudinal-within-subject: 3
 - model-output-perturbation: 2
 - regional-removal: 1
+- cross-reconstruction: 1
 
 ## Ideas
 
@@ -114,3 +115,8 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-013-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Name the skeletal frailty inside mortality prediction -- data: Public chest-radiograph mortality anchor cohort if obtainable; external measurement development on MIMIC-CXR
 - **scout-013-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The renal artery as a buckled pressure line -- data: Public contrast-enhanced abdominal CT compatible with released Merlin checkpoint
 - **scout-013-c05** [SCOUT_ONLY/SCOUTED/baseline] -- Collateral failure written in the cortical veins -- data: Paired baseline NCCT and CTA/CTP or DWI stroke cohort from the anchor model; public CQ500 only for measurement robustness
+- **scout-014-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The fat around the heart inside the CVD-mortality score: finish the observation Chao et al. started
+- **scout-014-c02** [SCOUT_ONLY/SCOUTED/baseline] -- Redraw the same airway walls with a sharper pencil: does the peribronchial-thickening score follow Pi10?
+- **scout-014-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The cardiomegaly head may be reading the rib cage: Haller index beyond heart volume
+- **scout-014-c04** [SCOUT_ONLY/SCOUTED/baseline] -- Sybil was never given the patient's age; the thymus wrote it down anyway
+- **scout-014-c05** [SCOUT_ONLY/SCOUTED/baseline] -- Chronic anemia turns the marrow back on: is Merlin reading red marrow, not just pale blood?
