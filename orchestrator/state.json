@@ -1,21 +1,20 @@
 {
-  "next_scout": 14,
+  "next_scout": 15,
   "selected_idea": 19,
-  "active_cycle": 13,
+  "active_cycle": 14,
   "cycle": {
-    "scout": 13,
+    "scout": 14,
     "tracks": [
       "baseline"
     ],
     "seed_concepts": null,
-    "started": "2026-08-15T06:20:32+00:00",
+    "started": "2026-08-16T06:22:29+00:00",
     "stages": {
-      "scout": "done",
-      "merge": "done",
-      "novelty_audit": "done",
-      "backlog": "done"
-    },
-    "finished": "2026-08-15T06:31:15+00:00"
+      "scout": "pending",
+      "merge": "pending",
+      "novelty_audit": "pending",
+      "backlog": "pending"
+    }
   },
   "shortlisted": {
     "6": {
