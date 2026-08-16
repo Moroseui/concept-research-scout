@@ -15,7 +15,7 @@
     "stages": {
       "scout": "done",
       "wide_scout": "done",
-      "fiction_scout": "pending",
+      "fiction_scout": "running",
       "fiction_extract": "pending",
       "fiction_refine": "pending",
       "merge": "pending",
