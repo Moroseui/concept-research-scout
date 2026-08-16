@@ -386,3 +386,31 @@ interpretation, mirroring probe-build) lands, per the operator
 decision of this date. Until then the tables in
 probes/004/results_v2/analysis/ are the deliverable and carry no
 narrative.
+
+## 2026-08-16 - IDEA 004 RATIFIED: interpretation approved and adopted
+
+The interpretation at ideas/004/interpretation.md (git blob
+ccd66870a240d04f66a13eb2f69e54cf6d75743e) and its cross-family review
+at ideas/004/interpret_review.md (git blob
+bb208dae52be559544cf2192eb3edc848d80fdd1) are ratified. The checker
+approved on round 1 after resolving every citation against the
+analysis files; an operator-side audit independently re-resolved five
+citations spanning both tiers and the summary accounting, all
+transcription-exact.
+
+Finding of record (rung 1, vendor-scoped, this checkpoint, these
+contrasts): the model is using reconstruction-dependent image content
+when it produces some named chest-CT abnormality scores. Typical
+signed shifts are small; direction and upper-tail magnitude depend on
+head and contrast; pleural effusion shows directional medians with
+patient-cluster intervals below zero under both cross-family
+contrasts. Tier 2 is descriptive only; no threshold judgment exists;
+CT-Scroll values remain context.
+
+ADVANCE is adopted with its stated semantics: no further inference is
+authorized under this idea; identifying the mediating
+spatial-frequency or noise-texture quantity requires a successor idea
+through the normal pipeline. Idea 004 is complete: contract v2
+executed validly (425 pairs, 850 volumes, 5 sessions, anchors at zero
+deviation), results merged via the record-result gate, interpretation
+cross-family reviewed and here ratified.
