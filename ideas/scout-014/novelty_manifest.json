@@ -1,0 +1,38 @@
+{
+  "searched_at": "2026-08-16T07:15:00Z",
+  "queries": [
+    {"query": "Tri2D-Net cardiovascular mortality epicardial adipose tissue model score NLST Chao Foldyna", "source": "web search"},
+    {"query": "deep learning cardiovascular mortality lung screening CT epicardial fat coronary calcium NLST", "source": "web search"},
+    {"query": "CT-CLIP peribronchial thickening Pi10 reconstruction kernel airway wall deep learning", "source": "web search"},
+    {"query": "airway wall Pi10 reconstruction kernel CT quantitative", "source": "web search"},
+    {"query": "deep learning cardiomegaly Haller index pectus chest CT model", "source": "web search"},
+    {"query": "pectus excavatum apparent cardiomegaly cardiac silhouette Haller index CT", "source": "web search"},
+    {"query": "Sybil lung cancer risk age imaging features thymus involution CT", "source": "web search"},
+    {"query": "deep learning lung cancer risk thymus attenuation age proxy CT", "source": "web search"},
+    {"query": "2026 deep learning thymus health chest CT cancer susceptibility model paper", "source": "web search"},
+    {"query": "site:nature.com thymus deep learning chest CT cancer risk 2026", "source": "web search"},
+    {"query": "Merlin anemia phecode CT model vertebral marrow attenuation anemia deep learning", "source": "web search"},
+    {"query": "CT anemia vertebral marrow attenuation red marrow reconversion blood pool attenuation", "source": "web search"},
+    {"query": "Ackman thymus CT attenuation age DOI thymic involution", "source": "web search"},
+    {"query": "unenhanced CT blood pool attenuation hemoglobin anemia DOI aorta", "source": "web search"},
+    {"query": "bone marrow CT attenuation anemia DOI", "source": "web search"},
+    {"query": "Use of CT scans in selection of patients for pectus excavatum surgery DOI", "source": "web search"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "10.1038/s41467-021-23235-4; arXiv:2008.06997", "access": "full_text", "establishing_passage": "The paper says the attention block noticed abundant juxtacardiac fat and concludes that visualizations demonstrate contributions of both CAC and juxtacardiac fat."},
+    {"candidate": "C1", "identifier": "10.1038/s43856-024-00475-1; PMID 38480863", "access": "abstract", "establishing_passage": "Automated EAT quantification was validated on NLST low-dose CT and tested for cardiovascular risk."},
+    {"candidate": "C1", "identifier": "10.1038/s41467-021-20966-2", "access": "full_text", "establishing_passage": "The study applied automated coronary-calcium analysis to 14,959 NLST participants for cardiovascular risk."},
+    {"candidate": "C2", "identifier": "arXiv:2403.17834", "access": "abstract", "establishing_passage": "CT-CLIP/CT-RATE supplies named chest-CT abnormality outputs including peribronchial thickening."},
+    {"candidate": "C2", "identifier": "PMCID PMC10142146", "access": "full_text", "establishing_passage": "Virtual CT acquisitions varied reconstruction kernel and other parameters and compared Pi10 and WA% with known ground truth."},
+    {"candidate": "C2", "identifier": "PMID 27776653", "access": "abstract", "establishing_passage": "Repeat-scan Pi10 reliability improved after correction for differences in inspiration level."},
+    {"candidate": "C3", "identifier": "arXiv:2403.17834", "access": "abstract", "establishing_passage": "CT-CLIP exposes a cardiomegaly output but does not report anatomical cue decomposition."},
+    {"candidate": "C3", "identifier": "10.1016/S0022-3468(87)80585-7; PMID 3681619", "access": "abstract", "establishing_passage": "Derived the pectus index by dividing transverse chest diameter by anterior-posterior diameter on CT."},
+    {"candidate": "C3", "identifier": "PMCID PMC12204242", "access": "abstract", "establishing_passage": "A U-Net automatically calculated Haller, correction, and asymmetry indices and was compared with observer measurements."},
+    {"candidate": "C4", "identifier": "10.1200/JCO.22.01345", "access": "abstract", "establishing_passage": "Sybil predicts future lung-cancer risk from one LDCT and reports performance across age subgroups."},
+    {"candidate": "C4", "identifier": "10.1038/s41586-026-10242-y; PMID 41851466", "access": "full_text", "establishing_passage": "An automated CT thymic-health system was locked externally, applied to 25,031 NLST participants, and related to lung-cancer incidence."},
+    {"candidate": "C4", "identifier": "10.1007/s00330-015-3796-y; PMID 25925358", "access": "full_text", "establishing_passage": "Adult thymic attenuation was significantly associated with age, with sex, BMI, and smoking also evaluated."},
+    {"candidate": "C5", "identifier": "10.1038/s41586-026-10181-8", "access": "full_text", "establishing_passage": "The released Merlin package documents initialization for phenotype classification and five-year disease prediction."},
+    {"candidate": "C5", "identifier": "PMCID PMC10944371", "access": "abstract", "establishing_passage": "The study analyzes marrow CT number and reports that elevated marrow attenuation has been observed with anemia and red-marrow hyperactivity."},
+    {"candidate": "C5", "identifier": "10.1007/s00330-008-0950-9; PMID 18386013", "access": "abstract", "establishing_passage": "Aortic CT attenuation correlated with hemoglobin (r=0.60) on unenhanced thoracic MDCT."}
+  ]
+}
