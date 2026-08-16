@@ -59,7 +59,8 @@ without evidence is mechanically demoted to NOT_INSPECTED at merge.
      that only recently exists), `BLIND_SPOT` (state the reason the field
      missed it), or `TRIED_AND_FAILED` (cite it -- and treat this as a red
      flag, not a disqualifier).
-   If you cannot find neighbors, write `NO_NEIGHBORS_FOUND` -- that is a flag
+   If you cannot find neighbors, say so in prose and leave the verdict to
+   the calibrated novelty vocabulary (`NO_DUPLICATE_FOUND_LIMITED_SEARCH`) -- that is a flag
    for human verification, never proof of novelty.
 4. Set `"track": "wide"` on every candidate.
 

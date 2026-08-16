@@ -771,9 +771,12 @@ class TestPipeline(Harness):
         # Regression for the 0.0-scoring bug: the REAL production card must
         # produce its own priority_score and pass schema validation.
         sc = self._sc()
-        self.assertAlmostEqual(sc._mean_score(GOLDEN_CANDIDATE),
-                               GOLDEN_CANDIDATE["priority_score"], places=2)
-        self.assertGreater(sc._mean_score(GOLDEN_CANDIDATE), 0.0)
+        det = sc._ranking_score(GOLDEN_CANDIDATE)
+        self.assertAlmostEqual(det, 3.55, places=2,
+                               msg="rank is the rubric recomputation, not the "
+                                   "authored 3.65 -- their 0.10 gap is exactly "
+                                   "the self-score influence the review found")
+        self.assertGreater(det, 0.0)
         self.assertIsNone(sc._validate_card(GOLDEN_CANDIDATE),
                           "real production card fails the schema")
 
@@ -1961,6 +1964,53 @@ class TestMultiCharter(Harness):
         self.assertNotIn("## The driver", receipt.split("STAGE TASK")[0].split(
             "COLLABORATOR_RULES")[0],
             "baseline charter body must not be injected for a charter cycle")
+
+
+class TestConsolidationP1(Harness):
+    """Quick-wins from the 2026-08-16 external review: one scope declaration,
+    deterministic ranking, ledger-derived status, no legacy enums in prompts."""
+
+    def test_no_deprecated_enums_in_live_prompts(self):
+        from pathlib import Path
+        repo_root = Path(__file__).resolve().parent.parent
+        banned = ["NO_NEIGHBORS_FOUND", "NOVEL_VERIFIED"]
+        offenders = []
+        for p in (repo_root / "orchestrator" / "prompts").glob("*.md"):
+            body = p.read_text()
+            for term in banned:
+                if term in body:
+                    offenders.append(f"{p.name}: {term}")
+        self.assertEqual(offenders, [],
+                         "retired novelty vocabulary must not appear in live prompts")
+
+    def test_probe_code_scope_declared_once(self):
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / "scout.py").read_text()
+        self.assertEqual(src.count("\n    'probe-code':"), 1,
+                         "exactly one STAGE_SCOPE declaration for probe-code")
+
+    def test_ranking_ignores_authored_score(self):
+        # import robust to both runners (pytest -m adds cwd; script mode
+        # puts tests/ first -- the file's other imports ride sys.modules
+        # caching from classes that run later alphabetically)
+        import sys
+        from pathlib import Path
+        root = str(Path(__file__).resolve().parent.parent)
+        if root not in sys.path:
+            sys.path.insert(0, root)
+        import scout as sc
+        import copy
+        c = copy.deepcopy(GOLDEN_CANDIDATE)
+        det = sc._ranking_score(c)
+        c["priority_score"] = det + 0.2   # inside the old +/-0.25 window
+        self.assertEqual(sc._ranking_score(c), det,
+                         "authored score must never be returned, even when close")
+
+    def test_status_is_ledger_derived(self):
+        r = self.scout("status")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("ledger-derived", r.stdout)
+        self.assertNotIn("CRITIQUE,ACTIVE", r.stdout)
 
 
 if __name__ == "__main__":

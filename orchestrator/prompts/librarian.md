@@ -16,7 +16,8 @@ connection, naming the ledger ids involved and what the relation implies.
 
 ## Duty 2 -- Stale-verdict re-audit
 For backlog candidates whose `audited_at` is old or whose verdict is
-NOVEL_UNVERIFIED, re-search the literature. Where the verdict should change,
+NO_DUPLICATE_FOUND_LIMITED_SEARCH (or carrying the retired legacy label
+NOVEL_UNVERIFIED in old records), re-search the literature. Where the verdict should change,
 record it in `verdict_updates.json` as
 `{"updates": [{"ledger_id": "...", "novelty_verdict": "...", "reason": "... (citation)"}]}`
 using only NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, NO_DUPLICATE_FOUND_LIMITED_SEARCH,

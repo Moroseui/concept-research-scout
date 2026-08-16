@@ -11,7 +11,9 @@ For each candidate, in order:
 1. **Neighbors.** Search for the three closest prior works. Cite each with an
    identifier (DOI, arXiv ID, or exact title + venue + year) and one line on
    what it did. If after a genuine search you find fewer than three, list what
-   you found and mark the candidate `NO_NEIGHBORS_FOUND` -- this is a flag for
+   you found and record that no neighbors were found and use the calibrated verdict
+   vocabulary of step 4 (`NO_DUPLICATE_FOUND_LIMITED_SEARCH` unless the
+   search was genuinely exhaustive) -- this is a flag for
    human verification, never evidence of novelty.
 2. **Delta.** One sentence: precisely what this candidate does that the
    closest neighbor did not. "More data" or "a different dataset" is a weak

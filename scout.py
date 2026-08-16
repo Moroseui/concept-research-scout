@@ -1202,7 +1202,6 @@ STAGE_SCOPE = {
     'interpret':   ['ideas/', 'evidence/', 'portfolio/'],
     'revise':      ['ideas/'],
     'probe-plan':  ['ideas/', 'probes/'],
-    'probe-code':  ['probes/'],
     'scout':       ['ideas/'],
     'wide-scout':  ['ideas/'],
     'fiction-scout':   ['ideas/'],
@@ -1256,9 +1255,19 @@ def _check_scope(stage):
 
 
 def status(_):
-    print(json.dumps(load_state(),indent=2))
-    print('\nIdeas:')
-    print(read_text(ROOT/'portfolio'/'ideas.csv'))
+    print(json.dumps(load_state(), indent=2))
+    entries = ledger_mod.load()
+    ideas = {k: v for k, v in entries.items() if k.startswith('idea-')}
+    from collections import Counter
+    by_status = Counter(e.get('status', 'UNKNOWN') for e in ideas.values())
+    print('\nIdeas (ledger-derived; the CSV view is retired -- external '
+          'review found it materially stale):')
+    for st, n in sorted(by_status.items()):
+        print(f'  {st:<12} {n}')
+    for k, e in sorted(ideas.items()):
+        if e.get('status') in ('ACTIVE', 'SHORTLISTED') or e.get('scrutiny') == 'PROBED':
+            print(f"  {k}: {e.get('status','?'):<12} scrutiny={e.get('scrutiny','-'):<10} "
+                  f"{(e.get('title') or e.get('claim') or '')[:60]}")
 
 
 BRIEF = ROOT/'evidence'/'portfolio_brief.md'
@@ -1876,7 +1885,7 @@ def _score_value(v):
     return None
 
 
-def _mean_score(card):
+def _ranking_score(card):
     """Ranking score for a candidate card.
 
     Preference order (post-review fix -- the old implementation summed bare
@@ -1897,14 +1906,20 @@ def _mean_score(card):
     weighted = None
     if all(k in vals for k in weights):
         weighted = sum(weights[k] * vals[k] for k in weights)
-    # Trust policy (review round 2): a model-authored priority score is
-    # accepted ONLY when the rubric recomputation exists and agrees. An
-    # unrecomputable card never names its own rank.
+    # Trust policy (consolidation, 2026-08-16, external review finding):
+    # the rank is ALWAYS the deterministic rubric recomputation. The
+    # model-authored priority score is never returned -- the old +/-0.25
+    # acceptance made a self-score load-bearing, contradicting the standing
+    # rule that self-scores are advisory. The authored value survives only
+    # as an arithmetic cross-check others can read.
     if weighted is not None:
-        if isinstance(ps, (int, float)) and abs(float(ps) - weighted) <= 0.25:
-            return float(ps)
         return weighted
     return sum(vals.values()) / len(vals) if vals else 0.0
+
+
+# The name _mean_score is historical (it stopped computing a mean long ago);
+# callers and the ledger field name migrate in the consolidation arc.
+_mean_score = _ranking_score  # compat alias; retired in the consolidation arc
 
 
 def _rank_candidates(scout_no):

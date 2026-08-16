@@ -43,7 +43,7 @@ requires a `keystone_evidence` quote or it is demoted at merge),
 `use_vs_association_design` (one line: how the design separates use from
 correlation), `dataset` (public, named), `smallest_decisive_experiment` (must
 fit one Colab GPU session), `closest_prior_work` (search; if none found, write
-`NO_NEIGHBORS_FOUND` for human check), `critical_confound`,
+`NO_DUPLICATE_FOUND_LIMITED_SEARCH` for human check), `critical_confound`,
 `anticipated_negative`, `scores` per the rubric, and `"track": "fiction"`.
 
 Also record `kernel_provenance`: one sentence on what, in the pitch, the
