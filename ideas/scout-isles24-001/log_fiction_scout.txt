@@ -1,0 +1,5 @@
+Wrote the story to `ideas/scout-isles24-001/fiction_story.md` (~720 words).
+
+The premise: a researcher runs Derm7pt dermoscopy images through CT-CLIP as a negative control, and the aortic-calcification head fires — but only on images from one dermoscope vendor, because that vendor's ring-light speckle is pixel-statistically identical to punctate calcium on a CT slice. The twist card ("a law from a distant field predicts the anomaly exactly") is honored with seismology: the logit distribution follows the Gutenberg–Richter frequency–magnitude law with the textbook b-value of 0.97, because both earthquake energies and the vendor's sensor noise are multiplicative cascades.
+
+The verification scene is concrete as required: she pre-registers predicted threshold counts on paper (411, 168, 70, 29, 12, 5), observes 409, 171, 69, 30, 11, 5, then confirms with Aki's maximum-likelihood estimator (b = 0.968 ± 0.021), plus two falsification attempts — metadata stripping and synthetic speckle injection — and the story ends two paragraphs after the check lands.

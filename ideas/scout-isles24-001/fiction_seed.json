@@ -1,0 +1,20 @@
+{
+  "fiction_version": 2,
+  "concepts": [
+    "scanner vendor signature",
+    "aortic calcification"
+  ],
+  "source": "random",
+  "dataset": {
+    "name": "Derm7pt",
+    "scale": "~1k dermoscopic+clinical image pairs with 7-point checklist labels",
+    "access": "public"
+  },
+  "model": {
+    "name": "CT-CLIP / CT-CHAT",
+    "what": "chest-CT vision-language model with per-finding heads",
+    "access": "public weights"
+  },
+  "twist": "A law from a distant field predicts the anomaly exactly.",
+  "drawn_at": "2026-08-16T19:47:49+00:00"
+}
