@@ -14,7 +14,7 @@
     "started": "2026-08-16T19:39:11+00:00",
     "stages": {
       "scout": "done",
-      "wide_scout": "running",
+      "wide_scout": "done",
       "fiction_scout": "pending",
       "fiction_extract": "pending",
       "fiction_refine": "pending",
