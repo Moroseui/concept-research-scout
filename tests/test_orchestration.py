@@ -95,7 +95,7 @@ def interpret_auto(revise_once=False):
     # prompt was already consumed by the preamble; use that copy
     target = pathlib.Path(root) / os.environ.get("FAKE_TARGET", "ideas/001")
     target.mkdir(parents=True, exist_ok=True)
-    if "cross-family checker" in prompt:
+    if "INTERPRET_REVIEW_CHECKER_V1" in prompt:
         marker = pathlib.Path(os.environ["FAKE_RECEIPT"]).parent / "revise_marker"
         if revise_once and not marker.exists():
             marker.write_text("1")
@@ -1869,6 +1869,15 @@ class TestInterpretBuild(Harness):
             {"idea_id": "idea-001", "phase": "B"}))
         (b / "resolved_config.json").write_text("{}")
         (b / "environment.txt").write_text("py\n")
+        # Regression guard (2026-08-16): the operator's decisions.md contains
+        # the phrase "cross-family checker" in a governance entry, which a
+        # prose-sniffing fake mistook for the review prompt and failed the
+        # suite on the production repo only. Inject the same phrase here so
+        # the environment-dependence is reproducible everywhere; the fake
+        # now keys on a machine sentinel that prose never carries.
+        dec = self.repo / "evidence" / "decisions.md"
+        dec.write_text(dec.read_text() +
+                       "\n## note: cross-family checker-mode review pending\n")
         self._commit_all()
         return d
 

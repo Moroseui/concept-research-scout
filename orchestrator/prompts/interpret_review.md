@@ -1,3 +1,4 @@
+<!-- STAGE_SENTINEL: INTERPRET_REVIEW_CHECKER_V1 (machine marker; do not quote in prose) -->
 You are the cross-family checker for an interpretation of probe
 results. The interpretation is `interpretation.md` in your assigned
 folder; the results bundle it interprets is under probes/NNN/ (the
