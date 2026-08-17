@@ -1,6 +1,6 @@
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-92 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+97 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -25,20 +25,20 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-010-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-12] -- CXR-Age put back together from parts a radiologist can measure
 - **isles24-scout-001-c06** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-16] -- The capillary traffic jam hidden behind the same mean transit time
 - **scout-014-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.8, audited 2026-08-16] -- Redraw the same airway walls with a sharper pencil: does the peribronchial-thickening score follow Pi10?
-- ... and 50 more (python scout.py backlog)
+- ... and 55 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- regional-substitution: 13
+- regional-substitution: 14
+- counterfactual-synthesis: 12
 - conditional-observational: 12
-- counterfactual-synthesis: 11
-- representation-erasure: 6
+- representation-erasure: 7
 - natural-paired: 4
-- longitudinal-within-subject: 3
-- model-output-perturbation: 2
+- longitudinal-within-subject: 4
+- model-output-perturbation: 3
 - regional-removal: 1
 - cross-reconstruction: 1
 - cross-model-disagreement: 1
@@ -138,3 +138,8 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-014-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The cardiomegaly head may be reading the rib cage: Haller index beyond heart volume
 - **scout-014-c04** [SCOUT_ONLY/SCOUTED/baseline] -- Sybil was never given the patient's age; the thymus wrote it down anyway
 - **scout-014-c05** [SCOUT_ONLY/SCOUTED/baseline] -- Chronic anemia turns the marrow back on: is Merlin reading red marrow, not just pale blood?
+- **scout-015-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Measure the fluid behind the pleural-effusion score
+- **scout-015-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The missing branches inside Sybil's risk score
+- **scout-015-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The portal vein as the cirrhosis model's pressure gauge
+- **scout-015-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The continuous air tunnel inside the hiatal-hernia score
+- **scout-015-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The lung-opacity score may be reading gravity
