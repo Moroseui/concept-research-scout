@@ -1,93 +1,82 @@
 {
   "id": "isles24-scout-002-c07",
   "track": "wide",
-  "title": "Little's law in the penumbra: the model may be reading the vasodilatory counterattack",
-  "question": "Is an ISLES'24 model using the autoregulatory blood-volume reserve -- capillary beds held open while flow falls, CBV read against CBF -- to separate tissue that will survive reperfusion from tissue already lost?",
-  "cross_field": {
-    "borrowed_construct": "Control engineering: cerebral autoregulation is a feedback controller that defends delivery (CBF) by actuating vessel caliber; controller state is read from the ACTUATOR signal (CBV), not the controlled variable. Queueing theory supplies the bookkeeping: the central volume principle CBV = CBF x MTT is literally Little's law (L = lambda x W) -- a compensating region is a queue that lengthened to preserve throughput; a collapsed region has lost both.",
-    "instrument_it_implies": "A voxelwise actuator-state index: CBV relative to its mirror-homologous voxel, stratified by CBF decrement -- 'compensating' (rCBV_mirror >= 1 at reduced CBF) versus 'collapsed' (rCBV_mirror < 1) -- plus a Little's-law identity residual (does CBV = CBF x MTT hold in the released maps?) that both gates and disciplines the edits.",
-    "what_changes_if_dropped": "The measurement survives (CBV/CBF thresholds are classical stroke imaging), but the controller framing supplies the two-sided prediction (deviation-from-mirror sign, not CBV level) that separates construct use from generic channel use, and Little's law supplies the manifold constraint that keeps edits physiological."
+  "search_mode": "C",
+  "title": "The joint CBV/MTT compensation state at matched flow",
+  "question": "Does a specified map-input final-infarct model use the joint CBV/MTT compensation state at matched CBF deficit when that state has a precise outcome relationship in the training cohort?",
+  "deliverable_original": "The final-infarct model is using the autoregulatory blood-volume reserve -- capillary volume held at or above mirror-normal while flow falls -- as its tissue-salvageability signal, distinguishing the still-compensating penumbra from the collapsed core at matched flow deficit.",
+  "deliverable_sentence": "This map-input final-infarct model is using the joint CBV/MTT compensation state at matched CBF deficit when it predicts tissue fate in this ISLES'24 cohort.",
+  "rung": "Rung 1 conditional on the Stage 0 and edit-validity gates. Rung 2 requires reconstruction across map-generation variants or independent validation that the response is not peculiar to icobrain cva. Rung 3 would require an independently measured autoregulatory endpoint; the present study must not call the state autoregulatory reserve.",
+  "scientific_uncertainty": "At the same relative CBF deficit, does the model use the remaining one-degree-of-freedom joint CBV/MTT state, or does it ignore that state and rely on other inputs?",
+  "X_measurement": "For each voxel, measure mirror-normalized CBF and CBV from the released registered maps. Within prespecified rCBF-deficit strata, X is the position along the native joint CBV/MTT curve. If the released maps obey the central-volume identity, CBV and MTT are treated as one joint degree of freedom, never as separable concepts. Automatic midsagittal estimation and released maps make X computable without an annotator.",
+  "mechanism": "Preserved versus reduced blood volume at matched flow is a named hemodynamic state. The biological cause may be autoregulatory dilation, collateral filling, reperfusion, or their mixture; this experiment does not separate them.",
+  "analogy_audit": "The Little's-law and control-engineering analogy has been removed. Dropping it changes no measurement or experiment; central-volume terminology is sufficient.",
+  "keystone_prerequisite": "Before model work, final-infarct membership must show a precise, directionally stable relationship with the continuous joint CBV/MTT state within matched-rCBF strata, with adequate within-patient support and separation from the empirical support boundary.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? The inspected release schema proves that all four maps coexist in NCCT space, but it does not prove that the outcome contains a learnable joint-state relationship, that both sides of any response change are supported, or that the maps share directly compatible grids. Those are load-bearing Stage 0 gates.",
+  "existing_legwork": "The official ISLES'24 release documents 149 training cases with Tmax, CBF, CBV, and MTT derivatives in NCCT space (Zenodo 16731717; official repository). The challenge report documents icobrain cva tracer-kinetics deconvolution (arXiv:2408.10966). Wintermark et al. motivate CBV/CBF interaction physiologically (DOI 10.1161/01.STR.0000209238.61459.39), while Campbell et al. support rCBF as a core marker (DOI 10.1161/STROKEAHA.111.618355).",
+  "closest_prior_work": "Robben et al. predict final infarct from native CTP and treatment variables and use input/metadata ablations (PMID 31683091; arXiv:1812.02496). Amador et al. use clinical-variable counterfactuals (article S1532046423002885). The exact delta is a within-case, native-support-bounded edit along the joint CBV/MTT state at fixed CBF and Tmax. This is a targeted gap statement, not a verified novelty claim.",
+  "dies_like_prior": "No prior failure mode is yet escaped. It risks idea-009/016 IDENTIFIABILITY_FAILURE if the joint state cannot be separated from support density, map generation, or treatment; Stage 0 pauses rather than interprets that case. It differs from idea-006 only if native support and discriminator/sham gates establish that the edits are in distribution. ANNOTATION_PROVENANCE is not dominant because X and the primary paired model-output delta require no reader labels; outcome labels enter the prerequisite census and model training with documented provenance.",
+  "stage_0": {
+    "freeze_first": "Before inspecting outcomes, freeze patient splits, rCBF strata, minimum patients and within-patient voxels per state, CI-width requirement, directional-consistency rule, flexible monotone and change-point candidate models, support-edge separation rule, and handling of released treatment/reperfusion variables.",
+    "schema_gate": "Pin release version and file hashes; census missing files, dimensions, voxel sizes, affines, coverage, map units, mirror quality, and the residual of the central-volume identity.",
+    "outcome_gate": "On census-only patients, estimate patient-clustered final-infarct risk continuously over the joint CBV/MTT state within matched-rCBF strata. Require adequate joint support, precision, directional stability, and an outcome feature distinguishable from the support edge. Do not assume a kink at mirror-normal CBV.",
+    "native_support_gate": "Define all edit targets from native conditional quantiles and require support on both sides of every confirmatory contrast. If the outcome feature and support boundary cannot be separated, exit indeterminate.",
+    "model_gate": "Inventory released participant weights and exact inputs. Otherwise freeze a reproducible self-trained maps-only model; any conclusion is limited to that model family and recipe. Multimodal models, if used, are separate secondary analyses.",
+    "failure_consequence": "Failure of the outcome, support, grid, or model gate pauses this candidate. It does not justify silently substituting an autoregulatory-reserve claim or treating a later null as decisive."
   },
-  "deliverable_sentence": "The final-infarct model is using the autoregulatory blood-volume reserve -- capillary volume held at or above mirror-normal while flow falls -- as its tissue-salvageability signal, distinguishing the still-compensating penumbra from the collapsed core at matched flow deficit.",
-  "X_measurement": "rCBV_mirror = CBV / CBV_mirror per voxel from the released CBV maps registered to NCCT space, mirror via automatic midsagittal symmetry estimation, stratified by rCBF_mirror decrement. Clinical anchors: preserved autoregulation in penumbra produces vasodilation and normal-to-increased CBV while the core loses autoregulation and CBV collapses (Wintermark et al., Stroke 2006, DOI 10.1161/01.STR.0000209238.61459.39; review PMC2686422); the field later pivoted to rCBF<31% as the better core definition (Campbell et al., Stroke 2011, DOI 10.1161/STROKEAHA.111.618355), and a porcine CTP-PET study found the CBV infarction threshold varies with CBF -- the interaction beats either alone (PMC4922566). Compute-today test: YES -- released registered maps plus automatic mirroring; no annotator.",
-  "suspected_signal": "Whether tissue is still defending itself is written in the actuator: at equal flow deficit, tissue with dilated, filled capillary beds is physiologically salvageable, while tissue whose blood volume has collapsed has lost microvascular integrity. Every training case -- final infarct conditioned on reperfusion -- showed the model the consequence of this difference.",
-  "use_vs_association": "Within-case counterfactual that toggles the controller state: at fixed CBF and Tmax, move CBV inside the perfusion deficit between compensated (mirror-level) and collapsed (core-like) values, co-scaling MTT to preserve the Little's-law identity so edits stay on the physiological manifold; a paired, signed change in predicted final infarct under compensated-to-collapsed toggles, absent under off-deficit shams, distinguishes use of the reserve from CBV merely covarying with severity. A deliberate identity-VIOLATING probe (CBV moved without MTT) is run separately to ask whether the model even checks inter-map consistency -- informative either way, never pooled with the confirmatory arm.",
-  "keystone_prerequisite": "Per-case CBV, CBF, MTT, and Tmax maps coexist co-registered in a common (NCCT) space so mirror indices and joint channel edits run automatically on every case.",
-  "keystone_status": "INSPECTED_TRUE",
-  "keystone_evidence": "Official repository (github.com/ezequieldlrosa/isles24, fetched 2026-08-16): derivatives contain 'Perfusion maps registered to NCCT space'; Zenodo record 16731717 (DOI 10.5281/zenodo.16731717, fetched 2026-08-16) lists perfusion parametric maps (Tmax, CBF, CBV, MTT) per case with 'separate raw and co-registered derivative versions'.",
-  "keystone_residual_assumption": "Still assumed: (1) the released maps approximately satisfy CBV = CBF x MTT -- vendor scaling can break the analytic identity, so Stage 0 measures the identity residual and, if it fails, co-edits follow the empirical joint (CBF,CBV,MTT) distribution instead; (2) mirror integrity (bilateral chronic disease, midline shift) -- per-case symmetry-quality flags, machinery shared with baseline c02; (3) a self-trained nnU-Net stands in for challenge submissions.",
-  "dies_like_prior": "Closest kill is idea-016 (IDENTIFIABILITY_FAILURE via protocol): absolute CBV moves with injection protocol and cardiac output, but the mirror ratio and the within-case edits remove protocol by construction. idea-006 (OOD intervention) is answered by bounding toggles to the empirically observed rCBV_mirror range within cohort penumbra and core, manifold-consistent co-editing, and a discriminator gate. Adjacencies disclosed: baseline c02 asks what REFERENCE FRAME the model computes (contralateral normalization); c07 asks whether a specific physiological STATE read in that frame is used -- different X, shared mirroring machinery. isles24-scout-001-c01 (collateral clock) is upstream physiology: the CBV reserve is partly filled by collaterals, so the deliverable names the map-level signature (volume held up at low flow) and stays agnostic about whether autoregulatory dilation or collateral inflow fills it -- rung-honest wording, stated now.",
-  "closest_prior_work": "The CBV-versus-CBF war for defining core was fought entirely with hand-set thresholds on patients (Wintermark 2006 for CBV; Campbell 2011 for rCBF; interaction evidence in PMC4922566) and then the field moved to end-to-end models (Robben et al., Med Image Anal 2020, PMID 31683091, arXiv:1812.02496 -- deconvolution-free prediction with metadata ablations; ISLES'24 report arXiv:2408.10966) without ever asking which side of its own debate the models internalized. Exact delta: channel-ablation studies remove whole input maps; nobody has toggled the physiological state the maps jointly encode while preserving their internal consistency.",
-  "novelty_neighbors": [
-    "Wintermark M et al., 'Perfusion-CT assessment of infarct core and penumbra', Stroke 2006 (DOI 10.1161/01.STR.0000209238.61459.39) -- CBV-based core definition; human thresholds, no learned model.",
-    "Campbell BCV et al., 'Cerebral blood flow is the optimal CT perfusion parameter for assessing infarct core', Stroke 2011 (DOI 10.1161/STROKEAHA.111.618355) -- the debate's other side; still human thresholds.",
-    "Robben D et al., 'Prediction of final infarct volume from native CT perfusion and treatment parameters using deep learning', Med Image Anal 2020 (PMID 31683091, arXiv:1812.02496) -- end-to-end model with input/metadata ablations; no physiological-state manipulation within inputs."
+  "smallest_decisive_experiment": "After Stage 0 passes, use held-out patients excluded from the outcome census. Within eroded deficit tissue and prespecified rCBF strata, move CBV and MTT together along the native conditional joint curve while holding CBF, Tmax, anatomy, scanner, site, protocol, positioning, and all other voxels fixed. Use several native-support-bounded doses in both directions. The primary endpoint is the patient-clustered paired change in predicted infarct probability mass as a function of joint-state displacement. Off-deficit edits, zero-dose repeats, matched sham edits, and an independently specified Tmax positive control gate interpretability. Identity-violating edits are exploratory and never pooled.",
+  "confirmatory_separation": "The confirmatory question is use versus non-use of the joint state, not reserve versus generic CBV use. A flexible response curve is reported without assigning a physiological ceiling. CBV-channel versus MTT-channel attribution is prohibited when the central-volume identity holds.",
+  "claim_identifiability": {
+    "positive": "A gated, dose-ordered paired response identifies use of the joint CBV/MTT state by the tested model at matched CBF. It does not identify autoregulation, collateral inflow, or a particular input channel.",
+    "alternatives": [
+      "Edit artifact or out-of-distribution response: addressed by native conditional bounds, zero-dose repeat, shams, off-deficit edits, and discriminator gates.",
+      "Scanner, vendor, site, acquisition protocol, reconstruction, positioning, body habitus, prevalence, referral pathway, or report-label leakage: held fixed by within-case editing; vendor map-generation dependence remains a rung-2 limit.",
+      "Support-density or calibration saturation: not interpreted physiologically; any response feature coincident with the support boundary is indeterminate.",
+      "Other modalities dominate: prevented in the primary maps-only model; multimodal results are secondary and model-specific."
+    ]
+  },
+  "anticipated_negative": {
+    "classification": "Decisive, conditional",
+    "meaning": "If the outcome, support, model-performance, positive-control, and edit-validity gates all pass, an equivalence-bounded near-zero response decisively weakens the claim that this tested model uses the joint CBV/MTT state at matched CBF. It does not show that benchmark models generally 'side with rCBF,' and it does not show the state lacks biological importance.",
+    "equivalence_requirement": "Freeze a minimum detectable paired response and equivalence margin from validation-only sham variability and a scientifically justified effect scale before held-out inference; simple non-rejection is sensitivity-limited, not decisive."
+  },
+  "prohibited_conclusions": [
+    "Do not call the measured state autoregulatory blood-volume reserve without an independent autoregulatory endpoint or external physiological validation.",
+    "Do not attribute a response to CBV rather than MTT when the central-volume identity makes them one degree of freedom at fixed CBF.",
+    "Do not generalize from a self-trained model to challenge winners or benchmark models.",
+    "Do not interpret a response change point as physiology when it coincides with the native support boundary.",
+    "Do not interpret a failed Stage 0 gate or invalid edit as a scientific negative."
   ],
-  "novelty_delta": "No found work tests whether an end-to-end final-infarct model uses the autoregulation-reserve construct -- CBV read against CBF at matched flow deficit -- as opposed to using CBV as one more severity channel; the two-sided mirror-referenced toggle is the new move.",
-  "why_not_done": "BLIND_SPOT: the field litigated CBV-versus-CBF for human-defined core masks, declared rCBF the winner, and switched to end-to-end learning -- leaving unasked whether the models quietly re-adopted the losing (or a richer, interaction-form) construct.",
-  "existing_assets": "Registered CBV/CBF/MTT/Tmax maps for 149 public cases; automatic symmetry-plane tools shared with baseline c02; exact published threshold numbers (CBV core, rCBF<31%, CBFxCBV interaction) to compare the model's behavior against; the cycle-shared baseline model.",
-  "smallest_decisive_experiment": "Stage 0 (CPU): Little's-law identity-residual census and empirical joint (CBF,CBV,MTT) distributions in deficit versus mirror tissue on all 149 cases, plus a joint-support census (do both controller states occur at matched CBF decrement?). Decisive arm: 40 held-out cases, compensated-to-collapsed and collapsed-to-compensated toggles at three magnitudes plus off-deficit shams plus the identity-violating probe (~40 x 8 forward passes); primary readout is the paired, label-free, signed change in predicted lesion probability mass at matched CBF.",
-  "compute_envelope": "Fits one Colab GPU session given the cycle-shared checkpoint: map arithmetic and mirroring are CPU-trivial; ~320 forward passes are under 2 GPU-hours. Cheapest wide candidate this cycle.",
-  "standing_confounds_addressed": "Within-case edits hold patient, protocol, scanner, and site fixed; the mirror ratio removes global scaling (cardiac output, injection); matched-CBF stratification carries the observational arm; manifold co-editing preserves inter-channel consistency so the model cannot respond merely to a broken identity. Not ruled out: the reserve signature does not distinguish autoregulatory dilation from collateral inflow (deliberately absorbed into the claim's wording); perfusion-map smoothing across the deficit boundary (eroded ROIs); Tmax is held fixed although delay physiology is entangled with both states.",
-  "alternative_explanations": [
-    "The model reads CBV as a generic monotone severity channel, not a reserve: a construct reader responds to the sign of deviation-from-mirror at matched CBF, a generic reader responds monotonically to CBV level including above-mirror values -- the two-sided toggle separates them.",
-    "The response is an edit artifact: discriminator gate, off-deficit shams, and physiologic-range bounds.",
-    "The model derives its prediction from Tmax alone and ignores the CBV/CBF/MTT triplet: then toggles do nothing while the Tmax positive control still moves the output -- itself a crisp channel-use finding."
+  "data_and_compute": "Public ISLES'24 training data, CC BY-NC-SA 4.0, no DUA. Stage 0 is CPU-first but may require the approximately 99 GB archive unless derivative-only retrieval is confirmed. Model training and held-out inference must fit single-GPU sessions; exact forward-pass count follows the frozen dose grid rather than the obsolete 320-pass estimate.",
+  "verified_facts": [
+    "Official release schema: 149 cases and per-case Tmax/CBF/CBV/MTT derivatives co-registered to NCCT space (Zenodo 16731717 and official repository, inspected 2026-08-17).",
+    "Challenge report: perfusion maps were generated with icobrain cva using conventional tracer-kinetics deconvolution (arXiv:2408.10966, inspected during critique)."
   ],
-  "anticipated_negative": "With gates and the positive control passing, a null is a positive claim: the model's salvageability estimate ignores the blood-volume reserve, siding entirely with the rCBF camp of the field's oldest CTP debate -- a quotable statement about what benchmark models internalized, and a caution for anyone proposing CBV-derived inputs.",
-  "verified_dataset_facts": "Relies on (verified 2026-08-16, scout_candidates.json dataset_verification): perfusion parametric maps (Tmax, CBF, CBV, MTT) per case with co-registered derivative versions in NCCT space (Zenodo 16731717 description; official repository derivatives listing); 149 public training cases, CC BY-NC-SA 4.0; final-infarct ground truth from follow-up MRI conditioned on reperfusion (DOI 10.1148/ryai.250603, carried).",
+  "unverified_claims": [
+    "Outcome relationship and precision at matched rCBF",
+    "Adequate native joint support away from its boundary",
+    "Exact grid compatibility and usable map scaling",
+    "Mirror-estimation quality",
+    "Availability of released participant weights and exact channel specifications",
+    "In-distribution validity and sensitivity of joint-state edits",
+    "Novelty beyond the searched neighbors"
+  ],
   "design_template": "counterfactual-synthesis",
   "scores": {
-    "clarity": {
-      "value": 4,
-      "why": "One construct, one signed two-sided test; 'reserve' requires the matched-CBF qualifier to be stated every time, which costs it the 5."
-    },
-    "identifiability": {
-      "value": 4,
-      "why": "Within-case toggles on the physiological manifold with sign predictions separate construct use from channel use; the collateral-versus-autoregulation ambiguity is absorbed into honest wording rather than resolved."
-    },
-    "medical_relevance": {
-      "value": 4,
-      "why": "Which tissue-fate construct the models internalize decides how their outputs should be trusted under hemodynamic variation, and speaks directly to the still-live CBV/CBF debate in core definition."
-    },
-    "interest": {
-      "value": 4,
-      "why": "Re-opens the field's foundational CTP debate inside its own benchmark models; the identity-checking probe (does the model know Little's law?) is a bonus hook."
-    },
-    "prior_legwork": {
-      "value": 4,
-      "why": "Thresholds, physiology, registered maps, and mirroring machinery all exist; only the shared model must be trained."
-    },
-    "feasibility": {
-      "value": 4,
-      "why": "Keystone INSPECTED_TRUE; parametric map edits and a few hundred forward passes -- the cheapest decisive arm this cycle."
-    },
-    "data_readiness": {
-      "value": 4,
-      "why": "Everything needed is in the public co-registered derivatives; noncommercial license."
-    },
-    "evaluation_readiness": {
-      "value": 4,
-      "why": "Label-free paired signed deltas with standard gates; published threshold numbers provide external comparison points."
-    },
-    "negative_result_value": {
-      "value": 4,
-      "why": "A gated null is a directional claim (pure-flow reliance) with a named consequence for CBV-derived input proposals."
-    },
-    "novelty_confidence": {
-      "value": 3,
-      "why": "Targeted search found the threshold literature and ablation studies but no state-toggle audit; held at 3 pending the novelty stage."
-    },
-    "regret": {
-      "value": 4,
-      "why": "The debate's numbers and the benchmark's models are one experiment apart; obvious in hindsight once stated."
-    }
+    "clarity": {"value": 4, "why": "One model-use question, one measured joint state, and explicit boundaries on interpretation."},
+    "identifiability": {"value": 3, "why": "Within-case edits isolate joint-state use if validity gates pass, but vendor map generation and edit validity prevent a stronger score."},
+    "medical_relevance": {"value": 4, "why": "It tests whether tissue-fate prediction uses hemodynamic information beyond matched flow deficit, without overstating the biology."},
+    "interest": {"value": 4, "why": "It revisits the CBV-versus-CBF question inside a learned predictor with a direct use test."},
+    "prior_legwork": {"value": 3, "why": "Maps, outcome labels, physiology, and model recipes exist, but the load-bearing census and exact model asset do not."},
+    "feasibility": {"value": 3, "why": "Capped because the keystone is NOT_INSPECTED; Stage 0 is practical but has several legitimate pause gates."},
+    "data_readiness": {"value": 3, "why": "Public data and schema are verified, but archive retrieval, headers, covariates, and derivative-only access still require inspection."},
+    "evaluation_readiness": {"value": 3, "why": "Paired endpoints and controls are clear, but equivalence margin, dose grid, and support criteria must be frozen."},
+    "negative_result_value": {"value": 4, "why": "Conditional on all gates and a prespecified equivalence margin, a null decisively rejects joint-state use for the tested model."},
+    "novelty_confidence": {"value": 3, "why": "Capped by the uninspected keystone and because targeted search found no duplicate but cannot prove novelty."},
+    "regret": {"value": 4, "why": "A CPU-first census can cheaply prevent wasted model work and the valid probe would answer a neglected mechanism question."},
+    "mechanism_clarity": {"value": 4, "why": "The joint CBV/MTT state at matched CBF and its intervention are explicit; its biological cause is intentionally not identified."}
   },
-  "unverified_claims": [
-    "Little's-law identity residual in the released maps (vendor scaling)",
-    "joint support of both controller states at matched CBF in this cohort",
-    "in-distribution validity of state toggles",
-    "mirror integrity rates in this cohort"
-  ],
+  "mode_c_priority_score": {"value": 3.75, "why": "0.30*4 mechanism clarity + 0.25*3 identifiability + 0.20*4 interest + 0.15*4 medical relevance + 0.10*4 clarity."},
   "charter": "isles24"
 }
