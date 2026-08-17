@@ -1,0 +1,164 @@
+{
+  "id": "isles24-scout-001-w02",
+  "track": "wide",
+  "parent_ids": [],
+  "search_mode": "B",
+  "entry_point": 2,
+  "design_template": "natural-paired",
+  "title": "Does the model mistake the end of the scan for the end of the bolus?",
+  "question": "Is an ISLES'24 raw-CTP final-infarct model using terminal-curve incompleteness as a severity cue, creating a hidden dependence on acquisition duration?",
+  "outside_field": "Survival analysis and missing-data theory: a curve cut off by the scanner is right-censored, and the censoring boundary must not be mistaken for a biological event.",
+  "rung": {
+    "target": 1,
+    "current": 0,
+    "move_up": "Nested prefixes of the same complete acquisition can establish use of the censoring margin; cross-center duration replication would show a benchmark failure mode, not biological mechanism."
+  },
+  "deliverable_sentence": "The raw-CTP final-infarct model is using terminal-curve incompleteness\u2014the distance between residual contrast washout and the scan boundary\u2014as an image cue for tissue fate.",
+  "X_measurement": {
+    "X": "A terminal completeness index: the affected-tissue attenuation above prebolus baseline at the final frame, divided by peak enhancement, together with the terminal fitted washout slope and seconds from estimated 90% washout to scan end.",
+    "how": "Estimate baseline and peak per voxel from raw CTP, compute the normalized last-frame residual and a robust slope over the final five available seconds, then summarize within the fixed threatened region and contralateral homolog. Record acquisition duration directly from the fourth dimension and sidecar timing when available.",
+    "could_compute_today_without_asking_anyone": "Yes. It is deterministic curve arithmetic on the released 4D CTP and requires no annotation."
+  },
+  "suspected_signal": "Severely delayed tissue is most likely still enhanced when a short acquisition stops, so a network may learn the coincidence between lesion severity and the dataset-specific temporal boundary rather than a duration-invariant hemodynamic property.",
+  "specific_artifact_confused_with_signal": "True slow washout, poor cardiac output, delayed collateral arrival, differing injection timing, and simple zero-padding can all resemble truncation.",
+  "keystone_prerequisite": "A sufficient subset of ISLES'24 cases has complete long acquisitions that can be shortened to multiple still-clinically-plausible prefixes without changing sampling rate or preprocessing, and the frozen model accepts variable-length series or a masking scheme seen during training.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "Raw CTP release is verified, but the public paper does not establish per-case acquisition durations, curve completeness, padding semantics, or a model architecture that permits a clean prefix experiment.",
+  "rung_reached": "No rung. An association between last-frame residual and infarct merely recapitulates delayed flow; model use requires a within-acquisition censoring intervention.",
+  "dies_like_prior": "It differs from idea-016 because the claim is explicitly acquisition-boundary use, not physiology, and nested prefixes hold patient, injection, anatomy, and the observed early bolus fixed. It still dies by IDENTIFIABILITY_FAILURE if padding/masking artifacts cannot be separated from loss of late information, or by DATA_INSUFFICIENT if few curves are complete enough to censor.",
+  "closest_prior_work": [
+    {
+      "citation": "Kasasbeh et al., Effect of extended CT perfusion acquisition time on ischemic core and penumbra volume estimation",
+      "identifier": "PMID 25789631",
+      "verified_fact": "In 36 patients, 48-second acquisitions truncated core curves in 67% of cases; extended acquisitions yielded smaller estimated cores and larger penumbras, with phantom confirmation.",
+      "delta": "The study evaluated conventional estimates, not whether a neural final-infarct model uses the censoring boundary."
+    },
+    {
+      "citation": "Copen et al., Exposing hidden truncation-related errors in acute stroke perfusion imaging",
+      "identifier": "PMID 25500309",
+      "verified_fact": "Progressive deletion of late frames from 110-second perfusion MRI caused substantial duration-dependent changes and lesion reversals in hemodynamic maps.",
+      "delta": "It established truncation error in postprocessing, not a controlled neural-model reliance test on CT."
+    },
+    {
+      "citation": "Bathla et al., AI prediction from complete and partial CTP",
+      "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412",
+      "verified_fact": "The study tested neural prediction using complete and partial CTP data.",
+      "delta": "It addressed feasibility under partial data, not whether terminal incompleteness itself becomes a learned severity cue."
+    }
+  ],
+  "novelty_neighbors": [
+    {
+      "work": "Kasasbeh et al. extended-acquisition truncation study",
+      "identifier": "PMID 25789631"
+    },
+    {
+      "work": "Copen et al. progressive truncation experiment",
+      "identifier": "PMID 25500309"
+    },
+    {
+      "work": "Bathla et al. partial-CTP neural prediction",
+      "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412"
+    }
+  ],
+  "novelty_delta": "Prior work shows that truncation changes perfusion estimates and that networks can consume partial series; the proposed audit asks whether a frozen outcome model treats the censoring margin itself as fate evidence under nested prefixes from the same scan.",
+  "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+  "why_not_done": {
+    "category": "BLIND_SPOT",
+    "detail": "Acquisition-duration studies usually evaluate derived perfusion maps, while raw-CTP AI papers emphasize accuracy or radiation reduction; the scan boundary is rarely treated as a candidate learned feature."
+  },
+  "existing_assets": [
+    "Public ISLES'24 raw 4D CTP and delayed DWI fate masks",
+    "A within-acquisition nested-prefix design needing no new labels",
+    "Published human and phantom evidence that truncation changes conventional perfusion estimates"
+  ],
+  "smallest_decisive_experiment": "Stage 0 audits all 149 time axes and identifies at least 30 cases whose contralateral and affected curves both return within 10% of baseline before scan end. For one frozen raw-CTP model, evaluate each complete case at the full duration and at three nested prefixes ending 5, 10, and 15 seconds earlier. Use two controls: censor then extrapolate the tail with a preregistered gamma-variate fit, and mask the same number of interior frames while retaining the true terminal frames. Primary readout is the within-voxel lesion-probability slope per second removed inside the threatened territory, stratified by whether the removed tail contains residual enhancement.",
+  "compute_envelope": "One Colab GPU session: at most 40 cases, five variants per case, one frozen model, no retraining, under 6 GPU-hours and 16 GB VRAM.",
+  "use_vs_association": "Use is supported only if nested censoring changes predictions more when it removes residual washout and the effect is rescued by plausible tail extrapolation but not reproduced by equal-count interior-frame masking.",
+  "standing_confounds_addressed": {
+    "site_vendor_protocol": "The paired prefix comparison fixes the acquired scan; duration distributions and effects are still reported separately by center.",
+    "injection_and_cardiac_output": "All prefixes share the same injection and early arterial input; terminal residual is additionally normalized to peak.",
+    "padding_artifact": "Identical tensor length and an explicit temporal mask are required; synthetic padding styles are crossed as a nuisance factor.",
+    "disease_severity": "Patient and true trajectory are fixed within scan; the estimand is response to hiding late observations.",
+    "annotation_provenance": "The primary paired score-change endpoint is label-free; existing masks are used for spatial summaries only."
+  },
+  "alternative_explanations": [
+    {
+      "alternative": "Any missing frames reduce useful information.",
+      "resolution": "Equal-count interior-frame masking distinguishes generic missingness from terminal censoring."
+    },
+    {
+      "alternative": "The network responds to zeros or repeated-frame padding.",
+      "resolution": "Use an explicit mask if supported and require concordance across three padding conventions; otherwise the use claim is invalid."
+    },
+    {
+      "alternative": "Late frames contain genuine physiology, so sensitivity is appropriate.",
+      "resolution": "Tail extrapolation separates dependence on approximate washout information from dependence on the abrupt boundary; the claim remains about censoring, not that all late-frame use is bad."
+    }
+  ],
+  "anticipated_negative": {
+    "classification": "decisive",
+    "reason": "If adequately complete scans, validated masks, and a positive-control temporal shift are present, stable predictions across clinically plausible censoring weaken dependence on the acquisition boundary."
+  },
+  "cross_domain": {
+    "borrowed_construct": "Right censoring from survival analysis and missing-data theory.",
+    "measurement_implied": "Residual event-process mass at the observation boundary and sensitivity across nested censoring times.",
+    "if_analogy_dropped": "The experiment would merely ablate frames; censoring theory dictates nested prefixes, risk-set-style conditioning on complete scans, and explicit separation of boundary loss from generic missingness."
+  },
+  "remaining_legwork": "One day for time-axis and completeness auditing; two days to inspect candidate raw-CTP architectures for masking/padding behavior; no experiment is valid until both pass.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "The acquisition-boundary X and nested-prefix intervention are one-sentence precise."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Same-scan prefixes, tail rescue, and interior-frame controls isolate censoring better than an observational duration comparison."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "A duration shortcut would threaten deployment across stroke centers and scanning protocols."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A model reading when the scanner stopped as tissue fate is a surprising and actionable failure mode."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Human, phantom, and partial-series evidence already establish the technical risk."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because long complete cases and clean model masking semantics are uninspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Raw time series are released, though access is registration-bound and duration adequacy is unknown."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Nested paired slopes, rescue, missing-frame controls, and official spatial metrics are defined."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A powered gated null directly supports duration robustness over the tested range."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "The exact model-use delta survived a bounded primary-source search, not an exhaustive review."
+    },
+    "regret": {
+      "value": 5,
+      "why": "The audit is cheap and could expose a clinically consequential benchmark shortcut."
+    }
+  },
+  "priority_score": 3.95,
+  "priority_arithmetic": "0.20*3 + 0.15*4 + 0.15*4 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*4 + 0.05*4 + 0.05*3 = 3.95",
+  "unverified_claims": [
+    "At least 30 sufficiently complete public acquisitions",
+    "Reliable time metadata after the released 1-Hz resampling",
+    "A performant model with clean temporal masking or padding semantics",
+    "Tail extrapolation can pass physiological plausibility gates",
+    "No prior model-use audit treated truncation as a learned feature"
+  ],
+  "charter": "isles24"
+}
