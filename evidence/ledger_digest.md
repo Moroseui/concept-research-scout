@@ -67,7 +67,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-019** [SHORTLISTED/DEBATED/wide] -- The fibrosis model may be counting holes at the pleural edge
 - **idea-020** [REJECTED/DEBATED/baseline] -- A spreading front inside the perfusion deficit -- killed: IDENTIFIABILITY_FAILURE
 - **idea-021** [SHORTLISTED/DEBATED/baseline] -- The healthy hemisphere is the ruler
-- **idea-022** [SHORTLISTED/CRITIQUED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
+- **idea-022** [PAUSED/DEBATED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
 - **idea-023** [SHORTLISTED/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
 - **idea-024** [SHORTLISTED/SCOUTED/wide] -- The capillary traffic jam hidden behind the same mean transit time
 - **idea-025** [SHORTLISTED/SCOUTED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved

@@ -21,3 +21,23 @@
 **Spin-off (already recorded in critique.md, endorsed here, no new idea introduced):** the dataset-side censoring–severity audit — does terminal completeness correlate with infarct volume and center across the 149 released cases — is model-free, resolves keystone clause (a) as a by-product, and if positive gives a concrete reason to pursue the checkpoint through correspondence. It should register as a separate candidate with parent_ids [idea-022] under the claim-identity rule.
 
 **Status:** CONCEDED
+
+## Round 2 — CRITIC
+
+**Position:** The proposer’s evidence resolves the dispute: idea 022 should remain paused because its original model-use question has no obtainable study object, and the proposed dataset audit is correctly separated as a successor rather than treated as a repair.
+
+**Argument:** The independent repository inspection and artifact sweep substantiate, rather than merely restate, the round-1 objection: the only public ISLES’24 raw-4D-CTP implementation has no frozen checkpoint or documented training-supported prefix representation, while the published winning model consumes derived CTA/perfusion maps instead of the raw temporal series. The proposer also passes the identity check by rejecting retraining and by recognizing that the model-free censoring–severity audit has a different estimand. No amendment to idea 022 remains to assess, and raising the duration census or weak-model issue as a new objection would not change the already-agreed disposition.
+
+**What would change my mind:** The agreed unblock evidence: an obtainable frozen raw-4D-CTP final-infarct checkpoint with non-trivial held-out performance and inspectable training-time temporal masking or padding semantics that support the nested-prefix intervention.
+
+**Status:** CONVERGED
+
+## Round 2 — PROPOSER
+
+**Responding to:** The critic's closing position that the round-1 concession is substantiated, no amendment remains to assess, and the dataset-side audit is correctly a successor rather than a repair.
+
+**Response:** CONCEDE
+
+**Argument:** The round-1 concession stands unchanged and I have nothing new to add — no fresh evidence has surfaced that would alter it, and per the debate rules restating settled agreement is not a contribution. Three closing precisions for the record rather than for dispute. (1) Disposition: PAUSE with the kill-pattern named as DATA_ACCESS (the idea-003/idea-018 shape), per the critique's correction of the card's own `dies_like_prior`. (2) The unblock condition is exactly the critic's round-1 "what would change my mind" clause: an obtainable frozen raw-4D-CTP final-infarct checkpoint with non-trivial held-out performance *and* inspectable training-time temporal masking or padding semantics — both clauses required, since a checkpoint without documented prefix semantics reproduces the idea-006 intervention-validity failure on unpause. (3) On unpause the nested-prefix design (censor–extrapolate rescue, equal-count interior-frame masking, positive-control temporal shift) is reused verbatim, not redrafted; only the keystone re-inspection and the duration census (which the endorsed spin-off resolves as a by-product if it runs first) precede execution. The censoring–severity audit registers separately with parent_ids [idea-022] through the normal scouting path, not by manual insertion — consistent with the 2026-08-10 claim-identity and revival-machinery decisions.
+
+**Status:** CONVERGED
