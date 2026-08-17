@@ -66,7 +66,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-018** [REJECTED/DEBATED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle -- killed: DATA_ACCESS
 - **idea-019** [SHORTLISTED/DEBATED/wide] -- The fibrosis model may be counting holes at the pleural edge
 - **idea-020** [REJECTED/DEBATED/baseline] -- A spreading front inside the perfusion deficit -- killed: IDENTIFIABILITY_FAILURE
-- **idea-021** [SHORTLISTED/SCOUTED/baseline] -- The healthy hemisphere is the ruler
+- **idea-021** [SHORTLISTED/CRITIQUED/baseline] -- The healthy hemisphere is the ruler
 - **idea-022** [SHORTLISTED/SCOUTED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
 - **idea-023** [SHORTLISTED/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
 - **idea-024** [SHORTLISTED/SCOUTED/wide] -- The capillary traffic jam hidden behind the same mean transit time
