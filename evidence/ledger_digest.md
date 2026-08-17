@@ -7,8 +7,8 @@
 Before proposing a candidate, check it against every pattern below.
 A candidate that dies like a prior one must say what makes it different.
 
+- **DATA_ACCESS** x3: Required data, checkpoints, or mappings are not obtainable in practice.
 - **IDENTIFIABILITY_FAILURE** x3: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
-- **DATA_ACCESS** x2: Required data, checkpoints, or mappings are not obtainable in practice.
 - **DATA_INSUFFICIENT** x1: The subset that actually supports the inference is too small or unreachable.
 - **ANNOTATION_PROVENANCE** x1: Inference depends on who assigned labels / what they could see, and that is undocumented or contaminated.
 - **CIRCULARITY** x1: The endpoint is a re-encoding of the input or of the thing being tested.
@@ -69,7 +69,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-021** [SHORTLISTED/DEBATED/baseline] -- The healthy hemisphere is the ruler
 - **idea-022** [PAUSED/DEBATED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
 - **idea-023** [SHORTLISTED/DEBATED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
-- **idea-024** [SHORTLISTED/CRITIQUED/wide] -- The capillary traffic jam hidden behind the same mean transit time
+- **idea-024** [REJECTED/DEBATED/wide] -- The capillary traffic jam hidden behind the same mean transit time -- killed: DATA_ACCESS
 - **idea-025** [SHORTLISTED/SCOUTED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The vascular detour the segmentation model can see
