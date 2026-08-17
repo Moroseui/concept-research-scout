@@ -59,6 +59,23 @@ def scout_dir(i, charter=None):
     return ROOT/'ideas'/f'scout-{int(i):03d}'
 
 
+def _parse_scout_ref(ref):
+    """CLI scout reference -> (charter|None, cycle_no).
+    '13' / '013' -> (None, 13); 'isles24-001' -> ('isles24', 1)."""
+    r = str(ref).strip()
+    if r.isdigit():
+        return None, int(r)
+    parts = r.rsplit('-', 1)
+    if len(parts) == 2 and parts[1].isdigit():
+        return parts[0], int(parts[1])
+    raise SystemExit(f'Bad scout reference {ref!r}: use a cycle number '
+                     "(13) or charter-cycle ('isles24-001').")
+
+
+def _fmt_scout(charter, no):
+    return f'{charter}-{no:03d}' if charter else f'{no:03d}'
+
+
 def charter_path(name):
     """Charter file for a named charter; the baseline lives at ROOT/CHARTER.md."""
     if not name:
@@ -517,9 +534,9 @@ def new_scout(_):
     print(d.relative_to(ROOT)); print('Prompt:',p.relative_to(ROOT))
 
 
-def _load_candidates(scout_no, track=None):
-    src = scout_dir(scout_no)/'scout_candidates.json'
-    merged = scout_dir(scout_no)/'candidates_all.json'
+def _load_candidates(scout_no, track=None, charter=None):
+    src = scout_dir(scout_no, charter)/'scout_candidates.json'
+    merged = scout_dir(scout_no, charter)/'candidates_all.json'
     if merged.exists():
         src = merged
     if not src.exists():
@@ -531,15 +548,16 @@ def _load_candidates(scout_no, track=None):
     return candidates
 
 
-def _do_shortlist(scout_no, cand_no, track=None):
-    """Shortlist candidate cand_no (1-based) from cycle scout_no. Idempotent per
-    cycle: a candidate already shortlisted returns its existing idea number."""
+def _do_shortlist(scout_no, cand_no, track=None, charter=None):
+    """Shortlist candidate cand_no (1-based) from cycle scout_no (optionally a
+    named charter's cycle). Idempotent per cycle."""
     s = load_state()
-    done = s.setdefault('shortlisted', {}).setdefault(str(scout_no), {})
+    skey = _fmt_scout(charter, scout_no) if charter else str(scout_no)
+    done = s.setdefault('shortlisted', {}).setdefault(skey, {})
     if str(cand_no) in done:
-        print(f'Candidate {cand_no} of cycle {scout_no:03d} already shortlisted as idea {done[str(cand_no)]:03d}.')
+        print(f'Candidate {cand_no} of cycle {_fmt_scout(charter, scout_no)} already shortlisted as idea {done[str(cand_no)]:03d}.')
         return done[str(cand_no)]
-    candidates = _load_candidates(scout_no, track)
+    candidates = _load_candidates(scout_no, track, charter)
     idx = cand_no-1
     if idx < 0 or idx >= len(candidates):
         raise SystemExit('Candidate index out of range.')
@@ -552,7 +570,7 @@ def _do_shortlist(scout_no, cand_no, track=None):
     d = idea_dir(n); d.mkdir()
     card = candidates[idx]
     (d/'idea_card.json').write_text(json.dumps(card, indent=2)+'\n')
-    (d/'README.md').write_text(f"# Idea {n:03d}: {card.get('title','Untitled')}\n\nSelected from scouting cycle {scout_no:03d}, candidate {cand_no}.\n")
+    (d/'README.md').write_text(f"# Idea {n:03d}: {card.get('title','Untitled')}\n\nSelected from scouting cycle {_fmt_scout(charter, scout_no)}, candidate {cand_no}.\n")
     s = load_state()
     s['selected_idea'] = n
     s.setdefault('shortlisted', {}).setdefault(str(scout_no), {})[str(cand_no)] = n
@@ -574,7 +592,8 @@ def _do_shortlist(scout_no, cand_no, track=None):
 
 
 def shortlist(args):
-    _do_shortlist(args.scout, args.candidate, args.track)
+    ch, no = _parse_scout_ref(args.scout)
+    _do_shortlist(no, args.candidate, args.track, charter=ch)
 
 
 def stage_target(stage, idea):
@@ -1952,11 +1971,12 @@ def _scout_lid(charter, scout_no, suffix):
     return f'{charter}-{base}' if charter else base
 
 
-def _latest_scout_no():
+def _latest_scout_no(charter=None):
     scouts = sorted(p for p in (ROOT/'ideas').glob('scout-*')
-                    if _parse_scout_dir(p.name)[0] is None)
+                    if _parse_scout_dir(p.name)[0] == charter)
     if not scouts:
-        raise SystemExit('No scouting cycles exist yet.')
+        raise SystemExit('No scouting cycles exist yet'
+                         + (f' for charter {charter!r}.' if charter else '.'))
     return _parse_scout_dir(scouts[-1].name)[1]
 
 
@@ -2000,15 +2020,20 @@ def _sync_backlog():
         ledger_mod.digest()
 
 
-def _ranked_backlog():
-    """All unshortlisted scouted candidates across every cycle, best first.
+def _ranked_backlog(charter=None):
+    """Unshortlisted scouted candidates, best first, SCOPED TO ONE CHARTER
+    (None = baseline). Scores are never comparable across charters, so no
+    global mixed ranking exists by construction.
     Returns [(scout_no, cand_no, ledger_entry), ...]."""
     _sync_backlog()
+    import re
+    pat = (re.compile(r'scout-(\d+)-c(\d+)$') if charter is None
+           else re.compile(re.escape(charter) + r'-scout-(\d+)-c(\d+)$'))
     out = []
     for lid, e in ledger_mod.load().items():
         if e.get('status') != 'SCOUT_ONLY':
             continue
-        m = __import__('re').match(r'scout-(\d+)-c(\d+)$', lid)
+        m = pat.match(lid)
         if not m:
             continue
         v = e.get('novelty_verdict', 'UNAUDITED')
@@ -2196,8 +2221,18 @@ def pipeline(args):
     elif args.idea:
         ideas = [args.idea]
     else:
+        charter = getattr(args, 'charter', None) or None
+        if args.scout:
+            sch, sno = _parse_scout_ref(args.scout)
+            if charter and sch and sch != charter:
+                raise SystemExit(f'--charter {charter} conflicts with --scout {args.scout}.')
+            charter = charter or sch
+        else:
+            sno = None
+        if charter:
+            charter_path(charter)  # existence check
         if args.candidate:
-            scout_no = args.scout or _latest_scout_no()
+            scout_no = sno or _latest_scout_no(charter)
             picks = [(scout_no, args.candidate)]
         else:
             n = max(1, int(args.top or 1))
@@ -2205,17 +2240,18 @@ def pipeline(args):
             if inflight:
                 print('Finishing in-flight idea(s) first: '
                       + ', '.join(f'{i:03d}' for i in inflight[:n]))
-            rows = _ranked_backlog()
-            if args.scout:
-                rows = [r for r in rows if r[0] == args.scout]
-            print('Backlog (best first): '
-                  + (', '.join(f'{s:03d}-C{c}' for s, c, _ in rows[:8]) or '(empty)'))
+            rows = _ranked_backlog(charter)
+            if sno:
+                rows = [r for r in rows if r[0] == sno]
+            print('Backlog (best first, charter='
+                  + (charter or 'baseline') + '): '
+                  + (', '.join(f'{_fmt_scout(charter, s)}-C{c}' for s, c, _ in rows[:8]) or '(empty)'))
             picks = [(s, c) for s, c, _ in rows[:max(0, n - len(inflight[:n]))]]
             ideas_prefix = inflight[:n]
         ideas = list(locals().get('ideas_prefix', []))
         for scout_no, cand in picks:
-            ideas.append(_do_shortlist(scout_no, cand))
-            _commit_all(f'pipeline: shortlist C{cand} of cycle {scout_no:03d}')
+            ideas.append(_do_shortlist(scout_no, cand, charter=charter))
+            _commit_all(f'pipeline: shortlist C{cand} of cycle {_fmt_scout(charter, scout_no)}')
         if not ideas:
             print('Nothing to do: backlog empty and no in-flight ideas.')
             return
@@ -2537,7 +2573,7 @@ def main():
     ap=argparse.ArgumentParser(); sp=ap.add_subparsers(dest='cmd',required=True)
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
     p=sp.add_parser('new-scout'); p.set_defaults(fn=new_scout)
-    p=sp.add_parser('shortlist'); p.add_argument('scout',type=int); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
+    p=sp.add_parser('shortlist'); p.add_argument('scout'); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
@@ -2554,7 +2590,7 @@ def main():
     p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
     p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.set_defaults(fn=interpret_build)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
-    p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--scout',type=int); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
+    p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--charter',default=None); p.add_argument('--scout'); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
     for c in ('migrate','digest','list','taxonomy'):
         q=lsp.add_parser(c)

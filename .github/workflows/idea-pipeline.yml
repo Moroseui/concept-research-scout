@@ -10,9 +10,13 @@ on:
   workflow_dispatch:
     inputs:
       top_n:
-        description: 'Process the next N candidates from the global ranked backlog (finishes in-flight ideas first)'
+        description: 'Process the next N candidates from the ranked backlog of ONE charter (finishes in-flight ideas first)'
         default: '1'
         required: true
+      charter:
+        description: 'Charter scope for backlog/candidate selection; empty = baseline'
+        default: ''
+        required: false
       candidate:
         description: 'Instead: shortlist candidate # from the latest cycle (overrides top_n)'
         default: ''
@@ -89,6 +93,9 @@ jobs:
             ARGS="--candidate ${{ inputs.candidate }}"
           else
             ARGS="--top ${{ inputs.top_n }}"
+          fi
+          if [ -n "${{ inputs.charter }}" ]; then
+            ARGS="$ARGS --charter ${{ inputs.charter }}"
           fi
           python scout.py pipeline $ARGS --stages "${{ inputs.stages }}"
 

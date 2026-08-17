@@ -2013,5 +2013,71 @@ class TestConsolidationP1(Harness):
         self.assertNotIn("CRITIQUE,ACTIVE", r.stdout)
 
 
+class TestCharterPipeline(Harness):
+    """Charter-aware addressing: shortlist/pipeline reach charter cycles;
+    the ranked backlog is scoped to one charter by construction."""
+
+    def _sc(self):
+        import sys
+        from pathlib import Path
+        root = str(Path(__file__).resolve().parent.parent)
+        if root not in sys.path:
+            sys.path.insert(0, root)
+        import scout as sc
+        sc.ROOT = self.repo
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        return sc
+
+    def test_parse_scout_ref(self):
+        sc = self._sc()
+        self.assertEqual(sc._parse_scout_ref("13"), (None, 13))
+        self.assertEqual(sc._parse_scout_ref("013"), (None, 13))
+        self.assertEqual(sc._parse_scout_ref("isles24-001"), ("isles24", 1))
+        with self.assertRaises(SystemExit):
+            sc._parse_scout_ref("isles24")
+
+    def test_backlog_scoped_per_charter(self):
+        sc = self._sc()
+        # The fixture ledger is built from the PRODUCTION repo, which now
+        # carries real charter candidates (the first exact-match version of
+        # this test failed on the operator machine the moment isles24 cycles
+        # existed). Synthetic entries therefore use a charter name that can
+        # never exist in production, making exact-match safe everywhere.
+        for lid in ("scout-010-c01", "zzqtest-scout-001-c01",
+                    "zzqtest-scout-001-c02"):
+            sc.ledger_mod.append({"ledger_id": lid, "status": "SCOUT_ONLY",
+                                  "novelty_verdict": "NO_DUPLICATE_FOUND_HIGH_CONFIDENCE",
+                                  "scores_mean": 4.0})
+        base = sc._ranked_backlog()
+        zzq = sc._ranked_backlog("zzqtest")
+        self.assertIn((10, 1), [(s, c) for s, c, _ in base],
+                      "unprefixed entry must appear in the baseline backlog")
+        self.assertEqual(sorted((s, c) for s, c, _ in zzq), [(1, 1), (1, 2)],
+                         "charter backlog is exactly that charter's entries")
+        self.assertNotIn((10, 1), [(s, c) for s, c, _ in zzq],
+                         "baseline entries must not leak into a charter backlog")
+
+    def test_shortlist_from_charter_cycle(self):
+        sc = self._sc()
+        import copy
+        d = self.repo / "ideas" / "scout-isles24-001"
+        d.mkdir(parents=True, exist_ok=True)
+        card = copy.deepcopy(GOLDEN_CANDIDATE)
+        card["charter"] = "isles24"
+        (d / "candidates_all.json").write_text(json.dumps(
+            {"charter": "isles24", "candidates": [card]}))
+        self._commit_all()
+        r = self.scout("shortlist", "isles24-001", "1")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        promoted = sorted(p for p in (self.repo / "ideas").iterdir()
+                          if p.name.isdigit())
+        self.assertTrue(promoted, "a numbered idea dir must exist")
+        card2 = json.loads((promoted[-1] / "idea_card.json").read_text())
+        self.assertEqual(card2.get("charter"), "isles24")
+        readme = (promoted[-1] / "README.md").read_text()
+        self.assertIn("isles24-001", readme)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
