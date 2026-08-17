@@ -1,6 +1,6 @@
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-105 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+107 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -69,6 +69,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-021** [SHORTLISTED/SCOUTED/baseline] -- The healthy hemisphere is the ruler
 - **idea-022** [SHORTLISTED/SCOUTED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
 - **idea-023** [SHORTLISTED/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
+- **idea-024** [SHORTLISTED/SCOUTED/wide] -- The capillary traffic jam hidden behind the same mean transit time
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
@@ -86,6 +87,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-002-c07** [SCOUT_ONLY/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
 - **isles24-scout-002-c08** [SCOUT_ONLY/SCOUTED/wide] -- Has the deficit percolated? Volume is what the metric sees; connectivity may be what the model uses
 - **scout-001-c05** [SHORTLISTED/?/baseline] -- (untitled)
+- **scout-001-c06** [SHORTLISTED/?/baseline] -- (untitled)
 - **scout-001-c07** [SHORTLISTED/?/baseline] -- (untitled)
 - **scout-002-c02** [SHORTLISTED/?/baseline] -- (untitled)
 - **scout-002-c07** [SHORTLISTED/?/baseline] -- (untitled)

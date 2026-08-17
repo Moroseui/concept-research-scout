@@ -1,0 +1,164 @@
+{
+  "id": "isles24-scout-001-w01",
+  "track": "wide",
+  "parent_ids": [],
+  "search_mode": "B",
+  "entry_point": 2,
+  "design_template": "counterfactual-synthesis",
+  "title": "The capillary traffic jam hidden behind the same mean transit time",
+  "question": "Is an ISLES'24 raw-CTP final-infarct model using capillary transit-time heterogeneity within hypoperfused tissue, rather than only mean flow and delay?",
+  "outside_field": "Chemical-reaction engineering: residence-time distributions distinguish two flow systems with the same mean transit time but different mixing and extraction efficiency.",
+  "rung": {
+    "target": 1,
+    "current": 0,
+    "move_up": "A validated paired intervention that changes transit-time dispersion while preserving voxelwise first moments and standard released perfusion summaries establishes model use; external physiological validation would be required for a higher biological claim."
+  },
+  "deliverable_sentence": "The raw-CTP final-infarct model is using capillary transit-time heterogeneity, a dispersion property of microvascular passage that standard mean perfusion maps compress away.",
+  "X_measurement": {
+    "X": "Within each threatened-tissue neighborhood, the dispersion of deconvolved residue-function transit times, summarized by the coefficient of variation and interquantile width after a single frozen arterial-input-function procedure.",
+    "how": "Estimate an arterial input function automatically, deconvolve each tissue attenuation curve with one preregistered delay-insensitive method, normalize each nonnegative residue curve to unit mass, and compute its transit-time variance and coefficient of variation. Aggregate only within a fixed Tmax>6 s region and report stability to the deconvolution regularizer.",
+    "could_compute_today_without_asking_anyone": "Yes as a well-defined tracer-kinetic calculation on the released raw 4D CTP; no human annotation is required. Construct validity in ISLES'24 remains a gate."
+  },
+  "suspected_signal": "At equal mean delivery, heterogeneous capillary passage can reduce effective oxygen extraction because some blood transits too quickly while other paths stagnate; this may distinguish tissue that dies despite successful macroscopic reperfusion.",
+  "specific_artifact_confused_with_signal": "Noise amplification during deconvolution, partial volume in the arterial input function, motion correction, temporal resampling to 1 Hz, and scan truncation can all broaden the estimated transit distribution without reflecting microvascular physiology.",
+  "keystone_prerequisite": "ISLES'24 raw CTP has sufficient temporal duration, signal-to-noise ratio, and post-bolus sampling to produce CTH estimates stable across plausible arterial-input-function choices and deconvolution regularization in a substantial fraction of the public cases.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The dataset paper and repository verify release of motion-corrected 1-Hz raw CTP, but neither proves that the time axis is long enough or that CTH is identifiable after this resampling. The published clinical association does not validate the measurement on ISLES'24.",
+  "rung_reached": "No rung. Patient-level correlation between CTH and final infarct is association; only a selective, validated paired intervention supports the use sentence.",
+  "dies_like_prior": "It risks IDENTIFIABILITY_FAILURE like idea-016 if curve dispersion cannot be separated from injection protocol or truncation. It differs by using within-case, moment-matched temporal counterfactuals and by making temporal-coverage stability the first gate; failure of either gate kills it. It also inherits idea-006's OOD warning, so synthetic curves require real-versus-edit and forward-model residual gates.",
+  "closest_prior_work": [
+    {
+      "citation": "Potreck et al., Increased volumes of mildly elevated capillary transit time heterogeneity positively predict favorable outcome and negatively predict intracranial hemorrhage in acute ischemic stroke with large vessel occlusion",
+      "identifier": "DOI 10.1007/s00330-019-06064-4; PMID 30887195",
+      "verified_fact": "The primary study computed CTH maps in 131 thrombectomy patients and reported associations with favorable outcome and intracranial hemorrhage.",
+      "delta": "It studied a patient biomarker, not whether a raw-CTP infarct model uses CTH at fixed standard perfusion summaries."
+    },
+    {
+      "citation": "Bathla et al., Computed Tomography Perfusion-Based Prediction of Core Infarct and Tissue at Risk: Can Artificial Intelligence Help Reduce Radiation Exposure?",
+      "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412",
+      "verified_fact": "The study trained arterial-input-function-independent neural networks on complete and partial CTP series.",
+      "delta": "It tested prediction from temporal data, not selective reliance on transit-time dispersion."
+    },
+    {
+      "citation": "Riedel et al., The ISLES'24 Dataset",
+      "identifier": "DOI 10.1148/ryai.250603; PMID 42017802",
+      "verified_fact": "The dataset contains hyperacute raw CTP, standard perfusion maps, and postinterventional DWI-derived final-infarct masks in successfully reperfused patients.",
+      "delta": "The dataset paper benchmarks lesion prediction but does not report a CTH model-use audit."
+    }
+  ],
+  "novelty_neighbors": [
+    {
+      "work": "Potreck et al. CTH outcome study",
+      "identifier": "DOI 10.1007/s00330-019-06064-4; PMID 30887195"
+    },
+    {
+      "work": "Bathla et al. complete/partial raw-CTP neural prediction",
+      "identifier": "DOI 10.1161/STROKEAHA.121.034266; PMID 34670412"
+    },
+    {
+      "work": "Riedel et al. ISLES'24 dataset and benchmark",
+      "identifier": "DOI 10.1148/ryai.250603; PMID 42017802"
+    }
+  ],
+  "novelty_delta": "The searched neighbors establish CTH as a stroke biomarker and raw-CTP neural prediction separately; the proposed experiment tests whether a frozen final-infarct model uses CTH after mean delay, flow, volume, spatial support, and curve energy are held fixed.",
+  "novelty_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+  "why_not_done": {
+    "category": "NEW_CAPABILITY",
+    "detail": "ISLES'24 newly co-releases raw motion-corrected 4D CTP, conventional maps, and delayed DWI fate labels for a public successful-reperfusion cohort, making a map-versus-distribution audit possible without private data."
+  },
+  "existing_assets": [
+    "149 public ISLES'24 training cases with raw CTP and registered standard maps",
+    "DWI-derived final-infarct masks and official segmentation metrics",
+    "Published CTH tracer-kinetic construct and automatic arterial-input-function methods"
+  ],
+  "smallest_decisive_experiment": "Stage 0 inspects all 149 time axes and estimates CTH stability on 20 cases. If at least 80% have complete curves and the within-case CTH rank correlation is at least 0.8 across two frozen regularizers and two automatic AIF choices, freeze one already trained raw-CTP model. On 30 untouched cases, generate three local curve mixtures per case that alter residue-time variance across the natural interquartile range while exactly preserving curve integral, first temporal moment, peak time, Tmax>6/Tmax>10 volumes, and spatial support; compare local lesion-probability changes with equal-energy phase-scramble and mean-shift positive-control edits.",
+  "compute_envelope": "One Colab GPU session after cached CPU deconvolution: at most 30 cases, seven variants per case, one frozen model, batch-size-one inference, and no retraining. Estimated GPU budget under 8 hours and 16 GB VRAM.",
+  "use_vs_association": "Use requires a dose-ordered local prediction response to CTH-only counterfactuals beyond moment-matched shams; CTH decoding or case-level correlation alone is explicitly insufficient.",
+  "standing_confounds_addressed": {
+    "site_vendor_protocol": "Paired within-scan edits hold acquisition fixed; the effect must replicate by center and acquisition-duration stratum.",
+    "deficit_severity": "Standard map values, threshold volumes, first temporal moment, and affected territory are fixed after final preprocessing.",
+    "injection_and_cardiac_output": "The patient's global arterial input function is unchanged in the paired estimand.",
+    "annotation_provenance": "No new annotation is used in the primary paired output test; DWI labels are used only to train/evaluate the frozen predictor.",
+    "treatment_selection": "Successful reperfusion is fixed by cohort design but limits the conclusion to this selected population."
+  },
+  "alternative_explanations": [
+    {
+      "alternative": "The model responds to synthetic temporal texture.",
+      "resolution": "Require a held-out real-versus-edit discriminator near chance, low forward-model residuals, and equal-energy temporal shams."
+    },
+    {
+      "alternative": "CTH is deconvolution noise.",
+      "resolution": "The Stage-0 cross-AIF and cross-regularizer stability gate is fatal if it fails."
+    },
+    {
+      "alternative": "The edit changes an unreported conventional perfusion statistic.",
+      "resolution": "Recompute CBF, CBV, MTT, Tmax, HIR, peak, integral, and first moment after final preprocessing and require prespecified tolerances."
+    }
+  ],
+  "anticipated_negative": {
+    "classification": "sensitivity-limited",
+    "reason": "A null is useful only if edits span the natural CTH range, remain in-distribution, and the same model responds to a preregistered mean-delay positive control."
+  },
+  "cross_domain": {
+    "borrowed_construct": "Residence-time-distribution variance from chemical-reaction engineering.",
+    "measurement_implied": "Variance and coefficient of variation of the normalized residue-function transit-time distribution at fixed mean residence time.",
+    "if_analogy_dropped": "The experiment would collapse back to MTT or Tmax; the outside-field construct specifically motivates comparing distributions with identical means."
+  },
+  "remaining_legwork": "One day for a file/header audit, two to four days for the 20-case measurement-stability gate, and a separate checkpoint/reproduction audit before any intervention.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "The named distributional X, preserved first moments, and paired output are explicit."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Moment-matched interventions isolate dispersion if deconvolution and edit-validity gates pass, but temporal artifacts remain serious."
+    },
+    "medical_relevance": {
+      "value": 5,
+      "why": "Microvascular oxygen extraction could explain tissue death despite macroscopic reperfusion."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A model distinguishing capillary traffic patterns that standard maps average away is mechanistically surprising."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "The biomarker, raw data, fate labels, and prediction task exist; a usable frozen model is not yet pinned."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because temporal adequacy, CTH stability, checkpoint, and edit realism are uninspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "The public noncommercial release contains the required raw and derived images, subject to access registration."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Standard output metrics exist, but tracer-kinetic and edit-validity gates are custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A gated null excludes this defined dispersion signal, but inadequate model sensitivity would limit it."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "A bounded primary-source search found no selective model-use audit; no exhaustive novelty claim is made."
+    },
+    "regret": {
+      "value": 5,
+      "why": "The raw time series may contain a physiologically important distribution that released summary maps necessarily compress."
+    }
+  },
+  "priority_score": 3.9,
+  "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*5 + 0.10*4 + 0.10*5 + 0.10*5 + 0.10*3 + 0.05*4 + 0.05*3 = 3.85, rounded to 3.9",
+  "unverified_claims": [
+    "Adequate late temporal coverage in at least 80% of public cases",
+    "Stable CTH recovery after 1-Hz resampling",
+    "Availability or reproducibility of a performant raw-CTP model within the compute budget",
+    "In-distribution CTH-only counterfactuals",
+    "No prior selective model-use experiment for CTH"
+  ],
+  "charter": "isles24"
+}
