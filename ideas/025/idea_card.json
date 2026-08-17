@@ -1,0 +1,112 @@
+{
+  "id": "isles24-scout-002-c06",
+  "track": "wide",
+  "title": "The scan is also an actigraph: the model may be reading how much the patient moved",
+  "question": "Is an ISLES'24 raw-CTP model using residual patient head motion in the 4D time series -- restlessness written into the acquisition -- as a prognostic cue?",
+  "cross_field": {
+    "borrowed_construct": "Actigraphy / behavioral medicine: movement as a vital sign -- agitation, neglect, and impaired compliance are behavioral severity measures, routinely quantified by accelerometry in delirium and stroke-unit monitoring.",
+    "instrument_it_implies": "Framewise displacement (FD), the head-motion instrument from fMRI quality control (Power et al., NeuroImage 2012, PMID 22019881), transplanted to CTP: the scan itself becomes an actigraph.",
+    "what_changes_if_dropped": "Nothing about the measurement (FD stands alone); the actigraphy frame supplies the causal reading -- motion as behavior, not noise -- and the named clinical failure mode."
+  },
+  "causal_chain": [
+    {
+      "link": "L1: More severe cortical deficits (aphasia, neglect, agitation) impair compliance and produce more head motion during the roughly minute-long CTP acquisition.",
+      "separately_checkable_by": "Correlate the automated motion index against released admission NIHSS across all 149 cases (clinical CSV is in the release). Honestly contested: Fahmi et al. 2013 reported motion largely independent of neurological condition at their grading, while a 2021 Eur J Radiol follow-up studied correlation with baseline features (paywalled today, direction unretrieved); L1 is therefore a preregistered in-dataset test, not an assumption."
+    },
+    {
+      "link": "L2: The organizers' motion correction removed gross displacement but left a measurable, patient-gradeable residue (frame-to-frame inconsistency, interpolation blur).",
+      "separately_checkable_by": "FD and temporal-inconsistency census on the released corrected series -- the keystone gate."
+    },
+    {
+      "link": "L3: A model trained on raw CTP absorbs the residue as a prior on outcome.",
+      "separately_checkable_by": "The motion-injection intervention below -- this is the use claim."
+    },
+    {
+      "link": "Z (implied failure mode): sedated or intubated severe-stroke patients, who lie still, get systematically under-predicted lesions; agitated patients with mild strokes get over-predicted ones -- a bias invisible to every leaderboard metric.",
+      "separately_checkable_by": "If L1-L3 hold, stratify model residuals by the motion index at matched deficit burden."
+    }
+  ],
+  "deliverable_sentence": "The raw-CTP model is using the residual patient-motion signature in the time series -- restlessness the correction step could not fully erase -- as a prognostic cue when it predicts final infarct extent.",
+  "X_measurement": "Framewise displacement adapted from fMRI QC: rigidly re-register each 1 frame/s CTP frame to the series median (SimpleITK/elastix, automatic), FD = summed absolute translations plus rotations converted to 50-mm-arc displacements per frame transition; case-level index = mean and 95th-percentile FD, plus a temporal-inconsistency energy (median absolute frame-to-frame difference in registered space) capturing interpolation residue that re-registration cannot undo. Amplitude context from Fahmi et al. 2013 (PMID 24041432): moderate-to-severe motion in ~25% of stroke CTP patients, translations up to ~9-23 mm. Compute-today test: YES -- standard rigid registration tools, no annotator.",
+  "suspected_signal": "Motion is patient behavior: severe cortical syndromes produce restlessness that survives motion correction as a textural residue; a model rewarded for predicting large infarcts in severe patients can learn the residue as a severity prior, exactly the acquisition-cue shortcut class DeGrave et al. documented in COVID radiography.",
+  "use_vs_association": "Within-case paired injection: apply a calibrated per-frame rigid motion trace (amplitudes drawn from the cohort's own observed residual-motion distribution) to low-motion cases, re-run a standard motion-correction step so the model sees a realistically corrected-but-degraded series, hold every hemodynamic fact of the case fixed; a dose-response change in predicted final infarct, absent under a matched static-blur sham, distinguishes use of the motion signature from motion merely correlating with severity. Sign is itself identifying: PMID 34301804 shows motion pushes classical mismatch software toward SMALLER core estimates, while a learned severity prior predicts LARGER outputs under injected motion -- the two pathways point in opposite directions.",
+  "keystone_prerequisite": "The released motion-corrected 4D CTP retains a measurable, patient-gradeable residual-motion signature (FD dynamic range above the re-registration noise floor).",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence_note": "The series sit inside the 99-GB train.7z; the prior cycle verified (DOI 10.1148/ryai.250603) that raw CTP is released motion-corrected and resampled to 1 frame/s, but no frame of it was opened today. If correction flattened the natural signal, the observational L1/L2 links weaken while the injection arm (which manufactures its own motion) still runs -- the claim then degrades from 'severity cue' to 'motion robustness audit', stated here in advance.",
+  "keystone_residual_assumption": "Also assumed: the organizers' correction algorithm is close enough to a standard rigid pipeline that injected-then-corrected residue resembles natural residue texturally (mitigated by matching injected FD statistics to natural high-motion cases plus a real-vs-edited discriminator gate); and a competitive raw-CTP-ingesting baseline is trainable (shared assumption with baseline candidate c04).",
+  "dies_like_prior": "Closest kill is idea-006 (extreme OOD intervention): answered by calibrating injected amplitudes to the cohort's observed distribution, passing edits through the same correction step, and a discriminator gate. The IDENTIFIABILITY_FAILURE pattern (ideas 009/016) is answered structurally: motion is a per-patient behavioral variable manipulated within-case with hemodynamics frozen, not a protocol constant varying only across sites. Adjacency disclosed: isles24-scout-001-c07 (truncation) and c08 (deconvolution fingerprint) are acquisition-quality cues at site/protocol level; this X is per-patient behavior, and site is held fixed by the within-case design.",
+  "closest_prior_work": "Motion in stroke CTP is characterized (Fahmi et al. 2013, PMID 24041432) and its distorting effect on classical automated mismatch software is measured (PMID 34301804: smaller cores, larger penumbra under motion). Shortcut learning on acquisition cues is established in radiography (DeGrave et al., Nat Mach Intell 2021, DOI 10.1038/s42256-021-00338-7). Exact delta: no found work asks whether a learned stroke-outcome model responds to the motion signature itself -- the field's entire relationship to motion is corrective.",
+  "novelty_neighbors": [
+    "Fahmi F et al., 'Head movement during CT brain perfusion acquisition of patients with suspected acute ischemic stroke', Eur J Radiol 2013 (PMID 24041432) -- quantifies motion prevalence and amplitude; no model audit.",
+    "'What is the impact of head movement on automated CT perfusion mismatch evaluation in acute ischemic stroke?' (PMID 34301804) -- motion biases classical threshold software; learned models and the severity-cue question untouched.",
+    "DeGrave AJ, Janizek JD, Lee S-I, 'AI for radiographic COVID-19 detection selects shortcuts over signal', Nat Mach Intell 2021 (DOI 10.1038/s42256-021-00338-7) -- the acquisition-shortcut genre, never applied to stroke CTP or to motion."
+  ],
+  "novelty_delta": "Motion has been measured as a nuisance and corrected as an artifact, but no found work tests whether a trained final-infarct model uses the patient-motion signature as an informative feature, nor exploits the opposite-sign prediction that separates the shortcut pathway from the corrupted-hemodynamics pathway.",
+  "why_not_done": "BLIND_SPOT: the field treats motion exclusively as noise to correct or a QC exclusion criterion, so nobody promoted it to a candidate feature; the actigraphy literature that treats movement as a behavioral vital sign never touches CT.",
+  "existing_assets": "Released raw 4D CTP (motion-corrected, 1 frame/s) for 149 cases; released clinical CSV with admission NIHSS for the L1 check; FD is a standard formula atop standard registration tools; motion amplitude priors from Fahmi 2013; the cycle-shared baseline model.",
+  "smallest_decisive_experiment": "Stage 0 (CPU only): FD and temporal-inconsistency census on all 149 corrected series, plus the L1 motion-NIHSS correlation from the released CSV. Decisive arm: on 40 low-motion held-out cases, inject motion traces at four amplitudes (25th/50th/75th/95th percentile of the observed distribution) plus a static-blur sham and a no-op resampling sham; forward passes through the shared baseline (raw-CTP channels perturbed, derived-map channels held fixed); primary readout is the paired, label-free change in predicted lesion probability mass, with sign interpreted against the PMID 34301804 direction.",
+  "compute_envelope": "Fits one Colab GPU session given the cycle-shared checkpoint: registrations are CPU-parallel (~80 frames x 149 cases, hours on a standard VM, no GPU), and the decisive arm is ~40 x 7 = 280 forward passes, under 2 GPU-hours. The shared checkpoint itself is one separate A100 session (~8-12 h, reduced-epoch nnU-Net), counted once for the whole cycle.",
+  "standing_confounds_addressed": "Within-case injection freezes patient, site, scanner, protocol, and hemodynamics; the static-blur sham separates average blur from frame-to-frame inconsistency; a spatially-incoherent temporal-noise sham matched in per-frame energy separates motion structure from generic noise; amplitude calibration plus the discriminator gate bound distribution shift. Not ruled out: the organizers' exact correction algorithm is unknown, so injected residue may differ texturally from natural residue -- the discriminator gate is the honest bound on this.",
+  "alternative_explanations": [
+    "The model responds to any temporal inconsistency, not motion structure: the energy-matched incoherent-noise sham tests this.",
+    "Injected motion legitimately corrupts hemodynamic content and the prediction change is warranted: the opposite-sign benchmark (classical software shrinks cores under motion) plus holding derived-map channels fixed separates the pathways.",
+    "L1 fails in this cohort (motion uncorrelated with NIHSS): the finding degrades from severity-shortcut to motion-robustness audit -- still a certifiable property no challenge metric reports, stated in advance."
+  ],
+  "anticipated_negative": "With the discriminator gate and a hemodynamic positive-control edit passing, a flat dose-response is a clean negative: the model is motion-robust across naturally occurring amplitudes -- a deployable robustness statement the challenge never tested, and a direct contrast with classical software's known fragility.",
+  "verified_dataset_facts": "Relies on (verified 2026-08-16, scout_candidates.json dataset_verification): raw 4D CTP time series released per case, motion-corrected and resampled to 1 frame/s (Zenodo 16731717 description; DOI 10.1148/ryai.250603 carried from prior cycle); clinical data including admission NIHSS in the release (Zenodo description); 149 public training cases under CC BY-NC-SA 4.0.",
+  "design_template": "counterfactual-synthesis",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "One named signature and one injection test, but 'motion signature' bundles displacement and interpolation residue; the sham family unbundles it rather than the sentence."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Opposite-sign pathways, within-case injection, and three shams isolate the cue well; the injected-versus-natural residue texture mismatch is the live residual."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "The sedation/intubation failure mode is a named deployment harm: triage models see ventilated patients, and a motionless severe stroke would be systematically under-scored."
+    },
+    "interest": {
+      "value": 5,
+      "why": "Inverts a universal assumption -- motion is information, not noise -- and either answer (shortcut found, or robustness certified against classical software's known fragility) lands with the imaging-AI audience."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Motion amplitudes quantified, FD instrument standard, classical-software bias measured with a sign, NIHSS released; only the model and the census are new work."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped: keystone NOT_INSPECTED (residual-motion dynamic range after the organizers' correction is unopened)."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Public but the required raw series live in a 99-GB archive and the critical property is uninspected."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Label-free paired deltas with standard gates; the signed external benchmark (PMID 34301804) is already published."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A gated null certifies motion robustness at natural amplitudes -- a positive, publishable property, not an uninterpretable absence."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped by keystone status; targeted search found characterization and classical-software studies but no learned-model audit -- the novelty stage owns the verdict."
+    },
+    "regret": {
+      "value": 4,
+      "why": "The shortcut-learning genre is actively hunting new instances; motion in stroke CTP is sitting in the open with the clinical CSV needed to test it."
+    }
+  },
+  "unverified_claims": [
+    "Residual-motion dynamic range in the released corrected series",
+    "the organizers' motion-correction algorithm",
+    "motion-NIHSS association in this cohort (L1, contested in literature)",
+    "trainability of a competitive raw-CTP-ingesting baseline",
+    "2021 Eur J Radiol baseline-features paper direction (paywalled today)"
+  ],
+  "charter": "isles24"
+}
