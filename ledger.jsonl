@@ -273,3 +273,5 @@
 {"ledger_id": "idea-024", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-17T08:30:20+00:00"}
 {"ledger_id": "idea-024", "status": "REJECTED", "kill_code": "DATA_ACCESS", "kill_reason": "debate: Reopen only if an obtainable performant raw-CTP model, a validated LVO measurement separating macrovascular dispersion from capillary transit-time variance, and a selective final-input intervention are all available.", "death_stage": "debate", "recorded_at": "2026-08-17T08:30:20+00:00"}
 {"ledger_id": "idea-025", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-17T08:39:46+00:00"}
+{"ledger_id": "idea-025", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-17T08:47:59+00:00"}
+{"ledger_id": "idea-025", "status": "PAUSED", "notes": "debate: Obtain paired pre-correction and icobrain cva 1.5.0-corrected CTP (or a source-verified bit-equivalent pipeline) with independent motion ground truth or retained validated transforms, and verify patient-motion rank recovery plus the real motion-to-residue mapping.", "recorded_at": "2026-08-17T08:47:59+00:00"}
