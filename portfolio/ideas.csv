@@ -19,3 +19,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 018,The brain-tumor prognosticator may be weighing the chewing muscle,ACTIVE,,"{'value': 5, 'why': 'Extracranial tissue is easy to overlook and may dominate prognosis.'}",CRITIQUE,
 019,The fibrosis model may be counting holes at the pleural edge,ACTIVE,,"{'value': 5, 'why': 'The relevant topology is cheap to compute and could explain an important model output.'}",CRITIQUE,
 020,A spreading front inside the perfusion deficit,ACTIVE,,"{'value': 4, 'why': 'Standard perfusion summaries may be throwing away exactly this structure.'}",CRITIQUE,
+021,The healthy hemisphere is the ruler,ACTIVE,,"{'value': 4, 'why': ""Obvious in hindsight: the field's own normalization convention has never been checked against its own benchmark models.""}",CRITIQUE,

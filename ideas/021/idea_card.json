@@ -1,0 +1,85 @@
+{
+  "id": "isles24-scout-002-c02",
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "The healthy hemisphere is the ruler",
+  "question": "Is an ISLES'24 final-infarct model using the contralateral hemisphere's perfusion as the patient-specific reference against which the affected side's deficit is judged?",
+  "rung": "Target rung 1: the model computes a cross-hemispheric reference; rung 2 with center-held-out replication and dose-response in the scaling factor.",
+  "deliverable_sentence": "The model is using the healthy hemisphere as the patient's personal perfusion baseline -- the same relative-to-mirror normalization radiologists apply when they read relative CBF -- rather than absolute map values.",
+  "X_measurement": "Mirror-reference perfusion: mean contralateral CBF (and Tmax) in reflected ROIs about the automatically estimated midsagittal plane, giving rCBF = CBF / mean contralateral CBF. The clinical anchor is Campbell et al., Stroke 2011 (DOI 10.1161/STROKEAHA.111.618355, PMID 21980202): relative CBF, optimally <31% of mean contralateral, is the best CTP core definition -- the normalization itself is the established clinical practice. Compute-today test: YES; symmetry-plane estimation and mirroring are standard automatic operations.",
+  "suspected_signal": "Deconvolved CTP values are semi-quantitative -- they move with cardiac output, injection protocol, and AIF selection -- so the physiologically meaningful quantity is the deficit relative to the same brain's normal tissue; the intact hemisphere is the only in-image source of that baseline, and a well-trained model has every incentive to discover it.",
+  "use_vs_association": "The intervention region and the readout region are disjoint: scale perfusion values only in the contralateral hemisphere (within the observed inter-patient physiologic range), leave the affected side untouched, and measure the change in the affected-side prediction; no pathway from edit to readout exists except through a learned cross-hemispheric reference.",
+  "keystone_prerequisite": "Per-case perfusion maps are co-registered into a common space where a hemisphere-restricted edit and an affected-side readout can be constructed automatically.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "Official repository (github.com/ezequieldlrosa/isles24, fetched 2026-08-16): derivatives contain 'Perfusion maps registered to NCCT space'; Zenodo record 16731717 lists CBF/CBV/MTT/Tmax per case with co-registered derivative versions.",
+  "keystone_residual_assumption": "Still assumed: (1) hemisphere-scaled inputs remain in-distribution -- gated by restricting scale factors to the empirical inter-patient range and by a held-out real-vs-edited discriminator; (2) the trained model is a fair stand-in for challenge submissions (self-trained nnU-Net, same recipe family as the winner); (3) midline estimation is reliable in cases with mass effect -- hyperacute cases rarely have large shifts, but each case gets a symmetry-quality flag.",
+  "rung_reached": "0 now; rung 1 after a systematic affected-side response to contralateral-only edits with shams passing; rung 2 after dose-response and cross-center replication.",
+  "dies_like_prior": "Closest is idea-006 (extreme OOD deletion made the intervention indefensible). Different because the edit is a parametric scaling inside the physiologic envelope -- it mimics natural cardiac-output variation rather than deleting content -- and carries an explicit in-distribution gate. No annotation-provenance exposure: the primary readout is label-free.",
+  "closest_prior_work": "Campbell et al. 2011 (PMID 21980202) established contralateral normalization as clinical practice in patients; ISLES'24 reports (arXiv:2408.10966) rank models without asking what reference frame they compute. Interpretability work on stroke CTP models addressing hemispheric normalization was not found in today's search -- recorded as a search result, not proof of absence. Exact delta: an intervention-grade test of whether a learned model reproduces, or ignores, the field's own normalization convention.",
+  "existing_assets": "Registered perfusion maps for 149 cases; automatic symmetry-plane tools; the empirical distribution of contralateral CBF across the cohort (defines the physiologic edit range); official baseline recipe.",
+  "smallest_decisive_experiment": "One frozen model; 40 held-out cases; scale contralateral-hemisphere CBF and CBV jointly by factors spanning the middle 90% of the observed inter-patient ratio range; readout is the paired change in affected-side predicted lesion volume. Controls: partial-area contralateral edits (dose by area), affected-side positive control (must respond), noise-matched sham. Under 10 GPU-hours after model training.",
+  "standing_confounds_addressed": "Within-case paired design holds patient, scanner, site, protocol, habitus, and prevalence fixed by construction; the disjoint edit/readout geometry excludes direct leakage. Not ruled out: bilateral chronic disease or prior contralateral infarcts corrupt the mirror -- such cases are flagged and excluded via the lesion masks and symmetry check; boundary effects at the midline are handled by an exclusion margin around the plane.",
+  "alternative_explanations": [
+    "The model normalizes globally (whole-brain mean) rather than contralaterally: partial-area and hemisphere-specific edits separate these two references.",
+    "Convolutional receptive fields straddle the midline and the response is local leakage, not normalization: the exclusion margin and the dose-by-area control address this.",
+    "The response is an artifact of edited-input distribution shift: the discriminator gate and physiologic-range restriction bound it."
+  ],
+  "anticipated_negative": "Decisive and valuable: with the positive control passing, a null says the model reads absolute perfusion values -- which implies fragility to cardiac output and injection variation that the field's own normalization convention exists to remove. Both outcomes are publishable statements about benchmark models.",
+  "remaining_legwork": "2-3 days model training (shared with c01), 1 day edit construction and gates, 2 days runs and analysis: about one week to first decision.",
+  "design_template": "other:remote-perturbation",
+  "design_template_justification": "The identifying structure is that the intervention region and the readout region are spatially disjoint, so the effect can only travel through a learned reference computation; none of the ten named grammars encodes intervention-readout disjointness, and mislabeling it regional-substitution would hide exactly the property that makes it identifiable.",
+  "entry_point_2_requirements": "Measurement: mirror-normalized rCBF per Campbell et al. Artifact it would be confused with: midline-estimation error and bilateral chronic disease breaking mirror symmetry; both receive per-case quality flags and exclusions.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "One-sentence question with a single named reference quantity and a mechanical test."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Disjoint intervention/readout is structurally strong; residual risk is edit realism and midline leakage, both gated."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Whether AI reproduces the rCBF convention determines its robustness to hemodynamic and protocol variation -- a deployment-relevant property clinicians can reason about."
+    },
+    "interest": {
+      "value": 4,
+      "why": "A crisp question about the model's internal frame of reference with a genuinely two-sided answer."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Clinical anchor, registered maps, and edit machinery all exist; only model training remains."
+    },
+    "feasibility": {
+      "value": 4,
+      "why": "Keystone INSPECTED_TRUE; the cheapest candidate this cycle -- parametric edits, no segmentation dependencies."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Public noncommercial release contains everything needed."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Label-free paired deltas with standard gates; no custom metrics beyond the discriminator."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A gated null is a positive claim (absolute-value reliance) with a named clinical consequence."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "No exhaustive search; today's targeted search found no hemispheric-normalization audit of stroke models."
+    },
+    "regret": {
+      "value": 4,
+      "why": "Obvious in hindsight: the field's own normalization convention has never been checked against its own benchmark models."
+    }
+  },
+  "unverified_claims": [
+    "In-distribution validity of hemisphere scaling",
+    "midline estimation reliability in this cohort",
+    "absence of prior normalization audits beyond today's search"
+  ],
+  "track": "baseline",
+  "charter": "isles24"
+}
