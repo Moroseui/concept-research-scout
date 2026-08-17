@@ -1,0 +1,21 @@
+Novelty audit complete for cycle 015. All five candidates were audited by genuine search (45 logged queries across arXiv, PubMed/PMC, RSNA, Springer/ScienceDirect, Nature, and GitHub, run by five parallel search passes), and both deliverables are written: `ideas/scout-015/novelty_audit.md` and `ideas/scout-015/novelty_manifest.json`.
+
+Verdicts:
+
+| # | Candidate | Verdict | Why-not-done |
+|---|---|---|---|
+| C1 | Pleural-effusion score vs. measured fluid volume | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C2 | Airway branch loss inside Sybil | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C3 | Portal vein as Merlin's pressure gauge | INCREMENTAL | BLIND_SPOT |
+| C4 | Air-column continuity in the hiatal-hernia score | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C5 | Lung-opacity score reading gravity | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+
+Three findings worth the human's attention:
+
+1. **C3 is downgraded to INCREMENTAL on two verified facts.** Merlin's own paper already runs counterfactual (Latent Shift) interpretability on its outputs — the "which anatomy drives the prediction" genre is opened by the model's authors — and a 2026 study of 20,225 CTs (PMID 41728282, independently re-verified including its unusual medRxiv DOI prefix) found portal-vein diameter has weak-to-no association with invasively measured hepatic pressures. The card's rung-1 "uses calibre" claim survives, but the "pressure gauge" framing and part of the relevance case do not. Recommendation in the audit: reframe or deprioritize, not an outright kill.
+
+2. **Sybil is no longer uninterrogated.** "Auditing Sybil" (arXiv:2602.02560, ICML 2026 — verified) performs nodule-level generative counterfactual attribution and found artifact sensitivities (ECG leads, metal) and a radial bias. C2's specific airway-concept-erasure question remains open, but its card must acknowledge this paper before shortlisting.
+
+3. **One card asset was positively confirmed during search:** TotalSegmentator's `pleural_pericard_effusion` task exists (verified in the repo's `class_details.md`), which is C1's X-measurement tool — its licensing/validation inspection is still owed at Stage 0.
+
+Access levels for every establishing passage are recorded in the manifest; paywalled ones are search-summary paraphrases flagged for full-text re-verification before any becomes load-bearing in a feasibility memo. No code was written and no other files were touched.
