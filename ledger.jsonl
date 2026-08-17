@@ -259,3 +259,5 @@
 {"ledger_id": "idea-020", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-17T07:25:50+00:00"}
 {"ledger_id": "idea-020", "status": "REJECTED", "kill_code": "IDENTIFIABILITY_FAILURE", "kill_reason": "debate: Re-enter as a successor only after a positive sensitivity-qualified Stage-0 association and a validated invariance or mechanistic design that separates graph connectivity from generic nonlocal field sensitivity.", "death_stage": "debate", "recorded_at": "2026-08-17T07:25:50+00:00"}
 {"ledger_id": "idea-021", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-17T07:32:32+00:00"}
+{"ledger_id": "idea-021", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-17T07:40:50+00:00"}
+{"ledger_id": "idea-021", "status": "SHORTLISTED", "notes": "debate: Independently validate that the signed up-scaling conjunction excludes the named non-reference mechanisms, then rewrite the card with frozen normalization, realism, emergence, margin, and power gates plus successor handling for the weaker fallback.", "card_synced": false, "recorded_at": "2026-08-17T07:40:50+00:00"}
