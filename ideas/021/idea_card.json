@@ -1,85 +1,132 @@
 {
   "id": "isles24-scout-002-c02",
+  "parent_ids": [],
   "search_mode": "B",
   "entry_point": 2,
   "title": "The healthy hemisphere is the ruler",
-  "question": "Is an ISLES'24 final-infarct model using the contralateral hemisphere's perfusion as the patient-specific reference against which the affected side's deficit is judged?",
-  "rung": "Target rung 1: the model computes a cross-hemispheric reference; rung 2 with center-held-out replication and dose-response in the scaling factor.",
-  "deliverable_sentence": "The model is using the healthy hemisphere as the patient's personal perfusion baseline -- the same relative-to-mirror normalization radiologists apply when they read relative CBF -- rather than absolute map values.",
-  "X_measurement": "Mirror-reference perfusion: mean contralateral CBF (and Tmax) in reflected ROIs about the automatically estimated midsagittal plane, giving rCBF = CBF / mean contralateral CBF. The clinical anchor is Campbell et al., Stroke 2011 (DOI 10.1161/STROKEAHA.111.618355, PMID 21980202): relative CBF, optimally <31% of mean contralateral, is the best CTP core definition -- the normalization itself is the established clinical practice. Compute-today test: YES; symmetry-plane estimation and mirroring are standard automatic operations.",
-  "suspected_signal": "Deconvolved CTP values are semi-quantitative -- they move with cardiac output, injection protocol, and AIF selection -- so the physiologically meaningful quantity is the deficit relative to the same brain's normal tissue; the intact hemisphere is the only in-image source of that baseline, and a well-trained model has every incentive to discover it.",
-  "use_vs_association": "The intervention region and the readout region are disjoint: scale perfusion values only in the contralateral hemisphere (within the observed inter-patient physiologic range), leave the affected side untouched, and measure the change in the affected-side prediction; no pathway from edit to readout exists except through a learned cross-hemispheric reference.",
-  "keystone_prerequisite": "Per-case perfusion maps are co-registered into a common space where a hemisphere-restricted edit and an affected-side readout can be constructed automatically.",
-  "keystone_status": "INSPECTED_TRUE",
-  "keystone_evidence": "Official repository (github.com/ezequieldlrosa/isles24, fetched 2026-08-16): derivatives contain 'Perfusion maps registered to NCCT space'; Zenodo record 16731717 lists CBF/CBV/MTT/Tmax per case with co-registered derivative versions.",
-  "keystone_residual_assumption": "Still assumed: (1) hemisphere-scaled inputs remain in-distribution -- gated by restricting scale factors to the empirical inter-patient range and by a held-out real-vs-edited discriminator; (2) the trained model is a fair stand-in for challenge submissions (self-trained nnU-Net, same recipe family as the winner); (3) midline estimation is reliable in cases with mass effect -- hyperacute cases rarely have large shifts, but each case gets a symmetry-quality flag.",
-  "rung_reached": "0 now; rung 1 after a systematic affected-side response to contralateral-only edits with shams passing; rung 2 after dose-response and cross-center replication.",
-  "dies_like_prior": "Closest is idea-006 (extreme OOD deletion made the intervention indefensible). Different because the edit is a parametric scaling inside the physiologic envelope -- it mimics natural cardiac-output variation rather than deleting content -- and carries an explicit in-distribution gate. No annotation-provenance exposure: the primary readout is label-free.",
-  "closest_prior_work": "Campbell et al. 2011 (PMID 21980202) established contralateral normalization as clinical practice in patients; ISLES'24 reports (arXiv:2408.10966) rank models without asking what reference frame they compute. Interpretability work on stroke CTP models addressing hemispheric normalization was not found in today's search -- recorded as a search result, not proof of absence. Exact delta: an intervention-grade test of whether a learned model reproduces, or ignores, the field's own normalization convention.",
-  "existing_assets": "Registered perfusion maps for 149 cases; automatic symmetry-plane tools; the empirical distribution of contralateral CBF across the cohort (defines the physiologic edit range); official baseline recipe.",
-  "smallest_decisive_experiment": "One frozen model; 40 held-out cases; scale contralateral-hemisphere CBF and CBV jointly by factors spanning the middle 90% of the observed inter-patient ratio range; readout is the paired change in affected-side predicted lesion volume. Controls: partial-area contralateral edits (dose by area), affected-side positive control (must respond), noise-matched sham. Under 10 GPU-hours after model training.",
-  "standing_confounds_addressed": "Within-case paired design holds patient, scanner, site, protocol, habitus, and prevalence fixed by construction; the disjoint edit/readout geometry excludes direct leakage. Not ruled out: bilateral chronic disease or prior contralateral infarcts corrupt the mirror -- such cases are flagged and excluded via the lesion masks and symmetry check; boundary effects at the midline are handled by an exclusion margin around the plane.",
-  "alternative_explanations": [
-    "The model normalizes globally (whole-brain mean) rather than contralaterally: partial-area and hemisphere-specific edits separate these two references.",
-    "Convolutional receptive fields straddle the midline and the response is local leakage, not normalization: the exclusion margin and the dose-by-area control address this.",
-    "The response is an artifact of edited-input distribution shift: the discriminator gate and physiologic-range restriction bound it."
-  ],
-  "anticipated_negative": "Decisive and valuable: with the positive control passing, a null says the model reads absolute perfusion values -- which implies fragility to cardiac output and injection variation that the field's own normalization convention exists to remove. Both outcomes are publishable statements about benchmark models.",
-  "remaining_legwork": "2-3 days model training (shared with c01), 1 day edit construction and gates, 2 days runs and analysis: about one week to first decision.",
-  "design_template": "other:remote-perturbation",
-  "design_template_justification": "The identifying structure is that the intervention region and the readout region are spatially disjoint, so the effect can only travel through a learned reference computation; none of the ten named grammars encodes intervention-readout disjointness, and mislabeling it regional-substitution would hide exactly the property that makes it identifiable.",
-  "entry_point_2_requirements": "Measurement: mirror-normalized rCBF per Campbell et al. Artifact it would be confused with: midline-estimation error and bilateral chronic disease breaking mirror symmetry; both receive per-case quality flags and exclusions.",
-  "scores": {
-    "clarity": {
-      "value": 5,
-      "why": "One-sentence question with a single named reference quantity and a mechanical test."
-    },
-    "identifiability": {
-      "value": 4,
-      "why": "Disjoint intervention/readout is structurally strong; residual risk is edit realism and midline leakage, both gated."
-    },
-    "medical_relevance": {
-      "value": 4,
-      "why": "Whether AI reproduces the rCBF convention determines its robustness to hemodynamic and protocol variation -- a deployment-relevant property clinicians can reason about."
-    },
-    "interest": {
-      "value": 4,
-      "why": "A crisp question about the model's internal frame of reference with a genuinely two-sided answer."
-    },
-    "prior_legwork": {
-      "value": 4,
-      "why": "Clinical anchor, registered maps, and edit machinery all exist; only model training remains."
-    },
-    "feasibility": {
-      "value": 4,
-      "why": "Keystone INSPECTED_TRUE; the cheapest candidate this cycle -- parametric edits, no segmentation dependencies."
-    },
-    "data_readiness": {
-      "value": 4,
-      "why": "Public noncommercial release contains everything needed."
-    },
-    "evaluation_readiness": {
-      "value": 4,
-      "why": "Label-free paired deltas with standard gates; no custom metrics beyond the discriminator."
-    },
-    "negative_result_value": {
-      "value": 4,
-      "why": "A gated null is a positive claim (absolute-value reliance) with a named clinical consequence."
-    },
-    "novelty_confidence": {
-      "value": 3,
-      "why": "No exhaustive search; today's targeted search found no hemispheric-normalization audit of stroke models."
-    },
-    "regret": {
-      "value": 4,
-      "why": "Obvious in hindsight: the field's own normalization convention has never been checked against its own benchmark models."
-    }
+  "question": "Under normalization frozen from each unedited case, does an ISLES'24 final-infarct model use contralateral perfusion as a signed patient-specific reference when judging the affected hemisphere, beyond global gain control and non-reference cross-hemispheric effects?",
+  "deliverable_original": "The model is using the healthy hemisphere as the patient's personal perfusion baseline -- the same relative-to-mirror normalization radiologists apply when they read relative CBF -- rather than absolute map values.",
+  "deliverable_sentence": "The model is using the healthy hemisphere as a signed patient-specific perfusion reference when judging the affected hemisphere's deficit.",
+  "why_it_matters": "Contralateral normalization is clinically established for perfusion CT. If a plain infarct model learns that reference, one part of its decision becomes physician-legible; if it does not, the result tests the rationale for explicitly supplying symmetry or relative-perfusion features.",
+  "claim_boundaries": {
+    "claimed_after_a_valid_positive": "Only that the tested frozen model uses a signed contralateral comparison as a patient-specific reference for its affected-side prediction.",
+    "not_claimed": [
+      "That the model computes affected CBF divided by mean contralateral CBF, the Campbell threshold, or any specific ratio.",
+      "That the result generalizes to unreleased ISLES'24 challenge systems or other preprocessing pipelines.",
+      "That contralateral information use alone establishes reference-setting.",
+      "That a null implies reliance on absolute perfusion values or fragility to cardiac output or injection variation.",
+      "That scanner, protocol, site, or population artifacts have been eliminated beyond this within-case intervention."
+    ]
   },
+  "rung": {
+    "current": 0,
+    "target": 3,
+    "why": "No valid intervention has run. Rung 1 requires the full signed-response conjunction after every preprocessing, realism, emergence, and power gate passes; rung 2 requires acquisition and site robustness; rung 3 is the named signed contralateral-reference sentence.",
+    "what_would_move_it_up": "A preregistered, adequately powered, within-case intervention must show a signed monotone affected-side response to bidirectional contralateral scaling, especially increased predicted deficit under healthy-side up-scaling, no emergent contralateral lesion, and a contralateral-only response exceeding the global-scaling response by a frozen margin. An independent methods review must first confirm from a prediction table that the named non-reference mechanisms cannot satisfy this conjunction."
+  },
+  "X_measurement": {
+    "X": "Contralateral perfusion reference level: automatically measured mean CBF and CBV within the unaffected hemisphere after automatic midsagittal-plane estimation and exclusion of low-quality or bilaterally abnormal cases.",
+    "how": "Estimate the midsagittal plane automatically in NCCT space, define hemispheres and the affected side from the released outcome mask only for cohort construction, and compute contralateral CBF/CBV summaries from the registered maps. The intervention scales contralateral CBF and CBV jointly within a prespecified empirical envelope.",
+    "could_compute_today_without_asking_anyone": "Yes. The measurement uses registered images, automatic geometry, and fixed summary statistics; no radiologist concept annotation is required. Actual orientation, grid, midline, and bilateral-abnormality QC remain Stage 0 gates."
+  },
+  "suspected_signal": "Because deconvolved perfusion values are semi-quantitative, a signed comparison with the same patient's unaffected hemisphere may be more stable than an affected-side value alone. Campbell et al. provide the clinical motivation, but the experiment tests only the broader reference function, not their exact ratio.",
+  "specific_artifact_confused_with_signal": "Per-edited-tensor normalization can arithmetically transmit a contralateral edit into affected-side network inputs. Unilateral scaling can also create cross-channel inconsistency or resemble contralateral vascular disease, activating bilateral-lesion detection, laterality competition, or unsigned anomaly responses.",
+  "keystone_prerequisite": "There must be an adequately powered contralateral up-scaling range that passes frozen final-tensor and cross-channel realism gates, leaves affected-side network-input voxels bit-identical, and yields a preregistered response conjunction not shared by laterality competition, bilateral-lesion detection, unsigned anomaly response, or generic contralateral context.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "Primary sources establish NCCT-space registration of the released perfusion maps (ISLES'24 Zenodo record 16813698; DOI 10.1148/ryai.250603), and nnU-Net documentation establishes that non-CT channels normally receive per-case z-score normalization. Neither source establishes a valid up-scaling envelope, adequate power, or uniqueness of the proposed conjunction in the actual frozen pipeline.",
+  "keystone_residual_assumption": "If I have only verified the nearest checkable thing, what am I still assuming? Co-registration and documented normalization behavior do not establish edit/readout disjointness after the complete chosen preprocessing, physiological and cross-modal plausibility of unilateral up-scaling, sufficient detectable effect, or exclusion of all non-reference mechanisms. Those are the load-bearing facts and remain uninspected.",
+  "rung_reached": "No rung. Passing Stage 0 authorizes a future probe contract; it is not evidence that the model uses X.",
+  "stage_0_gate": {
+    "timing": "Before any confirmatory edited-case score is examined, freeze the model and split, normalization constants, scaling doses, prediction table, numeric realism and emergence thresholds, mirror-over-global margin, trend test, equivalence logic, exclusions, and minimum-detectable-effect calculation.",
+    "inspect": [
+      "Pipeline disjointness: compute normalization constants from each unedited case and reuse them for every variant; verify bit-for-bit identity of every affected-side network-input voxel after contralateral-only editing.",
+      "Mechanism identifiability: an independent methods review must tabulate the predicted sign under contralateral down-scaling, contralateral up-scaling, and global scaling for reference-setting, laterality competition, bilateral-lesion detection, unsigned mismatch, and generic context; any surviving non-reference false positive pauses the idea.",
+      "Edit validity: define an empirical bidirectional CBF/CBV scaling envelope and require every retained dose to pass final-tensor distribution checks, a held-out real-versus-edited discriminator, and explicit CBF/CBV consistency checks against frozen Tmax, CTA, and NCCT.",
+      "Emergence: freeze a contralateral predicted-lesion-volume threshold; a breach invalidates that case-dose rather than becoming evidence.",
+      "Power: estimate within-case response variability on development data without inspecting confirmatory effects; require enough clean held-out cases to detect the frozen signed-slope and mirror-over-global margins."
+    ],
+    "decision": "GO to a probe contract only if every gate passes. Failure of mechanism identifiability, a usable up-scaling envelope, or power pauses the reference-setting question. No probe code is authorized by this card."
+  },
+  "smallest_decisive_experiment": {
+    "design": "For one frozen self-trained model and untouched held-out cases, reuse unedited-case normalization constants and apply joint CBF/CBV scaling in three paired arms: contralateral-only bidirectional scaling, both-hemisphere global scaling, and partial-area contralateral scaling. Read affected- and contralateral-side predicted lesion volumes. Shams match the image operation without changing perfusion level.",
+    "primary_positive_conjunction": "Affected-side predicted deficit changes monotonically with contralateral scale in the prespecified signed direction, including an increase under healthy-side up-scaling; no retained dose produces an emergent contralateral lesion; and the contralateral-only effect exceeds the global effect by the frozen margin.",
+    "positive_interpretation": "Conditional rung-1 evidence that the tested model uses a signed contralateral reference rather than only global gain control, provided independent review has shown that the listed non-reference mechanisms cannot meet the conjunction.",
+    "negative_interpretation": "If all gates pass and confidence bounds exclude the frozen minimum signed slope or mirror-over-global margin, the result decisively weakens material use of this reference by the tested model. Mere non-significance is sensitivity-limited."
+  },
+  "use_vs_association": "The primary evidence is within-case intervention, not cross-case association. Raw spatial separation is insufficient: the normalization pin and bit-identity gate are required to prevent preprocessing arithmetic from creating the effect. Natural cross-case baseline dependence may be exploratory only and cannot establish use.",
+  "claim_identifiability": {
+    "named_alternatives": [
+      "Laterality competition or bilateral-lesion detection caused by apparent contralateral hypoperfusion.",
+      "Unsigned hemispheric anomaly detection with separate laterality assignment.",
+      "Generic contralateral context or whole-image gain control without reference-setting.",
+      "Cross-channel or out-of-distribution response to unilateral perfusion-map editing."
+    ],
+    "what_the_design_rules_out": "The up-scaling sign and contralateral-emergence gate target competition and bilateral-lesion explanations; the required sign targets unsigned anomaly response; the contralateral-over-global margin targets global gain control; the discriminator and cross-channel checks target edit artifacts. Independent prediction-table review is mandatory because this exclusion logic remains disputed.",
+    "standing_confounds": "Within-case pairing fixes patient, scanner, vendor, site, acquisition protocol, reconstruction, positioning, habitus, disease prevalence, referral pathway, and report-label leakage for the causal contrast. It does not establish transportability across those factors. Frozen Tmax, CTA, and NCCT create an edit-consistency problem rather than a confound and are handled by explicit validity gates."
+  },
+  "dies_like_prior": "The nearest prior is idea 006: an out-of-distribution intervention could mimic model reliance. This candidate differs only if a nontrivial bidirectional scaling envelope passes final-tensor, discriminator, and cross-channel gates; otherwise it dies the same way. It also faces the recurrent wrong-keystone error: registration was verified, while normalization-path disjointness, mechanism uniqueness, realism, and power are the actual prerequisites. No annotation-provenance failure applies because X and the primary readout are automatic and label-free.",
+  "closest_prior_work": [
+    {
+      "citation": "Campbell BCV et al., Stroke 2011",
+      "identifier": "DOI: 10.1161/STROKEAHA.111.618355; PMID: 21980202",
+      "verified_fact": "The study evaluated perfusion CT definitions and reported relative CBF referenced to mean contralateral CBF as the best-performing tested core definition.",
+      "delta": "It establishes clinical motivation and a measurable reference, not whether a learned infarct model uses it."
+    },
+    {
+      "citation": "ISLES'24 challenge report",
+      "identifier": "arXiv:2408.10966",
+      "verified_fact": "The challenge evaluates final-infarct prediction and reports weak, variable segmentation performance.",
+      "delta": "It does not intervene on contralateral perfusion or identify a model's reference frame."
+    },
+    {
+      "citation": "Zhao et al., symmetric modality augmentation",
+      "identifier": "arXiv:1907.08196",
+      "verified_fact": "The inspected primary preprint explicitly supplies contralateral symmetry information to improve brain-lesion segmentation.",
+      "delta": "It motivates the question but does not test whether a plain model learned a contralateral reference unaided."
+    }
+  ],
+  "novelty_statement": "No novelty claim is made. A targeted search found adjacent symmetry-engineering and stroke-model literature but no direct intervention-grade reference-frame audit; absence was not exhaustively established.",
+  "anticipated_negative": {
+    "classification": "decisive only after all validity and power gates pass",
+    "meaningful_negative": "Confidence bounds excluding the preregistered minimum signed up-scaling slope or mirror-over-global margin meaningfully weaken material use of a signed contralateral reference by this frozen model under the pinned preprocessing.",
+    "non_decisive_negative": "Non-significance, insufficient power, failure to find a realistic up-scaling range, an emergent contralateral lesion, discriminator failure, or loss of affected-side bit identity is uninterpretable about model use. None implies absolute-value reliance."
+  },
+  "data_and_compute": {
+    "data": "ISLES'24 public noncommercial release, 149 cases, with NCCT-space registered CBF, CBV, MTT, Tmax, and outcome masks. Actual NIfTI geometry, usable unilateral cases, and clean held-out count remain Stage 0 measurements.",
+    "model": "One self-trained, frozen model with a completely specified preprocessing pipeline. It is not presented as the challenge winner or as representative of unreleased submissions.",
+    "compute": "Training plus limited paired inference is plausibly compatible with Colab Pro+, but the required clean sample and power are not yet established."
+  },
+  "remaining_legwork": [
+    "Obtain independent methods review of the arm-by-mechanism prediction table and resolve whether any non-reference mechanism survives the proposed conjunction.",
+    "Inspect actual NIfTI headers, orientation, midsagittal-plane reliability, bilateral abnormalities, and held-out case count.",
+    "Freeze the training and inference normalization so all edited variants reuse unedited-case constants, then verify affected-side final-tensor bit identity.",
+    "Find and freeze a bidirectional scaling envelope that passes cross-channel realism and discriminator gates.",
+    "Complete a blinded minimum-detectable-effect memo and prespecify every numeric margin before any confirmatory scoring.",
+    "If only contralateral-information use remains testable, stop and seek a human claim-identity ruling before registering a successor; do not weaken this card in place."
+  ],
+  "scores": {
+    "clarity": {"value": 4, "why": "One frozen model and one signed reference-setting question are specified, but the positive conjunction still needs independent mechanism review."},
+    "identifiability": {"value": 3, "why": "Normalization pin, signed up-scaling, emergence, global-arm, and realism controls target the main alternatives; uniqueness of the conjunction is not yet inspected."},
+    "medical_relevance": {"value": 4, "why": "The study tests whether a stroke model recovers a clinically meaningful patient-specific reference frame."},
+    "interest": {"value": 4, "why": "It asks whether an unaided model discovers the mirror convention that other systems explicitly engineer."},
+    "prior_legwork": {"value": 3, "why": "Registered public maps and clinical and symmetry precedents exist, but no official recipe or released winning checkpoint exists and a model must be trained."},
+    "feasibility": {"value": 3, "why": "Capped because the real keystone is NOT_INSPECTED; up-scaling realism and adequate power may fail."},
+    "data_readiness": {"value": 4, "why": "The public noncommercial release contains registered modalities, but usable-case counts and array-level geometry need inspection."},
+    "evaluation_readiness": {"value": 3, "why": "Paired trends and lesion-volume readouts are straightforward, while margins, realism thresholds, and the mechanism prediction table remain to be frozen."},
+    "negative_result_value": {"value": 4, "why": "A powered equivalence-style negative after every gate would decisively weaken material mirror-reference use for the tested model; invalid or underpowered nulls are explicitly excluded."},
+    "novelty_confidence": {"value": 3, "why": "Capped by the uninspected keystone and a targeted rather than exhaustive primary-source search."},
+    "regret": {"value": 4, "why": "The reference-frame question is obvious in hindsight and can clarify whether symmetry should be engineered, but its intervention is not yet validated."}
+  },
+  "priority_score": 3.5,
+  "priority_arithmetic": "0.20*3 + 0.15*3 + 0.15*4 + 0.10*3 + 0.10*4 + 0.10*4 + 0.10*4 + 0.05*4 + 0.05*3 = 3.50",
   "unverified_claims": [
-    "In-distribution validity of hemisphere scaling",
-    "midline estimation reliability in this cohort",
-    "absence of prior normalization audits beyond today's search"
+    "The signed up-scaling conjunction uniquely distinguishes reference-setting from every named non-reference mechanism.",
+    "A nontrivial contralateral up-scaling envelope remains in distribution across all input channels.",
+    "Enough clean held-out cases exist to detect the frozen slope and mirror-specificity margins.",
+    "Automatic midsagittal-plane and bilateral-abnormality QC are reliable in the released cohort.",
+    "No prior intervention-grade audit exists beyond the bounded search."
   ],
   "track": "baseline",
-  "charter": "isles24"
+  "charter": "isles24",
+  "recommendation": "REVISE COMPLETE; remain at rung 0. Independent mechanism review and a feasibility memo are required before any probe contract. No code or inference is authorized."
 }
