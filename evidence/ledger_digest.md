@@ -65,7 +65,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-017** [SHORTLISTED/DEBATED/baseline] -- A lung-cancer model may be reading a mechanically remodeled trachea
 - **idea-018** [REJECTED/DEBATED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle -- killed: DATA_ACCESS
 - **idea-019** [SHORTLISTED/DEBATED/wide] -- The fibrosis model may be counting holes at the pleural edge
-- **idea-020** [SHORTLISTED/SCOUTED/baseline] -- A spreading front inside the perfusion deficit
+- **idea-020** [SHORTLISTED/CRITIQUED/baseline] -- A spreading front inside the perfusion deficit
 - **idea-021** [SHORTLISTED/SCOUTED/baseline] -- The healthy hemisphere is the ruler
 - **idea-022** [SHORTLISTED/SCOUTED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
 - **idea-023** [SHORTLISTED/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack

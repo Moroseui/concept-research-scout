@@ -1,0 +1,17 @@
+Critique written to `ideas/020/critique.md`. **Decision: ADVANCE TO REVISION — no fatal objection, but with five mandatory repairs.**
+
+What I checked before deciding:
+
+- **Dataset facts** — the scout cycle's verification block confirms the load-bearing access facts from primary sources: 149 public training cases on Zenodo (CC BY-NC-SA), registered Tmax/CBF maps, raw 4D CTP, and final-infarct masks. No DUA problem, so no data-access kill on the imaging side.
+- **Prior work** — the existing novelty audit (twelve queries, high confidence) holds up under my independent spot-check searches; the nearest neighbors remain [Lucas et al. 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC6275324/) (shape as a modeling constraint, not an audit) and the HIR volume-ratio literature ([Olivot et al.](https://www.ahajournals.org/doi/10.1161/STROKEAHA.113.003857)); nothing closer surfaced on [perfusion-lesion shape prediction](https://arxiv.org/pdf/1812.02496) or [spatial heterogeneity of hypoperfusion](https://pmc.ncbi.nlm.nih.gov/articles/PMC8519861/).
+
+The four substantive objections, in order of weight:
+
+1. **This is the portfolio's stuck move in a harder setting.** The decisive experiment needs a certified in-distribution topology editor — the exact edit-validity capability on which ideas 006, 008, 011, and 014 are already paused, here with tighter joint constraints (alter thresholded-set topology while preserving histogram, volumes, *and* smoothness spectrum of a deconvolved field). The discriminator certificate is also one-sided: passing it doesn't establish the frozen model treats edits as in-distribution. Not fatal under Mode C rules, but it dictates ordering.
+2. **The readout as written can't distinguish topology use from local-value use.** Any connectivity edit changes voxel values, so prediction change at edited voxels proves nothing; shams don't fix it. Repair: measure prediction change in regions whose model-visible neighborhood is bit-identical across the edit (e.g., inside an untouched island whose distant bridge was severed).
+3. **A near-free observational prerequisite was skipped.** Nothing checks whether topology carries fate information in the labels at all. A days-long, model-free, generator-free screen on the 149 public cases gates the entire apparatus — this becomes mandatory Stage 0.
+4. **The frozen model is unnamed.** No ISLES'24 checkpoint has been verified; revision must inspect a released one or declare a self-trained baseline with its compute counted.
+
+The constructive close keeps the observational screen inside idea 020 rather than spinning it off — the deliverable sentence is unchanged, so revision-in-place is permitted under the claim-identity rule, and the screen is worth doing on its own merits either way.
+
+Sources: [ISLES'24 dataset paper (Radiology: AI)](https://doi.org/10.1148/ryai.250603) · [challenge preprint arXiv:2408.10966](https://arxiv.org/abs/2408.10966) · [official repo](https://github.com/ezequieldlrosa/isles24) · [Zenodo release](https://doi.org/10.5281/zenodo.16731717)
