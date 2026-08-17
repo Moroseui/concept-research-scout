@@ -21,3 +21,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 020,A spreading front inside the perfusion deficit,ACTIVE,,"{'value': 4, 'why': 'Standard perfusion summaries may be throwing away exactly this structure.'}",CRITIQUE,
 021,The healthy hemisphere is the ruler,ACTIVE,,"{'value': 4, 'why': ""Obvious in hindsight: the field's own normalization convention has never been checked against its own benchmark models.""}",CRITIQUE,
 022,Does the model mistake the end of the scan for the end of the bolus?,ACTIVE,,"{'value': 5, 'why': 'The audit is cheap and could expose a clinically consequential benchmark shortcut.'}",CRITIQUE,
+023,Little's law in the penumbra: the model may be reading the vasodilatory counterattack,ACTIVE,,"{'value': 4, 'why': ""The debate's numbers and the benchmark's models are one experiment apart; obvious in hindsight once stated.""}",CRITIQUE,
