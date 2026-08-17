@@ -7,8 +7,8 @@
 Before proposing a candidate, check it against every pattern below.
 A candidate that dies like a prior one must say what makes it different.
 
+- **IDENTIFIABILITY_FAILURE** x3: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
 - **DATA_ACCESS** x2: Required data, checkpoints, or mappings are not obtainable in practice.
-- **IDENTIFIABILITY_FAILURE** x2: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
 - **DATA_INSUFFICIENT** x1: The subset that actually supports the inference is too small or unreachable.
 - **ANNOTATION_PROVENANCE** x1: Inference depends on who assigned labels / what they could see, and that is undocumented or contaminated.
 - **CIRCULARITY** x1: The endpoint is a re-encoding of the input or of the thing being tested.
@@ -65,7 +65,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-017** [SHORTLISTED/DEBATED/baseline] -- A lung-cancer model may be reading a mechanically remodeled trachea
 - **idea-018** [REJECTED/DEBATED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle -- killed: DATA_ACCESS
 - **idea-019** [SHORTLISTED/DEBATED/wide] -- The fibrosis model may be counting holes at the pleural edge
-- **idea-020** [SHORTLISTED/CRITIQUED/baseline] -- A spreading front inside the perfusion deficit
+- **idea-020** [REJECTED/DEBATED/baseline] -- A spreading front inside the perfusion deficit -- killed: IDENTIFIABILITY_FAILURE
 - **idea-021** [SHORTLISTED/SCOUTED/baseline] -- The healthy hemisphere is the ruler
 - **idea-022** [SHORTLISTED/SCOUTED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
 - **idea-023** [SHORTLISTED/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
