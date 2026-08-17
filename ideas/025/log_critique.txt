@@ -1,0 +1,17 @@
+Critique written to `ideas/025/critique.md`. **Decision: ADVANCE TO REVISION** — no fatal objection, but three serious deflations that the revised card must absorb, plus one finding that actually strengthens the idea.
+
+**What I found against the card:**
+
+1. **The subject-model problem (idea 024's objection A, attenuated).** The "cycle-shared baseline" no longer exists: idea 024 was rejected yesterday-in-repo and its critique verified with primary sources that no raw-CTP ISLES'24 team released weights, and that the raw-CTP class underperforms (Dice ~0.20 vs ~0.285). Idea 025 must train its own subject and bear the full cost. I argued explicitly why this is not the same kill as 024: this is a class-level shortcut question in the DeGrave genre (self-trained subjects are standard there), the signal is gross rather than a second moment, and the card already contains a hemodynamic positive-control gate that keeps the null interpretable. But `negative_result_value`, `medical_relevance`, and `prior_legwork` all deflate.
+
+2. **The instrument is severity-contaminated as specified.** Framewise displacement computed by intensity-driven registration of contrast-varying frames — and especially the "temporal-inconsistency energy" component — responds to bolus kinetics, which differ systematically in severe strokes. The L1 motion-vs-NIHSS test could come back positive with zero actual patient motion. This is the circularity risk, and it's repairable cheaply: bone-anchored registration, off-bolus inconsistency energy, plus preregistered null-instrument and motion-recovery checks (all annotator-free).
+
+3. **Injection realism.** The organizers' correction is closed software (icobrain cva), so injected motion can never pass through the same pipeline natural residue survived; I recommended moving the discriminator gate to a pre-training pilot so a texture mismatch kills the arm before the big spend, not after.
+
+**The favorable finding:** the 2021 Eur J Radiol paper the card flagged as "paywalled, direction unretrieved" was retrieved via Europe PMC (PMID 34678666): higher NIHSS, older age, and shorter onset-to-scan each predicted more head motion (p<0.05), NIHSS+age jointly p<0.001. The contested severity→motion link now has direct published support in exactly this imaging context — the open question is precisely whether it survives the organizers' correction, which is the keystone.
+
+**Constructive close:** the Stage-0 census (bolus-robust FD over all 149 released series + preregistered FD–NIHSS test) is genuine low-hanging fruit — CPU-only, no model, no annotator — and doubles as the keystone inspection, the first residual-motion characterization of a public stroke-challenge release, and a motion covariate reusable by shortlisted ideas 021/023 on the same dataset. Same deliverable sentence, gates re-ordered, so revision-in-place applies under the claim-identity rule.
+
+The file is left uncommitted for the driver, per the repo's stage convention.
+
+Sources: [PMID 34678666 (Europe PMC)](https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:34678666&resultType=core&format=json), [Fahmi 2013, PMID 24041432](https://pubmed.ncbi.nlm.nih.gov/24041432/), [PMID 34301804](https://pubmed.ncbi.nlm.nih.gov/34301804/), [arXiv 2408.10966](https://arxiv.org/abs/2408.10966), [arXiv 2505.18424](https://arxiv.org/html/2505.18424v1), [PLOS One impulsivity/head-motion](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0104989)
