@@ -1,0 +1,110 @@
+{
+  "id": "isles24-scout-004-c07",
+  "parent_ids": [],
+  "track": "wide",
+  "entry_point": 2,
+  "title": "The edge of the map: the benchmark scores terra incognita",
+  "question": "Is an ISLES'24 final-infarct model using the perfusion slab's support boundary -- the edge of the sensor, not the edge of the ischemia -- as a determinant of its predicted lesion extent, on a benchmark whose ground truth comes from whole-brain follow-up MRI?",
+  "rung": "Target rung 1: the model's predicted extent is determined by sensor support at matched whole-brain evidence. The model-free stage 1 is itself a benchmark-integrity deliverable regardless of any model.",
+  "deliverable_sentence": "The final-infarct model is using the perfusion-acquisition support boundary as a spatial determinant of its predicted lesion extent, truncating or extrapolating at the sensor's edge rather than the ischemia's.",
+  "X_measurement": "X is the perfusion support mask and signed distance to its boundary, computed per case from the released perfusion maps (the set of voxels where CBF/Tmax are defined/non-degenerate) and the 4D CTP z-extent, expressed in both patient space and atlas space. Compute-today test: YES -- support masks are arithmetic on released volumes, no annotator.",
+  "suspected_signal": "CTP acquisitions on many scanners cover a limited z-axis slab (published protocols range ~40-160 mm), while the ground truth is drawn on whole-brain follow-up MRI; the clinical literature shows coverage-dependent underestimation of ischemic volumes. If slabs in ISLES'24 are narrower than the brain, part of the scored ground truth lies where the primary modality never looked, and every trained model must adopt some convention there -- hard truncation at the sensor edge or hallucinated extrapolation from NCCT/CTA alone. Multi-step story, links separately checkable: models' predictions are shaped by the support boundary (X, stage 2), which matters only if ground-truth lesion mass overflows the support (Y, the model-free stage-1 census), which implies part of the official ranking, including the absolute-volume-difference metric, is decided by an unmeasured out-of-sensor convention (Z, computable as a metric-sensitivity bound in stage 1).",
+  "use_vs_association": "Slab placement relative to anatomy is set by scanner hardware and head positioning, not by tissue state, so it varies quasi-randomly across patients: the same atlas location lies in-slab for some patients and out-of-slab for others. A systematic prediction difference at the same anatomical location, conditional on matched whole-brain evidence (NCCT and CTA are full-coverage), attributable to slab membership, shows the output is determined by sensor support rather than by the ischemia; the stage-1 ground-truth-overflow census is model-free and needs no such inference.",
+  "keystone_prerequisite": "The released perfusion support is actually narrower than the brain in a non-trivial fraction of cases, and ground-truth lesion mass overflows it in enough cases to matter (prespecified: overflow > 5% of lesion volume in >= 10% of cases).",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "Verified nearby facts: neither the challenge paper nor the dataset-paper abstract states CTP z-coverage or scanner hardware (both fetched and checked this stage, 2026-08-18), and the clinical literature documents that limited coverage is common and consequential (Neuroradiology 2014, DOI 10.1007/s00234-014-1429-9: ischemic volume underestimated at 80 mm coverage; AJNR 2010, ajnr.org/content/31/4/691: 70-75 mm needed for MCA territory). The load-bearing fact -- actual slab geometry in this release -- is checkable on three downloaded cases in under an hour, and the full census is trivially cheap. If slabs are whole-brain everywhere, the candidate dies for less than one session's cost.",
+  "rung_reached": "0; stage 1 alone delivers a benchmark-integrity fact; rung 1 after the stage-2 conditional analysis on the shared audit model.",
+  "dies_like_prior": "Kill-code check: nearest pause is idea-022 (does the model mistake the end of the SCAN for the end of the BOLUS) -- the same 'sensor boundary versus physiology' family but on the time axis, and paused because it needs a frozen raw-4D checkpoint plus training-time masking semantics. c07 differs decisively: its decisive stage is model-free arithmetic on released masks and maps (no checkpoint, no masking semantics), and the spatial support boundary is directly observable per case. It shares the boundary-discontinuity estimator with this cycle's baseline c02 (arterial-territory borders) -- shared statistical tooling, different boundary, different claim (sensor artifact versus anatomical prior); if both advance, the estimator is built once. IDENTIFIABILITY_FAILURE risk (idea-020's death) is confined to stage 2 and is honestly stated: less evidence beyond the slab is rational, so stage 2 measures HOW models behave at the edge, not whether behaving differently is irrational; the quantitative benchmark claim rests on stage 1.",
+  "closest_prior_work": "Clinical CTP-coverage literature quantifies volume underestimation from limited slabs; final-infarct deep-learning papers use CTP inputs without reporting support handling; no located work measures ground-truth overflow of the sensor support in ISLES'24 or any public stroke benchmark, nor its effect on rankings. See novelty_neighbors.",
+  "novelty_neighbors": [
+    {
+      "work": "'Whole brain CT perfusion in acute anterior circulation ischemia: coverage size matters' (Neuroradiology 2014)",
+      "identifier": "DOI 10.1007/s00234-014-1429-9, PMID 25228451; found by search 2026-08-18",
+      "relation": "Quantifies clinical underestimation of ischemic volumes at reduced z-coverage (80 mm and below) -- protocol literature, no segmentation models, no benchmark audit."
+    },
+    {
+      "work": "'Optimal brain perfusion CT coverage in patients with acute middle cerebral artery stroke' (AJNR 2010)",
+      "identifier": "https://www.ajnr.org/content/31/4/691; found by search 2026-08-18",
+      "relation": "Establishes 70-75 mm z-coverage as the minimum for MCA-territory characterization -- the physical basis for expecting overflow, again with no model or benchmark analysis."
+    },
+    {
+      "work": "'Underestimation of follow-up infarct volume by acute CT perfusion imaging' (Neurology 2025)",
+      "identifier": "DOI 10.1212/WNL.0000000000213439; found by search 2026-08-18",
+      "relation": "Documents that acute CTP-derived volumes underestimate follow-up infarct volumes clinically -- outcome-measurement literature that never separates the sensor-coverage component or touches challenge ground truth."
+    }
+  ],
+  "novelty_delta": "No located work measures how much of a public stroke benchmark's ground truth lies outside the primary sensor's support, bounds the metric consequences (including the official absolute-volume-difference metric), or tests whether trained models' predicted extent is determined by the support boundary.",
+  "why_not_done": "BLIND_SPOT: coverage adequacy lives in the clinical protocol literature, which the segmentation-challenge community does not read; challenge pipelines treat released maps as given inputs and their support as preprocessing trivia, so nobody has asked what fraction of the scored target the sensor ever saw.",
+  "existing_assets": "Released perfusion maps, 4D CTP, whole-brain NCCT/CTA, ground-truth masks, and the official evaluation code (github.com/ezequieldlrosa/isles24 utils/eval_utils) -- everything stage 1 needs is a small subset of the release; the atlas registration tooling is shared with baseline c02.",
+  "smallest_decisive_experiment": "Stage 1, model-free and decisive: download derivative perfusion maps plus ground-truth masks for all 149 cases (small fraction of the archive); compute per-case support masks, slab z-extent census, fraction of ground-truth lesion mass outside support, and the sensor-respecting performance ceiling -- the maximum Dice and minimum absolute volume difference attainable by ANY prediction confined to the support, using the official evaluation code. Prespecified kill: median slab covers the brain and overflow > 5% in < 10% of cases. Compute envelope: one Colab session, CPU-only, well under an hour of compute. Stage 2 (conditional on the shared audit model): boundary-discontinuity analysis at matched NCCT/CTA evidence across patients, under 5 GPU-hours.",
+  "standing_confounds_addressed": "Stage 1 is arithmetic on released data -- no confounds, only measurement definitions (support degeneracy criteria preregistered). Stage 2: lesion size correlates with overflow (big lesions overflow more) -- conditioned on lesion volume; slab position may correlate with positioning quality and habitus -- the cross-patient contrast is restricted to atlas locations with both in-slab and out-of-slab representation and matched NCCT evidence; the fundamental entanglement that out-of-slab voxels genuinely have less evidence is stated as a scope limit: stage 2 characterizes the learned convention (truncate versus extrapolate and how sharply), not its irrationality. Labels enter stage 1 as the object of study and are excluded from the stage-2 conditioning variables.",
+  "alternative_explanations": [
+    "Predictions fade beyond the slab simply because evidence fades -- conceded by design; the claim is about WHERE the extent decision is made (sensor edge versus ischemia edge) and what the benchmark does with it, not about model irrationality.",
+    "Support-mask degeneracy is misdefined (zeros versus resampling padding) -- preregistered support criteria with per-case audit dumps.",
+    "Overflow is an artifact of registration between MRI-space masks and CT-space maps -- the overflow census is computed in the released common space, and gross misregistration cases are flagged by the c08 census if both advance."
+  ],
+  "anticipated_negative": "Fully decisive either way at stage 1: substantial overflow is a benchmark fact with a computable metric-sensitivity bound; near-zero overflow is a documented reassurance that ISLES'24's sensor coverage matches its scoring target -- worth one session either way. Stage-2 nulls (no boundary-locked behavior) are informative only after the stage-1 gate passes.",
+  "cross_domain": {
+    "borrowed_construct": "Swath/footprint analysis from satellite remote sensing: any measurement campaign must report what fraction of the mapping target lies outside the sensor's swath, and maps must distinguish 'observed empty' from 'never observed'.",
+    "measurement_it_implies": "The per-case coverage-completeness fraction (target mass inside sensor support) and the observed/unobserved distinction propagated into the evaluation metric.",
+    "what_changes_if_dropped": "Without the swath discipline the study collapses into anecdotes about individual cases at the slab edge; the coverage-completeness fraction is what turns it into a quantitative benchmark audit."
+  },
+  "remaining_legwork": "One session for the full stage-1 census including the metric-ceiling computation; half a day to write the audit report; stage 2 only if the gate passes and the shared model exists (2-3 days).",
+  "design_template": "conditional-observational",
+  "entry_point_2_requirements": "Measurement: perfusion support mask, ground-truth overflow fraction, sensor-respecting metric ceiling, and boundary-conditional prediction contrast. Confused artifacts: support-mask definition and mask-map registration error -- preregistered support criteria and flagged-case audit; the evidence-availability entanglement in stage 2 is stated as a scope limit, not assumed away.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "Two stages with exact computable readouts; the stage-2 estimand (learned edge convention) needs careful preregistration to stay separated from the rationality question."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Stage 1 is assumption-free arithmetic; stage 2's use claim is honestly entangled with evidence availability and is scoped to characterizing the convention rather than proving irrationality."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "If part of the scored target was never seen by the primary modality, volume-based triage metrics and challenge rankings inherit an unmeasured convention; either census outcome directly informs how the benchmark should be read."
+    },
+    "interest": {
+      "value": 4,
+      "why": "'The benchmark scores terra incognita' is a claim every challenge participant would want settled, and the sensor-respecting ceiling is a number nobody has computed for any stroke benchmark."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Everything needed for the decisive stage is released, including the official metric code; the clinical coverage literature supplies priors and framing."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped at 3: the slab-geometry keystone is not inspected -- though it is the cheapest keystone in the portfolio to check."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Stage 1 needs only maps and masks, a small public subset; no model required."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Official evaluation code is public and the ceiling computation reuses it directly; only the support definition is custom."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A near-zero overflow census is a clean, citable reassurance about the benchmark -- decisive, not sensitivity-limited."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Coverage literature is adjacent but the benchmark-audit question is unclaimed in every source found; targeted search only."
+    },
+    "regret": {
+      "value": 4,
+      "why": "One CPU session settles a question that becomes obvious in hindsight the first time a large-lesion case is inspected; skipping it risks every model comparison on this benchmark carrying an unexamined convention."
+    }
+  },
+  "priority_score": 3.6,
+  "unverified_claims": [
+    "CTP slabs in this release are narrower than the brain in a non-trivial fraction of cases",
+    "ground-truth lesion mass overflows the support at the prespecified threshold",
+    "support masks are recoverable from map degeneracy patterns as assumed",
+    "novelty beyond targeted search"
+  ],
+  "plain_pitch": "The stroke scans that measure blood flow often cover only a slab of the head -- like a satellite that photographs a strip of ground on each pass -- while the 'correct answers' for this benchmark were drawn on later whole-brain MRI. That mismatch would mean models are scored on brain regions their main sensor never saw, and each model must invent its own policy there: stop at the sensor's edge, or guess beyond it. This study first measures, with simple arithmetic on the public data, how much of the official answer lies outside the sensor's view and how much that could move the leaderboard; if the answer is 'a lot', it then checks whether models draw their predicted damage boundary at the sensor's edge rather than the injury's. Either outcome changes how results on this benchmark should be read.",
+  "charter": "isles24"
+}
