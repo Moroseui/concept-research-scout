@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-08-18T23:50:39+00:00",
+  "git_commit": "5f2e8b7de6a0d644396d05a74ad092b8cf3b1c5a",
+  "claude_cli": "2.1.197 (Claude Code)",
+  "codex_cli": "codex-cli 0.148.0",
+  "tracks": [
+    "baseline",
+    "wide"
+  ],
+  "seed_concepts": null,
+  "prompt_hashes": {
+    "actioner.md": "263f5cce53cb0cee",
+    "context_memo.md": "4de103654cef2380",
+    "critique.md": "02e2bc57b59477a0",
+    "debate_critic.md": "74f1e299e3c6db50",
+    "debate_proposer.md": "6a41797dbc73796a",
+    "debate_summary.md": "af554e8fd24b0579",
+    "feasibility.md": "065590081e9c6367",
+    "fiction_extract.md": "8ada1a395c25072e",
+    "fiction_refine.md": "a547dbb2fc03b443",
+    "fiction_scout.md": "63b11687055c8624",
+    "interpret.md": "7ce78a736a0ae412",
+    "interpret_review.md": "7907433221058558",
+    "keystone_screen.md": "f6f206ca8577b47b",
+    "librarian.md": "e6977370921ff990",
+    "novelty_audit.md": "3139addc91205b1e",
+    "probe_code.md": "bc0c52c94d1af371",
+    "probe_plan.md": "6249699cb2278e0e",
+    "probe_review.md": "6b222a3f766009ea",
+    "revise.md": "db7fab4a10c7c32b",
+    "scout.md": "7d943c7d48044a35",
+    "wide_scout.md": "deb81c952f9b424f"
+  },
+  "agents_toml_hash": "4b0d0da9640a634d"
+}
