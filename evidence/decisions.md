@@ -463,3 +463,20 @@ the audit chain is anchored in commit and blob hashes that rewriting
 would sever. Attribution lives in the README Acknowledgments and any
 future citation file. Generated artifacts use role language per
 COLLABORATOR_RULES. A test enforces the ban in live documents.
+
+## 2026-08-18 - Cross-charter corruption: found, repaired, marked
+
+External code review found that charter isolation held at generation
+and broke downstream; sandbox verification confirmed every claim.
+Damage and repair are documented in the P0-charter-integrity commit
+and executed by scripts/repair_charter_promotions.py (append-only).
+Standing consequences: ideas 020-025 carry an evaluation-contamination
+marker (their critique, debate, and feasibility ran under the baseline
+charter text); their verdicts remain of record but a bounded
+cross-family reconciliation review is queued to check each verdict
+against the isles24 charter before any contract is drafted. Idea-026
+is REJECTED as a duplicate promotion of the killed idea-020; zero
+stages were spent on it. The six baseline candidates falsely retired
+are restored. ISLES promotion was frozen during the repair and is now
+unfrozen. The scored digest is per-charter from this date; facts cross
+charters only through the score-free index.
