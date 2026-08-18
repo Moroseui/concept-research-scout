@@ -453,3 +453,13 @@ and counterfactual-perturbation mechanisms in medical imaging and a
 concrete stay-in-distribution edit strategy with numbers; absence of
 workable precedent is a legitimate feasibility kill. Feasibility is
 authorized under the reduced claim.
+
+## 2026-08-17 - Redaction-forward policy
+
+Personal names are generalized to roles (the operator, the supervising
+PI, the lab) in all live documents: charters, prompts, README, rules.
+Historical entries and git history retain original wording by design;
+the audit chain is anchored in commit and blob hashes that rewriting
+would sever. Attribution lives in the README Acknowledgments and any
+future citation file. Generated artifacts use role language per
+COLLABORATOR_RULES. A test enforces the ban in live documents.
