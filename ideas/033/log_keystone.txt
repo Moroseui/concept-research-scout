@@ -1,0 +1,11 @@
+Keystone screen complete: **PASS**, written to `ideas/033/keystone_screen.md`.
+
+**What I verified against primary sources:**
+
+- **Data substrate (the load-bearing checkable half): confirmed.** The ISLES'24 challenge paper (arXiv:2408.10966) states the dataset of N=248 splits into a public train set of N=150 and hidden test of N=98, with NCCT, CTA, CTP and derived CBF/CBV/MTT/Tmax maps per case, all series registered to the NCCT scan. The stated preprocessing (linear interpolation, registration, CTP motion correction and temporal resampling) is intensity-scale-preserving, skull-stripping is stated for MRI only, and no CT intensity normalization is mentioned — so quantitative HU plausibly survives release. Corroboration: the winning method (arXiv:2505.18424) applied its own clinically-informed HU windowing to the released data, which only makes sense on a Hounsfield scale.
+- **No public frozen checkpoint.** I checked the winner's full text twice: no code or model availability statement exists, and searches found no released ISLES'24 final-infarct weights. This means the card's plan to train its own NCCT+perfusion vs perfusion-only twins is the *only* path, not a fallback — consistent with the card as written.
+- **The winner's NCCT use is not established.** The paper never enumerates its nnU-Net input channels (NCCT is only explicitly mentioned as the skull-strip source), and its ablations compare normalization schemes, not modality subsets. So "the winner read an NCCT cue" is motivation, not fact — which the card's own `keystone_residual_assumption` already concedes.
+
+**Residual-assumption check:** the stated keystone bundles two forward empirical gates (NCCT incremental performance; selective erasability preserving perfusion decodability) that no source can settle today — they are the card's declared Stage-0 gates, so this card did not commit the wrong-keystone error. The PASS is explicitly scoped: it verifies the substrate only and does **not** grant `INSPECTED_TRUE`, so the rubric's hard caps on feasibility and novelty confidence remain in force.
+
+Minor discrepancy recorded: the card says 149 public cases vs the paper's 150 (and the two ISLES papers themselves disagree, 245 vs 248 total) — non-fatal, to be pinned from the actual download at Stage 0.
