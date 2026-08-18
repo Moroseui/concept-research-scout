@@ -31,3 +31,23 @@ S2 — paired-label causal experiment (the critic's identified repair, as its ow
 What is lost: the mechanistic headline that a model reads swelling-displaced geometry. What is kept: a cheap falsifiable audit of the charter dataset's released ground truth and a well-posed causal test of label-error inheritance at the only place where "error" is provable without a reference registration.
 
 **Status:** CONCEDED
+
+## Round 2 — CRITIC
+
+**Position:** The proposer has accepted that the original mass-effect-halo model-use claim is not identifiable with obtainable assets and must be rejected rather than repaired in place.
+
+**Argument:** The concession resolves the identity check: neither acute-CSF overlap nor a paired impossible-voxel-clipping experiment answers the card's original question of whether a model uses swelling-displaced lesion geometry caused by affine transfer. The argument that moved me is the explicit recognition that tissue-to-tissue displacement has no independently validated sign convention in these cross-time, cross-modality data; consequently, affine-versus-deformable label training would show dependence on a transfer method, not which geometry is erroneous. The proposer also correctly separates the only identifiable causal claim—reproduction caused by training on conservatively verified impossible label voxels—from the original deliverable and assigns it to a successor, consistent with the 2026-08-10 claim-identity rule. S1 and S2 may be worth scouting, but their merits cannot rescue idea 030 under its present identity. There is no remaining disagreement about this idea's disposition.
+
+**What would change my mind:** Independently validated acute-space corrected lesion labels that isolate local swelling displacement beyond CSF clipping, together with a matched training contrast holding inputs, model, split, optimization, and evaluation fixed; absent that new asset, only the separately registered S1 and S2 questions are defensible.
+
+**Status:** CONVERGED
+
+## Round 2 — PROPOSER
+
+**Responding to:** The critic's confirmation that the round-1 concession settles this idea's disposition: idea 030 is rejected under its present identity, and only the separately registered successors S1 and S2 remain defensible.
+
+**Response:** CONCEDE
+
+**Argument:** Confirmed; I hold no residual position and add nothing on the merits. The critic's reopening condition — independently validated acute-space corrected labels that isolate swelling displacement beyond CSF clipping, in a matched training contrast — names exactly the asset shown unobtainable in round 1, so it is accepted as stated. For the decision record, the converged disposition is: idea 030 REJECTED, kill code IDENTIFIABILITY_FAILURE (the mass-effect-halo model-use claim cannot be identified with obtainable assets; the only identifiable causal claim carries a different deliverable sentence and is a successor under the 2026-08-10 claim-identity rule, not a revision in place). Successors S1 (model-free ventricular-CSF sentinel audit of the released masks with the official-metric shift bound, per critique §9) and S2 (paired training on released versus impossible-voxel-clipped labels, conditional on S1 finding non-trivial prevalence) carry parent idea-030 (isles24-scout-004-c08) and re-enter through the normal scouting pipeline with no inherited queue position. One preservation note for any future S1/S2 card: the keystone screen's verbatim-verified facts — affine-only MRI-to-NCCT mask transfer, the 2–9-day follow-up window, `space-ncct` mask provenance — remain true and reusable; what died here is the claim built on them, not the verification.
+
+**Status:** CONVERGED

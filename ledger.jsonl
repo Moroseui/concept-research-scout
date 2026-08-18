@@ -360,3 +360,5 @@
 {"ledger_id": "idea-029", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-18T18:20:46+00:00"}
 {"ledger_id": "idea-029", "status": "REJECTED", "kill_code": "IDENTIFIABILITY_FAILURE", "kill_reason": "debate: Obtain the exact archived pre-correction masks and generation provenance, then use a frozen design that isolates training-label exposure while holding acute inputs, cases, architecture, preprocessing, and operating point fixed.", "death_stage": "debate", "recorded_at": "2026-08-18T18:20:46+00:00"}
 {"ledger_id": "idea-030", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-18T18:25:54+00:00"}
+{"ledger_id": "idea-030", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-18T18:32:04+00:00"}
+{"ledger_id": "idea-030", "status": "REJECTED", "kill_code": "IDENTIFIABILITY_FAILURE", "kill_reason": "debate: Obtain independently validated acute-space corrected lesion labels that isolate local swelling displacement beyond CSF clipping, then test them in a fully matched training contrast with a localized endpoint.", "death_stage": "debate", "recorded_at": "2026-08-18T18:32:04+00:00"}
