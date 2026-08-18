@@ -34,3 +34,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 033,Did preprocessing teach the winner to read the disappearing insular ribbon?,ACTIVE,,"{'value': 4, 'why': 'A large preprocessing effect and an established radiologic signal are one experiment apart.'}",CRITIQUE,
 034,The edge of the map: the benchmark scores terra incognita,ACTIVE,,"{'value': 4, 'why': 'One CPU session settles a question that becomes obvious in hindsight the first time a large-lesion case is inspected; skipping it risks every model comparison on this benchmark carrying an unexamined convention.'}",CRITIQUE,
 035,The skull is a fixed-volume pressure vessel,ACTIVE,,"{'value': 5, 'why': 'Delayed ground-truth geometry is a fundamental benchmark issue that can be audited cheaply.'}",CRITIQUE,
+036,Does the model bring a vascular map to the scan?,ACTIVE,,"{'value': 4, 'why': 'Cheap, label-free, and the RDD grammar is reusable across the portfolio if it works.'}",CRITIQUE,

@@ -35,6 +35,7 @@
 - [isles24] **idea-033** [SHORTLISTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
 - [isles24] **idea-034** [SHORTLISTED] -- The edge of the map: the benchmark scores terra incognita
 - [isles24] **idea-035** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
+- [isles24] **idea-036** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -60,7 +61,7 @@
 - [isles24] **isles24-scout-003-c07** [SCOUT_ONLY] -- Does the model price the last mile of blood delivery?
 - [isles24] **isles24-scout-003-c08** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
 - [isles24] **isles24-scout-004-c01** [SHORTLISTED] -- The ground truth remembers the algorithm that drafted it
-- [isles24] **isles24-scout-004-c02** [SCOUT_ONLY] -- Does the model bring a vascular map to the scan?
+- [isles24] **isles24-scout-004-c02** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
 - [isles24] **isles24-scout-004-c03** [SCOUT_ONLY] -- The heart's signature in the head scan
 - [isles24] **isles24-scout-004-c04** [SCOUT_ONLY] -- The model may be watching the patient's eyes
 - [isles24] **isles24-scout-004-c05** [SCOUT_ONLY] -- The brain's odometer: calcification as the model's age gauge

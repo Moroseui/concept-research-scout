@@ -1,0 +1,92 @@
+{
+  "id": "isles24-scout-004-c02",
+  "parent_ids": [],
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "Does the model bring a vascular map to the scan?",
+  "question": "Is an ISLES'24 final-infarct model using arterial-territory membership \u2014 the brain's vascular map \u2014 as a spatial prior beyond the case's own perfusion and tissue evidence?",
+  "rung": "Target rung 1: use of atlas-defined territory membership; rung 2 requires replication in a second model family and demonstration on anatomically variant cases where prior and evidence dissociate.",
+  "deliverable_sentence": "The final-infarct model is using arterial-territory membership \u2014 the brain's vascular map \u2014 as a spatial prior, producing prediction discontinuities at territory borders between voxels with matched local evidence.",
+  "X_measurement": "Register the public digital arterial-territories atlas (Liu et al., Scientific Data 2023, DOI 10.1038/s41597-022-01923-0; github.com/Chin-Fu-Liu/Arterial_Atlas) to each NCCT with standard deformable registration; X is territory membership and signed distance to the territory border per voxel. Compute-today test: YES on any unseen head CT with public atlas and registration tools; no annotator.",
+  "suspected_signal": "Emboli follow arterial trees, so real infarcts are territorial; a segmentation network trained on territorial masks can internalize the territory shapes themselves and apply them as a prior. Physicians reason territorially and would want to know whether the model does too \u2014 helpful as anatomical plausibility, harmful if the prior overrides case evidence in patients with variant vascular anatomy.",
+  "use_vs_association": "Association predicts model output varies smoothly with local hemodynamic evidence; use of a map predicts a jump located exactly at an externally registered anatomical boundary between voxels matched on all released evidence channels. Placebo boundaries (shifted 5-10 mm), contralateral boundaries, and matching on Tmax/CBF/CBV/MTT/NCCT-HU/distance-to-core carry the distinction.",
+  "keystone_prerequisite": "A frozen trained final-infarct model with continuous per-voxel output and non-trivial held-out performance exists, and atlas-to-CT registration is accurate to a few millimeters so border-straddling matched pairs are real.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The verified nearby fact is that the atlas is public and covers territories hierarchically; the load-bearing facts \u2014 reproduced-model quality and registration accuracy on defaced stroke CT \u2014 are the actual stage-0 gates. Matching can only use released evidence channels; unreleased raw-CTP cues correlated with true borderzone physiology remain possible and cap the identifiability score.",
+  "rung_reached": "0; rung 1 after the discontinuity analysis with placebo and registration-perturbation gates; rung 2 after a second model family and variant-anatomy cases.",
+  "dies_like_prior": "Nearest killed relative is idea-020 (spreading front, IDENTIFIABILITY_FAILURE). Differences: no synthetic intervention is required, the readout is a boundary discontinuity with built-in placebo cutoffs and contralateral controls, and the dominant confound (genuine watershed hemodynamics) is explicitly handled by matching on every released hemodynamic channel plus a prespecified sensitivity band; if matching quality fails its own gate, the result is reported as unidentifiable rather than reinterpreted.",
+  "closest_prior_work": "The atlas itself (DOI 10.1038/s41597-022-01923-0) and deliberate atlas-prior segmentation methods exist; Robben et al. (Medical Image Analysis 2020, DOI 10.1016/j.media.2019.101589) predict final infarct from native CTP without auditing spatial priors. No located work tests for emergent territorial priors in stroke models via boundary discontinuity; novelty is unaudited beyond targeted search.",
+  "existing_assets": "Public atlas with hierarchical territories, 149 public multimodal cases, registration toolchains (ANTs), nnU-Net recipes, and a label-free readout requiring only model probability maps.",
+  "smallest_decisive_experiment": "On 30 held-out cases of one trained nnU-Net: extract about 10^4 border-straddling voxel pairs matched on the five released evidence channels plus distance-to-core; estimate the output discontinuity with patient-clustered bootstrap CIs; compare against 20 placebo borders per case and contralateral borders; registration-perturbation sensitivity analysis. Decision in 3-4 days after model training; under 5 GPU-hours of inference.",
+  "standing_confounds_addressed": "Within-case matched pairs fix scanner, vendor, protocol, site, positioning, habitus, prevalence, and referral. Registration error blurs true jumps (conservative for a positive claim, threatening for a null \u2014 handled by the perturbation gate). NOT ruled out: model access to unreleased or raw-image correlates of true borderzone physiology at the border; this is the candidate's honest identifiability ceiling. Labels never enter the primary readout.",
+  "alternative_explanations": [
+    "Genuine watershed hemodynamics differ at borders in ways the released maps do not fully capture \u2014 the main residual, stated and scored.",
+    "Registration is systematically biased at borders \u2014 perturbation and contralateral analyses bound this.",
+    "The model produces edges everywhere \u2014 placebo borders quantify generic edge behavior."
+  ],
+  "anticipated_negative": "Decisive given the power and registration gates: the model integrates evidence smoothly with no detectable anatomical prior \u2014 directly reassuring for patients with variant vascular anatomy. Sensitivity-limited if registration QA fails its gate.",
+  "cross_domain": {
+    "borrowed_construct": "Regression discontinuity design from econometrics: units just across a cutoff are exchangeable, so a jump at the cutoff identifies the effect of cutoff-assigned treatment.",
+    "measurement_it_implies": "A discontinuity estimate in predicted probability at the registered territory border, with placebo cutoffs and bandwidth sensitivity as validity checks.",
+    "what_changes_if_dropped": "The analysis degrades to an ad-hoc matched boundary contrast without the placebo-cutoff and bandwidth discipline that makes the jump interpretable; the question survives but the inferential guarantee weakens."
+  },
+  "remaining_legwork": "2 days atlas-to-CT registration QA census, 4-6 days model training (shared with other candidates), 2 days discontinuity analysis: about 10 days to first decision.",
+  "design_template": "conditional-observational",
+  "entry_point_2_requirements": "Measurement: output discontinuity at registered arterial-territory borders under matched local evidence. Confused artifact: real watershed hemodynamics and registration error; placebo borders, five-channel matching, and registration perturbation address them.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "One question, one estimand (the boundary jump), though matching bandwidths need preregistration."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Placebo cutoffs rule out generic edge behavior, but unreleased borderzone physiology correlated with the border cannot be fully excluded."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "An atlas prior that overrides case evidence is a concrete safety issue for variant anatomy; its absence is equally reportable."
+    },
+    "interest": {
+      "value": 4,
+      "why": "Whether segmentation models internalize vascular anatomy is a recognizable open question phrased at physician level."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Atlas, registration tools, and model recipes exist; only the trained audit model is missing."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped: the trained-model and registration keystones are not inspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "All inputs public; atlas registration to defaced CT is untested but standard."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "The discontinuity estimator with placebo cutoffs is custom though statistically standard."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A gated null is meaningful (no atlas prior) but conditional on registration and power gates."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Targeted search found no emergent-prior audit; not exhaustive."
+    },
+    "regret": {
+      "value": 4,
+      "why": "Cheap, label-free, and the RDD grammar is reusable across the portfolio if it works."
+    }
+  },
+  "priority_score": 3.5,
+  "unverified_claims": [
+    "deformable atlas registration achieves few-mm accuracy on defaced stroke CT",
+    "a reproduced model reaches non-trivial held-out performance",
+    "matched pairs exist in sufficient numbers near borders",
+    "novelty beyond targeted search"
+  ],
+  "plain_pitch": "Strokes tend to respect the borders of each artery's supply zone, and doctors carry that vascular map in their heads. This study asks whether the prediction model carries the same map \u2014 whether its predicted damage jumps exactly at map borders even when two neighboring tissue spots look hemodynamically identical. If yes, the model imposes anatomy textbook knowledge on individual patients, which is reassuring for typical anatomy but risky for the many people whose vessels deviate from the textbook.",
+  "track": "baseline",
+  "charter": "isles24"
+}
