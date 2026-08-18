@@ -31,3 +31,29 @@ What was lost: the genuinely valuable question — how much machine-drafted cont
 **Spin-off** (already identified in critique §8, registered as a separate candidate, not a repair): if the organizers release the archived pre-correction masks and exact generation provenance, quantify which voxels and lesions supervised review changed, characterize edit types, and measure how official metrics and method rankings shift when the reference is draft versus corrected mask. That study needs no acute-CT model, no surrogate rerun, and no unidentifiable conditioning set. Its gate is a data-access request to the organizers, which costs one email and should be made.
 
 **Status:** CONCEDED
+
+## Round 2 — CRITIC
+
+**Position:** The proposer has accepted the fatal identifiability failure and correctly determined that the feasible surrogate-agreement study fails the identity check, so the original candidate should be rejected rather than amended.
+
+**Argument:** The proposer's response resolves the objection through substantive argument: it recognizes that `D xor G` cannot identify expert-overridden voxels because the available `D` mixes historical correction with model-version, input-channel, resampling, thresholding, and postprocessing differences; it also recognizes that the proposed external-model comparison changes label protocol, cohort, treatment mix, preprocessing, and architecture rather than isolating exposure to ISLES'24 labels. Most importantly, the proposer applies the claim-identity rule correctly: a version-pinned census of agreement between a contemporary DeepISLES rerun and the released mask is a descriptive reproducibility study, not a test of whether an acute-CT model inherited draft conventions through the labels. No amendment preserving the obtainable data repairs the original deliverable sentence. The proposed archived-draft benchmark audit is therefore a separate, data-access-gated candidate and cannot rescue this card.
+
+**What would change my mind:** The exact archived pre-correction masks and generation provenance, plus a design that holds acute inputs, cases, architecture, preprocessing, and operating point fixed while varying training-label exposure between draft-derived and independently produced labels; that evidence is not currently available and would support reconsideration through a new candidate or a formally justified revival.
+
+**Status:** CONVERGED
+
+## Round 2 — PROPOSER
+
+**Responding to:** The critic's confirmation that the round-1 concession is complete and correctly applied — the surrogate-agreement study fails the identity check, no amendment on obtainable data repairs the deliverable sentence, and the candidate should be rejected rather than amended, with the archived-draft audit registered separately.
+
+**Response:** CONCEDE
+
+**Argument:** The concession stands as given; I have no new argument and will not manufacture one. The debate is closed on the shared position: idea 029 is rejected for identifiability failure — the conditioning set (expert-overridden voxels) is not recoverable from released artifacts, and no obtainable control isolates label exposure. Nothing in the critic's round 2 requires further response; we agree on both the diagnosis and the disposition.
+
+Two disposition items for the record, so the close is actionable and not merely terminal:
+
+1. **Kill classification.** This should enter the ledger as IDENTIFIABILITY_FAILURE, the third such kill in this charter (after ideas 020 and 028). The pattern worth flagging for future scouting cycles: all three died because a construct named in the deliverable sentence (spreading front, oxygen gauge, correction field) was not observable from the released data — the keystone screen verified that *something* was computable without verifying it was *the thing the claim needed*. That is the same wrong-keystone failure mode recorded three times in the other charter (ideas 005, 006, 007). Keystone screens should ask not only "can X be computed?" but "is the computed X the estimand the deliverable sentence names?"
+
+2. **Spin-off handling, per the claim-identity rule (decision ledger, 2026-08-15) and the S2 precedent (2026-08-10).** The archived-draft benchmark audit — which edits did supervised review make, and how do official metrics and rankings shift under draft-versus-corrected reference — enters, if at all, through a normal scouting cycle or librarian proposal with `parent_ids: ["isles24-scout-004-c01"]`, not by manual registration, and takes no inherited queue position. Its gate is data access: the organizers hold the archived pre-correction masks and exact generation provenance, and the request costs one email. That request is worth making regardless of whether the spin-off is ever scouted, because both this debate's reopening condition and the critic's stated change-of-mind condition depend on it. The stage-1 surrogate census is not worth registering as a standalone candidate: high agreement is expected and unsurprising, low agreement is confounded by documented execution-path drift — at most a data note.
+
+**Status:** CONVERGED
