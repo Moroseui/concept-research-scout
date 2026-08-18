@@ -1,1 +1,2 @@
 {"claude": "2.1.197 (Claude Code)", "codex": "codex-cli 0.147.0", "stage": "keystone", "ts": "2026-08-18T21:42:09+00:00", "git_commit": "5fb5818199a15c03022265abf6075e968f55d1f7", "model_requested": "claude-fable-5", "model_used": "claude-fable-5", "fallback": false}
+{"claude": "2.1.197 (Claude Code)", "codex": "codex-cli 0.147.0", "stage": "critique", "ts": "2026-08-18T21:43:38+00:00", "git_commit": "96229bcd70af2cd450f5bf90ccd56bf4e18f3111", "model_requested": null, "model_used": null, "fallback": false}
