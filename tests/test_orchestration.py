@@ -2147,6 +2147,7 @@ class TestCharterIntegrity(Harness):
         sc.ROOT = self.repo
         sc.STATE = self.repo / "orchestrator" / "state.json"
         sc.PROMPTS = self.repo / "orchestrator" / "prompts"
+        sc.BRIEF = self.repo / "evidence" / "portfolio_brief.md"
         sc.ledger_mod.ROOT = self.repo
         sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
         sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
@@ -2210,8 +2211,12 @@ class TestCharterIntegrity(Harness):
                          "charter rows must not appear in the baseline digest")
         idx = (self.repo / "evidence" / "cross_charter_index.md").read_text()
         self.assertIn("zzq-scout-001-c09", idx)
-        self.assertNotIn("score", idx.split("\n")[0].lower() and "4.9" or "4.9",
-                         "the cross-charter index carries no scores")
+        # external review caught the previous assertion here as always-true;
+        # the correct property: no score VALUES or fields (titles may
+        # legitimately contain the word)
+        self.assertNotIn("4.9", idx, "the cross-charter index carries no scores")
+        self.assertNotIn(", score ", idx)
+        self.assertNotIn("scores_mean", idx)
 
     def test_inflight_selection_is_charter_scoped(self):
         sc = self._sc()
@@ -2224,6 +2229,123 @@ class TestCharterIntegrity(Harness):
         self.assertNotIn(97, got,
                          "a charter pipeline must never divert to finishing "
                          "a baseline idea")
+
+
+class TestCharterCloseout(Harness):
+    """2026-08-18 closeout review regressions: legacy-baseline resolution,
+    tombstones, per-charter briefs, factual-index injection."""
+
+    def _sc(self):
+        import sys
+        from pathlib import Path
+        root = str(Path(__file__).resolve().parent.parent)
+        if root not in sys.path:
+            sys.path.insert(0, root)
+        import scout as sc
+        sc.ROOT = self.repo
+        sc.STATE = self.repo / "orchestrator" / "state.json"
+        sc.PROMPTS = self.repo / "orchestrator" / "prompts"
+        sc.BRIEF = self.repo / "evidence" / "portfolio_brief.md"
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        return sc
+
+    def test_legacy_idea_gets_baseline_charter_under_active_charter_cycle(self):
+        sc = self._sc()
+        (self.repo / "charters" / "zzq").mkdir(parents=True, exist_ok=True)
+        (self.repo / "charters" / "zzq" / "CHARTER.md").write_text("ZZQ-BODY\n")
+        d = self.repo / "ideas" / "004"
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "idea_card.json").write_text(json.dumps({"title": "legacy"}))
+        st = sc.load_state()
+        st["cycle"] = {"scout": 9, "charter": "zzq", "tracks": ["baseline"],
+                       "stages": {"scout": "running"}}
+        sc.save_state(st)
+        self.assertIsNone(sc.charter_for_target(d),
+                          "a card without a charter IS a baseline idea")
+        prompt = sc.build_prompt("critique", d)
+        self.assertNotIn("ZZQ-BODY", prompt,
+                         "legacy baseline ideas must never inherit the "
+                         "globally active charter")
+        self.assertIn("===== CHARTER.md =====", prompt)
+
+    def test_load_excludes_tombstones_by_default_with_escape_hatch(self):
+        sc = self._sc()
+        sc.ledger_mod.append({"ledger_id": "scout-098-c01", "status": "SCOUT_ONLY",
+                              "title": "ghost", "tags": ["haunted-concept"]})
+        sc.ledger_mod.append({"ledger_id": "scout-098-c01",
+                              "status": "INVALID_ROW", "notes": "tombstone"})
+        cur = sc.ledger_mod.load()
+        self.assertNotIn("scout-098-c01", cur,
+                         "ordinary consumers (seed_draw, librarian) must never "
+                         "see tombstoned rows or their surviving fields")
+        aud = sc.ledger_mod.load(include_invalid=True)
+        self.assertIn("scout-098-c01", aud)
+        self.assertEqual(aud["scout-098-c01"]["status"], "INVALID_ROW")
+
+    def test_fresh_charter_never_receives_baseline_brief(self):
+        sc = self._sc()
+        (self.repo / "evidence").mkdir(exist_ok=True)
+        (self.repo / "evidence" / "portfolio_brief.md").write_text(
+            "BASELINE_SENTINEL_VERDICTS\n")
+        (self.repo / "charters" / "fresh").mkdir(parents=True, exist_ok=True)
+        (self.repo / "charters" / "fresh" / "CHARTER.md").write_text("FRESH\n")
+        d = self.repo / "ideas" / "scout-fresh-001"
+        d.mkdir(parents=True, exist_ok=True)
+        prompt = sc.build_prompt("scout", d)
+        self.assertNotIn("BASELINE_SENTINEL_VERDICTS", prompt,
+                         "a charter with no scoped brief yet must get empty "
+                         "context, never the baseline portfolio brief")
+
+    def test_malformed_card_fails_closed(self):
+        sc = self._sc()
+        d = self.repo / "ideas" / "150"
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "idea_card.json").write_text("{not json")
+        with self.assertRaises(SystemExit):
+            sc.charter_for_target(d)
+
+    def test_tombstoned_rows_excluded_from_views(self):
+        sc = self._sc()
+        sc.ledger_mod.append({"ledger_id": "scout-099-c01",
+                              "status": "INVALID_ROW", "title": "ghost",
+                              "notes": "tombstone test"})
+        sc.ledger_mod.digest()
+        dig = (self.repo / "evidence" / "ledger_digest.md").read_text()
+        idx = (self.repo / "evidence" / "cross_charter_index.md").read_text()
+        self.assertNotIn("scout-099-c01", dig)
+        self.assertNotIn("scout-099-c01", idx)
+        self.assertNotIn((99, 1),
+                         [(s_, c) for s_, c, _ in sc._ranked_backlog()],
+                         "tombstones must not enter the ranked backlog")
+
+    def test_portfolio_brief_scoped_and_index_injected(self):
+        sc = self._sc()
+        (self.repo / "charters" / "zzq").mkdir(parents=True, exist_ok=True)
+        (self.repo / "charters" / "zzq" / "CHARTER.md").write_text("ZZQ-BODY\n")
+        for n, ch in ((201, None), (202, "zzq")):
+            d = self.repo / "ideas" / f"{n}"
+            d.mkdir(parents=True, exist_ok=True)
+            card = {"title": f"idea{n}"}
+            if ch:
+                card["charter"] = ch
+            (d / "idea_card.json").write_text(json.dumps(card))
+            (d / "consensus.md").write_text(
+                f"## Recommendation\nverdict-{n}\n")
+            sc.ledger_mod.append({"ledger_id": f"idea-{n}",
+                                  "status": "SHORTLISTED", "title": f"idea{n}"})
+        sc.write_portfolio_brief()
+        zq = (self.repo / "evidence" / "portfolio_brief_zzq.md").read_text()
+        base = (self.repo / "evidence" / "portfolio_brief.md").read_text()
+        self.assertIn("idea-202", zq)
+        self.assertNotIn("idea-201", zq,
+                         "baseline verdicts must not enter a charter brief")
+        self.assertNotIn("idea-202", base,
+                         "charter verdicts must not enter the baseline brief")
+        prompt = sc.build_prompt("critique", self.repo / "ideas" / "202")
+        self.assertIn("portfolio_brief_zzq.md", prompt)
+        self.assertIn("cross_charter_index.md", prompt)
 
 
 if __name__ == "__main__":

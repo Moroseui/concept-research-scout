@@ -76,8 +76,17 @@ def _records() -> list[dict]:
     return out
 
 
-def load() -> dict[str, dict]:
-    """Latest-wins merge of all records, keyed by ledger_id."""
+def load(*, include_invalid=False) -> dict[str, dict]:
+    """Latest-wins merge of all records, keyed by ledger_id.
+
+    Tombstoned rows (status INVALID_ROW) are EXCLUDED by default: load()
+    is the current-state materializer, not the history API, and per-view
+    filtering provably misses consumers (external review, 2026-08-18:
+    seed_draw and the librarian dossier would have resurrected tombstone
+    fields, because latest-wins merging keeps old fields alive under the
+    tombstone). Audit or repair code that intentionally wants invalid
+    historical entities passes include_invalid=True; raw event history
+    is _records()."""
     merged: dict[str, dict] = {}
     for rec in _records():
         lid = rec.get('ledger_id')
@@ -87,6 +96,9 @@ def load() -> dict[str, dict]:
         for k, v in rec.items():
             if v not in (None, ''):
                 cur[k] = v
+    if not include_invalid:
+        merged = {lid: e for lid, e in merged.items()
+                  if e.get('status') != 'INVALID_ROW'}
     return merged
 
 
@@ -261,7 +273,7 @@ def digest() -> Path:
 
 
 def _digest_one(entries, charter) -> Path:
-    scope = charter or 'baseline'
+    scope = charter or 'baseline'  # tombstones already excluded by load()
     lines = [f'# Ledger digest -- charter: {scope} (auto-generated; scores are scoped to this charter only)',
              '', f'{len(entries)} tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.',
              '', 'Work under other charters: evidence/cross_charter_index.md (facts, no scores).', '']

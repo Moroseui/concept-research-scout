@@ -96,22 +96,41 @@ def _active_charter():
     return (load_state().get('cycle') or {}).get('charter')
 
 
+def _norm_charter(ch):
+    """Canonical charter value: None/''/'baseline' are all the baseline."""
+    return None if ch in (None, '', 'baseline') else ch
+
+
 def charter_for_target(target):
     """Authoritative charter resolution for a stage target directory:
-    1) the idea card's charter stamp, 2) a charter-prefixed scout dir name,
-    3) the active cycle's charter (cycle-internal stages only), 4) baseline."""
-    try:
-        t = Path(target)
-        card = t/'idea_card.json'
-        if card.exists():
-            ch = json.loads(card.read_text()).get('charter')
-            if ch:
-                return ch
-        if t.name.startswith('scout-'):
-            return _parse_scout_dir(t.name)[0]
-    except Exception:
-        pass
-    return _active_charter()
+    1) an idea card's charter stamp -- and its ABSENCE is equally
+       authoritative: a card with no charter IS a baseline idea (the
+       2026-08-18 closeout review found legacy ideas falling through to
+       whatever cycle was globally active, the mirror image of the
+       original bug);
+    2) a charter-prefixed scout dir name (prefix absence = baseline);
+    3) only for targets that are neither: the active cycle's charter."""
+    t = Path(target)
+    card = t/'idea_card.json'
+    if card.exists():
+        try:
+            data = json.loads(card.read_text())
+        except json.JSONDecodeError as e:
+            raise SystemExit(
+                f'Cannot resolve charter: malformed {card}. A target whose '
+                'identity cannot be established must never silently inherit '
+                'the globally active charter (fail-closed, external review '
+                '2026-08-18). Fix the card, then rerun.') from e
+        return _norm_charter(data.get('charter'))
+    if t.name.startswith('scout-'):
+        try:
+            return _norm_charter(_parse_scout_dir(t.name)[0])
+        except (ValueError, SystemExit) as e:
+            raise SystemExit(
+                f'Cannot resolve charter: unparseable scout dir name '
+                f'{t.name!r} (fail-closed).') from e
+    # only targets with no persistent identity fall back to the cycle
+    return _norm_charter(_active_charter())
 
 
 # --------------------------------------------------------------------------
@@ -177,7 +196,8 @@ Write only the file the task names. Preserve all other files.
 """
     files = [charter_path(charter_for_target(target)), ROOT/'docs'/'COLLABORATOR_RULES.md',
              ROOT/'docs'/'SCORING_RUBRIC.md', ROOT/'evidence'/'decisions.md',
-             _digest_path(charter_for_target(target)), ROOT/'evidence'/'portfolio_brief.md',
+             _digest_path(charter_for_target(target)), _brief_path(charter_for_target(target)),
+             ROOT/'evidence'/'cross_charter_index.md',
              ROOT/'evidence'/'librarian_proposals.md']
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
     tctx = _target_context(stage, target)
@@ -1386,20 +1406,53 @@ def _extract_section(body, header):
     return m.group(1).strip() if m else ''
 
 
+def _brief_path(charter):
+    """A named charter's brief path, UNCONDITIONALLY: if no scoped brief
+    exists yet (a brand-new charter's first cycle), the missing path
+    yields empty context via read_text -- never the baseline brief.
+    External review (2026-08-18) reproduced baseline verdicts leaking
+    into a fresh charter's scout prompt under the old fallback."""
+    charter = _norm_charter(charter)
+    if charter:
+        return ROOT/'evidence'/f'portfolio_brief_{charter}.md'
+    p = ROOT/'evidence'/'portfolio_brief_baseline.md'
+    return p if p.exists() else BRIEF
+
+
 def write_portfolio_brief(max_ideas=8, max_chars=1500):
     """Rich context on ACTIONABLE ideas (those with a debate consensus and a
     live status) for portfolio-aware scouting: the verdict, its unblock
     conditions, and unresolved questions. The digest stays the one-line index;
     this is the detail tier for ideas a scout might revive or recombine."""
     entries = ledger_mod.load()
-    lines = ['# Portfolio brief (auto-generated; run `python scout.py brief`)', '',
-             'Actionable ideas with debate verdicts. A revival/recombination',
+    charters = {None}
+    for d in (ROOT/'ideas').glob('[0-9][0-9][0-9]'):
+        charters.add(charter_for_target(d))
+    if (ROOT/'charters').exists():
+        for p in (ROOT/'charters').glob('*/CHARTER.md'):
+            charters.add(p.parent.name)  # registered charters always get a brief
+    out = None
+    for scope in sorted(charters, key=lambda c: (c is not None, c or '')):
+        p = _write_brief_one(entries, scope, max_ideas, max_chars)
+        if scope is None:
+            out = p
+    return out or BRIEF
+
+
+def _write_brief_one(entries, scope, max_ideas, max_chars):
+    label = scope or 'baseline'
+    lines = [f'# Portfolio brief -- charter: {label} (auto-generated; run `python scout.py brief`)', '',
+             'Actionable ideas OF THIS CHARTER with debate verdicts (evaluative',
+             'framing never crosses charters; facts cross via',
+             'evidence/cross_charter_index.md). A revival/recombination',
              'candidate MUST cite the specific condition below that has changed.', '']
     dirs = sorted((ROOT/'ideas').glob('[0-9][0-9][0-9]'), reverse=True)
     n = 0
     for d in dirs:
         if n >= max_ideas:
             break
+        if charter_for_target(d) != scope:
+            continue
         cpath = d/'consensus.md'
         if not cpath.exists():
             continue
@@ -1427,10 +1480,13 @@ def write_portfolio_brief(max_ideas=8, max_chars=1500):
         lines += chunk
         n += 1
     if n == 0:
-        lines += ['(No ideas with debate consensus yet.)', '']
+        lines += ['(No ideas of this charter with debate consensus yet.)', '']
     BRIEF.parent.mkdir(parents=True, exist_ok=True)
-    BRIEF.write_text('\n'.join(lines) + '\n')
-    return BRIEF
+    target = BRIEF if scope is None else BRIEF.parent/f'portfolio_brief_{scope}.md'
+    target.write_text('\n'.join(lines) + '\n')
+    if scope is None:
+        (BRIEF.parent/'portfolio_brief_baseline.md').write_text('\n'.join(lines) + '\n')
+    return target
 
 
 def brief_cmd(_args):
@@ -2154,18 +2210,11 @@ def _incomplete_pipeline_ideas(stages, charter=None):
         if e.get('status') != 'SHORTLISTED' or not lid.startswith('idea-'):
             continue
         n = int(lid.split('-')[1])
-        if charter is not None or True:
-            # scope to the requested charter: an isles24 pipeline run must
-            # never divert to finishing a baseline idea (2026-08-18 audit)
-            card = idea_dir(n)/'idea_card.json'
-            idea_ch = None
-            if card.exists():
-                try:
-                    idea_ch = json.loads(card.read_text()).get('charter')
-                except Exception:
-                    idea_ch = None
-            if idea_ch != charter:
-                continue
+        # scope to the requested charter: an isles24 pipeline run must
+        # never divert to finishing a baseline idea (2026-08-18 audit);
+        # normalized so legacy cards without the field are baseline
+        if charter_for_target(idea_dir(n)) != _norm_charter(charter):
+            continue
         if final and not (idea_dir(n)/final).exists():
             out.append(n)
     return out
