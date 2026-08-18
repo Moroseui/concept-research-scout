@@ -1,0 +1,10 @@
+**Keystone screen complete: PASS.** `ideas/029/keystone_screen.md` is written.
+
+What I verified against primary sources, all fetched today:
+
+- **Provenance documented** — the ISLES'24 paper (arXiv 2408.10966v1, Dataset section) states verbatim that "Lesion masks are derived from DWI images using the ISLES'22 ensemble algorithm" with correction "when needed" by supervised medical students. The card's central quote is accurate.
+- **Segmenter public and re-runnable** — DeepISLES exists as Docker image `isleschallenge/deepisles` with weights confirmed at Zenodo record 14026715 (9.1 GB, published 2024-11-01).
+- **Follow-up MRI released** — Zenodo 16731717 provides per-case follow-up DWI and ADC for all 149 training cases.
+- **A fact the card never checked, resolved favorably** — the released follow-up DWI/ADC and the ground-truth lesion mask all carry the `space-ncct` label on a common grid, so the draft-versus-final disagreement field is computable voxelwise with no registration work of our own. The keystone is actually stronger than the card claimed.
+
+The mandatory wrong-keystone check surfaced one assumption the card did not name: the rerun consumes already-resampled NCCT-space DWI/ADC, while the organizers ran the ensemble before registration, and no native-space follow-up data or transforms are released. That makes the card's "bitwise-identical fraction" a lower bound degraded by interpolation, not an unbiased estimate. Together with the already-stated FLAIR gap (the ensemble requires FLAIR; ISLES'24 releases none for follow-up), both drift sources land on the safe side of the card's prespecified asymmetric interpretation — they weaken power, not validity — and are recorded in §4 for the stage-0/analysis plan to inherit.
