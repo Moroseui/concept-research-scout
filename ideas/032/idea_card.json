@@ -1,0 +1,94 @@
+{
+  "id": "isles24-scout-003-c03",
+  "parent_ids": [],
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "The arterial network's spare route",
+  "question": "Is an ISLES'24 model using Circle-of-Willis graph redundancy\u2014the number and caliber of patent alternate paths around the occlusion\u2014as a reserve for maintaining flow?",
+  "rung": "Target rung 1 use of a graph-derived image quantity; rung 2 requires external CTA replication and agreement with measured distal collateral filling.",
+  "deliverable_sentence": "The final-infarct model is using Circle-of-Willis alternate-path redundancy as an image marker of proximal collateral reserve.",
+  "X_measurement": "Convert the released multilabel Circle-of-Willis vessel mask to a graph whose edge weights are centerline minimum radii; remove the occluded edge and compute edge-disjoint source-to-territory paths plus max flow. Compute-today test: YES on an unseen CTA with a multilabel mask, using deterministic skeletonization and graph algorithms; no human labels. Clinical CTA work defines complete, nonisolating-incomplete, and isolating-incomplete variants (PMID 39788631).",
+  "suspected_signal": "The Circle of Willis is a hydraulic network: communicating arteries provide parallel routes around a proximal blockage, so topology and caliber determine whether pressure can reach the threatened territory before leptomeningeal routes are recruited.",
+  "use_vs_association": "Graph-edge intervention: render patent-to-hypoplastic and hypoplastic-to-patent communicating-artery variants within each case while preserving the occlusion, distal CTA enhancement, brain images, and perfusion maps; require output changes predicted by the signed change in alternate-path capacity and absent for topology-neutral vessel-caliber shams.",
+  "keystone_prerequisite": "The released multilabel Circle-of-Willis masks accurately distinguish communicating-artery branches and calibers in enough cases for graph edits to represent real anatomic variants rather than segmentation artifacts.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The Zenodo description's existence claim for automated Circle-of-Willis masks is not evidence of branch-level fidelity. Accuracy, coverage, and usable variant counts are the load-bearing facts.",
+  "rung_reached": "0; rung 1 after mask-fidelity and graph-edit gates; rung 2 after external CTA and distal-filling agreement.",
+  "dies_like_prior": "Resembles idea-009 (IDENTIFIABILITY_FAILURE), which tried to interpret vascular geometry amid age, disease, and acquisition. This design changes graph connectivity within case while freezing those factors and the perfusion field. It also differs from isles24-scout-001-c02: that candidate tests distal collateral reach; this one tests proximal network redundancy upstream of that reach.",
+  "closest_prior_work": "Large CTA studies establish Circle-of-Willis variation frequencies (DOI 10.1016/j.wneu.2017.07.084) and association of variant classes with outcome after successful revascularization (PMID 39788631). They do not audit final-infarct models or intervene on graph topology. Exact novelty is unverified.",
+  "existing_assets": "CTA, stated automatic multilabel Circle-of-Willis masks, LVO masks, perfusion maps, two centers, standard skeleton/graph algorithms.",
+  "smallest_decisive_experiment": "Stage 0: visually inspect only for tool QA\u2014not new labels\u201430 masks and quantify graph validity automatically in all cases; require >=20 cases in each of two common editable variant families and stable edge radii under one-voxel perturbation. Then run paired edge interventions on 40 held-out cases. Ten to fourteen days, under 20 GPU-hours after model training.",
+  "standing_confounds_addressed": "Within-case intervention holds scanner, vendor, protocol, site, age, habitus, referral, and label prevalence; fixed perfusion separates direct CTA topology use from its existing downstream consequence. It does not fully rule out synthetic-vessel artifacts or CTA phase effects. No new annotation burden is required; visual inspection is QA, not an input or endpoint.",
+  "alternative_explanations": [
+    "The model detects added bright voxels; topology-neutral added-vessel shams match volume and intensity.",
+    "The model uses vessel caliber generally, not alternate paths; edits with equal total vessel volume but different connectivity discriminate them.",
+    "Automatic masks hallucinate variants; graph-validity and raw-CTA agreement gates must pass before inference."
+  ],
+  "anticipated_negative": "Sensitivity-limited if editable variant support is thin; decisive after topology, realism, and positive-control gates. A gated null says the model ignores a proximal collateral route already visible in CTA.",
+  "cross_domain": {
+    "borrowed_construct": "Network robustness and max-flow/min-cut from graph theory.",
+    "measurement_it_implies": "Edge-disjoint paths and caliber-weighted max flow after deleting the occluded edge.",
+    "what_changes_if_dropped": "The study could fall back to coarse complete/incomplete anatomy classes, but it would lose the graded intervention and most of its identifiability."
+  },
+  "remaining_legwork": "3 days mask/variant census, 3 days graph validation, 4-6 days renderer and inference: roughly two weeks.",
+  "design_template": "other:graph-edge-intervention",
+  "design_template_justification": "The causal unit is graph connectivity, not a contiguous image region; none of the named templates captures matched edge addition/removal with topology-neutral shams.",
+  "entry_point_2_requirements": "Measurement: caliber-weighted alternate-path capacity. Confused artifact: CTA phase and automated branch hallucination; fixed within-case intensity plus raw-CTA/mask agreement gates address them.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "The graph quantity is precise, though rendering rules need Stage-0 freezing."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Connectivity-changing versus volume-matched topology-neutral edits isolate the claimed graph property."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Alternate arterial routes are a plausible determinant of tissue survival during occlusion."
+    },
+    "interest": {
+      "value": 5,
+      "why": "It asks whether the network model has learned a literal vascular-network robustness calculation."
+    },
+    "prior_legwork": {
+      "value": 3,
+      "why": "Masks are stated and graph tools are mature; fidelity and rendering are not."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped by uninspected mask fidelity and variant support."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Public but archive-level mask properties unknown."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Signed paired response is simple; image-validity tests are custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "Strong only if enough real variant support and edit sensitivity are shown."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Adjacent anatomy/outcome papers found, no use audit; formal audit pending."
+    },
+    "regret": {
+      "value": 5,
+      "why": "A released multilabel arterial graph makes an otherwise difficult mechanism unusually testable."
+    }
+  },
+  "priority_score": 3.8,
+  "unverified_claims": [
+    "branch-level mask fidelity",
+    "sufficient editable variant families",
+    "model consumes CTA effectively",
+    "synthetic graph edits are in distribution",
+    "novelty"
+  ],
+  "plain_pitch": "The arteries at the base of the brain form a loop that can route blood around a blockage. This study turns that loop into a graph and asks whether the model uses the number and size of spare routes. If true, changing connectivity while keeping the total amount of visible vessel and the perfusion maps fixed would change the prediction in the direction expected from the new route.",
+  "track": "baseline",
+  "charter": "isles24"
+}
