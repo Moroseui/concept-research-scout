@@ -10,7 +10,7 @@ Before proposing a candidate, check it against every pattern below.
 A candidate that dies like a prior one must say what makes it different.
 
 - **IDENTIFIABILITY_FAILURE** x4: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
-- **DATA_ACCESS** x2: Required data, checkpoints, or mappings are not obtainable in practice.
+- **DATA_ACCESS** x3: Required data, checkpoints, or mappings are not obtainable in practice.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
@@ -58,7 +58,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-028** [REJECTED/DEBATED/baseline] -- The blood's grayscale oxygen gauge -- killed: IDENTIFIABILITY_FAILURE
 - **idea-029** [REJECTED/DEBATED/baseline] -- The ground truth remembers the algorithm that drafted it -- killed: IDENTIFIABILITY_FAILURE
 - **idea-030** [REJECTED/DEBATED/wide] -- The ground truth was drawn on a swollen brain -- killed: IDENTIFIABILITY_FAILURE
-- **idea-031** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
+- **idea-031** [REJECTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see -- killed: DATA_ACCESS
 - **idea-032** [SHORTLISTED/SCOUTED/baseline] -- The arterial network's spare route
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
