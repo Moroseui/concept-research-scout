@@ -29,3 +29,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 028,The blood's grayscale oxygen gauge,ACTIVE,,"{'value': 3, 'why': 'Very cheap and memorable, but the physiology may not survive dataset preprocessing.'}",CRITIQUE,
 029,The ground truth remembers the algorithm that drafted it,ACTIVE,,"{'value': 5, 'why': 'The audit is cheap, uses only released artifacts, and the community will eventually ask this question of any hybrid-annotated benchmark.'}",CRITIQUE,
 030,The ground truth was drawn on a swollen brain,ACTIVE,,"{'value': 5, 'why': ""Cheap, keystone-verified, composes with c01, and the question will eventually be asked of every follow-up-derived ground truth; being scooped on an obvious-in-hindsight audit of the program's own charter dataset would sting.""}",CRITIQUE,
+031,The vascular detour the segmentation model can see,ACTIVE,,"{'value': 5, 'why': 'The dataset uniquely co-releases the needed vascular and outcome views.'}",CRITIQUE,

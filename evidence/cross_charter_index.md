@@ -30,8 +30,9 @@
 - [isles24] **idea-028** [SHORTLISTED] -- The blood's grayscale oxygen gauge
 - [isles24] **idea-029** [SHORTLISTED] -- The ground truth remembers the algorithm that drafted it
 - [isles24] **idea-030** [SHORTLISTED] -- The ground truth was drawn on a swollen brain
+- [isles24] **idea-031** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
-- [isles24] **isles24-scout-001-c02** [SCOUT_ONLY] -- The vascular detour the segmentation model can see
+- [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
 - [isles24] **isles24-scout-001-c04** [SCOUT_ONLY] -- The frail brain around the threatened territory
 - [isles24] **isles24-scout-001-c05** [SHORTLISTED] -- A spreading front inside the perfusion deficit

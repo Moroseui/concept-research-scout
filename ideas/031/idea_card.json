@@ -1,0 +1,84 @@
+{
+  "id": "isles24-scout-001-c02",
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "The vascular detour the segmentation model can see",
+  "question": "Is an ISLES'24 model using arterial collateral reach from the CTA occlusion to the threatened territory rather than perfusion-deficit volume alone?",
+  "rung": "Target rung 1; move toward rung 3 only if the machine measure agrees with an established collateral score in an external labeled cohort.",
+  "deliverable_sentence": "The final-infarct model is using the amount of distal arterial territory reached around the occlusion\u2014collateral reach\u2014not merely the size of the perfusion deficit.",
+  "X_measurement": "From CTA, use the released TopCoW-style vessel mask plus occlusion mask to compute affected/contralateral distal vessel-length density within atlas-defined downstream territories, normalized by territory volume. This is fully automatic graph/mask arithmetic on a new scan. Compute-today test: YES, conditional on the released pseudolabel files being present per case.",
+  "suspected_signal": "Pial and communicating collateral pathways preserve distal arterial filling beyond an occlusion and delay irreversible tissue failure after proximal flow stops.",
+  "use_vs_association": "Remove only distal vessel voxels downstream of the occlusion and replace them with contralateral, intensity-matched vessel/background patches while holding CTP and lesion-size priors fixed; a selective output change relative to upstream-vessel and nonvascular shams tests use.",
+  "keystone_prerequisite": "The public 149-case release actually contains per-case occlusion masks and Circle-of-Willis/distal-vessel pseudolabels in a coordinate system usable with CTA, with sufficient distal coverage for the proposed reach measure.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The 2026 paper verifies the pseudolabel-generation method, but the official README tree does not enumerate these files; file-level completeness and distal-vessel coverage are the real keystone.",
+  "rung_reached": "0; rung 1 after validated regional substitutions; rung 2 after cross-center consistency; rung 3 after measurement validation.",
+  "dies_like_prior": "Closest is idea-006: its deletion was extreme OOD. This uses tissue-for-tissue, contralateral intensity-matched substitution and requires discriminator/segmentation-validity gates. Closest kill code is IDENTIFIABILITY_FAILURE; holding the CTP channels fixed separates vascular depiction from perfusion volume, subject to edit validity.",
+  "closest_prior_work": "Yang et al., TopCoW challenge, arXiv:2312.17670, supplies topology-aware vessel segmentation; Riedel et al., DOI 10.1148/ryai.250603 documents ISLES'24 vessel pseudolabels. Neither tests whether a final-infarct predictor uses patient-specific distal arterial reach.",
+  "existing_assets": "CTA registered to NCCT, occlusion/vessel pseudolabel method, contralateral anatomy, final masks, two-center cohort.",
+  "smallest_decisive_experiment": "Stage 0 on 20 cases: verify masks and stable reach measurement. Then train one CTA+CTP model on a frozen center-stratified split and run downstream-vessel, upstream-vessel and nonvascular matched substitutions on 40 held-out cases; report lesion-probability change inside the threatened territory. Approximately 30 GPU-hours plus segmentation QA; no new annotation.",
+  "standing_confounds_addressed": "Within-scan contralateral construction holds patient, site, scanner, habitus and referral fixed; keeping CTP fixed separates displayed vessels from perfusion. It does not remove bolus-timing asymmetry, registration error or pseudolabel error. Training-mask provenance is documented; vessel pseudolabels are explicitly nonexpert references and are not treated as ground truth.",
+  "alternative_explanations": [
+    "The edit changes contrast texture rather than vessels; vessel-free intensity-matched shams test this.",
+    "The model reads occlusion laterality; upstream-vessel control tests this.",
+    "Pseudolabel truncation creates the apparent reach; file/coverage Stage 0 is mandatory."
+  ],
+  "anticipated_negative": "Decisive only if edits preserve global intensity distributions, remain in-distribution to a held-out discriminator, and a positive-control occlusion edit moves output; otherwise uninterpretable.",
+  "remaining_legwork": "One day for Zenodo file audit, 2-3 days for 20-case measurement validation, 1-2 weeks to first model-use result.",
+  "design_template": "regional-substitution",
+  "entry_point_2_requirements": "Measurement: affected/contralateral distal vessel-length density. Artifact confusion: bolus timing and substitution seams; both receive explicit controls.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "Named vascular quantity, though its exact distal territory needs freezing."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Modalities are held fixed and shams are strong, but edit validity is load-bearing."
+    },
+    "medical_relevance": {
+      "value": 5,
+      "why": "Collateral supply governs tissue survival and transfer/treatment decisions."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A patient-specific vascular detour inside a voxel model is compelling and legible."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Registered CTA and vessel-label method exist; per-case files unverified."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped by uninspected file coverage and edit validity."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Public under noncommercial terms but file completeness needs inspection."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Official output metrics exist; intervention validity metrics are custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A gated clean null would exclude a specific vascular channel."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Precise gap not exhaustively audited."
+    },
+    "regret": {
+      "value": 5,
+      "why": "The dataset uniquely co-releases the needed vascular and outcome views."
+    }
+  },
+  "unverified_claims": [
+    "Per-case public vessel/occlusion mask completeness",
+    "distal-vessel resolution",
+    "in-distribution substitution",
+    "checkpoint availability"
+  ],
+  "track": "baseline",
+  "charter": "isles24"
+}
