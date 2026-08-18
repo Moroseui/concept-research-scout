@@ -353,3 +353,4 @@
 {"ledger_id": "idea-027", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-18T17:52:10+00:00"}
 {"ledger_id": "idea-027", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-08-18T18:00:38+00:00"}
 {"ledger_id": "idea-027", "status": "REJECTED", "kill_code": "DATA_ACCESS", "kill_reason": "debate: Reopen idea 027 only if an independently existing, frozen, non-trivially performing final-infarct checkpoint is verified from its executable path to consume both NCCT and CTA voxel intensities; otherwise register the bespoke-model design as a successor.", "death_stage": "debate", "recorded_at": "2026-08-18T18:00:38+00:00"}
+{"ledger_id": "idea-028", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-08-18T18:07:46+00:00"}

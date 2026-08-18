@@ -55,7 +55,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-025** [PAUSED/DEBATED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - **idea-026** [REJECTED/SCOUTED/baseline] -- A spreading front inside the perfusion deficit
 - **idea-027** [REJECTED/DEBATED/baseline] -- When vanished sulci mean rescue, not death -- killed: DATA_ACCESS
-- **idea-028** [SHORTLISTED/SCOUTED/baseline] -- The blood's grayscale oxygen gauge
+- **idea-028** [SHORTLISTED/CRITIQUED/baseline] -- The blood's grayscale oxygen gauge
 - **idea-029** [SHORTLISTED/SCOUTED/baseline] -- The ground truth remembers the algorithm that drafted it
 - **idea-030** [SHORTLISTED/SCOUTED/wide] -- The ground truth was drawn on a swollen brain
 - **idea-031** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
