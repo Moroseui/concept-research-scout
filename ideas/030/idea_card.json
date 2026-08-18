@@ -1,0 +1,113 @@
+{
+  "id": "isles24-scout-004-c08",
+  "parent_ids": [],
+  "track": "wide",
+  "entry_point": 2,
+  "title": "The ground truth was drawn on a swollen brain",
+  "question": "Is an ISLES'24 final-infarct model using the mass-effect displacement halo that affine-only registration of peak-edema follow-up MRI baked into the ground truth -- even predicting infarct on voxels that are unambiguously CSF on the acute scan?",
+  "rung": "Target rung 1: the model reproduces the label-geometry error (predicts infarct where no infarctable tissue exists in acute space, tracking the ground truth's own impossible-voxel rate). The model-free stage 1 is a dataset-quality deliverable regardless of any model.",
+  "deliverable_sentence": "The final-infarct model is using the swelling-displaced lesion geometry inherited from affine-only registration of 2-9-day follow-up MRI, rather than acute tissue evidence alone, when placing its predicted infarct.",
+  "X_measurement": "Two computable quantities, no annotator. (a) The registration-discrepancy field: rerun deformable registration (SynthMorph or ANTs SyN) of each case's released follow-up DWI to its acute NCCT with lesion cost-function masking (Brett 2001), and take the voxelwise displacement magnitude between the deformable map and the organizers' affine, summarized in a peri-lesional band. (b) The impossible-voxel fraction: |ground-truth mask INTERSECT acute-CSF| / |ground-truth mask|, with acute CSF from an HU window (0-15) inside the brain mask cross-checked against a contrast-agnostic segmenter (SynthSeg), eroded 1-2 voxels against partial-volume effects. Compute-today test: YES -- public registration tools plus HU arithmetic on released volumes.",
+  "suspected_signal": "Follow-up MRI is acquired 2-9 days post-stroke -- squarely overlapping the documented 3-5-day peak of space-occupying edema -- when the infarcted hemisphere is swollen, ventricles are compressed, and midline structures are shifted. An affine transform cannot represent this local deformation, so masks drawn on the swollen brain land displaced in acute NCCT space: a geometric halo that grows with lesion size and mass effect, systematically placing 'infarct' on acute-space voxels (including CSF) where no infarctable tissue exists. A model trained on these labels is rewarded for reproducing the halo -- learning the registration error, not tissue fate -- and the error is largest in exactly the severe cases that matter most.",
+  "use_vs_association": "Infarct growth between acute and follow-up imaging is real biology and is the legitimate prediction target; the halo is geometric error. They are separated by physical impossibility: genuine growth is confined to tissue, so predicted infarct covering voxels that are unambiguously CSF on the acute scan cannot be growth. A model whose predictions cover acute CSF at a rate tracking the ground truth's own impossible-voxel rate -- versus near-zero for a predictor not trained on these labels (the DeepISLES draft from baseline c01 runs on follow-up MRI in its own space and provides the comparison) -- is using the label geometry, not the tissue evidence.",
+  "keystone_prerequisite": "Ground-truth masks were transferred to acute NCCT space via affine-only registration of follow-up MRI acquired in the edema window, so mass-effect deformation is unmodeled by construction.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "arXiv html 2408.10966v1, fetched and quoted by this stage 2026-08-18: 'all remaining images are registered following rigid transformations. Registration is performed using the Elastix and NiftyReg toolboxes.' ... 'Except for the MRI scans, where affine transformations are used'; and 'Follow-up imaging data was acquired 2 to 9 days later and included DWI and ADC.' Zenodo record 16731717 (scout-stage verification this cycle): released 'binary infarct masks derived from follow-up MRI (lesion-msk.nii.gz)' in the NCCT-registered derivative space. Edema time course: peak brain edema at 3-5 days post-stroke (Stroke 2014, DOI 10.1161/STROKEAHA.114.006884; Stroke 2023, DOI 10.1161/STROKEAHA.123.045941) overlaps the 2-9-day follow-up window.",
+  "keystone_residual_assumption": "Whether any manual mask correction happened after transfer to acute space (the documented QC was on DWI-space masks) is unknown; if organizers manually trimmed masks to acute anatomy, the halo would be reduced -- which the stage-1 census measures rather than assumes. Also assumed: the deformable re-registration with cost-function masking is accurate enough to serve as the discrepancy reference; this is why the impossible-voxel readout, which needs NO registration at all, is the primary stage-1 endpoint and the displacement field is secondary.",
+  "rung_reached": "0; stage 1 (census) is decisive as a dataset-quality finding; rung 1 after the stage-2 model comparison.",
+  "dies_like_prior": "Kill-code check: ideas 002 and 005 died on UNDOCUMENTED annotation provenance; here the geometric provenance is documented verbatim (affine-only, 2-9 days) and the error field is computable per case -- the provenance is the measurand, not an assumption. Sibling of this cycle's baseline c01 (the ground truth remembers the algorithm that drafted it): c01 audits label CONTENT provenance (who drew the boundary), c08 audits label GEOMETRY provenance (where the boundary landed after transfer); they share the audit-the-benchmark family but have disjoint mechanisms, disjoint readouts (draft-agreement statistics versus physically-impossible-voxel overlap), and compose -- c01's DeepISLES rerun doubles as c08's untrained-on-these-labels comparator. IDENTIFIABILITY_FAILURE (idea-020) is dodged by anchoring the primary claim to physical impossibility rather than to any registration being 'correct'.",
+  "closest_prior_work": "The lesion-registration literature (cost-function masking, enantiomorphic normalization) established twenty years ago that focal lesions and deformation break standard registration, in the lesion-symptom-mapping context; final-infarct prediction reviews acknowledge edema-inflated follow-up volumes; no located work measures the geometric error baked into a public stroke benchmark's released ground truth or tests whether trained models reproduce it. See novelty_neighbors.",
+  "novelty_neighbors": [
+    {
+      "work": "Brett, Leff, Rorden, Ashburner -- 'Spatial normalization of brain images with focal lesions using cost function masking' (NeuroImage 2001)",
+      "identifier": "DOI 10.1006/nimg.2001.0845; found by search 2026-08-18",
+      "relation": "Canonical demonstration that lesions corrupt registration and must be masked out of the cost function -- the exact instrument c08 reuses -- developed for template normalization in lesion-symptom mapping, never applied to auditing challenge ground truth."
+    },
+    {
+      "work": "Nachev, Coulthard, Jaeger, Kennard, Husain -- 'Enantiomorphic normalization of focally lesioned brains' (NeuroImage 2008)",
+      "identifier": "PMC2658465, DOI 10.1016/j.neuroimage.2007.10.002; found by search 2026-08-18",
+      "relation": "Improves lesioned-brain registration using contralateral-hemisphere filling; again lesion-symptom-mapping methodology, quantifying that lesion-vicinity registration error grows with lesion size -- the same error family c08 measures in ISLES'24."
+    },
+    {
+      "work": "Bertels, Robben, Vandermeulen, Lemmens -- 'Final infarct prediction in acute ischemic stroke' (review)",
+      "identifier": "arXiv 2211.04850; found by search 2026-08-18, abstract fetched",
+      "relation": "Review from the group behind native-CTP final-infarct prediction covering how follow-up imaging defines the target; the surrounding literature acknowledges edema-inflated follow-up volumes and attempted CSF exclusion, but neither this nor any located work measures the released ISLES'24 masks' geometric error or model inheritance of it."
+    }
+  ],
+  "novelty_delta": "No located work quantifies the mass-effect registration error inside a public benchmark's RELEASED ground truth via a physically-impossible-voxel criterion, nor tests whether models trained on that benchmark reproduce the error.",
+  "why_not_done": "BLIND_SPOT: the people who know lesioned-brain registration is fragile (lesion-symptom-mapping community, 2001-2012) and the people who build final-infarct benchmarks (segmentation-challenge community) are different communities; challenges treat registration as solved preprocessing, and the impossible-voxel criterion -- which sidesteps the 'which registration is correct' debate entirely -- appears in neither literature.",
+  "existing_assets": "Released follow-up DWI/ADC, acute NCCT, ground-truth masks in the common derivative space (Zenodo 16731717); public registration tools (ANTs, SynthMorph) and the cost-function-masking recipe; SynthSeg and HU arithmetic for acute CSF; baseline c01's planned DeepISLES rerun as the untrained comparator; official evaluation code.",
+  "smallest_decisive_experiment": "Stage 1 census on 30 cases stratified by lesion volume: compute the impossible-voxel fraction (primary, registration-free) and the affine-versus-deformable peri-lesional displacement (secondary, cost-function-masked), and correlate both with lesion volume and midline shift (mass-effect signature: error growing with severity is the fingerprint of unmodeled deformation, not random noise). Prespecified benchmark-relevance readout: recompute official Dice and absolute-volume-difference on the census cases with impossible voxels removed from the ground truth -- the metric shift bounds how much the halo moves scores. Compute envelope: one Colab GPU session (SynthMorph registration runs in seconds-to-minutes per pair; ~10-15 GB download). Full 149-case census: one further session. Stage 2 (conditional on the shared audit model): predicted-mask CSF-overlap rate versus the ground truth's own rate and versus the DeepISLES comparator, inference only, under 5 GPU-hours.",
+  "standing_confounds_addressed": "Genuine infarct growth versus geometric error: separated by the physical-impossibility criterion (growth cannot occupy acute CSF), the primary endpoint. Partial volume and CSF-segmentation error: 1-2 voxel erosion, conservative HU window, two-tool cross-check, and a reported sensitivity band. Ventricular compression at follow-up cuts the OTHER way -- compressed ventricles make CSF overlap less likely, so the census is conservative. Deformable-reference circularity: the displacement field is secondary and direction-reported-both-ways; the primary endpoint uses no registration. Site and scanner: stratified by center. Labels are the object of study in stage 1; stage 2's readout is a comparison of overlap rates, not a Dice contest.",
+  "alternative_explanations": [
+    "Impossible voxels come from mask interpolation during resampling rather than affine failure -- distinguishable because interpolation error is thin-shell and uncorrelated with mass effect, while swelling displacement grows with lesion volume and midline shift; the correlation analysis is prespecified.",
+    "The model predicts into CSF because of its own smoothing, not label inheritance -- the DeepISLES comparator (never trained on these transferred labels) and the tracking of per-case ground-truth impossible rates discriminate.",
+    "Experts corrected masks in acute space, so the halo is small -- then the census returns a small number and the benchmark gets a documented clean bill on geometry; explicitly a valuable outcome."
+  ],
+  "anticipated_negative": "Decisive either way at stage 1: a large impossible-voxel fraction rising with mass effect is a benchmark-integrity finding with a computable metric bound; a near-zero fraction is citable evidence that the affine pipeline did not measurably corrupt the released masks. Stage 2's null (models ignore the halo and stay on tissue) is a genuinely reassuring property of the model family, interpretable because the stage-1 gate quantified the available halo first.",
+  "cross_domain": {
+    "borrowed_construct": "Datum shift from geodesy and surveying: coordinates are only meaningful relative to a reference frame, and transferring measurements between frames with an insufficient transformation model (e.g., a global affine for locally deformed terrain) produces systematic, spatially-structured position error that must be surveyed, not assumed away.",
+    "measurement_it_implies": "The residual displacement field between the insufficient transform and a locally-adequate one, plus known-impossible landmark checks (the surveying practice of closing the traverse) -- here, CSF voxels as landmarks where infarct provably cannot be.",
+    "what_changes_if_dropped": "Without the datum-error frame the study becomes 'registration is imperfect', a truism with no measurement discipline; the impossible-landmark check is what converts it into a falsifiable audit with a primary endpoint that needs no reference registration at all."
+  },
+  "remaining_legwork": "One session to the 30-case stage-1 decision; one further session for the full-cohort census and the metric-shift bound; stage 2 within a week once the shared audit model and the c01 DeepISLES rerun exist.",
+  "design_template": "other:label-geometry-audit",
+  "design_template_justification": "Nearest listed grammar is cross-model-disagreement, but the primary readout requires no second trained model: it is agreement of masks and predictions with a physically-impossible voxel set derived from the acute image itself. Counting it as cross-model-disagreement would overstate that template's concentration; the audit grammar (measure a documented provenance error, then test whether models inherit it) is shared with baseline c01 and is named the same way here for honest homogenization accounting.",
+  "entry_point_2_requirements": "Measurement: impossible-voxel fraction of ground truth and predictions (acute-CSF overlap) and the affine-versus-deformable peri-lesional displacement field. Confused artifacts: partial volume, CSF-segmentation error, mask-interpolation shells, and deformable-reference error -- addressed by erosion margins, two-tool cross-check, the mass-effect correlation signature, and demoting all registration-dependent quantities to secondary endpoints.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "One documented mechanism, one registration-free primary endpoint, one prespecified correlation signature; the multi-tool CSF definition needs preregistration."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "The physical-impossibility criterion sidesteps the 'which registration is truth' debate that would otherwise sink the design; residual threats (partial volume, interpolation shells) are bounded and direction-signed."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "If voxel-level ground truth is geometrically wrong preferentially in severe strokes, every Dice- and volume-ranked conclusion from this benchmark inherits it, and 'model predicts infarct inside a ventricle' is a clinically legible defect."
+    },
+    "interest": {
+      "value": 5,
+      "why": "The ground truth being drawn on a swollen brain and transferred with a transform that cannot represent swelling -- during the documented edema peak -- is an obvious-once-said claim that no one has measured; both outcomes are tellable to the whole challenge community."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Twenty years of lesion-registration methodology supplies the instruments; all data and the comparator pipeline (via c01) are public or already planned."
+    },
+    "feasibility": {
+      "value": 4,
+      "why": "Keystone inspected true with verbatim quotes; the decisive census is one GPU session with modern learned registration, and the primary endpoint is registration-free arithmetic."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Follow-up DWI, acute NCCT, and masks are all in the public release; only a modest subset is needed for the decisive stage."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "The impossible-voxel and displacement metrics are custom (though simple); the metric-shift bound reuses official evaluation code."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A near-zero halo is a clean, citable geometric validation of the benchmark's ground truth -- decisive, not sensitivity-limited, because the criterion is physical."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Strong adjacent literature on both sides with the specific audit unclaimed in every source found; capped by targeted-search scope despite the inspected keystone."
+    },
+    "regret": {
+      "value": 5,
+      "why": "Cheap, keystone-verified, composes with c01, and the question will eventually be asked of every follow-up-derived ground truth; being scooped on an obvious-in-hindsight audit of the program's own charter dataset would sting."
+    }
+  },
+  "priority_score": 4.05,
+  "unverified_claims": [
+    "magnitude of the impossible-voxel fraction in the released masks (could be near zero if organizers corrected in acute space)",
+    "acute-CSF segmentation reliability on the resampled derivative NCCT",
+    "SynthMorph/ANTs with cost-function masking is adequate as the secondary displacement reference",
+    "the shared audit model materializes for stage 2",
+    "novelty beyond targeted search"
+  ],
+  "plain_pitch": "The 'correct answers' for this stroke benchmark were drawn on MRI scans taken 2 to 9 days after the stroke -- exactly when the injured brain is most swollen -- and then copied onto the earlier CT scans using a simple global alignment that cannot account for swelling. That would smear each answer's position, worst in the biggest strokes, sometimes marking 'dead brain tissue' on spots that are plainly fluid on the early scan, where there is no brain tissue to die. This study first measures that error directly on the public data, using fluid spaces as tamper-proof landmarks, and then asks whether prediction models trained on these answers have learned to copy the error -- forecasting damage in places where damage is physically impossible. Either way the benchmark community learns something it currently assumes: how much of the official ground truth is geometry gone wrong, or that the pipeline survived the swelling problem intact.",
+  "charter": "isles24"
+}

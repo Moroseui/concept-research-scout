@@ -29,6 +29,7 @@
 - [isles24] **idea-027** [SHORTLISTED] -- When vanished sulci mean rescue, not death
 - [isles24] **idea-028** [SHORTLISTED] -- The blood's grayscale oxygen gauge
 - [isles24] **idea-029** [SHORTLISTED] -- The ground truth remembers the algorithm that drafted it
+- [isles24] **idea-030** [SHORTLISTED] -- The ground truth was drawn on a swollen brain
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SCOUT_ONLY] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -60,7 +61,7 @@
 - [isles24] **isles24-scout-004-c05** [SCOUT_ONLY] -- The brain's odometer: calcification as the model's age gauge
 - [isles24] **isles24-scout-004-c06** [SCOUT_ONLY] -- The scan remembers which hospital took it
 - [isles24] **isles24-scout-004-c07** [SCOUT_ONLY] -- The edge of the map: the benchmark scores terra incognita
-- [isles24] **isles24-scout-004-c08** [SCOUT_ONLY] -- The ground truth was drawn on a swollen brain
+- [isles24] **isles24-scout-004-c08** [SHORTLISTED] -- The ground truth was drawn on a swollen brain
 - [baseline] **scout-001-c05** [SHORTLISTED] -- 
 - [baseline] **scout-001-c06** [SHORTLISTED] -- 
 - [baseline] **scout-001-c07** [SHORTLISTED] -- 
