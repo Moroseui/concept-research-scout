@@ -9,8 +9,8 @@ Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 Before proposing a candidate, check it against every pattern below.
 A candidate that dies like a prior one must say what makes it different.
 
+- **DATA_ACCESS** x2: Required data, checkpoints, or mappings are not obtainable in practice.
 - **IDENTIFIABILITY_FAILURE** x1: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
-- **DATA_ACCESS** x1: Required data, checkpoints, or mappings are not obtainable in practice.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
@@ -54,7 +54,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-024** [REJECTED/DEBATED/wide] -- The capillary traffic jam hidden behind the same mean transit time -- killed: DATA_ACCESS
 - **idea-025** [PAUSED/DEBATED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - **idea-026** [REJECTED/SCOUTED/baseline] -- A spreading front inside the perfusion deficit
-- **idea-027** [SHORTLISTED/CRITIQUED/baseline] -- When vanished sulci mean rescue, not death
+- **idea-027** [REJECTED/DEBATED/baseline] -- When vanished sulci mean rescue, not death -- killed: DATA_ACCESS
 - **idea-028** [SHORTLISTED/SCOUTED/baseline] -- The blood's grayscale oxygen gauge
 - **idea-029** [SHORTLISTED/SCOUTED/baseline] -- The ground truth remembers the algorithm that drafted it
 - **idea-030** [SHORTLISTED/SCOUTED/wide] -- The ground truth was drawn on a swollen brain
