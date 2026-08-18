@@ -1,6 +1,6 @@
 {
   "next_scout": 17,
-  "selected_idea": 25,
+  "selected_idea": 26,
   "active_cycle": 3,
   "cycle": {
     "scout": 3,
@@ -36,7 +36,7 @@
       "3": 18
     },
     "1": {
-      "5": 20,
+      "5": 26,
       "7": 22,
       "6": 24
     },

@@ -1,0 +1,94 @@
+{
+  "id": "isles24-scout-001-c05",
+  "search_mode": "C",
+  "entry_point": 2,
+  "title": "A spreading front inside the perfusion deficit",
+  "question": "Is an ISLES'24 model using the topology of the perfusion-deficit boundary to distinguish tissue that will die from tissue that will recover?",
+  "rung": "Mode C, target rung 1; move up by reproducing the effect across deconvolution implementations and centers.",
+  "deliverable_sentence": "The final-infarct model is using the shape of the severe-delay front\u2014its fragmentation, curvature and contact with the existing core\u2014not only perfusion volumes.",
+  "X_measurement": "Threshold Tmax at 6 and 10 s; compute connected-component count, Euler characteristic, surface-to-volume ratio, boundary curvature and contact fraction between Tmax>10 and low-CBF regions using standard voxel morphology. Every quantity is deterministic on a new scan without annotation. Compute-today test: YES.",
+  "suspected_signal": "Collateral failure advances through vascular territories as a spatial front: compact severe-delay regions contiguous with core may represent coherent failing supply, whereas fragmented peripheral delay may be better collateralized or artifactual.",
+  "use_vs_association": "Generate topology-swapped Tmax fields that preserve the exact value histogram, total threshold volumes, hemisphere, distance-to-occlusion and smoothness spectrum but alter component connectivity/contact; paired prediction changes test topology use rather than volume association.",
+  "keystone_prerequisite": "A counterfactual generator can alter connectedness/contact while preserving clinically salient Tmax intensity, territory and spatial-frequency distributions closely enough to remain in-distribution.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The maps and target are verified; intervention validity, not map availability, is the true keystone. No existing generator satisfying these constraints was verified.",
+  "rung_reached": "0; rung 1 only after all counterfactual validity gates pass; no higher claim from this cohort alone.",
+  "dies_like_prior": "Closest is idea-008's unresolved edit-validity problem and idea-006's OOD deletion. This proposes value-histogram- and spectrum-preserving topology swaps plus sham edits, but until a discriminator and blinded image-statistic suite pass, the study is explicitly speculative. Annotation provenance does not enter the primary paired delta.",
+  "closest_prior_work": "ISLES'24 challenge methods optimize voxelwise final-infarct prediction; no primary source located that isolates perfusion-front topology at fixed perfusion volumes. Prior perfusion literature, including Guenego et al. DOI 10.1111/ene.14181, emphasizes threshold volumes/ratios, not topology. This is a search result, not proof of novelty.",
+  "existing_assets": "Registered Tmax/CBF maps, raw CTP for realism checks, final masks, official per-lesion metrics and two centers.",
+  "smallest_decisive_experiment": "On 30 held-out cases, create five topology-altered and five topology-preserving sham maps per case at exactly matched histograms/volumes; require a held-out real-vs-edit discriminator near chance and preserved standard perfusion summaries, then measure local output changes. About 3 weeks and 50 GPU-hours after a frozen model.",
+  "standing_confounds_addressed": "Exact volume/histogram matching rules out threshold-volume explanations; territory/distance matching addresses occlusion geography; shams address generic editing. It does not fully rule out deconvolution artifacts, unmeasured vascular topology or generator fingerprints. Center-held-out replication is required.",
+  "alternative_explanations": [
+    "Generator seams drive output; spectrum-preserving shams and discriminator gate test this.",
+    "Curvature proxies distance from core/occlusion; those distances are explicitly matched.",
+    "Map topology is deconvolution software topology, not physiology; raw-CTP-derived replication is needed to move up."
+  ],
+  "anticipated_negative": "Decisive only after a powered sensitivity test using a positive-control volume edit; otherwise sensitivity-limited.",
+  "cross_domain": {
+    "borrowed_construct": "Reaction-front geometry from combustion/percolation physics.",
+    "measurement_it_implies": "Connectivity, curvature and core-contact of severe-delay regions at fixed mass.",
+    "what_changes_if_dropped": "The exact morphological experiment remains; only the biological story becomes a generic shape-use audit."
+  },
+  "remaining_legwork": "1 week to audit topology literature, 1-2 weeks to validate counterfactuals, one week for the first paired model test.",
+  "design_template": "counterfactual-synthesis",
+  "entry_point_2_requirements": "Measurement: topology statistics at fixed perfusion volume. Artifact confusion: generator fingerprints and deconvolution-induced islands.",
+  "scores": {
+    "mechanism_clarity": {
+      "value": 5,
+      "why": "A named failing-supply front and exact topology measurements/intervention."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Fixed histograms and geography isolate topology if edit realism passes."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "Could improve tissue-fate explanation, though clinical terminology is less established."
+    },
+    "interest": {
+      "value": 5,
+      "why": "Tests whether spatial organization carries fate information beyond standard volumes."
+    },
+    "clarity": {
+      "value": 4,
+      "why": "Precise family of quantities; one must be frozen before testing."
+    },
+    "prior_legwork": {
+      "value": 2,
+      "why": "Data and morphology operators exist; valid generator does not."
+    },
+    "feasibility": {
+      "value": 2,
+      "why": "Edit realism is hard but appropriate for Mode C."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Required registered maps are released."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Official lesion metrics help; counterfactual validity remains custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A gated null would reject topology beyond volume for this model."
+    },
+    "novelty_confidence": {
+      "value": 2,
+      "why": "No exhaustive verified gap search."
+    },
+    "regret": {
+      "value": 4,
+      "why": "Standard perfusion summaries may be throwing away exactly this structure."
+    }
+  },
+  "mode_c_priority_score": 4.1,
+  "unverified_claims": [
+    "In-distribution topology generator",
+    "topology not already covered in stroke AI",
+    "adequate topological variation",
+    "raw-CTP replication feasibility"
+  ],
+  "track": "baseline",
+  "charter": "isles24"
+}
