@@ -9,7 +9,7 @@ Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 Before proposing a candidate, check it against every pattern below.
 A candidate that dies like a prior one must say what makes it different.
 
-- **IDENTIFIABILITY_FAILURE** x7: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
+- **IDENTIFIABILITY_FAILURE** x8: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
 - **DATA_ACCESS** x3: Required data, checkpoints, or mappings are not obtainable in practice.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
@@ -62,7 +62,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-032** [REJECTED/DEBATED/baseline] -- The arterial network's spare route -- killed: IDENTIFIABILITY_FAILURE
 - **idea-033** [REJECTED/DEBATED/baseline] -- Did preprocessing teach the winner to read the disappearing insular ribbon? -- killed: IDENTIFIABILITY_FAILURE
 - **idea-034** [REJECTED/DEBATED/wide] -- The edge of the map: the benchmark scores terra incognita -- killed: IDENTIFIABILITY_FAILURE
-- **idea-035** [SHORTLISTED/CRITIQUED/wide] -- The skull is a fixed-volume pressure vessel
+- **idea-035** [REJECTED/DEBATED/wide] -- The skull is a fixed-volume pressure vessel -- killed: IDENTIFIABILITY_FAILURE
 - **idea-036** [SHORTLISTED/SCOUTED/baseline] -- Does the model bring a vascular map to the scan?
 - **idea-037** [SHORTLISTED/SCOUTED/wide] -- The scan remembers which hospital took it
 - **idea-038** [SHORTLISTED/SCOUTED/wide] -- Does the model price the last mile of blood delivery?
