@@ -1,0 +1,12 @@
+**Keystone screen complete: PASS.** `ideas/030/keystone_screen.md` is written.
+
+The card's keystone — ground-truth masks reached acute NCCT space through affine-only registration of follow-up MRI acquired in the edema window — decomposes into four legs, and all four verified against primary sources fetched today:
+
+- **Affine-only transfer** — the ISLES'24 dataset paper (arXiv 2408.10966v1, Dataset section) states verbatim: "Except for the MRI scans, where affine transformations are used, all remaining images are registered following rigid transformations," with everything registered "to the NCCT scans" via Elastix/NiftyReg. No deformable step is documented anywhere.
+- **Timing** — "Follow-up imaging data was acquired 2 to 9 days later and included DWI and ADC," verbatim from the same section.
+- **Masks actually live in that space** — Zenodo record 16731717 (v7) independently corroborates: "Derivatives include all modalities linearly co-registered to the NCCT space," and the released mask file itself carries the tag `space-ncct_lesion-msk.nii.gz`.
+- **Drawn on DWI, not natively on NCCT** — "Lesion masks are derived from DWI images using the ISLES'22 ensemble algorithm," with QC by supervised medical students.
+
+The mandatory wrong-keystone check found no load-bearing assumption differing from the stated keystone. The one genuinely open question — whether anyone manually corrected masks *after* transfer to acute space — is exactly the residual the card already declares, and the stage-1 census measures it rather than assuming it; the keystone requires only that the construction is affine-only, which two independent primary sources document.
+
+One honesty note recorded in §4: the auxiliary "3–5-day edema peak" citations could not be re-quoted verbatim (ahajournals.org returns 403 here, and the PubMed abstract omits the day range), so that anchor is classified as source-supported interpretation. It is not load-bearing — the verified 2–9-day window contains any first-week peak — but if critique wants the day-range quote on record it will need a non-AHA mirror.
