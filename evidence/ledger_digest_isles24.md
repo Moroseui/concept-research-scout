@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-31 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+39 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -24,22 +24,26 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-002-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.4, audited 2026-08-16] -- Two tissues, two death thresholds
 - **isles24-scout-002-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-16] -- The clot that lets contrast through
 - **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
-- ... and 8 more (python scout.py backlog)
+- ... and 16 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
+- regional-substitution: 8
 - counterfactual-synthesis: 8
-- regional-substitution: 6
 - representation-erasure: 4
+- cross-model-disagreement: 2
+- conditional-observational: 2
 - natural-paired: 1
-- cross-model-disagreement: 1
 - other:remote-perturbation: 1
 - other:graph-edge-intervention: 1
 - regional-removal: 1
 - model-output-perturbation: 1
+- other:temporal-reparameterization: 1
+- other:noise-residual-transplant: 1
+- other:label-geometry-audit: 1
 
 ## Ideas
 
@@ -74,3 +78,11 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-003-c06** [SCOUT_ONLY/SCOUTED/wide] -- The bolus spreads like dye in a river
 - **isles24-scout-003-c07** [SCOUT_ONLY/SCOUTED/wide] -- Does the model price the last mile of blood delivery?
 - **isles24-scout-003-c08** [SCOUT_ONLY/SCOUTED/wide] -- The skull is a fixed-volume pressure vessel
+- **isles24-scout-004-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The ground truth remembers the algorithm that drafted it
+- **isles24-scout-004-c02** [SCOUT_ONLY/SCOUTED/baseline] -- Does the model bring a vascular map to the scan?
+- **isles24-scout-004-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The heart's signature in the head scan
+- **isles24-scout-004-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The model may be watching the patient's eyes
+- **isles24-scout-004-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The brain's odometer: calcification as the model's age gauge
+- **isles24-scout-004-c06** [SCOUT_ONLY/SCOUTED/wide] -- The scan remembers which hospital took it
+- **isles24-scout-004-c07** [SCOUT_ONLY/SCOUTED/wide] -- The edge of the map: the benchmark scores terra incognita
+- **isles24-scout-004-c08** [SCOUT_ONLY/SCOUTED/wide] -- The ground truth was drawn on a swollen brain

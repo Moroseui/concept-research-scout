@@ -50,6 +50,14 @@
 - [isles24] **isles24-scout-003-c06** [SCOUT_ONLY] -- The bolus spreads like dye in a river
 - [isles24] **isles24-scout-003-c07** [SCOUT_ONLY] -- Does the model price the last mile of blood delivery?
 - [isles24] **isles24-scout-003-c08** [SCOUT_ONLY] -- The skull is a fixed-volume pressure vessel
+- [isles24] **isles24-scout-004-c01** [SCOUT_ONLY] -- The ground truth remembers the algorithm that drafted it
+- [isles24] **isles24-scout-004-c02** [SCOUT_ONLY] -- Does the model bring a vascular map to the scan?
+- [isles24] **isles24-scout-004-c03** [SCOUT_ONLY] -- The heart's signature in the head scan
+- [isles24] **isles24-scout-004-c04** [SCOUT_ONLY] -- The model may be watching the patient's eyes
+- [isles24] **isles24-scout-004-c05** [SCOUT_ONLY] -- The brain's odometer: calcification as the model's age gauge
+- [isles24] **isles24-scout-004-c06** [SCOUT_ONLY] -- The scan remembers which hospital took it
+- [isles24] **isles24-scout-004-c07** [SCOUT_ONLY] -- The edge of the map: the benchmark scores terra incognita
+- [isles24] **isles24-scout-004-c08** [SCOUT_ONLY] -- The ground truth was drawn on a swollen brain
 - [baseline] **scout-001-c05** [SHORTLISTED] -- 
 - [baseline] **scout-001-c06** [SHORTLISTED] -- 
 - [baseline] **scout-001-c07** [SHORTLISTED] -- 
