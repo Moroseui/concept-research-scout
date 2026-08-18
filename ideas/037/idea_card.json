@@ -1,0 +1,112 @@
+{
+  "id": "isles24-scout-004-c06",
+  "parent_ids": [],
+  "track": "wide",
+  "entry_point": 2,
+  "title": "The scan remembers which hospital took it",
+  "question": "Is an ISLES'24 final-infarct model using the acquisition-site noise fingerprint -- the scanner's stochastic signature readable in signal-free voxels, the CT analogue of camera-sensor forensics -- as a site-identity prior that shifts its infarct forecast?",
+  "rung": "Target rung 1: use of the noise-residual channel. Rung 2 (the model treats site identity as an outcome prior, the 'rational expectations' reading) requires linking the response direction to center-wise outcome statistics and is explicitly out of scope for the first study.",
+  "deliverable_sentence": "The final-infarct model is using the acquisition-site noise fingerprint -- scanner-specific noise texture readable in signal-free image regions -- when predicting final infarct.",
+  "X_measurement": "X is site identity as decoded from the noise residual alone: extract the stochastic component with a wavelet-based Wiener denoising filter (the exact instrument of CT-scanner forensics, Kharboutly et al.) from homogeneous ROIs (ventricular CSF, periventricular white matter, extracranial air where defacing spared it) on raw and derivative NCCT and on CTP baseline frames; compute noise-power-spectrum features; train a patient-level cross-validated linear/shallow classifier for Munich-versus-Zurich on noise-only patches. Compute-today test: YES -- denoising filters, NPS estimation, and a logistic classifier on public data, no annotator.",
+  "suspected_signal": "The two centers use different scanner fleets and protocols, so every image carries a hardware-and-protocol noise signature the way every photograph carries its camera's sensor pattern noise. The centers plausibly differ in population, treatment practice, and outcome mix, so site identity is prognostically loaded; a model that can read the fingerprint can silently condition its infarct forecast on where the patient was scanned. Multi-step story, each link separately checkable: the model uses the noise fingerprint (X, the use test), which it can only see because two fleets differ and the fingerprint survives organizer preprocessing (Y, the decodability census on model-facing derivative data), which implies center-conditional forecasts and a predictable failure mode at any third center (Z, out-of-scope rung 2).",
+  "use_vs_association": "Association (site correlates with outcome) predicts no response to a within-case edit that changes only the noise residual; use predicts a signed output change when a case's residual is spectrally reshaped toward the other site's measured mean noise power spectrum (phase-preserving, dose-blended), with null response to an equal-energy spectrally-neutral sham permutation -- the anatomy, protocol, and population are held fixed by construction because the case is its own control.",
+  "keystone_prerequisite": "Site identity is decodable from noise-only patches of the MODEL-FACING derivative inputs (registration and resampling may have attenuated the raw fingerprint), and the shared audit model reaches non-trivial held-out performance.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "Verified nearby facts: two-center composition is verbatim on record (100 Munich / 50 Zurich train, re-verified this stage from arXiv 2408.10966v1), raw scans are released 'in their original space, just defaced' (Zenodo 16731717, scout-stage verification), and CT-scanner identification from sensor noise is published forensics practice (Kharboutly et al.). The load-bearing fact -- decodability surviving the organizers' motion correction, registration, and resampling on derivative data -- is exactly the stage-0 census. A second residual: vendor/protocol identity was not verifiable from the papers (neither states scanner hardware, checked this stage), so fleet separation between the centers is assumed, not known; the classifier census answers this too.",
+  "rung_reached": "0; rung 1 after the decodability gate, transplant dose-response, and sham gate on the shared audit model.",
+  "dies_like_prior": "Kill-code check: IDENTIFIABILITY_FAILURE (idea-020) died because no intervention could separate the mechanism from co-varying factors -- here the within-case residual transplant with a classifier-flip manipulation check and an equal-energy sham is precisely such an intervention, and every gate is prespecified. DATA_ACCESS (idea-024) does not apply: all inputs are in the public release. Nearest living relative is backlog 001-c08 (the deconvolution algorithm may have signed the image): different X and different failure mode -- icobrain processed ALL cases, so its software signature cannot encode site, whereas scanner hardware noise can; c06 is about a between-center shortcut, 001-c08 about a uniform tool artifact. Cross-charter fact (score-free, via the index): the completed reconstruction-sensitivity study under the other charter established that a chest-CT model's outputs move with reconstruction-dependent noise content -- precedent that this cue class is readable by real models, on different data and task.",
+  "closest_prior_work": "Scanner forensics proves fingerprint readability but never connects it to a downstream clinical model; the confounding literature shows site detectability and generalization gaps but never isolates the noise channel with a within-case intervention. See novelty_neighbors.",
+  "novelty_neighbors": [
+    {
+      "work": "Kharboutly, Puech, Subsol, Hoa -- 'CT-Scanner identification based on sensor noise analysis' (EUVIP 2014) and 'Improving sensor noise analysis for CT-scanner identification' (EUSIPCO 2015)",
+      "identifier": "HAL lirmm-01379581 and lirmm-01379558; EUSIPCO 2015 paper 1570103637; found by search 2026-08-18",
+      "relation": "Establishes that individual CT scanners are identifiable from wavelet-Wiener noise residuals -- the measurement instrument this candidate borrows -- but is pure forensics: no clinical prediction model, no use test."
+    },
+    {
+      "work": "Zech et al. -- 'Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs' (PLoS Medicine 2018)",
+      "identifier": "DOI 10.1371/journal.pmed.1002683; found by search 2026-08-18",
+      "relation": "Showed CNNs robustly identify hospital system and that this confounds disease prediction -- association and generalization-gap evidence on 2D radiographs, with no intervention isolating the noise channel from anatomy, markers, or population."
+    },
+    {
+      "work": "'Name that manufacturer: relating image acquisition bias with task complexity when training deep learning models on head CT'",
+      "identifier": "arXiv 2008.08525; found by search 2026-08-18",
+      "relation": "Shallow CNN classifies scanner manufacturer from head CT and documents acquisition bias in training -- again detectability, not use, and no stroke-outcome model."
+    }
+  ],
+  "novelty_delta": "No located work tests whether a stroke lesion-outcome model USES the scanner-noise fingerprint, and none anywhere uses a within-case noise-residual transplant between real sites to isolate the noise channel from anatomy, protocol, and population.",
+  "why_not_done": "BLIND_SPOT: the forensics community (which owns the fingerprint instrument) and the medical-imaging confounding community (which owns the site-shortcut concern) publish in disjoint venues; site effects are treated as generalization statistics to be harmonized away, not as an isolatable input channel to be use-tested. The two-center, raw-plus-derivative ISLES'24 release makes the transplant experiment newly convenient but not newly possible.",
+  "existing_assets": "Public raw and derivative images for 149 cases (Zenodo 16731717); published wavelet-Wiener residual extraction recipes; standard NPS estimation from CT quality assurance; the program's shared audit model planned under this cycle's baseline candidates; official evaluation code.",
+  "smallest_decisive_experiment": "Stage 0/1 (decisive for the keystone, model-free): 60 cases stratified 30 per center; extract noise-only patches from raw NCCT, derivative NCCT, and CTP baseline frames; patient-level cross-validated site classifier; prespecified gate: noise-only AUC >= 0.8 on MODEL-FACING derivative inputs (raw-only decodability that dies in preprocessing kills the candidate cleanly). Compute envelope: one Colab GPU session (~15-20 GB download, under 2 GPU-hours; the classifier is minutes). Stage 2 (use test, conditional on the shared audit model): 30 held-out cases x 5 spectral blend doses toward the other site's mean NPS x equal-energy shams, inference only, under 5 GPU-hours -- also one session.",
+  "standing_confounds_addressed": "The use test is within-case, fixing anatomy, protocol, positioning, habitus, population, prevalence, and referral by construction. Classifier-reads-anatomy-not-noise is excluded by residual-only patches from homogeneous ROIs after denoising. Transplant artifacts are gated by the sham arm and by evidence-channel invariance checks (bounded per-voxel HU deltas; perfusion maps untouched -- edits apply to image inputs only). Site-versus-vendor attribution is NOT attempted: with two centers, fleet and site are one variable; the claim wording is 'site fingerprint', never 'scanner model'. Labels never enter the primary paired readout.",
+  "alternative_explanations": [
+    "The model responds to any high-frequency perturbation, not the site signature -- the equal-energy spectrally-neutral sham and the dose-response monotonicity discriminate.",
+    "Decodability exists in raw data but not in model-facing derivative data -- this is the stage-0 gate, not a post-hoc excuse.",
+    "A positive response reflects general noise-level sensitivity (dose/kernel) rather than site identity -- the blend is toward the other site's measured spectrum at matched total energy, and the classifier-flip manipulation check ties the dose axis to site identity specifically."
+  ],
+  "anticipated_negative": "After the decodability gate passes, a null is decisive and reassuring: the fingerprint is readable in the inputs, yet the model's forecasts do not move with it -- direct evidence against the site-shortcut concern for this model family on this benchmark. Before the gate, the candidate dies cheaply rather than yielding an uninterpretable null.",
+  "cross_domain": {
+    "borrowed_construct": "PRNU sensor-pattern-noise fingerprinting from digital image forensics: every sensor leaves a stable stochastic signature, extractable by denoising residuals, sufficient to identify the source device.",
+    "measurement_it_implies": "The wavelet-Wiener noise residual and its power spectrum as a device/site fingerprint, plus a source-identification classifier as the decodability gauge.",
+    "what_changes_if_dropped": "Without the forensics instrument there is no principled way to separate the stochastic signature from anatomy; the candidate degrades to generic site-generalization statistics, which is exactly the prior art."
+  },
+  "remaining_legwork": "Download and decodability census: one session, ~2 days wall clock including Zenodo transfer; spectral-reshaping edit machinery and sham construction: 2 days; use test after the shared model exists: 2 days.",
+  "design_template": "other:noise-residual-transplant",
+  "design_template_justification": "Closest listed grammars are counterfactual-synthesis (8x concentrated in the portfolio) and regional-substitution (6x); both misdescribe the move: nothing anatomical is synthesized and no region is swapped -- the measured stochastic component of the same real acquisition is spectrally reshaped toward another site's measured statistics, globally, with anatomy untouched. Naming it honestly also keeps the homogenization statistics meaningful.",
+  "entry_point_2_requirements": "Measurement: noise-residual site classifier AUC (decodability) and signed paired output change under spectral reshaping (use). Confused artifacts: generic noise-level sensitivity and edit artifacts -- addressed by matched-energy blending, sham permutation, dose-response monotonicity, and the classifier-flip manipulation check.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "One cue channel, one decodability gate, one within-case intervention with prespecified sham and dose gates; the spectral-reshaping recipe needs preregistration detail."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "The within-case transplant cleanly isolates the noise channel, but with two centers the fingerprint cannot be decomposed into hardware versus protocol components, and edit realism carries residual weight despite the sham gate."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "A model that conditions infarct forecasts on where the patient was scanned fails silently at new centers; either finding directly informs multi-center deployment and benchmark interpretation."
+    },
+    "interest": {
+      "value": 4,
+      "why": "A stroke model reading the hospital's sensor signature the way forensics reads a camera would surprise both the challenge community and forensics; the gated null is also publishable reassurance."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "The forensics instrument, NPS tooling, public two-center data, and the shared audit model plan all exist; only the transplant machinery is new."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped at 3: the decodability keystone on model-facing data is not inspected; conditional on the shared audit model like the baseline cards."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Fully public raw plus derivative release; large but hosted download."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired output change is direct, but decodability gates, blend doses, and sham construction are custom and need preregistration."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "Interpretable only after the decodability gate; then a genuinely useful negative about a named shortcut channel."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Neighbors found by real search bracket the idea from both sides (forensics detectability, ML confounding) with the use-test gap clear, but the search was targeted, not exhaustive."
+    },
+    "regret": {
+      "value": 4,
+      "why": "The decodability census is nearly free, the question is the portfolio's cleanest instance of the site-shortcut concern, and the instrument transfers to every multi-center benchmark the lab touches."
+    }
+  },
+  "priority_score": 3.5,
+  "unverified_claims": [
+    "site decodability from noise-only patches of derivative model-facing inputs",
+    "the two centers' scanner fleets actually differ (hardware is unstated in all inspected sources)",
+    "spectral reshaping stays within the audit model's in-distribution envelope (sham-gated but not yet shown)",
+    "shared audit model reaches non-trivial performance",
+    "novelty beyond targeted search"
+  ],
+  "plain_pitch": "Every camera leaves an invisible noise signature in its photos -- forensic examiners use it to prove which device took a picture, and CT scanners have the same property. This stroke benchmark mixes patients from two hospitals with different scanners, and where you were treated is itself informative about how you will fare. The question: has the damage-forecasting model quietly learned to read the scanner's signature and adjust its forecast by hospital? The test swaps only the invisible noise signature in a patient's scan toward the other hospital's, touching nothing about the anatomy, and watches whether the forecast moves. If it does, the model is partly forecasting the hospital, not the patient -- which would matter anywhere such a model is deployed at a hospital it never saw in training.",
+  "charter": "isles24"
+}

@@ -36,6 +36,7 @@
 - [isles24] **idea-034** [SHORTLISTED] -- The edge of the map: the benchmark scores terra incognita
 - [isles24] **idea-035** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
 - [isles24] **idea-036** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
+- [isles24] **idea-037** [SHORTLISTED] -- The scan remembers which hospital took it
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -65,7 +66,7 @@
 - [isles24] **isles24-scout-004-c03** [SCOUT_ONLY] -- The heart's signature in the head scan
 - [isles24] **isles24-scout-004-c04** [SCOUT_ONLY] -- The model may be watching the patient's eyes
 - [isles24] **isles24-scout-004-c05** [SCOUT_ONLY] -- The brain's odometer: calcification as the model's age gauge
-- [isles24] **isles24-scout-004-c06** [SCOUT_ONLY] -- The scan remembers which hospital took it
+- [isles24] **isles24-scout-004-c06** [SHORTLISTED] -- The scan remembers which hospital took it
 - [isles24] **isles24-scout-004-c07** [SHORTLISTED] -- The edge of the map: the benchmark scores terra incognita
 - [isles24] **isles24-scout-004-c08** [SHORTLISTED] -- The ground truth was drawn on a swollen brain
 - [baseline] **scout-001-c05** [SHORTLISTED] -- 

@@ -1,6 +1,6 @@
 {
   "next_scout": 17,
-  "selected_idea": 36,
+  "selected_idea": 37,
   "active_cycle": 4,
   "cycle": {
     "scout": 4,
@@ -57,7 +57,8 @@
       "1": 29,
       "8": 30,
       "7": 34,
-      "2": 36
+      "2": 36,
+      "6": 37
     }
   },
   "charters": {
