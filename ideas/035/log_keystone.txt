@@ -1,0 +1,13 @@
+Keystone screen complete — **verdict: PASS**, written to `ideas/035/keystone_screen.md`. The scratch clone is removed and only the new screen file (plus the pre-existing prompt file) remains untracked; I left committing to the pipeline driver since the stage didn't request it.
+
+What the investigation found, in order of importance:
+
+1. **The truly load-bearing fact (unstated in the card) is verified true.** A frozen, publicly obtainable ISLES'24 winning model exists: the challenge paper (arXiv 2408.10966v2, §4.3) names Kurtlab's ResEnc-L nnU-Net and links its code, and the repo's `model weights.txt` points to a live public Google Drive folder matching the inference command's dataset id 150.
+
+2. **Wrong-keystone finding: NCCT is not a model input.** Reading the winner's actual `inference.py` (the CT-CLIP `data.py` precedent), lines 121–125 construct exactly five channels — CBF, CBV, MTT, Tmax, preprocessed CTA — with the NCCT loader present only as commented-out template code. The card measures and edits reserve on NCCT; those edits would never reach this model. The mechanism survives because CSF is hypodense on CTA, but the edit target must move to the CTA channel, with NCCT used only for the stratification covariate.
+
+3. **The literal "bit-identical parenchyma" requirement is false for raw-space edits.** The winner's `preprocessing.py:21` applies global per-volume histogram equalization, and the channel names fall through to nnU-Net's default per-image `ZScoreNormalization` — both couple every parenchymal voxel to any CSF edit. This is salvageable by editing post-equalization with frozen normalization constants, the exact maneuver already ratified for idea 021, so it's a design correction rather than a kill.
+
+4. **Receptive field (K2) is plausible but unproven:** the winning paper's [56, 320, 256] patch spans the brain in-plane but only 56 slices through-plane; the effective receptive field is computable from the released plans file at Stage 0, as the card already requires.
+
+The idea proceeds to critique/debate at full price, carrying these corrections. Sources: [arXiv 2408.10966](https://arxiv.org/abs/2408.10966), [arXiv 2505.18424](https://arxiv.org/html/2505.18424v1), [KurtLabUW/ISLES2024](https://github.com/KurtLabUW/ISLES2024) (commit bb6c00c8), [SynthStrip docs](https://surfer.nmr.mgh.harvard.edu/docs/synthstrip/).
