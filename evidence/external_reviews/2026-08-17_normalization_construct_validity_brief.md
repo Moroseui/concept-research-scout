@@ -1,0 +1,141 @@
+# Advisory Brief: Two Human-Inspection Questions on ISLES'24 Stroke-Imaging Ideas 021 and 023
+
+**Bottom line up front.** For idea 021, the honest answer is **yes** — at least one plausible non-reference mechanism (per-instance / whole-volume intensity normalization) can produce increased affected-side predicted deficit under healthy-side up-scaling and pass all four current gates, so the gates as described are necessary but not sufficient and need one added control. For idea 023, the phrase "autoregulatory blood-volume reserve" **is not licensed** by an outcome-derived change point alone and requires independent physiological validation; the published CTP literature actively forbids the shortcut.
+
+**Purpose and scope.** This brief arms a human operator to answer two inspection questions posed by an adversarial AI debate system. It is advisory only; the decisions belong to the operator. **Artifact note:** the repository files (github.com/Moroseui/concept-research-scout — ideas/021, ideas/023, and the two novelty audits) could not be retrieved through the available tooling (the fetch tool only accepts URLs surfaced by prior search, and the repo is not web-indexed). This brief therefore relies on the detailed idea descriptions supplied in the task and grounds every substantive claim in the primary methodological and physiological literature. Where a conclusion depends on repo detail not independently verifiable, that is flagged explicitly.
+
+---
+
+## TL;DR
+
+- **Idea 021 — the gates are not airtight.** Whole-volume z-score / instance normalization (the nnU-Net default, and the backbone of the ISLES'24 winning solution) is mathematically invariant to *global* rescaling but *sensitive to one-sided* rescaling. It is therefore contralateral-triggered, correctly signed, and survives the global-scaling arm — yet it is a global-statistics artifact, not physiological "reference use." Recommend approving the study **conditional on adding a normalization-statistics-held-fixed control** that would separate normalization coupling from genuine hemispheric referencing.
+- **Idea 023 — the physiological label is unlicensed.** Matching an edit-response change point to an outcome-derived change point establishes an *outcome-associated CBV/MTT decision boundary* (a real, publishable finding) but **not construct identity** with "autoregulatory blood-volume reserve," which is defined by challenge-based measurement (acetazolamide/CO₂ or PET OEF). Even against gold-standard PET, CBV is a variable, non-monotonic stage marker (Derdeyn 2002). Recommend requiring either independent validation or descriptive re-phrasing.
+- **Both decisions are close in effort, not in evidence.** 021 is a fixable design gap; 023 is a relatively clear judgment against the shortcut. Neither idea is fatally flawed; both need a specific, named addition before their strongest claim is defensible.
+
+---
+
+## Key Findings
+
+1. **Contralateral/mirror normalization is the clinical CTP standard, not a modeling quirk.** The infarct-core threshold used in the pivotal late-window thrombectomy trials (DEFUSE 3, DAWN) is relative CBF (rCBF) < 30% defined *relative to the contralateral hemisphere*. This makes idea 021's hypothesis clinically well-motivated: the training maps already encode a normal-tissue reference.
+2. **The single strongest confound for idea 021 is normalization coupling, and the four current gates do not exclude it.** Per-instance normalization is invariant to global rescaling (passes the global arm) but shifts affected-side normalized intensities downward under healthy-side-only up-scaling (correct sign, contralateral-triggered).
+3. **Large receptive fields, cross-hemisphere attention, and symmetry augmentation are substrates of a *true* positive, not non-reference confounds.** They explain *how* referencing could occur and should be reported as such, not dismissed.
+4. **AIF/VOF contamination is largely off-table for standard ISLES'24** because the challenge supplies finished perfusion maps (icobrain cva); it re-enters only if the specific model re-derives maps from 4D source data.
+5. **For idea 023, "autoregulatory reserve" is a challenge-defined construct.** It is measured by the vasodilatory *response* to acetazolamide/CO₂ or by PET OEF (the gold standard), not by a static baseline map.
+6. **Even with gold-standard PET, CBV is a variable marker of hemodynamic stage (Derdeyn 2002).** Increased OEF "often occurs in the absence of a measurable elevation in CBV"; CBV was elevated in only 19 of 45 patients with increased OEF.
+7. **Published CTP work forbids the shortcut.** Baseline CTP maps "are not useful in predicting cerebrovascular reserve" without a challenge; CTP CBV correlates poorly with PET; MTT is only a moderate OEF surrogate (best R²≈0.59); and because CBF = CBV/MTT the parameters covary, so the same CBV/MTT pattern can reflect preserved *or* exhausted autoregulation.
+8. **The methodological core of 023 is construct validity.** An outcome-matched change point is a criterion/predictive association, not evidence that the latent feature *is* the named physiological state; establishing that requires a nomological network of independent measures.
+
+---
+
+## Details
+
+### SECTION 1 — IDEA 021: "The healthy hemisphere is the ruler"
+
+**Inspection question:** Can any plausible NON-reference mechanism produce increased affected-side predicted deficit under healthy-side up-scaling while passing all four gates (contralateral-emergence, global-scaling control arm, realism constraint, power requirement)?
+
+#### 1.1 How contralateral/mirror normalization actually works in clinical CTP
+
+Contralateral normalization is the clinical standard for infarct-core definition. The core threshold used in DEFUSE 3 and DAWN is rCBF < 30% defined explicitly relative to the contralateral hemisphere: a touchNEUROLOGY review of those trials states "the infarct core was defined as tissue with a relative cerebral blood flow <30% compared with the contralateral hemisphere," a value derived from a 103-patient calibration in which DWI-MRI was acquired a mean of 36 minutes after CTP. The Tmax > 6 s penumbra threshold is absolute, but the core threshold is inherently referential. As the AJNR local-normalization paper (Kellner et al., "Reducing False-Positives in CT Perfusion Infarct Core Segmentation Using Contralateral Local Normalization," AJNR 2024;45(3):277) puts it: "the CBF... cannot be easily quantified and is therefore typically normalized to a reference value. Typically, as reference, the median value of the hemisphere contralateral to the stroke side or the median CBF of the patient's normally perfused tissue identified as Tmax ≤4 seconds is used." That paper operationalizes mirror normalization by "voxelwise division of the original image... by the mirrored one," clipping the mirrored image at 150% and Gaussian-smoothing it (σ = 12×12×4 mm).
+
+This matters because ISLES'24 perfusion maps were derived with FDA-cleared clinical software: the ISLES'24 dataset paper (Radiology: Artificial Intelligence, doi 10.1148/ryai.250603) states the perfusion maps "were derived using the clinical, U.S. Food and Drug Administration–cleared software icobrain cva (version 1.5.0, icometrix)," across a 250-scan-set cohort (150 training: 100 University Hospital of Munich + 50 University Hospital of Zurich; 100 testing). RAPID's comparable pipeline selects an AIF automatically and derives rCBF relative to "the mean CBF in normally perfused brain" (Nature Sci Rep 2023). So a model trained on ISLES'24-style data is trained on maps whose core-defining parameter already encodes a normal-tissue reference at the software level. The scientific question of idea 021 — whether the *learned model* additionally/independently uses the healthy hemisphere as a ruler — is well-posed.
+
+#### 1.2 The four gates, restated
+
+- **Contralateral-emergence:** the effect must arise from manipulating the *contralateral (healthy)* side, not from a local affected-side artifact.
+- **Global-arm control:** scaling the *entire* volume (both hemispheres) should NOT reproduce the effect if the mechanism is a genuine contralateral *reference* — a reference cares about the ratio/asymmetry, not the absolute global level.
+- **Realism:** the digital up-scaling must stay within physiologically/technically plausible intensity ranges.
+- **Power:** the signed effect must be detectable at realistic effect sizes with the planned sample.
+
+#### 1.3 Candidate NON-reference mechanisms, assessed against the gates
+
+The central analytic point: a "reference-using" mechanism computes something like *affected ÷ contralateral* (an asymmetry/ratio). The gates are designed to exclude confounds that are either local (fail contralateral-emergence) or globally scale-driven (caught by the global arm). The decisive question is whether any mechanism is **contralateral-triggered, correctly signed, AND survives the global arm** without being a genuine reference computation.
+
+**(a) Whole-volume z-scoring / instance normalization — THE serious threat.** nnU-Net is the dominant ISLES'24 backbone: de la Rosa et al. report that among the qualifying ISLES teams, "nnUnet and UNet-like neural networks were the most prevalent architectures," and the ISLES'24 winning solution (Riepe et al., "How We Won the ISLES'24 Challenge by Preprocessing," arXiv:2505.18424) used "a 3D large residual encoder nnU-Net, referred to as 'nnU-Net ResEnc L'... [with] a [56, 320, 256] patch size, Dice and cross-entropy loss, and the SGD optimizer." nnU-Net applies, for CT channels, dataset-level percentile clipping ([0.5, 99.5]) plus z-score normalization; for non-CT channels it applies **per-case (per-instance) z-scoring** (nnU-Net documentation; MIC-DKFZ/nnUNet). If perfusion maps are ingested as non-CT channels — the typical treatment — each input volume is normalized by subtracting its own mean and dividing by its own SD.
+
+Instance/z-score normalization has a critical property: it is invariant to *global* affine rescaling of the whole input. Shu et al. (DIRT-T, arXiv:1802.08735) prove instance normalization satisfies ℓ(x) = ℓ(γx + β) for channel-wide scale γ and shift β. The consequence for the gates is sharp:
+  - Under **global** up-scaling (both hemispheres ×k), whole-volume z-scoring cancels the change → **the global arm shows little/no effect.** ✓ passes global arm.
+  - Under **healthy-side-only** up-scaling, the volume's mean and SD shift, so after re-normalization the affected side's normalized intensities are pushed DOWN relative to baseline → the affected side looks relatively more hypoperfused → **predicted deficit increases.** ✓ correct sign, emerged from a contralateral manipulation.
+
+This is the strongest confound: contralateral-triggered, correctly signed, survives the global-scaling control — yet **not a contralateral-reference mechanism in the intended sense.** It is a global-statistics coupling that merely *looks* like hemispheric referencing because changing one hemisphere changes whole-volume statistics. It threatens the conjunction of all four gates.
+
+**(b) Batch-normalization statistics.** At inference, BN uses fixed running statistics, so a single perturbed volume does not shift them; BN is much less likely than instance/z-score norm to produce the effect. Lower threat — but the model's actual norm layers must be checked.
+
+**(c) Large / global receptive fields and cross-hemisphere attention.** A 3D nnU-Net with large patches ([56,320,256] in the winner) has an effective receptive field spanning both hemispheres and can route contralateral intensity into affected-side predictions. But this is **exactly the substrate by which the reference hypothesis would be TRUE**, not a non-reference confound. Attention/receptive-field spanning strengthens a positive finding (it explains *how* referencing occurs) — provided it is distinguished from mechanism (a).
+
+**(d) AIF/VOF selection contamination.** If the model consumed raw 4D CTP or re-derived maps, changing healthy-side intensities could perturb automated AIF/VOF selection (RAPID selects AIF voxels by curve height/width/arrival; VOF typically posterior). But ISLES'24 supplies pre-computed maps from icobrain cva, so a model consuming finished maps does not re-select an AIF — this confound is **largely off-table for the standard setup**, re-entering only if the specific model re-derives perfusion from source (a repo-specific detail to verify). Where relevant, AIF effects would likely be global rather than cleanly contralateral, and thus partly caught by the global arm.
+
+**(e) Dataset-preprocessing couplings (whole-brain percentile clipping/rescaling).** Same family as (a). Dataset-level clip bounds are fixed at training; at inference a healthy-side up-scale that pushes voxels past the 99.5-percentile clip could non-linearly distort the affected side. Because clipping is non-linear, this can partially survive the global arm. Moderate threat; grouped with (a).
+
+**(f) Symmetry-augmentation artifacts.** nnU-Net's default augmentation includes axis mirroring, and several stroke models use explicit "symmetric modality augmentation" (Clèrigues et al.). This teaches the model to exploit hemispheric symmetry — again a route to genuine reference-like behavior rather than a non-reference confound. The nuance: a positive result may reflect an *augmentation-induced symmetry prior* rather than a physiologically meaningful "ruler." That is an interpretation caveat, not a gate failure.
+
+#### 1.4 Interventional/occlusion interpretability precedent
+
+Perturbation/occlusion interpretability is well established for medical segmentation (Zeiler–Fergus occlusion sensitivity; Fong & Vedaldi meaningful perturbation). A cardiac-MRI feature-ablation study found "predictions for a target structure may depend on surrounding anatomical context" — directly analogous to contralateral dependence. However, I located **no published study that specifically manipulates the contralateral hemisphere of a stroke perfusion model to test reference use.** Idea 021's specific intervention therefore appears novel and is not settled ground — which supports its value but means there is no external calibration of expected effect sizes (a genuine power-gate risk).
+
+#### 1.5 Verdict-shaped assessment — Idea 021
+
+- **Genuinely threatens the conjunction:** mechanism (a) whole-volume z-scoring / instance normalization (with cousin (e) global clipping). Contralateral-triggered, correctly signed, survives the global arm, yet is a global-normalization artifact rather than "the healthy hemisphere as a physiological ruler." **The four current gates do NOT exclude it.**
+- **Excluded by existing gates / off-table:** purely local affected-side artifacts (contralateral-emergence gate); simple global-brightness effects (global arm); AIF/VOF contamination (not re-derived from finished maps in standard ISLES'24).
+- **Not confounds but substrates of a true positive:** large receptive fields, cross-hemisphere attention, symmetry augmentation.
+- **The one additional control that closes the strongest confound — a normalization-invariance / re-normalization control.** Concretely: hold the model's input normalization statistics FIXED (compute mean/SD/clip bounds from the *unperturbed* volume and reuse them for the perturbed volume), OR test a variant trained without per-instance normalization, OR add a control arm that up-scales the healthy side and then rescales the whole volume to restore the original global mean/SD. If the increased-deficit effect **disappears** when global statistics are held constant, it was normalization-driven (mechanism a). If it **persists**, the reference interpretation survives its strongest challenger. Complement with an asymmetry-preserving *local* mirror perturbation vs. a mean-preserving perturbation to separate ratio-reading from global-statistic-reading.
+
+### SECTION 2 — IDEA 023: "The joint CBV/MTT compensation state at matched flow"
+
+**Inspection question:** Can an outcome-derived change point validly operationalize "autoregulatory blood-volume reserve," or does that phrase require independent physiological validation?
+
+#### 2.1 The physiology: what "autoregulatory reserve" means and how it is measured
+
+Powers' classic staging of hemodynamic compromise: as cerebral perfusion pressure (CPP) falls, Stage I is autoregulatory vasodilation of resistance arterioles, raising CBV and MTT while CBF and OEF stay near-normal; Stage II ("misery perfusion") is autoregulatory failure, with falling CBF and rising OEF. The AJNR acetazolamide review states it plainly: "Increases of cerebral blood volume (CBV) and mean transit time (MTT) are 2 parameters that reflect this initial phase of compensatory autoregulatory vasodilation... Further decreases of CPP beyond cerebral autoregulatory vasodilation capacity eventually result in stage II (autoregulatory failure), characterized by decreases of CBF and increases of OEF."
+
+Crucially, "autoregulatory reserve" / "cerebrovascular reserve (CVR)" is a construct defined by a **dynamic challenge**, not a static map. It is measured as the CBF (or BOLD/MTT) *response* to a vasodilatory stimulus — acetazolamide (Diamox) or CO₂ — or via PET OEF, "the gold standard for measurement of [hemodynamic compromise]" (PubMed 36527663). CVR grading (Xenon-CT/acetazolamide) classifies the response as reduced, absent, or paradoxical (steal). Reserve is about *capacity to respond*, established by perturbation — a single baseline CBV/MTT snapshot is a different construct.
+
+#### 2.2 How weak is the bridge from CTP CBV/MTT configuration to the construct?
+
+The evidence is decisive and unfavorable to the shortcut. Four converging findings:
+
+**(i) Even with gold-standard PET, CBV is a variable, non-monotonic marker of stage.** Derdeyn et al. (Brain 2002;125(3):595–607, PMID 11872616, "Variability of cerebral blood volume and oxygen extraction: stages of cerebral haemodynamic impairment revisited") found: "increased OEF in the territory of an occluded carotid artery often occurs in the absence of a measurable elevation in CBV." By hemispheric ratios, "45 patients had increased ipsilateral OEF; CBV was increased in 19 of these 45 patients... No differences in CBF, CMRO2 or clinical risk factors were found between these 19 patients and the remaining 26 patients with increased OEF and normal or reduced CBV." Five patients with increased OEF had *reduced* CBV (below the 5th-percentile ratio). Their conclusions: "CBV measurements may be variable through the autoregulatory range," and "the physiological explanation for the measurement of normal CBV in patients with increased OEF is less certain." They attribute this to CBV being "a more complex physiological parameter... composed of arterial, capillary and venous compartments," with variable compartmental responses. CBV cannot be equated with autoregulatory reserve even against PET. (Note: the paper reports this variability via quadrant scatter plots, not a single CBV-vs-OEF correlation coefficient — do not attribute a specific r to it.)
+
+**(ii) Baseline CTP maps explicitly do not predict reserve without a challenge.** AJNR "Evaluation of CT Perfusion in the Setting of Cerebral Ischemia: Patterns and Pitfalls" (2010;31(9):1552): "In patients with stenotic lesions, baseline CTP maps are not useful in predicting cerebrovascular reserve; however, changes in CBF and MTT after acetazolamide challenge correlate with hemodynamic reserve." Corroborated in Moyamoya by So Y et al., "Which CT Perfusion Parameter Best Reflects Cerebrovascular Reserve?" (AJNR 2008;29(9):1658, 152 ROIs): "Baseline CTP parameters are not reliable for predicting impaired CVR. However, pcCBF correlated strongly with quantitative CVR; therefore, CTP evaluation for CVR in Moyamoya patients requires normalization and acetazolamide challenge."
+
+**(iii) CTP CBV correlates poorly with PET; MTT is only a moderate surrogate; and CBF = CBV/MTT means the parameters covary.** In chronic carotid occlusion, "PCT mean transit time (MTT) is the parameter that showed the best correlation with the count-based PET OEF ratios (R² = 0.590)" (Neuroradiology 2008, doi 10.1007/s00234-008-0403-9) — that is MTT alone, not the joint CBV-MTT pattern, and ~40% of variance is unexplained. Perfusion-MRI vs PET (J Magn Reson Imaging 2003): MTT correlated (r = 0.78) but "the CBF and CBV values obtained by D-PWI did not correlate with those obtained by 15O-PET." Because CBF = CBV/MTT (central volume theorem), CBV and MTT are not independent, and the same CBV/MTT configuration can reflect opposite reserve states: an MR-perfusion review (PMC3135980) notes "MTT prolongation occurs in regions of vasodilation with decreased CBF, [but] MTT is also prolonged when vasodilation results in successful preservation of normal CBF" — the identical map pattern can mean preserved OR exhausted autoregulation.
+
+**(iv) No tissue/voxel-level validation exists.** Every located validation study operates on hemispheric ratios or a handful of manually placed ROIs against PET/SPECT/Xe-CT. No published study validates an acute-stroke CTP *joint CBV-MTT configuration at matched flow* against a reserve reference standard (acetazolamide or PET OEF) at the voxel/tissue level. The specific bridge idea 023 needs does not exist in the literature.
+
+#### 2.3 The methodological core: an outcome-derived change point is not construct validation
+
+The debate's blocking question is a **construct-validity** question, with a direct ML-for-medicine framework. Construct validity (Cronbach & Meehl 1955) asks whether a measurement captures the latent construct it names, and establishing it requires a *nomological network* linking the measure to independent measures of the construct — not merely internal consistency ("Establishing Construct Validity in LLM Capability Benchmarks Requires Nomological Networks," arXiv:2603.15121; "Medical LLM Benchmarks Should Prioritize Construct Validity," arXiv:2503.10694, ICML 2025 position paper). Matching a model's edit-response change point to a change point estimated from the same training-cohort *outcomes* shows the model's behavior tracks an outcome-associated threshold — it does NOT show the latent feature IS "autoregulatory blood-volume reserve." That is **criterion/predictive association with outcome**, distinct from construct identity with a physiological state.
+
+There is a named cautionary precedent: Hagmann, Schamoni & Riezler, "Validity problems in clinical machine learning by indirect data labeling using consensus definitions" (arXiv:2311.03037), show that when labels are defined by an indirect measurement and the defining inputs are in the data, "models... will learn nothing else but to exactly reconstruct the known target definition" — perfect internal performance, no external construct validity. An outcome-derived change point matched to an edit-response change point risks exactly this circularity, since both are downstream of the same cohort's outcome structure.
+
+#### 2.4 Verdict-shaped assessment — Idea 023
+
+- **When would "autoregulatory blood-volume reserve" be defensible?** Only with validation of the latent feature against an *independent* measurement of the construct: (1) a vasoreactivity challenge (acetazolamide/CO₂ CVR) or (2) PET OEF, ideally at tissue level, showing convergent validity; plus discriminant evidence that the feature is not merely tracking flow/MTT (which covary). Given Derdeyn 2002, even then CBV's link to reserve is variable — so the phrase would need hedging even with PET in hand.
+- **Minimal honest alternative phrasing if only the outcome-derived change point exists:** describe what was shown — e.g., "the model's response changes at a **CBV–MTT configuration threshold associated with final-infarct outcome**," or "an **outcome-calibrated joint CBV/MTT decision boundary**," explicitly NOT claiming it measures autoregulatory reserve. "Consistent with, but not validated as, a signature of autoregulatory compensation" is defensible; "reads autoregulatory blood-volume reserve" is not.
+- **Does published CTP work license the shortcut?** No — it forbids it. Baseline CTP maps are documented as inadequate for reserve without a challenge; CBV is a variable stage marker even by PET; and the CBV/MTT pattern is ambiguous between preserved and exhausted autoregulation.
+
+---
+
+## Recommendations
+
+**Idea 021 — approve conditional on one added control.**
+1. Require a **normalization-statistics-held-fixed** control arm (fixed inference-time mean/SD/clip bounds from the unperturbed volume, and/or a mean/SD-restored perturbation, and/or a no-per-instance-norm model variant). This is the single test that separates the strongest confound (normalization coupling) from genuine hemispheric referencing.
+2. **Threshold that changes the recommendation:** if the model demonstrably uses *fixed* inference-time normalization AND consumes finished maps rather than re-deriving them from 4D source, the strongest confound weakens and the four gates approach sufficiency; the added control can then be lighter-weight (a confirmatory rather than gating experiment).
+3. Report large receptive fields, cross-hemisphere attention, and symmetry augmentation as candidate *mechanisms of true reference use*, not as confounds to be denied.
+4. Pre-register an effect-size/power analysis acknowledging there is no prior contralateral-perturbation study to calibrate against.
+
+**Idea 023 — approve the empirical claim, reject the physiological label as-is.**
+1. Permit the finding as an **outcome-associated CBV/MTT decision boundary**; require removal or hedging of "autoregulatory blood-volume reserve" unless independent validation is added.
+2. To earn the physiological phrase, require correlation of the latent feature against acetazolamide/CO₂ CVR or PET OEF (convergent validity) plus discriminant evidence versus flow/MTT alone.
+3. **Threshold that changes the recommendation:** production of a tissue-level validation dataset (currently absent in the literature) linking the joint CBV/MTT configuration to a measured reserve/OEF reference would move this from "unlicensed" toward "defensible with hedging."
+
+**Both ideas — verify three repo/model facts** that materially modulate the analyses and could not be confirmed from public sources: (a) the model's normalization layers (per-instance z-score vs. fixed BN vs. dataset-level); (b) whether the model consumes finished maps or 4D source; (c) receptive-field/attention span.
+
+---
+
+## Caveats
+
+- **Repo artifacts unread.** The idea cards, consensus files, and novelty audits could not be fetched. This brief may not perfectly mirror the gates' exact operational definitions or any controls already specified. If the repo already includes a normalization control (021) or a validation plan (023), parts of this advisory are moot — reconcile against the actual cards before answering.
+- **The RQ1 confound is mathematically real but its instantiation is model-dependent.** The normalization mechanism exists with certainty; whether the specific model instantiates it depends on facts (a)–(c) above. Confidence: high on the mechanism's existence and sign; medium on this model exhibiting it.
+- **Effect-size/power for 021 is genuinely uncertain** because no prior contralateral-perturbation study on stroke perfusion models exists to calibrate magnitudes — this is a real risk to the power gate, independent of the confound analysis.
+- **The RQ2 verdict is robust** across multiple independent primary sources (Derdeyn 2002; AJNR reviews; CTP-vs-PET validation studies) and is unlikely to change absent new tissue-level validation evidence. Minor primary-source note: Derdeyn 2002 contains an internal 32-vs-33 discrepancy (abstract vs. results) for the increased-OEF-by-absolute-value subgroup; it does not affect the qualitative conclusion.
+- **This brief takes positions to inform, not replace, the operator's judgment.** Idea 021's answer ("yes, a non-reference mechanism can pass the gates") and idea 023's answer ("the phrase requires independent validation") are the analyst's reasoned conclusions from the cited evidence; the inspection decisions remain the human's.
