@@ -37,7 +37,7 @@
 - [isles24] **idea-035** [REJECTED] -- The skull is a fixed-volume pressure vessel
 - [isles24] **idea-036** [REJECTED] -- Does the model bring a vascular map to the scan?
 - [isles24] **idea-037** [REJECTED] -- The scan remembers which hospital took it
-- [isles24] **idea-038** [SHORTLISTED] -- Does the model price the last mile of blood delivery?
+- [isles24] **idea-038** [REJECTED] -- Does the model price the last mile of blood delivery?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
