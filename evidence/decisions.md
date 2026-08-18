@@ -480,3 +480,19 @@ stages were spent on it. The six baseline candidates falsely retired
 are restored. ISLES promotion was frozen during the repair and is now
 unfrozen. The scored digest is per-charter from this date; facts cross
 charters only through the score-free index.
+
+## 2026-08-18 - Correction: the v1 ledger repair failed; tombstones supersede it
+
+The entry of earlier today stated the six baseline rows were restored.
+That was false: the v1 repair script read the wrong timestamp field,
+found no corruption boundary, and re-appended the corrupt state with a
+note claiming restoration. External re-review caught it; direct
+history inspection then established that none of the six rows existed
+before 2026-08-17 at all (cycle 001 had six real candidates, cycle 002
+four; three rows are phantoms outright, three reference old candidates
+never tracked in the ledger). All six are now tombstoned (INVALID_ROW)
+by scripts/repair_charter_ledger_v2.py and excluded from current state
+by ledger.load() itself, with an explicit include_invalid escape hatch
+for audit code. Lesson recorded: a repair script is claim-bearing code
+and gets verified against artifacts like everything else; a spot-check
+that rationalizes an expected-looking value is not verification.

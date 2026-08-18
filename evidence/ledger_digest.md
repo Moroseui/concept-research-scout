@@ -1,6 +1,6 @@
 # Ledger digest -- charter: baseline (auto-generated; scores are scoped to this charter only)
 
-92 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+86 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -65,12 +65,6 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-017** [SHORTLISTED/DEBATED/baseline] -- A lung-cancer model may be reading a mechanically remodeled trachea
 - **idea-018** [REJECTED/DEBATED/baseline] -- The brain-tumor prognosticator may be weighing the chewing muscle -- killed: DATA_ACCESS
 - **idea-019** [SHORTLISTED/DEBATED/wide] -- The fibrosis model may be counting holes at the pleural edge
-- **scout-001-c05** [SHORTLISTED/?/baseline] -- (untitled)
-- **scout-001-c06** [SHORTLISTED/?/baseline] -- (untitled)
-- **scout-001-c07** [SHORTLISTED/?/baseline] -- (untitled)
-- **scout-002-c02** [SHORTLISTED/?/baseline] -- (untitled)
-- **scout-002-c06** [SHORTLISTED/?/baseline] -- (untitled)
-- **scout-002-c07** [SHORTLISTED/?/baseline] -- (untitled)
 - **scout-006-c01** [SHORTLISTED/SCOUTED/baseline] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - **scout-006-c02** [SHORTLISTED/SCOUTED/baseline] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - **scout-006-c03** [SCOUT_ONLY/SCOUTED/baseline] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
