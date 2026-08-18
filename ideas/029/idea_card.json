@@ -1,0 +1,93 @@
+{
+  "id": "isles24-scout-004-c01",
+  "parent_ids": [],
+  "search_mode": "A",
+  "entry_point": 2,
+  "title": "The ground truth remembers the algorithm that drafted it",
+  "question": "Is an ISLES'24-trained final-infarct model using the boundary conventions that the DeepISLES draft left in the 'corrected when needed' ground truth, rather than tissue-fate evidence alone?",
+  "rung": "Target rung 1: models reproduce draft-specific conventions in expert-overridden voxels; rung 2 requires replication across at least two trained model families and both centers.",
+  "deliverable_sentence": "The final-infarct model is using the ground truth's algorithmic fingerprint \u2014 DeepISLES boundary conventions inherited through the 'corrected when needed' annotation pipeline \u2014 in the voxels where experts overrode the draft.",
+  "X_measurement": "Rerun released DeepISLES (Docker isleschallenge/deepisles, weights Zenodo version 14026715) on each case's released follow-up DWI/ADC to obtain draft mask D; X is the draft-versus-released-GT disagreement field D xor G plus draft-agreement statistics (per-case Dice(D,G), bitwise-identical fraction, boundary surface distance). Compute-today test: YES \u2014 X is computed from released follow-up images by a public containerized tool, no annotator; note X lives on the follow-up image, while the audited model consumes only acute CT.",
+  "suspected_signal": "Not a biological signal but a documented process one: masks were initialized by a public ensemble and corrected only 'when needed', so the released labels carry the initializer's systematic conventions (boundary smoothness, small-lesion suppression or inclusion habits); a model trained on those labels can inherit exactly those conventions, and the benchmark then partially rewards fidelity to the draft algorithm.",
+  "use_vs_association": "Stage 1 is model-free description. Stage 2 separates use from association by restricting to disagreement voxels, where the training-label signal G and the draft convention D point in opposite directions: a model merely fitting its labels should side with G on held-out cases; systematic siding with D against evidence-matched baselines indicates inherited conventions. An external stroke model never trained on ISLES'24 labels serves as the shared-inductive-bias control.",
+  "keystone_prerequisite": "The correction field is recoverable: the initializing segmenter is public and re-runnable on released follow-up MRI, so draft-versus-final disagreement can be computed per case.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "arXiv 2408.10966v1 (inspected 2026-08-18): 'Lesion masks are derived from DWI images using the ISLES'22 ensemble algorithm. Quality control and correction of the lesion masks are performed when needed by medical students (TAB, HPM) supervised by two neuroradiologists (JSK, BW) with more than 10 years of experience.' github.com/ezequieldlrosa/DeepISLES (inspected): the ISLES'22 ensemble is released with Docker image isleschallenge/deepisles and Zenodo weights (version 14026715); required inputs DWI (b=1000) and ADC, FLAIR 'Required for ensemble (optional for single algorithm outputs)'. zenodo.org/records/16731717 (inspected): each training case includes follow-up 'post-treatment MRI (DWI and ADC)'; 149 cases public.",
+  "keystone_residual_assumption": "That the released DeepISLES version approximates the draft actually used: the initializing version/weights are not stated anywhere inspected, and if organizers ran the FLAIR-using ensemble, a DWI/ADC-only rerun differs. High verbatim agreement is version-robust evidence of imprint; LOW agreement is ambiguous between heavy correction and version drift \u2014 this asymmetry is prespecified in the analysis, and the weights-release date versus dataset-creation chronology is a stage-0 check.",
+  "rung_reached": "0; rung 1 after stage-2 disagreement-voxel analysis with the external-model control; rung 2 after two-family, two-center replication.",
+  "dies_like_prior": "Closest to ideas 002 and 005 (annotation provenance undocumented). It differs decisively: here provenance IS documented in the challenge paper, the initializer is a released artifact, and the provenance effect is the measurand rather than an unverifiable assumption. What it cannot do is separate expert anchoring on the draft from genuine agreement with it \u2014 stated as a limit, not assumed away.",
+  "closest_prior_work": "Label-error and annotation-style work (Zhang et al., Disentangling human error from ground truth, NeurIPS 2020, arXiv 2007.15963; annotation-style effects, arXiv 2210.17398) models rater noise but does not measure AI-initialized draft imprint in a public benchmark. The DeepISLES paper (Nature Communications 2025) validates the segmenter, not its imprint on ISLES'24 ground truth. No located work runs this audit on ISLES'24; novelty confidence remains limited-search.",
+  "existing_assets": "All required artifacts are public: 149 cases with follow-up DWI/ADC and GT masks (Zenodo 16731717), DeepISLES container plus weights, nnU-Net training recipes, official evaluation code (utils/eval_utils).",
+  "smallest_decisive_experiment": "Stage 1 alone is decisive as a dataset-quality finding: run DeepISLES on all 149 released follow-up DWI/ADC, compute Dice(D,G), bitwise-identical fraction, and boundary distances, stratified by center; prespecify a report of the uncorrected fraction. About 2-3 days including download, under 10 GPU-hours. Stage 2 (train one nnU-Net, analyze held-out disagreement voxels with the external-model control) adds about two weeks.",
+  "standing_confounds_addressed": "Scanner/site enter D-G agreement through MRI quality \u2014 stratified by center. Genuine boundary ambiguity (both draft and expert defensible) is quantified with a boundary-band analysis. The design does not rule out expert anchoring on the draft (automation bias), which would make even 'corrected' voxels draft-tinted \u2014 acknowledged as an unremovable ceiling on interpretation. Label leakage is inverted here: labels are the object of study, and the stage-1 readout needs no trusted labels at all.",
+  "alternative_explanations": [
+    "Models side with the draft because CNNs share inductive biases with DeepISLES, not because of label inheritance \u2014 the external never-trained-on-ISLES'24 model control discriminates this.",
+    "Low draft-GT agreement reflects DeepISLES version drift rather than extensive correction \u2014 prespecified asymmetric interpretation and chronology check.",
+    "Disagreement voxels are simply hard voxels \u2014 evidence-matched baselines within the same case address this."
+  ],
+  "anticipated_negative": "Decisive for stage 1: any measured uncorrected fraction is a benchmark fact of record either way. For stage 2, a null after the external-model control passes is a valuable reassurance that the hybrid annotation pipeline did not measurably contaminate model behavior on this benchmark.",
+  "cross_domain": {
+    "borrowed_construct": "Automation bias/anchoring from human-factors research: reviewers correct machine drafts less than they should.",
+    "measurement_it_implies": "The surviving-draft fraction and draft-siding rate in overridden voxels as anchoring indices.",
+    "what_changes_if_dropped": "Nothing mechanical \u2014 the study remains a label-provenance audit; the human-factors frame only supplies the interpretation of high uncorrected fractions."
+  },
+  "remaining_legwork": "Archive download and DeepISLES container runs: 2-3 days to the stage-1 decision; one nnU-Net training plus disagreement analysis: about two weeks to the stage-2 decision.",
+  "design_template": "cross-model-disagreement",
+  "entry_point_2_requirements": "Measurement: draft-agreement statistics and draft-siding rate in expert-overridden voxels. Confused artifact: shared CNN inductive bias producing draft-like outputs without label inheritance; controlled by the external-model comparison and evidence-matched baselines.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "Two prespecified stages, each with an explicit quantitative readout and a named control."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Stage 1 is descriptive and clean; stage 2's inheritance claim survives the external-model control but cannot exclude expert anchoring, which is stated as a ceiling."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Every model ranked on ISLES'24 inherits this ground truth; deployment claims trained on it inherit whatever imprint exists."
+    },
+    "interest": {
+      "value": 5,
+      "why": "Either answer is consequential for the whole challenge community: substantial algorithmic ground truth, or a documented reassurance that the hybrid pipeline is sound."
+    },
+    "prior_legwork": {
+      "value": 5,
+      "why": "Initializer, weights, follow-up images, masks, and evaluation code are all released; nothing must be built except analysis."
+    },
+    "feasibility": {
+      "value": 4,
+      "why": "Keystone inspected true; stage 1 is days of container inference on public data."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Fully public under CC BY-NC-SA; the archive is large but hosted on Zenodo."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Agreement metrics are standard; imprint and draft-siding statistics are custom and need preregistration."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "A low uncorrected fraction plus a stage-2 null is a citable benchmark-integrity result, not a dead end."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Targeted search found adjacent label-noise literature but no ISLES'24 audit; search was not exhaustive."
+    },
+    "regret": {
+      "value": 5,
+      "why": "The audit is cheap, uses only released artifacts, and the community will eventually ask this question of any hybrid-annotated benchmark."
+    }
+  },
+  "priority_score": 4.1,
+  "unverified_claims": [
+    "the DeepISLES version used for initialization matches the released weights",
+    "the fraction of uncorrected masks is large enough to matter",
+    "an adequate external stroke model exists for the shared-bias control",
+    "novelty beyond targeted search"
+  ],
+  "plain_pitch": "The 'correct answers' in this stroke benchmark were first drawn by an algorithm and only fixed by humans when someone judged it necessary. Because that drafting algorithm is public, we can redraw every answer and measure exactly how much of the official truth is uncorrected machine output \u2014 and then test whether models trained on it learn the drafting algorithm's habits instead of the biology. Either result matters: a large imprint would change how the benchmark's rankings are read, and a small one would be documented reassurance.",
+  "track": "baseline",
+  "charter": "isles24"
+}

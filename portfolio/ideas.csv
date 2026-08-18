@@ -27,3 +27,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 026,A spreading front inside the perfusion deficit,ACTIVE,,"{'value': 4, 'why': 'Standard perfusion summaries may be throwing away exactly this structure.'}",CRITIQUE,
 027,"When vanished sulci mean rescue, not death",ACTIVE,,"{'value': 4, 'why': ""If support exists, ISLES'24 uniquely couples the sign to final tissue fate.""}",CRITIQUE,
 028,The blood's grayscale oxygen gauge,ACTIVE,,"{'value': 3, 'why': 'Very cheap and memorable, but the physiology may not survive dataset preprocessing.'}",CRITIQUE,
+029,The ground truth remembers the algorithm that drafted it,ACTIVE,,"{'value': 5, 'why': 'The audit is cheap, uses only released artifacts, and the community will eventually ask this question of any hybrid-annotated benchmark.'}",CRITIQUE,
