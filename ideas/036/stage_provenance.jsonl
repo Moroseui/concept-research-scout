@@ -1,0 +1,1 @@
+{"claude": "2.1.197 (Claude Code)", "codex": "codex-cli 0.147.0", "stage": "keystone", "ts": "2026-08-18T21:42:09+00:00", "git_commit": "5fb5818199a15c03022265abf6075e968f55d1f7", "model_requested": "claude-fable-5", "model_used": "claude-fable-5", "fallback": false}
