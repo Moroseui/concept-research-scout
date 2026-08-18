@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "searched_at": "2026-08-18T06:41:23Z",
   "queries": [
     {"query": "CT reconstruction kernel noise power spectrum deep learning classifier prediction robustness kernel harmonization CT radiomics", "source": "web search (PubMed/PMC, publisher DOI pages, arXiv)"},
@@ -33,5 +34,36 @@
     {"candidate": "C5", "identifier": "PMCID:PMC3729561", "access": "full_text", "establishing_passage": "CT rib-cage morphometry in 816 smokers was modeled against emphysema, lung function, and anthropometrics."},
     {"candidate": "C5", "identifier": "10.1109/EMBC.2015.7319855", "access": "abstract", "establishing_passage": "Automated 3-D CT analysis quantified diaphragm and rib-cage geometry in severe COPD at two lung volumes."},
     {"candidate": "C5", "identifier": "PMCID:PMC6996603", "access": "full_text", "establishing_passage": "A deep network classified Fleischner emphysema patterns on CT and linked grades to clinical outcomes."}
+=======
+  "searched_at": "2026-08-18T00:00:00Z",
+  "queries": [
+    {"query": "CT reconstruction kernel noise power spectrum deep learning classifier prediction robustness kernel harmonization", "source": "web search"},
+    {"query": "CT reconstruction kernels effect deep learning chest disease classification", "source": "web search"},
+    {"query": "chest x-ray mortality model pacemaker device saliency ablation", "source": "web search"},
+    {"query": "cardiac device removal inpainting chest xray classifier", "source": "web search"},
+    {"query": "epicardial adipose tissue CT cardiomegaly classification deep learning", "source": "web search"},
+    {"query": "CT cardiomegaly classifier epicardial fat volume", "source": "web search"},
+    {"query": "Harris growth arrest lines bone age deep learning radiograph", "source": "web search"},
+    {"query": "growth arrest lines automated detection hand radiograph bone age", "source": "web search"},
+    {"query": "CT barrel chest quantitative thoracic cage geometry emphysema deep learning", "source": "web search"},
+    {"query": "emphysema classifier rib cage geometry CT interpretability", "source": "web search"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "10.1117/1.JMI.5.1.011013", "access": "full_text", "establishing_passage": "Measured 3-D NPS and used NPS peak frequency to reduce reconstruction-kernel variability in CT texture features."},
+    {"candidate": "C1", "identifier": "10.1148/radiol.2019181960", "access": "abstract", "establishing_passage": "CNN kernel conversion improved reproducibility of pulmonary nodule texture and wavelet radiomic features."},
+    {"candidate": "C1", "identifier": "10.1111/1759-7714.13175", "access": "full_text", "establishing_passage": "Paired convolution kernels and reconstruction strengths changed radiomics and DenseNet diagnostic performance."},
+    {"candidate": "C2", "identifier": "10.1001/jamanetworkopen.2019.7416", "access": "full_text", "establishing_passage": "CXR-risk outputs continuous 12-year mortality probability and was interpreted using Grad-CAM."},
+    {"candidate": "C2", "identifier": "10.1016/j.jcmg.2020.11.008", "access": "abstract", "establishing_passage": "CXR-Age predicted all-cause and cardiovascular mortality beyond chronological age."},
+    {"candidate": "C2", "identifier": "10.1148/ryai.230502", "access": "full_text", "establishing_passage": "Public deep learning system segmented and classified implanted cardiac electronic devices on chest radiographs."},
+    {"candidate": "C3", "identifier": "10.1148/ryai.2019190045", "access": "full_text", "establishing_passage": "Fully automated EAT quantification was evaluated across multicenter noncontrast cardiac CT data."},
+    {"candidate": "C3", "identifier": "10.1088/1361-6560/ab8077", "access": "abstract", "establishing_passage": "A 3-D attention U-Net automatically segmented EAT on coronary CT angiography."},
+    {"candidate": "C3", "identifier": "10.3390/cells11061034", "access": "full_text", "establishing_passage": "Automated EAT segmentation was applied to low-dose chest CT and related to COVID-19 outcomes."},
+    {"candidate": "C4", "identifier": "10.1002/ajpa.20901", "access": "abstract", "establishing_passage": "Semiautomated Harris-line detection on tibial radiographs recovered two-thirds of consensus lines and required manual editing for the remainder."},
+    {"candidate": "C4", "identifier": "10.1007/s10278-017-9955-8", "access": "abstract", "establishing_passage": "Automated deep-learning bone-age pipeline included ROI segmentation and occlusion attention maps."},
+    {"candidate": "C4", "identifier": "10.1148/radiol.2017170236", "access": "abstract", "establishing_passage": "A deep network achieved strong skeletal-maturity assessment on pediatric hand radiographs."},
+    {"candidate": "C5", "identifier": "10.1371/journal.pone.0068546", "access": "full_text", "establishing_passage": "CT rib-cage measurements in 816 smokers linked morphometric variability to emphysema and anthropometric factors."},
+    {"candidate": "C5", "identifier": "10.4046/trd.2017.0095", "access": "full_text", "establishing_passage": "COPD cases had increased AP dimensions and AP/transverse ratio; BMI independently influenced geometry."},
+    {"candidate": "C5", "identifier": "10.1038/s41598-023-40116-6", "access": "full_text", "establishing_passage": "Deep networks automated emphysema subtype and severity scoring using lung-cropped inputs and dense activation maps."}
+>>>>>>> d3e824e (cycle 016: novelty_audit done)
   ]
 }

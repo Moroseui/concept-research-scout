@@ -14,9 +14,14 @@
       "scout": "done",
       "merge": "done",
       "novelty_audit": "done",
+<<<<<<< HEAD
       "backlog": "done"
     },
     "finished": "2026-08-18T06:41:35+00:00"
+=======
+      "backlog": "pending"
+    }
+>>>>>>> d3e824e (cycle 016: novelty_audit done)
   },
   "shortlisted": {
     "6": {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Novelty audit — scouting cycle 016
 
 ## C1 — Name the noise the kernel writes: the mediator behind idea 004's reconstruction shifts (baseline)
@@ -42,3 +43,49 @@
 | C3 | `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` | `NEW_CAPABILITY` |
 | C4 | `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` | `BLIND_SPOT` |
 | C5 | `INCREMENTAL` | `BLIND_SPOT` |
+=======
+# Novelty audit
+
+## C1 — Name the noise the kernel writes: the mediator behind idea 004's reconstruction shifts (baseline)
+
+1. **Neighbors.** (i) Shafiq-ul-Hassan et al., “Accounting for reconstruction kernel-induced variability in CT radiomic features using noise power spectra,” *J Med Imaging* 2018, DOI `10.1117/1.JMI.5.1.011013`: measured 3-D noise-power spectra and used NPS peak frequency to correct kernel-driven radiomic variability. (ii) Choe et al., “Deep Learning–based Image Conversion of CT Reconstruction Kernels Improves Radiomics Reproducibility for Pulmonary Nodules or Masses,” *Radiology* 2019, DOI `10.1148/radiol.2019181960`: converted paired chest-CT kernels and improved texture/wavelet reproducibility. (iii) Li et al., “Convolution kernel and iterative reconstruction affect the diagnostic performance of radiomics and deep learning in lung adenocarcinoma pathological subtypes,” *Thorac Cancer* 2019, DOI `10.1111/1759-7714.13175`: showed that paired kernel/reconstruction choices change DenseNet diagnostic performance. None tested whether measured noise-frequency content mediates a frozen multi-abnormality model's per-head score changes.
+2. **Delta.** The candidate joins a previously ratified same-acquisition score shift to per-pair NPS/band-energy changes and then separates noise injection from resolution sharpening; the neighbors characterize, harmonize, or report performance sensitivity but do not causally mediate individual classifier-score shifts.
+3. **Why not done.** `NEW_CAPABILITY` — the frozen CT-RATE same-acquisition pair manifest, 7,650 identifier-linked CT-CLIP per-head deltas, and deterministic released-checkpoint pipeline produced by idea 004 make this exact mediation test newly available.
+4. **Verdict.** `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` — targeted searches across kernel harmonization, NPS/radiomics, paired reconstructions, and deep-model robustness found close enabling work but no per-head physical-mediator test.
+
+## C2 — The mortality model is wearing the patient's hardware (baseline)
+
+1. **Neighbors.** (i) Lu et al., “Deep Learning to Assess Long-term Mortality From Chest Radiographs,” *JAMA Netw Open* 2019, DOI `10.1001/jamanetworkopen.2019.7416`: introduced CXR-risk and used Grad-CAM, but did not isolate implanted devices. (ii) Raghu et al., “Deep Learning to Estimate Biological Age From Chest Radiographs,” *JACC Cardiovasc Imaging* 2021, DOI `10.1016/j.jcmg.2020.11.008`: introduced CXR-Age as a continuous mortality-related score, with no device intervention. (iii) Yi et al., “Open Access Data and Deep Learning for Cardiac Device Identification on Standard DICOM and Smartphone-based Chest Radiographs,” *Radiol Artif Intell* 2024, DOI `10.1148/ryai.230502`: released device segmentation/classification capability but did not connect it to prognosis-model reliance. A foreign-object removal method exists (Yoon et al., “A novel approach to remove foreign objects from chest X-ray images,” arXiv `2008.06828`) but did not audit a mortality model.
+2. **Delta.** The candidate uses detector-guided paired removal, matched sham inpainting, and non-cardiac-hardware specificity controls to test whether a frozen mortality/biological-age model uses cardiac hardware; each neighbor supplies only the target model, detector, or editor.
+3. **Why not done.** `BLIND_SPOT` — prognosis studies framed explanation anatomically through saliency, while device-identification and foreign-object-removal developed as separate engineering tasks; the literatures did not ask whether treatment hardware is prognostic evidence.
+4. **Verdict.** `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` — broad searches combining mortality/age models, pacemakers/CIEDs, saliency, ablation, and inpainting found the components but no direct device-use audit.
+
+## C3 — The fat inside the silhouette: epicardial adipose in the cardiomegaly score (baseline)
+
+1. **Neighbors.** (i) Commandeur et al., “Fully Automated CT Quantification of Epicardial Adipose Tissue by Deep Learning: A Multicenter Study,” *Radiol Artif Intell* 2019, DOI `10.1148/ryai.2019190045`: automated EAT quantification on multicenter noncontrast cardiac CT. (ii) He et al., “Automatic segmentation and quantification of epicardial adipose tissue from coronary computed tomography angiography,” *Phys Med Biol* 2020, DOI `10.1088/1361-6560/ab8077`: developed 3-D attention U-Net EAT segmentation on CCTA. (iii) Bartoli et al., “Automatic Deep-Learning Segmentation of Epicardial Adipose Tissue from Low-Dose Chest CT and Prognosis Impact on COVID-19,” *Cells* 2022, DOI `10.3390/cells11061034`: extended automated EAT measurement to low-dose chest CT and prognosis. None queried an existing cardiomegaly classifier or performed tissue-identity substitution.
+2. **Delta.** The candidate asks whether EAT contributes to a frozen CT cardiomegaly score at matched chamber volume and proposes an attenuation-only within-mask intervention; the neighbors measure EAT itself, so this is a substantive interpretability delta rather than a dataset swap.
+3. **Why not done.** `NEW_CAPABILITY` — robust automated EAT segmentation on noncardiac low-dose chest CT plus the released CT-CLIP cardiomegaly head and verified local inference pipeline now make the joint-support and intervention study practical.
+4. **Verdict.** `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` — searches spanning EAT segmentation, cardiomegaly classification, cardiac silhouette, fat pads, and CT model interpretation found no study of EAT use by a cardiomegaly head.
+
+## C4 — The skeleton's tree rings: Harris lines inside the bone-age model (baseline)
+
+1. **Neighbors.** (i) Suter et al., “Technical note: standardized and semiautomated Harris lines detection,” *Am J Phys Anthropol* 2008, DOI `10.1002/ajpa.20901`: built semiautomated line detection on archaeological tibial radiographs, detecting about two-thirds of consensus lines and requiring manual validation for the remainder. (ii) Lee et al., “Fully Automated Deep Learning System for Bone Age Assessment,” *J Digit Imaging* 2017, DOI `10.1007/s10278-017-9955-8`: built an automated hand-radiograph bone-age pipeline and used occlusion maps, without naming Harris lines. (iii) Larson et al., “Performance of a Deep-Learning Neural Network Model in Assessing Skeletal Maturity on Pediatric Hand Radiographs,” *Radiology* 2018, DOI `10.1148/radiol.2017170236`: validated high-performing RSNA-era bone-age prediction but did not intervene on growth-arrest lines.
+2. **Delta.** The candidate would transfer a named paleopathology feature detector to pediatric hand films and suppress only detected bands to test model use; prior work either detects Harris lines in other long bones or explains bone-age models only at coarse regional level.
+3. **Why not done.** `BLIND_SPOT` — Harris-line work sits mainly in anthropology/paleopathology, while bone-age AI optimizes maturation accuracy; the disciplinary split left incidental growth-arrest records outside model-interpretation studies.
+4. **Verdict.** `NO_DUPLICATE_FOUND_LIMITED_SEARCH` — no duplicate was found, but the naming claim is fragile: the closest detector required human correction and was validated on tibiae, not pediatric radii/ulnae. A focused full-text bone-age XAI audit and a valid annotation-free detector are still required.
+
+## C5 — The cage remembers the hyperinflation: barrel chest inside the emphysema score (baseline)
+
+1. **Neighbors.** (i) Sverzellati et al., “Computed Tomography Measurement of Rib Cage Morphometry in Emphysema,” *PLoS One* 2013, DOI `10.1371/journal.pone.0068546`: quantified rib-cage geometry in 816 smokers and modeled its relationship with emphysema and anthropometrics. (ii) Lim et al., “Altered Thoracic Cage Dimensions in Patients with Chronic Obstructive Pulmonary Disease,” *Tuberc Respir Dis* 2018, DOI `10.4046/trd.2017.0095`: found higher AP diameter/AP-to-transverse ratio in COPD, with BMI independently important. (iii) González et al., “Emphysema subtyping on thoracic computed tomography scans using deep neural networks,” *Sci Rep* 2023, DOI `10.1038/s41598-023-40116-6`: automated emphysema subtype/severity scoring and visualized dense activation maps, but confined inputs to lung crops and did not test cage geometry.
+2. **Delta.** The candidate conditionally probes and erases measured cage-geometry directions in a frozen whole-volume emphysema model; morphometry studies establish association and emphysema-AI studies classify lung appearance, but neither tests independent model use of the cage.
+3. **Why not done.** `BLIND_SPOT` — emphysema AI is usually lung-cropped or interpreted through parenchymal attenuation, while thoracic morphometry is treated as COPD biomechanics; whole-volume model reliance falls between those framings.
+4. **Verdict.** `NO_DUPLICATE_FOUND_LIMITED_SEARCH` — no direct duplicate was found, but representation erasure does not cleanly identify causal use and the morphometry literature shows strong sex/BMI dependence. The novelty search is adequate for neighbors but confidence in the claimed delta is limited until a stronger intervention or full representation-causal audit is found.
+
+| Candidate | Verdict | Why-not-done code |
+|---|---|---|
+| C1 | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C2 | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C3 | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C4 | NO_DUPLICATE_FOUND_LIMITED_SEARCH | BLIND_SPOT |
+| C5 | NO_DUPLICATE_FOUND_LIMITED_SEARCH | BLIND_SPOT |
+>>>>>>> d3e824e (cycle 016: novelty_audit done)
