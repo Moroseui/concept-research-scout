@@ -31,7 +31,7 @@
 - [isles24] **idea-029** [REJECTED] -- The ground truth remembers the algorithm that drafted it
 - [isles24] **idea-030** [REJECTED] -- The ground truth was drawn on a swollen brain
 - [isles24] **idea-031** [REJECTED] -- The vascular detour the segmentation model can see
-- [isles24] **idea-032** [SHORTLISTED] -- The arterial network's spare route
+- [isles24] **idea-032** [REJECTED] -- The arterial network's spare route
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
