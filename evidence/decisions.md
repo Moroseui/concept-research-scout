@@ -414,3 +414,42 @@ through the normal pipeline. Idea 004 is complete: contract v2
 executed validly (425 pairs, 850 volumes, 5 sessions, anchors at zero
 deviation), results merged via the record-result gate, interpretation
 cross-family reviewed and here ratified.
+
+## 2026-08-17 - Ideas 021 and 023: human inspection questions answered
+
+Idea 021 (contralateral ruler): the debate question - can any
+non-reference mechanism produce increased affected-side deficit under
+healthy-side up-scaling while passing all gates - is answered NO for
+the card as revised. The revised design freezes normalization
+constants from each unedited case and verifies bit-for-bit identity
+of affected-side network inputs, which excludes the strongest
+candidate (per-instance normalization coupling) by construction; the
+mirror-over-global margin and the monotone SIGNED dose-response
+discriminate against real cross-hemisphere physiology (collateral
+supply predicts the opposite sign) and generic nonlocal mechanisms.
+Independent review:
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md.
+Operator notes: edits are perfusion-map value edits, not raw-image
+brightness; half-masking and mirror-symmetrization are rejected as
+confirmatory arms on distribution-realism grounds, with
+mirror-symmetrization recorded as a possible exploratory successor.
+Conditions forwarded to feasibility: verify the target model
+normalization implementation, that it consumes finished maps rather
+than re-deriving from 4D source, and its receptive-field span.
+Feasibility is authorized.
+
+Idea 023 (CBV/MTT compensation state): the debate question - can an
+outcome-derived change point operationalize the phrase autoregulatory
+blood-volume reserve - is answered NO. The construct is defined by a
+vasodilatory challenge; baseline maps cannot reveal remaining
+dilation capacity (operator-confirmed understanding: a snapshot
+cannot show how much further vessels can open); ISLES24 contains no
+challenge data. Claim language is fixed as an outcome-associated
+joint CBV/MTT decision boundary; the card disclaimer is ratified as
+binding; physiological naming requires a successor with
+challenge-based validation. Additional condition forwarded to
+feasibility: the memo MUST include a prior-art section on map-editing
+and counterfactual-perturbation mechanisms in medical imaging and a
+concrete stay-in-distribution edit strategy with numbers; absence of
+workable precedent is a legitimate feasibility kill. Feasibility is
+authorized under the reduced claim.
