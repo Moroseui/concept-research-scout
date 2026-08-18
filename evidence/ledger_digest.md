@@ -1,6 +1,6 @@
 # Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)
 
-114 tracked ideas. Latest state per idea; full history in ledger.jsonl.
+122 tracked ideas. Latest state per idea; full history in ledger.jsonl.
 
 ## Known failure modes (kill-code frequency)
 
@@ -25,24 +25,25 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-016-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-18] -- Name the noise the kernel writes: the mediator behind idea 004's reconstruction shifts
 - **isles24-scout-001-c07** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-16] -- Does the model mistake the end of the scan for the end of the bolus?
 - **isles24-scout-002-c07** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-16] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
-- ... and 60 more (python scout.py backlog)
+- ... and 68 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- regional-substitution: 15
-- counterfactual-synthesis: 13
+- regional-substitution: 17
+- counterfactual-synthesis: 15
 - conditional-observational: 12
-- representation-erasure: 8
+- representation-erasure: 9
 - natural-paired: 4
 - longitudinal-within-subject: 4
-- model-output-perturbation: 3
-- regional-removal: 2
+- model-output-perturbation: 4
+- regional-removal: 3
 - cross-reconstruction: 2
 - cross-model-disagreement: 1
 - other:remote-perturbation: 1
+- other:graph-edge-intervention: 1
 
 ## Ideas
 
@@ -87,6 +88,14 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-002-c06** [SCOUT_ONLY/SCOUTED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - **isles24-scout-002-c07** [SCOUT_ONLY/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
 - **isles24-scout-002-c08** [SCOUT_ONLY/SCOUTED/wide] -- Has the deficit percolated? Volume is what the metric sees; connectivity may be what the model uses
+- **isles24-scout-003-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
+- **isles24-scout-003-c02** [SCOUT_ONLY/SCOUTED/baseline] -- How much artery did the clot occupy?
+- **isles24-scout-003-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The arterial network's spare route
+- **isles24-scout-003-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The blood's grayscale oxygen gauge
+- **isles24-scout-003-c05** [SCOUT_ONLY/SCOUTED/baseline] -- When vanished sulci mean rescue, not death
+- **isles24-scout-003-c06** [SCOUT_ONLY/SCOUTED/wide] -- The bolus spreads like dye in a river
+- **isles24-scout-003-c07** [SCOUT_ONLY/SCOUTED/wide] -- Does the model price the last mile of blood delivery?
+- **isles24-scout-003-c08** [SCOUT_ONLY/SCOUTED/wide] -- The skull is a fixed-volume pressure vessel
 - **scout-001-c05** [SHORTLISTED/?/baseline] -- (untitled)
 - **scout-001-c06** [SHORTLISTED/?/baseline] -- (untitled)
 - **scout-001-c07** [SHORTLISTED/?/baseline] -- (untitled)

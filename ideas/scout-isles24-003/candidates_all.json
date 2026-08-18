@@ -1,0 +1,801 @@
+{
+  "cycle": 3,
+  "charter": "isles24",
+  "tracks": [
+    "baseline",
+    "wide"
+  ],
+  "notes": {
+    "search_mode_missing": 3
+  },
+  "candidates": [
+    {
+      "id": "isles24-scout-003-c01",
+      "parent_ids": [],
+      "search_mode": "A",
+      "entry_point": 2,
+      "title": "Did preprocessing teach the winner to read the disappearing insular ribbon?",
+      "question": "Is an ISLES'24 final-infarct model using loss of gray-white differentiation in the insular ribbon and basal ganglia as a map of already injured tissue?",
+      "rung": "Target rung 1: use of an automated gray-white attenuation-contrast measurement; rung 2 requires center-held-out replication and convergence across at least two model families.",
+      "deliverable_sentence": "The final-infarct model is using loss of gray-white differentiation in established ASPECTS regions as an acute-tissue-injury signal.",
+      "X_measurement": "Register an ASPECTS atlas automatically, erode each region, and compute the affected-to-mirrored difference in gray-matter versus adjacent white-matter HU contrast; automated contralateral densitometry is described by Takahashi et al. (PMID 26158082), while automated ASPECTS systems provide directly executable precedents (DOI 10.3174/ajnr.A5889; DOI 10.1002/hbm.25845). Compute-today test: YES on any unseen NCCT using an atlas, midsagittal reflection, tissue masks, and HU arithmetic; no new annotator.",
+      "suspected_signal": "Cytotoxic edema blurs the normally higher attenuation of cortex and deep gray matter relative to white matter; the winning recipe's large preprocessing gain makes a low-contrast NCCT cue a plausible unfinished story, although the gain itself does not prove this cue caused it (arXiv:2505.18424).",
+      "use_vs_association": "Selective representation erasure: learn a gray-white-contrast direction from held-out-free training cases, remove it at inference while preserving decodability of Tmax burden, lesion side, and global HU, and require a region-specific fall in predicted infarct probability beyond norm-matched random directions; an input-space contrast-restoration dose response is a secondary corroboration.",
+      "keystone_prerequisite": "A frozen ISLES'24 model that actually consumes quantitative NCCT achieves non-trivial held-out performance and exposes a representation in which gray-white contrast can be erased without destroying perfusion severity or anatomy.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearby facts—NCCT is released and a winning method used custom windowing—do not establish that the reproduced model uses NCCT or that erasure is selective. Those are the real Stage-0 gates.",
+      "rung_reached": "0; rung 1 after selective erasure plus concordant input dose response; rung 2 after model-family and center replication.",
+      "dies_like_prior": "Resembles idea-010 (CIRCULARITY), because early injury and final infarct are related. It differs by testing use of a named continuous image contrast while holding perfusion information and anatomy decodable; merely detecting an acute lesion is insufficient to pass selective erasure and graded restoration.",
+      "closest_prior_work": "Automated ASPECTS work detects early ischemic change on NCCT (PMID 30498017; PMID 35357053), and the winning ISLES paper reports preprocessing-dependent performance (arXiv:2505.18424). Neither tests whether a final-infarct model uses regional gray-white contrast. This is a targeted gap, not a verified novelty claim.",
+      "existing_assets": "Public NCCT and registered perfusion maps for 149 cases; automated ASPECTS and densitometry precedents; reproducible nnU-Net family; official metrics.",
+      "smallest_decisive_experiment": "Freeze a center-stratified split; train one NCCT+perfusion model and require prespecified improvement over its perfusion-only twin. On 40 held-out cases, run selective erasure and three-level contrast restoration with random-direction and mirrored-unaffected controls. Roughly 30-50 GPU-hours and 7-10 days to first decision.",
+      "standing_confounds_addressed": "Within-case mirroring controls patient, scanner, site, habitus, and prevalence; frozen split prevents leakage; perfusion decodability tests gross collateral damage. Reconstruction and beam hardening are not fully ruled out and require region/site stratification. Follow-up label provenance does not enter the primary paired output change.",
+      "alternative_explanations": [
+        "Erasure removes generic lesion severity; ruled against by preserved Tmax/core-volume decodability and random directions.",
+        "The response is an edit artifact; bounded by physiologic contrast ranges, discriminator checks, and agreement with representation erasure.",
+        "Windowing rather than biology explains the signal; this remains a model-mechanism explanation at rung 1 and forbids a claim that the model measures irreversible core."
+      ],
+      "anticipated_negative": "Decisive only after the NCCT incremental-performance and erasure-selectivity gates; otherwise sensitivity-limited. A gated null shows that the preprocessing success did not translate into use of this radiologist-recognized cue.",
+      "remaining_legwork": "2 days for archive/input census, 4-6 days for twin models, 3 days for probes: 7-10 days.",
+      "design_template": "representation-erasure",
+      "entry_point_2_requirements": "Measurement: mirrored ASPECTS-region gray-white HU contrast. Confused artifact: reconstruction noise and beam hardening; quantify local noise, stratify by site/region, and include unaffected-side controls.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One named radiologic sign, one quantitative measurement, and a directional intervention."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Dual representation/input evidence is promising, but selective erasure and reconstruction effects remain unverified."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Gray-white loss is a core acute-stroke reading task and bears on what the model calls already injured."
+        },
+        "interest": {
+          "value": 4,
+          "why": "It gives a physiological candidate explanation for the winner's preprocessing-dependent gain."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Measurement and model recipes exist; the actual trained audit model does not."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because the true model/representation keystone is not inspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Required public modalities exist, though the archive is large."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Official segmentation metrics exist; selectivity gates are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Useful after the explicit NCCT contribution and sensitivity gates."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Targeted primary-source search found adjacent detection and challenge work, not this audit; not exhaustive."
+        },
+        "regret": {
+          "value": 4,
+          "why": "A large preprocessing effect and an established radiologic signal are one experiment apart."
+        }
+      },
+      "priority_score": 3.65,
+      "unverified_claims": [
+        "NCCT provides incremental performance in the reproduced model",
+        "quantitative HU survives released preprocessing",
+        "selective representation erasure is achievable",
+        "novelty beyond targeted search"
+      ],
+      "plain_pitch": "Radiologists look for fading contrast between gray and white brain tissue as an early sign of stroke injury. This study asks whether a final-infarct model uses that same sign, rather than merely benefiting from better-looking scans. If true, selectively removing that contrast signal would change predictions in the affected regions while leaving perfusion information intact.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-003-c02",
+      "parent_ids": [],
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "How much artery did the clot occupy?",
+      "question": "Is an ISLES'24 model using clot burden—the length and arterial extent of the occlusion—to predict how much threatened tissue survives reperfusion?",
+      "rung": "Target rung 1; rung 2 requires replication across centers and agreement between geometric and artery-segment clot-burden measurements.",
+      "deliverable_sentence": "The final-infarct model is using clot burden—the length and arterial extent of the occlusion—beyond the downstream perfusion deficit.",
+      "X_measurement": "Compute centerline clot length and an automated modified clot-burden score from the CTA/LVO mask: subtract involved intracranial ICA/M1/M2 segments from a 10-point arterial template. CTA clot burden is an established quantitative construct (PMID 25804568); automatic centerline length requires only the released occlusion mask plus vessel segmentation. Compute-today test: YES if the mask encodes full thrombus extent; that file-level semantic is the keystone.",
+      "suspected_signal": "A longer, more proximal clot blocks more arterial branches, carries more fibrin/red-cell material, and is harder to clear quickly; even among successfully reperfused patients it can prolong tissue ischemia and leave a larger final infarct.",
+      "use_vs_association": "Regional substitution changes only clot extent along the automatically segmented arterial centerline while keeping occlusion site, perfusion maps, distal vessel image, and all clinical variables fixed; a monotone output response beyond equal-volume vessel and nonvessel shams tests use rather than label association.",
+      "keystone_prerequisite": "The released LVO mask delineates enough of the thrombus extent—not merely an occlusion point—to support stable automatic clot-length and burden measurements.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The dataset paper verifies that vessel-occlusion masks exist, but not their voxel semantics or post-erosion extent. Treating that nearby fact as the keystone would repeat the program's wrong-keystone error.",
+      "rung_reached": "0; rung 1 after mask census and gated substitution; rung 2 after two-site and two-measurement replication.",
+      "dies_like_prior": "Most resembles idea-016 (IDENTIFIABILITY_FAILURE), where contrast flow covaried with disease and protocol. Here the confirmatory edit freezes perfusion, timing, site, and occlusion location and changes only thrombus extent; the remaining threat is edit realism, not protocol confounding.",
+      "closest_prior_work": "Clinical studies relate CTA clot burden and NCCT clot characteristics to outcome (PMID 25804568; PMID 27576312). They do not hold the downstream perfusion shadow fixed or audit model use. The exact delta is a within-case use test in a final-infarct model; novelty remains unaudited.",
+      "existing_assets": "Co-registered NCCT/CTA/CTP, stated LVO masks, 149 final-infarct cases, vessel-segmentation tools, and official output metrics.",
+      "smallest_decisive_experiment": "Inspect all mask headers and 30 random masks; require at least 60 usable full-extent masks and inter-perturbation clot-length ICC >=0.85. On 30 held-out usable cases, apply +/-25% and +/-50% centerline-extent substitutions and shams. Five days after a trained model; under 15 GPU-hours for inference.",
+      "standing_confounds_addressed": "Within-case edits fix scanner, vendor, protocol, site, positioning, habitus, prevalence, referral, and treatment covariates; fixed perfusion maps block the dominant hemodynamic mediator. They do not rule out an artificial vessel-discontinuity cue or CTA registration artifacts; centerline-continuity and discriminator gates address but cannot eliminate these.",
+      "alternative_explanations": [
+        "The model reacts to vessel discontinuity, not clot burden; continuity-preserving inpainting and equal-length contralateral vessel shams test this.",
+        "Clot edits are out of distribution; changes are bounded to observed within-site length and attenuation distributions.",
+        "The model uses occlusion site; site and proximal endpoint remain fixed."
+      ],
+      "anticipated_negative": "Decisive if mask, realism, and positive-control gates pass: a null would show the model reads the downstream perfusion consequence but not clot extent itself.",
+      "remaining_legwork": "2 days mask census, 2 days vessel-centerline QA, 3-5 days interventions: about one week after the shared model exists.",
+      "design_template": "regional-substitution",
+      "entry_point_2_requirements": "Measurement: centerline clot length and modified clot-burden score. Confused artifact: vessel segmentation breaks and CTA bolus timing; require continuity QA and use geometry rather than absolute enhancement as primary X.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "Clot length/segment burden and monotone response are explicit."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Holding perfusion and site fixed isolates clot geometry unusually well, conditional on realistic editing."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Clot burden affects treatment difficulty and infarct evolution."
+        },
+        "interest": {
+          "value": 4,
+          "why": "Tests whether multimodal models look upstream at the cause or only downstream at perfusion."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Clinical measures exist, but automatic mask semantics and editing are unfinished."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped by uninspected mask semantics."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Public, but useful-case count is unknown."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired output change is direct; edit-validity gates are custom."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A gated null cleanly distinguishes upstream clot use from downstream perfusion use."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "No model-use study found in targeted search; not proof of novelty."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The stated occlusion masks make this an unusually cheap upstream-versus-downstream test if their semantics hold."
+        }
+      },
+      "priority_score": 3.8,
+      "unverified_claims": [
+        "LVO masks encode full thrombus extent",
+        "at least 60 usable cases",
+        "realistic continuity-preserving edits",
+        "exact novelty"
+      ],
+      "plain_pitch": "A clot can block a short piece of one artery or occupy a long stretch with several branches. The study asks whether the model uses that clot burden itself, beyond the perfusion deficit the clot creates. If true, changing only the apparent clot extent while freezing perfusion would shift the predicted final infarct.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-003-c03",
+      "parent_ids": [],
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The arterial network's spare route",
+      "question": "Is an ISLES'24 model using Circle-of-Willis graph redundancy—the number and caliber of patent alternate paths around the occlusion—as a reserve for maintaining flow?",
+      "rung": "Target rung 1 use of a graph-derived image quantity; rung 2 requires external CTA replication and agreement with measured distal collateral filling.",
+      "deliverable_sentence": "The final-infarct model is using Circle-of-Willis alternate-path redundancy as an image marker of proximal collateral reserve.",
+      "X_measurement": "Convert the released multilabel Circle-of-Willis vessel mask to a graph whose edge weights are centerline minimum radii; remove the occluded edge and compute edge-disjoint source-to-territory paths plus max flow. Compute-today test: YES on an unseen CTA with a multilabel mask, using deterministic skeletonization and graph algorithms; no human labels. Clinical CTA work defines complete, nonisolating-incomplete, and isolating-incomplete variants (PMID 39788631).",
+      "suspected_signal": "The Circle of Willis is a hydraulic network: communicating arteries provide parallel routes around a proximal blockage, so topology and caliber determine whether pressure can reach the threatened territory before leptomeningeal routes are recruited.",
+      "use_vs_association": "Graph-edge intervention: render patent-to-hypoplastic and hypoplastic-to-patent communicating-artery variants within each case while preserving the occlusion, distal CTA enhancement, brain images, and perfusion maps; require output changes predicted by the signed change in alternate-path capacity and absent for topology-neutral vessel-caliber shams.",
+      "keystone_prerequisite": "The released multilabel Circle-of-Willis masks accurately distinguish communicating-artery branches and calibers in enough cases for graph edits to represent real anatomic variants rather than segmentation artifacts.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The Zenodo description's existence claim for automated Circle-of-Willis masks is not evidence of branch-level fidelity. Accuracy, coverage, and usable variant counts are the load-bearing facts.",
+      "rung_reached": "0; rung 1 after mask-fidelity and graph-edit gates; rung 2 after external CTA and distal-filling agreement.",
+      "dies_like_prior": "Resembles idea-009 (IDENTIFIABILITY_FAILURE), which tried to interpret vascular geometry amid age, disease, and acquisition. This design changes graph connectivity within case while freezing those factors and the perfusion field. It also differs from isles24-scout-001-c02: that candidate tests distal collateral reach; this one tests proximal network redundancy upstream of that reach.",
+      "closest_prior_work": "Large CTA studies establish Circle-of-Willis variation frequencies (DOI 10.1016/j.wneu.2017.07.084) and association of variant classes with outcome after successful revascularization (PMID 39788631). They do not audit final-infarct models or intervene on graph topology. Exact novelty is unverified.",
+      "existing_assets": "CTA, stated automatic multilabel Circle-of-Willis masks, LVO masks, perfusion maps, two centers, standard skeleton/graph algorithms.",
+      "smallest_decisive_experiment": "Stage 0: visually inspect only for tool QA—not new labels—30 masks and quantify graph validity automatically in all cases; require >=20 cases in each of two common editable variant families and stable edge radii under one-voxel perturbation. Then run paired edge interventions on 40 held-out cases. Ten to fourteen days, under 20 GPU-hours after model training.",
+      "standing_confounds_addressed": "Within-case intervention holds scanner, vendor, protocol, site, age, habitus, referral, and label prevalence; fixed perfusion separates direct CTA topology use from its existing downstream consequence. It does not fully rule out synthetic-vessel artifacts or CTA phase effects. No new annotation burden is required; visual inspection is QA, not an input or endpoint.",
+      "alternative_explanations": [
+        "The model detects added bright voxels; topology-neutral added-vessel shams match volume and intensity.",
+        "The model uses vessel caliber generally, not alternate paths; edits with equal total vessel volume but different connectivity discriminate them.",
+        "Automatic masks hallucinate variants; graph-validity and raw-CTA agreement gates must pass before inference."
+      ],
+      "anticipated_negative": "Sensitivity-limited if editable variant support is thin; decisive after topology, realism, and positive-control gates. A gated null says the model ignores a proximal collateral route already visible in CTA.",
+      "cross_domain": {
+        "borrowed_construct": "Network robustness and max-flow/min-cut from graph theory.",
+        "measurement_it_implies": "Edge-disjoint paths and caliber-weighted max flow after deleting the occluded edge.",
+        "what_changes_if_dropped": "The study could fall back to coarse complete/incomplete anatomy classes, but it would lose the graded intervention and most of its identifiability."
+      },
+      "remaining_legwork": "3 days mask/variant census, 3 days graph validation, 4-6 days renderer and inference: roughly two weeks.",
+      "design_template": "other:graph-edge-intervention",
+      "design_template_justification": "The causal unit is graph connectivity, not a contiguous image region; none of the named templates captures matched edge addition/removal with topology-neutral shams.",
+      "entry_point_2_requirements": "Measurement: caliber-weighted alternate-path capacity. Confused artifact: CTA phase and automated branch hallucination; fixed within-case intensity plus raw-CTA/mask agreement gates address them.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "The graph quantity is precise, though rendering rules need Stage-0 freezing."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Connectivity-changing versus volume-matched topology-neutral edits isolate the claimed graph property."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Alternate arterial routes are a plausible determinant of tissue survival during occlusion."
+        },
+        "interest": {
+          "value": 5,
+          "why": "It asks whether the network model has learned a literal vascular-network robustness calculation."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Masks are stated and graph tools are mature; fidelity and rendering are not."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped by uninspected mask fidelity and variant support."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Public but archive-level mask properties unknown."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Signed paired response is simple; image-validity tests are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Strong only if enough real variant support and edit sensitivity are shown."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Adjacent anatomy/outcome papers found, no use audit; formal audit pending."
+        },
+        "regret": {
+          "value": 5,
+          "why": "A released multilabel arterial graph makes an otherwise difficult mechanism unusually testable."
+        }
+      },
+      "priority_score": 3.8,
+      "unverified_claims": [
+        "branch-level mask fidelity",
+        "sufficient editable variant families",
+        "model consumes CTA effectively",
+        "synthetic graph edits are in distribution",
+        "novelty"
+      ],
+      "plain_pitch": "The arteries at the base of the brain form a loop that can route blood around a blockage. This study turns that loop into a graph and asks whether the model uses the number and size of spare routes. If true, changing connectivity while keeping the total amount of visible vessel and the perfusion maps fixed would change the prediction in the direction expected from the new route.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-003-c04",
+      "parent_ids": [],
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The blood's grayscale oxygen gauge",
+      "question": "Is an ISLES'24 model using dural-sinus blood attenuation on noncontrast CT as an image proxy for hematocrit and therefore oxygen-carrying capacity?",
+      "rung": "Mode C target rung 1: use of sinus attenuation, not a claim of measured anemia; rung 2 requires measured hematocrit in an external cohort.",
+      "deliverable_sentence": "The final-infarct model is using noncontrast-CT attenuation of venous blood as an image proxy for oxygen-carrying capacity.",
+      "X_measurement": "Automatically segment the superior sagittal/straight sinuses on NCCT and take median HU after erosion, normalized to scanner noise and, secondarily, arterial blood HU. In 166 NCCTs, sinus attenuation correlated with hematocrit and hemoglobin (PMID 21566009). Compute-today test: YES with an automatic atlas/segmentation and HU measurement; no annotator, though quantitative-HU integrity is unverified.",
+      "suspected_signal": "Red-cell concentration raises unenhanced blood attenuation and determines arterial oxygen content; at the same CBF, lower hematocrit delivers less oxygen, potentially accelerating tissue death before reperfusion.",
+      "use_vs_association": "Remote regional removal/substitution: replace only dural-sinus voxels with intensity-matched surrounding blood values across a physiologic HU dose range while leaving brain, arteries, CTA, CTP, and clinical inputs unchanged; require affected-territory prediction changes, a signed dose response, and null responses to equal-volume skull and extracranial-vein shams.",
+      "keystone_prerequisite": "Released NCCT retains quantitative intravascular HU and contains enough artifact-free dural-sinus voxels for sinus attenuation to rank hematocrit rather than reconstruction/site.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The primary hematocrit paper proves the relationship in clinical NCCT, not in resampled ISLES derivatives. No ISLES laboratory hematocrit field has been verified, so the card cannot claim physiological validation within this dataset.",
+      "rung_reached": "0; rung 1 after remote dose-response and site robustness; rung 2 only with external measured-hematocrit validation.",
+      "dies_like_prior": "Resembles idea-010 (CIRCULARITY) least and idea-016 (IDENTIFIABILITY_FAILURE) most: blood HU can be a scanner/protocol effect. Within-scan substitution, local noise normalization, site stratification, and remote shams address protocol; external hematocrit is explicitly required before naming anemia rather than image-proxy use.",
+      "closest_prior_work": "Black et al. established the sinus-HU/hematocrit relation (PMID 21566009). Stroke physiology links oxygen delivery to CBF times arterial oxygen content, but no primary model-use paper was found that tests whether final-infarct networks read blood HU. This is speculative and not a novelty claim.",
+      "existing_assets": "NCCT, multimodal final-infarct target, deterministic sinus HU formula, atlas/segmentation methods, two-site structure.",
+      "smallest_decisive_experiment": "Stage 0 on all 149 NCCTs: require >=120 measurable sinuses, between-site standardized-mean difference <0.5 after noise normalization, and test-retest ICC >=0.9 across one-voxel erosions. Then run three-dose substitutions on 40 held-out cases. Three to five days after model training; under 10 GPU-hours.",
+      "standing_confounds_addressed": "Within-case edits fix anatomy, scanner, vendor, protocol, site, habitus, prevalence, referral, and labels; site/noise gates test quantitative portability. They do not establish that HU equals hematocrit in ISLES, exclude unrecorded contrast contamination, or distinguish hematocrit from other blood-composition effects.",
+      "alternative_explanations": [
+        "The model reacts to any remote bright structure; skull and extracranial-vein shams test this.",
+        "Sinus HU is reconstruction/site, not blood composition; within-case dose response can establish use but not physiology, hence the rung-1 wording.",
+        "The local network has no receptive field from sinus to lesion; receptive-field inspection is an early feasibility gate, and a null is uninterpretable if coverage fails."
+      ],
+      "anticipated_negative": "Sensitivity-limited unless receptive-field and positive-control gates pass; with them, a null is useful evidence that the model does not exploit this globally available physiologic proxy.",
+      "cross_domain": {
+        "borrowed_construct": "Oxygen-delivery accounting from hematology: delivery is blood flow multiplied by arterial oxygen content.",
+        "measurement_it_implies": "Unenhanced venous-blood HU as an image proxy for red-cell concentration.",
+        "what_changes_if_dropped": "Without the hematology link, the experiment becomes an uninteresting remote-intensity shortcut audit and should be killed."
+      },
+      "remaining_legwork": "2 days HU/site census, 1 day receptive-field check, 2 days interventions: under one week after model availability.",
+      "design_template": "regional-removal",
+      "entry_point_2_requirements": "Measurement: median eroded dural-sinus HU. Confused artifact: reconstruction/site and partial-volume skull; local noise normalization, erosion, and site gates are mandatory.",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 5,
+          "why": "Named physical chain: red-cell concentration to HU and oxygen content, with an exact measurement."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Use of HU can be identified, but physiological hematocrit attribution cannot within ISLES alone."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A routine grayscale value functioning as an oxygen gauge is surprising and falsifiable."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Oxygen delivery matters biologically, but clinical consequence is indirect without laboratory validation."
+        },
+        "clarity": {
+          "value": 5,
+          "why": "One remote region, one scalar, one signed dose response."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "The HU relationship is established; ISLES validation and model assets remain."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Reported outside Mode C score and capped by quantitative-HU uncertainty."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "NCCT is public; lab hematocrit and HU fidelity are not verified."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired response is ready; proxy-validity gates are custom."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "A null remains sensitivity-limited if the model architecture lacks global receptive coverage."
+        },
+        "novelty_confidence": {
+          "value": 2,
+          "why": "Only targeted searching was performed."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Very cheap and memorable, but the physiology may not survive dataset preprocessing."
+        }
+      },
+      "mode_c_priority_score": 4.15,
+      "unverified_claims": [
+        "quantitative sinus HU fidelity",
+        "absence of contrast contamination",
+        "receptive-field coverage",
+        "sinus HU ranks hematocrit in this cohort",
+        "novelty"
+      ],
+      "plain_pitch": "Red blood cells make blood look denser on an unenhanced CT scan, and their concentration affects how much oxygen reaches threatened brain tissue. This speculative test asks whether the model reads the large venous sinuses as a crude oxygen gauge. A true result would be a graded change in lesion predictions when only sinus density is altered, but it would not by itself prove that the model has measured anemia.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-003-c05",
+      "parent_ids": [],
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "When vanished sulci mean rescue, not death",
+      "question": "Is an ISLES'24 multimodal model using isolated sulcal effacement with preserved gray-white junction as a sign of viable tissue supported by engorged collaterals?",
+      "rung": "Mode C target rung 1 use of an automatic isolated-effacement index; rung 3 language about viable collateral-supported tissue requires external physiological validation.",
+      "deliverable_sentence": "The final-infarct model is using isolated sulcal effacement with preserved gray-white differentiation as a tissue-survival signal.",
+      "X_measurement": "Within the Tmax-delayed territory, automatically quantify affected/mirrored sulcal CSF fraction from NCCT and retain voxels whose local gray-white HU contrast is within 1 SD of the mirror; combine this with CTA pial-vessel volume in the same region. The clinical sign and its association with preserved tissue were reported in 108 LVO cases, 8 with isolated sulcal effacement and no follow-up infarct in the effaced area (PMID 25931460). Compute-today test: YES from registered NCCT, CTA, and Tmax using automatic CSF/tissue/vessel segmentation; no annotator.",
+      "suspected_signal": "Dilated leptomeningeal collateral vessels can crowd cerebrospinal-fluid spaces and efface sulci while preserving underlying tissue attenuation; unlike edema-driven effacement, this pattern may mark robust collateral filling and reversibility.",
+      "use_vs_association": "Counterfactual synthesis swaps the local triad—sulcal CSF fraction, pial-vessel occupancy, and preserved gray-white contrast—between matched delayed territories while holding Tmax/CBF/CBV, tissue location, and total edited volume fixed. A survival-directed output change must occur only for the coherent triad, not isolated CSF deletion or vessel addition.",
+      "keystone_prerequisite": "ISLES'24 contains enough automatically detectable isolated-sulcal-effacement territories, and single-phase CTA plus NCCT can distinguish the collateral-engorgement pattern from edema and registration error without new expert labels.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The published sign occurred in only 7.4% of a selected LVO cohort. With 149 ISLES cases, expected support may be single digits, and the automatic construct has never been validated here; this is the real keystone.",
+      "rung_reached": "0; rung 1 after support, construct, and coherent-triad gates; rung 3 only with external multiphase/dynamic collateral validation.",
+      "dies_like_prior": "Resembles idea-005's ANNOTATION_PROVENANCE risk if a radiologist's call defines the sign. This card avoids annotator-dependent input by prespecifying an image-computable triad, but construct validity is weaker and honestly capped. It also differs from isles24-scout-001-c02 by testing a parenchymal-sulcal sign of collateral support rather than distal arterial reach itself.",
+      "closest_prior_work": "The primary case series defined isolated sulcal effacement and linked it to engorged leptomeningeal vessels and spared follow-up tissue (PMID 25931460). Quantitative CTA collateral scoring is acquisition-phase sensitive (PMID 29674417). No located work tests model use of the coherent sign; the rarity and phase dependence make this a deliberately speculative candidate.",
+      "existing_assets": "Registered NCCT/CTA/perfusion maps, final MRI masks, automatic tissue and vessel segmentation tools, and a precise prior clinical phenotype.",
+      "smallest_decisive_experiment": "Stage 0 on all 149 cases: compute the triad blind to outcomes; require >=15 territories meeting fixed thresholds, stable detection under registration perturbation, and stronger ipsilateral pial-vessel occupancy without reduced gray-white contrast. If passed, run coherent and incoherent edits on the held-out subset. Two weeks; under 15 GPU-hours after model training.",
+      "standing_confounds_addressed": "Within-territory matched edits hold scanner, vendor, protocol, site, habitus, prevalence, and referral; fixed perfusion maps separate the sulcal sign from measured delay/flow. CTA phase, edema, registration, and rarity remain major threats. Follow-up labels are secondary; primary evidence is paired model-output change.",
+      "alternative_explanations": [
+        "Effacement is edema, not collateral engorgement; preserved gray-white contrast plus pial-vessel occupancy is the discriminating conjunction.",
+        "Single-phase CTA catches different bolus phases; within-case affected/mirror ratios help but cannot fully solve this.",
+        "The coherent edit is simply more complex; each incoherent component and equal-volume controls quantify generic edit response."
+      ],
+      "anticipated_negative": "Uninterpretable if fewer than 15 territories or construct gates fail; sensitivity-limited even after gates because the sign is rare. Accordingly negative-result value is capped at 2.",
+      "remaining_legwork": "4-5 days automatic census and stability analysis, 3 days support review, 4-5 days synthesis: about two weeks if the rarity gate passes.",
+      "design_template": "counterfactual-synthesis",
+      "entry_point_2_requirements": "Measurement: low sulcal CSF fraction plus preserved gray-white contrast plus increased pial-vessel occupancy. Confused artifact: edema, registration, and CTA phase; the conjunction, perturbation stability, and within-case ratios address but do not eliminate them.",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 5,
+          "why": "A specific anatomical mechanism—collateral vessels occupying sulci—with three measurable components."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "The coherent-versus-incoherent edit is discriminating, but CTA phase and construct validity remain."
+        },
+        "interest": {
+          "value": 5,
+          "why": "It reverses the usual reading of effacement from injury to possible rescue."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Mistaking reversible tissue for core can affect treatment interpretation."
+        },
+        "clarity": {
+          "value": 4,
+          "why": "The conjunction is explicit but thresholds require preregistration."
+        },
+        "prior_legwork": {
+          "value": 2,
+          "why": "One small clinical series exists; automatic measurement is unvalidated."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "Reported outside Mode C score; rarity may kill it immediately."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "All modalities are public, but support is unknown."
+        },
+        "evaluation_readiness": {
+          "value": 2,
+          "why": "Construct and synthesis gates are custom."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "Capped because rarity makes a null potentially uninterpretable."
+        },
+        "novelty_confidence": {
+          "value": 2,
+          "why": "Targeted search only and a niche sign invites missed literature."
+        },
+        "regret": {
+          "value": 4,
+          "why": "If support exists, ISLES'24 uniquely couples the sign to final tissue fate."
+        }
+      },
+      "mode_c_priority_score": 4.15,
+      "unverified_claims": [
+        "at least 15 qualifying territories",
+        "automatic triad validity",
+        "CTA phase adequacy",
+        "edit realism",
+        "novelty"
+      ],
+      "plain_pitch": "Flattened brain grooves usually sound like swelling and damage, but one rare stroke pattern may instead come from enlarged rescue vessels filling those grooves while the tissue remains intact. This study asks whether the model recognizes that full pattern. It proceeds only if enough cases can be found automatically and if the pattern can be separated from ordinary edema and scan-timing effects.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-003-c06",
+      "track": "wide",
+      "title": "The bolus spreads like dye in a river",
+      "question": "[transport physics / chromatography] Is an ISLES'24 raw-CTP final-infarct model using bolus dispersion—the spreading of contrast arrival times after delay is removed—as a marker of collateral path complexity?",
+      "deliverable_sentence": "The final-infarct model is using local bolus dispersion, beyond mean arrival delay and perfusion-map severity, when predicting tissue fate.",
+      "cross_field": {
+        "borrowed_construct": "Advection-dispersion from transport physics and chromatography: a tracer pulse broadens as paths of different lengths mix.",
+        "measurement_it_implies": "Deconvolve the tissue time-attenuation curve by the arterial input, align its first moment, and measure the second central moment and full width at half maximum of the nonnegative residue/transport kernel.",
+        "what_changes_if_dropped": "Without advection-dispersion, curve width is an unnamed temporal texture and the signed delay-preserving intervention has no mechanistic interpretation."
+      },
+      "causal_chain": [
+        {
+          "link": "Long, heterogeneous collateral routes broaden the tissue bolus even after mean delay is aligned.",
+          "check": "Test whether the dispersion measure agrees with independently computed dynamic collateral time and is stable to arterial-input placement."
+        },
+        {
+          "link": "Broader transport kernels mark heterogeneous delivery not fully represented by CBF, CBV, MTT, or Tmax.",
+          "check": "Regress dispersion on all four released maps and require substantial within-bin residual variation."
+        },
+        {
+          "link": "A raw-CTP model uses that residual variation.",
+          "check": "Apply delay- and area-preserving curve narrowing/broadening within case and measure paired output change."
+        }
+      ],
+      "X_measurement": "For each parenchymal voxel, baseline-correct the 4D CTP curve, use an automatically selected contralateral proximal arterial input, fit a nonnegative delay-dispersion kernel, and report its second central moment (seconds squared) and full width at half maximum. PMID 29500248 establishes that delay/dispersion correction changes ischemic-core measurement; PMID 37693754 provides a dynamic-CT collateral-time comparator. The formula is automatic and computable today, but its stability on the released 1-frame/s series is uninspected.",
+      "suspected_signal": "Collateral blood takes multiple routes with different transit times; their mixture broadens the contrast pulse, potentially distinguishing slow but coherent delivery from slow, heterogeneous delivery at the same Tmax.",
+      "use_vs_association": "Within each held-out case, convolve or deconvolve only threatened-territory curves with physiologic transport kernels that change variance while preserving area, mean arrival time, baseline, peak support, and the four derived perfusion maps within frozen tolerances; a signed dose response beyond time-shuffled and mean-delay controls tests use rather than association.",
+      "keystone_prerequisite": "A frozen raw-4D-CTP model with non-trivial untouched-case performance is obtainable, and the released temporal sampling supports stable dispersion estimates and map-preserving curve edits.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The dataset contains 4D CTP, but neither a suitable checkpoint nor the identifiability of dispersion at 1-frame/s has been inspected. If the model consumes only parametric maps, this candidate dies rather than silently changing its question.",
+      "dies_like_prior": "It risks the DATA_ACCESS pause of idea-022 because both require an inspectable raw-CTP model; no changed unblock fact is claimed. It also risks IDENTIFIABILITY_FAILURE from delay and truncation, addressed only if mean delay, curve area, acquisition support, and derived maps remain invariant under the edit. Unlike idea-022, the manipulated estimand is kernel width inside a complete curve, not missing end-of-scan frames.",
+      "closest_prior_work": "Lin et al. quantified how delay and dispersion correction changes CTP core estimates (PMID 29500248); Xu et al. quantified collateral time from perfusion CT (PMID 37693754); the ISLES'24 winning-method paper predicts final infarct from multimodal CT (arXiv:2505.18424). These are neighbors, not evidence that a learned model uses dispersion.",
+      "novelty_neighbors": [
+        "Lin L et al., Stroke 2018, DOI 10.1161/STROKEAHA.117.019562, PMID 29500248 — evaluates delay/dispersion correction in classical CTP quantification.",
+        "Xu Y et al., Front Neurol 2023, PMID 37693754 — derives perfusion collateral time and validates it against dynamic CTA.",
+        "ISLES'24 winning solution, arXiv:2505.18424 — final-infarct prediction from challenge imaging, without a reported dispersion-use audit."
+      ],
+      "novelty_delta": "The neighbors measure dispersion effects or train outcome models; the proposed paired audit asks whether the model itself responds to transport-kernel width when delay, area, and standard maps are held fixed.",
+      "why_not_done": "NEW_CAPABILITY: ISLES'24 recently coupled public raw 4D CTP, registered maps, treatment-conditioned follow-up infarct masks, and a reproducible challenge recipe; before that combination, a map-preserving raw-curve use audit was difficult to run publicly.",
+      "novelty_search_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+      "existing_assets": "Public 4D CTP and registered CBF/CBV/MTT/Tmax for 149 training cases; automatic curve fitting; official final-infarct metrics. No qualifying frozen raw-CTP checkpoint has been verified.",
+      "smallest_decisive_experiment": "Stage 0 on 20 cases: estimate kernel width under three arterial-input placements and require ICC >=0.80 plus at least 30% residual interquartile range after conditioning on Tmax and MTT. If a frozen raw-CTP model gate passes, edit 24 untouched cases at three empirically supported width doses, with mean-delay, area, truncation, and map-recomputation tolerances frozen before outputs. Primary readout: paired change in predicted infarct probability mass within edited tissue.",
+      "compute_envelope": "One Colab GPU session after a checkpoint exists: curve fitting and map checks are CPU work; 24 cases x 7 variants = 168 forward passes, targeted under 3 GPU-hours and 16 GB VRAM. Training a new qualifying model is outside this decisive-session budget and is an explicit prior gate.",
+      "standing_confounds_addressed": "Within-case edits freeze patient, center, scanner, treatment, anatomy, and label prevalence. Moment constraints separate dispersion from delay and dose; recomputed-map tolerances separate it from the standard map channels; complete-curve and time-shift controls address truncation. Residual threats are deconvolution regularization and edit realism.",
+      "alternative_explanations": [
+        "The model reads mean delay: held invariant and separately perturbed as a positive control.",
+        "The model reads a standard map changed by the edit: all four maps are recomputed and bounded by frozen tolerances.",
+        "The response is convolution blur: an energy-matched temporally scrambled kernel is the sham."
+      ],
+      "anticipated_negative": "A null is interpretable only after checkpoint, dispersion-reliability, edit-realism, and temporal positive-control gates pass; then it shows that this raw-CTP model reduces temporal information to delay/severity rather than using residual transport width.",
+      "verified_dataset_facts": "Relies on the cycle's primary-source verification: 149 public training cases; acute NCCT, CTA, 4D CTP and CBF/CBV/MTT/Tmax maps; post-treatment infarct masks from follow-up DWI/ADC; CC BY-NC-SA 4.0 on the version-pinned Zenodo record (DOI 10.5281/zenodo.16731717; DOI 10.1148/ryai.250603; official GitHub repository).",
+      "design_template": "counterfactual-synthesis",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One physical moment and one delay-preserving intervention define the question."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Moment and map constraints address the main alternatives, but editable dispersion may not be separable at the released sampling rate."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Collateral transport quality is central to survival of delayed tissue and would affect interpretation of raw-CTP models."
+        },
+        "interest": {
+          "value": 5,
+          "why": "It asks whether a network performs a tracer-transport calculation absent from standard map summaries."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Dispersion and collateral-time methods exist; the model and edit validation do not."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "The raw-CTP checkpoint gate that paused idea-022 remains unresolved."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "The public data exist but are large and temporal adequacy is uninspected."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired deltas are direct; map-invariance and realism gates are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Useful only after stringent sensitivity and edit gates."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Targeted primary-source search found close measurement work but no use audit; not exhaustive."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Raw curves contain information that map-only evaluations discard, making this an obvious audit if the checkpoint gate opens."
+        }
+      },
+      "priority_score": 3.35,
+      "unverified_claims": [
+        "a qualifying raw-CTP checkpoint is obtainable",
+        "dispersion is identifiable at released temporal sampling",
+        "map-preserving curve edits are realistic",
+        "the model has temporal sensitivity",
+        "exact novelty"
+      ],
+      "plain_pitch": "A contrast bolus can arrive late as one compact wave or arrive late after spreading through many routes. This study asks whether a model notices that spreading even when the usual blood-flow maps and average delay are kept the same. If it does, widening only the time curve should change predicted tissue death in a graded direction.",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-003-c07",
+      "track": "wide",
+      "title": "Does the model price the last mile of blood delivery?",
+      "question": "[economic geography / facility location] Is an ISLES'24 model using distance to an arterial-territory border—the vascular network's costly last mile—as a vulnerability factor beyond local perfusion severity?",
+      "deliverable_sentence": "The final-infarct model is using proximity to an arterial border zone as a tissue-vulnerability prior beyond the measured local perfusion deficit.",
+      "cross_field": {
+        "borrowed_construct": "The last-mile cost from economic geography: locations farthest from supply hubs are least redundant and most expensive to serve.",
+        "measurement_it_implies": "A signed geodesic distance transform to subject-specific competing arterial supply fronts, with uncertainty from atlas and vessel-derived territory estimates.",
+        "what_changes_if_dropped": "Without the last-mile construct this becomes generic location bias; the construct supplies the specific prediction that otherwise matched tissue nearer a competing supply boundary receives a different model response."
+      },
+      "causal_chain": [
+        {
+          "link": "Arterial border zones are distal from major supply trunks and may have less pressure reserve.",
+          "check": "Compare atlas distance with CTA-derived centerline distance and published border-zone patterns."
+        },
+        {
+          "link": "At matched CBF/Tmax, distance to a competing supply front retains variation in final tissue fate.",
+          "check": "Held-out conditional analysis, explicitly association-only."
+        },
+        {
+          "link": "The model uses that spatial prior.",
+          "check": "Transport the same empirical multimodal tissue patch between matched interior and border-zone destinations while preserving local anatomy and perfusion statistics."
+        }
+      ],
+      "X_measurement": "Warp a public arterial-territory atlas to NCCT, refine major-territory seeds with the released CTA vessel mask when valid, and calculate millimeter geodesic distance to the nearest boundary between anterior, middle, and posterior cerebral arterial territories. Repeat across atlas variants and one-voxel registration perturbations; X is the median signed distance and its uncertainty. Border-zone anatomy and mechanisms are established in DOI 10.1148/rg.315105014 (PMID 21918038).",
+      "suspected_signal": "Two voxels with the same measured hypoperfusion may not have equal reserve: tissue at a distal supply frontier has fewer pressure and collateral options than tissue closer to a dominant arterial trunk.",
+      "use_vs_association": "Use matched real-tissue patch substitution: exchange a small joint NCCT/perfusion signature between same-tissue, same-hemisphere locations matched on CBF, CBV, MTT, Tmax, cortical depth, and local vessel density but differing in border distance; compare against equally distant moves parallel to the boundary. A destination-dependent response tests a learned spatial prior rather than correlation of natural border-zone lesions with severity.",
+      "keystone_prerequisite": "Enough held-out tissue pairs exist with overlapping anatomy and perfusion support but materially different, registration-stable border distance; substituted patches pass local continuity and real-versus-edited discriminator gates.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Canonical arterial territories vary between people, and the released Circle-of-Willis masks have not been fidelity-audited. The candidate therefore cannot treat atlas distance as subject-specific truth; agreement across atlas-only and vessel-refined estimates is a gate.",
+      "dies_like_prior": "It risks idea-009's IDENTIFIABILITY_FAILURE because border distance covaries with anatomy, occlusion site, and severity. The paired destination swap and parallel-boundary sham attempt to isolate location, but if common support is thin the card dies. It differs from the earlier percolation candidate, which changes deficit connectivity, and from the Circle-of-Willis candidate, which changes proximal graph redundancy.",
+      "closest_prior_work": "Mangla et al. review border-zone infarct mechanisms (PMID 21918038); Carpenter et al. found no selective chronic border-zone impairment in a PET cohort (PMID 2215951), an important counterexample; a recent CTP probability model predicts final core without auditing spatial priors (PMID 41583397).",
+      "novelty_neighbors": [
+        "Mangla R et al., Radiographics 2011, DOI 10.1148/rg.315105014, PMID 21918038 — border-zone imaging and pathophysiology.",
+        "Carpenter DA et al., Neurology 1990, DOI 10.1212/WNL.40.10.1587, PMID 2215951 — PET study finding no selective chronic border-zone hemodynamic impairment.",
+        "Deep Learning-Based Prediction of Final Infarct Core from CT Perfusion Data, PMID 41583397 — probabilistic CTP outcome model without a reported border-distance use test."
+      ],
+      "novelty_delta": "Clinical work studies whether border zones infarct; the proposed experiment asks whether a final-infarct network applies a border-distance prior to otherwise matched tissue and directly tests that use with destination swaps.",
+      "why_not_done": "BLIND_SPOT: stroke prediction work usually represents location implicitly through convolutional coordinates, while perfusion research stratifies named infarct patterns; neither tradition treats learned vascular distance as an auditable model input.",
+      "novelty_search_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+      "existing_assets": "Registered multimodal images, public territory atlases, CTA and perfusion maps, 149 training cases, and standard registration/distance-transform tools.",
+      "smallest_decisive_experiment": "On all public cases, perform a CPU common-support census and require at least 400 eligible patch pairs from at least 30 untouched cases, with median border-distance separation >=15 mm and standardized differences <0.1 for the four maps, cortical depth, tissue class, and vessel density. Then evaluate 30 cases x 4 paired swaps/shams with continuous probability-mass readout.",
+      "compute_envelope": "One Colab GPU session after a shared frozen checkpoint: atlas warping and matching are CPU preprocessing; about 120 edited forward passes fit under 2 GPU-hours and 16 GB VRAM.",
+      "standing_confounds_addressed": "Within-case swaps fix patient, scanner, center, treatment, and global severity; exact covariate matching addresses local perfusion/anatomy; parallel-boundary moves control displacement and interpolation. Territory uncertainty is propagated across atlas variants. Synthetic seams and unmeasured microvascular anatomy remain threats.",
+      "alternative_explanations": [
+        "The model uses cortical depth: explicitly matched and independently shifted in a control arm.",
+        "The model reacts to interpolation: parallel-boundary swaps have the same displacement and interpolation.",
+        "The atlas is wrong for the patient: require consistent sign across atlas-only and CTA-refined distance estimates."
+      ],
+      "anticipated_negative": "If support, atlas-stability, edit-realism, and a local-perfusion positive control pass, a null is useful: this model treats fate as local physiology rather than pricing vascular location. Failure of common support is not a negative result; it is an identifiability kill.",
+      "verified_dataset_facts": "Relies on the cycle's primary-source verification: public acute CTA and registered perfusion maps for 149 cases, post-treatment follow-up infarct masks, and stated automated vessel/Circle-of-Willis products whose fidelity remains unresolved (DOI 10.5281/zenodo.16731717; DOI 10.1148/ryai.250603; official repository).",
+      "design_template": "regional-substitution",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "Border distance and the destination-swap contrast are explicit; subject-specific territory definition remains conditional."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Strong matching and shams help, but anatomy and territory uncertainty may leave no valid common support."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "A hidden location prior could fail when arterial anatomy or systemic pressure differs from training data."
+        },
+        "interest": {
+          "value": 5,
+          "why": "The claim that a model prices the vascular last mile is surprising and clinically legible."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Border-zone science and atlases exist; the matched intervention has not been built."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped by uninspected common support and territory fidelity."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Public registered data exist, but vessel-mask fidelity is unresolved."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired output change is direct; support and edit gates are custom."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "A gated null discriminates spatial-prior from local-physiology behavior."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Three close primary neighbors were checked; the model-audit search was limited."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Spatial priors are easy for segmentation networks to learn and almost never reported."
+        }
+      },
+      "priority_score": 3.45,
+      "unverified_claims": [
+        "adequate matched patch support",
+        "stable subject-level border distance",
+        "CTA-derived territory refinement is valid",
+        "patch substitutions are in distribution",
+        "exact novelty"
+      ],
+      "plain_pitch": "Blood supply has a last-mile problem: tissue near the boundary between two arterial territories may be harder to serve than tissue closer to a main route. This study asks whether the model quietly charges that location a higher risk even when local blood-flow measurements look the same. If true, moving the same realistic tissue pattern to a border location would change the prediction more than moving it the same distance along the border.",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-003-c08",
+      "track": "wide",
+      "title": "The skull is a fixed-volume pressure vessel",
+      "question": "[continuum mechanics / pressure-vessel engineering] Is an ISLES'24 model using baseline intracranial compliance—the cerebrospinal-fluid space available to absorb swelling—to expand predicted final-infarct geometry beyond acute tissue injury?",
+      "deliverable_sentence": "The final-infarct model is using baseline intracranial cerebrospinal-fluid reserve as a geometric prior on how far the follow-up infarct mask will expand.",
+      "cross_field": {
+        "borrowed_construct": "Compliance of a closed pressure vessel: added volume produces little displacement while reserve remains, then sharply greater deformation as reserve is exhausted.",
+        "measurement_it_implies": "Automatic cerebrospinal-fluid volume divided by intracranial volume, plus local sulcal and ventricular reserve around the threatened hemisphere; response should be nonlinear near low reserve.",
+        "what_changes_if_dropped": "Without compliance, cerebrospinal-fluid fraction is merely an age proxy; the borrowed construct supplies the interaction prediction between identical edema-like attenuation change and available reserve."
+      },
+      "causal_chain": [
+        {
+          "link": "Baseline cerebrospinal-fluid fraction measures room available for swelling inside the fixed skull.",
+          "check": "Automatic segmentation stability and replication of its reported association with malignant edema, association-only."
+        },
+        {
+          "link": "Follow-up masks acquired days later may contain geometry affected by edema as well as irreversibly injured tissue.",
+          "check": "Compare mask displacement relative to arterial/perfusion boundaries across follow-up day and reserve strata; this remains an inference because follow-up edema labels are absent."
+        },
+        {
+          "link": "The model uses reserve to shape its prediction.",
+          "check": "Factorially edit cerebrospinal-fluid reserve and local edema attenuation while preserving parenchyma/perfusion, testing the compliance interaction rather than a main effect."
+        }
+      ],
+      "X_measurement": "Segment ventricles and sulcal CSF automatically on NCCT and compute CSF/intracranial-volume ratio globally and within the affected hemisphere. PMID 35373655 reports that automatic baseline CSF/ICV improves malignant-edema prediction; PMID 29976584 defines CT net water uptake as an edema marker. The proposed X is reserve, not age or edema itself.",
+      "suspected_signal": "Because the skull cannot expand, swelling first consumes cerebrospinal-fluid spaces. A model trained against 2–9-day follow-up masks could learn that identical acute injury produces different apparent lesion geometry in a brain with little versus abundant reserve.",
+      "use_vs_association": "A 2x3 counterfactual factorial changes only extra-axial/ventricular CSF reserve (small empirically sampled inward/outward boundary deformations with parenchymal voxels unchanged) and separately changes affected-tissue net-water-uptake attenuation; a compliance mechanism predicts an interaction—larger output expansion from the same water-uptake dose under lower reserve—whereas an age shortcut predicts a CSF main effect.",
+      "keystone_prerequisite": "Small CSF-boundary edits can alter measured reserve while keeping every parenchymal model input bit-identical outside a narrow CSF boundary and passing anatomical-realism gates; the frozen model's receptive field must connect those spaces to the threatened territory.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "ISLES'24 does not provide edema or mass-effect ground truth, and its target is infarct tissue rather than swelling. Even a positive model-use result would identify a geometric prior learned from the labels, not prove that reserve biologically changes irreversible infarction.",
+      "dies_like_prior": "It directly confronts the endpoint-mismatch reason that dropped cortical atrophy in this cycle: the candidate survives only as a label-geometry/failure-mode audit, not as a tissue-survival claim. It also risks idea-010's CIRCULARITY if water uptake merely redraws acute lesion; the identifying endpoint is the reserve-by-water interaction with unchanged perfusion, not prediction of injury from injury.",
+      "closest_prior_work": "Automatic CSF/ICV improves malignant-edema prediction after thrombectomy (PMID 35373655); net water uptake predicts malignant infarction (PMID 29976584); later midline shift predicts poor outcome (PMID 34494212). None of these studies audits whether a final-infarct segmentation model uses baseline reserve or whether follow-up-mask geometry carries that shortcut.",
+      "novelty_neighbors": [
+        "van der Worp-group registry study, 'Cerebrospinal fluid volume improves prediction of malignant edema after endovascular treatment of stroke,' PMID 35373655.",
+        "Broocks G et al., Stroke 2018, DOI 10.1161/STROKEAHA.118.020507, PMID 29976584 — admission CT net water uptake predicts malignant infarction.",
+        "McKeown ME et al., Neurocrit Care 2022, DOI 10.1007/s12028-021-01341-x, PMID 34494212 — follow-up midline shift over 3 mm predicts outcome."
+      ],
+      "novelty_delta": "Prior work predicts edema outcomes from reserve or water uptake; this study tests a specific interaction inside a final-infarct network and asks whether follow-up-label geometry taught the network a compliance shortcut.",
+      "why_not_done": "BLIND_SPOT: edema prediction and infarct segmentation are treated as separate tasks, so the possibility that delayed infarct masks transmit pressure-vessel geometry back into the segmentation model falls between literatures.",
+      "novelty_search_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+      "existing_assets": "NCCT, perfusion maps, follow-up masks acquired 2–9 days later, automatic brain/CSF segmentation tools, and published reserve and water-uptake formulas.",
+      "smallest_decisive_experiment": "Stage 0 on 40 cases: require CSF/ICV segmentation ICC >=0.90 under one-voxel perturbation, at least 20 low- and 20 high-reserve held-out cases, and a model receptive field spanning reserve to lesion. Then run 24 cases x six factorial edits plus no-op and age-matched controls; primary statistic is the paired interaction in predicted probability mass and radial boundary displacement, not association with the final mask.",
+      "compute_envelope": "One Colab GPU session after a frozen checkpoint: segmentation/edit construction is CPU work; fewer than 200 forward passes and bootstrap analysis target under 3 GPU-hours and 16 GB VRAM.",
+      "standing_confounds_addressed": "The factorial interaction separates reserve from the main effects of age/atrophy and acute attenuation; within-case editing fixes patient, scanner, treatment, perfusion, and label. Parenchymal bit-identity and no-op warps control interpolation. Residual threats are unrealistic CSF geometry, architecture receptive field, and inability to validate edema-mediated label expansion directly.",
+      "alternative_explanations": [
+        "The model uses age-related atrophy: that predicts a CSF main effect, not the prespecified reserve-by-water interaction.",
+        "Boundary edits distort cortex: affected parenchymal tensors must remain bit-identical and no-op deformation controls must be null.",
+        "The model predicts true biological protection: prohibited; the card supports only use of reserve as a geometric prior."
+      ],
+      "anticipated_negative": "A null is sensitivity-limited unless receptive-field, edit-realism, water-uptake positive-control, and interaction-power gates pass. After those gates, it usefully shows that the model's delayed-mask predictions are not modulated by visible intracranial reserve.",
+      "verified_dataset_facts": "Relies on the cycle's primary-source verification that ISLES'24 pairs acute preintervention CT with final post-treatment infarct masks derived from MRI 2–9 days later in 149 public training cases. No edema or mass-effect annotation is claimed (DOI 10.1148/ryai.250603; DOI 10.5281/zenodo.16731717).",
+      "design_template": "model-output-perturbation",
+      "design_template_justification": "The identifying statistic is a factorial interaction in the frozen model's output under two orthogonally controlled input quantities; this is closer to a behavioral model-output perturbation than a regional substitution because neither edited region is exchanged with another case.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "The factorial interaction is precise, but the geometric-prior wording needs its prohibition against biological survival claims."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "The interaction separates age from compliance use, but label edema cannot be validated within ISLES'24."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "A pressure-reserve shortcut would distort predicted lesion boundaries and challenge interpretation of delayed-MRI ground truth."
+        },
+        "interest": {
+          "value": 5,
+          "why": "It links skull mechanics, annotation timing, and model behavior in a surprising falsifiable chain."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Automatic reserve and water-uptake measures and strong clinical cohorts already exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped by uninspected edit realism and receptive-field coverage."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "NCCT and delayed masks are public; no new labels are required for the primary audit."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "The factorial statistic is standard, but anatomical-validity gates are custom."
+        },
+        "negative_result_value": {
+          "value": 2,
+          "why": "A null remains weak unless several sensitivity gates pass, so the rubric cap is respected."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Targeted search found the two component literatures but not their model-audit intersection."
+        },
+        "regret": {
+          "value": 5,
+          "why": "Delayed ground-truth geometry is a fundamental benchmark issue that can be audited cheaply."
+        }
+      },
+      "priority_score": 3.5,
+      "unverified_claims": [
+        "CSF edits can be anatomically realistic with parenchymal bit-identity",
+        "the model has adequate receptive-field coverage",
+        "reserve-by-edema interaction is powered",
+        "follow-up mask geometry contains edema-related expansion",
+        "exact novelty"
+      ],
+      "plain_pitch": "The skull is a rigid container, so swelling has very different geometric effects depending on how much fluid space is available. This study asks whether a model trained on scans taken days later learned to use that spare space when drawing the future infarct, even though spare space is not injured tissue. If true, the same simulated tissue swelling would expand the prediction more when visible fluid reserve is low.",
+      "charter": "isles24"
+    }
+  ]
+}
