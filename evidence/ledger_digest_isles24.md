@@ -56,7 +56,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-026** [REJECTED/SCOUTED/baseline] -- A spreading front inside the perfusion deficit
 - **idea-027** [REJECTED/DEBATED/baseline] -- When vanished sulci mean rescue, not death -- killed: DATA_ACCESS
 - **idea-028** [REJECTED/DEBATED/baseline] -- The blood's grayscale oxygen gauge -- killed: IDENTIFIABILITY_FAILURE
-- **idea-029** [SHORTLISTED/SCOUTED/baseline] -- The ground truth remembers the algorithm that drafted it
+- **idea-029** [SHORTLISTED/CRITIQUED/baseline] -- The ground truth remembers the algorithm that drafted it
 - **idea-030** [SHORTLISTED/SCOUTED/wide] -- The ground truth was drawn on a swollen brain
 - **idea-031** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **idea-032** [SHORTLISTED/SCOUTED/baseline] -- The arterial network's spare route
