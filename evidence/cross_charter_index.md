@@ -35,7 +35,7 @@
 - [isles24] **idea-033** [REJECTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
 - [isles24] **idea-034** [REJECTED] -- The edge of the map: the benchmark scores terra incognita
 - [isles24] **idea-035** [REJECTED] -- The skull is a fixed-volume pressure vessel
-- [isles24] **idea-036** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
+- [isles24] **idea-036** [REJECTED] -- Does the model bring a vascular map to the scan?
 - [isles24] **idea-037** [SHORTLISTED] -- The scan remembers which hospital took it
 - [isles24] **idea-038** [SHORTLISTED] -- Does the model price the last mile of blood delivery?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
