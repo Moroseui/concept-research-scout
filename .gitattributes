@@ -1,3 +1,2 @@
 evidence/literature.csv merge=union
 evidence/datasets.csv merge=union
-ledger.jsonl merge=union
