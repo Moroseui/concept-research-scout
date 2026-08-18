@@ -27,7 +27,7 @@
 - [isles24] **idea-025** [PAUSED] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - [isles24] **idea-026** [REJECTED] -- A spreading front inside the perfusion deficit
 - [isles24] **idea-027** [REJECTED] -- When vanished sulci mean rescue, not death
-- [isles24] **idea-028** [SHORTLISTED] -- The blood's grayscale oxygen gauge
+- [isles24] **idea-028** [REJECTED] -- The blood's grayscale oxygen gauge
 - [isles24] **idea-029** [SHORTLISTED] -- The ground truth remembers the algorithm that drafted it
 - [isles24] **idea-030** [SHORTLISTED] -- The ground truth was drawn on a swollen brain
 - [isles24] **idea-031** [SHORTLISTED] -- The vascular detour the segmentation model can see
