@@ -1,0 +1,13 @@
+Keystone screen complete for idea 032 — verdict **UNVERIFIABLE** (passes onward with the uncertainty recorded), written to `ideas/032/keystone_screen.md`.
+
+What the investigation established, in three layers:
+
+1. **Existence — verified.** The current Zenodo release states verbatim that it provides "the multi-labeled Circle of Willis anatomy generated with an automatic algorithm over CTA (cow-msk.nii.gz)" for the 149 public training cases, with instructions to cite the TopCoW paper. No QC or manual-review statement exists anywhere in the release.
+2. **Taxonomy — verified at the schema level.** The cited TopCoW annotation scheme has 13 classes that separately label the Acom and both Pcoms — exactly the edges the idea needs to edit. I could not open an actual mask file to confirm the released files carry all 13 labels (raw downloads are approval-gated in this runner; the official archive is 99 GB), so that cheap direct check is flagged for the top of Stage 0.
+3. **Fidelity — undocumented, and the published adjacent evidence is stratified adversely.** The updated TopCoW paper used ISLES'24 as an external CTA test set with >80% median Dice for top algorithms — but its validation cohort was "26 CTA patients whose CoW were not occluded within the ROI." That is the sharpest fact of the screen: the only published fidelity evidence for these algorithms on this cohort excluded exactly the occluded-CoW cases the idea's "remove the occluded edge" intervention depends on, and communicating arteries are the weakest classes even for expert annotators (76–89% Dice agreement vs ~90%+ elsewhere).
+
+The residual-assumption check found the card's stated keystone is the right one (a rarity here), but added two obligations for Stage 0: mask QA must **stratify by occlusion location** rather than sampling 30 masks uniformly, and caliber stability must be assessed in NCCT space, since the masks ship resampled off the native CTA grid.
+
+Nothing found demonstrates the keystone false, so this is not a KILL at screen prices — but the fidelity claim cannot be verified from any reachable primary source; it is only establishable by the Stage 0 census the card already plans.
+
+Sources: [Zenodo record 16813698](https://zenodo.org/records/16813698), [TopCoW paper (PMC10793481)](https://pmc.ncbi.nlm.nih.gov/articles/PMC10793481/), [TopCoW v4 (arXiv 2312.17670v4)](https://arxiv.org/html/2312.17670v4), [arXiv 2408.11142 abstract](https://arxiv.org/abs/2408.11142), [HF mirror hugging-science/isles24-stroke](https://huggingface.co/datasets/hugging-science/isles24-stroke), [TU/e research portal](https://research.tue.nl/en/datasets/isles24-a-real-world-longitudinal-multimodal-stroke-dataset/).
