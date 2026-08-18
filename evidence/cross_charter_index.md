@@ -32,7 +32,7 @@
 - [isles24] **idea-030** [REJECTED] -- The ground truth was drawn on a swollen brain
 - [isles24] **idea-031** [REJECTED] -- The vascular detour the segmentation model can see
 - [isles24] **idea-032** [REJECTED] -- The arterial network's spare route
-- [isles24] **idea-033** [SHORTLISTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
+- [isles24] **idea-033** [REJECTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
 - [isles24] **idea-034** [SHORTLISTED] -- The edge of the map: the benchmark scores terra incognita
 - [isles24] **idea-035** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
 - [isles24] **idea-036** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
