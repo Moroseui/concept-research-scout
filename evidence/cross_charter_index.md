@@ -33,7 +33,7 @@
 - [isles24] **idea-031** [REJECTED] -- The vascular detour the segmentation model can see
 - [isles24] **idea-032** [REJECTED] -- The arterial network's spare route
 - [isles24] **idea-033** [REJECTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
-- [isles24] **idea-034** [SHORTLISTED] -- The edge of the map: the benchmark scores terra incognita
+- [isles24] **idea-034** [REJECTED] -- The edge of the map: the benchmark scores terra incognita
 - [isles24] **idea-035** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
 - [isles24] **idea-036** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
 - [isles24] **idea-037** [SHORTLISTED] -- The scan remembers which hospital took it
