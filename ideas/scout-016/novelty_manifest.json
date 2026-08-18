@@ -1,0 +1,37 @@
+{
+  "searched_at": "2026-08-18T06:41:23Z",
+  "queries": [
+    {"query": "CT reconstruction kernel noise power spectrum deep learning classifier prediction robustness kernel harmonization CT radiomics", "source": "web search (PubMed/PMC, publisher DOI pages, arXiv)"},
+    {"query": "CT convolution kernel conversion Fourier filter noise texture model output classifier", "source": "web search (PubMed/PMC, publisher DOI pages, arXiv)"},
+    {"query": "deep learning chest CT reconstruction kernel effect classification", "source": "web search (PubMed/PMC, publisher DOI pages, arXiv)"},
+    {"query": "chest radiograph mortality prediction pacemaker implanted device saliency deep learning", "source": "web search (PubMed/PMC, publisher DOI pages)"},
+    {"query": "CXR mortality model medical devices shortcut pacemaker ablation", "source": "web search (PubMed/PMC, publisher DOI pages)"},
+    {"query": "chest x-ray mortality risk deep learning implanted cardiac device", "source": "web search (PubMed/PMC, publisher DOI pages)"},
+    {"query": "epicardial adipose tissue cardiomegaly CT deep learning classifier cardiomegaly score", "source": "web search (PubMed/PMC, publisher DOI pages, arXiv)"},
+    {"query": "epicardial fat mimics cardiomegaly CT radiograph silhouette", "source": "web search (PubMed/PMC, publisher DOI pages)"},
+    {"query": "automatic epicardial adipose tissue segmentation CT DOI Commandeur", "source": "web search (PubMed/PMC, publisher DOI pages)"},
+    {"query": "Harris growth arrest lines bone age deep learning radiograph", "source": "web search (PubMed/PMC, RSNA, arXiv)"},
+    {"query": "growth arrest lines automated detection radiograph Harris lines", "source": "web search (PubMed/PMC, publisher DOI pages)"},
+    {"query": "bone age model interpretability metaphysis saliency RSNA", "source": "web search (PubMed/PMC, RSNA, arXiv)"},
+    {"query": "CT barrel chest quantitative thoracic cage geometry emphysema deep learning", "source": "web search (PubMed/PMC, publisher DOI pages, arXiv)"},
+    {"query": "rib cage morphology COPD emphysema CT barrel chest rib angle", "source": "web search (PubMed/PMC, publisher DOI pages)"},
+    {"query": "chest CT emphysema classifier skeletal thorax shape interpretability", "source": "web search (PubMed/PMC, publisher DOI pages, arXiv)"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "10.1117/1.JMI.5.1.011013", "access": "full_text", "establishing_passage": "Measured 3-D noise power spectra across kernels and used NPS peak frequency to reduce kernel-induced radiomic variability."},
+    {"candidate": "C1", "identifier": "10.1148/radiol.2019181960", "access": "abstract", "establishing_passage": "Learned conversion between paired soft and sharp chest-CT kernels and evaluated radiomic-feature reproducibility."},
+    {"candidate": "C1", "identifier": "PMID:36355196", "access": "abstract", "establishing_passage": "Kernel harmonization improved radiomics-model performance on two clinical classification tasks."},
+    {"candidate": "C2", "identifier": "10.1001/jamanetworkopen.2019.7416", "access": "full_text", "establishing_passage": "CXR-risk predicted long-term mortality and used Grad-CAM for broad localization."},
+    {"candidate": "C2", "identifier": "PMCID:PMC11388213", "access": "full_text", "establishing_passage": "A long-term mortality model attended to cardiac silhouette, hila, aorta, clavicles, and other thoracic regions."},
+    {"candidate": "C2", "identifier": "PMCID:PMC8546129", "access": "full_text", "establishing_passage": "A deep algorithm detected and characterized cardiac implantable electronic devices on chest radiographs."},
+    {"candidate": "C3", "identifier": "10.1109/TMI.2018.2804799", "access": "abstract", "establishing_passage": "A multitask CNN automatically quantified epicardial and thoracic adipose tissue on noncontrast CT."},
+    {"candidate": "C3", "identifier": "10.1148/ryai.2019190045", "access": "full_text", "establishing_passage": "Automated EAT quantification was evaluated in a multicenter study."},
+    {"candidate": "C3", "identifier": "10.1148/radiology.165.2.3659352", "access": "abstract", "establishing_passage": "CT/radiograph comparison showed variable cardiac fat-pad appearances relevant to apparent cardiac contours."},
+    {"candidate": "C4", "identifier": "10.1002/ajpa.20901", "access": "abstract", "establishing_passage": "A standardized semiautomated method detected Harris lines and estimated formation age on radiographs."},
+    {"candidate": "C4", "identifier": "10.1148/radiol.211790", "access": "full_text", "establishing_passage": "Class activation maps summarized anatomic regions consistently used for bone-age prediction."},
+    {"candidate": "C4", "identifier": "PMCID:PMC8134559", "access": "full_text", "establishing_passage": "Gradient saliency probed a hand-radiograph bone-age regression model without named-finding intervention."},
+    {"candidate": "C5", "identifier": "PMCID:PMC3729561", "access": "full_text", "establishing_passage": "CT rib-cage morphometry in 816 smokers was modeled against emphysema, lung function, and anthropometrics."},
+    {"candidate": "C5", "identifier": "10.1109/EMBC.2015.7319855", "access": "abstract", "establishing_passage": "Automated 3-D CT analysis quantified diaphragm and rib-cage geometry in severe COPD at two lung volumes."},
+    {"candidate": "C5", "identifier": "PMCID:PMC6996603", "access": "full_text", "establishing_passage": "A deep network classified Fleischner emphysema patterns on CT and linked grades to clinical outcomes."}
+  ]
+}
