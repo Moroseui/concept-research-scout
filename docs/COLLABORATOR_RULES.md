@@ -54,3 +54,11 @@ Do not generate probe code until all are present:
 - Do not reinterpret an invalid run as a negative result.
 - Report every authorized variant, not only the best one.
 - Stop when the preregistered question is answered or the budget is exhausted.
+
+## Personal references in generated artifacts
+
+Refer to people by role, never by name: "the operator", "the
+supervising PI", "the lab". Direction is stated as program fact ("the
+current focus is X"), not narrated as personal suggestion. Formal
+attribution lives in the README and future citation files, not in
+working documents.

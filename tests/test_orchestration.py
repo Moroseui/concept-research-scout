@@ -2079,5 +2079,59 @@ class TestCharterPipeline(Harness):
         self.assertIn("isles24-001", readme)
 
 
+class TestCommsAndPolish(Harness):
+    """Plain-language mandate, redaction-forward, diversity report."""
+
+    def _root(self):
+        from pathlib import Path
+        return Path(__file__).resolve().parent.parent
+
+    def test_plain_language_mandate_in_prompts(self):
+        root = self._root()
+        must = {
+            "orchestrator/prompts/scout.md": "plain_pitch",
+            "orchestrator/prompts/critique.md": "Plain-pitch fidelity",
+            "orchestrator/prompts/debate_summary.md": "In plain terms",
+            "orchestrator/prompts/feasibility.md": "In plain terms",
+            "orchestrator/prompts/interpret_review.md": "PLAIN-LANGUAGE FIDELITY",
+        }
+        missing = [f for f, marker in must.items()
+                   if marker not in (root / f).read_text()]
+        self.assertEqual(missing, [])
+
+    def test_no_personal_names_in_live_documents(self):
+        root = self._root()
+        offenders = []
+        scan = ["README.md", "docs/COLLABORATOR_RULES.md"]
+        scan += [str(p.relative_to(root)) for p in
+                 (root / "orchestrator" / "prompts").glob("*.md")]
+        scan += [str(p.relative_to(root)) for p in
+                 (root / "charters").glob("*/CHARTER.md")]
+        for f in scan:
+            body = (root / f).read_text()
+            for name in ("Gao", "Partho"):
+                if name in body:
+                    offenders.append(f"{f}: {name}")
+        self.assertEqual(offenders, [],
+                         "live documents must reference roles, not names")
+
+    def test_diversity_report_runs_and_scopes(self):
+        d = self.repo / "ideas" / "scout-zzq-001"
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "candidates_all.json").write_text(json.dumps({"candidates": [
+            {"title": "a", "design_template": "erasure", "track": "baseline"},
+            {"title": "b", "design_template": "erasure", "track": "wide"},
+        ]}))
+        self._commit_all()
+        r = self.scout("diversity", "--charter", "zzq")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("charter=zzq", r.stdout)
+        self.assertIn("candidates=2", r.stdout)
+        self.assertIn("erasure", r.stdout)
+        r2 = self.scout("diversity")
+        self.assertEqual(r2.returncode, 0)
+        self.assertIn("charter=baseline", r2.stdout)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

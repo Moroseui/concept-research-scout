@@ -192,3 +192,23 @@ cross-model-disagreement, model-output-perturbation.
 The digest counts these: homogenization is measured by repeated grammar,
 not repeated nouns. Pick the closest; if truly none fits, use
 `other:<short-name>` and justify it in the card.
+
+## Plain-language pitch (required per candidate)
+
+Every candidate MUST include a `plain_pitch` field: two to four
+sentences a smart person with NO background in this subfield could
+follow, explaining what the idea asks, why anyone should care, and
+what would be seen if it is true. Rules: no acronym may appear
+unexplained; no claim may appear in the pitch that the technical card
+does not make (the cross-family critique checks pitch-vs-card
+fidelity and an overclaiming pitch is a defect); hedges in the card
+survive into the pitch. Write it LAST, after the technical fields.
+
+## Diversity mandate
+
+Across your candidate set, do not reuse one experimental design
+template in different clinical costumes: vary the mechanism of test
+(input intervention, selective erasure, behavioral dose-response,
+provenance audit, distribution comparison, held-out-structure
+prediction), the object under test, and the failure mode probed. Two
+candidates sharing a design skeleton must justify why both survive.

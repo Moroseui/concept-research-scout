@@ -74,3 +74,14 @@ and include `search_mode: "C"`, `mode_c_priority_score`, and its
 arithmetic. The orchestrator recomputes and never trusts a self-score it
 cannot verify, so honest arithmetic costs nothing and disagreement is
 auto-corrected.
+
+## Plain-language pitch (required per candidate)
+
+Every candidate MUST include a `plain_pitch` field: two to four
+sentences a smart person with NO background in this subfield could
+follow, explaining what the idea asks, why anyone should care, and
+what would be seen if it is true. Rules: no acronym may appear
+unexplained; no claim may appear in the pitch that the technical card
+does not make (the cross-family critique checks pitch-vs-card
+fidelity and an overclaiming pitch is a defect); hedges in the card
+survive into the pitch. Write it LAST, after the technical fields.

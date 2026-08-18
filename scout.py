@@ -1031,6 +1031,51 @@ def sha256_of(path):
     return h.hexdigest()
 
 
+def cmd_diversity(args):
+    """Deterministic generation-diversity report (external-review adoption:
+    measure the design_template / mechanism distribution BEFORE building any
+    evolutionary machinery). Counts recurring design fields across all
+    candidates of one charter (None = baseline) so the operator can see
+    whether the scout is reusing one experimental grammar in different
+    costumes. Read-only; no agent, no tokens."""
+    from collections import Counter
+    charter = getattr(args, 'charter', None) or None
+    dirs = sorted(p for p in (ROOT/'ideas').glob('scout-*')
+                  if _parse_scout_dir(p.name)[0] == charter)
+    fields = ('design_template', 'mechanism_family', 'search_mode',
+              'entry_point', 'track')
+    counts = {f: Counter() for f in fields}
+    titles = []
+    n = 0
+    for d in dirs:
+        f = d/'candidates_all.json'
+        if not f.exists():
+            continue
+        for c in json.loads(f.read_text()).get('candidates', []):
+            n += 1
+            titles.append(c.get('title', '')[:60])
+            for k in fields:
+                v = c.get(k)
+                if v not in (None, '', []):
+                    counts[k][str(v)] += 1
+    scope = charter or 'baseline'
+    print(f'Diversity report: charter={scope}, cycles={len(dirs)}, candidates={n}')
+    for k in fields:
+        if not counts[k]:
+            continue
+        total = sum(counts[k].values())
+        print(f'\n{k} ({total} tagged):')
+        for v, c in counts[k].most_common(8):
+            bar = '#' * max(1, round(20*c/total))
+            print(f'  {c:>3}  {bar:<20} {v[:70]}')
+    top = counts['design_template'].most_common(1)
+    if top and sum(counts['design_template'].values()) >= 6 and \
+       top[0][1] / sum(counts['design_template'].values()) > 0.5:
+        print('\nWARNING: one design template carries more than half of all '
+              'candidates - generation may be reusing one experimental '
+              'grammar in different costumes.')
+
+
 def cmd_validate_bundle(args):
     fails = validate_bundle(args.idea, args.bundle)
     if fails:
@@ -2579,6 +2624,7 @@ def main():
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B',choices=['M','B']); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)

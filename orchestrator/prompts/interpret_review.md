@@ -40,3 +40,8 @@ or {"verdict": "REVISE", "blocking": ["...", "..."]} with each blocking
 finding concrete enough to fix without interpretation. At most one
 revision round exists; do not hold approval hostage to preferences.
 Modify no file other than interpret_review.md.
+
+5. PLAIN-LANGUAGE FIDELITY. If the interpretation contains a plain
+   summary section, verify it claims nothing the cited technical
+   findings do not; a plain section that drops a hedge or upgrades a
+   "suggests" to a "shows" is BLOCKING.

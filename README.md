@@ -160,3 +160,10 @@ See `REVAMP.md` "First-run checklist" (secrets, spending cap, smoke test)
 and `docs/SETUP.md` for local details. Requirements: Python 3.10+, git, and
 the two agent CLIs for local runs (`npm i -g @anthropic-ai/claude-code
 @openai/codex`).
+
+## Acknowledgments
+
+Developed within a supervised undergraduate research program in
+medical-imaging AI. Direction and dataset focus are set with the
+supervising principal investigator; formal attribution accompanies any
+publication arising from this work.

@@ -1,13 +1,13 @@
 # Research charter — isles24
 
 **Status:** human-authored governance document, drafted 2026-08-16 at the
-operator's direction following Prof. Gao's suggestion of this dataset.
+operator's direction as a change of program focus.
 Scores produced under this charter are scoped to it and are not
 comparable with scores from any other charter.
 
 ## The driver
 
-Prof. Gao has pointed this program at the **ISLES'24 challenge dataset**
+This program's current focus is the **ISLES'24 challenge dataset**
 (Ischemic Stroke Lesion Segmentation, MICCAI challenge series). The
 direction is exploratory rather than committed: the question is what
 research ideas this dataset makes possible, judged by whether an expert

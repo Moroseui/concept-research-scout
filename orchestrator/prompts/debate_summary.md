@@ -40,3 +40,14 @@ the orchestrator can update the ledger:
 ```json
 {"verdict": "PAUSE|REVISE|KILL|PROCEED", "kill_code": "<taxonomy code, only for KILL>", "unblock": "<one line: the condition that would change the verdict>"}
 ```
+
+## Closing section: "In plain terms" (required)
+
+End consensus.md with a section titled `## In plain terms` written
+for a reader with no background: what this idea asks (two sentences),
+what the debate concluded and why (two or three sentences), and - if
+the verdict routes a question to the human - what the human is
+actually being asked to judge, in one plain sentence. Same fidelity
+rule as everywhere: nothing stated more strongly than the verdict
+itself states it. This section is a VIEW of the verdict, never the
+record of it; the json verdict block remains authoritative.
