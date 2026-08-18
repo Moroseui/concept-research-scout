@@ -1,0 +1,110 @@
+{
+  "id": "isles24-scout-003-c07",
+  "track": "wide",
+  "title": "Does the model price the last mile of blood delivery?",
+  "question": "[economic geography / facility location] Is an ISLES'24 model using distance to an arterial-territory border\u2014the vascular network's costly last mile\u2014as a vulnerability factor beyond local perfusion severity?",
+  "deliverable_sentence": "The final-infarct model is using proximity to an arterial border zone as a tissue-vulnerability prior beyond the measured local perfusion deficit.",
+  "cross_field": {
+    "borrowed_construct": "The last-mile cost from economic geography: locations farthest from supply hubs are least redundant and most expensive to serve.",
+    "measurement_it_implies": "A signed geodesic distance transform to subject-specific competing arterial supply fronts, with uncertainty from atlas and vessel-derived territory estimates.",
+    "what_changes_if_dropped": "Without the last-mile construct this becomes generic location bias; the construct supplies the specific prediction that otherwise matched tissue nearer a competing supply boundary receives a different model response."
+  },
+  "causal_chain": [
+    {
+      "link": "Arterial border zones are distal from major supply trunks and may have less pressure reserve.",
+      "check": "Compare atlas distance with CTA-derived centerline distance and published border-zone patterns."
+    },
+    {
+      "link": "At matched CBF/Tmax, distance to a competing supply front retains variation in final tissue fate.",
+      "check": "Held-out conditional analysis, explicitly association-only."
+    },
+    {
+      "link": "The model uses that spatial prior.",
+      "check": "Transport the same empirical multimodal tissue patch between matched interior and border-zone destinations while preserving local anatomy and perfusion statistics."
+    }
+  ],
+  "X_measurement": "Warp a public arterial-territory atlas to NCCT, refine major-territory seeds with the released CTA vessel mask when valid, and calculate millimeter geodesic distance to the nearest boundary between anterior, middle, and posterior cerebral arterial territories. Repeat across atlas variants and one-voxel registration perturbations; X is the median signed distance and its uncertainty. Border-zone anatomy and mechanisms are established in DOI 10.1148/rg.315105014 (PMID 21918038).",
+  "suspected_signal": "Two voxels with the same measured hypoperfusion may not have equal reserve: tissue at a distal supply frontier has fewer pressure and collateral options than tissue closer to a dominant arterial trunk.",
+  "use_vs_association": "Use matched real-tissue patch substitution: exchange a small joint NCCT/perfusion signature between same-tissue, same-hemisphere locations matched on CBF, CBV, MTT, Tmax, cortical depth, and local vessel density but differing in border distance; compare against equally distant moves parallel to the boundary. A destination-dependent response tests a learned spatial prior rather than correlation of natural border-zone lesions with severity.",
+  "keystone_prerequisite": "Enough held-out tissue pairs exist with overlapping anatomy and perfusion support but materially different, registration-stable border distance; substituted patches pass local continuity and real-versus-edited discriminator gates.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "Canonical arterial territories vary between people, and the released Circle-of-Willis masks have not been fidelity-audited. The candidate therefore cannot treat atlas distance as subject-specific truth; agreement across atlas-only and vessel-refined estimates is a gate.",
+  "dies_like_prior": "It risks idea-009's IDENTIFIABILITY_FAILURE because border distance covaries with anatomy, occlusion site, and severity. The paired destination swap and parallel-boundary sham attempt to isolate location, but if common support is thin the card dies. It differs from the earlier percolation candidate, which changes deficit connectivity, and from the Circle-of-Willis candidate, which changes proximal graph redundancy.",
+  "closest_prior_work": "Mangla et al. review border-zone infarct mechanisms (PMID 21918038); Carpenter et al. found no selective chronic border-zone impairment in a PET cohort (PMID 2215951), an important counterexample; a recent CTP probability model predicts final core without auditing spatial priors (PMID 41583397).",
+  "novelty_neighbors": [
+    "Mangla R et al., Radiographics 2011, DOI 10.1148/rg.315105014, PMID 21918038 \u2014 border-zone imaging and pathophysiology.",
+    "Carpenter DA et al., Neurology 1990, DOI 10.1212/WNL.40.10.1587, PMID 2215951 \u2014 PET study finding no selective chronic border-zone hemodynamic impairment.",
+    "Deep Learning-Based Prediction of Final Infarct Core from CT Perfusion Data, PMID 41583397 \u2014 probabilistic CTP outcome model without a reported border-distance use test."
+  ],
+  "novelty_delta": "Clinical work studies whether border zones infarct; the proposed experiment asks whether a final-infarct network applies a border-distance prior to otherwise matched tissue and directly tests that use with destination swaps.",
+  "why_not_done": "BLIND_SPOT: stroke prediction work usually represents location implicitly through convolutional coordinates, while perfusion research stratifies named infarct patterns; neither tradition treats learned vascular distance as an auditable model input.",
+  "novelty_search_verdict": "NO_DUPLICATE_FOUND_LIMITED_SEARCH",
+  "existing_assets": "Registered multimodal images, public territory atlases, CTA and perfusion maps, 149 training cases, and standard registration/distance-transform tools.",
+  "smallest_decisive_experiment": "On all public cases, perform a CPU common-support census and require at least 400 eligible patch pairs from at least 30 untouched cases, with median border-distance separation >=15 mm and standardized differences <0.1 for the four maps, cortical depth, tissue class, and vessel density. Then evaluate 30 cases x 4 paired swaps/shams with continuous probability-mass readout.",
+  "compute_envelope": "One Colab GPU session after a shared frozen checkpoint: atlas warping and matching are CPU preprocessing; about 120 edited forward passes fit under 2 GPU-hours and 16 GB VRAM.",
+  "standing_confounds_addressed": "Within-case swaps fix patient, scanner, center, treatment, and global severity; exact covariate matching addresses local perfusion/anatomy; parallel-boundary moves control displacement and interpolation. Territory uncertainty is propagated across atlas variants. Synthetic seams and unmeasured microvascular anatomy remain threats.",
+  "alternative_explanations": [
+    "The model uses cortical depth: explicitly matched and independently shifted in a control arm.",
+    "The model reacts to interpolation: parallel-boundary swaps have the same displacement and interpolation.",
+    "The atlas is wrong for the patient: require consistent sign across atlas-only and CTA-refined distance estimates."
+  ],
+  "anticipated_negative": "If support, atlas-stability, edit-realism, and a local-perfusion positive control pass, a null is useful: this model treats fate as local physiology rather than pricing vascular location. Failure of common support is not a negative result; it is an identifiability kill.",
+  "verified_dataset_facts": "Relies on the cycle's primary-source verification: public acute CTA and registered perfusion maps for 149 cases, post-treatment follow-up infarct masks, and stated automated vessel/Circle-of-Willis products whose fidelity remains unresolved (DOI 10.5281/zenodo.16731717; DOI 10.1148/ryai.250603; official repository).",
+  "design_template": "regional-substitution",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "Border distance and the destination-swap contrast are explicit; subject-specific territory definition remains conditional."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Strong matching and shams help, but anatomy and territory uncertainty may leave no valid common support."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "A hidden location prior could fail when arterial anatomy or systemic pressure differs from training data."
+    },
+    "interest": {
+      "value": 5,
+      "why": "The claim that a model prices the vascular last mile is surprising and clinically legible."
+    },
+    "prior_legwork": {
+      "value": 3,
+      "why": "Border-zone science and atlases exist; the matched intervention has not been built."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped by uninspected common support and territory fidelity."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Public registered data exist, but vessel-mask fidelity is unresolved."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired output change is direct; support and edit gates are custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A gated null discriminates spatial-prior from local-physiology behavior."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Three close primary neighbors were checked; the model-audit search was limited."
+    },
+    "regret": {
+      "value": 4,
+      "why": "Spatial priors are easy for segmentation networks to learn and almost never reported."
+    }
+  },
+  "priority_score": 3.45,
+  "unverified_claims": [
+    "adequate matched patch support",
+    "stable subject-level border distance",
+    "CTA-derived territory refinement is valid",
+    "patch substitutions are in distribution",
+    "exact novelty"
+  ],
+  "plain_pitch": "Blood supply has a last-mile problem: tissue near the boundary between two arterial territories may be harder to serve than tissue closer to a main route. This study asks whether the model quietly charges that location a higher risk even when local blood-flow measurements look the same. If true, moving the same realistic tissue pattern to a border location would change the prediction more than moving it the same distance along the border.",
+  "charter": "isles24"
+}

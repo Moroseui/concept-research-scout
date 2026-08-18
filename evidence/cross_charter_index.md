@@ -37,6 +37,7 @@
 - [isles24] **idea-035** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
 - [isles24] **idea-036** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
 - [isles24] **idea-037** [SHORTLISTED] -- The scan remembers which hospital took it
+- [isles24] **idea-038** [SHORTLISTED] -- Does the model price the last mile of blood delivery?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -59,7 +60,7 @@
 - [isles24] **isles24-scout-003-c04** [SHORTLISTED] -- The blood's grayscale oxygen gauge
 - [isles24] **isles24-scout-003-c05** [SHORTLISTED] -- When vanished sulci mean rescue, not death
 - [isles24] **isles24-scout-003-c06** [SCOUT_ONLY] -- The bolus spreads like dye in a river
-- [isles24] **isles24-scout-003-c07** [SCOUT_ONLY] -- Does the model price the last mile of blood delivery?
+- [isles24] **isles24-scout-003-c07** [SHORTLISTED] -- Does the model price the last mile of blood delivery?
 - [isles24] **isles24-scout-003-c08** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
 - [isles24] **isles24-scout-004-c01** [SHORTLISTED] -- The ground truth remembers the algorithm that drafted it
 - [isles24] **isles24-scout-004-c02** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
