@@ -61,7 +61,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-031** [REJECTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see -- killed: DATA_ACCESS
 - **idea-032** [REJECTED/DEBATED/baseline] -- The arterial network's spare route -- killed: IDENTIFIABILITY_FAILURE
 - **idea-033** [REJECTED/DEBATED/baseline] -- Did preprocessing teach the winner to read the disappearing insular ribbon? -- killed: IDENTIFIABILITY_FAILURE
-- **idea-034** [SHORTLISTED/SCOUTED/wide] -- The edge of the map: the benchmark scores terra incognita
+- **idea-034** [SHORTLISTED/CRITIQUED/wide] -- The edge of the map: the benchmark scores terra incognita
 - **idea-035** [SHORTLISTED/SCOUTED/wide] -- The skull is a fixed-volume pressure vessel
 - **idea-036** [SHORTLISTED/SCOUTED/baseline] -- Does the model bring a vascular map to the scan?
 - **idea-037** [SHORTLISTED/SCOUTED/wide] -- The scan remembers which hospital took it
