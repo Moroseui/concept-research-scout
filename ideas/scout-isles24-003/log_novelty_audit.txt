@@ -1,0 +1,14 @@
+Novelty audit complete. All 8 candidates were audited via live multi-angle web searches (four parallel search agents, ~70 recorded queries, PMIDs verified through NCBI E-utilities since PubMed pages are cookie-walled). Deliverables written to `ideas/scout-isles24-003/`: `novelty_audit.md` (per-candidate neighbors, delta, why-not-done, verdict, plus summary table) and `novelty_manifest.json` (full query log and establishing passages with access levels). No other files were touched, and no code was written.
+
+**Verdicts:** seven of eight candidates came back `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` — no duplicate of any proposed model-use audit was found, with three distinguished neighbors cited per candidate. One was downgraded:
+
+- **C6 (bolus dispersion): `NO_DUPLICATE_FOUND_LIMITED_SEARCH`.** The search surfaced a neighbor closer than anything on the card: Amador et al., ISBI 2024 (DOI 10.1109/ISBI56570.2024.10635756), an attention analysis of which temporal patterns a raw-4D-CTP stroke outcome model uses. It's correlational rather than causal and doesn't isolate dispersion from delay, so C6's delta survives — but it was only readable at abstract level, and a curve-shape perturbation in its methods would make C6 merely incremental. Full-text inspection of that paper is flagged as a gate before the card advances.
+
+**Other findings the merge/ledger should act on:**
+
+1. **C2 citation error:** the card's cited PMIDs 25804568 and 27576312 are real papers but off-target for "CTA clot burden outcome studies" (they cover thrombolysis response and fibrinogen biochemistry). The correct anchors are Puetz 2008 (PMID 18811738) and Tan AJNR 2009. Also, a 2025 J Pers Med paper (full text read) already covers the clinical clot-vs-perfusion question by regression, so C2's pitch must rest strictly on the model-use half.
+2. **C7's suspicious PMID 41583397 is real** — explicitly verified via E-utilities as Werdiger et al., SVIN 2024 (a late-indexed record).
+3. **C8** should add Foroushani et al. (Neurocrit Care, DOI 10.1007/s12028-021-01325-x) as a named neighbor: it already feeds an "intracranial reserve" input to an explainable ML model (SHAP, edema endpoint), which makes C8's premise recombinational even though the segmentation-audit delta holds.
+4. All other card-cited identifiers checked out as claimed (including C5's Haussen 2015 series, verified down to the 8/108 count).
+
+Honest limits, recorded in both files: recent MICCAI/ISLES workshop papers are sparsely indexed, no Scopus/Embase/OpenReview sweep was done, and several establishing passages are abstract-level — so the HIGH_CONFIDENCE verdicts are flags for human verification, not proofs of novelty.
