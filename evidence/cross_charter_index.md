@@ -27,6 +27,7 @@
 - [isles24] **idea-025** [PAUSED] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - [isles24] **idea-026** [REJECTED] -- A spreading front inside the perfusion deficit
 - [isles24] **idea-027** [SHORTLISTED] -- When vanished sulci mean rescue, not death
+- [isles24] **idea-028** [SHORTLISTED] -- The blood's grayscale oxygen gauge
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SCOUT_ONLY] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -46,7 +47,7 @@
 - [isles24] **isles24-scout-003-c01** [SCOUT_ONLY] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
 - [isles24] **isles24-scout-003-c02** [SCOUT_ONLY] -- How much artery did the clot occupy?
 - [isles24] **isles24-scout-003-c03** [SCOUT_ONLY] -- The arterial network's spare route
-- [isles24] **isles24-scout-003-c04** [SCOUT_ONLY] -- The blood's grayscale oxygen gauge
+- [isles24] **isles24-scout-003-c04** [SHORTLISTED] -- The blood's grayscale oxygen gauge
 - [isles24] **isles24-scout-003-c05** [SHORTLISTED] -- When vanished sulci mean rescue, not death
 - [isles24] **isles24-scout-003-c06** [SCOUT_ONLY] -- The bolus spreads like dye in a river
 - [isles24] **isles24-scout-003-c07** [SCOUT_ONLY] -- Does the model price the last mile of blood delivery?

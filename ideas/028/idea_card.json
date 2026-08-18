@@ -1,0 +1,97 @@
+{
+  "id": "isles24-scout-003-c04",
+  "parent_ids": [],
+  "search_mode": "C",
+  "entry_point": 2,
+  "title": "The blood's grayscale oxygen gauge",
+  "question": "Is an ISLES'24 model using dural-sinus blood attenuation on noncontrast CT as an image proxy for hematocrit and therefore oxygen-carrying capacity?",
+  "rung": "Mode C target rung 1: use of sinus attenuation, not a claim of measured anemia; rung 2 requires measured hematocrit in an external cohort.",
+  "deliverable_sentence": "The final-infarct model is using noncontrast-CT attenuation of venous blood as an image proxy for oxygen-carrying capacity.",
+  "X_measurement": "Automatically segment the superior sagittal/straight sinuses on NCCT and take median HU after erosion, normalized to scanner noise and, secondarily, arterial blood HU. In 166 NCCTs, sinus attenuation correlated with hematocrit and hemoglobin (PMID 21566009). Compute-today test: YES with an automatic atlas/segmentation and HU measurement; no annotator, though quantitative-HU integrity is unverified.",
+  "suspected_signal": "Red-cell concentration raises unenhanced blood attenuation and determines arterial oxygen content; at the same CBF, lower hematocrit delivers less oxygen, potentially accelerating tissue death before reperfusion.",
+  "use_vs_association": "Remote regional removal/substitution: replace only dural-sinus voxels with intensity-matched surrounding blood values across a physiologic HU dose range while leaving brain, arteries, CTA, CTP, and clinical inputs unchanged; require affected-territory prediction changes, a signed dose response, and null responses to equal-volume skull and extracranial-vein shams.",
+  "keystone_prerequisite": "Released NCCT retains quantitative intravascular HU and contains enough artifact-free dural-sinus voxels for sinus attenuation to rank hematocrit rather than reconstruction/site.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The primary hematocrit paper proves the relationship in clinical NCCT, not in resampled ISLES derivatives. No ISLES laboratory hematocrit field has been verified, so the card cannot claim physiological validation within this dataset.",
+  "rung_reached": "0; rung 1 after remote dose-response and site robustness; rung 2 only with external measured-hematocrit validation.",
+  "dies_like_prior": "Resembles idea-010 (CIRCULARITY) least and idea-016 (IDENTIFIABILITY_FAILURE) most: blood HU can be a scanner/protocol effect. Within-scan substitution, local noise normalization, site stratification, and remote shams address protocol; external hematocrit is explicitly required before naming anemia rather than image-proxy use.",
+  "closest_prior_work": "Black et al. established the sinus-HU/hematocrit relation (PMID 21566009). Stroke physiology links oxygen delivery to CBF times arterial oxygen content, but no primary model-use paper was found that tests whether final-infarct networks read blood HU. This is speculative and not a novelty claim.",
+  "existing_assets": "NCCT, multimodal final-infarct target, deterministic sinus HU formula, atlas/segmentation methods, two-site structure.",
+  "smallest_decisive_experiment": "Stage 0 on all 149 NCCTs: require >=120 measurable sinuses, between-site standardized-mean difference <0.5 after noise normalization, and test-retest ICC >=0.9 across one-voxel erosions. Then run three-dose substitutions on 40 held-out cases. Three to five days after model training; under 10 GPU-hours.",
+  "standing_confounds_addressed": "Within-case edits fix anatomy, scanner, vendor, protocol, site, habitus, prevalence, referral, and labels; site/noise gates test quantitative portability. They do not establish that HU equals hematocrit in ISLES, exclude unrecorded contrast contamination, or distinguish hematocrit from other blood-composition effects.",
+  "alternative_explanations": [
+    "The model reacts to any remote bright structure; skull and extracranial-vein shams test this.",
+    "Sinus HU is reconstruction/site, not blood composition; within-case dose response can establish use but not physiology, hence the rung-1 wording.",
+    "The local network has no receptive field from sinus to lesion; receptive-field inspection is an early feasibility gate, and a null is uninterpretable if coverage fails."
+  ],
+  "anticipated_negative": "Sensitivity-limited unless receptive-field and positive-control gates pass; with them, a null is useful evidence that the model does not exploit this globally available physiologic proxy.",
+  "cross_domain": {
+    "borrowed_construct": "Oxygen-delivery accounting from hematology: delivery is blood flow multiplied by arterial oxygen content.",
+    "measurement_it_implies": "Unenhanced venous-blood HU as an image proxy for red-cell concentration.",
+    "what_changes_if_dropped": "Without the hematology link, the experiment becomes an uninteresting remote-intensity shortcut audit and should be killed."
+  },
+  "remaining_legwork": "2 days HU/site census, 1 day receptive-field check, 2 days interventions: under one week after model availability.",
+  "design_template": "regional-removal",
+  "entry_point_2_requirements": "Measurement: median eroded dural-sinus HU. Confused artifact: reconstruction/site and partial-volume skull; local noise normalization, erosion, and site gates are mandatory.",
+  "scores": {
+    "mechanism_clarity": {
+      "value": 5,
+      "why": "Named physical chain: red-cell concentration to HU and oxygen content, with an exact measurement."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Use of HU can be identified, but physiological hematocrit attribution cannot within ISLES alone."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A routine grayscale value functioning as an oxygen gauge is surprising and falsifiable."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "Oxygen delivery matters biologically, but clinical consequence is indirect without laboratory validation."
+    },
+    "clarity": {
+      "value": 5,
+      "why": "One remote region, one scalar, one signed dose response."
+    },
+    "prior_legwork": {
+      "value": 3,
+      "why": "The HU relationship is established; ISLES validation and model assets remain."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Reported outside Mode C score and capped by quantitative-HU uncertainty."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "NCCT is public; lab hematocrit and HU fidelity are not verified."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired response is ready; proxy-validity gates are custom."
+    },
+    "negative_result_value": {
+      "value": 2,
+      "why": "A null remains sensitivity-limited if the model architecture lacks global receptive coverage."
+    },
+    "novelty_confidence": {
+      "value": 2,
+      "why": "Only targeted searching was performed."
+    },
+    "regret": {
+      "value": 3,
+      "why": "Very cheap and memorable, but the physiology may not survive dataset preprocessing."
+    }
+  },
+  "mode_c_priority_score": 4.15,
+  "unverified_claims": [
+    "quantitative sinus HU fidelity",
+    "absence of contrast contamination",
+    "receptive-field coverage",
+    "sinus HU ranks hematocrit in this cohort",
+    "novelty"
+  ],
+  "plain_pitch": "Red blood cells make blood look denser on an unenhanced CT scan, and their concentration affects how much oxygen reaches threatened brain tissue. This speculative test asks whether the model reads the large venous sinuses as a crude oxygen gauge. A true result would be a graded change in lesion predictions when only sinus density is altered, but it would not by itself prove that the model has measured anemia.",
+  "track": "baseline",
+  "charter": "isles24"
+}

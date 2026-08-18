@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-40 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+41 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -14,7 +14,6 @@ A candidate that dies like a prior one must say what makes it different.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
-- **isles24-scout-003-c04** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.2, audited 2026-08-18] -- The blood's grayscale oxygen gauge
 - **isles24-scout-004-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.1, audited 2026-08-18] -- The ground truth remembers the algorithm that drafted it
 - **isles24-scout-004-c08** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-18] -- The ground truth was drawn on a swollen brain
 - **isles24-scout-001-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.7, audited 2026-08-16] -- The vascular detour the segmentation model can see
@@ -24,7 +23,8 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-003-c08** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-18] -- The skull is a fixed-volume pressure vessel
 - **isles24-scout-004-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-18] -- Does the model bring a vascular map to the scan?
 - **isles24-scout-004-c06** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-18] -- The scan remembers which hospital took it
-- ... and 15 more (python scout.py backlog)
+- **isles24-scout-003-c07** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.5, audited 2026-08-18] -- Does the model price the last mile of blood delivery?
+- ... and 14 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
@@ -55,6 +55,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-025** [PAUSED/DEBATED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - **idea-026** [REJECTED/SCOUTED/baseline] -- A spreading front inside the perfusion deficit
 - **idea-027** [SHORTLISTED/SCOUTED/baseline] -- When vanished sulci mean rescue, not death
+- **idea-028** [SHORTLISTED/SCOUTED/baseline] -- The blood's grayscale oxygen gauge
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
@@ -74,7 +75,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-003-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
 - **isles24-scout-003-c02** [SCOUT_ONLY/SCOUTED/baseline] -- How much artery did the clot occupy?
 - **isles24-scout-003-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The arterial network's spare route
-- **isles24-scout-003-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The blood's grayscale oxygen gauge
+- **isles24-scout-003-c04** [SHORTLISTED/SCOUTED/baseline] -- The blood's grayscale oxygen gauge
 - **isles24-scout-003-c05** [SHORTLISTED/SCOUTED/baseline] -- When vanished sulci mean rescue, not death
 - **isles24-scout-003-c06** [SCOUT_ONLY/SCOUTED/wide] -- The bolus spreads like dye in a river
 - **isles24-scout-003-c07** [SCOUT_ONLY/SCOUTED/wide] -- Does the model price the last mile of blood delivery?
