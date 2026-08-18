@@ -31,3 +31,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 030,The ground truth was drawn on a swollen brain,ACTIVE,,"{'value': 5, 'why': ""Cheap, keystone-verified, composes with c01, and the question will eventually be asked of every follow-up-derived ground truth; being scooped on an obvious-in-hindsight audit of the program's own charter dataset would sting.""}",CRITIQUE,
 031,The vascular detour the segmentation model can see,ACTIVE,,"{'value': 5, 'why': 'The dataset uniquely co-releases the needed vascular and outcome views.'}",CRITIQUE,
 032,The arterial network's spare route,ACTIVE,,"{'value': 5, 'why': 'A released multilabel arterial graph makes an otherwise difficult mechanism unusually testable.'}",CRITIQUE,
+033,Did preprocessing teach the winner to read the disappearing insular ribbon?,ACTIVE,,"{'value': 4, 'why': 'A large preprocessing effect and an established radiologic signal are one experiment apart.'}",CRITIQUE,

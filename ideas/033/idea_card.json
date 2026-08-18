@@ -1,0 +1,87 @@
+{
+  "id": "isles24-scout-003-c01",
+  "parent_ids": [],
+  "search_mode": "A",
+  "entry_point": 2,
+  "title": "Did preprocessing teach the winner to read the disappearing insular ribbon?",
+  "question": "Is an ISLES'24 final-infarct model using loss of gray-white differentiation in the insular ribbon and basal ganglia as a map of already injured tissue?",
+  "rung": "Target rung 1: use of an automated gray-white attenuation-contrast measurement; rung 2 requires center-held-out replication and convergence across at least two model families.",
+  "deliverable_sentence": "The final-infarct model is using loss of gray-white differentiation in established ASPECTS regions as an acute-tissue-injury signal.",
+  "X_measurement": "Register an ASPECTS atlas automatically, erode each region, and compute the affected-to-mirrored difference in gray-matter versus adjacent white-matter HU contrast; automated contralateral densitometry is described by Takahashi et al. (PMID 26158082), while automated ASPECTS systems provide directly executable precedents (DOI 10.3174/ajnr.A5889; DOI 10.1002/hbm.25845). Compute-today test: YES on any unseen NCCT using an atlas, midsagittal reflection, tissue masks, and HU arithmetic; no new annotator.",
+  "suspected_signal": "Cytotoxic edema blurs the normally higher attenuation of cortex and deep gray matter relative to white matter; the winning recipe's large preprocessing gain makes a low-contrast NCCT cue a plausible unfinished story, although the gain itself does not prove this cue caused it (arXiv:2505.18424).",
+  "use_vs_association": "Selective representation erasure: learn a gray-white-contrast direction from held-out-free training cases, remove it at inference while preserving decodability of Tmax burden, lesion side, and global HU, and require a region-specific fall in predicted infarct probability beyond norm-matched random directions; an input-space contrast-restoration dose response is a secondary corroboration.",
+  "keystone_prerequisite": "A frozen ISLES'24 model that actually consumes quantitative NCCT achieves non-trivial held-out performance and exposes a representation in which gray-white contrast can be erased without destroying perfusion severity or anatomy.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The nearby facts\u2014NCCT is released and a winning method used custom windowing\u2014do not establish that the reproduced model uses NCCT or that erasure is selective. Those are the real Stage-0 gates.",
+  "rung_reached": "0; rung 1 after selective erasure plus concordant input dose response; rung 2 after model-family and center replication.",
+  "dies_like_prior": "Resembles idea-010 (CIRCULARITY), because early injury and final infarct are related. It differs by testing use of a named continuous image contrast while holding perfusion information and anatomy decodable; merely detecting an acute lesion is insufficient to pass selective erasure and graded restoration.",
+  "closest_prior_work": "Automated ASPECTS work detects early ischemic change on NCCT (PMID 30498017; PMID 35357053), and the winning ISLES paper reports preprocessing-dependent performance (arXiv:2505.18424). Neither tests whether a final-infarct model uses regional gray-white contrast. This is a targeted gap, not a verified novelty claim.",
+  "existing_assets": "Public NCCT and registered perfusion maps for 149 cases; automated ASPECTS and densitometry precedents; reproducible nnU-Net family; official metrics.",
+  "smallest_decisive_experiment": "Freeze a center-stratified split; train one NCCT+perfusion model and require prespecified improvement over its perfusion-only twin. On 40 held-out cases, run selective erasure and three-level contrast restoration with random-direction and mirrored-unaffected controls. Roughly 30-50 GPU-hours and 7-10 days to first decision.",
+  "standing_confounds_addressed": "Within-case mirroring controls patient, scanner, site, habitus, and prevalence; frozen split prevents leakage; perfusion decodability tests gross collateral damage. Reconstruction and beam hardening are not fully ruled out and require region/site stratification. Follow-up label provenance does not enter the primary paired output change.",
+  "alternative_explanations": [
+    "Erasure removes generic lesion severity; ruled against by preserved Tmax/core-volume decodability and random directions.",
+    "The response is an edit artifact; bounded by physiologic contrast ranges, discriminator checks, and agreement with representation erasure.",
+    "Windowing rather than biology explains the signal; this remains a model-mechanism explanation at rung 1 and forbids a claim that the model measures irreversible core."
+  ],
+  "anticipated_negative": "Decisive only after the NCCT incremental-performance and erasure-selectivity gates; otherwise sensitivity-limited. A gated null shows that the preprocessing success did not translate into use of this radiologist-recognized cue.",
+  "remaining_legwork": "2 days for archive/input census, 4-6 days for twin models, 3 days for probes: 7-10 days.",
+  "design_template": "representation-erasure",
+  "entry_point_2_requirements": "Measurement: mirrored ASPECTS-region gray-white HU contrast. Confused artifact: reconstruction noise and beam hardening; quantify local noise, stratify by site/region, and include unaffected-side controls.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "One named radiologic sign, one quantitative measurement, and a directional intervention."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Dual representation/input evidence is promising, but selective erasure and reconstruction effects remain unverified."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Gray-white loss is a core acute-stroke reading task and bears on what the model calls already injured."
+    },
+    "interest": {
+      "value": 4,
+      "why": "It gives a physiological candidate explanation for the winner's preprocessing-dependent gain."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "Measurement and model recipes exist; the actual trained audit model does not."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because the true model/representation keystone is not inspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Required public modalities exist, though the archive is large."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Official segmentation metrics exist; selectivity gates are custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "Useful after the explicit NCCT contribution and sensitivity gates."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Targeted primary-source search found adjacent detection and challenge work, not this audit; not exhaustive."
+    },
+    "regret": {
+      "value": 4,
+      "why": "A large preprocessing effect and an established radiologic signal are one experiment apart."
+    }
+  },
+  "priority_score": 3.65,
+  "unverified_claims": [
+    "NCCT provides incremental performance in the reproduced model",
+    "quantitative HU survives released preprocessing",
+    "selective representation erasure is achievable",
+    "novelty beyond targeted search"
+  ],
+  "plain_pitch": "Radiologists look for fading contrast between gray and white brain tissue as an early sign of stroke injury. This study asks whether a final-infarct model uses that same sign, rather than merely benefiting from better-looking scans. If true, selectively removing that contrast signal would change predictions in the affected regions while leaving perfusion information intact.",
+  "track": "baseline",
+  "charter": "isles24"
+}

@@ -32,6 +32,7 @@
 - [isles24] **idea-030** [REJECTED] -- The ground truth was drawn on a swollen brain
 - [isles24] **idea-031** [REJECTED] -- The vascular detour the segmentation model can see
 - [isles24] **idea-032** [REJECTED] -- The arterial network's spare route
+- [isles24] **idea-033** [SHORTLISTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -48,7 +49,7 @@
 - [isles24] **isles24-scout-002-c06** [SHORTLISTED] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - [isles24] **isles24-scout-002-c07** [SHORTLISTED] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
 - [isles24] **isles24-scout-002-c08** [SCOUT_ONLY] -- Has the deficit percolated? Volume is what the metric sees; connectivity may be what the model uses
-- [isles24] **isles24-scout-003-c01** [SCOUT_ONLY] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
+- [isles24] **isles24-scout-003-c01** [SHORTLISTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
 - [isles24] **isles24-scout-003-c02** [SCOUT_ONLY] -- How much artery did the clot occupy?
 - [isles24] **isles24-scout-003-c03** [SHORTLISTED] -- The arterial network's spare route
 - [isles24] **isles24-scout-003-c04** [SHORTLISTED] -- The blood's grayscale oxygen gauge
