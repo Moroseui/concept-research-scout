@@ -1,0 +1,92 @@
+{
+  "id": "isles24-scout-003-c05",
+  "parent_ids": [],
+  "search_mode": "C",
+  "entry_point": 2,
+  "title": "When vanished sulci mean rescue, not death",
+  "question": "Is an ISLES'24 multimodal model using isolated sulcal effacement with preserved gray-white junction as a sign of viable tissue supported by engorged collaterals?",
+  "rung": "Mode C target rung 1 use of an automatic isolated-effacement index; rung 3 language about viable collateral-supported tissue requires external physiological validation.",
+  "deliverable_sentence": "The final-infarct model is using isolated sulcal effacement with preserved gray-white differentiation as a tissue-survival signal.",
+  "X_measurement": "Within the Tmax-delayed territory, automatically quantify affected/mirrored sulcal CSF fraction from NCCT and retain voxels whose local gray-white HU contrast is within 1 SD of the mirror; combine this with CTA pial-vessel volume in the same region. The clinical sign and its association with preserved tissue were reported in 108 LVO cases, 8 with isolated sulcal effacement and no follow-up infarct in the effaced area (PMID 25931460). Compute-today test: YES from registered NCCT, CTA, and Tmax using automatic CSF/tissue/vessel segmentation; no annotator.",
+  "suspected_signal": "Dilated leptomeningeal collateral vessels can crowd cerebrospinal-fluid spaces and efface sulci while preserving underlying tissue attenuation; unlike edema-driven effacement, this pattern may mark robust collateral filling and reversibility.",
+  "use_vs_association": "Counterfactual synthesis swaps the local triad\u2014sulcal CSF fraction, pial-vessel occupancy, and preserved gray-white contrast\u2014between matched delayed territories while holding Tmax/CBF/CBV, tissue location, and total edited volume fixed. A survival-directed output change must occur only for the coherent triad, not isolated CSF deletion or vessel addition.",
+  "keystone_prerequisite": "ISLES'24 contains enough automatically detectable isolated-sulcal-effacement territories, and single-phase CTA plus NCCT can distinguish the collateral-engorgement pattern from edema and registration error without new expert labels.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The published sign occurred in only 7.4% of a selected LVO cohort. With 149 ISLES cases, expected support may be single digits, and the automatic construct has never been validated here; this is the real keystone.",
+  "rung_reached": "0; rung 1 after support, construct, and coherent-triad gates; rung 3 only with external multiphase/dynamic collateral validation.",
+  "dies_like_prior": "Resembles idea-005's ANNOTATION_PROVENANCE risk if a radiologist's call defines the sign. This card avoids annotator-dependent input by prespecifying an image-computable triad, but construct validity is weaker and honestly capped. It also differs from isles24-scout-001-c02 by testing a parenchymal-sulcal sign of collateral support rather than distal arterial reach itself.",
+  "closest_prior_work": "The primary case series defined isolated sulcal effacement and linked it to engorged leptomeningeal vessels and spared follow-up tissue (PMID 25931460). Quantitative CTA collateral scoring is acquisition-phase sensitive (PMID 29674417). No located work tests model use of the coherent sign; the rarity and phase dependence make this a deliberately speculative candidate.",
+  "existing_assets": "Registered NCCT/CTA/perfusion maps, final MRI masks, automatic tissue and vessel segmentation tools, and a precise prior clinical phenotype.",
+  "smallest_decisive_experiment": "Stage 0 on all 149 cases: compute the triad blind to outcomes; require >=15 territories meeting fixed thresholds, stable detection under registration perturbation, and stronger ipsilateral pial-vessel occupancy without reduced gray-white contrast. If passed, run coherent and incoherent edits on the held-out subset. Two weeks; under 15 GPU-hours after model training.",
+  "standing_confounds_addressed": "Within-territory matched edits hold scanner, vendor, protocol, site, habitus, prevalence, and referral; fixed perfusion maps separate the sulcal sign from measured delay/flow. CTA phase, edema, registration, and rarity remain major threats. Follow-up labels are secondary; primary evidence is paired model-output change.",
+  "alternative_explanations": [
+    "Effacement is edema, not collateral engorgement; preserved gray-white contrast plus pial-vessel occupancy is the discriminating conjunction.",
+    "Single-phase CTA catches different bolus phases; within-case affected/mirror ratios help but cannot fully solve this.",
+    "The coherent edit is simply more complex; each incoherent component and equal-volume controls quantify generic edit response."
+  ],
+  "anticipated_negative": "Uninterpretable if fewer than 15 territories or construct gates fail; sensitivity-limited even after gates because the sign is rare. Accordingly negative-result value is capped at 2.",
+  "remaining_legwork": "4-5 days automatic census and stability analysis, 3 days support review, 4-5 days synthesis: about two weeks if the rarity gate passes.",
+  "design_template": "counterfactual-synthesis",
+  "entry_point_2_requirements": "Measurement: low sulcal CSF fraction plus preserved gray-white contrast plus increased pial-vessel occupancy. Confused artifact: edema, registration, and CTA phase; the conjunction, perturbation stability, and within-case ratios address but do not eliminate them.",
+  "scores": {
+    "mechanism_clarity": {
+      "value": 5,
+      "why": "A specific anatomical mechanism\u2014collateral vessels occupying sulci\u2014with three measurable components."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "The coherent-versus-incoherent edit is discriminating, but CTA phase and construct validity remain."
+    },
+    "interest": {
+      "value": 5,
+      "why": "It reverses the usual reading of effacement from injury to possible rescue."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Mistaking reversible tissue for core can affect treatment interpretation."
+    },
+    "clarity": {
+      "value": 4,
+      "why": "The conjunction is explicit but thresholds require preregistration."
+    },
+    "prior_legwork": {
+      "value": 2,
+      "why": "One small clinical series exists; automatic measurement is unvalidated."
+    },
+    "feasibility": {
+      "value": 2,
+      "why": "Reported outside Mode C score; rarity may kill it immediately."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "All modalities are public, but support is unknown."
+    },
+    "evaluation_readiness": {
+      "value": 2,
+      "why": "Construct and synthesis gates are custom."
+    },
+    "negative_result_value": {
+      "value": 2,
+      "why": "Capped because rarity makes a null potentially uninterpretable."
+    },
+    "novelty_confidence": {
+      "value": 2,
+      "why": "Targeted search only and a niche sign invites missed literature."
+    },
+    "regret": {
+      "value": 4,
+      "why": "If support exists, ISLES'24 uniquely couples the sign to final tissue fate."
+    }
+  },
+  "mode_c_priority_score": 4.15,
+  "unverified_claims": [
+    "at least 15 qualifying territories",
+    "automatic triad validity",
+    "CTA phase adequacy",
+    "edit realism",
+    "novelty"
+  ],
+  "plain_pitch": "Flattened brain grooves usually sound like swelling and damage, but one rare stroke pattern may instead come from enlarged rescue vessels filling those grooves while the tissue remains intact. This study asks whether the model recognizes that full pattern. It proceeds only if enough cases can be found automatically and if the pattern can be separated from ordinary edema and scan-timing effects.",
+  "track": "baseline",
+  "charter": "isles24"
+}
