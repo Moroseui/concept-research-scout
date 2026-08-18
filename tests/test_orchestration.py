@@ -2133,5 +2133,98 @@ class TestCommsAndPolish(Harness):
         self.assertIn("charter=baseline", r2.stdout)
 
 
+class TestCharterIntegrity(Harness):
+    """2026-08-18 audit regressions: charter-explicit promotion, prompt
+    binding from the target, digest isolation, in-flight scoping."""
+
+    def _sc(self):
+        import sys
+        from pathlib import Path
+        root = str(Path(__file__).resolve().parent.parent)
+        if root not in sys.path:
+            sys.path.insert(0, root)
+        import scout as sc
+        sc.ROOT = self.repo
+        sc.STATE = self.repo / "orchestrator" / "state.json"
+        sc.PROMPTS = self.repo / "orchestrator" / "prompts"
+        sc.ledger_mod.ROOT = self.repo
+        sc.ledger_mod.LEDGER = self.repo / "ledger.jsonl"
+        sc.ledger_mod.DIGEST = self.repo / "evidence" / "ledger_digest.md"
+        return sc
+
+    def _mk_charter_cycle(self, sc, name="zzq", cyc=1):
+        import copy
+        p = self.repo / "charters" / name
+        p.mkdir(parents=True, exist_ok=True)
+        (p / "CHARTER.md").write_text(f"ZZQ-CHARTER-BODY-{name}\n")
+        d = self.repo / "ideas" / f"scout-{name}-{cyc:03d}"
+        d.mkdir(parents=True, exist_ok=True)
+        card = copy.deepcopy(GOLDEN_CANDIDATE)
+        card["charter"] = name
+        (d / "candidates_all.json").write_text(json.dumps(
+            {"charter": name, "candidates": [card]}))
+        return d, card
+
+    def test_promotion_is_charter_explicit_and_idempotent(self):
+        sc = self._sc()
+        self._mk_charter_cycle(sc)
+        before = {lid for lid in sc.ledger_mod.load()
+                  if lid.startswith("scout-")}
+        n1 = sc._do_shortlist(1, 1, charter="zzq")
+        n2 = sc._do_shortlist(1, 1, charter="zzq")
+        self.assertEqual(n1, n2, "second promotion must return the first idea")
+        after = sc.ledger_mod.load()
+        touched = [lid for lid in after if lid.startswith("scout-")
+                   and lid not in before]
+        self.assertEqual(touched, [],
+                         "promoting a charter candidate must create/modify "
+                         "zero unprefixed baseline rows")
+        self.assertEqual(after[f"zzq-scout-001-c01"]["status"], "SHORTLISTED")
+        self.assertEqual(after[f"idea-{n1:03d}"].get("charter"), "zzq")
+
+    def test_prompt_charter_binds_to_target_not_global_state(self):
+        sc = self._sc()
+        self._mk_charter_cycle(sc)
+        n = sc._do_shortlist(1, 1, charter="zzq")
+        # adversarial global state: the active cycle is a BASELINE cycle
+        st = sc.load_state()
+        st["cycle"] = {"scout": 99, "charter": None, "tracks": ["baseline"],
+                       "stages": {"scout": "running"}}
+        sc.save_state(st)
+        prompt = sc.build_prompt("critique", sc.idea_dir(n))
+        self.assertIn("ZZQ-CHARTER-BODY-zzq", prompt,
+                      "an idea's stages must receive the idea's charter "
+                      "regardless of which cycle is globally active")
+
+    def test_digest_is_charter_scoped_with_factual_index(self):
+        sc = self._sc()
+        sc.ledger_mod.append({"ledger_id": "zzq-scout-001-c09",
+                              "status": "SCOUT_ONLY", "title": "zq idea",
+                              "scores_mean": 4.9, "charter": "zzq",
+                              "novelty_verdict": "NO_DUPLICATE_FOUND_HIGH_CONFIDENCE"})
+        sc.ledger_mod.digest()
+        zq = (self.repo / "evidence" / "ledger_digest_zzq.md").read_text()
+        base = (self.repo / "evidence" / "ledger_digest.md").read_text()
+        self.assertIn("zzq-scout-001-c09", zq)
+        self.assertNotIn("zzq-scout-001-c09", base,
+                         "charter rows must not appear in the baseline digest")
+        idx = (self.repo / "evidence" / "cross_charter_index.md").read_text()
+        self.assertIn("zzq-scout-001-c09", idx)
+        self.assertNotIn("score", idx.split("\n")[0].lower() and "4.9" or "4.9",
+                         "the cross-charter index carries no scores")
+
+    def test_inflight_selection_is_charter_scoped(self):
+        sc = self._sc()
+        sc.ledger_mod.append({"ledger_id": "idea-097", "status": "SHORTLISTED",
+                              "title": "baseline in-flight"})
+        d = self.repo / "ideas" / "097"
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "idea_card.json").write_text(json.dumps({"title": "b"}))
+        got = sc._incomplete_pipeline_ideas(["keystone"], charter="zzq")
+        self.assertNotIn(97, got,
+                         "a charter pipeline must never divert to finishing "
+                         "a baseline idea")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

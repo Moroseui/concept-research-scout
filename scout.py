@@ -88,8 +88,30 @@ def charter_path(name):
 
 
 def _active_charter():
-    """Charter of the in-flight cycle, if any (reader-side default: baseline)."""
+    """Charter of the in-flight cycle, if any (reader-side default: baseline).
+    OPERATIONAL use only (cycle-stage bookkeeping). Scientific logic must
+    resolve charter from its explicit target: 2026-08-18 audit found every
+    downstream prompt for ideas 020-025 carried the baseline charter because
+    this function reflects whatever cycle ran last, not the idea at hand."""
     return (load_state().get('cycle') or {}).get('charter')
+
+
+def charter_for_target(target):
+    """Authoritative charter resolution for a stage target directory:
+    1) the idea card's charter stamp, 2) a charter-prefixed scout dir name,
+    3) the active cycle's charter (cycle-internal stages only), 4) baseline."""
+    try:
+        t = Path(target)
+        card = t/'idea_card.json'
+        if card.exists():
+            ch = json.loads(card.read_text()).get('charter')
+            if ch:
+                return ch
+        if t.name.startswith('scout-'):
+            return _parse_scout_dir(t.name)[0]
+    except Exception:
+        pass
+    return _active_charter()
 
 
 # --------------------------------------------------------------------------
@@ -127,6 +149,19 @@ def _target_context(stage, target):
     return '\n\n'.join(parts)
 
 
+def _digest_path(charter):
+    """Per-charter digest file; falls back to the global one until the
+    charter-scoped digest has been generated at least once."""
+    if charter:
+        p = ROOT/'evidence'/f'ledger_digest_{charter}.md'
+        if p.exists():
+            return p
+    p = ROOT/'evidence'/'ledger_digest_baseline.md'
+    if not charter and p.exists():
+        return p
+    return ROOT/'evidence'/'ledger_digest.md'
+
+
 def build_prompt(stage, target):
     task = read_text(PROMPTS/f'{stage}.md')
     if stage in BLIND_STAGES:
@@ -140,9 +175,9 @@ Write only the file the task names. Preserve all other files.
 ===== STAGE TASK =====
 {task}
 """
-    files = [charter_path(_active_charter()), ROOT/'docs'/'COLLABORATOR_RULES.md',
+    files = [charter_path(charter_for_target(target)), ROOT/'docs'/'COLLABORATOR_RULES.md',
              ROOT/'docs'/'SCORING_RUBRIC.md', ROOT/'evidence'/'decisions.md',
-             ROOT/'evidence'/'ledger_digest.md', ROOT/'evidence'/'portfolio_brief.md',
+             _digest_path(charter_for_target(target)), ROOT/'evidence'/'portfolio_brief.md',
              ROOT/'evidence'/'librarian_proposals.md']
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
     tctx = _target_context(stage, target)
@@ -573,7 +608,10 @@ def _do_shortlist(scout_no, cand_no, track=None, charter=None):
     (d/'README.md').write_text(f"# Idea {n:03d}: {card.get('title','Untitled')}\n\nSelected from scouting cycle {_fmt_scout(charter, scout_no)}, candidate {cand_no}.\n")
     s = load_state()
     s['selected_idea'] = n
-    s.setdefault('shortlisted', {}).setdefault(str(scout_no), {})[str(cand_no)] = n
+    # charter-qualified key, matching the idempotence read above (the
+    # unqualified write here silently broke idempotence and collided
+    # baseline cycle N with every charter's cycle N -- 2026-08-18 audit)
+    s.setdefault('shortlisted', {}).setdefault(skey, {})[str(cand_no)] = n
     save_state(s)
     with (ROOT/'portfolio'/'ideas.csv').open('a', newline='') as f:
         csv.writer(f).writerow([f'{n:03d}', card.get('title',''), 'ACTIVE', '', card.get('scores',{}).get('regret',''), 'CRITIQUE', ''])
@@ -581,11 +619,16 @@ def _do_shortlist(scout_no, cand_no, track=None, charter=None):
                        'claim': card.get('deliverable_sentence') or card.get('question',''),
                        'deliverable_original': card.get('deliverable_sentence', ''),
                        'track': card.get('track','baseline'), 'status': 'SHORTLISTED',
+                       'charter': charter,
                        'scrutiny': 'SCOUTED', 'source': f'ideas/{n:03d}'})
     if track is None:
-        # Retire the source candidate from the backlog and point at its idea.
-        ledger_mod.append({'ledger_id': _scout_lid(_active_charter(), scout_no, f'c{cand_no:02d}'),
-                           'status': 'SHORTLISTED', 'notes': f'promoted to idea-{n:03d}'})
+        # Retire the source candidate. The EXPLICIT charter argument is the
+        # only authority here: _active_charter() reflects whatever cycle is
+        # globally current and falsely retired six baseline rows for ISLES
+        # promotions (2026-08-18 audit; produced zombie idea-026).
+        ledger_mod.append({'ledger_id': _scout_lid(charter, scout_no, f'c{cand_no:02d}'),
+                           'status': 'SHORTLISTED', 'notes': f'promoted to idea-{n:03d}',
+                           'charter': charter})
     ledger_mod.digest()
     print(f'Shortlisted as idea {n:03d}')
     return n
@@ -2102,7 +2145,7 @@ def backlog_cmd(_args):
         print(f"cycle {s:03d} C{c}  [{v}{', %.1f' % sm if sm else ''}]  {e.get('title','')[:80]}")
 
 
-def _incomplete_pipeline_ideas(stages):
+def _incomplete_pipeline_ideas(stages, charter=None):
     """Shortlisted ideas whose requested final artifact is missing -- these are
     in-flight and must be finished before new candidates are drawn."""
     final = STAGE_DONE_MARKER.get(stages[-1])
@@ -2111,6 +2154,18 @@ def _incomplete_pipeline_ideas(stages):
         if e.get('status') != 'SHORTLISTED' or not lid.startswith('idea-'):
             continue
         n = int(lid.split('-')[1])
+        if charter is not None or True:
+            # scope to the requested charter: an isles24 pipeline run must
+            # never divert to finishing a baseline idea (2026-08-18 audit)
+            card = idea_dir(n)/'idea_card.json'
+            idea_ch = None
+            if card.exists():
+                try:
+                    idea_ch = json.loads(card.read_text()).get('charter')
+                except Exception:
+                    idea_ch = None
+            if idea_ch != charter:
+                continue
         if final and not (idea_dir(n)/final).exists():
             out.append(n)
     return out
@@ -2281,7 +2336,7 @@ def pipeline(args):
             picks = [(scout_no, args.candidate)]
         else:
             n = max(1, int(args.top or 1))
-            inflight = _incomplete_pipeline_ideas(stages)
+            inflight = _incomplete_pipeline_ideas(stages, charter)
             if inflight:
                 print('Finishing in-flight idea(s) first: '
                       + ', '.join(f'{i:03d}' for i in inflight[:n]))

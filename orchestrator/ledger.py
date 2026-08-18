@@ -67,7 +67,12 @@ def _records() -> list[dict]:
         try:
             out.append(json.loads(ln))
         except json.JSONDecodeError:
-            continue  # never let one bad line poison the ledger
+            import sys
+            print(f'LEDGER HEALTH FAILURE: malformed line in {LEDGER} -- an '
+                  'audit-critical event log must not silently lose history. '
+                  'Restore the line from git history before continuing.',
+                  file=sys.stderr)
+            raise  # never let one bad line poison the ledger
     return out
 
 
@@ -217,10 +222,49 @@ def migrate(force: bool = False) -> int:
 
 # ------------------------------------------------------------------ digest
 
+def _entry_charter(lid: str, e: dict):
+    """Charter of a ledger row: explicit field first, then the lid prefix."""
+    if e.get('charter'):
+        return e['charter']
+    if lid.startswith('idea-') or lid.startswith('scout-'):
+        return None
+    if '-scout-' in lid:
+        return lid.split('-scout-')[0]
+    return None
+
+
 def digest() -> Path:
-    entries = load()
-    lines = ['# Ledger digest (auto-generated -- do not edit; run `python scout.py ledger digest`)',
-             '', f'{len(entries)} tracked ideas. Latest state per idea; full history in ledger.jsonl.', '']
+    """Writes per-charter digests (charter-local rankings; scores never
+    cross charters -- the 2026-08-18 audit found one global digest ranking
+    both charters in a single scored table, injected into every prompt)
+    plus a score-free cross-charter factual index. The legacy global path
+    is written as the baseline view for compatibility."""
+    allentries = load()
+    charters = sorted({_entry_charter(l, e) for l, e in allentries.items()},
+                      key=lambda c: (c is not None, c or ''))
+    idx = ['# Cross-charter index (facts only; scores are never comparable '
+           'across charters)', '']
+    for lid in sorted(allentries):
+        e = allentries[lid]
+        ch = _entry_charter(lid, e) or 'baseline'
+        idx.append(f"- [{ch}] **{lid}** [{e.get('status','?')}] -- {e.get('title','')}")
+    DIGEST.parent.mkdir(parents=True, exist_ok=True)
+    (DIGEST.parent/'cross_charter_index.md').write_text('\n'.join(idx) + '\n')
+    out_path = DIGEST
+    for charter in charters:
+        entries = {l: e for l, e in allentries.items()
+                   if _entry_charter(l, e) == charter}
+        p = _digest_one(entries, charter)
+        if charter is None:
+            out_path = p
+    return out_path
+
+
+def _digest_one(entries, charter) -> Path:
+    scope = charter or 'baseline'
+    lines = [f'# Ledger digest -- charter: {scope} (auto-generated; scores are scoped to this charter only)',
+             '', f'{len(entries)} tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.',
+             '', 'Work under other charters: evidence/cross_charter_index.md (facts, no scores).', '']
     kills: dict[str, int] = {}
     for e in entries.values():
         if e.get('kill_code'):
@@ -271,9 +315,12 @@ def digest() -> Path:
         if e.get('dataset'):
             bits.append(f"data: {e['dataset']}")
         lines.append('- ' + ' -- '.join(bits))
-    DIGEST.parent.mkdir(parents=True, exist_ok=True)
-    DIGEST.write_text('\n'.join(lines) + '\n')
-    return DIGEST
+    target = (DIGEST if charter is None
+              else DIGEST.parent/f'ledger_digest_{charter}.md')
+    target.write_text('\n'.join(lines) + '\n')
+    if charter is None:
+        (DIGEST.parent/'ledger_digest_baseline.md').write_text('\n'.join(lines) + '\n')
+    return target
 
 
 # ---------------------------------------------------------------- CLI glue

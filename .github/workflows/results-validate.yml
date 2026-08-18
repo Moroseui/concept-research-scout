@@ -25,9 +25,23 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
+      # SECURITY (2026-08-18 audit): a push to results/** triggers this
+      # workflow, and the old single checkout put the PUSHED branch's code
+      # on disk and ran ITS scout.py under a token with pull-requests:write.
+      # Anyone able to push a results branch could run arbitrary code with
+      # elevated permissions. Now: code (scout.py, contracts) always comes
+      # from main; the pushed branch is fetched as DATA into results-data/
+      # and only its bundle files are read, never executed.
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          path: results-data
+          fetch-depth: 1
 
       - uses: actions/setup-python@v5
         with:
@@ -47,7 +61,7 @@ jobs:
             exit 1
           fi
           echo "idea=$IDEA" >> "$GITHUB_OUTPUT"
-          echo "bundle=probes/$IDEA/results_v2" >> "$GITHUB_OUTPUT"
+          echo "bundle=results-data/probes/$IDEA/results_v2" >> "$GITHUB_OUTPUT"
 
       - name: Contract-branch binding check
         run: |
