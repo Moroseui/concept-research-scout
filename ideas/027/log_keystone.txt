@@ -1,0 +1,13 @@
+Keystone screen complete — verdict **UNVERIFIABLE** (passes onward with the uncertainty recorded), written to `ideas/027/keystone_screen.md`.
+
+What the investigation established:
+
+**Checkable prerequisites all verified true, with verbatim quotes.** The Zenodo release (record 16813698) confirms 149 publicly downloadable training cases, each with NCCT, CTA, 4D CTP, derived Tmax/CBF/CBV/MTT maps, and follow-up DWI/ADC, with a derivatives version having "all modalities linearly co-registered to the NCCT space" — exactly the registered stack the card's triad measurement needs. The challenge paper (arXiv:2408.10966) confirms lesion masks come from follow-up MRI via DeepISLES with neuroradiologist-supervised QC. The cited clinical series (PMID 25931460) is transcription-accurate in the card: 108 intra-arterial-therapy patients, 8 (7.4%) with isolated sulcal effacement, "no infarct in the ISE area in all patients," and CTA showing "engorged/dilated leptomeningeal vessels obliterating the sulci."
+
+**The decisive clause is genuinely undecidable from sources, and the arithmetic is unfavorable.** Both cohorts are endovascular-therapy populations, so the 7.4% base rate is the right family: scaled to 149 cases that's an expected ~11 qualifying territories against the card's own ≥15 Stage-0 gate, with a 95% interval spanning roughly 5–21. Not demonstrably false (so no KILL), but only the card's planned blind census can settle it — which is what Stage 0 is for.
+
+**No wrong-keystone error found.** The card's `keystone_residual_assumption` already names the rarity problem as "the real keystone," and that matches what the evidence shows. Two residual assumptions were forwarded explicitly to Stage 0: NCCT slice thickness (not stated in any source I could reach; thick real-world slices would degrade the automatic sulcal-CSF measurement) and single-phase CTA timing variability (no multiphase CTA exists in the release to rescue it).
+
+One process note: the sandbox blocked local PDF extraction and Python, so the Clopper–Pearson interval is a hand approximation and is labeled as such in the screen.
+
+Sources: [Zenodo ISLES'24 record](https://zenodo.org/records/16813698), [arXiv:2408.10966](https://arxiv.org/pdf/2408.10966), [arXiv:2408.11142](https://arxiv.org/abs/2408.11142), [PMID 25931460 via NCBI E-utilities](https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=25931460&rettype=abstract&retmode=text).
