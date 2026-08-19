@@ -1,24 +1,21 @@
 {
-  "next_scout": 17,
+  "next_scout": 18,
   "selected_idea": 44,
-  "active_cycle": 5,
+  "active_cycle": 17,
   "cycle": {
-    "scout": 5,
-    "charter": "isles24",
+    "scout": 17,
+    "charter": null,
     "tracks": [
-      "baseline",
-      "wide"
+      "baseline"
     ],
     "seed_concepts": null,
-    "started": "2026-08-18T23:50:39+00:00",
+    "started": "2026-08-19T06:26:07+00:00",
     "stages": {
-      "scout": "done",
-      "wide_scout": "done",
-      "merge": "done",
-      "novelty_audit": "done",
-      "backlog": "done"
-    },
-    "finished": "2026-08-19T00:11:10+00:00"
+      "scout": "pending",
+      "merge": "pending",
+      "novelty_audit": "pending",
+      "backlog": "pending"
+    }
   },
   "shortlisted": {
     "6": {

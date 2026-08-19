@@ -5,6 +5,30 @@ framing never crosses charters; facts cross via
 evidence/cross_charter_index.md). A revival/recombination
 candidate MUST cite the specific condition below that has changed.
 
+## idea-042 [SHORTLISTED] -- Delay is not dispersion
+
+**Verdict:** **REVISE.** The debate repaired two concrete identifiability failures, but the final rebuttal introduced an unverified load-bearing assertion: that the admissible same-case curve family is effectively one-dimensional after arrival, area, and peak are fixed, so all remaining descriptor changes are manifestations of dispersion rather than operator-specific alternatives. Before deciding, the human should look most closely at whether an empirical, model-blind manifold and alternative-operator test is sufficient to operationalize “dispersion”; that decision determines whether this remains idea 042 or must become a narrower operator-specific successor.
+
+**Unresolved:** Does the common-support edit identify physiological dispersion or only sensitivity to one reshaping operator?; Is the common-support subset large and stable enough for a confirmatory experiment?; Can the required physical-family constraint be justified rather than assumed?
+
+## idea-041 [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
+
+**Verdict:** **REVISE.** The final amendment is responsive to the critic's source-ground-truth requirement, but it arrived after three rounds, was not reviewed by the critic, is absent from the card, and changes the project from a small erasure probe into a multi-stage phantom-validation program. The single most important thing the human should inspect is whether source recovery in the proposed Kudo/Manniesing C0 design, followed by explicitly regime-limited transport to patient support, is enough to justify the words “tissue-flow signal”; if not, this card should stop and any roughness-dependence study must enter as a successor.
+
+**Unresolved:** Does the proposed phantom validation make Arm C a valid physiological source-selectivity test?; Can a phantom-validated generator be transported to processed ISLES'24 patient curves?; Are the required phantom assets and uses obtainable?; Can the full gate stack be passed within an honest resource envelope?; Does the three-repair history warrant one more pipeline stage?
+
+## idea-040 [PAUSED] -- The pressure history written in a winding artery
+
+**Verdict:** **PAUSE.** The single most important thing the human should inspect is whether a volume-preserving common-warp equivariance protocol can be made genuinely selective: after every spatial channel is warped together and the output is inverse-warped, can TI-changing and TI-neutral deformation families be matched closely enough that tortuosity is the only systematic model-visible difference? If not, this idea has no positive test inside the available design and the observational screens should not be allowed to substitute for one.
+
+**Unresolved:** Can a common-warp equivariance design isolate tortuosity use?; Is there an obtainable natural paired design that changes tortuosity selectively?; Should the two kill-only observational screens be run while the causal arm is paused?
+
+## idea-039 [SHORTLISTED] -- Does map inconsistency change what a stroke model trusts?
+
+**Verdict:** **REVISE.** The final amendment is a plausible repair, but it has not been challenged or accepted by the critic and has not been incorporated into the idea card. Before deciding, the human should look most closely at an independent algebraic counterexample review of the complete role-disjoint, r-preserving factorial: can any residual-blind multichannel surrogate still pass every proposed carrier, sign, sham, and set-point gate?
+
+**Unresolved:** Does the round-three compensated factorial identify functional use of the residual as a confidence signal?; Can the released maps support a nontrivial residual and the full edited-cell inventory?; Are the jointly edited cells realistic enough for causal interpretation?; Is a usable surrogate obtainable and demonstrably reliant on the linked channels?; Does the rebuilt study remain worth its cost a
+
 ## idea-025 [PAUSED] -- The scan is also an actigraph: the model may be reading how much the patient moved
 
 **Verdict:** **PAUSE.** The single most important thing for the human to inspect is whether paired pre-correction and icobrain cva 1.5.0-corrected CTP, with independent motion ground truth or retained validated transforms, can be obtained for a representative cohort. Without that bridge, the original behavioral attribution is not identifiable; the index-level audit is a distinct successor rather than a repair. ```json {"verdict": "PAUSE", "unblock": "Obtain paired pre-correction and icobrain cva 1.5.0-corrected CTP (or a source-verified bit-equivalent pipeline) with independent motion ground truth or retained validated transforms, and verify patient-motion rank recovery plus the real motion-to-residue mapping."} ```
