@@ -70,6 +70,14 @@
 - [isles24] **isles24-scout-004-c06** [SHORTLISTED] -- The scan remembers which hospital took it
 - [isles24] **isles24-scout-004-c07** [SHORTLISTED] -- The edge of the map: the benchmark scores terra incognita
 - [isles24] **isles24-scout-004-c08** [SHORTLISTED] -- The ground truth was drawn on a swollen brain
+- [isles24] **isles24-scout-005-c01** [SCOUT_ONLY] -- What the winner's brain window revealed
+- [isles24] **isles24-scout-005-c02** [SCOUT_ONLY] -- The old stroke inside the new forecast
+- [isles24] **isles24-scout-005-c03** [SCOUT_ONLY] -- The bottleneck before the brain
+- [isles24] **isles24-scout-005-c04** [SCOUT_ONLY] -- The pressure history written in a winding artery
+- [isles24] **isles24-scout-005-c05** [SCOUT_ONLY] -- Do sulci pin the predicted infarct edge?
+- [isles24] **isles24-scout-005-c06** [SCOUT_ONLY] -- Does the model trust tissue that obeys the flow equation?
+- [isles24] **isles24-scout-005-c07** [SCOUT_ONLY] -- The roughness of a heartbeat through starved tissue
+- [isles24] **isles24-scout-005-c08** [SCOUT_ONLY] -- Delay is not dispersion
 - [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - [baseline] **scout-006-c02** [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - [baseline] **scout-006-c03** [SCOUT_ONLY] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver

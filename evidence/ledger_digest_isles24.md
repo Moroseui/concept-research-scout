@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-51 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+59 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -23,27 +23,28 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-001-c03** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.5, audited 2026-08-16] -- Read the stroke from the blood leaving, not only entering
 - **isles24-scout-001-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.5, audited 2026-08-16] -- The frail brain around the threatened territory
 - **isles24-scout-002-c08** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.4, audited 2026-08-16] -- Has the deficit percolated? Volume is what the metric sees; connectivity may be what the model uses
-- **isles24-scout-003-c02** [UNAUDITED, score 3.7] -- How much artery did the clot occupy?
-- ... and 4 more (python scout.py backlog)
+- **isles24-scout-005-c06** [UNAUDITED, score 4.0] -- Does the model trust tissue that obeys the flow equation?
+- ... and 12 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- regional-substitution: 8
-- counterfactual-synthesis: 8
-- representation-erasure: 4
+- counterfactual-synthesis: 10
+- regional-substitution: 9
+- representation-erasure: 6
+- conditional-observational: 3
 - cross-model-disagreement: 2
-- conditional-observational: 2
+- regional-removal: 2
 - natural-paired: 1
 - other:remote-perturbation: 1
 - other:graph-edge-intervention: 1
-- regional-removal: 1
 - model-output-perturbation: 1
 - other:temporal-reparameterization: 1
 - other:noise-residual-transplant: 1
 - other:label-geometry-audit: 1
+- other:geometry-conditioned-boundary-test: 1
 
 ## Ideas
 
@@ -98,3 +99,11 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-004-c06** [SHORTLISTED/SCOUTED/wide] -- The scan remembers which hospital took it
 - **isles24-scout-004-c07** [SHORTLISTED/SCOUTED/wide] -- The edge of the map: the benchmark scores terra incognita
 - **isles24-scout-004-c08** [SHORTLISTED/SCOUTED/wide] -- The ground truth was drawn on a swollen brain
+- **isles24-scout-005-c01** [SCOUT_ONLY/SCOUTED/baseline] -- What the winner's brain window revealed
+- **isles24-scout-005-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The old stroke inside the new forecast
+- **isles24-scout-005-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The bottleneck before the brain
+- **isles24-scout-005-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The pressure history written in a winding artery
+- **isles24-scout-005-c05** [SCOUT_ONLY/SCOUTED/baseline] -- Do sulci pin the predicted infarct edge?
+- **isles24-scout-005-c06** [SCOUT_ONLY/SCOUTED/wide] -- Does the model trust tissue that obeys the flow equation?
+- **isles24-scout-005-c07** [SCOUT_ONLY/SCOUTED/wide] -- The roughness of a heartbeat through starved tissue
+- **isles24-scout-005-c08** [SCOUT_ONLY/SCOUTED/wide] -- Delay is not dispersion
