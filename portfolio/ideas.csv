@@ -38,3 +38,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 037,The scan remembers which hospital took it,ACTIVE,,"{'value': 4, 'why': ""The decodability census is nearly free, the question is the portfolio's cleanest instance of the site-shortcut concern, and the instrument transfers to every multi-center benchmark the lab touches.""}",CRITIQUE,
 038,Does the model price the last mile of blood delivery?,ACTIVE,,"{'value': 4, 'why': 'Spatial priors are easy for segmentation networks to learn and almost never reported.'}",CRITIQUE,
 039,Does the model trust tissue that obeys the flow equation?,ACTIVE,,"{'value': 5, 'why': 'The required redundant maps are already in the benchmark, making this a cheap obvious-in-hindsight audit.'}",CRITIQUE,
+040,The pressure history written in a winding artery,ACTIVE,,"{'value': 3, 'why': 'Cheap enough to screen despite the proxy problem.'}",CRITIQUE,

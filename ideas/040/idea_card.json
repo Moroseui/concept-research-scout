@@ -1,0 +1,97 @@
+{
+  "id": "isles24-scout-005-c04",
+  "parent_ids": [],
+  "search_mode": "C",
+  "entry_point": 2,
+  "title": "The pressure history written in a winding artery",
+  "question": "Is the model using intracranial arterial tortuosity as a vascular-age and long-term pressure-load gauge?",
+  "rung": "Mode C target rung 1: use of tortuosity; rung 3 requires external validation that the representation tracks age/pressure load rather than ancestry, anatomy, or disease subtype.",
+  "deliverable_sentence": "The final-infarct model is using intracranial arterial tortuosity as a vascular-age and long-term pressure-load gauge.",
+  "X_measurement": "From CTA vessel centerlines, compute tortuosity index TI = 100*(centerline length/chord length - 1) for bilateral MCA and basilar arteries, then average. This exact formula is reported in Kim et al., Investig Magn Reson Imaging 2018, DOI 10.13104/imri.2018.22.3.150, and is computable today from an unseen CTA using an automatic vessel mask and skeletonization, without annotation.",
+  "suspected_signal": "Years of pulsatile pressure and arterial-wall remodeling lengthen and curve large arteries. Primary CTA studies associate carotid or intracranial tortuosity with age and hypertension, although effects vary by population (DOI 10.3389/fneur.2024.1307984; DOI 10.13104/imri.2018.22.3.150). A model could use this stable geometry as a vascular-age shortcut when estimating tissue resilience.",
+  "use_vs_association": "Primary evidence would be a conditional-observational test: within narrow strata of age, site, occlusion location, perfusion-deficit volume, HIR, and Circle-of-Willis topology, test whether case-level tortuosity explains prediction residuals but not ground-truth residuals. This can falsify the simplest shortcut account but cannot prove use; a later geometry-preserving counterfactual is required for rung 1.",
+  "keystone_prerequisite": "Automated centerlines in the released CTA recover MCA and basilar paths with sufficient continuity and tortuosity variation across 149 cases.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "Even perfect centerlines leave tortuosity entangled with age, hypertension, ancestry, and vessel elongation. The proposed conditional test is discovery, not a use demonstration; this is why identifiability is low and the card is Mode C.",
+  "rung_reached": "0; rung 1 only after a credible selective tortuosity intervention or natural paired validation, not merely a significant regression coefficient.",
+  "dies_like_prior": "Closest to isles24-scout-004-c05 (calcification age gauge) and idea-032 (vascular anatomy). It differs in a continuous mechanical-history quantity rather than calcium or collateral connectivity, but it has not yet escaped their proxy-identifiability problem; the card labels that limitation rather than claiming a solved mechanism.",
+  "closest_prior_work": "Intracranial tortuosity measurement and population-specific associations with age/hypertension are reported in DOI 10.13104/imri.2018.22.3.150; carotid tortuosity associations are reported in DOI 10.3389/fneur.2024.1307984. Neither paper audits a final-infarct network. Novelty is not established.",
+  "existing_assets": "CTA, automatic Circle-of-Willis masks, standard centerline arithmetic, demographics and hypertension history, perfusion maps, and final masks.",
+  "smallest_decisive_experiment": "Run automatic vessel extraction on 30 cases; continue only if at least 80% yield continuous bilateral MCA and basilar centerlines and test-retest TI ICC is at least 0.9. Then conduct a preregistered nested cross-validated residual analysis on all 149 cases. Two to four days, under 10 GPU-hours.",
+  "standing_confounds_addressed": "Matching/adjustment addresses measured age, hypertension, site, occlusion, perfusion severity, and topology. Scanner, reconstruction, and bolus affect segmentation and require sensitivity analysis. Ancestry is not released and cannot be ruled out. Label leakage is avoided through out-of-fold predictions. The design does not yet distinguish use from association, explicitly preventing rung advancement.",
+  "alternative_explanations": [
+    "Tortuosity is only an age or ancestry proxy; measured age can be adjusted, ancestry cannot.",
+    "Segmentation quality varies with CTA bolus; centerline continuity and intensity sensitivity analyses test this.",
+    "Tortuous vessels covary with collateral anatomy; topology-stratified analysis reduces but does not remove it."
+  ],
+  "anticipated_negative": "Sensitivity-limited: a null could reflect small n, noisy centerlines, or a genuinely unused cue; useful mainly as a cheap kill before intervention development.",
+  "cross_domain": {
+    "borrowed_construct": "Cumulative mechanical load recorded as permanent curvature in a repeatedly pressurized pipe.",
+    "measurement_it_implies": "Centerline excess length over chord length, tested against age and hypertension history.",
+    "what_changes_if_dropped": "The study becomes a generic vessel-shape association and loses both its proposed mechanism and most of its interest."
+  },
+  "remaining_legwork": "1 day centerline gate and 2-3 days conditional analysis; a convincing intervention would require an additional 2-3 weeks and may fail.",
+  "design_template": "conditional-observational",
+  "entry_point_2_requirements": "Measurement: centerline tortuosity index. Confused artifacts: CTA bolus/segmentation quality and collateral topology; quality gates and stratification address them incompletely.",
+  "scores": {
+    "mechanism_clarity": {
+      "value": 5,
+      "why": "Named arterial-wall remodeling mechanism and exact geometric quantity."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Conditional analysis removes major measured alternatives but cannot establish use or remove ancestry."
+    },
+    "interest": {
+      "value": 4,
+      "why": "A model reading lifetime pressure history from vessel shape is unexpected and testable."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "Vascular age is plausible context but the immediate clinical consequence is indirect."
+    },
+    "clarity": {
+      "value": 4,
+      "why": "The discovery test is precise and its inability to reach rung 1 is explicit."
+    },
+    "prior_legwork": {
+      "value": 3,
+      "why": "Measurement literature and masks exist, but intervention work does not."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Reported outside Mode C score and capped because centerline recovery is uninspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "CTA and covariates are public."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Residual analysis is standard; use-test evaluation is absent."
+    },
+    "negative_result_value": {
+      "value": 2,
+      "why": "A null is sensitivity-limited but can kill the expensive next step."
+    },
+    "novelty_confidence": {
+      "value": 2,
+      "why": "Targeted search only; no novelty claim."
+    },
+    "regret": {
+      "value": 3,
+      "why": "Cheap enough to screen despite the proxy problem."
+    }
+  },
+  "mode_c_priority_score": 3.9,
+  "unverified_claims": [
+    "centerline continuity",
+    "tortuosity variance",
+    "adequate conditional overlap",
+    "availability of ancestry control",
+    "novelty"
+  ],
+  "plain_pitch": "Arteries can grow longer and more winding after years of aging and high blood pressure, much as a repeatedly stressed hose changes shape. This speculative screen asks whether a stroke model reads that winding geometry as a summary of the patient's vascular history. A statistical link after matching similar strokes would justify building a harder intervention, but it would not yet prove that the model actually uses the shape.",
+  "track": "baseline",
+  "charter": "isles24"
+}

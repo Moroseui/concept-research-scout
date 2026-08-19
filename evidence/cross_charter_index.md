@@ -39,6 +39,7 @@
 - [isles24] **idea-037** [REJECTED] -- The scan remembers which hospital took it
 - [isles24] **idea-038** [REJECTED] -- Does the model price the last mile of blood delivery?
 - [isles24] **idea-039** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
+- [isles24] **idea-040** [SHORTLISTED] -- The pressure history written in a winding artery
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -74,7 +75,7 @@
 - [isles24] **isles24-scout-005-c01** [SCOUT_ONLY] -- What the winner's brain window revealed
 - [isles24] **isles24-scout-005-c02** [SCOUT_ONLY] -- The old stroke inside the new forecast
 - [isles24] **isles24-scout-005-c03** [SCOUT_ONLY] -- The bottleneck before the brain
-- [isles24] **isles24-scout-005-c04** [SCOUT_ONLY] -- The pressure history written in a winding artery
+- [isles24] **isles24-scout-005-c04** [SHORTLISTED] -- The pressure history written in a winding artery
 - [isles24] **isles24-scout-005-c05** [SCOUT_ONLY] -- Do sulci pin the predicted infarct edge?
 - [isles24] **isles24-scout-005-c06** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
 - [isles24] **isles24-scout-005-c07** [SCOUT_ONLY] -- The roughness of a heartbeat through starved tissue
