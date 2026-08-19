@@ -3,109 +3,63 @@
   "parent_ids": [],
   "track": "wide",
   "entry_point": 2,
-  "title": "Does the model trust tissue that obeys the flow equation?",
-  "question": "Is an ISLES'24 final-infarct model using voxelwise violation of the central-volume identity CBV = CBF x MTT as a hidden confidence map for the released perfusion estimates?",
-  "rung": "Target rung 1: selective use of the cross-map inconsistency residual; rung 2 requires the response to replicate across model families and across independently regenerated perfusion maps.",
-  "deliverable_sentence": "The final-infarct model is using violation of the central-volume identity as a hidden confidence map for perfusion evidence.",
-  "X_measurement": "Inside brain tissue, fit the unit/scale constant on normal contralateral voxels and compute X = |log(CBV) - log(CBF) - log(MTT/60) - k_case|, with cerebral blood volume (CBV) in mL/100 g, cerebral blood flow (CBF) in mL/100 g/min, and mean transit time (MTT) in seconds. Report median X and connected high-X islands inside the acute Tmax>6 s territory. The formula is deterministic and annotator-free; the central-volume theorem is described in Konstas et al., AJNR 2009, PMID 19270105, and the three registered maps are in the official ISLES'24 release (Zenodo DOI 10.5281/zenodo.16731717).",
-  "suspected_signal": "For an ideal indicator-dilution calculation the three maps are not independent: CBV equals CBF multiplied by MTT after unit conversion. Noise, delay sensitivity, regularization, map clipping, and implementation details can break that identity locally. A multichannel model could learn that high-residual tissue is an unreliable measurement region and discount or reinterpret its perfusion deficit, even though no explicit uncertainty map was supplied.",
-  "use_vs_association": "Project each affected-region map triplet onto the nearest central-volume-consistent manifold while preserving the local CBF and Tmax ranks, then compare the prediction with equal-energy perturbations tangent to that manifold; a selective, graded response to removing only the normal residual is evidence of use rather than correlation.",
-  "keystone_prerequisite": "The released CBF, CBV, and MTT maps have meaningful common support and scaling such that a stable, nontrivial central-volume residual can be computed rather than merely rediscovering zeros, support edges, or arbitrary normalization.",
+  "title": "Does map inconsistency change what a stroke model trusts?",
+  "question": "In a held-out ISLES'24 multichannel infarct surrogate, does experimentally increasing the local central-volume residual attenuate response to an identity-consistent perfusion worsening at the same site?",
+  "rung": "Target rung 1: functional residual-dependent modulation in one frozen surrogate on realism-gated support; rung 2 requires replication across model families and independently regenerated maps.",
+  "deliverable_original": "The final-infarct model is using violation of the central-volume identity as a hidden confidence map for perfusion evidence.",
+  "deliverable_sentence": "On tested ISLES'24 support, a frozen multichannel infarct surrogate responds less to the same identity-consistent perfusion worsening when the local central-volume residual is experimentally set higher.",
+  "X_measurement": "Within valid common brain support, compute signed r = log(CBV) - log(CBF) - log(MTT/60) - k_case, where k_case is fitted on declared normal contralateral tissue, and X = |r|. Freeze units, laterality source, background, clipping, and support rules after the array audit and before model inference.",
+  "suspected_signal": "A multichannel predictor may functionally use disagreement among CBF, CBV, and MTT as a warning that perfusion evidence is unreliable. The experiment tests the observable interaction only, not explicit internal computation of r or calibrated uncertainty.",
+  "use_vs_association": "At each eligible held-out site, cross a low versus high same-sign r set-point with absent versus present identity-consistent worsening. The worsening lowers CBF and compensates through a different channel so signed r is unchanged. Arm A sets r through CBV and compensates through MTT; arm B sets r through MTT and compensates through CBV. The primary within-site difference-in-differences must agree across arms and residual-sign strata after a frozen compensator-only sham adjustment.",
+  "keystone_prerequisite": "Released CBF, CBV, and MTT arrays have commensurate scales and common valid support, and stored MTT is not merely an algebraic or quantized copy of stored CBV/CBF, leaving a stable nontrivial residual and enough three-channel edit headroom.",
   "keystone_status": "NOT_INSPECTED",
-  "keystone_residual_assumption": "The theorem is verified, and all three maps are verified as released, but the release's value units, clipping rules, and local algebraic consistency have not been inspected. Stage 0 must read headers and value distributions in 10 cases, exclude zero/support boundaries, and require residual rank correlation at least 0.8 under two defensible normal-tissue masks. If X collapses to a constant, a support mask, or a unit error, the candidate dies.",
-  "rung_reached": "0; rung 1 only after measurement, manifold-projection realism, model-performance, dose-response, and tangent-sham gates.",
-  "dies_like_prior": "This is adjacent to isles24-scout-001-c08 (the deconvolution algorithm may have signed the image) and idea-037 (site identity), both vulnerable to IDENTIFIABILITY_FAILURE. It differs by naming an invariant that is calculable within every case and selectively removable without swapping sites or algorithms. A positive result would establish use of cross-map inconsistency, not which vendor produced it or why it arose; that narrower claim avoids the unsupported provenance attribution.",
-  "closest_prior_work": "Indicator-dilution theory fixes the algebraic relation among CBF, CBV, and MTT; commercial packages applied to identical stroke source data nevertheless produce materially different maps. Infarct networks fuse these maps, but the searched primary work does not test whether a network reads their internal physical inconsistency as uncertainty. No novelty claim beyond this targeted comparison is made.",
+  "keystone_residual_assumption": "Primary sources verify registered maps produced by icobrain cva 1.5.0, but not stored units, clipping/background semantics, or algebraic dependence. Stage 0 must inspect arrays, quantify MTT-versus-CBV/CBF dependence and quantization, test residual stability under two frozen masks, and count eligible sites by carrier and sign. Algebraic or quantization-only residual, artifact-dominated support, or inadequate inventory kills model inference.",
+  "rung_reached": "0. Rung 1 requires array, inventory, surrogate-performance, channel-reliance, set-point, realism, sham-sensitivity, and frozen interaction gates.",
+  "dies_like_prior": "Ideas 037 and 038 died because acquisition or physiology co-varied with the proposed mechanism. Here the residual is set within the same site and held fixed during the evidence edit. The design still cannot identify why maps disagree or generalize beyond the tested surrogate.",
+  "closest_prior_work": "Konstas et al. establish the central-volume relation; Kudo et al. show software-dependent maps from identical source data; ISP-Net demonstrates multichannel perfusion-map fusion. None of these primary works tests this within-site interaction. This is a limited-search gap, not a novelty claim.",
   "novelty_neighbors": [
-    {
-      "work": "Konstas et al., Theoretic Basis and Technical Implementations of CT Perfusion in Acute Ischemic Stroke, Part 1",
-      "identifier": "PMID 19270105; AJNR 2009; official full text https://pmc.ncbi.nlm.nih.gov/articles/PMC7051780/",
-      "relation": "Defines the central-volume theorem and explains that MTT is calculated from CBV/CBF; supplies the physical invariant but does not audit model use of its residual."
-    },
-    {
-      "work": "Kudo et al., Differences in CT Perfusion Maps Generated by Different Commercial Software",
-      "identifier": "DOI 10.1148/radiol.254082000; PMID 20032153",
-      "relation": "Shows that identical acute-stroke source data produce significantly different maps across software, motivating a hidden map-quality cue; it does not study learned final-infarct models or the within-triplet residual."
-    },
-    {
-      "work": "Liu et al., ISP-Net: Fusing features to predict ischemic stroke infarct core on CT perfusion maps",
-      "identifier": "DOI 10.1016/j.cmpb.2022.106630",
-      "relation": "A primary example of a network fusing native perfusion, CBF, CBV, MTT, and Tmax; it reports prediction performance, not a conservation-law intervention."
-    }
+    {"work": "Konstas et al., Theoretic Basis and Technical Implementations of CT Perfusion in Acute Ischemic Stroke, Part 1", "identifier": "PMID 19270105; https://pmc.ncbi.nlm.nih.gov/articles/PMC7051780/", "relation": "Defines the theorem and notes MTT calculation from CBV/CBF, creating both the invariant and trivial-residual risk."},
+    {"work": "Kudo et al., Differences in CT Perfusion Maps Generated by Different Commercial Software", "identifier": "DOI 10.1148/radiol.254082000; PMID 20032153", "relation": "Shows across-software map disagreement, not within-triplet residual use by a model."},
+    {"work": "Liu et al., ISP-Net: Fusing features to predict ischemic stroke infarct core on CT perfusion maps", "identifier": "DOI 10.1016/j.cmpb.2022.106630", "relation": "Fuses native CTP, CBF, CBV, MTT, and Tmax without a conservation-residual intervention."}
   ],
-  "novelty_delta": "The proposed experiment is the first located test that removes only the voxelwise violation of a known perfusion identity and asks whether a final-infarct model changes its forecast while physiology-preserving tangent shams do not.",
-  "why_not_done": "BLIND_SPOT: perfusion papers treat disagreement as a software-validation problem and model papers treat registered maps as independent input channels, leaving the algebraic residual between those channels uninterrogated as a learned uncertainty signal.",
-  "existing_assets": "Official registered CBF, CBV, MTT, and Tmax maps for 149 public training cases; raw CTP for later regeneration; final masks; official metrics; standard projection and paired-output arithmetic; a winner-style surrogate can be trained if no checkpoint is obtainable.",
-  "smallest_decisive_experiment": "Stage 0 on 10 cases computes support, units, X stability, and whether X contains more than border/zero artifacts. Freeze a center-stratified split and one compact 2D multichannel U-Net; require held-out median Dice at least 0.20 and lesion-wise F1 above a frozen all-zero baseline. On 20 untouched cases run 25/50/75/100% residual removal, tangent shams matched in per-channel L2 energy, and a support-edge sham. Primary readout: paired change in predicted lesion probability within Tmax>6 s tissue, with monotone residual-dose response and residual-over-sham contrast. Compute envelope: one Colab GPU session, at most 10 GPU-hours, using 2D patches and the public registered maps; no new annotation.",
-  "standing_confounds_addressed": "Within-case projections hold center, scanner, protocol, positioning, anatomy, treatment, and lesion prevalence fixed. Excluding zeros and eroding support edges prevents X from becoming a coverage mask. Tangent shams test generic sensitivity to map edits; fixed CBF/Tmax ranks protect the main perfusion ordering; two projection metrics test dependence on the chosen geometry. The experiment still cannot identify the source of inconsistency or prove calibrated uncertainty, so those conclusions are prohibited.",
+  "novelty_delta": "The searched delta is a within-site, residual-set, identity-preserving interaction test of whether cross-map inconsistency modulates response to perfusion worsening.",
+  "why_not_done": "Residuals are usually treated as quantification or software-validation issues while prediction models treat maps as input channels. The released residual may also be trivial, which Stage 0 tests rather than assumes.",
+  "verified_dataset_facts": [
+    "The official Zenodo record releases NCCT, CTA, 4D CTP, and Tmax, CBF, CBV, and MTT maps; derivatives are registered to NCCT space (record 16748089; concept DOI 10.5281/zenodo.16731717).",
+    "The 2026 primary dataset paper reports 149 public training and 96 hidden test cases; the older challenge paper reported planned counts of 150/98, so the later realized counts govern (DOI 10.1148/ryai.250603; arXiv:2408.10966).",
+    "Reference final-infarct masks were derived from follow-up DWI acquired 2-9 days after successful reperfusion using DeepISLES followed by neuroradiologist-supervised correction (DOI 10.1148/ryai.250603).",
+    "The primary paper reports Dice and absolute lesion-volume difference as official task metrics (DOI 10.1148/ryai.250603).",
+    "The public release is licensed CC BY-NC-SA 4.0 and distributed as one approximately 99 GB train.7z archive in the inspected record (Zenodo record 16748089)."
+  ],
+  "existing_assets": "ISLES'24 provides registered perfusion maps, raw CTP, and final masks for 149 public training cases. Existing annotations add no new annotation burden. No verified released winner checkpoint is available, so the scoped object is one frozen self-trained surrogate.",
+  "smallest_decisive_experiment": "Download and inspect the approximately 99 GB release. On a frozen audit subset test algebraic dependence, quantization, support, residual stability, and eligible-site inventory before training. If those pass, freeze patient-level development and untouched evaluation splits; train one multichannel surrogate and require prespecified held-out performance plus reliance on at least two linked maps. On untouched cases run both role-disjoint 2x2 constructions. Verify signed-r set-points voxelwise, forbid r=0 crossing, gate every complete cell by a frozen multichannel realism metric, and estimate the preregistered within-site difference-in-differences with compensator-only, zero-dose, and off-site shams. Freeze counts, doses, tolerances, statistic, decision rule, and power before edited inference. No new annotation is required.",
+  "standing_confounds_addressed": "Within-site factorials hold anatomy and receptive-field context fixed. Role swaps separate residual carrier from evidence compensator. Exact signed-r verification prevents factor leakage. Opposite sign strata reverse raw carrier motion while preserving the X prediction. Full-cell realism gates address joint-edit shift; compensator-only shams measure direct compensator response. These controls establish functional behavior only on tested support.",
   "alternative_explanations": [
-    "The model responds to any violation-correction edit; equal-energy tangent shams and a monotone residual-specific contrast test this.",
-    "X is only a map-support or clipping detector; eroded common support, clipped-voxel exclusion, and a support-edge sham test this.",
-    "Projection moves cases off the training distribution; nearest-neighbor feature distance and two small-dose arms gate the confirmatory result but cannot prove perfect realism."
+    "A raw CBV- or MTT-conditioned nonlinearity could mimic one arm; swapped roles and opposite signs are required, though input-output tests cannot assign an internal semantic computation.",
+    "The compensator itself changes prediction; its coordinate-matched sham is measured and the interaction must survive the frozen sham adjustment.",
+    "Joint cells may be off distribution; every complete cell must pass frozen feature-distance and range/clipping gates.",
+    "X may be rounding, support, or clipping structure; Stage 0 kills inference if dependence and artifact audits show that."
   ],
-  "anticipated_negative": "Decisive if X is stable, the model passes its frozen performance gate, the small-dose edits remain in distribution, and shams produce detectable generic sensitivity; otherwise the null is sensitivity-limited.",
-  "cross_domain": {
-    "borrowed_construct": "Conservation-law residuals from process control: redundant sensors linked by a physical balance equation provide a residual that detects unreliable measurements without an external fault label.",
-    "measurement_it_implies": "The absolute log residual of CBV = CBF x MTT and a projection that removes that residual while retaining the physiological coordinates along the constraint manifold.",
-    "what_changes_if_dropped": "Without the process-control construct this becomes generic channel ablation, which cannot distinguish use of perfusion physiology from use of cross-map inconsistency."
-  },
-  "remaining_legwork": "Half a day for the 10-case algebra/support kill gate; one Colab session for the surrogate and 20-case intervention; a later raw-CTP regeneration study is outside this card.",
+  "anticipated_negative": "A null is meaningful only after powered inventory, surrogate performance, reliance on two linked maps, exact set-point preservation, realistic cells, and detectable sham sensitivity. It then rejects functional residual-dependent modulation for this surrogate, dose, and support. If the residual is algebraically trivial, inference dies but the dependence result remains a useful dataset-composition finding.",
+  "cross_domain": {"borrowed_construct": "Conservation-law residuals from process control, where redundant measurements linked by a balance equation can flag unreliable measurements.", "measurement_it_implies": "The signed log residual of CBV = CBF x MTT and a crossed test of whether setting its magnitude changes response to an r-preserving evidence edit.", "what_changes_if_dropped": "Without the residual, this becomes generic channel perturbation and no longer asks whether physical inconsistency modulates trust."},
+  "remaining_legwork": "Provision storage for 99 GB; audit array semantics; freeze laterality, masks, algebra, quantization, and inventory rules; independently review all factorial cells; specify complete-cell realism; establish surrogate performance and channel reliance; and power and freeze the interaction before inference.",
   "design_template": "counterfactual-synthesis",
-  "entry_point_2_requirements": "Measurement: central-volume residual X. Confused artifacts: common-support edges, zeros, clipping, and generic multichannel perturbation; erosion, clipped-voxel exclusion, tangent shams, and dose response separate them.",
+  "entry_point_2_requirements": "Measurement is signed central-volume residual. Confused artifacts are algebraic derivation, quantization, invalid support, clipping, direct carrier/compensator response, and off-distribution edits; each has a pre-model or confirmatory gate.",
   "scores": {
-    "clarity": {
-      "value": 5,
-      "why": "One physical identity, one residual, and a selective projection with explicit shams."
-    },
-    "identifiability": {
-      "value": 4,
-      "why": "The intervention isolates residual use, although it cannot identify the residual's technical cause or prove uncertainty calibration."
-    },
-    "medical_relevance": {
-      "value": 4,
-      "why": "A model silently discounting physically inconsistent perfusion could determine where it trusts the acute scan and how it transports across software."
-    },
-    "interest": {
-      "value": 5,
-      "why": "A stroke model acting as its own physics-based quality controller is surprising and directly actionable."
-    },
-    "prior_legwork": {
-      "value": 4,
-      "why": "The invariant, map inputs, software-variability evidence, and model family all exist."
-    },
-    "feasibility": {
-      "value": 3,
-      "why": "Capped because the released maps' units and residual stability have not been inspected."
-    },
-    "data_readiness": {
-      "value": 4,
-      "why": "All maps and outcomes are public and registered, with a modest download path."
-    },
-    "evaluation_readiness": {
-      "value": 4,
-      "why": "Paired probability response, dose response, shams, and official segmentation metrics are ready."
-    },
-    "negative_result_value": {
-      "value": 4,
-      "why": "After the algebra and model gates, a selective null rules out this specific hidden-confidence mechanism."
-    },
-    "novelty_confidence": {
-      "value": 3,
-      "why": "Three close primary neighbors were searched, but no systematic review was performed and the keystone remains uninspected."
-    },
-    "regret": {
-      "value": 5,
-      "why": "The required redundant maps are already in the benchmark, making this a cheap obvious-in-hindsight audit."
-    }
+    "clarity": {"value": 4, "why": "One interaction and one within-site estimand are explicit, although compensation is algebraically involved."},
+    "identifiability": {"value": 3, "why": "Within-site setting, role swaps, signs, and shams address named alternatives, but the final design needs independent review and cannot prove internal computation."},
+    "medical_relevance": {"value": 4, "why": "Residual-dependent trust could affect robustness across perfusion quantification, but evidence is limited to one surrogate."},
+    "interest": {"value": 4, "why": "A model using physical disagreement as a reliability cue would be notable; a trivial-residual result is also informative."},
+    "prior_legwork": {"value": 3, "why": "Invariant, maps, masks, and neighbors exist, but the factorial and surrogate require substantial validation."},
+    "feasibility": {"value": 2, "why": "The 99 GB acquisition, uninspected residual, three-channel headroom, surrogate, and edit inventory create credible kill surfaces."},
+    "data_readiness": {"value": 3, "why": "Research-only data are public but monolithic and voxel semantics need inspection."},
+    "evaluation_readiness": {"value": 3, "why": "The estimand and gates are named, but doses, tolerances, counts, power, realism metric, and decision rule remain to freeze."},
+    "negative_result_value": {"value": 4, "why": "A gated null rejects the scoped behavior; a trivial residual yields a standalone dataset-quality result."},
+    "novelty_confidence": {"value": 3, "why": "Targeted primary-source search found no direct test, but absence was not systematic and the keystone is uninspected."},
+    "regret": {"value": 4, "why": "Redundant maps make the audit natural, though confirmation is no longer cheap."}
   },
-  "priority_score": 3.95,
-  "unverified_claims": [
-    "the released map units permit a stable central-volume residual",
-    "the residual is not dominated by support or clipping",
-    "a compact surrogate reaches the frozen performance gate in one session",
-    "manifold projections remain in distribution",
-    "the precise novelty gap beyond the targeted search"
-  ],
-  "plain_pitch": "Blood flow, blood volume, and transit time are tied by a simple physical equation, yet stroke software can produce maps that locally disagree with it. This study asks whether the prediction model notices those disagreements and quietly treats them as a warning that a region's blood-flow estimate is unreliable. If correcting only the disagreement changes the forecast while equally sized, physics-preserving edits do not, the model is using an accidental quality-control signal that could fail when the hospital changes software.",
+  "priority_score": 3.25,
+  "unverified_claims": ["released values permit a stable nontrivial residual", "stored MTT is not an algebraic or quantized derivative", "enough sites have three-channel headroom in both carrier-by-sign cells", "a surrogate passes performance and two-channel-reliance gates", "joint cells pass a frozen realism gate", "the factorial excludes practically plausible residual-blind counterexamples", "the literature gap survives systematic review"],
+  "plain_pitch": "ISLES'24 provides three blood-flow maps tied by a physical equation, but the released voxel values may not obey it exactly. This study first checks whether disagreement is real rather than rounding or support artifact. If it is, the study asks whether a stroke surrogate reacts less to the same physically consistent worsening when disagreement is experimentally raised at the same tissue site. A gated null rules out that behavior for the tested model; a trivial residual instead documents an important benchmark property.",
   "charter": "isles24"
 }
