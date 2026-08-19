@@ -1,0 +1,112 @@
+{
+  "id": "isles24-scout-005-c08",
+  "parent_ids": [],
+  "track": "wide",
+  "entry_point": 2,
+  "title": "Delay is not dispersion",
+  "question": "Is a raw-CT-perfusion final-infarct model using bolus dispersion\u2014the width and skew of contrast passage after arrival-time alignment\u2014as a collateral-route signal distinct from simple delay?",
+  "rung": "Target rung 1: selective use of delay-independent bolus dispersion; rung 2 requires validation against independently measured collateral status, which ISLES'24 does not provide.",
+  "deliverable_sentence": "The final-infarct model is using delay-independent bolus dispersion as a collateral-route signal.",
+  "X_measurement": "Extract an arterial input curve automatically from high-peak, early-arrival intracranial arterial voxels. For each tissue voxel, baseline-subtract and normalize the contrast curve, align its first temporal moment to the arterial curve, and compute dispersion X as the square-root difference in second central moments, with signed third standardized moment (skewness) secondary. These chromatography-style moment formulas are deterministic and annotator-free. Delay and dispersion are explicitly distinguished in Calamante et al., DOI 10.1002/mrm.20873, and in Konstas et al., PMCID PMC7051660.",
+  "suspected_signal": "Collateral blood reaches threatened tissue along longer, branching routes. After removing pure arrival delay, those multiple paths can broaden and reshape the bolus. Conventional Tmax conflates timing and curve shape; a raw-time network could use residual width/skew as evidence about route complexity and therefore tissue survival, but it could also be reading cardiac output, injection quality, or noise.",
+  "use_vs_association": "Within each affected voxel, construct two optimal-transport curve substitutions: a dispersion-only edit that contracts the aligned curve toward the arterial width while preserving arrival time, area, peak height, and baseline noise power, and a delay-only edit of equal temporal transport cost that preserves width and skew. A stronger, dose-ordered model response to the dispersion edit demonstrates use distinct from delay association.",
+  "keystone_prerequisite": "The released raw CTP captures baseline, arterial peak, and washout sufficiently to estimate delay-independent second and third moments without truncation, and dispersion has within-delay variation in affected tissue.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "Raw CTP availability is verified, but full-bolus capture and frame timing have not been inspected. Stage 0 must require at least 90% of 20 cases to have 5 or more pre-arrival frames, an arterial peak at least 5 frames before acquisition end, venous downslope captured to at most 30% of peak, and dispersion test-retest ICC at least 0.85 across two automatic arterial-input selections. Failure kills the card.",
+  "rung_reached": "0; rung 1 after capture, measurement, model-performance, edit-realism, delay-discrimination, and dose-response gates. The word collateral remains source-supported interpretation, not confirmed physiology, until external validation.",
+  "dies_like_prior": "It overlaps the broad territory of isles24-scout-001-c01 (collateral clock), c03 (blood leaving), and idea-022 (end of bolus), but changes the estimand and the failure test. c01 uses conventional delay burden, c03 uses venous asymmetry, and idea-022 studies scan truncation; c08 explicitly holds arrival time and curve area fixed while changing only post-alignment width/skew. It still risks IDENTIFIABILITY_FAILURE if cardiac/injection effects cannot be removed, so the confirmatory unit is within-case local tissue and the biological collateral wording is capped at rung 1.",
+  "closest_prior_work": "Perfusion physics has long shown that delay and dispersion are distinct and that uncorrected dispersion can create large perfusion errors. Collateral studies relate delay thresholds and contrast transit to outcome, and raw-time networks predict tissue outcome. The located primary work does not selectively exchange dispersion and delay in a model-use test.",
+  "novelty_neighbors": [
+    {
+      "work": "Calamante et al., Bolus delay and dispersion in perfusion MRI: implications for tissue predictor models in stroke",
+      "identifier": "DOI 10.1002/mrm.20873; PMID 16598717",
+      "relation": "Shows that delay does not reliably determine dispersion and that observed dispersion can cause substantial perfusion errors; it analyzes measurement physics, not learned-model use."
+    },
+    {
+      "work": "Lin et al., Perfusion Computed Tomography Accurately Quantifies Collateral Flow After Acute Ischemic Stroke",
+      "identifier": "DOI 10.1161/STROKEAHA.119.028284; PMID 31948385",
+      "relation": "Validates a delay-time volume ratio against dynamic-angiographic collateral scores; it motivates collateral relevance but does not isolate bolus width from delay."
+    },
+    {
+      "work": "Robben et al., Predicting the tissue outcome of acute ischemic stroke from acute 4D CT perfusion imaging using temporal features and deep learning",
+      "identifier": "DOI 10.3389/fnins.2022.1009654; PMCID PMC9672821",
+      "relation": "Demonstrates raw concentration-time and residue-curve outcome models and learned temporal features, but does not intervene separately on dispersion and delay."
+    }
+  ],
+  "novelty_delta": "The proposed paired curve transport is the first located experiment to hold arrival time, area, peak, and noise fixed while selectively changing bolus dispersion and asking whether a raw final-infarct model responds more than to a matched delay edit.",
+  "why_not_done": "NEW_CAPABILITY: ISLES'24 newly combines public raw four-dimensional CTP, acute multimodal context, treatment-era follow-up infarct masks, and registered derivatives, making a controlled raw-curve use test reproducible rather than dependent on a private perfusion cohort.",
+  "existing_assets": "Official raw CTP, registered maps and final masks; published automatic arterial-input strategies in the perfusion literature; moment and one-dimensional optimal-transport formulas; a compact raw-time model design from the closest neighbor.",
+  "smallest_decisive_experiment": "Stage 0 inspects bolus capture and moment stability in 20 cases, then selects 12 with at least 10 mL of Tmax>6 s tissue spanning two dispersion tertiles. Using the same frozen shallow raw-time model and split discipline as c07, perform 25/50/75% local dispersion contraction, matched delay shifts, and contralateral normal-tissue edits. Primary readout is the paired affected-tissue probability contrast (dispersion edit minus delay edit), conditioned on equal Wasserstein transport cost; require monotone dose response. Compute envelope: one Colab GPU session, at most 10 GPU-hours and 25 GB staged data; the intervention experiment can reuse a qualifying frozen model but is scientifically independent; no new annotation.",
+  "standing_confounds_addressed": "Within-case local edits hold patient cardiac output, injection, scanner, center, treatment, anatomy, and global arterial curve fixed. Arrival-time alignment and the matched delay arm isolate dispersion from delay. Area, peak, baseline noise power, and transport cost are held or matched; contralateral edits test generic curve manipulation. Truncation is a hard exclusion, not an adjusted covariate. None of this proves collateral anatomy caused X, so independent collateral validation is required before rung 2.",
+  "alternative_explanations": [
+    "Dispersion reflects cardiac output or injection rather than collateral routes; within-case normalization removes global effects but not regional arterial-input misspecification.",
+    "Curve contraction creates unrealistic kinetics; interpolation between observed same-case curves and nearest-neighbor feature-distance gates bound this risk.",
+    "The model uses ordinary Tmax; matched delay edits and preserved arrival time directly test that alternative."
+  ],
+  "anticipated_negative": "Decisive for dispersion-versus-delay use in the tested model if full-bolus capture, X reliability, performance, realism, and positive-control sensitivity all pass; otherwise sensitivity-limited.",
+  "cross_domain": {
+    "borrowed_construct": "Residence-time distributions from chemical engineering and chromatography: a transported tracer's mean arrival and its dispersion are separate system properties, with path multiplicity broadening the distribution even after the mean is aligned.",
+    "measurement_it_implies": "Central moments of the normalized tissue concentration curve relative to the arterial input, and optimal-transport edits that independently alter the mean or width at matched cost.",
+    "what_changes_if_dropped": "Without residence-time theory the card collapses into another Tmax perturbation and cannot make or test the crucial delay-versus-dispersion distinction."
+  },
+  "remaining_legwork": "One day for capture and arterial-input stability; one Colab session for the paired interventions if a qualifying model exists; external collateral validation is a separate successor requirement.",
+  "design_template": "regional-substitution",
+  "entry_point_2_requirements": "Measurement: aligned curve variance and skew relative to the arterial input. Confused artifacts: simple delay, global injection/cardiac effects, truncation, and edit cost; matched delay transport, within-case normalization, hard capture gates, and equal-cost controls address them.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "Delay and dispersion are separately defined, measured, edited, and compared."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "The paired edit isolates dispersion use from delay, but collateral-route attribution remains vulnerable to local arterial-input error."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Distinguishing late arrival from dispersed collateral passage could change interpretation and temporal-augmentation choices for raw-CTP models."
+    },
+    "interest": {
+      "value": 5,
+      "why": "The claim that two visually similar late boluses mean different things to a model is mechanistically surprising and clinically legible."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "The transport physics, stroke dispersion evidence, collateral relevance, and raw-model architecture all exist."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because full-bolus capture and stable local dispersion on this release are uninspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Raw public time series and outcomes are available, though staged download is required."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired dose-response is direct; transport realism and arterial-input stability need custom gates."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A gated null distinguishes this descriptor from delay for one model but does not cover all raw architectures."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Three close primary works were searched and the precise intervention was absent; systematic novelty review is still pending."
+    },
+    "regret": {
+      "value": 4,
+      "why": "The raw curves already contain the needed distinction, and collapsing both effects into Tmax may be an avoidable modeling error."
+    }
+  },
+  "priority_score": 3.7,
+  "unverified_claims": [
+    "full bolus and washout capture in at least 90% of inspected cases",
+    "automatic arterial-input stability",
+    "sufficient within-delay dispersion variation",
+    "physiological realism of curve transport",
+    "a qualifying raw-time model",
+    "collateral interpretation and novelty beyond targeted search"
+  ],
+  "plain_pitch": "Contrast can reach threatened brain late, but it can also arrive spread out after taking many winding routes; those are different physical effects. This study holds arrival time and total contrast fixed, then narrows only the spread of the curve and compares that with an equally large pure time shift. If the model reacts specifically to narrowing, it is reading bolus dispersion rather than merely a late arrival\u2014although a separate dataset would still be needed to prove that the model interprets dispersion as collateral blood flow.",
+  "charter": "isles24"
+}
