@@ -1,0 +1,112 @@
+{
+  "id": "isles24-scout-005-c07",
+  "parent_ids": [],
+  "track": "wide",
+  "entry_point": 2,
+  "title": "The roughness of a heartbeat through starved tissue",
+  "question": "Is a raw-CT-perfusion final-infarct model using the temporal fractal dimension of each voxel's contrast curve as a deconvolution-free tissue-flow signal?",
+  "rung": "Target rung 1: selective model use of Higuchi temporal fractal dimension; rung 2 requires replication in a second raw-time-series architecture and on a non-ISLES cohort.",
+  "deliverable_sentence": "The final-infarct model is using temporal fractal dimension of the raw contrast curve as a tissue-flow signal.",
+  "X_measurement": "For each brain voxel's baseline-subtracted raw four-dimensional CT-perfusion attenuation series, compute Higuchi fractal dimension using the frame-count-adapted kmax procedure of Lim et al. The measurement is deterministic, voxelwise, annotator-free, and has already been run on all 149 public ISLES'24 perfusion studies (PMID 40824507).",
+  "suspected_signal": "A bolus curve is not only a peak and delay; its multiscale temporal roughness reflects how contrast concentration changes across sampling intervals. Lim et al. found that this fractal dimension tracks simulated flow and separates normal, penumbral, and core tissue on ISLES'24. A raw-time-series network may exploit that compact, deconvolution-free descriptor even when its architecture never names it.",
+  "use_vs_association": "At each affected voxel, replace only the component of the time curve that predicts Higuchi fractal dimension using a cross-validated concept direction in the model's temporal encoder, while preserving curve area, peak time, peak height, first two moments, and spatial anatomy; compare with random orthogonal directions and with explicit X-preserving temporal jitter. Selective output loss under X erasure is the use test.",
+  "keystone_prerequisite": "Higuchi temporal fractal dimension is computable and nondegenerate on the released raw ISLES'24 time series, and differs across relevant tissue states.",
+  "keystone_status": "INSPECTED_TRUE",
+  "keystone_evidence": "Lim et al., 'Time series-derived fractal dimension of CT perfusion in acute ischemic stroke: a promising marker for hypoperfused tissue quantification,' PMID 40824507, inspected via the PubMed primary abstract on 2026-08-18: 'Fractal analysis was applied to voxel-wise time-series data from both simulated phantom datasets and 149 CTP images from the publicly available ... ISLES 2024 dataset'; FD differed across core, penumbra, and normal tissue (p<0.001), achieved penumbra-versus-normal AUC 0.732, and correlated with true CBF at rho>0.9 in the phantom after kmax optimization.",
+  "keystone_residual_assumption": "The paper establishes measurement feasibility and association on the exact images, not that any final-infarct model uses X. Fractal dimension may mostly encode ordinary CBF, noise, or temporal sampling. Moment preservation, CBF-stratified analysis, and noise/sampling shams are therefore necessary, and even a positive result supports use of the descriptor rather than a unique microvascular mechanism.",
+  "rung_reached": "0; rung 1 after raw-model performance, concept decodability, selectivity, CBF-matched, sampling, and noise gates.",
+  "dies_like_prior": "This could die like idea-024 (capillary traffic jam; DATA_ACCESS) or idea-020 (IDENTIFIABILITY_FAILURE). The exact raw data and exact measurement have now been demonstrated on all 149 ISLES'24 cases, changing the access premise. Unlike a biological capillary-state claim, this card asks only whether a named mathematical descriptor is used and requires erasure beyond curve moments and CBF; it does not call the descriptor capillary transit heterogeneity.",
+  "closest_prior_work": "One 2025 paper computes this exact feature on ISLES'24 and shows tissue discrimination; raw-CTP deep-learning papers show that temporal encoders learn features related to but not exhausted by standard maps. None of the located primary works selectively erases fractal dimension from a final-infarct model.",
+  "novelty_neighbors": [
+    {
+      "work": "Lim et al., Time series-derived fractal dimension of CT perfusion in acute ischemic stroke",
+      "identifier": "PMID 40824507",
+      "relation": "Exact X on the exact 149-case dataset; establishes association and measurement feasibility but contains no trained-model use test."
+    },
+    {
+      "work": "Robben et al., Predicting the tissue outcome of acute ischemic stroke from acute 4D CT perfusion imaging using temporal features and deep learning",
+      "identifier": "DOI 10.3389/fnins.2022.1009654; PMCID PMC9672821",
+      "relation": "Compares raw concentration-time and residue-curve networks and inspects correlations between learned features and conventional maps, but does not measure or erase Higuchi fractal dimension."
+    },
+    {
+      "work": "van Os et al., Integrating regional perfusion CT information to improve prediction of infarction after stroke",
+      "identifier": "PMID 32501132; PMCID PMC7922756",
+      "relation": "Shows that local spatial context improves tissue-outcome prediction beyond single-voxel perfusion values; it uses conventional maps rather than temporal fractal structure or a model-use intervention."
+    }
+  ],
+  "novelty_delta": "The exact ISLES'24 fractal biomarker has been validated as an association, but the proposed study asks the missing causal model-behavior question: does selective removal of that descriptor from a raw temporal encoder move final-infarct predictions beyond matched flow and curve moments?",
+  "why_not_done": "NEW_CAPABILITY: the public release of all 149 raw four-dimensional ISLES'24 scans with registered follow-up infarct masks, followed by the 2025 exact-dataset fractal measurement, makes a reproducible use test newly practical.",
+  "existing_assets": "Approximately 99 GB official archive with raw CTP and registered final masks; a published exact-dataset Higuchi recipe; raw-time-series model designs from DOI 10.3389/fnins.2022.1009654; standard concept-direction and paired-output controls.",
+  "smallest_decisive_experiment": "Use a 30-case subset cached slice-wise. Train a shallow causal 2D+time U-Net on center-stratified patches, with 20 training, 5 validation, and 5 untouched cases; require validation AUC at least 0.70 within Tmax>6 s tissue and prediction volume above zero in at least 4/5 test cases. Decode X from the frozen temporal features, erase its cross-validated linear direction at four doses, and compare 20 random orthogonal directions plus X-preserving jitter. Primary readout: paired probability change in held-out perfusion-deficit voxels matched in CBF deciles and curve area. Compute envelope: one Colab GPU session, at most 12 GPU-hours and 25 GB staged data; no new annotation.",
+  "standing_confounds_addressed": "Patient-level splitting prevents voxel leakage. CBF-decile and curve-moment matching test whether X merely renames flow or bolus magnitude. Frame-drop and synthetic-noise arms test temporal sampling and noise sensitivity; random directions test nonspecific feature deletion. The small model is a mechanistic probe, not a competitive benchmark claim. Linear erasure may remove correlated temporal features, so the conclusion remains dependence on an X-associated representation.",
+  "alternative_explanations": [
+    "X is a nonlinear re-encoding of CBF; primary matching and residualized X test incremental use but cannot prove complete independence.",
+    "X tracks scanner noise or frame count; noise-injection and frame-drop shams test this and may reveal a technical rather than physiological use mechanism.",
+    "Any encoder-direction deletion harms output; orthogonal directions matched for activation variance provide the selectivity comparison."
+  ],
+  "anticipated_negative": "Decisive for this architecture only if X is decodable, the model passes the frozen AUC/coverage gates, and positive-control directions alter output; otherwise it is sensitivity-limited.",
+  "cross_domain": {
+    "borrowed_construct": "Fractal time-series analysis from nonlinear dynamics, where scale-dependent path roughness summarizes structure that is not captured by a single amplitude or period.",
+    "measurement_it_implies": "Voxelwise Higuchi fractal dimension over the contrast-time curve, plus selective erasure of its representation after controlling conventional curve moments.",
+    "what_changes_if_dropped": "The experiment becomes an unconstrained temporal-feature probe; the exact, falsifiable X and the primary paper on the same dataset disappear."
+  },
+  "remaining_legwork": "One day to reproduce X on five downloaded scans; one session for the small raw-time model and erasure; full-cohort or second-family replication would be a successor.",
+  "design_template": "representation-erasure",
+  "entry_point_2_requirements": "Measurement: Higuchi temporal fractal dimension. Confused artifacts: CBF, curve area, temporal sampling, and noise; CBF/moment matching plus frame/noise shams address them.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "The feature and erasure are explicit, though linear concept isolation remains imperfect."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Controls separate several ordinary curve statistics, but X remains correlated with flow and noise."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "A deconvolution-free signal could improve robustness, but this small probe does not establish clinical superiority."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A network reading the fractal roughness of a contrast heartbeat is mechanistically surprising and grounded in an exact-dataset result."
+    },
+    "prior_legwork": {
+      "value": 5,
+      "why": "The exact feature has already been computed on all 149 cases and raw temporal architectures exist."
+    },
+    "feasibility": {
+      "value": 4,
+      "why": "The X keystone is inspected true and the decisive probe uses a staged 30-case subset in one session."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Public and exact, but the archive is large and requires staged download."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "AUC, paired deltas, and erasure shams are ready; representation selectivity is custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A gated null rules out the mechanism for one temporal architecture, not raw-CTP models generally."
+    },
+    "novelty_confidence": {
+      "value": 4,
+      "why": "The exact X paper and two closest model families were inspected; none contains a use intervention, and the keystone is true."
+    },
+    "regret": {
+      "value": 4,
+      "why": "The biomarker paper has already completed the expensive measurement legwork, leaving one experiment to convert association into a model-behavior result."
+    }
+  },
+  "priority_score": 3.8,
+  "unverified_claims": [
+    "the published Higuchi procedure reproduces from available methodological detail",
+    "a small raw-time model passes the frozen performance gate",
+    "fractal dimension is linearly decodable from its temporal encoder",
+    "erasure can preserve the listed curve properties",
+    "novelty outside the targeted neighbors"
+  ],
+  "plain_pitch": "A contrast bolus passing through brain tissue leaves a short brightness trace over time. A recent study on these exact public scans found that the trace's multiscale roughness\u2014a mathematical quantity called fractal dimension\u2014separates healthy, threatened, and later-infarcted tissue. This experiment asks whether a prediction model actually uses that roughness; if selectively erasing its internal representation changes forecasts after ordinary blood flow, curve size, and scanner noise are controlled, it does.",
+  "charter": "isles24"
+}

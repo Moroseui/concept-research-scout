@@ -40,6 +40,7 @@
 - [isles24] **idea-038** [REJECTED] -- Does the model price the last mile of blood delivery?
 - [isles24] **idea-039** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
 - [isles24] **idea-040** [SHORTLISTED] -- The pressure history written in a winding artery
+- [isles24] **idea-041** [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -78,7 +79,7 @@
 - [isles24] **isles24-scout-005-c04** [SHORTLISTED] -- The pressure history written in a winding artery
 - [isles24] **isles24-scout-005-c05** [SCOUT_ONLY] -- Do sulci pin the predicted infarct edge?
 - [isles24] **isles24-scout-005-c06** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
-- [isles24] **isles24-scout-005-c07** [SCOUT_ONLY] -- The roughness of a heartbeat through starved tissue
+- [isles24] **isles24-scout-005-c07** [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
 - [isles24] **isles24-scout-005-c08** [SCOUT_ONLY] -- Delay is not dispersion
 - [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - [baseline] **scout-006-c02** [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity

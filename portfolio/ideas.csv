@@ -39,3 +39,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 038,Does the model price the last mile of blood delivery?,ACTIVE,,"{'value': 4, 'why': 'Spatial priors are easy for segmentation networks to learn and almost never reported.'}",CRITIQUE,
 039,Does the model trust tissue that obeys the flow equation?,ACTIVE,,"{'value': 5, 'why': 'The required redundant maps are already in the benchmark, making this a cheap obvious-in-hindsight audit.'}",CRITIQUE,
 040,The pressure history written in a winding artery,ACTIVE,,"{'value': 3, 'why': 'Cheap enough to screen despite the proxy problem.'}",CRITIQUE,
+041,The roughness of a heartbeat through starved tissue,ACTIVE,,"{'value': 4, 'why': 'The biomarker paper has already completed the expensive measurement legwork, leaving one experiment to convert association into a model-behavior result.'}",CRITIQUE,
