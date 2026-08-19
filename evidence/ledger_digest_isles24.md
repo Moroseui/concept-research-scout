@@ -70,7 +70,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-039** [SHORTLISTED/DEBATED/wide] -- Does the model trust tissue that obeys the flow equation?
 - **idea-040** [PAUSED/DEBATED/baseline] -- The pressure history written in a winding artery
 - **idea-041** [SHORTLISTED/DEBATED/wide] -- The roughness of a heartbeat through starved tissue
-- **idea-042** [SHORTLISTED/CRITIQUED/wide] -- Delay is not dispersion
+- **idea-042** [SHORTLISTED/DEBATED/wide] -- Delay is not dispersion
 - **idea-043** [SHORTLISTED/SCOUTED/baseline] -- What the winner's brain window revealed
 - **idea-044** [SHORTLISTED/SCOUTED/baseline] -- The old stroke inside the new forecast
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
