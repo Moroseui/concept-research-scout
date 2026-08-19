@@ -1,0 +1,22 @@
+Novelty audit complete. `novelty_audit.md` and `novelty_manifest.json` are written to `ideas/scout-isles24-005/`; no other files were touched.
+
+**Verdicts (C1–C8, merged order from `candidates_all.json`):**
+
+| # | Candidate | Verdict | Why-not-done |
+|---|---|---|---|
+| C1 | Gray-white attenuation ratio use test | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C2 | Chronic infarct cavities as reserve signal | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C3 | Cervical carotid stenosis as upstream constraint | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C4 | Arterial tortuosity as pressure-load gauge | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C5 | Sulci pinning predicted infarct edges | NO_DUPLICATE_FOUND_LIMITED_SEARCH | BLIND_SPOT |
+| C6 | Central-volume identity residual as confidence map | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C7 | Higuchi fractal dimension use test | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C8 | Delay vs dispersion | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+
+**How the audit ran.** Eight parallel search agents (one per candidate) ran ~90 queries total across web search, PubMed/Europe PMC, arXiv, and publisher sites; the manifest records every query and every neighbor with access level and an establishing passage. I independently re-verified the four 2026-dated load-bearing identifiers the agents surfaced (EPPINN arXiv:2603.09359, MANCE arXiv:2607.03973, the Frontiers 2026 boundary-aware stroke segmentation paper, and the Translational Stroke Research 2026 tortuosity paper) — all resolve and match their claimed content.
+
+**Judgment calls and findings worth flagging:**
+
+- **C5 downgraded.** The search agent claimed high confidence, but its search was bounded (~10 queries, closest neighbors accessed mostly via search summaries) and the segmentation-error-analysis territory is broad enough that a near-duplicate could hide under different vocabulary. I recorded it as LIMITED_SEARCH — a human-verification flag, not evidence of novelty.
+- **No duplicates anywhere.** The consistent pattern across all eight: the measurement/association literature and the intervention machinery each exist, but no located work combines them into a model-use test on a stroke infarct model. C6's closest call was EPPINN (2026), which enforces the central-volume identity by construction during map estimation rather than intervening on the residual to audit a downstream model — a real neighbor, clearly distinguished.
+- **Citation corrections for the ledger.** C7's INSPECTED_TRUE keystone content is confirmed (PMID 40824507, 149 ISLES'24 cases, FD findings all check out), but the card's "Lim et al." is a misattribution — authors are Ichikawa, Kondo, Yokoyama (DOI 10.1007/s11548-025-03500-3). C7 and C8 both misattribute DOI 10.3389/fnins.2022.1009654 to "Robben et al." (actual authors: Winder et al.), and C7's PMID 32501132 is Klug et al., not "van Os." Content claims behind all three are accurate; the author fields should be fixed at the next card revision. C8's audit also found a closer neighbor than the card's (Willats et al., Stroke 2012), which strengthens the motivation without preempting the question.
