@@ -1,0 +1,18 @@
+Novelty audit complete. I wrote `ideas/scout-017/novelty_audit.md` and `ideas/scout-017/novelty_manifest.json` (43 logged queries, 28 neighbors with identifiers and establishing passages); no other files were touched.
+
+**Verdicts:**
+
+| Candidate | Verdict | Why-not-done |
+|---|---|---|
+| C1 crushed vertebra / mortality | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C2 mucus plug / airway score | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C3 collateral veins / cirrhosis | NO_DUPLICATE_FOUND_LIMITED_SEARCH | NEW_CAPABILITY |
+| C4 disc narrowing / CXR age | INCREMENTAL | BLIND_SPOT |
+| C5 vascular pruning / Sybil | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+
+No duplicate experiment was found for any candidate, but the search surfaced four facts that matter more than the verdicts:
+
+1. **C2's keystone likely fails as written.** The anchor mucus-plug paper (PMID 41749693, confirmed real, Bioengineering 2026) releases **no weights or code** — data availability says "inquiries to the corresponding author." The card's compute-today condition was "YES only if weights are released," so Stage 0 needs author contact or reimplementation of the (fully described) synthetic-plug training recipe.
+2. **C3 cites the wrong Merlin identifier.** arXiv:2407.11399 is an unrelated robotics paper; Merlin is arXiv:2406.06512 (Nature 2026). The good news: its checkpoint is confirmed public (HuggingFace `stanfordmimi/Merlin`). C3 got the LIMITED_SEARCH verdict because several load-bearing neighbors were only reachable at search-snippet level behind Springer paywalls.
+3. **C4 is INCREMENTAL, not a discovery candidate.** Its own anchor paper (PMID 34640449, read at full text) already names the cervical/thoracic spine among "the most crucial activated regions" and attributes it to degeneration — the deliverable sentence is partially anticipated at saliency level. What remains novel is the disc-space-specific causal edit. The internal overlap check against scout-010-c01 also remains open. This matches the card's own novelty_confidence of 2.
+4. **Two favorable keystone facts:** CXR-risk weights (C1) and Sybil checkpoints (C5) are both confirmed publicly released. C5's closest neighbor — a 2026 ICML paper auditing Sybil (arXiv:2602.02560) — probes exactly this model but never parameterizes vasculature, which confirms the gap rather than closing it.
