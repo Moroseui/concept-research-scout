@@ -1,6 +1,6 @@
 # Ledger digest -- charter: baseline (auto-generated; scores are scoped to this charter only)
 
-86 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+91 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -27,21 +27,21 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-014-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.8, audited 2026-08-16] -- Redraw the same airway walls with a sharper pencil: does the peribronchial-thickening score follow Pi10?
 - **scout-012-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.7, audited 2026-08-15] -- The race signal in chest CT: measure the bone density everyone names and nobody measured
 - **scout-016-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.7, audited 2026-08-18] -- The mortality model is wearing the patient's hardware
-- ... and 44 more (python scout.py backlog)
+- ... and 49 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
+- regional-substitution: 12
 - conditional-observational: 12
-- regional-substitution: 11
-- counterfactual-synthesis: 7
-- representation-erasure: 5
-- longitudinal-within-subject: 4
+- counterfactual-synthesis: 8
+- representation-erasure: 6
+- longitudinal-within-subject: 5
 - natural-paired: 3
 - model-output-perturbation: 3
-- regional-removal: 2
+- regional-removal: 3
 - cross-reconstruction: 2
 
 ## Ideas
@@ -132,3 +132,8 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-016-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The fat inside the silhouette: epicardial adipose in the cardiomegaly score
 - **scout-016-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The skeleton's tree rings: Harris lines inside the bone-age model
 - **scout-016-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The cage remembers the hyperinflation: barrel chest inside the emphysema score
+- **scout-017-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The crushed vertebra inside the mortality score
+- **scout-017-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The plug inside the thickened-airway score
+- **scout-017-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The detour veins inside the cirrhosis prediction
+- **scout-017-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The spine's calendar inside chest-radiograph age
+- **scout-017-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The vascular street map inside lung-cancer risk
