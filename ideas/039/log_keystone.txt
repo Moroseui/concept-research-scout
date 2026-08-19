@@ -1,0 +1,1952 @@
+OpenAI Codex v0.148.0
+--------
+workdir: /home/runner/work/concept-research-scout/concept-research-scout
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 01a01784-b533-7443-8203-91fbe476c460
+--------
+user
+You are a critical research collaborator working inside this repository.
+Repository root: /home/runner/work/concept-research-scout/concept-research-scout
+Assigned output directory: ideas/039
+Preserve existing files unless the task explicitly requires an update.
+Do not claim novelty without verified primary sources.
+Do not write code unless this is the probe_code stage and human approval exists.
+
+===== charters/isles24/CHARTER.md =====
+# Research charter — isles24
+
+**Status:** human-authored governance document, drafted 2026-08-16 at the
+operator's direction as a change of program focus.
+Scores produced under this charter are scoped to it and are not
+comparable with scores from any other charter.
+
+## The driver
+
+This program's current focus is the **ISLES'24 challenge dataset**
+(Ischemic Stroke Lesion Segmentation, MICCAI challenge series). The
+direction is exploratory rather than committed: the question is what
+research ideas this dataset makes possible, judged by whether an expert
+in AI for medical imaging would find them worth pursuing.
+
+**The program under this charter: generate testable research ideas that
+concretely use ISLES'24 and would interest a serious researcher in AI
+for medical imaging.**
+
+Breadth is deliberate. Segmentation methods, outcome prediction,
+interpretability, benchmarking and evaluation critique, dataset-quality
+findings, language-and-imaging connections, uncertainty, generalization
+-- all admissible, provided the idea is testable and the dataset's role
+in it is concrete rather than decorative.
+
+## Verify before generating (hard rule)
+
+Do not assume the dataset's composition. Before writing any candidate,
+the scout MUST verify against primary sources (the ISLES'24 challenge
+site, its publications, its data-hosting pages) at minimum: which
+imaging modalities are provided per case, what the ground truth is and
+how it was produced, cohort size and split structure, license and
+access conditions, and what the official evaluation measures. Working
+belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+stroke, provides acute-phase imaging (non-contrast CT and CT
+angiography/perfusion-derived maps) with lesion ground truth derived
+from follow-up imaging. Every candidate must cite what it verified.
+A candidate premised on data the dataset does not contain is invalid
+regardless of its other merits.
+
+## What makes a candidate good here
+
+1. **Testable kernel.** A specific question with a recognizable
+   empirical answer, not a topic area.
+2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+   test -- its modalities, its ground-truth construction, its cohort,
+   or its role as a public benchmark.
+3. **A researcher would care.** The candidate states, in one or two
+   sentences, why a person who publishes in medical imaging AI would
+   consider the answer worth having, whichever way it comes out.
+4. **Honest cost.** Compute, data access, and annotation needs stated.
+
+## Annotation rule (operator decision, 2026-08)
+
+Ideas requiring annotator-dependent inputs are admissible. Apply a
+scoring penalty ONLY when an idea requires NEW annotation burden on the
+lab (fresh expert labeling beyond what the dataset or public sources
+already provide). Using the dataset's existing annotations, or
+published auxiliary labels, carries no penalty.
+
+## Connections to the lab (bonus, not requirement)
+
+Ideas that additionally connect to the lab's standing interests --
+language as an interface to 3D medical images, interpretability of
+what models use, evaluation and benchmarking rigor, clinician-in-the-
+loop refinement -- earn their connection bonus per the rubric. But a
+strong ISLES'24 idea with no such connection is still a strong idea
+under this charter.
+
+## Inherited discipline
+
+All standing rules apply unchanged: verified primary sources for any
+novelty claim; the use-versus-association distinction; feasibility
+must name concrete numbers; kill weak candidates rather than decorate
+them. The deliverable standard for this charter is a ranked set of
+candidates each carrying its verified dataset facts, its testable
+kernel, and its stated audience-relevance -- ready for human review
+and, for survivors, the normal pipeline.
+
+
+===== docs/COLLABORATOR_RULES.md =====
+# Collaborator rules
+
+## Role
+
+Act as a critical research collaborator. Generate ideas, but spend at least as much effort trying to disprove or simplify them.
+
+## Required distinctions
+
+Always distinguish:
+
+- verified fact;
+- source-supported interpretation;
+- inference;
+- speculation;
+- exploratory result;
+- confirmatory result.
+
+## Literature
+
+- Use primary sources for medical, dataset, and method claims.
+- Record DOI, PMID, arXiv ID, or official repository URL.
+- Never claim novelty from memory alone.
+- “I did not find it” is not proof that it does not exist.
+- Identify the closest work and explain the exact delta.
+
+## Idea generation
+
+Prefer “one experiment away from a stronger story” over unconstrained novelty brainstorming.
+
+For every idea, identify:
+
+- the scientific uncertainty;
+- the existing legwork already completed by others;
+- the missing final step;
+- why that step matters;
+- the smallest decisive experiment;
+- the most dangerous confound;
+- why a negative result remains useful.
+
+## Coding gate
+
+Do not generate probe code until all are present:
+
+- a reviewed idea card;
+- a feasibility memo;
+- a probe contract;
+- explicit human approval.
+
+## Experimental integrity
+
+- Freeze splits before model comparison.
+- Save configurations, seeds, environment, and per-case outputs.
+- Use validation for development and preserve an untouched test set.
+- Do not reinterpret an invalid run as a negative result.
+- Report every authorized variant, not only the best one.
+- Stop when the preregistered question is answered or the budget is exhausted.
+
+## Personal references in generated artifacts
+
+Refer to people by role, never by name: "the operator", "the
+supervising PI", "the lab". Direction is stated as program fact ("the
+current focus is X"), not narrated as personal suggestion. Formal
+attribution lives in the README and future citation files, not in
+working documents.
+
+
+===== docs/SCORING_RUBRIC.md =====
+# Idea scoring rubric
+
+Score each dimension 1-5. Explain every score.
+
+**Canonical shape (mandatory):** emit each score in the `scores` object as
+`{"value": N, "why": "..."}` — the key is `value`, never `score`. Omit
+`keystone_evidence` entirely when there is none; never emit `null` for it.
+Cards violating the shape are rejected at merge.
+
+| Dimension | 1 | 3 | 5 |
+|---|---|---|---|
+| Clarity | vague | testable with refinement | one-sentence precise question |
+| **Identifiability** | a positive result has many explanations | design rules out the main alternative | design isolates the claimed mechanism |
+| Medical relevance | cosmetic | plausible utility | clear meaningful consequence |
+| Interest | routine | useful niche result | surprising or broadly compelling |
+| Prior legwork | little exists | some reusable assets | data/code/labels/checkpoints ready |
+| Feasibility | major barriers | manageable | first result in days |
+| Data readiness | uncertain/restricted | accessible with work | public and directly usable |
+| Evaluation readiness | unclear | custom metrics needed | accepted metrics and baselines exist |
+| Negative-result value | uninterpretable null | sensitivity-limited null | decisive negative |
+| Novelty confidence | likely covered | uncertain | precise verified gap |
+| Regret | little concern | worth considering | obvious-in-hindsight opportunity |
+
+## Hard caps
+
+`feasibility` and `novelty_confidence` may not exceed **3** unless
+`keystone_status` is `INSPECTED_TRUE`. See the charter.
+
+`negative_result_value` may not exceed **2** if the anticipated negative is
+classified as uninterpretable.
+
+## Priority score
+
+Transparent weighted sum, not a fake probability:
+
+- 20% feasibility
+- **15% identifiability**
+- 15% medical relevance
+- 10% prior legwork
+- 10% interest
+- 10% clarity
+- 10% negative-result value
+- 5% data readiness
+- 5% novelty confidence
+
+Evaluation readiness and regret are reported separately and must not override
+weak scientific value.
+
+Identifiability enters at 15% because the first cycle produced several
+candidates with strong headlines whose designs could not isolate the stated
+phenomenon. Interest was compensating for weak measurement validity.
+
+## Mode C scoring
+
+Mode C (speculative) candidates are scored differently. Do **not** demote a
+Mode C candidate for low feasibility or thin prior legwork — that is what the
+mode is for. Do demote it for being untestable.
+
+For Mode C, replace the priority weighting with:
+
+- 30% mechanism clarity (is the suspected physical/biological signal named?)
+- 25% identifiability
+- 20% interest
+- 15% medical relevance
+- 10% clarity
+
+Report feasibility and novelty confidence for information, outside the score.
+A Mode C candidate that would take three weeks is fine. One that could not be
+falsified in three years is not.
+
+**Mechanism clarity, 1-5:**
+
+| 1 | 3 | 5 |
+|---|---|---|
+| "probe the representation and see what is there" | a named signal family, unclear how to isolate it | a specific physical or biological quantity, and the measurement that would show the model uses it |
+
+
+===== evidence/decisions.md =====
+# Decision ledger
+
+Record decisions as evidence statements rather than broad permanent bans.
+
+Format:
+
+## YYYY-MM-DD — IDEA-ID — ADVANCE | REVISE | PAUSE | REJECT
+
+**Question:**
+
+**Evidence:**
+
+**Scope of conclusion:**
+
+**What this does not establish:**
+
+**Revisit trigger:**
+
+## 2026-08-04 — Idea 001 REJECTED (LIDC concepts vs diagnosis)
+Zinovev et al. 2012, J Digit Imaging 25:423-436 (DOI 10.1007/s10278-011-9445-3)
+VERIFIED by reading the paper: diagnosis file is patient-level, numbering
+inconsistent with LIDC XML, only 18 nodules reliably linked (8 mal / 9 ben /
+1 indet) via single-nodule-patient restriction. Too small for the proposed
+paired AUC analysis.
+Reopen only with a released, independently validated diagnosis-to-XML-nodule
+mapping retaining all eight semantic ratings, meeting a prespecified CI-width
+target before model fitting.
+Separate unresolved objection, raised in critique but never debated: the eight
+characteristics and the malignancy rating come from the same reader in the same
+session, so concept-to-suspicion prediction measures rating-form consistency,
+not concept validity.
+
+## 2026-08-04 - Idea 004 Stage 0 COMPLETE
+3,039 validation volumes / 1,564 scans / 1,304 patients.
+1,432 of 1,564 scans multi-reconstruction (92%).
+425 strictly clean geometry-matched kernel pairs after excluding slice-count,
+position, and acquisition-parameter drift.
+Contrasts: Br40f|Br60f 237, Bl56f|Br40f 126, Bl57d|Br36d 58, Br40f|Br44f 4.
+462/464 Siemens - findings vendor-specific, state as limitation.
+Labels identical across reconstructions: 1.00 (exact duplication).
+No released per-volume ClassFine scores: CT-RATE has only RadBERT report
+labels; CT-CLIP GitHub v1.0.0 has no release assets; checkpoints are not on
+the authors HF account. Inference must be run locally.
+Scope: download 850 volumes (425 pairs), not 3,039. Inference code exists at
+scripts/data_inference_nii.py and run_forward_data.py.
+
+## 2026-08-04 - Idea 002 PAUSE (Derm7pt clinical photo concepts)
+Annotation provenance undocumented: unknown whether checklist annotators saw
+the paired clinical photograph. A positive result would have two materially
+different explanations. Unblocked only by author correspondence.
+
+## 2026-08-04 - Idea 003 REJECT (BI-RADS intervention realism)
+BUS-BRA releases BI-RADS assessment categories, not lexicon descriptors - no
+concepts to intervene on. Debate ran six rounds; amendments achieved
+feasibility by abandoning the intervention question entirely.
+
+## 2026-08-04 - Idea 005 PAUSE (LIDC concept discriminant validity)
+MTMM requires independent measurement methods. LIDC released reads are from the
+unblinded phase after readers saw each others marks, and reader IDs are not
+stable across scans. Keystone error: verified that multiple opinions exist
+(true) rather than that they are independent measurement methods (false).
+
+## 2026-08-05 - Idea 006 PAUSE (CT-CLIP non-tissue voxel prediction)
+Patient-deletion is an extreme OOD intervention; neither direction identifies
+exterior reliance during intact inference. Wrong-keystone error, third
+occurrence: verified that exterior voxels survive preprocessing (true) when the
+inference required that a body-excluded volume is in-distribution (unverified).
+Reopening condition: inspect CT-CLIP training loader for large-region masking
+or cutout with matching fill value.
+SPIN-OFF, endorsed by both critique and debate: hold every voxel inside a
+dilated patient contour fixed and substitute only the scan exterior between
+geometry-matched scans; measure paired ClassFine score change. Separate
+estimand, enter as a new candidate.
+
+## 2026-08-05 - Idea 007 ADVANCE TO REVISION (lung inflation, CT-CLIP)
+Paired inhale/exhale BHCT + 4DCT confirmed: 20 patients, one session, one
+scanner, TCIA DOI 10.7937/3ppx-7s22, ungated, 14.93 GB.
+4DCT phases are NOT calibrated inflation levels - phase is time position, not
+fraction of vital capacity; same amplitude occurs on both limbs; phase-sorting
+artifacts. Dose-response arm demoted to exploratory.
+Preprocessing confound is the live keystone residual: fixed-size crop may admit
+different anatomy at different diaphragm positions. Stage 0 gate.
+CT-CLIP has no mosaic attenuation head - card claimed a nonexistent output.
+Claim demoted rung 3 -> rung 1: sensitivity to respiratory state, not
+identification of total lung volume as the cue.
+
+## 2026-08-10 — Idea 015 REJECTED (superseded) + claim-identity governance rule
+
+The narrowed BAC-response experiment survives on its merits, but removing the
+vascular-age interpretation changed the deliverable claim's identity. Rule
+going forward: revision-in-place is for narrowing scope or fixing design
+within the same deliverable sentence; when the deliverable sentence or the
+prohibited-conclusions set changes, the idea is REJECTED (superseded) and the
+successor registers as a NEW candidate with parent_ids for lineage. The
+successor re-enters through a normal scouting cycle, receives its own novelty
+audit, and is re-ranked in the backlog on current merit — no inherited queue
+position. For idea 015 specifically: the successor keeps the agreed
+BAC-specific design and prohibited conclusions, and remains conditional on
+Stage 0 confirming an obtainable Mirai-compatible cohort and spatial
+registration between the BAC mask and Mirai's exact input tensor.
+
+
+## 2026-08-10 — Idea 005 spin-off S2 (reader-slot exchangeability): deliberate wait
+
+S2 is a legitimate successor under the claim-identity rule (different
+estimand; parent idea-005) and should re-enter, if at all, through a normal
+scout revival or librarian proposal with parent_ids — not manual
+registration. This is also a live test of the revival machinery. If S2 has
+not resurfaced within a few cycles despite this note, that is a finding
+about the revival path, not about S2.
+
+
+## 2026-08-10 — Idea 006 unblock check: FAILED (evidence-quoted)
+
+Released CT-CLIP training uses deterministic preprocessing only (CTReportDataset,
+scripts/data.py): rescale, resample, HU clip [-1000,1000], /1000, center
+crop/pad (fill -1, data.py:156). No masking/cutout/erasing augmentation
+exists; visual SSL is present in the library but disabled (use_visual_ssl
+default False; not enabled in run_train.py). Body-excluded volumes are out-
+of-distribution for this checkpoint; the deletion intervention is
+indefensible per the debate's condition. Idea 006 stays PAUSED, hardened;
+the exterior-swap spin-off (idea 004 pairs) is the only live path.
+Side finding for idea 013 Stage 0: CT-CLIP clips at +1000 HU, so calcium
+density saturates — compute the automated calcium measure on the same
+clipped range.
+
+
+## 2026-08-11 — Idea 004 Stage 0: feasibility memo accepted with four contract pins
+
+GO per feasibility.md, with the probe contract required to encode: (1) primary
+readout is per-head (18) x per-stratum paired-difference distributions; no
+cross-head averaging; the 4-pair Br40f|Br44f stratum is exploratory only.
+(2) Two-tier readout: tier 1 label-free per-head deltas (the floor, primary,
+no margin needed); tier 2 label-dependent AUROC shift judged against the
+CT-Scroll between-method spread, margin fixed from the PDF tables BEFORE any
+paired score is seen. (3) Probes are phased: contract v1 is exactly the
+section-9 load probe (gate, checkpoint hash, 18-output load, one-pair
+inference, bit-determinism); the bulk 425-pair floor study is a separate
+later contract requiring fresh human approval. (4) Freeze HF commit hash and
+checkpoint SHA-256 at download time; attribution limited to 'released v2
+ClassFine checkpoint' until paper-number correspondence is checked.
+
+
+## 2026-08-12 - Probe 004 exit-7 root cause (evidence-quoted) and revision spec
+
+Diagnostic on the frozen revision (deeca4d8) of validation_metadata.csv:
+ConvolutionKernel values are stringified lists - value_counts shows
+"['Br40f', '3']": 425 and "['Br60f', '3']": 239 - while run.py matches
+row['ConvolutionKernel'].strip() == 'Br40f', which matches zero rows. World
+matches Stage 0 (239 Br60f volumes ~ frozen 237 pairs); only the predicate
+drifted. Revision requirements, and ONLY these: (1) normalize the kernel
+field before comparison - if it parses as a Python list literal take element
+0, else use the stripped raw string - then compare to Br40f/Br60f; robust to
+both formats. (2) Diagnosability: on any selection shortfall vs the frozen
+count, dump top-10 distinct kernel values with counts, example VolumeNames,
+and per-filter drop counts to the run log AND selection_audit.json in the
+output dir. (3) Record the normalized kernel per selected volume in
+input_manifest.csv. Geometry list-string columns compare same-format
+row-vs-row and need no change. No other scope.
+
+
+## 2026-08-12 - Probe 004 exit-5 root cause (evidence-quoted): transformers pin, not the checkpoint
+
+Load failed on exactly one unexpected key, "trained_model.text_transformer.
+embeddings.position_ids". Transformers 4.31.0 changed BERT position_ids
+from a persistent to a non-persistent buffer, so checkpoints saved under
+<=4.30.x carry the key and models instantiated under >=4.31 do not expect
+it. The released repo own transformer_maskgit/setup.py line 17 contains
+the commented pin "#transformers==4.30.1" - the authors environment.
+Verdict: environment-alignment failure, not a checkpoint/code
+incompatibility; exit 5 is provisionally reclassified as environment-class
+pending a run under the released pin. Revision, and ONLY this: in
+probes/004/requirements.txt set transformers==4.30.1 and cascade
+tokenizers to a compatible 0.13.x (4.30.1 requires tokenizers<0.14);
+no run.py changes. Process note for the floor-study contract: an exit-5
+load classification is only final after the released environment pin has
+been tested - version-semantics mismatches must not masquerade as
+checkpoint facts.
+
+
+## 2026-08-12 - Probe 004 r5 environment dead end; r6 pivot to enumerated-key-tolerant load
+
+The r5 pin (transformers 4.30.1 / tokenizers 0.13.3) is uninstallable on
+Colab Python 3.12: tokenizers <0.14 ships no cp312 wheels and the Rust
+source build fails (pip error captured 2026-08-12). Pinning backward to the
+authors 2023 environment is not viable on current runtimes. Revision r6,
+and ONLY this: (1) revert requirements.txt to the r4 closure that installed
+cleanly twice (transformers 4.38.2 / tokenizers 0.15.2). (2) In run.py,
+before load_state_dict, remove state-dict keys matching
+*.embeddings.position_ids - the non-learnable arange buffer that
+transformers 4.31 made non-persistent; this replicates from_pretrained
+documented cross-era behavior. Strictness otherwise preserved: assert the
+removed set is exactly one key matching that pattern, log the removed
+key(s) to provenance.json and the run log, and any OTHER unexpected or
+missing key still exits 5. (3) Startup logs the installed transformers
+version. Exit-5 semantics update: a load is "unchanged" modulo enumerated,
+provenance-logged framework-era buffer keys only.
+
+
+## 2026-08-12 — Probe 004 contract v1 ADVANCE (load probe passed)
+
+The authorized real A/B/A run satisfied every load-probe contract gate. The frozen
+`CT_LiPro_v2.pt` artifact (SHA-256
+`9246d9c8a7e2cedaa115719699229fe0acb02f19488e8bd1ad1eff5f47ff1d7d`)
+loaded strictly under CT-CLIP commit `a2a155c601987820433c01db69b64d701d3d229d`,
+modulo exactly the single r6-authorized and provenance-recorded
+`trained_model.text_transformer.embeddings.position_ids` buffer key. The selected
+Stage-0-valid Br40f|Br60f pair produced 18 finite named scores for A, B, and repeated
+A; the A repeat was bit-identical. All three executions completed at batch size one
+without patch-size changes in 0.250 GPU minutes with 4.10 GB peak memory, under the
+45-minute cap. All authorized variants are reported in `ideas/004/decision.md`.
+
+Scope: this demonstrates checkpoint/pipeline compatibility, output shape,
+determinism, and bounded single-pair inference only. The one-pair A-versus-B score
+differences are diagnostic and scientifically uninterpretable; they establish
+nothing about reconstruction sensitivity, equivalence, accuracy, or concept
+validity. No validity failure occurred. ADVANCE means only that a separate 425-pair
+floor-study contract may now be drafted and submitted for fresh human approval; no
+bulk inference is authorized by this decision.
+
+## 2026-08-14 - AMENDMENT to 2026-08-11 pin 2: CT-Scroll demoted from tier-2 equivalence margin to benchmark context
+
+Pin 2 required the tier-2 AUROC margin to be fixed from the CT-Scroll
+(arXiv 2503.20652) PDF tables before any paired score is seen. External
+review (2026-08-14) found the margin estimand mismatched: the CT-Scroll
+headline table reportedly gives CT-RATE TEST-set results averaged across
+18 labels, while this study analyzes the VALIDATION split per head. A
+formal per-head equivalence margin derived from an aggregate spread on a
+different split would be worse than honest description.
+
+Amended pin 2: CT-Scroll supplies benchmark CONTEXT, not a margin.
+Tier 2 is a purely descriptive secondary endpoint - per-head paired
+delta-AUROC with patient-cluster bootstrap confidence intervals,
+contextualized against published between-model differences on the same
+benchmark. Contract v2 must contain ZERO threshold language for tier 2
+(no "meaningful", "material", or numeric cutoffs), or an implicit margin
+re-enters at interpretation time. Tier 2 measures benchmark
+discrimination against the released report-derived labels of CT-RATE,
+never clinical diagnostic accuracy.
+
+The extraction stage (context memo, formerly margin memo) must verify
+the split claim of the reviewer from the primary source with quoted
+table and page identifiers - checker-mode applies to reviewers too - and
+must state on the record that the v1 load probe exposed the per-head
+diagnostic scores of one pair (declared uninterpretable in the v1
+contract), and why this does not compromise tier 2: context numbers
+derive solely from published CT-Scroll tables, and tier 1 is label-free.
+
+All other 2026-08-11 pins stand unchanged. The equivalence-margin
+wording in the idea-004 card is updated to match in the commit following
+this ratification. Preregistration discipline preserved: the analysis is
+still frozen before the 425 pairs are scored; what changed is that no
+external number now plays a pass/fail role.
+
+## 2026-08-14 - A1 revision spec r1 (context memo, idea 004)
+
+Ratification review found one internal inconsistency. Revision scope,
+and ONLY this: section 5, caveat 6 says "the three ViViT-free pairwise
+gaps" and then lists six values (0.57, 1.53, 2.10, 0.33, 1.86, 2.43).
+The word and the list disagree. Resolve the inconsistency: either the
+count is wrong and should match the list, or the word "three" reflects
+an intended narrower meaning, in which case state that meaning
+explicitly so the sentence and the list agree on their own terms.
+Whichever way it resolves, the resolution must be internally consistent
+and the six gap values themselves must not change unless the resolution
+gives a stated reason. No other content, number, or quote may be
+altered. Re-run of the context-memo stage authorized for this revision
+only.
+
+## 2026-08-14 - A1 RATIFIED: CT-Scroll context memo (idea 004, r1)
+
+The context memo at ideas/004/context_memo.md (git blob
+6668a313ae83779ef2a74d1982dd287d504a7e0d) is ratified after spot-check
+of the load-bearing quotes against arXiv 2503.20652 v6 and v1, an
+arithmetic audit of all derived gaps, and review of the r1 diff, which
+contained the specified section-5.6 resolution and nothing beyond it.
+
+Frozen as benchmark context, version-pinned to arXiv v6 (v1 for volume
+counts): five trained-model 18-label-averaged AUROC values (ViViT 79.19,
+CT-Net 79.37, Swin3D 79.94, 3D CNN 81.47, CT-Scroll 81.80), max-min
+spread 2.61, all ten pairwise gaps as tabulated. Context only; no number
+carries pass/fail semantics anywhere (amended pin 2).
+
+Findings of record: (1) the external reviewer was half right - label
+averaging confirmed by quote; the different-split premise refuted at the
+volume level, with the papers test set almost certainly the official
+validation split relabeled (source-supported inference from the exact
+3,039-volume match; mapping never stated in the paper). (2) Version
+instability: the v1 table gives a 7.88 spread vs v6s 2.61 - threefold -
+because the baseline set changed between revisions; retroactive
+vindication of the pin-2 amendment. (3) v6-internal ViViT inconsistency
+(Table 1: 79.19 vs Table 2: 73.19) recorded for the interpret stage.
+(4) The 1,314-vs-1,304 patient bookkeeping discrepancy remains
+unresolved and non-blocking. (5) The mandated exposure statement is
+present and its no-margin-to-steer argument is accepted. (6) Revision
+r1 was specified in decisions.md and executed by the stage, not by
+hand; the artifact remains machine-produced end to end.
+
+Contract v2 drafting is now authorized as the next stage, to begin once
+the v2 contract-drafting machinery lands; the current probe-plan prompt
+is not to be used for the floor study.
+
+## 2026-08-14 - A2 flagged questions resolved (contract v2, idea 004)
+
+Both open questions in the v2 draft are resolved as drafted. (1)
+Two-phase approval adopted: phase-1 approval authorizes only the
+metadata-only manifest freeze; recording the manifest hash and
+unique-volume count amends the contract; the hash-bound gate treats
+the phase-1 approval as stale by construction; phase-2 approval
+against the amended blob authorizes bulk execution; bulk activity
+while placeholders remain is invalidating. (2) The v1-exposed anchor
+pair is excluded from all confirmatory statistics (236 counted
+Br40f|Br60f pairs), per the exposure argument in the ratified memo.
+
+## 2026-08-15 - A2 phase M complete: manifest frozen, contract amended
+
+Phase M ran metadata-only under the phase-1 approval (marker and
+contract both blob a84b617cd5a0...). The frozen Stage-0 selection was
+reproduced EXACTLY from raw released metadata: 237/126/58/4 per
+stratum, 425 pairs, 850 unique volumes (no volume participates in two
+pairs). pair_manifest.csv frozen at SHA-256
+5dc0f07fbc9aa01a30c3ad4f5bdfb6d7cd078db58392b7e4329bd37b38c12d38.
+Anchor pair p001 flagged anchor_excluded per the resolved A2 question.
+The contract amendment replaces the sha, count, and cap placeholders
+with these values; the invalidating-failure rule line retains the
+placeholder token by design (it is the rule that polices placeholders,
+not a placeholder). The QA/retry allowance remains in formula form,
+now fully resolvable from concrete in-file values (170); converting it
+to the literal is out of the authorized amendment scope and deferred.
+Per the two-phase design this amendment stales the phase-1 approval by
+construction. Phase-2 approval is DEFERRED until the results-transport
+machinery (E1/E2) lands; no bulk activity is authorized in the
+interim, and the driver refuses phase B regardless.
+
+## 2026-08-15 - A2 amendment 2: placeholder rule line reworded
+
+Audit of run.py found the phase-B placeholder check is a full-file
+scan (run.py:411). The invalidating-failure rule line retained the
+literal token by design and would therefore refuse phase B forever.
+Resolution on the contract side, zero code change: the rule line now
+says "TO_BE_RECORDED placeholder token" instead of the full literal.
+Rule meaning unchanged. Timed before phase-2 approval, so no extra
+approval staleness is incurred (the phase-1 marker was already stale
+from amendment 1). The naive scan itself goes on the run.py polish
+list, not a revision: it is fail-safe in direction and now correct
+in effect.
+
+## 2026-08-15 - Probe 004 v2 revision spec r1 (harness fault, exit 12)
+
+Observed in production (attempt 3, driver_console.log on the results
+branch, commit da85a52): after anchor volume cache hits,
+UNEXPECTED INTERNAL ERROR (exit 12): OSError(18, Invalid cross-device
+link). Root cause class: a file relocation using rename semantics
+between the Drive-mounted output directory and local scratch, which
+are different filesystems; rename cannot cross devices. Attempt 2
+died identically (silent, pre-console-log).
+
+Revision requirements, and ONLY these:
+1. Every file relocation that can cross the boundary between
+   --output-dir and local working storage must use EXDEV-safe
+   semantics (e.g. shutil.move, or copy-verify-delete); no bare
+   os.rename / Path.rename across that boundary anywhere in run.py.
+2. The exit-12 unexpected-error handler must emit the full traceback
+   to stderr, not only the exception repr, so future harness faults
+   are diagnosable from the persisted console log.
+No scientific scope, endpoint, gate, cap, or analysis change of any
+kind. The contract is untouched; exit 12 is a harness fault by the
+taxonomy, so the phase-2 approval remains bound and valid.
+
+## 2026-08-16 - RECORD-RESULT: idea 004 425-pair bundle merged (the gate)
+
+The results PR from branch results/probe-004-8b68640183ee was merged
+after deterministic validation (validate-bundle: core files, contract
+blob, manifest pin, chunk manifests all pass) and operator-side audit.
+Study facts of record: 425/425 pairs scored across 5 of 30 sessions;
+anchor pair excluded from confirmatory statistics (236 counted
+Br40f|Br60f); anchors in tolerance every session with dev 0.00e+00;
+850 scientific volumes, 2 QA retries of a 170 allowance; all
+spot-checks bit-identical. The auto-PR condition in results-validate
+missed because run.py emits contract_satisfied/chunks_complete rather
+than study_complete -- key-schema mismatch, polish list; the PR was
+opened manually and the gate semantics are unchanged. Interpretation
+is NOT made here: the interpret stage runs only after the
+interpret-review machinery (cross-family checker-mode review of the
+interpretation, mirroring probe-build) lands, per the operator
+decision of this date. Until then the tables in
+probes/004/results_v2/analysis/ are the deliverable and carry no
+narrative.
+
+## 2026-08-16 - IDEA 004 RATIFIED: interpretation approved and adopted
+
+The interpretation at ideas/004/interpretation.md (git blob
+ccd66870a240d04f66a13eb2f69e54cf6d75743e) and its cross-family review
+at ideas/004/interpret_review.md (git blob
+bb208dae52be559544cf2192eb3edc848d80fdd1) are ratified. The checker
+approved on round 1 after resolving every citation against the
+analysis files; an operator-side audit independently re-resolved five
+citations spanning both tiers and the summary accounting, all
+transcription-exact.
+
+Finding of record (rung 1, vendor-scoped, this checkpoint, these
+contrasts): the model is using reconstruction-dependent image content
+when it produces some named chest-CT abnormality scores. Typical
+signed shifts are small; direction and upper-tail magnitude depend on
+head and contrast; pleural effusion shows directional medians with
+patient-cluster intervals below zero under both cross-family
+contrasts. Tier 2 is descriptive only; no threshold judgment exists;
+CT-Scroll values remain context.
+
+ADVANCE is adopted with its stated semantics: no further inference is
+authorized under this idea; identifying the mediating
+spatial-frequency or noise-texture quantity requires a successor idea
+through the normal pipeline. Idea 004 is complete: contract v2
+executed validly (425 pairs, 850 volumes, 5 sessions, anchors at zero
+deviation), results merged via the record-result gate, interpretation
+cross-family reviewed and here ratified.
+
+## 2026-08-17 - Ideas 021 and 023: human inspection questions answered
+
+Idea 021 (contralateral ruler): the debate question - can any
+non-reference mechanism produce increased affected-side deficit under
+healthy-side up-scaling while passing all gates - is answered NO for
+the card as revised. The revised design freezes normalization
+constants from each unedited case and verifies bit-for-bit identity
+of affected-side network inputs, which excludes the strongest
+candidate (per-instance normalization coupling) by construction; the
+mirror-over-global margin and the monotone SIGNED dose-response
+discriminate against real cross-hemisphere physiology (collateral
+supply predicts the opposite sign) and generic nonlocal mechanisms.
+Independent review:
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md.
+Operator notes: edits are perfusion-map value edits, not raw-image
+brightness; half-masking and mirror-symmetrization are rejected as
+confirmatory arms on distribution-realism grounds, with
+mirror-symmetrization recorded as a possible exploratory successor.
+Conditions forwarded to feasibility: verify the target model
+normalization implementation, that it consumes finished maps rather
+than re-deriving from 4D source, and its receptive-field span.
+Feasibility is authorized.
+
+Idea 023 (CBV/MTT compensation state): the debate question - can an
+outcome-derived change point operationalize the phrase autoregulatory
+blood-volume reserve - is answered NO. The construct is defined by a
+vasodilatory challenge; baseline maps cannot reveal remaining
+dilation capacity (operator-confirmed understanding: a snapshot
+cannot show how much further vessels can open); ISLES24 contains no
+challenge data. Claim language is fixed as an outcome-associated
+joint CBV/MTT decision boundary; the card disclaimer is ratified as
+binding; physiological naming requires a successor with
+challenge-based validation. Additional condition forwarded to
+feasibility: the memo MUST include a prior-art section on map-editing
+and counterfactual-perturbation mechanisms in medical imaging and a
+concrete stay-in-distribution edit strategy with numbers; absence of
+workable precedent is a legitimate feasibility kill. Feasibility is
+authorized under the reduced claim.
+
+## 2026-08-17 - Redaction-forward policy
+
+Personal names are generalized to roles (the operator, the supervising
+PI, the lab) in all live documents: charters, prompts, README, rules.
+Historical entries and git history retain original wording by design;
+the audit chain is anchored in commit and blob hashes that rewriting
+would sever. Attribution lives in the README Acknowledgments and any
+future citation file. Generated artifacts use role language per
+COLLABORATOR_RULES. A test enforces the ban in live documents.
+
+## 2026-08-18 - Cross-charter corruption: found, repaired, marked
+
+External code review found that charter isolation held at generation
+and broke downstream; sandbox verification confirmed every claim.
+Damage and repair are documented in the P0-charter-integrity commit
+and executed by scripts/repair_charter_promotions.py (append-only).
+Standing consequences: ideas 020-025 carry an evaluation-contamination
+marker (their critique, debate, and feasibility ran under the baseline
+charter text); their verdicts remain of record but a bounded
+cross-family reconciliation review is queued to check each verdict
+against the isles24 charter before any contract is drafted. Idea-026
+is REJECTED as a duplicate promotion of the killed idea-020; zero
+stages were spent on it. The six baseline candidates falsely retired
+are restored. ISLES promotion was frozen during the repair and is now
+unfrozen. The scored digest is per-charter from this date; facts cross
+charters only through the score-free index.
+
+## 2026-08-18 - Correction: the v1 ledger repair failed; tombstones supersede it
+
+The entry of earlier today stated the six baseline rows were restored.
+That was false: the v1 repair script read the wrong timestamp field,
+found no corruption boundary, and re-appended the corrupt state with a
+note claiming restoration. External re-review caught it; direct
+history inspection then established that none of the six rows existed
+before 2026-08-17 at all (cycle 001 had six real candidates, cycle 002
+four; three rows are phantoms outright, three reference old candidates
+never tracked in the ledger). All six are now tombstoned (INVALID_ROW)
+by scripts/repair_charter_ledger_v2.py and excluded from current state
+by ledger.load() itself, with an explicit include_invalid escape hatch
+for audit code. Lesson recorded: a repair script is claim-bearing code
+and gets verified against artifacts like everything else; a spot-check
+that rationalizes an expected-looking value is not verification.
+
+
+===== evidence/ledger_digest_isles24.md =====
+# Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
+
+65 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+
+Work under other charters: evidence/cross_charter_index.md (facts, no scores).
+
+## Known failure modes (kill-code frequency)
+
+Before proposing a candidate, check it against every pattern below.
+A candidate that dies like a prior one must say what makes it different.
+
+- **IDENTIFIABILITY_FAILURE** x11: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
+- **DATA_ACCESS** x3: Required data, checkpoints, or mappings are not obtainable in practice.
+
+## Candidate backlog (scouted, not yet shortlisted; ranked)
+
+- **isles24-scout-002-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.4, audited 2026-08-16] -- Two tissues, two death thresholds
+- **isles24-scout-004-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.1, audited 2026-08-18] -- The heart's signature in the head scan
+- **isles24-scout-005-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 2.9, audited 2026-08-19] -- The bottleneck before the brain
+- **isles24-scout-004-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.3, audited 2026-08-18] -- The brain's odometer: calcification as the model's age gauge
+- **isles24-scout-002-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-16] -- The clot that lets contrast through
+- **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
+- **isles24-scout-001-c01** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-16] -- Does the winning model rediscover the collateral clock?
+- **isles24-scout-005-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-19] -- Do sulci pin the predicted infarct edge?
+- **isles24-scout-001-c03** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.5, audited 2026-08-16] -- Read the stroke from the blood leaving, not only entering
+- **isles24-scout-001-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.5, audited 2026-08-16] -- The frail brain around the threatened territory
+- ... and 6 more (python scout.py backlog)
+
+## Design-template concentration (homogenization watch)
+
+The research GRAMMAR, not the nouns. High concentration means the
+portfolio explores one scientific move with rotating vocabulary.
+
+- counterfactual-synthesis: 10
+- regional-substitution: 9
+- representation-erasure: 6
+- conditional-observational: 3
+- cross-model-disagreement: 2
+- regional-removal: 2
+- natural-paired: 1
+- other:remote-perturbation: 1
+- other:graph-edge-intervention: 1
+- model-output-perturbation: 1
+- other:temporal-reparameterization: 1
+- other:noise-residual-transplant: 1
+- other:label-geometry-audit: 1
+- other:geometry-conditioned-boundary-test: 1
+
+## Ideas
+
+- **idea-020** [REJECTED/DEBATED/baseline] -- A spreading front inside the perfusion deficit -- killed: IDENTIFIABILITY_FAILURE
+- **idea-021** [SHORTLISTED/DEBATED/baseline] -- The healthy hemisphere is the ruler
+- **idea-022** [PAUSED/DEBATED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
+- **idea-023** [SHORTLISTED/DEBATED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
+- **idea-024** [REJECTED/DEBATED/wide] -- The capillary traffic jam hidden behind the same mean transit time -- killed: DATA_ACCESS
+- **idea-025** [PAUSED/DEBATED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved
+- **idea-026** [REJECTED/SCOUTED/baseline] -- A spreading front inside the perfusion deficit
+- **idea-027** [REJECTED/DEBATED/baseline] -- When vanished sulci mean rescue, not death -- killed: DATA_ACCESS
+- **idea-028** [REJECTED/DEBATED/baseline] -- The blood's grayscale oxygen gauge -- killed: IDENTIFIABILITY_FAILURE
+- **idea-029** [REJECTED/DEBATED/baseline] -- The ground truth remembers the algorithm that drafted it -- killed: IDENTIFIABILITY_FAILURE
+- **idea-030** [REJECTED/DEBATED/wide] -- The ground truth was drawn on a swollen brain -- killed: IDENTIFIABILITY_FAILURE
+- **idea-031** [REJECTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see -- killed: DATA_ACCESS
+- **idea-032** [REJECTED/DEBATED/baseline] -- The arterial network's spare route -- killed: IDENTIFIABILITY_FAILURE
+- **idea-033** [REJECTED/DEBATED/baseline] -- Did preprocessing teach the winner to read the disappearing insular ribbon? -- killed: IDENTIFIABILITY_FAILURE
+- **idea-034** [REJECTED/DEBATED/wide] -- The edge of the map: the benchmark scores terra incognita -- killed: IDENTIFIABILITY_FAILURE
+- **idea-035** [REJECTED/DEBATED/wide] -- The skull is a fixed-volume pressure vessel -- killed: IDENTIFIABILITY_FAILURE
+- **idea-036** [REJECTED/DEBATED/baseline] -- Does the model bring a vascular map to the scan? -- killed: IDENTIFIABILITY_FAILURE
+- **idea-037** [REJECTED/DEBATED/wide] -- The scan remembers which hospital took it -- killed: IDENTIFIABILITY_FAILURE
+- **idea-038** [REJECTED/DEBATED/wide] -- Does the model price the last mile of blood delivery? -- killed: IDENTIFIABILITY_FAILURE
+- **idea-039** [SHORTLISTED/SCOUTED/wide] -- Does the model trust tissue that obeys the flow equation?
+- **idea-040** [SHORTLISTED/SCOUTED/baseline] -- The pressure history written in a winding artery
+- **idea-041** [SHORTLISTED/SCOUTED/wide] -- The roughness of a heartbeat through starved tissue
+- **idea-042** [SHORTLISTED/SCOUTED/wide] -- Delay is not dispersion
+- **idea-043** [SHORTLISTED/SCOUTED/baseline] -- What the winner's brain window revealed
+- **idea-044** [SHORTLISTED/SCOUTED/baseline] -- The old stroke inside the new forecast
+- **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
+- **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
+- **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
+- **isles24-scout-001-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The frail brain around the threatened territory
+- **isles24-scout-001-c05** [SHORTLISTED/SCOUTED/baseline] -- A spreading front inside the perfusion deficit
+- **isles24-scout-001-c06** [SHORTLISTED/SCOUTED/wide] -- The capillary traffic jam hidden behind the same mean transit time
+- **isles24-scout-001-c07** [SHORTLISTED/SCOUTED/wide] -- Does the model mistake the end of the scan for the end of the bolus?
+- **isles24-scout-001-c08** [SCOUT_ONLY/SCOUTED/wide] -- The deconvolution algorithm may have signed the image
+- **isles24-scout-002-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The water already in the tissue: does the model read the edema clock?
+- **isles24-scout-002-c02** [SHORTLISTED/SCOUTED/baseline] -- The healthy hemisphere is the ruler
+- **isles24-scout-002-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Two tissues, two death thresholds
+- **isles24-scout-002-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The barrier is already leaking
+- **isles24-scout-002-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The clot that lets contrast through
+- **isles24-scout-002-c06** [SHORTLISTED/SCOUTED/wide] -- The scan is also an actigraph: the model may be reading how much the patient moved
+- **isles24-scout-002-c07** [SHORTLISTED/SCOUTED/wide] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
+- **isles24-scout-002-c08** [SCOUT_ONLY/SCOUTED/wide] -- Has the deficit percolated? Volume is what the metric sees; connectivity may be what the model uses
+- **isles24-scout-003-c01** [SHORTLISTED/SCOUTED/baseline] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
+- **isles24-scout-003-c02** [SCOUT_ONLY/SCOUTED/baseline] -- How much artery did the clot occupy?
+- **isles24-scout-003-c03** [SHORTLISTED/SCOUTED/baseline] -- The arterial network's spare route
+- **isles24-scout-003-c04** [SHORTLISTED/SCOUTED/baseline] -- The blood's grayscale oxygen gauge
+- **isles24-scout-003-c05** [SHORTLISTED/SCOUTED/baseline] -- When vanished sulci mean rescue, not death
+- **isles24-scout-003-c06** [SCOUT_ONLY/SCOUTED/wide] -- The bolus spreads like dye in a river
+- **isles24-scout-003-c07** [SHORTLISTED/SCOUTED/wide] -- Does the model price the last mile of blood delivery?
+- **isles24-scout-003-c08** [SHORTLISTED/SCOUTED/wide] -- The skull is a fixed-volume pressure vessel
+- **isles24-scout-004-c01** [SHORTLISTED/SCOUTED/baseline] -- The ground truth remembers the algorithm that drafted it
+- **isles24-scout-004-c02** [SHORTLISTED/SCOUTED/baseline] -- Does the model bring a vascular map to the scan?
+- **isles24-scout-004-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The heart's signature in the head scan
+- **isles24-scout-004-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The model may be watching the patient's eyes
+- **isles24-scout-004-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The brain's odometer: calcification as the model's age gauge
+- **isles24-scout-004-c06** [SHORTLISTED/SCOUTED/wide] -- The scan remembers which hospital took it
+- **isles24-scout-004-c07** [SHORTLISTED/SCOUTED/wide] -- The edge of the map: the benchmark scores terra incognita
+- **isles24-scout-004-c08** [SHORTLISTED/SCOUTED/wide] -- The ground truth was drawn on a swollen brain
+- **isles24-scout-005-c01** [SHORTLISTED/SCOUTED/baseline] -- What the winner's brain window revealed
+- **isles24-scout-005-c02** [SHORTLISTED/SCOUTED/baseline] -- The old stroke inside the new forecast
+- **isles24-scout-005-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The bottleneck before the brain
+- **isles24-scout-005-c04** [SHORTLISTED/SCOUTED/baseline] -- The pressure history written in a winding artery
+- **isles24-scout-005-c05** [SCOUT_ONLY/SCOUTED/baseline] -- Do sulci pin the predicted infarct edge?
+- **isles24-scout-005-c06** [SHORTLISTED/SCOUTED/wide] -- Does the model trust tissue that obeys the flow equation?
+- **isles24-scout-005-c07** [SHORTLISTED/SCOUTED/wide] -- The roughness of a heartbeat through starved tissue
+- **isles24-scout-005-c08** [SHORTLISTED/SCOUTED/wide] -- Delay is not dispersion
+
+
+===== evidence/portfolio_brief_isles24.md =====
+# Portfolio brief -- charter: isles24 (auto-generated; run `python scout.py brief`)
+
+Actionable ideas OF THIS CHARTER with debate verdicts (evaluative
+framing never crosses charters; facts cross via
+evidence/cross_charter_index.md). A revival/recombination
+candidate MUST cite the specific condition below that has changed.
+
+## idea-025 [PAUSED] -- The scan is also an actigraph: the model may be reading how much the patient moved
+
+**Verdict:** **PAUSE.** The single most important thing for the human to inspect is whether paired pre-correction and icobrain cva 1.5.0-corrected CTP, with independent motion ground truth or retained validated transforms, can be obtained for a representative cohort. Without that bridge, the original behavioral attribution is not identifiable; the index-level audit is a distinct successor rather than a repair. ```json {"verdict": "PAUSE", "unblock": "Obtain paired pre-correction and icobrain cva 1.5.0-corrected CTP (or a source-verified bit-equivalent pipeline) with independent motion ground truth or retained validated transforms, and verify patient-motion rank recovery plus the real motion-to-residue mapping."} ```
+
+**Unresolved:** Is skull-anchored registration on uncorrected CTP an adequate independent measure of acquisition-level patient motion?
+
+## idea-023 [SHORTLISTED] -- The joint CBV/MTT compensation state at matched flow
+
+**Verdict:** **REVISE.** Rewrite the card to the fully gated, cohort-anchored design before any feasibility memo or model work. The single most important thing for the human to examine is whether matching a model's edit-response change point to a change point estimated from its own training cohort's outcomes is sufficient evidence for the physician-legible phrase “autoregulatory blood-volume reserve,” or whether independent physiological validation is required. That decision controls both claim identity and whether G-shape can ever reach rung 3. ```json {"verdict": "REVISE", "unblock": "Rewrite the card with K2, G-label/G-shape, G-hyper, support-boundary indeterminacy, channel-attribution limits, and model-family scope, then obtain human agreement that the outcome-derived shape can validly operationalize autoregulatory reserve before Stage 0."} ```
+
+**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+
+## idea-022 [PAUSED] -- Does the model mistake the end of the scan for the end of the bolus?
+
+**Verdict:** **PAUSE.** The single most important thing for the human to inspect is whether a frozen raw-4D-CTP final-infarct checkpoint with non-trivial held-out performance can actually be obtained together with its training-time temporal masking or padding semantics. Both parts are necessary; a checkpoint alone would not validate the prefix intervention. ```json {"verdict": "PAUSE", "unblock": "Obtain a frozen raw-4D-CTP final-infarct checkpoint with non-trivial held-out performance and directly inspect training-time temporal masking or padding semantics that support the nested-prefix intervention."} ```
+
+## idea-021 [SHORTLISTED] -- The healthy hemisphere is the ruler
+
+**Verdict:** **REVISE.** The round-three design may repair the remaining mechanism-family objection, but that repair was never tested by the critic and is not yet in the idea card. Before deciding, the human should look most closely at a prediction table for the signed up-scaling conjunction: can any plausible non-reference mechanism produce increased affected-side deficit under healthy-side up-scaling while passing the contralateral-emergence, global-arm, realism, and power gates? The card should not advance until an independent review answers that question and the actual card is rewritten to the agreed normalization pins, reduced claims, gates, power requirement, and fallback governance. ```json {"verdict": "REVISE", "unblock": "Independently validate that the signed up-scaling conjunction excludes the named non-reference mechanisms, then rewrite the card with frozen normalization, realism, emergence, margin, and power gates plus successor handling for the weaker fallback."} ```
+
+**Unresolved:** Does the round-three conjunction identify reference-setting rather than generic cross-hemispheric use?; Can the discriminating up-scaling arm remain physiologically and cross-modally in distribution?; Is the weaker fallback a revision of idea 021 or a successor?; Is the study adequately powered within the available cohort and compute envelope?
+
+
+
+===== evidence/cross_charter_index.md =====
+# Cross-charter index (facts only; scores are never comparable across charters)
+
+- [baseline] **idea-001** [REJECTED] -- Have lung nodule concept models been validated against radiologist opinion rather than against disease?
+- [baseline] **idea-002** [PAUSED] -- Dermoscopic concepts predicted from non-dermoscopic photographs: genuine visibility or shortcut?
+- [baseline] **idea-003** [REJECTED] -- Does BI-RADS concept intervention survive realistic clinician behaviour, and does it beat simply reading the BI-RADS category?
+- [baseline] **idea-004** [ACTIVE] -- The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition
+- [baseline] **idea-005** [REJECTED] -- Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary
+- [baseline] **idea-006** [PAUSED] -- Ask the chest-CT foundation model to diagnose a volume with no patient in it
+- [baseline] **idea-007** [ACTIVE] -- The same patient, twice, ten minutes apart, differing only in how much air is in the lungs
+- [baseline] **idea-008** [ACTIVE] -- Two papers say Sybil's residual signal is the background, one of them names emphysema, and neither measured it
+- [baseline] **idea-009** [REJECTED] -- Murray's cube law says how a branching tree should be built - ask whether the risk model is reading the lung's departure from it
+- [baseline] **idea-010** [REJECTED] -- Cardiomegaly on a CT report is admitted gestalt - ask whether the model has quietly turned it into millilitres
+- [baseline] **idea-011** [PAUSED] -- Forensic anthropologists age a skeleton by its rib cartilage - ask whether an unguided CT model found the same clock
+- [baseline] **idea-012** [PAUSED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
+- [baseline] **idea-013** [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
+- [baseline] **idea-014** [PAUSED] -- The knee-pain model may be reading trabecular stress architecture that KL grade throws away
+- [baseline] **idea-015** [REJECTED] -- A breast-cancer risk model may be reading the arteries as a vascular clock
+- [baseline] **idea-016** [REJECTED] -- The PE model may read contrast flowing backward as a pressure gauge
+- [baseline] **idea-017** [SHORTLISTED] -- A lung-cancer model may be reading a mechanically remodeled trachea
+- [baseline] **idea-018** [REJECTED] -- The brain-tumor prognosticator may be weighing the chewing muscle
+- [baseline] **idea-019** [SHORTLISTED] -- The fibrosis model may be counting holes at the pleural edge
+- [isles24] **idea-020** [REJECTED] -- A spreading front inside the perfusion deficit
+- [isles24] **idea-021** [SHORTLISTED] -- The healthy hemisphere is the ruler
+- [isles24] **idea-022** [PAUSED] -- Does the model mistake the end of the scan for the end of the bolus?
+- [isles24] **idea-023** [SHORTLISTED] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
+- [isles24] **idea-024** [REJECTED] -- The capillary traffic jam hidden behind the same mean transit time
+- [isles24] **idea-025** [PAUSED] -- The scan is also an actigraph: the model may be reading how much the patient moved
+- [isles24] **idea-026** [REJECTED] -- A spreading front inside the perfusion deficit
+- [isles24] **idea-027** [REJECTED] -- When vanished sulci mean rescue, not death
+- [isles24] **idea-028** [REJECTED] -- The blood's grayscale oxygen gauge
+- [isles24] **idea-029** [REJECTED] -- The ground truth remembers the algorithm that drafted it
+- [isles24] **idea-030** [REJECTED] -- The ground truth was drawn on a swollen brain
+- [isles24] **idea-031** [REJECTED] -- The vascular detour the segmentation model can see
+- [isles24] **idea-032** [REJECTED] -- The arterial network's spare route
+- [isles24] **idea-033** [REJECTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
+- [isles24] **idea-034** [REJECTED] -- The edge of the map: the benchmark scores terra incognita
+- [isles24] **idea-035** [REJECTED] -- The skull is a fixed-volume pressure vessel
+- [isles24] **idea-036** [REJECTED] -- Does the model bring a vascular map to the scan?
+- [isles24] **idea-037** [REJECTED] -- The scan remembers which hospital took it
+- [isles24] **idea-038** [REJECTED] -- Does the model price the last mile of blood delivery?
+- [isles24] **idea-039** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
+- [isles24] **idea-040** [SHORTLISTED] -- The pressure history written in a winding artery
+- [isles24] **idea-041** [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
+- [isles24] **idea-042** [SHORTLISTED] -- Delay is not dispersion
+- [isles24] **idea-043** [SHORTLISTED] -- What the winner's brain window revealed
+- [isles24] **idea-044** [SHORTLISTED] -- The old stroke inside the new forecast
+- [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
+- [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
+- [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
+- [isles24] **isles24-scout-001-c04** [SCOUT_ONLY] -- The frail brain around the threatened territory
+- [isles24] **isles24-scout-001-c05** [SHORTLISTED] -- A spreading front inside the perfusion deficit
+- [isles24] **isles24-scout-001-c06** [SHORTLISTED] -- The capillary traffic jam hidden behind the same mean transit time
+- [isles24] **isles24-scout-001-c07** [SHORTLISTED] -- Does the model mistake the end of the scan for the end of the bolus?
+- [isles24] **isles24-scout-001-c08** [SCOUT_ONLY] -- The deconvolution algorithm may have signed the image
+- [isles24] **isles24-scout-002-c01** [SCOUT_ONLY] -- The water already in the tissue: does the model read the edema clock?
+- [isles24] **isles24-scout-002-c02** [SHORTLISTED] -- The healthy hemisphere is the ruler
+- [isles24] **isles24-scout-002-c03** [SCOUT_ONLY] -- Two tissues, two death thresholds
+- [isles24] **isles24-scout-002-c04** [SCOUT_ONLY] -- The barrier is already leaking
+- [isles24] **isles24-scout-002-c05** [SCOUT_ONLY] -- The clot that lets contrast through
+- [isles24] **isles24-scout-002-c06** [SHORTLISTED] -- The scan is also an actigraph: the model may be reading how much the patient moved
+- [isles24] **isles24-scout-002-c07** [SHORTLISTED] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
+- [isles24] **isles24-scout-002-c08** [SCOUT_ONLY] -- Has the deficit percolated? Volume is what the metric sees; connectivity may be what the model uses
+- [isles24] **isles24-scout-003-c01** [SHORTLISTED] -- Did preprocessing teach the winner to read the disappearing insular ribbon?
+- [isles24] **isles24-scout-003-c02** [SCOUT_ONLY] -- How much artery did the clot occupy?
+- [isles24] **isles24-scout-003-c03** [SHORTLISTED] -- The arterial network's spare route
+- [isles24] **isles24-scout-003-c04** [SHORTLISTED] -- The blood's grayscale oxygen gauge
+- [isles24] **isles24-scout-003-c05** [SHORTLISTED] -- When vanished sulci mean rescue, not death
+- [isles24] **isles24-scout-003-c06** [SCOUT_ONLY] -- The bolus spreads like dye in a river
+- [isles24] **isles24-scout-003-c07** [SHORTLISTED] -- Does the model price the last mile of blood delivery?
+- [isles24] **isles24-scout-003-c08** [SHORTLISTED] -- The skull is a fixed-volume pressure vessel
+- [isles24] **isles24-scout-004-c01** [SHORTLISTED] -- The ground truth remembers the algorithm that drafted it
+- [isles24] **isles24-scout-004-c02** [SHORTLISTED] -- Does the model bring a vascular map to the scan?
+- [isles24] **isles24-scout-004-c03** [SCOUT_ONLY] -- The heart's signature in the head scan
+- [isles24] **isles24-scout-004-c04** [SCOUT_ONLY] -- The model may be watching the patient's eyes
+- [isles24] **isles24-scout-004-c05** [SCOUT_ONLY] -- The brain's odometer: calcification as the model's age gauge
+- [isles24] **isles24-scout-004-c06** [SHORTLISTED] -- The scan remembers which hospital took it
+- [isles24] **isles24-scout-004-c07** [SHORTLISTED] -- The edge of the map: the benchmark scores terra incognita
+- [isles24] **isles24-scout-004-c08** [SHORTLISTED] -- The ground truth was drawn on a swollen brain
+- [isles24] **isles24-scout-005-c01** [SHORTLISTED] -- What the winner's brain window revealed
+- [isles24] **isles24-scout-005-c02** [SHORTLISTED] -- The old stroke inside the new forecast
+- [isles24] **isles24-scout-005-c03** [SCOUT_ONLY] -- The bottleneck before the brain
+- [isles24] **isles24-scout-005-c04** [SHORTLISTED] -- The pressure history written in a winding artery
+- [isles24] **isles24-scout-005-c05** [SCOUT_ONLY] -- Do sulci pin the predicted infarct edge?
+- [isles24] **isles24-scout-005-c06** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
+- [isles24] **isles24-scout-005-c07** [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
+- [isles24] **isles24-scout-005-c08** [SHORTLISTED] -- Delay is not dispersion
+- [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
+- [baseline] **scout-006-c02** [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
+- [baseline] **scout-006-c03** [SCOUT_ONLY] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
+- [baseline] **scout-006-c04** [SCOUT_ONLY] -- Merlin predicts osteoporosis - ask whether it reads the density of the bone or the shape of a column that has begun to buckle
+- [baseline] **scout-006-c05** [SCOUT_ONLY] -- An airway and its artery run together and should taper together - ask whether the model reads bronchiectasis as the broken ratio between the two
+- [baseline] **scout-007-c01** [SHORTLISTED] -- The knee-pain model may be reading trabecular stress architecture that KL grade throws away
+- [baseline] **scout-007-c02** [SHORTLISTED] -- A breast-cancer risk model may be reading the arteries as a vascular clock
+- [baseline] **scout-007-c03** [SCOUT_ONLY] -- Merlin may be reading fatty kidney rather than kidney shape
+- [baseline] **scout-007-c04** [SHORTLISTED] -- The PE model may read contrast flowing backward as a pressure gauge
+- [baseline] **scout-007-c05** [SHORTLISTED] -- A lung-cancer model may be reading a mechanically remodeled trachea
+- [baseline] **scout-007-c06** [SCOUT_ONLY] -- The effusion model may be reading whether pleural fluid still obeys gravity
+- [baseline] **scout-007-c07** [SHORTLISTED] -- The fibrosis model may be counting holes at the pleural edge
+- [baseline] **scout-007-c08** [SCOUT_ONLY] -- The PE model may be reading how completely blood and contrast have mixed
+- [baseline] **scout-007-c09** [REJECTED] -- 
+- [baseline] **scout-007-c10** [REJECTED] -- 
+- [baseline] **scout-007-c11** [REJECTED] -- 
+- [baseline] **scout-007-c12** [REJECTED] -- 
+- [baseline] **scout-007-c13** [REJECTED] -- 
+- [baseline] **scout-008-c01** [SCOUT_ONLY] -- The cirrhosis model may be reading the bumpiness of the liver's edge
+- [baseline] **scout-008-c02** [SCOUT_ONLY] -- The chest-CT model may see the heart by watching the airway splay
+- [baseline] **scout-008-c03** [SCOUT_ONLY] -- The model that 'predicts a blood count' may just be reading how bright the blood is
+- [baseline] **scout-008-c04** [SCOUT_ONLY] -- The emphysema call may read the shape of the holes, not just how many
+- [baseline] **scout-008-c05** [SCOUT_ONLY] -- The lung-cancer model may read the aorta as an ageing clock
+- [baseline] **scout-009-c01** [SCOUT_ONLY] -- The CT spirometer may be measuring remodeled airway walls
+- [baseline] **scout-009-c02** [SCOUT_ONLY] -- The kidney model may be reading fat packed into the renal sinus
+- [baseline] **scout-009-c03** [SHORTLISTED] -- The brain-tumor prognosticator may be weighing the chewing muscle
+- [baseline] **scout-009-c04** [SCOUT_ONLY] -- The risk model may be reading the breast's lines of force
+- [baseline] **scout-009-c05** [SCOUT_ONLY] -- The lung-cancer model may be reading the marrow as a smoking dosimeter
+- [baseline] **scout-009-c06** [SCOUT_ONLY] -- The CT spirometer may be reading the diaphragm as a pressure-loaded membrane
+- [baseline] **scout-009-c07** [SCOUT_ONLY] -- Mirai may be detecting broken bilateral symmetry before a lesion exists
+- [baseline] **scout-009-c08** [SCOUT_ONLY] -- The glioblastoma prognosticator may be reading the invasion front's roughness
+- [baseline] **scout-009-c09** [SCOUT_ONLY] -- The arterial-calcification score may be reading inspiratory depth
+- [baseline] **scout-010-c01** [SCOUT_ONLY] -- CXR-Age put back together from parts a radiologist can measure
+- [baseline] **scout-010-c02** [SCOUT_ONLY] -- Atelectasis vs consolidation: has CT-CLIP learned the radiologist's volume-loss rule?
+- [baseline] **scout-010-c03** [SCOUT_ONLY] -- Merlin's cirrhosis signal may be the spleen
+- [baseline] **scout-010-c04** [SCOUT_ONLY] -- The inferior vena cava as a manometer: does the chest model read venous pressure?
+- [baseline] **scout-010-c05** [SCOUT_ONLY] -- Aortic tortuosity as a buckled column: is the hypertension head reading exceeded critical pressure?
+- [baseline] **scout-011-c01** [SCOUT_ONLY] -- Name the bone phenotype hidden in a near-perfect hand-radiograph sex classifier
+- [baseline] **scout-011-c02** [SCOUT_ONLY] -- Does Merlin read renal atrophy when it predicts future CKD?
+- [baseline] **scout-011-c03** [SCOUT_ONLY] -- Cephalization in 3D: decode CT-CLIP's pulmonary-edema score
+- [baseline] **scout-011-c04** [SCOUT_ONLY] -- The air bronchogram as a topological cue
+- [baseline] **scout-011-c05** [SCOUT_ONLY] -- A pancreatic fat gauge inside Merlin's diabetes forecast
+- [baseline] **scout-012-c01** [SCOUT_ONLY] -- The race signal in chest CT: measure the bone density everyone names and nobody measured
+- [baseline] **scout-012-c02** [SCOUT_ONLY] -- The dilated esophagus inside the fibrosis score
+- [baseline] **scout-012-c03** [SCOUT_ONLY] -- Merlin's COPD call may come from the lungs it wasn't asked to look at
+- [baseline] **scout-012-c04** [SCOUT_ONLY] -- The non-gated chest CT contains an ECG: heart rate written in motion banding
+- [baseline] **scout-012-c05** [SCOUT_ONLY] -- The prognosis model as a manometer: midline shift is pressure the skull wrote down
+- [baseline] **scout-013-c01** [SCOUT_ONLY] -- The vessel map inside the mosaic-attenuation score
+- [baseline] **scout-013-c02** [SCOUT_ONLY] -- The open fissure inside lung-cancer risk
+- [baseline] **scout-013-c03** [SCOUT_ONLY] -- Name the skeletal frailty inside mortality prediction
+- [baseline] **scout-013-c04** [SCOUT_ONLY] -- The renal artery as a buckled pressure line
+- [baseline] **scout-013-c05** [SCOUT_ONLY] -- Collateral failure written in the cortical veins
+- [baseline] **scout-014-c01** [SCOUT_ONLY] -- The fat around the heart inside the CVD-mortality score: finish the observation Chao et al. started
+- [baseline] **scout-014-c02** [SCOUT_ONLY] -- Redraw the same airway walls with a sharper pencil: does the peribronchial-thickening score follow Pi10?
+- [baseline] **scout-014-c03** [SCOUT_ONLY] -- The cardiomegaly head may be reading the rib cage: Haller index beyond heart volume
+- [baseline] **scout-014-c04** [SCOUT_ONLY] -- Sybil was never given the patient's age; the thymus wrote it down anyway
+- [baseline] **scout-014-c05** [SCOUT_ONLY] -- Chronic anemia turns the marrow back on: is Merlin reading red marrow, not just pale blood?
+- [baseline] **scout-015-c01** [SCOUT_ONLY] -- Measure the fluid behind the pleural-effusion score
+- [baseline] **scout-015-c02** [SCOUT_ONLY] -- The missing branches inside Sybil's risk score
+- [baseline] **scout-015-c03** [SCOUT_ONLY] -- The portal vein as the cirrhosis model's pressure gauge
+- [baseline] **scout-015-c04** [SCOUT_ONLY] -- The continuous air tunnel inside the hiatal-hernia score
+- [baseline] **scout-015-c05** [SCOUT_ONLY] -- The lung-opacity score may be reading gravity
+- [baseline] **scout-016-c01** [SCOUT_ONLY] -- Name the noise the kernel writes: the mediator behind idea 004's reconstruction shifts
+- [baseline] **scout-016-c02** [SCOUT_ONLY] -- The mortality model is wearing the patient's hardware
+- [baseline] **scout-016-c03** [SCOUT_ONLY] -- The fat inside the silhouette: epicardial adipose in the cardiomegaly score
+- [baseline] **scout-016-c04** [SCOUT_ONLY] -- The skeleton's tree rings: Harris lines inside the bone-age model
+- [baseline] **scout-016-c05** [SCOUT_ONLY] -- The cage remembers the hyperinflation: barrel chest inside the emphysema score
+
+
+===== evidence/librarian_proposals.md =====
+
+
+===== ideas/039/README.md =====
+# Idea 039: Does the model trust tissue that obeys the flow equation?
+
+Selected from scouting cycle isles24-005, candidate 6.
+
+
+===== ideas/039/idea_card.json =====
+{
+  "id": "isles24-scout-005-c06",
+  "parent_ids": [],
+  "track": "wide",
+  "entry_point": 2,
+  "title": "Does the model trust tissue that obeys the flow equation?",
+  "question": "Is an ISLES'24 final-infarct model using voxelwise violation of the central-volume identity CBV = CBF x MTT as a hidden confidence map for the released perfusion estimates?",
+  "rung": "Target rung 1: selective use of the cross-map inconsistency residual; rung 2 requires the response to replicate across model families and across independently regenerated perfusion maps.",
+  "deliverable_sentence": "The final-infarct model is using violation of the central-volume identity as a hidden confidence map for perfusion evidence.",
+  "X_measurement": "Inside brain tissue, fit the unit/scale constant on normal contralateral voxels and compute X = |log(CBV) - log(CBF) - log(MTT/60) - k_case|, with cerebral blood volume (CBV) in mL/100 g, cerebral blood flow (CBF) in mL/100 g/min, and mean transit time (MTT) in seconds. Report median X and connected high-X islands inside the acute Tmax>6 s territory. The formula is deterministic and annotator-free; the central-volume theorem is described in Konstas et al., AJNR 2009, PMID 19270105, and the three registered maps are in the official ISLES'24 release (Zenodo DOI 10.5281/zenodo.16731717).",
+  "suspected_signal": "For an ideal indicator-dilution calculation the three maps are not independent: CBV equals CBF multiplied by MTT after unit conversion. Noise, delay sensitivity, regularization, map clipping, and implementation details can break that identity locally. A multichannel model could learn that high-residual tissue is an unreliable measurement region and discount or reinterpret its perfusion deficit, even though no explicit uncertainty map was supplied.",
+  "use_vs_association": "Project each affected-region map triplet onto the nearest central-volume-consistent manifold while preserving the local CBF and Tmax ranks, then compare the prediction with equal-energy perturbations tangent to that manifold; a selective, graded response to removing only the normal residual is evidence of use rather than correlation.",
+  "keystone_prerequisite": "The released CBF, CBV, and MTT maps have meaningful common support and scaling such that a stable, nontrivial central-volume residual can be computed rather than merely rediscovering zeros, support edges, or arbitrary normalization.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The theorem is verified, and all three maps are verified as released, but the release's value units, clipping rules, and local algebraic consistency have not been inspected. Stage 0 must read headers and value distributions in 10 cases, exclude zero/support boundaries, and require residual rank correlation at least 0.8 under two defensible normal-tissue masks. If X collapses to a constant, a support mask, or a unit error, the candidate dies.",
+  "rung_reached": "0; rung 1 only after measurement, manifold-projection realism, model-performance, dose-response, and tangent-sham gates.",
+  "dies_like_prior": "This is adjacent to isles24-scout-001-c08 (the deconvolution algorithm may have signed the image) and idea-037 (site identity), both vulnerable to IDENTIFIABILITY_FAILURE. It differs by naming an invariant that is calculable within every case and selectively removable without swapping sites or algorithms. A positive result would establish use of cross-map inconsistency, not which vendor produced it or why it arose; that narrower claim avoids the unsupported provenance attribution.",
+  "closest_prior_work": "Indicator-dilution theory fixes the algebraic relation among CBF, CBV, and MTT; commercial packages applied to identical stroke source data nevertheless produce materially different maps. Infarct networks fuse these maps, but the searched primary work does not test whether a network reads their internal physical inconsistency as uncertainty. No novelty claim beyond this targeted comparison is made.",
+  "novelty_neighbors": [
+    {
+      "work": "Konstas et al., Theoretic Basis and Technical Implementations of CT Perfusion in Acute Ischemic Stroke, Part 1",
+      "identifier": "PMID 19270105; AJNR 2009; official full text https://pmc.ncbi.nlm.nih.gov/articles/PMC7051780/",
+      "relation": "Defines the central-volume theorem and explains that MTT is calculated from CBV/CBF; supplies the physical invariant but does not audit model use of its residual."
+    },
+    {
+      "work": "Kudo et al., Differences in CT Perfusion Maps Generated by Different Commercial Software",
+      "identifier": "DOI 10.1148/radiol.254082000; PMID 20032153",
+      "relation": "Shows that identical acute-stroke source data produce significantly different maps across software, motivating a hidden map-quality cue; it does not study learned final-infarct models or the within-triplet residual."
+    },
+    {
+      "work": "Liu et al., ISP-Net: Fusing features to predict ischemic stroke infarct core on CT perfusion maps",
+      "identifier": "DOI 10.1016/j.cmpb.2022.106630",
+      "relation": "A primary example of a network fusing native perfusion, CBF, CBV, MTT, and Tmax; it reports prediction performance, not a conservation-law intervention."
+    }
+  ],
+  "novelty_delta": "The proposed experiment is the first located test that removes only the voxelwise violation of a known perfusion identity and asks whether a final-infarct model changes its forecast while physiology-preserving tangent shams do not.",
+  "why_not_done": "BLIND_SPOT: perfusion papers treat disagreement as a software-validation problem and model papers treat registered maps as independent input channels, leaving the algebraic residual between those channels uninterrogated as a learned uncertainty signal.",
+  "existing_assets": "Official registered CBF, CBV, MTT, and Tmax maps for 149 public training cases; raw CTP for later regeneration; final masks; official metrics; standard projection and paired-output arithmetic; a winner-style surrogate can be trained if no checkpoint is obtainable.",
+  "smallest_decisive_experiment": "Stage 0 on 10 cases computes support, units, X stability, and whether X contains more than border/zero artifacts. Freeze a center-stratified split and one compact 2D multichannel U-Net; require held-out median Dice at least 0.20 and lesion-wise F1 above a frozen all-zero baseline. On 20 untouched cases run 25/50/75/100% residual removal, tangent shams matched in per-channel L2 energy, and a support-edge sham. Primary readout: paired change in predicted lesion probability within Tmax>6 s tissue, with monotone residual-dose response and residual-over-sham contrast. Compute envelope: one Colab GPU session, at most 10 GPU-hours, using 2D patches and the public registered maps; no new annotation.",
+  "standing_confounds_addressed": "Within-case projections hold center, scanner, protocol, positioning, anatomy, treatment, and lesion prevalence fixed. Excluding zeros and eroding support edges prevents X from becoming a coverage mask. Tangent shams test generic sensitivity to map edits; fixed CBF/Tmax ranks protect the main perfusion ordering; two projection metrics test dependence on the chosen geometry. The experiment still cannot identify the source of inconsistency or prove calibrated uncertainty, so those conclusions are prohibited.",
+  "alternative_explanations": [
+    "The model responds to any violation-correction edit; equal-energy tangent shams and a monotone residual-specific contrast test this.",
+    "X is only a map-support or clipping detector; eroded common support, clipped-voxel exclusion, and a support-edge sham test this.",
+    "Projection moves cases off the training distribution; nearest-neighbor feature distance and two small-dose arms gate the confirmatory result but cannot prove perfect realism."
+  ],
+  "anticipated_negative": "Decisive if X is stable, the model passes its frozen performance gate, the small-dose edits remain in distribution, and shams produce detectable generic sensitivity; otherwise the null is sensitivity-limited.",
+  "cross_domain": {
+    "borrowed_construct": "Conservation-law residuals from process control: redundant sensors linked by a physical balance equation provide a residual that detects unreliable measurements without an external fault label.",
+    "measurement_it_implies": "The absolute log residual of CBV = CBF x MTT and a projection that removes that residual while retaining the physiological coordinates along the constraint manifold.",
+    "what_changes_if_dropped": "Without the process-control construct this becomes generic channel ablation, which cannot distinguish use of perfusion physiology from use of cross-map inconsistency."
+  },
+  "remaining_legwork": "Half a day for the 10-case algebra/support kill gate; one Colab session for the surrogate and 20-case intervention; a later raw-CTP regeneration study is outside this card.",
+  "design_template": "counterfactual-synthesis",
+  "entry_point_2_requirements": "Measurement: central-volume residual X. Confused artifacts: common-support edges, zeros, clipping, and generic multichannel perturbation; erosion, clipped-voxel exclusion, tangent shams, and dose response separate them.",
+  "scores": {
+    "clarity": {
+      "value": 5,
+      "why": "One physical identity, one residual, and a selective projection with explicit shams."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "The intervention isolates residual use, although it cannot identify the residual's technical cause or prove uncertainty calibration."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "A model silently discounting physically inconsistent perfusion could determine where it trusts the acute scan and how it transports across software."
+    },
+    "interest": {
+      "value": 5,
+      "why": "A stroke model acting as its own physics-based quality controller is surprising and directly actionable."
+    },
+    "prior_legwork": {
+      "value": 4,
+      "why": "The invariant, map inputs, software-variability evidence, and model family all exist."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because the released maps' units and residual stability have not been inspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "All maps and outcomes are public and registered, with a modest download path."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Paired probability response, dose response, shams, and official segmentation metrics are ready."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "After the algebra and model gates, a selective null rules out this specific hidden-confidence mechanism."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Three close primary neighbors were searched, but no systematic review was performed and the keystone remains uninspected."
+    },
+    "regret": {
+      "value": 5,
+      "why": "The required redundant maps are already in the benchmark, making this a cheap obvious-in-hindsight audit."
+    }
+  },
+  "priority_score": 3.95,
+  "unverified_claims": [
+    "the released map units permit a stable central-volume residual",
+    "the residual is not dominated by support or clipping",
+    "a compact surrogate reaches the frozen performance gate in one session",
+    "manifold projections remain in distribution",
+    "the precise novelty gap beyond the targeted search"
+  ],
+  "plain_pitch": "Blood flow, blood volume, and transit time are tied by a simple physical equation, yet stroke software can produce maps that locally disagree with it. This study asks whether the prediction model notices those disagreements and quietly treats them as a warning that a region's blood-flow estimate is unreliable. If correcting only the disagreement changes the forecast while equally sized, physics-preserving edits do not, the model is using an accidental quality-control signal that could fail when the hospital changes software.",
+  "charter": "isles24"
+}
+
+
+===== STAGE TASK =====
+<!-- stage: keystone -->
+# Keystone screen
+
+You are the cheapest gate in the pipeline, run BEFORE any critique or debate
+is paid for. The idea card (in your context) names a `keystone_prerequisite`:
+the single fact which, if false, makes the study impossible or
+uninterpretable. Your one job: verify it against primary sources.
+
+You have full network access. Use it like an investigator, not a searcher of
+abstracts: clone the GitHub repo and read the actual loader/config, open the
+dataset release page and read the actual schema, fetch the paper section that
+states the actual cohort. The precedent for this stage was a human check that
+read CT-CLIP's `data.py` and settled an idea's fate with one quoted line.
+
+Rules:
+- NO verdict without VERBATIM quoted evidence and its source (URL + file
+  path/line, table, or section). An unquoted assertion is `UNVERIFIABLE`.
+- Check the card's stated keystone AND ask the mandatory follow-up: "if this
+  card only verified the nearest checkable thing, what is it still assuming?"
+  If the load-bearing assumption differs from the stated keystone, verify
+  THAT and say so -- the wrong-keystone error is this program's most common
+  death.
+- Do not evaluate the idea's merit, novelty, or design. Only the keystone.
+
+Write `keystone_screen.md`: the keystone as stated, what you inspected (with
+quotes), the residual assumption check, and end with exactly one fenced json
+block:
+
+```json
+{"verdict": "PASS|KILL|UNVERIFIABLE", "kill_code": "<taxonomy code, only for KILL>", "evidence": "<the single most load-bearing verbatim quote>", "source": "<URL and location>", "note": "<one line>"}
+```
+
+`KILL` means the keystone is demonstrably false -- the idea dies now, at
+screen prices. `UNVERIFIABLE` is honest and passes the idea onward with the
+uncertainty recorded; never guess a verdict to seem decisive.
+
+
+codex
+I’ll inspect the official release artifacts and primary challenge documentation, then write only the keystone screen in `ideas/039`. The key distinction is whether the maps merely coexist versus whether their released numeric scaling and support make the proposed residual meaningful.
+exec
+/bin/bash -lc 'rg -n "16731717|ISLES.?24|CBF|CBV|MTT" ideas evidence docs charters | head -200' in /home/runner/work/concept-research-scout/concept-research-scout
+ succeeded in 0ms:
+charters/isles24/CHARTER.md:10:This program's current focus is the **ISLES'24 challenge dataset**
+charters/isles24/CHARTER.md:17:concretely use ISLES'24 and would interest a serious researcher in AI
+charters/isles24/CHARTER.md:29:the scout MUST verify against primary sources (the ISLES'24 challenge
+charters/isles24/CHARTER.md:34:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+charters/isles24/CHARTER.md:45:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+charters/isles24/CHARTER.md:67:strong ISLES'24 idea with no such connection is still a strong idea
+evidence/datasets.csv:3:idea-021,ISLES'24 public training release,"https://zenodo.org/records/16813698 (DOI 10.5281/zenodo.16813698)","OPEN download verified 2026-08-18; no DUA/registration/click-through stated on record; train.7z 99.0 GB + clinical_data-description.xlsx; hidden ~98-case challenge test set NOT public","CC-BY-NC-SA-4.0 (verified on Zenodo record 2026-08-18); ShareAlike may obligate same-license release of derived artifacts - flag before releasing edited maps or weights","Primary readout is label-free within-case paired deltas; follow-up-MRI-derived infarct masks used for training and cohort construction only (no reader-checklist provenance issue); X (contralateral CBF/CBV means) automatic","149 released cases vs 150 challenge-design train (1-case discrepancy unexplained); two sites (Munich/Zurich); icobrain cva-derived maps, version unverified; raw 4D CTP dominates archive size and is not needed; NIfTI header/orientation/midline QC and usable-case count are Stage 0 measurements"
+evidence/datasets.csv:4:idea-023,"ISLES'24 training release (Zenodo)","Concept DOI 10.5281/zenodo.16731717; inspected versions: record 16813698 (v2, train.7z ~92.2 GB + clinical_data-description.xlsx ~12 MB) and record 17652035 (v6 latest, 2025-11-20, train.7z 99.0 GB sole listed file)","PUBLIC no-DUA; Zenodo API access verified 2026-08-18","CC-BY-NC-SA-4.0 (verified on both inspected versions 2026-08-18)","Final-infarct masks from follow-up DWI (2-9 d) via DeepISLES with neuroradiologist-supervised correction (documented provenance); primary probe readout is label-free paired output deltas; labels used only for census and training","Monolithic train.7z - no derivative-only retrieval (mitigate via selective 7z extraction, unverified); active version churn requires record+MD5 pinning; 149 (Zenodo) vs 150 (paper) case-count discrepancy; mTICI/treatment-variable availability unverified pending clinical_data-description.xlsx; hidden 98-case test set not released; single-vendor icobrain cva maps (rung-2 limit); n~150 patients makes census precision the live power risk"
+evidence/decisions.md:441:Idea 023 (CBV/MTT compensation state): the debate question - can an
+evidence/decisions.md:446:cannot show how much further vessels can open); ISLES24 contains no
+evidence/decisions.md:448:joint CBV/MTT decision boundary; the card disclaimer is ratified as
+evidence/literature.csv:9:idea-021,L8,"Regional very low cerebral blood flow predicts infarct core (perfusion CT thresholds; Campbell et al.)",2011,"DOI:10.1161/STROKEAHA.111.618355; PMID:21980202",primary_paper,"Optimal infarct-core definition: relative CBF <31% of mean contralateral CBF; AUC 0.79 vs 0.74 for absolute CBV",VERIFIED_ABSTRACT_2026-08-18,"Clinical motivation only; the study does not claim the model computes this exact ratio"
+evidence/literature.csv:10:idea-021,L9,"ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data (challenge report)",2024,"arXiv:2408.10966",primary_paper,"Metrics Dice/AVD/lesion-F1/ALCD; winner Dice 0.285±0.213 and AVD 21.2±37.2 mL on 98 hidden cases; top teams nnU-Net-based and excluded raw 4D CTP; train 150 (100 Munich + 50 Zurich); test hidden",VERIFIED_HTML_2026-08-18,"Per-case Dice SD ~0.2 at mean ~0.28: weak signal, motivates the MDE gate"
+evidence/literature.csv:11:idea-021,L10,"The ISLES'24 Dataset paper (Radiology: AI) + preprint",2026,"DOI:10.1148/ryai.250603; PMID:42017802; arXiv:2408.11142",primary_paper,"icobrain cva-derived perfusion maps; Elastix/NiftyReg registration to NCCT space; raw and preprocessed formats released",PARTIALLY_VERIFIED_2026-08-18,"Journal full text 403; facts verified from preprint/challenge report; preprint says 245 total cases vs 250 implied by split - unreconciled, not load-bearing"
+evidence/literature.csv:12:idea-021,L11,"How We Won the ISLES'24 Challenge by Preprocessing (Ren et al., Kurt Lab)",2025,"arXiv:2505.18424",primary_paper,"Winner recipe: ResEnc L nnU-Net patch [56,320,256]; SynthStrip skull stripping + custom windowing; CV Dice 21.8% standard vs 31.8% final; no code link in paper",VERIFIED_HTML_2026-08-18,"External brief's 'Riepe et al.' attribution is wrong; numeric windowing thresholds shown only in a figure (unverified as numbers)"
+evidence/literature.csv:20:idea-021,L19,"CTP postprocessing variability (Fiorella et al.)",2004,"AJNR 25(1):97-107; PMID:14729537",primary_paper,"Coefficients of variation 31% CBV, 30% CBF, 14% MTT for same-source reprocessing",VERIFIED_ABSTRACT_2026-08-18,"Envelope anchor: +/-20% scaling sits inside documented measurement spread"
+evidence/literature.csv:21:idea-021,L20,"CTP observer variability, absolute values vs ratios (Waaijer et al.)",2007,"AJNR 28(5):927-32; PMID:17494672",primary_paper,"Inter/intraobserver variability: absolute CBF 18%, CBV 16-17%; ratios 10-16%",VERIFIED_ABSTRACT_2026-08-18,"Second envelope anchor"
+evidence/literature.csv:22:idea-021,L21,"Normal interhemispheric rCBF asymmetry (Catafau et al., SPECT)",1996,"Eur J Nucl Med 23(10):1329-37; PMID:8781137",primary_paper,"Interhemispheric asymmetry in healthy volunteers -1.01% to 3.14%",VERIFIED_ABSTRACT_2026-08-18,"SPECT not CTP; shows 10-20% asymmetry is pathological-range, so up-scaled arms rely on cohort (disease) support, not healthy norms"
+evidence/literature.csv:23:idea-021,L22,"Hematocrit-CBF coupling (Muizelaar et al.)",1992,"Am J Physiol 262:H949-54; PMID:1566914",primary_paper,"Hct 60-120% of baseline varies CBF between 140% and 90% of baseline",VERIFIED_ABSTRACT_2026-08-18,"Animal data, flagged as such; supports physiologic producibility of large multiplicative CBF changes"
+evidence/literature.csv:24:idea-021,L23,"Brain perfusion CT vs 15O-H2O PET in healthy subjects (Gruner et al.)",2011,"EJNMMI Res 1:28; PMCID:PMC3251173",primary_paper,"CTP overestimates CBF: GM 71.8±8.0 vs PET 48.7±5.0 mL/min/100g",VERIFIED_PMC_2026-08-18,"~1.5x modality-level scale bias: absolute map calibration slack exceeds proposed edit magnitudes"
+evidence/literature.csv:25:idea-021,L24,"CTP/MR perfusion digital phantom accuracy assessment (Kudo et al.)",2013,"Radiology 267(1):201-211; PMID:23220899",primary_paper,"Digital phantoms with known truth values fed to 13 CT algorithms; CBV well reproduced, CBF/MTT variably",VERIFIED_ABSTRACT_2026-08-18,"Prior art for synthetic perfusion-value manipulation; source-level, not a model probe. Companion: Kudo 2010 (PMID:20032153) cross-software variability, numbers paywalled"
+evidence/literature.csv:29:idea-023,L1,"ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data. Where Do We Stand?",2024,"arXiv:2408.10966",primary_paper,"150 train / 98 hidden test cases; icobrain cva perfusion maps; GT from follow-up DWI via DeepISLES with supervised correction; top Dice 0.285 (Kurtlab) / 0.263 (AMC-Axolotls) / 0.255 (Ninjas); rCBF<30% baseline Dice 0.163; top-3 team code links published",VERIFIED_HTML_INSPECTED_2026-08-18,"Itemized clinical-variable table (mTICI, treatment times) not in inspected HTML; resolve via clinical_data-description.xlsx at Stage 0; 150 vs Zenodo's 149 cases unresolved"
+evidence/literature.csv:30:idea-023,L2,"ISLES'24 dataset paper (Radiology: Artificial Intelligence)",2025,"DOI:10.1148/ryai.250603",primary_paper,"icobrain cva version 1.5.0; cohort 100 Munich + 50 Zurich train, 100 test",PARTIALLY_VERIFIED_VIA_EXTERNAL_BRIEF_2026-08-17,"Quoted in operator-commissioned brief; not independently fetched this stage; test-set count 100 (brief) vs 98 (challenge paper) to reconcile at Stage 0"
+evidence/literature.csv:31:idea-023,L3,"How We Won the ISLES'24 Challenge by Preprocessing (Riepe et al.)",2025,"arXiv:2505.18424; github.com/KurtLabUW/ISLES2024",primary_paper_and_official_repo,"Winner used SynthStrip skull-strip + custom intensity windowing + nnU-Net ResEnc L, patch [56,320,256], 10-fold CV, test Dice 28.5±21.27; repo distributes weights via Google Drive pointer file",VERIFIED_HTML_AND_REPO_INSPECTED_2026-08-18,"Exact input channels NOT stated in paper or repo README; must be read from released plans/preprocessing files at Stage 0; weights-link liveness unverified"
+evidence/literature.csv:37:idea-023,L9,"Spatio-Temporal Deep Learning for Final Infarct Prediction using Acute Stroke CT Perfusion Data (Amador et al., ISLES'24 entry)",2024,"github.com/kimberly-amador/ISLES24-PrediCTP; Springer 10.1007/978-3-031-81101-2_9",primary_paper_and_official_repo,"4D-CTP-input challenge entry; Dice 0.20; no released weights; no map-input port of entry for the proposed edits",VERIFIED_REPO_INSPECTED_2026-08-18,"Excluded as probe target for structural reasons, not availability alone"
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:1:# Advisory Brief: Two Human-Inspection Questions on ISLES'24 Stroke-Imaging Ideas 021 and 023
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:11:- **Idea 021 — the gates are not airtight.** Whole-volume z-score / instance normalization (the nnU-Net default, and the backbone of the ISLES'24 winning solution) is mathematically invariant to *global* rescaling but *sensitive to one-sided* rescaling. It is therefore contralateral-triggered, correctly signed, and survives the global-scaling arm — yet it is a global-statistics artifact, not physiological "reference use." Recommend approving the study **conditional on adding a normalization-statistics-held-fixed control** that would separate normalization coupling from genuine hemispheric referencing.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:12:- **Idea 023 — the physiological label is unlicensed.** Matching an edit-response change point to an outcome-derived change point establishes an *outcome-associated CBV/MTT decision boundary* (a real, publishable finding) but **not construct identity** with "autoregulatory blood-volume reserve," which is defined by challenge-based measurement (acetazolamide/CO₂ or PET OEF). Even against gold-standard PET, CBV is a variable, non-monotonic stage marker (Derdeyn 2002). Recommend requiring either independent validation or descriptive re-phrasing.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:19:1. **Contralateral/mirror normalization is the clinical CTP standard, not a modeling quirk.** The infarct-core threshold used in the pivotal late-window thrombectomy trials (DEFUSE 3, DAWN) is relative CBF (rCBF) < 30% defined *relative to the contralateral hemisphere*. This makes idea 021's hypothesis clinically well-motivated: the training maps already encode a normal-tissue reference.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:22:4. **AIF/VOF contamination is largely off-table for standard ISLES'24** because the challenge supplies finished perfusion maps (icobrain cva); it re-enters only if the specific model re-derives maps from 4D source data.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:24:6. **Even with gold-standard PET, CBV is a variable marker of hemodynamic stage (Derdeyn 2002).** Increased OEF "often occurs in the absence of a measurable elevation in CBV"; CBV was elevated in only 19 of 45 patients with increased OEF.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:25:7. **Published CTP work forbids the shortcut.** Baseline CTP maps "are not useful in predicting cerebrovascular reserve" without a challenge; CTP CBV correlates poorly with PET; MTT is only a moderate OEF surrogate (best R²≈0.59); and because CBF = CBV/MTT the parameters covary, so the same CBV/MTT pattern can reflect preserved *or* exhausted autoregulation.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:38:Contralateral normalization is the clinical standard for infarct-core definition. The core threshold used in DEFUSE 3 and DAWN is rCBF < 30% defined explicitly relative to the contralateral hemisphere: a touchNEUROLOGY review of those trials states "the infarct core was defined as tissue with a relative cerebral blood flow <30% compared with the contralateral hemisphere," a value derived from a 103-patient calibration in which DWI-MRI was acquired a mean of 36 minutes after CTP. The Tmax > 6 s penumbra threshold is absolute, but the core threshold is inherently referential. As the AJNR local-normalization paper (Kellner et al., "Reducing False-Positives in CT Perfusion Infarct Core Segmentation Using Contralateral Local Normalization," AJNR 2024;45(3):277) puts it: "the CBF... cannot be easily quantified and is therefore typically normalized to a reference value. Typically, as reference, the median value of the hemisphere contralateral to the stroke side or the median CBF of the patient's normally perfused tissue identified as Tmax ≤4 seconds is used." That paper operationalizes mirror normalization by "voxelwise division of the original image... by the mirrored one," clipping the mirrored image at 150% and Gaussian-smoothing it (σ = 12×12×4 mm).
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:40:This matters because ISLES'24 perfusion maps were derived with FDA-cleared clinical software: the ISLES'24 dataset paper (Radiology: Artificial Intelligence, doi 10.1148/ryai.250603) states the perfusion maps "were derived using the clinical, U.S. Food and Drug Administration–cleared software icobrain cva (version 1.5.0, icometrix)," across a 250-scan-set cohort (150 training: 100 University Hospital of Munich + 50 University Hospital of Zurich; 100 testing). RAPID's comparable pipeline selects an AIF automatically and derives rCBF relative to "the mean CBF in normally perfused brain" (Nature Sci Rep 2023). So a model trained on ISLES'24-style data is trained on maps whose core-defining parameter already encodes a normal-tissue reference at the software level. The scientific question of idea 021 — whether the *learned model* additionally/independently uses the healthy hemisphere as a ruler — is well-posed.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:53:**(a) Whole-volume z-scoring / instance normalization — THE serious threat.** nnU-Net is the dominant ISLES'24 backbone: de la Rosa et al. report that among the qualifying ISLES teams, "nnUnet and UNet-like neural networks were the most prevalent architectures," and the ISLES'24 winning solution (Riepe et al., "How We Won the ISLES'24 Challenge by Preprocessing," arXiv:2505.18424) used "a 3D large residual encoder nnU-Net, referred to as 'nnU-Net ResEnc L'... [with] a [56, 320, 256] patch size, Dice and cross-entropy loss, and the SGD optimizer." nnU-Net applies, for CT channels, dataset-level percentile clipping ([0.5, 99.5]) plus z-score normalization; for non-CT channels it applies **per-case (per-instance) z-scoring** (nnU-Net documentation; MIC-DKFZ/nnUNet). If perfusion maps are ingested as non-CT channels — the typical treatment — each input volume is normalized by subtracting its own mean and dividing by its own SD.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:65:**(d) AIF/VOF selection contamination.** If the model consumed raw 4D CTP or re-derived maps, changing healthy-side intensities could perturb automated AIF/VOF selection (RAPID selects AIF voxels by curve height/width/arrival; VOF typically posterior). But ISLES'24 supplies pre-computed maps from icobrain cva, so a model consuming finished maps does not re-select an AIF — this confound is **largely off-table for the standard setup**, re-entering only if the specific model re-derives perfusion from source (a repo-specific detail to verify). Where relevant, AIF effects would likely be global rather than cleanly contralateral, and thus partly caught by the global arm.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:78:- **Excluded by existing gates / off-table:** purely local affected-side artifacts (contralateral-emergence gate); simple global-brightness effects (global arm); AIF/VOF contamination (not re-derived from finished maps in standard ISLES'24).
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:82:### SECTION 2 — IDEA 023: "The joint CBV/MTT compensation state at matched flow"
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:88:Powers' classic staging of hemodynamic compromise: as cerebral perfusion pressure (CPP) falls, Stage I is autoregulatory vasodilation of resistance arterioles, raising CBV and MTT while CBF and OEF stay near-normal; Stage II ("misery perfusion") is autoregulatory failure, with falling CBF and rising OEF. The AJNR acetazolamide review states it plainly: "Increases of cerebral blood volume (CBV) and mean transit time (MTT) are 2 parameters that reflect this initial phase of compensatory autoregulatory vasodilation... Further decreases of CPP beyond cerebral autoregulatory vasodilation capacity eventually result in stage II (autoregulatory failure), characterized by decreases of CBF and increases of OEF."
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:90:Crucially, "autoregulatory reserve" / "cerebrovascular reserve (CVR)" is a construct defined by a **dynamic challenge**, not a static map. It is measured as the CBF (or BOLD/MTT) *response* to a vasodilatory stimulus — acetazolamide (Diamox) or CO₂ — or via PET OEF, "the gold standard for measurement of [hemodynamic compromise]" (PubMed 36527663). CVR grading (Xenon-CT/acetazolamide) classifies the response as reduced, absent, or paradoxical (steal). Reserve is about *capacity to respond*, established by perturbation — a single baseline CBV/MTT snapshot is a different construct.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:92:#### 2.2 How weak is the bridge from CTP CBV/MTT configuration to the construct?
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:96:**(i) Even with gold-standard PET, CBV is a variable, non-monotonic marker of stage.** Derdeyn et al. (Brain 2002;125(3):595–607, PMID 11872616, "Variability of cerebral blood volume and oxygen extraction: stages of cerebral haemodynamic impairment revisited") found: "increased OEF in the territory of an occluded carotid artery often occurs in the absence of a measurable elevation in CBV." By hemispheric ratios, "45 patients had increased ipsilateral OEF; CBV was increased in 19 of these 45 patients... No differences in CBF, CMRO2 or clinical risk factors were found between these 19 patients and the remaining 26 patients with increased OEF and normal or reduced CBV." Five patients with increased OEF had *reduced* CBV (below the 5th-percentile ratio). Their conclusions: "CBV measurements may be variable through the autoregulatory range," and "the physiological explanation for the measurement of normal CBV in patients with increased OEF is less certain." They attribute this to CBV being "a more complex physiological parameter... composed of arterial, capillary and venous compartments," with variable compartmental responses. CBV cannot be equated with autoregulatory reserve even against PET. (Note: the paper reports this variability via quadrant scatter plots, not a single CBV-vs-OEF correlation coefficient — do not attribute a specific r to it.)
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:98:**(ii) Baseline CTP maps explicitly do not predict reserve without a challenge.** AJNR "Evaluation of CT Perfusion in the Setting of Cerebral Ischemia: Patterns and Pitfalls" (2010;31(9):1552): "In patients with stenotic lesions, baseline CTP maps are not useful in predicting cerebrovascular reserve; however, changes in CBF and MTT after acetazolamide challenge correlate with hemodynamic reserve." Corroborated in Moyamoya by So Y et al., "Which CT Perfusion Parameter Best Reflects Cerebrovascular Reserve?" (AJNR 2008;29(9):1658, 152 ROIs): "Baseline CTP parameters are not reliable for predicting impaired CVR. However, pcCBF correlated strongly with quantitative CVR; therefore, CTP evaluation for CVR in Moyamoya patients requires normalization and acetazolamide challenge."
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:100:**(iii) CTP CBV correlates poorly with PET; MTT is only a moderate surrogate; and CBF = CBV/MTT means the parameters covary.** In chronic carotid occlusion, "PCT mean transit time (MTT) is the parameter that showed the best correlation with the count-based PET OEF ratios (R² = 0.590)" (Neuroradiology 2008, doi 10.1007/s00234-008-0403-9) — that is MTT alone, not the joint CBV-MTT pattern, and ~40% of variance is unexplained. Perfusion-MRI vs PET (J Magn Reson Imaging 2003): MTT correlated (r = 0.78) but "the CBF and CBV values obtained by D-PWI did not correlate with those obtained by 15O-PET." Because CBF = CBV/MTT (central volume theorem), CBV and MTT are not independent, and the same CBV/MTT configuration can reflect opposite reserve states: an MR-perfusion review (PMC3135980) notes "MTT prolongation occurs in regions of vasodilation with decreased CBF, [but] MTT is also prolonged when vasodilation results in successful preservation of normal CBF" — the identical map pattern can mean preserved OR exhausted autoregulation.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:102:**(iv) No tissue/voxel-level validation exists.** Every located validation study operates on hemispheric ratios or a handful of manually placed ROIs against PET/SPECT/Xe-CT. No published study validates an acute-stroke CTP *joint CBV-MTT configuration at matched flow* against a reserve reference standard (acetazolamide or PET OEF) at the voxel/tissue level. The specific bridge idea 023 needs does not exist in the literature.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:112:- **When would "autoregulatory blood-volume reserve" be defensible?** Only with validation of the latent feature against an *independent* measurement of the construct: (1) a vasoreactivity challenge (acetazolamide/CO₂ CVR) or (2) PET OEF, ideally at tissue level, showing convergent validity; plus discriminant evidence that the feature is not merely tracking flow/MTT (which covary). Given Derdeyn 2002, even then CBV's link to reserve is variable — so the phrase would need hedging even with PET in hand.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:113:- **Minimal honest alternative phrasing if only the outcome-derived change point exists:** describe what was shown — e.g., "the model's response changes at a **CBV–MTT configuration threshold associated with final-infarct outcome**," or "an **outcome-calibrated joint CBV/MTT decision boundary**," explicitly NOT claiming it measures autoregulatory reserve. "Consistent with, but not validated as, a signature of autoregulatory compensation" is defensible; "reads autoregulatory blood-volume reserve" is not.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:114:- **Does published CTP work license the shortcut?** No — it forbids it. Baseline CTP maps are documented as inadequate for reserve without a challenge; CBV is a variable stage marker even by PET; and the CBV/MTT pattern is ambiguous between preserved and exhausted autoregulation.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:127:1. Permit the finding as an **outcome-associated CBV/MTT decision boundary**; require removal or hedging of "autoregulatory blood-volume reserve" unless independent validation is added.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:128:2. To earn the physiological phrase, require correlation of the latent feature against acetazolamide/CO₂ CVR or PET OEF (convergent validity) plus discriminant evidence versus flow/MTT alone.
+evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md:129:3. **Threshold that changes the recommendation:** production of a tissue-level validation dataset (currently absent in the literature) linking the joint CBV/MTT configuration to a measured reserve/OEF reference would move this from "unlicensed" toward "defensible with hedging."
+evidence/portfolio_brief_isles24.md:14:## idea-023 [SHORTLISTED] -- The joint CBV/MTT compensation state at matched flow
+evidence/portfolio_brief_isles24.md:18:**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+ideas/031/log_keystone.txt:1:**Verdict: KILL (DATA_ACCESS).** The keystone screen for idea 031 is written to `ideas/031/keystone_screen.md`. The keystone is demonstrably false on its load-bearing clause: the ISLES'24 release contains no distal-vessel pseudolabels, so the proposed collateral-reach measure cannot be computed from released files.
+ideas/031/prompt_keystone_screen.md:18:This program's current focus is the **ISLES'24 challenge dataset**
+ideas/031/prompt_keystone_screen.md:25:concretely use ISLES'24 and would interest a serious researcher in AI
+ideas/031/prompt_keystone_screen.md:37:the scout MUST verify against primary sources (the ISLES'24 challenge
+ideas/031/prompt_keystone_screen.md:42:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+ideas/031/prompt_keystone_screen.md:53:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+ideas/031/prompt_keystone_screen.md:75:strong ISLES'24 idea with no such connection is still a strong idea
+ideas/031/prompt_keystone_screen.md:675:Idea 023 (CBV/MTT compensation state): the debate question - can an
+ideas/031/prompt_keystone_screen.md:680:cannot show how much further vessels can open); ISLES24 contains no
+ideas/031/prompt_keystone_screen.md:682:joint CBV/MTT decision boundary; the card disclaimer is ratified as
+ideas/031/prompt_keystone_screen.md:828:## idea-023 [SHORTLISTED] -- The joint CBV/MTT compensation state at matched flow
+ideas/031/prompt_keystone_screen.md:832:**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+ideas/031/prompt_keystone_screen.md:883:  "question": "Is an ISLES'24 model using arterial collateral reach from the CTA occlusion to the threatened territory rather than perfusion-deficit volume alone?",
+ideas/031/prompt_keystone_screen.md:894:  "closest_prior_work": "Yang et al., TopCoW challenge, arXiv:2312.17670, supplies topology-aware vessel segmentation; Riedel et al., DOI 10.1148/ryai.250603 documents ISLES'24 vessel pseudolabels. Neither tests whether a final-infarct predictor uses patient-specific distal arterial reach.",
+ideas/031/keystone_screen.md:25:release: "ISLES'24 — A Real-World Longitudinal Multimodal Stroke Dataset,"
+ideas/031/keystone_screen.md:51:Source: arXiv:2408.11142v2 (6 Jul 2025), "ISLES'24 — A Real-World
+ideas/031/keystone_screen.md:98:ISLES'24 occlusion (M1/M2/ICA), the downstream territory contains M2–M4 and
+ideas/031/keystone_screen.md:131:{"verdict": "KILL", "kill_code": "DATA_ACCESS", "evidence": "we typically only labelled until the first major bifurcation occurs, and we only labelled the main vessel instead of any minor branches", "source": "arXiv:2312.17670v3 section 2.7 (TopCoW annotation protocol, the standard the ISLES'24 cow-msk inherits per https://zenodo.org/records/16813698, whose schema defines cow-msk.nii.gz as 'multi-labeled Circle of Willis anatomy'; corroborated by arXiv:2408.11142v2, whose CoW label set is exclusively proximal and which nowhere mentions distal-vessel segmentation)", "note": "Per-case occlusion masks and CoW pseudolabels exist, but the release contains no distal-vessel labels, so the distal collateral-reach measure cannot be computed from released files; fresh distal segmentation of the CTA would be a successor idea, not this card."}
+ideas/031/idea_card.json:6:  "question": "Is an ISLES'24 model using arterial collateral reach from the CTA occlusion to the threatened territory rather than perfusion-deficit volume alone?",
+ideas/031/idea_card.json:17:  "closest_prior_work": "Yang et al., TopCoW challenge, arXiv:2312.17670, supplies topology-aware vessel segmentation; Riedel et al., DOI 10.1148/ryai.250603 documents ISLES'24 vessel pseudolabels. Neither tests whether a final-infarct predictor uses patient-specific distal arterial reach.",
+ideas/035/log_keystone.txt:5:1. **The truly load-bearing fact (unstated in the card) is verified true.** A frozen, publicly obtainable ISLES'24 winning model exists: the challenge paper (arXiv 2408.10966v2, §4.3) names Kurtlab's ResEnc-L nnU-Net and links its code, and the repo's `model weights.txt` points to a live public Google Drive folder matching the inference command's dataset id 150.
+ideas/035/log_keystone.txt:7:2. **Wrong-keystone finding: NCCT is not a model input.** Reading the winner's actual `inference.py` (the CT-CLIP `data.py` precedent), lines 121–125 construct exactly five channels — CBF, CBV, MTT, Tmax, preprocessed CTA — with the NCCT loader present only as commented-out template code. The card measures and edits reserve on NCCT; those edits would never reach this model. The mechanism survives because CSF is hypodense on CTA, but the edit target must move to the CTA channel, with NCCT used only for the stratification covariate.
+ideas/035/critique.md:2:EVIDENCE: ISLES'24 winner `inference.py` at commit `bb6c00c8` (CBF/CBV/MTT/Tmax/CTA only); Broocks et al., DOI 10.1161/STROKEAHA.118.020507 (net water uptake is an admission-CT lesion measurement); ISLES'24 dataset DOI 10.1148/ryai.250603 (no edema or mass-effect target).
+ideas/035/critique.md:8:**Verified fact.** The released winner does not ingest NCCT. Its five deployed channels are CBF, CBV, MTT, Tmax, and CTA (`KurtLabUW/ISLES2024`, commit `bb6c00c8a58cb57a5a33c133c02885776673d230`, `inference.py:121-125`). The keystone screen also verified global histogram equalization and default per-image z-scoring. Thus the card's NCCT CSF and net-water-uptake interventions cannot be presented to this frozen model as specified.
+ideas/035/critique.md:12:**Verified fact.** ISLES'24 supplies hyperacute CT and infarct delineations derived from MRI 2-9 days after reperfusion, but no edema, mass-effect, displacement, or intracranial-pressure label (dataset paper DOI `10.1148/ryai.250603`; public training set 149 and hidden test set 96 in the journal version). Its ground truth is infarct tissue, not a deformation field.
+ideas/035/critique.md:36:No new expert annotation is required by the current plan, but a defensible compliance claim would require information that ISLES'24 lacks: follow-up mass effect/edema or deformation measurements, ideally serial imaging or an independently validated physical surrogate. Automatically deriving those labels from the same follow-up infarct image would not supply independent validation.
+ideas/035/critique.md:40:**Verified primary neighbors.** Kauw et al. tested baseline NCCT CSF/ICV for malignant-edema prediction in 683 thrombectomy patients (40 malignant-edema events; DOI `10.1177/17474930221094693`, PMID `35373655`). Broocks et al. tested acute NWU for malignant infarction (DOI above). These establish association/prediction legwork, not model use. The ISLES'24 papers and released winner establish the benchmark and checkpoint.
+ideas/035/critique.md:42:I found no verified primary-source duplicate of a CSF-reserve audit of an ISLES'24 final-infarct model. That is not proof of novelty, and novelty cannot rescue a non-identifying experiment. The card's claim that no prior study audits the intersection should remain a limited-search statement, not a novelty claim.
+ideas/035/critique.md:58:NEAREST DEFENSIBLE HIGH-VALUE QUESTION: Does the released ISLES'24 winner's held-out final-infarct error vary with baseline NCCT CSF/ICV after prespecified adjustment for age, site, acute lesion burden, perfusion deficit, and available reperfusion variables?
+ideas/035/prompt_debate_r2_proposer.md:18:This program's current focus is the **ISLES'24 challenge dataset**
+ideas/035/prompt_debate_r2_proposer.md:25:concretely use ISLES'24 and would interest a serious researcher in AI
+ideas/035/prompt_debate_r2_proposer.md:37:the scout MUST verify against primary sources (the ISLES'24 challenge
+ideas/035/prompt_debate_r2_proposer.md:42:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+ideas/035/prompt_debate_r2_proposer.md:53:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+ideas/035/prompt_debate_r2_proposer.md:75:strong ISLES'24 idea with no such connection is still a strong idea
+ideas/035/prompt_debate_r2_proposer.md:675:Idea 023 (CBV/MTT compensation state): the debate question - can an
+ideas/035/prompt_debate_r2_proposer.md:680:cannot show how much further vessels can open); ISLES24 contains no
+ideas/035/prompt_debate_r2_proposer.md:682:joint CBV/MTT decision boundary; the card disclaimer is ratified as
+ideas/035/prompt_debate_r2_proposer.md:834:## idea-023 [SHORTLISTED] -- The joint CBV/MTT compensation state at matched flow
+ideas/035/prompt_debate_r2_proposer.md:838:**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+ideas/035/prompt_debate_r2_proposer.md:885:EVIDENCE: ISLES'24 winner `inference.py` at commit `bb6c00c8` (CBF/CBV/MTT/Tmax/CTA only); Broocks et al., DOI 10.1161/STROKEAHA.118.020507 (net water uptake is an admission-CT lesion measurement); ISLES'24 dataset DOI 10.1148/ryai.250603 (no edema or mass-effect target).
+ideas/035/prompt_debate_r2_proposer.md:891:**Verified fact.** The released winner does not ingest NCCT. Its five deployed channels are CBF, CBV, MTT, Tmax, and CTA (`KurtLabUW/ISLES2024`, commit `bb6c00c8a58cb57a5a33c133c02885776673d230`, `inference.py:121-125`). The keystone screen also verified global histogram equalization and default per-image z-scoring. Thus the card's NCCT CSF and net-water-uptake interventions cannot be presented to this frozen model as specified.
+ideas/035/prompt_debate_r2_proposer.md:895:**Verified fact.** ISLES'24 supplies hyperacute CT and infarct delineations derived from MRI 2-9 days after reperfusion, but no edema, mass-effect, displacement, or intracranial-pressure label (dataset paper DOI `10.1148/ryai.250603`; public training set 149 and hidden test set 96 in the journal version). Its ground truth is infarct tissue, not a deformation field.
+ideas/035/prompt_debate_r2_proposer.md:919:No new expert annotation is required by the current plan, but a defensible compliance claim would require information that ISLES'24 lacks: follow-up mass effect/edema or deformation measurements, ideally serial imaging or an independently validated physical surrogate. Automatically deriving those labels from the same follow-up infarct image would not supply independent validation.
+ideas/035/prompt_debate_r2_proposer.md:923:**Verified primary neighbors.** Kauw et al. tested baseline NCCT CSF/ICV for malignant-edema prediction in 683 thrombectomy patients (40 malignant-edema events; DOI `10.1177/17474930221094693`, PMID `35373655`). Broocks et al. tested acute NWU for malignant infarction (DOI above). These establish association/prediction legwork, not model use. The ISLES'24 papers and released winner establish the benchmark and checkpoint.
+ideas/035/prompt_debate_r2_proposer.md:925:I found no verified primary-source duplicate of a CSF-reserve audit of an ISLES'24 final-infarct model. That is not proof of novelty, and novelty cannot rescue a non-identifying experiment. The card's claim that no prior study audits the intersection should remain a limited-search statement, not a novelty claim.
+ideas/035/prompt_debate_r2_proposer.md:941:NEAREST DEFENSIBLE HIGH-VALUE QUESTION: Does the released ISLES'24 winner's held-out final-infarct error vary with baseline NCCT CSF/ICV after prespecified adjustment for age, site, acute lesion burden, perfusion deficit, and available reperfusion variables?
+ideas/035/prompt_debate_r2_proposer.md:954:**Argument:** The released winner consumes CBF, CBV, MTT, Tmax, and CTA—not NCCT—and the proposed repair injects edits after global histogram equalization and with frozen normalization constants. That can isolate sensitivity to chosen tensor patterns, but it cannot create two physically possible brains that differ only in compliance: changing ventricular or sulcal reserve necessarily displaces adjacent anatomy, while keeping parenchymal inputs bit-identical necessarily creates or deletes synthetic image content without implementing pressure–volume mechanics. Likewise, net water uptake is an admission-NCCT attenuation measurement within ischemic tissue (Broocks et al., DOI `10.1161/STROKEAHA.118.020507`), not a validated swelling dose transferable to CTA or perfusion tensors. ISLES'24 supplies follow-up infarct masks but no edema, mass-effect, deformation, or intracranial-pressure target (dataset DOI `10.1148/ryai.250603`). Therefore even a gated reserve-by-“edema” interaction remains compatible with ordinary nonlinear coupling between two artificial patterns, receptive-field effects, or age/anatomy-conditioned prediction. It does not establish pressure-vessel mechanics or expansion beyond acute tissue injury. The easier reserve-stratified error audit would be feasible, but it changes the deliverable from model use of compliance to an observational reliability association and must be a separate candidate under the claim-identity rule.
+ideas/035/prompt_debate_r2_proposer.md:972:2. **The compliance counterfactual is anatomically impossible by construction, and the target phrase is unobservable.** A brain with different CSF reserve is a brain with different adjacent tissue geometry; requiring parenchymal bit-identity guarantees the edited input depicts no physically possible alternative anatomy. And "beyond acute tissue injury" cannot be identified because acute irreversible injury is never independently observed, and ISLES'24 carries no edema, mass-effect, deformation, or pressure target (DOI `10.1148/ryai.250603`) against which label-borne expansion could be validated.
+ideas/035/prompt_debate_r2_proposer.md:986:**Argument:** The concession is supported by argument rather than repetition: it accepts that net water uptake is validated as an admission-NCCT lesion measurement (Broocks et al., DOI `10.1161/STROKEAHA.118.020507`) and therefore cannot serve as a mechanically meaningful swelling dose in the winner's post-equalization CTA/perfusion tensor space; it also accepts that changing CSF reserve while holding adjacent parenchyma bit-identical cannot instantiate a physically possible compliance counterfactual. Because ISLES'24 provides neither an independent acute irreversible-injury measurement nor edema, mass-effect, deformation, or pressure ground truth (dataset DOI `10.1148/ryai.250603`), the original deliverable remains unidentifiable. The identity check is also correctly resolved: narrowing to interaction sensitivity between synthetic tensor patterns removes compliance and swelling from the conclusion, while the proposed reserve-stratified error audit asks an observational subgroup-reliability question. Either would be a separate candidate under the 2026-08-10 claim-identity rule, not an amendment to this one. The proposer's clarification that the signed interaction can exclude a purely additive age/atrophy main effect is valid, but does not repair the upstream measurement failure and therefore does not alter the rejection.
+ideas/035/prompt_debate_r2_proposer.md:988:**What would change my mind:** Nothing within the present ISLES'24 assets and released winner can repair this card without changing its identity; revival would require the natural paired or source-validated compliance-and-swelling design specified in round 1, including independent mechanical or edema/deformation validation and control of acute injury burden.
+ideas/035/prompt_debate_r2_proposer.md:998:  "question": "[continuum mechanics / pressure-vessel engineering] Is an ISLES'24 model using baseline intracranial compliance\u2014the cerebrospinal-fluid space available to absorb swelling\u2014to expand predicted final-infarct geometry beyond acute tissue injury?",
+ideas/035/prompt_debate_r2_proposer.md:1024:  "keystone_residual_assumption": "ISLES'24 does not provide edema or mass-effect ground truth, and its target is infarct tissue rather than swelling. Even a positive model-use result would identify a geometric prior learned from the labels, not prove that reserve biologically changes irreversible infarction.",
+ideas/035/prompt_debate_r2_proposer.md:1045:  "verified_dataset_facts": "Relies on the cycle's primary-source verification that ISLES'24 pairs acute preintervention CT with final post-treatment infarct masks derived from MRI 2\u20139 days later in 149 public training cases. No edema or mass-effect annotation is claimed (DOI 10.1148/ryai.250603; DOI 10.5281/zenodo.16731717).",
+ideas/035/prompt_debate_r2_proposer.md:1055:      "why": "The interaction separates age from compliance use, but label edema cannot be validated within ISLES'24."
+ideas/035/prompt_debate_r2_proposer.md:1110:Screened 2026-08-18 against primary sources: the ISLES'24 challenge paper
+ideas/035/prompt_debate_r2_proposer.md:1125:unstated third fact — that a frozen ISLES'24 final-infarct model is
+ideas/035/prompt_debate_r2_proposer.md:1140:> CBF, CBV, MTT, and Tmax scans for perfusion information."
+ideas/035/prompt_debate_r2_proposer.md:1177:question is model-generic ("an ISLES'24 model") and the mechanism (visible
+ideas/035/prompt_debate_r2_proposer.md:1195:`Dataset139_ISLES24.py:47`) are not in
+ideas/035/prompt_debate_r2_proposer.md:1235:ISLES'24, already flagged by the card itself).
+ideas/035/prompt_debate_r2_proposer.md:1301:**Argument:** The released winner consumes CBF, CBV, MTT, Tmax, and CTA—not NCCT—and the proposed repair injects edits after global histogram equalization and with frozen normalization constants. That can isolate sensitivity to chosen tensor patterns, but it cannot create two physically possible brains that differ only in compliance: changing ventricular or sulcal reserve necessarily displaces adjacent anatomy, while keeping parenchymal inputs bit-identical necessarily creates or deletes synthetic image content without implementing pressure–volume mechanics. Likewise, net water uptake is an admission-NCCT attenuation measurement within ischemic tissue (Broocks et al., DOI `10.1161/STROKEAHA.118.020507`), not a validated swelling dose transferable to CTA or perfusion tensors. ISLES'24 supplies follow-up infarct masks but no edema, mass-effect, deformation, or intracranial-pressure target (dataset DOI `10.1148/ryai.250603`). Therefore even a gated reserve-by-“edema” interaction remains compatible with ordinary nonlinear coupling between two artificial patterns, receptive-field effects, or age/anatomy-conditioned prediction. It does not establish pressure-vessel mechanics or expansion beyond acute tissue injury. The easier reserve-stratified error audit would be feasible, but it changes the deliverable from model use of compliance to an observational reliability association and must be a separate candidate under the claim-identity rule.
+ideas/035/prompt_debate_r2_proposer.md:1319:2. **The compliance counterfactual is anatomically impossible by construction, and the target phrase is unobservable.** A brain with different CSF reserve is a brain with different adjacent tissue geometry; requiring parenchymal bit-identity guarantees the edited input depicts no physically possible alternative anatomy. And "beyond acute tissue injury" cannot be identified because acute irreversible injury is never independently observed, and ISLES'24 carries no edema, mass-effect, deformation, or pressure target (DOI `10.1148/ryai.250603`) against which label-borne expansion could be validated.
+ideas/035/prompt_debate_r2_proposer.md:1333:**Argument:** The concession is supported by argument rather than repetition: it accepts that net water uptake is validated as an admission-NCCT lesion measurement (Broocks et al., DOI `10.1161/STROKEAHA.118.020507`) and therefore cannot serve as a mechanically meaningful swelling dose in the winner's post-equalization CTA/perfusion tensor space; it also accepts that changing CSF reserve while holding adjacent parenchyma bit-identical cannot instantiate a physically possible compliance counterfactual. Because ISLES'24 provides neither an independent acute irreversible-injury measurement nor edema, mass-effect, deformation, or pressure ground truth (dataset DOI `10.1148/ryai.250603`), the original deliverable remains unidentifiable. The identity check is also correctly resolved: narrowing to interaction sensitivity between synthetic tensor patterns removes compliance and swelling from the conclusion, while the proposed reserve-stratified error audit asks an observational subgroup-reliability question. Either would be a separate candidate under the 2026-08-10 claim-identity rule, not an amendment to this one. The proposer's clarification that the signed interaction can exclude a purely additive age/atrophy main effect is valid, but does not repair the upstream measurement failure and therefore does not alter the rejection.
+ideas/035/prompt_debate_r2_proposer.md:1335:**What would change my mind:** Nothing within the present ISLES'24 assets and released winner can repair this card without changing its identity; revival would require the natural paired or source-validated compliance-and-swelling design specified in round 1, including independent mechanical or edema/deformation validation and control of acute injury burden.
+ideas/035/prompt_keystone_screen.md:18:This program's current focus is the **ISLES'24 challenge dataset**
+ideas/035/prompt_keystone_screen.md:25:concretely use ISLES'24 and would interest a serious researcher in AI
+ideas/035/prompt_keystone_screen.md:37:the scout MUST verify against primary sources (the ISLES'24 challenge
+ideas/035/prompt_keystone_screen.md:42:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+ideas/035/prompt_keystone_screen.md:53:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+ideas/035/prompt_keystone_screen.md:75:strong ISLES'24 idea with no such connection is still a strong idea
+ideas/035/prompt_keystone_screen.md:675:Idea 023 (CBV/MTT compensation state): the debate question - can an
+ideas/035/prompt_keystone_screen.md:680:cannot show how much further vessels can open); ISLES24 contains no
+ideas/035/prompt_keystone_screen.md:682:joint CBV/MTT decision boundary; the card disclaimer is ratified as
+ideas/035/prompt_keystone_screen.md:834:## idea-023 [SHORTLISTED] -- The joint CBV/MTT compensation state at matched flow
+ideas/035/prompt_keystone_screen.md:838:**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+ideas/035/prompt_keystone_screen.md:888:  "question": "[continuum mechanics / pressure-vessel engineering] Is an ISLES'24 model using baseline intracranial compliance\u2014the cerebrospinal-fluid space available to absorb swelling\u2014to expand predicted final-infarct geometry beyond acute tissue injury?",
+ideas/035/prompt_keystone_screen.md:914:  "keystone_residual_assumption": "ISLES'24 does not provide edema or mass-effect ground truth, and its target is infarct tissue rather than swelling. Even a positive model-use result would identify a geometric prior learned from the labels, not prove that reserve biologically changes irreversible infarction.",
+ideas/035/prompt_keystone_screen.md:935:  "verified_dataset_facts": "Relies on the cycle's primary-source verification that ISLES'24 pairs acute preintervention CT with final post-treatment infarct masks derived from MRI 2\u20139 days later in 149 public training cases. No edema or mass-effect annotation is claimed (DOI 10.1148/ryai.250603; DOI 10.5281/zenodo.16731717).",
+ideas/035/prompt_keystone_screen.md:945:      "why": "The interaction separates age from compliance use, but label edema cannot be validated within ISLES'24."
+ideas/035/log_critique.txt:30:This program's current focus is the **ISLES'24 challenge dataset**
+ideas/035/log_critique.txt:37:concretely use ISLES'24 and would interest a serious researcher in AI
+ideas/035/log_critique.txt:49:the scout MUST verify against primary sources (the ISLES'24 challenge
+ideas/035/log_critique.txt:54:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+ideas/035/log_critique.txt:65:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+ideas/035/log_critique.txt:87:strong ISLES'24 idea with no such connection is still a strong idea
+ideas/035/log_critique.txt:687:Idea 023 (CBV/MTT compensation state): the debate question - can an
+ideas/035/log_critique.txt:692:cannot show how much further vessels can open); ISLES24 contains no
+ideas/035/log_critique.txt:694:joint CBV/MTT decision boundary; the card disclaimer is ratified as
+ideas/035/log_critique.txt:846:## idea-023 [SHORTLISTED] -- The joint CBV/MTT compensation state at matched flow
+ideas/035/log_critique.txt:850:**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+ideas/035/log_critique.txt:900:  "question": "[continuum mechanics / pressure-vessel engineering] Is an ISLES'24 model using baseline intracranial compliance\u2014the cerebrospinal-fluid space available to absorb swelling\u2014to expand predicted final-infarct geometry beyond acute tissue injury?",
+ideas/035/log_critique.txt:926:  "keystone_residual_assumption": "ISLES'24 does not provide edema or mass-effect ground truth, and its target is infarct tissue rather than swelling. Even a positive model-use result would identify a geometric prior learned from the labels, not prove that reserve biologically changes irreversible infarction.",
+ideas/035/log_critique.txt:947:  "verified_dataset_facts": "Relies on the cycle's primary-source verification that ISLES'24 pairs acute preintervention CT with final post-treatment infarct masks derived from MRI 2\u20139 days later in 149 public training cases. No edema or mass-effect annotation is claimed (DOI 10.1148/ryai.250603; DOI 10.5281/zenodo.16731717).",
+ideas/035/log_critique.txt:957:      "why": "The interaction separates age from compliance use, but label edema cannot be validated within ISLES'24."
+ideas/035/log_critique.txt:1012:Screened 2026-08-18 against primary sources: the ISLES'24 challenge paper
+ideas/035/log_critique.txt:1027:unstated third fact — that a frozen ISLES'24 final-infarct model is
+ideas/035/log_critique.txt:1042:> CBF, CBV, MTT, and Tmax scans for perfusion information."
+ideas/035/log_critique.txt:1079:question is model-generic ("an ISLES'24 model") and the mechanism (visible
+ideas/035/log_critique.txt:1097:`Dataset139_ISLES24.py:47`) are not in
+ideas/035/log_critique.txt:1137:ISLES'24, already flagged by the card itself).
+ideas/035/log_critique.txt:1204:charters/isles24/CHARTER.md:10:This program's current focus is the **ISLES'24 challenge dataset**
+ideas/035/log_critique.txt:1205:charters/isles24/CHARTER.md:17:concretely use ISLES'24 and would interest a serious researcher in AI
+ideas/035/log_critique.txt:1206:charters/isles24/CHARTER.md:29:the scout MUST verify against primary sources (the ISLES'24 challenge
+ideas/035/log_critique.txt:1207:charters/isles24/CHARTER.md:34:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+ideas/035/log_critique.txt:1208:charters/isles24/CHARTER.md:45:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+ideas/035/log_critique.txt:1209:charters/isles24/CHARTER.md:67:strong ISLES'24 idea with no such connection is still a strong idea
+ideas/035/log_critique.txt:1210:ideas/035/log_keystone.txt:5:1. **The truly load-bearing fact (unstated in the card) is verified true.** A frozen, publicly obtainable ISLES'24 winning model exists: the challenge paper (arXiv 2408.10966v2, §4.3) names Kurtlab's ResEnc-L nnU-Net and links its code, and the repo's `model weights.txt` points to a live public Google Drive folder matching the inference command's dataset id 150.
+ideas/035/log_critique.txt:1211:ideas/035/log_keystone.txt:7:2. **Wrong-keystone finding: NCCT is not a model input.** Reading the winner's actual `inference.py` (the CT-CLIP `data.py` precedent), lines 121–125 construct exactly five channels — CBF, CBV, MTT, Tmax, preprocessed CTA — with the NCCT loader present only as commented-out template code. The card measures and edits reserve on NCCT; those edits would never reach this model. The mechanism survives because CSF is hypodense on CTA, but the edit target must move to the CTA channel, with NCCT used only for the stratification covariate.
+ideas/035/log_critique.txt:1213:evidence/datasets.csv:3:idea-021,ISLES'24 public training release,"https://zenodo.org/records/16813698 (DOI 10.5281/zenodo.16813698)","OPEN download verified 2026-08-18; no DUA/registration/click-through stated on record; train.7z 99.0 GB + clinical_data-description.xlsx; hidden ~98-case challenge test set NOT public","CC-BY-NC-SA-4.0 (verified on Zenodo record 2026-08-18); ShareAlike may obligate same-license release of derived artifacts - flag before releasing edited maps or weights","Primary readout is label-free within-case paired deltas; follow-up-MRI-derived infarct masks used for training and cohort construction only (no reader-checklist provenance issue); X (contralateral CBF/CBV means) automatic","149 released cases vs 150 challenge-design train (1-case discrepancy unexplained); two sites (Munich/Zurich); icobrain cva-derived maps, version unverified; raw 4D CTP dominates archive size and is not needed; NIfTI header/orientation/midline QC and usable-case count are Stage 0 measurements"
+ideas/035/log_critique.txt:1214:evidence/datasets.csv:4:idea-023,"ISLES'24 training release (Zenodo)","Concept DOI 10.5281/zenodo.16731717; inspected versions: record 16813698 (v2, train.7z ~92.2 GB + clinical_data-description.xlsx ~12 MB) and record 17652035 (v6 latest, 2025-11-20, train.7z 99.0 GB sole listed file)","PUBLIC no-DUA; Zenodo API access verified 2026-08-18","CC-BY-NC-SA-4.0 (verified on both inspected versions 2026-08-18)","Final-infarct masks from follow-up DWI (2-9 d) via DeepISLES with neuroradiologist-supervised correction (documented provenance); primary probe readout is label-free paired output deltas; labels used only for census and training","Monolithic train.7z - no derivative-only retrieval (mitigate via selective 7z extraction, unverified); active version churn requires record+MD5 pinning; 149 (Zenodo) vs 150 (paper) case-count discrepancy; mTICI/treatment-variable availability unverified pending clinical_data-description.xlsx; hidden 98-case test set not released; single-vendor icobrain cva maps (rung-2 limit); n~150 patients makes census precision the live power risk"
+ideas/035/log_critique.txt:1215:evidence/decisions.md:446:cannot show how much further vessels can open); ISLES24 contains no
+ideas/035/log_critique.txt:1216:ideas/035/prompt_keystone_screen.md:18:This program's current focus is the **ISLES'24 challenge dataset**
+ideas/035/log_critique.txt:1217:ideas/035/prompt_keystone_screen.md:25:concretely use ISLES'24 and would interest a serious researcher in AI
+ideas/035/log_critique.txt:1218:ideas/035/prompt_keystone_screen.md:37:the scout MUST verify against primary sources (the ISLES'24 challenge
+ideas/035/log_critique.txt:1219:ideas/035/prompt_keystone_screen.md:42:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+ideas/035/log_critique.txt:1220:ideas/035/prompt_keystone_screen.md:53:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+ideas/035/log_critique.txt:1221:ideas/035/prompt_keystone_screen.md:75:strong ISLES'24 idea with no such connection is still a strong idea
+ideas/035/log_critique.txt:1222:ideas/035/prompt_keystone_screen.md:680:cannot show how much further vessels can open); ISLES24 contains no
+ideas/035/log_critique.txt:1223:ideas/035/prompt_keystone_screen.md:838:**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+ideas/035/log_critique.txt:1224:ideas/035/prompt_keystone_screen.md:888:  "question": "[continuum mechanics / pressure-vessel engineering] Is an ISLES'24 model using baseline intracranial compliance\u2014the cerebrospinal-fluid space available to absorb swelling\u2014to expand predicted final-infarct geometry beyond acute tissue injury?",
+ideas/035/log_critique.txt:1229:ideas/035/prompt_keystone_screen.md:914:  "keystone_residual_assumption": "ISLES'24 does not provide edema or mass-effect ground truth, and its target is infarct tissue rather than swelling. Even a positive model-use result would identify a geometric prior learned from the labels, not prove that reserve biologically changes irreversible infarction.",
+ideas/035/log_critique.txt:1237:ideas/035/prompt_keystone_screen.md:935:  "verified_dataset_facts": "Relies on the cycle's primary-source verification that ISLES'24 pairs acute preintervention CT with final post-treatment infarct masks derived from MRI 2\u20139 days later in 149 public training cases. No edema or mass-effect annotation is claimed (DOI 10.1148/ryai.250603; DOI 10.5281/zenodo.16731717).",
+ideas/035/log_critique.txt:1238:ideas/035/prompt_keystone_screen.md:945:      "why": "The interaction separates age from compliance use, but label edema cannot be validated within ISLES'24."
+ideas/035/log_critique.txt:1240:ideas/035/keystone_screen.md:3:Screened 2026-08-18 against primary sources: the ISLES'24 challenge paper
+ideas/035/log_critique.txt:1243:ideas/035/keystone_screen.md:18:unstated third fact — that a frozen ISLES'24 final-infarct model is
+ideas/035/log_critique.txt:1249:ideas/035/keystone_screen.md:70:question is model-generic ("an ISLES'24 model") and the mechanism (visible
+ideas/035/log_critique.txt:1251:ideas/035/keystone_screen.md:88:`Dataset139_ISLES24.py:47`) are not in
+ideas/035/log_critique.txt:1253:ideas/035/keystone_screen.md:128:ISLES'24, already flagged by the card itself).
+ideas/035/log_critique.txt:1255:evidence/literature.csv:10:idea-021,L9,"ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data (challenge report)",2024,"arXiv:2408.10966",primary_paper,"Metrics Dice/AVD/lesion-F1/ALCD; winner Dice 0.285±0.213 and AVD 21.2±37.2 mL on 98 hidden cases; top teams nnU-Net-based and excluded raw 4D CTP; train 150 (100 Munich + 50 Zurich); test hidden",VERIFIED_HTML_2026-08-18,"Per-case Dice SD ~0.2 at mean ~0.28: weak signal, motivates the MDE gate"
+ideas/035/log_critique.txt:1256:evidence/literature.csv:11:idea-021,L10,"The ISLES'24 Dataset paper (Radiology: AI) + preprint",2026,"DOI:10.1148/ryai.250603; PMID:42017802; arXiv:2408.11142",primary_paper,"icobrain cva-derived perfusion maps; Elastix/NiftyReg registration to NCCT space; raw and preprocessed formats released",PARTIALLY_VERIFIED_2026-08-18,"Journal full text 403; facts verified from preprint/challenge report; preprint says 245 total cases vs 250 implied by split - unreconciled, not load-bearing"
+ideas/035/log_critique.txt:1257:evidence/literature.csv:12:idea-021,L11,"How We Won the ISLES'24 Challenge by Preprocessing (Ren et al., Kurt Lab)",2025,"arXiv:2505.18424",primary_paper,"Winner recipe: ResEnc L nnU-Net patch [56,320,256]; SynthStrip skull stripping + custom windowing; CV Dice 21.8% standard vs 31.8% final; no code link in paper",VERIFIED_HTML_2026-08-18,"External brief's 'Riepe et al.' attribution is wrong; numeric windowing thresholds shown only in a figure (unverified as numbers)"
+ideas/035/log_critique.txt:1258:evidence/literature.csv:29:idea-023,L1,"ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data. Where Do We Stand?",2024,"arXiv:2408.10966",primary_paper,"150 train / 98 hidden test cases; icobrain cva perfusion maps; GT from follow-up DWI via DeepISLES with supervised correction; top Dice 0.285 (Kurtlab) / 0.263 (AMC-Axolotls) / 0.255 (Ninjas); rCBF<30% baseline Dice 0.163; top-3 team code links published",VERIFIED_HTML_INSPECTED_2026-08-18,"Itemized clinical-variable table (mTICI, treatment times) not in inspected HTML; resolve via clinical_data-description.xlsx at Stage 0; 150 vs Zenodo's 149 cases unresolved"
+ideas/035/log_critique.txt:1259:evidence/literature.csv:30:idea-023,L2,"ISLES'24 dataset paper (Radiology: Artificial Intelligence)",2025,"DOI:10.1148/ryai.250603",primary_paper,"icobrain cva version 1.5.0; cohort 100 Munich + 50 Zurich train, 100 test",PARTIALLY_VERIFIED_VIA_EXTERNAL_BRIEF_2026-08-17,"Quoted in operator-commissioned brief; not independently fetched this stage; test-set count 100 (brief) vs 98 (challenge paper) to reconcile at Stage 0"
+ideas/035/log_critique.txt:1260:evidence/literature.csv:31:idea-023,L3,"How We Won the ISLES'24 Challenge by Preprocessing (Riepe et al.)",2025,"arXiv:2505.18424; github.com/KurtLabUW/ISLES2024",primary_paper_and_official_repo,"Winner used SynthStrip skull-strip + custom intensity windowing + nnU-Net ResEnc L, patch [56,320,256], 10-fold CV, test Dice 28.5±21.27; repo distributes weights via Google Drive pointer file",VERIFIED_HTML_AND_REPO_INSPECTED_2026-08-18,"Exact input channels NOT stated in paper or repo README; must be read from released plans/preprocessing files at Stage 0; weights-link liveness unverified"
+ideas/035/log_critique.txt:1261:evidence/literature.csv:37:idea-023,L9,"Spatio-Temporal Deep Learning for Final Infarct Prediction using Acute Stroke CT Perfusion Data (Amador et al., ISLES'24 entry)",2024,"github.com/kimberly-amador/ISLES24-PrediCTP; Springer 10.1007/978-3-031-81101-2_9",primary_paper_and_official_repo,"4D-CTP-input challenge entry; Dice 0.20; no released weights; no map-input port of entry for the proposed edits",VERIFIED_REPO_INSPECTED_2026-08-18,"Excluded as probe target for structural reasons, not availability alone"
+ideas/035/log_critique.txt:1262:ideas/035/prompt_critique.md:18:This program's current focus is the **ISLES'24 challenge dataset**
+ideas/035/log_critique.txt:1263:ideas/035/prompt_critique.md:25:concretely use ISLES'24 and would interest a serious researcher in AI
+ideas/035/log_critique.txt:1264:ideas/035/prompt_critique.md:37:the scout MUST verify against primary sources (the ISLES'24 challenge
+ideas/035/log_critique.txt:1265:ideas/035/prompt_critique.md:42:belief to be checked, not trusted: ISLES'24 concerns acute ischemic
+ideas/035/log_critique.txt:1266:ideas/035/prompt_critique.md:53:2. **The dataset is load-bearing.** ISLES'24 specifically enables the
+ideas/035/log_critique.txt:1267:ideas/035/prompt_critique.md:75:strong ISLES'24 idea with no such connection is still a strong idea
+ideas/035/log_critique.txt:1268:ideas/035/prompt_critique.md:680:cannot show how much further vessels can open); ISLES24 contains no
+ideas/035/log_critique.txt:1269:ideas/035/prompt_critique.md:838:**Unresolved:** Does an outcome-derived change point identify autoregulatory reserve rather than a learned nonlinear map pattern?; Is the revised deliverable still the same claim?; Are the necessary Stage 0 conditions present in ISLES'24?; Whose model can support the eventual wording?
+ideas/035/log_critique.txt:1270:ideas/035/prompt_critique.md:888:  "question": "[continuum mechanics / pressure-vessel engineering] Is an ISLES'24 model using baseline intracranial compliance\u2014the cerebrospinal-fluid space available to absorb swelling\u2014to expand predicted final-infarct geometry beyond acute tissue injury?",
+ideas/035/log_critique.txt:1275:ideas/035/prompt_critique.md:914:  "keystone_residual_assumption": "ISLES'24 does not provide edema or mass-effect ground truth, and its target is infarct tissue rather than swelling. Even a positive model-use result would identify a geometric prior learned from the labels, not prove that reserve biologically changes irreversible infarction.",
+ideas/035/log_critique.txt:1283:ideas/035/prompt_critique.md:935:  "verified_dataset_facts": "Relies on the cycle's primary-source verification that ISLES'24 pairs acute preintervention CT with final post-treatment infarct masks derived from MRI 2\u20139 days later in 149 public training cases. No edema or mass-effect annotation is claimed (DOI 10.1148/ryai.250603; DOI 10.5281/zenodo.16731717).",
+
+web search: 
+web search: site:zenodo.org/records/16813698 ISLES24 train.7z CBF CBV MTT ...
+exec
+/bin/bash -lc "find . -type f \\( -iname '*cbf*.nii*' -o -iname '*cbv*.nii*' -o -iname '*mtt*.nii*' \\) -print | head -20
+curl -sS https://zenodo.org/api/records/16748089 | jq '{id,metadata:{title:.metadata.title,description:.metadata.description},files:[.files[]|{key,size,checksum,links}]}'" in /home/runner/work/concept-research-scout/concept-research-scout
+ succeeded in 399ms:
+{
+  "id": 16748089,
+  "metadata": {
+    "title": "ISLES'24 - A Real-World Longitudinal Multimodal Stroke Dataset",
+    "description": "<p>This multi-center dataset consists of <strong>149 acute ischemic stroke cases</strong>, representing the <strong>training set</strong> of the <a href=\"https://isles-24.grand-challenge.org/\">ISLES'24 challenge</a>.</p>\n<p>All data are provided in <strong>NIfTI format (.nii.gz)</strong> and organized according to the <strong>BIDS standard</strong>. For each case, the following data are included:</p>\n<ul>\n<li>\n<p><strong>Admission imaging:</strong> non-contrast CT (NCCT), CT angiography (CTA), 4D CT perfusion (CTP) time series, and perfusion maps (Tmax, CBF, CBV, MTT).</p>\n</li>\n<li>\n<p><strong>Follow-up imaging:</strong> post-treatment MRI (DWI and ADC).</p>\n</li>\n<li>\n<p><strong>Clinical data:</strong> demographics, patient history, admission NIHSS, 3‑month functional outcome (mRS), etc.</p>\n</li>\n<li>\n<p><strong>Annotations:</strong> binary infarct masks derived from follow-up MRI (lesion-msk.nii.gz), large vessel occlusion binary masks derived from CTA (lvo-msk.nii.gz), and the multi-labeled Circle of Willis anatomy generated with an automatic algorithm over CTA (cow-msk.nii.gz)</p>\n</li>\n</ul>\n<p>This dataset combines <strong>multimodal imaging, longitudinal follow-up, and structured clinical variables</strong> to support benchmarking of stroke infarct prediction methods.</p>\n<h3><strong>Data structure</strong><strong><br></strong></h3>\n<p>'Raw_data' refers to the 'raw' acquired scans, which are released in their original space, just defaced. 'Derivatives' include all modalities linearly co-registered to the NCCT space. Ses-0001 points to the acute imaging data, while Ses-0002 refers to the follow-up imaging data (sub-acute stroke phase). A single case-sample is structured as follows.&nbsp;</p>\n<p>raw_data/<br>├── sub-strokecase0001/<br>│ &nbsp; └── ses-0001/<br>│ &nbsp; &nbsp; &nbsp; ├── perfusion-maps/<br>│ &nbsp; &nbsp; &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_tmax.nii.gz<br>│ &nbsp; &nbsp; &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_mtt.nii.gz<br>│ &nbsp; &nbsp; &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_cbf.nii.gz<br>│ &nbsp; &nbsp; &nbsp; │ &nbsp; └── sub-strokecase0001_ses-0001_cbv.nii.gz<br>│ &nbsp; &nbsp; &nbsp; ├── sub-strokecase0001_ses-0001_ncct.nii.gz<br>│ &nbsp; &nbsp; &nbsp; ├── sub-strokecase0001_ses-0001_cta.nii.gz<br>│ &nbsp; &nbsp; &nbsp; └── sub-strokecase0001_ses-0001_ctp.nii.gz</p>\n<p>derivatives/<br>├── sub-strokecase0001/<br>│ &nbsp; ├── ses-0001/<br>│ &nbsp; │ &nbsp; ├── perfusion-maps/<br>│ &nbsp; │ &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_space-ncct_tmax.nii.gz<br>│ &nbsp; │ &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_space-ncct_mtt.nii.gz<br>│ &nbsp; │ &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_space-ncct_cbf.nii.gz<br>│ &nbsp; │ &nbsp; │ &nbsp; └── sub-strokecase0001_ses-0001_space-ncct_cbv.nii.gz<br>│ &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_space-ncct_cta.nii.gz<br>│ &nbsp; │ &nbsp; ├── sub-strokecase0001_ses-0001_space-ncct_ctp.nii.gz<br>│ &nbsp; │ &nbsp; ├── sub-stroke0086_ses-01_space-ncct_cow-msk.nii.gz<br>│ &nbsp; │ &nbsp; └── sub-stroke0086_ses-01_space-ncct_lvo-msk.nii.gz<br>│ &nbsp; └── ses-0002/<br>│ &nbsp; &nbsp; &nbsp; ├── sub-strokecase0001_ses-02_space-ncct_dwi.nii.gz<br>│ &nbsp; &nbsp; &nbsp; ├── sub-strokecase0001_ses-02_space-ncct_adc.nii.gz<br>│ &nbsp; &nbsp; &nbsp; └── sub-strokecase0001_ses-02_space-ncct_lesion-msk.nii.gz</p>\n<p>phenotype/<br>├── ses-0001/<br>│ &nbsp; └── sub-strokecase0001_ses-0001_demographic_baseline.csv<br>└── ses-0002/<br>&nbsp; &nbsp; └── sub-strokecase0001_ses-0001_outcome.csv</p>\n<h3><strong>Please cite the following two works when using this dataset:</strong></h3>\n<p>Riedel, O. E., de la Rosa, E., Hernandez Petzsche, M., Baazaoui, H., Yang, K., Musio, F. A., &hellip; &amp; Kirschke, J. S. (2024). <strong><em>ISLES&rsquo;24 &ndash; A Real-World Longitudinal Multimodal Stroke Dataset</em></strong>. arXiv e-prints, arXiv:2408.09259.</p>\n<p><br>de la Rosa, E., Su, R., Reyes, M., Wiest, R., Riedel, E. O., Kofler, F., &hellip; &amp; Menze, B. (2024).<strong>&nbsp;</strong><em><strong>ISLES&rsquo;24: Final Infarct Prediction with Multimodal Imaging and Clinical Data</strong>. Where Do We Stand?</em> arXiv preprint, arXiv:2408.10966.</p>\n<p><br><strong>If you use the Circle of Willis masks, please ALSO cite:</strong></p>\n<p>Yang, K., Musio, F., Ma, Y., Juchler, N., Paetzold, J. C., Al-Maskari, R., ... &amp; Menze, B. (2024). <strong><em>Benchmarking the cow with the topcow challenge: Topology-aware anatomical segmentation of the circle of willis for cta and mra</em></strong>.&nbsp;<em>ArXiv</em>, arXiv-2312.</p>"
+  },
+  "files": [
+    {
+      "key": "train.7z",
+      "size": 99014629647,
+      "checksum": "md5:36ae28b9a17f7340b8bbef62b595cb57",
+      "links": {
+        "self": "https://zenodo.org/api/records/16748089/files/train.7z/content"
+      }
+    }
+  ]
+}
+
+web search: 
+web search: https://arxiv.org/html/2408.11142
+exec
+/bin/bash -lc 'tmpdir=$(mktemp -d); curl -L --fail -o "$tmpdir/paper.pdf" https://arxiv.org/pdf/2408.09259; pdftotext -layout "$tmpdir/paper.pdf" "$tmpdir/paper.txt"; rg -n -i "icobrain|perfusion maps|CBF|CBV|MTT|registered|co-register|unit|clip" "$tmpdir/paper.txt" | head -80; sed -n '"'145,230p' \""'$tmpdir/paper.txt"' in /home/runner/work/concept-research-scout/concept-research-scout
+ exited 2 in 87ms:
+
+100 1001k  100 1001k    0     0  4653k      0 --:--:-- --:--:-- --:--:-- 4659k
+/bin/bash: line 1: pdftotext: command not found
+rg: /tmp/tmp.Qmj1OjG0Kt/paper.txt: IO error for operation on /tmp/tmp.Qmj1OjG0Kt/paper.txt: No such file or directory (os error 2)
+sed: can't read /tmp/tmp.Qmj1OjG0Kt/paper.txt: No such file or directory
+
+exec
+/bin/bash -lc 'tmpdir=$(mktemp -d); curl -L --fail -o "$tmpdir/src" https://export.arxiv.org/e-print/2408.09259; file "$tmpdir/src"; tar -xf "$tmpdir/src" -C "$tmpdir"; rg -n -i "icobrain|perfusion maps|CBF|CBV|MTT|registered|co-register|unit|clipp" "$tmpdir" --glob '"'*.tex' | head -100" in /home/runner/work/concept-research-scout/concept-research-scout
+ succeeded in 654ms:
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   217  100   217    0     0    943      0 --:--:-- --:--:-- --:--:--   943
+
+100  613k  100  613k    0     0   949k      0 --:--:-- --:--:-- --:--:--  949k
+/tmp/tmp.FKfuWFopP5/src: gzip compressed data, last modified: Fri Dec 13 01:43:08 2024, from Unix, original size modulo 2^32 972800
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:133:The behavior of velocity fluctuations near a wall has long fascinated the turbulence community,
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:145:wall units, it almost surely tends to zero when expressed in terms of the outer driving velocity.
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:216:of energy, at least when expressed in wall units, that could conceivably leak towards the wall and
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:425:unit of length nor the flow thickness are relevant \cite{millikan38} should also apply to
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:445:required for why $\utau$ is the right scaling unit for the velocity fluctuations. 
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:458:$\lambda_z\approx 5 y$, and which extends from a minimum wavelength that scales in wall units to an
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:570:dimensions scale in wall units shows that it is controlled by viscosity
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:758:in wall units. The reason for this discrepancy is unknown, and deserves further investigation. The
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:772:units ($\lambda_{in}^+\approx 2\times 10^4$ in Fig. \ref{fig:spec1d}), while the upper one either extends to
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:773:infinity, or scales in outer units ($\lambda_2=25h$ in our case, because of the
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:888:effect of large structures. Their maximum size also scales with $h$ rather than in wall units, but
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:968:that the transition from the inner to the outer peak scales in wall units, at approximately the same
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:971:\ref{fig:spec1dw}(c) to Eq. \r{eq:allperturw} scales well in outer units, so that the total energy
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:985:both scale in outer units, the distribution in Fig. \ref{fig:specden}(b) is fairly smooth, with what
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:1006:$\retau$ when expressed in wall units, at least within the Reynolds number range of available
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:1016:any part the boundary layer whose distance from the wall is fixed in wall units, should be
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:1019:from the wall continues to be the friction velocity, a more natural unit for the integrated inactive motions
+/tmp/tmp.FKfuWFopP5/attached_arxivR1.tex:1495:  unit in near-wall turbulence},}\ }\href@noop {} {\bibfield  {journal}
+
+web search: 
+web search: "ISLES'24 – A Real-World Longitudinal Multimodal Stroke Dataset" arXiv
+web search: 
+web search: DOI 10.1148/ryai.250603 full text ISLES24 icobrain perfusion maps
+codex
+The primary sources confirm four named maps, a shared NCCT registration space, and a single generating software/version. They do not document map units, clipping, zero/background semantics, or voxelwise algebraic consistency; the 99 GB release exposes only a monolithic archive, so the numerical half of the keystone cannot be established from metadata alone. I’m recording that as uncertainty, not treating co-registration as proof of a usable residual.
+apply patch
+patch: completed
+/home/runner/work/concept-research-scout/concept-research-scout/ideas/039/keystone_screen.md
+diff --git a/ideas/039/keystone_screen.md b/ideas/039/keystone_screen.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..7165479a611b6e4a6834821ec0ef50d330983224
+--- /dev/null
++++ b/ideas/039/keystone_screen.md
+@@ -0,0 +1,102 @@
++# Keystone screen
++
++Screened 2026-08-19 against the official ISLES'24 dataset record and the
++primary dataset paper.
++
++## Keystone as stated
++
++> The released CBF, CBV, and MTT maps have meaningful common support and
++> scaling such that a stable, nontrivial central-volume residual can be
++> computed rather than merely rediscovering zeros, support edges, or arbitrary
++> normalization.
++
++This is a compound empirical prerequisite. It requires more than the three
++maps being present and spatially registered: their stored voxel values must
++have documented or inspectable scale, support, background, and clipping
++semantics, and the proposed residual must be nontrivial away from excluded
++artifacts.
++
++## What I inspected
++
++### Official dataset release
++
++The Zenodo record confirms that the three maps are released alongside Tmax:
++
++> “Admission imaging: non-contrast CT (NCCT), CT angiography (CTA), 4D CT
++> perfusion (CTP) time series, and perfusion maps (Tmax, CBF, CBV, MTT).”
++
++Source: official ISLES'24 Zenodo record 16748089, **Description**, admission
++imaging bullet: https://zenodo.org/records/16748089 (concept DOI
++10.5281/zenodo.16731717).
++
++The same record says what “derivatives” means and lists all three maps in the
++same target space:
++
++> “'Derivatives' include all modalities linearly co-registered to the NCCT
++> space.”
++
++Source: official ISLES'24 Zenodo record 16748089, **Data structure**, followed
++by the derivative filenames
++`space-ncct_mtt.nii.gz`, `space-ncct_cbf.nii.gz`, and
++`space-ncct_cbv.nii.gz`: https://zenodo.org/records/16748089.
++
++This verifies co-location in a common coordinate space. It does **not** verify
++meaningful common numeric support or scaling.
++
++The release does not expose per-map sidecars or sample maps as separately
++inspectable files. Its file inventory consists of one archive:
++
++> “train.7z”
++
++Source: official Zenodo Records API, record 16748089, `files[0].key` (size
++99,014,629,647 bytes): https://zenodo.org/api/records/16748089.
++
++### Primary dataset paper
++
++The paper identifies a common producing implementation:
++
++> “perfusion maps (cerebral blood flow, cerebral blood volume, mean transit
++> time, and time-to-maximum) were derived using the clinical, U.S. Food and
++> Drug Administration–cleared software icobrain cva (version 1.5.0,
++> icometrix).”
++
++Source: Riedel et al., *Radiology: Artificial Intelligence* 2026,
++DOI 10.1148/ryai.250603, **Materials and Methods — Image Acquisition**, PDF
++p. 3: https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++It also confirms the registration operation:
++
++> “CTA, CT perfusion (including derived perfusion maps), and DWI and/or
++> apparent diffusion coefficient scans were linearly co-registered to the
++> noncontrast CT space using rigid transformations for CT and affine
++> transformations for MRI”
++
++Source: same paper and section, PDF p. 3:
++https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++Neither the inspected release description nor the paper states the stored
++units, scale factors, clipping bounds, background/invalid-voxel convention,
++or whether icobrain cva stores MTT independently or as an algebraic derivative
++of the stored CBF and CBV maps. No quoted primary-source evidence therefore
++establishes that the proposed log residual is stable, spatially nontrivial, or
++separable from support and clipping artifacts.
++
++## Residual-assumption check (mandatory wrong-keystone question)
++
++If the card only verified the nearest checkable thing, what is it still
++assuming? The nearest checkable fact is that CBF, CBV, and MTT are all present,
++were produced by one named software version, and have NCCT-space derivatives.
++The load-bearing fact is different: actual released voxel arrays must overlap
++on valid tissue and retain commensurate quantitative scales while exhibiting
++a residual that is neither forced to zero by construction nor dominated by
++invalid/background/clipped values.
++
++That load-bearing fact remains unverified. It is not demonstrably false, so a
++KILL would overstate the evidence. Resolving it requires inspecting headers and
++voxel distributions from the released archive (including the proposed
++10-case, two-mask stability check); publication-level modality and registration
++statements cannot substitute for that measurement.
++
++```json
++{"verdict": "UNVERIFIABLE", "evidence": "'Derivatives' include all modalities linearly co-registered to the NCCT space.", "source": "https://zenodo.org/records/16748089, Data structure", "note": "Common coordinates are verified, but the released maps' units, valid support, clipping/background semantics, and nontrivial residual require direct voxel inspection of the monolithic archive."}
++```
+
+diff --git a/ideas/039/keystone_screen.md b/ideas/039/keystone_screen.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..7165479a611b6e4a6834821ec0ef50d330983224
+--- /dev/null
++++ b/ideas/039/keystone_screen.md
+@@ -0,0 +1,102 @@
++# Keystone screen
++
++Screened 2026-08-19 against the official ISLES'24 dataset record and the
++primary dataset paper.
++
++## Keystone as stated
++
++> The released CBF, CBV, and MTT maps have meaningful common support and
++> scaling such that a stable, nontrivial central-volume residual can be
++> computed rather than merely rediscovering zeros, support edges, or arbitrary
++> normalization.
++
++This is a compound empirical prerequisite. It requires more than the three
++maps being present and spatially registered: their stored voxel values must
++have documented or inspectable scale, support, background, and clipping
++semantics, and the proposed residual must be nontrivial away from excluded
++artifacts.
++
++## What I inspected
++
++### Official dataset release
++
++The Zenodo record confirms that the three maps are released alongside Tmax:
++
++> “Admission imaging: non-contrast CT (NCCT), CT angiography (CTA), 4D CT
++> perfusion (CTP) time series, and perfusion maps (Tmax, CBF, CBV, MTT).”
++
++Source: official ISLES'24 Zenodo record 16748089, **Description**, admission
++imaging bullet: https://zenodo.org/records/16748089 (concept DOI
++10.5281/zenodo.16731717).
++
++The same record says what “derivatives” means and lists all three maps in the
++same target space:
++
++> “'Derivatives' include all modalities linearly co-registered to the NCCT
++> space.”
++
++Source: official ISLES'24 Zenodo record 16748089, **Data structure**, followed
++by the derivative filenames
++`space-ncct_mtt.nii.gz`, `space-ncct_cbf.nii.gz`, and
++`space-ncct_cbv.nii.gz`: https://zenodo.org/records/16748089.
++
++This verifies co-location in a common coordinate space. It does **not** verify
++meaningful common numeric support or scaling.
++
++The release does not expose per-map sidecars or sample maps as separately
++inspectable files. Its file inventory consists of one archive:
++
++> “train.7z”
++
++Source: official Zenodo Records API, record 16748089, `files[0].key` (size
++99,014,629,647 bytes): https://zenodo.org/api/records/16748089.
++
++### Primary dataset paper
++
++The paper identifies a common producing implementation:
++
++> “perfusion maps (cerebral blood flow, cerebral blood volume, mean transit
++> time, and time-to-maximum) were derived using the clinical, U.S. Food and
++> Drug Administration–cleared software icobrain cva (version 1.5.0,
++> icometrix).”
++
++Source: Riedel et al., *Radiology: Artificial Intelligence* 2026,
++DOI 10.1148/ryai.250603, **Materials and Methods — Image Acquisition**, PDF
++p. 3: https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++It also confirms the registration operation:
++
++> “CTA, CT perfusion (including derived perfusion maps), and DWI and/or
++> apparent diffusion coefficient scans were linearly co-registered to the
++> noncontrast CT space using rigid transformations for CT and affine
++> transformations for MRI”
++
++Source: same paper and section, PDF p. 3:
++https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++Neither the inspected release description nor the paper states the stored
++units, scale factors, clipping bounds, background/invalid-voxel convention,
++or whether icobrain cva stores MTT independently or as an algebraic derivative
++of the stored CBF and CBV maps. No quoted primary-source evidence therefore
++establishes that the proposed log residual is stable, spatially nontrivial, or
++separable from support and clipping artifacts.
++
++## Residual-assumption check (mandatory wrong-keystone question)
++
++If the card only verified the nearest checkable thing, what is it still
++assuming? The nearest checkable fact is that CBF, CBV, and MTT are all present,
++were produced by one named software version, and have NCCT-space derivatives.
++The load-bearing fact is different: actual released voxel arrays must overlap
++on valid tissue and retain commensurate quantitative scales while exhibiting
++a residual that is neither forced to zero by construction nor dominated by
++invalid/background/clipped values.
++
++That load-bearing fact remains unverified. It is not demonstrably false, so a
++KILL would overstate the evidence. Resolving it requires inspecting headers and
++voxel distributions from the released archive (including the proposed
++10-case, two-mask stability check); publication-level modality and registration
++statements cannot substitute for that measurement.
++
++```json
++{"verdict": "UNVERIFIABLE", "evidence": "'Derivatives' include all modalities linearly co-registered to the NCCT space.", "source": "https://zenodo.org/records/16748089, Data structure", "note": "Common coordinates are verified, but the released maps' units, valid support, clipping/background semantics, and nontrivial residual require direct voxel inspection of the monolithic archive."}
++```
+
+exec
+/bin/bash -lc 'test -f ideas/039/keystone_screen.md && tail -12 ideas/039/keystone_screen.md && git diff --check -- ideas/039/keystone_screen.md' in /home/runner/work/concept-research-scout/concept-research-scout
+ succeeded in 0ms:
+a residual that is neither forced to zero by construction nor dominated by
+invalid/background/clipped values.
+
+That load-bearing fact remains unverified. It is not demonstrably false, so a
+KILL would overstate the evidence. Resolving it requires inspecting headers and
+voxel distributions from the released archive (including the proposed
+10-case, two-mask stability check); publication-level modality and registration
+statements cannot substitute for that measurement.
+
+```json
+{"verdict": "UNVERIFIABLE", "evidence": "'Derivatives' include all modalities linearly co-registered to the NCCT space.", "source": "https://zenodo.org/records/16748089, Data structure", "note": "Common coordinates are verified, but the released maps' units, valid support, clipping/background semantics, and nontrivial residual require direct voxel inspection of the monolithic archive."}
+```
+
+diff --git a/ideas/039/keystone_screen.md b/ideas/039/keystone_screen.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..7165479a611b6e4a6834821ec0ef50d330983224
+--- /dev/null
++++ b/ideas/039/keystone_screen.md
+@@ -0,0 +1,102 @@
++# Keystone screen
++
++Screened 2026-08-19 against the official ISLES'24 dataset record and the
++primary dataset paper.
++
++## Keystone as stated
++
++> The released CBF, CBV, and MTT maps have meaningful common support and
++> scaling such that a stable, nontrivial central-volume residual can be
++> computed rather than merely rediscovering zeros, support edges, or arbitrary
++> normalization.
++
++This is a compound empirical prerequisite. It requires more than the three
++maps being present and spatially registered: their stored voxel values must
++have documented or inspectable scale, support, background, and clipping
++semantics, and the proposed residual must be nontrivial away from excluded
++artifacts.
++
++## What I inspected
++
++### Official dataset release
++
++The Zenodo record confirms that the three maps are released alongside Tmax:
++
++> “Admission imaging: non-contrast CT (NCCT), CT angiography (CTA), 4D CT
++> perfusion (CTP) time series, and perfusion maps (Tmax, CBF, CBV, MTT).”
++
++Source: official ISLES'24 Zenodo record 16748089, **Description**, admission
++imaging bullet: https://zenodo.org/records/16748089 (concept DOI
++10.5281/zenodo.16731717).
++
++The same record says what “derivatives” means and lists all three maps in the
++same target space:
++
++> “'Derivatives' include all modalities linearly co-registered to the NCCT
++> space.”
++
++Source: official ISLES'24 Zenodo record 16748089, **Data structure**, followed
++by the derivative filenames
++`space-ncct_mtt.nii.gz`, `space-ncct_cbf.nii.gz`, and
++`space-ncct_cbv.nii.gz`: https://zenodo.org/records/16748089.
++
++This verifies co-location in a common coordinate space. It does **not** verify
++meaningful common numeric support or scaling.
++
++The release does not expose per-map sidecars or sample maps as separately
++inspectable files. Its file inventory consists of one archive:
++
++> “train.7z”
++
++Source: official Zenodo Records API, record 16748089, `files[0].key` (size
++99,014,629,647 bytes): https://zenodo.org/api/records/16748089.
++
++### Primary dataset paper
++
++The paper identifies a common producing implementation:
++
++> “perfusion maps (cerebral blood flow, cerebral blood volume, mean transit
++> time, and time-to-maximum) were derived using the clinical, U.S. Food and
++> Drug Administration–cleared software icobrain cva (version 1.5.0,
++> icometrix).”
++
++Source: Riedel et al., *Radiology: Artificial Intelligence* 2026,
++DOI 10.1148/ryai.250603, **Materials and Methods — Image Acquisition**, PDF
++p. 3: https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++It also confirms the registration operation:
++
++> “CTA, CT perfusion (including derived perfusion maps), and DWI and/or
++> apparent diffusion coefficient scans were linearly co-registered to the
++> noncontrast CT space using rigid transformations for CT and affine
++> transformations for MRI”
++
++Source: same paper and section, PDF p. 3:
++https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++Neither the inspected release description nor the paper states the stored
++units, scale factors, clipping bounds, background/invalid-voxel convention,
++or whether icobrain cva stores MTT independently or as an algebraic derivative
++of the stored CBF and CBV maps. No quoted primary-source evidence therefore
++establishes that the proposed log residual is stable, spatially nontrivial, or
++separable from support and clipping artifacts.
++
++## Residual-assumption check (mandatory wrong-keystone question)
++
++If the card only verified the nearest checkable thing, what is it still
++assuming? The nearest checkable fact is that CBF, CBV, and MTT are all present,
++were produced by one named software version, and have NCCT-space derivatives.
++The load-bearing fact is different: actual released voxel arrays must overlap
++on valid tissue and retain commensurate quantitative scales while exhibiting
++a residual that is neither forced to zero by construction nor dominated by
++invalid/background/clipped values.
++
++That load-bearing fact remains unverified. It is not demonstrably false, so a
++KILL would overstate the evidence. Resolving it requires inspecting headers and
++voxel distributions from the released archive (including the proposed
++10-case, two-mask stability check); publication-level modality and registration
++statements cannot substitute for that measurement.
++
++```json
++{"verdict": "UNVERIFIABLE", "evidence": "'Derivatives' include all modalities linearly co-registered to the NCCT space.", "source": "https://zenodo.org/records/16748089, Data structure", "note": "Common coordinates are verified, but the released maps' units, valid support, clipping/background semantics, and nontrivial residual require direct voxel inspection of the monolithic archive."}
++```
+
+codex
+Created [keystone_screen.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/039/keystone_screen.md).
+
+Verdict: `UNVERIFIABLE`. Common NCCT-space registration is verified, but meaningful scaling, support, clipping/background semantics, and a nontrivial residual require direct voxel inspection of the 99 GB archive.
+diff --git a/ideas/039/keystone_screen.md b/ideas/039/keystone_screen.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..7165479a611b6e4a6834821ec0ef50d330983224
+--- /dev/null
++++ b/ideas/039/keystone_screen.md
+@@ -0,0 +1,102 @@
++# Keystone screen
++
++Screened 2026-08-19 against the official ISLES'24 dataset record and the
++primary dataset paper.
++
++## Keystone as stated
++
++> The released CBF, CBV, and MTT maps have meaningful common support and
++> scaling such that a stable, nontrivial central-volume residual can be
++> computed rather than merely rediscovering zeros, support edges, or arbitrary
++> normalization.
++
++This is a compound empirical prerequisite. It requires more than the three
++maps being present and spatially registered: their stored voxel values must
++have documented or inspectable scale, support, background, and clipping
++semantics, and the proposed residual must be nontrivial away from excluded
++artifacts.
++
++## What I inspected
++
++### Official dataset release
++
++The Zenodo record confirms that the three maps are released alongside Tmax:
++
++> “Admission imaging: non-contrast CT (NCCT), CT angiography (CTA), 4D CT
++> perfusion (CTP) time series, and perfusion maps (Tmax, CBF, CBV, MTT).”
++
++Source: official ISLES'24 Zenodo record 16748089, **Description**, admission
++imaging bullet: https://zenodo.org/records/16748089 (concept DOI
++10.5281/zenodo.16731717).
++
++The same record says what “derivatives” means and lists all three maps in the
++same target space:
++
++> “'Derivatives' include all modalities linearly co-registered to the NCCT
++> space.”
++
++Source: official ISLES'24 Zenodo record 16748089, **Data structure**, followed
++by the derivative filenames
++`space-ncct_mtt.nii.gz`, `space-ncct_cbf.nii.gz`, and
++`space-ncct_cbv.nii.gz`: https://zenodo.org/records/16748089.
++
++This verifies co-location in a common coordinate space. It does **not** verify
++meaningful common numeric support or scaling.
++
++The release does not expose per-map sidecars or sample maps as separately
++inspectable files. Its file inventory consists of one archive:
++
++> “train.7z”
++
++Source: official Zenodo Records API, record 16748089, `files[0].key` (size
++99,014,629,647 bytes): https://zenodo.org/api/records/16748089.
++
++### Primary dataset paper
++
++The paper identifies a common producing implementation:
++
++> “perfusion maps (cerebral blood flow, cerebral blood volume, mean transit
++> time, and time-to-maximum) were derived using the clinical, U.S. Food and
++> Drug Administration–cleared software icobrain cva (version 1.5.0,
++> icometrix).”
++
++Source: Riedel et al., *Radiology: Artificial Intelligence* 2026,
++DOI 10.1148/ryai.250603, **Materials and Methods — Image Acquisition**, PDF
++p. 3: https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++It also confirms the registration operation:
++
++> “CTA, CT perfusion (including derived perfusion maps), and DWI and/or
++> apparent diffusion coefficient scans were linearly co-registered to the
++> noncontrast CT space using rigid transformations for CT and affine
++> transformations for MRI”
++
++Source: same paper and section, PDF p. 3:
++https://pubs.rsna.org/doi/pdf/10.1148/ryai.250603.
++
++Neither the inspected release description nor the paper states the stored
++units, scale factors, clipping bounds, background/invalid-voxel convention,
++or whether icobrain cva stores MTT independently or as an algebraic derivative
++of the stored CBF and CBV maps. No quoted primary-source evidence therefore
++establishes that the proposed log residual is stable, spatially nontrivial, or
++separable from support and clipping artifacts.
++
++## Residual-assumption check (mandatory wrong-keystone question)
++
++If the card only verified the nearest checkable thing, what is it still
++assuming? The nearest checkable fact is that CBF, CBV, and MTT are all present,
++were produced by one named software version, and have NCCT-space derivatives.
++The load-bearing fact is different: actual released voxel arrays must overlap
++on valid tissue and retain commensurate quantitative scales while exhibiting
++a residual that is neither forced to zero by construction nor dominated by
++invalid/background/clipped values.
++
++That load-bearing fact remains unverified. It is not demonstrably false, so a
++KILL would overstate the evidence. Resolving it requires inspecting headers and
++voxel distributions from the released archive (including the proposed
++10-case, two-mask stability check); publication-level modality and registration
++statements cannot substitute for that measurement.
++
++```json
++{"verdict": "UNVERIFIABLE", "evidence": "'Derivatives' include all modalities linearly co-registered to the NCCT space.", "source": "https://zenodo.org/records/16748089, Data structure", "note": "Common coordinates are verified, but the released maps' units, valid support, clipping/background semantics, and nontrivial residual require direct voxel inspection of the monolithic archive."}
++```
+
+tokens used
+61,246
+Created [keystone_screen.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/039/keystone_screen.md).
+
+Verdict: `UNVERIFIABLE`. Common NCCT-space registration is verified, but meaningful scaling, support, clipping/background semantics, and a nontrivial residual require direct voxel inspection of the 99 GB archive.
