@@ -43,7 +43,7 @@
 - [isles24] **idea-041** [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
 - [isles24] **idea-042** [SHORTLISTED] -- Delay is not dispersion
 - [isles24] **idea-043** [REJECTED] -- What the winner's brain window revealed
-- [isles24] **idea-044** [SHORTLISTED] -- The old stroke inside the new forecast
+- [isles24] **idea-044** [REJECTED] -- The old stroke inside the new forecast
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering

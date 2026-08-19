@@ -9,7 +9,7 @@ Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 Before proposing a candidate, check it against every pattern below.
 A candidate that dies like a prior one must say what makes it different.
 
-- **IDENTIFIABILITY_FAILURE** x11: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
+- **IDENTIFIABILITY_FAILURE** x12: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
 - **DATA_ACCESS** x3: Required data, checkpoints, or mappings are not obtainable in practice.
 - **EFFECT_UNREACHABLE** x1: The claimed effect cannot exceed a published bound / measurement floor.
 
@@ -73,7 +73,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-041** [SHORTLISTED/DEBATED/wide] -- The roughness of a heartbeat through starved tissue
 - **idea-042** [SHORTLISTED/DEBATED/wide] -- Delay is not dispersion
 - **idea-043** [REJECTED/SCOUTED/baseline] -- What the winner's brain window revealed -- killed: EFFECT_UNREACHABLE
-- **idea-044** [SHORTLISTED/CRITIQUED/baseline] -- The old stroke inside the new forecast
+- **idea-044** [REJECTED/DEBATED/baseline] -- The old stroke inside the new forecast -- killed: IDENTIFIABILITY_FAILURE
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
