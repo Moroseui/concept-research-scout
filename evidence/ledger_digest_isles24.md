@@ -11,6 +11,7 @@ A candidate that dies like a prior one must say what makes it different.
 
 - **IDENTIFIABILITY_FAILURE** x11: The design cannot separate the claimed mechanism from a co-varying acquisition, protocol, tool, or population factor in any obtainable cohort.
 - **DATA_ACCESS** x3: Required data, checkpoints, or mappings are not obtainable in practice.
+- **EFFECT_UNREACHABLE** x1: The claimed effect cannot exceed a published bound / measurement floor.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
@@ -71,7 +72,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-040** [PAUSED/DEBATED/baseline] -- The pressure history written in a winding artery
 - **idea-041** [SHORTLISTED/DEBATED/wide] -- The roughness of a heartbeat through starved tissue
 - **idea-042** [SHORTLISTED/DEBATED/wide] -- Delay is not dispersion
-- **idea-043** [SHORTLISTED/SCOUTED/baseline] -- What the winner's brain window revealed
+- **idea-043** [REJECTED/SCOUTED/baseline] -- What the winner's brain window revealed -- killed: EFFECT_UNREACHABLE
 - **idea-044** [SHORTLISTED/SCOUTED/baseline] -- The old stroke inside the new forecast
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
