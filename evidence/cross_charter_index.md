@@ -38,6 +38,7 @@
 - [isles24] **idea-036** [REJECTED] -- Does the model bring a vascular map to the scan?
 - [isles24] **idea-037** [REJECTED] -- The scan remembers which hospital took it
 - [isles24] **idea-038** [REJECTED] -- Does the model price the last mile of blood delivery?
+- [isles24] **idea-039** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -75,7 +76,7 @@
 - [isles24] **isles24-scout-005-c03** [SCOUT_ONLY] -- The bottleneck before the brain
 - [isles24] **isles24-scout-005-c04** [SCOUT_ONLY] -- The pressure history written in a winding artery
 - [isles24] **isles24-scout-005-c05** [SCOUT_ONLY] -- Do sulci pin the predicted infarct edge?
-- [isles24] **isles24-scout-005-c06** [SCOUT_ONLY] -- Does the model trust tissue that obeys the flow equation?
+- [isles24] **isles24-scout-005-c06** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
 - [isles24] **isles24-scout-005-c07** [SCOUT_ONLY] -- The roughness of a heartbeat through starved tissue
 - [isles24] **isles24-scout-005-c08** [SCOUT_ONLY] -- Delay is not dispersion
 - [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
