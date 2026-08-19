@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-63 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+64 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -14,7 +14,6 @@ A candidate that dies like a prior one must say what makes it different.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
-- **isles24-scout-005-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.6, audited 2026-08-19] -- What the winner's brain window revealed
 - **isles24-scout-002-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.4, audited 2026-08-16] -- Two tissues, two death thresholds
 - **isles24-scout-005-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.4, audited 2026-08-19] -- The old stroke inside the new forecast
 - **isles24-scout-004-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.1, audited 2026-08-18] -- The heart's signature in the head scan
@@ -24,7 +23,8 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
 - **isles24-scout-001-c01** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-16] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-005-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-19] -- Do sulci pin the predicted infarct edge?
-- ... and 8 more (python scout.py backlog)
+- **isles24-scout-001-c03** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.5, audited 2026-08-16] -- Read the stroke from the blood leaving, not only entering
+- ... and 7 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
@@ -71,6 +71,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-040** [SHORTLISTED/SCOUTED/baseline] -- The pressure history written in a winding artery
 - **idea-041** [SHORTLISTED/SCOUTED/wide] -- The roughness of a heartbeat through starved tissue
 - **idea-042** [SHORTLISTED/SCOUTED/wide] -- Delay is not dispersion
+- **idea-043** [SHORTLISTED/SCOUTED/baseline] -- What the winner's brain window revealed
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
@@ -103,7 +104,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-004-c06** [SHORTLISTED/SCOUTED/wide] -- The scan remembers which hospital took it
 - **isles24-scout-004-c07** [SHORTLISTED/SCOUTED/wide] -- The edge of the map: the benchmark scores terra incognita
 - **isles24-scout-004-c08** [SHORTLISTED/SCOUTED/wide] -- The ground truth was drawn on a swollen brain
-- **isles24-scout-005-c01** [SCOUT_ONLY/SCOUTED/baseline] -- What the winner's brain window revealed
+- **isles24-scout-005-c01** [SHORTLISTED/SCOUTED/baseline] -- What the winner's brain window revealed
 - **isles24-scout-005-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The old stroke inside the new forecast
 - **isles24-scout-005-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The bottleneck before the brain
 - **isles24-scout-005-c04** [SHORTLISTED/SCOUTED/baseline] -- The pressure history written in a winding artery
