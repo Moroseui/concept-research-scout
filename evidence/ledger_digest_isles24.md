@@ -68,7 +68,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-037** [REJECTED/DEBATED/wide] -- The scan remembers which hospital took it -- killed: IDENTIFIABILITY_FAILURE
 - **idea-038** [REJECTED/DEBATED/wide] -- Does the model price the last mile of blood delivery? -- killed: IDENTIFIABILITY_FAILURE
 - **idea-039** [SHORTLISTED/DEBATED/wide] -- Does the model trust tissue that obeys the flow equation?
-- **idea-040** [SHORTLISTED/CRITIQUED/baseline] -- The pressure history written in a winding artery
+- **idea-040** [PAUSED/DEBATED/baseline] -- The pressure history written in a winding artery
 - **idea-041** [SHORTLISTED/SCOUTED/wide] -- The roughness of a heartbeat through starved tissue
 - **idea-042** [SHORTLISTED/SCOUTED/wide] -- Delay is not dispersion
 - **idea-043** [SHORTLISTED/SCOUTED/baseline] -- What the winner's brain window revealed

@@ -39,7 +39,7 @@
 - [isles24] **idea-037** [REJECTED] -- The scan remembers which hospital took it
 - [isles24] **idea-038** [REJECTED] -- Does the model price the last mile of blood delivery?
 - [isles24] **idea-039** [SHORTLISTED] -- Does the model trust tissue that obeys the flow equation?
-- [isles24] **idea-040** [SHORTLISTED] -- The pressure history written in a winding artery
+- [isles24] **idea-040** [PAUSED] -- The pressure history written in a winding artery
 - [isles24] **idea-041** [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
 - [isles24] **idea-042** [SHORTLISTED] -- Delay is not dispersion
 - [isles24] **idea-043** [SHORTLISTED] -- What the winner's brain window revealed
