@@ -1,0 +1,87 @@
+{
+  "id": "isles24-scout-005-c02",
+  "parent_ids": [],
+  "search_mode": "B",
+  "entry_point": 2,
+  "title": "The old stroke inside the new forecast",
+  "question": "Is the model using contralateral chronic infarct cavities as a marker of reduced brain reserve when forecasting new infarction?",
+  "rung": "Target rung 1: use of remote chronic-infarct appearance; rung 2 requires replication with a separately trained model and an external acute-stroke cohort.",
+  "deliverable_sentence": "The final-infarct model is using remote chronic infarct cavities as a brain-reserve signal when forecasting new infarction.",
+  "X_measurement": "Within brain parenchyma outside ventricles and the acute Tmax>6 s territory, X is connected CSF-like hypodensity (0-30 HU) with a surrounding gliotic low-attenuation rim and atlas-inconsistent tissue loss; quantify volume and surface area, with contralateral lesions primary. A deterministic threshold/connected-component measurement can be run today on unseen NCCT after automated brain/ventricle segmentation, without an annotator; measurement validity is a gate rather than assumed diagnosis.",
+  "suspected_signal": "Chronic infarcts leave encephalomalacic cavities and volume loss. They encode prior vascular injury and reduced reserve, which may lead a model to enlarge expected tissue loss even when the old lesion is remote from the current perfusion deficit.",
+  "use_vs_association": "Within each case, fill only contralateral remote cavities with texture sampled from mirrored homologous tissue, while holding all acute CT, CTA, perfusion, and affected-hemisphere voxels fixed. A predicted-lesion change in the affected hemisphere, exceeding equal-volume normal-CSF and random-parenchyma shams, demonstrates use; cross-sectional correlation alone is supporting only.",
+  "keystone_prerequisite": "A nontrivial subset of admission NCCTs contains automatically separable remote chronic infarct cavities rather than only nonspecific low attenuation.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_residual_assumption": "The 0-30 HU morphology rule may confuse enlarged perivascular spaces, arachnoid cysts, surgical cavities, and severe leukoaraiosis. The first 20 cases require blinded algorithmic stability checks across thresholds; without released chronic-lesion labels, a positive use result supports use of cavity-like tissue loss, not proven prior infarction.",
+  "rung_reached": "0; rung 1 after prevalence, stability, remoteness, realism, and sham gates.",
+  "dies_like_prior": "Closest to isles24-scout-001-c04 (frail brain) but differs in a discrete, remotely editable lesion rather than diffuse correlated frailty. It avoids idea-020's geometry confounding by editing contralateral tissue while freezing the affected input. Annotation provenance is not load-bearing because the primary endpoint is paired model output.",
+  "closest_prior_work": "Prior-infarct burden is a recognized imaging marker, while infarct pattern predicts function independent of volume (Radiology 2021, DOI 10.1148/radiol.2021203964). The ISLES'24 dataset paper includes patient history but does not report a model-use test for old cavities (DOI 10.1148/ryai.250603). No verified prior intervention study on this question was found; that is not proof of novelty.",
+  "existing_assets": "Raw NCCT, registered acute maps, automatic brain/ventricle segmentation tools, mirrored tissue donor regions, and label-free paired output comparison.",
+  "smallest_decisive_experiment": "Census the first 30 cases; proceed only if at least 15 have stable remote cavity volume of at least 1 mL. On those cases perform cavity fill, ventricle-adjacent CSF fill, and random-parenchyma shams. About 2 days measurement work and 20 GPU-hours once a model is frozen.",
+  "standing_confounds_addressed": "Paired edits fix scanner, vendor, protocol, site, positioning, habitus, prevalence, referral, and all acute pathology. Contralateral remoteness prevents direct lesion overlap. Shams address generic filling and CSF-boundary effects. It does not prove the cavity's etiology or distinguish prior-injury reserve from a learned age proxy.",
+  "alternative_explanations": [
+    "The response is to any CSF boundary; ventricle and arachnoid-space shams test this.",
+    "The cavity is a proxy for age, not reserve; age-stratified response is reported but cannot fully distinguish the two.",
+    "Inpainting artifacts drive the response; use two independent fill methods and require concordance."
+  ],
+  "anticipated_negative": "Decisive only if prevalence, segmentation stability, model performance, and two-method edit realism gates pass; otherwise sensitivity-limited.",
+  "remaining_legwork": "2 days to the prevalence kill decision; 4-6 days to paired results; under 20 GPU-hours; no new labels requested.",
+  "design_template": "regional-removal",
+  "entry_point_2_requirements": "Measurement: remote CSF-like cavity burden. Confused artifacts: ventricles/other CSF spaces and inpainting seams; anatomic shams and two fill methods address them.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "The cue and paired edit are clear, though lesion classification needs a gate."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Remote editing identifies cavity use but not whether the model interprets it as reserve or age."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Prior injury is clinically meaningful context for tissue vulnerability and transportability."
+    },
+    "interest": {
+      "value": 4,
+      "why": "A new-lesion model consulting old damage is plausible but not routinely measured."
+    },
+    "prior_legwork": {
+      "value": 3,
+      "why": "Segmentation ingredients exist, but no released chronic-lesion labels."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because the prevalence and separability keystone is uninspected."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "All images are public and no external outcomes are needed."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired output is direct; cavity-validity metrics are custom."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "Useful after stringent prevalence and realism gates."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Limited primary-source search only."
+    },
+    "regret": {
+      "value": 3,
+      "why": "Worth a cheap census before more elaborate reserve experiments."
+    }
+  },
+  "priority_score": 3.4,
+  "unverified_claims": [
+    "remote chronic-cavity prevalence",
+    "automatic specificity",
+    "edit realism",
+    "novelty"
+  ],
+  "plain_pitch": "An old stroke can leave a fluid-filled cavity in the brain. This study asks whether a model predicting a new stroke looks across the brain at that old damage and treats the patient as more vulnerable. Filling only the old-looking cavity in a copy of the scan, while leaving the new stroke and its blood-flow maps untouched, would reveal whether that remote history changes the forecast.",
+  "track": "baseline",
+  "charter": "isles24"
+}

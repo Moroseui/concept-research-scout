@@ -42,3 +42,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 041,The roughness of a heartbeat through starved tissue,ACTIVE,,"{'value': 4, 'why': 'The biomarker paper has already completed the expensive measurement legwork, leaving one experiment to convert association into a model-behavior result.'}",CRITIQUE,
 042,Delay is not dispersion,ACTIVE,,"{'value': 4, 'why': 'The raw curves already contain the needed distinction, and collapsing both effects into Tmax may be an avoidable modeling error.'}",CRITIQUE,
 043,What the winner's brain window revealed,ACTIVE,,"{'value': 4, 'why': 'A direct explanation for a ten-point preprocessing effect is an obvious next experiment.'}",CRITIQUE,
+044,The old stroke inside the new forecast,ACTIVE,,"{'value': 3, 'why': 'Worth a cheap census before more elaborate reserve experiments.'}",CRITIQUE,
