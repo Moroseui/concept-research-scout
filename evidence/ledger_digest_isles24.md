@@ -73,7 +73,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-041** [SHORTLISTED/DEBATED/wide] -- The roughness of a heartbeat through starved tissue
 - **idea-042** [SHORTLISTED/DEBATED/wide] -- Delay is not dispersion
 - **idea-043** [REJECTED/SCOUTED/baseline] -- What the winner's brain window revealed -- killed: EFFECT_UNREACHABLE
-- **idea-044** [SHORTLISTED/SCOUTED/baseline] -- The old stroke inside the new forecast
+- **idea-044** [SHORTLISTED/CRITIQUED/baseline] -- The old stroke inside the new forecast
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
