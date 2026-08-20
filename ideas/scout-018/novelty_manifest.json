@@ -1,0 +1,42 @@
+{
+  "searched_at": "2026-08-20T06:49:12Z",
+  "queries": [
+    {"query": "Mirai breast arterial calcification mammography risk model interpretability BAC", "source": "web search"},
+    {"query": "deep learning breast cancer risk model breast arterial calcification mammogram", "source": "web search"},
+    {"query": "automated breast arterial calcification segmentation deep learning DOI", "source": "web search"},
+    {"query": "Mirai mammography occlusion interpretability breast cancer risk", "source": "web search"},
+    {"query": "deep learning fibrosis classifier traction bronchiectasis interpretability CT model", "source": "web search"},
+    {"query": "automated traction bronchiectasis airway taper CT deep learning fibrosis DOI", "source": "web search"},
+    {"query": "traction bronchiectasis quantitative CT Jacob 2017 1601011", "source": "web search"},
+    {"query": "CT-CLIP pulmonary fibrotic sequela interpretability airway", "source": "web search"},
+    {"query": "chest x-ray deep learning silhouette sign consolidation classifier", "source": "web search"},
+    {"query": "silhouette sign CNN chest radiograph interpretability consolidation", "source": "web search"},
+    {"query": "cardiac border gradient pneumonia chest xray machine learning", "source": "web search"},
+    {"query": "synthetic opacity placement chest xray consolidation model counterfactual", "source": "web search"},
+    {"query": "Sybil lung cancer risk calcified granuloma calcification interpretability", "source": "web search"},
+    {"query": "deep learning lung cancer risk model calcified nodules benign calcification CT", "source": "web search"},
+    {"query": "lung cancer AI model calcification feature benign nodule counterfactual", "source": "web search"},
+    {"query": "Sybil model interpretability nodule calcification", "source": "web search"},
+    {"query": "CT deep learning pleural effusion chest wall edema anasarca classifier", "source": "web search"},
+    {"query": "subcutaneous edema CT attenuation pleural effusion deep learning", "source": "web search"},
+    {"query": "chest wall edema CT Hounsfield unit subcutaneous fat heart failure", "source": "web search"},
+    {"query": "CT-CLIP pleural effusion interpretability body wall", "source": "web search"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "10.1148/ryai.240417", "access": "full_text", "establishing_passage": "The study linked Mirai features to mammographic observations and reported that a decoder restricted to calcification features retained five-year risk performance; it discussed benign calcification but did not isolate BAC."},
+    {"candidate": "C1", "identifier": "10.1126/scitranslmed.aba4373", "access": "abstract", "establishing_passage": "Introduced Mirai as an image-only mammographic breast-cancer risk model and evaluated it across institutions."},
+    {"candidate": "C1", "identifier": "10.1007/s00330-023-09668-z", "access": "full_text", "establishing_passage": "Developed automated BAC detection and quantification and correlated predictions with measured BAC length."},
+    {"candidate": "C2", "identifier": "10.1007/s11604-025-01917-z", "access": "full_text", "establishing_passage": "AI ILA scores rose across reader-rated traction bronchiectasis severity categories, providing association but not isolated model-use evidence."},
+    {"candidate": "C2", "identifier": "10.1007/s00330-019-06606-w", "access": "abstract", "establishing_passage": "Defined airway tapering as an objective CT biomarker for bronchiectasis."},
+    {"candidate": "C2", "identifier": "10.1016/S2213-2600(18)30286-8", "access": "abstract", "establishing_passage": "A deep model classified fibrotic lung disease on HRCT with performance comparable to thoracic radiologists."},
+    {"candidate": "C3", "identifier": "PMID 41792409", "access": "full_text", "establishing_passage": "RoentMod created realistic pathology counterfactual CXRs and used them to expose off-target shortcut responses in multitask and foundation models."},
+    {"candidate": "C3", "identifier": "arXiv:2111.00595", "access": "abstract", "establishing_passage": "TorchXRayVision released standardized CXR datasets and pretrained pathology classifiers including consolidation outputs."},
+    {"candidate": "C3", "identifier": "PMCID PMC12102525", "access": "search_summary", "establishing_passage": "Automated and standardized quantitative analysis of cardiovascular borders on chest radiographs."},
+    {"candidate": "C4", "identifier": "arXiv:2602.02560", "access": "full_text", "establishing_passage": "S(H)NAP removed and inserted pulmonary nodules to audit Sybil, reporting nodule contributions, interactions, artifacts, and radial bias; a full-text search found no calcification experiment."},
+    {"candidate": "C4", "identifier": "10.1200/JCO.22.01345", "access": "full_text", "establishing_passage": "Sybil predicted one- to six-year lung-cancer risk from a single LDCT and included exploratory analyses involving visible future-cancer nodules."},
+    {"candidate": "C4", "identifier": "PMCID PMC6623975", "access": "full_text", "establishing_passage": "A hierarchical semantic CNN jointly predicted nodule malignancy and human semantic attributes including calcification."},
+    {"candidate": "C5", "identifier": "PMCID PMC11450639", "access": "full_text", "establishing_passage": "Developed weakly supervised subcutaneous-edema segmentation on abdominal CT."},
+    {"candidate": "C5", "identifier": "PMCID PMC7607389", "access": "full_text", "establishing_passage": "Quantitative lung HU measurements distinguished pulmonary edema severity on routine chest CT."},
+    {"candidate": "C5", "identifier": "PMCID PMC9390225", "access": "full_text", "establishing_passage": "Trained CT models to detect, segment, and characterize pleural effusions directly."}
+  ]
+}
