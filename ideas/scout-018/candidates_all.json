@@ -1,0 +1,461 @@
+{
+  "cycle": 18,
+  "charter": null,
+  "tracks": [
+    "baseline"
+  ],
+  "notes": {
+    "mode_c_score_missing": 2
+  },
+  "candidates": [
+    {
+      "id": "scout-018-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "parent_ids": [
+        "idea-015"
+      ],
+      "revival_basis": "The portfolio record, not new external data, is what changed. The 2026-08-10 decision REJECTED idea-015 as superseded on claim-identity grounds while stating the narrowed experiment 'survives on its merits': 'the successor keeps the agreed BAC-specific design and prohibited conclusions, and remains conditional on Stage 0 confirming an obtainable Mirai-compatible cohort and spatial registration between the BAC mask and Mirai's exact input tensor,' and 'the successor re-enters through a normal scouting cycle, receives its own novelty audit, and is re-ranked in the backlog on current merit.' Checkable source: evidence/decisions.md, entry 2026-08-10. Three scout cycles (015-017) have passed without the successor resurfacing; this registration is that re-entry, not a re-proposal against an unchanged objection - the blocking condition was governance (claim identity), and registration as a new candidate with parent_ids is precisely its resolution.",
+      "title": "Breast arterial calcification inside Mirai, re-entered on its own terms",
+      "question": "Is Mirai using breast arterial calcification when it scores five-year breast-cancer risk?",
+      "deliverable_sentence": "Mirai is using breast arterial calcification.",
+      "prohibited_conclusions": "Inherited and binding per the parent decision: no vascular-age interpretation, no systemic-vascular-health gloss. The claim is BAC-use, full stop.",
+      "rung": "Targets rung 1 by paired BAC removal with sham controls; rung 2 requires edit realism and specificity against non-vascular calcifications; rung 3 is available because X is already a named radiological entity (BAC is routinely reported), conditional on rungs 1-2.",
+      "rung_reached": "Rung 1 if BAC removal shifts risk beyond matched shams; specificity controls and replication across views/machines move it toward rung 3.",
+      "unfinished_story": "Idea-015 completed the hard design work - the BAC-specific removal experiment and its prohibited-conclusions set were debated and agreed - and then the candidate was rejected for claim identity before the experiment ever ran. The externally anchored story is also unfinished: Mirai predicts 5-year risk beyond what readers can (C-indices 0.76-0.81 across MGH, Karolinska, CGMH; verified), automated BAC quantifiers exist, and nobody has connected them.",
+      "X_measurement": "BAC burden from an automated mammographic BAC segmenter: calcified-vessel pixel mask, total calcified length/area, and per-breast burden score. Published deep-learning quantifiers exist: SCU-Net (Guo et al., PMID 34328661) and a U-Net quantifier validated in European Radiology (DOI 10.1007/s00330-023-09668-z). BAC's tram-track morphology is geometrically distinguishable from ductal microcalcifications. Compute-today test: YES in principle - the measurement is defined and citable - but released-weights status of these specific segmenters is an unverified claim; retraining on public BAC annotations or a morphology-filtered intensity fallback is the declared contingency, and Stage 0 stops if neither passes a held-out check.",
+      "suspected_signal": "BAC is medial arterial calcification of breast vessels, prevalent in older and diabetic women. It is a high-contrast, spatially extended, reproducible structure in exactly the tissue Mirai encodes. Whether it carries risk-relevant weight (age proxy, comorbidity proxy, or protective association reported in some cohorts) is precisely what the removal experiment measures - the direction is an output of the study, not an assumption.",
+      "use_vs_association": "BAC prevalence co-varies with age and comorbidity, so any observational correlation with Mirai's score is uninterpretable; the design removes BAC within-image and compares the paired risk shift against matched sham removals, so only model response to the structure itself survives.",
+      "keystone_prerequisite": "An obtainable, Mirai-compatible full-field digital mammography cohort exists in which automated BAC masks can be spatially registered to Mirai's exact input tensor after Mirai's preprocessing (the parent decision's own Stage-0 condition).",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest checkable facts are already inspected in spirit: Mirai's code and weights are public (github.com/yala/Mirai, verified live 2026-08-20) and the primary paper is verified (DOI 10.1126/scitranslmed.aba4373, PMID 33504648). What I am still assuming is load-bearing: that a public FFDM cohort (candidates: EMBED, VinDr-Mammo) passes Mirai's preprocessing unmodified, contains adequate BAC prevalence, and that mask-to-tensor registration survives Mirai's resizing. That composite is the real keystone, and the parent decision explicitly pinned it to Stage 0.",
+      "dies_like_prior": "The parent idea-015 died by governance (claim-identity rule), not evidence; re-registration is the designed remedy, so that failure mode cannot recur. The live risks are DATA_ACCESS like idea-018 (no compatible cohort - made the first Stage-0 stop) and edit-validity like idea-006 (mitigated: local, sham-controlled, realism-gated edits rather than an out-of-distribution deletion). Annotation provenance does not enter: the primary readout is the model against itself.",
+      "closest_prior_work": "Mirai (Yala et al., Sci Transl Med 2021, DOI 10.1126/scitranslmed.aba4373; multi-site validation JCO 2022, DOI 10.1200/JCO.21.01337) established the risk model but never probed BAC. Automated BAC quantification exists (SCU-Net, PMID 34328661; Eur Radiol DOI 10.1007/s00330-023-09668-z) but has never been connected to a risk model's decision. The exact delta: a within-image BAC removal test on a frozen risk model. Novelty is capped pending the formal audit.",
+      "existing_assets": "Public Mirai code and checkpoint; the parent idea's ratified BAC-specific design and prohibited-conclusions set (evidence/decisions.md 2026-08-10); published BAC segmentation methods; candidate public FFDM cohorts (EMBED, VinDr-Mammo); 2D inference fits available compute.",
+      "smallest_decisive_experiment": "Stage 0: load Mirai on one public FFDM cohort, verify preprocessing compatibility, run a BAC detector, and confirm at least ~100 BAC-positive exams plus registration of masks into Mirai's input tensor. If passed: paired inference on BAC-positive exams with (a) BAC inpainted to local vessel/tissue background, (b) intensity- and area-matched sham removal on non-calcified linear structures, (c) unedited originals; the primary endpoint is the paired risk-score shift distribution (a) vs (b).",
+      "standing_confounds_addressed": "Within-image pairing fixes scanner, vendor, protocol, site, positioning, habitus, prevalence, referral pathway, and label leakage - none can differ between an image and its edited copy. Not ruled out by design: generic response to removing any bright structure (addressed by matched shams), edit-boundary artifacts (realism/discriminator gate), and external validity beyond the chosen cohort.",
+      "alternative_explanations": [
+        "Mirai responds to removal of any bright linear structure, not BAC specifically; intensity-matched sham removals on non-vascular structures test this.",
+        "The inpainting leaves a detectable signature the model reads; a discriminator-based realism gate with a prespecified margin tests this.",
+        "An observed shift reflects BAC's overlap with ductal microcalcifications in crowded breasts; excluding exams where BAC masks touch suspicious-calcification regions, plus a positive-control edit on ductal microcalcifications (expected to move risk), bounds this."
+      ],
+      "anticipated_negative": "Decisive if the cohort, detector, registration, and realism gates all pass and the BAC-removal shift sits within the sham distribution: Mirai does not use BAC on this cohort. Gate failures stop before science and are uninterpretable by design, not by accident.",
+      "remaining_legwork": "Two days for cohort/preprocessing compatibility and BAC-detector status; one week for detector validation and registration; first paired result in about two weeks.",
+      "design_template": "regional-removal",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One named structure, one frozen model, one paired removal experiment, and a pre-agreed prohibited-conclusions set."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Within-image pairing removes all cohort-level confounding; what remains is edit specificity and realism, both explicit gates rather than hopes."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Whether a deployed breast-cancer risk model reads a cardiovascular calcification has direct interpretive and deployment consequences, though it does not change treatment by itself."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A cancer-risk model quietly weighing arterial calcium is surprising in either direction, and the direction itself is informative."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "The design was already debated and ratified under the parent; model weights are public; BAC quantifiers are published."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped: the Mirai-compatible-cohort-plus-registration keystone is NOT_INSPECTED, exactly as the parent decision requires Stage 0 to establish."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Candidate public cohorts exist but Mirai compatibility and BAC prevalence are unverified."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Paired score shifts against sham distributions need no custom metrics."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A gated null cleanly retires a plausible, much-discussed hypothesis about what mammography AI reads."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; no BAC-removal probe of a risk model surfaced in the verification pass, but the formal audit has not run."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The design work is already paid for; failing to register the invited successor would waste a ratified experiment."
+        }
+      },
+      "unverified_claims": [
+        "Released weights for any published BAC segmenter",
+        "EMBED/VinDr-Mammo compatibility with Mirai preprocessing",
+        "BAC prevalence in the candidate cohorts",
+        "Novelty of the BAC-removal probe"
+      ],
+      "plain_pitch": "Mirai is a widely validated artificial-intelligence model that predicts a woman's five-year breast-cancer risk from a routine mammogram, better than classical risk calculators. Mammograms also show calcium deposits in the walls of breast arteries, a sign of vascular aging that radiologists can see but usually ignore for cancer purposes. This study digitally erases those artery calcifications from the image, changes nothing else, and asks whether Mirai's risk score moves. If it moves, the model is partly reading the arteries when it talks about cancer risk - something its users would want to know; if it does not move, a popular suspicion is retired.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-018-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The dilated airways inside the fibrosis score",
+      "question": "Is CT-CLIP's pulmonary-fibrotic-sequela score using traction bronchiectasis rather than the reticulation around it?",
+      "deliverable_sentence": "The pulmonary-fibrotic-sequela score is using traction bronchiectasis - abnormally dilated airways inside fibrotic lung.",
+      "rung": "Targets rung 1 by bidirectional competing-mechanism edits at fixed reticulation; rung 2 requires the edits to pass realism and wall/reticulation-invariance gates; rung 3 is available because traction bronchiectasis is a named, reported entity, conditional on rungs 1-2.",
+      "rung_reached": "Rung 1 if the score follows airway caliber at fixed reticulation; validating the automated traction index against its published prognostic behavior would support the rung-3 naming.",
+      "unasked_question": "The fibrosis-prognosis literature says traction bronchiectasis is the outcome-carrying component of fibrotic change (Jacob et al., Eur Respir J 2017, computer-based CT analysis vs conventional measures; COPDGene, Radiology 2022, DOI 10.1148/radiol.212584 - both verified), while the classifier-decode literature treats 'fibrotic sequela' as one blob. Nobody has asked which physical component a report-supervised fibrosis head actually reads.",
+      "X_measurement": "A traction-bronchiectasis index: segment the airway tree (TotalSegmentator lung_vessels task, class lung_trachea_bronchia - class existence verified in the repository README - or an ATM'22-class airway model), measure lumen caliber along the centerline, and compute excess distal caliber relative to expected generation-wise taper, restricted to reticulation-rich lung (high-attenuation texture within the lung mask). Deterministic given the segmentations. Compute-today test: YES conditional on the airway segmenter functioning at CT-RATE voxel sizes; that condition is the keystone and a Stage-0 stop, not an assumption.",
+      "suspected_signal": "Fibrotic retraction pulls airway walls outward: dilated, non-tapering, sometimes varicose airways inside reticular abnormality. These tubular air-density structures are higher-contrast and more stereotyped than fine reticulation, so a report-supervised encoder may anchor its fibrosis evidence on them - which would align the model with the component radiologists consider prognostic.",
+      "use_vs_association": "Traction bronchiectasis and reticulation co-occur almost perfectly, so no observational split can separate them; the design edits airway caliber within-scan while holding the surrounding reticulation fixed, and vice versa, so the score's allegiance is read off paired responses.",
+      "keystone_prerequisite": "Airway lumens inside fibrotic lung on CT-RATE-quality reconstructions are segmentable, and their caliber is editable separately from the surrounding reticulation - i.e., re-tapering a dilated airway does not mechanically alter the reticular texture beyond a prespecified invariance margin.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest checkable things - CT-RATE fibrotic-sequela head exists (verified locally under idea 004), TotalSegmentator's airway class exists (verified in the README) - are inspected. I am still assuming the load-bearing composite: segmenter performance inside distorted fibrotic lung specifically, at CT-RATE slice thickness, and editability of lumen caliber without touching reticulation. Distal bronchiolectasis is likely below resolution, so the study is restricted to segmental/subsegmental airways from the outset.",
+      "dies_like_prior": "Closest internal relatives are idea-019 (cyst topology at the pleural edge, same head family, SHORTLISTED with an unresolved claim-identity question) and the competing-mechanism precedent of scout-014-c02 vs scout-017-c02 (wall thickness vs mucus in the peribronchial head). This card is that same legitimate move applied to the fibrosis head: a different named component (airways, not cysts, not esophagus) under the same score. It dies IDENTIFIABILITY_FAILURE if airway caliber and reticulation cannot be edited independently - declared as the keystone gate. Annotation provenance does not apply: the primary readout is paired model-to-itself score changes with no clinical labels.",
+      "closest_prior_work": "Jacob et al. 2017 (Eur Respir J 49:1601011) and the COPDGene traction analyses (Radiology 2022, DOI 10.1148/radiol.212584; Radiology 2023, DOI 10.1148/radiol.220833) establish X's measurability and prognostic weight but never decode a classifier. Idea 004 established the frozen CT-CLIP pipeline and that this head responds to reconstruction; scout-016-c01 chases that mediator. None asks which anatomical component the fibrosis head reads. No novelty claim before the audit.",
+      "existing_assets": "Frozen, probe-verified CT-CLIP v2 ClassFine pipeline and CT-RATE validation volumes (local, operational, hash-pinned under idea 004); TotalSegmentator with an airway class; published traction-scoring constructs to compare the index against.",
+      "smallest_decisive_experiment": "Stage 0: run the airway segmenter on 30 CT-RATE volumes with high fibrotic-sequela scores, manually spot-check lumen tracing inside reticulation, and freeze the traction index. If passed: on 40 high-index and 40 reticulation-matched low-index volumes, (i) re-taper dilated airways toward normal caliber preserving reticulation, (ii) dilate airways inside reticulation-matched regions lacking dilation, (iii) equal-volume parenchymal sham edits; primary endpoint is the paired fibrotic-sequela logit response pattern across the three arms.",
+      "standing_confounds_addressed": "Within-scan paired edits fix scanner, vendor, protocol, reconstruction, site, positioning, habitus, prevalence, referral pathway, and label leakage. Not ruled out: edit-signature response (realism gate with sham arm), reticulation perturbation by the airway edit itself (explicit texture-invariance margin around edited airways), and kernel-dependence of the airway segmentation (Stage-0 stratification across the known CT-RATE kernel strata from idea 004).",
+      "alternative_explanations": [
+        "The head responds to any local air-density change; parenchymal shams and the insertion arm's sign structure test this.",
+        "The editor smears reticulation while re-tapering; the texture-invariance margin is measured on edited tensors directly.",
+        "The score actually reads honeycombing/cysts that co-locate with traction; cyst-region exclusion masks in the edit zones bound this, though complete separation from cystic change may remain difficult and is stated as a limit."
+      ],
+      "anticipated_negative": "Decisive after gates: if the score ignores airway caliber at fixed reticulation in both directions, traction bronchiectasis is rejected as the head's signal, and the reticulation-side story (or scout-016-c01's noise mediator) gains. A failed segmentation or invariance gate is uninterpretable and stops before science.",
+      "remaining_legwork": "Two days to test the airway segmenter on CT-RATE fibrotic cases; one week to freeze the traction index and build the editor gates; first paired decision in two to three weeks on existing local infrastructure.",
+      "design_template": "counterfactual-synthesis",
+      "entry_point_2_requirements": "Measurement: the automated traction index (excess distal airway caliber within reticulation). Confusable artifact: reconstruction-kernel edge enhancement, which changes apparent lumen edges - handled by the idea-004 kernel strata and by comparing edits within a single reconstruction only.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "Two named co-located components and a bidirectional edit that assigns the score to one of them."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Only the paired edit design can separate near-perfectly collinear components; residual risk is concentrated in the declared editability gate."
+        },
+        "medical_relevance": {
+          "value": 5,
+          "why": "If the head reads traction bronchiectasis, a report-supervised score aligns with the prognosis-carrying component of fibrosis - a directly clinically meaningful statement about what the model measures."
+        },
+        "interest": {
+          "value": 4,
+          "why": "It converts a vague 'fibrosis score' into a specific claim radiologists already argue about."
+        },
+        "prior_legwork": {
+          "value": 5,
+          "why": "The model pipeline is frozen, verified, and local; the prognostic literature supplies the construct; the segmenter is public."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped: segmentability and editability inside fibrotic lung at CT-RATE quality are NOT_INSPECTED."
+        },
+        "data_readiness": {
+          "value": 5,
+          "why": "CT-RATE validation volumes and the inference pipeline are already operational in this program."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Paired logit responses and prespecified invariance margins; only the traction index needs freezing."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A gated bidirectional null decisively reassigns the head's signal away from its most plausible named component."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped pending the audit; no component-attribution study of a report-supervised fibrosis head surfaced in verification."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The program already owns every asset except the airway editor; this is the cheapest strong question available on the fibrosis head."
+        }
+      },
+      "unverified_claims": [
+        "Airway segmenter performance inside fibrotic lung at CT-RATE slice thickness",
+        "Editability of lumen caliber with reticulation invariance",
+        "Exact Jacob 2017 volume/page metadata (URL verified, full citation to pin in audit)",
+        "Novelty of component attribution for fibrosis heads"
+      ],
+      "plain_pitch": "A chest-CT model outputs a score for scarring of the lung. But 'scarring' on a scan has parts: a fine net-like pattern in the tissue, and airways that have been pulled wide open by the scar's traction - and it is the widened airways that best predict how patients fare. We would digitally narrow those airways back to normal in scans while leaving the scar pattern untouched, and widen them in scans where they are normal, then watch the score. Whichever way it moves tells us which physical thing the model is actually reading, using words lung doctors already use.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-018-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The silhouette sign inside the consolidation score",
+      "question": "Is a public chest-radiograph consolidation classifier using the silhouette sign - loss of the sharp heart and diaphragm border - rather than the opacity itself?",
+      "deliverable_sentence": "The consolidation model is using the silhouette sign: the loss of the air-tissue gradient along the heart and diaphragm borders.",
+      "rung": "Targets rung 1 by placement-controlled synthetic opacities (border-touching vs border-sparing) plus opacity-matched natural pairs; rung 2 requires the matched insertion to pass a realism gate and the natural pairs to be genuinely opacity-matched; rung 3 is available because the silhouette sign is a named, taught radiological sign, conditional on rungs 1-2.",
+      "rung_reached": "Rung 1 if border-touching placements move the consolidation score beyond border-sparing placements at matched opacity; replication across the several public TorchXRayVision checkpoints would strengthen the rung-3 naming.",
+      "unasked_question": "Felson's silhouette sign is the canonical human rule connecting airspace opacity to anatomy - the border disappears when consolidated lung touches the heart - and sixty years of teaching rest on it. CNN interpretability work on chest radiographs produces saliency maps, but nobody has quantified whether a consolidation head uses border-gradient loss as a cue, as opposed to opacity texture alone.",
+      "X_measurement": "Border-gradient energy: mean image-gradient magnitude perpendicular to the cardiac and hemidiaphragm contours, extracted along CheXmask heart and lung mask boundaries, normalized by intrathoracic dynamic range. CheXmask provides precomputed, quality-scored masks for ChestX-ray8, CheXpert, MIMIC-CXR-JPG, PadChest, and VinDr-CXR (657,566 masks; PhysioNet v1.0.0, open; arXiv 2307.03293 - verified). Compute-today test: YES, immediately and at scale, with no annotator.",
+      "suspected_signal": "Physically, the silhouette sign is the disappearance of the air-soft-tissue attenuation step when airless lung parenchyma of soft-tissue density lies in anatomic contact with the heart or diaphragm. It is a high-signal, spatially localized cue that co-occurs with reported consolidation in training reports, so a report- or label-supervised classifier has both the opportunity and the incentive to learn it.",
+      "use_vs_association": "Border loss trivially correlates with consolidation because consolidation causes it; the design holds added opacity fixed and varies only whether it obliterates a border (synthetic placement contrast) and compares opacity-matched natural cases with and without border loss, so a score difference is attributable to the border cue rather than to opacity burden.",
+      "keystone_prerequisite": "At matched added-opacity burden, the synthetic border-touching and border-sparing insertions are equivalent to the model's input distribution (pass a realism/discriminator gate), and enough opacity-matched natural pairs with divergent border-gradient X exist in the public corpora to corroborate the synthetic result observationally.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest checkable facts are inspected: TorchXRayVision ships pip-installable classifiers with 18 outputs including Consolidation (github.com/mlmed/torchxrayvision, README verified; library paper arXiv 2111.00595/PMLR v172), and CheXmask is public. What I am still assuming, and what is load-bearing: that a lower-zone opacity can be synthesized in a border-sparing position without violating anatomy (retrocardiac and mid-zone placements make this plausible but unproven), and that natural opacity-matching on lung-field statistics is tight enough that the observational arm adds evidence rather than noise.",
+      "dies_like_prior": "No annotation-provenance dependence: the primary readout is model scores against automatically computed geometry; report labels are never trusted. The circularity kill of idea-010 (cardiomegaly re-encoded as millilitres) does not apply: the silhouette sign is a contact/geometry cue, not a re-statement of the consolidation label's definition - an opacity can be consolidation without silhouette loss and vice versa. Closest internal relatives are scout-010-c02 (atelectasis volume-loss rule, CT) and scout-011-c04 (air bronchogram topology, CT); this card is 2D, a different model family, and a different named sign. Edit-validity risk (idea-006 family) is handled by the realism gate and by having a purely observational corroboration arm that involves no editing at all.",
+      "closest_prior_work": "TorchXRayVision (Cohen et al., PMLR v172, arXiv 2111.00595 - verified) supplies frozen public consolidation heads. CheXmask (arXiv 2307.03293, PhysioNet - verified) supplies the anatomy. Felson's silhouette sign is classical semiology (textbook; primary citation to pin in audit). Saliency-map studies overlap cardiac borders qualitatively but none, to unaudited knowledge, isolates border-gradient use with matched-opacity controls. The delta is the placement-controlled contrast.",
+      "existing_assets": "Pip-installable TorchXRayVision checkpoints (multiple training corpora, enabling free cross-checkpoint replication); precomputed CheXmask masks for five public corpora; cheap 2D compute; standard image-gradient formulas.",
+      "smallest_decisive_experiment": "Stage 0: compute border-gradient X across MIMIC-CXR-JPG/ChestX-ray8 with CheXmask, verify the metric separates radiologically obvious silhouette-loss cases, and count opacity-matched divergent pairs. If passed: (i) insert texture-matched synthetic opacities at border-touching vs border-sparing lower-zone positions in 100 normal radiographs, realism-gated, and compare paired consolidation scores; (ii) corroborate on the natural opacity-matched pairs; (iii) replicate across two additional TorchXRayVision checkpoints.",
+      "standing_confounds_addressed": "Synthetic placement pairs fix scanner, site, protocol, positioning, habitus, prevalence, referral pathway, and label leakage within-image. Overall penetration/contrast - the artifact most confusable with border-gradient X - is handled by normalizing X to intrathoracic dynamic range and holding added opacity statistics identical between placements. The natural-pair arm inherits cohort confounds (site, projection) and is therefore corroborative, never primary. Vendor/postprocessing differences across corpora are addressed by within-corpus analysis and cross-checkpoint replication.",
+      "alternative_explanations": [
+        "The head responds to lower-zone location per se, not border contact; placements at matched height with and without contact separate this.",
+        "The synthetic insertion carries a signature; the discriminator gate plus the no-edit observational arm bound this.",
+        "The heart mask itself shifts under opacity, corrupting X; CheXmask quality scores gate case inclusion, and X is recomputed on edited images with frozen contours."
+      ],
+      "anticipated_negative": "Decisive if gates pass and border-touching placements do not outscore border-sparing ones: the classifier reads opacity without the border cue, contradicting the assumption that CNNs learned the canonical human sign - itself a publishable, teaching-relevant negative. Sensitivity-limited only if the realism gate forces very small opacity magnitudes.",
+      "remaining_legwork": "All assets are public and 2D: two days to reproduce checkpoints and masks, three days for the X metric and matched-pair census, one week for the placement-edit arm; first decision in under two weeks.",
+      "design_template": "conditional-observational",
+      "entry_point_2_requirements": "Measurement: border-gradient energy along CheXmask cardiac/diaphragmatic contours. Confusable artifact: global penetration/contrast and lower-zone positioning, both explicitly normalized or matched in the design.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "A named classical sign, a one-formula measurement, and a placement contrast that anyone can restate."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Matched-opacity placement contrast isolates the border cue; residual risk lives in insertion realism, bounded by the observational arm."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "It explains a widely deployed class of CXR classifiers in teaching-level terms; interpretive value is high but no treatment decision changes."
+        },
+        "interest": {
+          "value": 5,
+          "why": "Whether CNNs rediscovered Felson's sign is a question radiologists and ML researchers would both immediately care about."
+        },
+        "prior_legwork": {
+          "value": 5,
+          "why": "Every asset - models, masks, corpora - is public, verified, and immediately runnable."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped: the matched-pair census and insertion-realism keystone is NOT_INSPECTED, though everything upstream is verified."
+        },
+        "data_readiness": {
+          "value": 5,
+          "why": "Five public corpora with precomputed masks and pip-installable frozen models."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Paired score contrasts and a defined X metric; only the realism margin needs prespecification."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A valid null - CNNs ignore the canonical sign - is itself a strong, teachable finding."
+        },
+        "regret": {
+          "value": 4,
+          "why": "The cheapest candidate in the set by far; if unasked, someone else will ask it."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; saliency literature is adjacent and the audit must check for a quantitative silhouette study."
+        }
+      },
+      "unverified_claims": [
+        "No existing quantitative silhouette-sign attribution study (audit required)",
+        "Sufficient opacity-matched natural pairs",
+        "Realism of border-sparing synthetic placements",
+        "Primary citation for Felson's sign to be pinned"
+      ],
+      "plain_pitch": "Radiologists are taught a classic rule: when pneumonia fills the lung next to the heart, the heart's crisp edge disappears from the X-ray - the 'silhouette sign.' Modern AI classifiers flag pneumonia-like consolidation on X-rays, but nobody knows if they learned this same rule or just look at the cloudiness itself. We would place identical artificial cloudiness either touching the heart's edge or just away from it, and also compare real X-rays matched for cloudiness, to see whether the AI's score jumps specifically when the edge is erased. Either answer is worth knowing: the AI rediscovered a human rule, or it ignores a sign every radiology student must learn.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-018-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The healed granulomas inside lung-cancer risk",
+      "question": "Is Sybil using calcified granuloma burden as a benign-history signal that lowers predicted lung-cancer risk?",
+      "deliverable_sentence": "Sybil is using calcified granulomas - and using them to lower predicted risk.",
+      "rung": "Mode C target is rung 1 with signed, bidirectional calcification edits; rung 2 requires edit realism and HU-range survival through preprocessing; rung 3 is available because 'calcified granuloma' is a named, reported entity, conditional on rungs 1-2.",
+      "rung_reached": "Rung 1 if decalcification raises and synthetic benign-pattern calcification lowers Sybil's risk beyond shams; consistency of the sign across nodule sizes and both edit directions moves it toward rung 3.",
+      "X_measurement": "Calcified-nodule burden: within the lung mask, connected clusters of voxels above a fixed attenuation threshold (130-200 HU, Agatston-style; exact threshold frozen in Stage 0), 2-15 mm, reported as count, total volume, and per-nodule calcification fraction. Deterministic thresholding plus connected components on any chest CT; no annotator. Compute-today test: YES on any volume with a lung mask.",
+      "suspected_signal": "Dystrophic calcification marks healed granulomatous infection (histoplasmosis, tuberculosis). Radiologists treat benign-pattern calcified nodules as effectively zero-risk - Lung-RADS assigns them category 1 - and NLST readers applied exactly that rule while generating the outcome data Sybil trained on. If Sybil learned reader-consistent nodule semantics, intranodular calcium should carry signed, risk-lowering weight; if it only counts nodular tissue, a calcified granuloma should raise risk like any nodule. The two hypotheses have opposite signs, which is what makes this speculative candidate falsifiable.",
+      "use_vs_association": "Calcified-granuloma carriers differ by geography and exposure history, so cohort correlations are uninterpretable; the design edits calcium in and out of individual nodules within-scan and reads the signed paired response, which only model use of the calcification can produce.",
+      "keystone_prerequisite": "Sybil's released preprocessing preserves enough attenuation dynamic range above soft tissue that intranodular calcification remains distinguishable at the model's input - if the pipeline clips near soft-tissue density, calcium is invisible to the model and the study is impossible.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest checkable facts are verified: Sybil's code and trained weights are public (github.com/reginabarzilaygroup/Sybil; Mikhael et al., J Clin Oncol 2023, DOI 10.1200/JCO.22.01345, PMID 36634294), and the ledger records the analogous inspection for CT-CLIP (clips at +1000 HU, calcium saturates but survives). I am still assuming the load-bearing facts: Sybil's exact clip/normalization range (directly inspectable in the public repo - the first Stage-0 action), NLST access through the established CDAS path, and adequate calcified-nodule prevalence in an obtainable NLST subset. Mode C accepts the resulting caps.",
+      "dies_like_prior": "Annotation provenance does not apply: the primary readout is paired model-to-itself score changes; NLST labels are never used in the primary endpoint. The edit-validity risk of idea-006 is the honest analogue - mitigated because the edit is local, small-volume, anatomically stereotyped (calcified granulomas are among the most stereotyped objects in chest CT), and realism-gated with sham arms. Distinct from idea-013 (coronary calcium, CT-CLIP: localisation vs hyperdensity) by model, anatomy, and above all by the signed benignity hypothesis. Distinct from the Sybil siblings (idea-008/012 emphysema and coronary calcium residuals; scout-013-c02 fissures; scout-015-c02 missing branches; scout-017-c05 vessels; scout-014-c04 thymus): none touches nodule calcification.",
+      "closest_prior_work": "Sybil (verified above) reports performance and nodule-focused attention but no calcification attribution. Lung-RADS v2022 (ACR) codifies the human benign-calcification rule. NLST benign-nodule analyses (e.g., Pinsky et al. on false positives) quantify the clinical problem. To unaudited knowledge, no study has tested whether any deep lung-cancer risk model responds to intranodular calcification with the benign sign; the audit must specifically search interpretability studies of Sybil and DeepCAD-style models.",
+      "existing_assets": "Public Sybil code and weights (five-member ensemble, enabling a free internal-consistency check); established NLST/CDAS access path already used by scout-012-c01; deterministic X measurement; single-GPU inference documented by the Sybil repo.",
+      "smallest_decisive_experiment": "Stage 0: read Sybil's preprocessing code for the HU clip (public repo, one day), confirm NLST subset access, and census calcified-nodule prevalence on available scans. If passed: on 60 scans bearing calcified nodules and 60 with matched noncalcified solid nodules, run (i) decalcification - replace the calcified core with soft-tissue HU fitted from the nodule rim, shape preserved, (ii) benign-pattern calcification of matched solid nodules, (iii) equal-magnitude HU shams in non-nodular parenchyma; the primary endpoint is the signed paired risk-score response across arms, with the prespecified prediction risk-up under (i) and risk-down under (ii).",
+      "standing_confounds_addressed": "Within-scan pairing fixes scanner, vendor, protocol, reconstruction, site, positioning, habitus, prevalence, referral pathway, and label leakage. Not ruled out by design: response to any HU perturbation (sham arm), edit-boundary signatures (realism gate), and ensemble-member idiosyncrasy (all five public Sybil checkpoints scored; direction must agree in the majority). Geographic prevalence differences motivate but never enter the primary endpoint.",
+      "alternative_explanations": [
+        "Sybil responds to any bright object change, not calcification semantics; parenchymal shams and the bidirectional sign prediction separate a generic response (same sign both ways) from semantic use (opposite signs).",
+        "Preprocessing saturates calcium so edits act only through geometry; the Stage-0 code inspection and an input-tensor diff quantify exactly what the model can see.",
+        "The decalcified nodule resembles a fresh solid nodule the model legitimately fears, making 'risk up' overdetermined; the calcification-insertion arm carries the discriminating weight, and this asymmetry is stated up front."
+      ],
+      "anticipated_negative": "Decisive in both directions after gates: signed responses matching prediction name the signal; a flat response to calcification at passed gates means Sybil ignores the strongest benign marker human readers use - a deployment-relevant finding for screening in histoplasmosis-endemic regions, where calcified granulomas are common and reader-model disagreement would concentrate.",
+      "cross_domain": {
+        "borrowed_construct": "Geographic epidemiology of endemic mycoses: the calcified granuloma as a durable record of past regional exposure",
+        "implied_measurement": "Site-level calcified-nodule prevalence versus site-level Sybil calibration, as an exploratory arm only",
+        "what_changes_if_dropped": "Honestly, only the exploratory geography arm disappears; the core bidirectional edit experiment stands entirely without the analogy. Per the fluent-nonsense guard this is stated plainly: the analogy motivates where the finding would matter clinically, not what is measured, and the candidate is scored on the edit design alone."
+      },
+      "remaining_legwork": "One day to inspect Sybil preprocessing; NLST subset confirmation within the existing CDAS pathway (days to weeks, the rate limiter); one week for the calcification editor and gates; first signed result in roughly three weeks.",
+      "design_template": "regional-substitution",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One named lesion, a signed two-direction prediction, and a deterministic X."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Opposite-sign predictions under the two arms discriminate semantic use from generic perturbation response better than any single-direction edit; edit realism remains the residual risk."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Whether screening AI honors the most common benign mimic directly affects false-positive behavior in endemic regions."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A risk model that either learned benignity unsupervised or ignores what every radiologist knows - both outcomes are compelling."
+        },
+        "mechanism_clarity": {
+          "value": 5,
+          "why": "A specific physical quantity (intranodular calcium density), its biological origin (healed granulomatous infection), and the measurement and signed prediction that would show use are all named."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Public weights, an established data pathway, and a trivially computable X; only the editor is new."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped and reported outside the Mode C score: the HU-range keystone is NOT_INSPECTED, though it is inspectable in a day."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "NLST access is an established program path but not in hand for this subset."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Signed paired responses with sham distributions; ensemble agreement adds a free robustness check."
+        },
+        "negative_result_value": {
+          "value": 5,
+          "why": "A gated null is a decisive, clinically consequential statement about screening AI in endemic regions."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; Sybil interpretability work must be audited for calcification probes."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Obvious in hindsight: the benign-calcification rule is the first thing a radiologist would ask a nodule model about."
+        }
+      },
+      "unverified_claims": [
+        "Sybil preprocessing HU range (inspectable in the public repo)",
+        "NLST subset access for this study",
+        "Calcified-nodule prevalence in the obtainable subset",
+        "Absence of prior calcification-attribution work on Sybil (audit required)"
+      ],
+      "plain_pitch": "Old lung infections often heal into tiny calcium-hardened scars called granulomas; radiologists recognize the calcium and confidently call these spots harmless. Sybil is a public AI model that predicts future lung-cancer risk from a screening CT scan. We would digitally drain the calcium out of these spots - and add calcium to look-alike soft spots - without changing anything else, and watch whether Sybil's risk prediction rises and falls the way a radiologist's judgment would. If Sybil ignores the calcium, screening programs in regions where these scars are common (from fungal infections in much of the American Midwest, for example) would inherit false alarms a human reader would never raise.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-018-c05",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The heart failure written on the body wall",
+      "question": "Is CT-CLIP's pleural-effusion score using chest-wall soft-tissue edema - the anasarca outside the pleural space?",
+      "deliverable_sentence": "The pleural-effusion score is using chest-wall soft-tissue edema.",
+      "rung": "Mode C target is rung 1 in two stages: within-patient longitudinal tracking as the gate, then a compartment-specific edit as the use test; rung 2 requires separating body-wall water from intrathoracic fluid and habitus change; rung 3 is available because anasarca/subcutaneous edema is a named, reported entity, conditional on rungs 1-2.",
+      "rung_reached": "Rung 1 (weakly) if within-patient effusion-score changes track subcutaneous attenuation changes conditional on intrathoracic change, and (properly) if the compartment edit then moves the score beyond shams.",
+      "X_measurement": "Mean attenuation of the subcutaneous-fat compartment plus an intra-compartment heterogeneity (stranding) measure, computed from the TotalSegmentator tissue_types task (classes subcutaneous_fat, skeletal_muscle, torso_fat - class list verified in the repository README; the task is public under a research/non-commercial license). Edematous fat shifts from roughly -100 HU toward water and strands along fascial planes; both are deterministic once the mask exists. Compute-today test: YES on any chest CT within the license terms.",
+      "suspected_signal": "Systemic venous congestion in heart failure raises interstitial water everywhere: pleural effusions inside the chest and subcutaneous edema in the body wall arise from the same physiology and co-occur in the reports CT-CLIP was trained on. A report-supervised model may therefore have learned to read effusion evidence off the body wall - a physician-legible signal (anasarca) sitting entirely outside the organ the label names.",
+      "use_vs_association": "Anasarca and effusion co-occur by physiology, so cross-sectional correlation proves nothing; the design first requires within-patient score changes to track body-wall changes conditional on the intrathoracic picture, then confirms with an edit that shifts only the subcutaneous compartment's attenuation, which severs the physiological coupling.",
+      "keystone_prerequisite": "Within-patient repeat-session variation in subcutaneous attenuation of sufficient magnitude and case count exists in the CT-RATE validation split, with the body wall adequately inside the reconstructed field of view in both sessions.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest checkable fact is already inspected and in the ledger: the CT-RATE validation split contains 1,564 scans from 1,304 patients (idea-004 Stage 0, decisions.md 2026-08-04), so roughly 200+ repeat sessions exist. What I am still assuming is load-bearing and stated as the keystone: that those repeat pairs contain real edema variation rather than protocol drift, and - the quiet killer - that chest-CT reconstruction does not routinely truncate the lateral body wall out of the field of view, which would gut both the measurement and the mechanism. Stage 0 measures both before any science.",
+      "dies_like_prior": "Distinct from the idea-006 exterior-swap spin-off: that concerns voxels outside the patient contour (air, table); this is tissue inside the body wall, read during intact inference with no out-of-distribution deletion. The identifiability risk resembles idea-009 (anatomy co-varying with disease): the within-patient design removes fixed habitus, and weight change across sessions - the residual co-variate - is explicitly conditioned on via torso-fat volume change, with failure of that separation a declared stop. Annotation provenance does not apply: report labels never enter the primary readout.",
+      "closest_prior_work": "CT-CLIP/CT-RATE (frozen local pipeline under idea 004) supplies the model. Body-composition CT literature establishes subcutaneous attenuation as an edema-sensitive measure (specific anchor to pin in audit). Internal relatives: scout-012-c03 (Merlin reading COPD from outside the asked-about organ - same 'signal outside the named organ' grammar, different model, modality, and X) and scout-016-c03 (epicardial fat inside cardiomegaly - intrathoracic fat, not body-wall water). No prior candidate touches the body wall. The idea-004 finding that the effusion head is reconstruction-sensitive is context, not overlap.",
+      "existing_assets": "Operational CT-RATE validation pipeline with hash-pinned CT-CLIP checkpoint; ledger-verified repeat-session counts; TotalSegmentator tissue_types task; deterministic attenuation measures.",
+      "smallest_decisive_experiment": "Stage 0: enumerate repeat-session pairs, run tissue_types segmentation, quantify body-wall field-of-view coverage and the within-patient distribution of subcutaneous attenuation change; stop if variation or coverage is inadequate. Stage 1: regress within-patient effusion-score change on subcutaneous attenuation change, conditional on intrathoracic fluid change (pleural fluid volume or dependent-thorax HU proxy) and torso-fat volume change. If tracking survives: bidirectional edit shifting subcutaneous-compartment HU by graded, physiologically bounded amounts with skeletal-muscle-compartment shams, and read the paired effusion-logit response.",
+      "standing_confounds_addressed": "Within-patient pairing removes fixed scanner-site assignment, sex, habitus, and referral differences; kernel and protocol drift between sessions is measurable from the idea-004 metadata machinery and conditioned or stratified; the edit arm inherits within-image immunity to scanner, site, protocol, positioning, prevalence, and label leakage. Not ruled out: interval weight change (conditioned via torso-fat volume, imperfectly), and dependent-positioning differences between sessions, which are named as a residual limitation of the longitudinal arm and absent from the edit arm.",
+      "alternative_explanations": [
+        "Both effusion and body-wall water changed because the patient's heart failure changed, without the model reading the wall; only the compartment edit, not the longitudinal arm, excludes this - stated as the reason the edit is the confirmatory stage.",
+        "Subcutaneous HU change reflects weight loss, not edema; torso-fat volume conditioning and the stranding measure separate water gain from fat loss imperfectly, and this is scored against identifiability.",
+        "The model reads the pleural space's neighborhood generically, and the edit bleeds into it; a fixed exclusion margin around the parietal pleura in the edit mask tests this."
+      ],
+      "anticipated_negative": "The longitudinal gate failing is decisive that this design cannot proceed (not that the hypothesis is false). After a passed gate, a null edit response at adequate dose is decisive against body-wall use for this checkpoint. A null in the longitudinal arm alone is sensitivity-limited and is never reported as more.",
+      "cross_domain": {
+        "borrowed_construct": "None claimed. The mechanism is ordinary congestion physiology; no analogy is doing work, and none is decorated on.",
+        "implied_measurement": "Not applicable.",
+        "what_changes_if_dropped": "Not applicable - stated to keep the fluent-nonsense guard honest."
+      },
+      "remaining_legwork": "Three days for the repeat-pair census, field-of-view audit, and segmentation run on existing local data; one week for the conditional longitudinal analysis; the edit arm adds one further week. First gate decision in under two weeks, all on assets already in hand.",
+      "design_template": "longitudinal-within-subject",
+      "entry_point_2_requirements": "Measurement: subcutaneous-fat compartment mean attenuation and stranding heterogeneity. Confusable artifacts: interval weight change and lateral field-of-view truncation, both explicitly measured, plus session protocol drift handled by the idea-004 metadata machinery.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "The X and two-stage design are precise; 'edema versus weight change' keeps one soft edge."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "The longitudinal arm cannot break the physiological coupling; only the edit arm can, and its realism gate is untested."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "An effusion score partly reading the body wall would mislead exactly when effusion and anasarca dissociate - drained effusions, renal edema - which is a real deployment scenario."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A chest model diagnosing the pleural space from outside the chest cavity is a genuinely unexpected, physician-legible claim."
+        },
+        "mechanism_clarity": {
+          "value": 4,
+          "why": "A named compartment, a named physiological driver, and a deterministic attenuation measurement; the water-versus-fat separation is the one soft joint."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Every data asset and the model pipeline already exist locally; only the tissue segmentation and analysis are new."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped and reported outside the Mode C score: edema variance and field-of-view coverage are NOT_INSPECTED."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "CT-RATE repeat sessions are ledger-verified to exist and the volumes are locally obtainable; only their edema content is unknown."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Conditional-change regression and paired logits are standard, but the stranding measure and dose bounds need freezing."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "The edit-arm null is decisive, but the likelier failure - a dead longitudinal gate - only kills the design."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; body-composition attribution for chest classifiers needs a dedicated audit pass."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Cheap on existing assets and worth the gate check, but the program survives without it."
+        }
+      },
+      "unverified_claims": [
+        "Within-patient subcutaneous attenuation variance in CT-RATE repeat sessions",
+        "Body-wall field-of-view coverage in CT-RATE reconstructions",
+        "TotalSegmentator tissue_types performance on chest (not abdominal) CT",
+        "A pinned primary citation for subcutaneous attenuation as an edema measure"
+      ],
+      "plain_pitch": "When the heart fails, fluid backs up everywhere: into the space around the lungs, and also into the fat just under the skin, which becomes waterlogged and streaky on a CT scan. An AI model that reports fluid around the lungs might, without anyone intending it, be reading that waterlogged body wall too. Using patients who happen to have two scans on record, we would check whether the model's fluid score rises and falls with the body wall's water content after accounting for the fluid actually inside the chest - and then digitally dry out just the body wall in single scans to confirm. A model that reads the wall would mislead doctors exactly when the two signals part ways, for instance right after a fluid drain.",
+      "track": "baseline",
+      "charter": null
+    }
+  ]
+}

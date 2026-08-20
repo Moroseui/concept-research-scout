@@ -1,6 +1,6 @@
 # Ledger digest -- charter: baseline (auto-generated; scores are scoped to this charter only)
 
-91 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+96 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -27,21 +27,21 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-017-c05** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-19] -- The vascular street map inside lung-cancer risk
 - **scout-010-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.9, audited 2026-08-12] -- CXR-Age put back together from parts a radiologist can measure
 - **scout-014-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.8, audited 2026-08-16] -- Redraw the same airway walls with a sharper pencil: does the peribronchial-thickening score follow Pi10?
-- ... and 49 more (python scout.py backlog)
+- ... and 54 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- regional-substitution: 12
-- conditional-observational: 12
-- counterfactual-synthesis: 8
+- regional-substitution: 13
+- conditional-observational: 13
+- counterfactual-synthesis: 9
 - representation-erasure: 6
-- longitudinal-within-subject: 5
+- longitudinal-within-subject: 6
+- regional-removal: 4
 - natural-paired: 3
 - model-output-perturbation: 3
-- regional-removal: 3
 - cross-reconstruction: 2
 
 ## Ideas
@@ -137,3 +137,8 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-017-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The detour veins inside the cirrhosis prediction
 - **scout-017-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The spine's calendar inside chest-radiograph age
 - **scout-017-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The vascular street map inside lung-cancer risk
+- **scout-018-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Breast arterial calcification inside Mirai, re-entered on its own terms
+- **scout-018-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The dilated airways inside the fibrosis score
+- **scout-018-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The silhouette sign inside the consolidation score
+- **scout-018-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The healed granulomas inside lung-cancer risk
+- **scout-018-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The heart failure written on the body wall
