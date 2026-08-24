@@ -388,6 +388,19 @@ class TestAmendContract(Harness):
         self.assertNotEqual(r2.returncode, 0, "second amendment must refuse")
 
 
+class TestStagingCells(unittest.TestCase):
+    def test_staging_cells_are_deterministic_and_brace_safe(self):
+        import scout as sc
+        pin, download, extract = sc._staging_cells("16731717", ["_ncct.nii.gz", "_lesion-msk.nii.gz"])
+        self.assertIn("zenodo.org/api/records/16731717", pin)
+        self.assertIn("need an immutable child version", pin)
+        self.assertIn('"{ARCHIVE}"', download)          # Colab-time interpolation survives
+        self.assertIn("'_lesion-msk.nii.gz'", extract)
+        self.assertIn("-ir!*", extract)
+        for cell in (pin, download, extract):
+            self.assertNotIn("{{", cell)                 # no unexpanded generator braces
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")

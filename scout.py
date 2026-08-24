@@ -902,6 +902,41 @@ def verify_probe(args):
     if issues: raise SystemExit(1)
 
 
+def _staging_cells(concept, suffixes):
+    """Deterministic Colab staging cells for a Zenodo-hosted archive: pin the
+    immutable child record, resumable-download the single .7z to Drive, and
+    selectively extract only the declared suffixes. Pure driver plumbing; the
+    probe's own provenance gates re-verify everything downstream."""
+    sufs = ', '.join(repr(x) for x in suffixes)
+    pin = (
+        "# --- Generated staging: Zenodo record " + concept + " (Drive-persistent, idempotent) ---\n"
+        "import os, json, urllib.request\n"
+        "STAGE = '/content/drive/MyDrive/staging-" + concept + "'\n"
+        "RECORD_JSON = STAGE + '/zenodo_record.json'\n"
+        "DATA_DIR = STAGE + '/extracted'\n"
+        "os.makedirs(STAGE, exist_ok=True)\n"
+        "if not os.path.exists(RECORD_JSON):\n"
+        "    with urllib.request.urlopen('https://zenodo.org/api/records/" + concept + "') as r:\n"
+        "        rec = json.load(r)\n"
+        "    assert str(rec['id']) != '" + concept + "', 'resolved to the concept record; need an immutable child version'\n"
+        "    json.dump(rec, open(RECORD_JSON, 'w'), indent=2)\n"
+        "rec = json.load(open(RECORD_JSON))\n"
+        "_a = [f for f in rec['files'] if f['key'].endswith('.7z')]\n"
+        "assert len(_a) == 1, _a\n"
+        "ARCHIVE = STAGE + '/' + _a[0]['key']\n"
+        "ARCHIVE_URL = _a[0]['links']['self']\n"
+        "print('pinned record', rec['id'], _a[0]['key'], round(_a[0]['size']/1e9, 1), 'GB')")
+    download = '!wget -c -O "{ARCHIVE}" "{ARCHIVE_URL}"'
+    extract = (
+        "SUFFIXES = [" + sufs + "]\n"
+        "if not os.path.isdir(DATA_DIR):\n"
+        "    !apt-get -qq install -y p7zip-full\n"
+        "    _inc = ' '.join('-ir!*' + x for x in SUFFIXES)\n"
+        '    !7z x "{ARCHIVE}" -o"{DATA_DIR}" {_inc} -y\n'
+        '!find "{DATA_DIR}" -type f | wc -l')
+    return [pin, download, extract]
+
+
 def package_colab(args):
     """E2 launcher generator. The notebook is a THIN DRIVER: it never
     imports the model stack into its own kernel (pip installs feed the
@@ -929,6 +964,14 @@ def package_colab(args):
     chash = _contract_hash(idea_dir(args.idea)) or 'nocontract'
     branch = f'results/probe-{args.idea:03d}-{chash[:12]}'
     nn = f'{args.idea:03d}'
+    staging_cells, extra = [], ''
+    if getattr(args, 'staging_zenodo', None):
+        sufs = [x.strip() for x in (getattr(args, 'staging_suffixes', '') or '').split(',') if x.strip()]
+        if not sufs:
+            raise SystemExit('--staging-zenodo requires --staging-suffixes')
+        staging_cells = [nbf.v4.new_code_cell(src)
+                         for src in _staging_cells(args.staging_zenodo, sufs)]
+        extra = ' --data-dir {DATA_DIR} --archive-file {ARCHIVE} --record-json {RECORD_JSON}'
     nb = nbf.v4.new_notebook()
     nb.cells = [
       nbf.v4.new_markdown_cell(
@@ -964,10 +1007,11 @@ def package_colab(args):
         "!git checkout {PIN_COMMIT}"),
       nbf.v4.new_code_cell(
         f"!pip install -q -r probes/{nn}/requirements.txt"),
+      *staging_cells,
       nbf.v4.new_code_cell(
         "# Console (incl. any crash traceback) persists to Drive; refresh-proof.\n"
         f"!mkdir -p {{OUTPUT_DIR}}\n"
-        f"!python probes/{nn}/run.py --phase {{PHASE}} --output-dir {{OUTPUT_DIR}} 2>&1 | tee -a {{OUTPUT_DIR}}/driver_console.log"),
+        f"!python probes/{nn}/run.py --phase {{PHASE}} --output-dir {{OUTPUT_DIR}}{extra} 2>&1 | tee -a {{OUTPUT_DIR}}/driver_console.log"),
       nbf.v4.new_code_cell(
         "# E1 transport: mirror the bundle onto the contract-bound results\n"
         "# branch. ORDER MATTERS: check out the branch FIRST, then overlay the\n"
@@ -2775,7 +2819,7 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B',choices=['M','B']); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
