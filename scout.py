@@ -1162,6 +1162,41 @@ def cmd_validate_bundle(args):
           'chunk manifests all check.')
 
 
+def amend_contract(args):
+    """Deterministically write the Phase-S selected gates and simulation hash
+    into the contract's outputs_to_amend placeholders. No agent runs here: the
+    amendment is a mechanical, reproducible transform of a validated summary.
+    The contract blob changes, so the prior approval goes stale by design;
+    review the diff, commit, then run approve-probe again."""
+    contract = idea_dir(args.idea) / 'probe_contract.yaml'
+    if not contract.exists():
+        raise SystemExit('no probe_contract.yaml for this idea')
+    summary_path = Path(args.bundle) / 'simulation_summary.json'
+    if not summary_path.exists():
+        raise SystemExit(f'{summary_path} not found')
+    summary = json.loads(summary_path.read_text())
+    sel, sha = summary.get('selected'), summary.get('simulation_output_sha256')
+    if not sel or len(sel) != 3 or not sha:
+        raise SystemExit('summary lacks selected [N, M, width] and sha256')
+    text = contract.read_text()
+    subs = (('minimum_contributing_patients_per_stratum', str(int(sel[0]))),
+            ('minimum_voxels_per_patient_quantile_cell', str(int(sel[1]))),
+            ('maximum_primary_ci_width', str(sel[2])),
+            ('simulation_output_sha256', f'"{sha}"'))
+    for key, value in subs:
+        placeholder = f'{key}: "TO_BE_RECORDED_AFTER_PHASE_S"'
+        if text.count(placeholder) != 1:
+            raise SystemExit(f'expected exactly one placeholder for {key}; '
+                             'already amended or contract drifted')
+        text = text.replace(placeholder, f'{key}: {value}')
+    contract.write_text(text)
+    print(f'Amended {contract.relative_to(ROOT)} from {summary_path}:')
+    for key, value in subs:
+        print(f'  {key}: {value}')
+    print('Prior approval is now stale (blob changed). Review the diff, '
+          'commit, then approve-probe again before probe-build.')
+
+
 def record_result(args):
     """E1: import a VALIDATED results bundle and only then raise scrutiny.
     The v1 single-file copy marked PROBED with zero validation and left the
@@ -2742,6 +2777,7 @@ def main():
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B',choices=['M','B']); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
