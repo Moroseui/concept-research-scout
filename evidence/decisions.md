@@ -521,3 +521,31 @@ tight relative to debate max_rounds=3; queue a configurable
 probe_review.max_revisions knob with an ambiguity-escalation rule. B1/B3 are
 agent-resolvable and go back through probe-build at amendment time; B2 and
 the finiteness ambiguity are operator decisions.
+
+## 2026-08-24 - Contract 023 amendment (Phase S -> Phase C gates)
+
+Phase S completed on Colab (bundle on results/probe-023-4a46713d1b81,
+simulation sha256 59069fa9...): 52/60 candidates eligible; the frozen
+lexicographic rule selected N=20 patients/stratum, M=100 voxels/cell,
+maximum CI width 0.15. Amendment applied deterministically via the new
+amend-contract subcommand; no agent involvement. Prior approval is stale
+by design; fresh approval required after the finiteness and NCCT clause
+edits below.
+
+Design requirement (queued, 2b-adjacent): an operator interrogation channel.
+At any point the operator can put a question or new information to the
+system about a specific artifact (verdict, contract, probe code, debate
+position) and receive a justification or proposed revision as a reviewable
+artifact -- generalizing the reconcile stage shape. Must answer/propose,
+never silently edit; human gate on any resulting change. 2b issue-based
+gates are the natural transport.
+
+Clause rulings at amendment (probe_review.md N2 + NCCT finding): (1) the
+finiteness gate is scoped to analyzed voxels -- nonfinite values outside the
+analysis region are permitted, excluded, and counted, harmonizing grid_gate
+with the invalidating-failure class; (2) required_inputs now includes the
+rawdata NCCT, which the official release tree places under rawdata only --
+the feasibility memo claim of a "registered NCCT" in derivatives is
+corrected forward here, not edited; (3) brain_and_mirror_gate references the
+rawdata NCCT on the common grid. probe-build must state the exact
+extraction set in the probe README.

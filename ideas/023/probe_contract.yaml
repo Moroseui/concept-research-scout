@@ -43,10 +43,10 @@ approval_and_phasing:
       data_generating_grid: "For each candidate N and M and each of three strata, draw one latent patient risk p_i from Beta(alpha, beta), where alpha = p0*(1/rho - 1), beta = (1-p0)*(1/rho - 1), p0 is in {0.10, 0.30, 0.50}, and rho is in {0.01, 0.05, 0.10}. Draw Q4 infarct count as Binomial(M, p_i) and Q1 count as Binomial(M, min(p_i + delta, 1)); delta=0 for null replicates and delta=0.05 for alternative replicates. Analyze each replicate with the exact three-stratum conjunction and patient bootstrap specified for Phase C."
       selection_rule: "A candidate (N, M, CI width) is eligible only if the conjunction's false-positive rate is <=0.05 for every (p0, rho) null cell and power is >=0.80 for every (p0, rho) alternative cell. Select lexicographically by smallest N, then smallest M, then largest eligible CI width. If no candidate is eligible, Phase S fails and Phase C is not authorized; changing the grid or effect size requires a new contract."
     outputs_to_amend:
-      minimum_contributing_patients_per_stratum: "TO_BE_RECORDED_AFTER_PHASE_S"
-      minimum_voxels_per_patient_quantile_cell: "TO_BE_RECORDED_AFTER_PHASE_S"
-      maximum_primary_ci_width: "TO_BE_RECORDED_AFTER_PHASE_S"
-      simulation_output_sha256: "TO_BE_RECORDED_AFTER_PHASE_S"
+      minimum_contributing_patients_per_stratum: 20
+      minimum_voxels_per_patient_quantile_cell: 100
+      maximum_primary_ci_width: 0.15
+      simulation_output_sha256: "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
     exit: "Record the selected values and simulation-output SHA-256 in this contract. That amendment changes the contract blob and invalidates the Phase-S approval by construction. Fresh human approval against the amended contract is required for Phase C."
   phase_C_real_census:
     entry_condition: "Every Phase-S placeholder has been replaced, the simulation output hash verifies, and a fresh HUMAN_APPROVED_PROBE marker is bound to this amended contract blob."
@@ -56,13 +56,13 @@ dataset:
   name: "ISLES'24 public training release"
   source: "Official Zenodo concept record 16731717; select one immutable child record at Phase C and record its record id, publication date, train.7z checksum supplied by Zenodo, downloaded SHA-256, case count, and archive member manifest before analysis."
   expected_population: "149 or 150 acute-stroke cases; the recorded discrepancy between release description and challenge paper must be resolved by archive census rather than assumed."
-  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives and final-infarct mask only. Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe."
+  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives, the final-infarct mask, and the rawdata NCCT volume (required by the brain-mask and mirror gate; per the official release tree the NCCT exists only under rawdata, not derivatives). Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe."
   license: "CC BY-NC-SA 4.0, non-commercial research use."
 split_policy: "Development data only. Sort immutable case identifiers lexicographically, hash each as SHA-256('idea-023-v1|' + case_id), assign the 100 lowest hashes to the census and reserve every other case untouched for any later contract. Freeze split_manifest.csv and its SHA-256 before opening lesion masks. No case crosses populations."
 
 preprocessing:
-  grid_gate: "For every census case, require finite CBF/CBV/MTT/Tmax arrays and lesion mask, compatible physical coverage, and a deterministic common NCCT grid. Header mismatches may be resolved only by the preregistered interpolation rule: linear for maps, nearest-neighbor for labels; record every resampling. Irreconcilable coverage is invalidating."
-  brain_and_mirror_gate: "Derive a brain mask and midsagittal reflection from the registered NCCT using one frozen automatic method. Before outcomes are read, require median left-right NCCT registration error <= one in-plane voxel and usable mirrored support for >=90% of brain-mask voxels in >=90 census patients."
+  grid_gate: "For every census case, require finite CBF/CBV/MTT/Tmax and lesion-mask values in all analyzed voxels (nonfinite values outside the analysis region are permitted, excluded, and counted), compatible physical coverage, and a deterministic common NCCT grid. Header mismatches may be resolved only by the preregistered interpolation rule: linear for maps, nearest-neighbor for labels; record every resampling. Irreconcilable coverage is invalidating."
+  brain_and_mirror_gate: "Derive a brain mask and midsagittal reflection from the rawdata NCCT on the common NCCT grid using one frozen automatic method. Before outcomes are read, require median left-right NCCT registration error <= one in-plane voxel and usable mirrored support for >=90% of brain-mask voxels in >=90 census patients."
   region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the estimated midsagittal plane and voxels with CBV > 8 mL/100 g. The CBV cap is valid only if Phase-C unit inspection confirms mL/100 g; otherwise stop for contract amendment before outcomes are read."
   relative_measures: "For each voxel, divide CBF and CBV by the median of its reflected 5x5x3-voxel contralateral neighborhood after excluding deficit and vessel voxels. Nonpositive or nonfinite denominators are excluded and counted."
   cbf_strata:
