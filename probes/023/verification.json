@@ -1,8 +1,6 @@
 {
   "idea_id": "023",
-  "passed": false,
-  "issues": [
-    "smoke test failed: usage: run.py [-h] (--smoke | --phase {S,C}) --output-dir OUTPUT_DIR\n              [--data-dir DATA_DIR] [--archive-file ARCHIVE_FILE]\n              [--record-json RECORD_JSON] [--phase-s-dir PHASE_S_DIR]\nrun.py: error: one of the arguments --smoke --phase is required\n"
-  ],
-  "checked_at": "2026-08-24T09:54:05.924624+00:00"
+  "passed": true,
+  "issues": [],
+  "checked_at": "2026-08-24T09:58:31.202530+00:00"
 }
