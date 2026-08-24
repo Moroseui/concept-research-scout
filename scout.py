@@ -1341,6 +1341,7 @@ STAGE_SCOPE = {
     'probe-code':      ['ideas/', 'probes/'],
     'probe-build':     ['ideas/', 'probes/'],
     'context-memo':    ['ideas/'],
+    'reconcile':       ['ideas/'],
     'interpret-build':  ['ideas/', 'evidence/', 'portfolio/'],
 }
 
@@ -1612,6 +1613,7 @@ STAGE_ARTIFACTS = {
     'critique': 'critique.md',
     'feasibility': 'feasibility.md',
     'context_memo': 'context_memo.md',
+    'reconcile': 'reconciliation.md',
 }
 
 
@@ -2723,7 +2725,7 @@ def main():
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
     p=sp.add_parser('new-scout'); p.set_defaults(fn=new_scout)
     p=sp.add_parser('shortlist'); p.add_argument('scout'); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
-    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
+    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B',choices=['M','B']); p.set_defaults(fn=package_colab)

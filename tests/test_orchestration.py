@@ -2094,10 +2094,20 @@ class TestCommsAndPolish(Harness):
             "orchestrator/prompts/debate_summary.md": "In plain terms",
             "orchestrator/prompts/feasibility.md": "In plain terms",
             "orchestrator/prompts/interpret_review.md": "PLAIN-LANGUAGE FIDELITY",
+            "orchestrator/prompts/reconcile.md": "In plain terms",
         }
         missing = [f for f, marker in must.items()
                    if marker not in (root / f).read_text()]
         self.assertEqual(missing, [])
+
+    def test_reconcile_stage_is_registered(self):
+        root = self._root()
+        import scout as sc
+        self.assertEqual(sc.STAGE_SCOPE.get("reconcile"), ["ideas/"])
+        self.assertEqual(sc.STAGE_ARTIFACTS.get("reconcile"), "reconciliation.md")
+        self.assertIn("'reconcile'", (root / "scout.py").read_text(),
+                      "reconcile missing from the run stage choices")
+        self.assertTrue((root / "orchestrator/prompts/reconcile.md").exists())
 
     def test_no_personal_names_in_live_documents(self):
         root = self._root()
