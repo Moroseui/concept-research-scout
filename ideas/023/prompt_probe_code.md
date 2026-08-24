@@ -740,6 +740,50 @@ STANDS; recommendation CLEAR-TO-CONTRACT. Operator ruling: ACCEPTED. Idea
 remaining 020-025 ideas stays queued; the scoped-to-023 requirement before
 any 023 contract is satisfied. Artifact: ideas/023/reconciliation.md.
 
+## 2026-08-24 - Probe 023 review ruling (round 2: REVISE, three Phase-C blockers)
+
+Operator ruling: Phase S execution AUTHORIZED with the current run.py -- the
+reviewer confirms Phase S is contract-faithful and all blocking findings
+(B1 lesion filename, B2 compute plan, B3 missing secondary metrics) are
+confined to Phase C, which is already locked behind the contract amendment
+and fresh approval. B1-B3, the NaN-background finiteness ambiguity, and the
+NCCT-location correction MUST be resolved before the Phase-C approval is
+granted. Review rounds preserved in git.
+
+Design note: the one-revision cap on probe-build review is provisionally too
+tight relative to debate max_rounds=3; queue a configurable
+probe_review.max_revisions knob with an ambiguity-escalation rule. B1/B3 are
+agent-resolvable and go back through probe-build at amendment time; B2 and
+the finiteness ambiguity are operator decisions.
+
+## 2026-08-24 - Contract 023 amendment (Phase S -> Phase C gates)
+
+Phase S completed on Colab (bundle on results/probe-023-4a46713d1b81,
+simulation sha256 59069fa9...): 52/60 candidates eligible; the frozen
+lexicographic rule selected N=20 patients/stratum, M=100 voxels/cell,
+maximum CI width 0.15. Amendment applied deterministically via the new
+amend-contract subcommand; no agent involvement. Prior approval is stale
+by design; fresh approval required after the finiteness and NCCT clause
+edits below.
+
+Design requirement (queued, 2b-adjacent): an operator interrogation channel.
+At any point the operator can put a question or new information to the
+system about a specific artifact (verdict, contract, probe code, debate
+position) and receive a justification or proposed revision as a reviewable
+artifact -- generalizing the reconcile stage shape. Must answer/propose,
+never silently edit; human gate on any resulting change. 2b issue-based
+gates are the natural transport.
+
+Clause rulings at amendment (probe_review.md N2 + NCCT finding): (1) the
+finiteness gate is scoped to analyzed voxels -- nonfinite values outside the
+analysis region are permitted, excluded, and counted, harmonizing grid_gate
+with the invalidating-failure class; (2) required_inputs now includes the
+rawdata NCCT, which the official release tree places under rawdata only --
+the feasibility memo claim of a "registered NCCT" in derivatives is
+corrected forward here, not edited; (3) brain_and_mirror_gate references the
+rawdata NCCT on the common grid. probe-build must state the exact
+extraction set in the probe README.
+
 
 ===== evidence/ledger_digest_isles24.md =====
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
@@ -2069,10 +2113,10 @@ approval_and_phasing:
       data_generating_grid: "For each candidate N and M and each of three strata, draw one latent patient risk p_i from Beta(alpha, beta), where alpha = p0*(1/rho - 1), beta = (1-p0)*(1/rho - 1), p0 is in {0.10, 0.30, 0.50}, and rho is in {0.01, 0.05, 0.10}. Draw Q4 infarct count as Binomial(M, p_i) and Q1 count as Binomial(M, min(p_i + delta, 1)); delta=0 for null replicates and delta=0.05 for alternative replicates. Analyze each replicate with the exact three-stratum conjunction and patient bootstrap specified for Phase C."
       selection_rule: "A candidate (N, M, CI width) is eligible only if the conjunction's false-positive rate is <=0.05 for every (p0, rho) null cell and power is >=0.80 for every (p0, rho) alternative cell. Select lexicographically by smallest N, then smallest M, then largest eligible CI width. If no candidate is eligible, Phase S fails and Phase C is not authorized; changing the grid or effect size requires a new contract."
     outputs_to_amend:
-      minimum_contributing_patients_per_stratum: "TO_BE_RECORDED_AFTER_PHASE_S"
-      minimum_voxels_per_patient_quantile_cell: "TO_BE_RECORDED_AFTER_PHASE_S"
-      maximum_primary_ci_width: "TO_BE_RECORDED_AFTER_PHASE_S"
-      simulation_output_sha256: "TO_BE_RECORDED_AFTER_PHASE_S"
+      minimum_contributing_patients_per_stratum: 20
+      minimum_voxels_per_patient_quantile_cell: 100
+      maximum_primary_ci_width: 0.15
+      simulation_output_sha256: "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
     exit: "Record the selected values and simulation-output SHA-256 in this contract. That amendment changes the contract blob and invalidates the Phase-S approval by construction. Fresh human approval against the amended contract is required for Phase C."
   phase_C_real_census:
     entry_condition: "Every Phase-S placeholder has been replaced, the simulation output hash verifies, and a fresh HUMAN_APPROVED_PROBE marker is bound to this amended contract blob."
@@ -2082,13 +2126,13 @@ dataset:
   name: "ISLES'24 public training release"
   source: "Official Zenodo concept record 16731717; select one immutable child record at Phase C and record its record id, publication date, train.7z checksum supplied by Zenodo, downloaded SHA-256, case count, and archive member manifest before analysis."
   expected_population: "149 or 150 acute-stroke cases; the recorded discrepancy between release description and challenge paper must be resolved by archive census rather than assumed."
-  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives and final-infarct mask only. Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe."
+  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives, the final-infarct mask, and the rawdata NCCT volume (required by the brain-mask and mirror gate; per the official release tree the NCCT exists only under rawdata, not derivatives). Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe."
   license: "CC BY-NC-SA 4.0, non-commercial research use."
 split_policy: "Development data only. Sort immutable case identifiers lexicographically, hash each as SHA-256('idea-023-v1|' + case_id), assign the 100 lowest hashes to the census and reserve every other case untouched for any later contract. Freeze split_manifest.csv and its SHA-256 before opening lesion masks. No case crosses populations."
 
 preprocessing:
-  grid_gate: "For every census case, require finite CBF/CBV/MTT/Tmax arrays and lesion mask, compatible physical coverage, and a deterministic common NCCT grid. Header mismatches may be resolved only by the preregistered interpolation rule: linear for maps, nearest-neighbor for labels; record every resampling. Irreconcilable coverage is invalidating."
-  brain_and_mirror_gate: "Derive a brain mask and midsagittal reflection from the registered NCCT using one frozen automatic method. Before outcomes are read, require median left-right NCCT registration error <= one in-plane voxel and usable mirrored support for >=90% of brain-mask voxels in >=90 census patients."
+  grid_gate: "For every census case, require finite CBF/CBV/MTT/Tmax and lesion-mask values in all analyzed voxels (nonfinite values outside the analysis region are permitted, excluded, and counted), compatible physical coverage, and a deterministic common NCCT grid. Header mismatches may be resolved only by the preregistered interpolation rule: linear for maps, nearest-neighbor for labels; record every resampling. Irreconcilable coverage is invalidating."
+  brain_and_mirror_gate: "Derive a brain mask and midsagittal reflection from the rawdata NCCT on the common NCCT grid using one frozen automatic method. Before outcomes are read, require median left-right NCCT registration error <= one in-plane voxel and usable mirrored support for >=90% of brain-mask voxels in >=90 census patients."
   region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the estimated midsagittal plane and voxels with CBV > 8 mL/100 g. The CBV cap is valid only if Phase-C unit inspection confirms mL/100 g; otherwise stop for contract amendment before outcomes are read."
   relative_measures: "For each voxel, divide CBF and CBV by the median of its reflected 5x5x3-voxel contralateral neighborhood after excluding deficit and vessel voxels. Nonpositive or nonfinite denominators are excluded and counted."
   cbf_strata:
@@ -2171,205 +2215,206 @@ human_approved: false
 
 
 ===== ideas/023/probe_review.md =====
-# Probe code review — idea 023, round 1
+# Probe code review — idea 023, round 2
 
 **Reviewed artifacts:** `probes/023/run.py` (SHA-256
-`bd42b9ebc998f89c8b7dea6dbe8ace44d74e2aea1ac61389559de8a333dfa006`),
-`probes/023/requirements.txt`, `probes/023/README.md`,
-`probes/023/verification.json`, against `ideas/023/probe_contract.yaml`
-(git blob `4a46713d1b81874c88a2e347aace6773e68904e2` — verified identical to
-the blob named in `ideas/023/HUMAN_APPROVED_PROBE`).
+`0faf04241ddb2c8064635105d1581880d33d05f3981c0f33deec9f1d4fc38b24`),
+`probes/023/requirements.txt` (SHA-256 `ff705c03…`, matches
+`verification.json`), `probes/023/README.md`, `probes/023/verification.json`,
+against `ideas/023/probe_contract.yaml` (git blob
+`4a46713d1b81874c88a2e347aace6773e68904e2` — verified identical to the blob in
+`ideas/023/HUMAN_APPROVED_PROBE`). Round-1 review preserved at commit
+`f5cdd6a`.
 
 **Requirements conformance (review rule 5):** `ideas/023/contract_requirements.md`
-does not exist; this is not a requirements-governed contract. Not applicable.
+does not exist; not a requirements-governed contract. Not applicable.
 
-**Scope note.** The standing approval authorizes Phase S (synthetic-only). The
-code's Phase C path is mechanically locked behind the placeholder check and a
-fresh hash-bound approval (verified: `verification.json` records exit 2 on the
-pre-amendment Phase C attempt). However, the committed `run.py` *contains* the
-Phase C implementation, and this round is the gate at which it must match the
-preregistration. The blocking findings below therefore include Phase C: this
-file must not become the reference implementation that enters the
-amendment/approval cycle in its current state.
+**Scope note.** Unchanged from round 1: the standing approval covers Phase S
+only, and the code's Phase C path is mechanically locked (placeholder scan +
+hash-bound approval; placeholders confirmed present only in the four
+`outputs_to_amend` values, so the full-file scan clears correctly after
+amendment). Phase C is still reviewed here because this file is the reference
+implementation entering the amendment/approval cycle.
+
+**External evidence fetched this round:** the official repository's
+data-structure tree (github.com/ezequieldlrosa/isles24, README, fetched
+2026-08-24) — the same source the keystone screen relied on — quoted verbatim
+where cited below.
 
 ---
 
+## Round-1 blocker disposition
+
+| Round-1 finding | Status in this code |
+|---|---|
+| B1 NCCT substring match / nondeterministic case root | **Fixed** — exact-suffix resolution (`run.py:198-213`), no case-root selection; but the same defect class recurs on the lesion mask (new B1) |
+| B2 mirror gate unimplemented | **Fixed** — `mirror_qc` (`run.py:366-405`): NCCT-derived brain mask, plane search, per-patient registration error and usable fraction, `mirror_qc.csv`, ≥90-patient gate (`run.py:533-540`), exit 7 reachable |
+| B3 single-voxel mirror reference | **Fixed** — reflected 5×5×3 `nanmedian` with deficit/vessel/brain exclusion (`run.py:408-415`, `423-426`) and counted exclusions (`run.py:442-444`); runtime consequence in new B2 |
+| B4 identity gate centering/ordering | **Fixed** — census-wide median, per-stratum MAD, gated in the label-blind pass before any lesion filename is resolved (`run.py:542-552`) |
+| B5 unit gate missing | **Fixed** — `confirm_cbv_units` (`run.py:345-357`); exit 8 reachable, checked in the label-blind pass |
+| B6 provenance unimplemented | **Fixed** — immutable-record validation (concept-record refusal), Zenodo-MD5 comparison, archive SHA-256, member manifest before analysis, split-manifest SHA-256 recorded (`run.py:248-287`, `492-510`) |
+| B7 required outputs missing | **Fixed** — all 16 `required_outputs` are written across the two phases |
+| B8 resampling rule unimplemented | **Fixed** — linear for maps, nearest for labels, every resampling recorded in `schema_census.csv` (`run.py:323-341`) |
+| B9 Phase-S hash never verified | **Fixed** — `verify_phase_s_hash` compares the amended `simulation_output_sha256` to the actual Phase-S CSV before any data access (`run.py:290-300`, called first at `run.py:490`) |
+
+Round-1 non-blocking items: N2 (erosion order) fixed (`run.py:430-441`,
+erode-then-exclude); N3 (case count) fixed (`released_case_count` in
+provenance and summary); N6 partially fixed (voxel accumulators now
+per-stratum arrays, but see new B2); N1, N4, N5, N7, N8 unaddressed — N4 is
+escalated into new B3; the rest are carried below.
+
 ## Blocking findings
 
-**B1 — Phase C file discovery is guaranteed to fail on the documented release
-schema (contract fidelity / practicalities).** `run.py:237` resolves the NCCT
-volume with `find_one(root, [case_id, "ncct"])`, but every derivative filename
-in the release contains the substring `ncct` via `space-ncct`
-(`sub-strokecase0001_ses-0001_space-ncct_cbf.nii.gz`, etc. — the exact
-filenames quoted in `ideas/023/keystone_screen.md`). `find_one`
-(`run.py:198-202`) requires exactly one match; at least the four perfusion maps
-match, so the call exits 5 on the very first census case, in the label-blind
-pass. Phase C as written cannot execute against the schema the contract
-targets. Related fragility in the same function: `run.py:234-235` picks
-`roots[0]` among possibly-multiple directories named `sub-strokecaseNNNN`
-(raw subject dir vs `derivatives/` subject dir) in filesystem iteration order —
-which directory wins is nondeterministic.
+**B1 — Lesion-mask discovery fails on the documented release schema; Phase C
+dies at the first outcome-pass case (contract fidelity / practicalities).**
+The official repository's data tree names the ground truth
+`sub-strokecase0009_ses-0001_lesion-msk.nii.gz` — the suffix is
+`_lesion-msk.nii.gz`, with a hyphen before `msk`. The code's lesion suffix
+list (`run.py:206`) is `("_msk.nii.gz", "_msk.nii", "_lesion.nii.gz",
+"_lesion.nii")`; none matches (`_msk.nii.gz` requires an underscore before
+`msk`, `_lesion.nii.gz` requires `lesion` to be terminal). `find_one` finds
+zero files and exits 5 at `run.py:575` on the first case of the outcome pass —
+after the entire multi-hour label-blind pass has completed. This is the second
+consecutive round in which Phase C cannot execute against the schema quoted in
+this repository's own keystone documents; the fix must match the verbatim
+release name (and note the release quirk that the mask file sits in the
+follow-up session directory while its filename carries `ses-0001` — the
+prefix+suffix match is robust to that, the suffix is the only defect).
 
-**B2 — The contract's `brain_and_mirror_gate` is not implemented, and a code
-comment claims it is (contract fidelity / silent failure).** The contract
-requires: brain mask and midsagittal reflection derived from the registered
-NCCT by one frozen automatic method; median left-right NCCT registration error
-≤ one in-plane voxel; usable mirrored support for ≥ 90% of brain-mask voxels in
-≥ 90 census patients — all before outcomes are read — plus `mirror_qc.csv`.
-The code instead uses a bare array-axis-0 flip as the mirror
-(`run.py:255-256`), takes the array midpoint as the midline (`run.py:270-271`),
-derives no brain mask, computes no registration-error statistic, writes no
-`mirror_qc.csv`, and loads the NCCT volume without ever using it. The comment
-at `run.py:253-254` ("The one-voxel NCCT registration-error gate is reported
-conservatively via normalized MAE") describes code that does not exist. The
-contract's invalidating class "Mirror failure" is undetectable; exit 7 is
-unreachable.
+**B2 — The Phase C compute/memory envelope is not runnable in Colab
+(practicalities).** Three compounding problems. (a) `neighborhood_median`
+(`run.py:415`) uses `scipy.ndimage.generic_filter` with `np.nanmedian`, which
+invokes a Python callback per output voxel (~15–35 µs each). It runs on the
+full volume, twice per case (CBF and CBV), and — because pass two calls
+`coordinate_arrays` again (`run.py:459`) instead of reusing pass-one products —
+twice more per case in the outcome pass. At plausible NCCT-grid sizes this is
+4 × 10⁷–10⁸ callback invocations per case: roughly 20–30 CPU-hours for the
+census at thick-slice dimensions and multiple days at thin-slice dimensions,
+single-threaded. (b) There is no checkpoint/resume: a Colab disconnect at
+case 90 of the label-blind pass loses everything. (c) `mirrors` (`run.py:527`)
+retains a full-volume boolean brain mask for all 100 census patients
+simultaneously — 1–8 GB depending on grid size, on top of per-case working
+arrays, risking OOM on a standard Colab VM. Required repairs: a vectorized
+mirrored-neighborhood median (or equivalent rank-filter formulation), reuse or
+disk-cache of pass-one per-case products so nothing is computed twice, per-case
+checkpointing so an interrupted census resumes, and per-case mirror state
+reduced to what pass two needs (plane and reflection index, with the brain
+mask recomputed or cached to disk).
 
-**B3 — `relative_measures` deviates from the frozen preprocessing rule
-(contract fidelity).** The contract freezes: divide CBF and CBV by the median
-of the reflected 5×5×3-voxel contralateral neighborhood *after excluding
-deficit and vessel voxels*, with nonpositive/nonfinite denominators excluded
-*and counted*. `run.py:257-259` divides by the single mirrored voxel value —
-no neighborhood median, no exclusion of deficit/vessel voxels from the mirror
-reference, and no exclusion counting anywhere (see B7, `exclusions.csv`).
-This is an unregistered variant of the frozen measurement.
-
-**B4 — Central-volume identity gate: wrong centering and wrong ordering
-(contract fidelity / analysis deviation).** The contract specifies subtracting
-the *census-wide* median u and states the 0.10 gate "invalidates this
-coordinate and stops before outcome modeling." The code (a) centers residuals
-per stratum (`run.py:374`), which absorbs stratum-level offsets the
-census-wide centering would expose, and (b) evaluates the gate only after
-lesion masks have been opened, per-patient contrasts computed, and bootstrap
-summaries built (`run.py:352-376`), with `per_patient.csv` (label-derived)
-already on disk. The residual is computable from maps alone and belongs in the
-label-blind pass.
-
-**B5 — Unit gate missing (contract fidelity).** The contract: "The CBV cap is
-valid only if Phase-C unit inspection confirms mL/100 g; otherwise stop for
-contract amendment before outcomes are read" (invalidating class "Unit
-failure", exit 8). The code applies `cbv <= 8.0` (`run.py:261`) with no unit
-inspection of any kind; exit 8 is declared in the docstring but unreachable.
-
-**B6 — Provenance recording and verification not implemented (contract
-fidelity / silent failure).** The contract's dataset section requires, before
-analysis: selection of one immutable Zenodo child record and recording of its
-record id, publication date, Zenodo-supplied `train.7z` checksum, downloaded
-SHA-256, case count, and archive member manifest. The code computes the
-archive SHA-256 only at the end (`run.py:385`), never compares it to a
-Zenodo-supplied checksum, accepts any local `--record-json` without validating
-it is the pinned immutable record (only `record.get("id")` is echoed), writes
-no `archive_manifest.csv` or `schema_census.csv`, and never records
-`split_manifest.csv`'s own SHA-256 (the split policy says "Freeze
-split_manifest.csv and its SHA-256"). Exit 4 (provenance) is unreachable: a
-"Provenance failure" cannot be detected by this code.
-
-**B7 — Required outputs missing (contract fidelity).** Four files in
-`required_outputs` are never written by any phase: `archive_manifest.csv`,
-`schema_census.csv`, `mirror_qc.csv`, `exclusions.csv`. The contract's
-"Output failure" class makes missing required outputs invalidating; the code
-cannot produce a valid Phase C run by its own contract.
-
-**B8 — Grid gate does not implement the frozen resampling rule (contract
-fidelity).** The contract permits resolving header mismatches "only by the
-preregistered interpolation rule: linear for maps, nearest-neighbor for
-labels; record every resampling." The code exits 6 on any grid difference
-(`run.py:242-244`). The direction is fail-safe (refuse rather than silently
-resample), but it leaves the preregistered rule unimplemented and would
-mislabel contract-resolvable data as an invalidating grid failure.
-
-**B9 — Phase C entry condition incompletely enforced (contract fidelity).**
-`phase_C_real_census.entry_condition` requires that "the simulation output
-hash verifies." `gate()` (`run.py:97-120`) checks placeholder absence and the
-hash-bound approval, but nothing ever verifies the amended contract's
-`simulation_output_sha256` against the actual Phase-S
-`simulation_operating_characteristics.csv` (e.g., via a required
-`--phase-s-dir` argument compared at Phase C startup).
+**B3 — Preregistered secondary metrics are not computed (contract fidelity).**
+The contract's `secondary_metrics` freeze three outputs this code never
+produces: (a) "Median patient-level d and **its patient-bootstrap 95% CI** per
+stratum" — `per_stratum_summary.csv` carries only the `median_d` point
+estimate (`run.py:592-594`), no interval; (b) "a label-blind native-support
+plot of z by rCBF stratum" — `support_summary.csv` (`run.py:562-568`) emits
+only the two quartile cut points and a voxel count, no distribution (round-1
+N4, unaddressed, now blocking); (c) "the identity-residual distribution" —
+`identity_residual_summary.csv` (`run.py:553-556`) emits only the per-stratum
+median absolute residual. The contract's Output-failure class makes missing
+required records invalidating; a Phase C run of this code could not produce
+the preregistered artifact set even if it executed.
 
 ## Non-blocking findings
 
-**N1 — CI direction.** Both phases count a CI as "excluding zero" via
-`lo > 0 or hi < 0` (`run.py:151`, `run.py:368`); the contract's pass rule says
-"exclude zero *in that common direction*." With a percentile bootstrap of a
-mean the divergence is practically unreachable (the interval brackets the
-point estimate), but the literal rule is one comparison away.
+**N1 (carried) — Phase S / Phase C conjunction inconsistency.** Phase C now
+correctly requires CI exclusion in the common direction (`run.py:591`), but
+Phase S still counts any exclusion (`run.py:151`), while the contract says
+Phase S replicates are analyzed "with the exact three-stratum conjunction …
+specified for Phase C". The divergence is practically unreachable for a
+percentile bootstrap of a mean, but the two implementations should be one
+shared function.
 
-**N2 — Erosion order.** The code intersects Tmax > 6 with the vessel cap and
-valid-denominator masks *before* the one-voxel erosion (`run.py:261-268`);
-the contract reads erode-the-deficit-mask-then-exclude. The coded variant is
-strictly stricter (voxels adjacent to exclusions are also eroded away) but is
-not the registered rule; fold the fix into B3.
+**N2 — Whole-volume finiteness gate may refuse real maps.** `run.py:334-335`
+exits 6 if any voxel anywhere is nonfinite, implementing the `grid_gate`
+literally ("require finite … arrays"), while the invalidating-failure class
+says "nonfinite values remain **in analyzed voxels**". Vendor perfusion maps
+plausibly carry NaN background outside the brain; if so, every case exits 6.
+Fail-safe in direction, but the operator should decide at amendment time which
+reading the contract intends, before a 99 GB download is spent discovering it.
 
-**N3 — Case count.** 149 vs 150 is accepted (`run.py:209-210`) but the
-discovered count is not recorded in `summary.json`, and the contract's
-"resolved by archive census rather than assumed" instruction has no recorded
-resolution output.
+**N3 — Invalidating exits do not persist their evidence.** The identity gate
+fails (`run.py:552`) before `identity_residual_summary.csv` is written, and a
+unit-gate failure at case 1 leaves no `schema_census.csv`/`mirror_qc.csv`
+rows on disk (written only after the loop, `run.py:536-538`). Only
+`run_log.txt` records the values. Write the diagnostic CSVs before raising.
 
-**N4 — Secondary metric gap.** The "label-blind native-support plot of z by
-rCBF stratum" is only partially covered by `support_summary.csv` quartiles and
-counts; no distribution output exists.
+**N4 — Unit gate will likely stop a real run.** `confirm_cbv_units` accepts
+only an explicit "mL/100g" in a JSON sidecar or the NIfTI `descrip` field.
+If the release documents units nowhere machine-readable, Phase C stops at
+exit 8 — which is the contract's mandated behavior, but plan for the
+amendment that follows rather than treating it as unexpected.
 
-**N5 — Phase S runtime.** The full grid is ~2.16 M simulated conjunctions,
-each with a 2,000-replicate bootstrap — on the order of one to a few CPU-hours
-in Colab, single-threaded, with no checkpointing; a disconnect loses the run.
-Deterministic seeding makes reruns cheap, but consider vectorizing across
-replicates or emitting per-scenario progress.
+**N5 — Extraction requirements undocumented; feasibility memo misleads.** The
+code needs the rawdata NCCT (`_ncct.nii.gz` resolves uniquely there; verified
+no derivative file ends in `_ncct.nii.gz`), but `probes/023/README.md` never
+says so, and `ideas/023/feasibility.md` §2 claims derivatives contain a
+"registered NCCT" — per the official tree they do not. A user following the
+memo's derivatives-only extraction gets exit 5 with zero NCCT matches. State
+the exact extraction set in the README.
 
-**N6 — Memory.** Identity residuals accumulate as a Python list of
-`(stratum, float)` tuples over all deficit voxels of 100 patients
-(`run.py:301`) — plausibly 10⁶–10⁷ entries (~1 GB). Use arrays.
+**N6 — Mirror method narrowness.** The midsagittal search is an axis-aligned
+plane within ±5 voxels of the volume center (`run.py:377-378`) with no tilt
+model; off-center or rotated heads — common in acute stroke CT — fail toward
+exit 7. Fail-safe, and the ≥90/100 gate is the contract's own design, but
+expect this as a plausible real-data stop. Also, the "one in-plane voxel"
+error bound is operationalized as an EDT distance in mixed voxel units across
+anisotropic axes; acceptable as a frozen method, worth stating in the run log.
 
-**N7 — Smoke overwrite.** `--smoke` writes `summary.json` and friends into
-`--output-dir` and can silently overwrite a real Phase-S result if pointed at
-the same directory.
+**N7 — Archive digests read 99 GB twice.** `validate_record_and_archive`
+computes MD5 and SHA-256 in separate full passes (`run.py:264`, `269`); one
+pass updating both digests halves a ~30–60 min step. The released case count
+is also taken from the extracted directory rather than cross-checked against
+`archive_manifest.csv`.
 
-**N8 — Requirements pins.** Bounded ranges rather than exact pins (the
-frozen numpy 1.26.4 had no Python 3.13 wheel; honestly recorded in
-`verification.json`, and every run records resolved versions in
-`provenance.json`). Acceptable now; freeze exact resolved versions for the
-eventual Phase C run.
+**N8 (carried) — Smoke overwrite.** `--smoke` writes `summary.json` and
+friends into `--output-dir` and can clobber a real Phase-S result.
 
-## Verified correct (so they are not re-reviewed next round)
+**N9 (carried) — Requirements pins.** Bounded ranges remain acceptable for
+Phase S; freeze exact resolved versions before the eventual Phase C run.
+`resolved_config.json` should also echo the three Phase-S-frozen thresholds
+when Phase C runs, so the run is auditable from its own output directory.
 
-- **Approval gate mechanics:** git-blob-SHA1 binding of the marker to the
-  contract; drift checks on frozen literals; refusal of Phase C while any
-  `TO_BE_RECORDED_AFTER_PHASE_S` placeholder remains (`run.py:117-118`);
-  amendment stales the approval by construction.
-- **Phase S implements the contract's simulation exactly:** Beta(p0(1/ρ−1),
-  (1−p0)(1/ρ−1)) latent risks, Binomial(M,·)/M quartile risks, δ ∈ {0, 0.05},
-  three strata, 2000/2000 replicates, 2000-resample patient bootstrap, seed
-  20260824; eligibility requires FPR ≤ 0.05 in *every* null cell and power
-  ≥ 0.80 in *every* alternative cell; lexicographic selection (smallest N,
-  smallest M, largest width) at `run.py:185`; no-eligible-candidate exits 10
-  without selecting, as the contract requires.
-- **Split policy:** SHA-256(`idea-023-v1|` + case_id), 100 lowest hashes to
-  census, disjointness asserted, manifest written before any label access;
-  reserved cases never opened; a `test`-path refusal guard on top.
-- **Freeze-before-look:** two-pass Phase C; quartile cut points estimated
-  from a maps-only pass (`load_label=False`); lesion filenames are not even
-  resolved until pass two.
+## Verified correct (not re-reviewed next round)
+
+- **Approval gate mechanics** unchanged and re-verified: blob-SHA1 binding,
+  frozen-literal drift checks, placeholder refusal for Phase C
+  (`run.py:97-120`); amendment stales the approval by construction.
+- **Phase S simulation** re-verified against the contract line by line:
+  Beta/Binomial generator, δ ∈ {0, 0.05}, 2000/2000 replicates, 2000-resample
+  bootstrap, seed 20260824, every-cell eligibility, lexicographic selection
+  (`run.py:185`), no-eligible-candidate exits 10 without selecting,
+  `PHASE_S_FAILED` summary persisted before the exit.
+- **Split policy:** SHA-256(`idea-023-v1|` + case_id), 100 lowest to census,
+  disjointness asserted, `split_manifest.csv` + SHA-256 frozen before label
+  access; reserved cases never opened; `test`-path refusal on data, archive,
+  and record paths.
+- **Freeze-before-look:** two-pass Phase C; quartile cuts, mirror QC, identity
+  gate, and unit gate all complete in the label-blind pass; lesion filenames
+  first resolved in pass two.
 - **Analysis discipline:** equal-patient weighting, patient-only bootstrap,
-  the exact three-stratum conjunction, no pooled or fallback analysis;
-  support shortfalls exit 10 as invalidating, never as a negative.
-- **Claim discipline:** summary statuses use the contract's
-  `positive_pattern`/`negative_pattern` names; smoke output is labeled
-  non-contractual; the Phase S interpretation instructs stop-amend-reapprove;
-  no physiological or model-use language anywhere in the outputs.
-- **Budget:** one variant, one seed, zero GPU minutes; no network access.
+  the exact conjunction including the direction-consistent exclusion count,
+  support shortfalls exit 10 as invalidating, no pooled or fallback analysis,
+  one variant, one seed, zero GPU.
+- **Claim discipline:** statuses use `positive_pattern`/`negative_pattern`
+  names; interpretations forbid physiological and model-use language; smoke
+  labeled non-contractual.
+- **Harness lessons applied:** unexpected failures print a full traceback
+  before exit 13; no bare cross-device renames; no network access.
 - **Readability:** narrated docstring, phase banners, threshold provenance
-  comments, progress printing, plain-English closing interpretation. The one
-  false comment is covered by B2.
+  comments, per-case progress, plain-English closing interpretation.
 
 ## Verdict
 
-Phase S is faithful and could run today. Phase C, as committed, cannot run at
-all on the real schema (B1) and omits or deviates from five frozen contract
-elements (B2–B6), leaves four required outputs unwritten (B7), and skips two
-entry/resolution rules (B8–B9). Since the round-1 code is the artifact the
-amendment cycle will build on, these must be repaired before approval.
+Round 2 is a large, genuine improvement: all nine round-1 blockers were
+addressed as specified, and Phase S remains contract-faithful and runnable
+today. But Phase C — the artifact the amendment cycle will freeze — still
+cannot complete a real run: it dies on the release's actual lesion filename
+(B1), its innermost loop and memory plan do not fit the stated Colab envelope
+and cannot survive a disconnect (B2), and three preregistered secondary
+outputs are never produced (B3).
 
 ```json
-{"verdict": "REVISE", "blocking": ["B1: Phase C NCCT lookup matches every space-ncct filename, so find_one exits 5 on the first census case; case-root selection is also order-dependent (run.py:234-237)", "B2: brain_and_mirror_gate (brain mask, NCCT midsagittal method, <=1-voxel registration-error gate, >=90%/>=90-patient mirrored support, mirror_qc.csv) is unimplemented; comment at run.py:253-254 claims a gate that does not exist", "B3: relative_measures uses single mirrored voxel instead of the frozen reflected 5x5x3 neighborhood median with deficit/vessel exclusion and counted exclusions (run.py:257-259)", "B4: identity-residual gate centers per stratum instead of census-wide and runs after outcome access instead of before outcome modeling (run.py:300,352-376)", "B5: CBV-cap unit inspection (mL/100 g) is absent; exit 8 unreachable (run.py:261)", "B6: provenance rules unimplemented: no Zenodo-checksum comparison, no immutable-record validation, no pre-analysis archive manifest, split-manifest SHA-256 unrecorded (run.py:312-320,385)", "B7: required outputs archive_manifest.csv, schema_census.csv, mirror_qc.csv, exclusions.csv are never written", "B8: frozen linear/nearest resampling rule not implemented; any header mismatch exits 6 (run.py:242-244)", "B9: Phase C entry condition 'simulation output hash verifies' is never checked against the Phase-S CSV (run.py:97-120)"], "note": "Phase S is contract-faithful and runnable; Phase C is dead on arrival against the release schema and omits five frozen gates plus four required outputs — revise before the amendment cycle builds on this code."}
+{"verdict": "REVISE", "blocking": ["B1: lesion suffix list (run.py:206) matches nothing in the release schema — official tree names the mask sub-strokecase0009_ses-0001_lesion-msk.nii.gz (suffix _lesion-msk.nii.gz); find_one exits 5 on the first outcome-pass case", "B2: Phase C is not runnable in Colab — generic_filter/nanmedian mirrored median (run.py:415) executed four times per case across two passes, no checkpoint/resume, and 100 resident full-volume brain masks (run.py:527) risk OOM; vectorize, cache pass-one products, checkpoint per case, bound memory", "B3: preregistered secondary metrics never computed — median-d patient-bootstrap 95% CI (run.py:592-594), label-blind native-support distribution of z (run.py:562-568), identity-residual distribution (run.py:553-556)"], "note": "All nine round-1 blockers were properly fixed and Phase S can run today, but Phase C still dies on the real lesion filename, exceeds the Colab envelope with no resume path, and omits three frozen secondary outputs — revise before amendment."}
 ```
 
 
@@ -2541,6 +2586,3 @@ Write for a researcher reviewing results the next morning, not for a machine:
   negative_pattern -- never a stronger claim.
 - No cleverness: prefer three obvious lines over one dense one.
 
-
-===== REVISION ROUND =====
-A reviewer found blocking issues (see probe_review.md in your context). Fix ONLY those findings; do not expand scope.

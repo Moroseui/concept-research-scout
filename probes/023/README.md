@@ -20,3 +20,22 @@ any path containing `test` is refused. It deterministically reserves every
 non-census patient and never opens their lesion masks. A passing census supports
 only the contract's outcome-association prerequisite. It does not authorize
 model work or a physiological claim.
+
+For Phase C, selectively extract exactly these release paths for every case:
+
+- `derivatives/**/perfusion-maps/*_space-ncct_{cbf,cbv,mtt,tmax}.nii.gz`
+- `derivatives/**/*_lesion-msk.nii.gz` (the release filename keeps
+  `ses-0001` even though the file is stored below the follow-up session)
+- `rawdata/**/_ncct.nii.gz`
+
+The rawdata NCCT is required: it is not duplicated in `derivatives/`. Raw 4D
+CTP and CTA are not used. Keep the output directory on persistent storage.
+Phase C writes per-case outcome-blind checkpoints under `phase_c_cache/` and a
+per-patient outcome checkpoint after every completed case, so rerunning the
+same command resumes after a Colab disconnect. Checkpoints are bound to the
+contract, archive, split manifest, and `run.py`; a mismatch exits rather than
+silently reusing stale data.
+
+The required CSV/JSON outputs are accompanied by `native_support.svg` and
+`identity_residual_distribution.svg`. These dependency-free plots visualize
+the same frozen label-blind quantiles recorded in their corresponding CSVs.

@@ -25,6 +25,7 @@ Exit codes: 0 success; 2 approval/contract/CLI; 3 access; 4 provenance;
 import argparse
 import csv
 import hashlib
+import importlib.metadata
 import json
 import os
 import platform
@@ -71,7 +72,8 @@ def fail(code, message):
 
 
 def write_json(path, value):
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+    # Contract outputs must never silently serialize NaN/Infinity tokens.
+    path.write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n")
 
 
 def sha256_file(path):
@@ -121,9 +123,15 @@ def gate(phase):
 
 
 def environment():
+    packages = {}
+    for name in ("numpy", "nibabel", "scipy", "py7zr"):
+        try:
+            packages[name] = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            packages[name] = "NOT_INSTALLED"
     return {"timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "python": sys.version, "platform": platform.platform(),
-            "numpy": np.__version__, "command": sys.argv,
+            "packages": packages, "command": sys.argv,
             "cwd": os.getcwd(), "seed": SEED}
 
 
@@ -148,7 +156,8 @@ def simulated_conjunction(rng, n, m, p0, rho, delta, max_width, bootstraps):
         draws = np.mean(d[indices], axis=1)
         lo, hi = np.percentile(draws, [2.5, 97.5])
         signs.append(np.sign(point))
-        excludes.append(bool(lo > 0 or hi < 0))
+        # Phase S uses the same direction-aware exclusion rule as Phase C.
+        excludes.append(bool((point > 0 and lo > 0) or (point < 0 and hi < 0)))
         widths.append(float(hi - lo))
     common = signs[0] != 0 and len(set(signs)) == 1
     return bool(common and sum(excludes) >= 2 and max(widths) <= max_width)
@@ -203,7 +212,8 @@ def find_one(data_dir, case_id, kind):
         "mtt": ("_space-ncct_mtt.nii.gz", "_space-ncct_mtt.nii"),
         "tmax": ("_space-ncct_tmax.nii.gz", "_space-ncct_tmax.nii"),
         "ncct": ("_ncct.nii.gz", "_ncct.nii"),
-        "lesion": ("_msk.nii.gz", "_msk.nii", "_lesion.nii.gz", "_lesion.nii"),
+        # Official release spelling is *_lesion-msk.nii.gz (hyphen before msk).
+        "lesion": ("_lesion-msk.nii.gz", "_lesion-msk.nii"),
     }
     files = [p for p in data_dir.rglob(f"{case_id}*")
              if p.is_file() and any(p.name.lower().endswith(s) for s in suffixes[kind])]
@@ -331,8 +341,6 @@ def load_case(data_dir, case_id, load_label, audit_rows=None):
             images[key] = resample_from_to(image, (reference.shape, reference.affine), order=order)
             resampled.append(key)
     arrays = {k: np.asarray(v.dataobj, dtype=np.float32) for k, v in images.items()}
-    if any(not np.isfinite(a).all() for a in arrays.values()):
-        fail(6, f"nonfinite value in {case_id}")
     if audit_rows is not None:
         audit_rows.append({"case_id": case_id, "files": json.dumps({k: str(v) for k, v in paths.items()}, sort_keys=True),
                            "shape": "x".join(map(str, reference.shape)),
@@ -406,20 +414,32 @@ def mirror_qc(ncct, zooms):
 
 
 def neighborhood_median(source, allowed, reflected):
-    """Median reflected 5x5x3 neighborhood; NaNs mark excluded references."""
-    from scipy import ndimage
+    """Vectorized, slab-bounded median of each reflected 5x5x3 neighborhood."""
     mirrored = source[np.clip(reflected, 0, source.shape[0] - 1), :, :].astype(np.float32)
     mirrored_allowed = allowed[np.clip(reflected, 0, source.shape[0] - 1), :, :]
     mirrored[~mirrored_allowed] = np.nan
-    # Frozen 5x5x3 voxel neighborhood from preprocessing.relative_measures.
-    return ndimage.generic_filter(mirrored, np.nanmedian, size=(5, 5, 3), mode="constant", cval=np.nan)
+    # The contract freezes a 5x5x3 voxel window. Slabs avoid materializing all
+    # 75 neighbors for a full CT volume while eliminating Python voxel callbacks.
+    padded = np.pad(mirrored, ((2, 2), (2, 2), (1, 1)), constant_values=np.nan)
+    result = np.empty_like(mirrored)
+    window_values_per_x = max(1, source.shape[1] * source.shape[2] * 75)
+    slab = max(1, min(source.shape[0], 12_000_000 // window_values_per_x))
+    for start in range(0, source.shape[0], slab):
+        stop = min(start + slab, source.shape[0])
+        view = np.lib.stride_tricks.sliding_window_view(
+            padded[start:stop + 4], (5, 5, 3)
+        )
+        with np.errstate(all="ignore"):
+            result[start:stop] = np.nanmedian(view, axis=(-3, -2, -1))
+    return result
 
 
 def coordinate_arrays(arrays, mirror):
     cbf, cbv, mtt, tmax = (arrays[k] for k in ("cbf", "cbv", "mtt", "tmax"))
     brain, reflected, plane = mirror
-    deficit = tmax > 6.0                 # DEFUSE-family threshold frozen in contract.
-    vessel = cbv > 8.0                   # mL/100 g cap, used only after explicit unit confirmation.
+    finite_maps = np.isfinite(cbf) & np.isfinite(cbv) & np.isfinite(mtt) & np.isfinite(tmax)
+    deficit = np.isfinite(tmax) & (tmax > 6.0)  # DEFUSE-family threshold frozen in contract.
+    vessel = np.isfinite(cbv) & (cbv > 8.0)     # mL/100 g cap; units are gated first.
     allowed = brain & ~deficit & ~vessel
     mirror_cbf = neighborhood_median(cbf, allowed, reflected)
     mirror_cbv = neighborhood_median(cbv, allowed, reflected)
@@ -438,10 +458,14 @@ def coordinate_arrays(arrays, mirror):
     # Contract excludes two voxels on either side of the estimated midline.
     coordinates = np.arange(cbf.shape[0], dtype=float)
     eroded[np.abs(coordinates - plane) <= 2.0, :, :] = False
-    eroded &= brain & ~vessel & valid_den
+    eroded &= brain & ~vessel & valid_den & finite_maps
     exclusions = {"deficit_voxels": int(deficit.sum()), "eroded_region_voxels": int(eroded.sum()),
                   "invalid_or_nonpositive_denominator_voxels": int((brain & ~valid_den).sum()),
-                  "vessel_voxels": int(vessel.sum())}
+                  "vessel_voxels": int(vessel.sum()),
+                  "nonfinite_cbf_voxels": int((~np.isfinite(cbf)).sum()),
+                  "nonfinite_cbv_voxels": int((~np.isfinite(cbv)).sum()),
+                  "nonfinite_mtt_voxels": int((~np.isfinite(mtt)).sum()),
+                  "nonfinite_tmax_voxels": int((~np.isfinite(tmax)).sum())}
     return cbf, cbv, mtt, rcbf, rcbv, eroded, exclusions
 
 
@@ -452,15 +476,17 @@ def patient_native_z(arrays, mirror):
         mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0) & (cbf > 0) & (cbv > 0) & (mtt > 0)
         values.append(np.log(rcbv[mask]))
         identity.append(np.log(mtt[mask]) - np.log(cbv[mask]) + np.log(cbf[mask]))
-    return values, identity, exclusions
+    return values, identity, exclusions, rcbf, rcbv, region
 
 
-def patient_measure(case_id, arrays, min_voxels, quartile_cuts, mirror):
-    cbf, cbv, mtt, rcbf, rcbv, region, _ = coordinate_arrays(arrays, mirror)
-    lesion = arrays["lesion"] > 0.5
+def patient_measure(case_id, lesion, min_voxels, quartile_cuts, cache):
+    rcbf, rcbv, region = cache["rcbf"], cache["rcbv"], cache["region"].astype(bool)
+    if np.any(~np.isfinite(lesion[region])):
+        fail(6, f"nonfinite lesion-mask value in analyzed voxels for {case_id}")
+    lesion = lesion > 0.5
     records = []
     for index, (low, high) in enumerate(STRATA, 1):
-        mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0) & (cbf > 0) & (cbv > 0) & (mtt > 0)
+        mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0)
         z = np.log(rcbv[mask])
         if z.size < 4:
             records.append({"case_id": case_id, "stratum": index, "q1_voxels": 0, "q4_voxels": 0, "d": ""})
@@ -472,6 +498,61 @@ def patient_measure(case_id, arrays, min_voxels, quartile_cuts, mirror):
         d = float(labels[lo_mask].mean() - labels[hi_mask].mean()) if lo_mask.sum() >= min_voxels and hi_mask.sum() >= min_voxels else ""
         records.append({"case_id": case_id, "stratum": index, "q1_voxels": int(lo_mask.sum()), "q4_voxels": int(hi_mask.sum()), "d": d})
     return records
+
+
+def load_lesion(data_dir, case_id, shape, affine):
+    """Load only the outcome mask and place it on the cached NCCT grid."""
+    try:
+        import nibabel as nib
+        from nibabel.processing import resample_from_to
+    except ImportError:
+        fail(12, "nibabel and scipy are required for Phase C")
+    path = find_one(data_dir, case_id, "lesion")
+    image = nib.as_closest_canonical(nib.load(str(path)))
+    resampled = image.shape != tuple(shape) or not np.allclose(image.affine, affine, atol=1e-5)
+    if resampled:
+        # The contract freezes nearest-neighbor interpolation for labels.
+        image = resample_from_to(image, (tuple(shape), affine), order=0)
+    return np.asarray(image.dataobj, dtype=np.float32), str(path), resampled
+
+
+def atomic_npz(path, **arrays):
+    """Write a resumable per-case checkpoint without exposing partial files."""
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("wb") as handle:
+        np.savez_compressed(handle, **arrays)
+    os.replace(temporary, path)
+
+
+def distribution_row(index, values, prefix):
+    """Compact, CSV-readable distribution sufficient to recreate the plot."""
+    quantiles = np.quantile(values, [0, .01, .05, .25, .50, .75, .95, .99, 1])
+    names = ("min", "q01", "q05", "q25", "q50", "q75", "q95", "q99", "max")
+    row = {"stratum": index, f"{prefix}_voxels": int(values.size)}
+    row.update({f"{prefix}_{name}": float(value) for name, value in zip(names, quantiles)})
+    return row
+
+
+def write_distribution_svg(path, rows, prefix, title):
+    """Write a dependency-free quantile plot from the frozen label-blind rows."""
+    width, height = 720, 250
+    all_min = min(row[f"{prefix}_min"] for row in rows)
+    all_max = max(row[f"{prefix}_max"] for row in rows)
+    span = max(all_max - all_min, 1e-9)
+    x = lambda value: 70 + 600 * (value - all_min) / span
+    lines = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}">',
+             '<rect width="100%" height="100%" fill="white"/>',
+             f'<text x="20" y="25" font-family="sans-serif" font-size="16">{title}</text>']
+    for offset, row in enumerate(rows):
+        y = 70 + offset * 55
+        lines.append(f'<text x="20" y="{y+5}" font-family="sans-serif">S{row["stratum"]}</text>')
+        lines.append(f'<line x1="{x(row[f"{prefix}_q01"]):.1f}" y1="{y}" x2="{x(row[f"{prefix}_q99"]):.1f}" y2="{y}" stroke="black"/>')
+        lines.append(f'<rect x="{x(row[f"{prefix}_q25"]):.1f}" y="{y-8}" width="{max(1, x(row[f"{prefix}_q75"])-x(row[f"{prefix}_q25"])):.1f}" height="16" fill="#9ecae1" stroke="black"/>')
+        lines.append(f'<line x1="{x(row[f"{prefix}_q50"]):.1f}" y1="{y-10}" x2="{x(row[f"{prefix}_q50"]):.1f}" y2="{y+10}" stroke="#b30000" stroke-width="2"/>')
+    lines.append(f'<text x="70" y="235" font-family="sans-serif" font-size="12">{all_min:.4g}</text>')
+    lines.append(f'<text x="630" y="235" font-family="sans-serif" font-size="12">{all_max:.4g}</text>')
+    lines.append('</svg>')
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------
@@ -515,18 +596,48 @@ def run_phase_c(args, out, gate_info):
     # quartile boundaries are frozen before any lesion filename is resolved.
     native_values = {1: [], 2: [], 3: []}
     identity_values = {1: [], 2: [], 3: []}
-    schema_rows, mirror_rows, exclusion_rows, mirrors = [], [], [], {}
+    schema_rows, mirror_rows, exclusion_rows = [], [], []
+    cache_dir = out / "phase_c_cache"
+    cache_dir.mkdir(exist_ok=True)
+    cache_identity_path = cache_dir / "identity.json"
+    cache_identity = {"contract_blob": gate_info["contract_blob"],
+                      "archive_sha256": archive_info["archive_sha256"],
+                      "split_manifest_sha256": split_sha,
+                      "run_py_sha256": sha256_file(Path(__file__))}
+    if cache_identity_path.exists() and json.loads(cache_identity_path.read_text()) != cache_identity:
+        fail(4, "Phase-C checkpoint identity differs from this contract/archive/split/code")
+    write_json(cache_identity_path, cache_identity)
     for number, case in enumerate(sorted(census), 1):
-        emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; reserved cases remain unopened")
-        arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=schema_rows)
-        confirm_cbv_units(paths["cbv"])
-        brain, reflected, plane, error, usable, score = mirror_qc(arrays["ncct"], zooms)
-        mirror_rows.append({"case_id": case, "plane_axis0": plane,
-                            "registration_error_voxels": error, "usable_brain_fraction": usable,
-                            "normalized_median_absolute_error": score})
-        mirrors[case] = (brain, reflected, plane)
-        values_by_stratum, identity_by_stratum, exclusions = patient_native_z(arrays, mirrors[case])
-        exclusion_rows.append({"case_id": case, **exclusions})
+        cache_path = cache_dir / f"{case}.npz"
+        audit_path = cache_dir / f"{case}.json"
+        if cache_path.exists() and audit_path.exists():
+            emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; resume checkpoint hit")
+            cached = np.load(cache_path)
+            audit = json.loads(audit_path.read_text())
+            values_by_stratum = [cached[f"z{i}"] for i in range(1, 4)]
+            identity_by_stratum = [cached[f"u{i}"] for i in range(1, 4)]
+        else:
+            emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; computing and checkpointing")
+            case_schema = []
+            arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=case_schema)
+            confirm_cbv_units(paths["cbv"])
+            brain, reflected, plane, error, usable, score = mirror_qc(arrays["ncct"], zooms)
+            mirror_row = {"case_id": case, "plane_axis0": plane,
+                          "registration_error_voxels": error, "usable_brain_fraction": usable,
+                          "normalized_median_absolute_error": score}
+            values_by_stratum, identity_by_stratum, exclusions, rcbf, rcbv, region = patient_native_z(
+                arrays, (brain, reflected, plane)
+            )
+            atomic_npz(cache_path, rcbf=rcbf, rcbv=rcbv, region=region,
+                       affine=np.asarray(json.loads(case_schema[0]["affine"])),
+                       **{f"z{i}": values_by_stratum[i-1] for i in range(1, 4)},
+                       **{f"u{i}": identity_by_stratum[i-1] for i in range(1, 4)})
+            audit = {"schema": case_schema[0], "mirror": mirror_row,
+                     "exclusions": {"case_id": case, **exclusions}}
+            write_json(audit_path, audit)
+        schema_rows.append(audit["schema"])
+        mirror_rows.append(audit["mirror"])
+        exclusion_rows.append(audit["exclusions"])
         for index, values in enumerate(values_by_stratum, 1):
             native_values[index].append(values)
             identity_values[index].append(identity_by_stratum[index - 1])
@@ -544,53 +655,86 @@ def run_phase_c(args, out, gate_info):
     if all_u.size == 0:
         fail(9, "central-volume identity coordinate has no supported voxels")
     census_median_u = float(np.median(all_u))
-    centered = {}
+    centered, identity_rows = {}, []
     for index in range(1, 4):
         vals = np.concatenate([x for x in identity_values[index] if x.size]) - census_median_u
         centered[index] = float(np.median(np.abs(vals)))
+        row = distribution_row(index, vals, "centered_residual")
+        row.update({"census_median_u": census_median_u,
+                    "median_absolute_centered_residual": centered[index]})
+        identity_rows.append(row)
+    write_csv(out / "identity_residual_summary.csv",
+              list(identity_rows[0]), identity_rows)
+    write_distribution_svg(out / "identity_residual_distribution.svg", identity_rows,
+                           "centered_residual", "Centered central-volume identity residual")
+    # Persist the full diagnostic distribution before an invalidating exit.
+    for index in range(1, 4):
         if centered[index] > 0.10:
             fail(9, f"stratum {index} identity residual {centered[index]:.4f} exceeds 0.10")
-    write_csv(out / "identity_residual_summary.csv",
-              ["stratum", "census_median_u", "median_absolute_centered_residual"],
-              [{"stratum": k, "census_median_u": census_median_u,
-                "median_absolute_centered_residual": v} for k, v in centered.items()])
     quartile_cuts = {}
+    support_rows = []
     for index in range(1, 4):
         pooled = np.concatenate(native_values[index])
         if pooled.size == 0: fail(10, f"stratum {index} has no native support")
         quartile_cuts[index] = tuple(float(x) for x in np.quantile(pooled, [0.25, 0.75]))
-    with (out / "support_summary.csv").open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["stratum", "q25_log_rcbv", "q75_log_rcbv", "native_voxels"])
-        writer.writeheader()
-        for index in range(1, 4):
-            writer.writerow({"stratum": index, "q25_log_rcbv": quartile_cuts[index][0],
-                             "q75_log_rcbv": quartile_cuts[index][1],
-                             "native_voxels": sum(len(x) for x in native_values[index])})
+        support_rows.append(distribution_row(index, pooled, "log_rcbv"))
+    write_csv(out / "support_summary.csv", list(support_rows[0]), support_rows)
+    write_distribution_svg(out / "native_support.svg", support_rows, "log_rcbv",
+                           "Native log(rCBV) support by matched-rCBF stratum")
 
     # Pass two opens lesion masks only after split and quantile boundaries are
     # immutable. It emits one row per patient and stratum.
     per_patient = []
+    outcome_checkpoint = cache_dir / "per_patient_checkpoint.csv"
+    if outcome_checkpoint.exists():
+        with outcome_checkpoint.open(newline="", encoding="utf-8") as handle:
+            per_patient = list(csv.DictReader(handle))
+        for row in per_patient:
+            row["stratum"] = int(row["stratum"])
+            row["q1_voxels"] = int(row["q1_voxels"])
+            row["q4_voxels"] = int(row["q4_voxels"])
+    completed = {row["case_id"] for row in per_patient}
     for number, case in enumerate(sorted(census), 1):
+        if case in completed:
+            emit(f"Outcome pass {number}/{CENSUS_N}: {case}; resume checkpoint hit")
+            continue
         emit(f"Outcome pass {number}/{CENSUS_N}: {case}; running rows={len(per_patient)}")
-        arrays, _, _ = load_case(args.data_dir, case, load_label=True)
-        rows = patient_measure(case, arrays, min_m, quartile_cuts, mirrors[case])
+        with np.load(cache_dir / f"{case}.npz") as cache:
+            lesion, lesion_path, label_resampled = load_lesion(
+                args.data_dir, case, cache["region"].shape, cache["affine"]
+            )
+            rows = patient_measure(case, lesion, min_m, quartile_cuts, cache)
+        schema = next(row for row in schema_rows if row["case_id"] == case)
+        schema["files"] = json.dumps({**json.loads(schema["files"]), "lesion": lesion_path}, sort_keys=True)
+        if label_resampled:
+            schema["resampled"] = ";".join(filter(None, (schema["resampled"], "lesion")))
+        audit_path = cache_dir / f"{case}.json"
+        audit = json.loads(audit_path.read_text())
+        audit["schema"] = schema
+        write_json(audit_path, audit)
         per_patient.extend(rows)
-    with (out / "per_patient.csv").open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(per_patient[0])); writer.writeheader(); writer.writerows(per_patient)
+        write_csv(outcome_checkpoint, list(per_patient[0]), per_patient)
+    write_csv(out / "schema_census.csv", list(schema_rows[0]), schema_rows)
+    write_csv(out / "per_patient.csv", list(per_patient[0]), per_patient)
     rng = np.random.default_rng(SEED)
     summaries = []
     common_signs, excluded = [], 0
     for index in range(1, 4):
         values = np.array([float(r["d"]) for r in per_patient if r["stratum"] == index and r["d"] != ""])
         if len(values) < min_n: fail(10, f"stratum {index} has {len(values)} contributing patients; needs {min_n}")
-        draws = np.mean(values[rng.integers(0, len(values), (BOOTSTRAPS, len(values)))], axis=1)
+        indices = rng.integers(0, len(values), (BOOTSTRAPS, len(values)))
+        draws = np.mean(values[indices], axis=1)
+        median_draws = np.median(values[indices], axis=1)
         lo, hi = np.percentile(draws, [2.5, 97.5]); point = float(values.mean())
+        median_lo, median_hi = np.percentile(median_draws, [2.5, 97.5])
         sign = int(np.sign(point))
         common_signs.append(sign)
         # The interval must exclude zero in the point estimate's common direction.
         excluded += int((sign > 0 and lo > 0) or (sign < 0 and hi < 0))
         summaries.append({"stratum": index, "patients": len(values), "mean_d": point,
-                          "median_d": float(np.median(values)), "ci_low": float(lo),
+                          "median_d": float(np.median(values)),
+                          "median_ci_low": float(median_lo), "median_ci_high": float(median_hi),
+                          "ci_low": float(lo),
                           "ci_high": float(hi), "ci_width": float(hi-lo)})
     passed = len(set(common_signs)) == 1 and common_signs[0] != 0 and excluded >= 2 and all(r["ci_width"] <= max_width for r in summaries)
     with (out / "per_stratum_summary.csv").open("w", newline="") as handle:
@@ -620,7 +764,14 @@ def main():
     try:
         phase = "SMOKE" if args.smoke else args.phase
         info = {"contract_blob": blob_sha1(CONTRACT)} if args.smoke else gate(args.phase)
-        write_json(args.output_dir / "resolved_config.json", {"phase": phase, "seed": SEED, "strata": STRATA, **info})
+        resolved = {"phase": phase, "seed": SEED, "strata": STRATA, **info}
+        if args.phase == "C":
+            resolved.update({
+                "minimum_contributing_patients_per_stratum": int(scalar(CONTRACT.read_text(), "minimum_contributing_patients_per_stratum")),
+                "minimum_voxels_per_patient_quantile_cell": int(scalar(CONTRACT.read_text(), "minimum_voxels_per_patient_quantile_cell")),
+                "maximum_primary_ci_width": float(scalar(CONTRACT.read_text(), "maximum_primary_ci_width")),
+            })
+        write_json(args.output_dir / "resolved_config.json", resolved)
         env = environment(); write_json(args.output_dir / "provenance.json", env)
         (args.output_dir / "environment.txt").write_text(json.dumps(env, indent=2) + "\n")
         summary = run_phase_s(args.output_dir, smoke=args.smoke) if args.smoke or args.phase == "S" else run_phase_c(args, args.output_dir, info)
