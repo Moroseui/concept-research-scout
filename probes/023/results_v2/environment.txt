@@ -1,0 +1,15 @@
+{
+  "timestamp_utc": "2026-08-24T10:03:36.249884+00:00",
+  "python": "3.13.15 (main, Aug  6 2026, 11:06:23) [GCC 11.4.0]",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+  "numpy": "2.1.3",
+  "command": [
+    "probes/023/run.py",
+    "--phase",
+    "S",
+    "--output-dir",
+    "/content/drive/MyDrive/concept-research-scout-results/023_v2"
+  ],
+  "cwd": "/content/scout-repo",
+  "seed": 20260824
+}
