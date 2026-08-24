@@ -505,3 +505,19 @@ STANDS; recommendation CLEAR-TO-CONTRACT. Operator ruling: ACCEPTED. Idea
 023 is cleared for contract drafting (probe-plan). Reconciliation of the
 remaining 020-025 ideas stays queued; the scoped-to-023 requirement before
 any 023 contract is satisfied. Artifact: ideas/023/reconciliation.md.
+
+## 2026-08-24 - Probe 023 review ruling (round 2: REVISE, three Phase-C blockers)
+
+Operator ruling: Phase S execution AUTHORIZED with the current run.py -- the
+reviewer confirms Phase S is contract-faithful and all blocking findings
+(B1 lesion filename, B2 compute plan, B3 missing secondary metrics) are
+confined to Phase C, which is already locked behind the contract amendment
+and fresh approval. B1-B3, the NaN-background finiteness ambiguity, and the
+NCCT-location correction MUST be resolved before the Phase-C approval is
+granted. Review rounds preserved in git.
+
+Design note: the one-revision cap on probe-build review is provisionally too
+tight relative to debate max_rounds=3; queue a configurable
+probe_review.max_revisions knob with an ambiguity-escalation rule. B1/B3 are
+agent-resolvable and go back through probe-build at amendment time; B2 and
+the finiteness ambiguity are operator decisions.
