@@ -1,0 +1,12 @@
+Review complete — verdict **REVISE**, written to `ideas/023/probe_review.md`.
+
+**TLDR:** Phase S (the only currently approved phase) is contract-faithful and could run today — the simulation grid, selection rule, seed, bootstrap, and the hash-bound approval gate all match the contract exactly, and I verified the contract blob on disk (`4a46713d1b81…`) matches the `HUMAN_APPROVED_PROBE` marker and that `run.py`/`requirements.txt` match the SHA-256s in `verification.json`. But the committed file also contains the Phase C implementation, and that half fails review on nine blocking findings:
+
+1. **Phase C is dead on arrival on the real schema.** The NCCT file lookup searches for filenames containing the token `ncct` — but every derivative filename contains `space-ncct` (the exact filenames are quoted in the idea's own keystone screen), so the exactly-one-match assertion fails with exit 5 on the very first census case.
+2. **The contract's mirror/brain gate is entirely unimplemented** (no brain mask, no NCCT-derived midsagittal method, no registration-error gate, no `mirror_qc.csv`), and a comment at run.py:253 claims a gate that does not exist — the worst kind of silent-failure surface for a preregistered probe.
+3. **Three more frozen rules deviate or are missing:** the mirror-neighborhood-median normalization is replaced by a single-voxel divide; the central-volume identity gate centers per-stratum instead of census-wide and runs *after* outcome access instead of before; and the CBV unit-inspection gate (exit 8) doesn't exist.
+4. **Provenance and outputs:** no Zenodo checksum comparison or pre-analysis archive manifest; four `required_outputs` files (`archive_manifest.csv`, `schema_census.csv`, `mirror_qc.csv`, `exclusions.csv`) are never written; the frozen resampling rule and the "simulation output hash verifies" entry condition are unimplemented.
+
+Non-blocking notes cover the CI-direction literal, erosion order, a ~1–3 CPU-hour un-checkpointed Phase S runtime, a memory-heavy residual accumulator, and the (honestly recorded) switch from exact pins to bounded ranges after the numpy 1.26.4/Python 3.13 wheel failure.
+
+No `contract_requirements.md` exists, so the requirements-governed checks were not applicable. Claim discipline in the code is good throughout — outputs use the contract's `positive_pattern`/`negative_pattern` language and nothing stronger. The review file and the untracked `prompt_probe_review.md` are left uncommitted for the pipeline driver to record.
