@@ -26,7 +26,7 @@ For Phase C, selectively extract exactly these release paths for every case:
 - `derivatives/**/perfusion-maps/*_space-ncct_{cbf,cbv,mtt,tmax}.nii.gz`
 - `derivatives/**/*_lesion-msk.nii.gz` (the release filename keeps
   `ses-0001` even though the file is stored below the follow-up session)
-- `rawdata/**/_ncct.nii.gz`
+- `rawdata/**/*_ncct.nii.gz`
 
 The rawdata NCCT is required: it is not duplicated in `derivatives/`. Raw 4D
 CTP and CTA are not used. Keep the output directory on persistent storage.

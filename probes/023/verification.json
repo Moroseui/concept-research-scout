@@ -1,24 +1,6 @@
 {
   "idea_id": "023",
-  "contract_blob": "349af5ad0b3e8acfc6337d15f1860974d1183393",
-  "run_py_sha256": "8bd3156b1561569cfee01d40bf96d8a8a79e69c081d97fcd26f7da0dffb26eb2",
-  "requirements_sha256": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928",
-  "readme_sha256": "be45e9021688f85953566dfa67df41d16087941cee7016e13f2b23d2461c8f45",
   "passed": true,
   "issues": [],
-  "checks": [
-    "Human approval marker matches the amended probe-contract git blob.",
-    "Python compilation passed.",
-    "Synthetic smoke completed with SMOKE_OK and emitted the required smoke artifacts.",
-    "Deterministic 100-patient split is order-independent and has no census/reserve overlap.",
-    "Official _lesion-msk.nii.gz filename resolves uniquely in a tiny filesystem fixture.",
-    "Vectorized slab median is numerically identical to the original 5x5x3 nanmedian definition on a seeded fixture.",
-    "All contract-required output filenames are present in the implementation.",
-    "Scoped git diff whitespace check passed for probes/023 artifacts."
-  ],
-  "not_run": [
-    "Phase C real-data census (expensive; deliberately not launched).",
-    "Phase S full 2000-replicate simulation (already completed and hash-frozen by the approved contract)."
-  ],
-  "checked_at": "2026-08-24T15:13:10-04:00"
+  "checked_at": "2026-08-24T19:25:56.194878+00:00"
 }
