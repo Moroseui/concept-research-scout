@@ -1,0 +1,26 @@
+{
+  "idea_id": "023",
+  "passed": true,
+  "checked_at": "2026-08-24T09:16:22Z",
+  "expensive_compute_launched": false,
+  "checks": {
+    "contract_blob": "4a46713d1b81874c88a2e347aace6773e68904e2",
+    "approval_blob_matches": true,
+    "phase_s_gate_exit": 0,
+    "phase_c_pre_amendment_refusal_exit": 2,
+    "python_compile_exit": 0,
+    "smoke_exit": 0,
+    "smoke_contract_satisfied": false,
+    "git_diff_check_exit": 0,
+    "run_py_sha256": "bd42b9ebc998f89c8b7dea6dbe8ace44d74e2aea1ac61389559de8a333dfa006",
+    "requirements_sha256": "6f96acdd5bea5d086582e554a9aad80f0843f7a00f013afad888615757bfcd4c"
+  },
+  "environment": {
+    "python": "3.13.7",
+    "verification_numpy": "2.5.2",
+    "verification_nibabel": "5.4.2",
+    "note": "Verification used a disposable /tmp virtual environment. The first attempted frozen NumPy 1.26.4 pin had no Python 3.13 wheel, so requirements were changed to bounded compatible ranges; every run captures resolved versions."
+  },
+  "scope": "Only compile, synthetic smoke, approval-gate, stale-Phase-C refusal, and diff-whitespace checks ran. The contractual 2,000-replicate Phase S and all real-data Phase C work were not launched.",
+  "issues": []
+}
