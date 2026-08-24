@@ -11,7 +11,8 @@ python probes/023/run.py --phase S --output-dir /path/to/persistent/results
 # Only after contract amendment + fresh approval:
 python probes/023/run.py --phase C --output-dir /path/to/results \
   --data-dir /path/to/selectively/extracted/train \
-  --archive-file /path/to/train.7z --record-json /path/to/zenodo-record.json
+  --archive-file /path/to/train.7z --record-json /path/to/zenodo-record.json \
+  --phase-s-dir /path/to/approved/phase-s-results
 ```
 
 Install `requirements.txt` first. Phase C accepts only a training-release path;

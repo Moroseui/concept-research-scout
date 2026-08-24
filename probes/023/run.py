@@ -195,10 +195,21 @@ def run_phase_s(out, smoke=False):
     return summary
 
 
-def find_one(case_dir, tokens):
-    files = [p for p in case_dir.rglob("*.nii*") if all(t in p.name.lower() for t in tokens)]
+def find_one(data_dir, case_id, kind):
+    """Resolve one modality by an exact filename suffix, never a substring."""
+    suffixes = {
+        "cbf": ("_space-ncct_cbf.nii.gz", "_space-ncct_cbf.nii"),
+        "cbv": ("_space-ncct_cbv.nii.gz", "_space-ncct_cbv.nii"),
+        "mtt": ("_space-ncct_mtt.nii.gz", "_space-ncct_mtt.nii"),
+        "tmax": ("_space-ncct_tmax.nii.gz", "_space-ncct_tmax.nii"),
+        "ncct": ("_ncct.nii.gz", "_ncct.nii"),
+        "lesion": ("_msk.nii.gz", "_msk.nii", "_lesion.nii.gz", "_lesion.nii"),
+    }
+    files = [p for p in data_dir.rglob(f"{case_id}*")
+             if p.is_file() and any(p.name.lower().endswith(s) for s in suffixes[kind])]
     if len(files) != 1:
-        fail(5, f"expected one {'+'.join(tokens)} file under {case_dir}, found {len(files)}")
+        fail(5, f"expected one exact {kind} file for {case_id}, found {len(files)}: "
+                + ", ".join(str(p) for p in sorted(files)[:5]))
     return files[0]
 
 
@@ -219,6 +230,76 @@ def split_cases(case_ids):
     return census, reserve
 
 
+def write_csv(path, fieldnames, rows):
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def md5_file(path):
+    digest = hashlib.md5()  # Zenodo supplies MD5 for deposited files.
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def validate_record_and_archive(record, archive_file):
+    """Verify the immutable Zenodo record and archive before image access."""
+    record_id = str(record.get("id", ""))
+    metadata = record.get("metadata", {})
+    publication_date = metadata.get("publication_date")
+    concept_id = str(record.get("conceptrecid", ""))
+    if not record_id.isdigit() or not publication_date:
+        fail(4, "record JSON lacks an immutable numeric id or publication date")
+    if concept_id and concept_id == record_id:
+        fail(4, "record JSON identifies the mutable concept record, not an immutable child record")
+    candidates = [f for f in record.get("files", []) if f.get("key") == archive_file.name]
+    if len(candidates) != 1:
+        fail(4, f"record JSON does not name exactly one {archive_file.name}")
+    supplied = str(candidates[0].get("checksum", ""))
+    if not supplied.startswith("md5:"):
+        fail(4, "Zenodo file entry lacks its supplied md5 checksum")
+    actual_md5 = md5_file(archive_file)
+    if actual_md5 != supplied.split(":", 1)[1].lower():
+        fail(4, "downloaded archive does not match the Zenodo-supplied checksum")
+    return {"record_id": record_id, "publication_date": publication_date,
+            "zenodo_checksum": supplied, "archive_md5": actual_md5,
+            "archive_sha256": sha256_file(archive_file)}
+
+
+def archive_members(archive_file):
+    """Read the deposited 7z member list without extracting scientific data."""
+    try:
+        import py7zr
+    except ImportError:
+        fail(12, "py7zr is required to create archive_manifest.csv")
+    try:
+        with py7zr.SevenZipFile(archive_file, mode="r") as archive:
+            rows = [{"path": item.filename, "size": item.uncompressed,
+                     "crc": "" if item.crc32 is None else f"{item.crc32:08x}"}
+                    for item in archive.list() if not item.is_directory]
+    except Exception as exc:
+        fail(4, f"could not list the 7z archive: {exc!r}")
+    if not rows:
+        fail(4, "archive member manifest is empty")
+    return rows
+
+
+def verify_phase_s_hash(args):
+    if not args.phase_s_dir:
+        fail(2, "Phase C requires --phase-s-dir to verify the amended simulation hash")
+    csv_path = args.phase_s_dir / "simulation_operating_characteristics.csv"
+    if not csv_path.exists():
+        fail(4, f"Phase-S output is missing: {csv_path}")
+    expected = scalar(CONTRACT.read_text(), "simulation_output_sha256")
+    actual = sha256_file(csv_path)
+    if expected != actual:
+        fail(4, "Phase-S simulation output SHA-256 does not match the amended contract")
+    return actual
+
+
 # ---------------------------------------------------------------------------
 # PHASE C — LOAD AND VALIDATE.
 # Only the post-amendment approval can reach this code. It resolves immutable
@@ -226,39 +307,127 @@ def split_cases(case_ids):
 # units, finite values, mirror support, and the central-volume coordinate.
 # ---------------------------------------------------------------------------
 
-def load_case(data_dir, case_id, load_label):
+def load_case(data_dir, case_id, load_label, audit_rows=None):
     try:
         import nibabel as nib
     except ImportError:
         fail(12, "nibabel is required for Phase C")
-    roots = [p for p in data_dir.rglob(case_id) if p.is_dir()]
-    root = roots[0] if roots else data_dir
-    paths = {k: find_one(root, [case_id.lower(), k]) for k in ("cbf", "cbv", "mtt", "tmax")}
-    paths["ncct"] = find_one(root, [case_id.lower(), "ncct"])
+    paths = {k: find_one(data_dir, case_id, k) for k in ("cbf", "cbv", "mtt", "tmax", "ncct")}
     if load_label:
-        paths["lesion"] = find_one(root, [case_id.lower(), "lesion"])
+        paths["lesion"] = find_one(data_dir, case_id, "lesion")
     images = {k: nib.load(str(p)) for k, p in paths.items()}
-    reference = images["cbf"]
-    for key, image in images.items():
+    # Canonical RAS makes array axis 0 the anatomical left-right axis used by reflection.
+    reference = nib.as_closest_canonical(images["ncct"])
+    images["ncct"] = reference
+    resampled = []
+    for key, image in list(images.items()):
         if image.shape != reference.shape or not np.allclose(image.affine, reference.affine, atol=1e-5):
-            fail(6, f"{case_id} {key} grid differs; frozen resampling requires an explicit implementation review")
+            try:
+                from nibabel.processing import resample_from_to
+            except ImportError:
+                fail(12, "scipy is required for the frozen resampling rule")
+            # Contract rule: linear interpolation for maps; nearest-neighbor for labels.
+            order = 0 if key == "lesion" else 1
+            images[key] = resample_from_to(image, (reference.shape, reference.affine), order=order)
+            resampled.append(key)
     arrays = {k: np.asarray(v.dataobj, dtype=np.float32) for k, v in images.items()}
     if any(not np.isfinite(a).all() for a in arrays.values()):
         fail(6, f"nonfinite value in {case_id}")
+    if audit_rows is not None:
+        audit_rows.append({"case_id": case_id, "files": json.dumps({k: str(v) for k, v in paths.items()}, sort_keys=True),
+                           "shape": "x".join(map(str, reference.shape)),
+                           "voxel_sizes_mm": "x".join(f"{v:.6g}" for v in reference.header.get_zooms()[:3]),
+                           "affine": json.dumps(reference.affine.tolist()),
+                           "resampled": ";".join(resampled)})
     return arrays, paths, reference.header.get_zooms()[:3]
 
 
-def coordinate_arrays(arrays):
+def confirm_cbv_units(cbv_path):
+    sidecar = Path(re.sub(r"\.nii(?:\.gz)?$", ".json", str(cbv_path)))
+    texts = []
+    if sidecar.exists():
+        texts.append(json.dumps(json.loads(sidecar.read_text()), sort_keys=True).lower())
+    try:
+        import nibabel as nib
+        texts.append(bytes(nib.load(str(cbv_path)).header["descrip"]).decode("latin1").lower())
+    except Exception:
+        pass
+    normalized = re.sub(r"[\s_/.-]", "", " ".join(texts))
+    if not ("ml100g" in normalized or "mlper100g" in normalized):
+        fail(8, f"CBV unit mL/100 g is not explicitly documented for {cbv_path}")
+
+
+def reflect_index(length, plane):
+    indices = np.arange(length)
+    reflected = np.rint(2.0 * plane - indices).astype(int)
+    return reflected, (reflected >= 0) & (reflected < length)
+
+
+def mirror_qc(ncct, zooms):
+    """Freeze a simple NCCT-derived brain mask and midsagittal reflection."""
+    from scipy import ndimage
+    # NCCT brain proxy: plausible intracranial tissue range, then fill holes and keep largest component.
+    mask = np.isfinite(ncct) & (ncct >= -20.0) & (ncct <= 120.0)
+    mask = ndimage.binary_closing(mask, iterations=2)
+    labels, count = ndimage.label(mask)
+    if count == 0:
+        fail(7, "NCCT-derived brain mask is empty")
+    sizes = ndimage.sum(mask, labels, range(1, count + 1))
+    mask = labels == (int(np.argmax(sizes)) + 1)
+    center = (ncct.shape[0] - 1) / 2.0
+    candidates = np.arange(center - 5.0, center + 5.01, 0.5)
+    scores = []
+    scale = max(float(np.percentile(ncct[mask], 95) - np.percentile(ncct[mask], 5)), 1.0)
+    for plane in candidates:
+        reflected, valid = reflect_index(ncct.shape[0], plane)
+        mirrored = ncct[np.clip(reflected, 0, ncct.shape[0] - 1), :, :]
+        paired = mask & valid[:, None, None] & mask[np.clip(reflected, 0, ncct.shape[0] - 1), :, :]
+        if paired.any():
+            intensity_error = float(np.median(np.abs(ncct[paired] - mirrored[paired])) / scale)
+            overlap_penalty = 1.0 - float(paired.sum() / mask.sum())
+            score = intensity_error + overlap_penalty
+        else:
+            score = np.inf
+        scores.append(score)
+    plane = float(candidates[int(np.argmin(scores))])
+    reflected, valid = reflect_index(ncct.shape[0], plane)
+    clipped = np.clip(reflected, 0, ncct.shape[0] - 1)
+    reflected_mask = mask[clipped, :, :] & valid[:, None, None]
+    usable = mask & reflected_mask
+    fraction = float(usable.sum() / mask.sum())
+    # Median symmetric boundary distance is the frozen left-right registration error in voxels.
+    boundary = mask ^ ndimage.binary_erosion(mask)
+    reflected_boundary = boundary[clipped, :, :] & valid[:, None, None]
+    to_boundary = ndimage.distance_transform_edt(~boundary)
+    to_reflected = ndimage.distance_transform_edt(~reflected_boundary)
+    distances = np.concatenate((to_boundary[reflected_boundary], to_reflected[boundary]))
+    registration_error = float(np.median(distances)) if distances.size else np.inf
+    return mask, reflected, plane, registration_error, fraction, float(min(scores))
+
+
+def neighborhood_median(source, allowed, reflected):
+    """Median reflected 5x5x3 neighborhood; NaNs mark excluded references."""
+    from scipy import ndimage
+    mirrored = source[np.clip(reflected, 0, source.shape[0] - 1), :, :].astype(np.float32)
+    mirrored_allowed = allowed[np.clip(reflected, 0, source.shape[0] - 1), :, :]
+    mirrored[~mirrored_allowed] = np.nan
+    # Frozen 5x5x3 voxel neighborhood from preprocessing.relative_measures.
+    return ndimage.generic_filter(mirrored, np.nanmedian, size=(5, 5, 3), mode="constant", cval=np.nan)
+
+
+def coordinate_arrays(arrays, mirror):
     cbf, cbv, mtt, tmax = (arrays[k] for k in ("cbf", "cbv", "mtt", "tmax"))
-    # Frozen automatic reflection: array-axis-0 reversal. The one-voxel NCCT
-    # registration-error gate is reported conservatively via normalized MAE.
-    mirror_cbf = np.flip(cbf, axis=0)
-    mirror_cbv = np.flip(cbv, axis=0)
-    valid_den = (mirror_cbf > 0) & (mirror_cbv > 0)
+    brain, reflected, plane = mirror
+    deficit = tmax > 6.0                 # DEFUSE-family threshold frozen in contract.
+    vessel = cbv > 8.0                   # mL/100 g cap, used only after explicit unit confirmation.
+    allowed = brain & ~deficit & ~vessel
+    mirror_cbf = neighborhood_median(cbf, allowed, reflected)
+    mirror_cbv = neighborhood_median(cbv, allowed, reflected)
+    valid_den = np.isfinite(mirror_cbf) & np.isfinite(mirror_cbv) & (mirror_cbf > 0) & (mirror_cbv > 0)
     rcbf = np.divide(cbf, mirror_cbf, out=np.full_like(cbf, np.nan), where=valid_den)
     rcbv = np.divide(cbv, mirror_cbv, out=np.full_like(cbv, np.nan), where=valid_den)
     # Contract threshold: Tmax > 6 seconds; CBV vessel cap 8 mL/100 g.
-    region = (tmax > 6.0) & (cbv <= 8.0) & valid_den
+    region = deficit.copy()
     # One-voxel binary erosion removes unstable deficit boundaries, as frozen
     # in preprocessing.region. Six face-neighbors make the 3-D voxel erosion.
     eroded = region.copy()
@@ -267,24 +436,29 @@ def coordinate_arrays(arrays):
         eroded &= np.roll(region, -1, axis=axis)
     eroded[[0, -1], :, :] = False; eroded[:, [0, -1], :] = False; eroded[:, :, [0, -1]] = False
     # Contract excludes two voxels on either side of the estimated midline.
-    mid = cbf.shape[0] // 2
-    eroded[max(0, mid - 2):min(cbf.shape[0], mid + 3), :, :] = False
-    return cbf, cbv, mtt, rcbf, rcbv, eroded
+    coordinates = np.arange(cbf.shape[0], dtype=float)
+    eroded[np.abs(coordinates - plane) <= 2.0, :, :] = False
+    eroded &= brain & ~vessel & valid_den
+    exclusions = {"deficit_voxels": int(deficit.sum()), "eroded_region_voxels": int(eroded.sum()),
+                  "invalid_or_nonpositive_denominator_voxels": int((brain & ~valid_den).sum()),
+                  "vessel_voxels": int(vessel.sum())}
+    return cbf, cbv, mtt, rcbf, rcbv, eroded, exclusions
 
 
-def patient_native_z(arrays):
-    cbf, cbv, mtt, rcbf, rcbv, region = coordinate_arrays(arrays)
-    values = []
+def patient_native_z(arrays, mirror):
+    cbf, cbv, mtt, rcbf, rcbv, region, exclusions = coordinate_arrays(arrays, mirror)
+    values, identity = [], []
     for low, high in STRATA:
         mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0) & (cbf > 0) & (cbv > 0) & (mtt > 0)
         values.append(np.log(rcbv[mask]))
-    return values
+        identity.append(np.log(mtt[mask]) - np.log(cbv[mask]) + np.log(cbf[mask]))
+    return values, identity, exclusions
 
 
-def patient_measure(case_id, arrays, min_voxels, quartile_cuts):
-    cbf, cbv, mtt, rcbf, rcbv, region = coordinate_arrays(arrays)
+def patient_measure(case_id, arrays, min_voxels, quartile_cuts, mirror):
+    cbf, cbv, mtt, rcbf, rcbv, region, _ = coordinate_arrays(arrays, mirror)
     lesion = arrays["lesion"] > 0.5
-    records, residuals = [], []
+    records = []
     for index, (low, high) in enumerate(STRATA, 1):
         mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0) & (cbf > 0) & (cbv > 0) & (mtt > 0)
         z = np.log(rcbv[mask])
@@ -297,9 +471,7 @@ def patient_measure(case_id, arrays, min_voxels, quartile_cuts):
         lo_mask, hi_mask = z <= q1, z >= q3
         d = float(labels[lo_mask].mean() - labels[hi_mask].mean()) if lo_mask.sum() >= min_voxels and hi_mask.sum() >= min_voxels else ""
         records.append({"case_id": case_id, "stratum": index, "q1_voxels": int(lo_mask.sum()), "q4_voxels": int(hi_mask.sum()), "d": d})
-        u = np.log(mtt[mask]) - np.log(cbv[mask]) + np.log(cbf[mask])
-        residuals.extend((index, float(x)) for x in u)
-    return records, residuals
+    return records
 
 
 # ---------------------------------------------------------------------------
@@ -315,25 +487,73 @@ def run_phase_c(args, out, gate_info):
     for path in (args.data_dir, args.archive_file, args.record_json):
         if "test" in str(path).lower(): fail(5, "no-test guard refused a Phase-C path")
         if not path.exists(): fail(3, f"required input missing: {path}")
+    phase_s_sha = verify_phase_s_hash(args)
     record = json.loads(args.record_json.read_text())
+    archive_info = validate_record_and_archive(record, args.archive_file)
+    members = archive_members(args.archive_file)
+    write_csv(out / "archive_manifest.csv", ["path", "size", "crc"], members)
     case_ids = discover_cases(args.data_dir)
     census, reserve = split_cases(case_ids)
-    with (out / "split_manifest.csv").open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["case_id", "population", "assignment_hash"]); writer.writeheader()
-        for case in sorted(case_ids):
-            writer.writerow({"case_id": case, "population": "census" if case in census else "reserved",
-                             "assignment_hash": hashlib.sha256(("idea-023-v1|" + case).encode()).hexdigest()})
+    split_rows = [{"case_id": case, "population": "census" if case in census else "reserved",
+                   "assignment_hash": hashlib.sha256(("idea-023-v1|" + case).encode()).hexdigest()}
+                  for case in sorted(case_ids)]
+    assert {r["case_id"] for r in split_rows if r["population"] == "census"}.isdisjoint(
+        {r["case_id"] for r in split_rows if r["population"] == "reserved"})
+    write_csv(out / "split_manifest.csv", ["case_id", "population", "assignment_hash"], split_rows)
+    split_sha = sha256_file(out / "split_manifest.csv")
+    provenance_path = out / "provenance.json"
+    provenance = json.loads(provenance_path.read_text())
+    provenance.update({**archive_info, "archive_member_count": len(members),
+                       "released_case_count": len(case_ids),
+                       "split_manifest_sha256": split_sha,
+                       "simulation_output_sha256": phase_s_sha})
+    write_json(provenance_path, provenance)
     min_n = int(scalar(CONTRACT.read_text(), "minimum_contributing_patients_per_stratum"))
     min_m = int(scalar(CONTRACT.read_text(), "minimum_voxels_per_patient_quantile_cell"))
     max_width = float(scalar(CONTRACT.read_text(), "maximum_primary_ci_width"))
     # Pass one is outcome-blind: only maps are opened, and census-wide native
     # quartile boundaries are frozen before any lesion filename is resolved.
     native_values = {1: [], 2: [], 3: []}
+    identity_values = {1: [], 2: [], 3: []}
+    schema_rows, mirror_rows, exclusion_rows, mirrors = [], [], [], {}
     for number, case in enumerate(sorted(census), 1):
         emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; reserved cases remain unopened")
-        arrays, _, _ = load_case(args.data_dir, case, load_label=False)
-        for index, values in enumerate(patient_native_z(arrays), 1):
+        arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=schema_rows)
+        confirm_cbv_units(paths["cbv"])
+        brain, reflected, plane, error, usable, score = mirror_qc(arrays["ncct"], zooms)
+        mirror_rows.append({"case_id": case, "plane_axis0": plane,
+                            "registration_error_voxels": error, "usable_brain_fraction": usable,
+                            "normalized_median_absolute_error": score})
+        mirrors[case] = (brain, reflected, plane)
+        values_by_stratum, identity_by_stratum, exclusions = patient_native_z(arrays, mirrors[case])
+        exclusion_rows.append({"case_id": case, **exclusions})
+        for index, values in enumerate(values_by_stratum, 1):
             native_values[index].append(values)
+            identity_values[index].append(identity_by_stratum[index - 1])
+    # Frozen mirror gate: individual registration error <=1 voxel and >=90% usable support in >=90 patients.
+    good_mirror = sum(r["registration_error_voxels"] <= 1.0 and r["usable_brain_fraction"] >= 0.90
+                      for r in mirror_rows)
+    write_csv(out / "mirror_qc.csv", list(mirror_rows[0]), mirror_rows)
+    write_csv(out / "schema_census.csv", list(schema_rows[0]), schema_rows)
+    write_csv(out / "exclusions.csv", list(exclusion_rows[0]), exclusion_rows)
+    if good_mirror < 90:
+        fail(7, f"mirror gate passed for {good_mirror}/100 patients; requires at least 90")
+
+    # Contract centers u once across the whole census, then gates every stratum before labels open.
+    all_u = np.concatenate([x for cells in identity_values.values() for x in cells if x.size])
+    if all_u.size == 0:
+        fail(9, "central-volume identity coordinate has no supported voxels")
+    census_median_u = float(np.median(all_u))
+    centered = {}
+    for index in range(1, 4):
+        vals = np.concatenate([x for x in identity_values[index] if x.size]) - census_median_u
+        centered[index] = float(np.median(np.abs(vals)))
+        if centered[index] > 0.10:
+            fail(9, f"stratum {index} identity residual {centered[index]:.4f} exceeds 0.10")
+    write_csv(out / "identity_residual_summary.csv",
+              ["stratum", "census_median_u", "median_absolute_centered_residual"],
+              [{"stratum": k, "census_median_u": census_median_u,
+                "median_absolute_centered_residual": v} for k, v in centered.items()])
     quartile_cuts = {}
     for index in range(1, 4):
         pooled = np.concatenate(native_values[index])
@@ -349,12 +569,12 @@ def run_phase_c(args, out, gate_info):
 
     # Pass two opens lesion masks only after split and quantile boundaries are
     # immutable. It emits one row per patient and stratum.
-    per_patient, residuals = [], []
+    per_patient = []
     for number, case in enumerate(sorted(census), 1):
         emit(f"Outcome pass {number}/{CENSUS_N}: {case}; running rows={len(per_patient)}")
         arrays, _, _ = load_case(args.data_dir, case, load_label=True)
-        rows, values = patient_measure(case, arrays, min_m, quartile_cuts)
-        per_patient.extend(rows); residuals.extend(values)
+        rows = patient_measure(case, arrays, min_m, quartile_cuts, mirrors[case])
+        per_patient.extend(rows)
     with (out / "per_patient.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(per_patient[0])); writer.writeheader(); writer.writerows(per_patient)
     rng = np.random.default_rng(SEED)
@@ -365,24 +585,21 @@ def run_phase_c(args, out, gate_info):
         if len(values) < min_n: fail(10, f"stratum {index} has {len(values)} contributing patients; needs {min_n}")
         draws = np.mean(values[rng.integers(0, len(values), (BOOTSTRAPS, len(values)))], axis=1)
         lo, hi = np.percentile(draws, [2.5, 97.5]); point = float(values.mean())
-        common_signs.append(int(np.sign(point))); excluded += int(lo > 0 or hi < 0)
+        sign = int(np.sign(point))
+        common_signs.append(sign)
+        # The interval must exclude zero in the point estimate's common direction.
+        excluded += int((sign > 0 and lo > 0) or (sign < 0 and hi < 0))
         summaries.append({"stratum": index, "patients": len(values), "mean_d": point,
                           "median_d": float(np.median(values)), "ci_low": float(lo),
                           "ci_high": float(hi), "ci_width": float(hi-lo)})
-    centered = {}
-    for index in range(1, 4):
-        vals = np.array([v for s, v in residuals if s == index]); vals -= np.median(vals)
-        centered[index] = float(np.median(np.abs(vals)))
-        if centered[index] > 0.10: fail(9, f"stratum {index} identity residual {centered[index]:.4f} exceeds 0.10")
-    with (out / "identity_residual_summary.csv").open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["stratum", "median_absolute_centered_residual"])
-        writer.writeheader(); writer.writerows({"stratum": k, "median_absolute_centered_residual": v} for k, v in centered.items())
     passed = len(set(common_signs)) == 1 and common_signs[0] != 0 and excluded >= 2 and all(r["ci_width"] <= max_width for r in summaries)
     with (out / "per_stratum_summary.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(summaries[0])); writer.writeheader(); writer.writerows(summaries)
     summary = {"idea_id": IDEA_ID, "phase": "C", "status": "POSITIVE_PATTERN" if passed else "NEGATIVE_PATTERN",
                "g_label_passed": passed, "per_stratum": summaries, "identity_mad": centered,
-               "archive_sha256": sha256_file(args.archive_file), "record_id": record.get("id"), **gate_info}
+               "released_case_count": len(case_ids), "census_case_count": len(census),
+               "reserved_case_count": len(reserve), "split_manifest_sha256": split_sha,
+               "simulation_output_sha256": phase_s_sha, **archive_info, **gate_info}
     write_json(out / "summary.json", summary)
     return summary
 
@@ -396,6 +613,7 @@ def main():
     parser.add_argument("--data-dir", type=Path)
     parser.add_argument("--archive-file", type=Path)
     parser.add_argument("--record-json", type=Path)
+    parser.add_argument("--phase-s-dir", type=Path)
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     global LOG; LOG = args.output_dir / "run_log.txt"
