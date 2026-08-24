@@ -878,19 +878,24 @@ def verify_probe(args):
     if (p/'run.py').exists():
         r=subprocess.run([sys.executable,'-m','py_compile',str(p/'run.py')],capture_output=True,text=True)
         if r.returncode: issues.append('syntax error: '+r.stderr[-500:])
-        smoke=None
-        for flag in ('--smoke-test','--smoke'):
+        # Interface convention: `run.py --smoke` (canonical; --smoke-test
+        # accepted for older probes) must be runnable by this harness. A probe
+        # whose smoke writes artifacts gets a throwaway --output-dir. Argparse
+        # reports one error at a time, so no stderr classification: just try
+        # each flag fully and keep the first failure for honest reporting.
+        import tempfile
+        smoke=None; first_fail=None
+        for flag in ('--smoke','--smoke-test'):
             smoke=subprocess.run([sys.executable,str(p/'run.py'),flag],cwd=p,capture_output=True,text=True,timeout=300)
-            if smoke.returncode==0 or 'unrecognized arguments' not in (smoke.stderr or ''):
-                break  # ran (pass or real failure); only retry on flag-spelling rejection
-        if smoke.returncode and '--output-dir' in (smoke.stderr or ''):
-            # Interface convention: smoke must be runnable by the harness.
-            # Probes whose smoke writes artifacts get a throwaway directory.
-            import tempfile
-            with tempfile.TemporaryDirectory() as td:
-                smoke=subprocess.run([sys.executable,str(p/'run.py'),flag,'--output-dir',td],
-                                     cwd=p,capture_output=True,text=True,timeout=300)
-        if smoke.returncode: issues.append('smoke test failed: '+(smoke.stderr or smoke.stdout)[-1000:])
+            if smoke.returncode and '--output-dir' in (smoke.stderr or ''):
+                with tempfile.TemporaryDirectory() as td:
+                    smoke=subprocess.run([sys.executable,str(p/'run.py'),flag,'--output-dir',td],
+                                         cwd=p,capture_output=True,text=True,timeout=300)
+            if smoke.returncode==0: break
+            if first_fail is None: first_fail=smoke
+        if smoke.returncode:
+            smoke=first_fail or smoke
+            issues.append('smoke test failed: '+(smoke.stderr or smoke.stdout)[-1000:])
     out={'idea_id':f'{args.idea:03d}','passed':not issues,'issues':issues,'checked_at':datetime.now(timezone.utc).isoformat()}
     (p/'verification.json').write_text(json.dumps(out,indent=2)+'\n')
     print(json.dumps(out,indent=2))
