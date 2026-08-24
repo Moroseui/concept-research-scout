@@ -496,3 +496,12 @@ by ledger.load() itself, with an explicit include_invalid escape hatch
 for audit code. Lesson recorded: a repair script is claim-bearing code
 and gets verified against artifacts like everything else; a spot-check
 that rationalizes an expected-looking value is not verification.
+
+## 2026-08-24 - Reconciliation ruling: idea 023
+
+The reconcile stage (Claude family) audited all six 023 artifacts against
+the archived prompt context versus the current isles24 charter. All rulings
+STANDS; recommendation CLEAR-TO-CONTRACT. Operator ruling: ACCEPTED. Idea
+023 is cleared for contract drafting (probe-plan). Reconciliation of the
+remaining 020-025 ideas stays queued; the scoped-to-023 requirement before
+any 023 contract is satisfied. Artifact: ideas/023/reconciliation.md.
