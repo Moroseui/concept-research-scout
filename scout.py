@@ -883,6 +883,13 @@ def verify_probe(args):
             smoke=subprocess.run([sys.executable,str(p/'run.py'),flag],cwd=p,capture_output=True,text=True,timeout=300)
             if smoke.returncode==0 or 'unrecognized arguments' not in (smoke.stderr or ''):
                 break  # ran (pass or real failure); only retry on flag-spelling rejection
+        if smoke.returncode and '--output-dir' in (smoke.stderr or ''):
+            # Interface convention: smoke must be runnable by the harness.
+            # Probes whose smoke writes artifacts get a throwaway directory.
+            import tempfile
+            with tempfile.TemporaryDirectory() as td:
+                smoke=subprocess.run([sys.executable,str(p/'run.py'),flag,'--output-dir',td],
+                                     cwd=p,capture_output=True,text=True,timeout=300)
         if smoke.returncode: issues.append('smoke test failed: '+(smoke.stderr or smoke.stdout)[-1000:])
     out={'idea_id':f'{args.idea:03d}','passed':not issues,'issues':issues,'checked_at':datetime.now(timezone.utc).isoformat()}
     (p/'verification.json').write_text(json.dumps(out,indent=2)+'\n')

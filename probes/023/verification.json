@@ -1,29 +1,8 @@
 {
   "idea_id": "023",
-  "passed": true,
-  "checked_at": "2026-08-24T09:30:15Z",
-  "expensive_compute_launched": false,
-  "checks": {
-    "contract_blob": "4a46713d1b81874c88a2e347aace6773e68904e2",
-    "approval_blob_matches": true,
-    "python_compile_exit": 0,
-    "smoke_exit": 0,
-    "smoke_contract_satisfied": false,
-    "phase_c_pre_amendment_refusal_exit": 2,
-    "synthetic_modality_resolution_unit_mirror_check": "PASS",
-    "tiny_7z_archive_manifest_check": "PASS",
-    "git_diff_check_exit": 0,
-    "run_py_sha256": "0faf04241ddb2c8064635105d1581880d33d05f3981c0f33deec9f1d4fc38b24",
-    "requirements_sha256": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928"
-  },
-  "environment": {
-    "python": "3.13.7",
-    "verification_numpy": "2.5.2",
-    "verification_nibabel": "5.4.2",
-    "verification_scipy": "1.18.1",
-    "verification_py7zr": "1.1.3",
-    "note": "Verification used a disposable /tmp virtual environment and the bounded requirements. Every run records resolved versions."
-  },
-  "scope": "Only compilation, synthetic smoke, stale-Phase-C refusal, synthetic modality/unit/mirror helpers, a tiny archive-listing check, and diff-whitespace checks ran. The contractual 2,000-replicate Phase S and all real-data Phase C work were not launched.",
-  "issues": []
+  "passed": false,
+  "issues": [
+    "smoke test failed: usage: run.py [-h] (--smoke | --phase {S,C}) --output-dir OUTPUT_DIR\n              [--data-dir DATA_DIR] [--archive-file ARCHIVE_FILE]\n              [--record-json RECORD_JSON] [--phase-s-dir PHASE_S_DIR]\nrun.py: error: the following arguments are required: --output-dir\n"
+  ],
+  "checked_at": "2026-08-24T09:50:12.748404+00:00"
 }
