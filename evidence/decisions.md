@@ -549,3 +549,29 @@ the feasibility memo claim of a "registered NCCT" in derivatives is
 corrected forward here, not edited; (3) brain_and_mirror_gate references the
 rawdata NCCT on the common grid. probe-build must state the exact
 extraction set in the probe README.
+
+## 2026-08-25 - External review round 4 intake + 023 Phase-C execution receipt
+
+Round-4 repo audit (ChatGPT, deep-research; evidence/external_reviews/
+2026-08-25_round4_repo_audit.pdf) registered. Adopted: amended freeze
+(science frozen; deterministic transport/validator fixes permitted with
+synthetic-fixture tests); contract-declared result interface replacing the
+004-era validator ontology; completion single-sourced via bundle-complete;
+launcher must satisfy probe-declared dependencies (--phase-s-dir guard);
+per-phase output dirs; state.json as materialized view never authority;
+receipts inside run_agent; fail-closed git sync; privilege separation before
+autonomy; meta-loop emits schema-validated proposals only, zero write
+credentials; EXPLANATION vs CHANGE_PROPOSAL interrogation receipts; category
+budgets over daily caps; reseeding before quotas; validated-reviewer-yield
+telemetry; generation backpressure; prospective-only third charter. Elo
+deferral endorsed.
+
+Execution receipt, 023 Phase C attempt 1 (2026-08-25T00:54Z): committed
+launcher invoked run.py --phase C with data-dir/archive/record on Drive but
+WITHOUT --phase-s-dir; approval gate PASSED on blob 349af5ad, then run.py
+refused with exit 2 before touching any data. Partial bundle (Phase-S
+outputs + Phase-C provenance carrying the exact argv) pushed to
+results/probe-023-349af5ad0b3e as the honest record. Archive and extracted
+subset persist on Drive; rerun re-pays digests and census only. Root cause:
+generator omitted the round-3-added dependency; fixed generically this
+commit.

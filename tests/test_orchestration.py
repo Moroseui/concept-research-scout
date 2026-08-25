@@ -414,6 +414,65 @@ class TestScoreBlinding(unittest.TestCase):
         self.assertIn("Explain every score.", kept)
 
 
+class TestResultSpecValidator(Harness):
+    def _blob(self, path):
+        import hashlib
+        data = path.read_bytes()
+        return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+
+    def _mk(self, contract_text, summary):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(contract_text)
+        b = self.repo / "bundle"; b.mkdir(exist_ok=True)
+        (b / "provenance.json").write_text(json.dumps(
+            {"contract_blob": self._blob(d / "probe_contract.yaml")}))
+        (b / "summary.json").write_text(json.dumps(summary))
+        return b
+
+    def test_contract_mode_accepts_declared_interface_and_completion(self):
+        import scout as sc
+        b = self._mk(
+            "idea_id: idea-001\nrequired_outputs:\n  - summary.json\n"
+            "  - provenance.json\n  - foo.csv\n",
+            {"idea_id": "idea-001", "phase": "C", "status": "NEGATIVE_PATTERN"})
+        (b / "foo.csv").write_text("x\n")
+        self.assertEqual(sc.validate_bundle(1, b), [])
+        self.assertTrue(sc.bundle_complete(1, b))
+        (b / "foo.csv").unlink()
+        self.assertTrue(any("foo.csv" in f for f in sc.validate_bundle(1, b)))
+
+    def test_contract_mode_incomplete_status_is_not_complete(self):
+        import scout as sc
+        b = self._mk(
+            "idea_id: idea-001\nrequired_outputs:\n  - summary.json\n"
+            "  - provenance.json\n",
+            {"idea_id": "idea-001", "phase": "S",
+             "status": "PHASE_S_COMPLETE_REQUIRES_AMENDMENT"})
+        self.assertEqual(sc.validate_bundle(1, b), [])
+        self.assertFalse(sc.bundle_complete(1, b))
+
+    def test_legacy_mode_still_requires_pair_manifest_and_mb_phase(self):
+        import scout as sc
+        b = self._mk("idea_id: idea-001\n",
+                     {"idea_id": "idea-001", "phase": "C"})
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("pair_manifest" in f for f in fails))
+
+    def test_chunk_manifest_path_cannot_escape_bundle(self):
+        import scout as sc
+        b = self._mk(
+            "idea_id: idea-001\nrequired_outputs:\n  - summary.json\n"
+            "  - provenance.json\n",
+            {"idea_id": "idea-001", "phase": "C", "status": "NEGATIVE_PATTERN"})
+        cm = b / "chunks" / "c1"; cm.mkdir(parents=True)
+        (cm / "chunk_manifest.json").write_text(json.dumps(
+            {"sha256": {"../../escape.txt": "0" * 64}}))
+        self.assertTrue(any("escapes bundle" in f for f in sc.validate_bundle(1, b)))
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")

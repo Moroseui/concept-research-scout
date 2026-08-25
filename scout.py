@@ -995,6 +995,16 @@ def package_colab(args):
         staging_cells = [nbf.v4.new_code_cell(src)
                          for src in _staging_cells(args.staging_zenodo, sufs)]
         extra = ' --data-dir {DATA_DIR} --archive-file {ARCHIVE} --record-json {RECORD_JSON}'
+    psd = getattr(args, 'phase_s_dir', None)
+    _rp = ROOT / f'probes/{nn}/run.py'
+    if (_rp.exists() and '--phase-s-dir' in _rp.read_text()
+            and str(phase).upper() not in ('S', 'SMOKE') and not psd):
+        raise SystemExit('this probe declares --phase-s-dir and phase '
+                         f'{phase} requires it; pass --phase-s-dir (the '
+                         'Drive path of the Phase-S bundle)')
+    cfg_extra = f"\nPHASE_S_DIR = '{psd}'" if psd else ''
+    if psd:
+        extra += ' --phase-s-dir {PHASE_S_DIR}'
     nb = nbf.v4.new_notebook()
     nb.cells = [
       nbf.v4.new_markdown_cell(
@@ -1016,7 +1026,7 @@ def package_colab(args):
         f"REPO_URL = '{remote}'\n"
         f"PIN_COMMIT = '{pin}'\n"
         f"RESULTS_BRANCH = '{branch}'\n"
-        f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_v2'"),
+        f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}'{cfg_extra}"),
       nbf.v4.new_code_cell(
         "from google.colab import drive, userdata\n"
         "import os\n"
@@ -1102,6 +1112,38 @@ def _contract_field(idea, field):
     return _find(yaml.safe_load(f.read_text()))
 
 
+def _contract_required_outputs(idea):
+    """Contract-declared result interface (audit R4): a probe contract may
+    carry a top-level `required_outputs:` list naming the bundle files it
+    produces. When present, validation is driven by the contract; when
+    absent, the legacy 004-era interface applies unchanged."""
+    c = idea_dir(idea) / 'probe_contract.yaml'
+    if not c.exists():
+        return []
+    try:
+        import yaml
+        data = yaml.safe_load(c.read_text()) or {}
+        req = data.get('required_outputs') or []
+        return [str(x) for x in req if isinstance(x, (str,))]
+    except Exception:
+        return []
+
+
+def bundle_complete(idea, bundle):
+    """Single-sourced completion semantics for CI and record-result.
+    Contract-mode (required_outputs declared): complete iff the summary
+    status is the contract's terminal positive/negative pattern. Legacy:
+    the 004-era rule the results workflow previously inlined."""
+    try:
+        s = json.loads((Path(bundle) / 'summary.json').read_text())
+    except Exception:
+        return False
+    if _contract_required_outputs(idea):
+        return s.get('status') in ('POSITIVE_PATTERN', 'NEGATIVE_PATTERN')
+    return bool(s.get('study_complete') or s.get('phase_m_complete')
+                or (s.get('phase') == 'B' and 'analysis' in s))
+
+
 def validate_bundle(idea, bundle):
     """Deterministic results-bundle validation (E1). Single source of truth
     for CI (results-validate workflow) and record-result. Returns a list of
@@ -1118,8 +1160,12 @@ def validate_bundle(idea, bundle):
     """
     bundle = Path(bundle)
     fails = []
-    core = ['summary.json', 'provenance.json', 'resolved_config.json',
-            'environment.txt', 'manifest/pair_manifest.csv']
+    req = _contract_required_outputs(idea)
+    if req:  # contract-declared result interface
+        core = sorted(set(req) | {'summary.json', 'provenance.json'})
+    else:    # legacy 004-era interface, unchanged
+        core = ['summary.json', 'provenance.json', 'resolved_config.json',
+                'environment.txt', 'manifest/pair_manifest.csv']
     for rel in core:
         if not (bundle / rel).exists():
             fails.append(f'missing required bundle file: {rel}')
@@ -1140,15 +1186,20 @@ def validate_bundle(idea, bundle):
                      '(results from a superseded contract never import)')
     pinned_sha = _contract_field(idea, 'pair_manifest_sha256')
     if isinstance(pinned_sha, str) and len(pinned_sha) == 64:
-        actual = sha256_of(bundle / 'manifest' / 'pair_manifest.csv')
+        pf = bundle / 'manifest' / 'pair_manifest.csv'
+        actual = sha256_of(pf) if pf.exists() else 'MISSING'
         if actual != pinned_sha:
             fails.append(f'pair_manifest.csv sha {actual[:12]} != contract '
                          f'pin {pinned_sha[:12]}')
     sid = str(summary.get('idea_id', ''))
     if f'{idea:03d}' not in sid:
         fails.append(f'summary idea_id {sid!r} does not name idea {idea:03d}')
-    if summary.get('phase') not in ('M', 'B'):
-        fails.append(f'summary phase {summary.get("phase")!r} not in M/B')
+    ph = summary.get('phase')
+    if req:
+        if not (isinstance(ph, str) and len(ph) == 1 and ph.isalpha()):
+            fails.append(f'summary phase {ph!r} is not a single-letter phase')
+    elif ph not in ('M', 'B'):
+        fails.append(f'summary phase {ph!r} not in M/B')
     for cm in sorted(bundle.glob('chunks/*/chunk_manifest.json')):
         try:
             entries = json.loads(cm.read_text())
@@ -1157,6 +1208,13 @@ def validate_bundle(idea, bundle):
             continue
         for rel, sha in (entries.get('sha256') or {}).items():
             f = bundle / rel
+            try:
+                inside = f.resolve().is_relative_to(bundle.resolve())
+            except (OSError, ValueError):
+                inside = False
+            if not inside:
+                fails.append(f'{cm.parent.name}: manifest path escapes bundle: {rel}')
+                continue
             if not f.exists():
                 fails.append(f'{cm.parent.name}: manifest names missing file {rel}')
             elif sha256_of(f) != sha:
@@ -2842,11 +2900,12 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
+    p=sp.add_parser('bundle-complete'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=lambda a: print(str(bundle_complete(a.idea, a.bundle)).lower()))
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
     p=sp.add_parser('cycle'); p.add_argument('--charter',default=None,help='named charter under charters/<name>/CHARTER.md; omit for the baseline'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)

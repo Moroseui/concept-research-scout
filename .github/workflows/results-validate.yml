@@ -89,7 +89,7 @@ jobs:
           # finished; mid-study session bundles lack it). The old check keyed
           # on a 'study_complete' field run.py never emits -- producer and
           # consumer each invented completion; schema unification is queued.
-          COMPLETE=$(python -c "import json;s=json.load(open('${{ steps.meta.outputs.bundle }}/summary.json'));print(str(bool(s.get('study_complete') or s.get('phase_m_complete') or (s.get('phase')=='B' and 'analysis' in s))).lower())")
+          COMPLETE=$(python scout.py bundle-complete ${{ steps.meta.outputs.idea }} --bundle ${{ steps.meta.outputs.bundle }})
           if [ "$COMPLETE" != "true" ]; then
             echo "Bundle valid; study not yet complete -- no PR."
             exit 0
