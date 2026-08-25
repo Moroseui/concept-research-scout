@@ -57,5 +57,9 @@ jobs:
         run: |
           git add -A
           git diff --cached --quiet || git commit -m "librarian: workflow checkpoint"
-          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          if ! git pull --rebase origin ${GITHUB_REF_NAME}; then
+            git rebase --abort || true
+            echo "::error::rescue rebase conflicted; aborting without committing a conflicted tree"
+            exit 1
+          fi
           git push origin HEAD:${GITHUB_REF_NAME}

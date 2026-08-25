@@ -413,6 +413,31 @@ class TestScoreBlinding(unittest.TestCase):
         self.assertIn("1-5", kept)
         self.assertIn("Explain every score.", kept)
 
+    def test_named_charter_never_receives_global_digest_fallback(self):
+        import scout as sc, tempfile, pathlib
+        with tempfile.TemporaryDirectory() as td:
+            root = pathlib.Path(td)
+            (root / "evidence").mkdir()
+            (root / "evidence" / "ledger_digest.md").write_text("GLOBALMARK")
+            self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+            sc.ROOT = root
+            p = sc._digest_path("freshcharter")
+            self.assertEqual(p.name, "ledger_digest_freshcharter.md")
+            self.assertNotIn("GLOBALMARK", sc.read_text(p))
+            self.assertEqual(sc._digest_path(None).name, "ledger_digest.md")
+
+    def test_probe_review_prompt_carries_no_family_label(self):
+        text = Path("orchestrator/prompts/probe_review.md").read_text()
+        self.assertNotIn("other model family", text)
+        self.assertIn("do not infer or weigh authorship", text)
+
+    def test_no_workflow_swallows_a_rebase(self):
+        for wf in Path(".github/workflows").glob("*.yml"):
+            for line in wf.read_text().splitlines():
+                if "pull --rebase" in line:
+                    self.assertNotIn("|| true", line,
+                                     f"{wf.name} swallows a rebase failure")
+
 
 class TestResultSpecValidator(Harness):
     def _blob(self, path):

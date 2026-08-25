@@ -192,9 +192,11 @@ def _digest_path(charter):
     """Per-charter digest file; falls back to the global one until the
     charter-scoped digest has been generated at least once."""
     if charter:
-        p = ROOT/'evidence'/f'ledger_digest_{charter}.md'
-        if p.exists():
-            return p
+        # Fail-local: a named charter gets its scoped digest path even if it
+        # does not exist yet (read_text renders it empty). Falling back to
+        # the global digest would leak cross-charter scores -- the same bug
+        # class already fixed for portfolio briefs.
+        return ROOT/'evidence'/f'ledger_digest_{charter}.md'
     p = ROOT/'evidence'/'ledger_digest_baseline.md'
     if not charter and p.exists():
         return p

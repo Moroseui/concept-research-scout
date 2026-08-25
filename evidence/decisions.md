@@ -575,3 +575,18 @@ results/probe-023-349af5ad0b3e as the honest record. Archive and extracted
 subset persist on Drive; rerun re-pays digests and census only. Root cause:
 generator omitted the round-3-added dependency; fixed generically this
 commit.
+
+## 2026-08-25 - Round-4 checkpoint evaluation: dispositions
+
+Reviewer verdict: proceed to 2a; immediates correctly targeted; do not
+redesign. Fixed this commit: librarian.yml fail-closed rescue (plus an
+invariant test scanning every workflow for swallowed rebases); _digest_path
+fail-local for named charters (global-digest leak class closed, matching the
+portfolio-brief fix); author-family label stripped from probe_review with a
+content-only instruction -- recorded as label blinding only, since two-family
+structural opposition makes true author blinding impossible. Routed to 2a:
+registry-declared upstream-bundle dependencies retire the launcher run.py
+string inspection; probe-spec-declared terminal statuses retire the
+POSITIVE/NEGATIVE_PATTERN literals in bundle_complete; execution receipts
+move inside run_agent; state.json as materialized view + registry.yaml per
+the round-4 schema.
