@@ -1,0 +1,26 @@
+{
+  "command": [
+    "probes/023/run.py",
+    "--phase",
+    "C",
+    "--output-dir",
+    "/content/drive/MyDrive/concept-research-scout-results/023_v2",
+    "--data-dir",
+    "/content/drive/MyDrive/staging-16731717/extracted",
+    "--archive-file",
+    "/content/drive/MyDrive/staging-16731717/train.7z",
+    "--record-json",
+    "/content/drive/MyDrive/staging-16731717/zenodo_record.json"
+  ],
+  "cwd": "/content/scout-repo",
+  "packages": {
+    "nibabel": "5.4.2",
+    "numpy": "2.1.3",
+    "py7zr": "1.1.3",
+    "scipy": "1.16.3"
+  },
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+  "python": "3.13.15 (main, Aug  6 2026, 11:06:23) [GCC 11.4.0]",
+  "seed": 20260824,
+  "timestamp_utc": "2026-08-25T00:54:08.947899+00:00"
+}

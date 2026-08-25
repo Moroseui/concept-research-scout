@@ -1,0 +1,23 @@
+{
+  "approval_blob": "349af5ad0b3e8acfc6337d15f1860974d1183393",
+  "contract_blob": "349af5ad0b3e8acfc6337d15f1860974d1183393",
+  "maximum_primary_ci_width": 0.15,
+  "minimum_contributing_patients_per_stratum": 20,
+  "minimum_voxels_per_patient_quantile_cell": 100,
+  "phase": "C",
+  "seed": 20260824,
+  "strata": [
+    [
+      0.15,
+      0.3
+    ],
+    [
+      0.3,
+      0.45
+    ],
+    [
+      0.45,
+      0.6
+    ]
+  ]
+}
