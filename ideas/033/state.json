@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using loss of gray-white differentiation in established ASPECTS regions as an acute-tissue-injury signal.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-033",
+  "idea_no": "033",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "b3a6b30810abecaa9f987a5bde773a73538011257eadd0e675f98df1f63e9f57",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "11201471047b26b68a1692fcbc0d41dd75aecd63776866d31041749cd6381f18",
+      "ledger_events_sha256": "5e5d58edcfa143295aa2d2c110ad55ceb1918d0ee0439d1b5a3612187a523625",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "Did preprocessing teach the winner to read the disappearing insular ribbon?"
+}

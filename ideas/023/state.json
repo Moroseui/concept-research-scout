@@ -1,0 +1,31 @@
+{
+  "approval": {
+    "contract_blob": "349af5ad0b3e8acfc6337d15f1860974d1183393",
+    "stale": false
+  },
+  "charter": "isles24",
+  "claim": "The final-infarct model is using the autoregulatory blood-volume reserve -- capillary volume held at or above mirror-normal while flow falls -- as its tissue-salvageability signal, distinguishing the still-compensating penumbra from the collapsed core at matched flow deficit.",
+  "contract_blob": "349af5ad0b3e8acfc6337d15f1860974d1183393",
+  "corrections": null,
+  "idea_id": "idea-023",
+  "idea_no": "023",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 6,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "9284ba256080dadb07202075d36a5fb6e6ca3bafc4192a03e49e751fa9d40a02",
+    "sources": {
+      "approval_sha256": "2b3d92331472bfd94271f1f3351994b8e9e7803779c679478f6fe00813c43bed",
+      "contract_blob": "349af5ad0b3e8acfc6337d15f1860974d1183393",
+      "idea_card_sha256": "f7043f2cfedb68887b2421a0d29070002f39ff951bf4d8338eaf3891885c40dd",
+      "ledger_events_sha256": "7bb8c3dce6c65cfc16761942a2f76a40eefae71a63dce854bf4898508aeb7bcc",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "Little's law in the penumbra: the model may be reading the vasodilatory counterattack"
+}

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using noncontrast-CT attenuation of venous blood as an image proxy for oxygen-carrying capacity.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-028",
+  "idea_no": "028",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "e8440c71a526aba9c990fe27c14f6863948d217580dccc668bfe22a820cb108b",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "2b801c76da56bfb3b3a8ea988c707fb61cc90b16fc074fc0d30e0eb36c84a0b9",
+      "ledger_events_sha256": "4f75736855dc4b3e1c725a5802b25f658d308ba1a427291d5507013d22388480",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The blood's grayscale oxygen gauge"
+}

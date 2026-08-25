@@ -820,6 +820,63 @@ class TestExperimentRegistry(Harness):
         self.assertEqual(req["probe"], "calib")
         self.assertIsNone(er.upstream_bundle_requirement("001", self.repo, "S"))
 
+    def test_unknown_keys_and_malformed_nodes_fail_validation_not_crash(self):
+        sc, er = self._wire()
+        self._reg("probes:\n  - id: a\n    dependz_on: {all_of: [{probe: b}]}\n  - id: b\n")
+        errs0 = er.validate("001", self.repo)
+        self.assertIn("unknown keys", " | ".join(errs0), errs0)
+        self._reg("probes:\n  - oops\n")
+        errs = er.validate("001", self.repo)
+        self.assertTrue(any("mapping" in e for e in errs), errs)
+        self._reg("probes:\n  - id: a\n    depends_on: nope\n")
+        self.assertIn("depends_on must be a mapping",
+                      " | ".join(er.validate("001", self.repo)))
+
+    def test_results_bundle_must_be_contained(self):
+        sc, er = self._wire()
+        self._reg("probes:\n  - id: a\n    results_bundle: ../../outside\n")
+        self.assertIn("contained", " | ".join(er.validate("001", self.repo)))
+
+    def test_pinned_node_with_missing_contract_cannot_complete(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n    results_bundle: bundles/a\n"
+                  "    terminal_statuses: [DONE_X]\n"
+                  "    contract_hash: " + "f"*40 + "\n")
+        (self.repo / "bundles" / "a").mkdir(parents=True)
+        (self.repo / "bundles" / "a" / "summary.json").write_text(
+            json.dumps({"status": "DONE_X"}))
+        st = er.derive_status("001", self.repo, lambda _d: None)
+        self.assertEqual(st["a"]["status"], "STALE")
+        self.assertIn("MISSING", st["a"]["reason"])
+
+    def test_terminal_summary_without_valid_bundle_is_result_present(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n    results_bundle: bundles/a\n"
+                  "    terminal_statuses: [DONE_X]\n")
+        (self.repo / "bundles" / "a").mkdir(parents=True)
+        (self.repo / "bundles" / "a" / "summary.json").write_text(
+            json.dumps({"status": "DONE_X"}))
+        st = er.derive_status("001", self.repo, lambda _d: None,
+                              bundle_validator=lambda b: ["provenance missing"])
+        self.assertEqual(st["a"]["status"], "RESULT_PRESENT")
+        st2 = er.derive_status("001", self.repo, lambda _d: None,
+                               bundle_validator=lambda b: [])
+        self.assertEqual(st2["a"]["status"], "COMPLETE")
+
+    def test_approve_probe_binds_registry_hash_when_registry_exists(self):
+        sc, er = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "feasibility.md").write_text("ok")
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        self._reg("probes:\n  - id: a\n")
+        r = self.scout("approve-probe", "1")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        marker = (d / "HUMAN_APPROVED_PROBE").read_text()
+        self.assertIn("registry_sha256: " + er.registry_sha("001", self.repo),
+                      marker)
+
     def test_state_json_carries_registry_and_stays_byte_identical(self):
         sc, er = self._wire()
         import state_view as sv
@@ -887,6 +944,34 @@ class TestSuiteHygiene(unittest.TestCase):
                             dup.append(f"{node.name}.{item.name}")
                         seen[item.name] = True
         self.assertEqual(dup, [])
+
+    def test_no_duplicate_toplevel_symbols_or_dict_keys_in_code(self):
+        import ast
+        targets = [REPO / "scout.py",
+                   REPO / "orchestrator" / "state_view.py",
+                   REPO / "orchestrator" / "experiment_registry.py",
+                   REPO / "orchestrator" / "ledger.py",
+                   REPO / "tests" / "test_orchestration.py"]
+        problems = []
+        for f in targets:
+            tree = ast.parse(f.read_text())
+            seen = {}
+            for node in tree.body:
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                     ast.ClassDef)):
+                    if node.name in seen:
+                        problems.append(f"{f.name}: duplicate top-level "
+                                        f"{node.name}")
+                    seen[node.name] = True
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Dict):
+                    keys = [k.value for k in node.keys
+                            if isinstance(k, ast.Constant)]
+                    dups = {k for k in keys if keys.count(k) > 1}
+                    if dups:
+                        problems.append(f"{f.name}:{node.lineno} duplicate "
+                                        f"dict keys {sorted(dups)}")
+        self.assertEqual(problems, [])
 
 
 class TestBackpressure(Harness):
@@ -961,6 +1046,25 @@ class TestExecutionReceipts(Harness):
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("state.json missing", r.stdout + r.stderr)
         self.assertIn("verified 0 of", r.stdout + r.stderr)
+
+    def test_receipt_write_failure_fails_closed_after_success(self):
+        # a directory where the receipt file should be makes the append fail
+        (self.repo / "ideas" / "001" / "stage_provenance.jsonl").mkdir()
+        r = self.scout("run", "critique", "--idea", "1")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("refusing to proceed without provenance",
+                      r.stdout + r.stderr)
+
+    def test_git_head_is_never_cached(self):
+        src = Path("scout.py").read_text()
+        self.assertNotIn("_TOOLS_CACHE['git_head']", src)
+        self.assertIn("repo state NEVER does", src)
+
+    def test_numbered_idea_without_card_fails_closed(self):
+        (self.repo / "ideas" / "002").mkdir()
+        r = self.scout("state-materialize", "--idea", "2")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("refusing to fall back", r.stdout + r.stderr)
 
     def test_legacy_recorder_has_no_remaining_call_sites(self):
         src = Path("scout.py").read_text()
@@ -1837,7 +1941,7 @@ class TestVerdictAutomation(Harness):
         sc = self._sc()
         d = self.repo / "ideas" / "scout-060"; d.mkdir()
         (d / "fiction_candidates.json").write_text(json.dumps({"candidates": [
-            {"title": "fiction fixture", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using fiction signal", "keystone_prerequisite": "the fixture asset exists", "keystone_status": "NOT_INSPECTED", "priority_score": 3.0, "scores": {"interest": {"value": 3, "why": "fx"}}, "track": "fiction", "keystone_status": "INSPECTED_TRUE"}]}))
+            {"title": "fiction fixture", "question": "is the model using the fixture signal?", "deliverable_sentence": "the model is using fiction signal", "keystone_prerequisite": "the fixture asset exists", "priority_score": 3.0, "scores": {"interest": {"value": 3, "why": "fx"}}, "track": "fiction", "keystone_status": "INSPECTED_TRUE"}]}))
         (d / "fiction_seed.json").write_text('{"source": "human", "concepts": ["a","b"]}')
         sc._merge_candidates(d, ["fiction"], 60)
         merged = json.loads((d / "candidates_all.json").read_text())

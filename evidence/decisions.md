@@ -666,3 +666,24 @@ real git merge (performed first, frozen driver preserved byte-identical);
 reviewer full-suite timeout was environmental. Merge order adopted:
 023 record-result -> frozen-023 hash check -> merge 2a -> author 023
 registry + driver_spec -> shadow soak -> read-only consumer flip -> 2b.
+
+## 2026-08-25 - Round-5.5 re-review: intake and closeout (2a-5)
+
+Adopted and shipped, actions 1-8 + 13 + the charter-hardening test:
+CI now enforces state-verify --require-all and registry-validate over a
+fully materialized 44-idea corpus; registry validation is schema-strict
+and fail-closed (closed key sets, type guards, path containment -- a typo
+like dependz_on can no longer silently drop a dependency); a pinned node
+with a MISSING current contract is STALE, never COMPLETE; COMPLETE is
+validation-aware (invalid bundles surface as RESULT_PRESENT); approve-probe
+now binds registry_sha256 prospectively; git SHA is computed fresh per
+receipt (tool versions stay cached); a receipt-write failure after a
+successful invocation fails closed; a numbered idea directory without its
+card fails closed; AST hygiene extended to top-level symbols and duplicate
+dict keys -- and caught a real pre-existing duplicate (keystone_status) on
+first run. Deferred on the reviewer own gates: structured RunResult (A9,
+pre-2b), ROLE_BOUND role freezing (A10, pre-consumer-flip), node-addressed
+launcher + driver_spec (A11/A12, with post-023 registry work), workflow
+helper factoring (A14, cleanup). Adopted for 023: append-only
+REGISTRY_RATIFIED retrospective binding; the historical approval is never
+rewritten.

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using the swelling-displaced lesion geometry inherited from affine-only registration of 2-9-day follow-up MRI, rather than acute tissue evidence alone, when placing its predicted infarct.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-030",
+  "idea_no": "030",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "56a176e62752fa0c3f53085f066b044a10a07a2e770edb5b55c9b54ed59c9e4e",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "ffca157c06fbf38b0b6818ed173bfd40fcd6ffb9a86a586b57b58e8c80b26336",
+      "ledger_events_sha256": "9d10930403a2f6b9194afd307b8896662821f122d0135514cc4c069d9c48f128",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The ground truth was drawn on a swollen brain"
+}

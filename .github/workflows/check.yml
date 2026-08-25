@@ -13,3 +13,5 @@ jobs:
       - run: python scout.py doctor
       - run: python tests/test_orchestration.py
       - run: pip install pytest && python -m pytest -q tests/
+      - run: python scout.py state-verify --require-all
+      - run: python scout.py registry-validate

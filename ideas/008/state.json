@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "Sybil is using emphysema, and it reads it in a way that survives a change of reconstruction kernel that moves the standard quantitative emphysema index by about ten percentage points.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-008",
+  "idea_no": "008",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 2,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "f878226c886893961fab96563e570247279f6afceaa83ef9fd6fa373f77ba33f",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "3553a012bab1790e74f104ae45f523d068a623b4cb1fa07292160f653832066d",
+      "ledger_events_sha256": "2c31521bc6da973fe1967f60dd071478032b15759310eb3c266498471cdf20e3",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "ACTIVE",
+  "title": "Two papers say Sybil's residual signal is the background, one of them names emphysema, and neither measured it"
+}

@@ -3,7 +3,7 @@
 ideas/NNN/state.json is a VIEW, never an authority (round-4 audit). The
 authorities are the append-only ledger events and the on-disk contract /
 approval artifacts; this module derives the view from them and nothing
-else. The governing invariant, enforced in CI via `scout.py state-verify`:
+else. The governing invariant, enforced in CI via `scout.py state-verify --require-all` (check.yml):
 
     delete state.json, regenerate it, and obtain exactly the committed
     bytes.
@@ -101,6 +101,7 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
     def _fsha(p):
         return hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
     sources = {
+        'idea_card_sha256': _fsha(idea_dir / 'idea_card.json'),
         'ledger_events_sha256': hashlib.sha256(
             ('\n'.join(lines)).encode('utf-8')).hexdigest() if lines else None,
         'contract_blob': contract_blob,

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "Sybil is using saber-sheath tracheal deformity\u2014the fixed side-to-side narrowing of the intrathoracic trachea\u2014as a record of chronic obstructive lung injury.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-017",
+  "idea_no": "017",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "95fdc7739338d6d6c269050ad1b5b84c0daa0c387a33f92f3962ffd7bf3284d0",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "c8c52ab8f54044b37124a1de0a816cbc07e8ea2c6e6c135a579b100a05573e27",
+      "ledger_events_sha256": "834f2f8d1b1ccbdc7821a9c2e642c52ccdba9964050db8f520fc237bb2b83b3a",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "A lung-cancer model may be reading a mechanically remodeled trachea"
+}

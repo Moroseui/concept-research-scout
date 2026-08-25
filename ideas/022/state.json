@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The raw-CTP final-infarct model is using terminal-curve incompleteness\u2014the distance between residual contrast washout and the scan boundary\u2014as an image cue for tissue fate.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-022",
+  "idea_no": "022",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "0aefcc3945b1f0871ccea5652368474a63788b8150f4f60f9d02c7b4d065ce89",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "d1fc97038124556b1b854dbec6c0c1e41e1329f29d6f26e8dec7668ab39debfd",
+      "ledger_events_sha256": "d750e00228882a0dbed55036b8281dcf71894afd7cd06c69a38098b0743fe78f",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "PAUSED",
+  "title": "Does the model mistake the end of the scan for the end of the bolus?"
+}

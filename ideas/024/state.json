@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The raw-CTP final-infarct model is using capillary transit-time heterogeneity, a dispersion property of microvascular passage that standard mean perfusion maps compress away.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-024",
+  "idea_no": "024",
+  "kill_code": "DATA_ACCESS",
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "8c8c9ebc59bc56d2135de7627ce4834eed0499568b30a09793e79c8e76229030",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "d43875282b15e8924fe4d5788d699261d7c1acd2923aaf96ea2ac724c5cbb3d9",
+      "ledger_events_sha256": "f9377fa696a72c58b284378faf2a48a04edc542331f1721f9b1f9590a1d5e1e0",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The capillary traffic jam hidden behind the same mean transit time"
+}

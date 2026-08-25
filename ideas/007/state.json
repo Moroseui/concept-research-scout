@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "The model is using the degree of lung inflation - total lung volume and the mean parenchymal attenuation it sets - as a component of its emphysema, mosaic attenuation, atelectasis and lung opacity scores, so a patient who cannot hold a full breath receives a different diagnosis.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-007",
+  "idea_no": "007",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 2,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "8116a8f57581b6db3ad32f038973d99b6b80b701b89120106d21f7d778d08417",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "8b9e8f20f84bc91cffda1c75597b767c08dbd7bc6288d54161cda6c92e69a366",
+      "ledger_events_sha256": "4af75ed320395491ef3e5f622fe971c554b3947ef49c2edcf8568f9ba0861a88",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "ACTIVE",
+  "title": "The same patient, twice, ten minutes apart, differing only in how much air is in the lungs"
+}

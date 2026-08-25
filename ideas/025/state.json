@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The raw-CTP model is using the residual patient-motion signature in the time series -- restlessness the correction step could not fully erase -- as a prognostic cue when it predicts final infarct extent.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-025",
+  "idea_no": "025",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "85851943a8927d4928d127a68e31b580eff08878865cb4be79fa0216df251710",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "89aa697498ecbc10ee93b37f15c632a9163a1138c6435b8675d448264dbc941d",
+      "ledger_events_sha256": "b4fe69a072a9718d4db62277ccfedbde192672e7ed96361577bc0d0ab7d6cae5",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "PAUSED",
+  "title": "The scan is also an actigraph: the model may be reading how much the patient moved"
+}

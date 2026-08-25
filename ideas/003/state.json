@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "Does the reported gain from radiologist concept intervention in a breast ultrasound concept bottleneck model persist when interventions are partial, noisy, and clinician-selected rather than complete and oracle-correct, and does the intervened model outperform the trivial baseline of using the radiologist's own BI-RADS assessment directly?",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-003",
+  "idea_no": "003",
+  "kill_code": "DATA_ACCESS",
+  "materialization": {
+    "event_count": 2,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "b77d8d6d58caf08ab5e93e351fd5bb23e74f732969526247ce987be423fbec12",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "f8ea830e81b19e01a4e09f6c03ffb2e46955f9e93dcc509be1768da4e65d3dee",
+      "ledger_events_sha256": "0ab5701d034ddd9a12df70b93a4e875bd8bc8e23870a81be6bb55fc8ac0c7a9f",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "Does BI-RADS concept intervention survive realistic clinician behaviour, and does it beat simply reading the BI-RADS category?"
+}

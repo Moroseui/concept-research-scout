@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "Can a model predict the seven dermoscopic checklist criteria from Derm7pt's paired clinical photographs \u2014 where those criteria are by definition not visible \u2014 and if it can, does the ability survive controls that remove lesion-identity shortcuts?",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-002",
+  "idea_no": "002",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 1,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "5744f085d1857ed530ff47c950ef2cc92fd43f77d38e3d8899f85ede33bd3a80",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "a8eace3ce4c171dd879e7aac91ec2714e749bcb45e054b0c6c262d7b10df46d6",
+      "ledger_events_sha256": "f86f497d0e3049aed2c947b0981851a098eea0e02b201996c022540734bf6ed8",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "PAUSED",
+  "title": "Dermoscopic concepts predicted from non-dermoscopic photographs: genuine visibility or shortcut?"
+}

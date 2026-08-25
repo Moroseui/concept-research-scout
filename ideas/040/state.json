@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using intracranial arterial tortuosity as a vascular-age and long-term pressure-load gauge.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-040",
+  "idea_no": "040",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "b685c98fa5df4471dbbb84deb338d0ac143f1dc5a099b84aec4262b45774540c",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "6f2733dd79f7994be2cd376a3ba67fd5cfaeb939361b28dc1fdafbc8901e2375",
+      "ledger_events_sha256": "6517499969598fe2b8c4c6be2a80b9eb79df3271d75bd22653d063c5531d6767",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "PAUSED",
+  "title": "The pressure history written in a winding artery"
+}

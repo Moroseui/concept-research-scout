@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using isolated sulcal effacement with preserved gray-white differentiation as a tissue-survival signal.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-027",
+  "idea_no": "027",
+  "kill_code": "DATA_ACCESS",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "5716e6512303179cd83999c3c4d28f18ae826adae5a041b253535c8e6400516d",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "ceb950cb05f328f671740c92b8db144ab7afe7fadf699acb8d6b27cb03f7e6ec",
+      "ledger_events_sha256": "82a90b84e31c5491979adc7a2b12a848a96d77cf010b7658b4526109cb3c706c",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "When vanished sulci mean rescue, not death"
+}

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using the shape of the severe-delay front\u2014its fragmentation, curvature and contact with the existing core\u2014not only perfusion volumes.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-026",
+  "idea_no": "026",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 2,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "91f39f41ec99c38a4ce7253ec81b42d9e6695c9ce3e3c36e58fd34732b73973f",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "3b802978cdcc6a0c2377d0c6c6c9950c6e50bddb338d0a802cb3105aed8f5112",
+      "ledger_events_sha256": "35276164aed4b2720c1b521f9ab5b30296acde513a8bb6a85f782baafd394ff9",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "SCOUTED",
+  "status": "REJECTED",
+  "title": "A spreading front inside the perfusion deficit"
+}

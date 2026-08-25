@@ -114,6 +114,10 @@ def charter_for_target(target):
     3) only for targets that are neither: the active cycle's charter."""
     t = Path(target)
     card = t/'idea_card.json'
+    if t.exists() and not card.exists() and re.fullmatch(r'\d+', t.name or ''):
+        raise SystemExit(f'{card} missing: a numbered idea without its card '
+                         'has no persistent identity; refusing to fall back '
+                         'to the mutable active charter')
     if card.exists():
         try:
             data = json.loads(card.read_text())
@@ -445,16 +449,16 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
     base = base or cfg.get('default', {}).get('agent', 'claude')
     global _TOOLS_CACHE
     if _TOOLS_CACHE is None:
-        _TOOLS_CACHE = dict(_cli_versions())
-        _TOOLS_CACHE['git_head'] = subprocess.run(
-            ['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True,
-            text=True, check=False).stdout.strip()
+        _TOOLS_CACHE = dict(_cli_versions())  # tool versions cache; repo state NEVER does
+    git_head = subprocess.run(
+        ['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True,
+        text=True, check=False).stdout.strip()
     rec = {'receipt': 1, 'run_id': os.urandom(6).hex(), 'stage': stage,
            'prompt_file': p.name,
            'prompt_sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
            'family_configured': base, 'family_effective': eff,
-           'git_commit': _TOOLS_CACHE.get('git_head'),
-           'tools': {k: v for k, v in _TOOLS_CACHE.items() if k != 'git_head'},
+           'git_commit': git_head,
+           'tools': dict(_TOOLS_CACHE),
            'ci': bool(os.environ.get('SCOUT_CI')),
            'started_utc': datetime.now(timezone.utc).isoformat(timespec='seconds')}
     before = LAST_RUN
@@ -481,8 +485,17 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
                         if k in LAST_RUN})
         try:
             _append_receipt(p.parent, rec)
-        except Exception as we:  # never mask the in-flight agent exception
-            print(f'RECEIPT WRITE FAILED (provenance gap, investigate): {we}')
+        except Exception as we:
+            if rec.get('exit_class') in ('error', 'timeout', 'limit'):
+                # an agent exception is already in flight; surface, don't mask
+                print(f'RECEIPT WRITE ALSO FAILED (provenance gap, '
+                      f'investigate): {we}')
+            else:
+                # mandatory provenance: a successful invocation may not
+                # advance receipt-less (round-5.5 action 8)
+                raise SystemExit(f'receipt write failed after a successful '
+                                 f'agent invocation; refusing to proceed '
+                                 f'without provenance: {we}')
 
 
 def _run_agent_core(prompt_path, agent=None, stage=None, log_path=None):
@@ -962,9 +975,16 @@ def approve_probe(args):
         raise SystemExit('probe_contract.yaml missing: approval binds to a '
                          'specific contract; run probe-plan first.')
     marker=d/'HUMAN_APPROVED_PROBE'
-    marker.write_text(f'Approved by human at {datetime.now(timezone.utc).isoformat()}\n'
-                      f'contract_blob: {ch}\n')
-    print(f'Approved probe for {d.name} (bound to contract blob {ch[:12]})')
+    text = (f'Approved by human at {datetime.now(timezone.utc).isoformat()}\n'
+            f'contract_blob: {ch}\n')
+    rsha = reg_mod.registry_sha(d.name, ROOT)
+    if rsha:
+        # approval binds every governing declaration that exists at approval
+        # time (round-5.5 action 5)
+        text += f'registry_sha256: {rsha}\n'
+    marker.write_text(text)
+    print(f'Approved probe for {d.name} (bound to contract blob {ch[:12]}'
+          + (f', registry {rsha[:12]}' if rsha else '') + ')')
 
 
 def verify_probe(args):
@@ -1440,7 +1460,8 @@ def _state_kwargs():
     return dict(charter_resolver=charter_for_target,
                 contract_hasher=_contract_hash,
                 registry_resolver=lambda n: reg_mod.state_summary(
-                    n, ROOT, _contract_hash))
+                    n, ROOT, _contract_hash,
+                    lambda b: validate_bundle(int(n), b)))
 
 
 def _numbered_ideas():

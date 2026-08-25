@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "When every voxel inside the body contour is replaced with a constant and only the air, table, positioning aids and reconstruction field-of-view boundary are left, how much of the released chest-CT foundation model's abnormality AUROC survives?",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-006",
+  "idea_no": "006",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 1,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "29355580b2fa6bcbeaae7f20362aa7599f5f15da1996d0d9946e7e2a561981d8",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "151702044b19f7ef3e9b7b1baa5b8b36b0871f462b2f499eee6d1bb7360d99a3",
+      "ledger_events_sha256": "d0af1a679570a227a26dfe43f297d5fcb740f7b191a3ef4e749092369da5b5e3",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "PAUSED",
+  "title": "Ask the chest-CT foundation model to diagnose a volume with no patient in it"
+}

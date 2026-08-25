@@ -29,6 +29,14 @@ import re
 from pathlib import Path
 
 _FORBIDDEN_NODE_KEYS = {'status', 'complete', 'state', 'requires_upstream_bundle'}
+_ALLOWED_NODE_KEYS = {'id', 'phase', 'contract_hash', 'depends_on', 'produces',
+                      'results_bundle', 'terminal_statuses', 'launcher'}
+_ALLOWED_TOP_KEYS = {'schema_version', 'probes'}
+
+
+def _contained_rel(p) -> bool:
+    s = str(p).replace('\\', '/')
+    return bool(s) and not s.startswith('/') and '..' not in s.split('/')
 
 
 def _load(idea_no: str, root: Path):
@@ -53,25 +61,57 @@ def approved_registry_sha(idea_no: str, root: Path):
 
 
 def validate(idea_no: str, root: Path) -> list[str]:
+    try:
+        return _validate(idea_no, root)
+    except Exception as e:  # a validator returns findings, never tracebacks
+        return [f'registry unvalidatable (malformed structure): {e}']
+
+
+def _validate(idea_no: str, root: Path) -> list[str]:
     reg, p = _load(idea_no, root)
     if reg is None:
         return [f'{p} missing']
     errs = []
+    if not isinstance(reg, dict):
+        return [f'{p}: registry must be a mapping']
+    unknown_top = set(reg) - _ALLOWED_TOP_KEYS
+    if unknown_top:
+        errs.append(f'unknown top-level keys {sorted(unknown_top)} '
+                    '(schema is closed: a typo here silently changes meaning)')
     probes = reg.get('probes')
     if not isinstance(probes, list) or not probes:
         return [f'{p}: top-level `probes:` list is required']
-    ids = [n.get('id') for n in probes]
-    if any(not i for i in ids):
+    dicts = [n for n in probes if isinstance(n, dict)]
+    ids = [n.get('id') for n in dicts]
+    if len(dicts) != len(probes) or any(not i for i in ids):
         errs.append('every probe node needs a non-empty id')
     if len(set(ids)) != len(ids):
         errs.append('probe ids must be unique')
     known = set(ids)
-    produces = {n.get('id'): set(n.get('produces') or []) for n in probes}
-    bundles = [str(n.get('results_bundle')) for n in probes if n.get('results_bundle')]
+    produces = {n.get('id'): set(n.get('produces') or []) for n in dicts}
+    bundles = [str(n.get('results_bundle')) for n in dicts if n.get('results_bundle')]
     if len(set(bundles)) != len(bundles):
         errs.append('results_bundle values must be unique per node (T7)')
     for n in probes:
+        if not isinstance(n, dict):
+            errs.append(f'probe entry {n!r} must be a mapping')
+            continue
         nid = n.get('id')
+        unknown = set(n) - _ALLOWED_NODE_KEYS - _FORBIDDEN_NODE_KEYS
+        if unknown:
+            errs.append(f'{nid}: unknown keys {sorted(unknown)} '
+                        '(closed schema; a typo like dependz_on would '
+                        'silently drop a dependency)')
+        rb = n.get('results_bundle')
+        if rb is not None and not _contained_rel(rb):
+            errs.append(f'{nid}: results_bundle {rb!r} must be a contained '
+                        'repo-relative path (no absolute, no ..)')
+        dep_raw = n.get('depends_on')
+        if dep_raw is not None and not isinstance(dep_raw, dict):
+            errs.append(f'{nid}: depends_on must be a mapping')
+        lch = n.get('launcher')
+        if lch is not None and not isinstance(lch, dict):
+            errs.append(f'{nid}: launcher must be a mapping')
         bad = _FORBIDDEN_NODE_KEYS & set(n)
         if bad:
             errs.append(f'{nid}: forbidden keys {sorted(bad)} -- status is '
@@ -82,13 +122,17 @@ def validate(idea_no: str, root: Path) -> list[str]:
         if ts is not None and (not isinstance(ts, list)
                                or not all(isinstance(x, str) for x in ts)):
             errs.append(f'{nid}: terminal_statuses must be a list of strings')
-        dep = n.get('depends_on') or {}
-        allof = {d.get('probe') for d in (dep.get('all_of') or [])}
-        for d in dep.get('all_of') or []:
+        dep = n.get('depends_on') if isinstance(n.get('depends_on'), dict) else {}
+        _ao = dep.get('all_of') if isinstance(dep.get('all_of'), list) else []
+        _ao = [d for d in _ao if isinstance(d, dict)]
+        _ar = dep.get('artifacts') if isinstance(dep.get('artifacts'), list) else []
+        _ar = [a for a in _ar if isinstance(a, dict)]
+        allof = {d.get('probe') for d in _ao}
+        for d in _ao:
             if d.get('probe') not in known:
                 errs.append(f'{nid}: all_of references unknown probe '
                             f'{d.get("probe")!r}')
-        for a in dep.get('artifacts') or []:
+        for a in _ar:
             src = a.get('probe')
             if src not in known:
                 errs.append(f'{nid}: artifact dep references unknown probe '
@@ -96,7 +140,10 @@ def validate(idea_no: str, root: Path) -> list[str]:
             elif a.get('output') not in produces.get(src, set()):
                 errs.append(f'{nid}: artifact {a.get("output")!r} is not '
                             f'declared in produces of {src!r}')
-        lub = (n.get('launcher') or {}).get('upstream_bundle')
+        lub = (n.get('launcher') if isinstance(n.get('launcher'), dict) else {}).get('upstream_bundle')
+        if lub and not isinstance(lub, dict):
+            errs.append(f'{nid}: launcher.upstream_bundle must be a mapping')
+            lub = None
         if lub:
             fp = lub.get('probe') or lub.get('from_probe')
             if fp not in known:
@@ -106,16 +153,20 @@ def validate(idea_no: str, root: Path) -> list[str]:
                 errs.append(f'{nid}: launcher.upstream_bundle.from_probe '
                             f'{fp!r} must also be an all_of dependency -- '
                             'the graph owns WHY, the launcher only owns HOW')
-    edges = {n['id']: set() for n in probes if n.get('id')}
-    for n in probes:
-        dep = n.get('depends_on') or {}
-        for d in (dep.get('all_of') or []):
-            if d.get('probe') in edges:
+    dicts2 = [n for n in probes if isinstance(n, dict) and n.get('id')]
+    edges = {n['id']: set() for n in dicts2}
+    for n in dicts2:
+        dep = n.get('depends_on') if isinstance(n.get('depends_on'), dict) else {}
+        ao = dep.get('all_of') if isinstance(dep.get('all_of'), list) else []
+        ar = dep.get('artifacts') if isinstance(dep.get('artifacts'), list) else []
+        for d in ao:
+            if isinstance(d, dict) and d.get('probe') in edges:
                 edges[n['id']].add(d['probe'])
-        for a in (dep.get('artifacts') or []):
-            if a.get('probe') in edges:
+        for a in ar:
+            if isinstance(a, dict) and a.get('probe') in edges:
                 edges[n['id']].add(a['probe'])
-        lub = (n.get('launcher') or {}).get('upstream_bundle') or {}
+        lch = n.get('launcher') if isinstance(n.get('launcher'), dict) else {}
+        lub = lch.get('upstream_bundle') if isinstance(lch.get('upstream_bundle'), dict) else {}
         fp = lub.get('probe') or lub.get('from_probe')
         if fp in edges:
             edges[n['id']].add(fp)
@@ -149,7 +200,7 @@ def _bundle_summary(root: Path, rel):
         return {'status': 'UNPARSEABLE'}
 
 
-def derive_status(idea_no: str, root: Path, contract_hasher) -> dict:
+def derive_status(idea_no: str, root: Path, contract_hasher, bundle_validator=None) -> dict:
     reg, _ = _load(idea_no, root)
     if reg is None:
         return {}
@@ -180,11 +231,12 @@ def derive_status(idea_no: str, root: Path, contract_hasher) -> dict:
             return out[nid]['status']
         n = nodes[nid]
         pin = n.get('contract_hash')
-        if pin and current_blob and pin != current_blob:
+        if pin and pin != current_blob:  # a missing current contract is a mismatch too
             out[nid] = {'status': 'STALE',
                         'reason': f'pinned contract {pin[:12]} != current '
-                                  f'{current_blob[:12]} (declaration no '
-                                  'longer describes the approved experiment)'}
+                                  f'{(current_blob or "MISSING")[:12]} '
+                                  '(declaration no longer describes the '
+                                  'approved experiment)'}
             return 'STALE'
         summary = _bundle_summary(root, n.get('results_bundle'))
         missing, drifted = artifact_issues(n)
@@ -195,6 +247,14 @@ def derive_status(idea_no: str, root: Path, contract_hasher) -> dict:
             return 'STALE'
         terminal = n.get('terminal_statuses') or []
         if summary and summary.get('status') in terminal:
+            if bundle_validator is not None:
+                fails = bundle_validator(root / (n.get('results_bundle') or ''))
+                if fails:
+                    out[nid] = {'status': 'RESULT_PRESENT',
+                                'reason': 'terminal-looking summary but the '
+                                          'bundle does not validate: '
+                                          + '; '.join(map(str, fails))[:200]}
+                    return 'RESULT_PRESENT'
             out[nid] = {'status': 'COMPLETE',
                         'reason': f'summary status {summary.get("status")!r}'}
             return 'COMPLETE'
@@ -253,7 +313,7 @@ def upstream_bundle_requirement(idea_no: str, root: Path, phase):
     return None
 
 
-def state_summary(idea_no: str, root: Path, contract_hasher):
+def state_summary(idea_no: str, root: Path, contract_hasher, bundle_validator=None):
     reg, p = _load(idea_no, root)
     if reg is None:
         return None
@@ -262,5 +322,6 @@ def state_summary(idea_no: str, root: Path, contract_hasher):
         'approval_bound': approved_registry_sha(idea_no, root) == registry_sha(idea_no, root),
         'nodes': {k: v['status']
                   for k, v in sorted(derive_status(
-                      idea_no, root, contract_hasher).items())},
+                      idea_no, root, contract_hasher,
+                      bundle_validator).items())},
     }

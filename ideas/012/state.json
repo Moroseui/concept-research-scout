@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "Sybil is using coronary artery calcium: on nodule-free screening scans its risk score rises with the automated Agatston score, and it does so over and above quantitative emphysema and small-vessel blood volume.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-012",
+  "idea_no": "012",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "93916a2022bc4a3edec38d54b66ecf35d9a7d6fba5ec2e01b97ca82bf4e52971",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "1d34ac8683df7ca915cd859240a0c85d1a119d31323df5a6116fb756b512a239",
+      "ledger_events_sha256": "bb32644d05900421e9ee7a24455ed387b4237ac7698f0d7ffe649107c53bdb58",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "PAUSED",
+  "title": "Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan"
+}

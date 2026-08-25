@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using proximity to an arterial border zone as a tissue-vulnerability prior beyond the measured local perfusion deficit.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-038",
+  "idea_no": "038",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "5c939b300f3b8ccde950c9a34348b72795a1557891dd22c38f9a13434ec76d41",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "a869b7fa889f5f108ad3505b0845b7140115bf6eaa443ff162f5d34bd8eed914",
+      "ledger_events_sha256": "91f3c8f8811be45e9a44b8d9a6d6e1936f676bbf2e243938f08b870772523a6a",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "Does the model price the last mile of blood delivery?"
+}

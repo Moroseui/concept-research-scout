@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using arterial-territory membership \u2014 the brain's vascular map \u2014 as a spatial prior, producing prediction discontinuities at territory borders between voxels with matched local evidence.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-036",
+  "idea_no": "036",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "63d57f6abed992e267d39254d43c6ae354c95b939e1e05c37ae42e9364d9f372",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "4a8bad9b87cc9a35e6af1b9670d6a72464fe331e052dc4509840fa741bbb3bdc",
+      "ledger_events_sha256": "8ad661861e821df422929335024b669c4c8cb77c30a8649099f3174ae1f83b87",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "Does the model bring a vascular map to the scan?"
+}

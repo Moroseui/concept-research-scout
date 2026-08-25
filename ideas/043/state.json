@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using the acute gray-to-white matter attenuation ratio as a tissue-injury signal.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-043",
+  "idea_no": "043",
+  "kill_code": "EFFECT_UNREACHABLE",
+  "materialization": {
+    "event_count": 2,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "a042dd491e84a5f502745bb82022bb9ca6d9119c1663784bf97b38c5672f64ce",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "c19feefdc6c0007c67fb61ea7667447284c1dcc707aaa1f1b3d0596bacdf3814",
+      "ledger_events_sha256": "939e6974bb2d5fc37f408b3ce84a3968c9f1843f536863d232b6e64992a15102",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "SCOUTED",
+  "status": "REJECTED",
+  "title": "What the winner's brain window revealed"
+}
