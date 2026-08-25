@@ -1,21 +1,6 @@
 {
   "idea_id": "023",
   "passed": true,
-  "checked_at": "2026-08-25T12:25:02Z",
-  "contract_blob": "468974a7bdec7a7f6bf869f1520fae101b8d5f27",
-  "approval_status": "STALE_BY_DESIGN_PENDING_HUMAN_REAPPROVAL",
-  "artifact_sha256": {
-    "ideas/023/probe_contract.yaml": "b164a9678898dfe6d2de882915c608417bca1489580a39d2f95efb2f18e1c726",
-    "probes/023/run.py": "9978bfed47876ede0aa7f82168bce5382681830855ace4805306893e35451562",
-    "probes/023/README.md": "1da7fc6ea695859bf1bddfc7923c7dd8691758523080e62486c262f3af160147",
-    "probes/023/requirements.txt": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928"
-  },
-  "checks": [
-    "python -m py_compile probes/023/run.py",
-    "synthetic --smoke completed with SMOKE_OK and contract_satisfied=false",
-    "synthetic percentile fixture matched numpy p98 and selected exactly values above p98",
-    "sevenfold CBV/MTT rescaling preserved the percentile vessel mask",
-    "Phase C refused with exit 2 because the pre-amendment approval marker is stale"
-  ],
-  "issues": []
+  "issues": [],
+  "checked_at": "2026-08-25T12:32:46.474794+00:00"
 }
