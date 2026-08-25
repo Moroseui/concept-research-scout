@@ -2089,6 +2089,23 @@ def write_run_provenance(target, tracks, seed_concepts=None):
     (target/'run_provenance.json').write_text(json.dumps(prov, indent=2) + '\n')
 
 
+def _viable_backlog(charter):
+    """Viable SCOUT_ONLY candidates attributable to this charter. Legacy
+    pre-charter rows (lid 'scout-...') belong to the baseline."""
+    want = charter or 'baseline'
+    n = 0
+    for lid, e in ledger_mod.load().items():
+        if e.get('status') != 'SCOUT_ONLY':
+            continue
+        if (ledger_mod._entry_charter(lid, e) or 'baseline') == want:
+            n += 1
+    return n
+
+
+def _backpressure_cap(cfg):
+    return int((cfg.get('backpressure') or {}).get('max_viable_backlog', 20))
+
+
 def cycle(args):
     cfg = load_agent_config()
     tracks = [t.strip() for t in (args.tracks or 'baseline').split(',') if t.strip()]
@@ -2099,6 +2116,20 @@ def cycle(args):
     charter = getattr(args, 'charter', None) or None
     charter_path(charter)  # existence check before anything spends
     pending = s.get('cycle') and any(v != 'done' for v in s['cycle']['stages'].values())
+    # Generation backpressure (R4 audit): generation rate follows execution
+    # capacity. A NEW cycle for a charter already saturated with viable
+    # SCOUT_ONLY candidates skips loudly; resuming unfinished work is not
+    # generation and is never blocked.
+    if not pending and os.environ.get('SCOUT_FORCE') != '1':
+        _cap = _backpressure_cap(cfg)
+        _backlog = _viable_backlog(charter)
+        if _backlog >= _cap:
+            print(f'Scout skipped by backpressure: charter '
+                  f'{charter or "baseline"} has {_backlog} viable SCOUT_ONLY '
+                  f'candidates (cap {_cap}). Raise '
+                  f'[backpressure].max_viable_backlog in AGENTS.toml or set '
+                  f'SCOUT_FORCE=1 to override.')
+            return
     if charter:
         n = s.setdefault('charters', {}).setdefault(charter, {}).setdefault('next_scout', 1)
     else:

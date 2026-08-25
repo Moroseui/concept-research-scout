@@ -65,3 +65,9 @@ pair = ["claude", "codex"]
 # Operational limits. stage_timeout is per agent invocation, in seconds.
 [limits]
 stage_timeout = 3600
+
+[backpressure]
+# Nightly generation follows execution capacity (R4 audit): a NEW cycle for a
+# charter that already has this many viable SCOUT_ONLY candidates skips
+# scouting loudly. SCOUT_FORCE=1 overrides for a deliberate manual run.
+max_viable_backlog = 20

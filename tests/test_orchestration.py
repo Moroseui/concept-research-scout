@@ -542,6 +542,44 @@ class TestFailClosedGitSync(Harness):
         self.assertEqual(head, "local change")
 
 
+class TestBackpressure(Harness):
+    def test_viable_backlog_scopes_by_charter_with_legacy_as_baseline(self):
+        import scout as sc
+        import ledger as L
+        self.addCleanup(setattr, L, "LEDGER", L.LEDGER)
+        L.LEDGER = self.repo / "ledger.jsonl"
+        L.LEDGER.write_text(
+            json.dumps({"ledger_id": "scout-001-c1",
+                        "status": "SCOUT_ONLY"}) + "\n"
+            + json.dumps({"ledger_id": "isles24-scout-001-c1",
+                          "status": "SCOUT_ONLY"}) + "\n"
+            + json.dumps({"ledger_id": "isles24-scout-001-c2",
+                          "status": "SCOUT_ONLY"}) + "\n"
+            + json.dumps({"ledger_id": "isles24-scout-001-c3",
+                          "status": "ACTIVE"}) + "\n")
+        self.assertEqual(sc._viable_backlog(None), 1)
+        self.assertEqual(sc._viable_backlog("isles24"), 2)
+
+    def test_saturated_charter_skips_new_cycle_and_force_overrides(self):
+        with (self.repo / "AGENTS.toml").open("a") as h:
+            h.write("\n[backpressure]\nmax_viable_backlog = 2\n")
+        with (self.repo / "ledger.jsonl").open("a") as h:
+            for i in range(3):
+                h.write(json.dumps({"ledger_id": f"scout-00{i}-c1",
+                                    "status": "SCOUT_ONLY"}) + "\n")
+        r = self.scout("cycle", "--dry-run")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("skipped by backpressure", r.stdout)
+        r2 = self.scout("cycle", "--dry-run", SCOUT_FORCE="1")
+        self.assertEqual(r2.returncode, 0, r2.stderr)
+        self.assertNotIn("skipped by backpressure", r2.stdout)
+
+    def test_actioner_improvement_path_is_hard_gated_until_2b(self):
+        text = Path(".github/workflows/actioner.yml").read_text()
+        self.assertIn("${{ false }}", text)
+        self.assertIn("disabled until 2b", text)
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")
