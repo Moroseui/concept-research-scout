@@ -793,6 +793,40 @@ class TestBackpressure(Harness):
         self.assertIn("disabled until 2b", text)
 
 
+class TestExecutionReceipts(Harness):
+    def _receipts(self, idea="001"):
+        f = self.repo / "ideas" / idea / "stage_provenance.jsonl"
+        if not f.exists():
+            return []
+        return [json.loads(l) for l in f.read_text().splitlines() if l.strip()]
+
+    def test_every_invocation_writes_exactly_one_attempt_receipt(self):
+        r = self.scout("run", "critique", "--idea", "1")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        recs = [x for x in self._receipts() if x.get("receipt")]
+        self.assertEqual(len(recs), 1, recs)
+        rec = recs[0]
+        self.assertEqual(rec["stage"], "critique")
+        self.assertEqual(rec["exit_class"], "ok")
+        self.assertEqual(len(rec["prompt_sha256"]), 64)
+        self.assertIn(rec["agent_effective"], ("claude", "codex"))
+        self.assertIn("model_used", rec)
+        self.assertGreaterEqual(rec["duration_s"], 0)
+
+    def test_receipt_survives_a_post_run_stage_failure(self):
+        r = self.scout("run", "critique", "--idea", "1", action="out_of_scope")
+        self.assertNotEqual(r.returncode, 0)
+        recs = [x for x in self._receipts() if x.get("receipt")]
+        self.assertEqual(len(recs), 1)
+        self.assertEqual(recs[0]["exit_class"], "ok")  # agent ran fine; the guard failed after
+
+    def test_legacy_recorder_has_no_remaining_call_sites(self):
+        src = Path("scout.py").read_text()
+        calls = [l for l in src.splitlines()
+                 if "_record_stage_provenance(" in l and "def _record_stage_provenance" not in l]
+        self.assertEqual(calls, [])
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")

@@ -18,7 +18,7 @@ Revamp additions (see REVAMP.md):
     exit.
 """
 from __future__ import annotations
-import argparse, csv, json, os, random, re, shutil, subprocess, sys, textwrap
+import argparse, csv, hashlib, json, os, random, re, shutil, subprocess, sys, textwrap
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -302,7 +302,7 @@ LIMIT_PATTERNS = {
 }
 
 LAST_RUN = None  # provenance of the most recent run_agent call; merged into
-                 # stage_provenance.jsonl by _record_stage_provenance.
+                 # stage_provenance.jsonl inside run_agent (2a-3 execution receipts).
 
 
 def _classify_agent_failure(output, cfg=None):
@@ -415,7 +415,59 @@ def _invoke_agent(command, use_stdin, prompt_text, timeout, log_path):
     return proc.returncode, ''.join(lines)
 
 
+def _append_receipt(dirpath, rec):
+    (Path(dirpath) / 'stage_provenance.jsonl').open('a').write(
+        json.dumps(rec, sort_keys=True) + '\n')
+
+
 def run_agent(prompt_path, agent=None, stage=None, log_path=None):
+    """Execution-receipt wrapper (2a-3): EVERY agent invocation -- pipeline
+    stages, debate legs, probe/interpret loops, reconcile, actioner --
+    passes through here, so the attempt receipt is written from inside the
+    execution primitive itself, on success, failure, timeout, and skip
+    alike. The old optional _record_stage_provenance call sites provably
+    missed debate and the probe loops (round-4 audit, idea 023's own
+    history)."""
+    cfg = load_agent_config()
+    req = agent
+    eff = agent
+    if eff is None and stage:
+        eff = cfg.get('roles', {}).get(stage.replace('-', '_'))
+    eff = effective_agent(eff or cfg.get('default', {}).get('agent', 'claude'), cfg)
+    p = Path(prompt_path)
+    import time as _t
+    rec = {'receipt': 1, 'run_id': os.urandom(6).hex(), 'stage': stage,
+           'prompt_file': p.name,
+           'prompt_sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
+           'agent_requested': req, 'agent_effective': eff,
+           'ci': bool(os.environ.get('SCOUT_CI')),
+           'started_utc': datetime.now(timezone.utc).isoformat(timespec='seconds')}
+    before = LAST_RUN
+    t0 = _t.monotonic()
+    try:
+        return _run_agent_core(prompt_path, agent, stage, log_path)
+    except BaseException as e:
+        msg = str(e)
+        rec['exit_class'] = ('timeout' if 'timed out' in msg
+                             else 'limit' if 'usage limit' in msg
+                             else 'error')
+        rec['exit_detail'] = msg[-300:]
+        raise
+    finally:
+        rec['duration_s'] = round(_t.monotonic() - t0, 3)
+        if 'exit_class' not in rec:
+            # Core rebinds LAST_RUN on every terminal outcome; failure paths
+            # raise (handled above), so an identity change here means success
+            # -- even for commands with no model flag (model_used=None).
+            rec['exit_class'] = 'ok' if LAST_RUN is not before else 'skipped'
+        if LAST_RUN is not before:
+            rec.update({k: LAST_RUN[k] for k in
+                        ('model_requested', 'model_used', 'fallback', 'attempts')
+                        if k in LAST_RUN})
+        _append_receipt(p.parent, rec)
+
+
+def _run_agent_core(prompt_path, agent=None, stage=None, log_path=None):
     global LAST_RUN
     cfg = load_agent_config()
     if agent is None and stage:
@@ -2593,22 +2645,7 @@ def _cli_versions():
 
 
 def _record_stage_provenance(idea, stage):
-    rec = dict(_cli_versions())
-    rec.update({'stage': stage,
-                'ts': datetime.now(timezone.utc).isoformat(timespec='seconds'),
-                'git_commit': subprocess.run(['git', 'rev-parse', 'HEAD'],
-                                             capture_output=True, text=True,
-                                             check=False).stdout.strip()})
-    if LAST_RUN and LAST_RUN.get('stage') == stage:
-        # D2 visibility: which model actually ran, and whether it was a
-        # fallback. record-never-pin extended to graceful degradation.
-        rec.update({k: LAST_RUN[k] for k in
-                    ('model_requested', 'model_used', 'fallback')
-                    if k in LAST_RUN})
-        if LAST_RUN.get('fallback'):
-            rec['attempts'] = LAST_RUN['attempts']
-    with (idea_dir(idea) / 'stage_provenance.jsonl').open('a') as f:
-        f.write(json.dumps(rec) + '\n')
+    return  # superseded by execution receipts inside run_agent (2a-3)
 
 
 def _pipeline_stage(idea, stage):
@@ -2623,7 +2660,6 @@ def _pipeline_stage(idea, stage):
     run_agent(p, None, stage=stage, log_path=target/f'log_{stage}.txt')
     _check_scope(stage)
     _require_artifact(stage, target)
-    _record_stage_provenance(idea, stage)
     if stage == 'keystone':
         kv = _apply_keystone_verdict(idea)
         if kv:
