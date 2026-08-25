@@ -745,3 +745,20 @@ they agree, immateriality is demonstrated and the primary stands with the
 robustness check noted; if they diverge, the revised run is canonical and
 the divergence is reported as a finding. This criterion is committed before
 any stratum outcome has been inspected.
+
+## 2026-08-26 - 023 take 10: truncated extracted member + the Drive-artifact mystery closed
+
+Two findings. First, take-10 origin_direct incidentally settled take-6: the
+TRUE Zenodo object is 99,014,629,647 bytes (md5-verified); the Drive-cached
+wget artifact was 99,022,114,670 -- ~7.5 MB oversized, a Franken-file from
+the record-drift era (wget -c declares fully-retrieved whenever local >=
+remote), which is why its md5 could never match. origin_direct fully
+vindicated. Second, take-10 receipt: staging verified, census passed, map
+pass reached case 21 (sub-stroke0043, 20 cases checkpointed) and died on a
+TRUNCATED extracted .nii.gz (gzip EOFError; run.py wrapped it honestly as
+exit 13). Root cause class: the extraction 7z exit status was unchecked and
+the file-count floor cannot see single-member truncation -- count is not
+integrity. Driver fix (both staging modes): extraction is now rc-checked
+and quiet; a per-member gzip -t sweep follows; bad members are deleted and
+re-extracted individually once; a second failure refuses loudly as
+EXTRACTION_INTEGRITY_FAILURE naming the files.

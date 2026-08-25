@@ -408,7 +408,8 @@ class TestStagingCells(unittest.TestCase):
         self.assertIn(".part", localize)
         self.assertIn("FUSE_LOCALIZATION_INTEGRITY_FAILURE", localize)
         self.assertNotIn("DRIVE MASTER IS CORRUPT", localize)
-        self.assertIn('"{ARCHIVE_LOCAL}"', extract)
+        self.assertIn("7z extraction failed rc=", extract)
+        self.assertIn("EXTRACTION_INTEGRITY_FAILURE", extract)
         self.assertIn("refusing to reach the census", extract)
         self.assertNotIn("{{", localize)
         self.assertIn("zenodo.org/api/records/16731717", pin)
@@ -428,6 +429,8 @@ class TestStagingCells(unittest.TestCase):
         self.assertIn(".part", fo)
         self.assertNotIn("copying archive Drive", fo)
         self.assertIn("refusing to reach the census", eo)
+        self.assertIn("gzip -t", eo)
+        self.assertIn("EXTRACTION_INTEGRITY_FAILURE", eo)
         with self.assertRaises(SystemExit):
             sc._staging_cells("16731717", ["_ncct.nii.gz"], mode="origin_direct")
         self.assertIn("zenodo.org/api/records/16813698", pin2)

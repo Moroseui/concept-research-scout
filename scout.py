@@ -1042,12 +1042,35 @@ def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
         extract = (
             "SUFFIXES = [" + sufs + "]\n"
             "if not os.path.isdir(LOCAL_DATA):\n"
-            "    !apt-get -qq install -y p7zip-full\n"
-            "    _inc = ' '.join('-ir!*' + x for x in SUFFIXES)\n"
-            '    !7z x "{ARCHIVE_LOCAL}" -o"{LOCAL_DATA}" {_inc} -y\n'
+            "    subprocess.run(['apt-get', '-qq', 'install', '-y', 'p7zip-full'], check=False)\n"
+            "    _rc = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+            "                         + ['-ir!*' + x for x in SUFFIXES],\n"
+            "                         stdout=subprocess.DEVNULL).returncode\n"
+            "    assert _rc == 0, f'7z extraction failed rc={_rc} -- refusing to proceed'\n"
             "_n = sum(len(f) for _, _, f in os.walk(LOCAL_DATA))\n"
             "print('extracted files (local):', _n)\n"
-            "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'")
+            "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'\n"
+            "def _gzip_sweep(root):\n"
+            "    bad = []\n"
+            "    for _dp, _, _fs in os.walk(root):\n"
+            "        for _f in _fs:\n"
+            "            if _f.endswith('.gz'):\n"
+            "                _p = os.path.join(_dp, _f)\n"
+            "                if subprocess.run(['gzip', '-t', _p], capture_output=True).returncode:\n"
+            "                    bad.append(_p)\n"
+            "    return bad\n"
+            "_bad = _gzip_sweep(LOCAL_DATA)\n"
+            "if _bad:\n"
+            "    print('integrity sweep:', len(_bad), 'truncated/corrupt member(s); re-extracting just those')\n"
+            "    for _p in _bad:\n"
+            "        os.remove(_p)\n"
+            "    _rc2 = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+            "                          + ['-ir!*' + os.path.basename(_p) for _p in _bad],\n"
+            "                          stdout=subprocess.DEVNULL).returncode\n"
+            "    _bad2 = _gzip_sweep(LOCAL_DATA)\n"
+            "    assert _rc2 == 0 and not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
+            "        + '; '.join(os.path.basename(_x) for _x in _bad2[:5]))\n"
+            "print('integrity sweep: all extracted members pass gzip -t')")
         return [pin, fetch, extract]
     fetch_url = ('https://zenodo.org/api/records/' + (rid or concept))
     pin = (
@@ -1139,13 +1162,37 @@ def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
         "print('local archive bytes:', os.path.getsize(ARCHIVE_LOCAL))")
     extract = (
         "SUFFIXES = [" + sufs + "]\n"
+        "import subprocess\n"
         "if not os.path.isdir(LOCAL_DATA):\n"
-        "    !apt-get -qq install -y p7zip-full\n"
-        "    _inc = ' '.join('-ir!*' + x for x in SUFFIXES)\n"
-        '    !7z x "{ARCHIVE_LOCAL}" -o"{LOCAL_DATA}" {_inc} -y\n'
+        "    subprocess.run(['apt-get', '-qq', 'install', '-y', 'p7zip-full'], check=False)\n"
+        "    _rc = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+        "                         + ['-ir!*' + x for x in SUFFIXES],\n"
+        "                         stdout=subprocess.DEVNULL).returncode\n"
+        "    assert _rc == 0, f'7z extraction failed rc={_rc} -- refusing to proceed'\n"
         "_n = sum(len(f) for _, _, f in os.walk(LOCAL_DATA))\n"
         "print('extracted files (local):', _n)\n"
-        "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'")
+        "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'\n"
+        "def _gzip_sweep(root):\n"
+        "    bad = []\n"
+        "    for _dp, _, _fs in os.walk(root):\n"
+        "        for _f in _fs:\n"
+        "            if _f.endswith('.gz'):\n"
+        "                _p = os.path.join(_dp, _f)\n"
+        "                if subprocess.run(['gzip', '-t', _p], capture_output=True).returncode:\n"
+        "                    bad.append(_p)\n"
+        "    return bad\n"
+        "_bad = _gzip_sweep(LOCAL_DATA)\n"
+        "if _bad:\n"
+        "    print('integrity sweep:', len(_bad), 'truncated/corrupt member(s); re-extracting just those')\n"
+        "    for _p in _bad:\n"
+        "        os.remove(_p)\n"
+        "    _rc2 = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+        "                          + ['-ir!*' + os.path.basename(_p) for _p in _bad],\n"
+        "                          stdout=subprocess.DEVNULL).returncode\n"
+        "    _bad2 = _gzip_sweep(LOCAL_DATA)\n"
+        "    assert _rc2 == 0 and not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
+        "        + '; '.join(os.path.basename(_x) for _x in _bad2[:5]))\n"
+        "print('integrity sweep: all extracted members pass gzip -t')")
     return [pin, download, localize, extract]
 
 
