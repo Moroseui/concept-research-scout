@@ -927,6 +927,36 @@ def verify_probe(args):
     if issues: raise SystemExit(1)
 
 
+def _mount_cell():
+    """Drive mount that survives the corpse of a crashed FUSE mount. A dead
+    gcsfuse leaves /content/drive populated but unmounted on a surviving VM
+    (the 2026-08-25 exit-3 session); plain drive.mount() then refuses with
+    'Mountpoint must not already contain files'. Residue is moved aside
+    loudly; when even inspecting it fails, the only cure is a fresh VM."""
+    return (
+        "from google.colab import drive, userdata\n"
+        "import os, shutil, time\n"
+        "MP = '/content/drive'\n"
+        "def _mounted(mp):\n"
+        "    try:\n"
+        "        return any(len(l.split()) > 1 and l.split()[1] == mp\n"
+        "                   for l in open('/proc/mounts'))\n"
+        "    except OSError:\n"
+        "        return False\n"
+        "try:\n"
+        "    if os.path.isdir(MP) and not _mounted(MP) and os.listdir(MP):\n"
+        "        stale = f'/content/drive_stale_{int(time.time())}'\n"
+        "        shutil.move(MP, stale)\n"
+        "        print('stale mountpoint residue moved to', stale,\n"
+        "              '(a crashed FUSE mount left a corpse on a surviving VM)')\n"
+        "except OSError as e:\n"
+        "    print('could not inspect/move mountpoint residue:', e,\n"
+        "          '-- if the mount below fails, Runtime > Disconnect and delete runtime')\n"
+        "drive.mount(MP, force_remount=True)\n"
+        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed\n"
+        "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed")
+
+
 def _staging_cells(concept, suffixes, record_id=None):
     """Deterministic Colab staging cells for a Zenodo-hosted archive: pin the
     immutable child record, resumable-download the single .7z to Drive, and
@@ -1042,12 +1072,7 @@ def package_colab(args):
         f"PIN_COMMIT = '{pin}'\n"
         f"RESULTS_BRANCH = '{branch}'\n"
         f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}'{cfg_extra}"),
-      nbf.v4.new_code_cell(
-        "from google.colab import drive, userdata\n"
-        "import os\n"
-        "drive.mount('/content/drive')\n"
-        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed\n"
-        "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed"),
+      nbf.v4.new_code_cell(_mount_cell()),
       nbf.v4.new_code_cell(
         "!rm -rf /content/scout-repo\n"
         "!git clone {REPO_URL} /content/scout-repo\n"
