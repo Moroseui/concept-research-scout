@@ -1750,7 +1750,12 @@ def _push_checkpoint():
     r = _git('push', check=False)
     if r.returncode == 0:
         return
-    _git('pull', '--rebase', check=False)
+    rb = _git('pull', '--rebase', check=False)
+    if rb.returncode != 0:
+        _git('rebase', '--abort', check=False)
+        raise SystemExit('Checkpoint rebase conflicted; aborted without '
+                         'committing a conflicted tree (fail-closed):\n'
+                         + (rb.stderr or rb.stdout or '')[-800:])
     r = _git('push', check=False)
     if r.returncode != 0:
         raise SystemExit('Checkpoint push failed after rebase retry:\n'

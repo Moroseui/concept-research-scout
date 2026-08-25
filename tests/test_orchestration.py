@@ -473,6 +473,50 @@ class TestResultSpecValidator(Harness):
         self.assertTrue(any("escapes bundle" in f for f in sc.validate_bundle(1, b)))
 
 
+class TestFailClosedGitSync(Harness):
+    def test_failed_rebase_aborts_and_raises_without_conflicted_tree(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+
+        def g(*a, cwd):
+            return subprocess.run(["git", *a], cwd=cwd, capture_output=True,
+                                  text=True)
+
+        branch = g("rev-parse", "--abbrev-ref", "HEAD",
+                   cwd=self.repo).stdout.strip()
+        bare = self.repo.parent / "origin.git"
+        g("init", "--bare", str(bare), cwd=self.repo.parent)
+        g("remote", "add", "origin", str(bare), cwd=self.repo)
+        f = self.repo / "contested.txt"
+        f.write_text("base\n")
+        g("add", "-A", cwd=self.repo)
+        g("commit", "-m", "base", cwd=self.repo)
+        g("push", "-u", "origin", branch, cwd=self.repo)
+
+        clone2 = self.repo.parent / "c2"
+        g("clone", str(bare), str(clone2), cwd=self.repo.parent)
+        g("config", "user.email", "t@t", cwd=clone2)
+        g("config", "user.name", "t", cwd=clone2)
+        (clone2 / "contested.txt").write_text("remote\n")
+        g("add", "-A", cwd=clone2)
+        g("commit", "-m", "remote change", cwd=clone2)
+        g("push", cwd=clone2)
+
+        f.write_text("local\n")
+        g("add", "-A", cwd=self.repo)
+        g("commit", "-m", "local change", cwd=self.repo)
+
+        with self.assertRaises(SystemExit):
+            sc._push_checkpoint()
+
+        self.assertFalse((self.repo / ".git" / "rebase-merge").exists())
+        self.assertFalse((self.repo / ".git" / "rebase-apply").exists())
+        self.assertNotIn("<<<<<<<", f.read_text())
+        head = g("log", "-1", "--format=%s", cwd=self.repo).stdout.strip()
+        self.assertEqual(head, "local change")
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")
