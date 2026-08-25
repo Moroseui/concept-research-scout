@@ -4,13 +4,15 @@
     "--phase",
     "C",
     "--output-dir",
-    "/content/drive/MyDrive/concept-research-scout-results/023_v2",
+    "/content/drive/MyDrive/concept-research-scout-results/023_C",
     "--data-dir",
     "/content/drive/MyDrive/staging-16731717/extracted",
     "--archive-file",
     "/content/drive/MyDrive/staging-16731717/train.7z",
     "--record-json",
-    "/content/drive/MyDrive/staging-16731717/zenodo_record.json"
+    "/content/drive/MyDrive/staging-16731717/zenodo_record.json",
+    "--phase-s-dir",
+    "/content/drive/MyDrive/concept-research-scout-results/023_v2"
   ],
   "cwd": "/content/scout-repo",
   "packages": {
@@ -22,5 +24,5 @@
   "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
   "python": "3.13.15 (main, Aug  6 2026, 11:06:23) [GCC 11.4.0]",
   "seed": 20260824,
-  "timestamp_utc": "2026-08-25T00:54:08.947899+00:00"
+  "timestamp_utc": "2026-08-25T01:13:47.314283+00:00"
 }
