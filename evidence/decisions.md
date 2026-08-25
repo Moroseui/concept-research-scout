@@ -590,3 +590,48 @@ string inspection; probe-spec-declared terminal statuses retire the
 POSITIVE/NEGATIVE_PATTERN literals in bundle_complete; execution receipts
 move inside run_agent; state.json as materialized view + registry.yaml per
 the round-4 schema.
+
+## 2026-08-25 - 023 Phase C attempt 2: exit 5, archive census 0 cases -- root cause and directive
+
+Execution receipt: take-2 run (with --phase-s-dir) passed the approval gate
+on blob 349af5ad, verified the Phase-S hash, completed both archive digest
+passes, then FAILED loudly at the census: run.py line 229 globs
+sub-strokecase*_ses-*_space-ncct_cbf.nii* but the archive contains ZERO
+strokecase members. Bundle with archive_manifest.csv (2983 members) pushed
+at 2026-08-25T02:00:48Z.
+
+Ground truth from the archive manifest itself, one full case:
+  train/derivatives/sub-stroke0001/ses-01/perfusion-maps/sub-stroke0001_ses-01_space-ncct_cbf.nii.gz (+cbv, mtt, tmax)
+  train/derivatives/sub-stroke0001/ses-02/sub-stroke0001_ses-02_space-ncct_lesion-msk.nii.gz
+  train/raw_data/sub-stroke0001/ses-01/sub-stroke0001_ses-01_ncct.nii.gz
+Counts: 149 cbf, 149 rawdata NCCT (cohort = 149, settled from the payload);
+150 lesion-msk rows for 149 cases -- one extra/duplicate exists and must be
+named, not silently absorbed.
+
+Correction (forward, append-only): round-2 review finding B1 and the
+operator both verified filenames against the Zenodo record DESCRIPTION
+(sub-strokecaseNNNN..., rawdata/). The payload uses sub-strokeNNNN and
+raw_data/. Lesson: the archive member manifest outranks dataset
+documentation; filename claims verify against payload, never prose.
+
+Directive for the probe-code revision: derive case discovery from observed
+archive members (tolerate sub-stroke\d+ and sub-strokecase\d+; handle
+raw_data and rawdata); surface the 150th lesion row explicitly in
+schema_census.csv and route it through exclusions.csv with a reason; change
+nothing else -- the contract, gates, thresholds, and analysis are untouched
+and the standing approval remains valid.
+
+## 2026-08-25 - 023 attempts 3-4: Drive FUSE mount crash + Zenodo version-drift hazard
+
+Attempt-3 receipt (02:35Z bundle): the Colab Drive mount died mid-session
+(Transport endpoint is not connected). Three symptoms, one cause: extraction
+find limped; run.py correctly exit-3d on the invisible extracted dir; and
+the staging pin cell, seeing RECORD_JSON as missing, silently re-resolved
+the concept to a NEWER child record (17652035) published since our
+download -- old bytes, new record, a checksum failure waiting to happen.
+Lesson: a pin that can re-resolve at runtime is not a pin. Fixed in the
+generator: --staging-record declares the immutable child at packaging time;
+existing pins are never silently re-resolved; drift is healed toward the
+declaration with a loud warning. Take 4 declares record 16813698 (md5
+36ae28b9... matches the held archive); run.py checksum gate arbitrates
+definitively.

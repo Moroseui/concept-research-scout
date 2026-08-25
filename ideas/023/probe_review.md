@@ -1,85 +1,113 @@
-# Probe code review — idea 023, round 3 (first review of the post-amendment code)
+# Probe code review — idea 023, round 4 (first review of the post-exit-5-directive revision)
 
 **Reviewed artifacts:** `probes/023/run.py` (SHA-256
-`8bd3156b1561569cfee01d40bf96d8a8a79e69c081d97fcd26f7da0dffb26eb2`),
+`d2dd41a6bad5fc2f74414a008e5f24873e907734d88440c021860392bce8a569`),
 `probes/023/requirements.txt` (SHA-256 `ff705c03…`, byte-identical to the
-round-2 file), `probes/023/README.md` (SHA-256 `be45e902…`),
-`probes/023/verification.json` (hashes match all three), against the AMENDED
+round-2/3 file), `probes/023/README.md` (SHA-256 `ffdd3565…`),
+`probes/023/verification.json` (hashes match all three), against the amended
 `ideas/023/probe_contract.yaml` (git blob
-`349af5ad0b3e8acfc6337d15f1860974d1183393` — diffed this round against the
-on-disk file and against the blob in `ideas/023/HUMAN_APPROVED_PROBE`; all
-three identical). Rounds 1–2 preserved at commits `f5cdd6a` and `bb696da`.
+`349af5ad0b3e8acfc6337d15f1860974d1183393` — recomputed this round and
+identical to the blob in `ideas/023/HUMAN_APPROVED_PROBE`; the contract is
+untouched, so the standing Phase-C approval remains bound). Prior code at
+commit `5faa013` (run.py SHA-256 `8bd3156b…`, the round-3 APPROVE); revised
+code at commit `7fbef0e`. Review rounds 1–3 preserved in git.
 
-**Scope note.** The 2026-08-24 operator ruling authorized Phase S with the
-round-2 code and required five resolutions before Phase C: blockers B1–B3,
-the NaN-background finiteness ambiguity, and the NCCT-location correction.
-The contract amendment (commit `64c9d7f`) froze the Phase-S gates (N=20,
-M=100, CI width 0.15, simulation SHA-256 `59069fa9…`) and encoded the
-finiteness and NCCT clause rulings; a fresh hash-bound approval now exists.
-This review is the remaining code gate before Phase C runs on real data.
+**Scope note.** This is not a fresh-plan review. The 2026-08-25 decision entry
+("023 Phase C attempt 2: exit 5, archive census 0 cases") issued a bounded
+revision directive: (1) derive case discovery from observed archive members,
+tolerating `sub-stroke\d+` and `sub-strokecase\d+` and both `raw_data`/`rawdata`;
+(2) surface the payload's 150th lesion row explicitly in `schema_census.csv`
+and route it through `exclusions.csv` with a reason; (3) change nothing else —
+contract, gates, thresholds, and analysis untouched, standing approval valid.
+This review verifies the code implements exactly that directive and nothing
+else, and additionally validates the new discovery logic against the **real
+archive member manifest** (2,983 members) persisted by the attempt-2 bundle.
 
 **Requirements conformance (review rule 5):** `ideas/023/contract_requirements.md`
 does not exist; not a requirements-governed contract. Not applicable.
 
-**External evidence:** none newly fetched. B1's fix is verified against the
-official release filename quoted verbatim in the round-2 review
-(`sub-strokecase0009_ses-0001_lesion-msk.nii.gz`, fetched 2026-08-24 from the
-official repository tree).
+**External evidence:** none newly fetched from the network. The ground truth
+for the payload is `probes/023/results_v2/archive_manifest.csv` at commit
+`0cfec9f` on branch `results/probe-023-349af5ad0b3e` — produced by the
+attempt-2 run itself after both digest passes verified the Zenodo checksum,
+which makes it the strongest available evidence of the archive's contents.
 
 ---
 
-## Disposition of the five operator-mandated resolutions
+## Disposition of the three directive requirements
 
-| Mandated item | Status in this code |
+| Directive item | Status in this code |
 |---|---|
-| B1 lesion filename | **Resolved** — suffix list is now `("_lesion-msk.nii.gz", "_lesion-msk.nii")` (`run.py:216`), matching the official spelling; prefix+suffix `rglob` tolerates the release quirk of a `ses-0001` filename stored under the follow-up session directory; lesion filenames are first resolved in pass two (`run.py:510`), preserving the label-blind freeze |
-| B2 compute/memory/resume | **Resolved** — the mirrored 5×5×3 median is a vectorized, slab-bounded `sliding_window_view` + `nanmedian` (`run.py:416-434`), capped at ~12M window values (≈50–100 MB) per slab; each case is computed once, checkpointed atomically (`run.py:519-524`, `631`), and the outcome pass reuses the cached `rcbf`/`rcbv`/`region` (`run.py:702`) instead of recomputing; both passes resume per case (`run.py:613-618`, `689-700`); checkpoints are identity-bound to contract blob, archive SHA-256, split SHA-256, and `run.py` SHA-256 (`run.py:602-609`); no per-case full-volume state accumulates across the census loop |
-| B3 secondary metrics | **Resolved** — median-d patient-bootstrap 95% CI from the same bootstrap index matrix (`run.py:727-737`, columns in `per_stratum_summary.csv`); label-blind native-support distribution (9 quantiles + count per stratum) in `support_summary.csv` plus dependency-free `native_support.svg` (`run.py:676-683`); identity-residual distribution in `identity_residual_summary.csv` plus SVG, both written **before** the exit-9 gate can fire (`run.py:658-673`) |
-| Finiteness clause (amended `grid_gate`) | **Implemented as ruled** — nonfinite map voxels are excluded from the analyzed region (`run.py:440`, `461`) and counted per map in `exclusions.csv` (`run.py:465-468`); lesion finiteness is enforced only on analyzed voxels (`run.py:484-485`), with nonfinite background permitted; two precision notes below (F4) |
-| NCCT clause | **Implemented as ruled** — the rawdata NCCT is a required input resolved by exact suffix (`run.py:214`, `325`; round 2 verified no derivative file shares it), the brain mask and mirror derive from it on the common canonical grid (`run.py:330`, `374-413`), and the README states the exact extraction set and that the NCCT exists only under `rawdata` — one glob typo in that README line (F3) |
+| Case discovery from archive members, tolerant of both id spellings and both rawdata spellings | **Resolved** — `archive_case_inventory` (`run.py:226-288`) derives the cohort from the 7z member manifest, never from extracted-directory globs or release prose (`run.py:646-648` states this as the population authority); the case pattern `sub-(?:stroke\|strokecase)\d+` (`run.py:230`, case-insensitive) accepts both spellings; discovery is by exact filename suffix with no directory-name dependence, so `raw_data`/`rawdata` is moot for the census, and the README extraction spec plus the launcher's suffix-based `7z -ir!*` includes (`colab_probe_023.ipynb:113-117`) are likewise directory-agnostic |
+| 150th lesion row surfaced and routed through exclusions with a reason | **Resolved** — per-case lesion members are enumerated; the canonical follow-up derivative (`/derivatives/<case>/ses-0*2/<case>_ses-0*2_space-ncct_lesion-msk.nii[.gz]`, `run.py:261-262`) is retained; every non-retained member is recorded with `record_type=excluded_archive_lesion` and an explicit reason in **both** `schema_census.csv` (`run.py:672-680`) and `exclusions.csv` (`run.py:681-684`), and counted in `summary.json` as `excluded_duplicate_lesion_members` (`run.py:845`); duplicates that schema position cannot distinguish and that are not byte-identical stop loudly as exit 5 (`run.py:272-275`) rather than being absorbed |
+| Change nothing else | **Resolved** — the full `5faa013..7fbef0e` diff touches only: `discover_cases` → `archive_case_inventory` + `find_archive_selected`, the `load_lesion` signature (exact-archive-path resolution, `run.py:573-586`), the duplicate-row surfacing and the two CSVs' explicit field lists it necessitates (`run.py:738-744`), the `record_type` filter in the pass-two schema lookup (`run.py:805-806`, itself necessary so the prepended duplicate row cannot shadow the analyzed-case row), and the one summary count. Phase S, the approval gate, the split function, all strata/thresholds/gates, the bootstrap, the conjunction, and the stopping rule are byte-unchanged; the contract file is untouched (blob verified) |
 
-## Round-2 non-blocking disposition
+## Validation against the real payload (the decisive check this round)
 
-- **N1 (Phase S/C conjunction divergence): resolved.** Phase S now uses the
-  direction-aware CI-exclusion rule (`run.py:159-160`), the same conjunction
-  as Phase C (`run.py:732-739`). The frozen simulation hash was produced
-  under the round-2 rule; for a percentile bootstrap of a mean the two rules
-  cannot classify any replicate differently (opposite-side exclusion would
-  require the point estimate to fall outside its own bootstrap interval), and
-  the rule change consumes no randomness, so a rerun reproduces the frozen
-  CSV; Phase C in any case verifies the stored artifact's hash before any
-  data access (`run.py:300-310`, called at `run.py:571`).
-- **N3 (evidence persistence on invalidating exits): resolved for the
-  identity and mirror gates** — `mirror_qc.csv`, `schema_census.csv`,
-  `exclusions.csv`, and the identity CSVs/SVG are all written before their
-  exits (`run.py:647-651`, `666-673`). Residual: a unit-gate exit at case 1
-  still leaves no CSVs, though per-case audit JSONs in `phase_c_cache/` and
-  `run_log.txt` carry the evidence. Carried.
-- **N4 (unit gate will likely stop a real run): carried unchanged**
-  (`run.py:353-365`); the stop is the contract's mandated behavior.
-- **N5 (extraction set undocumented): resolved** by the README section and
-  the contract's corrected `required_inputs`; see F3 for the typo.
-- **N6 (mirror narrowness): carried** — axis-aligned plane within ±5 voxels,
-  no tilt model; the `zooms` parameter is accepted but unused (`run.py:374`),
-  so the ≤1-voxel error bound remains in mixed index units across
-  anisotropic axes. Frozen design; expect exit-7 as a plausible real-data
-  stop.
-- **N7 (archive digests read 99 GB twice): carried and amplified** — MD5 and
-  SHA-256 remain separate full passes (`run.py:274`, `279`), and because
-  provenance validation precedes checkpoint use, **every resume after a
-  disconnect re-pays both passes (~30–60 min)** before any cached work is
-  honored. A single pass updating both digests is still the cheap fix. The
-  released case count is likewise still taken from the extracted directory
-  without cross-check against `archive_manifest.csv`.
-- **N8 (smoke overwrite): carried** — `--smoke` writes `summary.json` and
-  friends into `--output-dir`; additionally, smoke now bypasses `gate()`
-  entirely (`run.py:766`). Acceptable (synthetic only, labeled
-  non-contractual, needed by the verify harness), but noted.
-- **N9 (requirements pins): partially resolved** — `resolved_config.json`
-  now echoes the three Phase-S-frozen thresholds in Phase C
-  (`run.py:768-773`). `requirements.txt` keeps bounded ranges; freeze exact
-  resolved versions for the real Phase C run and rely on `environment.txt`
-  as the record of what actually installed.
+I traced `archive_case_inventory` by hand against the actual 2,983-member
+manifest from the attempt-2 bundle:
+
+- **Cohort:** exactly 149 members for each of CBF, CBV, MTT, Tmax; 149
+  `raw_data/**/*_ncct.nii.gz`; the three case-id sets (CBF, lesion, NCCT) are
+  identical (set difference empty). Zero `sub-strokecase` members; every row
+  is rooted at `train/`. The inventory therefore yields 149 ids, passes the
+  149/150 census check, and finds one CBF and at least one lesion per case —
+  no exit-5 path fires.
+- **The 150th lesion row is confirmed and characterized:** `sub-stroke0142`
+  carries two lesion members —
+  `train/derivatives/sub-stroke0142/ses-02/sub-stroke0142_ses-02_space-ncct_lesion-msk.nii.gz`
+  (canonical) and `train/derivatives/sub-stroke0142/ses-02/sub-stroke0142_ses-02_lesion-msk.nii`
+  (no `space-ncct` tag, uncompressed). The canonical regex matches exactly the
+  first, so it is retained and the noncanonical `.nii` is excluded with the
+  recorded reason. This is also contract-faithful independent of the
+  directive: `required_inputs` names the **NCCT-space** lesion derivative,
+  which the untagged file is not.
+- **Extraction consistency:** the launcher's include list is `.nii.gz`-suffix
+  only, so the noncanonical `.nii` is never extracted; `find_archive_selected`
+  resolves the retained member by its exact archive path (tolerating the
+  `train/` root's presence or absence, `run.py:291-302`) and fails loudly on
+  zero or multiple matches, so the excluded file's absence on disk is
+  immaterial and a double-extracted tree cannot be silently mis-resolved.
+- **Split stability:** case ids observed in the payload (`sub-strokeNNNN`,
+  already lowercase) are exactly the ids the approved code would have derived
+  from extracted filenames had its glob matched, and `split_cases` is
+  unchanged — so the frozen hash assignment (100 lowest of 149; 49 reserved,
+  within the contract's expected 49-or-50) is identical to the assignment the
+  standing approval covered. The revision cannot move any patient across the
+  census/reserve boundary.
+- **Label-blind ordering preserved:** lesion-member *selection* now happens at
+  inventory time, but it reads only member names/sizes/CRCs from the manifest;
+  no lesion is *opened* before `split_manifest.csv` is written and hashed
+  (`run.py:655-656`), which is what the contract's split policy freezes
+  against. Reserved patients' lesion members are named in the manifest (as
+  they always were in `archive_manifest.csv`) but never opened.
+
+## Round-3 finding disposition
+
+- **F3 (README NCCT extraction glob matched nothing): resolved** — the line is
+  now `{raw_data,rawdata}/**/*_ncct.nii.gz` with the wildcard present, and the
+  launcher extracts by suffix rather than by that line, removing the
+  load-bearing typo class entirely.
+- **F1 (quartile-cut vs measurement mask `mtt > 0` mismatch): carried
+  unchanged** (`run.py:546` vs `run.py:559`).
+- **F2 (outcome checkpoint rewrite not atomic): carried unchanged**
+  (`run.py:815`; the `atomic_npz` tmp+`os.replace` pattern remains available
+  one screen up).
+- **F4b (permitted nonfinite lesion values outside the analysis region are
+  excluded but not counted): carried unchanged** (`run.py:554-556`).
+- **F5 (conceptrecid `16731717` lineage not pinned): carried unchanged**
+  (`run.py:333-337` still checks only mutability, not identity).
+- **F6 (cache-identity exit-4 message does not name the remedy): carried**
+  (`run.py:692-693`). No stale-cache risk this rerun: attempt 2 died before
+  `phase_c_cache/` was created, and the identity now embeds the new
+  `run_py_sha256` anyway.
+- **F7 (all-empty identity coordinate reaches `np.concatenate` of an empty
+  list → exit 13 instead of a clean 9/10): carried** (`run.py:751`;
+  practically unreachable after the mirror gate).
+- **N4 (unit gate may stop the run), N6 (axis-aligned mirror, mixed index
+  units), N7 (MD5+SHA-256 are two full ~99 GB passes, re-paid per resume),
+  N8 (smoke bypasses `gate()`, labeled non-contractual), N9 (bounded pins;
+  `environment.txt` is the record): all carried unchanged.**
 
 ## Blocking findings
 
@@ -87,125 +115,96 @@ None.
 
 ## Non-blocking findings (new this round)
 
-**F1 — Quartile-cut population and measurement population differ by the
-`mtt > 0` condition.** The label-blind stratum mask that estimates quartile
-cuts, support, and the identity coordinate requires
-`(cbf > 0) & (cbv > 0) & (mtt > 0)` (`run.py:476`); the outcome-pass mask
-applies those cuts with only `rcbv > 0` (`run.py:489`). The `cbf`/`cbv`
-positivity terms are implied by the stratum bounds and `rcbv > 0` given
-valid denominators; `mtt > 0` is not — a voxel with MTT ≤ 0 inside the
-analyzed region enters Q1/Q4 measurement but was excluded from cut
-estimation and the support census. On vendor maps the set is likely near
-empty (zero-fill usually hits all maps together, forcing `rcbv = 0` and
-exclusion everywhere), and the discrepancy is label-blind either way, but a
-preregistered instrument should apply its cuts to exactly the population
-they were frozen on. Align the two masks at the next authorized touch and
-record the choice.
+**R1 — The README's duplicate-handling sentence mispredicts the real
+payload.** `probes/023/README.md:33-36` says a *byte-identical* duplicate is
+resolved lexicographically and "non-identical duplicates stop as a population
+failure." That describes only the fallback branch. The payload's actual
+duplicate is non-identical yet is resolved — correctly and deterministically —
+by the canonical schema-position rule, which the README never mentions. An
+operator briefed by this paragraph would expect the coming run to stop. The
+code is right; fix the paragraph at the next authorized touch to state the
+selection order: canonical follow-up `space-ncct` member first, signature-
+identical lexicographic fallback second, loud stop only when neither applies.
 
-**F2 — The outcome checkpoint rewrite is not atomic.** `write_csv`
-rewrites `per_patient_checkpoint.csv` in place after each case
-(`run.py:716`). A disconnect mid-rewrite that truncates at a row boundary
-silently drops the trailing strata of the last recorded case on resume (a
-mid-row truncation instead dies as exit 13 on a malformed row). The window
-is microseconds per case, but the fix is free: reuse the tmp-file +
-`os.replace` pattern already implemented in `atomic_npz` (`run.py:519-524`).
+**R2 — Inventory lowercases ids; `find_one`'s prefix glob is
+case-sensitive.** `archive_case_inventory` normalizes ids with `.lower()`
+(`run.py:240`) while `find_one` globs `rglob(f"{case_id}*")` case-sensitively
+(`run.py:218`). On a hypothetical mixed-case payload the map lookup would find
+zero files and exit 5 loudly — fail-closed, never silent, and the real payload
+is all-lowercase — but the asymmetry is worth removing whenever `find_one` is
+next touched.
 
-**F3 — README extraction glob for the NCCT matches nothing.** Line 29 of
-`probes/023/README.md` reads `rawdata/**/_ncct.nii.gz` — missing the `*`
-before `_ncct` (the lesion line above it has the correct form). Followed
-literally, selective extraction yields zero NCCT files and Phase C exits 5
-at the first case. The failure is cheap (re-extract from the local archive,
-no new download) and the code itself resolves `*_ncct.nii.gz` correctly
-(`run.py:214`), but this is the documentation line the amendment made
-load-bearing; fix to `rawdata/**/*_ncct.nii.gz`.
+**R3 — Orphan lesion members are a hard stop, not an exclusions row.** A
+lesion member whose case id has no CBF member exits 5 (`run.py:285-287`)
+rather than being routed through `exclusions.csv`. For an unexplained payload
+anomaly this is the correct fail-closed reading of the population clause (the
+149/150 count could otherwise be quietly satisfied while data vanishes), and
+the real payload has no orphans; recorded so a future release revision that
+adds one is not misdiagnosed as a code fault.
 
-**F4 — Finiteness clause: two precision gaps, both fail-safe.** (a) The
-lesion finiteness check runs over the full cached region (`run.py:484-485`),
-a superset of the per-stratum analyzed set, so a NaN at a region voxel
-outside every rCBF stratum refuses the case — stricter than the amended
-clause, in the safe direction. (b) Permitted nonfinite lesion values outside
-the analysis region are excluded (`lesion > 0.5` is False for NaN) but not
-**counted** anywhere, while the amended `grid_gate` says
-"permitted, excluded, and counted"; `exclusions.csv` counts map nonfinites
-only (`run.py:465-468`). Add a per-case nonfinite-lesion count in pass two.
-
-**F5 — Concept-record lineage not pinned.** `validate_record_and_archive`
-refuses a mutable concept record and verifies the Zenodo-supplied MD5
-against the local archive (`run.py:263-276`), but never asserts
-`conceptrecid == "16731717"`, the concept record the contract names. The
-MD5 match to the on-disk archive bounds the risk; a one-line equality check
-would close the provenance loop.
-
-**F6 — Cache footprint and invalidation ergonomics.** `phase_c_cache/`
-stores compressed full-volume `rcbf`/`rcbv`/`region` plus z/u vectors per
-case — plausibly a few GB across 100 cases on the Drive output directory;
-budget for it. The identity binding (`run.py:607-608`) correctly refuses
-stale caches after any contract/code/archive/split change, but the exit-4
-message does not tell the operator the remedy is to delete the cache
-directory after an intentional change; say so.
-
-**F7 — Edge-case exit mistaxonomy.** A stratum with zero supported voxels
-across all 100 patients reaches `np.concatenate` of an empty list
-(`run.py:660`) and dies as exit 13 (unexpected) rather than a clean exit
-9/10. Practically unreachable in a census that passed the mirror gate;
-recorded for completeness.
+**R4 — `verification.json` no longer records the approval-marker binding
+check.** The rebuilt verification file attests compile, smoke, the synthetic
+149-case + noncanonical-lesion fixture, selection assertions, and extraction
+resolution, but the round-2/3 format's "marker matches contract blob" line is
+gone. The runtime gate (`run.py:99-122`) enforces the binding regardless, and
+I recomputed the blob match this round; purely a builder-telemetry regression.
 
 ## Verified correct (spot-checked this round)
 
-- **Approval gate:** blob-SHA1 binding to the marker, code/contract drift
-  checks, and the Phase-C placeholder scan — grepped this round: zero
-  `TO_BE_RECORDED` tokens remain in the amended contract, and every key
-  `scalar()` parses (`idea_id`, `contract_version`, the three caps, the
-  three frozen thresholds, `simulation_output_sha256`) occurs exactly once,
-  so the single-occurrence parser cannot misread the contract.
-- **Phase-S hash chain:** Phase C requires `--phase-s-dir`, recomputes the
-  simulation CSV's SHA-256, and compares it to the amended contract value
-  before touching the record, archive, or images (`run.py:571`).
-- **Phase S simulation:** unchanged in contract terms — 60-candidate ×
-  9-scenario grid matching the frozen constants, Beta/Binomial generator,
-  2000/2000 replicates, 2000-resample bootstrap, seed 20260824,
-  every-cell eligibility, lexicographic (smallest N, smallest M, largest
-  width) selection, `PHASE_S_FAILED` summary persisted before exit 10.
-- **Split and freeze-before-look:** SHA-256(`idea-023-v1|` + case_id), 100
-  lowest hashes to census, disjointness asserted, manifest + SHA-256 frozen
-  before any image opens; quartile cuts, mirror QC, unit gate, and identity
-  gate all complete in the label-blind pass; reserved patients never
-  opened; `test`-path refusal on data, archive, and record paths.
-- **Analysis discipline:** equal patient weight, patient-only bootstrap
-  (`default_rng(20260824)`, single stream), the exact three-stratum
-  conjunction with direction-consistent CI exclusion, support shortfall
-  exits 10 as invalidating (never counted as a negative), CI-width failure
-  correctly classified as `negative_pattern` per the contract, no pooled or
-  fallback analysis, one variant, one seed, zero GPU.
-- **Slab median equivalence:** the mirrored-window arithmetic
-  (`mirrored[i±2, j±2, k±1] = source[reflect(i)∓2, …]`) reproduces the
-  frozen reflected 5×5×3 neighborhood exactly, deficit/vessel/non-brain
-  voxels are NaN-masked before the median, and all-NaN windows propagate to
-  counted denominator exclusions; the builder's seeded fixture check in
-  `verification.json` agrees.
-- **Required outputs:** all 16 contract outputs are written across the two
-  phases, plus the two SVG plots the README documents.
-- **Claim discipline:** statuses are the contract's
-  `POSITIVE_PATTERN`/`NEGATIVE_PATTERN`; closing interpretations forbid
-  physiological and model-use language; smoke is labeled non-contractual.
-- **Harness lessons:** full tracebacks precede exit 13; the only rename is
-  same-directory `os.replace`; JSON writers reject NaN (`allow_nan=False`);
-  no network access anywhere.
+- **Approval gate and freeze chain:** contract blob recomputed =
+  `349af5ad…` = marker blob; zero placeholder tokens; the three Phase-S-frozen
+  thresholds (N=20, M=100, width 0.15) and `simulation_output_sha256` are read
+  from the contract, not hardcoded; Phase C still requires `--phase-s-dir` and
+  verifies the simulation hash before any record/archive/image access
+  (`run.py:370-380`, `641`); the no-`test` path guard survives on data,
+  archive, and record paths (`run.py:638-639`) — the removal of the old
+  duplicate guard inside `discover_cases` loses nothing.
+- **CSV integrity of the mixed-row files:** both audit CSVs now write explicit
+  field lists; analyzed-case rows gain `record_type`/`reason` via
+  `setdefault`, duplicate rows carry empty per-case counts via `DictWriter`
+  restval; no key set exceeds the declared fields, so no `ValueError` path.
+  `schema_census.csv` is written before the mirror gate can exit and rewritten
+  with lesion paths after pass two, duplicate rows preserved in both writes
+  (`run.py:745`, `816`).
+- **Resume semantics:** cached audit JSONs lack `record_type` by construction
+  and regain it via `setdefault` on reload (`run.py:723-729`); checkpoint
+  identity binds contract blob, archive SHA-256, split SHA-256, and the new
+  `run.py` SHA-256, so nothing written by the superseded code can be honored.
+- **Analysis discipline unchanged:** equal patient weight, single
+  `default_rng(20260824)` stream, 2000-resample patient bootstrap,
+  direction-aware three-stratum conjunction, support shortfall exits 10
+  (invalidating, never a negative), CI-width failure classified as
+  `negative_pattern`, one variant, one seed, zero GPU, no pooled fallback;
+  statuses remain exactly `POSITIVE_PATTERN`/`NEGATIVE_PATTERN` and the
+  closing interpretation still forbids physiological and model-use language.
+- **Standards checklist:** (1) start/end manifests present and agreeing
+  (`resolved_config.json` echoes the frozen thresholds and contract blob;
+  `summary.json` echoes blob, split and simulation hashes, archive digests);
+  (2) exclusions log with reasons — strengthened this round; (3) transform
+  assertions unchanged (split disjointness, grid/finiteness/unit/mirror/
+  identity gates); (4) seed and paths declared, no analysis-time network;
+  (5) split manifest hashed before any lesion is opened; (6) `--smoke` is
+  synthetic-only, seconds-scale, and reports `contract_satisfied: false` with
+  a non-contractual label. Execution checks (py_compile, smoke, the seeded
+  149-case duplicate fixture) are attested by `verification.json`, whose
+  artifact hashes match the reviewed files; this environment cannot execute
+  Python, so those attestations plus static tracing are the basis here, as in
+  round 3.
 
 ## Verdict
 
-All five operator-mandated resolutions — the lesion filename, the Colab
-compute/memory/resume plan, the three preregistered secondary outputs, the
-analyzed-voxel finiteness scoping, and the rawdata-NCCT requirement with a
-documented extraction set — are correctly implemented, and the frozen
-Phase-S thresholds are read from the amended contract rather than
-hardcoded. The remaining findings are polish items that do not change what
-the census measures, do not create silent wrong-number paths under
-realistic conditions, and are individually cheap to absorb at the next
-authorized touch (F3, the README glob typo, is worth fixing before the
-archive is extracted). Phase C is faithful to the amended contract and may
-run under the standing approval.
+The revision implements the exit-5 directive exactly and stays inside it: the
+cohort is now derived from the verified archive member manifest with the
+mandated spelling tolerance, the 150th lesion row — confirmed against the real
+manifest as a noncanonical untagged `.nii` duplicate for `sub-stroke0142` — is
+named in both audit files and excluded with a reason rather than absorbed, and
+nothing scientific moved: same contract blob, same split assignment on the
+observed ids, same gates, thresholds, and analysis. Traced end-to-end against
+the actual 2,983-member payload manifest, Phase C now clears the census that
+killed attempt 2 and proceeds to the map pass with no new silent-failure
+surface. The four new findings are documentation and telemetry polish; none
+changes what the census measures.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "All five mandated resolutions (B1-B3, finiteness scoping, rawdata NCCT) verified implemented; seven non-blocking polish findings recorded, the only user-facing one being a one-character README extraction-glob typo (F3) worth fixing before extraction."}
+{"verdict": "APPROVE", "blocking": [], "note": "Exit-5 directive implemented exactly and validated against the real 2983-member archive manifest (149 cases; sub-stroke0142's noncanonical .nii duplicate excluded with reason in both audit files); contract blob and split untouched, standing approval remains bound; four non-blocking polish findings."}
 ```

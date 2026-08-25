@@ -929,24 +929,66 @@ def verify_probe(args):
     if issues: raise SystemExit(1)
 
 
-def _staging_cells(concept, suffixes):
+def _mount_cell():
+    """Drive mount that survives the corpse of a crashed FUSE mount. A dead
+    gcsfuse leaves /content/drive populated but unmounted on a surviving VM
+    (the 2026-08-25 exit-3 session); plain drive.mount() then refuses with
+    'Mountpoint must not already contain files'. Residue is moved aside
+    loudly; when even inspecting it fails, the only cure is a fresh VM."""
+    return (
+        "from google.colab import drive, userdata\n"
+        "import os, shutil, time\n"
+        "MP = '/content/drive'\n"
+        "def _mounted(mp):\n"
+        "    try:\n"
+        "        return any(len(l.split()) > 1 and l.split()[1] == mp\n"
+        "                   for l in open('/proc/mounts'))\n"
+        "    except OSError:\n"
+        "        return False\n"
+        "try:\n"
+        "    if os.path.isdir(MP) and not _mounted(MP) and os.listdir(MP):\n"
+        "        stale = f'/content/drive_stale_{int(time.time())}'\n"
+        "        shutil.move(MP, stale)\n"
+        "        print('stale mountpoint residue moved to', stale,\n"
+        "              '(a crashed FUSE mount left a corpse on a surviving VM)')\n"
+        "except OSError as e:\n"
+        "    print('could not inspect/move mountpoint residue:', e,\n"
+        "          '-- if the mount below fails, Runtime > Disconnect and delete runtime')\n"
+        "drive.mount(MP, force_remount=True)\n"
+        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed\n"
+        "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed")
+
+
+def _staging_cells(concept, suffixes, record_id=None):
     """Deterministic Colab staging cells for a Zenodo-hosted archive: pin the
     immutable child record, resumable-download the single .7z to Drive, and
     selectively extract only the declared suffixes. Pure driver plumbing; the
     probe's own provenance gates re-verify everything downstream."""
     sufs = ', '.join(repr(x) for x in suffixes)
+    rid = str(record_id) if record_id else None
+    fetch_url = ('https://zenodo.org/api/records/' + (rid or concept))
     pin = (
-        "# --- Generated staging: Zenodo record " + concept + " (Drive-persistent, idempotent) ---\n"
+        "# --- Generated staging: Zenodo " + ("record " + rid if rid else "concept " + concept)
+        + " (Drive-persistent; a pin NEVER silently re-resolves) ---\n"
         "import os, json, urllib.request\n"
         "STAGE = '/content/drive/MyDrive/staging-" + concept + "'\n"
         "RECORD_JSON = STAGE + '/zenodo_record.json'\n"
         "DATA_DIR = STAGE + '/extracted'\n"
         "os.makedirs(STAGE, exist_ok=True)\n"
-        "if not os.path.exists(RECORD_JSON):\n"
-        "    with urllib.request.urlopen('https://zenodo.org/api/records/" + concept + "') as r:\n"
+        "_need = not os.path.exists(RECORD_JSON)\n"
+        + ("" if not rid else
+           "if not _need:\n"
+           "    _have = str(json.load(open(RECORD_JSON)).get('id'))\n"
+           "    if _have != '" + rid + "':\n"
+           "        print('re-pinning to declared record " + rid + " (found', _have + ');',\n"
+           "              'a runtime drift here is a reproducibility bug -- investigate before trusting old outputs')\n"
+           "        _need = True\n")
+        + "if _need:\n"
+        "    with urllib.request.urlopen('" + fetch_url + "') as r:\n"
         "        rec = json.load(r)\n"
-        "    assert str(rec['id']) != '" + concept + "', 'resolved to the concept record; need an immutable child version'\n"
-        "    json.dump(rec, open(RECORD_JSON, 'w'), indent=2)\n"
+        + ("    assert str(rec['id']) == '" + rid + "', 'server returned a different record than the declared pin'\n" if rid else
+           "    assert str(rec['id']) != '" + concept + "', 'resolved to the concept record; need an immutable child version'\n")
+        + "    json.dump(rec, open(RECORD_JSON, 'w'), indent=2)\n"
         "rec = json.load(open(RECORD_JSON))\n"
         "_a = [f for f in rec['files'] if f['key'].endswith('.7z')]\n"
         "assert len(_a) == 1, _a\n"
@@ -997,7 +1039,8 @@ def package_colab(args):
         if not sufs:
             raise SystemExit('--staging-zenodo requires --staging-suffixes')
         staging_cells = [nbf.v4.new_code_cell(src)
-                         for src in _staging_cells(args.staging_zenodo, sufs)]
+                         for src in _staging_cells(args.staging_zenodo, sufs,
+                                                   getattr(args, 'staging_record', None))]
         extra = ' --data-dir {DATA_DIR} --archive-file {ARCHIVE} --record-json {RECORD_JSON}'
     psd = getattr(args, 'phase_s_dir', None)
     _req = reg_mod.upstream_bundle_requirement(nn, ROOT, phase)
@@ -1038,12 +1081,7 @@ def package_colab(args):
         f"PIN_COMMIT = '{pin}'\n"
         f"RESULTS_BRANCH = '{branch}'\n"
         f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}'{cfg_extra}"),
-      nbf.v4.new_code_cell(
-        "from google.colab import drive, userdata\n"
-        "import os\n"
-        "drive.mount('/content/drive')\n"
-        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed\n"
-        "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed"),
+      nbf.v4.new_code_cell(_mount_cell()),
       nbf.v4.new_code_cell(
         "!rm -rf /content/scout-repo\n"
         "!git clone {REPO_URL} /content/scout-repo\n"
@@ -2158,6 +2196,23 @@ def write_run_provenance(target, tracks, seed_concepts=None):
     (target/'run_provenance.json').write_text(json.dumps(prov, indent=2) + '\n')
 
 
+def _viable_backlog(charter):
+    """Viable SCOUT_ONLY candidates attributable to this charter. Legacy
+    pre-charter rows (lid 'scout-...') belong to the baseline."""
+    want = charter or 'baseline'
+    n = 0
+    for lid, e in ledger_mod.load().items():
+        if e.get('status') != 'SCOUT_ONLY':
+            continue
+        if (ledger_mod._entry_charter(lid, e) or 'baseline') == want:
+            n += 1
+    return n
+
+
+def _backpressure_cap(cfg):
+    return int((cfg.get('backpressure') or {}).get('max_viable_backlog', 20))
+
+
 def cycle(args):
     cfg = load_agent_config()
     tracks = [t.strip() for t in (args.tracks or 'baseline').split(',') if t.strip()]
@@ -2168,6 +2223,20 @@ def cycle(args):
     charter = getattr(args, 'charter', None) or None
     charter_path(charter)  # existence check before anything spends
     pending = s.get('cycle') and any(v != 'done' for v in s['cycle']['stages'].values())
+    # Generation backpressure (R4 audit): generation rate follows execution
+    # capacity. A NEW cycle for a charter already saturated with viable
+    # SCOUT_ONLY candidates skips loudly; resuming unfinished work is not
+    # generation and is never blocked.
+    if not pending and os.environ.get('SCOUT_FORCE') != '1':
+        _cap = _backpressure_cap(cfg)
+        _backlog = _viable_backlog(charter)
+        if _backlog >= _cap:
+            print(f'Scout skipped by backpressure: charter '
+                  f'{charter or "baseline"} has {_backlog} viable SCOUT_ONLY '
+                  f'candidates (cap {_cap}). Raise '
+                  f'[backpressure].max_viable_backlog in AGENTS.toml or set '
+                  f'SCOUT_FORCE=1 to override.')
+            return
     if charter:
         n = s.setdefault('charters', {}).setdefault(charter, {}).setdefault('next_scout', 1)
     else:
@@ -2976,7 +3045,7 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)

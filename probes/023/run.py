@@ -223,13 +223,83 @@ def find_one(data_dir, case_id, kind):
     return files[0]
 
 
-def discover_cases(data_dir):
-    if "test" in str(data_dir).lower():
-        fail(5, "no-test guard refused a path containing 'test'")
-    ids = sorted({p.name.split("_")[0] for p in data_dir.rglob("sub-strokecase*_ses-*_space-ncct_cbf.nii*")})
+def archive_case_inventory(members):
+    """Derive case ids and the one usable lesion member from the payload."""
+    # The deposited payload uses sub-strokeNNNN; older release prose used
+    # sub-strokecaseNNNN. Both are accepted, but no other subject prefix is.
+    case_pattern = re.compile(r"(?:^|/)(sub-(?:stroke|strokecase)\d+)(?:/|_)", re.I)
+    cbf_suffixes = ("_space-ncct_cbf.nii.gz", "_space-ncct_cbf.nii")
+    lesion_suffixes = ("_lesion-msk.nii.gz", "_lesion-msk.nii")
+    cbf_by_case = {}
+    lesions_by_case = {}
+    for member in members:
+        path = str(member["path"]).replace("\\", "/")
+        match = case_pattern.search(path)
+        if not match:
+            continue
+        case_id = match.group(1).lower()
+        if path.lower().endswith(cbf_suffixes):
+            cbf_by_case.setdefault(case_id, []).append(member)
+        if path.lower().endswith(lesion_suffixes):
+            lesions_by_case.setdefault(case_id, []).append(member)
+
+    ids = sorted(cbf_by_case)
     if len(ids) not in (149, 150):
-        fail(5, f"archive census found {len(ids)} cases, expected 149 or 150")
-    return ids
+        fail(5, f"archive member census found {len(ids)} CBF cases, expected 149 or 150")
+    for case_id in ids:
+        if len(cbf_by_case[case_id]) != 1:
+            fail(5, f"archive contains {len(cbf_by_case[case_id])} CBF members for {case_id}")
+        if not lesions_by_case.get(case_id):
+            fail(5, f"archive contains no lesion member for {case_id}")
+
+    selected = {}
+    excluded = []
+    for case_id in ids:
+        candidates = sorted(lesions_by_case[case_id], key=lambda row: row["path"])
+        # The outcome is the follow-up (session 2) derivative. Prefer the one
+        # whose directory and filename both encode that contract-defined role.
+        session_two = re.compile(rf"/derivatives/{re.escape(case_id)}/ses-0*2/"
+                                 rf"{re.escape(case_id)}_ses-0*2_space-ncct_lesion-msk\.nii(?:\.gz)?$", re.I)
+        canonical = [row for row in candidates
+                     if session_two.search(str(row["path"]).replace("\\", "/"))]
+        if len(canonical) == 1:
+            retained = canonical[0]
+        elif len(candidates) == 1:
+            retained = candidates[0]
+        else:
+            # If schema position cannot distinguish duplicates, only identical
+            # archive signatures permit a deterministic lexicographic choice.
+            signatures = {(row["size"], row["crc"]) for row in candidates}
+            if len(signatures) != 1:
+                fail(5, f"ambiguous non-identical lesion members for {case_id}: "
+                        + ", ".join(row["path"] for row in candidates))
+            retained = candidates[0]
+        selected[case_id] = retained
+        for row in candidates:
+            if row is retained:
+                continue
+            excluded.append({"case_id": case_id, "path": row["path"],
+                             "retained_path": retained["path"],
+                             "reason": "duplicate/noncanonical lesion archive member; follow-up derivative retained"})
+
+    orphan_lesions = sorted(set(lesions_by_case) - set(ids))
+    if orphan_lesions:
+        fail(5, "lesion members exist without a CBF case: " + ", ".join(orphan_lesions))
+    return ids, selected, excluded
+
+
+def find_archive_selected(data_dir, archive_path):
+    """Resolve one selectively extracted file by its exact archive path."""
+    normalized = archive_path.replace("\\", "/").lstrip("/")
+    # Selective extraction may preserve the archive's leading `train/`
+    # directory or place its contents directly below --data-dir.
+    without_root = normalized.split("/", 1)[1] if "/" in normalized else normalized
+    suffixes = ("/" + normalized, "/" + without_root)
+    matches = [path for path in data_dir.rglob(Path(normalized).name)
+               if path.is_file() and path.resolve().as_posix().endswith(suffixes)]
+    if len(matches) != 1:
+        fail(5, f"expected one extracted copy of archive member {archive_path}, found {len(matches)}")
+    return matches[0]
 
 
 def split_cases(case_ids):
@@ -500,14 +570,14 @@ def patient_measure(case_id, lesion, min_voxels, quartile_cuts, cache):
     return records
 
 
-def load_lesion(data_dir, case_id, shape, affine):
+def load_lesion(data_dir, case_id, shape, affine, selected_archive_path):
     """Load only the outcome mask and place it on the cached NCCT grid."""
     try:
         import nibabel as nib
         from nibabel.processing import resample_from_to
     except ImportError:
         fail(12, "nibabel and scipy are required for Phase C")
-    path = find_one(data_dir, case_id, "lesion")
+    path = find_archive_selected(data_dir, selected_archive_path)
     image = nib.as_closest_canonical(nib.load(str(path)))
     resampled = image.shape != tuple(shape) or not np.allclose(image.affine, affine, atol=1e-5)
     if resampled:
@@ -573,7 +643,9 @@ def run_phase_c(args, out, gate_info):
     archive_info = validate_record_and_archive(record, args.archive_file)
     members = archive_members(args.archive_file)
     write_csv(out / "archive_manifest.csv", ["path", "size", "crc"], members)
-    case_ids = discover_cases(args.data_dir)
+    # The archive member manifest is the population authority. Release prose
+    # and extracted-directory globs are not allowed to define the cohort.
+    case_ids, lesion_members, duplicate_lesions = archive_case_inventory(members)
     census, reserve = split_cases(case_ids)
     split_rows = [{"case_id": case, "population": "census" if case in census else "reserved",
                    "assignment_hash": hashlib.sha256(("idea-023-v1|" + case).encode()).hexdigest()}
@@ -597,6 +669,19 @@ def run_phase_c(args, out, gate_info):
     native_values = {1: [], 2: [], 3: []}
     identity_values = {1: [], 2: [], 3: []}
     schema_rows, mirror_rows, exclusion_rows = [], [], []
+    for duplicate in duplicate_lesions:
+        # The payload's 150th lesion row remains visible in both required audit
+        # files. It is never silently absorbed into a patient's outcome.
+        schema_rows.append({"case_id": duplicate["case_id"],
+                            "files": json.dumps({"excluded_lesion": duplicate["path"],
+                                                 "retained_lesion": duplicate["retained_path"]}, sort_keys=True),
+                            "shape": "", "voxel_sizes_mm": "", "affine": "", "resampled": "",
+                            "record_type": "excluded_archive_lesion",
+                            "exclusion_reason": duplicate["reason"]})
+        exclusion_rows.append({"case_id": duplicate["case_id"],
+                               "record_type": "excluded_archive_lesion",
+                               "reason": duplicate["reason"],
+                               "source_path": duplicate["path"]})
     cache_dir = out / "phase_c_cache"
     cache_dir.mkdir(exist_ok=True)
     cache_identity_path = cache_dir / "identity.json"
@@ -635,8 +720,13 @@ def run_phase_c(args, out, gate_info):
             audit = {"schema": case_schema[0], "mirror": mirror_row,
                      "exclusions": {"case_id": case, **exclusions}}
             write_json(audit_path, audit)
+        audit["schema"].setdefault("record_type", "analyzed_case")
+        audit["schema"].setdefault("exclusion_reason", "")
         schema_rows.append(audit["schema"])
         mirror_rows.append(audit["mirror"])
+        audit["exclusions"].setdefault("record_type", "analyzed_case")
+        audit["exclusions"].setdefault("reason", "")
+        audit["exclusions"].setdefault("source_path", "")
         exclusion_rows.append(audit["exclusions"])
         for index, values in enumerate(values_by_stratum, 1):
             native_values[index].append(values)
@@ -645,8 +735,15 @@ def run_phase_c(args, out, gate_info):
     good_mirror = sum(r["registration_error_voxels"] <= 1.0 and r["usable_brain_fraction"] >= 0.90
                       for r in mirror_rows)
     write_csv(out / "mirror_qc.csv", list(mirror_rows[0]), mirror_rows)
-    write_csv(out / "schema_census.csv", list(schema_rows[0]), schema_rows)
-    write_csv(out / "exclusions.csv", list(exclusion_rows[0]), exclusion_rows)
+    schema_fields = ["case_id", "record_type", "exclusion_reason", "files", "shape",
+                     "voxel_sizes_mm", "affine", "resampled"]
+    exclusion_fields = ["case_id", "record_type", "reason", "source_path",
+                        "deficit_voxels", "eroded_region_voxels",
+                        "invalid_or_nonpositive_denominator_voxels", "vessel_voxels",
+                        "nonfinite_cbf_voxels", "nonfinite_cbv_voxels",
+                        "nonfinite_mtt_voxels", "nonfinite_tmax_voxels"]
+    write_csv(out / "schema_census.csv", schema_fields, schema_rows)
+    write_csv(out / "exclusions.csv", exclusion_fields, exclusion_rows)
     if good_mirror < 90:
         fail(7, f"mirror gate passed for {good_mirror}/100 patients; requires at least 90")
 
@@ -701,10 +798,12 @@ def run_phase_c(args, out, gate_info):
         emit(f"Outcome pass {number}/{CENSUS_N}: {case}; running rows={len(per_patient)}")
         with np.load(cache_dir / f"{case}.npz") as cache:
             lesion, lesion_path, label_resampled = load_lesion(
-                args.data_dir, case, cache["region"].shape, cache["affine"]
+                args.data_dir, case, cache["region"].shape, cache["affine"],
+                lesion_members[case]["path"]
             )
             rows = patient_measure(case, lesion, min_m, quartile_cuts, cache)
-        schema = next(row for row in schema_rows if row["case_id"] == case)
+        schema = next(row for row in schema_rows
+                      if row["case_id"] == case and row["record_type"] == "analyzed_case")
         schema["files"] = json.dumps({**json.loads(schema["files"]), "lesion": lesion_path}, sort_keys=True)
         if label_resampled:
             schema["resampled"] = ";".join(filter(None, (schema["resampled"], "lesion")))
@@ -714,7 +813,7 @@ def run_phase_c(args, out, gate_info):
         write_json(audit_path, audit)
         per_patient.extend(rows)
         write_csv(outcome_checkpoint, list(per_patient[0]), per_patient)
-    write_csv(out / "schema_census.csv", list(schema_rows[0]), schema_rows)
+    write_csv(out / "schema_census.csv", schema_fields, schema_rows)
     write_csv(out / "per_patient.csv", list(per_patient[0]), per_patient)
     rng = np.random.default_rng(SEED)
     summaries = []
@@ -743,6 +842,7 @@ def run_phase_c(args, out, gate_info):
                "g_label_passed": passed, "per_stratum": summaries, "identity_mad": centered,
                "released_case_count": len(case_ids), "census_case_count": len(census),
                "reserved_case_count": len(reserve), "split_manifest_sha256": split_sha,
+               "excluded_duplicate_lesion_members": len(duplicate_lesions),
                "simulation_output_sha256": phase_s_sha, **archive_info, **gate_info}
     write_json(out / "summary.json", summary)
     return summary

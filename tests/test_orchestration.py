@@ -17,6 +17,15 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
+# Runner-agnostic imports: pytest inserts the rootdir, bare unittest does
+# not, and in-process `import scout` must never depend on which Harness
+# class happened to run first (2026-08-25 checks-red lesson). Appending
+# (not prepending) keeps fixture-repo inserts made by tests at higher
+# priority than these defaults.
+for _p in (str(REPO), str(REPO / "orchestrator")):
+    if _p not in sys.path:
+        sys.path.append(_p)
+
 # ---------------------------------------------------------------------------
 # P0.4 fixture repo (2026-08-14). The suite used to copytree the entire live
 # repo (~29 MB, dominated by ideas/ logs and prompts) into a temp dir for
@@ -394,6 +403,16 @@ class TestStagingCells(unittest.TestCase):
         pin, download, extract = sc._staging_cells("16731717", ["_ncct.nii.gz", "_lesion-msk.nii.gz"])
         self.assertIn("zenodo.org/api/records/16731717", pin)
         self.assertIn("need an immutable child version", pin)
+        mount = sc._mount_cell()
+        self.assertIn("force_remount=True", mount)
+        self.assertIn("stale mountpoint residue", mount)
+        self.assertIn("Disconnect and delete runtime", mount)
+        self.assertNotIn("{{", mount)
+        pin2, _, _ = sc._staging_cells("16731717", ["_ncct.nii.gz"], record_id="16813698")
+        self.assertIn("zenodo.org/api/records/16813698", pin2)
+        self.assertIn("declared pin", pin2)
+        self.assertIn("re-pinning to declared record 16813698", pin2)
+        self.assertNotIn("{{", pin2)
         self.assertIn('"{ARCHIVE}"', download)          # Colab-time interpolation survives
         self.assertIn("'_lesion-msk.nii.gz'", extract)
         self.assertIn("-ir!*", extract)
@@ -736,6 +755,42 @@ class TestExperimentRegistry(Harness):
         self.assertIn("nodes", st["registry"])
         self.assertEqual(st["registry"]["nodes"], {"a": "UNSTARTED"})
         self.assertEqual(sv.verify_state("001", self.repo, **kw), [])
+class TestBackpressure(Harness):
+    def test_viable_backlog_scopes_by_charter_with_legacy_as_baseline(self):
+        import scout as sc
+        import ledger as L
+        self.addCleanup(setattr, L, "LEDGER", L.LEDGER)
+        L.LEDGER = self.repo / "ledger.jsonl"
+        L.LEDGER.write_text(
+            json.dumps({"ledger_id": "scout-001-c1",
+                        "status": "SCOUT_ONLY"}) + "\n"
+            + json.dumps({"ledger_id": "isles24-scout-001-c1",
+                          "status": "SCOUT_ONLY"}) + "\n"
+            + json.dumps({"ledger_id": "isles24-scout-001-c2",
+                          "status": "SCOUT_ONLY"}) + "\n"
+            + json.dumps({"ledger_id": "isles24-scout-001-c3",
+                          "status": "ACTIVE"}) + "\n")
+        self.assertEqual(sc._viable_backlog(None), 1)
+        self.assertEqual(sc._viable_backlog("isles24"), 2)
+
+    def test_saturated_charter_skips_new_cycle_and_force_overrides(self):
+        with (self.repo / "AGENTS.toml").open("a") as h:
+            h.write("\n[backpressure]\nmax_viable_backlog = 2\n")
+        with (self.repo / "ledger.jsonl").open("a") as h:
+            for i in range(3):
+                h.write(json.dumps({"ledger_id": f"scout-00{i}-c1",
+                                    "status": "SCOUT_ONLY"}) + "\n")
+        r = self.scout("cycle", "--dry-run")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("skipped by backpressure", r.stdout)
+        r2 = self.scout("cycle", "--dry-run", SCOUT_FORCE="1")
+        self.assertEqual(r2.returncode, 0, r2.stderr)
+        self.assertNotIn("skipped by backpressure", r2.stdout)
+
+    def test_actioner_improvement_path_is_hard_gated_until_2b(self):
+        text = Path(".github/workflows/actioner.yml").read_text()
+        self.assertIn("${{ false }}", text)
+        self.assertIn("disabled until 2b", text)
 
 
 class TestStdin(Harness):
