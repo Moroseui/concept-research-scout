@@ -7,7 +7,7 @@
     "--phase",
     "C",
     "--output-dir",
-    "/content/drive/MyDrive/concept-research-scout-results/023_C",
+    "/content/drive/MyDrive/concept-research-scout-results/023_C_468974a7bdec",
     "--data-dir",
     "/content/work/extracted",
     "--archive-file",
@@ -32,6 +32,6 @@
   "seed": 20260824,
   "simulation_output_sha256": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4",
   "split_manifest_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843",
-  "timestamp_utc": "2026-08-25T15:54:04.228975+00:00",
+  "timestamp_utc": "2026-08-25T18:55:09.114228+00:00",
   "zenodo_checksum": "md5:36ae28b9a17f7340b8bbef62b595cb57"
 }

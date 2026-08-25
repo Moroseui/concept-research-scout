@@ -1,10 +1,23 @@
-Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
-FAIL (exit 5): archive census found 0 cases, expected 149 or 150
-Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
-Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
-FAIL (exit 4): downloaded archive does not match the Zenodo-supplied checksum
-Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
-Label-blind map pass 1/100: sub-stroke0002; computing and checkpointing
-FAIL (exit 8): CBV unit mL/100 g is not explicitly documented for /content/work/extracted/train/derivatives/sub-stroke0002/ses-01/perfusion-maps/sub-stroke0002_ses-01_space-ncct_cbv.nii.gz
 Approval gate passed for Phase C; contract blob 468974a7bdec7a7f6bf869f1520fae101b8d5f27
-FAIL (exit 4): Phase-C checkpoint identity differs from this contract/archive/split/code
+Label-blind map pass 1/100: sub-stroke0002; computing and checkpointing
+Label-blind map pass 2/100: sub-stroke0005; computing and checkpointing
+Label-blind map pass 3/100: sub-stroke0006; computing and checkpointing
+Label-blind map pass 4/100: sub-stroke0008; computing and checkpointing
+Label-blind map pass 5/100: sub-stroke0009; computing and checkpointing
+Label-blind map pass 6/100: sub-stroke0012; computing and checkpointing
+Label-blind map pass 7/100: sub-stroke0013; computing and checkpointing
+Label-blind map pass 8/100: sub-stroke0014; computing and checkpointing
+Label-blind map pass 9/100: sub-stroke0015; computing and checkpointing
+Label-blind map pass 10/100: sub-stroke0019; computing and checkpointing
+Label-blind map pass 11/100: sub-stroke0021; computing and checkpointing
+Label-blind map pass 12/100: sub-stroke0022; computing and checkpointing
+Label-blind map pass 13/100: sub-stroke0025; computing and checkpointing
+Label-blind map pass 14/100: sub-stroke0026; computing and checkpointing
+Label-blind map pass 15/100: sub-stroke0028; computing and checkpointing
+Label-blind map pass 16/100: sub-stroke0030; computing and checkpointing
+Label-blind map pass 17/100: sub-stroke0033; computing and checkpointing
+Label-blind map pass 18/100: sub-stroke0036; computing and checkpointing
+Label-blind map pass 19/100: sub-stroke0037; computing and checkpointing
+Label-blind map pass 20/100: sub-stroke0038; computing and checkpointing
+Label-blind map pass 21/100: sub-stroke0043; computing and checkpointing
+FAIL (exit 13): unexpected harness failure: EOFError('Compressed file ended before the end-of-stream marker was reached')

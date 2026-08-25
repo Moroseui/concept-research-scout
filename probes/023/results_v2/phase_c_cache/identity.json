@@ -1,6 +1,8 @@
 {
   "archive_sha256": "038920e4dc2011a3f47b8bb8421c67e36d07f1d84f1ba442563077480f75d129",
-  "contract_blob": "349af5ad0b3e8acfc6337d15f1860974d1183393",
-  "run_py_sha256": "d2dd41a6bad5fc2f74414a008e5f24873e907734d88440c021860392bce8a569",
-  "split_manifest_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843"
+  "contract_blob": "468974a7bdec7a7f6bf869f1520fae101b8d5f27",
+  "run_py_sha256": "9978bfed47876ede0aa7f82168bce5382681830855ace4805306893e35451562",
+  "split_manifest_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843",
+  "units_documented": false,
+  "units_evidence": "No JSON sidecars among 2,983 archive members; NIfTI descrip fields are empty; inspected Zenodo, TU/e, and challenge-paper dataset descriptions name CBV but state no units."
 }
