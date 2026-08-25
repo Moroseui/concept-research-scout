@@ -24,9 +24,16 @@ model work or a physiological claim.
 For Phase C, selectively extract exactly these release paths for every case:
 
 - `derivatives/**/perfusion-maps/*_space-ncct_{cbf,cbv,mtt,tmax}.nii.gz`
-- `derivatives/**/*_lesion-msk.nii.gz` (the release filename keeps
-  `ses-0001` even though the file is stored below the follow-up session)
-- `rawdata/**/*_ncct.nii.gz`
+- `derivatives/**/*_lesion-msk.nii.gz`
+- `{raw_data,rawdata}/**/*_ncct.nii.gz`
+
+The payload manifest, not the release-description example, defines the case
+set. The runner accepts both observed `sub-strokeNNNN` and documented
+`sub-strokecaseNNNN` identifiers, both `raw_data/` and `rawdata/`, and the
+session spelling present in each member path. If the archive contains a
+byte-identical duplicate lesion member, one lexicographically selected member
+is retained and every extra row is named in both `schema_census.csv` and
+`exclusions.csv`; non-identical duplicates stop as a population failure.
 
 The rawdata NCCT is required: it is not duplicated in `derivatives/`. Raw 4D
 CTP and CTA are not used. Keep the output directory on persistent storage.
