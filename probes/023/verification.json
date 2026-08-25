@@ -1,19 +1,6 @@
 {
-  "artifacts": {
-    "README.md": "ffdd356598eaf361d3b05907733fea9e2efccccb6526977dca2084c354f84d21",
-    "requirements.txt": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928",
-    "run.py": "d2dd41a6bad5fc2f74414a008e5f24873e907734d88440c021860392bce8a569"
-  },
-  "checked_at": "2026-08-25T02:08:46Z",
-  "checks": [
-    "python -m py_compile probes/023/run.py",
-    "contractual --smoke completed with SMOKE_OK and contract_satisfied=false",
-    "synthetic payload inventory: 149 sub-stroke cases plus one noncanonical lesion member",
-    "follow-up lesion selection and explicit duplicate exclusion assertions",
-    "selective-extraction path resolution with and without the archive's train/ root",
-    "git diff --check"
-  ],
   "idea_id": "023",
+  "passed": true,
   "issues": [],
-  "passed": true
+  "checked_at": "2026-08-25T02:20:23.367018+00:00"
 }
