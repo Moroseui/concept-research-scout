@@ -957,13 +957,98 @@ def _mount_cell():
         "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed")
 
 
-def _staging_cells(concept, suffixes, record_id=None):
+def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
     """Deterministic Colab staging cells for a Zenodo-hosted archive: pin the
     immutable child record, resumable-download the single .7z to Drive, and
     selectively extract only the declared suffixes. Pure driver plumbing; the
     probe's own provenance gates re-verify everything downstream."""
     sufs = ', '.join(repr(x) for x in suffixes)
     rid = str(record_id) if record_id else None
+    if mode == 'origin_direct':
+        if not rid:
+            raise SystemExit('--staging-mode origin_direct requires --staging-record '
+                             '(a declared immutable child): direct staging refuses '
+                             'to resolve concept-latest at runtime')
+        pin = (
+            "# --- origin_direct staging: the pinned Zenodo record is the source;\n"
+            "# the Drive mount carries ONLY small inputs/outputs (FUSE is out of\n"
+            "# the 99 GB path entirely -- seven recorded casualties).\n"
+            "import os, json, urllib.request\n"
+            "LOCAL = '/content/work'\n"
+            "os.makedirs(LOCAL, exist_ok=True)\n"
+            "RECORD_JSON = LOCAL + '/zenodo_record.json'\n"
+            "with urllib.request.urlopen('https://zenodo.org/api/records/" + rid + "') as r:\n"
+            "    rec = json.load(r)\n"
+            "assert str(rec['id']) == '" + rid + "', 'server returned a different record than the declared pin'\n"
+            "json.dump(rec, open(RECORD_JSON, 'w'), indent=2)\n"
+            "_a = [f for f in rec['files'] if f['key'].endswith('.7z')]\n"
+            "assert len(_a) == 1, _a\n"
+            "ARCHIVE_LOCAL = LOCAL + '/' + _a[0]['key']\n"
+            "ARCHIVE_URL = _a[0]['links']['self']\n"
+            "print('pinned record', rec['id'], _a[0]['key'], round(_a[0]['size']/1e9, 1), 'GB (origin_direct)')")
+        fetch = (
+            "import hashlib, subprocess\n"
+            "_name = os.path.basename(ARCHIVE_LOCAL)\n"
+            "_entries = [f for f in rec['files'] if f.get('key') == _name]\n"
+            "assert len(_entries) == 1\n"
+            "_ck = _entries[0].get('checksum', '')\n"
+            "if not _ck.startswith('md5:'):\n"
+            "    raise SystemExit('driver configuration error: pinned record supplies no '\n"
+            "                     'md5 for ' + _name + '; refusing a 99 GB staging pass')\n"
+            "EXPECT_MD5 = _ck.split(':', 1)[1]\n"
+            "EXPECT_SIZE = _entries[0]['size']\n"
+            "def _md5(path):\n"
+            "    h = hashlib.md5()\n"
+            "    with open(path, 'rb') as f:\n"
+            "        for chunk in iter(lambda: f.read(1 << 22), b''):\n"
+            "            h.update(chunk)\n"
+            "    return h.hexdigest()\n"
+            "subprocess.run(['apt-get', '-qq', 'install', '-y', 'aria2'], check=False)\n"
+            "LOCAL_DATA = LOCAL + '/extracted'\n"
+            "_done = False\n"
+            "if os.path.exists(ARCHIVE_LOCAL):\n"
+            "    print('verifying existing local archive md5 (~4 min)...')\n"
+            "    if os.path.getsize(ARCHIVE_LOCAL) == EXPECT_SIZE and _md5(ARCHIVE_LOCAL) == EXPECT_MD5:\n"
+            "        _done = True\n"
+            "    else:\n"
+            "        print('existing local archive fails integrity; removing')\n"
+            "        os.remove(ARCHIVE_LOCAL)\n"
+            "if not _done:\n"
+            "    for _attempt in (1, 2):\n"
+            "        _part = _name + '.part'\n"
+            "        print('downloading from Zenodo (attempt', _attempt, 'of 2; 16-way aria2c;',\n"
+            "              round(EXPECT_SIZE/1e9, 1), 'GB -- ETA prints below)...')\n"
+            "        _rc = subprocess.run(['aria2c', '-x16', '-s16', '-k4M',\n"
+            "                              '--file-allocation=none', '-c',\n"
+            "                              '-d', LOCAL, '-o', _part, ARCHIVE_URL]).returncode\n"
+            "        _pp = LOCAL + '/' + _part\n"
+            "        if (_rc == 0 and os.path.exists(_pp)\n"
+            "                and os.path.getsize(_pp) == EXPECT_SIZE):\n"
+            "            print('verifying downloaded bytes md5 (~4 min)...')\n"
+            "            if _md5(_pp) == EXPECT_MD5:\n"
+            "                os.replace(_pp, ARCHIVE_LOCAL)\n"
+            "                _done = True\n"
+            "                break\n"
+            "        print('download failed integrity/transfer (rc', _rc, '); discarding partial')\n"
+            "        for _f in (_pp, _pp + '.aria2'):\n"
+            "            if os.path.exists(_f):\n"
+            "                os.remove(_f)\n"
+            "if not _done:\n"
+            "    raise SystemExit('ORIGIN_DOWNLOAD_INTEGRITY_FAILURE: two direct downloads '\n"
+            "                     'from the pinned record failed; check Zenodo status and '\n"
+            "                     'network, then rerun')\n"
+            "print('local archive verified: md5', EXPECT_MD5)\n"
+            "print('local archive bytes:', os.path.getsize(ARCHIVE_LOCAL))")
+        extract = (
+            "SUFFIXES = [" + sufs + "]\n"
+            "if not os.path.isdir(LOCAL_DATA):\n"
+            "    !apt-get -qq install -y p7zip-full\n"
+            "    _inc = ' '.join('-ir!*' + x for x in SUFFIXES)\n"
+            '    !7z x "{ARCHIVE_LOCAL}" -o"{LOCAL_DATA}" {_inc} -y\n'
+            "_n = sum(len(f) for _, _, f in os.walk(LOCAL_DATA))\n"
+            "print('extracted files (local):', _n)\n"
+            "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'")
+        return [pin, fetch, extract]
     fetch_url = ('https://zenodo.org/api/records/' + (rid or concept))
     pin = (
         "# --- Generated staging: Zenodo " + ("record " + rid if rid else "concept " + concept)
@@ -1098,7 +1183,8 @@ def package_colab(args):
             raise SystemExit('--staging-zenodo requires --staging-suffixes')
         staging_cells = [nbf.v4.new_code_cell(src)
                          for src in _staging_cells(args.staging_zenodo, sufs,
-                                                   getattr(args, 'staging_record', None))]
+                                                   getattr(args, 'staging_record', None),
+                                                   getattr(args, 'staging_mode', 'drive_fuse_cache'))]
         extra = ' --data-dir {LOCAL_DATA} --archive-file {ARCHIVE_LOCAL} --record-json {RECORD_JSON}'
     psd = getattr(args, 'phase_s_dir', None)
     _rp = ROOT / f'probes/{nn}/run.py'
@@ -3037,7 +3123,7 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)

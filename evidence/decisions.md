@@ -671,3 +671,20 @@ Queued to driver_spec (post-023): drive_api_cache as preferred transport
 working-volume policy, and a governed driver-revise route so operational
 incidents flow to agent-proposed, cross-family-reviewed spec revisions
 instead of external patches.
+
+## 2026-08-26 - 023 take 7: FUSE casualty #7; pre-authorized origin_direct pivot executed
+
+Take-7 receipt: on a brand-fresh VM, minutes old, the very first sequential
+read of the archive died with OSError 107 (Transport endpoint is not
+connected) inside shutil.copyfile -- the loud variant of the read-path
+failure, on the simplest possible access pattern. Seven casualties now span
+deep trees, empty views, pin re-resolution, silent size-exact corruption,
+and outright transport death across four fresh VMs. Threshold met under the
+recorded pre-authorization and the external staging review ruling: the big
+input leaves FUSE entirely. Take 8 = origin_direct, now a declared
+generator mode (--staging-mode): pin, record JSON, and archive all come
+directly from the immutable Zenodo record to local scratch (16-way aria2c,
+.part -> md5 -> atomic promote, one retry, classified
+ORIGIN_DOWNLOAD_INTEGRITY_FAILURE stop). drive_fuse_cache remains available
+but transitional; drive_api_cache stays the driver_spec target. The Drive
+mount retains only small-file duties (Phase-S read, checkpoints, outputs).

@@ -419,6 +419,17 @@ class TestStagingCells(unittest.TestCase):
         self.assertIn("Disconnect and delete runtime", mount)
         self.assertNotIn("{{", mount)
         pin2, _, _, _ = sc._staging_cells("16731717", ["_ncct.nii.gz"], record_id="16813698")
+        po, fo, eo = sc._staging_cells("16731717", ["_ncct.nii.gz"],
+                                       record_id="16813698", mode="origin_direct")
+        self.assertIn("records/16813698", po)
+        self.assertIn("origin_direct", po)
+        self.assertIn("aria2c", fo)
+        self.assertIn("ORIGIN_DOWNLOAD_INTEGRITY_FAILURE", fo)
+        self.assertIn(".part", fo)
+        self.assertNotIn("copying archive Drive", fo)
+        self.assertIn("refusing to reach the census", eo)
+        with self.assertRaises(SystemExit):
+            sc._staging_cells("16731717", ["_ncct.nii.gz"], mode="origin_direct")
         self.assertIn("zenodo.org/api/records/16813698", pin2)
         self.assertIn("declared pin", pin2)
         self.assertIn("re-pinning to declared record 16813698", pin2)
