@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-08-25T02:35:30.247945+00:00",
+  "timestamp_utc": "2026-08-25T05:39:55.871378+00:00",
   "python": "3.13.15 (main, Aug  6 2026, 11:06:23) [GCC 11.4.0]",
   "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
   "packages": {
@@ -15,9 +15,9 @@
     "--output-dir",
     "/content/drive/MyDrive/concept-research-scout-results/023_C",
     "--data-dir",
-    "/content/drive/MyDrive/staging-16731717/extracted",
+    "/content/work/extracted",
     "--archive-file",
-    "/content/drive/MyDrive/staging-16731717/train.7z",
+    "/content/work/train.7z",
     "--record-json",
     "/content/drive/MyDrive/staging-16731717/zenodo_record.json",
     "--phase-s-dir",

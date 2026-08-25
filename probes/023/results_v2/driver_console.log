@@ -1,2 +1,7 @@
 Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
-FAIL (exit 3): required input missing: /content/drive/MyDrive/staging-16731717/extracted
+FAIL (exit 5): archive census found 0 cases, expected 149 or 150
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+python3: can't open file 'probes/023/run.py': [Errno 2] No such file or directory
+Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
+Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
+FAIL (exit 4): downloaded archive does not match the Zenodo-supplied checksum
