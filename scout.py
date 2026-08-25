@@ -994,14 +994,32 @@ def _staging_cells(concept, suffixes, record_id=None):
         "ARCHIVE_URL = _a[0]['links']['self']\n"
         "print('pinned record', rec['id'], _a[0]['key'], round(_a[0]['size']/1e9, 1), 'GB')")
     download = '!wget -c -O "{ARCHIVE}" "{ARCHIVE_URL}"'
+    localize = (
+        "# --- Localize heavy inputs: the Drive FUSE mount is unreliable under\n"
+        "# deep small-file trees (three recorded casualties on idea 023). One\n"
+        "# bounded FUSE read copies the archive to local SSD; extraction,\n"
+        "# digests, and the census then run on local disk. Outputs stay on\n"
+        "# Drive for persistence.\n"
+        "import shutil\n"
+        "LOCAL = '/content/work'\n"
+        "os.makedirs(LOCAL, exist_ok=True)\n"
+        "ARCHIVE_LOCAL = LOCAL + '/' + os.path.basename(ARCHIVE)\n"
+        "LOCAL_DATA = LOCAL + '/extracted'\n"
+        "if (not os.path.exists(ARCHIVE_LOCAL)\n"
+        "        or os.path.getsize(ARCHIVE_LOCAL) != os.path.getsize(ARCHIVE)):\n"
+        "    print('copying archive Drive -> local SSD (one bounded FUSE read; expect 30-60 min)...')\n"
+        "    shutil.copyfile(ARCHIVE, ARCHIVE_LOCAL)\n"
+        "print('local archive bytes:', os.path.getsize(ARCHIVE_LOCAL))")
     extract = (
         "SUFFIXES = [" + sufs + "]\n"
-        "if not os.path.isdir(DATA_DIR):\n"
+        "if not os.path.isdir(LOCAL_DATA):\n"
         "    !apt-get -qq install -y p7zip-full\n"
         "    _inc = ' '.join('-ir!*' + x for x in SUFFIXES)\n"
-        '    !7z x "{ARCHIVE}" -o"{DATA_DIR}" {_inc} -y\n'
-        '!find "{DATA_DIR}" -type f | wc -l')
-    return [pin, download, extract]
+        '    !7z x "{ARCHIVE_LOCAL}" -o"{LOCAL_DATA}" {_inc} -y\n'
+        "_n = sum(len(f) for _, _, f in os.walk(LOCAL_DATA))\n"
+        "print('extracted files (local):', _n)\n"
+        "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'")
+    return [pin, download, localize, extract]
 
 
 def package_colab(args):
@@ -1039,7 +1057,7 @@ def package_colab(args):
         staging_cells = [nbf.v4.new_code_cell(src)
                          for src in _staging_cells(args.staging_zenodo, sufs,
                                                    getattr(args, 'staging_record', None))]
-        extra = ' --data-dir {DATA_DIR} --archive-file {ARCHIVE} --record-json {RECORD_JSON}'
+        extra = ' --data-dir {LOCAL_DATA} --archive-file {ARCHIVE_LOCAL} --record-json {RECORD_JSON}'
     psd = getattr(args, 'phase_s_dir', None)
     _rp = ROOT / f'probes/{nn}/run.py'
     if (_rp.exists() and '--phase-s-dir' in _rp.read_text()
@@ -1074,6 +1092,7 @@ def package_colab(args):
         f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}'{cfg_extra}"),
       nbf.v4.new_code_cell(_mount_cell()),
       nbf.v4.new_code_cell(
+        "%cd /content\n"
         "!rm -rf /content/scout-repo\n"
         "!git clone {REPO_URL} /content/scout-repo\n"
         "%cd /content/scout-repo\n"
