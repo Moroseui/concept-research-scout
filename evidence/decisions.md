@@ -620,3 +620,18 @@ raw_data and rawdata); surface the 150th lesion row explicitly in
 schema_census.csv and route it through exclusions.csv with a reason; change
 nothing else -- the contract, gates, thresholds, and analysis are untouched
 and the standing approval remains valid.
+
+## 2026-08-25 - 023 attempts 3-4: Drive FUSE mount crash + Zenodo version-drift hazard
+
+Attempt-3 receipt (02:35Z bundle): the Colab Drive mount died mid-session
+(Transport endpoint is not connected). Three symptoms, one cause: extraction
+find limped; run.py correctly exit-3d on the invisible extracted dir; and
+the staging pin cell, seeing RECORD_JSON as missing, silently re-resolved
+the concept to a NEWER child record (17652035) published since our
+download -- old bytes, new record, a checksum failure waiting to happen.
+Lesson: a pin that can re-resolve at runtime is not a pin. Fixed in the
+generator: --staging-record declares the immutable child at packaging time;
+existing pins are never silently re-resolved; drift is healed toward the
+declaration with a loud warning. Take 4 declares record 16813698 (md5
+36ae28b9... matches the held archive); run.py checksum gate arbitrates
+definitively.

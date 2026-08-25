@@ -927,24 +927,36 @@ def verify_probe(args):
     if issues: raise SystemExit(1)
 
 
-def _staging_cells(concept, suffixes):
+def _staging_cells(concept, suffixes, record_id=None):
     """Deterministic Colab staging cells for a Zenodo-hosted archive: pin the
     immutable child record, resumable-download the single .7z to Drive, and
     selectively extract only the declared suffixes. Pure driver plumbing; the
     probe's own provenance gates re-verify everything downstream."""
     sufs = ', '.join(repr(x) for x in suffixes)
+    rid = str(record_id) if record_id else None
+    fetch_url = ('https://zenodo.org/api/records/' + (rid or concept))
     pin = (
-        "# --- Generated staging: Zenodo record " + concept + " (Drive-persistent, idempotent) ---\n"
+        "# --- Generated staging: Zenodo " + ("record " + rid if rid else "concept " + concept)
+        + " (Drive-persistent; a pin NEVER silently re-resolves) ---\n"
         "import os, json, urllib.request\n"
         "STAGE = '/content/drive/MyDrive/staging-" + concept + "'\n"
         "RECORD_JSON = STAGE + '/zenodo_record.json'\n"
         "DATA_DIR = STAGE + '/extracted'\n"
         "os.makedirs(STAGE, exist_ok=True)\n"
-        "if not os.path.exists(RECORD_JSON):\n"
-        "    with urllib.request.urlopen('https://zenodo.org/api/records/" + concept + "') as r:\n"
+        "_need = not os.path.exists(RECORD_JSON)\n"
+        + ("" if not rid else
+           "if not _need:\n"
+           "    _have = str(json.load(open(RECORD_JSON)).get('id'))\n"
+           "    if _have != '" + rid + "':\n"
+           "        print('re-pinning to declared record " + rid + " (found', _have + ');',\n"
+           "              'a runtime drift here is a reproducibility bug -- investigate before trusting old outputs')\n"
+           "        _need = True\n")
+        + "if _need:\n"
+        "    with urllib.request.urlopen('" + fetch_url + "') as r:\n"
         "        rec = json.load(r)\n"
-        "    assert str(rec['id']) != '" + concept + "', 'resolved to the concept record; need an immutable child version'\n"
-        "    json.dump(rec, open(RECORD_JSON, 'w'), indent=2)\n"
+        + ("    assert str(rec['id']) == '" + rid + "', 'server returned a different record than the declared pin'\n" if rid else
+           "    assert str(rec['id']) != '" + concept + "', 'resolved to the concept record; need an immutable child version'\n")
+        + "    json.dump(rec, open(RECORD_JSON, 'w'), indent=2)\n"
         "rec = json.load(open(RECORD_JSON))\n"
         "_a = [f for f in rec['files'] if f['key'].endswith('.7z')]\n"
         "assert len(_a) == 1, _a\n"
@@ -995,7 +1007,8 @@ def package_colab(args):
         if not sufs:
             raise SystemExit('--staging-zenodo requires --staging-suffixes')
         staging_cells = [nbf.v4.new_code_cell(src)
-                         for src in _staging_cells(args.staging_zenodo, sufs)]
+                         for src in _staging_cells(args.staging_zenodo, sufs,
+                                                   getattr(args, 'staging_record', None))]
         extra = ' --data-dir {DATA_DIR} --archive-file {ARCHIVE} --record-json {RECORD_JSON}'
     psd = getattr(args, 'phase_s_dir', None)
     _rp = ROOT / f'probes/{nn}/run.py'
@@ -2938,7 +2951,7 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)

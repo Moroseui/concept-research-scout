@@ -403,6 +403,11 @@ class TestStagingCells(unittest.TestCase):
         pin, download, extract = sc._staging_cells("16731717", ["_ncct.nii.gz", "_lesion-msk.nii.gz"])
         self.assertIn("zenodo.org/api/records/16731717", pin)
         self.assertIn("need an immutable child version", pin)
+        pin2, _, _ = sc._staging_cells("16731717", ["_ncct.nii.gz"], record_id="16813698")
+        self.assertIn("zenodo.org/api/records/16813698", pin2)
+        self.assertIn("declared pin", pin2)
+        self.assertIn("re-pinning to declared record 16813698", pin2)
+        self.assertNotIn("{{", pin2)
         self.assertIn('"{ARCHIVE}"', download)          # Colab-time interpolation survives
         self.assertIn("'_lesion-msk.nii.gz'", extract)
         self.assertIn("-ir!*", extract)
