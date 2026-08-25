@@ -1217,7 +1217,8 @@ def package_colab(args):
         f"REPO_URL = '{remote}'\n"
         f"PIN_COMMIT = '{pin}'\n"
         f"RESULTS_BRANCH = '{branch}'\n"
-        f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}'{cfg_extra}"),
+        # blob-scoped: a checkpoint store can never collide across contract eras
+        f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}_{chash[:12]}'{cfg_extra}"),
       nbf.v4.new_code_cell(_mount_cell()),
       nbf.v4.new_code_cell(
         "%cd /content\n"

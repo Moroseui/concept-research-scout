@@ -713,3 +713,15 @@ confirm_cbv_units into a RECORDED finding (identity.json gains
 units_documented: false with the evidence summary); change nothing else.
 The amendment changes the contract blob: the standing approval goes stale
 by design and re-approval follows human review of the diff.
+
+## 2026-08-26 - 023 take 9: checkpoint-identity guard fired correctly; output dirs now blob-scoped
+
+Take-9 receipt: gate passed on the amended blob 468974a7, staging and census
+passed silently, and run.py refused at the checkpoint store: the shared
+Drive dir 023_C still held take-8 phase_c_cache pinned to the OLD blob
+349af5ad and old run.py hash. Fail-closed cache-poisoning prevention
+working as designed -- a checkpoint written under one contract/code may
+never be consumed under another. Driver fix (one line): OUTPUT_DIR is now
+blob-scoped ({idea}_{phase}_{blob12}), mirroring the results-branch scheme,
+so each contract era gets a pristine cache and console; superseded dirs
+remain as untouched evidence. No probe or contract change; approval stands.
