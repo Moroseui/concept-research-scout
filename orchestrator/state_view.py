@@ -83,7 +83,7 @@ def _approval(idea_dir: Path) -> dict | None:
 
 
 def materialize(idea_no: str, root: Path, *, charter_resolver,
-                contract_hasher) -> dict:
+                contract_hasher, registry_resolver=None) -> dict:
     """Build the state dict for ideas/<idea_no> from authorities only.
     charter_resolver(idea_dir) and contract_hasher(idea_dir) are injected
     from scout.py (charter_for_target / _contract_hash) so charter and
@@ -118,7 +118,7 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
         'contract_blob': contract_blob,
         'approval': approval,
         'artifact_files': artifact_files,
-        'registry': None,           # 2a part 2: experiment DAG pointer
+        'registry': registry_resolver(idea_no) if registry_resolver else None,
         'pending_decisions': [],    # 2b: decision receipts
         'corrections': [],
         'materialization': {

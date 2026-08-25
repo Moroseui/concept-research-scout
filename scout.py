@@ -30,6 +30,7 @@ SEEDS = ROOT/'orchestrator'/'seeds.json'
 sys.path.insert(0, str(ROOT/'orchestrator'))
 import ledger as ledger_mod  # noqa: E402
 import state_view as state_mod  # noqa: E402
+import experiment_registry as reg_mod  # noqa: E402
 ledger_mod.ROOT = ROOT
 ledger_mod.LEDGER = ROOT/'ledger.jsonl'
 ledger_mod.DIGEST = ROOT/'evidence'/'ledger_digest.md'
@@ -999,9 +1000,16 @@ def package_colab(args):
                          for src in _staging_cells(args.staging_zenodo, sufs)]
         extra = ' --data-dir {DATA_DIR} --archive-file {ARCHIVE} --record-json {RECORD_JSON}'
     psd = getattr(args, 'phase_s_dir', None)
+    _req = reg_mod.upstream_bundle_requirement(nn, ROOT, phase)
+    if _req and _req.get('cli_flag') == '--phase-s-dir' and not psd:
+        raise SystemExit(f'registry.yaml declares phase {phase} depends on '
+                         f'the bundle of probe {_req.get("probe")!r}; pass '
+                         '--phase-s-dir (its Drive path)')
     _rp = ROOT / f'probes/{nn}/run.py'
-    if (_rp.exists() and '--phase-s-dir' in _rp.read_text()
+    if (_req is None and _rp.exists() and '--phase-s-dir' in _rp.read_text()
             and str(phase).upper() not in ('S', 'SMOKE') and not psd):
+        # transitional string-sniff; retires once every active idea
+        # carries a registry (2c)
         raise SystemExit('this probe declares --phase-s-dir and phase '
                          f'{phase} requires it; pass --phase-s-dir (the '
                          'Drive path of the Phase-S bundle)')
@@ -1141,7 +1149,11 @@ def bundle_complete(idea, bundle):
         s = json.loads((Path(bundle) / 'summary.json').read_text())
     except Exception:
         return False
+    ts = reg_mod.terminal_statuses_for_bundle(f'{idea:03d}', ROOT, bundle)
+    if ts:
+        return s.get('status') in ts
     if _contract_required_outputs(idea):
+        # transitional literals; a registry's terminal_statuses supersede
         return s.get('status') in ('POSITIVE_PATTERN', 'NEGATIVE_PATTERN')
     return bool(s.get('study_complete') or s.get('phase_m_complete')
                 or (s.get('phase') == 'B' and 'analysis' in s))
@@ -1281,12 +1293,37 @@ def cmd_diversity(args):
 
 def _state_kwargs():
     return dict(charter_resolver=charter_for_target,
-                contract_hasher=_contract_hash)
+                contract_hasher=_contract_hash,
+                registry_resolver=lambda n: reg_mod.state_summary(
+                    n, ROOT, _contract_hash))
 
 
 def _numbered_ideas():
     return sorted(p.name for p in (ROOT / 'ideas').iterdir()
                   if p.is_dir() and re.fullmatch(r'\d{3}', p.name))
+
+
+def cmd_registry_validate(args):
+    ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
+    fails = []
+    for n in ideas:
+        if not (ROOT / 'ideas' / n / 'registry.yaml').exists() and not args.idea:
+            continue
+        fails += [f'{n}: {e}' for e in reg_mod.validate(n, ROOT)]
+    for f in fails:
+        print(f)
+    if fails:
+        raise SystemExit(1)
+    print('registry invariants hold')
+
+
+def cmd_registry_status(args):
+    n = f'{args.idea:03d}'
+    st = reg_mod.derive_status(n, ROOT, _contract_hash)
+    if not st:
+        raise SystemExit(f'ideas/{n}/registry.yaml missing')
+    for nid, v in sorted(st.items()):
+        print(f"{nid:24s} {v['status']:12s} {v['reason']}")
 
 
 def cmd_state_materialize(args):
@@ -2947,6 +2984,8 @@ def main():
     p=sp.add_parser('bundle-complete'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=lambda a: print(str(bundle_complete(a.idea, a.bundle)).lower()))
     p=sp.add_parser('state-materialize'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_materialize)
     p=sp.add_parser('state-verify'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_verify)
+    p=sp.add_parser('registry-validate'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_registry_validate)
+    p=sp.add_parser('registry-status'); p.add_argument('idea',type=int); p.set_defaults(fn=cmd_registry_status)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
     p=sp.add_parser('cycle'); p.add_argument('--charter',default=None,help='named charter under charters/<name>/CHARTER.md; omit for the baseline'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)

@@ -623,6 +623,121 @@ class TestStateMaterializer(Harness):
         self.assertIsNone(st["claim"])
 
 
+class TestExperimentRegistry(Harness):
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        import experiment_registry as er
+        return sc, er
+
+    def _reg(self, text):
+        d = self.repo / "ideas" / "001"
+        (d / "registry.yaml").write_text(text)
+        return d
+
+    def test_cycles_dangling_and_handset_status_rejected(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n    depends_on: {all_of: [{probe: b}]}\n"
+                  "  - id: b\n    status: COMPLETE\n"
+                  "    depends_on: {all_of: [{probe: a}, {probe: ghost}]}\n")
+        errs = " | ".join(er.validate("001", self.repo))
+        self.assertIn("cycle", errs)
+        self.assertIn("ghost", errs)
+        self.assertIn("hand-set", errs)
+
+    def test_derived_status_terminal_stale_blocked_and_sibling_independence(self):
+        sc, er = self._wire()
+        d = self._reg(
+            "probes:\n"
+            "  - id: a\n    results_bundle: bundles/a\n"
+            "    terminal_statuses: [DONE_X]\n"
+            "    produces: [foo.csv]\n"
+            "  - id: b\n    results_bundle: bundles/b\n"
+            "    terminal_statuses: [DONE_X]\n"
+            "  - id: c\n    results_bundle: bundles/c\n"
+            "    terminal_statuses: [DONE_X]\n"
+            "    depends_on: {all_of: [{probe: a}]}\n"
+            "  - id: d\n    depends_on: {all_of: [{probe: c}]}\n")
+        self.assertEqual(er.validate("001", self.repo), [])
+        (self.repo / "bundles" / "a").mkdir(parents=True)
+        (self.repo / "bundles" / "a" / "summary.json").write_text(
+            json.dumps({"status": "DONE_X"}))
+        st = er.derive_status("001", self.repo, lambda _d: None)
+        self.assertEqual(st["a"]["status"], "COMPLETE")
+        self.assertEqual(st["b"]["status"], "UNSTARTED")   # failed/absent sibling
+        self.assertEqual(st["c"]["status"], "UNSTARTED")   # a complete, not started
+        self.assertEqual(st["d"]["status"], "BLOCKED")     # waits on c only
+        # stale propagation: consumed-artifact hash mismatch
+        (self.repo / "bundles" / "a" / "foo.csv").write_text("v2")
+        d2 = self._reg(
+            "probes:\n"
+            "  - id: a\n    results_bundle: bundles/a\n"
+            "    terminal_statuses: [DONE_X]\n    produces: [foo.csv]\n"
+            "  - id: c\n    results_bundle: bundles/a\n"
+            "    terminal_statuses: [DONE_X]\n"
+            "    depends_on:\n      artifacts:\n"
+            "        - {probe: a, output: foo.csv, sha256: '" + "0"*64 + "'}\n")
+        st2 = er.derive_status("001", self.repo, lambda _d: None)
+        self.assertEqual(st2["c"]["status"], "STALE")
+
+    def test_pinned_contract_mismatch_marks_stale(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n    results_bundle: bundles/a\n"
+                  "    terminal_statuses: [DONE_X]\n"
+                  "    contract_hash: " + "f"*40 + "\n")
+        (self.repo / "bundles" / "a").mkdir(parents=True)
+        (self.repo / "bundles" / "a" / "summary.json").write_text(
+            json.dumps({"status": "DONE_X"}))
+        st = er.derive_status("001", self.repo, lambda _d: "a" * 40)
+        self.assertEqual(st["a"]["status"], "STALE")
+
+    def test_bundle_complete_prefers_registry_terminals(self):
+        sc, er = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n  - summary.json\n"
+            "  - provenance.json\n")
+        b = self.repo / "probes" / "001" / "results_v2"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "C", "status": "DONE_X"}))
+        self.assertFalse(sc.bundle_complete(1, b))   # literals: not terminal
+        self._reg("probes:\n"
+                  "  - id: main\n    results_bundle: probes/001/results_v2\n"
+                  "    terminal_statuses: [DONE_X]\n")
+        self.assertTrue(sc.bundle_complete(1, b))    # registry supersedes
+        ci_path = self.repo / "results-data" / "probes" / "001" / "results_v2"
+        self.assertEqual(
+            er.terminal_statuses_for_bundle("001", self.repo, ci_path),
+            ["DONE_X"])                              # CI prefix suffix-match
+
+    def test_launcher_requirement_comes_from_registry(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: census\n    phase: C\n"
+                  "    requires_upstream_bundle: {probe: calib, cli_flag: --phase-s-dir}\n"
+                  "  - id: calib\n    phase: S\n")
+        req = er.upstream_bundle_requirement("001", self.repo, "C")
+        self.assertEqual(req["cli_flag"], "--phase-s-dir")
+        self.assertIsNone(er.upstream_bundle_requirement("001", self.repo, "S"))
+
+    def test_state_json_carries_registry_and_stays_byte_identical(self):
+        sc, er = self._wire()
+        import state_view as sv
+        (self.repo / "ledger.jsonl").write_text(json.dumps(
+            {"ledger_id": "idea-001", "status": "ACTIVE"}) + "\n")
+        self._reg("probes:\n  - id: a\n")
+        kw = sc._state_kwargs()
+        p = sv.write_state("001", self.repo, **kw)
+        st = json.loads(p.read_text())
+        self.assertIn("nodes", st["registry"])
+        self.assertEqual(st["registry"]["nodes"], {"a": "UNSTARTED"})
+        self.assertEqual(sv.verify_state("001", self.repo, **kw), [])
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")
