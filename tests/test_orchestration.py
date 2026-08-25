@@ -542,6 +542,87 @@ class TestFailClosedGitSync(Harness):
         self.assertEqual(head, "local change")
 
 
+class TestStateMaterializer(Harness):
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        import state_view as sv
+        return sc, sv
+
+    def _seed(self, sc):
+        (self.repo / "ledger.jsonl").write_text(
+            json.dumps({"ledger_id": "idea-001", "title": "T",
+                        "claim": "C", "status": "ACTIVE",
+                        "scrutiny": "DEBATED"}) + "\n"
+            + json.dumps({"ledger_id": "idea-001",
+                          "scrutiny": "PROBED"}) + "\n"
+            + json.dumps({"ledger_id": "idea-002", "title": "other",
+                          "status": "ACTIVE"}) + "\n")
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        return d
+
+    def test_regeneration_is_byte_identical_and_ledger_scoped(self):
+        sc, sv = self._wire()
+        self._seed(sc)
+        kw = sc._state_kwargs()
+        p = sv.write_state("001", self.repo, **kw)
+        first = p.read_bytes()
+        self.assertEqual(sv.verify_state("001", self.repo, **kw), [])
+        p2 = sv.write_state("001", self.repo, **kw)
+        self.assertEqual(first, p2.read_bytes())
+        state = json.loads(first)
+        self.assertEqual(state["scrutiny"], "PROBED")   # latest wins
+        self.assertEqual(state["title"], "T")           # substance kept
+        # unrelated-idea events do not move this idea's bytes
+        with (self.repo / "ledger.jsonl").open("a") as h:
+            h.write(json.dumps({"ledger_id": "idea-002",
+                                "scrutiny": "DEBATED"}) + "\n")
+        self.assertEqual(sv.verify_state("001", self.repo, **kw), [])
+        # global mutable cycle state does not move this idea's bytes
+        gs = self.repo / "orchestrator" / "state.json"
+        if gs.exists():
+            g = json.loads(gs.read_text()); g["active_cycle"] = 999
+            gs.write_text(json.dumps(g))
+            self.assertEqual(sv.verify_state("001", self.repo, **kw), [])
+
+    def test_hand_edit_breaks_the_invariant_loudly(self):
+        sc, sv = self._wire()
+        self._seed(sc)
+        kw = sc._state_kwargs()
+        p = sv.write_state("001", self.repo, **kw)
+        s = json.loads(p.read_text()); s["status"] = "HAND_EDITED"
+        p.write_text(json.dumps(s, sort_keys=True, indent=2) + "\n")
+        fails = sv.verify_state("001", self.repo, **kw)
+        self.assertTrue(fails and "never an authority" in fails[0])
+
+    def test_stale_approval_is_flagged_when_contract_changes(self):
+        sc, sv = self._wire()
+        d = self._seed(sc)
+        blob = subprocess.run(["git", "hash-object",
+                               str(d / "probe_contract.yaml")],
+                              cwd=self.repo, capture_output=True,
+                              text=True).stdout.strip()
+        (d / "HUMAN_APPROVED_PROBE").write_text(f"contract_blob: {blob}\n")
+        kw = sc._state_kwargs()
+        st = sv.materialize("001", self.repo, **kw)
+        self.assertFalse(st["approval"]["stale"])
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\namended: yes\n")
+        st2 = sv.materialize("001", self.repo, **kw)
+        self.assertTrue(st2["approval"]["stale"])
+
+    def test_tombstoned_idea_materializes_empty_current_state(self):
+        sc, sv = self._wire()
+        self._seed(sc)
+        with (self.repo / "ledger.jsonl").open("a") as h:
+            h.write(json.dumps({"ledger_id": "idea-001",
+                                "status": "INVALID_ROW"}) + "\n")
+        st = sv.materialize("001", self.repo, **sc._state_kwargs())
+        self.assertIsNone(st["status"])
+        self.assertIsNone(st["claim"])
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")

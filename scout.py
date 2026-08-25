@@ -29,6 +29,7 @@ SEEDS = ROOT/'orchestrator'/'seeds.json'
 
 sys.path.insert(0, str(ROOT/'orchestrator'))
 import ledger as ledger_mod  # noqa: E402
+import state_view as state_mod  # noqa: E402
 ledger_mod.ROOT = ROOT
 ledger_mod.LEDGER = ROOT/'ledger.jsonl'
 ledger_mod.DIGEST = ROOT/'evidence'/'ledger_digest.md'
@@ -1276,6 +1277,37 @@ def cmd_diversity(args):
         print('\nWARNING: one design template carries more than half of all '
               'candidates - generation may be reusing one experimental '
               'grammar in different costumes.')
+
+
+def _state_kwargs():
+    return dict(charter_resolver=charter_for_target,
+                contract_hasher=_contract_hash)
+
+
+def _numbered_ideas():
+    return sorted(p.name for p in (ROOT / 'ideas').iterdir()
+                  if p.is_dir() and re.fullmatch(r'\d{3}', p.name))
+
+
+def cmd_state_materialize(args):
+    ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
+    for n in ideas:
+        p = state_mod.write_state(n, ROOT, **_state_kwargs())
+        print(p.relative_to(ROOT))
+
+
+def cmd_state_verify(args):
+    ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
+    fails = []
+    for n in ideas:
+        if not (ROOT / 'ideas' / n / 'state.json').exists() and not args.idea:
+            continue  # --all verifies only materialized ideas (rollout)
+        fails += state_mod.verify_state(n, ROOT, **_state_kwargs())
+    for f in fails:
+        print(f)
+    if fails:
+        raise SystemExit(1)
+    print('state invariant holds: regeneration is byte-identical')
 
 
 def cmd_validate_bundle(args):
@@ -2913,6 +2945,8 @@ def main():
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('bundle-complete'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=lambda a: print(str(bundle_complete(a.idea, a.bundle)).lower()))
+    p=sp.add_parser('state-materialize'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_materialize)
+    p=sp.add_parser('state-verify'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_verify)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
     p=sp.add_parser('cycle'); p.add_argument('--charter',default=None,help='named charter under charters/<name>/CHARTER.md; omit for the baseline'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)
