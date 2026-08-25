@@ -402,7 +402,12 @@ class TestStagingCells(unittest.TestCase):
         import scout as sc
         pin, download, localize, extract = sc._staging_cells("16731717", ["_ncct.nii.gz", "_lesion-msk.nii.gz"])
         self.assertIn("ARCHIVE_LOCAL", localize)
-        self.assertIn("local SSD", localize)
+        self.assertIn("EXPECT_MD5", localize)
+        self.assertIn("f.get('key') == _name", localize)
+        self.assertIn("refusing a 99 GB staging pass", localize)
+        self.assertIn(".part", localize)
+        self.assertIn("FUSE_LOCALIZATION_INTEGRITY_FAILURE", localize)
+        self.assertNotIn("DRIVE MASTER IS CORRUPT", localize)
         self.assertIn('"{ARCHIVE_LOCAL}"', extract)
         self.assertIn("refusing to reach the census", extract)
         self.assertNotIn("{{", localize)

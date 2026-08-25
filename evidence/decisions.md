@@ -648,3 +648,26 @@ local disk with a fail-loud extraction floor (>=800 files) so a broken tree
 can never reach the census again. Outputs/checkpoints remain on Drive.
 Driver polish: clone cell cds to /content before rm -rf (same-session rerun
 cwd death).
+
+## 2026-08-25 - 023 take 6 receipt + staging second-opinion intake (take 7 v2)
+
+Take-6, two layers: (1) the in-flight ~85% run died to a Colab VM recycle
+(bare gate line -- a killed VM cannot print FAIL); no defect. (2) The fresh
+VM Drive->local copy was size-exact (99022114670) but md5-wrong; run.py
+exit-4d correctly. Classified as suspected DriveFS/FUSE read-path
+corruption (mechanism not asserted); the stored Drive master is presumed
+good from its historical gate pass and is NOT judged through the suspect
+path.
+External staging review (archived): adopted in full. Kept: generator-level
+change, verify-before-extract, one bounded retry, loud refusal, regression
+asserts. Changed per review: checksum resolved by exact archive filename;
+missing record md5 is a driver-configuration error (fail closed); .part
+transfer with atomic promotion; neutral corruption wording; FUSE-mediated
+"Drive master arbitration" REMOVED (a suspect witness cannot acquit
+itself) -- replaced by classified stop FUSE_LOCALIZATION_INTEGRITY_FAILURE
+with origin_direct pre-authorized as the next sanctioned attempt.
+Queued to driver_spec (post-023): drive_api_cache as preferred transport
+(Drive stays the cache, FUSE leaves the input path), largest_local_scratch
+working-volume policy, and a governed driver-revise route so operational
+incidents flow to agent-proposed, cross-family-reviewed spec revisions
+instead of external patches.
