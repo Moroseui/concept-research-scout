@@ -688,3 +688,28 @@ directly from the immutable Zenodo record to local scratch (16-way aria2c,
 ORIGIN_DOWNLOAD_INTEGRITY_FAILURE stop). drive_fuse_cache remains available
 but transitional; drive_api_cache stays the driver_spec target. The Drive
 mount retains only small-file duties (Phase-S read, checkpoints, outputs).
+
+## 2026-08-26 - 023 exit 8: pre-registered unit contingency executed; amendment directive
+
+Take-8 receipt: staging fully solved (aria2c 14 min, checksum and census
+passed); the probe stopped at its first scientific act per contract clause
+66 -- CBV units are documented nowhere: zero JSON sidecars among the
+archive 2,983 members, empty NIfTI descrip fields, and every dataset
+descriptor (Zenodo record page, TU/e portal, challenge paper) lists
+modalities without units; the icobrain-cva chain implies the convention
+but states none. The contract said stop for amendment before outcomes are
+read, and it did.
+
+DIRECTIVE for the next probe-build round (amendment authorized, option B,
+human gate retained): amend clause 66 so the sole unit-dependent rule
+becomes unit-free -- vessel exclusion = voxels with CBV above the
+per-patient 98th percentile of finite positive CBV in the map -- recording
+in the clause WHY (the payload evidence above) and noting that under the
+conventional scale this targets approximately the vessel fraction the
+8 mL/100 g cap intended. Update kill-code 104 to mark the unit-failure
+contingency executed and retired. Clause 72 is already unit-robust and
+must not change. In run.py: implement the percentile exclusion; retire
+confirm_cbv_units into a RECORDED finding (identity.json gains
+units_documented: false with the evidence summary); change nothing else.
+The amendment changes the contract blob: the standing approval goes stale
+by design and re-approval follows human review of the diff.
