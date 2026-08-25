@@ -725,3 +725,23 @@ never be consumed under another. Driver fix (one line): OUTPUT_DIR is now
 blob-scoped ({idea}_{phase}_{blob12}), mirroring the results-branch scheme,
 so each contract era gets a pristine cache and console; superseded dirs
 remain as untouched evidence. No probe or contract change; approval stands.
+
+## 2026-08-26 - Pre-registered adjudication for the inf-ratio edge (committed before outcomes are seen)
+
+During the take-10 map pass, two RuntimeWarning classes were observed:
+all-NaN neighborhood windows (handled by design: excluded voxels, counted
+per case in the checkpoint exclusions record) and overflow in the
+rcbf/rcbv division (tiny positive mirror denominators pass valid_den, so
+isolated infinite ratios can be admitted to stratum membership, where the
+screen is only ratio > 0). Per-case selective repair is FORBIDDEN: the code
+is deterministic and uniform, and mixed-provenance case sets are exactly
+what the checkpoint identity mechanism prevents.
+Pre-registered plan: (1) take 11 completes untouched; its bundle is the
+primary result under the approved code. (2) A one-line finiteness
+tightening (stratum admission additionally requires finite rcbf and rcbv)
+is routed through probe-build with cross-family review, and the map pass
+recomputes under the new identity. (3) Interpretation cites BOTH runs: if
+they agree, immateriality is demonstrated and the primary stands with the
+robustness check noted; if they diverge, the revised run is canonical and
+the divergence is reported as a finding. This criterion is committed before
+any stratum outcome has been inspected.
