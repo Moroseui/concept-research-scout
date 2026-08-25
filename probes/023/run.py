@@ -18,7 +18,8 @@ scientific negative.
 Usage: python run.py --smoke|--phase S|--phase C --output-dir DIR [Phase-C args]
 
 Exit codes: 0 success; 2 approval/contract/CLI; 3 access; 4 provenance;
-5 population/split; 6 grid/data; 7 mirror; 8 units; 9 coordinate; 10 support;
+5 population/split; 6 grid/data; 7 mirror; 8 retired unit contingency;
+9 coordinate; 10 support;
 11 analysis/output; 12 dependency; 13 unexpected harness failure.
 """
 
@@ -384,7 +385,8 @@ def verify_phase_s_hash(args):
 # PHASE C — LOAD AND VALIDATE.
 # Only the post-amendment approval can reach this code. It resolves immutable
 # provenance, freezes the split before lesion access, and validates grids,
-# units, finite values, mirror support, and the central-volume coordinate.
+# finite values, mirror support, and the central-volume coordinate. CBV units
+# are recorded as undocumented; the amended vessel rule is unit-free.
 # ---------------------------------------------------------------------------
 
 def load_case(data_dir, case_id, load_label, audit_rows=None):
@@ -418,21 +420,6 @@ def load_case(data_dir, case_id, load_label, audit_rows=None):
                            "affine": json.dumps(reference.affine.tolist()),
                            "resampled": ";".join(resampled)})
     return arrays, paths, reference.header.get_zooms()[:3]
-
-
-def confirm_cbv_units(cbv_path):
-    sidecar = Path(re.sub(r"\.nii(?:\.gz)?$", ".json", str(cbv_path)))
-    texts = []
-    if sidecar.exists():
-        texts.append(json.dumps(json.loads(sidecar.read_text()), sort_keys=True).lower())
-    try:
-        import nibabel as nib
-        texts.append(bytes(nib.load(str(cbv_path)).header["descrip"]).decode("latin1").lower())
-    except Exception:
-        pass
-    normalized = re.sub(r"[\s_/.-]", "", " ".join(texts))
-    if not ("ml100g" in normalized or "mlper100g" in normalized):
-        fail(8, f"CBV unit mL/100 g is not explicitly documented for {cbv_path}")
 
 
 def reflect_index(length, plane):
@@ -509,14 +496,22 @@ def coordinate_arrays(arrays, mirror):
     brain, reflected, plane = mirror
     finite_maps = np.isfinite(cbf) & np.isfinite(cbv) & np.isfinite(mtt) & np.isfinite(tmax)
     deficit = np.isfinite(tmax) & (tmax > 6.0)  # DEFUSE-family threshold frozen in contract.
-    vessel = np.isfinite(cbv) & (cbv > 8.0)     # mL/100 g cap; units are gated first.
+    # Amended clause 66: use the per-patient 98th percentile because CBV units
+    # are undocumented. Under the conventional scale this approximates the
+    # vessel fraction targeted by the retired 8 mL/100 g cap.
+    positive_cbv = cbv[np.isfinite(cbv) & (cbv > 0)]
+    if positive_cbv.size == 0:
+        fail(6, "CBV map has no finite positive values for the vessel percentile")
+    vessel_cbv_p98 = float(np.percentile(positive_cbv, 98.0))
+    assert np.isfinite(vessel_cbv_p98) and vessel_cbv_p98 > 0
+    vessel = np.isfinite(cbv) & (cbv > vessel_cbv_p98)
     allowed = brain & ~deficit & ~vessel
     mirror_cbf = neighborhood_median(cbf, allowed, reflected)
     mirror_cbv = neighborhood_median(cbv, allowed, reflected)
     valid_den = np.isfinite(mirror_cbf) & np.isfinite(mirror_cbv) & (mirror_cbf > 0) & (mirror_cbv > 0)
     rcbf = np.divide(cbf, mirror_cbf, out=np.full_like(cbf, np.nan), where=valid_den)
     rcbv = np.divide(cbv, mirror_cbv, out=np.full_like(cbv, np.nan), where=valid_den)
-    # Contract threshold: Tmax > 6 seconds; CBV vessel cap 8 mL/100 g.
+    # Contract thresholds: Tmax > 6 seconds and the unit-free patient CBV p98.
     region = deficit.copy()
     # One-voxel binary erosion removes unstable deficit boundaries, as frozen
     # in preprocessing.region. Six face-neighbors make the 3-D voxel erosion.
@@ -532,6 +527,7 @@ def coordinate_arrays(arrays, mirror):
     exclusions = {"deficit_voxels": int(deficit.sum()), "eroded_region_voxels": int(eroded.sum()),
                   "invalid_or_nonpositive_denominator_voxels": int((brain & ~valid_den).sum()),
                   "vessel_voxels": int(vessel.sum()),
+                  "vessel_cbv_p98": vessel_cbv_p98,
                   "nonfinite_cbf_voxels": int((~np.isfinite(cbf)).sum()),
                   "nonfinite_cbv_voxels": int((~np.isfinite(cbv)).sum()),
                   "nonfinite_mtt_voxels": int((~np.isfinite(mtt)).sum()),
@@ -688,7 +684,9 @@ def run_phase_c(args, out, gate_info):
     cache_identity = {"contract_blob": gate_info["contract_blob"],
                       "archive_sha256": archive_info["archive_sha256"],
                       "split_manifest_sha256": split_sha,
-                      "run_py_sha256": sha256_file(Path(__file__))}
+                      "run_py_sha256": sha256_file(Path(__file__)),
+                      "units_documented": False,
+                      "units_evidence": "No JSON sidecars among 2,983 archive members; NIfTI descrip fields are empty; inspected Zenodo, TU/e, and challenge-paper dataset descriptions name CBV but state no units."}
     if cache_identity_path.exists() and json.loads(cache_identity_path.read_text()) != cache_identity:
         fail(4, "Phase-C checkpoint identity differs from this contract/archive/split/code")
     write_json(cache_identity_path, cache_identity)
@@ -705,7 +703,6 @@ def run_phase_c(args, out, gate_info):
             emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; computing and checkpointing")
             case_schema = []
             arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=case_schema)
-            confirm_cbv_units(paths["cbv"])
             brain, reflected, plane, error, usable, score = mirror_qc(arrays["ncct"], zooms)
             mirror_row = {"case_id": case, "plane_axis0": plane,
                           "registration_error_voxels": error, "usable_brain_fraction": usable,
@@ -739,7 +736,7 @@ def run_phase_c(args, out, gate_info):
                      "voxel_sizes_mm", "affine", "resampled"]
     exclusion_fields = ["case_id", "record_type", "reason", "source_path",
                         "deficit_voxels", "eroded_region_voxels",
-                        "invalid_or_nonpositive_denominator_voxels", "vessel_voxels",
+                        "invalid_or_nonpositive_denominator_voxels", "vessel_voxels", "vessel_cbv_p98",
                         "nonfinite_cbf_voxels", "nonfinite_cbv_voxels",
                         "nonfinite_mtt_voxels", "nonfinite_tmax_voxels"]
     write_csv(out / "schema_census.csv", schema_fields, schema_rows)

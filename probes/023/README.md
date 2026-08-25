@@ -37,6 +37,10 @@ is retained and every extra row is named in both `schema_census.csv` and
 
 The rawdata NCCT is required: it is not duplicated in `derivatives/`. Raw 4D
 CTP and CTA are not used. Keep the output directory on persistent storage.
+CBV units are not documented in the released payload or inspected dataset
+descriptions. The amended contract therefore excludes vessel-like voxels above
+each patient's 98th percentile of finite positive CBV; `identity.json` records
+this evidence and `exclusions.csv` records each patient's threshold.
 Phase C writes per-case outcome-blind checkpoints under `phase_c_cache/` and a
 per-patient outcome checkpoint after every completed case, so rerunning the
 same command resumes after a Colab disconnect. Checkpoints are bound to the

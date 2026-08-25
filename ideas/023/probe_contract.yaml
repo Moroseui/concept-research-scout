@@ -63,7 +63,7 @@ split_policy: "Development data only. Sort immutable case identifiers lexicograp
 preprocessing:
   grid_gate: "For every census case, require finite CBF/CBV/MTT/Tmax and lesion-mask values in all analyzed voxels (nonfinite values outside the analysis region are permitted, excluded, and counted), compatible physical coverage, and a deterministic common NCCT grid. Header mismatches may be resolved only by the preregistered interpolation rule: linear for maps, nearest-neighbor for labels; record every resampling. Irreconcilable coverage is invalidating."
   brain_and_mirror_gate: "Derive a brain mask and midsagittal reflection from the rawdata NCCT on the common NCCT grid using one frozen automatic method. Before outcomes are read, require median left-right NCCT registration error <= one in-plane voxel and usable mirrored support for >=90% of brain-mask voxels in >=90 census patients."
-  region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the estimated midsagittal plane and voxels with CBV > 8 mL/100 g. The CBV cap is valid only if Phase-C unit inspection confirms mL/100 g; otherwise stop for contract amendment before outcomes are read."
+  region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the estimated midsagittal plane and voxels with CBV above the per-patient 98th percentile of finite positive CBV in that patient's map. This unit-free rule replaces the planned 8 mL/100 g cap because the payload has zero JSON sidecars, empty NIfTI descrip fields, and no inspected dataset descriptor states CBV units; under the conventional CBV scale, the percentile targets approximately the vessel fraction that the 8 mL/100 g cap intended."
   relative_measures: "For each voxel, divide CBF and CBV by the median of its reflected 5x5x3-voxel contralateral neighborhood after excluding deficit and vessel voxels. Nonpositive or nonfinite denominators are excluded and counted."
   cbf_strata:
     - "rCBF in [0.15, 0.30)"
@@ -101,7 +101,7 @@ invalidating_failures:
   - "Population failure: duplicate patient identity, inability to resolve the released case count, missing required maps or label for a census patient, or any reserved patient entering analysis."
   - "Grid/coverage failure: required images cannot be placed on a common NCCT physical grid by the frozen rule, or nonfinite values remain in analyzed voxels."
   - "Mirror failure: the frozen outcome-blind mirror-quality gate fails."
-  - "Unit failure: released units cannot support the frozen CBV vessel cap without changing the contract."
+  - "Retired contingency (formerly kill-code 104): undocumented CBV units triggered the preregistered stop before outcomes were read; this amendment executes and retires that unit-failure path by replacing the sole unit-dependent rule with the frozen percentile exclusion."
   - "Coordinate failure: central-volume identity residual exceeds the frozen 0.10 limit in any stratum; the empirical-curve fallback requires a new contract and is not a negative result."
   - "Support invalidity: any stratum fails the Phase-S-frozen minimum contributing-patient or voxel-cell requirement. Insufficient support is invalidating/indeterminate, not a negative association."
   - "Analysis deviation: labels influence preprocessing, split assignment, quantile boundaries, exclusions, or choice of analysis; an unregistered variant or seed is run; or patient clustering/equal weighting is not preserved."
