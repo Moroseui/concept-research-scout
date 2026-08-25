@@ -912,6 +912,158 @@ for audit code. Lesson recorded: a repair script is claim-bearing code
 and gets verified against artifacts like everything else; a spot-check
 that rationalizes an expected-looking value is not verification.
 
+## 2026-08-24 - Reconciliation ruling: idea 023
+
+The reconcile stage (Claude family) audited all six 023 artifacts against
+the archived prompt context versus the current isles24 charter. All rulings
+STANDS; recommendation CLEAR-TO-CONTRACT. Operator ruling: ACCEPTED. Idea
+023 is cleared for contract drafting (probe-plan). Reconciliation of the
+remaining 020-025 ideas stays queued; the scoped-to-023 requirement before
+any 023 contract is satisfied. Artifact: ideas/023/reconciliation.md.
+
+## 2026-08-24 - Probe 023 review ruling (round 2: REVISE, three Phase-C blockers)
+
+Operator ruling: Phase S execution AUTHORIZED with the current run.py -- the
+reviewer confirms Phase S is contract-faithful and all blocking findings
+(B1 lesion filename, B2 compute plan, B3 missing secondary metrics) are
+confined to Phase C, which is already locked behind the contract amendment
+and fresh approval. B1-B3, the NaN-background finiteness ambiguity, and the
+NCCT-location correction MUST be resolved before the Phase-C approval is
+granted. Review rounds preserved in git.
+
+Design note: the one-revision cap on probe-build review is provisionally too
+tight relative to debate max_rounds=3; queue a configurable
+probe_review.max_revisions knob with an ambiguity-escalation rule. B1/B3 are
+agent-resolvable and go back through probe-build at amendment time; B2 and
+the finiteness ambiguity are operator decisions.
+
+## 2026-08-24 - Contract 023 amendment (Phase S -> Phase C gates)
+
+Phase S completed on Colab (bundle on results/probe-023-4a46713d1b81,
+simulation sha256 59069fa9...): 52/60 candidates eligible; the frozen
+lexicographic rule selected N=20 patients/stratum, M=100 voxels/cell,
+maximum CI width 0.15. Amendment applied deterministically via the new
+amend-contract subcommand; no agent involvement. Prior approval is stale
+by design; fresh approval required after the finiteness and NCCT clause
+edits below.
+
+Design requirement (queued, 2b-adjacent): an operator interrogation channel.
+At any point the operator can put a question or new information to the
+system about a specific artifact (verdict, contract, probe code, debate
+position) and receive a justification or proposed revision as a reviewable
+artifact -- generalizing the reconcile stage shape. Must answer/propose,
+never silently edit; human gate on any resulting change. 2b issue-based
+gates are the natural transport.
+
+Clause rulings at amendment (probe_review.md N2 + NCCT finding): (1) the
+finiteness gate is scoped to analyzed voxels -- nonfinite values outside the
+analysis region are permitted, excluded, and counted, harmonizing grid_gate
+with the invalidating-failure class; (2) required_inputs now includes the
+rawdata NCCT, which the official release tree places under rawdata only --
+the feasibility memo claim of a "registered NCCT" in derivatives is
+corrected forward here, not edited; (3) brain_and_mirror_gate references the
+rawdata NCCT on the common grid. probe-build must state the exact
+extraction set in the probe README.
+
+## 2026-08-25 - External review round 4 intake + 023 Phase-C execution receipt
+
+Round-4 repo audit (ChatGPT, deep-research; evidence/external_reviews/
+2026-08-25_round4_repo_audit.pdf) registered. Adopted: amended freeze
+(science frozen; deterministic transport/validator fixes permitted with
+synthetic-fixture tests); contract-declared result interface replacing the
+004-era validator ontology; completion single-sourced via bundle-complete;
+launcher must satisfy probe-declared dependencies (--phase-s-dir guard);
+per-phase output dirs; state.json as materialized view never authority;
+receipts inside run_agent; fail-closed git sync; privilege separation before
+autonomy; meta-loop emits schema-validated proposals only, zero write
+credentials; EXPLANATION vs CHANGE_PROPOSAL interrogation receipts; category
+budgets over daily caps; reseeding before quotas; validated-reviewer-yield
+telemetry; generation backpressure; prospective-only third charter. Elo
+deferral endorsed.
+
+Execution receipt, 023 Phase C attempt 1 (2026-08-25T00:54Z): committed
+launcher invoked run.py --phase C with data-dir/archive/record on Drive but
+WITHOUT --phase-s-dir; approval gate PASSED on blob 349af5ad, then run.py
+refused with exit 2 before touching any data. Partial bundle (Phase-S
+outputs + Phase-C provenance carrying the exact argv) pushed to
+results/probe-023-349af5ad0b3e as the honest record. Archive and extracted
+subset persist on Drive; rerun re-pays digests and census only. Root cause:
+generator omitted the round-3-added dependency; fixed generically this
+commit.
+
+## 2026-08-25 - Round-4 checkpoint evaluation: dispositions
+
+Reviewer verdict: proceed to 2a; immediates correctly targeted; do not
+redesign. Fixed this commit: librarian.yml fail-closed rescue (plus an
+invariant test scanning every workflow for swallowed rebases); _digest_path
+fail-local for named charters (global-digest leak class closed, matching the
+portfolio-brief fix); author-family label stripped from probe_review with a
+content-only instruction -- recorded as label blinding only, since two-family
+structural opposition makes true author blinding impossible. Routed to 2a:
+registry-declared upstream-bundle dependencies retire the launcher run.py
+string inspection; probe-spec-declared terminal statuses retire the
+POSITIVE/NEGATIVE_PATTERN literals in bundle_complete; execution receipts
+move inside run_agent; state.json as materialized view + registry.yaml per
+the round-4 schema.
+
+## 2026-08-25 - 023 Phase C attempt 2: exit 5, archive census 0 cases -- root cause and directive
+
+Execution receipt: take-2 run (with --phase-s-dir) passed the approval gate
+on blob 349af5ad, verified the Phase-S hash, completed both archive digest
+passes, then FAILED loudly at the census: run.py line 229 globs
+sub-strokecase*_ses-*_space-ncct_cbf.nii* but the archive contains ZERO
+strokecase members. Bundle with archive_manifest.csv (2983 members) pushed
+at 2026-08-25T02:00:48Z.
+
+Ground truth from the archive manifest itself, one full case:
+  train/derivatives/sub-stroke0001/ses-01/perfusion-maps/sub-stroke0001_ses-01_space-ncct_cbf.nii.gz (+cbv, mtt, tmax)
+  train/derivatives/sub-stroke0001/ses-02/sub-stroke0001_ses-02_space-ncct_lesion-msk.nii.gz
+  train/raw_data/sub-stroke0001/ses-01/sub-stroke0001_ses-01_ncct.nii.gz
+Counts: 149 cbf, 149 rawdata NCCT (cohort = 149, settled from the payload);
+150 lesion-msk rows for 149 cases -- one extra/duplicate exists and must be
+named, not silently absorbed.
+
+Correction (forward, append-only): round-2 review finding B1 and the
+operator both verified filenames against the Zenodo record DESCRIPTION
+(sub-strokecaseNNNN..., rawdata/). The payload uses sub-strokeNNNN and
+raw_data/. Lesson: the archive member manifest outranks dataset
+documentation; filename claims verify against payload, never prose.
+
+Directive for the probe-code revision: derive case discovery from observed
+archive members (tolerate sub-stroke\d+ and sub-strokecase\d+; handle
+raw_data and rawdata); surface the 150th lesion row explicitly in
+schema_census.csv and route it through exclusions.csv with a reason; change
+nothing else -- the contract, gates, thresholds, and analysis are untouched
+and the standing approval remains valid.
+
+## 2026-08-25 - 023 attempts 3-4: Drive FUSE mount crash + Zenodo version-drift hazard
+
+Attempt-3 receipt (02:35Z bundle): the Colab Drive mount died mid-session
+(Transport endpoint is not connected). Three symptoms, one cause: extraction
+find limped; run.py correctly exit-3d on the invisible extracted dir; and
+the staging pin cell, seeing RECORD_JSON as missing, silently re-resolved
+the concept to a NEWER child record (17652035) published since our
+download -- old bytes, new record, a checksum failure waiting to happen.
+Lesson: a pin that can re-resolve at runtime is not a pin. Fixed in the
+generator: --staging-record declares the immutable child at packaging time;
+existing pins are never silently re-resolved; drift is healed toward the
+declaration with a loud warning. Take 4 declares record 16813698 (md5
+36ae28b9... matches the held archive); run.py checksum gate arbitrates
+definitively.
+
+## 2026-08-25 - 023 take 5: exit 5 (census 0) -- third Drive-FUSE casualty; local-SSD strategy adopted
+
+Take-5 receipt: gate passed on 349af5ad, tolerant census still found 0 cases,
+and the session transport never landed a bundle. Third failure localized to
+the same component: the 894-file extracted tree on the Drive FUSE mount
+(attempt-3 transport-endpoint death; take-5 zero-visibility; same-session
+repo-dir loss). Ruling: heavy inputs localize to session SSD -- one bounded
+FUSE read copies the archive local; extraction, digests, and census run on
+local disk with a fail-loud extraction floor (>=800 files) so a broken tree
+can never reach the census again. Outputs/checkpoints remain on Drive.
+Driver polish: clone cell cds to /content before rm -rf (same-session rerun
+cwd death).
+
 
 ===== evidence/ledger_digest_baseline.md =====
 # Ledger digest -- charter: baseline (auto-generated; scores are scoped to this charter only)
