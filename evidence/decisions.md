@@ -635,3 +635,16 @@ existing pins are never silently re-resolved; drift is healed toward the
 declaration with a loud warning. Take 4 declares record 16813698 (md5
 36ae28b9... matches the held archive); run.py checksum gate arbitrates
 definitively.
+
+## 2026-08-25 - 023 take 5: exit 5 (census 0) -- third Drive-FUSE casualty; local-SSD strategy adopted
+
+Take-5 receipt: gate passed on 349af5ad, tolerant census still found 0 cases,
+and the session transport never landed a bundle. Third failure localized to
+the same component: the 894-file extracted tree on the Drive FUSE mount
+(attempt-3 transport-endpoint death; take-5 zero-visibility; same-session
+repo-dir loss). Ruling: heavy inputs localize to session SSD -- one bounded
+FUSE read copies the archive local; extraction, digests, and census run on
+local disk with a fail-loud extraction floor (>=800 files) so a broken tree
+can never reach the census again. Outputs/checkpoints remain on Drive.
+Driver polish: clone cell cds to /content before rm -rf (same-session rerun
+cwd death).

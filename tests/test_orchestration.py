@@ -400,7 +400,12 @@ class TestAmendContract(Harness):
 class TestStagingCells(unittest.TestCase):
     def test_staging_cells_are_deterministic_and_brace_safe(self):
         import scout as sc
-        pin, download, extract = sc._staging_cells("16731717", ["_ncct.nii.gz", "_lesion-msk.nii.gz"])
+        pin, download, localize, extract = sc._staging_cells("16731717", ["_ncct.nii.gz", "_lesion-msk.nii.gz"])
+        self.assertIn("ARCHIVE_LOCAL", localize)
+        self.assertIn("local SSD", localize)
+        self.assertIn('"{ARCHIVE_LOCAL}"', extract)
+        self.assertIn("refusing to reach the census", extract)
+        self.assertNotIn("{{", localize)
         self.assertIn("zenodo.org/api/records/16731717", pin)
         self.assertIn("need an immutable child version", pin)
         mount = sc._mount_cell()
@@ -408,7 +413,7 @@ class TestStagingCells(unittest.TestCase):
         self.assertIn("stale mountpoint residue", mount)
         self.assertIn("Disconnect and delete runtime", mount)
         self.assertNotIn("{{", mount)
-        pin2, _, _ = sc._staging_cells("16731717", ["_ncct.nii.gz"], record_id="16813698")
+        pin2, _, _, _ = sc._staging_cells("16731717", ["_ncct.nii.gz"], record_id="16813698")
         self.assertIn("zenodo.org/api/records/16813698", pin2)
         self.assertIn("declared pin", pin2)
         self.assertIn("re-pinning to declared record 16813698", pin2)
