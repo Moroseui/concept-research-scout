@@ -9,6 +9,7 @@ jobs:
         with: {python-version: '3.11'}
       - run: pip install -r requirements.txt
       - run: python setup.py
-      - run: python -m py_compile scout.py setup.py orchestrator/ledger.py
+      - run: python -m py_compile scout.py setup.py orchestrator/*.py
       - run: python scout.py doctor
       - run: python tests/test_orchestration.py
+      - run: pip install pytest && python -m pytest -q tests/

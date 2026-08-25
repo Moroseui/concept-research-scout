@@ -32,7 +32,7 @@ import re
 from pathlib import Path
 
 SCHEMA_VERSION = 1
-MATERIALIZER_VERSION = 1
+MATERIALIZER_VERSION = 2
 
 
 def _idea_ledger_lines(root: Path, ledger_id: str) -> list[str]:
@@ -63,15 +63,15 @@ def _merged_current(lines: list[str]) -> dict:
     (status INVALID_ROW) event chains are excluded from current state;
     empty values never overwrite earlier substance."""
     merged: dict = {}
-    tombstoned = False
     for ln in lines:
         rec = json.loads(ln)
-        if rec.get('status') == 'INVALID_ROW':
-            tombstoned = True
         for k, v in rec.items():
             if v not in (None, ''):
                 merged[k] = v
-    return {} if tombstoned else merged
+    # Parity covenant (round-5 T1): exclusion keys on the FINAL merged
+    # status, exactly like ledger.load() -- an ACTIVE -> INVALID_ROW ->
+    # ACTIVE sequence is a live entity in both materializers.
+    return {} if merged.get('status') == 'INVALID_ROW' else merged
 
 
 def _approval(idea_dir: Path) -> dict | None:
@@ -98,13 +98,17 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
     if approval is not None:
         approval['stale'] = bool(contract_blob) and \
             approval.get('contract_blob') != contract_blob
-    watermark = hashlib.sha256(
-        ('\n'.join(lines)).encode('utf-8')).hexdigest() if lines else None
-    artifact_files = sorted(
-        p.name for p in idea_dir.iterdir()
-        if p.is_file() and p.suffix in ('.md', '.json', '.yaml', '.csv')
-        and p.name != 'state.json' and not p.name.startswith('prompt_')
-        and not p.name.startswith('log_')) if idea_dir.exists() else []
+    def _fsha(p):
+        return hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
+    sources = {
+        'ledger_events_sha256': hashlib.sha256(
+            ('\n'.join(lines)).encode('utf-8')).hexdigest() if lines else None,
+        'contract_blob': contract_blob,
+        'approval_sha256': _fsha(idea_dir / 'HUMAN_APPROVED_PROBE'),
+        'registry_sha256': _fsha(idea_dir / 'registry.yaml'),
+    }
+    fingerprint = hashlib.sha256(
+        json.dumps(sources, sort_keys=True).encode('utf-8')).hexdigest()
     return {
         'schema_version': SCHEMA_VERSION,
         'idea_id': ledger_id,
@@ -117,14 +121,14 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
         'kill_code': cur.get('kill_code'),
         'contract_blob': contract_blob,
         'approval': approval,
-        'artifact_files': artifact_files,
         'registry': registry_resolver(idea_no) if registry_resolver else None,
-        'pending_decisions': [],    # 2b: decision receipts
-        'corrections': [],
+        'pending_decisions': None,  # honest: no decision-receipt authority exists yet (2b)
+        'corrections': None,
         'materialization': {
             'materializer_version': MATERIALIZER_VERSION,
             'event_count': len(lines),
-            'source_event_watermark': watermark,
+            'sources': sources,
+            'source_fingerprint_sha256': fingerprint,
         },
     }
 

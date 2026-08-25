@@ -647,6 +647,42 @@ class TestStateMaterializer(Harness):
         self.assertIsNone(st["claim"])
 
 
+    def test_tombstone_reactivation_matches_ledger_load(self):
+        import scout as sc
+        import state_view as sv
+        import ledger as L
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        self.addCleanup(setattr, L, "LEDGER", L.LEDGER)
+        L.LEDGER = self.repo / "ledger.jsonl"
+        L.LEDGER.write_text(
+            json.dumps({"ledger_id": "idea-001", "status": "ACTIVE"}) + "\n"
+            + json.dumps({"ledger_id": "idea-001", "status": "INVALID_ROW"}) + "\n"
+            + json.dumps({"ledger_id": "idea-001", "status": "ACTIVE"}) + "\n")
+        alive = "idea-001" in L.load()
+        st = json.loads(sv.write_state("001", self.repo,
+                                       **sc._state_kwargs()).read_text())
+        self.assertTrue(alive)
+        self.assertEqual(st["status"], "ACTIVE")   # parity: both materializers live
+
+    def test_source_fingerprint_moves_when_contract_changes(self):
+        import scout as sc
+        import state_view as sv
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        (self.repo / "ledger.jsonl").write_text(json.dumps(
+            {"ledger_id": "idea-001", "status": "ACTIVE"}) + "\n")
+        d = self.repo / "ideas" / "001"
+        kw = sc._state_kwargs()
+        m1 = json.loads(sv.write_state("001", self.repo, **kw).read_text())["materialization"]
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        m2 = json.loads(sv.write_state("001", self.repo, **kw).read_text())["materialization"]
+        self.assertEqual(m1["sources"]["ledger_events_sha256"],
+                         m2["sources"]["ledger_events_sha256"])
+        self.assertNotEqual(m1["source_fingerprint_sha256"],
+                            m2["source_fingerprint_sha256"])
+
+
 class TestExperimentRegistry(Harness):
     def _wire(self):
         import scout as sc
@@ -660,92 +696,128 @@ class TestExperimentRegistry(Harness):
         (d / "registry.yaml").write_text(text)
         return d
 
-    def test_cycles_dangling_and_handset_status_rejected(self):
+    def test_cycles_dangling_handset_and_retired_keys_rejected(self):
         sc, er = self._wire()
         self._reg("probes:\n"
                   "  - id: a\n    depends_on: {all_of: [{probe: b}]}\n"
                   "  - id: b\n    status: COMPLETE\n"
+                  "    requires_upstream_bundle: {probe: a}\n"
                   "    depends_on: {all_of: [{probe: a}, {probe: ghost}]}\n")
         errs = " | ".join(er.validate("001", self.repo))
         self.assertIn("cycle", errs)
         self.assertIn("ghost", errs)
-        self.assertIn("hand-set", errs)
+        self.assertIn("forbidden", errs)
+        self.assertIn("retired", errs)
 
-    def test_derived_status_terminal_stale_blocked_and_sibling_independence(self):
+    def test_duplicate_results_bundle_rejected(self):
         sc, er = self._wire()
-        d = self._reg(
+        self._reg("probes:\n"
+                  "  - id: a\n    results_bundle: bundles/x\n"
+                  "  - id: b\n    results_bundle: bundles/x\n")
+        self.assertIn("unique", " | ".join(er.validate("001", self.repo)))
+
+    def test_missing_artifact_blocks_and_stales_never_completes(self):
+        sc, er = self._wire()
+        self._reg(
+            "probes:\n"
+            "  - id: a\n    results_bundle: bundles/a\n"
+            "    terminal_statuses: [DONE_X]\n    produces: [foo.csv]\n"
+            "  - id: b\n    results_bundle: bundles/b\n"
+            "    terminal_statuses: [DONE_X]\n    produces: [baz.csv]\n"
+            "  - id: c\n    results_bundle: bundles/c\n"
+            "    terminal_statuses: [DONE_X]\n"
+            "    depends_on:\n      artifacts:\n"
+            "        - {probe: a, output: foo.csv, sha256: '" + "0"*64 + "'}\n"
+            "  - id: e\n    results_bundle: bundles/e\n"
+            "    terminal_statuses: [DONE_X]\n"
+            "    depends_on:\n      artifacts:\n"
+            "        - {probe: b, output: baz.csv}\n")
+        self.assertEqual(er.validate("001", self.repo), [])
+        (self.repo / "bundles" / "a").mkdir(parents=True)
+        (self.repo / "bundles" / "a" / "summary.json").write_text(
+            json.dumps({"status": "DONE_X"}))
+        (self.repo / "bundles" / "a" / "foo.csv").write_text("v2")
+        (self.repo / "bundles" / "c").mkdir(parents=True)
+        (self.repo / "bundles" / "c" / "summary.json").write_text(
+            json.dumps({"status": "DONE_X"}))
+        st = er.derive_status("001", self.repo, lambda _d: None)
+        self.assertEqual(st["a"]["status"], "COMPLETE")
+        self.assertEqual(st["c"]["status"], "STALE")     # holds result; input drifted
+        self.assertEqual(st["e"]["status"], "BLOCKED")   # no result; input missing
+        self.assertIn("missing", st["e"]["reason"])
+
+    def test_sibling_independence_and_allof_blocking(self):
+        sc, er = self._wire()
+        self._reg(
             "probes:\n"
             "  - id: a\n    results_bundle: bundles/a\n"
             "    terminal_statuses: [DONE_X]\n"
-            "    produces: [foo.csv]\n"
             "  - id: b\n    results_bundle: bundles/b\n"
             "    terminal_statuses: [DONE_X]\n"
             "  - id: c\n    results_bundle: bundles/c\n"
             "    terminal_statuses: [DONE_X]\n"
             "    depends_on: {all_of: [{probe: a}]}\n"
             "  - id: d\n    depends_on: {all_of: [{probe: c}]}\n")
-        self.assertEqual(er.validate("001", self.repo), [])
         (self.repo / "bundles" / "a").mkdir(parents=True)
         (self.repo / "bundles" / "a" / "summary.json").write_text(
             json.dumps({"status": "DONE_X"}))
         st = er.derive_status("001", self.repo, lambda _d: None)
-        self.assertEqual(st["a"]["status"], "COMPLETE")
-        self.assertEqual(st["b"]["status"], "UNSTARTED")   # failed/absent sibling
-        self.assertEqual(st["c"]["status"], "UNSTARTED")   # a complete, not started
-        self.assertEqual(st["d"]["status"], "BLOCKED")     # waits on c only
-        # stale propagation: consumed-artifact hash mismatch
-        (self.repo / "bundles" / "a" / "foo.csv").write_text("v2")
-        d2 = self._reg(
-            "probes:\n"
-            "  - id: a\n    results_bundle: bundles/a\n"
-            "    terminal_statuses: [DONE_X]\n    produces: [foo.csv]\n"
-            "  - id: c\n    results_bundle: bundles/a\n"
-            "    terminal_statuses: [DONE_X]\n"
-            "    depends_on:\n      artifacts:\n"
-            "        - {probe: a, output: foo.csv, sha256: '" + "0"*64 + "'}\n")
-        st2 = er.derive_status("001", self.repo, lambda _d: None)
-        self.assertEqual(st2["c"]["status"], "STALE")
+        self.assertEqual(st["b"]["status"], "UNSTARTED")
+        self.assertEqual(st["c"]["status"], "UNSTARTED")
+        self.assertEqual(st["d"]["status"], "BLOCKED")
 
-    def test_pinned_contract_mismatch_marks_stale(self):
+    def test_pinned_contract_mismatch_is_stale_even_before_any_run(self):
         sc, er = self._wire()
         self._reg("probes:\n"
                   "  - id: a\n    results_bundle: bundles/a\n"
                   "    terminal_statuses: [DONE_X]\n"
                   "    contract_hash: " + "f"*40 + "\n")
+        st = er.derive_status("001", self.repo, lambda _d: "a" * 40)
+        self.assertEqual(st["a"]["status"], "STALE")   # T6: no bundle exists
         (self.repo / "bundles" / "a").mkdir(parents=True)
         (self.repo / "bundles" / "a" / "summary.json").write_text(
             json.dumps({"status": "DONE_X"}))
         st = er.derive_status("001", self.repo, lambda _d: "a" * 40)
         self.assertEqual(st["a"]["status"], "STALE")
 
-    def test_bundle_complete_prefers_registry_terminals(self):
+    def test_completion_authority_requires_approval_bound_registry(self):
         sc, er = self._wire()
         d = self.repo / "ideas" / "001"
         (d / "probe_contract.yaml").write_text(
-            "idea_id: idea-001\nrequired_outputs:\n  - summary.json\n"
-            "  - provenance.json\n")
+            "idea_id: idea-001\nrequired_outputs:\n  - summary.json\n")
         b = self.repo / "probes" / "001" / "results_v2"
         b.mkdir(parents=True)
         (b / "summary.json").write_text(json.dumps(
             {"idea_id": "idea-001", "phase": "C", "status": "DONE_X"}))
-        self.assertFalse(sc.bundle_complete(1, b))   # literals: not terminal
+        self.assertFalse(sc.bundle_complete(1, b))       # literals: not terminal
         self._reg("probes:\n"
                   "  - id: main\n    results_bundle: probes/001/results_v2\n"
                   "    terminal_statuses: [DONE_X]\n")
-        self.assertTrue(sc.bundle_complete(1, b))    # registry supersedes
+        self.assertFalse(sc.bundle_complete(1, b))       # T8: unbound registry has no authority
+        (d / "HUMAN_APPROVED_PROBE").write_text(
+            "approved\nregistry_sha256: " + er.registry_sha("001", self.repo) + "\n")
+        self.assertTrue(sc.bundle_complete(1, b))        # bound: terminals govern
         ci_path = self.repo / "results-data" / "probes" / "001" / "results_v2"
         self.assertEqual(
-            er.terminal_statuses_for_bundle("001", self.repo, ci_path),
-            ["DONE_X"])                              # CI prefix suffix-match
+            er.terminal_statuses_if_approved("001", self.repo, ci_path),
+            ["DONE_X"])
 
-    def test_launcher_requirement_comes_from_registry(self):
+    def test_launcher_upstream_must_ride_a_real_dag_edge(self):
         sc, er = self._wire()
         self._reg("probes:\n"
                   "  - id: census\n    phase: C\n"
-                  "    requires_upstream_bundle: {probe: calib, cli_flag: --phase-s-dir}\n"
+                  "    launcher:\n      upstream_bundle: {from_probe: calib, cli_flag: --phase-s-dir}\n"
                   "  - id: calib\n    phase: S\n")
+        self.assertIn("all_of", " | ".join(er.validate("001", self.repo)))
+        self._reg("probes:\n"
+                  "  - id: census\n    phase: C\n"
+                  "    depends_on: {all_of: [{probe: calib}]}\n"
+                  "    launcher:\n      upstream_bundle: {from_probe: calib, cli_flag: --phase-s-dir}\n"
+                  "  - id: calib\n    phase: S\n")
+        self.assertEqual(er.validate("001", self.repo), [])
         req = er.upstream_bundle_requirement("001", self.repo, "C")
         self.assertEqual(req["cli_flag"], "--phase-s-dir")
+        self.assertEqual(req["probe"], "calib")
         self.assertIsNone(er.upstream_bundle_requirement("001", self.repo, "S"))
 
     def test_state_json_carries_registry_and_stays_byte_identical(self):
@@ -759,7 +831,64 @@ class TestExperimentRegistry(Harness):
         st = json.loads(p.read_text())
         self.assertIn("nodes", st["registry"])
         self.assertEqual(st["registry"]["nodes"], {"a": "UNSTARTED"})
+        self.assertFalse(st["registry"]["approval_bound"])
         self.assertEqual(sv.verify_state("001", self.repo, **kw), [])
+
+
+class TestContractFailClosed(Harness):
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        return sc
+
+    def test_malformed_contract_fails_bundle_verification(self):
+        sc = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text("required_outputs: [a: b\n")
+        b = self.repo / "probes" / "001" / "results_v2"
+        b.mkdir(parents=True)
+        fails = sc.validate_bundle(1, b)
+        self.assertEqual(len(fails), 1)
+        self.assertIn("contract invalid", fails[0])
+        self.assertFalse(sc.bundle_complete(1, b))
+
+    def test_required_outputs_entries_must_stay_inside_the_bundle(self):
+        sc = self._wire()
+        d = self.repo / "ideas" / "001"
+        for bad in ("/tmp/x", "../x"):
+            (d / "probe_contract.yaml").write_text(
+                "required_outputs:\n  - '" + bad + "'\n")
+            with self.assertRaises(ValueError):
+                sc._contract_required_outputs(1)
+
+    def test_contract_without_interface_stays_legacy(self):
+        sc = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        self.assertEqual(sc._contract_required_outputs(1), [])
+
+
+class TestSuiteHygiene(unittest.TestCase):
+    def test_no_duplicate_test_symbols(self):
+        import ast
+        src = (REPO / "tests" / "test_orchestration.py").read_text()
+        tree = ast.parse(src)
+        classes, dup = {}, []
+        for node in tree.body:
+            if isinstance(node, ast.ClassDef):
+                if node.name in classes:
+                    dup.append(f"class {node.name}")
+                classes[node.name] = True
+                seen = {}
+                for item in node.body:
+                    if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                        if item.name in seen:
+                            dup.append(f"{node.name}.{item.name}")
+                        seen[item.name] = True
+        self.assertEqual(dup, [])
+
+
 class TestBackpressure(Harness):
     def test_viable_backlog_scopes_by_charter_with_legacy_as_baseline(self):
         import scout as sc
@@ -814,7 +943,9 @@ class TestExecutionReceipts(Harness):
         self.assertEqual(rec["stage"], "critique")
         self.assertEqual(rec["exit_class"], "ok")
         self.assertEqual(len(rec["prompt_sha256"]), 64)
-        self.assertIn(rec["agent_effective"], ("claude", "codex"))
+        self.assertIn(rec["family_effective"], ("claude", "codex"))
+        self.assertIn(rec["family_configured"], ("claude", "codex"))
+        self.assertTrue(rec.get("git_commit"))
         self.assertIn("model_used", rec)
         self.assertGreaterEqual(rec["duration_s"], 0)
 
@@ -824,6 +955,12 @@ class TestExecutionReceipts(Harness):
         recs = [x for x in self._receipts() if x.get("receipt")]
         self.assertEqual(len(recs), 1)
         self.assertEqual(recs[0]["exit_class"], "ok")  # agent ran fine; the guard failed after
+
+    def test_state_verify_require_all_fails_on_unmaterialized_ideas(self):
+        r = self.scout("state-verify", "--require-all")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("state.json missing", r.stdout + r.stderr)
+        self.assertIn("verified 0 of", r.stdout + r.stderr)
 
     def test_legacy_recorder_has_no_remaining_call_sites(self):
         src = Path("scout.py").read_text()

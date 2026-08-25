@@ -648,3 +648,21 @@ local disk with a fail-loud extraction floor (>=800 files) so a broken tree
 can never reach the census again. Outputs/checkpoints remain on Drive.
 Driver polish: clone cell cds to /content before rm -rf (same-session rerun
 cwd death).
+
+## 2026-08-25 - Round-5 whole-2a review: intake and dispositions
+
+Verdict accepted: approve architecture, fix semantics before consumers.
+All five verified defects fixed in 2a-4 (tombstone parity; binding artifact
+deps + launcher-as-DAG-edge + pre-run pin staleness + bundle uniqueness;
+approval-bound terminal authority; fail-closed contract interface with
+containment; receipt provenance restored with configured/effective family).
+Coverage-honest verify commands + --require-all; source fingerprints;
+honest nulls; AST suite hygiene; CI gates both runners. Deferred per the
+reviewer own P1 gates, queued: structured core return (A7), stage-outcome
+records (A8), immutable role maps (A10), ledger event ids (A12), forensic
+failure checkpoints (A13), override-matrix telemetry, multi-axis diversity
+stats. Pushback recorded: the ZIP-based 023 merge hazard dissolved under a
+real git merge (performed first, frozen driver preserved byte-identical);
+reviewer full-suite timeout was environmental. Merge order adopted:
+023 record-result -> frozen-023 hash check -> merge 2a -> author 023
+registry + driver_spec -> shadow soak -> read-only consumer flip -> 2b.

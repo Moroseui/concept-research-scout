@@ -415,6 +415,9 @@ def _invoke_agent(command, use_stdin, prompt_text, timeout, log_path):
     return proc.returncode, ''.join(lines)
 
 
+_TOOLS_CACHE = None
+
+
 def _append_receipt(dirpath, rec):
     (Path(dirpath) / 'stage_provenance.jsonl').open('a').write(
         json.dumps(rec, sort_keys=True) + '\n')
@@ -436,10 +439,22 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
     eff = effective_agent(eff or cfg.get('default', {}).get('agent', 'claude'), cfg)
     p = Path(prompt_path)
     import time as _t
+    base = agent
+    if base is None and stage:
+        base = cfg.get('roles', {}).get(stage.replace('-', '_'))
+    base = base or cfg.get('default', {}).get('agent', 'claude')
+    global _TOOLS_CACHE
+    if _TOOLS_CACHE is None:
+        _TOOLS_CACHE = dict(_cli_versions())
+        _TOOLS_CACHE['git_head'] = subprocess.run(
+            ['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True,
+            text=True, check=False).stdout.strip()
     rec = {'receipt': 1, 'run_id': os.urandom(6).hex(), 'stage': stage,
            'prompt_file': p.name,
            'prompt_sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
-           'agent_requested': req, 'agent_effective': eff,
+           'family_configured': base, 'family_effective': eff,
+           'git_commit': _TOOLS_CACHE.get('git_head'),
+           'tools': {k: v for k, v in _TOOLS_CACHE.items() if k != 'git_head'},
            'ci': bool(os.environ.get('SCOUT_CI')),
            'started_utc': datetime.now(timezone.utc).isoformat(timespec='seconds')}
     before = LAST_RUN
@@ -464,7 +479,10 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
             rec.update({k: LAST_RUN[k] for k in
                         ('model_requested', 'model_used', 'fallback', 'attempts')
                         if k in LAST_RUN})
-        _append_receipt(p.parent, rec)
+        try:
+            _append_receipt(p.parent, rec)
+        except Exception as we:  # never mask the in-flight agent exception
+            print(f'RECEIPT WRITE FAILED (provenance gap, investigate): {we}')
 
 
 def _run_agent_core(prompt_path, agent=None, stage=None, log_path=None):
@@ -1240,13 +1258,24 @@ def _contract_required_outputs(idea):
     c = idea_dir(idea) / 'probe_contract.yaml'
     if not c.exists():
         return []
+    import yaml
     try:
-        import yaml
         data = yaml.safe_load(c.read_text()) or {}
-        req = data.get('required_outputs') or []
-        return [str(x) for x in req if isinstance(x, (str,))]
-    except Exception:
+    except Exception as e:
+        raise ValueError(f'contract invalid; bundle cannot be verified '
+                         f'(probe_contract.yaml does not parse: {e})')
+    req = data.get('required_outputs')
+    if req is None:
         return []
+    if not isinstance(req, list):
+        raise ValueError('contract invalid: required_outputs must be a list')
+    out = []
+    for x in req:
+        if not isinstance(x, str) or x.startswith('/') or '..' in x.split('/'):
+            raise ValueError(f'contract invalid: required_outputs entry '
+                             f'{x!r} must be a bundle-relative path')
+        out.append(x)
+    return out
 
 
 def bundle_complete(idea, bundle):
@@ -1258,11 +1287,15 @@ def bundle_complete(idea, bundle):
         s = json.loads((Path(bundle) / 'summary.json').read_text())
     except Exception:
         return False
-    ts = reg_mod.terminal_statuses_for_bundle(f'{idea:03d}', ROOT, bundle)
+    ts = reg_mod.terminal_statuses_if_approved(f'{idea:03d}', ROOT, bundle)
     if ts:
         return s.get('status') in ts
-    if _contract_required_outputs(idea):
-        # transitional literals; a registry's terminal_statuses supersede
+    try:
+        req = _contract_required_outputs(idea)
+    except ValueError:
+        return False  # an unverifiable contract cannot certify completion
+    if req:
+        # transitional literals; approval-bound registry terminals supersede
         return s.get('status') in ('POSITIVE_PATTERN', 'NEGATIVE_PATTERN')
     return bool(s.get('study_complete') or s.get('phase_m_complete')
                 or (s.get('phase') == 'B' and 'analysis' in s))
@@ -1284,7 +1317,10 @@ def validate_bundle(idea, bundle):
     """
     bundle = Path(bundle)
     fails = []
-    req = _contract_required_outputs(idea)
+    try:
+        req = _contract_required_outputs(idea)
+    except ValueError as e:
+        return [str(e)]
     if req:  # contract-declared result interface
         core = sorted(set(req) | {'summary.json', 'provenance.json'})
     else:    # legacy 004-era interface, unchanged
@@ -1414,16 +1450,19 @@ def _numbered_ideas():
 
 def cmd_registry_validate(args):
     ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
-    fails = []
+    fails, done = [], 0
     for n in ideas:
-        if not (ROOT / 'ideas' / n / 'registry.yaml').exists() and not args.idea:
+        if not (ROOT / 'ideas' / n / 'registry.yaml').exists():
+            if args.idea or getattr(args, 'require_all', False):
+                fails.append(f'ideas/{n}/registry.yaml missing')
             continue
         fails += [f'{n}: {e}' for e in reg_mod.validate(n, ROOT)]
+        done += 1
     for f in fails:
         print(f)
+    print(f'validated {done} registry file(s) across {len(ideas)} numbered ideas')
     if fails:
         raise SystemExit(1)
-    print('registry invariants hold')
 
 
 def cmd_registry_status(args):
@@ -1444,16 +1483,23 @@ def cmd_state_materialize(args):
 
 def cmd_state_verify(args):
     ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
-    fails = []
+    fails, done, missing = [], 0, []
     for n in ideas:
-        if not (ROOT / 'ideas' / n / 'state.json').exists() and not args.idea:
-            continue  # --all verifies only materialized ideas (rollout)
+        if not (ROOT / 'ideas' / n / 'state.json').exists():
+            missing.append(n)
+            if args.idea or getattr(args, 'require_all', False):
+                fails.append(f'ideas/{n}/state.json missing')
+            continue
         fails += state_mod.verify_state(n, ROOT, **_state_kwargs())
+        done += 1
     for f in fails:
         print(f)
+    print(f'verified {done} of {len(ideas)} numbered ideas '
+          f'({len(missing)} not yet materialized)')
     if fails:
         raise SystemExit(1)
-    print('state invariant holds: regeneration is byte-identical')
+    if done:
+        print('state invariant holds: regeneration is byte-identical')
 
 
 def cmd_validate_bundle(args):
@@ -3107,8 +3153,8 @@ def main():
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('bundle-complete'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=lambda a: print(str(bundle_complete(a.idea, a.bundle)).lower()))
     p=sp.add_parser('state-materialize'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_materialize)
-    p=sp.add_parser('state-verify'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_verify)
-    p=sp.add_parser('registry-validate'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_registry_validate)
+    p=sp.add_parser('state-verify'); p.add_argument('--idea',type=int); p.add_argument('--require-all',action='store_true'); p.set_defaults(fn=cmd_state_verify)
+    p=sp.add_parser('registry-validate'); p.add_argument('--idea',type=int); p.add_argument('--require-all',action='store_true'); p.set_defaults(fn=cmd_registry_validate)
     p=sp.add_parser('registry-status'); p.add_argument('idea',type=int); p.set_defaults(fn=cmd_registry_status)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
