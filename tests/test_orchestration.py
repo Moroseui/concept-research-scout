@@ -17,6 +17,15 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
+# Runner-agnostic imports: pytest inserts the rootdir, bare unittest does
+# not, and in-process `import scout` must never depend on which Harness
+# class happened to run first (2026-08-25 checks-red lesson). Appending
+# (not prepending) keeps fixture-repo inserts made by tests at higher
+# priority than these defaults.
+for _p in (str(REPO), str(REPO / "orchestrator")):
+    if _p not in sys.path:
+        sys.path.append(_p)
+
 # ---------------------------------------------------------------------------
 # P0.4 fixture repo (2026-08-14). The suite used to copytree the entire live
 # repo (~29 MB, dominated by ideas/ logs and prompts) into a temp dir for
