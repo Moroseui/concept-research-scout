@@ -32,3 +32,24 @@ Write for a researcher reviewing results the next morning, not for a machine:
   interpretation template that names the contract's positive_pattern or
   negative_pattern -- never a stronger claim.
 - No cleverness: prefer three obvious lines over one dense one.
+
+## Hard code standards (review-blocking)
+
+The cross-family reviewer treats each unmet item as a blocking finding:
+
+1. Determinism manifest: print AND write a manifest at start and end --
+   input paths with content hashes, row/case counts, and the seed. The two
+   must agree.
+2. Exclusions log: every dropped case/row/voxel-group emits one line to an
+   exclusions file with the reason; totals appear in the summary.
+3. Assertions: at least one assertion per data transformation step
+   (shape/count/range/units), so silent corruption fails loudly.
+4. Declared state: all seeds and input/output paths are top-level constants
+   or CLI arguments; no hidden mid-function state; no network calls during
+   analysis.
+5. Split-before-outcome: when any census/reserve or train/eval split exists,
+   its manifest is written and hashed BEFORE any outcome or label file is
+   opened.
+6. Harness smoke: `--smoke` runs under the verify harness (accepting
+   `--output-dir`, which may be a temp directory), finishes in under 60
+   seconds, and can never satisfy a contractual gate.

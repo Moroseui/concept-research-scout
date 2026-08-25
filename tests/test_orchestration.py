@@ -401,6 +401,19 @@ class TestStagingCells(unittest.TestCase):
             self.assertNotIn("{{", cell)                 # no unexpanded generator braces
 
 
+class TestScoreBlinding(unittest.TestCase):
+    def test_redacts_filled_scores_not_rubric_instructions(self):
+        import scout as sc
+        self.assertIn("critique", sc.SCORE_BLIND_STAGES)
+        red = sc._redact_scores(
+            'score 4.6, scores_mean: 4.2, regret: 0.8, "value": 4, priority score: 3.8, rated 4/5')
+        for leaked in ("4.6", "4.2", "0.8", '": 4', "3.8", "4/5"):
+            self.assertNotIn(leaked, red)
+        kept = sc._redact_scores("Score each dimension 1-5. Explain every score.")
+        self.assertIn("1-5", kept)
+        self.assertIn("Explain every score.", kept)
+
+
 class TestStdin(Harness):
     def test_prompt_reaches_agent_via_stdin(self):
         r = self.scout("run", "critique", "--idea", "1")
@@ -2135,6 +2148,9 @@ class TestCommsAndPolish(Harness):
             "orchestrator/prompts/feasibility.md": "In plain terms",
             "orchestrator/prompts/interpret_review.md": "PLAIN-LANGUAGE FIDELITY",
             "orchestrator/prompts/reconcile.md": "In plain terms",
+            "orchestrator/prompts/probe_code.md": "Hard code standards",
+            "orchestrator/prompts/probe_review.md": "Standards checklist",
+            "orchestrator/prompts/interpret.md": "Result card",
         }
         missing = [f for f, marker in must.items()
                    if marker not in (root / f).read_text()]

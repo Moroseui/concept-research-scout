@@ -9,6 +9,29 @@ Interpret the probe strictly against `probe_contract.yaml`. Separate:
 
 Do not turn an exploratory probe into a confirmatory claim. Report every authorized variant. Write `decision.md` and append a scoped entry to evidence/decisions.md. End with ADVANCE, REVISE, PAUSE, or REJECT.
 
+## Output structure (mandatory)
+
+Open decision.md with a Result card header: idea id; probe id and its
+position in the idea's experiment sequence; dataset name and pinned
+version/record; primary metric definition; contract blob hash; authoring
+and reviewing family; explicit out-of-scope warnings (what this result must
+not be read as).
+
+Then three layers, in order:
+
+- Layer A -- Finding: at most five plain-language sentences -- what was
+  found, direction and size, confidence, and the single most important
+  caveat.
+- Layer B -- Derivation narrative: the ordered account of how the result was
+  reached -- gates passed (approvals, review rounds, verification), phases
+  run, and exclusions applied with counts at each step (CONSORT-style flow:
+  n in, n excluded and why, n analyzed), plus any kill conditions
+  approached.
+- Layer C -- Deep justification: a claims table where EVERY quantitative
+  claim cites its exact source -- result file, row or key, and the commit
+  hash of the results bundle -- extending the standing citation mandate. A
+  claim without a resolvable source does not appear in Layers A or B.
+
 ## Uncertainty constraint (match the constraint to the randomness source)
 
 First identify where the probe's uncertainty actually lives, then apply

@@ -45,3 +45,13 @@ then exactly one fenced json block:
 
 REVISE requires at least one blocking finding tied to a rule above. Do not
 rewrite the code yourself; do not expand the experiment's scope.
+
+## Standards checklist (each unmet item is itself a blocking finding)
+
+Verify the Hard code standards from the code-generation task: (1) start/end
+determinism manifests present and agreeing; (2) exclusions log with reasons;
+(3) an assertion per data transform; (4) seeds and paths declared, no hidden
+state or analysis-time network; (5) split manifest hashed before any
+outcome/label access; (6) `--smoke` harness-runnable in under 60 seconds and
+unable to satisfy any contractual gate. Cite the item number in the blocking
+finding.

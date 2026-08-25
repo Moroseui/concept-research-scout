@@ -18,7 +18,7 @@ Revamp additions (see REVAMP.md):
     exit.
 """
 from __future__ import annotations
-import argparse, csv, json, os, random, shutil, subprocess, sys, textwrap
+import argparse, csv, json, os, random, re, shutil, subprocess, sys, textwrap
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -142,6 +142,26 @@ def charter_for_target(target):
 # --------------------------------------------------------------------------
 
 BLIND_STAGES = {'fiction_scout', 'fiction_extract'}
+
+# Stages that must form judgments before seeing anyone else's numbers.
+# The ledger digest injects sibling ideas as 'score 4.6' lines into every
+# prompt; a critiquer that reads those anchors on them (verdict herding).
+# Redaction strips filled-in score NUMBERS only -- rubric instructions like
+# 'Score each dimension 1-5' carry no number directly after the keyword and
+# survive untouched.
+SCORE_BLIND_STAGES = {'critique'}
+
+_SCORE_NUM_PATTERNS = [
+    (re.compile(r'(?i)\b(score|scores_mean|regret|priority[ _]score)(\s*[:=]?\s*)\d+(?:\.\d+)?'), r'\1\2[withheld]'),
+    (re.compile(r'("value"\s*:\s*)\d+(?:\.\d+)?'), r'\1[withheld]'),
+    (re.compile(r'\b\d+(?:\.\d+)?\s*/\s*5\b'), '[withheld]/5'),
+]
+
+def _redact_scores(text):
+    for pat, rep in _SCORE_NUM_PATTERNS:
+        text = pat.sub(rep, text)
+    return text
+
 STAGE_CONTEXT_EXCLUDE = {
     # The refiner judges the pitch as a colleague's pitch. Neither the story
     # nor the seed card (which reveals the constructed origin) may leak in.
@@ -220,7 +240,10 @@ Do not write code unless this is the probe_code stage and human approval exists.
 def write_prompt(stage, target):
     target.mkdir(parents=True, exist_ok=True)
     path = target/f'prompt_{stage}.md'
-    path.write_text(build_prompt(stage, target))
+    text = build_prompt(stage, target)
+    if stage in SCORE_BLIND_STAGES:
+        text = _redact_scores(text)
+    path.write_text(text)
     return path
 
 
