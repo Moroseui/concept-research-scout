@@ -5,3 +5,6 @@ python3: can't open file 'probes/023/run.py': [Errno 2] No such file or director
 Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
 Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
 FAIL (exit 4): downloaded archive does not match the Zenodo-supplied checksum
+Approval gate passed for Phase C; contract blob 349af5ad0b3e8acfc6337d15f1860974d1183393
+Label-blind map pass 1/100: sub-stroke0002; computing and checkpointing
+FAIL (exit 8): CBV unit mL/100 g is not explicitly documented for /content/work/extracted/train/derivatives/sub-stroke0002/ses-01/perfusion-maps/sub-stroke0002_ses-01_space-ncct_cbv.nii.gz
