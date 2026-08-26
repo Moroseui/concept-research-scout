@@ -1,26 +1,6 @@
 {
   "idea_id": "023",
-  "stage": "probe_code_mirror_free_amendment",
   "passed": true,
   "issues": [],
-  "checked_at": "2026-08-26T16:00:00+00:00",
-  "artifacts": {
-    "ideas/023/probe_contract.yaml": "0e3d8589ab171c1c583ace47e38654384fa7588162506fb2eb1dc7b5d8f529eb",
-    "probes/023/run.py": "80af2c8713df8c0598088cb8b3f061996c7a99362994a0fa43bf976df7efe188",
-    "probes/023/README.md": "d622d8a69ee52d451a0a78161ef15177cbbed0bd6d4789a984bc74befb969c13",
-    "probes/023/requirements.txt": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928"
-  },
-  "checks": {
-    "py_compile": "passed",
-    "flow_band_tie_fixture": "passed; stable assignment [1,1,2,2,2,3]",
-    "smoke": "passed under 60 seconds; status SMOKE_OK and contract_satisfied false",
-    "determinism_manifest": "start and end manifests byte-equivalent after JSON parsing",
-    "stale_approval_gate": "passed; Phase S refused with exit 2 after contract amendment",
-    "mirror_scope_removal": "passed static assertions; no mirror_qc, neighborhood_median, rCBF, or rCBV analysis symbols",
-    "diff_check": "passed"
-  },
-  "expensive_compute_launched": false,
-  "phase_s_recalibration_launched": false,
-  "phase_c_launched": false,
-  "approval_state": "The existing marker is intentionally stale because the mirror-free contract amendment changes the contract blob; a fresh human binding is required before Phase S."
+  "checked_at": "2026-08-26T14:38:37.654648+00:00"
 }
