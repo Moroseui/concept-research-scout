@@ -25,6 +25,7 @@ Exit codes: 0 success; 2 approval/contract/CLI; 3 access; 4 provenance;
 
 import argparse
 import csv
+import gzip
 import hashlib
 import importlib.metadata
 import json
@@ -33,6 +34,7 @@ import platform
 import re
 import sys
 import traceback
+import zlib
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -57,7 +59,21 @@ ROOT = PROBE_DIR.parent.parent
 CONTRACT = ROOT / "ideas/023/probe_contract.yaml"
 APPROVAL = ROOT / "ideas/023/HUMAN_APPROVED_PROBE"
 PLACEHOLDER = "TO_BE_RECORDED_AFTER_PHASE_S"
+# Verified twice from the checksum-pinned archive before outcomes were seen.
+SOURCE_CORRUPT_MEMBERS = (
+    "derivatives/sub-stroke0043/ses-01/perfusion-maps/"
+    "sub-stroke0043_ses-01_space-ncct_cbf.nii.gz",
+)
 LOG = None
+
+
+class SourceCorruptMember(Exception):
+    """A required .nii.gz is present but unreadable in the verified release."""
+
+    def __init__(self, path, detail):
+        super().__init__(detail)
+        self.path = Path(path)
+        self.detail = detail
 
 
 def emit(message):
@@ -303,6 +319,21 @@ def find_archive_selected(data_dir, archive_path):
     return matches[0]
 
 
+def verify_required_gzip(path):
+    """Read a required gzip stream fully so a source defect is auditable."""
+    if not path.name.lower().endswith(".gz"):
+        return
+    try:
+        with gzip.open(path, "rb") as handle:
+            for block in iter(lambda: handle.read(1024 * 1024), b""):
+                pass
+    except (EOFError, gzip.BadGzipFile, OSError, zlib.error) as exc:
+        normalized = path.resolve().as_posix().lower()
+        if not any(normalized.endswith(member.lower()) for member in SOURCE_CORRUPT_MEMBERS):
+            fail(6, f"unreadable required gzip is not the preregistered source defect: {path}: {exc}")
+        raise SourceCorruptMember(path, f"{type(exc).__name__}: {exc}") from exc
+
+
 def split_cases(case_ids):
     scored = sorted(case_ids, key=lambda x: hashlib.sha256(("idea-023-v1|" + x).encode()).hexdigest())
     census = set(scored[:CENSUS_N]); reserve = set(scored[CENSUS_N:])
@@ -397,6 +428,10 @@ def load_case(data_dir, case_id, load_label, audit_rows=None):
     paths = {k: find_one(data_dir, case_id, k) for k in ("cbf", "cbv", "mtt", "tmax", "ncct")}
     if load_label:
         paths["lesion"] = find_one(data_dir, case_id, "lesion")
+    # A full stream read distinguishes the deposited unreadable member from a
+    # later nibabel failure and gives the exclusion log its exact source path.
+    for path in paths.values():
+        verify_required_gzip(path)
     images = {k: nib.load(str(p)) for k, p in paths.items()}
     # Canonical RAS makes array axis 0 the anatomical left-right axis used by reflection.
     reference = nib.as_closest_canonical(images["ncct"])
@@ -539,7 +574,11 @@ def patient_native_z(arrays, mirror):
     cbf, cbv, mtt, rcbf, rcbv, region, exclusions = coordinate_arrays(arrays, mirror)
     values, identity = [], []
     for low, high in STRATA:
-        mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0) & (cbf > 0) & (cbv > 0) & (mtt > 0)
+        # The take-10 overflow contingency is resolved uniformly: infinite
+        # ratios never enter a stratum even when their source denominators pass.
+        finite_ratios = np.isfinite(rcbf) & np.isfinite(rcbv)
+        mask = region & finite_ratios & (rcbf >= low) & (rcbf < high) & (rcbv > 0) & (cbf > 0) & (cbv > 0) & (mtt > 0)
+        assert np.all(np.isfinite(rcbf[mask])) and np.all(np.isfinite(rcbv[mask]))
         values.append(np.log(rcbv[mask]))
         identity.append(np.log(mtt[mask]) - np.log(cbv[mask]) + np.log(cbf[mask]))
     return values, identity, exclusions, rcbf, rcbv, region
@@ -552,7 +591,11 @@ def patient_measure(case_id, lesion, min_voxels, quartile_cuts, cache):
     lesion = lesion > 0.5
     records = []
     for index, (low, high) in enumerate(STRATA, 1):
-        mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0)
+        # Match the label-blind pass exactly: nonfinite derived ratios cannot
+        # define quartile membership or a patient outcome contribution.
+        finite_ratios = np.isfinite(rcbf) & np.isfinite(rcbv)
+        mask = region & finite_ratios & (rcbf >= low) & (rcbf < high) & (rcbv > 0)
+        assert np.all(np.isfinite(rcbf[mask])) and np.all(np.isfinite(rcbv[mask]))
         z = np.log(rcbv[mask])
         if z.size < 4:
             records.append({"case_id": case_id, "stratum": index, "q1_voxels": 0, "q4_voxels": 0, "d": ""})
@@ -574,6 +617,7 @@ def load_lesion(data_dir, case_id, shape, affine, selected_archive_path):
     except ImportError:
         fail(12, "nibabel and scipy are required for Phase C")
     path = find_archive_selected(data_dir, selected_archive_path)
+    verify_required_gzip(path)
     image = nib.as_closest_canonical(nib.load(str(path)))
     resampled = image.shape != tuple(shape) or not np.allclose(image.affine, affine, atol=1e-5)
     if resampled:
@@ -665,6 +709,7 @@ def run_phase_c(args, out, gate_info):
     native_values = {1: [], 2: [], 3: []}
     identity_values = {1: [], 2: [], 3: []}
     schema_rows, mirror_rows, exclusion_rows = [], [], []
+    excluded_source_cases = set()
     for duplicate in duplicate_lesions:
         # The payload's 150th lesion row remains visible in both required audit
         # files. It is never silently absorbed into a patient's outcome.
@@ -702,7 +747,20 @@ def run_phase_c(args, out, gate_info):
         else:
             emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; computing and checkpointing")
             case_schema = []
-            arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=case_schema)
+            try:
+                arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=case_schema)
+            except SourceCorruptMember as exc:
+                emit(f"EXCLUDE {case}: source_corrupt_member: {exc.path} ({exc.detail})")
+                excluded_source_cases.add(case)
+                schema_rows.append({"case_id": case,
+                                    "files": json.dumps({"source_corrupt_member": str(exc.path)}, sort_keys=True),
+                                    "shape": "", "voxel_sizes_mm": "", "affine": "", "resampled": "",
+                                    "record_type": "excluded_case",
+                                    "exclusion_reason": "source_corrupt_member"})
+                exclusion_rows.append({"case_id": case, "record_type": "excluded_case",
+                                       "reason": "source_corrupt_member",
+                                       "source_path": str(exc.path)})
+                continue
             brain, reflected, plane, error, usable, score = mirror_qc(arrays["ncct"], zooms)
             mirror_row = {"case_id": case, "plane_axis0": plane,
                           "registration_error_voxels": error, "usable_brain_fraction": usable,
@@ -789,16 +847,33 @@ def run_phase_c(args, out, gate_info):
             row["q4_voxels"] = int(row["q4_voxels"])
     completed = {row["case_id"] for row in per_patient}
     for number, case in enumerate(sorted(census), 1):
+        if case in excluded_source_cases:
+            emit(f"Outcome pass {number}/{CENSUS_N}: {case}; excluded source_corrupt_member")
+            continue
         if case in completed:
             emit(f"Outcome pass {number}/{CENSUS_N}: {case}; resume checkpoint hit")
             continue
         emit(f"Outcome pass {number}/{CENSUS_N}: {case}; running rows={len(per_patient)}")
-        with np.load(cache_dir / f"{case}.npz") as cache:
-            lesion, lesion_path, label_resampled = load_lesion(
-                args.data_dir, case, cache["region"].shape, cache["affine"],
-                lesion_members[case]["path"]
-            )
-            rows = patient_measure(case, lesion, min_m, quartile_cuts, cache)
+        try:
+            with np.load(cache_dir / f"{case}.npz") as cache:
+                lesion, lesion_path, label_resampled = load_lesion(
+                    args.data_dir, case, cache["region"].shape, cache["affine"],
+                    lesion_members[case]["path"]
+                )
+                rows = patient_measure(case, lesion, min_m, quartile_cuts, cache)
+        except SourceCorruptMember as exc:
+            emit(f"EXCLUDE {case}: source_corrupt_member: {exc.path} ({exc.detail})")
+            excluded_source_cases.add(case)
+            schema = next(row for row in schema_rows
+                          if row["case_id"] == case and row["record_type"] == "analyzed_case")
+            schema["record_type"] = "excluded_case"
+            schema["exclusion_reason"] = "source_corrupt_member"
+            schema["files"] = json.dumps({**json.loads(schema["files"]),
+                                           "source_corrupt_member": str(exc.path)}, sort_keys=True)
+            exclusion_rows.append({"case_id": case, "record_type": "excluded_case",
+                                   "reason": "source_corrupt_member",
+                                   "source_path": str(exc.path)})
+            continue
         schema = next(row for row in schema_rows
                       if row["case_id"] == case and row["record_type"] == "analyzed_case")
         schema["files"] = json.dumps({**json.loads(schema["files"]), "lesion": lesion_path}, sort_keys=True)
@@ -810,7 +885,10 @@ def run_phase_c(args, out, gate_info):
         write_json(audit_path, audit)
         per_patient.extend(rows)
         write_csv(outcome_checkpoint, list(per_patient[0]), per_patient)
+    # Rewrite both audit files after outcome access so a defective label member
+    # is retained even when it is discovered in the second pass.
     write_csv(out / "schema_census.csv", schema_fields, schema_rows)
+    write_csv(out / "exclusions.csv", exclusion_fields, exclusion_rows)
     write_csv(out / "per_patient.csv", list(per_patient[0]), per_patient)
     rng = np.random.default_rng(SEED)
     summaries = []
@@ -838,8 +916,10 @@ def run_phase_c(args, out, gate_info):
     summary = {"idea_id": IDEA_ID, "phase": "C", "status": "POSITIVE_PATTERN" if passed else "NEGATIVE_PATTERN",
                "g_label_passed": passed, "per_stratum": summaries, "identity_mad": centered,
                "released_case_count": len(case_ids), "census_case_count": len(census),
+               "analyzed_census_case_count": len(census) - len(excluded_source_cases),
                "reserved_case_count": len(reserve), "split_manifest_sha256": split_sha,
                "excluded_duplicate_lesion_members": len(duplicate_lesions),
+               "excluded_source_corrupt_cases": len(excluded_source_cases),
                "simulation_output_sha256": phase_s_sha, **archive_info, **gate_info}
     write_json(out / "summary.json", summary)
     return summary

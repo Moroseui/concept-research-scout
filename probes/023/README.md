@@ -37,6 +37,11 @@ is retained and every extra row is named in both `schema_census.csv` and
 
 The rawdata NCCT is required: it is not duplicated in `derivatives/`. Raw 4D
 CTP and CTA are not used. Keep the output directory on persistent storage.
+Every required `.nii.gz` stream is read fully before measurement. The verified
+source-defective `sub-stroke0043` CBF member excludes that case with reason
+`source_corrupt_member`; its exact path is written to `schema_census.csv` and
+`exclusions.csv`, and the excluded count is surfaced in `summary.json`. Any
+other unreadable member and every missing member still fail loudly.
 CBV units are not documented in the released payload or inspected dataset
 descriptions. The amended contract therefore excludes vessel-like voxels above
 each patient's 98th percentile of finite positive CBV; `identity.json` records
@@ -46,6 +51,10 @@ per-patient outcome checkpoint after every completed case, so rerunning the
 same command resumes after a Colab disconnect. Checkpoints are bound to the
 contract, archive, split manifest, and `run.py`; a mismatch exits rather than
 silently reusing stale data.
+
+Stratum membership additionally requires finite derived rCBF and rCBV. This
+uniform rule prevents overflow from a tiny positive mirror denominator from
+admitting an infinite ratio; it does not change any stratum boundary.
 
 The required CSV/JSON outputs are accompanied by `native_support.svg` and
 `identity_residual_distribution.svg`. These dependency-free plots visualize
