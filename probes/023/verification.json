@@ -1,26 +1,6 @@
 {
-  "approval_state": {
-    "current_contract_blob": "2963f66b018a28eee22f49bfeb928a62e5bc9530",
-    "marker_contract_blob": "468974a7bdec7a7f6bf869f1520fae101b8d5f27",
-    "status": "STALE_BY_DESIGN_PENDING_HUMAN_REAPPROVAL"
-  },
-  "artifact_sha256": {
-    "ideas/023/probe_contract.yaml": "07fe0c4117ca05d6c3e6df9d4976d88b28f4d7e582fa8a7bcdfe9ac4e5d18309",
-    "probes/023/README.md": "86a67ada64239b502d71327777d7b836f430994ff7a5d9d440aabb7cd10d5ce1",
-    "probes/023/requirements.txt": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928",
-    "probes/023/run.py": "acae802f0ae502eda9e9e8a594fe76c9998a8b3ca09672cdff83a7f3fcc6e02b"
-  },
-  "checks": [
-    "python -m py_compile probes/023/run.py passed",
-    "--smoke completed with SMOKE_OK and contract_satisfied=false",
-    "known truncated sub-stroke0043 CBF fixture raised SourceCorruptMember",
-    "unknown truncated gzip fixture failed loudly with exit 6",
-    "finite-ratio admission fixture excluded infinite rCBF and rCBV",
-    "Phase C refused with exit 2 while the approval marker is stale",
-    "git diff --check passed"
-  ],
-  "expensive_compute_launched": false,
   "idea_id": "023",
   "passed": true,
-  "scope": "Post-take-11 source-member exclusion and finite-ratio admission revision only"
+  "issues": [],
+  "checked_at": "2026-08-26T03:26:54.740552+00:00"
 }
