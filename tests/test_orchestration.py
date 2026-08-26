@@ -431,6 +431,10 @@ class TestStagingCells(unittest.TestCase):
         self.assertIn("refusing to reach the census", eo)
         self.assertIn("gzip -t", eo)
         self.assertIn("EXTRACTION_INTEGRITY_FAILURE", eo)
+        self.assertIn("SOURCE_MEMBER_DEFECT", eo)
+        _, _, _, ed2 = sc._staging_cells("16731717", ["_ncct.nii.gz"],
+                                         record_id="16813698")
+        self.assertIn("SOURCE_MEMBER_DEFECT", ed2)
         with self.assertRaises(SystemExit):
             sc._staging_cells("16731717", ["_ncct.nii.gz"], mode="origin_direct")
         self.assertIn("zenodo.org/api/records/16813698", pin2)

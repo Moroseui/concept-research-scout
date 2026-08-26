@@ -762,3 +762,34 @@ integrity. Driver fix (both staging modes): extraction is now rc-checked
 and quiet; a per-member gzip -t sweep follows; bad members are deleted and
 re-extracted individually once; a second failure refuses loudly as
 EXTRACTION_INTEGRITY_FAILURE naming the files.
+
+## 2026-08-26 - 023 take 11: SOURCE data defect proven; paired-run plan superseded; dual directive
+
+Take-11 receipt: the integrity sweep worked exactly as designed and proved
+the truncation is IN THE ARCHIVE: fresh VM, fresh md5-verified download,
+rc-clean extraction, exactly one bad member -- sub-stroke0043 ses-01
+space-ncct CBF, the same file that killed take 10 -- which failed gzip -t
+AGAIN after targeted re-extraction from the verified archive. The member is
+size-typical (7.70 MB) with an invalid gzip stream: corrupted before the
+dataset creators archived it. Authority split: the driver guarantees
+fidelity to the archive (achieved -- it reproduced the defect twice);
+content validity is the contract domain. Driver upgraded: the sweep now
+arbitrates via 7z t -- stored-CRC-valid members that fail gzip are
+announced as SOURCE_MEMBER_DEFECT and tolerated; only true extraction
+infidelity refuses.
+
+SUPERSESSION (before any outcomes were seen): the pre-registered paired-run
+plan assumed take 11 completes untouched as primary; it cannot -- case 21
+blocks on the source defect under current code. Both revisions therefore
+fold into ONE canonical run.
+
+DIRECTIVE for the next probe-build round: (a) a case whose required input
+is a source-defective member (unreadable gzip from the verified archive)
+routes to exclusions.csv with reason source_corrupt_member naming the file,
+and the map pass CONTINUES; the summary and interpretation must surface the
+excluded count; (b) stratum admission additionally requires finite rcbf and
+rcbv (the pre-registered finiteness tightening). Change nothing else. If
+the reviewer judges (a) to require a contract amendment (cohort/selection
+language), author the amendment in the same round; otherwise the standing
+approval holds. Courtesy task queued: report the defective member upstream
+to the ISLES 24 maintainers.

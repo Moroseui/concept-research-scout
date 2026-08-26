@@ -1067,10 +1067,25 @@ def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
             "    _rc2 = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
             "                          + ['-ir!*' + os.path.basename(_p) for _p in _bad],\n"
             "                          stdout=subprocess.DEVNULL).returncode\n"
+            "    assert _rc2 == 0, f'7z re-extraction failed rc={_rc2}'\n"
             "    _bad2 = _gzip_sweep(LOCAL_DATA)\n"
-            "    assert _rc2 == 0 and not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
+            "    _src_defects = []\n"
+            "    for _p in list(_bad2):\n"
+            "        _t = subprocess.run(['7z', 't', ARCHIVE_LOCAL,\n"
+            "                             '-ir!*' + os.path.basename(_p)],\n"
+            "                            stdout=subprocess.DEVNULL,\n"
+            "                            stderr=subprocess.DEVNULL).returncode\n"
+            "        if _t == 0:\n"
+            "            print('[SOURCE_MEMBER_DEFECT]', os.path.basename(_p),\n"
+            "                  '-- gzip stream invalid inside the md5-verified archive;',\n"
+            "                  'leaving in place for contract-level handling')\n"
+            "            _src_defects.append(_p)\n"
+            "            _bad2.remove(_p)\n"
+            "    assert not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
             "        + '; '.join(os.path.basename(_x) for _x in _bad2[:5]))\n"
-            "print('integrity sweep: all extracted members pass gzip -t')")
+            "    print('integrity sweep:', len(_src_defects), 'source-defect member(s) tolerated')\n"
+            "else:\n"
+            "    print('integrity sweep: all extracted members pass gzip -t')")
         return [pin, fetch, extract]
     fetch_url = ('https://zenodo.org/api/records/' + (rid or concept))
     pin = (
@@ -1189,10 +1204,25 @@ def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
         "    _rc2 = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
         "                          + ['-ir!*' + os.path.basename(_p) for _p in _bad],\n"
         "                          stdout=subprocess.DEVNULL).returncode\n"
+        "    assert _rc2 == 0, f'7z re-extraction failed rc={_rc2}'\n"
         "    _bad2 = _gzip_sweep(LOCAL_DATA)\n"
-        "    assert _rc2 == 0 and not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
+        "    _src_defects = []\n"
+        "    for _p in list(_bad2):\n"
+        "        _t = subprocess.run(['7z', 't', ARCHIVE_LOCAL,\n"
+        "                             '-ir!*' + os.path.basename(_p)],\n"
+        "                            stdout=subprocess.DEVNULL,\n"
+        "                            stderr=subprocess.DEVNULL).returncode\n"
+        "        if _t == 0:\n"
+        "            print('[SOURCE_MEMBER_DEFECT]', os.path.basename(_p),\n"
+        "                  '-- gzip stream invalid inside the md5-verified archive;',\n"
+        "                  'leaving in place for contract-level handling')\n"
+        "            _src_defects.append(_p)\n"
+        "            _bad2.remove(_p)\n"
+        "    assert not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
         "        + '; '.join(os.path.basename(_x) for _x in _bad2[:5]))\n"
-        "print('integrity sweep: all extracted members pass gzip -t')")
+        "    print('integrity sweep:', len(_src_defects), 'source-defect member(s) tolerated')\n"
+        "else:\n"
+        "    print('integrity sweep: all extracted members pass gzip -t')")
     return [pin, download, localize, extract]
 
 
