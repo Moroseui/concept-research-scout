@@ -793,3 +793,48 @@ the reviewer judges (a) to require a contract amendment (cohort/selection
 language), author the amendment in the same round; otherwise the standing
 approval holds. Courtesy task queued: report the defective member upstream
 to the ISLES 24 maintainers.
+
+## 2026-08-26 - 023 take 12: COMPLETE map pass; pre-registered mirror gate stop (exit 7) with decision-grade evidence
+
+Take-12 receipt: staging flawless (sweep tolerated the known source defect
+live); the label-blind map pass completed 100/100 with sub-stroke0043
+excluded per policy (99 computed); the run stopped at the frozen mirror
+gate: 21/99 patients meet (registration_error <= 1.0 voxel AND
+usable_brain_fraction >= 0.90); floor is 90. Evidence from mirror_qc.csv
+(label-blind): registration errors are lattice-quantized (median 1.41,
+q75 2.00, max 4.36 voxels) -- clinical positioning, not registration
+failure; usable-fraction median 0.856 sits below the 0.90 floor; and
+NMAE rises MONOTONICALLY with registration error (0.129 / 0.191 / 0.236 /
+0.291 / 0.357 across buckets <=1.0 to >2.5), so displacement measurably
+degrades mirror fidelity: the gate is doing real epistemics, not
+cleanroom strictness. Threshold relaxation is therefore weakly justified;
+the supported-subgroup path risks severity-correlated selection. Live
+fork: (A) registration-robust redesign (region-level contralateral
+reference; identity coordinate is mirror-free and survives) with new
+Phase-S calibration and full re-run, or (B) kill with code
+MIRROR_PRECONDITION_UNSUPPORTED and harvest (A) as successor idea.
+DECISION DEFERRED to the human gate augmented by advisor input
+(2026-08-27 meeting): voxelwise-vs-region reference is a domain call.
+No PR opened; results-validate red on a stopped bundle is correct
+behavior; the record-result and merge train wait on this fork.
+Queue item (operator observation): the interpret stage decodes terminal
+results only; pre-registered STOPS should generate their own briefing
+artifact (gate context + relevant QC tables) -- a stop-report generator
+joins the driver_spec-era work list.
+
+## 2026-08-27 - Design queued: stop-report stage (failure-to-analysis routing)
+
+Operator observation, validated by the 023 arc: three pre-registered stops
+each produced decision-grade DATA but no decision-grade BRIEFING; all
+forensics were ad hoc. Design: stops route to an interpret-variant stage
+producing (1) an EXPLANATION record -- gate context + evidence tables,
+citation mandate, inputs mechanically restricted to the label-blind
+artifacts the stop certifies -- and optionally (2) a CHANGE_PROPOSAL from
+a CLOSED vocabulary mapping to existing pipeline edges: AMEND_CONTRACT,
+REVISE_PROBE, REDESIGN, KILL, or ESCALATE_ONLY (explicit deferral, a
+first-class output -- the 023 mirror fork is the canonical case where any
+machine recommendation would overstep a domain judgment). Explanations are
+zero-authority; proposals carry base hashes, cannot modify targets,
+re-enter every normal gate, and receive cross-family review. Sequencing:
+first consumer of the 2b record envelope -- build it as 2b opening move,
+after record-result -> 2a merge -> registry -> driver_spec.
