@@ -838,3 +838,30 @@ zero-authority; proposals carry base hashes, cannot modify targets,
 re-enter every normal gate, and receive cross-family review. Sequencing:
 first consumer of the 2b record envelope -- build it as 2b opening move,
 after record-result -> 2a merge -> registry -> driver_spec.
+
+## 2026-08-27 - Operator reframe AND DECISION: 023 goes mirror-free; directive for the amendment round
+
+Reframe (operator-caught): idea 023 claim is the joint CBV/MTT compensation
+state AT MATCHED FLOW; hemispheric mirroring is idea 021 ("The healthy
+hemisphere is the ruler") and entered 023 only as the operationalization of
+matched flow. The exit-7 stop is a verdict on a borrowed ruler, not on the
+claim, the signal, or the dataset (QC distributions describe ordinary
+clinical positioning; neither clinical software nor models require
+voxel-mirror symmetry). mirror_qc.csv is harvested as empirical
+feasibility evidence FOR idea 021. The conflation passed agent authorship,
+cross-family review, and twelve operator takes; caught at the human gate.
+
+DECISION (human gate, 2026-08-27): mirror-free within-patient flow
+matching. DIRECTIVE for the next probe-build round: amend the contract so
+matched flow = per-patient CBF percentile bands WITHIN the eroded deficit
+region (three fixed bands, 0-33 / 33-67 / 67-100 percentile of finite
+deficit CBF; deterministic, label-blind, no external reference). REMOVE
+the mirror machinery entirely: mirror construction, registration QC, the
+exit-7 gate, and mirror-relative ratios; the region definition (Tmax>6s,
+erosion, midline band, per-patient p98 vessel exclusion), the identity
+coordinate u = log(CBF*MTT/CBV), the identity-residual gate, per-stratum
+coverage floors, and the source-corrupt exclusion policy are UNCHANGED.
+Phase S must be recalibrated for the new strata (synthetic planted effects
+under percentile binning; same detectability-floor logic). Keep gates
+minimal: coverage + identity only; introduce no new reference anatomy.
+This de-couples 023 from 021 by construction.
