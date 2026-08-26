@@ -948,6 +948,86 @@ units_documented: false with the evidence summary); change nothing else.
 The amendment changes the contract blob: the standing approval goes stale
 by design and re-approval follows human review of the diff.
 
+## 2026-08-26 - 023 take 9: checkpoint-identity guard fired correctly; output dirs now blob-scoped
+
+Take-9 receipt: gate passed on the amended blob 468974a7, staging and census
+passed silently, and run.py refused at the checkpoint store: the shared
+Drive dir 023_C still held take-8 phase_c_cache pinned to the OLD blob
+349af5ad and old run.py hash. Fail-closed cache-poisoning prevention
+working as designed -- a checkpoint written under one contract/code may
+never be consumed under another. Driver fix (one line): OUTPUT_DIR is now
+blob-scoped ({idea}_{phase}_{blob12}), mirroring the results-branch scheme,
+so each contract era gets a pristine cache and console; superseded dirs
+remain as untouched evidence. No probe or contract change; approval stands.
+
+## 2026-08-26 - Pre-registered adjudication for the inf-ratio edge (committed before outcomes are seen)
+
+During the take-10 map pass, two RuntimeWarning classes were observed:
+all-NaN neighborhood windows (handled by design: excluded voxels, counted
+per case in the checkpoint exclusions record) and overflow in the
+rcbf/rcbv division (tiny positive mirror denominators pass valid_den, so
+isolated infinite ratios can be admitted to stratum membership, where the
+screen is only ratio > 0). Per-case selective repair is FORBIDDEN: the code
+is deterministic and uniform, and mixed-provenance case sets are exactly
+what the checkpoint identity mechanism prevents.
+Pre-registered plan: (1) take 11 completes untouched; its bundle is the
+primary result under the approved code. (2) A one-line finiteness
+tightening (stratum admission additionally requires finite rcbf and rcbv)
+is routed through probe-build with cross-family review, and the map pass
+recomputes under the new identity. (3) Interpretation cites BOTH runs: if
+they agree, immateriality is demonstrated and the primary stands with the
+robustness check noted; if they diverge, the revised run is canonical and
+the divergence is reported as a finding. This criterion is committed before
+any stratum outcome has been inspected.
+
+## 2026-08-26 - 023 take 10: truncated extracted member + the Drive-artifact mystery closed
+
+Two findings. First, take-10 origin_direct incidentally settled take-6: the
+TRUE Zenodo object is 99,014,629,647 bytes (md5-verified); the Drive-cached
+wget artifact was 99,022,114,670 -- ~7.5 MB oversized, a Franken-file from
+the record-drift era (wget -c declares fully-retrieved whenever local >=
+remote), which is why its md5 could never match. origin_direct fully
+vindicated. Second, take-10 receipt: staging verified, census passed, map
+pass reached case 21 (sub-stroke0043, 20 cases checkpointed) and died on a
+TRUNCATED extracted .nii.gz (gzip EOFError; run.py wrapped it honestly as
+exit 13). Root cause class: the extraction 7z exit status was unchecked and
+the file-count floor cannot see single-member truncation -- count is not
+integrity. Driver fix (both staging modes): extraction is now rc-checked
+and quiet; a per-member gzip -t sweep follows; bad members are deleted and
+re-extracted individually once; a second failure refuses loudly as
+EXTRACTION_INTEGRITY_FAILURE naming the files.
+
+## 2026-08-26 - 023 take 11: SOURCE data defect proven; paired-run plan superseded; dual directive
+
+Take-11 receipt: the integrity sweep worked exactly as designed and proved
+the truncation is IN THE ARCHIVE: fresh VM, fresh md5-verified download,
+rc-clean extraction, exactly one bad member -- sub-stroke0043 ses-01
+space-ncct CBF, the same file that killed take 10 -- which failed gzip -t
+AGAIN after targeted re-extraction from the verified archive. The member is
+size-typical (7.70 MB) with an invalid gzip stream: corrupted before the
+dataset creators archived it. Authority split: the driver guarantees
+fidelity to the archive (achieved -- it reproduced the defect twice);
+content validity is the contract domain. Driver upgraded: the sweep now
+arbitrates via 7z t -- stored-CRC-valid members that fail gzip are
+announced as SOURCE_MEMBER_DEFECT and tolerated; only true extraction
+infidelity refuses.
+
+SUPERSESSION (before any outcomes were seen): the pre-registered paired-run
+plan assumed take 11 completes untouched as primary; it cannot -- case 21
+blocks on the source defect under current code. Both revisions therefore
+fold into ONE canonical run.
+
+DIRECTIVE for the next probe-build round: (a) a case whose required input
+is a source-defective member (unreadable gzip from the verified archive)
+routes to exclusions.csv with reason source_corrupt_member naming the file,
+and the map pass CONTINUES; the summary and interpretation must surface the
+excluded count; (b) stratum admission additionally requires finite rcbf and
+rcbv (the pre-registered finiteness tightening). Change nothing else. If
+the reviewer judges (a) to require a contract amendment (cohort/selection
+language), author the amendment in the same round; otherwise the standing
+approval holds. Courtesy task queued: report the defective member upstream
+to the ISLES 24 maintainers.
+
 
 ===== evidence/ledger_digest_isles24.md =====
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
@@ -2295,7 +2375,7 @@ dataset:
   name: "ISLES'24 public training release"
   source: "Official Zenodo concept record 16731717; select one immutable child record at Phase C and record its record id, publication date, train.7z checksum supplied by Zenodo, downloaded SHA-256, case count, and archive member manifest before analysis."
   expected_population: "149 or 150 acute-stroke cases; the recorded discrepancy between release description and challenge paper must be resolved by archive census rather than assumed."
-  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives, the final-infarct mask, and the rawdata NCCT volume (required by the brain-mask and mirror gate; per the official release tree the NCCT exists only under rawdata, not derivatives). Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe."
+  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives, the final-infarct mask, and the rawdata NCCT volume (required by the brain-mask and mirror gate; per the official release tree the NCCT exists only under rawdata, not derivatives). Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe. The verified source-defective member train/derivatives/sub-stroke0043/ses-01/perfusion-maps/sub-stroke0043_ses-01_space-ncct_cbf.nii.gz is CRC-valid in the checksum-verified source archive but has an unreadable gzip stream; exclude that case as source_corrupt_member, name the member in schema_census.csv and exclusions.csv, continue the analysis, and surface the excluded case count. Any other unreadable required member is not authorized for exclusion and fails loudly."
   license: "CC BY-NC-SA 4.0, non-commercial research use."
 split_policy: "Development data only. Sort immutable case identifiers lexicographically, hash each as SHA-256('idea-023-v1|' + case_id), assign the 100 lowest hashes to the census and reserve every other case untouched for any later contract. Freeze split_manifest.csv and its SHA-256 before opening lesion masks. No case crosses populations."
 
@@ -2337,7 +2417,7 @@ negative_pattern: "A valid completed census fails the directional/precision conj
 invalidating_failures:
   - "Approval breach: any real outcome or lesion-mask access during Phase S, or Phase C execution without a fresh approval bound to the post-Phase-S contract blob."
   - "Provenance failure: the immutable Zenodo child record, archive checksum, downloaded SHA-256, archive member manifest, or split manifest is missing or mismatched."
-  - "Population failure: duplicate patient identity, inability to resolve the released case count, missing required maps or label for a census patient, or any reserved patient entering analysis."
+  - "Population failure: duplicate patient identity, inability to resolve the released case count, a missing required map or label for a census patient (distinct from a present source_corrupt_member handled by dataset.required_inputs), or any reserved patient entering analysis."
   - "Grid/coverage failure: required images cannot be placed on a common NCCT physical grid by the frozen rule, or nonfinite values remain in analyzed voxels."
   - "Mirror failure: the frozen outcome-blind mirror-quality gate fails."
   - "Retired contingency (formerly kill-code 104): undocumented CBV units triggered the preregistered stop before outcomes were read; this amendment executes and retires that unit-failure path by replacing the sole unit-dependent rule with the frozen percentile exclusion."
@@ -2384,116 +2464,124 @@ human_approved: false
 
 
 ===== ideas/023/probe_review.md =====
-# Probe code review — idea 023, round 4 (first review of the post-exit-5-directive revision)
+# Probe code review — idea 023, round 5 (first review of the post-exit-8 amendment revision)
 
 **Reviewed artifacts:** `probes/023/run.py` (SHA-256
-`d2dd41a6bad5fc2f74414a008e5f24873e907734d88440c021860392bce8a569`),
+`9978bfed47876ede0aa7f82168bce5382681830855ace4805306893e35451562`),
 `probes/023/requirements.txt` (SHA-256 `ff705c03…`, byte-identical to the
-round-2/3 file), `probes/023/README.md` (SHA-256 `ffdd3565…`),
-`probes/023/verification.json` (hashes match all three), against the amended
-`ideas/023/probe_contract.yaml` (git blob
-`349af5ad0b3e8acfc6337d15f1860974d1183393` — recomputed this round and
-identical to the blob in `ideas/023/HUMAN_APPROVED_PROBE`; the contract is
-untouched, so the standing Phase-C approval remains bound). Prior code at
-commit `5faa013` (run.py SHA-256 `8bd3156b…`, the round-3 APPROVE); revised
-code at commit `7fbef0e`. Review rounds 1–3 preserved in git.
+round-2/3/4 file), `probes/023/README.md` (SHA-256 `1da7fc6e…`), and the
+**amended** `ideas/023/probe_contract.yaml` (git blob
+`468974a7bdec7a7f6bf869f1520fae101b8d5f27`, file SHA-256 `b164a967…` —
+both recomputed this round and matching `probes/023/verification.json`).
+Prior approved code: run.py SHA-256 `d2dd41a6…` — verified byte-identical at
+both commit `7fbef0e` (the round-4 APPROVE) and commit `6fde01e` (the take-8
+launcher commit), so the `6fde01e..681b06c` diff reviewed here is the complete
+delta from the last approved artifact. The launcher notebook and
+requirements.txt are untouched in `681b06c` (verified by diff stat). Review
+rounds 1–4 preserved in git.
 
-**Scope note.** This is not a fresh-plan review. The 2026-08-25 decision entry
-("023 Phase C attempt 2: exit 5, archive census 0 cases") issued a bounded
-revision directive: (1) derive case discovery from observed archive members,
-tolerating `sub-stroke\d+` and `sub-strokecase\d+` and both `raw_data`/`rawdata`;
-(2) surface the payload's 150th lesion row explicitly in `schema_census.csv`
-and route it through `exclusions.csv` with a reason; (3) change nothing else —
-contract, gates, thresholds, and analysis untouched, standing approval valid.
-This review verifies the code implements exactly that directive and nothing
-else, and additionally validates the new discovery logic against the **real
-archive member manifest** (2,983 members) persisted by the attempt-2 bundle.
+**Approval state (deliberate, verified):** `ideas/023/HUMAN_APPROVED_PROBE`
+still binds blob `349af5ad…`; the contract is now blob `468974a7…`. The
+standing approval is therefore **stale by design**, exactly as the 2026-08-26
+amendment directive requires ("the standing approval goes stale by design and
+re-approval follows human review of the diff"). The runtime gate
+(`run.py:100-123`) compares the marker blob against the live contract blob for
+every phase and refuses with exit 2 on mismatch — `verification.json` attests
+the builder exercised precisely this refusal. No phase can run until a fresh
+marker is bound to `468974a7…`. This review's APPROVE is a recommendation on
+the code; the human gate on the amended contract remains controlling.
+
+**Scope note.** This is not a fresh-plan review. The 2026-08-26 decision entry
+("023 exit 8: pre-registered unit contingency executed; amendment directive")
+authorized a bounded amendment (option B): (1) amend contract clause 66 so the
+sole unit-dependent rule becomes unit-free — vessel exclusion = voxels with
+CBV above the per-patient 98th percentile of finite positive CBV — recording
+in the clause why (the payload evidence) and the conventional-scale
+correspondence to the retired 8 mL/100 g cap; (2) update kill-code 104 to mark
+the unit-failure contingency executed and retired; (3) clause 72 must not
+change; (4) in run.py, implement the percentile exclusion and retire
+`confirm_cbv_units` into a recorded finding (`identity.json` gains
+`units_documented: false` with the evidence summary); (5) change nothing else.
+This review verifies that the contract amendment and the code implement
+exactly that directive and nothing else.
 
 **Requirements conformance (review rule 5):** `ideas/023/contract_requirements.md`
 does not exist; not a requirements-governed contract. Not applicable.
 
-**External evidence:** none newly fetched from the network. The ground truth
-for the payload is `probes/023/results_v2/archive_manifest.csv` at commit
-`0cfec9f` on branch `results/probe-023-349af5ad0b3e` — produced by the
-attempt-2 run itself after both digest passes verified the Zenodo checksum,
-which makes it the strongest available evidence of the archive's contents.
-
 ---
 
-## Disposition of the three directive requirements
+## Disposition of the directive requirements
 
-| Directive item | Status in this code |
+| Directive item | Status |
 |---|---|
-| Case discovery from archive members, tolerant of both id spellings and both rawdata spellings | **Resolved** — `archive_case_inventory` (`run.py:226-288`) derives the cohort from the 7z member manifest, never from extracted-directory globs or release prose (`run.py:646-648` states this as the population authority); the case pattern `sub-(?:stroke\|strokecase)\d+` (`run.py:230`, case-insensitive) accepts both spellings; discovery is by exact filename suffix with no directory-name dependence, so `raw_data`/`rawdata` is moot for the census, and the README extraction spec plus the launcher's suffix-based `7z -ir!*` includes (`colab_probe_023.ipynb:113-117`) are likewise directory-agnostic |
-| 150th lesion row surfaced and routed through exclusions with a reason | **Resolved** — per-case lesion members are enumerated; the canonical follow-up derivative (`/derivatives/<case>/ses-0*2/<case>_ses-0*2_space-ncct_lesion-msk.nii[.gz]`, `run.py:261-262`) is retained; every non-retained member is recorded with `record_type=excluded_archive_lesion` and an explicit reason in **both** `schema_census.csv` (`run.py:672-680`) and `exclusions.csv` (`run.py:681-684`), and counted in `summary.json` as `excluded_duplicate_lesion_members` (`run.py:845`); duplicates that schema position cannot distinguish and that are not byte-identical stop loudly as exit 5 (`run.py:272-275`) rather than being absorbed |
-| Change nothing else | **Resolved** — the full `5faa013..7fbef0e` diff touches only: `discover_cases` → `archive_case_inventory` + `find_archive_selected`, the `load_lesion` signature (exact-archive-path resolution, `run.py:573-586`), the duplicate-row surfacing and the two CSVs' explicit field lists it necessitates (`run.py:738-744`), the `record_type` filter in the pass-two schema lookup (`run.py:805-806`, itself necessary so the prepended duplicate row cannot shadow the analyzed-case row), and the one summary count. Phase S, the approval gate, the split function, all strata/thresholds/gates, the bootstrap, the conjunction, and the stopping rule are byte-unchanged; the contract file is untouched (blob verified) |
+| Clause 66 amended to the unit-free percentile rule, with the why and the conventional-scale note | **Resolved** — contract line 66 (`preprocessing.region`) now reads "voxels with CBV above the per-patient 98th percentile of finite positive CBV in that patient's map", records the evidence (zero JSON sidecars, empty NIfTI descrip fields, no inspected dataset descriptor states units) and states that under the conventional scale the percentile targets approximately the vessel fraction the 8 mL/100 g cap intended — the directive's three required elements, verbatim in spirit |
+| Kill-code 104 marked executed and retired | **Resolved** — the former "Unit failure" invalidating-failures entry is replaced by "Retired contingency (formerly kill-code 104): undocumented CBV units triggered the preregistered stop before outcomes were read; this amendment executes and retires that unit-failure path…" (contract line 104) |
+| Clause 72 unchanged | **Resolved** — contract line 72 is `joint_state` (the median-centered central-volume coordinate, unit-robust by construction); the contract diff touches exactly two lines, 66 and 104, and nothing else |
+| run.py implements the percentile exclusion | **Resolved** — `coordinate_arrays` (`run.py:494-536`): `positive_cbv = cbv[np.isfinite(cbv) & (cbv > 0)]` over the whole patient map, `vessel_cbv_p98 = np.percentile(positive_cbv, 98.0)`, `vessel = np.isfinite(cbv) & (cbv > vessel_cbv_p98)` — per-patient, finite-positive support, strict "above", matching clause 66 word for word; an all-nonpositive CBV map fails loudly (exit 6, grid/data class) instead of producing a degenerate threshold, and an assertion pins the threshold finite and positive |
+| `confirm_cbv_units` retired into a recorded finding | **Resolved** — the function and its sole call site are deleted; `fail(8` has zero remaining occurrences (grep-verified), the docstring relabels exit 8 "retired unit contingency", and `phase_c_cache/identity.json` (the file the directive names) gains `units_documented: false` plus `units_evidence` summarizing exactly the exit-8 receipt's evidence (`run.py:685-689`) |
+| Change nothing else | **Resolved** — the full run.py diff touches only: the docstring exit-code line, the Phase-C section comment, the `confirm_cbv_units` deletion (definition + call), the percentile block in `coordinate_arrays`, the `vessel_cbv_p98` audit value in the per-case exclusions dict and the `exclusion_fields` column list, and the two identity keys. Phase S, the approval gate, provenance/census/split logic, all strata, gates, thresholds, the bootstrap, the three-stratum conjunction, statuses, and the stopping rule are byte-unchanged; requirements.txt and the launcher are byte-unchanged |
 
-## Validation against the real payload (the decisive check this round)
+Two additions sit slightly beyond the directive's letter and are judged inside
+its intent rather than scope creep: the per-patient `vessel_cbv_p98` recorded
+in `exclusions.csv` (the audit trail the exclusions-with-reasons standard
+requires for a rule that now varies per patient — without it the realized
+thresholds would be unrecoverable), and four README lines documenting the
+amendment (matching the round-3 precedent that the README states what the
+contract requires). Neither changes any measurement.
 
-I traced `archive_case_inventory` by hand against the actual 2,983-member
-manifest from the attempt-2 bundle:
+## Validation details (this round's decisive checks)
 
-- **Cohort:** exactly 149 members for each of CBF, CBV, MTT, Tmax; 149
-  `raw_data/**/*_ncct.nii.gz`; the three case-id sets (CBF, lesion, NCCT) are
-  identical (set difference empty). Zero `sub-strokecase` members; every row
-  is rooted at `train/`. The inventory therefore yields 149 ids, passes the
-  149/150 census check, and finds one CBF and at least one lesion per case —
-  no exit-5 path fires.
-- **The 150th lesion row is confirmed and characterized:** `sub-stroke0142`
-  carries two lesion members —
-  `train/derivatives/sub-stroke0142/ses-02/sub-stroke0142_ses-02_space-ncct_lesion-msk.nii.gz`
-  (canonical) and `train/derivatives/sub-stroke0142/ses-02/sub-stroke0142_ses-02_lesion-msk.nii`
-  (no `space-ncct` tag, uncompressed). The canonical regex matches exactly the
-  first, so it is retained and the noncanonical `.nii` is excluded with the
-  recorded reason. This is also contract-faithful independent of the
-  directive: `required_inputs` names the **NCCT-space** lesion derivative,
-  which the untagged file is not.
-- **Extraction consistency:** the launcher's include list is `.nii.gz`-suffix
-  only, so the noncanonical `.nii` is never extracted; `find_archive_selected`
-  resolves the retained member by its exact archive path (tolerating the
-  `train/` root's presence or absence, `run.py:291-302`) and fails loudly on
-  zero or multiple matches, so the excluded file's absence on disk is
-  immaterial and a double-extracted tree cannot be silently mis-resolved.
-- **Split stability:** case ids observed in the payload (`sub-strokeNNNN`,
-  already lowercase) are exactly the ids the approved code would have derived
-  from extracted filenames had its glob matched, and `split_cases` is
-  unchanged — so the frozen hash assignment (100 lowest of 149; 49 reserved,
-  within the contract's expected 49-or-50) is identical to the assignment the
-  standing approval covered. The revision cannot move any patient across the
-  census/reserve boundary.
-- **Label-blind ordering preserved:** lesion-member *selection* now happens at
-  inventory time, but it reads only member names/sizes/CRCs from the manifest;
-  no lesion is *opened* before `split_manifest.csv` is written and hashed
-  (`run.py:655-656`), which is what the contract's split policy freezes
-  against. Reserved patients' lesion members are named in the manifest (as
-  they always were in `archive_manifest.csv`) but never opened.
+- **Unit-freedom is real, not asserted.** The percentile mask is invariant
+  under any global positive rescaling of CBV (p98 scales linearly; `cbv >
+  p98` is unchanged), rCBF/rCBV are mirror ratios, and the identity residual
+  is census-median-centered (clause 72) — so no quantity anywhere in Phase C
+  now depends on the undocumented CBV unit. The builder's fixture attests
+  this concretely: "sevenfold CBV/MTT rescaling preserved the percentile
+  vessel mask", alongside a fixture matching numpy's p98 and exact strict-
+  above selection (`verification.json`).
+- **Label-blindness preserved.** The percentile is computed inside the
+  label-blind map pass (`load_case(..., load_label=False)` at `run.py:705`,
+  before any lesion is opened) and depends only on the patient's own CBV map;
+  the split freeze and hash still precede all lesion access. No label can
+  influence the new exclusion.
+- **Consistent use at both sites.** The same `vessel` mask feeds both the
+  mirror-median `allowed` set (`brain & ~deficit & ~vessel`, matching clause
+  67 "after excluding deficit and vessel voxels") and the analysis-region
+  exclusion (`eroded &= brain & ~vessel & valid_den & finite_maps`), exactly
+  as the fixed 8 mL/100 g mask did before — only the threshold definition
+  moved, not where it applies.
+- **Checkpoint supersession is enforced.** The identity dict now differs from
+  any pre-amendment cache in four ways (contract blob, run.py SHA-256, and
+  the two new unit keys), so no checkpoint written by superseded code can be
+  honored; the mismatch path fails closed at exit 4 (`run.py:690-691`).
+- **Historical references are history only.** The only remaining mentions of
+  the 8 mL/100 g cap are comments explaining the amendment's provenance —
+  which the directive explicitly asked to be recorded — not live thresholds.
 
-## Round-3 finding disposition
+## Round-4 finding disposition
 
-- **F3 (README NCCT extraction glob matched nothing): resolved** — the line is
-  now `{raw_data,rawdata}/**/*_ncct.nii.gz` with the wildcard present, and the
-  launcher extracts by suffix rather than by that line, removing the
-  load-bearing typo class entirely.
-- **F1 (quartile-cut vs measurement mask `mtt > 0` mismatch): carried
-  unchanged** (`run.py:546` vs `run.py:559`).
-- **F2 (outcome checkpoint rewrite not atomic): carried unchanged**
-  (`run.py:815`; the `atomic_npz` tmp+`os.replace` pattern remains available
-  one screen up).
-- **F4b (permitted nonfinite lesion values outside the analysis region are
-  excluded but not counted): carried unchanged** (`run.py:554-556`).
-- **F5 (conceptrecid `16731717` lineage not pinned): carried unchanged**
-  (`run.py:333-337` still checks only mutability, not identity).
-- **F6 (cache-identity exit-4 message does not name the remedy): carried**
-  (`run.py:692-693`). No stale-cache risk this rerun: attempt 2 died before
-  `phase_c_cache/` was created, and the identity now embeds the new
-  `run_py_sha256` anyway.
-- **F7 (all-empty identity coordinate reaches `np.concatenate` of an empty
-  list → exit 13 instead of a clean 9/10): carried** (`run.py:751`;
-  practically unreachable after the mirror gate).
-- **N4 (unit gate may stop the run), N6 (axis-aligned mirror, mixed index
-  units), N7 (MD5+SHA-256 are two full ~99 GB passes, re-paid per resume),
-  N8 (smoke bypasses `gate()`, labeled non-contractual), N9 (bounded pins;
-  `environment.txt` is the record): all carried unchanged.**
+- **N4 (unit gate may stop the run): closed — executed as designed.** The
+  contingency fired in take 8 exactly as preregistered, before outcomes were
+  read, and is retired by this amendment. This was the system working.
+- **R4 (verification.json lost the marker-binding attestation): resolved** —
+  the rebuilt file records `approval_status:
+  STALE_BY_DESIGN_PENDING_HUMAN_REAPPROVAL`, the new contract blob, all four
+  artifact hashes (each matching my recomputation), and an executed check
+  that Phase C refuses with exit 2 under the stale marker.
+- **R1 (README duplicate-handling sentence mispredicts the real payload):
+  carried, deliberately.** The paragraph (`README.md:33-36`) still describes
+  only the byte-identical-lexicographic fallback and the loud stop, omitting
+  the canonical `space-ncct` schema-position rule that actually resolves
+  sub-stroke0142's non-identical duplicate. The generator obeyed the
+  directive's "change nothing else" over round 4's fix-at-next-touch note —
+  the defensible reading of the narrower, later instruction — but the fix
+  remains outstanding for the next authorized touch.
+- **F1 (quartile-cut vs measurement mask), F2 (outcome checkpoint rewrite
+  not atomic), F4b (permitted nonfinite lesion values excluded but not
+  counted), F5 (conceptrecid lineage not pinned), F7 (all-empty coordinate
+  reaches exit 13), R2 (lowercase ids vs case-sensitive glob), R3 (orphan
+  lesion hard stop), N6–N9: all carried byte-unchanged**, per the directive's
+  no-other-changes rule. None is blocking; none is touched by the amendment.
 
 ## Blocking findings
 
@@ -2501,98 +2589,78 @@ None.
 
 ## Non-blocking findings (new this round)
 
-**R1 — The README's duplicate-handling sentence mispredicts the real
-payload.** `probes/023/README.md:33-36` says a *byte-identical* duplicate is
-resolved lexicographically and "non-identical duplicates stop as a population
-failure." That describes only the fallback branch. The payload's actual
-duplicate is non-identical yet is resolved — correctly and deterministically —
-by the canonical schema-position rule, which the README never mentions. An
-operator briefed by this paragraph would expect the coming run to stop. The
-code is right; fix the paragraph at the next authorized touch to state the
-selection order: canonical follow-up `space-ncct` member first, signature-
-identical lexicographic fallback second, loud stop only when neither applies.
+**R5 — The take-8 stale cache will trip exit 4 if the same output directory
+is reused, and the message still does not name the remedy (F6, now live).**
+Take 8 wrote `phase_c_cache/identity.json` (old blob, old run.py hash, no
+unit keys) before stopping at exit 8. A take-9 rerun pointed at the same
+`--output-dir` will fail closed at `run.py:690-691` — correct in direction,
+since pre-amendment checkpoints must not be honored — but the operator-facing
+message still omits the fix (delete `phase_c_cache/` or use a fresh output
+dir). Fold the remedy into the message, or clear/redirect the cache at
+launch, whenever run.py is next authorized for touch.
 
-**R2 — Inventory lowercases ids; `find_one`'s prefix glob is
-case-sensitive.** `archive_case_inventory` normalizes ids with `.lower()`
-(`run.py:240`) while `find_one` globs `rglob(f"{case_id}*")` case-sensitively
-(`run.py:218`). On a hypothetical mixed-case payload the map lookup would find
-zero files and exit 5 loudly — fail-closed, never silent, and the real payload
-is all-lowercase — but the asymmetry is worth removing whenever `find_one` is
-next touched.
+**R6 — The recorded units finding lives only in the cache directory and the
+README.** The directive named `identity.json`, and the code is faithful to
+it; but `summary.json` and `provenance.json` (the required-outputs bundle)
+do not echo `units_documented: false`, so a results bundle that omits
+`phase_c_cache/` would not carry the finding of record. A one-key echo into
+`summary.json` at the next authorized touch would make the bundle
+self-contained. Not a directive violation.
 
-**R3 — Orphan lesion members are a hard stop, not an exclusions row.** A
-lesion member whose case id has no CBF member exits 5 (`run.py:285-287`)
-rather than being routed through `exclusions.csv`. For an unexplained payload
-anomaly this is the correct fail-closed reading of the population clause (the
-149/150 count could otherwise be quietly satisfied while data vanishes), and
-the real payload has no orphans; recorded so a future release revision that
-adds one is not misdiagnosed as a code fault.
-
-**R4 — `verification.json` no longer records the approval-marker binding
-check.** The rebuilt verification file attests compile, smoke, the synthetic
-149-case + noncanonical-lesion fixture, selection assertions, and extraction
-resolution, but the round-2/3 format's "marker matches contract blob" line is
-gone. The runtime gate (`run.py:99-122`) enforces the binding regardless, and
-I recomputed the blob match this round; purely a builder-telemetry regression.
+**R7 — Strict "above" plus heavy value ties could exclude less than 2% of
+voxels.** With a quantized CBV map, `cbv > p98` may exclude far fewer than
+2% of positive voxels (ties at the threshold are retained). This is the
+verbatim contract semantics ("above the … percentile"), deterministic, and
+recorded per patient via `vessel_cbv_p98` and `vessel_voxels`, so any
+anomaly is visible in `exclusions.csv`; noted so a low realized exclusion
+fraction is read as tie behavior, not a fault.
 
 ## Verified correct (spot-checked this round)
 
-- **Approval gate and freeze chain:** contract blob recomputed =
-  `349af5ad…` = marker blob; zero placeholder tokens; the three Phase-S-frozen
-  thresholds (N=20, M=100, width 0.15) and `simulation_output_sha256` are read
-  from the contract, not hardcoded; Phase C still requires `--phase-s-dir` and
-  verifies the simulation hash before any record/archive/image access
-  (`run.py:370-380`, `641`); the no-`test` path guard survives on data,
-  archive, and record paths (`run.py:638-639`) — the removal of the old
-  duplicate guard inside `discover_cases` loses nothing.
-- **CSV integrity of the mixed-row files:** both audit CSVs now write explicit
-  field lists; analyzed-case rows gain `record_type`/`reason` via
-  `setdefault`, duplicate rows carry empty per-case counts via `DictWriter`
-  restval; no key set exceeds the declared fields, so no `ValueError` path.
-  `schema_census.csv` is written before the mirror gate can exit and rewritten
-  with lesion paths after pass two, duplicate rows preserved in both writes
-  (`run.py:745`, `816`).
-- **Resume semantics:** cached audit JSONs lack `record_type` by construction
-  and regain it via `setdefault` on reload (`run.py:723-729`); checkpoint
-  identity binds contract blob, archive SHA-256, split SHA-256, and the new
-  `run.py` SHA-256, so nothing written by the superseded code can be honored.
+- **Gate mechanics:** marker/contract blob binding enforced for both phases;
+  the frozen Phase-S thresholds (N=20, M=100, width 0.15) and
+  `simulation_output_sha256` still read from the contract, never hardcoded;
+  `--phase-s-dir` remains required for Phase C with the simulation hash
+  verified before any record/archive/image access; placeholder scan, no-test
+  path guard, and code/contract drift checks unchanged.
 - **Analysis discipline unchanged:** equal patient weight, single
   `default_rng(20260824)` stream, 2000-resample patient bootstrap,
-  direction-aware three-stratum conjunction, support shortfall exits 10
-  (invalidating, never a negative), CI-width failure classified as
-  `negative_pattern`, one variant, one seed, zero GPU, no pooled fallback;
-  statuses remain exactly `POSITIVE_PATTERN`/`NEGATIVE_PATTERN` and the
-  closing interpretation still forbids physiological and model-use language.
-- **Standards checklist:** (1) start/end manifests present and agreeing
-  (`resolved_config.json` echoes the frozen thresholds and contract blob;
-  `summary.json` echoes blob, split and simulation hashes, archive digests);
-  (2) exclusions log with reasons — strengthened this round; (3) transform
-  assertions unchanged (split disjointness, grid/finiteness/unit/mirror/
-  identity gates); (4) seed and paths declared, no analysis-time network;
-  (5) split manifest hashed before any lesion is opened; (6) `--smoke` is
-  synthetic-only, seconds-scale, and reports `contract_satisfied: false` with
-  a non-contractual label. Execution checks (py_compile, smoke, the seeded
-  149-case duplicate fixture) are attested by `verification.json`, whose
-  artifact hashes match the reviewed files; this environment cannot execute
-  Python, so those attestations plus static tracing are the basis here, as in
-  round 3.
+  direction-aware three-stratum conjunction, support shortfall exit 10
+  (invalidating, never a negative), one variant, one seed, zero GPU, no
+  pooled fallback; result statuses remain exactly the contract's
+  `POSITIVE_PATTERN`/`NEGATIVE_PATTERN` language and the closing
+  interpretation still forbids physiological and model-use claims.
+- **Audit outputs:** `exclusion_fields` declares the new column explicitly;
+  duplicate-lesion rows take DictWriter restval for it, analyzed-case rows
+  carry the realized threshold; no undeclared-key `ValueError` path.
+- **Standards checklist:** (1) determinism manifests present and agreeing
+  (`resolved_config.json` and `summary.json` sections byte-unchanged from
+  the approved code); (2) exclusions log with reasons — strengthened by the
+  per-patient threshold; (3) assertion per transform — the new p98 assert
+  joins the unchanged split/grid/mirror/identity assertions; (4) seeds and
+  paths declared, no analysis-time network; (5) split manifest hashed before
+  any lesion access, and the new computation is label-blind; (6) `--smoke`
+  synthetic-only and reporting `contract_satisfied: false`, attested by the
+  rebuilt `verification.json` whose artifact hashes match the reviewed
+  files. As in rounds 3–4, this environment cannot execute Python, so
+  executed-check attestations plus static tracing are the basis.
 
 ## Verdict
 
-The revision implements the exit-5 directive exactly and stays inside it: the
-cohort is now derived from the verified archive member manifest with the
-mandated spelling tolerance, the 150th lesion row — confirmed against the real
-manifest as a noncanonical untagged `.nii` duplicate for `sub-stroke0142` — is
-named in both audit files and excluded with a reason rather than absorbed, and
-nothing scientific moved: same contract blob, same split assignment on the
-observed ids, same gates, thresholds, and analysis. Traced end-to-end against
-the actual 2,983-member payload manifest, Phase C now clears the census that
-killed attempt 2 and proceeds to the map pass with no new silent-failure
-surface. The four new findings are documentation and telemetry polish; none
-changes what the census measures.
+The amendment is implemented exactly and minimally: two contract lines (the
+unit-free percentile rule with its recorded evidence, and the retired
+kill-code-104 contingency), a 41-line run.py delta that deletes the units
+gate, computes the per-patient p98 label-blind, applies it at both sites the
+old cap applied, and records the units finding in `identity.json` verbatim
+per the directive — with Phase S, the split, all gates, thresholds, and the
+analysis byte-unchanged and clause 72 untouched. The whole Phase-C pipeline
+is now demonstrably invariant to the undocumented CBV unit. The approval
+marker is stale by construction; nothing can run until the human reviews the
+contract diff and binds a fresh approval to blob `468974a7…`. Three new
+findings are operational polish; none changes what the census measures.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "Exit-5 directive implemented exactly and validated against the real 2983-member archive manifest (149 cases; sub-stroke0142's noncanonical .nii duplicate excluded with reason in both audit files); contract blob and split untouched, standing approval remains bound; four non-blocking polish findings."}
+{"verdict": "APPROVE", "blocking": [], "note": "Exit-8 amendment directive implemented exactly (unit-free per-patient p98 vessel exclusion, units gate retired into identity.json, clauses 66/104 amended, clause 72 and all analysis untouched); approval stale by design pending fresh human binding to contract blob 468974a7; three non-blocking operational findings."}
 ```
 
 
