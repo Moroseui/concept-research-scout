@@ -25,7 +25,6 @@ For Phase C, selectively extract exactly these release paths for every case:
 
 - `derivatives/**/perfusion-maps/*_space-ncct_{cbf,cbv,mtt,tmax}.nii.gz`
 - `derivatives/**/*_lesion-msk.nii.gz`
-- `{raw_data,rawdata}/**/*_ncct.nii.gz`
 
 The payload manifest, not the release-description example, defines the case
 set. The runner accepts both observed `sub-strokeNNNN` and documented
@@ -35,8 +34,9 @@ byte-identical duplicate lesion member, one lexicographically selected member
 is retained and every extra row is named in both `schema_census.csv` and
 `exclusions.csv`; non-identical duplicates stop as a population failure.
 
-The rawdata NCCT is required: it is not duplicated in `derivatives/`. Raw 4D
-CTP and CTA are not used. Keep the output directory on persistent storage.
+Rawdata NCCT, raw 4D CTP, and CTA are not used. The mirror machinery and its
+quality gate were removed by the 2026-08-27 human decision. Keep the output
+directory on persistent storage.
 Every required `.nii.gz` stream is read fully before measurement. The verified
 source-defective `sub-stroke0043` CBF member excludes that case with reason
 `source_corrupt_member`; its exact path is written to `schema_census.csv` and
@@ -52,10 +52,15 @@ same command resumes after a Colab disconnect. Checkpoints are bound to the
 contract, archive, split manifest, and `run.py`; a mismatch exits rather than
 silently reusing stale data.
 
-Stratum membership additionally requires finite derived rCBF and rCBV. This
-uniform rule prevents overflow from a tiny positive mirror denominator from
-admitting an infinite ratio; it does not change any stratum boundary.
+Matched flow is defined without an external reference. Within each patient,
+finite positive CBF voxels in the eroded Tmax>6 s deficit are stably ranked and
+assigned to fixed percentile bands [0,33), [33,67), and [67,100]. Equal CBF
+ties follow voxel-index order. Within each band, that patient's own label-blind
+CBV quartiles define the low-versus-high joint-state contrast. The unchanged
+central-volume identity residual remains the coordinate-validity gate.
 
-The required CSV/JSON outputs are accompanied by `native_support.svg` and
+The start and end determinism manifests contain the declared input paths and
+hashes, archive/case counts, split hash, and seed; the runner asserts they are
+identical. The required CSV/JSON outputs are accompanied by `native_support.svg` and
 `identity_residual_distribution.svg`. These dependency-free plots visualize
 the same frozen label-blind quantiles recorded in their corresponding CSVs.
