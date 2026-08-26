@@ -1,0 +1,29 @@
+{
+  "exclusions": {
+    "case_id": "sub-stroke0102",
+    "deficit_voxels": 209213,
+    "eroded_region_voxels": 106859,
+    "invalid_or_nonpositive_denominator_voxels": 1059596,
+    "nonfinite_cbf_voxels": 0,
+    "nonfinite_cbv_voxels": 0,
+    "nonfinite_mtt_voxels": 462,
+    "nonfinite_tmax_voxels": 0,
+    "vessel_cbv_p98": 19.75,
+    "vessel_voxels": 65402
+  },
+  "mirror": {
+    "case_id": "sub-stroke0102",
+    "normalized_median_absolute_error": 0.099056608766662,
+    "plane_axis0": 260.0,
+    "registration_error_voxels": 1.0,
+    "usable_brain_fraction": 0.9354261497255694
+  },
+  "schema": {
+    "affine": "[[0.412109375, 0.0, 0.0, -105.087890625], [0.0, 0.412109375, 0.0, 11.2308349609375], [0.0, 0.0, 2.0, -1099.489990234375], [0.0, 0.0, 0.0, 1.0]]",
+    "case_id": "sub-stroke0102",
+    "files": "{\"cbf\": \"/content/work/extracted/train/derivatives/sub-stroke0102/ses-01/perfusion-maps/sub-stroke0102_ses-01_space-ncct_cbf.nii.gz\", \"cbv\": \"/content/work/extracted/train/derivatives/sub-stroke0102/ses-01/perfusion-maps/sub-stroke0102_ses-01_space-ncct_cbv.nii.gz\", \"mtt\": \"/content/work/extracted/train/derivatives/sub-stroke0102/ses-01/perfusion-maps/sub-stroke0102_ses-01_space-ncct_mtt.nii.gz\", \"ncct\": \"/content/work/extracted/train/raw_data/sub-stroke0102/ses-01/sub-stroke0102_ses-01_ncct.nii.gz\", \"tmax\": \"/content/work/extracted/train/derivatives/sub-stroke0102/ses-01/perfusion-maps/sub-stroke0102_ses-01_space-ncct_tmax.nii.gz\"}",
+    "resampled": "cbf;cbv;mtt;tmax",
+    "shape": "512x512x68",
+    "voxel_sizes_mm": "0.412109x0.412109x2"
+  }
+}
