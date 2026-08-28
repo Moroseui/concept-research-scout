@@ -1206,3 +1206,85 @@ disagreement hard-fail, and the registry-side COMPLETE via
 resolved_config identity); isolated selections hermetic; state-verify
 --require-all 44/44 byte-identical; registry-validate and doctor green;
 patch verified git-identical against a pristine origin/main worktree.
+
+
+## 2026-08-28 - Round-7 review intake + R3a landed (consolidation-close corrections)
+
+Round-7 verdict accepted: architecture green, complexity yellow;
+consolidate before expanding. Rulings recorded: D1, D2, D5, D6 and the
+F1 fix RATIFIED; the historical-import doctrine refinement, ancestry
+rule, and marker-untouchability CONFIRMED; results_v2-<blob12> accepted
+as a migration convention with the future per-node
+probes/NNN/results/<node>/<blob>/ layout noted for post-023 work. The
+utility reframe is adopted as the standing success metric: decisive,
+evidence-backed answers per hour of operator attention, with the
+reviewer's metric table queued for the measurement window. Generation
+automation moves to explicit maintenance mode in the P10 slot
+(transition receipts on saturation entry/exit, no nightly same-fact
+commits). Roadmap sequence adopted as ordered; blackboard arbiter,
+meta-loop, third charter, and tournament selection stay deferred.
+Structured RunResult gains consumed/produced artifact refs and the
+common event envelope lands before any P5-P8 stage emits events. CSV
+dual-write removal and the global scout-target charter bypass are
+queued for the legacy-retirement window; coverage/durations as a
+periodic diagnostic job and REVAMP.md reconciliation queued as P2.
+
+R3a lands the three P0s the reviewer set for closing this round:
+
+(1) Fixture-import isolation, mechanism-level. Honest reproduction
+record: the reviewer's failing ordering did NOT reproduce here -- full
+suite green under both pytest 9.1.1 and a dep-complete 9.0.2 venv.
+The attempt instead surfaced a real adjacent finding: in a lean
+environment three tests silently REQUIRED nbformat/jsonschema and read
+as code failures (exactly the packages the reviewer's sandbox could not
+install); they now skip explicitly with named reasons. The isolation
+mechanism is hardened regardless, per standing rule for latent
+environment-dependent defects: Harness temp dirs are resolved at
+creation; the purge compares realpaths on both sides and invalidates
+import caches; _import_fixture_scout no longer relies on path-priority
+reload -- it evicts the fixture-sensitive namespace (scout, state_view,
+experiment_registry, ledger), invalidates caches, imports fresh, and
+self-checks the resolved origin loudly. The reviewer's sequence
+(root import first, then fixture import) is codified as a regression,
+and the CI canary is now the mixed three-class selection
+(TestDebate + TestR2StateAndHygiene + TestM1PreGovernanceIdentity).
+
+(2) Ratification binding schema finalized BEFORE the first live row
+(D3 amendment). governance_events.jsonl v1 rows now carry structured
+bindings -- a non-empty list of closed {contract_blob, approval_commit,
+approval_sha256} mappings -- replacing the parallel
+approvals/contract_hashes arrays that could not mechanically encode
+which approval attested which contract. git_commit is renamed
+base_commit (the authoring HEAD; a row cannot embed the sha of the
+commit that will contain it), format-checked 7-40 hex. Attestation
+reads binding contract_blobs. D4 is accepted as conditioned: a
+syntactically valid row is necessary, never sufficient -- the R3b
+ratify CLI must mechanically verify each binding (the marker bytes at
+approval_commit hash to approval_sha256 AND that marker text binds the
+contract_blob) with forgery regressions, and the ratification PR binds
+the source results-branch commit and the imported bundle manifest
+sha256 alongside the bindings.
+
+(3) F2 resolved as ruled: a NARROW legacy rule, never generic
+infrastructure. _HISTORICAL_RESULT_INTERFACES keys on
+(governing blob, bundle phase); its single entry is the executed
+Phase-S interface under 0e223c82f9eb (resolved_config,
+simulation_operating_characteristics.csv, simulation_summary.json,
+summary, provenance, environment.txt, run_log.txt), marked removable
+after 023 ratifies. The historical contract text is not consulted on
+that path (its top-level required_outputs describe the study-terminal
+bundle); identity, provenance, and hashing checks bind unchanged, and
+the phase-sanity gate accepts the table-keyed single-letter phase.
+Regressions: the real-S-shaped bundle validates cleanly under its own
+blob; an unlisted blob gets no skip; a terminal Phase-C bundle missing
+a required output still hard-fails. Future contracts get phase-scoped
+result_interfaces instead of table growth.
+
+Gates: 180/180 on BOTH runners AND under the pytest 9.0.2 venv;
+isolated and mixed-class selections hermetic; state-verify
+--require-all 44/44 byte-identical; registry-validate and doctor green;
+patch verified git-identical against a pristine origin/main worktree.
+Next: R3b -- the real 023 registry, ratify-registry CLI with mechanical
+binding verification and the three import bindings, record-result
+ancestry refusal, and the OR-ratified extension of
+terminal_statuses_if_approved.
