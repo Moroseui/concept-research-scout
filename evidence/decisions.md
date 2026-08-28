@@ -1080,3 +1080,42 @@ pinning) -> R3 023 registry + PR-gated ancestry-bound REGISTRY_RATIFIED
 structured RunResult + stage-outcome records -> driver_spec -> ROLE_BOUND
 -> coverage-based soak -> consumer flip -> stop-report -> design-review
 -> advisory register -> gate calibration -> 2b remainder -> 2c.
+
+
+## 2026-08-28 - R1 landed: registry semantic + schema hardening (round-6 P0s)
+
+contract_hash now means the immutable approved contract GOVERNING the
+node. Nodes without terminal evidence track the current contract (pin
+mismatch = STALE, unchanged). A node holding a terminal result is judged
+against its own pin: the pin must be attested (HUMAN_APPROVED_PROBE or a
+REGISTRY_RATIFIED row in the new append-only
+ideas/NNN/governance_events.jsonl sidecar, v1 schema closed to that one
+event), the bundle's provenance.contract_blob must equal it, and the
+bundle must validate under that immutable contract -- validate_bundle
+gained expected_blob, reading historical contract text from the git
+object store; the default (current) import gate is byte-for-byte
+unchanged. History no longer goes stale because an amendment moved the
+current contract; the review counterexample (historical-approved S stays
+COMPLETE while current-approved C depends on it) is a regression test.
+
+Schema closed and contained: schema_version == 1 required; produces,
+results_bundle, and artifact outputs must be canonical contained
+relative paths; depends_on/all_of/artifacts/launcher/upstream_bundle key
+sets closed (legacy upstream_bundle.probe retired); artifact sha256 now
+REQUIRED 64-hex -- a binding dependency cannot be unhashed; contract_hash
+must be 40-hex. Validation precedes derivation: derive_status raises on
+an invalid registry, registry-status exits nonzero, and
+terminal_statuses_if_approved / upstream_bundle_requirement refuse
+invalid registries outright. One validation-aware status path: the CLI
+now injects the same bundle validator as state materialization, and with
+no validator a terminal summary is RESULT_PRESENT, never COMPLETE --
+COMPLETE is unreachable without validation, everywhere.
+
+Tightening note: a pinless terminal node whose bundle provenance does
+not name the current contract is now STALE (previously COMPLETE-able
+from summary text alone). Gates: 165/165 both runners (13 new tests),
+state-verify --require-all 44/44 byte-identical, registry-validate and
+doctor green. Next: R2 (state-view approval-staleness on missing
+contract, fingerprint completeness, fixture import hygiene, P2
+cleanups), then R3 authors the 023 registry with PR-gated ancestry-bound
+ratification. Take-13 record-result remains not blocked on any of this.
