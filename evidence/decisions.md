@@ -1166,3 +1166,43 @@ draft 023 registry, REGISTRY_RATIFIED artifact spec, PR-gated
 ancestry-bound ratification flow, and the four discretionary R1
 decisions listed for ratify-or-object) BEFORE R3 lands. Take-13
 record-result remains not blocked on any of this.
+
+
+## 2026-08-28 - M1-pre landed: two-source bundle governance identity (F1)
+
+Root cause, verified against the real Phase-S bundle on
+results/probe-023-0e223c82f9eb: validate_bundle check #2 read
+provenance.json:contract_blob, but the frozen driver's gate() has always
+recorded the governing identity in resolved_config.json
+(contract_blob + approval_blob); run.py's provenance.json is
+run-environment provenance and never carried the field. Check #2 (E1,
+2026-08-15) had therefore only ever been exercised by fixtures; on
+landing, take-13's results-validate would have refused its own valid
+bundle and no record-result PR would have opened.
+
+Fix, applied identically in validate_bundle and in the registry status
+path (_bundle_governing_blob, replacing the single-file reader): the
+bundle's governing identity is provenance.json:contract_blob when
+present, else resolved_config.json:contract_blob; if BOTH files carry a
+value they must agree, and disagreement is a hard failure surfaced as
+such (import refusal / node STALE), never a silent pick. Neither-source
+still refuses exactly as before. resolved_config.json is a
+contract-required output written by the frozen driver's own gate, so
+reading the identity the run actually recorded strengthens evidence; no
+gate is loosened, and bundle files are never mutated post-run.
+Consequently, materialization.sources.registry_result_inputs (R2, v3,
+not yet materialized anywhere -- zero live registries) now also
+fingerprints resolved_config.json per node, since it co-determines
+derived status; no corpus state bytes change and no version bump is
+required for a pre-first-use field addition.
+
+Shipped ahead of the pending external review round per the adopted
+ordering rule (result-identity binding outranks governance ordering);
+the review packet discloses the finding, the remedy, and this
+possibility verbatim, and asks for retrospective ratification (Q2).
+Gates: 176/176 both runners (5 new tests, including a fixture shaped
+like the real S/take-13 bundle passing the import gate, a
+disagreement hard-fail, and the registry-side COMPLETE via
+resolved_config identity); isolated selections hermetic; state-verify
+--require-all 44/44 byte-identical; registry-validate and doctor green;
+patch verified git-identical against a pristine origin/main worktree.
