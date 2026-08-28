@@ -396,6 +396,29 @@ class TestAmendContract(Harness):
         r2 = self.scout("amend-contract", "1", "--bundle", str(bundle))
         self.assertNotEqual(r2.returncode, 0, "second amendment must refuse")
 
+    def test_amend_accepts_unquoted_sentinels_from_agent_rewrites(self):
+        d = self.repo / "ideas" / "001"
+        contract = d / "probe_contract.yaml"
+        contract.write_text(
+            "idea_id: idea-001\n"
+            "outputs_to_amend:\n"
+            "  minimum_contributing_patients_per_stratum: TO_BE_RECORDED_AFTER_PHASE_S\n"
+            "  minimum_voxels_per_patient_quantile_cell: TO_BE_RECORDED_AFTER_PHASE_S\n"
+            "  maximum_primary_ci_width: TO_BE_RECORDED_AFTER_PHASE_S\n"
+            "  simulation_output_sha256: \"TO_BE_RECORDED_AFTER_PHASE_S\"\n")
+        bundle = self.repo / "bundle"
+        bundle.mkdir()
+        (bundle / "simulation_summary.json").write_text(json.dumps(
+            {"selected": [20, 100, 0.15], "simulation_output_sha256": "ab12"}))
+        r = self.scout("amend-contract", "1", "--bundle", str(bundle))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        text = contract.read_text()
+        self.assertNotIn("TO_BE_RECORDED_AFTER_PHASE_S", text)
+        self.assertIn("minimum_contributing_patients_per_stratum: 20", text)
+        self.assertIn('simulation_output_sha256: "ab12"', text)
+        r2 = self.scout("amend-contract", "1", "--bundle", str(bundle))
+        self.assertNotEqual(r2.returncode, 0)
+
 
 class TestStagingCells(unittest.TestCase):
     def test_staging_cells_are_deterministic_and_brace_safe(self):

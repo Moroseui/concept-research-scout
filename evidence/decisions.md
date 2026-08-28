@@ -899,3 +899,13 @@ Sequence: audit revision -> verify -> mechanical amend-contract from the
 mirror-free Phase-S bundle (status PHASE_S_COMPLETE_REQUIRES_AMENDMENT)
 -> approve (new blob) -> package take 13 -> outcome read -> record-result
 -> interpret -> signal answer.
+
+## 2026-08-28 - Amender sentinel-quoting tolerance (fail-closed drift, resolved system-side)
+
+The mechanical amend-contract refused on the mirror-free contract: the
+agent rewrite left three numeric placeholders unquoted while the amender
+demanded the quoted byte-form. Correct refusal, wrong rigidity: the
+sentinel format is the amender own interface convention, so the tool (not
+the contract) was fixed -- both quotings accepted, exactly-one-total and
+single-shot semantics unchanged, tested for both styles. The contract was
+never hand-edited.

@@ -44,10 +44,10 @@ approval_and_phasing:
       data_generating_grid: "For each candidate N and M and each of three within-patient CBF-percentile bands, draw one latent patient risk p_i from Beta(alpha, beta), where alpha = p0*(1/rho - 1), beta = (1-p0)*(1/rho - 1), p0 is in {0.10, 0.30, 0.50}, and rho is in {0.01, 0.05, 0.10}. Draw high-CBV-quartile infarct count as Binomial(M, p_i) and low-CBV-quartile count as Binomial(M, min(p_i + delta, 1)); delta=0 for null replicates and delta=0.05 for alternative replicates. Analyze each replicate with the exact three-band conjunction and patient bootstrap specified for Phase C."
       selection_rule: "A candidate (N, M, CI width) is eligible only if the conjunction's false-positive rate is <=0.05 for every (p0, rho) null cell and power is >=0.80 for every (p0, rho) alternative cell. Select lexicographically by smallest N, then smallest M, then largest eligible CI width. If no candidate is eligible, Phase S fails and Phase C is not authorized; changing the grid or effect size requires a new contract."
     outputs_to_amend:
-      minimum_contributing_patients_per_stratum: TO_BE_RECORDED_AFTER_PHASE_S
-      minimum_voxels_per_patient_quantile_cell: TO_BE_RECORDED_AFTER_PHASE_S
-      maximum_primary_ci_width: TO_BE_RECORDED_AFTER_PHASE_S
-      simulation_output_sha256: "TO_BE_RECORDED_AFTER_PHASE_S"
+      minimum_contributing_patients_per_stratum: 20
+      minimum_voxels_per_patient_quantile_cell: 100
+      maximum_primary_ci_width: 0.15
+      simulation_output_sha256: "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
     exit: "Record the selected values and simulation-output SHA-256 in this contract. That amendment changes the contract blob and invalidates the Phase-S approval by construction. Fresh human approval against the amended contract is required for Phase C."
   phase_C_real_census:
     entry_condition: "Every Phase-S placeholder has been replaced, the simulation output hash verifies, and a fresh HUMAN_APPROVED_PROBE marker is bound to this amended contract blob."

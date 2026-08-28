@@ -1574,11 +1574,15 @@ def amend_contract(args):
             ('maximum_primary_ci_width', str(sel[2])),
             ('simulation_output_sha256', f'"{sha}"'))
     for key, value in subs:
-        placeholder = f'{key}: "TO_BE_RECORDED_AFTER_PHASE_S"'
-        if text.count(placeholder) != 1:
+        # Agent-authored contracts may quote the sentinel or not; both are
+        # the same placeholder. Byte-strictness stays: exactly one, total.
+        quoted = f'{key}: "TO_BE_RECORDED_AFTER_PHASE_S"'
+        bare = f'{key}: TO_BE_RECORDED_AFTER_PHASE_S'
+        nq, nb = text.count(quoted), text.count(bare)  # disjoint patterns
+        if nq + nb != 1:
             raise SystemExit(f'expected exactly one placeholder for {key}; '
                              'already amended or contract drifted')
-        text = text.replace(placeholder, f'{key}: {value}')
+        text = text.replace(quoted if nq else bare, f'{key}: {value}')
     contract.write_text(text)
     print(f'Amended {contract.relative_to(ROOT)} from {summary_path}:')
     for key, value in subs:
