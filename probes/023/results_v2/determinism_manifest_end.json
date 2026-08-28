@@ -1,0 +1,33 @@
+{
+  "archive_member_count": 2981,
+  "census_case_count": 100,
+  "idea_id": "idea-023",
+  "input_case_count": 149,
+  "input_paths": {
+    "archive": {
+      "path": "/content/work/train.7z",
+      "sha256": "038920e4dc2011a3f47b8bb8421c67e36d07f1d84f1ba442563077480f75d129"
+    },
+    "contract": {
+      "path": "/content/scout-repo/ideas/023/probe_contract.yaml",
+      "sha256": "f1a8548a70de18367a22d0a2caf78a19fed731cf8514d9fb037d92ccb713f7ed"
+    },
+    "phase_s_csv": {
+      "path": "/content/drive/MyDrive/concept-research-scout-results/023_S_0e223c82f9eb/simulation_operating_characteristics.csv",
+      "sha256": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
+    },
+    "record_json": {
+      "path": "/content/work/zenodo_record.json",
+      "sha256": "232cc6afc6137f9f0cc210d76f8c8a926734e4bfae3a1c3a963e0f04db54dc9e"
+    },
+    "run_py": {
+      "path": "/content/scout-repo/probes/023/run.py",
+      "sha256": "ff237ea7af332554daed8cd295204084a2b4a9394761b66f78dd1bd5f3a5bf23"
+    }
+  },
+  "input_row_count": 2981,
+  "phase": "C",
+  "reserved_case_count": 49,
+  "seed": 20260824,
+  "split_manifest_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843"
+}

@@ -1,0 +1,24 @@
+{
+  "approval_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
+  "cbf_percentile_bands": [
+    [
+      0,
+      33
+    ],
+    [
+      33,
+      67
+    ],
+    [
+      67,
+      100
+    ]
+  ],
+  "contract_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
+  "label_blind_ncct_tissue_audit": true,
+  "maximum_primary_ci_width": 0.15,
+  "minimum_contributing_patients_per_stratum": 20,
+  "minimum_voxels_per_patient_quantile_cell": 100,
+  "phase": "C",
+  "seed": 20260824
+}

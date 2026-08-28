@@ -1,0 +1,23 @@
+{
+  "exclusions": {
+    "case_id": "sub-stroke0174",
+    "deficit_voxels": 303188,
+    "eroded_region_voxels": 146888,
+    "nonfinite_cbf_voxels": 0,
+    "nonfinite_cbv_voxels": 0,
+    "nonfinite_mtt_voxels": 0,
+    "nonfinite_tmax_voxels": 0,
+    "vessel_cbv_p98": 19.290172576904297,
+    "vessel_voxels": 58042
+  },
+  "schema": {
+    "affine": "[[0.31471195816993713, -0.07732252031564713, 0.24791891872882843, -47.34288138896227], [0.07400274276733398, 0.31292352080345154, 0.5549729466438293, 103.17684492468834], [-0.030121836811304092, -0.03907865285873413, 3.953540563583374, -692.4700178839266], [0.0, 0.0, 0.0, 1.0]]",
+    "case_id": "sub-stroke0174",
+    "exclusion_reason": "",
+    "files": "{\"cbf\": \"/content/work/extracted/train/derivatives/sub-stroke0174/ses-01/perfusion-maps/sub-stroke0174_ses-01_space-ncct_cbf.nii.gz\", \"cbv\": \"/content/work/extracted/train/derivatives/sub-stroke0174/ses-01/perfusion-maps/sub-stroke0174_ses-01_space-ncct_cbv.nii.gz\", \"lesion\": \"/content/work/extracted/train/derivatives/sub-stroke0174/ses-02/sub-stroke0174_ses-02_space-ncct_lesion-msk.nii.gz\", \"mtt\": \"/content/work/extracted/train/derivatives/sub-stroke0174/ses-01/perfusion-maps/sub-stroke0174_ses-01_space-ncct_mtt.nii.gz\", \"ncct\": \"/content/work/extracted/train/raw_data/sub-stroke0174/ses-01/sub-stroke0174_ses-01_ncct.nii.gz\", \"tmax\": \"/content/work/extracted/train/derivatives/sub-stroke0174/ses-01/perfusion-maps/sub-stroke0174_ses-01_space-ncct_tmax.nii.gz\"}",
+    "record_type": "analyzed_case",
+    "resampled": "cbv;mtt;tmax;ncct",
+    "shape": "512x664x38",
+    "voxel_sizes_mm": "0.324696x0.324695x3.99999"
+  }
+}
