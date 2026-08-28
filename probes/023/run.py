@@ -13,7 +13,9 @@ A positive result is exactly the contract's positive_pattern (all validity and
 support gates pass and the three-stratum directional/precision conjunction
 passes); a negative is exactly its negative_pattern (a valid, adequately
 supported census fails that conjunction). Invalid data or execution is never a
-scientific negative.
+scientific negative. A label-blind secondary audit reports NCCT HU median and
+IQR for the low- and high-CBV groups in each flow band; it changes no estimator
+or gate and exists only to reveal tissue-composition imbalance.
 
 Usage: python run.py --smoke|--phase S|--phase C --output-dir DIR [Phase-C args]
 
@@ -447,7 +449,9 @@ def load_case(data_dir, case_id, load_label, audit_rows=None):
         import nibabel as nib
     except ImportError:
         fail(12, "nibabel is required for Phase C")
-    paths = {k: find_one(data_dir, case_id, k) for k in ("cbf", "cbv", "mtt", "tmax")}
+    # The activated tissue-composition audit reads NCCT without labels. It is
+    # diagnostic only: its values never enter the estimator or a gate.
+    paths = {k: find_one(data_dir, case_id, k) for k in ("cbf", "cbv", "mtt", "tmax", "ncct")}
     if load_label:
         paths["lesion"] = find_one(data_dir, case_id, "lesion")
     # A full stream read distinguishes the deposited unreadable member from a
@@ -548,6 +552,43 @@ def patient_native_z(arrays):
         values.append(np.log(cbv[mask]))
         identity.append(np.log(mtt[mask]) - np.log(cbv[mask]) + np.log(cbf[mask]))
     return values, identity, exclusions, cbv, bands, region
+
+
+def tissue_audit(case_id, ncct, cbv, bands, region, quartiles):
+    """Summarize label-blind NCCT attenuation in each flow-band/style cell."""
+    assert ncct.shape == cbv.shape == bands.shape == region.shape
+    rows = []
+    for index in range(1, 4):
+        band = region & (bands == index)
+        z = np.log(cbv[band])
+        q1 = float(quartiles[f"q1_{index}"])
+        q3 = float(quartiles[f"q3_{index}"])
+        assert z.size == int(band.sum())
+        assert np.isfinite(q1) and np.isfinite(q3) and q1 <= q3
+        for style, selected in (("Q1_low_CBV", z <= q1), ("Q4_high_CBV", z >= q3)):
+            hu = ncct[band][selected]
+            finite_hu = hu[np.isfinite(hu)]
+            # NCCT is stored in Hounsfield units; no conversion is applied.
+            if finite_hu.size:
+                q25, median, q75 = np.percentile(finite_hu, [25.0, 50.0, 75.0])
+                assert np.isfinite(q25) and np.isfinite(median) and np.isfinite(q75)
+                assert q25 <= median <= q75
+                row = {"case_id": case_id, "stratum": index, "style_group": style,
+                       "member_voxels": int(hu.size),
+                       "finite_hu_voxels": int(finite_hu.size),
+                       "nonfinite_hu_voxels": int(hu.size - finite_hu.size),
+                       "median_hu": float(median), "q25_hu": float(q25),
+                       "q75_hu": float(q75), "iqr_hu": float(q75 - q25)}
+            else:
+                # Missing HU support is recorded, but this audit creates no new gate.
+                row = {"case_id": case_id, "stratum": index, "style_group": style,
+                       "member_voxels": int(hu.size), "finite_hu_voxels": 0,
+                       "nonfinite_hu_voxels": int(hu.size), "median_hu": "",
+                       "q25_hu": "", "q75_hu": "", "iqr_hu": ""}
+            assert row["finite_hu_voxels"] + row["nonfinite_hu_voxels"] == row["member_voxels"]
+            rows.append(row)
+    assert len(rows) == 6
+    return rows
 
 
 def patient_measure(case_id, lesion, min_voxels, cache):
@@ -693,6 +734,7 @@ def run_phase_c(args, out, gate_info):
     # CBF bands and CBV values are checkpointed before any lesion is opened.
     native_values = {1: [], 2: [], 3: []}
     identity_values = {1: [], 2: [], 3: []}
+    tissue_rows = []
     schema_rows, exclusion_rows = [], []
     excluded_source_cases = set()
     for duplicate in duplicate_lesions:
@@ -729,6 +771,8 @@ def run_phase_c(args, out, gate_info):
             audit = json.loads(audit_path.read_text())
             values_by_stratum = [cached[f"z{i}"] for i in range(1, 4)]
             identity_by_stratum = [cached[f"u{i}"] for i in range(1, 4)]
+            cached_tissue_rows = json.loads(str(cached["tissue_audit_json"]))
+            assert len(cached_tissue_rows) == 6
         else:
             emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; computing and checkpointing")
             case_schema = []
@@ -755,8 +799,12 @@ def run_phase_c(args, out, gate_info):
                     q1, q3 = np.nan, np.nan
                 quartiles[f"q1_{index}"] = np.asarray(q1)
                 quartiles[f"q3_{index}"] = np.asarray(q3)
+            cached_tissue_rows = tissue_audit(
+                case, arrays["ncct"], cbv, bands, region, quartiles
+            )
             atomic_npz(cache_path, cbv=cbv, bands=bands, region=region,
                        affine=np.asarray(json.loads(case_schema[0]["affine"])),
+                       tissue_audit_json=np.asarray(json.dumps(cached_tissue_rows, sort_keys=True)),
                        **quartiles,
                        **{f"z{i}": values_by_stratum[i-1] for i in range(1, 4)},
                        **{f"u{i}": identity_by_stratum[i-1] for i in range(1, 4)})
@@ -770,6 +818,7 @@ def run_phase_c(args, out, gate_info):
         audit["exclusions"].setdefault("reason", "")
         audit["exclusions"].setdefault("source_path", "")
         exclusion_rows.append(audit["exclusions"])
+        tissue_rows.extend(cached_tissue_rows)
         for index, values in enumerate(values_by_stratum, 1):
             native_values[index].append(values)
             identity_values[index].append(identity_by_stratum[index - 1])
@@ -782,6 +831,11 @@ def run_phase_c(args, out, gate_info):
                         "nonfinite_mtt_voxels", "nonfinite_tmax_voxels"]
     write_csv(out / "schema_census.csv", schema_fields, schema_rows)
     write_csv(out / "exclusions.csv", exclusion_fields, exclusion_rows)
+    tissue_fields = ["case_id", "stratum", "style_group", "member_voxels",
+                     "finite_hu_voxels", "nonfinite_hu_voxels", "median_hu",
+                     "q25_hu", "q75_hu", "iqr_hu"]
+    assert len(tissue_rows) == 6 * (len(census) - len(excluded_source_cases))
+    write_csv(out / "bin_tissue_audit.csv", tissue_fields, tissue_rows)
     # Contract centers u once across the whole census, then gates every stratum before labels open.
     all_u = np.concatenate([x for cells in identity_values.values() for x in cells if x.size])
     if all_u.size == 0:
@@ -898,6 +952,8 @@ def run_phase_c(args, out, gate_info):
                "reserved_case_count": len(reserve), "split_manifest_sha256": split_sha,
                "excluded_duplicate_lesion_members": len(duplicate_lesions),
                "excluded_source_corrupt_cases": len(excluded_source_cases),
+               "bin_tissue_audit_rows": len(tissue_rows),
+               "bin_tissue_audit_file": "bin_tissue_audit.csv",
                "simulation_output_sha256": phase_s_sha, **archive_info, **gate_info}
     write_json(out / "summary.json", summary)
     write_determinism_manifest(out, "end", manifest)
@@ -923,7 +979,8 @@ def main():
         phase = "SMOKE" if args.smoke else args.phase
         info = {"contract_blob": blob_sha1(CONTRACT)} if args.smoke else gate(args.phase)
         resolved = {"phase": phase, "seed": SEED,
-                    "cbf_percentile_bands": CBF_PERCENTILE_BANDS, **info}
+                    "cbf_percentile_bands": CBF_PERCENTILE_BANDS,
+                    "label_blind_ncct_tissue_audit": True, **info}
         if args.phase == "C":
             resolved.update({
                 "minimum_contributing_patients_per_stratum": int(scalar(CONTRACT.read_text(), "minimum_contributing_patients_per_stratum")),

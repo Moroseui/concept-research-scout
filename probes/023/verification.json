@@ -1,6 +1,23 @@
 {
+  "artifact_sha256": {
+    "README.md": "d622d8a69ee52d451a0a78161ef15177cbbed0bd6d4789a984bc74befb969c13",
+    "requirements.txt": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928",
+    "run.py": "ecb2e0f94af834c9c64149e0163b8f62133d5b3e53b0c968205500a0f3bc9792"
+  },
+  "checked_at": "2026-08-27T21:58:43-04:00",
+  "checks": {
+    "approval_marker_matches_contract_blob": "0e223c82f9eb879652a549df9bf857c155ef61db",
+    "cache_round_trip_fixture": "passed",
+    "determinism_manifests_equal": true,
+    "flow_band_stable_tie_fixture": "passed",
+    "py_compile": "passed",
+    "smoke_contract_satisfied": false,
+    "smoke_elapsed_seconds": 0.288,
+    "smoke_status": "SMOKE_OK",
+    "tissue_audit_fixture": "passed: six per-case band/style rows with finite/nonfinite HU accounting"
+  },
   "idea_id": "023",
-  "passed": true,
   "issues": [],
-  "checked_at": "2026-08-26T14:38:37.654648+00:00"
+  "passed": true,
+  "scope": "Local non-expensive verification only; no Phase S calibration, Phase C data access, or outcome analysis was run."
 }
