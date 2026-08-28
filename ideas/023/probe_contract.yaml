@@ -1,4 +1,4 @@
-# Probe contract v1 -- idea 023, Stage-0 outcome census only.
+# Probe contract v1 -- idea 023, mirror-free Stage-0 outcome census only.
 # Drafted at probe_plan on 2026-08-24. No probe code or execution is
 # authorized until the human approval gate is satisfied.
 
@@ -14,8 +14,9 @@ authorities:
   decision_entries:
     - "2026-08-17 -- Ideas 021 and 023: human inspection questions answered"
     - "2026-08-24 -- Reconciliation ruling: idea 023"
+    - "2026-08-27 -- Operator reframe AND DECISION: 023 goes mirror-free; directive for the amendment round"
 
-question: "In a frozen census subset of released ISLES'24 training patients, is final-infarct membership associated precisely and directionally with the native joint CBV/MTT state within matched relative-CBF deficit strata, with enough support to justify a later model-use probe?"
+question: "In a frozen census subset of released ISLES'24 training patients, is final-infarct membership associated precisely and directionally with the native joint CBV/MTT state within three within-patient CBF-percentile bands, with enough support to justify a later model-use probe?"
 risky_assumption_tested: "The released outcome labels contain a patient-replicated, estimable joint-CBV/MTT association at matched CBF; map coexistence alone does not establish this keystone."
 
 scope:
@@ -28,7 +29,7 @@ scope:
 approval_and_phasing:
   phase_S_synthetic_freeze:
     approval_scope: "Synthetic data and outcome-blind release metadata only. No real lesion mask, outcome field, or label-derived statistic may be opened, summarized, or logged."
-    work: "Simulate the exact patient-clustered estimator at census n=100 over a preregistered grid of null and alternative data-generating settings. Select the smallest support requirements and largest admissible CI-width threshold that achieve both >=0.80 power at the frozen minimum relevant risk difference and <=0.05 false-positive rate under the null."
+    work: "Recalibrate the exact patient-clustered estimator at census n=100 for three within-patient CBF-percentile bands and within-band CBV quartiles. Select the smallest support requirements and largest admissible CI-width threshold that achieve both >=0.80 power at the frozen minimum relevant risk difference and <=0.05 false-positive rate under the null."
     frozen_simulation_constants:
       census_patients: 100
       reserved_patients: "all remaining released training patients; expected 49 or 50 pending the pinned-release case census"
@@ -40,7 +41,7 @@ approval_and_phasing:
       candidate_minimum_contributing_patients: [20, 25, 30, 35, 40]
       candidate_minimum_voxels_per_patient_cell: [50, 100, 200]
       candidate_maximum_ci_width: [0.08, 0.10, 0.12, 0.15]
-      data_generating_grid: "For each candidate N and M and each of three strata, draw one latent patient risk p_i from Beta(alpha, beta), where alpha = p0*(1/rho - 1), beta = (1-p0)*(1/rho - 1), p0 is in {0.10, 0.30, 0.50}, and rho is in {0.01, 0.05, 0.10}. Draw Q4 infarct count as Binomial(M, p_i) and Q1 count as Binomial(M, min(p_i + delta, 1)); delta=0 for null replicates and delta=0.05 for alternative replicates. Analyze each replicate with the exact three-stratum conjunction and patient bootstrap specified for Phase C."
+      data_generating_grid: "For each candidate N and M and each of three within-patient CBF-percentile bands, draw one latent patient risk p_i from Beta(alpha, beta), where alpha = p0*(1/rho - 1), beta = (1-p0)*(1/rho - 1), p0 is in {0.10, 0.30, 0.50}, and rho is in {0.01, 0.05, 0.10}. Draw high-CBV-quartile infarct count as Binomial(M, p_i) and low-CBV-quartile count as Binomial(M, min(p_i + delta, 1)); delta=0 for null replicates and delta=0.05 for alternative replicates. Analyze each replicate with the exact three-band conjunction and patient bootstrap specified for Phase C."
       selection_rule: "A candidate (N, M, CI width) is eligible only if the conjunction's false-positive rate is <=0.05 for every (p0, rho) null cell and power is >=0.80 for every (p0, rho) alternative cell. Select lexicographically by smallest N, then smallest M, then largest eligible CI width. If no candidate is eligible, Phase S fails and Phase C is not authorized; changing the grid or effect size requires a new contract."
     outputs_to_amend:
       minimum_contributing_patients_per_stratum: 20
@@ -56,52 +57,50 @@ dataset:
   name: "ISLES'24 public training release"
   source: "Official Zenodo concept record 16731717; select one immutable child record at Phase C and record its record id, publication date, train.7z checksum supplied by Zenodo, downloaded SHA-256, case count, and archive member manifest before analysis."
   expected_population: "149 or 150 acute-stroke cases; the recorded discrepancy between release description and challenge paper must be resolved by archive census rather than assumed."
-  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives, the final-infarct mask, and the rawdata NCCT volume (required by the brain-mask and mirror gate; per the official release tree the NCCT exists only under rawdata, not derivatives). Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe."
+  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives and the final-infarct mask. NCCT is no longer required because the approved mirror-free design contains no brain reflection or reference anatomy. Raw 4D CTP, NCCT, CTA, clinical covariates, and model assets are outside this probe. The verified source-defective member train/derivatives/sub-stroke0043/ses-01/perfusion-maps/sub-stroke0043_ses-01_space-ncct_cbf.nii.gz is CRC-valid in the checksum-verified source archive but has an unreadable gzip stream; exclude that case as source_corrupt_member, name the member in schema_census.csv and exclusions.csv, continue the analysis, and surface the excluded case count. Any other unreadable required member is not authorized for exclusion and fails loudly."
   license: "CC BY-NC-SA 4.0, non-commercial research use."
 split_policy: "Development data only. Sort immutable case identifiers lexicographically, hash each as SHA-256('idea-023-v1|' + case_id), assign the 100 lowest hashes to the census and reserve every other case untouched for any later contract. Freeze split_manifest.csv and its SHA-256 before opening lesion masks. No case crosses populations."
 
 preprocessing:
   grid_gate: "For every census case, require finite CBF/CBV/MTT/Tmax and lesion-mask values in all analyzed voxels (nonfinite values outside the analysis region are permitted, excluded, and counted), compatible physical coverage, and a deterministic common NCCT grid. Header mismatches may be resolved only by the preregistered interpolation rule: linear for maps, nearest-neighbor for labels; record every resampling. Irreconcilable coverage is invalidating."
-  brain_and_mirror_gate: "Derive a brain mask and midsagittal reflection from the rawdata NCCT on the common NCCT grid using one frozen automatic method. Before outcomes are read, require median left-right NCCT registration error <= one in-plane voxel and usable mirrored support for >=90% of brain-mask voxels in >=90 census patients."
-  region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the estimated midsagittal plane and voxels with CBV > 8 mL/100 g. The CBV cap is valid only if Phase-C unit inspection confirms mL/100 g; otherwise stop for contract amendment before outcomes are read."
-  relative_measures: "For each voxel, divide CBF and CBV by the median of its reflected 5x5x3-voxel contralateral neighborhood after excluding deficit and vessel voxels. Nonpositive or nonfinite denominators are excluded and counted."
+  region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the array midline and voxels with CBV above the per-patient 98th percentile of finite positive CBV in that patient's map. The midline exclusion is an unchanged region-boundary safeguard, not reference anatomy. This unit-free vessel rule replaces the planned 8 mL/100 g cap because the payload has zero JSON sidecars, empty NIfTI descrip fields, and no inspected dataset descriptor states CBV units; under the conventional CBV scale, the percentile targets approximately the vessel fraction that the 8 mL/100 g cap intended."
+  matched_flow: "Within each patient, rank finite CBF values inside the final eroded deficit region and form three fixed bands using deterministic percentile boundaries: [0,33), [33,67), and [67,100]. Ties at a boundary are assigned by stable voxel-index order so every eligible voxel belongs to exactly one band. No contralateral or external reference is used."
   cbf_strata:
-    - "rCBF in [0.15, 0.30)"
-    - "rCBF in [0.30, 0.45)"
-    - "rCBF in [0.45, 0.60)"
-  joint_state: "Primary coordinate z = log(rCBV). MTT is not a second independent predictor. Where all terms are positive, compute u = log(MTT) - log(CBV) + log(CBF), then subtract the census-wide median u so constant unit-conversion factors cancel. Report this centered identity residual; a median absolute centered residual exceeding 0.10 in any stratum invalidates this coordinate and stops before outcome modeling."
+    - "within-patient CBF percentile [0,33)"
+    - "within-patient CBF percentile [33,67)"
+    - "within-patient CBF percentile [67,100]"
+  joint_state: "Within each patient's matched-flow band, primary coordinate z = log(CBV), and Q1 versus Q4 is defined by that patient's own label-blind CBV quartiles. MTT is not a second independent predictor. Where all terms are positive, compute u = log(MTT) - log(CBV) + log(CBF), then subtract the census-wide median u so constant unit-conversion factors cancel. Report this centered identity residual; a median absolute centered residual exceeding 0.10 in any band invalidates this coordinate and stops before outcome modeling."
 
 analysis:
-  analysis_unit: "Patient. Voxel observations are never treated as independent for uncertainty. Each patient contributes equal total weight within each rCBF stratum regardless of voxel count."
-  native_quantiles: "Within each rCBF stratum, estimate z quartile cut points from census maps without labels. For every patient with sufficient voxels in both Q1 and Q4, compute final-infarct fraction in Q1 and Q4 and the signed contrast d = risk(Q1 low-rCBV) - risk(Q4 high-rCBV)."
-  primary_metric: "Per rCBF stratum, the equal-patient-weight mean of d with a patient bootstrap percentile 95% CI (2000 resamples, numpy default_rng(20260824)). Positive d means lower joint-state position is associated with greater final-infarct membership at matched CBF."
+  analysis_unit: "Patient. Voxel observations are never treated as independent for uncertainty. Each patient contributes equal total weight within each CBF-percentile band regardless of voxel count."
+  native_quantiles: "Within each patient's CBF-percentile band, estimate that patient's z quartile cut points without labels. For every patient with sufficient voxels in both Q1 and Q4, compute final-infarct fraction in Q1 and Q4 and the signed contrast d = risk(Q1 low-CBV) - risk(Q4 high-CBV)."
+  primary_metric: "Per CBF-percentile band, the equal-patient-weight mean of d with a patient bootstrap percentile 95% CI (2000 resamples, numpy default_rng(20260824)). Positive d means lower joint-state position is associated with greater final-infarct membership within that patient's matched-flow band."
   secondary_metrics:
     - "Median patient-level d and its patient-bootstrap 95% CI per stratum."
-    - "Counts of patients and voxels in each patient-by-stratum-by-quantile cell; exclusion fractions and mirror failures."
-    - "A label-blind native-support plot of z by rCBF stratum and the identity-residual distribution."
+    - "Counts of patients and voxels in each patient-by-band-by-quantile cell and exclusion fractions."
+    - "A label-blind native-support plot of z by within-patient CBF-percentile band and the identity-residual distribution."
   pass_rule: "G-label passes only if all three strata meet the Phase-S-frozen support minimum; all three primary point estimates have the same nonzero sign; at least two of three 95% CIs exclude zero in that common direction; and every primary CI width is <= the Phase-S-frozen maximum. Otherwise G-label does not pass."
   multiplicity_and_scope: "The three-stratum conjunction is the single preregistered gate; no stratum selection, pooled fallback, alternate threshold, or post-hoc subgroup can rescue a failure."
 
-primary_metric: "Per rCBF stratum, equal-patient-weight mean risk(Q1 low-rCBV) minus risk(Q4 high-rCBV), with a 2000-replicate patient-bootstrap percentile 95% CI; the preregistered gate is the three-stratum conjunction in analysis.pass_rule."
+primary_metric: "Per within-patient CBF-percentile band, equal-patient-weight mean risk(Q1 low-CBV) minus risk(Q4 high-CBV), with a 2000-replicate patient-bootstrap percentile 95% CI; the preregistered gate is the three-band conjunction in analysis.pass_rule."
 secondary_metrics:
   - "Median patient-level Q1-minus-Q4 risk contrast with patient-bootstrap 95% CI per stratum."
-  - "Patient/voxel support, exclusion fractions, mirror QC, and central-volume identity residuals."
+  - "Patient/voxel support, exclusion fractions, and central-volume identity residuals."
 
 maximum_variants: 1
 maximum_gpu_minutes: 0
 maximum_seeds: 1
 stopping_rule: "Stop after Phase S until the contract is amended and freshly approved. In Phase C, stop when the frozen census and required outputs complete, immediately on an invalidating failure, or when any scope boundary would be crossed. Do not proceed to model work regardless of result."
 
-positive_pattern: "The schema, grid, mirror, central-volume, and support gates pass; the three patient-clustered contrasts share a direction; at least two intervals exclude zero; and every interval satisfies the frozen precision bound. This supports only that the outcome-associated joint-state prerequisite is present in the census population and permits a later, separately approved model-probe contract to be considered."
+positive_pattern: "The schema, grid, central-volume, and support gates pass; the three within-patient CBF-band contrasts share a direction; at least two intervals exclude zero; and every interval satisfies the frozen precision bound. This supports only that the outcome-associated joint-state prerequisite is present in the census population and permits a later, separately approved model-probe contract to be considered."
 negative_pattern: "A valid completed census fails the directional/precision conjunction: mixed or zero directions, fewer than two intervals excluding zero, or intervals wider than the frozen bound despite adequate preregistered support. This is a scientific negative for the Stage-0 keystone and PAUSEs idea 023; it is not evidence that CBV/MTT lacks biological importance or that any model ignores it."
 
 invalidating_failures:
   - "Approval breach: any real outcome or lesion-mask access during Phase S, or Phase C execution without a fresh approval bound to the post-Phase-S contract blob."
   - "Provenance failure: the immutable Zenodo child record, archive checksum, downloaded SHA-256, archive member manifest, or split manifest is missing or mismatched."
-  - "Population failure: duplicate patient identity, inability to resolve the released case count, missing required maps or label for a census patient, or any reserved patient entering analysis."
+  - "Population failure: duplicate patient identity, inability to resolve the released case count, a missing required map or label for a census patient (distinct from a present source_corrupt_member handled by dataset.required_inputs), or any reserved patient entering analysis."
   - "Grid/coverage failure: required images cannot be placed on a common NCCT physical grid by the frozen rule, or nonfinite values remain in analyzed voxels."
-  - "Mirror failure: the frozen outcome-blind mirror-quality gate fails."
-  - "Unit failure: released units cannot support the frozen CBV vessel cap without changing the contract."
+  - "Retired contingency (formerly kill-code 104): undocumented CBV units triggered the preregistered stop before outcomes were read; this amendment executes and retires that unit-failure path by replacing the sole unit-dependent rule with the frozen percentile exclusion."
   - "Coordinate failure: central-volume identity residual exceeds the frozen 0.10 limit in any stratum; the empirical-curve fallback requires a new contract and is not a negative result."
   - "Support invalidity: any stratum fails the Phase-S-frozen minimum contributing-patient or voxel-cell requirement. Insufficient support is invalidating/indeterminate, not a negative association."
   - "Analysis deviation: labels influence preprocessing, split assignment, quantile boundaries, exclusions, or choice of analysis; an unregistered variant or seed is run; or patient clustering/equal weighting is not preserved."
@@ -109,10 +108,10 @@ invalidating_failures:
 
 baselines:
   - "Zero association: primary patient-level contrast d = 0."
-  - "Outcome-blind support and mirror gates; these validate measurement and cannot count as positive evidence."
+  - "Outcome-blind coverage and support gates; these validate measurement and cannot count as positive evidence."
 
 claim_discipline:
-  permitted: "In this frozen ISLES'24 census subset, lower versus higher native joint CBV/MTT position within matched rCBF strata was (or was not) associated with final-infarct membership with the reported patient-clustered precision."
+  permitted: "In this frozen ISLES'24 census subset, lower versus higher native joint CBV/MTT position within within-patient CBF-percentile bands was (or was not) associated with final-infarct membership with the reported patient-clustered precision."
   prohibited:
     - "Autoregulatory blood-volume reserve, remaining dilation capacity, collateral mechanism, reperfusion mechanism, or causal tissue salvageability."
     - "CBV-channel attribution rather than MTT-channel attribution."
@@ -131,7 +130,6 @@ required_outputs:
   - per_stratum_summary.csv
   - support_summary.csv
   - identity_residual_summary.csv
-  - mirror_qc.csv
   - exclusions.csv
   - summary.json
   - environment.txt

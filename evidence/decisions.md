@@ -687,3 +687,263 @@ launcher + driver_spec (A11/A12, with post-023 registry work), workflow
 helper factoring (A14, cleanup). Adopted for 023: append-only
 REGISTRY_RATIFIED retrospective binding; the historical approval is never
 rewritten.
+## 2026-08-25 - 023 take 6 receipt + staging second-opinion intake (take 7 v2)
+
+Take-6, two layers: (1) the in-flight ~85% run died to a Colab VM recycle
+(bare gate line -- a killed VM cannot print FAIL); no defect. (2) The fresh
+VM Drive->local copy was size-exact (99022114670) but md5-wrong; run.py
+exit-4d correctly. Classified as suspected DriveFS/FUSE read-path
+corruption (mechanism not asserted); the stored Drive master is presumed
+good from its historical gate pass and is NOT judged through the suspect
+path.
+External staging review (archived): adopted in full. Kept: generator-level
+change, verify-before-extract, one bounded retry, loud refusal, regression
+asserts. Changed per review: checksum resolved by exact archive filename;
+missing record md5 is a driver-configuration error (fail closed); .part
+transfer with atomic promotion; neutral corruption wording; FUSE-mediated
+"Drive master arbitration" REMOVED (a suspect witness cannot acquit
+itself) -- replaced by classified stop FUSE_LOCALIZATION_INTEGRITY_FAILURE
+with origin_direct pre-authorized as the next sanctioned attempt.
+Queued to driver_spec (post-023): drive_api_cache as preferred transport
+(Drive stays the cache, FUSE leaves the input path), largest_local_scratch
+working-volume policy, and a governed driver-revise route so operational
+incidents flow to agent-proposed, cross-family-reviewed spec revisions
+instead of external patches.
+
+## 2026-08-26 - 023 take 7: FUSE casualty #7; pre-authorized origin_direct pivot executed
+
+Take-7 receipt: on a brand-fresh VM, minutes old, the very first sequential
+read of the archive died with OSError 107 (Transport endpoint is not
+connected) inside shutil.copyfile -- the loud variant of the read-path
+failure, on the simplest possible access pattern. Seven casualties now span
+deep trees, empty views, pin re-resolution, silent size-exact corruption,
+and outright transport death across four fresh VMs. Threshold met under the
+recorded pre-authorization and the external staging review ruling: the big
+input leaves FUSE entirely. Take 8 = origin_direct, now a declared
+generator mode (--staging-mode): pin, record JSON, and archive all come
+directly from the immutable Zenodo record to local scratch (16-way aria2c,
+.part -> md5 -> atomic promote, one retry, classified
+ORIGIN_DOWNLOAD_INTEGRITY_FAILURE stop). drive_fuse_cache remains available
+but transitional; drive_api_cache stays the driver_spec target. The Drive
+mount retains only small-file duties (Phase-S read, checkpoints, outputs).
+
+## 2026-08-26 - 023 exit 8: pre-registered unit contingency executed; amendment directive
+
+Take-8 receipt: staging fully solved (aria2c 14 min, checksum and census
+passed); the probe stopped at its first scientific act per contract clause
+66 -- CBV units are documented nowhere: zero JSON sidecars among the
+archive 2,983 members, empty NIfTI descrip fields, and every dataset
+descriptor (Zenodo record page, TU/e portal, challenge paper) lists
+modalities without units; the icobrain-cva chain implies the convention
+but states none. The contract said stop for amendment before outcomes are
+read, and it did.
+
+DIRECTIVE for the next probe-build round (amendment authorized, option B,
+human gate retained): amend clause 66 so the sole unit-dependent rule
+becomes unit-free -- vessel exclusion = voxels with CBV above the
+per-patient 98th percentile of finite positive CBV in the map -- recording
+in the clause WHY (the payload evidence above) and noting that under the
+conventional scale this targets approximately the vessel fraction the
+8 mL/100 g cap intended. Update kill-code 104 to mark the unit-failure
+contingency executed and retired. Clause 72 is already unit-robust and
+must not change. In run.py: implement the percentile exclusion; retire
+confirm_cbv_units into a RECORDED finding (identity.json gains
+units_documented: false with the evidence summary); change nothing else.
+The amendment changes the contract blob: the standing approval goes stale
+by design and re-approval follows human review of the diff.
+
+## 2026-08-26 - 023 take 9: checkpoint-identity guard fired correctly; output dirs now blob-scoped
+
+Take-9 receipt: gate passed on the amended blob 468974a7, staging and census
+passed silently, and run.py refused at the checkpoint store: the shared
+Drive dir 023_C still held take-8 phase_c_cache pinned to the OLD blob
+349af5ad and old run.py hash. Fail-closed cache-poisoning prevention
+working as designed -- a checkpoint written under one contract/code may
+never be consumed under another. Driver fix (one line): OUTPUT_DIR is now
+blob-scoped ({idea}_{phase}_{blob12}), mirroring the results-branch scheme,
+so each contract era gets a pristine cache and console; superseded dirs
+remain as untouched evidence. No probe or contract change; approval stands.
+
+## 2026-08-26 - Pre-registered adjudication for the inf-ratio edge (committed before outcomes are seen)
+
+During the take-10 map pass, two RuntimeWarning classes were observed:
+all-NaN neighborhood windows (handled by design: excluded voxels, counted
+per case in the checkpoint exclusions record) and overflow in the
+rcbf/rcbv division (tiny positive mirror denominators pass valid_den, so
+isolated infinite ratios can be admitted to stratum membership, where the
+screen is only ratio > 0). Per-case selective repair is FORBIDDEN: the code
+is deterministic and uniform, and mixed-provenance case sets are exactly
+what the checkpoint identity mechanism prevents.
+Pre-registered plan: (1) take 11 completes untouched; its bundle is the
+primary result under the approved code. (2) A one-line finiteness
+tightening (stratum admission additionally requires finite rcbf and rcbv)
+is routed through probe-build with cross-family review, and the map pass
+recomputes under the new identity. (3) Interpretation cites BOTH runs: if
+they agree, immateriality is demonstrated and the primary stands with the
+robustness check noted; if they diverge, the revised run is canonical and
+the divergence is reported as a finding. This criterion is committed before
+any stratum outcome has been inspected.
+
+## 2026-08-26 - 023 take 10: truncated extracted member + the Drive-artifact mystery closed
+
+Two findings. First, take-10 origin_direct incidentally settled take-6: the
+TRUE Zenodo object is 99,014,629,647 bytes (md5-verified); the Drive-cached
+wget artifact was 99,022,114,670 -- ~7.5 MB oversized, a Franken-file from
+the record-drift era (wget -c declares fully-retrieved whenever local >=
+remote), which is why its md5 could never match. origin_direct fully
+vindicated. Second, take-10 receipt: staging verified, census passed, map
+pass reached case 21 (sub-stroke0043, 20 cases checkpointed) and died on a
+TRUNCATED extracted .nii.gz (gzip EOFError; run.py wrapped it honestly as
+exit 13). Root cause class: the extraction 7z exit status was unchecked and
+the file-count floor cannot see single-member truncation -- count is not
+integrity. Driver fix (both staging modes): extraction is now rc-checked
+and quiet; a per-member gzip -t sweep follows; bad members are deleted and
+re-extracted individually once; a second failure refuses loudly as
+EXTRACTION_INTEGRITY_FAILURE naming the files.
+
+## 2026-08-26 - 023 take 11: SOURCE data defect proven; paired-run plan superseded; dual directive
+
+Take-11 receipt: the integrity sweep worked exactly as designed and proved
+the truncation is IN THE ARCHIVE: fresh VM, fresh md5-verified download,
+rc-clean extraction, exactly one bad member -- sub-stroke0043 ses-01
+space-ncct CBF, the same file that killed take 10 -- which failed gzip -t
+AGAIN after targeted re-extraction from the verified archive. The member is
+size-typical (7.70 MB) with an invalid gzip stream: corrupted before the
+dataset creators archived it. Authority split: the driver guarantees
+fidelity to the archive (achieved -- it reproduced the defect twice);
+content validity is the contract domain. Driver upgraded: the sweep now
+arbitrates via 7z t -- stored-CRC-valid members that fail gzip are
+announced as SOURCE_MEMBER_DEFECT and tolerated; only true extraction
+infidelity refuses.
+
+SUPERSESSION (before any outcomes were seen): the pre-registered paired-run
+plan assumed take 11 completes untouched as primary; it cannot -- case 21
+blocks on the source defect under current code. Both revisions therefore
+fold into ONE canonical run.
+
+DIRECTIVE for the next probe-build round: (a) a case whose required input
+is a source-defective member (unreadable gzip from the verified archive)
+routes to exclusions.csv with reason source_corrupt_member naming the file,
+and the map pass CONTINUES; the summary and interpretation must surface the
+excluded count; (b) stratum admission additionally requires finite rcbf and
+rcbv (the pre-registered finiteness tightening). Change nothing else. If
+the reviewer judges (a) to require a contract amendment (cohort/selection
+language), author the amendment in the same round; otherwise the standing
+approval holds. Courtesy task queued: report the defective member upstream
+to the ISLES 24 maintainers.
+
+## 2026-08-26 - 023 take 12: COMPLETE map pass; pre-registered mirror gate stop (exit 7) with decision-grade evidence
+
+Take-12 receipt: staging flawless (sweep tolerated the known source defect
+live); the label-blind map pass completed 100/100 with sub-stroke0043
+excluded per policy (99 computed); the run stopped at the frozen mirror
+gate: 21/99 patients meet (registration_error <= 1.0 voxel AND
+usable_brain_fraction >= 0.90); floor is 90. Evidence from mirror_qc.csv
+(label-blind): registration errors are lattice-quantized (median 1.41,
+q75 2.00, max 4.36 voxels) -- clinical positioning, not registration
+failure; usable-fraction median 0.856 sits below the 0.90 floor; and
+NMAE rises MONOTONICALLY with registration error (0.129 / 0.191 / 0.236 /
+0.291 / 0.357 across buckets <=1.0 to >2.5), so displacement measurably
+degrades mirror fidelity: the gate is doing real epistemics, not
+cleanroom strictness. Threshold relaxation is therefore weakly justified;
+the supported-subgroup path risks severity-correlated selection. Live
+fork: (A) registration-robust redesign (region-level contralateral
+reference; identity coordinate is mirror-free and survives) with new
+Phase-S calibration and full re-run, or (B) kill with code
+MIRROR_PRECONDITION_UNSUPPORTED and harvest (A) as successor idea.
+DECISION DEFERRED to the human gate augmented by advisor input
+(2026-08-27 meeting): voxelwise-vs-region reference is a domain call.
+No PR opened; results-validate red on a stopped bundle is correct
+behavior; the record-result and merge train wait on this fork.
+Queue item (operator observation): the interpret stage decodes terminal
+results only; pre-registered STOPS should generate their own briefing
+artifact (gate context + relevant QC tables) -- a stop-report generator
+joins the driver_spec-era work list.
+
+## 2026-08-27 - Design queued: stop-report stage (failure-to-analysis routing)
+
+Operator observation, validated by the 023 arc: three pre-registered stops
+each produced decision-grade DATA but no decision-grade BRIEFING; all
+forensics were ad hoc. Design: stops route to an interpret-variant stage
+producing (1) an EXPLANATION record -- gate context + evidence tables,
+citation mandate, inputs mechanically restricted to the label-blind
+artifacts the stop certifies -- and optionally (2) a CHANGE_PROPOSAL from
+a CLOSED vocabulary mapping to existing pipeline edges: AMEND_CONTRACT,
+REVISE_PROBE, REDESIGN, KILL, or ESCALATE_ONLY (explicit deferral, a
+first-class output -- the 023 mirror fork is the canonical case where any
+machine recommendation would overstep a domain judgment). Explanations are
+zero-authority; proposals carry base hashes, cannot modify targets,
+re-enter every normal gate, and receive cross-family review. Sequencing:
+first consumer of the 2b record envelope -- build it as 2b opening move,
+after record-result -> 2a merge -> registry -> driver_spec.
+
+## 2026-08-27 - Operator reframe AND DECISION: 023 goes mirror-free; directive for the amendment round
+
+Reframe (operator-caught): idea 023 claim is the joint CBV/MTT compensation
+state AT MATCHED FLOW; hemispheric mirroring is idea 021 ("The healthy
+hemisphere is the ruler") and entered 023 only as the operationalization of
+matched flow. The exit-7 stop is a verdict on a borrowed ruler, not on the
+claim, the signal, or the dataset (QC distributions describe ordinary
+clinical positioning; neither clinical software nor models require
+voxel-mirror symmetry). mirror_qc.csv is harvested as empirical
+feasibility evidence FOR idea 021. The conflation passed agent authorship,
+cross-family review, and twelve operator takes; caught at the human gate.
+
+DECISION (human gate, 2026-08-27): mirror-free within-patient flow
+matching. DIRECTIVE for the next probe-build round: amend the contract so
+matched flow = per-patient CBF percentile bands WITHIN the eroded deficit
+region (three fixed bands, 0-33 / 33-67 / 67-100 percentile of finite
+deficit CBF; deterministic, label-blind, no external reference). REMOVE
+the mirror machinery entirely: mirror construction, registration QC, the
+exit-7 gate, and mirror-relative ratios; the region definition (Tmax>6s,
+erosion, midline band, per-patient p98 vessel exclusion), the identity
+coordinate u = log(CBF*MTT/CBV), the identity-residual gate, per-stratum
+coverage floors, and the source-corrupt exclusion policy are UNCHANGED.
+Phase S must be recalibrated for the new strata (synthetic planted effects
+under percentile binning; same detectability-floor logic). Keep gates
+minimal: coverage + identity only; introduce no new reference anatomy.
+This de-couples 023 from 021 by construction.
+
+## 2026-08-28 - Meeting outcome: dual-track sprint; HU audit ACTIVATED; clinical-scores secondary pre-registered
+
+Advisor meeting (2026-08-27): system-refinement arc APPROVED, and a signal
+read from idea 023 requested within the week -> dual track. The previously
+drafted parked/strategic-pause entries were never committed and are
+superseded by this plan; the refinement arc proceeds in parallel with a
+bounded 023 signal sprint.
+
+ACTIVATED DIRECTIVE (tissue-composition audit, previously drafted as
+parked; an outcome-reading run is now scheduled, so it applies): before
+take 13, a probe revision adds a label-blind per-bin per-style NCCT HU
+audit -- during the map pass record, per case, per flow bin, per style
+group, the median and IQR of NCCT attenuation over member voxels, into the
+per-case cache and a bin_tissue_audit.csv. No estimator changes, no new
+gates, run.py only (contract untouched; standing approval holds through
+verify). Pre-registered interpretation rule: HU-balanced styles within
+bins -> the compensation reading stands; systematic imbalance -> report as
+conditional predictive information WITH a tissue-composition caveat and
+design a tissue-normalized successor. Rationale: the retired contralateral
+mirror was incidentally the tissue-type normalizer (gray-matter baseline
+flow ~2-3x white matter); percentile bins do not restore this.
+
+PRE-REGISTERED SECONDARY (advisor side-interest): after the take-13
+outcome read and record-result, a patient-level join of census per-patient
+aggregates against the dataset clinical outcome scores (phenotype
+ses-02 outcome.csv, mRS/NIHSS-type). Clinical scores are outcome labels
+and remain behind the same label-blind until that step; no take-13 scope
+change; phenotype files staged separately when needed.
+
+Sequence: audit revision -> verify -> mechanical amend-contract from the
+mirror-free Phase-S bundle (status PHASE_S_COMPLETE_REQUIRES_AMENDMENT)
+-> approve (new blob) -> package take 13 -> outcome read -> record-result
+-> interpret -> signal answer.
+
+## 2026-08-28 - Amender sentinel-quoting tolerance (fail-closed drift, resolved system-side)
+
+The mechanical amend-contract refused on the mirror-free contract: the
+agent rewrite left three numeric placeholders unquoted while the amender
+demanded the quoted byte-form. Correct refusal, wrong rigidity: the
+sentinel format is the amender own interface convention, so the tool (not
+the contract) was fixed -- both quotings accepted, exactly-one-total and
+single-shot semantics unchanged, tested for both styles. The contract was
+never hand-edited.

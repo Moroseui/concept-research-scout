@@ -1,0 +1,19 @@
+Novelty audit for cycle 019 is complete. I ran five parallel search sweeps (≈50 recorded queries across web search, Crossref, PubMed, and arXiv) and wrote `ideas/scout-019/novelty_audit.md` and `ideas/scout-019/novelty_manifest.json`. No other files were touched.
+
+Verdicts:
+
+| Candidate | Verdict | Why-not-done |
+|---|---|---|
+| C1 — retinal vessel-tree richness | **INCREMENTAL** | BLIND_SPOT |
+| C2 — spleen as Merlin's calibration patch | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C3 — azygos vein in the edema score | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C4 — effusion meniscus curvature | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+| C5 — crural separation in the hiatal-hernia score | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | BLIND_SPOT |
+
+The three findings that matter most:
+
+1. **C1 is demoted to INCREMENTAL.** Kim et al. 2020 (Scientific Reports, DOI 10.1038/s41598-020-61519-9) — not cited in the card — already erased the entire retinal vasculature by inpainting and measured the sex-prediction AUC drop (0.93-class down to 0.682). So the rung-1 claim "the classifier uses the vessels" is published with an effect size. The candidate's branch-selective, area-matched dissociation of richness-vs-area genuinely survives as unclaimed, but the card's "missing experiment" framing and its interest/regret scores were computed against a mystery that is partly solved; it needs reframing before shortlisting. (The card's suspicious-looking 2026 DOI 10.1038/s41598-026-53485-5 checked out as real via Crossref.)
+
+2. **C4's card has a citation error.** PMID 35923880 is a plant circadian-clock paper, and the segmentation author is Sexauer, not "Ebert." The correct anchor is Sexauer et al., Invest Radiol 2022, PMID 35797580 / PMC9390225 (the PMCID in the card was right). That paper also validated only on NLST/PleThora, so CT-RATE transfer is fully untested. The core novelty claim held: no fixed-volume shape intervention on any classifier was found anywhere — existing counterfactual methods all co-vary fluid amount with shape.
+
+3. **The audit resolved several of the cards' open unverified claims.** C3's primary azygos-congestion citation is now pinned (Preger et al., Radiology 1969, PMID 4898452, azygos width vs CVP, r≈0.8), but no automated azygos localizer exists — consistent with its feasibility score of 2. C5's hiatus-measurement citation is pinned (Ouyang et al., Surg Endosc 2016, PMID 26304104), but every validated hiatus measurement is a manual MPR tracing and no automatic crural segmenter exists, so its measurement arm would be de novo; EXACT (arXiv 2604.24146) also reports CT-CLIP's hiatal-hernia head is weak (AUROC 0.66 on RAD-ChestCT), which bears on whether there's enough signal to attribute. For C2, Merlin's weights are confirmed publicly released, and steatosis appears in an independent benchmark's Merlin evaluation (CT-IDP), though the released finding vocabulary itself remains uninspected — the `NOT_INSPECTED` keystone cap stands correctly.

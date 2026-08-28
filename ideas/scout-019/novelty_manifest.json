@@ -1,0 +1,164 @@
+{
+  "searched_at": "2026-08-25",
+  "method": "Five parallel web-search sweeps (one per candidate), each 7-14 distinct queries against web search plus Crossref/PubMed/arXiv fetches; all neighbors located by search during this audit, not recalled.",
+  "queries": [
+    {"query": "fundus sex classification vessel masking occlusion deep learning", "source": "web_search"},
+    {"query": "retinal vessel removal inpainting sex prediction fundus deep learning", "source": "web_search"},
+    {"query": "\"inpainting\" fundus \"erased\" vessels gender prediction deep learning ablation", "source": "web_search"},
+    {"query": "Delavari \"Artificial intelligence\" retinal vessel sex differences arXiv 2301.06675", "source": "web_search"},
+    {"query": "Kim inpainting fovea retinal vessels erased fundus age sex prediction AUC decreased", "source": "web_search"},
+    {"query": "Poplin 2018 nature biomedical engineering cardiovascular risk fundus sex prediction 10.1038/s41551-018-0195-0", "source": "web_search"},
+    {"query": "10.1038/s41598-026-53485-5 Scientific Reports retinal fundus sex region weight macula disc vasculature", "source": "web_search"},
+    {"query": "\"Gender prediction\" multiethnic deep learning retinal fundus inpainted fovea vessels erased AUC 0.682", "source": "web_search"},
+    {"query": "\"Quantifying regional contributions to sex classification from fundus photographs\" two-stage attention deep learning Kim Jang 2026", "source": "web_search"},
+    {"query": "retinal vessel branch terminal distal pruning causal intervention sex classifier fundus dose response logit", "source": "web_search"},
+    {"query": "https://api.crossref.org/works/10.1038/s41598-026-53485-5", "source": "web_fetch"},
+    {"query": "Merlin abdominal CT vision language foundation model Blankemeier interpretability", "source": "web_search"},
+    {"query": "deep learning hepatic steatosis CT liver spleen attenuation learned feature model", "source": "web_search"},
+    {"query": "occlusion perturbation analysis abdominal CT deep learning model spleen reference steatosis saliency", "source": "web_search"},
+    {"query": "Merlin CT foundation model Nature 2026 hepatic steatosis zero-shot phenotype", "source": "web_search"},
+    {"query": "\"Park\" 2011 Radiology \"liver attenuation\" spleen macrovesicular steatosis biopsy donors 10.1148/radiol.10101233", "source": "web_search"},
+    {"query": "counterfactual perturbation Hounsfield unit attenuation shift deep learning CT model shortcut relative attenuation", "source": "web_search"},
+    {"query": "Merlin abdominal CT model GitHub Stanford checkpoint zero-shot findings list \"hepatic steatosis\" OR \"fatty liver\"", "source": "web_search"},
+    {"query": "Grad-CAM saliency fatty liver CT neural network attention spleen region explainability steatosis classification", "source": "web_search"},
+    {"query": "\"Merlin\" CT model probing perturbation study spleen attenuation shift intervention frozen checkpoint", "source": "web_search"},
+    {"query": "sparse channels frozen vision encoder radiological findings Pillar-0 probing Merlin abdominal VLM turning off channels", "source": "web_search"},
+    {"query": "neural network relies on \"reference organ\" OR \"internal reference\" attenuation medical imaging shortcut learning spleen normalization", "source": "web_search"},
+    {"query": "Merlin 30 findings zero-shot list \"hepatic steatosis\" abdominal CT findings classification supplementary", "source": "web_search"},
+    {"query": "robustness HU shift perturbation liver attenuation deep learning steatosis classifier sensitivity analysis Hounsfield", "source": "web_search"},
+    {"query": "pubmed esummary PMID 41781626; arxiv.org/html/2406.06512v2; PMC13082451; github.com/StanfordMIMI/Merlin; arxiv 2607.20993", "source": "web_fetch"},
+    {"query": "azygos vein width chest radiograph central venous pressure heart failure", "source": "web_search"},
+    {"query": "automated azygos vein measurement deep learning CXR CT", "source": "web_search"},
+    {"query": "pulmonary edema deep learning chest x-ray interpretability features vascular pedicle cardiothoracic", "source": "web_search"},
+    {"query": "counterfactual editing chest radiograph classifier intervention anatomical structure", "source": "web_search"},
+    {"query": "vascular pedicle width chest x-ray deep learning automated measurement congestion", "source": "web_search"},
+    {"query": "automated azygos arch localization segmentation frontal chest radiograph", "source": "web_search"},
+    {"query": "chest x-ray CHF edema classifier attribution mediastinal venous structure saliency vascular pedicle", "source": "web_search"},
+    {"query": "azygos vein deep learning intervention edema classifier logit counterfactual congestion sign", "source": "web_search"},
+    {"query": "\"Width of azygos vein related to central venous pressure\" Preger 1969 Radiology PMID 4898452", "source": "web_search"},
+    {"query": "pleural effusion radiomics shape features loculated free-flowing CT", "source": "web_search"},
+    {"query": "CT-CLIP CT-RATE interpretability pleural effusion vision-language chest CT", "source": "web_search"},
+    {"query": "meniscus sign pleural effusion quantitative curvature fluid-air interface", "source": "web_search"},
+    {"query": "counterfactual shape editing medical image classifier volume-preserving lesion", "source": "web_search"},
+    {"query": "fixed volume shape intervention counterfactual classifier attribution boundary geometry medical imaging", "source": "web_search"},
+    {"query": "PMID 35923880 pleural effusion", "source": "web_search"},
+    {"query": "CT-CLIP CT-RATE arXiv 2403.17834 foundation model chest CT vision language", "source": "web_search"},
+    {"query": "generative counterfactual isolate shape from volume attribution deep learning radiology probe geometry", "source": "web_search"},
+    {"query": "Sexauer Automated Detection Segmentation Classification of Pleural Effusion Investigative Radiology 2022 PMID", "source": "web_search"},
+    {"query": "\"35923880\" pubmed", "source": "web_search"},
+    {"query": "esophageal hiatal surface area CT measurement hiatal hernia", "source": "web_search"},
+    {"query": "CT-RATE CT-CLIP hiatal hernia classification chest CT vision language model", "source": "web_search"},
+    {"query": "diaphragmatic crus segmentation deep learning CT automatic", "source": "web_search"},
+    {"query": "hiatal hernia deep learning detection CT automated", "source": "web_search"},
+    {"query": "intercrural distance CT hiatal hernia crural separation measurement", "source": "web_search"},
+    {"query": "TotalSegmentator diaphragm crura segmentation esophageal hiatus automated", "source": "web_search"},
+    {"query": "\"hiatal hernia\" model attribution saliency explainability classifier chest CT \"crus\" OR \"crural\"", "source": "web_search"},
+    {"query": "Ouyang Dass Criner \"esophageal hiatus surface area\" Surgical Endoscopy 2016 MDCT", "source": "web_search"},
+    {"query": "\"Hiatal Hernia Detection Using Novel End-to-End Deep Learning Model with Explainable AI\" 2024", "source": "web_search"},
+    {"query": "automated measurement esophageal hiatus deep learning pipeline \"hiatal surface area\" segmentation", "source": "web_search"}
+  ],
+  "neighbors": [
+    {
+      "candidate": "C1",
+      "identifier": "DOI 10.1038/s41598-020-61519-9 (Kim et al., Scientific Reports 2020)",
+      "access": "search_summary",
+      "establishing_passage": "Generated inpainted images with erased fovea and retinal vessels separately; sex-prediction AUC was 0.881 (0.877-0.885) in the fovea-erased image and 0.682 (0.676-0.688) in the retinal-vessel-erased image versus the original model, indicating retinal vessels are important features for deep learning sex prediction."
+    },
+    {
+      "candidate": "C1",
+      "identifier": "arXiv:2301.06675 (Delavari et al.; PNAS Nexus 2(9):pgad290, 2023)",
+      "access": "abstract",
+      "establishing_passage": "Males have richer retinal vasculature networks with a higher number of branches and nodes and a larger total length of branches in the vessel graph; vessels cover a greater area in the superior temporal quadrant in males vs females."
+    },
+    {
+      "candidate": "C1",
+      "identifier": "DOI 10.1038/s41598-026-53485-5 (Kim & Jang, Scientific Reports 2026)",
+      "access": "search_summary",
+      "establishing_passage": "Crossref metadata confirms title 'Quantifying regional contributions to sex classification from fundus photographs via a two-stage attention-based deep learning approach', authors Joseph Kim and Shina Jang, Scientific Reports, published 2026-05-20; attention-based region weighting, not a branch-selective causal intervention."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.1038/s41586-026-10181-8, PMID 41781626 (Blankemeier et al., Merlin, Nature 2026; arXiv 2406.06512)",
+      "access": "full_text",
+      "establishing_passage": "Applies the latent-shift counterfactual method to investigate image features used for classification; the size of the spleen is reduced in the counterfactual relative to the original image (splenomegaly example). No input-space liver/spleen HU perturbation described; weights publicly released (GitHub/HF StanfordMIMI, MIT license)."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "arXiv:2607.20993 (Sparse Concept Channels in Frozen 3D CT Vision Encoders, 2026)",
+      "access": "abstract",
+      "establishing_passage": "Turning off the channels tied to one finding, that finding's score collapses while unrelated labels stay stable; the same sparse probe replicates on an architecturally unrelated 3D abdominal VLM (Merlin). Representation-space only; no input-space organ-HU perturbation, no steatosis/liver-spleen question."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.2214/AJR.20.24415 (Pickhardt et al., AJR 2021)",
+      "access": "abstract",
+      "establishing_passage": "Contrast-enhanced volumetric hepatosplenic attenuation derived using a fully automated deep learning CT tool for categoric steatosis assessment; indicators include the liver-spleen attenuation ratio, liver-spleen attenuation difference, and liver attenuation thresholding — the spleen reference is engineered in, not emergent."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.1148/radiol.10101233 (Park et al., Radiology 2011;258:760-766)",
+      "access": "abstract",
+      "establishing_passage": "The histologically proved reference range of hepatic attenuation minus splenic attenuation values for nonsteatotic livers was 1-18 HU (biopsy-proven donors, nonenhanced CT). Anchor verified as correctly cited by the card."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "arXiv:2509.08640 (RoentMod; npj Digital Medicine 2026, DOI 10.1038/s41746-026-02497-6)",
+      "access": "abstract",
+      "establishing_passage": "RoentMod generates realistic CXRs with user-specified synthetic pathology while preserving other anatomical features; state-of-the-art multi-task and foundation models frequently exploit off-target pathology as shortcuts, evaluated by paired classifier response to edits. Edits pathology, not a named vessel."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "DOI 10.1007/978-3-032-04937-7_50 (Seg-CFT, MICCAI 2025; arXiv:2509.24913)",
+      "access": "abstract",
+      "establishing_passage": "Intervenes on the size of anatomical structures including left lung area, right lung area, and heart area with locally coherent counterfactual edits on PadChest; graded structure-specific editing, never applied to the azygos vein or vascular pedicle."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "DOI 10.1016/j.jacadv.2025.101687 (JACC: Advances 2025; medRxiv 2024.07.17.24310314)",
+      "access": "abstract",
+      "establishing_passage": "AI software automatically delineates each cardiovascular border when a CXR is inputted, with width calculated by measuring distance from the midline; covers cardiovascular/great-vessel borders but does not isolate an azygos-arch localizer."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "DOI 10.1148/93.3.521, PMID 4898452 (Preger et al., Radiology 1969;93(3):521-3)",
+      "access": "search_summary",
+      "establishing_passage": "Width of azygos vein related to central venous pressure: strong (logarithmic, r~0.8) correlation between azygos width on chest radiograph and right atrial/central venous pressure. Pinned as the card's requested primary quantitative azygos-congestion citation."
+    },
+    {
+      "candidate": "C4",
+      "identifier": "DOI 10.1097/RLI.0000000000000869, PMID 35797580, PMCID PMC9390225 (Sexauer et al., Invest Radiol 2022;57(8):552-559)",
+      "access": "full_text",
+      "establishing_passage": "nnU-Net pleural-effusion segmentation plus random-forest simple-vs-complex classification; radiomic shape features (elongation, flatness, sphericity, surface area) were largely NOT selected during training — density/HU features proved more informative; external validation on NLST and PleThora, not CT-RATE. NOTE: the card's PMID 35923880 is a plant circadian-clock paper and the author is Sexauer, not 'Ebert'; the card's PMCID was correct."
+    },
+    {
+      "candidate": "C4",
+      "identifier": "arXiv:2502.07156 (Explaining 3D Computed Tomography Classifiers with Counterfactuals, 2025)",
+      "access": "full_text",
+      "establishing_passage": "Adapts latent-shift counterfactual generation via a VQ-GAN autoencoder to 3D chest-CT classifiers; for pleural effusion the counterfactuals reveal reduced fluid accumulation around the lungs — fluid amount itself changes; volume is not preserved and interface curvature is not manipulated."
+    },
+    {
+      "candidate": "C4",
+      "identifier": "arXiv:2608.11422 (COGENT: Counterfactual Gaussian Explanations for Volumetric Medical Images)",
+      "access": "abstract",
+      "establishing_passage": "Counterfactual explanations in the parameter space of 3D Gaussian volumetric representations, optimized via differentiable rendering with gradients from a frozen downstream predictor (Sybil); general volumetric probing, no fluid-shape or fixed-volume interface-geometry control."
+    },
+    {
+      "candidate": "C5",
+      "identifier": "DOI 10.1007/s00464-015-4499-9, PMID 26304104 (Ouyang et al., Surg Endosc 2016;30:2465-2472)",
+      "access": "abstract",
+      "establishing_passage": "CT postprocessing defines the double-oblique plane of the esophageal hiatus, on which the hiatal surface area is manually traced; subjects with hernia had larger mean hiatus areas than matched controls (6.9 vs 2.5 cm2, p<0.0001). Pinned as the primary quantitative hiatus-measurement citation."
+    },
+    {
+      "candidate": "C5",
+      "identifier": "DOI 10.1016/j.sipas.2023.100162 (Surgery in Practice and Science, 2023)",
+      "access": "search_summary",
+      "establishing_passage": "Crural length and intercrural distance are used to calculate hiatal surface area; an HSA of >=3.5 cm2 as the diagnostic cut-off gave 94.6% preoperative sensitivity for hiatal hernia; measurement remained a manual radiologist MPR tracing (ICC 1.00 radiologist vs surgeon)."
+    },
+    {
+      "candidate": "C5",
+      "identifier": "arXiv:2604.24146 (EXACT: an explainable anomaly-aware vision foundation model, 2026)",
+      "access": "search_summary",
+      "establishing_passage": "CT-CLIP degraded to an AUROC of 0.66 for hiatal hernia on RAD-ChestCT; cross-modal alignment objectives are not designed to preserve the fine-grained spatial structure required for precise localization of focal pathologies such as hiatal hernias. Benchmark/XAI only; no anatomical attribution to crural aperture vs sac volume."
+    }
+  ]
+}

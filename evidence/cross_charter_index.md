@@ -161,3 +161,8 @@
 - [baseline] **scout-018-c03** [SCOUT_ONLY] -- The silhouette sign inside the consolidation score
 - [baseline] **scout-018-c04** [SCOUT_ONLY] -- The healed granulomas inside lung-cancer risk
 - [baseline] **scout-018-c05** [SCOUT_ONLY] -- The heart failure written on the body wall
+- [baseline] **scout-019-c01** [SCOUT_ONLY] -- Name the vessel-tree phenotype inside retinal sex prediction
+- [baseline] **scout-019-c02** [SCOUT_ONLY] -- The spleen as the fatty-liver model's calibration patch
+- [baseline] **scout-019-c03** [SCOUT_ONLY] -- The azygos vein inside the edema score
+- [baseline] **scout-019-c04** [SCOUT_ONLY] -- The meniscus inside the pleural-effusion score
+- [baseline] **scout-019-c05** [SCOUT_ONLY] -- The opening in the diaphragm inside the hiatal-hernia score

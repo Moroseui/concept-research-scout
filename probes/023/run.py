@@ -4,8 +4,8 @@
 This experiment asks whether, in 100 deterministically selected released
 training patients, low versus high native joint CBV/MTT position has a precise,
 patient-replicated association with final-infarct membership inside three
-matched relative-CBF strata.  The primary metric is the equal-patient mean of
-risk in the low-rCBV quartile minus risk in the high-rCBV quartile, with a
+within-patient CBF-percentile bands. The primary metric is the equal-patient
+mean of risk in the low-CBV quartile minus risk in the high-CBV quartile, with a
 2,000-resample patient-bootstrap 95% interval.  Phase S first calibrates support
 and precision gates using synthetic data; the stopping rule then requires a
 contract amendment and fresh approval before Phase C can touch real labels.
@@ -13,17 +13,21 @@ A positive result is exactly the contract's positive_pattern (all validity and
 support gates pass and the three-stratum directional/precision conjunction
 passes); a negative is exactly its negative_pattern (a valid, adequately
 supported census fails that conjunction). Invalid data or execution is never a
-scientific negative.
+scientific negative. A label-blind secondary audit reports NCCT HU median and
+IQR for the low- and high-CBV groups in each flow band; it changes no estimator
+or gate and exists only to reveal tissue-composition imbalance.
 
 Usage: python run.py --smoke|--phase S|--phase C --output-dir DIR [Phase-C args]
 
 Exit codes: 0 success; 2 approval/contract/CLI; 3 access; 4 provenance;
-5 population/split; 6 grid/data; 7 mirror; 8 units; 9 coordinate; 10 support;
+5 population/split; 6 grid/data; 7 retired mirror gate; 8 retired unit contingency;
+9 coordinate; 10 support;
 11 analysis/output; 12 dependency; 13 unexpected harness failure.
 """
 
 import argparse
 import csv
+import gzip
 import hashlib
 import importlib.metadata
 import json
@@ -32,6 +36,7 @@ import platform
 import re
 import sys
 import traceback
+import zlib
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -42,7 +47,7 @@ CONTRACT_VERSION = 1
 SEED = 20260824                 # frozen_simulation_constants.rng_seed
 BOOTSTRAPS = 2000               # frozen contract, both simulation and census
 CENSUS_N = 100                  # frozen contract census size
-STRATA = ((0.15, 0.30), (0.30, 0.45), (0.45, 0.60))
+CBF_PERCENTILE_BANDS = ((0, 33), (33, 67), (67, 100))
 P0S = (0.10, 0.30, 0.50)
 RHOS = (0.01, 0.05, 0.10)
 NS = (20, 25, 30, 35, 40)
@@ -56,7 +61,21 @@ ROOT = PROBE_DIR.parent.parent
 CONTRACT = ROOT / "ideas/023/probe_contract.yaml"
 APPROVAL = ROOT / "ideas/023/HUMAN_APPROVED_PROBE"
 PLACEHOLDER = "TO_BE_RECORDED_AFTER_PHASE_S"
+# Verified twice from the checksum-pinned archive before outcomes were seen.
+SOURCE_CORRUPT_MEMBERS = (
+    "derivatives/sub-stroke0043/ses-01/perfusion-maps/"
+    "sub-stroke0043_ses-01_space-ncct_cbf.nii.gz",
+)
 LOG = None
+
+
+class SourceCorruptMember(Exception):
+    """A required .nii.gz is present but unreadable in the verified release."""
+
+    def __init__(self, path, detail):
+        super().__init__(detail)
+        self.path = Path(path)
+        self.detail = detail
 
 
 def emit(message):
@@ -135,6 +154,13 @@ def environment():
             "cwd": os.getcwd(), "seed": SEED}
 
 
+def write_determinism_manifest(out, stage, manifest):
+    """Print and persist the same declared-input manifest at start and end."""
+    path = out / f"determinism_manifest_{stage}.json"
+    write_json(path, manifest)
+    emit(f"Determinism manifest ({stage}):\n" + path.read_text())
+
+
 # ---------------------------------------------------------------------------
 # PHASE S — SYNTHETIC CALIBRATION.
 # This phase never opens real images or labels. It checks the operating
@@ -146,7 +172,7 @@ def simulated_conjunction(rng, n, m, p0, rho, delta, max_width, bootstraps):
     signs, excludes, widths = [], [], []
     alpha = p0 * (1.0 / rho - 1.0)  # beta-binomial ICC parameterization in contract
     beta = (1.0 - p0) * (1.0 / rho - 1.0)
-    for _ in STRATA:
+    for _ in CBF_PERCENTILE_BANDS:
         latent = rng.beta(alpha, beta, n)
         q4 = rng.binomial(m, latent) / m
         q1 = rng.binomial(m, np.minimum(latent + delta, 1.0)) / m
@@ -164,6 +190,18 @@ def simulated_conjunction(rng, n, m, p0, rho, delta, max_width, bootstraps):
 
 
 def run_phase_s(out, smoke=False):
+    manifest = {
+        "idea_id": IDEA_ID,
+        "phase": "SMOKE" if smoke else "S",
+        "seed": SEED,
+        "input_paths": {
+            "contract": {"path": str(CONTRACT), "sha256": sha256_file(CONTRACT)},
+            "run_py": {"path": str(Path(__file__)), "sha256": sha256_file(Path(__file__))},
+        },
+        "input_row_count": 0,
+        "input_case_count": 0,
+    }
+    write_determinism_manifest(out, "start", manifest)
     rng = np.random.default_rng(SEED)
     rows = []
     # Smoke mode is intentionally tiny and cannot select contractual gates.
@@ -201,6 +239,9 @@ def run_phase_s(out, smoke=False):
         write_json(out / "summary.json", {**summary, "status": "PHASE_S_FAILED"})
         fail(10, "no candidate met every frozen null and alternative cell")
     write_json(out / "summary.json", {**summary, "status": "SMOKE_OK" if smoke else "PHASE_S_COMPLETE_REQUIRES_AMENDMENT"})
+    write_determinism_manifest(out, "end", manifest)
+    assert json.loads((out / "determinism_manifest_start.json").read_text()) == manifest
+    assert json.loads((out / "determinism_manifest_end.json").read_text()) == manifest
     return summary
 
 
@@ -302,6 +343,21 @@ def find_archive_selected(data_dir, archive_path):
     return matches[0]
 
 
+def verify_required_gzip(path):
+    """Read a required gzip stream fully so a source defect is auditable."""
+    if not path.name.lower().endswith(".gz"):
+        return
+    try:
+        with gzip.open(path, "rb") as handle:
+            for block in iter(lambda: handle.read(1024 * 1024), b""):
+                pass
+    except (EOFError, gzip.BadGzipFile, OSError, zlib.error) as exc:
+        normalized = path.resolve().as_posix().lower()
+        if not any(normalized.endswith(member.lower()) for member in SOURCE_CORRUPT_MEMBERS):
+            fail(6, f"unreadable required gzip is not the preregistered source defect: {path}: {exc}")
+        raise SourceCorruptMember(path, f"{type(exc).__name__}: {exc}") from exc
+
+
 def split_cases(case_ids):
     scored = sorted(case_ids, key=lambda x: hashlib.sha256(("idea-023-v1|" + x).encode()).hexdigest())
     census = set(scored[:CENSUS_N]); reserve = set(scored[CENSUS_N:])
@@ -384,7 +440,8 @@ def verify_phase_s_hash(args):
 # PHASE C — LOAD AND VALIDATE.
 # Only the post-amendment approval can reach this code. It resolves immutable
 # provenance, freezes the split before lesion access, and validates grids,
-# units, finite values, mirror support, and the central-volume coordinate.
+# finite values, within-patient flow bands, and the central-volume coordinate. CBV units
+# are recorded as undocumented; the amended vessel rule is unit-free.
 # ---------------------------------------------------------------------------
 
 def load_case(data_dir, case_id, load_label, audit_rows=None):
@@ -392,13 +449,19 @@ def load_case(data_dir, case_id, load_label, audit_rows=None):
         import nibabel as nib
     except ImportError:
         fail(12, "nibabel is required for Phase C")
+    # The activated tissue-composition audit reads NCCT without labels. It is
+    # diagnostic only: its values never enter the estimator or a gate.
     paths = {k: find_one(data_dir, case_id, k) for k in ("cbf", "cbv", "mtt", "tmax", "ncct")}
     if load_label:
         paths["lesion"] = find_one(data_dir, case_id, "lesion")
+    # A full stream read distinguishes the deposited unreadable member from a
+    # later nibabel failure and gives the exclusion log its exact source path.
+    for path in paths.values():
+        verify_required_gzip(path)
     images = {k: nib.load(str(p)) for k, p in paths.items()}
-    # Canonical RAS makes array axis 0 the anatomical left-right axis used by reflection.
-    reference = nib.as_closest_canonical(images["ncct"])
-    images["ncct"] = reference
+    # CBF supplies the common NCCT-space reference grid; no reference anatomy is used.
+    reference = nib.as_closest_canonical(images["cbf"])
+    images["cbf"] = reference
     resampled = []
     for key, image in list(images.items()):
         if image.shape != reference.shape or not np.allclose(image.affine, reference.affine, atol=1e-5):
@@ -420,103 +483,20 @@ def load_case(data_dir, case_id, load_label, audit_rows=None):
     return arrays, paths, reference.header.get_zooms()[:3]
 
 
-def confirm_cbv_units(cbv_path):
-    sidecar = Path(re.sub(r"\.nii(?:\.gz)?$", ".json", str(cbv_path)))
-    texts = []
-    if sidecar.exists():
-        texts.append(json.dumps(json.loads(sidecar.read_text()), sort_keys=True).lower())
-    try:
-        import nibabel as nib
-        texts.append(bytes(nib.load(str(cbv_path)).header["descrip"]).decode("latin1").lower())
-    except Exception:
-        pass
-    normalized = re.sub(r"[\s_/.-]", "", " ".join(texts))
-    if not ("ml100g" in normalized or "mlper100g" in normalized):
-        fail(8, f"CBV unit mL/100 g is not explicitly documented for {cbv_path}")
-
-
-def reflect_index(length, plane):
-    indices = np.arange(length)
-    reflected = np.rint(2.0 * plane - indices).astype(int)
-    return reflected, (reflected >= 0) & (reflected < length)
-
-
-def mirror_qc(ncct, zooms):
-    """Freeze a simple NCCT-derived brain mask and midsagittal reflection."""
-    from scipy import ndimage
-    # NCCT brain proxy: plausible intracranial tissue range, then fill holes and keep largest component.
-    mask = np.isfinite(ncct) & (ncct >= -20.0) & (ncct <= 120.0)
-    mask = ndimage.binary_closing(mask, iterations=2)
-    labels, count = ndimage.label(mask)
-    if count == 0:
-        fail(7, "NCCT-derived brain mask is empty")
-    sizes = ndimage.sum(mask, labels, range(1, count + 1))
-    mask = labels == (int(np.argmax(sizes)) + 1)
-    center = (ncct.shape[0] - 1) / 2.0
-    candidates = np.arange(center - 5.0, center + 5.01, 0.5)
-    scores = []
-    scale = max(float(np.percentile(ncct[mask], 95) - np.percentile(ncct[mask], 5)), 1.0)
-    for plane in candidates:
-        reflected, valid = reflect_index(ncct.shape[0], plane)
-        mirrored = ncct[np.clip(reflected, 0, ncct.shape[0] - 1), :, :]
-        paired = mask & valid[:, None, None] & mask[np.clip(reflected, 0, ncct.shape[0] - 1), :, :]
-        if paired.any():
-            intensity_error = float(np.median(np.abs(ncct[paired] - mirrored[paired])) / scale)
-            overlap_penalty = 1.0 - float(paired.sum() / mask.sum())
-            score = intensity_error + overlap_penalty
-        else:
-            score = np.inf
-        scores.append(score)
-    plane = float(candidates[int(np.argmin(scores))])
-    reflected, valid = reflect_index(ncct.shape[0], plane)
-    clipped = np.clip(reflected, 0, ncct.shape[0] - 1)
-    reflected_mask = mask[clipped, :, :] & valid[:, None, None]
-    usable = mask & reflected_mask
-    fraction = float(usable.sum() / mask.sum())
-    # Median symmetric boundary distance is the frozen left-right registration error in voxels.
-    boundary = mask ^ ndimage.binary_erosion(mask)
-    reflected_boundary = boundary[clipped, :, :] & valid[:, None, None]
-    to_boundary = ndimage.distance_transform_edt(~boundary)
-    to_reflected = ndimage.distance_transform_edt(~reflected_boundary)
-    distances = np.concatenate((to_boundary[reflected_boundary], to_reflected[boundary]))
-    registration_error = float(np.median(distances)) if distances.size else np.inf
-    return mask, reflected, plane, registration_error, fraction, float(min(scores))
-
-
-def neighborhood_median(source, allowed, reflected):
-    """Vectorized, slab-bounded median of each reflected 5x5x3 neighborhood."""
-    mirrored = source[np.clip(reflected, 0, source.shape[0] - 1), :, :].astype(np.float32)
-    mirrored_allowed = allowed[np.clip(reflected, 0, source.shape[0] - 1), :, :]
-    mirrored[~mirrored_allowed] = np.nan
-    # The contract freezes a 5x5x3 voxel window. Slabs avoid materializing all
-    # 75 neighbors for a full CT volume while eliminating Python voxel callbacks.
-    padded = np.pad(mirrored, ((2, 2), (2, 2), (1, 1)), constant_values=np.nan)
-    result = np.empty_like(mirrored)
-    window_values_per_x = max(1, source.shape[1] * source.shape[2] * 75)
-    slab = max(1, min(source.shape[0], 12_000_000 // window_values_per_x))
-    for start in range(0, source.shape[0], slab):
-        stop = min(start + slab, source.shape[0])
-        view = np.lib.stride_tricks.sliding_window_view(
-            padded[start:stop + 4], (5, 5, 3)
-        )
-        with np.errstate(all="ignore"):
-            result[start:stop] = np.nanmedian(view, axis=(-3, -2, -1))
-    return result
-
-
-def coordinate_arrays(arrays, mirror):
+def coordinate_arrays(arrays):
     cbf, cbv, mtt, tmax = (arrays[k] for k in ("cbf", "cbv", "mtt", "tmax"))
-    brain, reflected, plane = mirror
     finite_maps = np.isfinite(cbf) & np.isfinite(cbv) & np.isfinite(mtt) & np.isfinite(tmax)
     deficit = np.isfinite(tmax) & (tmax > 6.0)  # DEFUSE-family threshold frozen in contract.
-    vessel = np.isfinite(cbv) & (cbv > 8.0)     # mL/100 g cap; units are gated first.
-    allowed = brain & ~deficit & ~vessel
-    mirror_cbf = neighborhood_median(cbf, allowed, reflected)
-    mirror_cbv = neighborhood_median(cbv, allowed, reflected)
-    valid_den = np.isfinite(mirror_cbf) & np.isfinite(mirror_cbv) & (mirror_cbf > 0) & (mirror_cbv > 0)
-    rcbf = np.divide(cbf, mirror_cbf, out=np.full_like(cbf, np.nan), where=valid_den)
-    rcbv = np.divide(cbv, mirror_cbv, out=np.full_like(cbv, np.nan), where=valid_den)
-    # Contract threshold: Tmax > 6 seconds; CBV vessel cap 8 mL/100 g.
+    # Amended clause 66: use the per-patient 98th percentile because CBV units
+    # are undocumented. Under the conventional scale this approximates the
+    # vessel fraction targeted by the retired 8 mL/100 g cap.
+    positive_cbv = cbv[np.isfinite(cbv) & (cbv > 0)]
+    if positive_cbv.size == 0:
+        fail(6, "CBV map has no finite positive values for the vessel percentile")
+    vessel_cbv_p98 = float(np.percentile(positive_cbv, 98.0))
+    assert np.isfinite(vessel_cbv_p98) and vessel_cbv_p98 > 0
+    vessel = np.isfinite(cbv) & (cbv > vessel_cbv_p98)
+    # Contract thresholds: Tmax > 6 seconds and the unit-free patient CBV p98.
     region = deficit.copy()
     # One-voxel binary erosion removes unstable deficit boundaries, as frozen
     # in preprocessing.region. Six face-neighbors make the 3-D voxel erosion.
@@ -525,44 +505,118 @@ def coordinate_arrays(arrays, mirror):
         eroded &= np.roll(region, 1, axis=axis)
         eroded &= np.roll(region, -1, axis=axis)
     eroded[[0, -1], :, :] = False; eroded[:, [0, -1], :] = False; eroded[:, :, [0, -1]] = False
-    # Contract excludes two voxels on either side of the estimated midline.
+    # Contract retains the two-voxel array-midline exclusion as a boundary safeguard.
+    plane = (cbf.shape[0] - 1) / 2.0
     coordinates = np.arange(cbf.shape[0], dtype=float)
     eroded[np.abs(coordinates - plane) <= 2.0, :, :] = False
-    eroded &= brain & ~vessel & valid_den & finite_maps
+    eroded &= ~vessel & finite_maps & (cbf > 0) & (cbv > 0) & (mtt > 0)
     exclusions = {"deficit_voxels": int(deficit.sum()), "eroded_region_voxels": int(eroded.sum()),
-                  "invalid_or_nonpositive_denominator_voxels": int((brain & ~valid_den).sum()),
                   "vessel_voxels": int(vessel.sum()),
+                  "vessel_cbv_p98": vessel_cbv_p98,
                   "nonfinite_cbf_voxels": int((~np.isfinite(cbf)).sum()),
                   "nonfinite_cbv_voxels": int((~np.isfinite(cbv)).sum()),
                   "nonfinite_mtt_voxels": int((~np.isfinite(mtt)).sum()),
                   "nonfinite_tmax_voxels": int((~np.isfinite(tmax)).sum())}
-    return cbf, cbv, mtt, rcbf, rcbv, eroded, exclusions
+    assert np.all(np.isfinite(cbf[eroded])) and np.all(cbf[eroded] > 0)
+    assert np.all(np.isfinite(cbv[eroded])) and np.all(cbv[eroded] > 0)
+    assert np.all(np.isfinite(mtt[eroded])) and np.all(mtt[eroded] > 0)
+    return cbf, cbv, mtt, eroded, exclusions
 
 
-def patient_native_z(arrays, mirror):
-    cbf, cbv, mtt, rcbf, rcbv, region, exclusions = coordinate_arrays(arrays, mirror)
+def flow_band_labels(cbf, region):
+    """Assign eligible voxels to fixed CBF percentile bands with stable ties."""
+    flat_indices = np.flatnonzero(region)
+    labels = np.zeros(cbf.size, dtype=np.uint8)
+    if flat_indices.size:
+        # Stable mergesort makes equal-CBF ties deterministic by original voxel index.
+        order = np.argsort(cbf.ravel()[flat_indices], kind="mergesort")
+        ranked_indices = flat_indices[order]
+        positions = np.arange(ranked_indices.size)
+        labels[ranked_indices[positions * 100 < ranked_indices.size * 33]] = 1
+        labels[ranked_indices[(positions * 100 >= ranked_indices.size * 33) &
+                              (positions * 100 < ranked_indices.size * 67)]] = 2
+        labels[ranked_indices[positions * 100 >= ranked_indices.size * 67]] = 3
+    labels = labels.reshape(cbf.shape)
+    assert np.count_nonzero(labels) == np.count_nonzero(region)
+    assert not np.any(labels[~region])
+    return labels
+
+
+def patient_native_z(arrays):
+    cbf, cbv, mtt, region, exclusions = coordinate_arrays(arrays)
+    bands = flow_band_labels(cbf, region)
     values, identity = [], []
-    for low, high in STRATA:
-        mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0) & (cbf > 0) & (cbv > 0) & (mtt > 0)
-        values.append(np.log(rcbv[mask]))
+    for index in range(1, 4):
+        mask = region & (bands == index)
+        assert np.all(np.isfinite(cbf[mask])) and np.all(np.isfinite(cbv[mask]))
+        values.append(np.log(cbv[mask]))
         identity.append(np.log(mtt[mask]) - np.log(cbv[mask]) + np.log(cbf[mask]))
-    return values, identity, exclusions, rcbf, rcbv, region
+    return values, identity, exclusions, cbv, bands, region
 
 
-def patient_measure(case_id, lesion, min_voxels, quartile_cuts, cache):
-    rcbf, rcbv, region = cache["rcbf"], cache["rcbv"], cache["region"].astype(bool)
+def tissue_audit(case_id, ncct, cbv, bands, region, quartiles):
+    """Summarize label-blind NCCT attenuation in each flow-band/style cell."""
+    assert ncct.shape == cbv.shape == bands.shape == region.shape
+    rows = []
+    for index in range(1, 4):
+        band = region & (bands == index)
+        z = np.log(cbv[band])
+        q1 = float(quartiles[f"q1_{index}"])
+        q3 = float(quartiles[f"q3_{index}"])
+        assert z.size == int(band.sum())
+        if z.size:
+            assert np.isfinite(q1) and np.isfinite(q3) and q1 <= q3
+            style_selections = (("Q1_low_CBV", z <= q1),
+                                ("Q4_high_CBV", z >= q3))
+        else:
+            # Empty flow bands are valid missing support, so retain both audit
+            # rows with blank statistics and let the frozen support gate decide.
+            assert np.isnan(q1) and np.isnan(q3)
+            style_selections = (("Q1_low_CBV", np.zeros(0, dtype=bool)),
+                                ("Q4_high_CBV", np.zeros(0, dtype=bool)))
+        for style, selected in style_selections:
+            hu = ncct[band][selected]
+            finite_hu = hu[np.isfinite(hu)]
+            # NCCT is stored in Hounsfield units; no conversion is applied.
+            if finite_hu.size:
+                q25, median, q75 = np.percentile(finite_hu, [25.0, 50.0, 75.0])
+                assert np.isfinite(q25) and np.isfinite(median) and np.isfinite(q75)
+                assert q25 <= median <= q75
+                row = {"case_id": case_id, "stratum": index, "style_group": style,
+                       "member_voxels": int(hu.size),
+                       "finite_hu_voxels": int(finite_hu.size),
+                       "nonfinite_hu_voxels": int(hu.size - finite_hu.size),
+                       "median_hu": float(median), "q25_hu": float(q25),
+                       "q75_hu": float(q75), "iqr_hu": float(q75 - q25)}
+            else:
+                # Missing HU support is recorded, but this audit creates no new gate.
+                row = {"case_id": case_id, "stratum": index, "style_group": style,
+                       "member_voxels": int(hu.size), "finite_hu_voxels": 0,
+                       "nonfinite_hu_voxels": int(hu.size), "median_hu": "",
+                       "q25_hu": "", "q75_hu": "", "iqr_hu": ""}
+            assert row["finite_hu_voxels"] + row["nonfinite_hu_voxels"] == row["member_voxels"]
+            rows.append(row)
+    assert len(rows) == 6
+    return rows
+
+
+def patient_measure(case_id, lesion, min_voxels, cache):
+    cbv, bands, region = cache["cbv"], cache["bands"], cache["region"].astype(bool)
     if np.any(~np.isfinite(lesion[region])):
         fail(6, f"nonfinite lesion-mask value in analyzed voxels for {case_id}")
     lesion = lesion > 0.5
     records = []
-    for index, (low, high) in enumerate(STRATA, 1):
-        mask = region & (rcbf >= low) & (rcbf < high) & (rcbv > 0)
-        z = np.log(rcbv[mask])
+    for index in range(1, 4):
+        mask = region & (bands == index)
+        assert np.all(np.isfinite(cbv[mask])) and np.all(cbv[mask] > 0)
+        z = np.log(cbv[mask])
         if z.size < 4:
             records.append({"case_id": case_id, "stratum": index, "q1_voxels": 0, "q4_voxels": 0, "d": ""})
             continue
-        # These are census-wide, label-blind cut points frozen in pass one.
-        q1, q3 = quartile_cuts[index]
+        # These per-patient cuts were computed and checkpointed before labels opened.
+        q1 = float(cache[f"q1_{index}"])
+        q3 = float(cache[f"q3_{index}"])
+        assert np.isfinite(q1) and np.isfinite(q3) and q1 <= q3
         labels = lesion[mask]
         lo_mask, hi_mask = z <= q1, z >= q3
         d = float(labels[lo_mask].mean() - labels[hi_mask].mean()) if lo_mask.sum() >= min_voxels and hi_mask.sum() >= min_voxels else ""
@@ -578,6 +632,7 @@ def load_lesion(data_dir, case_id, shape, affine, selected_archive_path):
     except ImportError:
         fail(12, "nibabel and scipy are required for Phase C")
     path = find_archive_selected(data_dir, selected_archive_path)
+    verify_required_gzip(path)
     image = nib.as_closest_canonical(nib.load(str(path)))
     resampled = image.shape != tuple(shape) or not np.allclose(image.affine, affine, atol=1e-5)
     if resampled:
@@ -654,6 +709,26 @@ def run_phase_c(args, out, gate_info):
         {r["case_id"] for r in split_rows if r["population"] == "reserved"})
     write_csv(out / "split_manifest.csv", ["case_id", "population", "assignment_hash"], split_rows)
     split_sha = sha256_file(out / "split_manifest.csv")
+    manifest = {
+        "idea_id": IDEA_ID,
+        "phase": "C",
+        "seed": SEED,
+        "input_paths": {
+            "archive": {"path": str(args.archive_file), "sha256": archive_info["archive_sha256"]},
+            "record_json": {"path": str(args.record_json), "sha256": sha256_file(args.record_json)},
+            "phase_s_csv": {"path": str(args.phase_s_dir / "simulation_operating_characteristics.csv"),
+                            "sha256": phase_s_sha},
+            "contract": {"path": str(CONTRACT), "sha256": sha256_file(CONTRACT)},
+            "run_py": {"path": str(Path(__file__)), "sha256": sha256_file(Path(__file__))},
+        },
+        "archive_member_count": len(members),
+        "input_row_count": len(members),
+        "input_case_count": len(case_ids),
+        "census_case_count": len(census),
+        "reserved_case_count": len(reserve),
+        "split_manifest_sha256": split_sha,
+    }
+    write_determinism_manifest(out, "start", manifest)
     provenance_path = out / "provenance.json"
     provenance = json.loads(provenance_path.read_text())
     provenance.update({**archive_info, "archive_member_count": len(members),
@@ -664,11 +739,13 @@ def run_phase_c(args, out, gate_info):
     min_n = int(scalar(CONTRACT.read_text(), "minimum_contributing_patients_per_stratum"))
     min_m = int(scalar(CONTRACT.read_text(), "minimum_voxels_per_patient_quantile_cell"))
     max_width = float(scalar(CONTRACT.read_text(), "maximum_primary_ci_width"))
-    # Pass one is outcome-blind: only maps are opened, and census-wide native
-    # quartile boundaries are frozen before any lesion filename is resolved.
+    # Pass one is outcome-blind: only maps are opened. Each patient's fixed
+    # CBF bands and CBV values are checkpointed before any lesion is opened.
     native_values = {1: [], 2: [], 3: []}
     identity_values = {1: [], 2: [], 3: []}
-    schema_rows, mirror_rows, exclusion_rows = [], [], []
+    tissue_rows = []
+    schema_rows, exclusion_rows = [], []
+    excluded_source_cases = set()
     for duplicate in duplicate_lesions:
         # The payload's 150th lesion row remains visible in both required audit
         # files. It is never silently absorbed into a patient's outcome.
@@ -688,7 +765,9 @@ def run_phase_c(args, out, gate_info):
     cache_identity = {"contract_blob": gate_info["contract_blob"],
                       "archive_sha256": archive_info["archive_sha256"],
                       "split_manifest_sha256": split_sha,
-                      "run_py_sha256": sha256_file(Path(__file__))}
+                      "run_py_sha256": sha256_file(Path(__file__)),
+                      "units_documented": False,
+                      "units_evidence": "No JSON sidecars among 2,983 archive members; NIfTI descrip fields are empty; inspected Zenodo, TU/e, and challenge-paper dataset descriptions name CBV but state no units."}
     if cache_identity_path.exists() and json.loads(cache_identity_path.read_text()) != cache_identity:
         fail(4, "Phase-C checkpoint identity differs from this contract/archive/split/code")
     write_json(cache_identity_path, cache_identity)
@@ -701,52 +780,71 @@ def run_phase_c(args, out, gate_info):
             audit = json.loads(audit_path.read_text())
             values_by_stratum = [cached[f"z{i}"] for i in range(1, 4)]
             identity_by_stratum = [cached[f"u{i}"] for i in range(1, 4)]
+            cached_tissue_rows = json.loads(str(cached["tissue_audit_json"]))
+            assert len(cached_tissue_rows) == 6
         else:
             emit(f"Label-blind map pass {number}/{CENSUS_N}: {case}; computing and checkpointing")
             case_schema = []
-            arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=case_schema)
-            confirm_cbv_units(paths["cbv"])
-            brain, reflected, plane, error, usable, score = mirror_qc(arrays["ncct"], zooms)
-            mirror_row = {"case_id": case, "plane_axis0": plane,
-                          "registration_error_voxels": error, "usable_brain_fraction": usable,
-                          "normalized_median_absolute_error": score}
-            values_by_stratum, identity_by_stratum, exclusions, rcbf, rcbv, region = patient_native_z(
-                arrays, (brain, reflected, plane)
+            try:
+                arrays, paths, zooms = load_case(args.data_dir, case, load_label=False, audit_rows=case_schema)
+            except SourceCorruptMember as exc:
+                emit(f"EXCLUDE {case}: source_corrupt_member: {exc.path} ({exc.detail})")
+                excluded_source_cases.add(case)
+                schema_rows.append({"case_id": case,
+                                    "files": json.dumps({"source_corrupt_member": str(exc.path)}, sort_keys=True),
+                                    "shape": "", "voxel_sizes_mm": "", "affine": "", "resampled": "",
+                                    "record_type": "excluded_case",
+                                    "exclusion_reason": "source_corrupt_member"})
+                exclusion_rows.append({"case_id": case, "record_type": "excluded_case",
+                                       "reason": "source_corrupt_member",
+                                       "source_path": str(exc.path)})
+                continue
+            values_by_stratum, identity_by_stratum, exclusions, cbv, bands, region = patient_native_z(arrays)
+            quartiles = {}
+            for index, values in enumerate(values_by_stratum, 1):
+                if values.size:
+                    q1, q3 = np.quantile(values, [0.25, 0.75])
+                else:
+                    q1, q3 = np.nan, np.nan
+                quartiles[f"q1_{index}"] = np.asarray(q1)
+                quartiles[f"q3_{index}"] = np.asarray(q3)
+            cached_tissue_rows = tissue_audit(
+                case, arrays["ncct"], cbv, bands, region, quartiles
             )
-            atomic_npz(cache_path, rcbf=rcbf, rcbv=rcbv, region=region,
+            atomic_npz(cache_path, cbv=cbv, bands=bands, region=region,
                        affine=np.asarray(json.loads(case_schema[0]["affine"])),
+                       tissue_audit_json=np.asarray(json.dumps(cached_tissue_rows, sort_keys=True)),
+                       **quartiles,
                        **{f"z{i}": values_by_stratum[i-1] for i in range(1, 4)},
                        **{f"u{i}": identity_by_stratum[i-1] for i in range(1, 4)})
-            audit = {"schema": case_schema[0], "mirror": mirror_row,
+            audit = {"schema": case_schema[0],
                      "exclusions": {"case_id": case, **exclusions}}
             write_json(audit_path, audit)
         audit["schema"].setdefault("record_type", "analyzed_case")
         audit["schema"].setdefault("exclusion_reason", "")
         schema_rows.append(audit["schema"])
-        mirror_rows.append(audit["mirror"])
         audit["exclusions"].setdefault("record_type", "analyzed_case")
         audit["exclusions"].setdefault("reason", "")
         audit["exclusions"].setdefault("source_path", "")
         exclusion_rows.append(audit["exclusions"])
+        tissue_rows.extend(cached_tissue_rows)
         for index, values in enumerate(values_by_stratum, 1):
             native_values[index].append(values)
             identity_values[index].append(identity_by_stratum[index - 1])
-    # Frozen mirror gate: individual registration error <=1 voxel and >=90% usable support in >=90 patients.
-    good_mirror = sum(r["registration_error_voxels"] <= 1.0 and r["usable_brain_fraction"] >= 0.90
-                      for r in mirror_rows)
-    write_csv(out / "mirror_qc.csv", list(mirror_rows[0]), mirror_rows)
     schema_fields = ["case_id", "record_type", "exclusion_reason", "files", "shape",
                      "voxel_sizes_mm", "affine", "resampled"]
     exclusion_fields = ["case_id", "record_type", "reason", "source_path",
                         "deficit_voxels", "eroded_region_voxels",
-                        "invalid_or_nonpositive_denominator_voxels", "vessel_voxels",
+                        "vessel_voxels", "vessel_cbv_p98",
                         "nonfinite_cbf_voxels", "nonfinite_cbv_voxels",
                         "nonfinite_mtt_voxels", "nonfinite_tmax_voxels"]
     write_csv(out / "schema_census.csv", schema_fields, schema_rows)
     write_csv(out / "exclusions.csv", exclusion_fields, exclusion_rows)
-    if good_mirror < 90:
-        fail(7, f"mirror gate passed for {good_mirror}/100 patients; requires at least 90")
-
+    tissue_fields = ["case_id", "stratum", "style_group", "member_voxels",
+                     "finite_hu_voxels", "nonfinite_hu_voxels", "median_hu",
+                     "q25_hu", "q75_hu", "iqr_hu"]
+    assert len(tissue_rows) == 6 * (len(census) - len(excluded_source_cases))
+    write_csv(out / "bin_tissue_audit.csv", tissue_fields, tissue_rows)
     # Contract centers u once across the whole census, then gates every stratum before labels open.
     all_u = np.concatenate([x for cells in identity_values.values() for x in cells if x.size])
     if all_u.size == 0:
@@ -768,16 +866,14 @@ def run_phase_c(args, out, gate_info):
     for index in range(1, 4):
         if centered[index] > 0.10:
             fail(9, f"stratum {index} identity residual {centered[index]:.4f} exceeds 0.10")
-    quartile_cuts = {}
     support_rows = []
     for index in range(1, 4):
         pooled = np.concatenate(native_values[index])
         if pooled.size == 0: fail(10, f"stratum {index} has no native support")
-        quartile_cuts[index] = tuple(float(x) for x in np.quantile(pooled, [0.25, 0.75]))
-        support_rows.append(distribution_row(index, pooled, "log_rcbv"))
+        support_rows.append(distribution_row(index, pooled, "log_cbv"))
     write_csv(out / "support_summary.csv", list(support_rows[0]), support_rows)
-    write_distribution_svg(out / "native_support.svg", support_rows, "log_rcbv",
-                           "Native log(rCBV) support by matched-rCBF stratum")
+    write_distribution_svg(out / "native_support.svg", support_rows, "log_cbv",
+                           "Native log(CBV) support by within-patient CBF band")
 
     # Pass two opens lesion masks only after split and quantile boundaries are
     # immutable. It emits one row per patient and stratum.
@@ -792,16 +888,33 @@ def run_phase_c(args, out, gate_info):
             row["q4_voxels"] = int(row["q4_voxels"])
     completed = {row["case_id"] for row in per_patient}
     for number, case in enumerate(sorted(census), 1):
+        if case in excluded_source_cases:
+            emit(f"Outcome pass {number}/{CENSUS_N}: {case}; excluded source_corrupt_member")
+            continue
         if case in completed:
             emit(f"Outcome pass {number}/{CENSUS_N}: {case}; resume checkpoint hit")
             continue
         emit(f"Outcome pass {number}/{CENSUS_N}: {case}; running rows={len(per_patient)}")
-        with np.load(cache_dir / f"{case}.npz") as cache:
-            lesion, lesion_path, label_resampled = load_lesion(
-                args.data_dir, case, cache["region"].shape, cache["affine"],
-                lesion_members[case]["path"]
-            )
-            rows = patient_measure(case, lesion, min_m, quartile_cuts, cache)
+        try:
+            with np.load(cache_dir / f"{case}.npz") as cache:
+                lesion, lesion_path, label_resampled = load_lesion(
+                    args.data_dir, case, cache["region"].shape, cache["affine"],
+                    lesion_members[case]["path"]
+                )
+                rows = patient_measure(case, lesion, min_m, cache)
+        except SourceCorruptMember as exc:
+            emit(f"EXCLUDE {case}: source_corrupt_member: {exc.path} ({exc.detail})")
+            excluded_source_cases.add(case)
+            schema = next(row for row in schema_rows
+                          if row["case_id"] == case and row["record_type"] == "analyzed_case")
+            schema["record_type"] = "excluded_case"
+            schema["exclusion_reason"] = "source_corrupt_member"
+            schema["files"] = json.dumps({**json.loads(schema["files"]),
+                                           "source_corrupt_member": str(exc.path)}, sort_keys=True)
+            exclusion_rows.append({"case_id": case, "record_type": "excluded_case",
+                                   "reason": "source_corrupt_member",
+                                   "source_path": str(exc.path)})
+            continue
         schema = next(row for row in schema_rows
                       if row["case_id"] == case and row["record_type"] == "analyzed_case")
         schema["files"] = json.dumps({**json.loads(schema["files"]), "lesion": lesion_path}, sort_keys=True)
@@ -813,7 +926,10 @@ def run_phase_c(args, out, gate_info):
         write_json(audit_path, audit)
         per_patient.extend(rows)
         write_csv(outcome_checkpoint, list(per_patient[0]), per_patient)
+    # Rewrite both audit files after outcome access so a defective label member
+    # is retained even when it is discovered in the second pass.
     write_csv(out / "schema_census.csv", schema_fields, schema_rows)
+    write_csv(out / "exclusions.csv", exclusion_fields, exclusion_rows)
     write_csv(out / "per_patient.csv", list(per_patient[0]), per_patient)
     rng = np.random.default_rng(SEED)
     summaries = []
@@ -841,10 +957,17 @@ def run_phase_c(args, out, gate_info):
     summary = {"idea_id": IDEA_ID, "phase": "C", "status": "POSITIVE_PATTERN" if passed else "NEGATIVE_PATTERN",
                "g_label_passed": passed, "per_stratum": summaries, "identity_mad": centered,
                "released_case_count": len(case_ids), "census_case_count": len(census),
+               "analyzed_census_case_count": len(census) - len(excluded_source_cases),
                "reserved_case_count": len(reserve), "split_manifest_sha256": split_sha,
                "excluded_duplicate_lesion_members": len(duplicate_lesions),
+               "excluded_source_corrupt_cases": len(excluded_source_cases),
+               "bin_tissue_audit_rows": len(tissue_rows),
+               "bin_tissue_audit_file": "bin_tissue_audit.csv",
                "simulation_output_sha256": phase_s_sha, **archive_info, **gate_info}
     write_json(out / "summary.json", summary)
+    write_determinism_manifest(out, "end", manifest)
+    assert json.loads((out / "determinism_manifest_start.json").read_text()) == manifest
+    assert json.loads((out / "determinism_manifest_end.json").read_text()) == manifest
     return summary
 
 
@@ -864,7 +987,9 @@ def main():
     try:
         phase = "SMOKE" if args.smoke else args.phase
         info = {"contract_blob": blob_sha1(CONTRACT)} if args.smoke else gate(args.phase)
-        resolved = {"phase": phase, "seed": SEED, "strata": STRATA, **info}
+        resolved = {"phase": phase, "seed": SEED,
+                    "cbf_percentile_bands": CBF_PERCENTILE_BANDS,
+                    "label_blind_ncct_tissue_audit": True, **info}
         if args.phase == "C":
             resolved.update({
                 "minimum_contributing_patients_per_stratum": int(scalar(CONTRACT.read_text(), "minimum_contributing_patients_per_stratum")),

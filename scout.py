@@ -1049,13 +1049,136 @@ def _mount_cell():
         "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed")
 
 
-def _staging_cells(concept, suffixes, record_id=None):
+def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
     """Deterministic Colab staging cells for a Zenodo-hosted archive: pin the
     immutable child record, resumable-download the single .7z to Drive, and
     selectively extract only the declared suffixes. Pure driver plumbing; the
     probe's own provenance gates re-verify everything downstream."""
     sufs = ', '.join(repr(x) for x in suffixes)
     rid = str(record_id) if record_id else None
+    if mode == 'origin_direct':
+        if not rid:
+            raise SystemExit('--staging-mode origin_direct requires --staging-record '
+                             '(a declared immutable child): direct staging refuses '
+                             'to resolve concept-latest at runtime')
+        pin = (
+            "# --- origin_direct staging: the pinned Zenodo record is the source;\n"
+            "# the Drive mount carries ONLY small inputs/outputs (FUSE is out of\n"
+            "# the 99 GB path entirely -- seven recorded casualties).\n"
+            "import os, json, urllib.request\n"
+            "LOCAL = '/content/work'\n"
+            "os.makedirs(LOCAL, exist_ok=True)\n"
+            "RECORD_JSON = LOCAL + '/zenodo_record.json'\n"
+            "with urllib.request.urlopen('https://zenodo.org/api/records/" + rid + "') as r:\n"
+            "    rec = json.load(r)\n"
+            "assert str(rec['id']) == '" + rid + "', 'server returned a different record than the declared pin'\n"
+            "json.dump(rec, open(RECORD_JSON, 'w'), indent=2)\n"
+            "_a = [f for f in rec['files'] if f['key'].endswith('.7z')]\n"
+            "assert len(_a) == 1, _a\n"
+            "ARCHIVE_LOCAL = LOCAL + '/' + _a[0]['key']\n"
+            "ARCHIVE_URL = _a[0]['links']['self']\n"
+            "print('pinned record', rec['id'], _a[0]['key'], round(_a[0]['size']/1e9, 1), 'GB (origin_direct)')")
+        fetch = (
+            "import hashlib, subprocess\n"
+            "_name = os.path.basename(ARCHIVE_LOCAL)\n"
+            "_entries = [f for f in rec['files'] if f.get('key') == _name]\n"
+            "assert len(_entries) == 1\n"
+            "_ck = _entries[0].get('checksum', '')\n"
+            "if not _ck.startswith('md5:'):\n"
+            "    raise SystemExit('driver configuration error: pinned record supplies no '\n"
+            "                     'md5 for ' + _name + '; refusing a 99 GB staging pass')\n"
+            "EXPECT_MD5 = _ck.split(':', 1)[1]\n"
+            "EXPECT_SIZE = _entries[0]['size']\n"
+            "def _md5(path):\n"
+            "    h = hashlib.md5()\n"
+            "    with open(path, 'rb') as f:\n"
+            "        for chunk in iter(lambda: f.read(1 << 22), b''):\n"
+            "            h.update(chunk)\n"
+            "    return h.hexdigest()\n"
+            "subprocess.run(['apt-get', '-qq', 'install', '-y', 'aria2'], check=False)\n"
+            "LOCAL_DATA = LOCAL + '/extracted'\n"
+            "_done = False\n"
+            "if os.path.exists(ARCHIVE_LOCAL):\n"
+            "    print('verifying existing local archive md5 (~4 min)...')\n"
+            "    if os.path.getsize(ARCHIVE_LOCAL) == EXPECT_SIZE and _md5(ARCHIVE_LOCAL) == EXPECT_MD5:\n"
+            "        _done = True\n"
+            "    else:\n"
+            "        print('existing local archive fails integrity; removing')\n"
+            "        os.remove(ARCHIVE_LOCAL)\n"
+            "if not _done:\n"
+            "    for _attempt in (1, 2):\n"
+            "        _part = _name + '.part'\n"
+            "        print('downloading from Zenodo (attempt', _attempt, 'of 2; 16-way aria2c;',\n"
+            "              round(EXPECT_SIZE/1e9, 1), 'GB -- ETA prints below)...')\n"
+            "        _rc = subprocess.run(['aria2c', '-x16', '-s16', '-k4M',\n"
+            "                              '--file-allocation=none', '-c',\n"
+            "                              '-d', LOCAL, '-o', _part, ARCHIVE_URL]).returncode\n"
+            "        _pp = LOCAL + '/' + _part\n"
+            "        if (_rc == 0 and os.path.exists(_pp)\n"
+            "                and os.path.getsize(_pp) == EXPECT_SIZE):\n"
+            "            print('verifying downloaded bytes md5 (~4 min)...')\n"
+            "            if _md5(_pp) == EXPECT_MD5:\n"
+            "                os.replace(_pp, ARCHIVE_LOCAL)\n"
+            "                _done = True\n"
+            "                break\n"
+            "        print('download failed integrity/transfer (rc', _rc, '); discarding partial')\n"
+            "        for _f in (_pp, _pp + '.aria2'):\n"
+            "            if os.path.exists(_f):\n"
+            "                os.remove(_f)\n"
+            "if not _done:\n"
+            "    raise SystemExit('ORIGIN_DOWNLOAD_INTEGRITY_FAILURE: two direct downloads '\n"
+            "                     'from the pinned record failed; check Zenodo status and '\n"
+            "                     'network, then rerun')\n"
+            "print('local archive verified: md5', EXPECT_MD5)\n"
+            "print('local archive bytes:', os.path.getsize(ARCHIVE_LOCAL))")
+        extract = (
+            "SUFFIXES = [" + sufs + "]\n"
+            "if not os.path.isdir(LOCAL_DATA):\n"
+            "    subprocess.run(['apt-get', '-qq', 'install', '-y', 'p7zip-full'], check=False)\n"
+            "    _rc = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+            "                         + ['-ir!*' + x for x in SUFFIXES],\n"
+            "                         stdout=subprocess.DEVNULL).returncode\n"
+            "    assert _rc == 0, f'7z extraction failed rc={_rc} -- refusing to proceed'\n"
+            "_n = sum(len(f) for _, _, f in os.walk(LOCAL_DATA))\n"
+            "print('extracted files (local):', _n)\n"
+            "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'\n"
+            "def _gzip_sweep(root):\n"
+            "    bad = []\n"
+            "    for _dp, _, _fs in os.walk(root):\n"
+            "        for _f in _fs:\n"
+            "            if _f.endswith('.gz'):\n"
+            "                _p = os.path.join(_dp, _f)\n"
+            "                if subprocess.run(['gzip', '-t', _p], capture_output=True).returncode:\n"
+            "                    bad.append(_p)\n"
+            "    return bad\n"
+            "_bad = _gzip_sweep(LOCAL_DATA)\n"
+            "if _bad:\n"
+            "    print('integrity sweep:', len(_bad), 'truncated/corrupt member(s); re-extracting just those')\n"
+            "    for _p in _bad:\n"
+            "        os.remove(_p)\n"
+            "    _rc2 = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+            "                          + ['-ir!*' + os.path.basename(_p) for _p in _bad],\n"
+            "                          stdout=subprocess.DEVNULL).returncode\n"
+            "    assert _rc2 == 0, f'7z re-extraction failed rc={_rc2}'\n"
+            "    _bad2 = _gzip_sweep(LOCAL_DATA)\n"
+            "    _src_defects = []\n"
+            "    for _p in list(_bad2):\n"
+            "        _t = subprocess.run(['7z', 't', ARCHIVE_LOCAL,\n"
+            "                             '-ir!*' + os.path.basename(_p)],\n"
+            "                            stdout=subprocess.DEVNULL,\n"
+            "                            stderr=subprocess.DEVNULL).returncode\n"
+            "        if _t == 0:\n"
+            "            print('[SOURCE_MEMBER_DEFECT]', os.path.basename(_p),\n"
+            "                  '-- gzip stream invalid inside the md5-verified archive;',\n"
+            "                  'leaving in place for contract-level handling')\n"
+            "            _src_defects.append(_p)\n"
+            "            _bad2.remove(_p)\n"
+            "    assert not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
+            "        + '; '.join(os.path.basename(_x) for _x in _bad2[:5]))\n"
+            "    print('integrity sweep:', len(_src_defects), 'source-defect member(s) tolerated')\n"
+            "else:\n"
+            "    print('integrity sweep: all extracted members pass gzip -t')")
+        return [pin, fetch, extract]
     fetch_url = ('https://zenodo.org/api/records/' + (rid or concept))
     pin = (
         "# --- Generated staging: Zenodo " + ("record " + rid if rid else "concept " + concept)
@@ -1097,20 +1220,101 @@ def _staging_cells(concept, suffixes, record_id=None):
         "os.makedirs(LOCAL, exist_ok=True)\n"
         "ARCHIVE_LOCAL = LOCAL + '/' + os.path.basename(ARCHIVE)\n"
         "LOCAL_DATA = LOCAL + '/extracted'\n"
-        "if (not os.path.exists(ARCHIVE_LOCAL)\n"
-        "        or os.path.getsize(ARCHIVE_LOCAL) != os.path.getsize(ARCHIVE)):\n"
-        "    print('copying archive Drive -> local SSD (one bounded FUSE read; expect 30-60 min)...')\n"
-        "    shutil.copyfile(ARCHIVE, ARCHIVE_LOCAL)\n"
+        "import hashlib\n"
+        "_name = os.path.basename(ARCHIVE)\n"
+        "_entries = [f for f in rec['files'] if f.get('key') == _name]\n"
+        "assert len(_entries) == 1, ('record must contain exactly one entry named ' + _name)\n"
+        "_ck = _entries[0].get('checksum', '')\n"
+        "if not _ck.startswith('md5:'):\n"
+        "    raise SystemExit('driver configuration error: pinned record supplies no '\n"
+        "                     'md5 for ' + _name + '; refusing a 99 GB staging pass '\n"
+        "                     'without a transport checksum')\n"
+        "EXPECT_MD5 = _ck.split(':', 1)[1]\n"
+        "EXPECT_SIZE = _entries[0]['size']\n"
+        "def _md5(path):\n"
+        "    h = hashlib.md5()\n"
+        "    with open(path, 'rb') as f:\n"
+        "        for chunk in iter(lambda: f.read(1 << 22), b''):\n"
+        "            h.update(chunk)\n"
+        "    return h.hexdigest()\n"
+        "_done = False\n"
+        "if os.path.exists(ARCHIVE_LOCAL):\n"
+        "    print('verifying existing local archive md5 (~4 min on scratch)...')\n"
+        "    if os.path.getsize(ARCHIVE_LOCAL) == EXPECT_SIZE and _md5(ARCHIVE_LOCAL) == EXPECT_MD5:\n"
+        "        _done = True\n"
+        "    else:\n"
+        "        print('existing local archive fails integrity; removing')\n"
+        "        os.remove(ARCHIVE_LOCAL)\n"
+        "if not _done:\n"
+        "    for _attempt in (1, 2):\n"
+        "        _part = ARCHIVE_LOCAL + '.part'\n"
+        "        print('copying archive Drive -> local scratch (attempt', _attempt,\n"
+        "              'of 2; expect 20-60 min)...')\n"
+        "        shutil.copyfile(ARCHIVE, _part)\n"
+        "        print('verifying transferred bytes md5 (~4 min)...')\n"
+        "        if os.path.getsize(_part) == EXPECT_SIZE and _md5(_part) == EXPECT_MD5:\n"
+        "            os.replace(_part, ARCHIVE_LOCAL)  # atomic promotion; no size-exact liars\n"
+        "            _done = True\n"
+        "            break\n"
+        "        print('transfer failed integrity (suspected DriveFS/FUSE read-path '\n"
+        "              'corruption; mechanism not asserted); discarding partial')\n"
+        "        os.remove(_part)\n"
+        "if not _done:\n"
+        "    raise SystemExit('FUSE_LOCALIZATION_INTEGRITY_FAILURE: two Drive->local '\n"
+        "                     'transfers failed md5. The stored Drive master is NOT '\n"
+        "                     'judged from this path (it would be the same suspect '\n"
+        "                     'witness). Sanctioned next step: origin_direct staging '\n"
+        "                     'from the pinned Zenodo record.')\n"
+        "print('local archive verified: md5', EXPECT_MD5)\n"
         "print('local archive bytes:', os.path.getsize(ARCHIVE_LOCAL))")
     extract = (
         "SUFFIXES = [" + sufs + "]\n"
+        "import subprocess\n"
         "if not os.path.isdir(LOCAL_DATA):\n"
-        "    !apt-get -qq install -y p7zip-full\n"
-        "    _inc = ' '.join('-ir!*' + x for x in SUFFIXES)\n"
-        '    !7z x "{ARCHIVE_LOCAL}" -o"{LOCAL_DATA}" {_inc} -y\n'
+        "    subprocess.run(['apt-get', '-qq', 'install', '-y', 'p7zip-full'], check=False)\n"
+        "    _rc = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+        "                         + ['-ir!*' + x for x in SUFFIXES],\n"
+        "                         stdout=subprocess.DEVNULL).returncode\n"
+        "    assert _rc == 0, f'7z extraction failed rc={_rc} -- refusing to proceed'\n"
         "_n = sum(len(f) for _, _, f in os.walk(LOCAL_DATA))\n"
         "print('extracted files (local):', _n)\n"
-        "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'")
+        "assert _n >= 800, 'extraction incomplete -- refusing to reach the census'\n"
+        "def _gzip_sweep(root):\n"
+        "    bad = []\n"
+        "    for _dp, _, _fs in os.walk(root):\n"
+        "        for _f in _fs:\n"
+        "            if _f.endswith('.gz'):\n"
+        "                _p = os.path.join(_dp, _f)\n"
+        "                if subprocess.run(['gzip', '-t', _p], capture_output=True).returncode:\n"
+        "                    bad.append(_p)\n"
+        "    return bad\n"
+        "_bad = _gzip_sweep(LOCAL_DATA)\n"
+        "if _bad:\n"
+        "    print('integrity sweep:', len(_bad), 'truncated/corrupt member(s); re-extracting just those')\n"
+        "    for _p in _bad:\n"
+        "        os.remove(_p)\n"
+        "    _rc2 = subprocess.run(['7z', 'x', ARCHIVE_LOCAL, '-o' + LOCAL_DATA, '-y']\n"
+        "                          + ['-ir!*' + os.path.basename(_p) for _p in _bad],\n"
+        "                          stdout=subprocess.DEVNULL).returncode\n"
+        "    assert _rc2 == 0, f'7z re-extraction failed rc={_rc2}'\n"
+        "    _bad2 = _gzip_sweep(LOCAL_DATA)\n"
+        "    _src_defects = []\n"
+        "    for _p in list(_bad2):\n"
+        "        _t = subprocess.run(['7z', 't', ARCHIVE_LOCAL,\n"
+        "                             '-ir!*' + os.path.basename(_p)],\n"
+        "                            stdout=subprocess.DEVNULL,\n"
+        "                            stderr=subprocess.DEVNULL).returncode\n"
+        "        if _t == 0:\n"
+        "            print('[SOURCE_MEMBER_DEFECT]', os.path.basename(_p),\n"
+        "                  '-- gzip stream invalid inside the md5-verified archive;',\n"
+        "                  'leaving in place for contract-level handling')\n"
+        "            _src_defects.append(_p)\n"
+        "            _bad2.remove(_p)\n"
+        "    assert not _bad2, ('EXTRACTION_INTEGRITY_FAILURE: '\n"
+        "        + '; '.join(os.path.basename(_x) for _x in _bad2[:5]))\n"
+        "    print('integrity sweep:', len(_src_defects), 'source-defect member(s) tolerated')\n"
+        "else:\n"
+        "    print('integrity sweep: all extracted members pass gzip -t')")
     return [pin, download, localize, extract]
 
 
@@ -1148,7 +1352,8 @@ def package_colab(args):
             raise SystemExit('--staging-zenodo requires --staging-suffixes')
         staging_cells = [nbf.v4.new_code_cell(src)
                          for src in _staging_cells(args.staging_zenodo, sufs,
-                                                   getattr(args, 'staging_record', None))]
+                                                   getattr(args, 'staging_record', None),
+                                                   getattr(args, 'staging_mode', 'drive_fuse_cache'))]
         extra = ' --data-dir {LOCAL_DATA} --archive-file {ARCHIVE_LOCAL} --record-json {RECORD_JSON}'
     psd = getattr(args, 'phase_s_dir', None)
     _req = reg_mod.upstream_bundle_requirement(nn, ROOT, phase)
@@ -1188,7 +1393,8 @@ def package_colab(args):
         f"REPO_URL = '{remote}'\n"
         f"PIN_COMMIT = '{pin}'\n"
         f"RESULTS_BRANCH = '{branch}'\n"
-        f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}'{cfg_extra}"),
+        # blob-scoped: a checkpoint store can never collide across contract eras
+        f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}_{chash[:12]}'{cfg_extra}"),
       nbf.v4.new_code_cell(_mount_cell()),
       nbf.v4.new_code_cell(
         "%cd /content\n"
@@ -1556,11 +1762,15 @@ def amend_contract(args):
             ('maximum_primary_ci_width', str(sel[2])),
             ('simulation_output_sha256', f'"{sha}"'))
     for key, value in subs:
-        placeholder = f'{key}: "TO_BE_RECORDED_AFTER_PHASE_S"'
-        if text.count(placeholder) != 1:
+        # Agent-authored contracts may quote the sentinel or not; both are
+        # the same placeholder. Byte-strictness stays: exactly one, total.
+        quoted = f'{key}: "TO_BE_RECORDED_AFTER_PHASE_S"'
+        bare = f'{key}: TO_BE_RECORDED_AFTER_PHASE_S'
+        nq, nb = text.count(quoted), text.count(bare)  # disjoint patterns
+        if nq + nb != 1:
             raise SystemExit(f'expected exactly one placeholder for {key}; '
                              'already amended or contract drifted')
-        text = text.replace(placeholder, f'{key}: {value}')
+        text = text.replace(quoted if nq else bare, f'{key}: {value}')
     contract.write_text(text)
     print(f'Amended {contract.relative_to(ROOT)} from {summary_path}:')
     for key, value in subs:
@@ -3167,7 +3377,7 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)

@@ -396,14 +396,43 @@ class TestAmendContract(Harness):
         r2 = self.scout("amend-contract", "1", "--bundle", str(bundle))
         self.assertNotEqual(r2.returncode, 0, "second amendment must refuse")
 
+    def test_amend_accepts_unquoted_sentinels_from_agent_rewrites(self):
+        d = self.repo / "ideas" / "001"
+        contract = d / "probe_contract.yaml"
+        contract.write_text(
+            "idea_id: idea-001\n"
+            "outputs_to_amend:\n"
+            "  minimum_contributing_patients_per_stratum: TO_BE_RECORDED_AFTER_PHASE_S\n"
+            "  minimum_voxels_per_patient_quantile_cell: TO_BE_RECORDED_AFTER_PHASE_S\n"
+            "  maximum_primary_ci_width: TO_BE_RECORDED_AFTER_PHASE_S\n"
+            "  simulation_output_sha256: \"TO_BE_RECORDED_AFTER_PHASE_S\"\n")
+        bundle = self.repo / "bundle"
+        bundle.mkdir()
+        (bundle / "simulation_summary.json").write_text(json.dumps(
+            {"selected": [20, 100, 0.15], "simulation_output_sha256": "ab12"}))
+        r = self.scout("amend-contract", "1", "--bundle", str(bundle))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        text = contract.read_text()
+        self.assertNotIn("TO_BE_RECORDED_AFTER_PHASE_S", text)
+        self.assertIn("minimum_contributing_patients_per_stratum: 20", text)
+        self.assertIn('simulation_output_sha256: "ab12"', text)
+        r2 = self.scout("amend-contract", "1", "--bundle", str(bundle))
+        self.assertNotEqual(r2.returncode, 0)
+
 
 class TestStagingCells(unittest.TestCase):
     def test_staging_cells_are_deterministic_and_brace_safe(self):
         import scout as sc
         pin, download, localize, extract = sc._staging_cells("16731717", ["_ncct.nii.gz", "_lesion-msk.nii.gz"])
         self.assertIn("ARCHIVE_LOCAL", localize)
-        self.assertIn("local SSD", localize)
-        self.assertIn('"{ARCHIVE_LOCAL}"', extract)
+        self.assertIn("EXPECT_MD5", localize)
+        self.assertIn("f.get('key') == _name", localize)
+        self.assertIn("refusing a 99 GB staging pass", localize)
+        self.assertIn(".part", localize)
+        self.assertIn("FUSE_LOCALIZATION_INTEGRITY_FAILURE", localize)
+        self.assertNotIn("DRIVE MASTER IS CORRUPT", localize)
+        self.assertIn("7z extraction failed rc=", extract)
+        self.assertIn("EXTRACTION_INTEGRITY_FAILURE", extract)
         self.assertIn("refusing to reach the census", extract)
         self.assertNotIn("{{", localize)
         self.assertIn("zenodo.org/api/records/16731717", pin)
@@ -414,6 +443,23 @@ class TestStagingCells(unittest.TestCase):
         self.assertIn("Disconnect and delete runtime", mount)
         self.assertNotIn("{{", mount)
         pin2, _, _, _ = sc._staging_cells("16731717", ["_ncct.nii.gz"], record_id="16813698")
+        po, fo, eo = sc._staging_cells("16731717", ["_ncct.nii.gz"],
+                                       record_id="16813698", mode="origin_direct")
+        self.assertIn("records/16813698", po)
+        self.assertIn("origin_direct", po)
+        self.assertIn("aria2c", fo)
+        self.assertIn("ORIGIN_DOWNLOAD_INTEGRITY_FAILURE", fo)
+        self.assertIn(".part", fo)
+        self.assertNotIn("copying archive Drive", fo)
+        self.assertIn("refusing to reach the census", eo)
+        self.assertIn("gzip -t", eo)
+        self.assertIn("EXTRACTION_INTEGRITY_FAILURE", eo)
+        self.assertIn("SOURCE_MEMBER_DEFECT", eo)
+        _, _, _, ed2 = sc._staging_cells("16731717", ["_ncct.nii.gz"],
+                                         record_id="16813698")
+        self.assertIn("SOURCE_MEMBER_DEFECT", ed2)
+        with self.assertRaises(SystemExit):
+            sc._staging_cells("16731717", ["_ncct.nii.gz"], mode="origin_direct")
         self.assertIn("zenodo.org/api/records/16813698", pin2)
         self.assertIn("declared pin", pin2)
         self.assertIn("re-pinning to declared record 16813698", pin2)

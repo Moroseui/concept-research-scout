@@ -1,6 +1,6 @@
 # Ledger digest -- charter: baseline (auto-generated; scores are scoped to this charter only)
 
-96 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+101 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -27,19 +27,19 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-016-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-18] -- Name the noise the kernel writes: the mediator behind idea 004's reconstruction shifts
 - **scout-017-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-19] -- The plug inside the thickened-airway score
 - **scout-017-c05** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-19] -- The vascular street map inside lung-cancer risk
-- ... and 54 more (python scout.py backlog)
+- ... and 59 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- regional-substitution: 13
+- regional-substitution: 14
 - conditional-observational: 13
-- counterfactual-synthesis: 9
-- representation-erasure: 6
-- longitudinal-within-subject: 6
-- regional-removal: 4
+- counterfactual-synthesis: 10
+- representation-erasure: 7
+- longitudinal-within-subject: 7
+- regional-removal: 5
 - natural-paired: 3
 - model-output-perturbation: 3
 - cross-reconstruction: 2
@@ -142,3 +142,8 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-018-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The silhouette sign inside the consolidation score
 - **scout-018-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The healed granulomas inside lung-cancer risk
 - **scout-018-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The heart failure written on the body wall
+- **scout-019-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Name the vessel-tree phenotype inside retinal sex prediction
+- **scout-019-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The spleen as the fatty-liver model's calibration patch
+- **scout-019-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The azygos vein inside the edema score
+- **scout-019-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The meniscus inside the pleural-effusion score
+- **scout-019-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The opening in the diaphragm inside the hiatal-hernia score

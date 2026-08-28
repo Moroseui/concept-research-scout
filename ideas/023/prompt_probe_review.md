@@ -855,6 +855,285 @@ schema_census.csv and route it through exclusions.csv with a reason; change
 nothing else -- the contract, gates, thresholds, and analysis are untouched
 and the standing approval remains valid.
 
+## 2026-08-25 - 023 attempts 3-4: Drive FUSE mount crash + Zenodo version-drift hazard
+
+Attempt-3 receipt (02:35Z bundle): the Colab Drive mount died mid-session
+(Transport endpoint is not connected). Three symptoms, one cause: extraction
+find limped; run.py correctly exit-3d on the invisible extracted dir; and
+the staging pin cell, seeing RECORD_JSON as missing, silently re-resolved
+the concept to a NEWER child record (17652035) published since our
+download -- old bytes, new record, a checksum failure waiting to happen.
+Lesson: a pin that can re-resolve at runtime is not a pin. Fixed in the
+generator: --staging-record declares the immutable child at packaging time;
+existing pins are never silently re-resolved; drift is healed toward the
+declaration with a loud warning. Take 4 declares record 16813698 (md5
+36ae28b9... matches the held archive); run.py checksum gate arbitrates
+definitively.
+
+## 2026-08-25 - 023 take 5: exit 5 (census 0) -- third Drive-FUSE casualty; local-SSD strategy adopted
+
+Take-5 receipt: gate passed on 349af5ad, tolerant census still found 0 cases,
+and the session transport never landed a bundle. Third failure localized to
+the same component: the 894-file extracted tree on the Drive FUSE mount
+(attempt-3 transport-endpoint death; take-5 zero-visibility; same-session
+repo-dir loss). Ruling: heavy inputs localize to session SSD -- one bounded
+FUSE read copies the archive local; extraction, digests, and census run on
+local disk with a fail-loud extraction floor (>=800 files) so a broken tree
+can never reach the census again. Outputs/checkpoints remain on Drive.
+Driver polish: clone cell cds to /content before rm -rf (same-session rerun
+cwd death).
+
+## 2026-08-25 - 023 take 6 receipt + staging second-opinion intake (take 7 v2)
+
+Take-6, two layers: (1) the in-flight ~85% run died to a Colab VM recycle
+(bare gate line -- a killed VM cannot print FAIL); no defect. (2) The fresh
+VM Drive->local copy was size-exact (99022114670) but md5-wrong; run.py
+exit-4d correctly. Classified as suspected DriveFS/FUSE read-path
+corruption (mechanism not asserted); the stored Drive master is presumed
+good from its historical gate pass and is NOT judged through the suspect
+path.
+External staging review (archived): adopted in full. Kept: generator-level
+change, verify-before-extract, one bounded retry, loud refusal, regression
+asserts. Changed per review: checksum resolved by exact archive filename;
+missing record md5 is a driver-configuration error (fail closed); .part
+transfer with atomic promotion; neutral corruption wording; FUSE-mediated
+"Drive master arbitration" REMOVED (a suspect witness cannot acquit
+itself) -- replaced by classified stop FUSE_LOCALIZATION_INTEGRITY_FAILURE
+with origin_direct pre-authorized as the next sanctioned attempt.
+Queued to driver_spec (post-023): drive_api_cache as preferred transport
+(Drive stays the cache, FUSE leaves the input path), largest_local_scratch
+working-volume policy, and a governed driver-revise route so operational
+incidents flow to agent-proposed, cross-family-reviewed spec revisions
+instead of external patches.
+
+## 2026-08-26 - 023 take 7: FUSE casualty #7; pre-authorized origin_direct pivot executed
+
+Take-7 receipt: on a brand-fresh VM, minutes old, the very first sequential
+read of the archive died with OSError 107 (Transport endpoint is not
+connected) inside shutil.copyfile -- the loud variant of the read-path
+failure, on the simplest possible access pattern. Seven casualties now span
+deep trees, empty views, pin re-resolution, silent size-exact corruption,
+and outright transport death across four fresh VMs. Threshold met under the
+recorded pre-authorization and the external staging review ruling: the big
+input leaves FUSE entirely. Take 8 = origin_direct, now a declared
+generator mode (--staging-mode): pin, record JSON, and archive all come
+directly from the immutable Zenodo record to local scratch (16-way aria2c,
+.part -> md5 -> atomic promote, one retry, classified
+ORIGIN_DOWNLOAD_INTEGRITY_FAILURE stop). drive_fuse_cache remains available
+but transitional; drive_api_cache stays the driver_spec target. The Drive
+mount retains only small-file duties (Phase-S read, checkpoints, outputs).
+
+## 2026-08-26 - 023 exit 8: pre-registered unit contingency executed; amendment directive
+
+Take-8 receipt: staging fully solved (aria2c 14 min, checksum and census
+passed); the probe stopped at its first scientific act per contract clause
+66 -- CBV units are documented nowhere: zero JSON sidecars among the
+archive 2,983 members, empty NIfTI descrip fields, and every dataset
+descriptor (Zenodo record page, TU/e portal, challenge paper) lists
+modalities without units; the icobrain-cva chain implies the convention
+but states none. The contract said stop for amendment before outcomes are
+read, and it did.
+
+DIRECTIVE for the next probe-build round (amendment authorized, option B,
+human gate retained): amend clause 66 so the sole unit-dependent rule
+becomes unit-free -- vessel exclusion = voxels with CBV above the
+per-patient 98th percentile of finite positive CBV in the map -- recording
+in the clause WHY (the payload evidence above) and noting that under the
+conventional scale this targets approximately the vessel fraction the
+8 mL/100 g cap intended. Update kill-code 104 to mark the unit-failure
+contingency executed and retired. Clause 72 is already unit-robust and
+must not change. In run.py: implement the percentile exclusion; retire
+confirm_cbv_units into a RECORDED finding (identity.json gains
+units_documented: false with the evidence summary); change nothing else.
+The amendment changes the contract blob: the standing approval goes stale
+by design and re-approval follows human review of the diff.
+
+## 2026-08-26 - 023 take 9: checkpoint-identity guard fired correctly; output dirs now blob-scoped
+
+Take-9 receipt: gate passed on the amended blob 468974a7, staging and census
+passed silently, and run.py refused at the checkpoint store: the shared
+Drive dir 023_C still held take-8 phase_c_cache pinned to the OLD blob
+349af5ad and old run.py hash. Fail-closed cache-poisoning prevention
+working as designed -- a checkpoint written under one contract/code may
+never be consumed under another. Driver fix (one line): OUTPUT_DIR is now
+blob-scoped ({idea}_{phase}_{blob12}), mirroring the results-branch scheme,
+so each contract era gets a pristine cache and console; superseded dirs
+remain as untouched evidence. No probe or contract change; approval stands.
+
+## 2026-08-26 - Pre-registered adjudication for the inf-ratio edge (committed before outcomes are seen)
+
+During the take-10 map pass, two RuntimeWarning classes were observed:
+all-NaN neighborhood windows (handled by design: excluded voxels, counted
+per case in the checkpoint exclusions record) and overflow in the
+rcbf/rcbv division (tiny positive mirror denominators pass valid_den, so
+isolated infinite ratios can be admitted to stratum membership, where the
+screen is only ratio > 0). Per-case selective repair is FORBIDDEN: the code
+is deterministic and uniform, and mixed-provenance case sets are exactly
+what the checkpoint identity mechanism prevents.
+Pre-registered plan: (1) take 11 completes untouched; its bundle is the
+primary result under the approved code. (2) A one-line finiteness
+tightening (stratum admission additionally requires finite rcbf and rcbv)
+is routed through probe-build with cross-family review, and the map pass
+recomputes under the new identity. (3) Interpretation cites BOTH runs: if
+they agree, immateriality is demonstrated and the primary stands with the
+robustness check noted; if they diverge, the revised run is canonical and
+the divergence is reported as a finding. This criterion is committed before
+any stratum outcome has been inspected.
+
+## 2026-08-26 - 023 take 10: truncated extracted member + the Drive-artifact mystery closed
+
+Two findings. First, take-10 origin_direct incidentally settled take-6: the
+TRUE Zenodo object is 99,014,629,647 bytes (md5-verified); the Drive-cached
+wget artifact was 99,022,114,670 -- ~7.5 MB oversized, a Franken-file from
+the record-drift era (wget -c declares fully-retrieved whenever local >=
+remote), which is why its md5 could never match. origin_direct fully
+vindicated. Second, take-10 receipt: staging verified, census passed, map
+pass reached case 21 (sub-stroke0043, 20 cases checkpointed) and died on a
+TRUNCATED extracted .nii.gz (gzip EOFError; run.py wrapped it honestly as
+exit 13). Root cause class: the extraction 7z exit status was unchecked and
+the file-count floor cannot see single-member truncation -- count is not
+integrity. Driver fix (both staging modes): extraction is now rc-checked
+and quiet; a per-member gzip -t sweep follows; bad members are deleted and
+re-extracted individually once; a second failure refuses loudly as
+EXTRACTION_INTEGRITY_FAILURE naming the files.
+
+## 2026-08-26 - 023 take 11: SOURCE data defect proven; paired-run plan superseded; dual directive
+
+Take-11 receipt: the integrity sweep worked exactly as designed and proved
+the truncation is IN THE ARCHIVE: fresh VM, fresh md5-verified download,
+rc-clean extraction, exactly one bad member -- sub-stroke0043 ses-01
+space-ncct CBF, the same file that killed take 10 -- which failed gzip -t
+AGAIN after targeted re-extraction from the verified archive. The member is
+size-typical (7.70 MB) with an invalid gzip stream: corrupted before the
+dataset creators archived it. Authority split: the driver guarantees
+fidelity to the archive (achieved -- it reproduced the defect twice);
+content validity is the contract domain. Driver upgraded: the sweep now
+arbitrates via 7z t -- stored-CRC-valid members that fail gzip are
+announced as SOURCE_MEMBER_DEFECT and tolerated; only true extraction
+infidelity refuses.
+
+SUPERSESSION (before any outcomes were seen): the pre-registered paired-run
+plan assumed take 11 completes untouched as primary; it cannot -- case 21
+blocks on the source defect under current code. Both revisions therefore
+fold into ONE canonical run.
+
+DIRECTIVE for the next probe-build round: (a) a case whose required input
+is a source-defective member (unreadable gzip from the verified archive)
+routes to exclusions.csv with reason source_corrupt_member naming the file,
+and the map pass CONTINUES; the summary and interpretation must surface the
+excluded count; (b) stratum admission additionally requires finite rcbf and
+rcbv (the pre-registered finiteness tightening). Change nothing else. If
+the reviewer judges (a) to require a contract amendment (cohort/selection
+language), author the amendment in the same round; otherwise the standing
+approval holds. Courtesy task queued: report the defective member upstream
+to the ISLES 24 maintainers.
+
+## 2026-08-26 - 023 take 12: COMPLETE map pass; pre-registered mirror gate stop (exit 7) with decision-grade evidence
+
+Take-12 receipt: staging flawless (sweep tolerated the known source defect
+live); the label-blind map pass completed 100/100 with sub-stroke0043
+excluded per policy (99 computed); the run stopped at the frozen mirror
+gate: 21/99 patients meet (registration_error <= 1.0 voxel AND
+usable_brain_fraction >= 0.90); floor is 90. Evidence from mirror_qc.csv
+(label-blind): registration errors are lattice-quantized (median 1.41,
+q75 2.00, max 4.36 voxels) -- clinical positioning, not registration
+failure; usable-fraction median 0.856 sits below the 0.90 floor; and
+NMAE rises MONOTONICALLY with registration error (0.129 / 0.191 / 0.236 /
+0.291 / 0.357 across buckets <=1.0 to >2.5), so displacement measurably
+degrades mirror fidelity: the gate is doing real epistemics, not
+cleanroom strictness. Threshold relaxation is therefore weakly justified;
+the supported-subgroup path risks severity-correlated selection. Live
+fork: (A) registration-robust redesign (region-level contralateral
+reference; identity coordinate is mirror-free and survives) with new
+Phase-S calibration and full re-run, or (B) kill with code
+MIRROR_PRECONDITION_UNSUPPORTED and harvest (A) as successor idea.
+DECISION DEFERRED to the human gate augmented by advisor input
+(2026-08-27 meeting): voxelwise-vs-region reference is a domain call.
+No PR opened; results-validate red on a stopped bundle is correct
+behavior; the record-result and merge train wait on this fork.
+Queue item (operator observation): the interpret stage decodes terminal
+results only; pre-registered STOPS should generate their own briefing
+artifact (gate context + relevant QC tables) -- a stop-report generator
+joins the driver_spec-era work list.
+
+## 2026-08-27 - Design queued: stop-report stage (failure-to-analysis routing)
+
+Operator observation, validated by the 023 arc: three pre-registered stops
+each produced decision-grade DATA but no decision-grade BRIEFING; all
+forensics were ad hoc. Design: stops route to an interpret-variant stage
+producing (1) an EXPLANATION record -- gate context + evidence tables,
+citation mandate, inputs mechanically restricted to the label-blind
+artifacts the stop certifies -- and optionally (2) a CHANGE_PROPOSAL from
+a CLOSED vocabulary mapping to existing pipeline edges: AMEND_CONTRACT,
+REVISE_PROBE, REDESIGN, KILL, or ESCALATE_ONLY (explicit deferral, a
+first-class output -- the 023 mirror fork is the canonical case where any
+machine recommendation would overstep a domain judgment). Explanations are
+zero-authority; proposals carry base hashes, cannot modify targets,
+re-enter every normal gate, and receive cross-family review. Sequencing:
+first consumer of the 2b record envelope -- build it as 2b opening move,
+after record-result -> 2a merge -> registry -> driver_spec.
+
+## 2026-08-27 - Operator reframe AND DECISION: 023 goes mirror-free; directive for the amendment round
+
+Reframe (operator-caught): idea 023 claim is the joint CBV/MTT compensation
+state AT MATCHED FLOW; hemispheric mirroring is idea 021 ("The healthy
+hemisphere is the ruler") and entered 023 only as the operationalization of
+matched flow. The exit-7 stop is a verdict on a borrowed ruler, not on the
+claim, the signal, or the dataset (QC distributions describe ordinary
+clinical positioning; neither clinical software nor models require
+voxel-mirror symmetry). mirror_qc.csv is harvested as empirical
+feasibility evidence FOR idea 021. The conflation passed agent authorship,
+cross-family review, and twelve operator takes; caught at the human gate.
+
+DECISION (human gate, 2026-08-27): mirror-free within-patient flow
+matching. DIRECTIVE for the next probe-build round: amend the contract so
+matched flow = per-patient CBF percentile bands WITHIN the eroded deficit
+region (three fixed bands, 0-33 / 33-67 / 67-100 percentile of finite
+deficit CBF; deterministic, label-blind, no external reference). REMOVE
+the mirror machinery entirely: mirror construction, registration QC, the
+exit-7 gate, and mirror-relative ratios; the region definition (Tmax>6s,
+erosion, midline band, per-patient p98 vessel exclusion), the identity
+coordinate u = log(CBF*MTT/CBV), the identity-residual gate, per-stratum
+coverage floors, and the source-corrupt exclusion policy are UNCHANGED.
+Phase S must be recalibrated for the new strata (synthetic planted effects
+under percentile binning; same detectability-floor logic). Keep gates
+minimal: coverage + identity only; introduce no new reference anatomy.
+This de-couples 023 from 021 by construction.
+
+## 2026-08-28 - Meeting outcome: dual-track sprint; HU audit ACTIVATED; clinical-scores secondary pre-registered
+
+Advisor meeting (2026-08-27): system-refinement arc APPROVED, and a signal
+read from idea 023 requested within the week -> dual track. The previously
+drafted parked/strategic-pause entries were never committed and are
+superseded by this plan; the refinement arc proceeds in parallel with a
+bounded 023 signal sprint.
+
+ACTIVATED DIRECTIVE (tissue-composition audit, previously drafted as
+parked; an outcome-reading run is now scheduled, so it applies): before
+take 13, a probe revision adds a label-blind per-bin per-style NCCT HU
+audit -- during the map pass record, per case, per flow bin, per style
+group, the median and IQR of NCCT attenuation over member voxels, into the
+per-case cache and a bin_tissue_audit.csv. No estimator changes, no new
+gates, run.py only (contract untouched; standing approval holds through
+verify). Pre-registered interpretation rule: HU-balanced styles within
+bins -> the compensation reading stands; systematic imbalance -> report as
+conditional predictive information WITH a tissue-composition caveat and
+design a tissue-normalized successor. Rationale: the retired contralateral
+mirror was incidentally the tissue-type normalizer (gray-matter baseline
+flow ~2-3x white matter); percentile bins do not restore this.
+
+PRE-REGISTERED SECONDARY (advisor side-interest): after the take-13
+outcome read and record-result, a patient-level join of census per-patient
+aggregates against the dataset clinical outcome scores (phenotype
+ses-02 outcome.csv, mRS/NIHSS-type). Clinical scores are outcome labels
+and remain behind the same label-blind until that step; no take-13 scope
+change; phenotype files staged separately when needed.
+
+Sequence: audit revision -> verify -> mechanical amend-contract from the
+mirror-free Phase-S bundle (status PHASE_S_COMPLETE_REQUIRES_AMENDMENT)
+-> approve (new blob) -> package take 13 -> outcome read -> record-result
+-> interpret -> signal answer.
+
 
 ===== evidence/ledger_digest_isles24.md =====
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
@@ -1195,6 +1474,11 @@ candidate MUST cite the specific condition below that has changed.
 - [baseline] **scout-018-c03** [SCOUT_ONLY] -- The silhouette sign inside the consolidation score
 - [baseline] **scout-018-c04** [SCOUT_ONLY] -- The healed granulomas inside lung-cancer risk
 - [baseline] **scout-018-c05** [SCOUT_ONLY] -- The heart failure written on the body wall
+- [baseline] **scout-019-c01** [SCOUT_ONLY] -- Name the vessel-tree phenotype inside retinal sex prediction
+- [baseline] **scout-019-c02** [SCOUT_ONLY] -- The spleen as the fatty-liver model's calibration patch
+- [baseline] **scout-019-c03** [SCOUT_ONLY] -- The azygos vein inside the edema score
+- [baseline] **scout-019-c04** [SCOUT_ONLY] -- The meniscus inside the pleural-effusion score
+- [baseline] **scout-019-c05** [SCOUT_ONLY] -- The opening in the diaphragm inside the hiatal-hernia score
 
 
 ===== evidence/librarian_proposals.md =====
@@ -2139,7 +2423,7 @@ The card also assumes that mirror estimation will be reliable and that the map v
 
 
 ===== ideas/023/probe_contract.yaml =====
-# Probe contract v1 -- idea 023, Stage-0 outcome census only.
+# Probe contract v1 -- idea 023, mirror-free Stage-0 outcome census only.
 # Drafted at probe_plan on 2026-08-24. No probe code or execution is
 # authorized until the human approval gate is satisfied.
 
@@ -2155,8 +2439,9 @@ authorities:
   decision_entries:
     - "2026-08-17 -- Ideas 021 and 023: human inspection questions answered"
     - "2026-08-24 -- Reconciliation ruling: idea 023"
+    - "2026-08-27 -- Operator reframe AND DECISION: 023 goes mirror-free; directive for the amendment round"
 
-question: "In a frozen census subset of released ISLES'24 training patients, is final-infarct membership associated precisely and directionally with the native joint CBV/MTT state within matched relative-CBF deficit strata, with enough support to justify a later model-use probe?"
+question: "In a frozen census subset of released ISLES'24 training patients, is final-infarct membership associated precisely and directionally with the native joint CBV/MTT state within three within-patient CBF-percentile bands, with enough support to justify a later model-use probe?"
 risky_assumption_tested: "The released outcome labels contain a patient-replicated, estimable joint-CBV/MTT association at matched CBF; map coexistence alone does not establish this keystone."
 
 scope:
@@ -2169,7 +2454,7 @@ scope:
 approval_and_phasing:
   phase_S_synthetic_freeze:
     approval_scope: "Synthetic data and outcome-blind release metadata only. No real lesion mask, outcome field, or label-derived statistic may be opened, summarized, or logged."
-    work: "Simulate the exact patient-clustered estimator at census n=100 over a preregistered grid of null and alternative data-generating settings. Select the smallest support requirements and largest admissible CI-width threshold that achieve both >=0.80 power at the frozen minimum relevant risk difference and <=0.05 false-positive rate under the null."
+    work: "Recalibrate the exact patient-clustered estimator at census n=100 for three within-patient CBF-percentile bands and within-band CBV quartiles. Select the smallest support requirements and largest admissible CI-width threshold that achieve both >=0.80 power at the frozen minimum relevant risk difference and <=0.05 false-positive rate under the null."
     frozen_simulation_constants:
       census_patients: 100
       reserved_patients: "all remaining released training patients; expected 49 or 50 pending the pinned-release case census"
@@ -2181,13 +2466,13 @@ approval_and_phasing:
       candidate_minimum_contributing_patients: [20, 25, 30, 35, 40]
       candidate_minimum_voxels_per_patient_cell: [50, 100, 200]
       candidate_maximum_ci_width: [0.08, 0.10, 0.12, 0.15]
-      data_generating_grid: "For each candidate N and M and each of three strata, draw one latent patient risk p_i from Beta(alpha, beta), where alpha = p0*(1/rho - 1), beta = (1-p0)*(1/rho - 1), p0 is in {0.10, 0.30, 0.50}, and rho is in {0.01, 0.05, 0.10}. Draw Q4 infarct count as Binomial(M, p_i) and Q1 count as Binomial(M, min(p_i + delta, 1)); delta=0 for null replicates and delta=0.05 for alternative replicates. Analyze each replicate with the exact three-stratum conjunction and patient bootstrap specified for Phase C."
+      data_generating_grid: "For each candidate N and M and each of three within-patient CBF-percentile bands, draw one latent patient risk p_i from Beta(alpha, beta), where alpha = p0*(1/rho - 1), beta = (1-p0)*(1/rho - 1), p0 is in {0.10, 0.30, 0.50}, and rho is in {0.01, 0.05, 0.10}. Draw high-CBV-quartile infarct count as Binomial(M, p_i) and low-CBV-quartile count as Binomial(M, min(p_i + delta, 1)); delta=0 for null replicates and delta=0.05 for alternative replicates. Analyze each replicate with the exact three-band conjunction and patient bootstrap specified for Phase C."
       selection_rule: "A candidate (N, M, CI width) is eligible only if the conjunction's false-positive rate is <=0.05 for every (p0, rho) null cell and power is >=0.80 for every (p0, rho) alternative cell. Select lexicographically by smallest N, then smallest M, then largest eligible CI width. If no candidate is eligible, Phase S fails and Phase C is not authorized; changing the grid or effect size requires a new contract."
     outputs_to_amend:
-      minimum_contributing_patients_per_stratum: 20
-      minimum_voxels_per_patient_quantile_cell: 100
-      maximum_primary_ci_width: 0.15
-      simulation_output_sha256: "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
+      minimum_contributing_patients_per_stratum: TO_BE_RECORDED_AFTER_PHASE_S
+      minimum_voxels_per_patient_quantile_cell: TO_BE_RECORDED_AFTER_PHASE_S
+      maximum_primary_ci_width: TO_BE_RECORDED_AFTER_PHASE_S
+      simulation_output_sha256: "TO_BE_RECORDED_AFTER_PHASE_S"
     exit: "Record the selected values and simulation-output SHA-256 in this contract. That amendment changes the contract blob and invalidates the Phase-S approval by construction. Fresh human approval against the amended contract is required for Phase C."
   phase_C_real_census:
     entry_condition: "Every Phase-S placeholder has been replaced, the simulation output hash verifies, and a fresh HUMAN_APPROVED_PROBE marker is bound to this amended contract blob."
@@ -2197,52 +2482,50 @@ dataset:
   name: "ISLES'24 public training release"
   source: "Official Zenodo concept record 16731717; select one immutable child record at Phase C and record its record id, publication date, train.7z checksum supplied by Zenodo, downloaded SHA-256, case count, and archive member manifest before analysis."
   expected_population: "149 or 150 acute-stroke cases; the recorded discrepancy between release description and challenge paper must be resolved by archive census rather than assumed."
-  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives, the final-infarct mask, and the rawdata NCCT volume (required by the brain-mask and mirror gate; per the official release tree the NCCT exists only under rawdata, not derivatives). Raw 4D CTP, CTA, clinical covariates, and model assets are outside this probe."
+  required_inputs: "Per-case NCCT-space CBF, CBV, MTT, Tmax derivatives and the final-infarct mask. NCCT is no longer required because the approved mirror-free design contains no brain reflection or reference anatomy. Raw 4D CTP, NCCT, CTA, clinical covariates, and model assets are outside this probe. The verified source-defective member train/derivatives/sub-stroke0043/ses-01/perfusion-maps/sub-stroke0043_ses-01_space-ncct_cbf.nii.gz is CRC-valid in the checksum-verified source archive but has an unreadable gzip stream; exclude that case as source_corrupt_member, name the member in schema_census.csv and exclusions.csv, continue the analysis, and surface the excluded case count. Any other unreadable required member is not authorized for exclusion and fails loudly."
   license: "CC BY-NC-SA 4.0, non-commercial research use."
 split_policy: "Development data only. Sort immutable case identifiers lexicographically, hash each as SHA-256('idea-023-v1|' + case_id), assign the 100 lowest hashes to the census and reserve every other case untouched for any later contract. Freeze split_manifest.csv and its SHA-256 before opening lesion masks. No case crosses populations."
 
 preprocessing:
   grid_gate: "For every census case, require finite CBF/CBV/MTT/Tmax and lesion-mask values in all analyzed voxels (nonfinite values outside the analysis region are permitted, excluded, and counted), compatible physical coverage, and a deterministic common NCCT grid. Header mismatches may be resolved only by the preregistered interpolation rule: linear for maps, nearest-neighbor for labels; record every resampling. Irreconcilable coverage is invalidating."
-  brain_and_mirror_gate: "Derive a brain mask and midsagittal reflection from the rawdata NCCT on the common NCCT grid using one frozen automatic method. Before outcomes are read, require median left-right NCCT registration error <= one in-plane voxel and usable mirrored support for >=90% of brain-mask voxels in >=90 census patients."
-  region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the estimated midsagittal plane and voxels with CBV > 8 mL/100 g. The CBV cap is valid only if Phase-C unit inspection confirms mL/100 g; otherwise stop for contract amendment before outcomes are read."
-  relative_measures: "For each voxel, divide CBF and CBV by the median of its reflected 5x5x3-voxel contralateral neighborhood after excluding deficit and vessel voxels. Nonpositive or nonfinite denominators are excluded and counted."
+  region: "Tmax > 6 s deficit tissue, eroded by one voxel; exclude voxels within two voxels of the array midline and voxels with CBV above the per-patient 98th percentile of finite positive CBV in that patient's map. The midline exclusion is an unchanged region-boundary safeguard, not reference anatomy. This unit-free vessel rule replaces the planned 8 mL/100 g cap because the payload has zero JSON sidecars, empty NIfTI descrip fields, and no inspected dataset descriptor states CBV units; under the conventional CBV scale, the percentile targets approximately the vessel fraction that the 8 mL/100 g cap intended."
+  matched_flow: "Within each patient, rank finite CBF values inside the final eroded deficit region and form three fixed bands using deterministic percentile boundaries: [0,33), [33,67), and [67,100]. Ties at a boundary are assigned by stable voxel-index order so every eligible voxel belongs to exactly one band. No contralateral or external reference is used."
   cbf_strata:
-    - "rCBF in [0.15, 0.30)"
-    - "rCBF in [0.30, 0.45)"
-    - "rCBF in [0.45, 0.60)"
-  joint_state: "Primary coordinate z = log(rCBV). MTT is not a second independent predictor. Where all terms are positive, compute u = log(MTT) - log(CBV) + log(CBF), then subtract the census-wide median u so constant unit-conversion factors cancel. Report this centered identity residual; a median absolute centered residual exceeding 0.10 in any stratum invalidates this coordinate and stops before outcome modeling."
+    - "within-patient CBF percentile [0,33)"
+    - "within-patient CBF percentile [33,67)"
+    - "within-patient CBF percentile [67,100]"
+  joint_state: "Within each patient's matched-flow band, primary coordinate z = log(CBV), and Q1 versus Q4 is defined by that patient's own label-blind CBV quartiles. MTT is not a second independent predictor. Where all terms are positive, compute u = log(MTT) - log(CBV) + log(CBF), then subtract the census-wide median u so constant unit-conversion factors cancel. Report this centered identity residual; a median absolute centered residual exceeding 0.10 in any band invalidates this coordinate and stops before outcome modeling."
 
 analysis:
-  analysis_unit: "Patient. Voxel observations are never treated as independent for uncertainty. Each patient contributes equal total weight within each rCBF stratum regardless of voxel count."
-  native_quantiles: "Within each rCBF stratum, estimate z quartile cut points from census maps without labels. For every patient with sufficient voxels in both Q1 and Q4, compute final-infarct fraction in Q1 and Q4 and the signed contrast d = risk(Q1 low-rCBV) - risk(Q4 high-rCBV)."
-  primary_metric: "Per rCBF stratum, the equal-patient-weight mean of d with a patient bootstrap percentile 95% CI (2000 resamples, numpy default_rng(20260824)). Positive d means lower joint-state position is associated with greater final-infarct membership at matched CBF."
+  analysis_unit: "Patient. Voxel observations are never treated as independent for uncertainty. Each patient contributes equal total weight within each CBF-percentile band regardless of voxel count."
+  native_quantiles: "Within each patient's CBF-percentile band, estimate that patient's z quartile cut points without labels. For every patient with sufficient voxels in both Q1 and Q4, compute final-infarct fraction in Q1 and Q4 and the signed contrast d = risk(Q1 low-CBV) - risk(Q4 high-CBV)."
+  primary_metric: "Per CBF-percentile band, the equal-patient-weight mean of d with a patient bootstrap percentile 95% CI (2000 resamples, numpy default_rng(20260824)). Positive d means lower joint-state position is associated with greater final-infarct membership within that patient's matched-flow band."
   secondary_metrics:
     - "Median patient-level d and its patient-bootstrap 95% CI per stratum."
-    - "Counts of patients and voxels in each patient-by-stratum-by-quantile cell; exclusion fractions and mirror failures."
-    - "A label-blind native-support plot of z by rCBF stratum and the identity-residual distribution."
+    - "Counts of patients and voxels in each patient-by-band-by-quantile cell and exclusion fractions."
+    - "A label-blind native-support plot of z by within-patient CBF-percentile band and the identity-residual distribution."
   pass_rule: "G-label passes only if all three strata meet the Phase-S-frozen support minimum; all three primary point estimates have the same nonzero sign; at least two of three 95% CIs exclude zero in that common direction; and every primary CI width is <= the Phase-S-frozen maximum. Otherwise G-label does not pass."
   multiplicity_and_scope: "The three-stratum conjunction is the single preregistered gate; no stratum selection, pooled fallback, alternate threshold, or post-hoc subgroup can rescue a failure."
 
-primary_metric: "Per rCBF stratum, equal-patient-weight mean risk(Q1 low-rCBV) minus risk(Q4 high-rCBV), with a 2000-replicate patient-bootstrap percentile 95% CI; the preregistered gate is the three-stratum conjunction in analysis.pass_rule."
+primary_metric: "Per within-patient CBF-percentile band, equal-patient-weight mean risk(Q1 low-CBV) minus risk(Q4 high-CBV), with a 2000-replicate patient-bootstrap percentile 95% CI; the preregistered gate is the three-band conjunction in analysis.pass_rule."
 secondary_metrics:
   - "Median patient-level Q1-minus-Q4 risk contrast with patient-bootstrap 95% CI per stratum."
-  - "Patient/voxel support, exclusion fractions, mirror QC, and central-volume identity residuals."
+  - "Patient/voxel support, exclusion fractions, and central-volume identity residuals."
 
 maximum_variants: 1
 maximum_gpu_minutes: 0
 maximum_seeds: 1
 stopping_rule: "Stop after Phase S until the contract is amended and freshly approved. In Phase C, stop when the frozen census and required outputs complete, immediately on an invalidating failure, or when any scope boundary would be crossed. Do not proceed to model work regardless of result."
 
-positive_pattern: "The schema, grid, mirror, central-volume, and support gates pass; the three patient-clustered contrasts share a direction; at least two intervals exclude zero; and every interval satisfies the frozen precision bound. This supports only that the outcome-associated joint-state prerequisite is present in the census population and permits a later, separately approved model-probe contract to be considered."
+positive_pattern: "The schema, grid, central-volume, and support gates pass; the three within-patient CBF-band contrasts share a direction; at least two intervals exclude zero; and every interval satisfies the frozen precision bound. This supports only that the outcome-associated joint-state prerequisite is present in the census population and permits a later, separately approved model-probe contract to be considered."
 negative_pattern: "A valid completed census fails the directional/precision conjunction: mixed or zero directions, fewer than two intervals excluding zero, or intervals wider than the frozen bound despite adequate preregistered support. This is a scientific negative for the Stage-0 keystone and PAUSEs idea 023; it is not evidence that CBV/MTT lacks biological importance or that any model ignores it."
 
 invalidating_failures:
   - "Approval breach: any real outcome or lesion-mask access during Phase S, or Phase C execution without a fresh approval bound to the post-Phase-S contract blob."
   - "Provenance failure: the immutable Zenodo child record, archive checksum, downloaded SHA-256, archive member manifest, or split manifest is missing or mismatched."
-  - "Population failure: duplicate patient identity, inability to resolve the released case count, missing required maps or label for a census patient, or any reserved patient entering analysis."
+  - "Population failure: duplicate patient identity, inability to resolve the released case count, a missing required map or label for a census patient (distinct from a present source_corrupt_member handled by dataset.required_inputs), or any reserved patient entering analysis."
   - "Grid/coverage failure: required images cannot be placed on a common NCCT physical grid by the frozen rule, or nonfinite values remain in analyzed voxels."
-  - "Mirror failure: the frozen outcome-blind mirror-quality gate fails."
-  - "Unit failure: released units cannot support the frozen CBV vessel cap without changing the contract."
+  - "Retired contingency (formerly kill-code 104): undocumented CBV units triggered the preregistered stop before outcomes were read; this amendment executes and retires that unit-failure path by replacing the sole unit-dependent rule with the frozen percentile exclusion."
   - "Coordinate failure: central-volume identity residual exceeds the frozen 0.10 limit in any stratum; the empirical-curve fallback requires a new contract and is not a negative result."
   - "Support invalidity: any stratum fails the Phase-S-frozen minimum contributing-patient or voxel-cell requirement. Insufficient support is invalidating/indeterminate, not a negative association."
   - "Analysis deviation: labels influence preprocessing, split assignment, quantile boundaries, exclusions, or choice of analysis; an unregistered variant or seed is run; or patient clustering/equal weighting is not preserved."
@@ -2250,10 +2533,10 @@ invalidating_failures:
 
 baselines:
   - "Zero association: primary patient-level contrast d = 0."
-  - "Outcome-blind support and mirror gates; these validate measurement and cannot count as positive evidence."
+  - "Outcome-blind coverage and support gates; these validate measurement and cannot count as positive evidence."
 
 claim_discipline:
-  permitted: "In this frozen ISLES'24 census subset, lower versus higher native joint CBV/MTT position within matched rCBF strata was (or was not) associated with final-infarct membership with the reported patient-clustered precision."
+  permitted: "In this frozen ISLES'24 census subset, lower versus higher native joint CBV/MTT position within within-patient CBF-percentile bands was (or was not) associated with final-infarct membership with the reported patient-clustered precision."
   prohibited:
     - "Autoregulatory blood-volume reserve, remaining dilation capacity, collateral mechanism, reperfusion mechanism, or causal tissue salvageability."
     - "CBV-channel attribution rather than MTT-channel attribution."
@@ -2272,7 +2555,6 @@ required_outputs:
   - per_stratum_summary.csv
   - support_summary.csv
   - identity_residual_summary.csv
-  - mirror_qc.csv
   - exclusions.csv
   - summary.json
   - environment.txt
@@ -2286,216 +2568,235 @@ human_approved: false
 
 
 ===== ideas/023/probe_review.md =====
-# Probe code review — idea 023, round 3 (first review of the post-amendment code)
+# Probe code review — idea 023, round 8 (first review of the HU tissue-audit revision, per the 2026-08-28 activation)
 
 **Reviewed artifacts:** `probes/023/run.py` (SHA-256
-`8bd3156b1561569cfee01d40bf96d8a8a79e69c081d97fcd26f7da0dffb26eb2`),
-`probes/023/requirements.txt` (SHA-256 `ff705c03…`, byte-identical to the
-round-2 file), `probes/023/README.md` (SHA-256 `be45e902…`),
-`probes/023/verification.json` (hashes match all three), against the AMENDED
-`ideas/023/probe_contract.yaml` (git blob
-`349af5ad0b3e8acfc6337d15f1860974d1183393` — diffed this round against the
-on-disk file and against the blob in `ideas/023/HUMAN_APPROVED_PROBE`; all
-three identical). Rounds 1–2 preserved at commits `f5cdd6a` and `bb696da`.
+`ecb2e0f94af834c9c64149e0163b8f62133d5b3e53b0c968205500a0f3bc9792`),
+`probes/023/requirements.txt` (SHA-256 `ff705c03…`, byte-identical since
+round 2), `probes/023/README.md` (SHA-256 `d622d8a6…`, **unchanged from
+round 7 — see B2**), and `ideas/023/probe_contract.yaml` (git blob
+`0e223c82f9eb879652a549df9bf857c155ef61db`, **byte-identical to the round-7
+amended contract**). All hashes recomputed this round and matching
+`probes/023/verification.json`. Prior approved code: run.py SHA-256
+`80af2c87…`, verified identical at both the approval commit (`68057ec`) and
+the parent of this revision (`8df3a95`), so the `8df3a95..4403d4c` diff
+(63 lines in run.py, plus verification.json) is the complete delta from the
+approved artifacts. Review rounds 1–7 preserved in git.
 
-**Scope note.** The 2026-08-24 operator ruling authorized Phase S with the
-round-2 code and required five resolutions before Phase C: blockers B1–B3,
-the NaN-background finiteness ambiguity, and the NCCT-location correction.
-The contract amendment (commit `64c9d7f`) froze the Phase-S gates (N=20,
-M=100, CI width 0.15, simulation SHA-256 `59069fa9…`) and encoded the
-finiteness and NCCT clause rulings; a fresh hash-bound approval now exists.
-This review is the remaining code gate before Phase C runs on real data.
+**Approval state (verified):** `ideas/023/HUMAN_APPROVED_PROBE` binds blob
+`0e223c82…` and the contract is still blob `0e223c82…` — the standing
+approval **remains valid**, exactly as the 2026-08-28 directive intends
+("contract untouched; standing approval holds through verify"). Fail-closed
+sequencing is preserved despite the live approval: the contract's Phase-S
+placeholders (`TO_BE_RECORDED_AFTER_PHASE_S`, restored at round 7) still
+block Phase C, the pending mechanical amendment that records the mirror-free
+Phase-S values will change the blob and stale this approval by construction,
+and the Phase-C checkpoint identity includes the run.py hash (run.py:759),
+so nothing written by the superseded code can be consumed by this code
+(exit 4 at run.py:762-763).
 
-**Requirements conformance (review rule 5):** `ideas/023/contract_requirements.md`
-does not exist; not a requirements-governed contract. Not applicable.
+**Scope note.** The governing directive is the 2026-08-28 decision entry
+("Meeting outcome: dual-track sprint; HU audit ACTIVATED"): before take 13,
+a probe revision adds a **label-blind per-bin per-style NCCT HU audit** —
+during the map pass, per case, per flow bin, per style group, the median
+and IQR of NCCT attenuation over member voxels, into the per-case cache and
+a `bin_tissue_audit.csv`; **no estimator changes, no new gates, run.py only
+(contract untouched)**. This review verifies the code implements exactly
+that and nothing else. Note the deliberate tension the directive creates:
+the approval-bound contract's `required_inputs` still says "NCCT is no
+longer required … Raw 4D CTP, NCCT, CTA … are outside this probe." The
+operator directive overrides for this audit; the contract text is not
+updated by design. See N1 for the recommended amendment-time harmonization.
 
-**External evidence:** none newly fetched. B1's fix is verified against the
-official release filename quoted verbatim in the round-2 review
-(`sub-strokecase0009_ses-0001_lesion-msk.nii.gz`, fetched 2026-08-24 from the
-official repository tree).
+**Requirements conformance (review rule 5):**
+`ideas/023/contract_requirements.md` does not exist (verified this round);
+not a requirements-governed contract. Not applicable.
 
 ---
 
-## Disposition of the five operator-mandated resolutions
+## Disposition of the directive requirements
 
-| Mandated item | Status in this code |
+| Directive item | Status |
 |---|---|
-| B1 lesion filename | **Resolved** — suffix list is now `("_lesion-msk.nii.gz", "_lesion-msk.nii")` (`run.py:216`), matching the official spelling; prefix+suffix `rglob` tolerates the release quirk of a `ses-0001` filename stored under the follow-up session directory; lesion filenames are first resolved in pass two (`run.py:510`), preserving the label-blind freeze |
-| B2 compute/memory/resume | **Resolved** — the mirrored 5×5×3 median is a vectorized, slab-bounded `sliding_window_view` + `nanmedian` (`run.py:416-434`), capped at ~12M window values (≈50–100 MB) per slab; each case is computed once, checkpointed atomically (`run.py:519-524`, `631`), and the outcome pass reuses the cached `rcbf`/`rcbv`/`region` (`run.py:702`) instead of recomputing; both passes resume per case (`run.py:613-618`, `689-700`); checkpoints are identity-bound to contract blob, archive SHA-256, split SHA-256, and `run.py` SHA-256 (`run.py:602-609`); no per-case full-volume state accumulates across the census loop |
-| B3 secondary metrics | **Resolved** — median-d patient-bootstrap 95% CI from the same bootstrap index matrix (`run.py:727-737`, columns in `per_stratum_summary.csv`); label-blind native-support distribution (9 quantiles + count per stratum) in `support_summary.csv` plus dependency-free `native_support.svg` (`run.py:676-683`); identity-residual distribution in `identity_residual_summary.csv` plus SVG, both written **before** the exit-9 gate can fire (`run.py:658-673`) |
-| Finiteness clause (amended `grid_gate`) | **Implemented as ruled** — nonfinite map voxels are excluded from the analyzed region (`run.py:440`, `461`) and counted per map in `exclusions.csv` (`run.py:465-468`); lesion finiteness is enforced only on analyzed voxels (`run.py:484-485`), with nonfinite background permitted; two precision notes below (F4) |
-| NCCT clause | **Implemented as ruled** — the rawdata NCCT is a required input resolved by exact suffix (`run.py:214`, `325`; round 2 verified no derivative file shares it), the brain mask and mirror derive from it on the common canonical grid (`run.py:330`, `374-413`), and the README states the exact extraction set and that the NCCT exists only under `rawdata` — one glob typo in that README line (F3) |
+| Label-blind NCCT HU audit during the map pass | **Resolved** — NCCT is loaded in pass one only (`load_case`, run.py:454), before any lesion is opened; `tissue_audit` (run.py:557-591) consumes the same cached `region`/`bands`/quartile cuts the estimator uses and touches no outcome data. NCCT is acquisition-phase input, not a label, so label-blindness is preserved by construction |
+| Per case, per flow bin, per style group: median and IQR over member voxels | **Resolved** — six rows per analyzed case (3 bands × {Q1_low_CBV, Q4_high_CBV}), each with `median_hu`, `q25_hu`, `q75_hu`, `iqr_hu`, plus member/finite/nonfinite voxel accounting with a consistency assert (run.py:588). "Style group" is implemented as the two CBV-quartile groups the estimator itself contrasts — the correct reading, since the audit exists to check whether Q1 and Q4 cells differ in tissue composition |
+| Into the per-case cache and `bin_tissue_audit.csv` | **Resolved** — rows are serialized into the checkpoint npz (`tissue_audit_json`, run.py:807, JSON with sorted keys) and re-read on resume with a row-count assert (run.py:774-775); the CSV is written after the map pass (run.py:838) and **before** the identity-residual gate, so the label-blind audit evidence persists even if a later gate invalidates the run — the stop-report lesson carried correctly |
+| No estimator changes | **Resolved** — the diff is confined to the docstring, `load_case`'s path dict, `tissue_audit` and its call/caching, the CSV/summary bookkeeping, and one resolved_config flag. `patient_measure`, the bootstrap, the conjunction, all gates, Phase S, and the split machinery are byte-identical. `arrays["ncct"]` is consumed at exactly one site (run.py:803); no gate or estimator reads it |
+| No new gates | **Violated in one unintended way** — no pass/fail rule consumes HU values (nonfinite HU is counted and tolerated, run.py:582-587; empty HU support yields blank fields, "this audit creates no new gate"), but the unconditional quartile-finiteness assert creates a de facto crash-gate on empty flow bands. This is blocking finding **B1** |
+| run.py only; contract untouched | **Resolved for the contract** (blob identical; approval marker still binds it). **The README was left untouched and is now wrong about the extraction set** — blocking finding **B2** |
 
-## Round-2 non-blocking disposition
+## Contract-fidelity verification
 
-- **N1 (Phase S/C conjunction divergence): resolved.** Phase S now uses the
-  direction-aware CI-exclusion rule (`run.py:159-160`), the same conjunction
-  as Phase C (`run.py:732-739`). The frozen simulation hash was produced
-  under the round-2 rule; for a percentile bootstrap of a mean the two rules
-  cannot classify any replicate differently (opposite-side exclusion would
-  require the point estimate to fall outside its own bootstrap interval), and
-  the rule change consumes no randomness, so a rerun reproduces the frozen
-  CSV; Phase C in any case verifies the stored artifact's hash before any
-  data access (`run.py:300-310`, called at `run.py:571`).
-- **N3 (evidence persistence on invalidating exits): resolved for the
-  identity and mirror gates** — `mirror_qc.csv`, `schema_census.csv`,
-  `exclusions.csv`, and the identity CSVs/SVG are all written before their
-  exits (`run.py:647-651`, `666-673`). Residual: a unit-gate exit at case 1
-  still leaves no CSVs, though per-case audit JSONs in `phase_c_cache/` and
-  `run_log.txt` carry the evidence. Carried.
-- **N4 (unit gate will likely stop a real run): carried unchanged**
-  (`run.py:353-365`); the stop is the contract's mandated behavior.
-- **N5 (extraction set undocumented): resolved** by the README section and
-  the contract's corrected `required_inputs`; see F3 for the typo.
-- **N6 (mirror narrowness): carried** — axis-aligned plane within ±5 voxels,
-  no tilt model; the `zooms` parameter is accepted but unused (`run.py:374`),
-  so the ≤1-voxel error bound remains in mixed index units across
-  anisotropic axes. Frozen design; expect exit-7 as a plausible real-data
-  stop.
-- **N7 (archive digests read 99 GB twice): carried and amplified** — MD5 and
-  SHA-256 remain separate full passes (`run.py:274`, `279`), and because
-  provenance validation precedes checkpoint use, **every resume after a
-  disconnect re-pays both passes (~30–60 min)** before any cached work is
-  honored. A single pass updating both digests is still the cheap fix. The
-  released case count is likewise still taken from the extracted directory
-  without cross-check against `archive_manifest.csv`.
-- **N8 (smoke overwrite): carried** — `--smoke` writes `summary.json` and
-  friends into `--output-dir`; additionally, smoke now bypasses `gate()`
-  entirely (`run.py:766`). Acceptable (synthetic only, labeled
-  non-contractual, needed by the verify harness), but noted.
-- **N9 (requirements pins): partially resolved** — `resolved_config.json`
-  now echoes the three Phase-S-frozen thresholds in Phase C
-  (`run.py:768-773`). `requirements.txt` keeps bounded ranges; freeze exact
-  resolved versions for the real Phase C run and rely on `environment.txt`
-  as the record of what actually installed.
+- **Primary metric, caps, stopping rule, seeds:** untouched. One variant,
+  one seed (20260824), zero GPU; Phase-C stopping and exit taxonomy
+  unchanged; the audit adds no RNG (np.percentile is deterministic) and no
+  network access.
+- **Grid handling for NCCT:** `load_case` resamples every non-label image
+  to the CBF reference grid by the contract's frozen linear rule
+  (run.py:466-475), NCCT included, and records the resampling in
+  `schema_census.csv`. The rawdata NCCT defines the space the derivatives
+  are registered to, so this is a header-tolerance measure, not new
+  reference anatomy; `tissue_audit`'s shape assert (run.py:559) is
+  therefore unreachable-by-mismatch. The per-case `files` JSON in the
+  schema census now records the NCCT path automatically (run.py:478).
+- **Label blindness and ordering:** split manifest still frozen and hashed
+  before any image opens; pass one opens maps + NCCT only
+  (`load_label=False`, sole call site run.py:780); lesions are first
+  touched in pass two. The audit is computed and checkpointed inside pass
+  one.
+- **Outputs:** all fifteen contract-required outputs unchanged;
+  `bin_tissue_audit.csv` is an additional, contract-undeclared output, and
+  `summary.json` gains only row-count/filename bookkeeping keys
+  (run.py:955-956). The closing interpretation template is unchanged and
+  makes no HU-balance judgment — correct: the pre-registered
+  balanced/imbalanced interpretation rule belongs to the interpret stage,
+  not this code.
+- **Source-corrupt policy:** unchanged; the excluded case never reaches
+  `tissue_audit`, and the row-count reconciliation assert
+  (`6 × analyzed cases`, run.py:837) accounts for it.
+- **Resume soundness:** checkpoints written by the superseded run.py lack
+  the `tissue_audit_json` key but can never be read — the cache-identity
+  gate keys on the run.py hash and exits 4 first. Within-take resume
+  round-trips the audit rows (fixture attested in verification.json).
+
+## Standards checklist
+
+(1) Start/end determinism manifests: present in both phases, asserted
+equal; the audit adds no nondeterminism. (2) Exclusions log with reasons:
+unchanged; the audit rows carry their own finite/nonfinite HU accounting.
+(3) Assertion per transform: tissue_audit asserts shape, band-size
+consistency, quantile ordering, and voxel accounting — one assert is wrong
+in kind rather than missing (B1). (4) Seeds and paths declared; no hidden
+state or analysis-time network. (5) Split manifest hashed before any
+outcome/label access (NCCT is not an outcome). (6) `--smoke`:
+synthetic-only, never reaches Phase C or the audit, attested 0.288 s with
+`contract_satisfied: false`; the new `tissue_audit_fixture` and
+`cache_round_trip_fixture` are attested in verification.json. As in rounds
+3–7, this review environment cannot execute Python; executed-check
+attestations plus static tracing are the basis. All six items met — B1 is
+a rule-2 finding, not a checklist failure.
+
+## Prior-finding dispositions
+
+- **R13 (dead `"ncct"` suffix entry in `find_one`): partially retired** —
+  the entry is now live, load-bearing code. The `load_label=True` branch of
+  `load_case` remains dead (sole call site passes False; pass two uses
+  `load_lesion`); hygiene carry.
+- **R12 (README duplicate-lesion sentence mispredicts the payload):
+  CARRIED, still unfixed, fourth consecutive round** — and now joined in
+  the same file by B2. Fix both in the same authorized touch.
+- **R14 (nonpositive-map voxel exclusions uncounted), R15 (launcher is the
+  take-12 mirror-era artifact — regeneration at package-colab must now
+  ALSO extract the rawdata NCCT, see B2), R16 (degenerate per-patient
+  quartiles overlap Q1/Q4 — the audit rows inherit exactly this overlap
+  semantics, see N3), R17 (cosmetics), F2/F4b/F5/F7-class, R2/R3/R5/R6/R7/
+  R9/R10:** carried unchanged, none blocking, none newly interacting with
+  this revision except as noted.
 
 ## Blocking findings
 
-None.
+**B1 — An empty flow band crashes the take as an unclassified harness
+fault (rule 2; also violates the directive's "no new gates").** The map
+pass sets a band's quartile cuts to NaN when that band has zero voxels
+(run.py:796-799), and `tissue_audit` then asserts
+`np.isfinite(q1) and np.isfinite(q3)` unconditionally for all three bands
+of every analyzed case (run.py:567). A census patient whose final eroded
+region has ≤ 2 voxels (a small Tmax>6s deficit thinned by the one-voxel
+erosion, midline band, vessel p98, and positivity terms — a plausible
+mild-stroke presentation that no real-data run of the mirror-free region
+rule has yet censused) leaves at least one band empty, so the AssertionError
+propagates to the outer handler and dies as exit 13 "unexpected harness
+failure" (run.py:1004-1006) mid-map-pass. The pre-existing code
+deliberately tolerates exactly this input: `patient_measure` skips
+`z.size < 4` cells *before* its own finiteness assert (run.py:604-610),
+and the support gates operate on census aggregates, so an empty-band
+patient contributes empty cells and the frozen per-stratum minimums decide.
+The audit converts that tolerated, contract-valid input into a dead take —
+the 023 arc has paid for this failure class twelve times. Required shape of
+the fix (not prescribed as code): guard the audit the way `patient_measure`
+guards, emitting the six rows with zero `member_voxels` and blank
+statistics for an empty or NaN-cut band, preserving the six-row invariant
+that the cache and CSV asserts (run.py:590, 775, 837) rely on.
 
-## Non-blocking findings (new this round)
+**B2 — The README's mandated extraction set contradicts the code's
+required inputs and would kill take 13 at the first case (rule 6; standing
+clause ruling of 2026-08-24 that the probe README state the exact
+extraction set).** `README.md:24-26` instructs extraction of the perfusion
+maps and lesion masks only, and `README.md:37` states "Rawdata NCCT, raw 4D
+CTP, and CTA are not used." Both statements are now false: run.py:454
+hard-requires the NCCT for every census case, and `find_one` exits 5 on a
+data-dir extracted per the README. The take-13 launcher is regenerated at
+package-colab from the probe's declared dependencies — the mechanism
+adopted after Phase-C attempt 1 died to exactly this omission class — and
+this README section is that declaration. The "run.py only" clause of the
+directive delimits scientific scope (estimator, gates, contract), not
+documentation accuracy; verification.json was correctly updated in the
+same commit, and the README's input declaration must follow the code the
+same way. Fix: update the extraction set to include
+`raw_data/**/*_ncct.nii.gz` (tolerating the payload's `raw_data`/`rawdata`
+spellings, as run.py already does) and rewrite the "not used" sentence to
+name the NCCT as a label-blind audit-only input; fix R12's duplicate-lesion
+sentence in the same touch.
 
-**F1 — Quartile-cut population and measurement population differ by the
-`mtt > 0` condition.** The label-blind stratum mask that estimates quartile
-cuts, support, and the identity coordinate requires
-`(cbf > 0) & (cbv > 0) & (mtt > 0)` (`run.py:476`); the outcome-pass mask
-applies those cuts with only `rcbv > 0` (`run.py:489`). The `cbf`/`cbv`
-positivity terms are implied by the stratum bounds and `rcbv > 0` given
-valid denominators; `mtt > 0` is not — a voxel with MTT ≤ 0 inside the
-analyzed region enters Q1/Q4 measurement but was excluded from cut
-estimation and the support census. On vendor maps the set is likely near
-empty (zero-fill usually hits all maps together, forcing `rcbv = 0` and
-exclusion everywhere), and the discrepancy is label-blind either way, but a
-preregistered instrument should apply its cuts to exactly the population
-they were frozen on. Align the two masks at the next authorized touch and
-record the choice.
+## Non-blocking findings
 
-**F2 — The outcome checkpoint rewrite is not atomic.** `write_csv`
-rewrites `per_patient_checkpoint.csv` in place after each case
-(`run.py:716`). A disconnect mid-rewrite that truncates at a row boundary
-silently drops the trailing strata of the last recorded case on resume (a
-mid-row truncation instead dies as exit 13 on a malformed row). The window
-is microseconds per case, but the fix is free: reuse the tmp-file +
-`os.replace` pattern already implemented in `atomic_npz` (`run.py:519-524`).
+**N1 — Contract text still declares NCCT outside the probe; harmonize at
+the amendment.** The approval-bound contract's `required_inputs` says NCCT
+is not required and lists it among out-of-scope inputs; the code now
+requires it per the operator directive, which also mandates the contract
+stay untouched through verify. This is a recorded, deliberate override,
+but the fresh approval after the mechanical Phase-S amendment would
+otherwise bind a contract that contradicts the code it authorizes. Since
+that amendment changes the blob anyway, the operator should decide whether
+the amendment absorbs one sentence naming the rawdata NCCT as an
+audit-only diagnostic input (the same forward-correction shape as the
+2026-08-24 NCCT clause rulings) and whether `bin_tissue_audit.csv` joins
+`required_outputs`; the audit file is currently a contract-undeclared
+extra, which validators tolerate but record-result should expect.
 
-**F3 — README extraction glob for the NCCT matches nothing.** Line 29 of
-`probes/023/README.md` reads `rawdata/**/_ncct.nii.gz` — missing the `*`
-before `_ncct` (the lesion line above it has the correct form). Followed
-literally, selective extraction yields zero NCCT files and Phase C exits 5
-at the first case. The failure is cheap (re-extract from the local archive,
-no new download) and the code itself resolves `*_ncct.nii.gz` correctly
-(`run.py:214`), but this is the documentation line the amendment made
-load-bearing; fix to `rawdata/**/*_ncct.nii.gz`.
+**N2 — Missing/unreadable NCCT failure classes are latent
+misclassifications.** A missing NCCT exits 5 (population failure) though
+the contract's population clause names only maps and label; an unreadable
+NCCT gzip exits 6 fail-loud with no exclusion path (the
+`SOURCE_CORRUPT_MEMBERS` tuple is CBF-only, run.py:346-358). Both are
+latent: the archive manifest counts 149/149 rawdata NCCT members and two
+independent full-archive integrity sweeps found exactly one defective
+member, the preregistered CBF. Fail-loud is the contract's own
+conservative default for unlisted members; recorded, no change requested.
 
-**F4 — Finiteness clause: two precision gaps, both fail-safe.** (a) The
-lesion finiteness check runs over the full cached region (`run.py:484-485`),
-a superset of the per-stratum analyzed set, so a NaN at a region voxel
-outside every rCBF stratum refuses the case — stricter than the amended
-clause, in the safe direction. (b) Permitted nonfinite lesion values outside
-the analysis region are excluded (`lesion > 0.5` is False for NaN) but not
-**counted** anywhere, while the amended `grid_gate` says
-"permitted, excluded, and counted"; `exclusions.csv` counts map nonfinites
-only (`run.py:465-468`). Add a per-case nonfinite-lesion count in pass two.
+**N3 — Audit rows inherit R16's overlap semantics.** Where a band's
+per-patient cuts are degenerate (q1 == q3), the Q1 and Q4 style groups
+overlap (identical when the band is constant), so their HU rows describe
+overlapping voxel sets — deterministic, label-blind, and consistent with
+the estimator's own R16 behavior. When the README gains its R16 sentence,
+one clause should extend it to the audit so the interpret stage does not
+rediscover this.
 
-**F5 — Concept-record lineage not pinned.** `validate_record_and_archive`
-refuses a mutable concept record and verifies the Zenodo-supplied MD5
-against the local archive (`run.py:263-276`), but never asserts
-`conceptrecid == "16731717"`, the concept record the contract names. The
-MD5 match to the on-disk archive bounds the risk; a one-line equality check
-would close the provenance loop.
-
-**F6 — Cache footprint and invalidation ergonomics.** `phase_c_cache/`
-stores compressed full-volume `rcbf`/`rcbv`/`region` plus z/u vectors per
-case — plausibly a few GB across 100 cases on the Drive output directory;
-budget for it. The identity binding (`run.py:607-608`) correctly refuses
-stale caches after any contract/code/archive/split change, but the exit-4
-message does not tell the operator the remedy is to delete the cache
-directory after an intentional change; say so.
-
-**F7 — Edge-case exit mistaxonomy.** A stratum with zero supported voxels
-across all 100 patients reaches `np.concatenate` of an empty list
-(`run.py:660`) and dies as exit 13 (unexpected) rather than a clean exit
-9/10. Practically unreachable in a census that passed the mirror gate;
-recorded for completeness.
-
-## Verified correct (spot-checked this round)
-
-- **Approval gate:** blob-SHA1 binding to the marker, code/contract drift
-  checks, and the Phase-C placeholder scan — grepped this round: zero
-  `TO_BE_RECORDED` tokens remain in the amended contract, and every key
-  `scalar()` parses (`idea_id`, `contract_version`, the three caps, the
-  three frozen thresholds, `simulation_output_sha256`) occurs exactly once,
-  so the single-occurrence parser cannot misread the contract.
-- **Phase-S hash chain:** Phase C requires `--phase-s-dir`, recomputes the
-  simulation CSV's SHA-256, and compares it to the amended contract value
-  before touching the record, archive, or images (`run.py:571`).
-- **Phase S simulation:** unchanged in contract terms — 60-candidate ×
-  9-scenario grid matching the frozen constants, Beta/Binomial generator,
-  2000/2000 replicates, 2000-resample bootstrap, seed 20260824,
-  every-cell eligibility, lexicographic (smallest N, smallest M, largest
-  width) selection, `PHASE_S_FAILED` summary persisted before exit 10.
-- **Split and freeze-before-look:** SHA-256(`idea-023-v1|` + case_id), 100
-  lowest hashes to census, disjointness asserted, manifest + SHA-256 frozen
-  before any image opens; quartile cuts, mirror QC, unit gate, and identity
-  gate all complete in the label-blind pass; reserved patients never
-  opened; `test`-path refusal on data, archive, and record paths.
-- **Analysis discipline:** equal patient weight, patient-only bootstrap
-  (`default_rng(20260824)`, single stream), the exact three-stratum
-  conjunction with direction-consistent CI exclusion, support shortfall
-  exits 10 as invalidating (never counted as a negative), CI-width failure
-  correctly classified as `negative_pattern` per the contract, no pooled or
-  fallback analysis, one variant, one seed, zero GPU.
-- **Slab median equivalence:** the mirrored-window arithmetic
-  (`mirrored[i±2, j±2, k±1] = source[reflect(i)∓2, …]`) reproduces the
-  frozen reflected 5×5×3 neighborhood exactly, deficit/vessel/non-brain
-  voxels are NaN-masked before the median, and all-NaN windows propagate to
-  counted denominator exclusions; the builder's seeded fixture check in
-  `verification.json` agrees.
-- **Required outputs:** all 16 contract outputs are written across the two
-  phases, plus the two SVG plots the README documents.
-- **Claim discipline:** statuses are the contract's
-  `POSITIVE_PATTERN`/`NEGATIVE_PATTERN`; closing interpretations forbid
-  physiological and model-use language; smoke is labeled non-contractual.
-- **Harness lessons:** full tracebacks precede exit 13; the only rename is
-  same-directory `os.replace`; JSON writers reject NaN (`allow_nan=False`);
-  no network access anywhere.
+**N4 — Cosmetic.** `resolved_config.json` reports
+`"label_blind_ncct_tissue_audit": true` in every phase including S and
+smoke, where no audit runs (run.py:983); harmless but mildly misleading.
+R17's context-manager and inline-writer nits carry unchanged.
 
 ## Verdict
 
-All five operator-mandated resolutions — the lesion filename, the Colab
-compute/memory/resume plan, the three preregistered secondary outputs, the
-analyzed-voxel finiteness scoping, and the rawdata-NCCT requirement with a
-documented extraction set — are correctly implemented, and the frozen
-Phase-S thresholds are read from the amended contract rather than
-hardcoded. The remaining findings are polish items that do not change what
-the census measures, do not create silent wrong-number paths under
-realistic conditions, and are individually cheap to absorb at the next
-authorized touch (F3, the README glob typo, is worth fixing before the
-archive is extracted). Phase C is faithful to the amended contract and may
-run under the standing approval.
+The audit itself is implemented faithfully to the 2026-08-28 activation:
+label-blind by construction, computed from the estimator's own cached
+region/band/cut artifacts, persisted to the per-case cache and
+`bin_tissue_audit.csv` before any invalidating exit, with no estimator
+change, no HU-consuming gate, no new RNG, and the contract blob untouched
+so the standing approval correctly survives through this verify stage. But
+two defects meet the blocking bar: the unconditional quartile-finiteness
+assert converts a tolerated input class — a patient whose eroded deficit
+region leaves a flow band empty — into an unclassified exit-13 death
+mid-take, and the unchanged README still instructs an extraction set that
+omits the NCCT the code now requires, which would kill take 13 at the
+first map-pass case through the very launcher-dependency mechanism built
+after attempt 1. Both are agent-resolvable in one probe-build touch with
+no contract or scope change; N1 is queued for the operator at the
+mechanical amendment.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "All five mandated resolutions (B1-B3, finiteness scoping, rawdata NCCT) verified implemented; seven non-blocking polish findings recorded, the only user-facing one being a one-character README extraction-glob typo (F3) worth fixing before extraction."}
+{"verdict": "REVISE", "blocking": ["B1: tissue_audit asserts finite quartile cuts unconditionally (run.py:567) while the map pass produces NaN cuts for empty flow bands (run.py:796-799); a small-deficit census patient crashes the take as exit-13 harness failure on contract-valid input that patient_measure deliberately tolerates (run.py:604-610)", "B2: README extraction set (README.md:24-26,37) says rawdata NCCT is not used, but run.py:454 hard-requires it per case (exit 5 if absent); the take-13 launcher regenerated from this declaration would kill the run at the first map-pass case"], "note": "HU tissue audit is faithful to the 2026-08-28 directive (label-blind, estimator/gates/contract untouched, approval validly standing), but an empty-band assert crash and a stale README extraction-set declaration must be fixed before take 13; contract-text harmonization for NCCT queued to the amendment (N1)."}
 ```
 
 

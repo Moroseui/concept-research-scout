@@ -1068,7 +1068,7 @@ cwd death).
 ===== evidence/ledger_digest_baseline.md =====
 # Ledger digest -- charter: baseline (auto-generated; scores are scoped to this charter only)
 
-96 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+101 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -1095,19 +1095,19 @@ A candidate that dies like a prior one must say what makes it different.
 - **scout-016-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-18] -- Name the noise the kernel writes: the mediator behind idea 004's reconstruction shifts
 - **scout-017-c02** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-19] -- The plug inside the thickened-airway score
 - **scout-017-c05** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-08-19] -- The vascular street map inside lung-cancer risk
-- ... and 54 more (python scout.py backlog)
+- ... and 59 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
 The research GRAMMAR, not the nouns. High concentration means the
 portfolio explores one scientific move with rotating vocabulary.
 
-- regional-substitution: 13
+- regional-substitution: 14
 - conditional-observational: 13
-- counterfactual-synthesis: 9
-- representation-erasure: 6
-- longitudinal-within-subject: 6
-- regional-removal: 4
+- counterfactual-synthesis: 10
+- representation-erasure: 7
+- longitudinal-within-subject: 7
+- regional-removal: 5
 - natural-paired: 3
 - model-output-perturbation: 3
 - cross-reconstruction: 2
@@ -1210,6 +1210,11 @@ portfolio explores one scientific move with rotating vocabulary.
 - **scout-018-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The silhouette sign inside the consolidation score
 - **scout-018-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The healed granulomas inside lung-cancer risk
 - **scout-018-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The heart failure written on the body wall
+- **scout-019-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Name the vessel-tree phenotype inside retinal sex prediction
+- **scout-019-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The spleen as the fatty-liver model's calibration patch
+- **scout-019-c03** [SCOUT_ONLY/SCOUTED/baseline] -- The azygos vein inside the edema score
+- **scout-019-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The meniscus inside the pleural-effusion score
+- **scout-019-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The opening in the diaphragm inside the hiatal-hernia score
 
 
 ===== evidence/portfolio_brief_baseline.md =====
@@ -1430,6 +1435,11 @@ candidate MUST cite the specific condition below that has changed.
 - [baseline] **scout-018-c03** [SCOUT_ONLY] -- The silhouette sign inside the consolidation score
 - [baseline] **scout-018-c04** [SCOUT_ONLY] -- The healed granulomas inside lung-cancer risk
 - [baseline] **scout-018-c05** [SCOUT_ONLY] -- The heart failure written on the body wall
+- [baseline] **scout-019-c01** [SCOUT_ONLY] -- Name the vessel-tree phenotype inside retinal sex prediction
+- [baseline] **scout-019-c02** [SCOUT_ONLY] -- The spleen as the fatty-liver model's calibration patch
+- [baseline] **scout-019-c03** [SCOUT_ONLY] -- The azygos vein inside the edema score
+- [baseline] **scout-019-c04** [SCOUT_ONLY] -- The meniscus inside the pleural-effusion score
+- [baseline] **scout-019-c05** [SCOUT_ONLY] -- The opening in the diaphragm inside the hiatal-hernia score
 
 
 ===== evidence/librarian_proposals.md =====
@@ -1439,6 +1449,471 @@ candidate MUST cite the specific condition below that has changed.
 # Scouting cycle 019
 
 Tracks: baseline
+
+
+===== ideas/scout-019/candidates_all.json =====
+{
+  "cycle": 19,
+  "charter": null,
+  "tracks": [
+    "baseline"
+  ],
+  "notes": {},
+  "candidates": [
+    {
+      "id": "scout-019-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "title": "Name the vessel-tree phenotype inside retinal sex prediction",
+      "question": "Is a fundus-photograph sex classifier using the richness of the retinal vessel tree?",
+      "deliverable_sentence": "The fundus sex classifier is using retinal vessel-tree richness.",
+      "rung": "Targets rung 1 through structure-selective erasure; rung 2 requires camera- and pigmentation-stratified replication; rung 3 is available because vessel-tree richness is a named graph phenotype, but biological interpretation beyond that needs independent validation.",
+      "rung_reached": "Rung 1 if selectively removing distal branches changes the frozen classifier beyond vessel-area-matched shams; rung 3 requires the result to replicate with independent vessel segmenters and cameras.",
+      "unfinished_story": "Poplin et al. showed that fundus photographs predict sex at high accuracy and localized evidence broadly to retinal regions, while later work measured sex differences in vessel branches, nodes, length, caliber, tortuosity, and retinal regions. The missing experiment is whether a frozen high-performing classifier actually uses the measured branch-richness phenotype rather than merely coexisting with it.",
+      "X_measurement": "Segment arteries and veins with a published fundus-vessel network, skeletonize the binary vessel mask, and compute branch-point count, terminal count, total skeleton length, and vessel-covered area within a fixed disc-centered field. The primary X is residual branch count after matching total vessel area and image field. Primary sources: Delavari et al., arXiv:2301.06675; macular geometry study PMID 34977079. Compute-today test: YES; it is deterministic after automated segmentation and requires no reader.",
+      "suspected_signal": "Sex-associated developmental and vascular differences alter how many visible retinal branches and nodes occupy a standardized fundus field. Fine dark branches create a repeated local texture a convolutional classifier can aggregate even when no human recognizes the global phenotype.",
+      "use_vs_association": "Measured sex differences alone show association; the confirmatory test erases distal vessel branches while holding field, background, and total removed pixel area fixed, then compares the paired sex-logit change with vessel-area-matched proximal-segment and non-vessel shams.",
+      "keystone_prerequisite": "A frozen, obtainable fundus sex classifier retains its published discrimination on an obtainable image corpus and automated vessel masks remain accurate enough that distal-branch erasure can vary branch count without changing total vessel area or the optic-disc/macular background beyond prespecified tolerances.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest verified facts are that sex prediction is strong and vessel geometry differs by sex. I am still assuming the load-bearing fact that branch count can be manipulated independently of vessel area and local inpainting signature in the exact classifier input; that is the real keystone and is not established by either paper.",
+      "dies_like_prior": "It risks idea-009's IDENTIFIABILITY_FAILURE if branch richness cannot be separated from vessel area, caliber, pigmentation, and camera field. Unlike idea-009, the proposed intervention explicitly matches vessel area and includes proximal-vessel and non-vessel shams. Annotation provenance does not apply: sex is registry-derived and the primary readout is model-to-itself.",
+      "closest_prior_work": "Poplin et al., Nature Biomedical Engineering 2018, DOI 10.1038/s41551-018-0195-0, established retinal sex prediction but did not name a causal image quantity. Korot et al., DOI 10.1038/s41598-021-89743-x, found poorer performance with foveal pathology. Delavari et al., arXiv:2301.06675, measured greater branch/node richness in male images but did not intervene on a frozen classifier. A 2026 region-weight study, DOI 10.1038/s41598-026-53485-5, estimates macula/disc/vasculature contributions but not use of branch richness. Exact delta: matched, branch-selective erasure on the original task.",
+      "existing_assets": "Public fundus datasets with sex metadata, published vessel segmenters, deterministic graph measurements, and several reproducible sex-classification architectures; all fit one GPU.",
+      "smallest_decisive_experiment": "Stage 0 reproduces a frozen classifier on a subject-held-out set and validates vessel masks without using the test set. On 300 correctly classified test images, remove terminal vessel segments in graded doses, inpaint from immediately adjacent retina, and compare sex-logit dose response against equal-area proximal-vessel removal and non-vessel curvilinear shams. Freeze all dose bins and masks before test inference.",
+      "standing_confounds_addressed": "Within-image comparisons fix camera, site, field, pigmentation, age, disease prevalence, and referral pathway. Camera/vendor and ethnicity are further stratified in replication. The design does not fully rule out branch-dependent inpainting detectability; sham detectability and a held-out edit discriminator gate it. Scanner/protocol/reconstruction are not CT-relevant here. Label leakage is unlikely but corpus filenames and borders must be audited.",
+      "alternative_explanations": [
+        "The model uses total vessel area, not branch richness; area-matched branch versus proximal-segment edits distinguish them.",
+        "The model reacts to many small inpaint patches; equal-count non-vessel curvilinear shams test this.",
+        "Camera sharpening reveals more branches and also predicts sex through site imbalance; within-image editing plus camera-stratified replication excludes the primary version."
+      ],
+      "anticipated_negative": "Decisive if classifier reproduction, segmentation, independent manipulation, and edit-realism gates pass and branch erasure is no larger than matched shams. Otherwise it is a feasibility failure, not a biological null.",
+      "cross_domain": {
+        "borrowed_construct": "Graph theory: a vascular tree summarized by nodes, terminals, and total edge length.",
+        "implied_measurement": "Residual branch/node count at fixed vessel area and field.",
+        "what_changes_if_dropped": "Without graph language, the experiment loses its prespecified distinction between branching richness and simple vessel area; it would become generic vessel masking and could not support the deliverable sentence."
+      },
+      "remaining_legwork": "Two days to select and reproduce a model, three days for segmenter and edit gates, and about one week to first frozen test result.",
+      "design_template": "representation-erasure",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "One measurable graph phenotype and one matched intervention."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Area matching and two sham families isolate richness, subject to edit realism."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "It could reveal a real retinal sex phenotype, but the sex-prediction task itself has limited direct utility."
+        },
+        "interest": {
+          "value": 5,
+          "why": "It closes a canonical model-beats-human mystery with a concrete anatomical quantity."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "The prediction gap and the candidate vessel phenotype are both already published."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped because the independent-editability keystone is not inspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public images, labels, and segmentation methods exist, though the exact frozen pairing is not selected."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Paired logits and dose response have clear sham baselines."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A gated null directly rejects a published candidate explanation."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; a 2026 region-contribution paper makes a dedicated audit essential."
+        },
+        "regret": {
+          "value": 5,
+          "why": "The phenotype and canonical mystery are already adjacent in the literature."
+        }
+      },
+      "priority_score": 3.8,
+      "unverified_claims": [
+        "An obtainable frozen classifier exactly reproduces published performance",
+        "Branch count can be edited independently at classifier resolution",
+        "No prior branch-selective causal intervention exists"
+      ],
+      "plain_pitch": "Artificial intelligence can tell a person's sex from a retinal photograph even though eye specialists cannot explain how. Men and women may differ slightly in how richly the tiny retinal vessels branch. This study removes only the finest branches while carefully matching the amount of vessel erased elsewhere. If the prediction changes specifically with branch loss, the model has exposed a measurable anatomical difference rather than an unnamed visual clue.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-019-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The spleen as the fatty-liver model's calibration patch",
+      "question": "Is Merlin's hepatic-steatosis score using the spleen as an internal attenuation reference?",
+      "deliverable_sentence": "Merlin's hepatic-steatosis score is using splenic attenuation as an internal reference for liver attenuation.",
+      "rung": "Targets rung 1 by changing spleen attenuation while holding liver voxels fixed; rung 2 requires contrast-phase and protocol controls; rung 3 follows if the score implements the named liver-minus-spleen comparison used in radiology.",
+      "rung_reached": "Rung 1 if the steatosis score follows controlled spleen-only attenuation shifts with the sign predicted by the liver-spleen difference; replication on noncontrast scans and multiple sites would move it toward rung 3.",
+      "unasked_question": "Quantitative radiology often judges hepatic fat relative to the spleen, and automated liver/spleen measurement is mature. Merlin was trained without an explicit rule, so it is unknown whether the foundation model independently learned the spleen as a calibration reference.",
+      "X_measurement": "Use TotalSegmentator to segment liver and spleen, erode masks from vessels and boundaries, and compute mean liver minus mean spleen attenuation in Hounsfield units and the liver/spleen ratio. Primary validation: Park et al., Radiology 2011, DOI 10.1148/radiol.10101233 (biopsy-proven nonsteatotic reference range); automated contrast-enhanced measurement PMID 40095018. Compute-today test: YES on any CT with both organs in view.",
+      "suspected_signal": "The spleen provides an internal tissue reference that cancels some patient- and acquisition-level intensity variation. A vision-language model trained from reports may discover that a dark liver is more meaningful when the spleen remains bright.",
+      "use_vs_association": "Observational correlation between score and liver-spleen difference cannot show which organ the model reads. The experiment shifts only splenic voxels within the observed physiological distribution while keeping the liver and every other voxel bit-identical, then tests the predicted monotone score response.",
+      "keystone_prerequisite": "The released Merlin checkpoint exposes a hepatic-steatosis or fatty-liver score on an obtainable cohort containing enough noncontrast or phase-homogeneous scans with both liver and spleen fully represented after the exact preprocessing.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The primary paper verifies released models/data and 30 zero-shot findings, and the liver-spleen measurement itself is validated. I have not inspected the released finding vocabulary or input manifests for the exact steatosis head and phase-homogeneous support. That exact model-output-and-cohort pairing, not merely Merlin's existence, is the keystone.",
+      "dies_like_prior": "It resembles idea-010's CIRCULARITY risk because the proposed X is a standard diagnostic rule. It differs because the question is not whether X predicts the steatosis label; it intervenes on the reference organ while liver appearance is fixed, testing whether this particular model uses the comparison. Annotation provenance is absent from the primary paired readout.",
+      "closest_prior_work": "Merlin, Blankemeier et al., Nature 2026, PMID 41781626, releases models and evaluates 30 findings but does not report a spleen-reference intervention. Park et al., DOI 10.1148/radiol.10101233, validates the liver-spleen difference against biopsy but studies the biomarker, not model behavior. The exact delta is spleen-only perturbation of a frozen whole-volume model.",
+      "existing_assets": "Released Merlin code/models and dataset; TotalSegmentator liver and spleen masks; accepted attenuation formulas; single-GPU inference.",
+      "smallest_decisive_experiment": "Stage 0 inspects Merlin's actual finding vocabulary, preprocessing, scan phases, and organ coverage. If it passes, select 200 test scans across the liver-spleen difference range. Apply graded spleen-only shifts of -15 to +15 HU, excluding vessels and lesions; use same-volume liver shifts as a positive control and kidney-cortex shifts matched for volume and baseline attenuation as a specificity sham. Primary endpoint: sign and slope of paired steatosis-logit change.",
+      "standing_confounds_addressed": "Within-image editing fixes scanner, vendor, protocol, reconstruction, site, positioning, habitus, prevalence, referral pathway, and label leakage. Phase is fixed by cohort restriction. It does not automatically rule out generic response to any large-organ intensity shift; kidney shams do. Contrast timing limits generalization beyond the selected phase.",
+      "alternative_explanations": [
+        "The model responds to any organ-wide intensity shift; kidney-cortex shams test specificity.",
+        "The model uses absolute liver attenuation only; a flat spleen arm with a responsive liver positive control supports that alternative.",
+        "Spleen edits are out of distribution; bounded native-intensity substitution and a held-out edit discriminator gate this."
+      ],
+      "anticipated_negative": "Decisive after a responsive liver positive control and passed realism gate: Merlin does not use the spleen reference on this cohort. Without the positive control, a null is sensitivity-limited.",
+      "remaining_legwork": "One day to inspect the released label vocabulary and preprocessing, two days for phase/coverage census, and one week for masks, controls, and first result.",
+      "design_template": "regional-substitution",
+      "entry_point_2_requirements": "Measurement: eroded-mask liver-minus-spleen attenuation and ratio. Confusable artifacts: contrast phase, global calibration drift, and generic organ-intensity edits; phase restriction and kidney shams address them.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "The reference organ, direction, and control are explicit."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Spleen-only edits separate relative from absolute liver evidence."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "It determines whether a whole-volume model rediscovered a trusted quantitative rule and when contrast phase may break it."
+        },
+        "interest": {
+          "value": 4,
+          "why": "Independent rediscovery of an internal calibration organ is broadly interpretable."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Model, segmenters, and measurement validation exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped until the exact output and phase-homogeneous cohort are inspected."
+        },
+        "data_readiness": {
+          "value": 3,
+          "why": "Released data exist but scan-phase suitability is unverified."
+        },
+        "evaluation_readiness": {
+          "value": 5,
+          "why": "The attenuation formula gives a signed dose response and clear positive control."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A gated null distinguishes absolute-liver from relative-organ reasoning."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped pending a formal Merlin interpretability audit."
+        },
+        "regret": {
+          "value": 4,
+          "why": "It is a cheap, obvious-in-hindsight test of whole-volume context."
+        }
+      },
+      "priority_score": 3.8,
+      "unverified_claims": [
+        "The released Merlin vocabulary includes hepatic steatosis",
+        "Enough phase-homogeneous scans retain both organs after preprocessing",
+        "No prior spleen-only Merlin intervention exists"
+      ],
+      "plain_pitch": "Radiologists often judge a fatty liver by comparing its brightness with the spleen, which acts like a built-in calibration patch. Merlin reads an entire abdominal CT scan and may have discovered the same trick without being taught it. We would leave the liver untouched, gently change only the spleen's brightness, and see whether the fatty-liver score moves in the predicted direction. A positive result would turn an opaque model decision into a familiar radiology rule.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-019-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The azygos vein inside the edema score",
+      "question": "Is a chest-radiograph pulmonary-edema classifier using azygos-vein caliber as a venous-pressure gauge?",
+      "deliverable_sentence": "The pulmonary-edema classifier is using azygos-vein enlargement.",
+      "rung": "Targets rung 1 by vessel-specific removal and restoration; rung 2 requires projection, rotation, and line/tube controls; rung 3 is available because azygos-vein enlargement is a named radiographic sign of venous congestion.",
+      "rung_reached": "Rung 1 if edema logits respond specifically and monotonically to azygos-caliber edits; external replication and independent segmentation would support rung 3.",
+      "unasked_question": "Edema classifiers are usually explained by lung opacities and heart size. The azygos arch is a small but pressure-responsive mediastinal vein; whether a model uses this extra-pulmonary sign has not been isolated.",
+      "X_measurement": "Automatically localize the trachea/right main bronchus and right paratracheal mediastinum, segment the azygos arch shadow, and measure its maximum transverse diameter normalized by thoracic width in millimetres. The method must be validated against a small, pre-existing annotated development set or CT-projected synthetic radiographs; no test-set reader labels enter the primary endpoint. Compute-today test: YES as a well-defined geometric measurement, conditional on the segmentation gate.",
+      "suspected_signal": "Raised right-sided and systemic venous pressure distends the azygos arch. Its rounded right paratracheal shadow can therefore accompany congestion even when alveolar opacity is subtle.",
+      "use_vs_association": "Azygos width correlates with heart failure and edema, so regression is inadequate. The confirmatory design removes the localized shadow while preserving surrounding mediastinal texture and separately inserts graded, anatomically plausible widths, with lung fields and cardiac silhouette fixed.",
+      "keystone_prerequisite": "The azygos arch is visible and automatically localizable at sufficient prevalence and fidelity in the exact public chest-radiograph test distribution to support bounded edits that do not alter adjacent superior vena cava, lymph nodes, or lines.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest fact is the established radiographic association between azygos enlargement and venous congestion. I am still assuming the load-bearing imaging fact: that a distinct editable azygos shadow can be recovered from frontal radiographs often enough. A bounding box around the expected location would not satisfy this keystone.",
+      "dies_like_prior": "It resembles idea-016's IDENTIFIABILITY_FAILURE (a pressure gauge co-varying with disease). The difference is a within-image, vessel-specific bidirectional intervention rather than observational anatomy. It dies the same way if the azygos shadow cannot be separated from neighboring mediastinum. Annotation provenance is irrelevant to the paired primary readout; report labels are used only to select a frozen pretrained model.",
+      "closest_prior_work": "Public chest-radiograph classifiers such as CheXNet (Rajpurkar et al., arXiv:1711.05225) establish edema classification but do not test azygos caliber. The radiology literature describes azygos enlargement in congestion, but a primary quantitative anchor and automated-localization precedent must be pinned in novelty audit. No absence claim is made here.",
+      "existing_assets": "Public radiographs and edema classifiers; rib/lung/mediastinal landmark segmenters; CT volumes that can generate digitally reconstructed radiographs for segmentation development.",
+      "smallest_decisive_experiment": "Stage 0 estimates visible-azygos prevalence and segmentation repeatability on development data and stops if fewer than 100 clean test-eligible cases are projected. On frozen test cases, erase the azygos shadow with local mediastinal texture and insert three width doses; use matched edits at the left paratracheal border and line/tube-shaped shams. Require opposite signed responses for narrowing versus widening and a flat sham distribution.",
+      "standing_confounds_addressed": "Within-image edits fix site, vendor, projection, protocol, habitus, prevalence, referral, and labels. Rotation and inspiration are fixed within each pair but limit mask reliability, so they are development gates. It does not fully rule out generic right-mediastinal contour sensitivity; contralateral and adjacent-border shams address this. Reconstruction is not applicable to radiographs.",
+      "alternative_explanations": [
+        "The model uses generic right-mediastinal widening; adjacent-border shams test it.",
+        "It reacts to line-like edits; catheter-shaped shams test this.",
+        "Azygos width is inseparable from rotation; a strict clavicular-rotation gate restricts the estimand rather than statistically wishing rotation away."
+      ],
+      "anticipated_negative": "Decisive only after localization, positive-dose visibility, and realism gates pass. Failure to localize the vein is an interpretable feasibility kill but not a negative about model use.",
+      "remaining_legwork": "Three days for a visibility census, one week for localization/edit validation, and one additional week to a first test result.",
+      "design_template": "regional-removal",
+      "entry_point_2_requirements": "Measurement: normalized azygos-arch diameter. Confusable artifacts: patient rotation, inspiration, adjacent mediastinal contours, and central lines; all receive explicit gates or shams.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "The sign and intervention are clear; localization is the weak joint."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Bidirectional edits and adjacent-border shams isolate the named vessel if segmentation passes."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "It would reveal whether edema AI reads a real extra-pulmonary congestion sign."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A small mediastinal vein serving as a pressure gauge is surprising and physician-legible."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Models and data exist; the required vein localizer is not ready."
+        },
+        "feasibility": {
+          "value": 2,
+          "why": "Visibility and separable localization are substantial uninspected barriers."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public radiographs and frozen classifiers are abundant."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired logits are simple, but edit-validity metrics need freezing."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A gated null cleanly rejects a specific extra-pulmonary cue."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped; the closest automated azygos work is not yet audited."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Worth a cheap visibility gate before investing in an editor."
+        }
+      },
+      "priority_score": 3.45,
+      "unverified_claims": [
+        "Azygos visibility prevalence in the chosen corpus",
+        "Availability of a suitable automatic localizer",
+        "Novelty of azygos-specific classifier intervention",
+        "Primary quantitative azygos-congestion citation"
+      ],
+      "plain_pitch": "When venous pressure rises, a small vein beside the upper right lung called the azygos vein can widen on a chest X-ray. An artificial-intelligence system asked to detect fluid in the lungs might quietly use that vein as a pressure gauge. We would narrow and widen only that shadow while leaving the lungs and heart unchanged. If the edema score follows the vein, radiologists gain a concrete explanation for part of the model's decision.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-019-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The meniscus inside the pleural-effusion score",
+      "question": "Is CT-CLIP's pleural-effusion score using the curvature of the pleural-fluid meniscus rather than fluid volume alone?",
+      "deliverable_sentence": "CT-CLIP's pleural-effusion score is using pleural-fluid meniscus curvature.",
+      "rung": "Targets rung 1 with volume-preserving shape counterfactuals; rung 2 requires fluid-density, positioning, reconstruction, and synthesis controls; rung 3 follows if curvature use replicates in real positional pairs.",
+      "rung_reached": "Rung 1 if the score changes with meniscus curvature at fixed segmented fluid volume and density; real prone/supine replication would move it toward rung 3.",
+      "X_measurement": "Segment pleural fluid with an automated CT effusion segmenter, fit the superior fluid-air interface in a gravity-aligned coordinate system, and compute mean/maximum principal curvature plus the vertical height-to-basal-area ratio at fixed volume. CT effusion segmentation precedent: PMID 35923880 / PMCID PMC9390225. Compute-today test: YES once a mask is available; no reader rating is required.",
+      "suspected_signal": "Free pleural fluid forms a smooth gravity-dependent upper meniscus, whereas loculated fluid and many soft-tissue mimics do not. The curved boundary may be a higher-contrast and more stable cue than absolute fluid volume after CT-CLIP's resampling.",
+      "use_vs_association": "Large effusions have both more volume and a more conspicuous meniscus. The counterfactual preserves voxel count, attenuation distribution, pleural contact area, and surrounding anatomy while redistributing only the superior interface curvature; therefore volume cannot explain a positive result.",
+      "keystone_prerequisite": "A volume-preserving deformation can vary the superior meniscus curvature across a physiologically observed range without changing pleural contact, introducing interpolation signatures, or producing shapes detectable as synthetic by a held-out model.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Existing work proves effusions can be segmented, not that curvature can be independently and realistically edited. That edit identifiability is the real keystone; the easy adjacent fact of segmentation availability does not establish it.",
+      "dies_like_prior": "The main analogue is idea-006: an extreme edit could be out of distribution. This design uses small volume-preserving boundary transport and requires native-shape and discriminator gates, but it still dies like idea-006 if synthesis realism fails. It is distinct from scout-015-c01 (fluid volume) because volume is explicitly fixed and curvature is the claimed X.",
+      "closest_prior_work": "CT-CLIP/CT-RATE supplies the released pleural-effusion head; idea-004 has already verified the checkpoint pipeline. Ebert et al., PMCID PMC9390225, automate effusion segmentation and complexity classification but do not test a report-supervised model's use of meniscus curvature. The formal audit must search pleural shape radiomics and classifier attribution; no novelty claim is made yet.",
+      "existing_assets": "Frozen CT-CLIP inference from idea-004; CT-RATE validation volumes; published CT effusion segmenters; geometry operations feasible on one GPU/CPU.",
+      "smallest_decisive_experiment": "Stage 0 segments 100 effusions and estimates the native joint distribution of volume, interface curvature, density, and pleural contact. Build two counterfactuals per scan that increase or decrease curvature while preserving volume, density histogram, contact area, and every non-fluid voxel. Compare paired effusion-score slopes with equal-energy internal fluid rearrangements that leave curvature fixed. The untouched test set is scored once after all realism gates freeze.",
+      "standing_confounds_addressed": "Within-image counterfactuals fix scanner, vendor, protocol, reconstruction, site, positioning, habitus, prevalence, referral, and label leakage. Density and volume are preserved. It does not rule out response to interpolation at the moved boundary unless sham and discriminator gates pass; real positional replication would address synthesis external validity.",
+      "alternative_explanations": [
+        "The model responds to any moved fluid boundary; curvature-fixed boundary-jitter shams test this.",
+        "Pleural contact area changes despite volume preservation; it is constrained and audited voxelwise.",
+        "The edit creates implausible loculations; native-shape support and a blinded discriminator gate reject such cases."
+      ],
+      "anticipated_negative": "Decisive after passed manipulation and sensitivity controls: meniscus curvature is not used by this checkpoint over the tested native range. A failed synthesis gate is uninterpretable scientifically but cheaply kills the design.",
+      "cross_domain": {
+        "borrowed_construct": "Capillarity and free-surface geometry: a fluid interface described by curvature under gravity.",
+        "implied_measurement": "Principal curvature of the superior pleural-fluid interface at fixed fluid volume.",
+        "what_changes_if_dropped": "Without the free-surface construct, the intervention would vary arbitrary shape radiomics. The analogy supplies the specific gravity-aligned interface, curvature statistic, fixed-volume constraint, and signed deformation."
+      },
+      "remaining_legwork": "Three days for segmentation/native-support audit and roughly two weeks for a validated deformation and first decision.",
+      "design_template": "counterfactual-synthesis",
+      "entry_point_2_requirements": "Measurement: gravity-aligned interface curvature. Confusable artifacts: volume, attenuation, positioning, reconstruction, interpolation, and loculation; the design fixes or gates each.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "The claimed physical quantity and fixed-volume contrast are precise."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "The construction isolates curvature if the demanding realism gate passes."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "It explains a common finding score but has indirect immediate clinical consequence."
+        },
+        "interest": {
+          "value": 5,
+          "why": "A model reading fluid physics rather than amount is surprising and generalizable."
+        },
+        "mechanism_clarity": {
+          "value": 5,
+          "why": "Curvature, gravity-aligned interface, and measurement are fully named."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "The model pipeline and segmentation precedents already exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; independent realistic curvature editing is uninspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "The exact model and CT cohort are already operational in the program."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "Signed paired slopes and geometry invariants are explicit."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A gated null decisively separates volume from interface shape use."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped pending shape-radiomics audit."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Existing inference makes the hard geometry gate worth testing."
+        }
+      },
+      "mode_c_priority_score": 4.45,
+      "unverified_claims": [
+        "A CT effusion segmenter transfers to CT-RATE",
+        "Curvature is independently editable in native support",
+        "No prior fixed-volume meniscus intervention exists"
+      ],
+      "plain_pitch": "Fluid around the lung does not just occupy space; gravity gives its upper surface a smooth curved edge called a meniscus. The model may recognize that edge rather than simply measuring how much fluid is present. We would reshape the same number of fluid voxels to make the meniscus flatter or steeper while leaving density and the rest of the scan unchanged. If the score follows curvature, the model is using a recognizable piece of fluid physics.",
+      "track": "baseline",
+      "charter": null
+    },
+    {
+      "id": "scout-019-c05",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The opening in the diaphragm inside the hiatal-hernia score",
+      "question": "Is CT-CLIP's hiatal-hernia score using diaphragmatic crural separation rather than herniated stomach volume?",
+      "deliverable_sentence": "CT-CLIP's hiatal-hernia score is using widening of the esophageal hiatus between the diaphragmatic crura.",
+      "rung": "Targets rung 1 with within-patient state changes that separate aperture width from herniated volume; rung 2 requires phase, gastric distension, positioning, reconstruction, and crop controls; rung 3 needs a confirmatory aperture-specific intervention or naturally discordant pairs.",
+      "rung_reached": "At most rung 1 from longitudinal discordant pairs; an aperture-specific, realism-gated intervention is required to move to rung 3.",
+      "X_measurement": "Segment diaphragm/crura and esophagus/stomach, define the esophageal-hiatus plane, and measure transverse intercrural distance, hiatus area, and crural thickness in millimetres. These are direct geometric quantities. Compute-today test: YES in principle with automatic organ/diaphragm segmentation, without reader judgment; robust crural segmentation on low-dose chest CT is the keystone gate.",
+      "suspected_signal": "The right and left diaphragmatic crura form a muscular aperture. Chronic widening and thinning reduce the mechanical barrier to trans-hiatal stomach migration. A whole-volume model may read the fixed anatomical aperture even when herniated stomach volume changes with respiration or gastric filling.",
+      "use_vs_association": "Wider hiatus and larger hernia usually co-occur, so cross-sectional regression is insufficient. The primary screen seeks same-patient scans where herniated stomach volume changes substantially but crural separation is stable, and the converse; score changes across those discordant natural states distinguish aperture use from sac-volume use.",
+      "keystone_prerequisite": "CT-RATE contains enough same-patient repeat scans with full diaphragmatic coverage and naturally discordant changes in intercrural distance versus herniated-stomach volume, without simultaneous protocol/crop changes that reproduce the same discordance.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The ledger verifies repeat patients in CT-RATE, and the hiatal-hernia head exists. I am still assuming the load-bearing fact that the repeats contain adequate natural discordance and crural coverage. Repeat scans alone are only the nearest easy fact and do not establish the design.",
+      "dies_like_prior": "It risks idea-009's IDENTIFIABILITY_FAILURE because aperture width and hernia volume are mechanically coupled. Unlike idea-009, it requires prespecified within-patient discordant support before inference. It is distinct from scout-015-c04, which asks whether the score uses a continuous air tunnel; this candidate names the muscular aperture and tests it against stomach volume. Annotation provenance does not enter the primary readout.",
+      "closest_prior_work": "CT-CLIP/CT-RATE and the frozen ClassFine checkpoint are verified locally through idea-004. Quantitative hiatus/crural measurements exist in surgical and CT literature, but the exact primary measurement citation and any AI attribution work require formal audit. Scout-015-c04 is the closest internal candidate and tests luminal air continuity, not crural separation.",
+      "existing_assets": "Operational CT-CLIP pipeline; CT-RATE repeat-session metadata; TotalSegmentator stomach/esophagus context masks; deterministic geometry once crura are segmented.",
+      "smallest_decisive_experiment": "Stage 0 runs crural/upper-stomach segmentation on all repeat patients, audits crop coverage, and counts pairs in four prespecified cells: stable aperture/changing hernia volume, changing aperture/stable volume, concordant change, and stable/stable. Freeze minimum support and measurement repeatability before scores. Only if both discordant cells pass support, compare within-patient hiatal-hernia score changes using a two-predictor errors-in-variables model; stable/stable pairs estimate the noise floor.",
+      "standing_confounds_addressed": "Within-patient analysis removes fixed site, habitus, prevalence, and referral pathway. Metadata matching/stratification addresses vendor, protocol, reconstruction, and positioning; tensor-coverage audits address cropping. Label leakage cannot vary within a model-to-itself pair. Gastric distension and inspiration remain plausible time-varying alternatives and are measured via stomach gas volume and lung volume rather than assumed away.",
+      "alternative_explanations": [
+        "The score follows herniated stomach volume, not aperture width; the discordant cells are designed to distinguish them.",
+        "Inspiration changes both crural geometry and model framing; lung volume and final-tensor coverage are explicit gates/covariates.",
+        "Gastric gas, not anatomy, drives the score; gas volume is measured and stable-gas sensitivity analysis is prespecified."
+      ],
+      "anticipated_negative": "If adequate discordant support exists and score changes follow only hernia volume, that is a decisive negative for aperture use and a positive competing explanation. Absence of discordant support is an interpretable feasibility kill, not a biological negative.",
+      "cross_domain": {
+        "borrowed_construct": "Structural mechanics: a muscular aperture whose span and thickness govern resistance to organ passage.",
+        "implied_measurement": "Intercrural distance, hiatus area, and crural thickness contrasted with trans-hiatal stomach volume.",
+        "what_changes_if_dropped": "Without the aperture-mechanics framing, there is no reason to measure crural span separately from hernia size or demand discordant natural states; the study would collapse into routine severity correlation."
+      },
+      "remaining_legwork": "About one week for segmentation/coverage and discordance census; if support passes, one further week to the paired score analysis.",
+      "design_template": "longitudinal-within-subject",
+      "entry_point_2_requirements": "Measurement: intercrural distance/hiatus area. Confusable artifacts: herniated volume, inspiration, gastric gas, positioning, protocol, and final-tensor crop; all are measured or gated.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "The competing quantities are clear; the natural-discordance estimand needs sufficient support."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Discordant within-patient states help, but time-varying anatomy and measurement error remain."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "It explains a common score and could distinguish structural susceptibility from transient herniation."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A model reading the muscular gateway rather than the herniated organ is unexpected."
+        },
+        "mechanism_clarity": {
+          "value": 5,
+          "why": "Aperture span, thickness, organ passage, and measurements are specific."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Model, repeated scans, and contextual segmenters already exist."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Capped; natural discordance and crural segmentation are not inspected."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "The CT-RATE repeat cohort and model pipeline are program assets."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "The geometry is clear but measurement-error modeling and support thresholds need freezing."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "Following volume rather than aperture is a decisive competing explanation if support passes."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped pending hiatus-measurement and attribution audit."
+        },
+        "regret": {
+          "value": 3,
+          "why": "The Stage-0 census is cheap on existing repeats, though success is uncertain."
+        }
+      },
+      "mode_c_priority_score": 3.9,
+      "unverified_claims": [
+        "Robust automatic crural segmentation on CT-RATE",
+        "Adequate natural discordance in repeat scans",
+        "Primary validation citation for automated hiatus measurement",
+        "No prior model attribution to crural separation"
+      ],
+      "plain_pitch": "A hiatal hernia occurs when the opening in the diaphragm around the food pipe becomes wide enough for stomach to pass upward. The visible amount of stomach above the diaphragm can change with breathing and filling, while the muscular opening may remain wide. By comparing repeat scans from the same person where these two quantities change differently, we can ask whether the model reads the opening itself or merely the amount of displaced stomach. A positive result would name the anatomical gateway behind the score.",
+      "track": "baseline",
+      "charter": null
+    }
+  ]
+}
 
 
 ===== ideas/scout-019/run_provenance.json =====
@@ -1478,219 +1953,292 @@ Tracks: baseline
 }
 
 
+===== ideas/scout-019/scout_candidates.json =====
+{
+  "cycle": "scout-019",
+  "date": "2026-08-25",
+  "track": "baseline",
+  "all_questions": [
+    {"n": 1, "question": "Is a fundus-photograph sex classifier using the richness of the retinal vessel tree?", "disposition": "DEVELOPED as scout-019-c01 (Mode A)."},
+    {"n": 2, "question": "Is Merlin's hepatic-steatosis score using the spleen as an internal attenuation reference?", "disposition": "DEVELOPED as scout-019-c02 (Mode B)."},
+    {"n": 3, "question": "Is a chest-radiograph pulmonary-edema classifier using azygos-vein caliber as a venous-pressure gauge?", "disposition": "DEVELOPED as scout-019-c03 (Mode B)."},
+    {"n": 4, "question": "Is CT-CLIP's pleural-effusion score using the curvature of the pleural-fluid meniscus rather than fluid volume alone?", "disposition": "DEVELOPED as scout-019-c04 (Mode C; capillarity/geometry)."},
+    {"n": 5, "question": "Is CT-CLIP's hiatal-hernia score using diaphragmatic crural separation rather than herniated stomach volume?", "disposition": "DEVELOPED as scout-019-c05 (Mode C; structural mechanics)."},
+    {"n": 6, "question": "Is a brain-age magnetic-resonance model using the branching complexity of perivascular spaces as a glymphatic-aging marker?", "disposition": "DROPPED (cross-domain, network transport; too hard): an automated perivascular-space measurement exists, but no obtainable model-and-cohort pairing was identified and segmentation error would be entangled with scanner field strength."},
+    {"n": 7, "question": "Is a lung-cancer CT model using the handedness of bronchial branching?", "disposition": "DROPPED (obviously wrong but not immediately refutable): handedness is measurable, but there is no credible biological route to cancer risk beyond anatomy/site imbalance, and a positive edit response would more likely be an impossible-geometry artifact."},
+    {"n": 8, "question": "Is an abdominal mortality model using the fractal dimension of mesenteric fat stranding as a record of inflammatory history?", "disposition": "DROPPED (cross-domain, critical phenomena): the analogy does not change the proposed texture calculation, so it is decorative under the charter's analogy test."},
+    {"n": 9, "question": "Is a chest-CT emphysema model using expiratory tracheal collapse?", "disposition": "DROPPED: routine inspiratory CT does not provide the dynamic denominator needed to name expiratory collapse, so X cannot be computed on every new scan today."},
+    {"n": 10, "question": "Is a vertebral-fracture model using endplate concavity before height loss becomes visible?", "disposition": "DROPPED: too close to scout-006-c04's already-tracked density-versus-shape question and scout-017-c01's crushed-vertebra mortality question; no changed fact supports a recombination."}
+  ],
+  "quota_note": "Exactly 1 Mode A (c01), 2 Mode B (c02-c03), and 2 Mode C (c04-c05). Four of five are radiology and three are CT/3D. CT-RATE is used by exactly two candidates; Merlin, a public chest-radiograph corpus, and a fundus corpus are each used once. No dermatology. There are zero revivals because no portfolio blocking condition was shown to have changed. All five use different design templates; no clinical-costume reuse is hidden in the set.",
+  "candidates": [
+    {
+      "id": "scout-019-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "title": "Name the vessel-tree phenotype inside retinal sex prediction",
+      "question": "Is a fundus-photograph sex classifier using the richness of the retinal vessel tree?",
+      "deliverable_sentence": "The fundus sex classifier is using retinal vessel-tree richness.",
+      "rung": "Targets rung 1 through structure-selective erasure; rung 2 requires camera- and pigmentation-stratified replication; rung 3 is available because vessel-tree richness is a named graph phenotype, but biological interpretation beyond that needs independent validation.",
+      "rung_reached": "Rung 1 if selectively removing distal branches changes the frozen classifier beyond vessel-area-matched shams; rung 3 requires the result to replicate with independent vessel segmenters and cameras.",
+      "unfinished_story": "Poplin et al. showed that fundus photographs predict sex at high accuracy and localized evidence broadly to retinal regions, while later work measured sex differences in vessel branches, nodes, length, caliber, tortuosity, and retinal regions. The missing experiment is whether a frozen high-performing classifier actually uses the measured branch-richness phenotype rather than merely coexisting with it.",
+      "X_measurement": "Segment arteries and veins with a published fundus-vessel network, skeletonize the binary vessel mask, and compute branch-point count, terminal count, total skeleton length, and vessel-covered area within a fixed disc-centered field. The primary X is residual branch count after matching total vessel area and image field. Primary sources: Delavari et al., arXiv:2301.06675; macular geometry study PMID 34977079. Compute-today test: YES; it is deterministic after automated segmentation and requires no reader.",
+      "suspected_signal": "Sex-associated developmental and vascular differences alter how many visible retinal branches and nodes occupy a standardized fundus field. Fine dark branches create a repeated local texture a convolutional classifier can aggregate even when no human recognizes the global phenotype.",
+      "use_vs_association": "Measured sex differences alone show association; the confirmatory test erases distal vessel branches while holding field, background, and total removed pixel area fixed, then compares the paired sex-logit change with vessel-area-matched proximal-segment and non-vessel shams.",
+      "keystone_prerequisite": "A frozen, obtainable fundus sex classifier retains its published discrimination on an obtainable image corpus and automated vessel masks remain accurate enough that distal-branch erasure can vary branch count without changing total vessel area or the optic-disc/macular background beyond prespecified tolerances.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest verified facts are that sex prediction is strong and vessel geometry differs by sex. I am still assuming the load-bearing fact that branch count can be manipulated independently of vessel area and local inpainting signature in the exact classifier input; that is the real keystone and is not established by either paper.",
+      "dies_like_prior": "It risks idea-009's IDENTIFIABILITY_FAILURE if branch richness cannot be separated from vessel area, caliber, pigmentation, and camera field. Unlike idea-009, the proposed intervention explicitly matches vessel area and includes proximal-vessel and non-vessel shams. Annotation provenance does not apply: sex is registry-derived and the primary readout is model-to-itself.",
+      "closest_prior_work": "Poplin et al., Nature Biomedical Engineering 2018, DOI 10.1038/s41551-018-0195-0, established retinal sex prediction but did not name a causal image quantity. Korot et al., DOI 10.1038/s41598-021-89743-x, found poorer performance with foveal pathology. Delavari et al., arXiv:2301.06675, measured greater branch/node richness in male images but did not intervene on a frozen classifier. A 2026 region-weight study, DOI 10.1038/s41598-026-53485-5, estimates macula/disc/vasculature contributions but not use of branch richness. Exact delta: matched, branch-selective erasure on the original task.",
+      "existing_assets": "Public fundus datasets with sex metadata, published vessel segmenters, deterministic graph measurements, and several reproducible sex-classification architectures; all fit one GPU.",
+      "smallest_decisive_experiment": "Stage 0 reproduces a frozen classifier on a subject-held-out set and validates vessel masks without using the test set. On 300 correctly classified test images, remove terminal vessel segments in graded doses, inpaint from immediately adjacent retina, and compare sex-logit dose response against equal-area proximal-vessel removal and non-vessel curvilinear shams. Freeze all dose bins and masks before test inference.",
+      "standing_confounds_addressed": "Within-image comparisons fix camera, site, field, pigmentation, age, disease prevalence, and referral pathway. Camera/vendor and ethnicity are further stratified in replication. The design does not fully rule out branch-dependent inpainting detectability; sham detectability and a held-out edit discriminator gate it. Scanner/protocol/reconstruction are not CT-relevant here. Label leakage is unlikely but corpus filenames and borders must be audited.",
+      "alternative_explanations": ["The model uses total vessel area, not branch richness; area-matched branch versus proximal-segment edits distinguish them.", "The model reacts to many small inpaint patches; equal-count non-vessel curvilinear shams test this.", "Camera sharpening reveals more branches and also predicts sex through site imbalance; within-image editing plus camera-stratified replication excludes the primary version."],
+      "anticipated_negative": "Decisive if classifier reproduction, segmentation, independent manipulation, and edit-realism gates pass and branch erasure is no larger than matched shams. Otherwise it is a feasibility failure, not a biological null.",
+      "cross_domain": {"borrowed_construct": "Graph theory: a vascular tree summarized by nodes, terminals, and total edge length.", "implied_measurement": "Residual branch/node count at fixed vessel area and field.", "what_changes_if_dropped": "Without graph language, the experiment loses its prespecified distinction between branching richness and simple vessel area; it would become generic vessel masking and could not support the deliverable sentence."},
+      "remaining_legwork": "Two days to select and reproduce a model, three days for segmenter and edit gates, and about one week to first frozen test result.",
+      "design_template": "representation-erasure",
+      "scores": {
+        "clarity": {"value": 5, "why": "One measurable graph phenotype and one matched intervention."},
+        "identifiability": {"value": 4, "why": "Area matching and two sham families isolate richness, subject to edit realism."},
+        "medical_relevance": {"value": 3, "why": "It could reveal a real retinal sex phenotype, but the sex-prediction task itself has limited direct utility."},
+        "interest": {"value": 5, "why": "It closes a canonical model-beats-human mystery with a concrete anatomical quantity."},
+        "prior_legwork": {"value": 4, "why": "The prediction gap and the candidate vessel phenotype are both already published."},
+        "feasibility": {"value": 3, "why": "Capped because the independent-editability keystone is not inspected."},
+        "data_readiness": {"value": 4, "why": "Public images, labels, and segmentation methods exist, though the exact frozen pairing is not selected."},
+        "evaluation_readiness": {"value": 4, "why": "Paired logits and dose response have clear sham baselines."},
+        "negative_result_value": {"value": 4, "why": "A gated null directly rejects a published candidate explanation."},
+        "novelty_confidence": {"value": 3, "why": "Capped; a 2026 region-contribution paper makes a dedicated audit essential."},
+        "regret": {"value": 5, "why": "The phenotype and canonical mystery are already adjacent in the literature."}
+      },
+      "priority_score": 3.8,
+      "unverified_claims": ["An obtainable frozen classifier exactly reproduces published performance", "Branch count can be edited independently at classifier resolution", "No prior branch-selective causal intervention exists"],
+      "plain_pitch": "Artificial intelligence can tell a person's sex from a retinal photograph even though eye specialists cannot explain how. Men and women may differ slightly in how richly the tiny retinal vessels branch. This study removes only the finest branches while carefully matching the amount of vessel erased elsewhere. If the prediction changes specifically with branch loss, the model has exposed a measurable anatomical difference rather than an unnamed visual clue."
+    },
+    {
+      "id": "scout-019-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The spleen as the fatty-liver model's calibration patch",
+      "question": "Is Merlin's hepatic-steatosis score using the spleen as an internal attenuation reference?",
+      "deliverable_sentence": "Merlin's hepatic-steatosis score is using splenic attenuation as an internal reference for liver attenuation.",
+      "rung": "Targets rung 1 by changing spleen attenuation while holding liver voxels fixed; rung 2 requires contrast-phase and protocol controls; rung 3 follows if the score implements the named liver-minus-spleen comparison used in radiology.",
+      "rung_reached": "Rung 1 if the steatosis score follows controlled spleen-only attenuation shifts with the sign predicted by the liver-spleen difference; replication on noncontrast scans and multiple sites would move it toward rung 3.",
+      "unasked_question": "Quantitative radiology often judges hepatic fat relative to the spleen, and automated liver/spleen measurement is mature. Merlin was trained without an explicit rule, so it is unknown whether the foundation model independently learned the spleen as a calibration reference.",
+      "X_measurement": "Use TotalSegmentator to segment liver and spleen, erode masks from vessels and boundaries, and compute mean liver minus mean spleen attenuation in Hounsfield units and the liver/spleen ratio. Primary validation: Park et al., Radiology 2011, DOI 10.1148/radiol.10101233 (biopsy-proven nonsteatotic reference range); automated contrast-enhanced measurement PMID 40095018. Compute-today test: YES on any CT with both organs in view.",
+      "suspected_signal": "The spleen provides an internal tissue reference that cancels some patient- and acquisition-level intensity variation. A vision-language model trained from reports may discover that a dark liver is more meaningful when the spleen remains bright.",
+      "use_vs_association": "Observational correlation between score and liver-spleen difference cannot show which organ the model reads. The experiment shifts only splenic voxels within the observed physiological distribution while keeping the liver and every other voxel bit-identical, then tests the predicted monotone score response.",
+      "keystone_prerequisite": "The released Merlin checkpoint exposes a hepatic-steatosis or fatty-liver score on an obtainable cohort containing enough noncontrast or phase-homogeneous scans with both liver and spleen fully represented after the exact preprocessing.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The primary paper verifies released models/data and 30 zero-shot findings, and the liver-spleen measurement itself is validated. I have not inspected the released finding vocabulary or input manifests for the exact steatosis head and phase-homogeneous support. That exact model-output-and-cohort pairing, not merely Merlin's existence, is the keystone.",
+      "dies_like_prior": "It resembles idea-010's CIRCULARITY risk because the proposed X is a standard diagnostic rule. It differs because the question is not whether X predicts the steatosis label; it intervenes on the reference organ while liver appearance is fixed, testing whether this particular model uses the comparison. Annotation provenance is absent from the primary paired readout.",
+      "closest_prior_work": "Merlin, Blankemeier et al., Nature 2026, PMID 41781626, releases models and evaluates 30 findings but does not report a spleen-reference intervention. Park et al., DOI 10.1148/radiol.10101233, validates the liver-spleen difference against biopsy but studies the biomarker, not model behavior. The exact delta is spleen-only perturbation of a frozen whole-volume model.",
+      "existing_assets": "Released Merlin code/models and dataset; TotalSegmentator liver and spleen masks; accepted attenuation formulas; single-GPU inference.",
+      "smallest_decisive_experiment": "Stage 0 inspects Merlin's actual finding vocabulary, preprocessing, scan phases, and organ coverage. If it passes, select 200 test scans across the liver-spleen difference range. Apply graded spleen-only shifts of -15 to +15 HU, excluding vessels and lesions; use same-volume liver shifts as a positive control and kidney-cortex shifts matched for volume and baseline attenuation as a specificity sham. Primary endpoint: sign and slope of paired steatosis-logit change.",
+      "standing_confounds_addressed": "Within-image editing fixes scanner, vendor, protocol, reconstruction, site, positioning, habitus, prevalence, referral pathway, and label leakage. Phase is fixed by cohort restriction. It does not automatically rule out generic response to any large-organ intensity shift; kidney shams do. Contrast timing limits generalization beyond the selected phase.",
+      "alternative_explanations": ["The model responds to any organ-wide intensity shift; kidney-cortex shams test specificity.", "The model uses absolute liver attenuation only; a flat spleen arm with a responsive liver positive control supports that alternative.", "Spleen edits are out of distribution; bounded native-intensity substitution and a held-out edit discriminator gate this."],
+      "anticipated_negative": "Decisive after a responsive liver positive control and passed realism gate: Merlin does not use the spleen reference on this cohort. Without the positive control, a null is sensitivity-limited.",
+      "remaining_legwork": "One day to inspect the released label vocabulary and preprocessing, two days for phase/coverage census, and one week for masks, controls, and first result.",
+      "design_template": "regional-substitution",
+      "entry_point_2_requirements": "Measurement: eroded-mask liver-minus-spleen attenuation and ratio. Confusable artifacts: contrast phase, global calibration drift, and generic organ-intensity edits; phase restriction and kidney shams address them.",
+      "scores": {
+        "clarity": {"value": 5, "why": "The reference organ, direction, and control are explicit."},
+        "identifiability": {"value": 4, "why": "Spleen-only edits separate relative from absolute liver evidence."},
+        "medical_relevance": {"value": 4, "why": "It determines whether a whole-volume model rediscovered a trusted quantitative rule and when contrast phase may break it."},
+        "interest": {"value": 4, "why": "Independent rediscovery of an internal calibration organ is broadly interpretable."},
+        "prior_legwork": {"value": 4, "why": "Model, segmenters, and measurement validation exist."},
+        "feasibility": {"value": 3, "why": "Capped until the exact output and phase-homogeneous cohort are inspected."},
+        "data_readiness": {"value": 3, "why": "Released data exist but scan-phase suitability is unverified."},
+        "evaluation_readiness": {"value": 5, "why": "The attenuation formula gives a signed dose response and clear positive control."},
+        "negative_result_value": {"value": 4, "why": "A gated null distinguishes absolute-liver from relative-organ reasoning."},
+        "novelty_confidence": {"value": 3, "why": "Capped pending a formal Merlin interpretability audit."},
+        "regret": {"value": 4, "why": "It is a cheap, obvious-in-hindsight test of whole-volume context."}
+      },
+      "priority_score": 3.8,
+      "unverified_claims": ["The released Merlin vocabulary includes hepatic steatosis", "Enough phase-homogeneous scans retain both organs after preprocessing", "No prior spleen-only Merlin intervention exists"],
+      "plain_pitch": "Radiologists often judge a fatty liver by comparing its brightness with the spleen, which acts like a built-in calibration patch. Merlin reads an entire abdominal CT scan and may have discovered the same trick without being taught it. We would leave the liver untouched, gently change only the spleen's brightness, and see whether the fatty-liver score moves in the predicted direction. A positive result would turn an opaque model decision into a familiar radiology rule."
+    },
+    {
+      "id": "scout-019-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "title": "The azygos vein inside the edema score",
+      "question": "Is a chest-radiograph pulmonary-edema classifier using azygos-vein caliber as a venous-pressure gauge?",
+      "deliverable_sentence": "The pulmonary-edema classifier is using azygos-vein enlargement.",
+      "rung": "Targets rung 1 by vessel-specific removal and restoration; rung 2 requires projection, rotation, and line/tube controls; rung 3 is available because azygos-vein enlargement is a named radiographic sign of venous congestion.",
+      "rung_reached": "Rung 1 if edema logits respond specifically and monotonically to azygos-caliber edits; external replication and independent segmentation would support rung 3.",
+      "unasked_question": "Edema classifiers are usually explained by lung opacities and heart size. The azygos arch is a small but pressure-responsive mediastinal vein; whether a model uses this extra-pulmonary sign has not been isolated.",
+      "X_measurement": "Automatically localize the trachea/right main bronchus and right paratracheal mediastinum, segment the azygos arch shadow, and measure its maximum transverse diameter normalized by thoracic width in millimetres. The method must be validated against a small, pre-existing annotated development set or CT-projected synthetic radiographs; no test-set reader labels enter the primary endpoint. Compute-today test: YES as a well-defined geometric measurement, conditional on the segmentation gate.",
+      "suspected_signal": "Raised right-sided and systemic venous pressure distends the azygos arch. Its rounded right paratracheal shadow can therefore accompany congestion even when alveolar opacity is subtle.",
+      "use_vs_association": "Azygos width correlates with heart failure and edema, so regression is inadequate. The confirmatory design removes the localized shadow while preserving surrounding mediastinal texture and separately inserts graded, anatomically plausible widths, with lung fields and cardiac silhouette fixed.",
+      "keystone_prerequisite": "The azygos arch is visible and automatically localizable at sufficient prevalence and fidelity in the exact public chest-radiograph test distribution to support bounded edits that do not alter adjacent superior vena cava, lymph nodes, or lines.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The nearest fact is the established radiographic association between azygos enlargement and venous congestion. I am still assuming the load-bearing imaging fact: that a distinct editable azygos shadow can be recovered from frontal radiographs often enough. A bounding box around the expected location would not satisfy this keystone.",
+      "dies_like_prior": "It resembles idea-016's IDENTIFIABILITY_FAILURE (a pressure gauge co-varying with disease). The difference is a within-image, vessel-specific bidirectional intervention rather than observational anatomy. It dies the same way if the azygos shadow cannot be separated from neighboring mediastinum. Annotation provenance is irrelevant to the paired primary readout; report labels are used only to select a frozen pretrained model.",
+      "closest_prior_work": "Public chest-radiograph classifiers such as CheXNet (Rajpurkar et al., arXiv:1711.05225) establish edema classification but do not test azygos caliber. The radiology literature describes azygos enlargement in congestion, but a primary quantitative anchor and automated-localization precedent must be pinned in novelty audit. No absence claim is made here.",
+      "existing_assets": "Public radiographs and edema classifiers; rib/lung/mediastinal landmark segmenters; CT volumes that can generate digitally reconstructed radiographs for segmentation development.",
+      "smallest_decisive_experiment": "Stage 0 estimates visible-azygos prevalence and segmentation repeatability on development data and stops if fewer than 100 clean test-eligible cases are projected. On frozen test cases, erase the azygos shadow with local mediastinal texture and insert three width doses; use matched edits at the left paratracheal border and line/tube-shaped shams. Require opposite signed responses for narrowing versus widening and a flat sham distribution.",
+      "standing_confounds_addressed": "Within-image edits fix site, vendor, projection, protocol, habitus, prevalence, referral, and labels. Rotation and inspiration are fixed within each pair but limit mask reliability, so they are development gates. It does not fully rule out generic right-mediastinal contour sensitivity; contralateral and adjacent-border shams address this. Reconstruction is not applicable to radiographs.",
+      "alternative_explanations": ["The model uses generic right-mediastinal widening; adjacent-border shams test it.", "It reacts to line-like edits; catheter-shaped shams test this.", "Azygos width is inseparable from rotation; a strict clavicular-rotation gate restricts the estimand rather than statistically wishing rotation away."],
+      "anticipated_negative": "Decisive only after localization, positive-dose visibility, and realism gates pass. Failure to localize the vein is an interpretable feasibility kill but not a negative about model use.",
+      "remaining_legwork": "Three days for a visibility census, one week for localization/edit validation, and one additional week to a first test result.",
+      "design_template": "regional-removal",
+      "entry_point_2_requirements": "Measurement: normalized azygos-arch diameter. Confusable artifacts: patient rotation, inspiration, adjacent mediastinal contours, and central lines; all receive explicit gates or shams.",
+      "scores": {
+        "clarity": {"value": 4, "why": "The sign and intervention are clear; localization is the weak joint."},
+        "identifiability": {"value": 4, "why": "Bidirectional edits and adjacent-border shams isolate the named vessel if segmentation passes."},
+        "medical_relevance": {"value": 4, "why": "It would reveal whether edema AI reads a real extra-pulmonary congestion sign."},
+        "interest": {"value": 4, "why": "A small mediastinal vein serving as a pressure gauge is surprising and physician-legible."},
+        "prior_legwork": {"value": 3, "why": "Models and data exist; the required vein localizer is not ready."},
+        "feasibility": {"value": 2, "why": "Visibility and separable localization are substantial uninspected barriers."},
+        "data_readiness": {"value": 4, "why": "Public radiographs and frozen classifiers are abundant."},
+        "evaluation_readiness": {"value": 3, "why": "Paired logits are simple, but edit-validity metrics need freezing."},
+        "negative_result_value": {"value": 4, "why": "A gated null cleanly rejects a specific extra-pulmonary cue."},
+        "novelty_confidence": {"value": 3, "why": "Capped; the closest automated azygos work is not yet audited."},
+        "regret": {"value": 3, "why": "Worth a cheap visibility gate before investing in an editor."}
+      },
+      "priority_score": 3.45,
+      "unverified_claims": ["Azygos visibility prevalence in the chosen corpus", "Availability of a suitable automatic localizer", "Novelty of azygos-specific classifier intervention", "Primary quantitative azygos-congestion citation"],
+      "plain_pitch": "When venous pressure rises, a small vein beside the upper right lung called the azygos vein can widen on a chest X-ray. An artificial-intelligence system asked to detect fluid in the lungs might quietly use that vein as a pressure gauge. We would narrow and widen only that shadow while leaving the lungs and heart unchanged. If the edema score follows the vein, radiologists gain a concrete explanation for part of the model's decision."
+    },
+    {
+      "id": "scout-019-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The meniscus inside the pleural-effusion score",
+      "question": "Is CT-CLIP's pleural-effusion score using the curvature of the pleural-fluid meniscus rather than fluid volume alone?",
+      "deliverable_sentence": "CT-CLIP's pleural-effusion score is using pleural-fluid meniscus curvature.",
+      "rung": "Targets rung 1 with volume-preserving shape counterfactuals; rung 2 requires fluid-density, positioning, reconstruction, and synthesis controls; rung 3 follows if curvature use replicates in real positional pairs.",
+      "rung_reached": "Rung 1 if the score changes with meniscus curvature at fixed segmented fluid volume and density; real prone/supine replication would move it toward rung 3.",
+      "X_measurement": "Segment pleural fluid with an automated CT effusion segmenter, fit the superior fluid-air interface in a gravity-aligned coordinate system, and compute mean/maximum principal curvature plus the vertical height-to-basal-area ratio at fixed volume. CT effusion segmentation precedent: PMID 35923880 / PMCID PMC9390225. Compute-today test: YES once a mask is available; no reader rating is required.",
+      "suspected_signal": "Free pleural fluid forms a smooth gravity-dependent upper meniscus, whereas loculated fluid and many soft-tissue mimics do not. The curved boundary may be a higher-contrast and more stable cue than absolute fluid volume after CT-CLIP's resampling.",
+      "use_vs_association": "Large effusions have both more volume and a more conspicuous meniscus. The counterfactual preserves voxel count, attenuation distribution, pleural contact area, and surrounding anatomy while redistributing only the superior interface curvature; therefore volume cannot explain a positive result.",
+      "keystone_prerequisite": "A volume-preserving deformation can vary the superior meniscus curvature across a physiologically observed range without changing pleural contact, introducing interpolation signatures, or producing shapes detectable as synthetic by a held-out model.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Existing work proves effusions can be segmented, not that curvature can be independently and realistically edited. That edit identifiability is the real keystone; the easy adjacent fact of segmentation availability does not establish it.",
+      "dies_like_prior": "The main analogue is idea-006: an extreme edit could be out of distribution. This design uses small volume-preserving boundary transport and requires native-shape and discriminator gates, but it still dies like idea-006 if synthesis realism fails. It is distinct from scout-015-c01 (fluid volume) because volume is explicitly fixed and curvature is the claimed X.",
+      "closest_prior_work": "CT-CLIP/CT-RATE supplies the released pleural-effusion head; idea-004 has already verified the checkpoint pipeline. Ebert et al., PMCID PMC9390225, automate effusion segmentation and complexity classification but do not test a report-supervised model's use of meniscus curvature. The formal audit must search pleural shape radiomics and classifier attribution; no novelty claim is made yet.",
+      "existing_assets": "Frozen CT-CLIP inference from idea-004; CT-RATE validation volumes; published CT effusion segmenters; geometry operations feasible on one GPU/CPU.",
+      "smallest_decisive_experiment": "Stage 0 segments 100 effusions and estimates the native joint distribution of volume, interface curvature, density, and pleural contact. Build two counterfactuals per scan that increase or decrease curvature while preserving volume, density histogram, contact area, and every non-fluid voxel. Compare paired effusion-score slopes with equal-energy internal fluid rearrangements that leave curvature fixed. The untouched test set is scored once after all realism gates freeze.",
+      "standing_confounds_addressed": "Within-image counterfactuals fix scanner, vendor, protocol, reconstruction, site, positioning, habitus, prevalence, referral, and label leakage. Density and volume are preserved. It does not rule out response to interpolation at the moved boundary unless sham and discriminator gates pass; real positional replication would address synthesis external validity.",
+      "alternative_explanations": ["The model responds to any moved fluid boundary; curvature-fixed boundary-jitter shams test this.", "Pleural contact area changes despite volume preservation; it is constrained and audited voxelwise.", "The edit creates implausible loculations; native-shape support and a blinded discriminator gate reject such cases."],
+      "anticipated_negative": "Decisive after passed manipulation and sensitivity controls: meniscus curvature is not used by this checkpoint over the tested native range. A failed synthesis gate is uninterpretable scientifically but cheaply kills the design.",
+      "cross_domain": {"borrowed_construct": "Capillarity and free-surface geometry: a fluid interface described by curvature under gravity.", "implied_measurement": "Principal curvature of the superior pleural-fluid interface at fixed fluid volume.", "what_changes_if_dropped": "Without the free-surface construct, the intervention would vary arbitrary shape radiomics. The analogy supplies the specific gravity-aligned interface, curvature statistic, fixed-volume constraint, and signed deformation."},
+      "remaining_legwork": "Three days for segmentation/native-support audit and roughly two weeks for a validated deformation and first decision.",
+      "design_template": "counterfactual-synthesis",
+      "entry_point_2_requirements": "Measurement: gravity-aligned interface curvature. Confusable artifacts: volume, attenuation, positioning, reconstruction, interpolation, and loculation; the design fixes or gates each.",
+      "scores": {
+        "clarity": {"value": 5, "why": "The claimed physical quantity and fixed-volume contrast are precise."},
+        "identifiability": {"value": 4, "why": "The construction isolates curvature if the demanding realism gate passes."},
+        "medical_relevance": {"value": 3, "why": "It explains a common finding score but has indirect immediate clinical consequence."},
+        "interest": {"value": 5, "why": "A model reading fluid physics rather than amount is surprising and generalizable."},
+        "mechanism_clarity": {"value": 5, "why": "Curvature, gravity-aligned interface, and measurement are fully named."},
+        "prior_legwork": {"value": 4, "why": "The model pipeline and segmentation precedents already exist."},
+        "feasibility": {"value": 3, "why": "Capped; independent realistic curvature editing is uninspected."},
+        "data_readiness": {"value": 4, "why": "The exact model and CT cohort are already operational in the program."},
+        "evaluation_readiness": {"value": 4, "why": "Signed paired slopes and geometry invariants are explicit."},
+        "negative_result_value": {"value": 4, "why": "A gated null decisively separates volume from interface shape use."},
+        "novelty_confidence": {"value": 3, "why": "Capped pending shape-radiomics audit."},
+        "regret": {"value": 4, "why": "Existing inference makes the hard geometry gate worth testing."}
+      },
+      "mode_c_priority_score": 4.45,
+      "unverified_claims": ["A CT effusion segmenter transfers to CT-RATE", "Curvature is independently editable in native support", "No prior fixed-volume meniscus intervention exists"],
+      "plain_pitch": "Fluid around the lung does not just occupy space; gravity gives its upper surface a smooth curved edge called a meniscus. The model may recognize that edge rather than simply measuring how much fluid is present. We would reshape the same number of fluid voxels to make the meniscus flatter or steeper while leaving density and the rest of the scan unchanged. If the score follows curvature, the model is using a recognizable piece of fluid physics."
+    },
+    {
+      "id": "scout-019-c05",
+      "search_mode": "C",
+      "entry_point": 2,
+      "title": "The opening in the diaphragm inside the hiatal-hernia score",
+      "question": "Is CT-CLIP's hiatal-hernia score using diaphragmatic crural separation rather than herniated stomach volume?",
+      "deliverable_sentence": "CT-CLIP's hiatal-hernia score is using widening of the esophageal hiatus between the diaphragmatic crura.",
+      "rung": "Targets rung 1 with within-patient state changes that separate aperture width from herniated volume; rung 2 requires phase, gastric distension, positioning, reconstruction, and crop controls; rung 3 needs a confirmatory aperture-specific intervention or naturally discordant pairs.",
+      "rung_reached": "At most rung 1 from longitudinal discordant pairs; an aperture-specific, realism-gated intervention is required to move to rung 3.",
+      "X_measurement": "Segment diaphragm/crura and esophagus/stomach, define the esophageal-hiatus plane, and measure transverse intercrural distance, hiatus area, and crural thickness in millimetres. These are direct geometric quantities. Compute-today test: YES in principle with automatic organ/diaphragm segmentation, without reader judgment; robust crural segmentation on low-dose chest CT is the keystone gate.",
+      "suspected_signal": "The right and left diaphragmatic crura form a muscular aperture. Chronic widening and thinning reduce the mechanical barrier to trans-hiatal stomach migration. A whole-volume model may read the fixed anatomical aperture even when herniated stomach volume changes with respiration or gastric filling.",
+      "use_vs_association": "Wider hiatus and larger hernia usually co-occur, so cross-sectional regression is insufficient. The primary screen seeks same-patient scans where herniated stomach volume changes substantially but crural separation is stable, and the converse; score changes across those discordant natural states distinguish aperture use from sac-volume use.",
+      "keystone_prerequisite": "CT-RATE contains enough same-patient repeat scans with full diaphragmatic coverage and naturally discordant changes in intercrural distance versus herniated-stomach volume, without simultaneous protocol/crop changes that reproduce the same discordance.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "The ledger verifies repeat patients in CT-RATE, and the hiatal-hernia head exists. I am still assuming the load-bearing fact that the repeats contain adequate natural discordance and crural coverage. Repeat scans alone are only the nearest easy fact and do not establish the design.",
+      "dies_like_prior": "It risks idea-009's IDENTIFIABILITY_FAILURE because aperture width and hernia volume are mechanically coupled. Unlike idea-009, it requires prespecified within-patient discordant support before inference. It is distinct from scout-015-c04, which asks whether the score uses a continuous air tunnel; this candidate names the muscular aperture and tests it against stomach volume. Annotation provenance does not enter the primary readout.",
+      "closest_prior_work": "CT-CLIP/CT-RATE and the frozen ClassFine checkpoint are verified locally through idea-004. Quantitative hiatus/crural measurements exist in surgical and CT literature, but the exact primary measurement citation and any AI attribution work require formal audit. Scout-015-c04 is the closest internal candidate and tests luminal air continuity, not crural separation.",
+      "existing_assets": "Operational CT-CLIP pipeline; CT-RATE repeat-session metadata; TotalSegmentator stomach/esophagus context masks; deterministic geometry once crura are segmented.",
+      "smallest_decisive_experiment": "Stage 0 runs crural/upper-stomach segmentation on all repeat patients, audits crop coverage, and counts pairs in four prespecified cells: stable aperture/changing hernia volume, changing aperture/stable volume, concordant change, and stable/stable. Freeze minimum support and measurement repeatability before scores. Only if both discordant cells pass support, compare within-patient hiatal-hernia score changes using a two-predictor errors-in-variables model; stable/stable pairs estimate the noise floor.",
+      "standing_confounds_addressed": "Within-patient analysis removes fixed site, habitus, prevalence, and referral pathway. Metadata matching/stratification addresses vendor, protocol, reconstruction, and positioning; tensor-coverage audits address cropping. Label leakage cannot vary within a model-to-itself pair. Gastric distension and inspiration remain plausible time-varying alternatives and are measured via stomach gas volume and lung volume rather than assumed away.",
+      "alternative_explanations": ["The score follows herniated stomach volume, not aperture width; the discordant cells are designed to distinguish them.", "Inspiration changes both crural geometry and model framing; lung volume and final-tensor coverage are explicit gates/covariates.", "Gastric gas, not anatomy, drives the score; gas volume is measured and stable-gas sensitivity analysis is prespecified."],
+      "anticipated_negative": "If adequate discordant support exists and score changes follow only hernia volume, that is a decisive negative for aperture use and a positive competing explanation. Absence of discordant support is an interpretable feasibility kill, not a biological negative.",
+      "cross_domain": {"borrowed_construct": "Structural mechanics: a muscular aperture whose span and thickness govern resistance to organ passage.", "implied_measurement": "Intercrural distance, hiatus area, and crural thickness contrasted with trans-hiatal stomach volume.", "what_changes_if_dropped": "Without the aperture-mechanics framing, there is no reason to measure crural span separately from hernia size or demand discordant natural states; the study would collapse into routine severity correlation."},
+      "remaining_legwork": "About one week for segmentation/coverage and discordance census; if support passes, one further week to the paired score analysis.",
+      "design_template": "longitudinal-within-subject",
+      "entry_point_2_requirements": "Measurement: intercrural distance/hiatus area. Confusable artifacts: herniated volume, inspiration, gastric gas, positioning, protocol, and final-tensor crop; all are measured or gated.",
+      "scores": {
+        "clarity": {"value": 4, "why": "The competing quantities are clear; the natural-discordance estimand needs sufficient support."},
+        "identifiability": {"value": 3, "why": "Discordant within-patient states help, but time-varying anatomy and measurement error remain."},
+        "medical_relevance": {"value": 3, "why": "It explains a common score and could distinguish structural susceptibility from transient herniation."},
+        "interest": {"value": 4, "why": "A model reading the muscular gateway rather than the herniated organ is unexpected."},
+        "mechanism_clarity": {"value": 5, "why": "Aperture span, thickness, organ passage, and measurements are specific."},
+        "prior_legwork": {"value": 4, "why": "Model, repeated scans, and contextual segmenters already exist."},
+        "feasibility": {"value": 3, "why": "Capped; natural discordance and crural segmentation are not inspected."},
+        "data_readiness": {"value": 4, "why": "The CT-RATE repeat cohort and model pipeline are program assets."},
+        "evaluation_readiness": {"value": 3, "why": "The geometry is clear but measurement-error modeling and support thresholds need freezing."},
+        "negative_result_value": {"value": 4, "why": "Following volume rather than aperture is a decisive competing explanation if support passes."},
+        "novelty_confidence": {"value": 3, "why": "Capped pending hiatus-measurement and attribution audit."},
+        "regret": {"value": 3, "why": "The Stage-0 census is cheap on existing repeats, though success is uncertain."}
+      },
+      "mode_c_priority_score": 3.9,
+      "unverified_claims": ["Robust automatic crural segmentation on CT-RATE", "Adequate natural discordance in repeat scans", "Primary validation citation for automated hiatus measurement", "No prior model attribution to crural separation"],
+      "plain_pitch": "A hiatal hernia occurs when the opening in the diaphragm around the food pipe becomes wide enough for stomach to pass upward. The visible amount of stomach above the diaphragm can change with breathing and filling, while the muscular opening may remain wide. By comparing repeat scans from the same person where these two quantities change differently, we can ask whether the model reads the opening itself or merely the amount of displaced stomach. A positive result would name the anatomical gateway behind the score."
+    }
+  ]
+}
+
+
 ===== STAGE TASK =====
-<!-- stage: scout -->
-## Step 0 -- Read the ledger digest
+<!-- stage: novelty_audit -->
+# Novelty audit
 
-`evidence/ledger_digest.md` is in your context. It is the institutional memory
-of every idea this program has tracked: statuses, scrutiny levels, and the
-kill-code frequency table. The kill-code table is a generation-time checklist:
-before developing any candidate, check it against every listed failure mode.
-USE_VS_ASSOCIATION killed nine of eleven ideas in cycle one -- every candidate
-must state in one line how its design distinguishes "the model uses X" from
-"X is merely correlated with the label."
+`candidates_all.json` (in your context) is this cycle's merged candidate pool
+across all tracks. Audit every candidate's novelty claim by *searching*, not
+recalling. A model asserting "this is novel" is worthless; the audit is the
+verification path.
 
-## Step 0b -- Portfolio revivals (optional, bounded)
+For each candidate, in order:
 
-`evidence/portfolio_brief.md` (in your context) holds the full verdicts and
-unblock conditions for actionable existing ideas. Up to TWO of your developed
-candidates may be REVIVALS or RECOMBINATIONS of existing ideas instead of new
-questions; at least the remainder must be brand new. Rules:
+1. **Neighbors.** Search for the three closest prior works. Cite each with an
+   identifier (DOI, arXiv ID, or exact title + venue + year) and one line on
+   what it did. If after a genuine search you find fewer than three, list what
+   you found and record that no neighbors were found and use the calibrated verdict
+   vocabulary of step 4 (`NO_DUPLICATE_FOUND_LIMITED_SEARCH` unless the
+   search was genuinely exhaustive) -- this is a flag for
+   human verification, never evidence of novelty.
+2. **Delta.** One sentence: precisely what this candidate does that the
+   closest neighbor did not. "More data" or "a different dataset" is a weak
+   delta; say so if it is one.
+3. **Why not done.** Exactly one of:
+   - `NEW_CAPABILITY` -- name the tool, dataset, or model that only recently
+     made this testable;
+   - `BLIND_SPOT` -- state the concrete reason the field missed it (framing,
+     incentive, disciplinary boundary);
+   - `TRIED_AND_FAILED` -- cite the attempt. Red flag: explain what would be
+     different this time or recommend the kill.
+4. **Verdict.** Calibrated vocabulary -- absence of a found duplicate is NOT
+   verified novelty: `NO_DUPLICATE_FOUND_HIGH_CONFIDENCE` (thorough
+   multi-source search, neighbors found and distinguished),
+   `NO_DUPLICATE_FOUND_LIMITED_SEARCH` (search bounded or access-limited),
+   `INCREMENTAL`, or `DUPLICATE_FOUND` (recommend kill with the citation).
 
-- A revival/recombination must set `parent_ids` (e.g. ["idea-012"]) and a
-  `revival_basis`: quote the specific blocking condition or objection from the
-  brief, then state the NEW fact that changes it, with a checkable source
-  (a release, a paper, a newly available asset). No new fact, no revival --
-  re-proposing an idea against an unchanged objection is forbidden.
-- A recombination crosses parts of two entries (e.g. a paused idea's question
-  with another idea's validated measurement); it must name both parents and
-  say which part of each survives and why the combination dodges what killed
-  or blocked the parents.
-- ZERO revivals is the correct number when nothing in the brief has genuinely
-  changed. Never manufacture a revival to fill the quota; brand-new questions
-  are always the default.
+Also write `novelty_manifest.json` -- the reproducibility record:
+`{"searched_at": "...", "queries": [{"query": "...", "source": "..."}],
+"neighbors": [{"candidate": "C1", "identifier": "...", "access":
+"full_text|abstract|search_summary", "establishing_passage": "..."}]}`.
 
-## Keystone evidence rule
+Write `novelty_audit.md` in the assigned output directory: one section per
+candidate, headed by the candidate's title and track, containing exactly the
+four items above. Close the file with a summary table: candidate / verdict /
+why-not-done code. Number candidates by their position in
+`candidates_all.json` as C1..Cn across ALL tracks -- do not renumber per
+track (no W1/F1); the orchestrator maps the summary table back to the ledger
+by these merged indices.
 
-Any `keystone_status: INSPECTED_TRUE` claim MUST include a
-`keystone_evidence` field quoting the artifact that proves it (URL,
-file path, table row, or verbatim excerpt). A bare INSPECTED_TRUE
-without evidence is mechanically demoted to NOT_INSPECTED at merge.
-
-## Step 1 — Generate ten questions before developing any of them
-
-Write ten one-line research questions. Do not elaborate. Do not score. Do not
-check feasibility yet.
-
-The point of this step is to search a wider space than you would if you were
-optimizing a complete idea card from the first sentence. Cards written
-end-to-end select for ideas that were safe by sentence two.
-
-**Every question must be answerable with a sentence of the form "the model is
-using X."** Not "the model is not using the scanner." A question whose best
-possible answer is the absence of a confound is not eligible this cycle — write
-a different one.
-
-X must be computable from an image today, by an existing tool or a well-defined
-measurement, without a human annotator. See the charter's hard constraint.
-
-Include in the ten:
-- questions you suspect are too hard
-- questions you are not sure are answerable
-- at least two that connect medical imaging to a field outside it
-- at least one that sounds obviously wrong but that you cannot immediately
-  refute
-- at least three where X is a quantity a radiologist already has a word for
-
-Then pick **five** to develop. Pick on interest and mechanism clarity, not on
-how defensible they will be. The critic exists to handle the rest.
-
-Record all ten in `all_questions`, and for the five you dropped, one line each
-on why.
-
-## Step 2 — Mode and entry-point quotas
-
-Of the five developed candidates:
-
-- **1 Mode A** (unfinished story)
-- **2 Mode B** (unasked question)
-- **2 Mode C** (speculative — lower feasibility bar, higher mechanism bar)
-
-At least three of five in radiology or CT. At most one dermatology.
-No more than two on any single dataset.
-
-Each candidate also declares `entry_point`:
-- `1` — starts from a documented model-beats-human gap
-- `2` — starts from a well-performing model, looking for unexpected signal
-
-Both are allowed. Entry point 2 requires naming the specific measurement that
-would detect the unexpected signal and the specific artifact it would be
-confused with.
-
-If you cannot fill a quota with something you believe in, say so in
-`quota_note`. An honest short list beats a padded one.
-
-## Step 3 — Read the record first
-
-`evidence/decisions.md` is in your context. Read it before developing anything.
-
-For every candidate, fill `dies_like_prior`: name the prior killed candidate it
-most resembles and say what makes this one different, or state plainly that no
-prior failure mode applies and why.
-
-The dominant prior failure is annotation provenance — the study needed to know
-who assigned labels and what they could see, and that was undocumented or
-contaminated. If your candidate's keystone depends on annotation conditions,
-say so directly rather than discovering it in critique.
-
-## Step 4 — Keystone, checked before scoring
-
-Name `keystone_prerequisite`: the single fact which, if false, makes the study
-impossible or uninterpretable.
-
-State it as the thing your *inference* needs, not the thing that is easy to
-check. A prior candidate verified "multiple opinions exist per lesion" (true)
-when the real keystone was "those opinions are independent measurement
-methods" (false). That error cost a full critique and debate cycle.
-
-Then go and check it — the actual file listing, data dictionary, schema, or
-methods section. Not the collection homepage. Not an abstract.
-
-`keystone_status`: `INSPECTED_TRUE` / `INSPECTED_FALSE` / `NOT_INSPECTED`.
-
-`feasibility` and `novelty_confidence` cap at 3 unless `INSPECTED_TRUE`.
-Mode C candidates may honestly report `NOT_INSPECTED`; that is expected.
-
-## Step 5 — Per candidate, write
-
-1. `search_mode`, `entry_point`, `title`
-2. `question` — one sentence, ending in a question mark
-3. `rung` — 1, 2, or 3 per the charter, and what would move it up
-4. `deliverable_sentence` — the single sentence a radiologist could agree or
-   disagree with, of the form "the model is using X." Write it now, before the
-   design. If you cannot write it, the candidate is not eligible.
-5. `X_measurement` — how X is computed from an image, naming the tool or
-   formula, and a citation if one exists. Then answer: *could I compute X on a
-   scan the model has never seen, today, without asking anyone?* If no, the
-   candidate is ineligible regardless of how interesting it is.
-6. `suspected_signal` — the physical or biological mechanism by which X would
-   be present in the image. Required for Mode C. "Some feature" is not an
-   answer.
-7. `keystone_prerequisite`, `keystone_status`, `keystone_evidence`
-8. `keystone_residual_assumption` — having verified the nearest checkable
-   thing, what are you still assuming? If that assumption is load-bearing, it
-   is the real keystone. This error has occurred three times; see the charter.
-9. `rung_reached` — 1, 2, or 3, and what would move it up
-10. `dies_like_prior`
-11. `closest_prior_work` with identifiers, and what it did not do
-12. `existing_assets`
-13. `smallest_decisive_experiment`
-14. `standing_confounds_addressed` — scanner, vendor, protocol, reconstruction,
-    site, positioning, habitus, prevalence, referral pathway, label leakage.
-    Name which the design rules out and which it does not.
-15. `alternative_explanations` and which the design excludes
-16. `anticipated_negative` — decisive / sensitivity-limited / uninterpretable
-17. `cross_domain` if applicable: borrowed construct, the measurement it
-    implies, and **what would change if the analogy were dropped**
-18. `remaining_legwork` — time to first decision, not just what exists
-19. `scores` per the rubric, including `identifiability`
-20. `unverified_claims`
-
-## What went wrong last cycle, and what to do differently
-
-All ten questions last cycle were confound-elimination: does the model read
-the dose, the scanner, the table, the motion artifact. Those are good
-questions and they are not this program. Their best possible answer is the
-*absence* of an explanation, which does not help a physician understand a
-decision.
-
-Confound elimination is the validity gate that earns the right to say "the
-model is using X." It is not X.
-
-This cycle, lead with X. Ask what a physician would want to hear, then work
-backwards to what would make it credible.
-
-## Style
-
-Prefer designs whose primary readout does not need trustworthy labels. The one
-candidate that has survived this loop compared a model to itself across two
-reconstructions of the same anatomy — no ground truth entered the primary
-measurement. That structural move is available more often than it is used.
-
-Be suspicious of your own good sentences. If a candidate's appeal is mostly in
-how it sounds, say so in `alternative_explanations` and score identifiability
-accordingly.
-
-Write `scout_candidates.json`. Do not write code.
-
-## Design template (required field)
-
-Set `design_template` to the experimental GRAMMAR of the candidate, one of:
-natural-paired, cross-reconstruction, regional-removal,
-regional-substitution, representation-erasure, counterfactual-synthesis,
-conditional-observational, longitudinal-within-subject,
-cross-model-disagreement, model-output-perturbation.
-The digest counts these: homogenization is measured by repeated grammar,
-not repeated nouns. Pick the closest; if truly none fits, use
-`other:<short-name>` and justify it in the card.
-
-## Plain-language pitch (required per candidate)
-
-Every candidate MUST include a `plain_pitch` field: two to four
-sentences a smart person with NO background in this subfield could
-follow, explaining what the idea asks, why anyone should care, and
-what would be seen if it is true. Rules: no acronym may appear
-unexplained; no claim may appear in the pitch that the technical card
-does not make (the cross-family critique checks pitch-vs-card
-fidelity and an overclaiming pitch is a defect); hedges in the card
-survive into the pitch. Write it LAST, after the technical fields.
-
-## Diversity mandate
-
-Across your candidate set, do not reuse one experimental design
-template in different clinical costumes: vary the mechanism of test
-(input intervention, selective erasure, behavioral dose-response,
-provenance audit, distribution comparison, held-out-structure
-prediction), the object under test, and the failure mode probed. Two
-candidates sharing a design skeleton must justify why both survive.
+Do not write code. Do not modify any other file.
 
