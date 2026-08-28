@@ -6,6 +6,7 @@ it reads the prompt on stdin and writes files dictated by FAKE_AGENT_ACTION.
 
 Run:  python3 tests/test_orchestration.py
 """
+import importlib
 import json
 import os
 import shutil
@@ -16,6 +17,14 @@ import unittest
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+
+
+def _has_module(name):
+    """Round-7: dependency-sensitive tests skip explicitly in lean
+    environments instead of reading as code failures."""
+    import importlib.util as _u
+    return _u.find_spec(name) is not None
+
 
 # Runner-agnostic imports: pytest inserts the rootdir, bare unittest does
 # not, and in-process `import scout` must never depend on which Harness
@@ -246,7 +255,7 @@ if _m:
 
 class Harness(unittest.TestCase):
     def setUp(self):
-        self.dir = Path(tempfile.mkdtemp())
+        self.dir = Path(tempfile.mkdtemp()).resolve()
         self.repo = self.dir / "repo"
         self.receipt = self.dir / "receipt.txt"
         shutil.copytree(fixture_repo(), self.repo)
@@ -291,28 +300,43 @@ command = ["{sys.executable}", "{self.fake}"]
         self._purge_fixture_modules()
         shutil.rmtree(self.dir, ignore_errors=True)
 
+    _FIXTURE_SENSITIVE_MODULES = ('scout', 'state_view',
+                                  'experiment_registry', 'ledger')
+
     def _purge_fixture_modules(self):
-        """Round-6 hygiene: tests may insert a fixture repo onto sys.path
-        and import/reload modules from it. Evict every sys.path entry and
-        every loaded module whose file lives under this Harness's temp
-        dir, so no later or isolated test can inherit a loader bound to a
-        deleted repository (the TestDebate order-dependence class)."""
-        prefix = str(self.dir)
+        """Round-6/7 hygiene: evict every sys.path entry and loaded module
+        rooted in this Harness's temp dir, comparing RESOLVED paths on
+        both sides (round-7: prefix matching on unresolved paths is
+        environment-fragile, e.g. symlinked temp roots), then invalidate
+        import caches so no finder serves a stale fixture origin."""
+        prefix = os.path.realpath(str(self.dir))
         sys.path[:] = [p for p in sys.path
-                       if not str(p).startswith(prefix)]
+                       if not os.path.realpath(str(p)).startswith(prefix)]
         for name, mod in list(sys.modules.items()):
             f = getattr(mod, '__file__', None) or ''
-            if f.startswith(prefix):
+            if f and os.path.realpath(f).startswith(prefix):
                 del sys.modules[name]
+        importlib.invalidate_caches()
 
     def _import_fixture_scout(self):
-        """Centralized fixture-import path (round-6): import the FIXTURE
-        repo's scout module. tearDown purges it; never inline the
-        insert+reload pattern in tests."""
+        """Centralized fixture-import context (round-6, hardened round-7):
+        deterministically import the FIXTURE repo's scout. The prior
+        path-priority reload could resolve to the root module in some
+        environments; now the fixture-sensitive namespace is evicted,
+        import caches invalidated, the import is fresh, and the resolved
+        origin is self-checked loudly. tearDown purges."""
+        for name in self._FIXTURE_SENSITIVE_MODULES:
+            sys.modules.pop(name, None)
+        importlib.invalidate_caches()
         sys.path.insert(0, str(self.repo))
-        import importlib
         import scout as sc
-        return importlib.reload(sc)
+        got = os.path.realpath(sc.__file__)
+        want = os.path.realpath(str(self.repo))
+        if not got.startswith(want):
+            raise AssertionError(
+                f'fixture import resolved to the wrong scout: {got} '
+                f'(expected under {want})')
+        return sc
 
     def _commit_all(self):
         # Harness.setUp already git-inits the repo; just commit the state
@@ -2256,6 +2280,8 @@ class TestSchemaNormalization(unittest.TestCase):
         self.cards = json.loads(self.FIXTURE.read_text())["candidates"]
         self.assertEqual(len(self.cards), 5, "fixture must hold the five real cards")
 
+    @unittest.skipUnless(_has_module('jsonschema'),
+                         'jsonschema not installed; strict schema rejection unavailable')
     def test_production_cards_fail_schema_before_normalization(self):
         errs = [self.sc._validate_card(dict(c)) for c in
                 (json.loads(json.dumps(c)) for c in self.cards)]
@@ -2290,6 +2316,8 @@ class TestSchemaNormalization(unittest.TestCase):
                 # instead of validation dying on the null.
                 self.assertFalse(c.get("keystone_evidence"))
 
+    @unittest.skipUnless(_has_module('jsonschema'),
+                         'jsonschema not installed; strict schema rejection unavailable')
     def test_schema_is_not_loosened_by_normalization(self):
         c = json.loads(json.dumps(self.cards[0]))
         c["scores"]["clarity"] = {"grade": 4, "why": "unknown alias"}
@@ -2619,6 +2647,8 @@ class TestResultsTransport(Harness):
                 if '"idea-001"' in l][-1]
         self.assertEqual(last.get("scrutiny"), "PROBED")
 
+    @unittest.skipUnless(_has_module('nbformat'),
+                         'nbformat not installed; launcher rendering unavailable')
     def test_launcher_is_thin_driver_with_bound_transport(self):
         sc = self._sc()
         self._idea_with_contract()
@@ -3177,9 +3207,13 @@ class TestRegistryHardeningR1(Harness):
     def _ratify(self, d, hashes):
         import json as _j
         row = {"event": "REGISTRY_RATIFIED", "idea": 1,
-               "registry_sha256": "e" * 64, "approvals": ["f" * 64],
-               "contract_hashes": hashes, "operator": "op",
-               "git_commit": "abcdef1", "event_id": "gov-0001"}
+               "registry_sha256": "e" * 64,
+               "bindings": [{"contract_blob": h,
+                             "approval_commit": "abcdef1",
+                             "approval_sha256": "f" * 64}
+                            for h in hashes],
+               "operator": "op", "base_commit": "abcdef1",
+               "event_id": "gov-0001"}
         (d / "governance_events.jsonl").write_text(_j.dumps(row) + "\n")
 
     def _sc_dag(self):
@@ -3354,14 +3388,19 @@ class TestRegistryHardeningR1(Harness):
         self.assertIn("unknown governance event",
                       " | ".join(er.validate("001", self.repo)))
         row = {"event": "REGISTRY_RATIFIED", "idea": 2,
-               "registry_sha256": "zz", "approvals": [],
-               "contract_hashes": ["short"], "operator": "",
-               "git_commit": "abcdef1", "event_id": "e1"}
+               "registry_sha256": "zz",
+               "bindings": [{"contract_blob": "short",
+                             "approval_commit": "XYZ",
+                             "approval_sha256": "nope",
+                             "extra": 1}],
+               "operator": "", "base_commit": "", "event_id": "e1"}
         gv.write_text(json.dumps(row) + "\n" + json.dumps(
-            dict(row, event_id="e1")) + "\n")
+            dict(row, bindings="nope", event_id="e1")) + "\n")
         errs = " | ".join(er.validate("001", self.repo))
-        for frag in ("!= 1", "64-hex", "non-empty list", "40-hex",
-                     "operator", "duplicate event_id"):
+        for frag in ("!= 1", "64-hex", "contract_blob must be",
+                     "approval_commit must be", "approval_sha256 must be",
+                     "unknown keys ['extra']", "operator", "base_commit",
+                     "non-empty list", "duplicate event_id"):
             self.assertIn(frag, errs)
 
     def test_r1_derive_and_cli_refuse_invalid_registries(self):
@@ -3502,6 +3541,20 @@ class TestR2StateAndHygiene(Harness):
                         f"commit sha: {ln.strip()}")
         self.assertGreater(checked, 10)
 
+    def test_r3a_fixture_import_survives_prior_root_import(self):
+        """Round-7 reproduction codified: a root import first must not
+        make the fixture import resolve to the root module."""
+        import scout as real
+        sc_fix = self._import_fixture_scout()
+        self.assertNotEqual(os.path.realpath(sc_fix.__file__),
+                            os.path.realpath(real.__file__))
+        self.assertTrue(os.path.realpath(sc_fix.__file__).startswith(
+            os.path.realpath(str(self.repo))))
+        self._purge_fixture_modules()
+        import scout as real2
+        self.assertFalse(os.path.realpath(real2.__file__).startswith(
+            os.path.realpath(str(self.dir))))
+
 
 class TestM1PreGovernanceIdentity(Harness):
     """F1 (round-6 follow-on): the frozen driver records its governing
@@ -3598,6 +3651,73 @@ class TestM1PreGovernanceIdentity(Harness):
         want = _h.sha256((b / "resolved_config.json").read_bytes()).hexdigest()
         inputs = er.result_input_hashes("001", self.repo)
         self.assertEqual(inputs["S"]["resolved_config_sha256"], want)
+
+
+class TestF2HistoricalInterface(Harness):
+    """Round-7 F2 ruling: historical Phase-S validates against the
+    interface it actually shipped, keyed narrowly by (governing blob,
+    phase) -- never a generic non-terminal skip."""
+
+    S_BLOB = "0e223c82f9eb879652a549df9bf857c155ef61db"
+    S_FILES = ("resolved_config.json",
+               "simulation_operating_characteristics.csv",
+               "simulation_summary.json", "summary.json",
+               "provenance.json", "environment.txt", "run_log.txt")
+
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        return sc
+
+    def _s_bundle(self):
+        b = self.repo / "bundles" / "hist_s"
+        b.mkdir(parents=True, exist_ok=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "S",
+             "status": "PHASE_S_COMPLETE_REQUIRES_AMENDMENT"}))
+        (b / "provenance.json").write_text(json.dumps({"seed": 1}))
+        (b / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": self.S_BLOB}))
+        for f in self.S_FILES:
+            p = b / f
+            if not p.exists():
+                p.write_text("x")
+        return b
+
+    def test_f2_historical_s_validates_under_its_own_interface(self):
+        sc = self._wire()
+        d = self.repo / "ideas" / "001"
+        # Current contract declares the study-terminal interface the S
+        # bundle can never satisfy -- exactly idea 023's shape.
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n"
+            "  - per_patient.csv\n  - schema_census.csv\n")
+        b = self._s_bundle()
+        self.assertEqual(
+            sc.validate_bundle(1, b, expected_blob=self.S_BLOB), [])
+
+    def test_f2_no_generic_skip_for_unlisted_blobs(self):
+        sc = self._wire()
+        (self.repo / "ideas" / "001" / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n  - per_patient.csv\n")
+        b = self._s_bundle()
+        fails = sc.validate_bundle(1, b, expected_blob="b" * 40)
+        self.assertTrue(any("object store" in f for f in fails), fails)
+
+    def test_f2_terminal_bundle_still_needs_full_interface(self):
+        sc = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n  - per_patient.csv\n")
+        b = self.repo / "bundles" / "c_missing"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "C", "status": "X"}))
+        (b / "provenance.json").write_text(json.dumps({}))
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(
+            any("per_patient.csv" in f for f in fails), fails)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

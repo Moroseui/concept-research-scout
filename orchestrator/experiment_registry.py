@@ -81,8 +81,10 @@ def approved_registry_sha(idea_no: str, root: Path):
 
 
 _GOVERNANCE_FILE = 'governance_events.jsonl'
-_RATIFY_KEYS = {'event', 'idea', 'registry_sha256', 'approvals',
-                'contract_hashes', 'operator', 'git_commit', 'event_id'}
+_RATIFY_KEYS = {'event', 'idea', 'registry_sha256', 'bindings',
+                'operator', 'base_commit', 'event_id'}
+_BINDING_KEYS = {'contract_blob', 'approval_commit', 'approval_sha256'}
+_HEX7TO40 = re.compile(r'^[0-9a-f]{7,40}$')
 
 
 def _governance_lines(idea_dir: Path):
@@ -127,20 +129,51 @@ def _validate_governance(idea_no: str, idea_dir: Path) -> list[str]:
                 and _HEX64.match(obj['registry_sha256'])):
             errs.append(f'{_GOVERNANCE_FILE}:{i}: registry_sha256 must be '
                         '64-hex')
-        ap = obj['approvals']
-        if not (isinstance(ap, list) and ap
-                and all(isinstance(a, str) and _HEX64.match(a) for a in ap)):
-            errs.append(f'{_GOVERNANCE_FILE}:{i}: approvals must be a '
-                        'non-empty list of 64-hex artifact shas')
-        ch = obj['contract_hashes']
-        if not (isinstance(ch, list) and ch
-                and all(isinstance(c, str) and _HEX40.match(c) for c in ch)):
-            errs.append(f'{_GOVERNANCE_FILE}:{i}: contract_hashes must be a '
-                        'non-empty list of 40-hex git blob shas')
-        for k in ('operator', 'git_commit', 'event_id'):
+        # Round-7 D3 amendment: each contract is paired with the approval
+        # artifact that attested it -- parallel lists cannot mechanically
+        # encode which approval attested which contract.
+        bl = obj['bindings']
+        if not (isinstance(bl, list) and bl):
+            errs.append(f'{_GOVERNANCE_FILE}:{i}: bindings must be a '
+                        'non-empty list')
+        else:
+            for j, bd in enumerate(bl):
+                if not isinstance(bd, dict):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: bindings[{j}] '
+                                'must be a mapping')
+                    continue
+                unk2 = set(bd) - _BINDING_KEYS
+                if unk2:
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: bindings[{j}] '
+                                f'unknown keys {sorted(unk2)} (closed '
+                                'schema)')
+                miss2 = _BINDING_KEYS - set(bd)
+                if miss2:
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: bindings[{j}] '
+                                f'missing keys {sorted(miss2)}')
+                    continue
+                if not (isinstance(bd['contract_blob'], str)
+                        and _HEX40.match(bd['contract_blob'])):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: bindings[{j}] '
+                                'contract_blob must be a 40-hex git blob')
+                if not (isinstance(bd['approval_commit'], str)
+                        and _HEX7TO40.match(bd['approval_commit'])):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: bindings[{j}] '
+                                'approval_commit must be 7-40 hex')
+                if not (isinstance(bd['approval_sha256'], str)
+                        and _HEX64.match(bd['approval_sha256'])):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: bindings[{j}] '
+                                'approval_sha256 must be 64-hex')
+        for k in ('operator', 'event_id'):
             if not (isinstance(obj[k], str) and obj[k].strip()):
                 errs.append(f'{_GOVERNANCE_FILE}:{i}: {k} must be a '
                             'non-empty string')
+        # base_commit = HEAD the ratification was authored FROM (a row
+        # cannot embed the sha of the commit that will contain it).
+        if not (isinstance(obj['base_commit'], str)
+                and _HEX7TO40.match(obj['base_commit'])):
+            errs.append(f'{_GOVERNANCE_FILE}:{i}: base_commit must be '
+                        '7-40 hex (the authoring HEAD)')
         eid = obj.get('event_id')
         if isinstance(eid, str):
             if eid in seen:
@@ -165,8 +198,10 @@ def _attested_hashes(idea_dir: Path) -> set:
         except json.JSONDecodeError:
             continue
         if isinstance(obj, dict) and obj.get('event') == 'REGISTRY_RATIFIED':
-            out.update(c for c in (obj.get('contract_hashes') or [])
-                       if isinstance(c, str) and _HEX40.match(c))
+            for bd in obj.get('bindings') or []:
+                cb = bd.get('contract_blob') if isinstance(bd, dict) else None
+                if isinstance(cb, str) and _HEX40.match(cb):
+                    out.add(cb)
     return out
 
 

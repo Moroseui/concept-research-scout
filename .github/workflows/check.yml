@@ -13,9 +13,9 @@ jobs:
       - run: python scout.py doctor
       - run: python tests/test_orchestration.py
       - run: pip install pytest==9.1.1 && python -m pytest -q tests/
-      # R2 isolation canary (round-6): selected-class runs must be
-      # hermetic; this is the exact selection that exposed the stale
-      # fixture-module defect in external review.
-      - run: python -m pytest -q tests/test_orchestration.py::TestDebate
+      # R2/R3a isolation canary (rounds 6-7): selected-class runs must be
+      # hermetic in any order; this mixed selection covers the classes
+      # that exposed fixture-module leakage in external review.
+      - run: python -m pytest -q tests/test_orchestration.py::TestDebate tests/test_orchestration.py::TestR2StateAndHygiene tests/test_orchestration.py::TestM1PreGovernanceIdentity
       - run: python scout.py state-verify --require-all
       - run: python scout.py registry-validate

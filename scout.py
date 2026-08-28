@@ -1507,6 +1507,35 @@ def _parse_contract_fields(text):
     return out, data.get('pair_manifest_sha256')
 
 
+def _peek_bundle_phase(bundle):
+    try:
+        return json.loads(
+            (Path(bundle) / 'summary.json').read_text()).get('phase')
+    except Exception:
+        return None
+
+
+# F2 (round-7 ruling): a NARROW, explicitly removable legacy rule. The
+# frozen idea-023 contracts declare only the study-terminal (Phase C)
+# result interface in top-level required_outputs, so the executed
+# historical Phase-S bundle validates against the interface it actually
+# shipped -- keyed by (governing blob, phase) so no generic machinery
+# ever learns that "non-terminal phases skip required files". Future
+# contracts get phase-scoped result_interfaces instead. Delete this table
+# once idea 023's DAG is ratified and no other historical import needs it.
+_HISTORICAL_RESULT_INTERFACES = {
+    ('0e223c82f9eb879652a549df9bf857c155ef61db', 'S'): [
+        'resolved_config.json',
+        'simulation_operating_characteristics.csv',
+        'simulation_summary.json',
+        'summary.json',
+        'provenance.json',
+        'environment.txt',
+        'run_log.txt',
+    ],
+}
+
+
 def _historical_contract_text(blob):
     """Contract bytes for a 40-hex git blob sha, from the object store --
     the durable identity behind registry contract_hash pins. None when the
@@ -1557,6 +1586,8 @@ def validate_bundle(idea, bundle, expected_blob=None):
     Checks:
       1. core files present (summary.json, provenance.json,
          resolved_config.json, environment.txt, manifest/pair_manifest.csv)
+         -- or, for a historical (blob, phase) pair listed in
+         _HISTORICAL_RESULT_INTERFACES, exactly that legacy interface (F2)
       2. the bundle's recorded governing identity == the GOVERNING
          contract's git blob. Identity source (M1-pre, F1): provenance.json
          contract_blob when present, else resolved_config.json
@@ -1578,23 +1609,35 @@ def validate_bundle(idea, bundle, expected_blob=None):
     fails = []
     current = _contract_hash(idea_dir(idea))
     governing = expected_blob or current
-    if expected_blob and expected_blob != current:
-        text = _historical_contract_text(expected_blob)
-        if text is None:
-            return [f'historical contract blob {expected_blob[:12]} not '
-                    'found in the git object store']
+    hist_iface = _HISTORICAL_RESULT_INTERFACES.get(
+        (expected_blob, _peek_bundle_phase(bundle))) if expected_blob \
+        else None
+    if hist_iface is not None:
+        # Interface fully specified by the legacy table; the historical
+        # contract text is not consulted (its required_outputs describe
+        # the study-terminal bundle -- F2). Identity checks below still
+        # bind the bundle to the governing blob.
+        text, req, _pinned_sha = None, [], None
+        core = sorted(set(hist_iface))
     else:
-        c = idea_dir(idea) / 'probe_contract.yaml'
-        text = c.read_text() if c.exists() else None
-    try:
-        req, _pinned_sha = _parse_contract_fields(text)
-    except ValueError as e:
-        return [str(e)]
-    if req:  # contract-declared result interface
-        core = sorted(set(req) | {'summary.json', 'provenance.json'})
-    else:    # legacy 004-era interface, unchanged
-        core = ['summary.json', 'provenance.json', 'resolved_config.json',
-                'environment.txt', 'manifest/pair_manifest.csv']
+        if expected_blob and expected_blob != current:
+            text = _historical_contract_text(expected_blob)
+            if text is None:
+                return [f'historical contract blob {expected_blob[:12]} not '
+                        'found in the git object store']
+        else:
+            c = idea_dir(idea) / 'probe_contract.yaml'
+            text = c.read_text() if c.exists() else None
+        try:
+            req, _pinned_sha = _parse_contract_fields(text)
+        except ValueError as e:
+            return [str(e)]
+        if req:  # contract-declared result interface
+            core = sorted(set(req) | {'summary.json', 'provenance.json'})
+        else:    # legacy 004-era interface, unchanged
+            core = ['summary.json', 'provenance.json',
+                    'resolved_config.json', 'environment.txt',
+                    'manifest/pair_manifest.csv']
     for rel in core:
         if not (bundle / rel).exists():
             fails.append(f'missing required bundle file: {rel}')
@@ -1641,7 +1684,7 @@ def validate_bundle(idea, bundle, expected_blob=None):
     if f'{idea:03d}' not in sid:
         fails.append(f'summary idea_id {sid!r} does not name idea {idea:03d}')
     ph = summary.get('phase')
-    if req:
+    if req or hist_iface is not None:
         if not (isinstance(ph, str) and len(ph) == 1 and ph.isalpha()):
             fails.append(f'summary phase {ph!r} is not a single-letter phase')
     elif ph not in ('M', 'B'):
