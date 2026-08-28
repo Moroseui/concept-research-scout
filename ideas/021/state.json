@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The model is using the healthy hemisphere as the patient's personal perfusion baseline -- the same relative-to-mirror normalization radiologists apply when they read relative CBF -- rather than absolute map values.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-021",
+  "idea_no": "021",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 6,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "66641d931df25314e159bf2bdda8c1ec29ff62178431e39607ff9250d1bce4a7",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "d3e1c612e83bbd97c32466aea0dd37728941bd697bd2f34f89759314fc74b947",
+      "ledger_events_sha256": "e6aa7c81f94a1f19e19508749c9b116762927e7c6bff294c79ab5b6108e91150",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "The healthy hemisphere is the ruler"
+}

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "The model is using pulmonary vascular pruning - the loss of blood volume in vessels below 5 square millimetres in cross-section, and the shift in the branching exponent away from the cube law that accompanies it - not parenchymal destruction.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-009",
+  "idea_no": "009",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 2,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "ce2e307e7e71fb20f615208831e5748c4e62c0ab2388a50f9a9bb4048cee975a",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "1471988f5cab5d8e0c4fde50b04c6806eb4900c42ae0ac52e06aa341b2927a03",
+      "ledger_events_sha256": "72956a5f8390e82dd4c4203dff7d284ff12c3ecfc8a8ee90b5319d999dc06671",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "Murray's cube law says how a branching tree should be built - ask whether the risk model is reading the lung's departure from it"
+}

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using temporal fractal dimension of the raw contrast curve as a tissue-flow signal.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-041",
+  "idea_no": "041",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "9a65eb1a21ac29982009aea08f1838da5ef1d41f4b9defa61bdee01fdf280679",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "8c1e56a7e743ff4b3d2da343eed2150aad0aa1074c3d495e138dcc4d21ef467d",
+      "ledger_events_sha256": "7ad59a8aac2476df5559d0c3a6a0b6b8d768e80a45666ca186ed197e0d39a617",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "The roughness of a heartbeat through starved tissue"
+}

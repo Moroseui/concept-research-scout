@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using the ground truth's algorithmic fingerprint \u2014 DeepISLES boundary conventions inherited through the 'corrected when needed' annotation pipeline \u2014 in the voxels where experts overrode the draft.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-029",
+  "idea_no": "029",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "0848f033ae8adafb7d1c09109b2fbec35241957ee48d6537727a7c887edda1dd",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "381fc81c1b34f8b540dcb0c029f5d85b5c2ec9d2c56e72b9075033c46b89d002",
+      "ledger_events_sha256": "d509617e38b40b40cccd9b536fe974ab2d1e3bf7d8c2f413b56d196b2d6408b9",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The ground truth remembers the algorithm that drafted it"
+}

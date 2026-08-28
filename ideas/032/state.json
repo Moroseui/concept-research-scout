@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using Circle-of-Willis alternate-path redundancy as an image marker of proximal collateral reserve.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-032",
+  "idea_no": "032",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "2dbaed6dd1dd5e939ef105d6aaaf3919f889241cde5092febf7e365a44914ea5",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "4645a5488b6757e24acf07722f17b03e6183a07c26fc88f77d30f4b18900ee37",
+      "ledger_events_sha256": "abe0f15ec0233dee336487aa682ea8085f03cc1caef5f4a0d95aed70be1a6d3b",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The arterial network's spare route"
+}

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using the acquisition-site noise fingerprint -- scanner-specific noise texture readable in signal-free image regions -- when predicting final infarct.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-037",
+  "idea_no": "037",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "9d1aacab346fdec33a41490c40b06ac15aa263ba957fc1fdcc4412b91ccff001",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "a9f10828ec1f7b8e1912549c2e05ff8474325c3d7fc5dff087d34f3241b3ad8e",
+      "ledger_events_sha256": "afe0ab58b656b57948790a17f5ac8f8456228e1823cc2153dacc01bae3fccd04",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The scan remembers which hospital took it"
+}

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "The knee-pain model is using medial tibial subchondral trabecular texture\u2014directional thickening and rarefaction of the load-bearing bone beneath the cartilage.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-014",
+  "idea_no": "014",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "68220de30a61bdc285c52f4f6e6a9bfbe1f0c4cd24c6f9c50ba0b4960c6696c7",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "a1bffe782b5e8694a58d37702ec8e85fadf9fef1e51340153e9b15e3123a6902",
+      "ledger_events_sha256": "4bf08d0962e128740d15e4793e0f90dd8146476652a578b7f2e04d5d47968354",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "PAUSED",
+  "title": "The knee-pain model may be reading trabecular stress architecture that KL grade throws away"
+}

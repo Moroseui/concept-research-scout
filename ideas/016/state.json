@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "The pulmonary-embolism model is using contrast reflux into the inferior vena cava and hepatic veins as a sign of elevated right-sided pressure.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-016",
+  "idea_no": "016",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "72b8ff9c76381809621f3e3c23813fb6d72b485252f20b533860c9a498ddaf27",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "fb834771c5a3bf6e7cb4999cab55e774bbbab175b3fe6d888b06863d6cc10faf",
+      "ledger_events_sha256": "3078c06621c7f29192ff018dbef11e05eee0e834e08c49da1e864d4ba12c1857",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The PE model may read contrast flowing backward as a pressure gauge"
+}

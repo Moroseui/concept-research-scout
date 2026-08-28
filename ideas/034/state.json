@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using the perfusion-acquisition support boundary as a spatial determinant of its predicted lesion extent, truncating or extrapolating at the sensor's edge rather than the ischemia's.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-034",
+  "idea_no": "034",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "257b02bc6cedfc81514621efe0640587cb9a41b5c68486203905a56b159e8b08",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "a58f5510a39f826c047dbecdf4dcae7b4022ce560b4dd616d891bd7ab5295668",
+      "ledger_events_sha256": "a707c7b8ca8fb1e2bb985457a82d0a91412e72c3971646b7e05e4bc565fb57c8",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The edge of the map: the benchmark scores terra incognita"
+}

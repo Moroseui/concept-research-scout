@@ -649,6 +649,44 @@ can never reach the census again. Outputs/checkpoints remain on Drive.
 Driver polish: clone cell cds to /content before rm -rf (same-session rerun
 cwd death).
 
+## 2026-08-25 - Round-5 whole-2a review: intake and dispositions
+
+Verdict accepted: approve architecture, fix semantics before consumers.
+All five verified defects fixed in 2a-4 (tombstone parity; binding artifact
+deps + launcher-as-DAG-edge + pre-run pin staleness + bundle uniqueness;
+approval-bound terminal authority; fail-closed contract interface with
+containment; receipt provenance restored with configured/effective family).
+Coverage-honest verify commands + --require-all; source fingerprints;
+honest nulls; AST suite hygiene; CI gates both runners. Deferred per the
+reviewer own P1 gates, queued: structured core return (A7), stage-outcome
+records (A8), immutable role maps (A10), ledger event ids (A12), forensic
+failure checkpoints (A13), override-matrix telemetry, multi-axis diversity
+stats. Pushback recorded: the ZIP-based 023 merge hazard dissolved under a
+real git merge (performed first, frozen driver preserved byte-identical);
+reviewer full-suite timeout was environmental. Merge order adopted:
+023 record-result -> frozen-023 hash check -> merge 2a -> author 023
+registry + driver_spec -> shadow soak -> read-only consumer flip -> 2b.
+
+## 2026-08-25 - Round-5.5 re-review: intake and closeout (2a-5)
+
+Adopted and shipped, actions 1-8 + 13 + the charter-hardening test:
+CI now enforces state-verify --require-all and registry-validate over a
+fully materialized 44-idea corpus; registry validation is schema-strict
+and fail-closed (closed key sets, type guards, path containment -- a typo
+like dependz_on can no longer silently drop a dependency); a pinned node
+with a MISSING current contract is STALE, never COMPLETE; COMPLETE is
+validation-aware (invalid bundles surface as RESULT_PRESENT); approve-probe
+now binds registry_sha256 prospectively; git SHA is computed fresh per
+receipt (tool versions stay cached); a receipt-write failure after a
+successful invocation fails closed; a numbered idea directory without its
+card fails closed; AST hygiene extended to top-level symbols and duplicate
+dict keys -- and caught a real pre-existing duplicate (keystone_status) on
+first run. Deferred on the reviewer own gates: structured RunResult (A9,
+pre-2b), ROLE_BOUND role freezing (A10, pre-consumer-flip), node-addressed
+launcher + driver_spec (A11/A12, with post-023 registry work), workflow
+helper factoring (A14, cleanup). Adopted for 023: append-only
+REGISTRY_RATIFIED retrospective binding; the historical approval is never
+rewritten.
 ## 2026-08-25 - 023 take 6 receipt + staging second-opinion intake (take 7 v2)
 
 Take-6, two layers: (1) the in-flight ~85% run died to a Colab VM recycle

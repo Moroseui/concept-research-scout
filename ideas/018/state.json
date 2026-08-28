@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "The glioblastoma survival model is using temporalis muscle thickness as an image marker of systemic frailty.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-018",
+  "idea_no": "018",
+  "kill_code": "DATA_ACCESS",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "15eff2e9086773c77fbe2c79f0af1ced1a27e0a2064b1a350005ff95666aea57",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "7436ce2c372d30a746c9e3156507d3986424cb68116eabb50aa622d048100571",
+      "ledger_events_sha256": "a645bcd0b20dfe6beda0b582461a2045c5ce5cd41e0324bd046f8da0dc37d40b",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The brain-tumor prognosticator may be weighing the chewing muscle"
+}

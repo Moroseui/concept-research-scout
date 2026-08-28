@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "CT-CLIP is using honeycombing\u2014the connected multilayer subpleural cyst network of end-stage fibrotic lung\u2014rather than generic coarse lung texture.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-019",
+  "idea_no": "019",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "c556c0e2eb74832f61f2419c5b25a6666de182df1f11be3617ecaadfb25ad62b",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "df2b0439c80dc1eb071d00877a8d1d10e49b4705064b3361ccca26a07b6aa5c3",
+      "ledger_events_sha256": "de5f8f03a110faaa92c3c1c0ec425c824be315fe4b425c21151698a2c48bfd34",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "The fibrosis model may be counting holes at the pleural edge"
+}

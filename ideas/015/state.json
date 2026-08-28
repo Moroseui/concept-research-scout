@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "Mirai is using breast arterial calcification\u2014the linear tram-track calcium in mammary arteries\u2014as a vascular-age signal in breast-cancer risk prediction.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-015",
+  "idea_no": "015",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "48b3784987a33ba06ff9dfd8f56ba75e7dd119be968a301004bc1de31e1cc9d8",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "fdf678d9873d62ff4d1661782ee3f51e4c94e40fca0321048ad6d8c2ed31eeb0",
+      "ledger_events_sha256": "342e61513c9b76a9bf6c5259fcae745e6e49a591f79f853391f1bd420ff69f3c",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "A breast-cancer risk model may be reading the arteries as a vascular clock"
+}

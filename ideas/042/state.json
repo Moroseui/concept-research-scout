@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using delay-independent bolus dispersion as a collateral-route signal.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-042",
+  "idea_no": "042",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "c5e9a0d29304f206ffcf946e99fdd6200465003e745cd55272d52c6476ec9498",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "adb811f12a0ea71561d7ecf000ef5c62a0b574f2a2a0cb314b11e9158a50cc3c",
+      "ledger_events_sha256": "050fb87a988a9f72bcd03e52f4f287c5c9eb0a9e219b28c6b239a637659204a0",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "Delay is not dispersion"
+}

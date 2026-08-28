@@ -1,0 +1,31 @@
+{
+  "approval": {
+    "contract_blob": "8b68640183ee796e85f83fd47851c6a5eae51bdc",
+    "stale": false
+  },
+  "charter": null,
+  "claim": "When the same chest CT acquisition is reconstructed twice, how much does a released chest-CT foundation model's predicted abnormality concept change, and does the CT-RATE validation benchmark's per-volume unit of analysis overstate the precision of every number reported on it?",
+  "contract_blob": "8b68640183ee796e85f83fd47851c6a5eae51bdc",
+  "corrections": null,
+  "idea_id": "idea-004",
+  "idea_no": "004",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 3,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "2dc24ea9992b8c0cf66274c3aa5d899bc883cf5f7ebe4b4ff95780eab613cb59",
+    "sources": {
+      "approval_sha256": "33b5ff881684ddb882eb662a165821b1871f102c410d43cdd528019c06215ad2",
+      "contract_blob": "8b68640183ee796e85f83fd47851c6a5eae51bdc",
+      "idea_card_sha256": "356bf46821ed509b41871286253644e324379a12f5c90b5aef7daad5facad625",
+      "ledger_events_sha256": "3a776fe81b48ef11c565d0c4a1492aa94c8c3bee179ffc735bbf055557d295b4",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "PROBED",
+  "status": "ACTIVE",
+  "title": "The free test-retest experiment already inside CT-RATE: duplicate reconstructions of the same acquisition"
+}

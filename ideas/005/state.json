@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "In the radiologists' own ratings, do the eight LIDC semantic characteristics agree with themselves across readers more than they correlate with each other within a reader - and if not, how many distinct dimensions does a concept model that reports eight separate concept predictions actually have?",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-005",
+  "idea_no": "005",
+  "kill_code": "ANNOTATION_PROVENANCE",
+  "materialization": {
+    "event_count": 2,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "c7070b34f6c74be5670c9cdfbef9511cfa6a8775a0253db531dd2e90f26de273",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "1c053f98fa96977f378cccba714084c50ddf1d2836c3b53a31ef211ea1d02964",
+      "ledger_events_sha256": "eae72695f24ca1ea52b8b556a1894b73a49be92c18089d3dd8fd482145fb8382",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "Eight named characteristics, or three latent ones? Discriminant validity of the LIDC concept vocabulary"
+}

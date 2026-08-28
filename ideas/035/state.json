@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using baseline intracranial cerebrospinal-fluid reserve as a geometric prior on how far the follow-up infarct mask will expand.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-035",
+  "idea_no": "035",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "4070b0a3132bcf6269e376304f535b3ea3b71221f43687200ccf4de0bcfeeeee",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "29fb7a541c10eee163d1b02ee6a0208742c283e467b241bf6dfcff7746f74f36",
+      "ledger_events_sha256": "e40365941271d41b1899f544678ede9f679cb66dd0b78cfa0870bf53c65a519d",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The skull is a fixed-volume pressure vessel"
+}

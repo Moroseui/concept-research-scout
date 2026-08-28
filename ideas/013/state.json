@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "CT-CLIP is using coronary artery calcium as a localised quantity: its coronary-calcification score rises with automated coronary Agatston and is not merely a readout of total calcium load, because it separates from aortic-wall calcium in the same scan.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-013",
+  "idea_no": "013",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "ea85c978c72432647d739910cafe67a778d8c13a165a41b0638574c02fb72849",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "a124ec3faa193507c2e57d932ec972b9194a105435477cd1c134ce9ad574f64a",
+      "ledger_events_sha256": "e3cca6eb5cd9105b0ee23160da4ecf99f7daeaee2e311d7540f59e93681050cf",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity"
+}

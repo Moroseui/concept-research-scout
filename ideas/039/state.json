@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using violation of the central-volume identity as a hidden confidence map for perfusion evidence.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-039",
+  "idea_no": "039",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 5,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "c1bbeb0fea99f7aff9dc1201b2636cea2a56977d014f804b9da5b86bf300a8f3",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "5d03bd811e7e9ca927c4fd34e793d599e1a8e1fa97cd9cd92c236549ac2f2e06",
+      "ledger_events_sha256": "226392f7ea10a7a9fd87f9c818671feba10fd49ab72923bf685831ebddd4cfb3",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "SHORTLISTED",
+  "title": "Does the model trust tissue that obeys the flow equation?"
+}

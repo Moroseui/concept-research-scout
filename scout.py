@@ -18,7 +18,7 @@ Revamp additions (see REVAMP.md):
     exit.
 """
 from __future__ import annotations
-import argparse, csv, json, os, random, re, shutil, subprocess, sys, textwrap
+import argparse, csv, hashlib, json, os, random, re, shutil, subprocess, sys, textwrap
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -29,6 +29,8 @@ SEEDS = ROOT/'orchestrator'/'seeds.json'
 
 sys.path.insert(0, str(ROOT/'orchestrator'))
 import ledger as ledger_mod  # noqa: E402
+import state_view as state_mod  # noqa: E402
+import experiment_registry as reg_mod  # noqa: E402
 ledger_mod.ROOT = ROOT
 ledger_mod.LEDGER = ROOT/'ledger.jsonl'
 ledger_mod.DIGEST = ROOT/'evidence'/'ledger_digest.md'
@@ -112,6 +114,10 @@ def charter_for_target(target):
     3) only for targets that are neither: the active cycle's charter."""
     t = Path(target)
     card = t/'idea_card.json'
+    if t.exists() and not card.exists() and re.fullmatch(r'\d+', t.name or ''):
+        raise SystemExit(f'{card} missing: a numbered idea without its card '
+                         'has no persistent identity; refusing to fall back '
+                         'to the mutable active charter')
     if card.exists():
         try:
             data = json.loads(card.read_text())
@@ -300,7 +306,7 @@ LIMIT_PATTERNS = {
 }
 
 LAST_RUN = None  # provenance of the most recent run_agent call; merged into
-                 # stage_provenance.jsonl by _record_stage_provenance.
+                 # stage_provenance.jsonl inside run_agent (2a-3 execution receipts).
 
 
 def _classify_agent_failure(output, cfg=None):
@@ -413,7 +419,86 @@ def _invoke_agent(command, use_stdin, prompt_text, timeout, log_path):
     return proc.returncode, ''.join(lines)
 
 
+_TOOLS_CACHE = None
+
+
+def _append_receipt(dirpath, rec):
+    (Path(dirpath) / 'stage_provenance.jsonl').open('a').write(
+        json.dumps(rec, sort_keys=True) + '\n')
+
+
 def run_agent(prompt_path, agent=None, stage=None, log_path=None):
+    """Execution-receipt wrapper (2a-3): EVERY agent invocation -- pipeline
+    stages, debate legs, probe/interpret loops, reconcile, actioner --
+    passes through here, so the attempt receipt is written from inside the
+    execution primitive itself, on success, failure, timeout, and skip
+    alike. The old optional _record_stage_provenance call sites provably
+    missed debate and the probe loops (round-4 audit, idea 023's own
+    history)."""
+    cfg = load_agent_config()
+    req = agent
+    eff = agent
+    if eff is None and stage:
+        eff = cfg.get('roles', {}).get(stage.replace('-', '_'))
+    eff = effective_agent(eff or cfg.get('default', {}).get('agent', 'claude'), cfg)
+    p = Path(prompt_path)
+    import time as _t
+    base = agent
+    if base is None and stage:
+        base = cfg.get('roles', {}).get(stage.replace('-', '_'))
+    base = base or cfg.get('default', {}).get('agent', 'claude')
+    global _TOOLS_CACHE
+    if _TOOLS_CACHE is None:
+        _TOOLS_CACHE = dict(_cli_versions())  # tool versions cache; repo state NEVER does
+    git_head = subprocess.run(
+        ['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True,
+        text=True, check=False).stdout.strip()
+    rec = {'receipt': 1, 'run_id': os.urandom(6).hex(), 'stage': stage,
+           'prompt_file': p.name,
+           'prompt_sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
+           'family_configured': base, 'family_effective': eff,
+           'git_commit': git_head,
+           'tools': dict(_TOOLS_CACHE),
+           'ci': bool(os.environ.get('SCOUT_CI')),
+           'started_utc': datetime.now(timezone.utc).isoformat(timespec='seconds')}
+    before = LAST_RUN
+    t0 = _t.monotonic()
+    try:
+        return _run_agent_core(prompt_path, agent, stage, log_path)
+    except BaseException as e:
+        msg = str(e)
+        rec['exit_class'] = ('timeout' if 'timed out' in msg
+                             else 'limit' if 'usage limit' in msg
+                             else 'error')
+        rec['exit_detail'] = msg[-300:]
+        raise
+    finally:
+        rec['duration_s'] = round(_t.monotonic() - t0, 3)
+        if 'exit_class' not in rec:
+            # Core rebinds LAST_RUN on every terminal outcome; failure paths
+            # raise (handled above), so an identity change here means success
+            # -- even for commands with no model flag (model_used=None).
+            rec['exit_class'] = 'ok' if LAST_RUN is not before else 'skipped'
+        if LAST_RUN is not before:
+            rec.update({k: LAST_RUN[k] for k in
+                        ('model_requested', 'model_used', 'fallback', 'attempts')
+                        if k in LAST_RUN})
+        try:
+            _append_receipt(p.parent, rec)
+        except Exception as we:
+            if rec.get('exit_class') in ('error', 'timeout', 'limit'):
+                # an agent exception is already in flight; surface, don't mask
+                print(f'RECEIPT WRITE ALSO FAILED (provenance gap, '
+                      f'investigate): {we}')
+            else:
+                # mandatory provenance: a successful invocation may not
+                # advance receipt-less (round-5.5 action 8)
+                raise SystemExit(f'receipt write failed after a successful '
+                                 f'agent invocation; refusing to proceed '
+                                 f'without provenance: {we}')
+
+
+def _run_agent_core(prompt_path, agent=None, stage=None, log_path=None):
     global LAST_RUN
     cfg = load_agent_config()
     if agent is None and stage:
@@ -890,9 +975,16 @@ def approve_probe(args):
         raise SystemExit('probe_contract.yaml missing: approval binds to a '
                          'specific contract; run probe-plan first.')
     marker=d/'HUMAN_APPROVED_PROBE'
-    marker.write_text(f'Approved by human at {datetime.now(timezone.utc).isoformat()}\n'
-                      f'contract_blob: {ch}\n')
-    print(f'Approved probe for {d.name} (bound to contract blob {ch[:12]})')
+    text = (f'Approved by human at {datetime.now(timezone.utc).isoformat()}\n'
+            f'contract_blob: {ch}\n')
+    rsha = reg_mod.registry_sha(d.name, ROOT)
+    if rsha:
+        # approval binds every governing declaration that exists at approval
+        # time (round-5.5 action 5)
+        text += f'registry_sha256: {rsha}\n'
+    marker.write_text(text)
+    print(f'Approved probe for {d.name} (bound to contract blob {ch[:12]}'
+          + (f', registry {rsha[:12]}' if rsha else '') + ')')
 
 
 def verify_probe(args):
@@ -1264,9 +1356,16 @@ def package_colab(args):
                                                    getattr(args, 'staging_mode', 'drive_fuse_cache'))]
         extra = ' --data-dir {LOCAL_DATA} --archive-file {ARCHIVE_LOCAL} --record-json {RECORD_JSON}'
     psd = getattr(args, 'phase_s_dir', None)
+    _req = reg_mod.upstream_bundle_requirement(nn, ROOT, phase)
+    if _req and _req.get('cli_flag') == '--phase-s-dir' and not psd:
+        raise SystemExit(f'registry.yaml declares phase {phase} depends on '
+                         f'the bundle of probe {_req.get("probe")!r}; pass '
+                         '--phase-s-dir (its Drive path)')
     _rp = ROOT / f'probes/{nn}/run.py'
-    if (_rp.exists() and '--phase-s-dir' in _rp.read_text()
+    if (_req is None and _rp.exists() and '--phase-s-dir' in _rp.read_text()
             and str(phase).upper() not in ('S', 'SMOKE') and not psd):
+        # transitional string-sniff; retires once every active idea
+        # carries a registry (2c)
         raise SystemExit('this probe declares --phase-s-dir and phase '
                          f'{phase} requires it; pass --phase-s-dir (the '
                          'Drive path of the Phase-S bundle)')
@@ -1385,13 +1484,24 @@ def _contract_required_outputs(idea):
     c = idea_dir(idea) / 'probe_contract.yaml'
     if not c.exists():
         return []
+    import yaml
     try:
-        import yaml
         data = yaml.safe_load(c.read_text()) or {}
-        req = data.get('required_outputs') or []
-        return [str(x) for x in req if isinstance(x, (str,))]
-    except Exception:
+    except Exception as e:
+        raise ValueError(f'contract invalid; bundle cannot be verified '
+                         f'(probe_contract.yaml does not parse: {e})')
+    req = data.get('required_outputs')
+    if req is None:
         return []
+    if not isinstance(req, list):
+        raise ValueError('contract invalid: required_outputs must be a list')
+    out = []
+    for x in req:
+        if not isinstance(x, str) or x.startswith('/') or '..' in x.split('/'):
+            raise ValueError(f'contract invalid: required_outputs entry '
+                             f'{x!r} must be a bundle-relative path')
+        out.append(x)
+    return out
 
 
 def bundle_complete(idea, bundle):
@@ -1403,7 +1513,15 @@ def bundle_complete(idea, bundle):
         s = json.loads((Path(bundle) / 'summary.json').read_text())
     except Exception:
         return False
-    if _contract_required_outputs(idea):
+    ts = reg_mod.terminal_statuses_if_approved(f'{idea:03d}', ROOT, bundle)
+    if ts:
+        return s.get('status') in ts
+    try:
+        req = _contract_required_outputs(idea)
+    except ValueError:
+        return False  # an unverifiable contract cannot certify completion
+    if req:
+        # transitional literals; approval-bound registry terminals supersede
         return s.get('status') in ('POSITIVE_PATTERN', 'NEGATIVE_PATTERN')
     return bool(s.get('study_complete') or s.get('phase_m_complete')
                 or (s.get('phase') == 'B' and 'analysis' in s))
@@ -1425,7 +1543,10 @@ def validate_bundle(idea, bundle):
     """
     bundle = Path(bundle)
     fails = []
-    req = _contract_required_outputs(idea)
+    try:
+        req = _contract_required_outputs(idea)
+    except ValueError as e:
+        return [str(e)]
     if req:  # contract-declared result interface
         core = sorted(set(req) | {'summary.json', 'provenance.json'})
     else:    # legacy 004-era interface, unchanged
@@ -1539,6 +1660,73 @@ def cmd_diversity(args):
         print('\nWARNING: one design template carries more than half of all '
               'candidates - generation may be reusing one experimental '
               'grammar in different costumes.')
+
+
+def _state_kwargs():
+    return dict(charter_resolver=charter_for_target,
+                contract_hasher=_contract_hash,
+                registry_resolver=lambda n: reg_mod.state_summary(
+                    n, ROOT, _contract_hash,
+                    lambda b: validate_bundle(int(n), b)))
+
+
+def _numbered_ideas():
+    return sorted(p.name for p in (ROOT / 'ideas').iterdir()
+                  if p.is_dir() and re.fullmatch(r'\d{3}', p.name))
+
+
+def cmd_registry_validate(args):
+    ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
+    fails, done = [], 0
+    for n in ideas:
+        if not (ROOT / 'ideas' / n / 'registry.yaml').exists():
+            if args.idea or getattr(args, 'require_all', False):
+                fails.append(f'ideas/{n}/registry.yaml missing')
+            continue
+        fails += [f'{n}: {e}' for e in reg_mod.validate(n, ROOT)]
+        done += 1
+    for f in fails:
+        print(f)
+    print(f'validated {done} registry file(s) across {len(ideas)} numbered ideas')
+    if fails:
+        raise SystemExit(1)
+
+
+def cmd_registry_status(args):
+    n = f'{args.idea:03d}'
+    st = reg_mod.derive_status(n, ROOT, _contract_hash)
+    if not st:
+        raise SystemExit(f'ideas/{n}/registry.yaml missing')
+    for nid, v in sorted(st.items()):
+        print(f"{nid:24s} {v['status']:12s} {v['reason']}")
+
+
+def cmd_state_materialize(args):
+    ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
+    for n in ideas:
+        p = state_mod.write_state(n, ROOT, **_state_kwargs())
+        print(p.relative_to(ROOT))
+
+
+def cmd_state_verify(args):
+    ideas = [f'{args.idea:03d}'] if args.idea else _numbered_ideas()
+    fails, done, missing = [], 0, []
+    for n in ideas:
+        if not (ROOT / 'ideas' / n / 'state.json').exists():
+            missing.append(n)
+            if args.idea or getattr(args, 'require_all', False):
+                fails.append(f'ideas/{n}/state.json missing')
+            continue
+        fails += state_mod.verify_state(n, ROOT, **_state_kwargs())
+        done += 1
+    for f in fails:
+        print(f)
+    print(f'verified {done} of {len(ideas)} numbered ideas '
+          f'({len(missing)} not yet materialized)')
+    if fails:
+        raise SystemExit(1)
+    if done:
+        print('state invariant holds: regeneration is byte-identical')
 
 
 def cmd_validate_bundle(args):
@@ -2753,22 +2941,7 @@ def _cli_versions():
 
 
 def _record_stage_provenance(idea, stage):
-    rec = dict(_cli_versions())
-    rec.update({'stage': stage,
-                'ts': datetime.now(timezone.utc).isoformat(timespec='seconds'),
-                'git_commit': subprocess.run(['git', 'rev-parse', 'HEAD'],
-                                             capture_output=True, text=True,
-                                             check=False).stdout.strip()})
-    if LAST_RUN and LAST_RUN.get('stage') == stage:
-        # D2 visibility: which model actually ran, and whether it was a
-        # fallback. record-never-pin extended to graceful degradation.
-        rec.update({k: LAST_RUN[k] for k in
-                    ('model_requested', 'model_used', 'fallback')
-                    if k in LAST_RUN})
-        if LAST_RUN.get('fallback'):
-            rec['attempts'] = LAST_RUN['attempts']
-    with (idea_dir(idea) / 'stage_provenance.jsonl').open('a') as f:
-        f.write(json.dumps(rec) + '\n')
+    return  # superseded by execution receipts inside run_agent (2a-3)
 
 
 def _pipeline_stage(idea, stage):
@@ -2783,7 +2956,6 @@ def _pipeline_stage(idea, stage):
     run_agent(p, None, stage=stage, log_path=target/f'log_{stage}.txt')
     _check_scope(stage)
     _require_artifact(stage, target)
-    _record_stage_provenance(idea, stage)
     if stage == 'keystone':
         kv = _apply_keystone_verdict(idea)
         if kv:
@@ -3211,6 +3383,10 @@ def main():
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('bundle-complete'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=lambda a: print(str(bundle_complete(a.idea, a.bundle)).lower()))
+    p=sp.add_parser('state-materialize'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_materialize)
+    p=sp.add_parser('state-verify'); p.add_argument('--idea',type=int); p.add_argument('--require-all',action='store_true'); p.set_defaults(fn=cmd_state_verify)
+    p=sp.add_parser('registry-validate'); p.add_argument('--idea',type=int); p.add_argument('--require-all',action='store_true'); p.set_defaults(fn=cmd_registry_validate)
+    p=sp.add_parser('registry-status'); p.add_argument('idea',type=int); p.set_defaults(fn=cmd_registry_status)
     p=sp.add_parser('debate'); p.add_argument('--idea',type=int); p.add_argument('--rounds',type=int); p.set_defaults(fn=debate)
     p=sp.add_parser('status'); p.set_defaults(fn=status)
     p=sp.add_parser('cycle'); p.add_argument('--charter',default=None,help='named charter under charters/<name>/CHARTER.md; omit for the baseline'); p.add_argument('--tracks',default='baseline',help='comma-separated: baseline,wide,fiction'); p.add_argument('--dry-run',action='store_true'); p.add_argument('--resume-or-new',action='store_true'); p.add_argument('--seed-concepts',default=None,help='comma-separated pair to direct the fiction seed (source recorded as human)'); p.set_defaults(fn=cycle)

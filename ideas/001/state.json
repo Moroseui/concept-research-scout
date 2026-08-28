@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "Do the nine LIDC-IDRI semantic nodule attributes predict pathology-confirmed malignancy as well as they predict the radiologist-assigned malignancy rating that the entire LIDC concept literature uses as its endpoint?",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-001",
+  "idea_no": "001",
+  "kill_code": "DATA_INSUFFICIENT",
+  "materialization": {
+    "event_count": 1,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "e8bdba090ad473450c4051432bc897e5d7b96e455eb71a0fd10a54842e20ffd2",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "dc3f040119461af24b79b734bdacfd3ffcfb7879232bb58aeb8f1f6066fa6789",
+      "ledger_events_sha256": "12bfd602d92837c28eeb147ea7983dcc6565b995010942adffdc78b30e9e5a9e",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "Have lung nodule concept models been validated against radiologist opinion rather than against disease?"
+}

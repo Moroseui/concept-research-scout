@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "The final-infarct model is using remote chronic infarct cavities as a brain-reserve signal when forecasting new infarction.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-044",
+  "idea_no": "044",
+  "kill_code": "IDENTIFIABILITY_FAILURE",
+  "materialization": {
+    "event_count": 4,
+    "materializer_version": 2,
+    "source_fingerprint_sha256": "a6ddf0332900ed50bb9d09352dbc9969d43bc6e29e825c88e387f85501c2f8f9",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "52504f350cecb1dd6a2a91f0c72c78b99f9a7288972a4b26897258a97bb31a6b",
+      "ledger_events_sha256": "2cccc39f75040065ef1a11eb2666e742bd37a92ba14e148633baad5d69b35c72",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "DEBATED",
+  "status": "REJECTED",
+  "title": "The old stroke inside the new forecast"
+}
