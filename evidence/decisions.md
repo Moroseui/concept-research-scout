@@ -1119,3 +1119,50 @@ doctor green. Next: R2 (state-view approval-staleness on missing
 contract, fingerprint completeness, fixture import hygiene, P2
 cleanups), then R3 authors the 023 registry with PR-gated ancestry-bound
 ratification. Take-13 record-result remains not blocked on any of this.
+
+
+## 2026-08-28 - R2 landed: state-view + hygiene pre-flip fixes (round-6 batch)
+
+Approval staleness corrected: an approval whose CURRENT contract is
+MISSING is now stale/invalid in materialized state (previously reported
+fresh) -- an approved contract that no longer exists is not a fresh
+approval. Source fingerprint made complete: when a registry exists,
+materialization.sources gains registry_result_inputs -- per-node hashes
+of summary.json, provenance.json, and every declared consumed-artifact
+file (new experiment_registry.result_input_hashes, deterministic,
+containment-guarded) -- so the watermark MOVES whenever a derivable node
+status can move. MATERIALIZER_VERSION bumped 2 -> 3 and all 44 state
+files re-materialized; the corpus delta is provably one line per file
+(the version field), fingerprints and approval flags byte-unchanged for
+every current idea (only 004 and 023 hold approvals; both contracts
+present, so the staleness fix flips nothing retroactively).
+
+Fixture-import hygiene centralized: Harness.tearDown now purges every
+sys.path entry and loaded module rooted in the test's temp dir, and the
+two debate tests use a single _import_fixture_scout helper instead of
+inline insert+reload -- no later or isolated test can inherit a loader
+bound to a deleted repository (the TestDebate order-dependence class
+from external review; latent here, fixed regardless). check.yml gains an
+isolation canary running the exact reviewer selection
+(pytest ::TestDebate) so hermetic selection is CI-enforced.
+
+Supply-chain pins: all six workflows now reference
+actions/checkout, setup-python, setup-node by full commit sha (resolved
+live from the upstream tags, comment-annotated with the major version);
+CI pytest pinned to 9.1.1 to match the gated local runs; a hygiene test
+asserts every workflow uses: line is sha-pinned. Taxonomy: ledger gains
+TOMBSTONE_STATUS = INVALID_ROW, deliberately excluded from settable
+STATUSES (repair-tool-only), with the load() exclusion referencing the
+constant. The _digest_path docstring now states the fail-local behavior
+the code always had.
+
+Gates: 171/171 both runners (6 new tests); isolated-class runs hermetic
+(TestDebate, R1, R2, StateMaterializer selections each pass alone);
+state-verify --require-all 44/44 byte-identical under materializer v3;
+registry-validate and doctor green. Patch verified by applying to a
+pristine worktree of origin/main: applied tracked tree is git-identical
+to the gated commit. Next: review packet (fresh main ZIP + R3 design:
+draft 023 registry, REGISTRY_RATIFIED artifact spec, PR-gated
+ancestry-bound ratification flow, and the four discretionary R1
+decisions listed for ratify-or-object) BEFORE R3 lands. Take-13
+record-result remains not blocked on any of this.
