@@ -1100,6 +1100,40 @@ under percentile binning; same detectability-floor logic). Keep gates
 minimal: coverage + identity only; introduce no new reference anatomy.
 This de-couples 023 from 021 by construction.
 
+## 2026-08-28 - Meeting outcome: dual-track sprint; HU audit ACTIVATED; clinical-scores secondary pre-registered
+
+Advisor meeting (2026-08-27): system-refinement arc APPROVED, and a signal
+read from idea 023 requested within the week -> dual track. The previously
+drafted parked/strategic-pause entries were never committed and are
+superseded by this plan; the refinement arc proceeds in parallel with a
+bounded 023 signal sprint.
+
+ACTIVATED DIRECTIVE (tissue-composition audit, previously drafted as
+parked; an outcome-reading run is now scheduled, so it applies): before
+take 13, a probe revision adds a label-blind per-bin per-style NCCT HU
+audit -- during the map pass record, per case, per flow bin, per style
+group, the median and IQR of NCCT attenuation over member voxels, into the
+per-case cache and a bin_tissue_audit.csv. No estimator changes, no new
+gates, run.py only (contract untouched; standing approval holds through
+verify). Pre-registered interpretation rule: HU-balanced styles within
+bins -> the compensation reading stands; systematic imbalance -> report as
+conditional predictive information WITH a tissue-composition caveat and
+design a tissue-normalized successor. Rationale: the retired contralateral
+mirror was incidentally the tissue-type normalizer (gray-matter baseline
+flow ~2-3x white matter); percentile bins do not restore this.
+
+PRE-REGISTERED SECONDARY (advisor side-interest): after the take-13
+outcome read and record-result, a patient-level join of census per-patient
+aggregates against the dataset clinical outcome scores (phenotype
+ses-02 outcome.csv, mRS/NIHSS-type). Clinical scores are outcome labels
+and remain behind the same label-blind until that step; no take-13 scope
+change; phenotype files staged separately when needed.
+
+Sequence: audit revision -> verify -> mechanical amend-contract from the
+mirror-free Phase-S bundle (status PHASE_S_COMPLETE_REQUIRES_AMENDMENT)
+-> approve (new blob) -> package take 13 -> outcome read -> record-result
+-> interpret -> signal answer.
+
 
 ===== evidence/ledger_digest_isles24.md =====
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
@@ -2534,47 +2568,44 @@ human_approved: false
 
 
 ===== ideas/023/probe_review.md =====
-# Probe code review — idea 023, round 6 (first review of the post-take-11 dual-directive revision)
+# Probe code review — idea 023, round 7 (first review of the mirror-free redesign, per the 2026-08-27 operator decision)
 
 **Reviewed artifacts:** `probes/023/run.py` (SHA-256
-`acae802f0ae502eda9e9e8a594fe76c9998a8b3ca09672cdff83a7f3fcc6e02b`),
-`probes/023/requirements.txt` (SHA-256 `ff705c03…`, byte-identical to the
-rounds-2-through-5 file), `probes/023/README.md` (SHA-256 `86a67ada…`), and
-the **amended** `ideas/023/probe_contract.yaml` (git blob
-`2963f66b018a28eee22f49bfeb928a62e5bc9530`, file SHA-256 `07fe0c41…`). All
+`80af2c8713df8c0598088cb8b3f061996c7a99362994a0fa43bf976df7efe188`),
+`probes/023/requirements.txt` (SHA-256 `ff705c03…`, byte-identical to every
+file since round 2), `probes/023/README.md` (SHA-256 `d622d8a6…`, rewritten
+this round), and the **amended** `ideas/023/probe_contract.yaml` (git blob
+`0e223c82f9eb879652a549df9bf857c155ef61db`, file SHA-256 `0e3d8589…`). All
 four hashes recomputed this round and matching `probes/023/verification.json`.
-Prior approved code: run.py SHA-256 `9978bfed…` — verified byte-identical at
-commit `df8f748` (the parent of the revision commit), and the contract there
-is blob `468974a7…`, so the `df8f748..e7798f3` diff reviewed here is the
-complete delta from the last approved artifacts. The launcher notebook and
-requirements.txt are untouched in `e7798f3` (verified by diff stat). Review
-rounds 1–5 preserved in git.
+Prior approved code: run.py SHA-256 `acae802f…`, contract blob `2963f66b…`,
+both verified at commit `3328834` (the parent of the revision commit
+`ac63601`), so the `3328834..ac63601` diff reviewed here is the complete
+delta from the last approved artifacts. The launcher notebook and
+requirements.txt are untouched in `ac63601` (verified by diff stat). Review
+rounds 1–6 preserved in git.
 
 **Approval state (deliberate, verified):** `ideas/023/HUMAN_APPROVED_PROBE`
-binds blob `468974a7…` (the post-exit-8 approval of 2026-08-25 under which
-takes 9–11 ran); the contract is now blob `2963f66b…`. The standing approval
-is therefore **stale by design**: the take-11 directive said "If the reviewer
-judges (a) to require a contract amendment (cohort/selection language), author
-the amendment in the same round" — probe-build judged yes and authored it, and
-the amendment stales the approval by construction. The runtime gate
-(`run.py:116-140`) compares marker blob against live contract blob for every
-phase and refuses with exit 2 on mismatch; `verification.json` attests the
-builder exercised precisely this refusal ("Phase C refused with exit 2 while
-the approval marker is stale"). Nothing can run until a fresh marker is bound
-to `2963f66b…`. This APPROVE is a recommendation on the code; the human gate
-on the amended contract remains controlling.
+binds blob `2963f66b…` (the take-11-era approval); the contract is now blob
+`0e223c82…`. The standing approval is therefore **stale by design**: the
+mirror-free amendment changes the blob, and the runtime gate
+(`run.py:116-139`) compares marker blob against live contract blob for
+**every** phase, so both Phase S (which must be re-run — recalibration) and
+Phase C refuse with exit 2 until a fresh marker is bound. `verification.json`
+attests the builder exercised exactly this refusal. This APPROVE is a
+recommendation on the code; the human gate on the amended contract remains
+controlling.
 
-**Scope note.** This is not a fresh-plan review. The 2026-08-26 decision entry
-("023 take 11: SOURCE data defect proven; paired-run plan superseded; dual
-directive") authorized exactly two changes: **(a)** a case whose required
-input is a source-defective member (unreadable gzip from the verified archive)
-routes to `exclusions.csv` with reason `source_corrupt_member` naming the
-file, and the map pass continues, with the summary and interpretation
-surfacing the excluded count; **(b)** stratum admission additionally requires
-finite rCBF and rCBV (the pre-registered finiteness tightening, folded into
-this single canonical run by the take-11 supersession). Change nothing else.
-This review verifies the contract amendment and the code implement exactly
-that directive and nothing else.
+**Scope note.** This is a redesign round, not a change-nothing-else patch
+round. The 2026-08-27 decision entry ("Operator reframe AND DECISION: 023
+goes mirror-free; directive for the amendment round") authorizes: matched
+flow = per-patient CBF percentile bands (0–33 / 33–67 / 67–100) within the
+eroded deficit region; complete removal of mirror construction, registration
+QC, the exit-7 gate, and mirror-relative ratios; region definition, identity
+coordinate u = log(CBF·MTT/CBV), identity-residual gate, per-stratum
+coverage floors, and source-corrupt exclusion policy unchanged; Phase-S
+recalibration under percentile binning; gates minimal (coverage + identity
+only); no new reference anatomy. This review verifies the contract amendment
+and the code implement exactly that directive and nothing else.
 
 **Requirements conformance (review rule 5):** `ideas/023/contract_requirements.md`
 does not exist (verified this round); not a requirements-governed contract.
@@ -2586,166 +2617,217 @@ Not applicable.
 
 | Directive item | Status |
 |---|---|
-| Contract amended for the exclusion, if the reviewer judges it required | **Resolved, and I concur it was required** — the prior `invalidating_failures` population clause made "missing required maps or label for a census patient" invalidating, which would have collided with any exclusion of sub-stroke0043. The amendment touches exactly two lines: `dataset.required_inputs` (naming the one verified defective member — `train/derivatives/sub-stroke0043/ses-01/perfusion-maps/sub-stroke0043_ses-01_space-ncct_cbf.nii.gz`, CRC-valid, unreadable gzip — with the exclusion, naming, continue, and surface obligations, and the fail-loud rule for any other member) and the population-failure clause (now "(distinct from a present source_corrupt_member handled by dataset.required_inputs)"). Nothing else in the contract moved (verified by full diff) |
-| (a) exclusion routed, member named, map pass continues | **Resolved** — `SOURCE_CORRUPT_MEMBERS` (`run.py:63-67`) is a one-member tuple naming exactly the contract's member; `verify_required_gzip` (`run.py:319-331`) reads every required `.nii.gz` stream fully; in the map pass, `SourceCorruptMember` from `load_case` yields an `EXCLUDE` log line, a `schema_census.csv` row (`record_type=excluded_case`, `exclusion_reason=source_corrupt_member`, files JSON carrying the exact path), an `exclusions.csv` row (`reason`, `source_path`), and `continue` (`run.py:750-763`); the outcome pass skips excluded cases (`run.py:850-852`); both audit CSVs are rewritten after the outcome pass (`run.py:888-891`) |
-| (a) any other unreadable member fails loudly | **Resolved** — for a path not ending in a `SOURCE_CORRUPT_MEMBERS` entry, `verify_required_gzip` calls `fail(6, "unreadable required gzip is not the preregistered source defect…")`; a *missing* member still exits 5 via `find_one` (`run.py:237-239`), matching the contract's "present source_corrupt_member" distinction. The exclusion cannot silently widen |
-| (a) summary and interpretation surface the excluded count | **Resolved for this probe's outputs** — `summary.json` gains `excluded_source_corrupt_cases` and `analyzed_census_case_count` (`run.py:919,922`), and the full summary is printed as the run's final output (`run.py:955`); the README states the behavior. The interpret-stage obligation is carried forward by the decision ledger, not dischargeable by run.py |
-| (b) stratum admission requires finite rCBF and rCBV | **Resolved** — both and only the two stratum-mask sites in the file (grep-verified) gain `finite_ratios = np.isfinite(rcbf) & np.isfinite(rcbv)`: the label-blind quartile pass (`patient_native_z`, `run.py:576-582`) and the outcome pass (`patient_measure`, `run.py:594-598`), with an assertion at each site. The rule is identical in both passes, so quartile cuts and outcome contributions see the same admission set; no stratum boundary changed. No contract amendment was needed for (b): the directive routed it as a code change, and it enforces the contract's own finiteness spirit (grid_gate; clause 72's `z = log(rCBV)` is not a coordinate at infinity). This closes the take-10 overflow edge: an infinite rCBV from a tiny positive mirror denominator that passes `valid_den` can no longer enter `log(rcbv)` |
-| Change nothing else | **Resolved** — the complete run.py diff contains only: the `gzip`/`zlib` imports, the constant and exception class, `verify_required_gzip`, the `load_case` verification loop, the two mask lines plus asserts, the `load_lesion` verification call, the exclusion handling in both passes, the post-outcome rewrite of the two audit CSVs, and the two summary keys. Phase S, the approval gate, provenance/census/split logic, mirror QC, the identity residual, quartile estimation, the bootstrap, the three-stratum conjunction, all thresholds, statuses, and the stopping rule are byte-unchanged; requirements.txt and the launcher notebook are byte-unchanged |
+| Matched flow = three fixed within-patient CBF percentile bands, deterministic, label-blind, no external reference | **Resolved** — `flow_band_labels` (`run.py:522-538`) ranks finite positive CBF inside the final eroded region with a stable mergesort (equal-CBF ties resolve by original voxel index, exactly the contract's tie rule) and assigns bands by integer rank arithmetic (`positions*100 < size*33`, etc.), avoiding float boundary ambiguity. Asserts: band count equals region count; no labels outside the region. The builder's tie fixture (`[1,1,2,2,2,3]` for six voxels) checks by hand |
+| Q1 vs Q4 = that patient's own label-blind CBV quartiles | **Resolved** — per-patient, per-band `np.quantile(z, [0.25, 0.75])` cuts are computed in the outcome-blind pass one and checkpointed in the case npz (`run.py:750-762`) before any lesion is opened; pass two reads them from the checkpoint (`run.py:566-569`) with a finiteness/order assert. The census-wide pooled cuts of the mirror era are gone, matching the amended `analysis.native_quantiles` |
+| Mirror machinery removed entirely | **Resolved** — `mirror_qc`, `neighborhood_median`, `reflect_index`, the exit-7 gate, `mirror_rows`/`mirror_qc.csv`, rCBF/rCBV ratio construction, and NCCT loading are all deleted (verified in the full diff; grep of the final file finds no mirror/rcbf/rcbv symbol). Exit code 7 is retired-and-reserved in the docstring, not reused. The contract deletes `brain_and_mirror_gate`, `relative_measures`, the mirror invalidating-failure clause, and the `mirror_qc.csv` output |
+| Region definition unchanged (Tmax>6 s, one-voxel erosion, midline band, per-patient p98 vessel exclusion) | **Resolved with one authorized operationalization change** — Tmax>6.0, six-neighbor erosion with boundary zeroing, and the strict-above per-patient CBV p98 exclusion are byte-equivalent in logic to the approved round-6 code. The two-voxel midline exclusion now uses the **array** midline (`run.py:504-507`) rather than the mirror-estimated midsagittal plane, which no longer exists; the contract amendment states this explicitly ("array midline … an unchanged region-boundary safeguard, not reference anatomy"). I concur this is the minimal faithful operationalization: the estimated plane was mirror machinery, and an array coordinate after `as_closest_canonical` (axis 0 = left-right) introduces no reference anatomy, satisfying the directive's constraint |
+| Identity coordinate and identity-residual gate unchanged | **Resolved** — u = log(MTT) − log(CBV) + log(CBF), centered once on the census-wide voxel median, per-band median absolute residual gated at 0.10 **before** any lesion access (`run.py:786-805`), with the full residual distribution persisted to `identity_residual_summary.csv` and the SVG before the invalidating exit — the stop-report lesson preserved |
+| Coverage/support floors unchanged | **Resolved** — per-stratum native-support check (exit 10 on empty), Phase-S-frozen minimum contributing patients (exit 10 at `run.py:876`, invalidating, never a negative), minimum Q1/Q4 voxel cells read from the contract at runtime, never hardcoded |
+| Source-corrupt exclusion policy unchanged | **Resolved** — the one-member `SOURCE_CORRUPT_MEMBERS` tuple, full-stream `verify_required_gzip`, fail-loud exit 6 for any other unreadable member, exclusion routing to `schema_census.csv` + `exclusions.csv` with the exact path, map-pass continuation, and the `excluded_source_corrupt_cases` / `analyzed_census_case_count` summary keys are all carried byte-equivalent in behavior |
+| Phase S recalibrated for the new strata | **Resolved** — the contract's Phase-S placeholders are restored (`TO_BE_RECORDED_AFTER_PHASE_S`), forcing a fresh calibration run and a fresh amendment before Phase C; the simulation grid, beta-binomial generator, lexicographic selection rule (smallest N, then M, then **largest** width — `run.py:230` matches), and the exact Phase-C conjunction/bootstrap are unchanged. The old mirror-era selection (N=20/M=100/0.15) and its hash are correctly evicted from the contract |
+| Gates minimal; no new reference anatomy | **Resolved** — Phase-C validity gates are now exactly: provenance/checksum, population census, grid/finiteness, identity residual, support, plus the carried checkpoint-identity and placeholder gates. Nothing new was added; NCCT is no longer read at all |
+| De-coupling from idea 021 by construction | **Resolved** — no contralateral or hemispheric quantity appears anywhere in the analysis path; the only left-right-adjacent construct is the array-midline exclusion band, which removes voxels rather than measuring anything |
 
-## Validation details (this round's decisive checks)
+## Contract-fidelity verification (this round's decisive checks)
 
-- **The exclusion is deterministic under resume.** sub-stroke0043 can never
-  acquire a checkpoint (`load_case` raises before `atomic_npz`), so every
-  fresh or resumed run re-derives the exclusion identically;
-  `excluded_source_cases` is rebuilt in memory each run, checkpoint-hit rows
-  are rebuilt from the per-case audit JSONs (`run.py:741-785`), and the final
-  CSV rewrite is therefore complete on any run shape.
-- **Chain consistency with the take-11 launcher.** The launcher's integrity
-  sweep now tolerates-and-announces `SOURCE_MEMBER_DEFECT` for stored-CRC-valid
-  members that fail gzip, so the defective file lands on disk; `find_one`
-  resolves it (it is present), and `verify_required_gzip` is what makes the
-  census confront it. The probe does not depend on the launcher's
-  classification: even if a future staging path delivered a different
-  unreadable member, run.py exits 6 rather than excluding.
-- **Gate arithmetic under one exclusion.** The mirror gate's absolute
-  threshold (≥90 census patients) and the Phase-S-frozen support minimum
-  (N=20 per stratum) are unchanged and remain satisfiable from 99 analyzed
-  patients; the exclusion is the contract-authorized path, and
-  `analyzed_census_case_count` records the reduction. No operating
-  characteristic was re-derived, correctly — the contract froze them and the
-  amendment did not touch them.
-- **Label-blindness preserved.** The new full-stream reads in pass one touch
-  maps and NCCT only (`load_case` is called with `load_label=False`); the
-  lesion stream is read only in pass two, after the split hash and quartile
-  cuts are frozen. The new exclusion depends on gzip readability, never on any
-  label value.
-- **Finiteness tightening is total where it matters.** Within the tightened
-  masks, `z = log(rcbv)` and the identity coordinate are finite by
-  construction (finite positive inputs; region already requires finite raw
-  maps), so no nonfinite value can reach quartile estimation, the identity
-  gate, or a patient's `d`.
+- **Primary metric.** Per band: d = risk(Q1 low-CBV) − risk(Q4 high-CBV) per
+  patient (`run.py:570-573`), equal-patient-weight mean (`run.py:880`),
+  2000-resample patient bootstrap percentile 95% CI from
+  `default_rng(20260824)` — the contract's metric, sign convention (positive
+  d = lower joint-state position more infarcted), seed, and replicate count
+  exactly.
+- **Pass rule.** Three-band conjunction: common nonzero sign, at least two
+  CIs excluding zero **in the common direction** (the direction-aware
+  exclusion at `run.py:885` matches the Phase-S rule at `run.py:184`), all
+  widths ≤ the frozen maximum. Sign 0 fails. No pooled fallback or alternate
+  threshold exists anywhere.
+- **Phase-S/Phase-C estimator identity.** `simulated_conjunction` applies
+  the same equal-weight mean, same bootstrap shape, same percentile CI, and
+  same conjunction as the real census; the per-patient-cell abstraction of
+  the simulation (one latent risk per patient, M voxels per cell) now maps
+  onto the per-patient quartile design even more directly than it did onto
+  the census-wide cuts it originally calibrated.
+- **Label blindness and ordering.** Split manifest written and hashed
+  (`run.py:660-661`) before any image is opened; pass one opens maps only
+  (`load_label=False`); per-patient cuts, bands, region, and identity values
+  are checkpointed before pass two; the identity and support gates fire
+  between the passes; lesions are first touched at `run.py:837`. The
+  archive-member listing read earlier is metadata (names/sizes/CRCs), not
+  image content.
+- **Population authority.** Case discovery from the archive member manifest
+  (`archive_case_inventory`), tolerant of `sub-stroke`/`sub-strokecase` and
+  `raw_data`/`rawdata`, 149-or-150 gate, exactly-one-CBF-per-case gate,
+  orphan-lesion fail. The 150th lesion row is resolved by the canonical
+  ses-2 schema-position rule and surfaced in both audit CSVs with reason —
+  never silently absorbed. `load_lesion` loads the archive-selected member
+  by exact path (`find_archive_selected`), so an extracted duplicate cannot
+  be picked up by glob accident.
+- **Provenance.** Immutable-child-record check (refuses a concept record),
+  Zenodo-supplied MD5 verified against the held archive, downloaded SHA-256
+  and member manifest recorded, Phase-S output hash verified against the
+  amended contract before any data access, `--phase-s-dir` required (the
+  take-1 regression), "test" path guard, checkpoint identity bound to
+  contract blob + archive SHA + split SHA + run.py SHA (exit 4 on mismatch),
+  and `units_documented: false` with the payload evidence carried into
+  `identity.json`.
+- **Caps and stopping.** No GPU path exists (numpy/nibabel/scipy/py7zr
+  only); one variant, one seed constant everywhere; Phase S ends in
+  `PHASE_S_COMPLETE_REQUIRES_AMENDMENT` with an explicit stop instruction;
+  Phase C stops on invalidating failures with the documented exit taxonomy;
+  retired codes 7 and 8 are reserved, not reused.
+- **Required outputs.** All fifteen contract outputs are produced across the
+  two phases; `per_patient.csv` is the per-sample file; the two SVGs
+  implement the contract's label-blind support and residual-distribution
+  plots from the same frozen CSV quantiles. `summary.json` statuses are
+  exactly `POSITIVE_PATTERN`/`NEGATIVE_PATTERN` plus the non-claim statuses,
+  and the closing interpretation template forbids physiological and
+  model-use claims.
+- **Resume soundness.** The excluded case can never acquire a checkpoint, so
+  its exclusion re-derives identically on every run; audit JSONs are the
+  single source for schema/exclusion rows on resume and are updated with the
+  lesion path after pass two, so resumed runs keep complete audit files;
+  per-patient rows round-trip the outcome checkpoint as strings and are
+  re-parsed defensively.
 
-## Round-5 finding disposition
+## Standards checklist
 
-- **R5 (stale take-8 cache trips exit 4 without naming the remedy):
-  substantially mitigated upstream** — the take-9 launcher change blob-scopes
-  `OUTPUT_DIR`, so each contract era gets a pristine cache directory; the
-  message-text improvement remains on the polish list.
-- **R6 (units finding lives only in `identity.json` and the README): carried
-  byte-unchanged** — `summary.json` still does not echo
-  `units_documented: false`; the one-key echo remains recommended at next
-  authorized touch.
-- **R7 (strict-above percentile tie behavior): carried**, unchanged semantics,
-  still auditable per patient via `vessel_cbv_p98`.
-- **R1 (README duplicate-handling sentence mispredicts the real payload):
-  carried a third round, now adjacent to new text.** The paragraph
-  (`README.md:33-36`) still describes only the byte-identical-lexicographic
-  fallback and says non-identical duplicates stop as a population failure,
-  omitting the canonical ses-2 schema-position rule that actually resolves the
-  payload's real non-identical duplicate. The generator again obeyed "change
-  nothing else" — defensible — but the README was touched this round four
-  lines below the stale sentence. Fix at the next authorized documentation
-  touch.
-- **F1 (quartile-cut vs measurement mask asymmetry — the `cbf/cbv/mtt > 0`
-  terms appear only in the label-blind mask): carried**; the finiteness
-  tightening was added symmetrically to both masks and neither widened nor
-  narrowed this pre-existing delta. **F2 (outcome checkpoint rewrite not
-  atomic), F4b (permitted nonfinite lesion values excluded but not counted),
-  F5 (conceptrecid lineage not pinned), F7 (all-empty coordinate reaches exit
-  13), R2 (lowercase ids vs case-sensitive glob), R3 (orphan-lesion hard
-  stop), N6–N9: all carried byte-unchanged**, per the no-other-changes rule.
-  None is blocking; none interacts with this amendment.
+(1) Start/end determinism manifests: **present in both phases this round**
+(`write_determinism_manifest`, asserted equal at end) — this closes the gap
+where prior rounds leaned on resolved_config/provenance as implicit
+manifests; the manifest carries declared input paths with hashes, counts,
+split hash, and seed. (2) Exclusions log with reasons: per-case rows with
+reason and source path plus per-case count columns (see R14 for one
+uncounted voxel class). (3) Assertion per transform: split
+disjointness/cover, erosion-region finiteness/positivity, band-count
+equality, quartile order, per-mask finiteness in both passes, manifest
+equality. (4) Seeds and paths declared in resolved_config and the
+manifests; no analysis-time network access (record JSON and archive are
+local files). (5) Split manifest hashed before any outcome/label access
+(verified order above). (6) `--smoke`: synthetic-only, tiny grid, bypasses
+no scientific logic it could contaminate, reports `contract_satisfied:
+false` and status `SMOKE_OK`, cannot select gates (eligibility computation
+is skipped in smoke mode) — attested under 60 s by the builder; statically
+the workload (one candidate, one scenario, 4 replicates, 20 bootstraps) is
+trivially inside the budget. As in rounds 3–6, this review environment
+cannot execute Python, so executed-check attestations in
+`verification.json` (py_compile, smoke, tie fixture, stale-gate refusal)
+plus static tracing are the basis.
+
+## Prior-finding dispositions
+
+- **F1 (quartile-mask asymmetry between the label-blind and outcome
+  passes): RESOLVED STRUCTURALLY.** Both passes now consume the identical
+  cached `region`/`bands` arrays, and positivity is baked into the region
+  itself, so no admission term can differ between cut estimation and
+  measurement. The finding is retired.
+- **R11 (mirror-gate message hardcoding /100): RETIRED** with the mirror
+  gate itself.
+- **R1 (README duplicate-handling sentence mispredicts the payload):
+  ESCALATED to R12 below** — the README was rewritten this round and the
+  stale sentence survived a fourth time.
+- **R8 (tightening-excluded voxels uncounted): TRANSFORMED into R14** — the
+  finiteness-tightening columns died with the ratio machinery; the successor
+  class is the nonpositive-map exclusion, still uncounted.
+- **Carried byte-equivalent, none blocking, none interacting with this
+  redesign:** F2 (outcome checkpoint rewrite not atomic — a truncated
+  checkpoint re-parses loudly or recomputes deterministically), F4b
+  (nonfinite lesion values outside the analysis region tolerated but not
+  counted), F5 (conceptrecid lineage not pinned to 16731717), F7-class
+  (an all-empty stratum would surface as exit 13 rather than a cleaner
+  invalidating code; now additionally guarded by the exit-9 empty-u check),
+  R2 (lowercase ids vs case-sensitive rglob — fails loudly if ever wrong),
+  R3 (orphan-lesion hard stop), R5 (checkpoint-identity exit-4 message does
+  not name the blob-scoped-directory remedy), R6 (`units_documented` not
+  echoed into `summary.json`), R7 (strict-above p98 tie behavior), R9 (the
+  outcome-pass SourceCorruptMember handler is unreachable with a CBF-only
+  tuple; deliberate generality, still dead code), R10 (an OSError on exactly
+  the preregistered path is attributed to the source defect).
 
 ## Blocking findings
 
 None.
 
-## Non-blocking findings (new this round)
+## Non-blocking findings (new or escalated this round)
 
-**R8 — Voxels removed by the finiteness tightening are not counted in
-`exclusions.csv`.** The overflow voxels this rule targets pass `valid_den`
-(tiny positive denominator), so they are absent from
-`invalid_or_nonpositive_denominator_voxels`, and no `nonfinite_ratio_voxels`
-column exists. Because the take-11 supersession folded the pre-registered
-paired-run comparison into one canonical run, a per-case count is the only
-cheap way for the interpret stage to gauge the tightening's materiality; today
-that number is recoverable only from the persisted `phase_c_cache` npz files
-(`rcbf`, `rcbv`, `region` are checkpointed). Consistent with the carried F4b
-precedent this is non-blocking, but a count column is recommended at the next
-authorized touch.
+**R12 — README duplicate-lesion sentence still mispredicts the real
+payload, and the change-nothing-else defense has expired.** `README.md:32-35`
+says a byte-identical duplicate is resolved lexicographically and
+"non-identical duplicates stop as a population failure." The code's first
+rule (`run.py:300-315`) is the canonical ses-2 schema-position selection,
+which resolves the payload's known non-identical 150th lesion row without
+stopping; the signature-identity requirement applies only when the
+canonical rule does not uniquely resolve. Prior rounds carried this because
+the README was frozen; this round the surrounding paragraph was rewritten
+and the wrong sentence survived. The human reads this file at the approval
+gate, and it predicts a stop that will not happen. Fix at the next
+authorized touch — ideally in the amendment commit that records the Phase-S
+values, before approval is bound.
 
-**R9 — The outcome-pass `SourceCorruptMember` handler (`run.py:864-876`) is
-unreachable with the current one-member tuple.** The preregistered member is a
-CBF file consumed in pass one; an unreadable lesion stream exits 6 because its
-path cannot match the tuple. The branch is deliberate generality (the comment
-says a defective *label* member would be retained if one were ever
-preregistered) and is correct in direction, but it is untested dead code today;
-its `next(...)` would surface as exit 13 if no `analyzed_case` schema row
-existed. Note only.
+**R13 — Dead code left by the mirror removal.** The unused `"ncct"` suffix
+entry in `find_one` (`run.py:253`), the never-invoked `load_label=True`
+branch of `load_case` (pass two resolves lesions via `load_lesion`
+instead), and the now-unused `paths`/`zooms` returns at the pass-one call
+site. None is reachable in a way that touches data (`load_case` is called
+only with `load_label=False`), so this is hygiene, not scope; remove at the
+next authorized touch.
 
-**R10 — Any `OSError` on the preregistered path is attributed to the source
-defect.** A transient I/O fault on exactly that one file would be recorded as
-`source_corrupt_member` rather than a harness fault. The scope is a single
-twice-proven-defective file read from local SSD, and the misattribution risk
-is negligible; recorded so the classification boundary is on the record.
+**R14 — Voxels excluded by the region's positivity terms are not counted
+per case.** `run.py:508` folds `cbf>0 & cbv>0 & mtt>0` into the analyzed
+region (necessary: the contract's log coordinates are undefined otherwise,
+and this is the mirror-free descendant of the pre-registered take-11
+finiteness tightening), but `exclusions.csv` has no column separating
+positivity-excluded voxels from erosion/midline/vessel attrition — only the
+deficit-to-eroded aggregate. Per the R8/F4b precedent this is non-blocking,
+and the counts remain recoverable from the checkpointed arrays, but a
+`nonpositive_map_voxels` count column is recommended at the next authorized
+touch so the interpret stage can gauge materiality without reopening npz
+files.
 
-**R11 — Cosmetic:** the mirror-gate failure message hardcodes a `/100`
-denominator (`run.py:803`) while at most 99 patients can now contribute mirror
-rows. The gate's absolute ≥90 threshold is contract-faithful and unchanged.
+**R15 — The committed launcher notebook is the take-12 mirror-era
+artifact.** `colab_probe_023.ipynb` pins contract blob `2963f66b…`, extracts
+the rawdata NCCT (no longer required), and points at mirror-era output
+directories. Every protection holds if it were run unmodified (its own pin
+check and run.py's gate both refuse), so this is fail-closed, but the
+package-colab stage must regenerate the launcher — including a Phase-S
+launch path, since Phase S must be re-run — after the human binds approval
+to blob `0e223c82…`. Out of this review's artifact scope; recorded so the
+sequencing is on the record.
 
-## Verified correct (spot-checked this round)
+**R16 — Degenerate per-patient quartiles overlap Q1 and Q4.** With
+per-patient cuts, a band whose z values are nearly constant yields q1 == q3,
+making `z <= q1` and `z >= q3` overlapping (possibly identical) sets; d for
+that cell is then pulled toward zero rather than being undefined. This is
+deterministic, label-blind, and conservative (it dilutes rather than
+fabricates a contrast), and the min-voxel cell gates make it unlikely to
+matter, but the behavior is worth one sentence in the README's matched-flow
+paragraph so the interpret stage does not rediscover it. Note only.
 
-- **Gate mechanics:** marker/contract blob binding enforced for both phases
-  with exit 2; frozen Phase-S values (N=20, M=100, width 0.15) and
-  `simulation_output_sha256` still read from the contract, never hardcoded;
-  `--phase-s-dir` still required for Phase C; placeholder scan and
-  code/contract drift checks unchanged.
-- **Analysis discipline unchanged:** equal patient weight, single
-  `default_rng(20260824)` stream, 2000-resample patient bootstrap,
-  direction-aware three-stratum conjunction, support shortfall exit 10
-  (invalidating, never a negative), one variant, one seed, zero GPU; result
-  statuses remain exactly the contract's `POSITIVE_PATTERN`/`NEGATIVE_PATTERN`
-  language and the closing interpretation template still forbids physiological
-  and model-use claims.
-- **Audit outputs:** `exclusion_fields` and `schema_fields` declare the
-  routing columns (`record_type`, `reason`/`exclusion_reason`, `source_path`);
-  the new rows' keys are all declared (no undeclared-key `ValueError` path);
-  analyzed-case rows still carry the per-patient `vessel_cbv_p98`.
-- **Standards checklist:** (1) determinism manifests present and agreeing
-  (`resolved_config.json`, `provenance.json`, `summary.json` mechanisms
-  byte-unchanged); (2) exclusions log with reasons — strengthened by the named
-  source-path rows (R8 notes one uncounted voxel class); (3) assertion per
-  transform — the two new admission asserts join the unchanged
-  split/grid/mirror/identity assertions; (4) seeds and paths declared, no
-  analysis-time network (the new reads are local files already required);
-  (5) split manifest hashed before any lesion access, and the new pass-one
-  reads are label-blind; (6) `--smoke` remains synthetic-only, cannot invoke
-  any of the new code, and reports `contract_satisfied: false`
-  (`run.py:213`), attested in the rebuilt `verification.json` whose four
-  artifact hashes all match my recomputation. As in rounds 3–5, this
-  environment cannot execute Python, so executed-check attestations (py_compile,
-  smoke, the known/unknown truncated-gzip fixtures, the finite-ratio admission
-  fixture, the stale-marker refusal) plus static tracing are the basis.
+**R17 — Cosmetic:** `run.py:728` opens a resume npz without a context
+manager (the pass-two site uses `with`); `per_stratum_summary.csv` is
+written with an inline writer rather than `write_csv`. No behavioral
+consequence.
 
 ## Verdict
 
-The take-11 dual directive is implemented exactly and minimally: a two-line
-contract amendment that authorizes excluding precisely the one verified
-source-defective member and keeps every other unreadable or missing member
-fail-loud; a run.py delta that reads every required gzip stream fully, routes
-the preregistered defect to `schema_census.csv` and `exclusions.csv` with the
-exact path, continues the map pass, surfaces the excluded count in
-`summary.json`, and tightens stratum admission to finite rCBF and rCBV
-identically in both passes — with Phase S, the split, all gates, thresholds,
-and the analysis byte-unchanged. The amendment was correctly judged necessary,
-so the standing approval is stale by construction and the runtime gate
-enforces that; nothing can run until the human reviews the two-line contract
-diff and binds a fresh approval to blob `2963f66b…`. Four new findings are
-operational polish; none changes what the census measures.
+The mirror-free directive is implemented exactly: the contract amendment
+replaces mirror-referenced matched flow with within-patient percentile
+bands and strips every mirror clause, output, and failure mode; run.py
+deletes the entire mirror apparatus, implements deterministic stable-tie
+percentile banding and per-patient label-blind CBV quartiles checkpointed
+before any lesion access, and carries the region rule, identity gate,
+support floors, source-corrupt policy, provenance chain, and resume
+machinery unchanged in behavior. Phase-S placeholders are restored so the
+detectability floor is recalibrated for the new strata before Phase C can
+be approved. Determinism manifests are now explicit at start and end of
+both phases. No blocking findings; six non-blocking findings are recorded,
+one escalated (the README duplicate sentence, whose freeze defense has
+expired). The standing approval is stale by construction and the runtime
+gate enforces it for both phases: nothing can run until the human reviews
+the amendment diff and binds a fresh approval to contract blob
+`0e223c82f9eb879652a549df9bf857c155ef61db`.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "Take-11 dual directive implemented exactly (single-member source_corrupt_member routing with fail-loud default, finite-ratio stratum admission in both passes, two-line contract amendment correctly judged necessary); approval stale by design pending fresh human binding to contract blob 2963f66b; four non-blocking operational findings."}
+{"verdict": "APPROVE", "blocking": [], "note": "Mirror-free redesign implemented exactly per the 2026-08-27 directive (percentile-band matched flow, per-patient label-blind quartiles, mirror machinery fully removed, Phase-S recalibration forced by restored placeholders); approval stale by design pending fresh human binding to contract blob 0e223c82; six non-blocking findings, README duplicate sentence escalated."}
 ```
 
 
