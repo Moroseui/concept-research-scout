@@ -968,3 +968,115 @@ doctor, both runners, state invariants) reproduced green pre-push.
 Post-merge queue unchanged: 023 registry.yaml + REGISTRY_RATIFIED design,
 driver_spec.yaml (operator-driver-patch era ends there), shadow soak,
 read-only consumer flip.
+
+
+## 2026-08-28 - Round-6 post-2a review: intake and dispositions
+
+External review of main @ 2725262 plus the post-2a patch plan. Verdict
+accepted: 2a stays merged; the plan is directionally sound; the P1
+registry must not be authored until registry semantics and schema
+containment are corrected. All findings independently re-verified against
+the code before intake; every claim confirmed by direct reading, with one
+divergence recorded below.
+
+ACCEPTED P0 (blocks the 023 registry):
+(1) Node contract semantics: derive_status stales ANY node whose pinned
+contract_hash differs from the current idea contract, before consulting
+bundle evidence -- so a historical Phase-S pin goes STALE and Phase-C
+BLOCKED. Ruling: node.contract_hash means "the immutable approved
+contract version governing this node." A node holding a terminal,
+validated bundle is judged against its own pin: an approval record for
+that hash must exist, the bundle's recorded executed-contract hash must
+equal the pin, and consumed-artifact hashes must verify. Only nodes
+without terminal evidence track the current contract for staleness.
+Durable historical identity needs no new store: the pins are git blob
+hashes, retrievable from the object store; approval + bundle provenance
+are the proof.
+(2) The plan's depends_on example used a bare list; the shipped schema
+requires depends_on: {all_of: [{probe: ...}]}. Plan corrected; schema
+syntax is henceforth bound from the validator, like every other value.
+
+ACCEPTED P0/P1 (same patch): close the nested schema before the first
+production registry -- schema_version == 1 enforced; produces and
+artifact output validated as contained relative paths; nested key sets
+(depends_on, all_of, artifacts, launcher, upstream_bundle) closed and
+typed; contract_hash format-checked; canonical path normalization before
+uniqueness; validation refuses BEFORE any status derivation consumes
+registry paths. Reviewer-demonstrated traversal (produces/output with
+..) and schema_version: 999 both currently pass -- confirmed in code.
+
+ACCEPTED P1: (a) registry-status CLI omits the bundle validator that the
+state-materialize path injects, so a terminal-looking invalid bundle can
+print COMPLETE -- all status consumers route through one
+validation-aware path; COMPLETE never derives from summary text alone.
+(b) The state source fingerprint omits the result-status inputs that
+determine registry node statuses -- fold summary/manifest and
+consumed-artifact hashes into materialization.sources before
+registry-backed state gains consumer authority. (c) approval.stale is
+False when the current contract is MISSING -- missing current contract
+plus historical approval becomes stale/invalid before the consumer flip.
+
+RATIFICATION MECHANICS (accepted, strengthens the draft): ordering proof
+is repository ancestry, not timestamps. REGISTRY_RATIFIED becomes a
+dedicated append-only governance-event artifact (not a latest-wins
+ledger row) binding idea, registry sha256, approval artifact sha256s,
+covered contract hashes, operator decision identity, git commit, and a
+stable event id; activation is a human-merged PR (same authority model
+as record-result); record-result refuses unless the required
+ratification artifact is present and valid in its checked-out tree.
+Historical failed C takes stay OUT of the DAG: registry is the
+scientific dependency graph; attempts and stops live in
+receipts/results/decisions.
+
+SEQUENCING (accepted): structured RunResult + stage-outcome records pull
+forward from the 2b batch to land BEFORE stop-report/design-review --
+new governance stages will not be built on LAST_RUN mutation and print
+semantics. Soak becomes coverage-based (zero state-verify divergence
+across the window; clean rematerialization on multiple independent
+commits; several real lifecycle mutations across more than one idea; at
+least one real registry-backed node transition; one synthetic
+hand-edited-state refusal; ROLE_BOUND active) with seven green events as
+a floor, not the definition. Advisory coupling confirmed at
+approve-time, outcome-neutral; the minimal advisory/event schema lands
+before design-review emits production advisories.
+
+DRIVER-SPEC REVISIONS (accepted for P3): the spec references the
+approved dataset identity (dataset_ref by hash) rather than restating
+record/md5/bytes as a second editable authority; drive_api_cache is
+implemented and tested before it may become preferred -- origin_direct
+remains the proven heavy-input path; largest_local scratch with a
+minimum-free-bytes floor; tool/prerequisite failures become a named
+DRIVER_PREREQUISITE_FAILURE stop; staging tests move from
+string-presence to executable policy/renderer tests; the audit packet
+maps FINAL established incident explanations (e.g., the Drive master was
+7.5 MB oversized -- the earlier same-size-corruption working diagnosis
+is superseded and must not freeze into policy).
+
+RECORDED WITH NUANCE:
+(d) Full-suite certification: the reviewer's environment could not
+complete the full runs or reach the public repo. On record here: both
+runners green (152) locally on 2725262, and CI success for 2725262,
+1f03e59, and 3be88ae confirmed via the Actions API.
+(e) Isolated TestDebate: the reviewer's 1-failed reproduction did not
+reproduce in this environment (4/4 pass) -- the defect is latent and
+order/environment-dependent. The unhygienic mechanism (fixture
+sys.path.insert + importlib.reload with rmtree-only teardown, no
+sys.modules restoration) is confirmed in the test code and will be fixed
+regardless: centralized fixture-import lifecycle plus an
+isolated/shuffled selection gate.
+
+TAKE-13 ORDERING RULE (adopted, per reviewer): the record-result path
+for take 13 does NOT block on registry work. If a valid bundle lands
+before ratification machinery exists, it imports through the existing
+approved path and the DAG is ratified retrospectively afterward. Result
+identity binding outranks governance ordering.
+
+REVISED NEAR SEQUENCE: R1 registry semantic + schema hardening (with the
+counterexample regression: historical-approved S remains COMPLETE while
+current-approved C depends on it) -> R2 state-view fixes + test-fixture
+hygiene + P2 cleanups (docstring, INVALID_ROW taxonomy note, action
+pinning) -> R3 023 registry + PR-gated ancestry-bound REGISTRY_RATIFIED
+-> M1 take-13 record-result/interpret whenever the bundle lands -> R4
+structured RunResult + stage-outcome records -> driver_spec -> ROLE_BOUND
+-> coverage-based soak -> consumer flip -> stop-report -> design-review
+-> advisory register -> gate calibration -> 2b remainder -> 2c.
