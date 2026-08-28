@@ -195,8 +195,12 @@ def _target_context(stage, target):
 
 
 def _digest_path(charter):
-    """Per-charter digest file; falls back to the global one until the
-    charter-scoped digest has been generated at least once."""
+    """Per-charter digest file. Fail-local (round-6 P2 docstring fix): a
+    named charter ALWAYS resolves to its own scoped path -- even before
+    that file exists (read_text renders it empty) -- and never falls back
+    to a global digest, which would leak cross-charter scores. Baseline
+    resolves to its scoped file when present, else the legacy global
+    digest name."""
     if charter:
         # Fail-local: a named charter gets its scoped digest path even if it
         # does not exist yet (read_text renders it empty). Falling back to

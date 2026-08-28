@@ -9,7 +9,7 @@
   "kill_code": "CIRCULARITY",
   "materialization": {
     "event_count": 2,
-    "materializer_version": 2,
+    "materializer_version": 3,
     "source_fingerprint_sha256": "6f22f41baf4eed07f0ee3bcd203842c0980bdc97d91691e86e190732470b54b3",
     "sources": {
       "approval_sha256": null,

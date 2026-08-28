@@ -288,7 +288,31 @@ command = ["{sys.executable}", "{self.fake}"]
         self.commit()
 
     def tearDown(self):
+        self._purge_fixture_modules()
         shutil.rmtree(self.dir, ignore_errors=True)
+
+    def _purge_fixture_modules(self):
+        """Round-6 hygiene: tests may insert a fixture repo onto sys.path
+        and import/reload modules from it. Evict every sys.path entry and
+        every loaded module whose file lives under this Harness's temp
+        dir, so no later or isolated test can inherit a loader bound to a
+        deleted repository (the TestDebate order-dependence class)."""
+        prefix = str(self.dir)
+        sys.path[:] = [p for p in sys.path
+                       if not str(p).startswith(prefix)]
+        for name, mod in list(sys.modules.items()):
+            f = getattr(mod, '__file__', None) or ''
+            if f.startswith(prefix):
+                del sys.modules[name]
+
+    def _import_fixture_scout(self):
+        """Centralized fixture-import path (round-6): import the FIXTURE
+        repo's scout module. tearDown purges it; never inline the
+        insert+reload pattern in tests."""
+        sys.path.insert(0, str(self.repo))
+        import importlib
+        import scout as sc
+        return importlib.reload(sc)
 
     def _commit_all(self):
         # Harness.setUp already git-inits the repo; just commit the state
@@ -1177,9 +1201,7 @@ class TestDebate(Harness):
                         "debate", "--idea", "1", "--rounds", "1"],
                        cwd=self.repo, capture_output=True, text=True, env=e)
         # Simulate: critic CONVERGED, proposer OPEN -> should_stop is None
-        sys.path.insert(0, str(self.repo))
-        import importlib, scout as sc
-        importlib.reload(sc)
+        sc = self._import_fixture_scout()
         t = self.repo / "ideas" / "001"
         (t / "debate.md").write_text(
             "# Debate\n\n## Round 1 - CRITIC\n\n**Status:** CONVERGED\n\n"
@@ -1189,9 +1211,7 @@ class TestDebate(Harness):
                           "one-sided CONVERGED wrongly ended the debate")
 
     def test_bilateral_convergence_ends_debate(self):
-        sys.path.insert(0, str(self.repo))
-        import importlib, scout as sc
-        importlib.reload(sc)
+        sc = self._import_fixture_scout()
         sc.ROOT = self.repo
         t = self.repo / "ideas" / "001"
         t.mkdir(parents=True, exist_ok=True)
@@ -3379,6 +3399,108 @@ class TestRegistryHardeningR1(Harness):
         # so the historical bundle is refused (here at the required-files
         # check, before the blob comparison is even reached).
         self.assertTrue(sc.validate_bundle(1, b))
+
+
+class TestR2StateAndHygiene(Harness):
+    """Round-6 pre-flip fixes: approval staleness on a missing current
+    contract, result-input-complete source fingerprints, fixture-import
+    hygiene, tombstone taxonomy, and supply-chain pins."""
+
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        import state_view as sv
+        return sc, sv
+
+    def test_r2_missing_current_contract_makes_approval_stale(self):
+        sc, sv = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "HUMAN_APPROVED_PROBE").write_text(
+            "approved\ncontract_blob: " + "a" * 40 + "\n")
+        kw = dict(charter_resolver=lambda _d: None)
+        st = sv.materialize("001", self.repo,
+                            contract_hasher=lambda _d: None, **kw)
+        self.assertTrue(st["approval"]["stale"],
+                        "approval with a MISSING current contract must be "
+                        "stale/invalid")
+        st = sv.materialize("001", self.repo,
+                            contract_hasher=lambda _d: "a" * 40, **kw)
+        self.assertFalse(st["approval"]["stale"])
+        st = sv.materialize("001", self.repo,
+                            contract_hasher=lambda _d: "b" * 40, **kw)
+        self.assertTrue(st["approval"]["stale"])
+
+    def test_r2_fingerprint_moves_with_result_inputs(self):
+        sc, sv = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "registry.yaml").write_text(
+            "schema_version: 1\nprobes:\n"
+            "  - id: a\n    results_bundle: bundles/a\n"
+            "    terminal_statuses: [DONE_X]\n")
+        b = self.repo / "bundles" / "a"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text(json.dumps({"status": "RUNNING"}))
+        kw = sc._state_kwargs()
+        p = sv.write_state("001", self.repo, **kw)
+        st1 = json.loads(p.read_text())
+        srcs = st1["materialization"]["sources"]
+        self.assertIn("registry_result_inputs", srcs)
+        import hashlib as _h
+        want = _h.sha256((b / "summary.json").read_bytes()).hexdigest()
+        self.assertEqual(
+            srcs["registry_result_inputs"]["a"]["summary_sha256"], want)
+        fp1 = st1["materialization"]["source_fingerprint_sha256"]
+        # A result-status input changes -> committed state is no longer a
+        # faithful materialization, and regeneration moves the watermark.
+        (b / "summary.json").write_text(json.dumps({"status": "DONE_X"}))
+        self.assertTrue(sv.verify_state("001", self.repo, **kw))
+        p = sv.write_state("001", self.repo, **kw)
+        fp2 = json.loads(p.read_text())[
+            "materialization"]["source_fingerprint_sha256"]
+        self.assertNotEqual(fp1, fp2)
+
+    def test_r2_purge_evicts_fixture_modules_and_paths(self):
+        (self.repo / "fixmod_r2.py").write_text("MARK = 'fixture'\n")
+        sys.path.insert(0, str(self.repo))
+        import importlib
+        m = importlib.import_module("fixmod_r2")
+        self.assertTrue(m.__file__.startswith(str(self.dir)))
+        self._purge_fixture_modules()
+        self.assertNotIn("fixmod_r2", sys.modules)
+        self.assertFalse(
+            [p for p in sys.path if str(p).startswith(str(self.dir))],
+            "fixture sys.path entries must not survive teardown")
+
+    def test_r2_fixture_scout_does_not_leak_after_purge(self):
+        sc_fix = self._import_fixture_scout()
+        self.assertTrue(sc_fix.__file__.startswith(str(self.repo)))
+        self._purge_fixture_modules()
+        import scout as sc_real
+        self.assertFalse(sc_real.__file__.startswith(str(self.dir)),
+                         "a later bare `import scout` must resolve to the "
+                         "real module, not a deleted fixture")
+
+    def test_r2_tombstone_status_documented(self):
+        import ledger
+        self.assertEqual(ledger.TOMBSTONE_STATUS, "INVALID_ROW")
+        self.assertNotIn(ledger.TOMBSTONE_STATUS, ledger.STATUSES,
+                         "the tombstone is repair-tool-only, never a "
+                         "settable lifecycle status")
+
+    def test_r2_workflow_actions_pinned_by_sha(self):
+        import re as _re
+        wf = REPO / ".github" / "workflows"
+        checked = 0
+        for f in sorted(wf.glob("*.yml")):
+            for ln in f.read_text().splitlines():
+                if "uses:" in ln:
+                    checked += 1
+                    self.assertRegex(
+                        ln, r"@[0-9a-f]{40}\b",
+                        f"{f.name}: action reference must be pinned by "
+                        f"commit sha: {ln.strip()}")
+        self.assertGreater(checked, 10)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

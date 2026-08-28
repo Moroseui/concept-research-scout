@@ -182,6 +182,56 @@ def _bundle_provenance_blob(root: Path, rel):
         return None
 
 
+def result_input_hashes(idea_no: str, root: Path):
+    """Deterministic hashes of the result-status INPUTS from which this
+    registry's node statuses are derived (R2, round-6): per node, the
+    summary/provenance bytes and every declared consumed-artifact file.
+    state_view folds this into materialization.sources so the source
+    fingerprint MOVES whenever a derivable status can move -- a watermark
+    that stays constant while its derivations change is misleading.
+    Raw-read and total: works on any registry shape (an invalid registry
+    still fails materialization at the resolver); non-contained paths
+    hash as None rather than reaching outside the repo. None = no
+    registry file."""
+    reg, _p = _load(idea_no, root)
+    if reg is None:
+        return None
+    root = Path(root)
+
+    def _fsha(rel):
+        if not (isinstance(rel, str) and rel and _contained_rel(rel)):
+            return None
+        f = root / rel
+        return hashlib.sha256(f.read_bytes()).hexdigest() if f.exists() \
+            else None
+
+    probes = [n for n in (reg.get('probes') or [])
+              if isinstance(n, dict) and n.get('id')]
+    bundles = {str(n['id']): n.get('results_bundle') for n in probes}
+    out = {}
+    for n in probes:
+        rb = n.get('results_bundle')
+        ent = {
+            'summary_sha256': _fsha(f'{rb}/summary.json') if rb else None,
+            'provenance_sha256': _fsha(f'{rb}/provenance.json') if rb else None,
+        }
+        dep = n.get('depends_on') if isinstance(n.get('depends_on'), dict) \
+            else {}
+        arts = {}
+        for a in dep.get('artifacts') or []:
+            if not isinstance(a, dict):
+                continue
+            srb = bundles.get(a.get('probe'))
+            outp = a.get('output')
+            key = f'{a.get("probe")}/{outp}'
+            arts[key] = _fsha(f'{srb}/{outp}') \
+                if isinstance(srb, str) and isinstance(outp, str) else None
+        if arts:
+            ent['artifacts'] = dict(sorted(arts.items()))
+        out[str(n['id'])] = ent
+    return dict(sorted(out.items()))
+
+
 def validate(idea_no: str, root: Path) -> list[str]:
     try:
         return _validate(idea_no, root)

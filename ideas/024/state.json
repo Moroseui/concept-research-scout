@@ -9,7 +9,7 @@
   "kill_code": "DATA_ACCESS",
   "materialization": {
     "event_count": 5,
-    "materializer_version": 2,
+    "materializer_version": 3,
     "source_fingerprint_sha256": "8c8c9ebc59bc56d2135de7627ce4834eed0499568b30a09793e79c8e76229030",
     "sources": {
       "approval_sha256": null,

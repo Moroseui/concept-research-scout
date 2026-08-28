@@ -9,7 +9,7 @@
   "kill_code": null,
   "materialization": {
     "event_count": 4,
-    "materializer_version": 2,
+    "materializer_version": 3,
     "source_fingerprint_sha256": "68220de30a61bdc285c52f4f6e6a9bfbe1f0c4cd24c6f9c50ba0b4960c6696c7",
     "sources": {
       "approval_sha256": null,

@@ -32,7 +32,7 @@ import re
 from pathlib import Path
 
 SCHEMA_VERSION = 1
-MATERIALIZER_VERSION = 2
+MATERIALIZER_VERSION = 3  # R2: stale-on-missing-contract; result-input fingerprint
 
 
 def _idea_ledger_lines(root: Path, ledger_id: str) -> list[str]:
@@ -96,7 +96,10 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
     contract_blob = contract_hasher(idea_dir)
     approval = _approval(idea_dir)
     if approval is not None:
-        approval['stale'] = bool(contract_blob) and \
+        # R2 (round-6): an approval whose CURRENT contract is missing is
+        # stale/invalid -- an approved contract that no longer exists is
+        # not a fresh approval.
+        approval['stale'] = (contract_blob is None) or \
             approval.get('contract_blob') != contract_blob
     def _fsha(p):
         return hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
@@ -108,6 +111,17 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
         'approval_sha256': _fsha(idea_dir / 'HUMAN_APPROVED_PROBE'),
         'registry_sha256': _fsha(idea_dir / 'registry.yaml'),
     }
+    if (idea_dir / 'registry.yaml').exists():
+        # R2 (round-6): registry node statuses are derived from result
+        # bundles and consumed artifacts; those inputs must move the
+        # source fingerprint, or the watermark stays constant while the
+        # derived state changes.
+        try:
+            import experiment_registry as _er
+        except ImportError:  # pragma: no cover - flat layout is canonical
+            from orchestrator import experiment_registry as _er
+        sources['registry_result_inputs'] = \
+            _er.result_input_hashes(idea_no, root)
     fingerprint = hashlib.sha256(
         json.dumps(sources, sort_keys=True).encode('utf-8')).hexdigest()
     return {

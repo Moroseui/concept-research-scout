@@ -9,7 +9,7 @@
   "kill_code": "EFFECT_UNREACHABLE",
   "materialization": {
     "event_count": 2,
-    "materializer_version": 2,
+    "materializer_version": 3,
     "source_fingerprint_sha256": "a042dd491e84a5f502745bb82022bb9ca6d9119c1663784bf97b38c5672f64ce",
     "sources": {
       "approval_sha256": null,

@@ -29,6 +29,13 @@ SCRUTINY_ORDER = ['SCOUTED', 'CRITIQUED', 'DEBATED', 'PROBED']
 
 STATUSES = ['SCOUT_ONLY', 'ACTIVE', 'SHORTLISTED', 'PAUSED', 'REJECTED', 'DONE']
 
+# R2 (round-6): the internal tombstone status, written only by repair
+# tooling. Deliberately NOT in STATUSES -- set-status must never mint a
+# tombstone by hand. load() excludes final-tombstoned entities from
+# current state; state_view._merged_current mirrors the same rule (parity
+# covenant).
+TOMBSTONE_STATUS = 'INVALID_ROW'
+
 # Controlled kill-reason taxonomy. Grow it deliberately: add a code here when a
 # genuinely new failure pattern appears, not per idea.
 VERDICT_TIER = {'NO_DUPLICATE_FOUND_HIGH_CONFIDENCE': 0, 'NOVEL_VERIFIED': 0,
@@ -98,7 +105,7 @@ def load(*, include_invalid=False) -> dict[str, dict]:
                 cur[k] = v
     if not include_invalid:
         merged = {lid: e for lid, e in merged.items()
-                  if e.get('status') != 'INVALID_ROW'}
+                  if e.get('status') != TOMBSTONE_STATUS}
     return merged
 
 

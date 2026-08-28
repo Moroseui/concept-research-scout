@@ -9,7 +9,7 @@
   "kill_code": "IDENTIFIABILITY_FAILURE",
   "materialization": {
     "event_count": 4,
-    "materializer_version": 2,
+    "materializer_version": 3,
     "source_fingerprint_sha256": "5c939b300f3b8ccde950c9a34348b72795a1557891dd22c38f9a13434ec76d41",
     "sources": {
       "approval_sha256": null,
