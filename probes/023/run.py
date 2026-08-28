@@ -564,8 +564,17 @@ def tissue_audit(case_id, ncct, cbv, bands, region, quartiles):
         q1 = float(quartiles[f"q1_{index}"])
         q3 = float(quartiles[f"q3_{index}"])
         assert z.size == int(band.sum())
-        assert np.isfinite(q1) and np.isfinite(q3) and q1 <= q3
-        for style, selected in (("Q1_low_CBV", z <= q1), ("Q4_high_CBV", z >= q3)):
+        if z.size:
+            assert np.isfinite(q1) and np.isfinite(q3) and q1 <= q3
+            style_selections = (("Q1_low_CBV", z <= q1),
+                                ("Q4_high_CBV", z >= q3))
+        else:
+            # Empty flow bands are valid missing support, so retain both audit
+            # rows with blank statistics and let the frozen support gate decide.
+            assert np.isnan(q1) and np.isnan(q3)
+            style_selections = (("Q1_low_CBV", np.zeros(0, dtype=bool)),
+                                ("Q4_high_CBV", np.zeros(0, dtype=bool)))
+        for style, selected in style_selections:
             hu = ncct[band][selected]
             finite_hu = hu[np.isfinite(hu)]
             # NCCT is stored in Hounsfield units; no conversion is applied.

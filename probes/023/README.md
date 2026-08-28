@@ -25,18 +25,22 @@ For Phase C, selectively extract exactly these release paths for every case:
 
 - `derivatives/**/perfusion-maps/*_space-ncct_{cbf,cbv,mtt,tmax}.nii.gz`
 - `derivatives/**/*_lesion-msk.nii.gz`
+- `{raw_data,rawdata}/**/*_ncct.nii.gz`
 
 The payload manifest, not the release-description example, defines the case
 set. The runner accepts both observed `sub-strokeNNNN` and documented
 `sub-strokecaseNNNN` identifiers, both `raw_data/` and `rawdata/`, and the
-session spelling present in each member path. If the archive contains a
-byte-identical duplicate lesion member, one lexicographically selected member
-is retained and every extra row is named in both `schema_census.csv` and
-`exclusions.csv`; non-identical duplicates stop as a population failure.
+session spelling present in each member path. If a case has multiple lesion
+members, the canonical follow-up (`ses-02`) derivative is retained and every
+other member is named in both `schema_census.csv` and `exclusions.csv`. When
+schema position cannot identify one canonical member, deterministic selection
+is allowed only for members with identical archive size and CRC; otherwise the
+run stops as a population failure.
 
-Rawdata NCCT, raw 4D CTP, and CTA are not used. The mirror machinery and its
-quality gate were removed by the 2026-08-27 human decision. Keep the output
-directory on persistent storage.
+Rawdata NCCT is used only for the label-blind per-bin tissue-composition audit;
+raw 4D CTP and CTA are not used. The mirror machinery and its quality gate were
+removed by the 2026-08-27 human decision. Keep the output directory on
+persistent storage.
 Every required `.nii.gz` stream is read fully before measurement. The verified
 source-defective `sub-stroke0043` CBF member excludes that case with reason
 `source_corrupt_member`; its exact path is written to `schema_census.csv` and

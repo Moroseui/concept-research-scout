@@ -1,18 +1,19 @@
 {
   "artifact_sha256": {
-    "README.md": "d622d8a69ee52d451a0a78161ef15177cbbed0bd6d4789a984bc74befb969c13",
+    "README.md": "e5a02810656bbbea6eee534bbdf97499d3347ff6fcafdab8fdb9183fffb31a1b",
     "requirements.txt": "ff705c035eedc0e105dbe4c8b837314f4e434bede5c632b1861f808237a0b928",
-    "run.py": "ecb2e0f94af834c9c64149e0163b8f62133d5b3e53b0c968205500a0f3bc9792"
+    "run.py": "ff237ea7af332554daed8cd295204084a2b4a9394761b66f78dd1bd5f3a5bf23"
   },
-  "checked_at": "2026-08-27T21:58:43-04:00",
+  "checked_at": "2026-08-27T22:08:50-04:00",
   "checks": {
     "approval_marker_matches_contract_blob": "0e223c82f9eb879652a549df9bf857c155ef61db",
     "cache_round_trip_fixture": "passed",
     "determinism_manifests_equal": true,
+    "empty_flow_band_tissue_audit_fixture": "passed: six rows with zero members and blank HU statistics",
     "flow_band_stable_tie_fixture": "passed",
     "py_compile": "passed",
     "smoke_contract_satisfied": false,
-    "smoke_elapsed_seconds": 0.288,
+    "smoke_elapsed_seconds": 0.303,
     "smoke_status": "SMOKE_OK",
     "tissue_audit_fixture": "passed: six per-case band/style rows with finite/nonfinite HU accounting"
   },
