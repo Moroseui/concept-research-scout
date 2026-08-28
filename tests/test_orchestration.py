@@ -3502,5 +3502,102 @@ class TestR2StateAndHygiene(Harness):
                         f"commit sha: {ln.strip()}")
         self.assertGreater(checked, 10)
 
+
+class TestM1PreGovernanceIdentity(Harness):
+    """F1 (round-6 follow-on): the frozen driver records its governing
+    contract in resolved_config.json, not provenance.json. Identity is
+    now two-source with a disagreement hard-fail; a bundle shaped like
+    the real Phase-S/take-13 output passes the import gate."""
+
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        import experiment_registry as er
+        return sc, er
+
+    def _bundle(self, prov, rc):
+        b = self.repo / "bundles" / "m1"
+        b.mkdir(parents=True, exist_ok=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "C", "status": "DONE"}))
+        (b / "provenance.json").write_text(json.dumps(prov))
+        if rc is not None:
+            (b / "resolved_config.json").write_text(json.dumps(rc))
+        return b
+
+    def test_m1pre_resolved_config_identity_satisfies_import_gate(self):
+        sc, er = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n"
+            "  - resolved_config.json\n")
+        cur = sc._contract_hash(d)
+        # The real bundle shape: env-style provenance (no contract_blob),
+        # identity recorded by gate() in resolved_config.json.
+        b = self._bundle({"seed": 1, "platform": "x"},
+                         {"contract_blob": cur, "approval_blob": cur})
+        self.assertEqual(sc.validate_bundle(1, b), [])
+
+    def test_m1pre_disagreement_is_hard_failure(self):
+        sc, er = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n"
+            "  - resolved_config.json\n")
+        b = self._bundle({"contract_blob": "a" * 40},
+                         {"contract_blob": "b" * 40})
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("disagrees with itself" in f for f in fails),
+                        fails)
+
+    def test_m1pre_neither_source_still_refuses(self):
+        sc, er = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n"
+            "  - resolved_config.json\n")
+        b = self._bundle({"seed": 1}, {})   # neither file names a blob
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("mismatch" in f for f in fails), fails)
+
+    def test_m1pre_registry_terminal_completes_via_resolved_config(self):
+        sc, er = self._wire()
+        OLD = "a" * 40
+        d = self.repo / "ideas" / "001"
+        (d / "registry.yaml").write_text(
+            "schema_version: 1\nprobes:\n"
+            "  - id: S\n    results_bundle: bundles/m1\n"
+            "    terminal_statuses: [DONE]\n"
+            "    contract_hash: " + OLD + "\n")
+        (d / "HUMAN_APPROVED_PROBE").write_text(
+            "approved\ncontract_blob: " + OLD + "\n")
+        self._bundle({"seed": 1}, {"contract_blob": OLD})
+        st = er.derive_status("001", self.repo, lambda _d: "c" * 40,
+                              bundle_validator=lambda p, blob: [])
+        self.assertEqual(st["S"]["status"], "COMPLETE")
+        # Disagreement between the two sources surfaces as STALE.
+        b = self.repo / "bundles" / "m1"
+        (b / "provenance.json").write_text(
+            json.dumps({"contract_blob": OLD}))
+        (b / "resolved_config.json").write_text(
+            json.dumps({"contract_blob": "b" * 40}))
+        st = er.derive_status("001", self.repo, lambda _d: "c" * 40,
+                              bundle_validator=lambda p, blob: [])
+        self.assertEqual(st["S"]["status"], "STALE")
+        self.assertIn("disagrees", st["S"]["reason"])
+
+    def test_m1pre_result_inputs_include_resolved_config(self):
+        sc, er = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "registry.yaml").write_text(
+            "schema_version: 1\nprobes:\n"
+            "  - id: S\n    results_bundle: bundles/m1\n")
+        b = self._bundle({"seed": 1}, {"contract_blob": "a" * 40})
+        import hashlib as _h
+        want = _h.sha256((b / "resolved_config.json").read_bytes()).hexdigest()
+        inputs = er.result_input_hashes("001", self.repo)
+        self.assertEqual(inputs["S"]["resolved_config_sha256"], want)
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

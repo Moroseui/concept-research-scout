@@ -170,16 +170,32 @@ def _attested_hashes(idea_dir: Path) -> set:
     return out
 
 
-def _bundle_provenance_blob(root: Path, rel):
+def _bundle_governing_blob(root: Path, rel):
+    """(blob, problem). The governance identity a bundle records for
+    itself: provenance.json contract_blob when present, else
+    resolved_config.json contract_blob -- the frozen driver's gate()
+    writes it there (M1-pre, F1). If both files carry a value they must
+    agree; disagreement is a problem to surface, never a silent pick."""
     if not rel:
-        return None
-    p = Path(root) / rel / 'provenance.json'
-    if not p.exists():
-        return None
-    try:
-        return (json.loads(p.read_text()) or {}).get('contract_blob')
-    except (json.JSONDecodeError, OSError):
-        return None
+        return None, None
+    base = Path(root) / rel
+    vals = {}
+    for name in ('provenance.json', 'resolved_config.json'):
+        p = base / name
+        if not p.exists():
+            continue
+        try:
+            v = (json.loads(p.read_text()) or {}).get('contract_blob')
+        except (json.JSONDecodeError, OSError):
+            return None, f'{name} unparseable'
+        if v is not None:
+            vals[name] = v
+    if len(set(vals.values())) > 1:
+        return None, ('bundle disagrees with itself about its governing '
+                      'contract: '
+                      + ', '.join(f'{k} says {str(v)[:12]}'
+                                  for k, v in sorted(vals.items())))
+    return next(iter(vals.values()), None), None
 
 
 def result_input_hashes(idea_no: str, root: Path):
@@ -214,6 +230,8 @@ def result_input_hashes(idea_no: str, root: Path):
         ent = {
             'summary_sha256': _fsha(f'{rb}/summary.json') if rb else None,
             'provenance_sha256': _fsha(f'{rb}/provenance.json') if rb else None,
+            'resolved_config_sha256':
+                _fsha(f'{rb}/resolved_config.json') if rb else None,
         }
         dep = n.get('depends_on') if isinstance(n.get('depends_on'), dict) \
             else {}
@@ -516,7 +534,10 @@ def derive_status(idea_no: str, root: Path, contract_hasher, bundle_validator=No
                                       '(HUMAN_APPROVED_PROBE or a '
                                       'REGISTRY_RATIFIED event)'}
                 return 'STALE'
-            prov = _bundle_provenance_blob(root, rb)
+            prov, prob = _bundle_governing_blob(root, rb)
+            if prob:
+                out[nid] = {'status': 'STALE', 'reason': prob}
+                return 'STALE'
             if prov != governing:
                 out[nid] = {'status': 'STALE',
                             'reason': f'bundle provenance contract '

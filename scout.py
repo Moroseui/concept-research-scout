@@ -1557,12 +1557,17 @@ def validate_bundle(idea, bundle, expected_blob=None):
     Checks:
       1. core files present (summary.json, provenance.json,
          resolved_config.json, environment.txt, manifest/pair_manifest.csv)
-      2. provenance.contract_blob == the GOVERNING contract's git blob.
-         Default (expected_blob=None) governs by the CURRENT contract --
-         the import gate: results produced under a superseded contract
-         never import. A 40-hex expected_blob instead validates the bundle
-         as evidence for a registry node governed by that immutable
-         contract, whose text is read from the git object store.
+      2. the bundle's recorded governing identity == the GOVERNING
+         contract's git blob. Identity source (M1-pre, F1): provenance.json
+         contract_blob when present, else resolved_config.json
+         contract_blob -- the frozen driver's gate() records it there; if
+         both files carry it they must agree, and disagreement is a hard
+         failure, never a pick. Default (expected_blob=None) governs by
+         the CURRENT contract -- the import gate: results produced under a
+         superseded contract never import through it. A 40-hex
+         expected_blob instead validates the bundle as evidence for a
+         registry node governed by that immutable contract, whose text is
+         read from the git object store.
       3. sha256(manifest/pair_manifest.csv) == the governing contract's
          frozen pair_manifest_sha256 (when it records one)
       4. summary.json sanity: parses, idea matches, phase in {M, B}
@@ -1601,6 +1606,22 @@ def validate_bundle(idea, bundle, expected_blob=None):
     except (json.JSONDecodeError, OSError) as e:
         return [f'unparseable bundle json: {e}']
     got = prov.get('contract_blob')
+    rc_path = bundle / 'resolved_config.json'
+    if rc_path.exists():
+        try:
+            got_rc = (json.loads(rc_path.read_text()) or {}) \
+                .get('contract_blob')
+        except (json.JSONDecodeError, OSError) as e:
+            return [f'unparseable resolved_config.json: {e}']
+        if got is not None and got_rc is not None and got != got_rc:
+            fails.append('bundle disagrees with itself about its governing '
+                         f'contract: provenance.json says {str(got)[:12]}, '
+                         f'resolved_config.json says {str(got_rc)[:12]}')
+        if got is None:
+            # M1-pre (F1): the frozen driver's gate() records the governing
+            # identity in resolved_config.json; provenance.json is
+            # run-environment provenance and has never carried it.
+            got = got_rc
     if not governing:
         fails.append('idea has no probe_contract.yaml to validate against')
     elif got != governing:
