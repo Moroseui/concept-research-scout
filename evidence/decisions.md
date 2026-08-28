@@ -947,3 +947,24 @@ sentinel format is the amender own interface convention, so the tool (not
 the contract) was fixed -- both quotings accepted, exactly-one-total and
 single-shot semantics unchanged, tested for both styles. The contract was
 never hand-edited.
+
+## 2026-08-28 - 2a-state merged to main (gate disposition + refresh receipt)
+
+The reviewer merge gate -- originally "after 023 record-result," re-scoped
+to current-arc resolution -- is receipted as satisfied under the
+advisor-approved dual-track plan: take 13 (blob 03d4545fe293) was packaged
+and in flight at merge time; its record-result follows on landing and
+retro-binds via the queued REGISTRY_RATIFIED design. results-validate.yml
+is byte-identical across the merge, so the in-flight take is unaffected.
+
+Refresh merge (main -> 2a-state): one conflict, evidence/decisions.md,
+both-appended-at-tail; resolved by union (review-intake entries then the
+023 arc entries; nothing dropped). scout.py and tests auto-merged. Both
+runners green on the merged tree (152). State corpus re-materialized: 43
+of 44 byte-identical, ideas/023/state.json alone updated (five
+contract_blob pointers -> 03d4545fe293). state-verify --require-all and
+registry-validate green. CI steps (compile incl. orchestrator modules,
+doctor, both runners, state invariants) reproduced green pre-push.
+Post-merge queue unchanged: 023 registry.yaml + REGISTRY_RATIFIED design,
+driver_spec.yaml (operator-driver-patch era ends there), shadow soak,
+read-only consumer flip.
