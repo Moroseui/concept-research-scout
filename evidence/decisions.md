@@ -865,3 +865,37 @@ Phase S must be recalibrated for the new strata (synthetic planted effects
 under percentile binning; same detectability-floor logic). Keep gates
 minimal: coverage + identity only; introduce no new reference anatomy.
 This de-couples 023 from 021 by construction.
+
+## 2026-08-28 - Meeting outcome: dual-track sprint; HU audit ACTIVATED; clinical-scores secondary pre-registered
+
+Advisor meeting (2026-08-27): system-refinement arc APPROVED, and a signal
+read from idea 023 requested within the week -> dual track. The previously
+drafted parked/strategic-pause entries were never committed and are
+superseded by this plan; the refinement arc proceeds in parallel with a
+bounded 023 signal sprint.
+
+ACTIVATED DIRECTIVE (tissue-composition audit, previously drafted as
+parked; an outcome-reading run is now scheduled, so it applies): before
+take 13, a probe revision adds a label-blind per-bin per-style NCCT HU
+audit -- during the map pass record, per case, per flow bin, per style
+group, the median and IQR of NCCT attenuation over member voxels, into the
+per-case cache and a bin_tissue_audit.csv. No estimator changes, no new
+gates, run.py only (contract untouched; standing approval holds through
+verify). Pre-registered interpretation rule: HU-balanced styles within
+bins -> the compensation reading stands; systematic imbalance -> report as
+conditional predictive information WITH a tissue-composition caveat and
+design a tissue-normalized successor. Rationale: the retired contralateral
+mirror was incidentally the tissue-type normalizer (gray-matter baseline
+flow ~2-3x white matter); percentile bins do not restore this.
+
+PRE-REGISTERED SECONDARY (advisor side-interest): after the take-13
+outcome read and record-result, a patient-level join of census per-patient
+aggregates against the dataset clinical outcome scores (phenotype
+ses-02 outcome.csv, mRS/NIHSS-type). Clinical scores are outcome labels
+and remain behind the same label-blind until that step; no take-13 scope
+change; phenotype files staged separately when needed.
+
+Sequence: audit revision -> verify -> mechanical amend-contract from the
+mirror-free Phase-S bundle (status PHASE_S_COMPLETE_REQUIRES_AMENDMENT)
+-> approve (new blob) -> package take 13 -> outcome read -> record-result
+-> interpret -> signal answer.
