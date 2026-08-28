@@ -1476,6 +1476,42 @@ def _contract_field(idea, field):
     return _find(yaml.safe_load(f.read_text()))
 
 
+def _parse_contract_fields(text):
+    """(required_outputs, pair_manifest_sha256) parsed from contract TEXT,
+    so a historical contract read from the git object store shares one
+    parser with the current file (R1). Raises ValueError when invalid."""
+    if text is None:
+        return [], None
+    import yaml
+    try:
+        data = yaml.safe_load(text) or {}
+    except Exception as e:
+        raise ValueError(f'contract invalid; bundle cannot be verified '
+                         f'(contract does not parse: {e})')
+    req = data.get('required_outputs')
+    out = []
+    if req is not None:
+        if not isinstance(req, list):
+            raise ValueError('contract invalid: required_outputs must be '
+                             'a list')
+        for x in req:
+            if not isinstance(x, str) or x.startswith('/') \
+                    or '..' in x.split('/'):
+                raise ValueError(f'contract invalid: required_outputs entry '
+                                 f'{x!r} must be a bundle-relative path')
+            out.append(x)
+    return out, data.get('pair_manifest_sha256')
+
+
+def _historical_contract_text(blob):
+    """Contract bytes for a 40-hex git blob sha, from the object store --
+    the durable identity behind registry contract_hash pins. None when the
+    blob is not present in this repository."""
+    r = subprocess.run(['git', 'cat-file', '-p', blob], cwd=ROOT,
+                       capture_output=True, text=True)
+    return r.stdout if r.returncode == 0 else None
+
+
 def _contract_required_outputs(idea):
     """Contract-declared result interface (audit R4): a probe contract may
     carry a top-level `required_outputs:` list naming the bundle files it
@@ -1484,24 +1520,7 @@ def _contract_required_outputs(idea):
     c = idea_dir(idea) / 'probe_contract.yaml'
     if not c.exists():
         return []
-    import yaml
-    try:
-        data = yaml.safe_load(c.read_text()) or {}
-    except Exception as e:
-        raise ValueError(f'contract invalid; bundle cannot be verified '
-                         f'(probe_contract.yaml does not parse: {e})')
-    req = data.get('required_outputs')
-    if req is None:
-        return []
-    if not isinstance(req, list):
-        raise ValueError('contract invalid: required_outputs must be a list')
-    out = []
-    for x in req:
-        if not isinstance(x, str) or x.startswith('/') or '..' in x.split('/'):
-            raise ValueError(f'contract invalid: required_outputs entry '
-                             f'{x!r} must be a bundle-relative path')
-        out.append(x)
-    return out
+    return _parse_contract_fields(c.read_text())[0]
 
 
 def bundle_complete(idea, bundle):
@@ -1527,24 +1546,39 @@ def bundle_complete(idea, bundle):
                 or (s.get('phase') == 'B' and 'analysis' in s))
 
 
-def validate_bundle(idea, bundle):
+def validate_bundle(idea, bundle, expected_blob=None):
     """Deterministic results-bundle validation (E1). Single source of truth
-    for CI (results-validate workflow) and record-result. Returns a list of
-    failure strings; empty list = valid. Checks:
+    for CI (results-validate workflow), record-result, and registry node
+    status (R1). Returns a list of failure strings; empty list = valid.
+    Checks:
       1. core files present (summary.json, provenance.json,
          resolved_config.json, environment.txt, manifest/pair_manifest.csv)
-      2. provenance.contract_blob == the CURRENT contract's git blob
-         (results produced under a superseded contract never import)
-      3. sha256(manifest/pair_manifest.csv) == the contract's frozen
-         pair_manifest_sha256 (when the contract records one)
+      2. provenance.contract_blob == the GOVERNING contract's git blob.
+         Default (expected_blob=None) governs by the CURRENT contract --
+         the import gate: results produced under a superseded contract
+         never import. A 40-hex expected_blob instead validates the bundle
+         as evidence for a registry node governed by that immutable
+         contract, whose text is read from the git object store.
+      3. sha256(manifest/pair_manifest.csv) == the governing contract's
+         frozen pair_manifest_sha256 (when it records one)
       4. summary.json sanity: parses, idea matches, phase in {M, B}
       5. every chunk manifest that lists sha256 entries verifies against
          the bundle files it names (phase B)
     """
     bundle = Path(bundle)
     fails = []
+    current = _contract_hash(idea_dir(idea))
+    governing = expected_blob or current
+    if expected_blob and expected_blob != current:
+        text = _historical_contract_text(expected_blob)
+        if text is None:
+            return [f'historical contract blob {expected_blob[:12]} not '
+                    'found in the git object store']
+    else:
+        c = idea_dir(idea) / 'probe_contract.yaml'
+        text = c.read_text() if c.exists() else None
     try:
-        req = _contract_required_outputs(idea)
+        req, _pinned_sha = _parse_contract_fields(text)
     except ValueError as e:
         return [str(e)]
     if req:  # contract-declared result interface
@@ -1562,15 +1596,16 @@ def validate_bundle(idea, bundle):
         prov = json.loads((bundle / 'provenance.json').read_text())
     except (json.JSONDecodeError, OSError) as e:
         return [f'unparseable bundle json: {e}']
-    current = _contract_hash(idea_dir(idea))
     got = prov.get('contract_blob')
-    if not current:
+    if not governing:
         fails.append('idea has no probe_contract.yaml to validate against')
-    elif got != current:
+    elif got != governing:
         fails.append(f'contract blob mismatch: bundle produced under '
-                     f'{str(got)[:12]}, current contract is {current[:12]} '
-                     '(results from a superseded contract never import)')
-    pinned_sha = _contract_field(idea, 'pair_manifest_sha256')
+                     f'{str(got)[:12]}, governing contract is '
+                     f'{governing[:12]}'
+                     + (' (results from a superseded contract never import)'
+                        if expected_blob is None else ''))
+    pinned_sha = _pinned_sha
     if isinstance(pinned_sha, str) and len(pinned_sha) == 64:
         pf = bundle / 'manifest' / 'pair_manifest.csv'
         actual = sha256_of(pf) if pf.exists() else 'MISSING'
@@ -1667,7 +1702,8 @@ def _state_kwargs():
                 contract_hasher=_contract_hash,
                 registry_resolver=lambda n: reg_mod.state_summary(
                     n, ROOT, _contract_hash,
-                    lambda b: validate_bundle(int(n), b)))
+                    lambda b, blob: validate_bundle(int(n), b,
+                                                    expected_blob=blob)))
 
 
 def _numbered_ideas():
@@ -1694,7 +1730,13 @@ def cmd_registry_validate(args):
 
 def cmd_registry_status(args):
     n = f'{args.idea:03d}'
-    st = reg_mod.derive_status(n, ROOT, _contract_hash)
+    try:
+        st = reg_mod.derive_status(
+            n, ROOT, _contract_hash,
+            lambda b, blob: validate_bundle(args.idea, b,
+                                            expected_blob=blob))
+    except ValueError as e:
+        raise SystemExit(f'ideas/{n}: {e}')
     if not st:
         raise SystemExit(f'ideas/{n}/registry.yaml missing')
     for nid, v in sorted(st.items()):

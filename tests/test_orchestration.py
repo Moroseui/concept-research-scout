@@ -737,9 +737,9 @@ class TestExperimentRegistry(Harness):
         import experiment_registry as er
         return sc, er
 
-    def _reg(self, text):
+    def _reg(self, text, header="schema_version: 1\n"):
         d = self.repo / "ideas" / "001"
-        (d / "registry.yaml").write_text(text)
+        (d / "registry.yaml").write_text(header + text)
         return d
 
     def test_cycles_dangling_handset_and_retired_keys_rejected(self):
@@ -777,16 +777,20 @@ class TestExperimentRegistry(Harness):
             "  - id: e\n    results_bundle: bundles/e\n"
             "    terminal_statuses: [DONE_X]\n"
             "    depends_on:\n      artifacts:\n"
-            "        - {probe: b, output: baz.csv}\n")
+            "        - {probe: b, output: baz.csv, sha256: '" + "1"*64 + "'}\n")
         self.assertEqual(er.validate("001", self.repo), [])
+        cur = "c" * 40
         (self.repo / "bundles" / "a").mkdir(parents=True)
         (self.repo / "bundles" / "a" / "summary.json").write_text(
             json.dumps({"status": "DONE_X"}))
+        (self.repo / "bundles" / "a" / "provenance.json").write_text(
+            json.dumps({"contract_blob": cur}))
         (self.repo / "bundles" / "a" / "foo.csv").write_text("v2")
         (self.repo / "bundles" / "c").mkdir(parents=True)
         (self.repo / "bundles" / "c" / "summary.json").write_text(
             json.dumps({"status": "DONE_X"}))
-        st = er.derive_status("001", self.repo, lambda _d: None)
+        st = er.derive_status("001", self.repo, lambda _d: cur,
+                              bundle_validator=lambda b, blob: [])
         self.assertEqual(st["a"]["status"], "COMPLETE")
         self.assertEqual(st["c"]["status"], "STALE")     # holds result; input drifted
         self.assertEqual(st["e"]["status"], "BLOCKED")   # no result; input missing
@@ -804,10 +808,15 @@ class TestExperimentRegistry(Harness):
             "    terminal_statuses: [DONE_X]\n"
             "    depends_on: {all_of: [{probe: a}]}\n"
             "  - id: d\n    depends_on: {all_of: [{probe: c}]}\n")
+        cur = "c" * 40
         (self.repo / "bundles" / "a").mkdir(parents=True)
         (self.repo / "bundles" / "a" / "summary.json").write_text(
             json.dumps({"status": "DONE_X"}))
-        st = er.derive_status("001", self.repo, lambda _d: None)
+        (self.repo / "bundles" / "a" / "provenance.json").write_text(
+            json.dumps({"contract_blob": cur}))
+        st = er.derive_status("001", self.repo, lambda _d: cur,
+                              bundle_validator=lambda b, blob: [])
+        self.assertEqual(st["a"]["status"], "COMPLETE")
         self.assertEqual(st["b"]["status"], "UNSTARTED")
         self.assertEqual(st["c"]["status"], "UNSTARTED")
         self.assertEqual(st["d"]["status"], "BLOCKED")
@@ -894,21 +903,26 @@ class TestExperimentRegistry(Harness):
             json.dumps({"status": "DONE_X"}))
         st = er.derive_status("001", self.repo, lambda _d: None)
         self.assertEqual(st["a"]["status"], "STALE")
-        self.assertIn("MISSING", st["a"]["reason"])
+        # R1: a pinned terminal node is governed by its pin; without an
+        # approval/ratification attestation it can never complete.
+        self.assertIn("attestation", st["a"]["reason"])
 
     def test_terminal_summary_without_valid_bundle_is_result_present(self):
         sc, er = self._wire()
         self._reg("probes:\n"
                   "  - id: a\n    results_bundle: bundles/a\n"
                   "    terminal_statuses: [DONE_X]\n")
+        cur = "c" * 40
         (self.repo / "bundles" / "a").mkdir(parents=True)
         (self.repo / "bundles" / "a" / "summary.json").write_text(
             json.dumps({"status": "DONE_X"}))
-        st = er.derive_status("001", self.repo, lambda _d: None,
-                              bundle_validator=lambda b: ["provenance missing"])
+        (self.repo / "bundles" / "a" / "provenance.json").write_text(
+            json.dumps({"contract_blob": cur}))
+        st = er.derive_status("001", self.repo, lambda _d: cur,
+                              bundle_validator=lambda b, blob: ["bad chunk"])
         self.assertEqual(st["a"]["status"], "RESULT_PRESENT")
-        st2 = er.derive_status("001", self.repo, lambda _d: None,
-                               bundle_validator=lambda b: [])
+        st2 = er.derive_status("001", self.repo, lambda _d: cur,
+                               bundle_validator=lambda b, blob: [])
         self.assertEqual(st2["a"]["status"], "COMPLETE")
 
     def test_approve_probe_binds_registry_hash_when_registry_exists(self):
@@ -3118,6 +3132,253 @@ class TestCharterCloseout(Harness):
         self.assertIn("portfolio_brief_zzq.md", prompt)
         self.assertIn("cross_charter_index.md", prompt)
 
+
+
+class TestRegistryHardeningR1(Harness):
+    """Round-6 review adoption: historical-contract node semantics, closed
+    nested schema with containment, governance-event attestation, and one
+    validation-aware status path (COMPLETE never from summary text alone)."""
+
+    OLD = "a" * 40
+    CUR = "c" * 40
+
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        import experiment_registry as er
+        return sc, er
+
+    def _reg(self, text, header="schema_version: 1\n"):
+        d = self.repo / "ideas" / "001"
+        (d / "registry.yaml").write_text(header + text)
+        return d
+
+    def _ratify(self, d, hashes):
+        import json as _j
+        row = {"event": "REGISTRY_RATIFIED", "idea": 1,
+               "registry_sha256": "e" * 64, "approvals": ["f" * 64],
+               "contract_hashes": hashes, "operator": "op",
+               "git_commit": "abcdef1", "event_id": "gov-0001"}
+        (d / "governance_events.jsonl").write_text(_j.dumps(row) + "\n")
+
+    def _sc_dag(self):
+        return ("probes:\n"
+                "  - id: S\n    phase: S\n"
+                "    contract_hash: " + self.OLD + "\n"
+                "    results_bundle: bundles/S\n"
+                "    terminal_statuses: [DONE_S]\n"
+                "    produces: [cal.json]\n"
+                "  - id: C\n    phase: C\n"
+                "    contract_hash: " + self.CUR + "\n"
+                "    results_bundle: bundles/C\n"
+                "    terminal_statuses: [DONE_C]\n"
+                "    depends_on:\n"
+                "      all_of: [{probe: S}]\n"
+                "      artifacts:\n"
+                "        - {probe: S, output: cal.json, sha256: 'SHA'}\n"
+                "    launcher:\n"
+                "      upstream_bundle: {from_probe: S, cli_flag: --phase-s-dir}\n")
+
+    def _terminal_s_bundle(self, prov_blob):
+        b = self.repo / "bundles" / "S"
+        b.mkdir(parents=True, exist_ok=True)
+        (b / "summary.json").write_text(json.dumps({"status": "DONE_S"}))
+        (b / "provenance.json").write_text(
+            json.dumps({"contract_blob": prov_blob}))
+        (b / "cal.json").write_text("{\"n\": 20}")
+        return b
+
+    def test_r1_historical_pin_completes_and_unblocks_downstream(self):
+        sc, er = self._wire()
+        b = self._terminal_s_bundle(self.OLD)
+        sha = sc.sha256_of(b / "cal.json")
+        d = self._reg(self._sc_dag().replace("'SHA'", "'" + sha + "'"))
+        self._ratify(d, [self.OLD])
+        self.assertEqual(er.validate("001", self.repo), [])
+        calls = []
+        st = er.derive_status(
+            "001", self.repo, lambda _d: self.CUR,
+            bundle_validator=lambda p, blob: calls.append((p, blob)) or [])
+        self.assertEqual(st["S"]["status"], "COMPLETE")
+        self.assertIn(self.OLD[:12], st["S"]["reason"])
+        self.assertEqual(st["C"]["status"], "UNSTARTED")   # NOT blocked
+        self.assertEqual(calls[0][1], self.OLD)  # validated under its pin
+
+    def test_r1_approval_marker_also_attests_a_pin(self):
+        sc, er = self._wire()
+        b = self._terminal_s_bundle(self.OLD)
+        sha = sc.sha256_of(b / "cal.json")
+        d = self._reg(self._sc_dag().replace("'SHA'", "'" + sha + "'"))
+        (d / "HUMAN_APPROVED_PROBE").write_text(
+            "approved\ncontract_blob: " + self.OLD + "\n")
+        st = er.derive_status("001", self.repo, lambda _d: self.CUR,
+                              bundle_validator=lambda p, blob: [])
+        self.assertEqual(st["S"]["status"], "COMPLETE")
+
+    def test_r1_unattested_pin_is_stale(self):
+        sc, er = self._wire()
+        b = self._terminal_s_bundle(self.OLD)
+        sha = sc.sha256_of(b / "cal.json")
+        self._reg(self._sc_dag().replace("'SHA'", "'" + sha + "'"))
+        st = er.derive_status("001", self.repo, lambda _d: self.CUR,
+                              bundle_validator=lambda p, blob: [])
+        self.assertEqual(st["S"]["status"], "STALE")
+        self.assertIn("attestation", st["S"]["reason"])
+        self.assertEqual(st["C"]["status"], "BLOCKED")
+
+    def test_r1_provenance_must_match_pin(self):
+        sc, er = self._wire()
+        b = self._terminal_s_bundle("b" * 40)   # produced under a third blob
+        sha = sc.sha256_of(b / "cal.json")
+        d = self._reg(self._sc_dag().replace("'SHA'", "'" + sha + "'"))
+        self._ratify(d, [self.OLD])
+        st = er.derive_status("001", self.repo, lambda _d: self.CUR,
+                              bundle_validator=lambda p, blob: [])
+        self.assertEqual(st["S"]["status"], "STALE")
+        self.assertIn("provenance", st["S"]["reason"])
+
+    def test_r1_pinless_terminal_requires_current_provenance(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n    results_bundle: bundles/a\n"
+                  "    terminal_statuses: [DONE_X]\n")
+        (self.repo / "bundles" / "a").mkdir(parents=True)
+        (self.repo / "bundles" / "a" / "summary.json").write_text(
+            json.dumps({"status": "DONE_X"}))
+        (self.repo / "bundles" / "a" / "provenance.json").write_text(
+            json.dumps({"contract_blob": self.OLD}))
+        st = er.derive_status("001", self.repo, lambda _d: self.CUR,
+                              bundle_validator=lambda p, blob: [])
+        self.assertEqual(st["a"]["status"], "STALE")
+        self.assertIn("provenance", st["a"]["reason"])
+
+    def test_r1_no_validator_means_result_present_never_complete(self):
+        sc, er = self._wire()
+        b = self._terminal_s_bundle(self.OLD)
+        sha = sc.sha256_of(b / "cal.json")
+        d = self._reg(self._sc_dag().replace("'SHA'", "'" + sha + "'"))
+        self._ratify(d, [self.OLD])
+        st = er.derive_status("001", self.repo, lambda _d: self.CUR)
+        self.assertEqual(st["S"]["status"], "RESULT_PRESENT")
+        self.assertIn("unvalidated", st["S"]["reason"])
+
+    def test_r1_schema_version_required_and_exact(self):
+        sc, er = self._wire()
+        self._reg("probes:\n  - id: a\n", header="")
+        self.assertIn("schema_version",
+                      " | ".join(er.validate("001", self.repo)))
+        self._reg("probes:\n  - id: a\n", header="schema_version: 999\n")
+        self.assertIn("exactly 1", " | ".join(er.validate("001", self.repo)))
+
+    def test_r1_paths_must_be_canonical_and_contained(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n    produces: ['../up.txt', 'x//y.csv']\n"
+                  "    results_bundle: bundles/a/\n"
+                  "  - id: b\n    results_bundle: bundles/b\n"
+                  "    depends_on:\n      artifacts:\n"
+                  "        - {probe: a, output: '../../o.txt',"
+                  " sha256: '" + "0"*64 + "'}\n")
+        errs = " | ".join(er.validate("001", self.repo))
+        self.assertIn("produces entry '../up.txt'", errs)
+        self.assertIn("x//y.csv", errs)
+        self.assertIn("results_bundle 'bundles/a/'", errs)
+        self.assertIn("artifact output '../../o.txt'", errs)
+
+    def test_r1_artifact_sha256_required_and_64hex(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n    produces: [x.csv]\n"
+                  "    results_bundle: bundles/a\n"
+                  "  - id: b\n    results_bundle: bundles/b\n"
+                  "    depends_on:\n      artifacts:\n"
+                  "        - {probe: a, output: x.csv}\n")
+        self.assertIn("requires a 64-hex sha256",
+                      " | ".join(er.validate("001", self.repo)))
+        self._reg("probes:\n"
+                  "  - id: a\n    produces: [x.csv]\n"
+                  "    results_bundle: bundles/a\n"
+                  "  - id: b\n    results_bundle: bundles/b\n"
+                  "    depends_on:\n      artifacts:\n"
+                  "        - {probe: a, output: x.csv, sha256: 'zz'}\n")
+        self.assertIn("64-hex", " | ".join(er.validate("001", self.repo)))
+
+    def test_r1_nested_schemas_closed(self):
+        sc, er = self._wire()
+        self._reg("probes:\n"
+                  "  - id: a\n"
+                  "  - id: b\n"
+                  "    depends_on:\n"
+                  "      all_of: [{probe: a, extra: 1}]\n"
+                  "      soft: [x]\n"
+                  "    launcher:\n"
+                  "      upstream_bundle: {probe: a, cli_flag: --x}\n"
+                  "      env: {}\n"
+                  "  - id: c\n"
+                  "    contract_hash: nothex\n")
+        errs = " | ".join(er.validate("001", self.repo))
+        self.assertIn("all_of entry unknown keys ['extra']", errs)
+        self.assertIn("depends_on unknown keys ['soft']", errs)
+        self.assertIn("upstream_bundle unknown keys ['probe']", errs)
+        self.assertIn("launcher unknown keys ['env']", errs)
+        self.assertIn("contract_hash 'nothex'", errs)
+
+    def test_r1_governance_file_fail_closed(self):
+        sc, er = self._wire()
+        d = self._reg("probes:\n  - id: a\n")
+        gv = d / "governance_events.jsonl"
+        gv.write_text("not json\n")
+        self.assertIn("unparseable", " | ".join(er.validate("001", self.repo)))
+        gv.write_text(json.dumps({"event": "SOMETHING_ELSE"}) + "\n")
+        self.assertIn("unknown governance event",
+                      " | ".join(er.validate("001", self.repo)))
+        row = {"event": "REGISTRY_RATIFIED", "idea": 2,
+               "registry_sha256": "zz", "approvals": [],
+               "contract_hashes": ["short"], "operator": "",
+               "git_commit": "abcdef1", "event_id": "e1"}
+        gv.write_text(json.dumps(row) + "\n" + json.dumps(
+            dict(row, event_id="e1")) + "\n")
+        errs = " | ".join(er.validate("001", self.repo))
+        for frag in ("!= 1", "64-hex", "non-empty list", "40-hex",
+                     "operator", "duplicate event_id"):
+            self.assertIn(frag, errs)
+
+    def test_r1_derive_and_cli_refuse_invalid_registries(self):
+        sc, er = self._wire()
+        self._reg("probes:\n  - id: a\n    results_bundle: ../../outside\n")
+        with self.assertRaises(ValueError):
+            er.derive_status("001", self.repo, lambda _d: None)
+        r = self.scout("registry-status", "1")
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("invalid", (r.stderr or "") + (r.stdout or ""))
+
+    def test_r1_validate_bundle_reads_historical_contract_from_git(self):
+        import subprocess as sp
+        sc, er = self._wire()
+        if not (self.repo / ".git").exists():
+            sp.run(["git", "init", "-q"], cwd=self.repo, check=True)
+        old_text = "idea_id: idea-001\nrequired_outputs:\n  - out.json\n"
+        blob = sp.run(["git", "hash-object", "-w", "--stdin"],
+                      cwd=self.repo, input=old_text, capture_output=True,
+                      text=True, check=True).stdout.strip()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n  - other.json\n")
+        b = self.repo / "bundles" / "hist"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "S", "status": "DONE"}))
+        (b / "provenance.json").write_text(json.dumps(
+            {"contract_blob": blob}))
+        (b / "out.json").write_text("{}")
+        self.assertEqual(sc.validate_bundle(1, b, expected_blob=blob), [])
+        fails = sc.validate_bundle(1, b, expected_blob="9" * 40)
+        self.assertTrue(any("object store" in f for f in fails), fails)
+        # Import gate: with no expected_blob the CURRENT contract governs,
+        # so the historical bundle is refused (here at the required-files
+        # check, before the blob comparison is even reached).
+        self.assertTrue(sc.validate_bundle(1, b))
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
