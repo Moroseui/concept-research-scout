@@ -1618,6 +1618,36 @@ Gates: 181/181 both runners including the workflow sha-pin hygiene
 scan; patch verified git-identical against a pristine origin/main
 worktree.
 
+## 2026-08-30 - Interpret run: codex auth rotation incident + resume capability
+
+First dispatch of the interpret workflow: the generator leg (claude,
+498s, exit ok) produced interpretation.md and decision.md -- committed
+and preserved. The review leg (codex) failed in 3.5 seconds with
+exit_class error: wall-to-wall 401s ending in refresh_token_reused
+("Your refresh token has already been used"). Root cause: Codex refresh
+tokens are SINGLE-USE; any local CLI refresh invalidates the chain the
+CODEX_AUTH_JSON Actions secret snapshots, and the quiet nightlies let
+the stale secret go unnoticed. The harness behaved exactly as designed:
+partial output committed, receipts written for both legs, workflow red,
+nothing ratified.
+
+Ops rule adopted: export ~/.codex/auth.json to the CODEX_AUTH_JSON
+secret IMMEDIATELY BEFORE dispatching any agent workflow, and avoid
+local codex use until the run completes. Queued for the P10 ops batch:
+a named auth-preflight step (fail fast with CODEX_AUTH_EXPIRED before
+any leg runs, instead of a 3.9k-line 401 log).
+
+M3-pre landed: interpret-build gains --resume-review (and the workflow
+a matching boolean input) -- when a preserved round-1 interpretation
+exists, the run skips the generator and proceeds directly to the
+adversarial review; it refuses when no interpretation exists.
+Rationale: an infrastructure failure must not burn a good leg, and a
+regenerated round-1 would silently replace the exact text under review.
+Two regressions prove the skip and the refusal; 183/183 both runners;
+patch verified git-identical against a pristine origin/main worktree.
+The round-1 interpretation remains UNRATIFIED pending the cross-family
+review it was always owed.
+
 
 ===== evidence/ledger_digest_isles24.md =====
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
