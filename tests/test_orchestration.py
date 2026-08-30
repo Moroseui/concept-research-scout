@@ -3719,5 +3719,43 @@ class TestF2HistoricalInterface(Harness):
         self.assertTrue(
             any("per_patient.csv" in f for f in fails), fails)
 
+
+class TestF3GoverningInterface(Harness):
+    """F3 (take-13 landing): the legacy interface table keys on the
+    GOVERNING blob -- current-governed bundles use their listed interface
+    through the plain import gate, unlisted blobs still need the full
+    contract list."""
+
+    def _wire(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        return sc
+
+    def test_f3_current_governed_entry_applies_on_plain_path(self):
+        sc = self._wire()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n"
+            "  - resolved_config.json\n  - ghost_from_other_phase.csv\n")
+        cur = sc._contract_hash(d)
+        b = self.repo / "bundles" / "cgov"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "C", "status": "X"}))
+        (b / "provenance.json").write_text(json.dumps({"seed": 1}))
+        (b / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": cur}))
+        # Without a table entry the ghost file is required:
+        self.assertTrue(any("ghost_from_other_phase" in f
+                            for f in sc.validate_bundle(1, b)))
+        self.addCleanup(setattr, sc, "_HISTORICAL_RESULT_INTERFACES",
+                        sc._HISTORICAL_RESULT_INTERFACES)
+        sc._HISTORICAL_RESULT_INTERFACES = {
+            **sc._HISTORICAL_RESULT_INTERFACES,
+            (cur, "C"): ["resolved_config.json", "summary.json",
+                         "provenance.json"]}
+        self.assertEqual(sc.validate_bundle(1, b), [])
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

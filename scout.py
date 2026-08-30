@@ -1515,14 +1515,17 @@ def _peek_bundle_phase(bundle):
         return None
 
 
-# F2 (round-7 ruling): a NARROW, explicitly removable legacy rule. The
-# frozen idea-023 contracts declare only the study-terminal (Phase C)
-# result interface in top-level required_outputs, so the executed
-# historical Phase-S bundle validates against the interface it actually
-# shipped -- keyed by (governing blob, phase) so no generic machinery
-# ever learns that "non-terminal phases skip required files". Future
-# contracts get phase-scoped result_interfaces instead. Delete this table
-# once idea 023's DAG is ratified and no other historical import needs it.
+# F2/F3 (round-7 ruling + landing finding): a NARROW, explicitly
+# removable legacy table keyed by (GOVERNING blob, phase) -- pinned or
+# current alike. The frozen idea-023 contract conflates BOTH phases'
+# outputs in one top-level required_outputs list, so neither executed
+# single-phase bundle can satisfy it literally: the Phase-S bundle lacks
+# the study-terminal files (F2), and the Phase-C bundle rightly lacks the
+# two simulation files it consumed via --phase-s-dir and re-verified by
+# sha (F3). Each executed phase therefore validates against the interface
+# it actually ships; no generic machinery ever learns a phase-skip rule.
+# Future contracts get phase-scoped result_interfaces instead. Delete
+# this table once idea 023's DAG is ratified.
 _HISTORICAL_RESULT_INTERFACES = {
     ('0e223c82f9eb879652a549df9bf857c155ef61db', 'S'): [
         'resolved_config.json',
@@ -1530,6 +1533,24 @@ _HISTORICAL_RESULT_INTERFACES = {
         'simulation_summary.json',
         'summary.json',
         'provenance.json',
+        'environment.txt',
+        'run_log.txt',
+    ],
+    # F3: the C interface = the contract's required_outputs minus the two
+    # Phase-S simulation artifacts (identity carried via
+    # summary.simulation_output_sha256 == the contract's frozen pin).
+    ('03d4545fe293f0067c69ce9e9e696ec97b894d7b', 'C'): [
+        'resolved_config.json',
+        'provenance.json',
+        'archive_manifest.csv',
+        'split_manifest.csv',
+        'schema_census.csv',
+        'per_patient.csv',
+        'per_stratum_summary.csv',
+        'support_summary.csv',
+        'identity_residual_summary.csv',
+        'exclusions.csv',
+        'summary.json',
         'environment.txt',
         'run_log.txt',
     ],
@@ -1610,8 +1631,7 @@ def validate_bundle(idea, bundle, expected_blob=None):
     current = _contract_hash(idea_dir(idea))
     governing = expected_blob or current
     hist_iface = _HISTORICAL_RESULT_INTERFACES.get(
-        (expected_blob, _peek_bundle_phase(bundle))) if expected_blob \
-        else None
+        (governing, _peek_bundle_phase(bundle))) if governing else None
     if hist_iface is not None:
         # Interface fully specified by the legacy table; the historical
         # contract text is not consulted (its required_outputs describe
