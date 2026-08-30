@@ -1344,3 +1344,21 @@ R3b ratifies this import retrospectively per the adopted ordering rule.
 Next: interpret stage, PAUSED transition per the pre-registered
 negative_pattern ruling, the pre-registered clinical-outcome join, and
 the signal writeup.
+
+
+## 2026-08-30 - Correction: post-import state refresh missed in runbook
+
+The take-13 import runbook omitted a step: record-result's PROBED
+scrutiny event changes idea 023's ledger inputs, so the committed
+ideas/023/state.json was no longer a faithful materialization and
+state-verify --require-all correctly went red on main (one CI run).
+This was a runbook/rehearsal gap on the assistant side -- the rehearsal
+enumerated the import's side-effect files but did not re-run
+state-verify on the post-import tree. No data issue; the invariant
+refused hand-stale state exactly as designed (the R2 fingerprint moved:
+event_count 6 -> 7, scrutiny DEBATED -> PROBED). Remedy: re-run
+state-materialize --idea 23, commit the regenerated view, and push;
+verified 44/44 byte-identical and 181/181 on both runners before
+handoff. Standing runbook rule adopted: any operation that appends
+ledger events (record-result, status transitions) is followed by
+state-materialize + state-verify before push.
