@@ -1362,3 +1362,24 @@ verified 44/44 byte-identical and 181/181 on both runners before
 handoff. Standing runbook rule adopted: any operation that appends
 ledger events (record-result, status transitions) is followed by
 state-materialize + state-verify before push.
+
+
+## 2026-08-30 - Interpret stage gains a phone-dispatch surface
+
+interpret-build (cross-family adversarial interpretation: one family
+writes interpretation.md under the hard citation mandate, the other
+resolves every citation against the analysis files and checks claim
+bounds, one revision maximum, verdict JSON) was laptop-only. A
+workflow_dispatch surface (.github/workflows/interpret.yml) now exposes
+it from the GitHub mobile app, mirroring the actioner's execution
+pattern exactly: pinned actions, agent CLIs + existing secrets,
+deterministic tests BEFORE any agent runs, scout-bot identity,
+SCOUT_CI, serialized under the scout-cycle concurrency group, and a
+fail-closed rebase-then-push that also preserves FAILED partial output
+(interpret-build commits every leg). The stage moves no scientific
+authority by itself: it produces interpretation.md /
+interpret_review.md / decision.md for human ratification; the PAUSED
+transition and any successor-contract proposal remain operator acts.
+Gates: 181/181 both runners including the workflow sha-pin hygiene
+scan; patch verified git-identical against a pristine origin/main
+worktree.
