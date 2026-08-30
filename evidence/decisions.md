@@ -1288,3 +1288,59 @@ Next: R3b -- the real 023 registry, ratify-registry CLI with mechanical
 binding verification and the three import bindings, record-result
 ancestry refusal, and the OR-ratified extension of
 terminal_statuses_if_approved.
+
+
+## 2026-08-30 - Take-13 landing: two gate findings, M2-pre, operator import
+
+Take 13 (Phase C, contract 03d4545fe293) completed 2026-08-28 07:28 UTC
+and pushed results/probe-023-03d4545fe293 (tip eb6083e) with status
+NEGATIVE_PATTERN, 99/100 census cases analyzed, all integrity gates
+green, CI widths 0.039-0.065 against the frozen 0.15 bound. The
+branch-side landing automation went red and no record-result PR opened.
+Two distinct causes, both diagnosed before import:
+
+FINDING (branch vintage of F1): push-triggered workflows execute the
+pushed branch's own snapshot of the code, and the take-13 launcher was
+packaged before M1-pre -- the branch's frozen validator read
+provenance.json for a contract_blob the driver has always written to
+resolved_config.json, refused the valid bundle, and the auto-PR step
+never ran. The fix has been live on main since M1-pre; it cannot reach
+a branch's frozen copy. The automation failed CLOSED: main untouched.
+Old PR #1 (the idea-004 import, 2026-08-16) is unrelated; its ref
+merely persists.
+
+FINDING F3 (caught in operator-side rehearsal, before any command ran
+on the operator machine): the frozen contract's single top-level
+required_outputs list conflates BOTH phases' interfaces -- it names the
+two Phase-S simulation artifacts, which the Phase-C bundle rightly does
+not contain (it consumed the S csv via --phase-s-dir and re-verified it
+by sha; summary.simulation_output_sha256 equals the contract's frozen
+pin). No single-phase bundle can satisfy the list literally; this is
+the exact mirror of F2 and the same class round-7 ruled on.
+
+M2-PRE (landed with this import): the legacy result-interface table now
+keys on the GOVERNING blob -- pinned or current alike -- and gains the
+(03d4545fe293, 'C') entry: the contract's required_outputs minus the
+two simulation artifacts. Narrow, blob+phase-bound, no generic
+phase-skip rule, removable after 023 ratifies; regression proves an
+unlisted blob still requires the full list. 181/181 both runners;
+state-verify 44/44; the staged real bundle validates and record-result
+was rehearsed end-to-end in a pristine worktree before handoff.
+
+IMPORT RULING: the bundle totals 1030.1 MB, of which 1029.6 MB is
+phase_c_cache/ per-case resume checkpoints -- operational scratch, not
+claim-bearing output. The import carries the scientific bundle
+byte-verbatim WITHOUT phase_c_cache (19 files); the checkpoints remain
+verbatim on the results branch and on Drive as evidence.
+
+AUTHORITY NOTE: the record-result PR exists to route AUTOMATED imports
+through a human; with the branch-side automation failed closed, the
+operator executes the import and push directly, satisfying the same
+human-authority requirement by construction. Queued: flag F3 to the
+external reviewer next round; future contracts get phase-scoped
+result_interfaces (round-7 direction); P3 adds a launcher-vintage rule
+so results branches carry current gate code or main-side revalidation;
+R3b ratifies this import retrospectively per the adopted ordering rule.
+Next: interpret stage, PAUSED transition per the pre-registered
+negative_pattern ruling, the pre-registered clinical-outcome join, and
+the signal writeup.
