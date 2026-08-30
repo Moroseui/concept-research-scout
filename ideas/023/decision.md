@@ -26,7 +26,8 @@
 - **Results bundle:** `probes/023/results/results_v2/` at commit
   `1c0acdbf5dccabd00449c5235b5e83e3bb369f51`; all citations resolve there.
 - **Families:** authored by the Claude family (interpret-build leg 1);
-  cross-family review pending (round 1).
+  revised in round 2 per the round-1 cross-family review; re-review
+  pending.
 - **Out-of-scope warnings:** not evidence about autoregulatory reserve,
   vasodilatory capacity, or any causal physiology; no CBV-vs-MTT channel
   claim (the central-volume identity holds in these maps); no model was
@@ -49,11 +50,12 @@ against a floor of 20, so this is the contract's decisive negative, not a
 power or support failure. Idea 023's Stage-0 keystone is therefore absent
 as operationalized, and the contract PAUSEs the idea; the planned model-use
 probe does not run. The single most important caveat: the label-blind NCCT
-audit shows the CBV quartile cells differ systematically in tissue
-composition (in the lowest band, low-CBV cells are frankly hypodense in
-most cases), so this negative binds the percentile-band operationalization
-on these vendor maps — it does not show the joint state is biologically or
-predictively empty.
+audit recorded per-case tissue composition for the CBV quartile cells, and
+its cited example cases show large Q1-vs-Q4 attenuation differences (in the
+lowest band, with frankly hypodense low-CBV cells); how prevalent that
+imbalance is across the cohort was not quantified, so this negative binds
+the percentile-band operationalization on these vendor maps — it does not
+show the joint state is biologically or predictively empty.
 
 ## Layer B — Derivation narrative
 
@@ -84,12 +86,18 @@ predictively empty.
    zero-excluding intervals in opposite directions — FAILED. Result:
    `g_label_passed: false`, status `NEGATIVE_PATTERN`.
 5. **Diagnostics.** The pre-registered label-blind HU tissue audit
-   (594 rows) shows systematic Q1-vs-Q4 attenuation imbalance in band 1,
-   near-balance in band 2, mixed direction with wide Q4 spreads in band 3 —
-   the "systematic imbalance" branch of the 2026-08-28 rule, which mandates
-   the tissue-composition caveat above and points any successor at a
-   tissue-normalized reference. Median patient-level d is ~0 in every band,
-   so the band means are tail-driven by a minority of patients.
+   recorded 594 per-case rows; the bundle contains no aggregate HU
+   statistic and cohort prevalence of imbalance was not computed. Cited
+   example rows document Q1-vs-Q4 attenuation imbalance in band 1 (e.g.
+   3.0 vs 23.0 HU), one balanced and one oppositely imbalanced case in
+   band 2, and a very-wide-spread Q4 cell in band 3. Because cohort-wide
+   HU balance was therefore not demonstrated, the 2026-08-28 rule's
+   "balanced" branch cannot be certified and the tissue-composition caveat
+   is applied conservatively, pointing any successor at a tissue-normalized
+   reference. Median patient-level d is ~0 in every band while the band-2
+   and band-3 mean CIs exclude zero, indicating between-patient
+   heterogeneity; no contribution analysis was computed, so which or how
+   many patients drive the means is not claimed.
 6. **Variants.** All authorized variants are reported: Phase S (separate
    bundle, hash-pinned), this single Phase C analysis
    (`maximum_variants: 1`, one seed), and the estimator-untouched HU audit.
@@ -125,14 +133,14 @@ All rows cite `probes/023/results/results_v2/` at commit
 | 21 | Band-1 imbalance example | Q1 3.0 HU vs Q4 23.0 HU | [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1 | median_hu, both style_group rows] |
 | 22 | Band-2 balance example | 21.0 vs 21.0 HU | [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu, both style_group rows] |
 | 23 | Band-3 spread example | Q4 iqr_hu 314.5 | [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu] |
-| 24 | Tail-driven patient example | d = −0.20385563685311792 | [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d] |
+| 24 | Large single-patient contrast example | d = −0.20385563685311792 | [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d] |
 | 25 | Permitted nonfinite example | 302261 nonfinite MTT voxels | [cite: exclusions.csv | case_id=sub-stroke0113 | nonfinite_mtt_voxels] |
 | 26 | Approval binding | blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b, 2026-08-28T02:31:13Z | [cite: ../../../ideas/023/HUMAN_APPROVED_PROBE | full text] (repo path, outside bundle) |
 | 27 | Gate line at run start | approval gate passed on 03d4545fe293… | [cite: run_log.txt | line 1] |
 
-Qualitative characterizations of the HU audit ("most cases", "near-balanced",
-"mixed") are inspection findings over the full 594-row table; the bundle
-contains no aggregate HU statistic, and no computed aggregate is claimed.
+The HU-audit rows cited above verify those individual cases only. The
+bundle contains no aggregate HU statistic, and no cohort-level frequency or
+prevalence of imbalance is claimed anywhere in this decision.
 
 ## Verdict
 
@@ -141,11 +149,12 @@ Stage-0 keystone (a precise, directionally consistent outcome association
 with the joint CBV/MTT state at matched flow) is not present in the census
 labels as operationalized, so idea 023 pauses and the model-use probe is not
 authorized. This is a decisive negative for the keystone, not evidence that
-the joint state lacks biological or predictive content — the HU audit shows
-the operationalization's quartile cells are tissue-imbalanced, and the
-band-2/band-3 sign reversal plus that audit are the empirical starting
-points for any tissue-normalized successor (parent idea-023) via the normal
-pipeline. The separately pre-registered clinical-outcome join and the
-PAUSED transition itself remain operator acts. Full analysis:
-`ideas/023/interpretation.md` (round-1 artifact; decisions.md entry deferred
-until the interpretation passes cross-family review).
+the joint state lacks biological or predictive content — the HU audit's
+cited example cases show tissue-imbalanced quartile cells (cohort
+prevalence not quantified), and the band-2/band-3 sign reversal plus the
+per-case audit table are the empirical starting points for any
+tissue-normalized successor (parent idea-023) via the normal pipeline. The
+separately pre-registered clinical-outcome join and the PAUSED transition
+itself remain operator acts. Full analysis: `ideas/023/interpretation.md`
+(revised per the round-1 cross-family review; decisions.md entry deferred
+until the interpretation passes review).

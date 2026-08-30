@@ -33,7 +33,8 @@
   `1c0acdbf5dccabd00449c5235b5e83e3bb369f51`. All citations below resolve
   inside that bundle at that commit unless another path is given.
 - **Families:** interpretation authored by the Claude family (interpret-build
-  leg 1); cross-family citation review pending (`interpret_review.md`, round 1).
+  leg 1); revised in round 2 per the round-1 cross-family review
+  (`interpret_review.md`); re-review pending.
 - **Out-of-scope warnings.** This result must NOT be read as: evidence about
   autoregulatory blood-volume reserve, vasodilatory capacity, collateral or
   reperfusion mechanism, or any causal physiology; a CBV-versus-MTT channel
@@ -127,63 +128,78 @@ scope: one treated cohort, one vendor's maps, 99 analyzed patients.
    reperfusion-treated cohort's outcome structure (the census side-result
    the critique anticipated), but with the tissue-composition caveat below
    it must not be promoted to a physiological statement.
-2. **The typical patient shows almost no contrast; the means are
-   tail-driven.** Median patient-level d is 0.0 (band 1),
+2. **The median patient shows almost no contrast; means and medians
+   diverge.** Median patient-level d is 0.0 (band 1),
    −0.0005886681383370125 (band 2), 0.000556250836852953 (band 3), with
    median CIs hugging zero
    [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d, median_ci_low, median_ci_high],
-   while individual patients reach large contrasts of either sign (e.g.
+   while individual patients can reach large contrasts (cited example:
    sub-stroke0002, band 1: d = −0.20385563685311792
    [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d]). The
-   band-level means are carried by a minority of patients, which further
-   weakens any reading of a cohort-wide encoded association.
-3. **The CBV-quartile cells are NOT tissue-matched — the pre-registered HU
-   audit found systematic imbalance.** The label-blind NCCT audit
-   (594 rows = 99 cases × 3 bands × 2 cells
-   [cite: summary.json | bin_tissue_audit_rows | 594]) shows, by inspection
-   of the full table (no aggregate statistic exists in the bundle; the
-   per-case rows are the recorded output):
-   - In band 1 (lowest CBF), Q1 low-CBV cells sit at markedly lower NCCT
-     attenuation than Q4 cells in most cases, often by 10–20 HU, with Q1
-     medians at frankly hypodense values — e.g. sub-stroke0092: Q1 median
-     3.0 HU vs Q4 23.0 HU
+   divergence between near-zero medians and the band-2/band-3 means whose
+   CIs exclude zero indicates between-patient heterogeneity, which weakens
+   any reading of a cohort-wide encoded association. The bundle contains no per-patient
+   contribution analysis, so how many patients drive the band means was
+   not computed and is not claimed.
+3. **The pre-registered HU audit documents Q1-vs-Q4 attenuation imbalance
+   in specific cited cases; cohort prevalence was not computed.** The
+   label-blind NCCT audit recorded per-case, per-band, per-cell HU
+   statistics (594 rows = 99 cases × 3 bands × 2 cells
+   [cite: summary.json | bin_tissue_audit_rows | 594]). The bundle contains
+   no aggregate HU statistic; the per-case rows are the recorded output,
+   and no cohort-level frequency of imbalance is claimed here. The
+   following are cited row-level examples only:
+   - Band 1 (lowest CBF): cited example cases show Q1 low-CBV cells at
+     markedly lower, frankly hypodense median attenuation than their Q4
+     cells — sub-stroke0092: Q1 median 3.0 HU vs Q4 23.0 HU
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV | median_hu = 3.0]
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q4_high_CBV | median_hu = 23.0];
      sub-stroke0057: 5.0 vs 24.0; sub-stroke0189: 6.0 vs 25.0
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0057, stratum=1 | median_hu rows]
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0189, stratum=1 | median_hu rows].
-   - In band 2 the cells are near-balanced in most cases (typical median
-     difference ≤ 2 HU, e.g. sub-stroke0002: 21.0 vs 21.0
-     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows]),
-     with exceptions in both directions (e.g. sub-stroke0183: 23.0 vs 5.0
+   - Band 2: cited examples include one balanced case (sub-stroke0002:
+     21.0 vs 21.0
+     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows])
+     and one imbalanced in the opposite direction (sub-stroke0183: 23.0 vs
+     5.0
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0183, stratum=2 | median_hu rows]).
-   - In band 3 the direction is mixed and Q4 cells often show very wide HU
-     spread (e.g. sub-stroke0109: Q1 30.0 vs Q4 58.0
-     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows];
-     sub-stroke0133 Q4 IQR 314.5
+   - Band 3: cited examples include a higher-attenuation Q4 cell
+     (sub-stroke0109: Q1 30.0 vs Q4 58.0
+     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows])
+     and a Q4 cell with very wide HU spread (sub-stroke0133: Q4 IQR 314.5
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu]),
-     consistent with residual vessel/hyperdense contamination surviving the
-     per-patient p98 CBV cap.
-   INFERENCE (labeled as such): in the lowest-flow band, low-CBV voxels are
-   substantially voxels that are already hypodense on NCCT — established
-   tissue injury or partial-volume CSF — so the Q1-vs-Q4 contrast partly
-   re-measures visible tissue state rather than a hemodynamic state at
-   matched tissue. Under the pre-registered 2026-08-28 interpretation rule,
-   this is the "systematic imbalance" branch: any predictive information in
-   these bins is conditional and carries a tissue-composition caveat, and a
-   tissue-normalized successor design is the recorded consequence. (The
-   other branch — "the compensation reading stands" — is moot here because
-   G-label failed regardless.)
+     the latter consistent, in that case, with residual vessel/hyperdense
+     contamination surviving the per-patient p98 CBV cap.
+   How often such imbalance occurs across the 99 patients was NOT
+   quantified: no governed aggregate analysis of the audit exists, and
+   producing one is successor work.
+   INFERENCE (labeled as such, bounded to the cited cases): in the cited
+   band-1 cases, the frankly hypodense Q1 medians mean the low-CBV voxels
+   there are substantially voxels already hypodense on NCCT — established
+   tissue injury or partial-volume CSF — so in those cases the Q1-vs-Q4
+   contrast partly re-measures visible tissue state rather than a
+   hemodynamic state at matched tissue. Under the pre-registered
+   2026-08-28 interpretation rule, the recorded outputs cannot certify the
+   "HU-balanced" branch (cohort-wide balance was not demonstrated), so the
+   tissue-composition caveat is applied conservatively and a
+   tissue-normalized successor design is the recorded consequence; whether
+   the imbalance is systematic cohort-wide would require a governed
+   aggregate analysis that does not exist. (The other branch — "the
+   compensation reading stands" — is moot here because G-label failed
+   regardless.)
 
 ## Does not establish
 
 - That final-infarct outcome in ISLES'24 carries NO joint CBV/MTT
   information. The gate tests one operationalization: within-patient CBF
   percentile bands, per-patient log-CBV quartile extremes, equal patient
-  weights. The HU audit shows this operationalization mixes tissue types
-  within cells; a tissue-normalized reference (the retired contralateral
-  mirror was, incidentally, exactly that) could still reveal a consistent
-  association.
+  weights. The HU audit's cited example rows show this operationalization
+  can mix tissue types within cells (prevalence not quantified); a
+  tissue-normalized reference (the retired contralateral mirror was,
+  incidentally, exactly that) could still reveal a consistent association.
+- How prevalent the Q1-vs-Q4 tissue imbalance is across the cohort, or
+  which patients drive the band-level means — no aggregate HU statistic or
+  per-patient contribution analysis was computed.
 - Anything about autoregulatory reserve, vasodilatory capacity, or the
   physiological cause of the band-2/band-3 sign difference.
 - Anything about any model — no model existed or was probed; the planned
@@ -243,9 +259,10 @@ vessel_cbv_p98 = 29.140625
   one-degree-of-freedom framing); (b) two bands show precise, opposite-signed
   associations — an interpretable observation about label structure in a
   treated cohort, conditional on the tissue caveat; (c) the HU audit
-  documents, quantitatively and per case, that per-patient CBV quartiles at
-  matched flow percentile are tissue-imbalanced — direct empirical design
-  input for any successor.
+  provides per-case tissue-composition measurements for every analyzed
+  case, and its cited example rows document large Q1-vs-Q4 attenuation
+  imbalance in specific cases (cohort prevalence not quantified) — direct
+  empirical design input for any successor.
 
 ## Next decision
 
