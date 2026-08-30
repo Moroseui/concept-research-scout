@@ -1,0 +1,338 @@
+Approval gate passed for Phase C; contract blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b
+Determinism manifest (start):
+{
+  "archive_member_count": 2981,
+  "census_case_count": 100,
+  "idea_id": "idea-023",
+  "input_case_count": 149,
+  "input_paths": {
+    "archive": {
+      "path": "/content/work/train.7z",
+      "sha256": "038920e4dc2011a3f47b8bb8421c67e36d07f1d84f1ba442563077480f75d129"
+    },
+    "contract": {
+      "path": "/content/scout-repo/ideas/023/probe_contract.yaml",
+      "sha256": "f1a8548a70de18367a22d0a2caf78a19fed731cf8514d9fb037d92ccb713f7ed"
+    },
+    "phase_s_csv": {
+      "path": "/content/drive/MyDrive/concept-research-scout-results/023_S_0e223c82f9eb/simulation_operating_characteristics.csv",
+      "sha256": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
+    },
+    "record_json": {
+      "path": "/content/work/zenodo_record.json",
+      "sha256": "232cc6afc6137f9f0cc210d76f8c8a926734e4bfae3a1c3a963e0f04db54dc9e"
+    },
+    "run_py": {
+      "path": "/content/scout-repo/probes/023/run.py",
+      "sha256": "ff237ea7af332554daed8cd295204084a2b4a9394761b66f78dd1bd5f3a5bf23"
+    }
+  },
+  "input_row_count": 2981,
+  "phase": "C",
+  "reserved_case_count": 49,
+  "seed": 20260824,
+  "split_manifest_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843"
+}
+
+Label-blind map pass 1/100: sub-stroke0002; computing and checkpointing
+Label-blind map pass 2/100: sub-stroke0005; computing and checkpointing
+Label-blind map pass 3/100: sub-stroke0006; computing and checkpointing
+Label-blind map pass 4/100: sub-stroke0008; computing and checkpointing
+Label-blind map pass 5/100: sub-stroke0009; computing and checkpointing
+Label-blind map pass 6/100: sub-stroke0012; computing and checkpointing
+Label-blind map pass 7/100: sub-stroke0013; computing and checkpointing
+Label-blind map pass 8/100: sub-stroke0014; computing and checkpointing
+Label-blind map pass 9/100: sub-stroke0015; computing and checkpointing
+Label-blind map pass 10/100: sub-stroke0019; computing and checkpointing
+Label-blind map pass 11/100: sub-stroke0021; computing and checkpointing
+Label-blind map pass 12/100: sub-stroke0022; computing and checkpointing
+Label-blind map pass 13/100: sub-stroke0025; computing and checkpointing
+Label-blind map pass 14/100: sub-stroke0026; computing and checkpointing
+Label-blind map pass 15/100: sub-stroke0028; computing and checkpointing
+Label-blind map pass 16/100: sub-stroke0030; computing and checkpointing
+Label-blind map pass 17/100: sub-stroke0033; computing and checkpointing
+Label-blind map pass 18/100: sub-stroke0036; computing and checkpointing
+Label-blind map pass 19/100: sub-stroke0037; computing and checkpointing
+Label-blind map pass 20/100: sub-stroke0038; computing and checkpointing
+Label-blind map pass 21/100: sub-stroke0043; computing and checkpointing
+EXCLUDE sub-stroke0043: source_corrupt_member: /content/work/extracted/train/derivatives/sub-stroke0043/ses-01/perfusion-maps/sub-stroke0043_ses-01_space-ncct_cbf.nii.gz (EOFError: Compressed file ended before the end-of-stream marker was reached)
+Label-blind map pass 22/100: sub-stroke0045; computing and checkpointing
+Label-blind map pass 23/100: sub-stroke0047; computing and checkpointing
+Label-blind map pass 24/100: sub-stroke0048; computing and checkpointing
+Label-blind map pass 25/100: sub-stroke0055; computing and checkpointing
+Label-blind map pass 26/100: sub-stroke0057; computing and checkpointing
+Label-blind map pass 27/100: sub-stroke0068; computing and checkpointing
+Label-blind map pass 28/100: sub-stroke0070; computing and checkpointing
+Label-blind map pass 29/100: sub-stroke0071; computing and checkpointing
+Label-blind map pass 30/100: sub-stroke0074; computing and checkpointing
+Label-blind map pass 31/100: sub-stroke0075; computing and checkpointing
+Label-blind map pass 32/100: sub-stroke0077; computing and checkpointing
+Label-blind map pass 33/100: sub-stroke0078; computing and checkpointing
+Label-blind map pass 34/100: sub-stroke0079; computing and checkpointing
+Label-blind map pass 35/100: sub-stroke0080; computing and checkpointing
+Label-blind map pass 36/100: sub-stroke0081; computing and checkpointing
+Label-blind map pass 37/100: sub-stroke0082; computing and checkpointing
+Label-blind map pass 38/100: sub-stroke0083; computing and checkpointing
+Label-blind map pass 39/100: sub-stroke0084; computing and checkpointing
+Label-blind map pass 40/100: sub-stroke0086; computing and checkpointing
+Label-blind map pass 41/100: sub-stroke0088; computing and checkpointing
+Label-blind map pass 42/100: sub-stroke0089; computing and checkpointing
+Label-blind map pass 43/100: sub-stroke0090; computing and checkpointing
+Label-blind map pass 44/100: sub-stroke0092; computing and checkpointing
+Label-blind map pass 45/100: sub-stroke0093; computing and checkpointing
+Label-blind map pass 46/100: sub-stroke0094; computing and checkpointing
+Label-blind map pass 47/100: sub-stroke0095; computing and checkpointing
+Label-blind map pass 48/100: sub-stroke0096; computing and checkpointing
+Label-blind map pass 49/100: sub-stroke0098; computing and checkpointing
+Label-blind map pass 50/100: sub-stroke0100; computing and checkpointing
+Label-blind map pass 51/100: sub-stroke0102; computing and checkpointing
+Label-blind map pass 52/100: sub-stroke0104; computing and checkpointing
+Label-blind map pass 53/100: sub-stroke0105; computing and checkpointing
+Label-blind map pass 54/100: sub-stroke0106; computing and checkpointing
+Label-blind map pass 55/100: sub-stroke0107; computing and checkpointing
+Label-blind map pass 56/100: sub-stroke0109; computing and checkpointing
+Label-blind map pass 57/100: sub-stroke0111; computing and checkpointing
+Label-blind map pass 58/100: sub-stroke0112; computing and checkpointing
+Label-blind map pass 59/100: sub-stroke0113; computing and checkpointing
+Label-blind map pass 60/100: sub-stroke0114; computing and checkpointing
+Label-blind map pass 61/100: sub-stroke0117; computing and checkpointing
+Label-blind map pass 62/100: sub-stroke0119; computing and checkpointing
+Label-blind map pass 63/100: sub-stroke0133; computing and checkpointing
+Label-blind map pass 64/100: sub-stroke0134; computing and checkpointing
+Label-blind map pass 65/100: sub-stroke0136; computing and checkpointing
+Label-blind map pass 66/100: sub-stroke0137; computing and checkpointing
+Label-blind map pass 67/100: sub-stroke0138; computing and checkpointing
+Label-blind map pass 68/100: sub-stroke0139; computing and checkpointing
+Label-blind map pass 69/100: sub-stroke0140; computing and checkpointing
+Label-blind map pass 70/100: sub-stroke0141; computing and checkpointing
+Label-blind map pass 71/100: sub-stroke0142; computing and checkpointing
+Label-blind map pass 72/100: sub-stroke0145; computing and checkpointing
+Label-blind map pass 73/100: sub-stroke0147; computing and checkpointing
+Label-blind map pass 74/100: sub-stroke0148; computing and checkpointing
+Label-blind map pass 75/100: sub-stroke0151; computing and checkpointing
+Label-blind map pass 76/100: sub-stroke0153; computing and checkpointing
+Label-blind map pass 77/100: sub-stroke0154; computing and checkpointing
+Label-blind map pass 78/100: sub-stroke0155; computing and checkpointing
+Label-blind map pass 79/100: sub-stroke0156; computing and checkpointing
+Label-blind map pass 80/100: sub-stroke0157; computing and checkpointing
+Label-blind map pass 81/100: sub-stroke0161; computing and checkpointing
+Label-blind map pass 82/100: sub-stroke0163; computing and checkpointing
+Label-blind map pass 83/100: sub-stroke0164; computing and checkpointing
+Label-blind map pass 84/100: sub-stroke0166; computing and checkpointing
+Label-blind map pass 85/100: sub-stroke0167; computing and checkpointing
+Label-blind map pass 86/100: sub-stroke0169; computing and checkpointing
+Label-blind map pass 87/100: sub-stroke0170; computing and checkpointing
+Label-blind map pass 88/100: sub-stroke0174; computing and checkpointing
+Label-blind map pass 89/100: sub-stroke0175; computing and checkpointing
+Label-blind map pass 90/100: sub-stroke0179; computing and checkpointing
+Label-blind map pass 91/100: sub-stroke0180; computing and checkpointing
+Label-blind map pass 92/100: sub-stroke0181; computing and checkpointing
+Label-blind map pass 93/100: sub-stroke0182; computing and checkpointing
+Label-blind map pass 94/100: sub-stroke0183; computing and checkpointing
+Label-blind map pass 95/100: sub-stroke0184; computing and checkpointing
+Label-blind map pass 96/100: sub-stroke0185; computing and checkpointing
+Label-blind map pass 97/100: sub-stroke0186; computing and checkpointing
+Label-blind map pass 98/100: sub-stroke0187; computing and checkpointing
+Label-blind map pass 99/100: sub-stroke0188; computing and checkpointing
+Label-blind map pass 100/100: sub-stroke0189; computing and checkpointing
+Outcome pass 1/100: sub-stroke0002; running rows=0
+Outcome pass 2/100: sub-stroke0005; running rows=3
+Outcome pass 3/100: sub-stroke0006; running rows=6
+Outcome pass 4/100: sub-stroke0008; running rows=9
+Outcome pass 5/100: sub-stroke0009; running rows=12
+Outcome pass 6/100: sub-stroke0012; running rows=15
+Outcome pass 7/100: sub-stroke0013; running rows=18
+Outcome pass 8/100: sub-stroke0014; running rows=21
+Outcome pass 9/100: sub-stroke0015; running rows=24
+Outcome pass 10/100: sub-stroke0019; running rows=27
+Outcome pass 11/100: sub-stroke0021; running rows=30
+Outcome pass 12/100: sub-stroke0022; running rows=33
+Outcome pass 13/100: sub-stroke0025; running rows=36
+Outcome pass 14/100: sub-stroke0026; running rows=39
+Outcome pass 15/100: sub-stroke0028; running rows=42
+Outcome pass 16/100: sub-stroke0030; running rows=45
+Outcome pass 17/100: sub-stroke0033; running rows=48
+Outcome pass 18/100: sub-stroke0036; running rows=51
+Outcome pass 19/100: sub-stroke0037; running rows=54
+Outcome pass 20/100: sub-stroke0038; running rows=57
+Outcome pass 21/100: sub-stroke0043; excluded source_corrupt_member
+Outcome pass 22/100: sub-stroke0045; running rows=60
+Outcome pass 23/100: sub-stroke0047; running rows=63
+Outcome pass 24/100: sub-stroke0048; running rows=66
+Outcome pass 25/100: sub-stroke0055; running rows=69
+Outcome pass 26/100: sub-stroke0057; running rows=72
+Outcome pass 27/100: sub-stroke0068; running rows=75
+Outcome pass 28/100: sub-stroke0070; running rows=78
+Outcome pass 29/100: sub-stroke0071; running rows=81
+Outcome pass 30/100: sub-stroke0074; running rows=84
+Outcome pass 31/100: sub-stroke0075; running rows=87
+Outcome pass 32/100: sub-stroke0077; running rows=90
+Outcome pass 33/100: sub-stroke0078; running rows=93
+Outcome pass 34/100: sub-stroke0079; running rows=96
+Outcome pass 35/100: sub-stroke0080; running rows=99
+Outcome pass 36/100: sub-stroke0081; running rows=102
+Outcome pass 37/100: sub-stroke0082; running rows=105
+Outcome pass 38/100: sub-stroke0083; running rows=108
+Outcome pass 39/100: sub-stroke0084; running rows=111
+Outcome pass 40/100: sub-stroke0086; running rows=114
+Outcome pass 41/100: sub-stroke0088; running rows=117
+Outcome pass 42/100: sub-stroke0089; running rows=120
+Outcome pass 43/100: sub-stroke0090; running rows=123
+Outcome pass 44/100: sub-stroke0092; running rows=126
+Outcome pass 45/100: sub-stroke0093; running rows=129
+Outcome pass 46/100: sub-stroke0094; running rows=132
+Outcome pass 47/100: sub-stroke0095; running rows=135
+Outcome pass 48/100: sub-stroke0096; running rows=138
+Outcome pass 49/100: sub-stroke0098; running rows=141
+Outcome pass 50/100: sub-stroke0100; running rows=144
+Outcome pass 51/100: sub-stroke0102; running rows=147
+Outcome pass 52/100: sub-stroke0104; running rows=150
+Outcome pass 53/100: sub-stroke0105; running rows=153
+Outcome pass 54/100: sub-stroke0106; running rows=156
+Outcome pass 55/100: sub-stroke0107; running rows=159
+Outcome pass 56/100: sub-stroke0109; running rows=162
+Outcome pass 57/100: sub-stroke0111; running rows=165
+Outcome pass 58/100: sub-stroke0112; running rows=168
+Outcome pass 59/100: sub-stroke0113; running rows=171
+Outcome pass 60/100: sub-stroke0114; running rows=174
+Outcome pass 61/100: sub-stroke0117; running rows=177
+Outcome pass 62/100: sub-stroke0119; running rows=180
+Outcome pass 63/100: sub-stroke0133; running rows=183
+Outcome pass 64/100: sub-stroke0134; running rows=186
+Outcome pass 65/100: sub-stroke0136; running rows=189
+Outcome pass 66/100: sub-stroke0137; running rows=192
+Outcome pass 67/100: sub-stroke0138; running rows=195
+Outcome pass 68/100: sub-stroke0139; running rows=198
+Outcome pass 69/100: sub-stroke0140; running rows=201
+Outcome pass 70/100: sub-stroke0141; running rows=204
+Outcome pass 71/100: sub-stroke0142; running rows=207
+Outcome pass 72/100: sub-stroke0145; running rows=210
+Outcome pass 73/100: sub-stroke0147; running rows=213
+Outcome pass 74/100: sub-stroke0148; running rows=216
+Outcome pass 75/100: sub-stroke0151; running rows=219
+Outcome pass 76/100: sub-stroke0153; running rows=222
+Outcome pass 77/100: sub-stroke0154; running rows=225
+Outcome pass 78/100: sub-stroke0155; running rows=228
+Outcome pass 79/100: sub-stroke0156; running rows=231
+Outcome pass 80/100: sub-stroke0157; running rows=234
+Outcome pass 81/100: sub-stroke0161; running rows=237
+Outcome pass 82/100: sub-stroke0163; running rows=240
+Outcome pass 83/100: sub-stroke0164; running rows=243
+Outcome pass 84/100: sub-stroke0166; running rows=246
+Outcome pass 85/100: sub-stroke0167; running rows=249
+Outcome pass 86/100: sub-stroke0169; running rows=252
+Outcome pass 87/100: sub-stroke0170; running rows=255
+Outcome pass 88/100: sub-stroke0174; running rows=258
+Outcome pass 89/100: sub-stroke0175; running rows=261
+Outcome pass 90/100: sub-stroke0179; running rows=264
+Outcome pass 91/100: sub-stroke0180; running rows=267
+Outcome pass 92/100: sub-stroke0181; running rows=270
+Outcome pass 93/100: sub-stroke0182; running rows=273
+Outcome pass 94/100: sub-stroke0183; running rows=276
+Outcome pass 95/100: sub-stroke0184; running rows=279
+Outcome pass 96/100: sub-stroke0185; running rows=282
+Outcome pass 97/100: sub-stroke0186; running rows=285
+Outcome pass 98/100: sub-stroke0187; running rows=288
+Outcome pass 99/100: sub-stroke0188; running rows=291
+Outcome pass 100/100: sub-stroke0189; running rows=294
+Determinism manifest (end):
+{
+  "archive_member_count": 2981,
+  "census_case_count": 100,
+  "idea_id": "idea-023",
+  "input_case_count": 149,
+  "input_paths": {
+    "archive": {
+      "path": "/content/work/train.7z",
+      "sha256": "038920e4dc2011a3f47b8bb8421c67e36d07f1d84f1ba442563077480f75d129"
+    },
+    "contract": {
+      "path": "/content/scout-repo/ideas/023/probe_contract.yaml",
+      "sha256": "f1a8548a70de18367a22d0a2caf78a19fed731cf8514d9fb037d92ccb713f7ed"
+    },
+    "phase_s_csv": {
+      "path": "/content/drive/MyDrive/concept-research-scout-results/023_S_0e223c82f9eb/simulation_operating_characteristics.csv",
+      "sha256": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
+    },
+    "record_json": {
+      "path": "/content/work/zenodo_record.json",
+      "sha256": "232cc6afc6137f9f0cc210d76f8c8a926734e4bfae3a1c3a963e0f04db54dc9e"
+    },
+    "run_py": {
+      "path": "/content/scout-repo/probes/023/run.py",
+      "sha256": "ff237ea7af332554daed8cd295204084a2b4a9394761b66f78dd1bd5f3a5bf23"
+    }
+  },
+  "input_row_count": 2981,
+  "phase": "C",
+  "reserved_case_count": 49,
+  "seed": 20260824,
+  "split_manifest_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843"
+}
+
+Final summary.json:
+{
+  "analyzed_census_case_count": 99,
+  "approval_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
+  "archive_md5": "36ae28b9a17f7340b8bbef62b595cb57",
+  "archive_sha256": "038920e4dc2011a3f47b8bb8421c67e36d07f1d84f1ba442563077480f75d129",
+  "bin_tissue_audit_file": "bin_tissue_audit.csv",
+  "bin_tissue_audit_rows": 594,
+  "census_case_count": 100,
+  "contract_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
+  "excluded_duplicate_lesion_members": 1,
+  "excluded_source_corrupt_cases": 1,
+  "g_label_passed": false,
+  "idea_id": "idea-023",
+  "identity_mad": {
+    "1": 0.0077610015869140625,
+    "2": 0.003559589385986328,
+    "3": 0.0077877044677734375
+  },
+  "per_stratum": [
+    {
+      "ci_high": 0.0383678779489388,
+      "ci_low": -0.026830257261146396,
+      "ci_width": 0.06519813521008519,
+      "mean_d": 0.006391646480739713,
+      "median_ci_high": 0.0015523855816338993,
+      "median_ci_low": -0.00723218321530812,
+      "median_d": 0.0,
+      "patients": 99,
+      "stratum": 1
+    },
+    {
+      "ci_high": -0.007978192339199943,
+      "ci_low": -0.05590632802084301,
+      "ci_width": 0.04792813568164307,
+      "mean_d": -0.03200187198047477,
+      "median_ci_high": 0.0,
+      "median_ci_low": -0.008676201209032647,
+      "median_d": -0.0005886681383370125,
+      "patients": 99,
+      "stratum": 2
+    },
+    {
+      "ci_high": 0.04356979149013058,
+      "ci_low": 0.004965694506583826,
+      "ci_width": 0.038604096983546755,
+      "mean_d": 0.02307549118960302,
+      "median_ci_high": 0.004730928444707274,
+      "median_ci_low": 0.0,
+      "median_d": 0.000556250836852953,
+      "patients": 99,
+      "stratum": 3
+    }
+  ],
+  "phase": "C",
+  "publication_date": "2025-08-12",
+  "record_id": "16813698",
+  "released_case_count": 149,
+  "reserved_case_count": 49,
+  "simulation_output_sha256": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4",
+  "split_manifest_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843",
+  "status": "NEGATIVE_PATTERN",
+  "zenodo_checksum": "md5:36ae28b9a17f7340b8bbef62b595cb57"
+}
+
+Interpretation template: the valid census matched the contract's negative_pattern; report only the bounded outcome association and do not infer physiology or model use.
