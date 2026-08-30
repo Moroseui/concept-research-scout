@@ -3757,5 +3757,62 @@ class TestF3GoverningInterface(Harness):
                          "provenance.json"]}
         self.assertEqual(sc.validate_bundle(1, b), [])
 
+
+class TestInterpretResume(Harness):
+    """M3-pre: an infrastructure failure on the review leg must not burn
+    a good generator leg. --resume-review skips round-1 generation and
+    reviews the preserved interpretation as-is."""
+
+    def _wire_stubs(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        calls = []
+        for name, stub in (
+            ("run_agent", lambda p, fam, stage=None, log_path=None:
+                calls.append(stage) or (
+                    (self.repo / "ideas" / "001" / "interpret_review.md")
+                    .write_text('ok\n```json\n{"verdict": "APPROVE"}\n```\n')
+                    if stage == "interpret_review" else None)),
+            ("_require_clean_tree", lambda *_a, **_k: None),
+            ("_check_scope", lambda *_a, **_k: None),
+            ("_commit_all", lambda msg: calls.append(f"commit:{msg[:20]}")),
+            ("write_prompt", lambda stage, d: (
+                (d / f"prompt_{stage}.md").write_text("p") or
+                d / f"prompt_{stage}.md")),
+            ("validate_bundle", lambda *_a, **_k: []),
+            ("_require_artifact", lambda *_a, **_k: None),
+        ):
+            self.addCleanup(setattr, sc, name, getattr(sc, name))
+            setattr(sc, name, stub)
+        return sc, calls
+
+    def test_resume_skips_generator_and_runs_review_only(self):
+        sc, calls = self._wire_stubs()
+        d = self.repo / "ideas" / "001"
+        (d / "interpretation.md").write_text("preserved round-1")
+        b = self.repo / "probes" / "001" / "results" / "results_v2"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text("{}")
+        import argparse
+        sc.interpret_build(argparse.Namespace(idea=1, resume_review=True))
+        agent_stages = [c for c in calls if c in
+                        ("interpret", "interpret_review")]
+        self.assertEqual(agent_stages, ["interpret_review"],
+                         "resume must never rerun the generator")
+        self.assertEqual((d / "interpretation.md").read_text(),
+                         "preserved round-1")
+
+    def test_resume_refuses_without_preserved_interpretation(self):
+        sc, calls = self._wire_stubs()
+        b = self.repo / "probes" / "001" / "results" / "results_v2"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text("{}")
+        import argparse
+        with self.assertRaises(SystemExit):
+            sc.interpret_build(argparse.Namespace(idea=1,
+                                                  resume_review=True))
+        self.assertEqual(calls, [], "no leg may run without the artifact")
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

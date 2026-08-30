@@ -16,6 +16,10 @@ on:
         description: 'Idea number to interpret (imported bundle required)'
         required: true
         default: '23'
+      resume_review:
+        description: 'Resume at the review leg (round-1 interpretation preserved from a failed run)'
+        type: boolean
+        default: false
 
 concurrency:
   group: scout-cycle
@@ -57,7 +61,7 @@ jobs:
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           SCOUT_CI: '1'
-        run: python scout.py interpret-build ${{ inputs.idea }}
+        run: python scout.py interpret-build ${{ inputs.idea }} ${{ inputs.resume_review == true && '--resume-review' || '' }}
       - name: Push checkpoints
         if: always()
         run: |

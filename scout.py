@@ -939,20 +939,30 @@ def interpret_build(args):
     rev = 'codex' if base == 'claude' else 'claude'
     print(f'Interpreter role: {gen}; reviewer role: {rev} '
           '(rotation may swap which family is which; they always differ).')
+    if getattr(args, 'resume_review', False):
+        if not (d/'interpretation.md').exists():
+            raise SystemExit('--resume-review: no interpretation.md to '
+                             'review; run without the flag.')
+        print('Resuming at the review leg: the preserved round-1 '
+              'interpretation is reviewed as-is (an infrastructure failure '
+              'must not burn a good leg).')
     try:
         for round_no in (1, 2):
-            p1 = write_prompt('interpret', d)
-            if round_no == 2:
-                p1.write_text(p1.read_text() + '\n===== REVISION ROUND =====\n'
-                              'The checker found blocking issues (see interpret_review.md '
-                              'in your context). Fix ONLY those findings in '
-                              'interpretation.md and decision.md; do not expand scope.\n')
-            run_agent(p1, gen, stage='interpret', log_path=d/'log_interpret.txt')
-            _check_scope('interpret')
-            if not (d/'interpretation.md').exists():
-                raise SystemExit('interpret wrote no interpretation.md; the citation '
-                                 'mandate requires it before decision.md.')
-            _commit_all(f'idea {args.idea:03d}: interpretation (round {round_no})')
+            skip_gen = (round_no == 1
+                        and getattr(args, 'resume_review', False))
+            if not skip_gen:
+                p1 = write_prompt('interpret', d)
+                if round_no == 2:
+                    p1.write_text(p1.read_text() + '\n===== REVISION ROUND =====\n'
+                                  'The checker found blocking issues (see interpret_review.md '
+                                  'in your context). Fix ONLY those findings in '
+                                  'interpretation.md and decision.md; do not expand scope.\n')
+                run_agent(p1, gen, stage='interpret', log_path=d/'log_interpret.txt')
+                _check_scope('interpret')
+                if not (d/'interpretation.md').exists():
+                    raise SystemExit('interpret wrote no interpretation.md; the citation '
+                                     'mandate requires it before decision.md.')
+                _commit_all(f'idea {args.idea:03d}: interpretation (round {round_no})')
             p2 = write_prompt('interpret_review', d)
             run_agent(p2, rev, stage='interpret_review', log_path=d/'log_interpret_review.txt')
             _require_artifact('interpret_review', d)
@@ -3525,7 +3535,7 @@ def main():
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
     p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
-    p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.set_defaults(fn=interpret_build)
+    p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--charter',default=None); p.add_argument('--scout'); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
