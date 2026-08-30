@@ -2449,7 +2449,8 @@ What changes in the card, exactly:
 - **Results bundle:** `probes/023/results/results_v2/` at commit
   `1c0acdbf5dccabd00449c5235b5e83e3bb369f51`; all citations resolve there.
 - **Families:** authored by the Claude family (interpret-build leg 1);
-  cross-family review pending (round 1).
+  revised in round 2 per the round-1 cross-family review; re-review
+  pending.
 - **Out-of-scope warnings:** not evidence about autoregulatory reserve,
   vasodilatory capacity, or any causal physiology; no CBV-vs-MTT channel
   claim (the central-volume identity holds in these maps); no model was
@@ -2472,11 +2473,12 @@ against a floor of 20, so this is the contract's decisive negative, not a
 power or support failure. Idea 023's Stage-0 keystone is therefore absent
 as operationalized, and the contract PAUSEs the idea; the planned model-use
 probe does not run. The single most important caveat: the label-blind NCCT
-audit shows the CBV quartile cells differ systematically in tissue
-composition (in the lowest band, low-CBV cells are frankly hypodense in
-most cases), so this negative binds the percentile-band operationalization
-on these vendor maps — it does not show the joint state is biologically or
-predictively empty.
+audit recorded per-case tissue composition for the CBV quartile cells, and
+its cited example cases show large Q1-vs-Q4 attenuation differences (in the
+lowest band, with frankly hypodense low-CBV cells); how prevalent that
+imbalance is across the cohort was not quantified, so this negative binds
+the percentile-band operationalization on these vendor maps — it does not
+show the joint state is biologically or predictively empty.
 
 ## Layer B — Derivation narrative
 
@@ -2507,12 +2509,18 @@ predictively empty.
    zero-excluding intervals in opposite directions — FAILED. Result:
    `g_label_passed: false`, status `NEGATIVE_PATTERN`.
 5. **Diagnostics.** The pre-registered label-blind HU tissue audit
-   (594 rows) shows systematic Q1-vs-Q4 attenuation imbalance in band 1,
-   near-balance in band 2, mixed direction with wide Q4 spreads in band 3 —
-   the "systematic imbalance" branch of the 2026-08-28 rule, which mandates
-   the tissue-composition caveat above and points any successor at a
-   tissue-normalized reference. Median patient-level d is ~0 in every band,
-   so the band means are tail-driven by a minority of patients.
+   recorded 594 per-case rows; the bundle contains no aggregate HU
+   statistic and cohort prevalence of imbalance was not computed. Cited
+   example rows document Q1-vs-Q4 attenuation imbalance in band 1 (e.g.
+   3.0 vs 23.0 HU), one balanced and one oppositely imbalanced case in
+   band 2, and a very-wide-spread Q4 cell in band 3. Because cohort-wide
+   HU balance was therefore not demonstrated, the 2026-08-28 rule's
+   "balanced" branch cannot be certified and the tissue-composition caveat
+   is applied conservatively, pointing any successor at a tissue-normalized
+   reference. Median patient-level d is ~0 in every band while the band-2
+   and band-3 mean CIs exclude zero, indicating between-patient
+   heterogeneity; no contribution analysis was computed, so which or how
+   many patients drive the means is not claimed.
 6. **Variants.** All authorized variants are reported: Phase S (separate
    bundle, hash-pinned), this single Phase C analysis
    (`maximum_variants: 1`, one seed), and the estimator-untouched HU audit.
@@ -2548,14 +2556,14 @@ All rows cite `probes/023/results/results_v2/` at commit
 | 21 | Band-1 imbalance example | Q1 3.0 HU vs Q4 23.0 HU | [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1 | median_hu, both style_group rows] |
 | 22 | Band-2 balance example | 21.0 vs 21.0 HU | [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu, both style_group rows] |
 | 23 | Band-3 spread example | Q4 iqr_hu 314.5 | [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu] |
-| 24 | Tail-driven patient example | d = −0.20385563685311792 | [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d] |
+| 24 | Large single-patient contrast example | d = −0.20385563685311792 | [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d] |
 | 25 | Permitted nonfinite example | 302261 nonfinite MTT voxels | [cite: exclusions.csv | case_id=sub-stroke0113 | nonfinite_mtt_voxels] |
 | 26 | Approval binding | blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b, 2026-08-28T02:31:13Z | [cite: ../../../ideas/023/HUMAN_APPROVED_PROBE | full text] (repo path, outside bundle) |
 | 27 | Gate line at run start | approval gate passed on 03d4545fe293… | [cite: run_log.txt | line 1] |
 
-Qualitative characterizations of the HU audit ("most cases", "near-balanced",
-"mixed") are inspection findings over the full 594-row table; the bundle
-contains no aggregate HU statistic, and no computed aggregate is claimed.
+The HU-audit rows cited above verify those individual cases only. The
+bundle contains no aggregate HU statistic, and no cohort-level frequency or
+prevalence of imbalance is claimed anywhere in this decision.
 
 ## Verdict
 
@@ -2564,14 +2572,15 @@ Stage-0 keystone (a precise, directionally consistent outcome association
 with the joint CBV/MTT state at matched flow) is not present in the census
 labels as operationalized, so idea 023 pauses and the model-use probe is not
 authorized. This is a decisive negative for the keystone, not evidence that
-the joint state lacks biological or predictive content — the HU audit shows
-the operationalization's quartile cells are tissue-imbalanced, and the
-band-2/band-3 sign reversal plus that audit are the empirical starting
-points for any tissue-normalized successor (parent idea-023) via the normal
-pipeline. The separately pre-registered clinical-outcome join and the
-PAUSED transition itself remain operator acts. Full analysis:
-`ideas/023/interpretation.md` (round-1 artifact; decisions.md entry deferred
-until the interpretation passes cross-family review).
+the joint state lacks biological or predictive content — the HU audit's
+cited example cases show tissue-imbalanced quartile cells (cohort
+prevalence not quantified), and the band-2/band-3 sign reversal plus the
+per-case audit table are the empirical starting points for any
+tissue-normalized successor (parent idea-023) via the normal pipeline. The
+separately pre-registered clinical-outcome join and the PAUSED transition
+itself remain operator acts. Full analysis: `ideas/023/interpretation.md`
+(revised per the round-1 cross-family review; decisions.md entry deferred
+until the interpretation passes review).
 
 
 ===== ideas/023/feasibility.md =====
@@ -3041,6 +3050,114 @@ rather than a wasted model study.
 }
 
 
+===== ideas/023/interpret_review.md =====
+# Interpretation review — idea 023, round 1
+
+## 1. Citations resolve
+
+I resolved every citation in `interpretation.md` against
+`probes/023/results/results_v2/` (and the approval marker where applicable).
+The following citations are transcription-exact:
+
+- `run_log.txt`, line 1: Phase-C approval passed on contract blob
+  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
+- `summary.json`: `archive_md5`, `zenodo_checksum`,
+  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
+  `status`, `identity_mad` for strata 1–3,
+  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
+  `analyzed_census_case_count`, `census_case_count`,
+  `bin_tissue_audit_rows`, `reserved_case_count`, and
+  `split_manifest_sha256`.
+- `determinism_manifest_start.json`:
+  `input_paths.phase_s_csv.sha256`; it is
+  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
+  The start and end determinism manifests are byte-identical as stated.
+- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
+  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
+  `median_ci_high`. All displayed full-precision values match.
+- `resolved_config.json`: minimum 20 contributing patients per stratum,
+  minimum 100 voxels per patient-quantile cell, maximum primary CI width
+  0.15, and seed 20260824.
+- `identity_residual_summary.csv`, strata 1–3:
+  `median_absolute_centered_residual` values 0.0077610015869140625,
+  0.003559589385986328, and 0.0077877044677734375.
+- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
+  `source_corrupt_member`; sub-stroke0142 is an
+  `excluded_archive_lesion` while the follow-up derivative is retained;
+  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
+  `vessel_cbv_p98` 29.140625.
+- `per_patient.csv`: sub-stroke0002, stratum 1 has
+  `d = -0.20385563685311792`.
+- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
+  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
+  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
+  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
+  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
+  `iqr_hu = 314.5`.
+
+The approval marker also binds the stated contract blob and timestamp.
+
+## 2. Claim bounds
+
+The primary gate language matches the contract: the result is
+`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
+fails because the two zero-excluding intervals have opposite signs. The text
+correctly scopes uncertainty to patients rather than seeds, states the
+icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
+does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
+claims out of scope. There is no tier-2 threshold issue in this probe, no
+anchor population, and no baseline is incorrectly promoted to a floor.
+
+**Blocking:** the HU and tail descriptions introduce aggregations that no
+claim-bearing analysis file contains. In particular, “in most cases,”
+“often by 10–20 HU,” “near-balanced in most cases (typical median difference
+<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
+means are carried by a minority of patients” are cohort-level frequency or
+contribution claims inferred by the author from row-level tables. The
+interpretation itself acknowledges that no aggregate HU statistic exists.
+The stage rule forbids creating an aggregation in prose that the analysis
+files do not contain. The cited examples verify those cases only; they do not
+support the frequency words. Revise these passages to example-bounded,
+row-level observations and state that the existing outputs do not quantify
+the prevalence of imbalance, or cite an authorized claim-bearing aggregate
+artifact if one is produced through the governed analysis path. Likewise,
+median-near-zero plus one extreme case supports heterogeneity, but not the
+specific “minority carried the means” attribution without a recorded
+contribution analysis.
+
+## 3. Completeness without cherry-picking
+
+I checked all three primary strata, all reported median contrasts and
+intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
+exclusions table, and the three identity-residual rows. The interpretation
+does not hide the material reversal: stratum 2 is negative while stratum 3 is
+positive, and stratum 1 includes zero. It reports both authorized exclusions,
+the tissue-audit heterogeneity, the central-volume result, and the untouched
+reserved cases. No omitted table feature contradicts the primary negative.
+The only completeness problem is the unsupported aggregation described in
+check 2, not omission of an adverse result.
+
+## 4. Verdict separation
+
+The preregistered gate failure and provenance facts are correctly placed
+under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
+and tissue-composition implications are placed under “Suggests,” and the
+“Does not establish” section correctly blocks physiological, model-use,
+channel-attribution, and external-generalization upgrades. Subject to removing
+the unrecorded aggregations above, the separation is sound.
+
+## 5. Plain-language fidelity
+
+There is no distinct plain-language summary section. The “Next decision” and
+positive/negative recap retain the main hedges and do not upgrade the primary
+finding, but their statements that the HU audit demonstrates tissue imbalance
+inherit the blocking aggregation problem above and must be narrowed with it.
+
+```json
+{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
+```
+
+
 ===== ideas/023/interpretation.md =====
 # Interpretation — idea 023, probe 023 Phase C outcome census (take 13)
 
@@ -3077,7 +3194,8 @@ rather than a wasted model study.
   `1c0acdbf5dccabd00449c5235b5e83e3bb369f51`. All citations below resolve
   inside that bundle at that commit unless another path is given.
 - **Families:** interpretation authored by the Claude family (interpret-build
-  leg 1); cross-family citation review pending (`interpret_review.md`, round 1).
+  leg 1); revised in round 2 per the round-1 cross-family review
+  (`interpret_review.md`); re-review pending.
 - **Out-of-scope warnings.** This result must NOT be read as: evidence about
   autoregulatory blood-volume reserve, vasodilatory capacity, collateral or
   reperfusion mechanism, or any causal physiology; a CBV-versus-MTT channel
@@ -3171,63 +3289,78 @@ scope: one treated cohort, one vendor's maps, 99 analyzed patients.
    reperfusion-treated cohort's outcome structure (the census side-result
    the critique anticipated), but with the tissue-composition caveat below
    it must not be promoted to a physiological statement.
-2. **The typical patient shows almost no contrast; the means are
-   tail-driven.** Median patient-level d is 0.0 (band 1),
+2. **The median patient shows almost no contrast; means and medians
+   diverge.** Median patient-level d is 0.0 (band 1),
    −0.0005886681383370125 (band 2), 0.000556250836852953 (band 3), with
    median CIs hugging zero
    [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d, median_ci_low, median_ci_high],
-   while individual patients reach large contrasts of either sign (e.g.
+   while individual patients can reach large contrasts (cited example:
    sub-stroke0002, band 1: d = −0.20385563685311792
    [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d]). The
-   band-level means are carried by a minority of patients, which further
-   weakens any reading of a cohort-wide encoded association.
-3. **The CBV-quartile cells are NOT tissue-matched — the pre-registered HU
-   audit found systematic imbalance.** The label-blind NCCT audit
-   (594 rows = 99 cases × 3 bands × 2 cells
-   [cite: summary.json | bin_tissue_audit_rows | 594]) shows, by inspection
-   of the full table (no aggregate statistic exists in the bundle; the
-   per-case rows are the recorded output):
-   - In band 1 (lowest CBF), Q1 low-CBV cells sit at markedly lower NCCT
-     attenuation than Q4 cells in most cases, often by 10–20 HU, with Q1
-     medians at frankly hypodense values — e.g. sub-stroke0092: Q1 median
-     3.0 HU vs Q4 23.0 HU
+   divergence between near-zero medians and the band-2/band-3 means whose
+   CIs exclude zero indicates between-patient heterogeneity, which weakens
+   any reading of a cohort-wide encoded association. The bundle contains no per-patient
+   contribution analysis, so how many patients drive the band means was
+   not computed and is not claimed.
+3. **The pre-registered HU audit documents Q1-vs-Q4 attenuation imbalance
+   in specific cited cases; cohort prevalence was not computed.** The
+   label-blind NCCT audit recorded per-case, per-band, per-cell HU
+   statistics (594 rows = 99 cases × 3 bands × 2 cells
+   [cite: summary.json | bin_tissue_audit_rows | 594]). The bundle contains
+   no aggregate HU statistic; the per-case rows are the recorded output,
+   and no cohort-level frequency of imbalance is claimed here. The
+   following are cited row-level examples only:
+   - Band 1 (lowest CBF): cited example cases show Q1 low-CBV cells at
+     markedly lower, frankly hypodense median attenuation than their Q4
+     cells — sub-stroke0092: Q1 median 3.0 HU vs Q4 23.0 HU
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV | median_hu = 3.0]
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q4_high_CBV | median_hu = 23.0];
      sub-stroke0057: 5.0 vs 24.0; sub-stroke0189: 6.0 vs 25.0
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0057, stratum=1 | median_hu rows]
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0189, stratum=1 | median_hu rows].
-   - In band 2 the cells are near-balanced in most cases (typical median
-     difference ≤ 2 HU, e.g. sub-stroke0002: 21.0 vs 21.0
-     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows]),
-     with exceptions in both directions (e.g. sub-stroke0183: 23.0 vs 5.0
+   - Band 2: cited examples include one balanced case (sub-stroke0002:
+     21.0 vs 21.0
+     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows])
+     and one imbalanced in the opposite direction (sub-stroke0183: 23.0 vs
+     5.0
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0183, stratum=2 | median_hu rows]).
-   - In band 3 the direction is mixed and Q4 cells often show very wide HU
-     spread (e.g. sub-stroke0109: Q1 30.0 vs Q4 58.0
-     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows];
-     sub-stroke0133 Q4 IQR 314.5
+   - Band 3: cited examples include a higher-attenuation Q4 cell
+     (sub-stroke0109: Q1 30.0 vs Q4 58.0
+     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows])
+     and a Q4 cell with very wide HU spread (sub-stroke0133: Q4 IQR 314.5
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu]),
-     consistent with residual vessel/hyperdense contamination surviving the
-     per-patient p98 CBV cap.
-   INFERENCE (labeled as such): in the lowest-flow band, low-CBV voxels are
-   substantially voxels that are already hypodense on NCCT — established
-   tissue injury or partial-volume CSF — so the Q1-vs-Q4 contrast partly
-   re-measures visible tissue state rather than a hemodynamic state at
-   matched tissue. Under the pre-registered 2026-08-28 interpretation rule,
-   this is the "systematic imbalance" branch: any predictive information in
-   these bins is conditional and carries a tissue-composition caveat, and a
-   tissue-normalized successor design is the recorded consequence. (The
-   other branch — "the compensation reading stands" — is moot here because
-   G-label failed regardless.)
+     the latter consistent, in that case, with residual vessel/hyperdense
+     contamination surviving the per-patient p98 CBV cap.
+   How often such imbalance occurs across the 99 patients was NOT
+   quantified: no governed aggregate analysis of the audit exists, and
+   producing one is successor work.
+   INFERENCE (labeled as such, bounded to the cited cases): in the cited
+   band-1 cases, the frankly hypodense Q1 medians mean the low-CBV voxels
+   there are substantially voxels already hypodense on NCCT — established
+   tissue injury or partial-volume CSF — so in those cases the Q1-vs-Q4
+   contrast partly re-measures visible tissue state rather than a
+   hemodynamic state at matched tissue. Under the pre-registered
+   2026-08-28 interpretation rule, the recorded outputs cannot certify the
+   "HU-balanced" branch (cohort-wide balance was not demonstrated), so the
+   tissue-composition caveat is applied conservatively and a
+   tissue-normalized successor design is the recorded consequence; whether
+   the imbalance is systematic cohort-wide would require a governed
+   aggregate analysis that does not exist. (The other branch — "the
+   compensation reading stands" — is moot here because G-label failed
+   regardless.)
 
 ## Does not establish
 
 - That final-infarct outcome in ISLES'24 carries NO joint CBV/MTT
   information. The gate tests one operationalization: within-patient CBF
   percentile bands, per-patient log-CBV quartile extremes, equal patient
-  weights. The HU audit shows this operationalization mixes tissue types
-  within cells; a tissue-normalized reference (the retired contralateral
-  mirror was, incidentally, exactly that) could still reveal a consistent
-  association.
+  weights. The HU audit's cited example rows show this operationalization
+  can mix tissue types within cells (prevalence not quantified); a
+  tissue-normalized reference (the retired contralateral mirror was,
+  incidentally, exactly that) could still reveal a consistent association.
+- How prevalent the Q1-vs-Q4 tissue imbalance is across the cohort, or
+  which patients drive the band-level means — no aggregate HU statistic or
+  per-patient contribution analysis was computed.
 - Anything about autoregulatory reserve, vasodilatory capacity, or the
   physiological cause of the band-2/band-3 sign difference.
 - Anything about any model — no model existed or was probed; the planned
@@ -3287,9 +3420,10 @@ vessel_cbv_p98 = 29.140625
   one-degree-of-freedom framing); (b) two bands show precise, opposite-signed
   associations — an interpretable observation about label structure in a
   treated cohort, conditional on the tissue caveat; (c) the HU audit
-  documents, quantitatively and per case, that per-patient CBV quartiles at
-  matched flow percentile are tissue-imbalanced — direct empirical design
-  input for any successor.
+  provides per-case tissue-composition measurements for every analyzed
+  case, and its cited example rows document large Q1-vs-Q4 attenuation
+  imbalance in specific cases (cohort prevalence not quantified) — direct
+  empirical design input for any successor.
 
 ## Next decision
 

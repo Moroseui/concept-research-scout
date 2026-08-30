@@ -7,7 +7,7 @@ approval: never
 sandbox: danger-full-access
 reasoning effort: none
 reasoning summaries: none
-session id: 01a053e8-0458-7973-8ab0-5c1562e707b1
+session id: 01a053ec-be4d-79a2-822f-a78e2a2540a0
 --------
 user
 You are a critical research collaborator working inside this repository.
@@ -2461,7 +2461,8 @@ What changes in the card, exactly:
 - **Results bundle:** `probes/023/results/results_v2/` at commit
   `1c0acdbf5dccabd00449c5235b5e83e3bb369f51`; all citations resolve there.
 - **Families:** authored by the Claude family (interpret-build leg 1);
-  cross-family review pending (round 1).
+  revised in round 2 per the round-1 cross-family review; re-review
+  pending.
 - **Out-of-scope warnings:** not evidence about autoregulatory reserve,
   vasodilatory capacity, or any causal physiology; no CBV-vs-MTT channel
   claim (the central-volume identity holds in these maps); no model was
@@ -2484,11 +2485,12 @@ against a floor of 20, so this is the contract's decisive negative, not a
 power or support failure. Idea 023's Stage-0 keystone is therefore absent
 as operationalized, and the contract PAUSEs the idea; the planned model-use
 probe does not run. The single most important caveat: the label-blind NCCT
-audit shows the CBV quartile cells differ systematically in tissue
-composition (in the lowest band, low-CBV cells are frankly hypodense in
-most cases), so this negative binds the percentile-band operationalization
-on these vendor maps — it does not show the joint state is biologically or
-predictively empty.
+audit recorded per-case tissue composition for the CBV quartile cells, and
+its cited example cases show large Q1-vs-Q4 attenuation differences (in the
+lowest band, with frankly hypodense low-CBV cells); how prevalent that
+imbalance is across the cohort was not quantified, so this negative binds
+the percentile-band operationalization on these vendor maps — it does not
+show the joint state is biologically or predictively empty.
 
 ## Layer B — Derivation narrative
 
@@ -2519,12 +2521,18 @@ predictively empty.
    zero-excluding intervals in opposite directions — FAILED. Result:
    `g_label_passed: false`, status `NEGATIVE_PATTERN`.
 5. **Diagnostics.** The pre-registered label-blind HU tissue audit
-   (594 rows) shows systematic Q1-vs-Q4 attenuation imbalance in band 1,
-   near-balance in band 2, mixed direction with wide Q4 spreads in band 3 —
-   the "systematic imbalance" branch of the 2026-08-28 rule, which mandates
-   the tissue-composition caveat above and points any successor at a
-   tissue-normalized reference. Median patient-level d is ~0 in every band,
-   so the band means are tail-driven by a minority of patients.
+   recorded 594 per-case rows; the bundle contains no aggregate HU
+   statistic and cohort prevalence of imbalance was not computed. Cited
+   example rows document Q1-vs-Q4 attenuation imbalance in band 1 (e.g.
+   3.0 vs 23.0 HU), one balanced and one oppositely imbalanced case in
+   band 2, and a very-wide-spread Q4 cell in band 3. Because cohort-wide
+   HU balance was therefore not demonstrated, the 2026-08-28 rule's
+   "balanced" branch cannot be certified and the tissue-composition caveat
+   is applied conservatively, pointing any successor at a tissue-normalized
+   reference. Median patient-level d is ~0 in every band while the band-2
+   and band-3 mean CIs exclude zero, indicating between-patient
+   heterogeneity; no contribution analysis was computed, so which or how
+   many patients drive the means is not claimed.
 6. **Variants.** All authorized variants are reported: Phase S (separate
    bundle, hash-pinned), this single Phase C analysis
    (`maximum_variants: 1`, one seed), and the estimator-untouched HU audit.
@@ -2560,14 +2568,14 @@ All rows cite `probes/023/results/results_v2/` at commit
 | 21 | Band-1 imbalance example | Q1 3.0 HU vs Q4 23.0 HU | [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1 | median_hu, both style_group rows] |
 | 22 | Band-2 balance example | 21.0 vs 21.0 HU | [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu, both style_group rows] |
 | 23 | Band-3 spread example | Q4 iqr_hu 314.5 | [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu] |
-| 24 | Tail-driven patient example | d = −0.20385563685311792 | [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d] |
+| 24 | Large single-patient contrast example | d = −0.20385563685311792 | [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d] |
 | 25 | Permitted nonfinite example | 302261 nonfinite MTT voxels | [cite: exclusions.csv | case_id=sub-stroke0113 | nonfinite_mtt_voxels] |
 | 26 | Approval binding | blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b, 2026-08-28T02:31:13Z | [cite: ../../../ideas/023/HUMAN_APPROVED_PROBE | full text] (repo path, outside bundle) |
 | 27 | Gate line at run start | approval gate passed on 03d4545fe293… | [cite: run_log.txt | line 1] |
 
-Qualitative characterizations of the HU audit ("most cases", "near-balanced",
-"mixed") are inspection findings over the full 594-row table; the bundle
-contains no aggregate HU statistic, and no computed aggregate is claimed.
+The HU-audit rows cited above verify those individual cases only. The
+bundle contains no aggregate HU statistic, and no cohort-level frequency or
+prevalence of imbalance is claimed anywhere in this decision.
 
 ## Verdict
 
@@ -2576,14 +2584,15 @@ Stage-0 keystone (a precise, directionally consistent outcome association
 with the joint CBV/MTT state at matched flow) is not present in the census
 labels as operationalized, so idea 023 pauses and the model-use probe is not
 authorized. This is a decisive negative for the keystone, not evidence that
-the joint state lacks biological or predictive content — the HU audit shows
-the operationalization's quartile cells are tissue-imbalanced, and the
-band-2/band-3 sign reversal plus that audit are the empirical starting
-points for any tissue-normalized successor (parent idea-023) via the normal
-pipeline. The separately pre-registered clinical-outcome join and the
-PAUSED transition itself remain operator acts. Full analysis:
-`ideas/023/interpretation.md` (round-1 artifact; decisions.md entry deferred
-until the interpretation passes cross-family review).
+the joint state lacks biological or predictive content — the HU audit's
+cited example cases show tissue-imbalanced quartile cells (cohort
+prevalence not quantified), and the band-2/band-3 sign reversal plus the
+per-case audit table are the empirical starting points for any
+tissue-normalized successor (parent idea-023) via the normal pipeline. The
+separately pre-registered clinical-outcome join and the PAUSED transition
+itself remain operator acts. Full analysis: `ideas/023/interpretation.md`
+(revised per the round-1 cross-family review; decisions.md entry deferred
+until the interpretation passes review).
 
 
 ===== ideas/023/feasibility.md =====
@@ -3053,6 +3062,114 @@ rather than a wasted model study.
 }
 
 
+===== ideas/023/interpret_review.md =====
+# Interpretation review — idea 023, round 1
+
+## 1. Citations resolve
+
+I resolved every citation in `interpretation.md` against
+`probes/023/results/results_v2/` (and the approval marker where applicable).
+The following citations are transcription-exact:
+
+- `run_log.txt`, line 1: Phase-C approval passed on contract blob
+  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
+- `summary.json`: `archive_md5`, `zenodo_checksum`,
+  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
+  `status`, `identity_mad` for strata 1–3,
+  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
+  `analyzed_census_case_count`, `census_case_count`,
+  `bin_tissue_audit_rows`, `reserved_case_count`, and
+  `split_manifest_sha256`.
+- `determinism_manifest_start.json`:
+  `input_paths.phase_s_csv.sha256`; it is
+  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
+  The start and end determinism manifests are byte-identical as stated.
+- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
+  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
+  `median_ci_high`. All displayed full-precision values match.
+- `resolved_config.json`: minimum 20 contributing patients per stratum,
+  minimum 100 voxels per patient-quantile cell, maximum primary CI width
+  0.15, and seed 20260824.
+- `identity_residual_summary.csv`, strata 1–3:
+  `median_absolute_centered_residual` values 0.0077610015869140625,
+  0.003559589385986328, and 0.0077877044677734375.
+- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
+  `source_corrupt_member`; sub-stroke0142 is an
+  `excluded_archive_lesion` while the follow-up derivative is retained;
+  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
+  `vessel_cbv_p98` 29.140625.
+- `per_patient.csv`: sub-stroke0002, stratum 1 has
+  `d = -0.20385563685311792`.
+- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
+  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
+  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
+  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
+  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
+  `iqr_hu = 314.5`.
+
+The approval marker also binds the stated contract blob and timestamp.
+
+## 2. Claim bounds
+
+The primary gate language matches the contract: the result is
+`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
+fails because the two zero-excluding intervals have opposite signs. The text
+correctly scopes uncertainty to patients rather than seeds, states the
+icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
+does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
+claims out of scope. There is no tier-2 threshold issue in this probe, no
+anchor population, and no baseline is incorrectly promoted to a floor.
+
+**Blocking:** the HU and tail descriptions introduce aggregations that no
+claim-bearing analysis file contains. In particular, “in most cases,”
+“often by 10–20 HU,” “near-balanced in most cases (typical median difference
+<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
+means are carried by a minority of patients” are cohort-level frequency or
+contribution claims inferred by the author from row-level tables. The
+interpretation itself acknowledges that no aggregate HU statistic exists.
+The stage rule forbids creating an aggregation in prose that the analysis
+files do not contain. The cited examples verify those cases only; they do not
+support the frequency words. Revise these passages to example-bounded,
+row-level observations and state that the existing outputs do not quantify
+the prevalence of imbalance, or cite an authorized claim-bearing aggregate
+artifact if one is produced through the governed analysis path. Likewise,
+median-near-zero plus one extreme case supports heterogeneity, but not the
+specific “minority carried the means” attribution without a recorded
+contribution analysis.
+
+## 3. Completeness without cherry-picking
+
+I checked all three primary strata, all reported median contrasts and
+intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
+exclusions table, and the three identity-residual rows. The interpretation
+does not hide the material reversal: stratum 2 is negative while stratum 3 is
+positive, and stratum 1 includes zero. It reports both authorized exclusions,
+the tissue-audit heterogeneity, the central-volume result, and the untouched
+reserved cases. No omitted table feature contradicts the primary negative.
+The only completeness problem is the unsupported aggregation described in
+check 2, not omission of an adverse result.
+
+## 4. Verdict separation
+
+The preregistered gate failure and provenance facts are correctly placed
+under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
+and tissue-composition implications are placed under “Suggests,” and the
+“Does not establish” section correctly blocks physiological, model-use,
+channel-attribution, and external-generalization upgrades. Subject to removing
+the unrecorded aggregations above, the separation is sound.
+
+## 5. Plain-language fidelity
+
+There is no distinct plain-language summary section. The “Next decision” and
+positive/negative recap retain the main hedges and do not upgrade the primary
+finding, but their statements that the HU audit demonstrates tissue imbalance
+inherit the blocking aggregation problem above and must be narrowed with it.
+
+```json
+{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
+```
+
+
 ===== ideas/023/interpretation.md =====
 # Interpretation — idea 023, probe 023 Phase C outcome census (take 13)
 
@@ -3089,7 +3206,8 @@ rather than a wasted model study.
   `1c0acdbf5dccabd00449c5235b5e83e3bb369f51`. All citations below resolve
   inside that bundle at that commit unless another path is given.
 - **Families:** interpretation authored by the Claude family (interpret-build
-  leg 1); cross-family citation review pending (`interpret_review.md`, round 1).
+  leg 1); revised in round 2 per the round-1 cross-family review
+  (`interpret_review.md`); re-review pending.
 - **Out-of-scope warnings.** This result must NOT be read as: evidence about
   autoregulatory blood-volume reserve, vasodilatory capacity, collateral or
   reperfusion mechanism, or any causal physiology; a CBV-versus-MTT channel
@@ -3183,63 +3301,78 @@ scope: one treated cohort, one vendor's maps, 99 analyzed patients.
    reperfusion-treated cohort's outcome structure (the census side-result
    the critique anticipated), but with the tissue-composition caveat below
    it must not be promoted to a physiological statement.
-2. **The typical patient shows almost no contrast; the means are
-   tail-driven.** Median patient-level d is 0.0 (band 1),
+2. **The median patient shows almost no contrast; means and medians
+   diverge.** Median patient-level d is 0.0 (band 1),
    −0.0005886681383370125 (band 2), 0.000556250836852953 (band 3), with
    median CIs hugging zero
    [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d, median_ci_low, median_ci_high],
-   while individual patients reach large contrasts of either sign (e.g.
+   while individual patients can reach large contrasts (cited example:
    sub-stroke0002, band 1: d = −0.20385563685311792
    [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d]). The
-   band-level means are carried by a minority of patients, which further
-   weakens any reading of a cohort-wide encoded association.
-3. **The CBV-quartile cells are NOT tissue-matched — the pre-registered HU
-   audit found systematic imbalance.** The label-blind NCCT audit
-   (594 rows = 99 cases × 3 bands × 2 cells
-   [cite: summary.json | bin_tissue_audit_rows | 594]) shows, by inspection
-   of the full table (no aggregate statistic exists in the bundle; the
-   per-case rows are the recorded output):
-   - In band 1 (lowest CBF), Q1 low-CBV cells sit at markedly lower NCCT
-     attenuation than Q4 cells in most cases, often by 10–20 HU, with Q1
-     medians at frankly hypodense values — e.g. sub-stroke0092: Q1 median
-     3.0 HU vs Q4 23.0 HU
+   divergence between near-zero medians and the band-2/band-3 means whose
+   CIs exclude zero indicates between-patient heterogeneity, which weakens
+   any reading of a cohort-wide encoded association. The bundle contains no per-patient
+   contribution analysis, so how many patients drive the band means was
+   not computed and is not claimed.
+3. **The pre-registered HU audit documents Q1-vs-Q4 attenuation imbalance
+   in specific cited cases; cohort prevalence was not computed.** The
+   label-blind NCCT audit recorded per-case, per-band, per-cell HU
+   statistics (594 rows = 99 cases × 3 bands × 2 cells
+   [cite: summary.json | bin_tissue_audit_rows | 594]). The bundle contains
+   no aggregate HU statistic; the per-case rows are the recorded output,
+   and no cohort-level frequency of imbalance is claimed here. The
+   following are cited row-level examples only:
+   - Band 1 (lowest CBF): cited example cases show Q1 low-CBV cells at
+     markedly lower, frankly hypodense median attenuation than their Q4
+     cells — sub-stroke0092: Q1 median 3.0 HU vs Q4 23.0 HU
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV | median_hu = 3.0]
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q4_high_CBV | median_hu = 23.0];
      sub-stroke0057: 5.0 vs 24.0; sub-stroke0189: 6.0 vs 25.0
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0057, stratum=1 | median_hu rows]
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0189, stratum=1 | median_hu rows].
-   - In band 2 the cells are near-balanced in most cases (typical median
-     difference ≤ 2 HU, e.g. sub-stroke0002: 21.0 vs 21.0
-     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows]),
-     with exceptions in both directions (e.g. sub-stroke0183: 23.0 vs 5.0
+   - Band 2: cited examples include one balanced case (sub-stroke0002:
+     21.0 vs 21.0
+     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows])
+     and one imbalanced in the opposite direction (sub-stroke0183: 23.0 vs
+     5.0
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0183, stratum=2 | median_hu rows]).
-   - In band 3 the direction is mixed and Q4 cells often show very wide HU
-     spread (e.g. sub-stroke0109: Q1 30.0 vs Q4 58.0
-     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows];
-     sub-stroke0133 Q4 IQR 314.5
+   - Band 3: cited examples include a higher-attenuation Q4 cell
+     (sub-stroke0109: Q1 30.0 vs Q4 58.0
+     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows])
+     and a Q4 cell with very wide HU spread (sub-stroke0133: Q4 IQR 314.5
      [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu]),
-     consistent with residual vessel/hyperdense contamination surviving the
-     per-patient p98 CBV cap.
-   INFERENCE (labeled as such): in the lowest-flow band, low-CBV voxels are
-   substantially voxels that are already hypodense on NCCT — established
-   tissue injury or partial-volume CSF — so the Q1-vs-Q4 contrast partly
-   re-measures visible tissue state rather than a hemodynamic state at
-   matched tissue. Under the pre-registered 2026-08-28 interpretation rule,
-   this is the "systematic imbalance" branch: any predictive information in
-   these bins is conditional and carries a tissue-composition caveat, and a
-   tissue-normalized successor design is the recorded consequence. (The
-   other branch — "the compensation reading stands" — is moot here because
-   G-label failed regardless.)
+     the latter consistent, in that case, with residual vessel/hyperdense
+     contamination surviving the per-patient p98 CBV cap.
+   How often such imbalance occurs across the 99 patients was NOT
+   quantified: no governed aggregate analysis of the audit exists, and
+   producing one is successor work.
+   INFERENCE (labeled as such, bounded to the cited cases): in the cited
+   band-1 cases, the frankly hypodense Q1 medians mean the low-CBV voxels
+   there are substantially voxels already hypodense on NCCT — established
+   tissue injury or partial-volume CSF — so in those cases the Q1-vs-Q4
+   contrast partly re-measures visible tissue state rather than a
+   hemodynamic state at matched tissue. Under the pre-registered
+   2026-08-28 interpretation rule, the recorded outputs cannot certify the
+   "HU-balanced" branch (cohort-wide balance was not demonstrated), so the
+   tissue-composition caveat is applied conservatively and a
+   tissue-normalized successor design is the recorded consequence; whether
+   the imbalance is systematic cohort-wide would require a governed
+   aggregate analysis that does not exist. (The other branch — "the
+   compensation reading stands" — is moot here because G-label failed
+   regardless.)
 
 ## Does not establish
 
 - That final-infarct outcome in ISLES'24 carries NO joint CBV/MTT
   information. The gate tests one operationalization: within-patient CBF
   percentile bands, per-patient log-CBV quartile extremes, equal patient
-  weights. The HU audit shows this operationalization mixes tissue types
-  within cells; a tissue-normalized reference (the retired contralateral
-  mirror was, incidentally, exactly that) could still reveal a consistent
-  association.
+  weights. The HU audit's cited example rows show this operationalization
+  can mix tissue types within cells (prevalence not quantified); a
+  tissue-normalized reference (the retired contralateral mirror was,
+  incidentally, exactly that) could still reveal a consistent association.
+- How prevalent the Q1-vs-Q4 tissue imbalance is across the cohort, or
+  which patients drive the band-level means — no aggregate HU statistic or
+  per-patient contribution analysis was computed.
 - Anything about autoregulatory reserve, vasodilatory capacity, or the
   physiological cause of the band-2/band-3 sign difference.
 - Anything about any model — no model existed or was probed; the planned
@@ -3299,9 +3432,10 @@ vessel_cbv_p98 = 29.140625
   one-degree-of-freedom framing); (b) two bands show precise, opposite-signed
   associations — an interpretable observation about label structure in a
   treated cohort, conditional on the tissue caveat; (c) the HU audit
-  documents, quantitatively and per case, that per-patient CBV quartiles at
-  matched flow percentile are tissue-imbalanced — direct empirical design
-  input for any successor.
+  provides per-case tissue-composition measurements for every analyzed
+  case, and its cited example rows document large Q1-vs-Q4 attenuation
+  imbalance in specific cases (cohort prevalence not quantified) — direct
+  empirical design input for any successor.
 
 ## Next decision
 
@@ -3915,53 +4049,50 @@ Modify no file other than interpret_review.md.
 
 
 codex
-I’ll verify every citation and claim boundary against the frozen results bundle and contract, then write only `ideas/023/interpret_review.md`. No research-generation skill applies here; this is a repository evidence audit.
+I’ll re-check the revised interpretation citation-by-citation against the imported bundle and contract, then update only `ideas/023/interpret_review.md` with the round-two verdict.
 exec
-/bin/bash -lc 'rg --files ideas/023 probes/023/results/results_v2 | sort && git status --short' in /home/runner/work/concept-research-scout/concept-research-scout
+/bin/bash -lc "rg -n \"\\[cite:\" ideas/023/interpretation.md && rg --files probes/023/results/results_v2 | sort && git status --short" in /home/runner/work/concept-research-scout/concept-research-scout
  succeeded in 0ms:
-ideas/023/HUMAN_APPROVED_PROBE
-ideas/023/README.md
-ideas/023/consensus.md
-ideas/023/critique.md
-ideas/023/debate.md
-ideas/023/decision.md
-ideas/023/feasibility.md
-ideas/023/idea_card.json
-ideas/023/interpretation.md
-ideas/023/keystone_screen.md
-ideas/023/log_critique.txt
-ideas/023/log_feasibility.txt
-ideas/023/log_interpret.txt
-ideas/023/log_interpret_review.txt
-ideas/023/log_keystone.txt
-ideas/023/log_probe_code.txt
-ideas/023/log_probe_plan.txt
-ideas/023/log_probe_review.txt
-ideas/023/log_reconcile.txt
-ideas/023/log_revise.txt
-ideas/023/probe_contract.yaml
-ideas/023/probe_review.md
-ideas/023/prompt_critique.md
-ideas/023/prompt_debate_r1_critic.md
-ideas/023/prompt_debate_r1_proposer.md
-ideas/023/prompt_debate_r2_critic.md
-ideas/023/prompt_debate_r2_proposer.md
-ideas/023/prompt_debate_r3_critic.md
-ideas/023/prompt_debate_r3_proposer.md
-ideas/023/prompt_debate_summary.md
-ideas/023/prompt_feasibility.md
-ideas/023/prompt_interpret.md
-ideas/023/prompt_interpret_review.md
-ideas/023/prompt_keystone_screen.md
-ideas/023/prompt_probe_code.md
-ideas/023/prompt_probe_plan.md
-ideas/023/prompt_probe_review.md
-ideas/023/prompt_reconcile.md
-ideas/023/prompt_revise.md
-ideas/023/reconciliation.md
-ideas/023/revision.md
-ideas/023/stage_provenance.jsonl
-ideas/023/state.json
+62:   blob `03d4545fe293…` [cite: run_log.txt | line 1 | approval line]; the
+64:   [cite: summary.json | archive_md5 | 36ae28b9a17f7340b8bbef62b595cb57]
+65:   [cite: summary.json | zenodo_checksum | md5:36ae28b9a17f7340b8bbef62b595cb57];
+68:   [cite: determinism_manifest_start.json | input_paths.phase_s_csv | sha256 = 59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4]
+69:   [cite: summary.json | simulation_output_sha256 | 59069fa9…]. The released
+70:   case count resolved to 149 [cite: summary.json | released_case_count | 149],
+74:   [cite: summary.json | g_label_passed | false]
+75:   [cite: summary.json | status | NEGATIVE_PATTERN]. Per band
+80:     [cite: per_stratum_summary.csv | stratum=1 | mean_d, ci_low, ci_high, ci_width].
+85:     [cite: per_stratum_summary.csv | stratum=2 | mean_d, ci_low, ci_high, ci_width].
+89:     [cite: per_stratum_summary.csv | stratum=3 | mean_d, ci_low, ci_high, ci_width].
+94:   [cite: per_stratum_summary.csv | stratum=1,2,3 | patients = 99]
+95:   [cite: resolved_config.json | minimum_contributing_patients_per_stratum | 20]
+96:   [cite: resolved_config.json | maximum_primary_ci_width | 0.15], so the
+104:   [cite: identity_residual_summary.csv | stratum=1,2,3 | median_absolute_centered_residual]
+105:   [cite: summary.json | identity_mad | 1,2,3]. This directly confirms the
+110:   [cite: exclusions.csv | case_id=sub-stroke0043, record_type=excluded_case | reason = source_corrupt_member]
+111:   [cite: summary.json | excluded_source_corrupt_cases | 1]; the duplicate
+114:   [cite: exclusions.csv | case_id=sub-stroke0142, record_type=excluded_archive_lesion | reason]
+115:   [cite: summary.json | excluded_duplicate_lesion_members | 1]. Analyzed
+117:   [cite: summary.json | analyzed_census_case_count | 99]
+118:   [cite: summary.json | census_case_count | 100].
+135:   [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d, median_ci_low, median_ci_high],
+138:   [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d]). The
+148:   [cite: summary.json | bin_tissue_audit_rows | 594]). The bundle contains
+155:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV | median_hu = 3.0]
+156:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q4_high_CBV | median_hu = 23.0];
+158:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0057, stratum=1 | median_hu rows]
+159:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0189, stratum=1 | median_hu rows].
+162:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows])
+165:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0183, stratum=2 | median_hu rows]).
+168:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows])
+170:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu]),
+208:  [cite: summary.json | reserved_case_count | 49]), the hidden test set,
+218:[cite: summary.json | split_manifest_sha256]); provenance, checksum, and
+222:[cite: exclusions.csv | case_id=sub-stroke0113 | nonfinite_mtt_voxels]);
+228:[cite: exclusions.csv | case_id=sub-stroke0002 | vessel_cbv_p98]).
+236:  at Phase C load [cite: resolved_config.json | minimum_contributing_patients_per_stratum, minimum_voxels_per_patient_quantile_cell, maximum_primary_ci_width]
+237:  [cite: determinism_manifest_start.json | input_paths.phase_s_csv | sha256].
+239:  seed (20260824 [cite: resolved_config.json | seed]). No other analysis
 probes/023/results/results_v2/archive_manifest.csv
 probes/023/results/results_v2/bin_tissue_audit.csv
 probes/023/results/results_v2/determinism_manifest_end.json
@@ -3984,48 +4115,8 @@ probes/023/results/results_v2/support_summary.csv
  M ideas/023/prompt_interpret_review.md
 
 exec
-/bin/bash -lc "rg -n '\\[cite:' ideas/023/interpretation.md && sed -n '1,240p' probes/023/results/results_v2/summary.json && sed -n '1,240p' probes/023/results/results_v2/resolved_config.json && sed -n '1,20p' probes/023/results/results_v2/per_stratum_summary.csv && sed -n '1,20p' probes/023/results/results_v2/identity_residual_summary.csv && sed -n '1,30p' probes/023/results/results_v2/exclusions.csv" in /home/runner/work/concept-research-scout/concept-research-scout
+/bin/bash -lc "jq . probes/023/results/results_v2/summary.json; jq . probes/023/results/results_v2/resolved_config.json; jq '.input_paths.phase_s_csv' probes/023/results/results_v2/determinism_manifest_start.json; cmp -s probes/023/results/results_v2/determinism_manifest_start.json probes/023/results/results_v2/determinism_manifest_end.json; echo \"determinism_cmp="'$?"; sed -n '"'1,5p' probes/023/results/results_v2/per_stratum_summary.csv; sed -n '1,5p' probes/023/results/results_v2/identity_residual_summary.csv; sed -n '1,3p' probes/023/results/results_v2/run_log.txt; sed -n '1,5p' ideas/023/HUMAN_APPROVED_PROBE" in /home/runner/work/concept-research-scout/concept-research-scout
  succeeded in 0ms:
-61:   blob `03d4545fe293…` [cite: run_log.txt | line 1 | approval line]; the
-63:   [cite: summary.json | archive_md5 | 36ae28b9a17f7340b8bbef62b595cb57]
-64:   [cite: summary.json | zenodo_checksum | md5:36ae28b9a17f7340b8bbef62b595cb57];
-67:   [cite: determinism_manifest_start.json | input_paths.phase_s_csv | sha256 = 59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4]
-68:   [cite: summary.json | simulation_output_sha256 | 59069fa9…]. The released
-69:   case count resolved to 149 [cite: summary.json | released_case_count | 149],
-73:   [cite: summary.json | g_label_passed | false]
-74:   [cite: summary.json | status | NEGATIVE_PATTERN]. Per band
-79:     [cite: per_stratum_summary.csv | stratum=1 | mean_d, ci_low, ci_high, ci_width].
-84:     [cite: per_stratum_summary.csv | stratum=2 | mean_d, ci_low, ci_high, ci_width].
-88:     [cite: per_stratum_summary.csv | stratum=3 | mean_d, ci_low, ci_high, ci_width].
-93:   [cite: per_stratum_summary.csv | stratum=1,2,3 | patients = 99]
-94:   [cite: resolved_config.json | minimum_contributing_patients_per_stratum | 20]
-95:   [cite: resolved_config.json | maximum_primary_ci_width | 0.15], so the
-103:   [cite: identity_residual_summary.csv | stratum=1,2,3 | median_absolute_centered_residual]
-104:   [cite: summary.json | identity_mad | 1,2,3]. This directly confirms the
-109:   [cite: exclusions.csv | case_id=sub-stroke0043, record_type=excluded_case | reason = source_corrupt_member]
-110:   [cite: summary.json | excluded_source_corrupt_cases | 1]; the duplicate
-113:   [cite: exclusions.csv | case_id=sub-stroke0142, record_type=excluded_archive_lesion | reason]
-114:   [cite: summary.json | excluded_duplicate_lesion_members | 1]. Analyzed
-116:   [cite: summary.json | analyzed_census_case_count | 99]
-117:   [cite: summary.json | census_case_count | 100].
-134:   [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d, median_ci_low, median_ci_high],
-137:   [cite: per_patient.csv | case_id=sub-stroke0002, stratum=1 | d]). The
-143:   [cite: summary.json | bin_tissue_audit_rows | 594]) shows, by inspection
-150:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV | median_hu = 3.0]
-151:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q4_high_CBV | median_hu = 23.0];
-153:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0057, stratum=1 | median_hu rows]
-154:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0189, stratum=1 | median_hu rows].
-157:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0002, stratum=2 | median_hu rows]),
-159:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0183, stratum=2 | median_hu rows]).
-162:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0109, stratum=3 | median_hu rows];
-164:     [cite: bin_tissue_audit.csv | case_id=sub-stroke0133, stratum=3, style_group=Q4_high_CBV | iqr_hu]),
-192:  [cite: summary.json | reserved_case_count | 49]), the hidden test set,
-202:[cite: summary.json | split_manifest_sha256]); provenance, checksum, and
-206:[cite: exclusions.csv | case_id=sub-stroke0113 | nonfinite_mtt_voxels]);
-212:[cite: exclusions.csv | case_id=sub-stroke0002 | vessel_cbv_p98]).
-220:  at Phase C load [cite: resolved_config.json | minimum_contributing_patients_per_stratum, minimum_voxels_per_patient_quantile_cell, maximum_primary_ci_width]
-221:  [cite: determinism_manifest_start.json | input_paths.phase_s_csv | sha256].
-223:  seed (20260824 [cite: resolved_config.json | seed]). No other analysis
 {
   "analyzed_census_case_count": 99,
   "approval_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
@@ -4113,6 +4204,11 @@ exec
   "phase": "C",
   "seed": 20260824
 }
+{
+  "path": "/content/drive/MyDrive/concept-research-scout-results/023_S_0e223c82f9eb/simulation_operating_characteristics.csv",
+  "sha256": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
+}
+determinism_cmp=0
 stratum,patients,mean_d,median_d,median_ci_low,median_ci_high,ci_low,ci_high,ci_width
 1,99,0.006391646480739713,0.0,-0.00723218321530812,0.0015523855816338993,-0.026830257261146396,0.0383678779489388,0.06519813521008519
 2,99,-0.03200187198047477,-0.0005886681383370125,-0.008676201209032647,0.0,-0.05590632802084301,-0.007978192339199943,0.04792813568164307
@@ -4121,556 +4217,932 @@ stratum,centered_residual_voxels,centered_residual_min,centered_residual_q01,cen
 1,7459516,-16.186546325683594,-1.0832701802253721,-0.25204765796661377,-0.013806819915771484,-0.00036716461181640625,0.004813194274902344,0.04333174228668213,0.15142583847045898,9.33803939819336,4.094430446624756,0.0077610015869140625
 2,7685516,-10.987957954406738,-0.4254889488220215,-0.06759405136108398,-0.0033135414123535156,9.679794311523438e-05,0.0037674903869628906,0.03665304183959961,0.14964809417724467,8.125398635864258,4.094430446624756,0.003559589385986328
 3,7459418,-9.521913528442383,-0.5924597358703614,-0.13623292446136473,-0.006068706512451172,0.00010061264038085938,0.00972127914428711,0.14851903915405273,0.5331465053558357,10.985130310058594,4.094430446624756,0.0077877044677734375
+Approval gate passed for Phase C; contract blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b
+Determinism manifest (start):
+{
+Approved by human at 2026-08-28T02:31:13.281441+00:00
+contract_blob: 03d4545fe293f0067c69ce9e9e696ec97b894d7b
+
+exec
+/bin/bash -lc "head -1 probes/023/results/results_v2/exclusions.csv; rg '"'^sub-stroke(0043|0142|0113|0002),'"' probes/023/results/results_v2/exclusions.csv; head -1 probes/023/results/results_v2/per_patient.csv; rg '"'^sub-stroke0002,1,'"' probes/023/results/results_v2/per_patient.csv; head -1 probes/023/results/results_v2/bin_tissue_audit.csv; rg '"'^sub-stroke(0092|0057|0189|0002|0183|0109|0133),'"' probes/023/results/results_v2/bin_tissue_audit.csv" in /home/runner/work/concept-research-scout/concept-research-scout
+ succeeded in 0ms:
 case_id,record_type,reason,source_path,deficit_voxels,eroded_region_voxels,vessel_voxels,vessel_cbv_p98,nonfinite_cbf_voxels,nonfinite_cbv_voxels,nonfinite_mtt_voxels,nonfinite_tmax_voxels
 sub-stroke0142,excluded_archive_lesion,duplicate/noncanonical lesion archive member; follow-up derivative retained,train/derivatives/sub-stroke0142/ses-02/sub-stroke0142_ses-02_lesion-msk.nii,,,,,,,,
 sub-stroke0002,analyzed_case,,,139512,48087,37613,29.140625,0,0,0,0
-sub-stroke0005,analyzed_case,,,281726,180796,69300,21.203125,0,0,0,0
-sub-stroke0006,analyzed_case,,,889136,538051,63867,60.0,0,0,0,0
-sub-stroke0008,analyzed_case,,,829691,482690,78228,33.136680603027344,0,0,0,0
-sub-stroke0009,analyzed_case,,,351217,262003,56664,19.609375,0,0,0,0
-sub-stroke0012,analyzed_case,,,567025,353933,42965,86.75,0,0,0,0
-sub-stroke0013,analyzed_case,,,640764,319595,72573,21.734375,0,0,0,0
-sub-stroke0014,analyzed_case,,,949449,617540,70184,19.96875,0,0,0,0
-sub-stroke0015,analyzed_case,,,600461,338711,82699,28.40625,0,0,0,0
-sub-stroke0019,analyzed_case,,,365981,149736,80090,30.765625,0,0,0,0
-sub-stroke0021,analyzed_case,,,113459,40605,47107,19.09375,0,0,0,0
-sub-stroke0022,analyzed_case,,,788445,538287,40696,39.21875,0,0,0,0
-sub-stroke0025,analyzed_case,,,420401,250734,80686,23.09375,0,0,0,0
-sub-stroke0026,analyzed_case,,,676128,332170,56246,54.09375,0,0,0,0
-sub-stroke0028,analyzed_case,,,294411,159722,48718,70.4375,0,0,0,0
-sub-stroke0030,analyzed_case,,,336363,230151,34283,16.703125,0,0,7474,0
-sub-stroke0033,analyzed_case,,,321255,118131,75071,23.453125,0,0,0,0
-sub-stroke0036,analyzed_case,,,335498,235274,74020,33.15625,0,0,0,0
-sub-stroke0037,analyzed_case,,,163249,69962,21133,107.25,0,0,448,0
-sub-stroke0038,analyzed_case,,,117476,41307,46843,28.171875,0,0,0,0
 sub-stroke0043,excluded_case,source_corrupt_member,/content/work/extracted/train/derivatives/sub-stroke0043/ses-01/perfusion-maps/sub-stroke0043_ses-01_space-ncct_cbf.nii.gz,,,,,,,,
-sub-stroke0045,analyzed_case,,,448542,300276,65871,29.453125,0,0,0,0
-sub-stroke0047,analyzed_case,,,259977,122704,71668,15.0078125,0,0,0,0
-sub-stroke0048,analyzed_case,,,288125,174466,72778,20.140625,0,0,0,0
-sub-stroke0055,analyzed_case,,,219791,94019,83168,19.8125,0,0,0,0
-sub-stroke0057,analyzed_case,,,221399,121349,45964,21.328125,0,0,0,0
-sub-stroke0068,analyzed_case,,,413213,258618,73273,19.03125,0,0,0,0
-sub-stroke0070,analyzed_case,,,558883,347209,46750,16.0625,0,0,0,0
+sub-stroke0113,analyzed_case,,,845798,427886,56262,31.203125,0,0,302261,0
+sub-stroke0142,analyzed_case,,,62104,3948,55850,18.281156539916992,0,0,0,0
+case_id,stratum,q1_voxels,q4_voxels,d
+sub-stroke0002,1,3969,3970,-0.20385563685311792
+case_id,stratum,style_group,member_voxels,finite_hu_voxels,nonfinite_hu_voxels,median_hu,q25_hu,q75_hu,iqr_hu
+sub-stroke0002,1,Q1_low_CBV,3969,3969,0,16.0,11.0,18.0,7.0
+sub-stroke0002,1,Q4_high_CBV,3970,3970,0,19.0,17.0,20.0,3.0
+sub-stroke0002,2,Q1_low_CBV,4091,4091,0,21.0,17.0,24.0,7.0
+sub-stroke0002,2,Q4_high_CBV,4090,4090,0,21.0,18.0,24.0,6.0
+sub-stroke0002,3,Q1_low_CBV,3973,3973,0,21.0,15.0,24.0,9.0
+sub-stroke0002,3,Q4_high_CBV,3967,3967,0,19.0,11.0,26.0,15.0
+sub-stroke0057,1,Q1_low_CBV,10022,10022,0,5.0,4.0,8.0,4.0
+sub-stroke0057,1,Q4_high_CBV,10025,10025,0,24.0,20.0,26.0,6.0
+sub-stroke0057,2,Q1_low_CBV,10370,10370,0,25.0,22.0,27.0,5.0
+sub-stroke0057,2,Q4_high_CBV,10321,10321,0,24.0,16.0,27.0,11.0
+sub-stroke0057,3,Q1_low_CBV,10027,10027,0,24.0,18.0,27.0,9.0
+sub-stroke0057,3,Q4_high_CBV,10014,10014,0,19.0,12.0,58.0,46.0
+sub-stroke0092,1,Q1_low_CBV,3371,3371,0,3.0,2.0,4.0,2.0
+sub-stroke0092,1,Q4_high_CBV,3374,3374,0,23.0,8.0,24.0,16.0
+sub-stroke0092,2,Q1_low_CBV,3474,3474,0,25.0,22.0,26.0,4.0
+sub-stroke0092,2,Q4_high_CBV,3474,3474,0,26.0,21.0,28.0,7.0
+sub-stroke0092,3,Q1_low_CBV,3373,3373,0,25.0,21.0,27.0,6.0
+sub-stroke0092,3,Q4_high_CBV,3372,3372,0,19.0,10.0,27.0,17.0
+sub-stroke0109,1,Q1_low_CBV,10688,10688,0,25.0,24.0,27.0,3.0
+sub-stroke0109,1,Q4_high_CBV,10701,10701,0,25.0,24.0,26.0,2.0
+sub-stroke0109,2,Q1_low_CBV,11016,11016,0,28.0,26.0,30.0,4.0
+sub-stroke0109,2,Q4_high_CBV,11015,11015,0,28.0,25.0,30.0,5.0
+sub-stroke0109,3,Q1_low_CBV,10686,10686,0,30.0,28.0,33.0,5.0
+sub-stroke0109,3,Q4_high_CBV,10686,10686,0,58.0,43.0,74.0,31.0
+sub-stroke0133,1,Q1_low_CBV,830,830,0,28.0,17.0,36.0,19.0
+sub-stroke0133,1,Q4_high_CBV,830,830,0,38.0,33.0,42.0,9.0
+sub-stroke0133,2,Q1_low_CBV,855,855,0,41.0,35.0,45.0,10.0
+sub-stroke0133,2,Q4_high_CBV,855,855,0,33.0,20.0,43.0,23.0
+sub-stroke0133,3,Q1_low_CBV,830,830,0,42.0,33.0,49.0,16.0
+sub-stroke0133,3,Q4_high_CBV,830,830,0,40.0,-241.75,72.75,314.5
+sub-stroke0183,1,Q1_low_CBV,2745,2745,0,21.0,5.0,24.0,19.0
+sub-stroke0183,1,Q4_high_CBV,2741,2741,0,3.0,2.2737367544323206e-13,14.0,13.999999999999773
+sub-stroke0183,2,Q1_low_CBV,2828,2828,0,23.0,15.0,26.0,11.0
+sub-stroke0183,2,Q4_high_CBV,2826,2826,0,5.0,3.0,9.0,6.0
+sub-stroke0183,3,Q1_low_CBV,2743,2743,0,23.0,12.0,29.0,17.0
+sub-stroke0183,3,Q4_high_CBV,2744,2744,0,20.0,9.0,38.0,29.0
+sub-stroke0189,1,Q1_low_CBV,27861,27861,0,6.0,3.0,21.0,18.0
+sub-stroke0189,1,Q4_high_CBV,27897,27897,0,25.0,23.0,26.0,3.0
+sub-stroke0189,2,Q1_low_CBV,28723,28723,0,26.0,24.0,27.0,3.0
+sub-stroke0189,2,Q4_high_CBV,28739,28739,0,26.0,23.0,28.0,5.0
+sub-stroke0189,3,Q1_low_CBV,27884,27884,0,27.0,24.0,29.0,5.0
+sub-stroke0189,3,Q4_high_CBV,27855,27855,0,22.0,15.0,28.0,13.0
 
 codex
-The primary endpoint, support, exclusions, and identity-residual values match so far. I’m now checking the full qualitative HU characterizations and whether any prose-created aggregation exceeds what the bundle actually reports; that is the likeliest claim-boundary issue.
-exec
-/bin/bash -lc "python - <<'PY'
-import csv,json,hashlib
-from pathlib import Path
-p=Path('probes/023/results/results_v2')
-print('run1',p.joinpath('run_log.txt').read_text().splitlines()[0])
-for n in ['determinism_manifest_start.json','determinism_manifest_end.json']:
- d=json.loads((p/n).read_text()); print(n,d.get('input_paths',{}).get('phase_s_csv'))
-print('manifests_equal',p.joinpath('determinism_manifest_start.json').read_bytes()==p.joinpath('determinism_manifest_end.json').read_bytes())
-for fn, selects in {
-'per_patient.csv':[('sub-stroke0002','1')],
-'bin_tissue_audit.csv':[('sub-stroke0092','1'),('sub-stroke0057','1'),('sub-stroke0189','1'),('sub-stroke0002','2'),('sub-stroke0183','2'),('sub-stroke0109','3'),('sub-stroke0133','3')],
-'exclusions.csv':[('sub-stroke0113',None),('sub-stroke0002',None)]}.items():
- rows=list(csv.DictReader((p/fn).open()))
- print('\\n',fn,'rows',len(rows))
- for case,stratum in selects:
-  hits=[r for r in rows if r.get('case_id')==case and (stratum is None or r.get('stratum')==stratum)]
-  print(case,stratum,hits)
-# derive audit summaries solely to test prose
-rows=list(csv.DictReader((p/'bin_tissue_audit.csv').open()))
-for s in ['1','2','3']:
- by={}
- for r in rows:
-  if r['stratum']==s: by.setdefault(r['case_id'],{})[r['style_group']]=float(r['median_hu']) if r['median_hu'] else None
- diffs=[]
- for c,d in by.items():
-  if None not in d.values(): diffs.append(d['Q4_high_CBV']-d['Q1_low_CBV'])
- print('stratum',s,'n',len(diffs),'q4-q1 positive',sum(x>0 for x in diffs),'abs<=2',sum(abs(x)<=2 for x in diffs),'median',sorted(diffs)[len(diffs)//2], 'range',min(diffs),max(diffs))
-PY" in /home/runner/work/concept-research-scout/concept-research-scout
- succeeded in 0ms:
-run1 Approval gate passed for Phase C; contract blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b
-determinism_manifest_start.json {'path': '/content/drive/MyDrive/concept-research-scout-results/023_S_0e223c82f9eb/simulation_operating_characteristics.csv', 'sha256': '59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4'}
-determinism_manifest_end.json {'path': '/content/drive/MyDrive/concept-research-scout-results/023_S_0e223c82f9eb/simulation_operating_characteristics.csv', 'sha256': '59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4'}
-manifests_equal True
-
- per_patient.csv rows 297
-sub-stroke0002 1 [{'case_id': 'sub-stroke0002', 'stratum': '1', 'q1_voxels': '3969', 'q4_voxels': '3970', 'd': '-0.20385563685311792'}]
-
- bin_tissue_audit.csv rows 594
-sub-stroke0092 1 [{'case_id': 'sub-stroke0092', 'stratum': '1', 'style_group': 'Q1_low_CBV', 'member_voxels': '3371', 'finite_hu_voxels': '3371', 'nonfinite_hu_voxels': '0', 'median_hu': '3.0', 'q25_hu': '2.0', 'q75_hu': '4.0', 'iqr_hu': '2.0'}, {'case_id': 'sub-stroke0092', 'stratum': '1', 'style_group': 'Q4_high_CBV', 'member_voxels': '3374', 'finite_hu_voxels': '3374', 'nonfinite_hu_voxels': '0', 'median_hu': '23.0', 'q25_hu': '8.0', 'q75_hu': '24.0', 'iqr_hu': '16.0'}]
-sub-stroke0057 1 [{'case_id': 'sub-stroke0057', 'stratum': '1', 'style_group': 'Q1_low_CBV', 'member_voxels': '10022', 'finite_hu_voxels': '10022', 'nonfinite_hu_voxels': '0', 'median_hu': '5.0', 'q25_hu': '4.0', 'q75_hu': '8.0', 'iqr_hu': '4.0'}, {'case_id': 'sub-stroke0057', 'stratum': '1', 'style_group': 'Q4_high_CBV', 'member_voxels': '10025', 'finite_hu_voxels': '10025', 'nonfinite_hu_voxels': '0', 'median_hu': '24.0', 'q25_hu': '20.0', 'q75_hu': '26.0', 'iqr_hu': '6.0'}]
-sub-stroke0189 1 [{'case_id': 'sub-stroke0189', 'stratum': '1', 'style_group': 'Q1_low_CBV', 'member_voxels': '27861', 'finite_hu_voxels': '27861', 'nonfinite_hu_voxels': '0', 'median_hu': '6.0', 'q25_hu': '3.0', 'q75_hu': '21.0', 'iqr_hu': '18.0'}, {'case_id': 'sub-stroke0189', 'stratum': '1', 'style_group': 'Q4_high_CBV', 'member_voxels': '27897', 'finite_hu_voxels': '27897', 'nonfinite_hu_voxels': '0', 'median_hu': '25.0', 'q25_hu': '23.0', 'q75_hu': '26.0', 'iqr_hu': '3.0'}]
-sub-stroke0002 2 [{'case_id': 'sub-stroke0002', 'stratum': '2', 'style_group': 'Q1_low_CBV', 'member_voxels': '4091', 'finite_hu_voxels': '4091', 'nonfinite_hu_voxels': '0', 'median_hu': '21.0', 'q25_hu': '17.0', 'q75_hu': '24.0', 'iqr_hu': '7.0'}, {'case_id': 'sub-stroke0002', 'stratum': '2', 'style_group': 'Q4_high_CBV', 'member_voxels': '4090', 'finite_hu_voxels': '4090', 'nonfinite_hu_voxels': '0', 'median_hu': '21.0', 'q25_hu': '18.0', 'q75_hu': '24.0', 'iqr_hu': '6.0'}]
-sub-stroke0183 2 [{'case_id': 'sub-stroke0183', 'stratum': '2', 'style_group': 'Q1_low_CBV', 'member_voxels': '2828', 'finite_hu_voxels': '2828', 'nonfinite_hu_voxels': '0', 'median_hu': '23.0', 'q25_hu': '15.0', 'q75_hu': '26.0', 'iqr_hu': '11.0'}, {'case_id': 'sub-stroke0183', 'stratum': '2', 'style_group': 'Q4_high_CBV', 'member_voxels': '2826', 'finite_hu_voxels': '2826', 'nonfinite_hu_voxels': '0', 'median_hu': '5.0', 'q25_hu': '3.0', 'q75_hu': '9.0', 'iqr_hu': '6.0'}]
-sub-stroke0109 3 [{'case_id': 'sub-stroke0109', 'stratum': '3', 'style_group': 'Q1_low_CBV', 'member_voxels': '10686', 'finite_hu_voxels': '10686', 'nonfinite_hu_voxels': '0', 'median_hu': '30.0', 'q25_hu': '28.0', 'q75_hu': '33.0', 'iqr_hu': '5.0'}, {'case_id': 'sub-stroke0109', 'stratum': '3', 'style_group': 'Q4_high_CBV', 'member_voxels': '10686', 'finite_hu_voxels': '10686', 'nonfinite_hu_voxels': '0', 'median_hu': '58.0', 'q25_hu': '43.0', 'q75_hu': '74.0', 'iqr_hu': '31.0'}]
-sub-stroke0133 3 [{'case_id': 'sub-stroke0133', 'stratum': '3', 'style_group': 'Q1_low_CBV', 'member_voxels': '830', 'finite_hu_voxels': '830', 'nonfinite_hu_voxels': '0', 'median_hu': '42.0', 'q25_hu': '33.0', 'q75_hu': '49.0', 'iqr_hu': '16.0'}, {'case_id': 'sub-stroke0133', 'stratum': '3', 'style_group': 'Q4_high_CBV', 'member_voxels': '830', 'finite_hu_voxels': '830', 'nonfinite_hu_voxels': '0', 'median_hu': '40.0', 'q25_hu': '-241.75', 'q75_hu': '72.75', 'iqr_hu': '314.5'}]
-
- exclusions.csv rows 101
-sub-stroke0113 None [{'case_id': 'sub-stroke0113', 'record_type': 'analyzed_case', 'reason': '', 'source_path': '', 'deficit_voxels': '845798', 'eroded_region_voxels': '427886', 'vessel_voxels': '56262', 'vessel_cbv_p98': '31.203125', 'nonfinite_cbf_voxels': '0', 'nonfinite_cbv_voxels': '0', 'nonfinite_mtt_voxels': '302261', 'nonfinite_tmax_voxels': '0'}]
-sub-stroke0002 None [{'case_id': 'sub-stroke0002', 'record_type': 'analyzed_case', 'reason': '', 'source_path': '', 'deficit_voxels': '139512', 'eroded_region_voxels': '48087', 'vessel_voxels': '37613', 'vessel_cbv_p98': '29.140625', 'nonfinite_cbf_voxels': '0', 'nonfinite_cbv_voxels': '0', 'nonfinite_mtt_voxels': '0', 'nonfinite_tmax_voxels': '0'}]
-stratum 1 n 99 q4-q1 positive 77 abs<=2 40 median 3.0 range -18.0 20.0
-stratum 2 n 99 q4-q1 positive 55 abs<=2 77 median 1.0 range -18.0 16.0
-stratum 3 n 99 q4-q1 positive 34 abs<=2 42 median -1.0 range -14.0 28.0
+The revision removed the unsupported cohort-frequency and tail-contribution claims. The remaining quantitative statements resolve to recorded fields or explicitly bounded row-level examples; I’m recording the final checker verdict now.
+2026-08-30T18:27:53.342492Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid patch: multiple operations target /home/runner/work/concept-research-scout/concept-research-scout/ideas/023/interpret_review.md
+apply patch
+patch: completed
+/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/interpret_review.md
+diff --git a/ideas/023/interpret_review.md b/ideas/023/interpret_review.md
+deleted file mode 100644
+index eb87761524b11e577280f78131a29a094d2e6ee4..0000000000000000000000000000000000000000
+--- a/ideas/023/interpret_review.md
++++ /dev/null
+@@ -1,105 +0,0 @@
+-# Interpretation review — idea 023, round 1
+-
+-## 1. Citations resolve
+-
+-I resolved every citation in `interpretation.md` against
+-`probes/023/results/results_v2/` (and the approval marker where applicable).
+-The following citations are transcription-exact:
+-
+-- `run_log.txt`, line 1: Phase-C approval passed on contract blob
+-  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
+-- `summary.json`: `archive_md5`, `zenodo_checksum`,
+-  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
+-  `status`, `identity_mad` for strata 1–3,
+-  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
+-  `analyzed_census_case_count`, `census_case_count`,
+-  `bin_tissue_audit_rows`, `reserved_case_count`, and
+-  `split_manifest_sha256`.
+-- `determinism_manifest_start.json`:
+-  `input_paths.phase_s_csv.sha256`; it is
+-  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
+-  The start and end determinism manifests are byte-identical as stated.
+-- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
+-  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
+-  `median_ci_high`. All displayed full-precision values match.
+-- `resolved_config.json`: minimum 20 contributing patients per stratum,
+-  minimum 100 voxels per patient-quantile cell, maximum primary CI width
+-  0.15, and seed 20260824.
+-- `identity_residual_summary.csv`, strata 1–3:
+-  `median_absolute_centered_residual` values 0.0077610015869140625,
+-  0.003559589385986328, and 0.0077877044677734375.
+-- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
+-  `source_corrupt_member`; sub-stroke0142 is an
+-  `excluded_archive_lesion` while the follow-up derivative is retained;
+-  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
+-  `vessel_cbv_p98` 29.140625.
+-- `per_patient.csv`: sub-stroke0002, stratum 1 has
+-  `d = -0.20385563685311792`.
+-- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
+-  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
+-  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
+-  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
+-  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
+-  `iqr_hu = 314.5`.
+-
+-The approval marker also binds the stated contract blob and timestamp.
+-
+-## 2. Claim bounds
+-
+-The primary gate language matches the contract: the result is
+-`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
+-fails because the two zero-excluding intervals have opposite signs. The text
+-correctly scopes uncertainty to patients rather than seeds, states the
+-icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
+-does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
+-claims out of scope. There is no tier-2 threshold issue in this probe, no
+-anchor population, and no baseline is incorrectly promoted to a floor.
+-
+-**Blocking:** the HU and tail descriptions introduce aggregations that no
+-claim-bearing analysis file contains. In particular, “in most cases,”
+-“often by 10–20 HU,” “near-balanced in most cases (typical median difference
+-<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
+-means are carried by a minority of patients” are cohort-level frequency or
+-contribution claims inferred by the author from row-level tables. The
+-interpretation itself acknowledges that no aggregate HU statistic exists.
+-The stage rule forbids creating an aggregation in prose that the analysis
+-files do not contain. The cited examples verify those cases only; they do not
+-support the frequency words. Revise these passages to example-bounded,
+-row-level observations and state that the existing outputs do not quantify
+-the prevalence of imbalance, or cite an authorized claim-bearing aggregate
+-artifact if one is produced through the governed analysis path. Likewise,
+-median-near-zero plus one extreme case supports heterogeneity, but not the
+-specific “minority carried the means” attribution without a recorded
+-contribution analysis.
+-
+-## 3. Completeness without cherry-picking
+-
+-I checked all three primary strata, all reported median contrasts and
+-intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
+-exclusions table, and the three identity-residual rows. The interpretation
+-does not hide the material reversal: stratum 2 is negative while stratum 3 is
+-positive, and stratum 1 includes zero. It reports both authorized exclusions,
+-the tissue-audit heterogeneity, the central-volume result, and the untouched
+-reserved cases. No omitted table feature contradicts the primary negative.
+-The only completeness problem is the unsupported aggregation described in
+-check 2, not omission of an adverse result.
+-
+-## 4. Verdict separation
+-
+-The preregistered gate failure and provenance facts are correctly placed
+-under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
+-and tissue-composition implications are placed under “Suggests,” and the
+-“Does not establish” section correctly blocks physiological, model-use,
+-channel-attribution, and external-generalization upgrades. Subject to removing
+-the unrecorded aggregations above, the separation is sound.
+-
+-## 5. Plain-language fidelity
+-
+-There is no distinct plain-language summary section. The “Next decision” and
+-positive/negative recap retain the main hedges and do not upgrade the primary
+-finding, but their statements that the HU audit demonstrates tissue imbalance
+-inherit the blocking aggregation problem above and must be narrowed with it.
+-
+-```json
+-{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
+-```
 
 apply patch
 patch: completed
 /home/runner/work/concept-research-scout/concept-research-scout/ideas/023/interpret_review.md
 diff --git a/ideas/023/interpret_review.md b/ideas/023/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..eb87761524b11e577280f78131a29a094d2e6ee4
---- /dev/null
+index eb87761524b11e577280f78131a29a094d2e6ee4..d9a9cce88001d7b572932d6891343cb6982e4dc6
+--- a/ideas/023/interpret_review.md
 +++ b/ideas/023/interpret_review.md
-@@ -0,0 +1,105 @@
-+# Interpretation review — idea 023, round 1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation in `interpretation.md` against
-+`probes/023/results/results_v2/` (and the approval marker where applicable).
-+The following citations are transcription-exact:
-+
-+- `run_log.txt`, line 1: Phase-C approval passed on contract blob
-+  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
-+- `summary.json`: `archive_md5`, `zenodo_checksum`,
-+  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
-+  `status`, `identity_mad` for strata 1–3,
-+  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
-+  `analyzed_census_case_count`, `census_case_count`,
-+  `bin_tissue_audit_rows`, `reserved_case_count`, and
-+  `split_manifest_sha256`.
-+- `determinism_manifest_start.json`:
-+  `input_paths.phase_s_csv.sha256`; it is
-+  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
-+  The start and end determinism manifests are byte-identical as stated.
-+- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
-+  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
-+  `median_ci_high`. All displayed full-precision values match.
-+- `resolved_config.json`: minimum 20 contributing patients per stratum,
-+  minimum 100 voxels per patient-quantile cell, maximum primary CI width
-+  0.15, and seed 20260824.
-+- `identity_residual_summary.csv`, strata 1–3:
-+  `median_absolute_centered_residual` values 0.0077610015869140625,
-+  0.003559589385986328, and 0.0077877044677734375.
-+- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
-+  `source_corrupt_member`; sub-stroke0142 is an
-+  `excluded_archive_lesion` while the follow-up derivative is retained;
-+  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
-+  `vessel_cbv_p98` 29.140625.
-+- `per_patient.csv`: sub-stroke0002, stratum 1 has
-+  `d = -0.20385563685311792`.
-+- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
-+  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
-+  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
-+  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
-+  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
-+  `iqr_hu = 314.5`.
-+
-+The approval marker also binds the stated contract blob and timestamp.
-+
-+## 2. Claim bounds
-+
-+The primary gate language matches the contract: the result is
-+`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
-+fails because the two zero-excluding intervals have opposite signs. The text
-+correctly scopes uncertainty to patients rather than seeds, states the
-+icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
-+does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
-+claims out of scope. There is no tier-2 threshold issue in this probe, no
-+anchor population, and no baseline is incorrectly promoted to a floor.
-+
-+**Blocking:** the HU and tail descriptions introduce aggregations that no
-+claim-bearing analysis file contains. In particular, “in most cases,”
-+“often by 10–20 HU,” “near-balanced in most cases (typical median difference
-+<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
-+means are carried by a minority of patients” are cohort-level frequency or
-+contribution claims inferred by the author from row-level tables. The
-+interpretation itself acknowledges that no aggregate HU statistic exists.
-+The stage rule forbids creating an aggregation in prose that the analysis
-+files do not contain. The cited examples verify those cases only; they do not
-+support the frequency words. Revise these passages to example-bounded,
-+row-level observations and state that the existing outputs do not quantify
-+the prevalence of imbalance, or cite an authorized claim-bearing aggregate
-+artifact if one is produced through the governed analysis path. Likewise,
-+median-near-zero plus one extreme case supports heterogeneity, but not the
-+specific “minority carried the means” attribution without a recorded
-+contribution analysis.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all three primary strata, all reported median contrasts and
-+intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
-+exclusions table, and the three identity-residual rows. The interpretation
-+does not hide the material reversal: stratum 2 is negative while stratum 3 is
-+positive, and stratum 1 includes zero. It reports both authorized exclusions,
-+the tissue-audit heterogeneity, the central-volume result, and the untouched
-+reserved cases. No omitted table feature contradicts the primary negative.
-+The only completeness problem is the unsupported aggregation described in
-+check 2, not omission of an adverse result.
-+
-+## 4. Verdict separation
-+
-+The preregistered gate failure and provenance facts are correctly placed
-+under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
-+and tissue-composition implications are placed under “Suggests,” and the
-+“Does not establish” section correctly blocks physiological, model-use,
-+channel-attribution, and external-generalization upgrades. Subject to removing
-+the unrecorded aggregations above, the separation is sound.
-+
-+## 5. Plain-language fidelity
-+
-+There is no distinct plain-language summary section. The “Next decision” and
-+positive/negative recap retain the main hedges and do not upgrade the primary
-+finding, but their statements that the HU audit demonstrates tissue imbalance
-+inherit the blocking aggregation problem above and must be narrowed with it.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
-+```
+@@ -1,105 +1,93 @@
+-# Interpretation review — idea 023, round 1
++# Interpretation review — idea 023, round 2
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation in `interpretation.md` against
+-`probes/023/results/results_v2/` (and the approval marker where applicable).
+-The following citations are transcription-exact:
++I re-resolved every citation in `interpretation.md` against
++`probes/023/results/results_v2/` and the approval marker. All quantitative
++transcriptions are exact to the precision stated.
+ 
+-- `run_log.txt`, line 1: Phase-C approval passed on contract blob
+-  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
+-- `summary.json`: `archive_md5`, `zenodo_checksum`,
+-  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
+-  `status`, `identity_mad` for strata 1–3,
+-  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
+-  `analyzed_census_case_count`, `census_case_count`,
+-  `bin_tissue_audit_rows`, `reserved_case_count`, and
+-  `split_manifest_sha256`.
+-- `determinism_manifest_start.json`:
+-  `input_paths.phase_s_csv.sha256`; it is
+-  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
+-  The start and end determinism manifests are byte-identical as stated.
+-- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
+-  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
+-  `median_ci_high`. All displayed full-precision values match.
+-- `resolved_config.json`: minimum 20 contributing patients per stratum,
+-  minimum 100 voxels per patient-quantile cell, maximum primary CI width
+-  0.15, and seed 20260824.
+-- `identity_residual_summary.csv`, strata 1–3:
+-  `median_absolute_centered_residual` values 0.0077610015869140625,
+-  0.003559589385986328, and 0.0077877044677734375.
+-- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
+-  `source_corrupt_member`; sub-stroke0142 is an
+-  `excluded_archive_lesion` while the follow-up derivative is retained;
+-  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
+-  `vessel_cbv_p98` 29.140625.
++- `run_log.txt`, line 1, and `ideas/023/HUMAN_APPROVED_PROBE`: approval is
++  bound to contract blob `03d4545fe293f0067c69ce9e9e696ec97b894d7b`; the
++  marker timestamp is 2026-08-28T02:31:13.281441+00:00.
++- `summary.json`: archive MD5 and Zenodo checksum, Phase-S output hash,
++  released/census/analyzed/reserved case counts, `g_label_passed`, run status,
++  all three identity-MAD values, both exclusion counts, tissue-audit row
++  count, and split-manifest hash all match.
++- `determinism_manifest_start.json`: the Phase-S CSV SHA-256 is
++  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`;
++  the start and end determinism manifests are byte-identical as stated.
++- `per_stratum_summary.csv`: for strata 1–3, all cited patient counts, means,
++  mean confidence limits and widths, medians, and median confidence limits
++  match exactly. The reported signs and interval-exclusion descriptions also
++  follow those rows.
++- `resolved_config.json`: the 20-patient support floor, 100-voxel cell floor,
++  0.15 maximum CI width, and seed 20260824 match.
++- `identity_residual_summary.csv`: the three cited median absolute centered
++  residuals match exactly.
++- `exclusions.csv`: sub-stroke0043 is excluded for
++  `source_corrupt_member`; the noncanonical sub-stroke0142 lesion member is
++  excluded while the case has a separate analyzed-case row; sub-stroke0113
++  records 302261 nonfinite MTT voxels; and sub-stroke0002 records a vessel CBV
++  p98 of 29.140625.
+ - `per_patient.csv`: sub-stroke0002, stratum 1 has
+   `d = -0.20385563685311792`.
+-- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
+-  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
+-  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
+-  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
+-  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
+-  `iqr_hu = 314.5`.
++- `bin_tissue_audit.csv`: every cited example resolves exactly:
++  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0; sub-stroke0057 stratum 1
++  5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0; sub-stroke0002 stratum 2
++  21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0; sub-stroke0109 stratum 3
++  30.0/58.0; and sub-stroke0133 stratum 3 Q4 IQR 314.5.
+ 
+-The approval marker also binds the stated contract blob and timestamp.
++No uncited quantitative result remains. The archive SHA-256 and member count
++in the result card are also present in `provenance.json`; the primary metric,
++three fixed bands, 2,000 bootstrap resamples, and gate conjunction reproduce
++the contract and resolved configuration rather than introducing new results.
+ 
+ ## 2. Claim bounds
+ 
+-The primary gate language matches the contract: the result is
+-`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
+-fails because the two zero-excluding intervals have opposite signs. The text
+-correctly scopes uncertainty to patients rather than seeds, states the
+-icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
+-does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
+-claims out of scope. There is no tier-2 threshold issue in this probe, no
+-anchor population, and no baseline is incorrectly promoted to a floor.
++The round-1 blocker is resolved. Cohort-frequency language such as “most
++cases,” “often,” and “typical” has been removed. The HU discussion now labels
++each observation as a cited row-level example and repeatedly states that no
++cohort-level prevalence was computed. Likewise, the mean/median divergence is
++limited to between-patient heterogeneity; the text explicitly says that no
++contribution analysis exists and does not claim that a minority drives the
++means.
+ 
+-**Blocking:** the HU and tail descriptions introduce aggregations that no
+-claim-bearing analysis file contains. In particular, “in most cases,”
+-“often by 10–20 HU,” “near-balanced in most cases (typical median difference
+-<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
+-means are carried by a minority of patients” are cohort-level frequency or
+-contribution claims inferred by the author from row-level tables. The
+-interpretation itself acknowledges that no aggregate HU statistic exists.
+-The stage rule forbids creating an aggregation in prose that the analysis
+-files do not contain. The cited examples verify those cases only; they do not
+-support the frequency words. Revise these passages to example-bounded,
+-row-level observations and state that the existing outputs do not quantify
+-the prevalence of imbalance, or cite an authorized claim-bearing aggregate
+-artifact if one is produced through the governed analysis path. Likewise,
+-median-near-zero plus one extreme case supports heterogeneity, but not the
+-specific “minority carried the means” attribution without a recorded
+-contribution analysis.
++The interpretation preserves the contract's scope: 99 analyzed census
++patients, icobrain-cva maps, one frozen outcome census, no model-use claim,
++no CBV-versus-MTT attribution, and no autoregulatory or causal upgrade. The
++49 reserved cases and hidden test set remain out of scope. Uncertainty is
++correctly case-level through the patient bootstrap, not seed-level. There is
++no tier-2 endpoint, benchmark margin, anchor population, or baseline promoted
++to a performance floor.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all three primary strata, all reported median contrasts and
+-intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
+-exclusions table, and the three identity-residual rows. The interpretation
+-does not hide the material reversal: stratum 2 is negative while stratum 3 is
+-positive, and stratum 1 includes zero. It reports both authorized exclusions,
+-the tissue-audit heterogeneity, the central-volume result, and the untouched
+-reserved cases. No omitted table feature contradicts the primary negative.
+-The only completeness problem is the unsupported aggregation described in
+-check 2, not omission of an adverse result.
++I checked all three rows of `per_stratum_summary.csv`, including the material
++sign reversal between strata 2 and 3 and the stratum-1 interval containing
++zero; all three median contrasts; all 297 `per_patient.csv` rows; all 594 HU
++audit rows; the complete exclusions table; all three identity-residual rows;
++and the support/configuration gates. The interpretation reports the opposing
++directions, near-zero medians, authorized source-corrupt and duplicate-member
++handling, tissue-audit limitations, and untouched reserved cases. No material
++table feature contradicting a stated finding is omitted.
+ 
+ ## 4. Verdict separation
+ 
+-The preregistered gate failure and provenance facts are correctly placed
+-under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
+-and tissue-composition implications are placed under “Suggests,” and the
+-“Does not establish” section correctly blocks physiological, model-use,
+-channel-attribution, and external-generalization upgrades. Subject to removing
+-the unrecorded aggregations above, the separation is sound.
++“Demonstrates” is confined to the valid run, preregistered negative gate,
++identity residual, and authorized exclusions. Per-band meaning, heterogeneity,
++and tissue-composition implications remain under “Suggests” and are explicitly
++exploratory or inferential. “Does not establish” correctly blocks broader
++biological, physiological, model-use, channel-attribution, and generalization
++claims. The PAUSE recommendation follows the contract's `negative_pattern`
++without treating it as evidence that the joint state lacks biological value.
+ 
+ ## 5. Plain-language fidelity
+ 
+-There is no distinct plain-language summary section. The “Next decision” and
+-positive/negative recap retain the main hedges and do not upgrade the primary
+-finding, but their statements that the HU audit demonstrates tissue imbalance
+-inherit the blocking aggregation problem above and must be narrowed with it.
++There is no separate plain-language summary. The closing positive/negative
++recap and next-decision section retain the same scope limits as the technical
++sections. In particular, the revised recap confines HU imbalance to cited
++example cases and states that cohort prevalence was not quantified.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
++{"verdict": "APPROVE"}
+ ```
 
 diff --git a/ideas/023/interpret_review.md b/ideas/023/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..eb87761524b11e577280f78131a29a094d2e6ee4
---- /dev/null
+index eb87761524b11e577280f78131a29a094d2e6ee4..d9a9cce88001d7b572932d6891343cb6982e4dc6
+--- a/ideas/023/interpret_review.md
 +++ b/ideas/023/interpret_review.md
-@@ -0,0 +1,105 @@
-+# Interpretation review — idea 023, round 1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation in `interpretation.md` against
-+`probes/023/results/results_v2/` (and the approval marker where applicable).
-+The following citations are transcription-exact:
-+
-+- `run_log.txt`, line 1: Phase-C approval passed on contract blob
-+  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
-+- `summary.json`: `archive_md5`, `zenodo_checksum`,
-+  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
-+  `status`, `identity_mad` for strata 1–3,
-+  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
-+  `analyzed_census_case_count`, `census_case_count`,
-+  `bin_tissue_audit_rows`, `reserved_case_count`, and
-+  `split_manifest_sha256`.
-+- `determinism_manifest_start.json`:
-+  `input_paths.phase_s_csv.sha256`; it is
-+  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
-+  The start and end determinism manifests are byte-identical as stated.
-+- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
-+  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
-+  `median_ci_high`. All displayed full-precision values match.
-+- `resolved_config.json`: minimum 20 contributing patients per stratum,
-+  minimum 100 voxels per patient-quantile cell, maximum primary CI width
-+  0.15, and seed 20260824.
-+- `identity_residual_summary.csv`, strata 1–3:
-+  `median_absolute_centered_residual` values 0.0077610015869140625,
-+  0.003559589385986328, and 0.0077877044677734375.
-+- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
-+  `source_corrupt_member`; sub-stroke0142 is an
-+  `excluded_archive_lesion` while the follow-up derivative is retained;
-+  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
-+  `vessel_cbv_p98` 29.140625.
-+- `per_patient.csv`: sub-stroke0002, stratum 1 has
-+  `d = -0.20385563685311792`.
-+- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
-+  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
-+  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
-+  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
-+  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
-+  `iqr_hu = 314.5`.
-+
-+The approval marker also binds the stated contract blob and timestamp.
-+
-+## 2. Claim bounds
-+
-+The primary gate language matches the contract: the result is
-+`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
-+fails because the two zero-excluding intervals have opposite signs. The text
-+correctly scopes uncertainty to patients rather than seeds, states the
-+icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
-+does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
-+claims out of scope. There is no tier-2 threshold issue in this probe, no
-+anchor population, and no baseline is incorrectly promoted to a floor.
-+
-+**Blocking:** the HU and tail descriptions introduce aggregations that no
-+claim-bearing analysis file contains. In particular, “in most cases,”
-+“often by 10–20 HU,” “near-balanced in most cases (typical median difference
-+<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
-+means are carried by a minority of patients” are cohort-level frequency or
-+contribution claims inferred by the author from row-level tables. The
-+interpretation itself acknowledges that no aggregate HU statistic exists.
-+The stage rule forbids creating an aggregation in prose that the analysis
-+files do not contain. The cited examples verify those cases only; they do not
-+support the frequency words. Revise these passages to example-bounded,
-+row-level observations and state that the existing outputs do not quantify
-+the prevalence of imbalance, or cite an authorized claim-bearing aggregate
-+artifact if one is produced through the governed analysis path. Likewise,
-+median-near-zero plus one extreme case supports heterogeneity, but not the
-+specific “minority carried the means” attribution without a recorded
-+contribution analysis.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all three primary strata, all reported median contrasts and
-+intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
-+exclusions table, and the three identity-residual rows. The interpretation
-+does not hide the material reversal: stratum 2 is negative while stratum 3 is
-+positive, and stratum 1 includes zero. It reports both authorized exclusions,
-+the tissue-audit heterogeneity, the central-volume result, and the untouched
-+reserved cases. No omitted table feature contradicts the primary negative.
-+The only completeness problem is the unsupported aggregation described in
-+check 2, not omission of an adverse result.
-+
-+## 4. Verdict separation
-+
-+The preregistered gate failure and provenance facts are correctly placed
-+under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
-+and tissue-composition implications are placed under “Suggests,” and the
-+“Does not establish” section correctly blocks physiological, model-use,
-+channel-attribution, and external-generalization upgrades. Subject to removing
-+the unrecorded aggregations above, the separation is sound.
-+
-+## 5. Plain-language fidelity
-+
-+There is no distinct plain-language summary section. The “Next decision” and
-+positive/negative recap retain the main hedges and do not upgrade the primary
-+finding, but their statements that the HU audit demonstrates tissue imbalance
-+inherit the blocking aggregation problem above and must be narrowed with it.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
-+```
+@@ -1,105 +1,93 @@
+-# Interpretation review — idea 023, round 1
++# Interpretation review — idea 023, round 2
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation in `interpretation.md` against
+-`probes/023/results/results_v2/` (and the approval marker where applicable).
+-The following citations are transcription-exact:
++I re-resolved every citation in `interpretation.md` against
++`probes/023/results/results_v2/` and the approval marker. All quantitative
++transcriptions are exact to the precision stated.
+ 
+-- `run_log.txt`, line 1: Phase-C approval passed on contract blob
+-  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
+-- `summary.json`: `archive_md5`, `zenodo_checksum`,
+-  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
+-  `status`, `identity_mad` for strata 1–3,
+-  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
+-  `analyzed_census_case_count`, `census_case_count`,
+-  `bin_tissue_audit_rows`, `reserved_case_count`, and
+-  `split_manifest_sha256`.
+-- `determinism_manifest_start.json`:
+-  `input_paths.phase_s_csv.sha256`; it is
+-  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
+-  The start and end determinism manifests are byte-identical as stated.
+-- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
+-  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
+-  `median_ci_high`. All displayed full-precision values match.
+-- `resolved_config.json`: minimum 20 contributing patients per stratum,
+-  minimum 100 voxels per patient-quantile cell, maximum primary CI width
+-  0.15, and seed 20260824.
+-- `identity_residual_summary.csv`, strata 1–3:
+-  `median_absolute_centered_residual` values 0.0077610015869140625,
+-  0.003559589385986328, and 0.0077877044677734375.
+-- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
+-  `source_corrupt_member`; sub-stroke0142 is an
+-  `excluded_archive_lesion` while the follow-up derivative is retained;
+-  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
+-  `vessel_cbv_p98` 29.140625.
++- `run_log.txt`, line 1, and `ideas/023/HUMAN_APPROVED_PROBE`: approval is
++  bound to contract blob `03d4545fe293f0067c69ce9e9e696ec97b894d7b`; the
++  marker timestamp is 2026-08-28T02:31:13.281441+00:00.
++- `summary.json`: archive MD5 and Zenodo checksum, Phase-S output hash,
++  released/census/analyzed/reserved case counts, `g_label_passed`, run status,
++  all three identity-MAD values, both exclusion counts, tissue-audit row
++  count, and split-manifest hash all match.
++- `determinism_manifest_start.json`: the Phase-S CSV SHA-256 is
++  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`;
++  the start and end determinism manifests are byte-identical as stated.
++- `per_stratum_summary.csv`: for strata 1–3, all cited patient counts, means,
++  mean confidence limits and widths, medians, and median confidence limits
++  match exactly. The reported signs and interval-exclusion descriptions also
++  follow those rows.
++- `resolved_config.json`: the 20-patient support floor, 100-voxel cell floor,
++  0.15 maximum CI width, and seed 20260824 match.
++- `identity_residual_summary.csv`: the three cited median absolute centered
++  residuals match exactly.
++- `exclusions.csv`: sub-stroke0043 is excluded for
++  `source_corrupt_member`; the noncanonical sub-stroke0142 lesion member is
++  excluded while the case has a separate analyzed-case row; sub-stroke0113
++  records 302261 nonfinite MTT voxels; and sub-stroke0002 records a vessel CBV
++  p98 of 29.140625.
+ - `per_patient.csv`: sub-stroke0002, stratum 1 has
+   `d = -0.20385563685311792`.
+-- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
+-  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
+-  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
+-  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
+-  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
+-  `iqr_hu = 314.5`.
++- `bin_tissue_audit.csv`: every cited example resolves exactly:
++  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0; sub-stroke0057 stratum 1
++  5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0; sub-stroke0002 stratum 2
++  21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0; sub-stroke0109 stratum 3
++  30.0/58.0; and sub-stroke0133 stratum 3 Q4 IQR 314.5.
+ 
+-The approval marker also binds the stated contract blob and timestamp.
++No uncited quantitative result remains. The archive SHA-256 and member count
++in the result card are also present in `provenance.json`; the primary metric,
++three fixed bands, 2,000 bootstrap resamples, and gate conjunction reproduce
++the contract and resolved configuration rather than introducing new results.
+ 
+ ## 2. Claim bounds
+ 
+-The primary gate language matches the contract: the result is
+-`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
+-fails because the two zero-excluding intervals have opposite signs. The text
+-correctly scopes uncertainty to patients rather than seeds, states the
+-icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
+-does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
+-claims out of scope. There is no tier-2 threshold issue in this probe, no
+-anchor population, and no baseline is incorrectly promoted to a floor.
++The round-1 blocker is resolved. Cohort-frequency language such as “most
++cases,” “often,” and “typical” has been removed. The HU discussion now labels
++each observation as a cited row-level example and repeatedly states that no
++cohort-level prevalence was computed. Likewise, the mean/median divergence is
++limited to between-patient heterogeneity; the text explicitly says that no
++contribution analysis exists and does not claim that a minority drives the
++means.
+ 
+-**Blocking:** the HU and tail descriptions introduce aggregations that no
+-claim-bearing analysis file contains. In particular, “in most cases,”
+-“often by 10–20 HU,” “near-balanced in most cases (typical median difference
+-<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
+-means are carried by a minority of patients” are cohort-level frequency or
+-contribution claims inferred by the author from row-level tables. The
+-interpretation itself acknowledges that no aggregate HU statistic exists.
+-The stage rule forbids creating an aggregation in prose that the analysis
+-files do not contain. The cited examples verify those cases only; they do not
+-support the frequency words. Revise these passages to example-bounded,
+-row-level observations and state that the existing outputs do not quantify
+-the prevalence of imbalance, or cite an authorized claim-bearing aggregate
+-artifact if one is produced through the governed analysis path. Likewise,
+-median-near-zero plus one extreme case supports heterogeneity, but not the
+-specific “minority carried the means” attribution without a recorded
+-contribution analysis.
++The interpretation preserves the contract's scope: 99 analyzed census
++patients, icobrain-cva maps, one frozen outcome census, no model-use claim,
++no CBV-versus-MTT attribution, and no autoregulatory or causal upgrade. The
++49 reserved cases and hidden test set remain out of scope. Uncertainty is
++correctly case-level through the patient bootstrap, not seed-level. There is
++no tier-2 endpoint, benchmark margin, anchor population, or baseline promoted
++to a performance floor.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all three primary strata, all reported median contrasts and
+-intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
+-exclusions table, and the three identity-residual rows. The interpretation
+-does not hide the material reversal: stratum 2 is negative while stratum 3 is
+-positive, and stratum 1 includes zero. It reports both authorized exclusions,
+-the tissue-audit heterogeneity, the central-volume result, and the untouched
+-reserved cases. No omitted table feature contradicts the primary negative.
+-The only completeness problem is the unsupported aggregation described in
+-check 2, not omission of an adverse result.
++I checked all three rows of `per_stratum_summary.csv`, including the material
++sign reversal between strata 2 and 3 and the stratum-1 interval containing
++zero; all three median contrasts; all 297 `per_patient.csv` rows; all 594 HU
++audit rows; the complete exclusions table; all three identity-residual rows;
++and the support/configuration gates. The interpretation reports the opposing
++directions, near-zero medians, authorized source-corrupt and duplicate-member
++handling, tissue-audit limitations, and untouched reserved cases. No material
++table feature contradicting a stated finding is omitted.
+ 
+ ## 4. Verdict separation
+ 
+-The preregistered gate failure and provenance facts are correctly placed
+-under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
+-and tissue-composition implications are placed under “Suggests,” and the
+-“Does not establish” section correctly blocks physiological, model-use,
+-channel-attribution, and external-generalization upgrades. Subject to removing
+-the unrecorded aggregations above, the separation is sound.
++“Demonstrates” is confined to the valid run, preregistered negative gate,
++identity residual, and authorized exclusions. Per-band meaning, heterogeneity,
++and tissue-composition implications remain under “Suggests” and are explicitly
++exploratory or inferential. “Does not establish” correctly blocks broader
++biological, physiological, model-use, channel-attribution, and generalization
++claims. The PAUSE recommendation follows the contract's `negative_pattern`
++without treating it as evidence that the joint state lacks biological value.
+ 
+ ## 5. Plain-language fidelity
+ 
+-There is no distinct plain-language summary section. The “Next decision” and
+-positive/negative recap retain the main hedges and do not upgrade the primary
+-finding, but their statements that the HU audit demonstrates tissue imbalance
+-inherit the blocking aggregation problem above and must be narrowed with it.
++There is no separate plain-language summary. The closing positive/negative
++recap and next-decision section retain the same scope limits as the technical
++sections. In particular, the revised recap confines HU imbalance to cited
++example cases and states that cohort prevalence was not quantified.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
++{"verdict": "APPROVE"}
+ ```
 
 exec
-/bin/bash -lc 'git status --short && git diff -- ideas/023/interpret_review.md' in /home/runner/work/concept-research-scout/concept-research-scout
+/bin/bash -lc 'git diff --check -- ideas/023/interpret_review.md && tail -8 ideas/023/interpret_review.md && git status --short' in /home/runner/work/concept-research-scout/concept-research-scout
  succeeded in 0ms:
+There is no separate plain-language summary. The closing positive/negative
+recap and next-decision section retain the same scope limits as the technical
+sections. In particular, the revised recap confines HU imbalance to cited
+example cases and states that cohort prevalence was not quantified.
+
+```json
+{"verdict": "APPROVE"}
+```
+ M ideas/023/interpret_review.md
  M ideas/023/prompt_interpret_review.md
-?? ideas/023/interpret_review.md
 
 diff --git a/ideas/023/interpret_review.md b/ideas/023/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..eb87761524b11e577280f78131a29a094d2e6ee4
---- /dev/null
+index eb87761524b11e577280f78131a29a094d2e6ee4..d9a9cce88001d7b572932d6891343cb6982e4dc6
+--- a/ideas/023/interpret_review.md
 +++ b/ideas/023/interpret_review.md
-@@ -0,0 +1,105 @@
-+# Interpretation review — idea 023, round 1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation in `interpretation.md` against
-+`probes/023/results/results_v2/` (and the approval marker where applicable).
-+The following citations are transcription-exact:
-+
-+- `run_log.txt`, line 1: Phase-C approval passed on contract blob
-+  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
-+- `summary.json`: `archive_md5`, `zenodo_checksum`,
-+  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
-+  `status`, `identity_mad` for strata 1–3,
-+  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
-+  `analyzed_census_case_count`, `census_case_count`,
-+  `bin_tissue_audit_rows`, `reserved_case_count`, and
-+  `split_manifest_sha256`.
-+- `determinism_manifest_start.json`:
-+  `input_paths.phase_s_csv.sha256`; it is
-+  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
-+  The start and end determinism manifests are byte-identical as stated.
-+- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
-+  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
-+  `median_ci_high`. All displayed full-precision values match.
-+- `resolved_config.json`: minimum 20 contributing patients per stratum,
-+  minimum 100 voxels per patient-quantile cell, maximum primary CI width
-+  0.15, and seed 20260824.
-+- `identity_residual_summary.csv`, strata 1–3:
-+  `median_absolute_centered_residual` values 0.0077610015869140625,
-+  0.003559589385986328, and 0.0077877044677734375.
-+- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
-+  `source_corrupt_member`; sub-stroke0142 is an
-+  `excluded_archive_lesion` while the follow-up derivative is retained;
-+  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
-+  `vessel_cbv_p98` 29.140625.
-+- `per_patient.csv`: sub-stroke0002, stratum 1 has
-+  `d = -0.20385563685311792`.
-+- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
-+  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
-+  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
-+  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
-+  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
-+  `iqr_hu = 314.5`.
-+
-+The approval marker also binds the stated contract blob and timestamp.
-+
-+## 2. Claim bounds
-+
-+The primary gate language matches the contract: the result is
-+`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
-+fails because the two zero-excluding intervals have opposite signs. The text
-+correctly scopes uncertainty to patients rather than seeds, states the
-+icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
-+does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
-+claims out of scope. There is no tier-2 threshold issue in this probe, no
-+anchor population, and no baseline is incorrectly promoted to a floor.
-+
-+**Blocking:** the HU and tail descriptions introduce aggregations that no
-+claim-bearing analysis file contains. In particular, “in most cases,”
-+“often by 10–20 HU,” “near-balanced in most cases (typical median difference
-+<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
-+means are carried by a minority of patients” are cohort-level frequency or
-+contribution claims inferred by the author from row-level tables. The
-+interpretation itself acknowledges that no aggregate HU statistic exists.
-+The stage rule forbids creating an aggregation in prose that the analysis
-+files do not contain. The cited examples verify those cases only; they do not
-+support the frequency words. Revise these passages to example-bounded,
-+row-level observations and state that the existing outputs do not quantify
-+the prevalence of imbalance, or cite an authorized claim-bearing aggregate
-+artifact if one is produced through the governed analysis path. Likewise,
-+median-near-zero plus one extreme case supports heterogeneity, but not the
-+specific “minority carried the means” attribution without a recorded
-+contribution analysis.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all three primary strata, all reported median contrasts and
-+intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
-+exclusions table, and the three identity-residual rows. The interpretation
-+does not hide the material reversal: stratum 2 is negative while stratum 3 is
-+positive, and stratum 1 includes zero. It reports both authorized exclusions,
-+the tissue-audit heterogeneity, the central-volume result, and the untouched
-+reserved cases. No omitted table feature contradicts the primary negative.
-+The only completeness problem is the unsupported aggregation described in
-+check 2, not omission of an adverse result.
-+
-+## 4. Verdict separation
-+
-+The preregistered gate failure and provenance facts are correctly placed
-+under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
-+and tissue-composition implications are placed under “Suggests,” and the
-+“Does not establish” section correctly blocks physiological, model-use,
-+channel-attribution, and external-generalization upgrades. Subject to removing
-+the unrecorded aggregations above, the separation is sound.
-+
-+## 5. Plain-language fidelity
-+
-+There is no distinct plain-language summary section. The “Next decision” and
-+positive/negative recap retain the main hedges and do not upgrade the primary
-+finding, but their statements that the HU audit demonstrates tissue imbalance
-+inherit the blocking aggregation problem above and must be narrowed with it.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
-+```
+@@ -1,105 +1,93 @@
+-# Interpretation review — idea 023, round 1
++# Interpretation review — idea 023, round 2
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation in `interpretation.md` against
+-`probes/023/results/results_v2/` (and the approval marker where applicable).
+-The following citations are transcription-exact:
++I re-resolved every citation in `interpretation.md` against
++`probes/023/results/results_v2/` and the approval marker. All quantitative
++transcriptions are exact to the precision stated.
+ 
+-- `run_log.txt`, line 1: Phase-C approval passed on contract blob
+-  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
+-- `summary.json`: `archive_md5`, `zenodo_checksum`,
+-  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
+-  `status`, `identity_mad` for strata 1–3,
+-  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
+-  `analyzed_census_case_count`, `census_case_count`,
+-  `bin_tissue_audit_rows`, `reserved_case_count`, and
+-  `split_manifest_sha256`.
+-- `determinism_manifest_start.json`:
+-  `input_paths.phase_s_csv.sha256`; it is
+-  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
+-  The start and end determinism manifests are byte-identical as stated.
+-- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
+-  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
+-  `median_ci_high`. All displayed full-precision values match.
+-- `resolved_config.json`: minimum 20 contributing patients per stratum,
+-  minimum 100 voxels per patient-quantile cell, maximum primary CI width
+-  0.15, and seed 20260824.
+-- `identity_residual_summary.csv`, strata 1–3:
+-  `median_absolute_centered_residual` values 0.0077610015869140625,
+-  0.003559589385986328, and 0.0077877044677734375.
+-- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
+-  `source_corrupt_member`; sub-stroke0142 is an
+-  `excluded_archive_lesion` while the follow-up derivative is retained;
+-  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
+-  `vessel_cbv_p98` 29.140625.
++- `run_log.txt`, line 1, and `ideas/023/HUMAN_APPROVED_PROBE`: approval is
++  bound to contract blob `03d4545fe293f0067c69ce9e9e696ec97b894d7b`; the
++  marker timestamp is 2026-08-28T02:31:13.281441+00:00.
++- `summary.json`: archive MD5 and Zenodo checksum, Phase-S output hash,
++  released/census/analyzed/reserved case counts, `g_label_passed`, run status,
++  all three identity-MAD values, both exclusion counts, tissue-audit row
++  count, and split-manifest hash all match.
++- `determinism_manifest_start.json`: the Phase-S CSV SHA-256 is
++  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`;
++  the start and end determinism manifests are byte-identical as stated.
++- `per_stratum_summary.csv`: for strata 1–3, all cited patient counts, means,
++  mean confidence limits and widths, medians, and median confidence limits
++  match exactly. The reported signs and interval-exclusion descriptions also
++  follow those rows.
++- `resolved_config.json`: the 20-patient support floor, 100-voxel cell floor,
++  0.15 maximum CI width, and seed 20260824 match.
++- `identity_residual_summary.csv`: the three cited median absolute centered
++  residuals match exactly.
++- `exclusions.csv`: sub-stroke0043 is excluded for
++  `source_corrupt_member`; the noncanonical sub-stroke0142 lesion member is
++  excluded while the case has a separate analyzed-case row; sub-stroke0113
++  records 302261 nonfinite MTT voxels; and sub-stroke0002 records a vessel CBV
++  p98 of 29.140625.
+ - `per_patient.csv`: sub-stroke0002, stratum 1 has
+   `d = -0.20385563685311792`.
+-- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
+-  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
+-  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
+-  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
+-  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
+-  `iqr_hu = 314.5`.
++- `bin_tissue_audit.csv`: every cited example resolves exactly:
++  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0; sub-stroke0057 stratum 1
++  5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0; sub-stroke0002 stratum 2
++  21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0; sub-stroke0109 stratum 3
++  30.0/58.0; and sub-stroke0133 stratum 3 Q4 IQR 314.5.
+ 
+-The approval marker also binds the stated contract blob and timestamp.
++No uncited quantitative result remains. The archive SHA-256 and member count
++in the result card are also present in `provenance.json`; the primary metric,
++three fixed bands, 2,000 bootstrap resamples, and gate conjunction reproduce
++the contract and resolved configuration rather than introducing new results.
+ 
+ ## 2. Claim bounds
+ 
+-The primary gate language matches the contract: the result is
+-`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
+-fails because the two zero-excluding intervals have opposite signs. The text
+-correctly scopes uncertainty to patients rather than seeds, states the
+-icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
+-does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
+-claims out of scope. There is no tier-2 threshold issue in this probe, no
+-anchor population, and no baseline is incorrectly promoted to a floor.
++The round-1 blocker is resolved. Cohort-frequency language such as “most
++cases,” “often,” and “typical” has been removed. The HU discussion now labels
++each observation as a cited row-level example and repeatedly states that no
++cohort-level prevalence was computed. Likewise, the mean/median divergence is
++limited to between-patient heterogeneity; the text explicitly says that no
++contribution analysis exists and does not claim that a minority drives the
++means.
+ 
+-**Blocking:** the HU and tail descriptions introduce aggregations that no
+-claim-bearing analysis file contains. In particular, “in most cases,”
+-“often by 10–20 HU,” “near-balanced in most cases (typical median difference
+-<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
+-means are carried by a minority of patients” are cohort-level frequency or
+-contribution claims inferred by the author from row-level tables. The
+-interpretation itself acknowledges that no aggregate HU statistic exists.
+-The stage rule forbids creating an aggregation in prose that the analysis
+-files do not contain. The cited examples verify those cases only; they do not
+-support the frequency words. Revise these passages to example-bounded,
+-row-level observations and state that the existing outputs do not quantify
+-the prevalence of imbalance, or cite an authorized claim-bearing aggregate
+-artifact if one is produced through the governed analysis path. Likewise,
+-median-near-zero plus one extreme case supports heterogeneity, but not the
+-specific “minority carried the means” attribution without a recorded
+-contribution analysis.
++The interpretation preserves the contract's scope: 99 analyzed census
++patients, icobrain-cva maps, one frozen outcome census, no model-use claim,
++no CBV-versus-MTT attribution, and no autoregulatory or causal upgrade. The
++49 reserved cases and hidden test set remain out of scope. Uncertainty is
++correctly case-level through the patient bootstrap, not seed-level. There is
++no tier-2 endpoint, benchmark margin, anchor population, or baseline promoted
++to a performance floor.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all three primary strata, all reported median contrasts and
+-intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
+-exclusions table, and the three identity-residual rows. The interpretation
+-does not hide the material reversal: stratum 2 is negative while stratum 3 is
+-positive, and stratum 1 includes zero. It reports both authorized exclusions,
+-the tissue-audit heterogeneity, the central-volume result, and the untouched
+-reserved cases. No omitted table feature contradicts the primary negative.
+-The only completeness problem is the unsupported aggregation described in
+-check 2, not omission of an adverse result.
++I checked all three rows of `per_stratum_summary.csv`, including the material
++sign reversal between strata 2 and 3 and the stratum-1 interval containing
++zero; all three median contrasts; all 297 `per_patient.csv` rows; all 594 HU
++audit rows; the complete exclusions table; all three identity-residual rows;
++and the support/configuration gates. The interpretation reports the opposing
++directions, near-zero medians, authorized source-corrupt and duplicate-member
++handling, tissue-audit limitations, and untouched reserved cases. No material
++table feature contradicting a stated finding is omitted.
+ 
+ ## 4. Verdict separation
+ 
+-The preregistered gate failure and provenance facts are correctly placed
+-under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
+-and tissue-composition implications are placed under “Suggests,” and the
+-“Does not establish” section correctly blocks physiological, model-use,
+-channel-attribution, and external-generalization upgrades. Subject to removing
+-the unrecorded aggregations above, the separation is sound.
++“Demonstrates” is confined to the valid run, preregistered negative gate,
++identity residual, and authorized exclusions. Per-band meaning, heterogeneity,
++and tissue-composition implications remain under “Suggests” and are explicitly
++exploratory or inferential. “Does not establish” correctly blocks broader
++biological, physiological, model-use, channel-attribution, and generalization
++claims. The PAUSE recommendation follows the contract's `negative_pattern`
++without treating it as evidence that the joint state lacks biological value.
+ 
+ ## 5. Plain-language fidelity
+ 
+-There is no distinct plain-language summary section. The “Next decision” and
+-positive/negative recap retain the main hedges and do not upgrade the primary
+-finding, but their statements that the HU audit demonstrates tissue imbalance
+-inherit the blocking aggregation problem above and must be narrowed with it.
++There is no separate plain-language summary. The closing positive/negative
++recap and next-decision section retain the same scope limits as the technical
++sections. In particular, the revised recap confines HU imbalance to cited
++example cases and states that cohort prevalence was not quantified.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
++{"verdict": "APPROVE"}
+ ```
 
 codex
-Created [interpret_review.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/interpret_review.md) with verdict `REVISE`.
+Updated [interpret_review.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/interpret_review.md) with the round-two verdict: `APPROVE`.
 
-Blocking issue: several cohort-level HU-frequency and tail-contribution claims are prose-derived aggregations absent from the claim-bearing analysis outputs. All cited numeric values otherwise resolved exactly. Existing unrelated modification to `prompt_interpret_review.md` was preserved.
+All citations, claim bounds, completeness, verdict separation, and plain-language fidelity passed. No other file was modified; the existing change to `prompt_interpret_review.md` was preserved.
 diff --git a/ideas/023/interpret_review.md b/ideas/023/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..eb87761524b11e577280f78131a29a094d2e6ee4
---- /dev/null
+index eb87761524b11e577280f78131a29a094d2e6ee4..d9a9cce88001d7b572932d6891343cb6982e4dc6
+--- a/ideas/023/interpret_review.md
 +++ b/ideas/023/interpret_review.md
-@@ -0,0 +1,105 @@
-+# Interpretation review — idea 023, round 1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation in `interpretation.md` against
-+`probes/023/results/results_v2/` (and the approval marker where applicable).
-+The following citations are transcription-exact:
-+
-+- `run_log.txt`, line 1: Phase-C approval passed on contract blob
-+  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
-+- `summary.json`: `archive_md5`, `zenodo_checksum`,
-+  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
-+  `status`, `identity_mad` for strata 1–3,
-+  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
-+  `analyzed_census_case_count`, `census_case_count`,
-+  `bin_tissue_audit_rows`, `reserved_case_count`, and
-+  `split_manifest_sha256`.
-+- `determinism_manifest_start.json`:
-+  `input_paths.phase_s_csv.sha256`; it is
-+  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
-+  The start and end determinism manifests are byte-identical as stated.
-+- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
-+  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
-+  `median_ci_high`. All displayed full-precision values match.
-+- `resolved_config.json`: minimum 20 contributing patients per stratum,
-+  minimum 100 voxels per patient-quantile cell, maximum primary CI width
-+  0.15, and seed 20260824.
-+- `identity_residual_summary.csv`, strata 1–3:
-+  `median_absolute_centered_residual` values 0.0077610015869140625,
-+  0.003559589385986328, and 0.0077877044677734375.
-+- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
-+  `source_corrupt_member`; sub-stroke0142 is an
-+  `excluded_archive_lesion` while the follow-up derivative is retained;
-+  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
-+  `vessel_cbv_p98` 29.140625.
-+- `per_patient.csv`: sub-stroke0002, stratum 1 has
-+  `d = -0.20385563685311792`.
-+- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
-+  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
-+  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
-+  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
-+  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
-+  `iqr_hu = 314.5`.
-+
-+The approval marker also binds the stated contract blob and timestamp.
-+
-+## 2. Claim bounds
-+
-+The primary gate language matches the contract: the result is
-+`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
-+fails because the two zero-excluding intervals have opposite signs. The text
-+correctly scopes uncertainty to patients rather than seeds, states the
-+icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
-+does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
-+claims out of scope. There is no tier-2 threshold issue in this probe, no
-+anchor population, and no baseline is incorrectly promoted to a floor.
-+
-+**Blocking:** the HU and tail descriptions introduce aggregations that no
-+claim-bearing analysis file contains. In particular, “in most cases,”
-+“often by 10–20 HU,” “near-balanced in most cases (typical median difference
-+<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
-+means are carried by a minority of patients” are cohort-level frequency or
-+contribution claims inferred by the author from row-level tables. The
-+interpretation itself acknowledges that no aggregate HU statistic exists.
-+The stage rule forbids creating an aggregation in prose that the analysis
-+files do not contain. The cited examples verify those cases only; they do not
-+support the frequency words. Revise these passages to example-bounded,
-+row-level observations and state that the existing outputs do not quantify
-+the prevalence of imbalance, or cite an authorized claim-bearing aggregate
-+artifact if one is produced through the governed analysis path. Likewise,
-+median-near-zero plus one extreme case supports heterogeneity, but not the
-+specific “minority carried the means” attribution without a recorded
-+contribution analysis.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all three primary strata, all reported median contrasts and
-+intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
-+exclusions table, and the three identity-residual rows. The interpretation
-+does not hide the material reversal: stratum 2 is negative while stratum 3 is
-+positive, and stratum 1 includes zero. It reports both authorized exclusions,
-+the tissue-audit heterogeneity, the central-volume result, and the untouched
-+reserved cases. No omitted table feature contradicts the primary negative.
-+The only completeness problem is the unsupported aggregation described in
-+check 2, not omission of an adverse result.
-+
-+## 4. Verdict separation
-+
-+The preregistered gate failure and provenance facts are correctly placed
-+under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
-+and tissue-composition implications are placed under “Suggests,” and the
-+“Does not establish” section correctly blocks physiological, model-use,
-+channel-attribution, and external-generalization upgrades. Subject to removing
-+the unrecorded aggregations above, the separation is sound.
-+
-+## 5. Plain-language fidelity
-+
-+There is no distinct plain-language summary section. The “Next decision” and
-+positive/negative recap retain the main hedges and do not upgrade the primary
-+finding, but their statements that the HU audit demonstrates tissue imbalance
-+inherit the blocking aggregation problem above and must be narrowed with it.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
-+```
+@@ -1,105 +1,93 @@
+-# Interpretation review — idea 023, round 1
++# Interpretation review — idea 023, round 2
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation in `interpretation.md` against
+-`probes/023/results/results_v2/` (and the approval marker where applicable).
+-The following citations are transcription-exact:
++I re-resolved every citation in `interpretation.md` against
++`probes/023/results/results_v2/` and the approval marker. All quantitative
++transcriptions are exact to the precision stated.
+ 
+-- `run_log.txt`, line 1: Phase-C approval passed on contract blob
+-  `03d4545fe293f0067c69ce9e9e696ec97b894d7b`.
+-- `summary.json`: `archive_md5`, `zenodo_checksum`,
+-  `simulation_output_sha256`, `released_case_count`, `g_label_passed`,
+-  `status`, `identity_mad` for strata 1–3,
+-  `excluded_source_corrupt_cases`, `excluded_duplicate_lesion_members`,
+-  `analyzed_census_case_count`, `census_case_count`,
+-  `bin_tissue_audit_rows`, `reserved_case_count`, and
+-  `split_manifest_sha256`.
+-- `determinism_manifest_start.json`:
+-  `input_paths.phase_s_csv.sha256`; it is
+-  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`.
+-  The start and end determinism manifests are byte-identical as stated.
+-- `per_stratum_summary.csv`, strata 1–3: `patients`, `mean_d`, `ci_low`,
+-  `ci_high`, `ci_width`, `median_d`, `median_ci_low`, and
+-  `median_ci_high`. All displayed full-precision values match.
+-- `resolved_config.json`: minimum 20 contributing patients per stratum,
+-  minimum 100 voxels per patient-quantile cell, maximum primary CI width
+-  0.15, and seed 20260824.
+-- `identity_residual_summary.csv`, strata 1–3:
+-  `median_absolute_centered_residual` values 0.0077610015869140625,
+-  0.003559589385986328, and 0.0077877044677734375.
+-- `exclusions.csv`: sub-stroke0043 is an `excluded_case` for
+-  `source_corrupt_member`; sub-stroke0142 is an
+-  `excluded_archive_lesion` while the follow-up derivative is retained;
+-  sub-stroke0113 has 302261 nonfinite MTT voxels; and sub-stroke0002 has
+-  `vessel_cbv_p98` 29.140625.
++- `run_log.txt`, line 1, and `ideas/023/HUMAN_APPROVED_PROBE`: approval is
++  bound to contract blob `03d4545fe293f0067c69ce9e9e696ec97b894d7b`; the
++  marker timestamp is 2026-08-28T02:31:13.281441+00:00.
++- `summary.json`: archive MD5 and Zenodo checksum, Phase-S output hash,
++  released/census/analyzed/reserved case counts, `g_label_passed`, run status,
++  all three identity-MAD values, both exclusion counts, tissue-audit row
++  count, and split-manifest hash all match.
++- `determinism_manifest_start.json`: the Phase-S CSV SHA-256 is
++  `59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4`;
++  the start and end determinism manifests are byte-identical as stated.
++- `per_stratum_summary.csv`: for strata 1–3, all cited patient counts, means,
++  mean confidence limits and widths, medians, and median confidence limits
++  match exactly. The reported signs and interval-exclusion descriptions also
++  follow those rows.
++- `resolved_config.json`: the 20-patient support floor, 100-voxel cell floor,
++  0.15 maximum CI width, and seed 20260824 match.
++- `identity_residual_summary.csv`: the three cited median absolute centered
++  residuals match exactly.
++- `exclusions.csv`: sub-stroke0043 is excluded for
++  `source_corrupt_member`; the noncanonical sub-stroke0142 lesion member is
++  excluded while the case has a separate analyzed-case row; sub-stroke0113
++  records 302261 nonfinite MTT voxels; and sub-stroke0002 records a vessel CBV
++  p98 of 29.140625.
+ - `per_patient.csv`: sub-stroke0002, stratum 1 has
+   `d = -0.20385563685311792`.
+-- `bin_tissue_audit.csv`: all cited example rows resolve exactly:
+-  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0;
+-  sub-stroke0057 stratum 1 5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0;
+-  sub-stroke0002 stratum 2 21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0;
+-  sub-stroke0109 stratum 3 30.0/58.0; and sub-stroke0133 stratum 3 Q4
+-  `iqr_hu = 314.5`.
++- `bin_tissue_audit.csv`: every cited example resolves exactly:
++  sub-stroke0092 stratum 1 Q1/Q4 medians 3.0/23.0; sub-stroke0057 stratum 1
++  5.0/24.0; sub-stroke0189 stratum 1 6.0/25.0; sub-stroke0002 stratum 2
++  21.0/21.0; sub-stroke0183 stratum 2 23.0/5.0; sub-stroke0109 stratum 3
++  30.0/58.0; and sub-stroke0133 stratum 3 Q4 IQR 314.5.
+ 
+-The approval marker also binds the stated contract blob and timestamp.
++No uncited quantitative result remains. The archive SHA-256 and member count
++in the result card are also present in `provenance.json`; the primary metric,
++three fixed bands, 2,000 bootstrap resamples, and gate conjunction reproduce
++the contract and resolved configuration rather than introducing new results.
+ 
+ ## 2. Claim bounds
+ 
+-The primary gate language matches the contract: the result is
+-`NEGATIVE_PATTERN`, support and precision pass, and directional consistency
+-fails because the two zero-excluding intervals have opposite signs. The text
+-correctly scopes uncertainty to patients rather than seeds, states the
+-icobrain-cva/vendor and 99-patient limits, preserves the reserved 49 cases,
+-does not claim model use, and keeps autoregulatory, causal, and CBV-versus-MTT
+-claims out of scope. There is no tier-2 threshold issue in this probe, no
+-anchor population, and no baseline is incorrectly promoted to a floor.
++The round-1 blocker is resolved. Cohort-frequency language such as “most
++cases,” “often,” and “typical” has been removed. The HU discussion now labels
++each observation as a cited row-level example and repeatedly states that no
++cohort-level prevalence was computed. Likewise, the mean/median divergence is
++limited to between-patient heterogeneity; the text explicitly says that no
++contribution analysis exists and does not claim that a minority drives the
++means.
+ 
+-**Blocking:** the HU and tail descriptions introduce aggregations that no
+-claim-bearing analysis file contains. In particular, “in most cases,”
+-“often by 10–20 HU,” “near-balanced in most cases (typical median difference
+-<= 2 HU),” “Q4 cells often show very wide HU spread,” and “the band-level
+-means are carried by a minority of patients” are cohort-level frequency or
+-contribution claims inferred by the author from row-level tables. The
+-interpretation itself acknowledges that no aggregate HU statistic exists.
+-The stage rule forbids creating an aggregation in prose that the analysis
+-files do not contain. The cited examples verify those cases only; they do not
+-support the frequency words. Revise these passages to example-bounded,
+-row-level observations and state that the existing outputs do not quantify
+-the prevalence of imbalance, or cite an authorized claim-bearing aggregate
+-artifact if one is produced through the governed analysis path. Likewise,
+-median-near-zero plus one extreme case supports heterogeneity, but not the
+-specific “minority carried the means” attribution without a recorded
+-contribution analysis.
++The interpretation preserves the contract's scope: 99 analyzed census
++patients, icobrain-cva maps, one frozen outcome census, no model-use claim,
++no CBV-versus-MTT attribution, and no autoregulatory or causal upgrade. The
++49 reserved cases and hidden test set remain out of scope. Uncertainty is
++correctly case-level through the patient bootstrap, not seed-level. There is
++no tier-2 endpoint, benchmark margin, anchor population, or baseline promoted
++to a performance floor.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all three primary strata, all reported median contrasts and
+-intervals, the 297 per-patient rows, all 594 tissue-audit rows, the complete
+-exclusions table, and the three identity-residual rows. The interpretation
+-does not hide the material reversal: stratum 2 is negative while stratum 3 is
+-positive, and stratum 1 includes zero. It reports both authorized exclusions,
+-the tissue-audit heterogeneity, the central-volume result, and the untouched
+-reserved cases. No omitted table feature contradicts the primary negative.
+-The only completeness problem is the unsupported aggregation described in
+-check 2, not omission of an adverse result.
++I checked all three rows of `per_stratum_summary.csv`, including the material
++sign reversal between strata 2 and 3 and the stratum-1 interval containing
++zero; all three median contrasts; all 297 `per_patient.csv` rows; all 594 HU
++audit rows; the complete exclusions table; all three identity-residual rows;
++and the support/configuration gates. The interpretation reports the opposing
++directions, near-zero medians, authorized source-corrupt and duplicate-member
++handling, tissue-audit limitations, and untouched reserved cases. No material
++table feature contradicting a stated finding is omitted.
+ 
+ ## 4. Verdict separation
+ 
+-The preregistered gate failure and provenance facts are correctly placed
+-under “Demonstrates.” Per-band pattern interpretation, patient heterogeneity,
+-and tissue-composition implications are placed under “Suggests,” and the
+-“Does not establish” section correctly blocks physiological, model-use,
+-channel-attribution, and external-generalization upgrades. Subject to removing
+-the unrecorded aggregations above, the separation is sound.
++“Demonstrates” is confined to the valid run, preregistered negative gate,
++identity residual, and authorized exclusions. Per-band meaning, heterogeneity,
++and tissue-composition implications remain under “Suggests” and are explicitly
++exploratory or inferential. “Does not establish” correctly blocks broader
++biological, physiological, model-use, channel-attribution, and generalization
++claims. The PAUSE recommendation follows the contract's `negative_pattern`
++without treating it as evidence that the joint state lacks biological value.
+ 
+ ## 5. Plain-language fidelity
+ 
+-There is no distinct plain-language summary section. The “Next decision” and
+-positive/negative recap retain the main hedges and do not upgrade the primary
+-finding, but their statements that the HU audit demonstrates tissue imbalance
+-inherit the blocking aggregation problem above and must be narrowed with it.
++There is no separate plain-language summary. The closing positive/negative
++recap and next-decision section retain the same scope limits as the technical
++sections. In particular, the revised recap confines HU imbalance to cited
++example cases and states that cohort prevalence was not quantified.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Remove or replace the cohort-level HU-frequency and tail-contribution claims that are not present in a claim-bearing analysis artifact: 'most cases', 'often by 10–20 HU', 'typical median difference <=2 HU', 'often show very wide HU spread', and 'means are carried by a minority of patients'. Keep only cited row-level examples and explicitly say prevalence was not computed, or route a computed aggregate through the governed analysis path and cite it. Narrow the recap's unqualified tissue-imbalance claim consistently."]}
++{"verdict": "APPROVE"}
+ ```
 
 tokens used
-92,552
-Created [interpret_review.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/interpret_review.md) with verdict `REVISE`.
+94,439
+Updated [interpret_review.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/interpret_review.md) with the round-two verdict: `APPROVE`.
 
-Blocking issue: several cohort-level HU-frequency and tail-contribution claims are prose-derived aggregations absent from the claim-bearing analysis outputs. All cited numeric values otherwise resolved exactly. Existing unrelated modification to `prompt_interpret_review.md` was preserved.
+All citations, claim bounds, completeness, verdict separation, and plain-language fidelity passed. No other file was modified; the existing change to `prompt_interpret_review.md` was preserved.
