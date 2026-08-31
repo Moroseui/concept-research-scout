@@ -1536,3 +1536,32 @@ third charter, tournaments remain deferred: the human plus this
 repository already is the blackboard; first make it interactive and
 typed. Consolidate-before-expanding remains binding. scout.py 2c split
 after R4/P3 interfaces stabilize.
+
+
+## 2026-08-30 - M4 landed: ratify-interpretation + transactional record-result
+
+The round-8 authority primitive. ratify-interpretation IDEA --status S
+verifies six identities -- interpretation.md, interpret_review.md, its
+APPROVE verdict (ratification never bypasses the machine review;
+operator reconsideration remains a distinct future path), decision.md,
+the governing contract blob, and the validated results bundle -- then
+performs ONE transaction: a ledger INTERPRETATION_RATIFIED event
+carrying the authorized status transition plus all six identity hashes
+(the existing append-only ledger is the substrate; no new event format
+before R4) -> digest -> re-materialize the idea's state -> state-verify
+-> single commit. Lifecycle status is machine-derived from the human
+authority act; science prose is never rewritten. record-result gained
+the same transactional tail (scrutiny event -> digest -> materialize ->
+verify -> commit), so the 2026-08-30 manual state-refresh runbook rule
+is now superseded by construction for both current authority mutators,
+exactly as round-8 ruled. Shared _result_bundle_for helper replaces the
+inline discovery in interpret-build. Four regressions: the full happy
+transaction (event fields, hashes, PAUSED state, verify-clean, commit
+message), refusal without machine APPROVE (no event lands), refusal on
+unknown status and missing documents, and record-result owning its
+state transaction end-to-end. Gates: 187/187 both runners (also re-run
+green on the pristine-applied tree), state-verify 44/44, registry-
+validate and doctor green; patch verified git-identical against a
+pristine origin/main worktree. Next operator act: ratify idea 023 ->
+PAUSED, closing the first experimental-and-interpretive lifecycle's
+governance per the pre-registered negative_pattern ruling.
