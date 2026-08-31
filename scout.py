@@ -913,6 +913,85 @@ def _interpret_review_verdict(target):
         return None
 
 
+def _result_bundle_for(idea):
+    """Latest imported results bundle for an idea: the legacy fixed
+    results_v2 location, else the newest probes/NNN/results/*/ bundle
+    (node/blob-addressed layout arrives at P3)."""
+    b = ROOT/'probes'/f'{idea:03d}'/'results_v2'
+    if b.exists():
+        return b
+    cands = sorted((ROOT/'probes'/f'{idea:03d}'/'results').glob('*/summary.json'))
+    return cands[-1].parent if cands else None
+
+
+def cmd_ratify_interpretation(args):
+    """M4 (round-8): the deterministic human-authority primitive that
+    closes an interpretation. Verifies six identities -- interpretation,
+    cross-family review, its APPROVE verdict, decision, governing
+    contract, validated results bundle -- then performs ONE transaction:
+    ledger ratification event carrying the authorized status transition
+    -> digest -> re-materialize the idea's state -> state-verify ->
+    single commit. Lifecycle status becomes machine-derived from the
+    authority act; science prose is never rewritten. Authority-mutating
+    commands own their derived-state transaction (round-8 ruling; this
+    supersedes the manual state-refresh runbook rule for this command
+    class)."""
+    n = f'{args.idea:03d}'
+    d = idea_dir(args.idea)
+    _require_clean_tree('ratify-interpretation')
+    status = args.status
+    if status not in ledger_mod.STATUSES:
+        raise SystemExit(f'--status must be one of {ledger_mod.STATUSES}')
+    docs = {}
+    for name in ('interpretation.md', 'interpret_review.md', 'decision.md'):
+        p = d / name
+        if not p.exists():
+            raise SystemExit(f'ratify refused: ideas/{n}/{name} missing')
+        docs[name] = sha256_of(p)
+    verdict = _interpret_review_verdict(d)
+    if not (isinstance(verdict, dict) and verdict.get('verdict') == 'APPROVE'):
+        raise SystemExit('ratify refused: the cross-family review has not '
+                         f'APPROVEd (found {verdict!r}). Operator '
+                         'reconsideration is a distinct, separately '
+                         'authored path -- ratification never bypasses '
+                         'the review.')
+    bundle = _result_bundle_for(args.idea)
+    if bundle is None:
+        raise SystemExit('ratify refused: no imported results bundle')
+    fails = validate_bundle(args.idea, bundle)
+    if fails:
+        raise SystemExit('ratify refused: bundle invalid: '
+                         + '; '.join(map(str, fails[:3])))
+    blob = _contract_hash(d)
+    if not blob:
+        raise SystemExit('ratify refused: no governing contract')
+    ledger_mod.append({
+        'ledger_id': f'idea-{n}', 'status': status,
+        'kind': 'INTERPRETATION_RATIFIED',
+        'notes': (f'operator ratified the machine-APPROVEd interpretation '
+                  f'-> {status}'),
+        'interpretation_sha256': docs['interpretation.md'],
+        'review_sha256': docs['interpret_review.md'],
+        'decision_sha256': docs['decision.md'],
+        'contract_blob': blob,
+        'results_bundle': str(bundle.relative_to(ROOT)),
+    })
+    ledger_mod.digest()
+    p = state_mod.write_state(n, ROOT, **_state_kwargs())
+    errs = state_mod.verify_state(n, ROOT, **_state_kwargs())
+    if errs:
+        raise SystemExit('ratify TRANSACTION FAILED at state-verify: '
+                         + '; '.join(errs))
+    _commit_all(f'idea {n}: interpretation ratified -> {status} '
+                '(M4 authority transaction)')
+    print(f'Ratified: idea-{n} -> {status}')
+    print(f'  interpretation {docs["interpretation.md"][:12]}  '
+          f'review {docs["interpret_review.md"][:12]}  '
+          f'decision {docs["decision.md"][:12]}')
+    print(f'  contract {blob[:12]}  bundle {bundle.relative_to(ROOT)}')
+    print(f'  state re-materialized + verified: {p.relative_to(ROOT)}')
+
+
 def interpret_build(args):
     """Cross-family adversarial interpretation (mirrors probe-build):
     interpret (one family) writes interpretation.md under a hard citation
@@ -921,12 +1000,8 @@ def interpret_build(args):
     one revision. The single most claim-bearing step in the pipeline no
     longer runs unopposed."""
     d = idea_dir(args.idea)
-    bundle = ROOT/'probes'/f'{args.idea:03d}'/'results_v2'
-    if not bundle.exists():
-        cands = sorted((ROOT/'probes'/f'{args.idea:03d}'/'results').glob('*/summary.json'))
-        if cands:
-            bundle = cands[-1].parent
-    fails = validate_bundle(args.idea, bundle) if bundle.exists() else ['no results bundle found']
+    bundle = _result_bundle_for(args.idea)
+    fails = validate_bundle(args.idea, bundle) if bundle else ['no results bundle found']
     if fails:
         raise SystemExit('interpret-build refuses: bundle invalid or missing: '
                          + '; '.join(fails[:3]))
@@ -1955,6 +2030,17 @@ def record_result(args):
              f'{summary.get("phase")}, contract '
              f'{str(_contract_hash(idea_dir(args.idea)))[:12]}')
     ledger_mod.digest()
+    # Round-8 ruling: an authority mutation owns its derived-state
+    # transaction -- the operator never remembers a second command.
+    n = f'{args.idea:03d}'
+    state_mod.write_state(n, ROOT, **_state_kwargs())
+    errs = state_mod.verify_state(n, ROOT, **_state_kwargs())
+    if errs:
+        raise SystemExit('record-result TRANSACTION FAILED at '
+                         'state-verify: ' + '; '.join(errs))
+    _commit_all(f'idea {n}: PROBED scrutiny + digest + state '
+                '(record-result transaction)')
+    print('Ledger, digest, and re-materialized state committed.')
 
 
 
@@ -3536,6 +3622,7 @@ def main():
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
     p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
     p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
+    p=sp.add_parser('ratify-interpretation'); p.add_argument('idea',type=int); p.add_argument('--status',required=True); p.set_defaults(fn=cmd_ratify_interpretation)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--charter',default=None); p.add_argument('--scout'); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)

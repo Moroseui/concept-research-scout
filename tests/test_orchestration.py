@@ -3814,5 +3814,116 @@ class TestInterpretResume(Harness):
                                                   resume_review=True))
         self.assertEqual(calls, [], "no leg may run without the artifact")
 
+
+class TestM4RatifyInterpretation(Harness):
+    """Round-8 M4: the deterministic human-authority primitive. Verifies
+    the six identities, then one transaction: ledger event + authorized
+    transition + materialize + verify + commit. record-result gains the
+    same transactional tail."""
+
+    def _kit(self, verdict="APPROVE"):
+        import scout as sc
+        import types
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n"
+            "  - resolved_config.json\n")
+        cur = sc._contract_hash(d)
+        b = self.repo / "probes" / "001" / "results" / "results_v2"
+        b.mkdir(parents=True, exist_ok=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "C", "status": "DONE"}))
+        (b / "provenance.json").write_text(json.dumps({"seed": 1}))
+        (b / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": cur}))
+        (d / "interpretation.md").write_text("the analysis\n")
+        (d / "interpret_review.md").write_text(
+            'checked\n```json\n{"verdict": "%s"}\n```\n' % verdict)
+        (d / "decision.md").write_text("result card\n")
+        ledger = self.repo / "ledger.jsonl"
+        ledger.write_text(json.dumps(
+            {"ledger_id": "idea-001", "status": "SHORTLISTED",
+             "scrutiny": "PROBED", "title": "t"}) + "\n")
+        commits = []
+        stub_ledger = types.SimpleNamespace(
+            STATUSES=list(__import__("ledger").STATUSES),
+            append=lambda rec: ledger.open("a").write(
+                json.dumps(dict(rec, recorded_at="t")) + "\n"),
+            raise_scrutiny=lambda lid, lvl, note="": ledger.open("a").write(
+                json.dumps({"ledger_id": lid, "scrutiny": lvl,
+                            "recorded_at": "t"}) + "\n"),
+            digest=lambda: None)
+        for name, stub in (("_require_clean_tree", lambda *_: None),
+                           ("_commit_all",
+                            lambda msg: commits.append(msg)),
+                           ("ledger_mod", stub_ledger)):
+            self.addCleanup(setattr, sc, name, getattr(sc, name))
+            setattr(sc, name, stub)
+        return sc, d, commits
+
+    def test_m4_transaction_ratifies_and_rematerializes(self):
+        sc, d, commits = self._kit()
+        import argparse
+        sc.cmd_ratify_interpretation(
+            argparse.Namespace(idea=1, status="PAUSED"))
+        rows = [json.loads(x) for x in
+                (self.repo / "ledger.jsonl").read_text().splitlines()]
+        last = rows[-1]
+        self.assertEqual(last["status"], "PAUSED")
+        self.assertEqual(last["kind"], "INTERPRETATION_RATIFIED")
+        import hashlib as _h
+        self.assertEqual(last["interpretation_sha256"], _h.sha256(
+            (d / "interpretation.md").read_bytes()).hexdigest())
+        st = json.loads((d / "state.json").read_text())
+        self.assertEqual(st["status"], "PAUSED")
+        import state_view as sv
+        self.assertEqual(
+            sv.verify_state("001", self.repo, **sc._state_kwargs()), [])
+        self.assertTrue(any("M4 authority transaction" in m
+                            for m in commits))
+
+    def test_m4_refuses_without_machine_approve(self):
+        sc, d, commits = self._kit(verdict="REVISE")
+        import argparse
+        with self.assertRaises(SystemExit) as cm:
+            sc.cmd_ratify_interpretation(
+                argparse.Namespace(idea=1, status="PAUSED"))
+        self.assertIn("has not APPROVEd", str(cm.exception))
+        rows = (self.repo / "ledger.jsonl").read_text().splitlines()
+        self.assertEqual(len(rows), 1, "no event may land on refusal")
+
+    def test_m4_refuses_unknown_status_and_missing_docs(self):
+        sc, d, commits = self._kit()
+        import argparse
+        with self.assertRaises(SystemExit):
+            sc.cmd_ratify_interpretation(
+                argparse.Namespace(idea=1, status="NOT_A_STATUS"))
+        (d / "decision.md").unlink()
+        with self.assertRaises(SystemExit) as cm:
+            sc.cmd_ratify_interpretation(
+                argparse.Namespace(idea=1, status="PAUSED"))
+        self.assertIn("decision.md", str(cm.exception))
+
+    def test_m4_record_result_owns_its_state_transaction(self):
+        sc, d, commits = self._kit()
+        import argparse, subprocess as sp
+        if not (self.repo / ".git").exists():
+            sp.run(["git", "init", "-q"], cwd=self.repo, check=True)
+        sp.run(["git", "config", "user.email", "t@t"], cwd=self.repo)
+        sp.run(["git", "config", "user.name", "t"], cwd=self.repo)
+        src = self.dir / "incoming_v3"
+        shutil.copytree(self.repo / "probes" / "001" / "results" /
+                        "results_v2", src)
+        sc.record_result(argparse.Namespace(idea=1, bundle=str(src)))
+        st = json.loads((d / "state.json").read_text())
+        self.assertEqual(st["scrutiny"], "PROBED")
+        import state_view as sv
+        self.assertEqual(
+            sv.verify_state("001", self.repo, **sc._state_kwargs()), [])
+        self.assertTrue(any("record-result transaction" in m
+                            for m in commits))
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
