@@ -11,14 +11,14 @@
   "idea_no": "023",
   "kill_code": null,
   "materialization": {
-    "event_count": 7,
+    "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "ce604ebfa577919d8bd45834eccea1d410a9dd6b94edc6264051cda2a3fdd2f6",
+    "source_fingerprint_sha256": "2f881afb714188dcf60a3cb594b71f353b7e11ea41a21d654f3cdc279b64fa0c",
     "sources": {
       "approval_sha256": "325703c888df79f90ec21e88c962b7bb5893b21e14c43f92633df27b7e1d9624",
       "contract_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
       "idea_card_sha256": "f7043f2cfedb68887b2421a0d29070002f39ff951bf4d8338eaf3891885c40dd",
-      "ledger_events_sha256": "dcffc97ec0fe8ccafb1cccb696a3f80d535db92345cd38f601b7e877f81b5382",
+      "ledger_events_sha256": "985c22e63c8112cbb49ab6b1733a38bcf294864349fadb5bb5505ab1113af145",
       "registry_sha256": null
     }
   },
@@ -26,6 +26,6 @@
   "registry": null,
   "schema_version": 1,
   "scrutiny": "PROBED",
-  "status": "SHORTLISTED",
+  "status": "PAUSED",
   "title": "Little's law in the penumbra: the model may be reading the vasodilatory counterattack"
 }

@@ -22,7 +22,7 @@
 - [isles24] **idea-020** [REJECTED] -- A spreading front inside the perfusion deficit
 - [isles24] **idea-021** [SHORTLISTED] -- The healthy hemisphere is the ruler
 - [isles24] **idea-022** [PAUSED] -- Does the model mistake the end of the scan for the end of the bolus?
-- [isles24] **idea-023** [SHORTLISTED] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
+- [isles24] **idea-023** [PAUSED] -- Little's law in the penumbra: the model may be reading the vasodilatory counterattack
 - [isles24] **idea-024** [REJECTED] -- The capillary traffic jam hidden behind the same mean transit time
 - [isles24] **idea-025** [PAUSED] -- The scan is also an actigraph: the model may be reading how much the patient moved
 - [isles24] **idea-026** [REJECTED] -- A spreading front inside the perfusion deficit
