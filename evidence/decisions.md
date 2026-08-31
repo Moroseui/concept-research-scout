@@ -1413,3 +1413,126 @@ Two regressions prove the skip and the refusal; 183/183 both runners;
 patch verified git-identical against a pristine origin/main worktree.
 The round-1 interpretation remains UNRATIFIED pending the cross-family
 review it was always owed.
+
+
+## 2026-08-30 - Round-8 review intake: interaction is the frontier
+
+Full-system audit absorbed (robustness, interaction, scientific
+utility, path forward; literature-grounded against AI Scientist,
+Co-Scientist, Agent Laboratory, Robin, ScientistOne, AutoGen,
+LangGraph, multi-agent-debate and injection-security work). Verdict:
+green scientific integrity, green-to-yellow failure containment,
+yellow automation and maintainability, clearly yellow human<->system
+interaction -- the system's biggest remaining weakness is not safety,
+ideation, or execution; it is interaction. Standing goal reformulated
+and adopted verbatim as the project's articulation: a human-directed
+research instrument in which strong models do most of the cognitive
+and mechanical work required to turn vague scientific possibilities
+into falsifiable, evidence-traceable conclusions, while deterministic
+infrastructure preserves identity, provenance, authority and
+reproducibility.
+
+CORRECTIONS RECORDED. (1) Milestone phrasing: idea 023 is the first
+complete experimental-and-interpretive lifecycle; its final governance
+transition awaits operator ratification (decision.md carries stale
+pre-review prose; state remains SHORTLISTED while the decision
+recommends PAUSE) -- our "first complete idea lifecycle" wording was
+premature. (2) The 2026-08-30 manual state-refresh runbook rule is
+itself exception-handling: authority-mutating commands must own their
+derived-state transaction (append -> materialize -> verify -> succeed);
+the manual rule is superseded by that design. (3) Our draft
+note-blocking formulation ("every stage refuses on any open note") was
+too broad -- an accidental denial-of-service; notes bind to explicitly
+named response boundaries. (4) Packet said 181 tests; the reviewed ZIP
+carries 183 (post-resume-review chronology), noted for the record.
+
+Q0 RATIFIED: M2-pre as a narrow temporary compatibility mechanism with
+an explicit retirement destination; the 1 GB phase_c_cache exclusion
+(resume scratch is not claim-bearing output); the operator-executed
+import as an exceptional equivalent human-authority path -- future
+operator imports must emit the same structured authority receipt as the
+automated route; the phone-dispatch interpret workflow. A1 resolved:
+branch-vintage is eliminated by MAIN-OWNED revalidation
+(repository_dispatch: current main as executable code, exact results
+commit as data) -- never by copying orchestration into result branches.
+
+ADOPTED ARCHITECTURAL RULINGS. Three-register input taxonomy becomes a
+primitive: integrity-invalid -> hard refuse; well-formed but
+semantically inconsistent -> dissent-and-clarify; ordinary -> proceed.
+Division of labor: deterministic machinery answers "may this happen",
+models answer "does this make scientific sense and what are we
+missing", the human answers "which judgment do we authorize"; models
+never waive integrity rules, hard code never adjudicates scientific
+ambiguity a frontier model reasons about better. Semantic anomalies
+route to an opposing-family clarification ("valid but conflicts with
+X; interpretations A/B; which did you intend?"). ratify-interpretation
+becomes a deterministic authority primitive (verify interpretation/
+review/verdict/decision/contract/bundle identities, then one
+transaction: ratification event + authorized status transition +
+materialize + verify); lifecycle status is machine-derived from the
+authority act, science prose is never rewritten. One symmetric
+note/advisory schema on the R4 event envelope -- no pre-R4 interaction
+file formats; responses required at named boundaries; a valid response
+includes evidence-backed rebuttal; advisories never dictate the human,
+notes never dictate the model. Adversarial reads of operator acts:
+judgment-rich only (ratifications, overrides, kill/revive against
+machine advice, approving over open advisories), returning
+NO_MATERIAL_DISSENT or DISSENT{finding,evidence,why}; dissent is never
+veto; health metric = material dissent that changed a decision / all
+reads, plus operator minutes per useful catch; a reviewer producing no
+useful dissent gets respecified. Interpretation gains a first-class
+operator objection: distinct authored object, one bounded operator
+reconsideration even after the machine revision is consumed, and the
+agent may defend the original with citations. confer: read-only,
+bounded, receipted, artifact-hash-bound single exchange, landed after
+the substrate; conclusions promoted to notes, transcripts never enter
+core context. Minority-dissent lifecycle telemetry (raised -> adopted/
+rebutted/overruled -> vindicated/falsified) preferred over agreement
+rate; never majority-vote truth. decisions.md remains the append-only
+human authority log but STOPS being whole-file prompt context; R4
+derives applicable-decision context per idea/charter/system. Security
+doctrine: prompts explicitly separate TRUSTED INSTRUCTIONS from
+UNTRUSTED EVIDENCE (results, transcripts, note bodies, external text);
+evidence text is never executable instruction; judgment stages reading
+untrusted text run least-privilege; citations and cross-family review
+are scientific defenses, not sandboxes.
+
+MULTISTEP (Q1): R3b proves the real S->C registry before any schema
+expansion; phase-scoped result_interfaces enter NEW contracts (the
+contract, not the registry, owns what counts as a valid result);
+launcher upstream becomes an inputs LIST beside P3's node-addressed
+driver; results converge on probes/NNN/results/<node>/<contract-blob>/
+replacing results_v2 semantics; no any_of, quorums, dynamic branching,
+or per-node contract documents absent demonstrated need -- the six-blob
+amendment chain proved historical pinning works.
+
+Q8 AUDIT TABLE ADOPTED with its classifications and retirements:
+keep (baseline-charter fallback, tombstones, two-source governance,
+contract-owned exclusions like sub-stroke0043); retire on trigger
+(historical interface table after 023 ratifies + phase-scoped
+interfaces; M/B legacy path after migration; phase-s source sniff and
+results_v2 assumptions at P3; --resume-review absorbed into R4 generic
+resumable stage outcomes; drive_fuse at P3; CSV dual-write and global
+scout-target in the legacy window; whole-log prompt injection at R4;
+manual codex refresh -> P10 preflight now, durable credential model
+later; global-cycle roles -> ROLE_BOUND before flip). Transitional-debt
+convention adopted: constructs marked # TRANSITIONAL with owner and
+retire_when, indexed in a CI-checked transitional_debt.yaml -- a
+transitional construct outliving its trigger fails CI. Verdict on the
+discipline: mostly general mechanisms, close enough to the boundary
+that mechanical retirement now matters.
+
+REVISED SEQUENCE ADOPTED: M4 ratify-interpretation + transactional
+authority mutations (immediate; closes 023 governance) -> R3b real 023
+registry + ratification -> R4 typed RunResult + common event envelope +
+generic resumption identity + decisions-context derivation -> P3
+driver_spec + launcher inputs list + main-owned dispatch revalidation +
+node-addressed results -> ROLE_BOUND -> derived-state soak + consumer
+flip -> interaction substrate (symmetric notes/advisories, operator
+reconsideration, confer) -> stop-report (successor-question generator
+only; never amends the current experiment) -> design-review -> gate
+calibration -> measured-need expansion. Blackboard arbiter, meta-loop,
+third charter, tournaments remain deferred: the human plus this
+repository already is the blackboard; first make it interactive and
+typed. Consolidate-before-expanding remains binding. scout.py 2c split
+after R4/P3 interfaces stabilize.
