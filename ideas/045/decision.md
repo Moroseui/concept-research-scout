@@ -23,7 +23,8 @@
   `004253540bab…`).
 - **Families:** authoring family claude (this document and
   `interpretation.md`); reviewing family codex (cross-family citation
-  review, round 1 pending).
+  review; round 1 returned REVISE, and this is the round-2 revision
+  addressing its blocking findings).
 - **Out-of-scope warnings — this result must NOT be read as:** evidence for
   or against an HU-imbalance/final-infarct association; evidence about
   whether tissue composition explains idea-023's band-2/band-3 reversal;
@@ -35,10 +36,12 @@
 ## Layer A — Finding
 
 The outcome-blind feasibility audit returned NEGATIVE_PATTERN: the frozen
-band-by-imbalance interaction design fails 4 of its 9 pre-registered gates
-[cite: summary.json | status, gates | values]. The design is full-rank but
+band-by-imbalance interaction design fails its pre-registered gates for
+conditioning, band-2 distinct-value support, maximum leverage, and
+leave-one-out conditioning [cite: summary.json | status, gates | values].
+The design is full-rank but
 ill-conditioned (condition number 38.89 vs the frozen ≤ 30 bound), band-2
-exposure lands on only 17 distinct integer-quantized values (≥ 20 required),
+exposure lands on only 17 distinct values (≥ 20 required),
 one patient row exceeds the 0.20 leverage bound (0.2636), and no
 single-patient deletion restores conditioning (leave-one-out range
 35.73–43.82). Because the probe is deterministic and the leave-one-out sweep
@@ -71,11 +74,12 @@ current specification may not be used to ask it.
    values]. The split manifest (hash `6446ad66…`) was frozen before the
    outcome file was opened [cite: split_manifest.json |
    created_before_outcome_file_open | value].
-3. **Gates.** Integrity and join gates all passed. Of the 9 feasibility
-   gates: 5 passed (rank 4; 99 cases per band; nonzero IQR both bands;
-   top-10 leverage rows span 9 patients; all 99 leave-one-out matrices rank
-   4) and 4 failed (condition number; band-2 distinct values; maximum
-   leverage; leave-one-out conditioning) [cite: design_diagnostics.json |
+3. **Gates.** Integrity and join gates all passed. Feasibility gates that
+   passed, by recorded name: `rank_4`, `each_band_99_cases`,
+   `each_band_nonzero_iqr`, `top_10_include_at_least_5_patients`,
+   `all_loo_rank_4`. Feasibility gates that failed: `condition_number_le_30`,
+   `each_band_at_least_20_distinct`, `maximum_leverage_le_0_20`,
+   `all_loo_condition_le_30` [cite: design_diagnostics.json |
    gates | all keys]. Per the frozen stopping rule the run stopped after the
    single design audit; no outcome analysis began.
 4. **Kill conditions approached.** None. No invalidating-failure clause
@@ -119,13 +123,14 @@ Bundle root: `probes/045/results/results_v2/` at commit
 contracted: a decisive feasibility negative for the current linear
 interaction specification, mandating specification revision before any
 outcome value is read. The idea's scientific question is untouched — the
-probe was outcome-blind, so its geometry (band-2 quantization, the
-leverage/conditioning tension around sub-stroke0183, the intercept-scaling
-convention) can inform a revised, re-frozen specification without
+probe was outcome-blind, so its geometry (band-2's compressed
+distinct-value support, the leverage/conditioning tension around
+sub-stroke0183, the intercept-scaling convention) can inform a revised,
+re-frozen specification without
 contaminating the future analysis. Next acts: draft a revised specification
 (candidates: standardized or rank-transformed exposure, pooled-slope
 reduction, or coarsened exposure bins) through probe-plan with fresh frozen
 thresholds and a new human approval; the 49 reserved cases and all observed
-d values remain unread. Round 1: this decision summarizes
-`interpretation.md`, which awaits cross-family review; no
-`evidence/decisions.md` entry is appended in this round.
+d values remain unread. Round 2 (revision): this decision summarizes
+`interpretation.md` as revised to resolve the round-1 blocking findings;
+no `evidence/decisions.md` entry is appended until the review approves.

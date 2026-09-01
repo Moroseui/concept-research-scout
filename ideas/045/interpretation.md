@@ -2,8 +2,9 @@
 
 Results bundle: `probes/045/results/results_v2/`, imported at commit
 `fe7d30a3e88726d6ca4929a7badc3144f7338714` (import receipt
-`probes/045/results/results_v2.import.json`, byte-manifest sha256
-`004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`, 12 files).
+`probes/045/results/results_v2.import.json`: `manifest_sha256`
+`004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`,
+`file_count` 12).
 All citations below are relative to that bundle root at that commit.
 
 Governing identity: contract blob `e7071541036a17f4a02ec264693209fec5c1337d`
@@ -63,8 +64,12 @@ an estimate.
    [cite: summary.json | analysis_rows | value].
 
 4. **The frozen design is algebraically estimable but fails the frozen
-   feasibility conjunction: 4 of 9 gates fail** [cite:
-   design_diagnostics.json | gates | all keys]:
+   feasibility conjunction.** The failed gates, by their recorded names, are
+   `condition_number_le_30`, `each_band_at_least_20_distinct`,
+   `maximum_leverage_le_0_20`, and `all_loo_condition_le_30` [cite:
+   design_diagnostics.json | gates | condition_number_le_30,
+   each_band_at_least_20_distinct, maximum_leverage_le_0_20,
+   all_loo_condition_le_30]:
    - **Conditioning fails.** Primary condition number **38.889769743817595**
      against the frozen ≤ 30 bound [cite: design_diagnostics.json |
      condition_number | value]; singular values 14.089212872412212,
@@ -113,28 +118,31 @@ not suggested.
 Inferences beyond the frozen gates; deterministic numbers, interpretive
 step mine.
 
-1. **Simple outlier removal cannot rescue this specification.** The row that
-   breaches the leverage bound (sub-stroke0183, band 2) is also the deletion
-   that *worsens* conditioning most (43.82 vs baseline 38.89) [cite:
+1. **No single-patient deletion rescues conditioning.** Removing the
+   maximum-leverage patient (sub-stroke0183, band 2) does not restore the
+   frozen conditioning gate — that deletion yields the *largest*
+   leave-one-out condition number (43.82 vs baseline 38.89) [cite:
    design_diagnostics.json | leave_one_patient_out | case_id=sub-stroke0183],
-   because band-2 exposure spread collapses further without it. The two
-   failed distribution gates pull opposite directions for any drop-the-case
-   repair; the path forward is respecification, not case exclusion.
+   and no single-patient deletion reaches the ≤ 30 bound (leave-one-out
+   minimum 35.73, deleting sub-stroke0109) [cite: design_diagnostics.json |
+   leave_one_patient_out_condition_min | value]. That is the full extent of
+   what the sweep demonstrates: it tests single-patient deletions only, so
+   multi-case exclusion strategies are untested by this bundle and are
+   neither endorsed nor ruled out here.
 
-2. **Band-2 quantization is the binding constraint on variation.** The audit
-   medians are integer-quantized HU values, and band 2's 99 imbalances land
-   on only 17 distinct values with IQR 2.0 [cite: design_diagnostics.json |
-   band_support.2 | distinct_values, iqr]. Any revised specification that
-   keeps raw band-2 differences as the exposure inherits this grid; a
-   coarsened, standardized, or rank-based exposure treatment is the natural
-   family to consider.
+2. **Band-2 exposure support is the binding constraint on variation.** Band
+   2's 99 imbalances land on only 17 distinct values with IQR 2.0 HU [cite:
+   design_diagnostics.json | band_support.2 | n, distinct_values, iqr]. Any
+   revised specification that keeps raw band-2 differences as the exposure
+   inherits this compressed support; a coarsened, standardized, or
+   rank-based exposure treatment is the natural family to consider.
 
 3. **The condition-number magnitude partly reflects the frozen diagnostic
-   convention.** Under the contract's scaling, non-intercept columns are
-   unit-L2-normalized while the intercept retains norm √198 ≈ 14.07 (derived
-   from the 198 analysis rows [cite: summary.json | analysis_rows | value]);
-   the leading singular value is 14.0892 [cite: design_diagnostics.json |
-   singular_values | first]. The trailing singular value 0.3623 — near-
+   convention.** Under the contract's scaling rule, only non-intercept
+   columns are normalized to unit L2 norm, so the intercept column keeps its
+   raw, unnormalized scale; the leading singular value is 14.0892 [cite:
+   design_diagnostics.json | singular_values | first]. The trailing singular
+   value 0.3623 [cite: design_diagnostics.json | singular_values | last] — near-
    collinearity of the interaction column with its parents given compressed
    band-2 support — is the substantive signal. This observation does not
    soften the verdict (the gate was frozen before inspection, exactly so it
@@ -184,9 +192,10 @@ invalid run reinterpreted as one.
   patients per band and influence spread across ≥ 9 patients in the top-10
   leverage rows.
 - **Negative finding (the result):** the frozen feasibility conjunction
-  fails on 4 of 9 gates — conditioning (38.89 > 30), band-2 distinct-value
-  support (17 < 20), maximum leverage (0.2636 > 0.20), and
-  leave-one-patient-out conditioning (min 35.73 > 30). Under the contract's
+  fails, on the gates recorded as `condition_number_le_30` (38.89 > 30),
+  `each_band_at_least_20_distinct` (band 2: 17 < 20),
+  `maximum_leverage_le_0_20` (0.2636 > 0.20), and `all_loo_condition_le_30`
+  (minimum 35.73 > 30). Under the contract's
   pre-registered classification this is a **decisive feasibility negative
   for the current linear interaction specification** — decisive for the
   design question the probe asked, and only for it. It mandates
