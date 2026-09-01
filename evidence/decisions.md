@@ -1565,3 +1565,34 @@ validate and doctor green; patch verified git-identical against a
 pristine origin/main worktree. Next operator act: ratify idea 023 ->
 PAUSED, closing the first experimental-and-interpretive lifecycle's
 governance per the pre-registered negative_pattern ruling.
+
+
+## 2026-08-30 - R5a landed: the Research Card (derived view)
+
+Answering the operator's standing need -- "the idea is in one place, but
+nothing describes results, position, and connections together" -- and
+the context-window motivation behind it: ideas/NNN/CARD.md is a
+deterministic derived VIEW (card-materialize IDEA; --check verifies
+byte-identity, mirroring the state invariant) rendering an idea's
+scattered authorities onto one compact, human- and model-readable page:
+identity and ledger position; the question; DECLARED-vs-DERIVED status
+with drift flagged and never silently reconciled (idea 023's card
+immediately surfaced its own stale keystone_status: NOT_INSPECTED
+against the ratified NEGATIVE -> PAUSED -- the first machine-generated
+candidate operator update); the full contract-blob lineage recovered
+from approval-marker history (023 renders its six-blob amendment
+chain); experiment position and bundle identity; headline per-stratum
+results verbatim from summary.json (every number already
+citation-checked by the cross-family review); interpretation/review/
+decision hashes and the ratification row; connections via a new
+OPTIONAL related_ideas list on the existing idea_card.json (no new
+authority, no new event format -- pure consolidation-doctrine view);
+and document pointers. The card is the designated compact context
+object for the coming confer primitive. ideas/023/CARD.md is committed
+and check-verified cross-machine. Three regressions (lineage ordering,
+drift flag, determinism, stale-byte refusal, related-ideas rendering);
+190/190 both runners, also green on the pristine-applied tree;
+state-verify 44/44; patch git-identical against pristine origin/main.
+Next: R5b confer-v0 (read-only, receipted, trusted/untrusted prompt
+separation, advisory-only suggestions) under a TRANSITIONAL marker with
+a resequencing disclosure addendum to the external reviewer.
