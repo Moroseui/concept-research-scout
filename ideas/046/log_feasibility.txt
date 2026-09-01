@@ -1,0 +1,15 @@
+**Verdict: GO.** The feasibility memo is written at `ideas/046/feasibility.md`, with new rows appended to `evidence/literature.csv` (3) and `evidence/datasets.csv` (1). Nothing was committed — the working tree holds the three changed/new files for the driver or operator to pick up.
+
+What the memo verified fresh today, all against primary artifacts:
+
+- **Keystone re-confirmed independently (third inspection).** `per_patient.csv` hashes to exactly the contract's frozen pin (`1d01551c…`), with 297 rows, 99 unique cases, exactly 99 per stratum, zero duplicate keys, zero nan/inf in `d`.
+- **Parent gap quoted verbatim** from the ratified `ideas/023/interpretation.md:200-202` ("no aggregate HU statistic or per-patient contribution analysis was computed"), and the band-2/band-3 means and CIs in the card are transcription-exact against `per_stratum_summary.csv`.
+- **Clinical-rung join coverage is 99/99 at the file level**: the archive manifest lists 149 outcome + 149 demographic phenotype CSVs in the same `sub-strokeNNNN` spelling as the analyzed table, and the set-difference of analyzed IDs against both is empty. Outcome files are 93–105 bytes, uniformly nonzero.
+- **Zenodo record 16813698 re-fetched live**: still open access, CC BY-NC-SA 4.0, `train.7z` at exactly the pinned size and MD5. It is v2 of the concept DOI and *not* the latest version — one more reason acquisition must stay on the pinned origin_direct path.
+- **Critique D2 confirmed**: there is no small phenotype download; the clinical rung costs one full 99 GB restage (proven ~14-minute path).
+
+The one honest unknown, stated as such: column-level phenotype content (whether NIHSS-24h/mRS-3mo values are actually populated) is unverifiable without the restage — and by construction it can only kill the optional clinical rung, never the primary census. The memo also states explicitly that the prior-art/intervention subsection requirement does not apply (no inputs are edited or synthesized), and endorses the already-drafted v1 definition-audit probe contract as the correct smallest probe of the riskiest remaining assumption (well-posedness of the frozen summary definitions, checked outcome-blind).
+
+GO scope is sequenced: human approval of the v1 audit contract first, then a separate census contract that must encode the D3 read-restriction and D4 joint-display rules; the clinical join stays opportunistic on the next staging event.
+
+One unrelated housekeeping note: this session reports that the claude.ai Gmail, Google Calendar, and Google Drive connectors need re-authorization (via your claude.ai connector settings) before their tools can be used — nothing in this task needed them.
