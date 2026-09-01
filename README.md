@@ -259,6 +259,9 @@ infrastructure failure must not burn a good leg).
 `interpret` (idea, resume_review) and `confer` (idea, question) run the
 corresponding commands on Actions with tests-first and fail-closed
 push; `actioner` renders the operator brief. Codex participates in one
-leg of every confer and in interpret reviews: refresh the
-`CODEX_AUTH_JSON` secret immediately before dispatching and avoid local
-codex use until the run completes (single-use refresh chain).
+leg of every confer and in interpret reviews. Durable auth: set the
+`OPENAI_API_KEY` repository secret and Actions uses it (no rotation, no
+refresh dance; local codex keeps the ChatGPT login untouched). Without
+it, workflows fall back to the `CODEX_AUTH_JSON` OAuth snapshot, which
+must be re-exported immediately before dispatch (single-use refresh
+chain).

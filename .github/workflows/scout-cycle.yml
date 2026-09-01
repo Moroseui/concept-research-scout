@@ -59,12 +59,19 @@ jobs:
           claude --version || true
           codex --version || true
 
-      - name: Restore Codex auth
+      - name: Codex auth (API key preferred; OAuth snapshot fallback)
         if: ${{ inputs.dry_run != true }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          mkdir -p ~/.codex
-          echo "${{ secrets.CODEX_AUTH_JSON }}" | base64 -d > ~/.codex/auth.json
-          chmod 600 ~/.codex/auth.json
+          if [ -n "$OPENAI_API_KEY" ]; then
+            echo "codex auth: OPENAI_API_KEY (durable; no rotation)"
+          else
+            echo "codex auth: ChatGPT OAuth snapshot (single-use refresh chain)"
+            mkdir -p ~/.codex
+            echo "${{ secrets.CODEX_AUTH_JSON }}" | base64 -d > ~/.codex/auth.json
+            chmod 600 ~/.codex/auth.json
+          fi
 
       - name: Install python deps
         run: pip install -r requirements.txt
@@ -80,6 +87,7 @@ jobs:
       - name: Run cycle (resume if one is unfinished)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SCOUT_CI: '1'
         run: |
           python scout.py cycle \
