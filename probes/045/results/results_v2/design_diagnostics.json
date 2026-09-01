@@ -1,0 +1,545 @@
+{
+  "band_support": {
+    "2": {
+      "distinct_values": 17,
+      "iqr": 2.0,
+      "maximum": 18.0,
+      "median": -1.0,
+      "minimum": -16.0,
+      "n": 99,
+      "q25": -2.0,
+      "q75": 0.0
+    },
+    "3": {
+      "distinct_values": 26,
+      "iqr": 6.0,
+      "maximum": 14.0,
+      "median": 1.0,
+      "minimum": -28.0,
+      "n": 99,
+      "q25": -2.0,
+      "q75": 4.0
+    }
+  },
+  "condition_number": 38.889769743817595,
+  "gates": {
+    "all_loo_condition_le_30": false,
+    "all_loo_rank_4": true,
+    "condition_number_le_30": false,
+    "each_band_99_cases": true,
+    "each_band_at_least_20_distinct": false,
+    "each_band_nonzero_iqr": true,
+    "maximum_leverage_le_0_20": false,
+    "rank_4": true,
+    "top_10_include_at_least_5_patients": true
+  },
+  "leave_one_patient_out": [
+    {
+      "case_id": "sub-stroke0002",
+      "condition_number": 38.68542973895209,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0005",
+      "condition_number": 38.48994726713879,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0006",
+      "condition_number": 38.65058766746646,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0008",
+      "condition_number": 38.682598073103115,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0009",
+      "condition_number": 38.698150138166504,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0012",
+      "condition_number": 38.686502977637986,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0013",
+      "condition_number": 38.50989985922705,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0014",
+      "condition_number": 38.51397188917921,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0015",
+      "condition_number": 38.5624821237727,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0019",
+      "condition_number": 38.690233262129986,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0021",
+      "condition_number": 39.600837240835006,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0022",
+      "condition_number": 38.69768648141646,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0025",
+      "condition_number": 38.678937901137765,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0026",
+      "condition_number": 38.6484435767822,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0028",
+      "condition_number": 38.69023326212997,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0030",
+      "condition_number": 38.513166474602905,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0033",
+      "condition_number": 38.70008753647719,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0036",
+      "condition_number": 38.698150138166504,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0037",
+      "condition_number": 38.73175782077639,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0038",
+      "condition_number": 38.974280706237934,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0045",
+      "condition_number": 38.66579406976876,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0047",
+      "condition_number": 38.73751135495526,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0048",
+      "condition_number": 38.6387679795131,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0055",
+      "condition_number": 38.70257146179831,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0057",
+      "condition_number": 38.63816530307741,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0068",
+      "condition_number": 38.68596123490518,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0070",
+      "condition_number": 38.576795002903154,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0071",
+      "condition_number": 38.45637567198829,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0074",
+      "condition_number": 38.78255829417266,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0075",
+      "condition_number": 38.69023326212998,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0077",
+      "condition_number": 38.6854297389521,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0078",
+      "condition_number": 38.68882857924805,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0079",
+      "condition_number": 38.69023326212998,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0080",
+      "condition_number": 38.724920068726824,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0081",
+      "condition_number": 38.63702072091806,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0082",
+      "condition_number": 38.6981501381665,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0083",
+      "condition_number": 38.68596123490517,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0084",
+      "condition_number": 38.791491565531196,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0086",
+      "condition_number": 38.513166474602905,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0088",
+      "condition_number": 38.707897117754705,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0089",
+      "condition_number": 37.871052985617155,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0090",
+      "condition_number": 38.778336985227334,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0092",
+      "condition_number": 38.55149826594542,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0093",
+      "condition_number": 38.6731505263604,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0094",
+      "condition_number": 41.45732863551804,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0095",
+      "condition_number": 38.65542135279029,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0096",
+      "condition_number": 38.661671978827194,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0098",
+      "condition_number": 38.690466693863314,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0100",
+      "condition_number": 39.75599473863691,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0102",
+      "condition_number": 38.68542973895209,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0104",
+      "condition_number": 38.697686481416476,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0105",
+      "condition_number": 38.7004022042953,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0106",
+      "condition_number": 38.67315052636041,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0107",
+      "condition_number": 38.627704597694525,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0109",
+      "condition_number": 35.731034847011095,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0111",
+      "condition_number": 38.68596123490518,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0112",
+      "condition_number": 38.59622774535368,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0113",
+      "condition_number": 38.68542973895209,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0114",
+      "condition_number": 38.698150138166504,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0117",
+      "condition_number": 38.66812534111992,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0119",
+      "condition_number": 38.79049933415847,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0133",
+      "condition_number": 39.638000272540815,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0134",
+      "condition_number": 38.66638901716422,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0136",
+      "condition_number": 38.73423644143049,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0137",
+      "condition_number": 38.66579406976875,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0138",
+      "condition_number": 38.79260936598265,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0139",
+      "condition_number": 37.98915014601833,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0140",
+      "condition_number": 38.73272871196675,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0141",
+      "condition_number": 40.474167304928784,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0142",
+      "condition_number": 38.880454418213496,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0145",
+      "condition_number": 38.44548630587085,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0147",
+      "condition_number": 36.03477217293078,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0148",
+      "condition_number": 38.45637567198826,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0151",
+      "condition_number": 38.62770459769453,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0153",
+      "condition_number": 38.691349782944364,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0154",
+      "condition_number": 38.685429738952095,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0155",
+      "condition_number": 38.230008839097856,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0156",
+      "condition_number": 38.427354960297386,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0157",
+      "condition_number": 38.62770459769453,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0161",
+      "condition_number": 38.62770459769453,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0163",
+      "condition_number": 38.65027031708492,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0164",
+      "condition_number": 38.627704597694525,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0166",
+      "condition_number": 38.67315052636041,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0167",
+      "condition_number": 38.73272871196675,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0169",
+      "condition_number": 38.60433560959491,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0170",
+      "condition_number": 37.76564423976365,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0174",
+      "condition_number": 38.674285328722476,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0175",
+      "condition_number": 38.63942202118668,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0179",
+      "condition_number": 38.69501833440661,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0180",
+      "condition_number": 38.627704597694525,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0181",
+      "condition_number": 38.56323594613426,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0182",
+      "condition_number": 38.55149826594542,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0183",
+      "condition_number": 43.82447067610057,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0184",
+      "condition_number": 38.66638901716421,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0185",
+      "condition_number": 39.25886560736775,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0186",
+      "condition_number": 38.67402103412782,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0187",
+      "condition_number": 38.604335609594905,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0188",
+      "condition_number": 38.61115076162957,
+      "rank": 4
+    },
+    {
+      "case_id": "sub-stroke0189",
+      "condition_number": 38.60433560959492,
+      "rank": 4
+    }
+  ],
+  "leave_one_patient_out_condition_max": 43.82447067610057,
+  "leave_one_patient_out_condition_min": 35.731034847011095,
+  "maximum_row_leverage": 0.26358236965333054,
+  "pooled_hu_imbalance_mean": -0.15909079349402225,
+  "rank": 4,
+  "singular_values": [
+    14.089212872412212,
+    1.3669879902028013,
+    0.7029747087392549,
+    0.36228583931515845
+  ],
+  "top_10_distinct_patients": 9
+}

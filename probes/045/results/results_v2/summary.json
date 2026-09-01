@@ -1,0 +1,29 @@
+{
+  "analysis_rows": 198,
+  "audit_selected_rows": 396,
+  "audit_total_rows": 594,
+  "contractual_gate_satisfied": false,
+  "excluded_input_rows": 297,
+  "exclusion_records": 2,
+  "gates": {
+    "all_loo_condition_le_30": false,
+    "all_loo_rank_4": true,
+    "condition_number_le_30": false,
+    "each_band_99_cases": true,
+    "each_band_at_least_20_distinct": false,
+    "each_band_nonzero_iqr": true,
+    "maximum_leverage_le_0_20": false,
+    "rank_4": true,
+    "top_10_include_at_least_5_patients": true
+  },
+  "idea_id": "idea-045",
+  "keys_selected_rows": 198,
+  "keys_total_rows": 297,
+  "outcome_values_read": 0,
+  "primary_metric": "condition_number",
+  "primary_metric_value": 38.889769743817595,
+  "reserved_cases_accessed": 0,
+  "smoke": false,
+  "status": "NEGATIVE_PATTERN",
+  "unique_cases": 99
+}

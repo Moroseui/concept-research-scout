@@ -1,0 +1,3 @@
+case_id,stratum,item,reason,count
+*,outside_primary,bin_tissue_audit.csv,non_primary_band,198
+*,outside_primary,per_patient.csv,non_primary_band,99
