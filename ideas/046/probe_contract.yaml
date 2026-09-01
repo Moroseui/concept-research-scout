@@ -1,0 +1,105 @@
+# Probe contract v1 -- idea 046, outcome-blind contribution-definition audit.
+# Draft only. This does not authorize code changes, execution, or the ranked
+# contribution census proposed by the idea card.
+
+idea_id: "idea-046"
+contract_version: 1
+track: exploratory
+
+authorities:
+  charter: "CHARTER.md"
+  collaborator_rules: "docs/COLLABORATOR_RULES.md"
+  scoring_rubric: "docs/SCORING_RUBRIC.md"
+  idea_card: "ideas/046/idea_card.json"
+  keystone_screen: "ideas/046/keystone_screen.md"
+  critique: "ideas/046/critique.md"
+  debate: "ideas/046/debate.md"
+  consensus: "ideas/046/consensus.md"
+  revision: "ideas/046/revision.md"
+  unblock_acknowledgment: "ideas/046/unblock_ack.txt"
+  decision_entries:
+    - "2026-09-01 - Idea 046 gauntlet + P0b: the unblock guard's first live test failed and is now closed"
+
+question: "Are the frozen per-case contribution and cumulative-share definitions algebraically coherent, uniquely computable, and numerically well-posed on the exact imported 99-case band-2/band-3 table, without yet revealing which cases dominate?"
+risky_assumption_tested: "The card assumes that c_i = (d_i,band3 - d_i,band2) / 99 forms an exact additive decomposition of the realized equal-patient band-gap estimator and that every frozen share/k summary has a finite, nonzero denominator and deterministic tie handling. The row census is already inspected true; this audit tests the remaining computational-definition risk, not the scientific concentration result."
+
+scope:
+  included: "One deterministic CPU-only validation pass over the frozen imported per_patient.csv. It verifies input identity and cohort structure, reconstructs the two band means and their gap, checks exact additive accounting within a prespecified floating-point tolerance, and audits whether the frozen summary definitions are well-posed."
+  excluded:
+    - "Writing case identifiers, contribution values, ranks, top-k shares, Lorenz coordinates, smallest-k results, or any other scientific outcome to an output artifact or log."
+    - "Classifying the pattern as diffuse, concentrated, carrier-driven, stable, biological, or clinically meaningful."
+    - "Reading phenotype files, reserved cases, raw images, voxel-level data, idea-023 phase_c_cache, or any input other than the frozen table and contract/approval metadata."
+    - "Any clinical comparison, model inference, resampling, uncertainty model, null distribution, threshold tuning, or alternative contribution definition."
+
+dataset:
+  name: "Imported idea-023 take-13 per-patient table"
+  source: "probes/023/results/results_v2/per_patient.csv"
+  frozen_inputs:
+    per_patient.csv: "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c"
+  required_columns: [case_id, stratum, d]
+
+split_policy: "Use only the already-open 99-case idea-023 census rows in strata 2 and 3. This is an exploratory validation audit, not a fresh confirmatory split. The 49 reserved cases remain untouched and must not appear in inputs, outputs, or logs."
+
+preprocessing:
+  row_gate: "Require the exact input SHA-256; exactly one finite d row for each case in stratum 2 and exactly one for the same case in stratum 3; identical case sets; exactly 99 cases; no duplicate key; and no other stratum admitted to the analysis table."
+  contribution: "For each joined case compute delta_i = d_i,band3 - d_i,band2 and c_i = delta_i / 99 in memory only. Do not round inputs or intermediate values."
+  ordering: "For audit purposes only, define descending signed order by delta_i then case_id ascending, and descending absolute order by abs(delta_i) then case_id ascending. This freezes deterministic tie handling but neither ordering nor identifiers may be emitted."
+
+analysis:
+  analysis_unit: "One case with its paired band-2 and band-3 d values."
+  primary_metric: "Absolute algebraic residual abs(sum_i(c_i) - (mean_i(d_i,band3) - mean_i(d_i,band2)))."
+  tolerance: "The primary residual must be <= 1e-12 using IEEE-754 double precision and a stable summation routine. The ordinary-summation residual is recorded only as a numerical diagnostic."
+  secondary_metrics:
+    - "Boolean finiteness and nonzero checks for the signed total gap, total positive delta mass, and total absolute delta mass."
+    - "Counts only (not identities or values) of positive, zero, and negative delta_i values."
+    - "Counts only of exact ties under signed delta_i and absolute delta_i, confirming that the frozen secondary case_id rule makes every ordering unique."
+    - "Boolean definability checks for signed cumulative contribution, absolute-contribution Lorenz coordinates, top-k summaries at k = 1, 5, 10, and 20, and smallest k reaching 50% and 80% of positive contribution."
+  no_result_exposure: "The audit may compute quantities needed for boolean/count checks in memory, but required outputs must not contain case_id, any d/delta/c value, any rank, any share, any curve coordinate, either band mean, or the band-gap value."
+
+primary_metric: "Absolute residual between the summed per-case contribution decomposition and the directly reconstructed equal-patient band-3-minus-band-2 mean gap."
+secondary_metrics:
+  - "Denominator and finiteness audit for every frozen descriptive summary."
+  - "Sign counts and tie counts only."
+  - "Boolean deterministic-order and summary-definability audit."
+
+baselines:
+  - "Structural expectation from direct inspection: 99 unique cases with one finite row in each of strata 2 and 3."
+  - "Mathematical identity: for N = 99, sum_i[(d_i,3 - d_i,2)/N] equals mean_i(d_i,3) - mean_i(d_i,2), up to the frozen floating-point tolerance."
+
+maximum_variants: 1
+maximum_gpu_minutes: 0
+maximum_seeds: 1
+randomness: "None. The seed allowance is unused."
+stopping_rule: "Stop immediately on an invalidating failure. Otherwise stop after the single frozen validation pass writes all required outputs. No scientific census, fallback definition, or follow-up variant is authorized. CPU wall time is capped at 5 minutes; exceeding it is invalid/incomplete, not a negative result."
+
+positive_pattern: "FEASIBLE_DEFINITION_AUDIT: the exact cohort gate passes; the primary residual is <= 1e-12; all required denominators are finite and nonzero; all requested summaries are mathematically defined; and deterministic ordering resolves every tie. This authorizes only drafting a separate scientific census contract after human review."
+negative_pattern: "DEFINITION_REVISION_REQUIRED: on the correctly identified frozen table, at least one requested summary is undefined because its denominator is zero/nonfinite or its stated rule is incomplete, while input/cohort integrity and the additive identity otherwise pass. This is a decisive feasibility negative for the current specification, not evidence about contribution dominance."
+
+invalidating_failures:
+  - "Authority failure: code or execution begins without fresh human approval binding this exact contract blob, or while human_approved remains false."
+  - "Input-identity failure: the table is missing, its SHA-256 differs, or a required column is absent."
+  - "Cohort failure: duplicate keys, nonfinite d, unequal band case sets, a count other than 99 paired cases, or any admitted row outside strata 2 and 3."
+  - "Algebra failure: the additive residual exceeds 1e-12. This indicates an implementation/definition defect and must not be reframed as a scientific negative."
+  - "Outcome-exposure failure: any prohibited case identifier, value, rank, share, curve coordinate, mean, or gap is persisted or logged."
+  - "Scope/leakage failure: phenotype, reserved-case, image, voxel-level, cache, or other non-frozen data are accessed."
+  - "Analysis deviation: any alternate formula, rounding, exclusion, resampling, randomness, threshold, tie rule, or additional variant is used."
+  - "Output/provenance failure: a required artifact, input hash, resolved configuration, environment record, or run log is missing."
+
+claim_discipline:
+  permitted:
+    - "The frozen contribution definitions are computationally feasible and algebraically coherent on the identified 99-case table, if the positive pattern passes."
+    - "The current summary specification requires revision because a named denominator or rule is undefined, if the negative pattern occurs."
+  prohibited:
+    - "Any statement about which cases dominate, how concentrated the estimator is, or whether a small set carries it."
+    - "Any stable-carrier, patient-subtype, population-diffuseness, biological, clinical, causal, predictive, or model-use claim."
+    - "Any generalization beyond this frozen table and estimator."
+
+required_outputs:
+  - resolved_config.json
+  - input_manifest.csv
+  - definition_audit.json
+  - summary.json
+  - environment.txt
+  - run_log.txt
+
+human_approved: false
