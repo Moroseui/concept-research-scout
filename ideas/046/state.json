@@ -13,10 +13,11 @@
   "materialization": {
     "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "cf7f2070ece300456e9cbe3b088f1f3c36d9d8ad223294141d5d139dab9479ec",
+    "source_fingerprint_sha256": "b54f7158d4c68a726c7db951f498998f57817f685c0512d8bccc36f101a9ca75",
     "sources": {
       "approval_sha256": "686c24868d98724595e7ed9fb698cc1daa5a3791ca26af9f47b30f717017345a",
       "contract_blob": "942e530737c90b666baa4c9985fd0329296ef140",
+      "governance_events_sha256": "2783e81216914f7f83f38ee28492f4aa43d29f287cdf91bf69faf42b36895d26",
       "idea_card_sha256": "3c7ca4eba4fcb9b86144df81db0537652bc6ddb85c4d722cea056ea15aa6bb38",
       "ledger_events_sha256": "46159da392a2f08b86af7acfa2c5382192ac296f1bc3fcc5f8eefc798fe6b3f1",
       "registry_result_inputs": {
@@ -40,7 +41,7 @@
     "file_sha256": "4232894b2d5233c577806e44174b7272920fafd226f827a59ca05410d40483e7",
     "nodes": {
       "contribution_census": "COMPLETE",
-      "definition_audit": "STALE"
+      "definition_audit": "COMPLETE"
     }
   },
   "schema_version": 1,

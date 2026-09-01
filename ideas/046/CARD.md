@@ -21,9 +21,9 @@ Which of the 99 observed cases contribute most to the realized band-3-minus-band
 - current contract blob: 942e530737c9
 
 ## Experiment position
-- registry 4232894b2d52 (UNRATIFIED)
+- registry 4232894b2d52 (RATIFIED)
   - contribution_census: COMPLETE
-  - definition_audit: STALE
+  - definition_audit: COMPLETE
 - bundle: probes/046/results/results_v3   phase: ?   status: CENSUS_COMPLETE
 
 ## Headline results (from summary.json; every number citation-checked in interpret_review.md)
