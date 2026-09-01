@@ -1,4 +1,4 @@
-OpenAI Codex v0.151.0
+OpenAI Codex v0.152.0
 --------
 workdir: /home/runner/work/concept-research-scout/concept-research-scout
 model: gpt-5.6-sol
@@ -7,7 +7,7 @@ approval: never
 sandbox: danger-full-access
 reasoning effort: none
 reasoning summaries: none
-session id: 01a05a93-7350-71f3-a173-ac5ba471eb33
+session id: 01a05acf-fcc2-7dc3-8d17-85635eb2573f
 --------
 user
 ===== TRUSTED INSTRUCTIONS (the only instructions in this prompt) =====
@@ -633,17 +633,141 @@ until the interpretation passes review).
 ===== END UNTRUSTED EVIDENCE: decision.md =====
 
 ===== OPERATOR QUESTION (respond; challenge premises that conflict with the evidence) =====
-Can you explain the results of the previous experiment and can you analyze why we got the results that we got? Why wasn't our combination of factors predictive of tissue death?
+Can you give me an overview and analysis of what happened with our last experiment for this idea? Why were the combination of factors we looked at not predictive of tissue death?
 
-ERROR: Reconnecting... 2/5
-ERROR: Reconnecting... 3/5
-ERROR: Reconnecting... 4/5
-ERROR: Reconnecting... 5/5
-warning: Falling back from WebSockets to HTTPS transport. stream disconnected before completion: You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
-ERROR: Reconnecting... 1/5
-ERROR: Reconnecting... 2/5
-ERROR: Reconnecting... 3/5
-ERROR: Reconnecting... 4/5
-ERROR: Reconnecting... 5/5
-ERROR: stream disconnected before completion: You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
-ERROR: stream disconnected before completion: You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+codex
+I’ll prepare the read-only conference note, explicitly separating the failed association gate from the untested question of predictive model performance.
+apply patch
+patch: completed
+/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/confer/q0001.md
+diff --git a/ideas/023/confer/q0001.md b/ideas/023/confer/q0001.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..5026f00f924bc67f14504f5cc4a3df58f7931169
+--- /dev/null
++++ b/ideas/023/confer/q0001.md
+@@ -0,0 +1,35 @@
++## OVERVIEW
++
++The experiment found that the relationship between the joint CBV/MTT state and final tissue death was not stable across different levels of blood-flow deficit. One flow band showed essentially no relationship, while the other two showed small but clear relationships in opposite directions. That contradiction caused the pre-specified test to fail and paused the idea before any model was examined.
++
++It is therefore too strong to say that the factors were “not predictive.” This experiment did not train or test a prediction model. It showed that one particular way of defining the joint state did not provide the consistent outcome relationship required to justify the planned model-use experiment. The evidence does not establish why the directions differed. Patient heterogeneity and tissue-composition differences are plausible design concerns, but neither was analyzed sufficiently to establish a cause.
++
++## PREMISE CHECK
++
++The premise that the combination was “not predictive of tissue death” conflicts with the experiment’s scope. No model existed or was probed, and the planned model-use probe was contingent on the association gate passing [cite: interpretation.md | Does not establish; Next decision]. Moreover, two flow bands had confidence intervals excluding zero, but in opposite directions; the result was a failure of directional consistency under one operationalization, not evidence of no outcome information [cite: interpretation.md | Demonstrates item 2; Does not establish].
++
++## DETAILS
++
++This was the first and only run for idea-023 that accessed lesion outcomes; it followed an outcome-blind synthetic calibration and twelve operational takes that stopped before outcome access [cite: interpretation.md | Result card, Probe and position in sequence]. It analyzed 99 of the 100 census cases from a release of 149 cases, leaving 49 reserved cases untouched [cite: summary.json | analyzed_census_case_count, census_case_count, released_case_count, reserved_case_count]. One case, sub-stroke0043, was excluded for a pre-authorized corrupt source member; a duplicate lesion member for sub-stroke0142 was excluded while that case’s canonical derivative remained in the analysis [cite: exclusions.csv | case_id=sub-stroke0043, record_type=excluded_case, reason=source_corrupt_member; case_id=sub-stroke0142, record_type=excluded_archive_lesion] [cite: interpretation.md | Demonstrates item 4]. No validity failure was triggered, and the run was deterministic under the frozen inputs and configuration [cite: interpretation.md | Validity failures; Where the uncertainty lives].
++
++The analysis divided each patient’s perfusion-deficit region into three within-patient CBF-percentile bands. Within each band it compared final-infarct risk between the patient’s low- and high-CBV quartile cells, using the difference `d = risk(Q1 low-CBV) − risk(Q4 high-CBV)` and equal patient weighting [cite: interpretation.md | Result card, Primary metric]. In these maps, CBV and MTT were effectively one joint coordinate at fixed CBF: the median absolute centered residual of the central-volume identity was 0.007761, 0.003560, and 0.007788 across the three bands, below the pre-specified 0.10 invalidation limit [cite: identity_residual_summary.csv | stratum=1,2,3 | median_absolute_centered_residual] [cite: interpretation.md | Demonstrates item 3]. The result therefore cannot be interpreted as separate CBV-versus-MTT channel effects [cite: interpretation.md | Out-of-scope warnings].
++
++The preregistered gate required a common nonzero direction across all three bands, at least two confidence intervals excluding zero in that direction, and every interval width at or below 0.15 [cite: interpretation.md | Result card, Primary metric]. The observed results were:
++
++- Lowest-flow band: mean `d = +0.0064`, 95% CI `[−0.0268, +0.0384]`; the interval included zero [cite: per_stratum_summary.csv | stratum=1 | mean_d, ci_low, ci_high].
++
++- Middle-flow band: mean `d = −0.0320`, 95% CI `[−0.0559, −0.0080]`; high-CBV voxels had more final-infarct membership [cite: per_stratum_summary.csv | stratum=2 | mean_d, ci_low, ci_high] [cite: interpretation.md | Demonstrates item 2].
++
++- Highest-flow band: mean `d = +0.0231`, 95% CI `[+0.0050, +0.0436]`; low-CBV voxels had more final-infarct membership [cite: per_stratum_summary.csv | stratum=3 | mean_d, ci_low, ci_high] [cite: interpretation.md | Demonstrates item 2].
++
++Thus the signs were positive, negative, positive, and the two intervals excluding zero pointed in opposite directions [cite: interpretation.md | Demonstrates item 2]. All three bands had 99 contributing patients against a floor of 20, and their interval widths were 0.0652, 0.0479, and 0.0386 against the maximum of 0.15 [cite: per_stratum_summary.csv | stratum=1,2,3 | patients, ci_width] [cite: resolved_config.json | minimum_contributing_patients_per_stratum, maximum_primary_ci_width]. The gate failure was therefore the contract’s `NEGATIVE_PATTERN`, not an insufficient-support or imprecision result [cite: summary.json | g_label_passed=false, status=NEGATIVE_PATTERN] [cite: interpretation.md | Demonstrates item 2]. The ratified decision was to pause idea-023 and not proceed to the model-use probe [cite: decision.md | Verdict] [cite: CARD.md | Interpretation and authority].
++
++As to “why,” the evidence resolves the immediate statistical reason but not the biological or data-generating cause. The immediate reason was that the association changed direction by flow band rather than forming the stable joint-state boundary required by the gate [cite: interpretation.md | Positive and negative findings, Negative]. The near-zero median patient contrasts—0.0, −0.000589, and +0.000556 across the bands—alongside nonzero mean effects in two bands indicate between-patient heterogeneity, but the run did not compute a contribution analysis and cannot say which or how many patients drove those means [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d] [cite: interpretation.md | Suggests item 2].
++
++Tissue composition is another bounded concern, not an established explanation. The label-blind NCCT audit produced 594 patient/band/cell rows but no governed cohort-level aggregate [cite: summary.json | bin_tissue_audit_rows] [cite: interpretation.md | Suggests item 3]. Specific examples showed marked attenuation differences between the compared cells—for example, sub-stroke0092 in band 1 had median values of 3.0 HU in Q1 and 23.0 HU in Q4—but the prevalence of such imbalance across patients was not calculated [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV and Q4_high_CBV | median_hu] [cite: interpretation.md | Suggests item 3]. This means the operationalization may sometimes compare visibly different tissue types rather than matched tissue states, but the available evidence cannot establish that this caused the gate failure cohort-wide [cite: interpretation.md | Suggests item 3, labeled INFERENCE; Does not establish].
++
++The faithful conclusion is narrow: in this treated cohort, using icobrain cva maps and the frozen percentile-band/quartile operationalization, the joint CBV/MTT coordinate did not have the precise, directionally stable outcome association required by the Stage-0 keystone [cite: interpretation.md | Positive and negative findings, Negative]. The experiment does not show that CBV/MTT is biologically unimportant, contains no predictive information, or would fail under a tissue-normalized operationalization, in other cohorts, or in other map pipelines [cite: interpretation.md | Does not establish].
++
++## OPEN UNCERTAINTIES
++
++The present artifacts cannot determine the physiological cause of the sign reversal, the cohort prevalence of Q1-versus-Q4 tissue imbalance, or which patients contributed most to the band means [cite: interpretation.md | Does not establish]. Resolving tissue imbalance would require a governed aggregate analysis of `bin_tissue_audit.csv` or a separately registered tissue-normalized matched-flow successor; resolving mean-effect concentration would require a preregistered per-patient contribution analysis [cite: interpretation.md | Suggests items 2–3; Next decision]. Whether a specified prediction model uses the joint state would require a model-use probe, which was not authorized after the gate failed [cite: interpretation.md | Next decision].
+
+diff --git a/ideas/023/confer/q0001.md b/ideas/023/confer/q0001.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..5026f00f924bc67f14504f5cc4a3df58f7931169
+--- /dev/null
++++ b/ideas/023/confer/q0001.md
+@@ -0,0 +1,35 @@
++## OVERVIEW
++
++The experiment found that the relationship between the joint CBV/MTT state and final tissue death was not stable across different levels of blood-flow deficit. One flow band showed essentially no relationship, while the other two showed small but clear relationships in opposite directions. That contradiction caused the pre-specified test to fail and paused the idea before any model was examined.
++
++It is therefore too strong to say that the factors were “not predictive.” This experiment did not train or test a prediction model. It showed that one particular way of defining the joint state did not provide the consistent outcome relationship required to justify the planned model-use experiment. The evidence does not establish why the directions differed. Patient heterogeneity and tissue-composition differences are plausible design concerns, but neither was analyzed sufficiently to establish a cause.
++
++## PREMISE CHECK
++
++The premise that the combination was “not predictive of tissue death” conflicts with the experiment’s scope. No model existed or was probed, and the planned model-use probe was contingent on the association gate passing [cite: interpretation.md | Does not establish; Next decision]. Moreover, two flow bands had confidence intervals excluding zero, but in opposite directions; the result was a failure of directional consistency under one operationalization, not evidence of no outcome information [cite: interpretation.md | Demonstrates item 2; Does not establish].
++
++## DETAILS
++
++This was the first and only run for idea-023 that accessed lesion outcomes; it followed an outcome-blind synthetic calibration and twelve operational takes that stopped before outcome access [cite: interpretation.md | Result card, Probe and position in sequence]. It analyzed 99 of the 100 census cases from a release of 149 cases, leaving 49 reserved cases untouched [cite: summary.json | analyzed_census_case_count, census_case_count, released_case_count, reserved_case_count]. One case, sub-stroke0043, was excluded for a pre-authorized corrupt source member; a duplicate lesion member for sub-stroke0142 was excluded while that case’s canonical derivative remained in the analysis [cite: exclusions.csv | case_id=sub-stroke0043, record_type=excluded_case, reason=source_corrupt_member; case_id=sub-stroke0142, record_type=excluded_archive_lesion] [cite: interpretation.md | Demonstrates item 4]. No validity failure was triggered, and the run was deterministic under the frozen inputs and configuration [cite: interpretation.md | Validity failures; Where the uncertainty lives].
++
++The analysis divided each patient’s perfusion-deficit region into three within-patient CBF-percentile bands. Within each band it compared final-infarct risk between the patient’s low- and high-CBV quartile cells, using the difference `d = risk(Q1 low-CBV) − risk(Q4 high-CBV)` and equal patient weighting [cite: interpretation.md | Result card, Primary metric]. In these maps, CBV and MTT were effectively one joint coordinate at fixed CBF: the median absolute centered residual of the central-volume identity was 0.007761, 0.003560, and 0.007788 across the three bands, below the pre-specified 0.10 invalidation limit [cite: identity_residual_summary.csv | stratum=1,2,3 | median_absolute_centered_residual] [cite: interpretation.md | Demonstrates item 3]. The result therefore cannot be interpreted as separate CBV-versus-MTT channel effects [cite: interpretation.md | Out-of-scope warnings].
++
++The preregistered gate required a common nonzero direction across all three bands, at least two confidence intervals excluding zero in that direction, and every interval width at or below 0.15 [cite: interpretation.md | Result card, Primary metric]. The observed results were:
++
++- Lowest-flow band: mean `d = +0.0064`, 95% CI `[−0.0268, +0.0384]`; the interval included zero [cite: per_stratum_summary.csv | stratum=1 | mean_d, ci_low, ci_high].
++
++- Middle-flow band: mean `d = −0.0320`, 95% CI `[−0.0559, −0.0080]`; high-CBV voxels had more final-infarct membership [cite: per_stratum_summary.csv | stratum=2 | mean_d, ci_low, ci_high] [cite: interpretation.md | Demonstrates item 2].
++
++- Highest-flow band: mean `d = +0.0231`, 95% CI `[+0.0050, +0.0436]`; low-CBV voxels had more final-infarct membership [cite: per_stratum_summary.csv | stratum=3 | mean_d, ci_low, ci_high] [cite: interpretation.md | Demonstrates item 2].
++
++Thus the signs were positive, negative, positive, and the two intervals excluding zero pointed in opposite directions [cite: interpretation.md | Demonstrates item 2]. All three bands had 99 contributing patients against a floor of 20, and their interval widths were 0.0652, 0.0479, and 0.0386 against the maximum of 0.15 [cite: per_stratum_summary.csv | stratum=1,2,3 | patients, ci_width] [cite: resolved_config.json | minimum_contributing_patients_per_stratum, maximum_primary_ci_width]. The gate failure was therefore the contract’s `NEGATIVE_PATTERN`, not an insufficient-support or imprecision result [cite: summary.json | g_label_passed=false, status=NEGATIVE_PATTERN] [cite: interpretation.md | Demonstrates item 2]. The ratified decision was to pause idea-023 and not proceed to the model-use probe [cite: decision.md | Verdict] [cite: CARD.md | Interpretation and authority].
++
++As to “why,” the evidence resolves the immediate statistical reason but not the biological or data-generating cause. The immediate reason was that the association changed direction by flow band rather than forming the stable joint-state boundary required by the gate [cite: interpretation.md | Positive and negative findings, Negative]. The near-zero median patient contrasts—0.0, −0.000589, and +0.000556 across the bands—alongside nonzero mean effects in two bands indicate between-patient heterogeneity, but the run did not compute a contribution analysis and cannot say which or how many patients drove those means [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d] [cite: interpretation.md | Suggests item 2].
++
++Tissue composition is another bounded concern, not an established explanation. The label-blind NCCT audit produced 594 patient/band/cell rows but no governed cohort-level aggregate [cite: summary.json | bin_tissue_audit_rows] [cite: interpretation.md | Suggests item 3]. Specific examples showed marked attenuation differences between the compared cells—for example, sub-stroke0092 in band 1 had median values of 3.0 HU in Q1 and 23.0 HU in Q4—but the prevalence of such imbalance across patients was not calculated [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV and Q4_high_CBV | median_hu] [cite: interpretation.md | Suggests item 3]. This means the operationalization may sometimes compare visibly different tissue types rather than matched tissue states, but the available evidence cannot establish that this caused the gate failure cohort-wide [cite: interpretation.md | Suggests item 3, labeled INFERENCE; Does not establish].
++
++The faithful conclusion is narrow: in this treated cohort, using icobrain cva maps and the frozen percentile-band/quartile operationalization, the joint CBV/MTT coordinate did not have the precise, directionally stable outcome association required by the Stage-0 keystone [cite: interpretation.md | Positive and negative findings, Negative]. The experiment does not show that CBV/MTT is biologically unimportant, contains no predictive information, or would fail under a tissue-normalized operationalization, in other cohorts, or in other map pipelines [cite: interpretation.md | Does not establish].
++
++## OPEN UNCERTAINTIES
++
++The present artifacts cannot determine the physiological cause of the sign reversal, the cohort prevalence of Q1-versus-Q4 tissue imbalance, or which patients contributed most to the band means [cite: interpretation.md | Does not establish]. Resolving tissue imbalance would require a governed aggregate analysis of `bin_tissue_audit.csv` or a separately registered tissue-normalized matched-flow successor; resolving mean-effect concentration would require a preregistered per-patient contribution analysis [cite: interpretation.md | Suggests items 2–3; Next decision]. Whether a specified prediction model uses the joint state would require a model-use probe, which was not authorized after the gate failed [cite: interpretation.md | Next decision].
+
+codex
+Response written to [q0001.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/confer/q0001.md).
+diff --git a/ideas/023/confer/q0001.md b/ideas/023/confer/q0001.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..5026f00f924bc67f14504f5cc4a3df58f7931169
+--- /dev/null
++++ b/ideas/023/confer/q0001.md
+@@ -0,0 +1,35 @@
++## OVERVIEW
++
++The experiment found that the relationship between the joint CBV/MTT state and final tissue death was not stable across different levels of blood-flow deficit. One flow band showed essentially no relationship, while the other two showed small but clear relationships in opposite directions. That contradiction caused the pre-specified test to fail and paused the idea before any model was examined.
++
++It is therefore too strong to say that the factors were “not predictive.” This experiment did not train or test a prediction model. It showed that one particular way of defining the joint state did not provide the consistent outcome relationship required to justify the planned model-use experiment. The evidence does not establish why the directions differed. Patient heterogeneity and tissue-composition differences are plausible design concerns, but neither was analyzed sufficiently to establish a cause.
++
++## PREMISE CHECK
++
++The premise that the combination was “not predictive of tissue death” conflicts with the experiment’s scope. No model existed or was probed, and the planned model-use probe was contingent on the association gate passing [cite: interpretation.md | Does not establish; Next decision]. Moreover, two flow bands had confidence intervals excluding zero, but in opposite directions; the result was a failure of directional consistency under one operationalization, not evidence of no outcome information [cite: interpretation.md | Demonstrates item 2; Does not establish].
++
++## DETAILS
++
++This was the first and only run for idea-023 that accessed lesion outcomes; it followed an outcome-blind synthetic calibration and twelve operational takes that stopped before outcome access [cite: interpretation.md | Result card, Probe and position in sequence]. It analyzed 99 of the 100 census cases from a release of 149 cases, leaving 49 reserved cases untouched [cite: summary.json | analyzed_census_case_count, census_case_count, released_case_count, reserved_case_count]. One case, sub-stroke0043, was excluded for a pre-authorized corrupt source member; a duplicate lesion member for sub-stroke0142 was excluded while that case’s canonical derivative remained in the analysis [cite: exclusions.csv | case_id=sub-stroke0043, record_type=excluded_case, reason=source_corrupt_member; case_id=sub-stroke0142, record_type=excluded_archive_lesion] [cite: interpretation.md | Demonstrates item 4]. No validity failure was triggered, and the run was deterministic under the frozen inputs and configuration [cite: interpretation.md | Validity failures; Where the uncertainty lives].
++
++The analysis divided each patient’s perfusion-deficit region into three within-patient CBF-percentile bands. Within each band it compared final-infarct risk between the patient’s low- and high-CBV quartile cells, using the difference `d = risk(Q1 low-CBV) − risk(Q4 high-CBV)` and equal patient weighting [cite: interpretation.md | Result card, Primary metric]. In these maps, CBV and MTT were effectively one joint coordinate at fixed CBF: the median absolute centered residual of the central-volume identity was 0.007761, 0.003560, and 0.007788 across the three bands, below the pre-specified 0.10 invalidation limit [cite: identity_residual_summary.csv | stratum=1,2,3 | median_absolute_centered_residual] [cite: interpretation.md | Demonstrates item 3]. The result therefore cannot be interpreted as separate CBV-versus-MTT channel effects [cite: interpretation.md | Out-of-scope warnings].
++
++The preregistered gate required a common nonzero direction across all three bands, at least two confidence intervals excluding zero in that direction, and every interval width at or below 0.15 [cite: interpretation.md | Result card, Primary metric]. The observed results were:
++
++- Lowest-flow band: mean `d = +0.0064`, 95% CI `[−0.0268, +0.0384]`; the interval included zero [cite: per_stratum_summary.csv | stratum=1 | mean_d, ci_low, ci_high].
++
++- Middle-flow band: mean `d = −0.0320`, 95% CI `[−0.0559, −0.0080]`; high-CBV voxels had more final-infarct membership [cite: per_stratum_summary.csv | stratum=2 | mean_d, ci_low, ci_high] [cite: interpretation.md | Demonstrates item 2].
++
++- Highest-flow band: mean `d = +0.0231`, 95% CI `[+0.0050, +0.0436]`; low-CBV voxels had more final-infarct membership [cite: per_stratum_summary.csv | stratum=3 | mean_d, ci_low, ci_high] [cite: interpretation.md | Demonstrates item 2].
++
++Thus the signs were positive, negative, positive, and the two intervals excluding zero pointed in opposite directions [cite: interpretation.md | Demonstrates item 2]. All three bands had 99 contributing patients against a floor of 20, and their interval widths were 0.0652, 0.0479, and 0.0386 against the maximum of 0.15 [cite: per_stratum_summary.csv | stratum=1,2,3 | patients, ci_width] [cite: resolved_config.json | minimum_contributing_patients_per_stratum, maximum_primary_ci_width]. The gate failure was therefore the contract’s `NEGATIVE_PATTERN`, not an insufficient-support or imprecision result [cite: summary.json | g_label_passed=false, status=NEGATIVE_PATTERN] [cite: interpretation.md | Demonstrates item 2]. The ratified decision was to pause idea-023 and not proceed to the model-use probe [cite: decision.md | Verdict] [cite: CARD.md | Interpretation and authority].
++
++As to “why,” the evidence resolves the immediate statistical reason but not the biological or data-generating cause. The immediate reason was that the association changed direction by flow band rather than forming the stable joint-state boundary required by the gate [cite: interpretation.md | Positive and negative findings, Negative]. The near-zero median patient contrasts—0.0, −0.000589, and +0.000556 across the bands—alongside nonzero mean effects in two bands indicate between-patient heterogeneity, but the run did not compute a contribution analysis and cannot say which or how many patients drove those means [cite: per_stratum_summary.csv | stratum=1,2,3 | median_d] [cite: interpretation.md | Suggests item 2].
++
++Tissue composition is another bounded concern, not an established explanation. The label-blind NCCT audit produced 594 patient/band/cell rows but no governed cohort-level aggregate [cite: summary.json | bin_tissue_audit_rows] [cite: interpretation.md | Suggests item 3]. Specific examples showed marked attenuation differences between the compared cells—for example, sub-stroke0092 in band 1 had median values of 3.0 HU in Q1 and 23.0 HU in Q4—but the prevalence of such imbalance across patients was not calculated [cite: bin_tissue_audit.csv | case_id=sub-stroke0092, stratum=1, style_group=Q1_low_CBV and Q4_high_CBV | median_hu] [cite: interpretation.md | Suggests item 3]. This means the operationalization may sometimes compare visibly different tissue types rather than matched tissue states, but the available evidence cannot establish that this caused the gate failure cohort-wide [cite: interpretation.md | Suggests item 3, labeled INFERENCE; Does not establish].
++
++The faithful conclusion is narrow: in this treated cohort, using icobrain cva maps and the frozen percentile-band/quartile operationalization, the joint CBV/MTT coordinate did not have the precise, directionally stable outcome association required by the Stage-0 keystone [cite: interpretation.md | Positive and negative findings, Negative]. The experiment does not show that CBV/MTT is biologically unimportant, contains no predictive information, or would fail under a tissue-normalized operationalization, in other cohorts, or in other map pipelines [cite: interpretation.md | Does not establish].
++
++## OPEN UNCERTAINTIES
++
++The present artifacts cannot determine the physiological cause of the sign reversal, the cohort prevalence of Q1-versus-Q4 tissue imbalance, or which patients contributed most to the band means [cite: interpretation.md | Does not establish]. Resolving tissue imbalance would require a governed aggregate analysis of `bin_tissue_audit.csv` or a separately registered tissue-normalized matched-flow successor; resolving mean-effect concentration would require a preregistered per-patient contribution analysis [cite: interpretation.md | Suggests items 2–3; Next decision]. Whether a specified prediction model uses the joint state would require a model-use probe, which was not authorized after the gate failed [cite: interpretation.md | Next decision].
+
+tokens used
+26,757
+Response written to [q0001.md](/home/runner/work/concept-research-scout/concept-research-scout/ideas/023/confer/q0001.md).
