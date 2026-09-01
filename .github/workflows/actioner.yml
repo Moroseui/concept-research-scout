@@ -42,6 +42,13 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           if [ -n "$OPENAI_API_KEY" ]; then
+            # This codex CLI does not read the env var for auth
+            # (observed: 401 missing bearer); materialize the key
+            # into its own auth store instead.
+            mkdir -p ~/.codex
+            printf '{"OPENAI_API_KEY": "%s"}\n' "$OPENAI_API_KEY" > ~/.codex/auth.json
+            chmod 600 ~/.codex/auth.json
+            printf 'preferred_auth_method = "apikey"\n' >> ~/.codex/config.toml
             echo "codex auth: OPENAI_API_KEY (durable; no rotation)"
           else
             echo "codex auth: ChatGPT OAuth snapshot (single-use refresh chain)"
