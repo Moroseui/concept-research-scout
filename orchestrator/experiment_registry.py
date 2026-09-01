@@ -222,25 +222,122 @@ def _validate_governance(idea_no: str, idea_dir: Path) -> list[str]:
     return errs
 
 
+def _git_show_bytes(root: Path, commit: str, rel: str):
+    """(bytes|None, err|None) for `git show commit:rel` with a bounded
+    timeout. A failing git invocation is an integrity condition for
+    authority verification, never silent emptiness (round-10)."""
+    import subprocess
+    try:
+        r = subprocess.run(['git', 'show', f'{commit}:{rel}'],
+                           cwd=root, capture_output=True, timeout=30)
+    except subprocess.TimeoutExpired:
+        return None, f'GIT_COMMAND_TIMEOUT: git show {commit}:{rel}'
+    except OSError as e:
+        return None, f'git unavailable: {e}'
+    if r.returncode != 0:
+        return None, (f'git show {commit}:{rel} failed '
+                      f'({r.stderr.decode(errors="replace").strip()[:80]})')
+    return r.stdout, None
+
+
+def _dir_manifest_sha(dirpath: Path):
+    files = {}
+    for f in sorted(x for x in Path(dirpath).rglob('*') if x.is_file()):
+        rel = str(f.relative_to(dirpath)).replace('\\', '/')
+        files[rel] = hashlib.sha256(f.read_bytes()).hexdigest()
+    return hashlib.sha256(''.join(
+        f'{r} {h}\n' for r, h in sorted(files.items())).encode()).hexdigest()
+
+
+def verify_ratification_event(event: dict, idea_no: str, root: Path) -> list[str]:
+    """Round-10 P0: mechanically prove every authority claim a
+    REGISTRY_RATIFIED row makes, at READ time. A row confers nothing
+    unless (a) it binds the CURRENT registry bytes, (b) every binding's
+    approval-marker bytes at the bound commit hash to the recorded sha
+    AND textually bind the contract blob, and (c) every import's bundle
+    bytes match the recorded manifest and its source snapshot carries
+    the approval binding that node's pin. The write path performing
+    these checks is a promise; this function is the invariant."""
+    root = Path(root)
+    errs = []
+    cur = registry_sha(idea_no, root)
+    if event.get('registry_sha256') != cur:
+        errs.append(f'event {event.get("event_id")}: registry_sha256 does '
+                    'not bind the current registry bytes (re-ratify after '
+                    'any registry change)')
+    marker_rel = f'ideas/{idea_no}/HUMAN_APPROVED_PROBE'
+    for j, b in enumerate(event.get('bindings') or []):
+        raw, err = _git_show_bytes(root, b.get('approval_commit', ''),
+                                   marker_rel)
+        if err:
+            errs.append(f'event {event.get("event_id")} bindings[{j}]: {err}')
+            continue
+        if hashlib.sha256(raw).hexdigest() != b.get('approval_sha256'):
+            errs.append(f'event {event.get("event_id")} bindings[{j}]: '
+                        'approval artifact hash mismatch (forgery-class)')
+        if f'contract_blob: {b.get("contract_blob")}'.encode() not in raw:
+            errs.append(f'event {event.get("event_id")} bindings[{j}]: '
+                        'approval marker does not bind the contract '
+                        '(forgery-class)')
+    reg, _p = _load(idea_no, root)
+    pins = {n.get('id'): n.get('contract_hash')
+            for n in ((reg or {}).get('probes') or [])
+            if isinstance(n, dict)}
+    for j, im in enumerate(event.get('imports') or []):
+        bdir = root / (im.get('bundle') or '')
+        if not bdir.is_dir():
+            errs.append(f'event {event.get("event_id")} imports[{j}]: '
+                        f'bundle {im.get("bundle")!r} missing')
+            continue
+        if _dir_manifest_sha(bdir) != im.get('manifest_sha256'):
+            errs.append(f'event {event.get("event_id")} imports[{j}]: '
+                        'bundle bytes do not match the ratified manifest')
+        pin = pins.get(im.get('node'))
+        raw, err = _git_show_bytes(root, im.get('source_commit', ''),
+                                   marker_rel)
+        if err or not pin \
+                or f'contract_blob: {pin}'.encode() not in (raw or b''):
+            errs.append(f'event {event.get("event_id")} imports[{j}]: '
+                        'source snapshot does not carry an approval '
+                        f'binding pin {str(pin)[:12]} '
+                        f'({err or "marker lacks pin"})')
+    return errs
+
+
+def mechanically_verified_ratifications(idea_no: str, root: Path):
+    """Schema-valid AND mechanically verified rows only. Authority
+    consumers must never read the governance file any other way
+    (round-10 P0)."""
+    idea_dir = Path(root) / 'ideas' / idea_no
+    if _validate_governance(idea_no, idea_dir):
+        return []
+    out = []
+    for _i, line in _governance_lines(idea_dir):
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError:
+            return []
+        if obj.get('event') == 'REGISTRY_RATIFIED' \
+                and not verify_ratification_event(obj, idea_no, root):
+            out.append(obj)
+    return out
+
+
 def _attested_hashes(idea_dir: Path) -> set:
     """Contract blobs attested by the human approval marker or by
-    well-formed REGISTRY_RATIFIED events. Judging terminal evidence
-    against a pinned contract requires membership here (R1)."""
+    MECHANICALLY VERIFIED REGISTRY_RATIFIED events (round-10 P0: a
+    well-formed but unproven row confers nothing)."""
     out = set()
     m = idea_dir / 'HUMAN_APPROVED_PROBE'
     if m.exists():
         out.update(re.findall(r'contract_blob:\s*([0-9a-f]{40})',
                               m.read_text()))
-    for _i, line in _governance_lines(idea_dir):
-        try:
-            obj = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if isinstance(obj, dict) and obj.get('event') == 'REGISTRY_RATIFIED':
-            for bd in obj.get('bindings') or []:
-                cb = bd.get('contract_blob') if isinstance(bd, dict) else None
-                if isinstance(cb, str) and _HEX40.match(cb):
-                    out.add(cb)
+    root = idea_dir.parent.parent
+    for obj in mechanically_verified_ratifications(idea_dir.name, root):
+        for bd in obj.get('bindings') or []:
+            cb = bd.get('contract_blob') if isinstance(bd, dict) else None
+            if isinstance(cb, str) and _HEX40.match(cb):
+                out.add(cb)
     return out
 
 
@@ -337,7 +434,20 @@ def _validate(idea_no: str, root: Path) -> list[str]:
         return [f'{p} missing']
     if not isinstance(reg, dict):
         return [f'{p}: registry must be a mapping']
-    errs = _validate_governance(idea_no, Path(root) / 'ideas' / idea_no)
+    idea_dir_p = Path(root) / 'ideas' / idea_no
+    errs = _validate_governance(idea_no, idea_dir_p)
+    if not errs:
+        # Round-10 P0: schema validity is necessary, never sufficient --
+        # every row's authority claims are re-proven mechanically, so a
+        # forged-but-well-formed row fails validation loudly.
+        for _i, line in _governance_lines(idea_dir_p):
+            try:
+                obj = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(obj, dict) \
+                    and obj.get('event') == 'REGISTRY_RATIFIED':
+                errs.extend(verify_ratification_event(obj, idea_no, root))
     unknown_top = set(reg) - _ALLOWED_TOP_KEYS
     if unknown_top:
         errs.append(f'unknown top-level keys {sorted(unknown_top)} '
@@ -664,23 +774,13 @@ def derive_status(idea_no: str, root: Path, contract_hasher, bundle_validator=No
 
 
 def ratified_binds_current(idea_no: str, root: Path) -> bool:
-    """True when a WELL-FORMED REGISTRY_RATIFIED event binds the current
-    registry bytes (R3b: ratification is the second attestation route;
-    a malformed governance file confers nothing)."""
-    idea_dir = Path(root) / 'ideas' / idea_no
-    if _validate_governance(idea_no, idea_dir):
-        return False
+    """True when a MECHANICALLY VERIFIED REGISTRY_RATIFIED event binds
+    the current registry bytes (round-10 P0)."""
     cur = registry_sha(idea_no, root)
     if not cur:
         return False
-    for _i, line in _governance_lines(idea_dir):
-        try:
-            obj = json.loads(line)
-        except json.JSONDecodeError:
-            return False
-        if obj.get('event') == 'REGISTRY_RATIFIED'                 and obj.get('registry_sha256') == cur:
-            return True
-    return False
+    return any(obj.get('registry_sha256') == cur
+               for obj in mechanically_verified_ratifications(idea_no, root))
 
 
 def terminal_statuses_if_approved(idea_no: str, root: Path, bundle):

@@ -18,6 +18,8 @@ Revamp additions (see REVAMP.md):
     exit.
 """
 from __future__ import annotations
+import time
+import sys
 import argparse, csv, hashlib, json, os, random, re, shutil, subprocess, sys, textwrap
 from datetime import datetime, timezone
 from pathlib import Path
@@ -803,8 +805,44 @@ def stage_target(stage, idea):
     return idea_dir(idea)
 
 
+def _pending_human_unblock(target):
+    """Latest debate/consensus verdict with a non-empty `unblock`
+    condition and verdict REVISE (round-10 P0: thinking ahead is
+    allowed; binding ahead is not)."""
+    for name in ('consensus.md', 'debate.md'):
+        f = target / name
+        if not f.exists():
+            continue
+        blocks = re.findall(r'```json\s*(\{.*?\})\s*```', f.read_text(),
+                            flags=re.S)
+        for raw in reversed(blocks):
+            try:
+                v = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(v, dict) and 'verdict' in v:
+                if v.get('verdict') == 'REVISE' and str(
+                        v.get('unblock') or '').strip():
+                    return v['unblock']
+                return None
+    return None
+
+
 def run_stage(args):
     target=stage_target(args.stage,args.idea)
+    if args.stage == 'revise':
+        cond = _pending_human_unblock(target)
+        ack = getattr(args, 'unblock_ack', None)
+        if cond and not ack:
+            raise SystemExit(
+                'HUMAN_UNBLOCK_REQUIRED: the debate conditioned this '
+                'revision on a human ruling -- ' + cond[:300] + ' -- '
+                'record the ruling in evidence/decisions.md, then re-run '
+                'with --unblock-ack "<one-line ruling>". Draft-only '
+                'revision lanes arrive with the R4 outcome envelope.')
+        if cond and ack:
+            (target / 'unblock_ack.txt').write_text(
+                f'ruling: {ack}\ncondition: {cond}\n')
     if args.stage=='probe-code':
         approval=target/'HUMAN_APPROVED_PROBE'
         contract=target/'probe_contract.yaml'
@@ -951,20 +989,57 @@ def _last_ledger_row(ledger_id, kind=None):
     return last
 
 
+def _git(*args, what='git', check=True, timeout=30, text=True):
+    if len(args) == 1 and isinstance(args[0], (list, tuple)):
+        args = tuple(args[0])
+    """Round-10: every orchestration git call is bounded and traced.
+    Timeout raises GIT_COMMAND_TIMEOUT (the unexplained >60s
+    record-result stalls get named, not endured); SCOUT_GIT_TRACE=1
+    logs per-command durations for stall localization."""
+    t0 = time.monotonic()
+    try:
+        r = subprocess.run(['git', *args], cwd=ROOT,
+                           capture_output=True,
+                           text=text, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise SystemExit(f'GIT_COMMAND_TIMEOUT: git {" ".join(args[:3])} '
+                         f'exceeded {timeout}s during {what}')
+    if os.environ.get('SCOUT_GIT_TRACE'):
+        print(f'[git {args[0]} {time.monotonic()-t0:.2f}s]',
+              file=sys.stderr)
+    if check and r.returncode != 0:
+        raise SystemExit(f'git {args[0]} failed during {what}: '
+                         f'{(r.stderr or "").strip()[:200]}')
+    return r
+
+
 def _marker_lineage(idea):
-    """(commit7, blob40) pairs for every historical version of the
-    approval marker, oldest -> newest. Deterministic given HEAD."""
-    m = f'ideas/{idea:03d}/HUMAN_APPROVED_PROBE'
-    import re
-    r = subprocess.run(['git', 'log', '--reverse', '--format=%H', '--', m],
-                       cwd=ROOT, capture_output=True, text=True)
+    """[(commit7, blob)] oldest-first for every marker rewrite. Round-10:
+    a FAILING git invocation (no repository, missing objects, timeout)
+    is GIT_HISTORY_REQUIRED -- silent emptiness could let a card rewrite
+    committed history with a plausible-but-false '(no approval marker
+    history)'. A succeeding query with zero commits remains a genuine
+    empty lineage."""
+    rel = f'ideas/{idea:03d}/HUMAN_APPROVED_PROBE'
+    r = _git(['log', '--follow', '--format=%h', '--reverse', '--', rel],
+             what='approval lineage', check=False)
+    if r.returncode != 0:
+        raise SystemExit('GIT_HISTORY_REQUIRED: approval lineage cannot '
+                         'be derived outside a repository containing the '
+                         'required Git objects (git log failed: '
+                         f'{(r.stderr or "").strip()[:80]})')
     out = []
     for c in r.stdout.split():
-        s = subprocess.run(['git', 'show', f'{c}:{m}'], cwd=ROOT,
-                           capture_output=True, text=True)
-        g = re.search(r'contract_blob:\s*([0-9a-f]{40})', s.stdout or '')
+        s_ = _git(['show', f'{c}:{rel}'], what='approval lineage',
+                  check=False)
+        if s_.returncode != 0:
+            raise SystemExit('GIT_HISTORY_REQUIRED: approval lineage '
+                             f'cannot be derived (git show {c}:{rel} '
+                             'failed); run inside a repository containing '
+                             'the required objects')
+        g = re.search(r'contract_blob:\s*([0-9a-f]{40})', s_.stdout)
         if g:
-            out.append((c[:7], g.group(1)))
+            out.append((c, g.group(1)))
     return out
 
 
@@ -2681,9 +2756,8 @@ def record_result(args):
         # ANCESTRY: the source snapshot must itself carry the approval
         # binding the governing contract -- the run tree knew its pin.
         gov = eb or _contract_hash(idea_dir(args.idea))
-        mk = subprocess.run(['git', 'show',
-                             f'{src}:ideas/{n3}/HUMAN_APPROVED_PROBE'],
-                            cwd=ROOT, capture_output=True, text=True)
+        mk = _git(['show', f'{src}:ideas/{n3}/HUMAN_APPROVED_PROBE'],
+                  what='import ancestry', check=False)
         if mk.returncode != 0 or f'contract_blob: {gov}' not in mk.stdout:
             raise SystemExit('ANCESTRY REFUSED: the source commit does not '
                              'carry an approval marker binding contract '
@@ -2693,8 +2767,8 @@ def record_result(args):
         src_files = _source_tree_files(src, f'probes/{n3}/{bundle.name}')
         local_blobs = {}
         for rel in local_files:
-            hb = subprocess.run(['git', 'hash-object', str(bundle / rel)],
-                                cwd=ROOT, capture_output=True, text=True)
+            hb = _git(['hash-object', str(bundle / rel)],
+                      what='verbatim import check')
             local_blobs[rel] = hb.stdout.strip()
         if src_files != local_blobs:
             only_src = sorted(set(src_files) - set(local_blobs))[:3]
@@ -3118,10 +3192,6 @@ def _cycle_stage_list(tracks):
     stages.append(('novelty_audit', 'role'))
     stages.append(('backlog', 'python'))
     return stages
-
-
-def _git(*cmd, check=True):
-    return subprocess.run(['git', *cmd], cwd=ROOT, capture_output=True, text=True, check=check)
 
 
 def _push_checkpoint():
@@ -4300,7 +4370,7 @@ def main():
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
     p=sp.add_parser('new-scout'); p.set_defaults(fn=new_scout)
     p=sp.add_parser('shortlist'); p.add_argument('scout'); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
-    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=run_stage)
+    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.add_argument('--unblock-ack',dest='unblock_ack'); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)

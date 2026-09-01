@@ -199,10 +199,11 @@ subcommand is missing here.
 | `pipeline` | run shortlist → critique → debate over backlog picks |
 | `probe-build` | cross-family authoring of probe code under the approved contract |
 | `ratify-interpretation` | human authority transaction closing an interpretation: event + status + state, one commit |
+| `run STAGE --idea N [--unblock-ack "ruling"]` | stages; `revise` refuses under a debate human-unblock until the ruling is acknowledged (round-10 P0) |
 | `ratify-registry` | registry-ratification authority transaction: mechanically verified bindings + imports, event, derive-to-COMPLETE, state, one commit |
 | `record-result` | validate and import a results bundle; PROBED + digest + state in one transaction |
 | `registry-status` | derive a per-idea experiment registry's node statuses |
-| `registry-validate` | validate registries (schema, containment, governance events) |
+| `registry-validate` (round-10: mechanically re-proves every ratification's bindings and imports; forged-but-well-formed rows fail loudly) | validate registries (schema, containment, governance events) |
 | `resume` | resume an interrupted run |
 | `run` | run a single named stage for an idea |
 | `search` | novelty/literature search stage |

@@ -122,6 +122,12 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
             from orchestrator import experiment_registry as _er
         sources['registry_result_inputs'] = \
             _er.result_input_hashes(idea_no, root)
+    gov = idea_dir / 'governance_events.jsonl'
+    if gov.exists():
+        # Round-10 P0: governance bytes are authority inputs; any
+        # mutation must move the materialized-source identity.
+        sources['governance_events_sha256'] = hashlib.sha256(
+            gov.read_bytes()).hexdigest()
     fingerprint = hashlib.sha256(
         json.dumps(sources, sort_keys=True).encode('utf-8')).hexdigest()
     return {

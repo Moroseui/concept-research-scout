@@ -254,6 +254,52 @@ if _m:
 
 
 class Harness(unittest.TestCase):
+    def _ensure_git(self):
+        """Opt-in: make the fixture repo a real Git repository (round-10
+        named history refusals require one wherever lineage renders)."""
+        import subprocess as _sp
+        if not (self.repo / ".git").exists():
+            _sp.run(["git", "init", "-q"], cwd=self.repo)
+            _sp.run(["git", "config", "user.email", "t@t"], cwd=self.repo)
+            _sp.run(["git", "config", "user.name", "t"], cwd=self.repo)
+            _sp.run(["git", "commit", "-q", "--allow-empty", "-m", "base"],
+                    cwd=self.repo)
+
+    def _ratify(self, d, hashes):
+        """Round-10: attestation rows must carry REAL mechanical
+        evidence -- a marker commit whose bytes hash to the recorded
+        sha and bind each blob -- or every authority consumer rejects
+        them. Fixtures earn their rows the same way production does."""
+        self._ensure_git()
+        import json as _j
+        import hashlib as _h
+        import subprocess as _sp
+
+        def _g(*a):
+            return _sp.run(["git", *a], cwd=self.repo,
+                           capture_output=True, text=True)
+        bindings = []
+        for h in hashes:
+            (d / "HUMAN_APPROVED_PROBE").write_text(
+                "approved\ncontract_blob: " + h + "\n")
+            _g("add", "-A"); _g("commit", "-qm", "pin " + h[:8])
+            c7 = _g("rev-parse", "--short=7", "HEAD").stdout.strip()
+            raw = _g("show",
+                     f"{c7}:ideas/001/HUMAN_APPROVED_PROBE").stdout
+            bindings.append({"contract_blob": h, "approval_commit": c7,
+                             "approval_sha256":
+                                 _h.sha256(raw.encode()).hexdigest()})
+        import sys as _s
+        _s.path.insert(0, str(self.repo.parent))
+        import experiment_registry as er  # noqa: F401 (path via test env)
+        row = {"event": "REGISTRY_RATIFIED", "idea": 1,
+               "registry_sha256": er.registry_sha("001", self.repo),
+               "bindings": bindings,
+               "imports": [],
+               "operator": "op", "base_commit":
+                   _g("rev-parse", "--short=7", "HEAD").stdout.strip(),
+               "event_id": "gov-0001"}
+        (d / "governance_events.jsonl").write_text(_j.dumps(row) + "\n")
     def setUp(self):
         self.dir = Path(tempfile.mkdtemp()).resolve()
         self.repo = self.dir / "repo"
@@ -3204,19 +3250,6 @@ class TestRegistryHardeningR1(Harness):
         (d / "registry.yaml").write_text(header + text)
         return d
 
-    def _ratify(self, d, hashes):
-        import json as _j
-        row = {"event": "REGISTRY_RATIFIED", "idea": 1,
-               "registry_sha256": "e" * 64,
-               "bindings": [{"contract_blob": h,
-                             "approval_commit": "abcdef1",
-                             "approval_sha256": "f" * 64}
-                            for h in hashes],
-               "imports": [],
-               "operator": "op", "base_commit": "abcdef1",
-               "event_id": "gov-0001"}
-        (d / "governance_events.jsonl").write_text(_j.dumps(row) + "\n")
-
     def _sc_dag(self):
         return ("probes:\n"
                 "  - id: S\n    phase: S\n"
@@ -4491,6 +4524,84 @@ class TestS2ContractAuthoritativeCore(Harness):
         fails = sc.validate_bundle(1, b)
         self.assertTrue(any("provenance.json" in f for f in fails),
                         f"legacy core must still demand provenance: {fails}")
+
+
+class TestP0AuthorityCloseout(Harness):
+    """Round-10 P0s: forged ratifications fail everywhere authority is
+    consumed; human-unblock verdicts block authoritative revision;
+    absent Git history is a named integrity refusal."""
+
+    def test_reviewer_forgery_exploit_now_fails_loudly(self):
+        # exact mutation from the round-10 audit, run on real evidence
+        import scout as sc, sys as _s
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        _s.path.insert(0, str(self.repo / "orchestrator"))
+        import experiment_registry as er
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        cur = sc._contract_hash(d)
+        (d / "registry.yaml").write_text(
+            "schema_version: 1\nprobes:\n  - id: n1\n    phase: G\n"
+            f"    contract_hash: {cur}\n"
+            "    results_bundle: probes/001/results/rv\n"
+            "    terminal_statuses: [TDONE]\n")
+        self._ratify(d, [cur])
+        self.assertEqual(er.validate("001", self.repo), [],
+                         "real evidence must verify")
+        self.assertTrue(er.ratified_binds_current("001", self.repo))
+        row = json.loads((d / "governance_events.jsonl").read_text())
+        row["bindings"][0]["approval_sha256"] = "0" * 64
+        row["bindings"][0]["approval_commit"] = "deadbee"
+        (d / "governance_events.jsonl").write_text(
+            json.dumps(row) + "\n")
+        fails = er.validate("001", self.repo)
+        self.assertTrue(fails, "forged row must fail registry-validate")
+        self.assertFalse(er.ratified_binds_current("001", self.repo))
+        (d / "HUMAN_APPROVED_PROBE").unlink()  # isolate the row's claim
+        self.assertNotIn(cur, er._attested_hashes(d),
+                         "forged row must attest nothing")
+        with self.assertRaises(ValueError):
+            er.derive_status("001", self.repo, lambda _d: cur,
+                             lambda b, g: [])
+
+    def test_human_unblock_blocks_revise_until_ack(self):
+        import scout as sc, argparse
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        (d / "consensus.md").write_text(
+            'x\n```json\n{"verdict": "REVISE", "unblock": '
+            '"Human resolves claim identity first."}\n```\n')
+        calls = []
+        self.addCleanup(setattr, sc, "run_agent", sc.run_agent)
+        sc.run_agent = lambda *a, **k: calls.append(a)
+        self.addCleanup(setattr, sc, "_commit_all", sc._commit_all)
+        sc._commit_all = lambda m: None
+        ns = argparse.Namespace(stage="revise", idea=1, agent=None,
+                                unblock_ack=None)
+        with self.assertRaises(SystemExit) as cm:
+            sc.run_stage(ns)
+        self.assertIn("HUMAN_UNBLOCK_REQUIRED", str(cm.exception))
+        self.assertEqual(calls, [])
+        ns.unblock_ack = "identity preserved; revise in place"
+        try:
+            sc.run_stage(ns)
+        except SystemExit:
+            pass  # downstream stage plumbing may exit in the fixture
+        self.assertIn("identity preserved",
+                      (d / "unblock_ack.txt").read_text())
+
+    def test_absent_git_history_is_named_refusal(self):
+        import scout as sc, tempfile, pathlib
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        with tempfile.TemporaryDirectory() as td:
+            root = pathlib.Path(td)
+            (root / "ideas" / "001").mkdir(parents=True)
+            sc.ROOT = root
+            with self.assertRaises(SystemExit) as cm:
+                sc._marker_lineage(1)
+            self.assertIn("GIT_HISTORY_REQUIRED", str(cm.exception))
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
