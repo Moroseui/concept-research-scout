@@ -1144,9 +1144,27 @@ def _result_bundle_for(idea):
     if b.exists():
         return b
     cands = sorted((ROOT/'probes'/f'{idea:03d}'/'results').glob('*/summary.json'))
-    # R3b: historical imports (results_v2-<blob12>) now share this
-    # directory; the CURRENT-era bundle keeps the fixed name and stays
-    # the default discovery target until P3's node-addressed layout.
+    # S2c (disclosed in R10 Q3): with multiple same-idea bundles, the one
+    # whose recorded governing blob equals the CURRENT contract is the
+    # current-era result and wins discovery; the fixed legacy name is the
+    # fallback, then newest. P3's node-addressed layout retires this.
+    cur = _contract_hash(idea_dir(idea))
+
+    def _blob_of(b):
+        for name in ('provenance.json', 'resolved_config.json'):
+            f = b / name
+            if f.exists():
+                try:
+                    v = (json.loads(f.read_text()) or {}).get('contract_blob')
+                except (json.JSONDecodeError, OSError):
+                    return None
+                if v is not None:
+                    return v
+        return None
+    if cur:
+        match = [c.parent for c in cands if _blob_of(c.parent) == cur]
+        if match:
+            return match[-1]
     for c in cands:
         if c.parent.name == 'results_v2':
             return c.parent

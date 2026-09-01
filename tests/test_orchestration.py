@@ -4431,6 +4431,23 @@ class TestR3bDiscoveryPreference(Harness):
         self.assertEqual(sc._result_bundle_for(1).name, "results_v2",
                          "historical imports must not hijack discovery")
 
+    def test_current_blob_bundle_wins_over_legacy_name(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\nv: 2\n")
+        cur = sc._contract_hash(d)
+        base = self.repo / "probes" / "001" / "results"
+        for name, blob in (("results_v2", "a" * 40),
+                           ("results_v3", cur)):
+            (base / name).mkdir(parents=True)
+            (base / name / "summary.json").write_text("{}")
+            (base / name / "resolved_config.json").write_text(json.dumps(
+                {"contract_blob": blob}))
+        self.assertEqual(sc._result_bundle_for(1).name, "results_v3",
+                         "the current-contract bundle must win discovery")
+
 
 class TestS2ContractAuthoritativeCore(Harness):
     """S2: a contract that declares required_outputs owns the bundle
