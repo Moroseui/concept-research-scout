@@ -3,15 +3,15 @@
 GENERATED VIEW (R5a). Never edit: regenerate with `python scout.py card-materialize 46`. Edits belong in the source artifacts this card renders.
 
 ## Identity
-- title: Who carries the band-2/3 reversal, and do the carriers differ clinically?
+- title: Which observed cases numerically carry the band-2/3 reversal?
 - charter: ?   track: wide   card-id: isles24-scout-007-c01
 - ledger status: SHORTLISTED   scrutiny: SCOUTED   ledger events: 1
 
 ## Question
-On the already-open 99-case census, is the precise opposite-signed band-2/band-3 final-infarct contrast carried diffusely by the cohort or concentrated in an identifiable patient subset -- and do high-contribution patients differ from the rest on available patient-level variables, including the released clinical outcome scores (mRS/NIHSS-type, ses-02 phenotype table)?
+Which of the 99 observed cases contribute most to the realized band-3-minus-band-2 mean contrast?
 
 ## Declared vs derived status
-- idea_card.keystone_status: 'NOT_INSPECTED'
+- idea_card.keystone_status: 'INSPECTED_TRUE'
 - system-derived: no interpretation
 
 ## Contract lineage (approval marker history, oldest -> newest)
@@ -27,7 +27,8 @@ On the already-open 99-case census, is the precise opposite-signed band-2/band-3
 - ratified: no
 
 ## Connections
-- (none recorded; add an optional related_ideas list to idea_card.json)
+- idea-023
+- idea-045
 
 ## Documents
 - ideas/046/idea_card.json

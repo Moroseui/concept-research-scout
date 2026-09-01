@@ -8,21 +8,21 @@
   "idea_no": "046",
   "kill_code": null,
   "materialization": {
-    "event_count": 1,
+    "event_count": 5,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "77a0d49ab33150e26fe7436d29f8ea2af059a5d062335b978da66e26de654d3c",
+    "source_fingerprint_sha256": "0577fbda96e4110bd86c6892725aa0930111b84dab2e635f665ddc05c0689da6",
     "sources": {
       "approval_sha256": null,
       "contract_blob": null,
-      "idea_card_sha256": "79ba7714d4e63a5e73ac9290cf9e930bcfb1175611a2f7ed5e5e1434715dd397",
-      "ledger_events_sha256": "4d2cc3cdb973a7501bdd87e6cd94f6d830d8fbf0f843c990993057c7c4e8f912",
+      "idea_card_sha256": "3c7ca4eba4fcb9b86144df81db0537652bc6ddb85c4d722cea056ea15aa6bb38",
+      "ledger_events_sha256": "fdb3f5eb82b1930f19719148bf71d20b8388f9814462d02ec3b958ff20a8f3ae",
       "registry_sha256": null
     }
   },
   "pending_decisions": null,
   "registry": null,
   "schema_version": 1,
-  "scrutiny": "SCOUTED",
+  "scrutiny": "DEBATED",
   "status": "SHORTLISTED",
   "title": "Who carries the band-2/3 reversal, and do the carriers differ clinically?"
 }

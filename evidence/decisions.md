@@ -2085,3 +2085,47 @@ state-verify 45/45. 211/211 both runners on build and
 pristine-applied trees; patch git-identical. Operator sequence:
 apply, then ratify-registry 45 --operator, then the attribution
 contract may be drafted.
+
+## 2026-09-01 - Idea 046 gauntlet + P0b: the unblock guard's first live test failed and is now closed
+
+The 046 pipeline ran overnight: keystone INSPECTED the imported
+per_patient table directly (297 rows, 99 unique cases per primary
+band), critique and three debate rounds then narrowed the candidate in
+the same direction 045's did -- every proposed binary
+carrier-versus-diffuse classifier was found to require uncertainty or
+repeat-measurement information the dataset cannot supply, so the
+deliverable was reduced to a FINITE-POPULATION DESCRIPTIVE
+CONTRIBUTION CENSUS: exact signed per-case contributions
+c_i = (d_i,band3 - d_i,band2)/99, dominance and Lorenz-style
+summaries, all frozen before computation, explicitly an estimator
+audit rather than a mechanism test; the clinical rung survives as the
+frozen stratifier comparison with honestly re-costed phenotype
+acquisition. Verdict REVISE with an explicit HUMAN unblock on claim
+identity.
+
+INCIDENT, recorded plainly: the round-10 P0 unblock guard did NOT
+fire -- auto-revise executed the rewrite before the ruling, exactly
+the ordering the fix was shipped to prevent. Root cause: the guard
+covered the CLI door (run stage revise) while the pipeline invokes
+revise through _pipeline_stage directly; the live run found the
+uncovered path within hours, and the unit test had tested only the
+covered one. P0b closes it at both layers: the pipeline call site now
+pauses with HUMAN_UNBLOCK_REQUIRED (a green, loud, mutation-free stop
+naming the exact follow-up command) and _pipeline_stage's revise entry
+refuses outright absent an acknowledgment file; the test fake's
+legacy hardcoded unblock filler is env-gated so fixtures mean what
+they say; the regression reproduces the live failure end-to-end
+through the real pipeline subprocess. 212/212 both runners, green on
+the pristine-applied tree, patch git-identical.
+
+OPERATOR RULING (046 claim identity, revise-in-place): identity
+preserved; the revision is ratified in place. The registered question
+-- which observed cases contribute most to the band-2/3 reversal, and
+do high-contribution cases differ on a short frozen variable list --
+is unchanged; what was relinquished is binary packaging ("carrier"
+labels, diffuse-versus-concentrated verdicts) that the data cannot
+support, and a card must not be re-registered for becoming more
+modest. The applied revision implemented the debate's own conditions;
+this ruling ratifies it and the unblock acknowledgment artifact is
+written for the record. Second consecutive specimen for the
+draft-versus-binding lane the R4 envelope will make structural.
