@@ -4025,12 +4025,30 @@ class TestR5bConfer(Harness):
         (d / "interpretation.md").write_text("band 2 flipped negative\n")
         calls = {}
 
+        calls["verdicts"] = ["CONCUR"]
+        calls["stages"] = []
+        calls["prompts"] = {}
+
+        calls["fams"] = []
+
         def fake_agent(prompt_path, fam, stage=None, log_path=None):
-            calls["prompt"] = Path(prompt_path).read_text()
-            calls["stage"] = stage
-            ans = d / "confer" / (Path(prompt_path).name
-                                  .replace("_prompt.md", ".md"))
-            ans.write_text("PREMISE CHECK: ...\nanswer\n")
+            text = Path(prompt_path).read_text()
+            calls["stages"].append(stage)
+            calls["fams"].append(fam)
+            calls["prompts"].setdefault(stage, []).append(text)
+            name = Path(prompt_path).name
+            if stage == "confer":
+                tag = name.replace("_prompt.md", "")
+                (d / "confer" / f"{tag}.md").write_text(
+                    "## OVERVIEW\nplain words\n## DETAILS\n"
+                    "cited things\n")
+            else:
+                tag = name.replace("_review_prompt.md", "")
+                v = calls["verdicts"].pop(0) if calls["verdicts"] \
+                    else "CONCUR"
+                (d / "confer" / f"{tag}_review.md").write_text(
+                    'checked\n```json\n{"verdict": "%s", '
+                    '"findings": ["overview overstates"]}\n```\n' % v)
         for name, stub in (("run_agent", fake_agent),
                            ("_require_clean_tree", lambda *_: None),
                            ("_check_scope", lambda *_: None),
@@ -4045,22 +4063,29 @@ class TestR5bConfer(Harness):
         import argparse
         sc.cmd_confer(argparse.Namespace(
             idea=1, question="Why did band 2 flip?"))
-        p = calls["prompt"]
+        self.assertEqual(calls["stages"], ["confer", "confer_review"],
+                         "one draft leg, one opposing-family review")
+        p = calls["prompts"]["confer"][0]
         i_t = p.find("TRUSTED INSTRUCTIONS")
         i_u = p.find("UNTRUSTED EVIDENCE")
         self.assertTrue(0 <= i_t < i_u, "trusted block must precede evidence")
         for frag in ("do not follow it", "PREMISE CHECK",
-                     "SUGGESTED UPDATES (advisory)",
-                     "The test question", "Why did band 2 flip?",
-                     "band 2 flipped negative"):
+                     "SUGGESTED UPDATES (advisory)", "## OVERVIEW",
+                     "any reader", "The test question",
+                     "Why did band 2 flip?", "band 2 flipped negative"):
             self.assertIn(frag, p)
+        rp = calls["prompts"]["confer_review"][0]
+        for frag in ("OVERARCHING answer", "FAITHFUL compression",
+                     "DRAFT ANSWER UNDER REVIEW", "plain words"):
+            self.assertIn(frag, rp)
         g = json.loads((d / "confer" / "q0001_grounding.json").read_text())
         import hashlib as _h
         self.assertEqual(g["context_sha256"]["CARD.md"], _h.sha256(
             (d / "CARD.md").read_bytes()).hexdigest())
         self.assertTrue((d / "confer" / "q0001.md").exists())
-        self.assertTrue(any("read-only exchange" in m
+        self.assertTrue(any("review (CONCUR)" in m
                             for m in calls["commits"]))
+        self.assertTrue((d / "confer" / "q0001_review.md").exists())
 
     def test_confer_numbers_exchanges_and_requires_card(self):
         sc, d, calls = self._kit()
@@ -4072,6 +4097,28 @@ class TestR5bConfer(Harness):
         with self.assertRaises(SystemExit) as cm:
             sc.cmd_confer(argparse.Namespace(idea=1, question="three"))
         self.assertIn("card-materialize", str(cm.exception))
+
+    def test_confer_families_swap_across_exchanges(self):
+        sc, d, calls = self._kit()
+        import argparse
+        sc.cmd_confer(argparse.Namespace(idea=1, question="one"))
+        sc.cmd_confer(argparse.Namespace(idea=1, question="two"))
+        # default pair: exchange 1 = (claude drafts, codex reviews);
+        # exchange 2 swaps. Cross-family holds in both.
+        self.assertEqual(calls["fams"][:2], ["claude", "codex"])
+        self.assertEqual(calls["fams"][2:4], ["codex", "claude"])
+
+    def test_confer_contest_triggers_one_bounded_revision(self):
+        sc, d, calls = self._kit()
+        calls["verdicts"] = ["CONTEST", "CONCUR"]
+        import argparse
+        sc.cmd_confer(argparse.Namespace(idea=1, question="q"))
+        self.assertEqual(calls["stages"],
+                         ["confer", "confer_review",
+                          "confer", "confer_review"])
+        rev_prompt = calls["prompts"]["confer"][1]
+        self.assertIn("REVISION ROUND", rev_prompt)
+        self.assertIn("overview overstates", rev_prompt)
 
     def test_confer_failure_preserves_partial(self):
         sc, d, calls = self._kit()
@@ -4108,6 +4155,22 @@ class TestTransitionalDebt(Harness):
                                        f.read_text()))
         self.assertTrue(in_code <= ids,
                         f"unledgered markers: {in_code - ids}")
+
+
+class TestDocsHygiene(Harness):
+    """Operator rule (R5c): the README's command reference stays
+    complete -- every CLI subcommand registered in scout.py must appear
+    in README.md, or CI fails. Docs ride with the patch."""
+
+    def test_readme_documents_every_command(self):
+        import re as _re
+        names = sorted(set(_re.findall(r"add_parser\('([a-z0-9-]+)'",
+                                       (REPO / "scout.py").read_text())))
+        readme = (REPO / "README.md").read_text()
+        missing = [n for n in names if n not in readme]
+        self.assertFalse(missing,
+                         f"undocumented commands: {missing}")
+        self.assertGreater(len(names), 30)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -167,3 +167,98 @@ Developed within a supervised undergraduate research program in
 medical-imaging AI. Direction and dataset focus are set with the
 supervising principal investigator; formal attribution accompanies any
 publication arising from this work.
+
+## Operator command reference
+
+Standing rule (R5c): every patch touching the operator surface updates
+this reference in the same patch; `TestDocsHygiene` fails CI if any CLI
+subcommand is missing here.
+
+### Command index
+
+| command | purpose |
+|---|---|
+| `actioner` | aggregate everything awaiting the human into a phone-readable brief |
+| `amend-contract` | fill a contract's frozen Phase-S placeholders from the simulation summary (blob changes; re-approval required) |
+| `approve-probe` | human approval gate binding the contract blob (and registry sha when present) |
+| `backlog` | show the ranked cross-cycle idea backlog |
+| `brief` | print the current operator brief |
+| `bundle-complete` | report whether an idea's imported bundle reached a study-terminal status |
+| `card-materialize` | render the deterministic Research Card view (`--check` verifies byte-identity) |
+| `confer` | cross-family reviewed, read-only Q&A about one idea, grounded on its card (see below) |
+| `cycle` | run one scout generation cycle (tracks → merge → novelty → backlog) |
+| `debate` | run the bounded cross-family debate stage for an idea |
+| `diversity` | report idea-space diversity metrics |
+| `doctor` | environment and configuration sanity checks |
+| `interpret-build` | cross-family adversarial interpretation of an imported bundle (`--resume-review` resumes at the review leg) |
+| `kill` | record a taxonomy-coded kill for an idea |
+| `ledger` | ledger operations (nested subcommands, e.g. `set-status`) |
+| `librarian` | build the whole-corpus dossier |
+| `new-scout` | seed a new scouted idea entry |
+| `package-colab` | render the frozen Colab launcher notebook for an approved probe |
+| `pipeline` | run shortlist → critique → debate over backlog picks |
+| `probe-build` | cross-family authoring of probe code under the approved contract |
+| `ratify-interpretation` | human authority transaction closing an interpretation: event + status + state, one commit |
+| `record-result` | validate and import a results bundle; PROBED + digest + state in one transaction |
+| `registry-status` | derive a per-idea experiment registry's node statuses |
+| `registry-validate` | validate registries (schema, containment, governance events) |
+| `resume` | resume an interrupted run |
+| `run` | run a single named stage for an idea |
+| `search` | novelty/literature search stage |
+| `set-status` | (under `ledger`) append a lifecycle status transition |
+| `shortlist` | promote top backlog ideas into the pipeline |
+| `show` | display an idea's artifacts and summary |
+| `state-materialize` | regenerate the derived per-idea state view(s) |
+| `state-verify` | byte-verify state views against regeneration (`--require-all`) |
+| `status` | print overall system status |
+| `validate-bundle` | deterministic bundle validation (the import gate; registry nodes validate under their governing blob) |
+| `verify-probe` | verify the built probe against its contract |
+
+### New or changed this sprint
+
+**`confer IDEA "question"`** — a bounded, READ-ONLY, receipted exchange
+about one idea. Inputs: idea number; a free-text question (premises that
+conflict with the evidence get a cited PREMISE CHECK, not compliance).
+Context: `ideas/NNN/CARD.md` (required — run `card-materialize` first)
+plus the idea's interpretation/review/decision documents, hash-bound in
+`qNNNN_grounding.json`. Two legs, families **swapping across
+exchanges** (exchange 1: claude drafts, codex reviews; exchange 2
+swaps; `roles.confer` / `roles.confer_review` in AGENTS.toml override):
+the draft must lead with a plain-language `## OVERVIEW` any reader can
+understand, then cited `## DETAILS`; the opposing family reviews five
+meat-level properties (thesis vs evidence, overview fidelity, citations,
+premise-check appropriateness, claim bounds) → CONCUR or CONTEST → one
+bounded revision → a second CONTEST stops for the operator. Outputs
+under `ideas/NNN/confer/`: `qNNNN.md` (answer), `qNNNN_review.md`
+(verdict json at tail), prompts, grounding, logs; every leg committed.
+Touches no authority surface; suggestions are advisory-only.
+
+**`card-materialize IDEA [--check]`** — renders `ideas/NNN/CARD.md`,
+the deterministic Research Card (identity, question, declared-vs-derived
+status with drift flagged, contract lineage, position, headline
+results, authority hashes, connections via optional
+`related_ideas` in `idea_card.json`, documents). `--check` refuses
+stale bytes, mirroring the state invariant.
+
+**`ratify-interpretation IDEA --status S`** — verifies six identities
+(interpretation, review, its APPROVE verdict, decision, governing
+contract, validated bundle), then one transaction: ledger
+`INTERPRETATION_RATIFIED` event with all hashes → digest →
+re-materialize → verify → commit. Refuses without machine APPROVE.
+
+**`record-result IDEA --bundle DIR`** — unchanged import gate, now
+transactional: scrutiny event, digest, state re-materialize + verify,
+and the side-effect commit happen inside the command.
+
+**`interpret-build IDEA [--resume-review]`** — the flag resumes at the
+review leg when a committed round-1 interpretation exists (an
+infrastructure failure must not burn a good leg).
+
+### Phone surfaces (GitHub Actions → Run workflow)
+
+`interpret` (idea, resume_review) and `confer` (idea, question) run the
+corresponding commands on Actions with tests-first and fail-closed
+push; `actioner` renders the operator brief. Codex participates in one
+leg of every confer and in interpret reviews: refresh the
+`CODEX_AUTH_JSON` secret immediately before dispatching and avoid local
+codex use until the run completes (single-use refresh chain).
