@@ -1698,3 +1698,24 @@ note: API-key legs bill the platform account per token (CI review legs
 are short); the ChatGPT subscription continues to cover local use.
 Gates: 197/197 both runners, green again on the pristine-applied tree;
 patch git-identical against pristine origin/main.
+
+## 2026-08-30 - R5e landed: confer never vaporizes evidence
+
+The first live confer dispatch failed with ZERO repository trace -- no
+commits, no receipts, no logs. Root of the silence (root of the failure
+itself pending the Actions log): run_agent raises on agent failure, and
+cmd_confer, unlike interpret_build, did not wrap its legs in a
+catch-and-commit-partial handler -- any leg-level raise discarded the
+grounding, prompt, receipt, and log with the runner. Two invariants
+land: (1) the question, grounding sidecar, and prompt are COMMITTED
+before any agent leg runs ("question registered"), so a run that
+reaches the command can never again disappear without trace and a
+zero-commit failure now cleanly indicts the pre-command workflow steps;
+(2) the entire leg loop is wrapped so ANY raise -- SystemExit or
+otherwise -- commits partial evidence (receipts included) before
+propagating, mirroring and strengthening the interpret pattern.
+Regression proves both: a raising leg leaves the registration commit
+and a FAILED(type) commit behind. 198/198 both runners, green again on
+the pristine-applied tree; state-verify 44/44; patch git-identical
+against pristine origin/main. Diagnosis of the actual trigger proceeds
+from the Actions step log; the next dispatch self-documents either way.
