@@ -1935,3 +1935,34 @@ unexplained (validation provably returns instantly), watching the
 rerun; strace next if it recurs. 206/206 both runners, green on the
 pristine-applied tree; state-verify 45/45; patch git-identical against
 pristine origin/main. Rerun sequence: record-result 45 -> interpret.
+
+## 2026-09-01 - S2b: phase optional under declared interfaces; 045's first result is in hand
+
+Second head of the S2 hydra, caught by the very next import attempt:
+summary `phase` is an importer-side convention no contract clause ever
+required, and idea 045's contract-faithful bundle omitted it. Same
+ruling applied: under a declared interface, phase is optional; when
+present it must still be a single letter; legacy/no-interface bundles
+unchanged. record-result messaging tolerates the absence. Proven
+end-to-end before shipping: the probe was executed deterministically in
+the build sandbox against the frozen repo inputs and the resulting
+bundle validates to [] under this patch. Regression covers
+absent-phase-passes and malformed-phase-still-fails. 206/206 both
+runners, green on the pristine-applied tree; patch git-identical.
+
+And the sandbox execution surfaced the scientific news a turn early:
+045's outcome-blind feasibility gate returns NEGATIVE_PATTERN --
+condition number 38.89 against the frozen <=30 bound (singular values
+14.09 to 0.36), fewer than 20 distinct imbalance values in at least
+one band (integer-quantized audit medians collapse Q1-Q4 differences
+onto a small grid), and a patient row exceeding the 0.20 leverage
+bound. Coherent diagnosis: the frozen band-by-imbalance interaction
+design is fragile on the covariate's real geometry. Per the contract's
+own words this mandates SPECIFICATION REVISION (centering/
+standardization, pooled-slope reduction, or rank transform -- each a
+new pre-registered spec) and is expressly NOT evidence against tissue
+composition or the parent association. Zero outcome values were read;
+the reserved cases remain untouched. Import and adversarial
+interpretation proceed next; R10 gains a third interface-hydra note:
+summary conventions (idea_id/phase/status) should be stated where
+contract and probe authors can see them.
