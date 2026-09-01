@@ -48,6 +48,12 @@ TOLERANCE = 1e-12  # Contract's maximum algebraic residual.
 WALL_SECONDS = 5 * 60  # Contract's CPU wall-time cap.
 EXPECTED_INPUT_SHA256 = "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c"
 
+# Frozen lineage guards from contract v2 baselines[0], produced by the
+# completed v1 definition audit. These are validity checks, not comparators.
+V1_RESIDUAL = 6.938893903907228e-18
+V1_SIGN_COUNTS = {"positive": 54, "zero": 6, "negative": 39}
+V1_TIE_COUNTS_DELTA_SPACE = {"signed": 5, "absolute": 5}
+
 PROBE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = PROBE_DIR.parent.parent
 CONTRACT_PATH = REPO_ROOT / "ideas/046/probe_contract.yaml"
@@ -191,7 +197,8 @@ def load_and_validate(path, smoke):
             if not math.isfinite(value):
                 fail(EXIT_COHORT, f"row {line_number} has nonfinite d")
             if band not in PRIMARY_BANDS:
-                # Contract forbids persisting case identifiers; source line is sufficient audit provenance.
+                # Excluded band-1 rows need source-line provenance; analyzed IDs
+                # are emitted separately in the contract-required census table.
                 excluded.append({"source_line": line_number, "reason": "non_primary_band"})
                 continue
             selected.append((raw["case_id"], band, value, line_number))
@@ -347,6 +354,53 @@ def summarize_census(measurements, direct_gap, residual):
     return signed, signed_curve, lorenz, positive_curve, summary
 
 
+def compare_v1_lineage_guards(measurements, census, smoke):
+    """Compare real-run validity guards with the completed v1 audit."""
+    if smoke:
+        return {
+            "status": "SKIPPED_SMOKE_SYNTHETIC_DATA",
+            "compared": False,
+            "tie_count_space": "delta_before_division_by_99",
+        }
+
+    # V1 counted exact ties on delta values before division. Repeating that
+    # exact space avoids assuming that floating-point division is injective.
+    deltas = [row["delta"] for row in measurements]
+    absolute_deltas = [abs(value) for value in deltas]
+    delta_ties = {
+        "signed": len(deltas) - len(set(deltas)),
+        "absolute": len(absolute_deltas) - len(set(absolute_deltas)),
+    }
+    observed = {
+        "paired_cases": len(measurements),
+        "additive_identity_residual": census["additive_identity_residual"],
+        "denominators_defined": all(
+            math.isfinite(value) and value != 0.0
+            for value in census["denominators"].values()
+        ),
+        "orderings_deterministic": len({row["case_id"] for row in measurements}) == len(measurements),
+        "sign_counts": census["sign_counts"],
+        "tie_counts_delta_space": delta_ties,
+    }
+    expected = {
+        "paired_cases": EXPECTED_CASES,
+        "additive_identity_residual": V1_RESIDUAL,
+        "denominators_defined": True,
+        "orderings_deterministic": True,
+        "sign_counts": V1_SIGN_COUNTS,
+        "tie_counts_delta_space": V1_TIE_COUNTS_DELTA_SPACE,
+    }
+    if observed != expected:
+        fail(EXIT_OUTPUT, f"v1 lineage guard disagreement: observed={observed} expected={expected}")
+    return {
+        "status": "MATCHED_V1_DEFINITION_AUDIT",
+        "compared": True,
+        "tie_count_space": "delta_before_division_by_99",
+        "observed": observed,
+        "expected": expected,
+    }
+
+
 def environment_record():
     return {
         "python": sys.version,
@@ -395,6 +449,8 @@ def run(args):
     emit("[summarize] Building frozen curves and fixed top-k/target summaries.", log_lines)
     signed, signed_curve, lorenz, positive_curve, census = summarize_census(
         measurements, direct_gap, residual)
+    lineage_comparison = compare_v1_lineage_guards(measurements, census, args.smoke)
+    census["v1_lineage_guard_comparison"] = lineage_comparison
     status = "SMOKE_ONLY" if args.smoke else "CENSUS_COMPLETE"
     if time.monotonic() - started > WALL_SECONDS:
         fail(EXIT_WALL, "run exceeded the approved five-minute wall time")

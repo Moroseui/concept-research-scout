@@ -4,7 +4,7 @@
   "contract_blob": "942e530737c90b666baa4c9985fd0329296ef140",
   "passed": true,
   "issues": [],
-  "checked_at": "2026-09-01T22:40:32+00:00",
+  "checked_at": "2026-09-01T18:47:34-04:00",
   "checks": {
     "python_compile": "passed",
     "smoke_status": "SMOKE_ONLY",
@@ -12,6 +12,9 @@
     "smoke_required_outputs": 14,
     "smoke_under_60_seconds": true,
     "two_run_scientific_output_byte_determinism": "passed",
+    "smoke_v1_lineage_comparison": "SKIPPED_SMOKE_SYNTHETIC_DATA",
+    "v1_tie_comparison_space": "delta_before_division_by_99",
+    "real_run_lineage_disagreement_exit": 7,
     "real_census_executed": false
   },
   "determinism_compared_outputs": [
