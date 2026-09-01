@@ -13,17 +13,37 @@
   "materialization": {
     "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "114ae63c5a6761b7f53eff8b5da2fd742b5fd05a529ffc86295d8383140768b9",
+    "source_fingerprint_sha256": "abf29a5424346a11bdffcf0a837fa682a551c0478ad2fbe2398b6469bc4517ee",
     "sources": {
       "approval_sha256": "35da328bec035df3454002a1df26f4fbd419db413bc4c75b81c056e572e6c85b",
       "contract_blob": "5615afea1e2f8309745a2d6558bd9118e5e9f1f3",
+      "governance_events_sha256": "56c432e711cc97d73a03ec07174ebd7116153b12f1b72d99568eafbd69ad7545",
       "idea_card_sha256": "ba783b6d64772f6000937d9642ff619e26bd4fd015bf295630378e9e0c6c3570",
       "ledger_events_sha256": "cd4fa2b4a12db1726c3802983f031bcd9a340d81844fe519951d6fa60321c4bf",
-      "registry_sha256": null
+      "registry_result_inputs": {
+        "feasibility_v1": {
+          "provenance_sha256": null,
+          "resolved_config_sha256": "af8162a1093220a278344cdc4da2d8941c6331786e856095f40f52463677e782",
+          "summary_sha256": "7eda2036fa7e7d93c4eeacd4e1018fe184cf2f457b0fedc45f1c1c56c4b38dd6"
+        },
+        "feasibility_v2": {
+          "provenance_sha256": null,
+          "resolved_config_sha256": "050c324f015adbbb91c7e58cbf6267d0f3ed0acf6be18b0883f3582e9ddbd50f",
+          "summary_sha256": "16839fb51f47330b2229666d715d9bacf46c56b6737bddca21537f38b2415458"
+        }
+      },
+      "registry_sha256": "1c0e82a68e184a30346228b5745525f50f5b86f938178401dc0d3829fe26a636"
     }
   },
   "pending_decisions": null,
-  "registry": null,
+  "registry": {
+    "approval_bound": false,
+    "file_sha256": "1c0e82a68e184a30346228b5745525f50f5b86f938178401dc0d3829fe26a636",
+    "nodes": {
+      "feasibility_v1": "COMPLETE",
+      "feasibility_v2": "COMPLETE"
+    }
+  },
   "schema_version": 1,
   "scrutiny": "PROBED",
   "status": "ACTIVE",

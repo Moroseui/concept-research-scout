@@ -5,34 +5,43 @@ GENERATED VIEW (R5a). Never edit: regenerate with `python scout.py card-material
 ## Identity
 - title: Did tissue composition create idea-023's sign reversal?
 - charter: ?   track: wide   card-id: isles24-scout-006-c01
-- ledger status: SHORTLISTED   scrutiny: DEBATED   ledger events: 5
+- ledger status: ACTIVE   scrutiny: PROBED   ledger events: 8
 
 ## Question
 Does per-patient Q1-minus-Q4 NCCT median-attenuation imbalance account for idea-023's opposite-signed mean final-infarct contrasts in flow bands 2 and 3?
 
 ## Declared vs derived status
 - idea_card.keystone_status: 'INSPECTED_TRUE'
-- system-derived: no interpretation
+- system-derived: ratified -> ACTIVE
+- DRIFT: the card field predates the ratified outcome. Candidate operator update to idea_card.json (normal edit; this view never reconciles silently).
 
 ## Contract lineage (approval marker history, oldest -> newest)
-- (no approval marker history)
+- f40b247  e7071541036a
+- fb05835  5615afea1e2f
+- current contract blob: 5615afea1e2f
 
 ## Experiment position
-- no imported results bundle
+- registry 1c0e82a68e18 (RATIFIED)
+  - feasibility_v1: COMPLETE
+  - feasibility_v2: COMPLETE
+- bundle: probes/045/results/results_v3   phase: ?   status: POSITIVE_PATTERN
+
+## Headline results (from summary.json; every number citation-checked in interpret_review.md)
 
 ## Interpretation and authority
-- interpretation.md: missing
-- interpret_review.md: missing
-- decision.md: missing
-- ratified: no
+- interpretation.md: 73cb471da171
+- interpret_review.md: efcd47d5c9e9
+- decision.md: 3ef2410f4979
+- cross-family review verdict: APPROVE
+- ratified: status ACTIVE, interpretation 73cb471da171, contract 5615afea1e2f
 
 ## Connections
 - (none recorded; add an optional related_ideas list to idea_card.json)
 
 ## Documents
 - ideas/045/idea_card.json
-- ideas/045/probe_contract.yaml  (absent)
-- ideas/045/interpretation.md  (absent)
-- ideas/045/interpret_review.md  (absent)
-- ideas/045/decision.md  (absent)
+- ideas/045/probe_contract.yaml
+- ideas/045/interpretation.md
+- ideas/045/interpret_review.md
+- ideas/045/decision.md
 - ideas/045/state.json
