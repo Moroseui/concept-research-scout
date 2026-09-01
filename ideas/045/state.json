@@ -11,15 +11,15 @@
   "idea_no": "045",
   "kill_code": null,
   "materialization": {
-    "event_count": 8,
+    "event_count": 9,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "d609de97a5f02d975d9aeac05ef236a0d276e6eca3adf1cdeb097635c58bcd3a",
+    "source_fingerprint_sha256": "74f2dd4e6f6e5b8cfd852a605c941843153100f618fb2151b6e1c276cbb8940a",
     "sources": {
       "approval_sha256": "d5572e423598e128163978a62e15fb386a011466e122fa649e63f27b7418fd52",
       "contract_blob": "b1e283613d4fd47c77bfd1f2838a54791eb25954",
       "governance_events_sha256": "56c432e711cc97d73a03ec07174ebd7116153b12f1b72d99568eafbd69ad7545",
       "idea_card_sha256": "ba783b6d64772f6000937d9642ff619e26bd4fd015bf295630378e9e0c6c3570",
-      "ledger_events_sha256": "cd4fa2b4a12db1726c3802983f031bcd9a340d81844fe519951d6fa60321c4bf",
+      "ledger_events_sha256": "eb742a1aeb695672926e929843bb5f8dcbc1dcc0ebabe977f08a4990b4aa0d4f",
       "registry_result_inputs": {
         "feasibility_v1": {
           "provenance_sha256": null,
@@ -46,6 +46,6 @@
   },
   "schema_version": 1,
   "scrutiny": "PROBED",
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "title": "Tissue-normalized joint CBV/MTT compensation at matched flow"
 }
