@@ -1,0 +1,13 @@
+Review complete: **REVISE**, with two blocking findings. The review is at `ideas/046/probe_review.md`.
+
+**What I verified first.** The approval marker binds the current contract blob exactly (`3996009b...`), the frozen input's SHA-256 matches the contract pin, and there is no `contract_requirements.md`, so criterion 5 doesn't apply. This sandbox can't execute Python, so the review is static; the smoke run's timing and outputs are attested by `probes/046/verification.json`, and every smoke property claimed there checks out in the code.
+
+**The two blocking findings, both narrow and contract-directed:**
+
+1. **B1 — the residuals are never recorded.** The contract's tolerance clause says "the ordinary-summation residual is recorded only as a numerical diagnostic," but `run.py` computes only the `fsum` residual and persists *neither* value — every output carries only pass booleans. The primary metric therefore appears in no artifact. Recording both is exposure-safe (a ~1e-16 rounding residual is not on the prohibited list, and the contract itself directs it).
+
+2. **B2 — a hardcoded audit verdict.** The contract defines two frozen orderings "for audit purposes" and requires tie counts *confirming* the case_id tiebreak makes every ordering unique; the positive pattern certifies "deterministic ordering resolves every tie." The code emits tie counts but never constructs either ordering — `deterministic_secondary_case_id_rule_defined: True` is a constant that cannot be false on any input. The property happens to be entailed by the duplicate-key gate, but per the ledger's own 2026-08-18 lesson, claim-bearing code gets verified against the artifact, not asserted. The fix is building the two sort-key lists in memory and asserting uniqueness.
+
+**What passes cleanly** (documented in the review): the primary-metric formula and 1e-12 comparison are exact; the full cohort gate, SHA pin, and marker-bound authority check are correct and strict; all six hard code standards are met (determinism manifests, exclusions with totals, assertions, declared state, split-before-outcome, smoke that can never satisfy a gate); and the no-result-exposure discipline holds across every output, log, and failure message.
+
+One non-blocking item worth the operator's eye: the approved contract still says `human_approved: false` while its own invalidating-failure clause names that field — the marker-supersedes convention from ideas 004/023 resolves it, and I put that interpretation on the record now rather than after a run. Neither blocking fix touches the estimator, gates, or exposure discipline, so the revision should be a small, scope-preserving change through the normal probe-build round.
