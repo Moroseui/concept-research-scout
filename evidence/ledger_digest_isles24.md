@@ -75,7 +75,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-043** [REJECTED/SCOUTED/baseline] -- What the winner's brain window revealed -- killed: EFFECT_UNREACHABLE
 - **idea-044** [REJECTED/DEBATED/baseline] -- The old stroke inside the new forecast -- killed: IDENTIFIABILITY_FAILURE
 - **idea-045** [PAUSED/PROBED/wide] -- Tissue-normalized joint CBV/MTT compensation at matched flow
-- **idea-046** [SHORTLISTED/PROBED/wide] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
+- **idea-046** [ACTIVE/PROBED/wide] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
