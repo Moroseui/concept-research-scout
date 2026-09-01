@@ -13,11 +13,11 @@
   "materialization": {
     "event_count": 9,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "fc3bf8d4388926d75ae097d8d828f4a503bd68a4db57b77beb6beb5cba71a54b",
+    "source_fingerprint_sha256": "a355618b502a52d063044295c3916077c2b3a238ff00292014f3148ad404dc60",
     "sources": {
       "approval_sha256": "d5572e423598e128163978a62e15fb386a011466e122fa649e63f27b7418fd52",
       "contract_blob": "b1e283613d4fd47c77bfd1f2838a54791eb25954",
-      "governance_events_sha256": "56c432e711cc97d73a03ec07174ebd7116153b12f1b72d99568eafbd69ad7545",
+      "governance_events_sha256": "8b97d58ce564817e94f844e99b8041e89e774c3497f053adb1ebc75bd14c5f65",
       "idea_card_sha256": "4af5135d6c2fe0878dcd96a7cf09de76bb7d7890e925bc8fb22b3b7ea4a81ff3",
       "ledger_events_sha256": "eb742a1aeb695672926e929843bb5f8dcbc1dcc0ebabe977f08a4990b4aa0d4f",
       "registry_result_inputs": {
@@ -46,8 +46,8 @@
     "file_sha256": "b6a4d1bc4aa75faa070bad04fbafc5e4e57c34494e9b1e39caed20de4a2432c1",
     "nodes": {
       "attribution_v3": "COMPLETE",
-      "feasibility_v1": "STALE",
-      "feasibility_v2": "STALE"
+      "feasibility_v1": "COMPLETE",
+      "feasibility_v2": "COMPLETE"
     }
   },
   "schema_version": 1,

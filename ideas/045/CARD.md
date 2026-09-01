@@ -22,10 +22,10 @@ Does per-patient Q1-minus-Q4 NCCT median-attenuation imbalance account for idea-
 - current contract blob: b1e283613d4f
 
 ## Experiment position
-- registry b6a4d1bc4aa7 (UNRATIFIED)
+- registry b6a4d1bc4aa7 (RATIFIED)
   - attribution_v3: COMPLETE
-  - feasibility_v1: STALE
-  - feasibility_v2: STALE
+  - feasibility_v1: COMPLETE
+  - feasibility_v2: COMPLETE
 - bundle: probes/045/results/results_v4   phase: ?   status: DECISIVE_MEASURED_EXPLANATION_FAILURE
 
 ## Headline results (from summary.json; every number citation-checked in interpret_review.md)
