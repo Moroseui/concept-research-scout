@@ -5,7 +5,7 @@ GENERATED VIEW (R5a). Never edit: regenerate with `python scout.py card-material
 ## Identity
 - title: Did tissue composition create idea-023's sign reversal?
 - charter: ?   track: wide   card-id: isles24-scout-006-c01
-- ledger status: SHORTLISTED   scrutiny: SCOUTED   ledger events: 1
+- ledger status: SHORTLISTED   scrutiny: DEBATED   ledger events: 5
 
 ## Question
 Does per-patient Q1-minus-Q4 NCCT median-attenuation imbalance account for idea-023's opposite-signed mean final-infarct contrasts in flow bands 2 and 3?

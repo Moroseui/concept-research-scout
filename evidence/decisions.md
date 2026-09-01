@@ -1878,3 +1878,33 @@ governance-schema imports coverage. Gates: 205/205 both runners;
 state-verify and card --check green on BOTH the build tree and the
 pristine-applied tree; patch git-identical against pristine
 origin/main.
+
+
+## 2026-09-01 - Operator ruling: idea-045 claim-identity gate (revise-in-place)
+
+The 045 debate ended REVISE with an explicit human unblock: decide
+whether stripping the "decisively refuses / lineage-terminal" negative
+changes the candidate's identity under the claim-identity rule --
+revise in place if not, supersede with a new registration if so.
+RULING: identity preserved; the revision is ratified in place. The
+question ("did tissue composition create idea-023's sign reversal?")
+is unchanged; what moved is the epistemic ceiling of one answer arm --
+nulls become sensitivity-limited because no external bound exists on
+HU-by-outcome effect modification -- and a card must not be forced
+into a new identity for becoming more honest about what a null can
+mean. The surviving decisive arm is correctly scoped: a reversal that
+persists under adjustment decisively shows attenuation imbalance does
+not explain it. deliverable_original preserves the pre-revision claim
+for lineage, per convention.
+
+Governance observation recorded for round 10: the pipeline's
+auto-revise executed the rewrite BEFORE this human gate was formally
+resolved -- benign here (the rewrite implemented exactly the debate's
+conditions and this ruling ratifies it), but the ordering inverts the
+unblock's letter. This is a live specimen for the reconsideration /
+notes-substrate design: machine revisions that a debate conditions on
+a human ruling should be able to WAIT on that ruling. Also observed:
+the idea-pipeline stages did not advance the ledger scrutiny ladder
+(045 remains SCOUTED after keystone/critique/debate); queued as a
+small fix. Idea 045 is now cleared to proceed to probe-plan ->
+human contract approval -> probe-build under existing machinery.
