@@ -1,11 +1,11 @@
 {
   "approval": {
-    "contract_blob": "5615afea1e2f8309745a2d6558bd9118e5e9f1f3",
+    "contract_blob": "b1e283613d4fd47c77bfd1f2838a54791eb25954",
     "stale": false
   },
   "charter": null,
   "claim": "Within viable-attenuation tissue at matched relative CBF, the joint CBV/MTT coordinate shows a directionally stable, precision-bounded final-infarct association across all three within-patient flow bands -- establishing, or decisively refusing, the Stage-0 prerequisite that idea-023's untissued operationalization could not test cleanly.",
-  "contract_blob": "5615afea1e2f8309745a2d6558bd9118e5e9f1f3",
+  "contract_blob": "b1e283613d4fd47c77bfd1f2838a54791eb25954",
   "corrections": null,
   "idea_id": "idea-045",
   "idea_no": "045",
@@ -13,10 +13,10 @@
   "materialization": {
     "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "abf29a5424346a11bdffcf0a837fa682a551c0478ad2fbe2398b6469bc4517ee",
+    "source_fingerprint_sha256": "d609de97a5f02d975d9aeac05ef236a0d276e6eca3adf1cdeb097635c58bcd3a",
     "sources": {
-      "approval_sha256": "35da328bec035df3454002a1df26f4fbd419db413bc4c75b81c056e572e6c85b",
-      "contract_blob": "5615afea1e2f8309745a2d6558bd9118e5e9f1f3",
+      "approval_sha256": "d5572e423598e128163978a62e15fb386a011466e122fa649e63f27b7418fd52",
+      "contract_blob": "b1e283613d4fd47c77bfd1f2838a54791eb25954",
       "governance_events_sha256": "56c432e711cc97d73a03ec07174ebd7116153b12f1b72d99568eafbd69ad7545",
       "idea_card_sha256": "ba783b6d64772f6000937d9642ff619e26bd4fd015bf295630378e9e0c6c3570",
       "ledger_events_sha256": "cd4fa2b4a12db1726c3802983f031bcd9a340d81844fe519951d6fa60321c4bf",
@@ -37,7 +37,7 @@
   },
   "pending_decisions": null,
   "registry": {
-    "approval_bound": false,
+    "approval_bound": true,
     "file_sha256": "1c0e82a68e184a30346228b5745525f50f5b86f938178401dc0d3829fe26a636",
     "nodes": {
       "feasibility_v1": "COMPLETE",
