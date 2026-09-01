@@ -253,12 +253,14 @@ def measure(selected, cases):
     contributions = [value / n for value in deltas]
     direct_gap = math.fsum(lookup[(case_id, 3)] for case_id in cases) / n
     direct_gap -= math.fsum(lookup[(case_id, 2)] for case_id in cases) / n
-    residual = abs(math.fsum(contributions) - direct_gap)
-    assert math.isfinite(residual)
-    return deltas, residual, sample_rows
+    stable_residual = abs(math.fsum(contributions) - direct_gap)
+    ordinary_residual = abs(sum(contributions) - direct_gap)
+    assert math.isfinite(stable_residual)
+    assert math.isfinite(ordinary_residual)
+    return deltas, sorted(cases), stable_residual, ordinary_residual, sample_rows
 
 
-def summarize_definitions(deltas, residual):
+def summarize_definitions(deltas, case_ids, stable_residual, ordinary_residual):
     positive = [value for value in deltas if value > 0.0]
     negative = [value for value in deltas if value < 0.0]
     zero_count = len(deltas) - len(positive) - len(negative)
@@ -275,15 +277,25 @@ def summarize_definitions(deltas, residual):
     rounded_absolute = [abs(value).hex() for value in deltas]
     signed_ties = len(rounded_signed) - len(set(rounded_signed))
     absolute_ties = len(rounded_absolute) - len(set(rounded_absolute))
+    # These are the two contract-frozen orderings. They remain in memory so
+    # neither patient identifiers nor scientific ranks enter an audit artifact.
+    signed_order_keys = sorted((-delta, case_id) for case_id, delta in zip(case_ids, deltas))
+    absolute_order_keys = sorted((-abs(delta), case_id) for case_id, delta in zip(case_ids, deltas))
+    signed_order_unique = len(signed_order_keys) == len(set(signed_order_keys))
+    absolute_order_unique = len(absolute_order_keys) == len(set(absolute_order_keys))
+    deterministic_ordering = signed_order_unique and absolute_order_unique
     summaries_defined = all(denominators.values()) and all(k <= len(deltas) for k in TOP_K)
     summaries_defined = summaries_defined and all(0.0 < target <= 1.0 for target in TARGET_SHARES)
     assert signed_ties >= 0 and absolute_ties >= 0
+    assert deterministic_ordering
     return {
-        "algebra_residual_within_tolerance": residual <= TOLERANCE,
+        "stable_summation_residual": stable_residual,
+        "ordinary_summation_residual_diagnostic_only": ordinary_residual,
+        "algebra_residual_within_tolerance": stable_residual <= TOLERANCE,
         "denominators": denominators,
         "sign_counts": {"positive": len(positive), "zero": zero_count, "negative": len(negative)},
         "tie_counts": {"signed": signed_ties, "absolute": absolute_ties},
-        "deterministic_secondary_case_id_rule_defined": True,
+        "deterministic_secondary_case_id_rule_defined": deterministic_ordering,
         "top_k_definable": {str(k): k <= len(deltas) for k in TOP_K},
         "target_share_definable": {str(target): summaries_defined for target in TARGET_SHARES},
         "all_summaries_defined": summaries_defined,
@@ -327,10 +339,10 @@ def run(args):
     # MEASURE: compute the approved identity in memory. Scientific values and
     # identities are deliberately never printed or persisted by this audit.
     emit("[measure] Computing one in-memory algebra and denominator audit.", log_lines)
-    deltas, residual, sample_rows = measure(selected, cases)
+    deltas, case_ids, stable_residual, ordinary_residual, sample_rows = measure(selected, cases)
     write_csv(args.output_dir / "sample_audit.csv",
               ["anonymous_sample", "paired_rows", "finite_inputs", "finite_delta"], sample_rows)
-    audit = summarize_definitions(deltas, residual)
+    audit = summarize_definitions(deltas, case_ids, stable_residual, ordinary_residual)
     if not audit["algebra_residual_within_tolerance"]:
         fail(EXIT_ALGEBRA, "additive identity exceeds the approved 1e-12 tolerance")
 

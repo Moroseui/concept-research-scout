@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-01T18:03:06-04:00",
+  "checked_at": "2026-09-01T18:11:07-04:00",
   "checks": {
     "approval_marker_matches_contract_blob": true,
     "doctor": true,
@@ -9,7 +9,9 @@
     "smoke_completed_under_60_seconds": true,
     "smoke_determinism_manifests_match": true,
     "smoke_exclusions_complete": true,
+    "smoke_ordering_verdict_is_computed": true,
     "smoke_per_sample_outputs_anonymous": true,
+    "smoke_residual_values_persisted": true,
     "smoke_status_is_smoke_only": true
   },
   "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
