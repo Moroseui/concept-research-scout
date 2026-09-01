@@ -260,10 +260,11 @@ class Harness(unittest.TestCase):
         import subprocess as _sp
         if not (self.repo / ".git").exists():
             _sp.run(["git", "init", "-q"], cwd=self.repo)
-            _sp.run(["git", "config", "user.email", "t@t"], cwd=self.repo)
-            _sp.run(["git", "config", "user.name", "t"], cwd=self.repo)
             _sp.run(["git", "commit", "-q", "--allow-empty", "-m", "base"],
                     cwd=self.repo)
+        # identity must hold even when the fixture template ships .git
+        _sp.run(["git", "config", "user.email", "t@t"], cwd=self.repo)
+        _sp.run(["git", "config", "user.name", "t"], cwd=self.repo)
 
     def _ratify(self, d, hashes):
         """Round-10: attestation rows must carry REAL mechanical
@@ -4602,6 +4603,87 @@ class TestP0AuthorityCloseout(Harness):
             with self.assertRaises(SystemExit) as cm:
                 sc._marker_lineage(1)
             self.assertIn("GIT_HISTORY_REQUIRED", str(cm.exception))
+
+
+class TestLocalImportAncestry(Harness):
+    """Normal-lane bundles (no results branch) ratify by their
+    first-add commit, whose tree must carry the approval for the pin
+    (round-10 registry-per-probe rule meets local execution)."""
+
+    def test_null_source_receipt_binds_first_add_commit(self):
+        import scout as sc, subprocess as _sp, argparse, sys as _s
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        self._ensure_git()
+
+        def g(*a):
+            return _sp.run(["git", *a], cwd=self.repo,
+                           capture_output=True, text=True)
+        d = self.repo / "ideas" / "001"
+        A = "a" * 40
+        (d / "HUMAN_APPROVED_PROBE").write_text(
+            "approved\ncontract_blob: " + A + "\n")
+        g("add", "-A"); g("commit", "-qm", "pinA")
+        ra = self.repo / "probes" / "001" / "results" / "rvA"
+        ra.mkdir(parents=True)
+        (ra / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "F", "status": "TDONE"}))
+        (ra / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": A}))
+        g("add", "-f", "probes"); g("commit", "-qm", "bundle under pinA")
+        first_add = g("log", "--diff-filter=A", "--format=%h", "-1",
+                      "--", "probes/001/results/rvA/summary.json").stdout.strip()
+        self.assertTrue(first_add, "bundle must be tracked (add -f past "
+                        "the results .gitignore, as record-result does)")
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        cur = sc._contract_hash(d)
+        (d / "HUMAN_APPROVED_PROBE").write_text(
+            "approved\ncontract_blob: " + cur + "\n")
+        g("add", "-A"); g("commit", "-qm", "pinCur")
+        rb = self.repo / "probes" / "001" / "results" / "rvB"
+        rb.mkdir(parents=True)
+        (rb / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "G", "status": "CDONE"}))
+        (rb / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": cur}))
+        man, _f = sc._bundle_manifest(ra)
+        (ra.parent / "rvA.import.json").write_text(json.dumps(
+            {"source_commit": None, "expected_blob": A,
+             "manifest_sha256": man}))
+        (d / "registry.yaml").write_text(f"""schema_version: 1
+probes:
+  - id: n_a
+    phase: F
+    contract_hash: {A}
+    produces: [summary.json, resolved_config.json]
+    results_bundle: probes/001/results/rvA
+    terminal_statuses: [TDONE]
+  - id: n_b
+    phase: G
+    contract_hash: {cur}
+    produces: [summary.json, resolved_config.json]
+    results_bundle: probes/001/results/rvB
+    terminal_statuses: [CDONE]
+""")
+        (self.repo / "ledger.jsonl").write_text(json.dumps(
+            {"ledger_id": "idea-001", "status": "ACTIVE",
+             "scrutiny": "PROBED"}) + "\n")
+        for name, stub in (("_require_clean_tree", lambda *_: None),
+                           ("_commit_all", lambda m: None),
+                           ("validate_bundle", lambda *a, **k: [])):
+            self.addCleanup(setattr, sc, name, getattr(sc, name))
+            setattr(sc, name, stub)
+        sc.cmd_ratify_registry(argparse.Namespace(idea=1, operator="t"))
+        row = json.loads((d / "governance_events.jsonl")
+                         .read_text().splitlines()[-1])
+        self.assertEqual(row["imports"][0]["source_commit"], first_add,
+                         "null-source receipts must bind the bundle's "
+                         "first-add commit")
+        _s.path.insert(0, str(self.repo / "orchestrator"))
+        import experiment_registry as er
+        self.assertEqual(er.validate("001", self.repo), [],
+                         "the recorded ancestry must survive read-time "
+                         "verification")
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

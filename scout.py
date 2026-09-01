@@ -1305,6 +1305,22 @@ def cmd_ratify_registry(args):
                                 '--expected-blob --source-commit first')
                 continue
             rec = json.loads(sidecar.read_text())
+            if not rec.get('source_commit'):
+                # Local-execution imports (normal lane) have no results
+                # branch; the truthful ancestry is the main-history
+                # commit that introduced the bundle bytes -- its tree
+                # must carry the approval binding this pin.
+                fa = _git(['log', '--diff-filter=A', '--format=%h', '-1',
+                           '--', f'{rb}/summary.json'],
+                          what='local import ancestry', check=False)
+                first_add = (fa.stdout or '').strip()
+                if fa.returncode != 0 or not first_add:
+                    failures.append(f'{nid}: receipt records no '
+                                    'source_commit and the bundle has no '
+                                    'first-add commit in history '
+                                    '(ancestry cannot be established)')
+                    continue
+                rec['source_commit'] = first_add
             man, _files = _bundle_manifest(bdir)
             if rec.get('manifest_sha256') != man:
                 failures.append(f'{nid}: bundle bytes do not match the '

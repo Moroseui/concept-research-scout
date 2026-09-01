@@ -1,0 +1,36 @@
+# Idea 045 experiment registry (round-10 rule: every approved probe gets
+# one). Two sibling outcome-blind feasibility gates; the v2 respec was
+# informed by v1's geometry but consumes no artifact from it, so no edge.
+schema_version: 1
+probes:
+  - id: feasibility_v1
+    phase: F
+    contract_hash: e7071541036a17f4a02ec264693209fec5c1337d
+    produces:
+      - resolved_config.json
+      - input_manifest.csv
+      - per_row_design.csv
+      - design_diagnostics.json
+      - summary.json
+      - environment.txt
+      - run_log.txt
+    results_bundle: probes/045/results/results_v2
+    terminal_statuses:
+      - POSITIVE_PATTERN
+      - NEGATIVE_PATTERN
+  - id: feasibility_v2
+    phase: G
+    contract_hash: 5615afea1e2f8309745a2d6558bd9118e5e9f1f3
+    produces:
+      - resolved_config.json
+      - input_manifest.csv
+      - exclusions.csv
+      - per_row_design.csv
+      - design_diagnostics.json
+      - summary.json
+      - environment.txt
+      - run_log.txt
+    results_bundle: probes/045/results/results_v3
+    terminal_statuses:
+      - POSITIVE_PATTERN
+      - NEGATIVE_PATTERN
