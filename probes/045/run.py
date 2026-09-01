@@ -2,7 +2,7 @@
 """Outcome-blind design-matrix feasibility probe for idea 045.
 
 This experiment checks whether the frozen 99-patient, bands-2/3 attenuation
-audit can support the proposed four-column band-by-HU-imbalance linear model.
+audit can support the proposed three-column pooled-HU-imbalance linear model.
 The contract's primary metric is the singular-value condition number after
 diagnostic column scaling. The runner stops after one deterministic design
 audit, on any invalidating failure, or before an observed final-infarct `d`
@@ -39,7 +39,7 @@ import numpy as np
 
 # Declared state: the contract permits one seed and one fixed configuration.
 IDEA_ID = "idea-045"
-CONTRACT_VERSION = 1
+CONTRACT_VERSION = 2
 SEED = 0
 PRIMARY_BANDS = (2, 3)
 EXPECTED_CASES_PER_BAND = 99
@@ -132,9 +132,9 @@ def verify_approval(smoke):
         fail(EXIT_APPROVAL, "approval marker is stale for the current contract")
     contract_text = CONTRACT_PATH.read_text(encoding="utf-8")
     required_literals = [
-        'contract_version: 1', 'maximum_variants: 1', 'maximum_gpu_minutes: 0',
-        'maximum_seeds: 1', 'condition number is <=30',
-        'maximum row leverage is <=0.20', 'at least 20 distinct',
+        'contract_version: 2', 'maximum_variants: 1', 'maximum_gpu_minutes: 0',
+        'maximum_seeds: 1', 'condition number <=30',
+        'maximum row leverage <=0.20', 'pooled exposure has at least 20 distinct',
     ]
     if any(item not in contract_text for item in required_literals):
         fail(EXIT_APPROVAL, "approved contract no longer contains a frozen implementation value")
@@ -202,6 +202,9 @@ def write_split_before_outcome(output_dir, audit_rows, smoke):
         "reserved_cases_accessed": 0,
     }
     write_json(output_dir / "split_manifest.json", split_record)
+    opened_cases = set().union(*[set(value) for value in cases_by_band.values()])
+    reserved_cases = set()  # Reserved cases are absent from both approved input tables.
+    assert opened_cases.isdisjoint(reserved_cases)
     assert split_record["reserved_cases_accessed"] == 0
     return cases_by_band, split_record
 
@@ -252,9 +255,7 @@ def build_design(audit_rows, outcome_keys, expected_count):
     permitted_styles = {"Q1_low_CBV", "Q4_high_CBV"}
     for case_id, band, style, median_hu in audit_rows:
         if style not in permitted_styles:
-            exclusions.append({"case_id": case_id, "stratum": band, "item": style,
-                               "reason": "non_primary_style_group"})
-            continue
+            fail(EXIT_JOIN, f"unknown audit style for primary-band row: {(case_id, band, style)}")
         key = (case_id, band, style)
         if key in cells:
             fail(EXIT_JOIN, f"duplicate audit cell: {key}")
@@ -301,11 +302,15 @@ def condition_number(matrix):
     for column in range(1, scaled.shape[1]):
         norm = np.linalg.norm(scaled[:, column])
         if norm == 0:
-            return float("inf"), np.array([]), 0
+            fail(EXIT_DESIGN, f"design column {column} has zero L2 norm")
         scaled[:, column] = scaled[:, column] / norm  # Contract-only diagnostic scaling.
     singular_values = np.linalg.svd(scaled, compute_uv=False)
     rank = int(np.linalg.matrix_rank(scaled))
-    value = float(singular_values[0] / singular_values[-1]) if singular_values[-1] > 0 else float("inf")
+    if singular_values[-1] <= 0:
+        fail(EXIT_DESIGN, "design has a nonpositive trailing singular value")
+    value = float(singular_values[0] / singular_values[-1])
+    if not np.isfinite(value):
+        fail(EXIT_DESIGN, "design condition number is nonfinite")
     return value, singular_values, rank
 
 
@@ -314,8 +319,9 @@ def measure_design(design_rows):
     pooled_mean = float(np.mean(values))  # The contract freezes pooled-mean centering.
     centered = values - pooled_mean
     band3 = np.array([1.0 if row["stratum"] == 3 else 0.0 for row in design_rows])
-    matrix = np.column_stack([np.ones(len(design_rows)), band3, centered, band3 * centered])
-    assert matrix.shape == (len(design_rows), 4)
+    # Version 2 deliberately omits the failed v1 band-by-imbalance interaction.
+    matrix = np.column_stack([np.ones(len(design_rows)), band3, centered])
+    assert matrix.shape == (len(design_rows), 3)
     assert np.isfinite(matrix).all()
 
     primary_condition, singular_values, rank = condition_number(matrix)
@@ -336,6 +342,15 @@ def measure_design(design_rows):
             "iqr": float(np.percentile(band_values, 75) - np.percentile(band_values, 25)),
             "distinct_values": int(len(np.unique(band_values))),
         }
+    pooled_support = {
+        "n": int(len(values)), "minimum": float(np.min(values)),
+        "maximum": float(np.max(values)), "median": float(np.median(values)),
+        "q25": float(np.percentile(values, 25)),
+        "q75": float(np.percentile(values, 75)),
+        "iqr": float(np.percentile(values, 75) - np.percentile(values, 25)),
+        "distinct_values": int(len(np.unique(values))),
+    }
+    assert pooled_support["n"] == len(design_rows)
 
     top_indices = np.argsort(leverage)[-TOP_LEVERAGE_ROWS:][::-1]
     top_patients = len({design_rows[index]["case_id"] for index in top_indices})
@@ -347,27 +362,34 @@ def measure_design(design_rows):
         reduced_band3 = band3[keep]
         reduced_centered = reduced_values - reduced_mean
         reduced = np.column_stack([np.ones(len(reduced_values)), reduced_band3,
-                                   reduced_centered, reduced_band3 * reduced_centered])
+                                   reduced_centered])
         loo_condition, _, loo_rank = condition_number(reduced)
-        loo_values.append({"case_id": case_id, "condition_number": loo_condition, "rank": loo_rank})
+        reduced_leverage = np.diag(reduced @ np.linalg.pinv(reduced.T @ reduced) @ reduced.T)
+        assert reduced_leverage.shape == (len(reduced_values),)
+        assert np.isfinite(reduced_leverage).all()
+        loo_values.append({"case_id": case_id, "condition_number": loo_condition,
+                           "rank": loo_rank,
+                           "maximum_row_leverage": float(np.max(reduced_leverage))})
     assert len(loo_values) == len({row["case_id"] for row in design_rows})
 
     for index, row in enumerate(design_rows):
         row["centered_hu_imbalance"] = float(centered[index])
         row["band3_indicator"] = int(band3[index])
-        row["interaction"] = float(band3[index] * centered[index])
         row["leverage"] = float(leverage[index])
 
     gates = {
-        "rank_4": rank == 4,
+        "rank_3": rank == 3,
         "condition_number_le_30": primary_condition <= CONDITION_LIMIT,
         "each_band_99_cases": all(item["n"] == EXPECTED_CASES_PER_BAND for item in support.values()),
         "each_band_nonzero_iqr": all(item["iqr"] > 0 for item in support.values()),
-        "each_band_at_least_20_distinct": all(item["distinct_values"] >= MIN_DISTINCT for item in support.values()),
+        "pooled_at_least_20_distinct": pooled_support["distinct_values"] >= MIN_DISTINCT,
         "maximum_leverage_le_0_20": float(np.max(leverage)) <= LEVERAGE_LIMIT,
         "top_10_include_at_least_5_patients": top_patients >= MIN_TOP_PATIENTS,
-        "all_loo_rank_4": all(item["rank"] == 4 for item in loo_values),
+        "all_loo_rank_3": all(item["rank"] == 3 for item in loo_values),
         "all_loo_condition_le_30": all(item["condition_number"] <= CONDITION_LIMIT for item in loo_values),
+        "all_loo_maximum_leverage_le_0_20": all(
+            item["maximum_row_leverage"] <= LEVERAGE_LIMIT for item in loo_values
+        ),
     }
     diagnostics = {
         "pooled_hu_imbalance_mean": pooled_mean,
@@ -375,10 +397,13 @@ def measure_design(design_rows):
         "singular_values": [float(value) for value in singular_values],
         "condition_number": primary_condition,
         "band_support": support,
+        "pooled_support": pooled_support,
         "maximum_row_leverage": float(np.max(leverage)),
         "top_10_distinct_patients": top_patients,
         "leave_one_patient_out_condition_min": min(item["condition_number"] for item in loo_values),
         "leave_one_patient_out_condition_max": max(item["condition_number"] for item in loo_values),
+        "leave_one_patient_out_maximum_leverage_min": min(item["maximum_row_leverage"] for item in loo_values),
+        "leave_one_patient_out_maximum_leverage_max": max(item["maximum_row_leverage"] for item in loo_values),
         "leave_one_patient_out": loo_values,
         "gates": gates,
     }
@@ -487,7 +512,7 @@ def main():
     print("START DETERMINISM MANIFEST")
     print(json.dumps(start_manifest, indent=2, sort_keys=True))
 
-    # PHASE 3 — MEASURE. Construct exactly the four frozen columns, calculate
+    # PHASE 3 — MEASURE. Construct exactly the three frozen columns, calculate
     # the scaled condition number, band support, row leverage, and every
     # leave-one-patient-out diagnostic. No outcome is available in memory.
     log("PHASE 3/4 — measure frozen design geometry", log_lines)
@@ -495,6 +520,8 @@ def main():
     for band in PRIMARY_BANDS:
         support = diagnostics["band_support"][str(band)]
         log(f"Band {band}: n={support['n']}, distinct={support['distinct_values']}, IQR={support['iqr']:.6g}", log_lines)
+    pooled = diagnostics["pooled_support"]
+    log(f"Pooled exposure: n={pooled['n']}, distinct={pooled['distinct_values']}, IQR={pooled['iqr']:.6g}", log_lines)
     log(f"Condition number={diagnostics['condition_number']:.6g}; rank={diagnostics['rank']}; max leverage={diagnostics['maximum_row_leverage']:.6g}", log_lines)
 
     # PHASE 4 — SUMMARIZE. Persist per-row and aggregate diagnostics, reproduce
@@ -503,7 +530,7 @@ def main():
     log("PHASE 4/4 — write outputs and verify end determinism manifest", log_lines)
     per_row_fields = ["case_id", "stratum", "q1_median_hu", "q4_median_hu",
                       "hu_imbalance", "centered_hu_imbalance", "band3_indicator",
-                      "interaction", "leverage"]
+                      "leverage"]
     write_csv(args.output_dir / "per_row_design.csv", per_row_fields, design_rows)
     write_json(args.output_dir / "design_diagnostics.json", diagnostics)
 
@@ -556,9 +583,9 @@ def main():
     if args.smoke:
         interpretation = "SMOKE_ONLY: the harness completed on synthetic inputs and cannot satisfy any contractual gate."
     elif contractual_pass:
-        interpretation = "POSITIVE_PATTERN: all integrity and frozen design-feasibility gates passed. This means only that the proposed linear interaction is computationally estimable on the observed exposure geometry."
+        interpretation = "POSITIVE_PATTERN: all integrity and frozen design-feasibility gates passed. This means only that the pooled-slope specification is computationally feasible for a separately governed attribution analysis."
     else:
-        interpretation = "NEGATIVE_PATTERN: valid joined exposure geometry failed at least one frozen design-feasibility gate. The current linear interaction specification requires revision; this is not evidence against tissue composition or the parent association."
+        interpretation = "NEGATIVE_PATTERN: valid joined exposure geometry failed at least one frozen design-feasibility gate. The pooled-slope specification requires a new contract before any further variant; this is not evidence against tissue composition or the parent association."
     print("PLAIN-ENGLISH INTERPRETATION TEMPLATE")
     print(interpretation)
     return 0

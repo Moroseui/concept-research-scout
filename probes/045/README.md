@@ -1,10 +1,9 @@
-# Probe 045 — outcome-blind pooled-slope feasibility draft
+# Probe 045 — outcome-blind pooled-slope feasibility probe
 
-`ideas/045/probe_contract.yaml` version 2 is a draft for human review. It
-supersedes the executed version-1 interaction-design contract, but it does not
-authorize code changes or execution. The existing `run.py`, requirements,
-verification receipt, and `results/results_v2/` belong to v1 and must remain
-unchanged as historical evidence.
+`ideas/045/probe_contract.yaml` version 2 was human-approved at contract blob
+`5615afea1e2f8309745a2d6558bd9118e5e9f1f3`. It supersedes the executed
+version-1 interaction-design contract. The existing `results/results_v2/`
+directory remains unchanged as historical evidence from v1.
 
 ## Smallest probe
 
@@ -35,9 +34,21 @@ only. Unauthorized outcome access, input drift, join errors, nonfinite
 diagnostics, analysis drift, or missing provenance invalidate the run and are
 not negative scientific results.
 
-Before any implementation work, the human must resolve the contract's open
-scientific-model question: whether replacing band-specific slopes with one
-pooled slope preserves enough of the attribution question to justify a later
-outcome analysis. After that decision, v2 still requires fresh contract
-approval and a new probe-code review; the v1 approval marker does not authorize
-v2.
+## Run
+
+One command runs the approved real-input feasibility audit:
+
+```bash
+python probes/045/run.py --output-dir /path/to/new-results
+```
+
+The local synthetic harness check is:
+
+```bash
+python probes/045/run.py --smoke --output-dir /tmp/probe-045-v2-smoke
+```
+
+Smoke mode writes the same diagnostic/provenance interface, completes without
+reading repository outcomes, and is structurally unable to satisfy the
+contractual gate. Human approval authorizes this feasibility probe only; even
+a pass does not authorize outcome analysis.
