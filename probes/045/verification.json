@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-09-01T04:21:35Z",
+  "contract_blob": "e7071541036a17f4a02ec264693209fec5c1337d",
+  "expensive_compute_launched": false,
+  "idea_id": "045",
+  "issues": [],
+  "passed": true,
+  "run_py_sha256": "d9a3b4e3c850486b6f5e885ae962dfd65b0d7d237d96bf6132adb5732a74598a",
+  "smoke": {
+    "contractual_gate_satisfied": false,
+    "elapsed_ms": 266,
+    "exit_code": 0,
+    "outcome_values_read": 0,
+    "reserved_cases_accessed": 0,
+    "status": "SMOKE_ONLY"
+  },
+  "checks": {
+    "approval_marker_matches_contract_blob": true,
+    "cli_missing_output_dir_exits_2": true,
+    "determinism_manifests_equal": true,
+    "forbidden_outcome_field_not_split_indexed_or_retained": true,
+    "git_diff_check": true,
+    "module_compiles": true,
+    "required_outputs_present_in_smoke_bundle": true,
+    "smoke_under_60_seconds": true,
+    "split_manifest_written_before_keys_file_open": true
+  }
+}
