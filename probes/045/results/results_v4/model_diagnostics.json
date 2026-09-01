@@ -1,0 +1,11 @@
+{
+  "coefficients": {
+    "band3": 0.053736188629920065,
+    "beta_hu": 0.0010664775781553057,
+    "intercept": -0.03133128471039588
+  },
+  "design_rank": 3,
+  "maximum_leverage": 0.15486441040641785,
+  "pooled_hu_imbalance_center": -0.15909079349402225,
+  "residual_sum_squares": 2.4783249809755676
+}

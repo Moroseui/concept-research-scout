@@ -1,0 +1,61 @@
+{
+  "failed_replicates": 0,
+  "interval_method": "percentile_95",
+  "intervals": {
+    "absolute_band_difference_change": [
+      -0.005869901597083304,
+      0.002309145813085035
+    ],
+    "adjusted_band2_mean": [
+      -0.05589866048677166,
+      -0.00789029340507566
+    ],
+    "adjusted_band3_mean": [
+      0.0038892800799788215,
+      0.043408163548312576
+    ],
+    "adjusted_band3_minus_band2": [
+      0.025413321882444898,
+      0.08507011789496013
+    ],
+    "band2_adjustment_change": [
+      -0.0011545729065425532,
+      0.0029349507985416243
+    ],
+    "band3_adjustment_change": [
+      -0.0029349507985416763,
+      0.001154572906542486
+    ],
+    "beta_hu": [
+      -0.001291573690909813,
+      0.003726706840533707
+    ],
+    "unadjusted_band2_mean": [
+      -0.056479044230713024,
+      -0.008452118424017972
+    ],
+    "unadjusted_band3_mean": [
+      0.004474527044185139,
+      0.04414153124274204
+    ],
+    "unadjusted_band3_minus_band2": [
+      0.026557076228044582,
+      0.08651935088065663
+    ]
+  },
+  "point_estimates": {
+    "absolute_band_difference_change": -0.0013411745401577246,
+    "adjusted_band2_mean": -0.03133128471039588,
+    "adjusted_band3_mean": 0.022404903919524183,
+    "adjusted_band3_minus_band2": 0.053736188629920065,
+    "band2_adjustment_change": 0.0006705872700788901,
+    "band3_adjustment_change": -0.000670587270078838,
+    "beta_hu": 0.0010664775781553057,
+    "unadjusted_band2_mean": -0.03200187198047477,
+    "unadjusted_band3_mean": 0.02307549118960302,
+    "unadjusted_band3_minus_band2": 0.05507736317007779
+  },
+  "replicates_completed": 10000,
+  "replicates_requested": 10000,
+  "seed": 20260901
+}

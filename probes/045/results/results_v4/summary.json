@@ -1,0 +1,33 @@
+{
+  "analysis_rows": 198,
+  "beta_hu": 0.0010664775781553057,
+  "beta_hu_ci95": [
+    -0.001291573690909813,
+    0.003726706840533707
+  ],
+  "bootstrap_failed_replicates": 0,
+  "contract_version": 3,
+  "excluded_input_rows": 297,
+  "exclusion_records": 297,
+  "idea_id": "idea-045",
+  "primary_metric": {
+    "adjusted_band2_ci95": [
+      -0.05589866048677166,
+      -0.00789029340507566
+    ],
+    "adjusted_band2_mean": -0.03133128471039588,
+    "adjusted_band3_ci95": [
+      0.0038892800799788215,
+      0.043408163548312576
+    ],
+    "adjusted_band3_mean": 0.022404903919524183,
+    "opposite_sign_precise": true
+  },
+  "reserved_cases_accessed": 0,
+  "smoke": false,
+  "status": "DECISIVE_MEASURED_EXPLANATION_FAILURE",
+  "unadjusted_band2_mean": -0.03200187198047477,
+  "unadjusted_band3_mean": 0.02307549118960302,
+  "unique_cases": 99,
+  "variants_run": 1
+}

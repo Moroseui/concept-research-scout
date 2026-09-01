@@ -1,0 +1,19 @@
+PHASE 1/4 — verify authority, load audit, and freeze split
+Variant 1/1 — approved v3 attribution; seed=20260901
+Split frozen before outcome open: 198 rows, hash=6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853
+PHASE 2/4 — open frozen outcomes, validate cohort, and join
+Joined 198 rows from 99 patients; excluded rows=297
+PHASE 3/4 — fit one pooled-slope model and run clustered bootstrap
+Bootstrap progress: 1000/10000; failed=0
+Bootstrap progress: 2000/10000; failed=0
+Bootstrap progress: 3000/10000; failed=0
+Bootstrap progress: 4000/10000; failed=0
+Bootstrap progress: 5000/10000; failed=0
+Bootstrap progress: 6000/10000; failed=0
+Bootstrap progress: 7000/10000; failed=0
+Bootstrap progress: 8000/10000; failed=0
+Bootstrap progress: 9000/10000; failed=0
+Bootstrap progress: 10000/10000; failed=0
+Fit complete: beta_HU=0.0010664776; adjusted means b2=-0.031331285, b3=0.022404904
+PHASE 4/4 — write contracted outputs and verify determinism
+Start/end determinism manifests agree exactly.
