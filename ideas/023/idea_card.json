@@ -64,19 +64,61 @@
   ],
   "design_template": "counterfactual-synthesis",
   "scores": {
-    "clarity": {"value": 4, "why": "One model-use question, one measured joint state, and explicit boundaries on interpretation."},
-    "identifiability": {"value": 3, "why": "Within-case edits isolate joint-state use if validity gates pass, but vendor map generation and edit validity prevent a stronger score."},
-    "medical_relevance": {"value": 4, "why": "It tests whether tissue-fate prediction uses hemodynamic information beyond matched flow deficit, without overstating the biology."},
-    "interest": {"value": 4, "why": "It revisits the CBV-versus-CBF question inside a learned predictor with a direct use test."},
-    "prior_legwork": {"value": 3, "why": "Maps, outcome labels, physiology, and model recipes exist, but the load-bearing census and exact model asset do not."},
-    "feasibility": {"value": 3, "why": "Capped because the keystone is NOT_INSPECTED; Stage 0 is practical but has several legitimate pause gates."},
-    "data_readiness": {"value": 3, "why": "Public data and schema are verified, but archive retrieval, headers, covariates, and derivative-only access still require inspection."},
-    "evaluation_readiness": {"value": 3, "why": "Paired endpoints and controls are clear, but equivalence margin, dose grid, and support criteria must be frozen."},
-    "negative_result_value": {"value": 4, "why": "Conditional on all gates and a prespecified equivalence margin, a null decisively rejects joint-state use for the tested model."},
-    "novelty_confidence": {"value": 3, "why": "Capped by the uninspected keystone and because targeted search found no duplicate but cannot prove novelty."},
-    "regret": {"value": 4, "why": "A CPU-first census can cheaply prevent wasted model work and the valid probe would answer a neglected mechanism question."},
-    "mechanism_clarity": {"value": 4, "why": "The joint CBV/MTT state at matched CBF and its intervention are explicit; its biological cause is intentionally not identified."}
+    "clarity": {
+      "value": 4,
+      "why": "One model-use question, one measured joint state, and explicit boundaries on interpretation."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Within-case edits isolate joint-state use if validity gates pass, but vendor map generation and edit validity prevent a stronger score."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "It tests whether tissue-fate prediction uses hemodynamic information beyond matched flow deficit, without overstating the biology."
+    },
+    "interest": {
+      "value": 4,
+      "why": "It revisits the CBV-versus-CBF question inside a learned predictor with a direct use test."
+    },
+    "prior_legwork": {
+      "value": 3,
+      "why": "Maps, outcome labels, physiology, and model recipes exist, but the load-bearing census and exact model asset do not."
+    },
+    "feasibility": {
+      "value": 3,
+      "why": "Capped because the keystone is NOT_INSPECTED; Stage 0 is practical but has several legitimate pause gates."
+    },
+    "data_readiness": {
+      "value": 3,
+      "why": "Public data and schema are verified, but archive retrieval, headers, covariates, and derivative-only access still require inspection."
+    },
+    "evaluation_readiness": {
+      "value": 3,
+      "why": "Paired endpoints and controls are clear, but equivalence margin, dose grid, and support criteria must be frozen."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "Conditional on all gates and a prespecified equivalence margin, a null decisively rejects joint-state use for the tested model."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Capped by the uninspected keystone and because targeted search found no duplicate but cannot prove novelty."
+    },
+    "regret": {
+      "value": 4,
+      "why": "A CPU-first census can cheaply prevent wasted model work and the valid probe would answer a neglected mechanism question."
+    },
+    "mechanism_clarity": {
+      "value": 4,
+      "why": "The joint CBV/MTT state at matched CBF and its intervention are explicit; its biological cause is intentionally not identified."
+    }
   },
-  "mode_c_priority_score": {"value": 3.75, "why": "0.30*4 mechanism clarity + 0.25*3 identifiability + 0.20*4 interest + 0.15*4 medical relevance + 0.10*4 clarity."},
-  "charter": "isles24"
+  "mode_c_priority_score": {
+    "value": 3.75,
+    "why": "0.30*4 mechanism clarity + 0.25*3 identifiability + 0.20*4 interest + 0.15*4 medical relevance + 0.10*4 clarity."
+  },
+  "charter": "isles24",
+  "related_ideas": [
+    "idea-045 (successor: tissue-normalized matched-flow)"
+  ]
 }

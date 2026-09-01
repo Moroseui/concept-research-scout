@@ -43,3 +43,4 @@ idea_id,title,status,priority_score,regret_score,stage,notes
 042,Delay is not dispersion,ACTIVE,,"{'value': 4, 'why': 'The raw curves already contain the needed distinction, and collapsing both effects into Tmax may be an avoidable modeling error.'}",CRITIQUE,
 043,What the winner's brain window revealed,ACTIVE,,"{'value': 4, 'why': 'A direct explanation for a ten-point preprocessing effect is an obvious next experiment.'}",CRITIQUE,
 044,The old stroke inside the new forecast,ACTIVE,,"{'value': 3, 'why': 'Worth a cheap census before more elaborate reserve experiments.'}",CRITIQUE,
+045,Tissue-normalized joint CBV/MTT compensation at matched flow,ACTIVE,,"{'value': 2, 'why': 'Low: bounded compute, no new data exposure, reserve untouched.'}",CRITIQUE,

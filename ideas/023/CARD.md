@@ -42,7 +42,7 @@ Does a specified map-input final-infarct model use the joint CBV/MTT compensatio
 - ratified: status PAUSED, interpretation 775b28c582be, contract 03d4545fe293
 
 ## Connections
-- (none recorded; add an optional related_ideas list to idea_card.json)
+- idea-045 (successor: tissue-normalized matched-flow)
 
 ## Documents
 - ideas/023/idea_card.json
