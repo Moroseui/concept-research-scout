@@ -1966,3 +1966,23 @@ the reserved cases remain untouched. Import and adversarial
 interpretation proceed next; R10 gains a third interface-hydra note:
 summary conventions (idea_id/phase/status) should be stated where
 contract and probe authors can see them.
+
+## 2026-09-01 - S2c: governing-blob-aware bundle discovery (v2 lane unblocked)
+
+Pre-registered stopgap (disclosed to the reviewer in R10 Q3 before
+building): with idea 045's v2 respec approved, a second same-idea
+bundle becomes imminent and the fixed-name discovery preference would
+ground interpret/confer/card on the stale v1 result. Discovery now
+prefers the candidate whose recorded governing blob (two-source read,
+tolerant of absent carriers) equals the CURRENT contract -- the
+current-era result by definition; the legacy fixed name remains the
+fallback, then newest; 023's behavior is unchanged (its results_v2
+carries the current blob). Regression proves the current-blob bundle
+beats the legacy name. P3's node-addressed layout retires this whole
+mechanism (transitional_debt: results_v2_fixed_naming). 207/207 both
+runners, green on the pristine-applied tree; state-verify 45/45; patch
+git-identical against pristine origin/main. The v2 contract
+(pooled-slope reduction, blob 5615afea1e2f, contract_version 2)
+awaits the operator's read and approval; sequence thereafter:
+probe-build -> verify -> run to results_v3 -> record-result ->
+interpret -> ratify.
