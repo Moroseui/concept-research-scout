@@ -2129,3 +2129,48 @@ modest. The applied revision implemented the debate's own conditions;
 this ruling ratifies it and the unblock acknowledgment artifact is
 written for the record. Second consecutive specimen for the
 draft-versus-binding lane the R4 envelope will make structural.
+
+## 2026-09-01/02 - Registry closeout: 045 gov-0002, 046 gov-0001; supersede semantics; right-sizing guidance
+
+Executed the census interpretation's own Next-decision item 3 and the
+round-10 registry-per-probe rule in one batch. ideas/046/registry.yaml
+declares the blind definition audit (pin 3996009b..., results_v2,
+FEASIBLE/REVISION terminals) gating the open contribution census (pin
+942e5307..., results_v3, CENSUS_COMPLETE) via an all_of edge.
+ideas/045/registry.yaml gains attribution_v3 (pin b1e28361...,
+results_v4, the three-outcome terminal set) depending on
+feasibility_v2. Rehearsal on the real repository surfaced a designed
+deadlock before the operator could hit it: editing a ratified registry
+staled the prior row's registry_sha256, read-time verification flagged
+it, validation failed, and ratify-registry refused because validation
+failed -- re-ratification was impossible by construction. Semantics
+corrected: a row bound to SUPERSEDED registry bytes is historical
+record that confers nothing and is skipped silently; only rows binding
+the CURRENT bytes undergo, and must pass, the loud mechanical
+verification (the round-10 forgery exploit remains loudly caught,
+since it forges evidence under a valid sha; forging the sha itself
+merely forfeits all authority). Lifecycle regression added
+(edit-then-gov-0002 end-to-end). Second rehearsal: 045 gov-0002 binds
+all three pins with both local-ancestry imports and derives THREE
+nodes COMPLETE; 046 gov-0001 binds both pins with the audit import and
+derives TWO nodes COMPLETE; state-verify 46/46 on the ratified tree.
+probe-plan gains the operator's right-sizing ruling (prefer one
+contract with pre-registered ordered phases/branches over serial
+contracts when later phases are deterministic and equally blindable;
+separate contracts only for new authority scope). Deferred
+consciously: feasibility joining pipeline default stages (test fake
+lacks the branch; post-meeting batch). 045/046 state+CARD
+re-materialized in-patch. 213/213 both runners; state-verify 46/46 on
+build and pristine-applied trees; patch git-identical.
+
+OPERATOR STATUS NOTE (idea 046): the ratified census interpretation
+recommended PAUSED (clinical rung opportunistic on the next archive
+staging; no active work now); the operator's transition was ACTIVE,
+issued before the recommendation was read -- the assistant supplied
+the status ahead of the document and owns the ordering error. Ruling
+recorded: the divergence stands consciously; ACTIVE reflects the
+operator's intent to register the clinical/stability successor
+promptly rather than opportunistically; no work runs under idea 046's
+spent contracts either way. Queued for the reviewer: whether ratify-
+interpretation should display the document's recommended status before
+accepting the operator's choice.
