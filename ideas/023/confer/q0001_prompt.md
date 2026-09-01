@@ -621,4 +621,4 @@ until the interpretation passes review).
 ===== END UNTRUSTED EVIDENCE: decision.md =====
 
 ===== OPERATOR QUESTION (respond; challenge premises that conflict with the evidence) =====
-Can you explain the results of the previous experiment and can you analyze why we got the results that we got? Why wasn't our combination of factors predictive of tissue death?
+Can you give me an overview and analysis of what happened with our last experiment for this idea? Why were the combination of factors we looked at not predictive of tissue death?
