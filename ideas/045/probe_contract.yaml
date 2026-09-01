@@ -1,9 +1,9 @@
-# Probe contract v2 -- idea 045, outcome-blind pooled-slope design feasibility.
-# This draft supersedes the executed v1 interaction-design contract. It does
-# not authorize code changes or execution; fresh human approval is required.
+# Probe contract v3 -- idea 045, pooled-slope attenuation attribution.
+# Draft only. This succeeds the completed outcome-blind v2 feasibility probe
+# and does not authorize code changes, outcome access, or execution.
 
 idea_id: "idea-045"
-contract_version: 2
+contract_version: 3
 track: exploratory
 
 authorities:
@@ -11,25 +11,27 @@ authorities:
   collaborator_rules: "docs/COLLABORATOR_RULES.md"
   idea_card: "ideas/045/idea_card.json"
   feasibility: "ideas/045/feasibility.md"
-  prior_contract: "ideas/045/probe_contract.yaml v1 at git blob e7071541036a17f4a02ec264693209fec5c1337d"
-  prior_result: "probes/045/results/results_v2/"
-  interpretation: "ideas/045/interpretation.md"
-  interpretation_review: "ideas/045/interpret_review.md"
-  decision: "ideas/045/decision.md"
+  prior_contract: "ideas/045/probe_contract.yaml v2 at git blob 5615afea1e2f8309745a2d6558bd9118e5e9f1f3"
+  prior_result: "probes/045/results/results_v3/"
+  prior_interpretation: "ideas/045/interpretation.md"
+  prior_interpretation_review: "ideas/045/interpret_review.md"
+  prior_decision: "ideas/045/decision.md"
   decision_entries:
-    - "2026-09-01 -- S2b: phase optional under declared interfaces; 045's first result is in hand"
+    - "2026-09-01 - Operator ruling: idea-045 claim-identity gate (revise-in-place)"
+    - "2026-09-01 - S2b: phase optional under declared interfaces; 045's first result is in hand"
+    - "2026-09-01 - idea 045 registry authored + local-import ancestry lane"
 
-question: "Before any observed final-infarct contrast is read, does the reduced three-column pooled-slope design have adequate numerical conditioning, exposure support, and patient influence for a separately approved attribution analysis?"
-risky_assumption_tested: "Removing the failed band-by-HU-imbalance interaction yields a numerically stable design on the actual 99-case geometry without making the common HU-imbalance coefficient depend on a small number of patients. This probe does not test whether the common-slope scientific restriction is true."
+question: "On the already-open 99-case census, does Q1-minus-Q4 median NCCT attenuation imbalance account for idea-023's opposite-signed mean final-infarct contrasts in flow bands 2 and 3 under the v2-feasible common-slope specification?"
+risky_assumption_tested: "The numerically feasible common HU-imbalance slope carries enough of the tissue-attribution question to determine whether adjustment removes the parent band-2/band-3 reversal. The probe does not validate median HU as tissue type, establish causation, or test model use."
 
 scope:
-  included: "CPU-only validation of the frozen input identities, join cardinality, Q1-minus-Q4 median-HU geometry, and rank/conditioning/influence of one reduced pooled-slope design for bands 2 and 3."
+  included: "One CPU-only, exploratory fit on the frozen 198 patient-by-band rows: d = intercept + I[band 3] + centered HU_imbalance, with patient-cluster bootstrap uncertainty for the pooled slope, unadjusted band means, adjusted band means at pooled HU_imbalance zero, and their band difference."
   excluded:
-    - "Reading, parsing, summarizing, logging, or modeling any observed d value from per_patient.csv."
-    - "Fitting the scientific outcome model or estimating a slope, adjusted band mean, association, or explanation of the parent reversal."
-    - "Re-running the v1 interaction design as a competing variant. Its complete negative result is already of record."
-    - "Rank transforms, coarsened bins, winsorization, threshold search, nonlinear fits, subgroup analysis, band 1, image restaging, or access to the 49 reserved cases."
-    - "Claiming that a geometrically feasible common-slope model is scientifically correct."
+    - "Any band-by-HU interaction, band-specific slope, nonlinear term, transform, threshold, winsorization, subgroup, covariate addition, or alternative model."
+    - "Band 1, the 49 reserved cases, raw images, voxel-level outcomes, image restaging, or any dataset beyond the two frozen tables."
+    - "Model inference, perturbation, model-use claims, causal mediation claims, or validation of median HU as viability or tissue composition."
+    - "Treating a nonsignificant or imprecise result as evidence of no association."
+    - "Selecting an analysis after reading d, or tuning bootstrap, thresholds, or interpretation rules to the result."
 
 dataset:
   name: "Imported idea-023 take-13 analysis tables"
@@ -39,77 +41,86 @@ dataset:
     per_patient.csv: "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c"
   required_columns:
     bin_tissue_audit.csv: [case_id, stratum, style_group, median_hu]
-    per_patient.csv: [case_id, stratum]
-  forbidden_column_values: "The implementation may inspect the per_patient.csv header to confirm d exists, but must read only case_id and stratum. It must never parse or retain a d value."
+    per_patient.csv: [case_id, stratum, d]
 
-split_policy: "Use only the 99 already-analyzed idea-023 census cases and strata 2 and 3. The 49 reserved cases remain untouched. There is no train/test split because this is outcome-blind design validation, not effect estimation."
+split_policy: "Use only the 99 already-analyzed idea-023 census cases in strata 2 and 3. This is exploratory reuse of opened outcomes, not a fresh confirmatory split. The 49 reserved cases must remain untouched and absent from every output."
 
 preprocessing:
-  row_gate: "Require exactly one Q1_low_CBV and one Q4_high_CBV audit row and exactly one per_patient key for each case-stratum; require identical bidirectional key sets and exactly 99 cases in each primary band; reject duplicates, unmatched keys, unknown styles, and any reserved or non-census case."
-  exposure: "Compute HU_imbalance = median_hu(Q1_low_CBV) - median_hu(Q4_high_CBV). Require both medians and the difference to be finite. Center HU_imbalance once at the pooled mean across all 198 primary rows. Do not scale, trim, winsorize, rank, bin, transform, or choose another centering rule."
-  design_matrix: "Create exactly 198 rows with columns intercept, I[stratum=3], and centered_HU_imbalance. There is no band-by-imbalance interaction."
+  row_gate: "Require the two input SHA-256 values exactly; exactly one Q1_low_CBV and one Q4_high_CBV audit row and one finite d row for every case-stratum; identical bidirectional key sets; exactly 99 cases in each of strata 2 and 3; and no unknown style, duplicate, unmatched, reserved, or non-census case."
+  exposure: "Compute HU_imbalance = median_hu(Q1_low_CBV) - median_hu(Q4_high_CBV). Center it at the pooled mean across the frozen 198 rows, using the same centering rule as v2. Do not scale, trim, winsorize, rank, bin, transform, or choose another center."
+  outcome: "Use the frozen per-case d exactly as released by idea-023. Do not recompute, threshold, transform, or exclude on d."
+  design_matrix: "Create exactly 198 rows with intercept, I[stratum=3], and pooled-mean-centered HU_imbalance. No interaction is permitted."
 
 analysis:
-  analysis_unit: "Patient-by-band row, retaining patient identity for influence and leave-one-patient-out diagnostics."
-  primary_metric: "Singular-value condition number of the frozen three-column design after scaling each non-intercept column to unit L2 norm solely for this diagnostic."
+  analysis_unit: "Patient-by-band row; patient is the resampling cluster and both rows for a sampled patient travel together."
+  estimator: "Ordinary least squares for d = intercept + I[band 3] + centered HU_imbalance. Report beta_HU, the adjusted band-2 mean at centered imbalance 0 (intercept), the adjusted band-3 mean at centered imbalance 0 (intercept + band coefficient), and adjusted band-3 minus band-2."
+  unadjusted_reference: "Report equal-patient-weight unadjusted mean d in each band and band-3 minus band-2 from these same frozen rows. These are descriptive reconstruction checks against the parent result, not a second model."
+  uncertainty: "Use exactly 10,000 patient-cluster bootstrap replicates with a frozen pseudorandom seed of 20260901. Resample 99 patients with replacement; retain both band rows for each draw; refit the same frozen model; use percentile 95% intervals. Report failed/singular replicate count; any count above zero is invalidating rather than silently discarded."
+  primary_metric: "The adjusted band-2 and band-3 mean d values at pooled centered HU_imbalance zero, their patient-bootstrap 95% intervals, and whether they retain the parent's opposite-sign pattern with both intervals excluding zero."
   secondary_metrics:
-    - "Matrix rank and all three singular values."
-    - "Pooled and band-specific HU-imbalance minimum, maximum, median, IQR, distinct-value count, and case count."
-    - "Diagonal hat-matrix leverage per row, maximum leverage, and distinct-patient count among the ten highest-leverage rows."
-    - "Leave-one-patient-out rank, condition-number range, and maximum-leverage range, recomputing the pooled centering and diagnostic scaling within each deletion."
-  positive_rule: "Feasibility passes only if the matrix has rank 3; primary condition number <=30; exactly 99 cases occur in each band; each band has nonzero HU-imbalance IQR; the pooled exposure has at least 20 distinct values; maximum row leverage <=0.20; the ten highest-leverage rows span at least five patients; and every leave-one-patient-out matrix remains rank 3 with condition number <=30 and maximum leverage <=0.20. These are frozen design-feasibility boundaries, not medical-effect thresholds."
-  interpretation: "A pass supports drafting a separate outcome-analysis contract for this one common-slope operationalization. It does not validate slope homogeneity, establish association, or authorize reading d."
+    - "Pooled beta_HU in d per one-HU Q1-minus-Q4 imbalance, with patient-bootstrap 95% interval."
+    - "Unadjusted band means and band-3-minus-band-2 difference, each with patient-bootstrap 95% interval."
+    - "Adjusted band-3-minus-band-2 difference with patient-bootstrap 95% interval."
+    - "Change from unadjusted to adjusted mean within each band and change in the absolute band difference; descriptive, with no threshold semantics."
+    - "Complete per-patient fitted values, residuals, and hat leverage from the single authorized fit, for audit only."
+  interpretation_rule: "DECISIVE_MEASURED_EXPLANATION_FAILURE only if adjusted band 2 remains below zero and adjusted band 3 remains above zero and both patient-bootstrap 95% intervals exclude zero. ASSOCIATION_COMPATIBLE_WITH_CONTRIBUTION only if beta_HU's interval excludes zero and adjustment breaks that two-band decisive-failure conjunction; this is observational compatibility, not proof that attenuation caused the reversal. Every other valid result is SENSITIVITY_LIMITED. No p-value or informal trend upgrades these rules."
 
-primary_metric: "Condition number of the frozen, diagnostically scaled three-column pooled-slope design matrix."
+primary_metric: "Adjusted band-2 and band-3 equal-patient-weight mean final-infarct contrasts at pooled zero HU imbalance, with clustered-bootstrap intervals and the frozen opposite-sign persistence rule."
 secondary_metrics:
-  - "Rank and singular values."
-  - "Pooled and band-specific exposure support."
-  - "Hat leverage and leave-one-patient-out conditioning and leverage."
+  - "Pooled HU-imbalance slope and interval."
+  - "Unadjusted band means and adjusted/unadjusted band differences."
+  - "Per-patient residual and influence audit."
 
 baselines:
-  - "The executed v1 four-column interaction design is historical context, not a rerun or comparator: rank 4 but condition number 38.89, band-2 distinct values 17, maximum leverage 0.2636, and no leave-one-patient-out condition number <=30."
-  - "A full-rank three-column design is the minimum algebraic baseline."
-  - "Condition number 30 and row leverage 0.20 are inherited unchanged from v1; the pooled distinct-support rule replaces the v1 per-band >=20 rule because the reduced model estimates one pooled slope."
+  - "Parent idea-023 equal-patient-weight unadjusted band means, reconstructed from the frozen rows: expected direction band 2 negative and band 3 positive. Any transcription mismatch with the parent artifacts is invalidating."
+  - "The completed v2 outcome-blind geometry audit: rank 3, condition number 20.222895326167112, maximum leverage 0.15486441040641785, and all 99 leave-one-patient-out gates passed. These are lineage evidence, not rerun comparators."
+  - "The intercept-plus-band model without HU imbalance may be computed only to reproduce the unadjusted band means algebraically; it is not an authorized competing scientific variant."
 
 maximum_variants: 1
 maximum_gpu_minutes: 0
 maximum_seeds: 1
-randomness: "None. All computations are deterministic; no bootstrap, resampling, or synthetic outcome is authorized."
-stopping_rule: "Stop after the single pooled-slope design audit, immediately on an invalidating failure, or before any observed d value would be read. Do not proceed to outcome analysis regardless of result."
+randomness: "Only the predeclared patient-cluster bootstrap, seed 20260901, 10,000 replicates. The scientific point estimates are deterministic."
+stopping_rule: "Stop after the one frozen fit and its 10,000-replicate patient bootstrap complete, immediately on any invalidating failure, or when the CPU wall-time cap of 30 minutes is reached. A wall-time stop is incomplete and invalid, not a negative. No follow-up variant is authorized."
 
-positive_pattern: "All integrity gates pass and the one frozen pooled-slope design meets every rank, conditioning, support, and influence threshold. This establishes computational feasibility only."
-negative_pattern: "The valid joined geometry fails one or more prespecified rank, conditioning, support, or influence thresholds. This is a decisive feasibility negative for the pooled-slope specification only; it does not weaken the tissue-composition hypothesis or the parent association. A valid negative sends any further specification to a new contract rather than authorizing another variant here."
+positive_pattern: "ASSOCIATION_COMPATIBLE_WITH_CONTRIBUTION under the exact interpretation_rule. This supports only the sentence that measured attenuation imbalance is associated with the parent contrasts and is consistent with contributing to the reversal in these 99 cases."
+negative_pattern: "DECISIVE_MEASURED_EXPLANATION_FAILURE under the exact interpretation_rule. This decisively shows only that adjustment for this median-HU imbalance did not explain the parent reversal at achieved precision. SENSITIVITY_LIMITED is a valid third outcome, not a negative and not evidence of independence."
 
 invalidating_failures:
-  - "Outcome-access breach: any observed d value is parsed, retained, summarized, logged, or used."
-  - "Input-identity failure: a required file is absent, its SHA-256 differs from the frozen value, or its header lacks required columns or the expected d header."
-  - "Join failure: duplicate or unmatched keys, missing Q1/Q4 cells, unknown style values, a count other than 99 cases in either band, or any reserved/non-census case."
-  - "Value failure: a required median HU, derived imbalance, matrix entry, singular value, condition number, or leverage value is nonfinite."
-  - "Analysis deviation: an interaction, transformed exposure, band 1, alternative model, changed threshold, additional variant, or outcome-dependent choice is introduced."
-  - "Lineage failure: v1 result artifacts are modified or represented as outputs of v2."
-  - "Output failure: any required artifact, input hash, row-accounting field, per-row diagnostic, resolved configuration, or environment record is missing."
+  - "Authority failure: no fresh human approval binds this exact contract blob, or code/execution begins while human_approved remains false."
+  - "Input-identity failure: either file is absent, its SHA-256 differs, or a required column is absent."
+  - "Join/cohort failure: duplicate or unmatched keys, missing Q1/Q4 cells, unknown style, nonfinite required value, a count other than 99 cases per primary band, or any reserved/non-census case."
+  - "Parent-reconstruction failure: unadjusted directions or row counts do not reproduce the imported parent artifacts; do not reinterpret the mismatch scientifically."
+  - "Analysis deviation: any unauthorized interaction, transform, exclusion, covariate, band, model, bootstrap rule, seed, threshold, or variant is used."
+  - "Bootstrap failure: any replicate is silently dropped, singular, nonfinite, or otherwise fails; record the failure and invalidate the run."
+  - "Leakage/scope failure: reserved cases, raw images, voxel-level labels, or any non-frozen input is accessed."
+  - "Lineage failure: v1/v2 bundles are modified, overwritten, or represented as outputs of v3."
+  - "Output/provenance failure: any required artifact, input hash, configuration, environment record, per-case output, bootstrap summary, or run log is missing."
 
 claim_discipline:
-  permitted: "The frozen bands-2/3 pooled-slope attenuation-imbalance design is, or is not, sufficiently conditioned and distributed across patients for a separately governed attribution analysis."
+  permitted:
+    - "Measured Q1-versus-Q4 median-HU imbalance is associated with the parent contrasts and is consistent with contributing to the reversal, if and only if the positive rule passes."
+    - "Adjustment for measured median-HU imbalance did not explain the parent reversal at achieved precision, if and only if the decisive measured-explanation failure rule passes."
+    - "The result is sensitivity-limited under the frozen third-outcome rule."
   prohibited:
-    - "The common-slope restriction is scientifically correct."
-    - "HU imbalance is associated with final infarction."
-    - "Tissue composition explains, contributes to, or fails to explain idea-023's reversal."
-    - "Median HU is a validated tissue-type or viability measurement."
-    - "Any model uses HU imbalance, CBV, MTT, or tissue composition."
-    - "An invalid run or integrity failure is a scientific negative."
+    - "Attenuation imbalance causes the reversal or mediates a biological effect."
+    - "Median HU is a validated viability or tissue-type label."
+    - "A model uses attenuation, CBV, MTT, tissue composition, or any other signal."
+    - "A null or imprecise slope establishes no association or independence."
+    - "The result generalizes beyond these 99 cases, the released pipeline, or the measured median-HU proxy."
+    - "Any result authorizes use of the 49 reserved cases or another operationalization."
 
 required_outputs:
   - resolved_config.json
   - input_manifest.csv
   - exclusions.csv
-  - per_row_design.csv
-  - design_diagnostics.json
+  - per_patient_attribution.csv
+  - model_diagnostics.json
+  - bootstrap_summary.json
   - summary.json
   - environment.txt
   - run_log.txt
 
 open_questions_for_human:
-  - "Does replacing band-specific slopes with one pooled HU-imbalance slope preserve enough of the attribution question to justify a later outcome-analysis contract? A feasibility pass cannot answer this scientific-model judgment."
+  - "Does the v2-feasible common HU-imbalance slope preserve enough of the band-specific attribution question to justify reading d, given that it cannot represent opposite-signed HU effects across bands? Approval of this v3 contract answers yes for this one exploratory analysis; refusal leaves the outcomes unread and requires a different candidate or specification."
 
 human_approved: false

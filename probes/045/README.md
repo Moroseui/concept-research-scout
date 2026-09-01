@@ -1,54 +1,52 @@
-# Probe 045 — outcome-blind pooled-slope feasibility probe
+# Probe 045 — pooled-slope attenuation attribution
 
-`ideas/045/probe_contract.yaml` version 2 was human-approved at contract blob
-`5615afea1e2f8309745a2d6558bd9118e5e9f1f3`. It supersedes the executed
-version-1 interaction-design contract. The existing `results/results_v2/`
-directory remains unchanged as historical evidence from v1.
+The current draft is `ideas/045/probe_contract.yaml` version 3. It proposes
+the smallest outcome-reading analysis justified by the completed v2
+feasibility result. It is not approved, and no v3 code or execution is
+authorized.
 
-## Smallest probe
+## What it tests
 
-Version 1 established that the four-column band-by-HU-imbalance interaction
-design was full-rank but failed its frozen conditioning, band-2 support,
-leverage, and leave-one-patient-out gates. Version 2 tests one narrower
-specification only: a three-column design containing an intercept, a band-3
-indicator, and pooled centered Q1-minus-Q4 median-HU imbalance. It omits the
-interaction term.
+The probe asks whether the already-computed patient-level Q1-minus-Q4 median
+NCCT attenuation imbalance accounts for idea-023's opposite-signed mean
+final-infarct contrasts in flow bands 2 and 3. It uses one prespecified model:
 
-The proposed probe is deterministic, CPU-only, one variant, and outcome-blind.
-It uses the same two hash-pinned idea-023 tables and may read only `case_id` and
-`stratum` from `per_patient.csv`; parsing any observed `d` value is an
-invalidating failure. It recomputes row accounting, rank, condition number,
-exposure support, leverage, and complete leave-one-patient-out diagnostics.
-The 49 reserved cases remain untouched.
+`d = intercept + band-3 indicator + centered HU imbalance`
+
+The model is fit once on the same 99 already-analyzed patients (198 band
+rows). Uncertainty comes from a fixed 10,000-replicate patient-cluster
+bootstrap. Both rows for a patient remain together in every resample.
+
+## Why this is the smallest next probe
+
+Version 1 showed that the more direct band-by-imbalance interaction design
+was numerically fragile. Version 2 established that the reduced common-slope
+design is well conditioned and not dominated by one patient, without reading
+any outcome value. Version 3 would read outcomes only to answer the remaining
+attribution question. It adds no images, models, thresholds, subgroups, or
+alternative specifications and leaves the 49 reserved cases untouched.
 
 ## Interpretation boundary
 
-A pass means only that the reduced design is numerically feasible. It cannot
-show that a common HU-imbalance slope is scientifically correct, that HU
-imbalance is associated with final infarction, or that tissue composition
-explains the parent reversal. Those questions require a separate contract and
-fresh human approval.
+Three outcomes are frozen in advance:
 
-A valid failure is a decisive negative for this pooled-slope specification
-only. Unauthorized outcome access, input drift, join errors, nonfinite
-diagnostics, analysis drift, or missing provenance invalidate the run and are
-not negative scientific results.
+- `ASSOCIATION_COMPATIBLE_WITH_CONTRIBUTION`: the pooled HU slope interval
+  excludes zero and adjustment breaks the parent's decisive opposite-sign
+  conjunction. This is observational compatibility, not causation.
+- `DECISIVE_MEASURED_EXPLANATION_FAILURE`: adjusted band 2 remains below zero
+  and adjusted band 3 above zero, with both clustered-bootstrap intervals
+  excluding zero. This rejects only the measured median-HU explanation.
+- `SENSITIVITY_LIMITED`: every other valid result. It is not evidence of no
+  association.
 
-## Run
+The probe cannot validate median HU as tissue type or viability, establish
+model use, or generalize beyond the frozen 99-case cohort and released
+pipeline.
 
-One command runs the approved real-input feasibility audit:
+## Authority and lineage
 
-```bash
-python probes/045/run.py --output-dir /path/to/new-results
-```
-
-The local synthetic harness check is:
-
-```bash
-python probes/045/run.py --smoke --output-dir /tmp/probe-045-v2-smoke
-```
-
-Smoke mode writes the same diagnostic/provenance interface, completes without
-reading repository outcomes, and is structurally unable to satisfy the
-contractual gate. Human approval authorizes this feasibility probe only; even
-a pass does not authorize outcome analysis.
+The existing `results/results_v2/` and `results/results_v3/` directories are
+immutable evidence from the completed v1 and v2 feasibility contracts. A v3
+implementation must write to a new result directory and pass a fresh probe
+review. Execution requires explicit human approval bound to the exact v3
+contract blob. Until then, do not write probe code and do not read `d`.
