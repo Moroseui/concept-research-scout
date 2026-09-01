@@ -1,0 +1,13 @@
+The review is complete and written to `ideas/045/probe_review.md`. Verdict: **REVISE**, with two blocking findings.
+
+**What I reviewed:** `probes/045/run.py` (round 1, commit 527271d) plus its requirements, README, and harness `verification.json`, against the approved contract (blob `e7071541…`, which I re-verified matches both the `HUMAN_APPROVED_PROBE` marker and the working-tree contract).
+
+**The two blocking findings:**
+
+1. **B1 — the join gate only works in one direction.** The contract requires rejecting unmatched case-stratum keys and treating any reserved/non-census case as an invalidating failure. The code fails correctly when a per_patient key lacks its audit cells, but an audit case with no per_patient key is silently ignored — and, worse, still gets written into `split_manifest.csv` as "opened_census," because the split is derived from the unvalidated audit side. The set-equality check at `run.py:271-273` looks like the bidirectional guard but is vacuous: both sides are built from the same `outcome_keys`, so it can never fire. A wrong or stale audit file containing a reserved case would complete, possibly as `POSITIVE_PATTERN`, while asserting `reserved_cases_accessed: 0`. The fix is one set comparison (`audit_keys != outcome_keys` → exit 5) in `build_design`.
+
+2. **B2 — dropped rows are unaccounted (hard standard item 2).** On the real inputs, 198 band-1 audit rows and 99 band-1 per_patient keys are filtered with no exclusion line and no count anywhere; the bundle will honestly report `exclusion_rows: 0` while a third of the input was dropped, and only `selected_rows` (never file totals) is recorded, so the drop can't be reconstructed from artifacts. The filtering itself is contract-mandated scope; only the accounting is missing.
+
+**What's solid — and it's most of it:** outcome blindness is genuinely well built (exact header check, byte-position extraction of only the first two fields, plus a smoke sentinel in the `d` column that would crash any future regression that parses it); the primary metric, centering rule, diagnostic scaling, all nine positive-rule gates, the LOO sweep, caps, stopping rule, claim language, determinism manifests, and the approval-blob gate all implement the contract exactly. Standards items 1 and 3–6 are met. I also listed six non-blocking notes (JSON `Infinity` on degenerate geometry, an exit-taxonomy blemish, best-effort `run_log.txt`, by-construction zero counters, the unverified numpy pin, and a positive readability assessment).
+
+Both fixes are mechanical and touch no estimand, threshold, or output — this should clear on a short revision round.
