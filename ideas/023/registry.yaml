@@ -1,0 +1,55 @@
+# Idea 023 experiment registry (R3b: the first production registry).
+# Structure declarative, status DERIVED -- see orchestrator/experiment_registry.py.
+# Ratified by a REGISTRY_RATIFIED governance event whose bindings are
+# mechanically verified against approval-marker history.
+schema_version: 1
+probes:
+  - id: phase_s
+    phase: S
+    contract_hash: 0e223c82f9eb879652a549df9bf857c155ef61db
+    produces:
+      - simulation_operating_characteristics.csv
+      - simulation_summary.json
+      - resolved_config.json
+      - summary.json
+      - provenance.json
+      - environment.txt
+      - run_log.txt
+      - driver_console.log
+      - determinism_manifest_start.json
+      - determinism_manifest_end.json
+    results_bundle: probes/023/results/results_v2-0e223c82f9eb
+    terminal_statuses:
+      - PHASE_S_COMPLETE_REQUIRES_AMENDMENT
+  - id: phase_c
+    phase: C
+    contract_hash: 03d4545fe293f0067c69ce9e9e696ec97b894d7b
+    depends_on:
+      all_of:
+        - probe: phase_s
+      artifacts:
+        - probe: phase_s
+          output: simulation_operating_characteristics.csv
+          sha256: 59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4
+    launcher:
+      upstream_bundle:
+        from_probe: phase_s
+        cli_flag: --phase-s-dir
+    produces:
+      - resolved_config.json
+      - provenance.json
+      - archive_manifest.csv
+      - split_manifest.csv
+      - schema_census.csv
+      - per_patient.csv
+      - per_stratum_summary.csv
+      - support_summary.csv
+      - identity_residual_summary.csv
+      - exclusions.csv
+      - summary.json
+      - environment.txt
+      - run_log.txt
+    results_bundle: probes/023/results/results_v2
+    terminal_statuses:
+      - POSITIVE_PATTERN
+      - NEGATIVE_PATTERN

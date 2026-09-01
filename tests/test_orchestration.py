@@ -3212,6 +3212,7 @@ class TestRegistryHardeningR1(Harness):
                              "approval_commit": "abcdef1",
                              "approval_sha256": "f" * 64}
                             for h in hashes],
+               "imports": [],
                "operator": "op", "base_commit": "abcdef1",
                "event_id": "gov-0001"}
         (d / "governance_events.jsonl").write_text(_j.dumps(row) + "\n")
@@ -3393,6 +3394,9 @@ class TestRegistryHardeningR1(Harness):
                              "approval_commit": "XYZ",
                              "approval_sha256": "nope",
                              "extra": 1}],
+               "imports": [{"node": "", "source_commit": "XYZ",
+                            "manifest_sha256": "zz", "bundle": "/abs",
+                            "extra": 2}],
                "operator": "", "base_commit": "", "event_id": "e1"}
         gv.write_text(json.dumps(row) + "\n" + json.dumps(
             dict(row, bindings="nope", event_id="e1")) + "\n")
@@ -3400,7 +3404,9 @@ class TestRegistryHardeningR1(Harness):
         for frag in ("!= 1", "64-hex", "contract_blob must be",
                      "approval_commit must be", "approval_sha256 must be",
                      "unknown keys ['extra']", "operator", "base_commit",
-                     "non-empty list", "duplicate event_id"):
+                     "non-empty list", "duplicate event_id",
+                     "imports[0] unknown keys", "source_commit must be",
+                     "manifest_sha256 must be", "canonical contained"):
             self.assertIn(frag, errs)
 
     def test_r1_derive_and_cli_refuse_invalid_registries(self):
@@ -4225,6 +4231,205 @@ class TestS1ConfigAndNaming(Harness):
             (d / "stage_provenance.jsonl").read_text().splitlines()[-1])
         self.assertTrue(
             row["exit_detail"].startswith("CODEX_ACCOUNT_UNFUNDED:"), row)
+
+
+class TestR3bRatification(Harness):
+    """R3b: registry ratification is mechanically verified authority --
+    bindings against marker history, imports against receipts and
+    ancestry -- and ratified rows confer terminal authority (OR-ratified)."""
+
+    A = "a" * 40
+
+    def _git(self, *a):
+        import subprocess as sp
+        r = sp.run(["git", *a], cwd=self.repo, capture_output=True,
+                   text=True)
+        return r.stdout.strip()
+
+    def _kit(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        if not (self.repo / ".git").exists():
+            self._git("init", "-q")
+        self._git("config", "user.email", "t@t")
+        self._git("config", "user.name", "t")
+        d = self.repo / "ideas" / "001"
+        m = d / "HUMAN_APPROVED_PROBE"
+        m.write_text("approved\ncontract_blob: " + self.A + "\n")
+        self._git("add", "-A"); self._git("commit", "-qm", "pinA")
+        c1 = self._git("rev-parse", "--short=7", "HEAD")
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        cur = sc._contract_hash(d)
+        m.write_text("approved\ncontract_blob: " + cur + "\n")
+        self._git("add", "-A"); self._git("commit", "-qm", "pinCur")
+        # bundles
+        ra = self.repo / "probes" / "001" / "results" / "rvA"
+        ra.mkdir(parents=True)
+        (ra / "x.csv").write_text("X")
+        (ra / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "S", "status": "TDONE"}))
+        (ra / "provenance.json").write_text("{}")
+        (ra / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": self.A}))
+        rb = self.repo / "probes" / "001" / "results" / "rvB"
+        rb.mkdir(parents=True)
+        (rb / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "C", "status": "CDONE"}))
+        (rb / "provenance.json").write_text("{}")
+        (rb / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": cur}))
+        import hashlib as _h
+        xsha = _h.sha256(b"X").hexdigest()
+        (d / "registry.yaml").write_text(f"""schema_version: 1
+probes:
+  - id: node_s
+    phase: S
+    contract_hash: {self.A}
+    produces: [x.csv, summary.json, provenance.json, resolved_config.json]
+    results_bundle: probes/001/results/rvA
+    terminal_statuses: [TDONE]
+  - id: node_c
+    phase: C
+    contract_hash: {cur}
+    depends_on:
+      all_of: [{{probe: node_s}}]
+      artifacts:
+        - {{probe: node_s, output: x.csv, sha256: {xsha}}}
+    results_bundle: probes/001/results/rvB
+    terminal_statuses: [CDONE]
+""")
+        man, _f = sc._bundle_manifest(ra)
+        (ra.parent / "rvA.import.json").write_text(json.dumps(
+            {"source_commit": c1, "expected_blob": self.A,
+             "manifest_sha256": man}))
+        (self.repo / "ledger.jsonl").write_text(json.dumps(
+            {"ledger_id": "idea-001", "status": "ACTIVE",
+             "scrutiny": "PROBED"}) + "\n")
+        commits = []
+        for name, stub in (("_require_clean_tree", lambda *_: None),
+                           ("_commit_all", lambda msg: commits.append(msg)),
+                           ("validate_bundle",
+                            lambda *a, **k: [])):
+            self.addCleanup(setattr, sc, name, getattr(sc, name))
+            setattr(sc, name, stub)
+        return sc, d, c1, cur, commits
+
+    def test_r3b_ratify_transaction_end_to_end(self):
+        sc, d, c1, cur, commits = self._kit()
+        import argparse, sys
+        sys.path.insert(0, str(self.repo / "orchestrator"))
+        sc.cmd_ratify_registry(argparse.Namespace(idea=1, operator="t"))
+        import experiment_registry as er
+        self.assertEqual(er._validate_governance("001", d), [])
+        row = json.loads((d / "governance_events.jsonl")
+                         .read_text().splitlines()[-1])
+        self.assertEqual({b["contract_blob"] for b in row["bindings"]},
+                         {self.A, cur})
+        self.assertEqual(row["imports"][0]["node"], "node_s")
+        self.assertEqual(row["imports"][0]["source_commit"], c1)
+        st = er.derive_status("001", self.repo, sc._contract_hash,
+                              lambda b, g: [])
+        self.assertEqual({k: v["status"] for k, v in st.items()},
+                         {"node_s": "COMPLETE", "node_c": "COMPLETE"})
+        self.assertTrue(any("R3b authority transaction" in m
+                            for m in commits))
+        # OR-ratified: terminal authority WITHOUT marker registry binding
+        self.assertEqual(
+            er.terminal_statuses_if_approved("001", self.repo,
+                                             "probes/001/results/rvB"),
+            ["CDONE"])
+
+    def test_r3b_refuses_pin_outside_marker_lineage(self):
+        sc, d, c1, cur, commits = self._kit()
+        (d / "registry.yaml").write_text(
+            (d / "registry.yaml").read_text().replace(self.A, "c" * 40))
+        (d.parent.parent / "probes" / "001" / "results" / "rvA" /
+         "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": "c" * 40}))
+        import argparse
+        with self.assertRaises(SystemExit) as cm:
+            sc.cmd_ratify_registry(argparse.Namespace(idea=1, operator="t"))
+        self.assertIn("no approval in marker history", str(cm.exception))
+
+    def test_r3b_refuses_receipt_manifest_and_ancestry_forgeries(self):
+        sc, d, c1, cur, commits = self._kit()
+        side = self.repo / "probes" / "001" / "results" / "rvA.import.json"
+        rec = json.loads(side.read_text())
+        good = dict(rec)
+        rec["manifest_sha256"] = "f" * 64
+        side.write_text(json.dumps(rec))
+        import argparse
+        with self.assertRaises(SystemExit) as cm:
+            sc.cmd_ratify_registry(argparse.Namespace(idea=1, operator="t"))
+        self.assertIn("import receipt manifest", str(cm.exception))
+        good["source_commit"] = self._git("rev-parse", "--short=7", "HEAD")
+        side.write_text(json.dumps(good))  # HEAD marker binds cur, not A
+        with self.assertRaises(SystemExit) as cm2:
+            sc.cmd_ratify_registry(argparse.Namespace(idea=1, operator="t"))
+        self.assertIn("ancestry", str(cm2.exception))
+
+    def test_r3b_record_result_historical_lane(self):
+        sc, d, c1, cur, commits = self._kit()
+        import types, argparse, shutil as _sh
+        ledger = self.repo / "ledger.jsonl"
+        stub_ledger = types.SimpleNamespace(
+            raise_scrutiny=lambda lid, lvl, note="": ledger.open("a").write(
+                json.dumps({"ledger_id": lid, "scrutiny": lvl}) + "\n"),
+            digest=lambda: None)
+        self.addCleanup(setattr, sc, "ledger_mod", sc.ledger_mod)
+        sc.ledger_mod = stub_ledger
+        src_dir = None  # bundle exists only on the source branch
+        orig = self._git("rev-parse", "--abbrev-ref", "HEAD")
+        c1_full = self._git("rev-parse", c1)
+        self._git("checkout", "-q", "-b", "srcbr", c1_full)
+        s2 = self.repo / "probes" / "001" / "results_v2"
+        s2.mkdir(parents=True)
+        (s2 / "summary.json").write_text(json.dumps(
+            {"phase": "S", "status": "TDONE"}))
+        (s2 / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": self.A}))
+        self._git("add", "-A"); self._git("commit", "-qm", "src bundle")
+        c3 = self._git("rev-parse", "--short=7", "HEAD")
+        self._git("checkout", "-q", orig)
+        stage = self.dir / "stage" / "results_v2"
+        stage.mkdir(parents=True)
+        (stage / "summary.json").write_text(json.dumps(
+            {"phase": "S", "status": "TDONE"}))
+        (stage / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": self.A}))
+        # verbatim refusal fires on a tampered stage (before any import)
+        good = (stage / "resolved_config.json").read_text()
+        (stage / "resolved_config.json").write_text("tampered")
+        with self.assertRaises(SystemExit) as cm:
+            sc.record_result(argparse.Namespace(
+                idea=1, bundle=str(stage), expected_blob=self.A,
+                source_commit=c3))
+        self.assertIn("NOT VERBATIM", str(cm.exception))
+        (stage / "resolved_config.json").write_text(good)
+        sc.record_result(argparse.Namespace(
+            idea=1, bundle=str(stage), expected_blob=self.A,
+            source_commit=c3))
+        dest = self.repo / "probes" / "001" / "results" / \
+            f"results_v2-{self.A[:12]}"
+        self.assertTrue(dest.exists())
+        rec = json.loads((dest.parent /
+                          (dest.name + ".import.json")).read_text())
+        self.assertEqual(rec["source_commit"], c3)
+        self.assertEqual(rec["expected_blob"], self.A)
+
+
+class TestR3bDiscoveryPreference(Harness):
+    def test_current_bundle_preferred_over_historical_import(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        base = self.repo / "probes" / "001" / "results"
+        for name in ("results_v2", "results_v2-aaaaaaaaaaaa"):
+            (base / name).mkdir(parents=True)
+            (base / name / "summary.json").write_text("{}")
+        self.assertEqual(sc._result_bundle_for(1).name, "results_v2",
+                         "historical imports must not hijack discovery")
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

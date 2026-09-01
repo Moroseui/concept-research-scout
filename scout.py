@@ -1040,7 +1040,21 @@ def render_card(idea):
     A('## Experiment position')
     b = _result_bundle_for(idea)
     if (d / 'registry.yaml').exists():
-        A('- registry.yaml present (ratification machinery: R3b)')
+        try:
+            rs = reg_mod.state_summary(
+                n, ROOT, _contract_hash,
+                lambda b, blob: validate_bundle(idea, b,
+                                                expected_blob=blob))
+        except ValueError as e:
+            rs = None
+            A(f'- registry.yaml INVALID: {str(e)[:120]}')
+        if rs:
+            auth = ('approval-bound' if rs.get('approval_bound') else
+                    'RATIFIED' if reg_mod.ratified_binds_current(n, ROOT)
+                    else 'UNRATIFIED')
+            A(f'- registry {str(rs.get("file_sha256"))[:12]} ({auth})')
+            for nid, stv in sorted((rs.get('nodes') or {}).items()):
+                A(f'  - {nid}: {stv}')
     if b is None:
         A('- no imported results bundle')
     else:
@@ -1130,7 +1144,143 @@ def _result_bundle_for(idea):
     if b.exists():
         return b
     cands = sorted((ROOT/'probes'/f'{idea:03d}'/'results').glob('*/summary.json'))
+    # R3b: historical imports (results_v2-<blob12>) now share this
+    # directory; the CURRENT-era bundle keeps the fixed name and stays
+    # the default discovery target until P3's node-addressed layout.
+    for c in cands:
+        if c.parent.name == 'results_v2':
+            return c.parent
     return cands[-1].parent if cands else None
+
+
+def cmd_ratify_registry(args):
+    """R3b (rounds 7-9): the registry-ratification authority transaction.
+    A governance row is necessary, never sufficient -- this command
+    MECHANICALLY verifies every binding before writing one: for each
+    pinned contract, the approval-marker bytes at the binding's commit
+    must hash to the recorded sha AND textually bind that blob; every
+    historical import must match its authority receipt's source commit
+    (ancestry) and byte manifest. Then ONE transaction: append the
+    REGISTRY_RATIFIED event -> registry-validate -> derive (validator
+    injected; every node must reach COMPLETE) -> state-materialize ->
+    state-verify -> card-materialize -> single commit."""
+    n = f'{args.idea:03d}'
+    d = idea_dir(args.idea)
+    _require_clean_tree('ratify-registry')
+    if not (d / 'registry.yaml').exists():
+        raise SystemExit(f'ratify refused: ideas/{n}/registry.yaml missing')
+    pre = reg_mod.validate(n, ROOT)
+    if pre:
+        raise SystemExit('ratify refused: registry invalid before '
+                         'ratification: ' + ' | '.join(pre[:4]))
+    import yaml as _y
+    reg = _y.safe_load((d / 'registry.yaml').read_text())
+    nodes = {p_['id']: p_ for p_ in reg.get('probes') or []}
+    current = _contract_hash(d)
+    blob_to_commit = {b: c for c, b in _marker_lineage(args.idea)}
+    bindings, imports, failures = [], [], []
+    for nid, node in sorted(nodes.items()):
+        pin = node.get('contract_hash')
+        if not pin:
+            continue
+        c7 = blob_to_commit.get(pin)
+        if not c7:
+            failures.append(f'{nid}: pin {pin[:12]} has no approval in '
+                            'marker history (lineage attestation missing)')
+            continue
+        mk = subprocess.run(['git', 'show',
+                             f'{c7}:ideas/{n}/HUMAN_APPROVED_PROBE'],
+                            cwd=ROOT, capture_output=True)
+        if mk.returncode != 0:
+            failures.append(f'{nid}: marker unreadable at {c7}')
+            continue
+        if f'contract_blob: {pin}'.encode() not in mk.stdout:
+            failures.append(f'{nid}: marker at {c7} does not bind '
+                            f'{pin[:12]} (forgery-class refusal)')
+            continue
+        bindings.append({'contract_blob': pin, 'approval_commit': c7,
+                         'approval_sha256':
+                             hashlib.sha256(mk.stdout).hexdigest()})
+        rb = node.get('results_bundle') or ''
+        bdir = ROOT / rb
+        if pin != current:
+            sidecar = bdir.parent / (bdir.name + '.import.json')
+            if not (bdir.exists() and sidecar.exists()):
+                failures.append(f'{nid}: pinned node needs an imported '
+                                'bundle WITH its authority receipt '
+                                f'({sidecar.name}); run record-result '
+                                '--expected-blob --source-commit first')
+                continue
+            rec = json.loads(sidecar.read_text())
+            man, _files = _bundle_manifest(bdir)
+            if rec.get('manifest_sha256') != man:
+                failures.append(f'{nid}: bundle bytes do not match the '
+                                'import receipt manifest '
+                                f'({str(rec.get("manifest_sha256"))[:12]} '
+                                f'!= {man[:12]})')
+                continue
+            src = rec.get('source_commit')
+            mk2 = subprocess.run(
+                ['git', 'show', f'{src}:ideas/{n}/HUMAN_APPROVED_PROBE'],
+                cwd=ROOT, capture_output=True, text=True) if src else None
+            if not src or mk2.returncode != 0                     or f'contract_blob: {pin}' not in mk2.stdout:
+                failures.append(f'{nid}: import receipt source_commit '
+                                f'{str(src)[:12]} does not carry an '
+                                f'approval binding {pin[:12]} (ancestry)')
+                continue
+            imports.append({'node': nid, 'source_commit': src,
+                            'manifest_sha256': man, 'bundle': rb})
+    if failures:
+        raise SystemExit('ratify refused (mechanical verification):\n - '
+                         + '\n - '.join(failures))
+    if not bindings:
+        raise SystemExit('ratify refused: no pinned contracts to bind')
+    head = subprocess.run(['git', 'rev-parse', '--short=12', 'HEAD'],
+                          cwd=ROOT, capture_output=True,
+                          text=True).stdout.strip()
+    gv = d / 'governance_events.jsonl'
+    n_rows = len([ln for ln in gv.read_text().splitlines()
+                  if ln.strip()]) if gv.exists() else 0
+    row = {'event': 'REGISTRY_RATIFIED', 'idea': args.idea,
+           'registry_sha256': reg_mod.registry_sha(n, ROOT),
+           'bindings': bindings, 'imports': imports,
+           'operator': args.operator, 'base_commit': head,
+           'event_id': f'gov-{n_rows + 1:04d}'}
+    with gv.open('a') as f:
+        f.write(json.dumps(row, sort_keys=True) + '\n')
+    post = reg_mod.validate(n, ROOT)
+    if post:
+        raise SystemExit('ratify TRANSACTION FAILED at registry-validate '
+                         '(row appended, nothing committed): '
+                         + ' | '.join(post[:4]))
+    st = reg_mod.derive_status(
+        n, ROOT, _contract_hash,
+        lambda b, blob: validate_bundle(args.idea, b, expected_blob=blob))
+    bad = {k: v for k, v in st.items() if v['status'] != 'COMPLETE'}
+    if bad:
+        raise SystemExit('ratify TRANSACTION FAILED: nodes not COMPLETE '
+                         'after ratification (row appended, nothing '
+                         'committed): '
+                         + '; '.join(f'{k}={v["status"]} ({v["reason"][:80]})'
+                                     for k, v in sorted(bad.items())))
+    state_mod.write_state(n, ROOT, **_state_kwargs())
+    errs = state_mod.verify_state(n, ROOT, **_state_kwargs())
+    if errs:
+        raise SystemExit('ratify TRANSACTION FAILED at state-verify: '
+                         + '; '.join(errs))
+    text = render_card(args.idea)
+    (d / 'CARD.md').write_text(text)
+    _commit_all(f'idea {n}: registry ratified (R3b authority transaction)')
+    print(f'Ratified registry for idea-{n} '
+          f'(sha {row["registry_sha256"][:12]}, event {row["event_id"]})')
+    for b in bindings:
+        print(f'  binding: {b["contract_blob"][:12]} @ '
+              f'{b["approval_commit"]} sha {b["approval_sha256"][:12]}')
+    for im in imports:
+        print(f'  import:  {im["node"]} <- {im["source_commit"][:12]} '
+              f'manifest {im["manifest_sha256"][:12]}')
+    for k in sorted(st):
+        print(f'  node:    {k:10s} {st[k]["status"]}')
 
 
 def cmd_ratify_interpretation(args):
@@ -2425,6 +2575,37 @@ def amend_contract(args):
           'commit, then approve-probe again before probe-build.')
 
 
+def _bundle_manifest(dirpath):
+    """(manifest_sha256, {rel: sha256}) over every file in a bundle dir,
+    sorted by relative path. The manifest binds an import byte-exactly
+    (round-7/8 import bindings)."""
+    base = Path(dirpath)
+    files = {}
+    for f in sorted(p for p in base.rglob('*') if p.is_file()):
+        rel = str(f.relative_to(base)).replace('\\', '/')
+        files[rel] = hashlib.sha256(f.read_bytes()).hexdigest()
+    manifest = hashlib.sha256(''.join(
+        f'{r} {h}\n' for r, h in sorted(files.items())).encode()).hexdigest()
+    return manifest, files
+
+
+def _source_tree_files(commit, repo_rel):
+    """{rel: git_blob_sha} for a directory inside a source commit."""
+    r = subprocess.run(['git', 'ls-tree', '-r', commit, '--', repo_rel],
+                       cwd=ROOT, capture_output=True, text=True)
+    out = {}
+    prefix = repo_rel.rstrip('/') + '/'
+    for ln in r.stdout.splitlines():
+        try:
+            meta, path = ln.split('\t', 1)
+            blob = meta.split()[2]
+        except (ValueError, IndexError):
+            continue
+        if path.startswith(prefix):
+            out[path[len(prefix):]] = blob
+    return out
+
+
 def record_result(args):
     """E1: import a VALIDATED results bundle and only then raise scrutiny.
     The v1 single-file copy marked PROBED with zero validation and left the
@@ -2437,24 +2618,71 @@ def record_result(args):
                          'record-result IDEA --bundle DIR  (the single-file '
                          'path is retired; see validate-bundle)')
     bundle = Path(args.bundle)
-    fails = validate_bundle(args.idea, bundle)
+    n3 = f'{args.idea:03d}'
+    eb = getattr(args, 'expected_blob', None)
+    src = getattr(args, 'source_commit', None)
+    if eb and not src:
+        raise SystemExit('historical import (--expected-blob) requires '
+                         '--source-commit: the results-branch commit the '
+                         'bundle is taken from (round-7/8 import bindings).')
+    fails = validate_bundle(args.idea, bundle, expected_blob=eb)
     if fails:
         print(f'REFUSED: bundle failed validation ({len(fails)}):')
         for f in fails:
             print(' -', f)
         raise SystemExit(2)
     summary = json.loads((bundle / 'summary.json').read_text())
-    dest = ROOT / 'probes' / f'{args.idea:03d}' / 'results' / bundle.name
+    dest_name = f'{bundle.name}-{eb[:12]}' if eb else bundle.name
+    dest = ROOT / 'probes' / n3 / 'results' / dest_name
     if dest.exists():
         raise SystemExit(f'{dest.relative_to(ROOT)} already exists; bundles '
                          'are immutable once imported.')
+    manifest_sha, local_files = _bundle_manifest(bundle)
+    if src:
+        # ANCESTRY: the source snapshot must itself carry the approval
+        # binding the governing contract -- the run tree knew its pin.
+        gov = eb or _contract_hash(idea_dir(args.idea))
+        mk = subprocess.run(['git', 'show',
+                             f'{src}:ideas/{n3}/HUMAN_APPROVED_PROBE'],
+                            cwd=ROOT, capture_output=True, text=True)
+        if mk.returncode != 0 or f'contract_blob: {gov}' not in mk.stdout:
+            raise SystemExit('ANCESTRY REFUSED: the source commit does not '
+                             'carry an approval marker binding contract '
+                             f'{str(gov)[:12]} -- the snapshot cannot prove '
+                             'it ran under this pin.')
+        # VERBATIM: every staged byte must equal the source tree.
+        src_files = _source_tree_files(src, f'probes/{n3}/{bundle.name}')
+        local_blobs = {}
+        for rel in local_files:
+            hb = subprocess.run(['git', 'hash-object', str(bundle / rel)],
+                                cwd=ROOT, capture_output=True, text=True)
+            local_blobs[rel] = hb.stdout.strip()
+        if src_files != local_blobs:
+            only_src = sorted(set(src_files) - set(local_blobs))[:3]
+            only_loc = sorted(set(local_blobs) - set(src_files))[:3]
+            diff = sorted(r for r in set(src_files) & set(local_blobs)
+                          if src_files[r] != local_blobs[r])[:3]
+            raise SystemExit('IMPORT NOT VERBATIM against the source tree: '
+                             f'missing-locally={only_src} '
+                             f'extra-locally={only_loc} differing={diff}')
     shutil.copytree(bundle, dest)
-    subprocess.run(['git', 'add', '-f', str(dest)], cwd=ROOT, check=True)
+    receipt = {'source_commit': src, 'expected_blob': eb,
+               'manifest_sha256': manifest_sha,
+               'file_count': len(local_files),
+               'imported_utc': datetime.now(timezone.utc)
+               .isoformat(timespec='seconds')}
+    sidecar = dest.parent / (dest.name + '.import.json')
+    sidecar.write_text(json.dumps(receipt, indent=1, sort_keys=True) + '\n')
+    subprocess.run(['git', 'add', '-f', str(dest), str(sidecar)],
+                   cwd=ROOT, check=True)
     subprocess.run(['git', 'commit', '-m',
-                    f'idea {args.idea:03d}: validated results bundle '
-                    f'{bundle.name} (phase {summary.get("phase")})'],
+                    f'idea {n3}: validated results bundle {dest_name} '
+                    f'(phase {summary.get("phase")}'
+                    + (f', pin {eb[:12]}' if eb else '') + ')'],
                    cwd=ROOT, check=True, capture_output=True)
-    print(f'Imported {dest.relative_to(ROOT)} (committed).')
+    print(f'Imported {dest.relative_to(ROOT)} (committed; manifest '
+          f'{manifest_sha[:12]}; authority receipt '
+          f'{sidecar.name}).')
     ledger_mod.raise_scrutiny(
         f'idea-{args.idea:03d}', 'PROBED',
         note=f'validated bundle {bundle.name}, phase '
@@ -4037,7 +4265,7 @@ def main():
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
-    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
@@ -4056,6 +4284,7 @@ def main():
     p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
     p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
     p=sp.add_parser('ratify-interpretation'); p.add_argument('idea',type=int); p.add_argument('--status',required=True); p.set_defaults(fn=cmd_ratify_interpretation)
+    p=sp.add_parser('ratify-registry'); p.add_argument('idea',type=int); p.add_argument('--operator',required=True); p.set_defaults(fn=cmd_ratify_registry)
     p=sp.add_parser('card-materialize'); p.add_argument('idea',type=int); p.add_argument('--check',action='store_true'); p.set_defaults(fn=cmd_card_materialize)
     p=sp.add_parser('confer'); p.add_argument('idea',type=int); p.add_argument('question'); p.set_defaults(fn=cmd_confer)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)

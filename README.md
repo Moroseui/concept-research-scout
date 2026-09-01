@@ -199,6 +199,7 @@ subcommand is missing here.
 | `pipeline` | run shortlist → critique → debate over backlog picks |
 | `probe-build` | cross-family authoring of probe code under the approved contract |
 | `ratify-interpretation` | human authority transaction closing an interpretation: event + status + state, one commit |
+| `ratify-registry` | registry-ratification authority transaction: mechanically verified bindings + imports, event, derive-to-COMPLETE, state, one commit |
 | `record-result` | validate and import a results bundle; PROBED + digest + state in one transaction |
 | `registry-status` | derive a per-idea experiment registry's node statuses |
 | `registry-validate` | validate registries (schema, containment, governance events) |
@@ -247,9 +248,22 @@ contract, validated bundle), then one transaction: ledger
 `INTERPRETATION_RATIFIED` event with all hashes → digest →
 re-materialize → verify → commit. Refuses without machine APPROVE.
 
-**`record-result IDEA --bundle DIR`** — unchanged import gate, now
-transactional: scrutiny event, digest, state re-materialize + verify,
-and the side-effect commit happen inside the command.
+**`record-result IDEA --bundle DIR [--expected-blob BLOB --source-commit SHA]`**
+— the import gate, transactional, and now with the historical lane
+(R3b): a pinned import validates under its own contract, must match the
+source commit's tree byte-for-byte (verbatim check), the source snapshot
+must carry the approval binding that pin (ancestry refusal), the
+destination is `results_v2-<blob12>`, and every import writes an
+authority receipt (`<dest>.import.json`: source commit, manifest
+sha256) that ratification later re-verifies.
+
+**`ratify-registry IDEA --operator NAME`** — the R3b authority
+transaction: derives bindings from approval-marker history and verifies
+each mechanically (marker bytes at the bound commit hash to the recorded
+sha AND textually bind the pin), re-verifies every import receipt
+(manifest + ancestry), appends the REGISTRY_RATIFIED event, requires
+every node to derive COMPLETE, re-materializes state and the research
+card, and commits once. Refusals name their forgery class.
 
 **`interpret-build IDEA [--resume-review]`** — the flag resumes at the
 review leg when a committed round-1 interpretation exists (an

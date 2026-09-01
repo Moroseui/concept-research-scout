@@ -82,7 +82,8 @@ def approved_registry_sha(idea_no: str, root: Path):
 
 _GOVERNANCE_FILE = 'governance_events.jsonl'
 _RATIFY_KEYS = {'event', 'idea', 'registry_sha256', 'bindings',
-                'operator', 'base_commit', 'event_id'}
+                'imports', 'operator', 'base_commit', 'event_id'}
+_IMPORT_KEYS = {'node', 'source_commit', 'manifest_sha256', 'bundle'}
 _BINDING_KEYS = {'contract_blob', 'approval_commit', 'approval_sha256'}
 _HEX7TO40 = re.compile(r'^[0-9a-f]{7,40}$')
 
@@ -168,6 +169,44 @@ def _validate_governance(idea_no: str, idea_dir: Path) -> list[str]:
             if not (isinstance(obj[k], str) and obj[k].strip()):
                 errs.append(f'{_GOVERNANCE_FILE}:{i}: {k} must be a '
                             'non-empty string')
+        # Round-7/8 import bindings: every historically-imported bundle a
+        # ratification relies on is bound to its source-branch commit and
+        # its byte manifest.
+        imp = obj['imports']
+        if not isinstance(imp, list):
+            errs.append(f'{_GOVERNANCE_FILE}:{i}: imports must be a list '
+                        '(empty when no historical bundle was imported)')
+        else:
+            for j, im in enumerate(imp):
+                if not isinstance(im, dict):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: imports[{j}] must '
+                                'be a mapping')
+                    continue
+                unk3 = set(im) - _IMPORT_KEYS
+                if unk3:
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: imports[{j}] '
+                                f'unknown keys {sorted(unk3)} (closed '
+                                'schema)')
+                miss3 = _IMPORT_KEYS - set(im)
+                if miss3:
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: imports[{j}] '
+                                f'missing keys {sorted(miss3)}')
+                    continue
+                if not (isinstance(im['node'], str) and im['node'].strip()):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: imports[{j}] node '
+                                'must be a non-empty string')
+                if not (isinstance(im['source_commit'], str)
+                        and _HEX7TO40.match(im['source_commit'])):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: imports[{j}] '
+                                'source_commit must be 7-40 hex')
+                if not (isinstance(im['manifest_sha256'], str)
+                        and _HEX64.match(im['manifest_sha256'])):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: imports[{j}] '
+                                'manifest_sha256 must be 64-hex')
+                if not (isinstance(im['bundle'], str)
+                        and _canonical_rel(im['bundle'])):
+                    errs.append(f'{_GOVERNANCE_FILE}:{i}: imports[{j}] '
+                                'bundle must be a canonical contained path')
         # base_commit = HEAD the ratification was authored FROM (a row
         # cannot embed the sha of the commit that will contain it).
         if not (isinstance(obj['base_commit'], str)
@@ -624,15 +663,36 @@ def derive_status(idea_no: str, root: Path, contract_hasher, bundle_validator=No
     return out
 
 
+def ratified_binds_current(idea_no: str, root: Path) -> bool:
+    """True when a WELL-FORMED REGISTRY_RATIFIED event binds the current
+    registry bytes (R3b: ratification is the second attestation route;
+    a malformed governance file confers nothing)."""
+    idea_dir = Path(root) / 'ideas' / idea_no
+    if _validate_governance(idea_no, idea_dir):
+        return False
+    cur = registry_sha(idea_no, root)
+    if not cur:
+        return False
+    for _i, line in _governance_lines(idea_dir):
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError:
+            return False
+        if obj.get('event') == 'REGISTRY_RATIFIED'                 and obj.get('registry_sha256') == cur:
+            return True
+    return False
+
+
 def terminal_statuses_if_approved(idea_no: str, root: Path, bundle):
-    """Registry terminals confer completion authority ONLY when the human
-    approval binds this registry's exact bytes (A3 interim)."""
+    """Registry terminals confer completion authority when the human
+    approval marker binds this registry's exact bytes OR a well-formed
+    REGISTRY_RATIFIED event does (R3b extends the A3 interim)."""
     reg, p = _load(idea_no, root)
     if reg is None:
         return None
     if validate(idea_no, root):
         return None  # an invalid registry confers no completion authority
-    if approved_registry_sha(idea_no, root) != registry_sha(idea_no, root):
+    if approved_registry_sha(idea_no, root) != registry_sha(idea_no, root)             and not ratified_binds_current(idea_no, root):
         return None
     b = str(bundle).replace('\\', '/').rstrip('/')
     for n in reg.get('probes') or []:
