@@ -1,0 +1,12 @@
+PHASE 1/4 — load inputs and freeze split before outcome-file access
+Variant 1/1 — approved real-input design audit; seed=0
+Split frozen: 198 rows, 99 cases, hash 6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853
+PHASE 2/4 — validate identities, joins, values, and exclusions
+Validated 198 patient-band rows; exclusion records: 2, rows: 297
+PHASE 3/4 — measure frozen design geometry
+Band 2: n=99, distinct=17, IQR=2
+Band 3: n=99, distinct=26, IQR=6
+Pooled exposure: n=198, distinct=29, IQR=4
+Condition number=20.2229; rank=3; max leverage=0.154864
+PHASE 4/4 — write outputs and verify end determinism manifest
+Start/end determinism manifests agree exactly.

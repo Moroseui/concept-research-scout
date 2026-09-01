@@ -1,0 +1,20 @@
+{
+  "approval_marker": "/home/partho/concept-research-scout-v4/concept-research-scout/ideas/045/HUMAN_APPROVED_PROBE",
+  "audit_csv": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/bin_tissue_audit.csv",
+  "condition_limit": 30.0,
+  "contract_blob": "5615afea1e2f8309745a2d6558bd9118e5e9f1f3",
+  "contract_version": 2,
+  "expected_cases_per_band": 99,
+  "idea_id": "idea-045",
+  "keys_csv": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/per_patient.csv",
+  "leverage_limit": 0.2,
+  "minimum_distinct_values": 20,
+  "network_calls": 0,
+  "output_dir": "/tmp/p45v2/results_v3",
+  "primary_bands": [
+    2,
+    3
+  ],
+  "seed": 0,
+  "smoke": false
+}

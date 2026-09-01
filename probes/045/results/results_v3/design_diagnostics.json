@@ -1,0 +1,656 @@
+{
+  "band_support": {
+    "2": {
+      "distinct_values": 17,
+      "iqr": 2.0,
+      "maximum": 18.0,
+      "median": -1.0,
+      "minimum": -16.0,
+      "n": 99,
+      "q25": -2.0,
+      "q75": 0.0
+    },
+    "3": {
+      "distinct_values": 26,
+      "iqr": 6.0,
+      "maximum": 14.0,
+      "median": 1.0,
+      "minimum": -28.0,
+      "n": 99,
+      "q25": -2.0,
+      "q75": 4.0
+    }
+  },
+  "condition_number": 20.222895326167112,
+  "gates": {
+    "all_loo_condition_le_30": true,
+    "all_loo_maximum_leverage_le_0_20": true,
+    "all_loo_rank_3": true,
+    "condition_number_le_30": true,
+    "each_band_99_cases": true,
+    "each_band_nonzero_iqr": true,
+    "maximum_leverage_le_0_20": true,
+    "pooled_at_least_20_distinct": true,
+    "rank_3": true,
+    "top_10_include_at_least_5_patients": true
+  },
+  "leave_one_patient_out": [
+    {
+      "case_id": "sub-stroke0002",
+      "condition_number": 20.11529526774576,
+      "maximum_row_leverage": 0.15488605985231899,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0005",
+      "condition_number": 20.096913267667613,
+      "maximum_row_leverage": 0.15576026669171167,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0006",
+      "condition_number": 20.151989532060387,
+      "maximum_row_leverage": 0.15640916846754072,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0008",
+      "condition_number": 20.14694329940518,
+      "maximum_row_leverage": 0.1560414791790766,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0009",
+      "condition_number": 20.110998363294613,
+      "maximum_row_leverage": 0.15495817438021073,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0012",
+      "condition_number": 20.11517123528114,
+      "maximum_row_leverage": 0.15492097436241117,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0013",
+      "condition_number": 20.16810858912054,
+      "maximum_row_leverage": 0.1578437957486816,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0014",
+      "condition_number": 20.088031987408524,
+      "maximum_row_leverage": 0.15544665494854792,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0015",
+      "condition_number": 20.099780099238323,
+      "maximum_row_leverage": 0.15521057162780605,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0019",
+      "condition_number": 20.132768624119013,
+      "maximum_row_leverage": 0.15539993026231483,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0021",
+      "condition_number": 20.070251304037534,
+      "maximum_row_leverage": 0.15718235124163443,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0022",
+      "condition_number": 20.119469798658432,
+      "maximum_row_leverage": 0.15493601029422918,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0025",
+      "condition_number": 20.128367876942324,
+      "maximum_row_leverage": 0.1553848302824537,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0026",
+      "condition_number": 20.13350899336822,
+      "maximum_row_leverage": 0.15599585296374519,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0028",
+      "condition_number": 20.132768624119013,
+      "maximum_row_leverage": 0.15539993026231483,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0030",
+      "condition_number": 20.09617811697364,
+      "maximum_row_leverage": 0.15542424474710181,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0033",
+      "condition_number": 20.128201911063517,
+      "maximum_row_leverage": 0.15519277972561818,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0036",
+      "condition_number": 20.110998363294613,
+      "maximum_row_leverage": 0.1549581743802109,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0037",
+      "condition_number": 20.123898525077472,
+      "maximum_row_leverage": 0.15500331475259002,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0038",
+      "condition_number": 20.138014636778433,
+      "maximum_row_leverage": 0.15552087097997777,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0045",
+      "condition_number": 20.111242774748593,
+      "maximum_row_leverage": 0.15488836681120538,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0047",
+      "condition_number": 20.111154228189317,
+      "maximum_row_leverage": 0.15514997223516266,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0048",
+      "condition_number": 20.107308395452588,
+      "maximum_row_leverage": 0.15494304880429083,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0055",
+      "condition_number": 20.123770536908005,
+      "maximum_row_leverage": 0.1550382139245226,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0057",
+      "condition_number": 20.107796053863915,
+      "maximum_row_leverage": 0.15511794241977175,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0068",
+      "condition_number": 20.10688475897652,
+      "maximum_row_leverage": 0.1549082245321519,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0070",
+      "condition_number": 20.143513394221813,
+      "maximum_row_leverage": 0.1567854938667662,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0071",
+      "condition_number": 20.09268143356896,
+      "maximum_row_leverage": 0.15569191442096228,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0074",
+      "condition_number": 20.115930071290705,
+      "maximum_row_leverage": 0.15565471953702104,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0075",
+      "condition_number": 20.132768624119013,
+      "maximum_row_leverage": 0.15539993026231483,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0077",
+      "condition_number": 20.11529526774576,
+      "maximum_row_leverage": 0.15488605985231896,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0078",
+      "condition_number": 20.123836722791726,
+      "maximum_row_leverage": 0.1551777120104839,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0079",
+      "condition_number": 20.132768624119013,
+      "maximum_row_leverage": 0.15539993026231483,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0080",
+      "condition_number": 20.119952779844684,
+      "maximum_row_leverage": 0.15551208675751424,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0081",
+      "condition_number": 20.13785180498779,
+      "maximum_row_leverage": 0.15595825264082983,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0082",
+      "condition_number": 20.110998363294613,
+      "maximum_row_leverage": 0.1549581743802107,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0083",
+      "condition_number": 20.10688475897652,
+      "maximum_row_leverage": 0.15490822453215203,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0084",
+      "condition_number": 20.137336610209296,
+      "maximum_row_leverage": 0.15538019853892301,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0086",
+      "condition_number": 20.09617811697364,
+      "maximum_row_leverage": 0.15542424474710187,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0088",
+      "condition_number": 20.130061198267043,
+      "maximum_row_leverage": 0.15659839564067918,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0089",
+      "condition_number": 20.202194549896454,
+      "maximum_row_leverage": 0.1631839072359328,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0090",
+      "condition_number": 20.098955162510215,
+      "maximum_row_leverage": 0.15513977486692018,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0092",
+      "condition_number": 20.09562263984131,
+      "maximum_row_leverage": 0.15519543393835805,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0093",
+      "condition_number": 20.128731899359018,
+      "maximum_row_leverage": 0.15568232501255524,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0094",
+      "condition_number": 20.042406826639716,
+      "maximum_row_leverage": 0.16178583574457497,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0095",
+      "condition_number": 20.08385491081726,
+      "maximum_row_leverage": 0.15546617070456417,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0096",
+      "condition_number": 20.133037816905237,
+      "maximum_row_leverage": 0.1556448594132738,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0098",
+      "condition_number": 20.124097364446875,
+      "maximum_row_leverage": 0.15542218876590683,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0100",
+      "condition_number": 20.174650336534278,
+      "maximum_row_leverage": 0.17418651421621573,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0102",
+      "condition_number": 20.11529526774576,
+      "maximum_row_leverage": 0.15488605985231899,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0104",
+      "condition_number": 20.119469798658432,
+      "maximum_row_leverage": 0.15493601029422882,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0105",
+      "condition_number": 20.11960016375268,
+      "maximum_row_leverage": 0.15521499066451733,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0106",
+      "condition_number": 20.128731899359018,
+      "maximum_row_leverage": 0.15568232501255527,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0107",
+      "condition_number": 20.103099014456355,
+      "maximum_row_leverage": 0.1549279790169189,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0109",
+      "condition_number": 20.32468800014256,
+      "maximum_row_leverage": 0.1714392820706731,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0111",
+      "condition_number": 20.10688475897652,
+      "maximum_row_leverage": 0.1549082245321519,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0112",
+      "condition_number": 20.104060388925593,
+      "maximum_row_leverage": 0.15527838430482754,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0113",
+      "condition_number": 20.11529526774576,
+      "maximum_row_leverage": 0.15488605985231899,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0114",
+      "condition_number": 20.110998363294613,
+      "maximum_row_leverage": 0.1549581743802107,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0117",
+      "condition_number": 20.1350662588547,
+      "maximum_row_leverage": 0.15702173631242985,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0119",
+      "condition_number": 20.10301309266691,
+      "maximum_row_leverage": 0.15518971836014014,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0133",
+      "condition_number": 20.154506491320696,
+      "maximum_row_leverage": 0.1569149558276712,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0134",
+      "condition_number": 20.102890448183167,
+      "maximum_row_leverage": 0.15491054810663923,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0136",
+      "condition_number": 20.132700266830962,
+      "maximum_row_leverage": 0.1552602264667859,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0137",
+      "condition_number": 20.111242774748593,
+      "maximum_row_leverage": 0.15488836681120544,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0138",
+      "condition_number": 20.111496096108528,
+      "maximum_row_leverage": 0.15544702424588971,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0139",
+      "condition_number": 20.077867824398748,
+      "maximum_row_leverage": 0.15855242324317168,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0140",
+      "condition_number": 20.106946971049922,
+      "maximum_row_leverage": 0.15504769096390203,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0141",
+      "condition_number": 20.181315003645683,
+      "maximum_row_leverage": 0.15874625652342936,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0142",
+      "condition_number": 20.188866754132075,
+      "maximum_row_leverage": 0.1586666383165776,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0145",
+      "condition_number": 20.088571922572783,
+      "maximum_row_leverage": 0.1556766444954195,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0147",
+      "condition_number": 20.325983967379745,
+      "maximum_row_leverage": 0.18137690505955997,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0148",
+      "condition_number": 20.09268143356896,
+      "maximum_row_leverage": 0.1556919144209623,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0151",
+      "condition_number": 20.103099014456355,
+      "maximum_row_leverage": 0.1549279790169189,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0153",
+      "condition_number": 20.119439398294983,
+      "maximum_row_leverage": 0.15502316753950465,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0154",
+      "condition_number": 20.11529526774576,
+      "maximum_row_leverage": 0.15488605985231896,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0155",
+      "condition_number": 20.078743115139943,
+      "maximum_row_leverage": 0.15681116627618175,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0156",
+      "condition_number": 20.07737054130827,
+      "maximum_row_leverage": 0.15612830553922366,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0157",
+      "condition_number": 20.103099014456355,
+      "maximum_row_leverage": 0.1549279790169189,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0161",
+      "condition_number": 20.103099014456355,
+      "maximum_row_leverage": 0.1549279790169189,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0163",
+      "condition_number": 20.135426463547674,
+      "maximum_row_leverage": 0.155794852591701,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0164",
+      "condition_number": 20.103099014456355,
+      "maximum_row_leverage": 0.1549279790169189,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0166",
+      "condition_number": 20.12873189935902,
+      "maximum_row_leverage": 0.15568232501255497,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0167",
+      "condition_number": 20.106946971049922,
+      "maximum_row_leverage": 0.15504769096390206,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0169",
+      "condition_number": 20.103488438148176,
+      "maximum_row_leverage": 0.15505033772915622,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0170",
+      "condition_number": 20.204372640380157,
+      "maximum_row_leverage": 0.16426222739921276,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0174",
+      "condition_number": 20.111027836962087,
+      "maximum_row_leverage": 0.154871023519075,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0175",
+      "condition_number": 20.099011556251238,
+      "maximum_row_leverage": 0.1549652628084658,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0179",
+      "condition_number": 20.112233511510407,
+      "maximum_row_leverage": 0.1552381959642644,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0180",
+      "condition_number": 20.103099014456355,
+      "maximum_row_leverage": 0.15492797901691882,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0181",
+      "condition_number": 20.09158565487951,
+      "maximum_row_leverage": 0.15523290946902574,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0182",
+      "condition_number": 20.09562263984131,
+      "maximum_row_leverage": 0.15519543393835805,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0183",
+      "condition_number": 20.2152533046916,
+      "maximum_row_leverage": 0.16472463107132282,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0184",
+      "condition_number": 20.102890448183167,
+      "maximum_row_leverage": 0.15491054810663923,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0185",
+      "condition_number": 20.148171402217553,
+      "maximum_row_leverage": 0.15613300296672844,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0186",
+      "condition_number": 20.095041879439783,
+      "maximum_row_leverage": 0.1550549811548939,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0187",
+      "condition_number": 20.103488438148172,
+      "maximum_row_leverage": 0.15505033772915608,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0188",
+      "condition_number": 20.15719481225484,
+      "maximum_row_leverage": 0.15683154977436625,
+      "rank": 3
+    },
+    {
+      "case_id": "sub-stroke0189",
+      "condition_number": 20.103488438148172,
+      "maximum_row_leverage": 0.15505033772915608,
+      "rank": 3
+    }
+  ],
+  "leave_one_patient_out_condition_max": 20.325983967379745,
+  "leave_one_patient_out_condition_min": 20.042406826639716,
+  "leave_one_patient_out_maximum_leverage_max": 0.18137690505955997,
+  "leave_one_patient_out_maximum_leverage_min": 0.154871023519075,
+  "maximum_row_leverage": 0.15486441040641785,
+  "pooled_hu_imbalance_mean": -0.15909079349402225,
+  "pooled_support": {
+    "distinct_values": 29,
+    "iqr": 4.0,
+    "maximum": 18.0,
+    "median": 0.0,
+    "minimum": -28.0,
+    "n": 198,
+    "q25": -2.0,
+    "q75": 2.0
+  },
+  "rank": 3,
+  "singular_values": [
+    14.089047615314039,
+    1.0066594185504498,
+    0.6966879563028607
+  ],
+  "top_10_distinct_patients": 9
+}

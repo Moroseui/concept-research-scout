@@ -1,0 +1,25 @@
+{
+  "contract_version": 2,
+  "idea_id": "idea-045",
+  "inputs": [
+    {
+      "path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/bin_tissue_audit.csv",
+      "selected_cases": 99,
+      "selected_rows": 396,
+      "sha256": "35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2",
+      "total_rows": 594
+    },
+    {
+      "path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/per_patient.csv",
+      "selected_cases": 99,
+      "selected_rows": 198,
+      "sha256": "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c",
+      "total_rows": 297
+    }
+  ],
+  "reserved_cases_accessed": 0,
+  "seed": 0,
+  "smoke": false,
+  "split_manifest_sha256": "6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853",
+  "split_rows": 198
+}

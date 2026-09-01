@@ -1,0 +1,13 @@
+{
+  "bands": [
+    2,
+    3
+  ],
+  "created_before_outcome_file_open": true,
+  "reserved_cases_accessed": 0,
+  "rows": 198,
+  "seed": 0,
+  "sha256": "6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853",
+  "smoke": false,
+  "unique_cases": 99
+}

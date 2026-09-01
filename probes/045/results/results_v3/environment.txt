@@ -1,0 +1,8 @@
+{
+  "captured_utc": "2026-09-01T05:47:33.593882+00:00",
+  "numpy": "2.5.2",
+  "pid": 330001,
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.42",
+  "python": "3.13.7 (main, Aug 15 2025, 12:34:02) [GCC 15.2.1 20250813]",
+  "seed": 0
+}
