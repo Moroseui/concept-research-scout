@@ -1,191 +1,159 @@
-# Probe code review — idea 046, round 1
+# Probe code review — idea 046, round 2
 
 Artifact under review: `probes/046/run.py` + `probes/046/requirements.txt`
-(commit "idea 046: probe code (round 1)"), judged against
+(commit "idea 046: probe code (round 2)"), judged against
 `ideas/046/probe_contract.yaml` (git blob
-`3996009bccfcfa939984fed051ee303a29a960a0`, verified equal to the pin in
-`ideas/046/HUMAN_APPROVED_PROBE`) and `ideas/046/feasibility.md`.
+`3996009bccfcfa939984fed051ee303a29a960a0`) and `ideas/046/feasibility.md`.
+The round-1 review (preserved in git at commit 8637cab) returned REVISE with
+two blocking findings, B1 and B2, and the explicit instruction that scope
+must not expand while fixing them.
 
-Review method: static, line-by-line. This review environment cannot execute
-Python, so the smoke run was not re-executed here; `probes/046/verification.json`
-attests smoke completed under 60 seconds with matching determinism manifests
-and status `SMOKE_ONLY`, and every smoke property claimed there was verified
-statically against the code. Independently re-verified in this review: the
-contract blob and marker identity above; the frozen input's SHA-256
-(`1d01551c...`, matching `run.py:47` and the contract pin); the input's
-header/row structure (298 lines, strata 1/2/3). `ideas/046/contract_requirements.md`
-does not exist, so review criterion 5 (requirements conformance) is not
-applicable.
+Review method: static, line-by-line, plus a full diff of round 1 → round 2
+(`git diff 12f22db 3b989a4 -- probes/046/`). This review environment cannot
+execute Python; `probes/046/verification.json` attests the round-2 smoke
+completed under 60 seconds with matching determinism manifests, status
+`SMOKE_ONLY`, and two new attestations (`smoke_residual_values_persisted`,
+`smoke_ordering_verdict_is_computed`), each verified statically against the
+code below. Independently re-verified in this round: the contract blob above
+equals both the pin in `ideas/046/HUMAN_APPROVED_PROBE` and the current
+`probe_contract.yaml` bytes; the frozen input's SHA-256 (`1d01551c...`)
+matches `run.py:47` and the contract pin; the input remains 298 lines
+(header + 297 rows). `ideas/046/contract_requirements.md` does not exist, so
+review criterion 5 (requirements conformance) remains not applicable.
 
-## Blocking findings
+## Diff containment
 
-### B1 — The ordinary-summation residual diagnostic is never computed or recorded, and no residual value is persisted at all (contract fidelity, rule 1)
+The round-2 change to claim-bearing code is confined to `run.py` (28 lines:
+`measure()` and `summarize_definitions()` signatures and bodies, plus the
+two call sites in `run()`) and the two new `verification.json` attestations.
+No gate, cap, cohort rule, exposure rule, output set, or status classifier
+changed. The scope-containment instruction was respected — including by
+*not* adopting the optional round-1 suggestions, which were non-blocking.
 
-Contract `analysis.tolerance` states: "The primary residual must be <= 1e-12
-using IEEE-754 double precision and a stable summation routine. **The
-ordinary-summation residual is recorded only as a numerical diagnostic.**"
+## Resolution of round-1 blocking findings
 
-`measure()` (`run.py:253-257`) computes only the `math.fsum`-based residual.
-The ordinary-summation (naive accumulation) residual is never computed and
-appears in no output. Additionally, the primary residual's *value* is never
-persisted anywhere: `definition_audit.json` carries only the boolean
-`algebra_residual_within_tolerance` (`run.py:282`) and `summary.json` only
-`primary_metric_pass` (`run.py:367`). The contract's primary metric — "Absolute
-algebraic residual abs(sum_i(c_i) - (mean_i(d_i,band3) - mean_i(d_i,band2)))"
-— therefore appears in no required output, only a predicate derived from it.
+### B1 — RESOLVED: both residuals computed and persisted as numeric values
 
-Recording both residuals is contract-sanctioned and exposure-safe: the
-tolerance clause explicitly directs the ordinary-summation residual to be
-recorded, and a rounding-scale residual is not on the `no_result_exposure`
-prohibited list (case_id, d/delta/c values, ranks, shares, curve coordinates,
-band means, band-gap). Fix: compute both residuals, record both numeric values
-in `definition_audit.json` (stable-summation residual as the primary metric
-value; ordinary-summation residual labeled diagnostic-only, no pass/fail
-role).
+`measure()` now computes `stable_residual` via `math.fsum` and
+`ordinary_residual` via naive built-in `sum` over the same contributions
+(`run.py:256-257`), asserts both finite (`run.py:258-259`), and
+`summarize_definitions()` records both numeric values in the audit dict
+(`run.py:292-293`), which is written verbatim to `definition_audit.json`
+(`run.py:373`). The primary metric's *value* — the contract's "absolute
+algebraic residual" — is now `stable_summation_residual` in a required
+output, and the ordinary-summation residual is labeled
+`ordinary_summation_residual_diagnostic_only` and plays no pass/fail role
+anywhere: the tolerance gate consumes only the stable residual
+(`run.py:294`, `run.py:346-347`), exactly as `analysis.tolerance` directs.
 
-### B2 — The frozen orderings are never constructed and the tie-rule audit result is hardcoded `True` (contract fidelity rule 1; silent-failure surface rule 2)
+Exposure check, repeated for the two new persisted numbers: both are
+rounding-scale magnitudes (relative error of summation, ~1e-16 of the gap
+scale) and appear on none of the `no_result_exposure` prohibitions
+(case_id, d/delta/c values, ranks, shares, curve coordinates, band means,
+band-gap). Round 1 pre-cleared recording them; confirmed safe as
+implemented.
 
-Contract `preprocessing.ordering` defines two orderings "for audit purposes
-only" (descending signed by `delta_i` then `case_id` ascending; descending
-absolute by `abs(delta_i)` then `case_id` ascending), and
-`analysis.secondary_metrics` item 3 requires tie counts "**confirming** that
-the frozen secondary case_id rule makes every ordering unique." The
-`positive_pattern` certifies "deterministic ordering resolves every tie."
+Interpretive note, recorded for the census-contract author rather than as a
+defect: both residuals share the fsum-based `direct_gap` reconstruction
+(`run.py:254-255`) and differ only in how the contribution decomposition is
+summed. That is a defensible reading of the tolerance clause — it isolates
+the summation-routine effect on the decomposition side, which is what the
+diagnostic is for — and the contract does not specify otherwise.
 
-`run.py` emits the tie counts (`run.py:276-277`) but never constructs either
-ordering; the confirmation is the constant
-`"deterministic_secondary_case_id_rule_defined": True` (`run.py:286`) — an
-audit output that cannot be false on any input. The property is in fact
-entailed by the duplicate-key cohort gate (`run.py:199-200`), but this
-repository's standing rule (decision ledger, 2026-08-18) is that claim-bearing
-code is verified against artifacts, not asserted; a definition audit whose one
-job is to verify the frozen definitions on the real table may not hardcode one
-of the verdicts the positive pattern certifies. Fix (three lines, in memory
-only, nothing emitted): build both sort-key lists
-`(-delta_i, case_id)` and `(-abs(delta_i), case_id)`, assert each key set has
-no duplicates, and derive the boolean from that check.
+### B2 — RESOLVED: both frozen orderings constructed; verdict measured, not asserted into existence
 
-## Non-blocking findings
+`summarize_definitions()` now builds both contract-frozen order-key lists —
+`sorted((-delta, case_id))` for descending signed and
+`sorted((-abs(delta), case_id))` for descending absolute
+(`run.py:282-283`), matching `preprocessing.ordering` exactly (ascending
+sort on the negated primary key yields descending order with `case_id`
+ascending as tiebreak). Uniqueness is measured per ordering
+(`run.py:284-285`), the verdict derived (`run.py:286`), asserted
+(`run.py:290`), and emitted as the computed boolean
+`deterministic_secondary_case_id_rule_defined` (`run.py:298`) — the
+hardcoded `True` is gone. This is precisely the fix shape round 1
+specified.
 
-1. **`human_approved: false` self-tension in the approved contract.** The
-   contract's first invalidating failure names execution "while
-   human_approved remains false," yet the approved bytes themselves end with
-   `human_approved: false` — read literally, every execution is invalidating.
-   Repository precedent resolves this: `ideas/004/probe_contract.yaml:299` and
-   `ideas/023/probe_contract.yaml:142` both carry `human_approved: false`
-   under the marker-based convention, where the `HUMAN_APPROVED_PROBE` marker
-   binding the exact contract blob *is* the fresh approval (flipping the field
-   would change the blob and stale the marker by construction).
-   `verify_authority()` (`run.py:116-135`) implements the marker gate
-   correctly and strictly. Recorded here, before any run, so the
-   interpretation is on the record rather than litigated after; the future
-   census contract should word this clause as marker-bound.
-2. **Per-summary definability is misattributed.** `target_share_definable`
-   maps every target to the *global* conjunction `summaries_defined`
-   (`run.py:278-279, 288`) rather than to that summary's own condition
-   (positive-mass nonzero), and the contract's enumerated summaries (signed
-   cumulative curve, Lorenz coordinates) have no individually named booleans —
-   definability must be inferred from the `denominators` block. On the real
-   table all flags will agree, and the denominator booleans do identify any
-   culprit, so this does not block; but since B1 already reopens
-   `definition_audit.json`, keying one boolean per contract-enumerated summary
-   would make the negative pattern's "a named summary is undefined" literal.
-3. **Empty-input path exits 12, not a named failure.** A header-only CSV
-   trips `assert len(selected) + len(excluded) > 0` (`run.py:196`),
-   surfacing as AssertionError → exit 12 (unexpected fault) instead of a
-   named input/cohort failure. Unreachable in real mode behind the SHA-256
-   gate; tidy-up only.
-4. **`run_log.txt` omits the two manifest JSON lines.** The determinism
-   manifests are printed via bare `print` (`run.py:317, 378`), not `emit`, so
-   the persisted log diverges slightly from the console. Harmless; the
-   manifests are persisted as their own required-adjacent JSON files.
-5. **`exclusions.csv` records `source_line` only, by design.** The in-code
-   comment (`run.py:192`) correctly notes the contract forbids persisting
-   case identifiers. Since every case contributes exactly its stratum-1 row
-   to the exclusions, line numbers convey no selection information. Accepted;
-   reasoning recorded.
-6. **Naming nit.** `rounded_signed`/`rounded_absolute` (`run.py:274-275`) are
-   hex encodings, not roundings (good — the contract forbids rounding);
-   rename. Also `float.hex()` distinguishes `-0.0` from `0.0`, so two zero
-   deltas of opposite sign would not count as a hex tie despite numerical
-   equality; zero counts are reported separately and the effect is
-   inconsequential here, but worth a comment.
-7. **Wall-time check runs once, post-measurement** (`run.py:346`). Fine for a
-   seconds-long run; a genuine hang would never reach it. Acceptable since
-   the 5-minute cap is a validity bound, not a watchdog.
-8. **Smoke never exercises the all-defined branch.** With 8 synthetic cases,
-   `k = 20` is undefinable, so smoke always computes
-   `all_summaries_defined: false` (then forces `SMOKE_ONLY` regardless).
-   Using ≥ 20 synthetic cases would let smoke exercise both classifier
-   branches. Optional.
+Pairing correctness verified: `measure()` builds `deltas` iterating
+`sorted(cases)` (`run.py:242-247`) and returns `sorted(cases)` as
+`case_ids` (`run.py:260`), so `zip(case_ids, deltas)` at `run.py:282-283`
+pairs each case with its own delta. Both lists live and die in memory; no
+identifier or rank reaches any artifact or log, per the in-code comment at
+`run.py:280-281`.
 
-## Standards checklist (Hard code standards, each verified)
+## Non-blocking findings (round 2)
 
-1. **Determinism manifests: MET.** Printed and written at start
-   (`run.py:316-317`) and end (`run.py:377-378`), with input path, content
-   hash, row/case counts, and seed; compared for exact agreement
-   (`run.py:375-376`) with a named failure on divergence.
-2. **Exclusions log: MET.** Every dropped row emits one line with a reason
-   to `exclusions.csv` (`run.py:193, 323`); totals appear in `summary.json`
-   (`excluded_rows`, `run.py:364`).
+1. **`assert deterministic_ordering` routes a hypothetical False to exit
+   12, not the negative pattern.** A tie the case_id rule failed to resolve
+   would arguably be the negative pattern's "stated rule is incomplete"
+   (→ `DEFINITION_REVISION_REQUIRED`), but the assert at `run.py:290` would
+   surface it as an unexpected fault instead. Unreachable in practice: the
+   cohort gate (`run.py:199-200`) guarantees unique case IDs, so every
+   `(-delta, case_id)` tuple is distinct regardless of delta values. The
+   behavior is fail-loud, never fail-silent, and matches the fix round 1
+   sanctioned; a `FEASIBLE_DEFINITION_AUDIT` status can only ever be
+   emitted with the verdict measured True. Recorded, not blocking.
+2. **Round-1 non-blocking findings 1-8 stand as recorded.** In particular:
+   the `human_approved: false` marker-convention reading (round-1 finding
+   1) remains on the record ahead of any run; `target_share_definable`
+   still keys every target to the global `summaries_defined` conjunction
+   (`run.py:300`) rather than per-summary booleans; the empty-input path
+   still exits 12; `run_log.txt` still omits the two manifest JSON lines;
+   the `rounded_signed`/`rounded_absolute` naming nit stands (they are hex
+   encodings, and `float.hex()` still distinguishes `-0.0` from `0.0` in
+   the tie *counts* — inconsequential, zero counts are reported
+   separately); smoke still cannot exercise the all-defined branch (8
+   synthetic cases leave `k = 20` undefinable). None of these blocks, and
+   leaving the optional ones unadopted was the correct application of the
+   no-scope-expansion instruction. They may be revisited, if ever, in the
+   separate census contract.
+
+## Standards checklist (each verified against round-2 code)
+
+1. **Determinism manifests: MET.** Start (`run.py:328-329`) and end
+   (`run.py:386-390`) manifests written and printed, compared for exact
+   equality with a named failure on divergence (`run.py:387-388`).
+2. **Exclusions log: MET.** Every dropped row logged with a reason
+   (`run.py:193`, `run.py:335`); totals in `summary.json` (`run.py:376`).
 3. **Assertion per transform: MET.** Load (`run.py:196, 208-209`), split
-   freeze (`run.py:232-233`), measurement (`run.py:239, 246, 251, 257`),
-   summarization (`run.py:273, 280`), manifest (`run.py:171`).
+   freeze (`run.py:232-233`), measurement (`run.py:239, 246, 251,
+   258-259`), summarization (`run.py:275, 289-290`), manifest
+   (`run.py:171`).
 4. **Declared state: MET.** Seed and paths are top-level constants or CLI
-   arguments (`run.py:40-53, 108-113`); no network calls; no hidden
-   mid-function state. The `--input-csv` override is rendered harmless in
-   real mode by the SHA-256 gate (`run.py:314-315`).
-5. **Split-before-outcome: MET.** `split_manifest.csv` is written and hashed
-   (`run.py:213-229`) before the input CSV is first opened
-   (`run.py:312` precedes `run.py:313`).
+   arguments (`run.py:40-53, 108-113`); no network; the `--input-csv`
+   override remains neutralized in real mode by the SHA-256 gate
+   (`run.py:326-327`). Determinism note: `direct_gap` iterates a set, but
+   `math.fsum` is order-independent, and the ordinary residual sums a
+   deterministically ordered list — outputs are hash-stable across runs.
+5. **Split-before-outcome: MET.** `split_manifest.csv` written and hashed
+   (`run.py:324`, `run.py:213-229`) before the input CSV is first opened
+   (`run.py:325`).
 6. **Harness smoke: MET** (statically; runtime attested by
-   `verification.json`). Accepts `--output-dir`, synthesizes its own input,
-   bypasses no real gate (authority returns a non-blob sentinel,
-   `run.py:117-118`), and is forced to `SMOKE_ONLY` (`run.py:340-341`), which
+   `verification.json`). Synthetic input, authority sentinel that is not a
+   blob (`run.py:117-118`), forced `SMOKE_ONLY` (`run.py:352-353`) which
    satisfies neither contractual pattern.
 
-## Contract-fidelity confirmations (what passes)
+## Contract-fidelity confirmations (unchanged from round 1, spot-re-verified)
 
-- Primary metric formula matches the contract exactly:
-  `abs(fsum(c_i) - (mean_3 - mean_2))` with `c_i = (d_3 - d_2)/99`, stable
-  summation via `math.fsum`, tolerance `1e-12` (`run.py:253-257, 334-335`) —
-  the *comparison* is correct; only its recording is deficient (B1).
-- Cohort gate implements the full `row_gate`: SHA-256 identity, required
-  columns, finiteness, duplicate keys, 99 cases per band, identical band
-  sets, non-primary strata excluded not admitted (`run.py:175-210, 314-315`).
-- Authority gate: marker must bind the exact current contract blob
-  (`run.py:121-127`), plus a literal-presence check on the approved text
-  (`run.py:128-134`).
-- Caps and stopping rule: one variant, zero GPU, one (unused) seed, fail-fast
-  on first invalidating failure, single pass (`run.py` has no loop over
-  variants or seeds); algebra failure exits 5 and is never reframed as the
-  negative pattern (`run.py:334-335`), matching the contract's invalidating
-  classification.
-- No-result-exposure discipline holds across every output and log: all
-  persisted/printed content is booleans, counts, hashes, paths, and
-  anonymized indices; no case_id, d/delta/c value, rank, share, coordinate,
-  mean, or gap is emitted (verified for `determinism_manifest_*.json`,
-  `split_manifest.*`, `exclusions.csv`, `sample_audit.csv`,
-  `definition_audit.json`, `summary.json`, `resolved_config.json`,
-  `input_manifest.csv`, `run_log.txt`, stdout, and failure messages).
-- Claim discipline: the three status strings are exactly the contract's two
-  patterns plus `SMOKE_ONLY`; the plain-language templates
-  (`run.py:380-387`) claim drafting authorization only, never dominance or
-  concentration.
-- Readability: module docstring with exit-code map, narrated phases,
-  provenance-annotated constants, progress printing, plain-English closing
-  template — the human can run and read this.
-- Practicalities: stdlib-only (`requirements.txt` matches
-  `environment_record`), no pip installs, no prompts, `--output-dir`
-  external, Colab-compatible.
+- Primary metric formula, stable summation, and 1e-12 tolerance match the
+  contract (`run.py:253-257, 346-347`); algebra failure exits 5 and is
+  never reframed as the negative pattern.
+- Cohort gate implements the full `row_gate`; caps respected (one variant,
+  zero GPU, one unused seed, single pass, 5-minute wall check at
+  `run.py:358-359`); required outputs all written (`run.py:370-384, 401`).
+- No-result-exposure discipline holds across every output, log line, and
+  failure message, including the two newly persisted residuals.
+- Claim discipline: the three status strings are exactly the contract's
+  two patterns plus `SMOKE_ONLY`; the plain-language templates
+  (`run.py:392-399`) claim drafting authorization only.
 
 ## Verdict
 
-Both blocking findings are confined to the audit's recording/verification
-layer; neither touches the estimator, the gates, the cohort, or the exposure
-discipline, and both are small, contract-directed fixes. Scope must not
-expand while fixing them.
+Both round-1 blocking findings are resolved exactly as specified, the fix
+diff contains nothing else, and every identity anchor (contract blob,
+approval marker, frozen input hash) re-verifies. The audit now records what
+it measures and measures what it certifies.
 
 ```json
-{"verdict": "REVISE", "blocking": ["B1: ordinary-summation residual diagnostic required by analysis.tolerance is never computed or recorded, and neither residual value is persisted — the primary metric appears in no output, only a boolean (rule 1, contract fidelity)", "B2: the two frozen orderings from preprocessing.ordering are never constructed; the tie-rule uniqueness verdict certified by the positive pattern is hardcoded True rather than measured (rules 1-2, contract fidelity / silent-failure surface)"], "note": "Faithful gate, cohort, and exposure implementation; REVISE only to record both residual values and to actually construct-and-assert the frozen orderings instead of hardcoding the audit verdict."}
+{"verdict": "APPROVE", "blocking": [], "note": "B1 and B2 resolved as directed with no scope expansion: both residual values persisted in definition_audit.json (ordinary labeled diagnostic-only, no gate role) and both frozen orderings constructed with the tie-rule verdict measured rather than hardcoded."}
 ```
