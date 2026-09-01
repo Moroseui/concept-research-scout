@@ -1719,3 +1719,26 @@ and a FAILED(type) commit behind. 198/198 both runners, green again on
 the pristine-applied tree; state-verify 44/44; patch git-identical
 against pristine origin/main. Diagnosis of the actual trigger proceeds
 from the Actions step log; the next dispatch self-documents either way.
+
+## 2026-09-01 - R5f: codex API-key auth materialized (confer incident #2 closed)
+
+R5e's evidence invariants worked on first contact: the re-dispatched
+confer left the question-registered commit, the FAILED(SystemExit)
+commit, the receipt (codex draft leg, error, 15.1s, model None -- also
+documenting that AGENTS.toml's rotation pair orders codex first, so
+odd exchanges draft with codex and claude reviews; cross-family holds),
+and the verbatim log: 401 Unauthorized "Missing bearer or basic
+authentication in header" at api.openai.com. Diagnosis: the API-key
+branch correctly fired (the secret is set), but this codex CLI version
+does not read OPENAI_API_KEY from the environment for auth -- with no
+auth.json present it selected the API transport and sent no
+credentials. Remedy across all six agent workflows: the API-key branch
+now writes the key into codex's own auth store ({"OPENAI_API_KEY":
+...} in ~/.codex/auth.json, chmod 600) and sets preferred_auth_method
+= "apikey" in ~/.codex/config.toml; the OAuth-snapshot fallback branch
+is unchanged. Queued for round 9 (operator direction): a question
+funnel -- not every confer deserves the full adversarial treatment;
+tiering simple/factual asks to a lighter path with escalation rules,
+plus an open-source survey of routing/cascade precedents. All
+workflows YAML-validated; 198/198; patch git-identical against
+pristine origin/main.
