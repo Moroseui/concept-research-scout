@@ -3,15 +3,15 @@
 GENERATED VIEW (R5a). Never edit: regenerate with `python scout.py card-materialize 45`. Edits belong in the source artifacts this card renders.
 
 ## Identity
-- title: Tissue-normalized joint CBV/MTT compensation at matched flow
+- title: Did tissue composition create idea-023's sign reversal?
 - charter: ?   track: wide   card-id: isles24-scout-006-c01
 - ledger status: SHORTLISTED   scrutiny: SCOUTED   ledger events: 1
 
 ## Question
-Under a tissue-normalized reference at matched CBF deficit, does the joint CBV/MTT coordinate carry a directionally consistent, precision-bounded final-infarct association across within-patient flow bands in the icobrain cva treated cohort?
+Does per-patient Q1-minus-Q4 NCCT median-attenuation imbalance account for idea-023's opposite-signed mean final-infarct contrasts in flow bands 2 and 3?
 
 ## Declared vs derived status
-- idea_card.keystone_status: 'NOT_INSPECTED'
+- idea_card.keystone_status: 'INSPECTED_TRUE'
 - system-derived: no interpretation
 
 ## Contract lineage (approval marker history, oldest -> newest)
