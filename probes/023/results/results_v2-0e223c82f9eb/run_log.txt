@@ -1,0 +1,115 @@
+Approval gate passed for Phase S; contract blob 0e223c82f9eb879652a549df9bf857c155ef61db
+Determinism manifest (start):
+{
+  "idea_id": "idea-023",
+  "input_case_count": 0,
+  "input_paths": {
+    "contract": {
+      "path": "/content/scout-repo/ideas/023/probe_contract.yaml",
+      "sha256": "0e3d8589ab171c1c583ace47e38654384fa7588162506fb2eb1dc7b5d8f529eb"
+    },
+    "run_py": {
+      "path": "/content/scout-repo/probes/023/run.py",
+      "sha256": "80af2c8713df8c0598088cb8b3f061996c7a99362994a0fa43bf976df7efe188"
+    }
+  },
+  "input_row_count": 0,
+  "phase": "S",
+  "seed": 20260824
+}
+
+Synthetic candidate 1/60: N=20, M=50, width=0.08
+Synthetic candidate 2/60: N=20, M=50, width=0.1
+Synthetic candidate 3/60: N=20, M=50, width=0.12
+Synthetic candidate 4/60: N=20, M=50, width=0.15
+Synthetic candidate 5/60: N=20, M=100, width=0.08
+Synthetic candidate 6/60: N=20, M=100, width=0.1
+Synthetic candidate 7/60: N=20, M=100, width=0.12
+Synthetic candidate 8/60: N=20, M=100, width=0.15
+Synthetic candidate 9/60: N=20, M=200, width=0.08
+Synthetic candidate 10/60: N=20, M=200, width=0.1
+Synthetic candidate 11/60: N=20, M=200, width=0.12
+Synthetic candidate 12/60: N=20, M=200, width=0.15
+Synthetic candidate 13/60: N=25, M=50, width=0.08
+Synthetic candidate 14/60: N=25, M=50, width=0.1
+Synthetic candidate 15/60: N=25, M=50, width=0.12
+Synthetic candidate 16/60: N=25, M=50, width=0.15
+Synthetic candidate 17/60: N=25, M=100, width=0.08
+Synthetic candidate 18/60: N=25, M=100, width=0.1
+Synthetic candidate 19/60: N=25, M=100, width=0.12
+Synthetic candidate 20/60: N=25, M=100, width=0.15
+Synthetic candidate 21/60: N=25, M=200, width=0.08
+Synthetic candidate 22/60: N=25, M=200, width=0.1
+Synthetic candidate 23/60: N=25, M=200, width=0.12
+Synthetic candidate 24/60: N=25, M=200, width=0.15
+Synthetic candidate 25/60: N=30, M=50, width=0.08
+Synthetic candidate 26/60: N=30, M=50, width=0.1
+Synthetic candidate 27/60: N=30, M=50, width=0.12
+Synthetic candidate 28/60: N=30, M=50, width=0.15
+Synthetic candidate 29/60: N=30, M=100, width=0.08
+Synthetic candidate 30/60: N=30, M=100, width=0.1
+Synthetic candidate 31/60: N=30, M=100, width=0.12
+Synthetic candidate 32/60: N=30, M=100, width=0.15
+Synthetic candidate 33/60: N=30, M=200, width=0.08
+Synthetic candidate 34/60: N=30, M=200, width=0.1
+Synthetic candidate 35/60: N=30, M=200, width=0.12
+Synthetic candidate 36/60: N=30, M=200, width=0.15
+Synthetic candidate 37/60: N=35, M=50, width=0.08
+Synthetic candidate 38/60: N=35, M=50, width=0.1
+Synthetic candidate 39/60: N=35, M=50, width=0.12
+Synthetic candidate 40/60: N=35, M=50, width=0.15
+Synthetic candidate 41/60: N=35, M=100, width=0.08
+Synthetic candidate 42/60: N=35, M=100, width=0.1
+Synthetic candidate 43/60: N=35, M=100, width=0.12
+Synthetic candidate 44/60: N=35, M=100, width=0.15
+Synthetic candidate 45/60: N=35, M=200, width=0.08
+Synthetic candidate 46/60: N=35, M=200, width=0.1
+Synthetic candidate 47/60: N=35, M=200, width=0.12
+Synthetic candidate 48/60: N=35, M=200, width=0.15
+Synthetic candidate 49/60: N=40, M=50, width=0.08
+Synthetic candidate 50/60: N=40, M=50, width=0.1
+Synthetic candidate 51/60: N=40, M=50, width=0.12
+Synthetic candidate 52/60: N=40, M=50, width=0.15
+Synthetic candidate 53/60: N=40, M=100, width=0.08
+Synthetic candidate 54/60: N=40, M=100, width=0.1
+Synthetic candidate 55/60: N=40, M=100, width=0.12
+Synthetic candidate 56/60: N=40, M=100, width=0.15
+Synthetic candidate 57/60: N=40, M=200, width=0.08
+Synthetic candidate 58/60: N=40, M=200, width=0.1
+Synthetic candidate 59/60: N=40, M=200, width=0.12
+Synthetic candidate 60/60: N=40, M=200, width=0.15
+Determinism manifest (end):
+{
+  "idea_id": "idea-023",
+  "input_case_count": 0,
+  "input_paths": {
+    "contract": {
+      "path": "/content/scout-repo/ideas/023/probe_contract.yaml",
+      "sha256": "0e3d8589ab171c1c583ace47e38654384fa7588162506fb2eb1dc7b5d8f529eb"
+    },
+    "run_py": {
+      "path": "/content/scout-repo/probes/023/run.py",
+      "sha256": "80af2c8713df8c0598088cb8b3f061996c7a99362994a0fa43bf976df7efe188"
+    }
+  },
+  "input_row_count": 0,
+  "phase": "S",
+  "seed": 20260824
+}
+
+Final summary.json:
+{
+  "contract_satisfied": false,
+  "eligible_candidate_count": 52,
+  "idea_id": "idea-023",
+  "phase": "S",
+  "selected": [
+    20,
+    100,
+    0.15
+  ],
+  "simulation_output_sha256": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4",
+  "status": "PHASE_S_COMPLETE_REQUIRES_AMENDMENT"
+}
+
+Interpretation: Phase S completed. Stop now; amend the contract with the selected gates and hash, then obtain fresh approval.

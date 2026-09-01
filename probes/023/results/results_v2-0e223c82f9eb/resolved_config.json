@@ -1,0 +1,20 @@
+{
+  "approval_blob": "0e223c82f9eb879652a549df9bf857c155ef61db",
+  "cbf_percentile_bands": [
+    [
+      0,
+      33
+    ],
+    [
+      33,
+      67
+    ],
+    [
+      67,
+      100
+    ]
+  ],
+  "contract_blob": "0e223c82f9eb879652a549df9bf857c155ef61db",
+  "phase": "S",
+  "seed": 20260824
+}

@@ -1,0 +1,17 @@
+{
+  "idea_id": "idea-023",
+  "input_case_count": 0,
+  "input_paths": {
+    "contract": {
+      "path": "/content/scout-repo/ideas/023/probe_contract.yaml",
+      "sha256": "0e3d8589ab171c1c583ace47e38654384fa7588162506fb2eb1dc7b5d8f529eb"
+    },
+    "run_py": {
+      "path": "/content/scout-repo/probes/023/run.py",
+      "sha256": "80af2c8713df8c0598088cb8b3f061996c7a99362994a0fa43bf976df7efe188"
+    }
+  },
+  "input_row_count": 0,
+  "phase": "S",
+  "seed": 20260824
+}
