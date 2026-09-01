@@ -2059,3 +2059,29 @@ reviewer exploit; unblock blocking + ack flow; named history refusal).
 45/45; card 23 --check byte-identical; patch git-identical against
 pristine origin/main. Next per the ratified roadmap: 045 registry,
 then the attribution contract; R4 after the Wednesday freeze.
+
+## 2026-09-01 - idea 045 registry authored + local-import ancestry lane
+
+Round-10's registry-per-probe rule executed for its first beneficiary:
+ideas/045/registry.yaml declares the two sibling outcome-blind
+feasibility gates (feasibility_v1 pinned e7071541036a..., NEGATIVE;
+feasibility_v2 pinned 5615afea1e2f..., POSITIVE) -- no edge, since v2
+was informed by v1's geometry but consumes no artifact from it. One
+small mechanism accompanied it: locally executed bundles import
+through the normal lane with source_commit null in their authority
+receipts, so ratify-registry now falls back to the bundle's FIRST-ADD
+commit in main history -- the commit that introduced the bytes, whose
+tree must carry the approval binding that pin -- and records that
+commit in the governance imports row, where round-10's read-time
+verification re-proves it forever after. Regression proves the
+recorded ancestry survives verify_ratification_event; a fixture
+lesson en route: the template ships the production .gitignore, so
+fixtures must add -f bundles exactly as record-result does.
+REHEARSED on the real repository: ratify-registry 45 produced
+bindings e7071541036a@f40b247 and 5615afea1e2f@fb05835, import
+feasibility_v1 <- fe7d30a (manifest 004253540bab), BOTH NODES
+COMPLETE each under its own immutable contract, card RATIFIED,
+state-verify 45/45. 211/211 both runners on build and
+pristine-applied trees; patch git-identical. Operator sequence:
+apply, then ratify-registry 45 --operator, then the attribution
+contract may be drafted.
