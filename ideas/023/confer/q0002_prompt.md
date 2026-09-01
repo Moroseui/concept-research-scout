@@ -622,3 +622,11 @@ until the interpretation passes review).
 
 ===== OPERATOR QUESTION (respond; challenge premises that conflict with the evidence) =====
 Since the study showed CBV doesn't matter biologically, should we drop perfusion features entirely?
+
+===== REVISION ROUND =====
+The opposing-family reviewer CONTESTed the meat of your answer (findings below). Revise your answer file to fix ONLY these findings; keep the required structure.
+[
+ "The answer crosses from the supported conclusion\u2014do not drop perfusion based on this study\u2014to the unsupported claim that the evidence supplies positive signal for keeping perfusion and points opposite to abandonment; actual feature retention is unanswerable without a model-level ablation.",
+ "It overstates exploratory band-level mean contrasts as precise, real associations despite the interpretation's exploratory classification, near-zero medians, heterogeneity, and tissue caveat.",
+ "It calls selected-case HU imbalance a documented confound even though cohort prevalence and causal responsibility for the gate failure were not established."
+]
