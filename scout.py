@@ -2388,7 +2388,11 @@ def validate_bundle(idea, bundle, expected_blob=None):
         fails.append(f'summary idea_id {sid!r} does not name idea {idea:03d}')
     ph = summary.get('phase')
     if req or hist_iface is not None:
-        if not (isinstance(ph, str) and len(ph) == 1 and ph.isalpha()):
+        # S2b: phase is an importer-side convention, not a contract
+        # requirement -- when a declared interface omits it, absence is
+        # permitted; when present it must still be a single letter.
+        if ph is not None and not (isinstance(ph, str) and len(ph) == 1
+                                   and ph.isalpha()):
             fails.append(f'summary phase {ph!r} is not a single-letter phase')
     elif ph not in ('M', 'B'):
         fails.append(f'summary phase {ph!r} not in M/B')
@@ -2694,7 +2698,7 @@ def record_result(args):
                    cwd=ROOT, check=True)
     subprocess.run(['git', 'commit', '-m',
                     f'idea {n3}: validated results bundle {dest_name} '
-                    f'(phase {summary.get("phase")}'
+                    f'(phase {summary.get("phase") or "-"}'
                     + (f', pin {eb[:12]}' if eb else '') + ')'],
                    cwd=ROOT, check=True, capture_output=True)
     print(f'Imported {dest.relative_to(ROOT)} (committed; manifest '

@@ -4456,6 +4456,19 @@ class TestS2ContractAuthoritativeCore(Harness):
         self.assertEqual(sc.validate_bundle(1, b), [],
                          "declared interface satisfied; provenance.json "
                          "must not be demanded")
+        # phase is optional under a declared interface (S2b); when
+        # present it must still be a single letter
+        summ = json.loads((b / "summary.json").read_text())
+        summ.pop("phase")
+        (b / "summary.json").write_text(json.dumps(summ))
+        self.assertEqual(sc.validate_bundle(1, b), [],
+                         "absent phase must pass under a declared interface")
+        summ["phase"] = "XY"
+        (b / "summary.json").write_text(json.dumps(summ))
+        self.assertTrue(any("single-letter" in f
+                            for f in sc.validate_bundle(1, b)))
+        summ["phase"] = "G"
+        (b / "summary.json").write_text(json.dumps(summ))
         # legacy path: no declared interface -> historical core applies
         (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
         fails = sc.validate_bundle(1, b)
