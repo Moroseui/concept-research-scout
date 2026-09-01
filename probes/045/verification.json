@@ -1,14 +1,14 @@
 {
-  "checked_at": "2026-09-01T04:21:35Z",
+  "checked_at": "2026-09-01T04:29:30Z",
   "contract_blob": "e7071541036a17f4a02ec264693209fec5c1337d",
   "expensive_compute_launched": false,
   "idea_id": "045",
   "issues": [],
   "passed": true,
-  "run_py_sha256": "d9a3b4e3c850486b6f5e885ae962dfd65b0d7d237d96bf6132adb5732a74598a",
+  "run_py_sha256": "8d685dd4847c2343ace4285d84d7f17e18de386dceed4c769576d40ce0817107",
   "smoke": {
     "contractual_gate_satisfied": false,
-    "elapsed_ms": 266,
+    "elapsed_ms": 264,
     "exit_code": 0,
     "outcome_values_read": 0,
     "reserved_cases_accessed": 0,
@@ -16,12 +16,16 @@
   },
   "checks": {
     "approval_marker_matches_contract_blob": true,
+    "audit_only_key_exits_with_join_failure": true,
+    "band_filter_row_accounting_is_complete": true,
+    "bidirectional_join_sets_are_equal_before_design": true,
     "cli_missing_output_dir_exits_2": true,
     "determinism_manifests_equal": true,
     "forbidden_outcome_field_not_split_indexed_or_retained": true,
     "git_diff_check": true,
     "module_compiles": true,
     "required_outputs_present_in_smoke_bundle": true,
+    "row_totals_present_in_manifests_and_summary": true,
     "smoke_under_60_seconds": true,
     "split_manifest_written_before_keys_file_open": true
   }

@@ -156,12 +156,15 @@ def load_audit(path):
     if not path.is_file():
         fail(EXIT_INPUT, f"missing audit input: {path}")
     rows = []
+    total_rows = 0
+    filtered_rows = 0
     with path.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         required = {"case_id", "stratum", "style_group", "median_hu"}
         if not reader.fieldnames or not required.issubset(reader.fieldnames):
             fail(EXIT_INPUT, "audit CSV lacks required columns")
         for raw in reader:
+            total_rows += 1
             try:
                 band = int(raw["stratum"])
                 median_hu = float(raw["median_hu"])
@@ -169,10 +172,13 @@ def load_audit(path):
                 fail(EXIT_DESIGN, "audit CSV contains a nonnumeric stratum or median_hu")
             if band in PRIMARY_BANDS:
                 rows.append((raw["case_id"], band, raw["style_group"], median_hu))
+            else:
+                filtered_rows += 1
     if not rows:
         fail(EXIT_INPUT, "audit CSV contains no primary-band rows")
     assert all(row[1] in PRIMARY_BANDS for row in rows)
-    return rows
+    assert total_rows == len(rows) + filtered_rows
+    return rows, total_rows, filtered_rows
 
 
 def write_split_before_outcome(output_dir, audit_rows, smoke):
@@ -205,6 +211,8 @@ def load_keys_without_outcomes(path):
     if not path.is_file():
         fail(EXIT_INPUT, f"missing keys input: {path}")
     keys = set()
+    total_rows = 0
+    filtered_rows = 0
     with path.open(encoding="utf-8") as handle:
         try:
             header = next(handle).rstrip("\r\n")
@@ -213,6 +221,7 @@ def load_keys_without_outcomes(path):
         if header != "case_id,stratum,q1_voxels,q4_voxels,d":
             fail(EXIT_INPUT, "keys CSV header differs from the approved five-column schema")
         for raw_line in handle:
+            total_rows += 1
             # Count delimiters to validate the frozen schema without splitting
             # or indexing the forbidden outcome field after the second comma.
             if raw_line.count(",") != 4:
@@ -229,9 +238,12 @@ def load_keys_without_outcomes(path):
                 if key in keys:
                     fail(EXIT_JOIN, f"duplicate outcome key: {key}")
                 keys.add(key)
+            else:
+                filtered_rows += 1
             # Deliberately do not slice, split, parse, or retain the remainder.
     assert all(band in PRIMARY_BANDS for _, band in keys)
-    return keys
+    assert total_rows == len(keys) + filtered_rows
+    return keys, total_rows, filtered_rows
 
 
 def build_design(audit_rows, outcome_keys, expected_count):
@@ -251,6 +263,16 @@ def build_design(audit_rows, outcome_keys, expected_count):
         cells[key] = median_hu
     assert all(key[2] in permitted_styles for key in cells)
 
+    # The contract requires a bidirectional join. Comparing audit-side keys
+    # here prevents an extra or reserved audit case from being silently ignored.
+    audit_keys = {(case_id, band) for case_id, band, _style in cells}
+    if audit_keys != outcome_keys:
+        audit_only = sorted(audit_keys - outcome_keys)[:10]
+        outcome_only = sorted(outcome_keys - audit_keys)[:10]
+        fail(EXIT_JOIN,
+             "audit and outcome-key case/stratum sets do not match exactly; "
+             f"audit_only_sample={audit_only}, outcome_only_sample={outcome_only}")
+
     design_rows = []
     for band in PRIMARY_BANDS:
         band_cases = sorted({case_id for case_id, key_band in outcome_keys if key_band == band})
@@ -269,8 +291,7 @@ def build_design(audit_rows, outcome_keys, expected_count):
                                 "q4_median_hu": cells[q4_key],
                                 "hu_imbalance": imbalance})
     expected_keys = {(row["case_id"], row["stratum"]) for row in design_rows}
-    if expected_keys != outcome_keys:
-        fail(EXIT_JOIN, "audit and outcome-key case/stratum sets do not match exactly")
+    assert expected_keys == outcome_keys == audit_keys
     assert len(design_rows) == expected_count * len(PRIMARY_BANDS)
     return design_rows, exclusions
 
@@ -364,15 +385,18 @@ def measure_design(design_rows):
     return design_rows, diagnostics
 
 
-def make_manifest(audit_path, keys_path, audit_rows, outcome_keys, split_record, seed, smoke):
+def make_manifest(audit_path, keys_path, audit_rows, outcome_keys, split_record, seed, smoke,
+                  audit_total_rows, keys_total_rows):
     return {
         "idea_id": IDEA_ID, "contract_version": CONTRACT_VERSION, "smoke": smoke,
         "seed": seed,
         "inputs": [
             {"path": str(audit_path.resolve()), "sha256": sha256_file(audit_path),
-             "selected_rows": len(audit_rows), "selected_cases": len({row[0] for row in audit_rows})},
+             "total_rows": audit_total_rows, "selected_rows": len(audit_rows),
+             "selected_cases": len({row[0] for row in audit_rows})},
             {"path": str(keys_path.resolve()), "sha256": sha256_file(keys_path),
-             "selected_rows": len(outcome_keys), "selected_cases": len({key[0] for key in outcome_keys})},
+             "total_rows": keys_total_rows, "selected_rows": len(outcome_keys),
+             "selected_cases": len({key[0] for key in outcome_keys})},
         ],
         "split_manifest_sha256": split_record["sha256"],
         "split_rows": split_record["rows"],
@@ -407,6 +431,10 @@ def main():
             {"case_id": key[0], "stratum": key[1], "q1_voxels": 100, "q4_voxels": 100,
              "d": "OUTCOME_SENTINEL_MUST_NOT_BE_PARSED"} for key in sorted(outcome_keys)
         ])
+        audit_total_rows = len(audit_rows)
+        audit_filtered_rows = 0
+        keys_total_rows = len(outcome_keys)
+        keys_filtered_rows = 0
         expected_count = 24
     else:
         audit_path = args.audit_csv
@@ -414,7 +442,7 @@ def main():
         for path in (audit_path, keys_path):
             if "test" in str(path).lower() or "reserv" in str(path).lower():
                 fail(EXIT_INPUT, f"test/reserved-looking input path refused: {path}")
-        audit_rows = load_audit(audit_path)
+        audit_rows, audit_total_rows, audit_filtered_rows = load_audit(audit_path)
         expected_count = EXPECTED_CASES_PER_BAND
 
     cases_by_band, split_record = write_split_before_outcome(args.output_dir, audit_rows, args.smoke)
@@ -424,24 +452,37 @@ def main():
     # consume case_id and stratum only. Validate one-to-one Q1/Q4 joins and
     # record every excluded non-primary audit cell.
     log("PHASE 2/4 — validate identities, joins, values, and exclusions", log_lines)
-    outcome_keys = load_keys_without_outcomes(keys_path)
+    outcome_keys, keys_total_rows, keys_filtered_rows = load_keys_without_outcomes(keys_path)
     design_rows, exclusions = build_design(audit_rows, outcome_keys, expected_count)
+    if audit_filtered_rows:
+        exclusions.append({"case_id": "*", "stratum": "outside_primary",
+                           "item": "bin_tissue_audit.csv", "reason": "non_primary_band",
+                           "count": audit_filtered_rows})
+    if keys_filtered_rows:
+        exclusions.append({"case_id": "*", "stratum": "outside_primary",
+                           "item": "per_patient.csv", "reason": "non_primary_band",
+                           "count": keys_filtered_rows})
     exclusions_path = args.output_dir / "exclusions.csv"
-    write_csv(exclusions_path, ["case_id", "stratum", "item", "reason"], exclusions)
-    log(f"Validated {len(design_rows)} patient-band rows; exclusions: {len(exclusions)}", log_lines)
+    for exclusion in exclusions:
+        exclusion.setdefault("count", 1)
+    write_csv(exclusions_path, ["case_id", "stratum", "item", "reason", "count"], exclusions)
+    excluded_input_rows = sum(int(item["count"]) for item in exclusions)
+    log(f"Validated {len(design_rows)} patient-band rows; exclusion records: {len(exclusions)}, rows: {excluded_input_rows}", log_lines)
 
     start_manifest = make_manifest(audit_path, keys_path, audit_rows, outcome_keys,
-                                   split_record, SEED, args.smoke)
+                                   split_record, SEED, args.smoke,
+                                   audit_total_rows, keys_total_rows)
     write_json(args.output_dir / "determinism_manifest_start.json", start_manifest)
     input_manifest_rows = []
     for item in start_manifest["inputs"]:
         input_manifest_rows.append({
             "path": item["path"], "sha256": item["sha256"],
+            "total_rows": item["total_rows"],
             "selected_rows": item["selected_rows"],
             "selected_cases": item["selected_cases"], "seed": SEED,
         })
     write_csv(args.output_dir / "input_manifest.csv",
-              ["path", "sha256", "selected_rows", "selected_cases", "seed"],
+              ["path", "sha256", "total_rows", "selected_rows", "selected_cases", "seed"],
               input_manifest_rows)
     print("START DETERMINISM MANIFEST")
     print(json.dumps(start_manifest, indent=2, sort_keys=True))
@@ -475,7 +516,10 @@ def main():
         "primary_metric_value": diagnostics["condition_number"],
         "gates": diagnostics["gates"],
         "analysis_rows": len(design_rows), "unique_cases": len({row["case_id"] for row in design_rows}),
-        "exclusion_rows": len(exclusions), "reserved_cases_accessed": 0,
+        "exclusion_records": len(exclusions), "excluded_input_rows": excluded_input_rows,
+        "audit_total_rows": audit_total_rows, "audit_selected_rows": len(audit_rows),
+        "keys_total_rows": keys_total_rows, "keys_selected_rows": len(outcome_keys),
+        "reserved_cases_accessed": 0,
         "outcome_values_read": 0,
     }
     write_json(args.output_dir / "summary.json", summary)
@@ -497,7 +541,8 @@ def main():
     write_json(args.output_dir / "environment.txt", environment)
 
     end_manifest = make_manifest(audit_path, keys_path, audit_rows, outcome_keys,
-                                 split_record, SEED, args.smoke)
+                                 split_record, SEED, args.smoke,
+                                 audit_total_rows, keys_total_rows)
     if start_manifest != end_manifest:
         fail(EXIT_OUTPUT, "start and end determinism manifests differ")
     write_json(args.output_dir / "determinism_manifest_end.json", end_manifest)
