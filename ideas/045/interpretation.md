@@ -1,19 +1,26 @@
 # Interpretation — idea 045, probe contract v3 (pooled-slope attenuation attribution)
 
-Results bundle: `probes/045/results/results_v4/`, imported at commit
-`14b183f0b5696bf7ce1d5320d2b71e95353447a4` (import receipt
-`probes/045/results/results_v4.import.json`: `manifest_sha256`
+Results bundle: `probes/045/results/results_v4/`, imported through
+record-result under the local-import ancestry lane. Its identity is the
+import receipt's manifest: `manifest_sha256`
 `3bbdd2fd47917fd3305002276d346c045e7a75bb7e7a097d2b9afe74573c3b68`,
-`file_count` 13, `source_commit` null — locally executed bundle under the
-local-import ancestry lane). All citations below are relative to that
-bundle root at that commit unless an explicit repository path is given.
+`file_count` 13, `source_commit` null (locally executed), imported
+2026-09-01T07:11:29+00:00 [cite:
+probes/045/results/results_v4.import.json | manifest_sha256, file_count,
+source_commit, imported_utc | values]. All citations below are relative
+to that bundle root as committed unless an explicit repository path is
+given.
 
 Governing identity: contract blob
 `b1e283613d4fd47c77bfd1f2838a54791eb25954` [cite: resolved_config.json |
 contract_blob | value], `contract_version` 3 [cite: resolved_config.json |
-contract_version | value], matching the human approval marker of
-2026-09-01T06:57:20Z (`ideas/045/HUMAN_APPROVED_PROBE`, which also pins
-registry sha `1c0e82a6…`) and the current `ideas/045/probe_contract.yaml`
+contract_version | value], matching the human approval marker's bound
+blob [cite: ideas/045/HUMAN_APPROVED_PROBE | contract_blob | value],
+approved at 2026-09-01T06:57:20.966365+00:00
+[cite: ideas/045/HUMAN_APPROVED_PROBE | line 1 | timestamp]; the marker
+also pins registry sha `1c0e82a6…`
+[cite: ideas/045/HUMAN_APPROVED_PROBE | registry_sha256 | value]. The
+marker-bound blob equals the current `ideas/045/probe_contract.yaml`
 byte-for-byte (git hash-object recomputed during this interpretation).
 Inputs are the two frozen tables of the imported idea-023 take-13 bundle,
 identity-pinned to the contract's `frozen_inputs` and re-verified in-run:
@@ -64,8 +71,9 @@ source.
    smoke off [cite: summary.json | smoke | value]; the pre-approval
    harness self-check passed at 2026-09-01T07:10:41Z
    [cite: probes/045/verification.json | passed, checked_at | values];
-   run.py sha256 `69622688…` matches the round-1 cross-family APPROVE
-   (`ideas/045/probe_review.md`), recomputed during this interpretation.
+   the reviewed probe code is pinned at run.py sha256 `69622688…` in the
+   round-1 cross-family APPROVE [cite: ideas/045/probe_review.md |
+   opening paragraph | run.py sha256].
 
 2. **Outcome-access ordering held.** The 198-row split was frozen and
    hashed before the outcome file was first opened
@@ -76,8 +84,9 @@ source.
    split_manifest.json | sha256 | value], so the outcome analysis ran on
    exactly the frozen 198 case-band rows certified feasible by v2. Zero
    reserved cases were accessed [cite: summary.json |
-   reserved_cases_accessed | value]; the 49 reserved cases remain
-   untouched.
+   reserved_cases_accessed | value]; the parent census's 49 reserved
+   cases [cite: probes/023/results/results_v2/summary.json |
+   reserved_case_count | value] remain untouched.
 
 3. **Cohort, join, and exclusion accounting are complete.** 99 unique
    cases, 198 analysis rows [cite: summary.json | unique_cases,
@@ -128,26 +137,23 @@ Interpretive steps beyond the frozen rule; every number cited, the
 reading mine.
 
 1. **The measured explanation fails structurally, not marginally.**
-   Adjustment moved each band mean by only ±0.0006705872700788901
-   (band-2 change 95% CI [−0.0011545729065425532,
-   +0.0029349507985416243]; band-3 change the exact mirror)
+   Adjustment moved the band-2 mean by +0.0006705872700788901 (95% CI
+   [−0.0011545729065425532, +0.0029349507985416243]) and the band-3
+   mean by −0.000670587270078838 (95% CI [−0.0029349507985416763,
+   +0.001154572906542486]) [cite: bootstrap_summary.json |
+   point_estimates, intervals | band2_adjustment_change,
+   band3_adjustment_change], and the absolute band gap changed by
+   −0.0013411745401577246 (95% CI [−0.005869901597083304,
+   +0.002309145813085035]) [cite: bootstrap_summary.json |
+   point_estimates, intervals | absolute_band_difference_change],
+   against an adjusted gap of 0.053736188629920065 (95% CI
+   [0.025413321882444898, 0.08507011789496013])
    [cite: bootstrap_summary.json | point_estimates, intervals |
-   band2_adjustment_change, band3_adjustment_change], and the absolute
-   band gap changed by −0.0013411745401577246 (95% CI
-   [−0.005869901597083304, +0.002309145813085035])
-   [cite: bootstrap_summary.json | point_estimates, intervals |
-   absolute_band_difference_change] against an adjusted gap of
-   0.053736188629920065 (95% CI [0.025413321882444898,
-   0.08507011789496013]) [cite: bootstrap_summary.json |
-   point_estimates, intervals | adjusted_band3_minus_band2]. Even at the
-   bootstrap extremes, common-slope HU adjustment dents the band gap by
-   less than 0.006 of its ~0.054 size. The mirror-exact band changes are
-   algebra, not coincidence: with 99 rows per band and pooled-mean
-   centering, the two band-mean centered imbalances are equal and
-   opposite, so bands 2 and 3 carry nearly the same average HU
-   imbalance — a common slope of any magnitude could barely have moved
-   this band contrast. The decisive verdict is therefore robust to the
-   slope's imprecision, not dependent on it.
+   adjusted_band3_minus_band2]. Set side by side, these cited estimates
+   show the gap change — across its entire bootstrap interval — to be
+   small relative to the adjusted gap and its interval. My reading: the
+   decisive verdict is robust to the slope's imprecision, not dependent
+   on it.
 
 2. **The pooled slope itself is small and imprecise.** beta_HU is
    0.0010664775781553057 d-units per HU of Q1-minus-Q4 imbalance, 95% CI
@@ -158,17 +164,23 @@ reading mine.
    is only that the ASSOCIATION arm's precondition also failed, so the
    classification did not turn on rule precedence.
 
-3. **Row-level heterogeneity runs against a simple attenuation story,
-   echoing the critique's pre-registration reading.** The largest
-   positive imbalance row (sub-stroke0183, band 2, +18.0 HU) has
-   observed d +0.24045261669024046 against fitted −0.011965021539448069
-   — residual +0.25241763822968855 [cite: per_patient_attribution.csv |
+3. **In the two most imbalanced rows, attenuation and outcome do not
+   track each other, echoing the critique's pre-registration reading.**
+   Across the 198 analysis rows, the largest positive and most negative
+   `hu_imbalance` values are +18.0 and −28.0
+   [cite: per_patient_attribution.csv | all 198 rows | hu_imbalance].
+   The +18.0 row (sub-stroke0183, band 2) has observed d
+   +0.24045261669024046 against fitted −0.011965021539448069 — residual
+   +0.25241763822968855 [cite: per_patient_attribution.csv |
    case_id=sub-stroke0183, stratum=2 | hu_imbalance, d, fitted_d,
-   residual_d]; the most negative imbalance row (sub-stroke0109, band 3,
-   −28.0 HU) has observed d exactly 0.0
-   [cite: per_patient_attribution.csv | case_id=sub-stroke0109,
-   stratum=3 | hu_imbalance, d]. Extreme attenuation imbalance and
-   extreme outcome contrast do not coincide in these data.
+   residual_d]; the −28.0 row (sub-stroke0109, band 3) has observed d
+   exactly 0.0 [cite: per_patient_attribution.csv |
+   case_id=sub-stroke0109, stratum=3 | hu_imbalance, d]. In these two
+   rows — and the claim is scoped to them; no governed cohort-wide
+   extremum comparison exists in this bundle — the most extreme measured
+   imbalances do not behave as a simple linear attenuation story would
+   predict: one lies far from its fitted value and the other shows no
+   outcome contrast at all.
 
 4. **The persisting reversal remains a property of means, not of the
    typical patient.** The parent's per-band median d is ≈0 in both
@@ -296,6 +308,8 @@ outcomes. Concretely:
    contract-declared terminal statuses and re-ratifying is the queued
    governance act probe_review finding 7 anticipated.
 
-The 49 reserved cases remain unread. What idea 045 leaves behind is a
+The parent census's 49 reserved cases
+[cite: probes/023/results/results_v2/summary.json | reserved_case_count
+| value] remain unread. What idea 045 leaves behind is a
 clean, citable close of its own question: the reversal idea-023 found is
 not an artifact of the tissue-composition difference its audit measured.

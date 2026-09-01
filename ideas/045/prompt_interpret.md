@@ -3337,158 +3337,181 @@ Can I supply the effect-modification family you ask for? Only with an external, 
 
 
 ===== ideas/045/decision.md =====
-# Decision — idea 045, probe contract v2
+# Decision — idea 045, probe contract v3
 
 ## Result card
 
-- **Idea:** idea-045 — "Did tissue composition create idea-023's sign reversal?"
-- **Probe:** probes/045, contract v2 — outcome-blind pooled-slope design
-  feasibility audit. Second experiment in idea 045's sequence, succeeding
-  the completed v1 interaction audit (blob `e7071541…`, NEGATIVE_PATTERN)
-  under the v1 decision's mandated specification revision; one authorized
-  variant, one run.
-- **Dataset:** two frozen derived tables from the imported idea-023 take-13
-  Phase-C bundle (ISLES'24, Zenodo record 16813698 via the parent's
-  provenance), pinned by sha256: `bin_tissue_audit.csv` `35e896df…`,
-  `per_patient.csv` `1d01551c…` [cite: input_manifest.csv | both rows |
-  sha256].
-- **Primary metric:** singular-value condition number of the frozen
-  three-column bands-2/3 pooled-slope design (intercept, band-3 indicator,
-  centered HU imbalance; no interaction), non-intercept columns
-  unit-L2-scaled for the conditioning calculation only; frozen bound ≤ 30.
-- **Contract blob:** `5615afea1e2f8309745a2d6558bd9118e5e9f1f3`, matching
-  the human approval marker of 2026-09-01T05:36:24Z and the bundle's
-  `resolved_config.json` (contract_version 2).
-- **Results bundle:** `probes/045/results/results_v3/` at commit
-  `7de47840d02d601dc802e151ecc9abde68d8f0ed` (import manifest sha256
-  `1e104c8b620b946ffe2d58be328067c2a9b786d0096a74736ed6676958baeed1`,
-  12 files).
+- **Idea:** idea-045 — "Did tissue composition create idea-023's sign
+  reversal?"
+- **Probe:** probes/045, contract v3 — the pooled-slope attenuation
+  attribution analysis: third executed probe in the idea's sequence,
+  after the v1 interaction feasibility audit (blob `e7071541…`,
+  NEGATIVE_PATTERN) and the v2 pooled-slope feasibility audit (blob
+  `5615afea…`, POSITIVE_PATTERN), and the **first outcome-reading
+  experiment in this lineage**. One authorized variant, one seed, one
+  run.
+- **Dataset:** two frozen derived tables from the imported idea-023
+  take-13 Phase-C bundle (ISLES'24, Zenodo record 16813698 via the
+  parent's provenance), pinned by sha256: `bin_tissue_audit.csv`
+  `35e896df…`, `per_patient.csv` `1d01551c…` [cite: input_manifest.csv |
+  both rows | sha256].
+- **Primary metric:** adjusted band-2 and band-3 equal-patient-weight
+  mean final-infarct contrasts (d) at pooled zero centered HU imbalance,
+  with 10,000-replicate patient-cluster bootstrap 95% percentile
+  intervals and the frozen opposite-sign persistence rule
+  (`interpretation_rule`, three classes, frozen precedence).
+- **Contract blob:** `b1e283613d4fd47c77bfd1f2838a54791eb25954`,
+  matching the human approval marker of 2026-09-01T06:57:20Z (which also
+  pins registry sha `1c0e82a6…`) and the bundle's `resolved_config.json`
+  (contract_version 3).
+- **Results bundle:** `probes/045/results/results_v4/` at commit
+  `14b183f0b5696bf7ce1d5320d2b71e95353447a4` (import manifest sha256
+  `3bbdd2fd47917fd3305002276d346c045e7a75bb7e7a097d2b9afe74573c3b68`,
+  13 files, locally executed, `source_commit` null under the
+  local-import ancestry lane).
 - **Families:** authoring family claude (this document and
   `interpretation.md`); reviewing family codex (cross-family citation
   review; this is round 1).
-- **Out-of-scope warnings — this result must NOT be read as:** evidence for
-  or against an HU-imbalance/final-infarct association (zero d values were
-  read); evidence about whether tissue composition explains idea-023's
-  band-2/band-3 reversal; validation of the common-slope restriction as
-  scientifically appropriate — the contract's open question for the human;
-  validation of median NCCT attenuation as a tissue or viability
-  measurement; a claim about any model's use of any signal; or
-  authorization to read outcomes under this contract. It is a
-  design-geometry feasibility verdict only, scoped to this frozen
-  specification on these 99 cases.
+- **Out-of-scope warnings — this result must NOT be read as:** evidence
+  of no association between HU imbalance and final-infarct contrast (a
+  null slope never establishes independence under this contract);
+  evidence that tissue composition plays no role in the parent reversal
+  (only the linear common-slope median-HU explanation is closed —
+  band-antisymmetric, nonlinear, and non-median composition effects were
+  unexaminable by construction); a causal claim (severity remains an
+  unadjusted common-cause alternative); validation of median NCCT
+  attenuation as a tissue or viability measurement; a claim about any
+  model's use of any signal; or generalization beyond the 99 analyzed
+  cases and released pipeline.
 
 ## Layer A — Finding
 
-The outcome-blind v2 feasibility audit returned POSITIVE_PATTERN: the
-reduced pooled-slope design passes all ten pre-registered gates [cite:
-summary.json | status, contractual_gate_satisfied, gates | values].
-Condition number 20.22 sits well inside the frozen ≤ 30 bound, maximum row
-leverage 0.1549 inside ≤ 0.20, pooled exposure support 29 distinct values
-against ≥ 20, and every one of the 99 leave-one-patient-out deletions
-preserves rank, conditioning, and leverage within bounds. Because the probe
-is deterministic and the deletion sweep is exhaustive, the pass is
-structural to the covariate geometry, not a single-patient accident. Zero
-outcome values were read and the 49 reserved cases remain untouched, so
-the scientific question is exactly as open as before. The most important
-caveat: a feasibility pass certifies numerical geometry only — whether one
-pooled slope preserves enough of the band-specific attribution question is
-the scientific judgment the contract explicitly reserves for the human at
-the next approval gate.
+The pre-registered decisive negative fired: adjusting for measured
+tissue-composition imbalance does **not** explain idea-023's sign
+reversal [cite: summary.json | status | value:
+DECISIVE_MEASURED_EXPLANATION_FAILURE]. After adjustment to pooled zero
+HU imbalance, band 2 stays negative (−0.0313, 95% CI [−0.0559, −0.0079])
+and band 3 stays positive (+0.0224, 95% CI [+0.0039, +0.0434]) — the
+parent's opposite-sign pattern survives with both patient-bootstrap
+intervals excluding zero. The failure is structural, not marginal:
+bands 2 and 3 carry nearly the same average HU imbalance, so adjustment
+moved each band mean by only ±0.00067 and the band gap by −0.0013
+against a gap of 0.0537. Confidence rests on the contract's own
+uncertainty machinery — a complete 10,000-replicate seed-20260901
+patient-cluster bootstrap with zero failed replicates on a
+transcription-exact reconstruction of the parent's band means. The most
+important caveat: the approved common-slope model cannot represent
+opposite-signed HU effects across bands, so only this one measured
+explanation is closed — not tissue composition in general, and not the
+cause of the reversal, which remains unexplained.
 
 ## Layer B — Derivation narrative
 
-1. **Governance chain.** The executed v1 audit (contract blob `e7071541…`)
-   returned a decisive feasibility negative mandating specification
-   revision; its interpretation passed cross-family review (round-2
-   APPROVE) and prescribed the pooled-slope respec. Contract v2 was
-   drafted (S2c, 2026-09-01) and human-approved at 05:36:24Z binding blob
-   `5615afea…`; probe code (run.py sha256 `9733732c…`, commit `f7aec67`)
-   passed cross-family review round 1 (APPROVE,
-   `ideas/045/probe_review.md`); the harness self-check passed
-   2026-09-01T05:47:02Z (`probes/045/verification.json`); the run executed
-   05:47:33Z [cite: environment.txt | captured_utc | value]; the bundle
-   validated and imported via the record-result gate at commit `7de4784`;
-   the transactional tail appended the scrutiny event and re-materialized
-   state at commit `b18cc95`.
-2. **Flow of rows (CONSORT-style).** In: 594 audit rows and 297 key rows
-   [cite: input_manifest.csv | both rows | total_rows]. Excluded: 297 rows
-   in 2 records, all reason `non_primary_band` — 198 audit band-1 rows, 99
-   per-patient band-1 rows [cite: exclusions.csv | case_id=* | count].
-   Selected: 396 audit rows, 198 key rows → joined into 198 analysis rows,
-   99 unique cases, 99 per band [cite: summary.json | analysis_rows,
-   unique_cases | values]. Reserved cases touched: 0; outcome values read:
-   0 [cite: summary.json | reserved_cases_accessed, outcome_values_read |
-   values]. The split manifest (hash `6446ad66…`) was frozen before the
-   outcome file was opened [cite: split_manifest.json |
-   created_before_outcome_file_open | value] and is byte-identical to the
-   v1 split — same cohort, changed specification.
-3. **Gates.** Integrity and join gates all passed. All ten feasibility
-   gates passed, by recorded name: `rank_3`, `condition_number_le_30`,
-   `each_band_99_cases`, `each_band_nonzero_iqr`,
-   `pooled_at_least_20_distinct`, `maximum_leverage_le_0_20`,
-   `top_10_include_at_least_5_patients`, `all_loo_rank_3`,
-   `all_loo_condition_le_30`, `all_loo_maximum_leverage_le_0_20`
-   [cite: design_diagnostics.json | gates | all keys]. Per the frozen
-   stopping rule the run stopped after the single design audit; no outcome
-   analysis began.
-4. **Kill conditions approached.** None fired. The tightest passed margin
-   was the v2-added per-deletion leverage gate: deleting sub-stroke0147
-   raises the maximum leverage to 0.18137690505955997 against the frozen
-   ≤ 0.20 bound [cite: design_diagnostics.json |
-   leave_one_patient_out_maximum_leverage_max | value]; every other
-   diagnostic passed with wide slack. This is a valid pre-registered
-   positive, not a near-miss reinterpreted as one.
+1. **Governance chain.** The v1 interaction audit failed feasibility
+   (condition 38.89 vs ≤30) and mandated respecification; the v2
+   pooled-slope audit passed all ten gates and its ratified
+   interpretation authorized drafting this outcome contract. Contract v3
+   was drafted through probe-plan (commit `2b816b9`) and human-approved
+   at 2026-09-01T06:57:20Z binding blob `b1e28361…` — the approval that
+   answered the standing open question (yes, the common slope is worth
+   reading d for, as one exploratory analysis). Probe code (run.py
+   sha256 `69622688…`) passed cross-family review round 1 (APPROVE,
+   `ideas/045/probe_review.md`); the harness self-check passed at
+   07:10:41Z [cite: probes/045/verification.json | passed, checked_at |
+   values]; the run executed at 07:11:28Z [cite: environment.txt |
+   captured_utc | value]; the bundle validated and imported via
+   record-result at commit `14b183f` with the transactional tail
+   (scrutiny PROBED, digest, state re-materialized) at commit `e73fcef`.
+2. **Flow of rows (CONSORT-style).** In: 594 audit rows and 297 outcome
+   rows [cite: input_manifest.csv | both rows | total_rows]. Excluded:
+   297 rows in 297 per-row records, all reason `non_primary_band` (198
+   audit band-1 rows, 99 outcome band-1 rows) [cite: exclusions.csv |
+   all rows | reason]; [cite: summary.json | excluded_input_rows,
+   exclusion_records | values]. Analyzed: 198 rows from 99 unique cases,
+   99 per band [cite: summary.json | analysis_rows, unique_cases |
+   values]. Reserved cases touched: 0 [cite: summary.json |
+   reserved_cases_accessed | value]. The split was frozen and hashed
+   before the outcome file was first opened [cite: split_manifest.json |
+   created_before_outcome_file_open | value], byte-identical to both
+   feasibility audits' split (hash `6446ad66…`).
+3. **Gates.** Authority, input-identity (in-run sha256 enforcement),
+   join/cohort (99/99, bidirectional key equality, Q1/Q4 completeness),
+   and the parent-reconstruction gate all passed — the unadjusted band
+   means equal the parent census values digit-for-digit
+   (−0.03200187198047477 / +0.02307549118960302) [cite: summary.json |
+   unadjusted_band2_mean, unadjusted_band3_mean | values];
+   [cite: probes/023/results/results_v2/per_stratum_summary.csv |
+   stratum=2, stratum=3 | mean_d]. The bootstrap completed 10,000/10,000
+   with zero failures [cite: bootstrap_summary.json |
+   replicates_completed, failed_replicates | values]; start/end
+   determinism manifests agree exactly [cite: run_log.txt | phase 4 |
+   final line]. The frozen classification then fired the decisive arm;
+   per the stopping rule the run wrote its outputs and stopped.
+4. **Kill conditions approached.** None fired. The tightest element of
+   the decisive conjunction is the adjusted band-3 lower interval edge
+   at +0.0038892800799788215 above zero [cite: summary.json |
+   primary_metric | adjusted_band3_ci95]; every other clause (bootstrap
+   failures 0 allowed 0, wall cap 30 min not approached, no analysis
+   deviation possible with a rank-3 three-coefficient design) held with
+   wide margin.
 
 ## Layer C — Claims table
 
-Bundle root: `probes/045/results/results_v3/` at commit
-`7de47840d02d601dc802e151ecc9abde68d8f0ed`.
+Bundle root: `probes/045/results/results_v4/` at commit
+`14b183f0b5696bf7ce1d5320d2b71e95353447a4`.
 
 | Claim | Value | Source |
 |---|---|---|
-| Status | POSITIVE_PATTERN | [cite: summary.json | status | value] |
-| Contractual gate satisfied | true | [cite: summary.json | contractual_gate_satisfied | value] |
-| Condition number (primary metric) | 20.222895326167112 | [cite: summary.json | primary_metric_value | value]; [cite: design_diagnostics.json | condition_number | value] |
-| Singular values | 14.089047615314039, 1.0066594185504498, 0.6966879563028607 | [cite: design_diagnostics.json | singular_values | list] |
-| Rank | 3 | [cite: design_diagnostics.json | rank | value] |
-| Pooled distinct imbalance values / n | 29 / 198 | [cite: design_diagnostics.json | pooled_support | distinct_values, n] |
-| Pooled IQR / range | 4.0 / −28.0 to +18.0 | [cite: design_diagnostics.json | pooled_support | iqr, minimum, maximum] |
-| Band-2 distinct values / IQR / range | 17 / 2.0 / −16.0 to +18.0 | [cite: design_diagnostics.json | band_support.2 | distinct_values, iqr, minimum, maximum] |
-| Band-3 distinct values / IQR / range | 26 / 6.0 / −28.0 to +14.0 | [cite: design_diagnostics.json | band_support.3 | distinct_values, iqr, minimum, maximum] |
-| Maximum row leverage | 0.15486441040641785 | [cite: design_diagnostics.json | maximum_row_leverage | value] |
-| Max-leverage row identity | sub-stroke0109, band 3, imbalance −28.0 (Q1 30.0, Q4 58.0) | [cite: per_row_design.csv | case_id=sub-stroke0109, stratum=3 | hu_imbalance, q1_median_hu, q4_median_hu, leverage] |
-| Leave-one-out condition min / max | 20.042406826639716 (sub-stroke0094) / 20.325983967379745 (sub-stroke0147) | [cite: design_diagnostics.json | leave_one_patient_out_condition_min, leave_one_patient_out_condition_max | value; per-case rows in leave_one_patient_out] |
-| Leave-one-out max-leverage min / max | 0.154871023519075 / 0.18137690505955997 (sub-stroke0147) | [cite: design_diagnostics.json | leave_one_patient_out_maximum_leverage_min, leave_one_patient_out_maximum_leverage_max | value] |
-| Leave-one-out entries / all rank 3 | 99 / true | [cite: design_diagnostics.json | leave_one_patient_out | count; gates.all_loo_rank_3] |
-| Top-10 leverage rows, distinct patients | 9 | [cite: design_diagnostics.json | top_10_distinct_patients | value] |
-| Pooled HU-imbalance mean (centering) | −0.15909079349402225 | [cite: design_diagnostics.json | pooled_hu_imbalance_mean | value] |
+| Status | DECISIVE_MEASURED_EXPLANATION_FAILURE | [cite: summary.json | status | value] |
+| Adjusted band-2 mean / 95% CI | −0.03133128471039588 / [−0.05589866048677166, −0.00789029340507566] | [cite: summary.json | primary_metric | adjusted_band2_mean, adjusted_band2_ci95] |
+| Adjusted band-3 mean / 95% CI | 0.022404903919524183 / [0.0038892800799788215, 0.043408163548312576] | [cite: summary.json | primary_metric | adjusted_band3_mean, adjusted_band3_ci95] |
+| Opposite-sign precise conjunction | true | [cite: summary.json | primary_metric | opposite_sign_precise] |
+| beta_HU (d per HU) / 95% CI | 0.0010664775781553057 / [−0.001291573690909813, 0.003726706840533707] | [cite: summary.json | beta_hu, beta_hu_ci95 | values] |
+| Unadjusted band means (b2 / b3) | −0.03200187198047477 / 0.02307549118960302 | [cite: summary.json | unadjusted_band2_mean, unadjusted_band3_mean | values] |
+| Parent census band means (identity check) | −0.03200187198047477 / 0.02307549118960302 | [cite: probes/023/results/results_v2/per_stratum_summary.csv | stratum=2, stratum=3 | mean_d] |
+| Unadjusted band CIs (b2 / b3) | [−0.056479044230713024, −0.008452118424017972] / [0.004474527044185139, 0.04414153124274204] | [cite: bootstrap_summary.json | intervals | unadjusted_band2_mean, unadjusted_band3_mean] |
+| Adjusted band-3 − band-2 / 95% CI | 0.053736188629920065 / [0.025413321882444898, 0.08507011789496013] | [cite: bootstrap_summary.json | point_estimates, intervals | adjusted_band3_minus_band2] |
+| Unadjusted band-3 − band-2 / 95% CI | 0.05507736317007779 / [0.026557076228044582, 0.08651935088065663] | [cite: bootstrap_summary.json | point_estimates, intervals | unadjusted_band3_minus_band2] |
+| Per-band adjustment change (b2 / b3) | +0.0006705872700788901 / −0.000670587270078838 | [cite: bootstrap_summary.json | point_estimates | band2_adjustment_change, band3_adjustment_change] |
+| Absolute band-gap change / 95% CI | −0.0013411745401577246 / [−0.005869901597083304, 0.002309145813085035] | [cite: bootstrap_summary.json | point_estimates, intervals | absolute_band_difference_change] |
+| Bootstrap replicates / failed / method / seed | 10000 of 10000 / 0 / percentile_95 / 20260901 | [cite: bootstrap_summary.json | replicates_completed, replicates_requested, failed_replicates, interval_method, seed | values] |
+| Model coefficients (intercept / band3 / beta_HU) | −0.03133128471039588 / 0.053736188629920065 / 0.0010664775781553057 | [cite: model_diagnostics.json | coefficients | all keys] |
+| Design rank / max leverage / pooled center / RSS | 3 / 0.15486441040641785 / −0.15909079349402225 / 2.4783249809755676 | [cite: model_diagnostics.json | design_rank, maximum_leverage, pooled_hu_imbalance_center, residual_sum_squares | values] |
+| Extreme-imbalance rows (heterogeneity note) | sub-stroke0183 b2: imbalance +18.0, d +0.24045261669024046, residual +0.25241763822968855; sub-stroke0109 b3: imbalance −28.0, d 0.0 | [cite: per_patient_attribution.csv | case_id=sub-stroke0183, stratum=2; case_id=sub-stroke0109, stratum=3 | hu_imbalance, d, residual_d] |
+| Parent band medians (means-vs-medians caveat) | −0.0005886681383370125 / 0.000556250836852953 | [cite: probes/023/results/results_v2/per_stratum_summary.csv | stratum=2, stratum=3 | median_d] |
 | Analysis rows / unique cases | 198 / 99 | [cite: summary.json | analysis_rows, unique_cases | values] |
-| Input row accounting | audit 594→396; keys 297→198; 297 excluded (2 records) | [cite: input_manifest.csv | both rows | total_rows, selected_rows]; [cite: summary.json | excluded_input_rows, exclusion_records | values]; [cite: exclusions.csv | case_id=* | count] |
-| Outcome values read / reserved cases accessed | 0 / 0 | [cite: summary.json | outcome_values_read, reserved_cases_accessed | values] |
-| Split frozen before outcome access | true; hash 6446ad66… (identical to v1) | [cite: split_manifest.json | created_before_outcome_file_open, sha256 | values]; [cite: probes/045/results/results_v2/split_manifest.json | sha256 | value] |
+| Input row accounting | audit 594→396; outcome 297→198; 297 excluded in 297 records, all non_primary_band | [cite: input_manifest.csv | both rows | total_rows, selected_rows]; [cite: exclusions.csv | all rows | reason] |
+| Outcome-blindness of design | split frozen before outcome open, hash 6446ad66… identical to v2/v3 | [cite: split_manifest.json | created_before_outcome_file_open, sha256 | values]; [cite: probes/045/results/results_v3/split_manifest.json | sha256 | value] |
+| Reserved cases accessed | 0 | [cite: summary.json | reserved_cases_accessed | value] |
 | Input pins | bin_tissue_audit.csv 35e896df…; per_patient.csv 1d01551c… | [cite: input_manifest.csv | both rows | sha256] |
-| Governing contract blob / version | 5615afea1e2f8309745a2d6558bd9118e5e9f1f3 / 2 | [cite: resolved_config.json | contract_blob, contract_version | values] |
-| v1 baseline (historical context, not a rerun) | condition 38.889769743817595; max leverage 0.26358236965333054 | [cite: probes/045/results/results_v2/design_diagnostics.json | condition_number, maximum_row_leverage | value] |
-| Variant / seed / smoke / network | 1 of 1 / 0 / false / 0 | [cite: run_log.txt | phase 1 | line 2]; [cite: summary.json | smoke | value]; [cite: resolved_config.json | seed, network_calls | values] |
+| Governing contract blob / version | b1e283613d4fd47c77bfd1f2838a54791eb25954 / 3 | [cite: resolved_config.json | contract_blob, contract_version | values] |
+| v1 baseline (why band-specific slopes were not fit) | condition 38.889769743817595 vs ≤30 | [cite: probes/045/results/results_v2/design_diagnostics.json | condition_number | value] |
+| Variant / seed / smoke / network | 1 of 1 / 20260901 (1 of 1) / false / 0 | [cite: summary.json | variants_run, smoke | values]; [cite: resolved_config.json | seed, network_calls | values] |
+| Environment | numpy 2.5.2, Python 3.13.7, 2026-09-01T07:11:28Z | [cite: environment.txt | numpy, python, captured_utc | values] |
 
 ## Decision
 
-**ADVANCE.** The pre-registered positive pattern executed exactly as
-contracted: the pooled-slope specification is numerically feasible, and
-per the contract's interpretation clause a pass "supports drafting a
-separate outcome-analysis contract for this one common-slope
-operationalization" — nothing more. Next acts: draft the outcome-analysis
-contract through probe-plan (pooled-slope fit of d with the
-equal-patient-weight estimator, patient-bootstrap intervals, and the
-card's frozen sensitivity-limited-null classification), for fresh human
-approval. That approval must answer the contract's standing open question:
-whether one pooled HU-imbalance slope preserves enough of the
-band-specific attribution question — a pooled slope cannot exhibit
-opposite-signed imbalance effects in bands 2 and 3, so if band-specificity
-is judged essential, the path is a redesigned band-specific specification,
-not this one. Under the v2 contract itself nothing further may be read;
-its stopping rule was honored and the 49 reserved cases and all observed d
-values remain unread. Round 1: this decision summarizes
+**PAUSE.** The card's question is answered on its own pre-registered
+terms: Q1-minus-Q4 median NCCT attenuation imbalance does not account
+for idea-023's opposite-signed band-2/band-3 contrasts at achieved
+precision — the reversal survives adjustment intact. This is the
+decisive arm the 2026-09-01 operator ruling explicitly preserved ("a
+reversal that persists under adjustment decisively shows attenuation
+imbalance does not explain it"), and the revision made this analysis the
+whole candidate, so the contract's spent stopping rule closes the card's
+scientific program. Nothing further is authorized: the removed
+tissue-gated census stays removed, the 49 reserved cases and all other
+outcome structure stay unread, and the lineage's own rule against a
+third same-taste operationalization applies. Next acts after
+cross-family review approves: (1) ratify-interpretation with status
+PAUSED, reason recorded as a pre-registered decisive negative for the
+measured explanation; (2) register any successor — band-specific
+specification solving the v1 conditioning failure, a non-median
+composition measurement, or a severity-adjustment design — as a new
+candidate through the normal pipeline; (3) ops: add the executed
+attribution node to `ideas/045/registry.yaml` and re-ratify (the marker
+pins the two-node registry sha `1c0e82a6…`; probe_review finding 7
+anticipated this). Round 1: this decision summarizes
 `interpretation.md`; no `evidence/decisions.md` entry is appended until
 the cross-family review approves.
 
@@ -3811,390 +3834,445 @@ planned model before any outcome value is looked at.
 
 
 ===== ideas/045/interpret_review.md =====
-# Interpretation review — idea 045, probe contract v2
+# Interpretation review — idea 045, probe contract v3
 
 ## 1. Citations resolve
 
-I resolved every citation in `interpretation.md` against
-`probes/045/results/results_v3/`, the explicitly cited v1 bundle, the import
-receipt, the approval marker, and the governing contract.
+I resolved the interpretation's citations against
+`probes/045/results/results_v4/`, the cited idea-023 and idea-045 historical
+bundles, the import receipt, the verification receipt, and the governing
+contract.
 
-- `results_v3.import.json`: `manifest_sha256` is
-  `1e104c8b620b946ffe2d58be328067c2a9b786d0096a74736ed6676958baeed1`
-  and `file_count` is 12.
 - `resolved_config.json`: contract blob
-  `5615afea1e2f8309745a2d6558bd9118e5e9f1f3`, contract version 2, seed 0,
-  network calls 0, smoke false, and output directory
-  `/tmp/p45v2/results_v3` all match. The blob matches the live contract and
-  `HUMAN_APPROVED_PROBE`; the marker timestamp is
-  2026-09-01T05:36:24.184335+00:00.
-- `input_manifest.csv`: the audit and key-table hashes are respectively
+  `b1e283613d4fd47c77bfd1f2838a54791eb25954`, contract version 3, network
+  calls 0, output directory `/tmp/p45v3/results_v4`, and seed 20260901 all
+  match.
+- `input_manifest.csv`: the audit and outcome hashes are respectively
   `35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2`
   and `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
-  their total/selected row counts are 594/396 and 297/198.
-- `summary.json`: status `POSITIVE_PATTERN`, contractual gate true, 198
-  analysis rows, 99 unique cases, 297 excluded rows in 2 records, zero
-  outcome values read, zero reserved cases accessed, and smoke false all
-  match.
+  row accounting is 594 total/396 selected and 297 total/198 selected.
+- `bootstrap_summary.json`: seed 20260901; 10,000 requested and completed;
+  zero failures; every quoted point estimate and interval matches. This
+  includes the adjusted band means and gap, unadjusted band means and gap,
+  both adjustment changes, absolute-gap change, and beta-HU interval.
+- `summary.json`: status `DECISIVE_MEASURED_EXPLANATION_FAILURE`; adjusted
+  band 2 -0.03133128471039588 with interval
+  [-0.05589866048677166, -0.00789029340507566]; adjusted band 3
+  0.022404903919524183 with interval [0.0038892800799788215,
+  0.043408163548312576]; `opposite_sign_precise: true`; beta-HU and its
+  interval; unadjusted means; 198 rows; 99 cases; 297 excluded rows and
+  records; zero reserved cases accessed; one variant; and `smoke: false`
+  all match.
+- `run_log.txt`: phase-1 line 2 records the one approved variant and seed;
+  the final phase-4 line records exact start/end determinism-manifest
+  agreement.
+- `probes/045/verification.json`: `passed: true` and checked time
+  `2026-09-01T07:10:41.507360+00:00` match.
 - `split_manifest.json`: 198 rows, 99 cases, frozen-before-outcome true,
-  zero reserved cases, and hash
+  zero reserved cases accessed, and hash
   `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`
-  match. The cited v1 split manifest carries the identical hash.
-- `exclusions.csv`: its two aggregate rows exclude 198 audit rows and 99
-  key rows, both for `non_primary_band`, totaling 297.
-- `run_log.txt`: phase 1 line 2 records `Variant 1/1` and seed 0; the final
-  phase-4 line records exact start/end determinism-manifest agreement.
-- `design_diagnostics.json`: all ten named gates are true; rank is 3;
-  condition number is 20.222895326167112; singular values are
-  14.089047615314039, 1.0066594185504498, and 0.6966879563028607; maximum
-  leverage is 0.15486441040641785; pooled support is n=198, 29 distinct,
-  IQR 4.0, range -28.0 to 18.0; band 2 is n=99, 17 distinct, IQR 2.0,
-  q25/q75 -2.0/0.0; band 3 is n=99, 26 distinct, IQR 6.0, q25/q75
-  -2.0/4.0; the top ten leverage rows span 9 patients; and pooled imbalance
-  mean is -0.15909079349402225. All 99 leave-one-patient-out records have
-  rank 3. Their condition-number range is 20.042406826639716 (deleting
-  sub-stroke0094) to 20.325983967379745 (deleting sub-stroke0147), and
-  their maximum-leverage range is 0.154871023519075 to
-  0.18137690505955997, with the latter after deleting sub-stroke0147.
-- `per_row_design.csv`: sub-stroke0109 band 3 has Q1/Q4 medians 30.0/58.0,
-  imbalance -28.0, and leverage 0.15486441040641785; sub-stroke0183 band 2
-  has imbalance 18.0 and leverage 0.07314570734779892; sub-stroke0147 band
-  3 has imbalance -27.0.
-- Historical `results_v2/design_diagnostics.json`: condition number
-  38.889769743817595 and maximum leverage 0.26358236965333054 match.
+  match. The cited v2 feasibility split manifest has the same hash.
+- `exclusions.csv`: 297 data rows are present and every reason is
+  `non_primary_band`.
+- `probes/023/results/results_v2/per_stratum_summary.csv`: band-2 and band-3
+  means exactly equal the quoted unadjusted means; their medians are
+  -0.0005886681383370125 and 0.000556250836852953.
+- `model_diagnostics.json`: all three coefficients, rank 3, maximum leverage
+  0.15486441040641785, and pooled center -0.15909079349402225 match.
+- `per_patient_attribution.csv`: all 198 rows contain the cited fitted,
+  residual, and leverage columns. The quoted sub-stroke0183 band-2 and
+  sub-stroke0109 band-3 rows are transcription-exact.
+- `probes/045/results/results_v2/design_diagnostics.json`: the historical
+  condition number 38.889769743817595 matches.
+- `probes/045/results/results_v4.import.json`: file count 13 matches.
 
-The prior review's two blocking prose-only percentages have been removed.
-No uncited quantitative claim or unresolved citation remains.
+Three citation defects are blocking under the stage's hard citation mandate:
+
+1. The `Suggests` section derives a new relative statement — that the
+   absolute-gap adjustment is “less than 0.006” of the approximately 0.054
+   adjusted gap. Neither cited artifact contains that ratio. Remove it or
+   add a governed analysis output that contains it; checker-side arithmetic
+   cannot supply an analysis-file aggregation.
+2. The same paragraph asserts that the two bands have nearly the same
+   average HU imbalance and that their band-mean centered imbalances are
+   equal and opposite. No cited result file reports either per-band mean
+   imbalance. The algebra may be correct, but it is a new uncited
+   aggregation. Remove this rationale or cite a governed output containing
+   the two band means and the stated relationship.
+3. The sentence “Extreme attenuation imbalance and extreme outcome contrast
+   do not coincide in these data” generalizes from two cited rows. The cited
+   selectors establish that those rows have the quoted values, but no cited
+   artifact identifies the outcome extrema or reports a complete extremum
+   comparison. Narrow the sentence to the two examples actually cited, or
+   cite a governed summary that supports the cohort-wide claim.
+
+There are also exact identity/count claims outside citation tags: the import
+commit, import manifest hash and file count in the opening parenthesis; the
+approval-marker timestamp; the recomputed `run.py` hash; and the statement
+that 49 reserved cases remain untouched. Add formal `[cite: ...]` tags for
+each exact claim or remove the exact values. A prose path in parentheses is
+not a citation tag under this checker contract. The bundle establishes zero
+reserved cases accessed, but does not establish the total of 49; that count
+needs its own resolvable source.
 
 ## 2. Claim bounds
 
-The interpretation remains inside the outcome-blind design-feasibility
-estimand and uses only the contract's pre-registered feasibility thresholds.
-There is no tier-2 endpoint, vendor comparison, or anchor-exclusion issue in
-this probe. The v1 values are framed as historical context, not a floor or a
-new comparator run. No aggregation absent from the cited analysis artifacts
-remains. Because the probe is deterministic, uncertainty is correctly handled
-through the exhaustive 99-case leave-one-patient-out analysis rather than
-seed-level variation.
+The principal result is bounded correctly to the approved common-slope,
+median-HU explanation. The interpretation does not turn the imprecise
+beta-HU slope into evidence of independence, does not claim causation,
+measurement validity, model use, or generalization, and preserves the
+opened-outcome/exploratory scope. The decisive status is the contract's
+pre-registered primary classification, not tier-2 threshold language.
 
-The text repeatedly states that the pass does not establish an outcome
-association, slope homogeneity, tissue-composition explanation, viability
-measurement, or model use. `ADVANCE` is limited to drafting a separately
-approved outcome-analysis contract, exactly as the governing contract allows.
+Uncertainty is handled at the patient level with the contracted clustered
+bootstrap. No seed-level uncertainty is invented for this deterministic
+fit. The parent reconstruction and v1 feasibility values are used as
+identity/lineage context, not as post-hoc floors.
+
+Subject to removing or sourcing the new aggregations identified in check 1,
+the claim bounds are compliant.
 
 ## 3. Completeness without cherry-picking
 
-I checked all ten gate booleans, both complete band-support summaries, pooled
-support, all 99 leave-one-patient-out records and their extrema, the full
-per-row leverage extrema, the top-ten patient count, the cited extreme rows,
-the complete row accounting, and the v1 headline diagnostics. No omitted
-stratum or deletion contradicts the feasibility pass.
+I checked both primary bands, all reported bootstrap intervals, the complete
+198-row attribution table, the full 297-row exclusion log, the parent means
+and medians, and the historical v1 conditioning failure. The interpretation
+includes the material complications: beta-HU is imprecise; the approved
+common-slope model cannot test band-antisymmetric effects; the earlier
+interaction specification failed its conditioning gate; the parent medians
+are near zero despite nonzero means; severity remains an unadjusted common
+cause; and nonlinear, non-median, and spatial composition effects remain
+open.
 
-The material complication is included: band 2 has only 17 distinct imbalance
-values and IQR 2.0, versus 26 and 6.0 in band 3. The interpretation correctly
-states that the pooled rule tolerates this compression rather than repairing
-it, and that reintroducing band-specific slopes would restore the v1 design
-problem.
+No omitted reported stratum reverses the stated primary pattern. The only
+completeness defect is the cohort-wide extrema sentence identified above:
+two selected examples cannot establish the generalized comparison as
+written.
 
 ## 4. Verdict separation
 
-`Demonstrates`, `Suggests`, and `Does not establish` are separated correctly.
-Exact gate outputs, row identities, and the exhaustive deletion sweep are
-treated as demonstrations. The diagnosis of the v1 interaction pathology,
-the meaning of compressed band-2 support, and centering's practical role are
-clearly labeled as suggestions. Scientific association, measurement validity,
-and model-use conclusions are expressly withheld. The result is called a
-valid computational-feasibility positive, not a scientific positive.
+The `Demonstrates`, `Suggests`, and `Does not establish` sections otherwise
+respect their roles. Contract outputs and the frozen classification appear
+under demonstrations; mechanistic readings are labeled suggestions; and
+the limitations explicitly prevent a measured-explanation failure from
+becoming a broad tissue-composition or no-association claim. The proposed
+`PAUSE` follows the card's stopping rule and is not presented as a new
+scientific finding.
 
 ## 5. Plain-language fidelity
 
-There is no separate plain-language summary section. The opening bottom line
-is a contract-scoped feasibility statement and does not upgrade the result
-into a tissue-composition or final-infarct finding.
+There is no separate plain-language summary section. The bold bottom line is
+contract-scoped and is supported by the cited adjusted band estimates and
+intervals. It does not upgrade the result beyond failure of the measured
+median-HU explanation.
 
 ```json
-{"verdict": "APPROVE"}
+{"verdict": "REVISE", "blocking": ["Remove or source the uncited derived ratio and per-band mean-imbalance algebra in Suggests item 1; the cited analysis files do not contain those aggregations.", "Narrow or source the cohort-wide extrema claim in Suggests item 3; two selected rows do not establish that extreme attenuation and outcome contrasts do not coincide across the data.", "Add formal resolvable citation tags for the exact import identity, approval timestamp, run.py hash, and 49-case reserved-count claims, or remove those exact claims."]}
 ```
 
 
 ===== ideas/045/interpretation.md =====
-# Interpretation — idea 045, probe contract v2 (outcome-blind pooled-slope design feasibility)
+# Interpretation — idea 045, probe contract v3 (pooled-slope attenuation attribution)
 
-Results bundle: `probes/045/results/results_v3/`, imported at commit
-`7de47840d02d601dc802e151ecc9abde68d8f0ed` (import receipt
-`probes/045/results/results_v3.import.json`: `manifest_sha256`
-`1e104c8b620b946ffe2d58be328067c2a9b786d0096a74736ed6676958baeed1`,
-`file_count` 12).
-All citations below are relative to that bundle root at that commit unless
-an explicit repository path is given.
+Results bundle: `probes/045/results/results_v4/`, imported at commit
+`14b183f0b5696bf7ce1d5320d2b71e95353447a4` (import receipt
+`probes/045/results/results_v4.import.json`: `manifest_sha256`
+`3bbdd2fd47917fd3305002276d346c045e7a75bb7e7a097d2b9afe74573c3b68`,
+`file_count` 13, `source_commit` null — locally executed bundle under the
+local-import ancestry lane). All citations below are relative to that
+bundle root at that commit unless an explicit repository path is given.
 
-Governing identity: contract blob `5615afea1e2f8309745a2d6558bd9118e5e9f1f3`
-[cite: resolved_config.json | contract_blob | value], `contract_version` 2
-[cite: resolved_config.json | contract_version | value], matching the human
-approval marker of 2026-09-01T05:36:24Z (`ideas/045/HUMAN_APPROVED_PROBE`)
-and the current `ideas/045/probe_contract.yaml` byte-for-byte (git
-hash-object recomputed during this interpretation). Inputs are the two
-frozen tables of the imported idea-023 take-13 bundle, identity-pinned to
-the contract's `frozen_inputs`: `bin_tissue_audit.csv` sha256 `35e896df…`
-and `per_patient.csv` sha256 `1d01551c…` [cite: input_manifest.csv |
-path=…bin_tissue_audit.csv, …per_patient.csv | sha256].
+Governing identity: contract blob
+`b1e283613d4fd47c77bfd1f2838a54791eb25954` [cite: resolved_config.json |
+contract_blob | value], `contract_version` 3 [cite: resolved_config.json |
+contract_version | value], matching the human approval marker of
+2026-09-01T06:57:20Z (`ideas/045/HUMAN_APPROVED_PROBE`, which also pins
+registry sha `1c0e82a6…`) and the current `ideas/045/probe_contract.yaml`
+byte-for-byte (git hash-object recomputed during this interpretation).
+Inputs are the two frozen tables of the imported idea-023 take-13 bundle,
+identity-pinned to the contract's `frozen_inputs` and re-verified in-run:
+`bin_tissue_audit.csv` sha256 `35e896df…` and `per_patient.csv` sha256
+`1d01551c…` [cite: input_manifest.csv | path=…bin_tissue_audit.csv,
+…per_patient.csv | sha256].
 
-The probe is fully deterministic (no training, no sampling, no bootstrap;
-`randomness: "None"` in the contract; seed recorded as 0 and unused for any
-draw [cite: resolved_config.json | seed | value]). The seed-count rule for
-stochastic procedures therefore does not apply; case-level sensitivity is
-covered inside the probe by the contract's own leave-one-patient-out
-diagnostic, which this run extends to per-deletion leverage. Effect-size
-language about the scientific question does not arise: zero outcome values
-were read [cite: summary.json | outcome_values_read | value].
+**Where the uncertainty lives.** This is the lineage's first
+outcome-reading probe. The scientific point estimates are deterministic
+functions of the two pinned inputs; the only randomness is the
+contract-predeclared 10,000-replicate patient-cluster bootstrap at frozen
+seed 20260901 [cite: bootstrap_summary.json | seed,
+replicates_requested | values], which is the contract's case-level
+uncertainty machinery. The single-seed training rule does not apply (no
+training occurs); effect claims below are judged exactly against these
+clustered percentile intervals and carry exactly the strength the
+contract's frozen `interpretation_rule` assigns them — no more.
 
-Bottom line, in the contract's own permitted vocabulary: **the frozen
-bands-2/3 pooled-slope attenuation-imbalance design IS sufficiently
-conditioned and distributed across patients for a separately governed
-attribution analysis.** Status `POSITIVE_PATTERN`,
-`contractual_gate_satisfied: true` [cite: summary.json | status,
-contractual_gate_satisfied | value]. Per the contract's interpretation
-clause, this "establishes computational feasibility only"; it does not
-validate slope homogeneity, establish any association, or authorize
-reading `d`.
+Bottom line, in the contract's own permitted vocabulary: **adjustment for
+measured median-HU imbalance did not explain the parent reversal at
+achieved precision.** Status `DECISIVE_MEASURED_EXPLANATION_FAILURE`
+[cite: summary.json | status | value]: after adjusting the band means to
+pooled zero centered HU imbalance, band 2 remains negative
+(−0.03133128471039588, 95% CI [−0.05589866048677166,
+−0.00789029340507566]) and band 3 remains positive
+(0.022404903919524183, 95% CI [0.0038892800799788215,
+0.043408163548312576]) — both patient-bootstrap intervals exclude zero on
+the parent's original sides [cite: summary.json | primary_metric |
+adjusted_band2_mean, adjusted_band2_ci95, adjusted_band3_mean,
+adjusted_band3_ci95, opposite_sign_precise]. Idea-023's opposite-signed
+band-2/band-3 pattern survives the measured tissue-composition
+adjustment intact.
 
 ---
 
 ## Demonstrates
 
-Deterministic computations on frozen, hash-pinned inputs; each is exact,
-not an estimate.
+Deterministic computations on frozen, hash-pinned inputs, plus the
+pre-registered clustered-bootstrap machinery; each claim cites its exact
+source.
 
 1. **The probe executed validly end to end under its contract.** One
-   variant of a maximum of one ran (`Variant 1/1`, seed 0)
-   [cite: run_log.txt | phase 1 | line 2]; the start and end determinism
-   manifests agree exactly [cite: run_log.txt | phase 4 | final line]; no
-   network calls were authorized or configured [cite: resolved_config.json
-   | network_calls | value]; smoke mode was off [cite: summary.json |
-   smoke | value].
+   variant of a maximum of one ran (`Variant 1/1 — approved v3
+   attribution; seed=20260901`) [cite: run_log.txt | phase 1 | line 2];
+   the start and end determinism manifests — which re-hash both input
+   files — agree exactly [cite: run_log.txt | phase 4 | final line]; no
+   network calls [cite: resolved_config.json | network_calls | value];
+   smoke off [cite: summary.json | smoke | value]; the pre-approval
+   harness self-check passed at 2026-09-01T07:10:41Z
+   [cite: probes/045/verification.json | passed, checked_at | values];
+   run.py sha256 `69622688…` matches the round-1 cross-family APPROVE
+   (`ideas/045/probe_review.md`), recomputed during this interpretation.
 
-2. **Outcome blindness held.** Zero observed `d` values were parsed or
-   retained [cite: summary.json | outcome_values_read | value]; the
-   198-row split was frozen before the outcome file was first opened
-   [cite: split_manifest.json | created_before_outcome_file_open | value],
-   with split hash `6446ad66…` [cite: split_manifest.json | sha256 |
-   value]; zero reserved cases were accessed [cite: summary.json |
-   reserved_cases_accessed | value]. The split hash is byte-identical to
-   the executed v1 audit's split
-   [cite: probes/045/results/results_v2/split_manifest.json | sha256 |
-   value], demonstrating that v2 analyzed exactly the same frozen 198
-   case-band rows — the specification changed, the cohort did not.
+2. **Outcome-access ordering held.** The 198-row split was frozen and
+   hashed before the outcome file was first opened
+   [cite: split_manifest.json | created_before_outcome_file_open |
+   value], split hash `6446ad66…` [cite: split_manifest.json | sha256 |
+   value] — byte-identical to the split hash of both executed
+   feasibility audits [cite: probes/045/results/results_v3/
+   split_manifest.json | sha256 | value], so the outcome analysis ran on
+   exactly the frozen 198 case-band rows certified feasible by v2. Zero
+   reserved cases were accessed [cite: summary.json |
+   reserved_cases_accessed | value]; the 49 reserved cases remain
+   untouched.
 
-3. **All join and integrity gates passed.** Exactly 99 unique cases
-   [cite: summary.json | unique_cases | value], 99 per primary band
-   [cite: design_diagnostics.json | band_support.2, band_support.3 | n],
-   one Q1 and one Q4 audit row and one key row per case-band, all derived
-   values finite (no value-failure exit occurred; the run reached phase 4).
-   Row accounting is complete and reconstructible: audit 594 total rows →
-   396 selected; keys 297 → 198 selected [cite: input_manifest.csv | both
-   rows | total_rows, selected_rows]; 297 rows excluded in 2 records, all
-   with reason `non_primary_band` (198 audit band-1 rows, 99 per-patient
-   band-1 rows) [cite: exclusions.csv | case_id=* | count]; 198 analysis
-   rows [cite: summary.json | analysis_rows | value].
+3. **Cohort, join, and exclusion accounting are complete.** 99 unique
+   cases, 198 analysis rows [cite: summary.json | unique_cases,
+   analysis_rows | values]; audit 594 total rows → 396 selected, outcome
+   297 → 198 [cite: input_manifest.csv | both rows | total_rows,
+   selected_rows]; 297 rows excluded in 297 per-row records, every one
+   with reason `non_primary_band` [cite: summary.json |
+   excluded_input_rows, exclusion_records | values; cite: exclusions.csv
+   | all rows | reason].
 
-4. **The frozen pooled-slope design passes the complete feasibility
-   conjunction — all ten recorded gates are true** [cite:
-   design_diagnostics.json | gates | all keys]:
-   - **Conditioning passes.** Primary condition number
-     **20.222895326167112** against the frozen ≤ 30 bound
-     [cite: design_diagnostics.json | condition_number | value]; the
-     matrix has rank 3 [cite: design_diagnostics.json | rank | value] with
-     singular values 14.089047615314039, 1.0066594185504498,
-     0.6966879563028607 [cite: design_diagnostics.json | singular_values |
-     list].
-   - **Exposure support passes under the v2 pooled rule.** The pooled
-     exposure lands on 29 distinct values (≥ 20 required) across 198 rows,
-     IQR 4.0, range −28.0 to +18.0 [cite: design_diagnostics.json |
-     pooled_support | distinct_values, n, iqr, minimum, maximum]. Both
-     bands have 99 cases and nonzero IQR: band 2 IQR 2.0 (q25 −2.0, q75
-     0.0), band 3 IQR 6.0 (q25 −2.0, q75 4.0)
-     [cite: design_diagnostics.json | band_support.2, band_support.3 |
-     n, iqr, q25, q75].
-   - **Leverage passes.** Maximum row leverage **0.15486441040641785**
-     against the frozen ≤ 0.20 bound [cite: design_diagnostics.json |
-     maximum_row_leverage | value], at case sub-stroke0109, band 3, whose
-     HU imbalance is −28.0 (Q1 median 30.0 HU, Q4 median 58.0 HU)
-     [cite: per_row_design.csv | case_id=sub-stroke0109, stratum=3 |
-     hu_imbalance, q1_median_hu, q4_median_hu, leverage]. The ten
-     highest-leverage rows span 9 distinct patients (≥ 5 required)
-     [cite: design_diagnostics.json | top_10_distinct_patients | value].
-   - **Leave-one-patient-out stability passes on all three axes.** Across
-     all 99 single-patient deletions — recomputing pooled centering and
-     diagnostic scaling within each deletion — every matrix remains rank 3
-     [cite: design_diagnostics.json | gates | all_loo_rank_3]; the
-     condition number stays within 20.042406826639716 (deleting
-     sub-stroke0094) to 20.325983967379745 (deleting sub-stroke0147)
-     [cite: design_diagnostics.json | leave_one_patient_out_condition_min,
-     leave_one_patient_out_condition_max | value], never approaching the
-     ≤ 30 bound; and the per-deletion maximum leverage stays within
-     0.154871023519075 to 0.18137690505955997 (the latter when deleting
-     sub-stroke0147), inside the ≤ 0.20 bound — the v2-added gate
-     [cite: design_diagnostics.json |
-     leave_one_patient_out_maximum_leverage_min,
-     leave_one_patient_out_maximum_leverage_max | value].
+4. **The parent reconstruction is transcription-exact, not merely
+   directional.** The equal-patient-weight unadjusted band means computed
+   here — band 2 −0.03200187198047477, band 3 0.02307549118960302
+   [cite: summary.json | unadjusted_band2_mean, unadjusted_band3_mean |
+   values] — equal the parent census values digit-for-digit
+   [cite: probes/023/results/results_v2/per_stratum_summary.csv |
+   stratum=2, stratum=3 | mean_d]. The in-run parent-reconstruction gate
+   (band 2 negative, band 3 positive) passed before any bootstrap cost
+   was spent.
 
-Because every number above is a deterministic function of the two pinned
-input files, and the leave-one-patient-out sweep bounds single-case
-sensitivity for conditioning, rank, and leverage simultaneously, the
-feasibility **pass is structural to the observed covariate geometry, not
-an artifact of any single patient**: that is demonstrated, not suggested.
+5. **The pre-registered decisive rule fired on its exact frozen terms.**
+   The contract's `interpretation_rule` grants
+   `DECISIVE_MEASURED_EXPLANATION_FAILURE` if and only if the adjusted
+   band-2 interval lies entirely below zero and the adjusted band-3
+   interval entirely above zero. Both conditions hold (intervals quoted
+   in the bottom line; `opposite_sign_precise: true`
+   [cite: summary.json | primary_metric | opposite_sign_precise]). The
+   bootstrap completed 10,000 of 10,000 replicates with zero failures
+   [cite: bootstrap_summary.json | replicates_completed,
+   failed_replicates | values], so the abort-on-any-failure clause was
+   never engaged.
+
+6. **The single authorized model is the one that was fit.** Three
+   coefficients — intercept −0.03133128471039588, band-3 indicator
+   0.053736188629920065, beta_HU 0.0010664775781553057 — at design rank
+   3, maximum row leverage 0.15486441040641785, pooled centering
+   constant −0.15909079349402225 [cite: model_diagnostics.json |
+   coefficients, design_rank, maximum_leverage,
+   pooled_hu_imbalance_center | values]. No interaction, transform, or
+   second model exists in the bundle; the per-patient audit table carries
+   the complete fitted values, residuals, and leverages of that one fit
+   [cite: per_patient_attribution.csv | all 198 rows | fitted_d,
+   residual_d, leverage].
 
 ## Suggests
 
-Inferences beyond the frozen gates; deterministic numbers, interpretive
-step mine.
+Interpretive steps beyond the frozen rule; every number cited, the
+reading mine.
 
-1. **The interaction column was the binding pathology of the v1 design.**
-   On the same pinned inputs, the same 198-row split, and the same
-   diagnostic convention, removing the band-by-imbalance interaction moved
-   the condition number from 38.889769743817595
-   [cite: probes/045/results/results_v2/design_diagnostics.json |
-   condition_number | value] to 20.222895326167112, and maximum leverage
-   from 0.26358236965333054
-   [cite: probes/045/results/results_v2/design_diagnostics.json |
-   maximum_row_leverage | value] to 0.15486441040641785 — both from
-   failing to comfortably passing. This supports (does not prove) the v1
-   interpretation's diagnosis that near-collinearity of the interaction
-   with its parent columns under compressed band-2 support drove the v1
-   failure.
+1. **The measured explanation fails structurally, not marginally.**
+   Adjustment moved each band mean by only ±0.0006705872700788901
+   (band-2 change 95% CI [−0.0011545729065425532,
+   +0.0029349507985416243]; band-3 change the exact mirror)
+   [cite: bootstrap_summary.json | point_estimates, intervals |
+   band2_adjustment_change, band3_adjustment_change], and the absolute
+   band gap changed by −0.0013411745401577246 (95% CI
+   [−0.005869901597083304, +0.002309145813085035])
+   [cite: bootstrap_summary.json | point_estimates, intervals |
+   absolute_band_difference_change] against an adjusted gap of
+   0.053736188629920065 (95% CI [0.025413321882444898,
+   0.08507011789496013]) [cite: bootstrap_summary.json |
+   point_estimates, intervals | adjusted_band3_minus_band2]. Even at the
+   bootstrap extremes, common-slope HU adjustment dents the band gap by
+   less than 0.006 of its ~0.054 size. The mirror-exact band changes are
+   algebra, not coincidence: with 99 rows per band and pooled-mean
+   centering, the two band-mean centered imbalances are equal and
+   opposite, so bands 2 and 3 carry nearly the same average HU
+   imbalance — a common slope of any magnitude could barely have moved
+   this band contrast. The decisive verdict is therefore robust to the
+   slope's imprecision, not dependent on it.
 
-2. **Band-2 exposure support remains compressed; the pooled design
-   absorbs it by construction, not by curing it.** Band 2 still lands on
-   17 distinct imbalance values with IQR 2.0
-   [cite: design_diagnostics.json | band_support.2 | distinct_values,
-   iqr] — identical to the v1 geometry — while band 3 has 26 and IQR 6.0
-   [cite: design_diagnostics.json | band_support.3 | distinct_values,
-   iqr]. The v2 contract deliberately replaced the per-band ≥ 20 rule
-   with a pooled rule because the reduced model estimates one pooled
-   slope; that is why this geometry now passes. Any future specification
-   that re-introduces band-specific slopes re-inherits the v1 problem
-   unchanged.
+2. **The pooled slope itself is small and imprecise.** beta_HU is
+   0.0010664775781553057 d-units per HU of Q1-minus-Q4 imbalance, 95% CI
+   [−0.001291573690909813, +0.003726706840533707]
+   [cite: summary.json | beta_hu, beta_hu_ci95 | values] — an interval
+   spanning zero. Under the contract this licenses no claim in either
+   direction about association (see Does not establish); its role here
+   is only that the ASSOCIATION arm's precondition also failed, so the
+   classification did not turn on rule precedence.
 
-3. **Extreme-imbalance rows are well absorbed by the reduced design.**
-   The v1 maximum-leverage driver (sub-stroke0183, band 2, imbalance
-   +18.0) now carries leverage 0.07314570734779892
-   [cite: per_row_design.csv | case_id=sub-stroke0183, stratum=2 |
-   leverage]; the new maximum sits on the most negative imbalance row
-   (sub-stroke0109, band 3, −28.0) at 0.15486441040641785, inside the
-   frozen ≤ 0.20 bound. The tightest margin anywhere in the audit is the
-   per-deletion leverage maximum 0.18137690505955997 (deleting
-   sub-stroke0147, whose own band-3 imbalance is −27.0
-   [cite: per_row_design.csv | case_id=sub-stroke0147, stratum=3 |
-   hu_imbalance]) against the frozen ≤ 0.20 bound. A passed gate, but the
-   outcome-analysis designer should know the influence budget is least
-   slack there.
+3. **Row-level heterogeneity runs against a simple attenuation story,
+   echoing the critique's pre-registration reading.** The largest
+   positive imbalance row (sub-stroke0183, band 2, +18.0 HU) has
+   observed d +0.24045261669024046 against fitted −0.011965021539448069
+   — residual +0.25241763822968855 [cite: per_patient_attribution.csv |
+   case_id=sub-stroke0183, stratum=2 | hu_imbalance, d, fitted_d,
+   residual_d]; the most negative imbalance row (sub-stroke0109, band 3,
+   −28.0 HU) has observed d exactly 0.0
+   [cite: per_patient_attribution.csv | case_id=sub-stroke0109,
+   stratum=3 | hu_imbalance, d]. Extreme attenuation imbalance and
+   extreme outcome contrast do not coincide in these data.
 
-4. **Centering was nearly inert, again.** The pooled HU-imbalance mean is
-   −0.15909079349402225 [cite: design_diagnostics.json |
-   pooled_hu_imbalance_mean | value]; the pass, like the v1 failure, is a
-   property of the exposure geometry, not of the centering rule.
+4. **The persisting reversal remains a property of means, not of the
+   typical patient.** The parent's per-band median d is ≈0 in both
+   primary bands (band 2 −0.0005886681383370125, band 3
+   0.000556250836852953) [cite: probes/023/results/results_v2/
+   per_stratum_summary.csv | stratum=2, stratum=3 | median_d]. What
+   survived adjustment is the equal-patient-weight mean contrast the
+   card deliberately scoped its claims to; a minority of patients still
+   drives it.
 
 ## Does not establish
 
-- **Anything about the association between HU imbalance and final-infarct
-  contrast d.** Zero d values were read [cite: summary.json |
-  outcome_values_read | value]; no slope, no adjusted contrast, no
-  direction exists anywhere in this bundle.
-- **That the common-slope restriction is scientifically appropriate.**
-  The contract's own `risky_assumption_tested` clause states the probe
-  "does not test whether the common-slope scientific restriction is
-  true," and its open question for the human — whether one pooled slope
-  preserves enough of the attribution question — is a scientific-model
-  judgment no feasibility pass can answer. The v1 interaction design was
-  the more direct operationalization of "does imbalance account for the
-  *band-specific* reversal"; the pooled reduction buys conditioning at
-  the price of that directness, and only the human can price it.
-- **Anything about whether tissue composition explains, contributes to,
-  or fails to explain idea-023's band-2/band-3 reversal.**
-- **Anything about median NCCT attenuation as a viability or tissue-type
-  measurement**, or about any model's use of any signal.
-- **That the eventual outcome analysis will be informative.** Geometric
-  feasibility bounds numerical behavior, not scientific power or effect
-  size.
+- **Any association claim, positive or null, between HU imbalance and
+  d.** The contract prohibits reading a null or imprecise slope as
+  evidence of no association or independence; beta_HU's interval spans
+  zero and licenses nothing.
+- **That tissue composition plays no role in the parent reversal.** The
+  decisive failure is scoped to the *measured* explanation: a linear,
+  common-slope effect of Q1-minus-Q4 *median* NCCT attenuation
+  imbalance. By construction the approved model cannot represent
+  opposite-signed HU effects in bands 2 and 3 (the v3 contract's open
+  question, answered "yes for this one exploratory analysis" at
+  approval); a band-antisymmetric attenuation effect would cancel in the
+  pooled slope and was not examinable here. The v1 interaction design
+  that could have examined it was refused as numerically infeasible
+  (condition number 38.89 against the ≤30 bound
+  [cite: probes/045/results/results_v2/design_diagnostics.json |
+  condition_number | value]). Nonlinear, non-median (e.g. IQR- or
+  tail-based), or spatially structured composition effects are likewise
+  unexamined.
+- **Any causal reading.** Severity as a common cause of attenuation
+  imbalance and d was never adjusted for; the card names it an open
+  alternative throughout.
+- **Median NCCT attenuation as a validated tissue-type or viability
+  measurement** (Alzahrani 2023 bounds this, per the keystone screen).
+- **Any model-use claim.** No model was probed; this is a Rung-0
+  attribution study on frozen tables.
+- **Generalization** beyond these 99 analyzed cases, the released
+  icobrain-cva pipeline, and this measured proxy.
+- **What actually causes idea-023's reversal.** One named explanation is
+  closed at achieved precision under this specification; the reversal
+  itself remains unexplained.
 
 ## Validity failures
 
-None. No invalidating-failure clause fired: no outcome-access breach (0
-values read, 0 reserved cases), no input-identity failure (both sha256
-pins recorded and matching the contract's frozen values), no join failure
-(99/99 per band, no duplicates, no reserved case encountered), no
-nonfinite value (the degenerate-geometry refusal path never triggered),
-no analysis deviation (one variant, band 1 excluded, no interaction
-column, thresholds byte-identical to the approved contract per the in-run
-literal-drift guard), no lineage failure (the v1 bundle at
-`results_v2/` is untouched; this run wrote a separate `results_v3`
-directory from a fresh output root [cite: resolved_config.json |
-output_dir | value]), no missing required output (all eight
-contract-required artifacts present, plus determinism and split
-manifests and `exclusions.csv`). This is a **valid positive**, not a
-lucky run.
+None. Walking the contract's `invalidating_failures`: authority — the
+marker binds the live contract blob recorded in the bundle
+[cite: resolved_config.json | contract_blob | value]; input identity —
+both sha256 pins re-verified in-run and recorded [cite:
+input_manifest.csv | both rows | sha256]; join/cohort — 99 cases per
+band, no duplicates, no reserved case (the reserved-path guard and
+absence from the pinned inputs); parent reconstruction —
+transcription-exact (Demonstrates 4); analysis deviation — one model,
+rank 3, no interaction column exists; bootstrap — 10,000/10,000 with
+zero failed replicates [cite: bootstrap_summary.json |
+replicates_completed, failed_replicates | values]; leakage/scope — zero
+reserved cases accessed, split frozen before outcome open; lineage — the
+v1/v2 bundles (`results_v2/`, `results_v3/`) are untouched and this run
+wrote a fresh `results_v4` from a clean output root
+[cite: resolved_config.json | output_dir | value]; outputs — all nine
+contract-required artifacts present plus split and determinism
+manifests (13 files) [cite: probes/045/results/results_v4.import.json |
+file_count | value]. This is a **valid pre-registered negative**, not a
+stopped or degraded run.
 
 ## Findings, stated positively and negatively
 
-- **Positive finding (the result):** the frozen three-column pooled-slope
-  design passes every one of the ten recorded feasibility gates —
-  conditioning (20.22 vs ≤ 30), rank (3), band counts (99/99), band IQR
-  (2.0 / 6.0), pooled distinct support (29 vs ≥ 20), leverage (0.1549 vs
-  ≤ 0.20), influence spread (9 distinct patients in the top ten), and
-  full leave-one-patient-out stability of rank, conditioning, and
-  leverage. Under the contract's pre-registered classification this
-  **supports drafting a separate outcome-analysis contract for this one
-  common-slope operationalization** — and only that.
-- **Negative findings:** none from this run. The descriptive residual
-  worth carrying forward is band 2's unchanged compressed support (17
-  distinct values, IQR 2.0), which the pooled design tolerates but does
-  not repair.
+- **Negative finding (the result):** the contract's pre-registered
+  `negative_pattern` fired on its exact frozen terms. Adjusting
+  idea-023's band-2 and band-3 equal-patient-weight mean final-infarct
+  contrasts for Q1-minus-Q4 median NCCT attenuation imbalance leaves
+  both contrasts opposite-signed with patient-bootstrap intervals
+  excluding zero. Per the contract's claim discipline, this decisively
+  shows **only** that adjustment for this median-HU imbalance did not
+  explain the parent reversal at achieved precision. The card's central
+  question — did tissue composition, as measured by this proxy, create
+  the sign reversal? — is answered **no** at achieved precision.
+- **Positive findings:** none scientific. Operationally: the parent
+  band means were reconstructed digit-for-digit from the frozen inputs
+  (Demonstrates 4), and the v2 feasibility certification was borne out —
+  the design fit without numerical incident on the first and only
+  outcome read of this lineage.
 
 ## Authorized variants
 
-One variant was authorized (`maximum_variants: 1`) and exactly one was
-run: the approved real-input pooled-slope design audit, seed 0, smoke off
-[cite: run_log.txt | phase 1 | line 2; cite: summary.json | smoke |
-value]. No other variant, seed, threshold, or transform was executed. The
-executed v1 interaction audit is a separate, completed historical
-contract (blob `e7071541…`, its own bundle and decision), not a variant
-of this one; the contract's scope clause expressly forbade re-running it
-here, and it was not re-run. (The separate `probes/045/verification.json`
-receipt records the pre-approval harness self-check of
-2026-09-01T05:47:02Z; it is a code-review artifact, not a scientific
-variant.)
+One variant was authorized (`maximum_variants: 1`) and exactly one ran:
+the approved pooled-slope attribution fit with its seed-20260901
+10,000-replicate patient-cluster bootstrap, smoke off
+[cite: run_log.txt | phase 1 | line 2; cite: summary.json |
+variants_run, smoke | values]. One seed of a maximum of one. No other
+model, threshold, transform, band, or bootstrap rule was executed. The
+executed v1 and v2 feasibility audits are separate completed historical
+contracts cited above as lineage evidence only; the harness self-check
+receipt (`probes/045/verification.json`) is a code-review artifact, not
+a scientific variant.
 
 ## Next decision
 
-**ADVANCE.** The contract's interpretation clause prescribes the
-consequence of a pass: it "supports drafting a separate outcome-analysis
-contract for this one common-slope operationalization." Concretely:
+**PAUSE.** The revision of 2026-09-01 promoted this attribution analysis
+to the whole candidate, and its pre-registered decisive arm has now
+executed: the measured tissue-composition explanation did not account
+for the parent reversal. Under the card's own terms nothing further is
+authorized — the contract's stopping rule is spent, the card prohibits
+authorizing the removed tissue-gated census, and the lineage rule that
+"taste is not grounds for a third operationalization" applies to any
+temptation to re-operationalize tissue composition on these same opened
+outcomes. Concretely:
 
-1. Draft the outcome-analysis contract through probe-plan: the
-   prespecified pooled-slope fit of d on band + centered HU imbalance
-   over these same 198 frozen rows, with the card's equal-patient-weight
-   estimator and patient-bootstrap machinery, frozen interpretation rules
-   (including the card's sensitivity-limited-null classification from the
-   debate concession), and fresh human approval.
-2. At that approval the human must answer the contract's standing open
-   question — whether one pooled HU-imbalance slope preserves enough of
-   the band-specific attribution question to be worth reading d for. A
-   pooled slope cannot, by construction, show band-2 and band-3
-   imbalance acting in opposite directions; if the human judges that
-   band-specificity is essential, the honest alternative is a redesigned
-   band-specific specification that first solves the v1 conditioning
-   problem, not a silent fallback to this one.
-3. Under THIS contract, read nothing further: its stopping rule was
-   honored ("do not proceed to outcome analysis regardless of result")
-   and its authority is spent. The 49 reserved cases and all observed d
-   values remain unread [cite: summary.json | reserved_cases_accessed,
-   outcome_values_read | values].
+1. After cross-family review of this interpretation, ratify with status
+   PAUSED. The reason (a field, not a status): pre-registered decisive
+   negative for the measured explanation; question answered at achieved
+   precision; no further analysis authorized under this card.
+2. Successor paths, each requiring a new candidate through the normal
+   pipeline with its own novelty audit: (a) a band-specific attenuation
+   specification that first solves the v1 conditioning failure (the only
+   design that could see opposite-signed HU effects); (b) a different
+   composition measurement (non-median attenuation statistics, or an
+   external tissue-probability map); (c) a severity-adjustment design
+   addressing the common-cause alternative. None inherits this card's
+   queue position.
+3. Ops note for the record-result/ratification lane: the executed
+   attribution probe is not yet a node in `ideas/045/registry.yaml`
+   (which the approval marker pins at sha `1c0e82a6…` with the two
+   feasibility nodes); adding the v3 node with its three
+   contract-declared terminal statuses and re-ratifying is the queued
+   governance act probe_review finding 7 anticipated.
 
-The scientific question of idea 045 — whether attenuation imbalance
-accounts for the parent reversal — is neither supported nor weakened by
-this result. What changed is that a numerically sound, pre-registered
-instrument for asking it now exists and awaits the human's judgment on
-whether it asks enough of the question.
+The 49 reserved cases remain unread. What idea 045 leaves behind is a
+clean, citable close of its own question: the reversal idea-023 found is
+not an artifact of the tissue-composition difference its audit measured.
 
 
 ===== ideas/045/keystone_screen.md =====
@@ -4890,3 +4968,6 @@ it. Do not append to evidence/decisions.md until the interpretation has
 passed review (the interpret-build loop tells you which round you are
 in; in round 1 write interpretation.md and decision.md only).
 
+
+===== REVISION ROUND =====
+The checker found blocking issues (see interpret_review.md in your context). Fix ONLY those findings in interpretation.md and decision.md; do not expand scope.

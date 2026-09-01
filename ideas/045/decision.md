@@ -22,17 +22,26 @@
   intervals and the frozen opposite-sign persistence rule
   (`interpretation_rule`, three classes, frozen precedence).
 - **Contract blob:** `b1e283613d4fd47c77bfd1f2838a54791eb25954`,
-  matching the human approval marker of 2026-09-01T06:57:20Z (which also
-  pins registry sha `1c0e82a6…`) and the bundle's `resolved_config.json`
-  (contract_version 3).
-- **Results bundle:** `probes/045/results/results_v4/` at commit
-  `14b183f0b5696bf7ce1d5320d2b71e95353447a4` (import manifest sha256
+  matching the human approval marker's bound blob
+  [cite: ideas/045/HUMAN_APPROVED_PROBE | contract_blob | value],
+  approved at 2026-09-01T06:57:20.966365+00:00
+  [cite: ideas/045/HUMAN_APPROVED_PROBE | line 1 | timestamp] (the
+  marker also pins registry sha `1c0e82a6…`
+  [cite: ideas/045/HUMAN_APPROVED_PROBE | registry_sha256 | value]) and
+  the bundle's `resolved_config.json` (contract_version 3)
+  [cite: resolved_config.json | contract_blob, contract_version |
+  values].
+- **Results bundle:** `probes/045/results/results_v4/`, identified by
+  its import receipt: manifest sha256
   `3bbdd2fd47917fd3305002276d346c045e7a75bb7e7a097d2b9afe74573c3b68`,
-  13 files, locally executed, `source_commit` null under the
-  local-import ancestry lane).
+  13 files, `source_commit` null (locally executed, imported
+  2026-09-01T07:11:29+00:00 under the local-import ancestry lane)
+  [cite: probes/045/results/results_v4.import.json | manifest_sha256,
+  file_count, source_commit, imported_utc | values].
 - **Families:** authoring family claude (this document and
   `interpretation.md`); reviewing family codex (cross-family citation
-  review; this is round 1).
+  review; this is round 2, revising the round-1 blocking citation
+  findings).
 - **Out-of-scope warnings — this result must NOT be read as:** evidence
   of no association between HU imbalance and final-infarct contrast (a
   null slope never establishes independence under this contract);
@@ -55,9 +64,8 @@ HU imbalance, band 2 stays negative (−0.0313, 95% CI [−0.0559, −0.0079])
 and band 3 stays positive (+0.0224, 95% CI [+0.0039, +0.0434]) — the
 parent's opposite-sign pattern survives with both patient-bootstrap
 intervals excluding zero. The failure is structural, not marginal:
-bands 2 and 3 carry nearly the same average HU imbalance, so adjustment
-moved each band mean by only ±0.00067 and the band gap by −0.0013
-against a gap of 0.0537. Confidence rests on the contract's own
+adjustment moved each band mean by only about ±0.00067 and the band gap
+by −0.0013 against a gap of 0.0537. Confidence rests on the contract's own
 uncertainty machinery — a complete 10,000-replicate seed-20260901
 patient-cluster bootstrap with zero failed replicates on a
 transcription-exact reconstruction of the parent's band means. The most
@@ -73,16 +81,21 @@ cause of the reversal, which remains unexplained.
    pooled-slope audit passed all ten gates and its ratified
    interpretation authorized drafting this outcome contract. Contract v3
    was drafted through probe-plan (commit `2b816b9`) and human-approved
-   at 2026-09-01T06:57:20Z binding blob `b1e28361…` — the approval that
-   answered the standing open question (yes, the common slope is worth
-   reading d for, as one exploratory analysis). Probe code (run.py
-   sha256 `69622688…`) passed cross-family review round 1 (APPROVE,
-   `ideas/045/probe_review.md`); the harness self-check passed at
-   07:10:41Z [cite: probes/045/verification.json | passed, checked_at |
-   values]; the run executed at 07:11:28Z [cite: environment.txt |
-   captured_utc | value]; the bundle validated and imported via
-   record-result at commit `14b183f` with the transactional tail
-   (scrutiny PROBED, digest, state re-materialized) at commit `e73fcef`.
+   at 2026-09-01T06:57:20.966365+00:00 binding blob `b1e28361…`
+   [cite: ideas/045/HUMAN_APPROVED_PROBE | line 1, contract_blob |
+   timestamp, value] — the approval that answered the standing open
+   question (yes, the common slope is worth reading d for, as one
+   exploratory analysis). Probe code pinned at run.py sha256
+   `69622688…` passed cross-family review round 1 (APPROVE)
+   [cite: ideas/045/probe_review.md | opening paragraph | run.py
+   sha256]; the harness self-check passed at 07:10:41Z
+   [cite: probes/045/verification.json | passed, checked_at | values];
+   the run executed at 07:11:28Z [cite: environment.txt | captured_utc |
+   value]; the bundle validated and was imported via record-result under
+   the local-import ancestry lane, manifest sha256 `3bbdd2fd…`
+   [cite: probes/045/results/results_v4.import.json | manifest_sha256 |
+   value], with the record-result transactional tail (scrutiny PROBED,
+   digest, state re-materialized).
 2. **Flow of rows (CONSORT-style).** In: 594 audit rows and 297 outcome
    rows [cite: input_manifest.csv | both rows | total_rows]. Excluded:
    297 rows in 297 per-row records, all reason `non_primary_band` (198
@@ -118,8 +131,11 @@ cause of the reversal, which remains unexplained.
 
 ## Layer C — Claims table
 
-Bundle root: `probes/045/results/results_v4/` at commit
-`14b183f0b5696bf7ce1d5320d2b71e95353447a4`.
+Bundle root: `probes/045/results/results_v4/`, identified by import
+manifest sha256
+`3bbdd2fd47917fd3305002276d346c045e7a75bb7e7a097d2b9afe74573c3b68`
+[cite: probes/045/results/results_v4.import.json | manifest_sha256 |
+value].
 
 | Claim | Value | Source |
 |---|---|---|
@@ -138,7 +154,7 @@ Bundle root: `probes/045/results/results_v4/` at commit
 | Bootstrap replicates / failed / method / seed | 10000 of 10000 / 0 / percentile_95 / 20260901 | [cite: bootstrap_summary.json | replicates_completed, replicates_requested, failed_replicates, interval_method, seed | values] |
 | Model coefficients (intercept / band3 / beta_HU) | −0.03133128471039588 / 0.053736188629920065 / 0.0010664775781553057 | [cite: model_diagnostics.json | coefficients | all keys] |
 | Design rank / max leverage / pooled center / RSS | 3 / 0.15486441040641785 / −0.15909079349402225 / 2.4783249809755676 | [cite: model_diagnostics.json | design_rank, maximum_leverage, pooled_hu_imbalance_center, residual_sum_squares | values] |
-| Extreme-imbalance rows (heterogeneity note) | sub-stroke0183 b2: imbalance +18.0, d +0.24045261669024046, residual +0.25241763822968855; sub-stroke0109 b3: imbalance −28.0, d 0.0 | [cite: per_patient_attribution.csv | case_id=sub-stroke0183, stratum=2; case_id=sub-stroke0109, stratum=3 | hu_imbalance, d, residual_d] |
+| Most-imbalanced rows (heterogeneity note; the two hu_imbalance extrema of the 198-row table) | sub-stroke0183 b2: imbalance +18.0, d +0.24045261669024046, residual +0.25241763822968855; sub-stroke0109 b3: imbalance −28.0, d 0.0 | [cite: per_patient_attribution.csv | all 198 rows | hu_imbalance]; [cite: per_patient_attribution.csv | case_id=sub-stroke0183, stratum=2; case_id=sub-stroke0109, stratum=3 | hu_imbalance, d, residual_d] |
 | Parent band medians (means-vs-medians caveat) | −0.0005886681383370125 / 0.000556250836852953 | [cite: probes/023/results/results_v2/per_stratum_summary.csv | stratum=2, stratum=3 | median_d] |
 | Analysis rows / unique cases | 198 / 99 | [cite: summary.json | analysis_rows, unique_cases | values] |
 | Input row accounting | audit 594→396; outcome 297→198; 297 excluded in 297 records, all non_primary_band | [cite: input_manifest.csv | both rows | total_rows, selected_rows]; [cite: exclusions.csv | all rows | reason] |
@@ -161,8 +177,10 @@ reversal that persists under adjustment decisively shows attenuation
 imbalance does not explain it"), and the revision made this analysis the
 whole candidate, so the contract's spent stopping rule closes the card's
 scientific program. Nothing further is authorized: the removed
-tissue-gated census stays removed, the 49 reserved cases and all other
-outcome structure stay unread, and the lineage's own rule against a
+tissue-gated census stays removed, the parent census's 49 reserved
+cases [cite: probes/023/results/results_v2/summary.json |
+reserved_case_count | value] and all other outcome structure stay
+unread, and the lineage's own rule against a
 third same-taste operationalization applies. Next acts after
 cross-family review approves: (1) ratify-interpretation with status
 PAUSED, reason recorded as a pre-registered decisive negative for the
@@ -172,6 +190,7 @@ composition measurement, or a severity-adjustment design — as a new
 candidate through the normal pipeline; (3) ops: add the executed
 attribution node to `ideas/045/registry.yaml` and re-ratify (the marker
 pins the two-node registry sha `1c0e82a6…`; probe_review finding 7
-anticipated this). Round 1: this decision summarizes
-`interpretation.md`; no `evidence/decisions.md` entry is appended until
-the cross-family review approves.
+anticipated this). Round 2 (revision restricted to the round-1 blocking
+citation findings): this decision summarizes `interpretation.md`; no
+`evidence/decisions.md` entry is appended until the cross-family review
+approves.
