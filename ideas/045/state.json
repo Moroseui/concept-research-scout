@@ -11,14 +11,14 @@
   "idea_no": "045",
   "kill_code": null,
   "materialization": {
-    "event_count": 7,
+    "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "d97d36be51fd25c94fbbeed25ece433a4b661951bed44136567bacc02798236c",
+    "source_fingerprint_sha256": "114ae63c5a6761b7f53eff8b5da2fd742b5fd05a529ffc86295d8383140768b9",
     "sources": {
       "approval_sha256": "35da328bec035df3454002a1df26f4fbd419db413bc4c75b81c056e572e6c85b",
       "contract_blob": "5615afea1e2f8309745a2d6558bd9118e5e9f1f3",
       "idea_card_sha256": "ba783b6d64772f6000937d9642ff619e26bd4fd015bf295630378e9e0c6c3570",
-      "ledger_events_sha256": "ffc51870e4470334bd623ce1b4dfdfd17dddf4d8da8fbe83f56a899182f97d9e",
+      "ledger_events_sha256": "cd4fa2b4a12db1726c3802983f031bcd9a340d81844fe519951d6fa60321c4bf",
       "registry_sha256": null
     }
   },
