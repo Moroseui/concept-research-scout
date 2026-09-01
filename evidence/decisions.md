@@ -1986,3 +1986,76 @@ git-identical against pristine origin/main. The v2 contract
 awaits the operator's read and approval; sequence thereafter:
 probe-build -> verify -> run to results_v3 -> record-result ->
 interpret -> ratify.
+
+## 2026-09-01 - Round-10 intake + P0 authority closeout landed
+
+Round-10 verdict absorbed: progressing properly, demonstrably more
+useful, interaction showing real scientific value; the danger has
+shifted from can-it-be-trusted to can-the-core-stay-comprehensible.
+Standing instruction adopted: fix the two authority defects, land R4
+and the common interfaces, consolidate the monolith -- then let the
+agents become more flexible, not the orchestration more complicated.
+
+DISPOSITIONS RECEIVED: S1 ratified. R3b architecture and the
+legitimate 023 transaction ratified WITH the new P0 (read-time
+verification) mandated immediately -- the reviewer forged a
+schema-valid REGISTRY_RATIFIED binding (approval_sha256 all-zeros,
+commit deadbee) and the system accepted it end to end: write-path
+checks were a promise, not an invariant. S2/S2b ratified
+(contract-authoritative interfaces correct; no new exception-table
+entries; a versioned validator-owned bundle envelope is the durable
+home, injected into prompts -- schemas are executable contracts,
+prompts are advisory). S2c blessed as an acceptable emergency stopgap
+pending node/blob/run addressing. Taxonomy ruled: pause REASON CODES
+as fields/events, never statuses; SUPERSEDED accepted only as an
+authority act binding successor_id, operator identity, and claim
+identities. Consequential-act pre-read moves ahead of stop-report but
+AFTER the R4 envelope + minimal advisory event. Auto-revise ruling:
+thinking ahead allowed, binding ahead not -- draft lanes fine,
+authoritative mutation waits. Registry rollout rule adopted: every new
+approved probe gets a registry (one-node skeletons generated
+deterministically) -- idea 045 gets one before its next experiment.
+Also queued from the audit: ROLE_BOUND spec restated;
+REMOTE_ADVANCED_RETRY_REQUIRED preferred over rebase of derived
+transactions (eventual); typed RunResult replaces LAST_RUN (R4);
+events() ledger API; suite split fast/integration (fixture scaling
+declared SOLVED, subprocess cost is the bottleneck); scout.py split by
+authority boundary; ARCHITECTURE/DESIGN_HISTORY doc split; narrow the
+broad excepts around bundle probing; interaction funnel and
+NEEDS_CLARIFICATION taxonomy confirmed for the substrate era; 12-item
+consolidation checklist adopted as the closing bar.
+
+P0 AUTHORITY CLOSEOUT LANDED (this patch):
+(1) verify_ratification_event(): every REGISTRY_RATIFIED row's claims
+are mechanically re-proven at READ time -- registry bytes bound,
+marker bytes at each binding's commit hash to the recorded sha AND
+textually bind the blob, every import's bundle bytes match the
+ratified manifest and its source snapshot carries the approval for
+that node's pin. _attested_hashes and ratified_binds_current consume
+ONLY mechanically-verified rows; registry-validate re-proves every row
+so forged-but-well-formed rows fail loudly; derive_status refuses
+derivation on an invalid registry. governance_events.jsonl bytes now
+enter materialized-state sources (023 re-materialized; any governance
+mutation moves the fingerprint). LIVE ACCEPTANCE: the reviewer's exact
+mutation, replayed against the real 023 row in a scratch worktree, now
+produces named validate failures, refused status derivation, and a
+state-verify error -- while the untouched row still verifies and both
+nodes stay COMPLETE. (2) Human-unblock ordering: run revise refuses
+under a debate REVISE-with-unblock until the operator acknowledges
+(--unblock-ack "one-line ruling", recorded to unblock_ack.txt);
+draft-only lanes arrive with R4. (3) GIT_HISTORY_REQUIRED: a failing
+git invocation during approval-lineage derivation is a named integrity
+refusal, never a silent "(no approval marker history)" that could let
+a card rewrite committed truth. (4) Every orchestration git call now
+runs through one bounded, traced helper: 30s timeout raises
+GIT_COMMAND_TIMEOUT, SCOUT_GIT_TRACE=1 logs per-command durations --
+the unexplained record-result stalls get named or localized next time.
+Two latent import gaps (top-level time, sys) surfaced by the helper
+and fixed. Fixture world upgraded to the stricter reality: attestation
+fixtures now MINT real evidence (marker commits with true shas) the
+same way production does; three new regressions (the verbatim
+reviewer exploit; unblock blocking + ack flow; named history refusal).
+210/210 both runners, green on the pristine-applied tree; state-verify
+45/45; card 23 --check byte-identical; patch git-identical against
+pristine origin/main. Next per the ratified roadmap: 045 registry,
+then the attribution contract; R4 after the Wednesday freeze.
