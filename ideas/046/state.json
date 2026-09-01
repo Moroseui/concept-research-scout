@@ -1,11 +1,11 @@
 {
   "approval": {
-    "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
+    "contract_blob": "942e530737c90b666baa4c9985fd0329296ef140",
     "stale": false
   },
   "charter": null,
   "claim": "A pre-registered per-patient contribution census resolving whether the band-2/3 reversal is cohort-diffuse or subset-concentrated, plus an exploratory screen of whether contribution strata differ on bundle-derivable features and released clinical outcome scores.",
-  "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
+  "contract_blob": "942e530737c90b666baa4c9985fd0329296ef140",
   "corrections": null,
   "idea_id": "idea-046",
   "idea_no": "046",
@@ -13,10 +13,10 @@
   "materialization": {
     "event_count": 7,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "17a9a6ce2cfbd57884450b602c8f9666960380a6dfcee6e56854b7aaa2497132",
+    "source_fingerprint_sha256": "97ae6604893793b6fd1ad4530ca8368fea5a1bf353f485acb221554bcba691b4",
     "sources": {
-      "approval_sha256": "4450f17338502acf441e4b56e9db5796d36d531e51f322f8438f24d72be2ef0e",
-      "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
+      "approval_sha256": "686c24868d98724595e7ed9fb698cc1daa5a3791ca26af9f47b30f717017345a",
+      "contract_blob": "942e530737c90b666baa4c9985fd0329296ef140",
       "idea_card_sha256": "3c7ca4eba4fcb9b86144df81db0537652bc6ddb85c4d722cea056ea15aa6bb38",
       "ledger_events_sha256": "0520763536b277a5fca5e423ef851e5441d8f25cb3e6515f7e63bfa2fbd63df8",
       "registry_sha256": null
