@@ -3925,5 +3925,90 @@ class TestM4RatifyInterpretation(Harness):
         self.assertTrue(any("record-result transaction" in m
                             for m in commits))
 
+
+class TestR5ResearchCard(Harness):
+    """R5a: the research card is a deterministic derived VIEW -- one page
+    rendering identity, declared-vs-derived status (drift flagged),
+    contract lineage, position, headline results, authority identities,
+    and connections. Regeneration is byte-identical; the card never
+    reconciles drift silently."""
+
+    def _kit(self):
+        import scout as sc
+        import subprocess as sp
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        if not (self.repo / ".git").exists():
+            sp.run(["git", "init", "-q"], cwd=self.repo, check=True)
+        sp.run(["git", "config", "user.email", "t@t"], cwd=self.repo)
+        sp.run(["git", "config", "user.name", "t"], cwd=self.repo)
+        d = self.repo / "ideas" / "001"
+        (d / "idea_card.json").write_text(json.dumps(
+            {"id": "x-001", "title": "Test question of state",
+             "charter": "isles24", "track": "wide",
+             "question": "Does the thing hold?",
+             "keystone_status": "NOT_INSPECTED"}))
+        m = d / "HUMAN_APPROVED_PROBE"
+        m.write_text("approved\ncontract_blob: " + "a" * 40 + "\n")
+        sp.run(["git", "add", "-A"], cwd=self.repo, check=True)
+        sp.run(["git", "commit", "-qm", "v1"], cwd=self.repo, check=True)
+        m.write_text("approved\ncontract_blob: " + "b" * 40 + "\n")
+        sp.run(["git", "add", "-A"], cwd=self.repo, check=True)
+        sp.run(["git", "commit", "-qm", "v2"], cwd=self.repo, check=True)
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        b = self.repo / "probes" / "001" / "results" / "results_v2"
+        b.mkdir(parents=True)
+        (b / "summary.json").write_text(json.dumps(
+            {"phase": "C", "status": "NEGATIVE_PATTERN",
+             "analyzed_census_case_count": 9, "census_case_count": 10,
+             "released_case_count": 12, "reserved_case_count": 3,
+             "g_label_passed": False,
+             "per_stratum": [{"stratum": 1, "mean_d": 0.01,
+                              "ci_low": -0.02, "ci_high": 0.04,
+                              "ci_width": 0.06, "median_d": 0.0}]}))
+        (d / "interpretation.md").write_text("analysis\n")
+        (d / "interpret_review.md").write_text(
+            'ok\n```json\n{"verdict": "APPROVE"}\n```\n')
+        (d / "decision.md").write_text("card\n")
+        (self.repo / "ledger.jsonl").write_text(
+            json.dumps({"ledger_id": "idea-001", "status": "PAUSED",
+                        "kind": "INTERPRETATION_RATIFIED",
+                        "interpretation_sha256": "f" * 64,
+                        "contract_blob": "b" * 40}) + "\n")
+        (d / "state.json").write_text(json.dumps(
+            {"status": "PAUSED", "scrutiny": "PROBED", "event_count": 1}))
+        return sc, d
+
+    def test_card_renders_lineage_results_and_flags_drift(self):
+        sc, d = self._kit()
+        text = sc.render_card(1)
+        i_a, i_b = text.find("a" * 12), text.find("b" * 12)
+        self.assertTrue(0 < i_a < i_b, "lineage must be oldest -> newest")
+        for frag in ("Test question of state", "PAUSED",
+                     "NEGATIVE_PATTERN", "mean_d +0.0100",
+                     "review verdict: APPROVE",
+                     "DRIFT: the card field predates",
+                     "(none recorded; add an optional related_ideas"):
+            self.assertIn(frag, text)
+        self.assertEqual(text, sc.render_card(1),
+                         "rendering must be deterministic")
+
+    def test_card_check_mode_refuses_stale_bytes(self):
+        sc, d = self._kit()
+        import argparse
+        sc.cmd_card_materialize(argparse.Namespace(idea=1, check=False))
+        sc.cmd_card_materialize(argparse.Namespace(idea=1, check=True))
+        (d / "CARD.md").write_text("tampered")
+        with self.assertRaises(SystemExit) as cm:
+            sc.cmd_card_materialize(argparse.Namespace(idea=1, check=True))
+        self.assertIn("not a faithful rendering", str(cm.exception))
+
+    def test_card_related_ideas_render(self):
+        sc, d = self._kit()
+        card = json.loads((d / "idea_card.json").read_text())
+        card["related_ideas"] = ["idea-009 (identifiability sibling)"]
+        (d / "idea_card.json").write_text(json.dumps(card))
+        self.assertIn("identifiability sibling", sc.render_card(1))
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

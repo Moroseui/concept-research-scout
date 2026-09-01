@@ -913,6 +913,195 @@ def _interpret_review_verdict(target):
         return None
 
 
+def _last_ledger_row(ledger_id, kind=None):
+    """Last append-only row for an id (optionally of a kind). Direct
+    line-scan of the authoritative log; no merge semantics needed for
+    'most recent event of kind X'."""
+    p = ROOT / 'ledger.jsonl'
+    if not p.exists():
+        return None
+    last = None
+    for ln in p.read_text().splitlines():
+        try:
+            r = json.loads(ln)
+        except json.JSONDecodeError:
+            continue
+        if r.get('ledger_id') == ledger_id and \
+                (kind is None or r.get('kind') == kind):
+            last = r
+    return last
+
+
+def _marker_lineage(idea):
+    """(commit7, blob40) pairs for every historical version of the
+    approval marker, oldest -> newest. Deterministic given HEAD."""
+    m = f'ideas/{idea:03d}/HUMAN_APPROVED_PROBE'
+    import re
+    r = subprocess.run(['git', 'log', '--reverse', '--format=%H', '--', m],
+                       cwd=ROOT, capture_output=True, text=True)
+    out = []
+    for c in r.stdout.split():
+        s = subprocess.run(['git', 'show', f'{c}:{m}'], cwd=ROOT,
+                           capture_output=True, text=True)
+        g = re.search(r'contract_blob:\s*([0-9a-f]{40})', s.stdout or '')
+        if g:
+            out.append((c[:7], g.group(1)))
+    return out
+
+
+def render_card(idea):
+    """R5a (round-8 direction): the RESEARCH CARD -- a deterministic
+    derived VIEW rendering an idea's scattered authorities into one
+    compact, model- and human-readable page: identity, question,
+    card-declared vs system-derived status (drift flagged, never
+    silently reconciled), contract lineage, experiment position,
+    headline results, interpretation/ratification identities,
+    connections, documents. A view, never an authority: regeneration is
+    byte-identical; edits belong in the source artifacts."""
+    n = f'{idea:03d}'
+    d = idea_dir(idea)
+    card = {}
+    cp = d / 'idea_card.json'
+    if cp.exists():
+        try:
+            card = json.loads(cp.read_text()) or {}
+        except json.JSONDecodeError:
+            card = {'_error': 'idea_card.json unparseable'}
+    st = {}
+    sp_ = d / 'state.json'
+    if sp_.exists():
+        try:
+            st = json.loads(sp_.read_text()) or {}
+        except json.JSONDecodeError:
+            st = {}
+    L = []
+    A = L.append
+    A(f'# Research Card - idea-{n}')
+    A('')
+    A('GENERATED VIEW (R5a). Never edit: regenerate with '
+      f'`python scout.py card-materialize {idea}`. Edits belong in the '
+      'source artifacts this card renders.')
+    A('')
+    A('## Identity')
+    A(f'- title: {card.get("title", "(no idea_card)")}')
+    A(f'- charter: {card.get("charter", "?")}   track: '
+      f'{card.get("track", "?")}   card-id: {card.get("id", "?")}')
+    A(f'- ledger status: {st.get("status", "?")}   scrutiny: '
+      f'{st.get("scrutiny", "?")}   ledger events: '
+      f'{st.get("event_count", (st.get("materialization") or {}).get("event_count", "?"))}')
+    A('')
+    A('## Question')
+    A(str(card.get('question', '(none recorded)')).strip())
+    A('')
+    A('## Declared vs derived status')
+    ks = card.get('keystone_status')
+    rat = _last_ledger_row(f'idea-{n}', kind='INTERPRETATION_RATIFIED')
+    verdict = _interpret_review_verdict(d) or {}
+    derived = (f'ratified -> {rat.get("status")}' if rat else
+               ('interpretation ' + verdict.get('verdict')
+                if verdict.get('verdict') else 'no interpretation'))
+    A(f'- idea_card.keystone_status: {ks!r}')
+    A(f'- system-derived: {derived}')
+    if rat and ks not in (None, '', rat.get('status')):
+        A('- DRIFT: the card field predates the ratified outcome. '
+          'Candidate operator update to idea_card.json (normal edit; '
+          'this view never reconciles silently).')
+    A('')
+    A('## Contract lineage (approval marker history, oldest -> newest)')
+    lineage = _marker_lineage(idea)
+    if lineage:
+        for c7, blob in lineage:
+            A(f'- {c7}  {blob[:12]}')
+        cur = _contract_hash(d)
+        A(f'- current contract blob: '
+          f'{cur[:12] if cur else "MISSING"}')
+    else:
+        A('- (no approval marker history)')
+    A('')
+    A('## Experiment position')
+    b = _result_bundle_for(idea)
+    if (d / 'registry.yaml').exists():
+        A('- registry.yaml present (ratification machinery: R3b)')
+    if b is None:
+        A('- no imported results bundle')
+    else:
+        try:
+            summ = json.loads((b / 'summary.json').read_text())
+        except (OSError, json.JSONDecodeError):
+            summ = {}
+        A(f'- bundle: {b.relative_to(ROOT)}   phase: '
+          f'{summ.get("phase", "?")}   status: {summ.get("status", "?")}')
+        if 'analyzed_census_case_count' in summ:
+            A(f'- cases: {summ.get("analyzed_census_case_count")} analyzed '
+              f'of {summ.get("census_case_count")} census '
+              f'({summ.get("released_case_count")} released, '
+              f'{summ.get("reserved_case_count")} reserved untouched)')
+        A('')
+        A('## Headline results (from summary.json; every number '
+          'citation-checked in interpret_review.md)')
+        for row in summ.get('per_stratum') or []:
+            if not isinstance(row, dict):
+                continue
+            A(f'- stratum {row.get("stratum")}: mean_d '
+              f'{row.get("mean_d"):+.4f}  '
+              f'CI [{row.get("ci_low"):+.4f}, {row.get("ci_high"):+.4f}]  '
+              f'width {row.get("ci_width"):.4f}  '
+              f'median_d {row.get("median_d"):+.4f}')
+        if 'g_label_passed' in summ:
+            A(f'- pre-registered conjunction passed: '
+              f'{summ.get("g_label_passed")}')
+    A('')
+    A('## Interpretation and authority')
+    for name in ('interpretation.md', 'interpret_review.md', 'decision.md'):
+        p = d / name
+        A(f'- {name}: '
+          + (sha256_of(p)[:12] if p.exists() else 'missing'))
+    if verdict.get('verdict'):
+        A(f'- cross-family review verdict: {verdict.get("verdict")}')
+    if rat:
+        A(f'- ratified: status {rat.get("status")}, interpretation '
+          f'{str(rat.get("interpretation_sha256"))[:12]}, contract '
+          f'{str(rat.get("contract_blob"))[:12]}')
+    else:
+        A('- ratified: no')
+    A('')
+    A('## Connections')
+    rel = card.get('related_ideas')
+    if isinstance(rel, list) and rel:
+        for x in rel:
+            A(f'- {x}')
+    else:
+        A('- (none recorded; add an optional related_ideas list to '
+          'idea_card.json)')
+    A('')
+    A('## Documents')
+    for rel_p in (f'ideas/{n}/idea_card.json',
+                  f'ideas/{n}/probe_contract.yaml',
+                  f'ideas/{n}/interpretation.md',
+                  f'ideas/{n}/interpret_review.md',
+                  f'ideas/{n}/decision.md',
+                  f'ideas/{n}/state.json'):
+        A(f'- {rel_p}' + ('' if (ROOT / rel_p).exists() else '  (absent)'))
+    return '\n'.join(L) + '\n'
+
+
+def cmd_card_materialize(args):
+    n = f'{args.idea:03d}'
+    text = render_card(args.idea)
+    p = idea_dir(args.idea) / 'CARD.md'
+    if args.check:
+        if not p.exists():
+            raise SystemExit(f'{p.relative_to(ROOT)} missing; run without '
+                             '--check first')
+        if p.read_text() != text:
+            raise SystemExit(f'{p.relative_to(ROOT)} is not a faithful '
+                             'rendering (regenerated bytes differ)')
+        print(f'{p.relative_to(ROOT)}: byte-identical')
+        return
+    p.write_text(text)
+    print(p.relative_to(ROOT))
+
+
 def _result_bundle_for(idea):
     """Latest imported results bundle for an idea: the legacy fixed
     results_v2 location, else the newest probes/NNN/results/*/ bundle
@@ -3623,6 +3812,7 @@ def main():
     p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
     p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
     p=sp.add_parser('ratify-interpretation'); p.add_argument('idea',type=int); p.add_argument('--status',required=True); p.set_defaults(fn=cmd_ratify_interpretation)
+    p=sp.add_parser('card-materialize'); p.add_argument('idea',type=int); p.add_argument('--check',action='store_true'); p.set_defaults(fn=cmd_card_materialize)
     p=sp.add_parser('actioner'); p.add_argument('--improve',action='store_true'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=actioner)
     p=sp.add_parser('pipeline'); p.add_argument('--top',type=int); p.add_argument('--charter',default=None); p.add_argument('--scout'); p.add_argument('--candidate',type=int); p.add_argument('--idea',type=int); p.add_argument('--stages',default='keystone,critique,debate'); p.add_argument('--revise-debt',action='store_true'); p.set_defaults(fn=pipeline)
     p=sp.add_parser('ledger'); lsp=p.add_subparsers(dest='ledger_cmd',required=True)
