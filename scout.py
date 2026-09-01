@@ -1318,6 +1318,7 @@ def cmd_confer(args):
     pp = cdir / f'{tag}_prompt.md'
     base_prompt = _confer_prompt(n, tag, q, ctx)
     pp.write_text(base_prompt)
+    _commit_all(f'idea {n}: confer {tag} question registered')
     cfg = load_agent_config()
     pair = cfg.get('rotation', {}).get('pair', ['claude', 'codex'])[:2]
     # Operator direction (R5c): the families SWAP roles across
@@ -1334,53 +1335,62 @@ def cmd_confer(args):
     rp = cdir / f'{tag}_review_prompt.md'
     verdict = None
     import re as _re
-    for rnd in (1, 2):
-        if rnd == 2:
-            pp.write_text(base_prompt
-                          + '\n===== REVISION ROUND =====\n'
-                            'The opposing-family reviewer CONTESTed the '
-                            'meat of your answer (findings below). Revise '
-                            'your answer file to fix ONLY these findings; '
-                            'keep the required structure.\n'
-                          + json.dumps(verdict.get('findings', []),
-                                       indent=1))
-        run_agent(pp, fam_a, stage='confer',
-                  log_path=cdir / f'{tag}_log.txt')
-        _check_scope('confer')
-        if not ans.exists():
-            _commit_all(f'idea {n}: confer {tag} FAILED '
-                        '(partial preserved)')
-            raise SystemExit(f'confer wrote no {ans.relative_to(ROOT)}')
-        _commit_all(f'idea {n}: confer {tag} '
-                    + ('draft' if rnd == 1 else 'revision'))
-        rp.write_text(_confer_review_prompt(n, tag, q, ctx,
-                                            read_text(ans)))
-        run_agent(rp, fam_b, stage='confer_review',
-                  log_path=cdir / f'{tag}_review_log.txt')
-        _check_scope('confer_review')
-        rv = cdir / f'{tag}_review.md'
-        if not rv.exists():
-            _commit_all(f'idea {n}: confer {tag} review FAILED '
-                        '(partial preserved)')
-            raise SystemExit(f'confer review wrote no '
-                             f'{rv.relative_to(ROOT)}')
-        m = _re.findall(r'```json\s*(\{.*?\})\s*```',
-                        read_text(rv), flags=_re.S)
-        try:
-            verdict = json.loads(m[-1]) if m else {}
-        except json.JSONDecodeError:
-            verdict = {}
-        _commit_all(f'idea {n}: confer {tag} review '
-                    f'({verdict.get("verdict", "UNPARSEABLE")})')
-        if verdict.get('verdict') == 'CONCUR':
-            break
-        if rnd == 2:
-            raise SystemExit('confer: still CONTESTed after one '
-                             'revision; operator review required '
-                             f'(see {rv.relative_to(ROOT)})')
-        if verdict.get('verdict') != 'CONTEST':
-            raise SystemExit('confer: review verdict missing or '
-                             f'unparseable in {rv.relative_to(ROOT)}')
+    try:
+      for rnd in (1, 2):
+          if rnd == 2:
+              pp.write_text(base_prompt
+                            + '\n===== REVISION ROUND =====\n'
+                              'The opposing-family reviewer CONTESTed the '
+                              'meat of your answer (findings below). Revise '
+                              'your answer file to fix ONLY these findings; '
+                              'keep the required structure.\n'
+                            + json.dumps(verdict.get('findings', []),
+                                         indent=1))
+          run_agent(pp, fam_a, stage='confer',
+                    log_path=cdir / f'{tag}_log.txt')
+          _check_scope('confer')
+          if not ans.exists():
+              _commit_all(f'idea {n}: confer {tag} FAILED '
+                          '(partial preserved)')
+              raise SystemExit(f'confer wrote no {ans.relative_to(ROOT)}')
+          _commit_all(f'idea {n}: confer {tag} '
+                      + ('draft' if rnd == 1 else 'revision'))
+          rp.write_text(_confer_review_prompt(n, tag, q, ctx,
+                                              read_text(ans)))
+          run_agent(rp, fam_b, stage='confer_review',
+                    log_path=cdir / f'{tag}_review_log.txt')
+          _check_scope('confer_review')
+          rv = cdir / f'{tag}_review.md'
+          if not rv.exists():
+              _commit_all(f'idea {n}: confer {tag} review FAILED '
+                          '(partial preserved)')
+              raise SystemExit(f'confer review wrote no '
+                               f'{rv.relative_to(ROOT)}')
+          m = _re.findall(r'```json\s*(\{.*?\})\s*```',
+                          read_text(rv), flags=_re.S)
+          try:
+              verdict = json.loads(m[-1]) if m else {}
+          except json.JSONDecodeError:
+              verdict = {}
+          _commit_all(f'idea {n}: confer {tag} review '
+                      f'({verdict.get("verdict", "UNPARSEABLE")})')
+          if verdict.get('verdict') == 'CONCUR':
+              break
+          if rnd == 2:
+              raise SystemExit('confer: still CONTESTed after one '
+                               'revision; operator review required '
+                               f'(see {rv.relative_to(ROOT)})')
+          if verdict.get('verdict') != 'CONTEST':
+              raise SystemExit('confer: review verdict missing or '
+                               f'unparseable in {rv.relative_to(ROOT)}')
+    except BaseException as e:
+        # R5e: an infrastructure failure must never vaporize evidence --
+        # receipts, prompts, and any partial artifacts are committed
+        # before the failure propagates (the first live confer died with
+        # zero trace; never again).
+        _commit_all(f'idea {n}: confer {tag} FAILED '
+                    f'({type(e).__name__}; partial preserved)')
+        raise
     print(f'confer answered ({verdict.get("verdict")}): '
           f'{ans.relative_to(ROOT)}')
     print(f'  reviewed by the opposing family; grounded on: ' + ', '.join(

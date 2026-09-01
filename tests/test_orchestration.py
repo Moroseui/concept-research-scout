@@ -4120,6 +4120,22 @@ class TestR5bConfer(Harness):
         self.assertIn("REVISION ROUND", rev_prompt)
         self.assertIn("overview overstates", rev_prompt)
 
+    def test_confer_leg_raise_commits_evidence_before_propagating(self):
+        sc, d, calls = self._kit()
+        import scout as s2
+
+        def boom(*a, **k):
+            raise RuntimeError("cli exploded")
+        s2.run_agent = boom
+        import argparse
+        with self.assertRaises(RuntimeError):
+            sc.cmd_confer(argparse.Namespace(idea=1, question="q"))
+        msgs = calls["commits"]
+        self.assertTrue(any("question registered" in m for m in msgs),
+                        "evidence must be committed before any leg runs")
+        self.assertTrue(any("FAILED (RuntimeError" in m for m in msgs),
+                        "a raising leg must commit partial evidence")
+
     def test_confer_failure_preserves_partial(self):
         sc, d, calls = self._kit()
         import scout as s2
