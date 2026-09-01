@@ -1,0 +1,14 @@
+Review written to `ideas/023/confer/q0001_review.md`. Verdict: **CONCUR** — no meat-level findings.
+
+Summary of the deliberation:
+
+1. **Thesis** — correct. The draft's core answer (gate failed on directional inconsistency with adequate support and precision, so it's the contract's decisive negative; no model was ever probed; idea PAUSED) matches interpretation.md, decision.md, and the ratified status on the card.
+2. **OVERVIEW fidelity** — faithful compression. "Small but clear relationships in opposite directions" is supported by the zero-excluding CIs in bands 2 and 3, and the heterogeneity/tissue caveats that qualify it are carried in both the OVERVIEW's second paragraph and the DETAILS.
+3. **Citations** — all resolve. Every number in the draft (band means/CIs/widths, medians, identity residuals, case counts, thresholds, HU examples, exclusions) matches the evidence to the stated rounding, and the round-2 cross-family review independently re-verified the same bundle values.
+4. **Premise check** — correctly fired. The question's "not predictive" premise conflicts with the evidence on both counts: no predictiveness test occurred, and the result was directional inconsistency rather than absence of outcome information. The draft corrects this and still answers the corrected question.
+5. **Claim bounds** — clean. No prevalence, contribution, channel-attribution, physiological, or model-use claims beyond what the artifacts permit.
+6. **Question coverage** — complete. The answerable "why" (sign reversal across flow bands) is answered; the unanswerable "why" (underlying cause) is explicitly declared unresolvable, with the candidate explanations and the successor analyses that would settle them named.
+
+```json
+{"verdict": "CONCUR", "findings": []}
+```
