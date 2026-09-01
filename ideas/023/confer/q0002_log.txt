@@ -1,0 +1,9 @@
+I wrote my full response to `ideas/023/confer/q0002.md` and touched nothing else. Here is the substance of what I concluded.
+
+**Short answer: No — and the question's premise conflicts with the evidence on two counts.**
+
+1. **The study did not show "CBV doesn't matter biologically."** The interpretation explicitly prohibits that reading: the result "must NOT be read as ... evidence that CBV/MTT lacks biological importance," and the ratified decision calls it "a decisive negative for the keystone, not evidence that the joint state lacks biological or predictive content." What actually failed was *directional consistency* across flow bands — two of three bands had confidence intervals excluding zero, but in opposite directions (middle band −0.032, highest band +0.023). That's a failed conjunction, not a demonstrated null. The bands even carry precise, real associations; they just disagree in sign.
+
+2. **No model or "features" were ever examined.** The whole keystone question was about model *use* of the joint state, and that model-use probe was contingent on this association gate passing. It failed, so no model was built or probed and none is authorized. There is no benchmark, no feature ablation, no predictive measurement anywhere in the bundle — so the evidence simply cannot resolve a feature-selection decision. Dropping perfusion features would misread a scoped association negative as a modeling verdict.
+
+The recorded forward path is the *opposite* of abandonment: a tissue-normalized matched-flow successor that re-measures the perfusion coordinate more carefully, motivated by a documented (but not cohort-quantified) tissue-attenuation confound in the CBV quartile cells. I included a PREMISE CHECK, full cited DETAILS, OPEN UNCERTAINTIES, and advisory SUGGESTED UPDATES steering any genuine feature question into its own gated model-use probe rather than a drop-perfusion action.
