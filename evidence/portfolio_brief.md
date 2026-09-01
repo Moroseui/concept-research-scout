@@ -5,6 +5,18 @@ framing never crosses charters; facts cross via
 evidence/cross_charter_index.md). A revival/recombination
 candidate MUST cite the specific condition below that has changed.
 
+## idea-046 [ACTIVE] -- Which observed cases numerically carry the band-2/3 reversal?
+
+**Verdict:** **REVISE.** The surviving descriptive census is coherent, inexpensive at its first rung, and faithful to the already-open 99 cases, but the card must be rewritten throughout: deliverable, question wording where necessary, measurement, identifiability, anticipated negative, smallest experiment, rungs, acquisition cost, multiplicity plan, mode, and scores must all relinquish the binary and stable-carrier claims. The single most important thing for the human to inspect is whether that reduced deliverable preserves the candidate's identity under the claim-identity rule; if not, it must enter as a successor rather than a revision in place.
+
+**Unresolved:** Does the narrowed descriptive study preserve idea 046's claim identity?; Could a future dataset support a stable carrier classification?
+
+## idea-045 [PAUSED] -- Did tissue composition create idea-023's sign reversal?
+
+**Verdict:** **REVISE.** The substantive question retains a viable positive arm and a cheap, useful Rung-0a analysis, but the current card still asserts a decisive, lineage-terminal negative that both sides ultimately rejected. The single most important thing for the human to inspect is whether removing “decisively refusing” and making every null sensitivity-limited preserves the candidate’s identity under the claim-identity rule; if it does, revise the card and scores in place, and if it does not, supersede it with a newly registered successor.
+
+**Unresolved:** Does weakening the negative claim change the candidate’s identity?; Can a future calibration restore a decisive conditional negative?; Should the reduced study still run?
+
 ## idea-019 [SHORTLISTED] -- Does CT-CLIP use a subpleural cyst-network topology index?
 
 **Verdict:** **REVISE.** The debate produced a coherent conditional rung-1 feasibility/use study, but the existing card is materially stale and the program's required physician-legible endpoint remains outside the evidence. Before deciding whether revision-in-place is permissible, the human should look most closely at the claim-identity boundary: whether replacing “the model uses honeycombing” with “the model uses a prespecified subpleural cyst-network topology index” is rung honesty within the same candidate or a new deliverable sentence that must be registered as a successor. ```json {"verdict": "REVISE", "unblock": "Human resolves the claim-identity boundary, then the card is rewritten to the agreed index-level, K1-gated, G2a/G2b-conditional rung-1 design (or registered as a successor if the deliverable sentence is judged changed)."} ```
@@ -36,16 +48,4 @@ candidate MUST cite the specific condition below that has changed.
 **Verdict:** **PAUSE.** The debate converged after a real, persistent objection; this was not a one-round rubber stamp. Before deciding whether to reopen, the human should look first for the missing identification instrument: a confirmed human chest CT resource with retained spectral base-material or dual-kV raw data and linkable age that can provide a measured, post-preprocessing-matched mineralized-to-soft-tissue contrast. Without that—or another genuinely matched real-tissue control—the current experiment cannot distinguish native use of costal cartilage mineralization from response to the deletion operation, regardless of improvements to masks, models, or supervision audits.
 
 **Unresolved:** Can a measured, properly matched control separate mineralization use from the deletion signature?; Could registered longitudinal CT provide a natural contrast?; Is the editable cartilage mask sufficiently precise in the population where the experiment would run?; Are the other Stage-0 assets actually available and clean?
-
-## idea-008 [ACTIVE] -- Does Sybil use CT-defined emphysema geometry?
-
-**Verdict:** **REVISE.** The debate produced a coherent conditional design, but the current `idea_card.json` still describes the superseded reconstruction arm, rung-3 observational logic, `INSPECTED_TRUE` keystone, and obsolete scores. Before deciding whether to advance, the human should look most closely at whether the proposed tissue-for-tissue edit can be validated as in-distribution with a prespecified sham-effect tolerance; that is now the single fact separating a model-use study from an association-only study.
-
-**Unresolved:** Are the local parenchymal substitutions in-distribution for Sybil?; Does a score response isolate CT-emphysema geometry from remaining visible correlates?; Can the required held-out NLST cohort and covariates actually be recovered?
-
-## idea-007 [ACTIVE] -- The same patient at two degrees of inspiration
-
-**Verdict:** **REVISE.** Update the idea card to the converged state-level claim and corrected scores, then require Stage 0 before a probe contract. The single most important thing for the human to inspect is the prespecified DICOM-to-final-tensor comparability gate: whether enough inhale/exhale pairs truly retain matched reconstruction, coordinates, physical scale, and thoracic coverage through the complete pinned CT-CLIP preprocessing pipeline.
-
-**Unresolved:** Do enough actual pairs pass the reconstruction and framing gate?; Is a common physical box compatible with CT-CLIP preprocessing without state-dependent framing?; Is the optional matched-volume 4DCT jitter floor usable?
 
