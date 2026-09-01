@@ -1,6 +1,26 @@
 {
   "idea_id": "046",
+  "contract_version": 2,
+  "contract_blob": "942e530737c90b666baa4c9985fd0329296ef140",
   "passed": true,
   "issues": [],
-  "checked_at": "2026-09-01T22:14:53.897514+00:00"
+  "checked_at": "2026-09-01T22:40:32+00:00",
+  "checks": {
+    "python_compile": "passed",
+    "smoke_status": "SMOKE_ONLY",
+    "smoke_case_count": 24,
+    "smoke_required_outputs": 14,
+    "smoke_under_60_seconds": true,
+    "two_run_scientific_output_byte_determinism": "passed",
+    "real_census_executed": false
+  },
+  "determinism_compared_outputs": [
+    "exclusions.csv",
+    "per_case_contributions.csv",
+    "signed_cumulative_curve.csv",
+    "absolute_lorenz_curve.csv",
+    "positive_mass_curve.csv",
+    "census_summary.json",
+    "summary.json"
+  ]
 }

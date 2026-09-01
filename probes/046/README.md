@@ -1,14 +1,20 @@
 # Probe 046 — finite-population contribution census
 
-The current draft `ideas/046/probe_contract.yaml` is contract version 2. It
+The human-approved `ideas/046/probe_contract.yaml` is contract version 2. It
 specifies one deterministic, CPU-only census of the 99 observed case
 contributions to idea-023's realized band-3-minus-band-2 estimator.
 
-Version 2 is a draft. It has not been human-approved and authorizes neither
-code changes nor execution. The existing `run.py`, `requirements.txt`,
-`verification.json`, and `results/results_v2/` belong to the completed,
-human-approved version 1 definition audit. They must not be modified or
-represented as version 2 outputs.
+Run the census once into a new, empty output directory:
+
+```bash
+python probes/046/run.py --output-dir /path/to/probe-046-v2-output
+```
+
+Run the synthetic harness check without reading the real table:
+
+```bash
+python probes/046/run.py --smoke --output-dir /tmp/probe-046-smoke
+```
 
 The proposed v2 run would emit:
 
@@ -25,6 +31,7 @@ shape is reported as a finite-population description. It reads no phenotype
 file, reserved case, raw image, voxel array, or cache, and it supports no
 biological, clinical, causal, predictive, population, or model-use claim.
 
-If the v2 contract receives fresh human approval, probe code must be built and
-cross-family reviewed in a later stage before any execution. No v2 command
-exists yet.
+`CENSUS_COMPLETE` is descriptive only. It is not a diffuse-versus-concentrated
+classification and supports no stable-carrier, biological, clinical, causal,
+predictive, population, or model-use claim. The previous v1 result remains
+unchanged in `probes/046/results/results_v2/`.

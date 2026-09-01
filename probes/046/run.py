@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
-"""Idea 046: outcome-blind audit of the frozen contribution definitions.
+"""Idea 046: finite-population contribution census (contract version 2).
 
-This probe reads the approved 99-case band-2/band-3 table and checks that the
-per-case contribution formula exactly adds back to the difference of the two
-equal-patient means, with residual at most 1e-12. It also checks that every
-frozen cumulative-share summary has a finite, nonzero denominator and a
-deterministic tie rule. The run stops after this one validation pass or at the
-first invalidating failure. FEASIBLE_DEFINITION_AUDIT means a later scientific
-census contract may be drafted; DEFINITION_REVISION_REQUIRED means a named
-summary is undefined. Neither result reveals or interprets contribution
-dominance. Smoke mode uses synthetic rows and is always SMOKE_ONLY.
+This experiment reads the approved 99-case band-2/band-3 table and emits the
+complete, deterministic accounting of each observed case's contribution to the
+equal-patient band-3-minus-band-2 mean contrast. Its primary metric is the full
+ordered per-case contribution table and signed cumulative sequence; the run
+stops after one frozen CPU-only census or at the first invalidating failure.
+CENSUS_COMPLETE means every approved output was written and all identity,
+cohort, algebra, denominator, ordering, and scope gates passed. There is no
+directional negative pattern: any curve shape is a descriptive result, while a
+failed gate is invalid rather than scientific evidence. Smoke mode uses
+synthetic rows and is always SMOKE_ONLY.
 
 Run: python probes/046/run.py --output-dir /path/to/new/output
 Smoke: python probes/046/run.py --smoke --output-dir /tmp/probe-046-smoke
 
 Exit codes: 0 valid completion; 2 authority/CLI; 3 input identity; 4 cohort;
-5 algebra; 6 definition; 7 output/exposure/determinism; 8 wall time;
+5 algebra/definition; 6 scope; 7 output/determinism; 8 wall time;
 12 unexpected harness fault.
 """
 
@@ -36,9 +37,10 @@ from pathlib import Path
 
 
 IDEA_ID = "idea-046"
-CONTRACT_VERSION = 1
+CONTRACT_VERSION = 2
 SEED = 20260901  # Fixed harness seed; the approved analysis uses no randomness.
 EXPECTED_CASES = 99  # Directly inspected and frozen in probe_contract.yaml.
+SMOKE_CASES = 24  # At least 20 so smoke exercises every frozen top-k summary.
 PRIMARY_BANDS = (2, 3)  # The approved gap excludes band 1.
 TOP_K = (1, 5, 10, 20)  # Frozen descriptive summaries from the approved card.
 TARGET_SHARES = (0.50, 0.80)  # Frozen positive-mass cumulative targets.
@@ -125,9 +127,9 @@ def verify_authority(smoke):
     actual = git_blob(CONTRACT_PATH)
     if match.group(1) != actual:
         fail(EXIT_AUTHORITY, "approval marker is stale for the current contract")
-    required = ["contract_version: 1", "maximum_variants: 1", "maximum_gpu_minutes: 0",
-                "maximum_seeds: 1", "FEASIBLE_DEFINITION_AUDIT",
-                "DEFINITION_REVISION_REQUIRED", "1e-12"]
+    required = ["contract_version: 2", "maximum_variants: 1", "maximum_gpu_minutes: 0",
+                "maximum_seeds: 1", "CENSUS_COMPLETE",
+                "NO DIRECTIONAL NEGATIVE IS DEFINED", "1e-12"]
     text = CONTRACT_PATH.read_text(encoding="utf-8")
     missing = [literal for literal in required if literal not in text]
     if missing:
@@ -144,13 +146,13 @@ def prepare_output_dir(path):
 def make_smoke_input(output_dir):
     path = output_dir / "smoke_input.csv"
     rows = []
-    for index in range(8):
+    for index in range(SMOKE_CASES):
         anonymous = f"synthetic-{index + 1:02d}"
         rows.append({"case_id": anonymous, "stratum": 1, "d": 0.0})
         rows.append({"case_id": anonymous, "stratum": 2, "d": -0.1 + index * 0.01})
         rows.append({"case_id": anonymous, "stratum": 3, "d": 0.2 - index * 0.005})
     write_csv(path, ["case_id", "stratum", "d"], rows)
-    assert len(rows) == 24
+    assert len(rows) == 3 * SMOKE_CASES
     return path
 
 
@@ -194,7 +196,7 @@ def load_and_validate(path, smoke):
                 continue
             selected.append((raw["case_id"], band, value, line_number))
     assert len(selected) + len(excluded) > 0
-    expected = 8 if smoke else EXPECTED_CASES
+    expected = SMOKE_CASES if smoke else EXPECTED_CASES
     keys = [(case_id, band) for case_id, band, _value, _line in selected]
     if len(keys) != len(set(keys)):
         fail(EXIT_COHORT, "duplicate case-band key")
@@ -237,69 +239,112 @@ def freeze_split(output_dir, expected_cases, smoke):
 def measure(selected, cases):
     lookup = {(case_id, band): value for case_id, band, value, _line in selected}
     assert len(lookup) == 2 * len(cases)
-    deltas = []
-    sample_rows = []
-    for anonymous_index, case_id in enumerate(sorted(cases), start=1):
+    measurements = []
+    for case_id in sorted(cases):
         band2 = lookup[(case_id, 2)]
         band3 = lookup[(case_id, 3)]
         delta = band3 - band2
         assert math.isfinite(delta)
-        deltas.append(delta)
-        # Per-sample output is intentionally anonymous and boolean-only under no-result-exposure.
-        sample_rows.append({"anonymous_sample": anonymous_index, "paired_rows": 2,
-                            "finite_inputs": True, "finite_delta": True})
-    assert len(deltas) == len(cases)
-    n = len(deltas)
-    contributions = [value / n for value in deltas]
-    direct_gap = math.fsum(lookup[(case_id, 3)] for case_id in cases) / n
-    direct_gap -= math.fsum(lookup[(case_id, 2)] for case_id in cases) / n
-    stable_residual = abs(math.fsum(contributions) - direct_gap)
-    ordinary_residual = abs(sum(contributions) - direct_gap)
-    assert math.isfinite(stable_residual)
-    assert math.isfinite(ordinary_residual)
-    return deltas, sorted(cases), stable_residual, ordinary_residual, sample_rows
+        # Equal-patient estimator uses the validated census size (N=99 in the real run).
+        contribution = delta / len(cases)
+        assert math.isfinite(contribution)
+        measurements.append({"case_id": case_id, "d_band2": band2, "d_band3": band3,
+                             "delta": delta, "contribution": contribution})
+    assert len(measurements) == len(cases)
+    direct_gap = math.fsum(row["d_band3"] for row in measurements) / len(cases)
+    direct_gap -= math.fsum(row["d_band2"] for row in measurements) / len(cases)
+    residual = abs(math.fsum(row["contribution"] for row in measurements) - direct_gap)
+    assert math.isfinite(residual)
+    return measurements, direct_gap, residual
 
 
-def summarize_definitions(deltas, case_ids, stable_residual, ordinary_residual):
-    positive = [value for value in deltas if value > 0.0]
-    negative = [value for value in deltas if value < 0.0]
-    zero_count = len(deltas) - len(positive) - len(negative)
-    positive_mass = math.fsum(positive)
-    absolute_mass = math.fsum(abs(value) for value in deltas)
-    signed_total = math.fsum(deltas)
-    denominators = {
-        "signed_total_finite_nonzero": math.isfinite(signed_total) and signed_total != 0.0,
-        "positive_mass_finite_nonzero": math.isfinite(positive_mass) and positive_mass > 0.0,
-        "absolute_mass_finite_nonzero": math.isfinite(absolute_mass) and absolute_mass > 0.0,
-    }
-    assert len(positive) + len(negative) + zero_count == len(deltas)
-    rounded_signed = [value.hex() for value in deltas]
-    rounded_absolute = [abs(value).hex() for value in deltas]
-    signed_ties = len(rounded_signed) - len(set(rounded_signed))
-    absolute_ties = len(rounded_absolute) - len(set(rounded_absolute))
-    # These are the two contract-frozen orderings. They remain in memory so
-    # neither patient identifiers nor scientific ranks enter an audit artifact.
-    signed_order_keys = sorted((-delta, case_id) for case_id, delta in zip(case_ids, deltas))
-    absolute_order_keys = sorted((-abs(delta), case_id) for case_id, delta in zip(case_ids, deltas))
-    signed_order_unique = len(signed_order_keys) == len(set(signed_order_keys))
-    absolute_order_unique = len(absolute_order_keys) == len(set(absolute_order_keys))
-    deterministic_ordering = signed_order_unique and absolute_order_unique
-    summaries_defined = all(denominators.values()) and all(k <= len(deltas) for k in TOP_K)
-    summaries_defined = summaries_defined and all(0.0 < target <= 1.0 for target in TARGET_SHARES)
-    assert signed_ties >= 0 and absolute_ties >= 0
-    assert deterministic_ordering
-    return {
-        "stable_summation_residual": stable_residual,
-        "ordinary_summation_residual_diagnostic_only": ordinary_residual,
-        "algebra_residual_within_tolerance": stable_residual <= TOLERANCE,
-        "denominators": denominators,
-        "sign_counts": {"positive": len(positive), "zero": zero_count, "negative": len(negative)},
-        "tie_counts": {"signed": signed_ties, "absolute": absolute_ties},
-        "deterministic_secondary_case_id_rule_defined": deterministic_ordering,
-        "top_k_definable": {str(k): k <= len(deltas) for k in TOP_K},
-        "target_share_definable": {str(target): summaries_defined for target in TARGET_SHARES},
-        "all_summaries_defined": summaries_defined,
-    }
+def summarize_census(measurements, direct_gap, residual):
+    # SIGNED SUMMARY: descending contribution answers which observed cases
+    # account numerically for the net estimator, with case_id as the frozen tie rule.
+    signed = sorted(measurements, key=lambda row: (-row["contribution"], row["case_id"]))
+    assert len({row["case_id"] for row in signed}) == len(signed)
+    net = math.fsum(row["contribution"] for row in signed)
+    if not math.isfinite(net) or net == 0.0:
+        fail(EXIT_ALGEBRA, "signed contribution denominator is zero or nonfinite")
+    signed_curve = []
+    running = []
+    for rank, row in enumerate(signed, start=1):
+        running.append(row["contribution"])
+        cumulative = math.fsum(running)
+        signed_curve.append({"rank": rank, "case_id": row["case_id"],
+                             "contribution": row["contribution"],
+                             "signed_cumulative": cumulative,
+                             "signed_fraction_of_net": cumulative / net})
+    assert len(signed_curve) == len(signed)
+    assert math.isclose(signed_curve[-1]["signed_cumulative"], net, rel_tol=0.0, abs_tol=TOLERANCE)
+
+    # ABSOLUTE SUMMARY: ascending absolute contribution is the contract's
+    # Lorenz ordering; explicit endpoints make the curve independently auditable.
+    absolute = sorted(measurements, key=lambda row: (abs(row["contribution"]), row["case_id"]))
+    total_absolute = math.fsum(abs(row["contribution"]) for row in absolute)
+    if not math.isfinite(total_absolute) or total_absolute <= 0.0:
+        fail(EXIT_ALGEBRA, "absolute contribution denominator is zero or nonfinite")
+    lorenz = [{"rank": 0, "population_fraction": 0.0, "absolute_share": 0.0}]
+    running_absolute = []
+    for rank, row in enumerate(absolute, start=1):
+        running_absolute.append(abs(row["contribution"]))
+        lorenz.append({"rank": rank, "population_fraction": rank / len(absolute),
+                       "absolute_share": math.fsum(running_absolute) / total_absolute})
+    assert lorenz[0]["population_fraction"] == 0.0 and lorenz[0]["absolute_share"] == 0.0
+    assert lorenz[-1]["population_fraction"] == 1.0 and lorenz[-1]["absolute_share"] == 1.0
+    assert all(lorenz[i]["absolute_share"] <= lorenz[i + 1]["absolute_share"]
+               for i in range(len(lorenz) - 1))
+
+    # POSITIVE-MASS SUMMARY: zero and negative cases cannot help cross a
+    # positive-share target, so the contract explicitly excludes them here.
+    positive = [row for row in signed if row["contribution"] > 0.0]
+    positive_mass = math.fsum(row["contribution"] for row in positive)
+    if not math.isfinite(positive_mass) or positive_mass <= 0.0:
+        fail(EXIT_ALGEBRA, "positive contribution denominator is zero or nonfinite")
+    positive_curve = []
+    running_positive = []
+    for rank, row in enumerate(positive, start=1):
+        running_positive.append(row["contribution"])
+        positive_curve.append({"rank": rank, "case_id": row["case_id"],
+                               "contribution": row["contribution"],
+                               "positive_mass_share": math.fsum(running_positive) / positive_mass})
+    assert positive_curve and positive_curve[-1]["positive_mass_share"] == 1.0
+
+    top_k = {}
+    descending_absolute = sorted(measurements,
+                                 key=lambda row: (-abs(row["contribution"]), row["case_id"]))
+    for k in TOP_K:
+        if k > len(measurements):
+            fail(EXIT_ALGEBRA, f"top-k summary undefined for k={k}")
+        top_k[str(k)] = {
+            "signed_head_net_gap_share": math.fsum(row["contribution"] for row in signed[:k]) / net,
+            "absolute_mass_share": math.fsum(abs(row["contribution"])
+                                               for row in descending_absolute[:k]) / total_absolute,
+        }
+    crossings = {}
+    for target in TARGET_SHARES:
+        crossing = next((row for row in positive_curve if row["positive_mass_share"] >= target), None)
+        if crossing is None:
+            fail(EXIT_ALGEBRA, f"positive-mass target is undefined: {target}")
+        crossings[str(target)] = {"smallest_k": crossing["rank"],
+                                  "achieved_share": crossing["positive_mass_share"]}
+
+    signed_values = [row["contribution"] for row in measurements]
+    absolute_values = [abs(value) for value in signed_values]
+    sign_counts = {"positive": sum(value > 0.0 for value in signed_values),
+                   "zero": sum(value == 0.0 for value in signed_values),
+                   "negative": sum(value < 0.0 for value in signed_values)}
+    tie_counts = {"signed": len(signed_values) - len(set(signed_values)),
+                  "absolute": len(absolute_values) - len(set(absolute_values))}
+    assert sum(sign_counts.values()) == len(measurements)
+    summary = {"direct_band_gap": direct_gap, "net_contribution": net,
+               "additive_identity_residual": residual,
+               "additive_identity_within_1e-12": residual <= TOLERANCE,
+               "sign_counts": sign_counts, "tie_counts": tie_counts,
+               "top_k": top_k, "positive_mass_crossings": crossings,
+               "denominators": {"signed_net": net, "positive_mass": positive_mass,
+                                "absolute_mass": total_absolute}}
+    return signed, signed_curve, lorenz, positive_curve, summary
 
 
 def environment_record():
@@ -320,7 +365,7 @@ def run(args):
     emit("[load] Verifying authority and freezing the start manifest.", log_lines)
     authority = verify_authority(args.smoke)
     input_path = make_smoke_input(args.output_dir) if args.smoke else args.input_csv
-    expected_cases = 8 if args.smoke else EXPECTED_CASES
+    expected_cases = SMOKE_CASES if args.smoke else EXPECTED_CASES
     split = freeze_split(args.output_dir, expected_cases, args.smoke)
     manifest_start = start_manifest(input_path, args.smoke)
     if not args.smoke and manifest_start["input_sha256"] != EXPECTED_INPUT_SHA256:
@@ -336,25 +381,21 @@ def run(args):
     assert len(cases) == split["opened_census_cases"]
     emit(f"[validate] Paired samples: {len(cases)}; excluded rows: {len(exclusions)}.", log_lines)
 
-    # MEASURE: compute the approved identity in memory. Scientific values and
-    # identities are deliberately never printed or persisted by this audit.
-    emit("[measure] Computing one in-memory algebra and denominator audit.", log_lines)
-    deltas, case_ids, stable_residual, ordinary_residual, sample_rows = measure(selected, cases)
-    write_csv(args.output_dir / "sample_audit.csv",
-              ["anonymous_sample", "paired_rows", "finite_inputs", "finite_delta"], sample_rows)
-    audit = summarize_definitions(deltas, case_ids, stable_residual, ordinary_residual)
-    if not audit["algebra_residual_within_tolerance"]:
+    # MEASURE: compute every case's frozen delta and equal-patient contribution.
+    # This is the sole approved scientific transformation and uses no rounding.
+    emit(f"[measure] Computing {len(cases)} paired case contributions.", log_lines)
+    measurements, direct_gap, residual = measure(selected, cases)
+    for index, _row in enumerate(measurements, start=1):
+        emit(f"[measure] Pair {index}/{len(measurements)} complete; variant 1/1.", log_lines)
+    if residual > TOLERANCE:
         fail(EXIT_ALGEBRA, "additive identity exceeds the approved 1e-12 tolerance")
 
-    # SUMMARIZE: choose only the contract's two real patterns. Smoke is forced
-    # to SMOKE_ONLY and therefore can never pass a contractual gate.
-    emit("[summarize] Classifying definition feasibility without revealing results.", log_lines)
-    if args.smoke:
-        status = "SMOKE_ONLY"
-    elif audit["all_summaries_defined"]:
-        status = "FEASIBLE_DEFINITION_AUDIT"
-    else:
-        status = "DEFINITION_REVISION_REQUIRED"
+    # SUMMARIZE: build exactly the signed, absolute, and positive-mass curves
+    # frozen in v2. Smoke writes structurally identical outputs but is never a gate.
+    emit("[summarize] Building frozen curves and fixed top-k/target summaries.", log_lines)
+    signed, signed_curve, lorenz, positive_curve, census = summarize_census(
+        measurements, direct_gap, residual)
+    status = "SMOKE_ONLY" if args.smoke else "CENSUS_COMPLETE"
     if time.monotonic() - started > WALL_SECONDS:
         fail(EXIT_WALL, "run exceeded the approved five-minute wall time")
 
@@ -370,15 +411,31 @@ def run(args):
     write_json(args.output_dir / "resolved_config.json", resolved)
     write_csv(args.output_dir / "input_manifest.csv",
               ["input", "path", "sha256", "rows", "cases"], input_manifest)
-    write_json(args.output_dir / "definition_audit.json", audit)
+    per_case_rows = [{"case_id": row["case_id"], "d_band2": row["d_band2"],
+                      "d_band3": row["d_band3"], "delta": row["delta"],
+                      "contribution": row["contribution"], "signed_rank": rank}
+                     for rank, row in enumerate(signed, start=1)]
+    write_csv(args.output_dir / "per_case_contributions.csv",
+              ["case_id", "d_band2", "d_band3", "delta", "contribution", "signed_rank"],
+              per_case_rows)
+    write_csv(args.output_dir / "signed_cumulative_curve.csv",
+              ["rank", "case_id", "contribution", "signed_cumulative", "signed_fraction_of_net"],
+              signed_curve)
+    write_csv(args.output_dir / "absolute_lorenz_curve.csv",
+              ["rank", "population_fraction", "absolute_share"], lorenz)
+    write_csv(args.output_dir / "positive_mass_curve.csv",
+              ["rank", "case_id", "contribution", "positive_mass_share"], positive_curve)
+    write_json(args.output_dir / "census_summary.json", census)
     summary = {
         "idea_id": IDEA_ID, "status": status, "smoke": args.smoke,
         "paired_cases": len(cases), "excluded_rows": len(exclusions),
         "reserved_cases_accessed": split["reserved_cases_accessed"],
-        "primary_metric_name": "additive_residual_within_1e-12",
-        "primary_metric_pass": audit["algebra_residual_within_tolerance"],
-        "all_summaries_defined": audit["all_summaries_defined"],
-        "scientific_values_exposed": False,
+        "primary_metric_name": "complete_finite_population_contribution_accounting",
+        "primary_metric_pass": census["additive_identity_within_1e-12"],
+        "per_case_outputs": len(per_case_rows),
+        "signed_curve_rows": len(signed_curve),
+        "absolute_lorenz_rows": len(lorenz),
+        "positive_mass_rows": len(positive_curve),
     }
     write_json(args.output_dir / "summary.json", summary)
     write_json(args.output_dir / "environment.txt", environment_record())
@@ -389,12 +446,10 @@ def run(args):
     write_json(args.output_dir / "determinism_manifest_end.json", manifest_end)
     print(json.dumps(manifest_end, sort_keys=True), flush=True)
     emit(json.dumps(summary, indent=2, sort_keys=True), log_lines)
-    if status == "FEASIBLE_DEFINITION_AUDIT":
-        interpretation = ("Plain-language template: FEASIBLE_DEFINITION_AUDIT means only that the frozen "
-                          "definitions are coherent and a separate census contract may be drafted.")
-    elif status == "DEFINITION_REVISION_REQUIRED":
-        interpretation = ("Plain-language template: DEFINITION_REVISION_REQUIRED means a named frozen "
-                          "summary is undefined and its specification must be revised.")
+    if status == "CENSUS_COMPLETE":
+        interpretation = ("Plain-language template: CENSUS_COMPLETE means the full frozen descriptive "
+                          "accounting was emitted for these 99 observed cases. The numerical summaries "
+                          "must be reported directly; they do not define stable carriers or population concentration.")
     else:
         interpretation = "Plain-language template: SMOKE_ONLY tests the harness and cannot satisfy a contract gate."
     emit(interpretation, log_lines)
