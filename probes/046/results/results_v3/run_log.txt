@@ -1,0 +1,119 @@
+[load] Verifying authority and freezing the start manifest.
+[validate] Checking columns, finite values, paired case sets, and split isolation.
+[validate] Paired samples: 99; excluded rows: 99.
+[measure] Computing 99 paired case contributions.
+[measure] Pair 1/99 complete; variant 1/1.
+[measure] Pair 2/99 complete; variant 1/1.
+[measure] Pair 3/99 complete; variant 1/1.
+[measure] Pair 4/99 complete; variant 1/1.
+[measure] Pair 5/99 complete; variant 1/1.
+[measure] Pair 6/99 complete; variant 1/1.
+[measure] Pair 7/99 complete; variant 1/1.
+[measure] Pair 8/99 complete; variant 1/1.
+[measure] Pair 9/99 complete; variant 1/1.
+[measure] Pair 10/99 complete; variant 1/1.
+[measure] Pair 11/99 complete; variant 1/1.
+[measure] Pair 12/99 complete; variant 1/1.
+[measure] Pair 13/99 complete; variant 1/1.
+[measure] Pair 14/99 complete; variant 1/1.
+[measure] Pair 15/99 complete; variant 1/1.
+[measure] Pair 16/99 complete; variant 1/1.
+[measure] Pair 17/99 complete; variant 1/1.
+[measure] Pair 18/99 complete; variant 1/1.
+[measure] Pair 19/99 complete; variant 1/1.
+[measure] Pair 20/99 complete; variant 1/1.
+[measure] Pair 21/99 complete; variant 1/1.
+[measure] Pair 22/99 complete; variant 1/1.
+[measure] Pair 23/99 complete; variant 1/1.
+[measure] Pair 24/99 complete; variant 1/1.
+[measure] Pair 25/99 complete; variant 1/1.
+[measure] Pair 26/99 complete; variant 1/1.
+[measure] Pair 27/99 complete; variant 1/1.
+[measure] Pair 28/99 complete; variant 1/1.
+[measure] Pair 29/99 complete; variant 1/1.
+[measure] Pair 30/99 complete; variant 1/1.
+[measure] Pair 31/99 complete; variant 1/1.
+[measure] Pair 32/99 complete; variant 1/1.
+[measure] Pair 33/99 complete; variant 1/1.
+[measure] Pair 34/99 complete; variant 1/1.
+[measure] Pair 35/99 complete; variant 1/1.
+[measure] Pair 36/99 complete; variant 1/1.
+[measure] Pair 37/99 complete; variant 1/1.
+[measure] Pair 38/99 complete; variant 1/1.
+[measure] Pair 39/99 complete; variant 1/1.
+[measure] Pair 40/99 complete; variant 1/1.
+[measure] Pair 41/99 complete; variant 1/1.
+[measure] Pair 42/99 complete; variant 1/1.
+[measure] Pair 43/99 complete; variant 1/1.
+[measure] Pair 44/99 complete; variant 1/1.
+[measure] Pair 45/99 complete; variant 1/1.
+[measure] Pair 46/99 complete; variant 1/1.
+[measure] Pair 47/99 complete; variant 1/1.
+[measure] Pair 48/99 complete; variant 1/1.
+[measure] Pair 49/99 complete; variant 1/1.
+[measure] Pair 50/99 complete; variant 1/1.
+[measure] Pair 51/99 complete; variant 1/1.
+[measure] Pair 52/99 complete; variant 1/1.
+[measure] Pair 53/99 complete; variant 1/1.
+[measure] Pair 54/99 complete; variant 1/1.
+[measure] Pair 55/99 complete; variant 1/1.
+[measure] Pair 56/99 complete; variant 1/1.
+[measure] Pair 57/99 complete; variant 1/1.
+[measure] Pair 58/99 complete; variant 1/1.
+[measure] Pair 59/99 complete; variant 1/1.
+[measure] Pair 60/99 complete; variant 1/1.
+[measure] Pair 61/99 complete; variant 1/1.
+[measure] Pair 62/99 complete; variant 1/1.
+[measure] Pair 63/99 complete; variant 1/1.
+[measure] Pair 64/99 complete; variant 1/1.
+[measure] Pair 65/99 complete; variant 1/1.
+[measure] Pair 66/99 complete; variant 1/1.
+[measure] Pair 67/99 complete; variant 1/1.
+[measure] Pair 68/99 complete; variant 1/1.
+[measure] Pair 69/99 complete; variant 1/1.
+[measure] Pair 70/99 complete; variant 1/1.
+[measure] Pair 71/99 complete; variant 1/1.
+[measure] Pair 72/99 complete; variant 1/1.
+[measure] Pair 73/99 complete; variant 1/1.
+[measure] Pair 74/99 complete; variant 1/1.
+[measure] Pair 75/99 complete; variant 1/1.
+[measure] Pair 76/99 complete; variant 1/1.
+[measure] Pair 77/99 complete; variant 1/1.
+[measure] Pair 78/99 complete; variant 1/1.
+[measure] Pair 79/99 complete; variant 1/1.
+[measure] Pair 80/99 complete; variant 1/1.
+[measure] Pair 81/99 complete; variant 1/1.
+[measure] Pair 82/99 complete; variant 1/1.
+[measure] Pair 83/99 complete; variant 1/1.
+[measure] Pair 84/99 complete; variant 1/1.
+[measure] Pair 85/99 complete; variant 1/1.
+[measure] Pair 86/99 complete; variant 1/1.
+[measure] Pair 87/99 complete; variant 1/1.
+[measure] Pair 88/99 complete; variant 1/1.
+[measure] Pair 89/99 complete; variant 1/1.
+[measure] Pair 90/99 complete; variant 1/1.
+[measure] Pair 91/99 complete; variant 1/1.
+[measure] Pair 92/99 complete; variant 1/1.
+[measure] Pair 93/99 complete; variant 1/1.
+[measure] Pair 94/99 complete; variant 1/1.
+[measure] Pair 95/99 complete; variant 1/1.
+[measure] Pair 96/99 complete; variant 1/1.
+[measure] Pair 97/99 complete; variant 1/1.
+[measure] Pair 98/99 complete; variant 1/1.
+[measure] Pair 99/99 complete; variant 1/1.
+[summarize] Building frozen curves and fixed top-k/target summaries.
+{
+  "absolute_lorenz_rows": 100,
+  "excluded_rows": 99,
+  "idea_id": "idea-046",
+  "paired_cases": 99,
+  "per_case_outputs": 99,
+  "positive_mass_rows": 54,
+  "primary_metric_name": "complete_finite_population_contribution_accounting",
+  "primary_metric_pass": true,
+  "reserved_cases_accessed": 0,
+  "signed_curve_rows": 99,
+  "smoke": false,
+  "status": "CENSUS_COMPLETE"
+}
+Plain-language template: CENSUS_COMPLETE means the full frozen descriptive accounting was emitted for these 99 observed cases. The numerical summaries must be reported directly; they do not define stable carriers or population concentration.

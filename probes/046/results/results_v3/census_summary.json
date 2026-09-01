@@ -1,0 +1,83 @@
+{
+  "additive_identity_residual": 6.938893903907228e-18,
+  "additive_identity_within_1e-12": true,
+  "denominators": {
+    "absolute_mass": 0.08624524334982282,
+    "positive_mass": 0.0706613032599503,
+    "signed_net": 0.055077363170077796
+  },
+  "direct_band_gap": 0.0550773631700778,
+  "net_contribution": 0.055077363170077796,
+  "positive_mass_crossings": {
+    "0.5": {
+      "achieved_share": 0.5305392350631275,
+      "smallest_k": 8
+    },
+    "0.8": {
+      "achieved_share": 0.8076125481655062,
+      "smallest_k": 17
+    }
+  },
+  "sign_counts": {
+    "negative": 39,
+    "positive": 54,
+    "zero": 6
+  },
+  "tie_counts": {
+    "absolute": 5,
+    "signed": 5
+  },
+  "top_k": {
+    "1": {
+      "absolute_mass_share": 0.08280710754594581,
+      "signed_head_net_gap_share": 0.12966704886255284
+    },
+    "10": {
+      "absolute_mass_share": 0.5063509495830807,
+      "signed_head_net_gap_share": 0.7928912778985707
+    },
+    "20": {
+      "absolute_mass_share": 0.7335301076368037,
+      "signed_head_net_gap_share": 1.0951142730999406
+    },
+    "5": {
+      "absolute_mass_share": 0.3075766362974946,
+      "signed_head_net_gap_share": 0.48163202301973784
+    }
+  },
+  "v1_lineage_guard_comparison": {
+    "compared": true,
+    "expected": {
+      "additive_identity_residual": 6.938893903907228e-18,
+      "denominators_defined": true,
+      "orderings_deterministic": true,
+      "paired_cases": 99,
+      "sign_counts": {
+        "negative": 39,
+        "positive": 54,
+        "zero": 6
+      },
+      "tie_counts_delta_space": {
+        "absolute": 5,
+        "signed": 5
+      }
+    },
+    "observed": {
+      "additive_identity_residual": 6.938893903907228e-18,
+      "denominators_defined": true,
+      "orderings_deterministic": true,
+      "paired_cases": 99,
+      "sign_counts": {
+        "negative": 39,
+        "positive": 54,
+        "zero": 6
+      },
+      "tie_counts_delta_space": {
+        "absolute": 5,
+        "signed": 5
+      }
+    },
+    "status": "MATCHED_V1_DEFINITION_AUDIT",
+    "tie_count_space": "delta_before_division_by_99"
+  }
+}

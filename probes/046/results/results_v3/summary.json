@@ -1,0 +1,14 @@
+{
+  "absolute_lorenz_rows": 100,
+  "excluded_rows": 99,
+  "idea_id": "idea-046",
+  "paired_cases": 99,
+  "per_case_outputs": 99,
+  "positive_mass_rows": 54,
+  "primary_metric_name": "complete_finite_population_contribution_accounting",
+  "primary_metric_pass": true,
+  "reserved_cases_accessed": 0,
+  "signed_curve_rows": 99,
+  "smoke": false,
+  "status": "CENSUS_COMPLETE"
+}
