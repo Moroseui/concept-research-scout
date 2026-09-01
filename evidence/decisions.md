@@ -1596,3 +1596,49 @@ state-verify 44/44; patch git-identical against pristine origin/main.
 Next: R5b confer-v0 (read-only, receipted, trusted/untrusted prompt
 separation, advisory-only suggestions) under a TRANSITIONAL marker with
 a resequencing disclosure addendum to the external reviewer.
+
+## 2026-08-30 - R5b landed: confer-v0, transitional-debt ledger, driving framework
+
+confer IDEA "question" -- the read-only half of the interaction layer,
+pulled forward under the ship-with-disclosure class (addendum authored
+for the external reviewer; see below). Round-8 rulings implemented
+verbatim: bounded single exchange; receipted via run_agent; READ-ONLY
+(scope-guarded to ideas/, produces only ideas/NNN/confer/qXXXX.md plus
+prompt, grounding, log); hash-grounded (qXXXX_grounding.json binds the
+question to the exact sha256 of every context artifact -- the research
+card and the idea's claim-bearing documents); three-register behavior
+mandated in the prompt (ordinary -> answer; premise conflicts evidence
+-> PREMISE CHECK with citations then best faithful answer, rebuttal
+expected; unresolvable -> say so and name the resolving artifact);
+citation mandate; SUGGESTED UPDATES rendered advisory-only, applied by
+the operator through normal commands, never amendments to closed
+experiments. First implementation of the round-8 security doctrine:
+TRUSTED INSTRUCTIONS strictly precede UNTRUSTED EVIDENCE, evidence is
+data, instruction-shaped evidence text is reported, never obeyed.
+Family: explicit roles.confer override, else the interpret family
+(claude -- codex credentials not required for confer). Phone surface:
+.github/workflows/confer.yml (pinned, tests-first, fail-closed push).
+
+transitional_debt.yaml bootstrapped with ten entries spanning the
+round-8 audit table (confer_v0_pre_substrate, historical_result_
+interfaces, resume_review_flag markered in code; seven more ledgered
+with locations and triggers). TestTransitionalDebt enforces the
+convention bidirectionally: a markered entry without its code marker,
+or an in-code TRANSITIONAL token missing from the ledger, fails CI.
+Retirement is now state, not intention.
+
+DRIVING FRAMEWORK codified (operator+assistant, this evening's cadence
+and standing policy): three concurrent lanes -- A build (patch ritual:
+pristine-proof, both runners, echo, operator box), B external review
+(async, batched, never blocking A except class 1), C live exercise
+(real use on idea 023's lineage doubling as organic soak evidence).
+Review-trigger classes: (1) design-before-code for authority semantics,
+gate meaning, schemas, sequence changes; (2) ship-with-disclosure for
+urgent landing-path fixes (M1-pre precedent) and disclosed
+resequencings; (3) batch closeout after each coherent 2-4-patch
+cluster or before first live use of new AUTHORITY machinery; (4) no
+review for views, tests, docs, neutral refactors -- logged and audited
+at the next batch. Tuesday night is a patch freeze ahead of the
+Wednesday advisor meeting. Gates: 194/194 both runners (also green on
+the pristine-applied tree); state-verify 44/44; patch git-identical
+against pristine origin/main.
