@@ -3234,7 +3234,8 @@ Can I supply the effect-modification family you ask for? Only with an external, 
   `004253540bab…`).
 - **Families:** authoring family claude (this document and
   `interpretation.md`); reviewing family codex (cross-family citation
-  review, round 1 pending).
+  review; round 1 returned REVISE, and this is the round-2 revision
+  addressing its blocking findings).
 - **Out-of-scope warnings — this result must NOT be read as:** evidence for
   or against an HU-imbalance/final-infarct association; evidence about
   whether tissue composition explains idea-023's band-2/band-3 reversal;
@@ -3246,10 +3247,12 @@ Can I supply the effect-modification family you ask for? Only with an external, 
 ## Layer A — Finding
 
 The outcome-blind feasibility audit returned NEGATIVE_PATTERN: the frozen
-band-by-imbalance interaction design fails 4 of its 9 pre-registered gates
-[cite: summary.json | status, gates | values]. The design is full-rank but
+band-by-imbalance interaction design fails its pre-registered gates for
+conditioning, band-2 distinct-value support, maximum leverage, and
+leave-one-out conditioning [cite: summary.json | status, gates | values].
+The design is full-rank but
 ill-conditioned (condition number 38.89 vs the frozen ≤ 30 bound), band-2
-exposure lands on only 17 distinct integer-quantized values (≥ 20 required),
+exposure lands on only 17 distinct values (≥ 20 required),
 one patient row exceeds the 0.20 leverage bound (0.2636), and no
 single-patient deletion restores conditioning (leave-one-out range
 35.73–43.82). Because the probe is deterministic and the leave-one-out sweep
@@ -3282,11 +3285,12 @@ current specification may not be used to ask it.
    values]. The split manifest (hash `6446ad66…`) was frozen before the
    outcome file was opened [cite: split_manifest.json |
    created_before_outcome_file_open | value].
-3. **Gates.** Integrity and join gates all passed. Of the 9 feasibility
-   gates: 5 passed (rank 4; 99 cases per band; nonzero IQR both bands;
-   top-10 leverage rows span 9 patients; all 99 leave-one-out matrices rank
-   4) and 4 failed (condition number; band-2 distinct values; maximum
-   leverage; leave-one-out conditioning) [cite: design_diagnostics.json |
+3. **Gates.** Integrity and join gates all passed. Feasibility gates that
+   passed, by recorded name: `rank_4`, `each_band_99_cases`,
+   `each_band_nonzero_iqr`, `top_10_include_at_least_5_patients`,
+   `all_loo_rank_4`. Feasibility gates that failed: `condition_number_le_30`,
+   `each_band_at_least_20_distinct`, `maximum_leverage_le_0_20`,
+   `all_loo_condition_le_30` [cite: design_diagnostics.json |
    gates | all keys]. Per the frozen stopping rule the run stopped after the
    single design audit; no outcome analysis began.
 4. **Kill conditions approached.** None. No invalidating-failure clause
@@ -3330,16 +3334,17 @@ Bundle root: `probes/045/results/results_v2/` at commit
 contracted: a decisive feasibility negative for the current linear
 interaction specification, mandating specification revision before any
 outcome value is read. The idea's scientific question is untouched — the
-probe was outcome-blind, so its geometry (band-2 quantization, the
-leverage/conditioning tension around sub-stroke0183, the intercept-scaling
-convention) can inform a revised, re-frozen specification without
+probe was outcome-blind, so its geometry (band-2's compressed
+distinct-value support, the leverage/conditioning tension around
+sub-stroke0183, the intercept-scaling convention) can inform a revised,
+re-frozen specification without
 contaminating the future analysis. Next acts: draft a revised specification
 (candidates: standardized or rank-transformed exposure, pooled-slope
 reduction, or coarsened exposure bins) through probe-plan with fresh frozen
 thresholds and a new human approval; the 49 reserved cases and all observed
-d values remain unread. Round 1: this decision summarizes
-`interpretation.md`, which awaits cross-family review; no
-`evidence/decisions.md` entry is appended in this round.
+d values remain unread. Round 2 (revision): this decision summarizes
+`interpretation.md` as revised to resolve the round-1 blocking findings;
+no `evidence/decisions.md` entry is appended until the review approves.
 
 
 ===== ideas/045/feasibility.md =====
@@ -3659,13 +3664,116 @@ planned model before any outcome value is looked at.
 }
 
 
+===== ideas/045/interpret_review.md =====
+# Interpretation review — idea 045, probe contract v1
+
+## 1. Citations resolve
+
+I resolved every citation against `probes/045/results/results_v2/` and checked
+the following claims:
+
+- `resolved_config.json`: `contract_blob` is
+  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
+  `network_calls` is 0.
+- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
+  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
+- `summary.json`: `outcome_values_read` is 0; status is
+  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
+  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
+  `analysis_rows` is 198.
+- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
+  line says the start/end determinism manifests agree exactly.
+- `split_manifest.json`: `created_before_outcome_file_open` is true and the
+  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
+- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
+  both as `non_primary_band`, for 297 excluded rows total.
+- `design_diagnostics.json`: each band has 99 cases; the condition number is
+  38.889769743817595; the four singular values are transcribed exactly; rank
+  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
+  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
+  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
+  condition numbers range from 35.731034847011095 for sub-stroke0109 to
+  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
+  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
+  -0.15909079349402225.
+- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
+  imbalance 18.0, and leverage 0.26358236965333054.
+
+The cited values are transcription-exact. Three uncited or under-supported
+quantitative statements are blocking under the stage's strict citation and
+no-new-aggregation rules:
+
+1. The opening identifies the import manifest as 12 files without a citation.
+   Add a resolvable citation to the import receipt or remove the file count.
+2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
+   counting booleans; neither count is a reported analysis-file field. Enumerate
+   the named gate results without a count, or cite a bundle field that reports
+   the count.
+3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
+   calculation from `analysis_rows`, not a value contained in the cited file.
+   Remove that calculated number or cite a reported artifact value.
+
+## 2. Claim bounds
+
+The interpretation stays within the outcome-blind feasibility estimand, uses
+the contract's frozen thresholds, and repeatedly prohibits any inference about
+the HU-imbalance/outcome association, tissue composition, viability, or model
+use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
+this probe. The deterministic uncertainty rule is handled correctly: no
+seed-level uncertainty is claimed, and the interpretation uses the complete
+leave-one-patient-out diagnostic as case-level sensitivity evidence.
+
+One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
+cannot rescue this specification” and “the path forward is respecification,
+not case exclusion” extend beyond the evidence. The bundle tests every
+single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
+this to the demonstrated statement: removing the maximum-leverage patient
+does not rescue conditioning, and no single-patient deletion reaches the
+frozen condition-number bound. Do not rule out all case-exclusion strategies.
+
+The statement that audit medians are “integer-quantized” is also not resolved
+by its cited `band_support` fields. Either cite a bundle artifact/selector that
+establishes this across the underlying values or describe only the reported
+17-value support and 2.0-HU IQR.
+
+## 3. Completeness without cherry-picking
+
+I checked all nine gate booleans, both bands' complete support summaries, all
+99 leave-one-patient-out entries, the maximum-leverage row, and the reported
+top-ten patient count. The interpretation includes the material complications:
+the design remains rank 4; band 3 passes distinct-value support while band 2
+fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
+five patients; and every single-patient deletion preserves rank while failing
+the condition-number bound. No material reversal or counterexample in the
+bundle is omitted.
+
+## 4. Verdict separation
+
+`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
+correctly. The core feasibility negative is confirmatory only for the frozen
+design question, while proposed transformations remain suggestions. The one
+overbroad case-exclusion inference identified above must be narrowed; no new
+scientific finding should be added.
+
+## 5. Plain-language fidelity
+
+There is no separate plain-language summary section. The opening bottom line
+matches the cited technical verdict and does not upgrade it into a scientific
+outcome claim.
+
+```json
+{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
+```
+
+
 ===== ideas/045/interpretation.md =====
 # Interpretation — idea 045, probe contract v1 (outcome-blind design-matrix feasibility)
 
 Results bundle: `probes/045/results/results_v2/`, imported at commit
 `fe7d30a3e88726d6ca4929a7badc3144f7338714` (import receipt
-`probes/045/results/results_v2.import.json`, byte-manifest sha256
-`004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`, 12 files).
+`probes/045/results/results_v2.import.json`: `manifest_sha256`
+`004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`,
+`file_count` 12).
 All citations below are relative to that bundle root at that commit.
 
 Governing identity: contract blob `e7071541036a17f4a02ec264693209fec5c1337d`
@@ -3725,8 +3833,12 @@ an estimate.
    [cite: summary.json | analysis_rows | value].
 
 4. **The frozen design is algebraically estimable but fails the frozen
-   feasibility conjunction: 4 of 9 gates fail** [cite:
-   design_diagnostics.json | gates | all keys]:
+   feasibility conjunction.** The failed gates, by their recorded names, are
+   `condition_number_le_30`, `each_band_at_least_20_distinct`,
+   `maximum_leverage_le_0_20`, and `all_loo_condition_le_30` [cite:
+   design_diagnostics.json | gates | condition_number_le_30,
+   each_band_at_least_20_distinct, maximum_leverage_le_0_20,
+   all_loo_condition_le_30]:
    - **Conditioning fails.** Primary condition number **38.889769743817595**
      against the frozen ≤ 30 bound [cite: design_diagnostics.json |
      condition_number | value]; singular values 14.089212872412212,
@@ -3775,28 +3887,31 @@ not suggested.
 Inferences beyond the frozen gates; deterministic numbers, interpretive
 step mine.
 
-1. **Simple outlier removal cannot rescue this specification.** The row that
-   breaches the leverage bound (sub-stroke0183, band 2) is also the deletion
-   that *worsens* conditioning most (43.82 vs baseline 38.89) [cite:
+1. **No single-patient deletion rescues conditioning.** Removing the
+   maximum-leverage patient (sub-stroke0183, band 2) does not restore the
+   frozen conditioning gate — that deletion yields the *largest*
+   leave-one-out condition number (43.82 vs baseline 38.89) [cite:
    design_diagnostics.json | leave_one_patient_out | case_id=sub-stroke0183],
-   because band-2 exposure spread collapses further without it. The two
-   failed distribution gates pull opposite directions for any drop-the-case
-   repair; the path forward is respecification, not case exclusion.
+   and no single-patient deletion reaches the ≤ 30 bound (leave-one-out
+   minimum 35.73, deleting sub-stroke0109) [cite: design_diagnostics.json |
+   leave_one_patient_out_condition_min | value]. That is the full extent of
+   what the sweep demonstrates: it tests single-patient deletions only, so
+   multi-case exclusion strategies are untested by this bundle and are
+   neither endorsed nor ruled out here.
 
-2. **Band-2 quantization is the binding constraint on variation.** The audit
-   medians are integer-quantized HU values, and band 2's 99 imbalances land
-   on only 17 distinct values with IQR 2.0 [cite: design_diagnostics.json |
-   band_support.2 | distinct_values, iqr]. Any revised specification that
-   keeps raw band-2 differences as the exposure inherits this grid; a
-   coarsened, standardized, or rank-based exposure treatment is the natural
-   family to consider.
+2. **Band-2 exposure support is the binding constraint on variation.** Band
+   2's 99 imbalances land on only 17 distinct values with IQR 2.0 HU [cite:
+   design_diagnostics.json | band_support.2 | n, distinct_values, iqr]. Any
+   revised specification that keeps raw band-2 differences as the exposure
+   inherits this compressed support; a coarsened, standardized, or
+   rank-based exposure treatment is the natural family to consider.
 
 3. **The condition-number magnitude partly reflects the frozen diagnostic
-   convention.** Under the contract's scaling, non-intercept columns are
-   unit-L2-normalized while the intercept retains norm √198 ≈ 14.07 (derived
-   from the 198 analysis rows [cite: summary.json | analysis_rows | value]);
-   the leading singular value is 14.0892 [cite: design_diagnostics.json |
-   singular_values | first]. The trailing singular value 0.3623 — near-
+   convention.** Under the contract's scaling rule, only non-intercept
+   columns are normalized to unit L2 norm, so the intercept column keeps its
+   raw, unnormalized scale; the leading singular value is 14.0892 [cite:
+   design_diagnostics.json | singular_values | first]. The trailing singular
+   value 0.3623 [cite: design_diagnostics.json | singular_values | last] — near-
    collinearity of the interaction column with its parents given compressed
    band-2 support — is the substantive signal. This observation does not
    soften the verdict (the gate was frozen before inspection, exactly so it
@@ -3846,9 +3961,10 @@ invalid run reinterpreted as one.
   patients per band and influence spread across ≥ 9 patients in the top-10
   leverage rows.
 - **Negative finding (the result):** the frozen feasibility conjunction
-  fails on 4 of 9 gates — conditioning (38.89 > 30), band-2 distinct-value
-  support (17 < 20), maximum leverage (0.2636 > 0.20), and
-  leave-one-patient-out conditioning (min 35.73 > 30). Under the contract's
+  fails, on the gates recorded as `condition_number_le_30` (38.89 > 30),
+  `each_band_at_least_20_distinct` (band 2: 17 < 20),
+  `maximum_leverage_le_0_20` (0.2636 > 0.20), and `all_loo_condition_le_30`
+  (minimum 35.73 > 30). Under the contract's
   pre-registered classification this is a **decisive feasibility negative
   for the current linear interaction specification** — decisive for the
   design question the probe asked, and only for it. It mandates

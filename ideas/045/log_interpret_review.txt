@@ -7,7 +7,7 @@ approval: never
 sandbox: workspace-write [workdir, /tmp, $TMPDIR] (network access enabled)
 reasoning effort: none
 reasoning summaries: none
-session id: 01a05b60-c836-7741-8705-a066d63a9263
+session id: 01a05b65-ebc6-7cb2-9c61-d80656318749
 --------
 user
 You are a critical research collaborator working inside this repository.
@@ -3246,7 +3246,8 @@ Can I supply the effect-modification family you ask for? Only with an external, 
   `004253540bab…`).
 - **Families:** authoring family claude (this document and
   `interpretation.md`); reviewing family codex (cross-family citation
-  review, round 1 pending).
+  review; round 1 returned REVISE, and this is the round-2 revision
+  addressing its blocking findings).
 - **Out-of-scope warnings — this result must NOT be read as:** evidence for
   or against an HU-imbalance/final-infarct association; evidence about
   whether tissue composition explains idea-023's band-2/band-3 reversal;
@@ -3258,10 +3259,12 @@ Can I supply the effect-modification family you ask for? Only with an external, 
 ## Layer A — Finding
 
 The outcome-blind feasibility audit returned NEGATIVE_PATTERN: the frozen
-band-by-imbalance interaction design fails 4 of its 9 pre-registered gates
-[cite: summary.json | status, gates | values]. The design is full-rank but
+band-by-imbalance interaction design fails its pre-registered gates for
+conditioning, band-2 distinct-value support, maximum leverage, and
+leave-one-out conditioning [cite: summary.json | status, gates | values].
+The design is full-rank but
 ill-conditioned (condition number 38.89 vs the frozen ≤ 30 bound), band-2
-exposure lands on only 17 distinct integer-quantized values (≥ 20 required),
+exposure lands on only 17 distinct values (≥ 20 required),
 one patient row exceeds the 0.20 leverage bound (0.2636), and no
 single-patient deletion restores conditioning (leave-one-out range
 35.73–43.82). Because the probe is deterministic and the leave-one-out sweep
@@ -3294,11 +3297,12 @@ current specification may not be used to ask it.
    values]. The split manifest (hash `6446ad66…`) was frozen before the
    outcome file was opened [cite: split_manifest.json |
    created_before_outcome_file_open | value].
-3. **Gates.** Integrity and join gates all passed. Of the 9 feasibility
-   gates: 5 passed (rank 4; 99 cases per band; nonzero IQR both bands;
-   top-10 leverage rows span 9 patients; all 99 leave-one-out matrices rank
-   4) and 4 failed (condition number; band-2 distinct values; maximum
-   leverage; leave-one-out conditioning) [cite: design_diagnostics.json |
+3. **Gates.** Integrity and join gates all passed. Feasibility gates that
+   passed, by recorded name: `rank_4`, `each_band_99_cases`,
+   `each_band_nonzero_iqr`, `top_10_include_at_least_5_patients`,
+   `all_loo_rank_4`. Feasibility gates that failed: `condition_number_le_30`,
+   `each_band_at_least_20_distinct`, `maximum_leverage_le_0_20`,
+   `all_loo_condition_le_30` [cite: design_diagnostics.json |
    gates | all keys]. Per the frozen stopping rule the run stopped after the
    single design audit; no outcome analysis began.
 4. **Kill conditions approached.** None. No invalidating-failure clause
@@ -3342,16 +3346,17 @@ Bundle root: `probes/045/results/results_v2/` at commit
 contracted: a decisive feasibility negative for the current linear
 interaction specification, mandating specification revision before any
 outcome value is read. The idea's scientific question is untouched — the
-probe was outcome-blind, so its geometry (band-2 quantization, the
-leverage/conditioning tension around sub-stroke0183, the intercept-scaling
-convention) can inform a revised, re-frozen specification without
+probe was outcome-blind, so its geometry (band-2's compressed
+distinct-value support, the leverage/conditioning tension around
+sub-stroke0183, the intercept-scaling convention) can inform a revised,
+re-frozen specification without
 contaminating the future analysis. Next acts: draft a revised specification
 (candidates: standardized or rank-transformed exposure, pooled-slope
 reduction, or coarsened exposure bins) through probe-plan with fresh frozen
 thresholds and a new human approval; the 49 reserved cases and all observed
-d values remain unread. Round 1: this decision summarizes
-`interpretation.md`, which awaits cross-family review; no
-`evidence/decisions.md` entry is appended in this round.
+d values remain unread. Round 2 (revision): this decision summarizes
+`interpretation.md` as revised to resolve the round-1 blocking findings;
+no `evidence/decisions.md` entry is appended until the review approves.
 
 
 ===== ideas/045/feasibility.md =====
@@ -3671,13 +3676,116 @@ planned model before any outcome value is looked at.
 }
 
 
+===== ideas/045/interpret_review.md =====
+# Interpretation review — idea 045, probe contract v1
+
+## 1. Citations resolve
+
+I resolved every citation against `probes/045/results/results_v2/` and checked
+the following claims:
+
+- `resolved_config.json`: `contract_blob` is
+  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
+  `network_calls` is 0.
+- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
+  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
+- `summary.json`: `outcome_values_read` is 0; status is
+  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
+  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
+  `analysis_rows` is 198.
+- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
+  line says the start/end determinism manifests agree exactly.
+- `split_manifest.json`: `created_before_outcome_file_open` is true and the
+  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
+- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
+  both as `non_primary_band`, for 297 excluded rows total.
+- `design_diagnostics.json`: each band has 99 cases; the condition number is
+  38.889769743817595; the four singular values are transcribed exactly; rank
+  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
+  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
+  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
+  condition numbers range from 35.731034847011095 for sub-stroke0109 to
+  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
+  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
+  -0.15909079349402225.
+- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
+  imbalance 18.0, and leverage 0.26358236965333054.
+
+The cited values are transcription-exact. Three uncited or under-supported
+quantitative statements are blocking under the stage's strict citation and
+no-new-aggregation rules:
+
+1. The opening identifies the import manifest as 12 files without a citation.
+   Add a resolvable citation to the import receipt or remove the file count.
+2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
+   counting booleans; neither count is a reported analysis-file field. Enumerate
+   the named gate results without a count, or cite a bundle field that reports
+   the count.
+3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
+   calculation from `analysis_rows`, not a value contained in the cited file.
+   Remove that calculated number or cite a reported artifact value.
+
+## 2. Claim bounds
+
+The interpretation stays within the outcome-blind feasibility estimand, uses
+the contract's frozen thresholds, and repeatedly prohibits any inference about
+the HU-imbalance/outcome association, tissue composition, viability, or model
+use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
+this probe. The deterministic uncertainty rule is handled correctly: no
+seed-level uncertainty is claimed, and the interpretation uses the complete
+leave-one-patient-out diagnostic as case-level sensitivity evidence.
+
+One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
+cannot rescue this specification” and “the path forward is respecification,
+not case exclusion” extend beyond the evidence. The bundle tests every
+single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
+this to the demonstrated statement: removing the maximum-leverage patient
+does not rescue conditioning, and no single-patient deletion reaches the
+frozen condition-number bound. Do not rule out all case-exclusion strategies.
+
+The statement that audit medians are “integer-quantized” is also not resolved
+by its cited `band_support` fields. Either cite a bundle artifact/selector that
+establishes this across the underlying values or describe only the reported
+17-value support and 2.0-HU IQR.
+
+## 3. Completeness without cherry-picking
+
+I checked all nine gate booleans, both bands' complete support summaries, all
+99 leave-one-patient-out entries, the maximum-leverage row, and the reported
+top-ten patient count. The interpretation includes the material complications:
+the design remains rank 4; band 3 passes distinct-value support while band 2
+fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
+five patients; and every single-patient deletion preserves rank while failing
+the condition-number bound. No material reversal or counterexample in the
+bundle is omitted.
+
+## 4. Verdict separation
+
+`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
+correctly. The core feasibility negative is confirmatory only for the frozen
+design question, while proposed transformations remain suggestions. The one
+overbroad case-exclusion inference identified above must be narrowed; no new
+scientific finding should be added.
+
+## 5. Plain-language fidelity
+
+There is no separate plain-language summary section. The opening bottom line
+matches the cited technical verdict and does not upgrade it into a scientific
+outcome claim.
+
+```json
+{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
+```
+
+
 ===== ideas/045/interpretation.md =====
 # Interpretation — idea 045, probe contract v1 (outcome-blind design-matrix feasibility)
 
 Results bundle: `probes/045/results/results_v2/`, imported at commit
 `fe7d30a3e88726d6ca4929a7badc3144f7338714` (import receipt
-`probes/045/results/results_v2.import.json`, byte-manifest sha256
-`004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`, 12 files).
+`probes/045/results/results_v2.import.json`: `manifest_sha256`
+`004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`,
+`file_count` 12).
 All citations below are relative to that bundle root at that commit.
 
 Governing identity: contract blob `e7071541036a17f4a02ec264693209fec5c1337d`
@@ -3737,8 +3845,12 @@ an estimate.
    [cite: summary.json | analysis_rows | value].
 
 4. **The frozen design is algebraically estimable but fails the frozen
-   feasibility conjunction: 4 of 9 gates fail** [cite:
-   design_diagnostics.json | gates | all keys]:
+   feasibility conjunction.** The failed gates, by their recorded names, are
+   `condition_number_le_30`, `each_band_at_least_20_distinct`,
+   `maximum_leverage_le_0_20`, and `all_loo_condition_le_30` [cite:
+   design_diagnostics.json | gates | condition_number_le_30,
+   each_band_at_least_20_distinct, maximum_leverage_le_0_20,
+   all_loo_condition_le_30]:
    - **Conditioning fails.** Primary condition number **38.889769743817595**
      against the frozen ≤ 30 bound [cite: design_diagnostics.json |
      condition_number | value]; singular values 14.089212872412212,
@@ -3787,28 +3899,31 @@ not suggested.
 Inferences beyond the frozen gates; deterministic numbers, interpretive
 step mine.
 
-1. **Simple outlier removal cannot rescue this specification.** The row that
-   breaches the leverage bound (sub-stroke0183, band 2) is also the deletion
-   that *worsens* conditioning most (43.82 vs baseline 38.89) [cite:
+1. **No single-patient deletion rescues conditioning.** Removing the
+   maximum-leverage patient (sub-stroke0183, band 2) does not restore the
+   frozen conditioning gate — that deletion yields the *largest*
+   leave-one-out condition number (43.82 vs baseline 38.89) [cite:
    design_diagnostics.json | leave_one_patient_out | case_id=sub-stroke0183],
-   because band-2 exposure spread collapses further without it. The two
-   failed distribution gates pull opposite directions for any drop-the-case
-   repair; the path forward is respecification, not case exclusion.
+   and no single-patient deletion reaches the ≤ 30 bound (leave-one-out
+   minimum 35.73, deleting sub-stroke0109) [cite: design_diagnostics.json |
+   leave_one_patient_out_condition_min | value]. That is the full extent of
+   what the sweep demonstrates: it tests single-patient deletions only, so
+   multi-case exclusion strategies are untested by this bundle and are
+   neither endorsed nor ruled out here.
 
-2. **Band-2 quantization is the binding constraint on variation.** The audit
-   medians are integer-quantized HU values, and band 2's 99 imbalances land
-   on only 17 distinct values with IQR 2.0 [cite: design_diagnostics.json |
-   band_support.2 | distinct_values, iqr]. Any revised specification that
-   keeps raw band-2 differences as the exposure inherits this grid; a
-   coarsened, standardized, or rank-based exposure treatment is the natural
-   family to consider.
+2. **Band-2 exposure support is the binding constraint on variation.** Band
+   2's 99 imbalances land on only 17 distinct values with IQR 2.0 HU [cite:
+   design_diagnostics.json | band_support.2 | n, distinct_values, iqr]. Any
+   revised specification that keeps raw band-2 differences as the exposure
+   inherits this compressed support; a coarsened, standardized, or
+   rank-based exposure treatment is the natural family to consider.
 
 3. **The condition-number magnitude partly reflects the frozen diagnostic
-   convention.** Under the contract's scaling, non-intercept columns are
-   unit-L2-normalized while the intercept retains norm √198 ≈ 14.07 (derived
-   from the 198 analysis rows [cite: summary.json | analysis_rows | value]);
-   the leading singular value is 14.0892 [cite: design_diagnostics.json |
-   singular_values | first]. The trailing singular value 0.3623 — near-
+   convention.** Under the contract's scaling rule, only non-intercept
+   columns are normalized to unit L2 norm, so the intercept column keeps its
+   raw, unnormalized scale; the leading singular value is 14.0892 [cite:
+   design_diagnostics.json | singular_values | first]. The trailing singular
+   value 0.3623 [cite: design_diagnostics.json | singular_values | last] — near-
    collinearity of the interaction column with its parents given compressed
    band-2 support — is the substantive signal. This observation does not
    soften the verdict (the gate was frozen before inspection, exactly so it
@@ -3858,9 +3973,10 @@ invalid run reinterpreted as one.
   patients per band and influence spread across ≥ 9 patients in the top-10
   leverage rows.
 - **Negative finding (the result):** the frozen feasibility conjunction
-  fails on 4 of 9 gates — conditioning (38.89 > 30), band-2 distinct-value
-  support (17 < 20), maximum leverage (0.2636 > 0.20), and
-  leave-one-patient-out conditioning (min 35.73 > 30). Under the contract's
+  fails, on the gates recorded as `condition_number_le_30` (38.89 > 30),
+  `each_band_at_least_20_distinct` (band 2: 17 < 20),
+  `maximum_leverage_le_0_20` (0.2636 > 0.20), and `all_loo_condition_le_30`
+  (minimum 35.73 > 30). Under the contract's
   pre-registered classification this is a **decisive feasibility negative
   for the current linear interaction specification** — decisive for the
   design question the probe asked, and only for it. It mandates
@@ -4362,9 +4478,9 @@ Modify no file other than interpret_review.md.
 
 
 codex
-I’ll verify every interpretation citation against the frozen 045 bundle and contract, then write only `ideas/045/interpret_review.md`.
+I’m checking every citation and the full gate table against the imported bundle, then I’ll update only `ideas/045/interpret_review.md` with the checker verdict.
 exec
-/usr/sbin/bash -lc 'rg --files probes/045/results/results_v2 ideas/045 | sort && git status --short' in /home/partho/concept-research-scout-v4/concept-research-scout
+/usr/sbin/bash -lc "rg --files probes/045/results/results_v2 ideas/045 | sort && git status --short && sed -n '1,260p' probes/045/results/results_v2/design_diagnostics.json && sed -n '1,180p' probes/045/results/results_v2/summary.json && sed -n '1,80p' probes/045/results/results_v2/input_manifest.csv && sed -n '1,80p' probes/045/results/results_v2/exclusions.csv && sed -n '1,120p' probes/045/results/results_v2/resolved_config.json && sed -n '1,100p' probes/045/results/results_v2/split_manifest.json && sed -n '1,120p' probes/045/results/results_v2/run_log.txt && sed -n '1,80p' probes/045/results/results_v2.import.json" in /home/partho/concept-research-scout-v4/concept-research-scout
  succeeded in 0ms:
 ideas/045/CARD.md
 ideas/045/HUMAN_APPROVED_PROBE
@@ -4375,11 +4491,13 @@ ideas/045/debate.md
 ideas/045/decision.md
 ideas/045/feasibility.md
 ideas/045/idea_card.json
+ideas/045/interpret_review.md
 ideas/045/interpretation.md
 ideas/045/keystone_screen.md
 ideas/045/log_critique.txt
 ideas/045/log_feasibility.txt
 ideas/045/log_interpret.txt
+ideas/045/log_interpret_review.txt
 ideas/045/log_keystone.txt
 ideas/045/log_probe_code.txt
 ideas/045/log_probe_plan.txt
@@ -4418,52 +4536,7 @@ probes/045/results/results_v2/run_log.txt
 probes/045/results/results_v2/split_manifest.csv
 probes/045/results/results_v2/split_manifest.json
 probes/045/results/results_v2/summary.json
-?? ideas/045/prompt_interpret_review.md
-
-exec
-/usr/sbin/bash -lc "rg -n '\\[cite:' ideas/045/interpretation.md && jq . probes/045/results/results_v2/summary.json && jq . probes/045/results/results_v2/design_diagnostics.json" in /home/partho/concept-research-scout-v4/concept-research-scout
- exited 127 in 0ms:
-10:[cite: resolved_config.json | contract_blob | value], matching the human
-15:`1d01551c…` [cite: input_manifest.csv | path=…bin_tissue_audit.csv, …per_patient.csv | sha256].
-19:draw [cite: resolved_config.json | seed | value]). The seed-count rule for
-23:zero outcome values were read [cite: summary.json | outcome_values_read | value].
-29:[cite: summary.json | status, contractual_gate_satisfied | value].
-39:   of a maximum of one ran (`Variant 1/1`, seed 0) [cite: run_log.txt |
-41:   [cite: run_log.txt | phase 4 | final line]; no network calls were
-42:   authorized or configured [cite: resolved_config.json | network_calls |
-43:   value]; smoke mode was off [cite: summary.json | smoke | value].
-46:   retained [cite: summary.json | outcome_values_read | value]; the 198-row
-48:   [cite: split_manifest.json | created_before_outcome_file_open | value],
-49:   with split hash `6446ad66…` [cite: split_manifest.json | sha256 | value];
-50:   zero reserved cases were accessed [cite: summary.json |
-54:   [cite: summary.json | unique_cases | value], 99 per primary band
-55:   [cite: design_diagnostics.json | band_support.2, band_support.3 | n], one
-59:   selected; keys 297 → 198 selected [cite: input_manifest.csv | both rows |
-62:   rows) [cite: exclusions.csv | case_id=* | count]; 198 analysis rows
-63:   [cite: summary.json | analysis_rows | value].
-66:   feasibility conjunction: 4 of 9 gates fail** [cite:
-69:     against the frozen ≤ 30 bound [cite: design_diagnostics.json |
-72:     [cite: design_diagnostics.json | singular_values | list]. Rank is 4, so
-74:     [cite: design_diagnostics.json | rank | value] — the failure is
-78:     [cite: design_diagnostics.json | band_support.2, band_support.3 |
-81:     [cite: design_diagnostics.json | band_support.2, band_support.3 |
-84:     the frozen ≤ 0.20 bound [cite: design_diagnostics.json |
-87:     [cite: per_row_design.csv | case_id=sub-stroke0183, stratum=2 |
-92:     (deleting sub-stroke0183) [cite: design_diagnostics.json |
-95:     preserves rank 4 [cite: design_diagnostics.json | gates |
-101:   [cite: design_diagnostics.json | top_10_distinct_patients | value]. The
-118:   that *worsens* conditioning most (43.82 vs baseline 38.89) [cite:
-126:   on only 17 distinct values with IQR 2.0 [cite: design_diagnostics.json |
-135:   from the 198 analysis rows [cite: summary.json | analysis_rows | value]);
-136:   the leading singular value is 14.0892 [cite: design_diagnostics.json |
-145:   −0.15909079349402225 [cite: design_diagnostics.json |
-153:  contrast d.** Zero d values were read [cite: summary.json |
-198:the approved real-input design audit, seed 0, smoke off [cite: run_log.txt |
-/usr/sbin/bash: line 1: jq: command not found
-
-exec
-/usr/sbin/bash -lc "sed -n '1,260p' probes/045/results/results_v2/design_diagnostics.json; sed -n '1,180p' probes/045/results/results_v2/summary.json; sed -n '1,30p' probes/045/results/results_v2/input_manifest.csv; sed -n '1,30p' probes/045/results/results_v2/exclusions.csv; sed -n '1,80p' probes/045/results/results_v2/run_log.txt; rg '"'^sub-stroke0183,2,'"' probes/045/results/results_v2/per_row_design.csv; sed -n '1,100p' probes/045/results/results_v2/resolved_config.json; sed -n '1,80p' probes/045/results/results_v2/split_manifest.json" in /home/partho/concept-research-scout-v4/concept-research-scout
- succeeded in 0ms:
+ M ideas/045/prompt_interpret_review.md
 {
   "band_support": {
     "2": {
@@ -4759,18 +4832,6 @@ path,sha256,total_rows,selected_rows,selected_cases,seed
 case_id,stratum,item,reason,count
 *,outside_primary,bin_tissue_audit.csv,non_primary_band,198
 *,outside_primary,per_patient.csv,non_primary_band,99
-PHASE 1/4 — load inputs and freeze split before outcome-file access
-Variant 1/1 — approved real-input design audit; seed=0
-Split frozen: 198 rows, 99 cases, hash 6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853
-PHASE 2/4 — validate identities, joins, values, and exclusions
-Validated 198 patient-band rows; exclusion records: 2, rows: 297
-PHASE 3/4 — measure frozen design geometry
-Band 2: n=99, distinct=17, IQR=2
-Band 3: n=99, distinct=26, IQR=6
-Condition number=38.8898; rank=4; max leverage=0.263582
-PHASE 4/4 — write outputs and verify end determinism manifest
-Start/end determinism manifests agree exactly.
-sub-stroke0183,2,23.0,5.0,18.0,18.159090793494023,0,0.0,0.26358236965333054
 {
   "approval_marker": "/home/partho/concept-research-scout-v4/concept-research-scout/ideas/045/HUMAN_APPROVED_PROBE",
   "audit_csv": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/bin_tissue_audit.csv",
@@ -4804,543 +4865,908 @@ sub-stroke0183,2,23.0,5.0,18.0,18.159090793494023,0,0.0,0.26358236965333054
   "smoke": false,
   "unique_cases": 99
 }
+PHASE 1/4 — load inputs and freeze split before outcome-file access
+Variant 1/1 — approved real-input design audit; seed=0
+Split frozen: 198 rows, 99 cases, hash 6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853
+PHASE 2/4 — validate identities, joins, values, and exclusions
+Validated 198 patient-band rows; exclusion records: 2, rows: 297
+PHASE 3/4 — measure frozen design geometry
+Band 2: n=99, distinct=17, IQR=2
+Band 3: n=99, distinct=26, IQR=6
+Condition number=38.8898; rank=4; max leverage=0.263582
+PHASE 4/4 — write outputs and verify end determinism manifest
+Start/end determinism manifests agree exactly.
+{
+ "expected_blob": null,
+ "file_count": 12,
+ "imported_utc": "2026-09-01T05:04:42+00:00",
+ "manifest_sha256": "004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1",
+ "source_commit": null
+}
 
 codex
-The bundle supports the core verdict, but the checker rules expose a few claim-bound issues: some derived quantities are not present as reported fields, and one suggested remedy is broader than the leave-one-patient-out evidence. I’m documenting only concrete, fixable blockers.
+The revised interpretation now matches the bundle: the prior uncited calculations and overbroad exclusion claim are gone, and the reported gate failures, support distributions, leverage, and leave-one-patient-out results are complete and transcription-exact.
 apply patch
 patch: completed
 /home/partho/concept-research-scout-v4/concept-research-scout/ideas/045/interpret_review.md
 diff --git a/ideas/045/interpret_review.md b/ideas/045/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..39e70e9560a81374efee3f52b22d0fdf3ca9356e
---- /dev/null
+index 39e70e9560a81374efee3f52b22d0fdf3ca9356e..5ee142ace1a40c007a1c063eb2d2ad1dc48903ad
+--- a/ideas/045/interpret_review.md
 +++ b/ideas/045/interpret_review.md
-@@ -0,0 +1,99 @@
-+# Interpretation review — idea 045, probe contract v1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation against `probes/045/results/results_v2/` and checked
-+the following claims:
-+
-+- `resolved_config.json`: `contract_blob` is
-+  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
-+  `network_calls` is 0.
-+- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
-+  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
-+- `summary.json`: `outcome_values_read` is 0; status is
-+  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
-+  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
-+  `analysis_rows` is 198.
-+- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
-+  line says the start/end determinism manifests agree exactly.
-+- `split_manifest.json`: `created_before_outcome_file_open` is true and the
-+  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
-+- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
-+  both as `non_primary_band`, for 297 excluded rows total.
-+- `design_diagnostics.json`: each band has 99 cases; the condition number is
-+  38.889769743817595; the four singular values are transcribed exactly; rank
-+  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
-+  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
-+  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
-+  condition numbers range from 35.731034847011095 for sub-stroke0109 to
-+  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
-+  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
-+  -0.15909079349402225.
-+- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
-+  imbalance 18.0, and leverage 0.26358236965333054.
-+
-+The cited values are transcription-exact. Three uncited or under-supported
-+quantitative statements are blocking under the stage's strict citation and
-+no-new-aggregation rules:
-+
-+1. The opening identifies the import manifest as 12 files without a citation.
-+   Add a resolvable citation to the import receipt or remove the file count.
-+2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
-+   counting booleans; neither count is a reported analysis-file field. Enumerate
-+   the named gate results without a count, or cite a bundle field that reports
-+   the count.
-+3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
-+   calculation from `analysis_rows`, not a value contained in the cited file.
-+   Remove that calculated number or cite a reported artifact value.
-+
-+## 2. Claim bounds
-+
-+The interpretation stays within the outcome-blind feasibility estimand, uses
-+the contract's frozen thresholds, and repeatedly prohibits any inference about
-+the HU-imbalance/outcome association, tissue composition, viability, or model
-+use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
-+this probe. The deterministic uncertainty rule is handled correctly: no
-+seed-level uncertainty is claimed, and the interpretation uses the complete
-+leave-one-patient-out diagnostic as case-level sensitivity evidence.
-+
-+One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
-+cannot rescue this specification” and “the path forward is respecification,
-+not case exclusion” extend beyond the evidence. The bundle tests every
-+single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
-+this to the demonstrated statement: removing the maximum-leverage patient
-+does not rescue conditioning, and no single-patient deletion reaches the
-+frozen condition-number bound. Do not rule out all case-exclusion strategies.
-+
-+The statement that audit medians are “integer-quantized” is also not resolved
-+by its cited `band_support` fields. Either cite a bundle artifact/selector that
-+establishes this across the underlying values or describe only the reported
-+17-value support and 2.0-HU IQR.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all nine gate booleans, both bands' complete support summaries, all
-+99 leave-one-patient-out entries, the maximum-leverage row, and the reported
-+top-ten patient count. The interpretation includes the material complications:
-+the design remains rank 4; band 3 passes distinct-value support while band 2
-+fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
-+five patients; and every single-patient deletion preserves rank while failing
-+the condition-number bound. No material reversal or counterexample in the
-+bundle is omitted.
-+
-+## 4. Verdict separation
-+
-+`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
-+correctly. The core feasibility negative is confirmatory only for the frozen
-+design question, while proposed transformations remain suggestions. The one
-+overbroad case-exclusion inference identified above must be narrowed; no new
-+scientific finding should be added.
-+
-+## 5. Plain-language fidelity
-+
-+There is no separate plain-language summary section. The opening bottom line
-+matches the cited technical verdict and does not upgrade it into a scientific
-+outcome claim.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
-+```
+@@ -2,98 +2,94 @@
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation against `probes/045/results/results_v2/` and checked
+-the following claims:
++I resolved every citation in `interpretation.md` against
++`probes/045/results/results_v2/` and the adjacent import receipt.
+ 
++- `results_v2.import.json`: the import manifest SHA-256 is
++  `004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`
++  and `file_count` is 12.
+ - `resolved_config.json`: `contract_blob` is
+-  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
++  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0; and
+   `network_calls` is 0.
+-- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
+-  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
+-- `summary.json`: `outcome_values_read` is 0; status is
+-  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
+-  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
+-  `analysis_rows` is 198.
+-- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
+-  line says the start/end determinism manifests agree exactly.
++- `input_manifest.csv`: the two input hashes are
++  `35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2`
++  and `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
++  total/selected row counts are 594/396 and 297/198.
++- `summary.json`: status is `NEGATIVE_PATTERN`;
++  `contractual_gate_satisfied` is false; `outcome_values_read` and
++  `reserved_cases_accessed` are both 0; `smoke` is false; and the bundle
++  reports 99 unique cases, 198 analysis rows, 297 excluded input rows, and
++  2 exclusion records.
+ - `split_manifest.json`: `created_before_outcome_file_open` is true and the
+-  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
+-- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
+-  both as `non_primary_band`, for 297 excluded rows total.
+-- `design_diagnostics.json`: each band has 99 cases; the condition number is
+-  38.889769743817595; the four singular values are transcribed exactly; rank
+-  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
+-  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
+-  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
+-  condition numbers range from 35.731034847011095 for sub-stroke0109 to
+-  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
+-  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
+-  -0.15909079349402225.
+-- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
+-  imbalance 18.0, and leverage 0.26358236965333054.
+-
+-The cited values are transcription-exact. Three uncited or under-supported
+-quantitative statements are blocking under the stage's strict citation and
+-no-new-aggregation rules:
++  split SHA-256 is
++  `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
++- `exclusions.csv`: the two aggregate rows report 198 and 99 exclusions,
++  both for `non_primary_band`, totaling 297.
++- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final line
++  states that the start and end determinism manifests agree exactly.
++- `design_diagnostics.json`: rank is 4; condition number is
++  38.889769743817595; the four singular values are transcribed exactly;
++  band 2 has 99 cases, 17 distinct values, IQR 2.0, quartiles -2.0/0.0,
++  and range -16.0 to 18.0; band 3 has 99 cases, 26 distinct values, IQR
++  6.0, and range -28.0 to 14.0. Maximum leverage is
++  0.26358236965333054; the top-ten rows span 9 patients; pooled imbalance
++  mean is -0.15909079349402225; all leave-one-patient-out ranks are 4; and
++  leave-one-patient-out condition numbers range from 35.731034847011095
++  for `sub-stroke0109` to 43.82447067610057 for `sub-stroke0183`.
++- `per_row_design.csv`: `sub-stroke0183`, band 2 has Q1/Q4 medians
++  23.0/5.0, imbalance 18.0, and leverage 0.26358236965333054.
+ 
+-1. The opening identifies the import manifest as 12 files without a citation.
+-   Add a resolvable citation to the import receipt or remove the file count.
+-2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
+-   counting booleans; neither count is a reported analysis-file field. Enumerate
+-   the named gate results without a count, or cite a bundle field that reports
+-   the count.
+-3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
+-   calculation from `analysis_rows`, not a value contained in the cited file.
+-   Remove that calculated number or cite a reported artifact value.
++All cited quantitative statements are transcription-exact to their stated
++precision. The round-1 blockers are resolved: the import file count now has
++a source, the interpretation enumerates gate names rather than introducing
++uncited gate counts, and the uncited intercept-norm calculation was removed.
+ 
+ ## 2. Claim bounds
+ 
+-The interpretation stays within the outcome-blind feasibility estimand, uses
+-the contract's frozen thresholds, and repeatedly prohibits any inference about
+-the HU-imbalance/outcome association, tissue composition, viability, or model
+-use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
+-this probe. The deterministic uncertainty rule is handled correctly: no
+-seed-level uncertainty is claimed, and the interpretation uses the complete
+-leave-one-patient-out diagnostic as case-level sensitivity evidence.
++The interpretation remains inside the approved outcome-blind feasibility
++estimand. It uses the contract's frozen thresholds only for the design audit
++and repeatedly prohibits inference about the HU-imbalance/outcome
++association, tissue composition, viability, or model use. Tier-2,
++vendor-scope, anchor-exclusion, and baseline-floor constraints are not
++applicable to this probe. Deterministic uncertainty is handled correctly:
++no seed-level uncertainty is claimed, and the complete single-patient
++deletion sweep is used only as case-level sensitivity evidence.
+ 
+-One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
+-cannot rescue this specification” and “the path forward is respecification,
+-not case exclusion” extend beyond the evidence. The bundle tests every
+-single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
+-this to the demonstrated statement: removing the maximum-leverage patient
+-does not rescue conditioning, and no single-patient deletion reaches the
+-frozen condition-number bound. Do not rule out all case-exclusion strategies.
+-
+-The statement that audit medians are “integer-quantized” is also not resolved
+-by its cited `band_support` fields. Either cite a bundle artifact/selector that
+-establishes this across the underlying values or describe only the reported
+-17-value support and 2.0-HU IQR.
++The revised `Suggests` section correctly limits the exclusion conclusion to
++what was tested: no single-patient deletion, including deletion of the
++maximum-leverage patient, restores the frozen conditioning gate. It
++explicitly leaves multi-case exclusion untested. The earlier unsupported
++integer-quantization characterization is also gone; the text now reports
++only the bundle's distinct-value count and IQR.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all nine gate booleans, both bands' complete support summaries, all
+-99 leave-one-patient-out entries, the maximum-leverage row, and the reported
+-top-ten patient count. The interpretation includes the material complications:
+-the design remains rank 4; band 3 passes distinct-value support while band 2
+-fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
+-five patients; and every single-patient deletion preserves rank while failing
+-the condition-number bound. No material reversal or counterexample in the
+-bundle is omitted.
++I checked all nine gate booleans, both complete band-support summaries, all
++99 leave-one-patient-out entries, the maximum-leverage row, and the
++top-ten-patient count. The interpretation includes every material
++complication: the matrix remains rank 4; band 3 passes distinct-value
++support while band 2 fails; both bands have nonzero IQR; the highest-leverage
++rows are not confined to fewer than five patients; and every
++single-patient deletion preserves rank while failing the condition-number
++bound. No table feature contradicting the stated feasibility verdict is
++omitted.
+ 
+ ## 4. Verdict separation
+ 
+-`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
+-correctly. The core feasibility negative is confirmatory only for the frozen
+-design question, while proposed transformations remain suggestions. The one
+-overbroad case-exclusion inference identified above must be narrowed; no new
+-scientific finding should be added.
++`Demonstrates`, `Suggests`, and `Does not establish` are used consistently.
++The deterministic gate results and complete single-patient sensitivity
++sweep appear as demonstrations; possible respecifications and explanations
++of the diagnostic geometry remain suggestions; and the scientific
++association, tissue-composition explanation, measurement validity, and
++model-use claims are expressly withheld. No exploratory result is upgraded
++to a confirmatory scientific finding.
+ 
+ ## 5. Plain-language fidelity
+ 
+ There is no separate plain-language summary section. The opening bottom line
+-matches the cited technical verdict and does not upgrade it into a scientific
+-outcome claim.
++is a faithful restatement of the contract-scoped feasibility verdict and
++does not turn it into a result about tissue composition or final infarction.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
++{"verdict": "APPROVE"}
+ ```
 
 diff --git a/ideas/045/interpret_review.md b/ideas/045/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..39e70e9560a81374efee3f52b22d0fdf3ca9356e
---- /dev/null
+index 39e70e9560a81374efee3f52b22d0fdf3ca9356e..5ee142ace1a40c007a1c063eb2d2ad1dc48903ad
+--- a/ideas/045/interpret_review.md
 +++ b/ideas/045/interpret_review.md
-@@ -0,0 +1,99 @@
-+# Interpretation review — idea 045, probe contract v1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation against `probes/045/results/results_v2/` and checked
-+the following claims:
-+
-+- `resolved_config.json`: `contract_blob` is
-+  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
-+  `network_calls` is 0.
-+- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
-+  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
-+- `summary.json`: `outcome_values_read` is 0; status is
-+  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
-+  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
-+  `analysis_rows` is 198.
-+- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
-+  line says the start/end determinism manifests agree exactly.
-+- `split_manifest.json`: `created_before_outcome_file_open` is true and the
-+  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
-+- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
-+  both as `non_primary_band`, for 297 excluded rows total.
-+- `design_diagnostics.json`: each band has 99 cases; the condition number is
-+  38.889769743817595; the four singular values are transcribed exactly; rank
-+  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
-+  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
-+  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
-+  condition numbers range from 35.731034847011095 for sub-stroke0109 to
-+  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
-+  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
-+  -0.15909079349402225.
-+- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
-+  imbalance 18.0, and leverage 0.26358236965333054.
-+
-+The cited values are transcription-exact. Three uncited or under-supported
-+quantitative statements are blocking under the stage's strict citation and
-+no-new-aggregation rules:
-+
-+1. The opening identifies the import manifest as 12 files without a citation.
-+   Add a resolvable citation to the import receipt or remove the file count.
-+2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
-+   counting booleans; neither count is a reported analysis-file field. Enumerate
-+   the named gate results without a count, or cite a bundle field that reports
-+   the count.
-+3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
-+   calculation from `analysis_rows`, not a value contained in the cited file.
-+   Remove that calculated number or cite a reported artifact value.
-+
-+## 2. Claim bounds
-+
-+The interpretation stays within the outcome-blind feasibility estimand, uses
-+the contract's frozen thresholds, and repeatedly prohibits any inference about
-+the HU-imbalance/outcome association, tissue composition, viability, or model
-+use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
-+this probe. The deterministic uncertainty rule is handled correctly: no
-+seed-level uncertainty is claimed, and the interpretation uses the complete
-+leave-one-patient-out diagnostic as case-level sensitivity evidence.
-+
-+One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
-+cannot rescue this specification” and “the path forward is respecification,
-+not case exclusion” extend beyond the evidence. The bundle tests every
-+single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
-+this to the demonstrated statement: removing the maximum-leverage patient
-+does not rescue conditioning, and no single-patient deletion reaches the
-+frozen condition-number bound. Do not rule out all case-exclusion strategies.
-+
-+The statement that audit medians are “integer-quantized” is also not resolved
-+by its cited `band_support` fields. Either cite a bundle artifact/selector that
-+establishes this across the underlying values or describe only the reported
-+17-value support and 2.0-HU IQR.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all nine gate booleans, both bands' complete support summaries, all
-+99 leave-one-patient-out entries, the maximum-leverage row, and the reported
-+top-ten patient count. The interpretation includes the material complications:
-+the design remains rank 4; band 3 passes distinct-value support while band 2
-+fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
-+five patients; and every single-patient deletion preserves rank while failing
-+the condition-number bound. No material reversal or counterexample in the
-+bundle is omitted.
-+
-+## 4. Verdict separation
-+
-+`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
-+correctly. The core feasibility negative is confirmatory only for the frozen
-+design question, while proposed transformations remain suggestions. The one
-+overbroad case-exclusion inference identified above must be narrowed; no new
-+scientific finding should be added.
-+
-+## 5. Plain-language fidelity
-+
-+There is no separate plain-language summary section. The opening bottom line
-+matches the cited technical verdict and does not upgrade it into a scientific
-+outcome claim.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
-+```
+@@ -2,98 +2,94 @@
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation against `probes/045/results/results_v2/` and checked
+-the following claims:
++I resolved every citation in `interpretation.md` against
++`probes/045/results/results_v2/` and the adjacent import receipt.
+ 
++- `results_v2.import.json`: the import manifest SHA-256 is
++  `004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`
++  and `file_count` is 12.
+ - `resolved_config.json`: `contract_blob` is
+-  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
++  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0; and
+   `network_calls` is 0.
+-- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
+-  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
+-- `summary.json`: `outcome_values_read` is 0; status is
+-  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
+-  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
+-  `analysis_rows` is 198.
+-- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
+-  line says the start/end determinism manifests agree exactly.
++- `input_manifest.csv`: the two input hashes are
++  `35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2`
++  and `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
++  total/selected row counts are 594/396 and 297/198.
++- `summary.json`: status is `NEGATIVE_PATTERN`;
++  `contractual_gate_satisfied` is false; `outcome_values_read` and
++  `reserved_cases_accessed` are both 0; `smoke` is false; and the bundle
++  reports 99 unique cases, 198 analysis rows, 297 excluded input rows, and
++  2 exclusion records.
+ - `split_manifest.json`: `created_before_outcome_file_open` is true and the
+-  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
+-- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
+-  both as `non_primary_band`, for 297 excluded rows total.
+-- `design_diagnostics.json`: each band has 99 cases; the condition number is
+-  38.889769743817595; the four singular values are transcribed exactly; rank
+-  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
+-  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
+-  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
+-  condition numbers range from 35.731034847011095 for sub-stroke0109 to
+-  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
+-  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
+-  -0.15909079349402225.
+-- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
+-  imbalance 18.0, and leverage 0.26358236965333054.
+-
+-The cited values are transcription-exact. Three uncited or under-supported
+-quantitative statements are blocking under the stage's strict citation and
+-no-new-aggregation rules:
++  split SHA-256 is
++  `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
++- `exclusions.csv`: the two aggregate rows report 198 and 99 exclusions,
++  both for `non_primary_band`, totaling 297.
++- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final line
++  states that the start and end determinism manifests agree exactly.
++- `design_diagnostics.json`: rank is 4; condition number is
++  38.889769743817595; the four singular values are transcribed exactly;
++  band 2 has 99 cases, 17 distinct values, IQR 2.0, quartiles -2.0/0.0,
++  and range -16.0 to 18.0; band 3 has 99 cases, 26 distinct values, IQR
++  6.0, and range -28.0 to 14.0. Maximum leverage is
++  0.26358236965333054; the top-ten rows span 9 patients; pooled imbalance
++  mean is -0.15909079349402225; all leave-one-patient-out ranks are 4; and
++  leave-one-patient-out condition numbers range from 35.731034847011095
++  for `sub-stroke0109` to 43.82447067610057 for `sub-stroke0183`.
++- `per_row_design.csv`: `sub-stroke0183`, band 2 has Q1/Q4 medians
++  23.0/5.0, imbalance 18.0, and leverage 0.26358236965333054.
+ 
+-1. The opening identifies the import manifest as 12 files without a citation.
+-   Add a resolvable citation to the import receipt or remove the file count.
+-2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
+-   counting booleans; neither count is a reported analysis-file field. Enumerate
+-   the named gate results without a count, or cite a bundle field that reports
+-   the count.
+-3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
+-   calculation from `analysis_rows`, not a value contained in the cited file.
+-   Remove that calculated number or cite a reported artifact value.
++All cited quantitative statements are transcription-exact to their stated
++precision. The round-1 blockers are resolved: the import file count now has
++a source, the interpretation enumerates gate names rather than introducing
++uncited gate counts, and the uncited intercept-norm calculation was removed.
+ 
+ ## 2. Claim bounds
+ 
+-The interpretation stays within the outcome-blind feasibility estimand, uses
+-the contract's frozen thresholds, and repeatedly prohibits any inference about
+-the HU-imbalance/outcome association, tissue composition, viability, or model
+-use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
+-this probe. The deterministic uncertainty rule is handled correctly: no
+-seed-level uncertainty is claimed, and the interpretation uses the complete
+-leave-one-patient-out diagnostic as case-level sensitivity evidence.
++The interpretation remains inside the approved outcome-blind feasibility
++estimand. It uses the contract's frozen thresholds only for the design audit
++and repeatedly prohibits inference about the HU-imbalance/outcome
++association, tissue composition, viability, or model use. Tier-2,
++vendor-scope, anchor-exclusion, and baseline-floor constraints are not
++applicable to this probe. Deterministic uncertainty is handled correctly:
++no seed-level uncertainty is claimed, and the complete single-patient
++deletion sweep is used only as case-level sensitivity evidence.
+ 
+-One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
+-cannot rescue this specification” and “the path forward is respecification,
+-not case exclusion” extend beyond the evidence. The bundle tests every
+-single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
+-this to the demonstrated statement: removing the maximum-leverage patient
+-does not rescue conditioning, and no single-patient deletion reaches the
+-frozen condition-number bound. Do not rule out all case-exclusion strategies.
+-
+-The statement that audit medians are “integer-quantized” is also not resolved
+-by its cited `band_support` fields. Either cite a bundle artifact/selector that
+-establishes this across the underlying values or describe only the reported
+-17-value support and 2.0-HU IQR.
++The revised `Suggests` section correctly limits the exclusion conclusion to
++what was tested: no single-patient deletion, including deletion of the
++maximum-leverage patient, restores the frozen conditioning gate. It
++explicitly leaves multi-case exclusion untested. The earlier unsupported
++integer-quantization characterization is also gone; the text now reports
++only the bundle's distinct-value count and IQR.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all nine gate booleans, both bands' complete support summaries, all
+-99 leave-one-patient-out entries, the maximum-leverage row, and the reported
+-top-ten patient count. The interpretation includes the material complications:
+-the design remains rank 4; band 3 passes distinct-value support while band 2
+-fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
+-five patients; and every single-patient deletion preserves rank while failing
+-the condition-number bound. No material reversal or counterexample in the
+-bundle is omitted.
++I checked all nine gate booleans, both complete band-support summaries, all
++99 leave-one-patient-out entries, the maximum-leverage row, and the
++top-ten-patient count. The interpretation includes every material
++complication: the matrix remains rank 4; band 3 passes distinct-value
++support while band 2 fails; both bands have nonzero IQR; the highest-leverage
++rows are not confined to fewer than five patients; and every
++single-patient deletion preserves rank while failing the condition-number
++bound. No table feature contradicting the stated feasibility verdict is
++omitted.
+ 
+ ## 4. Verdict separation
+ 
+-`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
+-correctly. The core feasibility negative is confirmatory only for the frozen
+-design question, while proposed transformations remain suggestions. The one
+-overbroad case-exclusion inference identified above must be narrowed; no new
+-scientific finding should be added.
++`Demonstrates`, `Suggests`, and `Does not establish` are used consistently.
++The deterministic gate results and complete single-patient sensitivity
++sweep appear as demonstrations; possible respecifications and explanations
++of the diagnostic geometry remain suggestions; and the scientific
++association, tissue-composition explanation, measurement validity, and
++model-use claims are expressly withheld. No exploratory result is upgraded
++to a confirmatory scientific finding.
+ 
+ ## 5. Plain-language fidelity
+ 
+ There is no separate plain-language summary section. The opening bottom line
+-matches the cited technical verdict and does not upgrade it into a scientific
+-outcome claim.
++is a faithful restatement of the contract-scoped feasibility verdict and
++does not turn it into a result about tissue composition or final infarction.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
++{"verdict": "APPROVE"}
+ ```
 
 exec
-/usr/sbin/bash -lc "git status --short ideas/045 && sed -n '1,260p' ideas/045/interpret_review.md" in /home/partho/concept-research-scout-v4/concept-research-scout
+/usr/sbin/bash -lc 'git diff -- ideas/045/interpret_review.md && git status --short' in /home/partho/concept-research-scout-v4/concept-research-scout
  succeeded in 0ms:
-?? ideas/045/interpret_review.md
-?? ideas/045/prompt_interpret_review.md
-# Interpretation review — idea 045, probe contract v1
-
-## 1. Citations resolve
-
-I resolved every citation against `probes/045/results/results_v2/` and checked
-the following claims:
-
-- `resolved_config.json`: `contract_blob` is
-  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
-  `network_calls` is 0.
-- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
-  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
-- `summary.json`: `outcome_values_read` is 0; status is
-  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
-  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
-  `analysis_rows` is 198.
-- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
-  line says the start/end determinism manifests agree exactly.
-- `split_manifest.json`: `created_before_outcome_file_open` is true and the
-  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
-- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
-  both as `non_primary_band`, for 297 excluded rows total.
-- `design_diagnostics.json`: each band has 99 cases; the condition number is
-  38.889769743817595; the four singular values are transcribed exactly; rank
-  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
-  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
-  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
-  condition numbers range from 35.731034847011095 for sub-stroke0109 to
-  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
-  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
-  -0.15909079349402225.
-- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
-  imbalance 18.0, and leverage 0.26358236965333054.
-
-The cited values are transcription-exact. Three uncited or under-supported
-quantitative statements are blocking under the stage's strict citation and
-no-new-aggregation rules:
-
-1. The opening identifies the import manifest as 12 files without a citation.
-   Add a resolvable citation to the import receipt or remove the file count.
-2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
-   counting booleans; neither count is a reported analysis-file field. Enumerate
-   the named gate results without a count, or cite a bundle field that reports
-   the count.
-3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
-   calculation from `analysis_rows`, not a value contained in the cited file.
-   Remove that calculated number or cite a reported artifact value.
-
-## 2. Claim bounds
-
-The interpretation stays within the outcome-blind feasibility estimand, uses
-the contract's frozen thresholds, and repeatedly prohibits any inference about
-the HU-imbalance/outcome association, tissue composition, viability, or model
-use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
-this probe. The deterministic uncertainty rule is handled correctly: no
-seed-level uncertainty is claimed, and the interpretation uses the complete
-leave-one-patient-out diagnostic as case-level sensitivity evidence.
-
-One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
-cannot rescue this specification” and “the path forward is respecification,
-not case exclusion” extend beyond the evidence. The bundle tests every
-single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
-this to the demonstrated statement: removing the maximum-leverage patient
-does not rescue conditioning, and no single-patient deletion reaches the
-frozen condition-number bound. Do not rule out all case-exclusion strategies.
-
-The statement that audit medians are “integer-quantized” is also not resolved
-by its cited `band_support` fields. Either cite a bundle artifact/selector that
-establishes this across the underlying values or describe only the reported
-17-value support and 2.0-HU IQR.
-
-## 3. Completeness without cherry-picking
-
-I checked all nine gate booleans, both bands' complete support summaries, all
-99 leave-one-patient-out entries, the maximum-leverage row, and the reported
-top-ten patient count. The interpretation includes the material complications:
-the design remains rank 4; band 3 passes distinct-value support while band 2
-fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
-five patients; and every single-patient deletion preserves rank while failing
-the condition-number bound. No material reversal or counterexample in the
-bundle is omitted.
-
-## 4. Verdict separation
-
-`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
-correctly. The core feasibility negative is confirmatory only for the frozen
-design question, while proposed transformations remain suggestions. The one
-overbroad case-exclusion inference identified above must be narrowed; no new
-scientific finding should be added.
-
-## 5. Plain-language fidelity
-
-There is no separate plain-language summary section. The opening bottom line
-matches the cited technical verdict and does not upgrade it into a scientific
-outcome claim.
-
-```json
-{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
-```
+diff --git a/ideas/045/interpret_review.md b/ideas/045/interpret_review.md
+index 39e70e9..5ee142a 100644
+--- a/ideas/045/interpret_review.md
++++ b/ideas/045/interpret_review.md
+@@ -2,98 +2,94 @@
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation against `probes/045/results/results_v2/` and checked
+-the following claims:
++I resolved every citation in `interpretation.md` against
++`probes/045/results/results_v2/` and the adjacent import receipt.
+ 
++- `results_v2.import.json`: the import manifest SHA-256 is
++  `004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`
++  and `file_count` is 12.
+ - `resolved_config.json`: `contract_blob` is
+-  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
++  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0; and
+   `network_calls` is 0.
+-- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
+-  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
+-- `summary.json`: `outcome_values_read` is 0; status is
+-  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
+-  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
+-  `analysis_rows` is 198.
+-- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
+-  line says the start/end determinism manifests agree exactly.
++- `input_manifest.csv`: the two input hashes are
++  `35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2`
++  and `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
++  total/selected row counts are 594/396 and 297/198.
++- `summary.json`: status is `NEGATIVE_PATTERN`;
++  `contractual_gate_satisfied` is false; `outcome_values_read` and
++  `reserved_cases_accessed` are both 0; `smoke` is false; and the bundle
++  reports 99 unique cases, 198 analysis rows, 297 excluded input rows, and
++  2 exclusion records.
+ - `split_manifest.json`: `created_before_outcome_file_open` is true and the
+-  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
+-- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
+-  both as `non_primary_band`, for 297 excluded rows total.
+-- `design_diagnostics.json`: each band has 99 cases; the condition number is
+-  38.889769743817595; the four singular values are transcribed exactly; rank
+-  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
+-  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
+-  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
+-  condition numbers range from 35.731034847011095 for sub-stroke0109 to
+-  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
+-  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
+-  -0.15909079349402225.
+-- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
+-  imbalance 18.0, and leverage 0.26358236965333054.
+-
+-The cited values are transcription-exact. Three uncited or under-supported
+-quantitative statements are blocking under the stage's strict citation and
+-no-new-aggregation rules:
+-
+-1. The opening identifies the import manifest as 12 files without a citation.
+-   Add a resolvable citation to the import receipt or remove the file count.
+-2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
+-   counting booleans; neither count is a reported analysis-file field. Enumerate
+-   the named gate results without a count, or cite a bundle field that reports
+-   the count.
+-3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
+-   calculation from `analysis_rows`, not a value contained in the cited file.
+-   Remove that calculated number or cite a reported artifact value.
++  split SHA-256 is
++  `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
++- `exclusions.csv`: the two aggregate rows report 198 and 99 exclusions,
++  both for `non_primary_band`, totaling 297.
++- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final line
++  states that the start and end determinism manifests agree exactly.
++- `design_diagnostics.json`: rank is 4; condition number is
++  38.889769743817595; the four singular values are transcribed exactly;
++  band 2 has 99 cases, 17 distinct values, IQR 2.0, quartiles -2.0/0.0,
++  and range -16.0 to 18.0; band 3 has 99 cases, 26 distinct values, IQR
++  6.0, and range -28.0 to 14.0. Maximum leverage is
++  0.26358236965333054; the top-ten rows span 9 patients; pooled imbalance
++  mean is -0.15909079349402225; all leave-one-patient-out ranks are 4; and
++  leave-one-patient-out condition numbers range from 35.731034847011095
++  for `sub-stroke0109` to 43.82447067610057 for `sub-stroke0183`.
++- `per_row_design.csv`: `sub-stroke0183`, band 2 has Q1/Q4 medians
++  23.0/5.0, imbalance 18.0, and leverage 0.26358236965333054.
++
++All cited quantitative statements are transcription-exact to their stated
++precision. The round-1 blockers are resolved: the import file count now has
++a source, the interpretation enumerates gate names rather than introducing
++uncited gate counts, and the uncited intercept-norm calculation was removed.
+ 
+ ## 2. Claim bounds
+ 
+-The interpretation stays within the outcome-blind feasibility estimand, uses
+-the contract's frozen thresholds, and repeatedly prohibits any inference about
+-the HU-imbalance/outcome association, tissue composition, viability, or model
+-use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
+-this probe. The deterministic uncertainty rule is handled correctly: no
+-seed-level uncertainty is claimed, and the interpretation uses the complete
+-leave-one-patient-out diagnostic as case-level sensitivity evidence.
+-
+-One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
+-cannot rescue this specification” and “the path forward is respecification,
+-not case exclusion” extend beyond the evidence. The bundle tests every
+-single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
+-this to the demonstrated statement: removing the maximum-leverage patient
+-does not rescue conditioning, and no single-patient deletion reaches the
+-frozen condition-number bound. Do not rule out all case-exclusion strategies.
+-
+-The statement that audit medians are “integer-quantized” is also not resolved
+-by its cited `band_support` fields. Either cite a bundle artifact/selector that
+-establishes this across the underlying values or describe only the reported
+-17-value support and 2.0-HU IQR.
++The interpretation remains inside the approved outcome-blind feasibility
++estimand. It uses the contract's frozen thresholds only for the design audit
++and repeatedly prohibits inference about the HU-imbalance/outcome
++association, tissue composition, viability, or model use. Tier-2,
++vendor-scope, anchor-exclusion, and baseline-floor constraints are not
++applicable to this probe. Deterministic uncertainty is handled correctly:
++no seed-level uncertainty is claimed, and the complete single-patient
++deletion sweep is used only as case-level sensitivity evidence.
++
++The revised `Suggests` section correctly limits the exclusion conclusion to
++what was tested: no single-patient deletion, including deletion of the
++maximum-leverage patient, restores the frozen conditioning gate. It
++explicitly leaves multi-case exclusion untested. The earlier unsupported
++integer-quantization characterization is also gone; the text now reports
++only the bundle's distinct-value count and IQR.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all nine gate booleans, both bands' complete support summaries, all
+-99 leave-one-patient-out entries, the maximum-leverage row, and the reported
+-top-ten patient count. The interpretation includes the material complications:
+-the design remains rank 4; band 3 passes distinct-value support while band 2
+-fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
+-five patients; and every single-patient deletion preserves rank while failing
+-the condition-number bound. No material reversal or counterexample in the
+-bundle is omitted.
++I checked all nine gate booleans, both complete band-support summaries, all
++99 leave-one-patient-out entries, the maximum-leverage row, and the
++top-ten-patient count. The interpretation includes every material
++complication: the matrix remains rank 4; band 3 passes distinct-value
++support while band 2 fails; both bands have nonzero IQR; the highest-leverage
++rows are not confined to fewer than five patients; and every
++single-patient deletion preserves rank while failing the condition-number
++bound. No table feature contradicting the stated feasibility verdict is
++omitted.
+ 
+ ## 4. Verdict separation
+ 
+-`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
+-correctly. The core feasibility negative is confirmatory only for the frozen
+-design question, while proposed transformations remain suggestions. The one
+-overbroad case-exclusion inference identified above must be narrowed; no new
+-scientific finding should be added.
++`Demonstrates`, `Suggests`, and `Does not establish` are used consistently.
++The deterministic gate results and complete single-patient sensitivity
++sweep appear as demonstrations; possible respecifications and explanations
++of the diagnostic geometry remain suggestions; and the scientific
++association, tissue-composition explanation, measurement validity, and
++model-use claims are expressly withheld. No exploratory result is upgraded
++to a confirmatory scientific finding.
+ 
+ ## 5. Plain-language fidelity
+ 
+ There is no separate plain-language summary section. The opening bottom line
+-matches the cited technical verdict and does not upgrade it into a scientific
+-outcome claim.
++is a faithful restatement of the contract-scoped feasibility verdict and
++does not turn it into a result about tissue composition or final infarction.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
++{"verdict": "APPROVE"}
+ ```
+ M ideas/045/interpret_review.md
+ M ideas/045/prompt_interpret_review.md
 
 diff --git a/ideas/045/interpret_review.md b/ideas/045/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..39e70e9560a81374efee3f52b22d0fdf3ca9356e
---- /dev/null
+index 39e70e9560a81374efee3f52b22d0fdf3ca9356e..5ee142ace1a40c007a1c063eb2d2ad1dc48903ad
+--- a/ideas/045/interpret_review.md
 +++ b/ideas/045/interpret_review.md
-@@ -0,0 +1,99 @@
-+# Interpretation review — idea 045, probe contract v1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation against `probes/045/results/results_v2/` and checked
-+the following claims:
-+
-+- `resolved_config.json`: `contract_blob` is
-+  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
-+  `network_calls` is 0.
-+- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
-+  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
-+- `summary.json`: `outcome_values_read` is 0; status is
-+  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
-+  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
-+  `analysis_rows` is 198.
-+- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
-+  line says the start/end determinism manifests agree exactly.
-+- `split_manifest.json`: `created_before_outcome_file_open` is true and the
-+  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
-+- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
-+  both as `non_primary_band`, for 297 excluded rows total.
-+- `design_diagnostics.json`: each band has 99 cases; the condition number is
-+  38.889769743817595; the four singular values are transcribed exactly; rank
-+  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
-+  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
-+  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
-+  condition numbers range from 35.731034847011095 for sub-stroke0109 to
-+  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
-+  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
-+  -0.15909079349402225.
-+- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
-+  imbalance 18.0, and leverage 0.26358236965333054.
-+
-+The cited values are transcription-exact. Three uncited or under-supported
-+quantitative statements are blocking under the stage's strict citation and
-+no-new-aggregation rules:
-+
-+1. The opening identifies the import manifest as 12 files without a citation.
-+   Add a resolvable citation to the import receipt or remove the file count.
-+2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
-+   counting booleans; neither count is a reported analysis-file field. Enumerate
-+   the named gate results without a count, or cite a bundle field that reports
-+   the count.
-+3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
-+   calculation from `analysis_rows`, not a value contained in the cited file.
-+   Remove that calculated number or cite a reported artifact value.
-+
-+## 2. Claim bounds
-+
-+The interpretation stays within the outcome-blind feasibility estimand, uses
-+the contract's frozen thresholds, and repeatedly prohibits any inference about
-+the HU-imbalance/outcome association, tissue composition, viability, or model
-+use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
-+this probe. The deterministic uncertainty rule is handled correctly: no
-+seed-level uncertainty is claimed, and the interpretation uses the complete
-+leave-one-patient-out diagnostic as case-level sensitivity evidence.
-+
-+One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
-+cannot rescue this specification” and “the path forward is respecification,
-+not case exclusion” extend beyond the evidence. The bundle tests every
-+single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
-+this to the demonstrated statement: removing the maximum-leverage patient
-+does not rescue conditioning, and no single-patient deletion reaches the
-+frozen condition-number bound. Do not rule out all case-exclusion strategies.
-+
-+The statement that audit medians are “integer-quantized” is also not resolved
-+by its cited `band_support` fields. Either cite a bundle artifact/selector that
-+establishes this across the underlying values or describe only the reported
-+17-value support and 2.0-HU IQR.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all nine gate booleans, both bands' complete support summaries, all
-+99 leave-one-patient-out entries, the maximum-leverage row, and the reported
-+top-ten patient count. The interpretation includes the material complications:
-+the design remains rank 4; band 3 passes distinct-value support while band 2
-+fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
-+five patients; and every single-patient deletion preserves rank while failing
-+the condition-number bound. No material reversal or counterexample in the
-+bundle is omitted.
-+
-+## 4. Verdict separation
-+
-+`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
-+correctly. The core feasibility negative is confirmatory only for the frozen
-+design question, while proposed transformations remain suggestions. The one
-+overbroad case-exclusion inference identified above must be narrowed; no new
-+scientific finding should be added.
-+
-+## 5. Plain-language fidelity
-+
-+There is no separate plain-language summary section. The opening bottom line
-+matches the cited technical verdict and does not upgrade it into a scientific
-+outcome claim.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
-+```
+@@ -2,98 +2,94 @@
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation against `probes/045/results/results_v2/` and checked
+-the following claims:
++I resolved every citation in `interpretation.md` against
++`probes/045/results/results_v2/` and the adjacent import receipt.
+ 
++- `results_v2.import.json`: the import manifest SHA-256 is
++  `004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`
++  and `file_count` is 12.
+ - `resolved_config.json`: `contract_blob` is
+-  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
++  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0; and
+   `network_calls` is 0.
+-- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
+-  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
+-- `summary.json`: `outcome_values_read` is 0; status is
+-  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
+-  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
+-  `analysis_rows` is 198.
+-- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
+-  line says the start/end determinism manifests agree exactly.
++- `input_manifest.csv`: the two input hashes are
++  `35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2`
++  and `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
++  total/selected row counts are 594/396 and 297/198.
++- `summary.json`: status is `NEGATIVE_PATTERN`;
++  `contractual_gate_satisfied` is false; `outcome_values_read` and
++  `reserved_cases_accessed` are both 0; `smoke` is false; and the bundle
++  reports 99 unique cases, 198 analysis rows, 297 excluded input rows, and
++  2 exclusion records.
+ - `split_manifest.json`: `created_before_outcome_file_open` is true and the
+-  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
+-- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
+-  both as `non_primary_band`, for 297 excluded rows total.
+-- `design_diagnostics.json`: each band has 99 cases; the condition number is
+-  38.889769743817595; the four singular values are transcribed exactly; rank
+-  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
+-  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
+-  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
+-  condition numbers range from 35.731034847011095 for sub-stroke0109 to
+-  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
+-  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
+-  -0.15909079349402225.
+-- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
+-  imbalance 18.0, and leverage 0.26358236965333054.
+-
+-The cited values are transcription-exact. Three uncited or under-supported
+-quantitative statements are blocking under the stage's strict citation and
+-no-new-aggregation rules:
++  split SHA-256 is
++  `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
++- `exclusions.csv`: the two aggregate rows report 198 and 99 exclusions,
++  both for `non_primary_band`, totaling 297.
++- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final line
++  states that the start and end determinism manifests agree exactly.
++- `design_diagnostics.json`: rank is 4; condition number is
++  38.889769743817595; the four singular values are transcribed exactly;
++  band 2 has 99 cases, 17 distinct values, IQR 2.0, quartiles -2.0/0.0,
++  and range -16.0 to 18.0; band 3 has 99 cases, 26 distinct values, IQR
++  6.0, and range -28.0 to 14.0. Maximum leverage is
++  0.26358236965333054; the top-ten rows span 9 patients; pooled imbalance
++  mean is -0.15909079349402225; all leave-one-patient-out ranks are 4; and
++  leave-one-patient-out condition numbers range from 35.731034847011095
++  for `sub-stroke0109` to 43.82447067610057 for `sub-stroke0183`.
++- `per_row_design.csv`: `sub-stroke0183`, band 2 has Q1/Q4 medians
++  23.0/5.0, imbalance 18.0, and leverage 0.26358236965333054.
+ 
+-1. The opening identifies the import manifest as 12 files without a citation.
+-   Add a resolvable citation to the import receipt or remove the file count.
+-2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
+-   counting booleans; neither count is a reported analysis-file field. Enumerate
+-   the named gate results without a count, or cite a bundle field that reports
+-   the count.
+-3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
+-   calculation from `analysis_rows`, not a value contained in the cited file.
+-   Remove that calculated number or cite a reported artifact value.
++All cited quantitative statements are transcription-exact to their stated
++precision. The round-1 blockers are resolved: the import file count now has
++a source, the interpretation enumerates gate names rather than introducing
++uncited gate counts, and the uncited intercept-norm calculation was removed.
+ 
+ ## 2. Claim bounds
+ 
+-The interpretation stays within the outcome-blind feasibility estimand, uses
+-the contract's frozen thresholds, and repeatedly prohibits any inference about
+-the HU-imbalance/outcome association, tissue composition, viability, or model
+-use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
+-this probe. The deterministic uncertainty rule is handled correctly: no
+-seed-level uncertainty is claimed, and the interpretation uses the complete
+-leave-one-patient-out diagnostic as case-level sensitivity evidence.
++The interpretation remains inside the approved outcome-blind feasibility
++estimand. It uses the contract's frozen thresholds only for the design audit
++and repeatedly prohibits inference about the HU-imbalance/outcome
++association, tissue composition, viability, or model use. Tier-2,
++vendor-scope, anchor-exclusion, and baseline-floor constraints are not
++applicable to this probe. Deterministic uncertainty is handled correctly:
++no seed-level uncertainty is claimed, and the complete single-patient
++deletion sweep is used only as case-level sensitivity evidence.
+ 
+-One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
+-cannot rescue this specification” and “the path forward is respecification,
+-not case exclusion” extend beyond the evidence. The bundle tests every
+-single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
+-this to the demonstrated statement: removing the maximum-leverage patient
+-does not rescue conditioning, and no single-patient deletion reaches the
+-frozen condition-number bound. Do not rule out all case-exclusion strategies.
+-
+-The statement that audit medians are “integer-quantized” is also not resolved
+-by its cited `band_support` fields. Either cite a bundle artifact/selector that
+-establishes this across the underlying values or describe only the reported
+-17-value support and 2.0-HU IQR.
++The revised `Suggests` section correctly limits the exclusion conclusion to
++what was tested: no single-patient deletion, including deletion of the
++maximum-leverage patient, restores the frozen conditioning gate. It
++explicitly leaves multi-case exclusion untested. The earlier unsupported
++integer-quantization characterization is also gone; the text now reports
++only the bundle's distinct-value count and IQR.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all nine gate booleans, both bands' complete support summaries, all
+-99 leave-one-patient-out entries, the maximum-leverage row, and the reported
+-top-ten patient count. The interpretation includes the material complications:
+-the design remains rank 4; band 3 passes distinct-value support while band 2
+-fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
+-five patients; and every single-patient deletion preserves rank while failing
+-the condition-number bound. No material reversal or counterexample in the
+-bundle is omitted.
++I checked all nine gate booleans, both complete band-support summaries, all
++99 leave-one-patient-out entries, the maximum-leverage row, and the
++top-ten-patient count. The interpretation includes every material
++complication: the matrix remains rank 4; band 3 passes distinct-value
++support while band 2 fails; both bands have nonzero IQR; the highest-leverage
++rows are not confined to fewer than five patients; and every
++single-patient deletion preserves rank while failing the condition-number
++bound. No table feature contradicting the stated feasibility verdict is
++omitted.
+ 
+ ## 4. Verdict separation
+ 
+-`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
+-correctly. The core feasibility negative is confirmatory only for the frozen
+-design question, while proposed transformations remain suggestions. The one
+-overbroad case-exclusion inference identified above must be narrowed; no new
+-scientific finding should be added.
++`Demonstrates`, `Suggests`, and `Does not establish` are used consistently.
++The deterministic gate results and complete single-patient sensitivity
++sweep appear as demonstrations; possible respecifications and explanations
++of the diagnostic geometry remain suggestions; and the scientific
++association, tissue-composition explanation, measurement validity, and
++model-use claims are expressly withheld. No exploratory result is upgraded
++to a confirmatory scientific finding.
+ 
+ ## 5. Plain-language fidelity
+ 
+ There is no separate plain-language summary section. The opening bottom line
+-matches the cited technical verdict and does not upgrade it into a scientific
+-outcome claim.
++is a faithful restatement of the contract-scoped feasibility verdict and
++does not turn it into a result about tissue composition or final infarction.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
++{"verdict": "APPROVE"}
+ ```
 
 codex
-Wrote [interpret_review.md](/home/partho/concept-research-scout-v4/concept-research-scout/ideas/045/interpret_review.md) with verdict `REVISE` and three concrete blocking findings. No other files were modified.
+Updated [interpret_review.md](/home/partho/concept-research-scout-v4/concept-research-scout/ideas/045/interpret_review.md) with an `APPROVE` verdict after verifying all citations, claim bounds, gate results, completeness, and verdict separation.
+
+The pre-existing modification to `prompt_interpret_review.md` was left untouched.
 diff --git a/ideas/045/interpret_review.md b/ideas/045/interpret_review.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..39e70e9560a81374efee3f52b22d0fdf3ca9356e
---- /dev/null
+index 39e70e9560a81374efee3f52b22d0fdf3ca9356e..5ee142ace1a40c007a1c063eb2d2ad1dc48903ad
+--- a/ideas/045/interpret_review.md
 +++ b/ideas/045/interpret_review.md
-@@ -0,0 +1,99 @@
-+# Interpretation review — idea 045, probe contract v1
-+
-+## 1. Citations resolve
-+
-+I resolved every citation against `probes/045/results/results_v2/` and checked
-+the following claims:
-+
-+- `resolved_config.json`: `contract_blob` is
-+  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
-+  `network_calls` is 0.
-+- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
-+  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
-+- `summary.json`: `outcome_values_read` is 0; status is
-+  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
-+  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
-+  `analysis_rows` is 198.
-+- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
-+  line says the start/end determinism manifests agree exactly.
-+- `split_manifest.json`: `created_before_outcome_file_open` is true and the
-+  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
-+- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
-+  both as `non_primary_band`, for 297 excluded rows total.
-+- `design_diagnostics.json`: each band has 99 cases; the condition number is
-+  38.889769743817595; the four singular values are transcribed exactly; rank
-+  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
-+  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
-+  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
-+  condition numbers range from 35.731034847011095 for sub-stroke0109 to
-+  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
-+  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
-+  -0.15909079349402225.
-+- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
-+  imbalance 18.0, and leverage 0.26358236965333054.
-+
-+The cited values are transcription-exact. Three uncited or under-supported
-+quantitative statements are blocking under the stage's strict citation and
-+no-new-aggregation rules:
-+
-+1. The opening identifies the import manifest as 12 files without a citation.
-+   Add a resolvable citation to the import receipt or remove the file count.
-+2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
-+   counting booleans; neither count is a reported analysis-file field. Enumerate
-+   the named gate results without a count, or cite a bundle field that reports
-+   the count.
-+3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
-+   calculation from `analysis_rows`, not a value contained in the cited file.
-+   Remove that calculated number or cite a reported artifact value.
-+
-+## 2. Claim bounds
-+
-+The interpretation stays within the outcome-blind feasibility estimand, uses
-+the contract's frozen thresholds, and repeatedly prohibits any inference about
-+the HU-imbalance/outcome association, tissue composition, viability, or model
-+use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
-+this probe. The deterministic uncertainty rule is handled correctly: no
-+seed-level uncertainty is claimed, and the interpretation uses the complete
-+leave-one-patient-out diagnostic as case-level sensitivity evidence.
-+
-+One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
-+cannot rescue this specification” and “the path forward is respecification,
-+not case exclusion” extend beyond the evidence. The bundle tests every
-+single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
-+this to the demonstrated statement: removing the maximum-leverage patient
-+does not rescue conditioning, and no single-patient deletion reaches the
-+frozen condition-number bound. Do not rule out all case-exclusion strategies.
-+
-+The statement that audit medians are “integer-quantized” is also not resolved
-+by its cited `band_support` fields. Either cite a bundle artifact/selector that
-+establishes this across the underlying values or describe only the reported
-+17-value support and 2.0-HU IQR.
-+
-+## 3. Completeness without cherry-picking
-+
-+I checked all nine gate booleans, both bands' complete support summaries, all
-+99 leave-one-patient-out entries, the maximum-leverage row, and the reported
-+top-ten patient count. The interpretation includes the material complications:
-+the design remains rank 4; band 3 passes distinct-value support while band 2
-+fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
-+five patients; and every single-patient deletion preserves rank while failing
-+the condition-number bound. No material reversal or counterexample in the
-+bundle is omitted.
-+
-+## 4. Verdict separation
-+
-+`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
-+correctly. The core feasibility negative is confirmatory only for the frozen
-+design question, while proposed transformations remain suggestions. The one
-+overbroad case-exclusion inference identified above must be narrowed; no new
-+scientific finding should be added.
-+
-+## 5. Plain-language fidelity
-+
-+There is no separate plain-language summary section. The opening bottom line
-+matches the cited technical verdict and does not upgrade it into a scientific
-+outcome claim.
-+
-+```json
-+{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
-+```
+@@ -2,98 +2,94 @@
+ 
+ ## 1. Citations resolve
+ 
+-I resolved every citation against `probes/045/results/results_v2/` and checked
+-the following claims:
++I resolved every citation in `interpretation.md` against
++`probes/045/results/results_v2/` and the adjacent import receipt.
+ 
++- `results_v2.import.json`: the import manifest SHA-256 is
++  `004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`
++  and `file_count` is 12.
+ - `resolved_config.json`: `contract_blob` is
+-  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0;
++  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0; and
+   `network_calls` is 0.
+-- `input_manifest.csv`: the two input SHA-256 values begin `35e896df…` and
+-  `1d01551c…`; their total/selected row counts are 594/396 and 297/198.
+-- `summary.json`: `outcome_values_read` is 0; status is
+-  `NEGATIVE_PATTERN`; `contractual_gate_satisfied` is false; `smoke` is
+-  false; `reserved_cases_accessed` is 0; `unique_cases` is 99; and
+-  `analysis_rows` is 198.
+-- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final phase-4
+-  line says the start/end determinism manifests agree exactly.
++- `input_manifest.csv`: the two input hashes are
++  `35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2`
++  and `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
++  total/selected row counts are 594/396 and 297/198.
++- `summary.json`: status is `NEGATIVE_PATTERN`;
++  `contractual_gate_satisfied` is false; `outcome_values_read` and
++  `reserved_cases_accessed` are both 0; `smoke` is false; and the bundle
++  reports 99 unique cases, 198 analysis rows, 297 excluded input rows, and
++  2 exclusion records.
+ - `split_manifest.json`: `created_before_outcome_file_open` is true and the
+-  SHA-256 is `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
+-- `exclusions.csv`: the two aggregate records account for 198 and 99 rows,
+-  both as `non_primary_band`, for 297 excluded rows total.
+-- `design_diagnostics.json`: each band has 99 cases; the condition number is
+-  38.889769743817595; the four singular values are transcribed exactly; rank
+-  is 4; band 2 has 17 distinct values, IQR 2.0, quartiles -2.0/0.0, and range
+-  -16.0 to 18.0; band 3 has 26 distinct values, IQR 6.0, and range -28.0 to
+-  14.0; maximum leverage is 0.26358236965333054; leave-one-patient-out
+-  condition numbers range from 35.731034847011095 for sub-stroke0109 to
+-  43.82447067610057 for sub-stroke0183; all leave-one-out ranks are 4; the
+-  top-ten leverage rows span 9 patients; and the pooled imbalance mean is
+-  -0.15909079349402225.
+-- `per_row_design.csv`: sub-stroke0183, band 2 has Q1/Q4 medians 23.0/5.0,
+-  imbalance 18.0, and leverage 0.26358236965333054.
+-
+-The cited values are transcription-exact. Three uncited or under-supported
+-quantitative statements are blocking under the stage's strict citation and
+-no-new-aggregation rules:
++  split SHA-256 is
++  `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
++- `exclusions.csv`: the two aggregate rows report 198 and 99 exclusions,
++  both for `non_primary_band`, totaling 297.
++- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final line
++  states that the start and end determinism manifests agree exactly.
++- `design_diagnostics.json`: rank is 4; condition number is
++  38.889769743817595; the four singular values are transcribed exactly;
++  band 2 has 99 cases, 17 distinct values, IQR 2.0, quartiles -2.0/0.0,
++  and range -16.0 to 18.0; band 3 has 99 cases, 26 distinct values, IQR
++  6.0, and range -28.0 to 14.0. Maximum leverage is
++  0.26358236965333054; the top-ten rows span 9 patients; pooled imbalance
++  mean is -0.15909079349402225; all leave-one-patient-out ranks are 4; and
++  leave-one-patient-out condition numbers range from 35.731034847011095
++  for `sub-stroke0109` to 43.82447067610057 for `sub-stroke0183`.
++- `per_row_design.csv`: `sub-stroke0183`, band 2 has Q1/Q4 medians
++  23.0/5.0, imbalance 18.0, and leverage 0.26358236965333054.
+ 
+-1. The opening identifies the import manifest as 12 files without a citation.
+-   Add a resolvable citation to the import receipt or remove the file count.
+-2. “4 of 9 gates fail” and the corresponding passed-gate count are derived by
+-   counting booleans; neither count is a reported analysis-file field. Enumerate
+-   the named gate results without a count, or cite a bundle field that reports
+-   the count.
+-3. The claim that the intercept norm is `sqrt(198) ≈ 14.07` is a new
+-   calculation from `analysis_rows`, not a value contained in the cited file.
+-   Remove that calculated number or cite a reported artifact value.
++All cited quantitative statements are transcription-exact to their stated
++precision. The round-1 blockers are resolved: the import file count now has
++a source, the interpretation enumerates gate names rather than introducing
++uncited gate counts, and the uncited intercept-norm calculation was removed.
+ 
+ ## 2. Claim bounds
+ 
+-The interpretation stays within the outcome-blind feasibility estimand, uses
+-the contract's frozen thresholds, and repeatedly prohibits any inference about
+-the HU-imbalance/outcome association, tissue composition, viability, or model
+-use. Tier-2, vendor, and anchor-exclusion constraints are not applicable to
+-this probe. The deterministic uncertainty rule is handled correctly: no
+-seed-level uncertainty is claimed, and the interpretation uses the complete
+-leave-one-patient-out diagnostic as case-level sensitivity evidence.
++The interpretation remains inside the approved outcome-blind feasibility
++estimand. It uses the contract's frozen thresholds only for the design audit
++and repeatedly prohibits inference about the HU-imbalance/outcome
++association, tissue composition, viability, or model use. Tier-2,
++vendor-scope, anchor-exclusion, and baseline-floor constraints are not
++applicable to this probe. Deterministic uncertainty is handled correctly:
++no seed-level uncertainty is claimed, and the complete single-patient
++deletion sweep is used only as case-level sensitivity evidence.
+ 
+-One claim-bound issue is blocking. In `Suggests`, “Simple outlier removal
+-cannot rescue this specification” and “the path forward is respecification,
+-not case exclusion” extend beyond the evidence. The bundle tests every
+-single-patient deletion, not arbitrary multi-patient case exclusion. Narrow
+-this to the demonstrated statement: removing the maximum-leverage patient
+-does not rescue conditioning, and no single-patient deletion reaches the
+-frozen condition-number bound. Do not rule out all case-exclusion strategies.
+-
+-The statement that audit medians are “integer-quantized” is also not resolved
+-by its cited `band_support` fields. Either cite a bundle artifact/selector that
+-establishes this across the underlying values or describe only the reported
+-17-value support and 2.0-HU IQR.
++The revised `Suggests` section correctly limits the exclusion conclusion to
++what was tested: no single-patient deletion, including deletion of the
++maximum-leverage patient, restores the frozen conditioning gate. It
++explicitly leaves multi-case exclusion untested. The earlier unsupported
++integer-quantization characterization is also gone; the text now reports
++only the bundle's distinct-value count and IQR.
+ 
+ ## 3. Completeness without cherry-picking
+ 
+-I checked all nine gate booleans, both bands' complete support summaries, all
+-99 leave-one-patient-out entries, the maximum-leverage row, and the reported
+-top-ten patient count. The interpretation includes the material complications:
+-the design remains rank 4; band 3 passes distinct-value support while band 2
+-fails; both bands have nonzero IQR; leverage is not concentrated in fewer than
+-five patients; and every single-patient deletion preserves rank while failing
+-the condition-number bound. No material reversal or counterexample in the
+-bundle is omitted.
++I checked all nine gate booleans, both complete band-support summaries, all
++99 leave-one-patient-out entries, the maximum-leverage row, and the
++top-ten-patient count. The interpretation includes every material
++complication: the matrix remains rank 4; band 3 passes distinct-value
++support while band 2 fails; both bands have nonzero IQR; the highest-leverage
++rows are not confined to fewer than five patients; and every
++single-patient deletion preserves rank while failing the condition-number
++bound. No table feature contradicting the stated feasibility verdict is
++omitted.
+ 
+ ## 4. Verdict separation
+ 
+-`Demonstrates`, `Suggests`, and `Does not establish` are generally separated
+-correctly. The core feasibility negative is confirmatory only for the frozen
+-design question, while proposed transformations remain suggestions. The one
+-overbroad case-exclusion inference identified above must be narrowed; no new
+-scientific finding should be added.
++`Demonstrates`, `Suggests`, and `Does not establish` are used consistently.
++The deterministic gate results and complete single-patient sensitivity
++sweep appear as demonstrations; possible respecifications and explanations
++of the diagnostic geometry remain suggestions; and the scientific
++association, tissue-composition explanation, measurement validity, and
++model-use claims are expressly withheld. No exploratory result is upgraded
++to a confirmatory scientific finding.
+ 
+ ## 5. Plain-language fidelity
+ 
+ There is no separate plain-language summary section. The opening bottom line
+-matches the cited technical verdict and does not upgrade it into a scientific
+-outcome claim.
++is a faithful restatement of the contract-scoped feasibility verdict and
++does not turn it into a result about tissue composition or final infarction.
+ 
+ ```json
+-{"verdict": "REVISE", "blocking": ["Cite or remove the uncited 12-file import count; remove the derived 4-of-9/5-of-9 gate counts unless a bundle field explicitly reports them; and remove the derived sqrt(198) approximately 14.07 norm because the cited artifact reports only 198 analysis rows.", "Narrow the Suggests claim from all simple case exclusion to what the complete leave-one-patient-out analysis demonstrates: no single-patient deletion, including the maximum-leverage patient, restores the frozen conditioning gate.", "Cite an artifact and selector that establishes integer quantization of the underlying audit medians, or replace that characterization with the directly reported band-2 distinct-value count and IQR."]}
++{"verdict": "APPROVE"}
+ ```
 
 tokens used
-91,009
-Wrote [interpret_review.md](/home/partho/concept-research-scout-v4/concept-research-scout/ideas/045/interpret_review.md) with verdict `REVISE` and three concrete blocking findings. No other files were modified.
+90,574
+Updated [interpret_review.md](/home/partho/concept-research-scout-v4/concept-research-scout/ideas/045/interpret_review.md) with an `APPROVE` verdict after verifying all citations, claim bounds, gate results, completeness, and verdict separation.
+
+The pre-existing modification to `prompt_interpret_review.md` was left untouched.
