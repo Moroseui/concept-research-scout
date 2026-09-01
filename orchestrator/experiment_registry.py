@@ -262,9 +262,12 @@ def verify_ratification_event(event: dict, idea_no: str, root: Path) -> list[str
     errs = []
     cur = registry_sha(idea_no, root)
     if event.get('registry_sha256') != cur:
-        errs.append(f'event {event.get("event_id")}: registry_sha256 does '
-                    'not bind the current registry bytes (re-ratify after '
-                    'any registry change)')
+        # Superseded ratification: a row bound to earlier registry bytes
+        # is historical record, not an error -- it simply confers
+        # nothing now. Only rows binding the CURRENT bytes undergo (and
+        # must pass) the loud mechanical verification below; a forger
+        # who fakes the sha thereby forfeits all authority silently.
+        return ['__SUPERSEDED__']
     marker_rel = f'ideas/{idea_no}/HUMAN_APPROVED_PROBE'
     for j, b in enumerate(event.get('bindings') or []):
         raw, err = _git_show_bytes(root, b.get('approval_commit', ''),
@@ -318,7 +321,7 @@ def mechanically_verified_ratifications(idea_no: str, root: Path):
         except json.JSONDecodeError:
             return []
         if obj.get('event') == 'REGISTRY_RATIFIED' \
-                and not verify_ratification_event(obj, idea_no, root):
+                and verify_ratification_event(obj, idea_no, root) == []:
             out.append(obj)
     return out
 
@@ -447,7 +450,9 @@ def _validate(idea_no: str, root: Path) -> list[str]:
                 continue
             if isinstance(obj, dict) \
                     and obj.get('event') == 'REGISTRY_RATIFIED':
-                errs.extend(verify_ratification_event(obj, idea_no, root))
+                ve = verify_ratification_event(obj, idea_no, root)
+                if ve != ['__SUPERSEDED__']:
+                    errs.extend(ve)
     unknown_top = set(reg) - _ALLOWED_TOP_KEYS
     if unknown_top:
         errs.append(f'unknown top-level keys {sorted(unknown_top)} '

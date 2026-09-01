@@ -4704,5 +4704,76 @@ probes:
                          "the recorded ancestry must survive read-time "
                          "verification")
 
+
+class TestReRatificationLifecycle(Harness):
+    """Editing a ratified registry supersedes the old row silently (it
+    confers nothing) and a fresh ratification proceeds -- the rehearsal
+    deadlock class, closed."""
+
+    def test_registry_edit_then_second_ratification(self):
+        import scout as sc, argparse, sys as _s
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        self._ensure_git()
+        _s.path.insert(0, str(self.repo / "orchestrator"))
+        import experiment_registry as er
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        cur = sc._contract_hash(d)
+        (d / "HUMAN_APPROVED_PROBE").write_text(
+            "approved\ncontract_blob: " + cur + "\n")
+        import subprocess as _sp
+        _sp.run(["git", "add", "-A"], cwd=self.repo)
+        _sp.run(["git", "commit", "-qm", "pin"], cwd=self.repo)
+        base = self.repo / "probes" / "001" / "results" / "rv"
+        base.mkdir(parents=True)
+        (base / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "status": "TD"}))
+        (base / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": cur}))
+        (d / "registry.yaml").write_text(f"""schema_version: 1
+probes:
+  - id: n1
+    phase: G
+    contract_hash: {cur}
+    produces: [summary.json, resolved_config.json]
+    results_bundle: probes/001/results/rv
+    terminal_statuses: [TD]
+""")
+        (self.repo / "ledger.jsonl").write_text(json.dumps(
+            {"ledger_id": "idea-001", "status": "ACTIVE",
+             "scrutiny": "PROBED"}) + "\n")
+        for name, stub in (("_require_clean_tree", lambda *_: None),
+                           ("_commit_all", lambda m: None),
+                           ("validate_bundle", lambda *a, **k: [])):
+            self.addCleanup(setattr, sc, name, getattr(sc, name))
+            setattr(sc, name, stub)
+        sc.cmd_ratify_registry(argparse.Namespace(idea=1, operator="t"))
+        self.assertTrue(er.ratified_binds_current("001", self.repo))
+        # edit the registry: add a second node under the same pin
+        (d / "registry.yaml").write_text(
+            (d / "registry.yaml").read_text() + f"""  - id: n2
+    phase: H
+    contract_hash: {cur}
+    produces: [summary.json, resolved_config.json]
+    results_bundle: probes/001/results/rv2
+    terminal_statuses: [TD]
+""")
+        rv2 = self.repo / "probes" / "001" / "results" / "rv2"
+        rv2.mkdir()
+        (rv2 / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "status": "TD"}))
+        (rv2 / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": cur}))
+        self.assertEqual(er.validate("001", self.repo), [],
+                         "superseded row must not invalidate the registry")
+        self.assertFalse(er.ratified_binds_current("001", self.repo),
+                         "superseded row must confer nothing")
+        sc.cmd_ratify_registry(argparse.Namespace(idea=1, operator="t"))
+        rows = (d / "governance_events.jsonl").read_text().splitlines()
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(json.loads(rows[-1])["event_id"], "gov-0002")
+        self.assertTrue(er.ratified_binds_current("001", self.repo))
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

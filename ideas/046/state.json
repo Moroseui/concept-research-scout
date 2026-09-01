@@ -13,17 +13,36 @@
   "materialization": {
     "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "3d80775de3d826d59404cfc2f52ec6760cbdc4ab1bc03fd74c36e9002803e4cf",
+    "source_fingerprint_sha256": "cf7f2070ece300456e9cbe3b088f1f3c36d9d8ad223294141d5d139dab9479ec",
     "sources": {
       "approval_sha256": "686c24868d98724595e7ed9fb698cc1daa5a3791ca26af9f47b30f717017345a",
       "contract_blob": "942e530737c90b666baa4c9985fd0329296ef140",
       "idea_card_sha256": "3c7ca4eba4fcb9b86144df81db0537652bc6ddb85c4d722cea056ea15aa6bb38",
       "ledger_events_sha256": "46159da392a2f08b86af7acfa2c5382192ac296f1bc3fcc5f8eefc798fe6b3f1",
-      "registry_sha256": null
+      "registry_result_inputs": {
+        "contribution_census": {
+          "provenance_sha256": null,
+          "resolved_config_sha256": "621f4b87fa41582a88b5b064085bee526139b6782e965ea7e3d4957d58043425",
+          "summary_sha256": "f4b6599812a8afa2f37e5bec54e32be1796c3430a4aedd54013f03f421825b63"
+        },
+        "definition_audit": {
+          "provenance_sha256": null,
+          "resolved_config_sha256": "1aae7e942135c6833fa7942385141ff9a96b5a536dc845cef6899fca6f58f207",
+          "summary_sha256": "0e766b6f41a0e0049603d4abcf0aa6ba654ddb7de197f149f0ee0a2066996d91"
+        }
+      },
+      "registry_sha256": "4232894b2d5233c577806e44174b7272920fafd226f827a59ca05410d40483e7"
     }
   },
   "pending_decisions": null,
-  "registry": null,
+  "registry": {
+    "approval_bound": false,
+    "file_sha256": "4232894b2d5233c577806e44174b7272920fafd226f827a59ca05410d40483e7",
+    "nodes": {
+      "contribution_census": "COMPLETE",
+      "definition_audit": "STALE"
+    }
+  },
   "schema_version": 1,
   "scrutiny": "PROBED",
   "status": "ACTIVE",

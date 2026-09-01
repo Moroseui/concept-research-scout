@@ -13,14 +13,19 @@
   "materialization": {
     "event_count": 9,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "74f2dd4e6f6e5b8cfd852a605c941843153100f618fb2151b6e1c276cbb8940a",
+    "source_fingerprint_sha256": "fc3bf8d4388926d75ae097d8d828f4a503bd68a4db57b77beb6beb5cba71a54b",
     "sources": {
       "approval_sha256": "d5572e423598e128163978a62e15fb386a011466e122fa649e63f27b7418fd52",
       "contract_blob": "b1e283613d4fd47c77bfd1f2838a54791eb25954",
       "governance_events_sha256": "56c432e711cc97d73a03ec07174ebd7116153b12f1b72d99568eafbd69ad7545",
-      "idea_card_sha256": "ba783b6d64772f6000937d9642ff619e26bd4fd015bf295630378e9e0c6c3570",
+      "idea_card_sha256": "4af5135d6c2fe0878dcd96a7cf09de76bb7d7890e925bc8fb22b3b7ea4a81ff3",
       "ledger_events_sha256": "eb742a1aeb695672926e929843bb5f8dcbc1dcc0ebabe977f08a4990b4aa0d4f",
       "registry_result_inputs": {
+        "attribution_v3": {
+          "provenance_sha256": null,
+          "resolved_config_sha256": "23711a0108bfbf9f6c126242b0eea66370c131b32f05e1a4c31c3eb7ddf74c59",
+          "summary_sha256": "9a43bfe61f500ba1a8e3c88c10b8bbc921a279d5ef922ddfe9ab5bc9f221fb74"
+        },
         "feasibility_v1": {
           "provenance_sha256": null,
           "resolved_config_sha256": "af8162a1093220a278344cdc4da2d8941c6331786e856095f40f52463677e782",
@@ -32,16 +37,17 @@
           "summary_sha256": "16839fb51f47330b2229666d715d9bacf46c56b6737bddca21537f38b2415458"
         }
       },
-      "registry_sha256": "1c0e82a68e184a30346228b5745525f50f5b86f938178401dc0d3829fe26a636"
+      "registry_sha256": "b6a4d1bc4aa75faa070bad04fbafc5e4e57c34494e9b1e39caed20de4a2432c1"
     }
   },
   "pending_decisions": null,
   "registry": {
-    "approval_bound": true,
-    "file_sha256": "1c0e82a68e184a30346228b5745525f50f5b86f938178401dc0d3829fe26a636",
+    "approval_bound": false,
+    "file_sha256": "b6a4d1bc4aa75faa070bad04fbafc5e4e57c34494e9b1e39caed20de4a2432c1",
     "nodes": {
-      "feasibility_v1": "COMPLETE",
-      "feasibility_v2": "COMPLETE"
+      "attribution_v3": "COMPLETE",
+      "feasibility_v1": "STALE",
+      "feasibility_v2": "STALE"
     }
   },
   "schema_version": 1,

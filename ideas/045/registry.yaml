@@ -34,3 +34,24 @@ probes:
     terminal_statuses:
       - POSITIVE_PATTERN
       - NEGATIVE_PATTERN
+  - id: attribution_v3
+    phase: A
+    contract_hash: b1e283613d4fd47c77bfd1f2838a54791eb25954
+    depends_on:
+      all_of:
+        - probe: feasibility_v2
+    produces:
+      - resolved_config.json
+      - input_manifest.csv
+      - exclusions.csv
+      - model_fit.json
+      - bootstrap_summary.json
+      - adjusted_contrasts.csv
+      - summary.json
+      - environment.txt
+      - run_log.txt
+    results_bundle: probes/045/results/results_v4
+    terminal_statuses:
+      - ASSOCIATION_COMPATIBLE_WITH_CONTRIBUTION
+      - DECISIVE_MEASURED_EXPLANATION_FAILURE
+      - SENSITIVITY_LIMITED

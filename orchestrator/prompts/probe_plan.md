@@ -17,3 +17,14 @@ contract against the requirements file line by line; an unmet
 requirement is a blocking finding. If a requirement is impossible or
 contradictory, do not silently deviate: stop and write the conflict into
 the contract draft as a blocking open question for the human.
+
+## Right-sizing (2026-09-01 operator ruling, round-10 aligned)
+Prefer ONE contract with pre-registered ordered phases or decision
+branches over serial contracts, whenever the later phase is
+deterministic on the earlier phase's outputs and can be kept equally
+blind by ordering (validate/gate first, abort before any scientific
+output on failure, emit science only on pass). Reserve a separate
+contract for genuinely new authority scope: new data access, new
+outcome exposure, or a new replication unit. Cheap deterministic
+gates folded into the science contract cost nothing and halve
+operator ceremony; do not multiply contracts to signal caution.

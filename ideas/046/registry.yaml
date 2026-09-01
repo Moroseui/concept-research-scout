@@ -1,0 +1,43 @@
+# Idea 046 experiment registry (round-10 rule; authored per the ratified
+# census interpretation's Next-decision item 3). The blind definition
+# audit gates the open census.
+schema_version: 1
+probes:
+  - id: definition_audit
+    phase: D
+    contract_hash: 3996009bccfcfa939984fed051ee303a29a960a0
+    produces:
+      - resolved_config.json
+      - input_manifest.csv
+      - definition_audit.json
+      - summary.json
+      - environment.txt
+      - run_log.txt
+    results_bundle: probes/046/results/results_v2
+    terminal_statuses:
+      - FEASIBLE_DEFINITION_AUDIT
+      - DEFINITION_REVISION_REQUIRED
+  - id: contribution_census
+    phase: E
+    contract_hash: 942e530737c90b666baa4c9985fd0329296ef140
+    depends_on:
+      all_of:
+        - probe: definition_audit
+    produces:
+      - resolved_config.json
+      - input_manifest.csv
+      - split_manifest.json
+      - exclusions.csv
+      - per_case_contributions.csv
+      - signed_cumulative_curve.csv
+      - absolute_lorenz_curve.csv
+      - positive_mass_curve.csv
+      - census_summary.json
+      - summary.json
+      - determinism_manifest_start.json
+      - determinism_manifest_end.json
+      - environment.txt
+      - run_log.txt
+    results_bundle: probes/046/results/results_v3
+    terminal_statuses:
+      - CENSUS_COMPLETE
