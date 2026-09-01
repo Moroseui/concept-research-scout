@@ -94,8 +94,8 @@ the next approval gate.
    analysis began.
 4. **Kill conditions approached.** None fired. The tightest passed margin
    was the v2-added per-deletion leverage gate: deleting sub-stroke0147
-   raises the maximum leverage to 0.18137690505955997, about 91% of the
-   0.20 bound [cite: design_diagnostics.json |
+   raises the maximum leverage to 0.18137690505955997 against the frozen
+   ≤ 0.20 bound [cite: design_diagnostics.json |
    leave_one_patient_out_maximum_leverage_max | value]; every other
    diagnostic passed with wide slack. This is a valid pre-registered
    positive, not a near-miss reinterpreted as one.

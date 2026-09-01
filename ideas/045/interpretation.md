@@ -160,12 +160,12 @@ step mine.
    +18.0) now carries leverage 0.07314570734779892
    [cite: per_row_design.csv | case_id=sub-stroke0183, stratum=2 |
    leverage]; the new maximum sits on the most negative imbalance row
-   (sub-stroke0109, band 3, −28.0) at 0.15486441040641785, still 23%
-   below the bound. The tightest margin anywhere in the audit is the
+   (sub-stroke0109, band 3, −28.0) at 0.15486441040641785, inside the
+   frozen ≤ 0.20 bound. The tightest margin anywhere in the audit is the
    per-deletion leverage maximum 0.18137690505955997 (deleting
    sub-stroke0147, whose own band-3 imbalance is −27.0
    [cite: per_row_design.csv | case_id=sub-stroke0147, stratum=3 |
-   hu_imbalance]) — about 91% of the 0.20 bound. A passed gate, but the
+   hu_imbalance]) against the frozen ≤ 0.20 bound. A passed gate, but the
    outcome-analysis designer should know the influence budget is least
    slack there.
 
