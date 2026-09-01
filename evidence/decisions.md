@@ -1908,3 +1908,30 @@ the idea-pipeline stages did not advance the ledger scrutiny ladder
 (045 remains SCOUTED after keystone/critique/debate); queued as a
 small fix. Idea 045 is now cleared to proceed to probe-plan ->
 human contract approval -> probe-build under existing machinery.
+
+## 2026-09-01 - S2: contract-authoritative bundle interfaces (045 import unblocked)
+
+Live exercise caught the seam within hours of R3b: idea 045's first
+bundle -- complete per its APPROVED contract -- was refused by the
+import gate because validate_bundle force-unioned provenance.json into
+every declared interface, a 023-era assumption encoded in scout.py:
+exactly the class round-9 ordered retired ("required result files
+should be phase/node-scoped in the contract, not encoded in
+compatibility tables"). Executed narrowly: when the governing contract
+declares required_outputs, that set plus summary.json IS the core;
+governing identity remains enforced by the two-source check against
+whichever carrier the bundle includes (the identity reader now
+tolerates an absent carrier instead of misreporting it as unparseable
+json -- previously unreachable because the old core masked it). Legacy
+bundles with no declared interface keep the full historical core; the
+F2/F3 historical table and M/B paths are untouched. Regression covers
+both directions (declared interface without provenance validates;
+undeclared legacy still demands it). First fix attempt over-forced
+resolved_config.json and broke four legacy fixtures -- caught by the
+suite before packaging reached the operator; recorded as the gates
+working on their author. Also recorded: the operator's first
+record-result 45 invocation hung >60s with no output and no commits;
+unexplained (validation provably returns instantly), watching the
+rerun; strace next if it recurs. 206/206 both runners, green on the
+pristine-applied tree; state-verify 45/45; patch git-identical against
+pristine origin/main. Rerun sequence: record-result 45 -> interpret.
