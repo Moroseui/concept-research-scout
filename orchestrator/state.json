@@ -13,7 +13,7 @@
     "started": "2026-09-01T23:42:17+00:00",
     "stages": {
       "scout": "done",
-      "wide_scout": "pending",
+      "wide_scout": "running",
       "merge": "pending",
       "novelty_audit": "pending",
       "backlog": "pending"
