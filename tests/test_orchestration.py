@@ -4188,5 +4188,43 @@ class TestDocsHygiene(Harness):
                          f"undocumented commands: {missing}")
         self.assertGreater(len(names), 30)
 
+
+class TestS1ConfigAndNaming(Harness):
+    """Round-9 immediates: configuration corruption fails closed with a
+    named condition; credential/billing failures are named on receipts."""
+
+    def test_malformed_agents_toml_fails_closed(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        (self.repo / "AGENTS.toml").unlink()
+        self.assertEqual(sc.load_agent_config(), {},
+                         "absent config means defaults")
+        (self.repo / "AGENTS.toml").write_text("this is [not toml")
+        with self.assertRaises(SystemExit) as cm:
+            sc.load_agent_config()
+        self.assertIn("AGENT_CONFIG_INVALID", str(cm.exception))
+
+    def test_unfunded_leg_named_on_receipt(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        log = d / "boom_log.txt"
+        log.write_text("ERROR: You have no credits remaining. Add credits\n")
+        prompt = d / "boom_prompt.md"
+        prompt.write_text("p")
+
+        def boom(*a, **k):
+            raise SystemExit("Agent exited with code 1. Prompt retained")
+        self.addCleanup(setattr, sc, "_run_agent_core", sc._run_agent_core)
+        sc._run_agent_core = boom
+        with self.assertRaises(SystemExit):
+            sc.run_agent(prompt, "codex", stage="confer", log_path=log)
+        row = json.loads(
+            (d / "stage_provenance.jsonl").read_text().splitlines()[-1])
+        self.assertTrue(
+            row["exit_detail"].startswith("CODEX_ACCOUNT_UNFUNDED:"), row)
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

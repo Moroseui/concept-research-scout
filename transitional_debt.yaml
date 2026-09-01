@@ -66,3 +66,10 @@ entries:
     owner: operator+assistant
     added: '2026-08-30'
     retire_when: R4 decisions-context derivation replaces whole-file injection
+  - id: card_headline_023_fields
+    location: scout.py
+    marker: true
+    owner: operator+assistant
+    added: '2026-09-01'
+    retire_when: headline result fields become contract/registry-declared
+      (phase-scoped result_interfaces era)

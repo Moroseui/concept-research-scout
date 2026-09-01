@@ -81,6 +81,28 @@ jobs:
             echo "${{ secrets.CODEX_AUTH_JSON }}" | base64 -d > ~/.codex/auth.json
             chmod 600 ~/.codex/auth.json
           fi
+      - name: Codex auth preflight (named failures, round-9)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -n "$OPENAI_API_KEY" ]; then
+            code=$(curl -s -o /dev/null -w '%{http_code}' \
+              -H "Authorization: Bearer $OPENAI_API_KEY" \
+              https://api.openai.com/v1/models)
+            if [ "$code" = "401" ]; then
+              echo "CODEX_CREDENTIAL_REJECTED: API key refused (401) before any scientific leg."
+              exit 1
+            elif [ "$code" != "200" ]; then
+              echo "preflight inconclusive (HTTP $code); proceeding -- the in-run classifier names billing/limit failures on the receipt."
+            else
+              echo "codex preflight: API key accepted"
+            fi
+          elif [ -f ~/.codex/auth.json ]; then
+            echo "codex preflight: OAuth snapshot present (rotating; unverifiable without consuming the chain)"
+          else
+            echo "CODEX_CREDENTIAL_MISSING: no API key secret and no OAuth snapshot."
+            exit 1
+          fi
 
       - name: Install python deps
         run: pip install -r requirements.txt

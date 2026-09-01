@@ -225,9 +225,10 @@ plus the idea's interpretation/review/decision documents, hash-bound in
 exchanges** (exchange 1: claude drafts, codex reviews; exchange 2
 swaps; `roles.confer` / `roles.confer_review` in AGENTS.toml override):
 the draft must lead with a plain-language `## OVERVIEW` any reader can
-understand, then cited `## DETAILS`; the opposing family reviews five
+understand, then cited `## DETAILS`; the opposing family reviews six
 meat-level properties (thesis vs evidence, overview fidelity, citations,
-premise-check appropriateness, claim bounds) → CONCUR or CONTEST → one
+premise-check appropriateness, claim bounds, question coverage /
+unresolved assumptions) → CONCUR or CONTEST → one
 bounded revision → a second CONTEST stops for the operator. Outputs
 under `ideas/NNN/confer/`: `qNNNN.md` (answer), `qNNNN_review.md`
 (verdict json at tail), prompts, grounding, logs; every leg committed.

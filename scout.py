@@ -260,17 +260,22 @@ def write_prompt(stage, target):
 
 
 def load_agent_config():
+    """Round-9: role identity is experimental provenance. An ABSENT
+    AGENTS.toml means defaults; a PRESENT-but-unparseable one is a named
+    hard failure -- configuration corruption must never silently become
+    default behavior."""
+    p = ROOT / 'AGENTS.toml'
+    if not p.exists():
+        return {}
     try:
         import tomllib
-        return tomllib.loads((ROOT/'AGENTS.toml').read_text())
-    except Exception:
-        return {}
+        return tomllib.loads(p.read_text())
+    except Exception as e:
+        raise SystemExit(
+            f'AGENT_CONFIG_INVALID: {p.name} exists but cannot be parsed '
+            f'({e}). Fix or remove the file; corrupted role configuration '
+            'must not degrade into defaults (round-9).')
 
-
-# --------------------------------------------------------------------------
-# Role rotation: on odd cycles the two model families swap, so each plays
-# every role across cycles without any concurrency or extra infrastructure.
-# --------------------------------------------------------------------------
 
 def effective_agent(agent, cfg=None, cycle_no=None):
     cfg = cfg or load_agent_config()
@@ -475,6 +480,20 @@ def run_agent(prompt_path, agent=None, stage=None, log_path=None):
                              else 'limit' if 'usage limit' in msg
                              else 'error')
         rec['exit_detail'] = msg[-300:]
+        # Round-9: name credential/billing failures on the receipt so a
+        # red leg is diagnosable from the repo alone.
+        low = ''
+        try:
+            if log_path and Path(log_path).exists():
+                low = Path(log_path).read_text()[-4000:].lower()
+        except OSError:
+            pass
+        if 'no credits remaining' in low:
+            rec['exit_detail'] = ('CODEX_ACCOUNT_UNFUNDED: '
+                                  + rec['exit_detail'])
+        elif 'missing bearer' in low or '401 unauthorized' in low:
+            rec['exit_detail'] = ('CODEX_CREDENTIAL_REJECTED: '
+                                  + rec['exit_detail'])
         raise
     finally:
         rec['duration_s'] = round(_t.monotonic() - t0, 3)
@@ -1037,6 +1056,7 @@ def render_card(idea):
               f'({summ.get("released_case_count")} released, '
               f'{summ.get("reserved_case_count")} reserved untouched)')
         A('')
+        # TRANSITIONAL(card_headline_023_fields)
         A('## Headline results (from summary.json; every number '
           'citation-checked in interpret_review.md)')
         for row in summ.get('per_stratum') or []:
@@ -1258,6 +1278,10 @@ def _confer_review_prompt(n, tag, question, ctx, answer_text):
         '3. Citations: every cited claim resolves to the evidence.\n'
         '4. Premise check: fired when warranted, not fired spuriously.\n'
         '5. Claim bounds: nothing beyond what the evidence supports.\n'
+        '6. Question coverage: every part of the operator question is '
+        'either answered or explicitly declared unanswerable from the '
+        'evidence; unresolved assumptions are named, never papered '
+        'over.\n'
         '\n'
         'Write your review to ideas/%s/confer/%s_review.md and touch '
         'nothing else. End with a fenced json block: '
