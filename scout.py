@@ -3976,6 +3976,9 @@ def _pipeline_stage(idea, stage):
         ledger_mod.raise_scrutiny(f'idea-{idea:03d}', 'CRITIQUED')
         ledger_mod.digest()
     if stage == 'revise':
+        cond0 = _pending_human_unblock(target)
+        if cond0 and not (target / 'unblock_ack.txt').exists():
+            raise SystemExit('HUMAN_UNBLOCK_REQUIRED: ' + cond0[:300])
         import re as _re
         rec = {'ledger_id': f'idea-{idea:03d}', 'card_synced': True,
                'notes': 'card revised to debate-converged state'}
@@ -4091,6 +4094,17 @@ def pipeline(args):
             if stage == 'debate' and 'revise' not in stages:
                 e = ledger_mod.load().get(f'idea-{idea:03d}', {})
                 if e.get('card_synced') is False:
+                    cond = _pending_human_unblock(idea_dir(idea))
+                    if cond and not (idea_dir(idea)
+                                     / 'unblock_ack.txt').exists():
+                        print(f'=== idea {idea:03d}: debate verdict REVISE '
+                              'requires a HUMAN ruling before any '
+                              'authoritative revision (round-10 P0) ===')
+                        print('HUMAN_UNBLOCK_REQUIRED: ' + cond[:300])
+                        print(f'Record the ruling, then: python3 scout.py '
+                              f'run revise --idea {idea} --unblock-ack '
+                              '"<one-line ruling>"')
+                        continue
                     print(f'=== idea {idea:03d}: debate verdict REVISE -> auto-revising card ===')
                     try:
                         _pipeline_stage(idea, 'revise')

@@ -236,8 +236,9 @@ elif action == "cycle_auto":
     elif "consensus.md" in prompt:
         v = os.environ.get("FAKE_CONSENSUS_VERDICT", "")
         body = "fake consensus" + NL
+        un = (', "unblock": "' + os.environ["FAKE_CONSENSUS_UNBLOCK"] + '"') if os.environ.get("FAKE_CONSENSUS_UNBLOCK") else ""
         if v:
-            body += NL + "```json" + NL + '{"verdict": "' + v + '", "unblock": "sync the card"}' + NL + "```" + NL
+            body += NL + "```json" + NL + '{"verdict": "' + v + '"' + un + "}" + NL + "```" + NL
         (outdir / "consensus.md").write_text(body)
     elif "Adversarially review" in prompt:
         (outdir / "critique.md").write_text("fake critique" + NL)
@@ -1813,6 +1814,24 @@ class TestPipeline(Harness):
             rows.setdefault(rec["ledger_id"], {}).update({k: v for k, v in rec.items() if v is not None})
         self.assertTrue(rows["idea-002"].get("card_synced"),
                         "auto-revise did not mark the card synced")
+
+    def test_debate_revise_with_unblock_blocks_auto_revise(self):
+        """Round-10 P0 coverage for the PIPELINE path: the live 046 run
+        proved the CLI guard alone was insufficient."""
+        self.make_cycle_outputs("scout-009", ["NOVEL_VERIFIED"])
+        (self.repo / "orchestrator" / "state.json").write_text(
+            json.dumps({"next_scout": 10, "selected_idea": 1}) + "\n")
+        self.commit()
+        r = self.scout("pipeline", "--top", "1", action="cycle_auto",
+                       FAKE_CONSENSUS_VERDICT="REVISE",
+                       FAKE_CONSENSUS_UNBLOCK="Human must rule on claim "
+                                              "identity first.")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("HUMAN_UNBLOCK_REQUIRED", r.stdout)
+        self.assertNotIn("auto-revising card", r.stdout)
+        self.assertFalse(
+            (self.repo / "ideas" / "002" / "revision.md").exists(),
+            "no authoritative revision may exist before the ruling")
 
     def test_revise_debt_batch_finds_pre_automation_revises(self):
         # idea 001 has a consensus with REVISE but no card_synced flag
