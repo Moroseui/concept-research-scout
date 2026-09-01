@@ -1676,3 +1676,25 @@ update the command reference in the same patch. Gates: 197/197 both
 runners (green again on the pristine-applied tree, including the
 family-swap and docs-coverage regressions); state-verify 44/44; patch
 git-identical against pristine origin/main.
+
+## 2026-08-30 - R5d landed: durable codex auth for Actions
+
+The ChatGPT OAuth chain rotates its refresh token on every use, and an
+Actions runner that rotates discards the successor when it dies -- so
+the CODEX_AUTH_JSON snapshot was structurally a coin flip: any agent
+run could silently consume the chain and strand the next one (the
+2026-08-30 interpret incident was this class). Remedy, landing ahead of
+the P10 durable-credential item: all six agent workflows (scout-cycle,
+idea-pipeline, actioner, librarian, interpret, confer) now prefer an
+OPENAI_API_KEY repository secret -- API keys do not rotate on use and
+live until revoked -- with the OAuth snapshot kept as automatic
+fallback when the key is absent. The auth step logs which mode it took;
+scout-cycle's dry-run guard preserved; every workflow YAML-validated;
+CI and local codex now hold fully independent credentials, retiring
+the "no local codex during runs / re-export before dispatch" rule
+whenever the key is set (the rule remains documented for fallback
+mode). README phone-surfaces section updated per docs rule 5. Cost
+note: API-key legs bill the platform account per token (CI review legs
+are short); the ChatGPT subscription continues to cover local use.
+Gates: 197/197 both runners, green again on the pristine-applied tree;
+patch git-identical against pristine origin/main.
