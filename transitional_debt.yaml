@@ -1,0 +1,68 @@
+# Round-8 convention: every TRANSITIONAL construct is indexed here with an
+# owner and an explicit retirement trigger. Constructs carrying marker: true
+# also bear a literal "TRANSITIONAL(<id>)" comment at their code site, and
+# TestTransitionalDebt enforces both directions -- a transitional construct
+# outliving its ledger, or a ledger entry outliving its construct, fails CI.
+entries:
+  - id: confer_v0_pre_substrate
+    location: scout.py
+    marker: true
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: interaction substrate lands (symmetric notes/advisories);
+      confer gains note promotion and template-driven prompts
+  - id: historical_result_interfaces
+    location: scout.py
+    marker: true
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: idea 023 DAG ratified (R3b) and phase-scoped
+      result_interfaces exist for new contracts
+  - id: resume_review_flag
+    location: scout.py
+    marker: true
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: R4 generic resumable stage outcomes absorb leg-level resume
+  - id: mb_legacy_phase_path
+    location: scout.py (validate_bundle legacy M/B branch)
+    marker: false
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: 004-era bundles migrated or archived as historical evidence
+  - id: phase_s_source_sniff
+    location: launcher/packaging (scout.py package-colab path)
+    marker: false
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: P3 node-addressed launcher inputs list
+  - id: results_v2_fixed_naming
+    location: scout.py (_result_bundle_for legacy branch; workflows)
+    marker: false
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: P3 node/blob-addressed result directories
+  - id: drive_fuse_transitional
+    location: launcher notebook staging cells
+    marker: false
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: P3 driver_spec with tested drive_api_cache
+  - id: csv_dual_write
+    location: scout.py (portfolio CSV writer)
+    marker: false
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: legacy-retirement window after the consumer flip
+  - id: scout_target_global_bypass
+    location: scout.py (scout-target handling)
+    marker: false
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: legacy-retirement window after the consumer flip
+  - id: decisions_whole_log_injection
+    location: orchestrator/prompts (context assembly)
+    marker: false
+    owner: operator+assistant
+    added: '2026-08-30'
+    retire_when: R4 decisions-context derivation replaces whole-file injection

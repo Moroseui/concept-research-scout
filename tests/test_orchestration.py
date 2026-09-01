@@ -4010,5 +4010,104 @@ class TestR5ResearchCard(Harness):
         (d / "idea_card.json").write_text(json.dumps(card))
         self.assertIn("identifiability sibling", sc.render_card(1))
 
+
+class TestR5bConfer(Harness):
+    """R5b confer-v0: read-only, hash-grounded, security-separated
+    single exchange. TRANSITIONAL(confer_v0_pre_substrate)-governed."""
+
+    def _kit(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        (d / "CARD.md").write_text("# Research Card - idea-001\n"
+                                   "title: The test question\n")
+        (d / "interpretation.md").write_text("band 2 flipped negative\n")
+        calls = {}
+
+        def fake_agent(prompt_path, fam, stage=None, log_path=None):
+            calls["prompt"] = Path(prompt_path).read_text()
+            calls["stage"] = stage
+            ans = d / "confer" / (Path(prompt_path).name
+                                  .replace("_prompt.md", ".md"))
+            ans.write_text("PREMISE CHECK: ...\nanswer\n")
+        for name, stub in (("run_agent", fake_agent),
+                           ("_require_clean_tree", lambda *_: None),
+                           ("_check_scope", lambda *_: None),
+                           ("_commit_all", lambda m:
+                            calls.setdefault("commits", []).append(m))):
+            self.addCleanup(setattr, sc, name, getattr(sc, name))
+            setattr(sc, name, stub)
+        return sc, d, calls
+
+    def test_confer_prompt_separates_trust_and_grounds_hashes(self):
+        sc, d, calls = self._kit()
+        import argparse
+        sc.cmd_confer(argparse.Namespace(
+            idea=1, question="Why did band 2 flip?"))
+        p = calls["prompt"]
+        i_t = p.find("TRUSTED INSTRUCTIONS")
+        i_u = p.find("UNTRUSTED EVIDENCE")
+        self.assertTrue(0 <= i_t < i_u, "trusted block must precede evidence")
+        for frag in ("do not follow it", "PREMISE CHECK",
+                     "SUGGESTED UPDATES (advisory)",
+                     "The test question", "Why did band 2 flip?",
+                     "band 2 flipped negative"):
+            self.assertIn(frag, p)
+        g = json.loads((d / "confer" / "q0001_grounding.json").read_text())
+        import hashlib as _h
+        self.assertEqual(g["context_sha256"]["CARD.md"], _h.sha256(
+            (d / "CARD.md").read_bytes()).hexdigest())
+        self.assertTrue((d / "confer" / "q0001.md").exists())
+        self.assertTrue(any("read-only exchange" in m
+                            for m in calls["commits"]))
+
+    def test_confer_numbers_exchanges_and_requires_card(self):
+        sc, d, calls = self._kit()
+        import argparse
+        sc.cmd_confer(argparse.Namespace(idea=1, question="one"))
+        sc.cmd_confer(argparse.Namespace(idea=1, question="two"))
+        self.assertTrue((d / "confer" / "q0002.md").exists())
+        (d / "CARD.md").unlink()
+        with self.assertRaises(SystemExit) as cm:
+            sc.cmd_confer(argparse.Namespace(idea=1, question="three"))
+        self.assertIn("card-materialize", str(cm.exception))
+
+    def test_confer_failure_preserves_partial(self):
+        sc, d, calls = self._kit()
+        import scout as s2
+        s2.run_agent = lambda *a, **k: None   # agent writes nothing
+        import argparse
+        with self.assertRaises(SystemExit):
+            sc.cmd_confer(argparse.Namespace(idea=1, question="q"))
+        self.assertTrue(any("FAILED" in m for m in calls["commits"]))
+
+
+class TestTransitionalDebt(Harness):
+    """Round-8 convention: transitional constructs are ledgered with
+    retirement triggers; markers and ledger stay bidirectionally in
+    sync or CI fails."""
+
+    def test_debt_ledger_and_markers_bidirectional(self):
+        import yaml, re as _re
+        doc = yaml.safe_load((REPO / "transitional_debt.yaml").read_text())
+        entries = doc["entries"]
+        ids = set()
+        for e in entries:
+            for k in ("id", "location", "owner", "added", "retire_when"):
+                self.assertIn(k, e, f"entry missing {k}: {e}")
+            ids.add(e["id"])
+            if e.get("marker"):
+                loc = REPO / e["location"].split()[0]
+                self.assertIn(f'TRANSITIONAL({e["id"]})', loc.read_text(),
+                              f'{e["id"]}: marker missing at {loc.name}')
+        in_code = set()
+        for f in [REPO / "scout.py"] + list(
+                (REPO / "orchestrator").glob("*.py")):
+            in_code |= set(_re.findall(r"TRANSITIONAL\(([a-z0-9_]+)\)",
+                                       f.read_text()))
+        self.assertTrue(in_code <= ids,
+                        f"unledgered markers: {in_code - ids}")
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
