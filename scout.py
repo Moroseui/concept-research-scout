@@ -2271,8 +2271,13 @@ def validate_bundle(idea, bundle, expected_blob=None):
     for CI (results-validate workflow), record-result, and registry node
     status (R1). Returns a list of failure strings; empty list = valid.
     Checks:
-      1. core files present (summary.json, provenance.json,
-         resolved_config.json, environment.txt, manifest/pair_manifest.csv)
+      1. core files present -- when the governing contract declares
+         required_outputs, that set plus summary.json IS the core
+         (contract-authoritative, S2; governing identity is enforced by
+         check 2 against whichever identity file the bundle carries);
+         legacy bundles with no declared interface require the historical
+         core (summary, provenance, resolved_config, environment,
+         manifest/pair_manifest.csv)
          -- or, for a historical (blob, phase) pair listed in
          _HISTORICAL_RESULT_INTERFACES, exactly that legacy interface (F2)
       2. the bundle's recorded governing identity == the GOVERNING
@@ -2319,7 +2324,13 @@ def validate_bundle(idea, bundle, expected_blob=None):
         except ValueError as e:
             return [str(e)]
         if req:  # contract-declared result interface
-            core = sorted(set(req) | {'summary.json', 'provenance.json'})
+            # S2 (round-9 ruling executed): a contract that DECLARES its
+            # interface is authoritative for it. The forced core keeps only
+            # the identity/sanity carriers (summary + resolved_config);
+            # provenance.json is required exactly when the contract lists
+            # it. Legacy bundles with no declared interface keep the full
+            # historical core below.
+            core = sorted(set(req) | {'summary.json'})
         else:    # legacy 004-era interface, unchanged
             core = ['summary.json', 'provenance.json',
                     'resolved_config.json', 'environment.txt',
@@ -2331,9 +2342,15 @@ def validate_bundle(idea, bundle, expected_blob=None):
         return fails
     try:
         summary = json.loads((bundle / 'summary.json').read_text())
-        prov = json.loads((bundle / 'provenance.json').read_text())
     except (json.JSONDecodeError, OSError) as e:
         return [f'unparseable bundle json: {e}']
+    prov = {}
+    _pv = bundle / 'provenance.json'
+    if _pv.exists():  # S2: identity comes from whichever carrier exists
+        try:
+            prov = json.loads(_pv.read_text())
+        except (json.JSONDecodeError, OSError) as e:
+            return [f'unparseable bundle json: {e}']
     got = prov.get('contract_blob')
     rc_path = bundle / 'resolved_config.json'
     if rc_path.exists():

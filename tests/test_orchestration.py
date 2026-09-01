@@ -4431,5 +4431,36 @@ class TestR3bDiscoveryPreference(Harness):
         self.assertEqual(sc._result_bundle_for(1).name, "results_v2",
                          "historical imports must not hijack discovery")
 
+
+class TestS2ContractAuthoritativeCore(Harness):
+    """S2: a contract that declares required_outputs owns the bundle
+    interface; provenance.json is forced only for legacy undeclared
+    bundles (round-9: interfaces live in contracts, not scout.py)."""
+
+    def test_declared_interface_owns_the_core(self):
+        import scout as sc
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text(
+            "idea_id: idea-001\nrequired_outputs:\n"
+            "  - resolved_config.json\n  - out.txt\n  - summary.json\n")
+        cur = sc._contract_hash(d)
+        b = self.dir / "bundle"
+        b.mkdir()
+        (b / "summary.json").write_text(json.dumps(
+            {"idea_id": "idea-001", "phase": "G", "status": "X"}))
+        (b / "resolved_config.json").write_text(json.dumps(
+            {"contract_blob": cur}))
+        (b / "out.txt").write_text("x")
+        self.assertEqual(sc.validate_bundle(1, b), [],
+                         "declared interface satisfied; provenance.json "
+                         "must not be demanded")
+        # legacy path: no declared interface -> historical core applies
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        fails = sc.validate_bundle(1, b)
+        self.assertTrue(any("provenance.json" in f for f in fails),
+                        f"legacy core must still demand provenance: {fails}")
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
