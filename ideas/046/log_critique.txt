@@ -1,0 +1,13 @@
+The critique is written to `ideas/046/critique.md`. **Decision: ADVANCE TO REVISION — no fatal objection**, but two substantive defects must be fixed before anything is frozen.
+
+What I verified before writing (structural checks only — I deliberately computed no contribution statistic and read no outcome values, to avoid contaminating the pre-registration this candidate proposes):
+
+- The card's quoted band means, medians, the take-13 "no per-patient contribution analysis" sentence, the 2026-08-28 pre-registration, and the 045-v3 beta_HU facts all check out against the committed artifacts.
+- **A finding the keystone screen missed:** the committed `archive_manifest.csv` in the take-13 bundle already lists all 298 phenotype members of the verified `train.7z`, using the same `sub-strokeNNNN` spelling as `per_patient.csv`, and **all 99 analyzed cases have a ses-02 outcome.csv member** (149 total, sizes 93–105 bytes, none degenerate). The screen's `UNVERIFIABLE` verdict was too pessimistic — file-level join coverage is 99/99, and only column-level populated-ness remains unverified.
+
+The two defects that matter:
+
+1. **D1 (most important):** the frozen classifier "smallest subset whose removal moves the band CI to include zero" measures statistical margin, not concentration — removal both shifts the estimate and widens the CI, and band-2's bound sits at -0.008, so nearly any structure would read "concentrated." It must be replaced with a null-calibrated concentration rule (e.g., top-k share or Gini judged against exchangeable contributions), or the decisive experiment decides nothing.
+2. **D2:** the card's "one small phenotype download" is factually wrong — the phenotype CSVs live inside the 99 GB `train.7z`; acquisition means a proven ~14-minute origin_direct re-stage plus extraction, and the card must say so. Corollary D3: extraction must be restricted by protocol to the 99 analyzed IDs so the 49 reserved cases' outcomes stay sealed by construction, not discipline.
+
+Lesser items: the Rung-1 screen must co-report deficit size with any outcome difference (else "carriers differ clinically" collapses to "bigger strokes are worse"), the Mode C classification misprices a candidate whose value is feasibility rather than mechanism, and the "few frozen comparisons" promise must become an enumerated list. The constructive close notes Rung 0 is itself the low-hanging fruit, and Rung 1 could be made opportunistic on the next archive staging rather than a dedicated download.
