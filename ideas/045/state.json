@@ -1,28 +1,31 @@
 {
-  "approval": null,
+  "approval": {
+    "contract_blob": "e7071541036a17f4a02ec264693209fec5c1337d",
+    "stale": false
+  },
   "charter": null,
   "claim": "Within viable-attenuation tissue at matched relative CBF, the joint CBV/MTT coordinate shows a directionally stable, precision-bounded final-infarct association across all three within-patient flow bands -- establishing, or decisively refusing, the Stage-0 prerequisite that idea-023's untissued operationalization could not test cleanly.",
-  "contract_blob": null,
+  "contract_blob": "e7071541036a17f4a02ec264693209fec5c1337d",
   "corrections": null,
   "idea_id": "idea-045",
   "idea_no": "045",
   "kill_code": null,
   "materialization": {
-    "event_count": 5,
+    "event_count": 6,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "1b29dc6aea8ce3c8ff949c0bc0f36de95b64d8aac45cac4efc4834d45f9d893e",
+    "source_fingerprint_sha256": "3a17daf715e9df9273b919f4b790c7d3974fcb399668cea2c3b6540f86d0624e",
     "sources": {
-      "approval_sha256": null,
-      "contract_blob": null,
+      "approval_sha256": "c61ee2c57ebdbddf0fbf06239339d52b9739f0d56b7f2ecb0a6ce6002f8de7b3",
+      "contract_blob": "e7071541036a17f4a02ec264693209fec5c1337d",
       "idea_card_sha256": "ba783b6d64772f6000937d9642ff619e26bd4fd015bf295630378e9e0c6c3570",
-      "ledger_events_sha256": "17569243d40229ffef027e11c04f5b377fed8f622857278da651e1dbfd6b9f7b",
+      "ledger_events_sha256": "a411486bdbb54d911eb3b3f587f9ac540ed5af40949ab2a6c5d424db738df974",
       "registry_sha256": null
     }
   },
   "pending_decisions": null,
   "registry": null,
   "schema_version": 1,
-  "scrutiny": "DEBATED",
+  "scrutiny": "PROBED",
   "status": "SHORTLISTED",
   "title": "Tissue-normalized joint CBV/MTT compensation at matched flow"
 }
