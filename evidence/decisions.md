@@ -1742,3 +1742,83 @@ tiering simple/factual asks to a lighter path with escalation rules,
 plus an open-source survey of routing/cascade precedents. All
 workflows YAML-validated; 198/198; patch git-identical against
 pristine origin/main.
+
+## 2026-09-01 - Round-9 intake + S1 landed (round-9 immediates)
+
+Round-9 full audit absorbed. Verdict: sound and increasingly useful;
+not yet bloated but at the inflection where breadth must stop outrunning
+production exercise. Standing strategic rule adopted verbatim: make what
+already exists become unavoidable, generic, live-tested and boring; and
+the architecture budget: no new persistent mechanism until the
+preceding one has been exercised on at least one live scientific
+lifecycle.
+
+DISPOSITIONS RECEIVED: all six R5 patches RATIFIED (R5a with a
+generality caveat -- the card's headline renderer knows 023-specific
+fields; R5e strongly). Confer's artifact shape does not prejudice R4.
+The five-property review mandate gains a SIXTH property. The credential
+fork is DECIDED: (A) a non-rotating API credential for CI, subscription
+OAuth strictly local/manual; the self-refreshing-PAT loop is rejected
+as an endpoint (privilege increase, serialization-dependent mutable
+chain) and acceptable only as an explicitly transitional mechanism if
+cost blocks A. Auth preflight pulled forward from P10 to NOW. The
+confer FUNNEL design is received and adopted for the post-R4 slot:
+deterministic four tiers (local no-LLM; light single-model; reviewed
+draft+review; authority-adjacent reviewed+operator-gate) with
+auto-escalation on numerical claims, source contradictions, PREMISE
+CHECK, SUGGESTED UPDATES, interpretation proposals, governance
+consequences, unresolved evidence, or missing citation support;
+learned routing (RouteLLM-class) only after real routing outcomes
+accumulate; routes become receipted outcomes, hence post-R4.
+
+ADOPTED ARCHITECTURE RULINGS: AiiDA's two-graph lesson shapes R4 --
+data provenance (dataset -> run -> bundle -> interpretation) and
+logical/governance provenance (approval -> contract -> registry ->
+authorization; review -> ratification -> transition; note ->
+acknowledgment) stay separate typed structures linked by ids/hashes,
+never one giant ledger schema. The generic trusted/untrusted evidence
+envelope extends confer's doctrine to ALL stage prompts (queued
+immediately after R3b, with an injection-fixture regression). The
+adversarial pre-read of operator acts is scoped to consequential acts
+only (approvals, amendments, ratifications, overrides, registry
+ratification, high-severity acknowledgments) with catch-rate
+measurement. Two-A is declared merged-not-consolidated; the reviewer's
+twelve-item checklist is adopted verbatim as the soak's acceptance
+bar. driver_spec sketch, ten driver acceptance tests, and
+drive_api_cache endpoint absorbed into P3. scout.py modularization by
+authority boundary queued post-R4/P3. Roadmap sequence adopted: R3b ->
+R4 (typed outcomes + envelope) -> multi-input launcher + phase-scoped
+result_interfaces -> driver_spec -> ROLE_BOUND -> soak/flip ->
+notes/advisories -> funnel -> scoped decisions context -> split ->
+stop-report/design-review/calibration; arbiter, meta-loop, third
+charter deferred until measured need.
+
+S1 LANDED (the four smallest immediates; R3b is next and separate):
+(1) load_agent_config fails CLOSED with AGENT_CONFIG_INVALID when
+AGENTS.toml exists but cannot parse -- configuration corruption never
+again degrades into default role identity; absence still means
+defaults. (2) Every agent workflow gains a Codex auth preflight
+BEFORE any scientific leg, with the reviewer's named failures:
+CODEX_CREDENTIAL_MISSING (no key, no snapshot -> hard stop),
+CODEX_CREDENTIAL_REJECTED (401 on a zero-cost models probe -> hard
+stop), inconclusive HTTP -> proceed with notice. (3) run_agent's
+receipt classifier names in-run credential/billing failures from the
+leg log (CODEX_ACCOUNT_UNFUNDED, CODEX_CREDENTIAL_REJECTED prefixes on
+exit_detail) -- a red leg is now diagnosable from the repository
+alone, completing the arc the three confer failures began. (4) The
+confer review gains property six: question coverage -- every part of
+the operator's question answered or declared unanswerable, unresolved
+assumptions named, never papered over (README updated per docs rule).
+(5) The 023-specific card headline renderer is ledgered:
+TRANSITIONAL(card_headline_023_fields), retiring when headline fields
+become contract/registry-declared. Two regressions (config fail-closed
+incl. absent-vs-malformed split; unfunded receipt naming end-to-end
+through run_agent). Gates: 200/200 both runners, green again on the
+pristine-applied tree; state-verify 44/44; all workflows
+YAML-validated; patch git-identical against pristine origin/main.
+
+OPERATOR ACTION PER THE RATIFIED FORK: fund the platform API balance
+(~$10); the subscription OAuth remains local-only. Next build: R3b --
+the production 023 registry and its ratification, the first live
+exercise of the registry substrate. Tuesday night remains the patch
+freeze before the Wednesday advisor meeting.
