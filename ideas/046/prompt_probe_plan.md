@@ -2800,7 +2800,7 @@ candidate MUST cite the specific condition below that has changed.
 - [isles24] **idea-043** [REJECTED] -- What the winner's brain window revealed
 - [isles24] **idea-044** [REJECTED] -- The old stroke inside the new forecast
 - [isles24] **idea-045** [PAUSED] -- Tissue-normalized joint CBV/MTT compensation at matched flow
-- [isles24] **idea-046** [SHORTLISTED] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
+- [isles24] **idea-046** [ACTIVE] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -3332,6 +3332,421 @@ What this concession settles:
 
 
 
+===== ideas/046/decision.md =====
+# Decision — idea 046, definition-audit probe (contract v1)
+
+This document summarizes `ideas/046/interpretation.md` (round 1, pending
+cross-family review). Full derivation and the complete claims table live
+there; every number below also appears there with the same citation.
+
+## Result card
+
+- **Idea:** idea-046 — Which observed cases numerically carry the
+  band-2/3 reversal? (descriptive contribution census; revise-in-place
+  ratified 2026-09-01)
+- **Probe:** probe 046, contract v1 — outcome-blind
+  contribution-definition audit. First and only probe executed under this
+  idea; its positive pattern authorizes only drafting a separate census
+  contract, which does not yet exist.
+- **Dataset:** imported idea-023 take-13 table
+  `probes/023/results/results_v2/per_patient.csv`, SHA-256
+  `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`
+  (ISLES'24 lineage, Zenodo record 16813698; no ISLES'24 payload was
+  read — only this frozen CSV).
+- **Primary metric:** absolute residual of the additive identity
+  `abs(sum_i((d_i,3 − d_i,2)/99) − (mean_i(d_i,3) − mean_i(d_i,2)))`,
+  stable summation, tolerance 1e-12.
+- **Contract blob:** `3996009bccfcfa939984fed051ee303a29a960a0`
+  [cite: resolved_config.json | top-level | contract_blob].
+- **Results bundle:** `probes/046/results/results_v2` (12 files) at
+  commit `dd5962fb7c95edc8589baf020e58b9fa6f0ed332`, import manifest
+  SHA-256 `8b813d1d703275a9ee86f3dbb0ad7026a6cd13f75a72cd77aab0f998a58cd79d`
+  [cite: ../results_v2.import.json | top-level | file_count,
+  manifest_sha256].
+- **Families:** probe code codex, probe review claude (round-2 APPROVE);
+  interpretation authored by claude, codex review pending.
+- **Out-of-scope warnings:** this result says nothing about which cases
+  dominate the reversal or how concentrated the estimator is; it is not
+  evidence about idea-023's finding beyond arithmetic decomposability; it
+  supports no carrier, biological, clinical, causal, predictive, or
+  model-use claim; it does not authorize running the census — only
+  drafting its contract for human review.
+
+## Layer A — Finding
+
+The outcome-blind definition audit passed: status
+`FEASIBLE_DEFINITION_AUDIT` [cite: summary.json | top-level | status],
+with the per-case contribution formula reconstructing the equal-patient
+band-3-minus-band-2 mean gap to a residual of 6.938893903907228e-18
+[cite: definition_audit.json | top-level | stable_summation_residual] —
+about five orders of magnitude inside the 1e-12 tolerance. Every frozen
+summary is well-posed: all three denominators finite and nonzero, top-k
+definable at k = 1, 5, 10, 20, both share targets definable
+[cite: summary.json | top-level | all_summaries_defined], and the frozen
+case_id tie rule makes both orderings unique
+[cite: definition_audit.json | top-level |
+deterministic_secondary_case_id_rule_defined]. No case identifier,
+contribution value, rank, or share was persisted or logged
+[cite: summary.json | top-level | scientific_values_exposed], and zero
+reserved cases were touched [cite: summary.json | top-level |
+reserved_cases_accessed]. The most important caveat: this is a
+feasibility verdict about definitions — it reveals nothing about who
+carries the reversal.
+
+## Layer B — Derivation narrative
+
+Gates passed, in order: operator claim-identity ruling (revise-in-place,
+`unblock_ack.txt`); feasibility GO (2026-09-01); human approval at
+2026-09-01T22:00:13Z binding blob `3996009b…`
+(`ideas/046/HUMAN_APPROVED_PROBE`); cross-family probe build — round-1
+review REVISE (two blocking findings: residual persistence, hardcoded
+ordering verdict), round-2 APPROVE after both were fixed with no scope
+expansion; harness smoke verification passed
+(`probes/046/verification.json`, forced `SMOKE_ONLY`).
+
+One real variant ran (the contract maximum; seed declared, unused; zero
+GPU minutes [cite: resolved_config.json | top-level | variants,
+gpu_minutes]). Flow: 297 rows / 99 cases in
+[cite: input_manifest.csv | input=per_patient.csv | rows, cases] → 99
+band-1 rows excluded, reason `non_primary_band`, per-row provenance
+[cite: summary.json | top-level | excluded_rows] → 198 rows analyzed as
+99 paired cases with identical band-2/band-3 case sets
+[cite: summary.json | top-level | paired_cases] → residual gate passed →
+positive pattern selected. The split manifest was frozen before the input
+was opened [cite: split_manifest.json | top-level |
+created_before_measurement]; start and end determinism manifests are
+byte-identical; the wall cap was enforced in-code and not exceeded. The
+bundle imported through record-result's local lane and the transactional
+tail recorded the PROBED event and re-materialized state (commit
+`c882615`). Kill conditions approached: none; no invalidating-failure
+class occurred and the negative pattern did not fire.
+
+## Layer C — Deep justification
+
+The complete 26-row claims table is in `ideas/046/interpretation.md`,
+Layer C, against bundle root `probes/046/results/results_v2` at commit
+`dd5962fb7c95edc8589baf020e58b9fa6f0ed332`. Additional recorded counts,
+cited there and restated here for the census-contract author: per-case
+delta sign counts positive 54 / zero 6 / negative 39
+[cite: definition_audit.json | sign_counts | positive, zero, negative];
+exact ties signed 5 / absolute 5
+[cite: definition_audit.json | tie_counts | signed, absolute] —
+consistent, by IEEE-754 subtraction semantics, only with the six
+exact-zero deltas being the sole exact ties (a labeled inference in the
+interpretation, not a probe output). These counts are contract-authorized
+outputs and must not be read as concentration findings.
+
+## Verdict
+
+- **Demonstrates:** definition coherence (residual 6.94e-18 vs 1e-12),
+  well-posedness of every frozen summary, deterministic orderings, cohort
+  structure as inspected, full discipline (identity, split-first,
+  no-exposure, no reserved contact).
+- **Suggests:** nothing scientific, by design; two structural notes for
+  the census author (six exactly-zero deltas; ties confined to the zero
+  block) are labeled inferences from recorded counts.
+- **Does not establish:** dominance, concentration, curve shapes, carrier
+  or clinical claims, phenotype completeness, anything beyond this table.
+- **Validity failures:** none.
+- **Findings:** positive — `FEASIBLE_DEFINITION_AUDIT`; negative — none.
+- **Authorized variants:** one real run (reported); plus the non-contract
+  `SMOKE_ONLY` harness verification. No other executions exist.
+
+**Next decision:** draft the scientific census contract (encoding the D3
+read-restriction protocol, the D4 joint-display rule, the
+zero-contribution display convention, and the card's
+prohibited-conclusions list) and author `ideas/046/registry.yaml` per the
+registry rollout rule, both behind fresh human approval. The optional
+clinical rung stays opportunistic on the next archive staging event.
+
+**ADVANCE**
+
+
+===== ideas/046/feasibility.md =====
+# Feasibility memo — idea 046
+
+**Idea:** Which observed cases numerically carry the band-2/3 reversal?
+(post-revision descriptive contribution census; revise-in-place ratified by
+the operator 2026-09-01, `unblock_ack.txt` on record)
+**Stage:** feasibility. **Date:** 2026-09-01. **Verdict: GO** (stated in
+full at the end).
+
+Scope note: this memo evaluates the candidate as revised — a
+finite-population contribution census on the imported idea-023 take-13
+table, with an optional descriptive clinical join — not the retired binary
+diffuse-versus-carrier design the debate killed. The drafted
+`probe_contract.yaml` v1 (outcome-blind definition audit) is treated as the
+smallest probe and assessed in section 9.
+
+Every claim below is labeled. "Verified today" means directly inspected in
+this stage on 2026-09-01, by hash, row census, verbatim quote, or live
+fetch of the primary source.
+
+---
+
+## 1. The keystone, re-verified independently
+
+Verified today, all on the committed artifact
+`probes/023/results/results_v2/per_patient.csv`:
+
+- SHA-256 is `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`
+  — byte-identical to the frozen pin in `probe_contract.yaml`.
+- 297 data rows; 99 unique `case_id` values; exactly 99 rows in each of
+  strata 1, 2, 3; zero duplicate `(case_id, stratum)` keys.
+- The `d` column contains 297 digit-bearing numeric entries; zero `nan`,
+  zero `inf`, zero empty fields.
+
+This reproduces the keystone screen's census from scratch. The card's
+`keystone_status: INSPECTED_TRUE` stands on a third independent
+inspection (keystone screen, critique, this memo).
+
+**Residual-assumption check.** Having verified the nearest checkable
+thing, what is the primary analysis still assuming? Nothing further: the
+census contribution `c_i = (d_i,band3 − d_i,band2)/99` is a closed-form
+function of exactly the rows verified above, and the additive identity it
+must satisfy is arithmetic, gated by the drafted probe at tolerance 1e-12.
+The load-bearing assumption for the *secondary* (clinical) rung is
+different and is treated in section 5.
+
+## 2. Parent gap, re-verified
+
+Verified today, verbatim from `ideas/023/interpretation.md` lines 200–202
+(the ratified, cross-family-reviewed interpretation):
+
+> How prevalent the Q1-vs-Q4 tissue imbalance is across the cohort, or
+> which patients drive the band-level means — no aggregate HU statistic or
+> per-patient contribution analysis was computed.
+
+And from `probes/023/results/results_v2/per_stratum_summary.csv`,
+transcription-exact against the card: band-2 mean d = −0.03200187,
+CI [−0.05590633, −0.00797819]; band-3 mean d = +0.02307549,
+CI [+0.00496569, +0.04356979]. Opposite signs, both intervals excluding
+zero. The estimator this candidate decomposes exists, is ratified, and its
+per-patient decomposition is explicitly recorded as never computed.
+
+## 3. Closest work and exact gap
+
+Case-deletion influence diagnostics, the jackknife, and Lorenz/Gini
+concentration summaries are textbook statistics — Cook 1977
+(DOI 10.1080/00401706.1977.10489493) and Lorenz 1905
+(DOI 10.2307/2276207) are the canonical anchors. **Not verified:** neither
+primary source was fetched this stage; identifiers are transcribed for
+context and no claim in this candidate rests on their content
+(`evidence/literature.csv` marks them accordingly).
+
+The card claims no methodological novelty, so the novelty burden is
+narrow: the *object* — a pre-registered, ratified, hash-pinned band-2/3
+contrast estimator on the ISLES'24 99-case census — exists only in this
+repository, so no external work can have decomposed it. The exact gap is
+the sentence quoted in section 2. This is the same "governed application,
+not method" framing the critique accepted, and it is the correct one.
+
+## 4. Dataset access and license
+
+**Primary rung — verified today:** entirely in-tree. The input table and
+every bundle-derivable secondary variable (deficit-region voxel counts,
+vessel-cap statistics, exclusion flags in
+`probes/023/results/results_v2/exclusions.csv`) are committed under the
+record-result gate. No download, no DUA, no gate, no annotator. License
+posture inherited: the tables are derived aggregates of ISLES'24
+(CC BY-NC-SA 4.0) already committed in-repo; no new license action.
+
+**Secondary rung (optional) — verified today by live API fetch:** Zenodo
+record 16813698 remains open access, license CC BY-NC-SA 4.0, no access
+request; `train.7z` listed at 99,014,629,647 bytes with MD5
+`36ae28b9a17f7340b8bbef62b595cb57` — matching the take-10 md5-arbitrated
+TRUE object and the standing staging pin. The record is version 2 of
+concept DOI 10.5281/zenodo.16731717 and is *not* the latest version;
+newer children exist, which is exactly why acquisition must go through the
+existing `--staging-record`-pinned origin_direct path and never a
+re-resolved concept link. The record description confirms the clinical
+payload: "Demographics, patient history, admission NIHSS, 3-month
+functional outcome (mRS), etc."
+
+There is **no small phenotype download** (critique D2, confirmed): the 298
+phenotype CSVs are members of the 99 GB archive. Acquisition cost for the
+clinical rung is one full restage.
+
+## 5. Label availability and concept validity
+
+The primary rung needs **no labels at all** — it is arithmetic on frozen
+`d` values. This satisfies the charter preference for readouts independent
+of label quality by construction, and no annotation-provenance failure
+mode can apply.
+
+For the optional clinical rung, verified today from
+`archive_manifest.csv` (the member listing of the md5-verified archive):
+
+- 298 phenotype members: 149 `ses-01 demographic_baseline` + 149
+  `ses-02 outcome` CSVs, identifier spelling `sub-strokeNNNN` — the same
+  spelling as `per_patient.csv`, resolving the documentation-vs-payload
+  spelling hazard at the file level.
+- Set-difference of the 99 analyzed IDs against outcome-file IDs: empty.
+  Same for demographic files. **File-level join coverage is 99/99**,
+  exceeding the ≥90 floor the original keystone asked for.
+- Outcome files are 93–105 bytes each, uniformly nonzero — consistent
+  with a header plus one populated row.
+
+**Not verified, and honestly not verifiable without restaging:**
+column-level content — whether NIHSS-24h and mRS-3-month values inside
+those rows are populated (non-missing) for the analyzed cases, and the
+exact column schema. The data dictionary (inspected at keystone, SHA-256
+recorded there) names both variables as integer outcome fields. The card
+prices this correctly: the clinical join is optional secondary description
+and cannot redefine the primary result. A failed content-level join kills
+only the clinical rung, by construction.
+
+## 6. Sample structure and split unit
+
+The unit is the case (one stroke patient), the only defensible choice:
+contributions are per-case by definition. Structure, verified today:
+
+- 149 released cases; take-13 census covered 100, analyzed 99
+  (`sub-stroke0043` excluded as `source_corrupt_member`, named in
+  `exclusions.csv`; it is absent from the analyzed-ID set — checked).
+- The 49 never-censused cases are the untouched reserve and appear in no
+  input of this candidate.
+- No new split is created. The study is exploratory by construction: the
+  99 outcomes were opened in idea-023, so freezing definitions before
+  computation is a discipline commitment, not cryptographic blindness.
+  The card and contract both state this; the same standing condition
+  applies to every same-split successor in this lineage.
+- Critique D3 discipline: any restage must restrict phenotype reads (and
+  preferably extraction) to the 99 analyzed identifiers. The drafted
+  probe contract excludes phenotype access entirely; the later census
+  contract must encode the D3 read-restriction protocol explicitly.
+
+## 7. Existing code, checkpoints, compute
+
+No model, no checkpoint, no GPU anywhere in this candidate. The frozen
+take-13 pipeline (which produced the input) is complete and ratified;
+nothing from it needs re-running for the primary rung.
+
+Compute, in three tiers:
+
+1. **Definition-audit probe (drafted contract v1):** deterministic CPU,
+   single pass over a 298-line CSV, 5-minute wall cap, zero GPU minutes.
+   Trivially within constraints.
+2. **Census (future contract):** the frozen curves and summaries on 99
+   values — minutes of CPU.
+3. **Optional clinical rung:** one full archive restage via the proven
+   origin_direct path (~14 min download on Colab per the take-8 receipt,
+   plus extraction under the rc-checked integrity sweep, which tolerates
+   the known `sub-stroke0043` source defect), then ~300 tiny-file reads.
+   One session, no GPU. **Not verified:** whether 7z selective extraction
+   of only the phenotype subtree works as intended; the proven path
+   extracted the full archive, so worst case is the full extraction cost
+   already demonstrated in take 12/13.
+
+## 8. Baselines, metrics, negative result
+
+No external benchmark applies and none is claimed. The internal baseline
+is mathematical: for N = 99, the summed per-case contributions must equal
+the band-3-minus-band-2 mean gap to within 1e-12 (stable summation). The
+metrics are the frozen descriptive summaries: full signed `c_i` set,
+descending cumulative curve, absolute-contribution Lorenz curve, top-k
+shares (k = 1, 5, 10, 20), smallest k reaching 50% / 80% of positive
+contribution — all fixed in the card before any contribution value is
+computed.
+
+Anticipated negative, as classified in the card: a shallow ranked curve
+decisively rules out numerical dominance by a small observed set *for this
+realized estimator*. That is a genuine type-1 (decisive) negative within
+the candidate's own finite-population register; it establishes nothing
+about stable diffuseness or population structure, and the card's
+prohibited-conclusions list prevents anyone claiming otherwise.
+
+## 9. Critical leakage, confounds, and the smallest probe
+
+**Leakage surfaces, in order of danger:**
+
+1. *Outcome exposure during the audit.* The drafted probe contract's
+   no-result-exposure discipline (no case IDs, values, ranks, shares,
+   means, or gaps in any output or log) is the right control, and its
+   invalidating-failure list makes exposure a validity kill rather than a
+   footnote.
+2. *Reserved-case contact during a restage.* Controlled by the D3
+   restriction (section 6).
+3. *Interpretive leakage.* The known predictable confound (critique D4):
+   deficit size correlates with clinical outcomes for ordinary reasons,
+   and |d| is computed within deficit-derived bands. The card mandates
+   joint display of deficit size with any clinical contrast and prohibits
+   presenting outcome differences that deficit size accounts for as
+   independent signatures. That is the correct and sufficient handling
+   for a descriptive study.
+
+Standing charter confounds (scanner, protocol, reconstruction, site,
+positioning, habitus, prevalence, referral, report leakage) cannot alter
+the arithmetic decomposition of a fixed estimator and no transport claim
+is made; they re-enter only if a successor tries to interpret contribution
+rank biologically, which the prohibited-conclusions list forbids here.
+
+**Prior-art / intervention subsection: not applicable.** This candidate
+edits no inputs, perturbs no maps, and synthesizes no cases; it is a
+deterministic description of a committed table. No stay-in-distribution
+strategy is required because nothing is moved in or out of distribution.
+
+**Smallest probe of the riskiest assumption.** With the keystone
+inspected true three times, the riskiest *remaining* assumption is
+exactly what the drafted contract v1 targets: that the frozen definitions
+are algebraically coherent and numerically well-posed on the real table —
+additive identity within tolerance, finite nonzero denominators for every
+share (a nearly-zero total positive contribution mass would make the
+50%/80% smallest-k summaries degenerate), and deterministic tie
+resolution. The probe answers this outcome-blind, at zero scientific
+cost, before any census contract is drafted. This memo finds the probe
+correctly scoped and endorses it as drafted.
+
+## 10. What was NOT verified (consolidated)
+
+- Column-level phenotype content: populated NIHSS-24h / mRS-3mo values
+  for the 99 analyzed cases (file-level coverage is 99/99; content needs
+  the restage).
+- Exact phenotype CSV column schema versus the data dictionary.
+- 7z selective extraction of the phenotype subtree only.
+- Cook 1977 and Lorenz 1905 primary texts (context citations only; no
+  claim rests on them).
+- Observed concentration shape — deliberately: that is the study.
+
+## 11. Verdict
+
+**GO.**
+
+Grounds: every load-bearing input to the primary rung is committed,
+hash-pinned, and independently re-verified in this memo; the compute is
+minutes of CPU; the license is settled; no annotation, DUA, GPU, or
+external cohort is involved; the parent gap is quoted verbatim from a
+ratified interpretation; and the one honest unknown (phenotype column
+content) is confined by construction to an optional secondary rung that
+cannot redefine the primary. The failure modes that killed prior
+candidates — annotation provenance, wrong keystone, unobtainable data,
+OOD interventions — have no purchase on a deterministic decomposition of
+an in-tree table whose exact bytes are contract-pinned.
+
+GO authorizes, in sequence and each behind its own gate: human approval
+of the drafted v1 definition-audit contract; then a separate census
+contract (which must encode the D3 read-restriction protocol and the D4
+joint-display rule); the clinical join remains optional and opportunistic
+on the next archive staging event. Nothing in this memo authorizes code
+or execution.
+
+## In plain terms
+
+This study can definitely be run: the only data it needs for its main
+question is a small table already stored and verified in this repository,
+and the computation is simple arithmetic that takes minutes on an
+ordinary computer. The optional second step — checking whether
+high-contribution patients differ on stroke-severity scores — would
+require re-downloading a 99 GB public archive once, using a download
+recipe this project has already proven, because the clinical files sit
+inside that archive rather than as a separate small file. The biggest
+practical risk is modest: the clinical score values inside those files
+have not yet been read, so that optional step could turn out empty even
+though a matching file exists for all 99 patients. If that happens, the
+main analysis is unaffected. Nothing here involves patient identification,
+new data collection, or machine-learning compute.
+
+
 ===== ideas/046/idea_card.json =====
 {
   "id": "isles24-scout-007-c01",
@@ -3410,6 +3825,406 @@ What this concession settles:
 }
 
 
+===== ideas/046/interpret_review.md =====
+# Interpretation review — idea 046, round 1
+
+## 1. Citations resolve
+
+I resolved every citation in `interpretation.md` against
+`probes/046/results/results_v2/` and its adjacent import receipt. All
+transcriptions are exact.
+
+- `resolved_config.json`: `contract_blob` is
+  `3996009bccfcfa939984fed051ee303a29a960a0`; `input_sha256` is
+  `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
+  `variants`, `gpu_minutes`, and `smoke` are respectively 1, 0, and false.
+- `environment.txt`: `dependencies` is `Python standard library only`.
+- `split_manifest.json`: `created_before_measurement` is true,
+  `opened_census_cases` is 99, and `reserved_cases_accessed` is 0.
+- `determinism_manifest_start.json`: the input hash is the stated
+  `1d01551c...`; comparison with `determinism_manifest_end.json` confirms
+  the two files are byte-identical across all keys.
+- `input_manifest.csv`, row `input=per_patient.csv`: `rows=297`,
+  `cases=99`, and the SHA-256 is the stated `1d01551c...`.
+- `exclusions.csv`, all 99 data rows selected by
+  `reason=non_primary_band`: every reason is `non_primary_band`; the source
+  lines run from 2 through 296 in steps of three. `summary.json` independently
+  reports `excluded_rows=99`.
+- `sample_audit.csv`, all 99 data rows: every row has `paired_rows=2`,
+  `finite_inputs=True`, and `finite_delta=True`. `summary.json`
+  independently reports `paired_cases=99`.
+- `summary.json`: status is `FEASIBLE_DEFINITION_AUDIT`; primary metric name
+  is `additive_residual_within_1e-12`; `primary_metric_pass` and
+  `all_summaries_defined` are true; `reserved_cases_accessed=0`; and
+  `scientific_values_exposed=false`.
+- `definition_audit.json`: stable and ordinary diagnostic residuals are both
+  `6.938893903907228e-18`; `algebra_residual_within_tolerance` is true; all
+  three denominator checks are true; sign counts are positive 54, zero 6,
+  negative 39; tie counts are signed 5 and absolute 5; the deterministic
+  secondary case-ID rule is true; top-k definability is true for 1, 5, 10,
+  and 20; and target-share definability is true for 0.5 and 0.8.
+- `results_v2.import.json`: `file_count=12`, manifest SHA-256 is
+  `8b813d1d703275a9ee86f3dbb0ad7026a6cd13f75a72cd77aab0f998a58cd79d`,
+  and `imported_utc=2026-09-01T22:15:39+00:00`, matching the displayed UTC
+  time.
+
+I also checked the uncited arithmetic glosses. The residual is approximately
+1.44 x 10^5 times below the 1e-12 bound, supporting both “about five orders”
+and the stated ratio. The contract blob independently equals the current
+`probe_contract.yaml` Git blob. I found no uncited quantitative scientific
+claim.
+
+## 2. Claim bounds
+
+The interpretation remains within the definition-audit contract. It does not
+report a case identity, contribution, rank, share, curve coordinate, band
+mean, or band-gap value. It repeatedly states that this probe does not measure
+dominance or concentration and authorizes only drafting a later census
+contract. The deterministic result is correctly discussed as a single,
+randomness-free computation rather than as a seed-level uncertainty claim.
+
+The task template's tier-2, vendor, anchor-exclusion, and baseline-versus-floor
+checks do not apply to this contract: there is no tier 2, vendor comparison,
+anchor case, or performance baseline. The interpretation does not import any
+such framing.
+
+## 3. Completeness without cherry-picking
+
+I checked every field in `summary.json` and `definition_audit.json`, all 99
+rows of `sample_audit.csv`, all 99 exclusions, both determinism manifests, and
+the resolved configuration. No field contradicts or materially complicates
+the finding. The interpretation reports the complete sign distribution, both
+tie counts, every denominator gate, every frozen top-k and target-share
+definability check, cohort and exclusion counts, reserved-case count,
+exposure flag, caps, and import identity. It also reports that the negative
+pattern did not occur and that there was only one real variant. There is no
+omitted stratum-level or subgroup result in this outcome-blind bundle.
+
+## 4. Verdict separation
+
+`Demonstrates` is confined to deterministic algebra, well-posed definitions,
+cohort structure, ordering, and execution discipline. The two observations in
+`Suggests` are explicitly labeled source-supported inferences from recorded
+counts and are bounded away from concentration claims. `Does not establish`
+fully preserves the contract's prohibited conclusions. Exploratory status is
+not upgraded to confirmatory evidence, and the positive feasibility pattern
+is not presented as a scientific result.
+
+## 5. Plain-language fidelity
+
+There is no separately labeled plain-language summary section. The concise
+Layer A finding is faithful to the cited technical results and retains the
+essential hedge that this is a definition-feasibility verdict, not a result
+about which cases carry the reversal.
+
+```json
+{"verdict": "APPROVE"}
+```
+
+
+===== ideas/046/interpretation.md =====
+# Interpretation — idea 046, definition-audit probe (contract v1)
+
+## Result card
+
+- **Idea:** idea-046 — Which observed cases numerically carry the band-2/3
+  reversal? (post-revision descriptive contribution census; revise-in-place
+  ratified by the operator 2026-09-01, `unblock_ack.txt` on record)
+- **Probe:** probe 046, contract v1 — the outcome-blind
+  contribution-definition audit. Position in the experiment sequence: the
+  first and only probe executed under this idea; the contract itself binds
+  its successor ("authorizes only drafting a separate scientific census
+  contract after human review"), which has not been drafted.
+- **Dataset:** the imported idea-023 take-13 per-patient table,
+  `probes/023/results/results_v2/per_patient.csv`, SHA-256
+  `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`
+  (contract-pinned). Upstream lineage: idea-023 take-13 (contract
+  `03d4545fe293…`), derived from ISLES'24, Zenodo record 16813698. The
+  probe read no ISLES'24 payload, image, phenotype, or cache file — only
+  this one frozen CSV.
+- **Primary metric:** absolute algebraic residual
+  `abs(sum_i(c_i) − (mean_i(d_i,band3) − mean_i(d_i,band2)))` with
+  `c_i = (d_i,band3 − d_i,band2)/99`, computed under stable summation
+  (`math.fsum`), required ≤ 1e-12 in IEEE-754 double precision.
+- **Contract blob:** `3996009bccfcfa939984fed051ee303a29a960a0`
+  (verified against `ideas/046/HUMAN_APPROVED_PROBE` and recorded by the
+  run itself [cite: resolved_config.json | top-level | contract_blob]).
+- **Results bundle:** `probes/046/results/results_v2`, 12 files, imported
+  2026-09-01T22:15:39Z at commit `dd5962fb7c95edc8589baf020e58b9fa6f0ed332`
+  (byte-manifest SHA-256 `8b813d1d703275a9ee86f3dbb0ad7026a6cd13f75a72cd77aab0f998a58cd79d`
+  [cite: ../results_v2.import.json | top-level | manifest_sha256]).
+- **Families:** probe code authored by the codex family, probe review by
+  the claude family (two rounds, round-2 APPROVE). This interpretation is
+  authored by the claude family; cross-family review by the codex family
+  is pending (round 1).
+- **Out-of-scope warnings — this result must NOT be read as:**
+  - any statement about which cases dominate the band-2/3 reversal, how
+    concentrated the realized estimator is, or whether a small set
+    carries it — the probe was designed not to reveal that and did not;
+  - evidence for or against idea-023's scientific finding, beyond the
+    arithmetic fact that its band-gap estimator admits an exact per-case
+    decomposition;
+  - any stable-carrier, patient-subtype, population, biological,
+    clinical, causal, predictive, or model-use claim;
+  - authorization to run the census. The positive pattern authorizes
+    exactly one thing: drafting a separate census contract for human
+    review.
+
+## Layer A — Finding
+
+The outcome-blind definition audit passed on the exact frozen table: the
+status is `FEASIBLE_DEFINITION_AUDIT`, with the per-case contribution
+formula reconstructing the equal-patient band-3-minus-band-2 mean gap to
+a residual of 6.938893903907228e-18 — about five orders of magnitude
+inside the 1e-12 tolerance. Every frozen descriptive summary is
+mathematically well-posed: all three denominators (signed total, positive
+mass, absolute mass) are finite and nonzero, top-k shares are definable at
+k = 1, 5, 10, and 20, and both positive-mass share targets (50%, 80%) are
+definable. The frozen case_id tie rule makes both contract orderings
+unique, so every future census output is deterministic. No case
+identifier, contribution value, rank, share, or band mean was persisted or
+logged, and zero reserved cases were touched. The single most important
+caveat: this is a feasibility verdict about definitions, not a scientific
+result — it reveals nothing about who carries the reversal, and it
+authorizes only the drafting of a separate census contract.
+
+## Layer B — Derivation narrative
+
+**Gates before execution.** The candidate reached this probe through: the
+three-round debate (REVISE with a human unblock), the operator's
+claim-identity ruling of 2026-09-01 (revise-in-place ratified,
+`ideas/046/unblock_ack.txt`), the feasibility GO of 2026-09-01, contract
+v1 drafting, and human approval at 2026-09-01T22:00:13Z binding contract
+blob `3996009bccfcfa939984fed051ee303a29a960a0`
+(`ideas/046/HUMAN_APPROVED_PROBE`; the in-file `human_approved: false`
+line is the standing marker convention — authority lives in the marker
+file, as recorded in probe_review round-1 finding 1). Probe code was
+built cross-family: round-1 review returned REVISE with two blocking
+findings (B1: residual values not persisted; B2: ordering-uniqueness
+verdict hardcoded); round 2 resolved both exactly as specified and
+returned APPROVE with no scope expansion. The harness smoke verification
+completed under 60 seconds with matching determinism manifests
+(`probes/046/verification.json`, passed, 2026-09-01T22:14:53Z); smoke is
+forced to `SMOKE_ONLY` and can never satisfy a contractual pattern.
+
+**The run (single authorized variant).** One real variant executed
+(`variants: 1, gpu_minutes: 0, smoke: false`
+[cite: resolved_config.json | top-level | variants, gpu_minutes, smoke]),
+Python-stdlib-only environment [cite: environment.txt | top-level |
+dependencies]. The declared seed (20260901) exists for harness
+reproducibility only; the approved analysis uses no randomness. Order of
+operations, as the contract requires: the anonymous split manifest was
+frozen before the input CSV was first opened
+[cite: split_manifest.json | top-level | created_before_measurement],
+then the input identity gate passed against the approved SHA-256
+[cite: determinism_manifest_start.json | top-level | input_sha256].
+
+**CONSORT-style flow.** In: 297 data rows, 99 unique cases
+[cite: input_manifest.csv | input=per_patient.csv | rows, cases].
+Excluded: 99 rows, all with reason `non_primary_band` — the band-1 rows,
+source lines 2–296 [cite: exclusions.csv | reason=non_primary_band | all
+99 data rows] ([cite: summary.json | top-level | excluded_rows]).
+Analyzed: 198 rows forming 99 paired cases with identical band-2 and
+band-3 case sets and no duplicate keys (cohort gate; enforced in code,
+reflected in [cite: summary.json | top-level | paired_cases] and the 99
+all-finite pair rows of [cite: sample_audit.csv | all data rows |
+paired_rows, finite_inputs, finite_delta]). Reserved cases accessed: 0
+[cite: summary.json | top-level | reserved_cases_accessed].
+
+**Measurement and close-out.** The algebra and denominator audit ran
+in-memory in a single pass; the residual gate passed
+[cite: definition_audit.json | top-level |
+algebra_residual_within_tolerance]; the status classifier selected the
+contract's positive pattern [cite: summary.json | top-level | status].
+The five-minute wall cap was enforced in-code and not exceeded (a breach
+exits 8 before any status is written; the run completed with status and
+all required outputs). Start and end determinism manifests are
+byte-identical (verified by diff during this interpretation). All six
+contract-required outputs are present, plus the split, exclusion,
+sample-audit, and determinism artifacts. No-result-exposure held:
+`scientific_values_exposed: false` [cite: summary.json | top-level |
+scientific_values_exposed], and no output or log line contains a case
+identifier, d/delta/c value, rank, share, curve coordinate, band mean, or
+gap value.
+
+**Import.** The bundle was imported through record-result's local lane
+(`source_commit: null`, first-add ancestry) with 12 files
+[cite: ../results_v2.import.json | top-level | file_count], validated
+under the contract-declared interface (phase field absent, tolerated per
+S2b), and the transactional tail recorded the PROBED scrutiny event,
+digest, and re-materialized state at commit `c882615`.
+
+**Kill conditions approached: none.** No invalidating-failure class
+(authority, input-identity, cohort, algebra, exposure, scope/leakage,
+deviation, output/provenance) occurred or was neared; the negative
+pattern `DEFINITION_REVISION_REQUIRED` did not occur.
+
+## Layer C — Deep justification (claims table)
+
+Bundle root: `probes/046/results/results_v2` at commit
+`dd5962fb7c95edc8589baf020e58b9fa6f0ed332`. Every quantitative claim in
+this document resolves to one of these rows.
+
+| # | Claim | Value | Citation |
+|---|-------|-------|----------|
+| 1 | Status is the contract's positive pattern | `FEASIBLE_DEFINITION_AUDIT` | [cite: summary.json \| top-level \| status] |
+| 2 | Primary metric name | `additive_residual_within_1e-12` | [cite: summary.json \| top-level \| primary_metric_name] |
+| 3 | Primary metric passed | `true` | [cite: summary.json \| top-level \| primary_metric_pass] |
+| 4 | Stable-summation residual | 6.938893903907228e-18 | [cite: definition_audit.json \| top-level \| stable_summation_residual] |
+| 5 | Ordinary-summation residual (diagnostic only, no gate role) | 6.938893903907228e-18 | [cite: definition_audit.json \| top-level \| ordinary_summation_residual_diagnostic_only] |
+| 6 | Residual within tolerance | `true` | [cite: definition_audit.json \| top-level \| algebra_residual_within_tolerance] |
+| 7 | Signed total finite and nonzero | `true` | [cite: definition_audit.json \| denominators \| signed_total_finite_nonzero] |
+| 8 | Positive mass finite and nonzero | `true` | [cite: definition_audit.json \| denominators \| positive_mass_finite_nonzero] |
+| 9 | Absolute mass finite and nonzero | `true` | [cite: definition_audit.json \| denominators \| absolute_mass_finite_nonzero] |
+| 10 | Sign counts of per-case deltas | positive 54, zero 6, negative 39 | [cite: definition_audit.json \| sign_counts \| positive, zero, negative] |
+| 11 | Exact-tie counts under the frozen orderings | signed 5, absolute 5 | [cite: definition_audit.json \| tie_counts \| signed, absolute] |
+| 12 | Deterministic case_id tie rule resolves every tie | `true` | [cite: definition_audit.json \| top-level \| deterministic_secondary_case_id_rule_defined] |
+| 13 | Top-k definable at k = 1, 5, 10, 20 | all `true` | [cite: definition_audit.json \| top_k_definable \| 1, 5, 10, 20] |
+| 14 | 50% and 80% positive-mass targets definable | both `true` | [cite: definition_audit.json \| target_share_definable \| 0.5, 0.8] |
+| 15 | All frozen summaries defined | `true` | [cite: summary.json \| top-level \| all_summaries_defined] |
+| 16 | Input identity | SHA-256 `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c` | [cite: resolved_config.json \| top-level \| input_sha256]; identically in [cite: input_manifest.csv \| input=per_patient.csv \| sha256] |
+| 17 | Input size | 297 rows, 99 cases | [cite: input_manifest.csv \| input=per_patient.csv \| rows, cases] |
+| 18 | Paired cases analyzed | 99 | [cite: summary.json \| top-level \| paired_cases] |
+| 19 | Rows excluded (band 1) | 99, all `non_primary_band` | [cite: summary.json \| top-level \| excluded_rows]; [cite: exclusions.csv \| reason=non_primary_band \| all 99 data rows] |
+| 20 | Reserved cases accessed | 0 | [cite: summary.json \| top-level \| reserved_cases_accessed]; [cite: split_manifest.json \| top-level \| reserved_cases_accessed] |
+| 21 | Split frozen before measurement, 99 opened-census slots | `true`, 99 | [cite: split_manifest.json \| top-level \| created_before_measurement, opened_census_cases] |
+| 22 | No scientific value exposed | `false` (exposure flag) | [cite: summary.json \| top-level \| scientific_values_exposed] |
+| 23 | Governing contract blob recorded by the run | `3996009bccfcfa939984fed051ee303a29a960a0` | [cite: resolved_config.json \| top-level \| contract_blob] |
+| 24 | Caps honored | variants 1, gpu_minutes 0, smoke false | [cite: resolved_config.json \| top-level \| variants, gpu_minutes, smoke] |
+| 25 | Determinism manifests identical | start = end (byte-identical) | [cite: determinism_manifest_start.json \| top-level \| all keys] vs [cite: determinism_manifest_end.json \| top-level \| all keys] |
+| 26 | Import identity | 12 files, manifest SHA-256 `8b813d1d703275a9ee86f3dbb0ad7026a6cd13f75a72cd77aab0f998a58cd79d`, 2026-09-01T22:15:39Z | [cite: ../results_v2.import.json \| top-level \| file_count, manifest_sha256, imported_utc] |
+
+Repo-level (non-bundle) anchors: approval timestamp and blob —
+`ideas/046/HUMAN_APPROVED_PROBE`; smoke verification —
+`probes/046/verification.json` (`passed: true`,
+2026-09-01T22:14:53Z); bundle commit — `dd5962f`; record-result
+transaction commit — `c882615`.
+
+## Demonstrates
+
+All of the following are hard-constraint outcomes of a deterministic,
+randomness-free procedure; none depends on an effect size, so
+DEMONSTRATES is the correct register (the single-seed rule does not
+apply — the seed is declared and unused).
+
+1. **The frozen contribution definition is algebraically coherent on the
+   real table.** The additive identity holds with residual
+   6.938893903907228e-18 against the 1e-12 tolerance (claims 3, 4, 6) —
+   roughly 1.4 × 10^5 times smaller than the bound. The
+   ordinary-summation diagnostic equals the stable residual (claim 5), so
+   the identity does not depend on the summation routine at this scale.
+2. **Every frozen summary is well-posed.** All three denominators are
+   finite and nonzero; top-k is definable at each frozen k; both share
+   targets are definable (claims 7–9, 13–15). The negative pattern
+   (`DEFINITION_REVISION_REQUIRED`) has no surviving trigger.
+3. **The frozen orderings are deterministic.** The case_id secondary rule
+   resolves all ties in both orderings (claims 11, 12), so the future
+   census output is unique and reproducible by construction.
+4. **Cohort structure matches the inspected keystone.** 297 rows in, 99
+   band-1 rows excluded with per-row provenance, 99 paired cases with
+   identical band-2/band-3 case sets (claims 17–19), reproducing the
+   keystone census a fourth time, now under the approved gate.
+5. **Discipline held.** Input identity, split-before-measurement,
+   zero reserved-case contact, no-result-exposure, byte-identical
+   determinism manifests, all required outputs, one variant, zero GPU
+   (claims 16, 20–25).
+
+## Suggests
+
+Nothing in this probe suggests anything about the scientific question —
+by design. Two structural notes, each a **source-supported inference**
+from recorded counts (not from any exposed value), are recorded for the
+census-contract author:
+
+1. Six of the 99 per-case deltas are exactly zero (claim 10). In IEEE-754
+   arithmetic a subtraction of finite doubles is exactly zero only when
+   the operands compare equal, so six cases have numerically equal
+   band-2 and band-3 `d` values; the difference of equal operands is
+   `+0.0` under round-to-nearest, so all six zero deltas share one
+   representation.
+2. Both tie counts equal 5 (claim 11) — exactly what the six identical
+   zero deltas contribute (6 − 1 = 5) — so the zeros are the only exact
+   ties under the signed ordering, and the matching absolute count
+   further implies no duplicated magnitude among the nonzero deltas. In
+   practice the case_id tiebreak will arbitrate only within the
+   zero-contribution block; the census contract should state how
+   zero-contribution cases are displayed.
+
+These notes must not be extended into any statement about dominance or
+concentration; the sign split (54/6/39) is a recorded count, not a
+finding about who carries the reversal.
+
+## Does not establish
+
+- Which cases dominate the band-3-minus-band-2 contrast, the shape of
+  the ranked or Lorenz curves, any top-k share, or any smallest-k value —
+  none was computed to an artifact, and none may be anticipated from
+  this result.
+- Whether the reversal is diffuse or concentrated in any sense — the
+  debate already removed that binary from the candidate, and this probe
+  adds nothing to it.
+- Any stable-carrier, biological, clinical, causal, predictive,
+  population, or model-use claim (prohibited by contract).
+- Anything about idea-023's scientific interpretation beyond the
+  arithmetic decomposability of its frozen estimator.
+- Phenotype content-level completeness (populated NIHSS/mRS values for
+  the 99 cases) — untouched by this probe; it remains the optional
+  clinical rung's honest unknown.
+- Transport beyond this exact table: the verdict is about these frozen
+  definitions on these 99 cases under this contract, nothing wider.
+
+## Validity failures
+
+None. No invalidating-failure class in the contract occurred: authority
+verified (fresh marker binding the exact blob), input identity exact,
+cohort gate clean, algebra within tolerance, no exposure event, no
+scope/leakage contact (no phenotype, reserved-case, image, voxel, or
+cache read), no analysis deviation (one variant, frozen formulas, no
+randomness consumed), and all required outputs present with provenance.
+No run was invalidated and no result was reinterpreted.
+
+## Positive and negative findings
+
+- **Positive finding:** `FEASIBLE_DEFINITION_AUDIT` (claim 1) — the
+  contract's positive pattern, carrying its stated and only consequence:
+  a separate scientific census contract may now be drafted for human
+  review.
+- **Negative findings:** none. The negative pattern did not occur; no
+  frozen summary is undefined.
+
+## Authorized variants (complete report)
+
+The contract caps `maximum_variants: 1`. Exactly one real variant was
+executed and is reported above; it is the variant this interpretation
+describes (claims 1, 24). Additionally, the probe-build harness smoke ran
+on synthetic input during verification (status `SMOKE_ONLY`,
+`probes/046/verification.json`); it is not a contract variant, satisfies
+no contractual pattern by construction, and touched no real data. No
+other execution of this probe exists.
+
+## Next decision
+
+**ADVANCE**, with the contract's own narrow semantics: the positive
+pattern authorizes only drafting the separate scientific census contract,
+behind fresh human approval. Concretely, in order:
+
+1. Draft the census contract for the frozen Rung-0 outputs (signed
+   contributions, cumulative and Lorenz curves, fixed top-k shares,
+   smallest-k targets), encoding: the D3 read-restriction protocol for
+   any future phenotype restage, the D4 joint-display rule for clinical
+   contrasts, the exploratory-by-construction label, the zero-contribution
+   display convention (see Suggests), and the prohibited-conclusions list
+   verbatim from the card.
+2. Per the 2026-09-01 registry rollout rule ("every new approved probe
+   gets a registry"), author `ideas/046/registry.yaml` covering this
+   executed definition-audit node before the census contract is approved.
+3. The optional clinical rung remains opportunistic on the next archive
+   staging event; nothing here advances or blocks it.
+
+No census computation, no phenotype access, and no further inference are
+authorized by this interpretation.
+
+
 ===== ideas/046/keystone_screen.md =====
 # Keystone screen — idea 046
 
@@ -3475,6 +4290,276 @@ Part 1 passes. Part 2 is neither shown false nor verified true. Because the card
 ```
 
 
+===== ideas/046/probe_contract.yaml =====
+# Probe contract v1 -- idea 046, outcome-blind contribution-definition audit.
+# Draft only. This does not authorize code changes, execution, or the ranked
+# contribution census proposed by the idea card.
+
+idea_id: "idea-046"
+contract_version: 1
+track: exploratory
+
+authorities:
+  charter: "CHARTER.md"
+  collaborator_rules: "docs/COLLABORATOR_RULES.md"
+  scoring_rubric: "docs/SCORING_RUBRIC.md"
+  idea_card: "ideas/046/idea_card.json"
+  keystone_screen: "ideas/046/keystone_screen.md"
+  critique: "ideas/046/critique.md"
+  debate: "ideas/046/debate.md"
+  consensus: "ideas/046/consensus.md"
+  revision: "ideas/046/revision.md"
+  unblock_acknowledgment: "ideas/046/unblock_ack.txt"
+  decision_entries:
+    - "2026-09-01 - Idea 046 gauntlet + P0b: the unblock guard's first live test failed and is now closed"
+
+question: "Are the frozen per-case contribution and cumulative-share definitions algebraically coherent, uniquely computable, and numerically well-posed on the exact imported 99-case band-2/band-3 table, without yet revealing which cases dominate?"
+risky_assumption_tested: "The card assumes that c_i = (d_i,band3 - d_i,band2) / 99 forms an exact additive decomposition of the realized equal-patient band-gap estimator and that every frozen share/k summary has a finite, nonzero denominator and deterministic tie handling. The row census is already inspected true; this audit tests the remaining computational-definition risk, not the scientific concentration result."
+
+scope:
+  included: "One deterministic CPU-only validation pass over the frozen imported per_patient.csv. It verifies input identity and cohort structure, reconstructs the two band means and their gap, checks exact additive accounting within a prespecified floating-point tolerance, and audits whether the frozen summary definitions are well-posed."
+  excluded:
+    - "Writing case identifiers, contribution values, ranks, top-k shares, Lorenz coordinates, smallest-k results, or any other scientific outcome to an output artifact or log."
+    - "Classifying the pattern as diffuse, concentrated, carrier-driven, stable, biological, or clinically meaningful."
+    - "Reading phenotype files, reserved cases, raw images, voxel-level data, idea-023 phase_c_cache, or any input other than the frozen table and contract/approval metadata."
+    - "Any clinical comparison, model inference, resampling, uncertainty model, null distribution, threshold tuning, or alternative contribution definition."
+
+dataset:
+  name: "Imported idea-023 take-13 per-patient table"
+  source: "probes/023/results/results_v2/per_patient.csv"
+  frozen_inputs:
+    per_patient.csv: "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c"
+  required_columns: [case_id, stratum, d]
+
+split_policy: "Use only the already-open 99-case idea-023 census rows in strata 2 and 3. This is an exploratory validation audit, not a fresh confirmatory split. The 49 reserved cases remain untouched and must not appear in inputs, outputs, or logs."
+
+preprocessing:
+  row_gate: "Require the exact input SHA-256; exactly one finite d row for each case in stratum 2 and exactly one for the same case in stratum 3; identical case sets; exactly 99 cases; no duplicate key; and no other stratum admitted to the analysis table."
+  contribution: "For each joined case compute delta_i = d_i,band3 - d_i,band2 and c_i = delta_i / 99 in memory only. Do not round inputs or intermediate values."
+  ordering: "For audit purposes only, define descending signed order by delta_i then case_id ascending, and descending absolute order by abs(delta_i) then case_id ascending. This freezes deterministic tie handling but neither ordering nor identifiers may be emitted."
+
+analysis:
+  analysis_unit: "One case with its paired band-2 and band-3 d values."
+  primary_metric: "Absolute algebraic residual abs(sum_i(c_i) - (mean_i(d_i,band3) - mean_i(d_i,band2)))."
+  tolerance: "The primary residual must be <= 1e-12 using IEEE-754 double precision and a stable summation routine. The ordinary-summation residual is recorded only as a numerical diagnostic."
+  secondary_metrics:
+    - "Boolean finiteness and nonzero checks for the signed total gap, total positive delta mass, and total absolute delta mass."
+    - "Counts only (not identities or values) of positive, zero, and negative delta_i values."
+    - "Counts only of exact ties under signed delta_i and absolute delta_i, confirming that the frozen secondary case_id rule makes every ordering unique."
+    - "Boolean definability checks for signed cumulative contribution, absolute-contribution Lorenz coordinates, top-k summaries at k = 1, 5, 10, and 20, and smallest k reaching 50% and 80% of positive contribution."
+  no_result_exposure: "The audit may compute quantities needed for boolean/count checks in memory, but required outputs must not contain case_id, any d/delta/c value, any rank, any share, any curve coordinate, either band mean, or the band-gap value."
+
+primary_metric: "Absolute residual between the summed per-case contribution decomposition and the directly reconstructed equal-patient band-3-minus-band-2 mean gap."
+secondary_metrics:
+  - "Denominator and finiteness audit for every frozen descriptive summary."
+  - "Sign counts and tie counts only."
+  - "Boolean deterministic-order and summary-definability audit."
+
+baselines:
+  - "Structural expectation from direct inspection: 99 unique cases with one finite row in each of strata 2 and 3."
+  - "Mathematical identity: for N = 99, sum_i[(d_i,3 - d_i,2)/N] equals mean_i(d_i,3) - mean_i(d_i,2), up to the frozen floating-point tolerance."
+
+maximum_variants: 1
+maximum_gpu_minutes: 0
+maximum_seeds: 1
+randomness: "None. The seed allowance is unused."
+stopping_rule: "Stop immediately on an invalidating failure. Otherwise stop after the single frozen validation pass writes all required outputs. No scientific census, fallback definition, or follow-up variant is authorized. CPU wall time is capped at 5 minutes; exceeding it is invalid/incomplete, not a negative result."
+
+positive_pattern: "FEASIBLE_DEFINITION_AUDIT: the exact cohort gate passes; the primary residual is <= 1e-12; all required denominators are finite and nonzero; all requested summaries are mathematically defined; and deterministic ordering resolves every tie. This authorizes only drafting a separate scientific census contract after human review."
+negative_pattern: "DEFINITION_REVISION_REQUIRED: on the correctly identified frozen table, at least one requested summary is undefined because its denominator is zero/nonfinite or its stated rule is incomplete, while input/cohort integrity and the additive identity otherwise pass. This is a decisive feasibility negative for the current specification, not evidence about contribution dominance."
+
+invalidating_failures:
+  - "Authority failure: code or execution begins without fresh human approval binding this exact contract blob, or while human_approved remains false."
+  - "Input-identity failure: the table is missing, its SHA-256 differs, or a required column is absent."
+  - "Cohort failure: duplicate keys, nonfinite d, unequal band case sets, a count other than 99 paired cases, or any admitted row outside strata 2 and 3."
+  - "Algebra failure: the additive residual exceeds 1e-12. This indicates an implementation/definition defect and must not be reframed as a scientific negative."
+  - "Outcome-exposure failure: any prohibited case identifier, value, rank, share, curve coordinate, mean, or gap is persisted or logged."
+  - "Scope/leakage failure: phenotype, reserved-case, image, voxel-level, cache, or other non-frozen data are accessed."
+  - "Analysis deviation: any alternate formula, rounding, exclusion, resampling, randomness, threshold, tie rule, or additional variant is used."
+  - "Output/provenance failure: a required artifact, input hash, resolved configuration, environment record, or run log is missing."
+
+claim_discipline:
+  permitted:
+    - "The frozen contribution definitions are computationally feasible and algebraically coherent on the identified 99-case table, if the positive pattern passes."
+    - "The current summary specification requires revision because a named denominator or rule is undefined, if the negative pattern occurs."
+  prohibited:
+    - "Any statement about which cases dominate, how concentrated the estimator is, or whether a small set carries it."
+    - "Any stable-carrier, patient-subtype, population-diffuseness, biological, clinical, causal, predictive, or model-use claim."
+    - "Any generalization beyond this frozen table and estimator."
+
+required_outputs:
+  - resolved_config.json
+  - input_manifest.csv
+  - definition_audit.json
+  - summary.json
+  - environment.txt
+  - run_log.txt
+
+human_approved: false
+
+
+===== ideas/046/probe_review.md =====
+# Probe code review — idea 046, round 2
+
+Artifact under review: `probes/046/run.py` + `probes/046/requirements.txt`
+(commit "idea 046: probe code (round 2)"), judged against
+`ideas/046/probe_contract.yaml` (git blob
+`3996009bccfcfa939984fed051ee303a29a960a0`) and `ideas/046/feasibility.md`.
+The round-1 review (preserved in git at commit 8637cab) returned REVISE with
+two blocking findings, B1 and B2, and the explicit instruction that scope
+must not expand while fixing them.
+
+Review method: static, line-by-line, plus a full diff of round 1 → round 2
+(`git diff 12f22db 3b989a4 -- probes/046/`). This review environment cannot
+execute Python; `probes/046/verification.json` attests the round-2 smoke
+completed under 60 seconds with matching determinism manifests, status
+`SMOKE_ONLY`, and two new attestations (`smoke_residual_values_persisted`,
+`smoke_ordering_verdict_is_computed`), each verified statically against the
+code below. Independently re-verified in this round: the contract blob above
+equals both the pin in `ideas/046/HUMAN_APPROVED_PROBE` and the current
+`probe_contract.yaml` bytes; the frozen input's SHA-256 (`1d01551c...`)
+matches `run.py:47` and the contract pin; the input remains 298 lines
+(header + 297 rows). `ideas/046/contract_requirements.md` does not exist, so
+review criterion 5 (requirements conformance) remains not applicable.
+
+## Diff containment
+
+The round-2 change to claim-bearing code is confined to `run.py` (28 lines:
+`measure()` and `summarize_definitions()` signatures and bodies, plus the
+two call sites in `run()`) and the two new `verification.json` attestations.
+No gate, cap, cohort rule, exposure rule, output set, or status classifier
+changed. The scope-containment instruction was respected — including by
+*not* adopting the optional round-1 suggestions, which were non-blocking.
+
+## Resolution of round-1 blocking findings
+
+### B1 — RESOLVED: both residuals computed and persisted as numeric values
+
+`measure()` now computes `stable_residual` via `math.fsum` and
+`ordinary_residual` via naive built-in `sum` over the same contributions
+(`run.py:256-257`), asserts both finite (`run.py:258-259`), and
+`summarize_definitions()` records both numeric values in the audit dict
+(`run.py:292-293`), which is written verbatim to `definition_audit.json`
+(`run.py:373`). The primary metric's *value* — the contract's "absolute
+algebraic residual" — is now `stable_summation_residual` in a required
+output, and the ordinary-summation residual is labeled
+`ordinary_summation_residual_diagnostic_only` and plays no pass/fail role
+anywhere: the tolerance gate consumes only the stable residual
+(`run.py:294`, `run.py:346-347`), exactly as `analysis.tolerance` directs.
+
+Exposure check, repeated for the two new persisted numbers: both are
+rounding-scale magnitudes (relative error of summation, ~1e-16 of the gap
+scale) and appear on none of the `no_result_exposure` prohibitions
+(case_id, d/delta/c values, ranks, shares, curve coordinates, band means,
+band-gap). Round 1 pre-cleared recording them; confirmed safe as
+implemented.
+
+Interpretive note, recorded for the census-contract author rather than as a
+defect: both residuals share the fsum-based `direct_gap` reconstruction
+(`run.py:254-255`) and differ only in how the contribution decomposition is
+summed. That is a defensible reading of the tolerance clause — it isolates
+the summation-routine effect on the decomposition side, which is what the
+diagnostic is for — and the contract does not specify otherwise.
+
+### B2 — RESOLVED: both frozen orderings constructed; verdict measured, not asserted into existence
+
+`summarize_definitions()` now builds both contract-frozen order-key lists —
+`sorted((-delta, case_id))` for descending signed and
+`sorted((-abs(delta), case_id))` for descending absolute
+(`run.py:282-283`), matching `preprocessing.ordering` exactly (ascending
+sort on the negated primary key yields descending order with `case_id`
+ascending as tiebreak). Uniqueness is measured per ordering
+(`run.py:284-285`), the verdict derived (`run.py:286`), asserted
+(`run.py:290`), and emitted as the computed boolean
+`deterministic_secondary_case_id_rule_defined` (`run.py:298`) — the
+hardcoded `True` is gone. This is precisely the fix shape round 1
+specified.
+
+Pairing correctness verified: `measure()` builds `deltas` iterating
+`sorted(cases)` (`run.py:242-247`) and returns `sorted(cases)` as
+`case_ids` (`run.py:260`), so `zip(case_ids, deltas)` at `run.py:282-283`
+pairs each case with its own delta. Both lists live and die in memory; no
+identifier or rank reaches any artifact or log, per the in-code comment at
+`run.py:280-281`.
+
+## Non-blocking findings (round 2)
+
+1. **`assert deterministic_ordering` routes a hypothetical False to exit
+   12, not the negative pattern.** A tie the case_id rule failed to resolve
+   would arguably be the negative pattern's "stated rule is incomplete"
+   (→ `DEFINITION_REVISION_REQUIRED`), but the assert at `run.py:290` would
+   surface it as an unexpected fault instead. Unreachable in practice: the
+   cohort gate (`run.py:199-200`) guarantees unique case IDs, so every
+   `(-delta, case_id)` tuple is distinct regardless of delta values. The
+   behavior is fail-loud, never fail-silent, and matches the fix round 1
+   sanctioned; a `FEASIBLE_DEFINITION_AUDIT` status can only ever be
+   emitted with the verdict measured True. Recorded, not blocking.
+2. **Round-1 non-blocking findings 1-8 stand as recorded.** In particular:
+   the `human_approved: false` marker-convention reading (round-1 finding
+   1) remains on the record ahead of any run; `target_share_definable`
+   still keys every target to the global `summaries_defined` conjunction
+   (`run.py:300`) rather than per-summary booleans; the empty-input path
+   still exits 12; `run_log.txt` still omits the two manifest JSON lines;
+   the `rounded_signed`/`rounded_absolute` naming nit stands (they are hex
+   encodings, and `float.hex()` still distinguishes `-0.0` from `0.0` in
+   the tie *counts* — inconsequential, zero counts are reported
+   separately); smoke still cannot exercise the all-defined branch (8
+   synthetic cases leave `k = 20` undefinable). None of these blocks, and
+   leaving the optional ones unadopted was the correct application of the
+   no-scope-expansion instruction. They may be revisited, if ever, in the
+   separate census contract.
+
+## Standards checklist (each verified against round-2 code)
+
+1. **Determinism manifests: MET.** Start (`run.py:328-329`) and end
+   (`run.py:386-390`) manifests written and printed, compared for exact
+   equality with a named failure on divergence (`run.py:387-388`).
+2. **Exclusions log: MET.** Every dropped row logged with a reason
+   (`run.py:193`, `run.py:335`); totals in `summary.json` (`run.py:376`).
+3. **Assertion per transform: MET.** Load (`run.py:196, 208-209`), split
+   freeze (`run.py:232-233`), measurement (`run.py:239, 246, 251,
+   258-259`), summarization (`run.py:275, 289-290`), manifest
+   (`run.py:171`).
+4. **Declared state: MET.** Seed and paths are top-level constants or CLI
+   arguments (`run.py:40-53, 108-113`); no network; the `--input-csv`
+   override remains neutralized in real mode by the SHA-256 gate
+   (`run.py:326-327`). Determinism note: `direct_gap` iterates a set, but
+   `math.fsum` is order-independent, and the ordinary residual sums a
+   deterministically ordered list — outputs are hash-stable across runs.
+5. **Split-before-outcome: MET.** `split_manifest.csv` written and hashed
+   (`run.py:324`, `run.py:213-229`) before the input CSV is first opened
+   (`run.py:325`).
+6. **Harness smoke: MET** (statically; runtime attested by
+   `verification.json`). Synthetic input, authority sentinel that is not a
+   blob (`run.py:117-118`), forced `SMOKE_ONLY` (`run.py:352-353`) which
+   satisfies neither contractual pattern.
+
+## Contract-fidelity confirmations (unchanged from round 1, spot-re-verified)
+
+- Primary metric formula, stable summation, and 1e-12 tolerance match the
+  contract (`run.py:253-257, 346-347`); algebra failure exits 5 and is
+  never reframed as the negative pattern.
+- Cohort gate implements the full `row_gate`; caps respected (one variant,
+  zero GPU, one unused seed, single pass, 5-minute wall check at
+  `run.py:358-359`); required outputs all written (`run.py:370-384, 401`).
+- No-result-exposure discipline holds across every output, log line, and
+  failure message, including the two newly persisted residuals.
+- Claim discipline: the three status strings are exactly the contract's
+  two patterns plus `SMOKE_ONLY`; the plain-language templates
+  (`run.py:392-399`) claim drafting authorization only.
+
+## Verdict
+
+Both round-1 blocking findings are resolved exactly as specified, the fix
+diff contains nothing else, and every identity anchor (contract blob,
+approval marker, frozen input hash) re-verifies. The audit now records what
+it measures and measures what it certifies.
+
+```json
+{"verdict": "APPROVE", "blocking": [], "note": "B1 and B2 resolved as directed with no scope expansion: both residual values persisted in definition_audit.json (ordinary labeled diagnostic-only, no gate role) and both frozen orderings constructed with the tie-rule verdict measured rather than hardcoded."}
+```
+
+
 ===== ideas/046/revision.md =====
 # Revision — idea 046
 
@@ -3510,31 +4595,34 @@ This is a narrowing, consistent with the idea-045 precedent. The subject remains
 
 ===== ideas/046/state.json =====
 {
-  "approval": null,
+  "approval": {
+    "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
+    "stale": false
+  },
   "charter": null,
   "claim": "A pre-registered per-patient contribution census resolving whether the band-2/3 reversal is cohort-diffuse or subset-concentrated, plus an exploratory screen of whether contribution strata differ on bundle-derivable features and released clinical outcome scores.",
-  "contract_blob": null,
+  "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
   "corrections": null,
   "idea_id": "idea-046",
   "idea_no": "046",
   "kill_code": null,
   "materialization": {
-    "event_count": 5,
+    "event_count": 7,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "0577fbda96e4110bd86c6892725aa0930111b84dab2e635f665ddc05c0689da6",
+    "source_fingerprint_sha256": "17a9a6ce2cfbd57884450b602c8f9666960380a6dfcee6e56854b7aaa2497132",
     "sources": {
-      "approval_sha256": null,
-      "contract_blob": null,
+      "approval_sha256": "4450f17338502acf441e4b56e9db5796d36d531e51f322f8438f24d72be2ef0e",
+      "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
       "idea_card_sha256": "3c7ca4eba4fcb9b86144df81db0537652bc6ddb85c4d722cea056ea15aa6bb38",
-      "ledger_events_sha256": "fdb3f5eb82b1930f19719148bf71d20b8388f9814462d02ec3b958ff20a8f3ae",
+      "ledger_events_sha256": "0520763536b277a5fca5e423ef851e5441d8f25cb3e6515f7e63bfa2fbd63df8",
       "registry_sha256": null
     }
   },
   "pending_decisions": null,
   "registry": null,
   "schema_version": 1,
-  "scrutiny": "DEBATED",
-  "status": "SHORTLISTED",
+  "scrutiny": "PROBED",
+  "status": "ACTIVE",
   "title": "Who carries the band-2/3 reversal, and do the carriers differ clinically?"
 }
 

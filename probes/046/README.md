@@ -1,44 +1,30 @@
-# Probe 046 — contribution-definition audit
+# Probe 046 — finite-population contribution census
 
-This runner implements the human-approved `ideas/046/probe_contract.yaml`
-version 1. It performs one outcome-blind validation pass over the frozen
-idea-023 per-patient table. It checks the additive identity and whether every
-frozen descriptive definition is well-posed, but never writes case IDs,
-scientific values, ranks, shares, means, gaps, or curves.
+The current draft `ideas/046/probe_contract.yaml` is contract version 2. It
+specifies one deterministic, CPU-only census of the 99 observed case
+contributions to idea-023's realized band-3-minus-band-2 estimator.
 
-Run once from the repository root with a new empty output directory:
+Version 2 is a draft. It has not been human-approved and authorizes neither
+code changes nor execution. The existing `run.py`, `requirements.txt`,
+`verification.json`, and `results/results_v2/` belong to the completed,
+human-approved version 1 definition audit. They must not be modified or
+represented as version 2 outputs.
 
-```bash
-python probes/046/run.py --output-dir probes/046/results/results_v1
-```
+The proposed v2 run would emit:
 
-Run the inexpensive synthetic harness check with:
+- all 99 signed per-case contributions;
+- the complete signed cumulative contribution sequence;
+- the complete absolute-contribution Lorenz curve;
+- fixed top-k summaries for k = 1, 5, 10, and 20; and
+- the smallest positive-contribution prefixes reaching 50% and 80% of
+  observed positive mass.
 
-```bash
-python probes/046/run.py --smoke --output-dir /tmp/probe-046-smoke
-```
+The census deliberately defines no diffuse-versus-concentrated classifier,
+null model, confidence interval, or stable-carrier label. Every valid curve
+shape is reported as a finite-population description. It reads no phenotype
+file, reserved case, raw image, voxel array, or cache, and it supports no
+biological, clinical, causal, predictive, population, or model-use claim.
 
-Smoke is always `SMOKE_ONLY` and cannot satisfy a contract gate. The real
-runner can report only `FEASIBLE_DEFINITION_AUDIT` or
-`DEFINITION_REVISION_REQUIRED`. A feasible audit authorizes only drafting a
-separate scientific census contract; it says nothing about which cases
-dominate or how concentrated the estimator is.
-
-This directory is reserved for the validation-only probe specified by
-`ideas/046/probe_contract.yaml` version 1.
-
-The probe's sole purpose is to determine whether the frozen per-case
-contribution formula and requested cumulative summaries are algebraically
-coherent and numerically well-posed on the exact imported 99-case table. It is
-one deterministic, CPU-only variant with no randomness and a five-minute
-wall-time cap.
-
-The probe deliberately withholds the scientific result. It must not persist
-case identifiers, contribution values, ranks, shares, curve coordinates, band
-means, or the band-gap value. It does not run the proposed contribution census,
-read phenotype outcomes, access reserved cases, or support carrier, biological,
-clinical, causal, predictive, or model-use claims.
-
-The runner now exists under the human approval bound to the exact contract
-blob. This implementation does not itself authorize the later scientific
-census described by the idea card.
+If the v2 contract receives fresh human approval, probe code must be built and
+cross-family reviewed in a later stage before any execution. No v2 command
+exists yet.

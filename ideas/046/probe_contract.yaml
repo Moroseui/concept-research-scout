@@ -1,9 +1,9 @@
-# Probe contract v1 -- idea 046, outcome-blind contribution-definition audit.
-# Draft only. This does not authorize code changes, execution, or the ranked
-# contribution census proposed by the idea card.
+# Probe contract v2 -- idea 046, finite-population contribution census.
+# Draft only. This succeeds the completed v1 definition audit and does not
+# authorize code changes, execution, phenotype access, or clinical inference.
 
 idea_id: "idea-046"
-contract_version: 1
+contract_version: 2
 track: exploratory
 
 authorities:
@@ -11,25 +11,26 @@ authorities:
   collaborator_rules: "docs/COLLABORATOR_RULES.md"
   scoring_rubric: "docs/SCORING_RUBRIC.md"
   idea_card: "ideas/046/idea_card.json"
-  keystone_screen: "ideas/046/keystone_screen.md"
-  critique: "ideas/046/critique.md"
-  debate: "ideas/046/debate.md"
-  consensus: "ideas/046/consensus.md"
-  revision: "ideas/046/revision.md"
-  unblock_acknowledgment: "ideas/046/unblock_ack.txt"
+  feasibility: "ideas/046/feasibility.md"
+  prior_contract: "ideas/046/probe_contract.yaml v1 at git blob 3996009bccfcfa939984fed051ee303a29a960a0"
+  prior_result: "probes/046/results/results_v2/"
+  prior_interpretation: "ideas/046/interpretation.md"
+  prior_interpretation_review: "ideas/046/interpret_review.md"
+  prior_decision: "ideas/046/decision.md"
   decision_entries:
     - "2026-09-01 - Idea 046 gauntlet + P0b: the unblock guard's first live test failed and is now closed"
 
-question: "Are the frozen per-case contribution and cumulative-share definitions algebraically coherent, uniquely computable, and numerically well-posed on the exact imported 99-case band-2/band-3 table, without yet revealing which cases dominate?"
-risky_assumption_tested: "The card assumes that c_i = (d_i,band3 - d_i,band2) / 99 forms an exact additive decomposition of the realized equal-patient band-gap estimator and that every frozen share/k summary has a finite, nonzero denominator and deterministic tie handling. The row census is already inspected true; this audit tests the remaining computational-definition risk, not the scientific concentration result."
+question: "Which of the 99 observed cases contribute most to the realized equal-patient band-3-minus-band-2 mean contrast, and how is that realized contribution distributed across the census?"
+risky_assumption_tested: "After v1 established that the definitions are coherent and well-posed, the remaining uncertainty is empirical: whether the frozen estimator has a steep contribution head or broad numerical support. This contract measures that finite-population structure exactly; it does not test stable carrier status, population concentration, biology, or model use."
 
 scope:
-  included: "One deterministic CPU-only validation pass over the frozen imported per_patient.csv. It verifies input identity and cohort structure, reconstructs the two band means and their gap, checks exact additive accounting within a prespecified floating-point tolerance, and audits whether the frozen summary definitions are well-posed."
+  included: "One deterministic CPU-only census over the exact imported idea-023 per_patient.csv. It emits every observed case's signed contribution, frozen signed and absolute-contribution curves, fixed top-k summaries, and the smallest positive-contribution prefix reaching 50% and 80% of positive mass."
   excluded:
-    - "Writing case identifiers, contribution values, ranks, top-k shares, Lorenz coordinates, smallest-k results, or any other scientific outcome to an output artifact or log."
-    - "Classifying the pattern as diffuse, concentrated, carrier-driven, stable, biological, or clinically meaningful."
-    - "Reading phenotype files, reserved cases, raw images, voxel-level data, idea-023 phase_c_cache, or any input other than the frozen table and contract/approval metadata."
-    - "Any clinical comparison, model inference, resampling, uncertainty model, null distribution, threshold tuning, or alternative contribution definition."
+    - "Any binary diffuse-versus-concentrated classification, inferential threshold, null model, p-value, confidence interval, bootstrap, resampling, uncertainty model, or population generalization."
+    - "Any phenotype or clinical-outcome read, clinical comparison, rank-group comparison, subgroup, covariate analysis, or opportunistic secondary analysis."
+    - "The 49 reserved cases, band 1, raw images, voxel-level data, idea-023 phase_c_cache, or any input other than the frozen table and authority metadata."
+    - "Any model inference, perturbation, biological mechanism, causal claim, predictive claim, clinical-utility claim, or stable-carrier label."
+    - "Any alternative contribution formula, rank cutoff, top-k value, share target, curve definition, exclusion, or result-dependent analysis."
 
 dataset:
   name: "Imported idea-023 take-13 per-patient table"
@@ -38,67 +39,83 @@ dataset:
     per_patient.csv: "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c"
   required_columns: [case_id, stratum, d]
 
-split_policy: "Use only the already-open 99-case idea-023 census rows in strata 2 and 3. This is an exploratory validation audit, not a fresh confirmatory split. The 49 reserved cases remain untouched and must not appear in inputs, outputs, or logs."
+split_policy: "Use only the already-open 99-case idea-023 census rows in strata 2 and 3. This is exploratory reuse of opened outcomes, not a fresh confirmatory split. Freeze an anonymous split manifest before opening the input. The 49 reserved cases must remain untouched and absent from all inputs and outputs."
 
 preprocessing:
-  row_gate: "Require the exact input SHA-256; exactly one finite d row for each case in stratum 2 and exactly one for the same case in stratum 3; identical case sets; exactly 99 cases; no duplicate key; and no other stratum admitted to the analysis table."
-  contribution: "For each joined case compute delta_i = d_i,band3 - d_i,band2 and c_i = delta_i / 99 in memory only. Do not round inputs or intermediate values."
-  ordering: "For audit purposes only, define descending signed order by delta_i then case_id ascending, and descending absolute order by abs(delta_i) then case_id ascending. This freezes deterministic tie handling but neither ordering nor identifiers may be emitted."
+  row_gate: "Require the exact input SHA-256; exactly one finite d row for every case in stratum 2 and exactly one for the identical case set in stratum 3; exactly 99 paired cases; unique case-by-stratum keys; and no admitted row outside strata 2 and 3."
+  contribution: "For each case i compute delta_i = d_i,band3 - d_i,band2 and c_i = delta_i / 99 using unrounded IEEE-754 double values. The primary signed contribution is c_i; delta_i may be emitted only as an explicitly redundant audit field."
+  signed_order: "Sort cases by c_i descending, then case_id ascending. Define signed_cumulative_j = stable_sum(c_1...c_j), and signed_fraction_of_net_j = signed_cumulative_j / stable_sum(c_1...c_99). The signed fraction may exceed [0,1] because positive and negative contributions can cancel; it must not be called a Lorenz curve."
+  absolute_order: "Sort cases by abs(c_i) ascending, then case_id ascending. Define absolute_lorenz_population_j = j/99 and absolute_lorenz_share_j = stable_sum(abs(c_1)...abs(c_j)) / stable_sum(abs(c_1)...abs(c_99)). This is the frozen absolute-contribution Lorenz curve."
+  positive_order: "Restrict to c_i > 0 and sort by c_i descending, then case_id ascending. Define positive_mass_share_j = stable_sum(c_1...c_j) / stable_sum(all positive c_i). Cases with c_i = 0 are displayed in the per-case table but excluded from positive-mass prefixes."
 
 analysis:
-  analysis_unit: "One case with its paired band-2 and band-3 d values."
-  primary_metric: "Absolute algebraic residual abs(sum_i(c_i) - (mean_i(d_i,band3) - mean_i(d_i,band2)))."
-  tolerance: "The primary residual must be <= 1e-12 using IEEE-754 double precision and a stable summation routine. The ordinary-summation residual is recorded only as a numerical diagnostic."
+  analysis_unit: "One observed case with its paired band-2 and band-3 d values."
+  primary_metric: "The complete ordered per-case signed contribution table and the signed cumulative contribution sequence, which exactly account for the realized equal-patient band-3-minus-band-2 estimator."
   secondary_metrics:
-    - "Boolean finiteness and nonzero checks for the signed total gap, total positive delta mass, and total absolute delta mass."
-    - "Counts only (not identities or values) of positive, zero, and negative delta_i values."
-    - "Counts only of exact ties under signed delta_i and absolute delta_i, confirming that the frozen secondary case_id rule makes every ordering unique."
-    - "Boolean definability checks for signed cumulative contribution, absolute-contribution Lorenz coordinates, top-k summaries at k = 1, 5, 10, and 20, and smallest k reaching 50% and 80% of positive contribution."
-  no_result_exposure: "The audit may compute quantities needed for boolean/count checks in memory, but required outputs must not contain case_id, any d/delta/c value, any rank, any share, any curve coordinate, either band mean, or the band-gap value."
+    - "Absolute-contribution Lorenz coordinates at every j from 0 through 99, including explicit endpoints (0,0) and (1,1)."
+    - "Top-k signed-head net-gap share for k = 1, 5, 10, and 20: stable_sum of the k largest signed c_i divided by the stable net contribution."
+    - "Top-k absolute-mass share for k = 1, 5, 10, and 20: stable_sum of the k largest abs(c_i) divided by total absolute contribution mass."
+    - "Smallest positive-contribution prefix k whose positive_mass_share is at least 0.50 and at least 0.80, with the exact achieved share at each crossing."
+    - "Counts of positive, zero, and negative contributions and exact-tie counts under signed and absolute primary keys."
+    - "Additive-identity residual, denominator checks, cohort counts, and deterministic-order checks repeated as execution guards and compared with the completed v1 audit."
+  interpretation_rule: "Report the entire realized distribution without assigning a binary label. A steep or shallow head is described only through the frozen numerical summaries. No post hoc cutoff may convert those summaries into diffuse, concentrated, carrier-driven, or subtype language."
 
-primary_metric: "Absolute residual between the summed per-case contribution decomposition and the directly reconstructed equal-patient band-3-minus-band-2 mean gap."
+primary_metric: "Complete finite-population accounting of the 99 signed per-case contributions to the realized band-3-minus-band-2 equal-patient mean contrast."
 secondary_metrics:
-  - "Denominator and finiteness audit for every frozen descriptive summary."
-  - "Sign counts and tie counts only."
-  - "Boolean deterministic-order and summary-definability audit."
+  - "Signed cumulative contribution sequence and fixed top-k net-gap shares."
+  - "Absolute-contribution Lorenz curve and fixed top-k absolute-mass shares."
+  - "Positive-mass 50% and 80% prefix crossing counts."
 
 baselines:
-  - "Structural expectation from direct inspection: 99 unique cases with one finite row in each of strata 2 and 3."
-  - "Mathematical identity: for N = 99, sum_i[(d_i,3 - d_i,2)/N] equals mean_i(d_i,3) - mean_i(d_i,2), up to the frozen floating-point tolerance."
+  - "Completed v1 definition audit: additive residual 6.938893903907228e-18 against tolerance 1e-12; all denominators and frozen summaries defined; 99 paired cases; deterministic orderings; sign counts 54 positive, 6 zero, 39 negative. These values are lineage guards, not scientific comparators."
+  - "Direct algebraic reconstruction: stable_sum(c_i) must equal mean(d_band3) minus mean(d_band2) within 1e-12. A mismatch is invalidating, never a scientific result."
 
 maximum_variants: 1
 maximum_gpu_minutes: 0
 maximum_seeds: 1
 randomness: "None. The seed allowance is unused."
-stopping_rule: "Stop immediately on an invalidating failure. Otherwise stop after the single frozen validation pass writes all required outputs. No scientific census, fallback definition, or follow-up variant is authorized. CPU wall time is capped at 5 minutes; exceeding it is invalid/incomplete, not a negative result."
+stopping_rule: "Stop immediately on an invalidating failure. Otherwise stop after the single frozen census writes every required output. CPU wall time is capped at 5 minutes; exceeding the cap is incomplete and invalid, not a negative. No fallback, secondary clinical analysis, or additional variant is authorized."
 
-positive_pattern: "FEASIBLE_DEFINITION_AUDIT: the exact cohort gate passes; the primary residual is <= 1e-12; all required denominators are finite and nonzero; all requested summaries are mathematically defined; and deterministic ordering resolves every tie. This authorizes only drafting a separate scientific census contract after human review."
-negative_pattern: "DEFINITION_REVISION_REQUIRED: on the correctly identified frozen table, at least one requested summary is undefined because its denominator is zero/nonfinite or its stated rule is incomplete, while input/cohort integrity and the additive identity otherwise pass. This is a decisive feasibility negative for the current specification, not evidence about contribution dominance."
+positive_pattern: "CENSUS_COMPLETE: all identity, cohort, algebra, denominator, ordering, exposure-scope, and output gates pass and the complete frozen census is emitted. This is a successful descriptive result regardless of curve shape; it carries no directional or binary scientific label."
+negative_pattern: "NO DIRECTIONAL NEGATIVE IS DEFINED. A shallow head may decisively rule out dominance by a few observed cases only to the extent directly shown by the reported fixed top-k shares for this realized estimator; it is not a null-hypothesis result and cannot establish stable or population-level diffuseness. Undefined summaries, mismatched identities, or incomplete outputs are invalidating failures, not negative findings."
 
 invalidating_failures:
-  - "Authority failure: code or execution begins without fresh human approval binding this exact contract blob, or while human_approved remains false."
+  - "Authority failure: code or execution begins without fresh human approval binding this exact v2 contract blob, or while human_approved remains false."
   - "Input-identity failure: the table is missing, its SHA-256 differs, or a required column is absent."
   - "Cohort failure: duplicate keys, nonfinite d, unequal band case sets, a count other than 99 paired cases, or any admitted row outside strata 2 and 3."
-  - "Algebra failure: the additive residual exceeds 1e-12. This indicates an implementation/definition defect and must not be reframed as a scientific negative."
-  - "Outcome-exposure failure: any prohibited case identifier, value, rank, share, curve coordinate, mean, or gap is persisted or logged."
-  - "Scope/leakage failure: phenotype, reserved-case, image, voxel-level, cache, or other non-frozen data are accessed."
-  - "Analysis deviation: any alternate formula, rounding, exclusion, resampling, randomness, threshold, tie rule, or additional variant is used."
-  - "Output/provenance failure: a required artifact, input hash, resolved configuration, environment record, or run log is missing."
+  - "Lineage failure: the v1 bundle or interpretation is modified, overwritten, or represented as a v2 output; or the repeated v1 guard values disagree without a named implementation explanation."
+  - "Algebra/definition failure: additive residual exceeds 1e-12; a required denominator is zero or nonfinite; an ordering is non-unique after the case_id rule; a curve endpoint or monotonicity invariant fails; or a frozen top-k/target summary is undefined."
+  - "Scope/leakage failure: phenotype, clinical outcomes, reserved cases, raw images, voxel data, caches, or any non-frozen scientific input is accessed."
+  - "Analysis deviation: any unauthorized formula, rounding, exclusion, threshold, resampling, randomness, rank cutoff, share target, curve definition, or variant is used."
+  - "Selective-output failure: any of the 99 analyzed cases, any frozen curve coordinate, or any frozen k/target summary is omitted, suppressed, or filtered."
+  - "Output/provenance failure: a required artifact, input hash, resolved configuration, environment record, determinism manifest, exclusion record, or run log is missing."
 
 claim_discipline:
   permitted:
-    - "The frozen contribution definitions are computationally feasible and algebraically coherent on the identified 99-case table, if the positive pattern passes."
-    - "The current summary specification requires revision because a named denominator or rule is undefined, if the negative pattern occurs."
+    - "Name the observed cases and exact contributions that numerically account for the realized estimator, and report the frozen descriptive summaries."
+    - "State that no small observed set dominates the realized estimator only by naming the prespecified k and its observed share; do not convert this into a population claim."
+    - "State that a named observed set accounts for a reported share of this realized estimator; do not call its members stable carriers."
   prohibited:
-    - "Any statement about which cases dominate, how concentrated the estimator is, or whether a small set carries it."
-    - "Any stable-carrier, patient-subtype, population-diffuseness, biological, clinical, causal, predictive, or model-use claim."
-    - "Any generalization beyond this frozen table and estimator."
+    - "Calling any case a stable carrier, biological subtype, clinically distinct group, or repeatable high-contribution patient."
+    - "Classifying the cohort or population as diffuse versus concentrated."
+    - "Inferring patient-level uncertainty from voxel counts or from resampling one realized lesion field."
+    - "Claiming model use, biological mechanism, causation, prediction, treatment response, or clinical utility."
+    - "Generalizing beyond these 99 observed cases, this frozen estimator, or this exact input table."
+    - "Reading clinical meaning into rank without the separately approved, deficit-size-aware clinical analysis."
 
 required_outputs:
   - resolved_config.json
   - input_manifest.csv
-  - definition_audit.json
+  - split_manifest.json
+  - exclusions.csv
+  - per_case_contributions.csv
+  - signed_cumulative_curve.csv
+  - absolute_lorenz_curve.csv
+  - positive_mass_curve.csv
+  - census_summary.json
   - summary.json
+  - determinism_manifest_start.json
+  - determinism_manifest_end.json
   - environment.txt
   - run_log.txt
 
