@@ -494,3 +494,4 @@
 {"ledger_id": "idea-046", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-09-01T07:59:27+00:00"}
 {"ledger_id": "idea-046", "status": "SHORTLISTED", "notes": "debate: The human must rule whether replacing the binary diffuse-versus-carrier verdict with a finite-population descriptive contribution census preserves idea 046's claim identity.", "card_synced": false, "recorded_at": "2026-09-01T07:59:27+00:00"}
 {"ledger_id": "idea-046", "card_synced": true, "notes": "card revised to debate-converged state", "claim_retention": "narrowed", "recorded_at": "2026-09-01T08:06:02+00:00"}
+{"ledger_id": "idea-046", "scrutiny": "PROBED", "notes": "validated bundle results_v2, phase None, contract 3996009bccfc", "recorded_at": "2026-09-01T22:15:39+00:00"}

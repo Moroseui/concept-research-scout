@@ -1,28 +1,31 @@
 {
-  "approval": null,
+  "approval": {
+    "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
+    "stale": false
+  },
   "charter": null,
   "claim": "A pre-registered per-patient contribution census resolving whether the band-2/3 reversal is cohort-diffuse or subset-concentrated, plus an exploratory screen of whether contribution strata differ on bundle-derivable features and released clinical outcome scores.",
-  "contract_blob": null,
+  "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
   "corrections": null,
   "idea_id": "idea-046",
   "idea_no": "046",
   "kill_code": null,
   "materialization": {
-    "event_count": 5,
+    "event_count": 6,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "0577fbda96e4110bd86c6892725aa0930111b84dab2e635f665ddc05c0689da6",
+    "source_fingerprint_sha256": "f2eb312538417dbda37ee0d7815612287052489486c6be93860c39f7868f6879",
     "sources": {
-      "approval_sha256": null,
-      "contract_blob": null,
+      "approval_sha256": "4450f17338502acf441e4b56e9db5796d36d531e51f322f8438f24d72be2ef0e",
+      "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
       "idea_card_sha256": "3c7ca4eba4fcb9b86144df81db0537652bc6ddb85c4d722cea056ea15aa6bb38",
-      "ledger_events_sha256": "fdb3f5eb82b1930f19719148bf71d20b8388f9814462d02ec3b958ff20a8f3ae",
+      "ledger_events_sha256": "3f92db925bbb174bb233a0894595ebd8f20b2788034840091e013a34db5f04e5",
       "registry_sha256": null
     }
   },
   "pending_decisions": null,
   "registry": null,
   "schema_version": 1,
-  "scrutiny": "DEBATED",
+  "scrutiny": "PROBED",
   "status": "SHORTLISTED",
   "title": "Who carries the band-2/3 reversal, and do the carriers differ clinically?"
 }
