@@ -1642,3 +1642,37 @@ at the next batch. Tuesday night is a patch freeze ahead of the
 Wednesday advisor meeting. Gates: 194/194 both runners (also green on
 the pristine-applied tree); state-verify 44/44; patch git-identical
 against pristine origin/main.
+
+## 2026-08-30 - R5c landed: reviewed confer with role rotation + enforced docs
+
+Operator directions, adopted verbatim. (1) The adversarial two-model
+pattern is the accuracy mechanism, so confer answers do not run
+unopposed: a second, opposing-family leg reviews five meat-level
+properties -- thesis correctness against the evidence, OVERVIEW
+fidelity (simplification must never become distortion; over- and
+under-statement are findings), citation resolution, premise-check
+appropriateness, claim bounds -- returning CONCUR or CONTEST; CONTEST
+triggers ONE bounded revision, a second CONTEST stops for the
+operator. (2) Clarity leads: the draft leg's trusted block mandates a
+plain-language ## OVERVIEW any reader can understand -- carrying no
+claim the ## DETAILS below do not support -- before the cited
+reasoning; the reviewer deliberates on the OVERARCHING answer, not
+line-by-line prose. (3) Diversity: the families SWAP roles across
+exchanges (exchange 1 drafts with pair[0] and reviews with pair[1];
+exchange 2 swaps; explicit roles.confer/confer_review override), so
+neither family owns drafting or reviewing; cross-family holds in every
+exchange, and the codex credential-freshness rule now applies to every
+confer dispatch. Every leg committed and receipted; the final answer
+carries the reviewer's verdict in-tree.
+
+Documentation becomes state, not intention: README.md gains a complete
+Operator Command Reference (all 35 CLI subcommands indexed; detailed
+entries for confer, card-materialize, ratify-interpretation,
+transactional record-result, interpret-build --resume-review; a phone-
+surfaces section with the credential rule), and TestDocsHygiene fails
+CI whenever any registered subcommand is missing from the README.
+Driving framework gains rule 5: patches touching the operator surface
+update the command reference in the same patch. Gates: 197/197 both
+runners (green again on the pristine-applied tree, including the
+family-swap and docs-coverage regressions); state-verify 44/44; patch
+git-identical against pristine origin/main.
