@@ -13,7 +13,7 @@
   "materialization": {
     "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "bf9309fb79f8b3cc8ca64a22fbe0399845e14b2ef6d41856f83ef756e2f612db",
+    "source_fingerprint_sha256": "26e2a04410dc68e53304f43acafc84de619ca6e3efa028dd06a562d2ec2de790",
     "sources": {
       "approval_sha256": "325703c888df79f90ec21e88c962b7bb5893b21e14c43f92633df27b7e1d9624",
       "contract_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
@@ -22,16 +22,16 @@
       "registry_result_inputs": {
         "phase_c": {
           "artifacts": {
-            "phase_s/simulation_operating_characteristics.csv": null
+            "phase_s/simulation_operating_characteristics.csv": "59069fa92399cd5c600c89e0d66bb4c7c12679e14f12824b54ae0ce6a6061ef4"
           },
           "provenance_sha256": "a24703cf3800fc63943bea5ae5b6e306847eb76a5458d11e9b60fce7a72d2ca8",
           "resolved_config_sha256": "56e7614c285c1d3557f2aa7e4884de64529245b319b736718dba07740d527580",
           "summary_sha256": "71418b78caa5a853917b131777ad6fa37f1c1f9c2242d5f1e4fc586fcc8ebfbb"
         },
         "phase_s": {
-          "provenance_sha256": null,
-          "resolved_config_sha256": null,
-          "summary_sha256": null
+          "provenance_sha256": "dc6ab53cef87ca8cf052734091e363801dc372c621d50edbef0903e85864e9ff",
+          "resolved_config_sha256": "0ca5217d69ad4eab2bbd9b2bec568c57d08e07eea9a99076e194c213c8abe373",
+          "summary_sha256": "f211ed3a038782fe4f9c654850ebc56266da43eea203493814b8b5eca4514675"
         }
       },
       "registry_sha256": "55efd3b8eae02f2cd08bffbf1dd58ba4a30ab973995993a8fc30695474a46937"
@@ -42,7 +42,7 @@
     "approval_bound": false,
     "file_sha256": "55efd3b8eae02f2cd08bffbf1dd58ba4a30ab973995993a8fc30695474a46937",
     "nodes": {
-      "phase_c": "STALE",
+      "phase_c": "COMPLETE",
       "phase_s": "STALE"
     }
   },
