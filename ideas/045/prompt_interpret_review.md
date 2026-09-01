@@ -3325,8 +3325,8 @@ the next approval gate.
    analysis began.
 4. **Kill conditions approached.** None fired. The tightest passed margin
    was the v2-added per-deletion leverage gate: deleting sub-stroke0147
-   raises the maximum leverage to 0.18137690505955997, about 91% of the
-   0.20 bound [cite: design_diagnostics.json |
+   raises the maximum leverage to 0.18137690505955997 against the frozen
+   ≤ 0.20 bound [cite: design_diagnostics.json |
    leave_one_patient_out_maximum_leverage_max | value]; every other
    diagnostic passed with wide slack. This is a valid pre-registered
    positive, not a near-miss reinterpreted as one.
@@ -3703,100 +3703,109 @@ planned model before any outcome value is looked at.
 
 
 ===== ideas/045/interpret_review.md =====
-# Interpretation review — idea 045, probe contract v1
+# Interpretation review — idea 045, probe contract v2
 
 ## 1. Citations resolve
 
-I resolved every citation in `interpretation.md` against
-`probes/045/results/results_v2/` and the adjacent import receipt.
+I resolved the interpretation's citations against
+`probes/045/results/results_v3/`, the explicitly cited historical v1 bundle,
+the import receipt, the approval marker, and the governing contract.
 
-- `results_v2.import.json`: the import manifest SHA-256 is
-  `004253540bab61d3b71714bcab06ea4304d1bbd0f1c1b12418f67dbf20e1bcd1`
+- `results_v3.import.json`: `manifest_sha256` is
+  `1e104c8b620b946ffe2d58be328067c2a9b786d0096a74736ed6676958baeed1`
   and `file_count` is 12.
 - `resolved_config.json`: `contract_blob` is
-  `e7071541036a17f4a02ec264693209fec5c1337d`; `seed` is 0; and
-  `network_calls` is 0.
-- `input_manifest.csv`: the two input hashes are
+  `5615afea1e2f8309745a2d6558bd9118e5e9f1f3`, `contract_version` is 2,
+  `seed` and `network_calls` are 0, `smoke` is false, and `output_dir` is
+  `/tmp/p45v2/results_v3`. The contract blob matches both the live contract's
+  recomputed git blob and `HUMAN_APPROVED_PROBE`; the marker timestamp is
+  2026-09-01T05:36:24.184335+00:00.
+- `input_manifest.csv`: the audit and key-table hashes are respectively
   `35e896dfe2a5275a9fa8077e990dff96e72ce1ec0e5048079653556e1c7e2cd2`
   and `1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c`;
-  total/selected row counts are 594/396 and 297/198.
-- `summary.json`: status is `NEGATIVE_PATTERN`;
-  `contractual_gate_satisfied` is false; `outcome_values_read` and
-  `reserved_cases_accessed` are both 0; `smoke` is false; and the bundle
-  reports 99 unique cases, 198 analysis rows, 297 excluded input rows, and
-  2 exclusion records.
-- `split_manifest.json`: `created_before_outcome_file_open` is true and the
-  split SHA-256 is
+  their total/selected counts are 594/396 and 297/198.
+- `summary.json`: status is `POSITIVE_PATTERN` and
+  `contractual_gate_satisfied` is true; analysis rows are 198, unique cases
+  are 99, exclusion rows/records are 297/2, and outcome values read,
+  reserved cases accessed, and smoke are 0, 0, and false.
+- `split_manifest.json`: the split has 198 rows and 99 cases,
+  `created_before_outcome_file_open` is true, and its SHA-256 is
   `6446ad66fc9c5548e4a8ade415d2ec74291798e9da08c62c2fc0389461a96853`.
-- `exclusions.csv`: the two aggregate rows report 198 and 99 exclusions,
-  both for `non_primary_band`, totaling 297.
-- `run_log.txt`: phase 1 records `Variant 1/1` and seed 0; the final line
-  states that the start and end determinism manifests agree exactly.
-- `design_diagnostics.json`: rank is 4; condition number is
-  38.889769743817595; the four singular values are transcribed exactly;
-  band 2 has 99 cases, 17 distinct values, IQR 2.0, quartiles -2.0/0.0,
-  and range -16.0 to 18.0; band 3 has 99 cases, 26 distinct values, IQR
-  6.0, and range -28.0 to 14.0. Maximum leverage is
-  0.26358236965333054; the top-ten rows span 9 patients; pooled imbalance
-  mean is -0.15909079349402225; all leave-one-patient-out ranks are 4; and
-  leave-one-patient-out condition numbers range from 35.731034847011095
-  for `sub-stroke0109` to 43.82447067610057 for `sub-stroke0183`.
-- `per_row_design.csv`: `sub-stroke0183`, band 2 has Q1/Q4 medians
-  23.0/5.0, imbalance 18.0, and leverage 0.26358236965333054.
+  The explicitly cited v1 `split_manifest.json` carries the same hash.
+- `exclusions.csv`: its two rows contain 198 audit exclusions and 99 key
+  exclusions, both for `non_primary_band`, totaling 297.
+- `run_log.txt`: phase 1 says `Variant 1/1` and seed 0; the final phase-4
+  line says the start/end determinism manifests agree exactly.
+- `design_diagnostics.json`: all ten named gates are true; rank is 3;
+  condition number is 20.222895326167112; singular values are
+  14.089047615314039, 1.0066594185504498, and 0.6966879563028607; maximum
+  leverage is 0.15486441040641785; pooled support is n=198, 29 distinct,
+  IQR 4.0, range -28.0 to 18.0; band 2 is n=99, 17 distinct, IQR 2.0,
+  q25/q75 -2.0/0.0; band 3 is n=99, 26 distinct, IQR 6.0, q25/q75
+  -2.0/4.0; the top ten leverage rows span 9 patients; pooled imbalance
+  mean is -0.15909079349402225. All 99 leave-one-patient-out entries have
+  rank 3; the condition range is 20.042406826639716 (sub-stroke0094) to
+  20.325983967379745 (sub-stroke0147), and the maximum-leverage range is
+  0.154871023519075 to 0.18137690505955997, with the maximum after deleting
+  sub-stroke0147.
+- `per_row_design.csv`: sub-stroke0109 band 3 has Q1/Q4 medians 30.0/58.0,
+  imbalance -28.0, and leverage 0.15486441040641785; sub-stroke0183 band 2
+  has imbalance 18.0 and leverage 0.07314570734779892; sub-stroke0147 band
+  3 has imbalance -27.0.
+- Historical `results_v2/design_diagnostics.json`: condition number is
+  38.889769743817595 and maximum leverage is 0.26358236965333054.
 
-All cited quantitative statements are transcription-exact to their stated
-precision. The round-1 blockers are resolved: the import file count now has
-a source, the interpretation enumerates gate names rather than introducing
-uncited gate counts, and the uncited intercept-norm calculation was removed.
+All cited file values are transcription-exact. The blocking problem is not
+a mistranscription: two additional percentages are calculated in the prose
+rather than reported by an analysis artifact.
 
 ## 2. Claim bounds
 
-The interpretation remains inside the approved outcome-blind feasibility
-estimand. It uses the contract's frozen thresholds only for the design audit
-and repeatedly prohibits inference about the HU-imbalance/outcome
-association, tissue composition, viability, or model use. Tier-2,
-vendor-scope, anchor-exclusion, and baseline-floor constraints are not
-applicable to this probe. Deterministic uncertainty is handled correctly:
-no seed-level uncertainty is claimed, and the complete single-patient
-deletion sweep is used only as case-level sensitivity evidence.
+The interpretation stays within the outcome-blind design-feasibility
+estimand, uses the contract's frozen thresholds only for its primary
+feasibility gates, and repeatedly excludes association, tissue-composition,
+viability, and model-use claims. Tier-2, vendor, and anchor-exclusion rules
+are not applicable to this probe. The deterministic uncertainty constraint
+is handled correctly with the complete case-level leave-one-patient-out
+sweep rather than seed-level uncertainty.
 
-The revised `Suggests` section correctly limits the exclusion conclusion to
-what was tested: no single-patient deletion, including deletion of the
-maximum-leverage patient, restores the frozen conditioning gate. It
-explicitly leaves multi-case exclusion untested. The earlier unsupported
-integer-quantization characterization is also gone; the text now reports
-only the bundle's distinct-value count and IQR.
+One issue is blocking under the explicit no-new-aggregation rule: the
+`Suggests` section says the maximum-leverage row is “still 23% below the
+bound” and the deletion maximum is “about 91% of the 0.20 bound.” Neither
+percentage is present in the cited analysis files. Remove those percentage
+calculations and report only the already-cited raw leverage values and frozen
+0.20 bound. The same uncited 91% calculation also appears in `decision.md`,
+but this review's permitted revision target is `interpretation.md` only.
 
 ## 3. Completeness without cherry-picking
 
-I checked all nine gate booleans, both complete band-support summaries, all
-99 leave-one-patient-out entries, the maximum-leverage row, and the
-top-ten-patient count. The interpretation includes every material
-complication: the matrix remains rank 4; band 3 passes distinct-value
-support while band 2 fails; both bands have nonzero IQR; the highest-leverage
-rows are not confined to fewer than five patients; and every
-single-patient deletion preserves rank while failing the condition-number
-bound. No table feature contradicting the stated feasibility verdict is
-omitted.
+I checked all ten gate booleans, both complete band-support summaries, pooled
+support, all 99 leave-one-patient-out records, the full leverage extrema, the
+top-ten patient count, the cited extreme rows, and the v1 headline
+diagnostics. No omitted stratum or deletion contradicts the valid feasibility
+pass. The interpretation appropriately carries forward the principal
+complication: band 2 still has only 17 distinct imbalance values and IQR 2.0,
+and the pooled rule tolerates rather than repairs that band-specific
+compression.
 
 ## 4. Verdict separation
 
-`Demonstrates`, `Suggests`, and `Does not establish` are used consistently.
-The deterministic gate results and complete single-patient sensitivity
-sweep appear as demonstrations; possible respecifications and explanations
-of the diagnostic geometry remain suggestions; and the scientific
-association, tissue-composition explanation, measurement validity, and
-model-use claims are expressly withheld. No exploratory result is upgraded
-to a confirmatory scientific finding.
+`Demonstrates`, `Suggests`, and `Does not establish` are otherwise separated
+correctly. Exact gate outputs and the exhaustive deletion sweep are treated
+as demonstrations; explanations of why v1 failed and how the reduced design
+absorbs extreme rows remain suggestions; scientific association, measurement
+validity, and model-use conclusions are expressly withheld. `ADVANCE` is
+limited to drafting a separately approved outcome-analysis contract, exactly
+as the governing contract permits.
 
 ## 5. Plain-language fidelity
 
 There is no separate plain-language summary section. The opening bottom line
-is a faithful restatement of the contract-scoped feasibility verdict and
-does not turn it into a result about tissue composition or final infarction.
+is a faithful contract-scoped feasibility statement and does not upgrade the
+result into a tissue-composition or final-infarct finding.
 
 ```json
-{"verdict": "APPROVE"}
+{"verdict": "REVISE", "blocking": ["Remove the two prose-only leverage percentages ('23% below the bound' and 'about 91% of the 0.20 bound'); they are new aggregations absent from the analysis files. Retain the cited raw leverage values and frozen bound instead."]}
 ```
 
 
@@ -3963,12 +3972,12 @@ step mine.
    +18.0) now carries leverage 0.07314570734779892
    [cite: per_row_design.csv | case_id=sub-stroke0183, stratum=2 |
    leverage]; the new maximum sits on the most negative imbalance row
-   (sub-stroke0109, band 3, −28.0) at 0.15486441040641785, still 23%
-   below the bound. The tightest margin anywhere in the audit is the
+   (sub-stroke0109, band 3, −28.0) at 0.15486441040641785, inside the
+   frozen ≤ 0.20 bound. The tightest margin anywhere in the audit is the
    per-deletion leverage maximum 0.18137690505955997 (deleting
    sub-stroke0147, whose own band-3 imbalance is −27.0
    [cite: per_row_design.csv | case_id=sub-stroke0147, stratum=3 |
-   hu_imbalance]) — about 91% of the 0.20 bound. A passed gate, but the
+   hu_imbalance]) against the frozen ≤ 0.20 bound. A passed gate, but the
    outcome-analysis designer should know the influence budget is least
    slack there.
 
