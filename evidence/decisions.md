@@ -1822,3 +1822,59 @@ OPERATOR ACTION PER THE RATIFIED FORK: fund the platform API balance
 the production 023 registry and its ratification, the first live
 exercise of the registry substrate. Tuesday night remains the patch
 freeze before the Wednesday advisor meeting.
+
+## 2026-09-01 - R3b landed: the production 023 registry and its ratification
+
+The registry substrate carries real science for the first time.
+ideas/023/registry.yaml declares the two-node DAG: phase_s pinned to
+its historical contract 0e223c82f9eb..., phase_c to the current
+03d4545fe293..., joined by an all_of edge, a BINDING artifact
+dependency on the Phase-S operating-characteristics csv at its exact
+sha (59069fa9...), and the launcher upstream_bundle plumbing bound to
+that edge. Governance rows gain the round-7/8 IMPORT BINDINGS: a
+closed `imports` list ({node, source_commit, manifest_sha256, bundle})
+validated alongside bindings. Ratified rows now confer terminal
+authority (ratified_binds_current extends the A3 interim: marker-bound
+OR a well-formed REGISTRY_RATIFIED event binding the current bytes).
+
+record-result gains the historical lane: --expected-blob validates the
+bundle under its own immutable contract, --source-commit triggers the
+ANCESTRY refusal (the source snapshot must carry the approval marker
+binding that pin) and the VERBATIM check (every staged byte must equal
+the source tree, compared blob-by-blob), the destination becomes
+results_v2-<blob12>, and EVERY import now writes the structured
+authority receipt round-9 required (<dest>.import.json: source commit,
+byte-manifest sha256, file count).
+
+ratify-registry IDEA --operator NAME is the authority transaction:
+bindings are DERIVED from approval-marker history and each is
+mechanically verified (marker bytes at the bound commit hash to the
+recorded sha AND textually bind the pin); every pinned node's import
+receipt is re-verified (manifest recomputed, ancestry re-checked);
+refusals name their forgery class. Then one transaction: append the
+REGISTRY_RATIFIED event -> registry-validate -> derive with the
+validator injected, EVERY node required COMPLETE -> state-materialize
+-> state-verify -> card re-render -> single commit.
+
+The rehearsal (throwaway worktree, real repo, real S branch) executed
+the whole arc: S bundle imported verbatim from 5aa8b5a1... (manifest
+7248cd0f8551, receipt written), then ratification produced bindings
+03d4545fe293@1ad4885 (sha 325703c888df) and 0e223c82f9eb@68057ec (sha
+012e114d67ea), the phase_s import binding, and BOTH NODES DERIVED
+COMPLETE -- each validated under its own immutable contract, the exact
+counterexample class round 5 demanded, now production truth. The
+rehearsal also CAUGHT a real regression before it shipped: with the S
+import present, bundle discovery's alphabetical glob preferred the
+historical directory; discovery now prefers the current-era fixed name
+until P3's node-addressed layout (regression added). Pre-import, the
+committed card honestly shows both nodes STALE (phase_c's declared
+input missing) -- the operator's import + ratification visibly heal
+the DAG. The F2/F3 historical-interface table's retirement trigger is
+now armed (retires with phase-scoped result_interfaces, next batch).
+Six new regressions (transaction end-to-end incl. OR-ratified;
+pin-outside-lineage; receipt-manifest and ancestry forgeries;
+historical lane incl. verbatim refusal; discovery preference) plus the
+governance-schema imports coverage. Gates: 205/205 both runners;
+state-verify and card --check green on BOTH the build tree and the
+pristine-applied tree; patch git-identical against pristine
+origin/main.
