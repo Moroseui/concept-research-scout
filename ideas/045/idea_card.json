@@ -4,7 +4,9 @@
   "search_mode": "C",
   "design_template": "conditional-observational",
   "title": "Did tissue composition create idea-023's sign reversal?",
-  "parent_ids": ["idea-023"],
+  "parent_ids": [
+    "idea-023"
+  ],
   "kernel_provenance": "Operator-authored successor grounded in idea-023's ratified interpretation and cross-family-approved confer q0002. Critique and debate narrowed it to the already-imported attenuation-audit attribution analysis.",
   "deliverable_original": "Within viable-attenuation tissue at matched relative CBF, the joint CBV/MTT coordinate shows a directionally stable, precision-bounded final-infarct association across all three within-patient flow bands -- establishing, or decisively refusing, the Stage-0 prerequisite that idea-023's untissued operationalization could not test cleanly.",
   "question": "Does per-patient Q1-minus-Q4 NCCT median-attenuation imbalance account for idea-023's opposite-signed mean final-infarct contrasts in flow bands 2 and 3?",
@@ -58,18 +60,57 @@
   ],
   "data_and_compute": "Public ISLES'24 release and already-imported idea-023 tables only. CPU tabular analysis; no DUA, new labels, image download, or GPU.",
   "scores": {
-    "clarity": {"value": 5, "why": "One frozen two-band attribution question with named inputs and outputs."},
-    "identifiability": {"value": 3, "why": "Tests whether measured HU imbalance accounts for the reversal but cannot establish causation or separate hypodensity from CSF."},
-    "medical_relevance": {"value": 3, "why": "Determines whether the parent hemodynamic result was plausibly distorted by visible tissue composition."},
-    "interest": {"value": 4, "why": "May explain a puzzling opposite-sign result using a prospectively collected audit."},
-    "prior_legwork": {"value": 5, "why": "Both frozen tables and parent interpretation are imported and reviewed."},
-    "feasibility": {"value": 5, "why": "Keystone inputs were inspected; analysis is a small local CPU join."},
-    "data_readiness": {"value": 5, "why": "All required rows are local in the imported bundle."},
-    "evaluation_readiness": {"value": 4, "why": "Primary bands, model, bootstrap unit, and interpretation rule are specified."},
-    "negative_result_value": {"value": 4, "why": "Rejects the specific explanation and prevents an unjustified rerun while remaining bounded to this proxy."},
-    "novelty_confidence": {"value": 2, "why": "No systematic novelty audit supports a broader claim; value is completion of the parent audit."},
-    "regret": {"value": 4, "why": "Cheap analysis can prevent another expensive operationalization."},
-    "mechanism_clarity": {"value": 4, "why": "Suspected quantity is Q1-versus-Q4 median NCCT attenuation imbalance within matched-flow bands."}
+    "clarity": {
+      "value": 5,
+      "why": "One frozen two-band attribution question with named inputs and outputs."
+    },
+    "identifiability": {
+      "value": 3,
+      "why": "Tests whether measured HU imbalance accounts for the reversal but cannot establish causation or separate hypodensity from CSF."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "Determines whether the parent hemodynamic result was plausibly distorted by visible tissue composition."
+    },
+    "interest": {
+      "value": 4,
+      "why": "May explain a puzzling opposite-sign result using a prospectively collected audit."
+    },
+    "prior_legwork": {
+      "value": 5,
+      "why": "Both frozen tables and parent interpretation are imported and reviewed."
+    },
+    "feasibility": {
+      "value": 5,
+      "why": "Keystone inputs were inspected; analysis is a small local CPU join."
+    },
+    "data_readiness": {
+      "value": 5,
+      "why": "All required rows are local in the imported bundle."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Primary bands, model, bootstrap unit, and interpretation rule are specified."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "Rejects the specific explanation and prevents an unjustified rerun while remaining bounded to this proxy."
+    },
+    "novelty_confidence": {
+      "value": 2,
+      "why": "No systematic novelty audit supports a broader claim; value is completion of the parent audit."
+    },
+    "regret": {
+      "value": 4,
+      "why": "Cheap analysis can prevent another expensive operationalization."
+    },
+    "mechanism_clarity": {
+      "value": 4,
+      "why": "Suspected quantity is Q1-versus-Q4 median NCCT attenuation imbalance within matched-flow bands."
+    }
   },
-  "mode_c_priority_score": 3.7
+  "mode_c_priority_score": 3.7,
+  "related_ideas": [
+    "idea-046 (successor: reversal carriers + clinical join)"
+  ]
 }

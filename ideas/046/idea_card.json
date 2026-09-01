@@ -1,0 +1,108 @@
+{
+  "id": "isles24-scout-007-c01",
+  "track": "wide",
+  "search_mode": "C",
+  "design_template": "conditional-observational",
+  "title": "Who carries the band-2/3 reversal, and do the carriers differ clinically?",
+  "parent_ids": [
+    "idea-023",
+    "idea-045"
+  ],
+  "kernel_provenance": "Operator-authored successor (2026-09-01), not scout-generated. Grounded in three ratified interpretations: idea-023 take-13 (which names the gap verbatim: 'The bundle contains no per-patient contribution analysis, so how many patients drive the band means was not computed and is not claimed'), idea-045 v3 (the reversal is robust to the measured tissue-composition explanation at achieved precision), and the separately pre-registered 2026-08-28 patient-level clinical-outcome join (idea-023 interpretation, Next decision item 2), which remains unexecuted and is folded into this candidate's second rung rather than left as an orphan step.",
+  "question": "On the already-open 99-case census, is the precise opposite-signed band-2/band-3 final-infarct contrast carried diffusely by the cohort or concentrated in an identifiable patient subset -- and do high-contribution patients differ from the rest on available patient-level variables, including the released clinical outcome scores (mRS/NIHSS-type, ses-02 phenotype table)?",
+  "deliverable_sentence": "A pre-registered per-patient contribution census resolving whether the band-2/3 reversal is cohort-diffuse or subset-concentrated, plus an exploratory screen of whether contribution strata differ on bundle-derivable features and released clinical outcome scores.",
+  "scientific_uncertainty": "The parent's equal-patient-weight band means are precise (band-2 -0.0320, band-3 +0.0231, both CIs excluding zero) while patient medians hug zero in every band -- so between-patient heterogeneity is documented but its structure is completely uncharacterized: the reversal could be a weak cohort-wide tendency, a two-population mixture, or a handful of high-leverage patients; and no one knows whether whatever carries it also carries clinical severity.",
+  "mechanism": "If a subset carries the reversal, its members share something -- lesion burden, deficit size, vessel-territory laterality, imaging quality, treatment response reflected in outcome scores -- and identifying the stratum converts an unexplained aggregate curiosity into a targetable hypothesis; if contributions are diffuse, mechanism stories that require a special subpopulation are constrained away.",
+  "keystone_prerequisite": "Two-part, inspectable before any analysis is frozen: (a) the already-imported take-13 per_patient.csv supports exact per-patient band-2/band-3 contribution accounting (99 unique cases per band, finite d values, join keys unique) -- verifiable from the bundle alone; (b) the released phenotype table (ses-02 outcome.csv family, distributed with the pinned Zenodo record but outside the staged imaging suffixes) exists, downloads at small size, parses, and joins to >= 90 of the 99 analyzed case ids with at least one usable ordinal outcome column. Part (b) requires one new small acquisition; no imaging is touched.",
+  "keystone_status": "NOT_INSPECTED",
+  "keystone_evidence": "per_patient.csv is already imported with per-case, per-band d (idea-023 bundle, commit 1c0acdbf5dcc); the mean-median divergence is on the ratified record with exact values; the phenotype table is declared in the pinned dataset's documentation and was explicitly pre-registered for this join on 2026-08-28; the 045-v3 bundle demonstrates the join machinery on these exact tables.",
+  "keystone_residual_assumption": "That the phenotype table's case identifiers align with the imaging case ids without a hidden mapping step, and that its outcome columns are populated for the treated training cohort; if joinability falls below the frozen floor, the clinical rung dies cleanly and the contribution rung proceeds alone.",
+  "X_measurement": "Rung 0 (already-open data only): per-patient contribution to each precise band mean under the frozen equal-patient estimator -- leave-one-patient-out changes in band-2 and band-3 means and in the band gap, a pre-registered concentration summary (e.g., the smallest patient subset whose removal moves either precise band CI to include zero, and a Gini-style concentration index over |contributions|), all deterministic on per_patient.csv. Rung 1 (adds the phenotype file): the same contribution scores joined to released patient-level variables -- bundle-derivable features (deficit-region voxel counts, vessel-cap statistics, exclusion flags already recorded per case) and phenotype outcome scores -- with a small, frozen descriptive comparison between high-contribution and other patients.",
+  "standing_confounds_addressed": "Tissue-composition imbalance is the one measured confound on record and it decisively failed to explain the reversal (045-v3), so contribution structure is examined on the raw parent contrasts without re-adjustment; equal patient weighting and patient-clustered resampling carry over unchanged; multiplicity in the stratifier screen is a named risk to be bounded by pre-registration (few frozen comparisons, descriptive intervals, no significance farming).",
+  "use_vs_association": "Association/description only; no model is probed and no prediction claim is made at any rung of this candidate.",
+  "rung": "Rung 0: contribution/concentration census on per_patient.csv alone (pure CPU, minutes, no new data). Rung 1: phenotype acquisition + join + frozen descriptive stratum comparison (small download, CPU). Any hypothesis the strata suggest becomes a new candidate through the normal pipeline.",
+  "smallest_decisive_experiment": "The Rung-0 census: it decisively classifies the reversal as subset-concentrated (a nameable set of patients whose removal collapses both precise means) or cohort-diffuse (no small subset does), with the classification rule frozen before execution.",
+  "anticipated_negative": {
+    "classification": "Informative either way; decisive only for the concentration question",
+    "meaning": "A diffuse result (no small subset carries the reversal, concentration index low) rules out high-leverage-patient explanations and weakens mixture stories, leaving a weak cohort-wide structure as the standing description -- valuable and citable. A concentrated result identifies the carriers for downstream work. A failed phenotype join kills only Rung 1. Nothing here can rescue or further indict the paused parent operationalizations; that authority is spent."
+  },
+  "prohibited_conclusions": [
+    "No causal or physiological mechanism claims from contribution structure or stratum differences.",
+    "No model-use, feature-selection, or prediction claims.",
+    "No clinical claims about individual patients; strata are described in aggregate only.",
+    "No reopening of the parents' paused claims: this candidate describes who carries the observed structure, not whether the parents' gates should have passed.",
+    "All results are exploratory by construction (the 99 outcomes were opened in idea-023) and every written claim carries that label."
+  ],
+  "dies_like_prior": "Inherits the exploratory ceiling of every same-split successor. New named risks: leave-one-out contribution scores are themselves estimator-relative (a different weighting would name different carriers) -- mitigated by freezing the parent's exact estimator and saying so; the stratifier screen invites multiplicity fishing -- mitigated by a short frozen comparison list and descriptive framing; the phenotype join may silently drop the sickest patients (missing outcomes not at random) -- join coverage is reported per stratum, not assumed.",
+  "closest_prior_work": "Influence and case-deletion diagnostics are standard regression practice (Cook-style leverage, jackknife) applied here to a preregistered census estimator rather than a fitted model; ISLES'24's own release includes the clinical phenotype table precisely to support imaging-clinical linkage; the 2026-08-28 pre-registration entry is this candidate's direct ancestor.",
+  "existing_legwork": "per_patient.csv (99 cases x 3 bands), exclusions.csv per-case fields, and the frozen census split are imported and hash-pinned; the 045-v3 run reproduced the parent band means to full precision from these tables, proving the join path; the phenotype file's existence and separate distribution were established during dataset staging; all three governing interpretations are ratified and citable.",
+  "verified_facts": [
+    "Band-2 mean d = -0.0320 [-0.0559, -0.0080]; band-3 mean d = +0.0231 [+0.0050, +0.0436]; both CIs exclude zero in opposite directions (take-13, reproduced exactly in 045-v3).",
+    "Median patient d is approximately 0.0 in all three bands with median CIs hugging zero (take-13).",
+    "No per-patient contribution analysis exists anywhere in the record (take-13 interpretation, verbatim).",
+    "The measured tissue-composition explanation decisively failed at achieved precision; beta_HU CI spans zero and licenses nothing (045-v3).",
+    "A patient-level clinical-outcome join was pre-registered 2026-08-28 and has never been executed."
+  ],
+  "unverified_claims": [
+    "Concentration vs diffuseness of the band contributions (Rung 0's deliverable).",
+    "Phenotype-table joinability at or above the frozen floor (keystone part b).",
+    "Any difference between contribution strata on clinical or bundle-derived variables (Rung 1's deliverable)."
+  ],
+  "confirmatory_separation": "Nothing in this candidate is confirmatory; the split's outcomes were opened in the parent. The concentration classification is decisive as a description of these 99 cases under the frozen rule, and is labeled exploratory with respect to any wider population.",
+  "claim_identifiability": {
+    "positive": "A concentrated result identifies, by frozen rule, the specific patient subset carrying the reversal and reports how the strata differ on the small frozen variable list -- sufficient to seed targeted successor candidates.",
+    "negative": "A diffuse result identifies the reversal as a weak cohort-wide structure not attributable to any small subset under the frozen rule -- terminal for high-leverage explanations within this census."
+  },
+  "data_and_compute": "Already-imported idea-023 tables for Rung 0 (CPU, minutes). Rung 1 adds one small phenotype download from the pinned public record (no DUA, no imaging, no GPU); the 49 reserved cases and the hidden test set remain untouched at every rung.",
+  "scores": {
+    "clarity": {
+      "value": 4,
+      "why": "One frozen concentration question plus one frozen descriptive join; operator-assigned pending critique."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "Concentration under a frozen rule is exactly identifiable on these 99 cases; stratum differences are descriptive by design."
+    },
+    "medical_relevance": {
+      "value": 4,
+      "why": "Connects the imaging-level structure to released clinical outcome scores -- the advisor's standing side interest -- for the first time."
+    },
+    "interest": {
+      "value": 5,
+      "why": "The mean-median divergence is the largest unexplained fact in the record; every downstream story depends on who carries the effect."
+    },
+    "prior_legwork": {
+      "value": 5,
+      "why": "All Rung-0 inputs are imported and hash-pinned; the join machinery is proven; the clinical rung was pre-registered weeks ago."
+    },
+    "feasibility": {
+      "value": 5,
+      "why": "Deterministic CPU on small tables; the only acquisition is one small public file."
+    },
+    "data_readiness": {
+      "value": 4,
+      "why": "Rung 0 fully staged; Rung 1 awaits one download whose existence is documented."
+    },
+    "evaluation_readiness": {
+      "value": 4,
+      "why": "Estimator inherited verbatim; the concentration rule and comparison list are the only new frozen objects."
+    },
+    "negative_result_value": {
+      "value": 4,
+      "why": "Diffuseness is a citable, mechanism-constraining description; a failed join kills only the clinical rung."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "Influence accounting is standard; the value is in governed application to this specific preregistered structure."
+    },
+    "regret": {
+      "value": 1,
+      "why": "Minutes of CPU, one small download, no authority consequences for the paused parents."
+    },
+    "mechanism_clarity": {
+      "value": 3,
+      "why": "This candidate characterizes structure rather than testing a mechanism; that is its explicit role."
+    }
+  },
+  "mode_c_priority_score": 4.1
+}

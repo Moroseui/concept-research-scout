@@ -45,6 +45,7 @@
 - [isles24] **idea-043** [REJECTED] -- What the winner's brain window revealed
 - [isles24] **idea-044** [REJECTED] -- The old stroke inside the new forecast
 - [isles24] **idea-045** [PAUSED] -- Tissue-normalized joint CBV/MTT compensation at matched flow
+- [isles24] **idea-046** [SHORTLISTED] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -86,6 +87,7 @@
 - [isles24] **isles24-scout-005-c07** [SHORTLISTED] -- The roughness of a heartbeat through starved tissue
 - [isles24] **isles24-scout-005-c08** [SHORTLISTED] -- Delay is not dispersion
 - [isles24] **isles24-scout-006-c01** [SHORTLISTED] -- 
+- [isles24] **isles24-scout-007-c01** [SHORTLISTED] -- 
 - [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - [baseline] **scout-006-c02** [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - [baseline] **scout-006-c03** [SCOUT_ONLY] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver

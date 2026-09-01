@@ -5,38 +5,39 @@ GENERATED VIEW (R5a). Never edit: regenerate with `python scout.py card-material
 ## Identity
 - title: Did tissue composition create idea-023's sign reversal?
 - charter: ?   track: wide   card-id: isles24-scout-006-c01
-- ledger status: ACTIVE   scrutiny: PROBED   ledger events: 8
+- ledger status: PAUSED   scrutiny: PROBED   ledger events: 9
 
 ## Question
 Does per-patient Q1-minus-Q4 NCCT median-attenuation imbalance account for idea-023's opposite-signed mean final-infarct contrasts in flow bands 2 and 3?
 
 ## Declared vs derived status
 - idea_card.keystone_status: 'INSPECTED_TRUE'
-- system-derived: ratified -> ACTIVE
+- system-derived: ratified -> PAUSED
 - DRIFT: the card field predates the ratified outcome. Candidate operator update to idea_card.json (normal edit; this view never reconciles silently).
 
 ## Contract lineage (approval marker history, oldest -> newest)
 - f40b247  e7071541036a
 - fb05835  5615afea1e2f
-- current contract blob: 5615afea1e2f
+- 7a5ae11  b1e283613d4f
+- current contract blob: b1e283613d4f
 
 ## Experiment position
-- registry 1c0e82a68e18 (RATIFIED)
+- registry 1c0e82a68e18 (approval-bound)
   - feasibility_v1: COMPLETE
   - feasibility_v2: COMPLETE
-- bundle: probes/045/results/results_v3   phase: ?   status: POSITIVE_PATTERN
+- bundle: probes/045/results/results_v4   phase: ?   status: DECISIVE_MEASURED_EXPLANATION_FAILURE
 
 ## Headline results (from summary.json; every number citation-checked in interpret_review.md)
 
 ## Interpretation and authority
-- interpretation.md: 73cb471da171
-- interpret_review.md: efcd47d5c9e9
-- decision.md: 3ef2410f4979
+- interpretation.md: 8fb2a8b05af6
+- interpret_review.md: f489a9c0e3e7
+- decision.md: a213bd8835e2
 - cross-family review verdict: APPROVE
-- ratified: status ACTIVE, interpretation 73cb471da171, contract 5615afea1e2f
+- ratified: status PAUSED, interpretation 8fb2a8b05af6, contract b1e283613d4f
 
 ## Connections
-- (none recorded; add an optional related_ideas list to idea_card.json)
+- idea-046 (successor: reversal carriers + clinical join)
 
 ## Documents
 - ideas/045/idea_card.json

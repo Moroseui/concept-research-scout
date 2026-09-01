@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": null,
+  "claim": "A pre-registered per-patient contribution census resolving whether the band-2/3 reversal is cohort-diffuse or subset-concentrated, plus an exploratory screen of whether contribution strata differ on bundle-derivable features and released clinical outcome scores.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-046",
+  "idea_no": "046",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 1,
+    "materializer_version": 3,
+    "source_fingerprint_sha256": "77a0d49ab33150e26fe7436d29f8ea2af059a5d062335b978da66e26de654d3c",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "79ba7714d4e63a5e73ac9290cf9e930bcfb1175611a2f7ed5e5e1434715dd397",
+      "ledger_events_sha256": "4d2cc3cdb973a7501bdd87e6cd94f6d830d8fbf0f843c990993057c7c4e8f912",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "SCOUTED",
+  "status": "SHORTLISTED",
+  "title": "Who carries the band-2/3 reversal, and do the carriers differ clinically?"
+}
