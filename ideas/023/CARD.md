@@ -25,9 +25,9 @@ Does a specified map-input final-infarct model use the joint CBV/MTT compensatio
 - current contract blob: 03d4545fe293
 
 ## Experiment position
-- registry 55efd3b8eae0 (UNRATIFIED)
-  - phase_c: STALE
-  - phase_s: STALE
+- registry 55efd3b8eae0 (RATIFIED)
+  - phase_c: COMPLETE
+  - phase_s: COMPLETE
 - bundle: probes/023/results/results_v2   phase: C   status: NEGATIVE_PATTERN
 - cases: 99 analyzed of 100 census (149 released, 49 reserved untouched)
 

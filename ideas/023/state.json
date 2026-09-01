@@ -43,7 +43,7 @@
     "file_sha256": "55efd3b8eae02f2cd08bffbf1dd58ba4a30ab973995993a8fc30695474a46937",
     "nodes": {
       "phase_c": "COMPLETE",
-      "phase_s": "STALE"
+      "phase_s": "COMPLETE"
     }
   },
   "schema_version": 1,
