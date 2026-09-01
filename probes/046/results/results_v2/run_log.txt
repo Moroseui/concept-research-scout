@@ -1,0 +1,18 @@
+[load] Verifying authority and freezing the start manifest.
+[validate] Checking columns, finite values, paired case sets, and split isolation.
+[validate] Paired samples: 99; excluded rows: 99.
+[measure] Computing one in-memory algebra and denominator audit.
+[summarize] Classifying definition feasibility without revealing results.
+{
+  "all_summaries_defined": true,
+  "excluded_rows": 99,
+  "idea_id": "idea-046",
+  "paired_cases": 99,
+  "primary_metric_name": "additive_residual_within_1e-12",
+  "primary_metric_pass": true,
+  "reserved_cases_accessed": 0,
+  "scientific_values_exposed": false,
+  "smoke": false,
+  "status": "FEASIBLE_DEFINITION_AUDIT"
+}
+Plain-language template: FEASIBLE_DEFINITION_AUDIT means only that the frozen definitions are coherent and a separate census contract may be drafted.

@@ -1,0 +1,12 @@
+{
+  "contract_blob": "3996009bccfcfa939984fed051ee303a29a960a0",
+  "contract_version": 1,
+  "gpu_minutes": 0,
+  "idea_id": "idea-046",
+  "input_path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/per_patient.csv",
+  "input_sha256": "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c",
+  "output_dir": "/tmp/p46/results_v2",
+  "seed": 20260901,
+  "smoke": false,
+  "variants": 1
+}

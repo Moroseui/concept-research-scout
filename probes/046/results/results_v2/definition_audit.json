@@ -1,0 +1,31 @@
+{
+  "algebra_residual_within_tolerance": true,
+  "all_summaries_defined": true,
+  "denominators": {
+    "absolute_mass_finite_nonzero": true,
+    "positive_mass_finite_nonzero": true,
+    "signed_total_finite_nonzero": true
+  },
+  "deterministic_secondary_case_id_rule_defined": true,
+  "ordinary_summation_residual_diagnostic_only": 6.938893903907228e-18,
+  "sign_counts": {
+    "negative": 39,
+    "positive": 54,
+    "zero": 6
+  },
+  "stable_summation_residual": 6.938893903907228e-18,
+  "target_share_definable": {
+    "0.5": true,
+    "0.8": true
+  },
+  "tie_counts": {
+    "absolute": 5,
+    "signed": 5
+  },
+  "top_k_definable": {
+    "1": true,
+    "10": true,
+    "20": true,
+    "5": true
+  }
+}
