@@ -1,0 +1,101 @@
+# Probe contract v1 -- idea 045, outcome-blind design-matrix feasibility only.
+# Drafted at probe_plan on 2026-08-31. No probe code or execution is
+# authorized until the human approval gate is satisfied.
+
+idea_id: "idea-045"
+contract_version: 1
+track: exploratory
+
+authorities:
+  charter: "CHARTER.md"
+  collaborator_rules: "docs/COLLABORATOR_RULES.md"
+  idea_card: "ideas/045/idea_card.json"
+  critique: "ideas/045/critique.md"
+  debate: "ideas/045/debate.md"
+  consensus: "ideas/045/consensus.md"
+  revision: "ideas/045/revision.md"
+  decision_entries:
+    - "2026-09-01 -- Operator ruling: idea-045 claim-identity gate (revise-in-place)"
+
+question: "Before reading the observed final-infarct contrasts, does the frozen 99-case attenuation-audit geometry support an estimable band-by-HU-imbalance model without rank failure, near-degenerate within-band exposure, or domination by a few patients?"
+risky_assumption_tested: "The proposed primary model can distinguish band-specific HU-imbalance associations and adjusted band contrasts on the actual 99-case design. File joinability alone does not establish adequate exposure variation or a well-conditioned interaction design."
+
+scope:
+  included: "CPU-only validation of input identity, join cardinality, derived Q1-minus-Q4 median-HU geometry, design-matrix rank/conditioning, and patient leverage for bands 2 and 3."
+  excluded:
+    - "Reading, parsing, summarizing, logging, or modeling the observed d column from per_patient.csv."
+    - "Fitting the scientific outcome model, estimating HU slopes, computing adjusted observed band contrasts, or deciding whether tissue composition explains the parent reversal."
+    - "Band 1, nonlinear alternatives, threshold search, subgroup analysis, image restaging, model inference, or access to the 49 reserved cases."
+
+dataset:
+  name: "Imported idea-023 take-13 analysis tables"
+  source: "probes/023/results/results_v2/bin_tissue_audit.csv and probes/023/results/results_v2/per_patient.csv from the imported Phase-C bundle governed by idea 023."
+  required_columns:
+    bin_tissue_audit.csv: [case_id, stratum, style_group, median_hu]
+    per_patient.csv: [case_id, stratum]
+  forbidden_column_values: "The implementation may inspect the per_patient.csv header to confirm that d exists, but must not parse or retain any d value. Read only case_id and stratum from that file."
+split_policy: "Use only the 99 already-analyzed idea-023 census cases and only strata 2 and 3. The 49 reserved cases remain untouched. This probe has no train/test split because it is outcome-blind design validation, not model development or effect estimation."
+
+preprocessing:
+  row_gate: "Require exactly one Q1_low_CBV and one Q4_high_CBV audit row for each case-stratum and exactly one matching per_patient key, with 99 unique cases in each of strata 2 and 3. Reject duplicate or unmatched keys."
+  exposure: "For each case-stratum, compute HU_imbalance = median_hu(Q1_low_CBV) - median_hu(Q4_high_CBV). Require both source medians and the derived value to be finite."
+  design_matrix: "Create 198 rows with columns intercept, I[stratum=3], centered_HU_imbalance, and I[stratum=3] times centered_HU_imbalance. Center HU_imbalance once at the pooled mean across the 198 primary rows; do not scale, trim, winsorize, transform, or choose another centering rule."
+
+analysis:
+  analysis_unit: "Patient-by-band row, with patient identity retained for influence accounting."
+  primary_metric: "Singular-value condition number of the four-column frozen design matrix after scaling each non-intercept column to unit L2 norm solely for the conditioning calculation."
+  secondary_metrics:
+    - "Matrix rank and all four singular values."
+    - "Within each primary band: HU-imbalance minimum, maximum, median, IQR, number of distinct values, and number of cases."
+    - "Diagonal hat-matrix leverage per row, maximum leverage overall, and the number of distinct patients among the ten highest-leverage rows."
+    - "Leave-one-patient-out condition-number range, recomputing the same fixed centering and diagnostic scaling rule within each deletion solely as a sensitivity diagnostic."
+  positive_rule: "Feasibility passes only if the matrix has rank 4; its primary condition number is <=30; each band has nonzero HU-imbalance IQR and at least 20 distinct HU-imbalance values among exactly 99 cases; maximum row leverage is <=0.20; the ten highest-leverage rows contain at least five distinct patients; and every leave-one-patient-out matrix remains rank 4 with condition number <=30. These are design-feasibility thresholds, not medical effect thresholds."
+  interpretation: "A pass supports drafting the later exploratory attribution analysis because the frozen linear interaction is numerically estimable on the observed exposure geometry. It provides no evidence that either slope is nonzero or that adjustment changes the reversal."
+
+primary_metric: "Condition number of the frozen, diagnostically scaled four-column bands-2/3 design matrix."
+secondary_metrics:
+  - "Rank and singular values."
+  - "Band-specific HU-imbalance support and distinct-value counts."
+  - "Hat leverage and leave-one-patient-out conditioning."
+
+baselines:
+  - "Full-rank four-column design is the minimum algebraic baseline."
+  - "A condition number of 30, maximum row leverage of 0.20, and 20 distinct values per band are frozen conservative feasibility boundaries; they are not claims of universal statistical standards."
+
+maximum_variants: 1
+maximum_gpu_minutes: 0
+maximum_seeds: 1
+randomness: "None. All calculations are deterministic; no bootstrap or synthetic outcome is authorized in this probe."
+stopping_rule: "Stop after the single frozen design audit completes, immediately on an invalidating failure, or before any observed d value would be read. Do not proceed to the scientific attribution analysis regardless of result."
+
+positive_pattern: "All integrity gates pass and the frozen interaction design meets every rank, conditioning, variation, and leverage threshold. This means only that the proposed model is computationally estimable on the actual exposure geometry."
+negative_pattern: "The valid joined exposure geometry fails one or more prespecified rank, conditioning, within-band variation, or leverage thresholds. This is a decisive feasibility negative for the current linear interaction specification and requires revision before any outcome analysis; it is not evidence against tissue composition or the parent association."
+
+invalidating_failures:
+  - "Outcome-access breach: any observed d value is parsed, retained, summarized, logged, or used by the probe."
+  - "Input-identity failure: either required imported file is absent, its SHA-256 is not recorded, or its header lacks the required columns and expected d column."
+  - "Join failure: duplicate keys, unmatched case-stratum keys, missing Q1/Q4 cells, a count other than 99 cases in either primary band, or any reserved/non-census case is encountered."
+  - "Value failure: a required median HU or derived imbalance is nonfinite."
+  - "Analysis deviation: band 1 is included; exposure is transformed, trimmed, or selected post hoc; another variant is run; or thresholds are changed after inspection."
+  - "Output failure: a required artifact, input hash, per-row diagnostic, resolved configuration, or environment record is missing or nonfinite where finiteness is required."
+
+claim_discipline:
+  permitted: "The frozen bands-2/3 attenuation-imbalance design is, or is not, sufficiently conditioned and distributed across patients for the prespecified linear interaction analysis."
+  prohibited:
+    - "The HU imbalance is associated with final infarction."
+    - "Tissue composition explains, contributes to, or fails to explain idea-023's reversal."
+    - "Median HU is a validated tissue-type or viability measurement."
+    - "Any model uses HU imbalance, CBV, MTT, or tissue composition."
+    - "An invalid run or data-integrity failure is a scientific negative."
+
+required_outputs:
+  - resolved_config.json
+  - input_manifest.csv
+  - per_row_design.csv
+  - design_diagnostics.json
+  - summary.json
+  - environment.txt
+  - run_log.txt
+
+open_questions_for_human: []
+human_approved: false
