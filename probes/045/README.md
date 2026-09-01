@@ -1,52 +1,39 @@
-# Probe 045 — pooled-slope attenuation attribution
+# Probe 045 — v3 pooled-slope attenuation attribution
 
-The current draft is `ideas/045/probe_contract.yaml` version 3. It proposes
-the smallest outcome-reading analysis justified by the completed v2
-feasibility result. It is not approved, and no v3 code or execution is
-authorized.
+This runner implements the human-approved `ideas/045/probe_contract.yaml`
+version 3. It reads the already-open 99-case outcome table exactly once and
+fits one model:
 
-## What it tests
+`d = intercept + band-3 indicator + pooled-mean-centered HU imbalance`
 
-The probe asks whether the already-computed patient-level Q1-minus-Q4 median
-NCCT attenuation imbalance accounts for idea-023's opposite-signed mean
-final-infarct contrasts in flow bands 2 and 3. It uses one prespecified model:
+Run from the repository root with a new output directory:
 
-`d = intercept + band-3 indicator + centered HU imbalance`
+```bash
+python probes/045/run.py --output-dir probes/045/results/results_v4
+```
 
-The model is fit once on the same 99 already-analyzed patients (198 band
-rows). Uncertainty comes from a fixed 10,000-replicate patient-cluster
-bootstrap. Both rows for a patient remain together in every resample.
+The runner refuses an output directory that already contains scientific
+outputs, verifies the two frozen input hashes and the approval-bound contract
+blob, writes the split before opening the outcome file, keeps both band rows
+together in 10,000 patient-cluster bootstrap draws, and records every dropped
+band-1 row in `exclusions.csv`. It makes no network calls and uses no GPU.
 
-## Why this is the smallest next probe
+For the inexpensive harness check:
 
-Version 1 showed that the more direct band-by-imbalance interaction design
-was numerically fragile. Version 2 established that the reduced common-slope
-design is well conditioned and not dominated by one patient, without reading
-any outcome value. Version 3 would read outcomes only to answer the remaining
-attribution question. It adds no images, models, thresholds, subgroups, or
-alternative specifications and leaves the 49 reserved cases untouched.
+```bash
+python probes/045/run.py --smoke --output-dir /tmp/probe-045-smoke
+```
 
-## Interpretation boundary
+Smoke uses tiny synthetic inputs and 40 bootstrap draws. Its status is always
+`SMOKE_ONLY`; it cannot satisfy any scientific result class.
 
-Three outcomes are frozen in advance:
+The three possible valid real-run classifications are exactly the contract's
+`DECISIVE_MEASURED_EXPLANATION_FAILURE`,
+`ASSOCIATION_COMPATIBLE_WITH_CONTRIBUTION`, and `SENSITIVITY_LIMITED`.
+They are bounded to this measured median-HU proxy in these 99 cases. The run
+does not establish causation, validate tissue type or viability, test a model,
+or authorize access to the 49 reserved cases.
 
-- `ASSOCIATION_COMPATIBLE_WITH_CONTRIBUTION`: the pooled HU slope interval
-  excludes zero and adjustment breaks the parent's decisive opposite-sign
-  conjunction. This is observational compatibility, not causation.
-- `DECISIVE_MEASURED_EXPLANATION_FAILURE`: adjusted band 2 remains below zero
-  and adjusted band 3 above zero, with both clustered-bootstrap intervals
-  excluding zero. This rejects only the measured median-HU explanation.
-- `SENSITIVITY_LIMITED`: every other valid result. It is not evidence of no
-  association.
-
-The probe cannot validate median HU as tissue type or viability, establish
-model use, or generalize beyond the frozen 99-case cohort and released
-pipeline.
-
-## Authority and lineage
-
-The existing `results/results_v2/` and `results/results_v3/` directories are
-immutable evidence from the completed v1 and v2 feasibility contracts. A v3
-implementation must write to a new result directory and pass a fresh probe
-review. Execution requires explicit human approval bound to the exact v3
-contract blob. Until then, do not write probe code and do not read `d`.
+Historical `results_v2/` and `results_v3/` are immutable outputs of the two
+completed outcome-blind feasibility contracts. Do not use either as the v3
+output directory.
