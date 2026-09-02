@@ -59,20 +59,26 @@ output/determinism; 8 wall time; 12 unexpected fault.
 
 ## What Phase B does, in contract order
 
-1. **Identity gates (step 1).** SHA-256 pins on the three frozen inputs
+1. **Split freeze (hard standard 5).** `split_manifest.csv` (99 case
+   ids, head/rest strata) is materialized from the authoring-time
+   declaration `FROZEN_ANALYZED_IDS_BY_RANK` — bound at code review
+   from the pinned contribution table, never read from a file at run
+   time — and is written and hashed BEFORE any outcome-derived table
+   (contribution or support) is hashed or opened, before the archive
+   is touched, and before any phenotype byte exists on disk.
+2. **Identity gates (step 1).** SHA-256 pins on the three frozen inputs
    (`exclusions.csv` `58e9f8ab…`, `per_case_contributions.csv`
    `aba52512…`, `census_summary.json` `189c0ce8…`) and both consumed
    Phase-A artifacts (`proposed_variable_freeze.json` `87c5e11b…`,
    `per_case_support.csv` `994a4f88…`); the member manifest's git blob;
-   the Phase-A bundle's own recorded governing blob; head-membership
-   cross-check (the ten `in_head=True` rows must be exactly signed_rank
-   1–10); and exact recomputation of all seven frozen Phase-A constants
-   (`math.fsum` is correctly rounded, so equality is exact). The bound
-   variable list is also checked against the machine proposal's
-   spellings.
-2. **Split freeze.** `split_manifest.csv` (99 case ids, head/rest
-   strata from frozen signed ranks) is written and hashed before the
-   archive is touched and before any phenotype byte exists on disk.
+   the Phase-A bundle's own recorded governing blob; exact agreement of
+   the loaded tables with the predeclared split (rank→id mapping and
+   `in_head` flags; any disagreement is an invalidating input-identity
+   failure); head-membership cross-check (the ten `in_head=True` rows
+   must be exactly signed_rank 1–10); and exact recomputation of all
+   seven frozen Phase-A constants (`math.fsum` is correctly rounded, so
+   equality is exact). The bound variable list is also checked against
+   the machine proposal's spellings.
 3. **Staging (step 2).** The 198-member extraction set is resolved from
    the frozen manifest (tolerating the `sub-stroke`/`sub-strokecase`
    payload spellings by case-number canonicalization); archive byte

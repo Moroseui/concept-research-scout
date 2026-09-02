@@ -2,27 +2,30 @@
   "idea_id": "047",
   "phase": "B",
   "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+  "revision_round": 2,
+  "revision_scope": "probe_review.md round-1 blocking finding (hard standard 5) ONLY: the 10/89 split manifest is now materialized from an authoring-time declaration and written+hashed BEFORE the outcome-derived contribution and support tables are hashed or opened; the loaded tables are then verified against the declaration. No contract, gate, cap, statistic, endpoint, or interface change.",
   "passed": true,
   "issues": [],
   "checks_run": [
-    "approval marker binds the exact working-tree contract blob dc586665d0be... (git hash-object reproduced it; HUMAN_APPROVED_PROBE quotes it verbatim)",
-    "contract is v3 with the bound variable list; the v2 pre-amendment sentinel <<TO_BE_FROZEN_AT_AMENDMENT>> is absent from the contract text",
-    "all five SHA-256 input pins re-verified by sha256sum against the working tree (exclusions.csv 58e9f8ab..., per_case_contributions.csv aba52512..., census_summary.json 189c0ce8..., proposed_variable_freeze.json 87c5e11b..., per_case_support.csv 994a4f88...)",
-    "member manifest git blob edb9a8c2... exists and reads (git cat-file); header is path,size,crc; 149 baseline + 149 outcome phenotype members; all 99 analyzed census ids join to BOTH families (comm over sorted id lists, zero missing); payload uses sub-strokeNNNN uniformly (zero strokecase rows; the tolerance stays coded per contract)",
-    "consumed freeze proposal's proposed_field_spelling values grep-verified to equal the seven bound spellings exactly (MRS 3 months, NIHSS 24h, NIHSS at admission, Age, Sex, mTici postinterventional, Onset to door) with center.documented=false and mtici first in contextual order, so verify_freeze_bindings passes against the real artifact",
-    "frozen Phase-A constants exactness argued from three independent grounds: the Phase-A run computed them from the same per_case_support.csv rows with the same math.fsum arithmetic (order-independent, correctly rounded), the ratified cross-family interpret review independently re-verified the head sums transcription-exactly (2,025,630 / 22,604,450 voxels; 0.04367036086720666), and float() round-trips repr exactly; the run-time gate re-verifies before any staging",
-    "manual full-file review of run.py after writing (all 2019 lines read back in final on-disk form); triple-quote occurrences balanced (42), zero tab characters, function definitions cross-checked against every call site",
-    "contract literal list checked by inspection against the v3 contract text (version, caps, seed 20260902, 10000 relabelings, all pins, all seven constants, all seven field spellings, mTICI level order, exchangeability label, all five Phase-B artifact names)"
+    "ordering repair verified by reading the final on-disk run(): freeze_split now executes at run.py:1766-1779, before hash_inputs (run.py:1817) and before load_contributions/load_support (run.py:1821-1822), which are the only readers of the outcome-derived tables in this process; verify_split_against_tables (run.py:1823) then requires exact rank->id and in_head agreement, failing EXIT_INPUT (invalidating input-identity failure) on any mismatch",
+    "FROZEN_ANALYZED_IDS_BY_RANK verified byte-identical to the pinned table: sha256sum re-verified per_case_contributions.csv against pin aba52512... , then its case_id column (rows are stored in signed_rank order 1..99) was extracted with tail/cut and diffed against the tuple literals extracted in file order -- IDENTICAL, 99 vs 99 lines, zero differences",
+    "head binding cross-checked against the consumed support table: per_case_support.csv re-verified against pin 994a4f88..., and its ten in_head=True rows (grep ',True,') are exactly the tuple's first ten ids in signed-rank order 1..10",
+    "duplicate/leak scan of the embedded ids: 101 quoted sub-stroke literals in run.py; the only duplicate is sub-stroke0142 (once in the tuple, once in EXPECTED_BOOKKEEPING) and sub-stroke0043 appears only in EXPECTED_BOOKKEEPING, never in the strata",
+    "DISCLOSED CORRECTION inside the rewritten function: the round-1 freeze_split asserted that NO bookkeeping id appears in the strata, but exclusions.csv (pin 58e9f8ab...) shows sub-stroke0142 has BOTH an excluded_archive_lesion bookkeeping row (a duplicate lesion ARCHIVE MEMBER, exclusions.csv line 2) AND an analyzed_case row (line 73, signed_rank 57 in the contribution table), so the old assert would have aborted a valid real run with exit 12; the assert now bars only record_type excluded_case (sub-stroke0043), matching the Phase-A provenance-gate semantics (99 analyzed + 2 bookkeeping records). This surfaced mechanically while binding the predeclared ids and is required for the repaired ordering to hold on the real cohort; it changes no contract clause and loosens no gate (the excluded CASE is still barred, and the analyzed set is still pinned id-by-id)",
+    "smoke leg parity desk-verified: SMOKE_IDS_BY_RANK equals the fixture rank order by construction (the _smoke_contributions deltas are strictly descending except one 0.0 tie broken by ascending case_id), the smoke run now freezes the split BEFORE make_smoke_inputs creates any fixture table on disk, and the same verify_split_against_tables code path runs on the loaded fixtures",
+    "split_manifest.json now states the stronger enforced fact per the review directive: created_before_any_outcome_derived_table_opened=true alongside created_before_any_phenotype_byte_staged=true, the stratum_source names the authoring-time declaration, and post_freeze_verification records the agreement rule",
+    "scope containment: the diff touches only the split constants block, the SPLIT FREEZE section (freeze_split + new verify_split_against_tables), the run() ordering and its two comment blocks, the STEP-1 section comment, the smoke declaration, README step ordering, and this file; every pin, constant, statistic, cap, output name, and exit code is unchanged",
+    "hygiene re-checked on the final file: zero tab characters; 44 balanced triple-quote occurrences (round 1's 42 plus the one new docstring); every edited hunk read back in final on-disk form; 2128 lines"
   ],
   "not_run": [
     {
       "command": "python3 -m py_compile probes/047/run.py",
-      "reason": "this build sandbox blocks Python execution (same constraint as both Phase-A rounds); desk-verified instead"
+      "reason": "this build sandbox blocks Python execution (same constraint as both Phase-A rounds and Phase-B round 1); desk-verified instead"
     },
     {
       "command": "python3 probes/047/run.py --smoke --output-dir /tmp/probe-047-smoke",
-      "reason": "same sandbox constraint; the smoke is designed for the reviewer's environment: synthetic 12-case world, no archive, no 7z, exercises member resolution incl. the sub-strokecase spelling, real CRC32 staged-member verification, census edge paths (empty, parse-failure, decimal-normalized, out-of-set mTICI, two-row file anomaly, fully-missing bound variable), real small-cell suppression, both uncertainty displays, and asserts each path fired; expected exit 0 with status SMOKE_ONLY well under 60s"
+      "reason": "same sandbox constraint; the reviewer's round-1 smoke run completed in under one second with SMOKE_ONLY and byte-identical manifests, and this revision adds only the earlier split freeze, the predeclared-id source, and one verification function to that path; expected exit 0 with status SMOKE_ONLY well under 60s"
     }
   ],
-  "checked_at": "2026-09-02T04:48:40+00:00"
+  "checked_at": "2026-09-02T05:00:58+00:00"
 }

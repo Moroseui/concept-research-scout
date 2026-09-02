@@ -148,6 +148,52 @@ EXPECTED_BOOKKEEPING = [
      "reason": "source_corrupt_member"},
 ]
 
+# ---------------------------------------------------------------------------
+# THE PREDECLARED 10/89 SPLIT (hard standard 5). These ids were BOUND AT
+# AUTHORING TIME, transcribed from the pinned, ratified tables the contract
+# freezes (per_case_contributions.csv sha256 aba52512..., cross-checked
+# against the in_head flags of per_case_support.csv sha256 994a4f88...):
+# index i holds the case with signed_rank i+1; the head is ranks 1..10.
+# Binding the split as literals lets run() write and hash the split manifest
+# BEFORE either outcome-derived table is hashed or opened in this process;
+# the tables are then loaded and verified against this declaration
+# (rank->id mapping and in_head flags) by verify_split_against_tables(),
+# where any disagreement is an invalidating input-identity failure. A
+# reviewer can regenerate this tuple from the pinned table with one sort
+# on signed_rank.
+# ---------------------------------------------------------------------------
+
+FROZEN_ANALYZED_IDS_BY_RANK = (
+    # Ranks 1-10: the frozen signed-rank head.
+    "sub-stroke0153", "sub-stroke0002", "sub-stroke0166", "sub-stroke0181",
+    "sub-stroke0014", "sub-stroke0098", "sub-stroke0090", "sub-stroke0114",
+    "sub-stroke0025", "sub-stroke0136",
+    # Ranks 11-99: the rest stratum, still in signed-rank order.
+    "sub-stroke0107", "sub-stroke0093", "sub-stroke0089", "sub-stroke0096",
+    "sub-stroke0167", "sub-stroke0088", "sub-stroke0155", "sub-stroke0021",
+    "sub-stroke0078", "sub-stroke0102", "sub-stroke0026", "sub-stroke0105",
+    "sub-stroke0081", "sub-stroke0189", "sub-stroke0083", "sub-stroke0156",
+    "sub-stroke0112", "sub-stroke0009", "sub-stroke0080", "sub-stroke0037",
+    "sub-stroke0187", "sub-stroke0015", "sub-stroke0180", "sub-stroke0082",
+    "sub-stroke0188", "sub-stroke0140", "sub-stroke0119", "sub-stroke0170",
+    "sub-stroke0138", "sub-stroke0174", "sub-stroke0005", "sub-stroke0068",
+    "sub-stroke0106", "sub-stroke0022", "sub-stroke0092", "sub-stroke0012",
+    "sub-stroke0084", "sub-stroke0075", "sub-stroke0057", "sub-stroke0030",
+    "sub-stroke0013", "sub-stroke0148", "sub-stroke0086", "sub-stroke0079",
+    "sub-stroke0094", "sub-stroke0141", "sub-stroke0142", "sub-stroke0147",
+    "sub-stroke0163", "sub-stroke0175", "sub-stroke0184", "sub-stroke0019",
+    "sub-stroke0139", "sub-stroke0071", "sub-stroke0077", "sub-stroke0047",
+    "sub-stroke0185", "sub-stroke0074", "sub-stroke0055", "sub-stroke0157",
+    "sub-stroke0182", "sub-stroke0100", "sub-stroke0109", "sub-stroke0151",
+    "sub-stroke0111", "sub-stroke0045", "sub-stroke0038", "sub-stroke0048",
+    "sub-stroke0169", "sub-stroke0008", "sub-stroke0164", "sub-stroke0036",
+    "sub-stroke0134", "sub-stroke0145", "sub-stroke0104", "sub-stroke0186",
+    "sub-stroke0006", "sub-stroke0179", "sub-stroke0133", "sub-stroke0161",
+    "sub-stroke0033", "sub-stroke0028", "sub-stroke0095", "sub-stroke0070",
+    "sub-stroke0113", "sub-stroke0154", "sub-stroke0117", "sub-stroke0183",
+    "sub-stroke0137",
+)
+
 # Blindness guard (contract scope.excluded): these may never be touched.
 # Phase B stages and reads ONLY the 198 phenotype members; every imaging
 # member class and the untouchable take-13 table are refused by path.
@@ -379,16 +425,18 @@ def prepare_output_dir(path):
 
 
 # ---------------------------------------------------------------------------
-# STEP 1 -- IDENTITY GATES. Hash the three frozen inputs and both consumed
+# STEP 1 -- IDENTITY GATES. Runs only AFTER the split manifest is written
+# and hashed (hard standard 5): the contribution and support tables are
+# outcome-derived claim-bearing inputs from the idea-023/046 lineage, so
+# this process neither hashes nor opens them until the predeclared split
+# is frozen on disk. Then: hash the three frozen inputs and both consumed
 # Phase-A artifacts against their pins; check the bundle's own recorded
-# governing blob; cross-check head membership between the consumed support
-# table and the frozen contribution table; recompute all seven frozen
-# Phase-A constants and require EXACT equality (math.fsum is correctly
-# rounded, so exact float equality is well-defined). Any mismatch is an
-# invalidating input-identity failure. Note: the contribution table is an
-# already-open, of-record imaging-outcome artifact that step 1 explicitly
-# authorizes reading BEFORE staging; the label files of THIS phase are the
-# phenotype CSVs, and none is staged or opened until after the split freeze.
+# governing blob; verify the loaded tables against the predeclared split
+# (rank->id mapping and in_head flags); cross-check head membership between
+# the consumed support table and the frozen contribution table; recompute
+# all seven frozen Phase-A constants and require EXACT equality (math.fsum
+# is correctly rounded, so exact float equality is well-defined). Any
+# mismatch is an invalidating input-identity failure.
 # ---------------------------------------------------------------------------
 
 def hash_inputs(paths):
@@ -580,33 +628,52 @@ def verify_freeze_bindings(freeze_path, smoke):
 
 # ---------------------------------------------------------------------------
 # SPLIT FREEZE (hard standard 5). The strata are the frozen signed-rank top
-# ten versus the other 89, taken verbatim from the frozen contribution
-# table -- never recomputed or reselected. The manifest is written and
-# hashed BEFORE the archive is touched and before any phenotype byte exists
-# on disk. Assertions prove the strata are disjoint, exhaustive, and free of
-# excluded/reserved cases.
+# ten versus the other 89, materialized from the authoring-time declaration
+# FROZEN_ANALYZED_IDS_BY_RANK (SMOKE_IDS_BY_RANK in smoke) -- never
+# recomputed or reselected, and never read from a file in this process.
+# The manifest is written and hashed BEFORE any outcome-derived table
+# (contribution or support) is hashed or opened, before the archive is
+# touched, and before any phenotype byte exists on disk. Assertions prove
+# the strata are disjoint, exhaustive, and free of excluded cases; once the
+# outcome-derived tables are loaded, verify_split_against_tables() requires
+# exact agreement with this manifest.
 # ---------------------------------------------------------------------------
 
-def freeze_split(output_dir, contrib_rows, head_size, smoke):
-    head_ids = sorted(row["case_id"] for row in contrib_rows
-                      if row["signed_rank"] <= head_size)
-    rest_ids = sorted(row["case_id"] for row in contrib_rows
-                      if row["signed_rank"] > head_size)
+def freeze_split(output_dir, ids_by_rank, head_size, smoke):
+    assert len(ids_by_rank) == len(set(ids_by_rank)), "duplicate declared id"
+    head_ids = sorted(ids_by_rank[:head_size])
+    rest_ids = sorted(ids_by_rank[head_size:])
     assert len(head_ids) == head_size
-    assert len(rest_ids) == len(contrib_rows) - head_size
+    assert len(rest_ids) == len(ids_by_rank) - head_size
     assert not set(head_ids) & set(rest_ids), "strata overlap"
-    assert set(head_ids) | set(rest_ids) == {r["case_id"] for r in contrib_rows}
-    excluded = {item["case_id"] for item in EXPECTED_BOOKKEEPING}
-    assert not (set(head_ids) | set(rest_ids)) & excluded, \
-        "excluded bookkeeping case appears in the analysis strata"
+    assert set(head_ids) | set(rest_ids) == set(ids_by_rank)
+    # Only an excluded CASE may never appear in the strata. The
+    # sub-stroke0142 bookkeeping row records a duplicate archive lesion
+    # MEMBER (record_type excluded_archive_lesion in the take-13
+    # exclusions table); the case itself is one of the 99 analyzed and
+    # legitimately holds signed_rank 57.
+    excluded_cases = {item["case_id"] for item in EXPECTED_BOOKKEEPING
+                      if item["record_type"] == "excluded_case"}
+    assert not (set(head_ids) | set(rest_ids)) & excluded_cases, \
+        "excluded case appears in the analysis strata"
     rows = ([{"case_id": cid, "stratum": "head"} for cid in head_ids]
             + [{"case_id": cid, "stratum": "rest"} for cid in rest_ids])
     rows.sort(key=lambda r: r["case_id"])
     write_csv(output_dir / "split_manifest.csv", ["case_id", "stratum"], rows)
+    source_name = "SMOKE_IDS_BY_RANK" if smoke else "FROZEN_ANALYZED_IDS_BY_RANK"
     record = {
+        "created_before_any_outcome_derived_table_opened": True,
         "created_before_any_phenotype_byte_staged": True,
-        "stratum_source": ("frozen signed_rank of the pinned contribution "
-                          "table; head = ranks 1..%d, never recomputed" % head_size),
+        "stratum_source": (f"authoring-time declaration {source_name} "
+                           f"(head = ranks 1..{head_size}), bound from the "
+                           f"pinned contribution table at code review; "
+                           f"never recomputed and never read from a file "
+                           f"in this process"),
+        "post_freeze_verification": ("the loaded contribution and support "
+                                     "tables must agree exactly with this "
+                                     "manifest (rank->id mapping, case set, "
+                                     "in_head flags) or the run fails as an "
+                                     "invalidating input-identity failure"),
         "head_cases": len(head_ids),
         "rest_cases": len(rest_ids),
         "reserved_cases": 0 if smoke else 49,
@@ -618,6 +685,28 @@ def freeze_split(output_dir, contrib_rows, head_size, smoke):
     }
     write_json(output_dir / "split_manifest.json", record)
     return record, head_ids, rest_ids
+
+
+def verify_split_against_tables(ids_by_rank, head_size, contrib_rows,
+                                support_rows):
+    """Hard standard 5 companion: the outcome-derived tables, opened only
+    AFTER the split manifest was written and hashed, must agree exactly
+    with the predeclared split. Any disagreement means the declaration or
+    the pinned inputs are wrong -- an invalidating input-identity failure,
+    never a silent reselection."""
+    by_rank = {row["signed_rank"]: row["case_id"] for row in contrib_rows}
+    for index, case_id in enumerate(ids_by_rank):
+        rank = index + 1
+        if by_rank.get(rank) != case_id:
+            fail(EXIT_INPUT, f"predeclared split disagrees with the loaded "
+                             f"contribution table at signed_rank {rank}: "
+                             f"declared {case_id}, table {by_rank.get(rank)!r}")
+    declared_head = set(ids_by_rank[:head_size])
+    support_head = {row["case_id"] for row in support_rows if row["in_head"]}
+    if support_head != declared_head:
+        fail(EXIT_INPUT, f"per_case_support.csv in_head flags "
+                         f"{sorted(support_head)} differ from the predeclared "
+                         f"head {sorted(declared_head)}")
 
 
 # ---------------------------------------------------------------------------
@@ -1391,6 +1480,13 @@ def build_estimation_outputs(census_rows, values, labels, head_ids, rest_ids,
 # ---------------------------------------------------------------------------
 
 SMOKE_IDS = [f"sub-stroke{9001 + i:04d}" for i in range(SMOKE_CASES)]
+# The smoke split declaration (hard standard 5, smoke leg): the fixture
+# deltas in _smoke_contributions are strictly descending except one 0.0 tie
+# broken by ascending case_id, so signed-rank order equals id order by
+# construction. run() freezes this declaration before the fixture tables
+# are hashed or parsed, and verify_split_against_tables() then proves the
+# agreement on the loaded fixtures -- the same code path as the real run.
+SMOKE_IDS_BY_RANK = tuple(SMOKE_IDS)
 
 
 def _smoke_contributions(fixture_dir):
@@ -1640,8 +1736,10 @@ def staged_aggregate_sha256(staged_records):
 
 
 # ---------------------------------------------------------------------------
-# RUN. The contract's ordered Phase-B steps: authority -> identity gates ->
-# split freeze -> the single staging event -> staged-member verification ->
+# RUN. The contract's ordered Phase-B steps: authority -> split freeze
+# (from the authoring-time declaration, before any outcome-derived table
+# is hashed or opened) -> identity gates (including split-agreement
+# verification) -> the single staging event -> staged-member verification ->
 # schema/missingness census (with the pre-registered stop) -> estimation
 # table -> outputs. The end determinism manifest is finalized on every
 # registered terminal path.
@@ -1654,9 +1752,31 @@ def run(args):
          f"seed {SEED}; smoke={args.smoke}.", log_lines)
     contract_blob = verify_authority(args.smoke)
     emit(f"[authority] Governing contract blob: {contract_blob}.", log_lines)
+    if not args.smoke and (args.archive_file is None
+                           or args.member_manifest is None):
+        fail(EXIT_AUTHORITY,
+             "--archive-file and --member-manifest are required for a "
+             "real run: the archive and the frozen member manifest are "
+             "pre-staged local inputs; no network access exists anywhere "
+             "in this probe")
 
     expected_cases = SMOKE_CASES if args.smoke else EXPECTED_CASES
     head_size = SMOKE_HEAD_SIZE if args.smoke else HEAD_SIZE
+
+    # SPLIT FREEZE (hard standard 5): the manifest is materialized from the
+    # authoring-time declaration and written and hashed BEFORE any
+    # outcome-derived table is hashed or opened in this process (in smoke,
+    # before the synthetic tables even exist on disk), before the archive
+    # is touched, and before any phenotype byte exists on disk.
+    ids_by_rank = SMOKE_IDS_BY_RANK if args.smoke else FROZEN_ANALYZED_IDS_BY_RANK
+    assert len(ids_by_rank) == expected_cases
+    split, head_ids, rest_ids = freeze_split(args.output_dir, ids_by_rank,
+                                             head_size, args.smoke)
+    emit(f"[split] Frozen strata (predeclared, before any outcome-derived "
+         f"table access): {split['head_cases']} head / "
+         f"{split['rest_cases']} rest (manifest sha256 "
+         f"{split['split_manifest_sha256']}); {split['reserved_cases']} "
+         f"reserved cases untouched.", log_lines)
 
     if args.smoke:
         fixtures = make_smoke_inputs(args.output_dir)
@@ -1674,12 +1794,6 @@ def run(args):
                         "exclusions.csv": exclusions_path,
                         "census_summary.json": census_path}
     else:
-        if args.archive_file is None or args.member_manifest is None:
-            fail(EXIT_AUTHORITY,
-                 "--archive-file and --member-manifest are required for a "
-                 "real run: the archive and the frozen member manifest are "
-                 "pre-staged local inputs; no network access exists anywhere "
-                 "in this probe")
         contrib_path = CONTRIB_PATH
         support_path = SUPPORT_PATH
         freeze_path = FREEZE_PATH
@@ -1696,6 +1810,8 @@ def run(args):
                         "phase_a_resolved_config.json": BUNDLE_RESOLVED_CONFIG}
 
     # STEP 1 -- identity gates on every pinned input and consumed artifact.
+    # The outcome-derived tables are hashed and opened only now, with the
+    # split manifest already frozen on disk.
     emit("[identity] Hashing all frozen inputs and consumed Phase-A artifacts.",
          log_lines)
     manifest_start = hash_inputs(hash_targets)
@@ -1704,24 +1820,18 @@ def run(args):
     verify_input_pins(manifest_start, args.smoke)
     contrib_rows = load_contributions(contrib_path, expected_cases)
     support_rows = load_support(support_path, expected_cases, head_size)
+    verify_split_against_tables(ids_by_rank, head_size, contrib_rows,
+                                support_rows)
     recomputed_constants = verify_phase_a_constants(
         support_rows, contrib_rows, head_size, expected_constants)
     freeze_check = verify_freeze_bindings(freeze_path, args.smoke)
-    emit(f"[identity] All pins verified; all "
+    emit(f"[identity] All pins verified; loaded tables agree exactly with "
+         f"the predeclared split; all "
          f"{len(expected_constants)} frozen Phase-A constants recomputed "
          f"exactly; bound variable list matches the machine proposal.",
          log_lines)
     write_json(args.output_dir / "determinism_manifest_start.json", manifest_start)
     print(json.dumps(manifest_start, sort_keys=True), flush=True)
-
-    # SPLIT FREEZE (hard standard 5): written and hashed before the archive
-    # is touched and before any phenotype byte exists on disk.
-    split, head_ids, rest_ids = freeze_split(args.output_dir, contrib_rows,
-                                             head_size, args.smoke)
-    emit(f"[split] Frozen strata: {split['head_cases']} head / "
-         f"{split['rest_cases']} rest (manifest sha256 "
-         f"{split['split_manifest_sha256']}); {split['reserved_cases']} "
-         f"reserved cases untouched.", log_lines)
 
     # STEP 2 -- the single selective staging event.
     analyzed_ids = sorted(head_ids) + sorted(rest_ids)
