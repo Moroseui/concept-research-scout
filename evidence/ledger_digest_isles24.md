@@ -24,7 +24,7 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-004-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.3, audited 2026-08-18] -- The brain's odometer: calcification as the model's age gauge
 - **isles24-scout-002-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-16] -- The clot that lets contrast through
 - **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
-- **isles24-scout-008-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-09-02] -- The blood arrives backwards: filling direction as the model's collateral gauge
+- **isles24-scout-010-c01** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-09-02] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
 - ... and 20 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
