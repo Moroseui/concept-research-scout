@@ -1,0 +1,10 @@
+**Keystone screen for idea 047: PASS.** The artifact is written to `ideas/047/keystone_screen.md`.
+
+What I verified, all with verbatim quotes against primary artifacts:
+
+- **Part 1 (contribution table)** — `probes/046/results/results_v3/per_case_contributions.csv` exists on main with the exact header, 99 unique data rows, and top row the card quotes; `census_summary.json` confirms the 79.29% top-ten signed share and the 39 opposing cases.
+- **Part 2 (phenotype in the archive)** — the `archive_manifest.csv` on the results branch (manifest of the md5-verified `train.7z`) contains the two phenotype rows the card quotes byte-for-byte, with 149 `ses-02_outcome.csv` and 149 `demographic_baseline.csv` members.
+- **Sharper than the card claimed** — I joined the 99 census case ids against the manifest: all 99 analyzed cases have *both* phenotype files. The card's evidence (149 file counts) only implied this; it's now a verified fact.
+- **Residual-assumption check** — the deliverable actually leans on the phenotype containing mRS/NIHSS, not just files existing. The Zenodo record (16813698, v3) states verbatim: "Clinical data: demographics, patient history, admission NIHSS, 3-month functional outcome (mRS), etc.", and `clinical_data-description.xlsx` (12.1 kB) is on the record. The one thing still open — exact column coding and per-case missingness — is unverifiable *by design*: the card's own D3 read-restriction forbids opening case-level phenotype files before the frozen spec, so that residual is correctly deferred, not neglected. Missingness would shrink sensitivity, not make the study uninterpretable.
+
+No wrong-keystone error found; the idea proceeds to critique at full price.
