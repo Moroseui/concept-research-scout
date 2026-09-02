@@ -1,6 +1,28 @@
 {
   "idea_id": "047",
+  "phase": "B",
+  "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
   "passed": true,
   "issues": [],
-  "checked_at": "2026-09-02T03:54:32.380572+00:00"
+  "checks_run": [
+    "approval marker binds the exact working-tree contract blob dc586665d0be... (git hash-object reproduced it; HUMAN_APPROVED_PROBE quotes it verbatim)",
+    "contract is v3 with the bound variable list; the v2 pre-amendment sentinel <<TO_BE_FROZEN_AT_AMENDMENT>> is absent from the contract text",
+    "all five SHA-256 input pins re-verified by sha256sum against the working tree (exclusions.csv 58e9f8ab..., per_case_contributions.csv aba52512..., census_summary.json 189c0ce8..., proposed_variable_freeze.json 87c5e11b..., per_case_support.csv 994a4f88...)",
+    "member manifest git blob edb9a8c2... exists and reads (git cat-file); header is path,size,crc; 149 baseline + 149 outcome phenotype members; all 99 analyzed census ids join to BOTH families (comm over sorted id lists, zero missing); payload uses sub-strokeNNNN uniformly (zero strokecase rows; the tolerance stays coded per contract)",
+    "consumed freeze proposal's proposed_field_spelling values grep-verified to equal the seven bound spellings exactly (MRS 3 months, NIHSS 24h, NIHSS at admission, Age, Sex, mTici postinterventional, Onset to door) with center.documented=false and mtici first in contextual order, so verify_freeze_bindings passes against the real artifact",
+    "frozen Phase-A constants exactness argued from three independent grounds: the Phase-A run computed them from the same per_case_support.csv rows with the same math.fsum arithmetic (order-independent, correctly rounded), the ratified cross-family interpret review independently re-verified the head sums transcription-exactly (2,025,630 / 22,604,450 voxels; 0.04367036086720666), and float() round-trips repr exactly; the run-time gate re-verifies before any staging",
+    "manual full-file review of run.py after writing (all 2019 lines read back in final on-disk form); triple-quote occurrences balanced (42), zero tab characters, function definitions cross-checked against every call site",
+    "contract literal list checked by inspection against the v3 contract text (version, caps, seed 20260902, 10000 relabelings, all pins, all seven constants, all seven field spellings, mTICI level order, exchangeability label, all five Phase-B artifact names)"
+  ],
+  "not_run": [
+    {
+      "command": "python3 -m py_compile probes/047/run.py",
+      "reason": "this build sandbox blocks Python execution (same constraint as both Phase-A rounds); desk-verified instead"
+    },
+    {
+      "command": "python3 probes/047/run.py --smoke --output-dir /tmp/probe-047-smoke",
+      "reason": "same sandbox constraint; the smoke is designed for the reviewer's environment: synthetic 12-case world, no archive, no 7z, exercises member resolution incl. the sub-strokecase spelling, real CRC32 staged-member verification, census edge paths (empty, parse-failure, decimal-normalized, out-of-set mTICI, two-row file anomaly, fully-missing bound variable), real small-cell suppression, both uncertainty displays, and asserts each path fired; expected exit 0 with status SMOKE_ONLY well under 60s"
+    }
+  ],
+  "checked_at": "2026-09-02T04:48:40+00:00"
 }

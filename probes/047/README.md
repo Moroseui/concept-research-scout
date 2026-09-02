@@ -1,8 +1,8 @@
 # Probe 047 — keystone-ten support arithmetic and clinical profile
 
 **Position (2026-09-02): Phase A complete and ratified; contract v3
-(the pre-registered Phase-B amendment) drafted and awaiting fresh human
-approval. Phase-B code is not yet implemented.**
+(blob `dc586665d0be…`) human-approved; `run.py` in this directory now
+implements Phase B, the sole executable phase.**
 
 Phase A executed under contract v2 (blob
 `b4887c05a21bfe870589b5d9982066943df679d5`) and is **of record**:
@@ -10,163 +10,136 @@ terminal `PHASE_A_COMPLETE_REQUIRES_AMENDMENT`, bundle imported at
 `probes/047/results/results_v2` (commit `6037f24`), interpretation
 cross-family reviewed (APPROVE) and ratified. The Phase-A bundle
 validates under its own historical blob forever; nothing re-authorizes
-Phase-A execution.
+Phase-A execution, and this code refuses to recompute Phase-A science —
+it only re-verifies the consumed artifacts' identity. The Phase-A
+implementation of record is preserved in git history (commit `e9f5f94`
+and earlier); the approval marker `ideas/047/HUMAN_APPROVED_PROBE`
+binds the current v3 contract blob exactly.
 
-`ideas/047/probe_contract.yaml` is now **contract v3**, the amendment
-v2's own `amendment_protocol` pre-registered: it binds the frozen
-clinical variable list from Phase A's machine-derived proposal
-(`proposed_variable_freeze.json`, sha256 `87c5e11b…`), records the
-Phase-A consumed artifacts, and swaps `required_outputs` to the Phase-B
-interface. The blob change stales the Phase-A approval by construction;
-fresh human approval of the v3 blob is the sole authorization for
-Phase B, for staging any phenotype member, and for the first read of
-any phenotype row.
-
-`run.py` in this directory implements **Phase A only** and refuses the
-amended contract by construction (its authority gate requires the
-pre-amendment `frozen_variable_list` sentinel). It is retained as the
-frozen implementation of record; Phase-B code arrives in a later
-probe-build round under the approved v3 blob.
-
-## Running Phase A
+## Running Phase B
 
 One command into a new, empty output directory. The probe performs **no
-network access**: `--dictionary-file` is a required pre-staged input — a
-held copy of `clinical_data-description.xlsx` from immutable Zenodo
-record 16813698 (12,149 bytes, md5 `c8d806a0…`), verified against those
-pins before any cell is read. The probe refuses to run without it:
+network access**; both heavy inputs are pre-staged local paths:
+
+- `--archive-file` — the held `train.7z` from immutable Zenodo record
+  16813698 (99,014,629,647 bytes, md5 `36ae28b9…`), byte-count- and
+  md5-verified before extraction. Use local disk, not a FUSE mount
+  (2026-08-25/26 lessons).
+- `--member-manifest` — a local copy of the frozen archive member
+  manifest (`path,size,crc`), byte-verified against git blob
+  `edb9a8c2ceb90df214cdd7ec167f0b1e8c858bb2` before use. Materialize it
+  from the repository with:
+
+  ```bash
+  git cat-file blob edb9a8c2ceb90df214cdd7ec167f0b1e8c858bb2 > archive_manifest.csv
+  ```
+
+The single real staging event uses the system `7z` binary (p7zip;
+override the executable with `--sevenzip`); it is the only non-stdlib
+dependency and only the real run needs it.
 
 ```bash
-python probes/047/run.py --output-dir /path/to/probe-047-phase-a --dictionary-file /path/to/clinical_data-description.xlsx
+python probes/047/run.py --output-dir /path/to/probe-047-phase-b \
+    --archive-file /path/to/train.7z \
+    --member-manifest /path/to/archive_manifest.csv
 ```
 
-Synthetic harness check (no real inputs, no network, never a gate):
+Synthetic harness check (no archive, no 7z, no real inputs, never a
+gate):
 
 ```bash
 python probes/047/run.py --smoke --output-dir /tmp/probe-047-smoke
 ```
 
-Exit codes: 0 valid completion (`PHASE_A_COMPLETE_REQUIRES_AMENDMENT`,
-`PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED`, or `SMOKE_ONLY`); 2
-authority/CLI; 3 input identity; 4 pre-registered support-provenance
-stop; 5 census cross-check (invalidating transcription); 6
-scope/blindness; 7 output/determinism; 8 wall time; 12 unexpected fault.
+Exit codes: 0 valid completion (`STUDY_COMPLETE` or `SMOKE_ONLY`); 2
+authority/CLI; 3 input identity (pin, blob, constant, or
+archive-identity mismatch); 4 pre-registered `PHENOTYPE_SCHEMA_MISMATCH`
+stop; 5 staging-integrity failure; 6 scope/blindness; 7
+output/determinism; 8 wall time; 12 unexpected fault.
 
-## What the probe tests first (the riskiest assumption)
+## What Phase B does, in contract order
 
-Before any science is emitted, Phase A must pass a provenance-and-join
-gate on the cached support extract, entirely from pinned in-repo bytes:
+1. **Identity gates (step 1).** SHA-256 pins on the three frozen inputs
+   (`exclusions.csv` `58e9f8ab…`, `per_case_contributions.csv`
+   `aba52512…`, `census_summary.json` `189c0ce8…`) and both consumed
+   Phase-A artifacts (`proposed_variable_freeze.json` `87c5e11b…`,
+   `per_case_support.csv` `994a4f88…`); the member manifest's git blob;
+   the Phase-A bundle's own recorded governing blob; head-membership
+   cross-check (the ten `in_head=True` rows must be exactly signed_rank
+   1–10); and exact recomputation of all seven frozen Phase-A constants
+   (`math.fsum` is correctly rounded, so equality is exact). The bound
+   variable list is also checked against the machine proposal's
+   spellings.
+2. **Split freeze.** `split_manifest.csv` (99 case ids, head/rest
+   strata from frozen signed ranks) is written and hashed before the
+   archive is touched and before any phenotype byte exists on disk.
+3. **Staging (step 2).** The 198-member extraction set is resolved from
+   the frozen manifest (tolerating the `sub-stroke`/`sub-strokecase`
+   payload spellings by case-number canonicalization); archive byte
+   count and md5 are verified; ONE selective `7z x` invocation extracts
+   exactly those members; every staged file is size- and CRC32-verified
+   against the manifest before any byte is parsed, and the staged tree
+   is proven to contain nothing else. Everything is receipted in
+   `staging_audit.json`. Staging transport is uncapped; the 15-minute
+   post-staging analysis wall starts when it completes.
+4. **Schema/missingness census (step 3).** Every staged member is
+   parsed; each bound field resolves by the frozen normalization rule
+   (trim, casefold, collapse whitespace; exact equality; expected file
+   family preferred, either tolerated, never a different spelling).
+   `phenotype_schema_census.csv` records per-variable, per-stratum
+   counts only — no clinical value. Pre-registered stop: if the rows
+   cannot support the minimum variable set (one of {MRS 3 months,
+   NIHSS 24h, NIHSS at admission} AND one of {Age, Sex} with ≥1
+   non-missing value each), the run stops as
+   `PHENOTYPE_SCHEMA_MISMATCH` (exit 4) with the reduced interface —
+   a decision-grade stop for escalation, not a negative.
+5. **Estimation table (step 4).** The single aggregate 10-versus-89
+   table over the seven bound variables with the closed statistic menu
+   (continuous: mean/SD, median/IQR, SMD, difference in medians;
+   ordinal: level counts, cumulative distribution, difference in
+   medians, rank-biserial; binary: counts/proportions, difference in
+   proportions of F), both frozen exploratory uncertainty displays per
+   contrast (deterministic leave-one-head-case-out range; central 95%
+   of 10,000 seed-20260902 relabelings under the verbatim label
+   "hypothetical exchangeability reference; not a confidence interval;
+   not sampling inference"), the D4 joint support display on every row
+   (head/rest B_i medians plus the two frozen Phase-A shares), per-group
+   missingness, and the frozen small-cell suppression (any ordinal or
+   categorical level with 1–2 head cases displays `<3`; zero stays 0;
+   every suppression logged, including the direct-difference guard on
+   head cumulative cells and the derived head proportion). A bound
+   variable that resolves nowhere is reported as a fully-missing row,
+   never dropped.
 
-- `probes/023/results/results_v2/exclusions.csv` (sha256 `58e9f8ab…`),
-  filtered to `record_type == analyzed_case`, must yield exactly 99
-  unique case ids **set-equal** to the 99 ids of the frozen contribution
-  table (`probes/046/results/results_v3/per_case_contributions.csv`,
-  sha256 `aba52512…`), each with a finite positive integer
-  `eroded_region_voxels` — this is `B_i`;
-- the only non-analyzed rows must be the two documented bookkeeping rows
-  (`sub-stroke0142` excluded_archive_lesion, `sub-stroke0043`
-  excluded_case);
-- `probes/023/run.py` must byte-match frozen blob
-  `0e9a40b453b6d4b653841d6ea70f2e4b75cce9be`, whose
-  `coordinate_arrays()` (lines 486–523, recorded verbatim in
-  `resolved_config.json`) writes `eroded_region_voxels` as the eligible
-  region after Tmax>6.0 thresholding, six-neighbor erosion, border +
-  two-voxel array-midline exclusion, per-patient p98 CBV vessel
-  exclusion, and finiteness/positivity filtering. The code is evidence
-  and is **never executed** under this contract.
+## Blindness and scope
 
-All of this was re-verified by hand at probe-build (2026-09-02; hashes
-reproduce, join exact 99/99, `B_i` range 1401–617540). A gate failure
-stops the run as `SUPPORT_PROVENANCE_FAILURE` (exit 4) with the gate
-record as the deliverable — a pre-registered decision-grade stop, not a
-negative and not invalidating; no substitute support source may be
-consulted.
-
-## Phase-A outputs
-
-The contract interface — `resolved_config.json`, `input_manifest.csv`,
-`provenance_gate.json`, `per_case_support.csv`, `support_shares.json`,
-`rank_discrepancy.csv`, `dictionary_inventory.csv`,
-`proposed_variable_freeze.json`, `summary.json`, `environment.txt`,
-`run_log.txt` — plus the case-identified split manifest (the analyzed
-case ids from the phenotype-blind exclusions table, hashed **before**
-the outcome-derived contribution table is opened; the support gate then
-requires exact id equality against it), start/end determinism manifests
-covering every input including the pre-staged dictionary (finalized on
-the decision-grade stop path too), the bookkeeping exclusions log, and
-the staged dictionary copy. The support clause is
-exact finite-population arithmetic: `sum_head |c_i| / sum_all |c_i|`
-beside `sum_head B_i / sum_all B_i` (the only two numbers the
-proportionality clause may cite), the casewise rank-discrepancy display,
-descriptive Spearman rho, and the 79.29% signed share strictly as
-separately-labeled reversal accounting. No test, interval, threshold, or
-verdict exists anywhere in the clause.
-
-## Phase structure (one contract, right-sizing ruling 2026-09-01)
-
-- **Phase A (this code):** identity gates → provenance-and-join gate →
-  census cross-checks → frozen support clause → dictionary-only
-  inventory of `clinical_data-description.xlsx` (12,149 bytes, md5
-  pinned `c8d806a0…`) with a machine-derived proposed variable freeze.
-  Terminal: `PHASE_A_COMPLETE_REQUIRES_AMENDMENT`, or
-  `PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED` if the dictionary cannot
-  support the minimum variable set. Wall cap: 10 minutes.
-- **Amendment (contract v3, DRAFTED, awaiting fresh approval):** binds
-  the seven-variable frozen clinical list from Phase A's machine
-  proposal — MRS 3 months (ordinal, primary outcome), NIHSS 24h
-  (continuous, the lineage-preserving field), NIHSS at admission
-  (continuous, baseline context, never interchangeable with 24h), Age
-  (continuous), Sex (binary), and the two contextual-cap fields mTici
-  postinterventional (ordinal, frozen mTICI level order) and Onset to
-  door (continuous minutes) — with exact release spellings, parse/
-  missingness rules, and closed-menu statistics per variable. Center is
-  absent from the dictionary; the mandatory-if-documented rule is
-  discharged by that recorded absence. `required_outputs` is swapped to
-  the Phase-B interface; the Phase-A bundle identity plus the hashes of
-  `proposed_variable_freeze.json` and `per_case_support.csv` are bound
-  as consumed artifacts.
-- **Phase B (not implemented here; a later probe-build round under the
-  approved v3 blob):** one selective staging event of exactly the
-  **198** phenotype members (99 × `demographic_baseline.csv` + 99 ×
-  `outcome.csv`) from the held md5-verified `train.7z` (Zenodo record
-  16813698), size/CRC-checked against the frozen archive manifest;
-  then the pre-registered phenotype schema/missingness census
-  (feasibility section 8) with the decision-grade stop
-  `PHENOTYPE_SCHEMA_MISMATCH` if the case-level rows cannot support
-  the minimum variable set; then one aggregate 10-versus-89 estimation
-  table under D4: joint support display, per-group missingness,
-  small-cell suppression, and two exploratory-labeled uncertainty
-  displays per contrast (deterministic leave-one-head-case-out ranges,
-  plus a relabeling range explicitly labeled a hypothetical
-  exchangeability reference, seed 20260902). Terminal:
-  `STUDY_COMPLETE`.
-
-Blindness is stronger than in v1: no phenotype byte is even staged to
-disk until the Phase-B approval exists. **No perfusion map, NCCT, or
-lesion-mask member is staged or read in either phase**, the 49 reserved
-cases and `sub-stroke0043` are never touched, and
-`probes/023/results/results_v2/per_patient.csv` is untouchable by a
-path guard.
+No perfusion map, NCCT, lesion mask, or any imaging member is staged or
+read; a path guard refuses `.nii`, `perfusion-maps`, `lesion-msk`,
+`_ncct`, and `per_patient.csv` outright. The 49 reserved cases and
+`sub-stroke0043` are never touched (the extraction set is derived from
+the 99 analyzed ids only, and the staged tree is walked to prove no
+extra file exists). No per-case clinical value appears in any output;
+`per_case_staging.csv` carries file bookkeeping only.
 
 ## What no outcome authorizes
 
-Both terminal statuses are descriptive. The probe defines no
-proportionality verdict, no keystone label, no clinically-silent or
-clinically-marked reading, no per-patient claim, no model-use or causal
-claim, and no generalization beyond the realized 99 cases. The signed
-79.29% share may never be compared against the support share as
-contribution per unit support.
+Both terminal statuses are descriptive. The probe defines no separation
+verdict, no clinically-silent or clinically-marked reading, no keystone
+label, no proportionality verdict, no per-patient claim, no model-use or
+causal claim, and no generalization beyond the realized 99 cases. The
+signed 79.29% share is republished only as separately-labeled reversal
+accounting; the relabeling ranges are never confidence intervals. An
+absence of large separation may be stated only as "no separation larger
+than the displayed exploratory ranges was observed at the achieved
+precision."
 
 ## Expected sequence
 
-Phase A ✓ → record-result ✓ → interpret + cross-family review ✓ →
-ratify ✓ → **amendment (contract v3, this round) → fresh human
-approval** → Phase B probe-build + cross-family review → Phase B run →
-record-result (expected destination `probes/047/results/results_v3`
-per the current-blob discovery convention) → interpret → ratify. An
-`ideas/047/registry.yaml` two-node DAG (phase_a → phase_b with the
-declared consumed-artifact edge) remains queued per the
-registry-per-probe rule, to be authored before or alongside the
-Phase-B record-result. The v1 draft plan is preserved at commit
-`63459ec`; the v2 plan at `c2e5576`; the pre-build plan README at
-`c81d448`.
+Phase A ✓ → record-result ✓ → interpret + review ✓ → ratify ✓ →
+amendment (contract v3) ✓ → fresh human approval ✓ → **Phase B
+probe-build (this code) → cross-family review → Phase B run** →
+record-result (expected destination `probes/047/results/results_v3` per
+the current-blob discovery convention) → interpret → ratify. The
+`ideas/047/registry.yaml` two-node DAG remains queued per the
+registry-per-probe rule, to be authored before or alongside the Phase-B
+record-result.
