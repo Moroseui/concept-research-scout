@@ -2818,6 +2818,18 @@ class TestMultiCharter(Harness):
         p = self.repo / "charters" / name
         p.mkdir(parents=True, exist_ok=True)
         (p / "CHARTER.md").write_text(text + "\n")
+        # Isolation (2026-09-02 CI incident): the pruned fixture copies
+        # LIVE orchestrator/state.json and ledger.jsonl, so a real
+        # charter's advanced cycle counter -- and its saturated backlog
+        # tripping generation backpressure -- leaked into these tests
+        # the night the production counter first moved. Scheduling
+        # state is operational, never fixture truth: reset the charter
+        # counters here; the cycle invocations below run with
+        # SCOUT_FORCE=1, the sanctioned deliberate-run override.
+        st_p = self.repo / "orchestrator" / "state.json"
+        st = json.loads(st_p.read_text())
+        st["charters"] = {}
+        st_p.write_text(json.dumps(st) + "\n")
         self._commit_all()
 
     def test_unknown_charter_refuses_before_spend(self):
@@ -2831,7 +2843,7 @@ class TestMultiCharter(Harness):
         baseline_next = json.loads((self.repo / "orchestrator" / "state.json")
                                    .read_text())["next_scout"]
         r = self.scout("cycle", "--charter", "isles24", "--tracks", "baseline",
-                       action="cycle_auto")
+                       action="cycle_auto", SCOUT_FORCE="1")
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertTrue((self.repo / "ideas" / "scout-isles24-001").exists())
         st = json.loads((self.repo / "orchestrator" / "state.json").read_text())
@@ -2845,7 +2857,7 @@ class TestMultiCharter(Harness):
     def test_charter_text_reaches_prompt_baseline_does_not(self):
         self._mk_charter()
         self.scout("cycle", "--charter", "isles24", "--tracks", "baseline",
-                   action="cycle_auto")
+                   action="cycle_auto", SCOUT_FORCE="1")
         from pathlib import Path
         receipt = Path(self.receipt).read_text()
         self.assertIn("CHARTER-MARKER-ZZQ", receipt)
