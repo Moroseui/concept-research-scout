@@ -1,0 +1,6 @@
+input,path,sha256,role
+exclusions.csv,/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/exclusions.csv,58e9f8ab7cea38e6717319a26ea6a590dc7d1ad0d42d6b30dca648b0509a5a71,frozen_input
+per_case_contributions.csv,/home/partho/concept-research-scout-v4/concept-research-scout/probes/046/results/results_v3/per_case_contributions.csv,aba525122f796618761e6c4d29b664647760e8dff4987932c3ff6ab5456faae9,frozen_input
+census_summary.json,/home/partho/concept-research-scout-v4/concept-research-scout/probes/046/results/results_v3/census_summary.json,189c0ce846cffd2eff76e896bfa35156893568d5ee64868caae0b8609bd4c761,frozen_input
+take13_run.py,/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/run.py,ff237ea7af332554daed8cd295204084a2b4a9394761b66f78dd1bd5f3a5bf23,frozen_input
+clinical_data-description.xlsx,/home/partho/staging47/clinical_data-description.xlsx,7f7dd4dadbe46113ae30be37b8bef425318336206f17b5079909517681a646a2,staged_dictionary

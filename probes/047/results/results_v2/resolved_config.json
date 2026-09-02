@@ -1,0 +1,93 @@
+{
+  "cli": {
+    "dictionary_file": "/home/partho/staging47/clinical_data-description.xlsx"
+  },
+  "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
+  "contract_version": 2,
+  "dictionary": {
+    "bytes": 12149,
+    "md5": "c8d806a021614c6bb9f732756f9701d4",
+    "sha256": "7f7dd4dadbe46113ae30be37b8bef425318336206f17b5079909517681a646a2",
+    "source": "/home/partho/staging47/clinical_data-description.xlsx"
+  },
+  "gpu_minutes": 0,
+  "idea_id": "idea-047",
+  "inputs": {
+    "census_summary.json": {
+      "path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/046/results/results_v3/census_summary.json",
+      "sha256": "189c0ce846cffd2eff76e896bfa35156893568d5ee64868caae0b8609bd4c761"
+    },
+    "clinical_data-description.xlsx": {
+      "path": "/home/partho/staging47/clinical_data-description.xlsx",
+      "sha256": "7f7dd4dadbe46113ae30be37b8bef425318336206f17b5079909517681a646a2"
+    },
+    "exclusions.csv": {
+      "path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/results/results_v2/exclusions.csv",
+      "sha256": "58e9f8ab7cea38e6717319a26ea6a590dc7d1ad0d42d6b30dca648b0509a5a71"
+    },
+    "per_case_contributions.csv": {
+      "path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/046/results/results_v3/per_case_contributions.csv",
+      "sha256": "aba525122f796618761e6c4d29b664647760e8dff4987932c3ff6ab5456faae9"
+    },
+    "take13_run.py": {
+      "path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/run.py",
+      "sha256": "ff237ea7af332554daed8cd295204084a2b4a9394761b66f78dd1bd5f3a5bf23"
+    }
+  },
+  "output_dir": "/tmp/p47/results_v2",
+  "phase": "A",
+  "seed": 20260902,
+  "smoke": false,
+  "take13_code_evidence": {
+    "coordinate_arrays": {
+      "source_lines": [
+        486,
+        523
+      ],
+      "verbatim": [
+        "def coordinate_arrays(arrays):",
+        "    cbf, cbv, mtt, tmax = (arrays[k] for k in (\"cbf\", \"cbv\", \"mtt\", \"tmax\"))",
+        "    finite_maps = np.isfinite(cbf) & np.isfinite(cbv) & np.isfinite(mtt) & np.isfinite(tmax)",
+        "    deficit = np.isfinite(tmax) & (tmax > 6.0)  # DEFUSE-family threshold frozen in contract.",
+        "    # Amended clause 66: use the per-patient 98th percentile because CBV units",
+        "    # are undocumented. Under the conventional scale this approximates the",
+        "    # vessel fraction targeted by the retired 8 mL/100 g cap.",
+        "    positive_cbv = cbv[np.isfinite(cbv) & (cbv > 0)]",
+        "    if positive_cbv.size == 0:",
+        "        fail(6, \"CBV map has no finite positive values for the vessel percentile\")",
+        "    vessel_cbv_p98 = float(np.percentile(positive_cbv, 98.0))",
+        "    assert np.isfinite(vessel_cbv_p98) and vessel_cbv_p98 > 0",
+        "    vessel = np.isfinite(cbv) & (cbv > vessel_cbv_p98)",
+        "    # Contract thresholds: Tmax > 6 seconds and the unit-free patient CBV p98.",
+        "    region = deficit.copy()",
+        "    # One-voxel binary erosion removes unstable deficit boundaries, as frozen",
+        "    # in preprocessing.region. Six face-neighbors make the 3-D voxel erosion.",
+        "    eroded = region.copy()",
+        "    for axis in range(3):",
+        "        eroded &= np.roll(region, 1, axis=axis)",
+        "        eroded &= np.roll(region, -1, axis=axis)",
+        "    eroded[[0, -1], :, :] = False; eroded[:, [0, -1], :] = False; eroded[:, :, [0, -1]] = False",
+        "    # Contract retains the two-voxel array-midline exclusion as a boundary safeguard.",
+        "    plane = (cbf.shape[0] - 1) / 2.0",
+        "    coordinates = np.arange(cbf.shape[0], dtype=float)",
+        "    eroded[np.abs(coordinates - plane) <= 2.0, :, :] = False",
+        "    eroded &= ~vessel & finite_maps & (cbf > 0) & (cbv > 0) & (mtt > 0)",
+        "    exclusions = {\"deficit_voxels\": int(deficit.sum()), \"eroded_region_voxels\": int(eroded.sum()),",
+        "                  \"vessel_voxels\": int(vessel.sum()),",
+        "                  \"vessel_cbv_p98\": vessel_cbv_p98,",
+        "                  \"nonfinite_cbf_voxels\": int((~np.isfinite(cbf)).sum()),",
+        "                  \"nonfinite_cbv_voxels\": int((~np.isfinite(cbv)).sum()),",
+        "                  \"nonfinite_mtt_voxels\": int((~np.isfinite(mtt)).sum()),",
+        "                  \"nonfinite_tmax_voxels\": int((~np.isfinite(tmax)).sum())}",
+        "    assert np.all(np.isfinite(cbf[eroded])) and np.all(cbf[eroded] > 0)",
+        "    assert np.all(np.isfinite(cbv[eroded])) and np.all(cbv[eroded] > 0)",
+        "    assert np.all(np.isfinite(mtt[eroded])) and np.all(mtt[eroded] > 0)",
+        "    return cbf, cbv, mtt, eroded, exclusions"
+      ]
+    },
+    "git_blob": "0e9a40b453b6d4b653841d6ea70f2e4b75cce9be",
+    "note": "byte-verified evidence of the B_i definition; never executed",
+    "path": "/home/partho/concept-research-scout-v4/concept-research-scout/probes/023/run.py"
+  },
+  "variants": 1
+}

@@ -1,0 +1,12 @@
+{
+  "analyzed_census_cases": 99,
+  "created_before_contribution_or_census_opened": true,
+  "excluded_bookkeeping_cases": 2,
+  "id_source": "record_type == analyzed_case rows of the pinned, phenotype-blind exclusions.csv (take-13 label-blind output); hashed before any outcome-derived byte",
+  "phenotype_rows_opened": 0,
+  "reserved_cases": 49,
+  "reserved_cases_accessed": 0,
+  "seed": 20260902,
+  "smoke": false,
+  "split_manifest_sha256": "2ccb815ca5f184ebb7704208c1dbf155bbd2db4a590e9e1c5812f917c9be2364"
+}

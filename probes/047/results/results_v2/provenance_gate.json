@@ -1,0 +1,45 @@
+{
+  "analyzed_rows": 99,
+  "b_finite_positive_integer_count": 99,
+  "b_max": 617540,
+  "b_min": 1401,
+  "bookkeeping_rows": [
+    {
+      "case_id": "sub-stroke0142",
+      "reason": "duplicate/noncanonical lesion archive member; follow-up derivative retained",
+      "record_type": "excluded_archive_lesion",
+      "support_fields_blank": true
+    },
+    {
+      "case_id": "sub-stroke0043",
+      "reason": "source_corrupt_member",
+      "record_type": "excluded_case",
+      "support_fields_blank": true
+    }
+  ],
+  "census_cross_checks": {
+    "checks": {
+      "abs_head_share_matches_census_json": true,
+      "abs_head_share_matches_contract_constant": true,
+      "sign_counts_match_census_json": true,
+      "sign_counts_match_contract_constant": true,
+      "signed_and_absolute_head_sets_coincide": true,
+      "signed_head_share_matches_census_json": true,
+      "signed_head_share_matches_contract_constant": true
+    },
+    "recomputed_abs_head_share": 0.5063509495830807,
+    "recomputed_signed_head_share": 0.7928912778985707,
+    "sign_counts": {
+      "negative": 39,
+      "positive": 54,
+      "zero": 6
+    }
+  },
+  "contribution_ids_match_frozen_split_manifest": true,
+  "discrepancies": [],
+  "drafting_fingerprint_note": "drafting-time span 1401..617540 is lineage evidence only, not a runtime gate",
+  "id_set_matches_contribution_table": true,
+  "pass": true,
+  "split_manifest_sha256": "2ccb815ca5f184ebb7704208c1dbf155bbd2db4a590e9e1c5812f917c9be2364",
+  "unique_analyzed_ids": true
+}

@@ -1,0 +1,19 @@
+{
+  "analyzed_cases": 99,
+  "bookkeeping_rows_excluded": 2,
+  "clinical_minimum_set_supported": true,
+  "dictionary_cells_inventoried": 148,
+  "head_abs_contribution_share": 0.5063509495830807,
+  "head_size": 10,
+  "head_support_share": 0.08961200117675944,
+  "idea_id": "idea-047",
+  "phase": "A",
+  "phenotype_rows_opened": 0,
+  "primary_output": "support_shares.json (sole disproportionality comparison)",
+  "reserved_cases_accessed": 0,
+  "signed_reversal_accounting_share": 0.7928912778985707,
+  "smoke": false,
+  "spearman_rho": 0.07085961657390227,
+  "status": "PHASE_A_COMPLETE_REQUIRES_AMENDMENT",
+  "wall_seconds": 0.013
+}

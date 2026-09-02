@@ -1,0 +1,7 @@
+{
+  "dependencies": "Python standard library only",
+  "executable": "/home/partho/concept-research-scout-v4/concept-research-scout/.venv-probe/bin/python3",
+  "pid": 378533,
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.42",
+  "python": "3.13.7 (main, Aug 15 2025, 12:34:02) [GCC 15.2.1 20250813]"
+}

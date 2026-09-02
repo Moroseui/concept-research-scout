@@ -1,0 +1,34 @@
+{
+  "descriptive_displays": {
+    "rank_discrepancy_sum_d_squared": 150242,
+    "spearman_method": "classical distinct-rank formula on the frozen tie-broken ranks (1 = largest, ties by case_id ascending); bare descriptive number, no interval",
+    "spearman_rho_abs_contribution_vs_support": 0.07085961657390227
+  },
+  "head_case_ids": [
+    "sub-stroke0002",
+    "sub-stroke0014",
+    "sub-stroke0025",
+    "sub-stroke0090",
+    "sub-stroke0098",
+    "sub-stroke0114",
+    "sub-stroke0136",
+    "sub-stroke0153",
+    "sub-stroke0166",
+    "sub-stroke0181"
+  ],
+  "head_definition": "frozen signed_rank 1..10; membership never recomputed",
+  "n_cases": 99,
+  "reversal_accounting": {
+    "label": "Share of the NET band-2/3 gap after cancellation across the opposing cases. Reversal accounting only: neither this number nor its difference from the support share may be interpreted as contribution per unit support or as evidence of keystone-like dominance.",
+    "signed_head_net_gap_share": 0.7928912778985707
+  },
+  "sole_disproportionality_comparison": {
+    "head_abs_contribution_share": 0.5063509495830807,
+    "head_abs_contribution_sum": 0.04367036086720666,
+    "head_support_share": 0.08961200117675944,
+    "head_support_voxels": 2025630,
+    "rule": "These are the only two numbers the proportionality clause may cite; exact arithmetic scoped to the realized cases; no threshold, interval, test, or is/is-not verdict.",
+    "total_abs_contribution_sum": 0.08624524334982282,
+    "total_support_voxels": 22604450
+  }
+}

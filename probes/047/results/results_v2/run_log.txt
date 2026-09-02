@@ -1,0 +1,133 @@
+[authority] Idea 047 Phase A; seed 20260902; smoke=False.
+[authority] Governing contract blob: b4887c05a21bfe870589b5d9982066943df679d5.
+[load] 101 exclusion rows (pin verified before the split freeze).
+[split] Frozen: 99 analyzed case ids from the pinned exclusions table (manifest sha256 2ccb815ca5f184ebb7704208c1dbf155bbd2db4a590e9e1c5812f917c9be2364); 49 reserved cases untouched.
+[load] Hashing all inputs and verifying identity pins.
+[load] 99 contribution rows.
+[validate] Running the support provenance-and-join gate.
+[validate] Gate PASS: 99 analyzed cases, B_i in [1401, 617540], 2 documented bookkeeping rows.
+[validate] Recomputing census cross-checks (exact equality).
+[validate] Cross-checks PASS: ['abs_head_share_matches_census_json', 'abs_head_share_matches_contract_constant', 'sign_counts_match_census_json', 'sign_counts_match_contract_constant', 'signed_and_absolute_head_sets_coincide', 'signed_head_share_matches_census_json', 'signed_head_share_matches_contract_constant'].
+[measure] Computing the support clause for 99 cases (head = signed_rank 1..10); variant 1/1.
+[measure] Case 1/99 sub-stroke0153: B_i=52796, rank_discrepancy=-84.
+[measure] Case 2/99 sub-stroke0002: B_i=48087, rank_discrepancy=-84.
+[measure] Case 3/99 sub-stroke0166: B_i=14311, rank_discrepancy=-91.
+[measure] Case 4/99 sub-stroke0181: B_i=69357, rank_discrepancy=-79.
+[measure] Case 5/99 sub-stroke0014: B_i=617540, rank_discrepancy=4.
+[measure] Case 6/99 sub-stroke0098: B_i=156747, rank_discrepancy=-53.
+[measure] Case 7/99 sub-stroke0090: B_i=218541, rank_discrepancy=-41.
+[measure] Case 8/99 sub-stroke0114: B_i=583847, rank_discrepancy=4.
+[measure] Case 9/99 sub-stroke0025: B_i=250734, rank_discrepancy=-32.
+[measure] Case 10/99 sub-stroke0136: B_i=13670, rank_discrepancy=-85.
+[measure] Case 11/99 sub-stroke0107: B_i=432197, rank_discrepancy=-3.
+[measure] Case 12/99 sub-stroke0093: B_i=95635, rank_discrepancy=-62.
+[measure] Case 13/99 sub-stroke0089: B_i=211033, rank_discrepancy=-36.
+[measure] Case 14/99 sub-stroke0096: B_i=405190, rank_discrepancy=-2.
+[measure] Case 15/99 sub-stroke0167: B_i=135221, rank_discrepancy=-46.
+[measure] Case 16/99 sub-stroke0088: B_i=264523, rank_discrepancy=-18.
+[measure] Case 17/99 sub-stroke0155: B_i=287727, rank_discrepancy=-13.
+[measure] Case 18/99 sub-stroke0021: B_i=40605, rank_discrepancy=-69.
+[measure] Case 19/99 sub-stroke0078: B_i=473649, rank_discrepancy=11.
+[measure] Case 20/99 sub-stroke0102: B_i=117608, rank_discrepancy=-44.
+[measure] Case 21/99 sub-stroke0026: B_i=332170, rank_discrepancy=1.
+[measure] Case 22/99 sub-stroke0105: B_i=181584, rank_discrepancy=-25.
+[measure] Case 23/99 sub-stroke0081: B_i=233198, rank_discrepancy=-13.
+[measure] Case 24/99 sub-stroke0189: B_i=337604, rank_discrepancy=10.
+[measure] Case 25/99 sub-stroke0083: B_i=89018, rank_discrepancy=-42.
+[measure] Case 26/99 sub-stroke0156: B_i=102104, rank_discrepancy=-36.
+[measure] Case 27/99 sub-stroke0112: B_i=258822, rank_discrepancy=1.
+[measure] Case 28/99 sub-stroke0009: B_i=262003, rank_discrepancy=3.
+[measure] Case 29/99 sub-stroke0080: B_i=491017, rank_discrepancy=33.
+[measure] Case 30/99 sub-stroke0037: B_i=69962, rank_discrepancy=-40.
+[measure] Case 31/99 sub-stroke0187: B_i=235490, rank_discrepancy=2.
+[measure] Case 32/99 sub-stroke0015: B_i=338711, rank_discrepancy=22.
+[measure] Case 33/99 sub-stroke0180: B_i=102342, rank_discrepancy=-26.
+[measure] Case 34/99 sub-stroke0082: B_i=554063, rank_discrepancy=42.
+[measure] Case 35/99 sub-stroke0188: B_i=121794, rank_discrepancy=-18.
+[measure] Case 36/99 sub-stroke0140: B_i=381030, rank_discrepancy=31.
+[measure] Case 37/99 sub-stroke0119: B_i=98893, rank_discrepancy=-23.
+[measure] Case 38/99 sub-stroke0170: B_i=29153, rank_discrepancy=-40.
+[measure] Case 39/99 sub-stroke0138: B_i=421570, rank_discrepancy=36.
+[measure] Case 40/99 sub-stroke0174: B_i=146888, rank_discrepancy=-8.
+[measure] Case 41/99 sub-stroke0005: B_i=180796, rank_discrepancy=2.
+[measure] Case 42/99 sub-stroke0068: B_i=258618, rank_discrepancy=20.
+[measure] Case 43/99 sub-stroke0106: B_i=151623, rank_discrepancy=4.
+[measure] Case 44/99 sub-stroke0022: B_i=538287, rank_discrepancy=62.
+[measure] Case 45/99 sub-stroke0092: B_i=40846, rank_discrepancy=-18.
+[measure] Case 46/99 sub-stroke0012: B_i=353933, rank_discrepancy=52.
+[measure] Case 47/99 sub-stroke0084: B_i=106799, rank_discrepancy=3.
+[measure] Case 48/99 sub-stroke0075: B_i=608300, rank_discrepancy=73.
+[measure] Case 49/99 sub-stroke0057: B_i=121349, rank_discrepancy=16.
+[measure] Case 50/99 sub-stroke0030: B_i=230151, rank_discrepancy=41.
+[measure] Case 51/99 sub-stroke0013: B_i=319595, rank_discrepancy=60.
+[measure] Case 52/99 sub-stroke0148: B_i=228247, rank_discrepancy=43.
+[measure] Case 53/99 sub-stroke0086: B_i=334199, rank_discrepancy=66.
+[measure] Case 54/99 sub-stroke0079: B_i=482591, rank_discrepancy=83.
+[measure] Case 55/99 sub-stroke0094: B_i=186762, rank_discrepancy=42.
+[measure] Case 56/99 sub-stroke0141: B_i=73037, rank_discrepancy=14.
+[measure] Case 57/99 sub-stroke0142: B_i=3948, rank_discrepancy=-2.
+[measure] Case 58/99 sub-stroke0147: B_i=20780, rank_discrepancy=4.
+[measure] Case 59/99 sub-stroke0163: B_i=1401, rank_discrepancy=-1.
+[measure] Case 60/99 sub-stroke0175: B_i=56054, rank_discrepancy=15.
+[measure] Case 61/99 sub-stroke0184: B_i=87053, rank_discrepancy=14.
+[measure] Case 62/99 sub-stroke0019: B_i=149736, rank_discrepancy=28.
+[measure] Case 63/99 sub-stroke0139: B_i=278870, rank_discrepancy=54.
+[measure] Case 64/99 sub-stroke0071: B_i=266984, rank_discrepancy=50.
+[measure] Case 65/99 sub-stroke0077: B_i=353541, rank_discrepancy=63.
+[measure] Case 66/99 sub-stroke0047: B_i=122704, rank_discrepancy=17.
+[measure] Case 67/99 sub-stroke0185: B_i=162876, rank_discrepancy=24.
+[measure] Case 68/99 sub-stroke0074: B_i=40029, rank_discrepancy=-10.
+[measure] Case 69/99 sub-stroke0055: B_i=94019, rank_discrepancy=3.
+[measure] Case 70/99 sub-stroke0157: B_i=79933, rank_discrepancy=-2.
+[measure] Case 71/99 sub-stroke0182: B_i=186871, rank_discrepancy=26.
+[measure] Case 72/99 sub-stroke0100: B_i=109787, rank_discrepancy=5.
+[measure] Case 73/99 sub-stroke0109: B_i=129490, rank_discrepancy=9.
+[measure] Case 74/99 sub-stroke0151: B_i=615546, rank_discrepancy=69.
+[measure] Case 75/99 sub-stroke0111: B_i=450486, rank_discrepancy=57.
+[measure] Case 76/99 sub-stroke0045: B_i=300276, rank_discrepancy=37.
+[measure] Case 77/99 sub-stroke0038: B_i=41307, rank_discrepancy=-21.
+[measure] Case 78/99 sub-stroke0048: B_i=174466, rank_discrepancy=10.
+[measure] Case 79/99 sub-stroke0169: B_i=229738, rank_discrepancy=17.
+[measure] Case 80/99 sub-stroke0008: B_i=482690, rank_discrepancy=53.
+[measure] Case 81/99 sub-stroke0164: B_i=257763, rank_discrepancy=21.
+[measure] Case 82/99 sub-stroke0036: B_i=235274, rank_discrepancy=17.
+[measure] Case 83/99 sub-stroke0134: B_i=82243, rank_discrepancy=-21.
+[measure] Case 84/99 sub-stroke0145: B_i=303720, rank_discrepancy=28.
+[measure] Case 85/99 sub-stroke0104: B_i=439955, rank_discrepancy=42.
+[measure] Case 86/99 sub-stroke0186: B_i=218189, rank_discrepancy=0.
+[measure] Case 87/99 sub-stroke0006: B_i=538051, rank_discrepancy=36.
+[measure] Case 88/99 sub-stroke0179: B_i=5369, rank_discrepancy=-59.
+[measure] Case 89/99 sub-stroke0133: B_i=10054, rank_discrepancy=-60.
+[measure] Case 90/99 sub-stroke0161: B_i=329138, rank_discrepancy=6.
+[measure] Case 91/99 sub-stroke0033: B_i=118131, rank_discrepancy=-36.
+[measure] Case 92/99 sub-stroke0028: B_i=159722, rank_discrepancy=-28.
+[measure] Case 93/99 sub-stroke0095: B_i=269989, rank_discrepancy=-5.
+[measure] Case 94/99 sub-stroke0070: B_i=347209, rank_discrepancy=4.
+[measure] Case 95/99 sub-stroke0113: B_i=427886, rank_discrepancy=8.
+[measure] Case 96/99 sub-stroke0154: B_i=164683, rank_discrepancy=-33.
+[measure] Case 97/99 sub-stroke0117: B_i=297741, rank_discrepancy=-10.
+[measure] Case 98/99 sub-stroke0183: B_i=33217, rank_discrepancy=-76.
+[measure] Case 99/99 sub-stroke0137: B_i=435964, rank_discrepancy=-3.
+[measure] Head absolute-contribution share: 0.506351; head support share: 0.089612 (exact arithmetic, no verdict).
+[summarize] Staging and inventorying the clinical data dictionary.
+[summarize] Inventory: 148 cells; minimum variable set supported: True.
+{
+  "analyzed_cases": 99,
+  "bookkeeping_rows_excluded": 2,
+  "clinical_minimum_set_supported": true,
+  "dictionary_cells_inventoried": 148,
+  "head_abs_contribution_share": 0.5063509495830807,
+  "head_size": 10,
+  "head_support_share": 0.08961200117675944,
+  "idea_id": "idea-047",
+  "phase": "A",
+  "phenotype_rows_opened": 0,
+  "primary_output": "support_shares.json (sole disproportionality comparison)",
+  "reserved_cases_accessed": 0,
+  "signed_reversal_accounting_share": 0.7928912778985707,
+  "smoke": false,
+  "spearman_rho": 0.07085961657390227,
+  "status": "PHASE_A_COMPLETE_REQUIRES_AMENDMENT",
+  "wall_seconds": 0.013
+}
+Plain-language template: PHASE_A_COMPLETE_REQUIRES_AMENDMENT means every identity, provenance, and cross-check gate passed and the phenotype-blind support clause was emitted -- a successful descriptive result regardless of the share values, carrying no proportionality verdict. The two shares are exact arithmetic for these 99 realized cases only. Next act: the mechanical contract amendment binds the frozen clinical variable list from the dictionary inventory; fresh human approval of the amended blob is the sole authorization for Phase B.

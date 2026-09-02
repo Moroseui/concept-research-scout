@@ -1,0 +1,283 @@
+{
+  "binding_note": "Machine-derived proposal only. The contract amendment binds the final list; amendment deviations from this proposal require a recorded dictionary-grounded reason, and additions motivated by any Phase-A scientific output are prohibited and invalidating.",
+  "center": {
+    "documented": false,
+    "matches": [],
+    "rule": "mandatory contextual variable OUTSIDE the cap if documented"
+  },
+  "constructs": {
+    "age": {
+      "matched": true,
+      "matches": [
+        {
+          "column": "B",
+          "row": 6,
+          "row_values_verbatim": [
+            "Baseline",
+            "Age",
+            "numerical integer",
+            "Age at treatment"
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "Age"
+        },
+        {
+          "column": "E",
+          "row": 6,
+          "row_values_verbatim": [
+            "Baseline",
+            "Age",
+            "numerical integer",
+            "Age at treatment"
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "Age at treatment"
+        }
+      ],
+      "proposed_field_spelling": "Age",
+      "regexes": [
+        "(?i)\\bage\\b"
+      ],
+      "role": "demographic"
+    },
+    "mrs_3month": {
+      "matched": true,
+      "matches": [
+        {
+          "column": "B",
+          "row": 36,
+          "row_values_verbatim": [
+            "Outcome",
+            "MRS 3 months",
+            "numerical integer",
+            "mRS 3 month after stroke, inquired per telephone by study nurse."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "MRS 3 months"
+        },
+        {
+          "column": "E",
+          "row": 36,
+          "row_values_verbatim": [
+            "Outcome",
+            "MRS 3 months",
+            "numerical integer",
+            "mRS 3 month after stroke, inquired per telephone by study nurse."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "mRS 3 month after stroke, inquired per telephone by study nurse."
+        }
+      ],
+      "proposed_field_spelling": "MRS 3 months",
+      "regexes": [
+        "(?i)\\bmrs\\b",
+        "3"
+      ],
+      "role": "primary outcome (3-month mRS)"
+    },
+    "nihss_24h": {
+      "matched": true,
+      "matches": [
+        {
+          "column": "B",
+          "row": 32,
+          "row_values_verbatim": [
+            "Outcome",
+            "NIHSS 24h",
+            "numerical integer",
+            "NIHSS 24 hours after admission in hospital examined by the neurologist."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "NIHSS 24h"
+        },
+        {
+          "column": "E",
+          "row": 32,
+          "row_values_verbatim": [
+            "Outcome",
+            "NIHSS 24h",
+            "numerical integer",
+            "NIHSS 24 hours after admission in hospital examined by the neurologist."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "NIHSS 24 hours after admission in hospital examined by the neurologist."
+        }
+      ],
+      "proposed_field_spelling": "NIHSS 24h",
+      "regexes": [
+        "(?i)nihss",
+        "24"
+      ],
+      "role": "lineage-preserving severity (idea-046 frozen optional rung)"
+    },
+    "nihss_admission": {
+      "matched": true,
+      "matches": [
+        {
+          "column": "B",
+          "row": 23,
+          "row_values_verbatim": [
+            "Baseline",
+            "NIHSS at admission",
+            "numerical integer",
+            "NIHSS at admission in hospital examined by the neurologist."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "NIHSS at admission"
+        },
+        {
+          "column": "E",
+          "row": 23,
+          "row_values_verbatim": [
+            "Baseline",
+            "NIHSS at admission",
+            "numerical integer",
+            "NIHSS at admission in hospital examined by the neurologist."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "NIHSS at admission in hospital examined by the neurologist."
+        },
+        {
+          "column": "E",
+          "row": 32,
+          "row_values_verbatim": [
+            "Outcome",
+            "NIHSS 24h",
+            "numerical integer",
+            "NIHSS 24 hours after admission in hospital examined by the neurologist."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "NIHSS 24 hours after admission in hospital examined by the neurologist."
+        }
+      ],
+      "proposed_field_spelling": "NIHSS at admission",
+      "regexes": [
+        "(?i)nihss",
+        "(?i)admiss"
+      ],
+      "role": "baseline-severity context; never interchangeable with 24h"
+    },
+    "sex": {
+      "matched": true,
+      "matches": [
+        {
+          "column": "B",
+          "row": 5,
+          "row_values_verbatim": [
+            "Baseline",
+            "Sex",
+            "categorial",
+            "M = male, F = female"
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "Sex"
+        }
+      ],
+      "proposed_field_spelling": "Sex",
+      "regexes": [
+        "(?i)\\bsex\\b"
+      ],
+      "role": "demographic"
+    }
+  },
+  "contextual_cap": 2,
+  "contextual_proposed": [
+    {
+      "construct": "mtici_postinterventional",
+      "matches": [
+        {
+          "column": "B",
+          "row": 31,
+          "row_values_verbatim": [
+            "Outcome",
+            "mTici postinterventional",
+            "ordinal",
+            "mTici directly after intervention."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "mTici postinterventional"
+        },
+        {
+          "column": "E",
+          "row": 31,
+          "row_values_verbatim": [
+            "Outcome",
+            "mTici postinterventional",
+            "ordinal",
+            "mTici directly after intervention."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "mTici directly after intervention."
+        }
+      ],
+      "proposed_field_spelling": "mTici postinterventional",
+      "regexes": [
+        "(?i)tici"
+      ]
+    },
+    {
+      "construct": "onset_to_imaging_time",
+      "matches": [
+        {
+          "column": "B",
+          "row": 21,
+          "row_values_verbatim": [
+            "Baseline",
+            "Onset to door",
+            "hrs:min",
+            "duration",
+            "Time of onset of symptoms to arrival at hospital, where first imaging was performed. In case of in-house stroke, the arrival of the neurologist at the patient was defined as the door-time. "
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "Onset to door"
+        },
+        {
+          "column": "E",
+          "row": 21,
+          "row_values_verbatim": [
+            "Baseline",
+            "Onset to door",
+            "hrs:min",
+            "duration",
+            "Time of onset of symptoms to arrival at hospital, where first imaging was performed. In case of in-house stroke, the arrival of the neurologist at the patient was defined as the door-time. "
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "Time of onset of symptoms to arrival at hospital, where first imaging was performed. In case of in-house stroke, the arrival of the neurologist at the patient was defined as the door-time. "
+        },
+        {
+          "column": "E",
+          "row": 22,
+          "row_values_verbatim": [
+            "Baseline",
+            "Alert to door",
+            "hrs:min",
+            "duration",
+            "Only defined for wake-up stokes, as not recorded in cases with known onset."
+          ],
+          "sheet": "Suppl. Tab. 1",
+          "text": "Only defined for wake-up stokes, as not recorded in cases with known onset."
+        }
+      ],
+      "proposed_field_spelling": "Onset to door",
+      "regexes": [
+        "(?i)onset"
+      ]
+    }
+  ],
+  "derived_from": "Phase-A dictionary inventory only; no clinical byte existed on disk when this proposal was derived",
+  "dictionary": {
+    "bytes": 12149,
+    "md5": "c8d806a021614c6bb9f732756f9701d4",
+    "sha256": "7f7dd4dadbe46113ae30be37b8bef425318336206f17b5079909517681a646a2",
+    "source": "/home/partho/staging47/clinical_data-description.xlsx"
+  },
+  "minimum_set": {
+    "age_or_sex_documented": true,
+    "outcome_or_nihss_documented": true,
+    "supported": true
+  },
+  "reconciliation": {
+    "center_absent_recorded": true,
+    "nihss_time_points": "The 24-hour NIHSS field is the lineage-preserving variable of idea-046's frozen optional rung; admission NIHSS is documented baseline-severity context and is never presented as interchangeable with the 24-hour field (contract targeting_rule; critique D1)."
+  }
+}
