@@ -1956,7 +1956,10 @@ def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
             "    print('integrity sweep:', len(_src_defects), 'source-defect member(s) tolerated')\n"
             "else:\n"
             "    print('integrity sweep: all extracted members pass gzip -t')")
-        return [pin, fetch, extract]
+        # archive-only staging (2026-09-02): a probe that owns its extraction
+        # gets download+verify cells only; the take-13 >=800-file floor
+        # must never gate a deliberately empty sweep.
+        return [pin, fetch, extract] if suffixes else [pin, fetch]
     fetch_url = ('https://zenodo.org/api/records/' + (rid or concept))
     pin = (
         "# --- Generated staging: Zenodo " + ("record " + rid if rid else "concept " + concept)
@@ -2126,8 +2129,10 @@ def package_colab(args):
     staging_cells, extra = [], ''
     if getattr(args, 'staging_zenodo', None):
         sufs = [x.strip() for x in (getattr(args, 'staging_suffixes', '') or '').split(',') if x.strip()]
-        if not sufs:
-            raise SystemExit('--staging-zenodo requires --staging-suffixes')
+        if not sufs and not getattr(args, 'runner_args', ''):
+            raise SystemExit('--staging-zenodo requires --staging-suffixes '
+                             '(or --runner-args: archive-only staging for a '
+                             'probe that performs its own extraction)')
         staging_cells = [nbf.v4.new_code_cell(src)
                          for src in _staging_cells(args.staging_zenodo, sufs,
                                                    getattr(args, 'staging_record', None),
