@@ -2201,3 +2201,30 @@ open direction the operator wants candidates FOR; it deliberately does
 not supply a question wording, design, or scores -- generation,
 critique, and debate own those. Discovery-track candidates unrelated
 to this direction remain welcome in the same cycle.
+
+
+## 2026-09-02 - Operator note to the next scout cycle: the CLINICAL successor specifically (second steering pass)
+
+The previous cycle produced one lineage-anchored candidate; it took
+the model-use angle. For THIS cycle the operator seeks candidates for
+a different, specific open direction, and model-use formulations of it
+are explicitly not wanted here: the spiritual successor to ideas
+023 -> 045 -> 046 in the DESCRIPTIVE register. The open question
+family: the idea-046 census identified, by frozen rule, which of the
+99 observed cases numerically dominate the band-3-minus-band-2
+reversal (top ten roughly 79 percent of the net gap; 39 cases oppose;
+top cases individually exhibit the full sign flip). Nothing is known
+about WHO these high-contribution patients are: whether they differ
+from the rest on the released clinical outcome scores (mRS/NIHSS-type
+phenotype table, ses-02 outcome family -- pre-registered for exactly
+this join on 2026-08-28, never executed, with a ratified D3
+read-restriction protocol for the phenotype restage and a D4
+joint-display rule for clinical comparisons) or on already-computed
+per-case imaging features in the imported bundles. Any candidate here
+is exploratory by construction (the 99 outcomes were opened in
+idea-023) and must say so; aggregate description only, no per-patient
+clinical claims, no model probing. The operator wants the question,
+design, framing, and scores to come from generation and the gauntlet
+-- this note supplies direction and pointers only. Discovery
+candidates outside this direction may still appear, but at least one
+serious candidate FOR this direction is the purpose of the cycle.
