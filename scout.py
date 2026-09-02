@@ -2191,9 +2191,12 @@ def package_colab(args):
         + f"!python probes/{nn}/run.py "
         + ('' if getattr(args, 'omit_phase_flag', False)
            else "--phase {PHASE} ")
-        + f"--output-dir {{OUTPUT_DIR}}{extra}"
+        + "--output-dir {OUTPUT_DIR}"
+        # An explicit runner interface REPLACES the staging-inferred one:
+        # stacking them injected foreign/duplicate flags (caught in the
+        # 047 pre-flight before any session ran).
         + ((' ' + args.runner_args) if getattr(args, 'runner_args', '')
-           else '')
+           else extra)
         + " 2>&1 | tee -a {OUTPUT_DIR}/driver_console.log"),
       nbf.v4.new_code_cell(
         "# E1 transport: mirror the bundle onto the contract-bound results\n"

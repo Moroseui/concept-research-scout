@@ -4807,8 +4807,9 @@ class TestLauncherRunnerPassthrough(Harness):
         except ImportError:
             self.skipTest("nbformat unavailable")
         sc.package_colab(argparse.Namespace(
-            idea=1, phase="B", staging_zenodo=None, staging_suffixes=None,
-            staging_record=None, staging_mode="origin_direct",
+            idea=1, phase="B", staging_zenodo="111",
+            staging_suffixes=".nomatch",
+            staging_record="222", staging_mode="origin_direct",
             phase_s_dir=None, omit_phase_flag=True,
             runner_args="--archive-file {ARCHIVE_LOCAL} --member-manifest m.csv",
             runner_setup="apt-get -qq install -y p7zip-full > /dev/null"))
@@ -4820,6 +4821,16 @@ class TestLauncherRunnerPassthrough(Harness):
         self.assertIn("apt-get -qq install -y p7zip-full", src)
         self.assertNotIn("--phase {PHASE}", src,
                          "omit-phase-flag must remove the default flag")
+        cands = ["".join(c.get("source", [])) for c in nb["cells"]
+                 if c["cell_type"] == "code"
+                 and "run.py --output-dir" in "".join(c.get("source", []))]
+        self.assertEqual(len(cands), 1, f"runner cells: {cands!r:.400}")
+        run_cell = cands[0]
+        self.assertEqual(run_cell.count("--archive-file"), 1,
+                         "explicit runner-args must REPLACE the "
+                         "staging-inferred flags, not stack on them")
+        self.assertNotIn("--data-dir", run_cell)
+        self.assertNotIn("--record-json", run_cell)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
