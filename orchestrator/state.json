@@ -13,7 +13,7 @@
     "stages": {
       "wide_scout": "done",
       "merge": "done",
-      "novelty_audit": "pending",
+      "novelty_audit": "running",
       "backlog": "pending"
     }
   },
