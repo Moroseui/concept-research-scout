@@ -96,6 +96,9 @@
 - [isles24] **isles24-scout-008-c06** [SCOUT_ONLY] -- The forecaster's hedge: the model's volume is a bet, not a belief
 - [isles24] **isles24-scout-008-c07** [SCOUT_ONLY] -- Caught mid-swallow: does the model read acquisition luck as collateral biology?
 - [isles24] **isles24-scout-008-c08** [SCOUT_ONLY] -- The model speaks one vendor's dialect: swap the deconvolution, keep the patient
+- [isles24] **isles24-scout-009-c01** [SCOUT_ONLY] -- The keystone patients: ten cases may teach the model the reversal
+- [isles24] **isles24-scout-009-c02** [SCOUT_ONLY] -- The model's hidden disability map
+- [isles24] **isles24-scout-009-c03** [SCOUT_ONLY] -- The atlas prior hidden under the perfusion maps
 - [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - [baseline] **scout-006-c02** [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - [baseline] **scout-006-c03** [SCOUT_ONLY] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver

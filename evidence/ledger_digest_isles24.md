@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-77 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+80 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -25,7 +25,7 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
 - **isles24-scout-008-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-09-02] -- The blood arrives backwards: filling direction as the model's collateral gauge
 - **isles24-scout-001-c01** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-16] -- Does the winning model rediscover the collateral clock?
-- ... and 14 more (python scout.py backlog)
+- ... and 17 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
@@ -34,9 +34,9 @@ portfolio explores one scientific move with rotating vocabulary.
 
 - counterfactual-synthesis: 10
 - regional-substitution: 9
-- representation-erasure: 6
+- representation-erasure: 7
 - conditional-observational: 5
-- cross-model-disagreement: 3
+- cross-model-disagreement: 4
 - regional-removal: 2
 - other:label-geometry-audit: 2
 - natural-paired: 1
@@ -50,6 +50,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - other:objective-ablation: 1
 - other:acquired-frame-substitution: 1
 - cross-reconstruction: 1
+- other:atlas-frame-randomization: 1
 
 ## Ideas
 
@@ -130,3 +131,6 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-008-c06** [SCOUT_ONLY/SCOUTED/wide] -- The forecaster's hedge: the model's volume is a bet, not a belief
 - **isles24-scout-008-c07** [SCOUT_ONLY/SCOUTED/wide] -- Caught mid-swallow: does the model read acquisition luck as collateral biology?
 - **isles24-scout-008-c08** [SCOUT_ONLY/SCOUTED/wide] -- The model speaks one vendor's dialect: swap the deconvolution, keep the patient
+- **isles24-scout-009-c01** [SCOUT_ONLY/SCOUTED/wide] -- The keystone patients: ten cases may teach the model the reversal
+- **isles24-scout-009-c02** [SCOUT_ONLY/SCOUTED/wide] -- The model's hidden disability map
+- **isles24-scout-009-c03** [SCOUT_ONLY/SCOUTED/wide] -- The atlas prior hidden under the perfusion maps
