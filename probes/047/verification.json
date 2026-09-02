@@ -1,42 +1,6 @@
 {
   "idea_id": "047",
-  "revision_round": 2,
   "passed": true,
   "issues": [],
-  "checked_at": "2026-09-01T00:00:00+00:00",
-  "scope": "Fix ONLY probe_review.md blocking findings B1, B2, B3; no scientific scope, gate, cap, or analysis change.",
-  "blocking_findings_addressed": [
-    {
-      "finding": "B1 (Hard standard 4): default real run fetched the dictionary over the network.",
-      "fix": "The urllib fetch branch is deleted entirely; no network-capable import exists in run.py (grep for urlopen/urllib/socket/requests returns zero hits). --dictionary-file is now a REQUIRED pre-staged input for a real run: run() refuses with exit 2 when it is absent, stage_dictionary() refuses with exit 3 when the path is missing, and the same record/file/byte-count/md5 pins (Zenodo 16813698, 12149 bytes, md5 c8d806a021614c6bb9f732756f9701d4) verify the held copy before any cell is read. DICT_URL remains only as documentation of the immutable source the held copy must come from. Staging scope unchanged. README and module docstring updated to the required-input command."
-    },
-    {
-      "finding": "B2 (Hard standard 5): pre-access split manifest held anonymous integers, not the frozen case ids.",
-      "fix": "run() now loads and pin-verifies ONLY the phenotype-blind exclusions.csv (take-13 label-blind output) first; freeze_split() writes and sha256-hashes a CASE-IDENTIFIED split_manifest.csv listing the actual analyzed case ids plus the excluded bookkeeping cases (reserved/excluded policy recorded in split_manifest.json) BEFORE the outcome-derived contribution table or census summary is opened -- including before their bytes are hashed for the determinism manifest. After the contribution table is opened, support_provenance_gate() additionally requires exact id-set equality against the frozen manifest ids and records split_manifest_sha256 plus contribution_ids_match_frozen_split_manifest in provenance_gate.json; any mismatch is a discrepancy feeding the pre-registered SUPPORT_PROVENANCE_FAILURE stop, so a count-preserving case substitution is now detectable from the bundle."
-    },
-    {
-      "finding": "B3 (Hard standard 1): determinism manifests omitted the dictionary and were absent on the SUPPORT_PROVENANCE_FAILURE path.",
-      "fix": "A single hash_targets dict (three frozen tables + take-13 code evidence + the pre-staged dictionary) feeds both manifests, so every claim-bearing input including the dictionary is hashed at start and end. New finalize_determinism_end() re-hashes all inputs, requires exact agreement with the start manifest (exit 7 on disagreement), and writes AND prints determinism_manifest_end.json; it is invoked on BOTH registered terminal paths -- valid completion and the decision-grade SUPPORT_PROVENANCE_FAILURE stop -- before returning. ProbeFailure exits before completion still fail loudly and produce no summary status, so they cannot masquerade as decision-grade bundles. A new assertion also binds the staged dictionary bytes to the start-manifest hash."
-    }
-  ],
-  "checks_performed": [
-    "All three frozen-input SHA-256 pins reproduce byte-exactly via sha256sum on the current tree: exclusions.csv 58e9f8ab..., per_case_contributions.csv aba52512..., census_summary.json 189c0ce8....",
-    "git hash-object of the working-tree ideas/047/probe_contract.yaml reproduces the approval marker's contract_blob b4887c05a21bfe870589b5d9982066943df679d5 (approval fresh; contract untouched this round).",
-    "All 17 CONTRACT_LITERALS (including the pre-amendment frozen_variable_list sentinel) re-verified present in the approved contract text.",
-    "grep scan: zero network-capable imports or calls remain anywhere in run.py (urlopen/urllib/socket/requests all absent).",
-    "Full desk re-read of every edited region in final on-disk form: run() ordering (authority -> exclusions pin+load -> case-identified split freeze -> all-input start manifest -> contribution load -> B2 equality inside the gate -> cross-checks -> support clause -> dictionary verify/inventory -> resolved config/input manifest -> end manifest on both terminal paths), freeze_split() and support_provenance_gate() signatures and all call sites consistent (grep of call sites), input_manifest.csv de-duplicated with the dictionary carried once under role staged_dictionary, stage_dictionary() smoke parameter removed at definition and sole call site, exit-code taxonomy unchanged.",
-    "Smoke-path consistency desk-checked: fixtures are created before the split freeze, the synthetic exclusions supply the case ids, fixture dictionary md5/bytes flow to the simplified stage_dictionary, and SMOKE_ONLY still cannot satisfy any contractual gate."
-  ],
-  "not_run": [
-    {
-      "check": "python -m py_compile, --smoke harness run, and a real-input Phase-A execution",
-      "reason": "This build sandbox blocks all Python execution (and network); only read-only text tools were available, as in round 1. The reviewer's environment executed the round-1 smoke successfully in under one second; the round-2 smoke and the real run must be exercised reviewer/operator-side.",
-      "commands": [
-        "python3 -m py_compile probes/047/run.py",
-        "python3 probes/047/run.py --smoke --output-dir /tmp/probe-047-smoke",
-        "python3 probes/047/run.py --output-dir /path/to/probe-047-phase-a --dictionary-file /path/to/clinical_data-description.xlsx"
-      ]
-    }
-  ],
-  "notes": "Phase A only; Phase B remains unreachable under this code by construction (authority gate requires the pre-amendment sentinel, and the amendment stales the approval blob). No network access exists anywhere in this probe: the dictionary is a required pre-staged held copy verified against its unchanged byte-count and md5 pins. No expensive compute exists anywhere in this probe."
+  "checked_at": "2026-09-02T03:54:32.380572+00:00"
 }
