@@ -1,14 +1,32 @@
-# Probe 047 — keystone-ten support arithmetic and clinical profile (contract v2)
+# Probe 047 — keystone-ten support arithmetic and clinical profile
 
-The human-approved `ideas/047/probe_contract.yaml` (contract_version 2,
-blob `b4887c05a21bfe870589b5d9982066943df679d5`) governs this probe.
-`run.py` implements **Phase A only** — the phenotype-blind support
-clause plus the dictionary inventory and machine-proposed clinical
-variable freeze. Phase B is locked behind the mechanical amendment and
-a fresh human approval; this code refuses an amended contract by
-construction (the authority gate requires the pre-amendment
-`frozen_variable_list` sentinel, and the amendment stales the approval
-blob).
+**Position (2026-09-02): Phase A complete and ratified; contract v3
+(the pre-registered Phase-B amendment) drafted and awaiting fresh human
+approval. Phase-B code is not yet implemented.**
+
+Phase A executed under contract v2 (blob
+`b4887c05a21bfe870589b5d9982066943df679d5`) and is **of record**:
+terminal `PHASE_A_COMPLETE_REQUIRES_AMENDMENT`, bundle imported at
+`probes/047/results/results_v2` (commit `6037f24`), interpretation
+cross-family reviewed (APPROVE) and ratified. The Phase-A bundle
+validates under its own historical blob forever; nothing re-authorizes
+Phase-A execution.
+
+`ideas/047/probe_contract.yaml` is now **contract v3**, the amendment
+v2's own `amendment_protocol` pre-registered: it binds the frozen
+clinical variable list from Phase A's machine-derived proposal
+(`proposed_variable_freeze.json`, sha256 `87c5e11b…`), records the
+Phase-A consumed artifacts, and swaps `required_outputs` to the Phase-B
+interface. The blob change stales the Phase-A approval by construction;
+fresh human approval of the v3 blob is the sole authorization for
+Phase B, for staging any phenotype member, and for the first read of
+any phenotype row.
+
+`run.py` in this directory implements **Phase A only** and refuses the
+amended contract by construction (its authority gate requires the
+pre-amendment `frozen_variable_list` sentinel). It is retained as the
+frozen implementation of record; Phase-B code arrives in a later
+probe-build round under the approved v3 blob.
 
 ## Running Phase A
 
@@ -93,23 +111,35 @@ verdict exists anywhere in the clause.
   Terminal: `PHASE_A_COMPLETE_REQUIRES_AMENDMENT`, or
   `PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED` if the dictionary cannot
   support the minimum variable set. Wall cap: 10 minutes.
-- **Amendment + fresh approval:** binds the frozen clinical variable
-  list from the dictionary inventory (24-hour NIHSS is the
-  lineage-preserving field; admission NIHSS is contextual; center
-  mandatory-if-documented) and swaps `required_outputs` to the Phase-B
-  interface. Only this fresh approval authorizes staging or reading any
-  phenotype byte.
+- **Amendment (contract v3, DRAFTED, awaiting fresh approval):** binds
+  the seven-variable frozen clinical list from Phase A's machine
+  proposal — MRS 3 months (ordinal, primary outcome), NIHSS 24h
+  (continuous, the lineage-preserving field), NIHSS at admission
+  (continuous, baseline context, never interchangeable with 24h), Age
+  (continuous), Sex (binary), and the two contextual-cap fields mTici
+  postinterventional (ordinal, frozen mTICI level order) and Onset to
+  door (continuous minutes) — with exact release spellings, parse/
+  missingness rules, and closed-menu statistics per variable. Center is
+  absent from the dictionary; the mandatory-if-documented rule is
+  discharged by that recorded absence. `required_outputs` is swapped to
+  the Phase-B interface; the Phase-A bundle identity plus the hashes of
+  `proposed_variable_freeze.json` and `per_case_support.csv` are bound
+  as consumed artifacts.
 - **Phase B (not implemented here; a later probe-build round under the
-  amended blob):** one selective staging event of exactly the **198**
-  phenotype members (99 × `demographic_baseline.csv` + 99 ×
+  approved v3 blob):** one selective staging event of exactly the
+  **198** phenotype members (99 × `demographic_baseline.csv` + 99 ×
   `outcome.csv`) from the held md5-verified `train.7z` (Zenodo record
-  16813698), size/CRC-checked against the frozen archive manifest, then
-  one aggregate 10-versus-89 estimation table under D4: joint support
-  display, per-group missingness, small-cell suppression, and two
-  exploratory-labeled uncertainty displays per contrast (deterministic
-  leave-one-head-case-out ranges, plus a relabeling range explicitly
-  labeled a hypothetical exchangeability reference, seed 20260902).
-  Terminal: `STUDY_COMPLETE`.
+  16813698), size/CRC-checked against the frozen archive manifest;
+  then the pre-registered phenotype schema/missingness census
+  (feasibility section 8) with the decision-grade stop
+  `PHENOTYPE_SCHEMA_MISMATCH` if the case-level rows cannot support
+  the minimum variable set; then one aggregate 10-versus-89 estimation
+  table under D4: joint support display, per-group missingness,
+  small-cell suppression, and two exploratory-labeled uncertainty
+  displays per contrast (deterministic leave-one-head-case-out ranges,
+  plus a relabeling range explicitly labeled a hypothetical
+  exchangeability reference, seed 20260902). Terminal:
+  `STUDY_COMPLETE`.
 
 Blindness is stronger than in v1: no phenotype byte is even staged to
 disk until the Phase-B approval exists. **No perfusion map, NCCT, or
@@ -129,9 +159,14 @@ contribution per unit support.
 
 ## Expected sequence
 
-Phase A → record-result → mechanical amendment + fresh approval →
-Phase B probe-build → Phase B → record-result → interpret → ratify. An
+Phase A ✓ → record-result ✓ → interpret + cross-family review ✓ →
+ratify ✓ → **amendment (contract v3, this round) → fresh human
+approval** → Phase B probe-build + cross-family review → Phase B run →
+record-result (expected destination `probes/047/results/results_v3`
+per the current-blob discovery convention) → interpret → ratify. An
 `ideas/047/registry.yaml` two-node DAG (phase_a → phase_b with the
-declared artifact edge) is authored per the registry-per-probe rule.
-The v1 draft plan is preserved at commit `63459ec`; the pre-build plan
-README at `c81d448`.
+declared consumed-artifact edge) remains queued per the
+registry-per-probe rule, to be authored before or alongside the
+Phase-B record-result. The v1 draft plan is preserved at commit
+`63459ec`; the v2 plan at `c2e5576`; the pre-build plan README at
+`c81d448`.

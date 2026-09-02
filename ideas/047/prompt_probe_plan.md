@@ -2549,7 +2549,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-044** [REJECTED/DEBATED/baseline] -- The old stroke inside the new forecast -- killed: IDENTIFIABILITY_FAILURE
 - **idea-045** [PAUSED/PROBED/wide] -- Tissue-normalized joint CBV/MTT compensation at matched flow
 - **idea-046** [ACTIVE/PROBED/wide] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
-- **idea-047** [SHORTLISTED/DEBATED/wide] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
+- **idea-047** [ACTIVE/PROBED/wide] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
@@ -2713,7 +2713,7 @@ candidate MUST cite the specific condition below that has changed.
 - [isles24] **idea-044** [REJECTED] -- The old stroke inside the new forecast
 - [isles24] **idea-045** [PAUSED] -- Tissue-normalized joint CBV/MTT compensation at matched flow
 - [isles24] **idea-046** [ACTIVE] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
-- [isles24] **idea-047** [SHORTLISTED] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
+- [isles24] **idea-047** [ACTIVE] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -3159,6 +3159,50 @@ The amendment adopts the critic's freeze verbatim, modifying round-2 item 1(a) a
 **Status:** CONVERGED
 
 
+===== ideas/047/decision.md =====
+# Decision — idea 047, Phase A
+
+## Result card
+
+- **Idea:** idea-047
+- **Probe and sequence position:** probe 047, contract v2, Phase A of the planned two-phase experiment; phenotype-blind support/provenance and dictionary phase, before amendment and Phase B.
+- **Dataset and pin:** ISLES'24 training release, immutable Zenodo record 16813698; Phase A used frozen imported tables and the pinned clinical dictionary only.
+- **Primary metric:** frozen top-ten share of total absolute contribution beside frozen top-ten share of total eligible deficit support across the realized 99 cases.
+- **Contract blob:** `b4887c05a21bfe870589b5d9982066943df679d5`
+- **Results-bundle commit:** `6037f24122766fe1c68f16eb9f38d9a16c2c5e66`
+- **Authoring family:** Codex. **Reviewing family:** Claude (pending).
+- **Out of scope:** no clinical comparison, clinical-silence/markedness verdict, keystone classification, causal or model-use claim, per-patient clinical claim, or generalization beyond these 99 cases. Phase B is not authorized by this document.
+
+## Layer A — Finding
+
+The frozen top ten carry 50.63509495830807% of total absolute contribution and 8.961200117675944% of eligible support in the realized 99-case cohort [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_share,head_support_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+The all-case descriptive rank association is small, rho 0.07085961657390227, without an interval or sampling claim [cite: support_shares.json | descriptive_displays | spearman_rho_abs_contribution_vs_support | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+The separate 79.28912778985707% signed share is net-reversal accounting after cancellation, not contribution per unit support [cite: support_shares.json | reversal_accounting | signed_head_net_gap_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+The clinical dictionary passed the minimum schema gate, but zero phenotype rows were opened, so no clinical conclusion exists yet [cite: summary.json | clinical_minimum_set_supported=true,phenotype_rows_opened=0 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+The main caveat is finite-population, outcome-selected scope: the arithmetic is exact for these cases but does not establish recurrence or explanation.
+
+## Layer B — Derivation narrative
+
+The human-approved contract and two-round cross-family code review preceded one deterministic authorized Phase-A variant. The provenance flow was 101 exclusions-table records in, two bookkeeping records excluded (`sub-stroke0142` duplicate/noncanonical lesion bookkeeping and `sub-stroke0043` source-corrupt case), and 99 unique cases analyzed with an exact contribution-table ID match [cite: provenance_gate.json | analyzed_rows=99,bookkeeping_rows,unique_analyzed_ids=true,id_set_matches_contribution_table=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. All 99 support counts were finite positive integers, all frozen census cross-checks passed, and no discrepancy was recorded [cite: provenance_gate.json | b_finite_positive_integer_count=99,census_cross_checks.checks,pass=true,discrepancies=[] | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. The authorized support arithmetic used 0.04367036086720666 of 0.08624524334982282 absolute contribution and 2,025,630 of 22,604,450 support voxels for the frozen head [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_sum,total_abs_contribution_sum,head_support_voxels,total_support_voxels | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. The dictionary inventory documented the proposed clinical constructs without opening a phenotype row, and Phase A reached `PHASE_A_COMPLETE_REQUIRES_AMENDMENT`; neither preregistered stop fired [cite: proposed_variable_freeze.json | constructs,minimum_set.supported=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: summary.json | phenotype_rows_opened=0,status=PHASE_A_COMPLETE_REQUIRES_AMENDMENT | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+
+## Layer C — Deep justification
+
+| Class | Decision-grade claim | Exact source |
+|---|---|---|
+| Demonstrates | Exact finite-population concentration: absolute-contribution share 0.5063509495830807 versus support share 0.08961200117675944. | [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_share,head_support_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Suggests | Eligible-support quantity alone does not describe the realized concentration well; this is only suggestive because there is no case-level sampling uncertainty and the subgroup was selected from the same census. | [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_share,head_support_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: support_shares.json | descriptive_displays | spearman_rho_abs_contribution_vs_support | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Positive finding | Phase A completed its preregistered successful terminal with the provenance and minimum-schema gates passed. | [cite: provenance_gate.json | pass=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: summary.json | clinical_minimum_set_supported=true,status=PHASE_A_COMPLETE_REQUIRES_AMENDMENT | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Negative finding | The descriptive rho is 0.07085961657390227; it is not an inferential null or evidence of independence. | [cite: support_shares.json | descriptive_displays | spearman_rho_abs_contribution_vs_support | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Does not establish | Any clinical association or absence of one: phenotype rows opened = 0. | [cite: summary.json | phenotype_rows_opened=0 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Validity failures | None observed; the provenance gate passed with no discrepancies, and the clinical schema was supported. | [cite: provenance_gate.json | pass=true,discrepancies=[] | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: summary.json | clinical_minimum_set_supported=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+
+The procedure was deterministic. Seed uncertainty does not apply to Phase-A arithmetic; uncertainty lies in case selection and external scope. Therefore exact cohort arithmetic is demonstrated, while broader effect language is not.
+
+## Next decision
+
+**ADVANCE — narrowly to the Phase-B contract amendment and fresh human approval.** Bind the dictionary-derived variable list and Phase-A artifact hashes, replace the required-output interface, register Phase A as a consumed artifact, and do not stage or read phenotype bytes until the amended blob is approved. This does not authorize execution and does not complete idea 047.
+
+
 ===== ideas/047/feasibility.md =====
 # Feasibility memo — idea 047
 
@@ -3522,6 +3566,266 @@ REVISE.**
 }
 
 
+===== ideas/047/interpret_review.md =====
+# Interpret review — idea 047, Phase A (cross-family checker)
+
+Reviewing family: Claude. Document under review:
+`ideas/047/interpretation.md` (round 1). Results bundle:
+`probes/047/results/results_v2/` at commit
+`6037f24122766fe1c68f16eb9f38d9a16c2c5e66` (verified: that commit
+introduces exactly the 17 bundle files plus the import receipt).
+Governing contract blob `b4887c05a21bfe870589b5d9982066943df679d5`
+(corroborated in `resolved_config.json:contract_blob` and
+`ideas/047/state.json` approval, stale=false).
+
+Note on check 2's inherited wording: the stage checklist's "tier 2 /
+vendor scope / anchor exclusion / baseline-not-floor" items are 004-era
+specifics. Their 047 analogs, applied here: no threshold/margin/verdict
+language in the support clause; finite-population scope and the two
+bookkeeping exclusions stated wherever counts appear; the reversal-
+accounting share never read as contribution per unit support; and the
+deterministic-probe uncertainty constraint (uncertainty located in case
+selection and scope, not seeds).
+
+## Check 1 — Citations resolve (transcription-exact)
+
+Every `[cite: ...]` tag was opened and resolved against the bundle.
+All pass. Enumerated:
+
+1. `support_shares.json | sole_disproportionality_comparison |
+   head_abs_contribution_share,head_support_share` — file holds
+   0.5063509495830807 and 0.08961200117675944. Layer A's
+   "50.63509495830807%" and "8.961200117675944%" are exact digit-shift
+   conversions; Layer C row 1 quotes the raw fractions verbatim. PASS.
+2. `support_shares.json | descriptive_displays |
+   spearman_rho_abs_contribution_vs_support` — 0.07085961657390227,
+   quoted verbatim in Layer A, the Suggests row, and the
+   negative-finding row. Independently recomputed by this reviewer from
+   the file's own `rank_discrepancy_sum_d_squared` = 150242:
+   1 − 6·150242/(99·(99²−1)) = 1 − 901452/970200 =
+   0.07085961657390227. PASS.
+3. `support_shares.json | reversal_accounting |
+   signed_head_net_gap_share[,label]` — 0.7928912778985707
+   ("79.28912778985707%"), with the `label` field stating exactly the
+   after-cancellation / not-per-unit-support restriction the
+   interpretation paraphrases. PASS.
+4. `summary.json | clinical_minimum_set_supported=true,
+   phenotype_rows_opened=0` — both present with those values. PASS.
+5. `resolved_config.json | contract_blob=b4887c05...,
+   contract_version=2,variants=1,gpu_minutes=0,seed=20260902` — all
+   five fields present with exactly those values. PASS.
+6. `determinism_manifest_end.json | row_counts.exclusions.csv=101,
+   row_counts.per_case_contributions.csv=99` — exact. The narrative
+   claim "hashed at the start and end; the recorded manifests agree"
+   was verified directly: `diff determinism_manifest_start.json
+   determinism_manifest_end.json` is empty, and the manifests cover
+   the three frozen tables, take-13 source, and dictionary. PASS.
+7. `provenance_gate.json | analyzed_rows=99,bookkeeping_rows,
+   unique_analyzed_ids=true,id_set_matches_contribution_table=true` —
+   all exact; `bookkeeping_rows` names sub-stroke0142
+   (excluded_archive_lesion) and sub-stroke0043 (excluded_case,
+   source_corrupt_member), matching the CONSORT sentence. PASS.
+8. `summary.json | reserved_cases_accessed=0,phenotype_rows_opened=0`
+   — exact. PASS.
+9. `provenance_gate.json | b_finite_positive_integer_count=99,
+   b_min=1401,b_max=617540,discrepancies=[]` — exact; min/max
+   independently confirmed from `per_case_support.csv` column 6
+   (sorted: 1401 … 617540). PASS.
+10. `provenance_gate.json | census_cross_checks.sign_counts.positive=54,
+    zero=6,negative=39,census_cross_checks.checks` — exact; all seven
+    check booleans true. The pinned values were additionally re-read
+    from the frozen `probes/046/results/results_v3/census_summary.json`
+    (top_k 10 absolute_mass_share 0.5063509495830807,
+    signed_head_net_gap_share 0.7928912778985707, sign counts 54/6/39).
+    PASS.
+11. `provenance_gate.json | pass=true,discrepancies=[]` — exact (used
+    in three places). PASS.
+12. `support_shares.json | sole_disproportionality_comparison |
+    head_abs_contribution_sum,total_abs_contribution_sum,
+    head_support_voxels,total_support_voxels,...` —
+    0.04367036086720666, 0.08624524334982282, 2025630, 22604450, all
+    quoted exactly. Reviewer recomputation: summing the ten
+    `in_head=True` rows of `per_case_support.csv` by hand reproduces
+    2,025,630 voxels and 0.04367036086720666 exactly; the share
+    quotients are consistent. PASS.
+13. `proposed_variable_freeze.json | dictionary.bytes=12149,
+    dictionary.md5=c8d806a021614c6bb9f732756f9701d4` — exact, and the
+    staged xlsx in the bundle is 12,149 bytes per the commit stat. PASS.
+14. `summary.json | dictionary_cells_inventoried=148` — exact
+    (consistent with the 149-line dictionary_inventory.csv incl.
+    header). PASS.
+15. `proposed_variable_freeze.json | constructs,center.documented=false`
+    — constructs mrs_3month, nihss_24h, nihss_admission, age, sex all
+    `matched: true` with verbatim dictionary rows; `center.documented:
+    false` with empty matches; `minimum_set.supported: true`. The
+    interpretation's "proposed bindings, not analyzed clinical
+    variables" framing matches the file's own binding_note. PASS.
+16. `summary.json | status=PHASE_A_COMPLETE_REQUIRES_AMENDMENT,
+    wall_seconds=0.013` — exact. PASS.
+17. `summary.json | phenotype_rows_opened=0,analyzed_cases=99` (Layer C
+    does-not-establish row) — exact. PASS.
+
+Uncited-quantitative-claim scan: every number outside the result-card
+identity block carries a cite. Process facts (human approval of the
+exact blob; probe review approved "after two rounds") verify against
+`ideas/047/state.json` and `ideas/047/probe_review.md` (revision round
+2, APPROVE). No unresolvable citation, no mis-transcription found.
+
+## Check 2 — Claim bounds
+
+- No threshold, cutoff, margin, interval, test, or is/is-not verdict
+  appears anywhere in the support-clause prose; Layer A explicitly
+  frames the share pair as "an exact descriptive concentration rather
+  than a thresholded verdict," and Layer B item 5 states no interval,
+  test, margin, or alternative subgroup was run (confirmed: none exists
+  in the bundle). Grep for prohibited vocabulary ("clinically
+  silent/marked", "keystone", "disproportionate", "significant",
+  "p-value", "confidence interval") finds hits only inside the
+  out-of-scope disclaimer and the idea title — negations, permitted.
+- The Suggests-row phrasing "not simply proportional ... the share pair
+  is widely separated" was scrutinized against the contract's
+  interpretation_rule and round-3 freeze. It is an arithmetic
+  comparison of the two exact shares, scoped with "realized," carries
+  no generalization, and is demoted to Suggests with the stated reason
+  (no case-level uncertainty machinery; outcome-selected head). Within
+  bounds.
+- The 79.29% signed share appears only under reversal-accounting
+  language and is twice explicitly barred from a per-unit-support
+  reading — matching the frozen label in the file. PASS.
+- No aggregation appears that the analysis files do not themselves
+  contain (shares, sums, rho, sign counts, min/max are all stored
+  fields; nothing was pooled or averaged by the author).
+- Scope and exclusions stated where counts appear: 99 analyzed of 101
+  records, both bookkeeping rows named with reasons, zero reserved
+  cases and zero phenotype rows, finite-population caveat in Layer A.
+- Deterministic-probe uncertainty constraint: correctly applied. The
+  Uncertainty location section places uncertainty in case selection and
+  scope, not seeds, and correctly notes the fixed seed 20260902 is
+  reserved for Phase-B relabelings (matches the contract's randomness
+  clause). PASS.
+
+## Check 3 — Completeness without cherry-picking
+
+What I checked for, in the tables the interpretation draws on:
+
+- `rank_discrepancy.csv` / `per_case_support.csv` (99 rows each,
+  consistent head marks): the ten head cases are heterogeneous in
+  support — eight have strongly negative rank discrepancies (−32 to
+  −91), while sub-stroke0014 and sub-stroke0114 hold support ranks 1
+  and 4 (the largest and fourth-largest eligible-support values in the
+  whole cohort, 617,540 and 583,847 voxels; discrepancy +4 each). This
+  is the closest thing to a complicating feature in the bundle. It does
+  not contradict any stated claim: the interpretation's concentration
+  claims are aggregate share arithmetic (exact regardless of within-
+  head composition), it never asserts that head cases individually
+  have small support, and the b_max=617540 the narrative quotes is in
+  fact a head case. Omitting the casewise breakdown is legitimate
+  selectivity, not suppression.
+- Sign structure: the 39 opposing and 6 zero cases are reported (sign
+  counts), and the cancellation caveat on the signed share is carried.
+- `summary.json` and `provenance_gate.json` were scanned for any field
+  contradicting the narrative (discrepancies, kill conditions, smoke
+  flag, head_size): none exists; `discrepancies` is empty and
+  `pass: true`.
+- No stratum-reversal analog exists in this bundle (single cohort, one
+  comparison); nothing material is omitted. PASS.
+
+## Check 4 — Verdict separation
+
+- Demonstrates rows are exclusively deterministic finite-population
+  arithmetic under frozen inputs, or mechanically gated process facts —
+  correct register for a deterministic probe.
+- The proportionality reading is confined to Suggests with an explicit
+  stated reason; the small rho is classified as a negative finding with
+  the "not an inferential null / does not establish independence"
+  guard.
+- Does-not-establish rows correctly cover all clinical readings
+  (phenotype_rows_opened=0) and the signed-share misreading.
+- The terminal status is presented as successful completion of Phase A
+  only, "not completion of the study," matching the contract's
+  positive_pattern, and the Next decision advances only to the
+  amendment gate, not Phase B. No exploratory statement is worded
+  confirmatorily. PASS.
+
+## Check 5 — Plain-language fidelity
+
+`interpretation.md` contains no plain-summary section (headers: Result
+card, Layer A–C, Uncertainty location, Next decision), so this check is
+not applicable to the document under review. No hedge-dropping exists
+anywhere in it.
+
+## Verdict
+
+All five checks pass. The interpretation is transcription-exact,
+bounded within the contract's claim discipline, complete with respect
+to the bundle's material content, and correctly separates demonstrated
+arithmetic from suggested readings.
+
+```json
+{"verdict": "APPROVE"}
+```
+
+
+===== ideas/047/interpretation.md =====
+# Interpretation — idea 047, Phase A
+
+## Result card
+
+- **Idea:** idea-047, “The keystone ten meet the clinic”
+- **Probe and sequence position:** probe 047, contract v2, **Phase A of two**. This is the phenotype-blind support/provenance and dictionary phase; it precedes the contract amendment, fresh human approval, phenotype staging, and Phase-B clinical comparison.
+- **Dataset and pinned release:** ISLES'24 training release, immutable Zenodo record **16813698**; Phase A used only frozen imported program tables and the checksum-pinned `clinical_data-description.xlsx`, not case-level phenotype rows.
+- **Primary metric:** the frozen signed-rank top ten's share of total absolute contribution displayed beside their share of total eligible deficit support (`eroded_region_voxels`) across the realized 99-case cohort.
+- **Governing contract blob:** `b4887c05a21bfe870589b5d9982066943df679d5`
+- **Results-bundle commit:** `6037f24122766fe1c68f16eb9f38d9a16c2c5e66`
+- **Authoring family:** Codex. **Reviewing family:** Claude (pending cross-family review at this writing).
+- **Out of scope:** This result must not be read as a clinical comparison, a claim that the ten cases are clinically marked or silent, a “keystone” classification, a causal or model-use finding, a per-patient clinical claim, or a generalization beyond these 99 realized cases. It contains no phenotype-row result and does not authorize Phase B.
+
+## Layer A — Finding
+
+The frozen top ten carry 50.63509495830807% of total absolute contribution but 8.961200117675944% of eligible support in these 99 cases, an exact descriptive concentration rather than a thresholded verdict [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_share,head_support_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+Across all 99 cases, absolute contribution and support have only a small descriptive rank association, Spearman rho 0.07085961657390227, with no interval or sampling claim authorized [cite: support_shares.json | descriptive_displays | spearman_rho_abs_contribution_vs_support | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+The separate 79.28912778985707% signed share describes the net reversal after cancellation and does not measure contribution per unit support [cite: support_shares.json | reversal_accounting | signed_head_net_gap_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+The dictionary supports the preregistered minimum clinical schema, but zero phenotype rows were opened, so this phase establishes no clinical difference [cite: summary.json | clinical_minimum_set_supported=true,phenotype_rows_opened=0 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+The most important caveat is that all effect-like quantities are finite-population descriptions of a subgroup selected from the same realized outcome-derived contribution census; they have no sampling uncertainty machinery and cannot establish recurrence in new patients.
+
+## Layer B — Derivation narrative
+
+1. **Authority and review gates.** The exact contract blob was human-approved, and the cross-family probe-code review approved Phase A after two rounds. The executed configuration records contract v2, one authorized variant, zero GPU minutes, and the fixed seed `20260902`; the scientific share arithmetic itself is deterministic and does not depend on that seed [cite: resolved_config.json | contract_blob=b4887c05a21bfe870589b5d9982066943df679d5,contract_version=2,variants=1,gpu_minutes=0,seed=20260902 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+2. **Input identity and split freeze.** All three frozen tables, the take-13 source, and the dictionary were hashed at the start and end; the recorded manifests agree. The phenotype-blind exclusions table contained 101 data rows: 99 analyzed cases plus two bookkeeping exclusions [cite: determinism_manifest_end.json | row_counts.exclusions.csv=101,row_counts.per_case_contributions.csv=99 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+3. **CONSORT-style flow.** Of 101 exclusions-table records entering the provenance gate, two were not analyzed: `sub-stroke0142` was an `excluded_archive_lesion` bookkeeping row and `sub-stroke0043` was an `excluded_case` for `source_corrupt_member`; 99 unique analyzed IDs remained and matched the contribution-table IDs exactly [cite: provenance_gate.json | analyzed_rows=99,bookkeeping_rows,unique_analyzed_ids=true,id_set_matches_contribution_table=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. No reserved case and no phenotype row was accessed [cite: summary.json | reserved_cases_accessed=0,phenotype_rows_opened=0 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+4. **Support provenance gate.** All 99 analyzed cases had finite positive integer support counts; support ranged from 1,401 to 617,540 voxels, with no discrepancy recorded [cite: provenance_gate.json | b_finite_positive_integer_count=99,b_min=1401,b_max=617540,discrepancies=[] | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. The census cross-checks reproduced the frozen sign counts—54 positive, 6 zero, 39 negative—and both frozen head-share identities [cite: provenance_gate.json | census_cross_checks.sign_counts.positive=54,census_cross_checks.sign_counts.zero=6,census_cross_checks.sign_counts.negative=39,census_cross_checks.checks | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. No support-provenance kill condition was approached: the gate reports `pass: true` and an empty discrepancy list [cite: provenance_gate.json | pass=true,discrepancies=[] | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+5. **Authorized support analysis.** The head was the frozen signed ranks 1–10. Its absolute contribution was 0.04367036086720666 of 0.08624524334982282 total, while its support was 2,025,630 of 22,604,450 voxels, yielding shares 0.5063509495830807 and 0.08961200117675944 [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_sum,total_abs_contribution_sum,head_support_voxels,total_support_voxels,head_abs_contribution_share,head_support_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. The one authorized variant was reported; no support-clause interval, test, margin, or alternative subgroup was run.
+6. **Dictionary-only clinical preparation.** The 12,149-byte dictionary matched its pinned MD5 and 148 cells were inventoried [cite: proposed_variable_freeze.json | dictionary.bytes=12149,dictionary.md5=c8d806a021614c6bb9f732756f9701d4 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: summary.json | dictionary_cells_inventoried=148 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. It documented 3-month mRS, 24-hour NIHSS, admission NIHSS, age, and sex, while no center/site field was found; these are proposed bindings, not analyzed clinical variables [cite: proposed_variable_freeze.json | constructs,center.documented=false | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66].
+7. **Terminal.** Phase A ended in the preregistered positive terminal `PHASE_A_COMPLETE_REQUIRES_AMENDMENT` after 0.013 wall-seconds [cite: summary.json | status=PHASE_A_COMPLETE_REQUIRES_AMENDMENT,wall_seconds=0.013 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66]. This is successful completion of Phase A, not completion of the study.
+
+## Layer C — Deep justification
+
+### Claims table
+
+| Classification | Claim | Exact source |
+|---|---|---|
+| Demonstrates | The frozen top ten account for 0.5063509495830807 of absolute contribution and 0.08961200117675944 of eligible support in the realized 99-case cohort. These are deterministic finite-population arithmetic under the frozen inputs. | [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_share,head_support_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Demonstrates | The support comparison used 99 analyzed cases, with 2 documented bookkeeping exclusions and an exact ID-set join. | [cite: provenance_gate.json | analyzed_rows=99,bookkeeping_rows,id_set_matches_contribution_table=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Demonstrates | Every analyzed support count was a finite positive integer; the provenance gate passed with no discrepancy. | [cite: provenance_gate.json | b_finite_positive_integer_count=99,pass=true,discrepancies=[] | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Demonstrates | Phase A did not access phenotype rows or reserved cases. | [cite: summary.json | phenotype_rows_opened=0,reserved_cases_accessed=0 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Demonstrates | The pinned dictionary supports the minimum preregistered schema and documents the proposed named constructs; it does not demonstrate their case-level completeness. | [cite: summary.json | clinical_minimum_set_supported=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: proposed_variable_freeze.json | constructs,minimum_set.supported=true | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Suggests | The realized contribution concentration is not simply proportional to eligible-support quantity: the share pair is widely separated, and rho is 0.07085961657390227. “Suggests” is used because the contract supplies no case-level uncertainty or sampling model and the head was selected from this same realized census. | [cite: support_shares.json | sole_disproportionality_comparison | head_abs_contribution_share,head_support_share | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: support_shares.json | descriptive_displays | spearman_rho_abs_contribution_vs_support | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Positive finding | Phase A reached its preregistered successful terminal, with all identity, provenance, census, support, and dictionary gates satisfied. | [cite: summary.json | status=PHASE_A_COMPLETE_REQUIRES_AMENDMENT | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: provenance_gate.json | pass=true,census_cross_checks.checks | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Negative finding | The descriptive all-case rank association is small (rho 0.07085961657390227), but this is not an inferential null and does not establish independence. | [cite: support_shares.json | descriptive_displays | spearman_rho_abs_contribution_vs_support | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Does not establish | No clinical difference, clinical silence/markedness, treatment association, subtype, causal explanation, model use, individual-patient result, or generalization beyond the 99 cases. | [cite: summary.json | phenotype_rows_opened=0,analyzed_cases=99 | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Does not establish | The signed share 0.7928912778985707 is not contribution per unit support; it is net-gap accounting after cancellation. | [cite: support_shares.json | reversal_accounting | signed_head_net_gap_share,label | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+| Validity failures | None observed. No invalidating failure occurred, and neither preregistered stop (`SUPPORT_PROVENANCE_FAILURE` or clinical-schema unsupported) fired. | [cite: provenance_gate.json | pass=true,discrepancies=[] | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] [cite: summary.json | clinical_minimum_set_supported=true,status=PHASE_A_COMPLETE_REQUIRES_AMENDMENT | bundle_commit=6037f24122766fe1c68f16eb9f38d9a16c2c5e66] |
+
+### Uncertainty location
+
+This was a deterministic table audit and arithmetic decomposition, not stochastic training. The fixed seed was reserved for Phase-B hypothetical relabeling and did not generate the Phase-A share or rank outputs. Uncertainty therefore lies in scope and selection: these are all 99 realized analyzed cases, the head was selected from their outcome-derived contributions, and the contract deliberately provides no sampling model or interval for the support clause. Exact arithmetic supports **DEMONSTRATES** at this finite-population scope; any claim about recurrence, clinical meaning, or a general relationship is unsupported, while the qualitative “not simply proportional” reading remains only **SUGGESTS** because no case-level uncertainty machinery licenses broader effect language.
+
+## Next decision
+
+**ADVANCE — only to the contract amendment and fresh human review for Phase B.** Bind the Phase-A proposed clinical variable freeze and the hashes of `proposed_variable_freeze.json` and `per_case_support.csv`, replace the result interface with the Phase-B interface, register the consumed-artifact edge, and seek fresh human approval before staging any phenotype byte. The amendment review should explicitly decide whether to retain both exploratory clinical uncertainty displays exactly as drafted; it must not revisit the already completed support arithmetic or add variables in response to its result.
+
+
+
 ===== ideas/047/keystone_screen.md =====
 # Keystone screen — idea-047 (isles24-scout-010-c01)
 
@@ -3625,7 +3929,7 @@ unverifiable by design at this stage, not by neglect.
 
 
 ===== ideas/047/probe_contract.yaml =====
-# Probe contract v1 -- idea 047, keystone-ten clinical profile and
+# Probe contract v2 -- idea 047, keystone-ten clinical profile and
 # support-share arithmetic of the census head.
 # Draft only. Nothing here authorizes code, staging, execution, or any
 # phenotype access. Phase A requires human approval of this exact blob.
@@ -3633,18 +3937,36 @@ unverifiable by design at this stage, not by neglect.
 # fresh human approval of the amended blob; the phenotype rows stay
 # unread until then.
 #
+# v2 supersedes the v1 draft per the feasibility memo's REVISE verdict
+# (ideas/047/feasibility.md, sections 1, 6, 8, 9). The decisive finding,
+# re-verified against the repository at this drafting (2026-09-02): the
+# support variable B_i already exists as a claim-bearing output of the
+# ratified take-13 bundle -- probes/023/results/results_v2/exclusions.csv
+# carries a populated integer eroded_region_voxels for all 99 analyzed
+# cases, written by the frozen implementation's coordinate_arrays()
+# (probes/023/run.py lines 486-523 at the pinned blob) as exactly the
+# eligible region after Tmax>6.0 thresholding, six-neighbor one-voxel
+# erosion, border and two-voxel array-midline exclusion, per-patient
+# CBV-p98 vessel exclusion, and finiteness/positivity filtering.
+# Consequences implemented here: no map staging, no NCCT, no region
+# recomputation, no 297-row reproducibility gate; Phase A becomes a
+# hash-and-join audit of three pinned in-repo tables plus the frozen
+# code blob, and Phase B alone stages the 198 phenotype members. The
+# retired per_patient.csv pin is dropped with the gate that consumed it
+# (its d column is therefore untouchable by construction).
+#
 # Right-sizing (2026-09-01 operator ruling): one contract with two
 # pre-registered ordered phases, not serial contracts. Phase B is
 # deterministic on Phase A's outputs once the amendment freezes the
-# clinical variable list, and blindness is preserved by ordering: every
-# gate runs and every phenotype-blind output is emitted before any
-# clinical byte is read. The genuinely new authority scope -- first-ever
-# read of the released clinical outcome rows -- sits behind the
-# amendment plus fresh approval, the same human gate a separate contract
-# would provide (023 Phase S -> Phase C precedent).
+# clinical variable list, and blindness is preserved by ordering -- now
+# strictly stronger than v1: no phenotype byte is even staged to disk
+# until the Phase-B approval exists. The genuinely new authority scope
+# -- first-ever read of the released clinical outcome rows -- sits
+# behind the amendment plus fresh approval (023 Phase S -> Phase C
+# precedent).
 
 idea_id: "idea-047"
-contract_version: 1
+contract_version: 2
 track: exploratory
 
 authorities:
@@ -3655,10 +3977,11 @@ authorities:
   critique: "ideas/047/critique.md (defects D1-D6)"
   debate: "ideas/047/debate.md and ideas/047/consensus.md (round-3 frozen design)"
   revision: "ideas/047/revision.md"
-  operator_ruling: "ideas/047/unblock_ack.txt (exact-map recomputation branch frozen; round-3 finite-population design adopted)"
+  operator_ruling: "ideas/047/unblock_ack.txt (q1+q4 proxy rejected; exact eroded Tmax>6s support under the ratified take-13 parameters adopted; round-3 finite-population design). See open question 1: this v2 satisfies the ruling's quantity via the ratified cached output rather than literal re-execution."
+  feasibility: "ideas/047/feasibility.md (REVISE; section 9 directives 1-6 implemented by this v2; nearest dataset-specific neighbor EJR 2026, DOI 10.1016/j.ejrad.2026.113200)"
   d3_d4_protocols: "ideas/046/interpretation.md (ratified D3 read-restriction and D4 joint-display rules)"
   take13_contract: "ideas/023/probe_contract.yaml at git blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b (the ratified take-13 parameters)"
-  take13_implementation: "probes/023/run.py at git blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be (frozen region machinery)"
+  take13_implementation: "probes/023/run.py at git blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be (frozen region machinery; byte-verified only, never executed under this contract)"
   decision_entries:
     - "2026-09-02 - Operator note to the next scout cycle: the CLINICAL successor specifically"
     - "2026-09-01/02 - Registry closeout: 045 gov-0002, 046 gov-0001; supersede semantics; right-sizing guidance"
@@ -3666,53 +3989,62 @@ authorities:
     - "2026-08-26 - 023 take 11: SOURCE data defect proven (sub-stroke0043 exclusion policy)"
     - "2026-08-25 - 023 attempts 3-4 (a pin that can re-resolve at runtime is not a pin)"
 
-question: "In the frozen 99-case idea-046 census cohort, do the ten largest signed contributors to the band-2/3 reversal differ in aggregate on a pre-frozen released clinical variable list from the other 89 cases -- and how does their exact share of total absolute contribution compare with their exact share of total eligible deficit support B_i, the per-case eroded Tmax>6s eligible-region voxel count recomputed under the ratified take-13 parameters?"
+question: "In the frozen 99-case idea-046 census cohort, do the ten largest signed contributors to the band-2/3 reversal differ in aggregate on a pre-frozen released clinical variable list from the other 89 cases -- and how does their exact share of total absolute contribution compare with their exact share of total eligible deficit support B_i, the per-case eroded Tmax>6s eligible-region voxel count produced under the ratified take-13 parameters?"
 
-risky_assumption_tested: "The reproducibility gate is the riskiest assumption and runs before any science is emitted: the frozen take-13 region machinery, re-run lesion-blind on restaged maps in a pinned environment, must reproduce all 297 cached per-band q1_voxels/q4_voxels values in probes/023/results/results_v2/per_patient.csv exactly, which licenses B_i as the take-13 eligible region rather than a variant region. Secondary risky assumption, tested at the dictionary step before any case-level read: clinical_data-description.xlsx identifies a minimum usable variable set (at least one of 3-month mRS / admission NIHSS, and at least one of age / sex)."
+risky_assumption_tested: "The riskiest assumption is that the cached take-13 support extract is valid and joinable: exclusions.csv at its pinned SHA-256, filtered to record_type == analyzed_case, must yield exactly 99 unique case ids set-equal to the frozen contribution table's ids, each with a finite positive integer eroded_region_voxels, with the only non-analyzed rows the two documented bookkeeping rows (sub-stroke0142 excluded_archive_lesion; sub-stroke0043 excluded_case); and probes/023/run.py must byte-match frozen blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be, whose coordinate_arrays() writes eroded_region_voxels as the eligible-region voxel count. All of this was verified by hand at drafting (2026-09-02: hashes reproduce; join exact 99/99; B_i range 1401-617540, all positive integers; code lines 486-523 quoted in feasibility.md); the probe re-verifies it mechanically before any science is emitted. Secondary risky assumption, tested at the dictionary step before any case-level read: clinical_data-description.xlsx identifies a minimum usable variable set (at least one of 3-month mRS / NIHSS at any documented time point, and at least one of age / sex)."
 
 phases:
-  phase_a: "Phenotype-blind. Ordered steps: (1) dictionary-only staging and inventory with a machine-derived proposed variable freeze, written and hashed before any map byte is read; (2) one selective-extraction staging event from the held archive; (3) region recomputation with the frozen take-13 machinery; (4) the exact reproducibility gate; (5) only on gate pass, the support-clause outputs. Terminal status PHASE_A_COMPLETE_REQUIRES_AMENDMENT (or PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED under the pre-registered branch below)."
+  phase_a: "Phenotype-blind, table-and-dictionary-only; no archive access, no map member, no image byte. Ordered steps: (1) input-identity gates (all frozen-input SHA-256s; take-13 implementation byte-verification); (2) the support provenance-and-join gate; (3) census cross-checks; (4) support-clause outputs; (5) dictionary staging and inventory with a machine-derived proposed variable freeze. Terminal status PHASE_A_COMPLETE_REQUIRES_AMENDMENT (or PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED under the pre-registered branch below)."
   amendment: "Mechanical contract amendment: binds the frozen clinical variable list from the Phase-A dictionary inventory, swaps required_outputs to the Phase-B interface, and records the Phase-A bundle identity as a consumed artifact. The amendment stales the Phase-A approval by construction; fresh human approval of the amended blob authorizes Phase B."
-  phase_b: "Opens exactly the 99 analyzed cases' phenotype rows under D3 and emits the single aggregate clinical estimation table under D4. Terminal status STUDY_COMPLETE."
+  phase_b: "One selective-extraction staging event of exactly the 198 phenotype members from the held archive under D3, then opens exactly the 99 analyzed cases' phenotype rows and emits the single aggregate clinical estimation table under D4. Terminal status STUDY_COMPLETE."
 
 scope:
-  included: "One deterministic CPU-only pipeline over the 99 analyzed census cases: dictionary schema inventory; selective staging of 693 named archive members; lesion-free recomputation of the take-13 eligible region and its per-band CBV-quartile cell counts; the exact 297-row reproducibility gate; per-case eligible support B_i; the frozen finite-population support-clause displays; and, after amendment and fresh approval, one aggregate 10-versus-89 clinical estimation table with exploratory-labeled uncertainty, joint support display, and small-cell suppression."
+  included: "One deterministic CPU-only pipeline over the 99 analyzed census cases: Phase A hash-and-join audit of three pinned in-repo tables plus the frozen implementation blob; the frozen finite-population support-clause displays; dictionary-only schema inventory; and, after amendment and fresh approval, Phase B staging of exactly 198 phenotype members and one aggregate 10-versus-89 clinical estimation table with exploratory-labeled uncertainty, joint support display, and small-cell suppression."
   excluded:
-    - "Any lesion-mask member: never extracted, never read, in either phase. The d column of per_patient.csv is not consumed by any computation."
-    - "The 49 reserved cases, sub-stroke0043, any non-census case, band-1 outcome values, raw 4D CTP, and any archive member outside the named extraction set."
+    - "Any archive member other than the 198 Phase-B phenotype files: no perfusion map, no NCCT, no lesion-mask member is staged or read in either phase. No take-13 region code is executed under this contract."
+    - "The 49 reserved cases, sub-stroke0043, any non-census case, band-1 outcome values, raw 4D CTP."
     - "Any permutation test, interval, threshold, or is/is-not adjudication anywhere in the support clause; any random-subset null anywhere (round-2 debate concession)."
     - "Any fitted residual, analyst-defined subgroup, regression of contribution on support, or 'keystone' verdict (critique D2)."
     - "Any per-case clinical value in any output; any cross-tabulation of two or more clinical variables; any significance-selected headline; any multivariable model (critique D5/D6)."
     - "Any model inference, model-use claim, causal or clinical-subtype claim, or generalization beyond the realized 99 cases."
-    - "Any variant region, alternative parameter, alternative support definition, or reinterpretation of a gate failure as a scientific result."
+    - "Any variant support definition, any recomputation of the support variable, or reinterpretation of a gate failure as a scientific result."
 
 dataset:
-  name: "ISLES'24 training release (held archive) plus imported program tables"
+  name: "ISLES'24 training release (held archive, Phase B only) plus imported program tables"
   archive:
     zenodo_record: "16813698 (immutable child record; staging must declare it; silent re-resolution to any other record is invalidating)"
     file: "train.7z, 99014629647 bytes, md5 36ae28b9a17f7340b8bbef62b595cb57 (verified held copy; evidence/decisions.md 2026-08-25/26)"
     member_manifest: "archive_manifest.csv at results branch origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv, git blob edb9a8c2ceb90df214cdd7ec167f0b1e8c858bb2 (member sizes and CRC32s)"
-    dictionary: "clinical_data-description.xlsx (12.1 kB) fetched from record 16813698 with the md5 published in the record's files listing"
+    dictionary: "clinical_data-description.xlsx, 12149 bytes, md5 c8d806a021614c6bb9f732756f9701d4 (pinned at drafting from the record's files listing, verified 2026-09-02 in feasibility.md; a fetch not matching this md5 is invalidating -- the pin never re-resolves at runtime)"
   frozen_inputs:
-    # probes/023/results/results_v2/per_patient.csv -- 297 data rows,
-    # columns case_id,stratum,q1_voxels,q4_voxels,d (d never consumed).
-    per_patient.csv: "1d01551c888d77b6382f7cbe36e4bb68a6d2f2ef4b26e09832bfda45d2c40e0c"
+    # probes/023/results/results_v2/exclusions.csv -- 102 lines: header,
+    # 99 analyzed_case rows (case_id, ..., eroded_region_voxels = B_i),
+    # and exactly two non-analyzed bookkeeping rows (sub-stroke0142
+    # excluded_archive_lesion; sub-stroke0043 excluded_case). Ratified
+    # take-13 output (023 gov ratification; each node COMPLETE under its
+    # own immutable contract).
+    exclusions.csv: "58e9f8ab7cea38e6717319a26ea6a590dc7d1ad0d42d6b30dca648b0509a5a71"
     # probes/046/results/results_v3/per_case_contributions.csv -- 99 data
     # rows, columns case_id,d_band2,d_band3,delta,contribution,signed_rank.
     per_case_contributions.csv: "aba525122f796618761e6c4d29b664647760e8dff4987932c3ff6ab5456faae9"
     # probes/046/results/results_v3/census_summary.json -- cross-check
     # values only.
     census_summary.json: "189c0ce846cffd2eff76e896bfa35156893568d5ee64868caae0b8609bd4c761"
-  extraction_set: "Exactly 693 members, enumerated per analyzed case id from the 99 rows of per_case_contributions.csv: the four perfusion maps train/derivatives/<id>/ses-01/perfusion-maps/<id>_ses-01_space-ncct_{tmax,cbf,cbv,mtt}.nii.gz, the rawdata NCCT train/raw_data/<id>/ses-01/<id>_ses-01_ncct.nii.gz (required by the frozen loader), and the two phenotype files train/phenotype/<id>/ses-01/<id>_ses-01_demographic_baseline.csv and train/phenotype/<id>/ses-02/<id>_ses-02_outcome.csv. Member discovery tolerates the sub-stroke/sub-strokecase and raw_data/rawdata spellings per the 2026-08-25 payload-outranks-prose lesson. Extracted phenotype bytes exist on disk from this single staging event but remain unread until Phase B authorization; reading them earlier is invalidating."
+    # per_patient.csv is deliberately NOT an input of this contract: the
+    # v1 reproducibility gate that consumed it is retired with the
+    # recomputation path (feasibility section 9 item 1), and no other
+    # computation may touch it.
+  extraction_set: "Phase B only. Exactly 198 members, enumerated per analyzed case id from the 99 rows of per_case_contributions.csv: train/phenotype/<id>/ses-01/<id>_ses-01_demographic_baseline.csv and train/phenotype/<id>/ses-02/<id>_ses-02_outcome.csv. Member discovery tolerates the sub-stroke/sub-strokecase spellings per the 2026-08-25 payload-outranks-prose lesson. Phase A stages nothing from the archive; the dictionary is fetched from the immutable record (or a held copy) against its pinned md5."
 
-split_policy: "The 99 analyzed take-13 census cases only, as enumerated in the frozen contribution table. This is exploratory reuse of the already-open idea-023 imaging outcomes plus a first, phase-gated read of the released clinical rows for the same 99 cases; it is not a fresh confirmatory split. The 49 reserved cases and the excluded sub-stroke0043 must remain untouched and absent from every input, output, and staging receipt."
+split_policy: "The 99 analyzed take-13 census cases only, as enumerated in the frozen contribution table. This is exploratory reuse of the already-open idea-023 imaging outcomes plus a first, phase-gated read of the released clinical rows for the same 99 cases; it is not a fresh confirmatory split. The 49 reserved cases and the excluded sub-stroke0043 must remain untouched and absent from every staged member, output, and receipt (sub-stroke0043's bookkeeping row in exclusions.csv is read only to confirm its record_type and exclusion)."
 
 preprocessing:
-  step_1_dictionary: "Fetch and hash clinical_data-description.xlsx. Emit dictionary_inventory.csv (every documented sheet, field, description, time point, coding, missing-value convention, verbatim) and proposed_variable_freeze.json via the frozen targeting rule: map fields by name/description to the four target constructs (3-month mRS, admission NIHSS, age, sex); record whether any 24-hour or discharge NIHSS field exists (critique D1 reconciliation); list at most three candidate contextual fields (e.g. reperfusion status, onset-to-imaging time) only if the dictionary shows them. Both artifacts are written and hashed into the run log before any map byte is staged or read, so the proposal cannot be influenced by any scientific output. Pre-registered branch: if no field maps to (3-month mRS OR admission NIHSS) or none to (age OR sex), record CLINICAL_SCHEMA_UNSUPPORTED; Phase A still completes its support clause and terminates PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED; no amendment path exists and successor handling is an operator decision."
-  step_2_staging: "One selective-extraction staging event of the 693-member extraction set from the held md5-verified archive to local scratch. Extraction return code checked; per-member gzip -t sweep for .nii.gz members; member size/CRC32 compared against the frozen archive manifest; exactly 693 members staged. Staging transport is operational, receipted in staging_audit.json, and carries no scientific semantics."
-  step_3_region_recompute: "Per case, lesion-free, using the frozen take-13 implementation verbatim (module import or byte-identical vendoring, verified against blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be and recorded in resolved_config.json): load_case with load_label=False; coordinate_arrays (Tmax>6.0 deficit, 6-neighbor erosion, border and two-voxel array-midline exclusion, per-patient p98 CBV vessel exclusion, finiteness and positivity rules); flow_band_labels; per-band z=log(CBV) with q1,q3 = np.quantile(z,[0.25,0.75]); per-band counts of z<=q1 and z>=q3 with the z.size<4 -> 0/0 convention. B_i = the eligible-region voxel count (eroded_region_voxels), which the frozen code guarantees equals the sum of the three band member counts; a partition-identity violation is invalidating, never a result. Environment pins inherited from probes/023/requirements.txt; installed versions recorded beside the take-13 bundle's environment.txt values."
-  step_4_reproducibility_gate: "Compare every recomputed (case_id, stratum) q1_voxels and q4_voxels pair against the frozen per_patient.csv by exact integer equality, all 297 rows. On any mismatch: emit reproducibility_gate.csv with per-row cached/recomputed values and the environment comparison, write no support-clause output, and stop with status REPRODUCIBILITY_GATE_FAILURE for escalation. No variant region may be substituted (operator ruling; card X_measurement)."
-  step_5_support_clause: "Only after a 297/297 gate pass. All quantities are exact finite-population arithmetic over the realized 99 cases, in IEEE-754 doubles, with no uncertainty machinery of any kind."
+  step_1_identity_gates: "Hash all three frozen inputs against their pins. Byte-verify probes/023/run.py in the working tree against git blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be and record in resolved_config.json the verbatim coordinate_arrays() lines defining eroded_region_voxels (the code is evidence, never executed). Any mismatch is an invalidating input-identity failure."
+  step_2_support_gate: "The provenance-and-join gate, emitted to provenance_gate.json: (a) filter exclusions.csv to record_type == analyzed_case; require exactly 99 rows with unique case ids; (b) require exact set equality with the 99 case ids of the frozen contribution table; (c) require every eroded_region_voxels value to parse as a finite positive integer; (d) require the non-analyzed remainder to be exactly the two documented bookkeeping rows (sub-stroke0142 excluded_archive_lesion with blank support fields; sub-stroke0043 excluded_case source_corrupt_member). On any failure: write provenance_gate.json with the discrepancy, write no support-clause output, and stop with status SUPPORT_PROVENANCE_FAILURE for escalation. No substitute support source may be consulted."
+  step_3_census_cross_checks: "Recompute from the frozen contribution table and match against census_summary.json before emission: head absolute-mass share 0.5063509495830807; signed head share 0.7928912778985707; sign counts 54 positive / 6 zero / 39 negative; signed and absolute top-ten set coincidence. Any mismatch is invalidating transcription failure, never a result."
+  step_4_support_clause: "Only after gates pass. B_i := the analyzed-case eroded_region_voxels value, verbatim. All quantities are exact finite-population arithmetic over the realized 99 cases, in IEEE-754 doubles, with no uncertainty machinery of any kind."
+  step_5_dictionary: "Fetch clinical_data-description.xlsx and verify its pinned md5. Emit dictionary_inventory.csv (every documented sheet, field, description, time point, coding, missing-value convention, verbatim) and proposed_variable_freeze.json via the frozen targeting rule below. Both artifacts are written and hashed into the run log; no case-level file exists on disk in this phase, so the proposal cannot be influenced by any clinical byte. Pre-registered branch: if no field maps to (3-month mRS OR any documented NIHSS time point) or none to (age OR sex), record CLINICAL_SCHEMA_UNSUPPORTED; Phase A still completes its support clause and terminates PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED; no amendment path exists and successor handling is an operator decision."
+  targeting_rule: "Feasibility verified the dictionary documents Age, Sex, NIHSS at admission, NIHSS 24h, NIHSS discharge, MRS 3 months, and mTici postinterventional. Target constructs, in the lineage-reconciled priority the memo directed (item 3; critique D1): 3-month mRS; 24-hour NIHSS as the lineage-preserving field of idea-046's frozen optional rung; admission NIHSS as documented baseline-severity context (never presented as interchangeable with the 24-hour field); age; sex. At most two additional contextual fields may be proposed only if the dictionary shows them (e.g. mTici postinterventional, onset-to-imaging time). Center: if the schema documents a center/site identifier it is a mandatory contextual variable outside that cap (feasibility item 5); if not, its absence is recorded in the reconciliation field of proposed_variable_freeze.json. The inventory binds exact release spellings; the amendment binds the final list."
 
 analysis:
   analysis_unit: "One analyzed census case (Phase A); the frozen 10-versus-89 strata (Phase B)."
@@ -3721,7 +4053,6 @@ analysis:
     sole_disproportionality_comparison: "sum_head |c_i| / sum_all |c_i| displayed beside sum_head B_i / sum_all B_i. These are the only two numbers the proportionality clause may cite (round-3 freeze, verbatim)."
     descriptive_displays: "Casewise rank(|c_i|) - rank(B_i) distribution with the head's ten values marked (ranks 1..99, 1 = largest, ties broken by case_id ascending), and Spearman rho between |c_i| and B_i as a bare descriptive number. No interval, test, or threshold accompanies either."
     reversal_accounting: "The signed head share (expected 0.7928912778985707) is reported only under an explicit reversal-accounting label stating it measures share of the net band-2/3 gap after cancellation across 39 opposing cases. Neither it nor its difference from the support share may be interpreted as contribution per unit support (round-3 freeze)."
-    cross_checks: "Recomputed from the frozen contribution table and matched against census_summary.json before emission: head absolute-mass share 0.5063509495830807; signed head share 0.7928912778985707; sign counts 54 positive / 6 zero / 39 negative; signed and absolute top-ten set coincidence. Any mismatch is invalidating transcription failure, never a result."
   clinical_clause:
     # The sentinel below is the only placeholder in this contract. The
     # amendment replaces it with the bound list; rule lines refer to it
@@ -3730,37 +4061,36 @@ analysis:
     frozen_variable_list: "<<TO_BE_FROZEN_AT_AMENDMENT>>"
     variable_freeze: "The analyzed variable list is bound at the amendment from the Phase-A dictionary inventory, replacing the frozen_variable_list sentinel: for each variable, exact field name, time point, type, coding, missingness rule, and contrast statistic from the closed menu below -- one decision, bound in the amendment, before any case row is read. Amendment deviations from proposed_variable_freeze.json require a recorded dictionary-grounded reason; additions motivated by any Phase-A scientific output are prohibited and invalidating."
     closed_statistic_menu: "Continuous: group mean/SD and median/IQR; contrast = standardized mean difference (pooled SD) and difference in medians. Ordinal: per-level group counts and cumulative distribution; contrast = difference in medians and rank-biserial. Binary: group counts/proportions; contrast = difference in proportions. No other statistic is available to the amendment."
-    uncertainty: "Exploratory null-reference range only: for each frozen contrast, the central 95% range of that contrast under 10000 random relabelings of the 10/89 split, frozen seed 20260902, displayed beside the observed value and labeled exploratory. This is descriptive calibration for the realized cohort, never sampling inference; no p-value is selected, ranked, or headlined; all frozen variables are reported jointly (critique D4/D6)."
-    joint_display: "Per D4, every variable row carries the head and rest group B_i medians and the two Phase-A support shares. Missingness (non-missing n per group) is reported per variable; a head-group non-missing count below 7 is flagged as insufficient head coverage and still reported."
+    uncertainty: "Two frozen displays per contrast, both exploratory-labeled, resolving feasibility item 4: (1) deterministic leave-one-head-case-out sensitivity -- the contrast recomputed ten times, each omitting one head case, reported as the min/max range; (2) a hypothetical exchangeability reference range -- the central 95% of the contrast under 10000 random relabelings of the 10/89 split, frozen seed 20260902 -- carried under the explicit label 'hypothetical exchangeability reference; not a confidence interval; not sampling inference' (neither group assignment nor the 99 cases were randomized). No p-value is selected, ranked, or headlined; all frozen variables are reported jointly (critique D4/D6)."
+    joint_display: "Per D4, every variable row carries the head and rest group B_i medians and the two Phase-A support shares. Missingness (non-missing n per group) is reported per variable; a head-group non-missing count below 7 is flagged as insufficient head coverage and still reported. If a center variable is bound, its display is group counts per center under the suppression rule -- descriptive context only, never a corrected estimate."
     suppression: "Aggregate-only outputs: no per-case clinical value anywhere; no cross-tabulation of two or more clinical variables; any categorical or ordinal level containing 1 or 2 head cases is reported as '<3' (zero may be reported as 0)."
   interpretation_rule: "The support clause reports the two exact shares and judges nothing: 'disproportionate' may be used only as an arithmetic comparison of the two shares, scoped to the realized 99 cases. The clinical clause reports estimates with exploratory uncertainty and missingness; absence of large separation is stated only as 'no separation larger than the displayed exploratory ranges was observed at the achieved precision', never as clinical silence. No status, share value, or table content upgrades any claim beyond claim_discipline."
 
 primary_metric: "The exact share pair -- the frozen top ten's share of total absolute contribution beside their share of total eligible deficit support -- for the realized 99 cases, plus the single pre-frozen aggregate 10-versus-89 clinical estimation table."
 secondary_metrics:
-  - "Per-case B_i with per-band member counts and the 297-row reproducibility-gate record."
+  - "Per-case B_i extract with the provenance-and-join gate record."
   - "Casewise rank-discrepancy distribution with head marks; descriptive Spearman rho."
   - "Separately labeled signed reversal-accounting share."
-  - "Dictionary inventory, NIHSS time-point reconciliation record, and the proposed variable freeze."
+  - "Dictionary inventory, NIHSS time-point reconciliation record (both admission and 24-hour fields are documented; the 24-hour field preserves the idea-046 lineage), and the proposed variable freeze."
 baselines:
   - "Ratified census values (frozen cross-checks, not comparators): head absolute-mass share 0.5063509495830807; signed head share 0.7928912778985707; sign counts 54/6/39."
-  - "Frozen take-13 cache fingerprint: q1_voxels approximately equals q4_voxels within rows (e.g. sub-stroke0002 stratum 1: 3969 vs 3970); lineage evidence only."
+  - "Drafting-time support fingerprint (lineage evidence only, not a runtime gate): analyzed-case B_i spans 1401 to 617540 voxels across the 99 cases."
 
 maximum_variants: 1
 maximum_gpu_minutes: 0
 maximum_seeds: 1
-randomness: "Phase A is fully deterministic; the seed allowance is unused there. Phase B uses exactly one frozen seed, 20260902, solely for the exploratory null-reference relabelings. No scientific point estimate depends on randomness."
-stopping_rule: "Stop immediately on any invalidating failure or pre-registered stop. Phase A stops after its required outputs are written (post-staging CPU wall time capped at 90 minutes; staging transport uncapped but receipted). Phase B stops after the single estimation table is written (post-staging CPU wall time capped at 15 minutes). A wall-time stop is incomplete and invalid, not a negative. No additional variant, follow-up analysis, or opportunistic secondary read is authorized."
+randomness: "Phase A is fully deterministic; the seed allowance is unused there. Phase B uses exactly one frozen seed, 20260902, solely for the hypothetical exchangeability reference relabelings. No scientific point estimate depends on randomness."
+stopping_rule: "Stop immediately on any invalidating failure or pre-registered stop. Phase A stops after its required outputs are written (total CPU wall time capped at 10 minutes; no staging transport exists in this phase beyond the 12 kB dictionary fetch). Phase B stops after the single estimation table is written (post-staging CPU wall time capped at 15 minutes; staging transport uncapped but receipted in staging_audit.json). A wall-time stop is incomplete and invalid, not a negative. No additional variant, follow-up analysis, or opportunistic secondary read is authorized."
 
-positive_pattern: "PHASE_A_COMPLETE_REQUIRES_AMENDMENT: all staging, identity, gate, and output requirements pass and the phenotype-blind support clause is emitted -- a successful descriptive result regardless of the share values, carrying no proportionality verdict. STUDY_COMPLETE (Phase B, post-amendment): the frozen clinical estimation table is emitted -- successful regardless of what it shows, carrying no separation verdict."
-negative_pattern: "NO DIRECTIONAL NEGATIVE IS DEFINED. Pre-registered stops are decision-grade stops, not negatives and not invalidating: REPRODUCIBILITY_GATE_FAILURE (any of the 297 cached counts not reproduced exactly; support clause blocked for escalation; the mismatch report plus environment comparison is the deliverable) and PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED (dictionary cannot support the minimum variable set; support clause still delivered; clinical clause requires operator decision). A small clinical separation at achieved precision is a bounded exploratory description, never evidence of clinical silence."
+positive_pattern: "PHASE_A_COMPLETE_REQUIRES_AMENDMENT: all identity, provenance, cross-check, and output requirements pass and the phenotype-blind support clause is emitted -- a successful descriptive result regardless of the share values, carrying no proportionality verdict. STUDY_COMPLETE (Phase B, post-amendment): the frozen clinical estimation table is emitted -- successful regardless of what it shows, carrying no separation verdict."
+negative_pattern: "NO DIRECTIONAL NEGATIVE IS DEFINED. Pre-registered stops are decision-grade stops, not negatives and not invalidating: SUPPORT_PROVENANCE_FAILURE (the cached support extract fails the join/definition gate; the gate record is the deliverable and escalation is the next act) and PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED (dictionary cannot support the minimum variable set; support clause still delivered; clinical clause requires operator decision). A small clinical separation at achieved precision is a bounded exploratory description, never evidence of clinical silence."
 
 invalidating_failures:
   - "Authority failure: any execution without fresh human approval binding the exact governing contract blob; any Phase-B activity before the amendment and its fresh approval; any Phase-B activity while the frozen_variable_list field still holds its pre-amendment sentinel value."
-  - "Input-identity failure: any frozen-input SHA-256 mismatch; archive md5 mismatch; staging resolves to any Zenodo record other than 16813698; dictionary md5 mismatch against the record's files listing."
-  - "Staging-integrity failure: extraction return code nonzero; any staged member failing the gzip sweep or manifest size/CRC comparison; a staged-member count other than 693; any member outside the extraction set extracted."
-  - "Blindness/scope failure: any phenotype byte read before Phase-B authorization; any lesion-mask member extracted or read in either phase; any reserved or excluded case touched; the d column of per_patient.csv consumed by any computation."
-  - "Frozen-machinery deviation: probes/023/run.py modified, or the reused implementation not byte-verified against blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be; any change to the frozen parameters (Tmax 6.0, p98 vessel rule, erosion, midline band, quartile rule, band boundaries); any quantile-method or dtype override."
-  - "Gate-order violation: any support-clause output written before the 297/297 reproducibility gate passes; the band-count partition identity for B_i violated."
+  - "Input-identity failure: any frozen-input SHA-256 mismatch; probes/023/run.py not byte-identical to its pinned blob; archive md5 mismatch; staging resolves to any Zenodo record other than 16813698; dictionary md5 mismatch against the pinned value."
+  - "Scope failure: any archive member outside the 198-member Phase-B extraction set staged or extracted; any perfusion-map, NCCT, or lesion-mask member staged or read in either phase; any take-13 region code executed; any reserved or excluded case's phenotype member touched."
+  - "Blindness failure: any phenotype byte staged or read before Phase-B authorization; probes/023/results/results_v2/per_patient.csv consumed by any computation."
+  - "Staging-integrity failure (Phase B): extraction return code nonzero; any staged member failing the manifest size/CRC comparison; a staged-member count other than 198."
   - "Cross-check failure: any recomputed census cross-check value disagreeing with census_summary.json."
   - "Analysis deviation: any threshold, interval, or permutation machinery in the support clause; any statistic outside the closed menu; any variable not in the amended frozen list; any deviation from the frozen seed or relabeling count; any significance-selected emphasis."
   - "Selective-output failure: any of the 99 cases, any frozen display row, or any frozen variable omitted, suppressed beyond the frozen suppression rule, or filtered."
@@ -3778,37 +4108,35 @@ claim_discipline:
     - "Interpreting the signed reversal-accounting share, or its difference from the support share, as contribution per unit support."
     - "Any per-patient claim, any model-use or causal claim, any generalization beyond the realized 99 cases, this frozen estimator, and these frozen inputs."
     - "Upgrading exploratory ranges or any p-like quantity into inferential support, or letting clinical uncertainty displays imply an inferential license the support clause refused."
-    - "Upgrading the hedged novelty language of the card while the Tomography 2026 near-miss remains unread."
+    - "Upgrading the hedged novelty language of the card; the 2026 EJR ISLES'24 clinical secondary analysis (DOI 10.1016/j.ejrad.2026.113200) is the named nearest dataset-specific neighbor, and the Tomography 2026 near-miss remains unread."
 
 # Phase-A result interface (governing while this pre-amendment blob is
 # current). The amendment replaces this list with phase_b_required_outputs.
 required_outputs:
   - resolved_config.json
   - input_manifest.csv
-  - staging_audit.json
-  - dictionary_inventory.csv
-  - proposed_variable_freeze.json
+  - provenance_gate.json
   - per_case_support.csv
-  - reproducibility_gate.csv
   - support_shares.json
   - rank_discrepancy.csv
+  - dictionary_inventory.csv
+  - proposed_variable_freeze.json
   - summary.json
-  - determinism_manifest_start.json
-  - determinism_manifest_end.json
   - environment.txt
   - run_log.txt
 
 amendment_protocol:
   trigger: "PHASE_A_COMPLETE_REQUIRES_AMENDMENT bundle validated and imported."
   binds:
-    - "The frozen clinical variable list (exact field names, time points, coding, missingness rules, per-variable contrast statistics from the closed menu, at most three contextual fields), replacing the frozen_variable_list sentinel; the NIHSS time-point reconciliation is documented in the bound list (critique D1)."
+    - "The frozen clinical variable list (exact field names, time points, coding, missingness rules, per-variable contrast statistics from the closed menu, contextual fields per the targeting rule), replacing the frozen_variable_list sentinel; the NIHSS time-point reconciliation is documented in the bound list (critique D1; feasibility item 3)."
     - "The Phase-A bundle identity and the SHA-256 of proposed_variable_freeze.json and per_case_support.csv as consumed artifacts (registry artifact edge)."
     - "required_outputs replaced by phase_b_required_outputs (F3 lesson: no single list may conflate two phases' interfaces; each bundle validates under its own governing blob)."
-  approval: "The amendment stales the Phase-A approval by construction. Fresh human approval of the amended blob is the sole authorization for Phase B and for the first read of any phenotype row."
+  approval: "The amendment stales the Phase-A approval by construction. Fresh human approval of the amended blob is the sole authorization for Phase B, for the staging of any phenotype member, and for the first read of any phenotype row."
 
 phase_b_required_outputs:
   - resolved_config.json
   - input_manifest.csv
+  - staging_audit.json
   - clinical_estimation_table.csv
   - clinical_uncertainty.json
   - suppression_log.csv
@@ -3817,10 +4145,119 @@ phase_b_required_outputs:
   - run_log.txt
 
 open_questions_for_human:
-  - "Structure: does the amendment-plus-fresh-approval gate satisfy the right-sizing carve-out for the new phenotype exposure, or do you want Phase B as a separately registered contract? Approving this v1 blob adopts the one-contract two-phase design; Phase B remains unreachable without the later amendment approval either way."
-  - "Uncertainty currency: critique D4 permits 'confidence intervals or randomization intervals'; this contract freezes the exploratory null-reference range (central 95% of each contrast under relabeling) as the sole clinical uncertainty display. Approve, or direct a different frozen display before Phase A runs."
+  - "Support path: the unblock ruling froze 'the exact-map recomputation branch'. Feasibility then verified (and this drafting re-verified against the repository) that the identical quantity -- exact eroded Tmax>6s eligible support under the ratified take-13 parameters -- already exists as a hash-pinned, code-verified output of the ratified take-13 bundle. This v2 adopts that cached extract and retires the recomputation, the 3 GB map staging, and the 297-row reproducibility gate (feasibility section 9 item 1: provenance replaces reproduction; same bytes, fewer failure surfaces). Approving this blob ratifies the substitution and supersedes the card's X_measurement recomputation/reproducibility-gate wording; if you want literal re-execution anyway, reject and direct reversion to the v1 Phase-A steps."
+  - "Uncertainty currency (feasibility item 4): this contract freezes TWO clinical displays -- deterministic leave-one-head-case-out ranges, plus a relabeling range explicitly labeled 'hypothetical exchangeability reference, not a confidence interval'. If you prefer only deterministic displays, strike the relabeling range before approval; the leave-one-out display stands either way."
+  - "Structure (carried from v1, never yet ruled): does the amendment-plus-fresh-approval gate satisfy the right-sizing carve-out for the new phenotype exposure, or do you want Phase B as a separately registered contract? Approving this v2 blob adopts the one-contract two-phase design; Phase B remains unreachable without the later amendment approval either way."
 
 human_approved: false
+
+
+===== ideas/047/probe_review.md =====
+# Probe code review — idea 047, contract v2, Phase A, revision round 2
+
+## Verdict
+
+**APPROVE.** The revision closes all three prior blockers without changing the
+scientific scope. Phase A implements the approved support-share arithmetic on
+the frozen 99-case cohort, preserves the phenotype boundary, writes the
+contract-required interface, and labels every terminal result within the
+contract's descriptive claim ceiling. No `ideas/047/contract_requirements.md`
+exists, so the requirements-governed tier/head/manifest checks do not apply.
+
+## Blocking findings
+
+None.
+
+## Resolution of the prior blocking findings
+
+- **Hard standard 4 — resolved.** A real run now requires a pre-staged
+  `--dictionary-file` and refuses when it is absent
+  (`probes/047/run.py:205-211`, `probes/047/run.py:1073-1080`). The held file is
+  checked against the frozen byte-count and MD5 pins before parsing
+  (`probes/047/run.py:710-735`). The remaining Zenodo URL is provenance text,
+  not an executed fetch (`probes/047/run.py:102-105`); no network-capable
+  import or call remains. The operator command documents the required offline
+  input (`probes/047/README.md:11-24`).
+- **Hard standard 5 — resolved.** Before the outcome-derived contribution
+  table or census summary is opened, the code pin-verifies and reads only the
+  phenotype-blind exclusions table, writes the actual analyzed case IDs plus
+  the two bookkeeping exclusions to `split_manifest.csv`, and hashes that
+  manifest (`probes/047/run.py:294-333`, `probes/047/run.py:1090-1110`). After
+  contribution access, the support gate requires exact equality between its
+  IDs and the frozen split IDs and records the split hash in the gate artifact
+  (`probes/047/run.py:456-483`, `probes/047/run.py:515-522`). A count-preserving
+  case substitution therefore fails visibly.
+- **Hard standard 1 — resolved.** Both determinism manifests cover the three
+  frozen tables, frozen take-13 source, pre-staged dictionary, seed, mode, and
+  parsed row counts (`probes/047/run.py:1089-1127`). The common finalizer
+  re-hashes those inputs, requires exact start/end equality, writes the end
+  manifest, and runs on both normal completion and the registered
+  `SUPPORT_PROVENANCE_FAILURE` path (`probes/047/run.py:1024-1039`,
+  `probes/047/run.py:1144-1159`, `probes/047/run.py:1286-1289`).
+
+## Contract fidelity and silent-failure review
+
+- The analysis uses exactly the frozen signed-rank top ten and 99-case input,
+  computes the sole authorized comparison—absolute-contribution share beside
+  eligible-support share—and keeps the signed share in a separately labeled
+  reversal-accounting field (`probes/047/run.py:614-699`,
+  `probes/047/run.py:1178-1205`). No support-clause hypothesis test, interval,
+  residual subgroup, or model analysis is present.
+- Input pins, exact row/ID/rank structure, finite values, bookkeeping rows,
+  census identities, and output arithmetic fail closed
+  (`probes/047/run.py:343-385`, `probes/047/run.py:399-532`,
+  `probes/047/run.py:543-699`). The provenance-stop path writes no scientific
+  support output and calls itself a decision-grade stop, not a negative
+  (`probes/047/run.py:1144-1159`).
+- The normal path writes every Phase-A `required_outputs` artifact named by
+  the contract (`probes/047/run.py:1186-1221`, `probes/047/run.py:1240-1309`).
+  `per_case_support.csv` is the contract's concrete per-case output; the
+  generic stage-task reference to `per_sample.csv` does not override the
+  approved interface.
+- Limits are explicit and respected: one variant, zero GPU minutes, one
+  declared seed, and a 600-second Phase-A wall cap
+  (`probes/047/run.py:65-72`, `probes/047/run.py:1178-1181`,
+  `probes/047/run.py:1236-1244`). Phase B is unreachable because this code
+  requires the pre-amendment sentinel and current approval binding
+  (`probes/047/run.py:264-285`).
+
+## Hard standards and practical verification
+
+- **Standard 2:** `probe_exclusions.csv` records both non-analyzed cases with
+  record type and reason (`probes/047/run.py:1136-1142`).
+- **Standard 3:** transforms carry explicit checks or assertions for table
+  identity, contribution algebra, ranks, shares, dictionary staging/parsing,
+  and smoke construction (`probes/047/run.py:399-699`,
+  `probes/047/run.py:710-856`, `probes/047/run.py:859-1010`).
+- **Standard 6:** `python3 probes/047/run.py --smoke --output-dir <new-dir>`
+  completed with exit 0 in under one second in this review. It emitted
+  `SMOKE_ONLY`, start/end manifests compared equal, and the dictionary was
+  present in both manifests. Smoke uses 12 synthetic cases and a three-case
+  head, skips approval, and cannot emit a contractual Phase-A terminal
+  (`probes/047/run.py:859-930`, `probes/047/run.py:1065-1072`,
+  `probes/047/run.py:1224-1234`).
+- `python3 -m py_compile probes/047/run.py` passed. Requirements are standard
+  library only, paths are explicit, output is controlled by `--output-dir`,
+  and there are no prompts or GPU dependencies (`probes/047/requirements.txt`,
+  `probes/047/run.py:199-212`).
+
+## Non-blocking findings
+
+- Several transform invariants use Python `assert` and would disappear under
+  `python -O` (`probes/047/run.py:406`, `probes/047/run.py:451-452`,
+  `probes/047/run.py:616-665`, `probes/047/run.py:1214-1216`). The documented
+  command does not enable optimization, and surrounding pin/shape/cross-check
+  gates cover the claim-bearing structure, so this does not block this bounded
+  probe. Explicit fail-closed checks would nevertheless be preferable in a
+  future neutral hardening pass.
+- The registered provenance-stop path intentionally emits a reduced interface
+  rather than all normal Phase-A outputs. This matches the contract's statement
+  that the gate record is the stop deliverable and does not masquerade as a
+  completed Phase-A bundle.
+
+```json
+{"verdict": "APPROVE", "blocking": [], "note": "All prior blockers are closed; smoke and compilation pass, and Phase A is contract-faithful, offline, split-bound before outcome access, and determinism-complete on every registered terminal path."}
+```
 
 
 ===== ideas/047/revision.md =====
@@ -4014,31 +4451,34 @@ becoming more modest. This is a narrowing of the same claim.
 
 ===== ideas/047/state.json =====
 {
-  "approval": null,
+  "approval": {
+    "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
+    "stale": false
+  },
   "charter": "isles24",
   "claim": "In the frozen 99-case idea-046 census cohort, the high-contribution stratum does / does not differ in aggregate on a pre-frozen released clinical variable list (3-month mRS, admission NIHSS, age, sex, plus treatment fields if present in the release) from the remaining cases, and its dominance is / is not accounted for by deficit burden -- an exploratory, aggregate-only, association-register description under the D3 read-restriction and D4 joint-display rules, with no per-patient claims and no model probing.",
-  "contract_blob": null,
+  "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
   "corrections": null,
   "idea_id": "idea-047",
   "idea_no": "047",
   "kill_code": null,
   "materialization": {
-    "event_count": 4,
+    "event_count": 6,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "00e549d0134e5870c9c3ce0fb9082312ae816df67659024c964074799a9a7d51",
+    "source_fingerprint_sha256": "6c983cbe03fe990a49d4cdfe440bd29145dd0031a79f96d47c7ea6cabbe976e1",
     "sources": {
-      "approval_sha256": null,
-      "contract_blob": null,
+      "approval_sha256": "4b3ec937d36ba73a45485a4c51b8fdfbd0434115240a8670f653f4c7524d154c",
+      "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
       "idea_card_sha256": "8cbbbb971bf2fe8e8b9d1bc1c5cc6a99100d7b9b31b34660ff14da387081583f",
-      "ledger_events_sha256": "d4f2638b58c43156fad79c1e06e36aafb44fa1e52df35882d4709ef2fa9e2bfc",
+      "ledger_events_sha256": "48937ffd091d21625813e1f846e7dfd6c8985bb3cad5de8e90226c8ebf038544",
       "registry_sha256": null
     }
   },
   "pending_decisions": null,
   "registry": null,
   "schema_version": 1,
-  "scrutiny": "DEBATED",
-  "status": "SHORTLISTED",
+  "scrutiny": "PROBED",
+  "status": "ACTIVE",
   "title": "The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?"
 }
 

@@ -1,27 +1,12 @@
-Both deliverables are written. Summary of this probe-plan round:
+The probe-plan round is complete. Since this idea's Phase A already executed and its interpretation is ratified, the correct output of this stage was not a fresh probe but the pre-registered amendment: I authored **contract v3** at `ideas/047/probe_contract.yaml` (new blob `dc586665d0be…`, `human_approved: false`) and updated `probes/047/README.md`. The mechanical `amend-contract` subcommand couldn't do this — it is hardcoded to 023's numeric placeholders — so the amendment is agent-authored per v2's own `amendment_protocol`, leaving the diff for your review.
 
-## What was produced
+What v3 does, exactly as v2 pre-registered:
 
-**`ideas/047/probe_contract.yaml` — contract v2** (replacing the v1 draft, which is preserved at commit `63459ec`), plus a matching rewrite of `probes/047/README.md`. Nothing is committed; both files await the driver/review flow, and `human_approved` remains `false`.
+- **Binds the frozen clinical variable list** from Phase A's machine-derived proposal (derived dictionary-only, before any clinical byte existed): MRS 3 months (ordinal, primary outcome), NIHSS 24h (continuous, the lineage-preserving idea-046 field — critique D1 resolves cleanly since the release documents it), NIHSS at admission (continuous, baseline context), Age, Sex, plus the two contextual-cap fields mTici postinterventional and Onset to door. Each carries exact release spelling, parse/missingness rule, and closed-menu statistics. Center is absent from the dictionary, so the mandatory-if-documented rule is discharged by recorded absence.
+- **Records the consumed Phase-A artifacts**: bundle commit `6037f24`, import manifest sha, and the individual hashes of `proposed_variable_freeze.json` and `per_case_support.csv`, plus the ratified share values as frozen constants that Phase B cross-checks at startup and republishes only in the D4 joint display.
+- **Swaps `required_outputs` to the Phase-B interface** (F3 lesson: the Phase-A bundle keeps validating under its own historical blob `b4887c05…`).
+- **Gates the genuinely untested assumption**: the case-level column spellings were never verifiable under D3, so Phase B runs a schema/missingness census (the probe feasibility section 8 pre-registered) before any contrast, with a decision-grade stop `PHENOTYPE_SCHEMA_MISMATCH` if the rows can't support the minimum variable set. Field resolution is exact-normalized-match only — no fuzzy matching.
 
-## Why v2, and what I verified before drafting
+Four items are flagged in `open_questions_for_human` for your approval decision: (1) both exploratory uncertainty displays are retained verbatim per the interpretation's directive — strike the relabeling range before approval if you want deterministic-only; (2) the scale-type bindings (mRS/mTici ordinal, NIHSS/Age/Onset continuous, Sex binary) with recorded dictionary-grounded reasons; (3) the frozen mTICI level order 0<1<2a<2b<2c<3, with out-of-set values degrading to counted missingness; (4) the one addition beyond the literal binds list — the schema census output and its stop — which needs your explicit ratification.
 
-The feasibility memo's REVISE turned on one decisive claim, which I independently re-verified against the repository rather than trusting the memo:
-
-- All four SHA-256 pins reproduce (`exclusions.csv`, `per_patient.csv`, `per_case_contributions.csv`, `census_summary.json`).
-- `exclusions.csv` filtered to `record_type == analyzed_case` yields exactly 99 rows whose case ids are **set-identical** to the 99 census contribution ids (`comm -3` empty), each with a positive integer `eroded_region_voxels` (range 1401–617540); the only other rows are the two documented bookkeeping rows (sub-stroke0142, sub-stroke0043).
-- `probes/023/run.py` in the tree byte-matches the pinned blob `0e9a40b4…`, and its `coordinate_arrays()` (lines 486–523) writes `eroded_region_voxels` as exactly the card's `B_i`: Tmax>6.0 deficit → six-neighbor erosion → border/midline exclusion → p98 CBV vessel exclusion → finiteness/positivity.
-
-So the exact support quantity the study needs already exists as a ratified take-13 output, and recomputing it from maps would only add failure surfaces.
-
-## Main changes v1 → v2
-
-- **Support path:** Phase A becomes a hash-and-join audit of three pinned tables plus byte-verification of the frozen code (never executed). The 693-member extraction, ~3 GB map staging, region recomputation, and 297-row reproducibility gate are retired; a `SUPPORT_PROVENANCE_FAILURE` stop replaces the gate. `per_patient.csv` is dropped as an input entirely.
-- **Blindness strengthened:** Phase B alone stages the 198 phenotype members — no phenotype byte exists on disk until the amendment's fresh approval.
-- **Dictionary pins fixed at drafting** (md5 `c8d806a0…`, 12,149 bytes), never runtime-resolved; targeting rule updated with the memo's verified fields — 24-hour NIHSS as the lineage-preserving field, admission NIHSS as context, center mandatory-if-documented (memo items 3 and 5).
-- **Uncertainty currency resolved (memo item 4):** deterministic leave-one-head-case-out ranges plus a relabeling range explicitly labeled "hypothetical exchangeability reference, not a confidence interval."
-- **Novelty guard:** the EJR 2026 neighbor (DOI 10.1016/j.ejrad.2026.113200) is named in claim discipline.
-
-## Flagged for the human (in the contract's open questions)
-
-The operator's unblock ruling froze "the exact-map recomputation branch." V2 delivers the identical quantity via the ratified cached output instead of literal re-execution — approving the blob ratifies that substitution (and supersedes the card's recomputation wording); rejecting it reverts to the v1 recomputation design. The uncertainty-display choice and the one-contract-two-phase structure are the other two open rulings.
+The blob change stales the Phase-A approval by construction. Next acts are yours: review the contract diff, then `approve-probe` on the v3 blob; Phase-B probe-build follows under the fresh approval. The `ideas/047/registry.yaml` two-node DAG remains queued per the registry-per-probe rule. No code was written and no phenotype byte was staged or read.

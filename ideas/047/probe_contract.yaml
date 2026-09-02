@@ -1,41 +1,41 @@
-# Probe contract v2 -- idea 047, keystone-ten clinical profile and
-# support-share arithmetic of the census head.
-# Draft only. Nothing here authorizes code, staging, execution, or any
-# phenotype access. Phase A requires human approval of this exact blob.
-# Phase B additionally requires the pre-registered amendment below and a
-# fresh human approval of the amended blob; the phenotype rows stay
-# unread until then.
+# Probe contract v3 -- idea 047, Phase B: the clinical estimation table
+# for the keystone-ten census head.
 #
-# v2 supersedes the v1 draft per the feasibility memo's REVISE verdict
-# (ideas/047/feasibility.md, sections 1, 6, 8, 9). The decisive finding,
-# re-verified against the repository at this drafting (2026-09-02): the
-# support variable B_i already exists as a claim-bearing output of the
-# ratified take-13 bundle -- probes/023/results/results_v2/exclusions.csv
-# carries a populated integer eroded_region_voxels for all 99 analyzed
-# cases, written by the frozen implementation's coordinate_arrays()
-# (probes/023/run.py lines 486-523 at the pinned blob) as exactly the
-# eligible region after Tmax>6.0 thresholding, six-neighbor one-voxel
-# erosion, border and two-voxel array-midline exclusion, per-patient
-# CBV-p98 vessel exclusion, and finiteness/positivity filtering.
-# Consequences implemented here: no map staging, no NCCT, no region
-# recomputation, no 297-row reproducibility gate; Phase A becomes a
-# hash-and-join audit of three pinned in-repo tables plus the frozen
-# code blob, and Phase B alone stages the 198 phenotype members. The
-# retired per_patient.csv pin is dropped with the gate that consumed it
-# (its d column is therefore untouchable by construction).
+# THIS DOCUMENT IS THE PRE-REGISTERED AMENDMENT. Contract v2 (git blob
+# b4887c05a21bfe870589b5d9982066943df679d5, human-approved) defined an
+# amendment_protocol triggered by a validated, imported
+# PHASE_A_COMPLETE_REQUIRES_AMENDMENT bundle. That trigger is satisfied:
+# the Phase-A bundle at probes/047/results/results_v2 (results-bundle
+# commit 6037f24122766fe1c68f16eb9f38d9a16c2c5e66, import manifest
+# sha256 7888c925025ef2e30c0f025825fb4e43cd39b22b880a69b3285c7c76ea26eb85)
+# was validated, imported via record-result, interpreted, cross-family
+# reviewed (APPROVE), and ratified (INTERPRETATION_RATIFIED -> ACTIVE,
+# commit c2bbe09). Per the protocol, this v3:
+#   (1) binds the frozen clinical variable list from the Phase-A
+#       dictionary inventory's machine-derived proposal, replacing the
+#       frozen_variable_list sentinel;
+#   (2) records the Phase-A bundle identity and the SHA-256 of
+#       proposed_variable_freeze.json and per_case_support.csv as
+#       consumed artifacts;
+#   (3) replaces required_outputs with the Phase-B interface (F3
+#       lesson: no single list may conflate two phases' interfaces;
+#       the Phase-A bundle validates under its own historical blob).
+# The blob change stales the Phase-A approval BY CONSTRUCTION. Fresh
+# human approval of this exact v3 blob is the sole authorization for
+# Phase B, for the staging of any phenotype member, and for the first
+# read of any phenotype row. Nothing here re-authorizes Phase A: the
+# support clause and dictionary inventory are complete, of record, and
+# consumed -- never recomputed as science under this contract.
 #
-# Right-sizing (2026-09-01 operator ruling): one contract with two
-# pre-registered ordered phases, not serial contracts. Phase B is
-# deterministic on Phase A's outputs once the amendment freezes the
-# clinical variable list, and blindness is preserved by ordering -- now
-# strictly stronger than v1: no phenotype byte is even staged to disk
-# until the Phase-B approval exists. The genuinely new authority scope
-# -- first-ever read of the released clinical outcome rows -- sits
-# behind the amendment plus fresh approval (023 Phase S -> Phase C
-# precedent).
+# The interpretation's Next-decision directive is honored: the already
+# completed support arithmetic is untouched, and no variable was added
+# in response to any Phase-A scientific output (the bound list below is
+# exactly the machine proposal derived before any clinical byte existed
+# on disk; every binding decision the proposal left open is annotated
+# with its dictionary-grounded reason).
 
 idea_id: "idea-047"
-contract_version: 2
+contract_version: 3
 track: exploratory
 
 authorities:
@@ -46,132 +46,205 @@ authorities:
   critique: "ideas/047/critique.md (defects D1-D6)"
   debate: "ideas/047/debate.md and ideas/047/consensus.md (round-3 frozen design)"
   revision: "ideas/047/revision.md"
-  operator_ruling: "ideas/047/unblock_ack.txt (q1+q4 proxy rejected; exact eroded Tmax>6s support under the ratified take-13 parameters adopted; round-3 finite-population design). See open question 1: this v2 satisfies the ruling's quantity via the ratified cached output rather than literal re-execution."
-  feasibility: "ideas/047/feasibility.md (REVISE; section 9 directives 1-6 implemented by this v2; nearest dataset-specific neighbor EJR 2026, DOI 10.1016/j.ejrad.2026.113200)"
+  operator_ruling: "ideas/047/unblock_ack.txt (round-3 finite-population design adopted)"
+  feasibility: "ideas/047/feasibility.md (nearest dataset-specific neighbor EJR 2026, DOI 10.1016/j.ejrad.2026.113200; section 8 pre-registered the D3-restricted schema/missingness census this v3 implements)"
   d3_d4_protocols: "ideas/046/interpretation.md (ratified D3 read-restriction and D4 joint-display rules)"
-  take13_contract: "ideas/023/probe_contract.yaml at git blob 03d4545fe293f0067c69ce9e9e696ec97b894d7b (the ratified take-13 parameters)"
-  take13_implementation: "probes/023/run.py at git blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be (frozen region machinery; byte-verified only, never executed under this contract)"
+  parent_contract_v2: "ideas/047/probe_contract.yaml at git blob b4887c05a21bfe870589b5d9982066943df679d5 (the human-approved Phase-A contract whose amendment_protocol this v3 executes; its Phase-A science clauses remain the governing record for the imported bundle)"
+  phase_a_interpretation: "ideas/047/interpretation.md and ideas/047/interpret_review.md (cross-family APPROVE) and ideas/047/decision.md (ADVANCE narrowly to this amendment), ratified in commit c2bbe09"
   decision_entries:
     - "2026-09-02 - Operator note to the next scout cycle: the CLINICAL successor specifically"
     - "2026-09-01/02 - Registry closeout: 045 gov-0002, 046 gov-0001; supersede semantics; right-sizing guidance"
     - "2026-08-28 - Meeting outcome: dual-track sprint (pre-registered clinical-scores secondary)"
-    - "2026-08-26 - 023 take 11: SOURCE data defect proven (sub-stroke0043 exclusion policy)"
     - "2026-08-25 - 023 attempts 3-4 (a pin that can re-resolve at runtime is not a pin)"
+    - "2026-08-14 - AMENDMENT to 2026-08-11 pin 2 (no implicit margin may re-enter at interpretation time)"
 
 question: "In the frozen 99-case idea-046 census cohort, do the ten largest signed contributors to the band-2/3 reversal differ in aggregate on a pre-frozen released clinical variable list from the other 89 cases -- and how does their exact share of total absolute contribution compare with their exact share of total eligible deficit support B_i, the per-case eroded Tmax>6s eligible-region voxel count produced under the ratified take-13 parameters?"
 
-risky_assumption_tested: "The riskiest assumption is that the cached take-13 support extract is valid and joinable: exclusions.csv at its pinned SHA-256, filtered to record_type == analyzed_case, must yield exactly 99 unique case ids set-equal to the frozen contribution table's ids, each with a finite positive integer eroded_region_voxels, with the only non-analyzed rows the two documented bookkeeping rows (sub-stroke0142 excluded_archive_lesion; sub-stroke0043 excluded_case); and probes/023/run.py must byte-match frozen blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be, whose coordinate_arrays() writes eroded_region_voxels as the eligible-region voxel count. All of this was verified by hand at drafting (2026-09-02: hashes reproduce; join exact 99/99; B_i range 1401-617540, all positive integers; code lines 486-523 quoted in feasibility.md); the probe re-verifies it mechanically before any science is emitted. Secondary risky assumption, tested at the dictionary step before any case-level read: clinical_data-description.xlsx identifies a minimum usable variable set (at least one of 3-month mRS / NIHSS at any documented time point, and at least one of age / sex)."
+# The support clause of the question is ANSWERED, of record, by the
+# ratified Phase-A result (shares 0.5063509495830807 versus
+# 0.08961200117675944 for the realized 99 cases). Phase B answers the
+# clinical clause only, and republishes the Phase-A constants solely in
+# the D4 joint display.
+
+risky_assumption_tested: "The riskiest remaining assumption is that the bound, dictionary-derived variable list resolves against the actual case-level phenotype rows: the 198 staged members must carry the bound field spellings as parseable columns with usable values for enough of the 99 cases. This was deliberately unverifiable at binding time -- the D3 protocol forbade any case-level read before this amendment -- so Phase B gates on it first: a schema/missingness census over the staged members (feasibility section 8's pre-registered probe) runs before any contrast is computed, and a census that cannot support the minimum variable set stops the run for escalation instead of emitting a clinical table. Secondary assumption: the selective extraction of exactly 198 members from the held, md5-verified archive completes with every member matching the frozen manifest's size and CRC."
 
 phases:
-  phase_a: "Phenotype-blind, table-and-dictionary-only; no archive access, no map member, no image byte. Ordered steps: (1) input-identity gates (all frozen-input SHA-256s; take-13 implementation byte-verification); (2) the support provenance-and-join gate; (3) census cross-checks; (4) support-clause outputs; (5) dictionary staging and inventory with a machine-derived proposed variable freeze. Terminal status PHASE_A_COMPLETE_REQUIRES_AMENDMENT (or PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED under the pre-registered branch below)."
-  amendment: "Mechanical contract amendment: binds the frozen clinical variable list from the Phase-A dictionary inventory, swaps required_outputs to the Phase-B interface, and records the Phase-A bundle identity as a consumed artifact. The amendment stales the Phase-A approval by construction; fresh human approval of the amended blob authorizes Phase B."
-  phase_b: "One selective-extraction staging event of exactly the 198 phenotype members from the held archive under D3, then opens exactly the 99 analyzed cases' phenotype rows and emits the single aggregate clinical estimation table under D4. Terminal status STUDY_COMPLETE."
+  phase_a_record: "COMPLETE, of record, under contract v2 (blob b4887c05a21bfe870589b5d9982066943df679d5): terminal PHASE_A_COMPLETE_REQUIRES_AMENDMENT, bundle probes/047/results/results_v2 at commit 6037f24122766fe1c68f16eb9f38d9a16c2c5e66, interpretation ratified. Not executable under this v3; any re-execution of Phase-A science under this blob is an invalidating scope failure."
+  amendment_record: "Executed by this v3 document itself: variable list bound, interface swapped, consumed artifacts recorded. The Phase-A approval is stale by construction from this blob change."
+  phase_b: "The sole executable phase. One selective-extraction staging event of exactly the 198 phenotype members from the held archive under D3; the pre-registered phenotype schema/missingness census; then the single aggregate 10-versus-89 clinical estimation table under D4. Terminal status STUDY_COMPLETE (or the pre-registered stop PHENOTYPE_SCHEMA_MISMATCH)."
 
 scope:
-  included: "One deterministic CPU-only pipeline over the 99 analyzed census cases: Phase A hash-and-join audit of three pinned in-repo tables plus the frozen implementation blob; the frozen finite-population support-clause displays; dictionary-only schema inventory; and, after amendment and fresh approval, Phase B staging of exactly 198 phenotype members and one aggregate 10-versus-89 clinical estimation table with exploratory-labeled uncertainty, joint support display, and small-cell suppression."
+  included: "One deterministic CPU-only Phase-B pipeline over the 99 analyzed census cases: identity gates on every pinned input and consumed Phase-A artifact; one selective staging event of exactly 198 phenotype members, size/CRC-verified; the phenotype schema/missingness census; and the single aggregate 10-versus-89 clinical estimation table with the two frozen exploratory uncertainty displays, joint support display per D4, per-group missingness, and small-cell suppression."
   excluded:
-    - "Any archive member other than the 198 Phase-B phenotype files: no perfusion map, no NCCT, no lesion-mask member is staged or read in either phase. No take-13 region code is executed under this contract."
+    - "Any archive member other than the 198 Phase-B phenotype files: no perfusion map, no NCCT, no lesion-mask member is staged or read. No take-13 region code is executed under this contract."
     - "The 49 reserved cases, sub-stroke0043, any non-census case, band-1 outcome values, raw 4D CTP."
-    - "Any permutation test, interval, threshold, or is/is-not adjudication anywhere in the support clause; any random-subset null anywhere (round-2 debate concession)."
+    - "Re-execution of any Phase-A computation as science: the support shares, rank displays, rho, and dictionary inventory are consumed constants; only the deterministic identity cross-checks named in step 1 may recompute them, and only to verify byte/value identity."
+    - "Any permutation test presented as inference, any interval presented as sampling uncertainty, any threshold or is/is-not adjudication anywhere; the sole relabeling display carries its frozen hypothetical-exchangeability label."
     - "Any fitted residual, analyst-defined subgroup, regression of contribution on support, or 'keystone' verdict (critique D2)."
     - "Any per-case clinical value in any output; any cross-tabulation of two or more clinical variables; any significance-selected headline; any multivariable model (critique D5/D6)."
     - "Any model inference, model-use claim, causal or clinical-subtype claim, or generalization beyond the realized 99 cases."
-    - "Any variant support definition, any recomputation of the support variable, or reinterpretation of a gate failure as a scientific result."
+    - "Any variable not in the bound frozen_variable_list; any fuzzy, semantic, or manual header matching beyond the frozen normalization rule; any reinterpretation of a gate failure as a scientific result."
 
 dataset:
-  name: "ISLES'24 training release (held archive, Phase B only) plus imported program tables"
+  name: "ISLES'24 training release (held archive) plus consumed Phase-A artifacts and frozen program tables"
   archive:
     zenodo_record: "16813698 (immutable child record; staging must declare it; silent re-resolution to any other record is invalidating)"
     file: "train.7z, 99014629647 bytes, md5 36ae28b9a17f7340b8bbef62b595cb57 (verified held copy; evidence/decisions.md 2026-08-25/26)"
     member_manifest: "archive_manifest.csv at results branch origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv, git blob edb9a8c2ceb90df214cdd7ec167f0b1e8c858bb2 (member sizes and CRC32s)"
-    dictionary: "clinical_data-description.xlsx, 12149 bytes, md5 c8d806a021614c6bb9f732756f9701d4 (pinned at drafting from the record's files listing, verified 2026-09-02 in feasibility.md; a fetch not matching this md5 is invalidating -- the pin never re-resolves at runtime)"
+  consumed_phase_a_artifacts:
+    # Recorded per the v2 amendment_protocol. The bundle commit fixes
+    # every Phase-A file byte-exactly; the two named hashes are bound
+    # individually because Phase B reads them directly.
+    bundle_dir: "probes/047/results/results_v2"
+    bundle_commit: "6037f24122766fe1c68f16eb9f38d9a16c2c5e66"
+    import_manifest_sha256: "7888c925025ef2e30c0f025825fb4e43cd39b22b880a69b3285c7c76ea26eb85"
+    governing_blob: "b4887c05a21bfe870589b5d9982066943df679d5"
+    proposed_variable_freeze.json: "87c5e11be45dccdf6fc32fd26a9591de0436697e51aacf64610236fbedf5d4e3"
+    per_case_support.csv: "994a4f8885c28e4e967f290521a9122e15ba56b28942e1bb5facff7f4afaa827"
   frozen_inputs:
-    # probes/023/results/results_v2/exclusions.csv -- 102 lines: header,
-    # 99 analyzed_case rows (case_id, ..., eroded_region_voxels = B_i),
-    # and exactly two non-analyzed bookkeeping rows (sub-stroke0142
-    # excluded_archive_lesion; sub-stroke0043 excluded_case). Ratified
-    # take-13 output (023 gov ratification; each node COMPLETE under its
-    # own immutable contract).
+    # Retained from v2 for identity continuity and head-membership
+    # cross-checks; unchanged pins.
     exclusions.csv: "58e9f8ab7cea38e6717319a26ea6a590dc7d1ad0d42d6b30dca648b0509a5a71"
-    # probes/046/results/results_v3/per_case_contributions.csv -- 99 data
-    # rows, columns case_id,d_band2,d_band3,delta,contribution,signed_rank.
     per_case_contributions.csv: "aba525122f796618761e6c4d29b664647760e8dff4987932c3ff6ab5456faae9"
-    # probes/046/results/results_v3/census_summary.json -- cross-check
-    # values only.
     census_summary.json: "189c0ce846cffd2eff76e896bfa35156893568d5ee64868caae0b8609bd4c761"
-    # per_patient.csv is deliberately NOT an input of this contract: the
-    # v1 reproducibility gate that consumed it is retired with the
-    # recomputation path (feasibility section 9 item 1), and no other
-    # computation may touch it.
-  extraction_set: "Phase B only. Exactly 198 members, enumerated per analyzed case id from the 99 rows of per_case_contributions.csv: train/phenotype/<id>/ses-01/<id>_ses-01_demographic_baseline.csv and train/phenotype/<id>/ses-02/<id>_ses-02_outcome.csv. Member discovery tolerates the sub-stroke/sub-strokecase spellings per the 2026-08-25 payload-outranks-prose lesson. Phase A stages nothing from the archive; the dictionary is fetched from the immutable record (or a held copy) against its pinned md5."
+    # per_patient.csv remains deliberately NOT an input (v2 rule
+    # carried forward): no computation may touch it.
+  frozen_phase_a_constants:
+    # The ratified Phase-A values Phase B may republish, verbatim and
+    # only in the D4 joint display and summary context. Cross-checked
+    # at step 1 against recomputation from per_case_support.csv; any
+    # disagreement is an invalidating input-identity failure.
+    head_abs_contribution_share: 0.5063509495830807
+    head_support_share: 0.08961200117675944
+    head_abs_contribution_sum: 0.04367036086720666
+    total_abs_contribution_sum: 0.08624524334982282
+    head_support_voxels: 2025630
+    total_support_voxels: 22604450
+    signed_head_net_gap_share: 0.7928912778985707
+  extraction_set: "Exactly 198 members, enumerated per analyzed case id from the 99 rows of per_case_contributions.csv: train/phenotype/<id>/ses-01/<id>_ses-01_demographic_baseline.csv and train/phenotype/<id>/ses-02/<id>_ses-02_outcome.csv. Member discovery tolerates the sub-stroke/sub-strokecase spellings per the 2026-08-25 payload-outranks-prose lesson. Every staged member is verified against the frozen manifest's size and CRC32 before any byte is parsed."
 
-split_policy: "The 99 analyzed take-13 census cases only, as enumerated in the frozen contribution table. This is exploratory reuse of the already-open idea-023 imaging outcomes plus a first, phase-gated read of the released clinical rows for the same 99 cases; it is not a fresh confirmatory split. The 49 reserved cases and the excluded sub-stroke0043 must remain untouched and absent from every staged member, output, and receipt (sub-stroke0043's bookkeeping row in exclusions.csv is read only to confirm its record_type and exclusion)."
+split_policy: "The 99 analyzed take-13 census cases only, as enumerated in the frozen contribution table; strata are the frozen signed-rank top ten versus the other 89, never recomputed or reselected. This is exploratory reuse of the already-open idea-023 imaging outcomes plus the first, now-authorized read of the released clinical rows for the same 99 cases; it is not a fresh confirmatory split. The 49 reserved cases and the excluded sub-stroke0043 must remain untouched and absent from every staged member, output, and receipt."
 
 preprocessing:
-  step_1_identity_gates: "Hash all three frozen inputs against their pins. Byte-verify probes/023/run.py in the working tree against git blob 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be and record in resolved_config.json the verbatim coordinate_arrays() lines defining eroded_region_voxels (the code is evidence, never executed). Any mismatch is an invalidating input-identity failure."
-  step_2_support_gate: "The provenance-and-join gate, emitted to provenance_gate.json: (a) filter exclusions.csv to record_type == analyzed_case; require exactly 99 rows with unique case ids; (b) require exact set equality with the 99 case ids of the frozen contribution table; (c) require every eroded_region_voxels value to parse as a finite positive integer; (d) require the non-analyzed remainder to be exactly the two documented bookkeeping rows (sub-stroke0142 excluded_archive_lesion with blank support fields; sub-stroke0043 excluded_case source_corrupt_member). On any failure: write provenance_gate.json with the discrepancy, write no support-clause output, and stop with status SUPPORT_PROVENANCE_FAILURE for escalation. No substitute support source may be consulted."
-  step_3_census_cross_checks: "Recompute from the frozen contribution table and match against census_summary.json before emission: head absolute-mass share 0.5063509495830807; signed head share 0.7928912778985707; sign counts 54 positive / 6 zero / 39 negative; signed and absolute top-ten set coincidence. Any mismatch is invalidating transcription failure, never a result."
-  step_4_support_clause: "Only after gates pass. B_i := the analyzed-case eroded_region_voxels value, verbatim. All quantities are exact finite-population arithmetic over the realized 99 cases, in IEEE-754 doubles, with no uncertainty machinery of any kind."
-  step_5_dictionary: "Fetch clinical_data-description.xlsx and verify its pinned md5. Emit dictionary_inventory.csv (every documented sheet, field, description, time point, coding, missing-value convention, verbatim) and proposed_variable_freeze.json via the frozen targeting rule below. Both artifacts are written and hashed into the run log; no case-level file exists on disk in this phase, so the proposal cannot be influenced by any clinical byte. Pre-registered branch: if no field maps to (3-month mRS OR any documented NIHSS time point) or none to (age OR sex), record CLINICAL_SCHEMA_UNSUPPORTED; Phase A still completes its support clause and terminates PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED; no amendment path exists and successor handling is an operator decision."
-  targeting_rule: "Feasibility verified the dictionary documents Age, Sex, NIHSS at admission, NIHSS 24h, NIHSS discharge, MRS 3 months, and mTici postinterventional. Target constructs, in the lineage-reconciled priority the memo directed (item 3; critique D1): 3-month mRS; 24-hour NIHSS as the lineage-preserving field of idea-046's frozen optional rung; admission NIHSS as documented baseline-severity context (never presented as interchangeable with the 24-hour field); age; sex. At most two additional contextual fields may be proposed only if the dictionary shows them (e.g. mTici postinterventional, onset-to-imaging time). Center: if the schema documents a center/site identifier it is a mandatory contextual variable outside that cap (feasibility item 5); if not, its absence is recorded in the reconciliation field of proposed_variable_freeze.json. The inventory binds exact release spellings; the amendment binds the final list."
+  step_1_identity_gates: "Hash all three frozen inputs and both consumed Phase-A artifacts against their pins. Cross-check head membership: the ten in_head=True rows of per_case_support.csv must be exactly the signed_rank 1-10 cases of per_case_contributions.csv. Recompute the two shares and the signed share from per_case_support.csv and require exact equality with frozen_phase_a_constants. Any mismatch is an invalidating input-identity failure."
+  step_2_staging: "One selective-extraction staging event of exactly the 198-member extraction set from the held archive (archive md5 verified before extraction; record pinned to 16813698). Verify each staged member's size and CRC32 against the frozen member manifest. Write staging_audit.json (member list, sizes, CRCs, verification results, transport receipts). Any extraction failure, count other than 198, or size/CRC mismatch is an invalidating staging-integrity failure."
+  step_3_schema_census: "The pre-registered phenotype schema/missingness census, before any contrast: parse every staged member; resolve each bound field by the frozen resolution rule below; emit phenotype_schema_census.csv recording, per bound variable, the resolving file family, matched header verbatim, and non-missing counts per stratum -- counts only, no clinical value. Pre-registered stop: if the census cannot support the minimum variable set -- at least one of {MRS 3 months, NIHSS 24h, NIHSS at admission} AND at least one of {Age, Sex} resolving with at least one non-missing value each -- write the census and staging audit, emit no clinical estimation output, and stop with status PHENOTYPE_SCHEMA_MISMATCH for escalation. A bound variable that resolves nowhere, while the minimum set survives, is reported as a fully-missing row in the estimation table, never silently dropped."
+  field_resolution_rule: "Headers are matched after trimming, case-folding, and collapsing internal whitespace runs to single spaces; a bound field resolves on exact normalized equality with its bound spelling. Baseline-category fields are expected in the ses-01 demographic_baseline file and Outcome-category fields in the ses-02 outcome file, but resolution tolerates either file of a case's pair (per-file placement was never documented); it never tolerates a different spelling. No fuzzy, prefix, semantic, or manual matching exists."
+  step_4_estimation_table: "Only after the census passes. Open phenotype rows for the 99 analyzed cases only; compute the single aggregate 10-versus-89 estimation table over the bound variable list with the closed statistic menu, both frozen uncertainty displays, the D4 joint support display, per-group missingness, and small-cell suppression. Write clinical_estimation_table.csv, clinical_uncertainty.json, suppression_log.csv, then stop."
 
 analysis:
-  analysis_unit: "One analyzed census case (Phase A); the frozen 10-versus-89 strata (Phase B)."
-  support_clause:
-    head_definition: "The frozen signed-rank top ten, signed_rank 1-10 in the frozen contribution table. Membership is never recomputed or reselected."
-    sole_disproportionality_comparison: "sum_head |c_i| / sum_all |c_i| displayed beside sum_head B_i / sum_all B_i. These are the only two numbers the proportionality clause may cite (round-3 freeze, verbatim)."
-    descriptive_displays: "Casewise rank(|c_i|) - rank(B_i) distribution with the head's ten values marked (ranks 1..99, 1 = largest, ties broken by case_id ascending), and Spearman rho between |c_i| and B_i as a bare descriptive number. No interval, test, or threshold accompanies either."
-    reversal_accounting: "The signed head share (expected 0.7928912778985707) is reported only under an explicit reversal-accounting label stating it measures share of the net band-2/3 gap after cancellation across 39 opposing cases. Neither it nor its difference from the support share may be interpreted as contribution per unit support (round-3 freeze)."
+  analysis_unit: "One analyzed census case; the frozen 10-versus-89 strata."
+  support_clause_of_record: "Complete under contract v2; ratified. Phase B republishes the frozen_phase_a_constants verbatim in the D4 joint display and summary context only, under the same labels and prohibitions (the signed 0.7928912778985707 share remains reversal accounting after cancellation and is never read as contribution per unit support). No new support-clause quantity may be computed."
   clinical_clause:
-    # The sentinel below is the only placeholder in this contract. The
-    # amendment replaces it with the bound list; rule lines refer to it
-    # by field name, never by its literal value (2026-08-15 placeholder
-    # lesson).
-    frozen_variable_list: "<<TO_BE_FROZEN_AT_AMENDMENT>>"
-    variable_freeze: "The analyzed variable list is bound at the amendment from the Phase-A dictionary inventory, replacing the frozen_variable_list sentinel: for each variable, exact field name, time point, type, coding, missingness rule, and contrast statistic from the closed menu below -- one decision, bound in the amendment, before any case row is read. Amendment deviations from proposed_variable_freeze.json require a recorded dictionary-grounded reason; additions motivated by any Phase-A scientific output are prohibited and invalidating."
-    closed_statistic_menu: "Continuous: group mean/SD and median/IQR; contrast = standardized mean difference (pooled SD) and difference in medians. Ordinal: per-level group counts and cumulative distribution; contrast = difference in medians and rank-biserial. Binary: group counts/proportions; contrast = difference in proportions. No other statistic is available to the amendment."
-    uncertainty: "Two frozen displays per contrast, both exploratory-labeled, resolving feasibility item 4: (1) deterministic leave-one-head-case-out sensitivity -- the contrast recomputed ten times, each omitting one head case, reported as the min/max range; (2) a hypothetical exchangeability reference range -- the central 95% of the contrast under 10000 random relabelings of the 10/89 split, frozen seed 20260902 -- carried under the explicit label 'hypothetical exchangeability reference; not a confidence interval; not sampling inference' (neither group assignment nor the 99 cases were randomized). No p-value is selected, ranked, or headlined; all frozen variables are reported jointly (critique D4/D6)."
-    joint_display: "Per D4, every variable row carries the head and rest group B_i medians and the two Phase-A support shares. Missingness (non-missing n per group) is reported per variable; a head-group non-missing count below 7 is flagged as insufficient head coverage and still reported. If a center variable is bound, its display is group counts per center under the suppression rule -- descriptive context only, never a corrected estimate."
-    suppression: "Aggregate-only outputs: no per-case clinical value anywhere; no cross-tabulation of two or more clinical variables; any categorical or ordinal level containing 1 or 2 head cases is reported as '<3' (zero may be reported as 0)."
-  interpretation_rule: "The support clause reports the two exact shares and judges nothing: 'disproportionate' may be used only as an arithmetic comparison of the two shares, scoped to the realized 99 cases. The clinical clause reports estimates with exploratory uncertainty and missingness; absence of large separation is stated only as 'no separation larger than the displayed exploratory ranges was observed at the achieved precision', never as clinical silence. No status, share value, or table content upgrades any claim beyond claim_discipline."
+    frozen_variable_list:
+      # BOUND AT THIS AMENDMENT from the Phase-A machine-derived
+      # proposal (proposed_variable_freeze.json, sha256 87c5e11b...,
+      # derived from the dictionary inventory alone, before any
+      # clinical byte existed on disk). Constructs, spellings, and the
+      # two contextual fields are exactly the proposal's; the type,
+      # coding, missingness, and statistic bindings below are the
+      # decisions the proposal assigned to this amendment, each with
+      # its dictionary-grounded reason. No addition is motivated by
+      # any Phase-A scientific output.
+      common_missingness_rule: "A value is missing if the field does not resolve for that case, the cell is empty or whitespace, or the type parse below fails; parse failures count as missing and are tallied per variable in the census. Non-missing n is reported per stratum per variable; a head-group non-missing count below 7 is flagged insufficient_head_coverage and still reported."
+      variables:
+        - construct: "mrs_3month"
+          field: "MRS 3 months"
+          dictionary_row: "Outcome | MRS 3 months | numerical integer | mRS 3 month after stroke, inquired per telephone by study nurse."
+          role: "primary outcome"
+          type: "ordinal"
+          coding: "integer levels 0-6 (modified Rankin Scale); parse: integer in [0,6], else missing"
+          statistics: "per-level group counts and cumulative distribution; contrasts: difference in medians and rank-biserial"
+          binding_reason: "The dictionary's 'numerical integer' records storage type; mRS is a 7-level ordinal disability scale, so the ordinal menu row is bound."
+        - construct: "nihss_24h"
+          field: "NIHSS 24h"
+          dictionary_row: "Outcome | NIHSS 24h | numerical integer | NIHSS 24 hours after admission in hospital examined by the neurologist."
+          role: "lineage-preserving severity (idea-046 frozen optional rung; critique D1 reconciliation: this is the lineage field, present in the release)"
+          type: "continuous"
+          coding: "integer in [0,42], else missing"
+          statistics: "group mean/SD and median/IQR; contrasts: standardized mean difference (pooled SD) and difference in medians"
+          binding_reason: "NIHSS is a summed severity score conventionally analyzed on its numeric scale; the continuous menu row is bound."
+        - construct: "nihss_admission"
+          field: "NIHSS at admission"
+          dictionary_row: "Baseline | NIHSS at admission | numerical integer | NIHSS at admission in hospital examined by the neurologist."
+          role: "baseline-severity context; never presented as interchangeable with the 24-hour field (critique D1)"
+          type: "continuous"
+          coding: "integer in [0,42], else missing"
+          statistics: "group mean/SD and median/IQR; contrasts: standardized mean difference (pooled SD) and difference in medians"
+          binding_reason: "Same scale convention as NIHSS 24h."
+        - construct: "age"
+          field: "Age"
+          dictionary_row: "Baseline | Age | numerical integer | Age at treatment"
+          role: "demographic"
+          type: "continuous"
+          coding: "integer in [0,120], else missing"
+          statistics: "group mean/SD and median/IQR; contrasts: standardized mean difference (pooled SD) and difference in medians"
+          binding_reason: "Numeric per the dictionary; bounds are a sanity parse, not a filter judgment."
+        - construct: "sex"
+          field: "Sex"
+          dictionary_row: "Baseline | Sex | categorial | M = male, F = female"
+          role: "demographic"
+          type: "binary"
+          coding: "trimmed case-insensitive 'M' or 'F' per the documented coding, else missing; frozen reference level for the contrast: proportion F"
+          statistics: "group counts/proportions; contrast: difference in proportions (of F)"
+          binding_reason: "The dictionary documents exactly two codes."
+        - construct: "mtici_postinterventional"
+          field: "mTici postinterventional"
+          dictionary_row: "Outcome | mTici postinterventional | ordinal | mTici directly after intervention."
+          role: "contextual (cap slot 1 of 2; reperfusion status per the targeting rule)"
+          type: "ordinal"
+          coding: "frozen level order 0 < 1 < 2a < 2b < 2c < 3, matched case-insensitively on the trimmed value; any value outside this set is missing and counted"
+          statistics: "per-level group counts and cumulative distribution; contrasts: difference in medians and rank-biserial"
+          binding_reason: "The dictionary declares the field ordinal without enumerating levels; the bound order is the published mTICI scale. Out-of-set values degrade visibly to counted missingness, never to a silent recode."
+        - construct: "onset_to_door"
+          field: "Onset to door"
+          dictionary_row: "Baseline | Onset to door | hrs:min duration | Time of onset of symptoms to arrival at hospital, where first imaging was performed. In case of in-house stroke, the arrival of the neurologist at the patient was defined as the door-time."
+          role: "contextual (cap slot 2 of 2; onset-to-imaging time per the targeting rule)"
+          type: "continuous"
+          coding: "parse H:MM or HH:MM with minutes in [0,59], convert deterministically to total minutes, else missing (the wake-up-stroke sibling field 'Alert to door' is NOT bound)"
+          statistics: "group mean/SD and median/IQR; contrasts: standardized mean difference (pooled SD) and difference in medians"
+          binding_reason: "A duration is analyzed on its numeric scale after a deterministic unit conversion."
+      center: "Not documented in the dictionary (proposal: center.documented=false, empty matches). The targeting rule's mandatory-if-documented clause is discharged by this recorded absence; no center variable exists in the bound list, and the estimation table must state the absence in its context block."
+    closed_statistic_menu: "Continuous: group mean/SD and median/IQR; contrast = standardized mean difference (pooled SD) and difference in medians. Ordinal: per-level group counts and cumulative distribution; contrast = difference in medians and rank-biserial. Binary: group counts/proportions; contrast = difference in proportions. No other statistic is available."
+    uncertainty: "Two frozen displays per contrast, both exploratory-labeled, retained exactly as drafted in v2 (the interpretation directed this amendment's review to decide their retention explicitly; see open question 1): (1) deterministic leave-one-head-case-out sensitivity -- the contrast recomputed ten times, each omitting one head case, reported as the min/max range; (2) a hypothetical exchangeability reference range -- the central 95% of the contrast under 10000 random relabelings of the 10/89 split, frozen seed 20260902 -- carried under the explicit label 'hypothetical exchangeability reference; not a confidence interval; not sampling inference' (neither group assignment nor the 99 cases were randomized). No p-value is selected, ranked, or headlined; all bound variables are reported jointly (critique D4/D6)."
+    joint_display: "Per D4, every variable row carries the head and rest group B_i medians (from the consumed per_case_support.csv) and the two frozen Phase-A support shares. Missingness (non-missing n per group) is reported per variable; the insufficient_head_coverage flag per the common missingness rule. Center absence is stated as context."
+    suppression: "Aggregate-only outputs: no per-case clinical value anywhere; no cross-tabulation of two or more clinical variables; any categorical or ordinal level containing 1 or 2 head cases is reported as '<3' (zero may be reported as 0). Every suppression is logged to suppression_log.csv."
+  interpretation_rule: "The support clause is of record and judged nothing; 'disproportionate' may be used only as an arithmetic comparison of the two frozen shares, scoped to the realized 99 cases. The clinical clause reports estimates with exploratory uncertainty and missingness; absence of large separation is stated only as 'no separation larger than the displayed exploratory ranges was observed at the achieved precision', never as clinical silence. No status, share value, or table content upgrades any claim beyond claim_discipline."
 
-primary_metric: "The exact share pair -- the frozen top ten's share of total absolute contribution beside their share of total eligible deficit support -- for the realized 99 cases, plus the single pre-frozen aggregate 10-versus-89 clinical estimation table."
+primary_metric: "The single pre-frozen aggregate 10-versus-89 clinical estimation table over the bound variable list, every row jointly displayed with eligible deficit support per D4."
 secondary_metrics:
-  - "Per-case B_i extract with the provenance-and-join gate record."
-  - "Casewise rank-discrepancy distribution with head marks; descriptive Spearman rho."
-  - "Separately labeled signed reversal-accounting share."
-  - "Dictionary inventory, NIHSS time-point reconciliation record (both admission and 24-hour fields are documented; the 24-hour field preserves the idea-046 lineage), and the proposed variable freeze."
+  - "phenotype_schema_census.csv: per-variable resolution and per-stratum missingness counts (the feasibility section 8 pre-registered census; counts only, no clinical value)."
+  - "The two frozen exploratory uncertainty displays per contrast."
+  - "Republished frozen Phase-A support constants in the D4 joint display and summary context, under their frozen labels."
+  - "staging_audit.json: the D3-restricted staging receipt."
 baselines:
-  - "Ratified census values (frozen cross-checks, not comparators): head absolute-mass share 0.5063509495830807; signed head share 0.7928912778985707; sign counts 54/6/39."
-  - "Drafting-time support fingerprint (lineage evidence only, not a runtime gate): analyzed-case B_i spans 1401 to 617540 voxels across the 99 cases."
+  - "Ratified Phase-A values (frozen constants, cross-checked at step 1, not comparators): shares 0.5063509495830807 / 0.08961200117675944; signed accounting share 0.7928912778985707; head support 2025630 of 22604450 voxels."
 
 maximum_variants: 1
 maximum_gpu_minutes: 0
 maximum_seeds: 1
-randomness: "Phase A is fully deterministic; the seed allowance is unused there. Phase B uses exactly one frozen seed, 20260902, solely for the hypothetical exchangeability reference relabelings. No scientific point estimate depends on randomness."
-stopping_rule: "Stop immediately on any invalidating failure or pre-registered stop. Phase A stops after its required outputs are written (total CPU wall time capped at 10 minutes; no staging transport exists in this phase beyond the 12 kB dictionary fetch). Phase B stops after the single estimation table is written (post-staging CPU wall time capped at 15 minutes; staging transport uncapped but receipted in staging_audit.json). A wall-time stop is incomplete and invalid, not a negative. No additional variant, follow-up analysis, or opportunistic secondary read is authorized."
+randomness: "Exactly one frozen seed, 20260902, used solely for the 10000 hypothetical-exchangeability relabelings. No scientific point estimate depends on randomness."
+stopping_rule: "Stop immediately on any invalidating failure or on the pre-registered PHENOTYPE_SCHEMA_MISMATCH stop. Staging transport is uncapped but fully receipted in staging_audit.json; post-staging CPU wall time is capped at 15 minutes. The run stops after the estimation table, uncertainty file, and suppression log are written. A wall-time stop is incomplete and invalid, not a negative. No additional variant, follow-up analysis, or opportunistic secondary read is authorized."
 
-positive_pattern: "PHASE_A_COMPLETE_REQUIRES_AMENDMENT: all identity, provenance, cross-check, and output requirements pass and the phenotype-blind support clause is emitted -- a successful descriptive result regardless of the share values, carrying no proportionality verdict. STUDY_COMPLETE (Phase B, post-amendment): the frozen clinical estimation table is emitted -- successful regardless of what it shows, carrying no separation verdict."
-negative_pattern: "NO DIRECTIONAL NEGATIVE IS DEFINED. Pre-registered stops are decision-grade stops, not negatives and not invalidating: SUPPORT_PROVENANCE_FAILURE (the cached support extract fails the join/definition gate; the gate record is the deliverable and escalation is the next act) and PHASE_A_COMPLETE_CLINICAL_UNSUPPORTED (dictionary cannot support the minimum variable set; support clause still delivered; clinical clause requires operator decision). A small clinical separation at achieved precision is a bounded exploratory description, never evidence of clinical silence."
+positive_pattern: "STUDY_COMPLETE: staging, census, and estimation-table requirements all pass and the single frozen clinical estimation table is emitted -- a successful descriptive result regardless of what it shows, carrying no separation verdict, no clinical-silence/markedness reading, and no proportionality verdict."
+negative_pattern: "NO DIRECTIONAL NEGATIVE IS DEFINED. The pre-registered stop PHENOTYPE_SCHEMA_MISMATCH (the staged case-level rows cannot support the minimum variable set) is a decision-grade stop, not a negative and not invalidating: the schema census and staging audit are the deliverable and escalation is the next act. A small clinical separation at achieved precision is a bounded exploratory description, never evidence of clinical silence."
 
 invalidating_failures:
-  - "Authority failure: any execution without fresh human approval binding the exact governing contract blob; any Phase-B activity before the amendment and its fresh approval; any Phase-B activity while the frozen_variable_list field still holds its pre-amendment sentinel value."
-  - "Input-identity failure: any frozen-input SHA-256 mismatch; probes/023/run.py not byte-identical to its pinned blob; archive md5 mismatch; staging resolves to any Zenodo record other than 16813698; dictionary md5 mismatch against the pinned value."
-  - "Scope failure: any archive member outside the 198-member Phase-B extraction set staged or extracted; any perfusion-map, NCCT, or lesion-mask member staged or read in either phase; any take-13 region code executed; any reserved or excluded case's phenotype member touched."
-  - "Blindness failure: any phenotype byte staged or read before Phase-B authorization; probes/023/results/results_v2/per_patient.csv consumed by any computation."
-  - "Staging-integrity failure (Phase B): extraction return code nonzero; any staged member failing the manifest size/CRC comparison; a staged-member count other than 198."
-  - "Cross-check failure: any recomputed census cross-check value disagreeing with census_summary.json."
-  - "Analysis deviation: any threshold, interval, or permutation machinery in the support clause; any statistic outside the closed menu; any variable not in the amended frozen list; any deviation from the frozen seed or relabeling count; any significance-selected emphasis."
-  - "Selective-output failure: any of the 99 cases, any frozen display row, or any frozen variable omitted, suppressed beyond the frozen suppression rule, or filtered."
-  - "Lineage failure: any imported bundle (probes/023 or probes/046 results) modified or overwritten."
+  - "Authority failure: any execution without fresh human approval binding this exact v3 contract blob; any phenotype staging or read under the stale Phase-A approval; any execution while ideas/047/probe_contract.yaml differs from the approved v3 blob."
+  - "Input-identity failure: any frozen-input or consumed-artifact SHA-256 mismatch; any frozen_phase_a_constants cross-check disagreement; archive md5 mismatch; staging resolves to any Zenodo record other than 16813698."
+  - "Scope failure: any archive member outside the 198-member extraction set staged or extracted; any perfusion-map, NCCT, or lesion-mask member staged or read; any take-13 region code executed; any reserved or excluded case's phenotype member touched; any re-execution of Phase-A science under this blob."
+  - "Staging-integrity failure: extraction return code nonzero; any staged member failing the manifest size/CRC comparison; a staged-member count other than 198."
+  - "Analysis deviation: any statistic outside the closed menu; any variable outside the bound frozen_variable_list; any header resolution outside the frozen field_resolution_rule; any deviation from the frozen seed or relabeling count; any significance-selected emphasis; any threshold, margin, or is/is-not language anywhere."
+  - "Selective-output failure: any of the 99 cases, any bound variable, or any frozen display omitted, suppressed beyond the frozen suppression rule, or filtered; any unresolved bound variable dropped instead of reported as fully missing."
+  - "Lineage failure: any imported bundle (probes/023, probes/046, or probes/047 results) modified or overwritten; probes/023/results/results_v2/per_patient.csv consumed by any computation."
   - "Output/provenance failure: any required artifact, hash, receipt, environment record, or run log missing."
 
 claim_discipline:
   permitted:
-    - "The frozen top ten carry X% of total absolute contribution against Y% of total eligible deficit support in these 99 cases (exact arithmetic, realized cohort only)."
-    - "Aggregate estimation statements about the frozen variable list with exploratory-labeled uncertainty and stated missingness."
+    - "The frozen top ten carry X% of total absolute contribution against Y% of total eligible deficit support in these 99 cases (exact arithmetic of record from Phase A, realized cohort only)."
+    - "Aggregate estimation statements about the bound variable list with exploratory-labeled uncertainty and stated missingness."
     - "No separation larger than the displayed exploratory ranges was observed at the achieved precision (bounded null)."
-    - "'Disproportionate' strictly as the arithmetic comparison of the two exact shares, scoped to the realized 99 cases."
+    - "'Disproportionate' strictly as the arithmetic comparison of the two frozen shares, scoped to the realized 99 cases."
   prohibited:
     - "Any keystone verdict, clinical-subtype claim, explanation of dominance, or clinically-silent/clinically-marked language."
     - "Interpreting the signed reversal-accounting share, or its difference from the support share, as contribution per unit support."
@@ -179,43 +252,30 @@ claim_discipline:
     - "Upgrading exploratory ranges or any p-like quantity into inferential support, or letting clinical uncertainty displays imply an inferential license the support clause refused."
     - "Upgrading the hedged novelty language of the card; the 2026 EJR ISLES'24 clinical secondary analysis (DOI 10.1016/j.ejrad.2026.113200) is the named nearest dataset-specific neighbor, and the Tomography 2026 near-miss remains unread."
 
-# Phase-A result interface (governing while this pre-amendment blob is
-# current). The amendment replaces this list with phase_b_required_outputs.
+# Phase-B result interface (governing under this v3 blob). The Phase-A
+# bundle validates under its own historical blob b4887c05...; per the
+# F3 lesson the lists are never conflated.
 required_outputs:
   - resolved_config.json
   - input_manifest.csv
-  - provenance_gate.json
-  - per_case_support.csv
-  - support_shares.json
-  - rank_discrepancy.csv
-  - dictionary_inventory.csv
-  - proposed_variable_freeze.json
-  - summary.json
-  - environment.txt
-  - run_log.txt
-
-amendment_protocol:
-  trigger: "PHASE_A_COMPLETE_REQUIRES_AMENDMENT bundle validated and imported."
-  binds:
-    - "The frozen clinical variable list (exact field names, time points, coding, missingness rules, per-variable contrast statistics from the closed menu, contextual fields per the targeting rule), replacing the frozen_variable_list sentinel; the NIHSS time-point reconciliation is documented in the bound list (critique D1; feasibility item 3)."
-    - "The Phase-A bundle identity and the SHA-256 of proposed_variable_freeze.json and per_case_support.csv as consumed artifacts (registry artifact edge)."
-    - "required_outputs replaced by phase_b_required_outputs (F3 lesson: no single list may conflate two phases' interfaces; each bundle validates under its own governing blob)."
-  approval: "The amendment stales the Phase-A approval by construction. Fresh human approval of the amended blob is the sole authorization for Phase B, for the staging of any phenotype member, and for the first read of any phenotype row."
-
-phase_b_required_outputs:
-  - resolved_config.json
-  - input_manifest.csv
   - staging_audit.json
+  - phenotype_schema_census.csv
   - clinical_estimation_table.csv
   - clinical_uncertainty.json
   - suppression_log.csv
   - summary.json
   - environment.txt
   - run_log.txt
+# On the pre-registered PHENOTYPE_SCHEMA_MISMATCH stop the deliverable
+# is the reduced interface: resolved_config.json, input_manifest.csv,
+# staging_audit.json, phenotype_schema_census.csv, summary.json,
+# environment.txt, run_log.txt -- no clinical estimation output exists
+# on that path by design.
 
 open_questions_for_human:
-  - "Support path: the unblock ruling froze 'the exact-map recomputation branch'. Feasibility then verified (and this drafting re-verified against the repository) that the identical quantity -- exact eroded Tmax>6s eligible support under the ratified take-13 parameters -- already exists as a hash-pinned, code-verified output of the ratified take-13 bundle. This v2 adopts that cached extract and retires the recomputation, the 3 GB map staging, and the 297-row reproducibility gate (feasibility section 9 item 1: provenance replaces reproduction; same bytes, fewer failure surfaces). Approving this blob ratifies the substitution and supersedes the card's X_measurement recomputation/reproducibility-gate wording; if you want literal re-execution anyway, reject and direct reversion to the v1 Phase-A steps."
-  - "Uncertainty currency (feasibility item 4): this contract freezes TWO clinical displays -- deterministic leave-one-head-case-out ranges, plus a relabeling range explicitly labeled 'hypothetical exchangeability reference, not a confidence interval'. If you prefer only deterministic displays, strike the relabeling range before approval; the leave-one-out display stands either way."
-  - "Structure (carried from v1, never yet ruled): does the amendment-plus-fresh-approval gate satisfy the right-sizing carve-out for the new phenotype exposure, or do you want Phase B as a separately registered contract? Approving this v2 blob adopts the one-contract two-phase design; Phase B remains unreachable without the later amendment approval either way."
+  - "Uncertainty displays (the interpretation's explicit directive to this review): both v2-drafted exploratory displays are retained verbatim -- deterministic leave-one-head-case-out ranges AND the seed-20260902 relabeling range under its hypothetical-exchangeability label. Approving this blob ratifies both; if you want only deterministic displays, strike the relabeling clause before approval (the leave-one-out display stands either way)."
+  - "Scale-type bindings the machine proposal assigned to this amendment: mRS 3 months and mTici bound as ordinal, NIHSS (both time points), Age, and Onset-to-door bound as continuous, Sex as binary, each with its recorded dictionary-grounded reason. Approving this blob ratifies these bindings; direct changes before approval if you disagree."
+  - "mTici level convention: the dictionary declares the field ordinal without enumerating levels, so the published mTICI order 0 < 1 < 2a < 2b < 2c < 3 is bound, with out-of-set values degrading to counted missingness. If the release turns out to code the scale differently, the values surface as missingness in the census -- visible, not silent -- and any recoding would require a further amendment."
+  - "Interface addition beyond the pre-registered swap: phenotype_schema_census.csv and the PHENOTYPE_SCHEMA_MISMATCH stop implement the schema/missingness census feasibility section 8 pre-registered, giving the unverifiable-until-now case-level schema a decision-grade gate instead of a silent failure mode. This is the one element of v3 not literally enumerated in v2's amendment_protocol binds list; approving this blob ratifies it."
 
 human_approved: false
