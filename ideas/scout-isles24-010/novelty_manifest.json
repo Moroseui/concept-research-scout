@@ -1,0 +1,28 @@
+{
+  "searched_at": "2026-09-01T00:00:00-04:00",
+  "queries": [
+    {"query": "ISLES'24 mRS NIHSS outcome analysis perfusion", "source": "web search"},
+    {"query": "ISLES 2024 clinical outcomes secondary analysis", "source": "web search"},
+    {"query": "influential cases benchmark clinical characteristics image analysis challenge case contribution", "source": "web search"},
+    {"query": "acute stroke perfusion core overestimation clinical outcomes Broocks 2024", "source": "web search"},
+    {"query": "CT perfusion split half reliability even odd frames deconvolution stroke", "source": "web search"},
+    {"query": "CT perfusion temporal sampling frame subsampling reliability ICC deconvolution perfusion maps", "source": "web search"},
+    {"query": "Tmax discrete multiples temporal sampling interval perfusion Calamante 2010", "source": "web search"},
+    {"query": "CT perfusion parametric map quantization discretization stored values threshold sensitivity", "source": "web search"},
+    {"query": "perfusion map threshold greater than greater equal quantization Tmax 6", "source": "web search"},
+    {"query": "ISLES perfusion maps 8 bit Tmax rescaled", "source": "web search"}
+  ],
+  "neighbors": [
+    {"candidate": "C1", "identifier": "DOI 10.1148/radiol.231750; PMID 39078297", "access": "full_text", "establishing_passage": "The study evaluated ischemic-core overestimation and related it to baseline core volume, reperfusion, final infarct volume, and functional outcome in a 721-patient cohort."},
+    {"candidate": "C1", "identifier": "DOI 10.1038/s41467-018-07619-7", "access": "abstract", "establishing_passage": "The work showed that biomedical image-analysis challenge rankings can change with the sampled test cases and analysis choices."},
+    {"candidate": "C1", "identifier": "arXiv:2408.10966", "access": "full_text", "establishing_passage": "ISLES'24 provides acute CT, follow-up MRI labels, and clinical variables for final-infarct prediction; the challenge paper describes predictive use rather than contribution-defined clinical profiling."},
+    {"candidate": "C1", "identifier": "Anatomical-phenotypic graph learning for interpretable acute ischemic stroke prognosis prediction from non-contrast CT and clinical data, Biomedical Signal Processing and Control, 2026", "access": "search_summary", "establishing_passage": "The search summary reports prognosis prediction on ISLES 2024 using NCCT and clinical data; subgroup and contribution-census details could not be inspected."},
+    {"candidate": "C2", "identifier": "DOI 10.1007/s00234-024-03335-w; PMID 38498208", "access": "full_text", "establishing_passage": "In 3,555 CTP scans, reduced temporal sampling yielded ICC 0.97–0.99 for core and hypoperfusion volumes and changed some treatment decisions."},
+    {"candidate": "C2", "identifier": "DOI 10.1016/j.ejrad.2007.02.025", "access": "abstract", "establishing_passage": "The study varied temporal resolution in stroke CTP and assessed quantitative perfusion parameters, lesion contrast, map quality, and diagnostic accuracy."},
+    {"candidate": "C2", "identifier": "DOI 10.3390/diagnostics11061027", "access": "full_text", "establishing_passage": "The study simulated temporal subsampling and noise and assessed reproducibility of parametric maps and core volumes."},
+    {"candidate": "C3", "identifier": "DOI 10.1161/STROKEAHA.110.580670; PMID 20413735", "access": "abstract", "establishing_passage": "Simulation showed that Tmax reflects delay, dispersion and MTT and is sensitive to experimental timing; temporal interpolation was recommended."},
+    {"candidate": "C3", "identifier": "DOI 10.1038/s41598-023-47015-4", "access": "full_text", "establishing_passage": "A digital perfusion phantom was used to calibrate software-specific CTP lesion thresholds across deconvolution methods."},
+    {"candidate": "C3", "identifier": "DOI 10.1161/STROKEAHA.116.013147", "access": "abstract", "establishing_passage": "Commercial CTP packages produced substantially different estimates of ischemic core and penumbra volume."},
+    {"candidate": "C3", "identifier": "DOI 10.1038/srep11075", "access": "full_text", "establishing_passage": "User-selected image-intensity discretization settings materially affected radiomic feature values and reproducibility."}
+  ]
+}

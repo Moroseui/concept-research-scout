@@ -1,0 +1,37 @@
+# Novelty audit — isles24-010
+
+## C1 — The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent? (wide)
+
+1. **Neighbors.** (i) Broocks et al., *Overestimation of the Ischemic Core Is Associated With Higher Core Lesion Volume and Degree of Reperfusion After Thrombectomy*, Radiology 2024, DOI `10.1148/radiol.231750`, PMID `39078297`: related CTP core overestimation to baseline core volume, reperfusion, final infarct, and functional outcome in 721 patients. (ii) Maier-Hein et al., *Why rankings of biomedical image analysis competitions should be interpreted with care*, Nature Communications 2018, DOI `10.1038/s41467-018-07619-7`: quantified how biomedical challenge rankings change with test-case composition and analysis choices. (iii) de la Rosa et al., *ISLES'24: Improving final infarct prediction in ischemic stroke using multimodal imaging and clinical data*, arXiv `2408.10966`: introduced the challenge and used the released clinical variables as predictive inputs, but did not clinically profile cases selected by an estimator-contribution decomposition. A newer ISLES'24 prognosis paper, *Anatomical-phenotypic graph learning for interpretable acute ischemic stroke prognosis prediction from non-contrast CT and clinical data* (Biomedical Signal Processing and Control, 2026), was visible only as a search summary and likewise appears prediction-focused; it could not be inspected sufficiently to exclude a secondary subgroup analysis.
+
+2. **Delta.** The candidate clinically describes a prospectively frozen, contribution-defined subset from an already-ratified estimator census and explicitly separates raw dominance from dominance per unit deficit burden; none of the inspected neighbors constructs or profiles that object.
+
+3. **Why not done.** `NEW_CAPABILITY` — the enabling object is the program's newly produced and ratified 99-case contribution census (`probes/046/results/results_v3/per_case_contributions.csv`), without which the proposed top-ten stratum did not exist.
+
+4. **Verdict.** `NO_DUPLICATE_FOUND_LIMITED_SEARCH`. Searches covered ISLES'24 outcome/phenotype analyses, influential-case analyses in medical-imaging benchmarks, and clinical correlates of perfusion-estimation error. No duplicate was found, but the 2026 ISLES'24 prognosis article was accessible only by search summary and the candidate's estimator object is local and very recent; this is not verified novelty.
+
+## C2 — Split the bolus movie in half: a parallel-forms noise floor for the benchmark's perfusion measures (wide)
+
+1. **Neighbors.** (i) Rau et al., *Impact of temporal resolution on perfusion metrics, therapy decision, and radiation dose reduction in brain CT perfusion in patients with suspected stroke*, Neuroradiology 2024, DOI `10.1007/s00234-024-03335-w`, PMID `38498208`: reprocessed 3,555 CTP scans at 1.5–6.0-second sampling and reported ICCs of 0.97–0.99 for core/hypoperfusion volumes plus treatment-decision changes. (ii) Kloska et al., *Dynamic perfusion CT: Optimizing the temporal resolution for the calculation of perfusion CT parameters in stroke patients*, European Journal of Radiology 2007, DOI `10.1016/j.ejrad.2007.02.025`: varied temporal sampling in stroke CTP and measured effects on quantitative parameters, lesion contrast, map quality, and diagnostic assessment. (iii) Fahmi et al., *Cerebral CT Perfusion in Acute Stroke: The Effect of Lowering the Tube Load and Sampling Rate on the Reproducibility of Parametric Maps*, Diagnostics 2021, DOI `10.3390/diagnostics11061027`: simulated added noise and temporal subsampling and measured reproducibility of CBF, CBV, MTT, TTP and core volumes. The closest works therefore already estimate sampling-related reproducibility from within-acquisition frame removal.
+
+2. **Delta.** The remaining delta is to compare complementary interleaved parity halves directly as parallel forms, hold the full-series AIF fixed, apply Spearman–Brown correction, and publish the result on ISLES'24; this is a methodological reframing and cleaner noise estimand, not a wholly new measurement question.
+
+3. **Why not done.** `BLIND_SPOT` — CTP subsampling work is organized around dose reduction and agreement with the full-rate reconstruction, while benchmark users accept released maps as fixed inputs; complementary-half psychometric reliability falls between those incentives.
+
+4. **Verdict.** `INCREMENTAL`. The parity design is distinguishable, but Rau et al. already provide large-cohort ICC evidence for temporally subsampled core and hypoperfusion volumes, and Fahmi et al. already frame subsampling in terms of map reproducibility. ISLES'24 and Spearman–Brown correction sharpen rather than originate the question.
+
+## C3 — Graph-paper physiology: the value lattice under the penumbra thresholds (wide)
+
+1. **Neighbors.** (i) Calamante et al., *The physiological significance of the time-to-maximum (Tmax) parameter in perfusion MRI*, Stroke 2010, DOI `10.1161/STROKEAHA.110.580670`, PMID `20413735`: simulations showed Tmax depends on delay, dispersion, MTT, and experimental timing, motivating temporal interpolation; it establishes algorithm/timing sensitivity but does not inspect distributed map bytes. (ii) Bennink et al., *CT perfusion stroke lesion threshold calibration between deconvolution algorithms*, Scientific Reports 2023, DOI `10.1038/s41598-023-47015-4`: used a digital perfusion phantom to map true values to several deconvolution estimates and showed that lesion thresholds are software-specific. (iii) Austein et al., *Comparison of Perfusion CT Software to Predict the Final Infarct Volume After Thrombectomy*, Stroke 2016, DOI `10.1161/STROKEAHA.116.013147`: compared commercial packages and demonstrated substantial software-dependent core/penumbra volume variation. Related but less direct, Leijenaar et al., Scientific Reports 2015, DOI `10.1038/srep11075`, showed that deliberately chosen intensity discretization changes radiomic features; it did not audit latent quantization in vendor perfusion maps.
+
+2. **Delta.** The candidate reads the released ISLES'24 NIfTI storage and scaled voxel values to distinguish storage quantization, algorithmic discreteness, and resampling effects, then propagates the measured lattice through `Tmax > 6 s`, `rCBF < 30%`, and percentile-tie conventions; the neighbors compare algorithms or chosen binning without this byte-level audit and threshold-convention propagation.
+
+3. **Why not done.** `BLIND_SPOT` — perfusion-method papers compare vendors and threshold calibration at the lesion-volume level, while challenge users treat released parametric maps as primitive inputs, leaving file-level metrology between software validation and benchmark curation.
+
+4. **Verdict.** `NO_DUPLICATE_FOUND_LIMITED_SEARCH`. Targeted searches found algorithmic timing/discretization, software-threshold calibration, and deliberate radiomics discretization, but no audit of the realized value lattice in released CTP challenge maps. The search was bounded, and the candidate's load-bearing premise that ISLES'24 maps contain a consequential lattice remains uninspected, so absence of a duplicate is not a novelty claim.
+
+| Candidate | Verdict | Why-not-done code |
+|---|---|---|
+| C1 | `NO_DUPLICATE_FOUND_LIMITED_SEARCH` | `NEW_CAPABILITY` |
+| C2 | `INCREMENTAL` | `BLIND_SPOT` |
+| C3 | `NO_DUPLICATE_FOUND_LIMITED_SEARCH` | `BLIND_SPOT` |
