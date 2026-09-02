@@ -38,6 +38,7 @@ Which of the 99 observed cases contribute most to the realized band-3-minus-band
 ## Connections
 - idea-023
 - idea-045
+- idea-047 (successor: keystone-ten clinical characterization)
 
 ## Documents
 - ideas/046/idea_card.json

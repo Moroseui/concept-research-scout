@@ -39,6 +39,7 @@ Does per-patient Q1-minus-Q4 NCCT median-attenuation imbalance account for idea-
 
 ## Connections
 - idea-046 (successor: reversal carriers + clinical join)
+- idea-047 (successor: keystone-ten clinical characterization)
 
 ## Documents
 - ideas/045/idea_card.json

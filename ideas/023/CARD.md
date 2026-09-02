@@ -47,6 +47,7 @@ Does a specified map-input final-infarct model use the joint CBV/MTT compensatio
 ## Connections
 - idea-045 (successor: tissue-normalized matched-flow)
 - idea-046 (successor: reversal carriers + clinical join)
+- idea-047 (successor: keystone-ten clinical characterization)
 
 ## Documents
 - ideas/023/idea_card.json

@@ -1,0 +1,28 @@
+{
+  "approval": null,
+  "charter": "isles24",
+  "claim": "In the frozen 99-case idea-046 census cohort, the high-contribution stratum does / does not differ in aggregate on a pre-frozen released clinical variable list (3-month mRS, admission NIHSS, age, sex, plus treatment fields if present in the release) from the remaining cases, and its dominance is / is not accounted for by deficit burden -- an exploratory, aggregate-only, association-register description under the D3 read-restriction and D4 joint-display rules, with no per-patient claims and no model probing.",
+  "contract_blob": null,
+  "corrections": null,
+  "idea_id": "idea-047",
+  "idea_no": "047",
+  "kill_code": null,
+  "materialization": {
+    "event_count": 1,
+    "materializer_version": 3,
+    "source_fingerprint_sha256": "001a3d93b579a062eeca85c0dbf7ac1c3b268cc16ab5aab439eb4aea3083ade8",
+    "sources": {
+      "approval_sha256": null,
+      "contract_blob": null,
+      "idea_card_sha256": "da35c74cf076ba66bb9178a7f5c874dbb8e77d73e1dab726c745c83c11b0d456",
+      "ledger_events_sha256": "4c5f9201e00b44e4df22eb3342b3fd131e0f77634c7ab6407fef66bfaa0747c1",
+      "registry_sha256": null
+    }
+  },
+  "pending_decisions": null,
+  "registry": null,
+  "schema_version": 1,
+  "scrutiny": "SCOUTED",
+  "status": "SHORTLISTED",
+  "title": "The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?"
+}

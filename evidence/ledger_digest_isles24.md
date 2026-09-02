@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-83 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+84 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -24,8 +24,8 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-004-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.3, audited 2026-08-18] -- The brain's odometer: calcification as the model's age gauge
 - **isles24-scout-002-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-16] -- The clot that lets contrast through
 - **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
-- **isles24-scout-010-c01** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-09-02] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
-- ... and 20 more (python scout.py backlog)
+- **isles24-scout-008-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-09-02] -- The blood arrives backwards: filling direction as the model's collateral gauge
+- ... and 19 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
@@ -82,6 +82,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - **idea-044** [REJECTED/DEBATED/baseline] -- The old stroke inside the new forecast -- killed: IDENTIFIABILITY_FAILURE
 - **idea-045** [PAUSED/PROBED/wide] -- Tissue-normalized joint CBV/MTT compensation at matched flow
 - **idea-046** [ACTIVE/PROBED/wide] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
+- **idea-047** [SHORTLISTED/SCOUTED/wide] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
 - **isles24-scout-001-c01** [SCOUT_ONLY/SCOUTED/baseline] -- Does the winning model rediscover the collateral clock?
 - **isles24-scout-001-c02** [SHORTLISTED/SCOUTED/baseline] -- The vascular detour the segmentation model can see
 - **isles24-scout-001-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Read the stroke from the blood leaving, not only entering
@@ -135,6 +136,6 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-009-c01** [SCOUT_ONLY/SCOUTED/wide] -- The keystone patients: ten cases may teach the model the reversal
 - **isles24-scout-009-c02** [SCOUT_ONLY/SCOUTED/wide] -- The model's hidden disability map
 - **isles24-scout-009-c03** [SCOUT_ONLY/SCOUTED/wide] -- The atlas prior hidden under the perfusion maps
-- **isles24-scout-010-c01** [SCOUT_ONLY/SCOUTED/wide] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
+- **isles24-scout-010-c01** [SHORTLISTED/SCOUTED/wide] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
 - **isles24-scout-010-c02** [SCOUT_ONLY/SCOUTED/wide] -- Split the bolus movie in half: a parallel-forms noise floor for the benchmark's perfusion measures
 - **isles24-scout-010-c03** [SCOUT_ONLY/SCOUTED/wide] -- Graph-paper physiology: the value lattice under the penumbra thresholds

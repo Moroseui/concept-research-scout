@@ -4,7 +4,10 @@
   "search_mode": "A",
   "design_template": "conditional-observational",
   "title": "Which observed cases numerically carry the band-2/3 reversal?",
-  "parent_ids": ["idea-023", "idea-045"],
+  "parent_ids": [
+    "idea-023",
+    "idea-045"
+  ],
   "kernel_provenance": "Operator-authored successor grounded in idea-023's ratified finding that no per-patient contribution analysis had been computed, idea-045's tissue-composition analysis, and the unexecuted 2026-08-28 clinical-outcome join. Critique and debate narrowed it from stable-carrier classification to a finite-population description.",
   "deliverable_original": "A pre-registered per-patient contribution census resolving whether the band-2/3 reversal is cohort-diffuse or subset-concentrated, plus an exploratory screen of whether contribution strata differ on bundle-derivable features and released clinical outcome scores.",
   "question": "Which of the 99 observed cases contribute most to the realized band-3-minus-band-2 mean contrast?",
@@ -58,18 +61,55 @@
   ],
   "data_and_compute": "Primary analysis uses the imported table and minutes of CPU. Optional phenotype analysis requires restaging the pinned approximately 99 GB train.7z and reading only the 99 analyzed identifiers. No DUA, GPU, or annotation.",
   "scores": {
-    "clarity": {"value": 5, "why": "One exact finite-population decomposition with frozen descriptive summaries."},
-    "identifiability": {"value": 4, "why": "The realized estimator is exactly decomposed; stable-patient and population claims are excluded."},
-    "medical_relevance": {"value": 3, "why": "Localizes an unexplained stroke-imaging result but makes no direct clinical claim."},
-    "interest": {"value": 3, "why": "Clarifies whether a striking aggregate is numerically broad or head-heavy."},
-    "prior_legwork": {"value": 5, "why": "All primary inputs and the parent interpretation are imported and reviewed."},
-    "feasibility": {"value": 5, "why": "The primary keystone is inspected true and computation is deterministic."},
-    "data_readiness": {"value": 5, "why": "The complete primary table is already in-tree; phenotype restaging is optional."},
-    "evaluation_readiness": {"value": 5, "why": "Formula, curves, fixed k values, and claim bounds are specified."},
-    "negative_result_value": {"value": 3, "why": "A shallow head rejects few-case numerical dominance, not stable diffuseness."},
-    "novelty_confidence": {"value": 3, "why": "The local gap is verified, but methods are standard and no broad novelty claim is made."},
-    "regret": {"value": 4, "why": "A cheap audit can prevent follow-up aimed at an arithmetic artifact."}
+    "clarity": {
+      "value": 5,
+      "why": "One exact finite-population decomposition with frozen descriptive summaries."
+    },
+    "identifiability": {
+      "value": 4,
+      "why": "The realized estimator is exactly decomposed; stable-patient and population claims are excluded."
+    },
+    "medical_relevance": {
+      "value": 3,
+      "why": "Localizes an unexplained stroke-imaging result but makes no direct clinical claim."
+    },
+    "interest": {
+      "value": 3,
+      "why": "Clarifies whether a striking aggregate is numerically broad or head-heavy."
+    },
+    "prior_legwork": {
+      "value": 5,
+      "why": "All primary inputs and the parent interpretation are imported and reviewed."
+    },
+    "feasibility": {
+      "value": 5,
+      "why": "The primary keystone is inspected true and computation is deterministic."
+    },
+    "data_readiness": {
+      "value": 5,
+      "why": "The complete primary table is already in-tree; phenotype restaging is optional."
+    },
+    "evaluation_readiness": {
+      "value": 5,
+      "why": "Formula, curves, fixed k values, and claim bounds are specified."
+    },
+    "negative_result_value": {
+      "value": 3,
+      "why": "A shallow head rejects few-case numerical dominance, not stable diffuseness."
+    },
+    "novelty_confidence": {
+      "value": 3,
+      "why": "The local gap is verified, but methods are standard and no broad novelty claim is made."
+    },
+    "regret": {
+      "value": 4,
+      "why": "A cheap audit can prevent follow-up aimed at an arithmetic artifact."
+    }
   },
   "priority_score": 4.1,
-  "related_ideas": ["idea-023", "idea-045"]
+  "related_ideas": [
+    "idea-023",
+    "idea-045",
+    "idea-047 (successor: keystone-ten clinical characterization)"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "next_scout": 20,
-  "selected_idea": 46,
+  "selected_idea": 47,
   "active_cycle": 10,
   "cycle": {
     "scout": 10,
@@ -72,6 +72,9 @@
     },
     "isles24-007": {
       "1": 46
+    },
+    "isles24-010": {
+      "1": 47
     }
   },
   "charters": {

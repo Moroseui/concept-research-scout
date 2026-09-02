@@ -46,6 +46,7 @@
 - [isles24] **idea-044** [REJECTED] -- The old stroke inside the new forecast
 - [isles24] **idea-045** [PAUSED] -- Tissue-normalized joint CBV/MTT compensation at matched flow
 - [isles24] **idea-046** [ACTIVE] -- Who carries the band-2/3 reversal, and do the carriers differ clinically?
+- [isles24] **idea-047** [SHORTLISTED] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
 - [isles24] **isles24-scout-001-c01** [SCOUT_ONLY] -- Does the winning model rediscover the collateral clock?
 - [isles24] **isles24-scout-001-c02** [SHORTLISTED] -- The vascular detour the segmentation model can see
 - [isles24] **isles24-scout-001-c03** [SCOUT_ONLY] -- Read the stroke from the blood leaving, not only entering
@@ -99,7 +100,7 @@
 - [isles24] **isles24-scout-009-c01** [SCOUT_ONLY] -- The keystone patients: ten cases may teach the model the reversal
 - [isles24] **isles24-scout-009-c02** [SCOUT_ONLY] -- The model's hidden disability map
 - [isles24] **isles24-scout-009-c03** [SCOUT_ONLY] -- The atlas prior hidden under the perfusion maps
-- [isles24] **isles24-scout-010-c01** [SCOUT_ONLY] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
+- [isles24] **isles24-scout-010-c01** [SHORTLISTED] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
 - [isles24] **isles24-scout-010-c02** [SCOUT_ONLY] -- Split the bolus movie in half: a parallel-forms noise floor for the benchmark's perfusion measures
 - [isles24] **isles24-scout-010-c03** [SCOUT_ONLY] -- Graph-paper physiology: the value lattice under the penumbra thresholds
 - [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
