@@ -1,105 +1,106 @@
-# Probe code review — idea 047, contract v2, Phase A, revision round 2
+# Probe code review — idea 047, contract v3, Phase B
 
 ## Verdict
 
-**APPROVE.** The revision closes all three prior blockers without changing the
-scientific scope. Phase A implements the approved support-share arithmetic on
-the frozen 99-case cohort, preserves the phenotype boundary, writes the
-contract-required interface, and labels every terminal result within the
-contract's descriptive claim ceiling. No `ideas/047/contract_requirements.md`
-exists, so the requirements-governed tier/head/manifest checks do not apply.
+**REVISE.** The Phase-B implementation is otherwise close to the approved
+contract: it stages only the frozen 198 phenotype members, verifies archive
+and member identity before parsing, implements the seven-variable closed
+statistic menu and both approved exploratory displays, preserves the
+phenotype-schema stop, and writes the contract's normal and reduced result
+interfaces. One hard-standard ordering violation remains: the split manifest
+is not frozen before outcome-derived inputs are opened.
 
-## Blocking findings
+## Blocking finding
 
-None.
+### Hard standard 5 — split manifest is created after outcome-derived table access
 
-## Resolution of the prior blocking findings
+`run()` hashes and then opens both the final-infarct-derived contribution
+table and the consumed support table through `load_contributions()` and
+`load_support()` before it calls `freeze_split()`
+(`probes/047/run.py:1701-1720`). The split file is only written inside
+`freeze_split()` (`probes/047/run.py:590-619`). Thus the statement embedded in
+the emitted manifest—`created_before_any_phenotype_byte_staged`—is true but
+weaker than hard standard 5, which requires the split manifest to be hashed
+before **any outcome/label access**, not merely before this phase's phenotype
+files are staged. The contribution and support tables are outcome-derived
+claim-bearing inputs from the idea-023/046 lineage, so historical prior access
+does not make the current execution order compliant.
 
-- **Hard standard 4 — resolved.** A real run now requires a pre-staged
-  `--dictionary-file` and refuses when it is absent
-  (`probes/047/run.py:205-211`, `probes/047/run.py:1073-1080`). The held file is
-  checked against the frozen byte-count and MD5 pins before parsing
-  (`probes/047/run.py:710-735`). The remaining Zenodo URL is provenance text,
-  not an executed fetch (`probes/047/run.py:102-105`); no network-capable
-  import or call remains. The operator command documents the required offline
-  input (`probes/047/README.md:11-24`).
-- **Hard standard 5 — resolved.** Before the outcome-derived contribution
-  table or census summary is opened, the code pin-verifies and reads only the
-  phenotype-blind exclusions table, writes the actual analyzed case IDs plus
-  the two bookkeeping exclusions to `split_manifest.csv`, and hashes that
-  manifest (`probes/047/run.py:294-333`, `probes/047/run.py:1090-1110`). After
-  contribution access, the support gate requires exact equality between its
-  IDs and the frozen split IDs and records the split hash in the gate artifact
-  (`probes/047/run.py:456-483`, `probes/047/run.py:515-522`). A count-preserving
-  case substitution therefore fails visibly.
-- **Hard standard 1 — resolved.** Both determinism manifests cover the three
-  frozen tables, frozen take-13 source, pre-staged dictionary, seed, mode, and
-  parsed row counts (`probes/047/run.py:1089-1127`). The common finalizer
-  re-hashes those inputs, requires exact start/end equality, writes the end
-  manifest, and runs on both normal completion and the registered
-  `SUPPORT_PROVENANCE_FAILURE` path (`probes/047/run.py:1024-1039`,
-  `probes/047/run.py:1144-1159`, `probes/047/run.py:1286-1289`).
+This is fail-closed scientifically—the code cannot silently change the head
+and still pass its later identity gates—but it fails the mandatory temporal
+separation. Repair without expanding scope: bind and verify the already
+produced Phase-A split artifact (or another exact predeclared 10/89 manifest),
+materialize and hash it before opening either outcome-derived table, and only
+then open those tables to verify exact ID/stratum agreement. The manifest must
+state the stronger fact it actually enforces. The contract's dataset and
+analysis need not change.
 
 ## Contract fidelity and silent-failure review
 
-- The analysis uses exactly the frozen signed-rank top ten and 99-case input,
-  computes the sole authorized comparison—absolute-contribution share beside
-  eligible-support share—and keeps the signed share in a separately labeled
-  reversal-accounting field (`probes/047/run.py:614-699`,
-  `probes/047/run.py:1178-1205`). No support-clause hypothesis test, interval,
-  residual subgroup, or model analysis is present.
-- Input pins, exact row/ID/rank structure, finite values, bookkeeping rows,
-  census identities, and output arithmetic fail closed
-  (`probes/047/run.py:343-385`, `probes/047/run.py:399-532`,
-  `probes/047/run.py:543-699`). The provenance-stop path writes no scientific
-  support output and calls itself a decision-grade stop, not a negative
-  (`probes/047/run.py:1144-1159`).
-- The normal path writes every Phase-A `required_outputs` artifact named by
-  the contract (`probes/047/run.py:1186-1221`, `probes/047/run.py:1240-1309`).
-  `per_case_support.csv` is the contract's concrete per-case output; the
-  generic stage-task reference to `per_sample.csv` does not override the
-  approved interface.
-- Limits are explicit and respected: one variant, zero GPU minutes, one
-  declared seed, and a 600-second Phase-A wall cap
-  (`probes/047/run.py:65-72`, `probes/047/run.py:1178-1181`,
-  `probes/047/run.py:1236-1244`). Phase B is unreachable because this code
-  requires the pre-amendment sentinel and current approval binding
-  (`probes/047/run.py:264-285`).
+- The real path enforces a fresh approval binding the exact v3 blob and checks
+  all contract literals (`probes/047/run.py:303-369`). It permits one variant,
+  zero GPU minutes, and one fixed seed used only for 10,000 relabelings.
+- Input hashes, the historical Phase-A governing blob, all seven frozen
+  constants, and the dictionary-derived bindings fail closed before staging
+  (`probes/047/run.py:394-578`, `probes/047/run.py:1701-1716`).
+- Member discovery resolves exactly two phenotype files per analyzed case;
+  archive bytes/MD5, extraction return code, staged-tree containment, member
+  size, and CRC32 are all checked before parsing (`probes/047/run.py:648-800`).
+- Empty files, duplicate normalized headers, multiple data rows, malformed
+  values, missing fields, and insufficient head coverage surface explicitly
+  in the schema census rather than becoming numeric values
+  (`probes/047/run.py:808-1012`). The minimum-schema failure emits the
+  contract's reduced interface and `PHENOTYPE_SCHEMA_MISMATCH`, explicitly not
+  a negative (`probes/047/run.py:1870-1905`).
+- The normal path implements only the closed continuous, ordinal, and binary
+  summaries and contrasts. The signed 79.29% share remains separately labeled
+  reversal accounting, and output language does not create a clinical,
+  proportionality, causal, model-use, or generalization verdict
+  (`probes/047/run.py:1045-1380`, `probes/047/run.py:1941-1998`).
+- Every contract-required normal output is written. The schema-stop path emits
+  exactly its documented reduced interface. Additional split, staging,
+  exclusions, and determinism artifacts are provenance outputs, not added
+  analyses.
 
-## Hard standards and practical verification
+## Standards checklist
 
-- **Standard 2:** `probe_exclusions.csv` records both non-analyzed cases with
-  record type and reason (`probes/047/run.py:1136-1142`).
-- **Standard 3:** transforms carry explicit checks or assertions for table
-  identity, contribution algebra, ranks, shares, dictionary staging/parsing,
-  and smoke construction (`probes/047/run.py:399-699`,
-  `probes/047/run.py:710-856`, `probes/047/run.py:859-1010`).
-- **Standard 6:** `python3 probes/047/run.py --smoke --output-dir <new-dir>`
-  completed with exit 0 in under one second in this review. It emitted
-  `SMOKE_ONLY`, start/end manifests compared equal, and the dictionary was
-  present in both manifests. Smoke uses 12 synthetic cases and a three-case
-  head, skips approval, and cannot emit a contractual Phase-A terminal
-  (`probes/047/run.py:859-930`, `probes/047/run.py:1065-1072`,
-  `probes/047/run.py:1224-1234`).
-- `python3 -m py_compile probes/047/run.py` passed. Requirements are standard
-  library only, paths are explicit, output is controlled by `--output-dir`,
-  and there are no prompts or GPU dependencies (`probes/047/requirements.txt`,
-  `probes/047/run.py:199-212`).
+1. **Start/end determinism manifests:** implemented over frozen inputs,
+   consumed artifacts, the member manifest, staged-member aggregate, seed,
+   mode, and row counts; equality is required on both registered terminal
+   paths (`probes/047/run.py:1606-1632`, `probes/047/run.py:1701-1715`,
+   `probes/047/run.py:1773-1829`, `probes/047/run.py:1891-1893`,
+   `probes/047/run.py:1974-1978`). PASS.
+2. **Exclusions log:** both lineage exclusions and every phenotype-file
+   anomaly are emitted with reasons (`probes/047/run.py:1815-1822`). PASS.
+3. **Assertion/check per transform:** parsing, joins, identities, staging,
+   schema resolution, statistics, and output invariants carry explicit checks
+   or assertions. PASS. Several internal invariants still use Python `assert`
+   (`probes/047/run.py:465-466`, `probes/047/run.py:595-600`,
+   `probes/047/run.py:1731-1732`); the documented command does not use
+   optimization and surrounding pin checks cover the claim-bearing inputs, so
+   this is non-blocking.
+4. **Declared seed/paths and no network:** paths and seed are explicit; the
+   real run requires local archive and manifest paths; imports and execution
+   contain no analysis-time network operation. PASS.
+5. **Split manifest before outcome/label access:** FAIL as detailed above.
+6. **Smoke:** `python3 probes/047/run.py --smoke --output-dir <fresh-temp>`
+   completed in under one second during review, emitted `SMOKE_ONLY`, exercised
+   missing-field, parse-failure, file-anomaly, alternate-payload-spelling, and
+   suppression paths, and produced byte-identical start/end manifests. It
+   skips approval and cannot emit `STUDY_COMPLETE`. PASS.
 
-## Non-blocking findings
+## Practical verification and non-blocking findings
 
-- Several transform invariants use Python `assert` and would disappear under
-  `python -O` (`probes/047/run.py:406`, `probes/047/run.py:451-452`,
-  `probes/047/run.py:616-665`, `probes/047/run.py:1214-1216`). The documented
-  command does not enable optimization, and surrounding pin/shape/cross-check
-  gates cover the claim-bearing structure, so this does not block this bounded
-  probe. Explicit fail-closed checks would nevertheless be preferable in a
-  future neutral hardening pass.
-- The registered provenance-stop path intentionally emits a reduced interface
-  rather than all normal Phase-A outputs. This matches the contract's statement
-  that the gate record is the stop deliverable and does not masquerade as a
-  completed Phase-A bundle.
+- `python3 -m py_compile probes/047/run.py` passed.
+- Requirements are Python-standard-library-only; the real staging path names
+  the external `7z` prerequisite and fails loudly if it is unavailable
+  (`probes/047/requirements.txt`, `probes/047/run.py:728-755`). Output is
+  confined to `--output-dir`, with no prompt or GPU dependency.
+- Small-cell suppression is honestly limited: the code records that mandated
+  margins and contrasts can arithmetically bound a suppressed cell
+  (`probes/047/run.py:1369-1379`). This matches the approved cell-level rule
+  and is surfaced for interpretation, so it is not a code-review blocker.
 
 ```json
-{"verdict": "APPROVE", "blocking": [], "note": "All prior blockers are closed; smoke and compilation pass, and Phase A is contract-faithful, offline, split-bound before outcome access, and determinism-complete on every registered terminal path."}
+{"verdict": "REVISE", "blocking": ["Hard standard 5: run.py opens the outcome-derived contribution and support tables before writing and hashing the 10/89 split manifest (run.py:1701-1720; freeze occurs at 590-619). Bind/materialize the predeclared split first, then verify those tables against it."], "note": "The scientific analysis and phenotype boundary are otherwise contract-faithful; one split-freeze ordering repair is required."}
 ```
