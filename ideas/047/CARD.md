@@ -3,12 +3,12 @@
 GENERATED VIEW (R5a). Never edit: regenerate with `python scout.py card-materialize 47`. Edits belong in the source artifacts this card renders.
 
 ## Identity
-- title: The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
+- title: The keystone ten meet the clinic: aggregate clinical profile and support-share arithmetic of the census head
 - charter: isles24   track: wide   card-id: isles24-scout-010-c01
 - ledger status: SHORTLISTED   scrutiny: SCOUTED   ledger events: 1
 
 ## Question
-[ecology] Do the ten cases that carry 79.29% of the idea-046 band-2/3 reversal differ in aggregate on released 3-month mRS, admission NIHSS, and demographics from the other 89 -- and is their dominance proportionate to deficit burden, or keystone-like (disproportionate per unit burden)?
+[ecology] In the frozen 99-case idea-046 census cohort, do the ten largest signed contributors to the band-2/3 reversal (the frozen signed-rank top ten) differ in aggregate on a pre-frozen released clinical variable list from the other 89 cases -- and how does their exact share of total absolute contribution compare with their exact share of total eligible deficit support, the per-case eroded Tmax>6s region voxel count recomputed under the ratified take-13 parameters?
 
 ## Declared vs derived status
 - idea_card.keystone_status: 'INSPECTED_TRUE'

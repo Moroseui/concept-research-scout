@@ -8,21 +8,21 @@
   "idea_no": "047",
   "kill_code": null,
   "materialization": {
-    "event_count": 1,
+    "event_count": 4,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "001a3d93b579a062eeca85c0dbf7ac1c3b268cc16ab5aab439eb4aea3083ade8",
+    "source_fingerprint_sha256": "00e549d0134e5870c9c3ce0fb9082312ae816df67659024c964074799a9a7d51",
     "sources": {
       "approval_sha256": null,
       "contract_blob": null,
-      "idea_card_sha256": "da35c74cf076ba66bb9178a7f5c874dbb8e77d73e1dab726c745c83c11b0d456",
-      "ledger_events_sha256": "4c5f9201e00b44e4df22eb3342b3fd131e0f77634c7ab6407fef66bfaa0747c1",
+      "idea_card_sha256": "8cbbbb971bf2fe8e8b9d1bc1c5cc6a99100d7b9b31b34660ff14da387081583f",
+      "ledger_events_sha256": "d4f2638b58c43156fad79c1e06e36aafb44fa1e52df35882d4709ef2fa9e2bfc",
       "registry_sha256": null
     }
   },
   "pending_decisions": null,
   "registry": null,
   "schema_version": 1,
-  "scrutiny": "SCOUTED",
+  "scrutiny": "DEBATED",
   "status": "SHORTLISTED",
   "title": "The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?"
 }
