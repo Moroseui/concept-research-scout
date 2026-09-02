@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-69 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+77 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -25,7 +25,7 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-005-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-19] -- Do sulci pin the predicted infarct edge?
 - **isles24-scout-001-c03** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.5, audited 2026-08-16] -- Read the stroke from the blood leaving, not only entering
 - **isles24-scout-001-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.5, audited 2026-08-16] -- The frail brain around the threatened territory
-- ... and 6 more (python scout.py backlog)
+- ... and 14 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
@@ -35,17 +35,21 @@ portfolio explores one scientific move with rotating vocabulary.
 - counterfactual-synthesis: 10
 - regional-substitution: 9
 - representation-erasure: 6
-- conditional-observational: 3
-- cross-model-disagreement: 2
+- conditional-observational: 5
+- cross-model-disagreement: 3
 - regional-removal: 2
+- other:label-geometry-audit: 2
 - natural-paired: 1
 - other:remote-perturbation: 1
 - other:graph-edge-intervention: 1
 - model-output-perturbation: 1
 - other:temporal-reparameterization: 1
 - other:noise-residual-transplant: 1
-- other:label-geometry-audit: 1
 - other:geometry-conditioned-boundary-test: 1
+- other:vector-field-alignment: 1
+- other:objective-ablation: 1
+- other:acquired-frame-substitution: 1
+- cross-reconstruction: 1
 
 ## Ideas
 
@@ -118,3 +122,11 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-005-c08** [SHORTLISTED/SCOUTED/wide] -- Delay is not dispersion
 - **isles24-scout-006-c01** [SHORTLISTED/?/baseline] -- (untitled)
 - **isles24-scout-007-c01** [SHORTLISTED/?/baseline] -- (untitled)
+- **isles24-scout-008-c01** [SCOUT_ONLY/SCOUTED/baseline] -- The ghost core and the water clock: what the NCCT-only winner knows that the perfusion thresholds don't
+- **isles24-scout-008-c02** [SCOUT_ONLY/SCOUTED/baseline] -- The unpredictable infarct: how much of the benchmark happened after the scan
+- **isles24-scout-008-c03** [SCOUT_ONLY/SCOUTED/baseline] -- Written off by depth: the internal borderzone in the model's triage
+- **isles24-scout-008-c04** [SCOUT_ONLY/SCOUTED/baseline] -- The blood arrives backwards: filling direction as the model's collateral gauge
+- **isles24-scout-008-c05** [SCOUT_ONLY/SCOUTED/baseline] -- The rough edge grows: boundary geometry as the model's stability gauge
+- **isles24-scout-008-c06** [SCOUT_ONLY/SCOUTED/wide] -- The forecaster's hedge: the model's volume is a bet, not a belief
+- **isles24-scout-008-c07** [SCOUT_ONLY/SCOUTED/wide] -- Caught mid-swallow: does the model read acquisition luck as collateral biology?
+- **isles24-scout-008-c08** [SCOUT_ONLY/SCOUTED/wide] -- The model speaks one vendor's dialect: swap the deconvolution, keep the patient

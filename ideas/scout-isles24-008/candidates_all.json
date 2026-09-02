@@ -1,0 +1,720 @@
+{
+  "cycle": 8,
+  "charter": "isles24",
+  "tracks": [
+    "baseline",
+    "wide"
+  ],
+  "notes": {
+    "mode_c_score_missing": 2,
+    "search_mode_missing": 3
+  },
+  "candidates": [
+    {
+      "id": "isles24-scout-008-c01",
+      "search_mode": "A",
+      "entry_point": 1,
+      "entry_point_basis": "Documented gap: CTP threshold cores systematically overestimate final infarct in early-imaged, successfully reperfused patients — the 'ghost infarct core' (Boned et al. 2017, JNIS; Ballout et al. 2023 systematic review, J Neuroimaging DOI 10.1111/jon.13127). The ISLES'24 cohort is exactly this population (hyperacute CT, follow-up after successful reperfusion), and the challenge exists because learned models beat threshold maps at final-infarct prediction.",
+      "title": "The ghost core and the water clock: what the NCCT-only winner knows that the perfusion thresholds don't",
+      "question": "Is the NCCT-only winning model using net water uptake — the depth of early ischemic hypodensity — to overrule the CTP threshold core exactly where the ghost-infarct-core literature says that core is a lie?",
+      "rung": "Target rung 2 (the model's overruling of the threshold core is organized by measured NWU at matched perfusion). Moves to rung 3 only via a successor HU-edit counterfactual (synthetically deepening/shallowing hypodensity at fixed anatomy), which is deliberately deferred — counterfactual-synthesis is the portfolio's most overused template.",
+      "deliverable_sentence": "The model is using net water uptake — how much water the ischemic tissue has already absorbed, read as hypodensity depth on the plain CT — to decide how much of the CBF<30% 'core' will actually survive.",
+      "X_measurement": "Net water uptake, NWU = (1 - D_ischemic/D_contralateral) x 100, computed from NCCT HU averaged over the deficit region versus a region-level contralateral reference (Broocks et al., Stroke 2018, DOI 10.1161/STROKEAHA.118.020507, PMID 29976584; Minnerup et al., Ann Neurol 2016 for onset-time calibration). Region definition machinery (Tmax>6s, erosion, per-patient p98 vessel exclusion) already exists in-house from probe 023. Computable on an unseen scan today, by script, with no human annotator: yes.",
+      "suspected_signal": "Ischemic edema accrues water quasi-monotonically over the first hours; hypodensity depth therefore encodes (time-since-onset x injury severity). A low-CBF region with almost no water uptake is young tissue that successful reperfusion can still save — the ghost core; the same CBF with deep hypodensity is committed. An NCCT-only model that predicts final infarct at all must be reading some such NCCT quantity; NWU is the physiologically named, radiologist-legible candidate.",
+      "design_template": "cross-model-disagreement",
+      "design_template_justification": "Two final-infarct estimators with disjoint inputs — the reproduced NCCT-only winner (never sees perfusion) versus the standard CTP threshold core (never sees NCCT) — and the object of study is where and why they disagree. This is the template's genuine meaning, used only twice before in the portfolio.",
+      "use_vs_association": "Within-patient conditioning: at matched (CBF value, Tmax value, tissue class), does the probability that the model spares a threshold-core voxel rise as regional NWU falls? Matched-perfusion organization of the disagreement field by NWU is the rung-2 claim; bare correlation of NWU with outcome across patients is explicitly not the readout.",
+      "keystone_prerequisite": "Acute NCCT, derived perfusion maps, and the follow-up-derived lesion mask coexist per case on a common NCCT-space grid, so voxelwise conditioning across NCCT and CTP-derived quantities is possible.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Archive member manifest quoted in evidence/decisions.md (2026-08-25): 'train/derivatives/sub-stroke0001/ses-01/perfusion-maps/sub-stroke0001_ses-01_space-ncct_cbf.nii.gz (+cbv, mtt, tmax)', 'train/derivatives/sub-stroke0001/ses-02/sub-stroke0001_ses-02_space-ncct_lesion-msk.nii.gz', 'train/raw_data/sub-stroke0001/ses-01/sub-stroke0001_ses-01_ncct.nii.gz'; counts 149 cbf / 149 NCCT. Probe-023 takes 12-13 empirically processed NCCT together with the maps on the common grid (label-blind map pass completed 100/100, including the per-bin NCCT HU tissue audit).",
+      "keystone_residual_assumption": "(1) The published winner recipe (arXiv 2505.18424: residual-encoder nnU-Net + custom windowing) is reproducible well enough that our local model is a faithful stand-in for 'the winning model' — attribution will be scoped to 'an NCCT-only model of the winning family' until proven closer. (2) A region-level contralateral HU reference is adequate despite imperfect head symmetry; in-house mirror_qc.csv (99 cases) supports region-level adequacy (median registration error 1.41 voxels — fatal for voxel mirroring, tolerable for regional means). (3) NWU noise does not swamp the conditional signal.",
+      "rung_reached": "Rung 2 if the smallest experiment succeeds; rung 1 (mere sensitivity) if only unconditioned association survives.",
+      "dies_like_prior": "No killed idea matches. Nearest neighbor is backlog isles24-scout-002-c01 (the edema clock, SCOUT_ONLY, never developed): that card asks whether a model can read onset time; this one asks whether the verified NCCT-only winner's disagreement with the CTP threshold core is organized by water uptake — a different object (cross-estimator disagreement field), anchored to two newly verified facts (NCCT-only winner; ghost-core cohort match). Against the dominant IDENTIFIABILITY_FAILURE pattern (x12): the design never compares across patients unconditioned; all primary contrasts are within-patient at matched perfusion values.",
+      "closest_prior_work": "Boned et al. 2017 (JNIS, ghost infarct core) and Ballout et al. 2023 (J Neuroimaging, DOI 10.1111/jon.13127) document threshold-core overestimation but never ask what a learned model does about it. Broocks et al. (Stroke 2018, DOI 10.1161/STROKEAHA.118.020507) established NWU as edema biomarker; Minnerup et al. 2016 used it for onset timing. The winner paper (arXiv 2505.18424) shows NCCT-only wins but offers no account of what NCCT signal substitutes for perfusion. Delta: nobody has tested whether a trained final-infarct model's core-overruling tracks NWU.",
+      "existing_assets": "Dataset staged and integrity-proven in-house (origin_direct staging, md5-verified, decisions.md 2026-08-26); deficit-region machinery (Tmax>6s masks, erosion, p98 vessel exclusion) from probe 023; per-bin NCCT HU audit code (bin_tissue_audit) already reads NCCT HU inside perfusion strata; mirror_qc.csv registration-error distributions; published winner recipe with exact architecture and windowing; nnU-Net public framework.",
+      "smallest_decisive_experiment": "Train one fold of the winner-recipe NCCT-only nnU-Net on the 149 training cases (~1-2 GPU-days). On held-out fold cases: compute the CBF<30% (within Tmax>6s) threshold core, the model's predicted mask, regional NWU, and the conditional sparing curve P(model spares voxel | voxel in threshold core; CBF, Tmax, tissue class binned) as a function of regional NWU tercile. Decision: does sparing probability fall monotonically with NWU at matched perfusion, with patient-cluster bootstrap CIs excluding flatness? No ground-truth label enters this primary readout. Secondary (labels): among disagreement voxels, does the model beat the threshold map more often in low-NWU regions?",
+      "standing_confounds_addressed": "Scanner/vendor/protocol/site: cancelled in the within-patient matched-perfusion contrast; the across-patient NWU-tercile comparison is exposed to site mix and will be reported with site as a stratum if site metadata exists (unverified). Positioning/habitus: region-level mirror reference tolerates it (mirror_qc evidence). Prevalence/referral: cohort is all-LVO, all-thrombectomy — scope is stated as such. Label leakage: primary readout uses no labels. Not ruled out: NWU is also a severity measure, so 'water clock' is claimed as the physical quantity used, not as proof the model represents time itself.",
+      "alternative_explanations": "(1) The model may spare thin-hypodensity core because it reads some other NCCT quantity correlated with NWU (e.g., hyperdense-vessel proximity, sulcal preservation) — partially addressed by also conditioning the disagreement field on distance-to-vessel and testing whether NWU retains conditional organization; fully excluding it needs the successor HU-edit study. (2) Chronic white-matter hypodensity (leukoaraiosis) mimics low-attenuation ischemia — addressed by tissue-class conditioning and excluding periventricular caps. (3) The threshold core itself is computed from maps whose vendor chain is uniform here (icobrain), so 'disagreement' partly measures that one pipeline's idiosyncrasies — scope-limited claim.",
+      "anticipated_negative": "Sensitivity-limited: a flat conditional curve says this model does not detectably use water uptake at the achievable NWU precision — still publishable next to the winner paper (the winner's signal is then NOT the obvious physiological candidate), but not decisive against small effects.",
+      "remaining_legwork": "Winner-recipe reproduction (2-4 days engineering + 1-2 GPU-days/fold), NWU module (2-3 days, mostly existing code), conditional-analysis harness (3-4 days). First decision in ~2 weeks with a single GPU.",
+      "annotation_burden": "None. All quantities are computed by script from released data; no new expert labeling.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question with a named quantity and named comparator; loses a point because 'the winning model' is operationally 'our reproduction of the winning recipe'."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Matched-perfusion within-patient conditioning rules out the main patient-level alternatives, but correlated NCCT signals (vessel sign, sulci) can only be partially excluded without the deferred counterfactual arm."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Ghost core is a live clinical decision problem (whether to treat hyperacute patients with large threshold cores); showing a deployable model has internalized the correction — or has not — changes how its outputs should be read."
+        },
+        "interest": {
+          "value": 4,
+          "why": "The NCCT-only winner is a standing puzzle the community has noticed; naming its signal in a radiologist's word is exactly the charter's audience test."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Dataset staged and integrity-proven in-house; deficit and HU-audit machinery exists; winner recipe published; NWU formula published."
+        },
+        "feasibility": {
+          "value": 4,
+          "why": "Keystone INSPECTED_TRUE; one nnU-Net fold plus scripted measurements; ~2 weeks to first decision on one GPU."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public Zenodo under CC-BY-NC-SA; 99 GB staging pipeline already proven; one known source-corrupt member (sub-stroke0043) handled by standing exclusion policy."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Primary readout is a custom conditional curve (needs pre-registration of bins and margins); official challenge metrics apply only to the secondary arm."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Sensitivity-limited null, but bounded and informative next to the winner result."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Limited search found no test of NWU-organization of model-vs-threshold disagreement; capped at 3 pending the novelty audit."
+        },
+        "regret": {
+          "value": 4,
+          "why": "If another group explains the NCCT-only winner first, the program will regret having had every asset staged and not asking."
+        }
+      },
+      "priority_score": 3.7,
+      "unverified_claims": [
+        "Onset-to-imaging times and TICI grades as released clinical variables (needed only for the exploratory time-calibration arm; clinical_data-description.xlsx not yet opened)",
+        "Minnerup et al. 2016 Ann Neurol citation details (from memory; formula source Broocks 2018 is verified)",
+        "That the winner reproduction reaches leaderboard-comparable Dice (attribution scoped until checked)"
+      ],
+      "plain_pitch": "When a stroke patient reaches the scanner very early, the standard perfusion software often paints a large 'dead core' that turns out to be alive after treatment — clinicians call this the ghost core. Curiously, the model that won the ISLES'24 stroke challenge ignored the perfusion maps entirely and used only the plain CT picture. We ask whether that model is reading the tissue's water content — brain tissue soaks up water hour by hour as it dies, which shows as darkening on plain CT — and using it to overrule the perfusion software's exaggerated core. If true, the model has quietly learned the correction clinicians make by experience, and we can point at it in an image quantity radiologists already know by name.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-008-c02",
+      "search_mode": "B",
+      "entry_point": 2,
+      "entry_point_basis": "Well-performing (relative to the field) models with a startlingly low absolute ceiling: winning hidden-test Dice 28.5 (arXiv 2505.18424). Measurement that would detect the unexpected signal: ground-truth infarct mass in components disconnected from and distant to any baseline hypoperfusion, versus predicted mass in the same regions. Artifact it would be confused with: session-to-session registration error and contiguous edema growth displacing the lesion boundary — both act at the boundary and cannot create disconnected components in a different arterial territory.",
+      "title": "The unpredictable infarct: how much of the benchmark happened after the scan",
+      "question": "Is the model using the acute hypoperfusion footprint as a hard outer bound on its prediction, while a measurable fraction of the ground-truth infarct — new-territory emboli and procedural infarcts — lies structurally outside any model's reach?",
+      "rung": "Rung 2 as stated (the support bound is directly observable in model behavior; the out-of-support GT fraction is a census, not an inference). Rung 3 is not the target: no mechanism attribution beyond support geometry is claimed.",
+      "deliverable_sentence": "The model is using the acute hypoperfusion footprint as an outer bound on where infarct can be, and the X% of ground-truth lesion volume that lies in separate, distant arterial territory — infarcts that happened after the baseline scan — sets a floor on every leaderboard error metric.",
+      "X_measurement": "Per case: (a) baseline deficit footprint = Tmax>6s mask union CBF<30% mask (existing in-house machinery); (b) connected components of the ground-truth lesion mask; (c) per component, Euclidean distance to the footprint (scipy distance transform) and arterial territory label from the deformably registered Digital 3D Brain MRI Arterial Territories Atlas (Liu et al., Scientific Data 2023, DOI 10.1038/s41597-022-01923-0, PMID 36739282; github.com/Chin-Fu-Liu/Arterial_Atlas); (d) 'out-of-support' GT volume = components >20 mm from the footprint or in a non-overlapping territory; (e) the same measure applied to model-predicted masks. Computable today by script: yes.",
+      "suspected_signal": "Thrombectomy carries a documented complication: clot fragments embolize to previously unaffected territories, and wire manipulation causes new infarcts; these appear on 2-9 day DWI and enter the ground truth, but no baseline image contains their cause. A model trained on baseline imaging learns that infarct essentially never appears outside hypoperfused tissue and suppresses such predictions.",
+      "design_template": "other:label-geometry-audit",
+      "design_template_justification": "One prior portfolio use. The grammar here is an audit of ground-truth geometry against baseline physiological support — not boundary-drift measurement (the prior use's flavor) and not any intervention. No listed template fits: labels are the object of study, not the truth standard.",
+      "use_vs_association": "The use-vs-association trap does not arise in its usual form: the claim quantifies what the model cannot be using (post-scan events leave no baseline trace). The model-side clause ('uses the footprint as an outer bound') is established behaviorally: predicted mass outside the footprint ~ 0 across cases while GT mass outside is > 0 — a per-case observable, not a fitted association.",
+      "keystone_prerequisite": "Ground-truth lesion masks and the perfusion maps coexist per case on the common NCCT grid so that footprint distances are meaningful, and the lesion masks genuinely contain disconnected distant components in some cases (if no out-of-support lesion exists, the census returns zero and the finding inverts).",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Common grid: archive manifest quoted in evidence/decisions.md 2026-08-25 ('..._ses-02_space-ncct_lesion-msk.nii.gz' alongside '..._space-ncct_cbf.nii.gz (+cbv, mtt, tmax)'), and probe-023 processed maps and NCCT together on that grid across 99-100 cases. The existence of nonzero out-of-support components is the part NOT yet inspected — deliberately: it is the study's primary count, and its zero outcome is itself decisive (see anticipated_negative). The inspected keystone is the geometry substrate; the census quantity is the deliverable, not the prerequisite.",
+      "keystone_residual_assumption": "That organizer-side registration of ses-02 masks into NCCT space is not so poor that whole components land in wrong territories — a failure mode that would masquerade as out-of-support lesion. Mitigation is built into the measure (20 mm + territory-disjointness is far above mirror_qc-scale registration error, median 1.41 voxels), and any case with out-of-support mass gets individual visual QC of the registered pair — inspection of specific flagged cases, not new annotation.",
+      "rung_reached": "Rung 2 by the smallest experiment.",
+      "dies_like_prior": "Nearest kills: idea-030 (ground truth drawn on a swollen brain) and idea-034 (edge of the map), both IDENTIFIABILITY_FAILURE. Both died because boundary-level GT displacement could not be separated from true growth. This candidate is restricted by construction to disconnected components at >20 mm in disjoint arterial territories — displacement and contiguous edema act at the boundary and cannot manufacture those. What it shares with 030/034 is only the subject (GT quality); the estimand is component topology, not boundary position.",
+      "closest_prior_work": "Embolization to new territory is a documented thrombectomy complication with rates around 5-9% in trial cohorts (memory estimate; flagged unverified). The ISLES'24 papers describe the GT pipeline but do not report how much final lesion lies outside baseline hypoperfusion. ISLES'22 analyses discussed multifocal lesions but on MRI-only baselines. Delta: no published census of baseline-unsupported GT volume for ISLES'24, and no measurement of trained-model behavior against it.",
+      "existing_assets": "All 023-arc staging and census machinery; Tmax>6s and CBF-threshold masks already computed for 99 cases in prior takes; lesion masks payload-verified; territory atlas public with deformable registration tooling (ANTs); model-side arm can reuse the c01 nnU-Net fold.",
+      "smallest_decisive_experiment": "Pure geometry pass over the 149 training cases (no model, no training): compute per-case out-of-support GT volume and component census; report the distribution, the affected-case fraction, and the implied per-metric floor (Dice/AVD/lesion-F1/ALCD are all computable as if a model predicted the supported subset perfectly). One week. Model-side confirmation (predicted masks from one nnU-Net fold: out-of-support predicted mass ~ 0) adds days if c01's fold exists.",
+      "standing_confounds_addressed": "Scanner/vendor/protocol/site: irrelevant to the geometry census (per-case, within-case). Registration: addressed by distance + territory disjointness + per-flagged-case visual QC. Label leakage: none — labels are the object. Prevalence/referral: the census is cohort-specific (all-LVO thrombectomy); stated as scope. Not ruled out: whether out-of-support lesions are procedural versus spontaneous new emboli versus missed baseline hypoperfusion below Tmax threshold — the census stratifies components by sub-threshold Tmax (e.g., 4-6s) occupancy to separate 'below-threshold support' from 'no support', but cause attribution beyond that is not claimed.",
+      "alternative_explanations": "(1) Registration failure (addressed above). (2) The footprint definition is too narrow — mild hypoperfusion below Tmax>6s supported the lesion after all; addressed by reporting support at multiple Tmax thresholds down to 2s, making 'no support' a graded, checkable statement. (3) Hemorrhagic transformation regions inside the GT mask: these lie within the treated territory and do not create distant components. (4) Duplicate lesion-mask row (payload-known): resolved case-by-case per the standing exclusion policy.",
+      "anticipated_negative": "Decisive in both directions: a near-zero out-of-support fraction certifies the benchmark as baseline-supported (a citable validity result for ISLES'24); a substantial fraction quantifies an irreducible error floor and reframes the low leaderboard Dice.",
+      "remaining_legwork": "Atlas registration pipeline (2-3 days), component census script (2-3 days), threshold-graded support analysis (2 days), flagged-case QC (1-2 days). First decision in ~1 week of work.",
+      "annotation_burden": "None. Visual QC of flagged registered pairs is inspection, not labeling.",
+      "scores": {
+        "clarity": {
+          "value": 5,
+          "why": "The question, measure, and both possible answers are stated in one breath; every term is operationalized."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Component-topology restriction rules out the boundary-displacement alternative that killed 030/034; residual cause-attribution ambiguity is explicitly out of scope."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Tells clinicians and challenge organizers how much of 'prediction error' is unpredictability — directly reframes how ISLES'24 scores, including the 28.5 winning Dice, should be read."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A benchmark-integrity number every ISLES'24 participant would want; the anomalously low leaderboard ceiling makes it timely."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Masks and maps staged and verified; threshold machinery exists; atlas public; model arm optional and reusable."
+        },
+        "feasibility": {
+          "value": 5,
+          "why": "Keystone INSPECTED_TRUE; the primary result requires no model training at all — scripted geometry over already-staged data; first result in days."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public data, proven staging; one corrupt member and one duplicate mask row already governed by standing policy."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "The implied floors are computed in the challenge's own four official metrics; no custom margins needed for the census itself."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A zero result is a publishable validity certification of the benchmark, not a dead end."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "No such census found for ISLES'24 in limited search; capped pending audit."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Obvious in hindsight; cheap; the kind of finding another group could publish first from the same public data."
+        }
+      },
+      "priority_score": 4.05,
+      "unverified_claims": [
+        "ENT/procedural infarct rates (~5-9%) in thrombectomy cohorts — memory estimate pending citation",
+        "That ISLES'24 GT masks were not manually pruned of new-territory lesions by the organizers (the data paper's GT-pipeline details are unread; if organizers excluded them, the census measures that editorial choice instead — still a finding, but a different sentence)",
+        "Atlas deformable registration quality on stroke-deformed brains (mitigated by the distance criterion)"
+      ],
+      "plain_pitch": "During the clot-removal procedure that these stroke patients all received, small clot fragments sometimes drift into fresh brain territory and cause new strokes that only show up on the follow-up scan. The challenge's 'correct answer' masks are drawn on that follow-up scan, so they can contain damage that no baseline image could possibly predict. We will measure exactly how much of the benchmark's correct answer lies outside any tissue that was short of blood at scan time, and confirm that models never predict anything there. Whichever way it comes out, it is a number the whole challenge community needs: either the benchmark is certified fair, or part of every model's 'error' is actually the future, and the surprisingly low winning scores get a partial explanation.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-008-c03",
+      "search_mode": "B",
+      "entry_point": 2,
+      "entry_point_basis": "Well-performing final-infarct models with no account of their per-voxel triage rule. Measurement that would detect the unexpected signal: depth-stratified predicted-fate curves at matched perfusion values within patients. Artifact it would be confused with: gray/white tissue-class composition and partial-volume effects, which co-vary with depth — handled by tissue-class conditioning and surface/ventricle-margin erosion.",
+      "title": "Written off by depth: the internal borderzone in the model's triage",
+      "question": "At matched perfusion values, is the model using depth beneath the pial surface — where leptomeningeal collaterals cannot reach — to predict death for deep voxels while sparing superficial ones?",
+      "rung": "Target rung 2 (depth organizes predicted fate at matched perfusion and tissue class, within patients). Rung 3 would need input edits that vary apparent depth at fixed perfusion — geometrically contrived; honestly out of reach, and stated as such.",
+      "deliverable_sentence": "The model is using distance from the brain's surface — a proxy for how reachable tissue is by surface collateral vessels — to write off deep white matter and basal ganglia at perfusion values where it predicts cortical survival.",
+      "X_measurement": "Per-voxel Euclidean distance from the brain-mask surface (scipy/SimpleITK distance transform on the NCCT brain mask), plus tissue class (gray/deep-gray/white) from the registered arterial/anatomical atlas (Liu et al. 2023 atlas hierarchy includes lenticulostriate territory) or HU-based classing. Computable today on an unseen scan by script: yes.",
+      "suspected_signal": "Leptomeningeal collaterals perfuse the cortex from the surface inward; deep white matter and lenticulostriate territory are end-arterial with no collateral back-door — the radiologist's 'internal borderzone'. At identical Tmax/CBF snapshots, deep tissue has objectively worse rescue prospects, and a well-trained model should have discovered this. The question is whether it did — which is mechanism discovery, not confound elimination: either answer tells physicians what the model's triage rule is.",
+      "design_template": "conditional-observational",
+      "design_template_justification": "Shares the conditional-observational grammar with c05; justification for both surviving: c03 is a voxel-level within-patient contrast of model output against a static geometric coordinate, c05 is a patient-level shape statistic predicting growth — different unit of analysis, different X family, different failure mode probed (triage rule vs growth gauge).",
+      "use_vs_association": "Within-patient matched-perfusion contrast: fate difference between depth strata at the same (CBF, Tmax, tissue class) cells, patient-cluster bootstrapped. Patient-level covariates (site, severity, protocol) cancel; 'the model uses depth' is claimed only as conditional organization of its own outputs, rung 2, with the limitation stated that a perfusion-matched depth-varying input edit (rung 3) is not credibly constructible.",
+      "keystone_prerequisite": "Perfusion maps and NCCT on a common grid with enough deep-and-superficial co-occurrence of matched perfusion values within single patients — i.e., the (CBF, Tmax, tissue, depth) cells needed for the contrast are actually populated in real deficits.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Common grid and map existence: archive manifest quotes in evidence/decisions.md 2026-08-25 (as c01). Cell occupancy is supported by probe-023's completed stratification machinery: take-13 census analyzed 99/100 cases with per-patient CBF percentile bands within the eroded Tmax>6s deficit meeting frozen coverage floors (decisions.md 2026-08-30) — demonstrating that within-deficit, within-patient perfusion strata are populated at usable size. Depth co-occupancy within those strata is the residual (below).",
+      "keystone_residual_assumption": "That matched-perfusion cells span the depth axis within patients often enough (deficits confined to one depth stratum contribute nothing). This is checkable label-blind in a half-day occupancy audit before any model work, and that audit is the first gate of the smallest experiment.",
+      "rung_reached": "Rung 2 if the conditional contrast is populated and non-flat; rung 1 otherwise.",
+      "dies_like_prior": "Nearest kill: idea-038 ('does the model price the last mile of blood delivery?', IDENTIFIABILITY_FAILURE). The family resemblance is real — both concern delivery geometry. The difference: 038-class designs compared across patients where delivery geometry co-varies with occlusion site, protocol, and population; here every contrast is within-patient at matched perfusion and tissue class, and depth is a per-voxel geometric coordinate computed identically for every case, not a per-patient anatomical classification. Also adjacent: idea-032 (spare route, killed) classified anatomy variants — nothing here classifies anatomy.",
+      "closest_prior_work": "Clinical literature establishes differential vulnerability and the internal borderzone concept (textbook physiology; deep perforator territories infarct at lesser insults). ML literature on final-infarct prediction (e.g., Nielsen et al. 2018, Stroke, deep learning vs thresholds — identifier from memory, unverified) does not decompose model triage by geometric depth. Delta: no published depth-stratified behavioral audit of any stroke final-infarct model.",
+      "existing_assets": "023-arc staging + within-deficit stratification code (percentile bands, erosion, vessel exclusion) directly reusable; c01's trained fold reusable as the model under test (full-modality variant trainable identically); atlas public.",
+      "smallest_decisive_experiment": "Gate 0 (half-day, label-blind, no model): occupancy audit of (CBF-band x Tmax-band x tissue x depth-stratum) cells across 149 cases. If populated: run one trained fold (reuse/extend c01), compute within-patient predicted-fate differences between deep and superficial members of each matched cell, aggregate with patient-cluster bootstrap. First decision ~1 week after c01's fold exists. Secondary (labels): does ground-truth fate show the same depth organization — i.e., is the model's rule physiologically right?",
+      "standing_confounds_addressed": "Scanner/vendor/protocol/site/habitus/prevalence: cancelled within patient. Tissue composition: conditioned explicitly. Partial volume at surface and ventricle margins: eroded margins on both ends of the depth axis. Label leakage: primary readout is model behavior, label-free. Not ruled out: depth-dependent perfusion-map reliability (deconvolution SNR may vary with depth) — audited by comparing map noise statistics across depth strata before interpreting; and depth correlates with distance-to-occlusion, which is a genuine physiological cousin (both are 'delivery cost') — the claim names depth-as-collateral-reachability but cannot fully separate it from arterial path length; stated openly.",
+      "alternative_explanations": "(1) Depth-dependent map artifacts (audited, above). (2) Atlas/tissue misclassification in deformed brains (HU-based fallback classing; erosion). (3) The model may key on basal-ganglia-specific appearance rather than depth per se — testable by comparing deep white matter vs deep gray at matched depth: if the effect is structure-specific rather than depth-graded, the sentence changes and says so. (4) Training-set label statistics (deep tissue more often infarcted in GT) could teach the rule without the model 'reading' geometry from this image — this is what 'using depth' means behaviorally; the claim is about the rule, not its training origin.",
+      "anticipated_negative": "Sensitivity-limited: flat depth curves at matched perfusion bound the model's depth use below the occupancy-limited detectable size; informative but not decisive against small effects.",
+      "remaining_legwork": "Occupancy audit (half-day); depth/tissue module (2-3 days); model fold (shared with c01); analysis harness (3-4 days). First decision ~1-2 weeks given c01 proceeds; ~3 weeks standalone.",
+      "annotation_burden": "None.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "Precise conditional question; 'depth as collateral reachability' vs 'arterial path length' ambiguity honestly costs a point."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Within-patient matched-cell design excludes patient-level factors; depth-correlated map reliability and path-length cousinhood remain named residuals."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "If models triage by depth, clinicians should know it (it matches physiology but changes how per-voxel outputs are trusted in deep vs cortical tissue); if not, a physiologically expected rule is missing — actionable either way."
+        },
+        "interest": {
+          "value": 3,
+          "why": "Solid mechanism-discovery question; less surprising than c01/c02 because the physiological prior is strong."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Stratification machinery from 023 is nearly the whole pipeline; model shared with c01."
+        },
+        "feasibility": {
+          "value": 4,
+          "why": "Keystone INSPECTED_TRUE; gate-0 occupancy audit costs half a day and kills cheaply if cells are empty."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Same staged public data as siblings."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Custom conditional readout requiring pre-registered bins; no external benchmark applies."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Sensitivity-limited but occupancy-bounded — the audit states in advance what effect size was detectable."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "No depth-stratified model audit found; limited search."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Worth having but less time-critical than c01/c02."
+        }
+      },
+      "priority_score": 3.3,
+      "unverified_claims": [
+        "Nielsen et al. 2018 Stroke citation (memory)",
+        "Within-patient depth-spanning occupancy of matched perfusion cells (gate 0 checks this before any model work)",
+        "Depth-uniformity of icobrain map reliability"
+      ],
+      "plain_pitch": "The brain's surface can borrow blood from neighboring arteries through a network of surface back-roads, but tissue deep inside the brain has a single supply line and no back-up. Radiologists know this, and deep tissue really does die more easily during a stroke. We ask whether the challenge-winning kind of stroke-outcome model has taught itself this rule: when two brain regions look equally starved of blood on the scan, does the model give up on the deep one and hold out hope for the one near the surface? Either answer helps a physician: it reveals the model's triage rule in terms of an anatomical concept they already use.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-008-c04",
+      "search_mode": "C",
+      "entry_point": 2,
+      "entry_point_basis": "Well-performing perfusion-consuming models. Measurement that would detect the unexpected signal: the filling-direction index — alignment between the Tmax spatial gradient and the depth gradient inside the deficit. Artifact it would be confused with: deconvolution and AIF-delay artifacts imposing spatial structure on Tmax, and quantized Tmax values making gradients blocky — both named, both auditable label-blind.",
+      "title": "The blood arrives backwards: filling direction as the model's collateral gauge",
+      "question": "Is the model using the direction the contrast front travels through the deficit — surface-inward retrograde filling versus center-outward antegrade filling — as its gauge of collateral pressure when it decides how much penumbra survives?",
+      "rung": "Target rung 2 (model salvage predictions organized by filling direction at matched deficit size/severity). The named successor for rung 3 is a synthetic arrival-order reversal (counterfactual family, deferred by portfolio-homogenization discipline).",
+      "deliverable_sentence": "The model is using the direction of bolus arrival written in the Tmax map — delay increasing from the brain's surface inward, the image of retrograde collateral filling — as its collateral pressure gauge when it forecasts how much of the threatened tissue will survive.",
+      "X_measurement": "Filling-direction index (FDI): within the eroded Tmax>6s deficit (vessel voxels excluded via the in-house p98-CBV rule), compute the smoothed spatial gradient of Tmax and the gradient of depth-from-surface; FDI = mean cosine alignment of the two fields. Positive FDI = delay grows inward (surface fills first: retrograde pattern); negative = delay grows outward (antegrade residual trickle through/around the clot). Construct anchored to multiphase-CTA collateral assessment, where retrograde pial filling defines collateral status (Menon et al., Radiology 2015, DOI 10.1148/radiol.15142256; Menon 0-5 collateral score). Computable today on an unseen scan by script: yes.",
+      "suspected_signal": "A specific physical quantity: the propagation direction of the contrast arrival front, determined by which vascular route delivers blood to the occluded territory — antegrade (through/past the clot) versus retrograde (backwards through surface collateral networks). Radiologists read exactly this pattern from multiphase CTA to grade collaterals; the Tmax field is a denser encoding of the same arrival-time physics, and a model consuming Tmax has the direction available at every voxel.",
+      "design_template": "other:vector-field-alignment",
+      "design_template_justification": "The X is not a scalar covariate but the geometric alignment of two vector fields, and the readout includes a spatial-structure prediction (the model's predicted-growth zone should sit at the far end of the filling direction — last-fed tissue dies first). No listed template captures a field-direction audit; conditional-observational is the nearest but loses the directional-prediction content.",
+      "use_vs_association": "Within-patient, same-acquisition signed index; association with model-predicted salvage at matched deficit volume and severity is rung 1-2; the spatial arm sharpens it — X must predict WHERE the model places growth (directional structure), not merely how much, which generic severity correlates cannot mimic. Rung-3 use requires the deferred arrival-order-reversal counterfactual.",
+      "keystone_prerequisite": "The released Tmax maps carry usable spatial gradient structure inside deficits — sufficient value resolution and smoothness that a per-voxel gradient direction is signal, not quantization noise.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Map existence and grid are payload-verified (manifest, decisions.md 2026-08-25), but Tmax value quantization (often 0.5s steps in vendor maps) and icobrain smoothing behavior have not been inspected; if Tmax is coarsely quantized, gradients are blocky and the FDI needs heavier smoothing or fails. This is the honest Mode C keystone, checkable label-blind in one afternoon on already-staged cases.",
+      "rung_reached": "Rung 1-2 if measurable; the afternoon quantization audit is the first gate.",
+      "dies_like_prior": "Nearest kill: idea-032 (the arterial network's spare route, IDENTIFIABILITY_FAILURE) — collateral anatomy classification across patients. Difference: no anatomy is classified; FDI is a within-patient signed field statistic computed from one acquisition by one formula for every case. Nearest live siblings: backlog isles24-scout-001-c01 (collateral clock — scalar timing volumes) and idea-042 (delay vs dispersion — temporal curve shape); this candidate is about spatial direction of the arrival field, which neither touches.",
+      "closest_prior_work": "Menon et al. 2015 (Radiology, DOI 10.1148/radiol.15142256) established retrograde pial filling as the readable collateral signature on multiphase CTA; automated multiphase-CTA collateral scoring exists (deep-learning graders). Perfusion-gradient literature exists for Tmax-based severity but as scalar summaries. Delta: no work computes an intra-deficit arrival-direction field and asks whether a trained final-infarct model's spatial predictions are organized by it.",
+      "existing_assets": "Staged dataset; deficit/erosion/vessel-exclusion machinery (023); depth-field code shared with c03; full-modality nnU-Net trainable with the same recipe infrastructure as c01.",
+      "smallest_decisive_experiment": "Gate 0 (one afternoon, label-blind): Tmax quantization and gradient-coherence audit on staged cases — distribution of distinct Tmax values, gradient magnitude vs smoothing scale, FDI stability under resampling. If measurable: compute FDI for 149 cases, train/reuse one full-modality fold, test (a) FDI vs model-predicted salvage fraction at matched deficit volume (patient-cluster bootstrap), and (b) the directional arm: alignment between the model's predicted-growth centroid displacement and the local filling direction. First decision ~2-3 weeks.",
+      "standing_confounds_addressed": "Scanner/vendor/protocol/site: within-patient index; the across-patient FDI-vs-salvage comparison is exposed to site/protocol mix and is reported stratified where metadata allows. Positioning: depth field is patient-intrinsic. Label leakage: primary readouts are model-behavior, label-free. Not ruled out: AIF selection and deconvolution implementation impose spatial delay structure of their own — partially auditable (uniform icobrain chain; contralateral hemisphere provides a null field where no collateral physics applies: FDI computed in the mirrored healthy region should be ~0, an internal negative control), but not fully excludable at rung 2.",
+      "alternative_explanations": "(1) Deconvolution/AIF artifacts (contralateral null-field control, above). (2) Venous contamination at the surface pulling Tmax down superficially — vessel exclusion plus sensitivity analysis excluding the outermost cortical ribbon. (3) FDI may proxy deficit depth-composition (deep deficits fill differently) — condition on deficit centroid depth and tissue mix. (4) The model may use collateral-correlated intensity features (e.g., CTA vessel conspicuity) rather than the arrival direction itself — rung-2 wording claims the gauge, not the unique channel; stated openly.",
+      "anticipated_negative": "Sensitivity-limited: quantization bounds the detectable directional signal; the gate-0 audit converts this into a stated sensitivity floor before any model work, so a null is bounded rather than empty.",
+      "cross_domain": {
+        "borrowed_construct": "Front propagation in porous/branching media (hydrodynamics): the arrival-time field of an invading fluid encodes the geometry of its supply routes; flow direction is normal to arrival-time isochrones.",
+        "implied_measurement": "Treat Tmax as an arrival-time field and read supply direction from its gradient — the FDI.",
+        "if_analogy_dropped": "FDI degrades to a descriptive Tmax asymmetry statistic: still computable, still testable against model behavior, but the collateral-pressure interpretation and the sign prediction (surface-inward = retrograde = better-protected penumbra) lose their physical warrant."
+      },
+      "remaining_legwork": "Gate-0 audit (one afternoon on staged data); FDI module (2-3 days); full-modality fold (1-2 GPU-days); directional analysis (1 week). First decision ~2-3 weeks.",
+      "annotation_burden": "None.",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 4,
+          "why": "A specific physical quantity (arrival-front direction) with a defined measurement (Tmax-gradient/depth-gradient alignment) and a radiologist-recognized referent (retrograde pial filling); short of 5 because isolating it from deconvolution-imposed structure is designed but not proven."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "Within-patient signed index, contralateral null-field control, and a directional spatial prediction that severity scalars cannot mimic; deconvolution artifacts remain the live alternative at rung 2."
+        },
+        "interest": {
+          "value": 4,
+          "why": "'The model can see which way the blood is coming in' is a genuinely new, physician-legible reading of a perfusion map; connects CTP models to the multiphase-CTA collateral literature."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Collateral status drives treatment decisions; a model shown to read filling direction earns (or forfeits) trust on collateral grounds clinicians can interrogate."
+        },
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question with a signed, defined index; the retrograde/antegrade dichotomy simplifies a continuum."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Informational (Mode C, outside priority): capped at 3 by NOT_INSPECTED keystone; the afternoon audit resolves it cheaply either way."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Informational (Mode C, outside priority): limited search found no intra-deficit arrival-direction model audit."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Informational: sensitivity-limited but pre-bounded by the gate-0 audit."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Informational: deficit machinery exists; FDI and directional analysis are new code."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Informational: same staged public data."
+        },
+        "evaluation_readiness": {
+          "value": 2,
+          "why": "Informational: fully custom readout; margins must be invented and pre-registered."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Informational: distinctive but not time-critical."
+        }
+      },
+      "priority_score": 3.75,
+      "priority_note": "Mode C weighting per rubric: 0.30 mechanism_clarity + 0.25 identifiability + 0.20 interest + 0.15 medical_relevance + 0.10 clarity = 3.75. Feasibility and novelty_confidence reported outside the score per Mode C rules.",
+      "unverified_claims": [
+        "Tmax value quantization/smoothness in the released icobrain maps (the keystone; gate-0 audit)",
+        "That 'last-fed tissue dies first' is the correct directional prior for the spatial arm (physiological plausibility argued, not sourced)",
+        "Automated multiphase-CTA collateral-scoring literature details (seen in search results, not read)"
+      ],
+      "plain_pitch": "When a clot blocks a brain artery, blood can sometimes sneak in backwards through detour vessels that run over the brain's surface — and on a timing map of the scan, you can see which direction the blood actually arrived from, because tissue fed by detours fills surface-first, in reverse. Radiologists already grade these detours by eye from a related scan type and use the grade to guide treatment. We ask whether a stroke-outcome model, given the timing map, is reading that direction of arrival — effectively judging the quality of the detour supply — when it decides how much threatened tissue will survive. This is a speculative, mechanism-first idea: the first step is simply to check whether the released maps are sharp enough for the direction to be measurable at all.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-008-c05",
+      "search_mode": "C",
+      "entry_point": 2,
+      "entry_point_basis": "Well-performing models predicting growth beyond the core. Measurement that would detect the unexpected signal: multiscale roughness (perimeter-area/surface-volume scaling) of the Tmax>6s isocontour at matched deficit volume, against model-predicted growth. Artifact it would be confused with: map smoothing/resolution and multi-embolic fragmentation inflating apparent roughness — both named and controlled.",
+      "title": "The rough edge grows: boundary geometry as the model's stability gauge",
+      "question": "Is the model using the geometric roughness of the hypoperfusion boundary — the fingered edge of an unstable supply front — as its gauge of which deficits will grow into their penumbra?",
+      "rung": "Target rung 1-2 (honest): roughness-organized model growth predictions at matched deficit volume. Rung 3 would need boundary-reshaping input edits (counterfactual family, deferred).",
+      "deliverable_sentence": "The model is using the roughness of the hypoperfusion deficit's boundary — smooth edges meaning pressure-supported equilibrium, fingered edges meaning marginal unstable supply — as a collateral-stability gauge when it forecasts infarct growth.",
+      "X_measurement": "Multiscale boundary roughness of the Tmax>6s isocontour: surface-area-to-volume scaling exponent across smoothing scales (box-counting / perimeter-area method), computed per case on the largest connected deficit component after erosion and vessel exclusion; matched-volume analysis so roughness is not a size surrogate. Standard image-analysis code (scikit-image/ITK); no annotator. Computable today on an unseen scan: yes.",
+      "suspected_signal": "The deficit boundary is the standing front where collateral perfusion pressure balances the occlusion's deficit. In interface physics, a front supported by ample, evenly distributed driving pressure relaxes smooth; a front at marginal supply develops fingers along local weaknesses (Saffman-Taylor instability as the archetype). A fingered Tmax boundary would be the geometric signature of collateral supply running at its margin — tissue about to lose the standoff — and a growth-predicting model has the geometry available.",
+      "design_template": "conditional-observational",
+      "design_template_justification": "Second use in this set alongside c03 — justified because the unit of analysis (patient-level shape statistic vs c03's within-patient voxel contrast), the X family (boundary geometry vs geometric coordinate), and the probed failure mode (growth gauge vs triage rule) all differ; the shared grammar is conditioning on matched severity, which any honest observational design here requires.",
+      "use_vs_association": "Matched-volume, matched-severity association of roughness with model-predicted growth fraction is rung 1; the analogy supplies a falsifiable sign and locality prediction (growth should occur preferentially at the fingered boundary segments, not uniformly) — a spatial claim generic severity correlation cannot mimic. Rung-3 use requires boundary-reshaping edits, deferred.",
+      "keystone_prerequisite": "Deficit-boundary roughness is measurable above the smoothing/resolution floor of the released Tmax maps — i.e., between-patient roughness variance exceeds what map processing alone imposes.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Maps exist on a common grid (payload-verified, decisions.md 2026-08-25), but icobrain's smoothing kernel and the effective resolution of the Tmax field have not been inspected; if processing dominates boundary shape, roughness measures the pipeline, not the physiology. Honest Mode C keystone; checkable label-blind in ~2 days (roughness distribution vs smoothing-scale curves, plus contralateral-hemisphere pseudo-boundaries as a processing-noise floor).",
+      "rung_reached": "Rung 1 if measurable; the measurability audit is the first gate.",
+      "dies_like_prior": "Nearest kill: idea-020 (a spreading front inside the perfusion deficit, IDENTIFIABILITY_FAILURE) — it inferred dynamics from a single snapshot. This candidate deliberately claims only static geometry as a gauge (rung 1-2) and ties direction to a named physical instability rather than inferring motion; if the critic finds even the static claim unidentifiable, the kill is cheap (two gates, ~1 week). Also adjacent: isles24-scout-005-c05 (sulci pin the predicted edge, backlog) concerns anatomical pinning of the predicted boundary, not supply-front stability.",
+      "closest_prior_work": "Perfusion-lesion shape features appear in radiomics outcome papers as anonymous texture covariates; the interface-stability interpretation and the matched-volume, boundary-local growth test are absent. Saffman-Taylor/kinetic-roughening literature (physics) supplies the construct, not the application. Delta: no work tests whether a final-infarct model's growth forecast is organized by boundary roughness, nor whether growth localizes to rough segments.",
+      "existing_assets": "Staged dataset; deficit machinery (023); GT lesion masks for the secondary (does growth actually localize to rough segments — a label-using exploratory arm); model fold shared with c01/c04.",
+      "smallest_decisive_experiment": "Gate 0 (~2 days, label-blind): roughness measurability audit — per-case multiscale roughness curves, contralateral pseudo-boundary noise floor, variance decomposition. If measurable: matched-volume association of roughness with model-predicted growth fraction (one fold, reusable), plus the locality arm (predicted growth adjacency to rough vs smooth boundary segments within patients). First decision ~2 weeks.",
+      "standing_confounds_addressed": "Scanner/vendor/protocol/site: single processing chain (icobrain) is uniform across the cohort — a scope statement, not a control; within-patient locality arm cancels patient-level factors. Fragmentation: analysis restricted to the largest connected component with component count as covariate. Volume-roughness coupling: matched-volume design. Label leakage: primary arms label-free. Not ruled out: occlusion-site anatomy shapes both boundary geometry and growth risk (an MCA-M1 deficit's boundary crosses different tissue than an M2's) — occlusion-site stratification from the released LVO masks (payload: LVO masks exist per Zenodo description) partially addresses; residual anatomy coupling stated.",
+      "alternative_explanations": "(1) Roughness proxies deficit anatomy/occlusion site (stratified, above). (2) Processing noise (gate-0 floor). (3) Roughness proxies severity depth (condition on mean Tmax within deficit). (4) The appeal-of-the-sentence check the style rule demands: 'fingered fronts' is a seductive image, and per the style rule this is flagged — the physics analogy is load-bearing for the sign prediction and the candidate is scored with identifiability 2 accordingly.",
+      "anticipated_negative": "Sensitivity-limited: a null bounds roughness use below the gate-0-stated floor; if gate 0 itself fails (processing dominates), the candidate dies for the cost of two days and leaves a reusable map-resolution fact for the whole portfolio.",
+      "cross_domain": {
+        "borrowed_construct": "Kinetic roughening / viscous-fingering instability of driven interfaces (statistical physics): interface morphology encodes the stability margin of the driving-force balance.",
+        "implied_measurement": "Multiscale roughness scaling of the deficit isocontour as a stability readout.",
+        "if_analogy_dropped": "Roughness becomes an uninterpreted shape covariate — the association remains testable but there is no predicted sign, no locality prediction, and no physician-legible sentence; the analogy is what elevates this above radiomics fishing, and the card says so."
+      },
+      "remaining_legwork": "Gate-0 audit (2 days); roughness module (2-3 days); model fold shared; locality analysis (1 week). First decision ~2 weeks.",
+      "annotation_burden": "None.",
+      "scores": {
+        "mechanism_clarity": {
+          "value": 4,
+          "why": "A named physical construct (interface stability under marginal driving pressure) with a defined measurement (multiscale roughness scaling) and a sign prediction; short of 5 because the chain from collateral pressure to Tmax-contour morphology has unmodeled steps (tissue heterogeneity also fingers fronts)."
+        },
+        "identifiability": {
+          "value": 2,
+          "why": "Matched-volume and locality arms help, but boundary geometry is entangled with occlusion-site anatomy and processing, and the candidate's appeal partly rests on its imagery — flagged per the style rule."
+        },
+        "interest": {
+          "value": 4,
+          "why": "Imports a falsifiable physics construct into stroke imaging with a concrete locality prediction; surprising if true, cheap to kill if not."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "A validated boundary-stability gauge would be a new bedside-readable collateral proxy, but the path from rung-1 association to clinical meaning is longer than for c01-c03."
+        },
+        "clarity": {
+          "value": 4,
+          "why": "Precise measure and matched-volume design; 'roughness' admits several estimators, pinned to one before scoring."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Informational (Mode C, outside priority): capped by NOT_INSPECTED; two-day gate resolves."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Informational: radiomics adjacency makes novelty genuinely uncertain; audit must search shape-feature outcome literature specifically."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Informational: bounded null plus a reusable map-resolution fact."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Informational: machinery partially exists; roughness estimation is new but standard."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Informational: same staged data."
+        },
+        "evaluation_readiness": {
+          "value": 2,
+          "why": "Informational: fully custom readout."
+        },
+        "regret": {
+          "value": 2,
+          "why": "Informational: the least regret-prone of the five if skipped."
+        }
+      },
+      "priority_score": 3.35,
+      "priority_note": "Mode C weighting per rubric: 0.30x4 + 0.25x2 + 0.20x4 + 0.15x3 + 0.10x4 = 3.35. Feasibility and novelty_confidence reported outside the score per Mode C rules.",
+      "unverified_claims": [
+        "icobrain Tmax smoothing behavior (gate-0 audit)",
+        "That LVO occlusion-site masks support the planned stratification granularity (Zenodo description confirms masks exist; contents unread)",
+        "Absence of a prior radiomics paper testing precisely perimeter-area scaling of Tmax contours against model-predicted growth (novelty risk flagged)"
+      ],
+      "plain_pitch": "When one fluid pushes into another with barely enough pressure, the front between them doesn't stay smooth — it breaks into fingers, a pattern physicists know well from oil and water. During a stroke, detour blood supply holds a front against the spreading shortage, and we suspect a smooth front means the detours are holding comfortably while a fingered, ragged front means they are at their limit. We ask whether stroke-outcome models are reading that raggedness when they forecast which brains get worse — and specifically whether the worsening they predict happens along the ragged stretches of the front. The idea is speculative, and step one is just to check the released maps are sharp enough to measure raggedness at all — if not, we stop after two days.",
+      "track": "baseline",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-008-c06",
+      "track": "wide",
+      "title": "The forecaster's hedge: the model's volume is a bet, not a belief",
+      "question": "Is the model using a Dice-optimal hedging policy — committing less lesion volume than its own probabilistic evidence expects, and more so the more uncertain the case — so that challenge-model volumes are bets shaped by the scoring rule rather than calibrated beliefs?",
+      "cross_domain": {
+        "borrowed_construct": "Hedging under improper scoring rules (meteorological forecast verification: a forecaster scored by the wrong rule reports a strategically shifted forecast, not their true belief) combined with the newsvendor critical fractile (operations research: the quantity a rational agent commits reveals the cost ratio its objective imposes).",
+        "implied_measurement": "Compare, per case, the model's committed volume against two quantities computed from its own soft output: its expected volume under calibration (the belief) and the zero-parameter expected-Dice-optimal volume (the bet the scoring rule dictates). Hedging = the committed volume tracks the bet, not the belief, with the gap growing in case uncertainty.",
+        "if_analogy_dropped": "The study degrades to a standard calibration/volume-bias audit — still runnable, but it loses the zero-parameter quantitative prediction (committed volume should equal the expected-Dice-optimal volume) that turns 'miscalibrated' into 'hedging as the objective dictates'."
+      },
+      "deliverable_sentence": "The model is using the scoring rule, not only the scan: its committed infarct volume is the Dice-optimal bet, shrinking below its own expected volume as case uncertainty grows — so segmentation-derived volumes systematically understate the lesion in exactly the uncertain patients where a volume matters most.",
+      "X_measurement": "From the model's own soft output p (probability export is standard in nnU-Net-family pipelines): V_mass = sum(p) (belief volume under calibration); V_commit = |{p > 0.5}| (the committed volume); V_opt = volume of the expected-Dice-maximizing binary prediction under the independent-voxel reading of p (a superlevel set; computable exactly per case by a threshold scan over sorted p — O(V log V), standard plug-in-rule computation). Case uncertainty U twofold: (a) mean binary entropy of p over the perfusion-deficit region (model-side), and (b) an image-side proxy computable with existing in-house machinery — mismatch diffuseness, (Tmax>6s volume − CBF<30% volume) and the fraction of deficit voxels in the boundary band. All scriptable today, no annotator.",
+      "use_vs_association": "A controlled twin ablation separates 'the objective causes the hedge' from every data-side association: two networks identical in architecture, data, folds, seeds and schedule, differing ONLY in loss (cross-entropy twin vs soft-Dice-compound twin). Hedging is claimed only if the uncertainty-dependent committed-volume deficit appears in the Dice twin and not the CE twin, and if V_commit tracks the zero-parameter V_opt prediction rather than V_mass. Generic miscalibration, label noise, or cohort quirks load on both twins equally and cancel.",
+      "design_template": "other:objective-ablation",
+      "design_template_justification": "The manipulated variable is the training objective — a single-factor, experimenter-controlled, training-time intervention. This is not cross-model-disagreement (the two models are not independent artifacts to be mined for disagreement; they are a matched pair constructed to differ in one factor) and no listed input-side grammar applies. First use of this grammar in the portfolio.",
+      "keystone_prerequisite": "Lesion ground truth and model inputs coexist per case on a common grid so that twins can be trained and their per-case soft outputs scored, and the public cohort is locally trainable at small scale.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Archive member manifest (git show origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv, re-read 2026-09-02): 'train/derivatives/sub-stroke0001/ses-02/sub-stroke0001_ses-02_space-ncct_lesion-msk.nii.gz' alongside 'train/raw_data/sub-stroke0001/ses-01/sub-stroke0001_ses-01_ncct.nii.gz' and the four space-ncct perfusion maps; cohort-wide counts 149 lesion-bearing cases with maps and NCCT (probe-023 processed 99-100 cases end-to-end on this grid, evidence/decisions.md 2026-08-30). Local trainability of this cohort at winner-recipe scale is established by arXiv 2505.18424; small-scale twins are strictly lighter.",
+      "keystone_residual_assumption": "Low-resolution twins must learn enough signal for volume behavior to be meaningful (the winner's hidden-test Dice of 28.5 shows the task is weakly but genuinely learnable). Gate: each twin must beat both an all-background predictor and a copy-the-Tmax>6s-mask baseline on held-out cases, or the audit is declared vacuous and stops.",
+      "dies_like_prior": "No kill-table match: all 12 IDENTIFIABILITY_FAILURE kills involved patient-, acquisition-, or population-side covariates that could not be separated; here the manipulated variable is the training objective, which the experimenter controls — the twin design is randomization-equivalent by construction. No DATA_ACCESS exposure (public data, self-trained models). Distinct from this cycle's c02 (label-geometry audit): c02 audits what the labels contain; this audits the decision rule the objective installs.",
+      "closest_prior_work": "Bertels et al. proved theoretically and on three tasks that soft-Dice-optimized maps carry an uncertainty-dependent volume bias while cross-entropy delivers unbiased volumes (Medical Image Analysis 2021, PMID 33075643 / arXiv 2211.04161), building on their MICCAI 2019 result (Optimization with soft Dice can lead to a volumetric bias). Recent decision-theory work formalizes expected-metric-optimal plug-in rules and the estimation-to-decision gap (arXiv 2604.13262). None of it audits a stroke challenge model as a revealed-preference forecaster on ISLES'24.",
+      "novelty_neighbors": [
+        "Bertels, Robben, Vandermeulen, Suetens — 'Theoretical analysis and experimental validation of volume bias of soft Dice optimized segmentation maps in the context of inherent uncertainty', Medical Image Analysis 2021, PMID 33075643, arXiv 2211.04161 (found by search 2026-09-02)",
+        "Bertels et al. — 'Optimization with soft Dice can lead to a volumetric bias', MICCAI BrainLes 2019 (found by search 2026-09-02, via ResearchGate record 341488358)",
+        "'Rethinking Uncertainty in Segmentation: From Estimation to Decision', arXiv 2604.13262 (2026) — the estimation-to-decision gap and expected-metric-optimal plug-in (RankDice-family) rules (found by search 2026-09-02)"
+      ],
+      "novelty_delta": "Prior work proves the volume bias exists and proposes calibration fixes; nobody has audited a challenge-grade stroke model's committed-vs-belief volume gap as a behavioral policy — testing the zero-parameter expected-Dice-optimal prediction case-by-case — on ISLES'24, the public benchmark whose extreme inherent uncertainty (winning Dice 28.5) is precisely the regime where the theory says the hedge is largest, and whose official AVD metric prices the consequence.",
+      "why_not_done": "BLIND_SPOT: the segmentation community files volume bias under 'calibration nuisance to be fixed', and the forecast-verification community's hedging concept never crossed into medical imaging — so trained segmenters' threshold behavior is tuned, not audited against the model's own stated beliefs. The enabling theory has existed since 2019; the framing is what was missing.",
+      "smallest_decisive_experiment": "Train the CE/soft-Dice twins (compact patch-based 3D U-Net at reduced resolution, ~3-4 h each on a Colab GPU) on ~100 cases with 49 held out. Per held-out case and twin, compute V_mass, V_commit, V_opt, and U. Decisive readout: the interaction — the signed relative committed-volume deficit (V_commit − V_mass)/V_mass regressed on U must have a negative slope in the Dice twin and a ~zero slope in the CE twin (patient-bootstrap CIs), with V_commit agreeing with V_opt in the Dice twin. Label-using secondary in the official metric: per-case AVD of V_commit vs AVD of V_mass — does the belief volume beat the committed volume as a volume biomarker?",
+      "compute_envelope": "Both twin trainings (~3-4 h each), inference, and CPU statistics fit one long Colab GPU session (~8-10 h on A100; two standard sessions on T4 as fallback, one per twin). The cycle's shared winner-recipe fold (c01 substrate) upgrades attribution toward 'the winning family' but is not required for the decision.",
+      "standing_confounds_addressed": "Site/protocol/population/prevalence: irrelevant — the contrast is between twins on identical data, within case. Optimization asymmetry between losses: equalized epochs, schedule, and early-stopping on the same validation split; both twins reported in full. Ground-truth label noise inflating apparent uncertainty: U is computed from model output and image-side proxies, never from labels. Patch-sampling suppression of small lesions: shared identically by both twins; results additionally reported by lesion-size stratum.",
+      "alternative_explanations": "(1) Generic under-confidence in diffuse cases regardless of objective — excluded by the CE twin control. (2) A fixed-threshold artifact rather than learned sharpening — distinguished by the V_opt comparison: the theory predicts the Dice-trained map itself internalizes the bet, so V_commit at 0.5 should already sit near V_opt. (3) The actual winner's compound loss may hedge less than purer soft-Dice — scoped: the claim covers the loss family as trained here, with the winner-recipe fold as a named extension.",
+      "anticipated_negative": "Decisive within the design: no Dice-vs-CE interaction means this loss family does not induce detectable uncertainty-dependent volume hedging at ISLES'24 noise levels — a citable certificate that challenge volumes may be read as beliefs, directly relevant to AVD interpretation.",
+      "annotation_burden": "None. All quantities are computed by script from released data and self-trained models.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question with three named, formula-defined volumes and a signed prediction; loses a point because 'case uncertainty' needs two operationalizations (model-side and image-side)."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "The twin ablation isolates the objective as cause — the cleanest identification in this cycle — and the zero-parameter V_opt prediction separates hedging from generic miscalibration; short of 5 because transfer from the low-res twins to the actual winner is by family, not by identity."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Infarct volume from segmentation is used as a biomarker and endpoint; showing it is a scoring-rule bet that shrinks in uncertain patients changes how such volumes may be reported clinically — and AVD is an official challenge metric."
+        },
+        "interest": {
+          "value": 4,
+          "why": "'The model hedges like a badly scored weather forecaster' is a surprising, checkable reading of a familiar tool, with a quantitative signature rather than a vibe."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Dataset staged and integrity-proven in-house; theory and plug-in algorithms published; but no trained fold exists yet and the twin harness is new code."
+        },
+        "feasibility": {
+          "value": 4,
+          "why": "Keystone INSPECTED_TRUE; self-contained twins at reduced resolution; first decision in days on one Colab GPU."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Public staged data; known corrupt member and duplicate mask row governed by standing exclusion policy."
+        },
+        "evaluation_readiness": {
+          "value": 4,
+          "why": "AVD is an official challenge metric and the volume quantities are standard; only the interaction regression needs pre-registration."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "The twin control makes a null decisive for this loss family at this noise level, and the null is itself a useful calibration certificate."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "The theory neighbors are close and well-identified; no audit of this shape found on any stroke benchmark, but search was limited — capped pending the novelty audit."
+        },
+        "regret": {
+          "value": 3,
+          "why": "The theory community could run this on any dataset; ISLES'24's extreme-uncertainty regime and our staging make it naturally ours, but it is not uniquely time-critical."
+        }
+      },
+      "priority_score": 3.85,
+      "unverified_claims": [
+        "Murphy's hedging formulation (meteorological forecast verification) cited as construct from memory; construct source, not load-bearing evidence",
+        "That the winner's compound Dice+CE loss behaves like purer soft-Dice in volume terms (checked inside the experiment, not assumed)",
+        "Colab session-length sufficiency for both twins in one session (fallback: one session per twin, still within envelope per twin)"
+      ],
+      "plain_pitch": "Weather forecasters who are graded with a badly designed score learn to report strategic forecasts instead of their honest beliefs — a phenomenon meteorology named 'hedging' decades ago. Stroke segmentation models are graded with exactly such a score (Dice), and theory says this quietly teaches them to commit to smaller lesions than their own internal evidence expects, most severely in the most uncertain patients. We train two otherwise-identical models — one graded the suspect way, one graded honestly — and check whether the suspect one's reported lesion volumes shrink below its own expectations exactly as the betting theory predicts. If true, the lesion volumes that stroke AI reports are bets, not beliefs, and should be corrected before anyone treats them as measurements.",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-008-c07",
+      "track": "wide",
+      "title": "Caught mid-swallow: does the model read acquisition luck as collateral biology?",
+      "question": "Is the model using the CTA's snapshot timing — where in the patient's own contrast transit the angiogram happened to be caught — as if it were collateral biology, inheriting the single-phase timing fallacy that multiphase CTA was invented to escape?",
+      "cross_domain": {
+        "borrowed_construct": "The snapshot-timing / rolling-shutter artifact from photography and computational imaging: a single frame of a dynamic scene encodes when it was captured as much as what it depicts, and downstream consumers of the frame inherit that timing as if it were content.",
+        "implied_measurement": "Treat the CTA as one frame of the movie the 4D CTP actually recorded: measure the snap phase (where the CTA sits on the patient's own arterial time-enhancement curve) and sweep it — re-rendering the angiographic channel from real acquired CTP frames at earlier and later phases — to read the model's dose-response to pure timing.",
+        "if_analogy_dropped": "The candidate degrades to 'is the model robust to CTA acquisition variability' — still testable with the same machinery, but the specific prediction (early snap phase mimics poor collaterals, so predictions should inflate as phase moves earlier) loses its organizing physics."
+      },
+      "deliverable_sentence": "The model is using the CTA's acquisition timing — a protocol accident the full 4D perfusion input already determines — as if it were collateral biology, so early-triggered angiograms read as poor collaterals and inflate the predicted infarct.",
+      "X_measurement": "Relative snap phase φ per case: correlate CTA enhancement over the released Circle-of-Willis arterial-mask voxels with each frame of the registered 4D CTP at the same voxels (all three volumes are released co-registered in NCCT space); φ = time offset of the best-matching frame from the patient's arterial peak. The sweep instrument: pseudo-CTAs composited from real acquired CTP frames at chosen offsets around φ, rendering held constant across the sweep. Both scriptable today, no annotator.",
+      "multi_step_causal_story": "Link 1 (checkable, gate 0): the snap phase is measurable — CTA enhancement patterns pin to a specific segment of the patient's CTP time-enhancement curve. Link 2 (the experiment): a CTA-consuming model's prediction shifts with φ at fixed biology, because collateral conspicuity in a single-phase angiogram depends jointly on biology and timing. Link 3 (implied failure mode, exploratory): sites and protocols differ systematically in trigger timing, so φ-sensitivity becomes a site-level bias in deployed predictions.",
+      "use_vs_association": "Within-patient dose-response: the same patient, the same fixed CTP and NCCT inputs, only the angiographic channel's capture phase varies — using genuinely acquired frames of that patient, not synthesis. Any monotone or peaked response of predicted volume to φ is use of timing by construction; cross-patient correlation of φ with severity never enters the primary readout. Crucially, the model retains the full 4D CTP input at every sweep point, so φ carries zero additional information about the patient — any residual φ-sensitivity is double-counting acquisition luck, not legitimate inference.",
+      "design_template": "other:acquired-frame-substitution",
+      "design_template_justification": "An input intervention that substitutes genuinely acquired same-session frames — not counterfactual-synthesis (nothing is synthesized; every voxel shown to the model was measured in this patient at some real instant) and not idea-022's other:temporal-reparameterization (that grammar warps the CTP time axis the model consumes; here the CTP input is untouched and only the snapshot channel's capture time varies).",
+      "keystone_prerequisite": "Registered CTA, registered full 4D CTP, and arterial (CoW) masks coexist per case on the common NCCT grid, so the snap phase is computable and real-frame substitution is geometrically trivial.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Archive member manifest (git show origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv, read 2026-09-02): 'train/derivatives/sub-stroke0001/ses-01/sub-stroke0001_ses-01_space-ncct_cta.nii.gz' (15,120,317 bytes) and 'train/derivatives/sub-stroke0001/ses-01/sub-stroke0001_ses-01_space-ncct_ctp.nii.gz' (451,587,495 bytes — a full 4D series) and 'train/derivatives/sub-stroke0001/ses-01/sub-stroke0001_ses-01_space-ncct_cow-msk.nii.gz'; cohort-wide counts 149/149/149. Separate raw-space CTA and CTP members per case confirm the CTA is an independent acquisition, not a CTP derivative.",
+      "keystone_residual_assumption": "(1) CTP temporal spacing (typically 1-2 s per frame, unverified here) bounds φ precision — gate 0 measures it on staged cases before anything else. (2) No public CTA-consuming ISLES'24 checkpoint exists; the model under test is a locally trained full-modality fold of the challenge's standard family (shared substrate with the cycle's c04 plan), and attribution is scoped accordingly. (3) The pseudo-CTA/real-CTA domain gap is real; the primary contrast is therefore strictly within the constant-rendering pseudo-CTA sweep, with the real CTA as an anchor point only.",
+      "dies_like_prior": "Nearest kill: idea-037 (the scan remembers which hospital took it, IDENTIFIABILITY_FAILURE) — that design compared acquisition signatures across patients where site covaries with population; here the primary evidence is a within-patient dose-response with acquisition physics and anatomy held fixed. Nearest paused relative: idea-022 (end of scan vs end of bolus) — blocked on obtaining an external raw-4D checkpoint plus its training-time padding semantics; this candidate trains its own model, intervenes on a different channel (the angiographic snapshot, not CTP truncation), and includes a channel-ablation pre-gate proving the model actually consumes CTA. Idea-025 (actigraph, PAUSED) shares only the 'model reads acquisition state' family; its blocker (unobtainable pre-correction images) has no analogue here because every sweep frame is released data.",
+      "closest_prior_work": "The clinical literature has established that single-phase CTA collateral assessment is timing-sensitive: automated collateral scores measurably depend on acquisition timing (Neuroradiology 2022, DOI 10.1007/s00234-022-03050-4); multiphase CTA exists precisely because single-phase snapshots understate delayed collateral filling (Menon et al., Radiology 2015, DOI 10.1148/radiol.15142256); and current work steers CTA timing using CTP time-enhancement curves (PMC12967852). None of it asks whether a trained final-infarct model inherits the fallacy.",
+      "novelty_neighbors": [
+        "'Time dependency of automated collateral scores in computed tomography angiography and computed tomography perfusion images in patients with intracranial arterial occlusion', Neuroradiology 2022, DOI 10.1007/s00234-022-03050-4 (found by search 2026-09-02)",
+        "Menon et al. — 'Multiphase CT angiography: a new tool for the imaging triage of patients with acute ischemic stroke', Radiology 2015, DOI 10.1148/radiol.15142256 (found by search 2026-09-02; construct anchor for single-phase timing sensitivity)",
+        "'Single-phase CTA guided by the time-enhancement curve derived from CT perfusion for mechanical thrombectomy', PMC12967852 (found by search 2026-09-02; the field is actively steering CTA timing off CTP curves)"
+      ],
+      "novelty_delta": "Prior work shows collateral scores depend on acquisition phase; no published work measures whether a trained final-infarct segmentation model inherits that dependence, and none performs a within-patient phase intervention using the patient's own acquired 4D frames at fixed biology.",
+      "why_not_done": "NEW_CAPABILITY: the within-patient phase sweep needs co-registered single-phase CTA, a full 4D CTP series, and final-infarct ground truth released together per case — ISLES'24 is, to our knowledge, the first public stroke cohort shipping that combination (payload-verified 149/149/149 this stage), so the experiment only recently became possible outside a hospital PACS.",
+      "smallest_decisive_experiment": "Gate 0 (CPU, one afternoon, label-blind): on 10 staged cases, measure CTP frame spacing, verify φ is identifiable (sharp CTA-to-frame matching over CoW voxels), and validate constant-rendering pseudo-CTA construction. Decisive run: for ~30 held-out-fold cases, sweep 5-7 phases each through the full-modality fold (~200 forward passes); readout: within-patient dose-response of predicted infarct volume (and of predicted extent on the collateral-dependent side) against φ, patient-cluster bootstrap; the real-CTA prediction must sit near the pseudo-CTA at the measured φ for the anchor check.",
+      "compute_envelope": "Given the cycle's shared full-modality fold (planned once for c04/c07/c08, 1-2 GPU-days, outside this envelope but shared cycle infrastructure), gate 0 plus the full sweep and analysis fit one Colab GPU session. Standalone fallback within one long session: a reduced-resolution three-channel (NCCT+CTA+Tmax) U-Net trained ~4-5 h, then a 15-case × 5-phase sweep — decisive at reduced sensitivity.",
+      "standing_confounds_addressed": "Injection protocol, cardiac output, site, scanner: cancelled within patient — every sweep point is the same acquisition. Venous overlay at late phases mimicking collateral filling: composited frames restricted to the pre-venous window identified from the whole-brain time-enhancement curve, late phases reported separately. The model ignoring the CTA channel entirely: channel-ablation pre-gate; if CTA contributes nothing, the candidate dies cheaply at that gate and the null is reported. Labels: never enter the primary readout.",
+      "alternative_explanations": "(1) The model reacts to pseudo-CTA rendering artifacts, not phase — controlled by constant rendering across the sweep and the real-CTA anchor point. (2) φ-sensitivity as legitimate inference — excluded by construction: the full CTP input is present and unchanged at every sweep point, so the snapshot's phase adds no information about the patient; reacting to it is double-counting. (3) Registration residuals between channels — identical registered volumes are used at every sweep point, so residuals are constant and cancel in the within-patient contrast.",
+      "anticipated_negative": "A flat φ-response, bounded by the gate-0 phase precision, is a genuinely useful robustness certificate: it would say this model family extracts timing-invariant content from single-phase CTA — evidence the single-phase timing fallacy does not propagate into this class of stroke AI.",
+      "annotation_burden": "None.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question with a defined phase variable and a signed prediction; a point off because 'collateral conspicuity' as the mediating channel is named but not itself isolated at this rung."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Within-patient dose-response on real acquired frames with rendering and all other channels fixed, plus the information-theoretic argument that φ is redundant given full CTP; residuals are the pseudo-CTA domain gap and locally-trained-model attribution, both scoped."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Collateral reading drives thrombectomy triage, and trigger timing varies by site and protocol; a model that inherits the timing fallacy carries a deployable, correctable site bias — and the fix (phase-conditioning or multiphase input) is concrete."
+        },
+        "interest": {
+          "value": 4,
+          "why": "'The AI grades your collaterals worse because the tech triggered early' is an eyebrow-raiser with a named clinical ancestor (the single-phase fallacy) and a clean intervention."
+        },
+        "prior_legwork": {
+          "value": 3,
+          "why": "Staging, registration, and CoW masks are released and verified; deficit machinery exists in-house; but the phase-matching and compositing instruments are new code and the full-modality fold does not exist yet."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Keystone INSPECTED_TRUE, but the decisive run depends on the shared full-modality fold or the reduced standalone fallback, and gate 0 could still reveal φ to be poorly identifiable at released temporal resolution."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "All required members payload-verified per case (149/149/149) on a proven staging pipeline; the 4D volumes are large (~450 MB/case) but a 30-case subset is ~14 GB, well within a session."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Custom dose-response readout requiring pre-registered phase offsets and margins; no external benchmark applies to the sweep itself."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "Sensitivity-limited by phase precision, but gate 0 converts that into a stated floor before any model work, so the null is bounded, not empty."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Close clinical neighbors exist and are cited; no model-behavior version found in limited search — capped pending the novelty audit."
+        },
+        "regret": {
+          "value": 3,
+          "why": "The enabling data combination is public; another group could run this, but the clinical-AI community has not framed it, so the window is comfortable rather than urgent."
+        }
+      },
+      "priority_score": 3.55,
+      "unverified_claims": [
+        "CTP temporal frame spacing and total coverage in the released series (gate-0 measurement; manifest proves existence and size, not sampling)",
+        "That the released space-ncct CTA is contrast-phase-diverse across the cohort (expected from multi-center acquisition; checked as a by-product of gate 0)",
+        "That maximum-intensity compositing of CTP frames yields angiographically usable pseudo-CTAs at CTP spatial resolution (gate-0 validation)"
+      ],
+      "plain_pitch": "A CT angiogram is a single photograph of dye flowing through the brain's arteries, and like any photo of a moving scene, it depends on the instant the shutter fired: caught early, healthy detour vessels haven't filled yet and look absent — a known trap that leads human readers to underrate a patient's backup blood supply. This dataset also contains the full movie of the same dye transit, so we can tell exactly when each patient's photo was snapped, and even re-create the photo at earlier or later instants from real recorded frames. We ask whether a stroke-outcome model shown the same patient with only the snapshot instant changed predicts different amounts of dead brain — which would mean it mistakes camera timing for biology. If it does, hospitals with different injection protocols would get systematically different AI predictions for identical patients; if it doesn't, that is a real robustness credential this field currently cannot claim.",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-008-c08",
+      "track": "wide",
+      "title": "The model speaks one vendor's dialect: swap the deconvolution, keep the patient",
+      "question": "Is the model using icobrain's dialect of the perfusion maps — the algorithm-specific rendering of delay sensitivity and regularization — rather than the hemodynamics beneath, so its predictions move when the same raw bolus movie is deconvolved by a different published formula?",
+      "cross_domain": {
+        "borrowed_construct": "The inter-laboratory round-robin from metrology: the same specimen measured by different certified instruments decomposes observed variance into specimen-borne and instrument-borne components (gauge R&R). Here the specimen is the patient's raw 4D bolus movie, the instruments are deconvolution algorithms, and the 'measurement' being audited is the trained model's prediction.",
+        "implied_measurement": "Hold the patient fixed and swap the instrument: recompute the perfusion maps from the released raw 4D series with two published deconvolution formulas from the two algorithm classes known to drive inter-software disagreement (delay-sensitive standard SVD, Østergaard 1996; delay-insensitive block-circulant SVD, Wu et al. 2003), and measure the paired shift in the model's predicted infarct.",
+        "if_analogy_dropped": "Without the round-robin frame this is still a robustness test, but it loses the variance-decomposition target — how much of the model's output is patient versus instrument — which is the number a deployer actually needs."
+      },
+      "deliverable_sentence": "The model is using the map-maker's dialect: a measurable share of its predicted infarct moves when the same patient's raw bolus movie is rendered by a different published deconvolution — so challenge-trained stroke models do not transfer across perfusion software without recalibration.",
+      "X_measurement": "Paired map dialects from identical raw data: (a) the released icobrain space-ncct maps; (b) maps recomputed from the released registered 4D CTP by delay-sensitive sSVD and (c) by delay-insensitive block-circulant SVD — both textbook formulas implementable in numpy/scipy — with the arterial input function selected automatically from released Circle-of-Willis mask voxels. The two SVD variants also give a within-family dose axis (regularization threshold) for a same-dialect perturbation floor. All scriptable today, no annotator.",
+      "use_vs_association": "Within-patient paired intervention on the processing chain with anatomy, acquisition, and physiology bit-identical across arms — the exact identification pattern ratified in the idea-004 arc. A paired prediction delta under dialect swap is, by construction, use of dialect-specific map content, not correlation with any patient property; the primary contrast (sSVD vs bcSVD) is between two published formulas, so our own implementation quality is not the manipulated variable.",
+      "design_template": "cross-reconstruction",
+      "design_template_justification": "First use of this grammar in the isles24 charter: same acquisition, two processing chains, paired model-output comparison — a deliberate transplant of the completed and ratified idea-004 paradigm (CT-RATE reconstruction-pair study, finding of record: the model uses reconstruction-dependent content) from chest-CT classification to stroke segmentation, where the processing chain is the deconvolution algorithm instead of the scanner kernel.",
+      "keystone_prerequisite": "The raw 4D CTP series, the vendor-derived maps, the arterial masks, and the lesion ground truth coexist per case (registered), so dialect maps can be computed from identical raw data and fed to the same model on the same grid.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Archive member manifest (git show origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv, read 2026-09-02): per case both 'train/raw_data/sub-stroke0001/ses-01/sub-stroke0001_ses-01_ctp.nii.gz' (native 4D) and 'train/derivatives/sub-stroke0001/ses-01/sub-stroke0001_ses-01_space-ncct_ctp.nii.gz' (registered 4D, 451,587,495 bytes) plus the four icobrain space-ncct maps and 'sub-stroke0001_ses-01_space-ncct_cow-msk.nii.gz'; cohort counts 149 registered 4D CTP, 149 raw 4D CTP, 149 CoW masks. The icobrain chain and its undocumented-units finding are established in-house (evidence/decisions.md 2026-08-26).",
+      "keystone_residual_assumption": "(1) The released 4D series' preprocessing state (baseline pre-contrast frames present, motion handling) is uninspected — gate 0 reads headers and time-enhancement curves on staged cases before any deconvolution. (2) Our sSVD/bcSVD maps will differ from icobrain in absolute scale — absorbed by the model family's per-channel z-scoring at preprocessing time, and the primary contrast is between our two dialects, with icobrain-vs-ours as a caveated secondary arm. (3) A full-modality (map-consuming) fold must exist — shared cycle substrate, same as c04/c07.",
+      "dies_like_prior": "Nearest kill: idea-037 (hospital signature, IDENTIFIABILITY_FAILURE) died because site covaries with population across patients; here the processing swap is within-patient with everything else bit-identical — the defense that carried idea-004 to a ratified finding. Idea-029 (the ground truth remembers the algorithm, killed): concerned algorithm provenance of the LABELS; labels are untouched here and never enter the primary readout. Sibling disclosure: backlog isles24-scout-001-c08 ('the deconvolution algorithm may have signed the image', SCOUT_ONLY, never developed) asks whether the algorithm's signature exists in the image; this candidate asks whether a trained model's behavior depends on it, via a paired intervention along a named algorithm-class axis — if that backlog card is ever developed it is the image-side companion, not a duplicate.",
+      "closest_prior_work": "Kudo et al. showed that commercial CTP software packages produce significantly different maps from identical source data, with delay-sensitivity the organizing factor (Radiology 2010, PMID 20032153); AJNR 2012;33:2074 replicated summary-map divergence between two packages; and Scientific Reports 2023 (DOI 10.1038/s41598-023-48700-6) showed lesion thresholds must be recalibrated between deconvolution algorithms. All quantify map-level variability; none measures a trained deep segmentation model's paired behavioral response to the swap.",
+      "novelty_neighbors": [
+        "Kudo et al. — 'Differences in CT perfusion maps generated by different commercial software: quantitative analysis by using identical source data of acute stroke patients', Radiology 2010, PMID 20032153, DOI 10.1148/radiol.254082000 (found by search 2026-09-02)",
+        "'CT perfusion stroke lesion threshold calibration between deconvolution algorithms', Scientific Reports 2023, DOI 10.1038/s41598-023-48700-6 (found by search 2026-09-02)",
+        "'Differences in CT perfusion summary maps for patients with acute ischemic stroke generated by 2 software packages', AJNR 2012;33:2074 (found by search 2026-09-02)"
+      ],
+      "novelty_delta": "The map-level variability is settled science; the open question — whether a challenge-trained deep final-infarct model's predictions move under a within-patient deconvolution swap, and by how much relative to a same-dialect perturbation floor — has, per this limited search, never been measured on any public stroke benchmark.",
+      "why_not_done": "NEW_CAPABILITY plus BLIND_SPOT: measuring it requires raw 4D source data, vendor maps, and ground truth released together at cohort scale, which ISLES'24 provides first (payload-verified); and inside any single benchmark the dialect variable is invisible precisely because every case ships one vendor's maps — the uniformity that enables clean training is the uniformity that hides the fragility.",
+      "smallest_decisive_experiment": "Gate 0 (CPU): stage ~10 registered 4D volumes (~4.5 GB), inspect temporal axes and baseline frames, implement sSVD and bcSVD, and sanity-check dialect maps against released icobrain maps (within-brain rank correlation — plausibility, not agreement). Decisive run: 30 paired cases × three map dialects through the shared full-modality fold (~90 forward passes); readout: per-case cross-dialect prediction Dice and volume shift versus the within-dialect regularization-perturbation floor, patient-cluster bootstrap; secondary: where disagreement concentrates (deficit boundary vs interior).",
+      "compute_envelope": "Deconvolution is CPU-cheap (minutes per case at map resolution); with the shared full-modality fold, staging + deconvolution + inference + analysis for 30 cases fit one Colab GPU session. Standalone fallback: the same reduced-resolution multi-channel U-Net fallback as c07 (~4-5 h), then a 15-case swap in the same session.",
+      "standing_confounds_addressed": "Scanner/site/protocol/population: cancelled — the swap is within patient on identical raw data. Absolute scale differences between dialects: absorbed by per-channel z-scoring in the standard preprocessing, so surviving deltas are structural, not offset; residual scale interaction reported. Our implementation quality: the primary axis is published-formula vs published-formula (sSVD vs bcSVD), with the same code path, same AIF, same grid — only the documented algorithmic difference (delay handling) varies; icobrain-vs-ours is secondary and caveated. Labels: untouched in the primary readout. The known source-corrupt member (sub-stroke0043 CBF) and duplicate lesion row: standing exclusion policy applies.",
+      "alternative_explanations": "(1) Deltas reflect our deconvolution being noisy rather than dialect content — bounded by the within-dialect perturbation floor: the claim requires cross-dialect shift to exceed same-dialect regularization jitter. (2) The model barely reads the map channels at all (NCCT dominates) — a channel-ablation pre-gate quantifies map reliance first; a model that ignores maps yields a cheap, reportable null. (3) AIF selection differences masquerading as algorithm differences — AIF is computed once per patient from the released CoW mask and shared verbatim across dialect arms.",
+      "anticipated_negative": "Valuable either way: prediction invariance across the dialect swap (relative to the perturbation floor) is a portability certificate no stroke-segmentation model currently holds — direct evidence the model reads vendor-invariant hemodynamic content; the idea-004 precedent shows the paired design is sensitive enough to detect real processing dependence when it exists.",
+      "annotation_burden": "None.",
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question with a named manipulated variable (deconvolution algorithm class) and a paired readout; a point off because 'dialect' bundles delay handling, regularization, and vendor postprocessing, only the first two of which we can manipulate."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "Within-patient bit-identical pairing plus a same-dialect perturbation floor isolates processing-borne content — the 004-ratified pattern; short of 5 because the icobrain arm (the actual vendor) can only be compared against our implementations, not swapped like-for-like."
+        },
+        "medical_relevance": {
+          "value": 4,
+          "why": "Hospitals run different perfusion software (RAPID, syngo, olea, icobrain); whether challenge-trained models transfer across them is a direct deployment-safety question, and the answer comes with an effect size."
+        },
+        "interest": {
+          "value": 3,
+          "why": "After the 004 arc, 'models read processing-dependent content' is expected in-house; the surprise here is the magnitude on a task where the maps are the canonical clinical input — solid, but the least eyebrow-raising of the three."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "The complete 004 interpretive machinery (paired deltas, patient-cluster bootstrap, perturbation-floor logic) transfers; staging proven; CoW masks solve AIF selection; formulas published."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Keystone INSPECTED_TRUE, but honest deconvolution engineering (baseline handling, motion, partial volume in the AIF) plus the shared-fold dependency put the first decision at ~2-3 weeks, not days."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "All members payload-verified (149 raw + 149 registered 4D, masks, maps); volumes are large but subset staging is proven."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Paired prediction-Dice and volume-shift readouts are standard, but the perturbation-floor margin must be pre-registered; no external benchmark applies."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "A floor-bounded invariance result is a publishable portability certificate — the null is close to decisive for this model family and dialect axis."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Map-level neighbors are settled and close; no model-behavior version found in limited search — capped pending the novelty audit."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Any group with the dataset could do this, but only after implementing deconvolution and training a fold; our staged assets make it cheap for us specifically."
+        }
+      },
+      "priority_score": 3.65,
+      "unverified_claims": [
+        "Preprocessing state of the released 4D series — baseline frames, motion handling (gate-0 header and curve inspection)",
+        "That per-channel z-scoring is what the shared full-modality fold's preprocessing actually does to map inputs (checked against the pipeline configuration before the decisive run)",
+        "Østergaard 1996 / Wu et al. 2003 bibliographic details cited from standard usage; the formulas themselves are textbook and independently checkable"
+      ],
+      "plain_pitch": "The colored 'blood-flow maps' doctors use in stroke are not raw measurements: software computes them from a movie of dye passing through the brain, and it is well documented that different vendors' software turns the identical movie into visibly different maps. This dataset uniquely ships both the raw movie and one vendor's maps, so we can recompute the maps with different published recipes and show the very same patient to a stroke-prediction model in several software 'dialects'. If the model's predicted dead-tissue region shifts with the dialect, then models trained on this benchmark are partly reading the software's accent rather than the patient's blood flow — and moving such a model to a hospital that runs different software would silently change its predictions. If the predictions hold still, that is a portability credential no stroke AI currently has.",
+      "charter": "isles24"
+    }
+  ]
+}

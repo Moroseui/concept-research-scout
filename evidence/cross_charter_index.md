@@ -88,6 +88,14 @@
 - [isles24] **isles24-scout-005-c08** [SHORTLISTED] -- Delay is not dispersion
 - [isles24] **isles24-scout-006-c01** [SHORTLISTED] -- 
 - [isles24] **isles24-scout-007-c01** [SHORTLISTED] -- 
+- [isles24] **isles24-scout-008-c01** [SCOUT_ONLY] -- The ghost core and the water clock: what the NCCT-only winner knows that the perfusion thresholds don't
+- [isles24] **isles24-scout-008-c02** [SCOUT_ONLY] -- The unpredictable infarct: how much of the benchmark happened after the scan
+- [isles24] **isles24-scout-008-c03** [SCOUT_ONLY] -- Written off by depth: the internal borderzone in the model's triage
+- [isles24] **isles24-scout-008-c04** [SCOUT_ONLY] -- The blood arrives backwards: filling direction as the model's collateral gauge
+- [isles24] **isles24-scout-008-c05** [SCOUT_ONLY] -- The rough edge grows: boundary geometry as the model's stability gauge
+- [isles24] **isles24-scout-008-c06** [SCOUT_ONLY] -- The forecaster's hedge: the model's volume is a bet, not a belief
+- [isles24] **isles24-scout-008-c07** [SCOUT_ONLY] -- Caught mid-swallow: does the model read acquisition luck as collateral biology?
+- [isles24] **isles24-scout-008-c08** [SCOUT_ONLY] -- The model speaks one vendor's dialect: swap the deconvolution, keep the patient
 - [baseline] **scout-006-c01** [SHORTLISTED] -- Two papers say Sybil's residual is the background and name emphysema; neither measured the heart calcium sitting in the same scan
 - [baseline] **scout-006-c02** [SHORTLISTED] -- CT-CLIP has two calcification labels - coronary and arterial - so it can be asked whether it localises calcium or just sees hyperdensity
 - [baseline] **scout-006-c03** [SCOUT_ONLY] -- An abdominal foundation model predicts diabetes - ask whether it is quietly reading the fat in the liver
