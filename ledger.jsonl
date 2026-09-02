@@ -530,3 +530,4 @@
 {"ledger_id": "idea-047", "scrutiny": "CRITIQUED", "notes": "", "recorded_at": "2026-09-02T01:56:12+00:00"}
 {"ledger_id": "idea-047", "scrutiny": "DEBATED", "notes": "", "recorded_at": "2026-09-02T02:02:17+00:00"}
 {"ledger_id": "idea-047", "status": "SHORTLISTED", "notes": "debate: Rewrite the card to the round-3 finite-population design and verify from the frozen take-13 implementation that S_i is the claimed proxy for total eligible support, otherwise freeze the exact-map recomputation branch.", "card_synced": false, "recorded_at": "2026-09-02T02:02:17+00:00"}
+{"ledger_id": "idea-047", "scrutiny": "PROBED", "notes": "validated bundle results_v2, phase A, contract b4887c05a21b", "recorded_at": "2026-09-02T03:58:06+00:00"}
