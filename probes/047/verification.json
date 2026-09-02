@@ -1,0 +1,28 @@
+{
+  "idea_id": "047",
+  "passed": true,
+  "issues": [],
+  "checked_at": "2026-09-02T03:34:15+00:00",
+  "checks_performed": [
+    "Approval marker ideas/047/HUMAN_APPROVED_PROBE binds contract_blob b4887c05a21bfe870589b5d9982066943df679d5; git hash-object of the working-tree ideas/047/probe_contract.yaml reproduces that exact blob (approval fresh).",
+    "All three frozen-input SHA-256 pins reproduce byte-exactly via sha256sum: exclusions.csv 58e9f8ab..., per_case_contributions.csv aba52512..., census_summary.json 189c0ce8....",
+    "probes/023/run.py git blob reproduces the pinned 0e9a40b453b6d4b653841d6ea70f2e4b75cce9be; coordinate_arrays() located uniquely at lines 486-523 (grep -n), matching the frozen COORD_SPAN and containing eroded_region_voxels.",
+    "All 17 CONTRACT_LITERALS required by the authority gate (including the pre-amendment frozen_variable_list sentinel) verified present in the approved contract via grep -F patterns diff (empty difference).",
+    "Support provenance gate facts verified independently of the probe with text tools: exactly 99 analyzed_case rows; 99 unique analyzed ids; symmetric difference against the 99 contribution-table ids is empty (comm -3 = 0); all 99 eroded_region_voxels values are pure positive digit strings; observed span 1401..617540 equals the contract's drafting-time fingerprint; the non-analyzed remainder is exactly the two documented bookkeeping rows (sub-stroke0142 excluded_archive_lesion with blank support fields; sub-stroke0043 excluded_case source_corrupt_member), read verbatim.",
+    "Contribution table signed_rank column verified as a 1..99 permutation (min 1, max 99, 99 unique values).",
+    "Census cross-check constants in run.py verified against census_summary.json verbatim (grep): top_k.10 signed_head_net_gap_share 0.7928912778985707, absolute_mass_share 0.5063509495830807, sign_counts 54/6/39.",
+    "Full manual desk review of run.py as written to disk (re-read in four sections): contract step ordering (authority -> split freeze -> identity -> provenance gate -> cross-checks -> support clause -> dictionary), exit-code taxonomy, decision-grade stop path writing provenance_gate.json/summary/run_log without support-clause outputs, blindness path guard covering per_patient.csv and phenotype names, exact-arithmetic share computation (fsum for floats, integer sums for voxel counts), frozen tie-broken ranks with zero-sum discrepancy assertion, and the amendment-sentinel refusal that prevents this Phase-A code from running under an amended contract."
+  ],
+  "not_run": [
+    {
+      "check": "python -m py_compile, --smoke harness run, and a real-input Phase-A execution",
+      "reason": "This build sandbox blocks all Python execution (and network); only read-only text tools were available. The smoke and real runs must be exercised operator-side before or at driver packaging.",
+      "commands": [
+        "python3 -m py_compile probes/047/run.py",
+        "python3 probes/047/run.py --smoke --output-dir /tmp/probe-047-smoke",
+        "python3 probes/047/run.py --output-dir /path/to/probe-047-phase-a [--dictionary-file /path/to/clinical_data-description.xlsx]"
+      ]
+    }
+  ],
+  "notes": "Phase A only; Phase B is unreachable under this code by construction (authority gate requires the pre-amendment sentinel, and the amendment stales the approval blob). The only network act is the pinned 12 kB dictionary fetch, md5-gated, skipped entirely when --dictionary-file is supplied. No expensive compute exists anywhere in this probe."
+}
