@@ -2185,8 +2185,16 @@ def package_colab(args):
       *staging_cells,
       nbf.v4.new_code_cell(
         "# Console (incl. any crash traceback) persists to Drive; refresh-proof.\n"
-        f"!mkdir -p {{OUTPUT_DIR}}\n"
-        f"!python probes/{nn}/run.py --phase {{PHASE}} --output-dir {{OUTPUT_DIR}}{extra} 2>&1 | tee -a {{OUTPUT_DIR}}/driver_console.log"),
+        + (getattr(args, 'runner_setup', '') and
+           '!' + args.runner_setup.lstrip('!') + '\n' or '')
+        + f"!mkdir -p {{OUTPUT_DIR}}\n"
+        + f"!python probes/{nn}/run.py "
+        + ('' if getattr(args, 'omit_phase_flag', False)
+           else "--phase {PHASE} ")
+        + f"--output-dir {{OUTPUT_DIR}}{extra}"
+        + ((' ' + args.runner_args) if getattr(args, 'runner_args', '')
+           else '')
+        + " 2>&1 | tee -a {OUTPUT_DIR}/driver_console.log"),
       nbf.v4.new_code_cell(
         "# E1 transport: mirror the bundle onto the contract-bound results\n"
         "# branch. ORDER MATTERS: check out the branch FIRST, then overlay the\n"
@@ -4403,7 +4411,7 @@ def main():
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.add_argument('--unblock-ack',dest='unblock_ack'); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.add_argument('--omit-phase-flag',action='store_true',help='probe run.py takes no --phase'); p.add_argument('--runner-args',default='',help='extra args appended verbatim to the run.py invocation ({PY_VARS} interpolate)'); p.add_argument('--runner-setup',default='',help='shell line emitted before the runner (e.g. apt installs)'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)

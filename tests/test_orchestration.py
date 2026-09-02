@@ -4787,5 +4787,39 @@ probes:
         self.assertEqual(json.loads(rows[-1])["event_id"], "gov-0002")
         self.assertTrue(er.ratified_binds_current("001", self.repo))
 
+
+class TestLauncherRunnerPassthrough(Harness):
+    """P3 sliver (2026-09-02): the launcher generator must express a
+    probe's real runner interface so no hand-edit ever touches an
+    execution artifact."""
+
+    def test_runner_args_setup_and_phase_omission(self):
+        import scout as sc, argparse
+        self.addCleanup(setattr, sc, "ROOT", sc.ROOT)
+        sc.ROOT = self.repo
+        self._ensure_git()
+        d = self.repo / "ideas" / "001"
+        (d / "probe_contract.yaml").write_text("idea_id: idea-001\n")
+        (self.repo / "probes" / "001").mkdir(parents=True, exist_ok=True)
+        (self.repo / "probes" / "001" / "run.py").write_text("# stub\n")
+        try:
+            import nbformat  # noqa: F401
+        except ImportError:
+            self.skipTest("nbformat unavailable")
+        sc.package_colab(argparse.Namespace(
+            idea=1, phase="B", staging_zenodo=None, staging_suffixes=None,
+            staging_record=None, staging_mode="origin_direct",
+            phase_s_dir=None, omit_phase_flag=True,
+            runner_args="--archive-file {ARCHIVE_LOCAL} --member-manifest m.csv",
+            runner_setup="apt-get -qq install -y p7zip-full > /dev/null"))
+        nb = json.loads((self.repo / "probes" / "001"
+                         / "colab_probe_001.ipynb").read_text())
+        src = "".join("".join(c.get("source", []))
+                      for c in nb["cells"] if c["cell_type"] == "code")
+        self.assertIn("--archive-file {ARCHIVE_LOCAL}", src)
+        self.assertIn("apt-get -qq install -y p7zip-full", src)
+        self.assertNotIn("--phase {PHASE}", src,
+                         "omit-phase-flag must remove the default flag")
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
