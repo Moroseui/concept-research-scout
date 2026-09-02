@@ -1,0 +1,97 @@
+{
+  "searched_at": "2026-09-01",
+  "search_notes": "All access via web-search result summaries; no full-text retrieval. One WebFetch of PubMed (PMID 37314250) was blocked by a cookie wall; the record was verified via two secondary searches instead. Candidate indices C1-C3 follow candidates_all.json order.",
+  "queries": [
+    {"query": "TRAK attributing model behavior at scale ICML 2023", "source": "WebSearch"},
+    {"query": "\"data attribution\" segmentation models training examples medical imaging", "source": "WebSearch"},
+    {"query": "influence functions training data medical image segmentation deletion retraining", "source": "WebSearch"},
+    {"query": "\"Data Attribution for Segmentation Models\" OpenReview", "source": "WebSearch"},
+    {"query": "training data attribution stroke lesion segmentation influential patients deep learning", "source": "WebSearch"},
+    {"query": "data valuation Shapley medical imaging training examples removal deep learning", "source": "WebSearch"},
+    {"query": "Salvalaggio lesion network mapping neurological deficit acute ischemic stroke", "source": "WebSearch"},
+    {"query": "Kuceyeski structural connectome disruption baseline predicts 6 months post-stroke outcome", "source": "WebSearch"},
+    {"query": "connectomic stroke lesion measures no benefit basic spatial lesion features prognosis", "source": "WebSearch"},
+    {"query": "https://pubmed.ncbi.nlm.nih.gov/37314250/", "source": "WebFetch (blocked by cookie wall; no content retrieved)"},
+    {"query": "deep learning final infarct prediction eloquent brain regions functional importance model bias", "source": "WebSearch"},
+    {"query": "linear concept erasure latent subspace medical imaging model segmentation intervention", "source": "WebSearch"},
+    {"query": "\"37314250\" lesion network mapping PMID", "source": "WebSearch"},
+    {"query": "Ding 2023 Annals of Neurology lesion network mapping neurological deficit acute ischemic stroke 7807 patients", "source": "WebSearch"},
+    {"query": "CoordConv intriguing failing convolutional neural networks NeurIPS 2018", "source": "WebSearch"},
+    {"query": "location prior spatial position bias deep learning segmentation reliance absolute coordinates", "source": "WebSearch"},
+    {"query": "stroke lesion frequency atlas prior probability map infarct segmentation neural network", "source": "WebSearch"},
+    {"query": "Payer spatial configuration heatmap regression landmark localization arXiv 1806.08732", "source": "WebSearch"},
+    {"query": "arXiv 2403.18878 anatomy medical image segmentation learnable prior", "source": "WebSearch"},
+    {"query": "random deformation per-case destroy anatomical correspondence training ablation test whether network uses population atlas", "source": "WebSearch"},
+    {"query": "probing erasing concepts internal representations medical image segmentation model interpretability stroke", "source": "WebSearch"},
+    {"query": "shortcut learning spatial location brain lesion segmentation nnU-Net positional bias evaluation", "source": "WebSearch"},
+    {"query": "ISLES 2024 challenge dataset paper arXiv 2408.10966 Radiology Artificial Intelligence", "source": "WebSearch"}
+  ],
+  "neighbors": [
+    {
+      "candidate": "C1",
+      "identifier": "arXiv 2303.14186 (Park et al., TRAK: Attributing Model Behavior at Scale, ICML 2023)",
+      "access": "search_summary",
+      "establishing_passage": "By leveraging only a handful of trained models, TRAK can match the performance of attribution methods that require training thousands of models. ... demonstrated across various modalities and scales: image classifiers trained on ImageNet, vision-language models (CLIP), and language models (BERT and mT5)."
+    },
+    {
+      "candidate": "C1",
+      "identifier": "OpenReview forum 13VkFDTKHH (Data Attribution for Segmentation Models, NeurIPS 2023 submission; PDF blob e15a148b35fbb56da1af7d88c7c66add68615a6a)",
+      "access": "search_summary",
+      "establishing_passage": "The authors identify specific behaviors of these models to attribute and provide a method for computing such attributions efficiently ... leveraged them to both identify harmful labeling errors and curate a 50% subset of the MS COCO training dataset that leads to a 2.79% +/- 0.49% increase in mIOU over the full dataset."
+    },
+    {
+      "candidate": "C1",
+      "identifier": "DOI 10.1038/s41598-021-87762-2, PMID 33863957 (Data valuation for medical imaging using Shapley value, Scientific Reports 2021)",
+      "access": "search_summary",
+      "establishing_passage": "Removing training data with high Shapley values decreased the pneumonia detection performance, whereas removing data with low Shapley values improved the model performance."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.1002/ana.26721, PMID 37314250 (Ding et al., Lesion Network Mapping for Neurological Deficit in Acute Ischemic Stroke, Annals of Neurology 2023;94(3):572-584)",
+      "access": "search_summary",
+      "establishing_passage": "A large-scale multicenter study of 7,807 patients with acute ischemic stroke that performed voxel-based lesion-symptom mapping, functional disconnection mapping (FDC), and structural disconnection mapping (SDC) to identify distinct lesion and network localizations for NIHSS score. Annals of Neurology, 2023 Sep;94(3):572-584, DOI: 10.1002/ana.26721. NOTE: card attributes this to 'Salvalaggio et al.'; first author is Ding."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "DOI 10.1002/hbm.23198, PMID 27016287 (Kuceyeski et al., Structural connectome disruption at baseline predicts 6-months post-stroke outcome, Human Brain Mapping 2016)",
+      "access": "search_summary",
+      "establishing_passage": "Demographic information and clinical MRIs were collected from 40 ischemic stroke subjects ... measures of baseline connectome disruption, acquired using only routinely collected MRI scans, can predict 6-month post-stroke outcomes in various functional domains."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "Brain Communications 2025;7(4):fcaf268 (Connectomic stroke lesion measures provide no benefit over basic spatial lesion features in the prognosis of global stroke outcome measures)",
+      "access": "search_summary",
+      "establishing_passage": "Connectomic stroke imaging markers provide no benefit in the prediction of acute stroke severity and functional outcome at 3 months. The research examined 21 different topographic or connectomic measures ... compared against simpler spatial lesion features."
+    },
+    {
+      "candidate": "C2",
+      "identifier": "PMID 41198223 (Both Infarcted and Noninfarcted Brain Regions Contribute to Deep Learning-Based MRI Prediction of Acute Stroke Outcome, AJNR 2025) [audit-found addition]",
+      "access": "search_summary",
+      "establishing_passage": "Noninfarcted areas may serve as a proxy for overall brain health and resilience ... the model trained with full-brain images achieved the lowest MAE of 1.07 points, with AUC values ranging from 0.68 for infarct volume to 0.86 for full brain inputs."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "arXiv 2003.07064 (Kayhan & van Gemert, On Translation Invariance in CNNs: Convolutional Layers Can Exploit Absolute Spatial Location, CVPR 2020) [audit-found addition, closest neighbor]",
+      "access": "search_summary",
+      "establishing_passage": "Explicitly adding absolute spatial location information helps for patch matching, generative modeling, semantic segmentation, and instance segmentation ... convolutional layers can exploit absolute spatial location."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "arXiv 1807.03247 (Liu et al., An Intriguing Failing of Convolutional Neural Networks and the CoordConv Solution, NeurIPS 2018)",
+      "access": "search_summary",
+      "establishing_passage": "The coordinate transform problem ... although convolutional networks would seem appropriate for this task, the authors show that they fail spectacularly. CoordConv works by giving convolution access to its own input coordinates through the use of extra coordinate channels."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "arXiv 1908.00748 (Payer et al., Integrating spatial configuration into heatmap regression based CNNs for landmark localization, Medical Image Analysis 2019)",
+      "access": "search_summary",
+      "establishing_passage": "The Spatial Configuration-Net (SCN) uses two components: the first generates locally accurate local appearance heatmaps ... the second generates spatial configuration heatmaps ... published in Medical Image Analysis in 2019. NOTE: card cites 'MICCAI 2018, arXiv 1806.08732', which is a different paper; correct identifier is arXiv 1908.00748."
+    },
+    {
+      "candidate": "C3",
+      "identifier": "arXiv 2403.18878 (Jeon et al., Teaching AI the Anatomy Behind the Scan: Addressing Anatomical Flaws in Medical Image Segmentation with Learnable Prior)",
+      "access": "search_summary",
+      "establishing_passage": "A novel architecture called the Anatomy-Informed Cascaded Segmentation Network (AIC-Net), which incorporates a learnable input termed 'Anatomical Prior' that can be adapted to patient-specific anatomy using a differentiable spatial deformation."
+    }
+  ]
+}

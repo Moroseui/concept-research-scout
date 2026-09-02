@@ -1,0 +1,20 @@
+Novelty audit complete for cycle isles24-009. Both artifacts are written to `ideas/scout-isles24-009/`: `novelty_audit.md` (per-candidate audit + summary table) and `novelty_manifest.json` (23 logged queries, 11 neighbor records). No other files were touched, and no code was written.
+
+**Verdicts:**
+
+| Candidate | Verdict | Why-not-done |
+|---|---|---|
+| C1 — The keystone patients | NO_DUPLICATE_FOUND_HIGH_CONFIDENCE | NEW_CAPABILITY |
+| C2 — The model's hidden disability map | NO_DUPLICATE_FOUND_LIMITED_SEARCH | BLIND_SPOT |
+| C3 — The atlas prior hidden under the perfusion maps | NO_DUPLICATE_FOUND_LIMITED_SEARCH | BLIND_SPOT |
+
+**What the search established.** No duplicate surfaced for any candidate. C1's nearest work is "Data Attribution for Segmentation Models" (OpenReview 13VkFDTKHH, NeurIPS 2023 submission) plus TRAK (arXiv 2303.14186, verified); the audit added a medical-imaging deletion precedent the card missed (Shapley data valuation on chest X-ray, DOI 10.1038/s41598-021-87762-2) — but nothing attributes a stroke model's physiological response to training patients or validates by matched deletion, and C1's anchor in the ratified 046 census makes it the best-supported of the three. C2 and C3 stay at LIMITED_SEARCH because their adjacent literatures are large and only the intersections were searched; both cards' own novelty_confidence of 3 is consistent with that.
+
+**Findings the merge/human gate should see** (also recorded in the audit's observations section):
+
+1. **C2 misattributes its lead citation.** PMID 37314250 ("Lesion Network Mapping for Neurological Deficit in Acute Ischemic Stroke," 7,807 patients — content and PMID correct) is Ding et al. 2023, Annals of Neurology, not "Salvalaggio et al."
+2. **C3 cites the wrong arXiv ID for the Payer SCN paper.** The correct identifier is arXiv 1908.00748 (Medical Image Analysis 2019); the card's "MICCAI 2018, arXiv 1806.08732" is a different paper.
+3. **Two audit-found neighbors should be added to the cards:** for C3, Kayhan & van Gemert CVPR 2020 (arXiv 2003.07064 — CNNs can exploit absolute spatial location) is closer than anything the card cites; for C2, an AJNR 2025 paper (PMID 41198223) showing noninfarcted regions drive deep-learning stroke-outcome prediction is the nearest model-use-adjacent work.
+4. **Cohort-count version drift, all three cards:** the arXiv HTML of 2408.10966 says 150 train / 98 hidden test, while the cards say 149/96 (245 total) per the Radiology:AI DOI. Local payload evidence in decisions.md settles the public cohort at 149; noted for the record, not adjudicated.
+
+Unrelated housekeeping: this session shows three claude.ai MCP connectors (Gmail, Google Calendar, Google Drive) needing authorization; they were not needed for this task, but if you want them available, authorize them via your claude.ai connector settings.
