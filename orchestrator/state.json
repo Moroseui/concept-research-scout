@@ -11,7 +11,7 @@
     "seed_concepts": null,
     "started": "2026-09-02T00:43:33+00:00",
     "stages": {
-      "wide_scout": "running",
+      "wide_scout": "done",
       "merge": "pending",
       "novelty_audit": "pending",
       "backlog": "pending"

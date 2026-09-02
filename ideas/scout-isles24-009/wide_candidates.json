@@ -1,0 +1,192 @@
+{
+  "candidates": [
+    {
+      "id": "isles24-scout-009-c01",
+      "track": "wide",
+      "title": "The keystone patients: ten cases may teach the model the reversal",
+      "question": "Is a final-infarct model using the joint CBV/MTT compensation rule only because a small, image-defined set of high-contribution training patients teaches it that rule?",
+      "cross_domain": {
+        "borrowed_construct": "Keystone species from ecology plus case influence from robust statistics: a small part of a system can control a population-level behavior out of proportion to its frequency.",
+        "implied_measurement": "Measure each training patient's influence on the model's band-3-minus-band-2 response, then remove the frozen top ten versus ten matched ordinary patients and ask whether only keystone removal collapses the response.",
+        "if_analogy_dropped": "This becomes a generic leave-subset-out stability test and loses the specific prediction inherited from the idea-046 census: a head-dominated empirical contrast should have a head-dominated training-data support structure."
+      },
+      "deliverable_sentence": "The model is using an image-defined joint CBV/MTT compensation rule whose learned support is concentrated in a handful of keystone patients, so its apparently cohort-level physiological behavior is fragile to which rare exemplars enter training.",
+      "X_measurement": "Use the frozen idea-023 coordinate u=log(CBF*MTT/CBV), its within-deficit CBF percentile bands, and the idea-046 per-case contribution statistic, all computed from released registered CBF/CBV/MTT/Tmax maps. For each training patient, compute segmentation-data attribution to the held-out band-3-minus-band-2 soft-prediction contrast using TRAK-style random projections; freeze the ten highest positive attributions. The decisive quantity is the change in that held-out contrast after retraining without those ten versus without ten patients matched on lesion volume, deficit volume, site if released, and the same contribution decile but low attribution.",
+      "use_vs_association": "Training-set deletion is the intervention: the held-out patients and every test-time image are identical. X-use is claimed only if deleting attribution-defined keystone cases selectively erases the model's within-patient u/band response while matched deletion preserves it; a mere correlation between X and labels cannot explain the differential retraining effect.",
+      "design_template": "cross-model-disagreement",
+      "design_template_justification": "The primary contrast is among deliberately matched models trained on full, keystone-deleted, and control-deleted cohorts. It is not an input counterfactual: the held-out inputs never change.",
+      "verified_dataset_facts": "Primary dataset sources report hyperacute NCCT, CTA, CTP, CBF/CBV/MTT/Tmax maps, follow-up MRI-derived infarct masks, and clinical follow-up in 245 thrombectomy-treated patients (149 public training, 96 hidden test); the MRI is 2-9 days after successful reperfusion. Official challenge measures are Dice, absolute volume difference, lesion-wise F1, and absolute lesion-count difference. The public data are CC-BY-NC-SA 4.0 at Zenodo record 16813698. Payload evidence in evidence/decisions.md verifies 149 public cases, registered perfusion maps and masks, and one source-corrupt CBF member (sub-stroke0043) governed by exclusion policy. Sources: DOI 10.1148/ryai.250603; arXiv 2408.10966; official https://isles-24.grand-challenge.org/; Zenodo 16813698.",
+      "keystone_prerequisite": "The 023/046 coordinate and contribution table must be reproducible on train-fold patients without reading validation labels, and segmentation data attribution must rank patients faithfully enough that deletion validates the ranking.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "ideas/046/interpretation.md and evidence/decisions.md (2026-09-02 operator note): the ratified census used 99 cases and found the ten largest cases account for about 79% of the realized band-3-minus-band-2 gap, the largest about 13%, while 39 cases push oppositely. Dataset payload evidence is recorded in evidence/decisions.md (2026-08-25): registered CBF/CBV/MTT/Tmax and follow-up lesion masks, with 149 CBF cases and 149 raw NCCT cases.",
+      "keystone_residual_assumption": "Outcome-estimator contribution need not equal training influence. That is the question, not an assumption: the attribution ranking is admitted only if a cheap five-case deletion pilot predicts the direction of actual retraining changes better than image similarity and random ranking.",
+      "dies_like_prior": "Nearest failure is IDENTIFIABILITY_FAILURE: high-contribution patients could simply be large or severe. The matched deletion control, held-out-only response, and actual retraining intervention separate patient influence from those measured covariates. If matching leaves fewer than ten adequate controls or the attribution pilot fails, the candidate dies rather than reverting to an observational profile. No DATA_ACCESS issue: maps, masks, and the ratified census are local/public.",
+      "closest_prior_work": "Data Attribution for Segmentation Models (NeurIPS 2023 submission, OpenReview e15a148b35fbb56da1af7d88c7c66add68615a6a) attributes specific segmentation behaviors to training examples and validates by dataset curation. TRAK (ICML 2023, OpenReview PBRArApxMh) scales behavioral attribution and tests it counterfactually. Idea 046 provides the ISLES-specific finite-population head-dominance result but explicitly does not establish model learning or use.",
+      "novelty_neighbors": [
+        "Park et al., 'TRAK: Attributing Model Behavior at Scale,' ICML 2023, OpenReview PBRArApxMh",
+        "'Data Attribution for Segmentation Models,' NeurIPS 2023 submission, OpenReview e15a148b35fbb56da1af7d88c7c66add68615a6a",
+        "ISLES'24 dataset/challenge paper, arXiv 2408.10966 and DOI 10.1148/ryai.250603"
+      ],
+      "novelty_delta": "The neighbors attribute generic segmentation outputs or describe the benchmark; this experiment attributes a named within-patient physiological response to individual training patients and then validates the claim by matched patient deletion on the already documented head-dominated ISLES contrast.",
+      "why_not_done": "NEW_CAPABILITY: ISLES'24 uniquely releases the registered acute perfusion variables, follow-up outcome mask, and clinical follow-up needed to define this response, while the ratified 023/046 analysis only now supplies a frozen, surprising target behavior worth attributing.",
+      "smallest_decisive_experiment": "Freeze 100/49 patient train/validation splits before attribution. Train one compact reduced-resolution multimodal 3D U-Net; compute attribution of the validation-set band response to each training case and run a five-case pilot deletion. If attribution validates, train two additional models from the same initialization/schedule after deleting ten keystone or ten matched-control cases. Primary endpoint: difference-in-differences in the patient-bootstrap band-3-minus-band-2 soft-prediction contrast. Secondary: official Dice/AVD/lesion-F1/ALCD, reported without selecting a best seed.",
+      "compute_envelope": "Three compact reduced-resolution trainings at about 2-3 GPU hours each, attribution projections, and inference fit one long Colab A100 session (target 10 hours); one preregistered seed only. Stop after the pilot if ranking faithfulness fails.",
+      "standing_confounds_addressed": "Lesion and deficit size are matched; split, initialization, minibatch order for retained cases, preprocessing, and schedule are frozen; held-out labels never define the deletion ranking; site is matched if payload metadata supports it and otherwise stated as unresolved. Report full prediction distributions, not only the inherited scalar contrast.",
+      "alternative_explanations": "Generic loss of ten cases is controlled by matched deletion. Extreme lesion geometry is matched and tested by an image-similarity baseline. Optimization noise is bounded by identical initialization and retained-case ordering but not eliminated with one seed, so the claim is scoped to a large effect exceeding the full-vs-control shift.",
+      "anticipated_negative": "If faithful attribution exists but keystone deletion changes no more than matched deletion, the negative decisively rejects concentrated training support at the detectable scale and upgrades the 023 behavior from a fragile-exemplar concern to a distributed rule. If attribution itself fails, the result is only a method-limited stop.",
+      "annotation_burden": "None; all quantities use released images/labels and existing atlas-free formulas.",
+      "scores": {
+        "clarity": {"value": 5, "why": "One named response, one frozen patient set, and one matched deletion contrast."},
+        "identifiability": {"value": 4, "why": "Actual retraining after matched deletion directly tests training support; one-seed optimization noise prevents a 5."},
+        "medical_relevance": {"value": 4, "why": "A physiological-looking rule supported by a few rare cases is a deployment and validation risk."},
+        "interest": {"value": 5, "why": "It asks whether ten patients taught an apparently cohort-wide rule and inherits an unusually sharp empirical lead."},
+        "prior_legwork": {"value": 5, "why": "The target coordinate, strata, 99-case census, and head-dominance finding are already ratified; attribution algorithms exist."},
+        "feasibility": {"value": 3, "why": "Three trainings fit the envelope but model performance and attribution faithfulness remain real gates."},
+        "data_readiness": {"value": 4, "why": "Public staged cohort with one governed source defect; no fresh labels."},
+        "evaluation_readiness": {"value": 4, "why": "Frozen inherited contrast plus accepted challenge metrics and matched deletion."},
+        "negative_result_value": {"value": 4, "why": "After a successful attribution pilot, matched-deletion invariance is informative."},
+        "novelty_confidence": {"value": 3, "why": "No stroke example-specific attribution study of this behavior was found, but the search is limited."},
+        "regret": {"value": 5, "why": "The exact empirical lead is already in hand and explicitly awaits a model-use successor."}
+      },
+      "priority_score": 4.05,
+      "unverified_claims": [
+        "TRAK-style attribution will remain faithful for a 3D soft regional contrast at this cohort size",
+        "Ten matched controls can be found after all frozen matching constraints",
+        "Three compact trainings complete in one long Colab session"
+      ],
+      "plain_pitch": "A previous analysis found that just ten of 99 patients account for about four-fifths of a surprising blood-flow pattern in this dataset. This experiment asks whether those same rare patients are the examples that teach a stroke model the pattern. We retrain the same model after removing either those influential examples or ten carefully matched ordinary examples; if only the first removal makes the behavior disappear, an apparently general physiological rule is actually balanced on a few patients."
+    },
+    {
+      "id": "isles24-scout-009-c02",
+      "track": "wide",
+      "title": "The model's hidden disability map",
+      "question": "Is the model using the functional eloquence of threatened tissue—not merely predicted infarct volume—when allocating its final-infarct probability?",
+      "cross_domain": {
+        "borrowed_construct": "Network attack from graph theory: removing an equal number of high-centrality versus peripheral nodes can have radically different functional consequences.",
+        "implied_measurement": "Compute normative structural-disconnection burden and symptom-network impact for each threatened voxel, then selectively erase only the latent subspace that decodes this burden and measure whether predictions fall preferentially in eloquent tissue.",
+        "if_analogy_dropped": "The experiment becomes an ordinary atlas-location ablation and loses the matched-volume prediction that network position, not tissue amount, is what the model values."
+      },
+      "deliverable_sentence": "The model is using a hidden disability map: at matched local CT/perfusion evidence, its final-infarct probabilities depend on how much functional network disruption a voxel would cause, not only on whether that tissue looks destined to die.",
+      "X_measurement": "Register a public normative tract/symptom-network atlas to NCCT space and assign each Tmax>6s voxel a continuous disconnection-impact score; no new annotation. Decode this score from frozen encoder features using cross-fitted linear probes. Apply linear concept erasure to the decoder-facing representation, with equal-rank random-subspace and lesion-volume/location probes as controls. X-use is the selective loss of the eloquence-conditioned prediction gradient after erasure while local image evidence and the rest of the representation remain fixed.",
+      "use_vs_association": "The primary evidence is an intervention on the model representation, not an outcome correlation: remove the minimal linear subspace carrying independently defined network impact and compare to equal-rank random erasures. The claim requires a dose-dependent reduction specifically in eloquence-conditioned predictions with negligible change in decoded CBF/Tmax and lesion-volume information.",
+      "design_template": "representation-erasure",
+      "design_template_justification": "The object manipulated is a frozen model's latent subspace; input images and labels are untouched. This grammar is distinct from c01's training-set intervention.",
+      "verified_dataset_facts": "ISLES'24 contains hyperacute NCCT/CTA/CTP and registered perfusion maps, follow-up MRI-derived infarct masks, and three-month clinical data; 149 public training and 96 hidden test patients, all with successful reperfusion before MRI at 2-9 days. Official metrics are Dice, AVD, lesion-wise F1 and ALCD; access is public under CC-BY-NC-SA 4.0 at Zenodo 16813698. Sources: DOI 10.1148/ryai.250603; arXiv 2408.10966; official challenge site.",
+      "keystone_prerequisite": "A frozen ISLES model must encode atlas-derived network impact above a spatial-coordinate and tissue-class baseline, and linear erasure must remove it without materially degrading local perfusion decoding.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Normative disconnection burden may be almost fully determined by coarse location. Pre-gate: compare network-impact decoding against xyz, vascular-territory, gray/white tissue, and distance-to-midline baselines; if no incremental signal exists, kill the network wording.",
+      "dies_like_prior": "Nearest kill is idea-036 (vascular map; IDENTIFIABILITY_FAILURE): anatomy, tissue class, and vascular territory could explain the same response. This design adds role-disjoint erasure, equal-rank shams, and explicit preservation gates for local perfusion/tissue decoders. It still cannot distinguish a nonlinear anatomical code left after linear erasure, so identifiability is capped at 3 and failure of the preservation gates kills it.",
+      "closest_prior_work": "Lesion network mapping in 7,807 stroke patients constructed symptom-specific lesion and disconnection maps (PMID 37314250). Structural connectome disruption predicted domain outcomes in a 40-patient study (PMID 27016287). A 2025 evaluation found simple spatial lesion features outperform connectomic features for global NIHSS/mRS, while connectomics could help granular deficits (PMID 40726767). None tests whether a final-infarct segmentation model uses such a map.",
+      "novelty_neighbors": [
+        "Salvalaggio et al., 'Lesion Network Mapping for Neurological Deficit in Acute Ischemic Stroke,' PMID 37314250",
+        "Kuceyeski et al., 'Structural connectome disruption at baseline predicts 6-months post-stroke outcome,' PMID 27016287",
+        "'Connectomic stroke lesion measures provide no benefit over basic spatial lesion features in the prognosis of global stroke outcome measures,' PMID 40726767"
+      ],
+      "novelty_delta": "Prior work predicts symptoms or outcome from observed lesions; this asks whether a pre-treatment model forecasting the future lesion behaviorally allocates probability according to normative functional-network impact, using representation intervention rather than feature-outcome association.",
+      "why_not_done": "BLIND_SPOT: stroke connectomics studies the consequences of lesions, while infarct forecasting studies whether tissue dies; the possibility that a forecaster imports an anatomical disability prior sits between those literatures.",
+      "smallest_decisive_experiment": "Train or reuse one compact ISLES model on a frozen split. On 30 validation cases, extract encoder features in the Tmax>6s region, fit patient-separated probes for network impact and controls, then run network-subspace, random-subspace, and location-subspace erasures. Primary endpoint is the within-patient change in the slope of soft infarct probability versus network impact after matching CBF, Tmax, CBV, MTT, NCCT HU, and tissue class. Preserve local-variable decoding within a preregistered tolerance or declare the intervention invalid.",
+      "compute_envelope": "One existing/compact model plus feature extraction and linear algebra; under 6 GPU hours and 2 CPU hours in one Colab session. The normative atlas is small; no tractography is run per patient.",
+      "standing_confounds_addressed": "Matched local imaging variables; cross-patient atlas registration QC; xyz, tissue, territory, and equal-rank erasure controls; patient-separated probes; preservation of perfusion and HU decoding. The released three-month score is secondary validation only and never defines X.",
+      "alternative_explanations": "Linear erasure may damage general spatial representation, addressed but not eliminated by location and random controls. Normative networks may not represent an individual's connectome. A result can establish use of atlas-correlated functional topography, not conscious prioritization or clinical benefit.",
+      "anticipated_negative": "If network impact is decodable but valid selective erasure leaves predictions unchanged, the model does not use the linearly encoded network-impact component at the detectable scale. If impact is not incrementally decodable or erasure fails preservation, the null is uninterpretable and the candidate stops.",
+      "annotation_burden": "None; uses public normative atlases and released images.",
+      "scores": {
+        "clarity": {"value": 4, "why": "Named X and intervention, though functional eloquence has several atlas operationalizations."},
+        "identifiability": {"value": 3, "why": "Selective erasure and controls address major alternatives, but network impact remains entangled with spatial anatomy."},
+        "medical_relevance": {"value": 4, "why": "A hidden disability prior would change interpretation and evaluation of forecast masks."},
+        "interest": {"value": 5, "why": "A lesion forecaster quietly valuing eloquent tissue is surprising and clinically legible."},
+        "prior_legwork": {"value": 3, "why": "Public atlases and a staged dataset exist; no encoder or erasure pipeline is yet verified."},
+        "feasibility": {"value": 3, "why": "One-session experiment, capped because the keystone decodability/preservation gates are uninspected."},
+        "data_readiness": {"value": 4, "why": "ISLES inputs and common grid are public; atlas registration adds work."},
+        "evaluation_readiness": {"value": 3, "why": "Custom causal readout and preservation margins require preregistration."},
+        "negative_result_value": {"value": 2, "why": "Only useful after both decodability and erasure-validity gates pass; otherwise the null is uninterpretable."},
+        "novelty_confidence": {"value": 3, "why": "No model-use study found in limited search; connectomic outcome literature is substantial."},
+        "regret": {"value": 3, "why": "Worth testing if a reusable model exists, but atlas entanglement may kill it quickly."}
+      },
+      "priority_score": 3.4,
+      "unverified_claims": [
+        "A suitable openly licensed symptom-network/tract atlas can be registered robustly to these acute CTs",
+        "Network impact is incrementally decodable beyond location and tissue",
+        "Linear concept erasure can satisfy the perfusion-preservation gate"
+      ],
+      "plain_pitch": "Two equally sized strokes can have very different consequences because one hits a crucial communication highway and the other does not. We ask whether a model that predicts future dead tissue has quietly learned this map of functional importance, even though its official job is only to forecast tissue fate. We remove just that map from the model's internal representation and check whether its predictions change preferentially in high-impact brain regions; if they do, the mask is partly a disability forecast disguised as a tissue forecast."
+    },
+    {
+      "id": "isles24-scout-009-c03",
+      "track": "wide",
+      "title": "The atlas prior hidden under the perfusion maps",
+      "question": "Is the model using a population atlas of where infarcts usually finish, rather than patient-specific hemodynamics, when the acute evidence is ambiguous?",
+      "cross_domain": {
+        "borrowed_construct": "Cartographic frame randomization from robotics/domain randomization: a navigator that truly reads local terrain should survive arbitrary map frames, while one memorizing world coordinates fails when north is reassigned.",
+        "implied_measurement": "Train matched native-frame and case-randomized-frame models, preserving each patient's local image-label relationship but destroying across-patient anatomical coordinate alignment; compare their predictions specifically in low-evidence voxels.",
+        "if_analogy_dropped": "This is merely a spatial augmentation ablation; the cartographic construct supplies the falsifiable prediction that only ambiguous voxels should lose accuracy when the shared atlas frame is destroyed."
+      },
+      "deliverable_sentence": "The model is using a population infarct atlas as a tie-breaker: when local CT/perfusion evidence is ambiguous, its prediction depends on where that voxel usually sits in other patients' brains.",
+      "X_measurement": "X is shared anatomical coordinate information. Construct a matched training twin in which every patient's complete input stack and label are subjected to an independently sampled invertible left-right-preserving affine plus smooth deformation, then resampled into a common anonymous cube; local multimodal relationships and the within-case label mapping remain, but population coordinate correspondence is broken. At test time inverse-map outputs. Measure the native-minus-randomized performance gap by a frozen ambiguity score derived from low absolute perfusion abnormality and model entropy.",
+      "use_vs_association": "The training intervention removes cross-patient atlas consistency while retaining the patient-specific mapping from image evidence to label. A selective native-model advantage in ambiguous voxels, exceeding matched interpolation-only controls, identifies use of the shared atlas frame rather than mere association between anatomy and outcome.",
+      "design_template": "other:atlas-frame-randomization",
+      "design_template_justification": "This is a controlled training-data coordinate intervention. It is neither input counterfactual synthesis at inference nor ordinary cross-model disagreement; the experimental grammar is destruction of a shared reference frame with within-case relations preserved.",
+      "verified_dataset_facts": "ISLES'24 supplies co-registered acute NCCT, CTA/CTP-derived imaging and follow-up MRI-derived infarct masks for 149 public cases, with 96 hidden test cases; follow-up MRI occurs 2-9 days after successful reperfusion. The challenge evaluates Dice, AVD, lesion-wise F1 and ALCD. Public access is CC-BY-NC-SA 4.0 at Zenodo 16813698. Sources: DOI 10.1148/ryai.250603; arXiv 2408.10966; official challenge site and Zenodo record.",
+      "keystone_prerequisite": "The randomized-frame transformation must destroy population coordinate predictability while preserving local anatomy, image realism, label topology, and effective resolution closely enough that a performance difference is not a resampling artifact.",
+      "keystone_status": "NOT_INSPECTED",
+      "keystone_residual_assumption": "Smooth warps may alter vascular geometry or create interpolation cues. Gate 0 quantifies Jacobians, power spectra, vessel-mask topology, and a transform-decoding adversary; a same-transform-twice interpolation control must bound these effects before model comparison.",
+      "dies_like_prior": "Nearest kills are ideas 032/036 (vascular/anatomical priors; IDENTIFIABILITY_FAILURE). Unlike their observational or input-edit designs, this removes shared coordinates during training while preserving every case's image-label pairing. The intervention can still change optimization difficulty and fine geometry, so the candidate remains high-risk and identifiability is 3, not 5.",
+      "closest_prior_work": "CoordConv showed standard convolution struggles to learn coordinate transforms and that explicit coordinates change behavior (NeurIPS 2018, arXiv 1807.03247). Spatial configuration-Net incorporated explicit spatial priors for landmark localization (MICCAI 2018, arXiv 1806.08732). Learnable anatomical priors have been proposed for medical segmentation (arXiv 2403.18878). None uses reference-frame destruction to measure how much an acute stroke forecaster relies on a population infarct atlas.",
+      "novelty_neighbors": [
+        "Liu et al., 'An Intriguing Failing of Convolutional Neural Networks and the CoordConv Solution,' NeurIPS 2018, arXiv 1807.03247",
+        "Payer et al., 'Integrating spatial configuration into heatmap regression based CNNs for landmark localization,' MICCAI 2018, arXiv 1806.08732",
+        "'Teaching AI the Anatomy Behind the Scan: Addressing Anatomical Flaws in Medical Image Segmentation with Learnable Prior,' arXiv 2403.18878"
+      ],
+      "novelty_delta": "Prior work adds or studies anatomical priors for easier segmentation; this subtracts the shared atlas frame in a longitudinal stroke forecast and predicts where the loss should occur—only where acute patient-specific evidence is weak.",
+      "why_not_done": "BLIND_SPOT: spatial priors are usually treated as helpful inductive bias, not as a potentially misleading source of apparent patient-specific prediction; ISLES'24's baseline-to-follow-up task makes the distinction unusually consequential.",
+      "smallest_decisive_experiment": "Gate 0 on 20 cases: generate transforms, pass geometry/spectrum/topology tests, and show a coordinate decoder succeeds on native but is near chance on randomized data while a local-patch modality decoder is preserved. Then train native-frame, randomized-frame, and interpolation-control compact 3D U-Nets on the same frozen 100 cases and evaluate 49 held-out cases. Primary endpoint: interaction between model arm and frozen ambiguity quartile for soft Dice/per-voxel log loss; official metrics are secondary.",
+      "compute_envelope": "Three reduced-resolution trainings at roughly 2-3 hours each plus gates and inference fit one long Colab A100 session (10-12 hours). No model variant or transform family is selected after results.",
+      "standing_confounds_addressed": "Identical splits, schedules, initialization, and transformed label/input pairs; interpolation-control arm; Jacobian and topology gates; left-right preserved; metrics stratified by lesion size and vascular territory; untouched validation labels during transform tuning.",
+      "alternative_explanations": "Randomized training may simply be harder or less anatomically realistic. The ambiguity interaction and interpolation control reduce but cannot eliminate this. A positive result establishes use of shared coordinate/anatomical regularity, not whether the prior is beneficial or ethically problematic.",
+      "anticipated_negative": "If gate-valid randomization preserves performance even in ambiguous voxels, the negative is useful evidence that this model family relies predominantly on patient-specific image evidence rather than a shared atlas. Failure of the realism gate is not a scientific null.",
+      "annotation_burden": "None.",
+      "scores": {
+        "clarity": {"value": 4, "why": "Precise atlas-frame question and predicted ambiguity interaction."},
+        "identifiability": {"value": 3, "why": "Training intervention and controls are stronger than association, but warping may alter anatomy and optimization."},
+        "medical_relevance": {"value": 4, "why": "Atlas tie-breaking can fail on unusual territories and may exaggerate apparent personalization."},
+        "interest": {"value": 5, "why": "It asks whether the personalized forecast is partly a memorized population map."},
+        "prior_legwork": {"value": 2, "why": "Dataset is ready, but transform validation and all three trainings are new."},
+        "feasibility": {"value": 3, "why": "Fits one long session in principle; uninspected realism gate is substantial."},
+        "data_readiness": {"value": 4, "why": "Public common-grid inputs and labels; no auxiliary data needed."},
+        "evaluation_readiness": {"value": 3, "why": "Official metrics exist, but the ambiguity interaction and preservation gates are custom."},
+        "negative_result_value": {"value": 3, "why": "Valuable only after a strong transform-validity gate."},
+        "novelty_confidence": {"value": 3, "why": "No reference-frame destruction study in stroke forecasting was found in limited search."},
+        "regret": {"value": 3, "why": "High upside but likely to die on transform validity; run gate 0 before investing."}
+      },
+      "priority_score": 3.4,
+      "unverified_claims": [
+        "A warp family can remove population alignment without materially changing relevant local imaging statistics",
+        "The ambiguity score can be frozen without circular use of the compared models",
+        "Reduced-resolution models retain enough signal for a meaningful atlas-prior test"
+      ],
+      "plain_pitch": "A model may look as though it is forecasting what will happen to this patient while partly coloring in the places where strokes usually end in other patients. We scramble the common map frame separately for every training case while keeping each patient's scans and true lesion aligned with one another. If the ordinary model only beats the scrambled model where the scan itself is uncertain, that is evidence it uses a memorized population atlas as a tie-breaker; if performance is unchanged, the forecast is more genuinely patient-specific than this concern suggests."
+    }
+  ],
+  "dropped": [
+    {
+      "question": "[clinical epidemiology: attributable fraction] Do the high-contribution idea-046 cases also carry disproportionate 90-day disability after lesion volume and baseline NIHSS are fixed?",
+      "why": "Important and directly requested, but it is an association/descriptive successor, not a wide-track deliverable of the form 'the model is using X'; it belongs in a separately registered descriptive candidate."
+    },
+    {
+      "question": "[reliability engineering: weakest-link systems] Is lesion-wise F1 determined by the model's single least-supported vascular territory?",
+      "why": "The metric decomposition is testable, but the proposed intervention did not distinguish territorial use from lesion size and prevalence strongly enough to survive the IDENTIFIABILITY_FAILURE pattern."
+    },
+    {
+      "question": "[economics: option value] Does the model preserve uncertain penumbra because collateral routes give tissue a real option to survive?",
+      "why": "One step past defensible: no selective intervention separated collateral option value from ordinary perfusion severity using the released single acute episode."
+    },
+    {
+      "question": "[materials science: crack-tip mechanics] Does boundary curvature concentrate predicted infarct growth like stress at a crack tip?",
+      "why": "Too close to the existing rough-boundary candidate isles24-scout-008-c05 and vulnerable to the same geometry-volume/anatomy coupling."
+    },
+    {
+      "question": "[information theory: error-correcting codes] Does bilateral redundancy let the model reconstruct corrupted perfusion channels from the healthy hemisphere?",
+      "why": "One step past defensible and overlaps idea 021; channel reconstruction would show statistical redundancy, not that the final-infarct model uses the contralateral signal."
+    }
+  ]
+}
