@@ -1,31 +1,6 @@
 {
   "idea_id": "047",
-  "phase": "B",
-  "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
-  "revision_round": 2,
-  "revision_scope": "probe_review.md round-1 blocking finding (hard standard 5) ONLY: the 10/89 split manifest is now materialized from an authoring-time declaration and written+hashed BEFORE the outcome-derived contribution and support tables are hashed or opened; the loaded tables are then verified against the declaration. No contract, gate, cap, statistic, endpoint, or interface change.",
   "passed": true,
   "issues": [],
-  "checks_run": [
-    "ordering repair verified by reading the final on-disk run(): freeze_split now executes at run.py:1766-1779, before hash_inputs (run.py:1817) and before load_contributions/load_support (run.py:1821-1822), which are the only readers of the outcome-derived tables in this process; verify_split_against_tables (run.py:1823) then requires exact rank->id and in_head agreement, failing EXIT_INPUT (invalidating input-identity failure) on any mismatch",
-    "FROZEN_ANALYZED_IDS_BY_RANK verified byte-identical to the pinned table: sha256sum re-verified per_case_contributions.csv against pin aba52512... , then its case_id column (rows are stored in signed_rank order 1..99) was extracted with tail/cut and diffed against the tuple literals extracted in file order -- IDENTICAL, 99 vs 99 lines, zero differences",
-    "head binding cross-checked against the consumed support table: per_case_support.csv re-verified against pin 994a4f88..., and its ten in_head=True rows (grep ',True,') are exactly the tuple's first ten ids in signed-rank order 1..10",
-    "duplicate/leak scan of the embedded ids: 101 quoted sub-stroke literals in run.py; the only duplicate is sub-stroke0142 (once in the tuple, once in EXPECTED_BOOKKEEPING) and sub-stroke0043 appears only in EXPECTED_BOOKKEEPING, never in the strata",
-    "DISCLOSED CORRECTION inside the rewritten function: the round-1 freeze_split asserted that NO bookkeeping id appears in the strata, but exclusions.csv (pin 58e9f8ab...) shows sub-stroke0142 has BOTH an excluded_archive_lesion bookkeeping row (a duplicate lesion ARCHIVE MEMBER, exclusions.csv line 2) AND an analyzed_case row (line 73, signed_rank 57 in the contribution table), so the old assert would have aborted a valid real run with exit 12; the assert now bars only record_type excluded_case (sub-stroke0043), matching the Phase-A provenance-gate semantics (99 analyzed + 2 bookkeeping records). This surfaced mechanically while binding the predeclared ids and is required for the repaired ordering to hold on the real cohort; it changes no contract clause and loosens no gate (the excluded CASE is still barred, and the analyzed set is still pinned id-by-id)",
-    "smoke leg parity desk-verified: SMOKE_IDS_BY_RANK equals the fixture rank order by construction (the _smoke_contributions deltas are strictly descending except one 0.0 tie broken by ascending case_id), the smoke run now freezes the split BEFORE make_smoke_inputs creates any fixture table on disk, and the same verify_split_against_tables code path runs on the loaded fixtures",
-    "split_manifest.json now states the stronger enforced fact per the review directive: created_before_any_outcome_derived_table_opened=true alongside created_before_any_phenotype_byte_staged=true, the stratum_source names the authoring-time declaration, and post_freeze_verification records the agreement rule",
-    "scope containment: the diff touches only the split constants block, the SPLIT FREEZE section (freeze_split + new verify_split_against_tables), the run() ordering and its two comment blocks, the STEP-1 section comment, the smoke declaration, README step ordering, and this file; every pin, constant, statistic, cap, output name, and exit code is unchanged",
-    "hygiene re-checked on the final file: zero tab characters; 44 balanced triple-quote occurrences (round 1's 42 plus the one new docstring); every edited hunk read back in final on-disk form; 2128 lines"
-  ],
-  "not_run": [
-    {
-      "command": "python3 -m py_compile probes/047/run.py",
-      "reason": "this build sandbox blocks Python execution (same constraint as both Phase-A rounds and Phase-B round 1); desk-verified instead"
-    },
-    {
-      "command": "python3 probes/047/run.py --smoke --output-dir /tmp/probe-047-smoke",
-      "reason": "same sandbox constraint; the reviewer's round-1 smoke run completed in under one second with SMOKE_ONLY and byte-identical manifests, and this revision adds only the earlier split freeze, the predeclared-id source, and one verification function to that path; expected exit 0 with status SMOKE_ONLY well under 60s"
-    }
-  ],
-  "checked_at": "2026-09-02T05:00:58+00:00"
+  "checked_at": "2026-09-02T05:03:29.364925+00:00"
 }
