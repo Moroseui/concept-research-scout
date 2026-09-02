@@ -2174,3 +2174,30 @@ promptly rather than opportunistically; no work runs under idea 046's
 spent contracts either way. Queued for the reviewer: whether ratify-
 interpretation should display the document's recommended status before
 accepting the operator's choice.
+
+
+## 2026-09-02 - Operator note to the next scout cycle: open successor direction (describe-level steering; not a card)
+
+For candidate generation: the research record now contains a decided,
+ratified structure with no registered follow-up. The idea-046
+contribution census (probes/046/results/results_v3, interpretation
+ratified) established that the band-3-minus-band-2 final-infarct
+contrast from idea-023 is head-dominated in the realized estimator:
+the ten largest of 99 cases account for roughly 79 percent of the net
+gap, the single largest about 13 percent, 39 cases push the opposite
+direction, and the top cases individually exhibit the full sign flip
+at magnitudes ten to twenty times the cohort means. The idea-046
+interpretation (Next decision, item 4) states that any stability,
+carrier, clinical, or model-use question about these cases must enter
+as a separately registered successor citing that census. A
+patient-level clinical-outcome join (released mRS/NIHSS-type phenotype
+table, ses-02 outcome family) was pre-registered on 2026-08-28, was
+folded into idea 046 as an optional rung, and remains unexecuted; the
+ratified record specifies a D3 read-restriction protocol for the
+phenotype restage and a D4 joint-display rule for any clinical
+comparison. Candidates continuing this line belong in the
+descriptive/association register, not model-use. This note states an
+open direction the operator wants candidates FOR; it deliberately does
+not supply a question wording, design, or scores -- generation,
+critique, and debate own those. Discovery-track candidates unrelated
+to this direction remain welcome in the same cycle.
