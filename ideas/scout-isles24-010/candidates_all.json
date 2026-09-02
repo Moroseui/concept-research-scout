@@ -1,0 +1,286 @@
+{
+  "cycle": 10,
+  "charter": "isles24",
+  "tracks": [
+    "wide"
+  ],
+  "notes": {
+    "search_mode_missing": 3
+  },
+  "candidates": [
+    {
+      "id": "isles24-scout-010-c01",
+      "track": "wide",
+      "title": "The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?",
+      "question": "[ecology] Do the ten cases that carry 79.29% of the idea-046 band-2/3 reversal differ in aggregate on released 3-month mRS, admission NIHSS, and demographics from the other 89 -- and is their dominance proportionate to deficit burden, or keystone-like (disproportionate per unit burden)?",
+      "register": "descriptive-association. Operator steering note of 2026-09-02 (evidence/decisions.md) requests exactly this successor in the descriptive register and explicitly excludes model-use formulations of this direction; the wide-track deliverable template ('the model is using X') is overridden for this candidate by that human-authored direction.",
+      "parent_ids": [
+        "idea-046",
+        "idea-045",
+        "idea-023"
+      ],
+      "lineage_note": "Enters as a separately registered successor citing the idea-046 census and debate, per ideas/046/interpretation.md Next-decision item 4. The phenotype join was pre-registered 2026-08-28 and never executed.",
+      "design_template": "conditional-observational",
+      "design_template_justification": "The lineage direction is definitionally observational (aggregate description of frozen strata). Diversity across this cycle's set is carried by c02 (natural-paired) and c03 (other:value-lattice-audit); no two candidates share a grammar.",
+      "borrowed_construct": "Ecology's keystone-species / community-importance index (Power et al. 1996, BioScience 46:609-620, DOI 10.2307/1312990): a keystone's impact is disproportionate to its abundance. Implied measurement: contribution per unit 'abundance' -- regress |c_i| on label-blind deficit burden and separate burden-proportionate dominance (expected, arithmetic) from disproportionate dominance (the keystone reading).",
+      "deliverable_sentence": "In the frozen 99-case idea-046 census cohort, the high-contribution stratum does / does not differ in aggregate on a pre-frozen released clinical variable list (3-month mRS, admission NIHSS, age, sex, plus treatment fields if present in the release) from the remaining cases, and its dominance is / is not accounted for by deficit burden -- an exploratory, aggregate-only, association-register description under the D3 read-restriction and D4 joint-display rules, with no per-patient claims and no model probing.",
+      "X_measurement": "Per-case signed contribution c_i and rank, already frozen in probes/046/results/results_v3/per_case_contributions.csv (columns case_id, d_band2, d_band3, delta, contribution, signed_rank). Label-blind deficit burden: eroded Tmax>6s deficit-region voxel count per case, recomputable from the held maps with the ratified take-13 region machinery (no outcome contact). Disproportionality: residual of |c_i| on burden. Clinical variables: ses-02 outcome.csv and ses-01 demographic_baseline.csv per case, with the variable list frozen from the record-level clinical_data-description.xlsx (12.1 kB, on the Zenodo record) BEFORE any case-level file is read.",
+      "use_vs_association": "No use claim is made anywhere: the candidate is deliberately in the association register per the operator steering note. The discriminating content of the design is between two descriptive readings -- burden-proportionate dominance versus disproportionate (keystone) dominance -- not between use and association.",
+      "keystone_prerequisite": "(1) The frozen per-case contribution table exists in-repo under the ratified census; (2) per-case phenotype files carrying the ses-02 outcome family and ses-01 baseline variables exist inside the held, checksum-verified training archive.",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "(1) probes/046/results/results_v3/per_case_contributions.csv on main: header 'case_id,d_band2,d_band3,delta,contribution,signed_rank', 99 data rows, top row 'sub-stroke0153,...,0.007141719141395045,1'; top-10 signed head share 0.7928912778985707 in census_summary.json (top_k 10); 39 negative contributions (census_summary.json 'negative': 39). (2) Archive payload, from git origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv (manifest of the md5-verified train.7z): rows 'train/phenotype/sub-stroke0001/ses-01/sub-stroke0001_ses-01_demographic_baseline.csv,405,184c4588' and 'train/phenotype/sub-stroke0001/ses-02/sub-stroke0001_ses-02_outcome.csv,98,6f8fa8cd'; grep counts 149 ses-02_outcome.csv members and 149 demographic_baseline.csv members.",
+      "verified_dataset_facts": [
+        "Zenodo record 16813698 (v3, 2025-08-12): open access, license 'Creative Commons Attribution Non Commercial Share Alike 4.0 International'; files train.7z (99.0 GB) and clinical_data-description.xlsx (12.1 kB); description states clinical data 'demographics, patient history, admission NIHSS, 3-month functional outcome (mRS), etc.' and '149 acute ischemic stroke cases'. This is the exact record this program holds (md5 36ae28b9... match recorded in evidence/decisions.md, 2026-08-25).",
+        "Dataset paper arXiv:2408.11142 (Radiology: AI DOI 10.1148/ryai.250603): follow-up MRI at 2-9 days; 'delineated infarction masks in follow-up MRI'; multicenter, 245 cases total across splits.",
+        "Challenge paper arXiv:2408.10966: training n=150 with hidden test set (abstract fetch reported 150/98; a secondary read of the updated version reported 149/96); the held training payload contains 149 cases -- payload count outranks prose per the 2026-08-25 standing lesson.",
+        "The 99 analyzed census cases are the take-13 cohort (149 minus exclusions; sub-stroke0043 source-defective member excluded per contract policy)."
+      ],
+      "smallest_decisive_experiment": "Freeze the analysis spec in the card/contract before any case-level phenotype read: (a) variable list taken from clinical_data-description.xlsx only; (b) two frozen contrasts -- census top-10 versus rest (stratum already frozen by the ratified census) and disproportionality top-decile versus rest; (c) statistics limited to standardized mean differences and rank tests with permutation nulls at n=99, all variables reported (no selective reporting); (d) every clinical contrast displayed jointly with deficit burden per D4; (e) phenotype staging and reads restricted to the 99 analyzed identifiers per D3. Then stage the ~50 kB of phenotype CSVs for the 99 ids, compute, and report one aggregate table. CPU-only, minutes.",
+      "compute_envelope": "Trivial: CPU-only, under five minutes of compute; data staged is two 99-file CSV families totaling ~50 kB plus one 12.1 kB description file. No GPU. Fits any Colab session with margin.",
+      "most_dangerous_confound": "Deficit-burden mediation (the program's own critique D4): larger deficits both dominate the estimator arithmetic and predict worse clinical outcomes for ordinary reasons, so 'keystones are sicker' can be pure volume. Addressed by construction: the disproportionality axis separates per-unit-burden dominance from size, and D4 joint display plus aggregate-only claims prevent a mediated association being read as a clinical subtype finding.",
+      "standing_confounds_addressed": "(1) D4 volume mediation -- see most_dangerous_confound. (2) Opened outcomes: the 99 imaging outcomes were read in idea-023, so the candidate is exploratory by construction and says so; freezing definitions before computation is a discipline commitment, not blindness (ideas/046/feasibility.md). (3) Multiplicity: frozen short variable list, permutation nulls, all-variables reporting. (4) Selection: both strata are frozen by prior ratified artifacts before any clinical value is seen. (5) Clinical scores remain unread until the frozen spec exists; the D3 protocol governs the staging.",
+      "dies_like_prior": "IDENTIFIABILITY_FAILURE (x12) killed model-use attributions; this candidate makes no use claim and its main rival reading (volume mediation) is built into the design as a measured axis rather than left as a confound. DATA_ACCESS (x3): all inputs verified present -- frozen census table in-repo, phenotype files in the held checksum-verified archive. EFFECT_UNREACHABLE (x1): not applicable; no effect-size floor is claimed.",
+      "closest_prior_work": "Broocks et al., Radiology 2024 (DOI 10.1148/radiol.231750, PMID 39078297): in 721 private-cohort patients, showed rCBF-threshold core overestimation is clinically marked (larger baseline core, successful recanalization). Exact delta: they profile deviation from a single fixed threshold on a private cohort; this candidate profiles frozen per-case contribution shares of a band contrast on a public benchmark, adds the per-unit-burden keystone axis, and is bound to pre-registered read-restriction and joint-display rules.",
+      "novelty_neighbors": [
+        "Maier-Hein et al., 'Why rankings of biomedical image analysis competitions should be interpreted with care', Nature Communications 2018, DOI 10.1038/s41467-018-07619-7 -- benchmark conclusions hinge on test-set composition (bootstrap over cases), but no frozen per-case contribution census and no clinical profiling of influential cases.",
+        "de la Rosa et al., 'ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data', arXiv:2408.10966 -- the organizers use the clinical variables as model inputs for prediction; no influence decomposition, no dominant-versus-rest description.",
+        "Broocks et al., Radiology 2024, DOI 10.1148/radiol.231750 -- closest in spirit; delta as stated in closest_prior_work."
+      ],
+      "novelty_delta": "No published secondary analysis joining ISLES'24 imaging with its released phenotype tables was found by search (one unconfirmed near-miss: Tomography 2026, DOI 10.3390/tomography12030029, full text inaccessible); the specific object -- descriptive clinical profiling of a frozen estimator-dominance census with a burden-normalized keystone axis -- appears unpublished.",
+      "why_not_done": "NEW_CAPABILITY: the frozen, ratified per-case contribution census (probes/046/results/results_v3, imported 2026-09-01) exists only inside this program, and the ISLES'24 phenotype tables have been public only since 2024-2025.",
+      "audience_relevance": "Anyone reusing threshold- or band-based perfusion contrasts on this public benchmark inherits the head-dominance the census proved; whether the dominant cases are clinically marked or clinically silent determines whether such contrasts can be read as clinical-subgroup phenomena or must be read as imaging-geometry artifacts -- either answer disciplines a common analysis pattern on a widely used dataset.",
+      "unverified_claims": [
+        "Exact column names and coding of outcome.csv and demographic_baseline.csv (mitigation: the record-level clinical_data-description.xlsx is read and the variable list frozen before any case-level file).",
+        "Presence of treatment/reperfusion fields in the released tables (the Zenodo description says 'etc.'; the card treats treatment variables as conditional-if-present).",
+        "Per-case deficit-burden extraction reuses take-13 region machinery label-blind; confirmed at spec time, not yet re-run.",
+        "The Tomography 2026 near-miss (DOI 10.3390/tomography12030029) could not be read in full; whether it joins ISLES'24 phenotype tables is unconfirmed."
+      ],
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "Two precise frozen contrasts on a frozen cohort with a frozen variable list; slightly below 5 because the treatment-variable arm is conditional on release contents."
+        },
+        "identifiability": {
+          "value": 3,
+          "why": "For a descriptive claim, the design rules out the main alternative reading (volume mediation) via the disproportionality axis and D4 joint display; residual ambiguity from small strata and observational structure is irreducible and stated."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Determines whether a reproducible perfusion-band phenomenon on a public benchmark tracks clinical severity; plausible utility for how such contrasts are interpreted, no direct care consequence."
+        },
+        "interest": {
+          "value": 3,
+          "why": "Program-central and operator-requested; outside the program it is a useful niche result about who carries benchmark-scale contrasts."
+        },
+        "prior_legwork": {
+          "value": 5,
+          "why": "Census frozen and ratified in-repo; phenotype in the held archive; D3/D4 protocols already written and ratified; take-13 region machinery complete."
+        },
+        "feasibility": {
+          "value": 5,
+          "why": "Minutes of CPU on ~50 kB of staged data; every input verified; keystone INSPECTED_TRUE lifts the cap."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Archive held and checksum-verified; phenotype requires one small D3-restricted staging event rather than being already extracted."
+        },
+        "evaluation_readiness": {
+          "value": 2,
+          "why": "No accepted metric for 'clinically marked'; custom descriptive comparisons with permutation nulls must be pre-frozen."
+        },
+        "negative_result_value": {
+          "value": 3,
+          "why": "A null (clinically silent keystones) is sensitivity-limited at 10-versus-89 but still interpretable and useful: it pushes the reversal's explanation toward imaging geometry and warns against clinical readings of band contrasts."
+        },
+        "novelty_confidence": {
+          "value": 4,
+          "why": "Searched: no ISLES'24 phenotype-join secondary analysis found; nearest work (Broocks 2024) differs in cohort, estimand, and design; the census object is unique to this program. Not 5: absence of evidence from search is not proof."
+        },
+        "regret": {
+          "value": 4,
+          "why": "Pre-registered 2026-08-28, never executed, and explicitly requested by the operator steering note; skipping it again would be obvious-in-hindsight."
+        }
+      },
+      "plain_pitch": "An earlier experiment in this program found that a puzzling reversal in how stroke lesions relate to blood-flow levels is carried almost entirely by about ten of 99 patients. Nobody yet knows who those ten patients are in clinical terms. This idea takes the dataset's released clinical records -- for example, how disabled each patient was three months after the stroke -- and asks, in aggregate only, whether the dominant patients look clinically different from the rest, or whether they stand out only for imaging-arithmetic reasons such as having large affected regions. Either answer changes how researchers should read blood-flow-threshold comparisons on this public dataset; because these patients' images were already examined earlier, the idea is exploratory by construction and makes no claim about any individual patient.",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-010-c02",
+      "track": "wide",
+      "title": "Split the bolus movie in half: a parallel-forms noise floor for the benchmark's perfusion measures",
+      "question": "[psychometrics] If each ISLES'24 4D CT-perfusion series is split into even and odd frames and maps are recomputed per half, what split-half (Spearman-Brown corrected) reliability do core/penumbra volumes and per-case band measures achieve -- and what noise ceiling does that put under map-derived quantities on this cohort?",
+      "design_template": "natural-paired",
+      "design_template_justification": "The even/odd frame halves of one acquisition are a natural pair: same patient, same bolus, same scanner, same minute -- differing only in which interleaved samples of the same physiological curve each half sees. Grammar used once before in the portfolio (baseline idea-007), never in this charter.",
+      "borrowed_construct": "Psychometrics' split-half reliability with the Spearman-Brown prophecy formula (Spearman 1910; Brown 1910): two halves of one instrument administered to the same subject estimate the instrument's reliability, and the correction predicts full-length reliability. Implied measurement: correlate per-case quantities across frame-parity halves and correct for halved length; disagreement between parallel forms at matched bias IS the measurement noise.",
+      "deliverable_sentence": "Even/odd frame parallel forms computed from the released 4D CTP series bound the within-acquisition measurement reliability (split-half correlation, Spearman-Brown corrected) of deconvolution-derived core/penumbra volumes and per-case band measures on the ISLES'24 training cohort for a fixed open bSVD pipeline; the bound transports to the vendor-supplied maps only as an order-of-magnitude anchor, which is a stated scope limit, not a claim.",
+      "X_measurement": "Per half: CBF/CBV/MTT/Tmax maps by block-circulant SVD deconvolution (Wu et al. 2003, DOI 10.1002/mrm.10522 -- well-defined formula; open implementations verified to exist: github.com/turtleizzy/ctp_csvd and github.com/Marijn311/CT-and-MR-Perfusion-Tool) with ONE arterial input function selected on the full series and applied identically to both halves; per-half Tmax>6s hypoperfusion volume, rCBF<30% core volume, and the lineage's per-band CBF summaries. Statistics: split-half Pearson and ICC per quantity, Spearman-Brown correction, voxelwise even-minus-odd difference maps; a separate half-versus-full arm quantifies temporal-rate bias, which the even-versus-odd comparison cancels by construction.",
+      "use_vs_association": "No model-use claim: the object under test is the measurement instrument, not a model. The design separates instrument noise (even/odd disagreement at matched temporal-rate bias) from instrument bias (half versus full series) by construction, which is the parallel-forms analogue of the use-versus-association discipline.",
+      "keystone_prerequisite": "The raw 4D CTP time series is present per training case in the held archive (not only the vendor-derived maps).",
+      "keystone_status": "INSPECTED_TRUE",
+      "keystone_evidence": "Archive payload, from git origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv (manifest of the md5-verified train.7z): row 'train/raw_data/sub-stroke0001/ses-01/sub-stroke0001_ses-01_ctp.nii.gz,44038845,b76eabea' (vendor-native space) and row 'train/derivatives/sub-stroke0001/ses-01/sub-stroke0001_ses-01_space-ncct_ctp.nii.gz,451587495,a9896903' (registered space); grep counts 149 raw_data ses-01_ctp.nii.gz members -- one per case.",
+      "verified_dataset_facts": [
+        "Zenodo record 16813698 (v3): '4D CT perfusion (CTP) time series, and perfusion maps (Tmax, CBF, CBV, MTT)' listed among admission imaging; open access, CC BY-NC-SA 4.0; the held archive matches this record by md5 (evidence/decisions.md, 2026-08-25/26).",
+        "Dataset paper arXiv:2408.11142 (DOI 10.1148/ryai.250603): multicenter real-world cohort -- acquisition protocols and therefore frame counts/timing vary by site (variability expected, exact values unverified until staged).",
+        "Payload count: 149 raw 4D CTP members, one per case (manifest grep, 2026-09-01/02).",
+        "This candidate touches no outcome artifact: no DWI, no lesion mask, no phenotype -- fully label-blind."
+      ],
+      "smallest_decisive_experiment": "Stage the raw_data CTP series (about 44 MB per case, roughly 6.6 GB for the cohort) via the proven origin_direct staging path. First act: frame-count and frame-timing census across the 149 cases (multicenter variability is expected and must be measured, not assumed); freeze the analysis set and per-case delta-t handling from that census before any map is computed. Then per case: full-series AIF selection; bSVD on even frames, odd frames, and full series; per-half derived quantities; split-half ICC and Spearman-Brown per quantity; half-versus-full bias arm reported separately. Pre-registered fallback if wall-clock binds: the first 50 cases by case id, rule frozen before execution.",
+      "compute_envelope": "One Colab session: ~6.6 GB staged input, bSVD is seconds-to-minutes per case per half on CPU (GPU optional); full 149-case cohort in well under a session, with the frozen 50-case fallback as insurance.",
+      "most_dangerous_confound": "Temporal-rate bias masquerading as noise: halving the sampling rate biases deconvolution outputs (established by the subsampling literature), so half-maps differ from full-maps for reasons that are not noise. The design cancels this by comparing even AGAINST odd (both carry the same halved-rate bias) and measures the bias itself in the separate half-versus-full arm. Residual danger: patient motion is interleaved unevenly across parities in some cases, inflating apparent noise; a per-case frame-to-frame rigid-displacement index (standard registration tooling) is recorded and reported alongside, not used to exclude.",
+      "standing_confounds_addressed": "(1) Rate bias -- cancelled by parity symmetry, measured in the bias arm. (2) AIF-selection variance -- removed from the split by selecting one AIF on the full series and applying it to both halves. (3) Motion -- indexed and reported per case. (4) Vendor transport -- the reliability bound is claimed for the open pipeline only; transport to icobrain maps is explicitly an order-of-magnitude anchor (different regularization changes the noise floor), stated as a scope limit. (5) Lineage contact: results bear on how to read the 046 census head-dominance (low per-case reliability would mean part of the head could be noise), but this candidate reads no outcomes and makes no lineage claim; any such reading enters through the normal successor path.",
+      "dies_like_prior": "No attribution claim, so the IDENTIFIABILITY_FAILURE x12 pattern does not bind. DATA_ACCESS x3: the raw series is verified present (149/149) in the held archive and the staging path is battle-tested. The EFFECT_UNREACHABLE analogue -- reliability so high the bound is vacuous -- is the decisive reassuring negative, not a kill: it retires a worry class for every map-reading idea in this backlog with a quantified bound.",
+      "closest_prior_work": "Rau et al., European Journal of Radiology Open 2026 (DOI 10.1016/j.ejro.2026.100736, PMID 41743421): true test-retest with repeated CTP within 10 hours in 29 private-cohort patients -- substantial individual variability of threshold-derived volumes. Exact delta: two separate acquisitions confound physiological change with measurement noise and cannot scale (n=29, private); frame-parity halves isolate the within-acquisition noise floor on 149 public cases with parallel-forms statistics, at zero additional dose and full reproducibility.",
+      "novelty_neighbors": [
+        "Ma et al., Neuroradiology 2022, DOI 10.1007/s00234-022-03026-4, PMID 35925438 -- simulated 3.4/5.1 s sampling by frame-subsampling native 1.7 s CTP (77 patients) and compared subsampled to full as accuracy-versus-reference; no half-versus-half parallel forms, no reliability statistics.",
+        "Rau et al., Neuroradiology 2024, DOI 10.1007/s00234-024-03335-w, PMID 38498208 -- discarded frames to emulate coarser temporal resolution for dose reduction; same accuracy-versus-reference framing, institutional data.",
+        "Rau et al., Eur J Radiol Open 2026, DOI 10.1016/j.ejro.2026.100736, PMID 41743421 -- repeated-acquisition stability study; delta as stated in closest_prior_work. (Antecedent: Wintermark et al., AJNR 2004, PMID 15140710.)"
+      ],
+      "novelty_delta": "Frame subsampling exists (accuracy/dose framing) and split-half psychometrics exists (behavioral/EEG/ASL literature), but no found work performs frame-parity parallel-forms reliability of CTP-derived measures on any public stroke benchmark -- the combination appears absent.",
+      "why_not_done": "BLIND_SPOT: the protocol-optimization community frames frame subsampling as accuracy-versus-reference for dose reduction, and the benchmark community treats released maps as fixed inputs; the psychometric reliability framing sits between the two and belongs to neither.",
+      "audience_relevance": "Every group publishing on ISLES'24 consumes quantities derived from these acquisitions; a quantified per-case noise floor tells the field how much of any per-case perfusion-derived number is stable measurement versus frame noise -- and a segmentation benchmark whose top Dice is 0.285 (arXiv:2408.10966) needs to know how much of its input signal is real.",
+      "unverified_claims": [
+        "Frame counts and timing per case (multicenter; the census is the first act and the analysis set is frozen from it).",
+        "Whether the released raw_data CTP series is pre- or post- vendor motion correction (affects interpretation of the noise floor; recorded as a limitation either way).",
+        "Open-tool maturity: ctp_csvd and PyPeT verified to exist, not yet exercised on this data.",
+        "Transportability of the open-pipeline reliability bound to the vendor icobrain maps (explicitly scoped as an anchor, not a claim)."
+      ],
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "One-sentence question with named statistics; slightly below 5 because 'band measures' inherits definitions from the lineage machinery."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "The parity design cancels the main alternative (rate bias) by construction and measures it separately; motion is indexed. What the split-half correlation measures is unambiguous for the open pipeline; only the vendor transport is soft, and it is scoped out of the claim."
+        },
+        "medical_relevance": {
+          "value": 3,
+          "why": "Penumbra/core volumes drive treatment decisions and trial eligibility; a noise floor on their per-case stability has plausible utility without changing care directly."
+        },
+        "interest": {
+          "value": 4,
+          "why": "A quantified 'how much of the penumbra is frame noise' number on a live public benchmark would raise eyebrows and be cited by both the perfusion and benchmark communities."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Open bSVD implementations exist; the origin_direct staging path for this exact archive is proven; parallel-forms statistics are textbook. The deconvolution harness itself is unexercised."
+        },
+        "feasibility": {
+          "value": 4,
+          "why": "Verified data, one session, formula-defined computation; real engineering remains (AIF automation, per-site delta-t handling). Keystone INSPECTED_TRUE lifts the cap."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Held checksum-verified archive; ~6.6 GB restage through a proven path."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "ICC/Spearman-Brown are accepted statistics, but there is no imaging-community baseline for what reliability level counts as adequate; reported descriptively."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "Both directions are decisive and useful: high reliability retires a worry class with a bound; low reliability caps every per-case map-derived analysis on this cohort, including this program's own lineage."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "The specific combination was not found by search, but the adjacent subsampling literature is dense and partially answers the practical question; a hidden precedent is plausible."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Worth considering: cheap, label-blind, and it retroactively contextualizes results this program has already shipped."
+        }
+      },
+      "plain_pitch": "Hospitals estimate which brain tissue is salvageable after a stroke by tracking a dye bolus through the brain over roughly a minute of repeated scanning, then computing blood-flow maps from that movie. This idea splits each movie into its even-numbered and odd-numbered frames, computes the maps twice with an open method, and asks how well the two half-measurements agree -- the same trick psychologists use to score a test by splitting its questions in half. The agreement puts a number on how much of each patient's 'salvageable tissue' volume is signal versus measurement noise on a public dataset many research groups use. The vendor's own released maps can only be anchored approximately by this bound -- a limitation the idea states rather than hides -- but if the two halves disagree substantially, everyone computing per-patient numbers from these scans inherits that noise floor.",
+      "charter": "isles24"
+    },
+    {
+      "id": "isles24-scout-010-c03",
+      "track": "wide",
+      "title": "Graph-paper physiology: the value lattice under the penumbra thresholds",
+      "question": "[metrology / forensic accounting] Are the released ISLES'24 perfusion maps value-quantized, at what steps, in which space (vendor-native versus resampled) -- and how much do Tmax>6s and rCBF<30% volumes and percentile-band memberships move under half-step dithering and greater-than versus at-least threshold conventions?",
+      "design_template": "other:value-lattice-audit",
+      "design_template_justification": "No listed template fits: the object audited is the numeric value distribution of released map files and the arithmetic behavior of thresholds and percentiles on it -- not label geometry, not patient-conditioned observation, not any intervention on inputs or models. Named distinctly so the homogenization digest can count it honestly.",
+      "borrowed_construct": "Metrology's quantization-step estimation and dither analysis (measurement on a lattice carries irreducible +/- step/2 ambiguity), plus forensic accounting's value-distribution forensics (Benford-style digit and heaping analysis, as used to detect processing fingerprints in reported numbers). Implied measurement: estimate the realized value lattice of each released map, then propagate half-step perturbations through the standard clinical thresholds and the lineage's percentile machinery.",
+      "deliverable_sentence": "The released ISLES'24 perfusion maps are / are not value-quantized at estimable steps in vendor-native and/or resampled space, and the derived Tmax>6s and rCBF<30% volumes and percentile-band memberships do / do not shift materially (reported as per-case shift distributions, with no pass/fail margin) under half-step dithering and under greater-than versus at-least threshold conventions.",
+      "X_measurement": "Per map file (4 map types x 149 cases x 2 spaces): stored dtype, scl_slope/scl_inter headers, distinct-value count, minimum positive difference between sorted distinct values, and a step estimate (greatest-common-divisor style over value differences). Propagation arithmetic on the same files: per-case thresholded-volume shift under +/- half-step uniform dithering, volume shift between > and >= conventions at the standard cutoffs, and tie mass (fraction of region voxels sharing a value) at the lineage's percentile band edges. All computable by direct file reading and elementary arithmetic; no model, no training.",
+      "use_vs_association": "No model-use claim: the audit measures properties of released bytes and their arithmetic consequences. Nothing is attributed to any model, and no vendor intent is claimed -- the distinction between algorithmic discreteness (expected for Tmax) and storage quantization is measured, not asserted.",
+      "keystone_prerequisite": "The released icobrain cva maps are actually lattice-valued at steps coarse enough to matter (storage dtype, scaling headers, and distinct-value structure) -- determinable only by reading map voxels, which has not been done.",
+      "keystone_status": "NOT_INSPECTED",
+      "supporting_priors": "Three converging reasons to expect a lattice without having inspected one: (1) Calamante et al., Stroke 2010 (DOI 10.1161/STROKEAHA.110.580670) shows Tmax is algorithmically discrete -- it can only take multiples of the effective sampling interval; (2) ISLES 2017 released Tmax clipped to [0,20 s] and rescaled to 8 bits (noted in passing in arXiv:1806.04413), a precedent for challenge-released lattices; (3) this program's idea-045 gate failed partly because integer-quantized NCCT attenuation audit medians collapsed covariate geometry onto a small grid (evidence/decisions.md, 2026-09-01), showing lattice effects have already bitten this exact lineage once, from a different file family.",
+      "verified_dataset_facts": [
+        "Payload: perfusion maps exist per case in both spaces -- e.g. 'train/raw_data/sub-stroke0001/ses-01/perfusion-maps/sub-stroke0001_ses-01_tmax.nii.gz,193752,1aa30615' (vendor-native, note the small size) and 'train/derivatives/sub-stroke0001/ses-01/perfusion-maps/sub-stroke0001_ses-01_space-ncct_tmax.nii.gz,6580435,bf32937b' (resampled) -- from the md5-verified archive manifest (git origin/results/probe-023-349af5ad0b3e:probes/023/results_v2/archive_manifest.csv).",
+        "Zenodo record 16813698: maps named 'Tmax, CBF, CBV, MTT'; open access, CC BY-NC-SA 4.0; archive held and checksum-verified.",
+        "The icobrain cva provenance of the maps and the absence of unit documentation (zero JSON sidecars, empty NIfTI descrip fields) were established during the idea-023 arc (evidence/decisions.md, 2026-08-26 exit-8 entry) -- the same inspection found no value-granularity record, which is why this keystone is honestly NOT_INSPECTED.",
+        "The lineage consumed the space-ncct maps (023 contract); resampling interpolation can smear a lattice, so the two-space audit is load-bearing, not decorative."
+      ],
+      "smallest_decisive_experiment": "Stage the perfusion-maps subtrees (vendor-native maps are under ~1 MB per file; both spaces together a few GB). Pass 1, the audit: per-file dtype/scaling headers and distinct-value census; estimate steps; classify each map type per space as continuous, storage-quantized, or algorithmically discrete (Tmax expected discrete per Calamante). Pass 2, the propagation: per-case Tmax>6s and rCBF<30% volume shifts under half-step dithering and threshold-convention flips; tie mass at the lineage's percentile band edges. Report distributions; freeze no margin. Decisive either way: material shifts indict a silent co-author of every thresholded result on the benchmark; immaterial shifts retire the worry with numbers. CPU-only, one session.",
+      "compute_envelope": "One Colab session, CPU-only: a few GB staged, streaming per-file value census and elementary arithmetic; no model, no GPU.",
+      "most_dangerous_confound": "Storage-versus-algorithm conflation: NIfTI scaled-integer storage (dtype plus scl_slope) can make continuous outputs look quantized, and float storage can hide an algorithmic lattice under rounding noise; interpolation during resampling to NCCT space can smear either. The audit must therefore read raw stored integers AND scaled values in BOTH spaces, and report the three-way classification (continuous / storage-quantized / algorithmically discrete) per map type rather than a single 'quantized' verdict.",
+      "standing_confounds_addressed": "(1) Storage-versus-algorithm -- see most_dangerous_confound; the design's primary output is exactly this classification. (2) Expected Tmax discreteness (Calamante 2010) is treated as the null for Tmax, not as a finding; the news for Tmax is the realized step and its interaction with the >6 s cutoff, not discreteness per se. (3) No mechanism attribution: vendor intent and pipeline internals are out of scope. (4) Percentile-tie propagation uses the lineage's actual frozen band definitions, so the finding lands on analyses this program has already shipped rather than on a straw construct.",
+      "dies_like_prior": "Descriptive audit with no attribution claim, so IDENTIFIABILITY_FAILURE (x12) does not bind. DATA_ACCESS (x3): maps verified present in the held archive. EFFECT_UNREACHABLE (x1): the analogue -- steps too fine to matter -- is the decisive negative, delivered with the same numbers, not a kill.",
+      "closest_prior_work": "Calamante et al., Stroke 2010 (DOI 10.1161/STROKEAHA.110.580670): showed in simulation that Tmax is inherently discrete (multiples of the sampling interval) and dominated by delay/dispersion. Exact delta: they characterize algorithmic discretization in simulation; this candidate forensically measures the realized value lattices of released vendor map files on a public benchmark and propagates them into the specific thresholds and percentile machinery the benchmark community actually uses.",
+      "novelty_neighbors": [
+        "Calamante et al., Stroke 2010, DOI 10.1161/STROKEAHA.110.580670 -- delta as in closest_prior_work.",
+        "Austein et al., Stroke 2016, DOI 10.1161/STROKEAHA.116.013147 -- commercial CTP packages disagree markedly on core/penumbra volumes (147 patients); treats vendor maps as continuous black boxes, never examines the value structure within one package's released files.",
+        "Leijenaar et al., Scientific Reports 2015, DOI 10.1038/srep11075 -- deliberate intensity discretization choices materially change radiomics features; studies user-chosen binning as a preprocessing parameter, not unintended lattices embedded in distributed clinical maps."
+      ],
+      "novelty_delta": "No found work audits released challenge or vendor perfusion maps for value-lattice structure, estimates realized quantization steps, or propagates lattice effects into Tmax>6s / rCBF<30% volumes and percentile ties; the nearest touchpoints are simulation-level Tmax discreteness and passing mentions of 8-bit rescaling in earlier ISLES editions.",
+      "why_not_done": "BLIND_SPOT: software-variability studies compare vendors at the volume level and benchmark users treat released maps as ground input; value-level forensics of distributed maps falls between benchmark curation and metrology, and neither community owns it.",
+      "audience_relevance": "If the lattice is material, every thresholded and percentile-based result computed from these maps -- challenge submissions, secondary analyses, and this program's own lineage -- carries a quantifiable arithmetic artifact its authors did not model; if it is immaterial, that is a clean, citable license to ignore the worry on this dataset. It also supplies a concrete candidate mechanism for part of idea-045's covariate-geometry failure.",
+      "unverified_claims": [
+        "Whether the maps are stored as scaled integers or floats (the audit's first output).",
+        "Realized step sizes and whether they are coarse enough to matter (the hypothesis itself; honest NOT_INSPECTED).",
+        "Whether space-ncct resampling used lattice-smearing interpolation (assumed typical, measured by the two-space comparison).",
+        "The ISLES 2017 8-bit Tmax precedent is taken from a passing mention in arXiv:1806.04413, not re-verified against the 2017 release."
+      ],
+      "scores": {
+        "clarity": {
+          "value": 4,
+          "why": "Precise measurable questions (steps, shifts, tie mass) with the classification scheme named; below 5 because 'materially' is deliberately left as reported distributions rather than a margin."
+        },
+        "identifiability": {
+          "value": 4,
+          "why": "The audit measures exactly what it claims by arithmetic on released bytes; the one real ambiguity (storage versus algorithm versus resampling) is the design's primary measured output, not a residual confound."
+        },
+        "medical_relevance": {
+          "value": 2,
+          "why": "Indirect: thresholds feed decisions, but the finding is about the released research files, not about care."
+        },
+        "interest": {
+          "value": 3,
+          "why": "A 'your penumbra threshold sits on graph paper' result would be noticed by benchmark users and CTP methodologists; it also closes a loop on a failure this program already experienced."
+        },
+        "prior_legwork": {
+          "value": 4,
+          "why": "Data held and checksum-verified; the lineage's percentile machinery and region definitions are frozen in-repo; the audit needs only file reading and arithmetic."
+        },
+        "feasibility": {
+          "value": 3,
+          "why": "Cheap and single-session, but capped at 3 by the hard rule: the keystone (lattice existence and coarseness) is NOT_INSPECTED."
+        },
+        "data_readiness": {
+          "value": 4,
+          "why": "Held archive, proven staging path, small file family."
+        },
+        "evaluation_readiness": {
+          "value": 3,
+          "why": "Dithering and step estimation are standard metrology moves, but no accepted imaging-community protocol exists for this audit; methods must be frozen ad hoc."
+        },
+        "negative_result_value": {
+          "value": 4,
+          "why": "Steps too fine to matter is a decisive, quantified negative that retires the worry for this dataset and licenses percentile machinery in the lineage."
+        },
+        "novelty_confidence": {
+          "value": 3,
+          "why": "Capped by NOT_INSPECTED keystone; search found no precedent for the specific audit, but the adjacent literature is broad and the search shallow relative to it."
+        },
+        "regret": {
+          "value": 3,
+          "why": "Worth considering: cheap, decisive either way, and it either explains or exonerates a mechanism already implicated in one of this program's failed gates."
+        }
+      },
+      "plain_pitch": "Stroke blood-flow maps look like smooth continuous measurements, but software often stores them in coarse steps -- like drawing on graph paper. If the maps released with this public dataset are stepped, then standard clinical cutoffs, such as 'tissue where the dye peak arrives more than six seconds late', sit exactly on or between steps, and tiny conventions (greater-than versus at-least) can shift measured tissue volumes. Physics work already says one map type must be stepped, an earlier challenge edition shipped maps compressed to 256 levels, and a related rounding effect already derailed one experiment in this program. The idea simply reads the released numbers, measures the step sizes, and computes how much the standard cutoffs and rankings actually move -- a cheap audit that either flags a real problem for everyone using these maps or retires the worry with numbers. Whether the steps turn out to matter is exactly what is not yet known.",
+      "charter": "isles24"
+    }
+  ]
+}

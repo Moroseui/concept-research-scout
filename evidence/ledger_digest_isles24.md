@@ -1,6 +1,6 @@
 # Ledger digest -- charter: isles24 (auto-generated; scores are scoped to this charter only)
 
-80 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
+83 tracked ideas in this charter. Latest state per idea; full history in ledger.jsonl.
 
 Work under other charters: evidence/cross_charter_index.md (facts, no scores).
 
@@ -25,7 +25,7 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-002-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-16] -- The clot that lets contrast through
 - **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
 - **isles24-scout-008-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-09-02] -- The blood arrives backwards: filling direction as the model's collateral gauge
-- ... and 17 more (python scout.py backlog)
+- ... and 20 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
 
@@ -35,11 +35,11 @@ portfolio explores one scientific move with rotating vocabulary.
 - counterfactual-synthesis: 10
 - regional-substitution: 9
 - representation-erasure: 7
-- conditional-observational: 5
+- conditional-observational: 6
 - cross-model-disagreement: 4
+- natural-paired: 2
 - regional-removal: 2
 - other:label-geometry-audit: 2
-- natural-paired: 1
 - other:remote-perturbation: 1
 - other:graph-edge-intervention: 1
 - model-output-perturbation: 1
@@ -51,6 +51,7 @@ portfolio explores one scientific move with rotating vocabulary.
 - other:acquired-frame-substitution: 1
 - cross-reconstruction: 1
 - other:atlas-frame-randomization: 1
+- other:value-lattice-audit: 1
 
 ## Ideas
 
@@ -134,3 +135,6 @@ portfolio explores one scientific move with rotating vocabulary.
 - **isles24-scout-009-c01** [SCOUT_ONLY/SCOUTED/wide] -- The keystone patients: ten cases may teach the model the reversal
 - **isles24-scout-009-c02** [SCOUT_ONLY/SCOUTED/wide] -- The model's hidden disability map
 - **isles24-scout-009-c03** [SCOUT_ONLY/SCOUTED/wide] -- The atlas prior hidden under the perfusion maps
+- **isles24-scout-010-c01** [SCOUT_ONLY/SCOUTED/wide] -- The keystone ten meet the clinic: is estimator dominance clinically marked or clinically silent?
+- **isles24-scout-010-c02** [SCOUT_ONLY/SCOUTED/wide] -- Split the bolus movie in half: a parallel-forms noise floor for the benchmark's perfusion measures
+- **isles24-scout-010-c03** [SCOUT_ONLY/SCOUTED/wide] -- Graph-paper physiology: the value lattice under the penumbra thresholds
