@@ -15,6 +15,7 @@ A candidate that dies like a prior one must say what makes it different.
 
 ## Candidate backlog (scouted, not yet shortlisted; ranked)
 
+- **isles24-scout-009-c01** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 4.0, audited 2026-09-02] -- The keystone patients: ten cases may teach the model the reversal
 - **isles24-scout-008-c08** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.6, audited 2026-09-02] -- The model speaks one vendor's dialect: swap the deconvolution, keep the patient
 - **isles24-scout-008-c07** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.6, audited 2026-09-02] -- Caught mid-swallow: does the model read acquisition luck as collateral biology?
 - **isles24-scout-002-c03** [NO_DUPLICATE_FOUND_HIGH_CONFIDENCE, score 3.4, audited 2026-08-16] -- Two tissues, two death thresholds
@@ -24,7 +25,6 @@ A candidate that dies like a prior one must say what makes it different.
 - **isles24-scout-002-c05** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.2, audited 2026-08-16] -- The clot that lets contrast through
 - **isles24-scout-002-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 4.0, audited 2026-08-16] -- The barrier is already leaking
 - **isles24-scout-008-c04** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.8, audited 2026-09-02] -- The blood arrives backwards: filling direction as the model's collateral gauge
-- **isles24-scout-001-c01** [NO_DUPLICATE_FOUND_LIMITED_SEARCH, score 3.6, audited 2026-08-16] -- Does the winning model rediscover the collateral clock?
 - ... and 17 more (python scout.py backlog)
 
 ## Design-template concentration (homogenization watch)
