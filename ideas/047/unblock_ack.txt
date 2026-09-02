@@ -1,0 +1,2 @@
+ruling: S_i in the frozen take-13 table is per-band quartile-cell voxel counts (q1_voxels plus q4_voxels), not total eligible support; freeze the exact-map recomputation branch: eroded Tmax>6s deficit voxel count per case from the held maps under the ratified take-13 parameters. Adopt the round-3 finite-population design.
+condition: Rewrite the card to the round-3 finite-population design and verify from the frozen take-13 implementation that S_i is the claimed proxy for total eligible support, otherwise freeze the exact-map recomputation branch.
