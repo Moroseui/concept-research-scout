@@ -12,14 +12,14 @@ blob).
 
 ## Running Phase A
 
-One command into a new, empty output directory. The only network act is
-the pinned 12 kB dictionary fetch from immutable Zenodo record 16813698,
-md5-gated; supply `--dictionary-file` with a held copy to run with no
-network at all:
+One command into a new, empty output directory. The probe performs **no
+network access**: `--dictionary-file` is a required pre-staged input — a
+held copy of `clinical_data-description.xlsx` from immutable Zenodo
+record 16813698 (12,149 bytes, md5 `c8d806a0…`), verified against those
+pins before any cell is read. The probe refuses to run without it:
 
 ```bash
-python probes/047/run.py --output-dir /path/to/probe-047-phase-a
-python probes/047/run.py --output-dir OUT --dictionary-file /path/to/clinical_data-description.xlsx
+python probes/047/run.py --output-dir /path/to/probe-047-phase-a --dictionary-file /path/to/clinical_data-description.xlsx
 ```
 
 Synthetic harness check (no real inputs, no network, never a gate):
@@ -70,8 +70,13 @@ The contract interface — `resolved_config.json`, `input_manifest.csv`,
 `provenance_gate.json`, `per_case_support.csv`, `support_shares.json`,
 `rank_discrepancy.csv`, `dictionary_inventory.csv`,
 `proposed_variable_freeze.json`, `summary.json`, `environment.txt`,
-`run_log.txt` — plus split/determinism manifests, the bookkeeping
-exclusions log, and the staged dictionary copy. The support clause is
+`run_log.txt` — plus the case-identified split manifest (the analyzed
+case ids from the phenotype-blind exclusions table, hashed **before**
+the outcome-derived contribution table is opened; the support gate then
+requires exact id equality against it), start/end determinism manifests
+covering every input including the pre-staged dictionary (finalized on
+the decision-grade stop path too), the bookkeeping exclusions log, and
+the staged dictionary copy. The support clause is
 exact finite-population arithmetic: `sum_head |c_i| / sum_all |c_i|`
 beside `sum_head B_i / sum_all B_i` (the only two numbers the
 proportionality clause may cite), the casewise rank-discrepancy display,

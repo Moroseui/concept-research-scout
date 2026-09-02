@@ -9,9 +9,10 @@ cases, the idea-046 per-case contribution table, and the idea-046 census
 summary -- and emits the contract's frozen support clause: the frozen
 signed-rank top ten's share of total absolute contribution displayed beside
 their share of total eligible deficit support, the casewise rank-discrepancy
-distribution, and a descriptive Spearman rho. It then stages and inventories
-the 12 kB clinical data dictionary (the only staging transport permitted in
-this phase) and derives a machine-proposed clinical variable freeze for the
+distribution, and a descriptive Spearman rho. It then verifies and
+inventories the pre-staged 12 kB clinical data dictionary (a required held
+copy of the pinned immutable record file; this probe performs no network
+access) and derives a machine-proposed clinical variable freeze for the
 human amendment. No archive member, no perfusion map, no phenotype row, and
 no case-level clinical byte is touched; probes/023/results/results_v2/
 per_patient.csv is untouchable by construction.
@@ -28,9 +29,8 @@ the support clause is still delivered. NO DIRECTIONAL NEGATIVE IS DEFINED:
 SUPPORT_PROVENANCE_FAILURE (exit 4) is a pre-registered decision-grade stop
 for escalation, not a negative and not invalidating.
 
-Run (Phase A, after human approval; fetches only the 12 kB dictionary):
-    python probes/047/run.py --output-dir /path/to/new/output
-Run with a held dictionary copy (no network at all):
+Run (Phase A, after human approval; --dictionary-file is a REQUIRED
+pre-staged input -- no network access exists anywhere in this probe):
     python probes/047/run.py --output-dir OUT --dictionary-file /path/to/clinical_data-description.xlsx
 Smoke (synthetic fixtures, no real inputs, no network, never a gate):
     python probes/047/run.py --smoke --output-dir /tmp/probe-047-smoke
@@ -92,9 +92,13 @@ EXPECTED_TAKE13_BLOB = "0e9a40b453b6d4b653841d6ea70f2e4b75cce9be"
 # recorded verbatim in resolved_config.json per contract preprocessing step 1.
 COORD_SPAN = (486, 523)
 
-# Dictionary pin (contract dataset.dictionary). The URL names the immutable
-# child record directly; it is a declared constant and never re-resolved
-# (2026-08-25 lesson: a pin that can re-resolve at runtime is not a pin).
+# Dictionary pin (contract dataset.dictionary). This probe performs NO
+# network access (probe review B1): the operator pre-stages a held copy of
+# the record file and passes it via --dictionary-file, and the copy is
+# verified against the byte-count and md5 pins below. The URL documents the
+# immutable child record the held copy must come from; it is never fetched
+# at runtime and never re-resolved (2026-08-25 lesson: a pin that can
+# re-resolve at runtime is not a pin).
 DICT_URL = "https://zenodo.org/records/16813698/files/clinical_data-description.xlsx?download=1"
 DICT_MD5 = "c8d806a021614c6bb9f732756f9701d4"
 DICT_BYTES = 12149
@@ -221,9 +225,11 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Idea 047 Phase A probe")
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--dictionary-file", type=Path, default=None,
-                        help="Held copy of clinical_data-description.xlsx; "
-                             "when absent the pinned record-file URL is fetched "
-                             "(the only permitted network act, 12 kB).")
+                        help="REQUIRED for a real run: pre-staged held copy of "
+                             "clinical_data-description.xlsx from immutable "
+                             "Zenodo record 16813698, verified against the "
+                             "byte-count and md5 pins. The probe performs no "
+                             "network access; smoke synthesizes its own copy.")
     parser.add_argument("--smoke", action="store_true")
     return parser.parse_args()
 
@@ -286,24 +292,36 @@ def prepare_output_dir(path):
 
 
 # ---------------------------------------------------------------------------
-# SPLIT FREEZE. Written before ANY input file is opened. Phase A opens no
-# outcome or label file at all, and the 49 reserved cases plus excluded
-# sub-stroke0043 are never touched; this manifest freezes those counts first
-# so the discipline is checkable from the bundle.
+# SPLIT FREEZE (hard standard 5; probe review B2). The split manifest is
+# CASE-IDENTIFIED: it lists the actual analyzed case ids taken from the
+# pinned, phenotype-blind exclusions table (the take-13 label-blind output),
+# plus the excluded bookkeeping cases, and is hashed BEFORE the
+# outcome-derived contribution table or census summary is opened. The support
+# gate later requires the contribution ids to equal these frozen ids exactly,
+# so a case substitution that preserves the count is detectable from the
+# bundle. Phase A opens no phenotype file at all, and the 49 reserved cases
+# are never touched.
 # ---------------------------------------------------------------------------
 
-def freeze_split(output_dir, expected_cases, smoke):
-    rows = [{"anonymous_sample": index + 1, "split": "analyzed_census"}
-            for index in range(expected_cases)]
-    write_csv(output_dir / "split_manifest.csv", ["anonymous_sample", "split"], rows)
+def freeze_split(output_dir, exclusion_rows, smoke):
+    analyzed_ids = sorted(row["case_id"] for row in exclusion_rows
+                          if row["record_type"] == "analyzed_case")
+    bookkeeping = [row for row in exclusion_rows
+                   if row["record_type"] != "analyzed_case"]
+    rows = [{"case_id": case_id, "split": "analyzed_census"}
+            for case_id in analyzed_ids]
+    rows += [{"case_id": row["case_id"], "split": row["record_type"]}
+             for row in bookkeeping]
+    write_csv(output_dir / "split_manifest.csv", ["case_id", "split"], rows)
     record = {
-        "created_before_any_input_open": True,
-        "analyzed_census_cases": expected_cases,
+        "created_before_contribution_or_census_opened": True,
+        "id_source": ("record_type == analyzed_case rows of the pinned, "
+                      "phenotype-blind exclusions.csv (take-13 label-blind "
+                      "output); hashed before any outcome-derived byte"),
+        "analyzed_census_cases": len(analyzed_ids),
+        "excluded_bookkeeping_cases": len(bookkeeping),
         "reserved_cases": 0 if smoke else 49,
         "reserved_cases_accessed": 0,
-        # One source-corrupt excluded case (sub-stroke0043); the smoke fixture
-        # mirrors this bookkeeping structure, so the count holds in both modes.
-        "excluded_source_corrupt_cases": 1,
         "phenotype_rows_opened": 0,
         "seed": SEED,
         "smoke": smoke,
@@ -312,7 +330,7 @@ def freeze_split(output_dir, expected_cases, smoke):
     write_json(output_dir / "split_manifest.json", record)
     assert record["reserved_cases_accessed"] == 0
     assert record["phenotype_rows_opened"] == 0
-    return record
+    return record, analyzed_ids
 
 
 # ---------------------------------------------------------------------------
@@ -371,8 +389,11 @@ def extract_coordinate_lines(take13_path, smoke):
 # LOAD + SUPPORT PROVENANCE GATE (contract step 2). The exclusions table must
 # yield exactly the 99 analyzed cases with a finite positive integer B_i
 # each, set-equal to the contribution table, with the only non-analyzed rows
-# the two documented bookkeeping rows. Failure here is the pre-registered
-# decision-grade stop SUPPORT_PROVENANCE_FAILURE, not a negative result.
+# the two documented bookkeeping rows. The gate also enforces the review-B2
+# freeze: the contribution ids must equal the split-manifest ids that were
+# hashed before the contribution table was opened. Failure here is the
+# pre-registered decision-grade stop SUPPORT_PROVENANCE_FAILURE, not a
+# negative result.
 # ---------------------------------------------------------------------------
 
 def load_exclusions(path):
@@ -432,7 +453,8 @@ def load_contributions(path, expected_cases):
     return rows
 
 
-def support_provenance_gate(exclusion_rows, contrib_rows, expected_cases):
+def support_provenance_gate(exclusion_rows, contrib_rows, expected_cases,
+                            frozen_split_ids, split_manifest_sha256):
     discrepancies = []
     analyzed = [row for row in exclusion_rows if row["record_type"] == "analyzed_case"]
     remainder = [row for row in exclusion_rows if row["record_type"] != "analyzed_case"]
@@ -443,7 +465,18 @@ def support_provenance_gate(exclusion_rows, contrib_rows, expected_cases):
     if len(set(analyzed_ids)) != len(analyzed_ids):
         discrepancies.append("duplicate analyzed case ids")
 
+    # Review B2: the split manifest froze these ids (hashed) BEFORE the
+    # outcome-derived contribution table was opened; the contribution ids
+    # must equal the frozen ids exactly, or the freeze is void.
+    if sorted(analyzed_ids) != list(frozen_split_ids):
+        discrepancies.append("analyzed ids drifted from the frozen split manifest")
     contrib_ids = {row["case_id"] for row in contrib_rows}
+    if contrib_ids != set(frozen_split_ids):
+        manifest_only = sorted(set(frozen_split_ids) - contrib_ids)[:5]
+        contrib_only = sorted(contrib_ids - set(frozen_split_ids))[:5]
+        discrepancies.append(f"contribution ids differ from the frozen split "
+                             f"manifest; manifest_only={manifest_only} "
+                             f"contribution_only={contrib_only}")
     if set(analyzed_ids) != contrib_ids:
         missing = sorted(contrib_ids - set(analyzed_ids))[:5]
         extra = sorted(set(analyzed_ids) - contrib_ids)[:5]
@@ -483,6 +516,9 @@ def support_provenance_gate(exclusion_rows, contrib_rows, expected_cases):
         "pass": not discrepancies,
         "analyzed_rows": len(analyzed),
         "unique_analyzed_ids": len(set(analyzed_ids)) == len(analyzed_ids),
+        "split_manifest_sha256": split_manifest_sha256,
+        "contribution_ids_match_frozen_split_manifest":
+            contrib_ids == set(frozen_split_ids),
         "id_set_matches_contribution_table": set(analyzed_ids) == contrib_ids,
         "b_finite_positive_integer_count": len(support),
         "b_min": min(support.values()) if support else None,
@@ -663,30 +699,18 @@ def support_clause(contrib_rows, support, head_size):
 
 
 # ---------------------------------------------------------------------------
-# DICTIONARY (contract step 5). Stage the 12 kB dictionary against its pinned
-# md5 (held copy or the pinned immutable URL -- the only permitted transport
-# in this phase), inventory every cell verbatim, and derive the proposed
-# variable freeze via the frozen targeting rule. No case-level clinical file
+# DICTIONARY (contract step 5). Verify the pre-staged 12 kB dictionary
+# against its pinned byte count and md5, copy it into the bundle, inventory
+# every cell verbatim, and derive the proposed variable freeze via the frozen
+# targeting rule. Probe review B1: the held copy is a REQUIRED input and no
+# network access exists anywhere in this probe. No case-level clinical file
 # exists on disk in this phase, so the proposal cannot see any clinical byte.
 # ---------------------------------------------------------------------------
 
-def stage_dictionary(output_dir, dictionary_file, expected_md5, expected_bytes, smoke):
-    if dictionary_file is not None:
-        source = str(dictionary_file)
-        if not dictionary_file.is_file():
-            fail(EXIT_INPUT, f"--dictionary-file not found: {dictionary_file}")
-        data = read_bytes_checked(dictionary_file)
-    elif smoke:
-        fail(EXIT_INTERNAL, "smoke must supply its synthesized dictionary")
-    else:
-        source = DICT_URL
-        import urllib.request  # Localized: the single permitted network act.
-        try:
-            with urllib.request.urlopen(DICT_URL, timeout=120) as response:
-                data = response.read()
-        except Exception as exc:
-            fail(EXIT_INPUT, f"dictionary fetch failed ({type(exc).__name__}: {exc}); "
-                             f"supply --dictionary-file with a held copy")
+def stage_dictionary(output_dir, dictionary_file, expected_md5, expected_bytes):
+    if not dictionary_file.is_file():
+        fail(EXIT_INPUT, f"--dictionary-file not found: {dictionary_file}")
+    data = read_bytes_checked(dictionary_file)
     if len(data) != expected_bytes:
         fail(EXIT_INPUT, f"dictionary is {len(data)} bytes, pin says {expected_bytes}")
     digest = md5_bytes(data)
@@ -695,8 +719,8 @@ def stage_dictionary(output_dir, dictionary_file, expected_md5, expected_bytes, 
                          f"the pin never re-resolves at runtime")
     staged = output_dir / DICT_NAME
     staged.write_bytes(data)
-    return staged, {"source": source, "bytes": len(data), "md5": digest,
-                    "sha256": sha256_bytes(data)}
+    return staged, {"source": str(dictionary_file.resolve()), "bytes": len(data),
+                    "md5": digest, "sha256": sha256_bytes(data)}
 
 
 def _local(tag):
@@ -997,10 +1021,30 @@ def environment_record():
     }
 
 
+def finalize_determinism_end(output_dir, hash_targets, manifest_start):
+    """Hard standard 1 (probe review B3): re-hash EVERY input at the end of
+    every registered terminal path -- valid completion or the decision-grade
+    SUPPORT_PROVENANCE_FAILURE stop -- write and print the end manifest, and
+    require exact agreement with the start manifest before returning."""
+    manifest_end = hash_inputs(hash_targets)
+    manifest_end["seed"] = manifest_start["seed"]
+    manifest_end["smoke"] = manifest_start["smoke"]
+    if "row_counts" in manifest_start:
+        # Row counts were parsed once and are copied verbatim; the equality
+        # being enforced here is over input bytes, seed, and mode.
+        manifest_end["row_counts"] = dict(manifest_start["row_counts"])
+    if manifest_end != manifest_start:
+        fail(EXIT_OUTPUT, "start and end determinism manifests differ")
+    write_json(output_dir / "determinism_manifest_end.json", manifest_end)
+    print(json.dumps(manifest_end, sort_keys=True), flush=True)
+
+
 # ---------------------------------------------------------------------------
-# RUN. The contract's ordered Phase-A steps, in order: authority -> split
-# freeze -> identity gates -> support provenance gate -> census cross-checks
-# -> support clause -> dictionary inventory and freeze proposal -> outputs.
+# RUN. The contract's ordered Phase-A steps: authority -> phenotype-blind
+# exclusions load -> case-identified split freeze -> identity gates ->
+# support provenance gate -> census cross-checks -> support clause ->
+# dictionary inventory and freeze proposal -> outputs. The end determinism
+# manifest is finalized on every registered terminal path (review B3).
 # ---------------------------------------------------------------------------
 
 def run(args):
@@ -1015,11 +1059,6 @@ def run(args):
     expected_cases = SMOKE_CASES if args.smoke else EXPECTED_CASES
     head_size = SMOKE_HEAD_SIZE if args.smoke else HEAD_SIZE
 
-    # SPLIT FREEZE before any input is opened (hard standard 5).
-    split = freeze_split(args.output_dir, expected_cases, args.smoke)
-    emit(f"[split] Frozen: {expected_cases} analyzed census cases; "
-         f"{split['reserved_cases']} reserved cases untouched.", log_lines)
-
     if args.smoke:
         fixtures = make_smoke_inputs(args.output_dir)
         paths = {"exclusions.csv": fixtures["exclusions"],
@@ -1029,6 +1068,11 @@ def run(args):
         dictionary_file = fixtures["dictionary"]
         dict_md5, dict_bytes = fixtures["dictionary_md5"], fixtures["dictionary_bytes"]
     else:
+        if args.dictionary_file is None:
+            fail(EXIT_AUTHORITY,
+                 "--dictionary-file is required: the dictionary is a "
+                 "pre-staged, checksum-verified input and no network access "
+                 "exists anywhere in this probe (probe review B1)")
         paths = {"exclusions.csv": EXCLUSIONS_PATH,
                  "per_case_contributions.csv": CONTRIB_PATH,
                  "census_summary.json": CENSUS_PATH}
@@ -1036,29 +1080,59 @@ def run(args):
         dictionary_file = args.dictionary_file
         dict_md5, dict_bytes = DICT_MD5, DICT_BYTES
 
+    # Every input this probe reads, hashed in BOTH determinism manifests
+    # (review B3): the three frozen tables, the take-13 code evidence, and
+    # the pre-staged dictionary.
+    hash_targets = {**paths, "take13_run.py": take13_path,
+                    DICT_NAME: dictionary_file}
+
+    # LOAD the phenotype-blind exclusions table FIRST (review B2): it is the
+    # take-13 label-blind output that names the analyzed cases, so the split
+    # can be frozen from it before any outcome-derived byte is opened.
+    if not paths["exclusions.csv"].is_file():
+        fail(EXIT_INPUT, f"missing frozen input: {paths['exclusions.csv']}")
+    exclusions_sha256 = sha256_file(paths["exclusions.csv"])
+    if not args.smoke and exclusions_sha256 != EXPECTED_EXCLUSIONS_SHA256:
+        fail(EXIT_INPUT, f"exclusions.csv SHA-256 {exclusions_sha256} differs "
+                         f"from pin {EXPECTED_EXCLUSIONS_SHA256}")
+    exclusion_rows = load_exclusions(paths["exclusions.csv"])
+    emit(f"[load] {len(exclusion_rows)} exclusion rows (pin verified before "
+         f"the split freeze).", log_lines)
+
+    # SPLIT FREEZE (hard standard 5; review B2): case-identified and hashed
+    # BEFORE the outcome-derived contribution table or census summary opens.
+    split, frozen_split_ids = freeze_split(args.output_dir, exclusion_rows,
+                                           args.smoke)
+    emit(f"[split] Frozen: {split['analyzed_census_cases']} analyzed case ids "
+         f"from the pinned exclusions table (manifest sha256 "
+         f"{split['split_manifest_sha256']}); {split['reserved_cases']} "
+         f"reserved cases untouched.", log_lines)
+
     # LOAD + IDENTITY (contract step 1).
-    emit("[load] Hashing frozen inputs and verifying identity pins.", log_lines)
-    manifest_start = hash_inputs({**paths, "take13_run.py": take13_path})
+    emit("[load] Hashing all inputs and verifying identity pins.", log_lines)
+    manifest_start = hash_inputs(hash_targets)
     manifest_start["seed"] = SEED
     manifest_start["smoke"] = args.smoke
+    # The bytes hashed for the split freeze and for the manifest must agree.
+    assert manifest_start["exclusions.csv"]["sha256"] == exclusions_sha256
     verify_input_identity(manifest_start, take13_path, args.smoke)
     coordinate_evidence = extract_coordinate_lines(take13_path, args.smoke)
     write_json(args.output_dir / "determinism_manifest_start.json", manifest_start)
     print(json.dumps(manifest_start, sort_keys=True), flush=True)
-    exclusion_rows = load_exclusions(paths["exclusions.csv"])
     contrib_rows = load_contributions(paths["per_case_contributions.csv"],
                                       expected_cases)
     manifest_start["row_counts"] = {"exclusions.csv": len(exclusion_rows),
                                     "per_case_contributions.csv": len(contrib_rows)}
     write_json(args.output_dir / "determinism_manifest_start.json", manifest_start)
-    emit(f"[load] {len(exclusion_rows)} exclusion rows; "
-         f"{len(contrib_rows)} contribution rows.", log_lines)
+    emit(f"[load] {len(contrib_rows)} contribution rows.", log_lines)
 
-    # SUPPORT PROVENANCE GATE (contract step 2). Failure = pre-registered
-    # decision-grade stop; the gate record is the deliverable.
+    # SUPPORT PROVENANCE GATE (contract step 2; review-B2 equality against
+    # the frozen split manifest). Failure = pre-registered decision-grade
+    # stop; the gate record is the deliverable.
     emit("[validate] Running the support provenance-and-join gate.", log_lines)
-    gate_record, support = support_provenance_gate(exclusion_rows, contrib_rows,
-                                                   expected_cases)
+    gate_record, support = support_provenance_gate(
+        exclusion_rows, contrib_rows, expected_cases,
+        frozen_split_ids, split["split_manifest_sha256"])
     bookkeeping = [row for row in exclusion_rows
                    if row["record_type"] != "analyzed_case"]
     write_csv(args.output_dir / "probe_exclusions.csv",
@@ -1068,6 +1142,9 @@ def run(args):
     if not gate_record["pass"]:
         gate_record["status"] = "SUPPORT_PROVENANCE_FAILURE"
         write_json(args.output_dir / "provenance_gate.json", gate_record)
+        # Review B3: the decision-grade stop is a registered terminal path,
+        # so its end determinism manifest is finalized and compared too.
+        finalize_determinism_end(args.output_dir, hash_targets, manifest_start)
         summary = {"idea_id": IDEA_ID, "phase": PHASE,
                    "status": "SUPPORT_PROVENANCE_FAILURE", "smoke": args.smoke,
                    "discrepancies": gate_record["discrepancies"],
@@ -1132,7 +1209,9 @@ def run(args):
     emit("[summarize] Staging and inventorying the clinical data dictionary.",
          log_lines)
     staged, dict_record = stage_dictionary(args.output_dir, dictionary_file,
-                                           dict_md5, dict_bytes, args.smoke)
+                                           dict_md5, dict_bytes)
+    # The staged bytes must be the same bytes the start manifest hashed.
+    assert dict_record["sha256"] == manifest_start[DICT_NAME]["sha256"]
     records = parse_xlsx(staged)
     assert records and all(r["value"] for r in records)
     write_csv(args.output_dir / "dictionary_inventory.csv",
@@ -1177,11 +1256,10 @@ def run(args):
     }
     write_json(args.output_dir / "resolved_config.json", resolved)
     input_rows = [{"input": name, "path": value["path"], "sha256": value["sha256"],
-                   "role": "frozen_input"}
+                   "role": ("staged_dictionary" if name == DICT_NAME
+                            else "frozen_input")}
                   for name, value in manifest_start.items()
                   if isinstance(value, dict) and "sha256" in value]
-    input_rows.append({"input": DICT_NAME, "path": dict_record["source"],
-                       "sha256": dict_record["sha256"], "role": "staged_dictionary"})
     write_csv(args.output_dir / "input_manifest.csv",
               ["input", "path", "sha256", "role"], input_rows)
 
@@ -1205,15 +1283,9 @@ def run(args):
     write_json(args.output_dir / "summary.json", summary)
     write_json(args.output_dir / "environment.txt", environment_record())
 
-    # DETERMINISM MANIFEST END: the frozen inputs must hash identically.
-    manifest_end = hash_inputs({**paths, "take13_run.py": take13_path})
-    manifest_end["seed"] = SEED
-    manifest_end["smoke"] = args.smoke
-    manifest_end["row_counts"] = dict(manifest_start["row_counts"])
-    if manifest_end != manifest_start:
-        fail(EXIT_OUTPUT, "start and end determinism manifests differ")
-    write_json(args.output_dir / "determinism_manifest_end.json", manifest_end)
-    print(json.dumps(manifest_end, sort_keys=True), flush=True)
+    # DETERMINISM MANIFEST END (review B3): every input, dictionary included,
+    # must hash identically to the start manifest.
+    finalize_determinism_end(args.output_dir, hash_targets, manifest_start)
 
     emit(json.dumps(summary, indent=2, sort_keys=True), log_lines)
     if status == "PHASE_A_COMPLETE_REQUIRES_AMENDMENT":
