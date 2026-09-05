@@ -25,3 +25,14 @@ class WorkflowBoundaryTests(unittest.TestCase):
             self.assertNotIn('git push',text)
             self.assertNotIn('git checkout main',text)
             self.assertNotIn('git pull',text)
+
+    def test_all_workflows_parse_and_results_remain_quarantined(self):
+        for path in Path('.github/workflows').glob('*.yml'):
+            data=yaml.safe_load(path.read_text())
+            self.assertIsInstance(data['jobs'],dict)
+            for job in data['jobs'].values():
+                for step in job.get('steps',[]):
+                    if 'run' in step:self.assertIsInstance(step['run'],str)
+        data=yaml.safe_load(Path('.github/workflows/results-validate.yml').read_text())
+        self.assertEqual(data['jobs']['quarantined']['if'],'${{ false }}')
+        self.assertEqual(data['permissions'],{'contents':'read'})
