@@ -33,3 +33,7 @@ breach has not been established by this audit; attribution was scattered and
 this notice makes the dataset terms and citation requirement explicit. No
 commercial use or share-alike incompatibility is inferred without evidence.
 Original source evidence is preserved privately for the cleanup review.
+
+The [dataset paper itself](https://arxiv.org/abs/2408.11142) confirms the
+structured record identifier 2408.11142 and the requested title; use that paper
+in bibliographies while retaining the metadata-discrepancy note above.
