@@ -51,8 +51,9 @@ Only then may an investigator fix and review the next comparison specification.
 
 The [synthetic notebook](https://colab.research.google.com/github/Moroseui/concept-research-scout/blob/1a81c037343598f4e4585153b11d761b87a9ae3a/campaigns/isles24-pilot/colab/synthetic_execution.ipynb)
 can be run manually without Drive or patient data. Local execution/retrieval and
-a generic Colab MCP handshake passed; execution/retrieval through authenticated
-Colab remains unverified. Follow COLAB_MCP.md to configure and authenticate the
+a generic Colab MCP handshake passed. Claude Code subsequently completed the
+remote synthetic execution/retrieval test (receipt at 04385ed); Codex notebook
+tool discovery remains unresolved. See CLAUDE_EXECUTION_WORKER.md. Follow COLAB_MCP.md to configure and authenticate the
 synthetic test first. P001's manual Run All route does not depend on MCP.
 
 The separately reviewed 047 cleanup operation still requires explicit operator
