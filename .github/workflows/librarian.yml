@@ -1,13 +1,5 @@
-# Pilot quarantine: legacy model job disabled pending a reviewed campaign workflow.
 name: librarian
-
-# On-demand whole-corpus pass: connection map, stale-verdict re-audit, and
-# revival scan over killed/paused ideas. Costs agent tokens per entry, so it
-# is manual-only -- run it when the backlog has grown or after a wave of new
-# releases might have unblocked old ideas. Outputs: a report under
-# ideas/librarian-NNN/, verdict updates applied to the ledger, and proposals
-# in evidence/librarian_proposals.md for future scouting cycles to adopt.
-
+# Pilot quarantine: legacy model route disabled; use reviewed local campaign commands.
 on:
   workflow_dispatch:
     inputs:

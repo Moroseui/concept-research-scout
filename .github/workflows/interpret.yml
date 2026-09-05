@@ -1,15 +1,5 @@
-# Pilot quarantine: legacy model job disabled pending a reviewed campaign workflow.
 name: interpret
-
-# Cross-family adversarial interpretation of an imported results bundle,
-# dispatchable from the GitHub mobile app (Actions -> interpret -> Run
-# workflow). Mirrors the actioner's execution surface: agent CLIs +
-# secrets already provisioned there; deterministic tests run BEFORE any
-# agent; every leg's output (including FAILED partial output) is
-# committed by interpret-build and pushed fail-closed at the end. This
-# stage produces interpretation.md / interpret_review.md / decision.md
-# for HUMAN ratification -- it moves no scientific authority by itself.
-
+# Pilot quarantine: legacy model route disabled; use reviewed local campaign commands.
 on:
   workflow_dispatch:
     inputs:

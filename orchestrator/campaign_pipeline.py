@@ -27,6 +27,7 @@ def system_stage(sc,directory,family,stage,body,names):
     profile=Path(original)/'configs/pilot/agents-unattended.toml'
     config_root=Path(tempfile.mkdtemp(prefix='campaign-profile-'))
     shutil.copy2(profile,config_root/'AGENTS.toml')
+    (directory/('profile_'+stage+'.json')).write_text(json.dumps({'profile_sha256':hashlib.sha256((config_root/'AGENTS.toml').read_bytes()).hexdigest(),'profile_source':'configs/pilot/agents-unattended.toml','stage':stage}))
     try:
         sc.ROOT=config_root
         return run_isolated_stage(sc,directory,family,stage,body,names)
@@ -54,6 +55,8 @@ def grounding(root,experiment):
     if (exp/'import_receipt.json').exists():
         if (exp/'import_receipt.json').is_symlink():raise ValueError('symlink import receipt')
         r=json.loads((exp/'import_receipt.json').read_text());bundle=Path(root)/r['bundle']
+        for key,name in [('spec_sha256','SPEC.md'),('review_sha256','review.json')]:
+            if r.get(key)!=hashlib.sha256((exp/name).read_bytes()).hexdigest():raise ValueError('current import binding stale')
         if bundle.is_symlink() or not bundle.resolve().is_relative_to((exp/'results').resolve()):raise ValueError('unsafe bundle')
         if inventory(bundle)!=r['bundle_file_sha256']:raise ValueError('aggregate import changed')
         files.update(bundle/name for name in r['bundle_file_sha256'])
@@ -68,6 +71,9 @@ def execute(sc,mode,experiment,request,output):
     if mode not in MODES:raise ValueError('unknown stage')
     output=Path(output)
     permitted=Path(sc.ROOT)/'campaigns/isles24-pilot/pipeline'
+    for parent in [permitted,*permitted.parents]:
+        if parent.is_symlink():raise ValueError('symlink pipeline ancestor')
+        if parent==Path(sc.ROOT):break
     if not output.resolve().is_relative_to(permitted.resolve()) or output.is_symlink():raise ValueError('pipeline output outside campaign')
     output.mkdir(parents=True,exist_ok=False)
     try:context=grounding(sc.ROOT,experiment)

@@ -1,17 +1,5 @@
-# Pilot quarantine: legacy model job disabled pending a reviewed campaign workflow.
 name: scout-cycle
-
-# Runs a full scouting cycle on a GitHub-hosted runner using your Claude Max
-# and ChatGPT subscriptions (no API billing when the OAuth secrets are used).
-#
-# Required repository secrets:
-#   CLAUDE_CODE_OAUTH_TOKEN  from `claude setup-token` on your machine
-#   CODEX_AUTH_JSON          base64 of ~/.codex/auth.json after
-#                            `codex login --device-auth`
-#
-# Every completed stage is committed and pushed, so a 6-hour job kill or a
-# rate limit costs one stage; the retry job (or the next trigger) resumes.
-
+# Pilot quarantine: legacy model route disabled; use reviewed local campaign commands.
 on:
   workflow_dispatch:
     inputs:

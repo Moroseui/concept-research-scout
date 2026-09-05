@@ -48,3 +48,12 @@ outcomes require reconciliation; never retry a mutation based on missing output.
 Official references: [Codex sandbox/security](https://developers.openai.com/codex/security),
 [Codex configuration](https://developers.openai.com/codex/config-reference),
 [Claude hooks](https://code.claude.com/docs/en/hooks-guide).
+
+The future command builder scripts/future_worker_profile.py verifies the configured
+interpreter and guard executable by actually executing a synthetic denied read
+before emitting the CLI command. It uses --tools ToolSearch and exact MCP tool
+names; local Grep/Glob/Read tools are unavailable. This was tested without opening
+a Colab connection. run_code_cell intentionally returns only the approved cells
+fixed metadata/aggregate transport output; this supplementary get_cells hook does
+not replace the reviewed cell-source/capture checks. It is not a general MCP
+privacy firewall and must not be used for arbitrary notebook execution.

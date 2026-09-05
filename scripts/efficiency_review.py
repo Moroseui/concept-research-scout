@@ -13,7 +13,10 @@ def review(root,worker_receipts=()):
     for path in sorted(set(paths)):
         raw=path.read_bytes(); evidence.append({'path':path.relative_to(root).as_posix(),'sha256':hashlib.sha256(raw).hexdigest()})
         for line in raw.decode().splitlines():
-            try: receipts.append(json.loads(line))
+            try:
+                parsed=json.loads(line)
+                if not isinstance(parsed,dict):raise ValueError('receipt is not an object')
+                receipts.append(parsed)
             except (ValueError,TypeError): malformed+=1
     for path in worker_receipts:
         path=Path(path)
@@ -22,7 +25,7 @@ def review(root,worker_receipts=()):
         raw=path.read_bytes();digest=hashlib.sha256(raw).hexdigest()
         evidence.append({'path':'private-receipt:'+digest,'sha256':digest})
         r=json.loads(raw)
-        receipts.append({'stage':r.get('task',r.get('action','worker')),
+        receipts.append({'stage':'worker',
             'exit_class':'ok' if r.get('status')=='COMPLETE' else 'blocked_or_failed',
             'duration_s':r.get('wall_seconds'),'human_intervention_minutes':None})
     failure=Counter(r['exit_class'] for r in receipts if r.get('exit_class') not in (None,'ok'))

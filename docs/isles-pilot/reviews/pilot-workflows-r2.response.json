@@ -1,0 +1,94 @@
+{
+  "is_error": false,
+  "duration_api_ms": 233212,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "a63390b9-6677-4c71-aec1-6dddc17b75c1",
+  "total_cost_usd": 1.2946530000000003,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 17825,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 18530,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 17825,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 18530,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 17825,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 17825
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 10688,
+      "outputTokens": 16,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.010768,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 18530,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 17825,
+      "webSearchRequests": 0,
+      "costUSD": 1.2838850000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-workflows\",\"reviewed_commit\":\"9a4e0bf77fc1541e13ce7e0d04d38195f6b73601\",\"verdict\":\"REQUEST_CHANGES\",\"findings\":[\"BLOCKING (correctness, publication path): scripts/workflow_boundary.py publish() does `from scripts import check_pilot_publication`, which raises ModuleNotFoundError under the repo's own invocation convention (`python scripts/workflow_boundary.py ...`, the form the workflows use for verify): sys.path[0] is the scripts/ directory, the repo root is not on sys.path, and there is no scripts/__init__.py. Fails closed, but publish is unusable as shipped except via `python -m scripts.workflow_boundary`, and CI/tests exercise only verify, so this is never caught.\",\"BLOCKING (hardening/consistency): .github/workflows/check.yml has no `permissions:` block, so it runs repo code (setup.py, scout.py, pytest) on every push/PR with the repository default GITHUB_TOKEN permissions (potentially write); every other workflow pins `contents: read`. Add the same explicit read-only block.\",\"BLOCKING if repo is private (CI correctness): check.yml's 'Fetch only checked source ancestry' step runs `git fetch --unshallow origin $SOURCE_SHA` after checkout with persist-credentials: false stripped auth; on a private repository (implied by the subscription secrets described in scout-cycle.yml) this unauthenticated fetch fails every run. Scope credentials to that step or use fetch-depth: 0.\",\"Minor (privacy screen gap): check_pilot_publication.py's private-artifact check inspects only path.parts[:-1], never the filename itself, so e.g. tests/results_raw.jsonl or docs/isles-pilot/.private-notes.md pass the results/staged/.private screen. Extend the prefix check to all path components.\",\"Minor: the audit ignores git file modes, so a symlink blob at an allowed path passes all content checks (its target string is small text); it cannot leak content outside the published tree but can dangle or mislead. Consider rejecting non-regular modes via git ls-tree.\",\"Minor (stale docs): quarantined workflows retain active-behavior prose and inputs the blocked jobs cannot perform (interpret's 'committed by interpret-build and pushed fail-closed' and resume_review input; scout-cycle's required-secrets list). The quarantine banner mitigates, but trim to avoid operators trusting recovery semantics that do not exist.\",\"Verified sound: all six model workflows fail closed on three independent gates (pilot-branch ref check, vars.PILOT_REMOTE_RESEARCH_ENABLED defaulting off, unconditional exit-1 block step) with contents: read, SHA-pinned actions, persist-credentials: false, and no secrets references; results-validate is hard-disabled with `if: false`.\",\"Verified sound: publish is a correct append-only compare-and-swap \u2014 merge-base --is-ancestor (check=True) forbids history rewrites including on ambiguous exit codes, and --force-with-lease against the explicit expected-old SHA closes the ls-remote/push race; missing remote ref or unknown expected_remote both fail closed.\",\"Verified sound: the audit discriminates git error codes (contamination ancestry check requires exit code exactly 1, so exit 128 fails closed), hashes every changed blob version between pinned BASE and tip, rejects merges, oversized/binary blobs, credential-like bytes, and notebooks with retained outputs, and is read-only as documented.\",\"Verified sound: PRIVATE_COORDINATOR_PLAN.md and PRIVATE_COORDINATOR_SETUP.fish are genuinely plan-only (every gcloud command sits inside a printf string; nothing is provisioned), budgets are labeled authorization limits rather than hard caps, and scientific authority remains with human ratification.\"]}",
+  "structured_output": {
+    "scope": "pilot-workflows",
+    "reviewed_commit": "9a4e0bf77fc1541e13ce7e0d04d38195f6b73601",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKING (correctness, publication path): scripts/workflow_boundary.py publish() does `from scripts import check_pilot_publication`, which raises ModuleNotFoundError under the repo's own invocation convention (`python scripts/workflow_boundary.py ...`, the form the workflows use for verify): sys.path[0] is the scripts/ directory, the repo root is not on sys.path, and there is no scripts/__init__.py. Fails closed, but publish is unusable as shipped except via `python -m scripts.workflow_boundary`, and CI/tests exercise only verify, so this is never caught.",
+      "BLOCKING (hardening/consistency): .github/workflows/check.yml has no `permissions:` block, so it runs repo code (setup.py, scout.py, pytest) on every push/PR with the repository default GITHUB_TOKEN permissions (potentially write); every other workflow pins `contents: read`. Add the same explicit read-only block.",
+      "BLOCKING if repo is private (CI correctness): check.yml's 'Fetch only checked source ancestry' step runs `git fetch --unshallow origin $SOURCE_SHA` after checkout with persist-credentials: false stripped auth; on a private repository (implied by the subscription secrets described in scout-cycle.yml) this unauthenticated fetch fails every run. Scope credentials to that step or use fetch-depth: 0.",
+      "Minor (privacy screen gap): check_pilot_publication.py's private-artifact check inspects only path.parts[:-1], never the filename itself, so e.g. tests/results_raw.jsonl or docs/isles-pilot/.private-notes.md pass the results/staged/.private screen. Extend the prefix check to all path components.",
+      "Minor: the audit ignores git file modes, so a symlink blob at an allowed path passes all content checks (its target string is small text); it cannot leak content outside the published tree but can dangle or mislead. Consider rejecting non-regular modes via git ls-tree.",
+      "Minor (stale docs): quarantined workflows retain active-behavior prose and inputs the blocked jobs cannot perform (interpret's 'committed by interpret-build and pushed fail-closed' and resume_review input; scout-cycle's required-secrets list). The quarantine banner mitigates, but trim to avoid operators trusting recovery semantics that do not exist.",
+      "Verified sound: all six model workflows fail closed on three independent gates (pilot-branch ref check, vars.PILOT_REMOTE_RESEARCH_ENABLED defaulting off, unconditional exit-1 block step) with contents: read, SHA-pinned actions, persist-credentials: false, and no secrets references; results-validate is hard-disabled with `if: false`.",
+      "Verified sound: publish is a correct append-only compare-and-swap \u2014 merge-base --is-ancestor (check=True) forbids history rewrites including on ambiguous exit codes, and --force-with-lease against the explicit expected-old SHA closes the ls-remote/push race; missing remote ref or unknown expected_remote both fail closed.",
+      "Verified sound: the audit discriminates git error codes (contamination ancestry check requires exit code exactly 1, so exit 128 fails closed), hashes every changed blob version between pinned BASE and tip, rejects merges, oversized/binary blobs, credential-like bytes, and notebooks with retained outputs, and is read-only as documented.",
+      "Verified sound: PRIVATE_COORDINATOR_PLAN.md and PRIVATE_COORDINATOR_SETUP.fish are genuinely plan-only (every gcloud command sits inside a printf string; nothing is provisioned), budgets are labeled authorization limits rather than hard caps, and scientific authority remains with human ratification."
+    ]
+  },
+  "ttft_ms": 202854,
+  "ttft_stream_ms": 1475,
+  "time_to_request_ms": 122,
+  "type": "result",
+  "duration_ms": 232009,
+  "uuid": "f6e909df-2aa6-4c3b-9da3-57ac2724c7b8"
+}

@@ -1,11 +1,5 @@
-# Pilot quarantine: legacy model job disabled pending a reviewed campaign workflow.
 name: actioner
-
-# Aggregates everything awaiting the human into evidence/actions.md, readable
-# on your phone. With propose_improvement enabled, the agent may ALSO author
-# at most one pull request (never a commit to main): the PR diff + the checks
-# workflow's full test run + your merge button are the approval gate.
-
+# Pilot quarantine: legacy model route disabled; use reviewed local campaign commands.
 on:
   workflow_dispatch:
     inputs:

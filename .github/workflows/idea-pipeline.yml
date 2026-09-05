@@ -1,12 +1,5 @@
-# Pilot quarantine: legacy model job disabled pending a reviewed campaign workflow.
 name: idea-pipeline
-
-# Phone-triggerable post-scout pipeline: shortlist the top N candidates of the
-# latest completed cycle and run critique + debate on each, or target a
-# specific candidate/idea. Idempotent: re-running the same button skips
-# already-shortlisted candidates and stages whose artifacts exist, so it
-# doubles as resume after a failure or the 6-hour job cap.
-
+# Pilot quarantine: legacy model route disabled; use reviewed local campaign commands.
 on:
   workflow_dispatch:
     inputs:

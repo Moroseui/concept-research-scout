@@ -1,11 +1,5 @@
-# Pilot quarantine: legacy model job disabled pending a reviewed campaign workflow.
 name: confer
-
-# R5b confer-v0 (TRANSITIONAL: see transitional_debt.yaml). A bounded,
-# READ-ONLY, receipted, cross-family REVIEWED exchange about one idea, dispatchable from
-# the GitHub mobile app. Grounded on the research card; produces only
-# ideas/NNN/confer/ artifacts; touches no authority surface.
-
+# Pilot quarantine: legacy model route disabled; use reviewed local campaign commands.
 on:
   workflow_dispatch:
     inputs:
