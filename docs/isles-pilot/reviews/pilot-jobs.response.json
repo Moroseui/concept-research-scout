@@ -1,0 +1,95 @@
+{
+  "is_error": false,
+  "duration_api_ms": 234089,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "60c77c28-097b-4d42-9f85-2ef510e4cd8d",
+  "total_cost_usd": 1.146555,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 9740,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 18916,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 9740,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 18916,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 9740,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 9740
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 4980,
+      "outputTokens": 18,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.00507,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 18916,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 9740,
+      "webSearchRequests": 0,
+      "costUSD": 1.141485,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-jobs\",\"reviewed_commit\":\"9a4e0bf77fc1541e13ce7e0d04d38195f6b73601\",\"verdict\":\"APPROVE\",\"findings\":[\"Fail-closed classification verified: worker-level COMPLETE is never promoted to scientific VALIDATED; dispatch success maps only from DISPATCHED_NOT_YET_VALIDATED; all unknown statuses default to FAILED.\",\"At-most-once dispatch preserved: dispatch-phase timeouts, failures, and expired-lease recoveries all block with AMBIGUOUS_DISPATCH_CHECK_REMOTE_BEFORE_RETRY; no auto-retry path exists for the side-effecting phase, and complete_event rejects any direct dispatch-to-VALIDATED transition.\",\"Recovery semantics fenced: stale completions rejected via lease equality; duplicate event ids are idempotent while conflicting replays raise; read-only retry cap of 2 enforced consistently in both claim recovery and TRANSIENT completion paths; patient-phase VALIDATED blocks for human transfer rather than auto-publishing.\",\"Identity binding immutable: register rejects rebinding a job id to different inputs; snapshot() accepts only the hardcoded approved pin with HEAD equality and clean worktree; workers execute from the pinned snapshot cwd; coordinator files re-hashed against the review record on every tick, fail-closed on mismatch or missing hash.\",\"Privacy boundaries hold: only a fixed result enum persists in sqlite; worker stdout/stderr confined to a 0700/0600 private root created under umask 077, refused if symlinked or resolving inside the checkout; no worker output or sensitive paths printed to coordinator stdout.\",\"Minor (non-blocking): git rev-parse on the full 40-hex SNAPSHOT_PIN in ROOT does not verify object existence; harmless because the check is equality against the hardcoded constant, but --verify <pin>^{commit} would be stricter.\",\"Minor (non-blocking): status/tick on an unregistered job raises an unhandled TypeError from dict(None) in Store.get; fail-closed but should produce a clean error.\",\"Minor (non-blocking): git status --porcelain does not flag gitignored files in the snapshot worktree; --ignored would give stricter drift detection.\",\"Caveat (non-blocking): the at-most-once dispatch guarantee is per store file; two coordinators launched with distinct --private-root stores could each register the same experiment and double-dispatch; needs an operational safeguard outside this code.\",\"Minor (non-blocking): snapshot() git subprocesses have no timeout, so a hung git call stalls a tick past the lease; stale-lease fencing prevents state corruption but the run loop would rely on the ambiguous-dispatch block after recovery.\",\"Minor (non-blocking): demo writes a SYNTHETIC job and OPEN inbox entry into the production store; clearly labeled but pollutes inbox listings.\"]}",
+  "structured_output": {
+    "scope": "pilot-jobs",
+    "reviewed_commit": "9a4e0bf77fc1541e13ce7e0d04d38195f6b73601",
+    "verdict": "APPROVE",
+    "findings": [
+      "Fail-closed classification verified: worker-level COMPLETE is never promoted to scientific VALIDATED; dispatch success maps only from DISPATCHED_NOT_YET_VALIDATED; all unknown statuses default to FAILED.",
+      "At-most-once dispatch preserved: dispatch-phase timeouts, failures, and expired-lease recoveries all block with AMBIGUOUS_DISPATCH_CHECK_REMOTE_BEFORE_RETRY; no auto-retry path exists for the side-effecting phase, and complete_event rejects any direct dispatch-to-VALIDATED transition.",
+      "Recovery semantics fenced: stale completions rejected via lease equality; duplicate event ids are idempotent while conflicting replays raise; read-only retry cap of 2 enforced consistently in both claim recovery and TRANSIENT completion paths; patient-phase VALIDATED blocks for human transfer rather than auto-publishing.",
+      "Identity binding immutable: register rejects rebinding a job id to different inputs; snapshot() accepts only the hardcoded approved pin with HEAD equality and clean worktree; workers execute from the pinned snapshot cwd; coordinator files re-hashed against the review record on every tick, fail-closed on mismatch or missing hash.",
+      "Privacy boundaries hold: only a fixed result enum persists in sqlite; worker stdout/stderr confined to a 0700/0600 private root created under umask 077, refused if symlinked or resolving inside the checkout; no worker output or sensitive paths printed to coordinator stdout.",
+      "Minor (non-blocking): git rev-parse on the full 40-hex SNAPSHOT_PIN in ROOT does not verify object existence; harmless because the check is equality against the hardcoded constant, but --verify <pin>^{commit} would be stricter.",
+      "Minor (non-blocking): status/tick on an unregistered job raises an unhandled TypeError from dict(None) in Store.get; fail-closed but should produce a clean error.",
+      "Minor (non-blocking): git status --porcelain does not flag gitignored files in the snapshot worktree; --ignored would give stricter drift detection.",
+      "Caveat (non-blocking): the at-most-once dispatch guarantee is per store file; two coordinators launched with distinct --private-root stores could each register the same experiment and double-dispatch; needs an operational safeguard outside this code.",
+      "Minor (non-blocking): snapshot() git subprocesses have no timeout, so a hung git call stalls a tick past the lease; stale-lease fencing prevents state corruption but the run loop would rely on the ambiguous-dispatch block after recovery.",
+      "Minor (non-blocking): demo writes a SYNTHETIC job and OPEN inbox entry into the production store; clearly labeled but pollutes inbox listings."
+    ]
+  },
+  "ttft_ms": 208368,
+  "ttft_stream_ms": 1604,
+  "time_to_request_ms": 123,
+  "type": "result",
+  "duration_ms": 232988,
+  "uuid": "22ef8d4a-d753-4c98-9ce9-f19bd880dc7a"
+}
