@@ -2728,7 +2728,9 @@ class TestResultsTransport(Harness):
         self.assertNotIn("import torch", src)
         self.assertIn("userdata.get('SCOUT_RESULTS_PAT')", src)
         self.assertIn("os.environ['HF_TOKEN']", src)
-        self.assertIn("driver_console.log", src)
+        # 2026-09-05 (exit=7): console moved to a sibling of the bundle dir
+        # so the probe's empty-output-dir contract holds.
+        self.assertIn(".console.log", src)
         # transport ordering: branch checkout must precede the bundle copy
         self.assertLess(src.index("git('checkout', '-B', RESULTS_BRANCH"),
                         src.index("shutil.copytree(OUTPUT_DIR, dest)"))
@@ -4836,6 +4838,11 @@ class TestLauncherRunnerPassthrough(Harness):
         self.assertIn("KEEPING partial for resume", src)
         self.assertIn("aria2_attempt", src)
         self.assertIn("_nx = '16' if _attempt == 1 else '4'", src)
+        # empty-output-dir contract (exit=7 incident): driver must scrub the
+        # bundle dir and keep its console OUTSIDE it
+        self.assertIn("find {OUTPUT_DIR} -mindepth 1 -delete", run_cell)
+        self.assertIn("tee -a {CONSOLE}", run_cell)
+        self.assertNotIn("tee -a {OUTPUT_DIR}/driver_console.log", run_cell)
         # every generated code cell must be valid python
         for c in nb["cells"]:
             if c["cell_type"] == "code":

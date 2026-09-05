@@ -2201,9 +2201,14 @@ def package_colab(args):
       *staging_cells,
       nbf.v4.new_code_cell(
         "# Console (incl. any crash traceback) persists to Drive; refresh-proof.\n"
+        "# It lives BESIDE the bundle dir: the probe's own contract requires an\n"
+        "# empty output directory (2026-09-05, exit=7 incident), so the driver\n"
+        "# scrubs the dir and keeps its log as a sibling.\n"
+        "CONSOLE = OUTPUT_DIR.rstrip('/') + '.console.log'\n"
         + (getattr(args, 'runner_setup', '') and
            '!' + args.runner_setup.lstrip('!') + '\n' or '')
         + f"!mkdir -p {{OUTPUT_DIR}}\n"
+        + "!find {OUTPUT_DIR} -mindepth 1 -delete\n"
         + f"!python probes/{nn}/run.py "
         + ('' if getattr(args, 'omit_phase_flag', False)
            else "--phase {PHASE} ")
@@ -2213,7 +2218,7 @@ def package_colab(args):
         # 047 pre-flight before any session ran).
         + ((' ' + args.runner_args) if getattr(args, 'runner_args', '')
            else extra)
-        + " 2>&1 | tee -a {OUTPUT_DIR}/driver_console.log"),
+        + " 2>&1 | tee -a {CONSOLE}"),
       nbf.v4.new_code_cell(
         "# E1 transport: mirror the bundle onto the contract-bound results\n"
         "# branch. ORDER MATTERS: check out the branch FIRST, then overlay the\n"
