@@ -304,5 +304,57 @@
   "transfer_metadata_protocol_sha256": "e8b437ec20e55d9240052fc1ef45283c5e31e59502c8399e76b6e6dee1b35e7c",
   "controller_reviewed_commit": "bdc42897adbcafb10b81ce188645124f456da8cb",
   "controller_private_status": "~/.local/share/isles-colab-mcp/p001-handoff-20260905/automatic-handoff",
-  "controller_started": true
+  "controller_started": true,
+  "controller_first_event": {
+    "stage": "acquisition",
+    "result": {
+      "status": "COMPLETE",
+      "action": "poll",
+      "reviewed_commit": "bdf4369996364511e8bd824d4711907fa5fb71ea",
+      "cell_sha256": [
+        "bae4af73ba92d338159ffbfdac466ce85be3e5e827d84af1c59cac98f1a5042b",
+        "ac75bf8c7edbe31a2db7bec0792dbc27e91d2c0bd40f833509d7c7620b6062a3"
+      ],
+      "returncode": 0,
+      "actual_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "usage": {
+        "input_tokens": 20,
+        "cache_creation_input_tokens": 17345,
+        "cache_read_input_tokens": 108840,
+        "output_tokens": 7848,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 17345,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 683,
+            "cache_read_input_tokens": 18415,
+            "cache_creation_input_tokens": 201,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 201
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "cli_reported_cost_usd": 0.850289,
+      "remote": {
+        "status": "RUNNING"
+      },
+      "wall_seconds": 106.28894863500136
+    }
+  }
 }
