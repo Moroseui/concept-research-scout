@@ -2762,6 +2762,20 @@ def record_result(args):
         raise SystemExit('historical import (--expected-blob) requires '
                          '--source-commit: the results-branch commit the '
                          'bundle is taken from (round-7/8 import bindings).')
+    subset = getattr(args, 'publication_subset', None)
+    subset_receipt = None
+    if subset and (not src or not eb):
+        raise SystemExit('publication subset requires --source-commit and --expected-blob')
+    policy_path = ROOT / 'probes' / n3 / 'publication.json'
+    if policy_path.exists():
+        from orchestrator.publication import validate as validate_publication
+        policy = json.loads(policy_path.read_text())
+        if policy.get('contract_blob') != (eb or _contract_hash(idea_dir(args.idea))):
+            raise SystemExit('publication policy contract mismatch')
+        try:
+            validate_publication(bundle, policy)
+        except ValueError as e:
+            raise SystemExit('PUBLICATION REFUSED: ' + str(e))
     fails = validate_bundle(args.idea, bundle, expected_blob=eb)
     if fails:
         print(f'REFUSED: bundle failed validation ({len(fails)}):')
@@ -2793,7 +2807,16 @@ def record_result(args):
             hb = _git(['hash-object', str(bundle / rel)],
                       what='verbatim import check')
             local_blobs[rel] = hb.stdout.strip()
-        if src_files != local_blobs:
+        if subset:
+            from orchestrator.publication_subset import verify as verify_subset
+            required, _ = _parse_contract_fields(_historical_contract_text(eb))
+            if policy_path.exists():
+                required = sorted(set(required) | set(policy['required']))
+            try:
+                subset_receipt = verify_subset(ROOT, bundle, subset, src, eb, required, f'probes/{n3}/{bundle.name}')
+            except (ValueError, OSError, KeyError) as e:
+                raise SystemExit('PUBLICATION SUBSET REFUSED: ' + str(e))
+        if not subset and src_files != local_blobs:
             only_src = sorted(set(src_files) - set(local_blobs))[:3]
             only_loc = sorted(set(local_blobs) - set(src_files))[:3]
             diff = sorted(r for r in set(src_files) & set(local_blobs)
@@ -2807,6 +2830,8 @@ def record_result(args):
                'file_count': len(local_files),
                'imported_utc': datetime.now(timezone.utc)
                .isoformat(timespec='seconds')}
+    if subset_receipt:
+        receipt['publication_subset'] = subset_receipt
     sidecar = dest.parent / (dest.name + '.import.json')
     sidecar.write_text(json.dumps(receipt, indent=1, sort_keys=True) + '\n')
     subprocess.run(['git', 'add', '-f', str(dest), str(sidecar)],
@@ -4411,7 +4436,7 @@ def main():
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.add_argument('--omit-phase-flag',action='store_true',help='probe run.py takes no --phase'); p.add_argument('--runner-args',default='',help='extra args appended verbatim to the run.py invocation ({PY_VARS} interpolate)'); p.add_argument('--runner-setup',default='',help='shell line emitted before the runner (e.g. apt installs)'); p.set_defaults(fn=package_colab)
-    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.add_argument('--publication-subset'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
     p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)

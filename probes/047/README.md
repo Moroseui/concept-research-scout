@@ -144,8 +144,8 @@ precision."
 Phase A ✓ → record-result ✓ → interpret + review ✓ → ratify ✓ →
 amendment (contract v3) ✓ → fresh human approval ✓ → **Phase B
 probe-build (this code) → cross-family review → Phase B run** →
-record-result (expected destination `probes/047/results/results_v3` per
-the current-blob discovery convention) → interpret → ratify. The
-`ideas/047/registry.yaml` two-node DAG remains queued per the
-registry-per-probe rule, to be authored before or alongside the Phase-B
-record-result.
+record-result (expected destination `probes/047/results/results_v2-dc586665d0be` for the
+pinned historical import) → interpret → ratify. The
+`ideas/047/registry.yaml` two-node DAG is now proposed; historical
+attestation and Phase-B acceptance remain pending. See
+`docs/isles-pilot/047_LIFECYCLE.md`.

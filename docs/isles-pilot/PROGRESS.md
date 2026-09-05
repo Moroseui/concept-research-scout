@@ -48,3 +48,19 @@ staging, checkpoint-preserving reruns, actual failure consoles, immutable
 exports, symlink/raw-file refusal and executable generated export cells.
 047 publication policy is blocked pending audit semantics and console evidence.
 No dataset payload was executed by these tests.
+
+## Milestone 2
+
+Implemented a source-complete, byte-verified subset import declaration. Only
+staged inputs may be excluded with preserved originals and explicit dispositions;
+required scientific/audit outputs remain required. Added the two-node 047 registry
+and corrected its Phase-B destination documentation. Registry schema validates.
+Real Phase-A historical validation passed. Real 047 Phase-B top-level core
+validation also passed, demonstrating that the legacy validator alone cannot
+resolve the publication/audit issues. Actual record-result correctly refused on
+the new publication policy, with no import or interpretation claim.
+
+Fable review attempt was rejected by automatic approval review because sending
+repository source/diffs to the external service lacked explicit export approval.
+No Fable call executed. A bounded no-patient-data review request is pending with
+the operator; independent implementation continues. No new API billing used.

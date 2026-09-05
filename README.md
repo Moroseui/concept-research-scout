@@ -294,3 +294,9 @@ Return the verified export and sibling console for validation and import.
 
 Campaign progress: [ISLES pilot](docs/isles-pilot/PROGRESS.md). Dataset attribution:
 [ISLES24 notice](docs/isles-pilot/DATASET_NOTICE.md).
+
+`record-result IDEA --bundle DIR --expected-blob BLOB --source-commit SHA
+--publication-subset DECLARATION.json` accepts an explicit provenance-bound
+publication subset: every source file accounted for, retained bytes identical,
+required audit/science retained, and staged-input exclusions tied to preserved
+private originals. The 047 policy remains blocked pending its open decisions.
