@@ -20,9 +20,10 @@ Claude subscription worker, supplies a bounded synthetic task, retains its raw
 response privately, and accepts only the exact expected result and actual Fable
 model identity. This demonstrates request/status/result integration, not another
 remote execution. CLI failure, timeout or malformed output stays a failure.
-The private directory must be new and outside the checkout. The worker uses
+The private directory must be new and outside the checkout. The remote worker uses
 `--mcp-config /home/partho/.local/share/isles-colab-mcp/claude-worker.json`
 and `--strict-mcp-config`. No global MCP registration or reviewer command changes.
+The local receipt-only task uses a strict empty MCP configuration and has no remote tools.
 The private configuration contains the working WSL environment; regenerate its
 interoperability value if the WSL session changes. Never publish that file.
 
@@ -57,3 +58,13 @@ No return is present yet; no P001 metric or next comparison is claimed.
 
 Manual Run All in the approved notebook remains available. An MCP failure does
 not justify modifying scientific code, approvals, eligible cases or stopping rules.
+
+
+The synthetic remote route is `synthetic-remote --private-dir PATH`. It enables
+only ToolSearch plus colab-worker MCP tools, captures protocol output privately,
+and checks actual browser, source readback, execution sequence and retrieval
+exchanges against the pinned notebook and expected bytes. It is synthetic-only;
+there is no patient-data dispatch command. The remote CLI may require browser
+approval. BLOCKED is a recorded outcome, never scientific success. A completed
+remote synthetic result is labeled REMOTE_SYNTHETIC_VALIDATED. Reported CLI
+cost is a usage estimate, not evidence of an additional subscription charge.

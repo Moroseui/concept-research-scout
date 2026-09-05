@@ -10,7 +10,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOK_PIN = "1a81c037343598f4e4585153b11d761b87a9ae3a"
 SOURCE_PIN = "d6a1184b4378e849213fd887a6f7b103fb1a64d5"
-RECEIPT_PIN = "04385ed"
+RECEIPT_PIN = '04385ed546189d942f7383b162e28de9e65dac37'
 RECEIPT_PATH = "docs/isles-pilot/COLAB_MCP_REMOTE_EXECUTION_20260905.json"
 PRIVATE_CONFIG = Path("/home/partho/.local/share/isles-colab-mcp/claude-worker.json")
 EXPECTED = "ISLES pilot synthetic execution: 6 * 7 = 42\n"
@@ -24,22 +24,26 @@ def git_bytes(pin, path):
     return subprocess.check_output(["git", "show", pin + ":" + path], cwd=ROOT)
 
 
+def require(condition):
+    if not condition: raise ValueError("handoff evidence mismatch")
+
+
 def verify_handoff():
     raw = git_bytes(RECEIPT_PIN, RECEIPT_PATH)
     receipt = json.loads(raw)
     notebook = receipt["notebook"]
-    assert notebook["commit"] == NOTEBOOK_PIN
-    assert notebook["embedded_source_pin"] == SOURCE_PIN
-    assert digest(git_bytes(NOTEBOOK_PIN, notebook["path"])) == notebook["sha256"]
-    assert receipt["client"]["name"] == "claude-code"
-    assert receipt["connection"]["result"] is True
-    assert receipt["server"]["notebook_tools_available"] is True
+    require(notebook["commit"] == NOTEBOOK_PIN)
+    require(notebook["embedded_source_pin"] == SOURCE_PIN)
+    require(digest(git_bytes(NOTEBOOK_PIN, notebook["path"])) == notebook["sha256"])
+    require(receipt["client"]["name"] == "claude-code")
+    require(receipt["connection"]["result"] is True)
+    require(receipt["server"]["notebook_tools_available"] is True)
     for key in ("acquisition_cell_executed", "synthetic_write_cell_executed", "separate_retrieval_cell_executed"):
-        assert receipt["remote_execution"][key] is True
+        require(receipt["remote_execution"][key] is True)
     returned = receipt["returned"]
-    assert returned == {"text": EXPECTED, "sha256": digest(EXPECTED.encode())}
+    require(returned == {"text": EXPECTED, "sha256": digest(EXPECTED.encode())})
     transport = json.loads(receipt["transport_cell"]["returned_stream"][0])
-    assert transport == {"retrieved_text": EXPECTED, "sha256": returned["sha256"]}
+    require(transport == {"retrieved_text": EXPECTED, "sha256": returned["sha256"]})
     return {"status": "HANDOFF_RECEIPT_VERIFIED", "receipt_sha256": digest(raw),
             "notebook_sha256": notebook["sha256"], "returned_sha256": returned["sha256"],
             "successful_client": "claude-code", "codex_notebook_discovery_resolved": False,
@@ -50,7 +54,7 @@ def private_dir(path):
     path = Path(path).absolute()
     if path.is_symlink() or path.resolve().is_relative_to(ROOT.resolve()):
         raise ValueError("worker evidence must be outside the checkout")
-    path.mkdir(mode=0o700, parents=True, exist_ok=False)
+    path.mkdir(mode=0o700, parents=False, exist_ok=False)
     return path
 
 
@@ -102,11 +106,16 @@ def invoke_handoff_worker(destination, timeout=300, remote=False):
               "properties": {k: {"type": "string"} for k in
                              ["status", "task", "receipt_sha256", "notebook_sha256", "returned_sha256"]},
               "required": ["status", "task", "receipt_sha256", "notebook_sha256", "returned_sha256"]}
-    command = ["claude", "-p", "--model", "claude-fable-5", "--output-format", "json",
-               "--mcp-config", str(PRIVATE_CONFIG), "--strict-mcp-config", "--tools", "",
+    if remote:
+        schema["properties"]["blocker"] = {"type": "string", "enum": ["NONE", "CONNECTION_FAILED", "NOTEBOOK_TOOLS_UNAVAILABLE", "NONEMPTY_NOTEBOOK", "EXECUTION_FAILED", "RETRIEVAL_MISMATCH", "OTHER"]}
+        schema["required"].append("blocker")
+        prompt += " Return blocker from the schema enum, NONE only on success."
+    command = ["claude", "-p", "--model", "claude-fable-5", "--output-format", "stream-json", "--verbose",
+               "--mcp-config", str(PRIVATE_CONFIG) if remote else '{"mcpServers":{}}', "--strict-mcp-config", "--tools", "",
                "--permission-mode", "dontAsk", "--max-turns", "3", "--json-schema", json.dumps(schema)]
     if remote:
-        command[command.index("3")] = "40"
+        command[command.index("--max-turns")+1] = "40"
+        command[command.index("--tools")+1] = "ToolSearch"
         command += ["--allowedTools", "mcp__colab-worker__*"]
     # Raw CLI response is private even for synthetic tasks; publish only parsed fixed fields.
     start = time.monotonic()
@@ -116,28 +125,89 @@ def invoke_handoff_worker(destination, timeout=300, remote=False):
             run = subprocess.run(command, input=prompt.encode(), stdout=out, stderr=err,
                                  cwd=destination, timeout=timeout)
             code = run.returncode
-        except subprocess.TimeoutExpired:
+        except (subprocess.TimeoutExpired, OSError):
             code = None
     meta = {"task": packet["task"], "returncode": code, "wall_seconds": time.monotonic()-start,
             "remote_replay": remote, "review_approval": False, "status": "WORKER_FAILED",
             "usage": None, "reported_cost_usd": None, "human_intervention_minutes": None}
     try:
-        response = json.loads((destination / "stdout.json").read_text())
+        events = [json.loads(line) for line in (destination / "stdout.json").read_text().splitlines() if line.strip()]
+        if any(not isinstance(e, dict) for e in events): raise ValueError("non-object worker event")
+        responses = [e for e in events if e.get("type") == "result"]
+        if len(responses) != 1: raise ValueError("missing terminal worker result")
+        response = responses[0]
+        meta["observed_tool_names"] = sorted({block["name"] for e in events if e.get("type") == "assistant"
+                                            for block in e.get("message", {}).get("content", [])
+                                            if isinstance(block, dict) and block.get("type") == "tool_use"})
         if code != 0 or response.get("is_error") or response.get("subtype") != "success":
             raise ValueError("incomplete worker response")
         result = response["structured_output"]
+        if not isinstance(result, dict): raise ValueError("non-object worker result")
         expected = {"status": "SYNTHETIC_REMOTE_VERIFIED" if remote else "HANDOFF_CHECKED", "task": packet["task"],
                     "receipt_sha256": packet["expected_receipt_sha256"],
                     "notebook_sha256": packet["expected_notebook_sha256"],
                     "returned_sha256": digest(EXPECTED.encode())}
+        if remote:
+            expected["blocker"] = "NONE"
+            blockers = schema["properties"]["blocker"]["enum"][1:]
+            if result.get("status") == "BLOCKED" and result.get("blocker") in blockers:
+                meta["status"] = "WORKER_BLOCKED"
+                meta["blocker"] = result["blocker"]
+                raise ValueError("remote worker blocked; no success claimed")
         if result != expected or "claude-fable-5" not in response.get("modelUsage", {}):
             raise ValueError("worker result or model mismatch")
-        meta.update(status="WORKER_HANDOFF_VALIDATED", result=result, model="claude-fable-5",
+        if remote: meta["protocol_verification"] = verify_synthetic_protocol(events)
+        meta.update(status="REMOTE_SYNTHETIC_VALIDATED" if remote else "WORKER_HANDOFF_VALIDATED", result=result, model="claude-fable-5",
                     usage=response.get("usage"), reported_cost_usd=response.get("total_cost_usd"))
-    except (ValueError, KeyError, TypeError):
+    except (ValueError, KeyError, TypeError, AttributeError):
         pass  # Detailed raw evidence stays private; no echoed model text on failures.
     write_private(destination / "validated_status.json", json.dumps(meta, indent=2))
     return meta
+
+
+def verify_synthetic_protocol(events):
+    """Check actual tool exchanges, not just the worker's final claim. Synthetic only."""
+    calls = []
+    results = {}
+    for event in events:
+        for block in event.get("message", {}).get("content", []):
+            if not isinstance(block, dict): continue
+            if event.get("type") == "assistant" and block.get("type") == "tool_use":
+                if block.get("name", "").startswith("mcp__colab-worker__"):
+                    calls.append(block)
+            if event.get("type") == "user" and block.get("type") == "tool_result" and block.get("tool_use_id") in {c["id"] for c in calls}:
+                if block.get("is_error"): raise ValueError("MCP error in synthetic attempt")
+                if isinstance(block.get("content"), str):
+                    results[block["tool_use_id"]] = json.loads(block["content"])
+    connected = [c for c in calls if c["name"].endswith("__open_colab_browser_connection")]
+    if len(connected) != 1 or results[connected[0]["id"]] != {"result": True}:
+        raise ValueError("missing actual browser connection")
+    snapshots = [results[c["id"]]["cells"] for c in calls if c["name"].endswith("__get_cells")]
+    if len(snapshots) != 2 or any("".join(c["source"]).strip() for c in snapshots[0]):
+        raise ValueError("synthetic notebook was not initially blank or readback missing")
+    expected = json.loads(git_bytes(NOTEBOOK_PIN, "campaigns/isles24-pilot/colab/synthetic_execution.ipynb"))["cells"]
+    cells = snapshots[1]
+    if len(cells) != len(expected) or any("".join(a["source"]) != "".join(b["source"]) or a["cell_type"] != b["cell_type"] for a,b in zip(cells, expected)):
+        raise ValueError("pinned cells changed")
+    runs = [c for c in calls if c["name"].endswith("__run_code_cell")]
+    if len(runs) != 4 or [c["input"]["cellId"] for c in runs[:3]] != [c["id"] for c in cells[1:]]:
+        raise ValueError("acquisition, write and separate retrieval sequence differs")
+    outputs = [results[c["id"]]["outputs"] for c in runs]
+    if any(o.get("output_type") == "error" for group in outputs for o in group):
+        raise ValueError("remote cell failed")
+    for group in outputs[1:3]:
+        if not any("returncode=0" in "".join(o.get("data", {}).get("text/plain", [])) for o in group):
+            raise ValueError("pinned subprocess did not return success")
+    streams = "".join("".join(o.get("text", [])) for o in outputs[3] if o.get("output_type") == "stream")
+    returned = json.loads(streams.splitlines()[0])
+    if returned != {"retrieved_text": EXPECTED, "sha256": digest(EXPECTED.encode())}:
+        raise ValueError("actual retrieved bytes/hash mismatch")
+    supplements = [c for c in calls if c["name"].endswith("__add_code_cell") and results[c["id"]].get("newCellId") == runs[3]["input"]["cellId"]]
+    if len(supplements) != 1: raise ValueError("transport cell provenance missing")
+    return {"status": "ACTUAL_SYNTHETIC_TOOL_EXCHANGES_VERIFIED", "pinned_execution_calls": 3,
+            "separate_transport_retrieval_calls": 1, "returned_text": EXPECTED,
+            "returned_sha256": returned["sha256"],
+            "transport_source_sha256": digest(supplements[0]["input"]["code"].encode())}
 
 
 def capture_cell(source, log_path):
