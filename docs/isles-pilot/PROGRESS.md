@@ -404,3 +404,31 @@ receipt: P001_INPUT_DISCOVERY_20260905.json. CLI usage/cost estimates are record
 actual additional charges and human intervention duration are not measured.
 Codex notebook-tool discovery remains unresolved; execution client is Claude Code.
 Pending public-history cleanup is still separately unapproved and unexecuted.
+
+
+Acquisition actually dispatched through Claude Code; four separate status
+retrievals returned RUNNING. Filename metadata showed 5,108,662,272 partial bytes,
+last written one second before observation: active transfer, not completed
+integrity validation. Original private logs and partials are retained. No P001
+patient run has been claimed from these acquisition statuses.
+
+Serial controller f0c2310fac9a91159fc4168b4eb0412ec77a792b initially tried to
+rewrite latest.json through an exclusive writer. Investigator caught that real
+bug; corrected at bdc42897adbcafb10b81ce188645124f456da8cb and added a test of
+actual receipt writes. The initial Fable APPROVE assumed overwrites were allowed;
+that superseded review is retained and not used as the gate. Fresh completed
+Fable APPROVE of the corrected revision was adopted at 04c14d1. Four synthetic
+controller tests pass (33 relevant tests total across this checkpoint).
+
+The serial controller now runs detached locally, with evidence under
+~/.local/share/isles-colab-mcp/p001-handoff-20260905/automatic-handoff. It polls
+only fixed statuses, waits for archive VALIDATED, rechecks all three source-bound
+approvals, dispatches the fixed-path P001 packet once, and polls its semantic
+validation result. Failure, unknown status, or observation limit stops the chain;
+no mutation is automatically retried. Successful patient validation stops at
+NEEDS_PRIVATE_RETURN_TRANSFER. No import is possible until original console,
+private checkpoints, and the aggregate return are transferred privately and
+validated locally. Keep WSL and the connected CPU Colab runtime alive. This is
+an active execution handoff, not a completed scientific result. The controller's
+outcome.json is authoritative; a crashed controller may lack that file, and a
+zero process exit code alone is not a success receipt.
