@@ -1,0 +1,53 @@
+{
+  "base": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+  "tip": "68298a8751e9c25ba45a58ab05b3ac24db5d63fa",
+  "branch": "astra/autonomous-isles-pilot",
+  "commits": [
+    "194cdcd491a608190fca45c24ad216153431270e",
+    "62e310503f554c1853494c23642c1962423b9dbf",
+    "a69b0445722b658395683007887f0709dfc22c78",
+    "ece94ea0f88fdbc55ac3b82c36f8f8e5ef397b72",
+    "bd99839362364c7b350d7bf8ef21c7cfff2433cc",
+    "c4297226e8f8afe17420a189bdf512953ae33ffd",
+    "45c4a5d3329b210eea4a3e1b11027b1bca261fe5",
+    "c6fd4041bcf4b48b8b5f66fc05e0dd7b88c954a7",
+    "689ef117585bcb5dea04ca560c32074d31281f47",
+    "68298a8751e9c25ba45a58ab05b3ac24db5d63fa"
+  ],
+  "artifact_versions_checked": 56,
+  "manifest_sha256": "9477dfaa24e79a7c2401871272790dba73df325ef09ab0c9bd56009c8f9d222a",
+  "contaminated_history_reachable": false,
+  "validation": {
+    "full_unit_tests_passed": 227,
+    "047_registry_schema": "valid",
+    "047_state_and_card": "byte-identical regeneration",
+    "p001_preflight": {
+      "eligible_cases": 99,
+      "selected_members": 198,
+      "patient_payloads_opened": 0
+    },
+    "p001_synthetic_end_to_end": "pass including resume and tamper refusal",
+    "notebook_schema_and_compilation": "pass",
+    "local_synthetic_execution_and_retrieval": "pass",
+    "colab_mcp_handshake": "pass",
+    "colab_execution_and_retrieval": "not verified"
+  },
+  "scientific_results": null,
+  "cleanup": {
+    "status": "rehearsed_not_executed",
+    "old": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+    "new": "c812421207b6ddcba6516444897c777d8440275a",
+    "retained_scientific_audit_files": 16,
+    "retained_bytes_identical": true,
+    "original_failure_preserved": true,
+    "replacement_reaches_raw_phenotype_blobs": 0,
+    "durable_original_evidence": "outside checkout, owner-only"
+  },
+  "unresolved": [
+    "Fable payload export approval",
+    "047 exclusion/console/registry attestation decisions",
+    "cleanup operation approval",
+    "Colab authentication and real execution"
+  ],
+  "single_next_operator_action": "Authorize bounded code/documentation-only export to Claude Fable for cross-family review; no patient data or private evidence."
+}
