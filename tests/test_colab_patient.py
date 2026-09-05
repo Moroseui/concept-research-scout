@@ -13,8 +13,9 @@ from orchestrator import colab_patient as p
 
 class PatientDispatchTests(unittest.TestCase):
     def test_gate_blocks_patient_packet(self):
-        with self.assertRaises(FileNotFoundError):
-            p.execution_packet('/content/train.7z')
+        with tempfile.TemporaryDirectory() as d, patch.object(p,'REVIEW_DIR',Path(d)):
+            with self.assertRaises(FileNotFoundError):
+                p.execution_packet('/content/train.7z')
 
     def test_archive_path_rejects_phenotype_root_and_traversal(self):
         for path in ['/content/047-staged', '/tmp/train.7z', '/content/../train.7z', '/content/train.7z\n']:
