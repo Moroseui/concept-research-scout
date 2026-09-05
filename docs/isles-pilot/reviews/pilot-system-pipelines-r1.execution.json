@@ -1,0 +1,22 @@
+{
+  "reviewed_commit": "2a841fe7e925df603b52c667e46a91ee8e730182",
+  "returncode": 0,
+  "wall_seconds": 336.3894212389987,
+  "input_file_sha256": {
+    "orchestrator/campaign_pipeline.py": "a71626fb84106f6e5751763092e9a68b1169b418e86ef9dab1da380d1682d7c8",
+    "orchestrator/job_store.py": "33c280b5e15eba47bcc7800554444997348e79630fbe50ea9bd53e0d79e90528",
+    "orchestrator/campaign_lifecycle.py": "d4c33f59ccd2520124f49788d7538057c8ee0fe4a92579453f33072c9a45a92e",
+    "tests/test_job_store.py": "ec143e1b5a8edcb5d6550cd125dcd4f345abf812a5db49e1ac492e71e0225d70",
+    "tests/test_campaign_pipeline.py": "a20651699f26d233155366ed49fae88f130bc0991534ef260a2cc6ef94adfd6c"
+  },
+  "response_sha256": "de83ae47188e5b9c0f4e2c33638f288822b02e10e67278e97d7accb3e904757b",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "add1ad376c702451add8b5ae50fe2db6e3fe22d38207afe84519925620720137"
+}

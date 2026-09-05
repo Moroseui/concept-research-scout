@@ -1,0 +1,21 @@
+{
+  "reviewed_commit": "47c87dc13aefa3cb607b0c5becda736b0769e2db",
+  "returncode": 0,
+  "wall_seconds": 230.30563965699912,
+  "input_file_sha256": {
+    "orchestrator/pilot_jobs.py": "9df701d1c5ce842be3e9f26fe91992ab73f4da73e58307d5a0d84c7b0f357c1f",
+    "orchestrator/job_store.py": "33c280b5e15eba47bcc7800554444997348e79630fbe50ea9bd53e0d79e90528",
+    "tests/test_pilot_jobs.py": "660229e3c1bb6124260861cfbe274fb9048600d94c397ae96ca77d02a9833748",
+    "tests/test_job_store.py": "ec143e1b5a8edcb5d6550cd125dcd4f345abf812a5db49e1ac492e71e0225d70"
+  },
+  "response_sha256": "4dd6e394e658c3a78a7a75cb0ac870f513e04f3b77bd5cf70698705ab81819c4",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "0c72f4408c39c32aab780f5fb31db250f9009a73c0585e5dea0b965bff23be2f"
+}

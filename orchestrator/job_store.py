@@ -20,9 +20,13 @@ class Store:
 
     def register(self,job,binding):
         text=json.dumps(binding,sort_keys=True)
-        old=self.db.execute('SELECT binding FROM jobs WHERE id=?',(job,)).fetchone()
-        if old and old[0]!=text:raise ValueError('job identity already binds different inputs')
-        self.db.execute("INSERT OR IGNORE INTO jobs(id,binding,phase,status) VALUES(?,?,'acquisition','READY')",(job,text))
+        self.db.execute('BEGIN IMMEDIATE')
+        try:
+            old=self.db.execute('SELECT binding FROM jobs WHERE id=?',(job,)).fetchone()
+            if old and old[0]!=text:raise ValueError('job identity already binds different inputs')
+            self.db.execute("INSERT OR IGNORE INTO jobs(id,binding,phase,status) VALUES(?,?,'acquisition','READY')",(job,text))
+            self.db.execute('COMMIT')
+        except BaseException:self.db.execute('ROLLBACK');raise
 
     def get(self,job):return dict(self.db.execute('SELECT * FROM jobs WHERE id=?',(job,)).fetchone())
 

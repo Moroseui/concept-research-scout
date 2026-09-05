@@ -1,12 +1,29 @@
 {
   "permissions": {
-    "allow": ["mcp__colab-worker__*"],
-    "deny": ["Bash", "Read", "Write", "Edit"]
+    "allow": [
+      "mcp__colab-worker__open_colab_browser_connection",
+      "mcp__colab-worker__get_cells",
+      "mcp__colab-worker__add_code_cell",
+      "mcp__colab-worker__run_code_cell"
+    ],
+    "deny": [
+      "Bash",
+      "Read",
+      "Write",
+      "Edit"
+    ]
   },
   "hooks": {
-    "PreToolUse": [{
-      "matcher": "mcp__colab-worker__get_cells",
-      "hooks": [{"type": "command", "command": "python /home/partho/concept-research-scout-v4/scout-autonomy/scripts/pilot_tool_guard.py"}]
-    }]
+    "PreToolUse": [
+      {
+        "matcher": "mcp__colab-worker__get_cells",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/sbin/python /home/partho/concept-research-scout-v4/scout-autonomy/scripts/pilot_tool_guard.py"
+          }
+        ]
+      }
+    ]
   }
 }

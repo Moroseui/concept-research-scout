@@ -7,4 +7,5 @@ class DriverTests(unittest.TestCase):
         self.assertEqual(classify('acquisition',{'status':'COMPLETE','remote':{'status':'RUNNING'}}),'RUNNING')
         self.assertEqual(classify('dispatch',{'status':'COMPLETE','job_status':'DISPATCHED_NOT_YET_VALIDATED'}),'DISPATCHED')
         self.assertEqual(classify('patient',{'status':'COMPLETE'}),'FAILED')
+        self.assertEqual(classify('dispatch',{'status':'COMPLETE','job_status':'RUNNING'}),'FAILED')
         self.assertEqual(classify('acquisition',{'status':'FAILED','remote':{'status':'VALIDATED'}}),'FAILED')

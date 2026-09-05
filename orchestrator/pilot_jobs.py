@@ -12,8 +12,8 @@ import uuid
 from orchestrator.job_store import Store
 
 ROOT=Path(__file__).resolve().parents[1]
-FILES=['orchestrator/pilot_jobs.py','orchestrator/job_store.py','tests/test_pilot_jobs.py','tests/test_job_store.py']
-SNAPSHOT_PIN='0770c7d'
+FILES=['orchestrator/__init__.py','orchestrator/pilot_jobs.py','orchestrator/job_store.py','tests/test_pilot_jobs.py','tests/test_job_store.py']
+SNAPSHOT_PIN='0770c7dcabe781cbfb87de505755e7aafa758f2e'
 
 
 def reviewed():
@@ -30,6 +30,8 @@ def reviewed():
 
 def snapshot(path,pin):
     path=Path(path).resolve()
+    approved=subprocess.check_output(['git','rev-parse',SNAPSHOT_PIN],cwd=ROOT,text=True).strip()
+    if pin!=approved:raise ValueError('only the preserved approved P001 snapshot is permitted')
     actual=subprocess.check_output(['git','rev-parse','HEAD'],cwd=path,text=True).strip()
     if actual!=pin or subprocess.check_output(['git','status','--porcelain'],cwd=path).strip():
         raise ValueError('execution snapshot changed')
@@ -38,6 +40,7 @@ def snapshot(path,pin):
 def classify(phase,meta):
     if meta.get('status')!='COMPLETE':return 'FAILED'
     value=meta.get('remote',{}).get('status') if phase=='acquisition' else meta.get('job_status')
+    if phase=='dispatch' and value!='DISPATCHED_NOT_YET_VALIDATED':return 'FAILED'
     return {'STARTING':'RUNNING','RUNNING':'RUNNING','VALIDATED':'VALIDATED',
         'DISPATCHED_NOT_YET_VALIDATED':'DISPATCHED','NOT_VISIBLE':'NOT_VISIBLE','FAILED':'FAILED'}.get(value,'FAILED')
 

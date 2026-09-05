@@ -1166,7 +1166,8 @@ class TestBackpressure(Harness):
         text = Path(".github/workflows/actioner.yml").read_text()
         self.assertIn("Campaign route required", text)
         self.assertNotIn("gh pr create", text)
-        self.assertLess(text.index("Campaign route required"), text.index("Install agent CLIs"))
+        self.assertNotIn("secrets.", text)
+        self.assertIn("exit 1",text)
 
 
 class TestExecutionReceipts(Harness):

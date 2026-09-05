@@ -19,7 +19,9 @@ class WorkflowBoundaryTests(unittest.TestCase):
             job=next(iter(data['jobs'].values()))
             self.assertIn('PILOT_REMOTE_RESEARCH_ENABLED',job['if'])
             steps=job['steps'];names=[s.get('name') for s in steps]
-            self.assertLess(names.index('Campaign route required'),names.index('Install agent CLIs'))
+            guard=steps[names.index('Campaign route required')]
+            self.assertIn('exit 1',guard['run'])
+            self.assertNotIn('secrets.',text)
             self.assertNotIn('git push',text)
             self.assertNotIn('git checkout main',text)
             self.assertNotIn('git pull',text)

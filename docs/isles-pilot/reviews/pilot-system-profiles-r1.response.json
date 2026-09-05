@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 164915,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "dce81cf7-6d1d-4579-a3c9-ce230f88363e",
+  "total_cost_usd": 0.8838080000000001,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 10142,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 13494,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 10142,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 13494,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 10142,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 10142
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 5308,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.005383000000000001,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 13494,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 10142,
+      "webSearchRequests": 0,
+      "costUSD": 0.8784250000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-system-profiles\",\"reviewed_commit\":\"47c87dc13aefa3cb607b0c5becda736b0769e2db\",\"verdict\":\"REQUEST_CHANGES\",\"findings\":[\"BLOCKING (privacy): configs/pilot/agents-unattended.toml grants the unattended codex author sandbox_workspace_write.network_access=true and the claude reviewer WebSearch/WebFetch under --permission-mode dontAsk, while execute() inlines the full bound context (campaign docs, SPEC, run.py, aggregate bundle contents) into their prompts. The 'no remote writes' constraint is instruction-only, so either agent can exfiltrate the bound context. Disable network for these stages or stop inlining file contents.\",\"BLOCKING (authority/identity binding): in campaign_pipeline.execute(), author and reviewer share the same round-N directory and the author runs first with workspace write. Nothing in the supplied source prevents the codex author from pre-writing review.json with verdict APPROVE, which would satisfy the opposing-family gate without the claude reviewer authoring it. Assert review.json is absent before the reviewer stage or run the reviewer in a separate directory; verify run_isolated_stage's fresh-output semantics.\",\"BLOCKING (fail-open guard): colab-worker-future.json invokes the hook via bare 'python' at a hardcoded absolute path; if 'python' is not on PATH the command exits 127, a non-blocking PreToolUse error, so get_cells proceeds with outputs and the privacy guard is silently disabled. Additionally the allow list is the wildcard mcp__colab-worker__* while the guard covers only get_cells, so any other tool returning cell outputs bypasses PILOT_OUTPUT_READ_BLOCKED. Use python3 and allow-list only guarded tools. (The guard function itself is correctly fail-closed on includeOutputs and malformed input.)\",\"Recovery semantics: grounding() and the request.json write occur before the evidence-preserving try in execute(); a grounding failure leaves the output directory with no blocked.json, and mkdir(exist_ok=False) then rejects reruns at that path with no recorded reason.\",\"Receipt binding gaps: artifact_sha256 uses non-recursive directory.iterdir(), leaving subdirectory artifacts unbound; P002/P003 receipts do not record the predecessor interpretation_receipt.json hash they were gated on, so the verified predecessor state is not provable from the receipt.\",\"Minor hygiene: system_stage leaks one mkdtemp config directory per stage and mutates module-global sc.ROOT (not concurrency-safe); grounding reads predecessor files without the symlink check applied to other inputs.\",\"Positive: scientific-approval preservation is correct \u2014 only *.proposed.* artifacts are written under pipeline/, experiments/ is never modified (test asserts run.py untouched), and all persisted statuses honestly disclaim human ratification. efficiency_review.py copies only whitelisted fields and records worker receipts by digest.\",\"Caveat: source-only review; run_isolated_stage and orchestrator.publication.inventory were not supplied, so fresh-output enforcement, receipt 'ci' semantics, and bundle-name handling in inventory() could not be verified. No tests were executed.\"]}",
+  "structured_output": {
+    "scope": "pilot-system-profiles",
+    "reviewed_commit": "47c87dc13aefa3cb607b0c5becda736b0769e2db",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKING (privacy): configs/pilot/agents-unattended.toml grants the unattended codex author sandbox_workspace_write.network_access=true and the claude reviewer WebSearch/WebFetch under --permission-mode dontAsk, while execute() inlines the full bound context (campaign docs, SPEC, run.py, aggregate bundle contents) into their prompts. The 'no remote writes' constraint is instruction-only, so either agent can exfiltrate the bound context. Disable network for these stages or stop inlining file contents.",
+      "BLOCKING (authority/identity binding): in campaign_pipeline.execute(), author and reviewer share the same round-N directory and the author runs first with workspace write. Nothing in the supplied source prevents the codex author from pre-writing review.json with verdict APPROVE, which would satisfy the opposing-family gate without the claude reviewer authoring it. Assert review.json is absent before the reviewer stage or run the reviewer in a separate directory; verify run_isolated_stage's fresh-output semantics.",
+      "BLOCKING (fail-open guard): colab-worker-future.json invokes the hook via bare 'python' at a hardcoded absolute path; if 'python' is not on PATH the command exits 127, a non-blocking PreToolUse error, so get_cells proceeds with outputs and the privacy guard is silently disabled. Additionally the allow list is the wildcard mcp__colab-worker__* while the guard covers only get_cells, so any other tool returning cell outputs bypasses PILOT_OUTPUT_READ_BLOCKED. Use python3 and allow-list only guarded tools. (The guard function itself is correctly fail-closed on includeOutputs and malformed input.)",
+      "Recovery semantics: grounding() and the request.json write occur before the evidence-preserving try in execute(); a grounding failure leaves the output directory with no blocked.json, and mkdir(exist_ok=False) then rejects reruns at that path with no recorded reason.",
+      "Receipt binding gaps: artifact_sha256 uses non-recursive directory.iterdir(), leaving subdirectory artifacts unbound; P002/P003 receipts do not record the predecessor interpretation_receipt.json hash they were gated on, so the verified predecessor state is not provable from the receipt.",
+      "Minor hygiene: system_stage leaks one mkdtemp config directory per stage and mutates module-global sc.ROOT (not concurrency-safe); grounding reads predecessor files without the symlink check applied to other inputs.",
+      "Positive: scientific-approval preservation is correct \u2014 only *.proposed.* artifacts are written under pipeline/, experiments/ is never modified (test asserts run.py untouched), and all persisted statuses honestly disclaim human ratification. efficiency_review.py copies only whitelisted fields and records worker receipts by digest.",
+      "Caveat: source-only review; run_isolated_stage and orchestrator.publication.inventory were not supplied, so fresh-output enforcement, receipt 'ci' semantics, and bundle-name handling in inventory() could not be verified. No tests were executed."
+    ]
+  },
+  "ttft_ms": 135751,
+  "ttft_stream_ms": 1674,
+  "time_to_request_ms": 119,
+  "type": "result",
+  "duration_ms": 163795,
+  "uuid": "effee48a-f378-4155-8cb0-bc7df3b630db"
+}

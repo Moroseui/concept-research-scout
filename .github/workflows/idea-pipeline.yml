@@ -1,3 +1,4 @@
+# Pilot quarantine: legacy model job disabled pending a reviewed campaign workflow.
 name: idea-pipeline
 
 # Phone-triggerable post-scout pipeline: shortlist the top N candidates of the
@@ -44,7 +45,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   pipeline:
@@ -54,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
         with:
-          ref: ${{ inputs.source_sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
           persist-credentials: false
 
@@ -75,86 +76,3 @@ jobs:
         run: |
           echo 'BLOCKED: legacy numbered-idea workflow is not authorized for this campaign; use the campaign system commands locally.'
           exit 1
-      - name: Install agent CLIs
-        run: |
-          npm install -g @anthropic-ai/claude-code @openai/codex
-          claude --version || true
-          codex --version || true
-
-      - name: Codex auth (API key preferred; OAuth snapshot fallback)
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          if [ -n "$OPENAI_API_KEY" ]; then
-            # This codex CLI does not read the env var for auth
-            # (observed: 401 missing bearer); materialize the key
-            # into its own auth store instead.
-            mkdir -p ~/.codex
-            printf '{"OPENAI_API_KEY": "%s"}\n' "$OPENAI_API_KEY" > ~/.codex/auth.json
-            chmod 600 ~/.codex/auth.json
-            printf 'preferred_auth_method = "apikey"\n' >> ~/.codex/config.toml
-            echo "codex auth: OPENAI_API_KEY (durable; no rotation)"
-          else
-            echo "codex auth: ChatGPT OAuth snapshot (single-use refresh chain)"
-            mkdir -p ~/.codex
-            echo "${{ secrets.CODEX_AUTH_JSON }}" | base64 -d > ~/.codex/auth.json
-            chmod 600 ~/.codex/auth.json
-          fi
-      - name: Codex auth preflight (named failures, round-9)
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          if [ -n "$OPENAI_API_KEY" ]; then
-            code=$(curl -s -o /dev/null -w '%{http_code}' \
-              -H "Authorization: Bearer $OPENAI_API_KEY" \
-              https://api.openai.com/v1/models)
-            if [ "$code" = "401" ]; then
-              echo "CODEX_CREDENTIAL_REJECTED: API key refused (401) before any scientific leg."
-              exit 1
-            elif [ "$code" != "200" ]; then
-              echo "preflight inconclusive (HTTP $code); proceeding -- the in-run classifier names billing/limit failures on the receipt."
-            else
-              echo "codex preflight: API key accepted"
-            fi
-          elif [ -f ~/.codex/auth.json ]; then
-            echo "codex preflight: OAuth snapshot present (rotating; unverifiable without consuming the chain)"
-          else
-            echo "CODEX_CREDENTIAL_MISSING: no API key secret and no OAuth snapshot."
-            exit 1
-          fi
-
-      - name: Install python deps
-        run: pip install -r requirements.txt
-
-      - name: Deterministic tests first
-        run: python tests/test_orchestration.py
-
-      - name: Git identity
-        run: |
-          git config user.name  "scout-bot"
-          git config user.email "scout-bot@users.noreply.github.com"
-
-      - name: Run pipeline
-        env:
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          SCOUT_CI: '1'
-        run: |
-          ARGS=""
-          if [ "${{ inputs.revise_debt }}" = "true" ]; then
-            ARGS="--revise-debt"
-          elif [ -n "${{ inputs.idea }}" ]; then
-            ARGS="--idea ${{ inputs.idea }}"
-          elif [ -n "${{ inputs.candidate }}" ]; then
-            ARGS="--candidate ${{ inputs.candidate }}"
-          else
-            ARGS="--top ${{ inputs.top_n }}"
-          fi
-          if [ -n "${{ inputs.charter }}" ]; then
-            ARGS="$ARGS --charter ${{ inputs.charter }}"
-          fi
-          python scout.py pipeline $ARGS --stages "${{ inputs.stages }}"
-
-      - name: Publication requires a separate checked handoff
-        if: success()
-        run: echo 'No automatic push. Publish only through the source/destination-bound pilot publisher after full history inspection.'

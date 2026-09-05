@@ -11,6 +11,7 @@ import re
 from datetime import datetime,timezone
 import tempfile
 import shutil
+import os
 from orchestrator.campaign_lifecycle import run_isolated_stage
 from orchestrator.publication import inventory
 
@@ -21,6 +22,7 @@ MODES={'propose':['proposal.md'],'specify':['SPEC.proposed.md'],
 
 def system_stage(sc,directory,family,stage,body,names):
     """Reuse the existing primitive with a future-job profile, not live AGENTS.toml."""
+    if os.environ.get('SCOUT_CI'):raise ValueError('campaign subscription stages refuse CI execution')
     original=sc.ROOT
     profile=Path(original)/'configs/pilot/agents-unattended.toml'
     config_root=Path(tempfile.mkdtemp(prefix='campaign-profile-'))
@@ -37,14 +39,20 @@ def grounding(root,experiment):
     # No future scientific proposal before the reviewed predecessor interpretation.
     if experiment!='P001':
         prior=base/'experiments'/f'P{int(experiment[1:])-1:03d}'
+        for name in ['interpretation_receipt.json','import_receipt.json','interpretation.md','interpret_review.md','investigator_next_decision.json','SPEC.md']:
+            if (prior/name).is_symlink():raise ValueError('symlink predecessor')
         r=json.loads((prior/'interpretation_receipt.json').read_text())
         if r.get('status')!='AGENT_REVIEWED_NOT_HUMAN_RATIFIED':raise ValueError('predecessor not reviewed')
-        for key,name in [('import_receipt_sha256','import_receipt.json'),('interpretation_sha256','interpretation.md'),('review_sha256','interpret_review.md')]:
+        for key,name in [('import_receipt_sha256','import_receipt.json'),('interpretation_sha256','interpretation.md'),('review_sha256','interpret_review.md'),('proposal_sha256','investigator_next_decision.json')]:
             if r.get(key)!=hashlib.sha256((prior/name).read_bytes()).hexdigest():raise ValueError('predecessor binding stale')
+        imported=json.loads((prior/'import_receipt.json').read_text())
+        if imported.get('spec_sha256')!=hashlib.sha256((prior/'SPEC.md').read_bytes()).hexdigest():raise ValueError('predecessor specification changed')
     files={base/'CAMPAIGN.md'}
+    if experiment!='P001':files.add(prior/'interpretation_receipt.json')
     for name in ['SPEC.md','run.py','publication.json']:
         if (exp/name).is_file():files.add(exp/name)
     if (exp/'import_receipt.json').exists():
+        if (exp/'import_receipt.json').is_symlink():raise ValueError('symlink import receipt')
         r=json.loads((exp/'import_receipt.json').read_text());bundle=Path(root)/r['bundle']
         if bundle.is_symlink() or not bundle.resolve().is_relative_to((exp/'results').resolve()):raise ValueError('unsafe bundle')
         if inventory(bundle)!=r['bundle_file_sha256']:raise ValueError('aggregate import changed')
@@ -62,7 +70,10 @@ def execute(sc,mode,experiment,request,output):
     permitted=Path(sc.ROOT)/'campaigns/isles24-pilot/pipeline'
     if not output.resolve().is_relative_to(permitted.resolve()) or output.is_symlink():raise ValueError('pipeline output outside campaign')
     output.mkdir(parents=True,exist_ok=False)
-    context=grounding(sc.ROOT,experiment)
+    try:context=grounding(sc.ROOT,experiment)
+    except BaseException as e:
+        (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'reason':'GROUNDING_FAILED'}))
+        raise
     binding={k:hashlib.sha256(v.encode()).hexdigest() for k,v in context.items()}
     (output/'request.json').write_text(json.dumps({'mode':mode,'experiment':experiment,'request':request,'input_sha256':binding,'actor_type':'agent','family':'codex','authority':'campaign_delegated_investigator','status':'PROPOSAL_ONLY'},indent=2))
     body='You are the system campaign '+mode+' author. Produce a bounded proposal, not an approval or executable amendment. Preserve original experiment pins. No patient data, execution, remote writes, or human ratification. All scientific work is exploratory.\nREQUEST: '+request+'\nBOUND CONTEXT:\n'+json.dumps(context)
@@ -71,6 +82,7 @@ def execute(sc,mode,experiment,request,output):
             directory=output/f'round-{round}';directory.mkdir()
             author=system_stage(sc,directory,'codex','campaign_'+mode,body,MODES[mode])
             proposal='\n'.join(name+'\n'+(directory/name).read_text() for name in MODES[mode])
+            if (directory/'review.json').exists():raise ValueError('author may not prepopulate reviewer output')
             reviewer=system_stage(sc,directory,'claude','campaign_'+mode+'_review',
                 'Review this campaign proposal against its context. Write review.json with exactly verdict (APPROVE or REVISE) and rationale (nonempty string). Do not ratify or execute.\n'+body+'\nPROPOSAL:\n'+proposal,['review.json'])
             review=json.loads((directory/'review.json').read_text())
