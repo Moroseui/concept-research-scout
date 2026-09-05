@@ -442,3 +442,12 @@ integrity success. Complete private evidence retained. All three review gates
 pass; unchanged controller restarted in exclusive automatic-handoff-r2 directory
 after verifying every prior event was acquisition-only. No download was restarted.
 Receipt: P001_DOWNLOAD_RECHECK_20260905.json. Keep WSL and CPU Colab alive.
+
+
+Second requested download recheck: fresh source-verified remote metadata returned
+RUNNING, 73,165,438,976 partial bytes (about 74%), zero seconds since last write,
+and no final archive. Integrity remains pending. Controller r2 stopped because
+its second worker poll used get_cells without includeOutputs=false; protocol
+validation rejected that call. This was not another failed browser connection.
+No patient dispatch occurred. Controller remains stopped; do not claim automatic
+handoff is active. Receipt: P001_DOWNLOAD_RECHECK2_20260905.json.
