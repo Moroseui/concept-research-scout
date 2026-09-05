@@ -2767,11 +2767,13 @@ def record_result(args):
     if subset and (not src or not eb):
         raise SystemExit('publication subset requires --source-commit and --expected-blob')
     policy_path = ROOT / 'probes' / n3 / 'publication.json'
+    if not policy_path.exists():
+        raise SystemExit('PUBLICATION REFUSED: explicit contract-bound publication.json policy required for every new import')
     if policy_path.exists():
         from orchestrator.publication import validate as validate_publication
         policy = json.loads(policy_path.read_text())
         if policy.get('contract_blob') != (eb or _contract_hash(idea_dir(args.idea))):
-            raise SystemExit('publication policy contract mismatch')
+            raise SystemExit('PUBLICATION REFUSED: publication policy contract mismatch')
         try:
             validate_publication(bundle, policy)
         except ValueError as e:

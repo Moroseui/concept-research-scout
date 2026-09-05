@@ -47,3 +47,9 @@ The 047 policy deliberately blocks publication/import while decisions remain
 open. Therefore no new Phase-B import, interpretation or ratification is claimed.
 New prediction research has its own campaign/specification and does not inherit
 any unresolved 047 acceptance decision.
+
+Validation performed: both original Phase-A and the 17-file Phase-B top-level
+interface pass the existing historical core validator. The real import was
+then exercised and refused by the explicit publication policy. That demonstrates
+why core validity alone is insufficient. No unresolved Phase-B interpretation
+was launched. The full suite at the M2 checkpoint passed 220 tests.

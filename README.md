@@ -300,3 +300,14 @@ Campaign progress: [ISLES pilot](docs/isles-pilot/PROGRESS.md). Dataset attribut
 publication subset: every source file accounted for, retained bytes identical,
 required audit/science retained, and staged-input exclusions tied to preserved
 private originals. The 047 policy remains blocked pending its open decisions.
+
+Pilot utilities (outside the historical scout CLI):
+`python scripts/efficiency_review.py --output PROPOSALS.json` reads existing
+execution receipts and writes evidence-bound proposals only; it applies nothing.
+The versioned P001 specification and campaign authority are under
+`campaigns/isles24-pilot/`. Real execution requires opposing-family review.
+
+Every **new** `record-result` import now requires an explicit
+`probes/NNN/publication.json` policy bound to its governing contract, in addition
+to scientific validation. Existing immutable imports are unaffected. A missing
+policy is a refusal, not permission to copy an arbitrary tree.

@@ -2643,6 +2643,10 @@ class TestResultsTransport(Harness):
              "phase_m_complete": complete}))
         (b / "resolved_config.json").write_text("{}")
         (b / "environment.txt").write_text("py\n")
+        policy = self.repo / 'probes/001/publication.json'
+        policy.parent.mkdir(parents=True, exist_ok=True)
+        names = ['manifest/pair_manifest.csv', 'provenance.json', 'summary.json', 'resolved_config.json', 'environment.txt']
+        policy.write_text(json.dumps({'contract_blob': blob, 'allowed': names, 'required': names}))
         return b
 
     def _sc(self):
@@ -3988,6 +3992,9 @@ class TestM4RatifyInterpretation(Harness):
         src = self.dir / "incoming_v3"
         shutil.copytree(self.repo / "probes" / "001" / "results" /
                         "results_v2", src)
+        names = sorted(p.relative_to(src).as_posix() for p in src.rglob('*') if p.is_file())
+        (self.repo / 'probes/001/publication.json').write_text(json.dumps({
+            'contract_blob': sc._contract_hash(d), 'allowed': names, 'required': names}))
         sc.record_result(argparse.Namespace(idea=1, bundle=str(src)))
         st = json.loads((d / "state.json").read_text())
         self.assertEqual(st["scrutiny"], "PROBED")
@@ -4464,6 +4471,9 @@ probes:
             {"phase": "S", "status": "TDONE"}))
         (stage / "resolved_config.json").write_text(json.dumps(
             {"contract_blob": self.A}))
+        names = ['summary.json', 'resolved_config.json']
+        (self.repo / 'probes/001/publication.json').write_text(json.dumps({
+            'contract_blob': self.A, 'allowed': names, 'required': names}))
         # verbatim refusal fires on a tampered stage (before any import)
         good = (stage / "resolved_config.json").read_text()
         (stage / "resolved_config.json").write_text("tampered")
