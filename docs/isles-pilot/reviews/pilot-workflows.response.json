@@ -1,0 +1,94 @@
+{
+  "is_error": false,
+  "duration_api_ms": 237305,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "2d2af990-8e8c-462e-a15c-b09973cb0d99",
+  "total_cost_usd": 1.22627,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 15139,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 18274,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15139,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 18274,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 15139,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 15139
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 8840,
+      "outputTokens": 13,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.008905000000000001,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 18274,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 15139,
+      "webSearchRequests": 0,
+      "costUSD": 1.217365,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-workflows\",\"reviewed_commit\":\"0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f\",\"verdict\":\"APPROVE\",\"findings\":[\"Verified fail-closed quarantine: all six legacy model workflows are workflow_dispatch-only on the pilot ref, pin destination_branch to the single authorized branch, gate on vars.PILOT_REMOTE_RESEARCH_ENABLED, run with contents:read and persist-credentials:false, use SHA-pinned actions, and unconditionally exit 1 before any model work; results-validate is if:false. Unset var, missing interpreter, or failed verify all fail the job with nothing published.\",\"Verified identity bindings: workflow_boundary.verify requires an exact 40-hex source equal to git rev-parse HEAD and the hardcoded destination branch; workflow inputs reach it only via env vars (no shell interpolation); audit additionally binds current branch and clean working tree.\",\"Verified append-only compare-and-swap publish: re-audit of exact source, remote tip must equal explicit --expected-remote pin, pin must be ancestor of source (fast-forward only), push uses --force-with-lease=<ref>:<expected> which is a server-side atomic expected-old check; concurrent remote moves in either direction are refused and errors raise without retry.\",\"Verified persistent-artifact hygiene in check_pilot_publication.audit: per-commit path allowlists, results/staged/.private component refusal, extension allowlist, regular-blob mode check, 1.5MB/NUL binary refusal, credential-pattern scan, notebook outputs/execution_count refusal, merge and dirty-tree refusal; contaminated-ancestry check fails closed on any non-1 return code including missing objects.\",\"Verified preservation of scientific approvals: resolution doc keeps original responses versioned, states REQUEST_CHANGES is not approval, preserves the coordinator's completed APPROVE at 9a4e0bf with original snapshot checks, and keeps publication/future profiles under follow-up review; nothing in the supplied source contradicts this and no scientific receipt logic is altered.\",\"Non-blocking: the mode check `git ls-tree <commit> -- <name>` treats name as a pathspec with wildcard matching; a literal filename containing glob characters (e.g. tests/z?.py alongside a regular tests/z1.py that sorts first) could report another entry's 100644 mode while `git show <commit>:<name>` reads the literal symlink, evading the non-regular-blob refusal. Contrived (requires the reviewed publisher to author it); fix by using ls-tree -z and comparing the returned path to name exactly, or a :(literal) pathspec.\",\"Non-blocking: notebook screening checks cells' outputs/execution_count but not attachments (base64 payloads in markdown cells) or notebook/cell metadata, which can carry embedded data past the size/binary checks.\",\"Non-blocking: commit messages in BASE..tip are never scanned; credential/private-data screening applies only to blob contents.\",\"Informational (fail-closed but worth documenting): audit skips any path where `git cat-file -e` fails, conflating deletion with other object-lookup failures; publish has no bootstrap path when the remote branch does not yet exist (ls-remote must return exactly one existing ref).\",\"Review basis: source-only analysis of the supplied files; no tests were executed and no repository state beyond the provided source was inspected.\"]}",
+  "structured_output": {
+    "scope": "pilot-workflows",
+    "reviewed_commit": "0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified fail-closed quarantine: all six legacy model workflows are workflow_dispatch-only on the pilot ref, pin destination_branch to the single authorized branch, gate on vars.PILOT_REMOTE_RESEARCH_ENABLED, run with contents:read and persist-credentials:false, use SHA-pinned actions, and unconditionally exit 1 before any model work; results-validate is if:false. Unset var, missing interpreter, or failed verify all fail the job with nothing published.",
+      "Verified identity bindings: workflow_boundary.verify requires an exact 40-hex source equal to git rev-parse HEAD and the hardcoded destination branch; workflow inputs reach it only via env vars (no shell interpolation); audit additionally binds current branch and clean working tree.",
+      "Verified append-only compare-and-swap publish: re-audit of exact source, remote tip must equal explicit --expected-remote pin, pin must be ancestor of source (fast-forward only), push uses --force-with-lease=<ref>:<expected> which is a server-side atomic expected-old check; concurrent remote moves in either direction are refused and errors raise without retry.",
+      "Verified persistent-artifact hygiene in check_pilot_publication.audit: per-commit path allowlists, results/staged/.private component refusal, extension allowlist, regular-blob mode check, 1.5MB/NUL binary refusal, credential-pattern scan, notebook outputs/execution_count refusal, merge and dirty-tree refusal; contaminated-ancestry check fails closed on any non-1 return code including missing objects.",
+      "Verified preservation of scientific approvals: resolution doc keeps original responses versioned, states REQUEST_CHANGES is not approval, preserves the coordinator's completed APPROVE at 9a4e0bf with original snapshot checks, and keeps publication/future profiles under follow-up review; nothing in the supplied source contradicts this and no scientific receipt logic is altered.",
+      "Non-blocking: the mode check `git ls-tree <commit> -- <name>` treats name as a pathspec with wildcard matching; a literal filename containing glob characters (e.g. tests/z?.py alongside a regular tests/z1.py that sorts first) could report another entry's 100644 mode while `git show <commit>:<name>` reads the literal symlink, evading the non-regular-blob refusal. Contrived (requires the reviewed publisher to author it); fix by using ls-tree -z and comparing the returned path to name exactly, or a :(literal) pathspec.",
+      "Non-blocking: notebook screening checks cells' outputs/execution_count but not attachments (base64 payloads in markdown cells) or notebook/cell metadata, which can carry embedded data past the size/binary checks.",
+      "Non-blocking: commit messages in BASE..tip are never scanned; credential/private-data screening applies only to blob contents.",
+      "Informational (fail-closed but worth documenting): audit skips any path where `git cat-file -e` fails, conflating deletion with other object-lookup failures; publish has no bootstrap path when the remote branch does not yet exist (ls-remote must return exactly one existing ref).",
+      "Review basis: source-only analysis of the supplied files; no tests were executed and no repository state beyond the provided source was inspected."
+    ]
+  },
+  "ttft_ms": 207555,
+  "ttft_stream_ms": 1591,
+  "time_to_request_ms": 119,
+  "type": "result",
+  "duration_ms": 236204,
+  "uuid": "1d9bfa2f-ba66-4fea-9f2f-0541fc58d0c7"
+}
