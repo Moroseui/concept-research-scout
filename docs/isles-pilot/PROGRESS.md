@@ -317,3 +317,44 @@ expectation 776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800, on
 COLAB_RELEASE_TAG present). The acceptance test in COLAB_MCP.md has passed end
 to end; receipt in COLAB_MCP_REMOTE_EXECUTION_20260905.json, token-free. No
 Drive, patient data, GPU, paid provisioning, cleanup or branch change.
+
+
+### Automated Claude Colab worker integration — 2026-09-05
+
+Preserved the successful interactive receipt at 04385ed546189d942f7383b162e28de9e65dac37
+without modification. Its notebook/source pins and returned text/hash verify.
+Claude Code succeeded; Codex notebook-tool discovery remains unresolved.
+
+Milestones: be7d67f3a13a2244257125f2b6d0b8aed5a39aad added the private
+request/result adapter and P001 transport preparation; 31bc39b43d8f853ed946a6a2c72b6726e96ab125
+added synthetic remote dispatch; 7ff038c29d32098c9826d20e11a058f3eafc38e5
+hardened protocol validation after review. An actual automated remote replay
+from that clean commit completed the three pinned cells and separate read-only
+transport retrieval. Captured tool exchanges, source readback, subprocess exit
+results and returned bytes were validated locally. This establishes orchestration,
+not merely the earlier interactive session. Complete raw CLI protocol is private
+under ~/.local/share/isles-colab-mcp/worker-runs-20260905; failed attempts remain.
+Synthetic fd-level console missing from MCP was not reconstructed. P001 wrappers
+capture both fd-level and Python output privately and preserve the original runner
+console; those wrappers have synthetic tests, not patient execution evidence.
+
+1456af5fbe443272463544c2c833a2d5b3bad613 fixed missing-output failure receipts
+and strengthened transport provenance. A fresh independent Fable review APPROVED
+that revision for synthetic execution and P001 preparation; original responses
+for all three review rounds are versioned. Its non-blocking recommendations remain
+in the response and integration receipt. There is no patient-dispatch command or
+patient-dispatch approval implied by this adapter review. A separate worker session
+performed execution; reviewer sessions used no Colab configuration or tools.
+
+18 relevant tests pass in an isolated environment with pinned P001 dependencies.
+P001's existing review remains valid; its preflight selected exactly 99/198 and
+opened zero payloads. P001 notebook pin remains 1a81c037343598f4e4585153b11d761b87a9ae3a,
+executable source d6a1184b4378e849213fd887a6f7b103fb1a64d5. Private execution
+packets contain unchanged original cells and separately hashed transport wrappers.
+No patient run, aggregate import, interpretation, or follow-up experiment occurred.
+The user has not yet supplied the actual archive/staged-root path. Next action:
+provide that Colab-accessible path so the bounded P001 execution handoff can be
+finalized; browser/Drive authorization will be requested at the point of use.
+Pending results-branch cleanup remains separately unapproved and unexecuted.
+CLI usage estimates are recorded without claiming extra subscription charges;
+human intervention time remains unavailable. See CLAUDE_WORKER_INTEGRATION_20260905.json.
