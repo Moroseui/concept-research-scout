@@ -1,0 +1,93 @@
+{
+  "is_error": false,
+  "duration_api_ms": 95268,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "72640d32-3245-4709-b847-c513bc358e6b",
+  "total_cost_usd": 0.535116,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 6610,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 7984,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 6610,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 7984,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 6610,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 6610
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 2761,
+      "outputTokens": 14,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.002831,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 7984,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 6610,
+      "webSearchRequests": 0,
+      "costUSD": 0.532285,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"p001-handoff-watch\",\"reviewed_commit\":\"bdc42897adbcafb10b81ce188645124f456da8cb\",\"verdict\":\"APPROVE\",\"findings\":[\"Dispatch gating verified: patient dispatch is reachable only after an acquisition poll returns status COMPLETE with remote.status VALIDATED; non-COMPLETE polls and FAILED/NOT_VISIBLE/unknown states return before dispatch (covered by test_failure_and_unknown_state_never_dispatch and test_only_validated_acquisition_dispatches_once).\",\"Immediate gate recheck verified: dispatch() re-runs approval() \u2014 review response binding, source-file SHA-256 bindings, and both adapter review checks (acquisition.reviewed, patient.require_patient_review) \u2014 immediately before the only patient mutation, closing the window between controller startup and a dispatch that may occur hours later.\",\"Single mutation, no retries: patient.worker execution is invoked at most once; any result other than COMPLETE + DISPATCHED_NOT_YET_VALIDATED returns DISPATCH_BLOCKED with no retry (tested). All other adapter calls are read-only polls per the approved adapter contracts.\",\"Fixed archive path: the execution packet uses the hardcoded literal '/content/isles-p001-input-16813698/train.7z'; no path is derived from remote output.\",\"Serial and bounded: single-threaded sequential flow with distinct per-call attempt directories; each phase capped at 60 polls with 5-minute pauses (~5 h per phase); terminal statuses stop the controller, and patient VALIDATED yields NEEDS_PRIVATE_RETURN_TRANSFER so the private-return transfer remains an operator action. Observation duration does not extend the unchanged 4-hour acquisition or 60-minute patient analysis limits.\",\"Rerun and receipt hygiene: private_dir exclusive destination makes reruns fail with FileExistsError (tested); the shared counter increments exactly once per adapter call so event-N.json receipts are distinct and ordered; outcome.json is written once.\",\"Tests are fully synthetic: approval, time.sleep, and both adapters are patched; no network, tools, or patient data are touched.\",\"Minor, non-blocking: main() exits 0 for all outcomes including blocked/stopped ones, so operators and harnesses must read outcome.json or stdout rather than the process exit code; an unhandled adapter exception fail-stops without writing outcome.json \u2014 safe (no mutation retry) but leaves no outcome receipt.\",\"Scope condition: this review assessed composition only and takes as given the stated guarantees of the previously Fable-approved adapters (acquisition at bdf4369996364511e8bd824d4711907fa5fb71ea, patient at 465a0c3b1f2e8486a13e68dfd2179b3bfd16840d) \u2014 their own review/file bindings, exact cells/source readback, private console capture, fixed statuses, and the VALIDATED semantics described \u2014 plus the integrity of the harness-produced execution.json used by approval().\"]}",
+  "structured_output": {
+    "scope": "p001-handoff-watch",
+    "reviewed_commit": "bdc42897adbcafb10b81ce188645124f456da8cb",
+    "verdict": "APPROVE",
+    "findings": [
+      "Dispatch gating verified: patient dispatch is reachable only after an acquisition poll returns status COMPLETE with remote.status VALIDATED; non-COMPLETE polls and FAILED/NOT_VISIBLE/unknown states return before dispatch (covered by test_failure_and_unknown_state_never_dispatch and test_only_validated_acquisition_dispatches_once).",
+      "Immediate gate recheck verified: dispatch() re-runs approval() \u2014 review response binding, source-file SHA-256 bindings, and both adapter review checks (acquisition.reviewed, patient.require_patient_review) \u2014 immediately before the only patient mutation, closing the window between controller startup and a dispatch that may occur hours later.",
+      "Single mutation, no retries: patient.worker execution is invoked at most once; any result other than COMPLETE + DISPATCHED_NOT_YET_VALIDATED returns DISPATCH_BLOCKED with no retry (tested). All other adapter calls are read-only polls per the approved adapter contracts.",
+      "Fixed archive path: the execution packet uses the hardcoded literal '/content/isles-p001-input-16813698/train.7z'; no path is derived from remote output.",
+      "Serial and bounded: single-threaded sequential flow with distinct per-call attempt directories; each phase capped at 60 polls with 5-minute pauses (~5 h per phase); terminal statuses stop the controller, and patient VALIDATED yields NEEDS_PRIVATE_RETURN_TRANSFER so the private-return transfer remains an operator action. Observation duration does not extend the unchanged 4-hour acquisition or 60-minute patient analysis limits.",
+      "Rerun and receipt hygiene: private_dir exclusive destination makes reruns fail with FileExistsError (tested); the shared counter increments exactly once per adapter call so event-N.json receipts are distinct and ordered; outcome.json is written once.",
+      "Tests are fully synthetic: approval, time.sleep, and both adapters are patched; no network, tools, or patient data are touched.",
+      "Minor, non-blocking: main() exits 0 for all outcomes including blocked/stopped ones, so operators and harnesses must read outcome.json or stdout rather than the process exit code; an unhandled adapter exception fail-stops without writing outcome.json \u2014 safe (no mutation retry) but leaves no outcome receipt.",
+      "Scope condition: this review assessed composition only and takes as given the stated guarantees of the previously Fable-approved adapters (acquisition at bdf4369996364511e8bd824d4711907fa5fb71ea, patient at 465a0c3b1f2e8486a13e68dfd2179b3bfd16840d) \u2014 their own review/file bindings, exact cells/source readback, private console capture, fixed statuses, and the VALIDATED semantics described \u2014 plus the integrity of the harness-produced execution.json used by approval()."
+    ]
+  },
+  "ttft_ms": 77675,
+  "ttft_stream_ms": 1749,
+  "time_to_request_ms": 147,
+  "type": "result",
+  "duration_ms": 94347,
+  "uuid": "f42bcb6e-b6f6-4a3d-924f-1c86d8d2fe05"
+}
