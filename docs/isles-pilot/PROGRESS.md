@@ -204,3 +204,28 @@ It contained only n=2, mean Dice=0.5 fixture numbers, not patient evidence. The
 first witness used then-uncommitted integration fixes; a committed-source replay
 will provide the durable exact-revision witness. Local smoke execution/retrieval
 also returned the expected synthetic text/hash. Colab itself remains unverified.
+
+## Final source approval and real campaign preparation
+
+Final reviewed implementation: `469d29df002ea78f64146731244769d7c82330d6`.
+Cleanup r4 and P001 r3 both returned actual APPROVE with no blocking findings.
+P001's review.json was created from the original completed response and execution
+manifest only after all 19 required source/test hashes verified. No reviewed code
+or specification will be changed during receipt adoption and notebook packaging.
+
+All 233 tests passed (61.384 s); the complete outgoing audit through 469d29d passed.
+The committed-source synthetic executor replay succeeded with actual Codex and
+Claude CLI calls; original inspected consoles/receipts are in reviews/live-stage-smoke/.
+Claude auth status confirmed claude.ai/firstParty subscription authentication;
+Codex login status confirmed ChatGPT authentication. No API billing was introduced.
+
+Remaining nonblocking review advice (not silently represented as fixed): notebook
+packaging reruns advance their source pin; interpretation review parsing and
+untrusted-text framing can be tightened; follow-up gating can additionally
+re-inventory its prior aggregate bundle; some diagnostic exceptions remain raw.
+These do not permit running a follow-up without its own reviewed specification
+and code. Partial failed interpretation evidence deliberately remains local for
+inspection; this does not require new operator permission for authorized fixes.
+Other cleanup advisories concern defense-in-depth path matching/timeouts, not
+the unchanged leased operation. The actual 047 launcher source dependency entries
+were verified locally and recorded in reviews/047-launcher-source-check.json.

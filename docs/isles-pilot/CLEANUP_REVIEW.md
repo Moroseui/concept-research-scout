@@ -1,7 +1,7 @@
 # Fable review package and cleanup operation — approval pending
 
-Cleanup review APPROVE pin: **3f0337b986dc52594f4347fdc7d99bb3e7c4a0a2**.
-Current integration review: **4339928**. Baseline: **4f5b6b1**.
+Cleanup review APPROVE pin: **469d29df002ea78f64146731244769d7c82330d6**.
+Final integration review: **469d29df002ea78f64146731244769d7c82330d6**. Baseline: **4f5b6b1**.
 Review the full diff and `scripts/rehearse_047_cleanup.py`, the publication
 module, generated launcher, tests, dataset notice and this operation. Fable's
 review is advisory; neither it nor this campaign ratifies 047 acceptance.
@@ -117,3 +117,7 @@ policy still requires the exclusions audit and blocks 047. Removing/aggregating
 that required audit interface needs an explicit separate ruling and a bound
 policy/contract amendment. Successful-session console evidence and historical
 registry attestation also remain open. No scientific acceptance is implied.
+
+Cleanup r4 and P001 r3 both returned actual APPROVE at the final reviewed
+implementation pin above. These verdicts and their exact source manifests are
+in reviews/. The proposed remote operation remains unchanged and unexecuted.

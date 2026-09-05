@@ -1,0 +1,9 @@
+{
+  "launcher_source_commit": "9216e6acce01c5113fc505ad96404fa4e36ffab6",
+  "verified_required_tree_entries": {
+    "orchestrator/publication.py": "b61f0c7be667eb90d7068a9a534f313238740509",
+    "probes/047/publication.json": "7044057e243db1db1ff0b70dbd24dc3d8a47733e",
+    "probes/023/results/results_v2/archive_manifest.csv": "edb9a8c2ceb90df214cdd7ec167f0b1e8c858bb2"
+  },
+  "patient_payloads_opened": 0
+}

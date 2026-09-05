@@ -1,0 +1,83 @@
+{
+  "scope": "p001",
+  "reviewed_commit": "469d29df002ea78f64146731244769d7c82330d6",
+  "baseline": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+  "requested_model": "claude-fable-5",
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-fable-5",
+    "--tools",
+    "",
+    "--max-turns",
+    "1",
+    "--output-format",
+    "json"
+  ],
+  "returncode": 0,
+  "duration_s": 369.9491317272186,
+  "prompt_sha256": "18b0886a2e0c592db8e4daa5d8e1dbdf6fd7c53fe97e516b3cdbef6ddac79da5",
+  "input_file_sha256": {
+    "AGENTS.toml": "f08371316b763742aa3fbadd9b906146d7bfba65fa6ba2416c73f9ecc186b6e1",
+    "scout.py": "fd74da000f8f181222bfb7d4774e156d7734cd5de090176f2e2c03470d3b9b95",
+    "orchestrator/campaign.py": "f18d46ec30c8a660b33d915195e985a1f35c52b925ff6b89e75f320a8e07d593",
+    "docs/isles-pilot/PROGRESS.md": "171aff7815ebd7d1e58d41e2d21317baa4eed842a27ea0061841dabe1ba07643",
+    "docs/isles-pilot/CHECKPOINT.json": "0c2e74df53ac134237cb930f90f0a3df427ebf410c7e431b829b40eb6edefe6d",
+    "orchestrator/publication.py": "95448fbc758b00f8d9dcfbab98aedf0245991146515945fe689789a0532eacd9",
+    "scripts/package_pilot.py": "1c6b875595fd1147790fd2f9dc037e7300035a58a10dfad10b300d88159bcca9",
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "campaigns/isles24-pilot/experiments/P001/validate_return.py": "c021d2c8cce8f2e1c92df88108eb93ba473d05b0990233532060aeab82a0d9db",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/requirements.txt": "901f228b01fdd1fd7e668a808598c2541d00f3d021e4b2fbf57e2781ede3d995",
+    "campaigns/isles24-pilot/experiments/P001/colab_P001.ipynb": "abb5dd8a513b602988b03f1d1eb8f7b6a8d1f1e6b43da08aeaaeb429c748aedf",
+    "tests/test_prediction_p001.py": "5f46e2472277a6099a34ee262e8553605a248a4beb91c16dd86ba7b31a401210",
+    "tests/test_campaign.py": "7e4ea12d19a7b9d98778817608f582f22190e00aa3b8469643a51c676944818a",
+    "orchestrator/campaign_lifecycle.py": "d4c33f59ccd2520124f49788d7538057c8ee0fe4a92579453f33072c9a45a92e",
+    "orchestrator/campaign_review.py": "2b74a438b74ba5db3497204bde82c6e2be676a16658aa4b975ae3ade6e690310",
+    "tests/test_campaign_lifecycle.py": "edfd89f66ce945680ce415428234b4691f85c0c662988e03a5c543e2ca2233ae",
+    "tests/test_campaign_review.py": "5640599b662ffcf411fc4c0bdb66de4bcb4e09d070908d549e7fdf75870e9898",
+    "tests/test_pilot_notebook_acquisition.py": "fff1541a060a890c94bfede3b832b547a13e9f0794e569a3fe8ab0f89783d06e",
+    "docs/isles-pilot/CAMPAIGN_COMMANDS.md": "55f2825857a4eb5d1688e3fbd43d67f505b36de31b3c13718f6e4cc0770340c8",
+    "docs/isles-pilot/reviews/p001-r1.md": "bacb42085feee7cd4d557b277c81a67d99bfd332575de1a77178ea8cc3762f8b",
+    "docs/isles-pilot/reviews/p001-r2.md": "d8fce6f855da6c55e073db7731d8e9222532cadf2ff0d8abe9b57d9e35d2db12"
+  },
+  "route": "authenticated subscription CLI; API key removed",
+  "human_intervention_minutes": null,
+  "actual_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 144804,
+      "outputTokens": 19,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.144899,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 1,
+      "outputTokens": 28072,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 200588,
+      "webSearchRequests": 0,
+      "costUSD": 5.415369999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "response_sha256": "29fe8f4130efe84dffe306f16e6ed93ac37363f9def4c4c85ae63d1f48861198",
+  "cli_reported_cost_usd": 5.560268999999999,
+  "cost_note": "CLI token-price estimate, not evidence of an additional subscription charge"
+}
