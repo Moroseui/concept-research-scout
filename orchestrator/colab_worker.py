@@ -69,10 +69,13 @@ def task_packet():
             "expected_notebook_sha256": report["notebook_sha256"]}
 
 
-def invoke_handoff_worker(destination, timeout=300):
+def invoke_handoff_worker(destination, timeout=300, remote=False):
     """Real subscription invocation proving request/result exchange; no remote replay."""
     destination = private_dir(destination)
     packet = task_packet()
+    if remote:
+        packet["task"] = "execute_synthetic_colab"
+        packet["notebook"] = json.loads(git_bytes(NOTEBOOK_PIN, "campaigns/isles24-pilot/colab/synthetic_execution.ipynb"))
     write_private(destination / "task.json", json.dumps(packet, indent=2))
     prompt = ("You are a bounded execution worker, NOT a reviewer. Inspect the supplied synthetic "
               "handoff report. No tools, browser, patient data, file changes or new execution are needed. "
@@ -80,6 +83,21 @@ def invoke_handoff_worker(destination, timeout=300):
               "receipt_sha256 equal to expected_receipt_sha256, notebook_sha256 equal to "
               "expected_notebook_sha256, and returned_sha256 independently checked from the reported "
               "expected/returned fields. Do not claim a new remote run or scientific approval.\n" + json.dumps(packet))
+    if remote:
+        prompt = ("You are an execution worker, NOT a reviewer. Perform ONLY this synthetic CPU Colab task. "
+                  "Use colab-worker official open_colab_browser_connection. If unavailable or connection "
+                  "fails, return status BLOCKED; do not invent success. Use its fresh blank notebook only; "
+                  "if it contains any nonempty cells, stop rather than read existing outputs. No Drive, "
+                  "patient data, GPU, provisioning, shell tools or credentials. Insert the packet notebook "
+                  "cells exactly, read back source without exposing other outputs, and compare exact source "
+                  "strings. Execute acquisition, then write, then separately retrieval with run_code_cell. "
+                  "Stop on errors. Append a separately identified read-only transport cell: import json; "
+                  "print(subprocess.check_output([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), "
+                  "'retrieve'], text=True), end=''). Never repeat write to obtain retrieval. Check returned "
+                  "text and SHA against the packet. Return status SYNTHETIC_REMOTE_VERIFIED only after all "
+                  "three pinned executions and separate transport retrieval succeed. Return task, "
+                  "receipt_sha256 (the input receipt hash), notebook_sha256, returned_sha256. Record no "
+                  "tokens. This is remote execution, not scientific review. Packet:\n" + json.dumps(packet))
     schema = {"type": "object", "additionalProperties": False,
               "properties": {k: {"type": "string"} for k in
                              ["status", "task", "receipt_sha256", "notebook_sha256", "returned_sha256"]},
@@ -87,6 +105,9 @@ def invoke_handoff_worker(destination, timeout=300):
     command = ["claude", "-p", "--model", "claude-fable-5", "--output-format", "json",
                "--mcp-config", str(PRIVATE_CONFIG), "--strict-mcp-config", "--tools", "",
                "--permission-mode", "dontAsk", "--max-turns", "3", "--json-schema", json.dumps(schema)]
+    if remote:
+        command[command.index("3")] = "40"
+        command += ["--allowedTools", "mcp__colab-worker__*"]
     # Raw CLI response is private even for synthetic tasks; publish only parsed fixed fields.
     start = time.monotonic()
     with (destination / "stdout.json").open("xb") as out, (destination / "stderr.log").open("xb") as err:
@@ -98,14 +119,14 @@ def invoke_handoff_worker(destination, timeout=300):
         except subprocess.TimeoutExpired:
             code = None
     meta = {"task": packet["task"], "returncode": code, "wall_seconds": time.monotonic()-start,
-            "remote_replay": False, "review_approval": False, "status": "WORKER_FAILED",
+            "remote_replay": remote, "review_approval": False, "status": "WORKER_FAILED",
             "usage": None, "reported_cost_usd": None, "human_intervention_minutes": None}
     try:
         response = json.loads((destination / "stdout.json").read_text())
         if code != 0 or response.get("is_error") or response.get("subtype") != "success":
             raise ValueError("incomplete worker response")
         result = response["structured_output"]
-        expected = {"status": "HANDOFF_CHECKED", "task": packet["task"],
+        expected = {"status": "SYNTHETIC_REMOTE_VERIFIED" if remote else "HANDOFF_CHECKED", "task": packet["task"],
                     "receipt_sha256": packet["expected_receipt_sha256"],
                     "notebook_sha256": packet["expected_notebook_sha256"],
                     "returned_sha256": digest(EXPECTED.encode())}
@@ -184,13 +205,16 @@ def prepare_p001(destination):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("mode", choices=["verify-handoff", "worker-handoff", "prepare-p001"])
+    ap.add_argument("mode", choices=["verify-handoff", "worker-handoff", "synthetic-remote", "prepare-p001"])
     ap.add_argument("--private-dir", type=Path)
     args = ap.parse_args()
     if args.mode == "verify-handoff": result = verify_handoff()
     else:
         if args.private_dir is None: ap.error("--private-dir required")
-        result = (invoke_handoff_worker if args.mode == "worker-handoff" else prepare_p001)(args.private_dir)
+        if args.mode == "synthetic-remote":
+            result = invoke_handoff_worker(args.private_dir, timeout=600, remote=True)
+        else:
+            result = (invoke_handoff_worker if args.mode == "worker-handoff" else prepare_p001)(args.private_dir)
     print(json.dumps(result, indent=2))
 
 if __name__ == "__main__":
