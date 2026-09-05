@@ -26,7 +26,7 @@ def audit(tip):
     commits=git('rev-list','--reverse',f'{BASE}..{tip}').decode().splitlines(); artifacts=[]
     for commit in commits:
         if len(git('rev-list','--parents','-n','1',commit).split())!=2: raise ValueError('unreviewed merge in outgoing history')
-        for raw in git('diff-tree','--no-commit-id','--name-only','-rz',commit).split(b'\0'):
+        for raw in git('diff-tree','--no-commit-id','--name-only','-r','-z',commit).split(b'\0'):
             if not raw: continue
             name=raw.decode(); path=Path(name)
             if name not in ALLOWED_FILES and not name.startswith(ALLOWED_PREFIXES): raise ValueError('unpermitted changed path: '+name)
