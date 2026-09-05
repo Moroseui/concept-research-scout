@@ -23,5 +23,13 @@
   },
   "private_log_location": "~/.local/share/isles-colab-mcp/system-batch-20260905",
   "scientific_results": "P001 pending; no metrics available",
-  "main_results_cleanup_changed": false
+  "main_results_cleanup_changed": false,
+  "final_code_ci": {
+    "pin": "f4412ae89054e7d8e3fe906a89b2629a5ff73ec3",
+    "run_id": 33999032538,
+    "orchestration_tests_passed": 214,
+    "pytest_tests_passed": 273,
+    "isolation_tests_passed": 16,
+    "failure": "Same historical idea 023 approval provenance defect; no workflow YAML failure on this pin."
+  }
 }

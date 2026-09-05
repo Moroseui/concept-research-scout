@@ -525,3 +525,29 @@ reviewed persistent coordinator moved to dispatch with zero retries/no inbox.
 P001 scientific metrics are still unavailable. Original remote evidence remains
 private; permitted metadata is in P001_DOWNLOAD_SYSTEM_BATCH_20260905.json.
 No main/results cleanup or paid provisioning was performed.
+
+### Dispatch refusal preserved; final CI reproduced
+
+P001 dispatch did not establish execution. Worker returned FAILED/OTHER before
+any Colab tool call (only StructuredOutput); actual reported models included
+claude-opus-5 rather than requested Fable. It objected to nested escaped transport
+source and detached private capture. This was a worker refusal, not an automatic
+approval-review rejection; existing scientific/adapter approval bytes remain valid.
+Coordinator conservatively opened AMBIGUOUS_DISPATCH_CHECK_REMOTE_BEFORE_RETRY
+and stopped with zero retries. No retry or permission bypass occurred.
+
+Original protocol is retained in the private coordinator attempt directory; public
+metadata is P001_DISPATCH_BLOCKED_20260905.json. A separate approved read-only
+remote poll completed with NOT_VISIBLE, which cannot distinguish absent job
+directory from absent Drive mount. It is not proof that Drive consent is missing.
+System discuss author/reviewer completed dispatch-incident-20260905, preserving
+its own prompts, review and receipts. The readable transport repair remains a
+reviewed discussion proposal, not an implemented or approved execution change.
+The existing operator Run All route remains available with the pinned notebook
+and ARCHIVE=/content/isles-p001-input-16813698/train.7z, after reconciling remote
+state; preserve console and checkpoints and never blindly rerun existing output.
+
+Final code CI run 33999032538 at f4412ae89054e7d8e3fe906a89b2629a5ff73ec3 passed
+273 pytest tests, 214 orchestration tests and 16 isolation tests. Only the same
+historical idea 023 provenance check failed. The YAML workflow failure is fixed.
+Acquisition reports validated; no P001 metric/result import/interpretation exists.
