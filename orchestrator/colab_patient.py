@@ -21,9 +21,9 @@ _started = time.monotonic()
 _complete = True
 if os.path.isfile('/content/train.7z'):
     _candidates.append({'path': '/content/train.7z', 'size_bytes': os.stat('/content/train.7z').st_size})
-_mounted = os.path.isdir('/content/drive/MyDrive')
+_mounted = os.path.ismount('/content/drive') and os.path.isdir('/content/drive/MyDrive')
 for _root in ['/content/drive/MyDrive', '/content/drive/Shareddrives']:
-    if not os.path.isdir(_root): continue
+    if not _mounted or not os.path.isdir(_root): continue
     for _directory, _dirs, _files in os.walk(_root, followlinks=False, onerror=lambda e: _errors.append(type(e).__name__)):
         if time.monotonic() - _started > 180:
             _complete = False
@@ -185,7 +185,7 @@ def verify_discovery(events):
 
 OUTPUT = "/content/drive/MyDrive/isles-pilot/P001-v1"
 REVIEW_DIR = ROOT / "docs/isles-pilot/reviews"
-REVIEW_PREFIX = "p001-dispatch-approved"
+REVIEW_PREFIX = "p001-dispatch-r2"
 REVIEW_FILES = ["orchestrator/colab_patient.py", "orchestrator/colab_worker.py",
                 "tests/test_colab_patient.py", "docs/isles-pilot/P001_WORKER_DISPATCH.md",
                 "campaigns/isles24-pilot/experiments/P001/run.py",
@@ -279,7 +279,7 @@ def execution_packet(archive):
     launch = "\n".join([
         'import os, json, sys, subprocess, shutil', 'from pathlib import Path',
         "if shutil.which('nvidia-smi') is not None: raise RuntimeError('CPU runtime required')",
-        "if not os.path.isdir('/content/drive/MyDrive'): raise RuntimeError('Drive authorization required')",
+        "if not os.path.ismount('/content/drive') or not os.path.isdir('/content/drive/MyDrive'): raise RuntimeError('Drive authorization required')",
         "if shutil.which('7z') is None: raise RuntimeError('Existing 7z prerequisite unavailable')",
         'params = '+repr(params),
         "if not Path(params['archive']).is_file(): raise RuntimeError('Archive path unavailable')",
@@ -299,7 +299,8 @@ def execution_packet(archive):
     ])
     launch = "_p001_owned = False\ntry:\n" + '\n'.join('    '+line for line in launch.replace("job.mkdir(mode=0o700)", "job.mkdir(mode=0o700)\n_p001_owned = True").splitlines()) + "\nexcept BaseException:\n    if _p001_owned: (job/'status.json').write_text(json.dumps({'status':'FAILED'}))\n    raise"
     # Launcher errors/source paths never go to MCP. Original launch source and wrapper are separate.
-    wrapper = capture_cell(launch,OUTPUT+'.launch.console.log')
+    wrapper = ("import os\nif not os.path.ismount('/content/drive'): raise RuntimeError('Drive mount unavailable; no output created')\n"
+               + capture_cell(launch,OUTPUT+'.launch.console.log'))
     return {'task':'execute_reviewed_p001','parameters':params,'cells':[CPU_CELL,wrapper],
             'launch_source':launch,'original_notebook':nb,
             'poll_source':poll_cell()}
@@ -309,7 +310,7 @@ def poll_cell():
     return "\n".join([
         'import json, os', 'from pathlib import Path',
         'job = Path('+repr(OUTPUT+'.worker')+')',
-        "if not job.is_dir():",
+        "if not os.path.ismount('/content/drive') or not job.is_dir():",
         "    print(json.dumps({'status':'NOT_VISIBLE'}))",
         "else:",
         "    status = json.loads((job/'status.json').read_text())",

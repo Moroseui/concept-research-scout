@@ -38,12 +38,20 @@ class PatientDispatchTests(unittest.TestCase):
     def test_metadata_scan_never_opens_file_payload(self):
         class Stat:st_size=99014629647
         out=io.StringIO()
-        with patch('os.path.isfile',return_value=False), patch('os.path.isdir',return_value=True), patch('os.path.islink',return_value=False), patch('os.walk',return_value=iter([('/content/drive/MyDrive/data',[],['train.7z','patient.nii.gz'])])), patch('os.stat',return_value=Stat()), patch('builtins.open',side_effect=AssertionError('payload opened')), contextlib.redirect_stdout(out):
+        with patch('os.path.isfile',return_value=False), patch('os.path.isdir',return_value=True), patch('os.path.ismount',return_value=True), patch('os.path.islink',return_value=False), patch('os.walk',return_value=iter([('/content/drive/MyDrive/data',[],['train.7z','patient.nii.gz'])])), patch('os.stat',return_value=Stat()), patch('builtins.open',side_effect=AssertionError('payload opened')), contextlib.redirect_stdout(out):
             exec(p.FIND_CELL,{})
         result=json.loads(out.getvalue())
         self.assertTrue(result['scan_complete'])
         self.assertEqual(result['archive_candidates'],[{'path':'/content/drive/MyDrive/data/train.7z','size_bytes':99014629647}])
         self.assertNotIn('patient.nii.gz',out.getvalue())
+
+    def test_unmounted_drive_refuses_before_any_output_directory(self):
+        with patch.object(p,'require_patient_review',return_value='synthetic-review'):
+            packet=p.execution_packet('/content/train.7z')
+        with patch('os.path.ismount',return_value=False), patch.object(Path,'mkdir',side_effect=AssertionError('created output before mount')) as mkdir:
+            with self.assertRaisesRegex(RuntimeError,'Drive mount unavailable'):
+                exec(packet['cells'][1],{})
+            mkdir.assert_not_called()
 
     def test_child_failure_retains_private_console_and_fixed_status(self):
         with tempfile.TemporaryDirectory() as d:

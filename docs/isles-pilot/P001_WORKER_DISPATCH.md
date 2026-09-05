@@ -23,7 +23,7 @@ directory is not an imaging DATA_ROOT substitute.
 
 `prepare` and `dispatch` additionally require `--archive ACTUAL_COLAB_PATH`.
 They verify the original P001 scientific approval and a completed fresh patient
-adapter review at reviews/p001-dispatch-approved.{execution,response}.json,
+adapter review at reviews/p001-dispatch-r2.{execution,response}.json,
 bound to the exact current adapter, capture dependency, tests, documentation and
 scientific reference files. The required scope is p001-patient-dispatch and the
 required reviewer is Fable. A request for Fable with a different reported model
@@ -46,8 +46,10 @@ outputs, original P001-v1.console.log and P001-v1.private stay under the origina
 runner's control. A pre-existing worker directory causes a nondestructive refusal,
 not a second launch. Failed launcher-owned attempts receive FAILED status. Reruns
 need investigator inspection and a deliberate separate handoff; never delete
-checkpoints or evidence to make a rerun pass. CPU, Drive and existing 7z are checked
-before dispatch. No GPU or paid provisioning is requested.
+checkpoints or evidence to make a rerun pass. CPU, an actual Drive mount (not just a MyDrive directory), and existing 7z are
+checked before dispatch. The mount check runs before the capture wrapper can
+create any log/output directory; an unmounted Drive is a fixed refusal. Metadata
+search and status polling also require the actual mount before inspecting Drive paths. No GPU or paid provisioning is requested.
 
 The worker launches a detached child, so a long archive verification is not killed
 by the MCP cell timeout. DISPATCHED is not successful analysis. The original runner
