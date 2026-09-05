@@ -311,3 +311,35 @@ Every **new** `record-result` import now requires an explicit
 `probes/NNN/publication.json` policy bound to its governing contract, in addition
 to scientific validation. Existing immutable imports are unaffected. A missing
 policy is a refusal, not permission to copy an arbitrary tree.
+
+
+### Persistent ISLES pilot system commands
+
+Use `python -m orchestrator.campaign_pipeline MODE --experiment P001 --request TEXT
+--output campaigns/isles24-pilot/pipeline/NEW_RUN` for `propose`, `specify`, `code`,
+`repair`, or `discuss`. Each route uses the existing receipted author/reviewer
+primitive, writes immutable proposal artifacts, and stops after at most one
+revision. Proposals are not adopted specifications or human approvals. Follow-up
+stages require the prior reviewed result. Active P001 source pins are preserved.
+
+`python -m orchestrator.pilot_jobs register --private-root PRIVATE_DIR --snapshot
+EXECUTION_CHECKOUT --source-pin FULL_SHA` binds the approved P001 snapshot.
+`run`, `tick`, `status`, and `inbox` use the same private root. `demo` exercises
+synthetic transitions only. Restart with the same root; never make a new store
+to retry an ambiguous dispatch. Expired dispatch leases and uncertain mutations
+stop for reconciliation. Read-only retry counts are capped. A validated patient
+run stops at the private-return-transfer inbox boundary.
+
+After private artifacts arrive, use the existing `scout.py validate-bundle`,
+`record-result`, and `interpret-build` commands with `--campaign isles24-pilot
+--experiment P001`; validation/import require `--bundle`, `--private`, `--console`.
+Never put private checkpoints or console bytes into Git or model prompts.
+
+`python -m scripts.workflow_boundary publish --source FULL_SHA --destination
+astra/autonomous-isles-pilot --expected-remote FULL_BEFORE_SHA` checks complete
+outgoing history and performs an append-only expected-ref transaction. Main,
+results refs, merges, raw artifacts and unreviewed history are not publication
+routes. Legacy remote model workflows are quarantined; deterministic CI remains.
+See [operating-model audit](docs/isles-pilot/OPERATING_MODEL_20260905.md),
+[future profiles](docs/isles-pilot/UNATTENDED_PROFILES.md), and
+[unprovisioned private coordinator plan](docs/isles-pilot/PRIVATE_COORDINATOR_PLAN.md).

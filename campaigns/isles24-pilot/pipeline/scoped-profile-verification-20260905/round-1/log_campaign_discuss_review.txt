@@ -1,0 +1,10 @@
+Permission allow rule (--allowed-tools): Write(./**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./**) instead (Edit rules cover all file-editing tools).
+Verdict: **APPROVE** — review.json is written at `/tmp/scout-campaign-stage-lac5p68_/review.json` with exactly the two required fields.
+
+The proposal does what the request asked and nothing more. It states P001 results are still pending (and that opposing-family review is pending, per SPEC.md), lists the archive integrity and original-return evidence gates, and makes no new scientific proposal, amendment, ratification, or execution claim. I cross-checked every quoted pin and rule against the bound context and found no mismatches:
+
+- **Integrity gates** match SPEC.md and run.py: cohort SHA-256, manifest git blob, the 99-ID selection rule, the 198-member extraction limit with the 49 reserved cases excluded, train.7z size/MD5, per-member size/CRC32 verification, symlink/path-escape rejection, and the one-staging-invocation rule.
+- **Return gates** match as well: console/checkpoint retention, hash binding to spec/code/cohort/manifest/review, exactly-99 completion, Tmax > 6.0 with fail-on-nonfinite, prediction-before-label ordering, geometry tolerances, metric and bootstrap parameters (2,000 resamples, seed 20260905), the five aggregate files matching publication.json, the 60-analysis-minute cap, and null-not-invented measurements.
+- The one risky phrase in the request — "unattended profile" — is handled correctly: the proposal explicitly says that framing does not alter the campaign's operator-connected manual Run All execution boundary.
+
+No patient data was sought, nothing was executed, and no ratification was performed.
