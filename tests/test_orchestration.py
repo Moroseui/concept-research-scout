@@ -4831,6 +4831,19 @@ class TestLauncherRunnerPassthrough(Harness):
                          "staging-inferred flags, not stack on them")
         self.assertNotIn("--data-dir", run_cell)
         self.assertNotIn("--record-json", run_cell)
+        # transport resilience (2026-09-04): resume must survive failure,
+        # evidence must survive the transporter, attempt 2 must be gentle
+        self.assertIn("KEEPING partial for resume", src)
+        self.assertIn("aria2_attempt", src)
+        self.assertIn("_nx = '16' if _attempt == 1 else '4'", src)
+        # every generated code cell must be valid python
+        for c in nb["cells"]:
+            if c["cell_type"] == "code":
+                cs = "".join(c.get("source", []))
+                has_shell = any(l.lstrip().startswith(("!", "%"))
+                                for l in cs.splitlines())
+                if cs.strip() and not has_shell:
+                    compile(cs, "<cell>", "exec")
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
