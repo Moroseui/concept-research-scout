@@ -1,6 +1,6 @@
-# Bounded Fable review request — pending export authorization
+# Bounded Fable reviews — standing export authorization
 
-Please review the implementation from baseline `4f5b6b1` through `45c4a5d`.
+Please review the implementation from baseline `4f5b6b1` through `495269bc6f72687f39d8c62ec9e2eb73162c390f` (verified starting HEAD for this continuation).
 Read-only review; no execution, mutation, remote cleanup, patient-file access or
 human ratification. This is an opposing-family review of Codex implementation.
 Return concrete findings with severity and file references, then APPROVE or
@@ -27,7 +27,10 @@ from a real completed review, not filled in to bypass the gate. It is absent now
 After any revision, review must bind the revised bytes. Regenerate the notebook
 to a commit containing the review receipt before a real Colab run.
 
-The attempted CLI review was blocked by automatic approval review before the
-external call. The operator has been asked to authorize sending this bounded
-source/documentation payload via the existing subscription CLI. No patient data,
-private evidence backup, credential or new billing is part of that request.
+The operator explicitly authorized repeated bounded reviews through the existing
+Claude subscription CLI on continuation. Two independent review requests now
+cover publication/lifecycle/cleanup and campaign/P001 validity separately. No
+credentials, raw patient files, clinical values, private backups or unreviewed
+logs are supplied. Each review records the exact revision and actual CLI model.
+Follow-up requests must include all affected changes through their current pin.
+The prior export rejection remains historical; it is not a current blocker.

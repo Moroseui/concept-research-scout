@@ -128,3 +128,22 @@ all result bytes. Both now verify byte-identically and visibly distinguish the
 historically ratified Phase A from the new unratified registry (A STALE/B BLOCKED).
 No new ratification was created. The outgoing-history guard has a synthetic
 regression proving that adding then deleting a raw file still blocks publication.
+
+## Continuation: independent reviews and lifecycle integration
+
+Verified clean HEAD and remote pilot at 495269bc6f72687f39d8c62ec9e2eb73162c390f;
+main and raw 047 ref unchanged. Operator explicitly authorized repeated bounded
+Claude subscription reviews. Two separate tools-disabled Claude Fable reviews
+were launched over baseline 4f5b6b1..495269b, including current relevant source,
+diffs, specifications, dependency declarations, notebooks and synthetic tests.
+No patient payload, private original evidence or credentials was supplied.
+Both actual CLI review outputs are pending; no approval is inferred.
+
+Independent reviews completed at 495269bc: cleanup APPROVE (no blockers), P001
+REVISE (finite-Tmax ambiguity, notebook predating its receipt, broad source clone).
+Actual responses and model usage are preserved under docs/isles-pilot/reviews.
+Fable authored both; CLI also reports Haiku auxiliary calls. No API key was used.
+The cleanup script now has optimization-safe explicit integrity checks, exact
+path-diff verification and synthetic test coverage. Optimized real replay retains
+the existing proposed c8124212 pin. Local metadata inspection clarifies that three
+retained files carry case identifiers; raw-payload cleanup is not anonymization.

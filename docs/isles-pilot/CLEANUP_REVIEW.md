@@ -84,3 +84,33 @@ Git blobs**; only the named 047 results branch reaches any of those blobs.
 This checks blob reachability even without direct descent from the source commit.
 The audit is preserved beside the durable private evidence. Hidden/unadvertised
 service refs and copies remain outside what this check can establish.
+
+## Independent review and clarified projection (continuation)
+
+Claude Fable reviewed baseline 4f5b6b1..495269bc and returned APPROVE for the
+cleanup operation, with no blocking findings. Actual review and CLI model/usage
+receipts are under `reviews/cleanup-r1.*`; this is an agent review, not operator
+approval. The CLI also reports a Haiku auxiliary call; Fable authored the review.
+CLI dollar estimates are not evidence of a new charge on the subscription.
+
+Following its recommendations, integrity checks now survive `python -O`, and the
+rehearsal explicitly compares the exact OLD→NEW path-change set. A synthetic
+rehearsal test passes and an optimized real rehearsal reproduces the SAME
+c812421207b6ddcba6516444897c777d8440275a replacement with identical retained bytes.
+
+**This projection removes raw phenotype payloads; it does not anonymize the
+retained audit artifacts.** Local top-level metadata inspection confirms case
+identifiers remain in `per_case_staging.csv`, `split_manifest.csv`, and
+`staging_audit.json`. The per-case staging columns retain identity-linked file
+usability/anomaly metadata. Quarantining `probe_exclusions.csv` therefore does
+not remove all identity-linked anomaly information. The safe exported schema/count
+audit is `reviews/047-retained-metadata-audit.json`; no patient values or IDs are
+reproduced there. Fable's initial unverified suggestion that only staged inputs
+and the exclusions file carry identities must not be treated as an established
+fact. A follow-up review is requested with this clarification.
+
+Approving this cleanup will **not** make the 16-file tree importable. The present
+policy still requires the exclusions audit and blocks 047. Removing/aggregating
+that required audit interface needs an explicit separate ruling and a bound
+policy/contract amendment. Successful-session console evidence and historical
+registry attestation also remain open. No scientific acceptance is implied.

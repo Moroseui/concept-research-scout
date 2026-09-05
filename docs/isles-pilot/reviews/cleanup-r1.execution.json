@@ -1,0 +1,75 @@
+{
+  "scope": "cleanup",
+  "reviewed_commit": "495269bc6f72687f39d8c62ec9e2eb73162c390f",
+  "baseline": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+  "requested_model": "claude-fable-5",
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-fable-5",
+    "--tools",
+    "",
+    "--max-turns",
+    "1",
+    "--output-format",
+    "json"
+  ],
+  "returncode": 0,
+  "duration_s": 322.78407406806946,
+  "prompt_sha256": "6a4b096b7e6b1edf4c3e9c1338d19c9c4093f5c383625e1b202237dcccb35af5",
+  "input_file_sha256": {
+    "scout.py": "7d37de60e5ba65ba2306953396d3310c8c226dc1936005dd83cf9c3e56c85612",
+    "orchestrator/campaign.py": "858b252ce8b3b77c3421ede3d7681b0290c0c4edcf28b57403a300b9a994cf78",
+    "docs/isles-pilot/PROGRESS.md": "03da2c983f6c852ca5285afe7c3b8c0cdfe7b8e39f4daa9bd96ea2d9d1c69863",
+    "docs/isles-pilot/CHECKPOINT.json": "37cefbed8921b862d735f0c9cecb66420a960aa1f836c050a529259eeb3afec8",
+    "orchestrator/publication.py": "95448fbc758b00f8d9dcfbab98aedf0245991146515945fe689789a0532eacd9",
+    "orchestrator/publication_subset.py": "6b9c0bf90b7555230699a1b4bb31c853619818a005955aed16b01712ef05b34d",
+    "orchestrator/experiment_registry.py": "0a25ed6058a4f7821fd2055989cf186fddcc4048eab9eabd47e9e2d7d24cb6fd",
+    "scripts/rehearse_047_cleanup.py": "c66cbaaca6b98a877033c9a54447ff11fdbf937b9ef1e2dce04fee940f0c2214",
+    "scripts/check_pilot_publication.py": "1bd7c5b07e2fd1203d6f42b68808543fd2b931f6385396dc927290abc42a41e6",
+    "probes/047/publication.json": "e0c3f00ddb700cc87c094c68a8d3bd63b9f802a8f85b9f389035a3edd8ad02ee",
+    "ideas/047/registry.yaml": "936742c38c725b8ab5a9c98ff6d832176b1dd825b754cd888370e69ac9f18089",
+    "docs/isles-pilot/CLEANUP_REVIEW.md": "b19540c21900419431d32f9065f3936614b7a74309be24274a90f9336473b3c7",
+    "docs/isles-pilot/047_LIFECYCLE.md": "bc6622a7d5c83282f55829f92e527f93779d2d71633dd76b11fa70f5f0942a94",
+    "docs/isles-pilot/DATASET_NOTICE.md": "e96bef88c97ea0f472afd4231b0299673c61b66e33dd0251ba036c359dd4608b",
+    "tests/test_publication.py": "201f3f1fce7a75cde43c0feb9c8c640b97da695c6e06a2fe27a32f6ed0ebbc30",
+    "tests/test_publication_subset.py": "7a3e5cf9fb5819f728b4956ec4f1e3c037d59ec4c647e3b89a987837fad7ff09",
+    "tests/test_pilot_publication_audit.py": "3687728cf3f92a45e3efdd629071e550e88033fff6abb50572f065d764129536"
+  },
+  "route": "authenticated subscription CLI; API key removed",
+  "human_intervention_minutes": null,
+  "actual_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 114117,
+      "outputTokens": 19,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.114212,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 1,
+      "outputTokens": 23643,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 155296,
+      "webSearchRequests": 0,
+      "costUSD": 4.28808,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "cli_reported_cost_usd": 4.402292,
+  "cost_note": "CLI token-price estimate, not evidence of an additional subscription charge",
+  "response_sha256": "fbeeb76aa5447b37949f7f8ea109a34defa90baac3f56266f73b80b15a6112a7"
+}
