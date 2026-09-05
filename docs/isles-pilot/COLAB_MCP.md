@@ -168,3 +168,31 @@ rehash-verified locally without running its cells. The complete test has not
 passed. COLAB_MCP_CONNECTED_TEST_20260905.json records results and a token-free
 log excerpt. Next diagnostic: keep the connected tab open and check tool
 availability on a new conversation turn, without another server restart.
+
+
+## Complete remote execution and retrieval — 2026-09-05
+
+Under a different MCP client (Claude Code, claude-fable-5, server name
+`colab-worker`), a fresh official browser connection returned true and the full
+notebook tool set appeared in the same turn: get_cells, add/update/move/delete
+cell and run_code_cell. The connected session exposed a fresh blank notebook;
+the exact cell sources of `synthetic_execution.ipynb` at 1a81c037 (notebook
+SHA-256 3c050e1f4552bc42e469b3c448930efbf7853a79bdc55d0f3969f52d3e9e7741) were
+written into it and read back byte-identical before any execution.
+
+The acquisition cell executed remotely and passed its own pin/cleanliness
+checks for source d6a1184b4378e849213fd887a6f7b103fb1a64d5. The synthetic write
+cell and, in a separate call, the retrieval cell both returned CompletedProcess
+returncode 0. Because the pinned cells' subprocess stdout was not persisted in
+the notebook outputs over MCP, one clearly labeled supplementary transport cell
+was appended after the pinned cells; it re-ran only the read-only `retrieve`
+operation of the same versioned smoke.py and printed token-free runtime
+evidence. Returned text and SHA-256 equal the fixed expected payload
+(776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800). Runtime
+evidence shows genuine Colab (COLAB_RELEASE_TAG present, /content exists),
+Python 3.13.15, and no nvidia-smi: a CPU runtime. No Drive mount, patient
+data, GPU, paid provisioning, remote cleanup or branch change occurred, and no
+connection token was recorded. COLAB_MCP_REMOTE_EXECUTION_20260905.json is the
+receipt. The acceptance test defined above has now passed end to end; the
+codex-cli 0.153.4 tool-refresh failure remains recorded separately and
+unresolved for that client.

@@ -302,3 +302,18 @@ rehash-verified locally without running its cells. The complete test has not
 passed. COLAB_MCP_CONNECTED_TEST_20260905.json records results and a token-free
 log excerpt. Next diagnostic: keep the connected tab open and check tool
 availability on a new conversation turn, without another server restart.
+
+
+### Complete remote Colab execution and retrieval — 2026-09-05
+
+With the Claude Code client and the `colab-worker` server, a fresh browser
+connection unlocked the full notebook tool set in the same turn. The exact
+synthetic notebook at 1a81c037 was loaded into the connected blank session and
+byte-verified before execution. Acquisition of source pin d6a1184b passed its
+integrity checks remotely; the synthetic write and a separate retrieval both
+returned exit 0. A labeled supplementary transport cell (read-only retrieve
+only) carried the JSON back: returned text and SHA-256 equal the pinned
+expectation 776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800, on a CPU-only Colab runtime (no nvidia-smi,
+COLAB_RELEASE_TAG present). The acceptance test in COLAB_MCP.md has passed end
+to end; receipt in COLAB_MCP_REMOTE_EXECUTION_20260905.json, token-free. No
+Drive, patient data, GPU, paid provisioning, cleanup or branch change.

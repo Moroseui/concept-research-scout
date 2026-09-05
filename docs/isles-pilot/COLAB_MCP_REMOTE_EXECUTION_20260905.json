@@ -1,0 +1,96 @@
+{
+  "client": {
+    "name": "claude-code",
+    "model": "claude-fable-5",
+    "note": "Different MCP client from the codex-cli 0.153.4 attempts recorded earlier the same day."
+  },
+  "server": {
+    "mcp_name": "colab-worker",
+    "registration_command_inspected": false,
+    "registration_note": "Server registered at harness level; command path not visible in .mcp.json or ~/.claude.json. Tool names and schemas match official colab-mcp (googlecolab/colab-mcp).",
+    "tools_before_connection": [
+      "open_colab_browser_connection"
+    ],
+    "tools_after_connection": [
+      "open_colab_browser_connection",
+      "get_cells",
+      "add_code_cell",
+      "add_text_cell",
+      "update_cell",
+      "move_cell",
+      "delete_cell",
+      "run_code_cell"
+    ],
+    "notebook_tools_available": true
+  },
+  "connection": {
+    "official_tool": "mcp__colab-worker__open_colab_browser_connection",
+    "result": true,
+    "fresh_browser_connection": true,
+    "tool_list_refreshed_in_same_turn": true,
+    "connection_tokens_recorded": false
+  },
+  "notebook": {
+    "commit": "1a81c037343598f4e4585153b11d761b87a9ae3a",
+    "path": "campaigns/isles24-pilot/colab/synthetic_execution.ipynb",
+    "sha256": "3c050e1f4552bc42e469b3c448930efbf7853a79bdc55d0f3969f52d3e9e7741",
+    "loaded_from_git": true,
+    "loaded_into_remote_session": true,
+    "load_method": "Connected session opened a fresh blank notebook (single empty code cell). Pinned markdown and three pinned code cells were written via add_text_cell/update_cell/add_code_cell, then read back with get_cells and byte-compared against the joined ipynb sources at 1a81c037: identical.",
+    "remote_cell_ids": {
+      "pilot-cell-00": "nNkFORTK4U4f",
+      "pilot-cell-01": "lIYdn1woOS1n",
+      "pilot-cell-02": "dMQQjnop4WpT",
+      "pilot-cell-03": "CTioO0-i4XTw"
+    },
+    "embedded_source_pin": "d6a1184b4378e849213fd887a6f7b103fb1a64d5"
+  },
+  "remote_execution": {
+    "acquisition_cell_executed": true,
+    "acquisition_result": "execution_count 1, no error output; cell raises RuntimeError on source-pin mismatch or dirty checkout, so silent completion means the detached checkout of d6a1184b4378e849213fd887a6f7b103fb1a64d5 passed both integrity checks.",
+    "synthetic_write_cell_executed": true,
+    "synthetic_write_result": "execution_count 2, execute_result CompletedProcess(args=['/usr/bin/python3', '/content/scout-pilot-d6a1184b4378/campaigns/isles24-pilot/colab/smoke.py', 'execute'], returncode=0)",
+    "separate_retrieval_cell_executed": true,
+    "separate_retrieval_result": "execution_count 3, separate run_code_cell call, execute_result CompletedProcess(args=['/usr/bin/python3', '/content/scout-pilot-d6a1184b4378/campaigns/isles24-pilot/colab/smoke.py', 'retrieve'], returncode=0)",
+    "stdout_capture_limitation": "The pinned cells run smoke.py via subprocess; its fd-level stdout was not persisted into the notebook output structure returned over MCP, only the CompletedProcess execute_result reprs. returncode 0 on retrieve proves the versioned byte-equality check inside smoke.py passed remotely."
+  },
+  "transport_cell": {
+    "purpose": "Carry the retrieval JSON and token-free runtime evidence over the MCP channel. Appended after the pinned cells at index 4; pinned cells were not modified. Re-runs only the read-only 'retrieve' operation of the same versioned script; the synthetic write was not repeated, so the retrieved bytes are those written by the pinned write cell.",
+    "remote_cell_id": "4P9Os2Qk4qIR",
+    "source": "# Supplementary MCP transport cell (not part of pinned synthetic_execution.ipynb):\n# re-runs only the read-only 'retrieve' operation so its JSON reaches the MCP channel,\n# plus token-free runtime evidence. The synthetic write above is not repeated.\nimport json, os, platform, shutil, subprocess, sys\nretrieved = subprocess.check_output([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), 'retrieve'], text=True)\nprint(retrieved, end='')\nprint(json.dumps({'colab_release_tag': os.environ.get('COLAB_RELEASE_TAG'), 'python': sys.version.split()[0], 'uname_release': platform.release(), 'nvidia_smi_present': shutil.which('nvidia-smi') is not None, 'content_dir_exists': os.path.isdir('/content')}))",
+    "returned_stream": [
+      "{\"retrieved_text\": \"ISLES pilot synthetic execution: 6 * 7 = 42\\n\", \"sha256\": \"776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800\"}",
+      "{\"colab_release_tag\": \"release-colab-external-images_20260902-060045_RC00\", \"python\": \"3.13.15\", \"uname_release\": \"6.6.122+\", \"nvidia_smi_present\": false, \"content_dir_exists\": true}"
+    ]
+  },
+  "returned": {
+    "text": "ISLES pilot synthetic execution: 6 * 7 = 42\n",
+    "sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800"
+  },
+  "expected": {
+    "text": "ISLES pilot synthetic execution: 6 * 7 = 42\n",
+    "sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "sha256_recomputed_locally_from_payload": true
+  },
+  "verification": {
+    "returned_text_matches_expected": true,
+    "returned_sha256_matches_expected": true,
+    "cpu_runtime_confirmed": true,
+    "cpu_evidence": "nvidia_smi_present false; no GPU requested; runtime identified as Colab by COLAB_RELEASE_TAG release-colab-external-images_20260902-060045_RC00 and /content directory."
+  },
+  "boundaries": {
+    "drive_mounted": false,
+    "patient_workflow_run": false,
+    "gpu_requested": false,
+    "paid_provisioning": false,
+    "remote_cleanup_performed": false,
+    "branch_changed": false,
+    "connection_tokens_recorded": false,
+    "permissions_broadened": false
+  },
+  "schema_version": 1,
+  "recorded_utc": "2026-09-05T18:44:40+00:00",
+  "implementation_head": "7858b9807fabb59a2168f93b7fa6cbfeb9b5f64e",
+  "status": "COMPLETE_REMOTE_TEST_PASSED",
+  "complete_remote_test_passed": true
+}
