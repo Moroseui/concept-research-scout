@@ -1,34 +1,34 @@
 {
   "is_error": false,
-  "duration_api_ms": 237305,
+  "duration_api_ms": 232920,
   "num_turns": 2,
   "stop_reason": "tool_use",
-  "session_id": "2d2af990-8e8c-462e-a15c-b09973cb0d99",
-  "total_cost_usd": 1.22627,
+  "session_id": "0542e86b-9f57-4c75-99c6-c002030b928a",
+  "total_cost_usd": 1.243059,
   "usage": {
     "input_tokens": 2,
-    "cache_creation_input_tokens": 15139,
+    "cache_creation_input_tokens": 15395,
     "cache_read_input_tokens": 865,
-    "output_tokens": 18274,
+    "output_tokens": 18503,
     "server_tool_use": {
       "web_search_requests": 0,
       "web_fetch_requests": 0
     },
     "service_tier": "standard",
     "cache_creation": {
-      "ephemeral_1h_input_tokens": 15139,
+      "ephemeral_1h_input_tokens": 15395,
       "ephemeral_5m_input_tokens": 0
     },
     "inference_geo": "not_available",
     "iterations": [
       {
         "input_tokens": 2,
-        "output_tokens": 18274,
+        "output_tokens": 18503,
         "cache_read_input_tokens": 865,
-        "cache_creation_input_tokens": 15139,
+        "cache_creation_input_tokens": 15395,
         "cache_creation": {
           "ephemeral_5m_input_tokens": 0,
-          "ephemeral_1h_input_tokens": 15139
+          "ephemeral_1h_input_tokens": 15395
         },
         "type": "message"
       }
@@ -37,12 +37,12 @@
   },
   "modelUsage": {
     "claude-haiku-4-5-20251001": {
-      "inputTokens": 8840,
-      "outputTokens": 13,
+      "inputTokens": 9029,
+      "outputTokens": 19,
       "cacheReadInputTokens": 0,
       "cacheCreationInputTokens": 0,
       "webSearchRequests": 0,
-      "costUSD": 0.008905000000000001,
+      "costUSD": 0.009124,
       "contextWindow": 200000,
       "maxOutputTokens": 32000,
       "canonicalModel": "claude-haiku-4-5",
@@ -50,11 +50,11 @@
     },
     "claude-fable-5": {
       "inputTokens": 2,
-      "outputTokens": 18274,
+      "outputTokens": 18503,
       "cacheReadInputTokens": 865,
-      "cacheCreationInputTokens": 15139,
+      "cacheCreationInputTokens": 15395,
       "webSearchRequests": 0,
-      "costUSD": 1.217365,
+      "costUSD": 1.233935,
       "contextWindow": 1000000,
       "maxOutputTokens": 64000,
       "canonicalModel": "claude-fable-5",
@@ -67,28 +67,27 @@
   "fast_mode_disabled_reason": "sdk_opt_in_required",
   "subtype": "success",
   "api_error_status": null,
-  "result": "{\"scope\":\"pilot-workflows\",\"reviewed_commit\":\"0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f\",\"verdict\":\"APPROVE\",\"findings\":[\"Verified fail-closed quarantine: all six legacy model workflows are workflow_dispatch-only on the pilot ref, pin destination_branch to the single authorized branch, gate on vars.PILOT_REMOTE_RESEARCH_ENABLED, run with contents:read and persist-credentials:false, use SHA-pinned actions, and unconditionally exit 1 before any model work; results-validate is if:false. Unset var, missing interpreter, or failed verify all fail the job with nothing published.\",\"Verified identity bindings: workflow_boundary.verify requires an exact 40-hex source equal to git rev-parse HEAD and the hardcoded destination branch; workflow inputs reach it only via env vars (no shell interpolation); audit additionally binds current branch and clean working tree.\",\"Verified append-only compare-and-swap publish: re-audit of exact source, remote tip must equal explicit --expected-remote pin, pin must be ancestor of source (fast-forward only), push uses --force-with-lease=<ref>:<expected> which is a server-side atomic expected-old check; concurrent remote moves in either direction are refused and errors raise without retry.\",\"Verified persistent-artifact hygiene in check_pilot_publication.audit: per-commit path allowlists, results/staged/.private component refusal, extension allowlist, regular-blob mode check, 1.5MB/NUL binary refusal, credential-pattern scan, notebook outputs/execution_count refusal, merge and dirty-tree refusal; contaminated-ancestry check fails closed on any non-1 return code including missing objects.\",\"Verified preservation of scientific approvals: resolution doc keeps original responses versioned, states REQUEST_CHANGES is not approval, preserves the coordinator's completed APPROVE at 9a4e0bf with original snapshot checks, and keeps publication/future profiles under follow-up review; nothing in the supplied source contradicts this and no scientific receipt logic is altered.\",\"Non-blocking: the mode check `git ls-tree <commit> -- <name>` treats name as a pathspec with wildcard matching; a literal filename containing glob characters (e.g. tests/z?.py alongside a regular tests/z1.py that sorts first) could report another entry's 100644 mode while `git show <commit>:<name>` reads the literal symlink, evading the non-regular-blob refusal. Contrived (requires the reviewed publisher to author it); fix by using ls-tree -z and comparing the returned path to name exactly, or a :(literal) pathspec.\",\"Non-blocking: notebook screening checks cells' outputs/execution_count but not attachments (base64 payloads in markdown cells) or notebook/cell metadata, which can carry embedded data past the size/binary checks.\",\"Non-blocking: commit messages in BASE..tip are never scanned; credential/private-data screening applies only to blob contents.\",\"Informational (fail-closed but worth documenting): audit skips any path where `git cat-file -e` fails, conflating deletion with other object-lookup failures; publish has no bootstrap path when the remote branch does not yet exist (ls-remote must return exactly one existing ref).\",\"Review basis: source-only analysis of the supplied files; no tests were executed and no repository state beyond the provided source was inspected.\"]}",
+  "result": "{\"scope\":\"pilot-workflows\",\"reviewed_commit\":\"9c35fd4002612e9912da143d1c138dc0313d8ffe\",\"verdict\":\"APPROVE\",\"findings\":[\"Fail-closed quarantine verified: all six legacy model workflows are workflow_dispatch-only with SHA-pinned actions, contents:read permissions, no secrets, env-passed inputs (no expression injection), and an unconditional exit-1 'Campaign route required' step; results-validate.yml is hard-disabled via 'if: ${{ false }}'.\",\"Identity bindings are exact: verify() requires a 40-hex source equal to the checked-out HEAD and destination fixed to astra/autonomous-isles-pilot; workflow job 'if' additionally pins github.ref, destination_branch, and the operator-controlled PILOT_REMOTE_RESEARCH_ENABLED variable.\",\"publish() implements a correct append-only compare-and-swap: ls-remote expected-old check, mandatory merge-base --is-ancestor fast-forward proof, and --force-with-lease=<ref>:<expected> closes the TOCTOU window; missing remote ref, all-zero pin, or unfetched objects all fail closed.\",\"Recovery semantics are sound: publish is idempotent after crash-after-push (rerun with expected_remote = source passes all gates as a no-op); no local state mutates on any failure path; concurrency group 'scout-cycle' with cancel-in-progress:false serializes without killing in-flight runs.\",\"Publication audit fails closed on every anomaly (dirty tree, wrong branch, merge commits, disallowed paths, symlink/gitlink modes, binaries/oversize blobs, credential patterns, executed notebook outputs); contaminated-commit check requires exit code exactly 1 so a missing object also fails; deleted-file skip is sound since content was audited at the introducing commit; audit.ROOT swap in publish is restored in finally and read at call time by the inner git helpers.\",\"Scientific approvals preserved: no code path rewrites existing receipts; disposition doc claims match the code and it explicitly states REQUEST_CHANGES is not approval, with remote model routes blocked and separate operator gates retained.\",\"Advisory: the audit allowlist includes its own governing files (scripts/workflow_boundary.py, scripts/check_pilot_publication.py, .github/workflows/*.yml), so published commits could weaken future audits/quarantine at the content level; automatic checks are path/extension/size only, mitigated by operator-run publish and the repo-variable gate. Consider content-level checks or excluding these paths from pilot-authorable changes.\",\"Advisory: publish/audit receipts are printed to stdout only and not persisted as artifacts; first-time remote branch creation is impossible (empty ls-remote fails) \u2014 fail-closed but undocumented.\",\"Advisory: allowed prefixes (tests/, campaigns/isles24-pilot/, docs/isles-pilot/) admit arbitrary text files up to 1.5 MB per version, and private-artifact refusal only matches path components starting with 'results'/'staged'/'.private', so privacy for other names depends on the human commit-review step.\"]}",
   "structured_output": {
     "scope": "pilot-workflows",
-    "reviewed_commit": "0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f",
+    "reviewed_commit": "9c35fd4002612e9912da143d1c138dc0313d8ffe",
     "verdict": "APPROVE",
     "findings": [
-      "Verified fail-closed quarantine: all six legacy model workflows are workflow_dispatch-only on the pilot ref, pin destination_branch to the single authorized branch, gate on vars.PILOT_REMOTE_RESEARCH_ENABLED, run with contents:read and persist-credentials:false, use SHA-pinned actions, and unconditionally exit 1 before any model work; results-validate is if:false. Unset var, missing interpreter, or failed verify all fail the job with nothing published.",
-      "Verified identity bindings: workflow_boundary.verify requires an exact 40-hex source equal to git rev-parse HEAD and the hardcoded destination branch; workflow inputs reach it only via env vars (no shell interpolation); audit additionally binds current branch and clean working tree.",
-      "Verified append-only compare-and-swap publish: re-audit of exact source, remote tip must equal explicit --expected-remote pin, pin must be ancestor of source (fast-forward only), push uses --force-with-lease=<ref>:<expected> which is a server-side atomic expected-old check; concurrent remote moves in either direction are refused and errors raise without retry.",
-      "Verified persistent-artifact hygiene in check_pilot_publication.audit: per-commit path allowlists, results/staged/.private component refusal, extension allowlist, regular-blob mode check, 1.5MB/NUL binary refusal, credential-pattern scan, notebook outputs/execution_count refusal, merge and dirty-tree refusal; contaminated-ancestry check fails closed on any non-1 return code including missing objects.",
-      "Verified preservation of scientific approvals: resolution doc keeps original responses versioned, states REQUEST_CHANGES is not approval, preserves the coordinator's completed APPROVE at 9a4e0bf with original snapshot checks, and keeps publication/future profiles under follow-up review; nothing in the supplied source contradicts this and no scientific receipt logic is altered.",
-      "Non-blocking: the mode check `git ls-tree <commit> -- <name>` treats name as a pathspec with wildcard matching; a literal filename containing glob characters (e.g. tests/z?.py alongside a regular tests/z1.py that sorts first) could report another entry's 100644 mode while `git show <commit>:<name>` reads the literal symlink, evading the non-regular-blob refusal. Contrived (requires the reviewed publisher to author it); fix by using ls-tree -z and comparing the returned path to name exactly, or a :(literal) pathspec.",
-      "Non-blocking: notebook screening checks cells' outputs/execution_count but not attachments (base64 payloads in markdown cells) or notebook/cell metadata, which can carry embedded data past the size/binary checks.",
-      "Non-blocking: commit messages in BASE..tip are never scanned; credential/private-data screening applies only to blob contents.",
-      "Informational (fail-closed but worth documenting): audit skips any path where `git cat-file -e` fails, conflating deletion with other object-lookup failures; publish has no bootstrap path when the remote branch does not yet exist (ls-remote must return exactly one existing ref).",
-      "Review basis: source-only analysis of the supplied files; no tests were executed and no repository state beyond the provided source was inspected."
+      "Fail-closed quarantine verified: all six legacy model workflows are workflow_dispatch-only with SHA-pinned actions, contents:read permissions, no secrets, env-passed inputs (no expression injection), and an unconditional exit-1 'Campaign route required' step; results-validate.yml is hard-disabled via 'if: ${{ false }}'.",
+      "Identity bindings are exact: verify() requires a 40-hex source equal to the checked-out HEAD and destination fixed to astra/autonomous-isles-pilot; workflow job 'if' additionally pins github.ref, destination_branch, and the operator-controlled PILOT_REMOTE_RESEARCH_ENABLED variable.",
+      "publish() implements a correct append-only compare-and-swap: ls-remote expected-old check, mandatory merge-base --is-ancestor fast-forward proof, and --force-with-lease=<ref>:<expected> closes the TOCTOU window; missing remote ref, all-zero pin, or unfetched objects all fail closed.",
+      "Recovery semantics are sound: publish is idempotent after crash-after-push (rerun with expected_remote = source passes all gates as a no-op); no local state mutates on any failure path; concurrency group 'scout-cycle' with cancel-in-progress:false serializes without killing in-flight runs.",
+      "Publication audit fails closed on every anomaly (dirty tree, wrong branch, merge commits, disallowed paths, symlink/gitlink modes, binaries/oversize blobs, credential patterns, executed notebook outputs); contaminated-commit check requires exit code exactly 1 so a missing object also fails; deleted-file skip is sound since content was audited at the introducing commit; audit.ROOT swap in publish is restored in finally and read at call time by the inner git helpers.",
+      "Scientific approvals preserved: no code path rewrites existing receipts; disposition doc claims match the code and it explicitly states REQUEST_CHANGES is not approval, with remote model routes blocked and separate operator gates retained.",
+      "Advisory: the audit allowlist includes its own governing files (scripts/workflow_boundary.py, scripts/check_pilot_publication.py, .github/workflows/*.yml), so published commits could weaken future audits/quarantine at the content level; automatic checks are path/extension/size only, mitigated by operator-run publish and the repo-variable gate. Consider content-level checks or excluding these paths from pilot-authorable changes.",
+      "Advisory: publish/audit receipts are printed to stdout only and not persisted as artifacts; first-time remote branch creation is impossible (empty ls-remote fails) \u2014 fail-closed but undocumented.",
+      "Advisory: allowed prefixes (tests/, campaigns/isles24-pilot/, docs/isles-pilot/) admit arbitrary text files up to 1.5 MB per version, and private-artifact refusal only matches path components starting with 'results'/'staged'/'.private', so privacy for other names depends on the human commit-review step."
     ]
   },
-  "ttft_ms": 207555,
-  "ttft_stream_ms": 1591,
-  "time_to_request_ms": 119,
+  "ttft_ms": 207301,
+  "ttft_stream_ms": 1677,
+  "time_to_request_ms": 112,
   "type": "result",
-  "duration_ms": 236204,
-  "uuid": "1d9bfa2f-ba66-4fea-9f2f-0541fc58d0c7"
+  "duration_ms": 231687,
+  "uuid": "cb5573d6-616e-4f30-8c16-130a4be4caf0"
 }

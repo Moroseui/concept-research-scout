@@ -1,7 +1,7 @@
 {
-  "reviewed_commit": "0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f",
+  "reviewed_commit": "9c35fd4002612e9912da143d1c138dc0313d8ffe",
   "returncode": 0,
-  "wall_seconds": 237.6824688059969,
+  "wall_seconds": 233.5955469310029,
   "input_file_sha256": {
     "scripts/workflow_boundary.py": "4765223de4c0d811d05047a69c79b22c9f5887fd13ef4cff90dd2318c48e36cc",
     "scripts/check_pilot_publication.py": "614ba67a840c56736cf216be5d28c27eb9229b10b870472a7a5c142470c5191d",
@@ -9,14 +9,14 @@
     ".github/workflows/interpret.yml": "768c5d0a28ff1b60a24c471c8ab91dfda6183ece0481f0b51547c39eb7416047",
     ".github/workflows/confer.yml": "75140df43a9e094255fc83dd5482d751df77c435770265665e8084fb8113e160",
     ".github/workflows/actioner.yml": "50a4758d14e3c27bcd7f1c54637517f446467c10cf4176ba814cf371c047bd70",
-    ".github/workflows/results-validate.yml": "10174b74b7c900f062eaabda4dfc3c7b940b1ff6051692825331181869d54862",
+    ".github/workflows/results-validate.yml": "20f86dd3ca931b96543dfedd2fa82530847358bebba2d5094f724e557d4aefd7",
     ".github/workflows/scout-cycle.yml": "b9b599b6c415629164067b38dcbbf17d61b533201c559d6a412e0eec2c2c0ed8",
     ".github/workflows/idea-pipeline.yml": "7ab8dc397a9d6e038d1279c02927ce4aec75b77a019b5ad3092ba3f72298b6ad",
     ".github/workflows/librarian.yml": "ebeed9a732dc26105be5f210a290c69864c716e5f54a2c3659bdef27ffad4347",
-    "tests/test_workflow_boundary.py": "55b70a560732f66c1e243d33f1f36cca1e4096e7f055c89b40cfaf4815db2759",
+    "tests/test_workflow_boundary.py": "e53d8eb04ab6b32fb1a05b5e968dd265927190566ff1635dda0bd2af16b17d1e",
     "docs/isles-pilot/REVIEW_RESOLUTION_20260905.md": "980307da2357eb0bdbfec47ac04271735f62e59106e7ffc8d06a3fb0f7664b55"
   },
-  "response_sha256": "6b7b1ac9aa1ab18f75252bc4494f195c81a84d4e814681b6bbc14ded3497abe3",
+  "response_sha256": "93010f6b61d7d3e36cdb1c3126facd0c58f7eb703ca5fb9c987464bd60d604cf",
   "requested_model": "claude-fable-5",
   "assistant_message_models": [
     "claude-fable-5"
@@ -25,5 +25,5 @@
     "claude-haiku-4-5-20251001",
     "claude-fable-5"
   ],
-  "protocol_sha256": "0f64e54f9ac51cfccdfb0200686c221d012fd20c67aceefa021fc6d36cfbfe3a"
+  "protocol_sha256": "587a343971e67a78f177ca1d0c29739c339105cde424037573bea4b7dd2951a1"
 }

@@ -506,3 +506,22 @@ provisioned; approval and billing/project selection remain external prerequisite
 Efficiency review now includes campaign and explicit worker receipts, remains
 proposal-only, and does not copy private fields. Available CLI estimates are not
 claimed as new charges; human intervention duration remains unknown.
+
+### Published CI and completed acquisition follow-through
+
+Published audited pilot tip 7e016183396d6cc49aad3591807afc5912a689a4 from
+0be7ea44f95538a88c53a4d177f85d6ba82c5d2d by append-only compare-and-swap.
+GitHub run 33998753860 passed 214 orchestration tests, 272 pytest tests and
+16 isolation tests, then reproduced the documented historical idea 023 approval
+provenance failure. Run 33998753437 exposed a YAML colon quoting error in the
+quarantined results workflow. Fix 9c35fd4002612e9912da143d1c138dc0313d8ffe
+uses a block scalar and adds an all-workflow parse regression test (3 tests pass).
+Fresh claude-fable-5 review APPROVE at that exact fix pin replaces the current
+workflow receipt; prior rounds and original protocols remain preserved.
+
+Remote metadata-only check reached 98,708,750,336 bytes of 99,014,629,647;
+subsequently the original approved acquisition poll returned VALIDATED. The
+reviewed persistent coordinator moved to dispatch with zero retries/no inbox.
+P001 scientific metrics are still unavailable. Original remote evidence remains
+private; permitted metadata is in P001_DOWNLOAD_SYSTEM_BATCH_20260905.json.
+No main/results cleanup or paid provisioning was performed.

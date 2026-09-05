@@ -1,0 +1,27 @@
+{
+  "published_pin": "7e016183396d6cc49aad3591807afc5912a689a4",
+  "previous_remote_pin": "0be7ea44f95538a88c53a4d177f85d6ba82c5d2d",
+  "operation": "append_only_compare_and_swap",
+  "audit": {
+    "base": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+    "tip": "7e016183396d6cc49aad3591807afc5912a689a4",
+    "branch": "astra/autonomous-isles-pilot",
+    "artifact_versions_checked": 335,
+    "manifest_sha256": "1b6d6ece24e15348e114ae315b4013f43ff9f3acb920640dd113b06825a7cb14",
+    "contaminated_history_reachable": false
+  },
+  "github_ci": {
+    "run_id": 33998753860,
+    "orchestration_tests_passed": 214,
+    "pytest_tests_passed": 272,
+    "isolation_tests_passed": 16,
+    "failure": "state-verify: historical idea 023 gov-0001 imports[0] source 5aa8b5a183876a991ea7e307d7a6c8a8d3a34c7a lacks HUMAN_APPROVED_PROBE binding 0e223c82f9eb"
+  },
+  "workflow_parser_failure": {
+    "run_id": 33998753437,
+    "diagnosis": "Unquoted colon in shell command YAML scalar; fixed with block scalar in 9c35fd4 and all-workflow parse regression test."
+  },
+  "private_log_location": "~/.local/share/isles-colab-mcp/system-batch-20260905",
+  "scientific_results": "P001 pending; no metrics available",
+  "main_results_cleanup_changed": false
+}
