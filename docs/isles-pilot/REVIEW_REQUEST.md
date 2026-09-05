@@ -1,0 +1,33 @@
+# Bounded Fable review request — pending export authorization
+
+Please review the implementation from baseline `4f5b6b1` through `45c4a5d`.
+Read-only review; no execution, mutation, remote cleanup, patient-file access or
+human ratification. This is an opposing-family review of Codex implementation.
+Return concrete findings with severity and file references, then APPROVE or
+REVISE separately for publication/lifecycle safeguards and the P001 experiment.
+
+Start with CLEANUP_REVIEW.md (exact proposed operation), 047_LIFECYCLE.md
+(unresolved acceptance decisions), and campaigns/isles24-pilot/CAMPAIGN.md.
+For P001, review SPEC.md, investigator_decision.json, run.py and
+validate_return.py alongside tests/test_prediction_p001.py. Focus on admission
+input timing, frozen cohort enforcement, outcome leakage, evaluation/uncertainty,
+checkpoint provenance, publication boundaries, stopping and failure semantics.
+Synthetic tests are engineering evidence only, never scientific performance.
+
+For the safeguards, review orchestrator/publication.py, publication_subset.py,
+scout.py's package_colab/record_result changes, and the relevant synthetic tests.
+The exact 047 raw source and original evidence remain private and are not part
+of this code-review payload. Review the proposed cleanup script without invoking
+its remote operation. No recommendation should be labeled a human decision.
+
+If P001 is APPROVEd, its machine review receipt must identify `actor_type: agent`,
+`family: claude`, `verdict: APPROVE`, the exact SHA-256 of SPEC.md and run.py,
+and reference the actual review text/CLI receipt. A receipt must be generated
+from a real completed review, not filled in to bypass the gate. It is absent now.
+After any revision, review must bind the revised bytes. Regenerate the notebook
+to a commit containing the review receipt before a real Colab run.
+
+The attempted CLI review was blocked by automatic approval review before the
+external call. The operator has been asked to authorize sending this bounded
+source/documentation payload via the existing subscription CLI. No patient data,
+private evidence backup, credential or new billing is part of that request.

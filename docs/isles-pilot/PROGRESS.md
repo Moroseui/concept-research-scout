@@ -103,3 +103,21 @@ checkout). The copied Git bundle passed verification. All 11 advertised refs
 were checked for reachability of the 173 distinct raw blobs represented by the
 198 staged files: only the named 047 results branch reaches them. The cleanup
 operation/pins did not change. No remote rewrite or deletion has executed.
+
+## Commit checkpoint
+
+- 194cdcd491a6: M1 safeguards and cleanup rehearsal script.
+- 62e310503f55: first pinned cleanup review package and safe 047 launcher.
+- a69b044: M2 subset provenance and proposed 047 registry.
+- ece94ea: M3 campaign authority and frozen P001 specification.
+- bd99839: publication policy mandatory for all new imports.
+- c429722: M4 baseline runner, return validator and synthetic tests.
+- 45c4a5d3329b: M5 integration probe, proposal-only reviewer and publication audit.
+
+Both generated pilot notebooks pin 45c4a5d3329b210eea4a3e1b11027b1bca261fe5;
+nbformat validation and Python compilation of every code cell pass. P001 is
+prepared but intentionally refuses real execution while its actual opposing-family
+review receipt is absent. Synthetic notebook is ready for manual Run All.
+Local synthetic write/retrieve returned exact expected bytes and SHA-256
+776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800.
+This does not claim Colab execution. Review request is documented separately.
