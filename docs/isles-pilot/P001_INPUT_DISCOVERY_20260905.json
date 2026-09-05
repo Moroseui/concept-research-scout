@@ -70,5 +70,55 @@
   "scan_scope": "Mounted MyDrive and Shareddrives, no symlink traversal; metadata checkpoint permits continuation. Runtime /content/train.7z was separately checked by the preceding discovery attempt.",
   "codex_notebook_discovery": "unresolved",
   "human_intervention_seconds": null,
-  "billing_note": "CLI cost is a reported estimate; existing subscription used, no new billing provisioned."
+  "billing_note": "CLI cost is a reported estimate; existing subscription used, no new billing provisioned.",
+  "storage_probe": {
+    "status": "COMPLETE",
+    "storage": {
+      "drive_mounted": true,
+      "local_free_bytes": 220654030848,
+      "drive_free_bytes": 209621327872
+    },
+    "wall_seconds": 51.11385564899956,
+    "actual_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 10602,
+      "cache_read_input_tokens": 72044,
+      "output_tokens": 2596,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10602,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 302,
+          "cache_read_input_tokens": 10376,
+          "cache_creation_input_tokens": 226,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 226
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "cli_reported_cost_usd": 0.414927
+  },
+  "storage_source_sha256": [
+    "bae4af73ba92d338159ffbfdac466ce85be3e5e827d84af1c59cac98f1a5042b",
+    "9642404b78fe89dfe7bdeec094d6f6666110ca45dfa3f2a89fd9cb384cca3eb7"
+  ],
+  "storage_protocol_sha256": "779a995d43c8282dced29f27a1a125b15efb222707b7bc0507afb1c537b544e3",
+  "private_original_evidence_location": "~/.local/share/isles-colab-mcp/p001-handoff-20260905"
 }

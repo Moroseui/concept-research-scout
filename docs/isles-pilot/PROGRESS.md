@@ -358,3 +358,49 @@ finalized; browser/Drive authorization will be requested at the point of use.
 Pending results-branch cleanup remains separately unapproved and unexecuted.
 CLI usage estimates are recorded without claiming extra subscription charges;
 human intervention time remains unavailable. See CLAUDE_WORKER_INTEGRATION_20260905.json.
+
+
+## 2026-09-05: input discovery and reviewed patient dispatch
+
+Continued from 85d2797f94e121ff6b216f8d1687925f00cb0d4d. Operator ran
+plain Drive consent in the browser; remote checks confirmed an actual mounted
+Drive and CPU runtime. Completed breadth-first filename metadata search found
+only `/content/drive/MyDrive/staging-16731717/train.7z`, 99,022,114,670 bytes.
+Pinned P001 expects 99,014,629,647 bytes and MD5
+36ae28b9a17f7340b8bbef62b595cb57. This establishes an input identity mismatch,
+not corruption: no content was opened to locate or assess that copy. The copy
+is preserved. The initial depth-first search timed out; its incomplete result
+was not treated as exhaustive. Resumable breadth-first search completed.
+
+Patient dispatch implementation bf3f33d53d741d1ab7e153ed3d7f7231ac65056f and
+regression correction aede8f0d4ee2568514d5ca8ad1a37532334d254b received Fable
+approval, recorded at 67f81c37ed22031c26756f6459251b12bbfd67b4. Investigator
+then identified and fixed a real-mount check needed before capture creates
+output/log directories: 465a0c3b1f2e8486a13e68dfd2179b3bfd16840d. First
+follow-up review failed with “API Error: Connection closed mid-response. The
+response above may be incomplete.” It has no approval. A fresh retry completed
+with actual claude-fable-5 APPROVE, source/response hashes validated, adopted at
+4234ede (p001-dispatch-r2). Static reviews did not execute tests. Historical
+scientific approval, notebook 1a81c037343598f4e4585153b11d761b87a9ae3a and source
+d6a1184b4378e849213fd887a6f7b103fb1a64d5 remain unchanged and valid.
+
+User reported previous archive corruption and fresh Colab downloads. Investigator
+selected fresh record 16813698 acquisition, without weakening identity checks.
+Remote storage check returned 220,654,030,848 local free bytes and
+209,621,327,872 Drive free bytes. Preparation bdf4369996364511e8bd824d4711907fa5fb71ea
+adds a separate CPU-only background download, private original console, size/MD5
+verification before rename, four-hour limit, preserved partials, and refusal on
+existing destinations. Separate completed Fable APPROVE is recorded at 79a013e.
+Its changed-file bindings and the separate patient review gate both pass.
+Acquisition is separately recorded; it is not a scientific experiment result.
+
+29 relevant unittest tests pass, including synthetic 99-case execution, failure,
+rerun, archive integrity rejection, private-output capture, and lifecycle checks.
+Pytest was unavailable in the isolated environment; the project's unittest route
+was used. No actual patient analysis, result import, or interpretation has run.
+Original worker/review evidence is privately preserved outside Git under
+~/.local/share/isles-colab-mcp/p001-handoff-20260905. Metadata-only execution
+receipt: P001_INPUT_DISCOVERY_20260905.json. CLI usage/cost estimates are recorded;
+actual additional charges and human intervention duration are not measured.
+Codex notebook-tool discovery remains unresolved; execution client is Claude Code.
+Pending public-history cleanup is still separately unapproved and unexecuted.
