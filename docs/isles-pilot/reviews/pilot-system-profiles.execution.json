@@ -1,0 +1,28 @@
+{
+  "reviewed_commit": "0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f",
+  "returncode": 0,
+  "wall_seconds": 307.22366592099934,
+  "input_file_sha256": {
+    "orchestrator/campaign_pipeline.py": "5e40e67c00840370801ed27532ba9aef435669e0499e9d493b47d5d82e909ddb",
+    "orchestrator/campaign_lifecycle.py": "d4c33f59ccd2520124f49788d7538057c8ee0fe4a92579453f33072c9a45a92e",
+    "configs/pilot/agents-unattended.toml": "4ecf17f53dc153c41290127b64c8e1b4996c76075a8d8782862454b429fe0864",
+    "configs/pilot/colab-worker-future.json": "9c5d576991af0f88a98cdb46b3def8e6c5f2dc73f8a04e2b9e933869cd833e87",
+    "scripts/future_worker_profile.py": "f0fabd00a14c8407bcc415216b78cf7e7502de48640c3e192ab75513caae451a",
+    "scripts/pilot_tool_guard.py": "fa420d8a7f47a5486e3f7fc530f04d3a41e195868821e81ab82aeef1abcca945",
+    "scripts/efficiency_review.py": "f445c5fad33a8576c59471ac8b2b18a9c50c8b22b5f519d88588d4afafa460e6",
+    "tests/test_pilot_profiles.py": "ad2e257dfb60eebaf3d80447cc5494e7596156710786e52a7e0f7fcc24f46431",
+    "tests/test_campaign_pipeline.py": "b78c30405b858bfec75730c66ecff003f22202a23ac3309ca7ae834eccbdfb82",
+    "docs/isles-pilot/REVIEW_RESOLUTION_20260905.md": "980307da2357eb0bdbfec47ac04271735f62e59106e7ffc8d06a3fb0f7664b55",
+    "docs/isles-pilot/FUTURE_PROFILE_VERIFICATION.json": "cde49c82b7f6e4477b35f9da8738ebb3a87935f5fb9e7730f3c423afa26da2b3"
+  },
+  "response_sha256": "513d0022ca46020f5ff5873fc0fca666cc0f6c40fbdfc22af4cf2d5ffda62d49",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "2aed10066a5372b5650ec57383da64312a335aefbd5b0ad00a37a8eb7d5a6dff"
+}

@@ -451,3 +451,58 @@ its second worker poll used get_cells without includeOutputs=false; protocol
 validation rejected that call. This was not another failed browser connection.
 No patient dispatch occurred. Controller remains stopped; do not claim automatic
 handoff is active. Receipt: P001_DOWNLOAD_RECHECK2_20260905.json.
+
+## 2026-09-05 system operating-model batch
+
+Starting 0770c7d; origin pilot 0be7ea44f95538a88c53a4d177f85d6ba82c5d2d,
+24 local commits ahead and zero behind. Only pilot history was fetched. Preserved
+execution worktree /tmp/isles-p001-execution-0770c7d; all P001 scientific review
+bindings still pass. Download metadata checks showed 78,223,769,600 then
+91,108,671,488 bytes, actively writing. No archive restart or server setting change.
+
+Milestones: dab59d3 workflow/CI boundaries; 2a841fe campaign pipeline/job store;
+47c87dc snapshot driver/future profiles; 9a4e0bf review fixes and real discussion;
+07c005a verified coordinator approval; 0e8c380 final profile/publication fixes;
+7fde0a8 real scoped-profile execution and command reference; 27fefeb completed
+workflow/publication approval. Exact reviewed pins: persistent jobs
+9a4e0bf77fc1541e13ce7e0d04d38195f6b73601; publication/workflows and future profile
+preparation 0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f. Actual independent reviewer:
+claude-fable-5, fresh CLI sessions, no Colab config. All original REQUEST_CHANGES
+rounds are retained. No incomplete review is treated as approval.
+
+The real author/reviewer primitive completed three bounded campaign discussions
+(the latter two verify evolving future profiles). All prompts, outputs, model
+receipts and review JSON are under campaigns/isles24-pilot/pipeline. No scientific
+result is inferred from those discussions. New propose/specify/code/repair routes
+produce reviewed proposals; adoption and experiment execution remain separate
+bound decisions. P002/P003 generation is blocked until prior reviewed results.
+
+272 pytest tests passed; original 214-test orchestration suite also passed before
+the final small hardening changes. Fish command sheet syntax checked. Future
+MCP profile guard exercised locally with synthetic deny and malformed-input
+fixtures; not activated on the current patient worker. Synthetic job demo reached
+the private-return inbox. Production persistent coordinator runs from the reviewed
+code with SQLite events/leases under ~/.local/share/isles-colab-mcp/
+p001-system-jobs-20260905. It polls the frozen snapshot, caps read-only retries,
+and never repeats an ambiguous dispatch. Registration and same-store recovery
+are transactional; distinct stores must not be used to duplicate a job.
+
+Authenticated CI diagnosis: missing NumPy dependency fixed by installing pinned
+P001 requirements; history fetch restricted to checked source ancestry. Remaining
+historical defect is idea 023's claimed approval marker absent from imported source
+5aa8b5a183876a991ea7e307d7a6c8a8d3a34c7a. Full local state/registry validation
+still refuses it; scientific records were not altered. Original logs/review
+protocols are private under ~/.local/share/isles-colab-mcp/system-batch-20260905.
+
+Full outgoing audit at 7fde0a8 checked 52 commits/330 artifact versions, with no
+contaminated history reachable; commit messages separately scanned. Final push
+runs the audit again with exact source/destination/before pins. Only pilot code,
+tests, documentation and permitted stage evidence may be published. Main and
+results branches, cleanup, and visibility are untouched.
+
+PRIVATE_COORDINATOR_PLAN.md names proposed resources, credential boundaries and
+cost estimates; PRIVATE_COORDINATOR_SETUP.fish only prints commands. Nothing
+provisioned; approval and billing/project selection remain external prerequisites.
+Efficiency review now includes campaign and explicit worker receipts, remains
+proposal-only, and does not copy private fields. Available CLI estimates are not
+claimed as new charges; human intervention duration remains unknown.
