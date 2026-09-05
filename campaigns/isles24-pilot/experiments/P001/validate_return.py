@@ -10,7 +10,7 @@ import sys
 
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('p001',HERE/'run.py'); p=importlib.util.module_from_spec(spec); spec.loader.exec_module(p)
-from orchestrator.publication import validate
+from orchestrator.publication import validate, inventory
 
 
 def verify(bundle,private,console):
@@ -60,6 +60,7 @@ def verify(bundle,private,console):
     if any(type(execution[k]) not in (int,float) or not math.isfinite(execution[k]) or execution[k]<0 for k in numeric) or execution['analysis_seconds']>3600 or type(execution['resumed_cases']) is not int or execution['resumed_cases']>99:
         raise ValueError('invalid execution accounting or analysis budget')
     if (bundle/'RESULT_CARD.md').read_text()!=p.result_card(summary): raise ValueError('result card differs from measured aggregate')
+    if inventory(bundle)!=manifest: raise ValueError('return bytes changed during semantic validation')
     return {'status':'AGGREGATE_REPRODUCED_FROM_PRIVATE_CHECKPOINTS','file_sha256':manifest,'console_sha256':p.sha(console),
             'limitations':'Does not re-evaluate image geometry/labels or constitute interpretation/ratification'}
 

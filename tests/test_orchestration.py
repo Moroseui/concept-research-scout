@@ -4819,7 +4819,7 @@ class TestLauncherRunnerPassthrough(Harness):
             self.skipTest("nbformat unavailable")
         sc.package_colab(argparse.Namespace(
             idea=1, phase="B", staging_zenodo="111",
-            staging_suffixes=".nomatch",
+            staging_suffixes="",
             staging_record="222", staging_mode="origin_direct",
             phase_s_dir=None, omit_phase_flag=True,
             runner_args="--archive-file {ARCHIVE_LOCAL} --member-manifest m.csv",
@@ -4829,6 +4829,10 @@ class TestLauncherRunnerPassthrough(Harness):
         src = "".join("".join(c.get("source", []))
                       for c in nb["cells"] if c["cell_type"] == "code")
         self.assertIn("--archive-file {ARCHIVE_LOCAL}", src)
+        self.assertNotIn("assert _n >= 800", src)
+        self.assertNotIn("git clone", src)
+        self.assertNotIn("rm -rf", src)
+        self.assertIn("--depth=1", src)
         self.assertIn("apt-get -qq install -y p7zip-full", src)
         self.assertNotIn("--phase {PHASE}", src,
                          "omit-phase-flag must remove the default flag")

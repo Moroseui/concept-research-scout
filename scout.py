@@ -1826,7 +1826,7 @@ def _mount_cell():
         "# Optional model-download credential; this exporter needs no write token.\n"
         "try:\n"
         "    os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')\n"
-        "except userdata.SecretNotFoundError:\n"
+        "except (userdata.SecretNotFoundError, userdata.NotebookAccessError):\n"
         "    pass")
 
 
@@ -2187,11 +2187,18 @@ def package_colab(args):
         f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}_{chash[:12]}'{cfg_extra}"),
       nbf.v4.new_code_cell(_mount_cell()),
       nbf.v4.new_code_cell(
-        "%cd /content\n"
-        "!rm -rf /content/scout-repo\n"
-        "!git clone {REPO_URL} /content/scout-repo\n"
-        "%cd /content/scout-repo\n"
-        "!git checkout {PIN_COMMIT}"),
+        "import os, pathlib, subprocess, sys\n"
+        "REPO_PATH = pathlib.Path('/content/scout-repo-' + PIN_COMMIT[:12])\n"
+        "if not REPO_PATH.exists():\n"
+        "    subprocess.run(['git','init','-q',str(REPO_PATH)],check=True)\n"
+        "    subprocess.run(['git','fetch','--no-tags','--depth=1',REPO_URL,PIN_COMMIT],cwd=REPO_PATH,check=True)\n"
+        "subprocess.run(['git','checkout','--detach',PIN_COMMIT],cwd=REPO_PATH,check=True)\n"
+        "if subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO_PATH,text=True).strip()!=PIN_COMMIT:\n"
+        "    raise RuntimeError('Source pin mismatch')\n"
+        "if subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=REPO_PATH,text=True).strip():\n"
+        "    raise RuntimeError('Modified or untracked source; choose a fresh checkout')\n"
+        "os.chdir(REPO_PATH)\n"
+        "sys.path.insert(0,str(REPO_PATH))"),
       nbf.v4.new_code_cell(
         f"!pip install -q -r probes/{nn}/requirements.txt"),
       *staging_cells,

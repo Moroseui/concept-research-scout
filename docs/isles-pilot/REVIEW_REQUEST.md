@@ -1,6 +1,9 @@
 # Bounded Fable reviews — standing export authorization
 
-Please review the implementation from baseline `4f5b6b1` through `495269bc6f72687f39d8c62ec9e2eb73162c390f` (verified starting HEAD for this continuation).
+Please review the implementation from baseline `4f5b6b1` through each request’s exact current commit (recorded in its execution manifest).
+The continuation started at `495269bc6f72687f39d8c62ec9e2eb73162c390f`; completed
+follow-up reviews cover `4339928a6fe8fe4539a7adc44c501f95ba5a9351`. Review
+ranges never stop at the older 45c4a5d pin.
 Read-only review; no execution, mutation, remote cleanup, patient-file access or
 human ratification. This is an opposing-family review of Codex implementation.
 Return concrete findings with severity and file references, then APPROVE or
@@ -22,7 +25,8 @@ its remote operation. No recommendation should be labeled a human decision.
 
 If P001 is APPROVEd, its machine review receipt must identify `actor_type: agent`,
 `family: claude`, `verdict: APPROVE`, the exact SHA-256 of SPEC.md and run.py,
-and reference the actual review text/CLI receipt. A receipt must be generated
+bind the delegated decision, AGENTS.toml, executable dependencies and tests,
+and reference the actual completed review text/CLI receipt. A receipt must be generated
 from a real completed review, not filled in to bypass the gate. It is absent now.
 After any revision, review must bind the revised bytes. Regenerate the notebook
 to a commit containing the review receipt before a real Colab run.

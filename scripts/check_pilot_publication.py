@@ -30,7 +30,7 @@ def audit(tip):
             if not raw: continue
             name=raw.decode(); path=Path(name)
             if name not in ALLOWED_FILES and not name.startswith(ALLOWED_PREFIXES): raise ValueError('unpermitted changed path: '+name)
-            if path.suffix not in EXTENSIONS or '/results/' in name or '/staged/' in name or '.private/' in name:
+            if path.suffix not in EXTENSIONS or '/results/' in name or '/staged/' in name or '.private/' in name or '.private-staged' in name:
                 raise ValueError('raw/private artifact in outgoing history')
             exists=subprocess.run(['git','cat-file','-e',f'{commit}:{name}'],cwd=ROOT,stderr=subprocess.DEVNULL)
             if exists.returncode: continue  # deleted file was checked in its introducing commit

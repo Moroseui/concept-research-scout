@@ -171,3 +171,36 @@ results branch is absent and dirty/untracked reruns refuse nondestructively.
 The notebooks in this revision remain review scaffolds: their source pin will
 be regenerated only after a valid review receipt is committed, using the
 reviewed generator. They are not yet the executable handoff.
+
+
+### Follow-up review findings and bounded corrections
+
+At `4339928a6fe8fe4539a7adc44c501f95ba5a9351`, P001 r2 and cleanup r3 both
+returned APPROVE with no blockers. Original responses and source/model/usage
+receipts are retained. No P001 approval receipt was adopted from that revision:
+subsequent improvements require a review of their changed bytes first.
+
+Corrections address ambiguous multi-verdict parsing, experiment-specific review
+scope, ambient role rotation, dependency checks before synthetic verification,
+empty Git commits, and source-byte continuity from validation through import.
+Review bindings now also include AGENTS.toml and the relevant synthetic tests.
+Failed interpretation evidence deliberately stays local for inspection; the
+code no longer commits partial evidence and then appends a dirty failure event.
+No partial interpretation can grant follow-up authority.
+
+The expanded review found a pre-existing `.nomatch` extraction cell in the 047
+notebook that could never meet its 800-file floor. It was regenerated through
+built-in packaging with an empty suffix list (archive-only staging); its runner
+owns selective extraction. The legacy generator now also fetches only its exact
+pin and preserves existing source directories. Optional ungranted Colab secrets
+are handled like missing secrets. This repairs packaging without running 047 or
+changing its blocked acceptance/publication policy.
+
+A live synthetic interpretation witness used the real built-in executor with
+existing authenticated Codex and Claude CLIs: both succeeded and the synthetic
+interpretation was approved. Codex console identified gpt-6-astra (the older
+receipt parser left model_used null); Claude receipt identified claude-fable-5.
+It contained only n=2, mean Dice=0.5 fixture numbers, not patient evidence. The
+first witness used then-uncommitted integration fixes; a committed-source replay
+will provide the durable exact-revision witness. Local smoke execution/retrieval
+also returned the expected synthetic text/hash. Colab itself remains unverified.

@@ -27,3 +27,8 @@ class ReviewTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'incomplete'): r.make_receipt(root,exp,execution,response)
                 obj['is_error']=False; obj['result']=obj['result'].replace('APPROVE','REVISE'); save()
                 with self.assertRaisesRegex(ValueError,'approval'): r.make_receipt(root,exp,execution,response)
+
+    def test_ambiguous_review_is_not_approval(self):
+        obj={'verdict':'APPROVE','scope':'p001','reviewed_commit':'synthetic','blocking_findings':[]}
+        response={'subtype':'success','is_error':False,'result':json.dumps(obj)+'\n'+json.dumps(obj)}
+        with self.assertRaisesRegex(ValueError,'ambiguous'): r.verdict(response)

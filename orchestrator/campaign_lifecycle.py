@@ -58,6 +58,7 @@ def commit(sc,exp,message,allowed):
         if not name.startswith(prefix) or name[len(prefix):] not in allowed:
             raise ValueError('campaign stage changed a path outside its allowed artifacts: '+name)
         paths.append(name)
+    if not paths: return
     if paths:
         subprocess.run(['git','add','--',*sorted(paths)],cwd=sc.ROOT,check=True)
     subprocess.run(['git','commit','-m',message],cwd=sc.ROOT,check=True,capture_output=True)
@@ -68,16 +69,24 @@ def run_isolated_stage(sc,exp,family,stage,body,outputs):
     import os, shutil, tempfile
     root=Path(tempfile.mkdtemp(prefix='scout-campaign-stage-'))
     source_root=sc.ROOT
+    source_state=getattr(sc,"STATE",None)
     shutil.copy2(Path(source_root)/'AGENTS.toml',root/'AGENTS.toml')
     subprocess.run(['git','init','-q',str(root)],check=True)
     prompt=root/'prompt.md'
     prompt.write_text('Work only in this disposable directory. No patient data or original repository is available here. Do not seek it elsewhere. Write '+', '.join(outputs)+' in the current directory. No human ratification.\n'+body)
+    # Keep ambient numbered-idea role rotation out of this explicitly attributed lane.
+    (root/'state.json').write_text('{"active_cycle": 0}\n')
+    subprocess.run(['git','add','AGENTS.toml','prompt.md','state.json'],cwd=root,check=True)
+    subprocess.run(['git','-c','user.name=Campaign stage','-c','user.email=campaign@local.invalid','commit','-qm','Bound aggregate-only stage inputs'],cwd=root,check=True)
     removed={key:os.environ.pop(key,None) for key in ('ANTHROPIC_API_KEY','OPENAI_API_KEY','SCOUT_CI')}
     try:
         sc.ROOT=root
+        sc.STATE=root/'state.json'
         sc.run_agent(prompt,family,stage=stage,log_path=root/'console.log')
     finally:
         sc.ROOT=source_root
+        if source_state is None: del sc.STATE
+        else: sc.STATE=source_state
         for key,value in removed.items():
             if value is not None: os.environ[key]=value
         for src,dest in [('prompt.md','prompt_'+stage+'.md'),('console.log','log_'+stage+'.txt')]:
@@ -125,6 +134,12 @@ def _dispatch(sc,args):
             raise ValueError('campaign build receipt stale')
     if command=='verify-probe':
         sc._require_clean_tree('campaign verify-probe')
+        requirements=(exp/'requirements.txt').read_text().splitlines()
+        from importlib.metadata import version
+        for line in requirements:
+            if not line.strip() or line.lstrip().startswith('#'): continue
+            name,expected=line.split('==')
+            if version(name)!=expected: raise ValueError('install pinned experiment requirements before verification')
         subprocess.run([sys.executable,str(exp/'run.py'),'--preflight'],cwd=sc.ROOT,check=True)
         if not (Path(sc.ROOT)/'tests'/f'test_prediction_{args.experiment.lower()}.py').is_file():
             raise ValueError('experiment-specific synthetic tests required')
@@ -146,8 +161,10 @@ def _dispatch(sc,args):
             package_pilot.main('HEAD')
         finally: package_pilot.ROOT=original_root
         changed=subprocess.check_output(['git','diff','--name-only','HEAD'],cwd=sc.ROOT,text=True).splitlines()
+        changed+=subprocess.check_output(['git','ls-files','--others','--exclude-standard'],cwd=sc.ROOT,text=True).splitlines()
         permitted={str((base/'colab/synthetic_execution.ipynb').relative_to(sc.ROOT)),str((exp/'colab_P001.ipynb').relative_to(sc.ROOT))}
         if set(changed)-permitted: raise ValueError('notebook generation exceeded scope')
+        if not changed: return
         subprocess.run(['git','add','--',*sorted(permitted)],cwd=sc.ROOT,check=True)
         subprocess.run(['git','commit','-m',f'campaign {args.experiment}: notebook pinned to verified reviewed execution source'],cwd=sc.ROOT,check=True,capture_output=True)
         return
@@ -159,9 +176,13 @@ def _dispatch(sc,args):
         if command=='validate-bundle':
             print(json.dumps(result,indent=2)); return
         manifest=inventory(args.bundle)
+        if result.get('file_sha256')!=manifest:
+            raise ValueError('returned bytes changed after semantic validation')
         identity=hashlib.sha256(json.dumps(manifest,sort_keys=True).encode()).hexdigest()
         destination=exp/'results'/identity[:16]
-        copy_verified(args.bundle,destination,json.loads((exp/'publication.json').read_text()))
+        copied=copy_verified(args.bundle,destination,json.loads((exp/'publication.json').read_text()))
+        if copied!=manifest or inventory(destination)!=manifest:
+            raise ValueError('import bytes differ from validated return')
         receipt={'status':'VALIDATED_EXPLORATORY_IMPORT','bundle':destination.relative_to(sc.ROOT).as_posix(),
                  'bundle_file_sha256':manifest,'validation':result,'spec_sha256':sha(exp/'SPEC.md'),
                  'review_sha256':sha(exp/'review.json'),'authority':'campaign_delegated_investigator'}
@@ -195,7 +216,7 @@ def _dispatch(sc,args):
         require_review(base,exp)
         verdict=sc._interpret_review_verdict(exp) or {}
         if author.get('family_effective')!='codex' or reviewer.get('family_effective')!='claude' or any(r.get('exit_class')!='ok' or r.get('ci') for r in (author,reviewer)) or verdict.get('verdict')!='APPROVE':
-            commit(sc,exp,f'campaign {args.experiment}: interpretation review requires revision',{'prompt_interpret.md','prompt_interpret_review.md','interpretation.md','investigator_next_decision.json','interpret_review.md','stage_provenance.jsonl','log_interpret.txt','log_interpret_review.txt','interpretation_receipt.json','lifecycle.jsonl'})
+
             raise ValueError('opposing-family interpretation approval required; partial evidence preserved')
         write(exp/'interpretation_receipt.json',{'status':'AGENT_REVIEWED_NOT_HUMAN_RATIFIED','import_receipt_sha256':sha(exp/'import_receipt.json'),
               'interpretation_sha256':sha(exp/'interpretation.md'),'proposal_sha256':sha(exp/'investigator_next_decision.json'),'review_sha256':sha(exp/'interpret_review.md'),
