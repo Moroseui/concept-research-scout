@@ -1,0 +1,21 @@
+{
+  "reviewed_commit": "bdf4369996364511e8bd824d4711907fa5fb71ea",
+  "returncode": 0,
+  "wall_seconds": 176.59769940799924,
+  "input_file_sha256": {
+    "scripts/colab_archive_acquire.py": "ea3a38a39477c58b10267724b86a24bf545071e0b27f30dbd3ebd40783252f2d",
+    "orchestrator/colab_acquire.py": "85a3a7751bf3e0b69fe3d7dd419fb72b72f935ac5225ff2cd9bf81a8aebf37ef",
+    "tests/test_colab_acquire.py": "905e06582be3b19586c86588b26f0da0b51fe7253032ea9938a7e224c9296466",
+    "docs/isles-pilot/P001_ARCHIVE_ACQUISITION.md": "8335877ae2e840e761154fc8e47a00f38a87325f92cd153d40bcebf1f2509daa"
+  },
+  "response_sha256": "bec3de3fceb47321fa354d0298e1d456bf14219fe60494682db0174a73974875",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "feb0de5150c0daf63ee03534be145ad83164cdcd1e6bd9dbef52f2c8f785ee16"
+}
