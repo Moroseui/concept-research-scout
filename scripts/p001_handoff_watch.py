@@ -61,7 +61,6 @@ def main(destination):
         return directory/('attempt-'+str(counter))
     def record(stage,result):
         write_private(directory/('event-'+str(counter)+'.json'),json.dumps({'stage':stage,'result':result}))
-        write_private(directory/'latest.json',json.dumps({'stage':stage,'result':result}))
     def pause():
         for _ in range(5):time.sleep(60)
     def dispatch():
