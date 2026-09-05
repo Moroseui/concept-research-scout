@@ -153,3 +153,18 @@ passing and rejection of four invalid URLs without launching a process.
 The corrected helper has not yet been exercised by the official connection
 because the existing process retains its earlier BROWSER setting. Restart Codex
 before retrying. Remote acquisition, write and separate retrieval remain undone.
+
+
+### Connected MCP, notebook tools unavailable — 2026-09-05
+
+With the corrected Windows helper, the official registered connection returned
+true; a second connection-status call also returned true. Codex 0.153.4 logged
+receipt of the server tool-list-change notification. Repeated discovery in this
+active turn still exposed only open_colab_browser_connection. This establishes
+a working browser/MCP handshake but not a working notebook execution route.
+The precise internal refresh failure remains undetermined. No remote notebook
+was loaded, executed or retrieved. The exact notebook bytes at 1a81c037 were
+rehash-verified locally without running its cells. The complete test has not
+passed. COLAB_MCP_CONNECTED_TEST_20260905.json records results and a token-free
+log excerpt. Next diagnostic: keep the connected tab open and check tool
+availability on a new conversation turn, without another server restart.
