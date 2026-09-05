@@ -127,3 +127,29 @@ testing the final configuration. Its success remains unverified.
 COLAB_MCP_WSL_TEST_20260905.json records these distinct checks. No remote
 acquisition, write or retrieval occurred; the complete test has not passed.
 No approval rejection occurred during the targeted Windows/config operations.
+
+
+## Corrected Windows URL handoff — 2026-09-05
+
+The next fresh registered process did load the Explorer BROWSER setting and
+both WSL variables. The official connection returned false; the operator
+reported that File Explorer opened instead of the browser. This supersedes
+any inference that Explorer background dispatch reliably opens connection URLs.
+Notebook tools remained absent and no remote notebook execution occurred.
+
+Replaced only the server-scoped BROWSER value with
+`/home/partho/.local/share/isles-colab-mcp/bin/open-colab-windows %s`.
+The local helper accepts only HTTPS colab.research.google.com URLs and invokes
+Windows PowerShell Start-Process. It passes the URL through stdin, never through
+interpolation into PowerShell source, and suppresses child output to avoid
+logging connection URLs. Existing server command, package and WSL forwarding
+remain unchanged. The helper SHA-256 and test evidence are in
+COLAB_MCP_WINDOWS_HELPER_TEST_20260905.json.
+
+Python's launcher in the registered process environment with only BROWSER
+updated returned true for the ordinary homepage. The operator confirmed Colab
+opened in the Windows browser. Mocked synthetic tests verified intact fragment
+passing and rejection of four invalid URLs without launching a process.
+The corrected helper has not yet been exercised by the official connection
+because the existing process retains its earlier BROWSER setting. Restart Codex
+before retrying. Remote acquisition, write and separate retrieval remain undone.

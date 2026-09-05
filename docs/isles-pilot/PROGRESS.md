@@ -275,3 +275,15 @@ and unexecuted remote stages. No scientific results, patient access or remote
 rewrite. Next operator action: restart/resume Codex to retry the pinned synthetic
 notebook through a fresh registered server. A successful full test is still
 required before any patient MCP workflow.
+
+
+### Corrected Windows browser handoff after registered retry
+
+At abe4817aa2802526aabdcba03c8d91a7b79c4747, the refreshed server loaded
+its configured WSL environment, but Explorer opened a file-manager window;
+Google connection returned false and notebook tools remained absent. A scoped
+Colab-only Windows Start-Process helper now passes the homepage test with
+operator confirmation. Synthetic argument-preservation/rejection checks passed.
+The corrected helper requires a fresh registered process; no remote synthetic
+execution or retrieval has occurred. The next operator action is restart/resume.
+All failures remain recorded; no token, patient data, Drive or GPU was used.

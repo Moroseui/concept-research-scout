@@ -1,0 +1,85 @@
+{
+  "client": {
+    "name": "codex-cli",
+    "version": "0.153.4"
+  },
+  "server": {
+    "registration": "colab-pilot",
+    "command": "/home/partho/.local/share/isles-colab-mcp/bin/colab-mcp",
+    "package_version": "1.0.1",
+    "protocol_server_name": "ColabMCP",
+    "protocol_server_version": "2.14.5",
+    "fastmcp_version": "2.14.5",
+    "mcp_sdk_version": "1.29.1",
+    "source_commit": "b9ab3899e0f1fa493390b1fd6d54aa2e464ecdf1",
+    "session_py_sha256": "89c4986f90f3d12b5ca4baa0806ed13c954478e9e8b6d95dd38fb669cf457a96"
+  },
+  "notebook": {
+    "commit": "1a81c037343598f4e4585153b11d761b87a9ae3a",
+    "path": "campaigns/isles24-pilot/colab/synthetic_execution.ipynb",
+    "sha256": "3c050e1f4552bc42e469b3c448930efbf7853a79bdc55d0f3969f52d3e9e7741",
+    "loaded_from_git": true,
+    "loaded_into_remote_session": false,
+    "embedded_source_pin": "d6a1184b4378e849213fd887a6f7b103fb1a64d5"
+  },
+  "remote_execution": {
+    "acquisition_cell_executed": false,
+    "synthetic_write_cell_executed": false,
+    "separate_retrieval_cell_executed": false,
+    "cpu_runtime_confirmed": false,
+    "returned_text": null,
+    "returned_sha256": null
+  },
+  "expected": {
+    "text": "ISLES pilot synthetic execution: 6 * 7 = 42\n",
+    "sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "derived_from_pinned_source_without_running_smoke": true
+  },
+  "boundaries": {
+    "drive_mounted": false,
+    "patient_workflow_run": false,
+    "gpu_requested": false,
+    "paid_provisioning": false,
+    "connection_tokens_recorded": false,
+    "permissions_broadened": false,
+    "approval_rejection_bypassed": false
+  },
+  "schema_version": 1,
+  "recorded_utc": "2026-09-05T18:23:41.084363+00:00",
+  "status": "BLOCKED_RESTART_AFTER_EXPLORER_MISROUTING",
+  "complete_remote_test_passed": false,
+  "implementation_head": "abe4817aa2802526aabdcba03c8d91a7b79c4747",
+  "official_retry": {
+    "structured_result": false,
+    "is_error": false,
+    "notebook_tools_available": false,
+    "live_process_loaded_previous_explorer_browser_setting": true,
+    "live_process_wsl_variables_present": true,
+    "user_observation": "My file explorer was opened instead of the browser"
+  },
+  "corrected_launcher": {
+    "path": "/home/partho/.local/share/isles-colab-mcp/bin/open-colab-windows",
+    "sha256": "97a400cfafb70a1ca28b84d151433609165c3dac3653f4d954f29fbda32f3cc8",
+    "method": "Windows PowerShell Start-Process with URL passed as stdin data",
+    "scope": "HTTPS colab.research.google.com only",
+    "python_homepage_probe": {
+      "exit_code": 0,
+      "stdout": "{\"browser_type\": \"GenericBrowser\", \"open_returned\": true}\n",
+      "stderr": "",
+      "environment": "live registered MCP environment with new BROWSER only"
+    },
+    "user_confirmation": "Yes, Colab opened in the browser",
+    "synthetic_tests": {
+      "fragment_preserved_as_stdin": true,
+      "url_not_in_powershell_command": true,
+      "invalid_urls_rejected": 4
+    },
+    "official_connection_with_corrected_launcher_attempted": false
+  },
+  "localhost": {
+    "previous_ipv4_http_test_passed": true,
+    "reference": "COLAB_MCP_WSL_TEST_20260905.json",
+    "browser_websocket_handshake_verified": false
+  },
+  "next_requirement": "Restart/resume Codex to load the corrected launcher; invoke official connection tool, connect CPU runtime, then execute exact pinned notebook acquisition/write and separate retrieval. No remote success yet."
+}
