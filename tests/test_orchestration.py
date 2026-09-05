@@ -1164,8 +1164,9 @@ class TestBackpressure(Harness):
 
     def test_actioner_improvement_path_is_hard_gated_until_2b(self):
         text = Path(".github/workflows/actioner.yml").read_text()
-        self.assertIn("${{ false }}", text)
-        self.assertIn("disabled until 2b", text)
+        self.assertIn("Campaign route required", text)
+        self.assertNotIn("gh pr create", text)
+        self.assertLess(text.index("Campaign route required"), text.index("Install agent CLIs"))
 
 
 class TestExecutionReceipts(Harness):

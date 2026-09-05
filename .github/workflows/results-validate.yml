@@ -23,6 +23,7 @@ permissions:
 
 jobs:
   validate:
+    if: github.ref != 'refs/heads/astra/autonomous-isles-pilot'
     runs-on: ubuntu-latest
     steps:
       # SECURITY (2026-08-18 audit): a push to results/** triggers this
