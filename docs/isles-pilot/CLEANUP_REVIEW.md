@@ -1,6 +1,7 @@
 # Fable review package and cleanup operation — approval pending
 
-Implementation pin: **194cdcd** (M1 safeguards). Baseline: **4f5b6b1**.
+Cleanup review APPROVE pin: **3f0337b986dc52594f4347fdc7d99bb3e7c4a0a2**.
+Current integration review: **4339928**. Baseline: **4f5b6b1**.
 Review the full diff and `scripts/rehearse_047_cleanup.py`, the publication
 module, generated launcher, tests, dataset notice and this operation. Fable's
 review is advisory; neither it nor this campaign ratifies 047 acceptance.
@@ -107,7 +108,9 @@ not remove all identity-linked anomaly information. The safe exported schema/cou
 audit is `reviews/047-retained-metadata-audit.json`; no patient values or IDs are
 reproduced there. Fable's initial unverified suggestion that only staged inputs
 and the exclusions file carry identities must not be treated as an established
-fact. A follow-up review is requested with this clarification.
+fact. Claude Fable follow-up r2 at 3f0337b explicitly reviewed this clarification
+and returned APPROVE for operator consideration, with no blockers. Original
+response and execution/source manifest are preserved under reviews/cleanup-r2.*.
 
 Approving this cleanup will **not** make the 16-file tree importable. The present
 policy still requires the exclusions audit and blocks 047. Removing/aggregating

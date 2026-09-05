@@ -1,6 +1,6 @@
 {
   "base": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
-  "tip": "68298a8751e9c25ba45a58ab05b3ac24db5d63fa",
+  "tip": "4339928a6fe8fe4539a7adc44c501f95ba5a9351",
   "branch": "astra/autonomous-isles-pilot",
   "commits": [
     "194cdcd491a608190fca45c24ad216153431270e",
@@ -12,13 +12,16 @@
     "45c4a5d3329b210eea4a3e1b11027b1bca261fe5",
     "c6fd4041bcf4b48b8b5f66fc05e0dd7b88c954a7",
     "689ef117585bcb5dea04ca560c32074d31281f47",
-    "68298a8751e9c25ba45a58ab05b3ac24db5d63fa"
+    "68298a8751e9c25ba45a58ab05b3ac24db5d63fa",
+    "495269bc6f72687f39d8c62ec9e2eb73162c390f",
+    "3f0337b986dc52594f4347fdc7d99bb3e7c4a0a2",
+    "4339928a6fe8fe4539a7adc44c501f95ba5a9351"
   ],
-  "artifact_versions_checked": 56,
-  "manifest_sha256": "9477dfaa24e79a7c2401871272790dba73df325ef09ab0c9bd56009c8f9d222a",
+  "artifact_versions_checked": 92,
+  "manifest_sha256": "06c3caff2cd83e0816c42c7c075b83d3c4e6bed4758be77df4cec1ebd4939843",
   "contaminated_history_reachable": false,
   "validation": {
-    "full_unit_tests_passed": 227,
+    "full_unit_tests_passed": 232,
     "047_registry_schema": "valid",
     "047_state_and_card": "byte-identical regeneration",
     "p001_preflight": {
@@ -30,7 +33,9 @@
     "notebook_schema_and_compilation": "pass",
     "local_synthetic_execution_and_retrieval": "pass",
     "colab_mcp_handshake": "pass",
-    "colab_execution_and_retrieval": "not verified"
+    "colab_execution_and_retrieval": "not verified",
+    "campaign_synthetic_six_command_lifecycle": "pass, explicit synthetic agent/validator adapters",
+    "notebook_exact_pin_acquisition": "pass, unwanted synthetic results branch absent; dirty rerun rejected"
   },
   "scientific_results": null,
   "cleanup": {
@@ -44,10 +49,11 @@
     "durable_original_evidence": "outside checkout, owner-only"
   },
   "unresolved": [
-    "Fable payload export approval",
-    "047 exclusion/console/registry attestation decisions",
+    "047 exclusion/identity-metadata/console/registry attestation decisions",
     "cleanup operation approval",
+    "P001 follow-up independent review pending",
     "Colab authentication and real execution"
   ],
-  "single_next_operator_action": "Authorize bounded code/documentation-only export to Claude Fable for cross-family review; no patient data or private evidence."
+  "single_next_operator_action": "Decide the prepared leased 047 cleanup operation; no execution has been authorized.",
+  "audit_scope_note": "This receipt attests the named tip. Its own later metadata commit and final notebook packaging are checked by a separate final pre-push audit."
 }
