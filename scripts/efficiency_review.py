@@ -7,13 +7,24 @@ import json
 from pathlib import Path
 
 
-def review(root):
+def review(root,worker_receipts=()):
     receipts=[]; evidence=[]; malformed=0
-    for path in sorted(Path(root).glob('ideas/*/stage_provenance.jsonl')):
+    paths=list(Path(root).glob('ideas/*/stage_provenance.jsonl'))+list(Path(root).glob('campaigns/*/**/stage_provenance.jsonl'))
+    for path in sorted(set(paths)):
         raw=path.read_bytes(); evidence.append({'path':path.relative_to(root).as_posix(),'sha256':hashlib.sha256(raw).hexdigest()})
         for line in raw.decode().splitlines():
             try: receipts.append(json.loads(line))
             except (ValueError,TypeError): malformed+=1
+    for path in worker_receipts:
+        path=Path(path)
+        if path.is_symlink() or path.name not in ('status.json','outcome.json'):
+            raise ValueError('only explicit worker status/outcome receipts, never logs or patient files')
+        raw=path.read_bytes();digest=hashlib.sha256(raw).hexdigest()
+        evidence.append({'path':'private-receipt:'+digest,'sha256':digest})
+        r=json.loads(raw)
+        receipts.append({'stage':r.get('task',r.get('action','worker')),
+            'exit_class':'ok' if r.get('status')=='COMPLETE' else 'blocked_or_failed',
+            'duration_s':r.get('wall_seconds'),'human_intervention_minutes':None})
     failure=Counter(r['exit_class'] for r in receipts if r.get('exit_class') not in (None,'ok'))
     unknown_exit=sum(r.get('exit_class') is None for r in receipts)
     repeats=Counter((r.get('prompt_sha256'),r.get('stage')) for r in receipts if r.get('prompt_sha256'))
@@ -35,6 +46,6 @@ def review(root):
     return {'mode':'proposal_only','receipt_count':len(receipts),'observed_agent_duration_s':sum(durations),'duration_available_count':len(durations),'cost_usd':None,'token_usage':None,'evidence':evidence,'proposals':proposals}
 
 if __name__=='__main__':
-    ap=argparse.ArgumentParser(description=__doc__); ap.add_argument('--root',type=Path,default=Path('.')); ap.add_argument('--output',type=Path,required=True); args=ap.parse_args()
-    result=review(args.root); args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+    ap=argparse.ArgumentParser(description=__doc__); ap.add_argument('--root',type=Path,default=Path('.')); ap.add_argument('--output',type=Path,required=True); ap.add_argument('--worker-receipts',type=Path,nargs='*',default=[]); args=ap.parse_args()
+    result=review(args.root,args.worker_receipts); args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
     print(f"{result['receipt_count']} receipts; {len(result['proposals'])} proposals; no changes applied")

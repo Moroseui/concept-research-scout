@@ -18,7 +18,7 @@ class PipelineTests(unittest.TestCase):
                 for name in names:
                     (out/name).write_text(json.dumps({'verdict':'REVISE' if out.name=='round-1' else 'APPROVE','rationale':'synthetic'}) if name=='review.json' else 'Synthetic proposal')
                 return {'family_effective':family,'exit_class':'ok','ci':False}
-            with patch.object(p,'run_isolated_stage',side_effect=fake):
+            with patch.object(p,'system_stage',side_effect=fake):
                 result=p.execute(sc,'repair','P001','synthetic repair',base/'pipeline/test')
             self.assertEqual(seen,['codex','claude','codex','claude'])
             self.assertEqual(result['status'],'REVIEWED_PROPOSAL_NOT_ADOPTED')

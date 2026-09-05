@@ -9,12 +9,26 @@ import json
 from pathlib import Path
 import re
 from datetime import datetime,timezone
+import tempfile
+import shutil
 from orchestrator.campaign_lifecycle import run_isolated_stage
 from orchestrator.publication import inventory
 
 MODES={'propose':['proposal.md'],'specify':['SPEC.proposed.md'],
        'code':['run.proposed.py'],'repair':['repair.md','run.proposed.py'],
        'discuss':['discussion.md']}
+
+
+def system_stage(sc,directory,family,stage,body,names):
+    """Reuse the existing primitive with a future-job profile, not live AGENTS.toml."""
+    original=sc.ROOT
+    profile=Path(original)/'configs/pilot/agents-unattended.toml'
+    config_root=Path(tempfile.mkdtemp(prefix='campaign-profile-'))
+    shutil.copy2(profile,config_root/'AGENTS.toml')
+    try:
+        sc.ROOT=config_root
+        return run_isolated_stage(sc,directory,family,stage,body,names)
+    finally:sc.ROOT=original
 
 
 def grounding(root,experiment):
@@ -55,9 +69,9 @@ def execute(sc,mode,experiment,request,output):
     try:
         for round in [1,2]:
             directory=output/f'round-{round}';directory.mkdir()
-            author=run_isolated_stage(sc,directory,'codex','campaign_'+mode,body,MODES[mode])
+            author=system_stage(sc,directory,'codex','campaign_'+mode,body,MODES[mode])
             proposal='\n'.join(name+'\n'+(directory/name).read_text() for name in MODES[mode])
-            reviewer=run_isolated_stage(sc,directory,'claude','campaign_'+mode+'_review',
+            reviewer=system_stage(sc,directory,'claude','campaign_'+mode+'_review',
                 'Review this campaign proposal against its context. Write review.json with exactly verdict (APPROVE or REVISE) and rationale (nonempty string). Do not ratify or execute.\n'+body+'\nPROPOSAL:\n'+proposal,['review.json'])
             review=json.loads((directory/'review.json').read_text())
             if set(review)!={'verdict','rationale'} or review['verdict'] not in ['APPROVE','REVISE'] or not isinstance(review['rationale'],str) or not review['rationale'].strip():raise ValueError('malformed review')

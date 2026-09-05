@@ -1,0 +1,12 @@
+[default]
+agent = "codex"
+[rotation]
+enabled = false
+[limits]
+stage_timeout = 900
+[codex]
+enabled = true
+command = ["codex", "exec", "--strict-config", "-s", "workspace-write", "-c", "approval_policy=\"never\"", "-c", "sandbox_workspace_write.network_access=true", "-"]
+[claude]
+enabled = true
+command = ["claude", "-p", "--model", "claude-fable-5", "--strict-mcp-config", "--mcp-config", "{\"mcpServers\":{}}", "--tools", "Read,Write,Edit,WebSearch,WebFetch", "--allowedTools", "Read,Write,Edit,WebSearch,WebFetch", "--permission-mode", "dontAsk", "--max-turns", "30"]

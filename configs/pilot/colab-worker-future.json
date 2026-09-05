@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": ["mcp__colab-worker__*"],
+    "deny": ["Bash", "Read", "Write", "Edit"]
+  },
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "mcp__colab-worker__get_cells",
+      "hooks": [{"type": "command", "command": "python /home/partho/concept-research-scout-v4/scout-autonomy/scripts/pilot_tool_guard.py"}]
+    }]
+  }
+}

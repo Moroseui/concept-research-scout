@@ -13,7 +13,7 @@ CONTAMINATED='940293b6d562f2d3dd6bfd9d8d8281ccf01e4783'
 BRANCH='astra/autonomous-isles-pilot'
 ALLOWED_PREFIXES=('docs/isles-pilot/','campaigns/isles24-pilot/','tests/')
 ALLOWED_FILES={'README.md','scout.py','probes/047/run.py','probes/047/README.md','probes/047/publication.json','probes/047/colab_probe_047.ipynb','ideas/047/registry.yaml','ideas/047/state.json','ideas/047/CARD.md','orchestrator/publication.py','orchestrator/publication_subset.py','orchestrator/campaign.py','orchestrator/campaign_lifecycle.py','orchestrator/campaign_review.py','scripts/rehearse_047_cleanup.py','scripts/efficiency_review.py','scripts/package_pilot.py','scripts/check_pilot_publication.py'}
-ALLOWED_FILES.add('scripts/pilot_review.py')
+ALLOWED_FILES.update({'scripts/pilot_review.py','scripts/pilot_tool_guard.py','orchestrator/pilot_jobs.py','configs/pilot/agents-unattended.toml','configs/pilot/colab-worker-future.json'})
 ALLOWED_FILES.update({'orchestrator/campaign_pipeline.py', '.github/workflows/actioner.yml', 'orchestrator/job_store.py', 'orchestrator/colab_acquire.py', '.github/workflows/scout-cycle.yml', '.github/workflows/librarian.yml', '.github/workflows/interpret.yml', 'scripts/colab_archive_acquire.py', 'scripts/p001_handoff_watch.py', '.github/workflows/results-validate.yml', '.github/workflows/idea-pipeline.yml', 'orchestrator/colab_worker.py', 'scripts/colab_archive_metadata.py', '.github/workflows/check.yml', '.github/workflows/confer.yml', 'orchestrator/colab_patient.py', 'scripts/workflow_boundary.py'})
 
 EXTENSIONS={'.yml','.toml','.fish','.md','.py','.json','.yaml','.ipynb','.txt','.jsonl'}
