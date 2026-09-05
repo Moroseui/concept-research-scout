@@ -249,3 +249,16 @@ approval; its c8124212 projection, preserved originals and unresolved 047
 acceptance decisions are unchanged. The final metadata-only publication commit
 will receive a complete pre-push audit; CHECKPOINT names the concrete prior tip
 it attests rather than claiming an impossible self-referential Git hash.
+
+
+### Published handoff and real GitHub acquisition check
+
+The pilot push through `836aaa6981b6f3595f4b29b4e2f13881a5d93e86` succeeded.
+Its complete outgoing audit covered 20 commits/143 artifact versions, manifest
+`7416dcb0dae7a37a9937514935c9619e2129af76927c9eb3e6e11f96e8c7ebfe`.
+The actual notebook acquisition cell then ran locally against GitHub (only its
+/content destination changed to /tmp), fetched only d6a1184b, could not access
+940293b6, verified the current review and selected 99/198 with zero payloads
+opened. REMOTE_SOURCE_VERIFICATION.json preserves that result. This metadata
+update changes no reviewed code, specification or notebook. Main stayed 4f5b6b1
+and the unexecuted cleanup source stayed 940293b6 on remote reinspection.

@@ -34,7 +34,11 @@ to Claude or publish them to Git. Failure records also remain private.
 
 The notebook fetches only the exact source pin at depth one, without tags or
 other branches. All 19 reviewed source/test bindings and the actual approval
-receipt were verified in that source tree. Both notebooks validate, compile,
+receipt were verified in that source tree. The actual generated acquisition cell was also executed locally against GitHub:
+it fetched only the source commit, lacked the contaminated commit, passed the
+review gate and preflight with zero patient payloads opened (see
+REMOTE_SOURCE_VERIFICATION.json). This was not Colab execution.
+Both notebooks validate, compile,
 and contain no saved execution output. The full 233-test suite passed; actual
 built-in P001 build/verify/package commands completed and committed their receipts.
 
