@@ -432,3 +432,13 @@ validated locally. Keep WSL and the connected CPU Colab runtime alive. This is
 an active execution handoff, not a completed scientific result. The controller's
 outcome.json is authoritative; a crashed controller may lack that file, and a
 zero process exit code alone is not a success receipt.
+
+
+Download recheck: original controller stopped at acquisition poll 2 when browser
+connection returned false; it had never dispatched P001. Fresh read-only Claude
+worker check confirmed RUNNING, 20,786,970,624 partial bytes (about 21%), zero
+seconds since last write, and no final archive. This is active transfer, not
+integrity success. Complete private evidence retained. All three review gates
+pass; unchanged controller restarted in exclusive automatic-handoff-r2 directory
+after verifying every prior event was acquisition-only. No download was restarted.
+Receipt: P001_DOWNLOAD_RECHECK_20260905.json. Keep WSL and CPU Colab alive.
