@@ -1823,8 +1823,11 @@ def _mount_cell():
         "    print('could not inspect/move mountpoint residue:', e,\n"
         "          '-- if the mount below fails, Runtime > Disconnect and delete runtime')\n"
         "drive.mount(MP, force_remount=True)\n"
-        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed\n"
-        "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed")
+        "# Optional model-download credential; this exporter needs no write token.\n"
+        "try:\n"
+        "    os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')\n"
+        "except userdata.SecretNotFoundError:\n"
+        "    pass")
 
 
 def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
@@ -2111,14 +2114,10 @@ def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
 
 
 def package_colab(args):
-    """E2 launcher generator. The notebook is a THIN DRIVER: it never
-    imports the model stack into its own kernel (pip installs feed the
-    `!python` child process, so no restart exists in the workflow), pins
-    the repo commit and results branch at packaging time, reads the GitHub
-    PAT from Colab Secrets (zero credentials in the committed notebook),
-    and pushes each session's bundle to a contract-bound results branch
-    (E1 transport). Deterministic machinery, not agent output: no review
-    cycle applies."""
+    """Thin, pinned Colab driver with nondestructive execution and explicit
+    verified exports. No automatic result commits or pushes. Missing publication
+    policy refuses export while retaining original outputs and console evidence.
+    """
     try:
         import nbformat as nbf
     except ImportError:
@@ -2173,15 +2172,12 @@ def package_colab(args):
         'Colab is a compute worker only. This driver kernel NEVER imports '
         'the model stack -- `run.py` runs as a child process, so no kernel '
         'restart is ever needed.\n\n'
-        '**One-time setup:** create a fine-grained GitHub PAT scoped to '
-        'this single repository, Contents: Read and write, with an expiry. '
-        'In Colab: key icon (Secrets) -> add `SCOUT_RESULTS_PAT` -> enable '
-        'notebook access. The PAT never appears in this notebook or its '
-        'output.\n\n'
-        f'Results branch (contract-bound): `{branch}`\n\n'
+        '**Setup:** connect your Google Drive. No GitHub write token is needed.\n\n'
+        f'Contract-bound source label: `{branch}` (no automatic push)\n\n'
         'Per session: run all cells top to bottom. After a disconnect, '
-        'rerun all cells -- run.py resumes from the bundle on Drive, and '
-        'the transport cell pushes whatever is new.'),
+        'rerun all cells. Resumable runners retain checkpoints; empty-directory '
+        'runners refuse and require a new OUTPUT_DIR. Return the verified '
+        'export and sibling console for review.'),
       nbf.v4.new_code_cell(
         f"PHASE = '{phase}'\n"
         f"REPO_URL = '{remote}'\n"
@@ -2200,64 +2196,43 @@ def package_colab(args):
         f"!pip install -q -r probes/{nn}/requirements.txt"),
       *staging_cells,
       nbf.v4.new_code_cell(
-        "# Console (incl. any crash traceback) persists to Drive; refresh-proof.\n"
-        "# It lives BESIDE the bundle dir: the probe's own contract requires an\n"
-        "# empty output directory (2026-09-05, exit=7 incident), so the driver\n"
-        "# scrubs the dir and keeps its log as a sibling.\n"
-        "CONSOLE = OUTPUT_DIR.rstrip('/') + '.console.log'\n"
+        "# Preserve checkpoints. Empty-destination runners refuse nondestructively.\n"
+        "from orchestrator.publication import run_logged\n"
+        "import shlex\n"
         + (getattr(args, 'runner_setup', '') and
            '!' + args.runner_setup.lstrip('!') + '\n' or '')
-        + f"!mkdir -p {{OUTPUT_DIR}}\n"
-        + "!find {OUTPUT_DIR} -mindepth 1 -delete\n"
-        + f"!python probes/{nn}/run.py "
-        + ('' if getattr(args, 'omit_phase_flag', False)
-           else "--phase {PHASE} ")
-        + "--output-dir {OUTPUT_DIR}"
-        # An explicit runner interface REPLACES the staging-inferred one:
-        # stacking them injected foreign/duplicate flags (caught in the
-        # 047 pre-flight before any session ran).
-        + ((' ' + args.runner_args) if getattr(args, 'runner_args', '')
-           else extra)
-        + " 2>&1 | tee -a {CONSOLE}"),
+        + "CONSOLE = OUTPUT_DIR.rstrip('/') + '.console.log'\n"
+        + "command = f" + repr(f"python probes/{nn}/run.py "
+            + ('' if getattr(args, 'omit_phase_flag', False) else "--phase {PHASE} ")
+            + "--output-dir {OUTPUT_DIR}"
+            + ((' ' + args.runner_args) if getattr(args, 'runner_args', '') else extra)) + "\n"
+        + "RUN_EXIT = run_logged(shlex.split(command), OUTPUT_DIR)\n"
+        + "print('Runner exit:', RUN_EXIT, '; original console:', CONSOLE)\n"),
       nbf.v4.new_code_cell(
-        "# E1 transport: mirror the bundle onto the contract-bound results\n"
-        "# branch. ORDER MATTERS: check out the branch FIRST, then overlay the\n"
-        "# bundle (copy-then-checkout fails after session 1: git refuses to\n"
-        "# overwrite untracked files the branch already tracks). The PAT rides\n"
-        "# in a header, never in argv or output.\n"
-        "import shutil, subprocess, pathlib, base64, datetime\n"
-        "repo = pathlib.Path('/content/scout-repo')\n"
-        f"dest = repo / 'probes/{nn}/results_v2'\n"
-        "def git(*a, **k):\n"
-        "    r = subprocess.run(['git', *a], cwd=repo, capture_output=True, text=True, **k)\n"
-        "    if r.returncode: raise SystemExit(f'git {a[0]} failed: {r.stderr[-400:]}')\n"
-        "    return r.stdout\n"
-        "git('config', 'user.email', 'colab-runner@scout.local')\n"
-        "git('config', 'user.name', 'scout colab runner')\n"
-        "auth = base64.b64encode(f'x-access-token:{GH_PAT}'.encode()).decode()\n"
-        "hdr = f'http.extraheader=AUTHORIZATION: basic {auth}'\n"
-        "if subprocess.run(['git', '-c', hdr, 'fetch', 'origin', RESULTS_BRANCH], cwd=repo, capture_output=True).returncode == 0:\n"
-        "    git('checkout', '-B', RESULTS_BRANCH, f'origin/{RESULTS_BRANCH}')\n"
-        "else:\n"
-        "    git('checkout', '-B', RESULTS_BRANCH, PIN_COMMIT)\n"
-        "if dest.exists(): shutil.rmtree(dest)\n"
-        "shutil.copytree(OUTPUT_DIR, dest)\n"
-        f"git('add', '-f', 'probes/{nn}/results_v2')\n"
-        "stamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')\n"
-        "subprocess.run(['git', 'commit', '-m', f'session results {stamp}'], cwd=repo, capture_output=True)\n"
-        "git('-c', hdr, 'push', 'origin', RESULTS_BRANCH)\n"
-        "print('pushed', RESULTS_BRANCH)"),
+        "# Publication is an explicit reviewed export; no automatic commit or push.\n"
+        "# Failure evidence remains on Drive even when export is refused.\n"
+        "import json, pathlib\n"
+        "from orchestrator.publication import export_session\n"
+        f"policy_path = pathlib.Path('probes/{nn}/publication.json')\n"
+        "if not policy_path.is_file():\n"
+        "    raise RuntimeError('No reviewed publication policy; retain local outputs')\n"
+        "policy = json.loads(policy_path.read_text())\n"
+        f"assert policy['contract_blob'] == '{chash}', 'Publication policy contract drift'\n"
+        "EXPORT_DIR = OUTPUT_DIR.rstrip('/') + '.publication'\n"
+        "export_session(OUTPUT_DIR, EXPORT_DIR, policy)\n"
+        "print('Verified export:', EXPORT_DIR)\n"
+        "print('Return this export AND the sibling console for validation/import.')\n"),
       nbf.v4.new_markdown_cell(
-        'When `run.py` reports the study complete, the results-validate '
-        'workflow on the pushed branch verifies the bundle and opens the '
-        'record-result PR. Merging that PR is the human gate.'),
+        'Return the verified publication export and original sibling console. '
+        'Validation and provenance-bound import precede interpretation. '
+        'This launcher never commits or pushes results.'),
     ]
     out = p / f'colab_probe_{args.idea:03d}.ipynb'
     nbf.write(nb, out)
     print(out.relative_to(ROOT))
     print(f'  pinned commit  {pin[:12]}\n  results branch {branch}\n'
           f'  phase          {phase}\n'
-          '  secret needed  SCOUT_RESULTS_PAT (Colab Secrets)')
+          '  publication    manual verified export; no write token')
 
 
 def _contract_field(idea, field):

@@ -281,3 +281,16 @@ refresh dance; local codex keeps the ChatGPT login untouched). Without
 it, workflows fall back to the `CODEX_AUTH_JSON` OAuth snapshot, which
 must be re-exported immediately before dispatch (single-use refresh
 chain).
+
+### ISLES autonomous pilot publication safeguards
+
+`package-colab` now preserves outputs on reruns, captures actual child console
+output in the sibling `<OUTPUT_DIR>.console.log`, and exports only an explicitly
+permitted, contract-bound file set from `probes/NNN/publication.json`. Unknown
+files, symlinks and conflicting destinations refuse before publication. It no
+longer automatically commits or pushes results. Empty-directory runners require
+a new output path for another attempt; resumable runners keep their checkpoints.
+Return the verified export and sibling console for validation and import.
+
+Campaign progress: [ISLES pilot](docs/isles-pilot/PROGRESS.md). Dataset attribution:
+[ISLES24 notice](docs/isles-pilot/DATASET_NOTICE.md).
