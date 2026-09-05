@@ -1,11 +1,11 @@
 {
   "approval": {
-    "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
+    "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
     "stale": false
   },
   "charter": "isles24",
   "claim": "In the frozen 99-case idea-046 census cohort, the high-contribution stratum does / does not differ in aggregate on a pre-frozen released clinical variable list (3-month mRS, admission NIHSS, age, sex, plus treatment fields if present in the release) from the remaining cases, and its dominance is / is not accounted for by deficit burden -- an exploratory, aggregate-only, association-register description under the D3 read-restriction and D4 joint-display rules, with no per-patient claims and no model probing.",
-  "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
+  "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
   "corrections": null,
   "idea_id": "idea-047",
   "idea_no": "047",
@@ -13,17 +13,36 @@
   "materialization": {
     "event_count": 6,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "6c983cbe03fe990a49d4cdfe440bd29145dd0031a79f96d47c7ea6cabbe976e1",
+    "source_fingerprint_sha256": "4ba6e2049ed5dcda02f7f79b8b550a53391649014d2e799c4262ef148b8c4118",
     "sources": {
-      "approval_sha256": "4b3ec937d36ba73a45485a4c51b8fdfbd0434115240a8670f653f4c7524d154c",
-      "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
+      "approval_sha256": "0a021ae3c252c64a003c3f5c8bd18beccbd1d5fbb3303714a62e62cbf3d7029c",
+      "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
       "idea_card_sha256": "8cbbbb971bf2fe8e8b9d1bc1c5cc6a99100d7b9b31b34660ff14da387081583f",
       "ledger_events_sha256": "48937ffd091d21625813e1f846e7dfd6c8985bb3cad5de8e90226c8ebf038544",
-      "registry_sha256": null
+      "registry_result_inputs": {
+        "clinical_profile_b": {
+          "provenance_sha256": null,
+          "resolved_config_sha256": null,
+          "summary_sha256": null
+        },
+        "support_dictionary_a": {
+          "provenance_sha256": null,
+          "resolved_config_sha256": "a7c90667db19f53bd45ccd984fcce64d8cb05b22e165a14690ed4f2100dea142",
+          "summary_sha256": "acb3919741c1a8dfa178b57eab12c5439a0d156d069041d9b3d3833947e285a8"
+        }
+      },
+      "registry_sha256": "936742c38c725b8ab5a9c98ff6d832176b1dd825b754cd888370e69ac9f18089"
     }
   },
   "pending_decisions": null,
-  "registry": null,
+  "registry": {
+    "approval_bound": false,
+    "file_sha256": "936742c38c725b8ab5a9c98ff6d832176b1dd825b754cd888370e69ac9f18089",
+    "nodes": {
+      "clinical_profile_b": "BLOCKED",
+      "support_dictionary_a": "STALE"
+    }
+  },
   "schema_version": 1,
   "scrutiny": "PROBED",
   "status": "ACTIVE",

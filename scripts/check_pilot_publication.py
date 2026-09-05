@@ -12,7 +12,7 @@ BASE='4f5b6b1dc67084a7882c099fb30a6f9465991a31'
 CONTAMINATED='940293b6d562f2d3dd6bfd9d8d8281ccf01e4783'
 BRANCH='astra/autonomous-isles-pilot'
 ALLOWED_PREFIXES=('docs/isles-pilot/','campaigns/isles24-pilot/','tests/')
-ALLOWED_FILES={'README.md','scout.py','probes/047/run.py','probes/047/README.md','probes/047/publication.json','probes/047/colab_probe_047.ipynb','ideas/047/registry.yaml','orchestrator/publication.py','orchestrator/publication_subset.py','orchestrator/campaign.py','scripts/rehearse_047_cleanup.py','scripts/efficiency_review.py','scripts/package_pilot.py','scripts/check_pilot_publication.py'}
+ALLOWED_FILES={'README.md','scout.py','probes/047/run.py','probes/047/README.md','probes/047/publication.json','probes/047/colab_probe_047.ipynb','ideas/047/registry.yaml','ideas/047/state.json','ideas/047/CARD.md','orchestrator/publication.py','orchestrator/publication_subset.py','orchestrator/campaign.py','scripts/rehearse_047_cleanup.py','scripts/efficiency_review.py','scripts/package_pilot.py','scripts/check_pilot_publication.py'}
 EXTENSIONS={'.md','.py','.json','.yaml','.ipynb','.txt'}
 
 

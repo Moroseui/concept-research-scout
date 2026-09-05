@@ -121,3 +121,10 @@ review receipt is absent. Synthetic notebook is ready for manual Run All.
 Local synthetic write/retrieve returned exact expected bytes and SHA-256
 776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800.
 This does not claim Colab execution. Review request is documented separately.
+
+Final consistency pass found pre-existing stale 047 state/card views. Regenerated
+only those two derived views, preserving ledger, approvals, interpretations and
+all result bytes. Both now verify byte-identically and visibly distinguish the
+historically ratified Phase A from the new unratified registry (A STALE/B BLOCKED).
+No new ratification was created. The outgoing-history guard has a synthetic
+regression proving that adding then deleting a raw file still blocks publication.
