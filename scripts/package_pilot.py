@@ -24,10 +24,15 @@ import subprocess, sys
 PIN = {pin!r}
 REPO = Path('/content/scout-pilot-' + PIN[:12])
 if not REPO.exists():
-    subprocess.run(['git', 'clone', 'https://github.com/Moroseui/concept-research-scout.git', str(REPO)], check=True)
+    subprocess.run(['git', 'init', '-q', str(REPO)], check=True)
+    subprocess.run(['git', 'remote', 'add', 'origin', 'https://github.com/Moroseui/concept-research-scout.git'], cwd=REPO, check=True)
+    subprocess.run(['git', 'config', 'remote.origin.fetch', '+refs/heads/astra/autonomous-isles-pilot:refs/remotes/origin/astra/autonomous-isles-pilot'], cwd=REPO, check=True)
+    subprocess.run(['git', 'fetch', '--no-tags', '--depth=1', 'origin', PIN], cwd=REPO, check=True)
 subprocess.run(['git', 'checkout', '--detach', PIN], cwd=REPO, check=True)
-assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip() == PIN
-assert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=REPO,text=True).strip(), 'Modified code; use a fresh checkout'
+if subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip() != PIN:
+    raise RuntimeError('Source pin mismatch')
+if subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=REPO,text=True).strip():
+    raise RuntimeError('Modified or untracked code; use a fresh checkout')
 sys.path.insert(0,str(REPO))''')
     base=ROOT/'campaigns/isles24-pilot'
     notebook([md('''# Synthetic Colab execution and retrieval test

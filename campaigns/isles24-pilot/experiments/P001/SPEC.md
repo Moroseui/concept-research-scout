@@ -1,4 +1,4 @@
-# P001 v1 — admission hypoperfusion as a final-infarct baseline
+# P001 v1.1 — admission hypoperfusion as a final-infarct baseline
 
 Status: specification fixed before execution; opposing-family review pending.
 Question: How well does a fixed admission Tmax > 6 seconds tissue-at-risk map
@@ -38,7 +38,9 @@ If using train.7z, first verify 99,014,629,647 bytes and MD5
 
 ## Baseline and evaluation
 
-Predict finite Tmax > 6.0 seconds, with no fitted parameter, erosion, connected
+Before prediction, require every Tmax voxel to be finite. Any NaN or infinity,
+including background, stops the run; do not silently impute or mask it. For a
+valid finite array, predict Tmax > 6.0 seconds, with no fitted parameter, erosion, connected
 component filtering or lesion-dependent mask. The threshold follows the prior
 program's inspected Tmax convention; units remain an inherited metadata
 assumption and must be reported. No training/validation split is needed because
@@ -89,3 +91,10 @@ infarct. Hypoperfusion can overpredict surviving tissue; small lesions and
 registration error can depress Dice. Selection of these 99 cases, scanner/site
 heterogeneity, acquisition/reconstruction and prior outcome use limit scope.
 No model-use, biological mechanism or clinical-deployment conclusion is licensed.
+
+## Pre-execution clarification v1.1
+
+Claude review identified ambiguity in “finite Tmax > 6”. Before any patient
+execution, v1.1 makes the existing fail-on-nonfinite policy explicit. This is
+an input-integrity stopping rule, not a result-informed change. If real data
+violates it, retain the failure and propose a separately reviewed amendment.

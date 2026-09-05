@@ -90,11 +90,28 @@ def summarize(rows):
             'mean_signed_volume_error_ml':float(np.mean([r['signed_volume_error_ml'] for r in rows]))}
 
 
+def result_card(summary):
+    lo,hi=summary['mean_dice_bootstrap_percentile_95']
+    return f'''# P001 — exploratory baseline result
+
+Question: Does admission Tmax > 6 s predict released follow-up infarct?
+Baseline: fixed hypoperfusion threshold; no fitting. Change: none (first baseline).
+Data: frozen eligible 99 development patients. Input timing: admission CT only.
+Result: mean patient Dice {summary['mean_dice']:.4f}; patient-bootstrap 95% range
+[{lo:.4f}, {hi:.4f}]. Mean absolute volume error {summary['mean_absolute_volume_error_ml']:.2f} mL.
+Limitations: reused development outcomes, selected cohort, unmodeled treatment,
+registration and units; this interval is not external or clinical validation.
+Artifacts: summary.json, resolved_config.json, execution_receipt.json; per-case
+checkpoints and predictions retained privately alongside this aggregate bundle.
+Next decision: inspect baseline failures and volume bias, then register at most
+one follow-up at a time under the two-comparison campaign cap.
+'''
+
 def run(args):
     start=time.monotonic(); selected=selection()
     if args.preflight:
         print(json.dumps({'eligible_cases':len(selected),'selected_members':sum(map(len,selected.values())),
-                          'patient_payloads_opened':0,'reserved_cases_selected':0}))
+                          'patient_payloads_opened':0,'selection_scope':'exact frozen eligible IDs only'}))
         return
     # No real payload may be touched before exact campaign/spec/code review checks.
     verify_decision(HERE.parents[1]/'CAMPAIGN.md',HERE/'SPEC.md',HERE/'investigator_decision.json',HERE/'review.json',HERE/'run.py')
@@ -124,7 +141,7 @@ def run(args):
             if size!=99014629647 or h.hexdigest()!='36ae28b9a17f7340b8bbef62b595cb57': raise ValueError('archive identity mismatch')
             data.mkdir()
             members=[e['path'] for pair in selected.values() for e in pair.values()]
-            subprocess.run(['7z','x',str(args.archive),'-o'+str(data),'-y',*members],check=True)
+            subprocess.run(['7z','x',str(args.archive),'-o'+str(data),'-y','-bb0',*members],check=True)
     paths={}
     for case,pair in selected.items(): paths[case]={kind:verify_file(data,e) for kind,e in pair.items()}
     staging_seconds=time.monotonic()-staging_start
@@ -151,30 +168,20 @@ def run(args):
             raise ValueError('geometry mismatch; amendment required, no implicit resampling')
         voxel_ml=abs(float(np.linalg.det(image.affine[:3,:3])))/1000.0
         row=metrics(pred,np.asarray(label_image.dataobj),voxel_ml)
-        save(checkpoint,{'binding':binding,'inputs':inputs,'prediction_sha256':sha(prediction),'metrics':row})
-        checkpoint_index[case]=sha(checkpoint); save(index_path,checkpoint_index)
+        record={'binding':binding,'inputs':inputs,'prediction_sha256':sha(prediction),'metrics':row}
+        encoded=json.dumps(record,sort_keys=True,indent=2,allow_nan=False)+'\n'
+        # Index first: a crash before checkpoint installation recomputes this case.
+        checkpoint_index[case]=hashlib.sha256(encoded.encode()).hexdigest(); save(index_path,checkpoint_index)
+        save(checkpoint,record)
         all_rows.append(row); print(f'Evaluated {index+1}/99')
+    if time.monotonic()-analysis_start>3600: raise TimeoutError('60-minute analysis cap reached; retain checkpoints')
     if len(all_rows)!=99: raise ValueError('incomplete cohort; no additional exclusions permitted')
     summary={'status':'EXPLORATORY_BASELINE_COMPLETE','experiment':'P001',**summarize(all_rows)}
     save(out/'summary.json',summary)
     save(out/'resolved_config.json',{**binding,'baseline':'finite admission Tmax > 6 seconds','seed':20260905,'bootstrap_samples':2000,'input_timing':'admission CT completion','reserved_cases_accessed':0})
     save(out/'environment.json',{'python':platform.python_version(),'numpy':np.__version__,'nibabel':nib.__version__})
-    save(out/'execution_receipt.json',{'wall_seconds':time.monotonic()-start,'staging_seconds':staging_seconds,'analysis_seconds':time.monotonic()-analysis_start,'resumed_cases':resumed,'human_intervention_minutes':None,'cost_usd':None,'usage_tokens':None,'gpu_minutes':0})
-    lo,hi=summary['mean_dice_bootstrap_percentile_95']
-    (out/'RESULT_CARD.md').write_text(f'''# P001 — exploratory baseline result
-
-Question: Does admission Tmax > 6 s predict released follow-up infarct?
-Baseline: fixed hypoperfusion threshold; no fitting. Change: none (first baseline).
-Data: frozen eligible 99 development patients. Input timing: admission CT only.
-Result: mean patient Dice {summary['mean_dice']:.4f}; patient-bootstrap 95% range
-[{lo:.4f}, {hi:.4f}]. Mean absolute volume error {summary['mean_absolute_volume_error_ml']:.2f} mL.
-Limitations: reused development outcomes, selected cohort, unmodeled treatment,
-registration and units; this interval is not external or clinical validation.
-Artifacts: summary.json, resolved_config.json, execution_receipt.json; per-case
-checkpoints and predictions retained privately alongside this aggregate bundle.
-Next decision: inspect baseline failures and volume bias, then register at most
-one follow-up at a time under the two-comparison campaign cap.
-''')
+    save(out/'execution_receipt.json',{'wall_seconds':time.monotonic()-start,'staging_seconds':staging_seconds,'analysis_seconds':time.monotonic()-analysis_start,'resumed_cases':resumed,'human_intervention_minutes':None,'cost_usd':None,'usage_tokens':None,'gpu_minutes':None,'compute_method':'CPU NumPy; GPU utilization not instrumented'})
+    (out/'RESULT_CARD.md').write_text(result_card(summary))
     print('P001 complete; retain private checkpoints and original console for audit')
 
 if __name__=='__main__':
@@ -188,7 +195,7 @@ if __name__=='__main__':
         failure_dir=private/'failed_attempts'
         try:
             save(failure_dir/(str(time.time_ns())+'.json'),{'status':'INVALID_OR_BLOCKED','exception_type':type(e).__name__,'scientific_result':None,'human_intervention_minutes':None,'cost_usd':None})
-            card=args.output_dir/'RESULT_CARD.md'
+            card=failure_dir/'RESULT_CARD.md'
             if not card.exists():
                 card.parent.mkdir(parents=True,exist_ok=True)
                 card.write_text('# P001 — failed or blocked attempt\n\nQuestion: admission Tmax baseline for follow-up infarct. Baseline: fixed >6 s.\nNo valid scientific result or uncertainty is available. Preserve the original\nsibling console and private failed-attempt receipt; inspect the failure before\na retry. No negative finding is inferred.\n')

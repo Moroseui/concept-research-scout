@@ -11,7 +11,8 @@ def verify_decision(campaign, spec, decision, review=None, code=None):
     d=json.loads(Path(decision).read_text())
     if d.get('authority')!='campaign_delegated_investigator' or d.get('actor_type')!='agent':
         raise ValueError('decision must identify delegated agent authority')
-    if d.get('human_approved') is not None or d.get('approved_by_human') is not None:
+    allowed={'schema_version','authority','actor_type','family','model','experiment','campaign_sha256','spec_sha256','decision','rationale','human_intervention_minutes','usage_tokens','cost_usd'}
+    if set(d)-allowed:
         raise ValueError('agent decision cannot manufacture human approval')
     if d.get('campaign_sha256')!=sha(campaign) or d.get('spec_sha256')!=sha(spec):
         raise ValueError('campaign/specification binding stale')
@@ -25,4 +26,7 @@ def verify_decision(campaign, spec, decision, review=None, code=None):
             raise ValueError('opposing-family review required')
         if r.get('verdict')!='APPROVE' or r.get('spec_sha256')!=sha(spec) or not code or r.get('code_sha256')!=sha(code):
             raise ValueError('review missing approval or current spec/code bindings')
+        from orchestrator.campaign_review import verify_receipt
+        exp=Path(spec).resolve().parent
+        verify_receipt(exp.parents[3],exp,r)
     return d

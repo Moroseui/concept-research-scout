@@ -6,9 +6,9 @@
   "model": "GPT-6 Astra",
   "experiment": "P001",
   "campaign_sha256": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
-  "spec_sha256": "b368e34f8748ec1833f7334198d1cac495c6f2b38f891b6dfa2c3d5e7f3c3c55",
+  "spec_sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
   "decision": "FIX_SPECIFICATION_PENDING_OPPOSING_REVIEW",
-  "rationale": "Begin with an interpretable admission-only threshold baseline; avoid fitting or selecting alternatives before actual evidence.",
+  "rationale": "Begin with an interpretable admission-only threshold baseline; avoid fitting or selecting alternatives before actual evidence. Pre-execution v1.1 clarification: explicitly stop for any nonfinite Tmax voxel, consistent with existing finite-array requirement and runner.",
   "human_intervention_minutes": null,
   "usage_tokens": null,
   "cost_usd": null

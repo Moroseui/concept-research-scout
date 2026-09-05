@@ -4436,12 +4436,12 @@ def main():
     p=sp.add_parser('shortlist'); p.add_argument('scout'); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.add_argument('--unblock-ack',dest='unblock_ack'); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
-    p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.add_argument('--omit-phase-flag',action='store_true',help='probe run.py takes no --phase'); p.add_argument('--runner-args',default='',help='extra args appended verbatim to the run.py invocation ({PY_VARS} interpolate)'); p.add_argument('--runner-setup',default='',help='shell line emitted before the runner (e.g. apt installs)'); p.set_defaults(fn=package_colab)
-    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.add_argument('--publication-subset'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int,nargs='?'); p.set_defaults(fn=verify_probe)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.add_argument('--omit-phase-flag',action='store_true',help='probe run.py takes no --phase'); p.add_argument('--runner-args',default='',help='extra args appended verbatim to the run.py invocation ({PY_VARS} interpolate)'); p.add_argument('--runner-setup',default='',help='shell line emitted before the runner (e.g. apt installs)'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('record-result'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.add_argument('--publication-subset'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
-    p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
+    p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('bundle-complete'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=lambda a: print(str(bundle_complete(a.idea, a.bundle)).lower()))
     p=sp.add_parser('state-materialize'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_materialize)
     p=sp.add_parser('state-verify'); p.add_argument('--idea',type=int); p.add_argument('--require-all',action='store_true'); p.set_defaults(fn=cmd_state_verify)
@@ -4454,8 +4454,8 @@ def main():
     p=sp.add_parser('backlog'); p.set_defaults(fn=backlog_cmd)
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
-    p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
-    p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
+    p=sp.add_parser('probe-build'); p.add_argument('idea',type=int,nargs='?'); p.set_defaults(fn=probe_build)
+    p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
     p=sp.add_parser('ratify-interpretation'); p.add_argument('idea',type=int); p.add_argument('--status',required=True); p.set_defaults(fn=cmd_ratify_interpretation)
     p=sp.add_parser('ratify-registry'); p.add_argument('idea',type=int); p.add_argument('--operator',required=True); p.set_defaults(fn=cmd_ratify_registry)
     p=sp.add_parser('card-materialize'); p.add_argument('idea',type=int); p.add_argument('--check',action='store_true'); p.set_defaults(fn=cmd_card_materialize)
@@ -4471,6 +4471,24 @@ def main():
     q=lsp.add_parser('kill'); q.add_argument('id'); q.add_argument('code'); q.add_argument('reason')
     q=lsp.add_parser('set-status'); q.add_argument('id'); q.add_argument('status'); q.add_argument('--note',default='')
     p.set_defaults(fn=ledger_mod.cli)
-    args=ap.parse_args(); args.fn(args)
+    from orchestrator.campaign_lifecycle import COMMANDS
+    for name in COMMANDS:
+        parser = sp.choices[name]
+        parser.add_argument('--campaign', choices=['isles24-pilot'])
+        parser.add_argument('--experiment', choices=['P001','P002','P003'])
+        if name in ('record-result','validate-bundle'):
+            parser.add_argument('--private')
+            parser.add_argument('--console')
+    args=ap.parse_args()
+    if getattr(args,'campaign',None):
+        from orchestrator.campaign_lifecycle import dispatch
+        try:
+            dispatch(sys.modules[__name__],args)
+        except (ValueError,OSError,KeyError) as e:
+            raise SystemExit('CAMPAIGN REFUSED: '+str(e))
+    else:
+        if getattr(args,'experiment',None): ap.error('--experiment requires --campaign')
+        if args.cmd in COMMANDS and args.idea is None: ap.error('idea is required outside campaign mode')
+        args.fn(args)
 
 if __name__=='__main__': main()

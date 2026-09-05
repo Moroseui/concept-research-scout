@@ -147,3 +147,27 @@ The cleanup script now has optimization-safe explicit integrity checks, exact
 path-diff verification and synthetic test coverage. Optimized real replay retains
 the existing proposed c8124212 pin. Local metadata inspection clarifies that three
 retained files carry case identifiers; raw-payload cleanup is not anonymization.
+
+## Continued campaign integration and second review round
+
+Cleanup review r2 at `3f0337b986dc52594f4347fdc7d99bb3e7c4a0a2` is APPROVE
+for operator consideration only. Original response/actual model usage and source
+manifest are retained in reviews/cleanup-r2.*. The c8124212 replacement is
+unchanged; no rewrite was executed. The formal metadata disposition now names
+all three retained identifier-bearing bookkeeping files as well as exclusions.
+
+Implemented the explicit campaign lane through six existing scout commands,
+with delegated agent attribution, opposing-family receipts and scoped commits.
+Synthetic disposable Git tests traverse the complete lane; actual P001 runner
+and return validator tests use synthetic volumes, checkpoints and aggregate
+outputs. Resume after index/checkpoint interruption and unapproved extra output
+fields are tested. No real patient execution has occurred.
+
+P001 v1.1 clarifies the existing all-finite Tmax stopping rule before execution.
+Review binding now covers the actual completed Claude response, decision and
+all executable dependencies. Notebook source acquisition uses an exact-pin,
+no-tags, depth-one fetch. Synthetic acquisition tests confirm the unwanted
+results branch is absent and dirty/untracked reruns refuse nondestructively.
+The notebooks in this revision remain review scaffolds: their source pin will
+be regenerated only after a valid review receipt is committed, using the
+reviewed generator. They are not yet the executable handoff.

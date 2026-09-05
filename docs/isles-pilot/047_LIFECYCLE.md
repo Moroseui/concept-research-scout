@@ -53,3 +53,13 @@ interface pass the existing historical core validator. The real import was
 then exercised and refused by the explicit publication policy. That demonstrates
 why core validity alone is insufficient. No unresolved Phase-B interpretation
 was launched. The full suite at the M2 checkpoint passed 220 tests.
+
+### Cleanup review r2: scope of the metadata disposition
+
+The proposed exclusions disposition must also explicitly consider retained
+`per_case_staging.csv`, `staging_audit.json`, and `split_manifest.csv`. They
+retain identity-linked bookkeeping; quarantining `probe_exclusions.csv` alone
+is not anonymization. The operator may approve the current raw-payload cleanup
+while accepting a possible later metadata rewrite, or rule on all this metadata
+first and request one revised, re-rehearsed projection. Neither option ratifies
+047 science or supplies its missing successful console.

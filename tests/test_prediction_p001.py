@@ -54,11 +54,28 @@ class PredictionTests(unittest.TestCase):
                     f=data/(kind+'.nii.gz'); b=f.read_bytes()
                     selected[f'synthetic-{i:03d}'][kind]={'path':f.name,'size':len(b),'crc':f'{zlib.crc32(b)&0xffffffff:08x}'}
             args=argparse.Namespace(preflight=False,archive=None,data_root=data,output_dir=root/'out')
-            with patch.object(p,'HERE',here),patch.object(p,'selection',return_value=selected):
+            with patch.object(p,'HERE',here),patch.object(p,'selection',return_value=selected),patch('orchestrator.campaign_review.verify_receipt'):
                 p.run(args)
                 result=json.loads((root/'out/summary.json').read_text())
                 self.assertEqual(result['mean_dice'],1)
                 self.assertEqual(result['n'],99)
+                # Actual return validator on generated synthetic volumes/checkpoints.
+                vs=importlib.util.spec_from_file_location('p001_return',PATH.with_name('validate_return.py'))
+                validator=importlib.util.module_from_spec(vs); vs.loader.exec_module(validator)
+                (here/'publication.json').write_text(PATH.with_name('publication.json').read_text())
+                console=root/'out.console.log'; console.write_text('original synthetic execution console')
+                with patch.object(validator,'HERE',here),patch.object(validator,'p',p):
+                    validator.verify(root/'out',root/'out.private',console)
+                    f=root/'out/summary.json'; original=f.read_text()
+                    f.write_text(original[:-2]+',"unapproved_extra":"synthetic"}')
+                    with self.assertRaisesRegex(ValueError,'unexpected aggregate'):
+                        validator.verify(root/'out',root/'out.private',console)
+                    f.write_text(original)
+                # Crash between index and checkpoint installation remains resumable.
+                (root/'out.private/checkpoints/synthetic-000.json').unlink()
+                p.run(args)
+                self.assertEqual(json.loads((root/'out/execution_receipt.json').read_text())['resumed_cases'],98)
+
                 with patch.object(nib,'load',side_effect=AssertionError('checkpoint rerun must not reload images')):
                     p.run(args)
                 self.assertEqual(json.loads((root/'out/execution_receipt.json').read_text())['resumed_cases'],99)
