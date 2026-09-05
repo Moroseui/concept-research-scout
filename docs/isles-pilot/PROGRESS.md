@@ -229,3 +229,23 @@ inspection; this does not require new operator permission for authorized fixes.
 Other cleanup advisories concern defense-in-depth path matching/timeouts, not
 the unchanged leased operation. The actual 047 launcher source dependency entries
 were verified locally and recorded in reviews/047-launcher-source-check.json.
+
+
+### Executable handoff
+
+Actual built-in preparation completed: approval adoption `240e11f18aec01dfccd28da927a389492f08ea02`,
+build `aeef70c62f6de9509cf9f7230c3777e7aadfa484`, verification/executable source
+`d6a1184b4378e849213fd887a6f7b103fb1a64d5`, notebook artifact
+`1a81c037343598f4e4585153b11d761b87a9ae3a`. Both notebook schemas and all cells
+validate/compile, have no saved outputs, and include the expected exact-pin
+fetch. All 19 approved source/test hashes and the original approval receipt are
+present at the executable source pin. The real verify command passed its
+four synthetic tests and selected 99 cases/198 members without opening payloads.
+
+The exact Colab links, minimal instructions and return requirements are in
+P001_HANDOFF.md. No scientific result exists yet. The next operator action is
+CPU Colab connection and Run All. Remote cleanup remains a separate explicit
+approval; its c8124212 projection, preserved originals and unresolved 047
+acceptance decisions are unchanged. The final metadata-only publication commit
+will receive a complete pre-push audit; CHECKPOINT names the concrete prior tip
+it attests rather than claiming an impossible self-referential Git hash.

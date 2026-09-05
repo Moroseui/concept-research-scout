@@ -1,6 +1,6 @@
 {
   "base": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
-  "tip": "4339928a6fe8fe4539a7adc44c501f95ba5a9351",
+  "tip": "1a81c037343598f4e4585153b11d761b87a9ae3a",
   "branch": "astra/autonomous-isles-pilot",
   "commits": [
     "194cdcd491a608190fca45c24ad216153431270e",
@@ -15,13 +15,19 @@
     "68298a8751e9c25ba45a58ab05b3ac24db5d63fa",
     "495269bc6f72687f39d8c62ec9e2eb73162c390f",
     "3f0337b986dc52594f4347fdc7d99bb3e7c4a0a2",
-    "4339928a6fe8fe4539a7adc44c501f95ba5a9351"
+    "4339928a6fe8fe4539a7adc44c501f95ba5a9351",
+    "9216e6acce01c5113fc505ad96404fa4e36ffab6",
+    "469d29df002ea78f64146731244769d7c82330d6",
+    "240e11f18aec01dfccd28da927a389492f08ea02",
+    "aeef70c62f6de9509cf9f7230c3777e7aadfa484",
+    "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+    "1a81c037343598f4e4585153b11d761b87a9ae3a"
   ],
-  "artifact_versions_checked": 92,
-  "manifest_sha256": "06c3caff2cd83e0816c42c7c075b83d3c4e6bed4758be77df4cec1ebd4939843",
+  "artifact_versions_checked": 139,
+  "manifest_sha256": "aba07fe9be05c832e811d55b6f03f68bf8ccc459fcfb1759a060003e35e664fd",
   "contaminated_history_reachable": false,
   "validation": {
-    "full_unit_tests_passed": 232,
+    "full_unit_tests_passed": 233,
     "047_registry_schema": "valid",
     "047_state_and_card": "byte-identical regeneration",
     "p001_preflight": {
@@ -35,7 +41,12 @@
     "colab_mcp_handshake": "pass",
     "colab_execution_and_retrieval": "not verified",
     "campaign_synthetic_six_command_lifecycle": "pass, explicit synthetic agent/validator adapters",
-    "notebook_exact_pin_acquisition": "pass, unwanted synthetic results branch absent; dirty rerun rejected"
+    "notebook_exact_pin_acquisition": "pass, unwanted synthetic results branch absent; dirty rerun rejected",
+    "p001_real_builtin_build": "PASS aeef70c62f6de9509cf9f7230c3777e7aadfa484",
+    "p001_real_builtin_verify": "PASS d6a1184b4378e849213fd887a6f7b103fb1a64d5; four synthetic tests; no patient payloads",
+    "p001_real_builtin_package": "PASS 1a81c037343598f4e4585153b11d761b87a9ae3a",
+    "reviewed_source_test_bindings": 19,
+    "live_builtin_agent_executor": "PASS actual Codex/Claude calls at469d29d; engineering fixture only"
   },
   "scientific_results": null,
   "cleanup": {
@@ -49,11 +60,17 @@
     "durable_original_evidence": "outside checkout, owner-only"
   },
   "unresolved": [
+    "Colab connection and real P001 execution",
     "047 exclusion/identity-metadata/console/registry attestation decisions",
-    "cleanup operation approval",
-    "P001 follow-up independent review pending",
-    "Colab authentication and real execution"
+    "Separate explicit approval for prepared remote cleanup",
+    "Colab MCP execution/retrieval authentication test"
   ],
-  "single_next_operator_action": "Decide the prepared leased 047 cleanup operation; no execution has been authorized.",
-  "audit_scope_note": "This receipt attests the named tip. Its own later metadata commit and final notebook packaging are checked by a separate final pre-push audit."
+  "single_next_operator_action": "Open the pinned P001 notebook, connect CPU Colab, set the existing archive path and Run All.",
+  "audit_scope_note": "This committed receipt attests the named notebook-artifact tip. Its later documentation-only commit is audited separately immediately before push; a Git commit cannot contain its own hash.",
+  "reviewed_implementation": "469d29df002ea78f64146731244769d7c82330d6",
+  "executable_source": "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+  "reviews": {
+    "cleanup-r4": "APPROVE",
+    "p001-r3": "APPROVE"
+  }
 }
