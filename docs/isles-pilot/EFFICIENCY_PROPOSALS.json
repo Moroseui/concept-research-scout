@@ -1,0 +1,184 @@
+{
+  "cost_usd": null,
+  "duration_available_count": 96,
+  "evidence": [
+    {
+      "path": "ideas/004/stage_provenance.jsonl",
+      "sha256": "583ad4ef2325fc00604914f666a4d39e3085f2a06e1670d8a6aef5387c1110f5"
+    },
+    {
+      "path": "ideas/017/stage_provenance.jsonl",
+      "sha256": "5c293f06173c23565ea080f54a58043b0ab43d1e4bb96f6f843192e02fba913c"
+    },
+    {
+      "path": "ideas/018/stage_provenance.jsonl",
+      "sha256": "e575dc1c5a13c26792cb2b3c1660d1c2da573144bda7155fa0064e83aad5aa97"
+    },
+    {
+      "path": "ideas/019/stage_provenance.jsonl",
+      "sha256": "2f80a0afa919d432cc4134914c1b68f4197f79d9883b7696c8cd9e7b8a0068dc"
+    },
+    {
+      "path": "ideas/020/stage_provenance.jsonl",
+      "sha256": "1ef8c8480ed1229ee6a89e4b436de422ac0507c7f84257e26a250ba545a79913"
+    },
+    {
+      "path": "ideas/021/stage_provenance.jsonl",
+      "sha256": "49e7bd3ed79548ce418811713669a63eb6f69293fe9cb7b47160d91d57c579ac"
+    },
+    {
+      "path": "ideas/022/stage_provenance.jsonl",
+      "sha256": "322bf9376532a134c6e17ca29f0c13c1bc9b5be1deed3b0c2092fdb866d63e81"
+    },
+    {
+      "path": "ideas/023/stage_provenance.jsonl",
+      "sha256": "7ff92ad4f6a5d24199dd6b48cc120bd0818842732deceb7978011dff9012faa7"
+    },
+    {
+      "path": "ideas/024/stage_provenance.jsonl",
+      "sha256": "2d27eb261b7b32ea2b06c3eb35c16b7effa582aa4411bb8e5508aa4db8bc9405"
+    },
+    {
+      "path": "ideas/025/stage_provenance.jsonl",
+      "sha256": "6d69c7cb053badee1ce8fa36b0b1aa35ed12d7fecdf76d22be01e1b1ee07a021"
+    },
+    {
+      "path": "ideas/027/stage_provenance.jsonl",
+      "sha256": "ef1c2c05b2ff6d621fe91438885d321d901653ed1cdcdd205c914564d6825540"
+    },
+    {
+      "path": "ideas/028/stage_provenance.jsonl",
+      "sha256": "e67578136915a723a19a01fedcf25b84b67835dd6e8cfae99ea75d0e01428710"
+    },
+    {
+      "path": "ideas/029/stage_provenance.jsonl",
+      "sha256": "bb15adcb53ff696f556b4321a2728ee627df6cb09d0e38c09ef7fb0edc6af8ed"
+    },
+    {
+      "path": "ideas/030/stage_provenance.jsonl",
+      "sha256": "f793a6f9c36e7581e8e1104ca5817cc11d066fb5f433f546a40c49f1e1cdf347"
+    },
+    {
+      "path": "ideas/031/stage_provenance.jsonl",
+      "sha256": "78ebcee87f30b4ff63913f625025b23a0186d83c8b0309bec79898ab3494fc22"
+    },
+    {
+      "path": "ideas/032/stage_provenance.jsonl",
+      "sha256": "ccd929f0874abce8ee223e70b4ee8e73fca04b79bf34c5c2f52787135ed59b71"
+    },
+    {
+      "path": "ideas/033/stage_provenance.jsonl",
+      "sha256": "19cbdd62ae9a716394c1429a211c2e319d1de3b2495b1010675d694eed1bc973"
+    },
+    {
+      "path": "ideas/034/stage_provenance.jsonl",
+      "sha256": "3a17580dd469d292d055fe81099a2b6cb408cdc238ef8cb00ec16c133058eca8"
+    },
+    {
+      "path": "ideas/035/stage_provenance.jsonl",
+      "sha256": "e605bd192a8095178bba7ea2485e401d915b4b79d3997d793659b2250de3989f"
+    },
+    {
+      "path": "ideas/036/stage_provenance.jsonl",
+      "sha256": "3fd5fb53232f7a8b0d714dbd3324b8ce9e6db735d434de0f5a60667222ad23c7"
+    },
+    {
+      "path": "ideas/037/stage_provenance.jsonl",
+      "sha256": "8773bd0b614dd8c8c86ecef18718d23bbabc07b51711c84e8c12dc343bfe327c"
+    },
+    {
+      "path": "ideas/038/stage_provenance.jsonl",
+      "sha256": "003a22f438ecfeef85536246c5502b01fbb17c277593b43535c3f7488d32909e"
+    },
+    {
+      "path": "ideas/039/stage_provenance.jsonl",
+      "sha256": "c98ba4e2963323cdf2349bb02fab1975fd783243adf4481c59cb7ba888aa7214"
+    },
+    {
+      "path": "ideas/040/stage_provenance.jsonl",
+      "sha256": "505c4e3481eb7319535ca50718afda009cc53b6bf7f09ff00e8b4647c118bf85"
+    },
+    {
+      "path": "ideas/041/stage_provenance.jsonl",
+      "sha256": "81c1e38deb4616c1c93f4f5452636c2d4d5339e0a91324576853b0bb3c1b39b8"
+    },
+    {
+      "path": "ideas/042/stage_provenance.jsonl",
+      "sha256": "e9ebfa78086b3a7b204f8f8f0703034bb5e15967ff71dbe9013816d92ca6fb9f"
+    },
+    {
+      "path": "ideas/043/stage_provenance.jsonl",
+      "sha256": "d7aeafd0761406b236a4410b9be78b27994a229f9c91a8622238eb69c64f10ff"
+    },
+    {
+      "path": "ideas/044/stage_provenance.jsonl",
+      "sha256": "323af966854582ec1bef8ed59e8fc6262a713ee15db127692ade9745492a1b1f"
+    },
+    {
+      "path": "ideas/045/stage_provenance.jsonl",
+      "sha256": "d416102b4eeab2b0d770c63d157af2db5a9fcf2b62f8dd931c9bb144185d43a6"
+    },
+    {
+      "path": "ideas/046/stage_provenance.jsonl",
+      "sha256": "419b5ac7936c8a50bb9adc527de892042b5a20774665f00da58891f2d6ae93da"
+    },
+    {
+      "path": "ideas/047/stage_provenance.jsonl",
+      "sha256": "110fe0f5df19eb978d5fb5d9c41f6ea58d23fa384acc029a83521c9401e1f801"
+    },
+    {
+      "path": "ideas/scout-isles24-008/stage_provenance.jsonl",
+      "sha256": "465ed90b133d22d123ccd7a0293496808d6f54046c115679330706dc72b0d2c2"
+    },
+    {
+      "path": "ideas/scout-isles24-009/stage_provenance.jsonl",
+      "sha256": "b5075f26123eeacb10cb97bf428ac151943a6e1f295596e0d20d6ff1279f1394"
+    },
+    {
+      "path": "ideas/scout-isles24-010/stage_provenance.jsonl",
+      "sha256": "1f3b639b27086f50816eb84eb951c92103cdd63e228732e7dbf91ae157edb313"
+    }
+  ],
+  "mode": "proposal_only",
+  "observed_agent_duration_s": 25373.345,
+  "proposals": [
+    {
+      "expected_benefit": "Avoid rerunning completed legs when a later leg fails",
+      "observed_friction": "Receipted non-successful agent invocations",
+      "status": "PROPOSAL_ONLY",
+      "supporting_evidence": {
+        "error": 2
+      },
+      "verification_method": "Compare completion-resume behavior and failed-leg count on a synthetic interrupted two-family stage; preserve review gates"
+    },
+    {
+      "expected_benefit": "Avoid classifying missing measurements as failures",
+      "observed_friction": "Legacy receipt exit status unavailable",
+      "status": "PROPOSAL_ONLY",
+      "supporting_evidence": {
+        "unknown_exit_status": 62
+      },
+      "verification_method": "Keep unknown separate from failed/successful receipts; backfill only from original logs when demonstrable"
+    },
+    {
+      "expected_benefit": "Determine which repeats are recoverable work; do not assume all repeats are waste",
+      "observed_friction": "Repeated identical prompt/stage invocation",
+      "status": "PROPOSAL_ONLY",
+      "supporting_evidence": {
+        "extra_attempts": 1
+      },
+      "verification_method": "Inspect matching receipt pairs and required-output hashes; propose resume only when prior valid output is bound to unchanged inputs"
+    },
+    {
+      "expected_benefit": "Measure actual operator friction before prioritizing further automation",
+      "observed_friction": "Human intervention time unavailable",
+      "status": "PROPOSAL_ONLY",
+      "supporting_evidence": {
+        "receipts_without_measurement": 158
+      },
+      "verification_method": "Offer an optional elapsed-intervention field; verify unknown stays null and known measurements have provenance"
+    }
+  ],
+  "receipt_count": 158,
+  "token_usage": null
+}

@@ -18,7 +18,7 @@ Remote main remains **4f5b6b1dc67084a7882c099fb30a6f9465991a31**.
 - Contract unchanged: **dc586665d0bece940d1a1f4b3b0572f8c951c2ba**.
 
 Run only after explicit operator approval, from the disposable rehearsal repo
-`/tmp/isles-pilot-private/rehearsal-047-v2/rehearsal.git`:
+`/home/partho/concept-research-scout-v4/isles-pilot-private-evidence/rehearsal-047-v2/rehearsal.git`:
 
 ```bash
 git push --force-with-lease=refs/heads/results/probe-047-dc586665d0be:940293b6d562f2d3dd6bfd9d8d8281ccf01e4783 https://github.com/Moroseui/concept-research-scout.git c812421207b6ddcba6516444897c777d8440275a:refs/heads/results/probe-047-dc586665d0be
@@ -39,14 +39,15 @@ copy remains unchanged. No original successful console was found in Git or
 local Downloads. `run_log.txt` is not a substitute. The failure console is not
 misrepresented as successful-session evidence.
 
-Original evidence is retained, with owner-only access, OUTSIDE this checkout:
-`/tmp/isles-pilot-private/rehearsal-047-v2/original-047.bundle` (verified by
-`git bundle verify`), `probe_exclusions.original.csv`, and
-`failure.original.console.log`. The bundle preserves original source and parent
-bytes and ancestry; hashes alone are not the backup. The private receipt records
-hashes and verification. Preserve this directory across cleanup; /tmp is not a
-permanent archival service, so approval should include a durable private backup
-location or retaining this machine until that copy is made.
+Original evidence is retained durably with owner-only access OUTSIDE this checkout:
+`/home/partho/concept-research-scout-v4/isles-pilot-private-evidence/rehearsal-047-v2/`.
+It contains `original-047.bundle`, `probe_exclusions.original.csv`,
+`failure.original.console.log`, the disposable Git repository and verification
+receipt. The durable copy passed `git bundle verify`: complete original history,
+not merely hashes. A temporary copy remains under `/tmp/isles-pilot-private/`.
+The separately preserved remote-ref inventory records the inspected upstream state.
+No operator backup-location decision is now needed; cleanup approval alone remains
+reserved. Revalidate these files and remote pins immediately before any update.
 
 The rehearsal proved: exact parent retained, all 16 retained result blobs
 identical, original failure bytes preserved, and exactly the intended paths
@@ -76,3 +77,10 @@ A forced ref update cannot remove already downloaded clones, forks, cached
 commit views, hidden service refs, or copied evidence. No claim of universal
 erasure is possible. After approval and the leased update, re-query refs,
 verify the new tree and request host-side cache handling separately if needed.
+
+Supplemental reachability audit: all **11 advertised refs** were traversed with
+lazy blob fetching disabled. The 198 raw files correspond to **173 distinct
+Git blobs**; only the named 047 results branch reaches any of those blobs.
+This checks blob reachability even without direct descent from the source commit.
+The audit is preserved beside the durable private evidence. Hidden/unadvertised
+service refs and copies remain outside what this check can establish.

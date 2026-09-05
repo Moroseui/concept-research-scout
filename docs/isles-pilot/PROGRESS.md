@@ -64,3 +64,42 @@ Fable review attempt was rejected by automatic approval review because sending
 repository source/diffs to the external service lacked explicit export approval.
 No Fable call executed. A bounded no-patient-data review request is pending with
 the operator; independent implementation continues. No new API billing used.
+
+## Milestone 3 and prediction preparation
+
+Campaign authority and P001 specification fixed at ece94ea, before real execution.
+Decision is explicitly attributed to Codex/GPT-6 Astra, not approved by human.
+Campaign/spec drift, fabricated human attribution and same-family review are
+rejected by tests. P001 preflight selected exactly 198 members for the frozen 99
+cases, opened zero patient payloads and selected no reserved case. No real metric
+has been computed. Cross-family review is pending the explicit CLI export decision.
+
+## Prediction/MCP/efficiency implementation checks
+
+P001 synthetic 99-case end-to-end execution passes; an identical rerun uses all
+99 checkpoints without loading image arrays, and tampered checkpoint metrics
+are refused. These are generated fixtures, not scientific results. The real
+preflight selected the authorized cohort without opening payloads.
+
+Official Colab MCP b9ab3899e0f1fa493390b1fd6d54aa2e464ecdf1, package 1.0.1,
+started and completed an MCP initialize/list-tools handshake outside restricted
+localhost permissions. Only the browser-connection tool is exposed before
+connection. Actual Codex dynamic tool refresh, Colab execution and result
+retrieval remain unverified and require operator browser/authentication.
+
+Efficiency review read 158 receipt records; 96 contain duration measurements,
+2 explicitly report errors, 62 lack exit status, and one identical prompt/stage
+repeat is observed. Four evidence-bound proposals are written, none applied.
+Human intervention time and comparable usage/cost data remain unavailable.
+
+Final implementation validation before notebook packaging: 226 tests passed.
+Global record-result now requires a contract-bound explicit publication policy
+for every new import; old frozen bundles remain unchanged. The new requirement
+has regression coverage through actual synthetic import transactions.
+
+Cleanup originals are now also durably preserved, owner-only, at
+/home/partho/concept-research-scout-v4/isles-pilot-private-evidence/ (outside this
+checkout). The copied Git bundle passed verification. All 11 advertised refs
+were checked for reachability of the 173 distinct raw blobs represented by the
+198 staged files: only the named 047 results branch reaches them. The cleanup
+operation/pins did not change. No remote rewrite or deletion has executed.
