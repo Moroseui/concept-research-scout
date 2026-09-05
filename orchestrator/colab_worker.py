@@ -95,9 +95,8 @@ def invoke_handoff_worker(destination, timeout=300, remote=False):
                   "patient data, GPU, provisioning, shell tools or credentials. Insert the packet notebook "
                   "cells exactly, read back source without exposing other outputs, and compare exact source "
                   "strings. Execute acquisition, then write, then separately retrieval with run_code_cell. "
-                  "Stop on errors. Append a separately identified read-only transport cell: import json; "
-                  "print(subprocess.check_output([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), "
-                  "'retrieve'], text=True), end=''). Never repeat write to obtain retrieval. Check returned "
+                  "Stop on errors. Append packet.receipt.transport_cell.source exactly as the separately "
+                  "identified read-only transport cell. Never repeat write to obtain retrieval. Check returned "
                   "text and SHA against the packet. Return status SYNTHETIC_REMOTE_VERIFIED only after all "
                   "three pinned executions and separate transport retrieval succeed. Return task, "
                   "receipt_sha256 (the input receipt hash), notebook_sha256, returned_sha256. Record no "
@@ -119,17 +118,21 @@ def invoke_handoff_worker(destination, timeout=300, remote=False):
         command += ["--allowedTools", "mcp__colab-worker__*"]
     # Raw CLI response is private even for synthetic tasks; publish only parsed fixed fields.
     start = time.monotonic()
+    launch_failure = None
     with (destination / "stdout.json").open("xb") as out, (destination / "stderr.log").open("xb") as err:
         os.chmod(out.name, 0o600); os.chmod(err.name, 0o600)
         try:
             run = subprocess.run(command, input=prompt.encode(), stdout=out, stderr=err,
                                  cwd=destination, timeout=timeout)
             code = run.returncode
-        except (subprocess.TimeoutExpired, OSError):
-            code = None
+        except subprocess.TimeoutExpired:
+            code = None; launch_failure = "WORKER_TIMEOUT"
+        except OSError:
+            code = None; launch_failure = "WORKER_LAUNCH_FAILED"
     meta = {"task": packet["task"], "returncode": code, "wall_seconds": time.monotonic()-start,
             "remote_replay": remote, "review_approval": False, "status": "WORKER_FAILED",
-            "usage": None, "reported_cost_usd": None, "human_intervention_minutes": None}
+            "usage": None, "reported_cost_usd": None, "human_intervention_minutes": None,
+            "failure_category": launch_failure}
     try:
         events = [json.loads(line) for line in (destination / "stdout.json").read_text().splitlines() if line.strip()]
         if any(not isinstance(e, dict) for e in events): raise ValueError("non-object worker event")
@@ -156,11 +159,14 @@ def invoke_handoff_worker(destination, timeout=300, remote=False):
                 raise ValueError("remote worker blocked; no success claimed")
         if result != expected or "claude-fable-5" not in response.get("modelUsage", {}):
             raise ValueError("worker result or model mismatch")
-        if remote: meta["protocol_verification"] = verify_synthetic_protocol(events)
+        if remote:
+            meta["failure_category"] = "REMOTE_PROTOCOL_REJECTED"
+            meta["protocol_verification"] = verify_synthetic_protocol(events)
+        meta["failure_category"] = None
         meta.update(status="REMOTE_SYNTHETIC_VALIDATED" if remote else "WORKER_HANDOFF_VALIDATED", result=result, model="claude-fable-5",
                     usage=response.get("usage"), reported_cost_usd=response.get("total_cost_usd"))
-    except (ValueError, KeyError, TypeError, AttributeError):
-        pass  # Detailed raw evidence stays private; no echoed model text on failures.
+    except (ValueError, KeyError, TypeError, AttributeError, IndexError):
+        if meta["failure_category"] is None: meta["failure_category"] = "WORKER_RESPONSE_REJECTED"  # Detailed raw evidence stays private; no echoed model text on failures.
     write_private(destination / "validated_status.json", json.dumps(meta, indent=2))
     return meta
 
@@ -177,8 +183,13 @@ def verify_synthetic_protocol(events):
                     calls.append(block)
             if event.get("type") == "user" and block.get("type") == "tool_result" and block.get("tool_use_id") in {c["id"] for c in calls}:
                 if block.get("is_error"): raise ValueError("MCP error in synthetic attempt")
-                if isinstance(block.get("content"), str):
-                    results[block["tool_use_id"]] = json.loads(block["content"])
+                content = block.get("content")
+                if isinstance(content, list):
+                    if any(not isinstance(b, dict) or b.get("type") != "text" for b in content):
+                        raise ValueError("unexpected tool-result block shape")
+                    content = "".join(b["text"] for b in content)
+                if not isinstance(content, str): raise ValueError("unexpected tool-result shape")
+                results[block["tool_use_id"]] = json.loads(content)
     connected = [c for c in calls if c["name"].endswith("__open_colab_browser_connection")]
     if len(connected) != 1 or results[connected[0]["id"]] != {"result": True}:
         raise ValueError("missing actual browser connection")
@@ -192,6 +203,12 @@ def verify_synthetic_protocol(events):
     runs = [c for c in calls if c["name"].endswith("__run_code_cell")]
     if len(runs) != 4 or [c["input"]["cellId"] for c in runs[:3]] != [c["id"] for c in cells[1:]]:
         raise ValueError("acquisition, write and separate retrieval sequence differs")
+    readback_index = max(i for i,c in enumerate(calls) if c["name"].endswith("__get_cells"))
+    if calls.index(runs[0]) <= readback_index:
+        raise ValueError("execution preceded source readback")
+    pinned_ids = {c["id"] for c in cells}
+    if any(c["name"].endswith(("__update_cell", "__delete_cell", "__move_cell")) and c["input"].get("cellId") in pinned_ids for c in calls[readback_index+1:]):
+        raise ValueError("pinned cell mutated after readback")
     outputs = [results[c["id"]]["outputs"] for c in runs]
     if any(o.get("output_type") == "error" for group in outputs for o in group):
         raise ValueError("remote cell failed")
@@ -199,11 +216,15 @@ def verify_synthetic_protocol(events):
         if not any("returncode=0" in "".join(o.get("data", {}).get("text/plain", [])) for o in group):
             raise ValueError("pinned subprocess did not return success")
     streams = "".join("".join(o.get("text", [])) for o in outputs[3] if o.get("output_type") == "stream")
+    if not streams.strip(): raise ValueError("missing transport stream")
     returned = json.loads(streams.splitlines()[0])
     if returned != {"retrieved_text": EXPECTED, "sha256": digest(EXPECTED.encode())}:
         raise ValueError("actual retrieved bytes/hash mismatch")
     supplements = [c for c in calls if c["name"].endswith("__add_code_cell") and results[c["id"]].get("newCellId") == runs[3]["input"]["cellId"]]
     if len(supplements) != 1: raise ValueError("transport cell provenance missing")
+    expected_transport = json.loads(git_bytes(RECEIPT_PIN, RECEIPT_PATH))["transport_cell"]["source"]
+    if supplements[0]["input"]["code"].strip() != expected_transport.strip():
+        raise ValueError("transport code differs from the read-only pinned supplement")
     return {"status": "ACTUAL_SYNTHETIC_TOOL_EXCHANGES_VERIFIED", "pinned_execution_calls": 3,
             "separate_transport_retrieval_calls": 1, "returned_text": EXPECTED,
             "returned_sha256": returned["sha256"],
