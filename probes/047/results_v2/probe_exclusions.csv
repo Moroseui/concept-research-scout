@@ -1,0 +1,5 @@
+case_id,record_type,reason
+sub-stroke0142,excluded_archive_lesion,duplicate/noncanonical lesion bookkeeping (take-13 record)
+sub-stroke0043,excluded_case,source_corrupt_member
+sub-stroke0180,file_anomaly_baseline,data_rows:2
+sub-stroke0180,file_anomaly_outcome,data_rows:2

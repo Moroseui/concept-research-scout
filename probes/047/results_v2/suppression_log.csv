@@ -1,0 +1,8 @@
+construct,level,group,item,action,reason
+mrs_3month,1,head,level_count,displayed as <3,frozen small-cell rule: level contains 1 or 2 head cases
+mrs_3month,4,head,level_count,displayed as <3,frozen small-cell rule: level contains 1 or 2 head cases
+mrs_3month,6,head,level_count,displayed as <3,frozen small-cell rule: level contains 1 or 2 head cases
+mrs_3month,1,head,cum_count,displayed as suppressed,adjacent difference would reveal the suppressed level count
+mrs_3month,4,head,cum_count,displayed as suppressed,adjacent difference would reveal the suppressed level count
+mrs_3month,6,head,cum_count,displayed as suppressed,adjacent difference would reveal the suppressed level count
+_rule,,,documented_residual,disclosure,"cell-level suppression only: published margins and mandated contrasts can arithmetically bound a suppressed cell; recorded for the interpret stage, no unfrozen suppression added"

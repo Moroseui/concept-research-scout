@@ -1,0 +1,14 @@
+{
+  "created_before_any_outcome_derived_table_opened": true,
+  "created_before_any_phenotype_byte_staged": true,
+  "head_cases": 10,
+  "phenotype_files_staged_at_freeze_time": 0,
+  "post_freeze_verification": "the loaded contribution and support tables must agree exactly with this manifest (rank->id mapping, case set, in_head flags) or the run fails as an invalidating input-identity failure",
+  "reserved_cases": 49,
+  "reserved_cases_accessed": 0,
+  "rest_cases": 89,
+  "seed": 20260902,
+  "smoke": false,
+  "split_manifest_sha256": "ac8ac11afedd47b26f9f7c0d026c7599892d738d56cf38b433bde1617134e674",
+  "stratum_source": "authoring-time declaration FROZEN_ANALYZED_IDS_BY_RANK (head = ranks 1..10), bound from the pinned contribution table at code review; never recomputed and never read from a file in this process"
+}
