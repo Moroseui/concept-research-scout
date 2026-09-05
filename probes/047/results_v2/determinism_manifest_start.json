@@ -1,0 +1,42 @@
+{
+  "archive_manifest.csv": {
+    "path": "/content/scout-repo/probes/023/results/results_v2/archive_manifest.csv",
+    "sha256": "14b0fe422bc4053d73b5909a7e6c06fa42dc59c04454f3dc0d24f69411020c0a"
+  },
+  "census_summary.json": {
+    "path": "/content/scout-repo/probes/046/results/results_v3/census_summary.json",
+    "sha256": "189c0ce846cffd2eff76e896bfa35156893568d5ee64868caae0b8609bd4c761"
+  },
+  "exclusions.csv": {
+    "path": "/content/scout-repo/probes/023/results/results_v2/exclusions.csv",
+    "sha256": "58e9f8ab7cea38e6717319a26ea6a590dc7d1ad0d42d6b30dca648b0509a5a71"
+  },
+  "per_case_contributions.csv": {
+    "path": "/content/scout-repo/probes/046/results/results_v3/per_case_contributions.csv",
+    "sha256": "aba525122f796618761e6c4d29b664647760e8dff4987932c3ff6ab5456faae9"
+  },
+  "per_case_support.csv": {
+    "path": "/content/scout-repo/probes/047/results/results_v2/per_case_support.csv",
+    "sha256": "994a4f8885c28e4e967f290521a9122e15ba56b28942e1bb5facff7f4afaa827"
+  },
+  "phase_a_resolved_config.json": {
+    "path": "/content/scout-repo/probes/047/results/results_v2/resolved_config.json",
+    "sha256": "a7c90667db19f53bd45ccd984fcce64d8cb05b22e165a14690ed4f2100dea142"
+  },
+  "proposed_variable_freeze.json": {
+    "path": "/content/scout-repo/probes/047/results/results_v2/proposed_variable_freeze.json",
+    "sha256": "87c5e11be45dccdf6fc32fd26a9591de0436697e51aacf64610236fbedf5d4e3"
+  },
+  "row_counts": {
+    "census_variables": 7,
+    "per_case_contributions.csv": 99,
+    "per_case_support.csv": 99,
+    "staged_members": 198
+  },
+  "seed": 20260902,
+  "smoke": false,
+  "staged_members": {
+    "aggregate_sha256": "565390229a96b8f5de6240c0ed7eb513bbac37054ee6c8a47440f2bed535166c",
+    "count": 198
+  }
+}

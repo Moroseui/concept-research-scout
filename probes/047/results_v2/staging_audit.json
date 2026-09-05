@@ -1,0 +1,2010 @@
+{
+  "archive": {
+    "bytes": 99014629647,
+    "md5": "36ae28b9a17f7340b8bbef62b595cb57",
+    "md5_pin_matched": true,
+    "mode": "real",
+    "path": "/content/work/train.7z",
+    "zenodo_record_declared": "16813698"
+  },
+  "d3_restriction": "only the 198 phenotype members of the 99 analyzed census cases were staged; no imaging member, no reserved case, no excluded case",
+  "extraction": {
+    "binary": "/usr/bin/7z",
+    "returncode": 0,
+    "seconds": 116.348,
+    "version": "7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21"
+  },
+  "member_manifest": {
+    "git_blob_pin": "edb9a8c2ceb90df214cdd7ec167f0b1e8c858bb2",
+    "path": "/content/scout-repo/probes/023/results/results_v2/archive_manifest.csv",
+    "sha256": "14b0fe422bc4053d73b5909a7e6c06fa42dc59c04454f3dc0d24f69411020c0a"
+  },
+  "payload_spellings_seen": [
+    "sub-stroke"
+  ],
+  "resolved_member_count": 198,
+  "staged_member_verification": [
+    {
+      "case_id": "sub-stroke0002",
+      "crc_expected": "9b3657ca",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0002/ses-01/sub-stroke0002_ses-01_demographic_baseline.csv",
+      "sha256": "73750b92b9e40093cec3d9c2b35815fe2dd843a385fe4a02c2b17f657d897863",
+      "size_actual": 456,
+      "size_expected": 456
+    },
+    {
+      "case_id": "sub-stroke0002",
+      "crc_expected": "33ecab6a",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0002/ses-02/sub-stroke0002_ses-02_outcome.csv",
+      "sha256": "2494c362bc4003556ad278058cc4499fb14cb31ec433c1c369bc269294a429be",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0005",
+      "crc_expected": "b1a6a053",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0005/ses-01/sub-stroke0005_ses-01_demographic_baseline.csv",
+      "sha256": "05d9bbb3b9ed620a5b2640d8ccdc9d6c2cf46661142d681abbb7cda8ddfa66ae",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0005",
+      "crc_expected": "e1f378d8",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0005/ses-02/sub-stroke0005_ses-02_outcome.csv",
+      "sha256": "ba1804c7a29c76faf05c2ed5736090b535d071c98b8b60c53284ad3a560e21a3",
+      "size_actual": 100,
+      "size_expected": 100
+    },
+    {
+      "case_id": "sub-stroke0006",
+      "crc_expected": "dd25628c",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0006/ses-01/sub-stroke0006_ses-01_demographic_baseline.csv",
+      "sha256": "0c5cfd16714b1b3ced7278f283b20faf5b518b59c2040dfa9b9e47a7c30a67fc",
+      "size_actual": 457,
+      "size_expected": 457
+    },
+    {
+      "case_id": "sub-stroke0006",
+      "crc_expected": "a14c5634",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0006/ses-02/sub-stroke0006_ses-02_outcome.csv",
+      "sha256": "73e482f7d715188c98d304a2622d9be532b43d081f2d159f519d2ba4fed32bc1",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0008",
+      "crc_expected": "4b46cacb",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0008/ses-01/sub-stroke0008_ses-01_demographic_baseline.csv",
+      "sha256": "7397b8716e903b99468c3d9f7ab493cb1de1629b630bd61d204777437ab39ba0",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0008",
+      "crc_expected": "ed7b1697",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0008/ses-02/sub-stroke0008_ses-02_outcome.csv",
+      "sha256": "1ad34d2349d9be69f95355244161794fe4ffea40f2ebf4c0b483e8582ac945c5",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0009",
+      "crc_expected": "7396cfb1",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0009/ses-01/sub-stroke0009_ses-01_demographic_baseline.csv",
+      "sha256": "5657cbd098b6678059cb6e1e9bf95947f4df2d26e512807fdf19f4f1d2ef2514",
+      "size_actual": 448,
+      "size_expected": 448
+    },
+    {
+      "case_id": "sub-stroke0009",
+      "crc_expected": "e88ec1a4",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0009/ses-02/sub-stroke0009_ses-02_outcome.csv",
+      "sha256": "7de4cf2093f82738045b3ae78523c36af202afce1d7a8917109a1d9efc9cc6d7",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0012",
+      "crc_expected": "497d205a",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0012/ses-01/sub-stroke0012_ses-01_demographic_baseline.csv",
+      "sha256": "2d2a37e46d407ed8bdffab2b9e3f3447e8431ce4f5317205b8f9061947ade7b9",
+      "size_actual": 447,
+      "size_expected": 447
+    },
+    {
+      "case_id": "sub-stroke0012",
+      "crc_expected": "09441a9c",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0012/ses-02/sub-stroke0012_ses-02_outcome.csv",
+      "sha256": "631ad06375e5bbb86f4d19f7226ffb4639e8afefdeb55a920a102cf438d064ee",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0013",
+      "crc_expected": "fc16cc7d",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0013/ses-01/sub-stroke0013_ses-01_demographic_baseline.csv",
+      "sha256": "312439a935c724e79e1902c687d2c83a61df11a29d73bc9f106bd94a9cf51c22",
+      "size_actual": 458,
+      "size_expected": 458
+    },
+    {
+      "case_id": "sub-stroke0013",
+      "crc_expected": "7f81b587",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0013/ses-02/sub-stroke0013_ses-02_outcome.csv",
+      "sha256": "d4ebdcbe602a212e38d8659a633cb9122f3ddbefd8d7e29bb24ec33fa71ca34c",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0014",
+      "crc_expected": "aea522a3",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0014/ses-01/sub-stroke0014_ses-01_demographic_baseline.csv",
+      "sha256": "afb5a04bca0e9a303cbc0c923f2e9b321dba6007104321cede3124eefb7261d5",
+      "size_actual": 458,
+      "size_expected": 458
+    },
+    {
+      "case_id": "sub-stroke0014",
+      "crc_expected": "7a122896",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0014/ses-02/sub-stroke0014_ses-02_outcome.csv",
+      "sha256": "25738307baa76573693536699a9fe14dc2d835c76905ca76b7c2f258cdb93b63",
+      "size_actual": 100,
+      "size_expected": 100
+    },
+    {
+      "case_id": "sub-stroke0015",
+      "crc_expected": "832d07f6",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0015/ses-01/sub-stroke0015_ses-01_demographic_baseline.csv",
+      "sha256": "67c29eeb61cdac558eb6b9dda780b0462e63517e60d5484f07d78ef8a9475820",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0015",
+      "crc_expected": "d6a9a7b7",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0015/ses-02/sub-stroke0015_ses-02_outcome.csv",
+      "sha256": "ffc02f5984046e58f78dfad4d12bc3bf064bec2783c501e1897bffb3e34fc022",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0019",
+      "crc_expected": "52014b91",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0019/ses-01/sub-stroke0019_ses-01_demographic_baseline.csv",
+      "sha256": "55a45e0e4495538ddc889f0dd51e5382b4628a50b712ea192119ec69da3c2f35",
+      "size_actual": 406,
+      "size_expected": 406
+    },
+    {
+      "case_id": "sub-stroke0019",
+      "crc_expected": "4439c80c",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0019/ses-02/sub-stroke0019_ses-02_outcome.csv",
+      "sha256": "242bd1128eda3bf66672d9045623a1414d6f3297003668f1b77d05bcff1ec8da",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0021",
+      "crc_expected": "64fd6831",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0021/ses-01/sub-stroke0021_ses-01_demographic_baseline.csv",
+      "sha256": "9a757081e3b447290956952fa32ba9c54f54100ae1ad457c13348d574e384930",
+      "size_actual": 386,
+      "size_expected": 386
+    },
+    {
+      "case_id": "sub-stroke0021",
+      "crc_expected": "1aa969b1",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0021/ses-02/sub-stroke0021_ses-02_outcome.csv",
+      "sha256": "013dca0edad82974ae062f5e5281ed52b3e644ad911e157bbcae26d7a76b66c4",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0022",
+      "crc_expected": "82f7fbf4",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0022/ses-01/sub-stroke0022_ses-01_demographic_baseline.csv",
+      "sha256": "ce2f0fce42dcb9688d5e3615bffd5f9fa86d2a4ae396ebacd17d6735e207f274",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0022",
+      "crc_expected": "d13e97c9",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0022/ses-02/sub-stroke0022_ses-02_outcome.csv",
+      "sha256": "ebaa35dff62143324142bcee741ecdaee7b3c7aee630a6e6a2d29c94457caf18",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0025",
+      "crc_expected": "a1c98253",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0025/ses-01/sub-stroke0025_ses-01_demographic_baseline.csv",
+      "sha256": "4d3069d0c9863d355412c785633699f3a5ac2ef9597d43e58971f5eac61d6afa",
+      "size_actual": 453,
+      "size_expected": 453
+    },
+    {
+      "case_id": "sub-stroke0025",
+      "crc_expected": "478dce45",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0025/ses-02/sub-stroke0025_ses-02_outcome.csv",
+      "sha256": "564eef387c772c2e32ba2f625a4f24f8dbef349569195a8ae8be2c70f2123492",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0026",
+      "crc_expected": "283daef4",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0026/ses-01/sub-stroke0026_ses-01_demographic_baseline.csv",
+      "sha256": "3387687d847e568d78cbe6c58a6bc29159e0b5dddd3c2aa06b03f8e175bc68d4",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0026",
+      "crc_expected": "b83df886",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0026/ses-02/sub-stroke0026_ses-02_outcome.csv",
+      "sha256": "5ad8f5ecb412f1c333a67be2247ca7dbf13440ad5c11f5b9de2e5dea395033ea",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0028",
+      "crc_expected": "55dd504c",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0028/ses-01/sub-stroke0028_ses-01_demographic_baseline.csv",
+      "sha256": "db784114ac11da7ada2c354789aa0987bbf88bdab08d55aaa6cffe7d1c3e5d69",
+      "size_actual": 435,
+      "size_expected": 435
+    },
+    {
+      "case_id": "sub-stroke0028",
+      "crc_expected": "05c181e0",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0028/ses-02/sub-stroke0028_ses-02_outcome.csv",
+      "sha256": "9a375097e3e86e81fd76fb21e91b066fd65dbeb7bcb3b678b2d29589baedc769",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0030",
+      "crc_expected": "70267545",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0030/ses-01/sub-stroke0030_ses-01_demographic_baseline.csv",
+      "sha256": "9c3332bdc4fe21628b0eb992ac7761e5488e8e4c37cb96a6ea2a67eb198b7940",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0030",
+      "crc_expected": "b14321a9",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0030/ses-02/sub-stroke0030_ses-02_outcome.csv",
+      "sha256": "9b36a1c55d16e0bb0a39d4ff93cfb4bf64845d54a4f1233023d9138bb86e1df7",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0033",
+      "crc_expected": "cd4e5ede",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0033/ses-01/sub-stroke0033_ses-01_demographic_baseline.csv",
+      "sha256": "565b0107385cf2f28027ed339a8b7c504703e760161bfde2b314d435064bf438",
+      "size_actual": 407,
+      "size_expected": 407
+    },
+    {
+      "case_id": "sub-stroke0033",
+      "crc_expected": "e85e4d0a",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0033/ses-02/sub-stroke0033_ses-02_outcome.csv",
+      "sha256": "0de5efcabb05071c25df907f3b536b25e305f19fb78db98b4f328ec008f9b00c",
+      "size_actual": 93,
+      "size_expected": 93
+    },
+    {
+      "case_id": "sub-stroke0036",
+      "crc_expected": "1ac782b1",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0036/ses-01/sub-stroke0036_ses-01_demographic_baseline.csv",
+      "sha256": "67eca2d99179cb6043610065a70f0bc2eba5dfe20f7761307a9081252f957e0c",
+      "size_actual": 402,
+      "size_expected": 402
+    },
+    {
+      "case_id": "sub-stroke0036",
+      "crc_expected": "ca74e93d",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0036/ses-02/sub-stroke0036_ses-02_outcome.csv",
+      "sha256": "d29a2e596f5f9c9cb7537da88ac1407ce000a5287c8ae921b3adc9ad9cbc4bf6",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0037",
+      "crc_expected": "4f9a1673",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0037/ses-01/sub-stroke0037_ses-01_demographic_baseline.csv",
+      "sha256": "113ca0085d8a5f8b596ab52ea5d3bd39392597dbb8cdb86cb013b020983a17fa",
+      "size_actual": 386,
+      "size_expected": 386
+    },
+    {
+      "case_id": "sub-stroke0037",
+      "crc_expected": "e7f123e5",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0037/ses-02/sub-stroke0037_ses-02_outcome.csv",
+      "sha256": "68cc600dffc6f46dce5077f7e16fc93c55ab999c9191b43f3f279bf270dd4e06",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0038",
+      "crc_expected": "646b2af0",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0038/ses-01/sub-stroke0038_ses-01_demographic_baseline.csv",
+      "sha256": "a61eee25f83dbcc0bb4e59774e79080904d0fa0de554c187e63878cba39f301e",
+      "size_actual": 457,
+      "size_expected": 457
+    },
+    {
+      "case_id": "sub-stroke0038",
+      "crc_expected": "50844e25",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0038/ses-02/sub-stroke0038_ses-02_outcome.csv",
+      "sha256": "024b5a1d68686d363908daeaf825386cfe1c78abdf0df10b81395d28fc3439c2",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0045",
+      "crc_expected": "288cb888",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0045/ses-01/sub-stroke0045_ses-01_demographic_baseline.csv",
+      "sha256": "20347e504d240da51c8c8bb3a175fcfed515571a441b6ae6af9b134d10c38d63",
+      "size_actual": 455,
+      "size_expected": 455
+    },
+    {
+      "case_id": "sub-stroke0045",
+      "crc_expected": "04243924",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0045/ses-02/sub-stroke0045_ses-02_outcome.csv",
+      "sha256": "4709aeb70de8bcd849dbe4c30e61a5d8beef790fe32b955f30b7a74febc5c354",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0047",
+      "crc_expected": "e931b29c",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0047/ses-01/sub-stroke0047_ses-01_demographic_baseline.csv",
+      "sha256": "32879c15a59251cc3d406159cb2c0566fa7cb592e13f2a7a85ad0cd9cb862fd4",
+      "size_actual": 457,
+      "size_expected": 457
+    },
+    {
+      "case_id": "sub-stroke0047",
+      "crc_expected": "e1fb9ca5",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0047/ses-02/sub-stroke0047_ses-02_outcome.csv",
+      "sha256": "714ef64b568a2c8a8f22e6935ecbef7a257c901652583361e0273e0eec84b080",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0048",
+      "crc_expected": "79fa94c5",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0048/ses-01/sub-stroke0048_ses-01_demographic_baseline.csv",
+      "sha256": "da993b68f5cab22dd6c7d6dce6b27c5363e4bd112eda2799fbbc8e055dfe4f32",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0048",
+      "crc_expected": "aa1d2e3d",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0048/ses-02/sub-stroke0048_ses-02_outcome.csv",
+      "sha256": "ae595cddcb18a94d59820fd21127c0104107dd027f8437ef4f74a753f967426e",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0055",
+      "crc_expected": "aafe2414",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0055/ses-01/sub-stroke0055_ses-01_demographic_baseline.csv",
+      "sha256": "61cd67cf35bf74efa4dded890a511778c33e8c9c7628179709cd628da8a93b83",
+      "size_actual": 407,
+      "size_expected": 407
+    },
+    {
+      "case_id": "sub-stroke0055",
+      "crc_expected": "317febfe",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0055/ses-02/sub-stroke0055_ses-02_outcome.csv",
+      "sha256": "45c4d35bfba0f309770a9078777160e77ed16cacc8a541c60991f056fe1f862d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0057",
+      "crc_expected": "c8c7cdee",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0057/ses-01/sub-stroke0057_ses-01_demographic_baseline.csv",
+      "sha256": "09fd4534f3c64b95bb8bd4d1d97fd4e7a1b895cfa26b6b27c9af731c14f112ef",
+      "size_actual": 456,
+      "size_expected": 456
+    },
+    {
+      "case_id": "sub-stroke0057",
+      "crc_expected": "6ef216c0",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0057/ses-02/sub-stroke0057_ses-02_outcome.csv",
+      "sha256": "2bc0b00268f22631d4831fa98dddc893c9ad15d8701333188b9fbbac05f0df20",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0068",
+      "crc_expected": "04bdcc4e",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0068/ses-01/sub-stroke0068_ses-01_demographic_baseline.csv",
+      "sha256": "005ce4c98ce3b33e6367d4061e2e5bc981008f6ed0fd9e708c06c05da8be2009",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0068",
+      "crc_expected": "0a52dadd",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0068/ses-02/sub-stroke0068_ses-02_outcome.csv",
+      "sha256": "a672da6cb72c9b67af5a2334c18f61826f6612e648ff18b5fafd6384d27ccd81",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0070",
+      "crc_expected": "b0db076f",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0070/ses-01/sub-stroke0070_ses-01_demographic_baseline.csv",
+      "sha256": "b88d7144158d921071ff4de3f6e6f10c3e6f961ad18fb5fd2c3d20faf1f8839c",
+      "size_actual": 407,
+      "size_expected": 407
+    },
+    {
+      "case_id": "sub-stroke0070",
+      "crc_expected": "11f83180",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0070/ses-02/sub-stroke0070_ses-02_outcome.csv",
+      "sha256": "a11da465ddcf1077aed3d0568a38925341f750f44921a069ffb3e6e07480e976",
+      "size_actual": 94,
+      "size_expected": 94
+    },
+    {
+      "case_id": "sub-stroke0071",
+      "crc_expected": "7db1ea73",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0071/ses-01/sub-stroke0071_ses-01_demographic_baseline.csv",
+      "sha256": "9e0f7b7b0dbd059e65dff1b36b2697ef0e2d76391d77d0dfb2e1d0b5a3261dd8",
+      "size_actual": 436,
+      "size_expected": 436
+    },
+    {
+      "case_id": "sub-stroke0071",
+      "crc_expected": "99639773",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0071/ses-02/sub-stroke0071_ses-02_outcome.csv",
+      "sha256": "a6ff1c2e7a4a63bcc8a3b02e4ff0f8185f7a5c94a386a3bb8ff057d4251014a6",
+      "size_actual": 98,
+      "size_expected": 98
+    },
+    {
+      "case_id": "sub-stroke0074",
+      "crc_expected": "13050cd3",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0074/ses-01/sub-stroke0074_ses-01_demographic_baseline.csv",
+      "sha256": "c92a7ae17cd0b2bfbcd6549077a02bfca81a7670c06ae0013212cb4b3718c073",
+      "size_actual": 416,
+      "size_expected": 416
+    },
+    {
+      "case_id": "sub-stroke0074",
+      "crc_expected": "a71fdbcd",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0074/ses-02/sub-stroke0074_ses-02_outcome.csv",
+      "sha256": "6e52b34a090af8b62c0544b4e85459357c1104a842cfd10357f33b02229b6231",
+      "size_actual": 93,
+      "size_expected": 93
+    },
+    {
+      "case_id": "sub-stroke0075",
+      "crc_expected": "a7a09581",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0075/ses-01/sub-stroke0075_ses-01_demographic_baseline.csv",
+      "sha256": "15644e809c38bce316100247a97cecf946a85707661e4f9fe2eae5772bf42f86",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0075",
+      "crc_expected": "ca4904e1",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0075/ses-02/sub-stroke0075_ses-02_outcome.csv",
+      "sha256": "d0ad5c1571e1c1cf068624cbc7fbcb3128791b18638c72e3d0c0e13007638532",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0077",
+      "crc_expected": "8b582aa2",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0077/ses-01/sub-stroke0077_ses-01_demographic_baseline.csv",
+      "sha256": "1a2a61ee8d99cde1c856ad64aa71f9bd3a15d1a1d6d05a99868e1d9bbeab9f5d",
+      "size_actual": 402,
+      "size_expected": 402
+    },
+    {
+      "case_id": "sub-stroke0077",
+      "crc_expected": "e00d4391",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0077/ses-02/sub-stroke0077_ses-02_outcome.csv",
+      "sha256": "d6822ef44cf111c751b780fe8e604bba51dda66504acc056e8f7424d098d34a1",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0078",
+      "crc_expected": "797a2df6",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0078/ses-01/sub-stroke0078_ses-01_demographic_baseline.csv",
+      "sha256": "50e02067b585e00b295f02bd5db5fc679af50b3c4c1ce5eb847483a1fb25b9e4",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0078",
+      "crc_expected": "62c2bfe2",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0078/ses-02/sub-stroke0078_ses-02_outcome.csv",
+      "sha256": "05f0a713601842affe36d9cf8edcbe10c90307f3f2fd7deefa7b5b629e6bbf95",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0079",
+      "crc_expected": "147170cf",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0079/ses-01/sub-stroke0079_ses-01_demographic_baseline.csv",
+      "sha256": "a257fe5a9331615313b7e9a6f7b7ae2e350ac211d5ef5d9f71bfe065064b649e",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0079",
+      "crc_expected": "ec255cb7",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0079/ses-02/sub-stroke0079_ses-02_outcome.csv",
+      "sha256": "db67406ccb4c19647edebca906c2f0695507fff0f512451a894ee54686771b68",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0080",
+      "crc_expected": "3c92862a",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0080/ses-01/sub-stroke0080_ses-01_demographic_baseline.csv",
+      "sha256": "96397f80bb3e07f54283edc24a60d187161feffbb8177d233951f09f806e9908",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0080",
+      "crc_expected": "ebeba977",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0080/ses-02/sub-stroke0080_ses-02_outcome.csv",
+      "sha256": "d55d92dbe96b36c114c7be6e208fbb15bb069bc8e9b23d907d581fdf6fd3a944",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0081",
+      "crc_expected": "9753ef9c",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0081/ses-01/sub-stroke0081_ses-01_demographic_baseline.csv",
+      "sha256": "9a26846ff81c7f2ef8faa827dba7d2dcea77b26a519011c24421314c45c5677d",
+      "size_actual": 448,
+      "size_expected": 448
+    },
+    {
+      "case_id": "sub-stroke0081",
+      "crc_expected": "2c61f959",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0081/ses-02/sub-stroke0081_ses-02_outcome.csv",
+      "sha256": "f64a092c157d5e165284dc37a37eab5954790a8a1ebd84047a0a531c3d6e8ba8",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0082",
+      "crc_expected": "5416afde",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0082/ses-01/sub-stroke0082_ses-01_demographic_baseline.csv",
+      "sha256": "ed651c00922375fedce4b0c989a936ced83c39f0c3ffce04fd5120b1c92ebc93",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0082",
+      "crc_expected": "4406ba14",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0082/ses-02/sub-stroke0082_ses-02_outcome.csv",
+      "sha256": "b1bd6dd4a3223072d415ef428cb4c73caa29c3cb5db9f527c8a6abc19a7e0348",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0083",
+      "crc_expected": "1bd9ea6a",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0083/ses-01/sub-stroke0083_ses-01_demographic_baseline.csv",
+      "sha256": "7a9574e6cc2e078690455d510a8d60263fcd065087cf7f0d8e21b482e2286624",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0083",
+      "crc_expected": "462d32eb",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0083/ses-02/sub-stroke0083_ses-02_outcome.csv",
+      "sha256": "10bd9d734b04c29a36ca741d1742126cb8e0c68a7529879ffd88b015fbd21d61",
+      "size_actual": 98,
+      "size_expected": 98
+    },
+    {
+      "case_id": "sub-stroke0084",
+      "crc_expected": "dd55fa49",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0084/ses-01/sub-stroke0084_ses-01_demographic_baseline.csv",
+      "sha256": "ab1cd8743c0bc570bb070b4b5894048c7067a9685d614f199644bcdbca6e2987",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0084",
+      "crc_expected": "aaf58bf7",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0084/ses-02/sub-stroke0084_ses-02_outcome.csv",
+      "sha256": "297136583e97241ecb21c81967dab46ef1ff5ea4b2a2ca62a28e7bd24545e093",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0086",
+      "crc_expected": "0a68a384",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0086/ses-01/sub-stroke0086_ses-01_demographic_baseline.csv",
+      "sha256": "acd8141f3d71106f93fd46830c9719ff2038a2dda981438beba2644d46e5c84c",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0086",
+      "crc_expected": "c40ae38a",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0086/ses-02/sub-stroke0086_ses-02_outcome.csv",
+      "sha256": "d5024bf0d6d06ce273edd6c7de456b36b12f9a923e896d59fe065bf060ce4bbc",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0088",
+      "crc_expected": "05f940b6",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0088/ses-01/sub-stroke0088_ses-01_demographic_baseline.csv",
+      "sha256": "331efbe13c7005d76a6ed2f420c1ff5acff48b83a0fdc74055e9d3fb63b1e79a",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0088",
+      "crc_expected": "06861fb9",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0088/ses-02/sub-stroke0088_ses-02_outcome.csv",
+      "sha256": "6455e34c1ad0b5a6eb323a41c956f3c3e1595565f91c1475ffd45d34f4bf8158",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0089",
+      "crc_expected": "17243afc",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0089/ses-01/sub-stroke0089_ses-01_demographic_baseline.csv",
+      "sha256": "bbe68d435107d243a07a2834b414952119b6121195053632df64b5a959da12f3",
+      "size_actual": 388,
+      "size_expected": 388
+    },
+    {
+      "case_id": "sub-stroke0089",
+      "crc_expected": "8392d0bd",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0089/ses-02/sub-stroke0089_ses-02_outcome.csv",
+      "sha256": "e39c0d0cea6c57c9f9ab7fb196c88e6f6f8f4a5a57bbdd5d737e1b1e156b167d",
+      "size_actual": 98,
+      "size_expected": 98
+    },
+    {
+      "case_id": "sub-stroke0090",
+      "crc_expected": "d5152835",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0090/ses-01/sub-stroke0090_ses-01_demographic_baseline.csv",
+      "sha256": "6e79beb26d28a1585e2ad230c3d33cb4dd28f1e4b49ef107728ee9d07c039b50",
+      "size_actual": 398,
+      "size_expected": 398
+    },
+    {
+      "case_id": "sub-stroke0090",
+      "crc_expected": "c565243e",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0090/ses-02/sub-stroke0090_ses-02_outcome.csv",
+      "sha256": "07018271a0862d0d9afc6e92df10b813f6e07d2b61911b5ac406929bf91077f9",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0092",
+      "crc_expected": "05dcc284",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0092/ses-01/sub-stroke0092_ses-01_demographic_baseline.csv",
+      "sha256": "20a30f31774daee71f3e4e85f3ff45d3dc20c2f3f4c56303f7da649435119abe",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0092",
+      "crc_expected": "69a37f2b",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0092/ses-02/sub-stroke0092_ses-02_outcome.csv",
+      "sha256": "3e31e816c448d181084606a66d49f168f89a2cb43bad152c1ecc603f238c3858",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0093",
+      "crc_expected": "b044e341",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0093/ses-01/sub-stroke0093_ses-01_demographic_baseline.csv",
+      "sha256": "f1d9f1fc61e36e947f2ae5839e46299febac97532ac3e48f989c44b4d57061f8",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0093",
+      "crc_expected": "71d48c2b",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0093/ses-02/sub-stroke0093_ses-02_outcome.csv",
+      "sha256": "3275f261d543e46ef87edda28f73cb02f618abea50c060b1084da1f66bfb2a6a",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0094",
+      "crc_expected": "178b55b0",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0094/ses-01/sub-stroke0094_ses-01_demographic_baseline.csv",
+      "sha256": "c1aa8793c6f89268a67ec22f54a5c6aa40edf4b9c5913755e8bdb11dc00a14d4",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0094",
+      "crc_expected": "c61eb9d3",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0094/ses-02/sub-stroke0094_ses-02_outcome.csv",
+      "sha256": "70f60876d28baa2c3ec850170f27b930286df6fcbb44ec27184864d8306ea5cf",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0095",
+      "crc_expected": "b5d97efa",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0095/ses-01/sub-stroke0095_ses-01_demographic_baseline.csv",
+      "sha256": "21c56fde3ff4bd682caae718196a3da1121480e1ba58fa91aebef921996b0d96",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0095",
+      "crc_expected": "d7f2ece5",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0095/ses-02/sub-stroke0095_ses-02_outcome.csv",
+      "sha256": "c88acb49b951da4bc8c6f3a37475d709cd70d6598c972574a431bf18a2f618de",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0096",
+      "crc_expected": "3f0cbf8f",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0096/ses-01/sub-stroke0096_ses-01_demographic_baseline.csv",
+      "sha256": "100fc3a7f77ecacf6d130dfaddbdd6c5cad92e84e2abcdc167bb5b172a837c93",
+      "size_actual": 454,
+      "size_expected": 454
+    },
+    {
+      "case_id": "sub-stroke0096",
+      "crc_expected": "04cdba6d",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0096/ses-02/sub-stroke0096_ses-02_outcome.csv",
+      "sha256": "6432525364c9b6a8f88c2cc0d92e990a990904e61ab4e97b6400ccd7120fc72f",
+      "size_actual": 98,
+      "size_expected": 98
+    },
+    {
+      "case_id": "sub-stroke0098",
+      "crc_expected": "fe9ed748",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0098/ses-01/sub-stroke0098_ses-01_demographic_baseline.csv",
+      "sha256": "30d9a338d6b9f71bbf8e518a27665d6a0807753f5a0ed1e45f015e6e21ab9ce9",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0098",
+      "crc_expected": "6db27435",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0098/ses-02/sub-stroke0098_ses-02_outcome.csv",
+      "sha256": "7c057ea0c2bfb37c044d1df63f3991bc847bb0f8d975d5834c3dc48a73035670",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0100",
+      "crc_expected": "2af480cd",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0100/ses-01/sub-stroke0100_ses-01_demographic_baseline.csv",
+      "sha256": "4218858206570483bbe5e793a4dd14ff55db369ae5851bbe190e7cd0e3ffeb76",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0100",
+      "crc_expected": "f897c52e",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0100/ses-02/sub-stroke0100_ses-02_outcome.csv",
+      "sha256": "6d17b42249aeb808e457377d4bf021605353f61944ee75cd8e36c9a8b7296d30",
+      "size_actual": 96,
+      "size_expected": 96
+    },
+    {
+      "case_id": "sub-stroke0102",
+      "crc_expected": "95bcd4d9",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0102/ses-01/sub-stroke0102_ses-01_demographic_baseline.csv",
+      "sha256": "637fdf782436df7d9f72825c6254272875cbe30a97ca2ad8aaeb8caf4841313b",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0102",
+      "crc_expected": "eebd1a3e",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0102/ses-02/sub-stroke0102_ses-02_outcome.csv",
+      "sha256": "679be11b16105e4256d5adc22c52644b9f278fefe4a4ada250708abf865eabbb",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0104",
+      "crc_expected": "ba5d0c9f",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0104/ses-01/sub-stroke0104_ses-01_demographic_baseline.csv",
+      "sha256": "9fc3fd7f0b6b299121e5d7e129db213d81fab7caf81027197edf5dd56d27c7a7",
+      "size_actual": 402,
+      "size_expected": 402
+    },
+    {
+      "case_id": "sub-stroke0104",
+      "crc_expected": "0f4fa824",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0104/ses-02/sub-stroke0104_ses-02_outcome.csv",
+      "sha256": "5080d09d6d38fa8b873a022f465273b20eac8bf3f08148c6337a5968e5d8dacd",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0105",
+      "crc_expected": "61e8b82a",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0105/ses-01/sub-stroke0105_ses-01_demographic_baseline.csv",
+      "sha256": "8e4f98c00e6a1715c93af651c77aa6ca7e5a417a2f025c8d0e157ac929e4cf47",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0105",
+      "crc_expected": "50844e25",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0105/ses-02/sub-stroke0105_ses-02_outcome.csv",
+      "sha256": "024b5a1d68686d363908daeaf825386cfe1c78abdf0df10b81395d28fc3439c2",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0106",
+      "crc_expected": "572c88ca",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0106/ses-01/sub-stroke0106_ses-01_demographic_baseline.csv",
+      "sha256": "db977842ed96e5e4ac44b500586747cf70a9377983a41ff1e1ff44d1eec9da3e",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0106",
+      "crc_expected": "c7107887",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0106/ses-02/sub-stroke0106_ses-02_outcome.csv",
+      "sha256": "f5a241747b32e85a492dc40a7164fb213c647b64bea523729183facd584121c6",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0107",
+      "crc_expected": "826a16c9",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0107/ses-01/sub-stroke0107_ses-01_demographic_baseline.csv",
+      "sha256": "574ad4a106871fdbb35c927b362759be9131d511a31df9a2c3b3da33bec7dc12",
+      "size_actual": 449,
+      "size_expected": 449
+    },
+    {
+      "case_id": "sub-stroke0107",
+      "crc_expected": "5b7de508",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0107/ses-02/sub-stroke0107_ses-02_outcome.csv",
+      "sha256": "47931f958d0be116dfa2e37aade452363bd05d83cb4437d6b201591b8fa6c0b6",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0109",
+      "crc_expected": "8833f519",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0109/ses-01/sub-stroke0109_ses-01_demographic_baseline.csv",
+      "sha256": "56e4a6b3440ea71fa332ebbcfd67ff44b395ba947eebb6bfd57c9bd4c3f57970",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0109",
+      "crc_expected": "fa95f15d",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0109/ses-02/sub-stroke0109_ses-02_outcome.csv",
+      "sha256": "f8006d2f37479b049d8f2c7491be84e5e5d5139898971ddee78cf2d28d43a940",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0111",
+      "crc_expected": "00d4f7b4",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0111/ses-01/sub-stroke0111_ses-01_demographic_baseline.csv",
+      "sha256": "39cb6d43c29559a0fda453cf6e33659316494efccff273eb485a0b65f2433256",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0111",
+      "crc_expected": "a761b66e",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0111/ses-02/sub-stroke0111_ses-02_outcome.csv",
+      "sha256": "47578ead33894fd84880e0c097fd9590f60b439313cc1458989808f6d7dea990",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0112",
+      "crc_expected": "584b483c",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0112/ses-01/sub-stroke0112_ses-01_demographic_baseline.csv",
+      "sha256": "33e4fddbca9e18ac0651a19b0862337d9b560172ad0ac4702028931079587b71",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0112",
+      "crc_expected": "52273325",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0112/ses-02/sub-stroke0112_ses-02_outcome.csv",
+      "sha256": "fbaf8c49044e37b8444be3f10d04d350c4472793b3552e64549ebc33cc67f5a8",
+      "size_actual": 98,
+      "size_expected": 98
+    },
+    {
+      "case_id": "sub-stroke0113",
+      "crc_expected": "711ad317",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0113/ses-01/sub-stroke0113_ses-01_demographic_baseline.csv",
+      "sha256": "2207f2ca5388d35acc4f5c49a66d8e9262f30f89f4cdcf88d9b8f9cff907efbd",
+      "size_actual": 453,
+      "size_expected": 453
+    },
+    {
+      "case_id": "sub-stroke0113",
+      "crc_expected": "bbd89918",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0113/ses-02/sub-stroke0113_ses-02_outcome.csv",
+      "sha256": "48e399077281ce1409973aa9ca16438367b75f75ddf8b04a519f4f1b4eb26631",
+      "size_actual": 98,
+      "size_expected": 98
+    },
+    {
+      "case_id": "sub-stroke0114",
+      "crc_expected": "1c284930",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0114/ses-01/sub-stroke0114_ses-01_demographic_baseline.csv",
+      "sha256": "50d2a0818673f1be551620a2f7c0a18f6dd364ed616ae9d5e2683d23bde6a02e",
+      "size_actual": 418,
+      "size_expected": 418
+    },
+    {
+      "case_id": "sub-stroke0114",
+      "crc_expected": "caf19a31",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0114/ses-02/sub-stroke0114_ses-02_outcome.csv",
+      "sha256": "c9519fd4b486c2cfe46c690a4170e4c0e8aa37ad89c4cbe6c67389f5c2355bdd",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0117",
+      "crc_expected": "8eba812f",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0117/ses-01/sub-stroke0117_ses-01_demographic_baseline.csv",
+      "sha256": "6fa86cbdceb84c5c4a94e5a31c7467d6d3094630c40a4a781076842178b53d8f",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0117",
+      "crc_expected": "3528b1f0",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0117/ses-02/sub-stroke0117_ses-02_outcome.csv",
+      "sha256": "59c35ae99cfca56168834d1959ccbb9b6d5135e807e047af1fb33b9b79a17128",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0119",
+      "crc_expected": "ee05a3bf",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0119/ses-01/sub-stroke0119_ses-01_demographic_baseline.csv",
+      "sha256": "bff20ff00f35c6f694b3f67e7a4bfad97fca6575c9cfa6b0a9861a26a5d5ebb7",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0119",
+      "crc_expected": "4b3c0264",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0119/ses-02/sub-stroke0119_ses-02_outcome.csv",
+      "sha256": "bdca96c5a348e09c951ca145eaeadb963d5ee14736ad689be0db1024a0941226",
+      "size_actual": 98,
+      "size_expected": 98
+    },
+    {
+      "case_id": "sub-stroke0133",
+      "crc_expected": "1885f032",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0133/ses-01/sub-stroke0133_ses-01_demographic_baseline.csv",
+      "sha256": "f67179d06a1114964e104db64679fc7f82116d564cb70960e0491a493bff6225",
+      "size_actual": 395,
+      "size_expected": 395
+    },
+    {
+      "case_id": "sub-stroke0133",
+      "crc_expected": "cd8a550d",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0133/ses-02/sub-stroke0133_ses-02_outcome.csv",
+      "sha256": "5aa53f4174befa61769de3030fe35345eeb0a072971c5299520cf3d1ade9b23f",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0134",
+      "crc_expected": "6a4f11bd",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0134/ses-01/sub-stroke0134_ses-01_demographic_baseline.csv",
+      "sha256": "156ceb72abb1d67c6a259f5b7109b63415096b8100e806b50bea62329d393f11",
+      "size_actual": 388,
+      "size_expected": 388
+    },
+    {
+      "case_id": "sub-stroke0134",
+      "crc_expected": "e45fc3e4",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0134/ses-02/sub-stroke0134_ses-02_outcome.csv",
+      "sha256": "cc46866041282619efb5c5d9037d1714ddb32fd9f80201c016e7519ebcc75517",
+      "size_actual": 94,
+      "size_expected": 94
+    },
+    {
+      "case_id": "sub-stroke0136",
+      "crc_expected": "21147f78",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0136/ses-01/sub-stroke0136_ses-01_demographic_baseline.csv",
+      "sha256": "975f73000e9c0384bd5c39d93461f4c8a81ca4faacd107aeaeda94e932a17996",
+      "size_actual": 395,
+      "size_expected": 395
+    },
+    {
+      "case_id": "sub-stroke0136",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0136/ses-02/sub-stroke0136_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0137",
+      "crc_expected": "f7d895cb",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0137/ses-01/sub-stroke0137_ses-01_demographic_baseline.csv",
+      "sha256": "0985b10b35bbb329e9459ec0c7b62b865e464613e3490aede3ac805bfacdd499",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0137",
+      "crc_expected": "d491644c",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0137/ses-02/sub-stroke0137_ses-02_outcome.csv",
+      "sha256": "371ee92910c2ff1fa3d8b55cd079b45388f3a6e1ac9a5372bcfa62c5165f00f9",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0138",
+      "crc_expected": "52d91a71",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0138/ses-01/sub-stroke0138_ses-01_demographic_baseline.csv",
+      "sha256": "e69b8beec54bb062a72565bdb24902e2e8a1a211875a549637476eeed71ae4f3",
+      "size_actual": 397,
+      "size_expected": 397
+    },
+    {
+      "case_id": "sub-stroke0138",
+      "crc_expected": "a9e69009",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0138/ses-02/sub-stroke0138_ses-02_outcome.csv",
+      "sha256": "7ff6b1e0bd7a6c0e549bca7b7c259dce5cf80c409a4ff00519c67422fad4ad9e",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0139",
+      "crc_expected": "4245555f",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0139/ses-01/sub-stroke0139_ses-01_demographic_baseline.csv",
+      "sha256": "bcb505e630b96bf8a678125a173b348044bad2a83750e6677cdc360cd344e7d2",
+      "size_actual": 392,
+      "size_expected": 392
+    },
+    {
+      "case_id": "sub-stroke0139",
+      "crc_expected": "a9e69009",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0139/ses-02/sub-stroke0139_ses-02_outcome.csv",
+      "sha256": "7ff6b1e0bd7a6c0e549bca7b7c259dce5cf80c409a4ff00519c67422fad4ad9e",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0140",
+      "crc_expected": "fc8d01fd",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0140/ses-01/sub-stroke0140_ses-01_demographic_baseline.csv",
+      "sha256": "b374b8796ec5e70863e34940d04424b21ae671157a16b57a036133dd7af60554",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0140",
+      "crc_expected": "d491644c",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0140/ses-02/sub-stroke0140_ses-02_outcome.csv",
+      "sha256": "371ee92910c2ff1fa3d8b55cd079b45388f3a6e1ac9a5372bcfa62c5165f00f9",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0141",
+      "crc_expected": "cb1317af",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0141/ses-01/sub-stroke0141_ses-01_demographic_baseline.csv",
+      "sha256": "5709653efc089a51d5db783728f51af8ee0c4af51bae23ce2875412b9926417c",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0141",
+      "crc_expected": "e45fc3e4",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0141/ses-02/sub-stroke0141_ses-02_outcome.csv",
+      "sha256": "cc46866041282619efb5c5d9037d1714ddb32fd9f80201c016e7519ebcc75517",
+      "size_actual": 94,
+      "size_expected": 94
+    },
+    {
+      "case_id": "sub-stroke0142",
+      "crc_expected": "5d67dfba",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0142/ses-01/sub-stroke0142_ses-01_demographic_baseline.csv",
+      "sha256": "16bf5307431db5f9ca92a6ac5c1743212c98958c3260ab9f51ae576dd228a39c",
+      "size_actual": 395,
+      "size_expected": 395
+    },
+    {
+      "case_id": "sub-stroke0142",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0142/ses-02/sub-stroke0142_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0145",
+      "crc_expected": "a2b5b067",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0145/ses-01/sub-stroke0145_ses-01_demographic_baseline.csv",
+      "sha256": "a28ec429097d2450c04dd296fc6d37aacd5b515f60ccc8d7d92b7b82fba88a44",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0145",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0145/ses-02/sub-stroke0145_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0147",
+      "crc_expected": "d44ed3bd",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0147/ses-01/sub-stroke0147_ses-01_demographic_baseline.csv",
+      "sha256": "574caf31c133d118961890743a74d8dd5a084757ac58a2961ea49f9272d63a63",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0147",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0147/ses-02/sub-stroke0147_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0148",
+      "crc_expected": "1e42254b",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0148/ses-01/sub-stroke0148_ses-01_demographic_baseline.csv",
+      "sha256": "1206741deac9fe6be28852c8de9cdf37763b478f2191efd339a296ac1a41b44f",
+      "size_actual": 397,
+      "size_expected": 397
+    },
+    {
+      "case_id": "sub-stroke0148",
+      "crc_expected": "a9e69009",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0148/ses-02/sub-stroke0148_ses-02_outcome.csv",
+      "sha256": "7ff6b1e0bd7a6c0e549bca7b7c259dce5cf80c409a4ff00519c67422fad4ad9e",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0151",
+      "crc_expected": "6726a684",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0151/ses-01/sub-stroke0151_ses-01_demographic_baseline.csv",
+      "sha256": "ea347b68aa6a47f71fef690b42cefe0acf3c3a41da54f354f43801d426370508",
+      "size_actual": 392,
+      "size_expected": 392
+    },
+    {
+      "case_id": "sub-stroke0151",
+      "crc_expected": "a9e69009",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0151/ses-02/sub-stroke0151_ses-02_outcome.csv",
+      "sha256": "7ff6b1e0bd7a6c0e549bca7b7c259dce5cf80c409a4ff00519c67422fad4ad9e",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0153",
+      "crc_expected": "acb94df1",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0153/ses-01/sub-stroke0153_ses-01_demographic_baseline.csv",
+      "sha256": "3becd237d4082e96a64b0397c88c372896d036f874d7c350d3e9b222e8b7c854",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0153",
+      "crc_expected": "e45fc3e4",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0153/ses-02/sub-stroke0153_ses-02_outcome.csv",
+      "sha256": "cc46866041282619efb5c5d9037d1714ddb32fd9f80201c016e7519ebcc75517",
+      "size_actual": 94,
+      "size_expected": 94
+    },
+    {
+      "case_id": "sub-stroke0154",
+      "crc_expected": "b291d191",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0154/ses-01/sub-stroke0154_ses-01_demographic_baseline.csv",
+      "sha256": "685154c3c90dc5a2800b2bae73e87c942d2d6fab1492a705efe316d5bbed7038",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0154",
+      "crc_expected": "e6a706ce",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0154/ses-02/sub-stroke0154_ses-02_outcome.csv",
+      "sha256": "73f96f5b7fef93183b48189c9f6913e86e692450c3a704860b5fdb1c92837b28",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0155",
+      "crc_expected": "9675575d",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0155/ses-01/sub-stroke0155_ses-01_demographic_baseline.csv",
+      "sha256": "5644199ea7995c8a7f726be051ba1fa33eca3a794f2beaa8dd36aaa43a7f7323",
+      "size_actual": 385,
+      "size_expected": 385
+    },
+    {
+      "case_id": "sub-stroke0155",
+      "crc_expected": "e45fc3e4",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0155/ses-02/sub-stroke0155_ses-02_outcome.csv",
+      "sha256": "cc46866041282619efb5c5d9037d1714ddb32fd9f80201c016e7519ebcc75517",
+      "size_actual": 94,
+      "size_expected": 94
+    },
+    {
+      "case_id": "sub-stroke0156",
+      "crc_expected": "df616c29",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0156/ses-01/sub-stroke0156_ses-01_demographic_baseline.csv",
+      "sha256": "f7dbee20a053cfe6ac7375c6ac0704bf8e6b051c631d9abf85141c862c3d36f2",
+      "size_actual": 397,
+      "size_expected": 397
+    },
+    {
+      "case_id": "sub-stroke0156",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0156/ses-02/sub-stroke0156_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0157",
+      "crc_expected": "ef162a67",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0157/ses-01/sub-stroke0157_ses-01_demographic_baseline.csv",
+      "sha256": "8faf11f8d3ddb2dd5996ade48f1725ae42b2c930c61243d45a7a31b718de0ae9",
+      "size_actual": 397,
+      "size_expected": 397
+    },
+    {
+      "case_id": "sub-stroke0157",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0157/ses-02/sub-stroke0157_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0161",
+      "crc_expected": "76f80472",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0161/ses-01/sub-stroke0161_ses-01_demographic_baseline.csv",
+      "sha256": "0208790998b78ba1281dead2d7423b40faf3f96362911278886751739da39f4e",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0161",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0161/ses-02/sub-stroke0161_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0163",
+      "crc_expected": "61f38228",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0163/ses-01/sub-stroke0163_ses-01_demographic_baseline.csv",
+      "sha256": "be2eece296d561ac013a520bc8f744bcaaeb9c0d1c4900af0fcabec5486e0811",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0163",
+      "crc_expected": "a9e69009",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0163/ses-02/sub-stroke0163_ses-02_outcome.csv",
+      "sha256": "7ff6b1e0bd7a6c0e549bca7b7c259dce5cf80c409a4ff00519c67422fad4ad9e",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0164",
+      "crc_expected": "86398591",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0164/ses-01/sub-stroke0164_ses-01_demographic_baseline.csv",
+      "sha256": "5a77bf97205ed3e65b372dfddc6f350d53a3e916117b4c91025516e789da2842",
+      "size_actual": 392,
+      "size_expected": 392
+    },
+    {
+      "case_id": "sub-stroke0164",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0164/ses-02/sub-stroke0164_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0166",
+      "crc_expected": "8d6b5c51",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0166/ses-01/sub-stroke0166_ses-01_demographic_baseline.csv",
+      "sha256": "bb64fd354871f82a7bd024f8cebaa8934f11230f2e2b24d9f9f34486df456ff4",
+      "size_actual": 397,
+      "size_expected": 397
+    },
+    {
+      "case_id": "sub-stroke0166",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0166/ses-02/sub-stroke0166_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0167",
+      "crc_expected": "d18957a8",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0167/ses-01/sub-stroke0167_ses-01_demographic_baseline.csv",
+      "sha256": "0fa6a8055bb98c02ba924730794c244cf60b9fe268a7e2065662776de4d91635",
+      "size_actual": 392,
+      "size_expected": 392
+    },
+    {
+      "case_id": "sub-stroke0167",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0167/ses-02/sub-stroke0167_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0169",
+      "crc_expected": "c2768fd6",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0169/ses-01/sub-stroke0169_ses-01_demographic_baseline.csv",
+      "sha256": "006c0b396e81d6fc9f26fc28bc9aae12bfc32b36e94d5f680040a98d98a34f87",
+      "size_actual": 391,
+      "size_expected": 391
+    },
+    {
+      "case_id": "sub-stroke0169",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0169/ses-02/sub-stroke0169_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0170",
+      "crc_expected": "7c368c61",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0170/ses-01/sub-stroke0170_ses-01_demographic_baseline.csv",
+      "sha256": "42a0c3f2706aabd2ae03e9ec37f945149e7de15e08cedb4855323abfb01620be",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0170",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0170/ses-02/sub-stroke0170_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0174",
+      "crc_expected": "2f79c3cf",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0174/ses-01/sub-stroke0174_ses-01_demographic_baseline.csv",
+      "sha256": "d1b8d61ae2317fd535b23de635d0d6ed6884d302478f47cdb08d46b24bcbca1c",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0174",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0174/ses-02/sub-stroke0174_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0175",
+      "crc_expected": "b794ec36",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0175/ses-01/sub-stroke0175_ses-01_demographic_baseline.csv",
+      "sha256": "78aafc33a85964cfd9b4aab54abc63db2e1a56c0eb50476457575c3c291e617d",
+      "size_actual": 397,
+      "size_expected": 397
+    },
+    {
+      "case_id": "sub-stroke0175",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0175/ses-02/sub-stroke0175_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0179",
+      "crc_expected": "73c3f2af",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0179/ses-01/sub-stroke0179_ses-01_demographic_baseline.csv",
+      "sha256": "64b07e64611287bd085c1d8742e5f790b0bbf567d1b2535f3de33d0f988f208c",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0179",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0179/ses-02/sub-stroke0179_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0180",
+      "crc_expected": "1ff2aba5",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0180/ses-01/sub-stroke0180_ses-01_demographic_baseline.csv",
+      "sha256": "a0a173df6345d893df87dbecdd8a602387df85a0809abae41129b9b1dfed1eba",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0180",
+      "crc_expected": "0016c054",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0180/ses-02/sub-stroke0180_ses-02_outcome.csv",
+      "sha256": "276785ba93f9053ffa8a97ed4138afeed1650039742aa3be64fa75dc1cf243f0",
+      "size_actual": 105,
+      "size_expected": 105
+    },
+    {
+      "case_id": "sub-stroke0181",
+      "crc_expected": "987a09d2",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0181/ses-01/sub-stroke0181_ses-01_demographic_baseline.csv",
+      "sha256": "97ac33f2d943b6aeef3858d119746c11aaf61b684a197193d656b26ab088a5d6",
+      "size_actual": 396,
+      "size_expected": 396
+    },
+    {
+      "case_id": "sub-stroke0181",
+      "crc_expected": "a9e69009",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0181/ses-02/sub-stroke0181_ses-02_outcome.csv",
+      "sha256": "7ff6b1e0bd7a6c0e549bca7b7c259dce5cf80c409a4ff00519c67422fad4ad9e",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0182",
+      "crc_expected": "4fb55c98",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0182/ses-01/sub-stroke0182_ses-01_demographic_baseline.csv",
+      "sha256": "09a1602f2a31343dad6109f7cdd940fa56a3342856d74914bea6171ad3264bf1",
+      "size_actual": 398,
+      "size_expected": 398
+    },
+    {
+      "case_id": "sub-stroke0182",
+      "crc_expected": "b0fda148",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0182/ses-02/sub-stroke0182_ses-02_outcome.csv",
+      "sha256": "04e5cb87bf7cfc647e85a73082cdd25fb21d193c0057c3612925d1a1f153106d",
+      "size_actual": 95,
+      "size_expected": 95
+    },
+    {
+      "case_id": "sub-stroke0183",
+      "crc_expected": "7c7ec603",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0183/ses-01/sub-stroke0183_ses-01_demographic_baseline.csv",
+      "sha256": "a01944c4ac6dc0b265215e9ec3086fcc58cd81e34978e90b0600de59efa7db7b",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0183",
+      "crc_expected": "15f90574",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0183/ses-02/sub-stroke0183_ses-02_outcome.csv",
+      "sha256": "607fc5ce5e4f8fdbcfb0aafe87edc04731bb27f2f672e6d0f40b109a1f1bb8ff",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0184",
+      "crc_expected": "2ca87519",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0184/ses-01/sub-stroke0184_ses-01_demographic_baseline.csv",
+      "sha256": "09433dbd982a341b891030705d072687eba506810d8e459455af215dba75ce19",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0184",
+      "crc_expected": "a5e1f90e",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0184/ses-02/sub-stroke0184_ses-02_outcome.csv",
+      "sha256": "7d43919c6bfcbdf8c8c416de1330aba1fec2b0b43cd6bd13aa077a3c93416956",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0185",
+      "crc_expected": "5b49f61b",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0185/ses-01/sub-stroke0185_ses-01_demographic_baseline.csv",
+      "sha256": "87eb153f0a581a7af0336045a3b86217cd60ca4cf625f46bdf27a17de87d2dda",
+      "size_actual": 453,
+      "size_expected": 453
+    },
+    {
+      "case_id": "sub-stroke0185",
+      "crc_expected": "44c7831f",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0185/ses-02/sub-stroke0185_ses-02_outcome.csv",
+      "sha256": "c54c31303aa1900edc942d0dfa603b6ec1f080a9796f25a6b88f02ad05bd1678",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0186",
+      "crc_expected": "a6d9cdd1",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0186/ses-01/sub-stroke0186_ses-01_demographic_baseline.csv",
+      "sha256": "aa2564f1044359ba514740bde9a3c071b68bf569a426640b6b98c05148ed4904",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0186",
+      "crc_expected": "42299638",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0186/ses-02/sub-stroke0186_ses-02_outcome.csv",
+      "sha256": "75d852c4eccf739e9e48ee116ff23fe645354131908206c5508d5ac308eb4f1e",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0187",
+      "crc_expected": "12196e22",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0187/ses-01/sub-stroke0187_ses-01_demographic_baseline.csv",
+      "sha256": "20763a4fcebf909f4e4d9d68fd21b0363f7a67c0007948840d927ead2e2f0484",
+      "size_actual": 451,
+      "size_expected": 451
+    },
+    {
+      "case_id": "sub-stroke0187",
+      "crc_expected": "cae2ac71",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0187/ses-02/sub-stroke0187_ses-02_outcome.csv",
+      "sha256": "1af51f8c260e67ca9c92f959bc69541cd2cf1162ce62fb31335c6f4b107a6656",
+      "size_actual": 99,
+      "size_expected": 99
+    },
+    {
+      "case_id": "sub-stroke0188",
+      "crc_expected": "0df11fa4",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0188/ses-01/sub-stroke0188_ses-01_demographic_baseline.csv",
+      "sha256": "e029db7481c59765161db13c9d0a28de6fe6b45e44c31e0d5a0f2c410447ec1e",
+      "size_actual": 450,
+      "size_expected": 450
+    },
+    {
+      "case_id": "sub-stroke0188",
+      "crc_expected": "f1231801",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0188/ses-02/sub-stroke0188_ses-02_outcome.csv",
+      "sha256": "57a7a3dfc6a53593d72ab3abfdbbe8ea0aa4798d8422180b21339d1258627138",
+      "size_actual": 97,
+      "size_expected": 97
+    },
+    {
+      "case_id": "sub-stroke0189",
+      "crc_expected": "774c181b",
+      "crc_ok": true,
+      "family": "baseline",
+      "path": "train/phenotype/sub-stroke0189/ses-01/sub-stroke0189_ses-01_demographic_baseline.csv",
+      "sha256": "9b52b8e3fde427cf84468b1b089835758d8102571e5de96b2aaa54242bfe4372",
+      "size_actual": 452,
+      "size_expected": 452
+    },
+    {
+      "case_id": "sub-stroke0189",
+      "crc_expected": "8f8391a8",
+      "crc_ok": true,
+      "family": "outcome",
+      "path": "train/phenotype/sub-stroke0189/ses-02/sub-stroke0189_ses-02_outcome.csv",
+      "sha256": "b0dd8763c685cfae13b6c482671679402189f5d9c2e7ed6961576bdbeee05131",
+      "size_actual": 97,
+      "size_expected": 97
+    }
+  ],
+  "staging_seconds": 414.541,
+  "zenodo_record_pin": "16813698"
+}

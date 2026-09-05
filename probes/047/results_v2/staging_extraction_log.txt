@@ -1,0 +1,29 @@
+command: /usr/bin/7z x /content/work/train.7z -o/content/drive/MyDrive/concept-research-scout-results/047_B_dc586665d0be/staged -y ... [198 members]
+returncode: 0
+
+--- stdout ---
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,12 CPUs Intel(R) Xeon(R) CPU @ 2.20GHz (50657),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 99014629647 bytes (93 GiB)
+
+Extracting archive: /content/work/train.7z
+--
+Path = /content/work/train.7z
+Type = 7z
+Physical Size = 99014629647
+Headers Size = 40336
+Method = LZMA2:24
+Solid = +
+Blocks = 26
+
+Everything is Ok
+
+Files: 325
+Size:       1814437479
+Compressed: 99014629647
+
+--- stderr ---
+

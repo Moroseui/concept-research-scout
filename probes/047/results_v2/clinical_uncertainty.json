@@ -1,0 +1,241 @@
+{
+  "constructs": {
+    "age": {
+      "contrasts": {
+        "diff_medians": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 0.0,
+            "min": -20.0,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": -10.0,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -16.5,
+            "q975": 7.0,
+            "seed": 20260902
+          }
+        },
+        "smd_pooled": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": -0.12203282592284205,
+            "min": -0.6286444819318063,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": -0.3900614964643507,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -0.8988348325130312,
+            "q975": 0.7381170965064373,
+            "seed": 20260902
+          }
+        }
+      },
+      "resolved": true
+    },
+    "mrs_3month": {
+      "contrasts": {
+        "diff_medians": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 3.0,
+            "min": 0.0,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": 1.5,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -2.0,
+            "q975": 3.0,
+            "seed": 20260902
+          }
+        },
+        "rank_biserial": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 0.17857142857142858,
+            "min": -0.043233082706766915,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": 0.07072368421052631,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -0.4074074074074074,
+            "q975": 0.40135135135135136,
+            "seed": 20260902
+          }
+        }
+      },
+      "resolved": true
+    },
+    "mtici_postinterventional": {
+      "note": "fully missing; no contrast computed",
+      "resolved": false
+    },
+    "nihss_24h": {
+      "contrasts": {
+        "diff_medians": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 4.5,
+            "min": 0.5,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": 2.5,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -4.0,
+            "q975": 8.5,
+            "seed": 20260902
+          }
+        },
+        "smd_pooled": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 0.6181930855943613,
+            "min": -0.23576709614557012,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": 0.2520174644073414,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 9987,
+            "n_relabelings": 10000,
+            "q025": -0.8063804062619278,
+            "q975": 0.9762010200325038,
+            "seed": 20260902
+          }
+        }
+      },
+      "resolved": true
+    },
+    "nihss_admission": {
+      "contrasts": {
+        "diff_medians": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 3.0,
+            "min": -2.0,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": 0.5,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -5.5,
+            "q975": 7.5,
+            "seed": 20260902
+          }
+        },
+        "smd_pooled": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 0.2534154783142154,
+            "min": -0.11913162656214478,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": 0.08453438263941399,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -0.6513499670292303,
+            "q975": 0.6674974791115327,
+            "seed": 20260902
+          }
+        }
+      },
+      "resolved": true
+    },
+    "onset_to_door": {
+      "contrasts": {
+        "diff_medians": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": null,
+            "min": null,
+            "n_defined": 0,
+            "n_undefined": 10
+          },
+          "point": null,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 0,
+            "n_relabelings": 10000,
+            "q025": null,
+            "q975": null,
+            "seed": 20260902
+          }
+        },
+        "smd_pooled": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": null,
+            "min": null,
+            "n_defined": 0,
+            "n_undefined": 10
+          },
+          "point": null,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 0,
+            "n_relabelings": 10000,
+            "q025": null,
+            "q975": null,
+            "seed": 20260902
+          }
+        }
+      },
+      "resolved": true
+    },
+    "sex": {
+      "contrasts": {
+        "diff_prop_F": {
+          "loo": {
+            "label": "deterministic leave-one-head-case-out sensitivity range",
+            "max": 0.07279693486590039,
+            "min": -0.038314176245210774,
+            "n_defined": 10,
+            "n_undefined": 0
+          },
+          "point": 0.017241379310344807,
+          "relabeling": {
+            "label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+            "n_defined": 10000,
+            "n_relabelings": 10000,
+            "q025": -0.31724137931034485,
+            "q975": 0.3517241379310345,
+            "seed": 20260902
+          }
+        }
+      },
+      "resolved": true
+    }
+  },
+  "draw_rule": "random.Random(seed).sample(range(n_cases), head_size) x n_relabelings over case ids sorted ascending; one shared draw set for every contrast",
+  "exchangeability_label": "hypothetical exchangeability reference; not a confidence interval; not sampling inference",
+  "n_relabelings": 10000,
+  "quantile_method": "linear interpolation between order statistics at p*(n-1)",
+  "seed": 20260902
+}

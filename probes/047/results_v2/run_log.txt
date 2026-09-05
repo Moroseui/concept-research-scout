@@ -1,0 +1,120 @@
+[authority] Idea 047 Phase B (contract v3); seed 20260902; smoke=False.
+[authority] Governing contract blob: dc586665d0bece940d1a1f4b3b0572f8c951c2ba.
+[split] Frozen strata (predeclared, before any outcome-derived table access): 10 head / 89 rest (manifest sha256 ac8ac11afedd47b26f9f7c0d026c7599892d738d56cf38b433bde1617134e674); 49 reserved cases untouched.
+[identity] Hashing all frozen inputs and consumed Phase-A artifacts.
+[identity] All pins verified; loaded tables agree exactly with the predeclared split; all 7 frozen Phase-A constants recomputed exactly; bound variable list matches the machine proposal.
+[staging] Resolved 198 members for 99 cases from the frozen manifest (payload spellings seen: ['sub-stroke']).
+[staging] Archive byte count matches pin (99014629647); computing streaming md5 (this reads the full ~99 GB once).
+[staging] md5 progress: 8.6 / 99.0 GB.
+[staging] md5 progress: 17.2 / 99.0 GB.
+[staging] md5 progress: 25.8 / 99.0 GB.
+[staging] md5 progress: 34.4 / 99.0 GB.
+[staging] md5 progress: 42.9 / 99.0 GB.
+[staging] md5 progress: 51.5 / 99.0 GB.
+[staging] md5 progress: 60.1 / 99.0 GB.
+[staging] md5 progress: 68.7 / 99.0 GB.
+[staging] md5 progress: 77.3 / 99.0 GB.
+[staging] md5 progress: 85.9 / 99.0 GB.
+[staging] md5 progress: 94.5 / 99.0 GB.
+[staging] Extracting 198 members with 7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21 (single selective event).
+[staging] 198 staged members verified against the frozen manifest (size + CRC32).
+[staging] Staging complete and receipted in 414.5s; the 15-minute post-staging analysis wall starts now.
+[census] Running the phenotype schema/missingness census (counts only; no clinical value is written).
+[census] Parsed 25/99 cases (headers and row counts only so far).
+[census] Parsed 50/99 cases (headers and row counts only so far).
+[census] Parsed 75/99 cases (headers and row counts only so far).
+[census] Parsed 99/99 cases (headers and row counts only so far).
+[census] mrs_3month: resolved=True head_nonmissing=8 rest_nonmissing=76.
+[census] nihss_24h: resolved=True head_nonmissing=4 rest_nonmissing=54.
+[census] nihss_admission: resolved=True head_nonmissing=10 rest_nonmissing=86.
+[census] age: resolved=True head_nonmissing=6 rest_nonmissing=64.
+[census] sex: resolved=True head_nonmissing=10 rest_nonmissing=87.
+[census] mtici_postinterventional: resolved=False head_nonmissing=0 rest_nonmissing=0.
+[census] onset_to_door: resolved=True head_nonmissing=0 rest_nonmissing=0.
+[measure] Census supports the minimum set; computing the single 10-versus-89 estimation table (10000 frozen relabelings per contrast); variant 1/1.
+[measure] mrs_3month: contrasts ['diff_medians', 'rank_biserial'] computed with both frozen uncertainty displays.
+[measure] nihss_24h: contrasts ['smd_pooled', 'diff_medians'] computed with both frozen uncertainty displays.
+[measure] nihss_admission: contrasts ['smd_pooled', 'diff_medians'] computed with both frozen uncertainty displays.
+[measure] age: contrasts ['smd_pooled', 'diff_medians'] computed with both frozen uncertainty displays.
+[measure] sex: contrasts ['diff_prop_F'] computed with both frozen uncertainty displays.
+[measure] onset_to_door: contrasts ['smd_pooled', 'diff_medians'] computed with both frozen uncertainty displays.
+{
+  "analysis_seconds": 2.661,
+  "analyzed_cases": 99,
+  "census": {
+    "age": {
+      "head_nonmissing": 6,
+      "insufficient_head_coverage": true,
+      "resolved": true,
+      "rest_nonmissing": 64
+    },
+    "mrs_3month": {
+      "head_nonmissing": 8,
+      "insufficient_head_coverage": false,
+      "resolved": true,
+      "rest_nonmissing": 76
+    },
+    "mtici_postinterventional": {
+      "head_nonmissing": 0,
+      "insufficient_head_coverage": true,
+      "resolved": false,
+      "rest_nonmissing": 0
+    },
+    "nihss_24h": {
+      "head_nonmissing": 4,
+      "insufficient_head_coverage": true,
+      "resolved": true,
+      "rest_nonmissing": 54
+    },
+    "nihss_admission": {
+      "head_nonmissing": 10,
+      "insufficient_head_coverage": false,
+      "resolved": true,
+      "rest_nonmissing": 86
+    },
+    "onset_to_door": {
+      "head_nonmissing": 0,
+      "insufficient_head_coverage": true,
+      "resolved": true,
+      "rest_nonmissing": 0
+    },
+    "sex": {
+      "head_nonmissing": 10,
+      "insufficient_head_coverage": false,
+      "resolved": true,
+      "rest_nonmissing": 87
+    }
+  },
+  "center_documented": false,
+  "file_anomalies": 2,
+  "head_size": 10,
+  "idea_id": "idea-047",
+  "minimum_set": {
+    "demographic_usable": true,
+    "severity_usable": true
+  },
+  "phase": "B",
+  "phenotype_files_parsed": 198,
+  "primary_output": "clinical_estimation_table.csv",
+  "reserved_cases_accessed": 0,
+  "residual_disclosure": "cell-level suppression only: published margins and mandated contrasts can arithmetically bound a suppressed cell; see suppression_log.csv",
+  "smoke": false,
+  "staged_members": 198,
+  "staging_seconds": 414.541,
+  "status": "STUDY_COMPLETE",
+  "support_constants_of_record": {
+    "head_abs_contribution_share": 0.5063509495830807,
+    "head_abs_contribution_sum": 0.04367036086720666,
+    "head_support_share": 0.08961200117675944,
+    "head_support_voxels": 2025630,
+    "labels": {
+      "shares": "exact Phase-A arithmetic of record, realized cohort only; no proportionality verdict",
+      "signed_head_net_gap_share": "Share of the NET band-2/3 gap after cancellation across the opposing cases. Reversal accounting only: neither this number nor its difference from the support share may be interpreted as contribution per unit support or as evidence of keystone-like dominance."
+    },
+    "signed_head_net_gap_share": 0.7928912778985707,
+    "total_abs_contribution_sum": 0.08624524334982282,
+    "total_support_voxels": 22604450
+  },
+  "suppressed_cells": 6
+}
+Plain-language template: STUDY_COMPLETE means staging, census, and estimation-table requirements all passed and the single frozen clinical estimation table was emitted -- a successful descriptive result regardless of what it shows. It carries no separation verdict, no clinical-silence or clinical-markedness reading, and no proportionality verdict. Group differences are aggregate estimates with exploratory-labeled uncertainty for these 99 realized cases only; if no separation larger than the displayed exploratory ranges was observed, that is a bounded statement at the achieved precision, never evidence of clinical silence. Next act: record-result, then the interpret stage.
