@@ -262,3 +262,16 @@ The actual notebook acquisition cell then ran locally against GitHub (only its
 opened. REMOTE_SOURCE_VERIFICATION.json preserves that result. This metadata
 update changes no reviewed code, specification or notebook. Main stayed 4f5b6b1
 and the unexecuted cleanup source stayed 940293b6 on remote reinspection.
+
+
+### Colab MCP Windows/WSL diagnostics
+
+At implementation HEAD 0be7ea44f95538a88c53a4d177f85d6ba82c5d2d, configured
+only colab-pilot's Windows BROWSER and WSL variable forwarding. Homepage launch
+was operator-confirmed and Windows-to-WSL IPv4 HTTP retrieval passed. The old
+registered process did not reload its environment; official retry timed out
+and notebook tools remain absent. Both diagnostic receipts preserve failure
+and unexecuted remote stages. No scientific results, patient access or remote
+rewrite. Next operator action: restart/resume Codex to retry the pinned synthetic
+notebook through a fresh registered server. A successful full test is still
+required before any patient MCP workflow.

@@ -61,3 +61,69 @@ retain both cell outputs. For P001, use its separate reviewed notebook and the
 existing Drive/archive. Patient outputs remain private; aggregate return
 validation is handled by the versioned P001 validator. The research workflow
 does not depend on MCP availability.
+
+
+## Registered connection test — 2026-09-05
+
+The server is now registered as `colab-pilot` at the durable executable
+`/home/partho/.local/share/isles-colab-mcp/bin/colab-mcp`. Client 0.153.4;
+colab-mcp 1.0.1, FastMCP/protocol server 2.14.5, MCP SDK 1.29.1; official
+source pin b9ab3899e0f1fa493390b1fd6d54aa2e464ecdf1.
+
+**Complete remote test did not pass.** Google's actual
+open_colab_browser_connection returned false after its 60-second wait. The
+operator reported that no tab opened. Only the connection tool remained
+available; no remote notebook cell was loaded or executed and no retrieval
+occurred. The exact requested notebook was read from Git, not run locally as a
+substitute. COLAB_MCP_TEST_20260905.json records its hash, source pin, expected
+payload/hash and null remote results.
+
+A token-free xdg-open probe in the local execution context returned exit 4 and
+`WSL … UtilBindVsockAnyPort:307: socket failed 1`. The Python browser backend
+is xdg-open, and HTTPS is associated with Firefox under WSL. This supports a
+desktop-handoff failure, but is not the MCP tool's own captured browser stderr.
+There is no evidence that Codex ignored a successful tool-list-change event.
+
+A separate synthetic diagnostic of the installed session.py confirmed that
+its timeout cancels the pending proxy initialization task; a second wait raises
+CancelledError. The production server was not patched. After repairing browser
+handoff, start a fresh registered MCP server session before retrying. No broad
+permission changes, approval bypass, Drive mount, patient execution, GPU request
+or paid provisioning occurred. Connection tokens were not copied into receipts.
+
+
+## Windows browser through WSL — 2026-09-05
+
+The operator confirmed the ordinary Colab homepage opened in Windows. The
+server interpreter also dispatched the homepage using its filtered process
+environment plus the following scoped settings in ~/.codex/config.toml:
+
+```toml
+[mcp_servers.colab-pilot]
+command = "/home/partho/.local/share/isles-colab-mcp/bin/colab-mcp"
+env_vars = ["WSL_INTEROP", "WSL_DISTRO_NAME"]
+
+[mcp_servers.colab-pilot.env]
+BROWSER = "/mnt/c/Windows/explorer.exe %s &"
+```
+
+Python interprets the trailing & as BackgroundBrowser, without a shell wrapper.
+Synchronous Explorer returned 1 without stderr in both normal and MCP-derived
+environments; background dispatch returned true. That return alone does not
+establish a Colab connection. Scoped env_vars forwarding is documented in
+[the official MCP configuration guide](https://developers.openai.com/codex/mcp).
+No ephemeral interoperability socket path is hardcoded.
+
+Windows PowerShell successfully retrieved a token-free HTTP response from a
+WSL IPv4 loopback listener. This verifies that path only, not a browser
+WebSocket handshake. The receipt retains the initial byte-array formatting
+mismatch and its explicit decoding.
+
+The official connection retry timed out awaiting tools/call after 120s. The
+live registered process still lacked BROWSER and WSL_INTEROP: saved settings
+had not reloaded. No notebook tools appeared. The current CLI/tool interface
+provides no server reload command; a fresh Codex session is required before
+testing the final configuration. Its success remains unverified.
+COLAB_MCP_WSL_TEST_20260905.json records these distinct checks. No remote
+acquisition, write or retrieval occurred; the complete test has not passed.
+No approval rejection occurred during the targeted Windows/config operations.
