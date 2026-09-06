@@ -582,3 +582,44 @@ Fable requested changes at 99706ea; completed follow-up APPROVE at
 4e584f5c72f90d0bd786f88c773fe57b46c5a74e covers final CI/retrieval fixes.
 Original failed/review/worker evidence remains private under
 ~/.local/share/isles-colab-mcp/archive-preservation-20260906.
+
+### Archive persistence verified and P001 held (UTC 2026-09-06)
+
+Same archive job completed VERIFIED/FRESH_DRIVE_COPY_VERIFIED. Runtime-local
+/content/isles-p001-input-16813698/train.7z was re-read and matched exactly
+99,014,629,647 bytes and MD5 36ae28b9a17f7340b8bbef62b595cb57 at 00:15:27Z.
+Fresh MyDrive/isles-pilot/archive-preservation-ec3e76e9b91f40ca847b490f9b5f7bfa/
+train.7z matched the same size/MD5 after copy and destination read-back at
+00:34:31Z. Original archive and older wrong-sized staging-16731717 copy remain
+untouched. Reported mounted-filesystem free capacity before copying was
+115,548,561,408 bytes (required with margin: 100,088,371,471).
+Acquisition identity receipt exists and its expected binding matches.
+
+Separate validated poll at 00:42:27Z observed the full-sized destination and no
+remaining matching verification process. This is mounted-Drive close/fsync and
+read-back verification, not independent provider API durability/quota proof.
+Full original job console/receipt remain on Drive and original worker protocols
+remain private locally. ARCHIVE_PRESERVATION_VERIFIED_20260906.json is the
+token-free receipt; the earlier pending receipt remains as historical evidence.
+
+P001 post-preservation metadata: no matching process observed, expected worker,
+output, checkpoint and scientific-console paths absent. The existing coordinator
+remains dispatch/BLOCKED, retries=0, with its ambiguity inbox item OPEN. No P001
+launch, Run All, extraction, patient analysis, or reserved-case inspection occurred.
+Observations are explicitly bounded to the known paths/process patterns.
+
+Two failed polling transports remain FAILED: an initial worker refused missing
+source context; another returned metadata but deleted a known initial blank and
+changed terminal newlines. Review-approved supplementary-cell validation now
+handles only these semantically inert differences, keeps exact write/read-back
+identity and raw source hashes, and rejects substantive mutations. Scientific
+and archive-start cells retain the original strict validator. The on-runtime
+archive script never changed or restarted. Fresh Fable APPROVE at
+91a0a5832b5d05167de23d4e1ecdba999963bcf3 covers final read-only liveness monitoring.
+
+Published code pin 3de5fedb492662951aef29d88462e0ff147678f5 passed GitHub run
+34001952505: 284 tests, 214 orchestration tests, 16 isolation tests, all 47 state
+views and four registries. The earlier incorrect missing-approval diagnosis is
+explicitly corrected; source object retrieval is exact-SHA, shallow and blob-filtered.
+All historical approval/governance/scientific artifacts remain unchanged; only
+three derived view fingerprint pairs were regenerated through the built-in command.
