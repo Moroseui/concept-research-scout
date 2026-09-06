@@ -145,3 +145,18 @@ class CreationTests(unittest.TestCase):
                 bad={**req,field:value}
                 with self.assertRaisesRegex(ValueError,error):self.publish(bad)
         self.assertFalse(self.run_git('ls-remote','origin',self.ref))
+
+class HistoricalEvidenceTests(unittest.TestCase):
+    def test_only_exact_public_prefix_is_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            def git(*args):return subprocess.check_output(['git',*args],cwd=root).decode().strip()
+            git('init','-q');git('config','user.name','Synthetic');git('config','user.email','fixture@local.invalid')
+            p=root/'evidence/decisions.md';p.parent.mkdir()
+            original=('Historical public record '+'sub-stroke'+'0123'+'\n').encode();p.write_bytes(original)
+            git('add','.');git('commit','-qm','already public fixture');base=git('rev-parse','HEAD')
+            with patch.object(pub,'PUBLIC_DECISION_BASELINE',base),patch.object(pub,'PUBLIC_DECISION_SHA256',hashlib.sha256(original).hexdigest()):
+                pub.scan_history_blob(root,base,'evidence/decisions.md',original+b'Sanitized append.\n')
+                for name,data in [('evidence/decisions.md',original+original),('evidence/decisions.md',b'changed '+original),('elsewhere.md',original),('evidence/decisions.md',original+('ghp_'+'A'*32).encode())]:
+                    with self.assertRaises(ValueError):pub.scan_history_blob(root,base,name,data)
+                with self.assertRaises(ValueError):pub.scan('evidence/decisions.md',original)

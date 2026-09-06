@@ -43,6 +43,24 @@ def scan_commit(data):
         raise ValueError('COMMIT_METADATA_REJECTED')
 
 
+# Existing public evidence is preserved byte-for-byte; only this pinned prefix is
+# grandfathered. This is not a general case-data exception or a results route.
+PUBLIC_DECISION_BASELINE = '2cb97cec43a07b3ab908329d38c509215237081f'
+PUBLIC_DECISION_SHA256 = 'dbb96211221407b5e13218a5e8c043afcf178700ee992aebab6479f95001ee7c'
+
+def scan_history_blob(root, before, name, data):
+    try:
+        scan(name,data)
+    except ValueError as error:
+        if str(error)!='CASE_LEVEL_RECORD_REJECTED' or name!='evidence/decisions.md':raise
+        if subprocess.run(['git','merge-base','--is-ancestor',PUBLIC_DECISION_BASELINE,before],cwd=root,capture_output=True).returncode:raise
+        original=git(root,'show',PUBLIC_DECISION_BASELINE+':'+name)
+        if hashlib.sha256(original).hexdigest()!=PUBLIC_DECISION_SHA256 or not data.startswith(original):raise
+        # Run every other check over the original bytes and scan all appended bytes.
+        historical=re.sub(rb'sub[-_]stroke[0-9]+',b'PUBLIC_HISTORICAL_IDENTIFIER',original,flags=re.I)
+        scan(name,historical+data[len(original):])
+
+
 def audit(root, source, before, inventory):
     """Every newly reachable commit/blob, including files deleted before the tip.
 
@@ -70,7 +88,7 @@ must be reviewed by the caller; matching hashes alone are not a privacy review.
             if entry.split()[0] not in (b'100644',b'100755'):
                 raise ValueError('NON_REGULAR_PUBLICATION')
             data = git(root,'show',commit+':'+name)
-            scan(name,data)
+            scan_history_blob(root,before,name,data)
             observed[commit+':'+name] = hashlib.sha256(data).hexdigest()
     if observed != inventory:
         raise ValueError('OUTGOING_INVENTORY_MISMATCH')
