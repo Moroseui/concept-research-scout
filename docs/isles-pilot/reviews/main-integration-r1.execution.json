@@ -1,0 +1,37 @@
+{
+  "reviewed_commit": "644bf488b44a5083893348a5b5fb03db5ea52771",
+  "returncode": 0,
+  "wall_seconds": 275.75564457699875,
+  "input_file_sha256": {
+    "scripts/verify_main_integration.py": "ebebba554dc98be952dd39b6a3869c4adf8f8f3a8e1af8b40e3c7bcddcc47839",
+    "tests/test_main_integration.py": "5acaa487798bc9478c3b88dcd6c6631ac689cf1f5b853efeb77a180298e2dfed",
+    "scripts/check_pilot_publication.py": "c4fa6bfdee967dde7c1a7c0152f1d22a3459acb84fb4306b5f8d0e683b05f247",
+    "scripts/workflow_boundary.py": "4765223de4c0d811d05047a69c79b22c9f5887fd13ef4cff90dd2318c48e36cc",
+    "tests/test_workflow_boundary.py": "e53d8eb04ab6b32fb1a05b5e968dd265927190566ff1635dda0bd2af16b17d1e",
+    ".github/workflows/check.yml": "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648",
+    ".github/workflows/actioner.yml": "50a4758d14e3c27bcd7f1c54637517f446467c10cf4176ba814cf371c047bd70",
+    ".github/workflows/confer.yml": "75140df43a9e094255fc83dd5482d751df77c435770265665e8084fb8113e160",
+    ".github/workflows/idea-pipeline.yml": "7ab8dc397a9d6e038d1279c02927ce4aec75b77a019b5ad3092ba3f72298b6ad",
+    ".github/workflows/interpret.yml": "768c5d0a28ff1b60a24c471c8ab91dfda6183ece0481f0b51547c39eb7416047",
+    ".github/workflows/librarian.yml": "ebeed9a732dc26105be5f210a290c69864c716e5f54a2c3659bdef27ffad4347",
+    ".github/workflows/results-validate.yml": "20f86dd3ca931b96543dfedd2fa82530847358bebba2d5094f724e557d4aefd7",
+    ".github/workflows/scout-cycle.yml": "b9b599b6c415629164067b38dcbbf17d61b533201c559d6a412e0eec2c2c0ed8",
+    "docs/isles-pilot/MAIN_INTEGRATION.md": "28a7606a96ad2cff51d14e1c3548c489ddf8c8de848224b2cb3f761ec76e2c89",
+    "docs/isles-pilot/CURRENT_STATUS.md": "68a500bda3b5861da5a02a9f4ba1969aab64a14a13436e9f1bbe1e40cb98d6f3",
+    "docs/isles-pilot/CLEANUP_REVIEW.md": "d5571ce186b20d23f5fa92a77bbbf3eb83f4129a5dfde82f5a3bc888dfb86b68",
+    "docs/isles-pilot/CLEANUP_RECONCILIATION_20260906.json": "bf88ed694744d4e72aacfe95e5e96b871ac357030b1a2386b0ed33aa3b3deda7",
+    "scripts/rehearse_047_cleanup.py": "a4a94cc6e315f0e593690a1a7f4e6a010b4dd67b6ffa7331474d9b306fabd91c",
+    "tests/test_cleanup_rehearsal.py": "48c928f13a247b63afc5111ebf6e683a7b1deb83e8bc6a63195c1f014add046a",
+    "README.md": "991edd70a921476b782492331d0a6fe79124afadfef7829e5d80ca93cbb7c2b6"
+  },
+  "response_sha256": "2929210255308a32d43dba40dab44f5710c864e5648f19c13c082c225bcec91f",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "95f5dd919de4728499ab313624d52a05fb4db55f9460c36344d54a08e4542043"
+}

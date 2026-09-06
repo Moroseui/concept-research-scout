@@ -646,3 +646,9 @@ case-linked metadata. Their residual disposition and 047 acceptance remain expli
 separate decisions. No remote rewrite. First metadata traversal failed on intentionally
 missing blobs; separate complete tree traversal plus explicit missing-blob accounting
 resolved it without payload acquisition. Partial attempt retained privately.
+
+Fable first review of 644bf488 found advisory verifier hardening and wording issues.
+The full workflow filename inventory now rejects duplicate .yaml twins, checks CI
+read-only permission/credential invariants, and tests mutation rejection. The test
+root assumption and historical-vs-current ref-count wording are corrected. Existing
+workflow and scientific source bytes remain unchanged. Follow-up review requested.

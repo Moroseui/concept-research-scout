@@ -28,7 +28,7 @@ git push --force-with-lease=refs/heads/results/probe-047-dc586665d0be:940293b6d5
 ```
 
 No other ref, branch deletion, visibility change or main update is proposed.
-A changed remote pin invalidates this operation and requires a fresh audit.
+A changed target-branch pin invalidates this operation and requires a fresh audit.
 The lease is mandatory. The command has **not** been executed.
 
 ## Scope and evidence
@@ -81,7 +81,7 @@ commit views, hidden service refs, or copied evidence. No claim of universal
 erasure is possible. After approval and the leased update, re-query refs,
 verify the new tree and request host-side cache handling separately if needed.
 
-Supplemental reachability audit: all **11 advertised refs** were traversed with
+Historical supplemental reachability audit (2026-09-05): **11 advertised refs** were traversed with
 lazy blob fetching disabled. The 198 raw files correspond to **173 distinct
 Git blobs**; only the named 047 results branch reaches any of those blobs.
 This checks blob reachability even without direct descent from the source commit.

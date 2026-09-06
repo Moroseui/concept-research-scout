@@ -13,8 +13,8 @@ CONDITION = "github.event_name == 'workflow_dispatch' && github.ref == 'refs/hea
 def workflow_policy(root):
     root = Path(root)
     directory = root / '.github/workflows'
-    expected = set(MODEL_WORKFLOWS) | {'check', 'results-validate'}
-    if {p.stem for p in directory.iterdir()} != expected:
+    expected = {name + '.yml' for name in (*MODEL_WORKFLOWS, 'check', 'results-validate')}
+    if {p.name for p in directory.iterdir()} != expected:
         raise ValueError('workflow inventory changed; explicit review required')
     for name in MODEL_WORKFLOWS:
         text = (directory / (name + '.yml')).read_text()
@@ -54,8 +54,18 @@ def workflow_policy(root):
     raw = yaml.safe_load((directory / 'results-validate.yml').read_text())
     if raw['permissions'] != {'contents': 'read'} or set(raw['jobs']) != {'quarantined'} or raw['jobs']['quarantined']['if'] != '${{ false }}':
         raise ValueError('raw results workflow quarantine changed')
+    checks = yaml.safe_load((directory / 'check.yml').read_text())
+    if checks.get('on', checks.get(True)) != ['push', 'pull_request'] or checks['permissions'] != {'contents': 'read'} or set(checks['jobs']) != {'basic'}:
+        raise ValueError('deterministic CI trigger/permission/job contract changed')
+    basic = checks['jobs']['basic']
+    if 'permissions' in basic or any('permissions' in s for s in basic['steps']):
+        raise ValueError('CI cannot override read-only permissions')
+    if any(s.get('with', {}).get('persist-credentials') is not False for s in basic['steps'] if s.get('uses', '').startswith('actions/checkout@')):
+        raise ValueError('CI cannot persist checkout credentials')
+    if 'secrets.' in (directory / 'check.yml').read_text():
+        raise ValueError('CI cannot consume repository secrets')
     return {'model_workflows': list(MODEL_WORKFLOWS), 'on_main': 'SKIPPED',
-            'pilot_opt_in_guard': 'REFUSED_EXIT_1', 'raw_results': 'DISABLED'}
+            'pilot_opt_in_guard': 'REFUSED_EXIT_1', 'raw_results': 'DISABLED', 'checks': 'PUSH_PR_READ_ONLY'}
 
 
 def verify(root, main, pilot):

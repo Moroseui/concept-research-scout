@@ -30,4 +30,21 @@ class MainIntegrationTests(unittest.TestCase):
 
     def test_branch_names_are_not_review_pins(self):
         with self.assertRaisesRegex(ValueError, 'full main and pilot pins'):
-            verify('.', 'main', 'astra/autonomous-isles-pilot')
+            verify(Path(__file__).resolve().parents[1], 'main', 'astra/autonomous-isles-pilot')
+
+    def test_duplicate_yaml_and_ci_write_permissions_rejected(self):
+        source = Path(__file__).resolve().parents[1] / '.github/workflows'
+        for mutation in ('duplicate', 'top_write', 'job_write', 'credentials'):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as d:
+                root = Path(d)
+                shutil.copytree(source, root / '.github/workflows')
+                f = root / '.github/workflows/check.yml'
+                if mutation == 'duplicate':
+                    (f.parent / 'interpret.yaml').write_text('jobs: {}')
+                elif mutation == 'top_write':
+                    f.write_text(f.read_text().replace('contents: read', 'contents: write'))
+                elif mutation == 'job_write':
+                    f.write_text(f.read_text().replace('  basic:', '  basic:\n    permissions: write-all'))
+                else:
+                    f.write_text(f.read_text().replace('persist-credentials: false', 'persist-credentials: true'))
+                with self.assertRaises(ValueError): workflow_policy(root)
