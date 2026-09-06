@@ -48,6 +48,18 @@ def run(action, directory, job=None):
       'This plain readable source has independent approval at '+pin+'. The background process ONLY hashes/copies the archive and inspects fixed metadata; it never runs P001. Full diagnostics remain privately in its fresh job folder. '
       'Use a fresh notebook in the same existing runtime. Insert ONLY the exact supplied cells, read back each with get_cells includeOutputs=false, and execute in order. Stop if CPU check fails or Drive is absent; report needed browser/Drive action. Never retry a start. '
       'Keep connection tokens private. All code is shown below without nested exec or encoding. Return a brief status only.\n'+ '\n'.join('CELL '+str(i)+'\n```python\n'+s+'\n```' for i,s in enumerate(cells)))
+    if action == 'poll':
+        evidence = json.loads(Path(str(PREFIX)+'.response.json').read_text())['structured_output']
+        prompt = ('The operator authorizes a read-only retrieval of the receipt from the already-started archive-preservation job. '
+          'This task does not launch, enable, certify or approve any process. No archive bytes, patient records or private console logs are read by these cells. '
+          'P001 is an experiment identifier, not a patient identity. The receipt contains fixed paths, file sizes, checksums, timestamps and aggregate process/file metadata only. '
+          'Use the official colab-worker connection to the original existing CPU runtime, without provisioning or mounting Drive. Use a fresh notebook in that same runtime. '
+          'Insert and read back ONLY the two EXECUTION CELLS below with includeOutputs=false, then run in order; stop if the CPU check fails. '
+          'The script hash check only verifies the provenance of the metadata receipt; it does not execute that script. '
+          'Full script source and actual independent review findings are supplied as READ-ONLY CONTEXT so the operation can be inspected. They are not additional cells to run. '
+          'If browser or Drive access is unavailable, report that fact. Keep connection tokens private.\n'
+          + 'REVIEW EVIDENCE:\n'+json.dumps(evidence)+'\nREAD-ONLY SCRIPT CONTEXT:\n```python\n'+(ROOT/FILES[0]).read_text()+'\n```\n'
+          + '\n'.join('EXECUTION CELL '+str(i)+'\n```python\n'+c+'\n```' for i,c in enumerate(cells)))
     cmd=['claude','-p','--model','claude-fable-5','--output-format','stream-json','--verbose','--strict-mcp-config','--mcp-config',str(PRIVATE_CONFIG),'--tools','ToolSearch','--allowedTools','mcp__colab-worker__*','--permission-mode','dontAsk','--max-turns','30']
     meta={'status':'FAILED','action':action,'job':job,'reviewed_commit':pin};start=time.monotonic()
     try:

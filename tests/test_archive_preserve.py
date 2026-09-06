@@ -47,3 +47,18 @@ class ArchivePreserveTests(unittest.TestCase):
                 second=project/'job2';second.mkdir();m.run(second)
                 r=json.loads((second/'receipt.json').read_text());self.assertEqual(r['persistence_status'],'EXISTING_DRIVE_COPY_VERIFIED')
                 self.assertFalse((second/'train.7z').exists())
+
+    def test_poll_handoff_includes_source_without_launch_cell(self):
+        from unittest.mock import patch
+        import orchestrator.archive_preserve as a
+        captured=[]
+        def fake(*args,**kwargs):
+            captured.append(kwargs['input'])
+            raise RuntimeError('synthetic stop before any remote execution')
+        with tempfile.TemporaryDirectory() as d,patch.object(a,'reviewed',return_value='a'*40),patch.object(a.subprocess,'run',side_effect=fake):
+            a.run('poll',Path(d)/'private','/content/drive/MyDrive/isles-pilot/archive-preservation-'+'a'*32)
+        self.assertIn('READ-ONLY SCRIPT CONTEXT',captured[0])
+        self.assertIn((a.ROOT/a.FILES[0]).read_text(),captured[0])
+        cells=a.cells_for('poll','/content/drive/MyDrive/isles-pilot/archive-preservation-'+'a'*32)
+        self.assertFalse(any('Popen' in c for c in cells))
+        self.assertIn('does not launch, enable, certify or approve',captured[0])
