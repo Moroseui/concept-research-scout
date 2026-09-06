@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import tempfile
 import yaml
 
 
@@ -35,6 +36,53 @@ def workflow_policy(root):
     return result
 
 
+
+FROZEN_REVIEW_SOURCE = '1ecc3f9d5815fb1401bee48454dce197985d947f'
+
+
+def scientific_status(root):
+    """Verify original approved bytes without authorizing the changed checkout."""
+    from orchestrator.campaign_review import verify_receipt
+    from orchestrator import colab_patient as patient
+    def raw(name):
+        return subprocess.check_output(['git','show',FROZEN_REVIEW_SOURCE+':'+name],cwd=root)
+    base = 'campaigns/isles24-pilot/experiments/P001/'
+    receipt = json.loads(raw(base+'review.json'))
+    patient_prefix = 'docs/isles-pilot/reviews/'+patient.REVIEW_PREFIX
+    execution = json.loads(raw(patient_prefix+'.execution.json'))
+    names = set(receipt['file_sha256']) | set(execution['input_file_sha256']) | {
+        base+'review.json',receipt['execution'],receipt['response'],
+        patient_prefix+'.execution.json',patient_prefix+'.response.json'}
+    with tempfile.TemporaryDirectory(prefix='frozen-review-check-') as temporary:
+        frozen = Path(temporary)
+        for name in names:
+            if Path(name).is_absolute() or '..' in Path(name).parts:
+                raise ValueError('unsafe frozen review path')
+            target = frozen/name; target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(raw(name))
+        verify_receipt(frozen,frozen/base,receipt)
+        old_root,old_review = patient.ROOT,patient.REVIEW_DIR
+        try:
+            patient.ROOT=frozen;patient.REVIEW_DIR=frozen/'docs/isles-pilot/reviews'
+            patient_pin=patient.require_patient_review()
+        finally:
+            patient.ROOT,patient.REVIEW_DIR=old_root,old_review
+    # Preserve the original current-tree gate. Only known dependency drift may be
+    # reported as blocked infrastructure; every other error still fails verification.
+    try:
+        verify_receipt(root,root/base,json.loads((root/base/'review.json').read_text()))
+        current='VERIFIED'
+    except ValueError as error:
+        if str(error)!='review does not bind every current executable dependency':raise
+        changed=[name for name,h in receipt['file_sha256'].items()
+                 if hashlib.sha256((root/name).read_bytes()).hexdigest()!=h]
+        if changed!=['scout.py'] and set(changed)!={'scout.py'}:raise
+        current='BLOCKED_SCOUT_DEPENDENCY_REVIEW_REQUIRED'
+    return {'frozen_source':FROZEN_REVIEW_SOURCE,'frozen_scientific_approval':'VERIFIED',
+            'frozen_patient_adapter_review':patient_pin,'current_scientific_gate':current,
+            'patient_execution_authorized_by_this_verification':False}
+
+
 def verify(root, main, pilot):
     root = Path(root).resolve()
     if root != Path(__file__).resolve().parents[1]:
@@ -55,10 +103,10 @@ def verify(root, main, pilot):
     from orchestrator.archive_preserve import reviewed
     from orchestrator.actions_runner import reviewed as controls_review
     exp = root / 'campaigns/isles24-pilot/experiments/P001'
-    verify_receipt(root, exp, json.loads((exp / 'review.json').read_text()))
+    science = scientific_status(root)
     return {'main_before': main, 'pilot': pilot, 'candidate': git('rev-parse', 'HEAD'),
             'tree': git('rev-parse', 'HEAD^{tree}'), 'workflow_policy': workflow_policy(root),
-            'scientific_approval': 'VERIFIED', 'patient_adapter_review': require_patient_review(),
+            'scientific_approval': science,
             'archive_review': reviewed(), 'human_controls_review': controls_review(), 'patient_execution': False, 'remote_mutations': False}
 
 

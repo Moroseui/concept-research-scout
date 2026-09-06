@@ -3252,24 +3252,12 @@ def _cycle_stage_list(tracks):
 
 
 def _push_checkpoint():
-    """Durability for stage checkpoints on ephemeral runners: a local commit
-    that dies with the runner was never a checkpoint. Push after every stage
-    commit in CI; retry once through a rebase for pushes racing the human or
-    another workflow; a checkpoint that cannot be pushed is a FAILED stage,
-    loudly -- never silently swallowed."""
-    r = _git('push', check=False)
-    if r.returncode == 0:
-        return
-    rb = _git('pull', '--rebase', check=False)
-    if rb.returncode != 0:
-        _git('rebase', '--abort', check=False)
-        raise SystemExit('Checkpoint rebase conflicted; aborted without '
-                         'committing a conflicted tree (fail-closed):\n'
-                         + (rb.stderr or rb.stdout or '')[-800:])
-    r = _git('push', check=False)
-    if r.returncode != 0:
-        raise SystemExit('Checkpoint push failed after rebase retry:\n'
-                         + (r.stderr or r.stdout or '')[-800:])
+    """Publish through the explicit audited route; never infer/rebase a branch."""
+    from orchestrator.git_publication import checkpoint
+    try:
+        return checkpoint(ROOT, os.environ.get('SCOUT_PUBLICATION_REQUEST'))
+    except Exception as error:
+        raise SystemExit('Checkpoint publication refused; preserve the local commit and supply a reviewed exact source/destination request.') from error
 
 
 def _commit_all(message):
@@ -3277,7 +3265,7 @@ def _commit_all(message):
     r = _git('diff', '--cached', '--quiet', check=False)
     if r.returncode == 0:
         return False  # nothing to commit
-    _git('commit', '-q', '-m', message)
+    _git('-c', 'user.name=Astra (OpenAI agent)', '-c', 'user.email=astra@agents.local.invalid', 'commit', '-q', '-m', message)
     if os.environ.get('SCOUT_CI'):
         _push_checkpoint()
     return True

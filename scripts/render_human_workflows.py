@@ -37,7 +37,10 @@ def documents():
         {'uses':CHECKOUT,'with':{'ref':'${{ github.sha }}','fetch-depth':1,'persist-credentials':False}},
         {'uses':PYTHON,'with':{'python-version':'3.11'}}, {'uses':NODE,'with':{'node-version':'22'}},
         {'name':'Install fixed CLIs and system dependencies','run':'npm install -g @openai/codex@0.153.4 @anthropic-ai/claude-code@2.1.222\npip install -r requirements.txt'},
-        {'name':'Verify independent adapter review','run':'python -c "from orchestrator.actions_runner import reviewed; reviewed()"'},
+        {'name':'Verify recorded adapter review','run':'python -c "from orchestrator.actions_runner import reviewed; reviewed()"'},
+        {'name':'Dispatch admission policy (inactive until ratified)',
+         'env':{'GH_TOKEN':'${{ github.token }}'},
+         'run':'python -m orchestrator.dispatch_limiter --repo .'},
         {'name':'Existing hosted authentication','continue-on-error':True,
          'env':{'OPENAI_API_KEY':'${{ secrets.OPENAI_API_KEY }}','CLAUDE_CODE_OAUTH_TOKEN':'${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}'},
          'run':'python scripts/actions_auth.py'},
@@ -48,7 +51,7 @@ def documents():
          'run':'python -m orchestrator.human_controls --control "$CONTROL" --mode "$MODE" --experiment "$EXPERIMENT" --request "$QUESTION" --request-id "$REQUEST_ID" --source "${SOURCE_SHA:-$GITHUB_SHA}" --destination "$DESTINATION" --initiator "$INITIATOR" --output "$RUNNER_TEMP/human-result"'},
         {'name':'Save validated phone result and review evidence','if':'${{ always() && steps.result.outputs.artifact_name != \'\' }}','uses':UPLOAD,
          'with':{'name':'${{ steps.result.outputs.artifact_name }}','path':'${{ runner.temp }}/human-result/','if-no-files-found':'error','retention-days':90}},
-        {'name':'Explain infrastructure failure','if':"${{ failure() && steps.result.outputs.artifact_name == '' }}",'run':'echo "## BLOCKED\nA preflight or runner step failed. Open the failed step for the named gate; repair the review, dependency or existing authentication binding before a new request. No reviewed result is claimed." >> "$GITHUB_STEP_SUMMARY"'},
+        {'name':'Explain infrastructure failure','if':"${{ failure() && steps.result.outputs.artifact_name == '' }}",'run':'python -m orchestrator.public_export'},
         {'name':'Remove ephemeral auth','if':'${{ always() }}','run':'python -c "import os,pathlib; p=pathlib.Path(os.environ.get(\'CODEX_HOME\',\'/nonexistent\'))/\'auth.json\'; p.unlink(missing_ok=True)"'}]}}}
     return docs
 

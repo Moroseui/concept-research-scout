@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-bound independent implementation review; original protocol stays private."""
+"""Source-bound author-operated cross-family review; not independent merge-desk approval."""
 import json,subprocess,hashlib,time
 from pathlib import Path
 import argparse
@@ -16,7 +16,7 @@ for name in REVIEW_FILES:
 rev=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
 d=args.private_dir;d.mkdir(mode=0o700)
 content={f:(ROOT/f).read_text() for f in REVIEW_FILES}
-prompt=('Fresh independent Fable implementation review, not execution worker. Scope '+args.scope+' at '+rev+'. Review supplied current source for concrete correctness/privacy/authority bugs. User authorizes existing-subscription reviews. No tools or patient data execution. Source-only review; do not claim tests run. Check persistent artifacts, fail-closed boundaries, identity bindings, recovery semantics, and preservation of scientific approvals. Return concise findings with verdict APPROVE or REQUEST_CHANGES, scope, reviewed_commit. Source:\n'+json.dumps(content))
+prompt=('Fresh author-operated Fable implementation review, not execution worker or independent merge desk. Scope '+args.scope+' at '+rev+'. Review supplied current source for concrete correctness/privacy/authority bugs. User authorizes existing-subscription reviews. No tools or patient data execution. Source-only review; do not claim tests run. Check persistent artifacts, fail-closed boundaries, identity bindings, recovery semantics, and preservation of scientific approvals. Return concise findings with verdict APPROVE or REQUEST_CHANGES, scope, reviewed_commit. Source:\n'+json.dumps(content))
 schema={'type':'object','additionalProperties':False,'properties':{'scope':{'type':'string'},'reviewed_commit':{'type':'string'},'verdict':{'type':'string','enum':['APPROVE','REQUEST_CHANGES']},'findings':{'type':'array','items':{'type':'string'}}},'required':['scope','reviewed_commit','verdict','findings']}
 cmd=['claude','-p','--model','claude-fable-5','--output-format','stream-json','--verbose','--json-schema',json.dumps(schema),'--strict-mcp-config','--mcp-config','{"mcpServers":{}}','--tools','','--permission-mode','dontAsk','--max-turns','5']
 start=time.monotonic()

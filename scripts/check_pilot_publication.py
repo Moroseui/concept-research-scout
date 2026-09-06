@@ -20,6 +20,8 @@ ALLOWED_FILES.update({'scripts/colab_archive_preserve.py','orchestrator/archive_
 
 ALLOWED_FILES.update({'scripts/verify_main_integration.py','orchestrator/actions_runner.py','orchestrator/human_controls.py','scripts/actions_agent.py','scripts/actions_auth.py','scripts/render_human_workflows.py','configs/pilot/human-controls.json','.github/workflows/research-control.yml'})
 
+ALLOWED_FILES.update({'orchestrator/git_publication.py','orchestrator/public_export.py','orchestrator/dispatch_limiter.py','configs/pilot/dispatch-limiter.json','scripts/closeout_evidence.py','scripts/measure_dispatch.py','evidence/decisions.md'})
+
 EXTENSIONS={'.yml','.toml','.fish','.md','.py','.json','.yaml','.ipynb','.txt','.jsonl'}
 
 
@@ -32,6 +34,8 @@ def audit(tip):
     if r.returncode!=1: raise ValueError('contaminated history reachable or ancestry check failed')
     commits=git('rev-list','--reverse',f'{BASE}..{tip}').decode().splitlines(); artifacts=[]
     for commit in commits:
+        from orchestrator.git_publication import scan_commit
+        scan_commit(git('cat-file','commit',commit))
         if len(git('rev-list','--parents','-n','1',commit).split())!=2: raise ValueError('unreviewed merge in outgoing history')
         for raw in git('diff-tree','--no-commit-id','--name-only','-r','-z',commit).split(b'\0'):
             if not raw: continue
@@ -45,6 +49,8 @@ def audit(tip):
             mode=git('ls-tree',commit,'--',name).split()[0]
             if mode not in (b'100644',b'100755'):raise ValueError('non-regular publication artifact')
             data=git('show',f'{commit}:{name}')
+            from orchestrator.git_publication import scan
+            scan(name,data)
             if len(data)>1500000 or b'\0' in data: raise ValueError('unexpected binary/large artifact')
             if re.search(rb'(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9_-]{32,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----)',data):
                 raise ValueError('credential-like bytes in outgoing history')

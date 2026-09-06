@@ -14,13 +14,14 @@ ROOT = Path(__file__).resolve().parents[1]
 REVIEW_FILES = ['orchestrator/actions_runner.py', 'scripts/actions_agent.py',
                 'orchestrator/human_controls.py', 'orchestrator/campaign_pipeline.py',
                 '.github/workflows/research-control.yml', 'configs/pilot/human-controls.json',
-                'tests/test_human_controls.py', 'scripts/actions_auth.py', 'scripts/render_human_workflows.py']
+                'tests/test_human_controls.py', 'scripts/actions_auth.py', 'scripts/render_human_workflows.py',
+                'orchestrator/public_export.py', 'orchestrator/dispatch_limiter.py', 'orchestrator/git_publication.py', 'configs/pilot/dispatch-limiter.json']
 REVIEW_FILES += ['.github/workflows/' + n + '.yml' for n in
                  ['actioner','confer','idea-pipeline','interpret','librarian','scout-cycle','results-validate']]
 
 
 def reviewed(root=ROOT):
-    prefix=Path(root)/'docs/isles-pilot/reviews/human-controls'
+    prefix=Path(root)/'docs/isles-pilot/reviews/human-controls-closeout'
     e=json.loads(Path(str(prefix)+'.execution.json').read_text())
     p=Path(str(prefix)+'.response.json'); r=json.loads(p.read_text()); v=r.get('structured_output',{})
     if (e['returncode'] or r.get('subtype')!='success' or r.get('is_error')

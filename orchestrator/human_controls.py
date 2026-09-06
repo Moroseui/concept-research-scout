@@ -132,7 +132,7 @@ def execute(req,out):
         answer='\n\n'.join(p.read_text() for p in sorted(prose))
         # Include the actual opposing critique/rationale in the phone-readable result.
         critique=json.loads((folder/'review.json').read_text())
-        answer+='\n\n## Independent system review\n'+critique['verdict']+': '+critique['rationale']
+        answer+='\n\n## Opposing-family system review\n'+critique['verdict']+': '+critique['rationale']
         records={}
         runners={}
         for p in sorted(private.rglob('*')):
@@ -167,6 +167,10 @@ def validate_export(out):
     r=json.loads((out/'receipt.json').read_text())
     for key,name in [('result_sha256','RESULT.md'),('evidence_sha256','evidence.json')]:
         if r[key]!=hashlib.sha256((out/name).read_bytes()).hexdigest():raise ValueError('PUBLICATION_BYTES_CHANGED')
+    from orchestrator.public_export import text
+    text((out/'RESULT.md').read_text())
+    text((out/'evidence.json').read_text(),700000)
+    text((out/'receipt.json').read_text(),700000)
     return r
 
 
@@ -184,7 +188,8 @@ def main():
     if os.environ.get('GITHUB_OUTPUT'):
         with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('artifact_name=human-control-'+r['identity']+'\n')
     if os.environ.get('GITHUB_STEP_SUMMARY'):
-        with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:f.write((a.output/'RESULT.md').read_text())
+        from orchestrator.public_export import summary
+        summary((a.output/'RESULT.md').read_text(),os.environ['GITHUB_STEP_SUMMARY'])
     print(json.dumps({'status':result['status'],'result_file':'RESULT.md'}))
     return 0 if result['status']!='BLOCKED' else 2
 

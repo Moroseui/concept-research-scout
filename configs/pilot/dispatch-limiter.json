@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "status": "PROPOSED",
+  "n": null,
+  "recommended_n": 48,
+  "window": "UTC_CALENDAR_DAY",
+  "state_ref": "refs/heads/automation/dispatch-state",
+  "state_write_permission": "NOT_GRANTED",
+  "operator_approval": null,
+  "reset_operators": [],
+  "note": "No standing dispatch grant or limiter activation follows from this implementation. Existing bounded authorizations remain separate.",
+  "repository": "Moroseui/concept-research-scout"
+}

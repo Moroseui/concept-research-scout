@@ -13,7 +13,8 @@ from orchestrator import colab_patient as p
 
 class PatientDispatchTests(unittest.TestCase):
     def test_gate_blocks_patient_packet(self):
-        with tempfile.TemporaryDirectory() as d, patch.object(p,'REVIEW_DIR',Path(d)):
+        # Isolate the missing adapter-evidence gate from the earlier scientific gate.
+        with tempfile.TemporaryDirectory() as d, patch.object(p,'REVIEW_DIR',Path(d)), patch('orchestrator.campaign_review.verify_receipt'):
             with self.assertRaises(FileNotFoundError):
                 p.execution_packet('/content/train.7z')
 

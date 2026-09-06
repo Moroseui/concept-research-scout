@@ -22,6 +22,8 @@ def verify(root, source, destination):
 
 def publish(root, source, destination, expected_remote):
     verify(root,source,destination)
+    remote_url=subprocess.check_output(['git','remote','get-url','origin'],cwd=root,text=True).strip()
+    if remote_url!='https://github.com/Moroseui/concept-research-scout.git':raise ValueError('repository destination identity changed')
     if not re.fullmatch('[0-9a-f]{40}',expected_remote):raise ValueError('exact before pin required')
     from scripts import check_pilot_publication as audit
     old=audit.ROOT
