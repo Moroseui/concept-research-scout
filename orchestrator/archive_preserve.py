@@ -1,6 +1,7 @@
 """System-owned archive verification/preservation jobs; no P001 dispatch capability."""
 import argparse
 import hashlib
+import inspect
 import json
 import os
 from pathlib import Path
@@ -25,6 +26,29 @@ def reviewed():
     return e['reviewed_commit']
 
 
+def observe(job, proc_root=Path('/proc')):
+    """Read-only liveness and file metadata; never return command lines or file bytes."""
+    processes = []; complete = True
+    for entry in proc_root.glob('[0-9]*/cmdline'):
+        try:
+            argv = entry.read_bytes().split(b'\0')
+            if len(argv) < 3 or argv[1] != str(job/'verify.py').encode() or argv[2] != str(job).encode(): continue
+            info = {'pid': int(entry.parent.name)}
+            fields = (entry.parent/'stat').read_text().rsplit(')',1)[1].split()
+            info['state'] = fields[0] if fields[0] in ['R','S','D','Z','T','I'] else 'UNKNOWN'
+            info['cpu_ticks'] = int(fields[11])+int(fields[12])
+            for line in (entry.parent/'io').read_text().splitlines():
+                key, value = line.split(':',1)
+                if key in ['rchar','wchar','read_bytes','write_bytes']: info[key] = int(value)
+            processes.append(info)
+        except FileNotFoundError: pass
+        except (OSError, ValueError, IndexError): complete = False
+    destination = job/'train.7z'
+    return {'observed_at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
+            'matching_verification_processes':processes,'process_scan_complete':complete,
+            'destination_size_bytes':destination.stat().st_size if destination.is_file() else None}
+
+
 def cells_for(action, job):
     if not re.fullmatch('/content/drive/MyDrive/isles-pilot/archive-preservation-[a-f0-9]{32}', job):
         raise ValueError('fresh private archive job path required')
@@ -35,6 +59,7 @@ def cells_for(action, job):
         launch="import subprocess, sys, json\nfrom pathlib import Path\njob=Path("+repr(job)+")\nwith (job/'console.log').open('xb') as console:\n    process=subprocess.Popen([sys.executable,str(job/'verify.py'),str(job)],stdout=console,stderr=subprocess.STDOUT,start_new_session=True)\nprint(json.dumps({'status':'VERIFICATION_STARTED','pid':process.pid}))\n"
         return [CPU_CELL,setup,write,launch]
     retrieve="import os, json, hashlib\nfrom pathlib import Path\njob=Path("+repr(job)+")\nassert os.path.ismount('/content/drive'), 'Drive unavailable'\nassert hashlib.sha256((job/'verify.py').read_bytes()).hexdigest()=="+repr(hashlib.sha256(source.encode()).hexdigest())+"\np=job/'receipt.json'\nprint(p.read_text() if p.is_file() else json.dumps({'status':'STARTING'}))\n"
+    retrieve = 'import time\nfrom pathlib import Path\n'+inspect.getsource(observe)+'\n'+retrieve.replace("print(p.read_text() if p.is_file() else json.dumps({'status':'STARTING'}))", "receipt=json.loads(p.read_text()) if p.is_file() else {'status':'STARTING'}\nreceipt['transport_observation']=observe(job)\nprint(json.dumps(receipt))")
     return [CPU_CELL,retrieve]
 
 

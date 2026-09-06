@@ -80,3 +80,26 @@ class ArchivePreserveTests(unittest.TestCase):
             results['g0']['cells'][0]['source']=['']
             calls[0]['input']['includeOutputs']=True
             with self.assertRaises(ValueError):verify_poll([],['print(1)\n'])
+
+    def test_observation_is_bound_to_exact_job_and_returns_only_metadata(self):
+        from orchestrator.archive_preserve import observe
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);job=root/'job';job.mkdir();(job/'train.7z').write_bytes(b'fixture')
+            proc=root/'proc';entry=proc/'42';entry.mkdir(parents=True)
+            (entry/'cmdline').write_bytes(b'python\0'+str(job/'verify.py').encode()+b'\0'+str(job).encode()+b'\0')
+            fields=['S']+['0']*20;fields[11]='10';fields[12]='20'
+            (entry/'stat').write_text('42 (python) '+' '.join(fields))
+            (entry/'io').write_text('rchar: 123\nwchar: 456\n')
+            result=observe(job,proc)
+            self.assertEqual(result['destination_size_bytes'],7)
+            self.assertEqual(result['matching_verification_processes'],[{'pid':42,'state':'S','cpu_ticks':30,'rchar':123,'wchar':456}])
+            self.assertEqual(observe(root/'other',proc)['matching_verification_processes'],[])
+            (entry/'io').write_text('rchar: invalid')
+            self.assertFalse(observe(job,proc)['process_scan_complete'])
+
+    def test_generated_observation_definition_is_executable(self):
+        from orchestrator.archive_preserve import cells_for
+        source=cells_for('poll','/content/drive/MyDrive/isles-pilot/archive-preservation-'+'a'*32)[1]
+        namespace={}
+        exec(source.split('import os, json, hashlib')[0],namespace)
+        self.assertTrue(callable(namespace['observe']))
