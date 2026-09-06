@@ -488,6 +488,64 @@
       "original_protocol_sha256": "e679302573590fef4c098e3922f7c5d242577fc6279a95c88f52976777e8aa3e",
       "original_evidence": "retained privately; this is a metadata projection, not the original response",
       "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "b670743d33a351944887b2ee8ab0d75af4fcd626",
+      "verdict": "APPROVE",
+      "scope": "hosted-startup-repairs",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "6977bffa-dca7-4b1d-882d-a4ec6ae244e4",
+      "wall_seconds": 308.3508864260002,
+      "reported_total_cost_usd": 1.416974,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 12184,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 23314,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 12184,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 23314,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 12184,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 12184
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "deploy/research-system/repair_sparse_ignore.py": "30f7c604a83d520690fdba05eadbdacd03af0c2f22a2029056cbc86c8420829f",
+        "deploy/research-system/install_release.py": "a2bf420dff3aedae22083481170793f1c83778da63104b9f1ace243a893f0823",
+        "deploy/research-system/codex_userns.py": "f417270ad0962a36c8ac338760388907d777cb69539e5a80a333f078164b2cca",
+        "docs/operations/LINUX_SYNTHETIC_BOOTSTRAP.md": "cffdeb4e783a01ecb4bbfd03f9bc05998869960d9c52f02d7af38fc3439c63e9",
+        "docs/operations/CODEX_SANDBOX_COMPATIBILITY.md": "4ff3023e48c35afa744907390199061506e851d0748f38d8793216cf9267ccef"
+      },
+      "original_response_sha256": "cf7f669271a07949f005c516d1a71ff6e8bea14f62d5905e1e66aec836f2cd19",
+      "original_protocol_sha256": "c9cefbd195ef86c71430588e29bdf3a59f9e061c841e1c417543068e7300f213",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
     }
   ],
   "scientific_approval_changed": false,
