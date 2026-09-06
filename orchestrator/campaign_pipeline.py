@@ -75,7 +75,7 @@ def grounding(root,experiment):
         if bundle.is_symlink() or not bundle.resolve().is_relative_to((exp/'results').resolve()):raise ValueError('unsafe bundle')
         if inventory(bundle)!=r['bundle_file_sha256']:raise ValueError('aggregate import changed')
         files.update(bundle/name for name in r['bundle_file_sha256'])
-    for name in ['charters/isles24/CHARTER.md','docs/SCORING_RUBRIC.md','orchestrator/prompts/scout.md','docs/science/PREDICTION_READINESS_DIRECTION_20260906.md','docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json']:
+    for name in ['docs/operations/REMOTE_OPERATING_DIRECTION.md','docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md','charters/isles24/CHARTER.md','docs/SCORING_RUBRIC.md','orchestrator/prompts/scout.md','docs/science/PREDICTION_READINESS_DIRECTION_20260906.md','docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json']:
         f=Path(root)/name
         if f.is_file():files.add(f)
     result={}

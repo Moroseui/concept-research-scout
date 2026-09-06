@@ -134,5 +134,46 @@
       ]
     },
     "review_role": "author-operated cross-family implementation review; not independent merge desk"
+  },
+  {
+    "review": "reviewer-directive-r2",
+    "execution": {
+      "reviewed_commit": "21a6058d140712ce2af1f519570e2fabfceadda1",
+      "returncode": 0,
+      "wall_seconds": 153.76936141400074,
+      "input_file_sha256": {
+        "orchestrator/reviewer_evidence.py": "6244af7b99945a9d0b246b3864c10cbecf85c8943b4f617175fc2f82112b1a4d",
+        "orchestrator/hosted_context.py": "a841c23764894cc7e7c1442dc0e82fcb768a6d97aadc7f15e218dc213b3b50bd",
+        "tests/test_reviewer_evidence.py": "1fcf3eb860c6754a8022fd446ca8eb9f20db23c2b5b45db6d2d4d8334f78bb5b",
+        "tests/test_hosted_context.py": "f95c2ec214b3ed309a3018900752b85ac5fce37a2ad96847a33ae35ec4db3480",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "13b94fc128a3161829c7eb1c37bf6530c45ac34a9bb5b8c746a797ccbd572c96",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "5cc0a9f1623718610368acb8987206fd8077ab0737f94832499486217f99e477"
+      },
+      "response_sha256": "57a13a39939fd539780e9b4b433dfb653016fc30bc72f307b6507a507a49565a",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "d884d51795064defa92508005eea59aee62cc7305a9723940d9d084985dbe15d"
+    },
+    "findings": {
+      "scope": "reviewer-directive-v2-human-usability-and-recovery",
+      "reviewed_commit": "21a6058d140712ce2af1f519570e2fabfceadda1",
+      "verdict": "REQUEST_CHANGES",
+      "findings": [
+        "BLOCKER | orchestrator/hosted_context.py envelope() | verified from supplied source | Task-state binding lacks provenance and silently falls back to the parent directory: the candidate search (folder/post-execution-packet.json, folder/packet.json, then the parent's equivalents) means a recovery folder missing its own packet inherits the parent's stale pre-execution state, and the emitted envelope records neither the selected packet's path nor its sha256 (canonical documents are hashed; the bound task state is not). Consequence: a recovery invocation can act on superseded decision_inbox/executed_selection while appearing correctly bound, violating the approved direction's 'fresh invocation uses its explicitly bound current approved context'. Affected task: hosted driver/reviewer recovery. Smallest fix: record the resolved packet path and sha256 in the operating-context packet and require an explicit opt-in for parent-directory fallback.",
+        "BLOCKER | orchestrator/hosted_context.py envelope() | verified from supplied source | Source identity fails open: verified_source defaults to None and becomes the string 'UNVERIFIED', yet a full envelope is still built, scanned and returned for 'every real hosted model invocation'; both hosted-context tests exercise only this default path. Consequence: callers that omit the argument dispatch hosted turns with no source identity binding, only a passive label. Affected task: all hosted invocations. Smallest fix: make verified_source required, or raise unless an explicit allow_unverified flag is passed.",
+        "SUGGESTION | orchestrator/reviewer_evidence.py collect() | verified from supplied source | Only subprocess.TimeoutExpired and FileNotFoundError are caught around subprocess.run; a PermissionError or other OSError from systemctl aborts the entire collection and discards the already-assembled historical records instead of degrading that unit to COLLECTION_FAILED (tests cover only FileNotFoundError). Affected task: reviewer evidence collection. Smallest fix: broaden the except clause to OSError.",
+        "SUGGESTION | orchestrator/reviewer_evidence.py collect() | verified from supplied source | Evidence responses record request_id, timestamps and per-document sha256s but not the collector's own installed-source/directive version, so a reviewer receiving reviewer_evidence in a later immutable task packet cannot bind the response to the collector version that produced it, despite the directive's requirement to record supplied-evidence versions. Affected task: nightly review evidence chain. Smallest fix: include the collector's source commit/version in the result envelope.",
+        "SUGGESTION | orchestrator/hosted_context.py build() | inferred/untested | The frozen P001 specification is read via research_context.checked() and shipped with disposition FROZEN_SPECIFICATION_NOT_LAUNCH_AUTHORITY, hashing whatever bytes are currently on disk; the frozen-identity guarantee rests entirely on checked(), which is outside the supplied source. If checked() does not pin the recorded frozen hash, tampered spec content would be presented as frozen. Affected task: hosted context integrity for P001. Smallest fix: confirm checked() enforces the frozen binding, or compare the computed sha256 against the recorded frozen identity and fail closed on mismatch.",
+        "SUGGESTION (minor) | orchestrator/reviewer_evidence.py main()/collect() | verified from supplied source | The request-file is_symlink/size checks precede read_text (TOCTOU race, acceptable given trusted-operator-only execution), and hosted observations with nonzero systemctl returncode are still labeled CURRENT_CONFIGURATION_ONLY with possibly empty properties; the returncode is recorded so this is informational. Affected task: reviewer evidence collection. Smallest fix: re-stat after open or read via a file descriptor, and mark nonzero-returncode observations as degraded."
+      ]
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk",
+    "resolution": "Exact source required; parent fallback removed; selected packet hashed; collector handles OSError and binds its own code hash in f856475. Follow-up review pending."
   }
 ]
