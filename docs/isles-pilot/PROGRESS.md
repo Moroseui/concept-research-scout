@@ -782,3 +782,37 @@ P001 launch. P001 is unexecuted and current-tree scout.py dependency review rema
 required; archive/frozen approvals/private evidence were not modified or rechecked
 in Colab. Laptop-independent patient research remains unproven. No next work batch
 started and no remote write, cleanup, dispatch or provisioning was performed.
+
+
+### Bounded post-merge governance closeout — 2026-09-06
+
+Preserved cfadeb1 and recorded the operator's explicit ratification of corrected
+R1, R2 and R4; R3 selects N=48/hard 96 with conditional standing authority. Full
+text is GOVERNANCE_RATIFIED_20260906.md and the append-only decisions entry. No
+runtime policy activation: writer/reset permission design approval, initialized
+shared state and hosted verification remain required. Reset remains the operator's.
+Scientific/opposing-family gates and reserved cleanup/047/P001 decisions remain.
+
+Read-only current 047 target/protection checks match the existing rehearsal:
+940293b6 to c8124212, unchanged parent b652005. Ruleset 20885616 still blocks
+non-fast-forward and deletion with no bypass. Prepared one cleanup decision request,
+including an exact-ref exception with temporary deletion-only guard and restoration
+on success/failure. Retained case-linked metadata names are explicit. Existing
+review/original evidence is reused; no new projection or rehearsal was needed.
+No protection setting, results ref, archive or patient state changed.
+
+The authorized record branch is absent remotely. The existing generalized
+controlled publisher supports only an existing remote before pin; pilot wrapper
+also authorizes only pilot. Publication therefore has a capability dependency:
+new-ref support in a future bounded change, or an operator-created branch at the
+already-public main pin before controlled append. No direct Git/API bootstrap,
+existing-check bypass or runtime implementation change was attempted. This is
+not an approval rejection or lack of branch publication authorization. All other
+authorized record/recheck work is complete. Three fixed-metadata dependencies are
+persisted via the existing Store decision inbox, exported in
+POSTMERGE_DECISION_INBOX_20260906.json; the patient job store was not touched.
+
+This documentation remains local on astra/infrastructure-milestone-record for
+inclusion in the next appropriate milestone PR after publication is unblocked.
+No separate main merge, independent desk approval, active standing dispatch,
+scientific landing, patient execution, spending or provisioning is claimed.

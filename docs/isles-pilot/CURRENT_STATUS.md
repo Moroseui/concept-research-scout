@@ -2,7 +2,7 @@
 
 This is the current entry point. Dated receipts and PROGRESS.md preserve the history;
 older pending statuses and commands describe their checkpoints, not today's state.
-**PR #2 infrastructure milestone is merged** at `d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`; main CI passed ([merge receipt](INFRASTRUCTURE_MERGED_20260906.json)). Local main is reconciled and the pilot branch is preserved. Earlier held/pending-merge sections below describe historical checkpoints. Governance ratification, limiter activation/permissions, cleanup, 047 landing and P001 launch remain separate decisions. No new work batch has started.
+**PR #2 infrastructure milestone is merged** at `d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`; main CI passed ([merge receipt](INFRASTRUCTURE_MERGED_20260906.json)). Local main is reconciled and the pilot branch is preserved. Earlier held/pending-merge sections below describe historical checkpoints. [R1, R2 and R4 are ratified; R3 selects N=48/96 with conditional activation](GOVERNANCE_RATIFIED_20260906.md). The limiter remains inactive. Writer/reset permission approval, initialization and hosted activation verification are still required; cleanup, 047 landing and P001 launch remain reserved. No new work batch has started.
 [Human controls](HUMAN_CONTROLS.md) records the restored routes and explicit legacy exceptions. See [main integration](MAIN_INTEGRATION.md)
 for merge identity requirements; HUMAN_CONTROLS.md supersedes its earlier blanket quarantine policy.
 
@@ -97,3 +97,18 @@ exists. Legacy human functionality exceptions remain as listed in HUMAN_CONTROLS
 Independent desk review must cover the final closeout candidate, then the operator
 chooses ratification/permissions and whether to merge. None of this approves 047
 scientific landing, cleanup or P001 launch.
+
+
+## Post-merge ratification and closeout dependencies
+
+The operator ratified R1/R2/R4 and conditionally ratified R3 at N=48/hard 96;
+[GOVERNANCE_RATIFIED_20260906.md](GOVERNANCE_RATIFIED_20260906.md) supersedes earlier
+unratified wording. The limiter remains inactive: concrete writer/reset design
+approval, initialization and hosted activation verification are still required.
+The selected thresholds do not grant spending or credentials; reset is operator-only.
+
+[Decision inbox](POSTMERGE_DECISION_INBOX_20260906.json) records the controlled
+publisher's absent-new-ref limitation, conditional activation dependency and
+[one 047 cleanup approval request](047_CLEANUP_DECISION_REQUEST.md). Publication
+on the record branch is authorized but blocked by that existing capability gap;
+no protection, patient execution or new implementation batch began.

@@ -2262,3 +2262,32 @@ The proposed R1–R4 entry above remains unratified; N, limiter activation, stan
 dispatch authority and publication/state-writer permissions are not inferred from
 merging. Cleanup, 047 scientific acceptance/landing and P001 launch remain separate.
 Full reconciliation evidence: docs/isles-pilot/INFRASTRUCTURE_MERGED_20260906.json.
+
+
+## 2026-09-06 — Operator ratifies post-merge R1–R4; dispatch activation conditional
+
+Human authority: explicit operator message requesting this bounded post-merge
+closeout. Agent recorder: Astra. The operator ratifies corrected R1, R2 and R4
+from the merged proposal and R3 subject to the conditions recorded in
+`docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md`.
+
+Internal infrastructure development review is at the implementation lead's
+discretion; scientific and opposing-family gates remain mandatory. Each main
+merge requires independent review of the actual candidate and explicit operator
+approval. Agent authorship must be accurate; historical commits remain unchanged.
+Controlled publication boundaries and documented credential-bypass limits remain.
+
+N=48, hard threshold 96 are selected. Standing dispatch authority activates only
+AFTER operator approval of the concrete writer/reset permission design, shared
+state initialization, and successful hosted activation verification. The limiter
+is currently inactive. Reset authority remains the operator's; UTC rollover,
+idempotent admission, replay/rerun counting and persistent-halt semantics remain.
+No additional spending, credentials or provisioning are granted.
+
+Cleanup, 047 scientific landing and P001 launch remain separately reserved.
+The operator authorizes permitted code/docs publication only on
+`astra/infrastructure-milestone-record` through checked controlled publication;
+no main merge or publication bypass is authorized. cfadeb1 is preserved, and the
+record belongs in the next appropriate milestone PR. Missing new-ref support in
+the existing publisher is recorded as a capability dependency, not lack of this
+branch's publication authorization. No activation or protected-ref mutation occurs.
