@@ -1,34 +1,34 @@
 {
   "is_error": false,
-  "duration_api_ms": 233135,
+  "duration_api_ms": 168999,
   "num_turns": 2,
   "stop_reason": "tool_use",
-  "session_id": "cc1c2c33-3adc-44ce-a036-8bc5ecea65a8",
-  "total_cost_usd": 1.1050550000000001,
+  "session_id": "e891080b-147c-41d2-96b4-76b420920264",
+  "total_cost_usd": 0.9120060000000001,
   "usage": {
     "input_tokens": 2,
-    "cache_creation_input_tokens": 11746,
+    "cache_creation_input_tokens": 12763,
     "cache_read_input_tokens": 865,
-    "output_tokens": 17252,
+    "output_tokens": 12970,
     "server_tool_use": {
       "web_search_requests": 0,
       "web_fetch_requests": 0
     },
     "service_tier": "standard",
     "cache_creation": {
-      "ephemeral_1h_input_tokens": 11746,
+      "ephemeral_1h_input_tokens": 12763,
       "ephemeral_5m_input_tokens": 0
     },
     "inference_geo": "not_available",
     "iterations": [
       {
         "input_tokens": 2,
-        "output_tokens": 17252,
+        "output_tokens": 12970,
         "cache_read_input_tokens": 865,
-        "cache_creation_input_tokens": 11746,
+        "cache_creation_input_tokens": 12763,
         "cache_creation": {
           "ephemeral_5m_input_tokens": 0,
-          "ephemeral_1h_input_tokens": 11746
+          "ephemeral_1h_input_tokens": 12763
         },
         "type": "message"
       }
@@ -37,12 +37,12 @@
   },
   "modelUsage": {
     "claude-haiku-4-5-20251001": {
-      "inputTokens": 6585,
-      "outputTokens": 13,
+      "inputTokens": 7286,
+      "outputTokens": 15,
       "cacheReadInputTokens": 0,
       "cacheCreationInputTokens": 0,
       "webSearchRequests": 0,
-      "costUSD": 0.00665,
+      "costUSD": 0.007361,
       "contextWindow": 200000,
       "maxOutputTokens": 32000,
       "canonicalModel": "claude-haiku-4-5",
@@ -50,11 +50,11 @@
     },
     "claude-fable-5": {
       "inputTokens": 2,
-      "outputTokens": 17252,
+      "outputTokens": 12970,
       "cacheReadInputTokens": 865,
-      "cacheCreationInputTokens": 11746,
+      "cacheCreationInputTokens": 12763,
       "webSearchRequests": 0,
-      "costUSD": 1.098405,
+      "costUSD": 0.9046450000000001,
       "contextWindow": 1000000,
       "maxOutputTokens": 64000,
       "canonicalModel": "claude-fable-5",
@@ -67,28 +67,26 @@
   "fast_mode_disabled_reason": "sdk_opt_in_required",
   "subtype": "success",
   "api_error_status": null,
-  "result": "{\"findings\":[\"No blocking correctness/privacy/authority bug found in the three in-scope files; verdict is APPROVE with non-blocking observations below.\",\"Verified fail-closed boundaries: CPU-only and Drive-mount gates raise before any work; incomplete Drive scans block fresh copies; exclusive creates ('xb' opens, mkdir without parents, fresh UUID job dirs) prevent overwrites and start retries against the same job; destination checksum failure preserves both original and partial copy; receipts expose only exception class names while tracebacks stay in the private console log.\",\"Verified privacy of persistent artifacts: receipt/status/packet/protocol files carry only pinned expectations, hashes, sizes, fixed paths, aggregate file counts, whitelisted status enum values, and bare PIDs; no archive bytes, in-archive filenames, command lines, or patient values are emitted; orchestrator artifacts are chmod 0600 and the Colab script runs under umask 0077.\",\"Verified approval preservation: reviewed() requires an APPROVE artifact with matching scope and commit, response-file SHA-256 binding, a claude-fable-5 reviewer, and current-source staleness hashes over exactly the three in-scope files; the poll cell additionally asserts the on-Drive verify.py hash equals the currently reviewed source, so stale or tampered jobs fail closed.\",\"Observation (identity binding): acquisition identity.json is hashed and its size/md5 agreement with the pinned constants is recorded as expected_binding_matches, but a mismatch or missing file never blocks preservation; enforcement rests solely on the source-pinned SIZE/MD5. Consider blocking or at least surfacing a distinct status on binding mismatch.\",\"Observation (recovery/durability): an existing matching train.7z found under Shareddrives satisfies persistence without creating an operator-owned copy, though shared-drive members could later delete it; and the fresh-copy MD5 read-back goes through the same FUSE mount, so FRESH_DRIVE_COPY_VERIFIED is not an independent provider-side durability guarantee (the capacity check carries an analogous caveat; the persistence status does not).\",\"Observation (concurrent starts): after a 600s orchestrator timeout the background job may still be running while status.json records FAILED; a subsequent start creates a second concurrent job whose capacity check races the first, risking a duplicate 92 GB copy or an ENOSPC partial. Each job still fails closed individually, and the job path recorded in packet.json/status.json enables polling the original instead.\",\"Observation (post-hoc cell verification): verify_cell_sources runs after execution, so a same-user process that plants prompt-injection text in receipt.json has a narrow window to steer the dontAsk worker before validation fails; mitigated by the restricted mcp__colab-worker__* tool set, regex-constrained fresh 0700 job dirs, and JSON-only parsing of outputs. Worker actual_models is recorded but not enforced.\",\"Scope limitation: imported helpers from orchestrator.colab_patient and orchestrator.colab_worker (CPU_CELL, verify_cell_sources, tool_exchanges, streams, write_private, private_dir) were not supplied and are assumed correct; the staleness gate pins only the three listed files, so those dependencies need their own review pinning.\",\"Source-only review of the supplied text; no tests were executed and no runtime or patient data was touched.\"],\"reviewed_commit\":\"1381c84e7d036fc50aed1483f56c62d02f1d842f\",\"scope\":\"archive-preserve\",\"verdict\":\"APPROVE\"}",
+  "result": "{\"findings\":[\"MINOR: orchestrator run() checks only the first and last run_code_cell outputs and never asserts len(runs) == len(cells); a worker that legitimately stops after the CPU cell (e.g., reporting Drive absent, as the prompt instructs) yields status COMPLETE with the CPU-check JSON as 'remote'. Recovery is safe (poll shows STARTING; start always uses a fresh exclusive job) and there is no privacy/authority impact, but an execution-count assertion is recommended.\",\"MINOR: reconcile() uses os.walk without onerror, so unreadable subdirectories are silently skipped while scan_complete remains True, overstating scan coverage; candidates() handles this correctly with onerror. Affects metadata accuracy only.\",\"INFORMATIONAL: an identity.json binding mismatch (expected_binding_matches False, missing, or unparseable) is durably recorded in the receipt but does not block copying; the reviewed in-source SIZE/MD5 pin remains the operative verification authority, so this is a defensible design choice worth confirming as intended.\",\"INFORMATIONAL: run() catches BaseException (including SystemExit/KeyboardInterrupt) without re-raising, so the process exits 0 on failure; the BLOCKED_OR_FAILED receipt status, not the exit code, is the source of truth, consistent with poll semantics. Failed copies also intentionally retain partial multi-GB files with no cleanup authority, which can consume Drive quota across repeated failures despite the SIZE+1GiB headroom check.\",\"VERIFIED: fail-closed boundaries throughout \u2014 exclusive 'xb' destination and mkdir(0o700) job creation prevent overwrite and start-retry; incomplete Drive search raises instead of copying; destination checksum failure raises and preserves both original and partial; CPU/Colab and Drive-mount gates block before any work; inspect() enforces TOCTOU stability (inode/size/mtime before and after read) and symlinks are refused in all walkers and file reads.\",\"VERIFIED: privacy of persistent artifacts \u2014 umask 0o077, 0o600 orchestrator logs, exception text and tracebacks confined to private console/stderr logs with only the exception class name in receipt.json/status.json; receipt content is limited to fixed paths, sizes, checksums, timestamps, and sanitized enums (whitelisted recorded_status, type-checked PID), so no arbitrary file content or patient data can leak into it.\",\"VERIFIED: approval preservation and identity bindings \u2014 reviewed() pins verdict, scope, reviewed commit, reviewer model claude-fable-5, the response file's own sha256, and per-file sha256 of all three sources, so any source change invalidates the approval; the poll cell re-binds the deployed verify.py hash to the currently reviewed source; the job-path fullmatch regex plus repr() prevents cell-source injection; the worker is confined to colab-worker MCP tools with transcript-verified cell sources and no dispatch capability.\",\"NOTE: source-only review; tests were read but not executed. verify_cell_sources, tool_exchanges, streams, private_dir, and write_private are imported from modules outside the supplied scope and were assumed to behave as their call sites imply.\"],\"reviewed_commit\":\"973fd8d4832adbfd7512cdf0e319595c97046f82\",\"scope\":\"archive-preserve\",\"verdict\":\"APPROVE\"}",
   "structured_output": {
     "findings": [
-      "No blocking correctness/privacy/authority bug found in the three in-scope files; verdict is APPROVE with non-blocking observations below.",
-      "Verified fail-closed boundaries: CPU-only and Drive-mount gates raise before any work; incomplete Drive scans block fresh copies; exclusive creates ('xb' opens, mkdir without parents, fresh UUID job dirs) prevent overwrites and start retries against the same job; destination checksum failure preserves both original and partial copy; receipts expose only exception class names while tracebacks stay in the private console log.",
-      "Verified privacy of persistent artifacts: receipt/status/packet/protocol files carry only pinned expectations, hashes, sizes, fixed paths, aggregate file counts, whitelisted status enum values, and bare PIDs; no archive bytes, in-archive filenames, command lines, or patient values are emitted; orchestrator artifacts are chmod 0600 and the Colab script runs under umask 0077.",
-      "Verified approval preservation: reviewed() requires an APPROVE artifact with matching scope and commit, response-file SHA-256 binding, a claude-fable-5 reviewer, and current-source staleness hashes over exactly the three in-scope files; the poll cell additionally asserts the on-Drive verify.py hash equals the currently reviewed source, so stale or tampered jobs fail closed.",
-      "Observation (identity binding): acquisition identity.json is hashed and its size/md5 agreement with the pinned constants is recorded as expected_binding_matches, but a mismatch or missing file never blocks preservation; enforcement rests solely on the source-pinned SIZE/MD5. Consider blocking or at least surfacing a distinct status on binding mismatch.",
-      "Observation (recovery/durability): an existing matching train.7z found under Shareddrives satisfies persistence without creating an operator-owned copy, though shared-drive members could later delete it; and the fresh-copy MD5 read-back goes through the same FUSE mount, so FRESH_DRIVE_COPY_VERIFIED is not an independent provider-side durability guarantee (the capacity check carries an analogous caveat; the persistence status does not).",
-      "Observation (concurrent starts): after a 600s orchestrator timeout the background job may still be running while status.json records FAILED; a subsequent start creates a second concurrent job whose capacity check races the first, risking a duplicate 92 GB copy or an ENOSPC partial. Each job still fails closed individually, and the job path recorded in packet.json/status.json enables polling the original instead.",
-      "Observation (post-hoc cell verification): verify_cell_sources runs after execution, so a same-user process that plants prompt-injection text in receipt.json has a narrow window to steer the dontAsk worker before validation fails; mitigated by the restricted mcp__colab-worker__* tool set, regex-constrained fresh 0700 job dirs, and JSON-only parsing of outputs. Worker actual_models is recorded but not enforced.",
-      "Scope limitation: imported helpers from orchestrator.colab_patient and orchestrator.colab_worker (CPU_CELL, verify_cell_sources, tool_exchanges, streams, write_private, private_dir) were not supplied and are assumed correct; the staleness gate pins only the three listed files, so those dependencies need their own review pinning.",
-      "Source-only review of the supplied text; no tests were executed and no runtime or patient data was touched."
+      "MINOR: orchestrator run() checks only the first and last run_code_cell outputs and never asserts len(runs) == len(cells); a worker that legitimately stops after the CPU cell (e.g., reporting Drive absent, as the prompt instructs) yields status COMPLETE with the CPU-check JSON as 'remote'. Recovery is safe (poll shows STARTING; start always uses a fresh exclusive job) and there is no privacy/authority impact, but an execution-count assertion is recommended.",
+      "MINOR: reconcile() uses os.walk without onerror, so unreadable subdirectories are silently skipped while scan_complete remains True, overstating scan coverage; candidates() handles this correctly with onerror. Affects metadata accuracy only.",
+      "INFORMATIONAL: an identity.json binding mismatch (expected_binding_matches False, missing, or unparseable) is durably recorded in the receipt but does not block copying; the reviewed in-source SIZE/MD5 pin remains the operative verification authority, so this is a defensible design choice worth confirming as intended.",
+      "INFORMATIONAL: run() catches BaseException (including SystemExit/KeyboardInterrupt) without re-raising, so the process exits 0 on failure; the BLOCKED_OR_FAILED receipt status, not the exit code, is the source of truth, consistent with poll semantics. Failed copies also intentionally retain partial multi-GB files with no cleanup authority, which can consume Drive quota across repeated failures despite the SIZE+1GiB headroom check.",
+      "VERIFIED: fail-closed boundaries throughout \u2014 exclusive 'xb' destination and mkdir(0o700) job creation prevent overwrite and start-retry; incomplete Drive search raises instead of copying; destination checksum failure raises and preserves both original and partial; CPU/Colab and Drive-mount gates block before any work; inspect() enforces TOCTOU stability (inode/size/mtime before and after read) and symlinks are refused in all walkers and file reads.",
+      "VERIFIED: privacy of persistent artifacts \u2014 umask 0o077, 0o600 orchestrator logs, exception text and tracebacks confined to private console/stderr logs with only the exception class name in receipt.json/status.json; receipt content is limited to fixed paths, sizes, checksums, timestamps, and sanitized enums (whitelisted recorded_status, type-checked PID), so no arbitrary file content or patient data can leak into it.",
+      "VERIFIED: approval preservation and identity bindings \u2014 reviewed() pins verdict, scope, reviewed commit, reviewer model claude-fable-5, the response file's own sha256, and per-file sha256 of all three sources, so any source change invalidates the approval; the poll cell re-binds the deployed verify.py hash to the currently reviewed source; the job-path fullmatch regex plus repr() prevents cell-source injection; the worker is confined to colab-worker MCP tools with transcript-verified cell sources and no dispatch capability.",
+      "NOTE: source-only review; tests were read but not executed. verify_cell_sources, tool_exchanges, streams, private_dir, and write_private are imported from modules outside the supplied scope and were assumed to behave as their call sites imply."
     ],
-    "reviewed_commit": "1381c84e7d036fc50aed1483f56c62d02f1d842f",
+    "reviewed_commit": "973fd8d4832adbfd7512cdf0e319595c97046f82",
     "scope": "archive-preserve",
     "verdict": "APPROVE"
   },
-  "ttft_ms": 204722,
-  "ttft_stream_ms": 1582,
-  "time_to_request_ms": 124,
+  "ttft_ms": 140900,
+  "ttft_stream_ms": 1482,
+  "time_to_request_ms": 113,
   "type": "result",
-  "duration_ms": 231983,
-  "uuid": "4f991396-bb55-495c-a346-605e2ddf959a"
+  "duration_ms": 167829,
+  "uuid": "0cdb5cdb-5aa6-47b5-813a-e0bcae784e5d"
 }
