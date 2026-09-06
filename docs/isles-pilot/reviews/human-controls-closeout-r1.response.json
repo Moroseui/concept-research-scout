@@ -1,0 +1,91 @@
+{
+  "is_error": false,
+  "duration_api_ms": 400645,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "1cc8eeca-8574-4d55-a0ee-a959aaa8a8b6",
+  "total_cost_usd": 4.847332000000001,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 162414,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 29665,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 162414,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 29665,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 162414,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 162414
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 115692,
+      "outputTokens": 18,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.11578200000000001,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 29665,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 162414,
+      "webSearchRequests": 0,
+      "costUSD": 4.73155,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"human-controls\",\"reviewed_commit\":\"b5bc5c4f868eec61c7a291a39c75328497c3442e\",\"verdict\":\"APPROVE\",\"findings\":[\"Non-blocking (binding gap): REVIEW_FILES in orchestrator/actions_runner.py omits scout.py (run_agent, the execution primitive the hosted adapter monkeypatches), orchestrator/campaign_lifecycle.py (require_review, used in the CI interpret gate), and orchestrator/publication.py (inventory, used by grounding). Post-review drift in these files will not trip REVIEW_BINDING_CHANGED. Mitigated: they can only change via separately audited/operator-driven publication routes, and the hosted control path itself cannot push commits. Recommend adding them to REVIEW_FILES or documenting the scoping.\",\"Non-blocking (robustness, fail-closed): human_controls.save() enforces DANGER and size limits but not the control-character rule that validate_export/public_export.text enforce; a model answer containing e.g. \\\\r or ESC produces a job failure with no artifact instead of a BLOCKED export. Consider applying public_export.text at save time.\",\"Non-blocking (robustness, fail-closed): success evidence exceeding the 500KB bound (grounding context is duplicated across up to four prompt_* records) or an answer over 100KB converts an APPROVE-reviewed proposal into BLOCKED (EVIDENCE_PUBLICATION_REJECTED / PUBLICATION_TOO_LARGE) after full model spend. Consider excluding prompt records from public evidence or summarizing them by hash.\",\"Non-blocking (documented recovery semantics): restore() replays any prior validated export for a request_id, including BLOCKED results from transient credential failures, permanently until the operator chooses a new request_id; receipt status is not distinguished on replay. Matches the workflow input documentation.\",\"Non-blocking (documented residual): git_publication.scan applies the case-identifier (sub-stroke) refusal only to .json/.jsonl/.txt, consistent with the documented allowance for frozen cohort constants in reviewed .py/.md source; not new exposure, but arbitrary clinical prose in prose files is outside the regex boundary as the coverage doc already states.\",\"Non-blocking (acknowledged trust limitation): reviewed() trusts repo-committed .execution.json/.response.json records; anyone with commit/publication access can fabricate a matching pair. Consistent with the stated position that this is an author-operated cross-family check, not independent desk approval; no new authority should be inferred from it.\",\"Verified: fail-closed behavior on all traced failure paths (REVIEW_REQUIRED, CI identity, grounding, transport classification, export validation with no artifact-name release on failure); source==HEAD and branch-ref pinning; replay bound to identity hash, head SHA, workflow_dispatch event, and the control's workflow path with hash re-verification and content re-scan; traversal-safe structured outputs; scientific-approval preservation (PROPOSAL_ONLY interpret decision, REVIEWED_PROPOSAL_NOT_ADOPTED, no writes outside the pipeline directory, human_ratification:false, patient_execution:false, opposing-family receipts enforced, reviewer output cannot be prepopulated); privacy (private_evidence path stripped from projections, console/log files excluded from exports, tokens stripped from transport env, Authorization dropped on cross-host redirect, DANGER/size/control-character validation on all published text, env-var-mediated workflow inputs); dispatch limiter inactive by default with fail-closed ratified-path semantics and midnight-latched 2N halt. Source-only review; no tests were executed and no runtime behavior was exercised.\"]}",
+  "structured_output": {
+    "scope": "human-controls",
+    "reviewed_commit": "b5bc5c4f868eec61c7a291a39c75328497c3442e",
+    "verdict": "APPROVE",
+    "findings": [
+      "Non-blocking (binding gap): REVIEW_FILES in orchestrator/actions_runner.py omits scout.py (run_agent, the execution primitive the hosted adapter monkeypatches), orchestrator/campaign_lifecycle.py (require_review, used in the CI interpret gate), and orchestrator/publication.py (inventory, used by grounding). Post-review drift in these files will not trip REVIEW_BINDING_CHANGED. Mitigated: they can only change via separately audited/operator-driven publication routes, and the hosted control path itself cannot push commits. Recommend adding them to REVIEW_FILES or documenting the scoping.",
+      "Non-blocking (robustness, fail-closed): human_controls.save() enforces DANGER and size limits but not the control-character rule that validate_export/public_export.text enforce; a model answer containing e.g. \\r or ESC produces a job failure with no artifact instead of a BLOCKED export. Consider applying public_export.text at save time.",
+      "Non-blocking (robustness, fail-closed): success evidence exceeding the 500KB bound (grounding context is duplicated across up to four prompt_* records) or an answer over 100KB converts an APPROVE-reviewed proposal into BLOCKED (EVIDENCE_PUBLICATION_REJECTED / PUBLICATION_TOO_LARGE) after full model spend. Consider excluding prompt records from public evidence or summarizing them by hash.",
+      "Non-blocking (documented recovery semantics): restore() replays any prior validated export for a request_id, including BLOCKED results from transient credential failures, permanently until the operator chooses a new request_id; receipt status is not distinguished on replay. Matches the workflow input documentation.",
+      "Non-blocking (documented residual): git_publication.scan applies the case-identifier (sub-stroke) refusal only to .json/.jsonl/.txt, consistent with the documented allowance for frozen cohort constants in reviewed .py/.md source; not new exposure, but arbitrary clinical prose in prose files is outside the regex boundary as the coverage doc already states.",
+      "Non-blocking (acknowledged trust limitation): reviewed() trusts repo-committed .execution.json/.response.json records; anyone with commit/publication access can fabricate a matching pair. Consistent with the stated position that this is an author-operated cross-family check, not independent desk approval; no new authority should be inferred from it.",
+      "Verified: fail-closed behavior on all traced failure paths (REVIEW_REQUIRED, CI identity, grounding, transport classification, export validation with no artifact-name release on failure); source==HEAD and branch-ref pinning; replay bound to identity hash, head SHA, workflow_dispatch event, and the control's workflow path with hash re-verification and content re-scan; traversal-safe structured outputs; scientific-approval preservation (PROPOSAL_ONLY interpret decision, REVIEWED_PROPOSAL_NOT_ADOPTED, no writes outside the pipeline directory, human_ratification:false, patient_execution:false, opposing-family receipts enforced, reviewer output cannot be prepopulated); privacy (private_evidence path stripped from projections, console/log files excluded from exports, tokens stripped from transport env, Authorization dropped on cross-host redirect, DANGER/size/control-character validation on all published text, env-var-mediated workflow inputs); dispatch limiter inactive by default with fail-closed ratified-path semantics and midnight-latched 2N halt. Source-only review; no tests were executed and no runtime behavior was exercised."
+    ]
+  },
+  "ttft_ms": 370739,
+  "ttft_stream_ms": 3563,
+  "time_to_request_ms": 466,
+  "type": "result",
+  "duration_ms": 397921,
+  "uuid": "ac10870c-75ae-4405-9a4b-9b6d10a9c22d"
+}

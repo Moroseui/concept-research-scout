@@ -740,3 +740,11 @@ Implemented pre-publication scan of commit metadata and every outgoing changed b
 Known local 2a-state branch/reflog tips (ten) all belong to main, no dirty/stashed local work, no merge order choice. Bootstrap authorship is recorded as agent work under operator Git identity; closeout commits use Astra (OpenAI agent), without an operator sign-off trailer.
 
 Initial closeout full suite: 304 passed, one failure because changing scout.py correctly trips P001's current-source dependency gate. The missing-adapter-evidence test now isolates that later gate; the scientific gate itself is unchanged. Infrastructure verification separately verifies the original approved bytes at frozen source 1ecc3f9 and reports current-tree scientific execution blocked for scout.py dependency review. The original P001 files, receipts and executable/notebook pins remain unchanged. This is not fresh scientific approval.
+
+### Closeout internal review and verification follow-up
+
+Author-operated Fable review completed APPROVE at b5bc5c4 (actual claude-fable-5, original protocol private). This is not independent desk approval. Its non-blocking dependency-binding gap is closed by adding the execution/scientific helper sources to the hosted review set. Public text is now checked at save time as well as final export; unsafe partial transport text stays private. Original prompt/audit records are not dropped merely to make a size gate pass.
+
+Verification after that reviewed snapshot corrected scanner false positives for detector source syntax and the two existing public coordinator-plan documents, plus the direct audit CLI import path. The whole outgoing history now passes the strengthened scanner. Actual private-key header variants remain rejected. The proposed admission step is isolated into a no-model-credential job with unchanged read-only permissions. No limiter state/ref/permission or standing grant is activated. Local CAS tests include actual transport to a disposable bare remote, explicit initialization refusal and existing-state preservation.
+
+The last full suite before these final edge fixes passed 308 tests/20 subtests. Follow-up internal source binding and final tests are pending; no incomplete review is used as approval.

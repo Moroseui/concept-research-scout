@@ -1,0 +1,52 @@
+{
+  "reviewed_commit": "b5bc5c4f868eec61c7a291a39c75328497c3442e",
+  "returncode": 0,
+  "wall_seconds": 400.31515225699695,
+  "input_file_sha256": {
+    "orchestrator/actions_runner.py": "70b9835678e6d4a70c852e794c227d7f0714d0e60e06c53bbee6864bd09d2e53",
+    "scripts/actions_agent.py": "2d619a81dc3f6483af4d7dc8dee284ff8cec6ea6251a8f042b538054ee465f5f",
+    "orchestrator/human_controls.py": "138f3a2b6c8dadf2db5cccdd7a8225cc0ed2d75089affb699d3c499257b230ef",
+    "orchestrator/campaign_pipeline.py": "f4d6a44a43cd4bf215c33014ee390b6c24ded68de6679ca0f4360f4fef6a3866",
+    "scripts/actions_auth.py": "66f27c4fdaac13c31f566e0e915defac28f45c5b2bba0d9304b351c51d275cdd",
+    "scripts/render_human_workflows.py": "554ffc8a28eb61fc14eba51e57c450ca1dc6876caac933fa23a4f04efda53c9f",
+    "configs/pilot/human-controls.json": "37f678805e774862e843982aba221e32e17c893de00872aa4d59fddc2ecbc5e6",
+    "configs/pilot/dispatch-limiter.json": "c04911c3374888f905e54b05d935fd91be3d9dbed87a63331b82f098e4d506e1",
+    "orchestrator/public_export.py": "012e300ecab1b2b7d89f1a8de713835c8fb745a2c2631fd124a3b68d262e2ac2",
+    "orchestrator/dispatch_limiter.py": "88f8606531e899fd771088c8ddf450bf44a3c54cf400d5870bc75c8ccced752d",
+    "orchestrator/git_publication.py": "6df3de3a41363865eb3ddcef078f746a9b7eeeccb2e1b6012944217850449a37",
+    ".github/workflows/research-control.yml": "be2820bda2e9423a546366c626dbfdde31eb5080edf56359e07df91cd0b59c29",
+    ".github/workflows/actioner.yml": "8b0b05c62fb5680fc08fde55462742a3205a2d36c3c0efccb07798284fdd62ef",
+    ".github/workflows/confer.yml": "0b391dbf23693b5e29b7b4e21eafebcd813fd93a56e54c6d3a357f6794885e26",
+    ".github/workflows/idea-pipeline.yml": "4eb288307e47d22cba5357f9e3273beaac808266bee30da651f489150cb7e859",
+    ".github/workflows/interpret.yml": "5ac92e12e03442a252a7a43b631cea4c97e2f6a81daad7adfe877524fceaab4c",
+    ".github/workflows/librarian.yml": "95f4a09aef4ca9b08987edc11cf7328b4eb8a6063634bed807724562cfdd1aca",
+    ".github/workflows/scout-cycle.yml": "17f116d37acd02b1af6cb65b90e1856258c924c34d81fd13059ab6afd3ce6e96",
+    ".github/workflows/results-validate.yml": "d01c488797cb24bde244bd9eb0b51074da4402efefb3f18ac8f6842f0e93401c",
+    "tests/test_human_controls.py": "9cd802fde713338824273579e63d34f6d0f95150cd47273d2e30178ccf2a664a",
+    "tests/test_dispatch_limiter.py": "c9aa76c3fb1af0112271ceb2021b6a607d4aba7d77c9d95a07fb0686a7b4f597",
+    "tests/test_git_publication.py": "232e686e57d943314a069adc85908381c48714ecb1f7fb3522210533c5ce8dd3",
+    "tests/test_dispatch_measurement.py": "8afd6cc00e9f4f388ec970d9b688d35f01b76845685b452e5920f86dadad4f52",
+    "tests/test_colab_patient.py": "dea80b7f94318c7c305d1fb7af21caf4ac358e1004aac555b84eec9beac39e41",
+    "scripts/verify_main_integration.py": "44dffb6048db4bbe1d3dd5cc8724055e3a7ef7dd56a46e08c1ea8c232a8c2dea",
+    "scripts/workflow_boundary.py": "04260f215820ba1ef6711d1a4dd581924e1f3b942e1822831be87eb8dbfd9ee0",
+    "scripts/check_pilot_publication.py": "d705575c1c270a68804e58465756be61bef585faed5fe500899680289f1e0484",
+    "scripts/measure_dispatch.py": "e119b3de6baf5056d36d1221f8fb1e7512c82b5463ad1aaed22ba957ecbcea98",
+    "scripts/closeout_evidence.py": "901b705d5d07c92d2ada0cb616367a19afb314aa9ff39e021ccf68e20dda6dd1",
+    "scout.py": "a98dd67c31823253e56d27b89bc58fad2af15aa138f98e0894096e3e3d59ee22",
+    "docs/isles-pilot/CLOSEOUT_RULINGS_PROPOSED.md": "45139afd6ed49efe6495511ca0f85c594c642ea4fd457be77b050e6fe0ca0c5d",
+    "docs/isles-pilot/DISPATCH_LIMITER.md": "febc86f29a640906962e07aae3879152327ac486860c0227e6ba920c52a9c519",
+    "docs/isles-pilot/PUBLICATION_COVERAGE_20260906.md": "d01054df13471fed9b40e231e2be9c4f6f90f2200cbe53dc1e2ea8b69284d12b",
+    "docs/isles-pilot/047_NOTEBOOK_REPRODUCTION_20260906.json": "d73495caba86c9f2cd742267d83d283d0776fa10013d7d21be6272ba4a27b4ac",
+    "docs/isles-pilot/047_RUN_AUTHORING_PROVENANCE_20260906.json": "49d4213ae950800e4f8ee287046e048ecd210246c2680df070ff89d5f6c81cc5"
+  },
+  "response_sha256": "67dc3a4baa0c887209bdb711e40c80a716da3c1d28c07020b62136536af219b3",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "35aa4eb323915cd98975d0102a865fe46157ec050be91c697131a8f724f41f21"
+}

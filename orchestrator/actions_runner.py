@@ -15,7 +15,9 @@ REVIEW_FILES = ['orchestrator/actions_runner.py', 'scripts/actions_agent.py',
                 'orchestrator/human_controls.py', 'orchestrator/campaign_pipeline.py',
                 '.github/workflows/research-control.yml', 'configs/pilot/human-controls.json',
                 'tests/test_human_controls.py', 'scripts/actions_auth.py', 'scripts/render_human_workflows.py',
-                'orchestrator/public_export.py', 'orchestrator/dispatch_limiter.py', 'orchestrator/git_publication.py', 'configs/pilot/dispatch-limiter.json']
+                'orchestrator/public_export.py', 'orchestrator/dispatch_limiter.py', 'orchestrator/git_publication.py', 'configs/pilot/dispatch-limiter.json',
+                'scout.py','orchestrator/campaign_lifecycle.py','orchestrator/publication.py',
+                'orchestrator/campaign_review.py','orchestrator/campaign.py']
 REVIEW_FILES += ['.github/workflows/' + n + '.yml' for n in
                  ['actioner','confer','idea-pipeline','interpret','librarian','scout-cycle','results-validate']]
 

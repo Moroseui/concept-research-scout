@@ -79,12 +79,15 @@ def restore(req,out):
 
 
 def save(out,req,status,answer,next_action,evidence=None):
+    from orchestrator.public_export import text as public_text
+    public_text(answer)
     if DANGER.search(answer):raise ValueError('PUBLICATION_CONTENT_REJECTED')
     text=f'# {req["control"]}: {status}\n\n{answer}\n\n**Next action:** {next_action}\n\nSource: `{req["source"]}`. Request: `{req["identity"]}`.\n'
     if len(text.encode())>100000:raise ValueError('PUBLICATION_TOO_LARGE')
     (out/'RESULT.md').write_text(text)
     public_evidence=json.dumps(evidence or {},indent=2)+'\n'
     if DANGER.search(public_evidence) or len(public_evidence.encode())>500000:raise ValueError('EVIDENCE_PUBLICATION_REJECTED')
+    public_text(public_evidence,500000)
     (out/'evidence.json').write_text(public_evidence)
     receipt={'status':status,'source':req['source'],'request_identity':req['identity'],
              'control':req['control'],'mode':req['mode'],'experiment':req['experiment'],
@@ -151,7 +154,10 @@ def execute(req,out):
             for p in private.rglob('*'):
                 if p.is_file() and not p.is_symlink() and p.suffix in ['.md','.json','.jsonl','.py'] and not p.name.startswith('runner_'):
                     value=p.read_text()
-                    if not DANGER.search(value) and len(value.encode())<100000:failures[p.relative_to(private).as_posix()]=value
+                    from orchestrator.public_export import text as public_text
+                    try:public_text(value)
+                    except ValueError:continue  # rejected original remains private, not relabeled reviewed
+                    failures[p.relative_to(private).as_posix()]=value
         if len(json.dumps(failures).encode())>400000:failures={'retention_note':'Public failure evidence exceeds the bounded export; low-level originals remain ephemeral and are not claimed as durably retained.'}
         return save(out,req,'BLOCKED','The system stopped: '+code+'. No partial proposal is presented as reviewed.',
                     'Inspect the named gate. Repair authentication or input/review bindings, then submit a new request ID. For interpretation, first import a validated result; proposal review never grants human ratification.',{'failure_code':code,'unreviewed_system_records':failures})
