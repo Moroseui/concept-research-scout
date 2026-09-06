@@ -62,3 +62,12 @@ root-owned sparse source and fixed synthetic units. Firewall allows SSH only aft
 non-root operator key login was verified; root key access remains available.
 No agent gets sudo. No model key, OAuth token, SSH private key or patient archive
 is copied to the server. Original bootstrap/account-inspection logs stay private.
+
+First hosted startup at `6b555075fcf553994ecac8e368f4676cbdffdc56` exposed a
+missing sparse-checkout input: `.gitignore`, blob
+`f545437ebc93eb974d8dd7090b19e79121fd80ba`. Git status tried to lazy-fetch it
+inside the read-only, network-isolated services and refused. All four jobs stayed
+READY; no attempt started. The bounded repair hydrates only that tracked ignore
+file at the same source pin and verifies cleanliness as the controller. It does
+not resubmit jobs or change their source bindings. Future installs include the
+ignore file explicitly. Original startup errors remain private evidence.

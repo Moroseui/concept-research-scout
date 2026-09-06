@@ -25,3 +25,10 @@ synthetic systemd workers do not use Codex and remain independent.
 Source: [Ubuntu 24.04 release notes, user namespace restrictions](https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890),
 [Ubuntu AppArmor security documentation](https://documentation.ubuntu.com/security/security-features/privilege-restriction/apparmor/).
 This document records a prepared repair; only a later actual host receipt proves application and validation.
+
+The profile passed namespace setup but the original verification command then
+failed trying to execute a program named `linux`. Installed 0.153.4 help specifies
+`codex sandbox [OPTIONS] [COMMAND]...`; it has no `linux` subcommand or `--full-auto`
+option. The corrected test uses `codex sandbox -- /usr/bin/true` and a workspace
+configuration override for the filesystem check. The profile/binary permissions
+are unchanged by this invocation correction; the first failed test is preserved.

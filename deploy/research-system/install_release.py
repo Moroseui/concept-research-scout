@@ -14,7 +14,7 @@ import urllib.request
 REPOSITORY='https://github.com/Moroseui/concept-research-scout.git'
 BRANCH='refs/heads/astra/infrastructure-milestone-record'
 NODE_VERSION='v22.23.2'
-PATTERNS=['/orchestrator/','/deploy/research-system/','/docs/operations/',
+PATTERNS=['/.gitignore','/orchestrator/','/deploy/research-system/','/docs/operations/',
           '/campaigns/isles24-pilot/colab/smoke.py','/configs/pilot/dispatch-limiter.json']
 
 def run(*args,**kw):return subprocess.run(args,check=True,**kw)
