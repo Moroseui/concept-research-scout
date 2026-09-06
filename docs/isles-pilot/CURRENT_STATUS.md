@@ -112,3 +112,16 @@ publisher's absent-new-ref limitation, conditional activation dependency and
 [one 047 cleanup approval request](047_CLEANUP_DECISION_REQUEST.md). Publication
 on the record branch is authorized but blocked by that existing capability gap;
 no protection, patient execution or new implementation batch began.
+
+
+## Controlled publication repair completed
+
+The previously missing new-ref route is implemented and focused Fable-reviewed
+at 4bfdb85. Controlled creation published the record branch at a5a3030 and verified
+the exact remote source; see [creation receipt](CONTROLLED_BRANCH_CREATION_RECEIPT_20260906.json).
+The publication inbox item is resolved; its earlier absent-ref refusal remains
+historical evidence. The cleanup request and ratified governance record are now
+available on the published milestone branch for the next appropriate PR. No main
+merge, protection/limiter change or scientific execution occurred. The existing
+hosted adapter review must be refreshed for this changed publisher dependency
+before a future hosted operation can pass its whole-file binding check.

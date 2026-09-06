@@ -18,8 +18,9 @@
     {
       "job": "postmerge-record-publication",
       "reason": "CONTROLLED_PUBLISHER_NEW_REF_SUPPORT_REQUIRED",
-      "status": "OPEN",
-      "dependency": "Publishing this branch is authorized, but the existing publisher requires an existing remote before pin. Approve a future bounded new-ref publisher change, or operator-create this exact branch at already-public main d24ffb9003a2291f359afe3acf4bf491f2d7fd9f before retrying controlled append. No bypass or bootstrap write performed."
+      "status": "RESOLVED",
+      "dependency": "Publishing this branch is authorized, but the existing publisher requires an existing remote before pin. Approve a future bounded new-ref publisher change, or operator-create this exact branch at already-public main d24ffb9003a2291f359afe3acf4bf491f2d7fd9f before retrying controlled append. No bypass or bootstrap write performed.",
+      "resolution": "Reviewed controlled branch creation succeeded at a5a30305d33fd4bd29bc1cd2584d1e42001a5414; exact remote source verified. See CONTROLLED_BRANCH_CREATION_RECEIPT_20260906.json. Original dependency retained for audit."
     }
   ]
 }

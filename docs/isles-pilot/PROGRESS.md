@@ -860,3 +860,14 @@ Non-blocking preexisting limits remain: identifier scanning is not universal
 across source/document formats, legacy updates use origin/pushurl, and malformed
 notebooks may raise non-ValueError exceptions while still refusing publication.
 No wider scanner or hosted adapter changes are smuggled into this repair.
+
+
+Controlled creation succeeded at a5a30305d33fd4bd29bc1cd2584d1e42001a5414 from
+public audit baseline d24ffb9, with expected destination absence, 20 outgoing blob
+versions checked and exact remote source verified. Receipt committed separately
+so it identifies the actual creation source without a self-referential hash.
+The publication decision dependency is resolved; original refusal and cfadeb1/
+551be01 remain in history. This receipt/inbox-only follow-up uses the existing
+controlled append route bound to the just-created remote pin, never a creation
+fallback or overwrite. Other reserved decisions remain open. No new permission,
+main update, protection change, limiter activation, cleanup or patient run occurred.

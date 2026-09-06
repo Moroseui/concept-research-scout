@@ -1,0 +1,12 @@
+{
+  "source": "a5a30305d33fd4bd29bc1cd2584d1e42001a5414",
+  "audit_baseline": "d24ffb9003a2291f359afe3acf4bf491f2d7fd9f",
+  "baseline_ref": "refs/heads/main",
+  "remote": "https://github.com/Moroseui/concept-research-scout.git",
+  "destination": "astra/infrastructure-milestone-record",
+  "expected_destination": "absent",
+  "operation": "create_if_absent",
+  "blob_versions": 20,
+  "inventory_sha256": "205e1c9fcc3980ac516a0def26ba174d0a51ae6cfe1e15195c8dba6a67abe250",
+  "remote_verified": true
+}
