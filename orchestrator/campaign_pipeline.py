@@ -24,7 +24,11 @@ MODES={'charter':['CHARTER.proposed.md','RUBRIC.proposed.md','P001_ADOPTION.prop
 
 
 def system_stage(sc,directory,family,stage,body,names):
-    """Reuse the existing primitive with a future-job profile, not live AGENTS.toml."""
+    """Single-writer process only: this primitive temporarily changes sc.ROOT.
+
+    Model stages must not run in readiness_queue threads. CI retains its own
+    separately reviewed profile/provenance adapter.
+    """
     if os.environ.get('SCOUT_CI'):
         from orchestrator.actions_runner import system_stage as hosted_stage
         return hosted_stage(sc,directory,family,stage,body,names)
@@ -36,7 +40,9 @@ def system_stage(sc,directory,family,stage,body,names):
     try:
         sc.ROOT=config_root
         return run_isolated_stage(sc,directory,family,stage,body,names)
-    finally:sc.ROOT=original
+    finally:
+        sc.ROOT=original
+        shutil.rmtree(config_root)
 
 
 def grounding(root,experiment):

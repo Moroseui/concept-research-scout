@@ -35,3 +35,36 @@ def test_real_proposal_context_is_preview():
     if not (root/proposal).exists():pytest.skip('live proposal not in fixture checkout')
     r=proposal_context(root,proposal)
     assert json.loads(r['context-disposition.json'])['ratified'] is False
+
+
+def test_actual_campaign_and_scout_paths_respect_pending_and_blinding(tmp_path,monkeypatch):
+    import scout
+    from orchestrator.campaign_pipeline import grounding
+    (tmp_path/'evidence').mkdir();(tmp_path/'orchestrator/prompts').mkdir(parents=True)
+    (tmp_path/'orchestrator/prompts/scout.md').write_text('Legacy task')
+    (tmp_path/'CHARTER.md').write_text('Legacy charter unchanged')
+    (tmp_path/'evidence/research_context.json').write_text(json.dumps({'entries':[dict(id='pending-source',charters=[''],tags=['stroke'],dependencies=['original_console'],status='PENDING',interpretation='DO_NOT_EXPOSE')]}))
+    target=tmp_path/'target';target.mkdir()
+    monkeypatch.setattr(scout,'ROOT',tmp_path);monkeypatch.setattr(scout,'PROMPTS',tmp_path/'orchestrator/prompts')
+    monkeypatch.setattr(scout,'charter_for_target',lambda target:'')
+    monkeypatch.setattr(scout,'_target_context',lambda stage,target:'')
+    monkeypatch.setattr(scout,'_brief_path',lambda charter:tmp_path/'evidence/brief.md')
+    ordinary=scout.build_prompt('scout',target)
+    assert 'PENDING_EVIDENCE_NO_CONCLUSIONS' in ordinary and 'DO_NOT_EXPOSE' not in ordinary
+    assert 'Legacy task' in ordinary and 'Legacy charter unchanged' in ordinary
+    blind=next(iter(scout.BLIND_STAGES))
+    assert 'pending-source' not in scout.build_prompt(blind,target)
+
+
+def test_proposal_parent_traversal_rejected(tmp_path):
+    with pytest.raises(ValueError,match='PROPOSAL_SCOPE'):
+        proposal_context(tmp_path,'campaigns/isles24-pilot/pipeline/../../../ideas/fabricated')
+
+
+def test_legacy_stage_target_does_not_select_other_charter(tmp_path,monkeypatch):
+    import scout
+    monkeypatch.setattr(scout,'ROOT',tmp_path)
+    baseline=tmp_path/'ideas/scout-001';baseline.mkdir(parents=True)
+    named=tmp_path/'ideas/scout-isles24-001';named.mkdir()
+    assert scout.stage_target('scout',None)==baseline
+    assert scout.stage_target('scout','isles24-001')==named

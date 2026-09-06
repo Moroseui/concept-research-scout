@@ -1,0 +1,47 @@
+{
+  "status": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+  "mode": "readiness",
+  "experiment": "P001",
+  "input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/build_receipt.json": "fc35059a7254ca3e449a9445d654e92bdc789a81ae71d16d19d769b650bfde44",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/review.json": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+    "docs/isles-pilot/047_LIFECYCLE.md": "171574d42d0f025c0b39bc4eeaa6f126524251e94f9336241dadf8c0e746769e",
+    "docs/isles-pilot/CURRENT_STATUS.md": "46f4aa106e08cdac51459731cd3137eb0d4882b55739cb2dcb2310085038a82f",
+    "docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json": "5257b6ed150db6d4e5815167171a6596a387b7b33dc102cbadac7e2ebe8bf070",
+    "docs/science/PREDICTION_READINESS_DIRECTION_20260906.md": "6cf9072fd9dcb6b0a9dc9e0a216796324234cfc6bbb4b04811a75f8701a03923",
+    "related-evidence.json": "5e8b77475a2748b545c1b16263136c1fc94ebc37b0d87991ec2c8d82b1af99e9",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/receipt.json": "bc62ada3fa440a442dd2606ec9f2531ded3a088da20c2d6664b9c0bb0ac39767",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/review.json": "f03fe43f216bf80c34ea0d38203371def299d4fe2de7d5398c72d2d15dab0bed",
+    "context-disposition.json": "6b34eaf6f9f229fcab4904225b4db262774a0896cf4f1637740bc72e6d2b5cc6"
+  },
+  "round": 1,
+  "artifact_sha256": {
+    "round-1/profile_campaign_readiness.json": "762b04f0246f046f2171db9615a5770feb489311517a9b8d2b1e40dd036796ca",
+    "round-1/review.json": "65212b4659cedae5ea934231c3c767ba7247eb55134651923f29bff511cee16b",
+    "round-1/prompt_campaign_readiness_review.md": "0b876391d69cffaa051fa8ec0c0f285b4364244d9f0e9d8a2bb3cef4b3d9c3a5",
+    "round-1/stage_provenance.jsonl": "84c79a553367e9b7ada7f01f6eb44343bd5ff7f0f392b7118182d9f5991f142e",
+    "round-1/log_campaign_readiness.txt": "973d16be6871c0d4b819b935a22068069bdd803da915fafea56df478e9af6bd9",
+    "round-1/profile_campaign_readiness_review.json": "5a8ea4673c7c93318be76a76faeabbb817b2a8d016228109c0ca91e64923e6dc",
+    "round-1/log_campaign_readiness_review.txt": "f53790a2f4c9fa9acd98415620fbc3aa1cbc9c64e59402b79de24f0d54654612",
+    "round-1/readiness.md": "53313249e1f71fba3ea521246426350eab7a156986e9794c899239b7c8987e2a",
+    "round-1/prompt_campaign_readiness.md": "1368bc1b3ec714c729fd03dd6687083594540bfbdd9502f09078a7e1078ad22e",
+    "round-1/launch_decision.proposed.json": "616c228bbd528af6cfc48b7792fbeab507117d8b1c70bf66ecbb2543eced1b7d"
+  },
+  "author_family": "codex",
+  "reviewer_family": "claude",
+  "ci": false,
+  "initiator": {
+    "kind": "agent",
+    "family": "codex"
+  }
+}

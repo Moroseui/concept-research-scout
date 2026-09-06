@@ -16,10 +16,15 @@ def checked(root, relative, expected=None):
 
 def proposal_context(root, relative):
     """Explicit preview only. No automatic selection, adoption or historical rewrite."""
-    if not relative.startswith('campaigns/isles24-pilot/pipeline/'): raise ValueError('PROPOSAL_SCOPE')
+    base=(Path(root)/'campaigns/isles24-pilot/pipeline').resolve()
+    candidate=Path(root)/relative
+    if '..' in Path(relative).parts or Path(relative).is_absolute() or not candidate.resolve().is_relative_to(base): raise ValueError('PROPOSAL_SCOPE')
     receipt=json.loads(checked(root,relative+'/receipt.json'))
     if receipt.get('status')!='REVIEWED_PROPOSAL_NOT_ADOPTED' or receipt.get('mode')!='charter':
         raise ValueError('REVIEWED_CHARTER_PROPOSAL_REQUIRED')
+    for name,expected in receipt['input_sha256'].items():
+        if name=='campaigns/isles24-pilot/CAMPAIGN.md' or name.startswith('campaigns/isles24-pilot/experiments/P001/'):
+            checked(root,name,expected)
     prefix=f"round-{receipt['round']}/"
     names=['CHARTER.proposed.md','RUBRIC.proposed.md','PROMPTS.proposed.md','P001_ADOPTION.proposed.md','review.json']
     result={relative+'/receipt.json':checked(root,relative+'/receipt.json')}

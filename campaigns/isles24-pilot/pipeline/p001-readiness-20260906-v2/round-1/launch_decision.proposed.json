@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "artifact_kind": "bounded_readiness_proposal",
+  "status": "PROPOSED_NOT_ADOPTED_NOT_LAUNCH_AUTHORITY",
+  "experiment": "P001",
+  "assessment_phase": "design",
+  "scientific_scope": "exploratory",
+  "origin": "externally_seeded_operator_delegated_P001",
+  "author_role": "system_campaign_readiness_author",
+  "recommendation": "ADOPT_CONDITIONALLY",
+  "recommendation_scope": "minimal fixed-threshold predictive reference; unchanged scientific contract",
+  "authority": {
+    "charter_ratified": false,
+    "adoption_performed": false,
+    "patient_launch_authorized": false,
+    "executable_amendment": false,
+    "human_ratification_requested": false,
+    "remote_writes_performed": false,
+    "patient_access_performed": false
+  },
+  "selected_proposal": {
+    "charter_identity": "isles24-prediction/proposed-v1",
+    "rubric_identity": "isles24-prediction-rubric/proposed-v1",
+    "prompt_identity": "isles24-prediction-prompts/proposed-v1",
+    "receipt_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/receipt.json",
+    "receipt_status": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+    "artifacts": {
+      "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+      "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/review.json": "f03fe43f216bf80c34ea0d38203371def299d4fe2de7d5398c72d2d15dab0bed",
+      "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+      "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+      "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27"
+    },
+    "future_linkage": "Separate prospective record binding final adopted charter/rubric/prompts/adoption and adoption review to unchanged P001 identities; no active linkage installed"
+  },
+  "pin_evidence": "Transcribed from supplied context; original artifacts not locally rehashed",
+  "original_pins": {
+    "original_snapshot": "0770c7dcabe781cbfb87de505755e7aafa758f2e",
+    "scientific_source_commit": "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+    "notebook_commit": "1a81c037343598f4e4585153b11d761b87a9ae3a",
+    "reviewed_commit": "469d29df002ea78f64146731244769d7c82330d6",
+    "cohort_sha256": "aba525122f796618761e6c4d29b664647760e8dff4987932c3ff6ab5456faae9",
+    "member_manifest_git_blob": "edb9a8c2ceb90df214cdd7ec167f0b1e8c858bb2",
+    "archive_bytes": 99014629647,
+    "archive_md5": "36ae28b9a17f7340b8bbef62b595cb57"
+  },
+  "source_input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/build_receipt.json": "fc35059a7254ca3e449a9445d654e92bdc789a81ae71d16d19d769b650bfde44",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/review.json": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+    "docs/SCORING_RUBRIC.md": "57b26b6b9cda3140e6bf11c0d8babec08843aaa774a69d22d856d1a6f22addaf",
+    "docs/isles-pilot/047_LIFECYCLE.md": "171574d42d0f025c0b39bc4eeaa6f126524251e94f9336241dadf8c0e746769e",
+    "docs/isles-pilot/CURRENT_STATUS.md": "46f4aa106e08cdac51459731cd3137eb0d4882b55739cb2dcb2310085038a82f",
+    "docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json": "5257b6ed150db6d4e5815167171a6596a387b7b33dc102cbadac7e2ebe8bf070",
+    "docs/science/PREDICTION_READINESS_DIRECTION_20260906.md": "6cf9072fd9dcb6b0a9dc9e0a216796324234cfc6bbb4b04811a75f8701a03923",
+    "orchestrator/prompts/scout.md": "7d943c7d48044a351affcd764f2917ec5118f21cbfaeefdcba88c4b5f75f0f12"
+  },
+  "preserved_p001_review": {
+    "actor_type": "agent",
+    "code_sha256": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "decision_sha256": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "execution": "docs/isles-pilot/reviews/p001-r3.execution.json",
+    "execution_sha256": "393432571b933cc9375927dff39da099b0f44d8720bd99cb40f78a033e665253",
+    "family": "claude",
+    "file_sha256": {
+      "AGENTS.toml": "f08371316b763742aa3fbadd9b906146d7bfba65fa6ba2416c73f9ecc186b6e1",
+      "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+      "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+      "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+      "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+      "campaigns/isles24-pilot/experiments/P001/requirements.txt": "901f228b01fdd1fd7e668a808598c2541d00f3d021e4b2fbf57e2781ede3d995",
+      "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+      "campaigns/isles24-pilot/experiments/P001/validate_return.py": "c021d2c8cce8f2e1c92df88108eb93ba473d05b0990233532060aeab82a0d9db",
+      "orchestrator/campaign.py": "f18d46ec30c8a660b33d915195e985a1f35c52b925ff6b89e75f320a8e07d593",
+      "orchestrator/campaign_lifecycle.py": "d4c33f59ccd2520124f49788d7538057c8ee0fe4a92579453f33072c9a45a92e",
+      "orchestrator/campaign_review.py": "2b74a438b74ba5db3497204bde82c6e2be676a16658aa4b975ae3ade6e690310",
+      "orchestrator/publication.py": "95448fbc758b00f8d9dcfbab98aedf0245991146515945fe689789a0532eacd9",
+      "scout.py": "fd74da000f8f181222bfb7d4774e156d7734cd5de090176f2e2c03470d3b9b95",
+      "scripts/package_pilot.py": "1c6b875595fd1147790fd2f9dc037e7300035a58a10dfad10b300d88159bcca9",
+      "tests/test_campaign.py": "7e4ea12d19a7b9d98778817608f582f22190e00aa3b8469643a51c676944818a",
+      "tests/test_campaign_lifecycle.py": "edfd89f66ce945680ce415428234b4691f85c0c662988e03a5c543e2ca2233ae",
+      "tests/test_campaign_review.py": "5640599b662ffcf411fc4c0bdb66de4bcb4e09d070908d549e7fdf75870e9898",
+      "tests/test_pilot_notebook_acquisition.py": "fff1541a060a890c94bfede3b832b547a13e9f0794e569a3fe8ab0f89783d06e",
+      "tests/test_prediction_p001.py": "5f46e2472277a6099a34ee262e8553605a248a4beb91c16dd86ba7b31a401210"
+    },
+    "model": "claude-fable-5",
+    "response": "docs/isles-pilot/reviews/p001-r3.response.json",
+    "response_sha256": "29fe8f4130efe84dffe306f16e6ed93ac37363f9def4c4c85ae63d1f48861198",
+    "reviewed_commit": "469d29df002ea78f64146731244769d7c82330d6",
+    "spec_sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "verdict": "APPROVE"
+  },
+  "historical_origin": {
+    "investigator_build_actor": "Codex / GPT-6 Astra / campaign_delegated_investigator",
+    "opposing_reviewer": "Claude / claude-fable-5",
+    "historical_pending_decision_preserved": true,
+    "historical_APPROVE_preserved": true,
+    "changed_HEAD_covered": false
+  },
+  "input": {
+    "eligible_cases": 99,
+    "reserved_cases_untouched": 49,
+    "selected_members": 198,
+    "selection": "Lexically sorted case_id only; exactly one canonical admission Tmax and ses-02 NCCT-space lesion per eligible ID from pinned manifest; ambiguity fails",
+    "archive_historical_verified_at_utc": "2026-09-06 00:34:31",
+    "archive_historical_path": "/content/drive/MyDrive/isles-pilot/archive-preservation-ec3e76e9b91f40ca847b490f9b5f7bfa/train.7z",
+    "historical_evidence": "Mounted Drive destination read-back; not provider durability verification",
+    "current_availability": "NOT_VERIFIED",
+    "unit_evidence": "Inherited seconds assumption; no independent voxel-value unit verification supplied",
+    "planned_checks_only": [
+      "Claim-specific primary documentation for numeric Tmax seconds and scaling",
+      "After separate access authorization: current archive availability and identity, selected compressed member size/CRC, then eligible Tmax header/scaling and non-outcome integrity checks",
+      "No reserved-case inspection, outcome inspection for design readiness, inferred unit conversion, or threshold tuning"
+    ]
+  },
+  "backend_options": [
+    {
+      "route": "reviewed_CPU_Colab_manual_notebook",
+      "disposition": "PREFERRED_CONDITIONAL_ROUTE",
+      "budget": "one CPU run; 60 analysis minutes; staging separately receipted; at most one staging invocation per new output path",
+      "gates": [
+        "exact reviewed source/dependency bindings",
+        "authorized CPU connection and Drive mount consent",
+        "explicit ARCHIVE parameter and current identity checks",
+        "job/process/checkpoint reconciliation and deliberate dispatch-hold resolution",
+        "separate adoption and launch disposition"
+      ]
+    },
+    {
+      "route": "Linux_patient_transport_and_execution",
+      "disposition": "SEPARATE_BACKEND_PROPOSAL_AND_REVIEW_REQUIRED",
+      "reason": "Existing authenticated synthetic host evidence does not establish patient transport, preservation, budget compatibility or permission to replace Colab",
+      "gates": [
+        "bounded private transport/storage/return design and resource evidence",
+        "separately versioned backend/campaign amendment if replacing frozen CPU Colab contract",
+        "fresh opposing-family review of affected source, transport, lifecycle and publisher dependencies",
+        "separate patient transfer and launch authority",
+        "protected 48/96 activation gates if unattended route is used"
+      ]
+    }
+  ],
+  "launch_gate_status": "HELD_NO_REAL_RETURN",
+  "open_gates": [
+    "prospective charter/adoption disposition without changing historical lineage",
+    "Tmax-unit evidence disposition and source-gap review",
+    "exact execution snapshot and affected-dependency review",
+    "current authorized input/runtime availability",
+    "ambiguous dispatch reconciliation; NOT_VISIBLE is not absence; zero automatic retries",
+    "separate patient launch authority",
+    "private original console/checkpoint return and aggregate validation before interpretation"
+  ],
+  "return_contract": {
+    "required_and_allowed": [
+      "summary.json",
+      "resolved_config.json",
+      "environment.json",
+      "execution_receipt.json",
+      "RESULT_CARD.md"
+    ],
+    "private_evidence": [
+      "original console",
+      "selected input manifest and hashes",
+      "predictions",
+      "per-case checkpoints and metrics",
+      "failure history"
+    ],
+    "complete_patient_count": 99,
+    "invalid_run_is_negative_result": false
+  },
+  "lifecycle_routes": {
+    "runner_preflight": "campaigns/isles24-pilot/experiments/P001/run.py --preflight; metadata selection only, not launch verification",
+    "execution_binding_gate": "orchestrator.campaign.verify_decision called by run.py before real payload access",
+    "return_validator": "campaigns/isles24-pilot/experiments/P001/validate_return.py; SHA-256 c021d2c8cce8f2e1c92df88108eb93ba473d05b0990233532060aeab82a0d9db",
+    "packaging": "scripts/package_pilot.py and orchestrator/publication.py",
+    "record_result": "existing scout.py record-result lifecycle route; verbatim import semantics and publication policy apply",
+    "interpretation": "existing scout.py / orchestrator/campaign_lifecycle.py and campaign_review.py interpretation/review route after valid import",
+    "cli_evidence_limit": "Validator, import and interpretation argument definitions are absent from bound context. Exact executable invocations cannot be established here; inspect approved help/source in a future authorized environment before use. Do not reuse 047 destinations or invent a P001 import path."
+  },
+  "047_dependency": false,
+  "followups_selected": [],
+  "critical_path_target": "2026-09-09 Wednesday",
+  "fallback": "Reviewed readiness proposal with explicit open gates; no result if launch/return gates remain closed",
+  "measurements": {
+    "patient_results": null,
+    "runtime_seconds": null,
+    "human_intervention_minutes": null,
+    "usage_tokens": null,
+    "cost_usd": null
+  },
+  "evidence_limitations": [
+    "Only supplied excerpts and disposable prompt/state inspected",
+    "No new literature search, patient measurements, runtime connection or archive verification",
+    "Missing onboarding and deployment-review originals remain missing",
+    "No numeric rubric scores requested or fabricated"
+  ],
+  "readiness_document": "readiness.md"
+}

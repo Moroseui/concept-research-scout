@@ -48,12 +48,11 @@ class ReadinessQueue(Store):
         self.db.execute("UPDATE jobs SET phase='readiness' WHERE id=? AND phase='acquisition'",(name,))
 
     def accept(self, name, result):
-        row=self.get(name)
-        if result['binding'] != json.loads(row['binding']) or result['job'] != name:
-            raise ValueError('RESULT_BINDING')
         text=json.dumps(result,sort_keys=True)
         self.db.execute('BEGIN IMMEDIATE')
         try:
+            row=self.get(name)
+            if result['binding'] != json.loads(row['binding']) or result['job'] != name: raise ValueError('RESULT_BINDING')
             old=self.db.execute('SELECT payload FROM events WHERE id=?',(name,)).fetchone()
             if old:
                 if old[0]!=text: raise ValueError('CONFLICTING_COMPLETION')
@@ -76,7 +75,11 @@ class ReadinessQueue(Store):
             if r['status']!='READY': continue
             if b['gates']:
                 self.block(r['id'],'REQUIRES_'+'_'.join(b['gates'])); continue
-            if any(statuses.get(d)!='COMPLETE' for d in b['dependencies']): continue
+            missing=[d for d in b['dependencies'] if statuses.get(d)!='COMPLETE']
+            if missing:
+                self.db.execute("INSERT OR REPLACE INTO inbox VALUES(?,?,'OPEN')",(r['id'],'WAIT_DEPENDENCIES_'+','.join(missing)))
+                continue
+            self.db.execute("UPDATE inbox SET status='RESOLVED' WHERE job=? AND reason LIKE 'WAIT_DEPENDENCIES_%'",(r['id'],))
             if b['thread'] in busy: continue
             choices.append(r); busy.add(b['thread'])
         return choices
@@ -111,17 +114,25 @@ def run(root, source, state):
                 if path.is_symlink(): raise ValueError('RESULT_SYMLINK')
                 value=json.loads(path.read_text())
                 if value!=artifact_projection(value): raise ValueError('RESULT_SCHEMA')
+                attempt=state/r['id']/'attempt.json'
+                if attempt.is_symlink() or not attempt.is_file(): raise ValueError('ATTEMPT_REQUIRED')
+                bound=json.loads(attempt.read_text())
+                if bound.get('job')!=r['id'] or bound.get('binding')!=json.loads(r['binding']): raise ValueError('ATTEMPT_BINDING')
+                expected=artifact(root,r['id'],dict(json.loads(r['binding']),seconds=0))
+                if any(value[k]!=expected[k] for k in ('job','facts','scope','next_action')): raise ValueError('RESULT_CONTENT_CHANGED')
                 q.accept(r['id'],value)
-            elif r['status']=='RUNNING': q.block(r['id'],'UNCERTAIN_ATTEMPT_RECONCILE_NO_AUTOMATIC_RETRY')
+            elif r['status']=='RUNNING' or (state/r['id']).exists(): q.block(r['id'],'UNCERTAIN_ATTEMPT_RECONCILE_NO_AUTOMATIC_RETRY')
         active={}
         with ThreadPoolExecutor(max_workers=2) as workers:
             while True:
                 for r in q.candidates(active):
                     name=r['id']; folder=state/name
-                    folder.mkdir(mode=0o700,exist_ok=False)
+                    if not q.claim(name): continue
+                    try: folder.mkdir(mode=0o700,exist_ok=False)
+                    except FileExistsError:
+                        q.block(name,'UNCERTAIN_ATTEMPT_RECONCILE_NO_AUTOMATIC_RETRY'); continue
                     binding=json.loads(r['binding'])
                     immutable(folder/'attempt.json',encoded({'job':name,'binding':binding,'limits':{'threads':1,'max_seconds':90,'patient':False,'model_calls':0}}))
-                    q.claim(name)
                     active[name]=workers.submit(artifact,root,name,binding)
                 if not active: break
                 for name,future in list(active.items()):

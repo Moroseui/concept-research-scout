@@ -798,9 +798,12 @@ def shortlist(args):
 
 def stage_target(stage, idea):
     if stage in ('scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit'):
-        scouts=sorted((ROOT/'ideas').glob('scout-*'))
-        if not scouts: raise SystemExit('Run new-scout first.')
-        return scouts[-1]
+        # Legacy unqualified run targets baseline only; named cycles use an
+        # explicit reference. Lexical ordering across charters is not authority.
+        charter,number=_parse_scout_ref(idea) if idea is not None else (None,_latest_scout_no(None))
+        target=scout_dir(number,charter)
+        if not target.is_dir(): raise SystemExit('Requested scouting cycle does not exist.')
+        return target
     if idea is None:
         idea=load_state().get('selected_idea')
     if idea is None: raise SystemExit('--idea is required or shortlist an idea first.')
@@ -3267,7 +3270,7 @@ def _commit_all(message):
     r = _git('diff', '--cached', '--quiet', check=False)
     if r.returncode == 0:
         return False  # nothing to commit
-    _git('-c', 'user.name=Astra (OpenAI agent)', '-c', 'user.email=astra@agents.local.invalid', 'commit', '-q', '-m', message)
+    _git('-c', 'user.name=Research system (automated checkpoint)', '-c', 'user.email=research-system@agents.local.invalid', 'commit', '-q', '-m', message)
     if os.environ.get('SCOUT_CI'):
         _push_checkpoint()
     return True

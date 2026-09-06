@@ -24,7 +24,7 @@ def test_overlap_restart_and_duplicate(tmp_path):
     slow=json.loads((state/'a-slow/result.json').read_text())
     useful=json.loads((state/'c-baseline/result.json').read_text())
     assert slow['started'] < useful['finished'] < slow['finished']
-    assert r['inbox'][0]['job']=='d-patient-gated'
+    assert [x['job'] for x in r['inbox'] if x['status']=='OPEN']==['d-patient-gated']
 
 
 def test_uncertain_attempt_is_not_retried(tmp_path):
@@ -39,3 +39,10 @@ def test_binding_and_handler_rejected(tmp_path):
     q=ReadinessQueue(tmp_path/'state.sqlite');q.add('same',binding())
     with pytest.raises(ValueError):q.add('same',binding('baseline_inventory'))
     with pytest.raises(ValueError):q.add('shell',binding('arbitrary_shell'))
+
+
+def test_crash_before_claim_yields_to_independent_work(tmp_path):
+    q=ReadinessQueue(tmp_path/'readiness.sqlite');q.add('crashed',binding());q.add('independent',binding());q.db.close()
+    (tmp_path/'crashed').mkdir(mode=0o700)
+    with patch('orchestrator.readiness_queue.checked_source',return_value=tmp_path):r=run(tmp_path,'a'*40,tmp_path)
+    assert dict((x['id'],x['status']) for x in r['jobs'])=={'crashed':'BLOCKED','independent':'COMPLETE'}
