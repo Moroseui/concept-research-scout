@@ -83,7 +83,7 @@ def model_call(folder, stage, family, prompt):
         command = ['codex', 'exec', '--ignore-user-config', '--ignore-rules',
                    '-m', MODELS[family], '-s', 'read-only', '-c', 'approval_policy="never"',
                    '-c', 'features.shell_tool=false', '-c', 'web_search="disabled"',
-                   '--skip-git-repo-check', '--json', '-o', str(work/'answer.md'), '-']
+                   '--skip-git-repo-check', '--json', '-']
     else:
         command = ['claude', '-p', '--model', MODELS[family], '--output-format', 'stream-json',
                    '--verbose', '--strict-mcp-config', '--mcp-config', '{"mcpServers":{}}',
@@ -118,11 +118,15 @@ def model_call(folder, stage, family, prompt):
     else:
         completed = [e for e in events if e.get('type') == 'turn.completed']
         if not completed: raise ValueError('ASTRA_TURN_NOT_COMPLETE')
-        answer = (work/'answer.md').read_text()
+        answers = [e['item']['text'] for e in events if e.get('type') == 'item.completed'
+                   and e.get('item', {}).get('type') == 'agent_message']
+        if not answers: raise ValueError('ASTRA_RESPONSE_MISSING')
+        answer = answers[-1]
         receipt.update(session_id=next(e['thread_id'] for e in events if e.get('type') == 'thread.started'),
                        usage=completed[-1].get('usage'),
-                       model_evidence='Exact requested model; protocol may omit resolved model identity')
+                       model_evidence='Requested model bound in command; resolved model not independently reported by this protocol')
     if not answer.strip(): raise ValueError('EMPTY_MODEL_RESPONSE')
+    receipt['answer_sha256'] = sha(answer.encode())
     scan(stage+'.md', answer.encode())
     immutable(folder/(stage+'.md'), answer.encode()); immutable(folder/(stage+'.receipt.json'), encoded(receipt))
     return answer, receipt
