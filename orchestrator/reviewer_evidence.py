@@ -56,6 +56,7 @@ def collect(root, request, *, hosted=False):
     result = {'version': 1, 'request_id': identity, 'request': request,
               'collected_utc': datetime.now(timezone.utc).isoformat(), 'records': records,
               'current_observations': [],
+              'collector_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               'limitations': ['No patient files, private logs, credentials or arbitrary commands are read.',
                              'No new execution, restart, restore or phone delivery is performed.',
                              'Missing or historical evidence does not establish current success.']}
@@ -64,7 +65,7 @@ def collect(root, request, *, hosted=False):
             command = ['systemctl', 'show', unit, '--property='+','.join(PROPERTIES)]
             try:
                 proc = subprocess.run(command, capture_output=True, text=True, timeout=15)
-            except (subprocess.TimeoutExpired, FileNotFoundError):
+            except (subprocess.TimeoutExpired, OSError):
                 result['current_observations'].append({'unit': unit, 'status': 'COLLECTION_FAILED', 'execution_proven': False})
                 continue
             # Never return raw stderr or unexpected properties from a service definition.
