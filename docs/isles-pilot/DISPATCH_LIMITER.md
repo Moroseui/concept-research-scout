@@ -50,7 +50,7 @@ privately/versioned as appropriate, while the public ledger stores its SHA256.
 The function does not authenticate a human from a JSON role string: its caller
 must establish operator authorization outside the agent's model process.
 
-The current read-only Actions token cannot initialize or update this ref. Merely
+A separate admission job is prepared with no model credentials; the model-runner job depends on its success. Both jobs currently retain read-only permissions. The current read-only Actions token cannot initialize or update this ref. Merely
 changing status to RATIFIED is not activation: operator_approval, a chosen N,
 state_write_permission, initialized state and a reviewed isolated writer route
 must all be supplied. No new credential, Actions permission or state ref is
@@ -58,3 +58,9 @@ provisioned during this closeout. Hosted N/2N notification delivery and producti
 shared-state persistence remain unproven until that permission decision and a
 bounded acceptance run. The local/remote-fixture tests establish implementation
 behavior, not deployed enforcement.
+
+Here a counted "job" means one admitted control run/attempt, not every underlying
+Actions job. The admission job and downstream model-runner job together consume
+one admission. Deterministic push/PR checks and queued attempts that never enter
+admission are outside this model-control counter and can still consume Actions
+minutes. The implementation has no dollar-limit or total runner-minute guarantee.

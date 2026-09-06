@@ -33,14 +33,11 @@ def documents():
       'on':{'workflow_call':{'inputs':inputs,'secrets':{'OPENAI_API_KEY':{'required':False},'CLAUDE_CODE_OAUTH_TOKEN':{'required':False}}}},
       'permissions':{'contents':'read','actions':'read'},
       'concurrency':{'group':'human-control-${{ github.ref }}-${{ inputs.request_id }}','cancel-in-progress':False},
-      'jobs':{'run':{'runs-on':'ubuntu-latest','timeout-minutes':30,'env':{'SCOUT_CI':'1'},'steps':[
+      'jobs':{'run':{'needs':'admission','runs-on':'ubuntu-latest','timeout-minutes':30,'env':{'SCOUT_CI':'1'},'steps':[
         {'uses':CHECKOUT,'with':{'ref':'${{ github.sha }}','fetch-depth':1,'persist-credentials':False}},
         {'uses':PYTHON,'with':{'python-version':'3.11'}}, {'uses':NODE,'with':{'node-version':'22'}},
         {'name':'Install fixed CLIs and system dependencies','run':'npm install -g @openai/codex@0.153.4 @anthropic-ai/claude-code@2.1.222\npip install -r requirements.txt'},
         {'name':'Verify recorded adapter review','run':'python -c "from orchestrator.actions_runner import reviewed; reviewed()"'},
-        {'name':'Dispatch admission policy (inactive until ratified)',
-         'env':{'GH_TOKEN':'${{ github.token }}'},
-         'run':'python -m orchestrator.dispatch_limiter --repo .'},
         {'name':'Existing hosted authentication','continue-on-error':True,
          'env':{'OPENAI_API_KEY':'${{ secrets.OPENAI_API_KEY }}','CLAUDE_CODE_OAUTH_TOKEN':'${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}'},
          'run':'python scripts/actions_auth.py'},
@@ -53,6 +50,17 @@ def documents():
          'with':{'name':'${{ steps.result.outputs.artifact_name }}','path':'${{ runner.temp }}/human-result/','if-no-files-found':'error','retention-days':90}},
         {'name':'Explain infrastructure failure','if':"${{ failure() && steps.result.outputs.artifact_name == '' }}",'run':'python -m orchestrator.public_export'},
         {'name':'Remove ephemeral auth','if':'${{ always() }}','run':'python -c "import os,pathlib; p=pathlib.Path(os.environ.get(\'CODEX_HOME\',\'/nonexistent\'))/\'auth.json\'; p.unlink(missing_ok=True)"'}]}}}
+    # Admission has no model credentials. Write permission remains ungranted;
+    # a ratified deployment can authorize this job without broadening model jobs.
+    docs['research-control.yml']['jobs']['admission']={
+        'runs-on':'ubuntu-latest','timeout-minutes':5,
+        'permissions':{'contents':'read','actions':'read'},
+        'steps':[
+            {'uses':CHECKOUT,'with':{'ref':'${{ github.sha }}','fetch-depth':1,'persist-credentials':False}},
+            {'uses':PYTHON,'with':{'python-version':'3.11'}},
+            {'name':'Verify recorded adapter review','run':'python -c "from orchestrator.actions_runner import reviewed; reviewed()"'},
+            {'name':'Shared dispatch admission (inactive until ratified)','env':{'GH_TOKEN':'${{ github.token }}'},'run':'python -m orchestrator.dispatch_limiter --repo .'},
+            {'name':'Explain admission refusal','if':'${{ failure() }}','run':'python -m orchestrator.public_export'}]}
     return docs
 
 

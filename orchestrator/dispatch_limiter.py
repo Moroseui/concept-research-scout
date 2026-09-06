@@ -43,8 +43,8 @@ def validate(state):
 
 
 class GitLedger:
-    def __init__(self, repo, remote=False, expected_remote=None):
-        self.repo=Path(repo);self.remote=remote;self.expected_remote=expected_remote
+    def __init__(self, repo, remote=False, expected_remote=None, allow_initialization=False):
+        self.repo=Path(repo);self.remote=remote;self.expected_remote=expected_remote;self.allow_initialization=allow_initialization
     def git(self,*args,input=None,check=True):
         auth=['-c','credential.helper=','-c','credential.helper=!gh auth git-credential'] if self.remote else []
         return subprocess.run(['git',*IDENTITY,*auth,*args],cwd=self.repo,input=input,text=True,capture_output=True,check=check)
@@ -75,8 +75,9 @@ class GitLedger:
         from orchestrator.git_publication import scan_commit
         scan_commit(self.git('cat-file','commit',new).stdout.encode())
         if self.remote:
-            if not old:raise ValueError('OPERATOR_MUST_INITIALIZE_STATE_REF')
-            r=self.git('push','--force-with-lease='+REF+':'+old,'origin',new+':'+REF,check=False)
+            if not old and not self.allow_initialization:raise ValueError('OPERATOR_MUST_INITIALIZE_STATE_REF')
+            if self.expected_remote and self.git('remote','get-url','origin').stdout.strip()!=self.expected_remote:raise ValueError('LIMITER_REPOSITORY_MISMATCH')
+            r=self.git('push','--force-with-lease='+REF+':'+(old or ''),'origin',new+':'+REF,check=False)
             if r.returncode:
                 # Distinguish a real CAS race from unavailable permission/connectivity.
                 current=self.git('ls-remote','origin',REF).stdout.split()
@@ -142,6 +143,18 @@ an operator signature. Production reset permission is part of the pending plan.
     state.update(day=stamp[:10],count=0,halted=False,sequence=state['sequence']+1,policy_sha256=hashlib.sha256(json.dumps(config,sort_keys=True).encode()).hexdigest())
     if not store.cas(old,state):raise ValueError('RESET_STATE_MOVED')
     return {'status':'OPERATOR_RESET_RECORDED','sequence':state['sequence']}
+
+
+
+def initialize(store,config,approval):
+    """Operator-only creation of the metadata ref. Caller authenticates operator."""
+    policy(config)
+    if set(approval)!={'actor','role','decision_ref'} or approval['role']!='operator' or approval['actor'] not in config.get('reset_operators',[]) or not approval['decision_ref']:
+        raise ValueError('OPERATOR_INITIALIZATION_APPROVAL_REQUIRED')
+    state=initial();state['policy_sha256']=hashlib.sha256(json.dumps(config,sort_keys=True).encode()).hexdigest()
+    # Absent-ref CAS, never overwrite an existing state or reset a halt.
+    if not store.cas(None,state):raise ValueError('LIMITER_STATE_ALREADY_EXISTS')
+    return {'status':'INITIALIZED','approval_sha256':hashlib.sha256(json.dumps(approval,sort_keys=True).encode()).hexdigest()}
 
 
 def main():

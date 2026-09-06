@@ -80,3 +80,13 @@ class LimiterTests(unittest.TestCase):
         r=admit(clients[1],config(2),event(1),NOW)
         self.assertEqual(r['count'],1)
         self.assertTrue(admit(clients[0],config(2),event(1),NOW)['duplicate_admission'])
+
+    def test_initialization_requires_operator_and_never_overwrites(self):
+        from orchestrator.dispatch_limiter import initialize
+        c=config(2)
+        with self.assertRaisesRegex(ValueError,'OPERATOR_INITIALIZATION'):
+            initialize(self.store,c,{'actor':'agent','role':'agent','decision_ref':'none'})
+        approval={'actor':'fixture-operator','role':'operator','decision_ref':'fixture setup'}
+        old,_=self.store.read()
+        with self.assertRaisesRegex(ValueError,'ALREADY_EXISTS'):initialize(self.store,c,approval)
+        self.assertEqual(self.store.read()[0],old)

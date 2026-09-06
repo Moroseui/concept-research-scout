@@ -49,6 +49,7 @@ limit or new billing authorization. Existing experiment compute limits and all
 reserved decisions remain in force. No new credentials, paid provisioning,
 spending-cap changes or unrestricted cost experimentation are granted here.
 
+A counted job is one admitted control-run attempt, not each underlying Actions job.
 Counting is repository-wide across main/pilot and all seven controls, by GitHub
 run ID plus run attempt, in UTC calendar days. A new dispatch that replays an
 artifact still counts; reruns with a new attempt count; retrying the same admission

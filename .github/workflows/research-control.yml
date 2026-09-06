@@ -46,6 +46,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   run:
+    needs: admission
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -68,10 +69,6 @@ jobs:
         pip install -r requirements.txt'
     - name: Verify recorded adapter review
       run: python -c "from orchestrator.actions_runner import reviewed; reviewed()"
-    - name: Dispatch admission policy (inactive until ratified)
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: python -m orchestrator.dispatch_limiter --repo .
     - name: Existing hosted authentication
       continue-on-error: true
       env:
@@ -109,3 +106,27 @@ jobs:
     - name: Remove ephemeral auth
       if: ${{ always() }}
       run: python -c "import os,pathlib; p=pathlib.Path(os.environ.get('CODEX_HOME','/nonexistent'))/'auth.json'; p.unlink(missing_ok=True)"
+  admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    steps:
+    - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: 1
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.11'
+    - name: Verify recorded adapter review
+      run: python -c "from orchestrator.actions_runner import reviewed; reviewed()"
+    - name: Shared dispatch admission (inactive until ratified)
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -m orchestrator.dispatch_limiter --repo .
+    - name: Explain admission refusal
+      if: ${{ failure() }}
+      run: python -m orchestrator.public_export

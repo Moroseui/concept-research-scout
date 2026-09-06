@@ -54,7 +54,7 @@ on the controlled routes listed above, with honest fail-closed refusal elsewhere
 
 For limiter activation specifically, `contents:write` on the existing Actions
 token would be repository-wide, not state-ref scoped. Do not grant it to model
-steps. Prepare a separate admission job with no model credentials and an operator-
-protected reset path, plus ref restrictions; this remains a permission/design
-choice, not a silently applied workflow change. The current workflow retains
+steps. A separate admission job with no model credentials is prepared and still read-only.
+An operator-protected reset path and ref restrictions remain permission/design
+choices, not silently applied credential changes. The current workflow retains
 read-only permissions, so activating the proposed config alone refuses state writes.
