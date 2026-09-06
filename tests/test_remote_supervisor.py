@@ -34,7 +34,7 @@ class RemoteTests(unittest.TestCase):
     def test_blocked_backend_and_failed_job_yield_to_independent_work(self):
         self.s.submit('a',self.pin,backend='colab');self.s.submit('b',self.pin,kind='synthetic_failure');self.s.submit('c',self.pin)
         self.tick();self.work();self.tick();self.work();self.tick()
-        self.assertEqual([j['status'] for j in self.s.status()['jobs']],['BLOCKED','BLOCKED','COMPLETE'])
+        self.assertEqual([j['status'] for j in self.s.status()['jobs']],['BLOCKED','FAILED','COMPLETE'])
         self.assertEqual(len(self.s.status()['wakes']),2)
     def test_lost_request_recovered_without_duplicate_dispatch(self):
         self.s.submit('job',self.pin);self.tick();p=next(self.req.glob('*.json'));raw=p.read_bytes();p.unlink()
@@ -52,7 +52,8 @@ class RemoteTests(unittest.TestCase):
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:list(pool.map(tick,range(4)))
         self.assertEqual(len(list(self.req.glob('*.json'))),1)
         self.work();next(self.out.glob('*/synthetic-result.txt')).write_bytes(b'tampered')
-        with self.assertRaisesRegex(ValueError,'ARTIFACT_TAMPERED'):self.tick()
+        self.tick();self.assertEqual(self.s.status()['jobs'][0]['status'],'BLOCKED')
+        self.work();self.tick();self.assertEqual(self.s.status()['jobs'][1]['status'],'COMPLETE')
     def test_no_arbitrary_patient_job_or_changed_binding(self):
         for kind in ['P001','shell','patient']:
             with self.assertRaises(ValueError):self.s.submit('job',self.pin,kind=kind)
@@ -76,3 +77,47 @@ class RemoteTests(unittest.TestCase):
         self.assertEqual(s['NoNewPrivileges'],'true');self.assertEqual(s['ProtectHome'],'true')
         self.assertEqual(s['ReadWritePaths'],'/var/lib/research-system/outputs')
         self.assertNotIn('sudo',s['ExecStart']);self.assertEqual(s['KillMode'],'control-group')
+    def test_real_child_execution_does_not_inherit_model_or_git_environment(self):
+        import os
+        from unittest.mock import patch
+        from orchestrator import remote_supervisor as module
+        original=module.subprocess.run;environments=[]
+        def observe(*a,**kw):
+            if 'env' in kw:environments.append(kw['env'])
+            return original(*a,**kw)
+        self.s.submit('job',self.pin);self.tick()
+        with patch.dict(os.environ,{'GH_TOKEN':'synthetic-canary','OPENAI_API_KEY':'synthetic-canary'}),patch.object(module.subprocess,'run',side_effect=observe):self.work()
+        self.assertEqual(len(environments),2)
+        for env in environments:
+            self.assertNotIn('GH_TOKEN',env);self.assertNotIn('OPENAI_API_KEY',env)
+        self.tick();self.assertEqual(self.s.status()['jobs'][0]['status'],'COMPLETE')
+
+    def test_late_valid_outcome_resolves_only_ambiguity(self):
+        self.s.submit('job',self.pin);self.tick();self.work()
+        p=next(self.out.glob('*/outcome.json'));raw=p.read_bytes();p.unlink()
+        self.s.tick(self.state,self.req,self.out,self.repo,self.pin,now=time.time()+1000)
+        self.assertEqual(self.s.status()['jobs'][0]['status'],'BLOCKED')
+        p.write_bytes(raw);self.tick()
+        self.assertEqual(self.s.status()['jobs'][0]['status'],'COMPLETE')
+        self.assertIsNone(self.s.status()['jobs'][0]['reason'])
+        self.assertEqual(self.s.inbox()[0]['status'],'RESOLVED')
+    def test_invalid_request_does_not_block_valid_request(self):
+        self.s.submit('job',self.pin);self.tick()
+        (self.req/'000-invalid.json').write_text('{}')
+        self.work();self.tick()
+        self.assertEqual(self.s.status()['jobs'][0]['status'],'COMPLETE')
+        self.assertEqual(len(list((self.out/'rejected-requests').glob('*.json'))),1)
+    def test_failed_receipt_cannot_claim_retrieval(self):
+        from orchestrator.remote_supervisor import validate_receipt
+        self.s.submit('job',self.pin,kind='synthetic_failure');self.tick();r=self.work()
+        req=json.loads(next(self.req.glob('*.json')).read_text())
+        for key,value in [('artifact_sha256','a'*64),('separate_retrieval',True)]:
+            with self.assertRaisesRegex(ValueError,'FAILED_RESULT_FIELDS'):validate_receipt({**r,key:value},req)
+    def test_nested_backup_manifest_is_verified(self):
+        from orchestrator.operations_backup import backup,restore
+        self.s.submit('job',self.pin);self.tick();self.work();self.tick()
+        folder=next(p for p in self.out.iterdir() if p.is_dir())
+        (folder/'manifest.json').write_text('original nested manifest')
+        backup(self.state,self.out,self.base/'backup')
+        next((self.base/'backup').glob('outputs/*/manifest.json')).write_text('changed')
+        with self.assertRaisesRegex(ValueError,'IDENTITY'):restore(self.base/'backup',self.base/'restored')

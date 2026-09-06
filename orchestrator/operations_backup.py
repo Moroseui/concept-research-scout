@@ -14,7 +14,7 @@ def identity(root):
     result={}
     for p in sorted(Path(root).rglob('*')):
         if p.is_symlink():raise ValueError('BACKUP_SYMLINK_REJECTED')
-        if p.is_file() and p.name!='manifest.json':result[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()
+        if p.is_file() and p!=Path(root)/'manifest.json':result[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()
     return result
 
 

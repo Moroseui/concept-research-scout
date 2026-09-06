@@ -30,7 +30,7 @@ def scan(name, data):
     if len(data) > 1500000 or b'\0' in data or SECRET.search(data):
         raise ValueError('PUBLICATION_CONTENT_REJECTED')
     data.decode('utf-8')
-    if p.suffix in {'.json','.jsonl','.txt'} and re.search(rb'sub[-_]stroke[0-9]+',data,re.I):
+    if p.suffix != '.py' and re.search(rb'sub[-_]stroke[0-9]+',data,re.I):
         raise ValueError('CASE_LEVEL_RECORD_REJECTED')
     if p.suffix == '.ipynb':
         nb = json.loads(data)
@@ -101,9 +101,9 @@ function does not authenticate a human signer or create such a grant.
         raise ValueError('REMOTE_IDENTITY_CHANGED')
     receipt = audit(root,source,before,request['inventory'])
     ref = 'refs/heads/'+destination
-    remote = git(root,'ls-remote','origin',ref).decode().split()
+    remote = git(root,'ls-remote',request['remote'],ref).decode().split()
     if remote != [before,ref]: raise ValueError('REMOTE_MOVED')
-    subprocess.run(['git','push','--force-with-lease='+ref+':'+before,'origin',source+':'+ref],cwd=root,check=True)
+    subprocess.run(['git','push','--force-with-lease='+ref+':'+before,request['remote'],source+':'+ref],cwd=root,check=True)
     return {**receipt,'destination':destination,'operation':'append_only_compare_and_swap'}
 
 

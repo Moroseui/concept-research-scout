@@ -174,7 +174,7 @@ def finalize(root, source, day, receipts, amendment_of=None):
         raise ValueError('INVALID_REPORT_DATE')
     if amendment_of is not None:
         pin(amendment_of, 64)
-    if not isinstance(receipts, list) or len(receipts) > 1000:
+    if not isinstance(receipts, list) or len(receipts) > 128:
         raise ValueError('RECEIPT_LIST_REQUIRED')
     rows = sorted((sanitized(r) for r in receipts), key=lambda r: json.dumps(r, sort_keys=True))
     receipt_bytes = (json.dumps(rows, sort_keys=True, indent=2)+'\n').encode()
@@ -195,7 +195,7 @@ def finalize(root, source, day, receipts, amendment_of=None):
                   +' | '+measured(row['wall_seconds'], 's')+' | '+measured(row['cpu_seconds'], 's')
                   +' | '+measured(row['peak_rss_kib'], 'KiB')+' |\n')
     dependencies = sorted({row['reason'] for row in rows if row['reason']})
-    synthetic_only = bool(rows) and all(row['kind'] == 'synthetic' for row in rows)
+    synthetic_only = bool(rows) and all(row['kind'] in {'synthetic', 'synthetic_success', 'synthetic_failure'} for row in rows)
     science = ('Only synthetic work is recorded; no patient experiment or measured scientific result is established.'
                if synthetic_only else 'Scientific progress is not established by these operational receipts; consult validated experiment results and interpretation artifacts.')
     body = (f'# Research system daily report — {day}\n\nSource: `{source}`.\n\n'

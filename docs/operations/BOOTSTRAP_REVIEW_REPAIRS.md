@@ -1,0 +1,9 @@
+# Supervised remote bootstrap review repairs
+
+The fresh author-operated Claude Fable review of ae1e5368d94cd3648bac5b7ed9da59f754932f2e returned REQUEST_CHANGES. It was a source review; the reviewer did not run tests. Its original protocol, response and execution receipt remain private, including fixture literals inappropriate for public prose.
+
+The follow-up changes bind both existing-branch publishers to the checked repository URL instead of a redirectable origin push URL; scan case identifiers across non-Python text formats; reconcile late valid outcomes and failure status; isolate malformed request/outcome failures so independent work progresses; validate failed receipt fields; hash nested backup manifests; align report fixture classification/caps; and widen the bounded worker/controller deadline margin. Python source remains a documented scanner exception needed for validation fixtures; this is pattern-based content detection, not universal semantic privacy enforcement. Remote driver/worker identities receive no publication credentials.
+
+The fixed synthetic host harness submits four bounded fixtures, separately retrieves the unchanged smoke artifact, checks actual role isolation and terminal-event deduplication after service restart, restores a private application sample, and records missing remote Claude authentication honestly. It never invokes an LLM or patient runner. The admission fixture uses a disposable synthetic ledger, not live activation or authenticated operator reset proof.
+
+Follow-up review must assess the actual fixes and the supplied smoke source, pilot publisher wrapper, inactive policy, bootstrap installer and acceptance scripts. Do not quote identifier-shaped test literals in public findings; refer to their test names. Existing scientific approvals and frozen execution pins remain unchanged. Main merge desk review remains separate.

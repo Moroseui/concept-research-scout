@@ -80,9 +80,12 @@ class Controller(Store):
                 if old[0]!=payload:raise ValueError('CONFLICTING_EVENT')
             else:
                 self.db.execute('INSERT INTO events VALUES(?,?,?)',(attempt,row['job'],payload))
+                self.db.execute("UPDATE inbox SET status='RESOLVED' WHERE job=? AND reason='AMBIGUOUS_LINUX_ATTEMPT_RECONCILE_OUTPUTS_AND_PROCESS'",(row['job'],))
                 self.db.execute('UPDATE jobs SET status=?,lease=0 WHERE id=?',(receipt['status'],row['job']))
                 self.db.execute("INSERT INTO wakes VALUES(?,?,'PENDING_AUTH','CODEX_AUTH_AND_BOUNDED_TURN_REQUIRED')",(attempt,row['job']))
-                if receipt['status']=='FAILED':self.block(row['job'],'SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT')
+                if receipt['status']=='FAILED':
+                    self.block(row['job'],'SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT')
+                    self.db.execute("UPDATE jobs SET status='FAILED' WHERE id=?",(row['job'],))
             self.db.execute('COMMIT')
         except BaseException:self.db.execute('ROLLBACK');raise
 
@@ -92,17 +95,21 @@ class Controller(Store):
         with lock(Path(state)/'branch.lock'):
             for r in self.db.execute('SELECT * FROM linux_attempts').fetchall():
                 req=json.loads(r['request']);folder=Path(outputs)/r['id'];out=folder/'outcome.json'
+                if any(x['job']==r['job'] and x['status']=='OPEN' and x['reason']=='OUTCOME_VALIDATION_FAILED' for x in self.inbox()):continue
                 if out.exists():
-                    if folder.is_symlink() or out.is_symlink() or out.stat().st_size>65536:raise ValueError('OUTCOME_PATH')
-                    value=read(out)
-                    validate_receipt(value,req)
-                    if value['status']=='COMPLETE':
-                        artifact=folder/'synthetic-result.txt'
-                        if artifact.is_symlink() or artifact.read_bytes()!=PAYLOAD:raise ValueError('ARTIFACT_TAMPERED')
-                    for name,h in value['console_sha256'].items():
-                        p=folder/name
-                        if p.is_symlink() or digest(p.read_bytes())!=h:raise ValueError('CONSOLE_TAMPERED')
-                    self.event(r['id'],value)
+                    try:
+                        if folder.is_symlink() or out.is_symlink() or out.stat().st_size>65536:raise ValueError('OUTCOME_PATH')
+                        value=read(out)
+                        validate_receipt(value,req)
+                        if value['status']=='COMPLETE':
+                            artifact=folder/'synthetic-result.txt'
+                            if artifact.is_symlink() or artifact.read_bytes()!=PAYLOAD:raise ValueError('ARTIFACT_TAMPERED')
+                        for name,h in value['console_sha256'].items():
+                            p=folder/name
+                            if p.is_symlink() or digest(p.read_bytes())!=h:raise ValueError('CONSOLE_TAMPERED')
+                        self.event(r['id'],value)
+                    except (ValueError,KeyError,TypeError,OSError):
+                        self.block(r['job'],'OUTCOME_VALIDATION_FAILED')
                 elif self.get(r['job'])['status']=='RUNNING' and now>req['deadline']:
                     # Missing evidence never proves no execution. No automatic redispatch.
                     self.block(r['job'],'AMBIGUOUS_LINUX_ATTEMPT_RECONCILE_OUTPUTS_AND_PROCESS')
@@ -118,7 +125,7 @@ class Controller(Store):
                 if binding['source']!=pin:self.block(job['id'],'SOURCE_CHANGED');continue
                 attempt=uuid.uuid4().hex
                 req={'version':1,'attempt_id':attempt,'job_id':job['id'],'source':pin,'kind':binding['kind'],
-                     'delay':binding['delay'],'deadline':now+180,'smoke_sha256':digest((Path(source_root)/SMOKE).read_bytes())}
+                     'delay':binding['delay'],'deadline':now+240,'smoke_sha256':digest((Path(source_root)/SMOKE).read_bytes())}
                 self.db.execute('BEGIN IMMEDIATE')
                 try:
                     self.db.execute('INSERT INTO linux_attempts VALUES(?,?,?)',(attempt,job['id'],json.dumps(req,sort_keys=True)))
@@ -134,7 +141,7 @@ class Controller(Store):
         rows=[]
         for j in self.db.execute('SELECT * FROM jobs ORDER BY id'):
             b=json.loads(j['binding']);o=outcomes.get(j['id'],{})
-            reason=next((x['reason'] for x in self.inbox() if x['job']==j['id']),None)
+            reason=next((x['reason'] for x in self.inbox() if x['job']==j['id'] and x['status']=='OPEN'),None)
             rows.append({'job_id':j['id'],'status':j['status'],'source':b['source'],'kind':b['kind'],
                          'backend':b['backend'],'reason':reason,'attempt_id':o.get('attempt_id'),
                          'wall_seconds':o.get('wall_seconds'),'cpu_seconds':o.get('cpu_seconds'),
@@ -159,9 +166,15 @@ def worker(requests,outputs,source_root,pin):
     root=checked_source(source_root,pin);outputs=Path(outputs)
     with lock(outputs/'worker.lock'):
         for request_file in sorted(Path(requests).glob('*.json')):
-            if request_file.is_symlink() or request_file.stat().st_size>65536:raise ValueError('REQUEST_SYMLINK_OR_SIZE')
-            req=read(request_file);validate_request(req,pin,root)
-            if request_file.stem!=req['attempt_id']:raise ValueError('REQUEST_PATH_BINDING')
+            try:
+                if request_file.is_symlink() or request_file.stat().st_size>65536:raise ValueError('REQUEST_SYMLINK_OR_SIZE')
+                req=read(request_file);validate_request(req,pin,root)
+                if request_file.stem!=req['attempt_id']:raise ValueError('REQUEST_PATH_BINDING')
+            except (ValueError,KeyError,TypeError,OSError):
+                rejected=outputs/'rejected-requests';rejected.mkdir(mode=0o750,exist_ok=True)
+                name=digest(request_file.name.encode())+'.json'
+                if not (rejected/name).exists():atomic(rejected/name,{'status':'REQUEST_REJECTED','request_name_sha256':digest(request_file.name.encode())})
+                continue
             folder=outputs/req['attempt_id']
             if folder.exists() or time.time()>req['deadline']:continue
             folder.mkdir(mode=0o750)
@@ -203,6 +216,7 @@ def validate_receipt(r,req):
         if r[k]!=req[k]:raise ValueError('OUTCOME_BINDING')
     if r['request_sha256']!=digest(json.dumps(req,sort_keys=True).encode()):raise ValueError('REQUEST_IDENTITY')
     if r['status']=='COMPLETE' and (r['artifact_sha256']!=digest(PAYLOAD) or r['separate_retrieval'] is not True):raise ValueError('RESULT_IDENTITY')
+    if r['status']=='FAILED' and (r['artifact_sha256'] is not None or r['separate_retrieval'] is not False):raise ValueError('FAILED_RESULT_FIELDS')
     for k in ['wall_seconds','cpu_seconds','peak_rss_kib']:
         if type(r[k]) not in [int,float] or not math.isfinite(r[k]) or r[k]<0:raise ValueError('RESOURCE_RECEIPT')
     expected={'console-0.stdout','console-0.stderr'}|({'console-1.stdout','console-1.stderr'} if r['status']=='COMPLETE' else set())

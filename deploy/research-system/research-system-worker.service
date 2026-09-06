@@ -18,5 +18,5 @@ ReadWritePaths=/var/lib/research-system/outputs
 MemoryMax=768M
 CPUQuota=200%
 TasksMax=32
-TimeoutStartSec=150
+TimeoutStartSec=210
 KillMode=control-group

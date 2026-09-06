@@ -29,6 +29,7 @@ class PublicationTests(unittest.TestCase):
             req={'source':source,'before':before,'destination':'feature/synthetic','remote':str(remote),'inventory':inventory}
             with self.assertRaisesRegex(ValueError,'AUTHORITY'):pub.publish(repo,req)
             authority={k:req[k] for k in ['source','before','destination','remote']}
+            git('config','remote.origin.pushurl',str(root/'wrong.git'))
             r=pub.publish(repo,req,authority);self.assertEqual(r['blob_versions'],1)
             (repo/'secret.txt').write_text('ghp_'+'A'*32);git('add','.');git('commit','-qm','unsafe')
             git('rm','-q','secret.txt');git('commit','-qm','delete before tip')
@@ -41,6 +42,8 @@ class PublicationTests(unittest.TestCase):
             raw.assert_not_called()
 
     def test_metadata_and_case_payload_scans(self):
+        for suffix in ['.md','.ipynb','.yml','.toml','.sh','.service']:
+            with self.assertRaises(ValueError):pub.scan('record'+suffix,('sub-stroke'+'0123').encode())
         for name,data in [('raw.json',b'{"case":"sub-stroke0123"}'),('payload.csv',b'synthetic'),('x.nii.gz',b'synthetic')]:
             with self.assertRaises(ValueError):pub.scan(name,data)
         with self.assertRaisesRegex(ValueError,'COMMIT_METADATA'):
