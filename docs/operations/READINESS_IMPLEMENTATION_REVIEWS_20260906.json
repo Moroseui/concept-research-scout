@@ -1,0 +1,161 @@
+{
+  "reviews": [
+    {
+      "execution": {
+        "reviewed_commit": "16c9f4d6da29acd83d18e078369050bf5091b59a",
+        "returncode": 0,
+        "wall_seconds": 374.900072207005,
+        "input_file_sha256": {
+          "orchestrator/readiness_queue.py": "08b317446e4872e5c854b134c1b4546433e8bf3bd9c94bd7b1ac032bd77ad2f7",
+          "orchestrator/research_context.py": "7dd7f31c5732441fc72d0f3e58c6c7c7232b81ca2fa4a5c0895e5d10edc78d75",
+          "orchestrator/campaign_pipeline.py": "258f45f4c743e6e731467074f228cb237c02018661fea2b8b5ba343e0ee9f206",
+          "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+          "configs/pilot/agents-unattended.toml": "a72ff72215349d3a7600af760af4772bd69a2b546069483a5a8381c6f22abf94",
+          "configs/pilot/readiness-stages.json": "1bb91c772ec922dcbb92ca7ae32d96eb088e0da926d4dec8542101a92d0a7083",
+          "tests/test_readiness_queue.py": "fe2e8307f89bce6f3a5ac4e542f3ac070d1aa1c3eb9898ad213e499fbd0737aa",
+          "tests/test_research_context.py": "8064d6e673449aee41c1bfa129c8454d5e0e8ec148061cd4873ab87334aa2a1b",
+          "tests/test_campaign_pipeline.py": "850276a000d897565314098ca98324ceee814d39cc23e70810a89a2f221bcb87",
+          "scout.py": "2e1d541f1c80b12470ea1619ca9cca26e54afaea708c80dfa9a215ade0e87af2",
+          "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+        },
+        "response_sha256": "00460ec89bb62547871c713ef37dba94140b02e2b6f6725b30ee9b254a1f3cad",
+        "requested_model": "claude-fable-5",
+        "assistant_message_models": [
+          "claude-fable-5"
+        ],
+        "actual_usage_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-fable-5"
+        ],
+        "protocol_sha256": "f3470445bcddb029c6efd5f4d30c7c4cfad6ca2fcd644ee0dcd58cc7c1f514e6"
+      },
+      "review": {
+        "scope": "Source-only review at commit 16c9f4d6: bounded readiness scheduling (readiness_queue.py, job_store.py, readiness-stages.json), explicit proposal/evidence context (research_context.py), campaign authoring pipeline and unattended author profile (campaign_pipeline.py, agents-unattended.toml), scout.py orchestrator, and supplied tests. Checked concurrency, restart/recovery semantics, receipt and identity bindings, fail-closed boundaries, blinding, and preservation of legacy scientific approvals. No tests executed; no patient data or tools exercised.",
+        "reviewed_commit": "16c9f4d6da29acd83d18e078369050bf5091b59a",
+        "verdict": "REQUEST_CHANGES",
+        "findings": [
+          "BLOCKER (authority boundary): research_context.proposal_context's PROPOSAL_SCOPE check is a string prefix test ('campaigns/isles24-pilot/pipeline/') while checked() only enforces containment in the repo root after resolve(); a relative path containing '..' (e.g. 'campaigns/isles24-pilot/pipeline/../../../ideas/x') bypasses the pipeline-directory boundary. Since only execute() writes receipts inside the pipeline dir, this lets a fabricated receipt.json + self-approved review.json written elsewhere (agents hold ideas/ write scope) be loaded as a 'reviewed charter proposal', which also suppresses the legacy prompt/rubric from authoring context. Require the resolved path to be relative_to the resolved pipeline directory and reject '..' segments.",
+          "BLOCKER (recovery semantics): in readiness_queue.run(), folder.mkdir(exist_ok=False) precedes q.claim(); a crash in that window leaves the job READY with a persistent attempt folder, and reconcile only blocks RUNNING jobs, so every subsequent run() re-selects the job and dies with an unhandled FileExistsError, wedging the entire queue instead of blocking one task. Same wedge for a job manually re-readied after HANDLER_FAILED while its folder remains. Treat an existing attempt folder without result.json as an uncertain attempt (block), or claim before mkdir and convert FileExistsError into a scoped block.",
+          "MINOR: run() ignores q.claim(name)'s return value; if claim ever returned None (blocked/retry-limited), the handler would still be submitted to the worker pool. Unreachable today (candidates yields only READY, due=0) but a latent invariant leak; check the claim result before dispatch.",
+          "MINOR: ReadinessQueue.accept() reads the job row (status/binding guard) before BEGIN IMMEDIATE, so the UNCLAIMED_RESULT check races the transaction; benign under the single-controller branch lock, but move the row read inside the transaction.",
+          "MINOR: Store.block() issues two autocommit statements (jobs UPDATE, inbox INSERT OR REPLACE); a crash between them leaves a BLOCKED job with no inbox entry \u2014 fail-closed but invisible to the human decision queue. Wrap in a transaction.",
+          "MINOR (provenance): campaign_pipeline.system_stage never removes its mkdtemp profile directory, swaps the process-global sc.ROOT (safe only single-threaded; assumption unstated), and the SCOUT_CI branch writes no profile_<stage>.json receipt, so profile provenance is asymmetric between local and hosted runs.",
+          "MINOR (provenance): scout.py _commit_all hardcodes committer identity 'Astra (OpenAI agent)' for every checkpoint commit regardless of which model family executed the stage; stage_provenance.jsonl receipts remain authoritative, but commit metadata misattributes authorship.",
+          "MINOR (cross-charter targeting): stage_target's legacy 'scout' path selects the lexically last ideas/scout-* directory; charter-prefixed names (e.g. scout-isles24-001) sort after numeric baseline names, so 'run --stage scout' can silently target another charter's cycle directory.",
+          "VERIFIED SOUND: missing receipts treated as uncertainty with no automatic retry; immutable result reconciliation deduplicates with CONFLICTING_COMPLETION on divergence; handlers are a fixed metadata-only whitelist (no model, patient, Git-writer, or arbitrary-command execution) with symlink/containment checks; gated launch/import tasks fail closed into the inbox; results/attempts are identity-bound to job name, binding, and source pin with MIXED_SOURCE_QUEUE refusal; evidence_context withholds pending conclusions and hash-binds reviewed ones; campaign execute() enforces opposing-family author/reviewer receipts, rejects pre-populated reviewer output, writes only into fresh exist_ok=False pipeline output dirs, and preserves historical charters, scores, P001 frozen artifacts, and deliberate blinding; charter adoption and patient launch remain separately gated operator decisions."
+        ]
+      },
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 116310,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 28022,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 116310,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 28022,
+            "cache_read_input_tokens": 0,
+            "cache_creation_input_tokens": 116310,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 116310
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "cost_usd_cli_estimate": 3.809897,
+      "review_kind": "author_operated_internal_cross_family_not_independent_merge_desk"
+    },
+    {
+      "execution": {
+        "reviewed_commit": "8de1822ff18be33d3834be901bbdefed4541440b",
+        "returncode": 0,
+        "wall_seconds": 387.6420393800072,
+        "input_file_sha256": {
+          "orchestrator/readiness_queue.py": "46bc8839c1344ff60897491b6e5075d80173cdb5281067470550554238f80bcf",
+          "orchestrator/research_context.py": "114cdb07039c667f487ccdf6e1b4df49f0c6a1522aec23d3e480a793ee8c6be5",
+          "orchestrator/campaign_pipeline.py": "4c7e921dc7f5c5794de902b831e73d7d55ace344a3f97d4cb0145f658bbca24a",
+          "orchestrator/job_store.py": "c5767007f1d9bebcbd93faf2d8671d27d12a823665379c0c36479bc62e7df071",
+          "configs/pilot/agents-unattended.toml": "a72ff72215349d3a7600af760af4772bd69a2b546069483a5a8381c6f22abf94",
+          "configs/pilot/readiness-stages.json": "1bb91c772ec922dcbb92ca7ae32d96eb088e0da926d4dec8542101a92d0a7083",
+          "tests/test_readiness_queue.py": "c9eb44d1d8b03e56ddd7426002574a0c66ec05c88ee3b835c06e7e61300d213e",
+          "tests/test_research_context.py": "388e81082461d31c90f25a74cb20efab9c2cc862f1a21e2782e5cea43c544dd4",
+          "tests/test_campaign_pipeline.py": "850276a000d897565314098ca98324ceee814d39cc23e70810a89a2f221bcb87",
+          "scout.py": "1fd3468176cae40c71d200cbeccc0e9f721f8fa7ac5830b4cfa06c32c21addb0",
+          "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac",
+          "docs/operations/READINESS_REVIEW_REPAIRS_20260906.md": "52fea2eaf0416c74741d637f0a100f875e44dca69b410ca568f1f996712944dd"
+        },
+        "response_sha256": "02086791c85db181ffaee8d886835126343ba3f8187eb88437861c5c26f64b21",
+        "requested_model": "claude-fable-5",
+        "assistant_message_models": [
+          "claude-fable-5"
+        ],
+        "actual_usage_models": [
+          "claude-haiku-4-5-20251001",
+          "claude-fable-5"
+        ],
+        "protocol_sha256": "941fb4ebd5ebcf345c7da587d5f61619a10bd49ab7c465f21cd3008685f69048"
+      },
+      "review": {
+        "scope": "Follow-up (r2) to readiness review r1 REQUEST_CHANGES: verify repaired proposal-directory traversal and READY-with-attempt crash window plus minor fixes per READINESS_REVIEW_REPAIRS_20260906; assess remaining material correctness/privacy/authority defects in the new non-patient readiness queue and proposed research context. Source-only; no tests executed; no scientific ratification or patient launch in scope.",
+        "reviewed_commit": "8de1822ff18be33d3834be901bbdefed4541440b",
+        "verdict": "APPROVE",
+        "findings": [
+          "VERIFIED: proposal traversal repair \u2014 proposal_context rejects '..' parts, absolute paths, and non-contained resolved candidates before loading any receipt; checked() independently enforces symlink rejection (leaf and intermediates), resolved containment, size cap, and hash binding; receipt status/mode, frozen CAMPAIGN.md/P001 input hashes, round artifact hashes, and APPROVE review verdict are all enforced; disposition stays preview-only and unratified. Regression test covers parent traversal.",
+          "VERIFIED: crash-window repair \u2014 startup reconcile blocks any attempt-without-result (RUNNING status or existing attempt folder) as UNCERTAIN with no automatic retry while independent tasks remain eligible; claim precedes dispatch and a FileExistsError on the attempt folder blocks instead of replaying; recovery re-verifies attempt binding and deterministic result content (seconds=0 recompute) before idempotent acceptance; completion events dedupe by canonical payload equality and conflicting completions abort loudly.",
+          "VERIFIED: minor fixes \u2014 accept/claim read state inside BEGIN IMMEDIATE and block() is transaction-aware standalone or nested; system_stage cleans its temporary profile directory in finally and is documented single-writer (unreachable from readiness worker threads); legacy unqualified stage_target selects the latest baseline cycle only; automated checkpoints commit under a neutral system identity with model authorship carried on stage receipts.",
+          "VERIFIED: fail-closed/authority boundaries \u2014 gated launch/import tasks are blocked into the inbox and no handler can execute them; MIXED_SOURCE_QUEUE, 32-task bound, 40-hex source pin, and exact binding schema enforced; pending evidence exposes only id/tags/dependencies; reviewed conclusions require hash-bound AGENT_REVIEWED_NOT_HUMAN_RATIFIED receipts; execute() confines writes to the pipeline directory and never claims ratification.",
+          "NON-BLOCKING: proposal_context accepts a directory containing both receipt.json and blocked.json \u2014 a pair no legitimate execute() run can produce (receipt only on APPROVE, blocked.json only on failure), leaving a conditional forged-receipt acceptance path if any writer plants a self-consistent receipt in a failed run's directory. Recommend refusing when blocked.json exists and asserting output/receipt.json absent before author rounds; currently mitigated by stage write scoping.",
+          "NON-BLOCKING: restart reconcile overwrites a HANDLER_FAILED inbox reason with the generic UNCERTAIN_ATTEMPT reason (diagnostic loss only; no-retry guarantee unaffected).",
+          "NON-BLOCKING: a result.json missing a projection key raises bare KeyError rather than the named RESULT_SCHEMA error, and a COMPLETE job whose result.json was deleted but whose folder remains is re-marked BLOCKED despite its durable completion event \u2014 both fail closed but with an unnamed abort and a status/event divergence respectively.",
+          "NOTE: proposal_context re-verifies only CAMPAIGN.md and P001 frozen artifacts from the receipt's input_sha256; other bound inputs may drift without invalidating the preview \u2014 acceptable for preview-only context, worth documenting.",
+          "ASSUMPTION: identifier, lock, checked_source, immutable, and encoded (remote_supervisor/hosted_cycle) were not supplied and are assumed to be the previously reviewed implementations."
+        ]
+      },
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 118239,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 30261,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 118239,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 30261,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 118239,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 118239
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "cost_usd_cli_estimate": 3.9631549999999995,
+      "review_kind": "author_operated_internal_cross_family_not_independent_merge_desk"
+    }
+  ]
+}

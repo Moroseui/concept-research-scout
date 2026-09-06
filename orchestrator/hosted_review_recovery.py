@@ -28,7 +28,7 @@ def live_group(identity):
     return False
 
 
-def recover(folder,execute=False,call=model_call,is_live=live_group):
+def recover(folder,execute=False,call=model_call,is_live=live_group,current_task_state=None):
     folder=Path(folder)
     with lock(folder.parent/'driver.lock'):
         if (folder/'complete.json').exists():raise ValueError('CYCLE_ALREADY_COMPLETE')
@@ -44,10 +44,12 @@ def recover(folder,execute=False,call=model_call,is_live=live_group):
             q.unavailable(row['id'],row['attempt_id'],'INTERRUPTED_REVIEW_RECONCILED_NO_LIVE_PROCESS')
         elif row['status']!='NOT_REVIEWED':raise ValueError('REVIEW_NOT_RECOVERABLE')
         if not execute:return {'status':'NOT_REVIEWED','report':row['id'],'model_calls':0,'scientific_dispatches':0}
+        if current_task_state is None:raise ValueError('CURRENT_TASK_STATE_REQUIRED_FOR_RECOVERY')
         if row['attempts']!=1:raise ValueError('SINGLE_RETRY_BUDGET_EXHAUSTED')
         recovery=folder/'review-recovery'
         if recovery.exists():raise ValueError('RECOVERY_ATTEMPT_UNCERTAIN_NO_REPLAY')
         recovery.mkdir(mode=0o700);immutable(recovery/'binding.json',encoded({'original_report':row['id'],'original_source':row['source'],'maximum_model_calls':2}))
+        immutable(recovery/'packet.json',encoded(current_task_state))
         retry=q.claim(row['id'])
         if retry is None:raise ValueError('RETRY_NOT_ADMITTED')
         original=read_checked(folder/'review.input.md').decode()
@@ -64,9 +66,16 @@ def recover(folder,execute=False,call=model_call,is_live=live_group):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--folder',required=True);p.add_argument('--execute-single-retry',action='store_true');p.add_argument('--source-root',required=True);p.add_argument('--source',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--folder',required=True);p.add_argument('--execute-single-retry',action='store_true');p.add_argument('--source-root',required=True);p.add_argument('--source',required=True);p.add_argument('--state');p.add_argument('--outputs');a=p.parse_args()
     if os.getuid()!=0:raise ValueError('SUPERVISED_SETUP_REQUIRED')
     os.umask(0o077);checked_source(a.source_root,a.source)
-    print(json.dumps(recover(a.folder,a.execute_single_retry)))
+    context=None
+    if a.execute_single_retry:
+        if not a.state or not a.outputs:raise ValueError('CURRENT_STATE_AND_OUTPUTS_REQUIRED')
+        from orchestrator.hosted_cycle import controller_snapshot,verified_jobs
+        controller=controller_snapshot(a.state);rows,events=verified_jobs(controller,a.outputs)
+        context={'jobs':rows,'verified_events':events,'decision_inbox':controller.inbox(),
+                 'wakes':[dict(r) for r in controller.db.execute('SELECT * FROM wakes ORDER BY id')]}
+    print(json.dumps(recover(a.folder,a.execute_single_retry,current_task_state=context)))
 
 if __name__=='__main__':main()

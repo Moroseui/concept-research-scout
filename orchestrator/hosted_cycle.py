@@ -98,6 +98,9 @@ def checked_packet(root, rows, event, config, execution_root=None, verified_even
 
 
 def model_call(folder, stage, family, prompt, output_format='markdown', prepared_prompt=False):
+    from orchestrator.hosted_context import envelope
+    prompt,operating_context=envelope(Path(__file__).resolve().parents[1],folder,prompt)
+    immutable(folder/(stage+'.operating-context.json'),encoded(operating_context))
     user = 'research-driver' if family == 'astra' else 'research-reviewer'
     base=Path('/var/lib/research-system/model-work');base.mkdir(mode=0o711,exist_ok=True)
     if base.is_symlink() or base.stat().st_uid!=0 or base.stat().st_mode & 0o022:raise ValueError('PROTECTED_MODEL_WORK_ROOT_REQUIRED')
@@ -139,7 +142,9 @@ def model_call(folder, stage, family, prompt, output_format='markdown', prepared
                'wall_seconds': time.monotonic()-start,
                'stdout_sha256': sha((folder/(stage+'.stdout')).read_bytes()),
                'stderr_sha256': sha((folder/(stage+'.stderr')).read_bytes()),
-               'input_sha256': sha(prompt.encode()), 'actual_model': None, 'usage': None}
+               'input_sha256': sha(prompt.encode()), 'actual_model': None, 'usage': None,
+               'operating_context_sha256':sha(encoded(operating_context)),
+               'supplied_document_sha256':{n:v['sha256'] for n,v in operating_context['documents'].items()}}
     immutable(folder/(stage+'.process.json'), encoded(receipt))
     if process.returncode: raise ValueError('MODEL_FAILED_RECONCILE_PRIVATE_EVIDENCE')
     events = [json.loads(line) for line in (folder/(stage+'.stdout')).read_text().splitlines() if line.strip()]
@@ -253,7 +258,10 @@ def run(root, source, state, outputs, destination, job, day, execution_root=None
             for unit in ('research-system-controller.service', 'research-system-worker.service'):
                 raw = subprocess.check_output(['systemctl', 'show', unit, '--property=User,PrivateNetwork,ProtectSystem,ProtectHome,NoNewPrivileges,MemoryMax,CPUQuotaPerSecUSec,LoadState,ActiveState,SubState,CapabilityBoundingSet,PrivateDevices,ProtectKernelTunables'], text=True)
                 config[unit] = dict(line.split('=', 1) for line in raw.splitlines() if '=' in line)
-            packet = checked_packet(root, rows, event, config, execution_root, verified_events); immutable(folder/'packet.json', encoded(packet))
+            packet = checked_packet(root, rows, event, config, execution_root, verified_events)
+            packet['decision_inbox']=controller.inbox()
+            packet['wakes']=[dict(r) for r in controller.db.execute('SELECT * FROM wakes ORDER BY id')]
+            immutable(folder/'packet.json', encoded(packet))
             if next_job:
                 identifier(next_job)
                 if controller.db.execute('SELECT 1 FROM jobs WHERE id=?',(next_job,)).fetchone():raise ValueError('NEXT_JOB_ALREADY_EXISTS_RECONCILE')
@@ -272,6 +280,8 @@ def run(root, source, state, outputs, destination, job, day, execution_root=None
                 rows,verified_events=verified_jobs(controller,outputs)
                 packet=checked_packet(root,rows,event,config,execution_root,verified_events)
                 packet['executed_selection']=selection
+                packet['decision_inbox']=controller.inbox()
+                packet['wakes']=[dict(r) for r in controller.db.execute('SELECT * FROM wakes ORDER BY id')]
                 immutable(folder/'post-execution-packet.json',encoded(packet))
             else:
                 continuation, _ = model_call(folder, 'continuation', 'astra',

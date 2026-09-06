@@ -67,3 +67,59 @@ HANDOFF_fable_deployment_review_and_next_steps.md. Existing README, charters,
 decisions, campaign and relevant ratified Next-decision sections were located.
 Continue independent deployment work; recover the originals before a scientific
 decision that depends on them. No replacement charter is invented.
+
+## Accepted operating clarifications — 6 September 2026
+
+This file is the canonical operating charter for the remote Astra driver. Other
+status reports, acceptance receipts and decision packets document evidence or
+proposals; they do not create competing operating authority. These clarifications
+record the operator's subsequent instructions in this conversation, not inferred
+new permissions. Scientific charters, frozen contracts and original approvals
+remain authoritative for individual experiments.
+
+Prioritize useful admission-imaging prediction progress by Wednesday, 9 September:
+ideally a reviewed baseline, valid result and system interpretation if its named
+gates are resolved. P001 is an externally seeded, operator-delegated candidate.
+Use system author/discussion and opposing review for prospective adoption, amendment
+or rejection; do not manufacture system authorship by regenerating frozen code.
+The proposed prediction charter and conditional adoption recommendation remain
+unratified. The 99 development cases have exposed outcomes; the 49 reserved cases
+remain untouched. The baseline-plus-two-comparisons ceiling remains unchanged.
+
+Maintain one primary prediction thread and one adjacent thread with explicit stage
+handlers, dependencies, expected artifacts and resource bounds. Independent eligible
+work should proceed during waits. One branch writer, immutable execution snapshots,
+completion deduplication and reasoned system reprioritization remain requirements.
+The three persistent research goals are prediction-charter readiness, 047b evidence
+reconciliation/lifecycle, and cross-charter evidence propagation. Do not make P001
+dependent on 047 acceptance. Pending interpretations provide dependency notices,
+not invented findings. Verified predecessor conclusions, limitations, negatives and
+Next-decision content require source bindings and relevance review, never automatic
+scientific amendments. Preserve deliberate blinding and charter-specific scores.
+
+Every hosted driver invocation, including completion handling and recovery, must
+receive this approved operating direction, the relevant scientific charter and
+specification, current task state, applicable decisions and permitted findings.
+Record the versions supplied. A fresh invocation uses its explicitly bound current
+approved context; historical prompts remain evidence and cannot silently override
+newer authority. The nightly Claude reviewer receives the same approved goals and
+relevant primary evidence, and assesses scientific direction as well as implementation.
+Fresh-session acceptance must establish objective, next eligible task and authority
+limits without relying on the laptop conversation.
+
+The operator approved the dedicated notification App's Issues read/write and
+Metadata read for this repository only, for checked notification and synthetic ACK.
+The actual device ACK passed. Operational decisions through replies, writer/reset
+permissions, live limiter activation and unattended operation remain unapproved.
+No additional sign-in is requested merely because historical queue reason strings
+still say authentication is pending; reconcile against actual authentication evidence.
+
+Supervised synthetic setup and scientific desk work may continue before full
+unattended acceptance. Patient transfer/launch, charter ratification, 047 scientific
+landing, cleanup/protection changes, reserved data, main merges, new credentials or
+paid provisioning keep their separate gates. The proposed protected writer/reset
+packet and reporting schedule are proposals, not accepted instructions.
+
+Previously published dated direction notes remain historical, source-bound inputs
+to their original proposals. They are not a second current operating charter.
+Use this canonical file for new hosted turns and preserve those historical bytes.

@@ -30,11 +30,11 @@ def test_interrupted_review_reconciles_without_dispatch_then_one_explicit_retry(
             calls.append(args[1])
             if args[1]=='review':assert kwargs=={'prepared_prompt':True}
             return 'Synthetic model fixture, not a real call.',{'actual_model':'claude-fable-5','session_id':'fixture'}
-        r=recover(folder,True,model,lambda _:False)
+        r=recover(folder,True,model,lambda _:False,current_task_state={'jobs':[]})
         assert r['additional_model_calls']==2 and r['scientific_dispatches']==0
         assert calls==['review','disposition']
         assert q.status(report['id'])['status']=='REVIEWED'
-        with pytest.raises(ValueError):recover(folder,True,model,lambda _:False)
+        with pytest.raises(ValueError):recover(folder,True,model,lambda _:False,current_task_state={'jobs':[]})
         assert len(calls)==2
 
 
