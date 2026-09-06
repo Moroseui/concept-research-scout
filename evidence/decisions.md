@@ -2291,3 +2291,15 @@ no main merge or publication bypass is authorized. cfadeb1 is preserved, and the
 record belongs in the next appropriate milestone PR. Missing new-ref support in
 the existing publisher is recorded as a capability dependency, not lack of this
 branch's publication authorization. No activation or protected-ref mutation occurs.
+
+## 2026-09-06 — Operator directs bounded remote research-system bootstrap
+
+Source: explicit complete operator deployment handoff, preserved privately.
+Agent recorder: Astra. The purchased Linux host is the research-system platform;
+ISLES remains the first bounded campaign. Exact driver model gpt-6-astra; preserve
+other roles and scientific gates. Sanitized authority and source precedence are
+recorded in docs/operations/REMOTE_OPERATING_DIRECTION.md. This authorizes bounded
+bootstrap, non-root roles, persistent system interfaces and supervised synthetic
+validation on the existing host, plus controlled development-branch publication.
+It grants no patient transfer/launch, reserved-data access, 047 landing/cleanup,
+main merge, new spending/credentials or live limiter/writer/reset activation.
