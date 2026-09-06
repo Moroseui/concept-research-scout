@@ -1,0 +1,93 @@
+{
+  "is_error": false,
+  "duration_api_ms": 199944,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "f546c85f-3451-47db-9117-4720afff8350",
+  "total_cost_usd": 1.468135,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 32164,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 16061,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 32164,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 16061,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 32164,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 32164
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 20855,
+      "outputTokens": 13,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.020919999999999998,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 16061,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 32164,
+      "webSearchRequests": 0,
+      "costUSD": 1.447215,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"main-integration\",\"reviewed_commit\":\"b23e36d3399f7a343535229ccd83b724c53a1c27\",\"verdict\":\"APPROVE\",\"findings\":[\"VERIFIED (r1 advisories resolved): workflow_policy() now compares full filenames from directory.iterdir() against an exact expected set, so a duplicate-stem twin (interpret.yaml beside interpret.yml) changes the inventory and is refused; this is directly covered by test_duplicate_yaml_and_ci_write_permissions_rejected. check.yml content is now inspected: [push, pull_request] triggers, top-level contents: read, single 'basic' job, no job- or step-level permissions overrides, persist-credentials: false on every checkout, and no 'secrets.' text. test_branch_names_are_not_review_pins now passes the resolved repo root instead of '.', removing the cwd fragility.\",\"VERIFIED (quarantine, fail-closed): all six model workflows must exact-match the CONDITION string (workflow_dispatch + pilot ref + pilot destination input + PILOT_REMOTE_RESEARCH_ENABLED), end in a terminal guard whose run text must fullmatch a closed echo-'BLOCKED: ...'/exit-1 regex and which is executed and required to return exit code 1 with a BLOCKED prefix; exactly one other run step pinned byte-for-byte to the workflow_boundary verify command; only three SHA-pinned actions allowed; exactly one checkout bound to {ref: github.sha, fetch-depth: 1, persist-credentials: false}; results-validate.yml must keep contents: read, a single job, and if: '${{ false }}'. Structural lookups (data['permissions'], job['steps']) raise on absence, so malformed workflows fail closed.\",\"VERIFIED (identity bindings): verify() refuses to run outside its own checkout (resolved root must equal the script's parent repo), requires 40-hex main/pilot pins, a clean checkout on branch 'main', HEAD parents exactly [main, pilot] in order, main ancestor-of pilot (check=True), and HEAD tree byte-identical to the reviewed pilot tree; it re-binds P001 scientific approval (verify_receipt on review.json), patient-adapter review, and archive review at integration time, and performs no merge, push, or dispatch.\",\"VERIFIED (publication authority and recovery): workflow_boundary.publish is a compare-and-swap append: 40-hex source and expected-remote pins, HEAD==source, full check_pilot_publication audit of BASE..tip, ls-remote must return exactly the expected pin for the exact ref, expected_remote must be an ancestor of source (forbids rewind), and the push uses --force-with-lease against the expected old value so a concurrent remote move fails the lease. The audit refuses merges, contaminated-history reachability with an exact returncode-1 requirement (git errors fail closed), unlisted paths, non-regular file modes (blocks symlinks/submodules), >1.5MB or NUL-containing blobs, credential-like bytes, and executed notebook outputs; results-validate.yml's 'results' filename prefix is correctly exempted only via ALLOWED_FILES membership.\",\"VERIFIED (privacy/approvals preserved): the 047 cleanup remains rehearsed-only (status REHEARSED_ONLY_REQUIRES_OPERATOR_APPROVAL, remote_operation_executed: false, exact leased command unexecuted); residual case-linked metadata in per_case_staging.csv, split_manifest.csv, and staging_audit.json is explicitly disclosed and reserved for a separate operator disposition rather than silently retained; r1's 11-vs-12 advertised-refs inconsistency is now resolved by labeling the 11-ref blob audit as historical (2026-09-05) while the current 2026-09-06 reconciliation records 12 advertised refs traversed; docs consistently state the merge is proposed, not performed, and pilot history/commit identities are preserved.\",\"ADVISORY (check.yml content gap): workflow_policy validates check.yml's triggers, permissions, and checkout credential settings but not its 'uses:' action pins or 'run:' step contents, and its only secrets barrier is the substring 'secrets.', which the equivalent secrets['NAME'] index syntax evades; job 'permissions:' restrict the GITHUB_TOKEN, not access to the secrets context. Because check_pilot_publication allows content changes to .github/workflows/check.yml with no semantic validation, a mutated check.yml could pass workflow_policy while adding an unpinned third-party action or a secrets-referencing run step that executes on every push. Mitigated by the candidate-tree==reviewed-pilot-tree binding plus the contract's required human review of the final PR head. Recommend allowlisting check.yml's uses pins and broadening the secrets scan (e.g. refuse the bare token 'secrets').\",\"ADVISORY (model-workflow step schema not fully closed): step-level keys other than name/run/uses and the checkout 'with' mapping (e.g. env, shell, continue-on-error, working-directory) are not constrained by workflow_policy. Impact appears nil today \u2014 the single run string is exact, actions are SHA-pinned, the terminal guard exits 1, and permissions are read-only \u2014 but env on the verify step is attacker-influenced YAML that the policy never inspects; the same secrets['NAME'] substring evasion applies. Tightening to an exact per-step key schema would fully close this.\",\"MINOR: actioner.yml still advertises the stale propose_improvement input on a fully blocked job (carried over from r1; harmless). workflow_policy's guard execution uses timeout=5, whose TimeoutExpired propagates uncaught \u2014 fail-closed but an opaque failure mode.\",\"SCOPE NOTE: orchestrator.campaign_review.verify_receipt, orchestrator.colab_patient.require_patient_review, orchestrator.archive_preserve.reviewed, scripts/fetch_provenance.py, scout.py, and both requirements files are invoked by the reviewed code or CI but were not part of the supplied bundle; approval-preservation and provenance-retrieval guarantees depend on their previously reviewed behavior. Source-only review at the supplied snapshot; no tests or scripts were executed and no patient data was touched.\"]}",
+  "structured_output": {
+    "scope": "main-integration",
+    "reviewed_commit": "b23e36d3399f7a343535229ccd83b724c53a1c27",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (r1 advisories resolved): workflow_policy() now compares full filenames from directory.iterdir() against an exact expected set, so a duplicate-stem twin (interpret.yaml beside interpret.yml) changes the inventory and is refused; this is directly covered by test_duplicate_yaml_and_ci_write_permissions_rejected. check.yml content is now inspected: [push, pull_request] triggers, top-level contents: read, single 'basic' job, no job- or step-level permissions overrides, persist-credentials: false on every checkout, and no 'secrets.' text. test_branch_names_are_not_review_pins now passes the resolved repo root instead of '.', removing the cwd fragility.",
+      "VERIFIED (quarantine, fail-closed): all six model workflows must exact-match the CONDITION string (workflow_dispatch + pilot ref + pilot destination input + PILOT_REMOTE_RESEARCH_ENABLED), end in a terminal guard whose run text must fullmatch a closed echo-'BLOCKED: ...'/exit-1 regex and which is executed and required to return exit code 1 with a BLOCKED prefix; exactly one other run step pinned byte-for-byte to the workflow_boundary verify command; only three SHA-pinned actions allowed; exactly one checkout bound to {ref: github.sha, fetch-depth: 1, persist-credentials: false}; results-validate.yml must keep contents: read, a single job, and if: '${{ false }}'. Structural lookups (data['permissions'], job['steps']) raise on absence, so malformed workflows fail closed.",
+      "VERIFIED (identity bindings): verify() refuses to run outside its own checkout (resolved root must equal the script's parent repo), requires 40-hex main/pilot pins, a clean checkout on branch 'main', HEAD parents exactly [main, pilot] in order, main ancestor-of pilot (check=True), and HEAD tree byte-identical to the reviewed pilot tree; it re-binds P001 scientific approval (verify_receipt on review.json), patient-adapter review, and archive review at integration time, and performs no merge, push, or dispatch.",
+      "VERIFIED (publication authority and recovery): workflow_boundary.publish is a compare-and-swap append: 40-hex source and expected-remote pins, HEAD==source, full check_pilot_publication audit of BASE..tip, ls-remote must return exactly the expected pin for the exact ref, expected_remote must be an ancestor of source (forbids rewind), and the push uses --force-with-lease against the expected old value so a concurrent remote move fails the lease. The audit refuses merges, contaminated-history reachability with an exact returncode-1 requirement (git errors fail closed), unlisted paths, non-regular file modes (blocks symlinks/submodules), >1.5MB or NUL-containing blobs, credential-like bytes, and executed notebook outputs; results-validate.yml's 'results' filename prefix is correctly exempted only via ALLOWED_FILES membership.",
+      "VERIFIED (privacy/approvals preserved): the 047 cleanup remains rehearsed-only (status REHEARSED_ONLY_REQUIRES_OPERATOR_APPROVAL, remote_operation_executed: false, exact leased command unexecuted); residual case-linked metadata in per_case_staging.csv, split_manifest.csv, and staging_audit.json is explicitly disclosed and reserved for a separate operator disposition rather than silently retained; r1's 11-vs-12 advertised-refs inconsistency is now resolved by labeling the 11-ref blob audit as historical (2026-09-05) while the current 2026-09-06 reconciliation records 12 advertised refs traversed; docs consistently state the merge is proposed, not performed, and pilot history/commit identities are preserved.",
+      "ADVISORY (check.yml content gap): workflow_policy validates check.yml's triggers, permissions, and checkout credential settings but not its 'uses:' action pins or 'run:' step contents, and its only secrets barrier is the substring 'secrets.', which the equivalent secrets['NAME'] index syntax evades; job 'permissions:' restrict the GITHUB_TOKEN, not access to the secrets context. Because check_pilot_publication allows content changes to .github/workflows/check.yml with no semantic validation, a mutated check.yml could pass workflow_policy while adding an unpinned third-party action or a secrets-referencing run step that executes on every push. Mitigated by the candidate-tree==reviewed-pilot-tree binding plus the contract's required human review of the final PR head. Recommend allowlisting check.yml's uses pins and broadening the secrets scan (e.g. refuse the bare token 'secrets').",
+      "ADVISORY (model-workflow step schema not fully closed): step-level keys other than name/run/uses and the checkout 'with' mapping (e.g. env, shell, continue-on-error, working-directory) are not constrained by workflow_policy. Impact appears nil today \u2014 the single run string is exact, actions are SHA-pinned, the terminal guard exits 1, and permissions are read-only \u2014 but env on the verify step is attacker-influenced YAML that the policy never inspects; the same secrets['NAME'] substring evasion applies. Tightening to an exact per-step key schema would fully close this.",
+      "MINOR: actioner.yml still advertises the stale propose_improvement input on a fully blocked job (carried over from r1; harmless). workflow_policy's guard execution uses timeout=5, whose TimeoutExpired propagates uncaught \u2014 fail-closed but an opaque failure mode.",
+      "SCOPE NOTE: orchestrator.campaign_review.verify_receipt, orchestrator.colab_patient.require_patient_review, orchestrator.archive_preserve.reviewed, scripts/fetch_provenance.py, scout.py, and both requirements files are invoked by the reviewed code or CI but were not part of the supplied bundle; approval-preservation and provenance-retrieval guarantees depend on their previously reviewed behavior. Source-only review at the supplied snapshot; no tests or scripts were executed and no patient data was touched."
+    ]
+  },
+  "ttft_ms": 171999,
+  "ttft_stream_ms": 1399,
+  "time_to_request_ms": 153,
+  "type": "result",
+  "duration_ms": 198242,
+  "uuid": "ceabfadc-7cde-4529-bffd-ebc7aead320c"
+}

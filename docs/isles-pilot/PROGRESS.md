@@ -652,3 +652,24 @@ The full workflow filename inventory now rejects duplicate .yaml twins, checks C
 read-only permission/credential invariants, and tests mutation rejection. The test
 root assumption and historical-vs-current ref-count wording are corrected. Existing
 workflow and scientific source bytes remain unchanged. Follow-up review requested.
+
+### Main stabilization verification complete
+
+Fresh Fable follow-up APPROVE at b23e36d3399f7a343535229ccd83b724c53a1c27;
+actual reviewer claude-fable-5, auxiliary Haiku usage separately recorded. Both
+rounds completed source-only reviews, not reviewer test execution. No blocker.
+Remaining advisory: verifier is not a complete workflow semantic security analyzer;
+future CI steps/action pins/optional YAML keys still require source review. The
+exact current workflow tree was independently reviewed and stays disabled/read-only
+as documented. Inert actioner input remains a harmless legacy UI remnant.
+
+Isolated main candidate 2e9d12f126cb31c71caace482d8f1f0667c1df3c has exact
+parents 4f5b6b1... and b23e36d... and tree d03ebb2abe52ca67afdf87b25ab91dd605b13ae8.
+288 tests and seven mutation subtests, 214 orchestration tests, 16 isolation tests,
+47 state views and four registries passed. Scientific, patient adapter and archive
+approval bindings verified; no patient execution. Complete outgoing audit covered
+71 commits / 413 artifact versions at b23e36d. Final metadata-only receipt commit
+will be audited again before publication. Cleanup replacement reaches zero of the
+173 raw staged blobs; originals and prior failure evidence preserved privately.
+See MAIN_INTEGRATION_VERIFIED_20260906.json for exact receipts and honest limits.
+No human merge/cleanup approval is claimed. P001 unexecuted; no remote coordinator.
