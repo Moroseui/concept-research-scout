@@ -26,8 +26,10 @@ def test_interrupted_review_reconciles_without_dispatch_then_one_explicit_retry(
         assert recover(folder,is_live=lambda _:False)['model_calls']==0
         assert q.status(report['id'])['status']=='NOT_REVIEWED'
         calls=[]
-        def model(*args):
-            calls.append(args[1]);return 'Synthetic model fixture, not a real call.',{'actual_model':'claude-fable-5','session_id':'fixture'}
+        def model(*args,**kwargs):
+            calls.append(args[1])
+            if args[1]=='review':assert kwargs=={'prepared_prompt':True}
+            return 'Synthetic model fixture, not a real call.',{'actual_model':'claude-fable-5','session_id':'fixture'}
         r=recover(folder,True,model,lambda _:False)
         assert r['additional_model_calls']==2 and r['scientific_dispatches']==0
         assert calls==['review','disposition']
@@ -53,3 +55,21 @@ def test_context_carries_both_source_versions_and_all_verified_events(monkeypatc
         assert 'older synthetic' in packet['execution_implementation']['orchestrator/remote_supervisor.py']['content']
         assert 'orchestrator/git_publication.py' in packet['implementation']
         assert 'orchestrator/public_export.py' in packet['implementation']
+
+
+def test_controller_snapshot_reads_as_controller_and_is_read_only(monkeypatch):
+    import sqlite3
+    from types import SimpleNamespace
+    from orchestrator import hosted_cycle as h
+    from orchestrator.remote_supervisor import Controller
+    c=Controller(':memory:');c.submit('snapshot','a'*40)
+    calls=[]
+    def run(args,**kwargs):
+        calls.append(args)
+        return SimpleNamespace(stdout=c.db.serialize())
+    monkeypatch.setattr(h.subprocess,'run',run)
+    view=h.controller_snapshot('/synthetic-private-state')
+    assert calls[0][:4]==['runuser','-u','research-controller','--']
+    assert view.get('snapshot')['status']=='READY'
+    with pytest.raises(sqlite3.OperationalError):
+        view.db.execute("DELETE FROM jobs")

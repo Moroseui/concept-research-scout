@@ -52,7 +52,7 @@ def recover(folder,execute=False,call=model_call,is_live=live_group):
         if retry is None:raise ValueError('RETRY_NOT_ADMITTED')
         original=read_checked(folder/'review.input.md').decode()
         try:
-            review,receipt=call(recovery,'review','claude',original)
+            review,receipt=call(recovery,'review','claude',original,prepared_prompt=True)
             q.attach(row['id'],retry['attempt_id'],review,{'family':'claude','model':receipt['actual_model'],'source':row['source'],'report_sha256':row['id'],'review_sha256':sha(review.encode()),'execution_receipt_sha256':sha(encoded(receipt)),'session_id':receipt['session_id'],'status':'COMPLETE'})
             response,_=call(recovery,'disposition','astra','The original review failed and has now been retried once. Record response and next action only; do not dispatch.\n'+original+'\nFresh review:\n'+review)
             q.disposition(row['id'],response)
