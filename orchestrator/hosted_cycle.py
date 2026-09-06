@@ -14,8 +14,8 @@ import signal
 import subprocess
 import time
 
-from orchestrator.remote_supervisor import Controller, checked_source, lock, PAYLOAD
-from orchestrator.operations_report import Queue, finalize, immutable, private_root
+from orchestrator.remote_supervisor import Controller, checked_source, lock, PAYLOAD, identifier, validate_receipt
+from orchestrator.operations_report import Queue, finalize, immutable as write_immutable, private_root, sanitized
 from orchestrator.git_publication import scan
 
 SOURCE_FILES = ('orchestrator/hosted_cycle.py', 'orchestrator/remote_supervisor.py',
@@ -29,15 +29,29 @@ def sha(raw): return hashlib.sha256(raw).hexdigest()
 def encoded(value): return (json.dumps(value, sort_keys=True, indent=2)+'\n').encode()
 
 
+def sync_dir(path):
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY)
+    try: os.fsync(fd)
+    finally: os.close(fd)
+
+
+def immutable(path, data):
+    write_immutable(path, data)
+    sync_dir(Path(path).parent)
+
+
 def claim(folder, binding):
     """Durable before dispatch; even crash-before-exec requires reconciliation."""
     folder = Path(folder)
     if folder.exists():
+        if folder.is_symlink() or not (folder/'binding.json').is_file():
+            raise ValueError('INCOMPLETE_CYCLE_RECONCILE_NO_AUTOMATIC_RETRY')
         if json.loads((folder/'binding.json').read_text()) != binding:
             raise ValueError('CYCLE_BINDING_CONFLICT')
         if (folder/'complete.json').exists(): return False
         raise ValueError('INCOMPLETE_CYCLE_RECONCILE_NO_AUTOMATIC_RETRY')
     folder.mkdir(mode=0o700)
+    sync_dir(folder.parent)
     immutable(folder/'binding.json', encoded(binding))
     return True
 
@@ -120,12 +134,18 @@ def run(root, source, state, outputs, destination, job, day):
     destination = private_root(destination)
     controller = Controller(Path(state)/'jobs.sqlite')
     with lock(destination/'driver.lock'):
-        rows = controller.status()['jobs']
+        rows = [sanitized(row) for row in controller.status()['jobs']]
+        identifier(job)
         row = next(r for r in rows if r['job_id'] == job)
         if row['kind'] != 'synthetic_success' or row['status'] != 'COMPLETE': raise ValueError('SUCCESSFUL_SYNTHETIC_REQUIRED')
+        identifier(row['attempt_id'])
         event_row = controller.db.execute('SELECT payload FROM events WHERE id=?', (row['attempt_id'],)).fetchone()
         if not event_row: raise ValueError('COMPLETION_EVENT_REQUIRED')
-        event = json.loads(event_row[0]); attempt = Path(outputs)/row['attempt_id']
+        event = json.loads(event_row[0])
+        request = controller.db.execute('SELECT request FROM linux_attempts WHERE id=?', (row['attempt_id'],)).fetchone()
+        if not request: raise ValueError('BOUND_REQUEST_REQUIRED')
+        validate_receipt(event, json.loads(request[0]))
+        attempt = Path(outputs)/row['attempt_id']
         if attempt.is_symlink() or (attempt/'synthetic-result.txt').is_symlink() or (attempt/'synthetic-result.txt').read_bytes() != PAYLOAD:
             raise ValueError('SYNTHETIC_ARTIFACT_CHANGED')
         for name, expected in event['console_sha256'].items():
@@ -146,6 +166,7 @@ def run(root, source, state, outputs, destination, job, day):
                 'A durable synthetic completion triggered this bounded investigator turn. Assess actual completion, failure, blocked work and next eligible action; no dispatch.\n'+json.dumps(packet))
             report = finalize(folder/'reports', source, day, rows)
             queue = Queue(folder/'reports'); review_claim = queue.claim(report['id'])
+            if review_claim is None: raise ValueError('REVIEW_CLAIM_UNAVAILABLE')
             body = (folder/'reports'/(report['id']+'.md')).read_text()
             review, receipt = model_call(folder, 'review', 'claude',
                 'Fresh cross-family operational review. Inspect supplied implementation, deployed properties and primary receipt evidence, not just Astra prose. Identify concrete defects and acceptance gaps. This is not main merge approval.\n'+json.dumps(packet)+'\nASTRA:\n'+continuation+'\nREPORT:\n'+body)

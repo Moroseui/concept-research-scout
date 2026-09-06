@@ -27,3 +27,19 @@ def test_concurrent_dispatch_claims_only_one_attempt():
                 except ValueError: return False
         with ThreadPoolExecutor(max_workers=4) as pool:
             assert sum(pool.map(attempt, range(8))) == 1
+
+
+def test_missing_binding_is_ambiguous_not_a_fresh_admission():
+    with tempfile.TemporaryDirectory() as temp:
+        p = Path(temp)/'attempt'; p.mkdir()
+        with pytest.raises(ValueError, match='INCOMPLETE'): claim(p, {})
+
+
+def test_cycle_binding_directory_is_synced(monkeypatch):
+    from orchestrator import hosted_cycle
+    calls=[]
+    monkeypatch.setattr(hosted_cycle, 'sync_dir', lambda p: calls.append(Path(p)))
+    with tempfile.TemporaryDirectory() as temp:
+        p=Path(temp)/'attempt'
+        claim(p, {'event':'synthetic'})
+        assert Path(temp) in calls and p in calls
