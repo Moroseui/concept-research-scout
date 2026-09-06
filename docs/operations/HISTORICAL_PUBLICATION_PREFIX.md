@@ -54,3 +54,13 @@ The delegated pilot auditor also now reads modes and blobs from byte-exact tree
 entries. It no longer allows a pattern-shaped symlink to borrow a regular file's
 mode. Its branch/path/history quarantines remain in force; this does not broaden
 pilot publication authority or relax a refusal caused by historical content.
+
+A closeout audit refused the changed report test at `460deab`. Its sole change
+from the prior exact synthetic fixture version renames a report section assertion
+from dependencies to recorded failure reasons. Fable reviewed those exact bytes
+at `460deab`; the original synthetic rejection fixture remains unchanged. The
+additional version hash is
+`159246c86201491334dc3e18cb9ba9198ae21edeedf1c7a67c9b7e4ad7adedaf`.
+The allowance remains exact-file, exact-version only. Arbitrary edits, other paths
+and direct artifact/summary publication still refuse. No patient evidence was
+introduced by this test update, and no outgoing commit is rewritten.

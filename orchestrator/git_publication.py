@@ -53,13 +53,15 @@ PUBLIC_DECISION_SHA256 = 'dbb96211221407b5e13218a5e8c043afcf178700ee992aebab6479
 PUBLIC_FIXTURE_SHA256 = '2e63b621c00522b27ffa7228c754976834c076651e6248e7f90e8fc8d83149ff'
 
 SYNTHETIC_REPORT_TEST_SHA256 = '46aa7a14b8390cc16562f21863fb1c80499c73441209f3b727b50b8e00424b3d'
+SYNTHETIC_REPORT_TEST_VERSIONS = {SYNTHETIC_REPORT_TEST_SHA256,
+    '159246c86201491334dc3e18cb9ba9198ae21edeedf1c7a67c9b7e4ad7adedaf'}
 
 def scan_history_blob(root, before, name, data):
     try:
         scan(name,data)
     except ValueError as error:
-        if str(error)=='CASE_LEVEL_RECORD_REJECTED' and name=='tests/test_operations_report.py' and hashlib.sha256(data).hexdigest()==SYNTHETIC_REPORT_TEST_SHA256:
-            # Exact synthetic rejection fixture, reviewed at 1900522; no patient input.
+        if str(error)=='CASE_LEVEL_RECORD_REJECTED' and name=='tests/test_operations_report.py' and hashlib.sha256(data).hexdigest() in SYNTHETIC_REPORT_TEST_VERSIONS:
+            # Exact synthetic rejection fixtures, reviewed at 1900522 and 460deab; no patient input.
             scan(name,re.sub(rb'sub[-_]stroke[0-9]+',b'SYNTHETIC_REJECTION_FIXTURE',data,flags=re.I));return
         if str(error)!='CASE_LEVEL_RECORD_REJECTED' or name not in {'evidence/decisions.md','tests/test_git_publication.py'}:raise
         if subprocess.run(['git','merge-base','--is-ancestor',PUBLIC_DECISION_BASELINE,before],cwd=root,capture_output=True).returncode:raise
