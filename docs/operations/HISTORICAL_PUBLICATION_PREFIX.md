@@ -32,3 +32,20 @@ Git tree, and bytes are read by the matched blob object identity. Pattern-shaped
 filenames cannot hide a blob or borrow another entry's mode. Tests reject unsafe
 content under unusual names and a pattern-shaped symlink. Actual tree absence
 is the only deletion case. No original commit or review was rewritten.
+
+The subsequent review rejected the broad Python scanner exception. It is removed.
+All formats and filenames now receive identifier/credential checks. One additional
+historical allowance is limited to `tests/test_git_publication.py`: exactly one
+unchanged newline-terminated fixture line from the SHA-256-pinned public baseline
+file. Duplicate or altered lines, extra identifiers and other paths refuse. This
+allows old local commits to preserve an inherited public synthetic fixture; the
+final test source splits that literal and needs no exception. The decision-prefix
+and public test-line allowances preserve historical identifiers. A third, separately
+SHA-bound allowance covers exactly `tests/test_operations_report.py` as supplied in
+the approved review at `1900522275c7f8b74836432cef5a8ebd605c1840` (SHA-256
+`46aa7a14b8390cc16562f21863fb1c80499c73441209f3b727b50b8e00424b3d`).
+That new test file contains a deliberately synthetic identifier-rejection fixture,
+not patient input. It is not claimed to be an already-public baseline. Any byte
+change or other path loses that allowance. These are the complete explicit
+identifier exceptions in the history scanner; there is no format-wide exemption.
+Direct artifact and summary scans retain neither exception.

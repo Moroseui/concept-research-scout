@@ -20,6 +20,7 @@ def git(root, *args, **kw):
 
 
 def scan(name, data):
+    if SECRET.search(name.encode()) or re.search(r'sub[-_]stroke[0-9]+',name,re.I) or any(ord(c)<32 for c in name):raise ValueError('PUBLICATION_PATH_CONTENT_REJECTED')
     p = Path(name)
     if p.is_absolute() or '..' in p.parts or p.as_posix() != name or any(x.startswith('.') and x != '.github' for x in p.parts):
         raise ValueError('PUBLICATION_PATH_REJECTED')
@@ -30,7 +31,7 @@ def scan(name, data):
     if len(data) > 1500000 or b'\0' in data or SECRET.search(data):
         raise ValueError('PUBLICATION_CONTENT_REJECTED')
     data.decode('utf-8')
-    if p.suffix != '.py' and re.search(rb'sub[-_]stroke[0-9]+',data,re.I):
+    if re.search(rb'sub[-_]stroke[0-9]+',data,re.I):
         raise ValueError('CASE_LEVEL_RECORD_REJECTED')
     if p.suffix == '.ipynb':
         nb = json.loads(data)
@@ -44,21 +45,37 @@ def scan_commit(data):
 
 
 # Existing public evidence is preserved byte-for-byte; only this pinned prefix is
-# grandfathered. This is not a general case-data exception or a results route.
+# grandfathered, plus one exact public test line below. No general case-data
+# exception or results route is introduced.
 PUBLIC_DECISION_BASELINE = '2cb97cec43a07b3ab908329d38c509215237081f'
 PUBLIC_DECISION_SHA256 = 'dbb96211221407b5e13218a5e8c043afcf178700ee992aebab6479f95001ee7c'
+
+PUBLIC_FIXTURE_SHA256 = '2e63b621c00522b27ffa7228c754976834c076651e6248e7f90e8fc8d83149ff'
+
+SYNTHETIC_REPORT_TEST_SHA256 = '46aa7a14b8390cc16562f21863fb1c80499c73441209f3b727b50b8e00424b3d'
 
 def scan_history_blob(root, before, name, data):
     try:
         scan(name,data)
     except ValueError as error:
-        if str(error)!='CASE_LEVEL_RECORD_REJECTED' or name!='evidence/decisions.md':raise
+        if str(error)=='CASE_LEVEL_RECORD_REJECTED' and name=='tests/test_operations_report.py' and hashlib.sha256(data).hexdigest()==SYNTHETIC_REPORT_TEST_SHA256:
+            # Exact synthetic rejection fixture, reviewed at 1900522; no patient input.
+            scan(name,re.sub(rb'sub[-_]stroke[0-9]+',b'SYNTHETIC_REJECTION_FIXTURE',data,flags=re.I));return
+        if str(error)!='CASE_LEVEL_RECORD_REJECTED' or name not in {'evidence/decisions.md','tests/test_git_publication.py'}:raise
         if subprocess.run(['git','merge-base','--is-ancestor',PUBLIC_DECISION_BASELINE,before],cwd=root,capture_output=True).returncode:raise
         original=git(root,'show',PUBLIC_DECISION_BASELINE+':'+name)
-        if hashlib.sha256(original).hexdigest()!=PUBLIC_DECISION_SHA256 or not original.endswith(b'\n') or not data.startswith(original):raise
-        # Run every other check over the original bytes and scan all appended bytes.
-        historical=re.sub(rb'sub[-_]stroke[0-9]+',b'PUBLIC_HISTORICAL_IDENTIFIER',original,flags=re.I)
-        scan(name,historical+data[len(original):])
+        if name=='evidence/decisions.md':
+            if hashlib.sha256(original).hexdigest()!=PUBLIC_DECISION_SHA256 or not original.endswith(b'\n') or not data.startswith(original):raise
+            historical=re.sub(rb'sub[-_]stroke[0-9]+',b'PUBLIC_HISTORICAL_IDENTIFIER',original,flags=re.I)
+            scan(name,historical+data[len(original):])
+        else:
+            # One already-public synthetic test line survives in preserved commits.
+            # No general Python exemption; final source splits the fixture literal.
+            if hashlib.sha256(original).hexdigest()!=PUBLIC_FIXTURE_SHA256:raise
+            lines=[line for line in original.splitlines(keepends=True) if re.search(rb'sub[-_]stroke[0-9]+',line,re.I)]
+            if len(lines)!=1 or not lines[0].endswith(b'\n') or data.count(lines[0])!=1:raise
+            scan(name,data.replace(lines[0],b'PUBLIC_HISTORICAL_TEST_FIXTURE\n',1))
+
 
 
 def audit(root, source, before, inventory):

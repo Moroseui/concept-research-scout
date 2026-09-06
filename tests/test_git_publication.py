@@ -42,9 +42,9 @@ class PublicationTests(unittest.TestCase):
             raw.assert_not_called()
 
     def test_metadata_and_case_payload_scans(self):
-        for suffix in ['.md','.ipynb','.yml','.toml','.sh','.service']:
+        for suffix in ['.py','.md','.ipynb','.yml','.toml','.sh','.service']:
             with self.assertRaises(ValueError):pub.scan('record'+suffix,('sub-stroke'+'0123').encode())
-        for name,data in [('raw.json',b'{"case":"sub-stroke0123"}'),('payload.csv',b'synthetic'),('x.nii.gz',b'synthetic')]:
+        for name,data in [('raw.json',b'{"case":"sub-stroke'+b'0123"}'),('payload.csv',b'synthetic'),('x.nii.gz',b'synthetic')]:
             with self.assertRaises(ValueError):pub.scan(name,data)
         with self.assertRaisesRegex(ValueError,'COMMIT_METADATA'):
             pub.scan_commit(b'message '+b'ghp_'+b'A'*32)
@@ -181,3 +181,20 @@ class HistoricalEvidenceTests(unittest.TestCase):
             original=('Historical '+'sub-stroke'+'0123').encode()
             with patch.object(pub,'PUBLIC_DECISION_SHA256',hashlib.sha256(original).hexdigest()),patch.object(pub,'git',return_value=original),patch.object(pub.subprocess,'run',return_value=subprocess.CompletedProcess([],0)):
                 with self.assertRaises(ValueError):pub.scan_history_blob(Path(tmp),'a'*40,'evidence/decisions.md',original+b'45')
+
+class HistoricalFixtureTests(unittest.TestCase):
+    def test_only_single_exact_public_test_line_survives_in_old_commits(self):
+        original=('fixture = "sub-stroke'+'0123"\n').encode()
+        with tempfile.TemporaryDirectory() as tmp,patch.object(pub,'PUBLIC_FIXTURE_SHA256',hashlib.sha256(original).hexdigest()),patch.object(pub,'git',return_value=original),patch.object(pub.subprocess,'run',return_value=subprocess.CompletedProcess([],0)):
+            pub.scan_history_blob(Path(tmp),'a'*40,'tests/test_git_publication.py',b'# before\n'+original+b'# after\n')
+            for name,data in [('tests/test_git_publication.py',original+original),('tests/test_git_publication.py',original+('x="sub-stroke'+'9876"').encode()),('other.py',original)]:
+                with self.assertRaises(ValueError):pub.scan_history_blob(Path(tmp),'a'*40,name,data)
+        for name in [('sub-stroke'+'0123.py'),('ghp_'+'A'*32+'.md'),'line\nname.md']:
+            with self.assertRaisesRegex(ValueError,'PATH_CONTENT'):pub.scan(name,b'')
+
+    def test_exact_reviewed_synthetic_report_fixture_only(self):
+        root=Path(__file__).resolve().parents[1]
+        raw=(root/'tests/test_operations_report.py').read_bytes()
+        pub.scan_history_blob(root,'a'*40,'tests/test_operations_report.py',raw)
+        with self.assertRaises(ValueError):pub.scan_history_blob(root,'a'*40,'other.py',raw)
+        with self.assertRaises(ValueError):pub.scan_history_blob(root,'a'*40,'tests/test_operations_report.py',raw+b'# changed')
