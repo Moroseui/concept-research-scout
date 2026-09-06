@@ -49,3 +49,8 @@ not patient input. It is not claimed to be an already-public baseline. Any byte
 change or other path loses that allowance. These are the complete explicit
 identifier exceptions in the history scanner; there is no format-wide exemption.
 Direct artifact and summary scans retain neither exception.
+
+The delegated pilot auditor also now reads modes and blobs from byte-exact tree
+entries. It no longer allows a pattern-shaped symlink to borrow a regular file's
+mode. Its branch/path/history quarantines remain in force; this does not broaden
+pilot publication authority or relax a refusal caused by historical content.

@@ -41,6 +41,10 @@ def audit(tip):
         from orchestrator.git_publication import scan_commit
         scan_commit(git('cat-file','commit',commit))
         if len(git('rev-list','--parents','-n','1',commit).split())!=2: raise ValueError('unreviewed merge in outgoing history')
+        tree={}
+        for entry in git('ls-tree','-r','-z',commit).split(b'\0'):
+            if entry:
+                metadata,tree_name=entry.split(b'\t',1);tree[tree_name]=metadata.split()
         for raw in git('diff-tree','--no-commit-id','--name-only','-r','-z',commit).split(b'\0'):
             if not raw: continue
             name=raw.decode(); path=Path(name)
@@ -48,11 +52,11 @@ def audit(tip):
             if (path.suffix not in EXTENSIONS or any(part.startswith(('results','staged','.private')) for part in path.parts[:-1])
                 or (path.name.startswith(('results','staged','.private')) and name not in ALLOWED_FILES)):
                 raise ValueError('raw/private artifact in outgoing history')
-            exists=subprocess.run(['git','cat-file','-e',f'{commit}:{name}'],cwd=ROOT,stderr=subprocess.DEVNULL)
-            if exists.returncode: continue  # deleted file was checked in its introducing commit
-            mode=git('ls-tree',commit,'--',name).split()[0]
+            entry=tree.get(raw)
+            if entry is None:continue  # byte-exact tree absence, a real deletion
+            mode=entry[0]
             if mode not in (b'100644',b'100755'):raise ValueError('non-regular publication artifact')
-            data=git('show',f'{commit}:{name}')
+            data=git('cat-file','blob',entry[2].decode())
             from orchestrator.git_publication import scan
             scan(name,data)
             if len(data)>1500000 or b'\0' in data: raise ValueError('unexpected binary/large artifact')
