@@ -19,3 +19,9 @@ universal privacy guarantee. The separate 047 cleanup and case-linked metadata
 decisions remain unchanged. Publication credentials can still bypass client-side
 checks; the remote driver and worker receive none pending the protected writer
 design. Tests exercise both permitted preservation and forbidden additions.
+
+The first focused exception review requested a boundary guard: the preserved
+prefix must end with a newline, so appends cannot extend its final identifier.
+The actual pinned public prefix already has that boundary; the explicit guard and
+a rejecting synthetic fixture now enforce it. Unexpected Git ancestry errors
+also fail closed. The original rejected review remains private and attributed.

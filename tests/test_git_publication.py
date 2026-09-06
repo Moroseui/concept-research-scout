@@ -160,3 +160,9 @@ class HistoricalEvidenceTests(unittest.TestCase):
                 for name,data in [('evidence/decisions.md',original+original),('evidence/decisions.md',b'changed '+original),('elsewhere.md',original),('evidence/decisions.md',original+('ghp_'+'A'*32).encode())]:
                     with self.assertRaises(ValueError):pub.scan_history_blob(root,base,name,data)
                 with self.assertRaises(ValueError):pub.scan('evidence/decisions.md',original)
+
+    def test_historical_prefix_without_line_boundary_refuses(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            original=('Historical '+'sub-stroke'+'0123').encode()
+            with patch.object(pub,'PUBLIC_DECISION_SHA256',hashlib.sha256(original).hexdigest()),patch.object(pub,'git',return_value=original),patch.object(pub.subprocess,'run',return_value=subprocess.CompletedProcess([],0)):
+                with self.assertRaises(ValueError):pub.scan_history_blob(Path(tmp),'a'*40,'evidence/decisions.md',original+b'45')

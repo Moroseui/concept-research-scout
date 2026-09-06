@@ -55,7 +55,7 @@ def scan_history_blob(root, before, name, data):
         if str(error)!='CASE_LEVEL_RECORD_REJECTED' or name!='evidence/decisions.md':raise
         if subprocess.run(['git','merge-base','--is-ancestor',PUBLIC_DECISION_BASELINE,before],cwd=root,capture_output=True).returncode:raise
         original=git(root,'show',PUBLIC_DECISION_BASELINE+':'+name)
-        if hashlib.sha256(original).hexdigest()!=PUBLIC_DECISION_SHA256 or not data.startswith(original):raise
+        if hashlib.sha256(original).hexdigest()!=PUBLIC_DECISION_SHA256 or not original.endswith(b'\n') or not data.startswith(original):raise
         # Run every other check over the original bytes and scan all appended bytes.
         historical=re.sub(rb'sub[-_]stroke[0-9]+',b'PUBLIC_HISTORICAL_IDENTIFIER',original,flags=re.I)
         scan(name,historical+data[len(original):])
@@ -73,8 +73,9 @@ must be reviewed by the caller; matching hashes alone are not a privacy review.
         raise ValueError('NON_FAST_FORWARD_REJECTED')
     # cat-file first: an absent known bad object does not itself invalidate a clean repo.
     if not subprocess.run(['git','cat-file','-e',CONTAMINATED+'^{commit}'],cwd=root,capture_output=True).returncode:
-        if not subprocess.run(['git','merge-base','--is-ancestor',CONTAMINATED,source],cwd=root,capture_output=True).returncode:
-            raise ValueError('CONTAMINATED_HISTORY_REJECTED')
+        ancestry=subprocess.run(['git','merge-base','--is-ancestor',CONTAMINATED,source],cwd=root,capture_output=True).returncode
+        if ancestry==0:raise ValueError('CONTAMINATED_HISTORY_REJECTED')
+        if ancestry!=1:raise ValueError('CONTAMINATED_ANCESTRY_UNAVAILABLE')
     observed = {}
     for commit in git(root,'rev-list',before+'..'+source).decode().splitlines():
         scan_commit(git(root,'cat-file','commit',commit))
