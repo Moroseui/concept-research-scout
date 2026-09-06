@@ -816,3 +816,12 @@ This documentation remains local on astra/infrastructure-milestone-record for
 inclusion in the next appropriate milestone PR after publication is unblocked.
 No separate main merge, independent desk approval, active standing dispatch,
 scientific landing, patient execution, spending or provisioning is claimed.
+
+
+Controlled publication was actually attempted at 406c00a with explicit operator
+branch authority and exact source/before/inventory. The audit passed all 12 blob
+versions across cfadeb1 and the ratification commit. The existing publisher then
+refused with REMOTE_MOVED because the remote branch is absent, before any push.
+POSTMERGE_PUBLICATION_ATTEMPT_20260906.json preserves that exact attempt receipt;
+it does not certify later documentation commits. No approval system rejected the
+action and no bypass was used. The previously recorded inbox dependency remains.
