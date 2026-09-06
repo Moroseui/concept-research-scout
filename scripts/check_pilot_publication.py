@@ -6,6 +6,10 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE='4f5b6b1dc67084a7882c099fb30a6f9465991a31'
