@@ -5,6 +5,17 @@ document.** The purchased Linux host is the deployment target. No patient launch
 new paid product, main merge or 047 operation follows from bootstrap acceptance.
 Connection details remain in private deployment configuration.
 
+## Current verification update
+
+Both server model accounts have authenticated and completed real bounded calls; see
+HOSTED_CYCLE_RESULT_20260906.md. Notification-only App installation, actual device
+delivery and authenticated synthetic acknowledgment are now verified in
+NOTIFICATION_APP_IDENTITY_20260906.json. Do not repeat sign-in or App setup absent
+a new failure. Operational phone replies remain disabled. The older preparation
+steps below are retained as setup context, not a statement that authentication is
+still missing. DEPLOYMENT_CLOSEOUT_CHECKLIST.md tracks current remaining evidence;
+PROTECTED_WRITER_ADMISSION_DECISION.md specifies the proposed protected boundary.
+
 ## Protected writer, admission and reset design
 
 Proposed ownership separates the non-root Astra development identity, scientific

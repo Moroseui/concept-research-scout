@@ -17,8 +17,9 @@
     {
       "job": "phone-acceptance",
       "reason": "AUTHENTICATED_PHONE_TEST_REQUIRED",
-      "status": "OPEN",
-      "next_action": "Choose approved service notification identity, then test actual device delivery and version-bound operator response."
+      "status": "RESOLVED_SYNTHETIC_ONLY",
+      "next_action": "Device delivery reported by operator; App API verified bound issue-4 acknowledgment and duplicate suppression. Operational replies remain disabled.",
+      "evidence": "NOTIFICATION_APP_IDENTITY_20260906.json"
     },
     {
       "job": "protected-publication-admission",
@@ -35,8 +36,9 @@
     {
       "job": "remote-model-auth",
       "reason": "REMOTE_MODEL_SIGNIN_REQUIRED",
-      "status": "OPEN",
-      "next_action": "After supported clients and hosted synthetic checks: operator signs into existing Codex and Claude subscriptions in their separate remote role homes. No tokens copied. Exact commands supplied privately."
+      "status": "RESOLVED",
+      "next_action": "Both separate server accounts authenticated and used in actual bounded hosted cycle. Do not request sign-in again absent an actual authentication failure.",
+      "evidence": "HOSTED_CYCLE_RESULT_20260906.md"
     },
     {
       "job": "report-schedule",

@@ -1,0 +1,60 @@
+{
+  "repository": "Moroseui/concept-research-scout",
+  "owner": "Moroseui",
+  "app_id": 4853010,
+  "client_id": "Iv23lim4y5AUEI4rFbSs",
+  "identity_evidence": "Verified through GitHub App and installation API; actual permissions and sole repository matched.",
+  "installation_id": 159584002,
+  "bot_id": 325760728,
+  "private_key_installed": true,
+  "activated": "synthetic notification only",
+  "authorized_scope": "checked notifications and synthetic acknowledgments only; no operational decisions",
+  "installation_evidence": "GitHub API verified installation 159584002 selects only Moroseui/concept-research-scout.",
+  "api_verified": true,
+  "identity": {
+    "app_id": 4853010,
+    "installation_id": 159584002,
+    "repository_id": 1323461276,
+    "operator_id": 157774170,
+    "bot_id": 325760728,
+    "permissions": {
+      "issues": "write",
+      "metadata": "read"
+    },
+    "mode": "NOTIFICATION_SYNTHETIC_ONLY"
+  },
+  "slug": "moroseui-research-notify",
+  "credentials_private": true,
+  "notification_sent": true,
+  "operational_replies_enabled": false,
+  "reviewed_source": "f16bd11471c0a85cb88f2f3dfe528ad6a6a2e7b5",
+  "notification_issue": 4,
+  "phone_delivery_verified": true,
+  "first_device_test": {
+    "issue": 3,
+    "delivery_confirmed": false,
+    "operator_report": "Phone notifications were blocked; operator has now enabled them."
+  },
+  "phone_delivery_evidence": {
+    "kind": "operator device report",
+    "report": "I turned on all notifications and got something that says \"Synthetic acknowledgment: phone-synthetic...\"",
+    "exact_issue_open_and_authenticated_ack": "verified through App API",
+    "fresh_test_issue": 4
+  },
+  "acknowledgment": {
+    "first": {
+      "status": "SYNTHETIC_ACKNOWLEDGED",
+      "comment_id": 5561640345,
+      "duplicate": false,
+      "operational_authority": false
+    },
+    "repeat": {
+      "status": "SYNTHETIC_ACKNOWLEDGED",
+      "comment_id": 5561640345,
+      "duplicate": true,
+      "operational_authority": false
+    },
+    "issue": 4,
+    "verification_route": "Explicit supervised App API check, not active automatic polling"
+  }
+}
