@@ -78,5 +78,9 @@
   "unchanged_since_pilot_change": true,
   "subsequent_review_execution": "docs/isles-pilot/reviews/cleanup-r4.execution.json",
   "reviewed_run_hash_matches": true,
-  "limitation": "Historical receipts establish the system stages and recorded model selection, not deterministic LLM regeneration. No code-generation replay or original successful Colab log has been fabricated."
+  "limitation": "Historical receipts establish the system stages and recorded model selection, not deterministic LLM regeneration. No code-generation replay or original successful Colab log has been fabricated.",
+  "recorded_review_verdict": "APPROVE",
+  "recorded_review_blocking_count": 0,
+  "review_artifact_sha256": "bc1ce36310d89537b5d7cb5bd1985fe61aa48f89768a7703a7e5097e87c24490",
+  "reviewed_run_blob": "42feb8756675c1bf5165d965177fdab2753e661e"
 }

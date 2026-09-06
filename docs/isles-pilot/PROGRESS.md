@@ -748,3 +748,11 @@ Author-operated Fable review completed APPROVE at b5bc5c4 (actual claude-fable-5
 Verification after that reviewed snapshot corrected scanner false positives for detector source syntax and the two existing public coordinator-plan documents, plus the direct audit CLI import path. The whole outgoing history now passes the strengthened scanner. Actual private-key header variants remain rejected. The proposed admission step is isolated into a no-model-credential job with unchanged read-only permissions. No limiter state/ref/permission or standing grant is activated. Local CAS tests include actual transport to a disposable bare remote, explicit initialization refusal and existing-state preservation.
 
 The last full suite before these final edge fixes passed 308 tests/20 subtests. Follow-up internal source binding and final tests are pending; no incomplete review is used as approval.
+
+### Closeout internal review complete
+
+Author-operated Fable completed APPROVE at `6ab1d3d4408abef1f94b67fe2f9f58fb6af37146` (actual assistant claude-fable-5; auxiliary Haiku usage recorded separately). The valid current-runtime binding is preserved as human-controls-closeout.*; older review evidence remains untouched. Source-only review does not claim reviewer-run tests or independent desk approval. The final full local and isolated-main implementation suites each passed 310 tests/20 subtests. State views remain 47/47 and registries 4/4.
+
+Accepted non-blocking limits remain documented: evidence size can still block a reviewed proposal without discarding original prompt/audit records; same-identity BLOCKED replay requires a new request ID after repair; ordinary GitHub JSON API requests assume no cross-host redirect (artifact redirects explicitly strip authorization); repository-stored review receipts are not cryptographic operator signatures. The SHA input confirms the selected branch revision, not an arbitrary revision selector. Current-science dependency review remains blocked after the scout.py repair, while original frozen approval bytes verify.
+
+Final packet in CLOSEOUT_DECISION_PACKET.md is prepared for a genuinely independent desk review of the actual final candidate and subsequent operator decision. It does not ratify R1–R4, choose N, grant state-write permissions, merge main, execute cleanup or start the queued 047/P001 work.

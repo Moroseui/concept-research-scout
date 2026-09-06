@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 292533,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "db7d74f4-631c-4282-8d93-5338bf3b0be5",
+  "total_cost_usd": 4.664413,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 169968,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 22861,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 169968,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 22861,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 169968,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 169968
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 121043,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.121118,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 22861,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 169968,
+      "webSearchRequests": 0,
+      "costUSD": 4.543295,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"human-controls\",\"reviewed_commit\":\"6ab1d3d4408abef1f94b67fe2f9f58fb6af37146\",\"verdict\":\"APPROVE\",\"findings\":[\"Resolved from r1: REVIEW_FILES in orchestrator/actions_runner.py now binds scout.py, orchestrator/campaign_lifecycle.py, orchestrator/publication.py, orchestrator/campaign.py and orchestrator/campaign_review.py, so post-review drift in the execution primitive, the interpret gate and the inventory helper trips REVIEW_BINDING_CHANGED; and human_controls.save() now validates the answer and public evidence through public_export.text, closing the r1 control-character gap.\",\"Non-blocking (robustness, fail-closed direction): the success-path public evidence duplicates the full bound grounding context across up to four prompt_*.md records plus request.json; a large campaign context can exceed the 500KB bound (EVIDENCE_PUBLICATION_REJECTED) or a >100KB answer can trip PUBLICATION_TOO_LARGE, converting an APPROVE-reviewed proposal into a failure after full model spend. If save() itself raises inside execute()'s exception handler, the run ends with no artifact at all (fixed infrastructure summary only). Consider hashing or excluding prompt records from public evidence.\",\"Non-blocking (documented recovery semantics): restore() permanently replays any prior validated export for a request identity, including BLOCKED exports from transient credential failures, until the operator chooses a new request_id. The identity now binds the question text as well, so a changed question never replays a stale answer; the replayed receipt records reused_from_run, submission_run_id and model_calls_this_submission=0 but does not re-derive status.\",\"Non-blocking (hardening): human_controls.api() uses the default urllib opener, which preserves the Authorization header across redirects; only the artifact-zip download uses PrivateRedirect. The GitHub REST endpoints used here do not redirect cross-host today, but routing all authenticated requests through the PrivateRedirect opener would remove that assumption.\",\"Non-blocking (acknowledged trust limitation): reviewed() trusts repo-committed .execution.json/.response.json records, so anyone with commit or publication access can fabricate a matching pair. Consistent with the stated position that this is an author-operated cross-family check, not independent desk approval; no new authority should be inferred from a passing gate.\",\"Non-blocking (documentation nit): the source_sha workflow input can never usefully differ from the checked-out github.sha \u2014 checkout is pinned to github.sha and execute() raises SOURCE_MISMATCH on any difference \u2014 so the input is a confirmation pin, not a revision selector. Safe and fail-closed, but the input description implies more capability than exists.\",\"Non-blocking (unchanged documented residual): git_publication.scan applies the case-identifier (sub-stroke) refusal only to .json/.jsonl/.txt payload types, matching the documented allowance for frozen cohort constants in reviewed source; arbitrary clinical prose remains outside the regex boundary as the coverage document states.\",\"Verified: fail-closed behavior on all traced failure paths (REVIEW_REQUIRED, CI identity, SOURCE_MISMATCH and branch-ref pinning, grounding/predecessor hash bindings, transport error classification into named codes, REPLAY_LOOKUP_LIMIT on incomplete artifact pagination, and no artifact-name release before validate_export passes); identity bindings (request identity covers control/mode/experiment/question/source/request_id/initiator; replay bound to identity hash, head SHA, workflow_dispatch event and the control-specific workflow path with size caps, hash re-verification and DANGER re-scan); privacy (GH/Actions/Anthropic tokens stripped from the model environment plus the opposing family's credential, private_evidence path stripped from public projections, console/CLI logs excluded from public records, Authorization dropped on cross-host artifact redirect, failure evidence filtered file-by-file through public_text with rejected originals retained privately, traversal-safe structured outputs); scientific-approval preservation (interpret requires a real import receipt plus the require_review chain, PROPOSAL_ONLY next-decision schema enforced, hosted lane emits only REVIEWED_PROPOSAL_NOT_ADOPTED and never writes interpretation_receipt.json into an experiment, opposing-family successful receipts with github-actions-v1 provenance required, reviewer output cannot be prepopulated, receipts carry human_ratification:false and patient_execution:false); dispatch limiter PROPOSED/inactive by default with ratified-path fail-closed semantics, 2N halt latched across midnight, duplicate-admission idempotency without recharge, and operator-only reset/initialize. Source-only review; no tests were executed.\"]}",
+  "structured_output": {
+    "scope": "human-controls",
+    "reviewed_commit": "6ab1d3d4408abef1f94b67fe2f9f58fb6af37146",
+    "verdict": "APPROVE",
+    "findings": [
+      "Resolved from r1: REVIEW_FILES in orchestrator/actions_runner.py now binds scout.py, orchestrator/campaign_lifecycle.py, orchestrator/publication.py, orchestrator/campaign.py and orchestrator/campaign_review.py, so post-review drift in the execution primitive, the interpret gate and the inventory helper trips REVIEW_BINDING_CHANGED; and human_controls.save() now validates the answer and public evidence through public_export.text, closing the r1 control-character gap.",
+      "Non-blocking (robustness, fail-closed direction): the success-path public evidence duplicates the full bound grounding context across up to four prompt_*.md records plus request.json; a large campaign context can exceed the 500KB bound (EVIDENCE_PUBLICATION_REJECTED) or a >100KB answer can trip PUBLICATION_TOO_LARGE, converting an APPROVE-reviewed proposal into a failure after full model spend. If save() itself raises inside execute()'s exception handler, the run ends with no artifact at all (fixed infrastructure summary only). Consider hashing or excluding prompt records from public evidence.",
+      "Non-blocking (documented recovery semantics): restore() permanently replays any prior validated export for a request identity, including BLOCKED exports from transient credential failures, until the operator chooses a new request_id. The identity now binds the question text as well, so a changed question never replays a stale answer; the replayed receipt records reused_from_run, submission_run_id and model_calls_this_submission=0 but does not re-derive status.",
+      "Non-blocking (hardening): human_controls.api() uses the default urllib opener, which preserves the Authorization header across redirects; only the artifact-zip download uses PrivateRedirect. The GitHub REST endpoints used here do not redirect cross-host today, but routing all authenticated requests through the PrivateRedirect opener would remove that assumption.",
+      "Non-blocking (acknowledged trust limitation): reviewed() trusts repo-committed .execution.json/.response.json records, so anyone with commit or publication access can fabricate a matching pair. Consistent with the stated position that this is an author-operated cross-family check, not independent desk approval; no new authority should be inferred from a passing gate.",
+      "Non-blocking (documentation nit): the source_sha workflow input can never usefully differ from the checked-out github.sha \u2014 checkout is pinned to github.sha and execute() raises SOURCE_MISMATCH on any difference \u2014 so the input is a confirmation pin, not a revision selector. Safe and fail-closed, but the input description implies more capability than exists.",
+      "Non-blocking (unchanged documented residual): git_publication.scan applies the case-identifier (sub-stroke) refusal only to .json/.jsonl/.txt payload types, matching the documented allowance for frozen cohort constants in reviewed source; arbitrary clinical prose remains outside the regex boundary as the coverage document states.",
+      "Verified: fail-closed behavior on all traced failure paths (REVIEW_REQUIRED, CI identity, SOURCE_MISMATCH and branch-ref pinning, grounding/predecessor hash bindings, transport error classification into named codes, REPLAY_LOOKUP_LIMIT on incomplete artifact pagination, and no artifact-name release before validate_export passes); identity bindings (request identity covers control/mode/experiment/question/source/request_id/initiator; replay bound to identity hash, head SHA, workflow_dispatch event and the control-specific workflow path with size caps, hash re-verification and DANGER re-scan); privacy (GH/Actions/Anthropic tokens stripped from the model environment plus the opposing family's credential, private_evidence path stripped from public projections, console/CLI logs excluded from public records, Authorization dropped on cross-host artifact redirect, failure evidence filtered file-by-file through public_text with rejected originals retained privately, traversal-safe structured outputs); scientific-approval preservation (interpret requires a real import receipt plus the require_review chain, PROPOSAL_ONLY next-decision schema enforced, hosted lane emits only REVIEWED_PROPOSAL_NOT_ADOPTED and never writes interpretation_receipt.json into an experiment, opposing-family successful receipts with github-actions-v1 provenance required, reviewer output cannot be prepopulated, receipts carry human_ratification:false and patient_execution:false); dispatch limiter PROPOSED/inactive by default with ratified-path fail-closed semantics, 2N halt latched across midnight, duplicate-admission idempotency without recharge, and operator-only reset/initialize. Source-only review; no tests were executed."
+    ]
+  },
+  "ttft_ms": 265794,
+  "ttft_stream_ms": 3276,
+  "time_to_request_ms": 190,
+  "type": "result",
+  "duration_ms": 289899,
+  "uuid": "a21e0b5d-c31f-48bc-be31-e8963485e470"
+}

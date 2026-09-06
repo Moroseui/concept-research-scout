@@ -1,0 +1,51 @@
+{
+  "reviewed_commit": "6ab1d3d4408abef1f94b67fe2f9f58fb6af37146",
+  "returncode": 0,
+  "wall_seconds": 291.78666341100325,
+  "input_file_sha256": {
+    "orchestrator/actions_runner.py": "98af2434db66c793d1bd30dee5195e438af096e8de05bd86ef6050df25408935",
+    "scripts/actions_agent.py": "2d619a81dc3f6483af4d7dc8dee284ff8cec6ea6251a8f042b538054ee465f5f",
+    "orchestrator/human_controls.py": "5eb87f5e9c5271220adad7e0021b87eda9c05cf92bd9972999694ee1f947a69d",
+    "orchestrator/campaign_pipeline.py": "f4d6a44a43cd4bf215c33014ee390b6c24ded68de6679ca0f4360f4fef6a3866",
+    "scripts/actions_auth.py": "66f27c4fdaac13c31f566e0e915defac28f45c5b2bba0d9304b351c51d275cdd",
+    "scripts/render_human_workflows.py": "4c8fe88808cad44afe2a27da5dc36fdd13244f85fcff5903fab5f00289051f52",
+    "configs/pilot/human-controls.json": "37f678805e774862e843982aba221e32e17c893de00872aa4d59fddc2ecbc5e6",
+    "configs/pilot/dispatch-limiter.json": "c04911c3374888f905e54b05d935fd91be3d9dbed87a63331b82f098e4d506e1",
+    "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+    "orchestrator/dispatch_limiter.py": "faba265da950cc7a7d1dc2f810d98c983a28d50c436518447a9e7ec20fd8ac85",
+    "orchestrator/git_publication.py": "49f8132235efbf698b56636b9a60bf6a8e307f30eab05a4bb7e9519a28297f19",
+    ".github/workflows/research-control.yml": "78fa2d32a50250b907f988e5becaa93cfc3a0812e438d1eba98f861538dbb54d",
+    ".github/workflows/actioner.yml": "8b0b05c62fb5680fc08fde55462742a3205a2d36c3c0efccb07798284fdd62ef",
+    ".github/workflows/confer.yml": "0b391dbf23693b5e29b7b4e21eafebcd813fd93a56e54c6d3a357f6794885e26",
+    ".github/workflows/idea-pipeline.yml": "4eb288307e47d22cba5357f9e3273beaac808266bee30da651f489150cb7e859",
+    ".github/workflows/interpret.yml": "5ac92e12e03442a252a7a43b631cea4c97e2f6a81daad7adfe877524fceaab4c",
+    ".github/workflows/librarian.yml": "95f4a09aef4ca9b08987edc11cf7328b4eb8a6063634bed807724562cfdd1aca",
+    ".github/workflows/scout-cycle.yml": "17f116d37acd02b1af6cb65b90e1856258c924c34d81fd13059ab6afd3ce6e96",
+    ".github/workflows/results-validate.yml": "d01c488797cb24bde244bd9eb0b51074da4402efefb3f18ac8f6842f0e93401c",
+    "tests/test_human_controls.py": "9cd802fde713338824273579e63d34f6d0f95150cd47273d2e30178ccf2a664a",
+    "tests/test_dispatch_limiter.py": "51855f9036f97b064c1a03e7e2d0226da9485cc3304b72a0726d6f9fb88d6ae7",
+    "tests/test_git_publication.py": "7dc19c3f2b1798d487afe88ab719c1d01d62c7b782d88e2d0b72f812a9648811",
+    "scripts/verify_main_integration.py": "44dffb6048db4bbe1d3dd5cc8724055e3a7ef7dd56a46e08c1ea8c232a8c2dea",
+    "scripts/workflow_boundary.py": "04260f215820ba1ef6711d1a4dd581924e1f3b942e1822831be87eb8dbfd9ee0",
+    "scripts/check_pilot_publication.py": "fe4d6a0d6c681f3c23c1e921ed781662d9d809300a6e18676d933f4b8b3a31a0",
+    "scout.py": "a98dd67c31823253e56d27b89bc58fad2af15aa138f98e0894096e3e3d59ee22",
+    "orchestrator/campaign_lifecycle.py": "d4c33f59ccd2520124f49788d7538057c8ee0fe4a92579453f33072c9a45a92e",
+    "orchestrator/publication.py": "95448fbc758b00f8d9dcfbab98aedf0245991146515945fe689789a0532eacd9",
+    "orchestrator/campaign_review.py": "2b74a438b74ba5db3497204bde82c6e2be676a16658aa4b975ae3ade6e690310",
+    "orchestrator/campaign.py": "f18d46ec30c8a660b33d915195e985a1f35c52b925ff6b89e75f320a8e07d593",
+    "docs/isles-pilot/CLOSEOUT_RULINGS_PROPOSED.md": "453c933cd79405a6b82a34e5e7ca463d59dfde2bf4437d950f70fe70ce3aedaa",
+    "docs/isles-pilot/DISPATCH_LIMITER.md": "610f9264610f2f9d0bf118302cf91a6404040a7a6ec947b3f5abbc014fd61501",
+    "docs/isles-pilot/PUBLICATION_COVERAGE_20260906.md": "b91a41f5ac432cad45979b2bb9991c76b045eea15dfc69ceb50d7da6d307ffe9",
+    "docs/isles-pilot/reviews/human-controls-closeout-r1.response.json": "67dc3a4baa0c887209bdb711e40c80a716da3c1d28c07020b62136536af219b3"
+  },
+  "response_sha256": "66b7c6e1cbdb970fbf0cadcc8ff601d5f84ddb37cfa0984a3e2dbb317cb4efe4",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "9e8259596b71be0c9241646375c09962260abc673521478c02bc3c14f36d3142"
+}

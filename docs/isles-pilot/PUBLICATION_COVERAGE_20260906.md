@@ -26,6 +26,13 @@ No permissions, visibility, rulesets or credentials were changed.
 The existing local credential can run direct `git push` or create/update GitHub
 Git blobs/trees/commits/refs and Contents API files. It can change workflows and
 repository settings. A manual/direct push need not call our Python validator.
+The existing local AGENTS.toml also permits Claude Bash(git:*) and network-enabled
+Codex operation; a local model process with access to the operator's stored GitHub
+authentication can bypass the wrapper too. The author-operated review invocation
+has no tools, and hosted scientific transport has tools disabled, stripped GitHub
+tokens and read-only workflow permissions; those narrower routes do not remove
+the outer/local credential capability. AGENTS.toml and credential storage are not
+silently rewritten in this closeout.
 Legacy source fetched outside the reviewed automation path can do the same when
 given a write credential. On a public repository, post-push CI is too late to
 prevent exposure. Results deletion/non-fast-forward protection is not a content
