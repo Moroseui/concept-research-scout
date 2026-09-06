@@ -1,0 +1,29 @@
+{
+  "reviewed_commit": "2a841fe7e925df603b52c667e46a91ee8e730182",
+  "returncode": 0,
+  "wall_seconds": 247.01179899400086,
+  "input_file_sha256": {
+    "scripts/workflow_boundary.py": "bacff1c06223f54ba51ca26a2a5a6db27f134868be63b0427fdd1c99c7e322e7",
+    "scripts/check_pilot_publication.py": "5c72cae2eccd521c3dbd36d2fca259691ced378cdbfb2727977abb7f98db8ab5",
+    ".github/workflows/interpret.yml": "8d77fdeb592e5998033e0233755f96cf74fb1057eb3a6db7714f4bc1feb50c83",
+    ".github/workflows/confer.yml": "174d5721b32e7a0b0dd6f54570f12ccf108527b4b2a2c779b1998037df69291f",
+    ".github/workflows/actioner.yml": "c74df33c70bbe4271fa2818c8d65102f091998098ea254308176d5f026fd2810",
+    ".github/workflows/check.yml": "ced0a4c34fd413c2763bfefd014ac1ea60e44980819c27729ee625cb93be3c21",
+    ".github/workflows/results-validate.yml": "9081a06d9b09fbb1074d070a574429ed7f1c4947384a22402f10b04dcaef3a29",
+    ".github/workflows/scout-cycle.yml": "9a2771ff9ca94c23e476ae98435ee71c6373d760f9dbb05ce38c277171085041",
+    ".github/workflows/idea-pipeline.yml": "2c827901af6b6c271fc5b2f720311f4aca6338d0b2f241950ddd38fe859b2e36",
+    ".github/workflows/librarian.yml": "cca0d94f9f975692fc315df01e0f4c704d4752167407b6dd56f06c04774e7f4b",
+    "tests/test_workflow_boundary.py": "dab2737d9b75048a708153ad22d1b42bf122e9d078646ec4ec7582bb379523cd",
+    "docs/isles-pilot/OPERATING_MODEL_20260905.md": "a89a3e7a6a330ed4a487d37d9574597138d829181c8e19002dd79390ad5ff952"
+  },
+  "response_sha256": "a3577fe6538c2fee15d0c2950e7af39b4445f3cb151d9fa493a9a3c3fbb3b4e0",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "7a5046a242874290bff29bb82e598d5c402be498199a2eeb098cf387d5820bb9"
+}

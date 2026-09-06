@@ -1,0 +1,44 @@
+{
+  "public_2a_state": "3be88aeb3f6e831b2b62481b2c0d5363dd18972d",
+  "main": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+  "published_branch_contained_in_main": true,
+  "merge_commit": "1f03e59",
+  "checked_local_repositories": [
+    {
+      "checkout": "/home/partho/concept-research-scout-v4/scout-autonomy",
+      "head": "1ecc3f9d5815fb1401bee48454dce197985d947f",
+      "branch": "astra/autonomous-isles-pilot",
+      "dirty_entries": 0,
+      "stashes": 0,
+      "2a_refs": [],
+      "worktrees": "worktree /home/partho/concept-research-scout-v4/scout-autonomy\nHEAD 1ecc3f9d5815fb1401bee48454dce197985d947f\nbranch refs/heads/astra/autonomous-isles-pilot\n\nworktree /tmp/isles-p001-execution-0770c7d\nHEAD 0770c7dcabe781cbfb87de505755e7aafa758f2e\ndetached\n\n"
+    },
+    {
+      "checkout": "/home/partho/concept-research-scout-v4/scout-astra",
+      "head": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+      "branch": "astra/prediction-plan",
+      "dirty_entries": 0,
+      "stashes": 0,
+      "2a_refs": [
+        "refs/heads/2a-state 3be88aeb3f6e831b2b62481b2c0d5363dd18972d"
+      ],
+      "worktrees": "worktree /home/partho/concept-research-scout-v4/concept-research-scout\nHEAD 4f5b6b1dc67084a7882c099fb30a6f9465991a31\nbranch refs/heads/main\n\nworktree /home/partho/concept-research-scout-v4/scout-astra\nHEAD 4f5b6b1dc67084a7882c099fb30a6f9465991a31\nbranch refs/heads/astra/prediction-plan\n\n"
+    },
+    {
+      "checkout": "/home/partho/concept-research-scout-v4/concept-research-scout",
+      "head": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+      "branch": "main",
+      "dirty_entries": 0,
+      "stashes": 0,
+      "2a_refs": [
+        "refs/heads/2a-state 3be88aeb3f6e831b2b62481b2c0d5363dd18972d"
+      ],
+      "worktrees": "worktree /home/partho/concept-research-scout-v4/concept-research-scout\nHEAD 4f5b6b1dc67084a7882c099fb30a6f9465991a31\nbranch refs/heads/main\n\nworktree /home/partho/concept-research-scout-v4/scout-astra\nHEAD 4f5b6b1dc67084a7882c099fb30a6f9465991a31\nbranch refs/heads/astra/prediction-plan\n\n"
+    }
+  ],
+  "2a_reflog_tips_checked": 10,
+  "2a_reflog_tips_not_in_main": [],
+  "unpublished_2a_work_found": false,
+  "scope": "Known project checkouts, worktree lists, branches, stashes and 2a-state reflog; no claim about undisclosed other machines or deleted unreferenced objects.",
+  "decision": "No separate 2a-state merge or merge-order decision required."
+}

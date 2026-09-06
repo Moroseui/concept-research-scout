@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 280549,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "bf1eea75-5e45-4930-80e0-19054e7384c0",
+  "total_cost_usd": 2.018089,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 43678,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 22301,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 43678,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 22301,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 43678,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 43678
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 28509,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.028594,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 22301,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 43678,
+      "webSearchRequests": 0,
+      "costUSD": 1.9894949999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"human-controls-final-integration\",\"reviewed_commit\":\"ad3c4660320c8628a54f6562e118e5de07876177\",\"verdict\":\"APPROVE\",\"findings\":[\"RESOLVED (r1 blocker): workflow_policy now rejects any check.yml that is a symlink or whose SHA-256 differs from CHECK_WORKFLOW_SHA256 before the structural checks run, so the indexed (secrets['X']) and toJSON(secrets) expression forms that evaded the `'secrets.' in text` substring test can no longer admit a modified deterministic-CI file \u2014 any deviation fails closed. The supplied check.yml contains no secrets context (only ${{ github.token }} under top-level contents:read). Source-only caveat: I did not recompute the digest; a wrong pin constant can only block, never falsely approve, and test_controls_are_explicit_and_artifact_only_on_main runs workflow_policy against the real repo root in CI, so a pin/bytes mismatch fails every push.\",\"RESOLVED (r1 conditional concerns, confirmed in supplied source): scripts/render_human_workflows.py is among the 16 REVIEW_FILES hash bindings enforced by actions_runner.reviewed(), so the renderer cannot be altered together with the rendered workflows without raising REVIEW_BINDING_CHANGED; and scripts/actions_auth.py exports CODEX_HOME via GITHUB_ENV, so the always() 'Remove ephemeral auth' step deletes the real temp-home auth.json rather than /nonexistent/auth.json. The verifier docstring now states the working `python -m scripts.verify_main_integration` invocation.\",\"Non-blocking (structural layer now untested and still gapped): because the byte-pin check precedes the structural rules, every mutation subtest in test_deterministic_ci_boundaries_survive_controls_restoration trips the hash gate \u2014 even an unmutated yaml.safe_dump rewrite would \u2014 so the subtests cannot detect deletion or weakening of the permissions/persist-credentials/secrets structural checks, and the substring test itself still misses secrets['X'] and toJSON(secrets). If CHECK_WORKFLOW_SHA256 is ever updated to bless a new check.yml, the structural layer is the only automatic backstop and it retains the r1 gap. Recommend scanning every parsed scalar for the secrets context token (\\\\bsecrets\\\\b inside ${{ }}) so the layer enforces the no-secrets rule independently of the pin.\",\"Non-blocking (carried from r1, root/ROOT mixing): render_human_workflows.documents() and the human_controls list in verify() read configs/pilot/human-controls.json from the module-global ROOT rather than the root parameter, so when workflow_policy is applied to another tree (as the mutation test does via a temp copy), the expected-workflow baseline and returned metadata silently describe the verifier checkout's config rather than the verified tree's. Safe in the merge flow only because verify() pins root to the verifier's own checkout.\",\"Non-blocking (evidence/log hygiene in orchestrator/actions_runner.system_stage): `raise ValueError(code) from error` chains the original run_agent exception, whose unclassified message can surface in Actions logs even though stage stdout/stderr are privately captured \u2014 only the four fixed codes are intended to be public; prompt_<stage>.md and stage_provenance.jsonl are appended in 'ab' mode into the output directory, so a repeated stage in the same directory accumulates duplicates; and the BLOCKED step-summary uses `echo \\\"## BLOCKED\\\\n...\\\"`, which under bash emits a literal \\\\n (cosmetic).\",\"Non-blocking (merge readiness, carried and acknowledged): the committed d2e732fc/9117de5e main-tree receipt certifies only the demonstrated acceptance tree; a merge decision requires re-running scripts/verify_main_integration.py with pilot set to the final reviewed head (ad3c4660 or its successor) so the receipt covers the tree that includes this round's verifier pin, tests and acceptance documents. PROGRESS.md already commits to superseding the old receipt without altering it, and no merge is authorized by this review.\",\"Verified sound (fail-closed identity, authority, scientific approvals): verify() requires exact 40-hex pins, a clean isolated checkout on branch main inside the verifier's own tree, parents exactly [main, pilot], main an ancestor of pilot (check=True), and candidate tree byte-identical to the pilot tree; 'scientific_approval': 'VERIFIED' is only reachable after verify_receipt on P001's review.json succeeds, with the patient-adapter, archive and controls review gates all invoked and any failure propagating. reviewed() fails closed on absent hash entries (.get returns None, which never matches a digest), symlinks, non-APPROVE verdict, scope/commit mismatch, missing claude-fable-5 attribution, and response-byte drift; identity() requires hosted-runner env vars, and system_stage evaluates identity() and reviewed() before any model work. Workflow inventory equality rejects extra/renamed/twin workflow files, and rendered workflows are additionally triple-bound (config \u2192 render data-equality \u2192 REVIEW_FILES hash).\",\"Verified sound (secrets, injection, privacy, persistent artifacts): repository secrets appear only in the explicit workflow_dispatch/workflow_call workflows under contents:read/actions:read with explicit secret mapping; the push/PR check.yml consumes none, so fork or push events cannot reach OPENAI_API_KEY / CLAUDE_CODE_OAUTH_TOKEN. All operator inputs reach shells via step env plus quoting with no ${{ }} interpolation into run bodies; checkout pins github.sha with persist-credentials false; actions are SHA-pinned and CLIs version-pinned; artifact upload fires only on a non-empty validated artifact_name with if-no-files-found:error and 90-day retention; concurrency serializes per request_id without cancel-in-progress. actions_auth passes the API key via stdin (never argv), sets 0700/0600 modes, and does not print captured failure output. Committed acceptance and review artifacts contain only metadata and hashes \u2014 the replay run's identical result/evidence digests with zero model calls substantiate the zero-spend replay claim \u2014 and no patient-level data appears in any supplied artifact; credential-missing paths yield a real BLOCKED state rather than silent success.\"]}",
+  "structured_output": {
+    "scope": "human-controls-final-integration",
+    "reviewed_commit": "ad3c4660320c8628a54f6562e118e5de07876177",
+    "verdict": "APPROVE",
+    "findings": [
+      "RESOLVED (r1 blocker): workflow_policy now rejects any check.yml that is a symlink or whose SHA-256 differs from CHECK_WORKFLOW_SHA256 before the structural checks run, so the indexed (secrets['X']) and toJSON(secrets) expression forms that evaded the `'secrets.' in text` substring test can no longer admit a modified deterministic-CI file \u2014 any deviation fails closed. The supplied check.yml contains no secrets context (only ${{ github.token }} under top-level contents:read). Source-only caveat: I did not recompute the digest; a wrong pin constant can only block, never falsely approve, and test_controls_are_explicit_and_artifact_only_on_main runs workflow_policy against the real repo root in CI, so a pin/bytes mismatch fails every push.",
+      "RESOLVED (r1 conditional concerns, confirmed in supplied source): scripts/render_human_workflows.py is among the 16 REVIEW_FILES hash bindings enforced by actions_runner.reviewed(), so the renderer cannot be altered together with the rendered workflows without raising REVIEW_BINDING_CHANGED; and scripts/actions_auth.py exports CODEX_HOME via GITHUB_ENV, so the always() 'Remove ephemeral auth' step deletes the real temp-home auth.json rather than /nonexistent/auth.json. The verifier docstring now states the working `python -m scripts.verify_main_integration` invocation.",
+      "Non-blocking (structural layer now untested and still gapped): because the byte-pin check precedes the structural rules, every mutation subtest in test_deterministic_ci_boundaries_survive_controls_restoration trips the hash gate \u2014 even an unmutated yaml.safe_dump rewrite would \u2014 so the subtests cannot detect deletion or weakening of the permissions/persist-credentials/secrets structural checks, and the substring test itself still misses secrets['X'] and toJSON(secrets). If CHECK_WORKFLOW_SHA256 is ever updated to bless a new check.yml, the structural layer is the only automatic backstop and it retains the r1 gap. Recommend scanning every parsed scalar for the secrets context token (\\bsecrets\\b inside ${{ }}) so the layer enforces the no-secrets rule independently of the pin.",
+      "Non-blocking (carried from r1, root/ROOT mixing): render_human_workflows.documents() and the human_controls list in verify() read configs/pilot/human-controls.json from the module-global ROOT rather than the root parameter, so when workflow_policy is applied to another tree (as the mutation test does via a temp copy), the expected-workflow baseline and returned metadata silently describe the verifier checkout's config rather than the verified tree's. Safe in the merge flow only because verify() pins root to the verifier's own checkout.",
+      "Non-blocking (evidence/log hygiene in orchestrator/actions_runner.system_stage): `raise ValueError(code) from error` chains the original run_agent exception, whose unclassified message can surface in Actions logs even though stage stdout/stderr are privately captured \u2014 only the four fixed codes are intended to be public; prompt_<stage>.md and stage_provenance.jsonl are appended in 'ab' mode into the output directory, so a repeated stage in the same directory accumulates duplicates; and the BLOCKED step-summary uses `echo \"## BLOCKED\\n...\"`, which under bash emits a literal \\n (cosmetic).",
+      "Non-blocking (merge readiness, carried and acknowledged): the committed d2e732fc/9117de5e main-tree receipt certifies only the demonstrated acceptance tree; a merge decision requires re-running scripts/verify_main_integration.py with pilot set to the final reviewed head (ad3c4660 or its successor) so the receipt covers the tree that includes this round's verifier pin, tests and acceptance documents. PROGRESS.md already commits to superseding the old receipt without altering it, and no merge is authorized by this review.",
+      "Verified sound (fail-closed identity, authority, scientific approvals): verify() requires exact 40-hex pins, a clean isolated checkout on branch main inside the verifier's own tree, parents exactly [main, pilot], main an ancestor of pilot (check=True), and candidate tree byte-identical to the pilot tree; 'scientific_approval': 'VERIFIED' is only reachable after verify_receipt on P001's review.json succeeds, with the patient-adapter, archive and controls review gates all invoked and any failure propagating. reviewed() fails closed on absent hash entries (.get returns None, which never matches a digest), symlinks, non-APPROVE verdict, scope/commit mismatch, missing claude-fable-5 attribution, and response-byte drift; identity() requires hosted-runner env vars, and system_stage evaluates identity() and reviewed() before any model work. Workflow inventory equality rejects extra/renamed/twin workflow files, and rendered workflows are additionally triple-bound (config \u2192 render data-equality \u2192 REVIEW_FILES hash).",
+      "Verified sound (secrets, injection, privacy, persistent artifacts): repository secrets appear only in the explicit workflow_dispatch/workflow_call workflows under contents:read/actions:read with explicit secret mapping; the push/PR check.yml consumes none, so fork or push events cannot reach OPENAI_API_KEY / CLAUDE_CODE_OAUTH_TOKEN. All operator inputs reach shells via step env plus quoting with no ${{ }} interpolation into run bodies; checkout pins github.sha with persist-credentials false; actions are SHA-pinned and CLIs version-pinned; artifact upload fires only on a non-empty validated artifact_name with if-no-files-found:error and 90-day retention; concurrency serializes per request_id without cancel-in-progress. actions_auth passes the API key via stdin (never argv), sets 0700/0600 modes, and does not print captured failure output. Committed acceptance and review artifacts contain only metadata and hashes \u2014 the replay run's identical result/evidence digests with zero model calls substantiate the zero-spend replay claim \u2014 and no patient-level data appears in any supplied artifact; credential-missing paths yield a real BLOCKED state rather than silent success."
+    ]
+  },
+  "ttft_ms": 243076,
+  "ttft_stream_ms": 1523,
+  "time_to_request_ms": 143,
+  "type": "result",
+  "duration_ms": 279130,
+  "uuid": "0e429b33-8fe4-4796-8cc9-8ff8c92833d8"
+}

@@ -1,0 +1,19 @@
+{
+  "status": "WAITING_FOR_RESULT",
+  "source": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+  "request_identity": "15e86350b9b153922cee912c33a8036c627550a0e0a1f2ad1e85da75c716f782",
+  "control": "results-validate",
+  "mode": "status",
+  "experiment": "P001",
+  "destination": "actions-artifact",
+  "initiator_kind_declared": "codex",
+  "github_actor": "Moroseui",
+  "run_id": "34006006493",
+  "run_attempt": "1",
+  "ci": true,
+  "result_sha256": "d132cee8a2104a57ebfb7a293fa86d602fa3ec3b0223133180a075227ec7d85a",
+  "evidence_sha256": "287470b70f6cfd803271441d3d63e697b5e211ecb41a13b7ffdad4ef9a036228",
+  "human_ratification": false,
+  "patient_execution": false,
+  "model_calls_this_submission": null
+}

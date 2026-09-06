@@ -1,0 +1,91 @@
+{
+  "status": "DESTINATION_VERIFICATION_PENDING",
+  "expected": {
+    "size_bytes": 99014629647,
+    "md5": "36ae28b9a17f7340b8bbef62b595cb57"
+  },
+  "local": {
+    "path": "/content/isles-p001-input-16813698/train.7z",
+    "exists": true,
+    "size_bytes": 99014629647,
+    "md5": "36ae28b9a17f7340b8bbef62b595cb57",
+    "matches": true,
+    "verified_at": "2026-09-06T00:15:27Z",
+    "stable_during_read": true,
+    "storage_type": "runtime_local"
+  },
+  "acquisition_identity": {
+    "path": "/content/drive/MyDrive/isles-pilot/input-acquisition-16813698/identity.json",
+    "exists": true,
+    "expected_binding_matches": true,
+    "sha256": "105c4ac7509216c4c2763fb59355ba5932de8e77185f30d6d089692e3f7708da"
+  },
+  "destination": {
+    "path": "/content/drive/MyDrive/isles-pilot/archive-preservation-ec3e76e9b91f40ca847b490f9b5f7bfa/train.7z",
+    "storage_type": "mounted_google_drive",
+    "observed_size_bytes": 99014629647,
+    "observed_md5": null,
+    "verification_status": "PENDING"
+  },
+  "capacity_check": {
+    "reported_free_bytes": 115548561408,
+    "required_bytes": 100088371471,
+    "measurement": "mounted filesystem statvfs; not an independent provider-quota guarantee"
+  },
+  "old_drive_copy": {
+    "path": "/content/drive/MyDrive/staging-16731717/train.7z",
+    "exists": true,
+    "size_bytes": 99022114670,
+    "md5": null,
+    "matches": false,
+    "verified_at": "2026-09-06T00:15:30Z",
+    "storage_type": "mounted_google_drive"
+  },
+  "p001_observation": {
+    "paths": {
+      "worker": {
+        "path": "/content/drive/MyDrive/isles-pilot/P001-v1.worker",
+        "exists": false,
+        "files": 0,
+        "bytes": 0,
+        "scan_complete": true
+      },
+      "outputs": {
+        "path": "/content/drive/MyDrive/isles-pilot/P001-v1",
+        "exists": false,
+        "files": 0,
+        "bytes": 0,
+        "scan_complete": true
+      },
+      "checkpoints": {
+        "path": "/content/drive/MyDrive/isles-pilot/P001-v1.private",
+        "exists": false,
+        "files": 0,
+        "bytes": 0,
+        "scan_complete": true
+      },
+      "console": {
+        "path": "/content/drive/MyDrive/isles-pilot/P001-v1.console.log",
+        "exists": false,
+        "files": 0,
+        "bytes": 0,
+        "scan_complete": true
+      }
+    },
+    "worker_state": {
+      "status_file_present": false,
+      "recorded_status": null,
+      "recorded_pid": null,
+      "recorded_pid_exists": null
+    },
+    "matching_process_pids": [],
+    "process_scan_complete": true,
+    "interpretation": "Metadata observation only; recorded PID may be reused. No launch, resume, deletion or inference from NOT_VISIBLE."
+  },
+  "p001_dispatch_performed": false,
+  "p001_hold": true,
+  "verifier_last_reported_status": "COPYING_TO_DRIVE",
+  "verifier_last_receipt_update": "2026-09-06T00:15:30Z",
+  "last_poll_completed_at": "2026-09-06T00:34:23.576778+00:00",
+  "note": "Do not infer persistence or verifier liveness from this intermediate status. Final destination verification remains pending."
+}

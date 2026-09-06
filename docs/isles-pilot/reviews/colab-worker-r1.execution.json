@@ -1,0 +1,18 @@
+{
+  "reviewed_commit": "31bc39b43d8f853ed946a6a2c72b6726e96ab125",
+  "returncode": 0,
+  "wall_seconds": 344.31112866199965,
+  "input_file_sha256": {
+    "orchestrator/colab_worker.py": "a61efe1e9dc6b2e7028dc4732ba39dfc7e4825ec7a87a3df4204b27b4f39dcf5",
+    "tests/test_colab_worker.py": "4d31855420b27fee40d9bce937ed3bb1c54757ba02e5c79b20d5a199abd53925",
+    "docs/isles-pilot/CLAUDE_EXECUTION_WORKER.md": "9bd71ef41c9e5738ac4d6b66d1c0491b1401f60efb0d0778c0b152341159661d",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/colab_P001.ipynb": "6c520acd6cfc60c6ca3b14ace9743814d515fc83d1ff6fd5896b635f37bd96a5",
+    "orchestrator/publication.py": "95448fbc758b00f8d9dcfbab98aedf0245991146515945fe689789a0532eacd9"
+  },
+  "response_sha256": "8ec2a9600f885007fbe258e4f3b4d26e9dd22e5006761a38a4467ae41637e3e8",
+  "actual_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ]
+}

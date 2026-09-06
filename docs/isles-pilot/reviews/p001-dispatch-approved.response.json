@@ -1,0 +1,97 @@
+{
+  "is_error": false,
+  "duration_api_ms": 304807,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "b3ba8534-b658-49b1-b9ad-a031b3a915f8",
+  "total_cost_usd": 2.098697,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 42487,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 24421,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 42487,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 24421,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 42487,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 42487
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 27812,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.027887,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 24421,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 42487,
+      "webSearchRequests": 0,
+      "costUSD": 2.07081,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"p001-patient-dispatch\",\"reviewed_commit\":\"aede8f0d4ee2568514d5ca8ad1a37532334d254b\",\"verdict\":\"APPROVE\",\"findings\":[\"Discovery is metadata-only and consent-gated: FIND_CELL reports only train.7z paths, sizes, and scan completeness, never payload bytes or other filenames; verify_discovery rejects extra keys, non-/content paths, control characters, and malformed sizes. The mount task leaves the plain drive.mount cell unexecuted for operator browser consent, and a spurious COMPLETE on that task fails closed because the mount cell emits no parseable status JSON.\",\"Archive path handling is sound: archive_path requires a /content/-rooted path ending in /train.7z with no control characters or '..' components; the actual path is recorded separately in packet parameters while the pinned run.py still enforces the exact 99,014,629,647-byte size and MD5 36ae28b9a17f7340b8bbef62b595cb57 before any extraction, so a wrong archive fails closed.\",\"The review gate binds correctly: require_patient_review verifies the original P001 science receipt via verify_receipt, then requires a claude-fable-5 response with verdict APPROVE, scope p001-patient-dispatch, matching reviewed_commit, response-bytes SHA-256 matching the execution record, and current SHA-256 of all nine REVIEW_FILES matching the reviewed hashes; it is enforced at packet build (execution_packet) and again at dispatch time (worker).\",\"Model-visible channels carry no patient data: capture_cell redirects both Python-level streams and OS fds 1/2 into 0600 private logs and emits only a fixed status plus source SHA-256, raising only a fixed generic message on failure. Traced fd handoffs confirm the launcher's DISPATCHED print and the inner acquisition status land in the private launch console log; the only model-visible outputs are the CPU-check JSON, the fixed wrapper status dict, and the fixed poll status enums.\",\"Scientific pins are preserved: cells 3-5 of the pinned notebook execute byte-identical via exec of pinned sources in the detached child, acquisition cell 1 is byte-identical inside the capture wrapper, and only operator-context cell 2 (interactive mount plus placeholder OUTPUT/ARCHIVE/DATA_ROOT) is replaced by params with the identical OUTPUT constant and DATA_ROOT=None, matching the documented authorization; tests assert the pinned cell sources appear verbatim in the child script and that all generated sources compile.\",\"Dispatch is detached and nondestructive: start_new_session=True detaches the child from the MCP cell timeout; a pre-existing job directory or symlink causes refusal rather than deletion or relaunch; FAILED status is written only to a job directory the launcher itself created in this attempt (_p001_owned); child status updates are atomic via os.replace. The string-level try-wrapping of the launch source was checked: single replacement site, no embedded repr collision, valid indentation.\",\"VALIDATED status is gated on the original semantic validator: the child reaches state VALIDATED only after validate_return.verify reproduces the aggregate from private checkpoints under the original decision/review bindings, and the child re-hashes each aggregate file against the validator's manifest before snapshotting into validated_return.json.\",\"Private-return packaging is safe: the zip contains only the validated aggregate bundle files, original console, binding.json/checkpoint_index.json, and checkpoints/predictions/failed_attempts with a symlink refusal; staged patient inputs are excluded (test-asserted) and selected_inputs.json with per-case paths stays on Drive; the zip is operator-transferred and never passes through model tools.\",\"Source readback verification is fail-closed: verify_cell_sources requires includeOutputs=false on every get_cells, binds each run_code_cell to both the inserted code and a post-insertion readback equal to the exact packet source, rejects delete_cell/move_cell and any run-count mismatch, and streams() rejects any remote error output; the execute path additionally requires the exact launch-source SHA-256 in the fixed wrapper status via ast.literal_eval of the sole stream line.\",\"Non-blocking: protocol verification is post-hoc, so a misbehaving worker could act remotely before verify_cell_sources rejects the session; containment rests on the pinned private MCP config with --strict-mcp-config, the mcp__colab-worker__* allowlist with only ToolSearch, and the bounded prompt, consistent with the previously reviewed synthetic architecture; deviations still fail closed locally and the launcher's duplicate refusal bounds re-execution damage.\",\"Non-blocking hardening: require_patient_review compares verdict.get('reviewed_commit') to execution.get('reviewed_commit'), so two absent values would compare equal (None == None); the REVIEW_FILES hash binding still protects, but requiring a non-empty commit string would be stricter. REVIEW_FILES also omits locally imported gate/science dependencies orchestrator/campaign_review.py and orchestrator/campaign.py; remote scientific execution uses only the pinned checkout so science integrity is unaffected, but adding them would tighten the local gate.\",\"Non-blocking liveness: a child that dies before writing RUNNING leaves status STARTING indefinitely, and a worker timeout after a successful launch reports FAILED while the detached child continues; both resolve through poll plus the documented nondestructive relaunch refusal and investigator inspection rather than automatic retries.\",\"Tests were reviewed statically only (not executed, per review constraints): they cover the review-gate refusal, archive-path rejection including phenotype-root and traversal cases, byte-identical scientific sources with compiling generated code, metadata scan never opening payloads or leaking other filenames, private failure capture with fixed status, and success-path validation including staged-input exclusion from the private zip.\"]}",
+  "structured_output": {
+    "scope": "p001-patient-dispatch",
+    "reviewed_commit": "aede8f0d4ee2568514d5ca8ad1a37532334d254b",
+    "verdict": "APPROVE",
+    "findings": [
+      "Discovery is metadata-only and consent-gated: FIND_CELL reports only train.7z paths, sizes, and scan completeness, never payload bytes or other filenames; verify_discovery rejects extra keys, non-/content paths, control characters, and malformed sizes. The mount task leaves the plain drive.mount cell unexecuted for operator browser consent, and a spurious COMPLETE on that task fails closed because the mount cell emits no parseable status JSON.",
+      "Archive path handling is sound: archive_path requires a /content/-rooted path ending in /train.7z with no control characters or '..' components; the actual path is recorded separately in packet parameters while the pinned run.py still enforces the exact 99,014,629,647-byte size and MD5 36ae28b9a17f7340b8bbef62b595cb57 before any extraction, so a wrong archive fails closed.",
+      "The review gate binds correctly: require_patient_review verifies the original P001 science receipt via verify_receipt, then requires a claude-fable-5 response with verdict APPROVE, scope p001-patient-dispatch, matching reviewed_commit, response-bytes SHA-256 matching the execution record, and current SHA-256 of all nine REVIEW_FILES matching the reviewed hashes; it is enforced at packet build (execution_packet) and again at dispatch time (worker).",
+      "Model-visible channels carry no patient data: capture_cell redirects both Python-level streams and OS fds 1/2 into 0600 private logs and emits only a fixed status plus source SHA-256, raising only a fixed generic message on failure. Traced fd handoffs confirm the launcher's DISPATCHED print and the inner acquisition status land in the private launch console log; the only model-visible outputs are the CPU-check JSON, the fixed wrapper status dict, and the fixed poll status enums.",
+      "Scientific pins are preserved: cells 3-5 of the pinned notebook execute byte-identical via exec of pinned sources in the detached child, acquisition cell 1 is byte-identical inside the capture wrapper, and only operator-context cell 2 (interactive mount plus placeholder OUTPUT/ARCHIVE/DATA_ROOT) is replaced by params with the identical OUTPUT constant and DATA_ROOT=None, matching the documented authorization; tests assert the pinned cell sources appear verbatim in the child script and that all generated sources compile.",
+      "Dispatch is detached and nondestructive: start_new_session=True detaches the child from the MCP cell timeout; a pre-existing job directory or symlink causes refusal rather than deletion or relaunch; FAILED status is written only to a job directory the launcher itself created in this attempt (_p001_owned); child status updates are atomic via os.replace. The string-level try-wrapping of the launch source was checked: single replacement site, no embedded repr collision, valid indentation.",
+      "VALIDATED status is gated on the original semantic validator: the child reaches state VALIDATED only after validate_return.verify reproduces the aggregate from private checkpoints under the original decision/review bindings, and the child re-hashes each aggregate file against the validator's manifest before snapshotting into validated_return.json.",
+      "Private-return packaging is safe: the zip contains only the validated aggregate bundle files, original console, binding.json/checkpoint_index.json, and checkpoints/predictions/failed_attempts with a symlink refusal; staged patient inputs are excluded (test-asserted) and selected_inputs.json with per-case paths stays on Drive; the zip is operator-transferred and never passes through model tools.",
+      "Source readback verification is fail-closed: verify_cell_sources requires includeOutputs=false on every get_cells, binds each run_code_cell to both the inserted code and a post-insertion readback equal to the exact packet source, rejects delete_cell/move_cell and any run-count mismatch, and streams() rejects any remote error output; the execute path additionally requires the exact launch-source SHA-256 in the fixed wrapper status via ast.literal_eval of the sole stream line.",
+      "Non-blocking: protocol verification is post-hoc, so a misbehaving worker could act remotely before verify_cell_sources rejects the session; containment rests on the pinned private MCP config with --strict-mcp-config, the mcp__colab-worker__* allowlist with only ToolSearch, and the bounded prompt, consistent with the previously reviewed synthetic architecture; deviations still fail closed locally and the launcher's duplicate refusal bounds re-execution damage.",
+      "Non-blocking hardening: require_patient_review compares verdict.get('reviewed_commit') to execution.get('reviewed_commit'), so two absent values would compare equal (None == None); the REVIEW_FILES hash binding still protects, but requiring a non-empty commit string would be stricter. REVIEW_FILES also omits locally imported gate/science dependencies orchestrator/campaign_review.py and orchestrator/campaign.py; remote scientific execution uses only the pinned checkout so science integrity is unaffected, but adding them would tighten the local gate.",
+      "Non-blocking liveness: a child that dies before writing RUNNING leaves status STARTING indefinitely, and a worker timeout after a successful launch reports FAILED while the detached child continues; both resolve through poll plus the documented nondestructive relaunch refusal and investigator inspection rather than automatic retries.",
+      "Tests were reviewed statically only (not executed, per review constraints): they cover the review-gate refusal, archive-path rejection including phenotype-root and traversal cases, byte-identical scientific sources with compiling generated code, metadata scan never opening payloads or leaking other filenames, private failure capture with fixed status, and success-path validation including staged-input exclusion from the private zip."
+    ]
+  },
+  "ttft_ms": 268804,
+  "ttft_stream_ms": 1723,
+  "time_to_request_ms": 128,
+  "type": "result",
+  "duration_ms": 303336,
+  "uuid": "35989d70-1782-46fb-9876-7f5f1f2a051e"
+}

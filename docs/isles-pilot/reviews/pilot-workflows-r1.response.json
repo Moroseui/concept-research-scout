@@ -1,0 +1,93 @@
+{
+  "is_error": false,
+  "duration_api_ms": 246403,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "ca57eba4-e299-4ce4-9a53-fbb99f95aace",
+  "total_cost_usd": 1.5431460000000001,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 27571,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 19494,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 27571,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 19494,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 27571,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 27571
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 16931,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.017006,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 19494,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 27571,
+      "webSearchRequests": 0,
+      "costUSD": 1.52614,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-workflows (source-only review of supplied files: scripts/workflow_boundary.py, scripts/check_pilot_publication.py, six model workflows, check.yml, results-validate.yml, tests/test_workflow_boundary.py, docs/isles-pilot/OPERATING_MODEL_20260905.md; scout.py/orchestrator/job store not supplied, no tests executed)\",\"reviewed_commit\":\"2a841fe7e925df603b52c667e46a91ee8e730182\",\"verdict\":\"REQUEST_CHANGES\",\"findings\":[\"PRIVACY (blocking): check_pilot_publication.py denies the substring '/results/' but the repo's actual bundle directories are named 'results_v2' (results-validate.yml derives probes/$IDEA/results_v2). A raw results bundle under an allowed prefix, e.g. campaigns/isles24-pilot/.../results_v2/*.json or tests/results_v2/*.jsonl, passes the path filter and the size/NUL/credential heuristics. Match deny rules per path component (results*, staged, .private*) instead of slash-delimited substrings.\",\"CORRECTNESS (blocking): workflow_boundary.publish pins the remote via ls-remote and then runs a plain 'git push' \u2014 a TOCTOU window where a remote rewind to an ancestor of source still fast-forwards despite the remote no longer equaling expected_remote; ls-remote tail-matching also lets a ref like refs/heads/refs/heads/<dest> satisfy the pin. Use git push --force-with-lease=refs/heads/<dest>:<expected_remote> for an atomic compare-and-swap (still fast-forward-only given the ancestry check).\",\"AUTHORITY (fix before unblocking): the 'Verify explicit pilot execution boundary' step runs workflow_boundary.py from the source_sha checkout itself \u2014 self-attestation; no trusted-side code binds source_sha to reviewed pilot history. Moot only because the unconditional 'Campaign route required' exit-1 precedes all secret use; add a trusted ancestry check (source_sha reachable from the dispatched pilot ref) before that block is ever lifted.\",\"SECURITY (latent): inputs.idea (interpret/confer/idea-pipeline), inputs.candidate, inputs.charter, inputs.top_n, and inputs.tracks are interpolated via ${{ }} directly into run: shell scripts \u2014 script-injection anti-pattern; confer's CONFER_QUESTION env-var pattern is correct and should be applied everywhere. Currently unreachable behind the campaign-route block.\",\"results-validate.yml: the guard github.ref != pilot-branch is vacuous (results/** pushes can never equal that ref); the main checkout omits persist-credentials: false unlike every other hardened checkout while the job (pull-requests: write) processes an untrusted data branch; and the documented 'never invoke for campaign' disposition has no technical control.\",\"TEST GAP: test_every_model_workflow_fails_closed asserts the 'Campaign route required' step exists and precedes 'Install agent CLIs' but never asserts it fails; a no-op refactor of the guard passes the suite. Assert the step body contains 'exit 1'.\",\"HYGIENE: scout-cycle.yml keeps a nightly schedule trigger that can only produce skipped runs, and its header comment ('Every completed stage is committed and pushed') contradicts the no-push disposition; the always-blocked workflows request contents: write (actioner also pull-requests: write) they cannot legitimately use \u2014 reduce to contents: read while blocked.\",\"HYGIENE: publish() mutates the module global check_pilot_publication.ROOT to retarget the audit (fragile, not thread-safe; pass root as a parameter), and the returned receipt omits destination and expected_remote, so the persistent artifact does not record the remote-before pin it enforced.\",\"POSITIVE: fail-closed properties verified in source \u2014 guard precedes CLI/secret steps in all six model workflows with persist-credentials: false; contaminated-ancestry check requires returncode exactly 1 so git errors also block; no force/rebase paths; merges, dirty trees, binaries, notebook outputs, and credential-like bytes all raise; the idea-023 missing approval marker is left visible rather than concealed, preserving scientific-approval integrity.\"]}",
+  "structured_output": {
+    "scope": "pilot-workflows (source-only review of supplied files: scripts/workflow_boundary.py, scripts/check_pilot_publication.py, six model workflows, check.yml, results-validate.yml, tests/test_workflow_boundary.py, docs/isles-pilot/OPERATING_MODEL_20260905.md; scout.py/orchestrator/job store not supplied, no tests executed)",
+    "reviewed_commit": "2a841fe7e925df603b52c667e46a91ee8e730182",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "PRIVACY (blocking): check_pilot_publication.py denies the substring '/results/' but the repo's actual bundle directories are named 'results_v2' (results-validate.yml derives probes/$IDEA/results_v2). A raw results bundle under an allowed prefix, e.g. campaigns/isles24-pilot/.../results_v2/*.json or tests/results_v2/*.jsonl, passes the path filter and the size/NUL/credential heuristics. Match deny rules per path component (results*, staged, .private*) instead of slash-delimited substrings.",
+      "CORRECTNESS (blocking): workflow_boundary.publish pins the remote via ls-remote and then runs a plain 'git push' \u2014 a TOCTOU window where a remote rewind to an ancestor of source still fast-forwards despite the remote no longer equaling expected_remote; ls-remote tail-matching also lets a ref like refs/heads/refs/heads/<dest> satisfy the pin. Use git push --force-with-lease=refs/heads/<dest>:<expected_remote> for an atomic compare-and-swap (still fast-forward-only given the ancestry check).",
+      "AUTHORITY (fix before unblocking): the 'Verify explicit pilot execution boundary' step runs workflow_boundary.py from the source_sha checkout itself \u2014 self-attestation; no trusted-side code binds source_sha to reviewed pilot history. Moot only because the unconditional 'Campaign route required' exit-1 precedes all secret use; add a trusted ancestry check (source_sha reachable from the dispatched pilot ref) before that block is ever lifted.",
+      "SECURITY (latent): inputs.idea (interpret/confer/idea-pipeline), inputs.candidate, inputs.charter, inputs.top_n, and inputs.tracks are interpolated via ${{ }} directly into run: shell scripts \u2014 script-injection anti-pattern; confer's CONFER_QUESTION env-var pattern is correct and should be applied everywhere. Currently unreachable behind the campaign-route block.",
+      "results-validate.yml: the guard github.ref != pilot-branch is vacuous (results/** pushes can never equal that ref); the main checkout omits persist-credentials: false unlike every other hardened checkout while the job (pull-requests: write) processes an untrusted data branch; and the documented 'never invoke for campaign' disposition has no technical control.",
+      "TEST GAP: test_every_model_workflow_fails_closed asserts the 'Campaign route required' step exists and precedes 'Install agent CLIs' but never asserts it fails; a no-op refactor of the guard passes the suite. Assert the step body contains 'exit 1'.",
+      "HYGIENE: scout-cycle.yml keeps a nightly schedule trigger that can only produce skipped runs, and its header comment ('Every completed stage is committed and pushed') contradicts the no-push disposition; the always-blocked workflows request contents: write (actioner also pull-requests: write) they cannot legitimately use \u2014 reduce to contents: read while blocked.",
+      "HYGIENE: publish() mutates the module global check_pilot_publication.ROOT to retarget the audit (fragile, not thread-safe; pass root as a parameter), and the returned receipt omits destination and expected_remote, so the persistent artifact does not record the remote-before pin it enforced.",
+      "POSITIVE: fail-closed properties verified in source \u2014 guard precedes CLI/secret steps in all six model workflows with persist-credentials: false; contaminated-ancestry check requires returncode exactly 1 so git errors also block; no force/rebase paths; merges, dirty trees, binaries, notebook outputs, and credential-like bytes all raise; the idea-023 missing approval marker is left visible rather than concealed, preserving scientific-approval integrity."
+    ]
+  },
+  "ttft_ms": 208859,
+  "ttft_stream_ms": 1603,
+  "time_to_request_ms": 142,
+  "type": "result",
+  "duration_ms": 245314,
+  "uuid": "9367e9c6-4303-469f-b30b-feb11dcb9420"
+}

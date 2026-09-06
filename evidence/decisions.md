@@ -2228,3 +2228,25 @@ design, framing, and scores to come from generation and the gauntlet
 -- this note supplies direction and pointers only. Discovery
 candidates outside this direction may still appear, but at least one
 serious candidate FOR this direction is the purpose of the cycle.
+
+## 2026-09-06 — PROPOSED PR #2 closeout rulings; NOT RATIFIED
+
+Agent-authored proposal at the operator's request, based on the supplied Fable
+Review Desk handoff and the operator's corrections. This entry grants no standing
+capability, chooses no N, signs off on no merge, and approves no 047 landing,
+cleanup or P001 launch. The full corrected R1–R4 text and F4 corrections are in
+`docs/isles-pilot/CLOSEOUT_RULINGS_PROPOSED.md`; operator ratification and an actual
+candidate desk review remain pending.
+
+R1 proposal: discretionary internal development reviews; mandatory independent
+candidate desk review plus separate operator signature per main merge; pre-export
+checks on every controlled publication route. Post-push CI is detection, not an
+exposure-prevention guarantee. Direct admin Git/API bypass remains unresolved.
+R2 proposal: preserve bootstrap identities; clearly identified agent authorship
+forward, operator sign-off separate.
+R3 proposal: existing Codex API-key / Claude subscription authentication, shared
+UTC-day job admission, proposed N=48 (measured peak 12), notify at N, hard halt after
+2N admissions surviving midnight until operator reset. N, standing capability and
+state-writer permission remain unratified. A job limit is not a dollar limit.
+R4 proposal: 047 acceptance/landing, results cleanup and P001 launch remain separate
+explicit operator decisions. No automatic 047 landing follows an infrastructure merge.

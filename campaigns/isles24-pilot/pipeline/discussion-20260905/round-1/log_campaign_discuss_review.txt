@@ -1,0 +1,9 @@
+Verdict: **APPROVE** — `review.json` is written in the working directory with exactly the two required fields.
+
+Summary of the review:
+
+- **Fidelity to pins:** Every frozen identity in the proposal matches the bound context exactly — cohort SHA-256, manifest git blob, `train.7z` size and MD5, the strict > 6.0 s threshold, bootstrap seed 20260905 with 2,000 resamples, geometry tolerances, empty-mask Dice conventions, the 99-case / 198-member selection, the 60-minute CPU compute cap, and the five-file publication bundle from `publication.json`. Nothing was altered, added, or dropped.
+- **Request coverage:** The proposal addresses all five requested elements — baseline question, admission-only input timing (including writing predictions before labels are opened), evaluation protocol, exploratory limitations, and a concrete pre-interpretation evidence checklist (authority/identity bindings, input scope, implementation validity, complete 99-case execution, and consistent reporting).
+- **Boundedness:** It claims no result, proposes no follow-up or amendment, requests no patient data, and correctly states that opposing-family review is pending and that delegated campaign authority is not human ratification. I found no misstatements of the specification or the `run.py` implementation.
+
+The rationale in `review.json` also records that this verdict reviews the discussion document only — it is not ratification, does not serve as the opposing-family review that `run.py` binds before execution, and authorizes no execution, extraction, or publication.

@@ -3,8 +3,12 @@
 A human-supervised research discovery loop for finding **interesting,
 feasible, concept-focused medical-imaging projects** — run by two AI agent
 families (Claude and Codex) under strict evidence rules, operated entirely
-from a phone via three GitHub Actions buttons, with every artifact and
-decision versioned in this repository.
+through versioned local commands, with every artifact and decision recorded.
+The usability amendment restores scoped GitHub Actions campaign controls with
+validated, phone-readable artifacts and explicit hosted provenance. See
+[human controls and exceptions](docs/isles-pilot/HUMAN_CONTROLS.md). See the [current status and supported
+routes](docs/isles-pilot/CURRENT_STATUS.md) and [main integration
+contract](docs/isles-pilot/MAIN_INTEGRATION.md).
 
 The system deliberately delays coding. It scouts literature-grounded ideas,
 audits their novelty by search, stress-tests survivors through cross-model
@@ -19,7 +23,7 @@ versus pending, `CHARTER.md` for the research scope and evidence rules.
 ## The loop
 
 ```
-        (nightly cron, or Run workflow)             (Run workflow)
+        (local cycle command)             (local pipeline)
  ┌─────────────── scout-cycle ───────────────┐   ┌─ idea-pipeline ─┐
  │ scout tracks: baseline | wide | fiction   │   │ shortlist top-N │
  │      -> merge -> novelty audit            │──>│ from BACKLOG    │
@@ -35,47 +39,32 @@ versus pending, `CHARTER.md` for the research scope and evidence rules.
                                                  human-approved probe
 ```
 
-Everything runs on GitHub-hosted runners using subscription (not API) agent
-auth. Every completed stage is a git commit — the commit *is* the
-checkpoint, so any failure (rate limit, timeout, job kill) costs one stage
-and the same button resumes it.
+Research stages use the authenticated local agent CLIs. Completed stages leave
+versioned artifacts and receipts; failed stages preserve evidence. A running local
+coordinator still depends on its host. Laptop-independent execution is unproven.
 
-## Operating it (the three buttons)
+## Operating it
 
-**scout-cycle** — feeds the queue. Inputs: `tracks`
-(`baseline`,`wide`,`fiction`, comma-separated) and `dry_run` (print the plan,
-spend nothing). Also runs nightly (baseline-only) on cron. Each cycle:
-scouts per track, merges candidates, audits novelty by literature search,
-and files everything into the cross-cycle backlog.
+From a phone, open **Actions → confer → Run workflow** to ask the campaign a
+question. `actioner` gives a reviewed operator brief; `librarian` curates campaign
+evidence; `scout-cycle` proposes within the campaign; `idea-pipeline` prepares
+specification, code or repair proposals. Choose a registered experiment and request
+ID. Open the run Summary for the answer and independent review; download its
+validated artifact for original permitted system records. Before merging, select
+the pilot revision; after merging these controls are available on main.
 
-**idea-pipeline** — drains the queue. `top_n: N` processes the next N
-candidates from the *global ranked backlog* (best verdict first, then rubric
-score; in-flight ideas are finished before new ones are drawn, so the button
-doubles as resume). Or target `candidate: K` / `idea: N` with a `stages`
-list (`keystone,critique,revise,feasibility,debate`). Every idea first passes a **keystone screen** -- one cheap
-evidence-quoting agent pass (clone the repo, read the loader, check the
-release page) that can kill at screen prices before critique or debate is
-paid for. Debate summaries end in a
-machine-readable verdict that updates the ledger automatically; a REVISE
-verdict also auto-runs the revise stage in the same job, and a
-`revise_debt` toggle batch-syncs any stale REVISE-verdicted cards.
+These are scoped campaign replacements, not full restoration of global nightly
+scouting, numbered-idea Q&A or whole-corpus mutations. The
+[complete control inventory](docs/isles-pilot/HUMAN_CONTROLS.md) lists exceptions.
+`results-validate` reports actual import readiness; `interpret` can produce a
+reviewed interpretation draft only after a validated import. Patient return
+transfer, adoption, scientific acceptance and human ratification remain separate.
+No button pushes to main/results or dispatches P001.
 
-**actioner** — synthesizes the state. Aggregates every pending human
-decision, unblock condition, near-miss, queue snapshot, and the latest
-librarian findings into one phone-readable brief (`evidence/actions.md`).
-With `propose_improvement` enabled it may additionally author **one pull
-request** — never a commit to main; the PR diff, the checks workflow's test
-run, and your merge button are the approval gate.
-
-**librarian** — curates the corpus. Manual-only (it costs tokens per entry).
-Reads a full-detail dossier of every idea and backlog candidate, writes a
-connection map, re-audits stale novelty verdicts (applied to the ledger),
-and leaves revival/recombination proposals that future scouting cycles may
-adopt.
-
-The human gates are: reading each idea's `consensus.md` before acting on it,
-`approve-probe` before any code is generated, and interpreting probe
-results. Nothing launches expensive compute without an explicit command.
+Codex and local operators use `python -m orchestrator.human_controls` or the same
+campaign pipeline directly. Human requests record the GitHub actor separately
+from the declared initiator; the author and opposing reviewer remain attributed
+agents. Historical numbered probes still use their existing human-approval gates.
 
 ## Institutional memory (what the agents know)
 
@@ -272,12 +261,69 @@ infrastructure failure must not burn a good leg).
 
 ### Phone surfaces (GitHub Actions → Run workflow)
 
-`interpret` (idea, resume_review) and `confer` (idea, question) run the
-corresponding commands on Actions with tests-first and fail-closed
-push; `actioner` renders the operator brief. Codex participates in one
-leg of every confer and in interpret reviews. Durable auth: set the
-`OPENAI_API_KEY` repository secret and Actions uses it (no rotation, no
-refresh dance; local codex keeps the ChatGPT login untouched). Without
-it, workflows fall back to the `CODEX_AUTH_JSON` OAuth snapshot, which
-must be re-exported immediately before dispatch (single-use refresh
-chain).
+Scoped campaign controls now use one reviewed Actions runner and the same system
+pipeline as the autonomous operator. Results are shown in the run Summary and a
+validated artifact, not pushed to main. See [human controls](docs/isles-pilot/HUMAN_CONTROLS.md)
+for exact launch instructions, reuse behavior, authentication and exceptions.
+
+### ISLES autonomous pilot publication safeguards
+
+`package-colab` now preserves outputs on reruns, captures actual child console
+output in the sibling `<OUTPUT_DIR>.console.log`, and exports only an explicitly
+permitted, contract-bound file set from `probes/NNN/publication.json`. Unknown
+files, symlinks and conflicting destinations refuse before publication. It no
+longer automatically commits or pushes results. Empty-directory runners require
+a new output path for another attempt; resumable runners keep their checkpoints.
+Return the verified export and sibling console for validation and import.
+
+Campaign progress: [ISLES pilot](docs/isles-pilot/PROGRESS.md). Dataset attribution:
+[ISLES24 notice](docs/isles-pilot/DATASET_NOTICE.md).
+
+`record-result IDEA --bundle DIR --expected-blob BLOB --source-commit SHA
+--publication-subset DECLARATION.json` accepts an explicit provenance-bound
+publication subset: every source file accounted for, retained bytes identical,
+required audit/science retained, and staged-input exclusions tied to preserved
+private originals. The 047 policy remains blocked pending its open decisions.
+
+Pilot utilities (outside the historical scout CLI):
+`python scripts/efficiency_review.py --output PROPOSALS.json` reads existing
+execution receipts and writes evidence-bound proposals only; it applies nothing.
+The versioned P001 specification and campaign authority are under
+`campaigns/isles24-pilot/`. Real execution requires opposing-family review.
+
+Every **new** `record-result` import now requires an explicit
+`probes/NNN/publication.json` policy bound to its governing contract, in addition
+to scientific validation. Existing immutable imports are unaffected. A missing
+policy is a refusal, not permission to copy an arbitrary tree.
+
+
+### Persistent ISLES pilot system commands
+
+Use `python -m orchestrator.campaign_pipeline MODE --experiment P001 --request TEXT
+--output campaigns/isles24-pilot/pipeline/NEW_RUN` for `propose`, `specify`, `code`,
+`repair`, or `discuss`. Each route uses the existing receipted author/reviewer
+primitive, writes immutable proposal artifacts, and stops after at most one
+revision. Proposals are not adopted specifications or human approvals. Follow-up
+stages require the prior reviewed result. Active P001 source pins are preserved.
+
+`python -m orchestrator.pilot_jobs register --private-root PRIVATE_DIR --snapshot
+EXECUTION_CHECKOUT --source-pin FULL_SHA` binds the approved P001 snapshot.
+`run`, `tick`, `status`, and `inbox` use the same private root. `demo` exercises
+synthetic transitions only. Restart with the same root; never make a new store
+to retry an ambiguous dispatch. Expired dispatch leases and uncertain mutations
+stop for reconciliation. Read-only retry counts are capped. A validated patient
+run stops at the private-return-transfer inbox boundary.
+
+After private artifacts arrive, use the existing `scout.py validate-bundle`,
+`record-result`, and `interpret-build` commands with `--campaign isles24-pilot
+--experiment P001`; validation/import require `--bundle`, `--private`, `--console`.
+Never put private checkpoints or console bytes into Git or model prompts.
+
+`python -m scripts.workflow_boundary publish --source FULL_SHA --destination
+astra/autonomous-isles-pilot --expected-remote FULL_BEFORE_SHA` checks complete
+outgoing history and performs an append-only expected-ref transaction. Main,
+results refs, merges, raw artifacts and unreviewed history are not publication
+routes. Hosted campaign results use the separate validated Actions-artifact route; deterministic CI remains.
+See [operating-model audit](docs/isles-pilot/OPERATING_MODEL_20260905.md),
+[future profiles](docs/isles-pilot/UNATTENDED_PROFILES.md), and
+[unprovisioned private coordinator plan](docs/isles-pilot/PRIVATE_COORDINATOR_PLAN.md).

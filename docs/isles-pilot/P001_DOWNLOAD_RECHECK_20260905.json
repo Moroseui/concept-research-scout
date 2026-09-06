@@ -1,0 +1,55 @@
+{
+  "check": {
+    "status": "COMPLETE",
+    "transfer_metadata": {
+      "partial_bytes": 20786970624,
+      "seconds_since_write": 0,
+      "final_bytes": 0,
+      "acquisition_status": "RUNNING"
+    },
+    "wall_seconds": 62.40695276699989,
+    "actual_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 10619,
+      "cache_read_input_tokens": 80355,
+      "output_tokens": 3536,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10619,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 412,
+          "cache_read_input_tokens": 11642,
+          "cache_creation_input_tokens": 248,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 248
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "cli_reported_cost_usd": 0.47075
+  },
+  "protocol_sha256": "69d1ee478301a5f5c6d749854654217f790929a67d8f01f0019c56ee44cb4855",
+  "previous_controller_outcome": {
+    "status": "ACQUISITION_WORKER_BLOCKED"
+  },
+  "previous_controller_patient_dispatch": false,
+  "connection_failure": "open_colab_browser_connection returned false; no notebook cells executed in failed poll",
+  "resumed_controller": "~/.local/share/isles-colab-mcp/p001-handoff-20260905/automatic-handoff-r2",
+  "patient_execution_result": null
+}

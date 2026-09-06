@@ -1,0 +1,55 @@
+# Proposed two-node registry; no human ratification is implied.
+schema_version: 1
+probes:
+- id: support_dictionary_a
+  phase: A
+  contract_hash: b4887c05a21bfe870589b5d9982066943df679d5
+  produces:
+  - clinical_data-description.xlsx
+  - determinism_manifest_end.json
+  - determinism_manifest_start.json
+  - dictionary_inventory.csv
+  - environment.txt
+  - input_manifest.csv
+  - per_case_support.csv
+  - probe_exclusions.csv
+  - proposed_variable_freeze.json
+  - provenance_gate.json
+  - rank_discrepancy.csv
+  - resolved_config.json
+  - run_log.txt
+  - split_manifest.csv
+  - split_manifest.json
+  - summary.json
+  - support_shares.json
+  results_bundle: probes/047/results/results_v2
+  terminal_statuses:
+  - PHASE_A_COMPLETE_REQUIRES_AMENDMENT
+- id: clinical_profile_b
+  phase: B
+  contract_hash: dc586665d0bece940d1a1f4b3b0572f8c951c2ba
+  depends_on:
+    all_of:
+    - probe: support_dictionary_a
+  produces:
+  - clinical_estimation_table.csv
+  - clinical_uncertainty.json
+  - determinism_manifest_end.json
+  - determinism_manifest_start.json
+  - environment.txt
+  - input_manifest.csv
+  - per_case_staging.csv
+  - phenotype_schema_census.csv
+  - probe_exclusions.csv
+  - resolved_config.json
+  - run_log.txt
+  - split_manifest.csv
+  - split_manifest.json
+  - staging_audit.json
+  - staging_extraction_log.txt
+  - summary.json
+  - suppression_log.csv
+  results_bundle: probes/047/results/results_v2-dc586665d0be
+  terminal_statuses:
+  - STUDY_COMPLETE
+  - PHENOTYPE_SCHEMA_MISMATCH

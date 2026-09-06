@@ -1,0 +1,158 @@
+{
+  "main": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+  "pilot": "b23e36d3399f7a343535229ccd83b724c53a1c27",
+  "candidate": "2e9d12f126cb31c71caace482d8f1f0667c1df3c",
+  "tree": "d03ebb2abe52ca67afdf87b25ab91dd605b13ae8",
+  "steps": [
+    {
+      "command": [
+        "-m",
+        "scripts.verify_main_integration",
+        "--main",
+        "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+        "--pilot",
+        "b23e36d3399f7a343535229ccd83b724c53a1c27"
+      ],
+      "returncode": 0,
+      "log_sha256": "b4c6c709ace2b4fa127ddff6d92b9d9af46e485e628712a83ca83a7b2e515f0b"
+    },
+    {
+      "command": [
+        "scripts/fetch_provenance.py"
+      ],
+      "returncode": 0,
+      "log_sha256": "cef22f41f6f0c0f7237de7fb2f1b1efaaf9ab5c34bbb7e14fcd89f3e8dedd7b2"
+    },
+    {
+      "command": [
+        "setup.py"
+      ],
+      "returncode": 0,
+      "log_sha256": "6b76cfd3ab41cd65028ecf88f5dc8fa907098bd292d3816fdc48de043879e097"
+    },
+    {
+      "command": [
+        "scout.py",
+        "doctor"
+      ],
+      "returncode": 0,
+      "log_sha256": "d28d625d8e62ceaaaf2f3d5929ae9e27b2d487d982dd5c999ac4896fb87b5853"
+    },
+    {
+      "command": [
+        "tests/test_orchestration.py"
+      ],
+      "returncode": 0,
+      "log_sha256": "05f394bacdce125448c20a2b68c484f73e3f02b920a5925710dcd4d98654b56b"
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "tests/"
+      ],
+      "returncode": 0,
+      "log_sha256": "572cc2e06a34edb9ce8f36f2bf87bf758f54e83230c4769065a04e7fe9e97b71"
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_orchestration.py::TestDebate",
+        "tests/test_orchestration.py::TestR2StateAndHygiene",
+        "tests/test_orchestration.py::TestM1PreGovernanceIdentity"
+      ],
+      "returncode": 0,
+      "log_sha256": "5d7d258a9ca00e604cf475b30745c5e6118a31b0167d5a60bfa95f7fabe0851b"
+    },
+    {
+      "command": [
+        "scout.py",
+        "state-verify",
+        "--require-all"
+      ],
+      "returncode": 0,
+      "log_sha256": "8c8a062a57411a0d4c767c1daf1c196b20ec6bb7cd34bfa5b006a1dace40c772"
+    },
+    {
+      "command": [
+        "scout.py",
+        "registry-validate"
+      ],
+      "returncode": 0,
+      "log_sha256": "6ead360dbc984c29db419d5a67821b8b0520f5cacd592b3335acd286d122319d"
+    }
+  ],
+  "patient_execution": false,
+  "bindings": {
+    "main_before": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+    "pilot": "b23e36d3399f7a343535229ccd83b724c53a1c27",
+    "candidate": "2e9d12f126cb31c71caace482d8f1f0667c1df3c",
+    "tree": "d03ebb2abe52ca67afdf87b25ab91dd605b13ae8",
+    "workflow_policy": {
+      "model_workflows": [
+        "actioner",
+        "confer",
+        "idea-pipeline",
+        "interpret",
+        "librarian",
+        "scout-cycle"
+      ],
+      "on_main": "SKIPPED",
+      "pilot_opt_in_guard": "REFUSED_EXIT_1",
+      "raw_results": "DISABLED",
+      "checks": "PUSH_PR_READ_ONLY"
+    },
+    "scientific_approval": "VERIFIED",
+    "patient_adapter_review": "465a0c3b1f2e8486a13e68dfd2179b3bfd16840d",
+    "archive_review": "91a0a5832b5d05167de23d4e1ecdba999963bcf3",
+    "patient_execution": false,
+    "remote_mutations": false
+  },
+  "clean_after": true,
+  "status": "PASS",
+  "verified_at": "2026-09-06T01:20:36.187427+00:00",
+  "test_counts": {
+    "pytest": 288,
+    "mutation_subtests": 7,
+    "orchestration": 214,
+    "isolation": 16,
+    "state_views": 47,
+    "registries": 4
+  },
+  "outgoing_audit": {
+    "base": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+    "tip": "b23e36d3399f7a343535229ccd83b724c53a1c27",
+    "commit_count": 71,
+    "artifact_versions_checked": 413,
+    "manifest_sha256": "2a4a9bd0042c341ab3e08dde14a155745b7d8047d2d105d3e4795ef3eb2bd4db",
+    "contaminated_history_reachable": false
+  },
+  "cleanup_after_reachability": {
+    "old": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+    "new": "c812421207b6ddcba6516444897c777d8440275a",
+    "raw_distinct_blobs": 173,
+    "raw_blobs_reachable_after": 0,
+    "remote_operation_executed": false
+  },
+  "merge_method": "normal merge commit; preserve pilot branch; no squash or rebase",
+  "private_logs_location": "/home/partho/concept-research-scout-v4/isles-pilot-private-evidence/stabilization-20260906-r2/integration-final-logs",
+  "human_intervention_minutes": null,
+  "measurement_limit": "Human intervention time not instrumented; Claude dollar fields are CLI estimates, not new billed charges.",
+  "local_provenance_method": "Exact existing 023 snapshot copied shallowly from local object store; live GitHub filtered retrieval is exercised separately by PR CI.",
+  "independent_review": {
+    "model": "claude-fable-5",
+    "reviewed_commit": "b23e36d3399f7a343535229ccd83b724c53a1c27",
+    "verdict": "APPROVE",
+    "response_sha256": "aa3eed1289f2696f54fd92f82feddc8c3b429dd245c9692675b033a37047b57f",
+    "mode": "source-only; no reviewer test-execution claim",
+    "wall_seconds": 199.85866996999903
+  },
+  "advisory_limits": [
+    "The verifier is not a general-purpose workflow security analyzer: complete CI step semantics and model-step optional keys require independent source review. The exact current workflow tree was reviewed, and no workflows were re-enabled.",
+    "Legacy quarantined actioner retains an inert propose_improvement input.",
+    "Imported scientific/provenance/adapter primitives retain their prior reviews; this fresh review covers stabilization and integration, not an invented new scientific approval."
+  ]
+}

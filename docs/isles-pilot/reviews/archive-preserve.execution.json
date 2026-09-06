@@ -1,0 +1,20 @@
+{
+  "reviewed_commit": "91a0a5832b5d05167de23d4e1ecdba999963bcf3",
+  "returncode": 0,
+  "wall_seconds": 236.66899324599945,
+  "input_file_sha256": {
+    "scripts/colab_archive_preserve.py": "166acee0538001c46fbc32727ccb4a8a8d435f3a3b8a4f3cda5f74f01bbd2a8e",
+    "orchestrator/archive_preserve.py": "d7ed0335a293ae72d017cca647d470436d124aa0b1a19b8a3d017dac6c6d0520",
+    "tests/test_archive_preserve.py": "7706039266df43e75bba2fd278e7c993a678b6e8b1d7821d3b48d8138a59c5b3"
+  },
+  "response_sha256": "28f4bff0e32cbd600fa7ebce808ddb4ef43ea401ec0bf13edd4d9f564914f000",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "2e113b72fdbd12f0082a3b8c8ffec973d32d3546d6638097b538f107eaa05bc8"
+}

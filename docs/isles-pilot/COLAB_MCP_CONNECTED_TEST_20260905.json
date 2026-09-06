@@ -1,0 +1,82 @@
+{
+  "client": {
+    "name": "codex-cli",
+    "version": "0.153.4"
+  },
+  "server": {
+    "registration": "colab-pilot",
+    "command": "/home/partho/.local/share/isles-colab-mcp/bin/colab-mcp",
+    "package_version": "1.0.1",
+    "protocol_server_name": "ColabMCP",
+    "protocol_server_version": "2.14.5",
+    "fastmcp_version": "2.14.5",
+    "mcp_sdk_version": "1.29.1",
+    "source_commit": "b9ab3899e0f1fa493390b1fd6d54aa2e464ecdf1",
+    "session_py_sha256": "89c4986f90f3d12b5ca4baa0806ed13c954478e9e8b6d95dd38fb669cf457a96"
+  },
+  "notebook": {
+    "commit": "1a81c037343598f4e4585153b11d761b87a9ae3a",
+    "path": "campaigns/isles24-pilot/colab/synthetic_execution.ipynb",
+    "sha256": "3c050e1f4552bc42e469b3c448930efbf7853a79bdc55d0f3969f52d3e9e7741",
+    "loaded_from_git": true,
+    "loaded_into_remote_session": false,
+    "embedded_source_pin": "d6a1184b4378e849213fd887a6f7b103fb1a64d5"
+  },
+  "remote_execution": {
+    "acquisition_cell_executed": false,
+    "synthetic_write_cell_executed": false,
+    "separate_retrieval_cell_executed": false,
+    "cpu_runtime_confirmed": false,
+    "returned_text": null,
+    "returned_sha256": null
+  },
+  "expected": {
+    "text": "ISLES pilot synthetic execution: 6 * 7 = 42\n",
+    "sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "derived_from_pinned_source_without_running_smoke": true
+  },
+  "boundaries": {
+    "drive_mounted": false,
+    "patient_workflow_run": false,
+    "gpu_requested": false,
+    "paid_provisioning": false,
+    "connection_tokens_recorded": false,
+    "permissions_broadened": false,
+    "approval_rejection_bypassed": false
+  },
+  "schema_version": 1,
+  "recorded_utc": "2026-09-05T18:26:33.702992+00:00",
+  "implementation_head": "4eba4d0e14e36739bf7a3654558f02f09999b949",
+  "status": "BLOCKED_NOTEBOOK_TOOL_AVAILABILITY_AFTER_CONNECTION",
+  "complete_remote_test_passed": false,
+  "connection": {
+    "official_tool": "mcp__colab_pilot__open_colab_browser_connection",
+    "first_discovery": "Initially absent; appeared on next tool discovery without configuration change",
+    "actual_calls": [
+      {
+        "structured_result": true,
+        "is_error": false
+      },
+      {
+        "structured_result": true,
+        "is_error": false
+      }
+    ],
+    "browser_mcp_handshake_passed": true,
+    "tool_list_changed_received_by_codex": true,
+    "log_evidence": [
+      {
+        "unix_timestamp": 1788632724,
+        "level": "INFO",
+        "target": "codex_rmcp_client::logging_client_handler",
+        "message_suffix": "MCP server tool list changed"
+      }
+    ],
+    "available_colab_tools_after_repeated_discovery": [
+      "open_colab_browser_connection"
+    ],
+    "notebook_tools_available": false
+  },
+  "diagnosis": "Registered Colab connection succeeded and Codex received the tool-list-change notification, but notebook tools were not exposed in this active turn. The precise internal refresh failure is not established. No execution API is available to this agent.",
+  "next_requirement": "With the connected Colab tab kept open, send a new turn to test whether Codex refreshes notebook tools at a turn boundary. Do not repeat browser/server setup unless new evidence requires it."
+}

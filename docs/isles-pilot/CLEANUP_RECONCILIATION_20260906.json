@@ -1,0 +1,48 @@
+{
+  "old": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+  "parent": "b652005fbcf6a87765a85e81b381a8596b4384ce",
+  "new": "c812421207b6ddcba6516444897c777d8440275a",
+  "ref": "refs/heads/results/probe-047-dc586665d0be",
+  "source_refs_containing_old": [
+    "refs/heads/original-evidence"
+  ],
+  "removed_raw_files": 198,
+  "quarantined_audit_files": 1,
+  "retained_result_files": 16,
+  "retained_bytes_verified": true,
+  "failure_bytes_preserved": true,
+  "parent_unchanged": true,
+  "exact_path_changes_verified": true,
+  "private_original_bundle_sha256": "c4844e5a96db895650d1645eee5be8080f93f43e6da11d7a24db6cddc366c59e",
+  "proposed_command": [
+    "git",
+    "push",
+    "--force-with-lease=refs/heads/results/probe-047-dc586665d0be:940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+    "https://github.com/Moroseui/concept-research-scout.git",
+    "c812421207b6ddcba6516444897c777d8440275a:refs/heads/results/probe-047-dc586665d0be"
+  ],
+  "status": "REHEARSED_ONLY_REQUIRES_OPERATOR_APPROVAL",
+  "verified_at": "2026-09-06T01:10:53.267377+00:00",
+  "advertised_refs": {
+    "refs/heads/2a-state": "3be88aeb3f6e831b2b62481b2c0d5363dd18972d",
+    "refs/heads/astra/autonomous-isles-pilot": "42b5252d55d240a0dd0209ff914894c7d95b9999",
+    "refs/heads/main": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+    "refs/heads/results/probe-004-8b68640183ee": "ab9d1ae0d54f79e96cb03747c2b9be2d78004a88",
+    "refs/heads/results/probe-023-03d4545fe293": "eb6083efb584487f5ea1f61d97b233235fc8c7aa",
+    "refs/heads/results/probe-023-0e223c82f9eb": "5aa8b5a183876a991ea7e307d7a6c8a8d3a34c7a",
+    "refs/heads/results/probe-023-2963f66b018a": "3be8dfa585439695a95e7b53ded3cfbdb67a10e3",
+    "refs/heads/results/probe-023-349af5ad0b3e": "87e2b1ad8fa3cffc5262b2bd84f7675b93cea737",
+    "refs/heads/results/probe-023-468974a7bdec": "3c735e271064d427365b51d0cd922a9d3a56c254",
+    "refs/heads/results/probe-023-4a46713d1b81": "125ff606572efcc38215cd7da90ada9f4f5abcf1",
+    "refs/heads/results/probe-047-dc586665d0be": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+    "refs/pull/1/head": "ab9d1ae0d54f79e96cb03747c2b9be2d78004a88"
+  },
+  "raw_distinct_blobs": 173,
+  "raw_blob_reachable_from": [
+    "refs/heads/results/probe-047-dc586665d0be"
+  ],
+  "original_evidence_bytes_rechecked": true,
+  "scope": "advertised refs only; no hidden refs or cached/copy erasure claim",
+  "private_evidence_directory": "/home/partho/concept-research-scout-v4/isles-pilot-private-evidence/stabilization-20260906-r2/rehearsal",
+  "remote_operation_executed": false
+}

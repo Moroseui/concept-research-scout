@@ -1,0 +1,62 @@
+{
+  "is_error": true,
+  "duration_api_ms": 538707,
+  "num_turns": 1,
+  "stop_reason": "stop_sequence",
+  "session_id": "26cde5f8-9b99-4000-84c7-55190223d66d",
+  "total_cost_usd": 0.8730789999999999,
+  "usage": {
+    "input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 0,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 28214,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.028314,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 8,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 42174,
+      "webSearchRequests": 0,
+      "costUSD": 0.844765,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "api_error",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "API Error: Connection closed mid-response. The response above may be incomplete.",
+  "type": "result",
+  "duration_ms": 537274,
+  "uuid": "016686af-70b2-4993-9898-a5e77799bf61"
+}

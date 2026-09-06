@@ -1,0 +1,16 @@
+{
+  "allowed": [
+    "summary.json",
+    "resolved_config.json",
+    "environment.json",
+    "execution_receipt.json",
+    "RESULT_CARD.md"
+  ],
+  "required": [
+    "summary.json",
+    "resolved_config.json",
+    "environment.json",
+    "execution_receipt.json",
+    "RESULT_CARD.md"
+  ]
+}

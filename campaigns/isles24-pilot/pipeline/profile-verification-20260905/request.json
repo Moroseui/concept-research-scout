@@ -1,0 +1,15 @@
+{
+  "mode": "discuss",
+  "experiment": "P001",
+  "request": "Using only the supplied approved P001 specification, summarize the exact integrity and result-return gates that must pass before interpretation. This is a future-profile verification discussion: no result exists, no scientific amendment, no patient execution, no follow-up proposal.",
+  "input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0"
+  },
+  "actor_type": "agent",
+  "family": "codex",
+  "authority": "campaign_delegated_investigator",
+  "status": "PROPOSAL_ONLY"
+}

@@ -1,0 +1,25 @@
+{
+  "status": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+  "mode": "discuss",
+  "experiment": "P001",
+  "input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0"
+  },
+  "round": 1,
+  "artifact_sha256": {
+    "round-1/log_campaign_discuss_review.txt": "97f88b4e210cb2764fb0f7af526bfd18373a55ad391cea5f6af614dc6be75f95",
+    "round-1/profile_campaign_discuss_review.json": "b130631e7b9883b1c80ae74a12f1ab2ecf867fb8e8ee04075e4a45858d670f10",
+    "round-1/prompt_campaign_discuss_review.md": "21025ec37572fb595ca4578237d49b0743255f923589caec697529a7567b97bf",
+    "round-1/review.json": "9d59c5beecaa1e851c436142b0c3367fccf9a0f33d57c69ffbc6578cfd882dce",
+    "round-1/stage_provenance.jsonl": "a5805be5a301d131f15d7a4d2a248881eaa67cc46de8328a83df7336500ff7bd",
+    "round-1/discussion.md": "767f4f5d5c11f1fd5b69bb3eb2d2b5b733628de8bfa52205b7bc81e09ec072ab",
+    "round-1/prompt_campaign_discuss.md": "7a3eaf3b8023cddbba1459b4e0b05ed0db824a8b647cddc74feafbe8296de9a9",
+    "round-1/log_campaign_discuss.txt": "cc5e6abe44554505618fb5c3cb8bd414b32741bdd4ef5c1b4419503757492ed3",
+    "round-1/profile_campaign_discuss.json": "41cd2f01dd9677b8a7603a776e3d12ee032eafec38443e0e83aa118906d76a26"
+  },
+  "author_family": "codex",
+  "reviewer_family": "claude"
+}

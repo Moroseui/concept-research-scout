@@ -1,0 +1,93 @@
+{
+  "is_error": false,
+  "duration_api_ms": 333300,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "b98c0201-da79-41ac-bffe-0c3171f5d554",
+  "total_cost_usd": 2.1318529999999996,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 40999,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 25681,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 40999,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 25681,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 40999,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 40999
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 26863,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.026938,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 25681,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 40999,
+      "webSearchRequests": 0,
+      "costUSD": 2.1049149999999996,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"human-controls\",\"reviewed_commit\":\"6859e97793bc62212340ec3d8949aeb7c65a4c91\",\"verdict\":\"APPROVE\",\"findings\":[\"Verified r1 remediations: actions_runner.system_stage now snapshots hasattr(sc,'STATE') and restores or deletes the attribute unconditionally in finally (state-leak fixed); scripts/actions_agent.py adds a claude-side protocol-event scan raising UNEXPECTED_MODEL_TOOL_USE for any non-StructuredOutput tool_use block, symmetric to the codex item-type scan; the human_controls docstring now accurately states that permitted system prompts enter validated evidence.json (resolving the r1 doc/behavior contradiction \u2014 prompt_<stage>.md files, which contain the full bound repo context, are still published in original_system_records, now consistently documented and covered by the aggregate DANGER/size screen in save()); restore() raises REPLAY_LOOKUP_LIMIT when over 100 same-name artifacts exist with no eligible page-1 result instead of silently re-executing; the r1 dead 'config' dict is gone.\",\"Verified fail-closed boundaries: validate_export (exact three-file set, symlink/size/DANGER/hash checks) runs in main() before artifact_name is written to GITHUB_OUTPUT, so the always()-guarded upload step cannot fire on unvalidated content; reviewed() fails closed on absent hash entries (dict .get -> None mismatch) and on any change to the 16 bound files; model subprocess env strips GH_TOKEN, GITHUB_TOKEN, ACTIONS_RUNTIME_TOKEN, ANTHROPIC_API_KEY and the opposing family's credential; PrivateRedirect drops Authorization on cross-netloc redirects; raw CLI streams (console.log, stdout.log, stderr.log) never match the .md/.json/.jsonl/.py publication filters and the runner_* projection strips the private_evidence path; replay zips are bounded (1 MB download cap, exact namelist, 700 KB uncompressed sum) and re-screened with DANGER before any write.\",\"Verified identity and authority bindings: request identity is a sha256 over the full request body (control, mode, experiment, text, source, destination, request_id, initiator_kind), so replay eligibility via receipt.request_identity transitively binds all parameters; restore additionally requires exact head_sha, workflow_dispatch event, completed status, and the control's own workflow path; execute() pins source to the actual checkout HEAD and restricts GITHUB_REF to the two supported branches before any model call; every receipt records human_ratification=False, patient_execution=False, and separates initiator_kind_declared from the authenticated github_actor with authority 'request_only_not_human_ratification'.\",\"Verified preservation of scientific approvals: interpret hard-gates on an existing import_receipt.json plus campaign_lifecycle.require_review before grounding or any agent call (blocked.json written, stage never invoked \u2014 test-covered); grounding() enforces the predecessor interpretation hash chain and accepts only status AGENT_REVIEWED_NOT_HUMAN_RATIFIED; this route emits REVIEWED_PROPOSAL_NOT_ADOPTED receipts and never writes interpretation_receipt.json into an experiment, so adoption into the frozen lifecycle remains a separate transaction; workflows are contents:read/actions:read with persist-credentials:false, pinned action SHAs and CLI versions, and no Git publication path.\",\"Non-blocking (recovery semantics): restore() does not check run conclusion, so a validated BLOCKED artifact is replay-eligible; a repeated request ID keeps returning the old BLOCKED result (exit 2, zero model calls) even after the underlying failure is repaired at the same SHA. This matches the documented 'change the ID after repairing a blocked attempt' semantics and spends nothing, but the only fresh-execution paths are a new request ID or 90-day artifact expiry.\",\"Non-blocking (receipt inconsistency): the status mode's evidence dict lacks a model_calls key, so its receipt records model_calls_this_submission as null while the replay path explicitly sets 0; a zero-call status run should record 0 for consistent accounting.\",\"Non-blocking (timeout budget): worst case of two rounds x two stages at the 600 s transport timeout (720 s profile stage_timeout) exceeds the 30-minute job timeout; a job-level kill takes the artifact-less infrastructure-failure summary path rather than producing a BLOCKED artifact, after which a same-ID resubmission re-executes because there is nothing to replay. Fail-closed and bounded by concurrency serialization plus the per-run caps, but worth knowing.\",\"Accepted limitation (trust boundary, carried from r1): reviewed() rests on unsigned committed hash records (human-controls.execution.json/.response.json); write access to the two permitted refs can regenerate records and bound files together, so enforcement is branch protection and PR review, not signing. Additionally REVIEW_FILES does not bind supporting primitives (scout.run_agent, campaign_lifecycle.run_isolated_stage/require_review, orchestrator/publication.inventory, requirements.txt, check.yml); changes there alter hosted behavior without tripping REVIEW_BINDING_CHANGED, relying instead on the push/PR deterministic checks.\",\"Source-only assumptions (fail closed on drift): hosted transport correctness assumes run_agent invokes the AGENTS.toml command with cwd=sc.ROOT, since actions_agent writes decoded artifacts and transport.json to its process cwd \u2014 a mismatch raises HOSTED_ARTIFACT_MISSING rather than mispublishing; pinned CLI flag semantics (claude --json-schema/--tools ''/--permission-mode dontAsk, codex --disable/--ephemeral/--output-schema) cannot be verified source-only, but unknown flags surface as nonzero exits mapped to MODEL_EXECUTION_FAILED and the new bilateral tool-use event scans catch silently ignored restrictions. Minor cosmetic nit: render_human_workflows.verify() reads the returned metadata from the global ROOT config rather than its root parameter (all integrity checks correctly use root).\"]}",
+  "structured_output": {
+    "scope": "human-controls",
+    "reviewed_commit": "6859e97793bc62212340ec3d8949aeb7c65a4c91",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified r1 remediations: actions_runner.system_stage now snapshots hasattr(sc,'STATE') and restores or deletes the attribute unconditionally in finally (state-leak fixed); scripts/actions_agent.py adds a claude-side protocol-event scan raising UNEXPECTED_MODEL_TOOL_USE for any non-StructuredOutput tool_use block, symmetric to the codex item-type scan; the human_controls docstring now accurately states that permitted system prompts enter validated evidence.json (resolving the r1 doc/behavior contradiction \u2014 prompt_<stage>.md files, which contain the full bound repo context, are still published in original_system_records, now consistently documented and covered by the aggregate DANGER/size screen in save()); restore() raises REPLAY_LOOKUP_LIMIT when over 100 same-name artifacts exist with no eligible page-1 result instead of silently re-executing; the r1 dead 'config' dict is gone.",
+      "Verified fail-closed boundaries: validate_export (exact three-file set, symlink/size/DANGER/hash checks) runs in main() before artifact_name is written to GITHUB_OUTPUT, so the always()-guarded upload step cannot fire on unvalidated content; reviewed() fails closed on absent hash entries (dict .get -> None mismatch) and on any change to the 16 bound files; model subprocess env strips GH_TOKEN, GITHUB_TOKEN, ACTIONS_RUNTIME_TOKEN, ANTHROPIC_API_KEY and the opposing family's credential; PrivateRedirect drops Authorization on cross-netloc redirects; raw CLI streams (console.log, stdout.log, stderr.log) never match the .md/.json/.jsonl/.py publication filters and the runner_* projection strips the private_evidence path; replay zips are bounded (1 MB download cap, exact namelist, 700 KB uncompressed sum) and re-screened with DANGER before any write.",
+      "Verified identity and authority bindings: request identity is a sha256 over the full request body (control, mode, experiment, text, source, destination, request_id, initiator_kind), so replay eligibility via receipt.request_identity transitively binds all parameters; restore additionally requires exact head_sha, workflow_dispatch event, completed status, and the control's own workflow path; execute() pins source to the actual checkout HEAD and restricts GITHUB_REF to the two supported branches before any model call; every receipt records human_ratification=False, patient_execution=False, and separates initiator_kind_declared from the authenticated github_actor with authority 'request_only_not_human_ratification'.",
+      "Verified preservation of scientific approvals: interpret hard-gates on an existing import_receipt.json plus campaign_lifecycle.require_review before grounding or any agent call (blocked.json written, stage never invoked \u2014 test-covered); grounding() enforces the predecessor interpretation hash chain and accepts only status AGENT_REVIEWED_NOT_HUMAN_RATIFIED; this route emits REVIEWED_PROPOSAL_NOT_ADOPTED receipts and never writes interpretation_receipt.json into an experiment, so adoption into the frozen lifecycle remains a separate transaction; workflows are contents:read/actions:read with persist-credentials:false, pinned action SHAs and CLI versions, and no Git publication path.",
+      "Non-blocking (recovery semantics): restore() does not check run conclusion, so a validated BLOCKED artifact is replay-eligible; a repeated request ID keeps returning the old BLOCKED result (exit 2, zero model calls) even after the underlying failure is repaired at the same SHA. This matches the documented 'change the ID after repairing a blocked attempt' semantics and spends nothing, but the only fresh-execution paths are a new request ID or 90-day artifact expiry.",
+      "Non-blocking (receipt inconsistency): the status mode's evidence dict lacks a model_calls key, so its receipt records model_calls_this_submission as null while the replay path explicitly sets 0; a zero-call status run should record 0 for consistent accounting.",
+      "Non-blocking (timeout budget): worst case of two rounds x two stages at the 600 s transport timeout (720 s profile stage_timeout) exceeds the 30-minute job timeout; a job-level kill takes the artifact-less infrastructure-failure summary path rather than producing a BLOCKED artifact, after which a same-ID resubmission re-executes because there is nothing to replay. Fail-closed and bounded by concurrency serialization plus the per-run caps, but worth knowing.",
+      "Accepted limitation (trust boundary, carried from r1): reviewed() rests on unsigned committed hash records (human-controls.execution.json/.response.json); write access to the two permitted refs can regenerate records and bound files together, so enforcement is branch protection and PR review, not signing. Additionally REVIEW_FILES does not bind supporting primitives (scout.run_agent, campaign_lifecycle.run_isolated_stage/require_review, orchestrator/publication.inventory, requirements.txt, check.yml); changes there alter hosted behavior without tripping REVIEW_BINDING_CHANGED, relying instead on the push/PR deterministic checks.",
+      "Source-only assumptions (fail closed on drift): hosted transport correctness assumes run_agent invokes the AGENTS.toml command with cwd=sc.ROOT, since actions_agent writes decoded artifacts and transport.json to its process cwd \u2014 a mismatch raises HOSTED_ARTIFACT_MISSING rather than mispublishing; pinned CLI flag semantics (claude --json-schema/--tools ''/--permission-mode dontAsk, codex --disable/--ephemeral/--output-schema) cannot be verified source-only, but unknown flags surface as nonzero exits mapped to MODEL_EXECUTION_FAILED and the new bilateral tool-use event scans catch silently ignored restrictions. Minor cosmetic nit: render_human_workflows.verify() reads the returned metadata from the global ROOT config rather than its root parameter (all integrity checks correctly use root)."
+    ]
+  },
+  "ttft_ms": 303208,
+  "ttft_stream_ms": 1624,
+  "time_to_request_ms": 180,
+  "type": "result",
+  "duration_ms": 332115,
+  "uuid": "de5095cf-1739-49fe-9107-79f6028f9237"
+}

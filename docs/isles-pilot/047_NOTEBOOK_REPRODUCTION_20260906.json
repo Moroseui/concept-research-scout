@@ -1,0 +1,82 @@
+{
+  "generator_commit": "469d29df002ea78f64146731244769d7c82330d6",
+  "source_acquisition_pin": "9216e6acce01c5113fc505ad96404fa4e36ffab6",
+  "target_notebook_commit": "469d29df002ea78f64146731244769d7c82330d6",
+  "generator_file_sha256": "fd74da000f8f181222bfb7d4774e156d7734cd5de090176f2e2c03470d3b9b95",
+  "cli_argv": [
+    "scout.py",
+    "package-colab",
+    "47",
+    "--phase",
+    "B",
+    "--staging-zenodo",
+    "16813698",
+    "--staging-record",
+    "16813698",
+    "--staging-mode",
+    "origin_direct",
+    "--omit-phase-flag",
+    "--runner-args",
+    "--archive-file {ARCHIVE_LOCAL} --member-manifest probes/023/results/results_v2/archive_manifest.csv",
+    "--runner-setup",
+    "apt-get -qq install -y p7zip-full > /dev/null"
+  ],
+  "nbformat_version": "5.11.1",
+  "overlay": "source HEAD 9216e6 with scout.py bytes from 469d29d; no implicit claim that those commits are identical",
+  "original_sha256": "1cb0d9323f99e704a751ce8185774b47ae083c6fd103ddcedad3b62ae31e8a16",
+  "generated_sha256": "aeea75bb1fff053a0bd5a16e68b677e99977ca1efcb724684506e00db7e51d94",
+  "exact_bytes_equal": false,
+  "cell_count_original": 10,
+  "cell_count_generated": 10,
+  "cell_sources_equal": true,
+  "notebook_equal_after_removing_cell_ids": true,
+  "different_cell_fields": [
+    {
+      "cell": 0,
+      "field": "id"
+    },
+    {
+      "cell": 1,
+      "field": "id"
+    },
+    {
+      "cell": 2,
+      "field": "id"
+    },
+    {
+      "cell": 3,
+      "field": "id"
+    },
+    {
+      "cell": 4,
+      "field": "id"
+    },
+    {
+      "cell": 5,
+      "field": "id"
+    },
+    {
+      "cell": 6,
+      "field": "id"
+    },
+    {
+      "cell": 7,
+      "field": "id"
+    },
+    {
+      "cell": 8,
+      "field": "id"
+    },
+    {
+      "cell": 9,
+      "field": "id"
+    }
+  ],
+  "top_level_metadata_equal": true,
+  "run_py_before": "362bc5fdfd038825165808df8ae3677cc02fd4e2",
+  "run_py_after_sha256": "dc4134de20a402138d85e0e1d72ca855110cdafae63e61a627d12f2fe99c64cf",
+  "run_py_unchanged": true,
+  "notebook_cells_executed": 0,
+  "patient_payloads_opened": 0,
+  "limitation": "This is a current reproduction from explicit historical inputs, not a reconstructed original generation session."
+}

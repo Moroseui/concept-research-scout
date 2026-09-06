@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 217349,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "c3c36fcb-0eb7-43e9-9f62-4a98e09f8bdb",
+  "total_cost_usd": 1.7306350000000001,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 42200,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 17149,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 42200,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 17149,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 42200,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 42200
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 28225,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0283,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 17149,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 42200,
+      "webSearchRequests": 0,
+      "costUSD": 1.7023350000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"p001-patient-dispatch\",\"reviewed_commit\":\"465a0c3b1f2e8486a13e68dfd2179b3bfd16840d\",\"verdict\":\"APPROVE\",\"findings\":[\"Mount tightening verified: dispatch wrapper raises on os.path.ismount('/content/drive') failure before capture_cell's mkdir can create any log/output directory; launcher re-checks mount+MyDrive before job.mkdir; FIND_CELL walks Drive only when mounted and reports drive_mounted; poll_cell returns NOT_VISIBLE when unmounted; regression test test_unmounted_drive_refuses_before_any_output_directory proves refusal with Path.mkdir never called.\",\"Review gate sound: require_patient_review binds p001-dispatch-r2 execution/response (APPROVE, scope p001-patient-dispatch, matching reviewed_commit, claude-fable-5 in modelUsage, response SHA-256) and re-hashes all nine REVIEW_FILES against input_file_sha256; enforced at both packet build and worker dispatch; original scientific verify_receipt checked first; p001-dispatch-approved evidence untouched.\",\"Scientific pins and cells unchanged: NOTEBOOK_PIN 1a81c037/SOURCE_PIN d6a1184b intact; child executes exact pinned cells 3/4/5 as literals with DATA_ROOT=None; acquisition cell 1 byte-exact inside private capture wrapper; run.py archive MD5/size, 198-member, 99-case, checkpoint and 60-minute-cap invariants unmodified.\",\"Dispatch mechanics safe: archive_path rejects non-/content roots, traversal, control chars, 047 staging root; pre-existing worker dir causes nondestructive refusal (raced mkdir fails closed); detached child via start_new_session with private console; launcher-owned failures write FAILED; MCP-visible stream is only the fixed {transport_status, source_sha256} dict validated against sha256(launch_source).\",\"Validation-before-success and packaging correct: VALIDATED written only after original validate_return.verify reproduces aggregates from private checkpoints; zip re-verifies aggregate hashes, refuses symlinks in recursed folders, includes console/binding/index/predictions/checkpoints/failed_attempts, excludes staged/ (tested).\",\"Source readback binding enforced: verify_cell_sources requires both inserted code and post-insertion readback to equal packet sources per execution index, pops readback on update_cell, rejects delete/move and extra runs, and requires includeOutputs=false on get_cells; COMPLETE additionally requires exact CPU/Colab check output.\",\"Non-blocking: verify_discovery accepts COMPLETE locate results with drive_mounted:false (empty candidates) \u2014 flag is surfaced and documented but callers must heed it; zip symlink check does not individually cover binding.json/checkpoint_index.json (folder trees are checked). Neither blocks the dispatch scope.\",\"No tests were executed and no tools were run; this is a static review of the supplied sources only.\"]}",
+  "structured_output": {
+    "scope": "p001-patient-dispatch",
+    "reviewed_commit": "465a0c3b1f2e8486a13e68dfd2179b3bfd16840d",
+    "verdict": "APPROVE",
+    "findings": [
+      "Mount tightening verified: dispatch wrapper raises on os.path.ismount('/content/drive') failure before capture_cell's mkdir can create any log/output directory; launcher re-checks mount+MyDrive before job.mkdir; FIND_CELL walks Drive only when mounted and reports drive_mounted; poll_cell returns NOT_VISIBLE when unmounted; regression test test_unmounted_drive_refuses_before_any_output_directory proves refusal with Path.mkdir never called.",
+      "Review gate sound: require_patient_review binds p001-dispatch-r2 execution/response (APPROVE, scope p001-patient-dispatch, matching reviewed_commit, claude-fable-5 in modelUsage, response SHA-256) and re-hashes all nine REVIEW_FILES against input_file_sha256; enforced at both packet build and worker dispatch; original scientific verify_receipt checked first; p001-dispatch-approved evidence untouched.",
+      "Scientific pins and cells unchanged: NOTEBOOK_PIN 1a81c037/SOURCE_PIN d6a1184b intact; child executes exact pinned cells 3/4/5 as literals with DATA_ROOT=None; acquisition cell 1 byte-exact inside private capture wrapper; run.py archive MD5/size, 198-member, 99-case, checkpoint and 60-minute-cap invariants unmodified.",
+      "Dispatch mechanics safe: archive_path rejects non-/content roots, traversal, control chars, 047 staging root; pre-existing worker dir causes nondestructive refusal (raced mkdir fails closed); detached child via start_new_session with private console; launcher-owned failures write FAILED; MCP-visible stream is only the fixed {transport_status, source_sha256} dict validated against sha256(launch_source).",
+      "Validation-before-success and packaging correct: VALIDATED written only after original validate_return.verify reproduces aggregates from private checkpoints; zip re-verifies aggregate hashes, refuses symlinks in recursed folders, includes console/binding/index/predictions/checkpoints/failed_attempts, excludes staged/ (tested).",
+      "Source readback binding enforced: verify_cell_sources requires both inserted code and post-insertion readback to equal packet sources per execution index, pops readback on update_cell, rejects delete/move and extra runs, and requires includeOutputs=false on get_cells; COMPLETE additionally requires exact CPU/Colab check output.",
+      "Non-blocking: verify_discovery accepts COMPLETE locate results with drive_mounted:false (empty candidates) \u2014 flag is surfaced and documented but callers must heed it; zip symlink check does not individually cover binding.json/checkpoint_index.json (folder trees are checked). Neither blocks the dispatch scope.",
+      "No tests were executed and no tools were run; this is a static review of the supplied sources only."
+    ]
+  },
+  "ttft_ms": 189829,
+  "ttft_stream_ms": 1460,
+  "time_to_request_ms": 123,
+  "type": "result",
+  "duration_ms": 215948,
+  "uuid": "2b1262f8-9c77-4c7b-87de-a3cbf710f57b"
+}

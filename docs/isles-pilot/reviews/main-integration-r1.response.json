@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 274962,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "6587f4df-132b-484c-b6b5-84d3866da1ad",
+  "total_cost_usd": 1.9164359999999998,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 39608,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 21938,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 39608,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 21938,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 39608,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 39608
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 26411,
+      "outputTokens": 16,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.026491,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 21938,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 39608,
+      "webSearchRequests": 0,
+      "costUSD": 1.8899449999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"main-integration\",\"reviewed_commit\":\"644bf488b44a5083893348a5b5fb03db5ea52771\",\"verdict\":\"APPROVE\",\"findings\":[\"ADVISORY (fail-closed gap): workflow_policy() in scripts/verify_main_integration.py builds the .github/workflows inventory from Path.stem, so a duplicate-stem twin (e.g. interpret.yaml beside interpret.yml) passes inventory while never being content-checked, and GitHub Actions executes .yaml workflows; check.yml content (permissions/steps) is likewise never inspected by the policy. Mitigated today by the candidate-tree==reviewed-pilot-tree binding and by check_pilot_publication refusing any .github/workflows path outside ALLOWED_FILES. Recommend comparing full filenames and asserting check.yml keeps contents: read.\",\"VERIFIED (quarantine): all six model workflows exact-match the CONDITION string (workflow_dispatch + pilot ref + pilot destination input + PILOT_REMOTE_RESEARCH_ENABLED), end in a regex-constrained echo/exit-1 guard that is executed and must refuse, allow only three SHA-pinned actions, exactly one fixed boundary-verify run step, and one checkout with persist-credentials: false; no secrets./git push/git pull text; results-validate.yml is hard-disabled (if: ${{ false }}, contents: read).\",\"VERIFIED (identity bindings): verify_main_integration requires 40-hex pins, a clean isolated 'main' checkout owned by the candidate, exact ordered parents [main, pilot], main ancestor-of pilot, and candidate tree byte-identical to the reviewed pilot tree; it re-binds P001 scientific approval (verify_receipt), patient review, and archive review, and performs no merge, push, or dispatch.\",\"VERIFIED (publication authority): workflow_boundary.publish is an append-only compare-and-swap (exact expected-remote pin, ls-remote equality, expected_remote must be ancestor of source, force-with-lease) gated on a full BASE..tip audit that refuses merges, contaminated-history reachability (git errors fail closed), unlisted paths, non-regular modes, >1.5MB/NUL binaries, credential-like bytes, and executed notebook outputs.\",\"VERIFIED (privacy/approvals): 047 cleanup remains rehearsed-only (status REHEARSED_ONLY_REQUIRES_OPERATOR_APPROVAL, remote_operation_executed: false); rehearsal preserves original bytes with bundle+sha256 receipts and python -O-safe checks (if/raise, not assert); residual case-linked metadata in per_case_staging.csv, split_manifest.csv, and staging_audit.json is explicitly disclosed and gated on a separate operator disposition, not silently retained.\",\"MINOR (doc inconsistency): CLEANUP_REVIEW.md's supplemental blob-reachability audit says 'all 11 advertised refs' while CLEANUP_RECONCILIATION_20260906.json lists 12 advertised refs (including refs/pull/1/head); state which inventory the blob audit traversed before any approved push re-audit.\",\"MINOR (test fragility): tests/test_main_integration.py::test_branch_names_are_not_review_pins calls verify('.', ...) and assumes cwd is the repo root; from another cwd the root-identity refusal fires first and the regex assertion fails (fails closed, but brittle). actioner.yml still advertises a propose_improvement input on a fully blocked job \u2014 stale, harmless.\",\"SCOPE NOTE: orchestrator.campaign_review.verify_receipt, orchestrator.colab_patient.require_patient_review, orchestrator.archive_preserve.reviewed, and scripts/fetch_provenance.py are invoked but not part of the supplied bundle; approval-preservation guarantees depend on their previously reviewed behavior. Source-only review; no tests or scripts were executed.\"]}",
+  "structured_output": {
+    "scope": "main-integration",
+    "reviewed_commit": "644bf488b44a5083893348a5b5fb03db5ea52771",
+    "verdict": "APPROVE",
+    "findings": [
+      "ADVISORY (fail-closed gap): workflow_policy() in scripts/verify_main_integration.py builds the .github/workflows inventory from Path.stem, so a duplicate-stem twin (e.g. interpret.yaml beside interpret.yml) passes inventory while never being content-checked, and GitHub Actions executes .yaml workflows; check.yml content (permissions/steps) is likewise never inspected by the policy. Mitigated today by the candidate-tree==reviewed-pilot-tree binding and by check_pilot_publication refusing any .github/workflows path outside ALLOWED_FILES. Recommend comparing full filenames and asserting check.yml keeps contents: read.",
+      "VERIFIED (quarantine): all six model workflows exact-match the CONDITION string (workflow_dispatch + pilot ref + pilot destination input + PILOT_REMOTE_RESEARCH_ENABLED), end in a regex-constrained echo/exit-1 guard that is executed and must refuse, allow only three SHA-pinned actions, exactly one fixed boundary-verify run step, and one checkout with persist-credentials: false; no secrets./git push/git pull text; results-validate.yml is hard-disabled (if: ${{ false }}, contents: read).",
+      "VERIFIED (identity bindings): verify_main_integration requires 40-hex pins, a clean isolated 'main' checkout owned by the candidate, exact ordered parents [main, pilot], main ancestor-of pilot, and candidate tree byte-identical to the reviewed pilot tree; it re-binds P001 scientific approval (verify_receipt), patient review, and archive review, and performs no merge, push, or dispatch.",
+      "VERIFIED (publication authority): workflow_boundary.publish is an append-only compare-and-swap (exact expected-remote pin, ls-remote equality, expected_remote must be ancestor of source, force-with-lease) gated on a full BASE..tip audit that refuses merges, contaminated-history reachability (git errors fail closed), unlisted paths, non-regular modes, >1.5MB/NUL binaries, credential-like bytes, and executed notebook outputs.",
+      "VERIFIED (privacy/approvals): 047 cleanup remains rehearsed-only (status REHEARSED_ONLY_REQUIRES_OPERATOR_APPROVAL, remote_operation_executed: false); rehearsal preserves original bytes with bundle+sha256 receipts and python -O-safe checks (if/raise, not assert); residual case-linked metadata in per_case_staging.csv, split_manifest.csv, and staging_audit.json is explicitly disclosed and gated on a separate operator disposition, not silently retained.",
+      "MINOR (doc inconsistency): CLEANUP_REVIEW.md's supplemental blob-reachability audit says 'all 11 advertised refs' while CLEANUP_RECONCILIATION_20260906.json lists 12 advertised refs (including refs/pull/1/head); state which inventory the blob audit traversed before any approved push re-audit.",
+      "MINOR (test fragility): tests/test_main_integration.py::test_branch_names_are_not_review_pins calls verify('.', ...) and assumes cwd is the repo root; from another cwd the root-identity refusal fires first and the regex assertion fails (fails closed, but brittle). actioner.yml still advertises a propose_improvement input on a fully blocked job \u2014 stale, harmless.",
+      "SCOPE NOTE: orchestrator.campaign_review.verify_receipt, orchestrator.colab_patient.require_patient_review, orchestrator.archive_preserve.reviewed, and scripts/fetch_provenance.py are invoked but not part of the supplied bundle; approval-preservation guarantees depend on their previously reviewed behavior. Source-only review; no tests or scripts were executed."
+    ]
+  },
+  "ttft_ms": 246638,
+  "ttft_stream_ms": 1715,
+  "time_to_request_ms": 156,
+  "type": "result",
+  "duration_ms": 273548,
+  "uuid": "5c92efea-c3cd-43be-badb-cbe71fa435e2"
+}

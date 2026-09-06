@@ -1,0 +1,124 @@
+{
+  "date": "2026-09-05",
+  "kind": "archive_location_metadata_only",
+  "client": "Claude Code 2.1.222",
+  "server": "colab-mcp 1.0.1",
+  "implementation_pin": "465a0c3b1f2e8486a13e68dfd2179b3bfd16840d",
+  "scientific_notebook_pin": "1a81c037343598f4e4585153b11d761b87a9ae3a",
+  "executable_source_pin": "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+  "worker": {
+    "status": "COMPLETE",
+    "returncode": 0,
+    "wall_seconds": 81.56543133800005,
+    "task": "locate_existing_archive",
+    "requested_model": "claude-fable-5",
+    "actual_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "blocker": "NONE",
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 12429,
+      "cache_read_input_tokens": 99208,
+      "output_tokens": 4234,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 12429,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 829,
+          "cache_read_input_tokens": 13619,
+          "cache_creation_input_tokens": 312,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 312
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "cli_reported_cost_usd": 0.5612029999999999,
+    "discovery": {
+      "drive_mounted": true,
+      "scan_complete": true,
+      "archive_candidates": [
+        {
+          "path": "/content/drive/MyDrive/staging-16731717/train.7z",
+          "size_bytes": 99022114670
+        }
+      ]
+    }
+  },
+  "search_source_sha256": "1a727f2d330cc119a303d49f62df135b25e08f874ceb1b7f1847ff8cd4b4b09e",
+  "protocol_sha256": "55a9451720c5459ee9f55f76f021ff9384970d320377a5770708ef38bd30b5ea",
+  "expected_archive": {
+    "record": "16813698",
+    "size_bytes": 99014629647,
+    "md5": "36ae28b9a17f7340b8bbef62b595cb57"
+  },
+  "disposition": "No eligible archive found: candidate size mismatch. Corruption versus different release is not established. No archive content read, hashing, extraction, or patient execution occurred.",
+  "scan_scope": "Mounted MyDrive and Shareddrives, no symlink traversal; metadata checkpoint permits continuation. Runtime /content/train.7z was separately checked by the preceding discovery attempt.",
+  "codex_notebook_discovery": "unresolved",
+  "human_intervention_seconds": null,
+  "billing_note": "CLI cost is a reported estimate; existing subscription used, no new billing provisioned.",
+  "storage_probe": {
+    "status": "COMPLETE",
+    "storage": {
+      "drive_mounted": true,
+      "local_free_bytes": 220654030848,
+      "drive_free_bytes": 209621327872
+    },
+    "wall_seconds": 51.11385564899956,
+    "actual_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 10602,
+      "cache_read_input_tokens": 72044,
+      "output_tokens": 2596,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 10602,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 302,
+          "cache_read_input_tokens": 10376,
+          "cache_creation_input_tokens": 226,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 226
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "cli_reported_cost_usd": 0.414927
+  },
+  "storage_source_sha256": [
+    "bae4af73ba92d338159ffbfdac466ce85be3e5e827d84af1c59cac98f1a5042b",
+    "9642404b78fe89dfe7bdeec094d6f6666110ca45dfa3f2a89fd9cb384cca3eb7"
+  ],
+  "storage_protocol_sha256": "779a995d43c8282dced29f27a1a125b15efb222707b7bc0507afb1c537b544e3",
+  "private_original_evidence_location": "~/.local/share/isles-colab-mcp/p001-handoff-20260905"
+}

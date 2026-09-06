@@ -1823,8 +1823,11 @@ def _mount_cell():
         "    print('could not inspect/move mountpoint residue:', e,\n"
         "          '-- if the mount below fails, Runtime > Disconnect and delete runtime')\n"
         "drive.mount(MP, force_remount=True)\n"
-        "GH_PAT = userdata.get('SCOUT_RESULTS_PAT')  # never printed\n"
-        "os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')  # inherited by the run.py child; never printed")
+        "# Optional model-download credential; this exporter needs no write token.\n"
+        "try:\n"
+        "    os.environ['HF_TOKEN'] = userdata.get('HF_TOKEN')\n"
+        "except (userdata.SecretNotFoundError, userdata.NotebookAccessError):\n"
+        "    pass")
 
 
 def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
@@ -2111,14 +2114,10 @@ def _staging_cells(concept, suffixes, record_id=None, mode='drive_fuse_cache'):
 
 
 def package_colab(args):
-    """E2 launcher generator. The notebook is a THIN DRIVER: it never
-    imports the model stack into its own kernel (pip installs feed the
-    `!python` child process, so no restart exists in the workflow), pins
-    the repo commit and results branch at packaging time, reads the GitHub
-    PAT from Colab Secrets (zero credentials in the committed notebook),
-    and pushes each session's bundle to a contract-bound results branch
-    (E1 transport). Deterministic machinery, not agent output: no review
-    cycle applies."""
+    """Thin, pinned Colab driver with nondestructive execution and explicit
+    verified exports. No automatic result commits or pushes. Missing publication
+    policy refuses export while retaining original outputs and console evidence.
+    """
     try:
         import nbformat as nbf
     except ImportError:
@@ -2173,15 +2172,12 @@ def package_colab(args):
         'Colab is a compute worker only. This driver kernel NEVER imports '
         'the model stack -- `run.py` runs as a child process, so no kernel '
         'restart is ever needed.\n\n'
-        '**One-time setup:** create a fine-grained GitHub PAT scoped to '
-        'this single repository, Contents: Read and write, with an expiry. '
-        'In Colab: key icon (Secrets) -> add `SCOUT_RESULTS_PAT` -> enable '
-        'notebook access. The PAT never appears in this notebook or its '
-        'output.\n\n'
-        f'Results branch (contract-bound): `{branch}`\n\n'
+        '**Setup:** connect your Google Drive. No GitHub write token is needed.\n\n'
+        f'Contract-bound source label: `{branch}` (no automatic push)\n\n'
         'Per session: run all cells top to bottom. After a disconnect, '
-        'rerun all cells -- run.py resumes from the bundle on Drive, and '
-        'the transport cell pushes whatever is new.'),
+        'rerun all cells. Resumable runners retain checkpoints; empty-directory '
+        'runners refuse and require a new OUTPUT_DIR. Return the verified '
+        'export and sibling console for review.'),
       nbf.v4.new_code_cell(
         f"PHASE = '{phase}'\n"
         f"REPO_URL = '{remote}'\n"
@@ -2191,73 +2187,59 @@ def package_colab(args):
         f"OUTPUT_DIR = '/content/drive/MyDrive/concept-research-scout-results/{nn}_{phase}_{chash[:12]}'{cfg_extra}"),
       nbf.v4.new_code_cell(_mount_cell()),
       nbf.v4.new_code_cell(
-        "%cd /content\n"
-        "!rm -rf /content/scout-repo\n"
-        "!git clone {REPO_URL} /content/scout-repo\n"
-        "%cd /content/scout-repo\n"
-        "!git checkout {PIN_COMMIT}"),
+        "import os, pathlib, subprocess, sys\n"
+        "REPO_PATH = pathlib.Path('/content/scout-repo-' + PIN_COMMIT[:12])\n"
+        "if not REPO_PATH.exists():\n"
+        "    subprocess.run(['git','init','-q',str(REPO_PATH)],check=True)\n"
+        "    subprocess.run(['git','fetch','--no-tags','--depth=1',REPO_URL,PIN_COMMIT],cwd=REPO_PATH,check=True)\n"
+        "subprocess.run(['git','checkout','--detach',PIN_COMMIT],cwd=REPO_PATH,check=True)\n"
+        "if subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO_PATH,text=True).strip()!=PIN_COMMIT:\n"
+        "    raise RuntimeError('Source pin mismatch')\n"
+        "if subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=REPO_PATH,text=True).strip():\n"
+        "    raise RuntimeError('Modified or untracked source; choose a fresh checkout')\n"
+        "os.chdir(REPO_PATH)\n"
+        "sys.path.insert(0,str(REPO_PATH))"),
       nbf.v4.new_code_cell(
         f"!pip install -q -r probes/{nn}/requirements.txt"),
       *staging_cells,
       nbf.v4.new_code_cell(
-        "# Console (incl. any crash traceback) persists to Drive; refresh-proof.\n"
-        "# It lives BESIDE the bundle dir: the probe's own contract requires an\n"
-        "# empty output directory (2026-09-05, exit=7 incident), so the driver\n"
-        "# scrubs the dir and keeps its log as a sibling.\n"
-        "CONSOLE = OUTPUT_DIR.rstrip('/') + '.console.log'\n"
+        "# Preserve checkpoints. Empty-destination runners refuse nondestructively.\n"
+        "from orchestrator.publication import run_logged\n"
+        "import shlex\n"
         + (getattr(args, 'runner_setup', '') and
            '!' + args.runner_setup.lstrip('!') + '\n' or '')
-        + f"!mkdir -p {{OUTPUT_DIR}}\n"
-        + "!find {OUTPUT_DIR} -mindepth 1 -delete\n"
-        + f"!python probes/{nn}/run.py "
-        + ('' if getattr(args, 'omit_phase_flag', False)
-           else "--phase {PHASE} ")
-        + "--output-dir {OUTPUT_DIR}"
-        # An explicit runner interface REPLACES the staging-inferred one:
-        # stacking them injected foreign/duplicate flags (caught in the
-        # 047 pre-flight before any session ran).
-        + ((' ' + args.runner_args) if getattr(args, 'runner_args', '')
-           else extra)
-        + " 2>&1 | tee -a {CONSOLE}"),
+        + "CONSOLE = OUTPUT_DIR.rstrip('/') + '.console.log'\n"
+        + "command = f" + repr(f"python probes/{nn}/run.py "
+            + ('' if getattr(args, 'omit_phase_flag', False) else "--phase {PHASE} ")
+            + "--output-dir {OUTPUT_DIR}"
+            + ((' ' + args.runner_args) if getattr(args, 'runner_args', '') else extra)) + "\n"
+        + "RUN_EXIT = run_logged(shlex.split(command), OUTPUT_DIR)\n"
+        + "print('Runner exit:', RUN_EXIT, '; original console:', CONSOLE)\n"),
       nbf.v4.new_code_cell(
-        "# E1 transport: mirror the bundle onto the contract-bound results\n"
-        "# branch. ORDER MATTERS: check out the branch FIRST, then overlay the\n"
-        "# bundle (copy-then-checkout fails after session 1: git refuses to\n"
-        "# overwrite untracked files the branch already tracks). The PAT rides\n"
-        "# in a header, never in argv or output.\n"
-        "import shutil, subprocess, pathlib, base64, datetime\n"
-        "repo = pathlib.Path('/content/scout-repo')\n"
-        f"dest = repo / 'probes/{nn}/results_v2'\n"
-        "def git(*a, **k):\n"
-        "    r = subprocess.run(['git', *a], cwd=repo, capture_output=True, text=True, **k)\n"
-        "    if r.returncode: raise SystemExit(f'git {a[0]} failed: {r.stderr[-400:]}')\n"
-        "    return r.stdout\n"
-        "git('config', 'user.email', 'colab-runner@scout.local')\n"
-        "git('config', 'user.name', 'scout colab runner')\n"
-        "auth = base64.b64encode(f'x-access-token:{GH_PAT}'.encode()).decode()\n"
-        "hdr = f'http.extraheader=AUTHORIZATION: basic {auth}'\n"
-        "if subprocess.run(['git', '-c', hdr, 'fetch', 'origin', RESULTS_BRANCH], cwd=repo, capture_output=True).returncode == 0:\n"
-        "    git('checkout', '-B', RESULTS_BRANCH, f'origin/{RESULTS_BRANCH}')\n"
-        "else:\n"
-        "    git('checkout', '-B', RESULTS_BRANCH, PIN_COMMIT)\n"
-        "if dest.exists(): shutil.rmtree(dest)\n"
-        "shutil.copytree(OUTPUT_DIR, dest)\n"
-        f"git('add', '-f', 'probes/{nn}/results_v2')\n"
-        "stamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')\n"
-        "subprocess.run(['git', 'commit', '-m', f'session results {stamp}'], cwd=repo, capture_output=True)\n"
-        "git('-c', hdr, 'push', 'origin', RESULTS_BRANCH)\n"
-        "print('pushed', RESULTS_BRANCH)"),
+        "# Publication is an explicit reviewed export; no automatic commit or push.\n"
+        "# Failure evidence remains on Drive even when export is refused.\n"
+        "import json, pathlib\n"
+        "from orchestrator.publication import export_session\n"
+        f"policy_path = pathlib.Path('probes/{nn}/publication.json')\n"
+        "if not policy_path.is_file():\n"
+        "    raise RuntimeError('No reviewed publication policy; retain local outputs')\n"
+        "policy = json.loads(policy_path.read_text())\n"
+        f"assert policy['contract_blob'] == '{chash}', 'Publication policy contract drift'\n"
+        "EXPORT_DIR = OUTPUT_DIR.rstrip('/') + '.publication'\n"
+        "export_session(OUTPUT_DIR, EXPORT_DIR, policy)\n"
+        "print('Verified export:', EXPORT_DIR)\n"
+        "print('Return this export AND the sibling console for validation/import.')\n"),
       nbf.v4.new_markdown_cell(
-        'When `run.py` reports the study complete, the results-validate '
-        'workflow on the pushed branch verifies the bundle and opens the '
-        'record-result PR. Merging that PR is the human gate.'),
+        'Return the verified publication export and original sibling console. '
+        'Validation and provenance-bound import precede interpretation. '
+        'This launcher never commits or pushes results.'),
     ]
     out = p / f'colab_probe_{args.idea:03d}.ipynb'
     nbf.write(nb, out)
     print(out.relative_to(ROOT))
     print(f'  pinned commit  {pin[:12]}\n  results branch {branch}\n'
           f'  phase          {phase}\n'
-          '  secret needed  SCOUT_RESULTS_PAT (Colab Secrets)')
+          '  publication    manual verified export; no write token')
 
 
 def _contract_field(idea, field):
@@ -2787,6 +2769,22 @@ def record_result(args):
         raise SystemExit('historical import (--expected-blob) requires '
                          '--source-commit: the results-branch commit the '
                          'bundle is taken from (round-7/8 import bindings).')
+    subset = getattr(args, 'publication_subset', None)
+    subset_receipt = None
+    if subset and (not src or not eb):
+        raise SystemExit('publication subset requires --source-commit and --expected-blob')
+    policy_path = ROOT / 'probes' / n3 / 'publication.json'
+    if not policy_path.exists():
+        raise SystemExit('PUBLICATION REFUSED: explicit contract-bound publication.json policy required for every new import')
+    if policy_path.exists():
+        from orchestrator.publication import validate as validate_publication
+        policy = json.loads(policy_path.read_text())
+        if policy.get('contract_blob') != (eb or _contract_hash(idea_dir(args.idea))):
+            raise SystemExit('PUBLICATION REFUSED: publication policy contract mismatch')
+        try:
+            validate_publication(bundle, policy)
+        except ValueError as e:
+            raise SystemExit('PUBLICATION REFUSED: ' + str(e))
     fails = validate_bundle(args.idea, bundle, expected_blob=eb)
     if fails:
         print(f'REFUSED: bundle failed validation ({len(fails)}):')
@@ -2818,7 +2816,16 @@ def record_result(args):
             hb = _git(['hash-object', str(bundle / rel)],
                       what='verbatim import check')
             local_blobs[rel] = hb.stdout.strip()
-        if src_files != local_blobs:
+        if subset:
+            from orchestrator.publication_subset import verify as verify_subset
+            required, _ = _parse_contract_fields(_historical_contract_text(eb))
+            if policy_path.exists():
+                required = sorted(set(required) | set(policy['required']))
+            try:
+                subset_receipt = verify_subset(ROOT, bundle, subset, src, eb, required, f'probes/{n3}/{bundle.name}')
+            except (ValueError, OSError, KeyError) as e:
+                raise SystemExit('PUBLICATION SUBSET REFUSED: ' + str(e))
+        if not subset and src_files != local_blobs:
             only_src = sorted(set(src_files) - set(local_blobs))[:3]
             only_loc = sorted(set(local_blobs) - set(src_files))[:3]
             diff = sorted(r for r in set(src_files) & set(local_blobs)
@@ -2832,6 +2839,8 @@ def record_result(args):
                'file_count': len(local_files),
                'imported_utc': datetime.now(timezone.utc)
                .isoformat(timespec='seconds')}
+    if subset_receipt:
+        receipt['publication_subset'] = subset_receipt
     sidecar = dest.parent / (dest.name + '.import.json')
     sidecar.write_text(json.dumps(receipt, indent=1, sort_keys=True) + '\n')
     subprocess.run(['git', 'add', '-f', str(dest), str(sidecar)],
@@ -3243,24 +3252,12 @@ def _cycle_stage_list(tracks):
 
 
 def _push_checkpoint():
-    """Durability for stage checkpoints on ephemeral runners: a local commit
-    that dies with the runner was never a checkpoint. Push after every stage
-    commit in CI; retry once through a rebase for pushes racing the human or
-    another workflow; a checkpoint that cannot be pushed is a FAILED stage,
-    loudly -- never silently swallowed."""
-    r = _git('push', check=False)
-    if r.returncode == 0:
-        return
-    rb = _git('pull', '--rebase', check=False)
-    if rb.returncode != 0:
-        _git('rebase', '--abort', check=False)
-        raise SystemExit('Checkpoint rebase conflicted; aborted without '
-                         'committing a conflicted tree (fail-closed):\n'
-                         + (rb.stderr or rb.stdout or '')[-800:])
-    r = _git('push', check=False)
-    if r.returncode != 0:
-        raise SystemExit('Checkpoint push failed after rebase retry:\n'
-                         + (r.stderr or r.stdout or '')[-800:])
+    """Publish through the explicit audited route; never infer/rebase a branch."""
+    from orchestrator.git_publication import checkpoint
+    try:
+        return checkpoint(ROOT, os.environ.get('SCOUT_PUBLICATION_REQUEST'))
+    except Exception as error:
+        raise SystemExit('Checkpoint publication refused; preserve the local commit and supply a reviewed exact source/destination request.') from error
 
 
 def _commit_all(message):
@@ -3268,7 +3265,7 @@ def _commit_all(message):
     r = _git('diff', '--cached', '--quiet', check=False)
     if r.returncode == 0:
         return False  # nothing to commit
-    _git('commit', '-q', '-m', message)
+    _git('-c', 'user.name=Astra (OpenAI agent)', '-c', 'user.email=astra@agents.local.invalid', 'commit', '-q', '-m', message)
     if os.environ.get('SCOUT_CI'):
         _push_checkpoint()
     return True
@@ -4434,12 +4431,12 @@ def main():
     p=sp.add_parser('shortlist'); p.add_argument('scout'); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
     p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.add_argument('--unblock-ack',dest='unblock_ack'); p.set_defaults(fn=run_stage)
     p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
-    p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=verify_probe)
-    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.add_argument('--omit-phase-flag',action='store_true',help='probe run.py takes no --phase'); p.add_argument('--runner-args',default='',help='extra args appended verbatim to the run.py invocation ({PY_VARS} interpolate)'); p.add_argument('--runner-setup',default='',help='shell line emitted before the runner (e.g. apt installs)'); p.set_defaults(fn=package_colab)
-    p=sp.add_parser('record-result'); p.add_argument('idea',type=int); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.set_defaults(fn=record_result)
+    p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int,nargs='?'); p.set_defaults(fn=verify_probe)
+    p=sp.add_parser('package-colab'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.add_argument('--omit-phase-flag',action='store_true',help='probe run.py takes no --phase'); p.add_argument('--runner-args',default='',help='extra args appended verbatim to the run.py invocation ({PY_VARS} interpolate)'); p.add_argument('--runner-setup',default='',help='shell line emitted before the runner (e.g. apt installs)'); p.set_defaults(fn=package_colab)
+    p=sp.add_parser('record-result'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.add_argument('--publication-subset'); p.set_defaults(fn=record_result)
     p=sp.add_parser('amend-contract'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=amend_contract)
     p=sp.add_parser('diversity'); p.add_argument('--charter',default=None); p.set_defaults(fn=cmd_diversity)
-    p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
+    p=sp.add_parser('validate-bundle'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--bundle',required=True); p.set_defaults(fn=cmd_validate_bundle)
     p=sp.add_parser('bundle-complete'); p.add_argument('idea',type=int); p.add_argument('--bundle',required=True); p.set_defaults(fn=lambda a: print(str(bundle_complete(a.idea, a.bundle)).lower()))
     p=sp.add_parser('state-materialize'); p.add_argument('--idea',type=int); p.set_defaults(fn=cmd_state_materialize)
     p=sp.add_parser('state-verify'); p.add_argument('--idea',type=int); p.add_argument('--require-all',action='store_true'); p.set_defaults(fn=cmd_state_verify)
@@ -4452,8 +4449,8 @@ def main():
     p=sp.add_parser('backlog'); p.set_defaults(fn=backlog_cmd)
     p=sp.add_parser('brief'); p.set_defaults(fn=brief_cmd)
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
-    p=sp.add_parser('probe-build'); p.add_argument('idea',type=int); p.set_defaults(fn=probe_build)
-    p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
+    p=sp.add_parser('probe-build'); p.add_argument('idea',type=int,nargs='?'); p.set_defaults(fn=probe_build)
+    p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
     p=sp.add_parser('ratify-interpretation'); p.add_argument('idea',type=int); p.add_argument('--status',required=True); p.set_defaults(fn=cmd_ratify_interpretation)
     p=sp.add_parser('ratify-registry'); p.add_argument('idea',type=int); p.add_argument('--operator',required=True); p.set_defaults(fn=cmd_ratify_registry)
     p=sp.add_parser('card-materialize'); p.add_argument('idea',type=int); p.add_argument('--check',action='store_true'); p.set_defaults(fn=cmd_card_materialize)
@@ -4469,6 +4466,24 @@ def main():
     q=lsp.add_parser('kill'); q.add_argument('id'); q.add_argument('code'); q.add_argument('reason')
     q=lsp.add_parser('set-status'); q.add_argument('id'); q.add_argument('status'); q.add_argument('--note',default='')
     p.set_defaults(fn=ledger_mod.cli)
-    args=ap.parse_args(); args.fn(args)
+    from orchestrator.campaign_lifecycle import COMMANDS
+    for name in COMMANDS:
+        parser = sp.choices[name]
+        parser.add_argument('--campaign', choices=['isles24-pilot'])
+        parser.add_argument('--experiment', choices=['P001','P002','P003'])
+        if name in ('record-result','validate-bundle'):
+            parser.add_argument('--private')
+            parser.add_argument('--console')
+    args=ap.parse_args()
+    if getattr(args,'campaign',None):
+        from orchestrator.campaign_lifecycle import dispatch
+        try:
+            dispatch(sys.modules[__name__],args)
+        except (ValueError,OSError,KeyError) as e:
+            raise SystemExit('CAMPAIGN REFUSED: '+str(e))
+    else:
+        if getattr(args,'experiment',None): ap.error('--experiment requires --campaign')
+        if args.cmd in COMMANDS and args.idea is None: ap.error('idea is required outside campaign mode')
+        args.fn(args)
 
 if __name__=='__main__': main()

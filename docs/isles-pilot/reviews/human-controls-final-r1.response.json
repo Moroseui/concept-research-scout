@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 385430,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "60240734-be1b-4782-bec0-5dd0e3b260ad",
+  "total_cost_usd": 2.029873,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 26705,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 29559,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 26705,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 29559,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 26705,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 26705
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 16843,
+      "outputTokens": 19,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.016938,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 29559,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 26705,
+      "webSearchRequests": 0,
+      "costUSD": 2.0129349999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"findings\":[\"BLOCKING (fail-closed boundary): verify_main_integration.workflow_policy enforces the check.yml no-secrets boundary with the raw-substring test `'secrets.' in text`, but GitHub Actions expressions also reach secrets via index syntax (${{ secrets['OPENAI_API_KEY'] }}) and via ${{ toJSON(secrets) }} \u2014 neither contains the substring 'secrets.'. Because check.yml step contents are otherwise unbound (only the job set, job/step 'permissions' keys, checkout persist-credentials, and top-level on/permissions are verified), a merge candidate whose check.yml adds a step with env {K: \\\"${{ secrets['OPENAI_API_KEY'] }}\\\"} and an exfiltrating run command passes the verifier, and after merge runs with the repo-level OPENAI_API_KEY / CLAUDE_CODE_OAUTH_TOKEN secrets on every push and same-repo pull_request (these must be repo-level secrets, since the dispatch workflows consume them without a GitHub environment). The raised guarantee 'CI cannot consume repository secrets' is therefore not enforced. Fix: bind check.yml structurally by data-equality against an expected document, as already done for the rendered control workflows, or scan every parsed scalar for the secrets context token (\\\\bsecrets\\\\b inside ${{ }}), and extend test_deterministic_ci_boundaries_survive_controls_restoration with secrets['X'] and toJSON(secrets) mutations \u2014 it currently covers only the dotted spelling, mirroring the code gap.\",\"Dependent assumption for the same gate (confirm, not supplied): workflow_policy imports the candidate's own render_human_workflows.verify, so workflow verification is only as strong as actions_runner.reviewed()'s file binding of render_human_workflows.py. If the renderer is not among the bound files, a candidate can alter renderer and workflows together and still pass; the r2 review counted 16 bound files but this source set does not show whether the renderer is one of them.\",\"Non-blocking (stale candidate receipt): HUMAN_CONTROLS_MAIN_TREE_20260906.json records candidate d2e732fc whose tree equals pilot 9117de5e, but that tree necessarily predates the acceptance docs/receipts added by this integration commit, so it cannot certify the final merge candidate; merge readiness requires re-running the verifier with pilot set to the final reviewed pin (5a820d3f or later). CURRENT_STATUS.md correctly states no merge is authorized; recommend annotating the committed receipt as a superseded demonstration so it is not later cited as merge evidence.\",\"Non-blocking (root/ROOT mixing, carried from r2): render_human_workflows.documents() and verify() read configs/pilot/human-controls.json from the module-global ROOT rather than the root parameter. This is safe in the merge flow only because verify_main_integration pins root to its own checkout; when workflow_policy is invoked on another tree (as the tests do), the expected-workflow baseline and the returned human_controls metadata silently describe ROOT's config rather than the verified tree's.\",\"Non-blocking (replay receipt identity): the 34006068840 replay receipt reports run_id/run_attempt of the original run 34005991921, with the actual submitting run only in submission_run_id, and reused_from_run is a JSON number where run ids elsewhere are strings. Tooling that joins receipts to runs by run_id will attribute the replay artifact to the original run. The acceptance JSON's per-submission original_actions_log_sha256 values are correctly distinct, and the byte-identical result/evidence hashes with model_calls_this_submission 0 substantiate the zero-spend replay claim.\",\"Non-blocking (cleanup and invocation nits): the 'Remove ephemeral auth' step unlinks $CODEX_HOME/auth.json, but CODEX_HOME is never set in the job env; unless scripts/actions_auth.py (not supplied) exports it via GITHUB_ENV, the step deletes /nonexistent/auth.json and any ~/.codex/auth.json written during authentication survives until runner teardown \u2014 ephemeral GitHub-hosted runners bound the impact, but the cleanup should target the concrete default path. Also, `python scripts/verify_main_integration.py` fails at the `from scripts...` import (fail-closed); the docstring should state the working invocation, `python -m scripts.verify_main_integration` from the checkout root.\",\"Verified sound (injection, credentials, persistence): all operator inputs reach the runner only through step-level env plus shell quoting \u2014 no ${{ }} interpolation into run bodies \u2014 so question/request_id cannot inject expressions or script; checkout pins ref to github.sha with persist-credentials false; every workflow is contents:read/actions:read with SHA-pinned actions and version-pinned CLIs; the artifact upload fires only when the validated artifact_name step output is non-empty (the always() guard cannot upload unvalidated content), with if-no-files-found:error and 90-day retention matching the documentation; concurrency serializes per request_id without cancel-in-progress; source binds ${SOURCE_SHA:-$GITHUB_SHA}, matching the documented blank-SHA semantics.\",\"Verified sound (identity, authority, scientific approvals): verify_main_integration requires exact 40-hex pins, a clean isolated checkout on main, parents exactly [main, pilot], main an ancestor of pilot, and a candidate tree byte-identical to the reviewed pilot tree; 'scientific_approval: VERIFIED' is emitted only after verify_receipt on P001's review.json, with the patient-adapter, archive, and controls review gates all invoked and any failure propagating as an exception. Receipts and the acceptance record consistently separate initiator_kind_declared from the authenticated github_actor, set human_ratification and patient_execution false, preserve the frozen scientific pins verbatim in the committed RESULT.md, and count neither the WAITING_FOR_RESULT run nor the failed BLOCKED run as the positive generative demonstration. No patient-level data appears in any committed artifact; the committed review response JSON exposes only session/cost metadata.\"],\"reviewed_commit\":\"5a820d3f6efefbd7570c7af2c1ef1dba709fe5fb\",\"scope\":\"human-controls-final-integration\",\"verdict\":\"REQUEST_CHANGES\"}",
+  "structured_output": {
+    "findings": [
+      "BLOCKING (fail-closed boundary): verify_main_integration.workflow_policy enforces the check.yml no-secrets boundary with the raw-substring test `'secrets.' in text`, but GitHub Actions expressions also reach secrets via index syntax (${{ secrets['OPENAI_API_KEY'] }}) and via ${{ toJSON(secrets) }} \u2014 neither contains the substring 'secrets.'. Because check.yml step contents are otherwise unbound (only the job set, job/step 'permissions' keys, checkout persist-credentials, and top-level on/permissions are verified), a merge candidate whose check.yml adds a step with env {K: \"${{ secrets['OPENAI_API_KEY'] }}\"} and an exfiltrating run command passes the verifier, and after merge runs with the repo-level OPENAI_API_KEY / CLAUDE_CODE_OAUTH_TOKEN secrets on every push and same-repo pull_request (these must be repo-level secrets, since the dispatch workflows consume them without a GitHub environment). The raised guarantee 'CI cannot consume repository secrets' is therefore not enforced. Fix: bind check.yml structurally by data-equality against an expected document, as already done for the rendered control workflows, or scan every parsed scalar for the secrets context token (\\bsecrets\\b inside ${{ }}), and extend test_deterministic_ci_boundaries_survive_controls_restoration with secrets['X'] and toJSON(secrets) mutations \u2014 it currently covers only the dotted spelling, mirroring the code gap.",
+      "Dependent assumption for the same gate (confirm, not supplied): workflow_policy imports the candidate's own render_human_workflows.verify, so workflow verification is only as strong as actions_runner.reviewed()'s file binding of render_human_workflows.py. If the renderer is not among the bound files, a candidate can alter renderer and workflows together and still pass; the r2 review counted 16 bound files but this source set does not show whether the renderer is one of them.",
+      "Non-blocking (stale candidate receipt): HUMAN_CONTROLS_MAIN_TREE_20260906.json records candidate d2e732fc whose tree equals pilot 9117de5e, but that tree necessarily predates the acceptance docs/receipts added by this integration commit, so it cannot certify the final merge candidate; merge readiness requires re-running the verifier with pilot set to the final reviewed pin (5a820d3f or later). CURRENT_STATUS.md correctly states no merge is authorized; recommend annotating the committed receipt as a superseded demonstration so it is not later cited as merge evidence.",
+      "Non-blocking (root/ROOT mixing, carried from r2): render_human_workflows.documents() and verify() read configs/pilot/human-controls.json from the module-global ROOT rather than the root parameter. This is safe in the merge flow only because verify_main_integration pins root to its own checkout; when workflow_policy is invoked on another tree (as the tests do), the expected-workflow baseline and the returned human_controls metadata silently describe ROOT's config rather than the verified tree's.",
+      "Non-blocking (replay receipt identity): the 34006068840 replay receipt reports run_id/run_attempt of the original run 34005991921, with the actual submitting run only in submission_run_id, and reused_from_run is a JSON number where run ids elsewhere are strings. Tooling that joins receipts to runs by run_id will attribute the replay artifact to the original run. The acceptance JSON's per-submission original_actions_log_sha256 values are correctly distinct, and the byte-identical result/evidence hashes with model_calls_this_submission 0 substantiate the zero-spend replay claim.",
+      "Non-blocking (cleanup and invocation nits): the 'Remove ephemeral auth' step unlinks $CODEX_HOME/auth.json, but CODEX_HOME is never set in the job env; unless scripts/actions_auth.py (not supplied) exports it via GITHUB_ENV, the step deletes /nonexistent/auth.json and any ~/.codex/auth.json written during authentication survives until runner teardown \u2014 ephemeral GitHub-hosted runners bound the impact, but the cleanup should target the concrete default path. Also, `python scripts/verify_main_integration.py` fails at the `from scripts...` import (fail-closed); the docstring should state the working invocation, `python -m scripts.verify_main_integration` from the checkout root.",
+      "Verified sound (injection, credentials, persistence): all operator inputs reach the runner only through step-level env plus shell quoting \u2014 no ${{ }} interpolation into run bodies \u2014 so question/request_id cannot inject expressions or script; checkout pins ref to github.sha with persist-credentials false; every workflow is contents:read/actions:read with SHA-pinned actions and version-pinned CLIs; the artifact upload fires only when the validated artifact_name step output is non-empty (the always() guard cannot upload unvalidated content), with if-no-files-found:error and 90-day retention matching the documentation; concurrency serializes per request_id without cancel-in-progress; source binds ${SOURCE_SHA:-$GITHUB_SHA}, matching the documented blank-SHA semantics.",
+      "Verified sound (identity, authority, scientific approvals): verify_main_integration requires exact 40-hex pins, a clean isolated checkout on main, parents exactly [main, pilot], main an ancestor of pilot, and a candidate tree byte-identical to the reviewed pilot tree; 'scientific_approval: VERIFIED' is emitted only after verify_receipt on P001's review.json, with the patient-adapter, archive, and controls review gates all invoked and any failure propagating as an exception. Receipts and the acceptance record consistently separate initiator_kind_declared from the authenticated github_actor, set human_ratification and patient_execution false, preserve the frozen scientific pins verbatim in the committed RESULT.md, and count neither the WAITING_FOR_RESULT run nor the failed BLOCKED run as the positive generative demonstration. No patient-level data appears in any committed artifact; the committed review response JSON exposes only session/cost metadata."
+    ],
+    "reviewed_commit": "5a820d3f6efefbd7570c7af2c1ef1dba709fe5fb",
+    "scope": "human-controls-final-integration",
+    "verdict": "REQUEST_CHANGES"
+  },
+  "ttft_ms": 362720,
+  "ttft_stream_ms": 8118,
+  "time_to_request_ms": 149,
+  "type": "result",
+  "duration_ms": 384223,
+  "uuid": "efeefda5-9207-4890-99df-359c89dd70e5"
+}

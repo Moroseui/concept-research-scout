@@ -1,104 +1,61 @@
-name: results-validate
-
-# E1 (2026-08-15): deterministic validation of results bundles pushed from
-# Colab to contract-bound branches (results/probe-NNN-<contract12>). On a
-# valid, study-complete bundle it opens the record-result PR into main;
-# merging that PR is the human gate.
-#
-# GITHUB_TOKEN note (documented invariant, do not "simplify" this away):
-# pushes and PRs created with the repository GITHUB_TOKEN do NOT trigger
-# workflows recursively. The Colab push uses a PAT, so THIS workflow runs;
-# but the PR this workflow opens with GITHUB_TOKEN will not itself trigger
-# pull_request workflows. Never move required validation onto a
-# pull_request-opened workflow assuming a token-created PR fires it.
-
-on:
-  push:
-    branches:
-      - 'results/**'
-
+name: "results-validate \u2014 Check result readiness"
+'on':
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: System stage (proposals are never automatically adopted)
+        type: choice
+        options:
+        - status
+        default: status
+      experiment:
+        description: Registered campaign experiment
+        type: choice
+        options:
+        - P001
+        - P002
+        - P003
+        default: P001
+      question:
+        description: Question or bounded request; no patient details or credentials
+        default: Summarize the evidence, limitations and next action.
+        type: string
+      request_id:
+        description: Reuse to retrieve the same result; change only for a deliberate new attempt
+        default: default
+        type: string
+      source_sha:
+        description: Optional exact SHA; blank binds the selected branch revision
+        default: ''
+        type: string
+      destination:
+        description: Validated result destination
+        type: choice
+        options:
+        - actions-artifact
+        default: actions-artifact
+      initiator:
+        description: Who is operating this control? (not an approval)
+        type: choice
+        options:
+        - human
+        - codex
+        default: human
 permissions:
   contents: read
-  pull-requests: write
-
+  actions: read
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      # SECURITY (2026-08-18 audit): a push to results/** triggers this
-      # workflow, and the old single checkout put the PUSHED branch's code
-      # on disk and ran ITS scout.py under a token with pull-requests:write.
-      # Anyone able to push a results branch could run arbitrary code with
-      # elevated permissions. Now: code (scout.py, contracts) always comes
-      # from main; the pushed branch is fetched as DATA into results-data/
-      # and only its bundle files are read, never executed.
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
-        with:
-          ref: ${{ github.ref }}
-          path: results-data
-          fetch-depth: 1
-
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
-        with:
-          python-version: '3.12'
-
-      - name: Install validator deps
-        run: pip install PyYAML
-
-      - name: Derive idea number from branch name
-        id: meta
-        run: |
-          # results/probe-004-<contract12>
-          BR="${GITHUB_REF_NAME}"
-          IDEA=$(echo "$BR" | sed -n 's|^results/probe-\([0-9]\{3\}\)-.*|\1|p')
-          if [ -z "$IDEA" ]; then
-            echo "Branch $BR does not match results/probe-NNN-<hash>; refusing." >&2
-            exit 1
-          fi
-          echo "idea=$IDEA" >> "$GITHUB_OUTPUT"
-          echo "bundle=results-data/probes/$IDEA/results_v2" >> "$GITHUB_OUTPUT"
-
-      - name: Contract-branch binding check
-        run: |
-          # The branch name carries the contract blob prefix it was packaged
-          # against; the bundle validator separately checks provenance against
-          # the CURRENT contract on THIS branch. Both must hold.
-          BR="${GITHUB_REF_NAME}"
-          WANT=$(echo "$BR" | sed -n 's|^results/probe-[0-9]\{3\}-\(.*\)$|\1|p')
-          HAVE=$(git hash-object ideas/${{ steps.meta.outputs.idea }}/probe_contract.yaml | cut -c1-12)
-          if [ "$WANT" != "$HAVE" ]; then
-            echo "Branch is bound to contract $WANT but this tree's contract is $HAVE." >&2
-            echo "Stale chunks from a superseded contract never mix with a later execution." >&2
-            exit 1
-          fi
-
-      - name: Validate bundle (single-sourced with record-result)
-        run: python scout.py validate-bundle ${{ steps.meta.outputs.idea }} --bundle ${{ steps.meta.outputs.bundle }}
-
-      - name: Open record-result PR when the study is complete
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # Completion = phase M freeze done, OR phase B with the analysis
-          # block present (run.py writes 'analysis' only when the full study
-          # finished; mid-study session bundles lack it). The old check keyed
-          # on a 'study_complete' field run.py never emits -- producer and
-          # consumer each invented completion; schema unification is queued.
-          COMPLETE=$(python scout.py bundle-complete ${{ steps.meta.outputs.idea }} --bundle ${{ steps.meta.outputs.bundle }})
-          if [ "$COMPLETE" != "true" ]; then
-            echo "Bundle valid; study not yet complete -- no PR."
-            exit 0
-          fi
-          if gh pr list --head "${GITHUB_REF_NAME}" --json number --jq 'length' | grep -qv '^0$'; then
-            echo "PR already open for this branch."
-            exit 0
-          fi
-          gh pr create \
-            --head "${GITHUB_REF_NAME}" --base main \
-            --title "record-result: idea ${{ steps.meta.outputs.idea }} bundle (validated)" \
-            --body "Deterministic validation passed on this branch (core files, contract blob, manifest pin, chunk manifests). Merging this PR is the record-result human gate; interpret runs after merge. This PR was opened by the results-validate workflow with GITHUB_TOKEN and will not itself trigger pull_request workflows (documented in the workflow header)."
+  control:
+    uses: ./.github/workflows/research-control.yml
+    with:
+      control: results-validate
+      mode: ${{ inputs.mode }}
+      experiment: ${{ inputs.experiment }}
+      question: ${{ inputs.question }}
+      request_id: ${{ inputs.request_id }}
+      source_sha: ${{ inputs.source_sha }}
+      destination: ${{ inputs.destination }}
+      initiator: ${{ inputs.initiator }}
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

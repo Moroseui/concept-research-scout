@@ -1,0 +1,11 @@
+{
+  "status": "SYNTHETIC_HOOK_VERIFIED_NOT_INSTALLED_ON_ACTIVE_WORKER",
+  "profile_sha256": "9c5d576991af0f88a98cdb46b3def8e6c5f2dc73f8a04e2b9e933869cd833e87",
+  "valid_forbidden_read": "DENIED",
+  "malformed_input_exit_code": 2,
+  "actual_mcp_hook_execution": false,
+  "cli_versions": {
+    "codex": "0.153.4",
+    "claude": "2.1.222"
+  }
+}

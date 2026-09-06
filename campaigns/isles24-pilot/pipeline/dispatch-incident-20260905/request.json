@@ -1,0 +1,15 @@
+{
+  "mode": "discuss",
+  "experiment": "P001",
+  "request": "Record a bounded execution-incident discussion, with no new science or amendment. Acquisition now reports VALIDATED. The persistent coordinator attempted dispatch from unchanged snapshot 0770c7dcabe781cbfb87de505755e7aafa758f2e. The worker returned FAILED/OTHER before any Colab tool calls; its only tool was StructuredOutput. Actual usage models were claude-haiku-4-5-20251001 and claude-opus-5 despite requested claude-fable-5. It objected that nested escaped exec wrappers were unreadable, that detached private console capture prevented its observation, and that archive parameter differed from the notebook default. Existing adapter approval and scientific approval still verify; do not claim the refusal establishes that approval was absent. Original protocol remains private. Coordinator opened AMBIGUOUS_DISPATCH_CHECK_REMOTE_BEFORE_RETRY and did not retry. Distinguish worker refusal from an automatic permission-review rejection. Explain why private console capture must remain, what a readable separately-reviewed transport repair would require, and the existing human Run All fallback using the pinned notebook and ARCHIVE=/content/isles-p001-input-16813698/train.7z. Do not propose printing patient data or deleting evidence, and do not claim P001 has run or produced metrics.",
+  "input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0"
+  },
+  "actor_type": "agent",
+  "family": "codex",
+  "authority": "campaign_delegated_investigator",
+  "status": "PROPOSAL_ONLY"
+}

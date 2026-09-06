@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+  "blocked": "047 exclusion semantics and successful-session console remain unresolved; no new 047 publication authorized",
+  "allowed": [
+    "clinical_estimation_table.csv",
+    "clinical_uncertainty.json",
+    "determinism_manifest_end.json",
+    "determinism_manifest_start.json",
+    "environment.txt",
+    "input_manifest.csv",
+    "per_case_staging.csv",
+    "phenotype_schema_census.csv",
+    "probe_exclusions.csv",
+    "resolved_config.json",
+    "run_log.txt",
+    "split_manifest.csv",
+    "split_manifest.json",
+    "staging_audit.json",
+    "staging_extraction_log.txt",
+    "summary.json",
+    "suppression_log.csv"
+  ],
+  "required": [
+    "clinical_estimation_table.csv",
+    "clinical_uncertainty.json",
+    "determinism_manifest_end.json",
+    "determinism_manifest_start.json",
+    "environment.txt",
+    "input_manifest.csv",
+    "per_case_staging.csv",
+    "phenotype_schema_census.csv",
+    "probe_exclusions.csv",
+    "resolved_config.json",
+    "run_log.txt",
+    "split_manifest.csv",
+    "split_manifest.json",
+    "staging_audit.json",
+    "staging_extraction_log.txt",
+    "summary.json",
+    "suppression_log.csv"
+  ]
+}

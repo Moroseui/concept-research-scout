@@ -1,0 +1,9 @@
+{
+  "actor_type": "agent",
+  "authority": "campaign_delegated_investigator",
+  "code_sha256": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+  "family": "codex",
+  "model": "GPT-6 Astra",
+  "review_sha256": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+  "spec_sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c"
+}

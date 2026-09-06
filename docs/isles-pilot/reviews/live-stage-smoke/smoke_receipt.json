@@ -1,0 +1,73 @@
+{
+  "source_commit": "469d29df002ea78f64146731244769d7c82330d6",
+  "source_sha256": {
+    "scout.py": "fd74da000f8f181222bfb7d4774e156d7734cd5de090176f2e2c03470d3b9b95",
+    "AGENTS.toml": "f08371316b763742aa3fbadd9b906146d7bfba65fa6ba2416c73f9ecc186b6e1",
+    "orchestrator/campaign_lifecycle.py": "d4c33f59ccd2520124f49788d7538057c8ee0fe4a92579453f33072c9a45a92e"
+  },
+  "engineering_test_only": true,
+  "author": {
+    "attempts": [
+      {
+        "model": null,
+        "returncode": 0
+      }
+    ],
+    "ci": false,
+    "duration_s": 14.9,
+    "exit_class": "ok",
+    "fallback": false,
+    "family_configured": "codex",
+    "family_effective": "codex",
+    "git_commit": "acbaff9d4680eb078993da0b6e32895c1b4ceb2a",
+    "model_requested": null,
+    "model_used": null,
+    "prompt_file": "prompt.md",
+    "prompt_sha256": "fc0782e2da2f08aa5161ed30cbee998814868bfb4dae4275a51a79428ce35daf",
+    "receipt": 1,
+    "run_id": "638af17988b9",
+    "stage": "interpret",
+    "started_utc": "2026-09-05T10:27:20+00:00",
+    "tools": {
+      "claude": "2.1.222 (Claude Code)",
+      "codex": "codex-cli 0.153.4"
+    }
+  },
+  "reviewer": {
+    "attempts": [
+      {
+        "model": "claude-fable-5",
+        "returncode": 0
+      }
+    ],
+    "ci": false,
+    "duration_s": 26.553,
+    "exit_class": "ok",
+    "fallback": false,
+    "family_configured": "claude",
+    "family_effective": "claude",
+    "git_commit": "de92441a6b388d9ae19de2bad2271ff4a4f35db0",
+    "model_requested": "claude-fable-5",
+    "model_used": "claude-fable-5",
+    "prompt_file": "prompt.md",
+    "prompt_sha256": "305ee7f98d53704188a9a7549e372fa7ba2b39c414a462dd77c1719787ae0a57",
+    "receipt": 1,
+    "run_id": "59f1409b9fae",
+    "stage": "interpret_review",
+    "started_utc": "2026-09-05T10:27:35+00:00",
+    "tools": {
+      "claude": "2.1.222 (Claude Code)",
+      "codex": "codex-cli 0.153.4"
+    }
+  },
+  "verdict": {
+    "verdict": "APPROVE",
+    "reasons": [
+      "Aggregate restated verbatim: n=2, mean_dice=0.5, no numeric drift.",
+      "Claim limited to synthetic execution witness / engineering smoke test.",
+      "Explicitly disclaims scientific performance, appropriate for n=2 synthetic data.",
+      "No overclaims about patient data, clinical utility, or generalization."
+    ]
+  },
+  "no_patient_data": true
+}

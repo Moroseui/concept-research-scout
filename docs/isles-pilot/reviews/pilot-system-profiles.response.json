@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 307238,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "571e1d04-e952-479e-a38f-8c36ccf3afa5",
+  "total_cost_usd": 1.6104409999999996,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 20336,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 23808,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 20336,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 23808,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 20336,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 20336
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 12356,
+      "outputTokens": 16,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.012436000000000001,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 23808,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 20336,
+      "webSearchRequests": 0,
+      "costUSD": 1.5980049999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-system-profiles-preparation\",\"reviewed_commit\":\"0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f\",\"verdict\":\"APPROVE\",\"findings\":[\"Fail-closed boundaries hold: grounding failures, malformed reviews, wrong-family or CI-tainted receipts, missing outputs, and the two-round revision limit all write a persistent blocked.json (BaseException handlers) and re-raise; nothing partial is presented as approved.\",\"Identity bindings hold: predecessor interpretation receipts are re-hashed in campaign_pipeline.grounding (import receipt, interpretation, review, next-decision proposal, prior SPEC); imports are inventory-checked at grounding, record-result (before and after copy), and interpret-build.\",\"Authority preserved: all statuses are explicitly agent-scoped (PROPOSAL_ONLY, REVIEWED_PROPOSAL_NOT_ADOPTED, AGENT_REVIEWED_NOT_HUMAN_RATIFIED, VALIDATED_EXPLORATORY_IMPORT); the pipeline never writes into experiments/; commit() refuses out-of-scope paths before staging; no human markers are synthesized.\",\"Advisory: campaign_lifecycle.context() checks predecessor import/interpretation/review/SPEC hashes but omits the proposal_sha256 (investigator_next_decision.json) binding and the per-file symlink checks that campaign_pipeline.grounding() enforces; mirror grounding's checks for consistency.\",\"Advisory (correctness, fails closed): commit()'s strict scope check will reject untracked byproducts such as exp/__pycache__ from py_compile in probe-build (and test byproducts in verify-probe) unless the repo gitignores them, which can make those commands unusable rather than unsafe.\",\"Advisory (evidence integrity): prompt_*.md, log_*.txt, and appended stage_provenance.jsonl are copied from the disposable root the agent could write to, so persisted evidence and efficiency_review metrics are agent-influenced; the authority gate itself uses run_agent's final receipt line and receipt input/artifact hashes, so approvals are unaffected.\",\"Future-scoped (privacy): colab-worker-future.json hook-guards only get_cells; run_code_cell results are ungated if the MCP server returns outputs. REVIEW_RESOLUTION_20260905 acknowledges this as adapter-constrained and not installed; it must remain a blocking item for any activation review, and the /usr/sbin/python absolute hook path needs revalidation per host (the builder does fail closed on both).\",\"Minor: mkdtemp roots (profile dir in system_stage, disposable stage repos) are never cleaned up, leaving bound context in /tmp (mode 0700); grounding includes SPEC.md/run.py only when present, so a code/repair proposal can be authored with no specification in context (proposal-only, no authority impact); request.json hardcodes family 'codex' though the transaction involves both families.\"]}",
+  "structured_output": {
+    "scope": "pilot-system-profiles-preparation",
+    "reviewed_commit": "0e8c3802ca70df7c186d95dc7b9a44bbacf6ee0f",
+    "verdict": "APPROVE",
+    "findings": [
+      "Fail-closed boundaries hold: grounding failures, malformed reviews, wrong-family or CI-tainted receipts, missing outputs, and the two-round revision limit all write a persistent blocked.json (BaseException handlers) and re-raise; nothing partial is presented as approved.",
+      "Identity bindings hold: predecessor interpretation receipts are re-hashed in campaign_pipeline.grounding (import receipt, interpretation, review, next-decision proposal, prior SPEC); imports are inventory-checked at grounding, record-result (before and after copy), and interpret-build.",
+      "Authority preserved: all statuses are explicitly agent-scoped (PROPOSAL_ONLY, REVIEWED_PROPOSAL_NOT_ADOPTED, AGENT_REVIEWED_NOT_HUMAN_RATIFIED, VALIDATED_EXPLORATORY_IMPORT); the pipeline never writes into experiments/; commit() refuses out-of-scope paths before staging; no human markers are synthesized.",
+      "Advisory: campaign_lifecycle.context() checks predecessor import/interpretation/review/SPEC hashes but omits the proposal_sha256 (investigator_next_decision.json) binding and the per-file symlink checks that campaign_pipeline.grounding() enforces; mirror grounding's checks for consistency.",
+      "Advisory (correctness, fails closed): commit()'s strict scope check will reject untracked byproducts such as exp/__pycache__ from py_compile in probe-build (and test byproducts in verify-probe) unless the repo gitignores them, which can make those commands unusable rather than unsafe.",
+      "Advisory (evidence integrity): prompt_*.md, log_*.txt, and appended stage_provenance.jsonl are copied from the disposable root the agent could write to, so persisted evidence and efficiency_review metrics are agent-influenced; the authority gate itself uses run_agent's final receipt line and receipt input/artifact hashes, so approvals are unaffected.",
+      "Future-scoped (privacy): colab-worker-future.json hook-guards only get_cells; run_code_cell results are ungated if the MCP server returns outputs. REVIEW_RESOLUTION_20260905 acknowledges this as adapter-constrained and not installed; it must remain a blocking item for any activation review, and the /usr/sbin/python absolute hook path needs revalidation per host (the builder does fail closed on both).",
+      "Minor: mkdtemp roots (profile dir in system_stage, disposable stage repos) are never cleaned up, leaving bound context in /tmp (mode 0700); grounding includes SPEC.md/run.py only when present, so a code/repair proposal can be authored with no specification in context (proposal-only, no authority impact); request.json hardcodes family 'codex' though the transaction involves both families."
+    ]
+  },
+  "ttft_ms": 280970,
+  "ttft_stream_ms": 1868,
+  "time_to_request_ms": 109,
+  "type": "result",
+  "duration_ms": 305700,
+  "uuid": "b8d67d91-ec76-4b05-a0f8-2ebcad34ff9d"
+}

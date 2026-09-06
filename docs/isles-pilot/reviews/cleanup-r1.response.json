@@ -1,0 +1,77 @@
+{
+  "is_error": false,
+  "duration_api_ms": 323286,
+  "num_turns": 1,
+  "stop_reason": "end_turn",
+  "session_id": "042e8f78-9ea3-40a3-b37c-d97a24d96753",
+  "total_cost_usd": 4.402292,
+  "usage": {
+    "input_tokens": 1,
+    "cache_creation_input_tokens": 155296,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 23643,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 155296,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 1,
+        "output_tokens": 23643,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 155296,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 155296
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 114117,
+      "outputTokens": 19,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.114212,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 1,
+      "outputTokens": 23643,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 155296,
+      "webSearchRequests": 0,
+      "costUSD": 4.28808,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "## Review verdict: APPROVE (cleanup scope) \u2014 the leased rewrite is technically suitable for operator approval, with no blocking findings\n\nThe proposed operation is sound: it is a single-ref, expected-value leased force push (`--force-with-lease=<ref>:940293b6\u2026`), pinned to the exact remote state, replacing the contaminated commit with a deterministic sibling commit (`c8124212\u2026`, same parent `b652005f\u2026`, fixed author/date/message, so the hash is reproducible). The rehearsal script builds the new tree by `read-tree` from the original commit and removes only the 198 `staged/` files plus `probe_exclusions.csv`, so the arithmetic checks out (215 tracked files = 17 top-level + 198 staged; 16 retained = 17 \u2212 1 quarantined), retained blobs are verified identical, the parent is unchanged, and the exit-7 failure console is deposited byte-for-byte without being relabeled as success evidence. Originals (full bundle, exclusions CSV, failure console, receipt) are preserved privately outside the checkout. Publication safeguards are fail-closed throughout: the 047 policy is `blocked`, the subset verifier refuses any non-`staged/` exclusion, the launcher no longer carries a write token or auto-pushes, and no code path in the revision can execute the push itself. The documentation correctly frames cleanup as a publication disposition, not scientific acceptance, and makes no universal-erasure claim.\n\n### Non-blocking findings\n\n1. **Medium \u2014 `scripts/rehearse_047_cleanup.py:main`: all integrity guarantees are `assert` statements.** Running under `python -O` strips every check (retained-byte identity, parent identity, counts, failure-console bytes) while still producing a replacement commit. Failure mechanism: a future re-rehearsal under optimization silently yields an unverified commit. Fix: replace `assert` with explicit `raise SystemExit(...)`; test by executing the module with `-O` against a synthetic repo and asserting refusals still fire.\n\n2. **Medium \u2014 same file: \"exactly the intended paths changed\" is true by construction but never asserted, and the script has zero test coverage.** The first rehearsal's bare-repo worktree failure shows this script class is fragile. Fix: add a `git diff-tree -r --name-status OLD NEW` assertion that the change set equals exactly 198 `staged/` deletions + the exclusions-file deletion + one addition; parameterize the pinned constants and add a synthetic-repo test in the style of `tests/test_pilot_publication_audit.py`.\n\n3. **Medium \u2014 `docs/isles-pilot/CHECKPOINT.json`: the recorded tip (`68298a87\u2026`) and audit manifest do not cover the actually reviewed revision `495269bc\u2026`.** The contaminated-ancestry and per-artifact checks attest an earlier tip; commits after `68298a87` are unaudited by the recorded receipt. This does not affect the cleanup ref operation (its pins are independent of the branch tip), but re-run `scripts/check_pilot_publication.py --tip 495269bc\u2026` and refresh the checkpoint before any further branch push.\n\n4. **Low \u2014 `scout.py:record_result`: one `publication.json` per probe binds a single `contract_blob`, but 047's registry has two contract pins.** Any future Phase-A-pinned import (`b4887c05\u2026`) refuses with \"publication policy contract mismatch\" regardless of the `blocked` ruling. Fail-closed, so acceptable now; a contract-to-policy mapping will be needed. Test: synthetic import under a second pinned contract.\n\n5. **Low \u2014 structural consequence worth stating explicitly: after the rewrite, no import path exists for the cleaned bundle.** Verbatim import fails the policy's `required` set (`probe_exclusions.csv` absent), and `publication_subset.verify` refuses non-`staged/` exclusions by design. Approving the cleanup therefore does not unlock 047; a separate operator ruling on the exclusions audit plus a policy/contract amendment (a new source-identity-bound subset or amended interface) is required first. This matches the stated intent \u2014 recorded here so it is not mistaken for an oversight.\n\n6. **Low \u2014 `scripts/check_pilot_publication.py:audit`: the prefix/extension heuristics would mechanically pass a renamed raw text file** (e.g., `docs/isles-pilot/x.txt` under 1.5 MB); raw-artifact detection keys only on `/results/`, `/staged/`, `.private/`. Keep human review as the second gate or add content heuristics.\n\n7. **Low \u2014 `orchestrator/campaign.py:verify_decision`: the human-approval forgery check covers only two key spellings** (`human_approved`, `approved_by_human`) in an open schema; a decision carrying e.g. `operator_approved: true` passes. Fix: closed key schema or reject any truthy key matching approval/ratification patterns, with a test. Also, the opposing-family review binds spec and code hashes but not the decision document itself, so a review could be replayed against a different decision under the same spec.\n\n8. **Low \u2014 new orchestrator modules regress on the repo's bounded-git doctrine:** `publication.py` and `publication_subset.py` use `subprocess.check_output` without timeouts (unlike `scout.py:_git`), and a policy missing `allowed`/`required` raises `KeyError`, which `record_result` does not catch (still refuses, but via traceback). `publication.check_git_paths` appears unreferenced by any caller or test \u2014 remove or wire it in to prevent drift.\n\n9. **Info** \u2014 the replacement commit will carry the fixed identity \"scout cleanup rehearsal / 2026-09-05T12:00:00Z\" on the public results branch. This is what makes the hash deterministic; noted so the authorship is not a surprise post-push.\n\n### Unverified matters (out of supplied material or unexecutable here)\n\n- Roughly half the inventory was not supplied in the diff (P001 `run.py`/`validate_return.py`/notebooks, `probes/047/run.py` change, the generated 047 notebook, `ideas/047/state.json`/`CARD.md`, `efficiency_review.py`, `package_pilot.py`, `README.md`, several tests) and is not covered by this review.\n- With execution disabled I could not reproduce: the deterministic hash `c8124212\u2026`, the rehearsal receipt, bundle verification, the 11-ref/173-blob reachability audit, the claim that the replacement (including parent history) reaches zero raw phenotype blobs, the checkpoint manifest SHA, or the 220/226/227 test counts. All are taken from the supplied documents.\n- Content-level privacy of the 16 retained files (e.g., `per_case_staging.csv`, `per_case_support.csv`) rests on the prior audit that only `staged/` and `probe_exclusions.csv` carry identities; not verifiable from supplied material.\n- Whether commit `495269bc\u2026` contains exactly these bytes could not be confirmed without repository access.\n- Colab execution/retrieval remains unverified, as the checkpoint itself states.\n\nCleanup approval remains distinct from scientific acceptance: the three open operator decisions (Phase-A registry attestation, exclusions-audit disposition, successful-console recovery) are correctly left open by this revision and are not resolved by this review.\n\n```json\n{\"verdict\": \"APPROVE\", \"scope\": \"cleanup\", \"reviewed_commit\": \"495269bc6f72687f39d8c62ec9e2eb73162c390f\", \"blocking_findings\": []}\n```",
+  "ttft_ms": 293565,
+  "ttft_stream_ms": 2897,
+  "time_to_request_ms": 135,
+  "type": "result",
+  "duration_ms": 320789,
+  "uuid": "6c88dca2-5a08-4c1f-88fb-a451f9e30e06"
+}

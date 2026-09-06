@@ -1,0 +1,100 @@
+{
+  "scientific_results": null,
+  "patient_prediction_runs": 0,
+  "human_intervention_minutes": null,
+  "actual_additional_cost_usd": null,
+  "billing_route_observed": {
+    "claude": "claude.ai subscription / firstParty",
+    "codex": "ChatGPT login"
+  },
+  "review_executions": [
+    {
+      "receipt": "p001-r1.execution.json",
+      "reviewed_commit": "495269bc6f72687f39d8c62ec9e2eb73162c390f",
+      "duration_s": 335.0196723937988,
+      "actual_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "cli_token_price_estimate_usd": 4.218171
+    },
+    {
+      "receipt": "cleanup-r3.execution.json",
+      "reviewed_commit": "4339928a6fe8fe4539a7adc44c501f95ba5a9351",
+      "duration_s": 285.71037435531616,
+      "actual_models": [
+        "claude-fable-5"
+      ],
+      "cli_token_price_estimate_usd": 8.53607
+    },
+    {
+      "receipt": "p001-r2.execution.json",
+      "reviewed_commit": "4339928a6fe8fe4539a7adc44c501f95ba5a9351",
+      "duration_s": 381.84386372566223,
+      "actual_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "cli_token_price_estimate_usd": 5.2963000000000005
+    },
+    {
+      "receipt": "cleanup-r1.execution.json",
+      "reviewed_commit": "495269bc6f72687f39d8c62ec9e2eb73162c390f",
+      "duration_s": 322.78407406806946,
+      "actual_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "cli_token_price_estimate_usd": 4.402292
+    },
+    {
+      "receipt": "cleanup-r4.execution.json",
+      "reviewed_commit": "469d29df002ea78f64146731244769d7c82330d6",
+      "duration_s": 197.03526663780212,
+      "actual_models": [
+        "claude-fable-5"
+      ],
+      "cli_token_price_estimate_usd": 8.486889999999999
+    },
+    {
+      "receipt": "cleanup-r2.execution.json",
+      "reviewed_commit": "3f0337b986dc52594f4347fdc7d99bb3e7c4a0a2",
+      "duration_s": 193.27865171432495,
+      "actual_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "cli_token_price_estimate_usd": 4.25528
+    },
+    {
+      "receipt": "p001-r3.execution.json",
+      "reviewed_commit": "469d29df002ea78f64146731244769d7c82330d6",
+      "duration_s": 369.9491317272186,
+      "actual_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "cli_token_price_estimate_usd": 5.560268999999999
+    }
+  ],
+  "cli_estimates_are_not_subscription_charges": true,
+  "final_test_suite": {
+    "tests": 233,
+    "duration_s": 61.384,
+    "status": "PASS"
+  },
+  "engineering_failures_fixed": [
+    {
+      "issue": "Synthetic review fixture was too shallow for production root resolution",
+      "fix": "Use the production directory shape in the fixture",
+      "original_duration_s": null
+    },
+    {
+      "issue": "Packaging no-op detection omitted newly generated untracked notebooks",
+      "fix": "Include untracked generated paths in the allowed change set",
+      "original_duration_s": null
+    }
+  ],
+  "live_synthetic_executor_receipt": "reviews/live-stage-smoke/smoke_receipt.json",
+  "colab_execution": "NOT_YET_RUN"
+}

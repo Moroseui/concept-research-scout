@@ -1,0 +1,91 @@
+{
+  "is_error": false,
+  "duration_api_ms": 175572,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "c07ffc93-4299-4897-ab3b-ae2a69ae8ca3",
+  "total_cost_usd": 0.89251,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 9409,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 13971,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 9409,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 13971,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 9409,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 9409
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 4820,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.004895,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 13971,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 9409,
+      "webSearchRequests": 0,
+      "costUSD": 0.887615,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"p001-archive-acquisition\",\"reviewed_commit\":\"bdf4369996364511e8bd824d4711907fa5fb71ea\",\"verdict\":\"APPROVE\",\"findings\":[\"No blockers found; source-only review, no tools run and no tests executed.\",\"Immutable identity enforced: pinned Zenodo URL, size 99,014,629,647 bytes and MD5 verified before atomic rename of train.7z.part to train.7z; oversize stream aborts early; short/corrupt downloads end FAILED with the partial preserved.\",\"No extraction and no patient data reaches models: the child only downloads and hashes; the worker sees only reviewed cell sources, the fixed CPU-probe JSON, and a single-key status enum that the orchestrator re-validates; worker has no file tools (ToolSearch plus colab-worker MCP only).\",\"Private capture: worker protocol/stderr/cells/status written 0o600 into a fresh private directory; orchestrator records only exception type names, never exception text or remote output; child script, console, and identity receipt stay in the private Drive audit directory.\",\"CPU/Drive/disk gates (COLAB_RELEASE_TAG + no nvidia-smi, real /content/drive mount, free >= size + 10 GiB) are enforced inside the executed cell, so a misbehaving or out-of-order worker fails closed; all refusals are nondestructive ('xb' opens, exists/symlink refusal, no deletes), preserving the prior Drive copy and local partials.\",\"Review binding complete for this change: reviewed() requires a successful Fable approval with matching scope, reviewed_commit, response SHA-256, claude-fable-5 assistant model, and per-file SHA-256 of all four changed files before dispatch; scientific pins unchanged and the patient adapter retains its separate review gate; no paid provisioning; bounded by --max-turns 20 and a 400-second timeout.\",\"Advisory (non-blocking): binding covers only the four changed files, so imported colab_patient/colab_worker helpers rely on their own existing review pins; the four-hour child limit needs roughly 7 MB/s sustained from Zenodo or fails cleanly; a killed child can leave stale RUNNING (documented, with a warning against blind relaunch); worker model pinned via --model while actual_models is recorded but not enforced.\"]}",
+  "structured_output": {
+    "scope": "p001-archive-acquisition",
+    "reviewed_commit": "bdf4369996364511e8bd824d4711907fa5fb71ea",
+    "verdict": "APPROVE",
+    "findings": [
+      "No blockers found; source-only review, no tools run and no tests executed.",
+      "Immutable identity enforced: pinned Zenodo URL, size 99,014,629,647 bytes and MD5 verified before atomic rename of train.7z.part to train.7z; oversize stream aborts early; short/corrupt downloads end FAILED with the partial preserved.",
+      "No extraction and no patient data reaches models: the child only downloads and hashes; the worker sees only reviewed cell sources, the fixed CPU-probe JSON, and a single-key status enum that the orchestrator re-validates; worker has no file tools (ToolSearch plus colab-worker MCP only).",
+      "Private capture: worker protocol/stderr/cells/status written 0o600 into a fresh private directory; orchestrator records only exception type names, never exception text or remote output; child script, console, and identity receipt stay in the private Drive audit directory.",
+      "CPU/Drive/disk gates (COLAB_RELEASE_TAG + no nvidia-smi, real /content/drive mount, free >= size + 10 GiB) are enforced inside the executed cell, so a misbehaving or out-of-order worker fails closed; all refusals are nondestructive ('xb' opens, exists/symlink refusal, no deletes), preserving the prior Drive copy and local partials.",
+      "Review binding complete for this change: reviewed() requires a successful Fable approval with matching scope, reviewed_commit, response SHA-256, claude-fable-5 assistant model, and per-file SHA-256 of all four changed files before dispatch; scientific pins unchanged and the patient adapter retains its separate review gate; no paid provisioning; bounded by --max-turns 20 and a 400-second timeout.",
+      "Advisory (non-blocking): binding covers only the four changed files, so imported colab_patient/colab_worker helpers rely on their own existing review pins; the four-hour child limit needs roughly 7 MB/s sustained from Zenodo or fails cleanly; a killed child can leave stale RUNNING (documented, with a warning against blind relaunch); worker model pinned via --model while actual_models is recorded but not enforced."
+    ]
+  },
+  "ttft_ms": 154173,
+  "ttft_stream_ms": 1679,
+  "time_to_request_ms": 177,
+  "type": "result",
+  "duration_ms": 174512,
+  "uuid": "90d05166-3b08-4758-8817-99af9eba351d"
+}

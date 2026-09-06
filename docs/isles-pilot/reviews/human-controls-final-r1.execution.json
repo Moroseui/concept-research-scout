@@ -1,0 +1,28 @@
+{
+  "reviewed_commit": "5a820d3f6efefbd7570c7af2c1ef1dba709fe5fb",
+  "returncode": 0,
+  "wall_seconds": 385.6891590209998,
+  "input_file_sha256": {
+    "scripts/verify_main_integration.py": "121e4c5ec97aba510be8ed4a98ce632efb9fbb7924e8ef8263578e4af0e806d0",
+    "tests/test_main_integration.py": "8ceb8cfbdfafbf332561c9238475a8248fc9cb1bbd9c422b108cd6a216120b54",
+    "scripts/render_human_workflows.py": "030b234d7be369a372d66aaa80c706a2690f4c3371e6b4fd6c21e8d4bc41c2f5",
+    "docs/isles-pilot/HUMAN_CONTROLS.md": "40bcb32cb00f49cfccdb1bd854d3a25ef6f123f0dfffa3ad776f58a154fd4ba2",
+    "docs/isles-pilot/CURRENT_STATUS.md": "a84aab09a2bb75fc111fc09e29f833f28713c98d433c061786e72da3ea431edd",
+    "docs/isles-pilot/HUMAN_CONTROLS_ACCEPTANCE_20260906.json": "ce65ff3183baf4a203bf9dbf45798ea2b112820d7f74745c74b006cde1e565b4",
+    "docs/isles-pilot/HUMAN_CONTROLS_MAIN_TREE_20260906.json": "2feabd19f27dbdcf42626436820c657f518951be97f35d87ab53b85ba9db438a",
+    "docs/isles-pilot/human-controls-acceptance/34005991921/RESULT.md": "2607818d25ce2a9e95ee38b1d653a3b6f768bf0170d8301180b22bbcdd4160e3",
+    "docs/isles-pilot/human-controls-acceptance/34005991921/receipt.json": "6573b4fca18a748b779203ee7d2c5233c0d1151af213db00af4fa051d59bb44e",
+    "docs/isles-pilot/human-controls-acceptance/34006068840/receipt.json": "24f04ce77ce4e2f9eec70b04f0edd4b8e4562ba1de6743c42ad5668ebe41f655",
+    "docs/isles-pilot/reviews/human-controls.response.json": "739a7f7c14e14be1c8f60f6144d37d9ea5ec0e61125a86e87de5e17274bd84f1"
+  },
+  "response_sha256": "748a9fe4f06fab22664e46bbbac0db7ee1b175f27dde255121dcda84579e81fd",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "d0b7b936e2e47918f1dd90ac443054ef2c81cb38ca37f255246f09abd22713a3"
+}

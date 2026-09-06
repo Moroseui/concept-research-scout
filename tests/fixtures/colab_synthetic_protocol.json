@@ -1,0 +1,332 @@
+[
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01Vm9r5NBfBqQCExEmZ9Sjoe",
+          "name": "mcp__colab-worker__open_colab_browser_connection",
+          "input": {}
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_01Vm9r5NBfBqQCExEmZ9Sjoe",
+          "content": "{\"result\":true}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_013z2Jd3GFsc5w6agaz6GQf6",
+          "name": "mcp__colab-worker__get_cells",
+          "input": {}
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_013z2Jd3GFsc5w6agaz6GQf6",
+          "content": "{\"cells\":[{\"cell_type\":\"code\",\"id\":\"lIYdn1woOS1n\",\"source\":[]}]}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01MUXpfVa73PfKjhYRtaPYFW",
+          "name": "mcp__colab-worker__add_text_cell",
+          "input": {
+            "cellIndex": 0,
+            "content": "# Synthetic Colab execution and retrieval test\n\nCPU only. No patient data, Drive mount or credentials. Run All manually, or ask\nColab MCP to execute the cells and retrieve the result. A browser connection\nalone is not success: preserve returned output from both operations."
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_01MUXpfVa73PfKjhYRtaPYFW",
+          "content": "{\"newCellId\":\"phCcJDkh9GfK\"}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01RxSKVyb2VHC7uJmmX1eaqz",
+          "name": "mcp__colab-worker__update_cell",
+          "input": {
+            "cellId": "lIYdn1woOS1n",
+            "content": "from pathlib import Path\nimport subprocess, sys\nPIN = 'd6a1184b4378e849213fd887a6f7b103fb1a64d5'\nREPO = Path('/content/scout-pilot-' + PIN[:12])\nif not REPO.exists():\n    subprocess.run(['git', 'init', '-q', str(REPO)], check=True)\n    subprocess.run(['git', 'remote', 'add', 'origin', 'https://github.com/Moroseui/concept-research-scout.git'], cwd=REPO, check=True)\n    subprocess.run(['git', 'config', 'remote.origin.fetch', '+refs/heads/astra/autonomous-isles-pilot:refs/remotes/origin/astra/autonomous-isles-pilot'], cwd=REPO, check=True)\n    subprocess.run(['git', 'fetch', '--no-tags', '--depth=1', 'origin', PIN], cwd=REPO, check=True)\nsubprocess.run(['git', 'checkout', '--detach', PIN], cwd=REPO, check=True)\nif subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip() != PIN:\n    raise RuntimeError('Source pin mismatch')\nif subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=REPO,text=True).strip():\n    raise RuntimeError('Modified or untracked code; use a fresh checkout')\nsys.path.insert(0,str(REPO))"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_01RxSKVyb2VHC7uJmmX1eaqz",
+          "content": "{}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_013bUziwUQk3zKiMb9FWE67t",
+          "name": "mcp__colab-worker__add_code_cell",
+          "input": {
+            "cellIndex": 2,
+            "language": "python",
+            "code": "subprocess.run([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), 'execute'], check=True)"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_013bUziwUQk3zKiMb9FWE67t",
+          "content": "{\"newCellId\":\"LuykhYZV9IW_\"}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01KbYY6fPbY7EzzEqu35hU2M",
+          "name": "mcp__colab-worker__add_code_cell",
+          "input": {
+            "cellIndex": 3,
+            "language": "python",
+            "code": "subprocess.run([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), 'retrieve'], check=True)"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_01KbYY6fPbY7EzzEqu35hU2M",
+          "content": "{\"newCellId\":\"QiATV9-Z9JO1\"}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01BqgZYUSDVyceArgU2yS61v",
+          "name": "mcp__colab-worker__get_cells",
+          "input": {
+            "cellIndexStart": 0,
+            "cellIndexEnd": 3,
+            "includeOutputs": false
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_01BqgZYUSDVyceArgU2yS61v",
+          "content": "{\"cells\":[{\"cell_type\":\"markdown\",\"id\":\"phCcJDkh9GfK\",\"source\":[\"# Synthetic Colab execution and retrieval test\\n\",\"\\n\",\"CPU only. No patient data, Drive mount or credentials. Run All manually, or ask\\n\",\"Colab MCP to execute the cells and retrieve the result. A browser connection\\n\",\"alone is not success: preserve returned output from both operations.\"]},{\"cell_type\":\"code\",\"id\":\"lIYdn1woOS1n\",\"source\":[\"from pathlib import Path\\n\",\"import subprocess, sys\\n\",\"PIN = 'd6a1184b4378e849213fd887a6f7b103fb1a64d5'\\n\",\"REPO = Path('/content/scout-pilot-' + PIN[:12])\\n\",\"if not REPO.exists():\\n\",\"    subprocess.run(['git', 'init', '-q', str(REPO)], check=True)\\n\",\"    subprocess.run(['git', 'remote', 'add', 'origin', 'https://github.com/Moroseui/concept-research-scout.git'], cwd=REPO, check=True)\\n\",\"    subprocess.run(['git', 'config', 'remote.origin.fetch', '+refs/heads/astra/autonomous-isles-pilot:refs/remotes/origin/astra/autonomous-isles-pilot'], cwd=REPO, check=True)\\n\",\"    subprocess.run(['git', 'fetch', '--no-tags', '--depth=1', 'origin', PIN], cwd=REPO, check=True)\\n\",\"subprocess.run(['git', 'checkout', '--detach', PIN], cwd=REPO, check=True)\\n\",\"if subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip() != PIN:\\n\",\"    raise RuntimeError('Source pin mismatch')\\n\",\"if subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=REPO,text=True).strip():\\n\",\"    raise RuntimeError('Modified or untracked code; use a fresh checkout')\\n\",\"sys.path.insert(0,str(REPO))\"]},{\"cell_type\":\"code\",\"id\":\"LuykhYZV9IW_\",\"source\":[\"subprocess.run([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), 'execute'], check=True)\"]},{\"cell_type\":\"code\",\"id\":\"QiATV9-Z9JO1\",\"source\":[\"subprocess.run([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), 'retrieve'], check=True)\"]}]}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_015ef3L7uHfVvys3v19G3iwz",
+          "name": "mcp__colab-worker__run_code_cell",
+          "input": {
+            "cellId": "lIYdn1woOS1n"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_015ef3L7uHfVvys3v19G3iwz",
+          "content": "{\"outputs\":[]}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01PbJQmfT5TkEqQTh1fSQcqc",
+          "name": "mcp__colab-worker__run_code_cell",
+          "input": {
+            "cellId": "LuykhYZV9IW_"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_01PbJQmfT5TkEqQTh1fSQcqc",
+          "content": "{\"outputs\":[{\"output_type\":\"execute_result\",\"data\":{\"text/plain\":[\"CompletedProcess(args=['/usr/bin/python3', '/content/scout-pilot-d6a1184b4378/campaigns/isles24-pilot/colab/smoke.py', 'execute'], returncode=0)\"]},\"execution_count\":6}]}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_01HMtAFz9fkopSTvX4JpbHRn",
+          "name": "mcp__colab-worker__run_code_cell",
+          "input": {
+            "cellId": "QiATV9-Z9JO1"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_01HMtAFz9fkopSTvX4JpbHRn",
+          "content": "{\"outputs\":[{\"output_type\":\"execute_result\",\"data\":{\"text/plain\":[\"CompletedProcess(args=['/usr/bin/python3', '/content/scout-pilot-d6a1184b4378/campaigns/isles24-pilot/colab/smoke.py', 'retrieve'], returncode=0)\"]},\"execution_count\":7}]}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_016JaK9RULajo85S9YLo57PF",
+          "name": "mcp__colab-worker__add_code_cell",
+          "input": {
+            "cellIndex": 4,
+            "language": "python",
+            "code": "# Supplementary MCP transport cell (not part of pinned synthetic_execution.ipynb):\n# re-runs only the read-only 'retrieve' operation so its JSON reaches the MCP channel,\n# plus token-free runtime evidence. The synthetic write above is not repeated.\nimport json, os, platform, shutil, subprocess, sys\nretrieved = subprocess.check_output([sys.executable, str(REPO/'campaigns/isles24-pilot/colab/smoke.py'), 'retrieve'], text=True)\nprint(retrieved, end='')\nprint(json.dumps({'colab_release_tag': os.environ.get('COLAB_RELEASE_TAG'), 'python': sys.version.split()[0], 'uname_release': platform.release(), 'nvidia_smi_present': shutil.which('nvidia-smi') is not None, 'content_dir_exists': os.path.isdir('/content')}))"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_016JaK9RULajo85S9YLo57PF",
+          "content": "{\"newCellId\":\"31knMAU39P7h\"}"
+        }
+      ]
+    }
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "toolu_017C4bVem7Uy63pdQi61DL7p",
+          "name": "mcp__colab-worker__run_code_cell",
+          "input": {
+            "cellId": "31knMAU39P7h"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "message": {
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "toolu_017C4bVem7Uy63pdQi61DL7p",
+          "content": "{\"outputs\":[{\"output_type\":\"stream\",\"name\":\"stdout\",\"text\":[\"{\\\"retrieved_text\\\": \\\"ISLES pilot synthetic execution: 6 * 7 = 42\\\\n\\\", \\\"sha256\\\": \\\"776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800\\\"}\\n\",\"{\\\"colab_release_tag\\\": \\\"release-colab-external-images_20260902-060045_RC00\\\", \\\"python\\\": \\\"3.13.15\\\", \\\"uname_release\\\": \\\"6.6.122+\\\", \\\"nvidia_smi_present\\\": false, \\\"content_dir_exists\\\": true}\\n\"]}]}"
+        }
+      ]
+    }
+  }
+]

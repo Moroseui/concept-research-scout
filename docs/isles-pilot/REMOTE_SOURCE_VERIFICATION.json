@@ -1,0 +1,16 @@
+{
+  "source_commit": "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+  "acquisition": "actual generated setup executed locally against GitHub; only /content destination changed to /tmp",
+  "reachable_commits": [
+    "d6a1184b4378e849213fd887a6f7b103fb1a64d5"
+  ],
+  "contaminated_commit_available": false,
+  "current_review_binding": "PASS",
+  "preflight": {
+    "eligible_cases": 99,
+    "selected_members": 198,
+    "patient_payloads_opened": 0,
+    "selection_scope": "exact frozen eligible IDs only"
+  },
+  "colab_execution": false
+}

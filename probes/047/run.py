@@ -1666,9 +1666,9 @@ def _smoke_phenotype(staged_dir, fixture_dir):
 
 
 def make_smoke_inputs(output_dir):
-    fixture_dir = output_dir / "smoke_inputs"
+    fixture_dir = output_dir.parent / (output_dir.name + ".private-smoke-inputs")
     fixture_dir.mkdir()
-    staged_dir = output_dir / "staged"
+    staged_dir = output_dir.parent / (output_dir.name + ".private-staged")
     staged_dir.mkdir()
     contrib_path, contrib_rows = _smoke_contributions(fixture_dir)
     support_path = _smoke_support(fixture_dir, contrib_rows)
@@ -1846,13 +1846,13 @@ def run(args):
 
     staging_started = time.monotonic()
     if args.smoke:
-        staged_dir = args.output_dir / "staged"
+        staged_dir = args.output_dir.parent / (args.output_dir.name + ".private-staged")
         archive_receipt = {"mode": "smoke_synthetic_staging",
                            "note": "fixtures pre-staged; no archive, no 7z; "
                                    "verification below is real"}
         extraction_receipt = {"mode": "smoke_synthetic_staging"}
     else:
-        staged_dir = args.output_dir / "staged"
+        staged_dir = args.output_dir.parent / (args.output_dir.name + ".private-staged")
         archive_md5 = verify_archive_identity(args.archive_file, log_lines)
         archive_receipt = {"mode": "real",
                            "path": str(args.archive_file.resolve()),

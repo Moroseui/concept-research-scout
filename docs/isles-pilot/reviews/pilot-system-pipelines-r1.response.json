@@ -1,0 +1,92 @@
+{
+  "is_error": false,
+  "duration_api_ms": 335976,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "5f380b60-eca8-471d-b609-23886d7a1363",
+  "total_cost_usd": 1.6586809999999998,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 16783,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 26245,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 16783,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 26245,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 16783,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 16783
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 9811,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.009886,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 26245,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 16783,
+      "webSearchRequests": 0,
+      "costUSD": 1.6487949999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-system-pipelines\",\"reviewed_commit\":\"2a841fe7e925df603b52c667e46a91ee8e730182\",\"verdict\":\"REQUEST_CHANGES\",\"findings\":[\"BLOCKING (privacy/authority): campaign_lifecycle record-result execs exp/validate_return.py with the private checkpoint/console paths and lets exp/publication.json govern which returned bytes are copied into git, but neither file is hash-bound by verify_decision or any receipt; a post-review commit can replace either and pass all clean-tree/staleness checks. Nothing binds the returned bundle to the verified run.py either, so the whole return-import identity rests on the unbound validator. Bind validate_return.py and publication.json (and ideally requirements.txt/synthetic tests) into the receipt chain.\",\"BLOCKING (authority): run_isolated_stage pops SCOUT_CI from the environment before run_agent, making the r.get('ci') refusal in campaign_pipeline.execute and interpret-build unreachable via that marker \u2014 CI runs are laundered as interactive instead of refused. Fail closed (raise) when SCOUT_CI is set rather than stripping it.\",\"BLOCKING (identity binding): interpretation_receipt.json records proposal_sha256 for investigator_next_decision.json, but neither campaign_lifecycle.context() nor campaign_pipeline.grounding() verifies it, so the predecessor proposal motivating a follow-up can be altered post-review undetected. grounding() also omits the prior spec_sha256 check that context() performs.\",\"MEDIUM (recovery/identity): job_store.Store.register does its binding-conflict read-then-INSERT OR IGNORE outside BEGIN IMMEDIATE (unlike claim/complete_event); concurrent registrations with different bindings can both appear to succeed, silently swallowing the identity conflict instead of raising.\",\"MINOR: campaign_pipeline.grounding reads import_receipt.json via exists()/read_text() with no symlink check, inconsistent with the symlink refusal on all other bound inputs.\",\"MINOR: the pipeline approval receipt hashes only top-level files of the approved round directory (directory.iterdir()), leaving any subdirectory artifacts unbound.\",\"MINOR: run_isolated_stage mkdtemp roots (prompts, console logs, git repo) are never cleaned up despite the 'disposable' design; aggregate-only by policy but they persist in /tmp.\",\"POSITIVE: job_store lease/dedup/dispatch-ambiguity semantics are correct and fail-closed (dispatch never auto-retried, stale-lease completions rejected, patient+VALIDATED routes to the human transfer inbox) and are well covered by tests; all statuses and receipts consistently avoid claiming human ratification; commit() scope guard and stage isolation (fresh temp roots, declared-output copying) prevent cross-scope writes and reviewer-artifact planting.\"]}",
+  "structured_output": {
+    "scope": "pilot-system-pipelines",
+    "reviewed_commit": "2a841fe7e925df603b52c667e46a91ee8e730182",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKING (privacy/authority): campaign_lifecycle record-result execs exp/validate_return.py with the private checkpoint/console paths and lets exp/publication.json govern which returned bytes are copied into git, but neither file is hash-bound by verify_decision or any receipt; a post-review commit can replace either and pass all clean-tree/staleness checks. Nothing binds the returned bundle to the verified run.py either, so the whole return-import identity rests on the unbound validator. Bind validate_return.py and publication.json (and ideally requirements.txt/synthetic tests) into the receipt chain.",
+      "BLOCKING (authority): run_isolated_stage pops SCOUT_CI from the environment before run_agent, making the r.get('ci') refusal in campaign_pipeline.execute and interpret-build unreachable via that marker \u2014 CI runs are laundered as interactive instead of refused. Fail closed (raise) when SCOUT_CI is set rather than stripping it.",
+      "BLOCKING (identity binding): interpretation_receipt.json records proposal_sha256 for investigator_next_decision.json, but neither campaign_lifecycle.context() nor campaign_pipeline.grounding() verifies it, so the predecessor proposal motivating a follow-up can be altered post-review undetected. grounding() also omits the prior spec_sha256 check that context() performs.",
+      "MEDIUM (recovery/identity): job_store.Store.register does its binding-conflict read-then-INSERT OR IGNORE outside BEGIN IMMEDIATE (unlike claim/complete_event); concurrent registrations with different bindings can both appear to succeed, silently swallowing the identity conflict instead of raising.",
+      "MINOR: campaign_pipeline.grounding reads import_receipt.json via exists()/read_text() with no symlink check, inconsistent with the symlink refusal on all other bound inputs.",
+      "MINOR: the pipeline approval receipt hashes only top-level files of the approved round directory (directory.iterdir()), leaving any subdirectory artifacts unbound.",
+      "MINOR: run_isolated_stage mkdtemp roots (prompts, console logs, git repo) are never cleaned up despite the 'disposable' design; aggregate-only by policy but they persist in /tmp.",
+      "POSITIVE: job_store lease/dedup/dispatch-ambiguity semantics are correct and fail-closed (dispatch never auto-retried, stale-lease completions rejected, patient+VALIDATED routes to the human transfer inbox) and are well covered by tests; all statuses and receipts consistently avoid claiming human ratification; commit() scope guard and stage isolation (fresh temp roots, declared-output copying) prevent cross-scope writes and reviewer-artifact planting."
+    ]
+  },
+  "ttft_ms": 307121,
+  "ttft_stream_ms": 2161,
+  "time_to_request_ms": 109,
+  "type": "result",
+  "duration_ms": 334677,
+  "uuid": "54a94504-e01b-4ca0-add5-617f3510254c"
+}

@@ -1,0 +1,28 @@
+{
+  "reviewed_commit": "9a4e0bf77fc1541e13ce7e0d04d38195f6b73601",
+  "returncode": 0,
+  "wall_seconds": 292.26464174599823,
+  "input_file_sha256": {
+    "orchestrator/campaign_pipeline.py": "1ce97a6ebb0447c7ef1f9f0b5d093c946cf8bf26581399a1e45c06fbdbcbd0fa",
+    "orchestrator/campaign_lifecycle.py": "d4c33f59ccd2520124f49788d7538057c8ee0fe4a92579453f33072c9a45a92e",
+    "orchestrator/campaign.py": "f18d46ec30c8a660b33d915195e985a1f35c52b925ff6b89e75f320a8e07d593",
+    "orchestrator/campaign_review.py": "2b74a438b74ba5db3497204bde82c6e2be676a16658aa4b975ae3ade6e690310",
+    "campaigns/isles24-pilot/experiments/P001/review.json": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+    "tests/test_campaign_pipeline.py": "b78c30405b858bfec75730c66ecff003f22202a23ac3309ca7ae834eccbdfb82",
+    "configs/pilot/agents-unattended.toml": "db8e4e76fa0e4670416c94733eb42f443cecb2a3106d17ec4c2afc6e9fa2c236",
+    "configs/pilot/colab-worker-future.json": "9c5d576991af0f88a98cdb46b3def8e6c5f2dc73f8a04e2b9e933869cd833e87",
+    "scripts/pilot_tool_guard.py": "fa420d8a7f47a5486e3f7fc530f04d3a41e195868821e81ab82aeef1abcca945",
+    "scripts/efficiency_review.py": "ceded56485493b6b5ec0d6e7c1763a7df5f6de0c292819d1e4e75259b17e2adf",
+    "tests/test_pilot_profiles.py": "a8686f1d6d523aa4ade121aabfaf454a8eaf7fe26c6225275e67f02a5df3dd01"
+  },
+  "response_sha256": "3e6b453bf57f8cfaf03ef85b2d17e361be4e17aa87548db5656ca2c5f7ad77d6",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "1fb738e28a26262fbea4ba19547a82287896c75d7e5bd26c27c6113949142d47"
+}

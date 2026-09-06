@@ -1,0 +1,26 @@
+{
+  "source_pin": "0770c7dcabe781cbfb87de505755e7aafa758f2e",
+  "expected_bytes": 99014629647,
+  "actual_remote_metadata": {
+    "partial_bytes": 98708750336,
+    "seconds_since_write": 1,
+    "final_bytes": 0,
+    "acquisition_status": "RUNNING"
+  },
+  "worker_actual_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "wall_seconds": 68.33829256000172,
+  "status": "DOWNLOAD_STILL_RUNNING_NOT_INTEGRITY_VALIDATED",
+  "checks": "CPU verified; exact metadata-only cells read back; no archive contents read",
+  "private_original_evidence": "~/.local/share/isles-colab-mcp/system-batch-20260905/isles-p001-transfer-final-20260905",
+  "later_coordinator_observation": {
+    "worker_status": "COMPLETE",
+    "remote_status": "VALIDATED",
+    "original_receipt_sha256": "cff1a87022345c9ad2c08ea9796db8fe604c5fe16380bb8557bb9c4e69c9fb19",
+    "private_original_receipt": "/home/partho/.local/share/isles-colab-mcp/p001-system-jobs-20260905/P001/c091479be5014ee7aacc9f4673a49c3c.stdout",
+    "transition": "acquisition to dispatch",
+    "note": "Original acquisition poll reports validated; patient runner still enforces its own archive/member integrity checks."
+  }
+}

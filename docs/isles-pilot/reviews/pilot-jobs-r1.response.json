@@ -1,0 +1,90 @@
+{
+  "is_error": false,
+  "duration_api_ms": 230425,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "174e46b7-fc67-4079-a430-7f417d0c3d61",
+  "total_cost_usd": 1.101587,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 9397,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 18158,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 9397,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 18158,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 9397,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 9397
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 4762,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.004862,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 18158,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 9397,
+      "webSearchRequests": 0,
+      "costUSD": 1.0967250000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"pilot-jobs\",\"reviewed_commit\":\"47c87dc13aefa3cb607b0c5becda736b0769e2db\",\"verdict\":\"REQUEST_CHANGES\",\"findings\":[\"BLOCKING: SNAPSHOT_PIN ('0770c7d') in orchestrator/pilot_jobs.py is never referenced. register accepts any clean git checkout whose HEAD matches the operator-supplied 40-hex --source-pin, and tick then executes orchestrator.colab_acquire/colab_patient from that checkout against P001 patient data. The reviewed() gate pins coordinator files but places no constraint on which worker code executes; enforce the pin at register/snapshot() or remove the constant with documented rationale.\",\"BLOCKING: reviewed() hash-pins only the four FILES; orchestrator/__init__.py (imported before any gate code runs) and the coordinator checkout's own HEAD/cleanliness are outside the gate, so modified package-init or other importable code executes despite a passing review check. Add __init__.py to FILES or apply a snapshot()-style check to the coordinator checkout.\",\"classify() can return RUNNING for the dispatch phase (worker job_status STARTING/RUNNING), but complete_event() raises 'invalid phase transition' for dispatch+RUNNING; the exception escapes tick(), crashes the run loop, and leaves the job RUNNING under an unexpired lease, reaching the AMBIGUOUS_DISPATCH inbox only after the 900s lease expires on a later claim. Fail-closed eventually, but map this case to a defined outcome (e.g., block immediately).\",\"Store.register's check-then-INSERT-OR-IGNORE is not transactional: concurrent registers with different bindings can both pass the equality check and the loser's binding is silently dropped without the 'job identity already binds different inputs' error. Wrap in BEGIN IMMEDIATE to make binding immutability atomic.\",\"Minor: claim()/complete_event() execute ROLLBACK on any failure including a failed BEGIN IMMEDIATE (busy timeout), which raises 'cannot rollback - no transaction is active' and masks the original error.\",\"Verified sound: persisted artifacts (jobs/events/inbox, CLI output) contain only job ids and a fixed result enum with no patient data; worker stdout/stderr and --private-dir outputs live under a 0700 private root rejected if symlinked or inside the checkout; dispatch is never auto-retried (timeout and expired lease both block to the human inbox); patient VALIDATED blocks on PRIVATE_RETURN_TRANSFER_REQUIRED rather than auto-promoting to scientific success; event dedup is idempotent with payload-conflict detection; stale leases cannot complete recovered tasks; read-only retries cap at 2 then block; unknown/missing worker statuses classify as FAILED.\"]}",
+  "structured_output": {
+    "scope": "pilot-jobs",
+    "reviewed_commit": "47c87dc13aefa3cb607b0c5becda736b0769e2db",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKING: SNAPSHOT_PIN ('0770c7d') in orchestrator/pilot_jobs.py is never referenced. register accepts any clean git checkout whose HEAD matches the operator-supplied 40-hex --source-pin, and tick then executes orchestrator.colab_acquire/colab_patient from that checkout against P001 patient data. The reviewed() gate pins coordinator files but places no constraint on which worker code executes; enforce the pin at register/snapshot() or remove the constant with documented rationale.",
+      "BLOCKING: reviewed() hash-pins only the four FILES; orchestrator/__init__.py (imported before any gate code runs) and the coordinator checkout's own HEAD/cleanliness are outside the gate, so modified package-init or other importable code executes despite a passing review check. Add __init__.py to FILES or apply a snapshot()-style check to the coordinator checkout.",
+      "classify() can return RUNNING for the dispatch phase (worker job_status STARTING/RUNNING), but complete_event() raises 'invalid phase transition' for dispatch+RUNNING; the exception escapes tick(), crashes the run loop, and leaves the job RUNNING under an unexpired lease, reaching the AMBIGUOUS_DISPATCH inbox only after the 900s lease expires on a later claim. Fail-closed eventually, but map this case to a defined outcome (e.g., block immediately).",
+      "Store.register's check-then-INSERT-OR-IGNORE is not transactional: concurrent registers with different bindings can both pass the equality check and the loser's binding is silently dropped without the 'job identity already binds different inputs' error. Wrap in BEGIN IMMEDIATE to make binding immutability atomic.",
+      "Minor: claim()/complete_event() execute ROLLBACK on any failure including a failed BEGIN IMMEDIATE (busy timeout), which raises 'cannot rollback - no transaction is active' and masks the original error.",
+      "Verified sound: persisted artifacts (jobs/events/inbox, CLI output) contain only job ids and a fixed result enum with no patient data; worker stdout/stderr and --private-dir outputs live under a 0700 private root rejected if symlinked or inside the checkout; dispatch is never auto-retried (timeout and expired lease both block to the human inbox); patient VALIDATED blocks on PRIVATE_RETURN_TRANSFER_REQUIRED rather than auto-promoting to scientific success; event dedup is idempotent with payload-conflict detection; stale leases cannot complete recovered tasks; read-only retries cap at 2 then block; unknown/missing worker statuses classify as FAILED."
+    ]
+  },
+  "ttft_ms": 205486,
+  "ttft_stream_ms": 1423,
+  "time_to_request_ms": 114,
+  "type": "result",
+  "duration_ms": 228833,
+  "uuid": "07c18f86-03ca-402d-9722-ed5724d4a42c"
+}

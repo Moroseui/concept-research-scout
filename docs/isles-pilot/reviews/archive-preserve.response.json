@@ -1,0 +1,93 @@
+{
+  "is_error": false,
+  "duration_api_ms": 235815,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "e1593643-9ae2-4554-822c-05b40f47ce33",
+  "total_cost_usd": 1.217564,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 15656,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 17881,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 15656,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 17881,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 15656,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 15656
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 9434,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.009509,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 17881,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 15656,
+      "webSearchRequests": 0,
+      "costUSD": 1.208055,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"archive-preserve\",\"reviewed_commit\":\"91a0a5832b5d05167de23d4e1ecdba999963bcf3\",\"verdict\":\"APPROVE\",\"findings\":[\"Non-blocking: acquisition_identity.expected_binding_matches is recorded in the receipt but does not gate the final VERIFIED status; a mismatched identity.json still yields status=VERIFIED. The hard-coded SIZE/MD5 pins are what actually gate copying, so this is a provenance-visibility issue only \u2014 downstream consumers of the receipt must check the binding field explicitly.\",\"Non-blocking: receipt drive_candidates contains full discovered paths of any train.7z under MyDrive/Shareddrives, and the poll worker prints the receipt; the poll prompt inaccurately calls receipt contents 'fixed paths'. Exposure is limited to the operator's own Drive folder names and stays in 0600 private logs.\",\"Non-blocking: orchestrator records actual_models from the worker result but does not enforce the requested model; enforcement relies on the --model flag. Acceptable since exact cell-source verification, not worker-model identity, is the effective execution boundary.\",\"Non-blocking: verify_poll's canonical=rstrip('\\\\n') tolerates multiple trailing newlines, slightly broader than the documented 'terminal LF only'; trailing newlines cannot alter executed Python semantics.\",\"Non-blocking: scripts run() swallows BaseException and exits 0 on failure; recovery correctly depends on the receipt's BLOCKED_OR_FAILED status, and the orchestrator never reads the background process exit code.\",\"Verified fail-closed boundaries: CPU-only Colab gate (COLAB_RELEASE_TAG present, nvidia-smi absent), Drive mount assertions in every cell that touches Drive, exclusive destinations (open('xb'), mkdir(mode=0o700)), incomplete Drive scan aborts before any copy, fresh copy fully re-hashed against pinned MD5 with source stability check (st_ino/size/mtime_ns), capacity check honestly labeled as non-authoritative.\",\"Verified approval preservation: reviewed() enforces APPROVE verdict, scope, commit match, Fable reviewer model, response-file sha256, and current hashes of all three reviewed files, so approval goes stale on any file change.\",\"Verified poll authority limits: poll cells only assert verify.py hash, read receipt.json, and run metadata-only observe(); verify_poll rejects unexpected notebook operations, requires includeOutputs=False, enforces read-back-after-write ordering, forbids cell mutation after first execution, byte-matches executed cells to expected sources up to trailing LF, and the job path is regex-pinned and repr-embedded (no injection).\",\"Verified privacy of persistent artifacts: receipt carries only paths, sizes, checksums, timestamps, whitelisted status strings, and integer PIDs/counters; exception tracebacks go only to the private console.log which no cell reads; orchestrator protocol/stderr/status files are 0600 in the private directory.\"]}",
+  "structured_output": {
+    "scope": "archive-preserve",
+    "reviewed_commit": "91a0a5832b5d05167de23d4e1ecdba999963bcf3",
+    "verdict": "APPROVE",
+    "findings": [
+      "Non-blocking: acquisition_identity.expected_binding_matches is recorded in the receipt but does not gate the final VERIFIED status; a mismatched identity.json still yields status=VERIFIED. The hard-coded SIZE/MD5 pins are what actually gate copying, so this is a provenance-visibility issue only \u2014 downstream consumers of the receipt must check the binding field explicitly.",
+      "Non-blocking: receipt drive_candidates contains full discovered paths of any train.7z under MyDrive/Shareddrives, and the poll worker prints the receipt; the poll prompt inaccurately calls receipt contents 'fixed paths'. Exposure is limited to the operator's own Drive folder names and stays in 0600 private logs.",
+      "Non-blocking: orchestrator records actual_models from the worker result but does not enforce the requested model; enforcement relies on the --model flag. Acceptable since exact cell-source verification, not worker-model identity, is the effective execution boundary.",
+      "Non-blocking: verify_poll's canonical=rstrip('\\n') tolerates multiple trailing newlines, slightly broader than the documented 'terminal LF only'; trailing newlines cannot alter executed Python semantics.",
+      "Non-blocking: scripts run() swallows BaseException and exits 0 on failure; recovery correctly depends on the receipt's BLOCKED_OR_FAILED status, and the orchestrator never reads the background process exit code.",
+      "Verified fail-closed boundaries: CPU-only Colab gate (COLAB_RELEASE_TAG present, nvidia-smi absent), Drive mount assertions in every cell that touches Drive, exclusive destinations (open('xb'), mkdir(mode=0o700)), incomplete Drive scan aborts before any copy, fresh copy fully re-hashed against pinned MD5 with source stability check (st_ino/size/mtime_ns), capacity check honestly labeled as non-authoritative.",
+      "Verified approval preservation: reviewed() enforces APPROVE verdict, scope, commit match, Fable reviewer model, response-file sha256, and current hashes of all three reviewed files, so approval goes stale on any file change.",
+      "Verified poll authority limits: poll cells only assert verify.py hash, read receipt.json, and run metadata-only observe(); verify_poll rejects unexpected notebook operations, requires includeOutputs=False, enforces read-back-after-write ordering, forbids cell mutation after first execution, byte-matches executed cells to expected sources up to trailing LF, and the job path is regex-pinned and repr-embedded (no injection).",
+      "Verified privacy of persistent artifacts: receipt carries only paths, sizes, checksums, timestamps, whitelisted status strings, and integer PIDs/counters; exception tracebacks go only to the private console.log which no cell reads; orchestrator protocol/stderr/status files are 0600 in the private directory."
+    ]
+  },
+  "ttft_ms": 209032,
+  "ttft_stream_ms": 1555,
+  "time_to_request_ms": 114,
+  "type": "result",
+  "duration_ms": 234582,
+  "uuid": "eb579a46-81d1-43b9-8843-be4f4d9ff4e3"
+}

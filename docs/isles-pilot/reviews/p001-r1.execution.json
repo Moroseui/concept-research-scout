@@ -1,0 +1,74 @@
+{
+  "scope": "p001",
+  "reviewed_commit": "495269bc6f72687f39d8c62ec9e2eb73162c390f",
+  "baseline": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+  "requested_model": "claude-fable-5",
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-fable-5",
+    "--tools",
+    "",
+    "--max-turns",
+    "1",
+    "--output-format",
+    "json"
+  ],
+  "returncode": 0,
+  "duration_s": 335.0196723937988,
+  "prompt_sha256": "3a2a017ad11c9671e0c8b8dd5fd693b4f55fc34e305beebe5b15bb8638d63cc7",
+  "input_file_sha256": {
+    "scout.py": "7d37de60e5ba65ba2306953396d3310c8c226dc1936005dd83cf9c3e56c85612",
+    "orchestrator/campaign.py": "858b252ce8b3b77c3421ede3d7681b0290c0c4edcf28b57403a300b9a994cf78",
+    "docs/isles-pilot/PROGRESS.md": "03da2c983f6c852ca5285afe7c3b8c0cdfe7b8e39f4daa9bd96ea2d9d1c69863",
+    "docs/isles-pilot/CHECKPOINT.json": "37cefbed8921b862d735f0c9cecb66420a960aa1f836c050a529259eeb3afec8",
+    "orchestrator/publication.py": "95448fbc758b00f8d9dcfbab98aedf0245991146515945fe689789a0532eacd9",
+    "scripts/package_pilot.py": "c9a69406baa395e1d1c392bc7a583374b35ed31f4f1d9f9f6ffcb0119f6ace3d",
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "b368e34f8748ec1833f7334198d1cac495c6f2b38f891b6dfa2c3d5e7f3c3c55",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "b4b4b89215ba3364736d001403b700773cb22bedfcf55fa1b23ba59067502e26",
+    "campaigns/isles24-pilot/experiments/P001/validate_return.py": "bcb83e7ed1adb21193830fedd52a90ae27bd72b9fb8fb7b7389dfdf90fe0aa71",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "a5a589ae2ba0529cb8cba35aa5854d1e3660fef5eafa557446174d4b156e6763",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/requirements.txt": "901f228b01fdd1fd7e668a808598c2541d00f3d021e4b2fbf57e2781ede3d995",
+    "campaigns/isles24-pilot/experiments/P001/colab_P001.ipynb": "9c26815b0f814d570b500fe5a256c94bad9f12cf31ab02a8e343d0e6e5317431",
+    "tests/test_prediction_p001.py": "452cd46b3ae5c0b6675fb858b41a9115a7122f9ef30966cc3566d8a145d7f029",
+    "tests/test_campaign.py": "f48ed7da8c22c12771213bc71ec7b78785de3199f519aa0ae8359d053f633ed1"
+  },
+  "route": "authenticated subscription CLI; API key removed",
+  "human_intervention_minutes": null,
+  "actual_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 106096,
+      "outputTokens": 19,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.106191,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 1,
+      "outputTokens": 24081,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 145396,
+      "webSearchRequests": 0,
+      "costUSD": 4.11198,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "cli_reported_cost_usd": 4.218171,
+  "cost_note": "CLI token-price estimate, not evidence of an additional subscription charge",
+  "response_sha256": "da4882ee903f2bd0176a29bba8f4790c493ee0ab005dfd11ab6355e39226660e"
+}

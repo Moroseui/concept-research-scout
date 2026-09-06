@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-09-05T19:12:20.402279+00:00",
+  "handoff_validation": {
+    "status": "HANDOFF_RECEIPT_VERIFIED",
+    "receipt_sha256": "f58eb12a0d527580012b19967b8cfea823f51c74662cbf2647cf5ef177442b2e",
+    "notebook_sha256": "3c050e1f4552bc42e469b3c448930efbf7853a79bdc55d0f3969f52d3e9e7741",
+    "returned_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "successful_client": "claude-code",
+    "codex_notebook_discovery_resolved": false,
+    "limitations": "Committed worker report; not an independent replay. CPU evidence is no GPU requested and no nvidia-smi, not hardware attestation. Original fd-level console was not returned by the pinned synthetic cells."
+  },
+  "client": {
+    "name": "Claude Code",
+    "version": "2.1.222 (Claude Code)"
+  },
+  "invocation_binding": {
+    "head": "7ff038c29d32098c9826d20e11a058f3eafc38e5",
+    "adapter_sha256": "0fe687e2d8e64c402549f3d46242421c54bfcf7b169d9eb79b2a78453e8a3be9",
+    "dirty": false
+  },
+  "final_remote_attempt": {
+    "task": "execute_synthetic_colab",
+    "returncode": 0,
+    "wall_seconds": 143.94341663399973,
+    "remote_replay": true,
+    "review_approval": false,
+    "status": "REMOTE_SYNTHETIC_VALIDATED",
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 20741,
+      "cache_read_input_tokens": 261037,
+      "output_tokens": 10796,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20741,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1910,
+          "cache_read_input_tokens": 22049,
+          "cache_creation_input_tokens": 299,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 299
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "reported_cost_usd": 1.219631,
+    "human_intervention_minutes": null,
+    "observed_tool_names": [
+      "StructuredOutput",
+      "ToolSearch",
+      "mcp__colab-worker__add_code_cell",
+      "mcp__colab-worker__add_text_cell",
+      "mcp__colab-worker__get_cells",
+      "mcp__colab-worker__open_colab_browser_connection",
+      "mcp__colab-worker__run_code_cell",
+      "mcp__colab-worker__update_cell"
+    ],
+    "protocol_verification": {
+      "status": "ACTUAL_SYNTHETIC_TOOL_EXCHANGES_VERIFIED",
+      "pinned_execution_calls": 3,
+      "separate_transport_retrieval_calls": 1,
+      "returned_text": "ISLES pilot synthetic execution: 6 * 7 = 42\n",
+      "returned_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "transport_source_sha256": "d024a542fdb551802a9ef552df038e7da69a6d4024b6eb1ad29e867310e679e9"
+    },
+    "result": {
+      "status": "SYNTHETIC_REMOTE_VERIFIED",
+      "task": "execute_synthetic_colab",
+      "receipt_sha256": "f58eb12a0d527580012b19967b8cfea823f51c74662cbf2647cf5ef177442b2e",
+      "notebook_sha256": "3c050e1f4552bc42e469b3c448930efbf7853a79bdc55d0f3969f52d3e9e7741",
+      "returned_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "blocker": "NONE"
+    },
+    "model": "claude-fable-5"
+  },
+  "evidence": {
+    "private_protocol_retained": true,
+    "private_protocol_sha256": "f12321951c27d59fa2da5c4d646488a60a477ed83e29e719ea7593de0e569589",
+    "raw_protocol_published": false,
+    "original_fd_console_recovered": false,
+    "capture_note": "Synthetic pinned subprocess stdout was absent from MCP. Supplementary read-only kernel output recovered artifact bytes. P001 transport wrapper separately tests private fd/Python stream capture; it has not run on patients."
+  },
+  "prior_attempts": [
+    {
+      "task": "local handoff",
+      "status": "WORKER_FAILED",
+      "reason": "unstructured extra fields rejected",
+      "available_cli_usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 6887,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1312,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 6887,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 1312,
+            "cache_read_input_tokens": 0,
+            "cache_creation_input_tokens": 6887,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 6887
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "cli_reported_cost_usd": 0.20608100000000001,
+      "wall_seconds": 19.49958018000052
+    },
+    {
+      "task": "local handoff schema retry",
+      "status": "WORKER_HANDOFF_VALIDATED",
+      "available_cli_usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 7106,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1528,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 7106,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 1528,
+            "cache_read_input_tokens": 0,
+            "cache_creation_input_tokens": 7106,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 7106
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "cli_reported_cost_usd": 0.221256,
+      "wall_seconds": 23.233878746999835
+    },
+    {
+      "task": "remote synthetic first attempt",
+      "status": "WORKER_FAILED",
+      "worker_reported_status": "BLOCKED",
+      "reason": "specific blocker not captured; no success claimed",
+      "available_cli_usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 8134,
+        "cache_read_input_tokens": 9341,
+        "output_tokens": 2840,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 8134,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 2128,
+            "cache_read_input_tokens": 8376,
+            "cache_creation_input_tokens": 723,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 723
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "cli_reported_cost_usd": 0.317691,
+      "wall_seconds": 44.69115330099976
+    },
+    {
+      "task": "remote synthetic with ToolSearch",
+      "status": "WORKER_HANDOFF_VALIDATED",
+      "adapter_source_binding": "working tree based on 31bc39b; exact adapter bytes not captured at invocation; superseded by committed final replay",
+      "available_cli_usage": {
+        "input_tokens": 28,
+        "cache_creation_input_tokens": 19234,
+        "cache_read_input_tokens": 190445,
+        "output_tokens": 8447,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 19234,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 1528,
+            "cache_read_input_tokens": 18938,
+            "cache_creation_input_tokens": 296,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 296
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "cli_reported_cost_usd": 1.0013990000000002,
+      "wall_seconds": 130.73484550800003
+    }
+  ],
+  "validation": {
+    "relevant_tests_passed": 18,
+    "p001_preflight": {
+      "eligible_cases": 99,
+      "selected_members": 198,
+      "patient_payloads_opened": 0
+    },
+    "original_p001_review_valid": true,
+    "test_environment_failures": [
+      "system Python missing pinned NumPy",
+      "isolated environment initially missing repository nbformat; dependencies installed and regression passed"
+    ]
+  },
+  "p001": {
+    "executed": false,
+    "notebook_pin": "1a81c037343598f4e4585153b11d761b87a9ae3a",
+    "executable_source_pin": "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+    "private_packet_prepared": true,
+    "patient_dispatch_implemented": false,
+    "missing_operator_inputs": [
+      "actual archive or staged-root path",
+      "Drive authorization when execution is ready"
+    ],
+    "result_imported": false,
+    "interpretation_run": false,
+    "adapter_scope": "Synthetic remote execution and P001 packet preparation; patient dispatch is not enabled by this adapter."
+  },
+  "cost_note": "CLI-reported dollars are usage estimates, not evidence of extra subscription charges. Existing authenticated subscription only; human intervention duration unavailable.",
+  "cleanup_performed": false,
+  "codex_notebook_discovery_resolved": false,
+  "final_protocol_revalidation": {
+    "validator_commit": "1456af5fbe443272463544c2c833a2d5b3bad613",
+    "result": {
+      "status": "ACTUAL_SYNTHETIC_TOOL_EXCHANGES_VERIFIED",
+      "pinned_execution_calls": 3,
+      "separate_transport_retrieval_calls": 1,
+      "returned_text": "ISLES pilot synthetic execution: 6 * 7 = 42\n",
+      "returned_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "transport_source_sha256": "d024a542fdb551802a9ef552df038e7da69a6d4024b6eb1ad29e867310e679e9"
+    },
+    "new_remote_run": false,
+    "supplementary_cell_updates_after_creation": 0
+  },
+  "server": {
+    "name": "colab-worker",
+    "command": "/home/partho/.local/share/isles-colab-mcp/bin/colab-mcp",
+    "colab_mcp": "1.0.1",
+    "fastmcp": "2.14.5",
+    "mcp_sdk": "1.29.1",
+    "private_configuration_reused": true
+  },
+  "usage_note": "Earlier failure-status files left usage null; this receipt supplements them from preserved actual CLI responses without altering original records.",
+  "adapter_review": {
+    "reviewed_commit": "1456af5fbe443272463544c2c833a2d5b3bad613",
+    "reviewer": "claude-fable-5",
+    "verdict": "APPROVE",
+    "scope": "synthetic remote execution and P001 preparation only",
+    "execution": "docs/isles-pilot/reviews/colab-worker-r3.execution.json",
+    "response": "docs/isles-pilot/reviews/colab-worker-r3.response.json",
+    "response_sha256": "ab83257511eccbd45a4953f14ea902cd0e32cd0768fd1764816f9e1206aeb26b",
+    "current_reviewed_file_hashes_verified": true,
+    "limitations": [
+      "Post-readback supplementary-cell update guard is a non-blocking hardening recommendation; actual retained successful trace has no such update.",
+      "Well-formed BLOCKED status retains an imprecise failure_category.",
+      "Patient-dispatch route is not implemented or approved by this review."
+    ]
+  }
+}

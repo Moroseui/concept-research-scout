@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "client": {
+    "name": "codex-cli",
+    "version": "0.153.4"
+  },
+  "server": {
+    "registration": "colab-pilot",
+    "command": "/home/partho/.local/share/isles-colab-mcp/bin/colab-mcp",
+    "package_version": "1.0.1",
+    "protocol_server_name": "ColabMCP",
+    "protocol_server_version": "2.14.5",
+    "fastmcp_version": "2.14.5",
+    "mcp_sdk_version": "1.29.1",
+    "source_commit": "b9ab3899e0f1fa493390b1fd6d54aa2e464ecdf1",
+    "session_py_sha256": "89c4986f90f3d12b5ca4baa0806ed13c954478e9e8b6d95dd38fb669cf457a96"
+  },
+  "notebook": {
+    "commit": "1a81c037343598f4e4585153b11d761b87a9ae3a",
+    "path": "campaigns/isles24-pilot/colab/synthetic_execution.ipynb",
+    "sha256": "3c050e1f4552bc42e469b3c448930efbf7853a79bdc55d0f3969f52d3e9e7741",
+    "loaded_from_git": true,
+    "loaded_into_remote_session": false,
+    "embedded_source_pin": "d6a1184b4378e849213fd887a6f7b103fb1a64d5"
+  },
+  "remote_execution": {
+    "acquisition_cell_executed": false,
+    "synthetic_write_cell_executed": false,
+    "separate_retrieval_cell_executed": false,
+    "cpu_runtime_confirmed": false,
+    "returned_text": null,
+    "returned_sha256": null
+  },
+  "expected": {
+    "text": "ISLES pilot synthetic execution: 6 * 7 = 42\n",
+    "sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "derived_from_pinned_source_without_running_smoke": true
+  },
+  "boundaries": {
+    "drive_mounted": false,
+    "patient_workflow_run": false,
+    "gpu_requested": false,
+    "paid_provisioning": false,
+    "connection_tokens_recorded": false,
+    "permissions_broadened": false,
+    "approval_rejection_bypassed": false
+  },
+  "recorded_utc": "2026-09-05T18:18:52.730900+00:00",
+  "status": "BLOCKED_RESTART_REQUIRED",
+  "complete_remote_test_passed": false,
+  "implementation_head": "0be7ea44f95538a88c53a4d177f85d6ba82c5d2d",
+  "browser_user_confirmation": "Yes, the colab homepage opened",
+  "browser_test": {
+    "configuration": "colab-pilot only: BROWSER=/mnt/c/Windows/explorer.exe %s &; env_vars=[WSL_INTEROP, WSL_DISTRO_NAME]",
+    "test_environment": "Live MCP process environment plus configured BROWSER and forwarded WSL variables",
+    "returncode": 0,
+    "stdout": "{\"open_new_returned\": true, \"browser_class\": \"BackgroundBrowser\"}\n",
+    "stderr": "",
+    "limitation": "Background dispatch success is not proof of browser connection",
+    "synchronous_explorer_returncode_in_both_environments": 1
+  },
+  "earlier_synchronous_test": {
+    "configuration_change": "Added only colab-pilot env_vars WSL_INTEROP and WSL_DISTRO_NAME",
+    "test_environment": "Running MCP environment plus saved BROWSER and explicitly forwarded WSL variables",
+    "returncode": 0,
+    "stdout": "{\"open_new_returned\": false, \"browser_class\": \"GenericBrowser\"}\n",
+    "stderr": ""
+  },
+  "localhost_test": {
+    "test": "Windows PowerShell to WSL IPv4 loopback HTTP",
+    "returncode": 0,
+    "expected_text": "colab-pilot-loopback-ok",
+    "passed": true,
+    "limitations": "Not a browser WebSocket handshake or Colab MCP connection",
+    "stderr": "",
+    "initial_string_comparison_passed": false,
+    "raw_powershell_stdout": "99\n111\n108\n97\n98\n45\n112\n105\n108\n111\n116\n45\n108\n111\n111\n112\n98\n97\n99\n107\n45\n111\n107",
+    "returned_text": "colab-pilot-loopback-ok",
+    "decoding_note": "PowerShell emitted the byte-array Content as decimal byte lines because the diagnostic response had no Content-Type; decoded the actual returned bytes."
+  },
+  "connection": {
+    "official_retry_error": "timed out awaiting tools/call after 120s",
+    "running_process_had_new_browser_env": false,
+    "running_process_had_wsl_interop_env": false,
+    "notebook_tools_available": false,
+    "available_tools": [
+      "open_colab_browser_connection"
+    ],
+    "reload_available_in_current_toolset": false,
+    "final_config_retry_pending_fresh_session": true
+  },
+  "configuration": {
+    "scope": "mcp_servers.colab-pilot only",
+    "env_vars": [
+      "WSL_INTEROP",
+      "WSL_DISTRO_NAME"
+    ],
+    "env": {
+      "BROWSER": "/mnt/c/Windows/explorer.exe %s &"
+    },
+    "existing_command_and_installation_preserved": true,
+    "permissions_changed": false
+  },
+  "next_requirement": "Restart Codex from WSL to load the scoped environment in a fresh registered MCP process, then invoke the official browser connection tool and perform acquisition/write/separate retrieval."
+}

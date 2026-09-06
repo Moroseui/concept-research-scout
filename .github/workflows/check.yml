@@ -1,13 +1,27 @@
 name: checks
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   basic:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Fetch only checked source ancestry
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: git -c credential.helper= -c 'credential.helper=!gh auth git-credential' fetch --no-tags --unshallow origin "$SOURCE_SHA"
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
         with: {python-version: '3.11'}
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt -r campaigns/isles24-pilot/experiments/P001/requirements.txt
+      - name: Retrieve explicitly bound provenance objects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/fetch_provenance.py --fetch
       - run: python setup.py
       - run: python -m py_compile scout.py setup.py orchestrator/*.py
       - run: python scout.py doctor

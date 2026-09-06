@@ -1,0 +1,19 @@
+{
+  "reviewed_commit": "bdc42897adbcafb10b81ce188645124f456da8cb",
+  "returncode": 0,
+  "wall_seconds": 95.92794543400123,
+  "input_file_sha256": {
+    "scripts/p001_handoff_watch.py": "c0e70a86f59a8813993c88b92d4f8ad44b35d3040c936872f04c906b20ca1cf9",
+    "tests/test_p001_handoff_watch.py": "d1f1fec6537c27829e8b05ef79d3282dea22148b4aa138ed88c33c51bc779135"
+  },
+  "response_sha256": "55fca08fb5d4ec9ae59a2f95810b682a80b5c0d2e3a8c953f46bfe830a1aa76b",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "822da398f9ffb9c283edb5f19e0958d98d7b5ba703317b438b4c56cf8b2c6e95"
+}

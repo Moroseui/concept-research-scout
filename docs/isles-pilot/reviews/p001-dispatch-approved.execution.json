@@ -1,0 +1,26 @@
+{
+  "reviewed_commit": "aede8f0d4ee2568514d5ca8ad1a37532334d254b",
+  "returncode": 0,
+  "wall_seconds": 305.6390623969992,
+  "input_file_sha256": {
+    "orchestrator/colab_patient.py": "1afdd8c9bfab5383d8918d4085f2f8aed59ffd286b9ba92f0b6ca25b9e6de9ae",
+    "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+    "tests/test_colab_patient.py": "6cbbbdc8d14ba97764f5f83946a8f3b224b1f1a739b54bb1a752a3f0f7c8a04b",
+    "docs/isles-pilot/P001_WORKER_DISPATCH.md": "5d896379ae94213978c2040ceb96eaa01915e2721a66be4deda2b09412223206",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "campaigns/isles24-pilot/experiments/P001/validate_return.py": "c021d2c8cce8f2e1c92df88108eb93ba473d05b0990233532060aeab82a0d9db",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/colab_P001.ipynb": "6c520acd6cfc60c6ca3b14ace9743814d515fc83d1ff6fd5896b635f37bd96a5",
+    "orchestrator/publication.py": "95448fbc758b00f8d9dcfbab98aedf0245991146515945fe689789a0532eacd9"
+  },
+  "response_sha256": "b4ca2e73d9830d5f912ed1349d5951462208650ca9e37ff44d9bf6b557997e7f",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "eca52316bf0f5db3a85d2e73b6fb12acb9a0a9b33b4af5a37910cb13baf8090c"
+}

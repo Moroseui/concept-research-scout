@@ -1,0 +1,24 @@
+{
+  "reviewed_commit": "47c87dc13aefa3cb607b0c5becda736b0769e2db",
+  "returncode": 0,
+  "wall_seconds": 165.32283422300134,
+  "input_file_sha256": {
+    "orchestrator/campaign_pipeline.py": "2fa79eb48725f98c546a030533b8e78ab53d7427733dcc2cdea4fbf2bd533806",
+    "tests/test_campaign_pipeline.py": "b78c30405b858bfec75730c66ecff003f22202a23ac3309ca7ae834eccbdfb82",
+    "configs/pilot/agents-unattended.toml": "ca13d45539e48484628110d21ade85b713e601d6b9d1fb7887301c5918f0aca1",
+    "configs/pilot/colab-worker-future.json": "17b59928acca96be3b30446f2f081c37699338a083369b01534a68a5ec66d51e",
+    "scripts/pilot_tool_guard.py": "fa420d8a7f47a5486e3f7fc530f04d3a41e195868821e81ab82aeef1abcca945",
+    "scripts/efficiency_review.py": "ceded56485493b6b5ec0d6e7c1763a7df5f6de0c292819d1e4e75259b17e2adf",
+    "tests/test_pilot_profiles.py": "a8686f1d6d523aa4ade121aabfaf454a8eaf7fe26c6225275e67f02a5df3dd01"
+  },
+  "response_sha256": "736b4a1c715d137b22784f7964fe45b1b34cc0639e9be729c463b750411d6c45",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "e20f99f67f11862acbd4615203e2346d99da2f779d62385e52629d39dc7f8cb2"
+}

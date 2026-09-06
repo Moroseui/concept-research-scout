@@ -1,0 +1,3 @@
+Work only in this disposable directory. No patient data or original repository is available here. Do not seek it elsewhere. Write interpret_review.md in the current directory. No human ratification.
+This is a synthetic engineering witness, no patient data or scientific approval. Aggregate is {"n":2,"mean_dice":0.5}. Review the following interpretation. Write interpret_review.md with a fenced JSON verdict APPROVE or REVISE. Do not browse or inspect outside this directory.
+The synthetic aggregate is {"n":2,"mean_dice":0.5}. This is an engineering smoke test and synthetic execution witness only; it does not establish scientific performance.

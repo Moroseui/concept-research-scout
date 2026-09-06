@@ -228,6 +228,10 @@ def _git_show_bytes(root: Path, commit: str, rel: str):
     authority verification, never silent emptiness (round-10)."""
     import subprocess
     try:
+        available = subprocess.run(['git', 'cat-file', '-e', f'{commit}^{{commit}}'],
+                                   cwd=root, capture_output=True, timeout=30)
+        if available.returncode:
+            return None, f'GIT_OBJECT_UNAVAILABLE: referenced commit {commit}; retrieve the explicitly bound provenance object before judging marker presence'
         r = subprocess.run(['git', 'show', f'{commit}:{rel}'],
                            cwd=root, capture_output=True, timeout=30)
     except subprocess.TimeoutExpired:
@@ -235,7 +239,7 @@ def _git_show_bytes(root: Path, commit: str, rel: str):
     except OSError as e:
         return None, f'git unavailable: {e}'
     if r.returncode != 0:
-        return None, (f'git show {commit}:{rel} failed '
+        return None, (f'GIT_PATH_UNAVAILABLE: commit exists; git show {commit}:{rel} failed '
                       f'({r.stderr.decode(errors="replace").strip()[:80]})')
     return r.stdout, None
 
@@ -298,12 +302,12 @@ def verify_ratification_event(event: dict, idea_no: str, root: Path) -> list[str
         pin = pins.get(im.get('node'))
         raw, err = _git_show_bytes(root, im.get('source_commit', ''),
                                    marker_rel)
-        if err or not pin \
-                or f'contract_blob: {pin}'.encode() not in (raw or b''):
+        if err:
+            errs.append(f'event {event.get("event_id")} imports[{j}]: {err}')
+        elif not pin or f'contract_blob: {pin}'.encode() not in (raw or b''):
             errs.append(f'event {event.get("event_id")} imports[{j}]: '
-                        'source snapshot does not carry an approval '
-                        f'binding pin {str(pin)[:12]} '
-                        f'({err or "marker lacks pin"})')
+                        'source approval marker lacks required '
+                        f'contract binding pin {str(pin)[:12]}')
     return errs
 
 
@@ -646,7 +650,8 @@ def _bundle_summary(root: Path, rel):
     if not p.exists():
         return None
     try:
-        return json.loads(p.read_text())
+        value = json.loads(p.read_text())
+        return value if isinstance(value, dict) else {'status': 'UNPARSEABLE'}
     except (json.JSONDecodeError, OSError):
         return {'status': 'UNPARSEABLE'}
 
@@ -655,7 +660,11 @@ def derive_status(idea_no: str, root: Path, contract_hasher, bundle_validator=No
     """bundle_validator, when supplied, is called as
     bundle_validator(bundle_path, governing_blob) so historical nodes are
     validated against their own immutable contract (R1). COMPLETE is
-    unreachable without a validator: validation is part of the meaning."""
+    unreachable without a validator: validation is part of the meaning.
+    Registry terminal names select candidate evidence here; they do not approve
+    it. The production bundle_validator (scout.validate_bundle) calls
+    terminal_statuses_if_approved before accepting registry-specific terminals.
+    Injected validators are trusted policy and must enforce that same gate."""
     reg, _ = _load(idea_no, root)
     if reg is None:
         return {}
@@ -674,7 +683,7 @@ def derive_status(idea_no: str, root: Path, contract_hasher, bundle_validator=No
         for a in (n.get('depends_on') or {}).get('artifacts') or []:
             src = nodes.get(a.get('probe')) or {}
             f = root / (src.get('results_bundle') or '') / a.get('output', '')
-            if not f.exists():
+            if not f.is_file():
                 missing.append(f'{a.get("probe")}/{a.get("output")}')
                 continue
             want = a.get('sha256')
@@ -802,7 +811,7 @@ def terminal_statuses_if_approved(idea_no: str, root: Path, bundle):
     b = str(bundle).replace('\\', '/').rstrip('/')
     for n in reg.get('probes') or []:
         rb = str(n.get('results_bundle') or '').rstrip('/')
-        if rb and b.endswith(rb):
+        if rb and (b == rb or b.endswith('/' + rb)):
             return n.get('terminal_statuses') or None
     return None
 

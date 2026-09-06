@@ -1,0 +1,174 @@
+{
+  "source_commit": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+  "method": "local inspection of retained top-level bytes; publishes only filenames, column names and aggregate counts, never patient values or identifiers",
+  "files": [
+    {
+      "artifact": "clinical_estimation_table.csv",
+      "bytes": 13917,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0,
+      "columns": [
+        "construct",
+        "field",
+        "vtype",
+        "role",
+        "item",
+        "level",
+        "head_value",
+        "rest_value",
+        "contrast_value",
+        "head_n_nonmissing",
+        "rest_n_nonmissing",
+        "insufficient_head_coverage",
+        "head_support_median",
+        "rest_support_median",
+        "head_abs_contribution_share_phase_a",
+        "head_support_share_phase_a",
+        "note"
+      ],
+      "row_count": 66
+    },
+    {
+      "artifact": "clinical_uncertainty.json",
+      "bytes": 7779,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "determinism_manifest_end.json",
+      "bytes": 1747,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "determinism_manifest_start.json",
+      "bytes": 1747,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "environment.txt",
+      "bytes": 287,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "input_manifest.csv",
+      "bytes": 1379,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0,
+      "columns": [
+        "input",
+        "path",
+        "sha256",
+        "role"
+      ],
+      "row_count": 8
+    },
+    {
+      "artifact": "per_case_staging.csv",
+      "bytes": 18968,
+      "has_case_identifiers": true,
+      "identifier_occurrences": 495,
+      "columns": [
+        "case_id",
+        "stratum",
+        "baseline_member",
+        "baseline_data_row_usable",
+        "baseline_anomalies",
+        "outcome_member",
+        "outcome_data_row_usable",
+        "outcome_anomalies"
+      ],
+      "row_count": 99
+    },
+    {
+      "artifact": "phenotype_schema_census.csv",
+      "bytes": 1066,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0,
+      "columns": [
+        "construct",
+        "bound_field",
+        "vtype",
+        "role",
+        "resolved",
+        "resolving_families",
+        "matched_headers_verbatim",
+        "head_nonmissing",
+        "rest_nonmissing",
+        "head_empty",
+        "rest_empty",
+        "head_parse_failures",
+        "rest_parse_failures",
+        "head_unresolved",
+        "rest_unresolved",
+        "decimal_normalized_values",
+        "insufficient_head_coverage"
+      ],
+      "row_count": 7
+    },
+    {
+      "artifact": "resolved_config.json",
+      "bytes": 2859,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "run_log.txt",
+      "bytes": 6498,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "split_manifest.csv",
+      "bytes": 2096,
+      "has_case_identifiers": true,
+      "identifier_occurrences": 99,
+      "columns": [
+        "case_id",
+        "stratum"
+      ],
+      "row_count": 99
+    },
+    {
+      "artifact": "split_manifest.json",
+      "bytes": 823,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "staging_audit.json",
+      "bytes": 72885,
+      "has_case_identifiers": true,
+      "identifier_occurrences": 594
+    },
+    {
+      "artifact": "staging_extraction_log.txt",
+      "bytes": 716,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "summary.json",
+      "bytes": 2537,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0
+    },
+    {
+      "artifact": "suppression_log.csv",
+      "bytes": 913,
+      "has_case_identifiers": false,
+      "identifier_occurrences": 0,
+      "columns": [
+        "construct",
+        "level",
+        "group",
+        "item",
+        "action",
+        "reason"
+      ],
+      "row_count": 7
+    }
+  ]
+}
