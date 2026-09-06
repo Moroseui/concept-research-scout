@@ -78,6 +78,9 @@ def immutable(path, data):
         stream.write(data)
         stream.flush()
         os.fsync(stream.fileno())
+    directory = os.open(Path(path).parent, os.O_RDONLY | os.O_DIRECTORY)
+    try: os.fsync(directory)
+    finally: os.close(directory)
 
 
 class Queue:
@@ -198,13 +201,16 @@ def finalize(root, source, day, receipts, amendment_of=None):
     synthetic_only = bool(rows) and all(row['kind'] in {'synthetic', 'synthetic_success', 'synthetic_failure'} for row in rows)
     science = ('Only synthetic work is recorded; no patient experiment or measured scientific result is established.'
                if synthetic_only else 'Scientific progress is not established by these operational receipts; consult validated experiment results and interpretation artifacts.')
-    body = (f'# Research system daily report — {day}\n\nSource: `{source}`.\n\n'
+    execution_sources = sorted({r['source'] for r in rows if r['source']})
+    provenance = 'Execution receipt sources: '+', '.join('`'+p+'`' for p in execution_sources)+'. The reporting implementation pin is separate.\n\n'
+    body = (f'# Research system daily report — {day}\n\nSource: `{source}` (reporting implementation).\n\n'
+            +provenance
             +f"{counts['completed']} completed; {counts['failed']} failed; {counts['blocked']} blocked; {counts['other']} in other states.\n\n"
             + (f'Amendment of report `{amendment_of}`; original bytes remain preserved.\n\n' if amendment_of else '')
             + table+'\n'+science+'\n\n'
             + 'Human intervention, model usage and cost measurements: unavailable. '
             'The table preserves per-job measurements; overlapping jobs are not summed as elapsed time.\n\n'
-            + ('Named dependencies: '+', '.join(dependencies)+'.\n\n' if dependencies else 'No named dependency was supplied; this does not prove all work is unblocked.\n\n')
+            + ('Recorded block or failure reasons: '+', '.join(dependencies)+'.\n\n' if dependencies else 'No named dependency was supplied; this does not prove all work is unblocked.\n\n')
             +f'Primary evidence: [{receipt_hash}.receipts.json]({receipt_hash}.receipts.json); SHA-256 `{receipt_hash}`.\n\n'
             + 'Next action: review the bound primary receipts and resolve their named dependencies. '
             'Phone delivery, unattended execution and fresh model review require separate evidence.\n')

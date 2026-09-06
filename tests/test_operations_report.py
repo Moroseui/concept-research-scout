@@ -76,7 +76,7 @@ class OperationsReportTests(unittest.TestCase):
                               'wall_seconds': None, 'kind': 'unknown'}])
         body = (self.root/(report['id']+'.md')).read_text()
         self.assertIn('0 completed; 0 failed; 1 blocked', body)
-        self.assertIn('Named dependencies: AUTH_REQUIRED.', body)
+        self.assertIn('Recorded block or failure reasons: AUTH_REQUIRED.', body)
         self.assertIn('unavailable', body)
         self.assertIn('Scientific progress is not established', body)
 

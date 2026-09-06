@@ -47,8 +47,9 @@ def lock(path):
 def checked_source(root,pin):
     root=Path(root).resolve()
     if not re.fullmatch('[0-9a-f]{40}',pin):raise ValueError('SOURCE_PIN_REQUIRED')
-    actual=subprocess.check_output(['git','-c','safe.directory='+str(root),'rev-parse','HEAD'],cwd=root,text=True).strip()
-    if actual!=pin or subprocess.check_output(['git','-c','safe.directory='+str(root),'status','--porcelain'],cwd=root).strip():raise ValueError('SOURCE_CHANGED')
+    git_env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','GIT_OPTIONAL_LOCKS':'0'}
+    actual=subprocess.check_output(['git','-c','safe.directory='+str(root),'rev-parse','HEAD'],cwd=root,text=True,env=git_env).strip()
+    if actual!=pin or subprocess.check_output(['git','-c','safe.directory='+str(root),'status','--porcelain'],cwd=root,env=git_env).strip():raise ValueError('SOURCE_CHANGED')
     return root
 
 class Controller(Store):
@@ -84,7 +85,7 @@ class Controller(Store):
                 self.db.execute('UPDATE jobs SET status=?,lease=0 WHERE id=?',(receipt['status'],row['job']))
                 self.db.execute("INSERT INTO wakes VALUES(?,?,'PENDING_AUTH','CODEX_AUTH_AND_BOUNDED_TURN_REQUIRED')",(attempt,row['job']))
                 if receipt['status']=='FAILED':
-                    self.block(row['job'],'SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT')
+                    self.block(row['job'],'SYNTHETIC_'+receipt['failure']['kind'] if receipt.get('failure') else 'SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT')
                     self.db.execute("UPDATE jobs SET status='FAILED' WHERE id=?",(row['job'],))
             self.db.execute('COMMIT')
         except BaseException:self.db.execute('ROLLBACK');raise
@@ -181,7 +182,7 @@ def worker(requests,outputs,source_root,pin):
             boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip()
             atomic(folder/'started.json',{'pid':os.getpid(),'boot_id':boot,'process_start':Path('/proc/self/stat').read_text().split()[21],'request_sha256':digest(request_file.read_bytes())})
             start=time.monotonic();cpu=resource.getrusage(resource.RUSAGE_CHILDREN)
-            status='FAILED';console={};retrieved=None
+            status='FAILED';console={};retrieved=None;failure={'kind':None,'exit_code':None}
             try:
                 time.sleep(req['delay'])
                 commands=[['-c',"raise RuntimeError('SYNTHETIC_FAILURE')"]] if req['kind']=='synthetic_failure' else [[str(root/SMOKE),op,'--root',str(folder)] for op in ['execute','retrieve']]
@@ -190,16 +191,20 @@ def worker(requests,outputs,source_root,pin):
                     with out.open('xb') as stdout,err.open('xb') as stderr:
                         os.chmod(out,0o640);os.chmod(err,0o640)
                         result=subprocess.run([sys.executable,*args],cwd=root,env={'PATH':'/usr/bin:/bin','HOME':str(folder),'LANG':'C.UTF-8','PYTHONNOUSERSITE':'1'},stdout=stdout,stderr=stderr,timeout=20,preexec_fn=limits)
-                    if result.returncode:raise ValueError('CHILD_FAILED')
+                    if result.returncode:
+                        failure={'kind':'CHILD_NONZERO','exit_code':result.returncode};raise ValueError('CHILD_FAILED')
                 retrieved=read(folder/'console-1.stdout')
                 if retrieved!={'retrieved_text':PAYLOAD.decode(),'sha256':digest(PAYLOAD)} or (folder/'synthetic-result.txt').read_bytes()!=PAYLOAD:raise ValueError('RETRIEVAL_MISMATCH')
                 os.chmod(folder/'synthetic-result.txt',0o640)
                 status='COMPLETE'
-            except (ValueError,subprocess.TimeoutExpired,OSError):pass
+            except subprocess.TimeoutExpired:failure={'kind':'TIMEOUT','exit_code':None}
+            except OSError:failure={'kind':'IO_ERROR','exit_code':None}
+            except ValueError:
+                if failure['kind'] is None:failure={'kind':'OUTPUT_VALIDATION','exit_code':None}
             finally:
                 usage=resource.getrusage(resource.RUSAGE_CHILDREN)
                 for p in folder.glob('console-*.*'):console[p.name]=digest(p.read_bytes())
-                outcome={'version':1,'attempt_id':req['attempt_id'],'job_id':req['job_id'],'source':pin,'status':status,
+                outcome={'version':2,'failure':failure,'attempt_id':req['attempt_id'],'job_id':req['job_id'],'source':pin,'status':status,
                          'request_sha256':digest(json.dumps(req,sort_keys=True).encode()),'artifact_sha256':digest(PAYLOAD) if status=='COMPLETE' else None,
                          'console_sha256':console,'wall_seconds':time.monotonic()-start,
                          'cpu_seconds':usage.ru_utime+usage.ru_stime-cpu.ru_utime-cpu.ru_stime,
@@ -211,7 +216,12 @@ def worker(requests,outputs,source_root,pin):
 
 def validate_receipt(r,req):
     keys={'version','attempt_id','job_id','source','status','request_sha256','artifact_sha256','console_sha256','wall_seconds','cpu_seconds','peak_rss_kib','separate_retrieval'}
-    if set(r)!=keys or r['version']!=1 or r['status'] not in ['COMPLETE','FAILED']:raise ValueError('OUTCOME_SCHEMA')
+    if r.get('version')==2:
+        keys=keys|{'failure'}
+        f=r.get('failure')
+        if not isinstance(f,dict) or set(f)!={'kind','exit_code'} or f['kind'] not in [None,'CHILD_NONZERO','TIMEOUT','IO_ERROR','OUTPUT_VALIDATION'] or (f['exit_code'] is not None and type(f['exit_code'])!=int):raise ValueError('FAILURE_SCHEMA')
+        if (r.get('status')=='COMPLETE') != (f['kind'] is None):raise ValueError('FAILURE_STATUS')
+    if set(r)!=keys or r['version'] not in (1,2) or r['status'] not in ['COMPLETE','FAILED']:raise ValueError('OUTCOME_SCHEMA')
     for k in ['attempt_id','job_id','source']:
         if r[k]!=req[k]:raise ValueError('OUTCOME_BINDING')
     if r['request_sha256']!=digest(json.dumps(req,sort_keys=True).encode()):raise ValueError('REQUEST_IDENTITY')

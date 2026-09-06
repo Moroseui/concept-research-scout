@@ -87,7 +87,7 @@ class RemoteTests(unittest.TestCase):
             return original(*a,**kw)
         self.s.submit('job',self.pin);self.tick()
         with patch.dict(os.environ,{'GH_TOKEN':'synthetic-canary','OPENAI_API_KEY':'synthetic-canary'}),patch.object(module.subprocess,'run',side_effect=observe):self.work()
-        self.assertEqual(len(environments),2)
+        self.assertGreaterEqual(len(environments),2)
         for env in environments:
             self.assertNotIn('GH_TOKEN',env);self.assertNotIn('OPENAI_API_KEY',env)
         self.tick();self.assertEqual(self.s.status()['jobs'][0]['status'],'COMPLETE')
@@ -110,6 +110,8 @@ class RemoteTests(unittest.TestCase):
     def test_failed_receipt_cannot_claim_retrieval(self):
         from orchestrator.remote_supervisor import validate_receipt
         self.s.submit('job',self.pin,kind='synthetic_failure');self.tick();r=self.work()
+        self.assertEqual(r['version'],2)
+        self.assertEqual(r['failure'],{'kind':'CHILD_NONZERO','exit_code':1})
         req=json.loads(next(self.req.glob('*.json')).read_text())
         for key,value in [('artifact_sha256','a'*64),('separate_retrieval',True)]:
             with self.assertRaisesRegex(ValueError,'FAILED_RESULT_FIELDS'):validate_receipt({**r,key:value},req)
@@ -121,3 +123,12 @@ class RemoteTests(unittest.TestCase):
         backup(self.state,self.out,self.base/'backup')
         next((self.base/'backup').glob('outputs/*/manifest.json')).write_text('changed')
         with self.assertRaisesRegex(ValueError,'IDENTITY'):restore(self.base/'backup',self.base/'restored')
+    def test_context_reverifies_all_completed_attempts(self):
+        from orchestrator.hosted_cycle import verified_jobs
+        self.s.submit('first',self.pin);self.tick();self.work();self.tick()
+        self.s.submit('second',self.pin);self.tick();self.work();self.tick()
+        rows,events=verified_jobs(self.s,self.out)
+        self.assertEqual(len(events),2)
+        first=next(r for r in rows if r['job_id']=='first')
+        (self.out/first['attempt_id']/'console-0.stdout').write_text('changed old evidence')
+        with self.assertRaisesRegex(ValueError,'CONSOLE_CHANGED'):verified_jobs(self.s,self.out)
