@@ -23,8 +23,9 @@ behavior; describe the duration and scope of any actual disconnection test.
 Use supplied primary evidence and the fixed `reviewer_evidence` request route for
 missing permitted facts. Requests name an allowed evidence kind and its purpose,
 not shell commands, credentials, arbitrary paths or patient data. The trusted
-collector reads fixed checked evidence and selected service properties; original execution logs remain privately retained by the execution adapter. Reviewer tools
-remain disabled; the reviewer receives no administration. An unavailable source is
+collector reads fixed checked evidence and selected service properties; original execution logs remain privately retained by the execution adapter. Hosted deployment-review tools
+remain disabled. Campaign reviewers retain their existing isolated artifact read/write
+route for producing review files; neither route grants administration. An unavailable source is
 an explicit dependency, not permission to infer success or repeat execution.
 
 Each finding must state: **severity** (blocker or suggestion), **evidence/source

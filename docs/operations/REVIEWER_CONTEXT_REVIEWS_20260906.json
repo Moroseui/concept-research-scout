@@ -175,5 +175,170 @@
     },
     "review_role": "author-operated cross-family implementation review; not independent merge desk",
     "resolution": "Exact source required; parent fallback removed; selected packet hashed; collector handles OSError and binds its own code hash in f856475. Follow-up review pending."
+  },
+  {
+    "review": "reviewer-directive-r3",
+    "execution": {
+      "reviewed_commit": "f8564758a09e796ed44eaa36d76cb4409d8f6f54",
+      "returncode": 0,
+      "wall_seconds": 269.8199621359963,
+      "input_file_sha256": {
+        "orchestrator/reviewer_evidence.py": "3aca310364330e968d789796b37a06ef75bd256ff2d27927b4b09fd6bd4e31d5",
+        "orchestrator/hosted_context.py": "13691305ca5b8a8e8ccd146888a4674f58a497260062b0136920676ecc6d7d78",
+        "orchestrator/hosted_cycle.py": "fb3d0b1de07aa9bfa4a6c0bf8edbb79f81e167d44968ab1c969cc1196695fabc",
+        "orchestrator/hosted_review_recovery.py": "4de8069ffd8c1bfbe504f84fa7addcd64ea709c3705b58dd74f33434da8dd0b9",
+        "tests/test_reviewer_evidence.py": "1fcf3eb860c6754a8022fd446ca8eb9f20db23c2b5b45db6d2d4d8334f78bb5b",
+        "tests/test_hosted_context.py": "d5b13794c0b9dc63baadd5c169fbaa128a9662ff89c780fd14e20a6359ee124e",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "13b94fc128a3161829c7eb1c37bf6530c45ac34a9bb5b8c746a797ccbd572c96",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "5cc0a9f1623718610368acb8987206fd8077ab0737f94832499486217f99e477",
+        "docs/isles-pilot/HUMAN_CONTROLS.md": "d431b5d7f03611c76e0bffcd6697f6107561c7718f20a7089c67920ea86aba0c"
+      },
+      "response_sha256": "cf87f1122bd397b79c9c8f16591b9057c3ce59dbdc2fb94e60a3f152efca9af6",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "42e2e0440377f8d4cda0ed0fbec5ead21ce75bc3ac47ab749c0a6425a5f9a56d"
+    },
+    "findings": {
+      "scope": "Source-only r3 follow-up review of orchestrator/reviewer_evidence.py, orchestrator/hosted_context.py, orchestrator/hosted_cycle.py, orchestrator/hosted_review_recovery.py, associated tests, and CLAUDE_REVIEWER_DIRECTIVE.md v2 / REMOTE_OPERATING_DIRECTION.md; verification of r2 blocker fixes (verified_source + own-task-packet hash binding; clean-source check and prompt scan before model dispatch), persistent artifacts, fail-closed boundaries, identity bindings, recovery semantics, and preservation of scientific approval gates. No execution and no tests run; unsupplied modules (remote_supervisor, operations_report, job_store, git_publication, public_export, hosted_cycle_reconcile) reviewed only at their call boundaries.",
+      "reviewed_commit": "f8564758a09e796ed44eaa36d76cb4409d8f6f54",
+      "verdict": "APPROVE",
+      "findings": [
+        "R2 fix verified: hosted_context.envelope enforces a 40-hex verified_source (VERIFIED_SOURCE_REQUIRED), reads only the invoking folder's own post-execution-packet.json/packet.json with symlink and 1.5MB checks, fails closed on missing/empty state (CURRENT_TASK_CONTEXT_REQUIRED), and records task_packet.sha256; covered by test_source_and_own_task_packet_required and the recovery-context test.",
+        "R2 fix verified: hosted_cycle.model_call runs checked_source on the installed tree's HEAD, binds it as verified_source, and scans the fully assembled prompt (scan('prompt.md')) before the immutable input write and model dispatch.",
+        "Suggestion (untagged failure, fail-closed): model_call event parsing uses [...][-1] and bare next(...) so a missing 'result', 'init', or 'thread.started' event raises IndexError/StopIteration instead of a tagged ValueError; verified_jobs .fetchone()[0] similarly raises TypeError when a COMPLETE/FAILED job lacks an event row. Smallest fix: guard and raise tagged errors.",
+        "Suggestion (env hygiene): the next-job submit in run() invokes runuser with 'env' but not 'env -i', inheriting the root supervisor's environment into the research-controller submit process, inconsistent with the env -i used for model calls. Smallest fix: add -i with an explicit minimal PATH.",
+        "Suggestion (recovery edge, fail-closed): a crash between writing <stage>.started.json and <stage>.process-identity.json makes recover() fail with a raw FileNotFoundError from read_checked \u2014 a correct refusal but untagged and undocumented.",
+        "Suggestion (probe mutates state): recover(execute=False) marks an interrupted REVIEWING row unavailable before returning, so the dry-run path performs a queue write; the transition is honest reconciliation but should be documented or moved behind execute.",
+        "Suggestion (prompt clarity): recovery retry replays review.input.md, nesting the old 'CURRENT APPROVED OPERATING CONTEXT' header inside the new envelope's identical header; the outer precedence statement mitigates, but relabeling the embedded copy would remove the ambiguity.",
+        "Boundaries confirmed sound: claim-before-dispatch with binding comparison and no automatic retry; O_EXCL/'xb' exclusive creation for all persistent artifacts; per-stage fresh work directories under a root-owned non-writable base with separate research-driver/research-reviewer identities under env -i; process-group kill on success, timeout, and interruption; select_next closed schema bound to the operator-supplied job id; read-only controller snapshot under the controller UID with query_only=ON; collector limited to fixed paths and allow-listed systemctl properties with no stderr and explicit historical labeling; console bytes hash-bound and never placed in model context; no path dispatches non-synthetic work and directive v2 preserves all named scientific/operational gates.",
+        "Resolved r2 items were not reopened; no new evidence contradicts their recorded resolutions."
+      ]
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk",
+    "projection": "Synthetic test identifier replaced with descriptive label where present; complete original response retained privately."
+  },
+  {
+    "review": "reviewer-directive-campaign",
+    "execution": {
+      "reviewed_commit": "84e88d0a2ebd5417064e5fcccb7496f65ad43696",
+      "returncode": 0,
+      "wall_seconds": 196.24052244400082,
+      "input_file_sha256": {
+        "orchestrator/campaign_pipeline.py": "b49b7c014c2ef945121f48517fb096b2f0306bfcf20184b845ca9ace59c6dbaf",
+        "tests/test_campaign_pipeline.py": "64d7b53ba47f6f6217611386520f4e0352c4f5cbdaf011d9dba8d6ef519d5907",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "13b94fc128a3161829c7eb1c37bf6530c45ac34a9bb5b8c746a797ccbd572c96",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "5cc0a9f1623718610368acb8987206fd8077ab0737f94832499486217f99e477"
+      },
+      "response_sha256": "51219a6b8302c0277e9dc9887c4ac301ebf82e767a1e84d759afbc8ef2543c26",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "acb3939586f15850d0aaabefd23c3edce91f3cad76b1b0156d39c3cf399c58a4"
+    },
+    "findings": {
+      "findings": [
+        "BLOCKER (fail-open supply of canonical context): grounding() adds docs/operations/REMOTE_OPERATING_DIRECTION.md and docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md via the shared `if f.is_file(): files.add(f)` loop, so a missing/renamed file is silently omitted \u2014 stages still run and can produce an APPROVEd REVIEWED_PROPOSAL_NOT_ADOPTED receipt with no blocked.json and only a silently absent input_sha256 key. This contradicts the operator requirements the change implements ('must receive this approved operating direction' every invocation; reviewer directive 'in every applicable fresh hosted review'; unavailable sources are explicit dependencies). test_charter_route_proposes_external_adoption_without_changing_runner demonstrates the gap: neither ops doc exists in its fixture yet the charter round succeeds. Smallest fix: treat these two paths as required (raise, landing in the existing blocked.json fail-closed path) or record an explicit unavailable-input marker in request.json/receipt.json.",
+        "SUGGESTION (version-binding fidelity): input_sha256 hashes read_text() re-encoded as UTF-8 (v.encode()), not on-disk bytes; both new docs contain non-ASCII em dashes, so under a non-UTF-8 locale the recorded hash will not match sha256 of the canonical file (or read_text raises). Hash read_bytes() or pin encoding='utf-8' so receipts are stably verifiable against the repo file.",
+        "SUGGESTION (test coverage): test_system_author_review_repair_artifacts writes identical sentinel text to both docs, so it cannot verify each document is independently supplied, and asserts only CLAUDE_REVIEWER_DIRECTIVE.md in input_sha256 (REMOTE_OPERATING_DIRECTION.md unasserted). No test asserts the mandatory-supply/fail-closed behavior from the blocker finding.",
+        "VERIFIED OK: both docs reach author and reviewer bodies (reviewer body embeds full bound context); they are excluded from the proposal-preview context.pop (only legacy scout prompt and scoring rubric are dropped, visibly, since binding is computed after the pop); symlink guard applies; hashes are recorded in both request.json and receipt.json; no historical snapshot, charter, score, or frozen P001 artifact is written; PROPOSAL_ONLY / no-adoption / opposing-family receipt semantics preserved; no credentials, connection configuration, or patient data enter persistent artifacts."
+      ],
+      "reviewed_commit": "84e88d0a2ebd5417064e5fcccb7496f65ad43696",
+      "scope": "Bounded shared campaign context change: supply canonical human-use direction (REMOTE_OPERATING_DIRECTION.md) and Claude reviewer directive (CLAUDE_REVIEWER_DIRECTIVE.md) to existing campaign author/reviewer stages via grounding(), versioned in input_sha256; historical snapshots unchanged. Source-only review of this integration and its tests; no execution, no deployment claims assessed.",
+      "verdict": "REQUEST_CHANGES"
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk",
+    "projection": "Synthetic test identifier replaced with descriptive label where present; complete original response retained privately."
+  },
+  {
+    "review": "reviewer-directive-campaign-r2",
+    "execution": {
+      "reviewed_commit": "0519130b2ff90370bd8f76d51b36f4bbe317f045",
+      "returncode": 0,
+      "wall_seconds": 126.5555013580015,
+      "input_file_sha256": {
+        "orchestrator/campaign_pipeline.py": "94a821732cb15244788f87cbd86cd5ca8670115342c31f2bda94ec9a1f4638b9",
+        "tests/test_campaign_pipeline.py": "5f5d8192e0f68fa0b5d49eeeeee1603dc8f33401e324786716088d8d665509b2",
+        "tests/test_human_controls.py": "9a50b783e8e19cc1107cb22bd10c1157e27577afaa269666416ff86430337dc1",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "13b94fc128a3161829c7eb1c37bf6530c45ac34a9bb5b8c746a797ccbd572c96",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "5cc0a9f1623718610368acb8987206fd8077ab0737f94832499486217f99e477"
+      },
+      "response_sha256": "35b2d08d9c0ce3ffe97081b8b6c519b92ae518fec275108fe6279d713665173a",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "b66a8ee25589f60c30799bfd9fbd65313f5f07ef0c6b978860d4a36f5524489a"
+    },
+    "findings": {
+      "scope": "Source-only follow-up review of orchestrator/campaign_pipeline.py, tests/test_campaign_pipeline.py, tests/test_human_controls.py, and the two operating-direction docs; verifying resolution of the prior missing-operating-docs blocker plus the UTF-8 decoding, distinct-context test, and Actions-fixture changes. No tests executed; no scientific scoring or scope changes reviewed.",
+      "reviewed_commit": "0519130b2ff90370bd8f76d51b36f4bbe317f045",
+      "verdict": "APPROVE",
+      "findings": [
+        "RESOLVED (blocker, verified in source): missing operating docs now fail closed before any model stage \u2014 grounding raises FileNotFoundError('REQUIRED_OPERATING_CONTEXT: <name>') for REMOTE_OPERATING_DIRECTION.md and CLAUDE_REVIEWER_DIRECTIVE.md, execute's pre-stage try block writes blocked.json and re-raises, and test_missing_operating_context_blocks_before_model asserts system_stage was never called and blocked.json exists.",
+        "Verified: strict UTF-8 reads (read_bytes().decode('utf-8')) round-trip byte-exactly with the v.encode() hashing, so input_sha256 bindings match on-disk bytes; symlink checks precede every context read.",
+        "Verified: CI test fixture now returns runner {'adapter': 'github-actions-v1'} with ci=True, matching execute's tightened provenance check; local/CI receipt mismatches in either direction are rejected.",
+        "Verified: identity and authority boundaries hold \u2014 opposing-family receipts (family_effective codex/claude, exit_class ok), author cannot prepopulate review.json, two-round revision bound, statuses stay PROPOSAL_ONLY/REVIEWED_PROPOSAL_NOT_ADOPTED, tests assert frozen run.py untouched and no charter created; mkdir(exist_ok=False) preserves blocked/completed output directories.",
+        "Suggestion (persistent artifacts): blocked.json records only failure_type (exception class), not the message \u2014 a REQUIRED_OPERATING_CONTEXT block does not persist which doc was missing; include str(e) so recovery does not require a rerun. Affected task: recovery from blocked runs.",
+        "Suggestion (inferred, proposal_context source not supplied): context.update(proposal_context(...)) can silently shadow a bound grounding key if a colliding path key is ever emitted; raise on key intersection before update. Similarly, bundle-key traversal safety rests on dict equality with inventory(bundle) output \u2014 an explicit reject of '..'/absolute keys in grounding would make the boundary local and testable.",
+        "Suggestion (documentation): strict UTF-8 decode means any non-text bundle file permanently blocks interpret grounding (fail-closed, correct direction); document the text-only bundle contract at the import path.",
+        "Minor: test_missing_operating_context_blocks_before_model is a pytest-style function in a unittest module and will not run under 'python -m unittest'; the regression guard depends on pytest being the runner.",
+        "Noted: system_stage's temporary sc.ROOT mutation remains single-writer-only per its docstring; the constraint is recorded but untestable from supplied source. New task recording only \u2014 no scientific scoring or scope changes present, consistent with stated scope."
+      ]
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk",
+    "projection": "Synthetic test identifier replaced with descriptive label where present; complete original response retained privately."
+  },
+  {
+    "review": "reviewer-fixture-publication",
+    "execution": {
+      "reviewed_commit": "a0d56c79a9ad73c2e950eb111866a8fe2ee26968",
+      "returncode": 0,
+      "wall_seconds": 123.869113053006,
+      "input_file_sha256": {
+        "orchestrator/git_publication.py": "863128df2a467e289ae3b4b129e0aa2f2ffe0ba840299843c7513f13d7fadc48",
+        "tests/test_publication_human_fixture.py": "a5ff0588a8e0618283e996350ca7cc8397de963719717f447aff3c5479f3e014",
+        "tests/test_human_controls.py": "9a50b783e8e19cc1107cb22bd10c1157e27577afaa269666416ff86430337dc1"
+      },
+      "response_sha256": "694b3dd6319454262cb58345cc876f8d201e3c7d28abd25c25cdc3b2956a64bd",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "be971a9edec66ce21bb35db356cbd9ac41966e55bb9e99ba5d651285e893bc8c"
+    },
+    "findings": {
+      "scope": "Focused publication change at orchestrator/git_publication.py: exact hash-and-path exception in scan_history_blob for the synthetic human-controls rejection fixture (tests/test_human_controls.py pinned by HUMAN_CONTROL_SYNTHETIC_FIXTURE_SHA256), plus its dedicated test tests/test_publication_human_fixture.py and the fixture file itself. All other outgoing history checks and publish/create/checkpoint authority paths reviewed as unchanged context. Source-only review; no tests executed.",
+      "reviewed_commit": "a0d56c79a9ad73c2e950eb111866a8fe2ee26968",
+      "verdict": "APPROVE",
+      "findings": [
+        "Exception is triple-bound and fail-closed: it applies only to error class CASE_LEVEL_RECORD_REJECTED, exact path tests/test_human_controls.py, and exact SHA-256 HUMAN_CONTROL_SYNTHETIC_FIXTURE_SHA256; all other error classes (secrets, size, null bytes, non-UTF-8, path, notebook outputs) still raise, and the redacted blob is re-run through the full scan.",
+        "Copied or modified fixtures remain rejected: a path change misses the exact-name check and a byte change breaks the hash pin, falling through to raise; tests/test_publication_human_fixture.py exercises acceptance of the exact version, rejection of the copy at docs/copied-test.py, and rejection of an appended-byte modification, and binds the pinned hash to the working-tree file at this commit.",
+        "No patient-data exception: the only admitted identifier is the already-public synthetic SYNTHETIC_REJECTION_FIXTURE, used in test_human_controls.py solely to assert h.request rejects such text; the test-file change matches the stated scope of adding mandatory operating-doc setup (REMOTE_OPERATING_DIRECTION.md, CLAUDE_REVIEWER_DIRECTIVE.md); scan_commit is unchanged so the pattern is still rejected in commit metadata.",
+        "Outgoing history checks preserved: audit still enumerates every commit in before..source, scans every changed blob per commit including blobs deleted before the tip (diff-tree -m plus byte-exact tree membership), rejects non-regular modes, and enforces exact inventory match, fast-forward-only ancestry, and contaminated-commit ancestry; publish/create/checkpoint authority (exact operation grants, lease-based compare-and-swap, pinned pilot destination) is untouched.",
+        "Source-only caveat: the equality of the pinned constant with the supplied test file's SHA-256 was not executable here; a mismatch fails closed (publication rejected) and is caught by test_exact_synthetic_test_version_only.",
+        "Non-blocking: test_publication_human_fixture.py asserts bare ValueError; matching the message (CASE_LEVEL_RECORD_REJECTED) would rule out passing on an unrelated rejection. Future edits to test_human_controls.py will require adding a new pinned hash, mirroring SYNTHETIC_REPORT_TEST_VERSIONS \u2014 fail-closed operational friction, not a defect."
+      ]
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk",
+    "projection": "Synthetic test identifier replaced with descriptive label where present; complete original response retained privately."
   }
 ]

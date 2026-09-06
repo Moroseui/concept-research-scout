@@ -1,0 +1,64 @@
+{
+  "status": "EXPLICIT_PROPOSAL_PUBLICATION_SUBSET",
+  "original_receipt_unchanged": true,
+  "files": [
+    {
+      "path": "receipt.json",
+      "sha256": "05b237293a3399c6313d42df1111aaa99da16dfd6b27f7a3ecc5ffaa2ba6a915",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "request.json",
+      "sha256": "6b5a17bd8632b5628fb3ec0110e11d8ada7573e782f6a9ed184da09fc8b4d712",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/discussion.md",
+      "sha256": "7d7568b927dd2adc4ed0b4783503a4d1162de8855725a3a9533d5f62058f01c4",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/log_campaign_discuss.txt",
+      "sha256": "f06f5b9ca7dc04fbc8fa158f27612979d9208399050d881c799f6775201f00e9",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/log_campaign_discuss_review.txt",
+      "sha256": "ca857335825585a69150fddf34a5aac7124101ebe53faa7760eed611cbabd045",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/profile_campaign_discuss.json",
+      "sha256": "5b04c82c65d0ca64e39c5dbae8c5834dc3e672af30638d2769979d8fae0ab4f6",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/profile_campaign_discuss_review.json",
+      "sha256": "3b66f8b378536843574fcdc7d2d4d077ce5371c0707251e98b6bb046936634aa",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/prompt_campaign_discuss.md",
+      "sha256": "5f5f11c0ed4820d6b482d5863218f626d2f802c667835c5fdb25c81082081ca5",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/prompt_campaign_discuss_review.md",
+      "sha256": "8f569cc5040c782f7a35bc00e8404b9fe396610aa484417214d99bb72e2d1482",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/review.json",
+      "sha256": "d26d04310e87295b192944d7b6b2b174f3265d916e6a02c7a1f3c3d9704ddadf",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/stage_provenance.jsonl",
+      "sha256": "ed5f60c491526966a3d51a2749f7ca121f24148e27b131dddf9caf1e25ea1d8d",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    }
+  ],
+  "private_originals_preserved": true,
+  "source": "0519130b2ff90370bd8f76d51b36f4bbe317f045",
+  "scientific_or_scoring_adoption": false
+}

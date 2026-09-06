@@ -172,3 +172,16 @@ and results, provide steering, and recover a common interruption or repeated req
 Record what was actually exercised and what remains untested. Claude assesses
 maintainability and friction alongside scientific and implementation correctness;
 configuration and local tests alone do not prove the deployed human experience.
+
+Research-context design remains a hypothesis to assess through the shared system:
+contexts describe scientific questions, assumptions, gaps and relationships, while
+charters define chosen objectives, scope and criteria. Use parent and cross-links
+without prescribing an experimental approach. Scientific uncertainties need sources,
+check dates and evidence-of-progress criteria, separate from operational dependencies.
+Human intake preserves origin and uses shared discussion/critique/revision/feasibility
+and experimental gates; informal discussion needs no new charter. Contribution to a
+broader question or keyword overlap does not automatically confer merit. Preserve
+assumption-challenging ideas; propose scoring changes explicitly. The supplied
+ROADMAP v2 is historical design input, not current verification or new authority.
+See the recorded `human-idea-context-design` task and its system-reviewed proposal;
+this work is not a prerequisite for P001 progress.
