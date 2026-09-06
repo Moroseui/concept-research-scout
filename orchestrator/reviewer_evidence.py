@@ -38,7 +38,7 @@ def validate(request):
         value = request[key]
         if not isinstance(value, str) or not value.strip() or len(value) > 500:
             raise ValueError('EVIDENCE_REQUEST_TEXT')
-    scan('request.json', json.dumps(request).encode())
+    scan('request.json', json.dumps(request, sort_keys=True).encode())
     return hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()
 
 
@@ -62,7 +62,11 @@ def collect(root, request, *, hosted=False):
     if hosted and request['kind'] in ('service_runtime', 'resource_limits'):
         for unit in UNITS:
             command = ['systemctl', 'show', unit, '--property='+','.join(PROPERTIES)]
-            proc = subprocess.run(command, capture_output=True, text=True, timeout=15)
+            try:
+                proc = subprocess.run(command, capture_output=True, text=True, timeout=15)
+            except (subprocess.TimeoutExpired, FileNotFoundError):
+                result['current_observations'].append({'unit': unit, 'status': 'COLLECTION_FAILED', 'execution_proven': False})
+                continue
             # Never return raw stderr or unexpected properties from a service definition.
             fields = {}
             for line in proc.stdout.splitlines():

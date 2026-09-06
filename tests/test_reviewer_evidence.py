@@ -36,3 +36,11 @@ def test_hosted_fixed_commands_only_and_no_stderr(monkeypatch, tmp_path):
     assert 'PRIVATE' not in json.dumps(result)
     assert all(not item['execution_proven'] for item in result['current_observations'])
     assert all(command[:2] == ['systemctl', 'show'] for command in calls)
+
+
+def test_failed_live_collection_preserves_historical_records(monkeypatch, tmp_path):
+    def unavailable(*args, **kwargs): raise FileNotFoundError('systemctl')
+    monkeypatch.setattr('orchestrator.reviewer_evidence.subprocess.run', unavailable)
+    result = collect(tmp_path, request(), hosted=True)
+    assert result['records']
+    assert all(row['status'] == 'COLLECTION_FAILED' for row in result['current_observations'])

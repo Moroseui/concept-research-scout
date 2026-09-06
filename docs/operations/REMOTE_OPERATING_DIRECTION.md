@@ -131,3 +131,44 @@ operation. Missing evidence is requested through a bounded read-only collector;
 reviewers receive no unrestricted administration. Findings retain evidence, impact,
 affected task and minimal correction, and resolved items stay resolved absent new
 evidence. This is a review responsibility, not a new permission grant.
+
+## Human use and maintenance — accepted clarification, 6 September 2026
+
+The research system serves human researchers; Astra is one operator. Human usability
+includes understandable science, maintainable implementation, straightforward
+operation, and reliable collaboration. Apply these requirements incrementally to
+existing and new hosted workflows, prioritizing defects that obstruct actual work.
+They do not authorize an open-ended redesign or new routine approval requirements.
+
+Preserve plain-language idea pitches, layered interpretations and readable code.
+Intellectual difficulty alone is not grounds for rejection or lower scientific
+scores. Repair explanation while preserving technical substance, uncertainty and
+source evidence. Report communication defects separately from validity, testability
+and feasibility defects; retain charter-specific scientific scoring.
+
+Humans and agents use shared pipeline interfaces, explicit configuration and clear
+input/output contracts. Reuse understandable modules and avoid duplicated science,
+scattered settings or unnecessary wrappers/services. Keep environment and operating
+instructions sufficient for another researcher to reproduce and continue the work
+without this conversation. Automate provenance bookkeeping behind usable controls.
+
+Document supported routes to start work, check progress, locate results, request
+discussion, steer priorities and recover interruptions. Preserve GitHub controls,
+notebooks and phone-readable summaries. Errors explain what happened, what was
+preserved and the next useful action. A status question does not cancel valid work.
+Pause, resume and repeated requests must preserve results and avoid duplicate
+execution. Bind steering to its task and revision; recheck stale decisions before
+acting. Detect conflicting edits, preserve human changes and protect shared mutable
+state while independent computation continues. Batch nonurgent decisions.
+
+Maintain a discoverable view of active, completed, failed and blocked tasks with
+links to outputs, source/configuration versions, reviews and decisions. Distinguish
+proposed, exploratory, accepted and superseded material. Returning collaborators
+must be able to take over without reconstructing the agent's history.
+
+Usability acceptance uses representative generated ideas, interpretations,
+code/notebooks and deployed operations: start a bounded task, understand progress
+and results, provide steering, and recover a common interruption or repeated request.
+Record what was actually exercised and what remains untested. Claude assesses
+maintainability and friction alongside scientific and implementation correctness;
+configuration and local tests alone do not prove the deployed human experience.

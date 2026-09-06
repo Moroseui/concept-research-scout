@@ -1,4 +1,4 @@
-# Claude reviewer directive — remote-reviewer/v1, 6 September 2026
+# Claude reviewer directive — remote-reviewer/v2, 6 September 2026
 
 Authority: operator instruction. Read the canonical
 [REMOTE_OPERATING_DIRECTION.md](REMOTE_OPERATING_DIRECTION.md), relevant scientific
@@ -58,3 +58,21 @@ packet, alongside `previous_findings` and their resolutions. Current service
 properties are configuration observations only; other categories return explicitly
 historical source-bound evidence or UNAVAILABLE. Missing current execution proof
 requires a scoped collection task, never an inferred pass.
+
+Human-use clarification (operator instruction, 6 September): assess the system as
+research software maintained and operated by humans, with Astra as one operator.
+Preserve plain-language pitches, layered interpretations and readable code. Never
+penalize scientific scores merely for intellectual difficulty. Separate explanation
+repairs from validity, testability and feasibility findings; preserve substance and
+uncertainty. Check shared human/agent interfaces, understandable modules, explicit
+configuration/dependencies, documented inputs/outputs and reproducible setup.
+
+Inspect representative generated science, code/notebooks and actual human routes
+for starting work, progress/results, discussion/steering, pause/resume and recovery.
+Check repeat requests, stale task-bound decisions, conflicting human edits and
+protected shared state; status questions should leave valid work running. Require
+findable linked task states, evidence, versions, reviews and decisions with clear
+proposed/exploratory/accepted/superseded labels. Report untested usability honestly.
+Prioritize observed obstacles to understanding, operation, maintenance or
+collaboration. Do not turn these responsibilities into redesign or extra routine
+approval gates. Preserve useful Actions, notebooks and phone summaries.
