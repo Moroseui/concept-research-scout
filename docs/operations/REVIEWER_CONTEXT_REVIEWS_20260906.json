@@ -1,0 +1,138 @@
+[
+  {
+    "review": "canonical-context-review-r1",
+    "execution": {
+      "reviewed_commit": "655be93496e7a33a5e40d0638ae158cbbae707ea",
+      "returncode": 0,
+      "wall_seconds": 329.9506610259996,
+      "input_file_sha256": {
+        "orchestrator/hosted_context.py": "128b3159755ce0ffd0e2b2d700a2fa7c46a432a290833ee979c2f072c50575b3",
+        "orchestrator/hosted_cycle.py": "a1a6febdeb07a1067d1ae4343f8e2b07e2227480225595f860abc0df3c98c115",
+        "orchestrator/hosted_review_recovery.py": "4de8069ffd8c1bfbe504f84fa7addcd64ea709c3705b58dd74f33434da8dd0b9",
+        "orchestrator/readiness_discussion.py": "1d324658b8e3b907c16e55faa378de05ae67d85e19cadc80af799acd541be8ce",
+        "orchestrator/research_context.py": "114cdb07039c667f487ccdf6e1b4df49f0c6a1522aec23d3e480a793ee8c6be5",
+        "tests/test_hosted_context.py": "06e2deeaca195c31dc5eeacb75c62ee8c39354b47b1d45089c99134eb70d8bbb",
+        "tests/test_hosted_recovery.py": "b48d803976a0b4cd647920d7b20c4e92e72a9b9ee44899e755ba8be04b834820",
+        "tests/test_readiness_discussion.py": "f8aed7d96656d87aa6a2598cceff0358966a9a6b6583dff45dcb4fdbfc7a92ba",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "c643bc41822f6f51e4df6d2fed44c080b174811645bbb677e99e58adeec9fe32",
+        "docs/operations/READINESS_HOSTED_TEST_PLAN.md": "39e9bf1334cc88f24469667292e0deb3a9b3050d599869477c89bbc832e9339a",
+        "docs/operations/READINESS_HOSTED_ACCEPTANCE_20260906.json": "7db9c717fb286f6f8fb2b907796856f5861416ebeba1f80c89f73db02ea2ad6f",
+        "docs/operations/WEDNESDAY_CRITICAL_PATH_20260906.md": "5d8ef56d5930e970625064f4247d2b1d7ccc87bbc441e28af3b2a0d655ab2023"
+      },
+      "response_sha256": "9f3edb7ed31271eee5944c85adb7fa2348b743bfe98773f510e99ae5ae4ae9f1",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "87afb7885dac67d72e3e73e9cc94f140d7f36e0d7ce659a41a2e41a724a753fb"
+    },
+    "findings": {
+      "scope": "Source-only fresh review of new surfaces at 655be93 beyond the readiness core approved at 8de1822: orchestrator/hosted_context.py canonical operating-context injection, hosted_cycle.py model_call wiring and cycle transport, hosted_review_recovery.py current-state single-retry recovery, readiness_discussion.py completion-discussion dedup adapter, research_context.py hash-bound proposal/evidence context, associated tests, and hosted metadata/acceptance documents. No tests executed; no execution or patient-data claims.",
+      "reviewed_commit": "655be93496e7a33a5e40d0638ae158cbbae707ea",
+      "verdict": "APPROVE",
+      "findings": [
+        "Verified: every hosted_cycle model_call (continuation/review/disposition) and both recovery calls route through hosted_context.envelope; missing canonical documents or missing current task packet fail closed (FileNotFoundError / CURRENT_TASK_CONTEXT_REQUIRED), and candidate ordering delivers post-execution/recovery current state rather than stale history.",
+        "Verified: version receipts persist per call \u2014 immutable <stage>.operating-context.json plus operating_context_sha256 and per-document supplied_document_sha256 in the process receipt.",
+        "Verified: proposed vs approved authority preserved \u2014 proposal_context requires a REVIEWED_PROPOSAL_NOT_ADOPTED charter receipt with APPROVE review, hash-binds artifacts, and emits EXPLICIT_PROPOSAL_PREVIEW_ONLY/ratified:false with the operator-ratification gate named; packet precedence text subordinates proposals and historical prompts; recovery reuses the original review input strictly under a fresh current-context header.",
+        "Verified: no patient-launch path \u2014 select_next closes selection to the one named task, the trigger must be a verified synthetic_success COMPLETE job, NEXT_JOB_ALREADY_EXISTS_RECONCILE blocks dispatch replay, recovery and readiness discussion perform zero dispatches, and patient_execution:false is recorded.",
+        "Verified: recovery semantics \u2014 single-retry budget, one-time recovery directory (no replay), boot_id-bound live-process check that treats PermissionError as live (fail closed), honest unavailable transitions, current task state required, and shared driver.lock serialization with run().",
+        "Verified: dedup adapter keys one discussion per hash of the full ordered event set, duplicates return zero model calls, interrupted/blocked states are honest with no automatic retry, and event payload scope METADATA_ONLY_NOT_SCIENTIFIC_VALIDATION is enforced; hosted acceptance metadata honestly disclaims post-unload systemd properties (observed_resource_usage_available:false) with no executed-sandbox overclaim.",
+        "Follow-up (verification required): readiness_discussion.discuss builds its model request without hosted_context.envelope; canonical operating-direction injection and version recording for this completion-handling call depend entirely on unsupplied campaign_pipeline.execute \u2014 confirm that route injects the canonical direction for 'discuss' mode or wire it through hosted_context.",
+        "Minor: model_call builds the operating context from the running tree (Path(__file__).resolve().parents[1]) rather than the checked_source-verified pin used by run()/recovery main(); document hashes in receipts make divergence auditable, but the envelope root should be bound to the verified pin.",
+        "Minor: envelope accepts a packet containing none of the expected state keys (empty state passes); only a wholly missing packet fails closed \u2014 add an explicit non-empty-state check.",
+        "Minor (unverifiable from supplied source): durability of the readiness_discussions CLAIMED row depends on Store's commit/autocommit behavior in job_store.py; if not autocommit, a crash between claim and execute could lose the claim and permit a duplicate discussion.",
+        "Minor: missing DB rows in verified_jobs/run surface as TypeError/StopIteration rather than tagged reconcile errors (fail closed but unclean); recovery retry nests the old context header inside the historical-evidence section, mitigated by the precedence statement."
+      ]
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk"
+  },
+  {
+    "review": "canonical-context-review-r2",
+    "execution": {
+      "reviewed_commit": "dc116ca5be32799e0fefba52626768f7eff8d529",
+      "returncode": 0,
+      "wall_seconds": 185.63225424199481,
+      "input_file_sha256": {
+        "orchestrator/hosted_context.py": "077f0c400720f4e32169af29eca0de5d0491fedbb36ed2df46c92491ae2dc22f",
+        "orchestrator/hosted_cycle.py": "fb3d0b1de07aa9bfa4a6c0bf8edbb79f81e167d44968ab1c969cc1196695fabc",
+        "orchestrator/readiness_discussion.py": "c92ae0489f07babc75156a26232248c8690824c30f0d158f523cc002433e1219",
+        "orchestrator/job_store.py": "c5767007f1d9bebcbd93faf2d8671d27d12a823665379c0c36479bc62e7df071",
+        "deploy/research-system/operating_context_acceptance.py": "37c23453e1ce91ee52c457aed9d55bde765958e35d5212652992bef2c164886f",
+        "tests/test_hosted_context.py": "f95c2ec214b3ed309a3018900752b85ac5fce37a2ad96847a33ae35ec4db3480",
+        "tests/test_readiness_discussion.py": "4db302be1ff42c0b8b5c48e9b777e3a989a7863088e3b5923e8bda5871e32d8b"
+      },
+      "response_sha256": "006c3af5976570e16c1fc03ad4ffdd1d4db542db6eb053cccc2995e36ea48a3e",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "ade4c2a0ce0c08356eaaa15dfe998cce7a4884fa6c8a581dd741065e4099d3f0"
+    },
+    "findings": {
+      "scope": "Canonical-context follow-up at dc116ca5: hosted_context build/envelope (canonical document dispositions, empty-task refusal), model_call binding of running clean Git source, readiness_discussion canonical-context integration, and the new three-call zero-dispatch operating_context_acceptance route; judged against actual approval boundaries only (prediction charter unratified, existing science approvals unchanged). Source-only review of supplied files; no tests executed.",
+      "reviewed_commit": "dc116ca5be32799e0fefba52626768f7eff8d529",
+      "verdict": "APPROVE",
+      "findings": [
+        "operating_context_acceptance.py does not check q.claim(report['id']) for None before using review_claim['attempt_id']; hosted_cycle.run raises an explicit REVIEW_CLAIM_UNAVAILABLE for the same case. A None claim here surfaces as a TypeError \u2014 still fail-closed, but with an unclear reconciliation signal.",
+        "operating_context_acceptance.py has no BaseException handler around the model calls: on mid-cycle failure it writes no blocked.json and a claimed review stays in REVIEWING in the report queue (hosted_cycle.run marks it unavailable). The durable folder claim still forces manual reconciliation with no automatic retry, so this is an evidence/audit-clarity gap, not a safety hole.",
+        "operating_context_acceptance.py hardcodes day '2026-09-06' in the finalize() call; acceptable for a dated one-shot acceptance script bound to READINESS_HOSTED_ACCEPTANCE_20260906.json, but a later rerun would mislabel the report date.",
+        "hosted_cycle.run does not assert that the operator-supplied --root equals the running repository that model_call uses for canonical context (the acceptance route does assert this). Both are independently pinned to clean verified commits and both commits are recorded in the binding and operating context, so any divergence is auditable, but the packet's 'implementation' content could come from a different checkout than the canonical direction documents.",
+        "The acceptance route's orientation call reuses stage name 'continuation', so its artifacts are persisted as continuation.* despite being the orientation step; cosmetic, but slightly weakens artifact self-description for auditors.",
+        "envelope()'s task-packet checks (is_symlink, st_size) precede the read non-atomically, a minor TOCTOU window; low risk given the root-only supervised local execution context and immutable 0o600 packet files.",
+        "Verified intact: canonical documents hash-bound with authority-preserving dispositions (prediction charter only as proposed_context_not_authority, orientation must assert prediction_charter_ratified false, existing scientific campaign/charter dispositions unchanged); empty or missing task contexts refuse with CURRENT_TASK_CONTEXT_REQUIRED; model_call binds a clean git HEAD via checked_source before serving context; acceptance route performs zero dispatch and exactly three model calls with strict fail-closed orientation validation; readiness_discussion enforces metadata-only event scope, one discussion per completion-set hash, and BLOCKED_RECONCILE_NO_AUTOMATIC_RETRY on interruption."
+      ]
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk"
+  },
+  {
+    "review": "reviewer-directive-r1",
+    "execution": {
+      "reviewed_commit": "c2292fb31f85d3e1f9594962af7b5d9f8ca5926a",
+      "returncode": 0,
+      "wall_seconds": 171.53911183099262,
+      "input_file_sha256": {
+        "orchestrator/reviewer_evidence.py": "a757a3904820437c97abdfe5c3859f7467fecb24b2795c4c5b0556cecb0f1e7f",
+        "orchestrator/hosted_context.py": "7adf3e41c3edc3afe254b5e771db7368848cd214fdd64ef3aaa00d64afa3fef6",
+        "tests/test_reviewer_evidence.py": "df563c5d37588d341755a112d6055d0102f4147eb1aa73c4e556ad52a8c42de2",
+        "tests/test_hosted_context.py": "f95c2ec214b3ed309a3018900752b85ac5fce37a2ad96847a33ae35ec4db3480",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "fd1ee9fbcab146c23b7514954370a5035e53964ee983f9f92a6da7704e642db1",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "8f91ab57b84e01cfe1b07e3165e88832aa6bc845245532e395e5c8d8b8b7a3d9"
+      },
+      "response_sha256": "1b786f8c5db710aa6ee22997e780871655e4c20eb3f0c476154e93aa10dc342d",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "a0c817fe566f763e439c70c9f4a203a12458f7eac3fac1c1cbc83c4bfc90f57b"
+    },
+    "findings": {
+      "scope": "reviewer-directive-and-bounded-evidence",
+      "reviewed_commit": "c2292fb31f85d3e1f9594962af7b5d9f8ca5926a",
+      "verdict": "APPROVE",
+      "findings": [
+        "SUGGESTION (verified, source-only) \u2014 orchestrator/hosted_context.py envelope(): verified_source defaults to None, so a hosted invocation can bind verified_source_commit: null with nothing distinguishing 'verification skipped' from 'verified absent'; build() also scans operating-context.json before the field is added, so scanned bytes differ from the bytes sent. Consequence: weakened source-identity binding on hosted turns. Affected task: hosted invocation assembly. Smallest correction: require an explicit commit or an explicit UNVERIFIED sentinel and set it before the scan.",
+        "SUGGESTION (verified, source-only) \u2014 orchestrator/hosted_context.py envelope(): the caller-supplied prompt is concatenated into the outbound body without a scan() pass; task_state is covered by build()'s packet scan but the prompt is not, making it the one unscanned path to the hosted model. Affected task: hosted invocation assembly. Smallest correction: scan the final composed body before returning.",
+        "SUGGESTION (verified, source-only) \u2014 orchestrator/reviewer_evidence.py collect() hosted branch: subprocess.TimeoutExpired or a missing systemctl binary propagates uncaught, aborting the entire collection and discarding already-collected historical records. Fail-closed (no false success) but not durable. Affected task: reviewer evidence collection. Smallest correction: catch per unit and append a COLLECTION_FAILED observation with execution_proven false.",
+        "SUGGESTION (verified, source-only) \u2014 orchestrator/reviewer_evidence.py validate(): request_id is derived from sort_keys=True serialization but scan() receives insertion-order bytes, so equivalent requests deduplicate to one id while producing different scanned artifacts. Affected task: evidence request identity/dedup. Smallest correction: scan the same canonical sorted serialization used for the hash.",
+        "SUGGESTION (verified, source-only) \u2014 orchestrator/hosted_context.py build(): the permitted_findings scope 'isles24-prediction' and the P001 proposal path are hard-coded; acceptable while ISLES is the only active campaign, but a second campaign's hosted turn would silently receive ISLES findings. Smallest correction: derive both from the bound task state before a second campaign activates.",
+        "VERIFIED fail-closed boundaries (source-only): build() raises FileNotFoundError on any missing canonical document; envelope() rejects absent, empty, symlinked, or oversized task packets (CURRENT_TASK_CONTEXT_REQUIRED / TASK_CONTEXT_PATH) before composing a hosted body; missing evidence sources record UNAVAILABLE rather than success; current_observations stays empty for non-hosted calls and non-runtime kinds; non-FileNotFoundError integrity failures propagate rather than degrade.",
+        "VERIFIED privacy filtering (source-only): hosted collection runs only fixed 'systemctl show' commands against fixed UNITS, retains only the ten allowlisted PROPERTIES (no Environment, no ExecStart, no stderr), always sets execution_proven false with status CURRENT_CONFIGURATION_ONLY, and every persistent record (request, per-source content, properties, response, operating context) passes through scan(); historical receipts are labeled HISTORICAL_DOCUMENT_NOT_CURRENT_EXECUTION_PROOF.",
+        "VERIFIED authority and approval preservation (source-only): the evidence request schema is closed (exact key set, enumerated kinds matching the directive's ten, bounded 500-char text, no request-selected paths or commands); frozen scientific artifacts carry non-authority dispositions (FROZEN_SPECIFICATION_NOT_LAUNCH_AUTHORITY, TASK_RECORD_NOT_AUTHORITY, DECISION_DEPENDENCIES_NOT_GRANTS, EVIDENCE_NOT_AUTHORITY); the precedence statement plus directive text keep patient launch, charter ratification, 047 landing/cleanup, reserved data, main merges, protected writer/reset, limiter activation, credentials and spending behind their named gates; recovery turns rebind the current canonical direction (fresh sha256, same document set and dispositions) while preserving the original prompt as non-overriding historical evidence, matching the operating direction's recovery semantics.",
+        "NOTE: no tests were executed; all findings come from reading the supplied source at the pinned commit. As written, the tests cover the closed request schema and dedup, UNAVAILABLE-not-success, stderr/property filtering, fixed-command enforcement, canonical rebinding on recovery, and empty-packet rejection."
+      ]
+    },
+    "review_role": "author-operated cross-family implementation review; not independent merge desk"
+  }
+]

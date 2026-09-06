@@ -1,7 +1,8 @@
 # Human controls and autonomous operator route
 
-PR #2 is held for this usability amendment. Nothing authorizes a merge, public
-history rewrite, P001 dispatch, or new paid provisioning. The operator authorized
+PR #2 merged normally at `d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`.
+These controls are available on main. That merge did not authorize public history
+rewrite, P001 dispatch, or new paid provisioning. The operator authorized
 bounded non-patient Actions acceptance runs using existing Actions authentication
 and spending arrangements. This adapter reuses the existing Codex Actions API-key
 arrangement and Claude subscription OAuth secret; it does not create an API key,
@@ -10,7 +11,7 @@ campaign, scientific source, notebooks and older reviews remain unchanged.
 
 ## Phone operation
 
-After the proposed merge, open the repository in a mobile browser → **Actions** →
+Open the repository in a mobile browser → **Actions** →
 one of the controls below → **Run workflow**. Select the branch deliberately;
 main and `astra/autonomous-isles-pilot` are the supported sources. Choose P001,
 a stage, and a short question without patient details. Leave source SHA blank to
@@ -27,10 +28,11 @@ Artifacts have 90-day retention. They are not private patient-data storage and a
 not permanent Git checkpoints. Export permitted artifacts for longer retention;
 original patient consoles/checkpoints must use the separate private route.
 
-Before merging, acceptance uses the existing registered workflow names with the
-pilot ref through GitHub's workflow_dispatch API. This is the same Actions event
-as the button; it is not a claim that a person physically tapped the mobile UI.
-The current main version still exposes its older form until the PR is merged.
+The preserved acceptance used the registered workflow names with the pilot ref
+through GitHub's workflow_dispatch API. This is the same Actions event as the
+button; it is not evidence that a person physically tapped that UI. Main now
+contains these controls. The separate notification App acknowledgment was
+confirmed on the operator's phone; it does not authorize operational phone replies.
 
 ## Previous functions and current replacements
 
