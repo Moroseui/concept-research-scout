@@ -340,5 +340,45 @@
     },
     "review_role": "author-operated cross-family implementation review; not independent merge desk",
     "projection": "Synthetic test identifier replaced with descriptive label where present; complete original response retained privately."
+  },
+  {
+    "review": "reviewer-directive-final-docs",
+    "execution": {
+      "reviewed_commit": "234db34ffbb4d6db2e8f8a53ad15c89ddeb9c583",
+      "returncode": 0,
+      "wall_seconds": 122.30207934400823,
+      "input_file_sha256": {
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "8d9c8ed192974c964e6e8e529dc3d49cbc1628019587b80ef99966c7a414f63b"
+      },
+      "response_sha256": "0f5deab48c96a54126e0c3541b5adf553ba2fb68bf438fd9e10ee696b3d5547d",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "4d1e3a0d9d0f67bbbcc711c2a80e46e035541a52fc4eeacf688138cdbe9a7bc7"
+    },
+    "findings": {
+      "scope": "Final accepted-document clarification only: consistency and unchanged-authority review of docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md (remote-reviewer/v2) and docs/operations/REMOTE_OPERATING_DIRECTION.md \u2014 human-use requirements, contexts-vs-charters as unadopted design hypothesis, and isolated campaign reviewer artifact permissions vs tools-disabled hosted deployment review. Source-only review of inline-supplied documents; no tests run; substantive code and system design reviewed separately.",
+      "reviewed_commit": "234db34ffbb4d6db2e8f8a53ad15c89ddeb9c583",
+      "verdict": "APPROVE",
+      "findings": [
+        "Human-use requirements are stated consistently in both documents (both dated 6 September 2026): plain-language pitches, layered interpretations and readable code preserved; intellectual difficulty alone never lowers scientific scores; communication defects reported separately from validity/testability/feasibility; and both explicitly forbid turning the requirements into a redesign or new routine approval gates.",
+        "Contexts-versus-charters appears only in REMOTE_OPERATING_DIRECTION.md and is correctly bounded as an unadopted hypothesis: ROADMAP v2 is historical design input, scoring changes must be proposed explicitly, and the human-idea-context-design task is explicitly not a prerequisite for P001; the reviewer directive contains no adopting language.",
+        "Reviewer permission routes are cleanly distinguished and fail closed: hosted deployment-review tools remain disabled, the fixed reviewer_evidence collector uses an enumerated allowed-kinds list with no request-selected paths/commands and returns configuration observations, historical source-bound evidence, or UNAVAILABLE; the pre-existing isolated campaign artifact read/write route for review files is retention, not a new grant; neither route grants administration.",
+        "Fail-closed boundaries are consistent: unavailable sources are explicit dependencies, missing current execution proof requires a scoped collection task rather than an inferred pass, and a missing review is NOT_REVIEWED with bounded retry, matching the operating direction's capped-retry honest-unavailability language.",
+        "Authority is unchanged and gate lists match across documents: patient launch/transfer, charter ratification, 047 landing/cleanup, reserved data, main merges, protected writer/reset, live limiter/unattended activation, credentials, and spending/paid provisioning all retain their named separate gates; both documents disclaim new grants.",
+        "Persistent artifacts, identity bindings and recovery semantics are consistent: immutable reports/task packets, rejected reviews and historical bytes preserved, resolved findings carried forward; fresh reviewer sessions separate from execution workers with recorded reviewer/model/directive/document/source versions; one review per immutable report identity with no recursive re-review; durable deduplicated completion events.",
+        "Scientific approvals preserved: charters, frozen contracts and original approvals remain authoritative; 99 exposed development cases vs 49 untouched reserved cases and the baseline-plus-two-comparisons ceiling are unchanged in both documents.",
+        "Suggestion (non-blocking): the operating direction's 'no unrestricted administration' is weaker than the directive's 'neither route grants administration'; the stricter directive governs, but aligning wording would remove ambiguity.",
+        "Suggestion (non-blocking): the operating direction describes the evidence route only as a 'bounded read-only collector' without mentioning the pre-existing campaign artifact write route; a one-line cross-reference to the directive's distinction would prevent misreading the read-only phrasing as narrowing that existing permission.",
+        "Caveat: no git repository was available; the commit identity is taken from the request and the review covers only the two inline-supplied documents."
+      ]
+    },
+    "review_role": "author-operated cross-family document review; not independent merge desk"
   }
 ]

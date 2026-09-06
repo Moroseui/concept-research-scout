@@ -53,8 +53,11 @@ readable science, shared interfaces, task-bound steering and recoverable operati
 Reviewer directive v2 is supplied and hashed by the hosted context route and shared
 campaign author/reviewer route. The bounded evidence collector provides checked
 historical documents and fixed current service properties; it does not manufacture
-execution, backup or device-delivery proof. Fresh deployed v2 review remains pending
-until its own execution receipt is recorded.
+execution, backup or device-delivery proof. Fresh deployed v2 review completed at `a0d56c79a9ad73c2e950eb111866a8fe2ee26968`;
+its review, evidence-correction amendment, Astra disposition and verified receipts
+are in `hosted-reviewer-directive-20260906/`. The correction withdraws the mistaken
+missing-readiness-review finding: the original review existed but was omitted from
+the first supplied packet. No scientific review was rerun to resolve that omission.
 
 Open implementation work includes clearer report durations/block reasons already
 available in primary metadata, reconciliation of historical authentication wake
@@ -63,3 +66,40 @@ These are implementation tasks, not additional human approval requirements. The
 protected writer/reset and unattended permission decisions remain separate. No
 P001 patient result is available; prospective charter/adoption ratification and
 input/backend/launch gates remain on the Wednesday critical path.
+
+
+## First handover boundary and remaining estimate
+
+Operator clarification: finish one usable persistent handover before broader
+context/collaboration development. The reviewed intake design and scientific desk
+work remain queued alongside it, not prerequisites. Scientific launch gates remain
+separate. No permission decision is requested for an unfinished implementation.
+
+| Essential | Actually available | Remaining before handover |
+|---|---|---|
+| Persistent coordinator | Deterministic non-root synthetic controller/worker timers; real bounded model continuations in separate identities | Replace setup-driven model invocation with a reviewed persistent bounded route, one branch writer and explicit admission before every governed turn. |
+| Recovery | Original hosted completion/failure/restart/dedup evidence; corrected own-packet/source checks; immutable failed attempts | Exercise the final installed coordinator's interrupted model/report/review recovery and ambiguous-start handling. Preserve known work instead of blind replay. |
+| Protected publisher/admission/reset | Controlled branch publisher, exact-history scanning, CAS ledger tests, inactive 48/96 policy, proposed permission design | Implement protected requester authentication, shared Actions/server identities, writer credential isolation, operator-only reset and final denial/concurrency tests. No live writer/limiter installed. |
+| Scheduled report/review | Real report/Claude/disposition cycles and explicit versioned reviewer context | Add recurring schedule to the protected coordinator, review dedup/retry/recovery, readable durations/dependency reasons and checked delivery. Time remains proposed. |
+| Minimum human operation | Main Actions controls, readable artifacts, actual phone notification and synthetic ACK | Consolidate status/takeover instructions and implement task-bound pause/resume requests with duplicate/stale/conflict checks. Operational phone replies require separate scoped approval. |
+| Observation and recovery | Application-state sample restore; supervised remote jobs and model calls | Final installed evidence, concrete permissions, initialized shared state, activation verification, then 24–48 hours disconnected; provider backup evidence remains separately unverified. |
+
+Revised estimate: **12–20 engineering hours**, plus operator/provider waiting and
+**24–48 hours of observation**. Approximately 5–8 hours for the protected
+writer/admission/reset integration; 3–5 for persistent coordination and recovery;
+2–4 for scheduled reporting and minimum human controls; 2–3 for installed
+verification, evidence packaging and fresh review, with overlap between checks.
+These are estimates, not new scope/spending grants or a measured completion date.
+The prior 10–18-hour estimate preceded the explicit shared broker and final human
+intervention requirements; passing source tests does not remove those deployment
+steps. No additional framework, dashboard or cloud product is required.
+
+Observation starts only after final implementation/review, approval of the exact
+permission packet, shared-state initialization, hosted activation verification and
+the separate unattended activation decision. Proposed observation interface:
+GitHub Mobile status/report links and checked notifications; authenticated,
+source/task-bound pause/resume requests that stop new admissions while preserving
+running attempts. Operator reset remains separately protected. These operational
+phone verbs are **not yet implemented or authorized**. The packet must provide the
+exact supported commands and demonstrate them before observation is requested;
+current synthetic ACKs must not be treated as operational approvals.

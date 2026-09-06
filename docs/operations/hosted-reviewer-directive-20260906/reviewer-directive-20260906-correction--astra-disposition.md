@@ -1,0 +1,15 @@
+**Investigator response:** Accept the amendment as an evidence correction. Preserve the original review and its withdrawn recommendations unchanged. This assessment uses supplied records only; no system write or task execution occurred.
+
+| Finding | Disposition and evidence | Consequence / smallest next action |
+|---|---|---|
+| **F2 — resolved** | Supplied receipt `bcc3e14a…` binds readiness `53313249…` to opposing APPROVE `65212b46…`; provenance records actual Claude review. | The bound packet satisfies the reviewed-readiness deliverable. No duplicate review needed; adoption and launch remain pending. |
+| **F3 — resolved** | Supplied hosted receipt records session `6739e837…`, actual `claude-fable-5`, successful completion and current context bindings. | Receipt omission is corrected; no repeat execution needed. |
+| **F1 — blocker, deployment-closeout only** | Orientation evidence at `dc116ca5…` supports a bounded historical three-call cycle and observed separate runtime identities. It does **not** establish current controller execution, recovery or sustained operation under current direction `5cc0a9f1…`. | Retain the scoped controller-runtime/completion evidence dependency. Historical execution exists; full deployment acceptance remains unverified. |
+| **F4–F6 — open suggestions** | Prior review at `a0d56c79…`; no repair evidence supplied. | Retain minimal collector-labeling, evidence-mapping and source-binding/error-handling corrections. |
+| **F7 — launch-scoped evidence dependency** | Source amendment `3478bf7d…` leaves Tmax voxel units unresolved. Preflight `927d172e…` verifies selection only, without patient access or review-gate checking. | Seek authoritative export-unit documentation; conflicting evidence requires a separately reviewed amendment. |
+
+**Next eligible scientific desk step:** prepare a narrowly scoped supplement to the existing reviewed readiness packet incorporating the source-check amendment and metadata preflight. Distinguish supported timing/label provenance from unresolved voxel scaling, retain exact frozen bindings, and identify remaining adoption, backend-review and launch dependencies. Do not recreate the completed review or make P001 depend on 047 acceptance.
+
+Report-generator and reconciliation-documentation findings remain open. Authentication and synthetic phone ACK remain resolved; deployed steering/recovery usability, provider recovery and sustained laptop independence remain unverified.
+
+All reserved decisions remain unchanged: charter ratification/adoption, patient transfer/launch, 047 landing, cleanup/protection changes, reserved-data access, main merges, writer/reset permissions, limiter/unattended activation, operational replies, credentials, spending and report scheduling. The 99-case exploratory scope, untouched 49 reserved cases and baseline-plus-two ceiling remain intact.
