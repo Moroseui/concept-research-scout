@@ -45,6 +45,13 @@
       "reason": "REPORT_SCHEDULE_NOT_SELECTED",
       "status": "OPEN",
       "next_action": "Select nightly time; proposed 21:00 America/New_York. No timer for model reviews enabled."
+    },
+    {
+      "job": "review-recovery-closeout",
+      "status": "OPEN_IMPLEMENTATION",
+      "reason": "RECOVERED_WAKE_AND_DISPOSITION_RECOVERY_UNVERIFIED",
+      "next_action": "Add and review a recovery-aware wake closure route and bounded disposition-only recovery. Do not replay scientific jobs or represent recovered cycles as automatically closed.",
+      "evidence": "CLOSEOUT_IMPLEMENTATION_REVIEWS_20260906.json"
     }
   ]
 }
