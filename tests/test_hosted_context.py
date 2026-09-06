@@ -32,3 +32,9 @@ def test_missing_canonical_context_or_task_fails_closed(tmp_path):
     with pytest.raises(FileNotFoundError):build(tmp_path,{})
     fixture(tmp_path)
     with pytest.raises(ValueError,match='CURRENT_TASK'):envelope(tmp_path,tmp_path,'no task')
+
+
+def test_empty_task_packet_is_rejected(tmp_path):
+    fixture(tmp_path)
+    (tmp_path/'packet.json').write_text('{"jobs":[]}')
+    with pytest.raises(ValueError,match='CURRENT_TASK'):envelope(tmp_path,tmp_path,'empty')

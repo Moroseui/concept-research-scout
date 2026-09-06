@@ -7,6 +7,10 @@ from orchestrator.readiness_discussion import discuss
 
 
 def test_one_system_discussion_per_completion_set(tmp_path):
+    from orchestrator.hosted_context import DOCUMENTS
+    for name in DOCUMENTS:
+        p=tmp_path/name;p.parent.mkdir(parents=True,exist_ok=True)
+        p.write_text('{"entries":[]}' if name=='evidence/research_context.json' else 'Canonical fixture direction')
     q=Store(tmp_path/'readiness.sqlite')
     v={'scope':'METADATA_ONLY_NOT_SCIENTIFIC_VALIDATION','binding':{'source':'a'*40,'handler':'context_inventory'},'facts':[],'finished':1}
     q.db.execute('INSERT INTO events VALUES(?,?,?)',('event','task',json.dumps(v)))
@@ -15,3 +19,5 @@ def test_one_system_discussion_per_completion_set(tmp_path):
         second=discuss(SimpleNamespace(ROOT=tmp_path),tmp_path,tmp_path/'output','proposal')
         assert call.call_count==1 and second['duplicate'] and first['identity']==second['identity']
         assert call.call_args.args[1]=='discuss'
+        assert 'CURRENT CANONICAL OPERATING CONTEXT' in call.call_args.args[3]
+        assert len(list((tmp_path/'discussion-contexts').glob('*.json')))==1

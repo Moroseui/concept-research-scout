@@ -99,7 +99,10 @@ def checked_packet(root, rows, event, config, execution_root=None, verified_even
 
 def model_call(folder, stage, family, prompt, output_format='markdown', prepared_prompt=False):
     from orchestrator.hosted_context import envelope
-    prompt,operating_context=envelope(Path(__file__).resolve().parents[1],folder,prompt)
+    context_root=Path(__file__).resolve().parents[1]
+    context_source=subprocess.check_output(['git','-c','safe.directory='+str(context_root),'rev-parse','HEAD'],cwd=context_root,text=True).strip()
+    checked_source(context_root,context_source)
+    prompt,operating_context=envelope(context_root,folder,prompt,verified_source=context_source)
     immutable(folder/(stage+'.operating-context.json'),encoded(operating_context))
     user = 'research-driver' if family == 'astra' else 'research-reviewer'
     base=Path('/var/lib/research-system/model-work');base.mkdir(mode=0o711,exist_ok=True)
