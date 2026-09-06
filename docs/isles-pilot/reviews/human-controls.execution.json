@@ -1,0 +1,36 @@
+{
+  "reviewed_commit": "6859e97793bc62212340ec3d8949aeb7c65a4c91",
+  "returncode": 0,
+  "wall_seconds": 333.73385329600205,
+  "input_file_sha256": {
+    "orchestrator/actions_runner.py": "18255a5249f188323d590eba9825694e119d59118d4b8097c8281302900e14be",
+    "scripts/actions_agent.py": "2d619a81dc3f6483af4d7dc8dee284ff8cec6ea6251a8f042b538054ee465f5f",
+    "orchestrator/human_controls.py": "f5426873c00a4d91ab8a291cfc08827f2be84b8e8ea78c489e6a4461f06228d5",
+    "orchestrator/campaign_pipeline.py": "f4d6a44a43cd4bf215c33014ee390b6c24ded68de6679ca0f4360f4fef6a3866",
+    "scripts/actions_auth.py": "66f27c4fdaac13c31f566e0e915defac28f45c5b2bba0d9304b351c51d275cdd",
+    "scripts/render_human_workflows.py": "030b234d7be369a372d66aaa80c706a2690f4c3371e6b4fd6c21e8d4bc41c2f5",
+    "configs/pilot/human-controls.json": "37f678805e774862e843982aba221e32e17c893de00872aa4d59fddc2ecbc5e6",
+    ".github/workflows/research-control.yml": "29c40d828eeb25af3b4d0dd8f5515c77499df87ecc80d44de3e277f269dc5da5",
+    ".github/workflows/actioner.yml": "8b0b05c62fb5680fc08fde55462742a3205a2d36c3c0efccb07798284fdd62ef",
+    ".github/workflows/confer.yml": "0b391dbf23693b5e29b7b4e21eafebcd813fd93a56e54c6d3a357f6794885e26",
+    ".github/workflows/idea-pipeline.yml": "4eb288307e47d22cba5357f9e3273beaac808266bee30da651f489150cb7e859",
+    ".github/workflows/interpret.yml": "5ac92e12e03442a252a7a43b631cea4c97e2f6a81daad7adfe877524fceaab4c",
+    ".github/workflows/librarian.yml": "95f4a09aef4ca9b08987edc11cf7328b4eb8a6063634bed807724562cfdd1aca",
+    ".github/workflows/scout-cycle.yml": "17f116d37acd02b1af6cb65b90e1856258c924c34d81fd13059ab6afd3ce6e96",
+    ".github/workflows/results-validate.yml": "d01c488797cb24bde244bd9eb0b51074da4402efefb3f18ac8f6842f0e93401c",
+    "tests/test_human_controls.py": "9cd802fde713338824273579e63d34f6d0f95150cd47273d2e30178ccf2a664a",
+    "docs/isles-pilot/HUMAN_CONTROLS.md": "52f00d6495b037347b2ff9cd3923ce7648895e163f6f2352ff2880400cbfc295",
+    "docs/isles-pilot/HUMAN_CONTROLS_TEST_CHANGES.md": "eedec1cd4304909597f5349b4db67f61500cf3bcfc5f49faa7f83ebf97eab7af",
+    "docs/isles-pilot/reviews/human-controls-r1.response.json": "a74e10a5a3b833654e064de6586a86ccad24027d401848c8fb8c61d2406ed66a"
+  },
+  "response_sha256": "739a7f7c14e14be1c8f60f6144d37d9ea5ec0e61125a86e87de5e17274bd84f1",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "c98d4dd201c5cdce4bccb5e572df84c839b409f85049069583a4aa9b243648a2"
+}

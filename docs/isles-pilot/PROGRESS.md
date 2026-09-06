@@ -704,3 +704,9 @@ quarantine assertions were replaced with checks that still forbid improvement
 publication and require pinned remote actions / exact caller-bound local workflow.
 295 tests passed before the final two additional adapter cases. Follow-up review
 and live acceptance remain pending; no success receipt fabricated.
+
+### Human controls follow-up review — 2026-09-06
+
+Fable completed APPROVE at `6859e97793bc62212340ec3d8949aeb7c65a4c91` (actual assistant claude-fable-5; auxiliary Haiku usage recorded separately). Original response and source-hashed execution receipt are preserved as human-controls.*. R1 remediations and the newly gated interpretation proposal path were verified source-only; no reviewer tests are claimed. Local full suite: 297 tests and 14 subtests passed; all 47 state views and four registries validate.
+
+Accepted non-blocking limits: status receipts currently report unknown model-call count rather than explicit zero; replay retains a BLOCKED result until a new request ID; the 30-minute job cap can end a worst-case four-stage run before its per-stage timeouts, without a result artifact. Unsigned review receipts and supporting primitives remain protected by source review/CI rather than cryptographic signing. These limits do not authorize retries or new billing. Live Actions acceptance follows at the receipt-containing revision.
