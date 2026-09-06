@@ -1,14 +1,61 @@
-name: results-validate
-# Historical main implementation is unchanged remotely. This pilot copy cannot
-# read a raw results branch or open a main PR. Use campaign validate/import.
-on:
+name: "results-validate \u2014 Check result readiness"
+'on':
   workflow_dispatch:
+    inputs:
+      mode:
+        description: System stage (proposals are never automatically adopted)
+        type: choice
+        options:
+        - status
+        default: status
+      experiment:
+        description: Registered campaign experiment
+        type: choice
+        options:
+        - P001
+        - P002
+        - P003
+        default: P001
+      question:
+        description: Question or bounded request; no patient details or credentials
+        default: Summarize the evidence, limitations and next action.
+        type: string
+      request_id:
+        description: Reuse to retrieve the same result; change only for a deliberate new attempt
+        default: default
+        type: string
+      source_sha:
+        description: Optional exact SHA; blank binds the selected branch revision
+        default: ''
+        type: string
+      destination:
+        description: Validated result destination
+        type: choice
+        options:
+        - actions-artifact
+        default: actions-artifact
+      initiator:
+        description: Who is operating this control? (not an approval)
+        type: choice
+        options:
+        - human
+        - codex
+        default: human
 permissions:
   contents: read
+  actions: read
 jobs:
-  quarantined:
-    if: ${{ false }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo 'BLOCKED: raw results branch lifecycle is outside pilot authority.'
+  control:
+    uses: ./.github/workflows/research-control.yml
+    with:
+      control: results-validate
+      mode: ${{ inputs.mode }}
+      experiment: ${{ inputs.experiment }}
+      question: ${{ inputs.question }}
+      request_id: ${{ inputs.request_id }}
+      source_sha: ${{ inputs.source_sha }}
+      destination: ${{ inputs.destination }}
+      initiator: ${{ inputs.initiator }}
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

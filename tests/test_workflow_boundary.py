@@ -1,9 +1,8 @@
 import unittest
-from pathlib import Path
 from unittest.mock import patch
-import yaml
 from scripts.workflow_boundary import verify
-
+from scripts.render_human_workflows import verify as controls
+from pathlib import Path
 
 class WorkflowBoundaryTests(unittest.TestCase):
     def test_explicit_binding(self):
@@ -12,27 +11,6 @@ class WorkflowBoundaryTests(unittest.TestCase):
             for source,dest in [('main','astra/autonomous-isles-pilot'),('a'*40,'main'),('b'*40,'astra/autonomous-isles-pilot')]:
                 with self.assertRaises(ValueError):verify('.',source,dest)
 
-    def test_every_model_workflow_fails_closed(self):
-        for name in ['interpret','confer','actioner','scout-cycle','idea-pipeline','librarian']:
-            text=(Path('.github/workflows')/(name+'.yml')).read_text()
-            data=yaml.safe_load(text)
-            job=next(iter(data['jobs'].values()))
-            self.assertIn('PILOT_REMOTE_RESEARCH_ENABLED',job['if'])
-            steps=job['steps'];names=[s.get('name') for s in steps]
-            guard=steps[names.index('Campaign route required')]
-            self.assertIn('exit 1',guard['run'])
-            self.assertNotIn('secrets.',text)
-            self.assertNotIn('git push',text)
-            self.assertNotIn('git checkout main',text)
-            self.assertNotIn('git pull',text)
-
-    def test_all_workflows_parse_and_results_remain_quarantined(self):
-        for path in Path('.github/workflows').glob('*.yml'):
-            data=yaml.safe_load(path.read_text())
-            self.assertIsInstance(data['jobs'],dict)
-            for job in data['jobs'].values():
-                for step in job.get('steps',[]):
-                    if 'run' in step:self.assertIsInstance(step['run'],str)
-        data=yaml.safe_load(Path('.github/workflows/results-validate.yml').read_text())
-        self.assertEqual(data['jobs']['quarantined']['if'],'${{ false }}')
-        self.assertEqual(data['permissions'],{'contents':'read'})
+    def test_human_results_do_not_enable_git_publication(self):
+        r=controls(Path(__file__).resolve().parents[1])
+        self.assertFalse(r['git_publication']);self.assertFalse(r['patient_execution'])

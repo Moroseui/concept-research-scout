@@ -1,54 +1,61 @@
-name: interpret
-# Pilot quarantine: legacy model route disabled; use reviewed local campaign commands.
-on:
+name: "interpret \u2014 Interpret an imported result"
+'on':
   workflow_dispatch:
     inputs:
+      mode:
+        description: System stage (proposals are never automatically adopted)
+        type: choice
+        options:
+        - interpret
+        default: interpret
+      experiment:
+        description: Registered campaign experiment
+        type: choice
+        options:
+        - P001
+        - P002
+        - P003
+        default: P001
+      question:
+        description: Question or bounded request; no patient details or credentials
+        default: Summarize the evidence, limitations and next action.
+        type: string
+      request_id:
+        description: Reuse to retrieve the same result; change only for a deliberate new attempt
+        default: default
+        type: string
       source_sha:
-        description: 'Exact reviewed source commit (40 hex characters)'
-        required: true
-      destination_branch:
-        description: 'Explicit permitted publication branch'
-        required: true
-        default: 'astra/autonomous-isles-pilot'
-      idea:
-        description: 'Idea number to interpret (imported bundle required)'
-        required: true
-        default: '23'
-      resume_review:
-        description: 'Resume at the review leg (round-1 interpretation preserved from a failed run)'
-        type: boolean
-        default: false
-
-concurrency:
-  group: scout-cycle
-  cancel-in-progress: false
-
+        description: Optional exact SHA; blank binds the selected branch revision
+        default: ''
+        type: string
+      destination:
+        description: Validated result destination
+        type: choice
+        options:
+        - actions-artifact
+        default: actions-artifact
+      initiator:
+        description: Who is operating this control? (not an approval)
+        type: choice
+        options:
+        - human
+        - codex
+        default: human
 permissions:
   contents: read
-
+  actions: read
 jobs:
-  interpret:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/astra/autonomous-isles-pilot' && inputs.destination_branch == 'astra/autonomous-isles-pilot' && vars.PILOT_REMOTE_RESEARCH_ENABLED == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Verify explicit pilot execution boundary
-        env:
-          SOURCE_SHA: ${{ inputs.source_sha }}
-          DESTINATION_BRANCH: ${{ inputs.destination_branch }}
-        run: python scripts/workflow_boundary.py verify --source "$SOURCE_SHA" --destination "$DESTINATION_BRANCH"
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
-        with:
-          python-version: '3.12'
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
-        with:
-          node-version: '20'
-      - name: Campaign route required
-        run: |
-          echo 'BLOCKED: legacy numbered-idea workflow is not authorized for this campaign; use the campaign system commands locally.'
-          exit 1
+  control:
+    uses: ./.github/workflows/research-control.yml
+    with:
+      control: interpret
+      mode: ${{ inputs.mode }}
+      experiment: ${{ inputs.experiment }}
+      question: ${{ inputs.question }}
+      request_id: ${{ inputs.request_id }}
+      source_sha: ${{ inputs.source_sha }}
+      destination: ${{ inputs.destination }}
+      initiator: ${{ inputs.initiator }}
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

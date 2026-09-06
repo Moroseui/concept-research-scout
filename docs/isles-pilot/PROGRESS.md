@@ -673,3 +673,23 @@ will be audited again before publication. Cleanup replacement reaches zero of th
 173 raw staged blobs; originals and prior failure evidence preserved privately.
 See MAIN_INTEGRATION_VERIFIED_20260906.json for exact receipts and honest limits.
 No human merge/cleanup approval is claimed. P001 unexecuted; no remote coordinator.
+
+### Human usability amendment to held PR #2
+
+Operator explicitly withdrew the previous merge direction. PR #2 converted to draft.
+Starting source 0cfa2809d26d685b8cd194b6d08fe40aad697088; main unchanged at 4f5b6b1.
+Inventory found real legacy functionality lost by the quarantine. New shared Actions
+controls invoke campaign_pipeline/scout.run_agent with explicit request attribution,
+source/destination bindings and honest hosted receipts. Existing local CI stripping
+helper is not used on hosted stages. Scoped proposal/planning/repair/discussion/brief/
+curation routes are implemented, with status/import and legacy-corpus exceptions
+explicit in HUMAN_CONTROLS.md. No scientific acceptance or full feature parity claimed.
+Original P001 patient/scientific review bindings still verify at 465a0c3... .
+
+Initial synthetic verification: all generation modes traverse author/reviewer stages,
+CI receipts remain CI, invalid inputs reject, exports verify bytes/closed paths,
+cross-host redirects remove auth, and repeated matching artifacts replay without
+model calls. Fresh Fable review and real non-patient workflow_dispatch acceptance
+are required before this amendment is presented as usable. Existing Actions Codex
+API authentication and Claude subscription OAuth are reused, without new credentials,
+spending changes, paid provisioning, P001 dispatch, or cleanup.

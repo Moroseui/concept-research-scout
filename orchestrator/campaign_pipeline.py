@@ -17,12 +17,14 @@ from orchestrator.publication import inventory
 
 MODES={'propose':['proposal.md'],'specify':['SPEC.proposed.md'],
        'code':['run.proposed.py'],'repair':['repair.md','run.proposed.py'],
-       'discuss':['discussion.md']}
+       'discuss':['discussion.md'], 'brief':['actions.md'], 'curate':['curation.md']}
 
 
 def system_stage(sc,directory,family,stage,body,names):
     """Reuse the existing primitive with a future-job profile, not live AGENTS.toml."""
-    if os.environ.get('SCOUT_CI'):raise ValueError('campaign subscription stages refuse CI execution')
+    if os.environ.get('SCOUT_CI'):
+        from orchestrator.actions_runner import system_stage as hosted_stage
+        return hosted_stage(sc,directory,family,stage,body,names)
     original=sc.ROOT
     profile=Path(original)/'configs/pilot/agents-unattended.toml'
     config_root=Path(tempfile.mkdtemp(prefix='campaign-profile-'))
@@ -49,6 +51,9 @@ def grounding(root,experiment):
         imported=json.loads((prior/'import_receipt.json').read_text())
         if imported.get('spec_sha256')!=hashlib.sha256((prior/'SPEC.md').read_bytes()).hexdigest():raise ValueError('predecessor specification changed')
     files={base/'CAMPAIGN.md'}
+    for name in ['CURRENT_STATUS.md','047_LIFECYCLE.md']:
+        f=Path(root)/'docs/isles-pilot'/name
+        if f.is_file():files.add(f)
     if experiment!='P001':files.add(prior/'interpretation_receipt.json')
     for name in ['SPEC.md','run.py','publication.json']:
         if (exp/name).is_file():files.add(exp/name)
@@ -67,7 +72,7 @@ def grounding(root,experiment):
     return result
 
 
-def execute(sc,mode,experiment,request,output):
+def execute(sc,mode,experiment,request,output,initiator=None):
     if mode not in MODES:raise ValueError('unknown stage')
     output=Path(output)
     permitted=Path(sc.ROOT)/'campaigns/isles24-pilot/pipeline'
@@ -81,7 +86,7 @@ def execute(sc,mode,experiment,request,output):
         (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'reason':'GROUNDING_FAILED'}))
         raise
     binding={k:hashlib.sha256(v.encode()).hexdigest() for k,v in context.items()}
-    (output/'request.json').write_text(json.dumps({'mode':mode,'experiment':experiment,'request':request,'input_sha256':binding,'actor_type':'agent','family':'codex','authority':'campaign_delegated_investigator','status':'PROPOSAL_ONLY'},indent=2))
+    (output/'request.json').write_text(json.dumps({'mode':mode,'experiment':experiment,'request':request,'input_sha256':binding,'actor_type':'agent','family':'codex','authority':'campaign_delegated_investigator','status':'PROPOSAL_ONLY','initiator':initiator or {'kind':'agent','family':'codex'}},indent=2))
     body='You are the system campaign '+mode+' author. Produce a bounded proposal, not an approval or executable amendment. Preserve original experiment pins. No patient data, execution, remote writes, or human ratification. All scientific work is exploratory.\nREQUEST: '+request+'\nBOUND CONTEXT:\n'+json.dumps(context)
     try:
         for round in [1,2]:
@@ -93,9 +98,11 @@ def execute(sc,mode,experiment,request,output):
                 'Review this campaign proposal against its context. Write review.json with exactly verdict (APPROVE or REVISE) and rationale (nonempty string). Do not ratify or execute.\n'+body+'\nPROPOSAL:\n'+proposal,['review.json'])
             review=json.loads((directory/'review.json').read_text())
             if set(review)!={'verdict','rationale'} or review['verdict'] not in ['APPROVE','REVISE'] or not isinstance(review['rationale'],str) or not review['rationale'].strip():raise ValueError('malformed review')
-            if author.get('family_effective')!='codex' or reviewer.get('family_effective')!='claude' or any(r.get('exit_class')!='ok' or r.get('ci') for r in [author,reviewer]):raise ValueError('opposing-family successful receipts required')
+            if author.get('family_effective')!='codex' or reviewer.get('family_effective')!='claude' or any(r.get('exit_class')!='ok' for r in [author,reviewer]):raise ValueError('opposing-family successful receipts required')
+            expected_ci=bool(os.environ.get('SCOUT_CI'))
+            if any(bool(r.get('ci'))!=expected_ci or (expected_ci and r.get('runner',{}).get('adapter')!='github-actions-v1') for r in [author,reviewer]):raise ValueError('runner provenance mismatch')
             if review['verdict']=='APPROVE':
-                receipt={'status':'REVIEWED_PROPOSAL_NOT_ADOPTED','mode':mode,'experiment':experiment,'input_sha256':binding,'round':round,'artifact_sha256':{p.relative_to(output).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.iterdir() if p.is_file()},'author_family':'codex','reviewer_family':'claude'}
+                receipt={'status':'REVIEWED_PROPOSAL_NOT_ADOPTED','mode':mode,'experiment':experiment,'input_sha256':binding,'round':round,'artifact_sha256':{p.relative_to(output).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.iterdir() if p.is_file()},'author_family':'codex','reviewer_family':'claude','ci':expected_ci,'initiator':initiator or {'kind':'agent','family':'codex'}}
                 (output/'receipt.json').write_text(json.dumps(receipt,indent=2));return receipt
             body+='\nPRIOR PROPOSAL:\n'+proposal+'\nREPAIR REQUIRED:\n'+review['rationale']
         raise ValueError('review revision limit reached')

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "destination": "actions-artifact",
+  "controls": {
+    "scout-cycle": {"modes": ["propose"], "default": "propose", "title": "Propose within the campaign"},
+    "idea-pipeline": {"modes": ["specify", "code", "repair"], "default": "specify", "title": "Plan or repair an experiment"},
+    "confer": {"modes": ["discuss"], "default": "discuss", "title": "Ask the research system"},
+    "actioner": {"modes": ["brief"], "default": "brief", "title": "Read the operator brief"},
+    "librarian": {"modes": ["curate"], "default": "curate", "title": "Review campaign evidence and gaps"},
+    "interpret": {"modes": ["interpret"], "default": "interpret", "title": "Interpret an imported result"},
+    "results-validate": {"modes": ["status"], "default": "status", "title": "Check result readiness"}
+  }
+}
