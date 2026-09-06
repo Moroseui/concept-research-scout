@@ -57,19 +57,21 @@ def test_context_carries_both_source_versions_and_all_verified_events(monkeypatc
         assert 'orchestrator/public_export.py' in packet['implementation']
 
 
-def test_controller_snapshot_reads_as_controller_and_is_read_only(monkeypatch):
-    import sqlite3
-    from types import SimpleNamespace
+def test_controller_snapshot_reads_wal_database_as_controller_and_is_read_only(monkeypatch):
+    import sqlite3,subprocess,sys
     from orchestrator import hosted_cycle as h
     from orchestrator.remote_supervisor import Controller
-    c=Controller(':memory:');c.submit('snapshot','a'*40)
-    calls=[]
-    def run(args,**kwargs):
-        calls.append(args)
-        return SimpleNamespace(stdout=c.db.serialize())
-    monkeypatch.setattr(h.subprocess,'run',run)
-    view=h.controller_snapshot('/synthetic-private-state')
-    assert calls[0][:4]==['runuser','-u','research-controller','--']
-    assert view.get('snapshot')['status']=='READY'
-    with pytest.raises(sqlite3.OperationalError):
-        view.db.execute("DELETE FROM jobs")
+    with tempfile.TemporaryDirectory() as temp:
+        c=Controller(Path(temp)/'jobs.sqlite');c.submit('snapshot','a'*40)
+        assert c.db.execute('PRAGMA journal_mode').fetchone()[0]=='wal'
+        calls=[];original=subprocess.run
+        def run(args,**kwargs):
+            calls.append(args)
+            # Execute the actual snapshot script; only UID switching is a fixture.
+            return original([sys.executable,*args[8:]],**kwargs)
+        monkeypatch.setattr(h.subprocess,'run',run)
+        view=h.controller_snapshot(temp)
+        assert calls[0][:4]==['runuser','-u','research-controller','--']
+        assert calls[0][4:7]==['env','-i','PATH=/usr/bin:/bin']
+        assert view.get('snapshot')['status']=='READY'
+        with pytest.raises(sqlite3.OperationalError):view.db.execute("DELETE FROM jobs")

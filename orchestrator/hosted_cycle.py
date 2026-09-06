@@ -188,19 +188,23 @@ def select_next(answer,expected):
 
 def controller_snapshot(state):
     """Read a consistent private snapshot under the controller UID, never root WAL."""
-    import sqlite3
-    script = ('import sqlite3,sys;'
+    tables=('jobs','events','inbox','linux_attempts','wakes')
+    script = ('import sqlite3,sys,json;'
               'source=sqlite3.connect(sys.argv[1],uri=True);'
-              'copy=sqlite3.connect(":memory:");'
-              'source.backup(copy);'
-              'sys.stdout.buffer.write(copy.serialize())')
+              'source.execute("BEGIN");'
+              'json.dump({table:source.execute("SELECT * FROM "+table).fetchall() '
+              'for table in '+repr(tables)+'},sys.stdout);source.close()')
     result = subprocess.run(['runuser','-u','research-controller','--',
-        'python3','-c',script,(Path(state)/'jobs.sqlite').resolve().as_uri()+'?mode=ro'],
+        'env','-i','PATH=/usr/bin:/bin','python3','-c',script,
+        (Path(state)/'jobs.sqlite').resolve().as_uri()+'?mode=ro'],
         check=True,capture_output=True,timeout=30)
     if len(result.stdout)>16*1024*1024:raise ValueError('CONTROLLER_SNAPSHOT_TOO_LARGE')
-    controller=Controller.__new__(Controller)
-    controller.db=sqlite3.connect(':memory:',isolation_level=None)
-    controller.db.deserialize(result.stdout);controller.db.row_factory=sqlite3.Row
+    data=json.loads(result.stdout)
+    if set(data)!=set(tables):raise ValueError('CONTROLLER_SNAPSHOT_SCHEMA')
+    controller=Controller(':memory:')
+    for table in tables:
+        columns=list(controller.db.execute('PRAGMA table_info('+table+')'))
+        controller.db.executemany('INSERT INTO '+table+' VALUES ('+','.join('?' for _ in columns)+')',data[table])
     controller.db.execute('PRAGMA query_only=ON')
     return controller
 

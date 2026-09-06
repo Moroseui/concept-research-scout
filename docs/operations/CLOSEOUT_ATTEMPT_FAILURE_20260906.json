@@ -1,0 +1,20 @@
+{
+  "source": "83fdcd0a7d52e8a79af1dd9ecd50dfa5580719d8",
+  "unit": "research-system-closeout-02",
+  "status": "CONTINUATION_FAILED_BEFORE_MODEL_CALL",
+  "predecessor": {
+    "job": "40-closeout-trigger",
+    "attempt": "7573e0bba1c34724bdd0f660fdbc0e75",
+    "status": "COMPLETE",
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800"
+  },
+  "successor_submitted": false,
+  "model_calls": 0,
+  "failure": "sqlite3.OperationalError: unable to open database file",
+  "diagnosis": "Serializing a WAL-mode SQLite backup into an in-memory connection retains WAL format and cannot be queried after deserialize. Reproduced locally against an actual WAL database.",
+  "original_private_journal_sha256": "a408a448fd17d3ea9bc7ea57b0f7eb6c9132d56c010b417f4acab98bf97b99d1",
+  "original_journal_preserved_privately": true,
+  "next_route": "Repair snapshot export; continue from verified existing predecessor via hosted_cycle with next-job 41-closeout-followup. Do not rerun next_task_acceptance or the predecessor.",
+  "patient_execution": false
+}
