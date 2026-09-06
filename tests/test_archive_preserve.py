@@ -62,3 +62,21 @@ class ArchivePreserveTests(unittest.TestCase):
         cells=a.cells_for('poll','/content/drive/MyDrive/isles-pilot/archive-preservation-'+'a'*32)
         self.assertFalse(any('Popen' in c for c in cells))
         self.assertIn('does not launch, enable, certify or approve',captured[0])
+
+    def test_supplementary_poll_accepts_only_terminal_lf_and_known_blank(self):
+        from unittest.mock import patch
+        from orchestrator.archive_preserve import verify_poll
+        calls=[{'id':'g0','name':'mcp__colab-worker__get_cells','input':{'includeOutputs':False}},
+               {'id':'a','name':'mcp__colab-worker__add_code_cell','input':{'code':'print(1)'}},
+               {'id':'d','name':'mcp__colab-worker__delete_cell','input':{'cellId':'blank'}},
+               {'id':'g1','name':'mcp__colab-worker__get_cells','input':{'includeOutputs':False}},
+               {'id':'r','name':'mcp__colab-worker__run_code_cell','input':{'cellId':'new'}}]
+        results={'g0':{'cells':[{'id':'blank','source':['\n']}]},'a':{'newCellId':'new'},'d':{},'g1':{'cells':[{'id':'new','source':['print(1)']}]},'r':{'outputs':[]}}
+        with patch('orchestrator.archive_preserve.tool_exchanges',return_value=(calls,results)):
+            self.assertEqual(verify_poll([],['print(1)\n'])['known_initial_blanks_removed'],1)
+            with self.assertRaises(ValueError):verify_poll([],['print(2)\n'])
+            results['g0']['cells'][0]['source']=['not empty']
+            with self.assertRaises(ValueError):verify_poll([],['print(1)\n'])
+            results['g0']['cells'][0]['source']=['']
+            calls[0]['input']['includeOutputs']=True
+            with self.assertRaises(ValueError):verify_poll([],['print(1)\n'])

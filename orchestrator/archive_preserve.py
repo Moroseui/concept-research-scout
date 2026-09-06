@@ -38,6 +38,42 @@ def cells_for(action, job):
     return [CPU_CELL,retrieve]
 
 
+def verify_poll(events, cells):
+    """Only supplementary retrieval cells: tolerate terminal LF and known blank cleanup.
+
+    Scientific/start cells still use the original exact-byte validator. Original
+    protocols and raw source hashes remain evidence; no prior failure is relabeled.
+    """
+    calls, results = tool_exchanges(events)
+    written = {}; observed = {}; executed = []; blanks_removed = 0
+    canonical = lambda text: text.rstrip('\n')
+    for call in calls:
+        name = call['name']; args = call['input']; result = results.get(call['id'])
+        if name.endswith('__get_cells'):
+            if args.get('includeOutputs') is not False: raise ValueError('output reads forbidden')
+            for cell in result['cells']: observed[cell['id']] = ''.join(cell['source'])
+        elif name.endswith('__add_code_cell'):
+            written[result['newCellId']] = args['code']
+        elif name.endswith('__update_cell'):
+            key = args['cellId']
+            if executed or key not in observed or observed[key].strip(): raise ValueError('only initial blank may be filled')
+            written[key] = args['content']; observed.pop(key)
+        elif name.endswith('__delete_cell'):
+            key = args['cellId']
+            if executed or key in written or key not in observed or observed[key].strip(): raise ValueError('only known unused initial blank may be removed')
+            observed.pop(key); blanks_removed += 1
+        elif name.endswith('__run_code_cell'):
+            key = args['cellId']; index = len(executed)
+            if index >= len(cells) or key not in written or written[key] != observed.get(key) or canonical(written[key]) != canonical(cells[index]):
+                raise ValueError('retrieval source mismatch')
+            streams(result)
+            executed.append(hashlib.sha256(written[key].encode()).hexdigest())
+        elif not name.endswith('__open_colab_browser_connection'):
+            raise ValueError('unexpected notebook operation')
+    if len(executed) != len(cells): raise ValueError('incomplete retrieval')
+    return {'source_policy':'supplementary_cells_terminal_LF_only', 'executed_source_sha256':executed, 'known_initial_blanks_removed':blanks_removed}
+
+
 def run(action, directory, job=None):
     pin=reviewed();directory=private_dir(directory)
     job=job or '/content/drive/MyDrive/isles-pilot/archive-preservation-'+uuid.uuid4().hex
@@ -70,7 +106,8 @@ def run(action, directory, job=None):
         final=[e for e in events if e.get('type')=='result'][-1]
         meta['actual_models']=list(final.get('modelUsage',{}))
         if result.returncode or final.get('is_error') or final.get('subtype')!='success':raise ValueError('incomplete worker')
-        verify_cell_sources(events,cells)
+        if action == 'poll': meta['transport_verification'] = verify_poll(events,cells)
+        else: verify_cell_sources(events,cells)
         calls,results=tool_exchanges(events);runs=[c for c in calls if c['name'].endswith('__run_code_cell')]
         if json.loads(streams(results[runs[0]['id']]))!={'cpu_only':True,'colab_runtime':True}:raise ValueError('CPU Colab required')
         data=json.loads(streams(results[runs[-1]['id']]))
