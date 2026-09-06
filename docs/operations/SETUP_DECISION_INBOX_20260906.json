@@ -52,6 +52,13 @@
       "reason": "RECOVERED_WAKE_AND_DISPOSITION_RECOVERY_UNVERIFIED",
       "next_action": "Add and review a recovery-aware wake closure route and bounded disposition-only recovery. Do not replay scientific jobs or represent recovered cycles as automatically closed.",
       "evidence": "CLOSEOUT_IMPLEMENTATION_REVIEWS_20260906.json"
+    },
+    {
+      "job": "hosted-closeout-continuation",
+      "status": "OPEN_IMPLEMENTATION",
+      "reason": "PRIVATE_CONTEXT_SIZE_REPAIR_REVIEW_PENDING",
+      "next_action": "Continue only from completed predecessor 7573e0bba1c34724bdd0f660fdbc0e75 after reviewed source-context fix; preserve failed units 02 and 03, no predecessor replay.",
+      "evidence": "CLOSEOUT_CONTEXT_FAILURE_20260906.json"
     }
   ]
 }

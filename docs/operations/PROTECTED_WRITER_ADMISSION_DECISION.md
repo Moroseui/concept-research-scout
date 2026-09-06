@@ -14,7 +14,7 @@ and reviewed to distinguish Actions run/attempt identities from server turn
 identities before use; the current implementation accepts only Actions IDs and
 two branches and is not yet a server admission adapter.
 
-Propose a separate repository-selected GitHub App with Contents write and Metadata
+Propose a separate repository-selected GitHub App with Contents write, Actions read and Metadata
 read on `Moroseui/concept-research-scout` only. No Administration, Actions write,
 workflow-edit, pull-request-write or organization permissions. The exact App and
 installation IDs would be recorded after a separate operator creation step. Its
@@ -46,21 +46,31 @@ path traversal, arbitrary environment or reset verb is accepted from the driver.
 Use one protected branch lease and durable turn identity before invoking a model.
 The broker, not the driver, mints and uses the short-lived GitHub token.
 
-Actions need authenticated access to this same authority. Proposed transport is a
-small HTTPS admission endpoint on the existing host, accepting GitHub Actions OIDC
-with exact repository numeric ID, approved workflow identity/source, audience,
-run ID and attempt checks. No model context or scientific payload crosses it.
-Only the separate admission job gets `id-token: write`; model jobs retain read-only
-permissions and no writer/OIDC authority. Cross-branch callers must use a pinned,
-reviewed reusable admission workflow, not arbitrary branch-supplied claims.
+Actions use an admission-request artifact from a separate, credential-free admission
+job in a pinned reusable workflow. The artifact has a fixed schema and passes the
+existing export check before upload. The protected broker polls GitHub's Actions
+API for known outstanding requests, verifies repository ID, run ID, attempt,
+workflow path and reviewed workflow/source identity, and retrieves the immutable
+artifact using its Actions-read permission. No credential or OIDC bearer is placed
+in the artifact. Request text never selects arbitrary commands or reset operations.
 
-This endpoint, TLS naming/certificate arrangement, port-443 firewall change and
-Actions OIDC permission are **proposed, not configured**. An exact deployed
-workflow allowlist and token replay tests are prerequisites. If a safe arrangement
-cannot be expressed within existing services, keep Actions activation blocked;
-do not create another ledger or broaden credential distribution as a shortcut.
-This transport is the remaining concrete implementation dependency, not proof of
-hosted enforcement. No new paid domain or service purchase is included.
+The broker writes admission to the one Git CAS ledger. The waiting Actions job
+reads that public metadata-only ledger and proceeds only on an exact matching
+run/attempt/source admission. Timeout produces a visible block, not permission to
+run. Proposed broker poll interval is 30 seconds while requests are outstanding;
+maximum admission-job wait is 10 minutes. This consumes ordinary Actions runner
+minutes and API requests; it is not a financial cap. Server turns enter the same
+broker through the UID-authenticated socket. Notifications use the separate
+notification-only App after content checks.
+
+This reuses GitHub artifacts, the existing ledger and the purchased host. No public
+server endpoint, new inbound firewall rule, TLS/domain purchase or managed queue
+is needed. No additional GitHub writer token is distributed to Actions. Exact
+reusable-workflow source allowlists, artifact/run replay tests and broker polling
+are implementation/verification prerequisites, not deployed claims. Existing
+workflow model secrets can still be used by another permitted workflow that skips
+this route; their restriction/removal must be explicitly reviewed before claiming
+global enforcement. Do not silently broaden or repurpose them.
 
 ## Reset and counting
 
@@ -68,7 +78,7 @@ Reset is a separate local fixed-command interface restricted to the operator's
 SSH-authenticated administrative account. It requires the exact expected state
 sequence, policy hash, decision reference and authenticated operator identity;
 records a durable audit event and refuses stale/replayed requests. The driver,
-notification App, OIDC admission endpoint and scientific worker cannot invoke it.
+notification App, Actions artifact admission route and scientific worker cannot invoke it.
 Phone ACKs never reset the ledger. A narrow operator-only sudo rule for this exact
 installed reset command would require approval; do not give the driver sudo.
 
@@ -90,16 +100,16 @@ arrangements remain unchanged. No automatic paid fallback.
 
 ## Activation sequence and decision scope
 
-1. Independently review the installed broker, exact workflow/TLS identities,
+1. Independently review the installed broker, exact workflow and artifact identities,
    ownership, credential/ruleset limitations and operator-only reset interface.
 2. Operator approves this completed permission design and exact credential grant.
 3. Initialize shared state once through the protected route, preserving its pin.
 4. Use synthetic policy/state to verify concurrency, restart, duplicates, 48/96,
-   midnight halt persistence, warning delivery, wrong-UID/OIDC/reset rejection,
+   midnight halt persistence, warning delivery, wrong-UID/artifact-source/reset rejection,
    forbidden publication and failure-without-refund. Then verify live policy
    configuration without exhausting the live allowance merely to test a limit.
 5. Seek the separate live unattended activation decision and 24–48 hour observation.
 
-No approval is requested for an incomplete endpoint implementation. Until these
+No approval is requested for an incomplete broker/workflow implementation. Until these
 steps pass, supervised synthetic setup can continue under its bounded authority;
 standing dispatch, writer installation and limiter activation remain blocked.

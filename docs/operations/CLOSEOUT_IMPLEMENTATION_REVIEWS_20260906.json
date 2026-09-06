@@ -222,5 +222,50 @@
     "reported_total_cost_usd": 1.4438269999999997,
     "review_role": "author-operated implementation review; not independent main-merge desk",
     "source_only": true
+  },
+  {
+    "name": "closeout-context-review",
+    "execution": {
+      "reviewed_commit": "d51e4a07132dc380b655a0e47e827a1a004fb987",
+      "returncode": 0,
+      "wall_seconds": 180.91077564399893,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "fbd369252882f79486f4a565c2c96213868496db3e7b79dcdd29cd6765c8dfc8",
+        "orchestrator/operations_report.py": "df411c607f59407a806cfd7826c075bc433a94f2ab2806ce831bdce5b72a36e1",
+        "orchestrator/git_publication.py": "c6daec7fd16e2fc81cec1f626edfab8dd5f18f2c6fc1b5c740775cee91c0ac79",
+        "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+        "tests/test_hosted_recovery.py": "78911df69a562a855905e5fd263b7a2c932090f8b27267f5d6a83cadcfb81b08",
+        "docs/operations/CLOSEOUT_CONTEXT_FAILURE_20260906.json": "12aad43a017e6bfd6102e6888b1947c63ecac37984d07317d862a62d42e1f721"
+      },
+      "response_sha256": "704436435c6be6921804a115a9cb8de562bfa7faa23032ed6d63be40abe97872",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "589b023276583d2d34e9162afd157ba1e81077042df765ea55e85bcfde25c5d4"
+    },
+    "review": {
+      "scope": "Privacy/size/ownership correctness of the new private immutable source-context storage in orchestrator/hosted_cycle.py (fix for pre-model PUBLIC_TEXT_REJECTED at 7fb5f2f), including unchanged public report/summary limits, fail-closed boundaries, identity bindings, recovery semantics, and preservation of scientific gating. Source-only review of the supplied files; no execution and no claim that tests were run. Standing activation/authority model out of scope per request.",
+      "reviewed_commit": "d51e4a07132dc380b655a0e47e827a1a004fb987",
+      "verdict": "APPROVE",
+      "findings": [
+        "hosted_cycle.immutable is correct on the reviewed axes: parent directory enforced owner-only and symlink-free via private_root (uid match, no group/other permission bits, ancestor symlink check re-run on every write); content validated before any write by both git_publication.scan (path rules, secret/case-identifier/NUL rejection, 1.5MB cap) and public_export.text at explicit limit=1500000; O_EXCL create at mode 0600; byte-identical repeat returns idempotently with symlink rejection, differing bytes raise IMMUTABLE_OUTPUT_CONFLICT; file fsync followed by parent-directory fsync.",
+        "Public boundaries are unchanged: operations_report.immutable still routes through text() at the 100,000-byte default and public_export.text/summary defaults are untouched; the 1.5MB bound applies only to the private cycle folder, matching the diagnosed failure where the expanded packet exceeded the 100k public writer.",
+        "Fail-closed ordering verified: scan and public_text run before os.open, so rejected content leaves no partial artifact (consistent with the test asserting rejected.md does not exist); a crash mid-write leaves bytes that fail equality on re-entry, forcing reconciliation instead of silent retry; blocked.json content is constant so the failure path is idempotent, and claim() routes partial folders to INCOMPLETE_CYCLE_RECONCILE_NO_AUTOMATIC_RETRY.",
+        "Identity bindings and recovery semantics intact: claim() enforces byte-equal binding.json with idempotent complete.json return; no code deletes prior failed unit directories (both failed attempts preserved); continuation is gated on an existing COMPLETE synthetic_success predecessor with validate_receipt, artifact/console hash re-verification, and NEXT_JOB_ALREADY_EXISTS_RECONCILE protection; packet scope and report science wording still deny scientific conclusions or grants.",
+        "Non-blocking: a model answer between 100k and 1.5MB is stored privately (stage .md at the 1.5MB bound) but then rejected by Queue.attach/disposition's 100k public text() check, consuming one of the three review attempts before the cycle blocks; fail-closed but an operational cost worth knowing.",
+        "Non-blocking, pre-existing: identifier() accepts dot-only strings ('.'/'..' match [A-Za-z0-9_.:-]{1,128}) and attempt/job ids are joined into filesystem paths (Path(outputs)/attempt_id, destination/attempt_id); downstream binding.json presence, symlink checks, and the trusted controller snapshot make this fail closed, but rejecting dot-only identifiers would be tighter.",
+        "Note: the whole packet remains bounded by scan('packet.json') at 1.5MB in checked_packet; if embedded sources grow past that, the cycle fails pre-model again at the higher bound \u2014 same failure class as 7fb5f2f but fail-closed and consistent with the stated design."
+      ]
+    },
+    "session_id": "f3577436-7b33-4451-be87-1b116f6b9e62",
+    "reported_total_cost_usd": 1.294411,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true,
+    "investigator_qualification": "The dot-only identifier finding does not apply to hosted_cycle: it imports remote_supervisor.identifier, whose regex is [A-Za-z0-9_-]{1,64}. No identifier relaxation or historical code change was made."
   }
 ]
