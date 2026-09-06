@@ -177,5 +177,50 @@
     "reported_total_cost_usd": 1.050569,
     "review_role": "author-operated implementation review; not independent main-merge desk",
     "source_only": true
+  },
+  {
+    "name": "closeout-wal-review",
+    "execution": {
+      "reviewed_commit": "3321f0f84ae441b36b6407b7178ebf339597112b",
+      "returncode": 0,
+      "wall_seconds": 241.26845281999704,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "35e89da4a4499df178bf27d7f707c62883247e8e0a2e06f15f4afd55180f343e",
+        "tests/test_hosted_recovery.py": "1e776706cb7149cd9f938212f94aa4d431c9cf1a913fa0277673b04e6b425c13",
+        "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+        "orchestrator/remote_supervisor.py": "06c0ee427d97e6be518e8ad037b46c09cc9f97b021cb848f67f2f007e7affcff",
+        "docs/operations/CLOSEOUT_ATTEMPT_FAILURE_20260906.json": "90c233fe24fb1ee4b4059408873276cb2d0ce3092584bc2853e0e33a012204a6"
+      },
+      "response_sha256": "291f5294485ff54d1fd0f04287d5169798e1e0c0562b9cfd75afe14378682a25",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "a24dfc46495e63762fde073ee464d5f1c5a2febc37fd35c7918d2fb1914baa55"
+    },
+    "review": {
+      "scope": "Source-only review of the controller-snapshot repair (JSON row export under controller UID replacing WAL serialize/deserialize) and its bounded next-job continuation path in orchestrator/hosted_cycle.py, plus supplied remote_supervisor.py, job_store.py, tests/test_hosted_recovery.py, and the 20260906 closeout record. Not a merge decision; unsupplied modules (operations_report, git_publication, public_export, recovery/reconcile) assumed as previously reviewed; tests not executed by reviewer.",
+      "reviewed_commit": "3321f0f84ae441b36b6407b7178ebf339597112b",
+      "verdict": "APPROVE",
+      "findings": [
+        "Repair correctly addresses the recorded 83fdcd0 failure: snapshot subprocess opens the WAL database read-only under the controller UID (which owns the state dir and can service the -shm file a read-only WAL open needs), exports five fixed tables inside one deferred read transaction (all fetchall() calls complete before json.dump returns), and root never opens the WAL file, eliminating both the serialize/deserialize WAL-format defect and any root-owned journal artifact risk.",
+        "Reconstruction is fail-closed on the drift modes traced: column-count mismatch raises in executemany, NOT NULL violations raise IntegrityError, missing/extra tables fail the schema set check, oversized output fails the 16 MiB cap, and non-JSON types would fail serialization. Residual gap: a same-arity column reordering or type change between the deployed DB and the code-defined schema would misbind silently; exporting column names from the snapshot subprocess and comparing to PRAGMA table_info would close it. Minor, schema is code-owned.",
+        "PRAGMA query_only=ON on the private in-memory copy makes Controller's mutating methods (submit/register/claim/event/tick/block) raise if invoked on the snapshot, verified by the DELETE test. It is advisory within-process, but the authoritative database is unreachable through this handle, so accidental-write protection is the right claim and it holds.",
+        "Bounded continuation semantics preserved: predecessor evidence (event payload, bound request via validate_receipt, PAYLOAD artifact bytes, console hashes, symlink checks) is re-verified from one consistent snapshot; binding includes next_job and event_sha256 so a divergent re-run hits CYCLE_BINDING_CONFLICT; completed cycles return cached complete.json with zero model calls; duplicate successor dispatch is prevented by the NEXT_JOB_ALREADY_EXISTS check, register()'s binding-conflict rejection, and the linux_attempts job UNIQUE constraint; submit fixes kind=synthetic_success and Controller.submit independently enforces synthetic-only kinds, backend allowlist, and the 16-job budget, so scientific approvals and patient gating are untouched.",
+        "Minor hardening inconsistency: the successor-submit subprocess runs 'runuser ... env GIT_OPTIONAL_LOCKS=0 python3 ...' inheriting root's full environment and PATH-resolved python3, unlike the 'env -i PATH=/usr/bin:/bin' sanitization used for the snapshot and model calls. Not exploitable from untrusted input (root's own environment), but should be aligned.",
+        "Persistent-artifact gap (pre-existing, not worsened): a snapshot or verification failure before claim() leaves no durable artifact under the destination root, the same visibility gap the 83fdcd0 incident had (recorded only via the private journal and a manual closeout document). Acceptable for a supervised transport; consider a durable pre-claim failure record.",
+        "Test hygiene: monkeypatch.setattr(h.subprocess,'run',...) patches run on the shared stdlib subprocess module, through which check_output is also implemented; harmless in the current test because only the snapshot call occurs under the patch, but fragile if the test grows. The test otherwise genuinely executes the production export script against a real WAL database (journal_mode asserted) with only UID switching fixtured, and the argv slice args[8:] correctly preserves ['-c', script, uri].",
+        "Operational note: the successor is submitted at the predecessor's execution pin (row['source'], 6b555075...) to satisfy checked_packet's single-pin invariant; if the deployed controller ticks at a different pin the job blocks fail-closed with SOURCE_CHANGED and the cycle records the blocked outcome. Operator should confirm the deployed tick pin before the supervised run. Polling cost (~one controller-UID snapshot subprocess per 2 s for up to 240 s) is heavyweight but bounded.",
+        "Scope caveat: hosted_review_recovery.py, hosted_cycle_reconcile.py, operations_report.py, git_publication.py, and public_export.py are pinned in SOURCE_FILES but were not supplied; sanitized(), scan(), finalize(), Queue, and the recovery path are relied on as previously reviewed. The reported 37-test pass was not independently verified; this review is source-only."
+      ]
+    },
+    "session_id": "5f3c8e45-1a92-420b-b7d7-e053b720fca1",
+    "reported_total_cost_usd": 1.4438269999999997,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true
   }
 ]
