@@ -1,5 +1,9 @@
-"""Read-only verification of a disposable main merge candidate. Never merges/pushes."""
+"""Read-only merge verification. Run python -m scripts.verify_main_integration.
+
+Run from the candidate checkout root; never merges or pushes.
+"""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -7,11 +11,16 @@ import subprocess
 import yaml
 
 
+CHECK_WORKFLOW_SHA256 = "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648"
+
 def workflow_policy(root):
     from scripts.render_human_workflows import verify as verify_controls
     result = verify_controls(root)
     # Retain the pre-amendment deterministic-CI boundaries as well as the controls.
-    text = (Path(root) / '.github/workflows/check.yml').read_text()
+    path = Path(root) / '.github/workflows/check.yml'
+    if path.is_symlink() or hashlib.sha256(path.read_bytes()).hexdigest() != CHECK_WORKFLOW_SHA256:
+        raise ValueError('deterministic CI differs from reviewed bytes')
+    text = path.read_text()
     checks = yaml.safe_load(text)
     if set(checks['jobs']) != {'basic'}:
         raise ValueError('deterministic CI job contract changed')

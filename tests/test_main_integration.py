@@ -23,7 +23,7 @@ class MainIntegrationTests(unittest.TestCase):
             shutil.copytree(source / '.github', root / '.github')
             file = root / '.github/workflows/check.yml'
             original = file.read_text()
-            for mutation in ['permissions', 'credentials', 'secrets']:
+            for mutation in ['permissions', 'credentials', 'secrets', 'indexed_secret', 'whole_context', 'extra_step']:
                 with self.subTest(mutation=mutation):
                     data = yaml.safe_load(original)
                     job = data['jobs']['basic']
@@ -31,8 +31,14 @@ class MainIntegrationTests(unittest.TestCase):
                         job['permissions'] = {'contents': 'write'}
                     elif mutation == 'credentials':
                         job['steps'][0]['with']['persist-credentials'] = True
-                    else:
+                    elif mutation == 'secrets':
                         job['env'] = {'KEY': '${{ secrets.ANY_KEY }}'}
+                    elif mutation == 'indexed_secret':
+                        job['env'] = {'KEY': "${{ secrets['ANY_KEY'] }}"}
+                    elif mutation == 'whole_context':
+                        job['env'] = {'KEY': '${{ toJSON(secrets) }}'}
+                    else:
+                        job['steps'].append({'run': 'echo unreviewed_step'})
                     file.write_text(yaml.safe_dump(data))
                     with self.assertRaises(ValueError):
                         workflow_policy(root)
