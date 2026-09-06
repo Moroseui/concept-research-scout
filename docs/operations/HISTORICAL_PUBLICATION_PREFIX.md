@@ -25,3 +25,10 @@ prefix must end with a newline, so appends cannot extend its final identifier.
 The actual pinned public prefix already has that boundary; the explicit guard and
 a rejecting synthetic fixture now enforce it. Unexpected Git ancestry errors
 also fail closed. The original rejected review remains private and attributed.
+
+The next review identified a pre-existing path-pattern hole in the history auditor.
+Changed names are now matched byte-for-byte against the complete NUL-delimited
+Git tree, and bytes are read by the matched blob object identity. Pattern-shaped
+filenames cannot hide a blob or borrow another entry's mode. Tests reject unsafe
+content under unusual names and a pattern-shaped symlink. Actual tree absence
+is the only deletion case. No original commit or review was rewritten.

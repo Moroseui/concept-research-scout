@@ -146,6 +146,21 @@ class CreationTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,error):self.publish(bad)
         self.assertFalse(self.run_git('ls-remote','origin',self.ref))
 
+class UnusualPathTests(CreationTests):
+    def test_glob_shaped_unsafe_filename_is_never_skipped(self):
+        for name in ['results[1].md', 'a\\b.md', ':(glob)x.md']:
+            with self.subTest(name=name):
+                before=self.run_git('rev-parse','HEAD')
+                (self.root/name).write_text('ghp_'+'A'*32)
+                self.run_git('add','--all');self.run_git('commit','-qm','unusual unsafe fixture')
+                with self.assertRaisesRegex(ValueError,'CONTENT_REJECTED'):pub.audit(self.root,self.run_git('rev-parse','HEAD'),before,{})
+                (self.root/name).unlink()
+    def test_pattern_shaped_symlink_mode_is_checked_on_exact_entry(self):
+        (self.root/'1.md').write_text('safe regular fixture')
+        (self.root/'[1].md').symlink_to('1.md')
+        self.run_git('add','--all');self.run_git('commit','-qm','unusual symlink fixture')
+        with self.assertRaisesRegex(ValueError,'NON_REGULAR'):pub.audit(self.root,self.run_git('rev-parse','HEAD'),self.base,{})
+
 class HistoricalEvidenceTests(unittest.TestCase):
     def test_only_exact_public_prefix_is_preserved(self):
         with tempfile.TemporaryDirectory() as tmp:

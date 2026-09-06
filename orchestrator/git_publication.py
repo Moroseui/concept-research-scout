@@ -80,15 +80,20 @@ must be reviewed by the caller; matching hashes alone are not a privacy review.
     for commit in git(root,'rev-list',before+'..'+source).decode().splitlines():
         scan_commit(git(root,'cat-file','commit',commit))
         # -m includes changes relative to each parent: side history is never hidden.
+        tree={}
+        for entry in git(root,'ls-tree','-r','-z',commit).split(b'\0'):
+            if entry:
+                metadata,name=entry.split(b'\t',1);tree[name]=metadata.split()
         names = set(git(root,'diff-tree','--root','-m','--no-commit-id','--name-only','-r','-z',commit).split(b'\0'))
         for raw in sorted(names):
             if not raw: continue
             name = raw.decode()
-            entry = git(root,'ls-tree',commit,'--',name)
-            if not entry: continue
-            if entry.split()[0] not in (b'100644',b'100755'):
+            entry = tree.get(raw)
+            # Byte-exact membership: absence means a real deletion, not a path glob.
+            if entry is None: continue
+            if entry[0] not in (b'100644',b'100755'):
                 raise ValueError('NON_REGULAR_PUBLICATION')
-            data = git(root,'show',commit+':'+name)
+            data = git(root,'cat-file','blob',entry[2].decode())
             scan_history_blob(root,before,name,data)
             observed[commit+':'+name] = hashlib.sha256(data).hexdigest()
     if observed != inventory:

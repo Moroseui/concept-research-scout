@@ -23,7 +23,9 @@ def register(state,root,source,day):
     for task in tasks:
         store.register(task['id'],{'source':source,'operator_task':task,'execution_authorized':False})
         store.db.execute("UPDATE jobs SET phase='operator_task' WHERE id=? AND phase='acquisition'",(task['id'],))
-        if store.get(task['id'])['status']=='READY':store.block(task['id'],'REMOTE_DRIVER_AUTH_AND_TASK_GATES_REQUIRED')
+        reason={'isles24-prediction-charter':'REMOTE_AUTH_SOURCE_RECOVERY_CLAUDE_ALIGNMENT_CHARTER_RATIFICATION',
+                '047b-evidence-and-lifecycle':'REMOTE_AUTH_047B_IDENTITY_ORIGINAL_CONSOLE_EXCLUSIONS_REGISTRY_LANDING_GATE'}[task['id']]
+        if store.get(task['id'])['status']=='READY':store.block(task['id'],reason)
         row=store.get(task['id'])
         reason=next((r['reason'] for r in store.inbox() if r['job']==task['id'] and r['status']=='OPEN'),None)
         rows.append({'job_id':task['id'],'source':source,'kind':'queued_scientific_task','backend':'linux','status':row['status'],'reason':reason})
