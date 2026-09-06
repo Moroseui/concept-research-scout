@@ -53,3 +53,92 @@ class PublicationTests(unittest.TestCase):
         for kind in ['', 'RSA ', 'OPENSSH ', 'EC ']:
             with self.assertRaisesRegex(ValueError,'CONTENT_REJECTED'):
                 pub.scan('bad.txt',('-----'+'BEGIN '+kind+'PRIVATE KEY-----').encode())
+
+class CreationTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        self.root=Path(self.tmp.name)/'work';self.root.mkdir()
+        self.remote=Path(self.tmp.name)/'remote.git'
+        self.run_git('init','-q');self.run_git('config','user.name','Synthetic')
+        self.run_git('config','user.email','fixture@local.invalid')
+        (self.root/'README.md').write_text('public baseline')
+        self.run_git('add','.');self.run_git('commit','-qm','baseline')
+        self.base=self.run_git('rev-parse','HEAD')
+        subprocess.run(['git','init','-q','--bare',str(self.remote)],check=True)
+        self.run_git('remote','add','origin',str(self.remote))
+        self.run_git('push','-q','origin',self.base+':refs/heads/main')
+        (self.root/'README.md').write_text('permitted record')
+        self.run_git('commit','-qam','record')
+        self.ref='refs/heads/astra/record'
+
+    def run_git(self,*args):
+        return subprocess.check_output(['git',*args],cwd=self.root,text=True).strip()
+
+    def request(self):
+        source=self.run_git('rev-parse','HEAD');inventory={}
+        for commit in self.run_git('rev-list',self.base+'..'+source).splitlines():
+            for name in self.run_git('diff-tree','--no-commit-id','--name-only','-r',commit).splitlines():
+                if subprocess.run(['git','cat-file','-e',commit+':'+name],cwd=self.root,capture_output=True).returncode==0:
+                    data=subprocess.check_output(['git','show',commit+':'+name],cwd=self.root)
+                    inventory[commit+':'+name]=hashlib.sha256(data).hexdigest()
+        return {'operation':'create','source':source,'audit_baseline':self.base,
+                'baseline_ref':'refs/heads/main','destination':'astra/record',
+                'remote':str(self.remote),'expected_destination':'absent','inventory':inventory}
+
+    def publish(self,req=None):
+        req=self.request() if req is None else req
+        return pub.publish(self.root,req,{k:v for k,v in req.items() if k!='inventory'})
+
+    def test_create_and_verify_with_separate_public_baseline(self):
+        # A configured pushurl must not redirect this exact-repository operation.
+        self.run_git('config','remote.origin.pushurl',str(Path(self.tmp.name)/'wrong.git'))
+        r=self.publish()
+        self.assertEqual(r['audit_baseline'],self.base)
+        self.assertEqual(r['operation'],'create_if_absent')
+        self.assertTrue(r['remote_verified'])
+        self.assertEqual(self.run_git('ls-remote',str(self.remote),self.ref).split()[0],r['source'])
+        with self.assertRaisesRegex(ValueError,'DESTINATION_ALREADY_EXISTS'):self.publish()
+
+    def test_existing_other_tip_is_preserved(self):
+        self.run_git('push','-q','origin',self.base+':'+self.ref)
+        with self.assertRaisesRegex(ValueError,'DESTINATION_ALREADY_EXISTS'):self.publish()
+        self.assertEqual(self.run_git('ls-remote','origin',self.ref).split()[0],self.base)
+
+    def test_concurrent_creation_never_updates_or_claims_success(self):
+        for same_source in (False,True):
+            with self.subTest(same_source=same_source):
+                req=self.request();other=req['source'] if same_source else self.base
+                original=pub.git;attempts=[]
+                def raced(root,*args,**kw):
+                    if args[0]=='push':
+                        attempts.append(args)
+                        self.run_git('push','-q','origin',other+':'+self.ref)
+                    return original(root,*args,**kw)
+                with patch.object(pub,'git',side_effect=raced):
+                    expected=ValueError if same_source else subprocess.CalledProcessError
+                    with self.assertRaises(expected):self.publish(req)
+                self.assertEqual(len(attempts),1)
+                self.assertIn('--force-with-lease='+self.ref+':',attempts[0])
+                self.assertEqual(self.run_git('ls-remote','origin',self.ref).split()[0],other)
+                # Dispose only this synthetic fixture ref for the second case.
+                subprocess.run(['git','--git-dir='+str(self.remote),'update-ref','-d',self.ref],check=True)
+
+    def test_deleted_unsafe_history_rejected_before_creation(self):
+        (self.root/'secret.txt').write_text('ghp_'+'A'*32)
+        self.run_git('add','.');self.run_git('commit','-qm','unsafe intermediate')
+        self.run_git('rm','-q','secret.txt');self.run_git('commit','-qm','remove')
+        with self.assertRaisesRegex(ValueError,'CONTENT_REJECTED'):self.publish()
+        self.assertFalse(self.run_git('ls-remote','origin',self.ref))
+
+    def test_operation_inventory_and_baseline_bindings_fail_closed(self):
+        req=self.request()
+        with self.assertRaisesRegex(ValueError,'AUTHORITY'):pub.publish(self.root,req,{})
+        for field,value,error in [('audit_baseline',req['source'],'PUBLIC_AUDIT_BASELINE_CHANGED'),
+                                  ('expected_destination',self.base,'EXPECTED_ABSENCE_REQUIRED'),
+                                  ('remote',str(self.remote)+'-other','REMOTE_IDENTITY_CHANGED'),
+                                  ('destination','../main','INVALID_DESTINATION'),
+                                  ('inventory',{},'INVENTORY_MISMATCH')]:
+            with self.subTest(field=field):
+                bad={**req,field:value}
+                with self.assertRaisesRegex(ValueError,error):self.publish(bad)
+        self.assertFalse(self.run_git('ls-remote','origin',self.ref))

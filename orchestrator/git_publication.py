@@ -85,6 +85,10 @@ The production wrapper supplies the existing pilot authority. Other destinations
 are supported only with an externally supplied, exact operation grant; this
 function does not authenticate a human signer or create such a grant.
 """
+    if request.get('operation') == 'create':
+        return create(root, request, authority)
+    if 'operation' in request:
+        raise ValueError('UNSUPPORTED_PUBLICATION_OPERATION')
     source,before,destination = (request[k] for k in ['source','before','destination'])
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_./-]*',destination) or '..' in destination:
         raise ValueError('INVALID_DESTINATION')
@@ -101,6 +105,59 @@ function does not authenticate a human signer or create such a grant.
     if remote != [before,ref]: raise ValueError('REMOTE_MOVED')
     subprocess.run(['git','push','--force-with-lease='+ref+':'+before,'origin',source+':'+ref],cwd=root,check=True)
     return {**receipt,'destination':destination,'operation':'append_only_compare_and_swap'}
+
+
+def create(root, request, authority=None):
+    """Create exactly one absent ref, auditing from a separately public baseline.
+
+    An empty expected-old lease is checked atomically by receive-pack. A porcelain
+    creation result is also required: an already-identical ref can otherwise be
+    reported up-to-date without testing a lease. No update fallback is permitted.
+    """
+    bindings = {'operation', 'source', 'audit_baseline', 'baseline_ref',
+                'destination', 'remote', 'expected_destination'}
+    if set(request) != bindings | {'inventory'}:
+        raise ValueError('EXACT_CREATION_FIELDS_REQUIRED')
+    if authority != {k: request[k] for k in bindings}:
+        raise ValueError('EXACT_OPERATION_AUTHORITY_REQUIRED')
+    if request['operation'] != 'create' or request['expected_destination'] != 'absent':
+        raise ValueError('EXPECTED_ABSENCE_REQUIRED')
+    source, baseline = request['source'], request['audit_baseline']
+    if not all(isinstance(x, str) and re.fullmatch('[0-9a-f]{40}', x)
+               for x in (source, baseline)):
+        raise ValueError('EXACT_PINS_REQUIRED')
+    destination, baseline_ref, remote = (request[k] for k in
+                                       ('destination', 'baseline_ref', 'remote'))
+    if not isinstance(destination, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_./-]*', destination):
+        raise ValueError('INVALID_DESTINATION')
+    ref = 'refs/heads/' + destination
+    if not isinstance(baseline_ref, str) or not baseline_ref.startswith('refs/heads/'):
+        raise ValueError('INVALID_BASELINE_REF')
+    for name in (ref, baseline_ref):
+        if subprocess.run(['git', 'check-ref-format', name], cwd=root,
+                          capture_output=True).returncode:
+            raise ValueError('INVALID_PUBLICATION_REF')
+    if git(root, 'rev-parse', 'HEAD').decode().strip() != source or git(root, 'status', '--porcelain').strip():
+        raise ValueError('CLEAN_BOUND_SOURCE_REQUIRED')
+    if git(root, 'remote', 'get-url', 'origin').decode().strip() != remote:
+        raise ValueError('REMOTE_IDENTITY_CHANGED')
+    # Use the bound repository directly, not an independently configurable pushurl.
+    if git(root, 'ls-remote', remote, baseline_ref).decode().split() != [baseline, baseline_ref]:
+        raise ValueError('PUBLIC_AUDIT_BASELINE_CHANGED')
+    receipt = audit(root, source, baseline, request['inventory'])
+    if git(root, 'ls-remote', remote, ref).strip():
+        raise ValueError('DESTINATION_ALREADY_EXISTS')
+    output = git(root, 'push', '--porcelain', '--force-with-lease=' + ref + ':',
+                 remote, source + ':' + ref).decode()
+    statuses = [line.split('\t') for line in output.splitlines() if '\t' in line]
+    if len(statuses) != 1 or statuses[0][0] != '*' or statuses[0][1] != source + ':' + ref:
+        raise ValueError('DESTINATION_NOT_CREATED')
+    if git(root, 'ls-remote', remote, ref).decode().split() != [source, ref]:
+        raise ValueError('CREATED_DESTINATION_VERIFICATION_FAILED')
+    return {'source': source, 'audit_baseline': baseline, 'baseline_ref': baseline_ref,
+            'remote': remote, 'destination': destination, 'expected_destination': 'absent',
+            'operation': 'create_if_absent', 'blob_versions': receipt['blob_versions'],
+            'inventory_sha256': receipt['inventory_sha256'], 'remote_verified': True}
 
 
 def checkpoint(root, request_path):
