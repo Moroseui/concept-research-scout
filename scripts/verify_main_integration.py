@@ -6,13 +6,24 @@ import re
 import subprocess
 import yaml
 
-MODEL_WORKFLOWS = ('actioner', 'confer', 'idea-pipeline', 'interpret', 'librarian', 'scout-cycle')
-CONDITION = "github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/astra/autonomous-isles-pilot' && inputs.destination_branch == 'astra/autonomous-isles-pilot' && vars.PILOT_REMOTE_RESEARCH_ENABLED == 'true'"
-
 
 def workflow_policy(root):
     from scripts.render_human_workflows import verify as verify_controls
-    return verify_controls(root)
+    result = verify_controls(root)
+    # Retain the pre-amendment deterministic-CI boundaries as well as the controls.
+    text = (Path(root) / '.github/workflows/check.yml').read_text()
+    checks = yaml.safe_load(text)
+    if set(checks['jobs']) != {'basic'}:
+        raise ValueError('deterministic CI job contract changed')
+    basic = checks['jobs']['basic']
+    if 'permissions' in basic or any('permissions' in step for step in basic['steps']):
+        raise ValueError('CI cannot override read-only permissions')
+    if any(step.get('with', {}).get('persist-credentials') is not False
+           for step in basic['steps'] if step.get('uses', '').startswith('actions/checkout@')):
+        raise ValueError('CI cannot persist checkout credentials')
+    if 'secrets.' in text:
+        raise ValueError('CI cannot consume repository secrets')
+    return result
 
 
 def verify(root, main, pilot):

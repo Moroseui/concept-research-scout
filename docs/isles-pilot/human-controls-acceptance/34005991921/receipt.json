@@ -1,0 +1,19 @@
+{
+  "status": "REVIEWED_PROPOSAL",
+  "source": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+  "request_identity": "5dc329b3a014cef063f0058793420717c6c79d5efbabd746222977a638b77380",
+  "control": "confer",
+  "mode": "discuss",
+  "experiment": "P001",
+  "destination": "actions-artifact",
+  "initiator_kind_declared": "codex",
+  "github_actor": "Moroseui",
+  "run_id": "34005991921",
+  "run_attempt": "1",
+  "ci": true,
+  "result_sha256": "2607818d25ce2a9e95ee38b1d653a3b6f768bf0170d8301180b22bbcdd4160e3",
+  "evidence_sha256": "60358cb92d5ca670c5c9b9277f95585444cbbfcb120926b7361b72d002af11e8",
+  "human_ratification": false,
+  "patient_execution": false,
+  "model_calls_this_submission": 2
+}

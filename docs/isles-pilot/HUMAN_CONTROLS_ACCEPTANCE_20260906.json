@@ -1,0 +1,80 @@
+{
+  "acceptance": "PASSED_SCOPED_HUMAN_CONTROL",
+  "executable_source": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+  "adapter_review_source": "6859e97793bc62212340ec3d8949aeb7c65a4c91",
+  "dispatch_method": "workflow_dispatch API, same event as button; operator Codex, GitHub actor Moroseui",
+  "runs": [
+    {
+      "run_id": "34005991921",
+      "url": "https://github.com/Moroseui/concept-research-scout/actions/runs/34005991921",
+      "event": "workflow_dispatch",
+      "source": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+      "github_conclusion": "success",
+      "artifact_status": "REVIEWED_PROPOSAL",
+      "model_calls_this_submission": 2,
+      "result_sha256": "2607818d25ce2a9e95ee38b1d653a3b6f768bf0170d8301180b22bbcdd4160e3",
+      "evidence_sha256": "60358cb92d5ca670c5c9b9277f95585444cbbfcb120926b7361b72d002af11e8",
+      "original_actions_log_sha256": "5cb7a1a75dde4c322992f9f45fdbb53170a9f72dbc07a0db8ff4bf24418301aa"
+    },
+    {
+      "run_id": "34006068840",
+      "url": "https://github.com/Moroseui/concept-research-scout/actions/runs/34006068840",
+      "event": "workflow_dispatch",
+      "source": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+      "github_conclusion": "success",
+      "artifact_status": "REVIEWED_PROPOSAL",
+      "model_calls_this_submission": 0,
+      "result_sha256": "2607818d25ce2a9e95ee38b1d653a3b6f768bf0170d8301180b22bbcdd4160e3",
+      "evidence_sha256": "60358cb92d5ca670c5c9b9277f95585444cbbfcb120926b7361b72d002af11e8",
+      "original_actions_log_sha256": "c7a966cbb97e7c469b773c9d569098e6603a7553aeb097bf7a404e62906a9586"
+    },
+    {
+      "run_id": "34006006493",
+      "url": "https://github.com/Moroseui/concept-research-scout/actions/runs/34006006493",
+      "event": "workflow_dispatch",
+      "source": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+      "github_conclusion": "success",
+      "artifact_status": "WAITING_FOR_RESULT",
+      "model_calls_this_submission": null,
+      "result_sha256": "d132cee8a2104a57ebfb7a293fa86d602fa3ec3b0223133180a075227ec7d85a",
+      "evidence_sha256": "287470b70f6cfd803271441d3d63e697b5e211ecb41a13b7ffdad4ef9a036228",
+      "original_actions_log_sha256": "e523e94270bb5fcd2111aeb8558164e49c30131446a25f665a55b45e7e2b8aa5"
+    },
+    {
+      "run_id": "34006007378",
+      "url": "https://github.com/Moroseui/concept-research-scout/actions/runs/34006007378",
+      "event": "workflow_dispatch",
+      "source": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+      "github_conclusion": "failure",
+      "artifact_status": "BLOCKED",
+      "model_calls_this_submission": null,
+      "result_sha256": "9aeb2ceb2ac839a4caf9b0d84e9bb0c75e09436cb0141047d11713cbd94e90cc",
+      "evidence_sha256": "7ac0aae26dc6d0c251cc323feb664246cbcf118c092217275095b3391ae7bed8",
+      "original_actions_log_sha256": "20b2151468293fc6580a21cca13340375849827fcdc2d1a17a46a0bb79e2d9ef"
+    }
+  ],
+  "patient_execution": false,
+  "main_merge": false,
+  "new_provisioning": false,
+  "replay_verified": "identical retained result/evidence, original run retained, zero new calls",
+  "independent_of_laptop": "execution and result storage on GitHub-hosted runner; dispatch/retrieval by operator CLI",
+  "model_identity": {
+    "author": "Codex CLI 0.153.4; exact actual model unavailable in retained transport receipt",
+    "reviewer": "claude-fable-5; auxiliary Haiku usage separately recorded"
+  },
+  "usage": {
+    "author_input_tokens": 16580,
+    "author_output_tokens": 982,
+    "author_actual_charge_usd": null,
+    "reviewer_reported_cost_equivalent_usd": 0.507917,
+    "reviewer_actual_subscription_charge_usd": null,
+    "actions_actual_charge_usd": null,
+    "human_intervention_seconds": null
+  },
+  "limits": [
+    "Only confer generative mode exercised live; other authoring modes use meaningful synthetic pipeline tests.",
+    "Status and invalid-source receipts leave call count null; their tested branches return before a model stage.",
+    "Artifacts have 90-day Actions retention; originals are additionally retained here after validation.",
+    "No end-to-end patient execution or scientific measurement demonstrated."
+  ]
+}

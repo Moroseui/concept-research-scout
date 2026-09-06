@@ -1,0 +1,19 @@
+{
+  "status": "BLOCKED",
+  "source": "0000000000000000000000000000000000000000",
+  "request_identity": "a633b9ac84afe80e852e83976666eee69c8db31116276516609db5bcdb1abb2b",
+  "control": "confer",
+  "mode": "discuss",
+  "experiment": "P001",
+  "destination": "actions-artifact",
+  "initiator_kind_declared": "codex",
+  "github_actor": "Moroseui",
+  "run_id": "34006007378",
+  "run_attempt": "1",
+  "ci": true,
+  "result_sha256": "9aeb2ceb2ac839a4caf9b0d84e9bb0c75e09436cb0141047d11713cbd94e90cc",
+  "evidence_sha256": "7ac0aae26dc6d0c251cc323feb664246cbcf118c092217275095b3391ae7bed8",
+  "human_ratification": false,
+  "patient_execution": false,
+  "model_calls_this_submission": null
+}

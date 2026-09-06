@@ -1,4 +1,7 @@
 import unittest
+import tempfile
+import shutil
+import yaml
 from pathlib import Path
 from scripts.verify_main_integration import workflow_policy, verify
 
@@ -12,3 +15,24 @@ class MainIntegrationTests(unittest.TestCase):
     def test_branch_names_are_not_review_pins(self):
         with self.assertRaisesRegex(ValueError,'full main and pilot pins'):
             verify(Path(__file__).resolve().parents[1],'main','astra/autonomous-isles-pilot')
+
+    def test_deterministic_ci_boundaries_survive_controls_restoration(self):
+        source = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            shutil.copytree(source / '.github', root / '.github')
+            file = root / '.github/workflows/check.yml'
+            original = file.read_text()
+            for mutation in ['permissions', 'credentials', 'secrets']:
+                with self.subTest(mutation=mutation):
+                    data = yaml.safe_load(original)
+                    job = data['jobs']['basic']
+                    if mutation == 'permissions':
+                        job['permissions'] = {'contents': 'write'}
+                    elif mutation == 'credentials':
+                        job['steps'][0]['with']['persist-credentials'] = True
+                    else:
+                        job['env'] = {'KEY': '${{ secrets.ANY_KEY }}'}
+                    file.write_text(yaml.safe_dump(data))
+                    with self.assertRaises(ValueError):
+                        workflow_policy(root)

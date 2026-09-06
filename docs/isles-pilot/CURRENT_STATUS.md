@@ -16,7 +16,7 @@ for merge identity requirements; HUMAN_CONTROLS.md supersedes its earlier blanke
 | Input preservation | **Archive verified on mounted Drive** by destination read-back: 99,014,629,647 bytes, MD5 `36ae28b9a17f7340b8bbef62b595cb57`, 2026-09-06 00:34:31 UTC. This is not an independent provider durability API check. |
 | P001 | **Unexecuted.** Reviewed scientific source/notebook preserved. Dispatch worker refused before Colab tools; no patient result, metric, import or interpretation exists. Coordinator remains BLOCKED, zero retries, ambiguity inbox open. |
 | Job recovery | Synthetic lease/deduplication/retry/inbox tests pass. Ambiguous dispatch does not automatically retry. |
-| Autonomy | Hosted non-patient campaign controls are implemented; real Actions acceptance is pending in this checkpoint. End-to-end laptop-independent patient research remains unproven. Cloud plan unprovisioned. |
+| Autonomy | Hosted non-patient campaign discussion completed on Actions with Codex author/Fable review, saved Summary/artifacts and zero-call replay (runs 34005991921/34006068840). Readiness and invalid-source controls also exercised. End-to-end laptop-independent patient research remains unproven. Cloud plan unprovisioned. |
 | CI | Starting checkpoint `42b5252` passed run `34002142555`. The idea-023 historical marker exists: earlier failure was unavailable commit `5aa8b5a`, not absent approval. Exact bounded retrieval fixed the check. |
 
 ## Current execution instructions

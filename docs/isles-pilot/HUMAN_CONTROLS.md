@@ -88,3 +88,29 @@ limited by the source's reviewed execution caps (two rounds, four model calls,
 
 An incomplete replay lookup (over 100 same-name artifacts with no eligible result
 on the inspected page) blocks rather than silently spending on a fresh execution.
+
+## Demonstrated acceptance — 2026-09-06
+
+At executable `9117de5e56b824e9bf03e7239518abfecc7a8b16`, a real
+[confer dispatch](https://github.com/Moroseui/concept-research-scout/actions/runs/34005991921)
+completed the shared Codex author / Fable reviewer pipeline and saved a readable
+Summary, RESULT.md and original permitted evidence. [Read the preserved answer](human-controls-acceptance/34005991921/RESULT.md).
+The [identical repeat](https://github.com/Moroseui/concept-research-scout/actions/runs/34006068840)
+reused byte-identical evidence and prose with zero new model calls.
+[Readiness](https://github.com/Moroseui/concept-research-scout/actions/runs/34006006493)
+returned WAITING_FOR_RESULT; [invalid source](https://github.com/Moroseui/concept-research-scout/actions/runs/34006007378)
+returned a saved SOURCE_MISMATCH refusal. Neither is counted as the positive
+generative demonstration. These were API-triggered workflow_dispatch events on
+the pilot; no physical phone tap or new main UI is claimed before merging.
+
+All other generative control modes have meaningful synthetic shared-pipeline tests;
+only confer has been exercised with real hosted models in this bounded batch.
+P001 remains unexecuted. End-to-end patient operation independent of a laptop is
+still unproven. See [acceptance receipt](HUMAN_CONTROLS_ACCEPTANCE_20260906.json).
+
+Completed Fable reviews approved `6c4d066` and the affected follow-up `6859e97`.
+Accepted limitations include a null model-call count on zero-call status reports,
+replaying old BLOCKED results until the request ID changes, and a job timeout that
+may expire before all four permitted model-stage timeouts. Raw CLI protocols are
+ephemeral, not claimed as durably returned. CLI-reported subscription cost equivalents
+are not billed charges; unavailable actual costs and intervention time remain null.

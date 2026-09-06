@@ -1,0 +1,27 @@
+{
+  "main_before": "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+  "pilot": "9117de5e56b824e9bf03e7239518abfecc7a8b16",
+  "candidate": "d2e732fc49965743674c8c43018dd1091feb4632",
+  "tree": "67b70147c47922b9b38814bd4981d8465d4d174b",
+  "workflow_policy": {
+    "human_controls": [
+      "scout-cycle",
+      "idea-pipeline",
+      "confer",
+      "actioner",
+      "librarian",
+      "interpret",
+      "results-validate"
+    ],
+    "on_main": "EXPLICIT_DISPATCH",
+    "destination": "actions-artifact",
+    "patient_execution": false,
+    "git_publication": false
+  },
+  "scientific_approval": "VERIFIED",
+  "patient_adapter_review": "465a0c3b1f2e8486a13e68dfd2179b3bfd16840d",
+  "archive_review": "91a0a5832b5d05167de23d4e1ecdba999963bcf3",
+  "human_controls_review": "6859e97793bc62212340ec3d8949aeb7c65a4c91",
+  "patient_execution": false,
+  "remote_mutations": false
+}
