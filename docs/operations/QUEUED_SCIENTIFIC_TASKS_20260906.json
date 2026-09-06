@@ -1,0 +1,23 @@
+{
+  "operator_instruction_date": "2026-09-06",
+  "scope": "Record tasks alongside deployment; no patient dispatch or scientific acceptance",
+  "tasks": [
+    {
+      "id": "isles24-prediction-charter",
+      "question": "Prepare a focused prediction charter linked to the existing pilot campaign and admission-imaging prediction goal.",
+      "preserve": ["existing ISLES charter", "historical scores", "047 contracts and approvals", "frozen P001 snapshot"],
+      "boundaries": ["99 exposed-outcome development cases: exploratory", "49 reserved cases untouched", "baseline plus at most two comparisons", "no outcome-selected prospective features"],
+      "stages": ["Locate original onboarding and authoritative goals", "Use system author/discussion interfaces to propose isles24-prediction charter linked to campaigns/isles24-pilot/CAMPAIGN.md", "Fresh Claude alignment review and explicit charter-ratification dependency", "Select only through applicable governance route", "Verify proposal and prioritization pipelines consume the selected charter with preserved legacy behavior"],
+      "dependencies": ["remote driver authentication for hosted model work", "original onboarding if a dependent scientific decision needs it", "charter ratification if required by existing governance"],
+      "forbidden_implications": ["old charter replacement", "historical score rewrite", "automatic adoption", "patient launch", "main merge"]
+    },
+    {
+      "id": "047b-evidence-and-lifecycle",
+      "question": "Reconcile the successful run the operator calls 047b before any validation/import/interpretation.",
+      "candidate_identity_only": {"source": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783", "contract": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba", "note": "Historical Phase-B candidate; 047b identity must be established from primary evidence, not inferred from the name."},
+      "stages": ["Identify exact source, contract, original output bundle, private originals and actual successful console", "Reconcile existing result/import/interpretation records and execution state to avoid duplicates", "Record precise missing evidence or acceptance/disposition dependencies", "Run existing validation and record-result only when applicable gates permit", "Run system interpretation and mandatory opposing-family review when permitted"],
+      "dependencies": ["047b identity and successful original console evidence", "publication subset and exclusion-audit semantics", "registry attestation and required scientific artifacts", "separately reserved 047 scientific landing decision"],
+      "forbidden_implications": ["duplicate execution", "duplicate import", "reconstructed original console", "cleanup approval", "scientific acceptance", "reserved cohort access", "main merge"]
+    }
+  ]
+}

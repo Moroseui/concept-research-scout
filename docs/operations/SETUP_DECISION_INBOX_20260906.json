@@ -1,0 +1,48 @@
+{
+  "system_primitive": "orchestrator.job_store.Store",
+  "scope": "remote-synthetic-bootstrap",
+  "items": [
+    {
+      "job": "original-source-documents",
+      "reason": "ORIGINAL_ONBOARDING_SOURCE_UNAVAILABLE",
+      "status": "OPEN",
+      "next_action": "Recover named original onboarding/deployment handoffs before dependent scientific decisions; independent synthetic work continues."
+    },
+    {
+      "job": "patient-backend",
+      "reason": "PATIENT_TRANSFER_AND_LAUNCH_RESERVED",
+      "status": "OPEN",
+      "next_action": "P001 Linux transport/dependency review and execution reconciliation must precede separate patient transfer/launch approval."
+    },
+    {
+      "job": "phone-acceptance",
+      "reason": "AUTHENTICATED_PHONE_TEST_REQUIRED",
+      "status": "OPEN",
+      "next_action": "Choose approved service notification identity, then test actual device delivery and version-bound operator response."
+    },
+    {
+      "job": "protected-publication-admission",
+      "reason": "OPERATOR_WRITER_RESET_DESIGN_REQUIRED",
+      "status": "OPEN",
+      "next_action": "Approve concrete shared writer/reset and notification authority before credentials or live 48/96 activation. Current proposal is incomplete; no standing admission granted."
+    },
+    {
+      "job": "provider-recovery",
+      "reason": "PROVIDER_BACKUP_STATUS_UNVERIFIED",
+      "status": "OPEN",
+      "next_action": "Operator confirms account two-factor and backup enablement/first backup. Application restore test does not prove provider recovery."
+    },
+    {
+      "job": "remote-model-auth",
+      "reason": "REMOTE_MODEL_SIGNIN_REQUIRED",
+      "status": "OPEN",
+      "next_action": "After supported clients and hosted synthetic checks: operator signs into existing Codex and Claude subscriptions in their separate remote role homes. No tokens copied. Exact commands supplied privately."
+    },
+    {
+      "job": "report-schedule",
+      "reason": "REPORT_SCHEDULE_NOT_SELECTED",
+      "status": "OPEN",
+      "next_action": "Select nightly time; proposed 21:00 America/New_York. No timer for model reviews enabled."
+    }
+  ]
+}

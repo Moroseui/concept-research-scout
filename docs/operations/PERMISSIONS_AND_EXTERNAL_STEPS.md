@@ -111,3 +111,26 @@ exact bounded bootstrap operations with explicit arguments and reviewed payloads
 Do not approve arbitrary root SSH, arbitrary script execution, unrestricted sudo
 or broad permission disabling as a convenience. Preserve original evidence and
 continue independent authorized work while an external dependency remains blocked.
+
+## Current-session unattended limits
+
+The local Codex session still uses the managed workspace-write sandbox. Writes to
+Git metadata or private evidence locations and network/SSH setup can require the
+CLI approval gate. A pending approval suspends that tool call; the project inbox
+cannot answer it. The SSH agent also has a finite identity lifetime. Existing
+exact-command approvals are reusable for matching operations, not blanket setup
+permission. No uninterrupted local-session guarantee is made.
+
+Consolidate deployment into the reviewed installer at an exact published pin and
+a fixed synthetic acceptance command; preserve raw setup logs privately. Read-only
+status collection can reuse exact approved commands. Do not propose reusable
+arbitrary root SSH or Python prefixes: they would permit unrelated administration.
+A genuinely narrow future reusable interface should be a protected, fixed-action
+status/setup broker with validated arguments. Its OS boundary and any credential
+change belong in the permission packet, not an agent-editable shortcut.
+
+The installed synthetic timers use no model and need no interactive command
+approval. Once their hosted verification passes, they can continue after SSH
+closes. That does not enable an unattended Astra driver: model authentication,
+bounded-turn integration, shared admission permission and hosted activation still
+have separate dependencies. No broad permission disabling is used to bridge them.
