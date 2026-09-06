@@ -98,5 +98,5 @@
       ]
     }
   ],
-  "migration_status": "Durable repository backlog; all three tasks still need reconciled registration in hosted queue and inclusion in daily reports. Do not claim migration complete."
+  "migration_status": "All three tasks registered in the hosted queue; see HOSTED_THREE_TASKS_20260906.json. First two retain original 6b source bindings; evidence propagation binds ba079f8. Historical reason strings include REMOTE_AUTH; authentication has since passed, while substantive evidence/governance dependencies remain."
 }

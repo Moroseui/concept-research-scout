@@ -1,0 +1,50 @@
+{
+  "packet_sha256": "a8d4074df7de9236e63047ad40b50c436d81340fa90b823e07e4fbc562a2f46f",
+  "deployed_service_properties": {
+    "research-system-controller.service": {
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryMax": "536870912",
+      "NoNewPrivileges": "yes",
+      "PrivateNetwork": "yes",
+      "ProtectHome": "yes",
+      "ProtectSystem": "strict",
+      "User": "research-controller"
+    },
+    "research-system-worker.service": {
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryMax": "805306368",
+      "NoNewPrivileges": "yes",
+      "PrivateNetwork": "yes",
+      "ProtectHome": "yes",
+      "ProtectSystem": "strict",
+      "User": "research-worker"
+    }
+  },
+  "trigger": {
+    "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "attempt_id": "fee07efbb4ca4d13affed829b8da5ba9",
+    "console_sha256": {
+      "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+      "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+    },
+    "cpu_seconds": 0.151976,
+    "job_id": "30-linux-next",
+    "peak_rss_kib": 19200,
+    "request_sha256": "9ebcf55aa09293c0fd8eb29b2372bd6b259298f51a63bc6eac79e3a25e185538",
+    "separate_retrieval": true,
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "status": "COMPLETE",
+    "version": 1,
+    "wall_seconds": 0.23748125600104686
+  },
+  "implementation_sha256": {
+    "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "6a93a8a50165b5b9faa653daa8d11134c7a9c80029fba96365be283357f210b6",
+    "docs/operations/REMOTE_OPERATING_DIRECTION.md": "8fc06b9513719a023c262078b3ac9f16e09b0883763f66d37b6f735beeb84735",
+    "orchestrator/hosted_cycle.py": "086a5c9969d829714492c241eecdacba54f800f5b694828ad533ac3b250496b7",
+    "orchestrator/operations_report.py": "de5c65278d7663216326ea6b047652017fa13b9dc04bb1c64cffc3c39ca859b7",
+    "orchestrator/remote_supervisor.py": "1e99a79c3525d66035dba1a12711028251ebd641d3ec23dab0486d7efce890a0"
+  },
+  "original_packet": "retained privately; implementation content is bound by Git source and hashes"
+}

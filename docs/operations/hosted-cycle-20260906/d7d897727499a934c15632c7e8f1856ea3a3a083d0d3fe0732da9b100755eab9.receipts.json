@@ -1,0 +1,54 @@
+[
+  {
+    "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "attempt_id": "5f8e95fb78e744c6a23afcd6ca10fcee",
+    "backend": "linux",
+    "cpu_seconds": 0.150004,
+    "job_id": "10-linux-delay",
+    "kind": "synthetic_success",
+    "peak_rss_kib": 19200,
+    "reason": null,
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "status": "COMPLETE",
+    "wall_seconds": 45.23859434000042
+  },
+  {
+    "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "attempt_id": "fee07efbb4ca4d13affed829b8da5ba9",
+    "backend": "linux",
+    "cpu_seconds": 0.151976,
+    "job_id": "30-linux-next",
+    "kind": "synthetic_success",
+    "peak_rss_kib": 19200,
+    "reason": null,
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "status": "COMPLETE",
+    "wall_seconds": 0.23748125600104686
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": "59dd8c5b51764005ad2eb3ca9051d2ea",
+    "backend": "linux",
+    "cpu_seconds": 0.214859,
+    "job_id": "20-linux-failure",
+    "kind": "synthetic_failure",
+    "peak_rss_kib": 31640,
+    "reason": "SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT",
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "status": "FAILED",
+    "wall_seconds": 0.2190529540002899
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "colab",
+    "cpu_seconds": null,
+    "job_id": "00-colab-blocked",
+    "kind": "synthetic_success",
+    "peak_rss_kib": null,
+    "reason": "COLAB_BROWSER_DEPENDENCY",
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "status": "BLOCKED",
+    "wall_seconds": null
+  }
+]
