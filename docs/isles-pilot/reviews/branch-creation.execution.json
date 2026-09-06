@@ -1,0 +1,20 @@
+{
+  "reviewed_commit": "4bfdb85f0ef6df314c165d4476f3c7e096c15547",
+  "returncode": 0,
+  "wall_seconds": 267.2830926329989,
+  "input_file_sha256": {
+    "orchestrator/git_publication.py": "b652dbe6ca5dc42b2d620d81448de02ff797c036dd043ded5a08d3be4df6f8cd",
+    "tests/test_git_publication.py": "2e63b621c00522b27ffa7228c754976834c076651e6248e7f90e8fc8d83149ff",
+    "docs/isles-pilot/CONTROLLED_BRANCH_CREATION.md": "34df759b2b59d86506a39129d4198ee73bd303fa7cb07bc60f81b62e6f554c41"
+  },
+  "response_sha256": "30a79dbd2217a71eb3d202c7f3a731bf43d83e11c7d67f3d02719f7e10e6b9a7",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "83be1bba53cd443d591a307f1bc3a42f32fa97b0a9fdcdffc0c498b3d701f22d"
+}

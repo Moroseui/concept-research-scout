@@ -825,3 +825,38 @@ refused with REMOTE_MOVED because the remote branch is absent, before any push.
 POSTMERGE_PUBLICATION_ATTEMPT_20260906.json preserves that exact attempt receipt;
 it does not certify later documentation commits. No approval system rejected the
 action and no bypass was used. The previously recorded inbox dependency remains.
+
+
+### Bounded controlled-branch creation repair
+
+The operator authorized exactly this missing capability and publication of
+astra/infrastructure-milestone-record. Repair commit 4bfdb85 preserves cfadeb1 and
+551be01. Creation separates public audit baseline from expected destination
+absence, binds repository/ref/source/baseline/operation authority, audits the full
+outgoing history and requires an atomic empty-old lease. It never falls back to
+updating an existing ref. A porcelain new-branch result also rejects Git's
+same-source concurrent-creation no-op. The bound URL avoids pushurl redirection.
+
+Real disposable Git tests cover successful creation, existing and concurrently
+created refs at identical/different commits, unsafe intermediate content later
+deleted, and binding/inventory failures. Initial test run had one assertion
+expecting the wrong invalid-ref error label; the fail-closed behavior was correct.
+After correcting that test expectation, targeted tests passed 13 tests/7 subtests;
+the full suite passed 315 tests/27 subtests. No patient or production ref was used
+in testing. Original logs and focused review protocol are retained privately.
+
+The old hosted adapter review includes the publisher's whole-file hash; this
+repair does not silently ratify a new hosted adapter binding. No hosted scientific
+or control dispatch is part of the repair. Existing gates remain fail-closed.
+
+
+Focused author-operated Claude Code review completed APPROVE at
+4bfdb85f0ef6df314c165d4476f3c7e096c15547, actual assistant claude-fable-5,
+267.28 seconds. Full source bindings and original response are committed as
+reviews/branch-creation.*; original protocol remains private. This is a focused
+internal publication review, not independent approval for a main merge. The
+reviewer did not run tests; local test results above are separate evidence.
+Non-blocking preexisting limits remain: identifier scanning is not universal
+across source/document formats, legacy updates use origin/pushurl, and malformed
+notebooks may raise non-ValueError exceptions while still refusing publication.
+No wider scanner or hosted adapter changes are smuggled into this repair.

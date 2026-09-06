@@ -1,0 +1,93 @@
+{
+  "is_error": false,
+  "duration_api_ms": 265230,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "a2c4ab10-c581-4394-a0b1-9bd51c79e0a5",
+  "total_cost_usd": 1.2611430000000001,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 13999,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 19472,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 13999,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 19472,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 13999,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 13999
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 7468,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.007543,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 19472,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 13999,
+      "webSearchRequests": 0,
+      "costUSD": 1.2536,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"controlled-branch-creation (orchestrator/git_publication.py create path, tests/test_git_publication.py, docs/isles-pilot/CONTROLLED_BRANCH_CREATION.md); source-only review, no tests executed\",\"reviewed_commit\":\"4bfdb85f0ef6df314c165d4476f3c7e096c15547\",\"verdict\":\"APPROVE\",\"findings\":[\"Authority binding is exact and fail-closed: the create request must contain precisely the expected field set, and the supplied authority must equal every field except the inventory, which audit() checks by exact equality; extra, missing, or altered fields are rejected.\",\"Creation is atomic with no update fallback: the empty expected-old lease (--force-with-lease=<ref>:) is enforced by receive-pack, the porcelain '*' new-branch flag refuses the up-to-date no-op from an identical concurrent creation, and a post-write ls-remote read-back verifies the final tip; both concurrent-creator races are covered by tests.\",\"The public audit baseline is sound: it must be a 40-hex ancestor of the source and match the remote's advertised refs/heads tip at the bound URL, so only content beyond the already-public tip is new; rev-list baseline..source with diff-tree --root -m covers side history and files deleted before the tip, and symlink/submodule modes are rejected.\",\"Identity bindings hold: HEAD must equal the pinned source with a clean worktree, origin's fetch URL must equal the bound remote, and both ls-remote and push use the URL directly, so a divergent remote.origin.pushurl cannot redirect the create operation (tested).\",\"Destination validation is fail-closed despite lacking the update path's literal '..' substring check: the regex's first-character class plus git check-ref-format on refs/heads/<destination> reject traversal and malformed ref names.\",\"Recovery and approval semantics are preserved: failures raise before success is claimed, failed post-write verification is documented as reconcile-not-retry, no local refs or files persist from the operation, and the doc explicitly invalidates the hosted adapter's prior whole-file review binding instead of silently extending it; no destination grants beyond the authorized milestone-record creation are added.\",\"Non-blocking: the case-level identifier scan (sub[-_]stroke\\\\d+) applies only to .json/.jsonl/.txt, so .md/.py/.yml files and notebook markdown cells could carry case identifiers unscanned; preexisting shared-scanner behavior, not a create-path regression, but worth follow-up.\",\"Non-blocking: the legacy update path still pushes via the remote name 'origin' (subject to pushurl/insteadOf rewriting) and only verifies the fetch URL; content remains fully audited, but aligning it with the create path's direct-URL push would close the asymmetry.\",\"Non-blocking: malformed .ipynb payloads raise KeyError/JSONDecodeError rather than the module's ValueError taxonomy; still a refusal, but callers matching on ValueError may misclassify the failure.\"]}",
+  "structured_output": {
+    "scope": "controlled-branch-creation (orchestrator/git_publication.py create path, tests/test_git_publication.py, docs/isles-pilot/CONTROLLED_BRANCH_CREATION.md); source-only review, no tests executed",
+    "reviewed_commit": "4bfdb85f0ef6df314c165d4476f3c7e096c15547",
+    "verdict": "APPROVE",
+    "findings": [
+      "Authority binding is exact and fail-closed: the create request must contain precisely the expected field set, and the supplied authority must equal every field except the inventory, which audit() checks by exact equality; extra, missing, or altered fields are rejected.",
+      "Creation is atomic with no update fallback: the empty expected-old lease (--force-with-lease=<ref>:) is enforced by receive-pack, the porcelain '*' new-branch flag refuses the up-to-date no-op from an identical concurrent creation, and a post-write ls-remote read-back verifies the final tip; both concurrent-creator races are covered by tests.",
+      "The public audit baseline is sound: it must be a 40-hex ancestor of the source and match the remote's advertised refs/heads tip at the bound URL, so only content beyond the already-public tip is new; rev-list baseline..source with diff-tree --root -m covers side history and files deleted before the tip, and symlink/submodule modes are rejected.",
+      "Identity bindings hold: HEAD must equal the pinned source with a clean worktree, origin's fetch URL must equal the bound remote, and both ls-remote and push use the URL directly, so a divergent remote.origin.pushurl cannot redirect the create operation (tested).",
+      "Destination validation is fail-closed despite lacking the update path's literal '..' substring check: the regex's first-character class plus git check-ref-format on refs/heads/<destination> reject traversal and malformed ref names.",
+      "Recovery and approval semantics are preserved: failures raise before success is claimed, failed post-write verification is documented as reconcile-not-retry, no local refs or files persist from the operation, and the doc explicitly invalidates the hosted adapter's prior whole-file review binding instead of silently extending it; no destination grants beyond the authorized milestone-record creation are added.",
+      "Non-blocking: the case-level identifier scan (sub[-_]stroke\\d+) applies only to .json/.jsonl/.txt, so .md/.py/.yml files and notebook markdown cells could carry case identifiers unscanned; preexisting shared-scanner behavior, not a create-path regression, but worth follow-up.",
+      "Non-blocking: the legacy update path still pushes via the remote name 'origin' (subject to pushurl/insteadOf rewriting) and only verifies the fetch URL; content remains fully audited, but aligning it with the create path's direct-URL push would close the asymmetry.",
+      "Non-blocking: malformed .ipynb payloads raise KeyError/JSONDecodeError rather than the module's ValueError taxonomy; still a refusal, but callers matching on ValueError may misclassify the failure."
+    ]
+  },
+  "ttft_ms": 241235,
+  "ttft_stream_ms": 1688,
+  "time_to_request_ms": 233,
+  "type": "result",
+  "duration_ms": 264138,
+  "uuid": "6a7ae26c-795f-4f7d-b248-47ea9a32f27d"
+}
