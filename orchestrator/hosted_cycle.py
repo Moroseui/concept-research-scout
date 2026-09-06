@@ -15,8 +15,9 @@ import subprocess
 import time
 
 from orchestrator.remote_supervisor import Controller, checked_source, lock, PAYLOAD, identifier, validate_receipt
-from orchestrator.operations_report import Queue, finalize, immutable as write_immutable, private_root, sanitized
+from orchestrator.operations_report import Queue, finalize, private_root, sanitized
 from orchestrator.git_publication import scan
+from orchestrator.public_export import text as public_text
 
 SOURCE_FILES = ('orchestrator/hosted_cycle.py', 'orchestrator/remote_supervisor.py',
                 'orchestrator/operations_report.py', 'orchestrator/job_store.py',
@@ -39,8 +40,17 @@ def sync_dir(path):
 
 
 def immutable(path, data):
-    write_immutable(path, data)
-    sync_dir(Path(path).parent)
+    # Private, bounded source context; public report/summary limits stay unchanged.
+    path=Path(path)
+    private_root(path.parent)
+    scan(path.name,data);public_text(data.decode(),limit=1500000)
+    try:fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+    except FileExistsError:
+        if path.is_symlink() or path.read_bytes()!=data:raise ValueError('IMMUTABLE_OUTPUT_CONFLICT')
+        return
+    with os.fdopen(fd,'wb') as stream:
+        stream.write(data);stream.flush();os.fsync(stream.fileno())
+    sync_dir(path.parent)
 
 
 def claim(folder, binding):

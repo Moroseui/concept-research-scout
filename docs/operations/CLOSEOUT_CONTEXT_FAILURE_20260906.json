@@ -1,0 +1,15 @@
+{
+  "source": "7fb5f2f7af67e9da01eadd7dcd3778a11c6bde65",
+  "unit": "research-system-closeout-03",
+  "status": "CONTEXT_STORAGE_BLOCKED_BEFORE_MODEL_CALL",
+  "predecessor_attempt": "7573e0bba1c34724bdd0f660fdbc0e75",
+  "successor_submitted": false,
+  "model_calls": 0,
+  "failure": "ValueError: PUBLIC_TEXT_REJECTED",
+  "diagnosis": "Expanded pinned implementation/evidence JSON was passed to the 100000-byte public report writer. Private source-context storage now has its own 1500000-byte bound with the same content/path checks, owner-only directory and files, exclusive creation and fsync. Public report/summary limits remain unchanged.",
+  "original_private_journal_sha256": "6bd1cb342316a0202f154dad005bf9feeeffff352277dcd882cd62b23c6d29dd",
+  "original_preserved": true,
+  "secondary_diagnostic": "Ubuntu apport exception hook tried to open -m as a file while handling the original exception; not the primary failure.",
+  "next_route": "Explicit reviewed continuation from existing completed predecessor, preserving both failed unit directories.",
+  "patient_execution": false
+}

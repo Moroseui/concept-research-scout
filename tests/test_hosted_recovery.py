@@ -75,3 +75,17 @@ def test_controller_snapshot_reads_wal_database_as_controller_and_is_read_only(m
         assert calls[0][4:7]==['env','-i','PATH=/usr/bin:/bin']
         assert view.get('snapshot')['status']=='READY'
         with pytest.raises(sqlite3.OperationalError):view.db.execute("DELETE FROM jobs")
+
+
+def test_private_source_context_bound_preserves_public_summary_limit(tmp_path):
+    from orchestrator.hosted_cycle import immutable
+    from orchestrator.public_export import text
+    root=tmp_path/'private';root.mkdir(mode=0o700)
+    allowed=b'x'*100001
+    immutable(root/'context.md',allowed)
+    assert (root/'context.md').read_bytes()==allowed
+    with pytest.raises(ValueError):text(allowed.decode())
+    for bad in [b'x'*1500001,b'sub'+b'-stroke'+b'999']:
+        with pytest.raises(ValueError):immutable(root/'rejected.md',bad)
+    assert not (root/'rejected.md').exists()
+    with pytest.raises(ValueError):immutable(root/'context.md',b'changed')
