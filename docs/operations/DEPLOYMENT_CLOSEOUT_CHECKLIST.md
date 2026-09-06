@@ -39,3 +39,27 @@ import/interpretation, and cross-charter findings propagation remain in
 QUEUED_SCIENTIFIC_TASKS_20260906.json and the migrated server queue. None grants
 scientific acceptance, reserved-cohort access, P001 launch, history cleanup or a
 main merge. Original onboarding retrieval remains a dependent scientific task.
+
+## Human operation and reviewer-context update
+
+The fresh hosted orientation cycle at `dc116ca5be32799e0fefba52626768f7eff8d529`
+completed actual Astra, Claude and Astra calls. Its report, review, disposition and
+context verification are in `hosted-orientation-20260906/`. It correctly identified
+the prediction objective, next eligible desk task and reserved authority without
+laptop conversation. This is supervised evidence, not overnight acceptance.
+
+The canonical operating direction now explicitly requires human maintainability,
+readable science, shared interfaces, task-bound steering and recoverable operation.
+Reviewer directive v2 is supplied and hashed by the hosted context route and shared
+campaign author/reviewer route. The bounded evidence collector provides checked
+historical documents and fixed current service properties; it does not manufacture
+execution, backup or device-delivery proof. Fresh deployed v2 review remains pending
+until its own execution receipt is recorded.
+
+Open implementation work includes clearer report durations/block reasons already
+available in primary metadata, reconciliation of historical authentication wake
+labels, and representative deployed steering/interruption/takeover acceptance.
+These are implementation tasks, not additional human approval requirements. The
+protected writer/reset and unattended permission decisions remain separate. No
+P001 patient result is available; prospective charter/adoption ratification and
+input/backend/launch gates remain on the Wednesday critical path.

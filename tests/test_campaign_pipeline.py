@@ -14,11 +14,12 @@ class PipelineTests(unittest.TestCase):
             (base/'CAMPAIGN.md').write_text('synthetic campaign')
             (root/'docs/operations').mkdir(parents=True)
             for name in ['REMOTE_OPERATING_DIRECTION.md','CLAUDE_REVIEWER_DIRECTIVE.md']:
-                (root/'docs/operations'/name).write_text('Human usability and maintenance are required')
+                (root/'docs/operations'/name).write_text(name+' required human context')
             sc=SimpleNamespace(ROOT=root);seen=[]
             def fake(sc,out,family,stage,body,names):
                 seen.append(family)
-                self.assertIn('Human usability and maintenance are required',body)
+                self.assertIn('REMOTE_OPERATING_DIRECTION.md required human context',body)
+                self.assertIn('CLAUDE_REVIEWER_DIRECTIVE.md required human context',body)
                 for name in names:
                     (out/name).write_text(json.dumps({'verdict':'REVISE' if out.name=='round-1' else 'APPROVE','rationale':'synthetic'}) if name=='review.json' else 'Synthetic proposal')
                 return {'family_effective':family,'exit_class':'ok','ci':False}
@@ -40,6 +41,9 @@ class PredictionAuthoringTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);base=root/'campaigns/isles24-pilot';exp=base/'experiments/P001';exp.mkdir(parents=True)
             (base/'CAMPAIGN.md').write_text('Frozen campaign')
+            (root/'docs/operations').mkdir(parents=True)
+            for name in ['REMOTE_OPERATING_DIRECTION.md','CLAUDE_REVIEWER_DIRECTIVE.md']:
+                (root/'docs/operations'/name).write_text(name+' required human context')
             (exp/'run.py').write_text('# historical externally seeded runner')
             (root/'docs/science').mkdir(parents=True)
             (root/'docs/science/PREDICTION_READINESS_DIRECTION_20260906.md').write_text('Operator prediction goal')
@@ -57,3 +61,14 @@ class PredictionAuthoringTests(unittest.TestCase):
             self.assertEqual((exp/'run.py').read_text(),'# historical externally seeded runner')
             self.assertFalse((root/'charters/isles24-prediction/CHARTER.md').exists())
             self.assertEqual(len(list((base/'pipeline/charter/round-1').glob('*.proposed.md'))),4)
+
+
+def test_missing_operating_context_blocks_before_model(tmp_path):
+    base=tmp_path/'campaigns/isles24-pilot';base.mkdir(parents=True)
+    (base/'CAMPAIGN.md').write_text('Synthetic campaign')
+    import pytest
+    with patch.object(p,'system_stage') as stage:
+        with pytest.raises(FileNotFoundError,match='REQUIRED_OPERATING_CONTEXT'):
+            p.execute(SimpleNamespace(ROOT=tmp_path),'discuss','P001','Question',base/'pipeline/missing')
+        stage.assert_not_called()
+    assert (base/'pipeline/missing/blocked.json').exists()
