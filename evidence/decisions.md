@@ -2250,3 +2250,15 @@ UTC-day job admission, proposed N=48 (measured peak 12), notify at N, hard halt 
 state-writer permission remain unratified. A job limit is not a dollar limit.
 R4 proposal: 047 acceptance/landing, results cleanup and P001 launch remain separate
 explicit operator decisions. No automatic 047 landing follows an infrastructure merge.
+
+
+## 2026-09-06 — PR #2 infrastructure merge observed; reserved decisions unchanged
+
+Agent-recorded observation of the operator's completed action, not a new ruling:
+PR #2 merged at `d24ffb9003a2291f359afe3acf4bf491f2d7fd9f` and main checks
+34012065748 passed. The merge retains both source parents and the verified tree.
+The operator's message and merge commit explicitly scope approval to infrastructure.
+The proposed R1–R4 entry above remains unratified; N, limiter activation, standing
+dispatch authority and publication/state-writer permissions are not inferred from
+merging. Cleanup, 047 scientific acceptance/landing and P001 launch remain separate.
+Full reconciliation evidence: docs/isles-pilot/INFRASTRUCTURE_MERGED_20260906.json.

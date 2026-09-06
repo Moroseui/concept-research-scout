@@ -756,3 +756,29 @@ Author-operated Fable completed APPROVE at `6ab1d3d4408abef1f94b67fe2f9f58fb6af3
 Accepted non-blocking limits remain documented: evidence size can still block a reviewed proposal without discarding original prompt/audit records; same-identity BLOCKED replay requires a new request ID after repair; ordinary GitHub JSON API requests assume no cross-host redirect (artifact redirects explicitly strip authorization); repository-stored review receipts are not cryptographic operator signatures. The SHA input confirms the selected branch revision, not an arbitrary revision selector. Current-science dependency review remains blocked after the scout.py repair, while original frozen approval bytes verify.
 
 Final packet in CLOSEOUT_DECISION_PACKET.md is prepared for a genuinely independent desk review of the actual final candidate and subsequent operator decision. It does not ratify R1–R4, choose N, grant state-write permissions, merge main, execute cleanup or start the queued 047/P001 work.
+
+
+### Infrastructure milestone completed — PR #2 merged (2026-09-06)
+
+Verified GitHub PR state MERGED at 2026-09-06 04:39:46 UTC, merge commit
+`d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`, parents `4f5b6b1` and `4a4da50`.
+Tree `1b4a76c9130ae562dfc8e918dbe3349352f42eab` exactly matches the isolated
+review candidate. Main push checks run 34012065748 completed successfully on that
+exact commit. See INFRASTRUCTURE_MERGED_20260906.json for full pins and CI link.
+
+Fetched only main/pilot refs; clean local main fast-forwarded without rewriting
+history. Local and public pilot tip remains `4a4da50`; frozen P001 worktree remains
+`0770c7d`. This housekeeping record is a separate local documentation branch,
+`astra/infrastructure-milestone-record`; no new branch was published. No work was
+discarded. The prior tests and actual successful main CI establish this unchanged
+infrastructure tree; documentation-only reconciliation did not rerun patient work.
+
+The actual merge message and operator report authorize the completed infrastructure
+merge only. They do not manufacture an independent desk receipt or ratify the
+proposed R1–R4. N remains null (recommendation 48); standing dispatch authority,
+state-writer/reset permissions and stronger exclusive publication enforcement are
+pending. Separate decisions remain for 047 cleanup, 047 scientific landing and
+P001 launch. P001 is unexecuted and current-tree scout.py dependency review remains
+required; archive/frozen approvals/private evidence were not modified or rechecked
+in Colab. Laptop-independent patient research remains unproven. No next work batch
+started and no remote write, cleanup, dispatch or provisioning was performed.

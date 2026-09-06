@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "milestone": "PR #2 infrastructure merged",
+  "pr": "https://github.com/Moroseui/concept-research-scout/pull/2",
+  "merged_at_utc": "2026-09-06T04:39:46Z",
+  "main_commit": "d24ffb9003a2291f359afe3acf4bf491f2d7fd9f",
+  "parents": [
+    "4f5b6b1dc67084a7882c099fb30a6f9465991a31",
+    "4a4da504a5d4d6ad5899abd703272eca0ad07e3d"
+  ],
+  "tree": "1b4a76c9130ae562dfc8e918dbe3349352f42eab",
+  "tree_matches_verified_candidate": true,
+  "pilot_branch": "astra/autonomous-isles-pilot",
+  "pilot_tip_preserved": "4a4da504a5d4d6ad5899abd703272eca0ad07e3d",
+  "main_ci": {
+    "run_id": 34012065748,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d24ffb9003a2291f359afe3acf4bf491f2d7fd9f",
+    "url": "https://github.com/Moroseui/concept-research-scout/actions/runs/34012065748"
+  },
+  "local_reconciliation": {
+    "initial_worktree_clean": true,
+    "main_fast_forwarded": true,
+    "pilot_branch_preserved": true,
+    "frozen_execution_checkout_unchanged": "0770c7dcabe781cbfb87de505755e7aafa758f2e",
+    "record_branch": "astra/infrastructure-milestone-record"
+  },
+  "authorization_evidence": "Operator reports completed merge; actual merge commit states infrastructure-only approval. No separate desk receipt or governance ratification is inferred.",
+  "limiter": {
+    "status": "PROPOSED",
+    "n": null,
+    "recommendation": 48,
+    "state_write_permission": "NOT_GRANTED"
+  },
+  "new_patient_execution": false,
+  "history_rewrite": false,
+  "remote_mutations_this_reconciliation": false
+}

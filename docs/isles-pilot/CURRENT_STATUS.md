@@ -2,7 +2,7 @@
 
 This is the current entry point. Dated receipts and PROGRESS.md preserve the history;
 older pending statuses and commands describe their checkpoints, not today's state.
-PR #2 is held for the human-usability amendment; no merge is authorized.
+**PR #2 infrastructure milestone is merged** at `d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`; main CI passed ([merge receipt](INFRASTRUCTURE_MERGED_20260906.json)). Local main is reconciled and the pilot branch is preserved. Earlier held/pending-merge sections below describe historical checkpoints. Governance ratification, limiter activation/permissions, cleanup, 047 landing and P001 launch remain separate decisions. No new work batch has started.
 [Human controls](HUMAN_CONTROLS.md) records the restored routes and explicit legacy exceptions. See [main integration](MAIN_INTEGRATION.md)
 for merge identity requirements; HUMAN_CONTROLS.md supersedes its earlier blanket quarantine policy.
 
