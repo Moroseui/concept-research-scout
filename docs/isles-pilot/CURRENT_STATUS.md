@@ -66,3 +66,13 @@ Synthetic evidence: [remote receipt](COLAB_MCP_REMOTE_EXECUTION_20260905.json) a
 [worker orchestration](CLAUDE_WORKER_INTEGRATION_20260905.json). Frozen dated
 handoffs remain unchanged where bound by valid reviews; this summary supersedes
 their obsolete runtime-local input and pending-state instructions.
+
+## Human-usability amendment checkpoint
+
+The shared hosted adapter is Fable-approved at `6859e97`, executed at `9117de5`,
+and its final merge verifier is Fable-approved at `ad3c466`. Real confer, exact
+replay, readiness and invalid-source receipts are linked in
+[the acceptance record](HUMAN_CONTROLS_ACCEPTANCE_20260906.json). The final revised
+suite passed 298 tests and 20 subtests. The earlier committed main-tree receipt
+certifies its named demonstration tree only; use the final exact-head integration
+pins reported in PR #2 before a merge decision. No merge is authorized here.

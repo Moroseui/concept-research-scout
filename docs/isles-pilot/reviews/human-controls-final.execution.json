@@ -1,0 +1,27 @@
+{
+  "reviewed_commit": "ad3c4660320c8628a54f6562e118e5de07876177",
+  "returncode": 0,
+  "wall_seconds": 280.75604958199983,
+  "input_file_sha256": {
+    "scripts/verify_main_integration.py": "2f26dbd36ce197b6f2e2846720ebdef50e75a7c41aa93aa7cde03f6fc35126a0",
+    "tests/test_main_integration.py": "d580e08dcd44f5f30d41697eda939ac6e6ad0a84c3af809a077412db0e04d453",
+    ".github/workflows/check.yml": "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648",
+    "scripts/render_human_workflows.py": "030b234d7be369a372d66aaa80c706a2690f4c3371e6b4fd6c21e8d4bc41c2f5",
+    "orchestrator/actions_runner.py": "18255a5249f188323d590eba9825694e119d59118d4b8097c8281302900e14be",
+    "scripts/actions_auth.py": "66f27c4fdaac13c31f566e0e915defac28f45c5b2bba0d9304b351c51d275cdd",
+    "docs/isles-pilot/HUMAN_CONTROLS.md": "40bcb32cb00f49cfccdb1bd854d3a25ef6f123f0dfffa3ad776f58a154fd4ba2",
+    "docs/isles-pilot/HUMAN_CONTROLS_ACCEPTANCE_20260906.json": "ce65ff3183baf4a203bf9dbf45798ea2b112820d7f74745c74b006cde1e565b4",
+    "docs/isles-pilot/reviews/human-controls-final-r1.response.json": "748a9fe4f06fab22664e46bbbac0db7ee1b175f27dde255121dcda84579e81fd",
+    "docs/isles-pilot/PROGRESS.md": "2855ca2fae0e7c93404d056954ef22fa2cdc10a45f942d87eb060c2a004f29d8"
+  },
+  "response_sha256": "e87e1db7e470d5761caad30e88ddc517b1caf86d9d339402e4f284fd5f3ea1bf",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "07299a2108cdb98edcbaf462b4d4e1653dcb45d3ec26af7f56fb1c7b2ce22e98"
+}
