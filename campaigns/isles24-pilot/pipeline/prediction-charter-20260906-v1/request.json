@@ -1,0 +1,29 @@
+{
+  "mode": "charter",
+  "experiment": "P001",
+  "request": "Draft a focused isles24-prediction charter, a prediction-scoped rubric compatible with deliberate blinding and charter-specific scoring, scoped prompt guidance, and a prospective external-seed P001 adoption proposal. Use the operator readiness direction in context. Judge whether fixed Tmax >6 is an adequate minimal reference baseline and what scientific question it answers; recommend ADOPT_CONDITIONALLY, AMEND or REJECT with concrete reasons. Do not imply a trained predictor or novelty. Preserve every frozen P001/047 artifact, historical authorship and approval. Do not generate run.py. Do not select or execute P002/P003. Ratification, baseline launch and any backend amendment remain pending. The old scout model-uses-X rule must not disqualify honest predictive benchmarking. Explain the Wednesday critical path and source gaps; no invented 047 dependency. Keep each document concise and readable; include explicit source references and evidence/next-decision requirements.",
+  "input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/build_receipt.json": "fc35059a7254ca3e449a9445d654e92bdc789a81ae71d16d19d769b650bfde44",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/review.json": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+    "docs/SCORING_RUBRIC.md": "57b26b6b9cda3140e6bf11c0d8babec08843aaa774a69d22d856d1a6f22addaf",
+    "docs/isles-pilot/047_LIFECYCLE.md": "171574d42d0f025c0b39bc4eeaa6f126524251e94f9336241dadf8c0e746769e",
+    "docs/isles-pilot/CURRENT_STATUS.md": "46f4aa106e08cdac51459731cd3137eb0d4882b55739cb2dcb2310085038a82f",
+    "docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json": "5257b6ed150db6d4e5815167171a6596a387b7b33dc102cbadac7e2ebe8bf070",
+    "docs/science/PREDICTION_READINESS_DIRECTION_20260906.md": "6cf9072fd9dcb6b0a9dc9e0a216796324234cfc6bbb4b04811a75f8701a03923",
+    "orchestrator/prompts/scout.md": "7d943c7d48044a351affcd764f2917ec5118f21cbfaeefdcba88c4b5f75f0f12"
+  },
+  "actor_type": "agent",
+  "family": "codex",
+  "authority": "campaign_delegated_investigator",
+  "status": "PROPOSAL_ONLY",
+  "initiator": {
+    "kind": "agent",
+    "family": "codex"
+  }
+}

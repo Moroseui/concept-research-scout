@@ -1,0 +1,43 @@
+{
+  "status": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+  "mode": "charter",
+  "experiment": "P001",
+  "input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/build_receipt.json": "fc35059a7254ca3e449a9445d654e92bdc789a81ae71d16d19d769b650bfde44",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/review.json": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+    "docs/SCORING_RUBRIC.md": "57b26b6b9cda3140e6bf11c0d8babec08843aaa774a69d22d856d1a6f22addaf",
+    "docs/isles-pilot/047_LIFECYCLE.md": "171574d42d0f025c0b39bc4eeaa6f126524251e94f9336241dadf8c0e746769e",
+    "docs/isles-pilot/CURRENT_STATUS.md": "46f4aa106e08cdac51459731cd3137eb0d4882b55739cb2dcb2310085038a82f",
+    "docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json": "5257b6ed150db6d4e5815167171a6596a387b7b33dc102cbadac7e2ebe8bf070",
+    "docs/science/PREDICTION_READINESS_DIRECTION_20260906.md": "6cf9072fd9dcb6b0a9dc9e0a216796324234cfc6bbb4b04811a75f8701a03923",
+    "orchestrator/prompts/scout.md": "7d943c7d48044a351affcd764f2917ec5118f21cbfaeefdcba88c4b5f75f0f12"
+  },
+  "round": 1,
+  "artifact_sha256": {
+    "round-1/P001_ADOPTION.proposed.md": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+    "round-1/prompt_campaign_charter.md": "8a2dcb806b97c50bcf10bb1773d2b6dcbb23fe38c5627010d7e54dcb7a094805",
+    "round-1/log_campaign_charter.txt": "397a7791b88556455dc2fc29c64154557477be4a24ef97e62c00a3ad844248f6",
+    "round-1/review.json": "f03fe43f216bf80c34ea0d38203371def299d4fe2de7d5398c72d2d15dab0bed",
+    "round-1/stage_provenance.jsonl": "d3032236f6647b3ca08a6d28f73879d64252bff124c7cb61b72da48a5d41ccf3",
+    "round-1/profile_campaign_charter_review.json": "4716e4e206f01eb26f55d3eb0c39590ed928cc22b900ff2f8c1eab49c67b8ce8",
+    "round-1/RUBRIC.proposed.md": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+    "round-1/PROMPTS.proposed.md": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+    "round-1/profile_campaign_charter.json": "f61a8149513e40648caa5286024b49da45b7e921069e342799a4c613f4b11940",
+    "round-1/log_campaign_charter_review.txt": "e1ddd5940d4fbfcf24d9ac198dcd1517cff710393dc05200be6a582e736fe0af",
+    "round-1/prompt_campaign_charter_review.md": "c39cbfb690890a63677c5175cff9fad91665efe157e885cb196df00a469cc7ba",
+    "round-1/CHARTER.proposed.md": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27"
+  },
+  "author_family": "codex",
+  "reviewer_family": "claude",
+  "ci": false,
+  "initiator": {
+    "kind": "agent",
+    "family": "codex"
+  }
+}

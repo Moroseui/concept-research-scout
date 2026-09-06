@@ -234,6 +234,8 @@ Write only the file the task names. Preserve all other files.
              ROOT/'evidence'/'cross_charter_index.md',
              ROOT/'evidence'/'librarian_proposals.md']
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
+    from orchestrator.research_context import evidence_context
+    context += '\n\n===== RELATED EVIDENCE (NO SCORE TRANSFER) =====\n' + json.dumps(evidence_context(ROOT, charter_for_target(target)))
     tctx = _target_context(stage, target)
     if tctx:
         context += '\n\n' + tctx
@@ -4197,6 +4199,8 @@ def _dossier_entry_idea(d, entries):
 def write_librarian_dossier(target):
     entries = ledger_mod.load()
     chunks = ['# Librarian dossier (auto-generated)', '']
+    from orchestrator.research_context import evidence_context
+    chunks.append(json.dumps(evidence_context(ROOT, charter_for_target(target))))
     for d in sorted((ROOT/'ideas').glob('[0-9][0-9][0-9]')):
         chunks.append(_dossier_entry_idea(d, entries))
         chunks.append('')

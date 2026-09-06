@@ -57,7 +57,8 @@ def grounding(root,experiment):
     for name in ['CURRENT_STATUS.md','047_LIFECYCLE.md']:
         f=Path(root)/'docs/isles-pilot'/name
         if f.is_file():files.add(f)
-    if experiment!='P001':files.add(prior/'interpretation_receipt.json')
+    if experiment!='P001':
+        files.update(prior/name for name in ['interpretation_receipt.json','interpretation.md','interpret_review.md','investigator_next_decision.json'])
     for name in ['SPEC.md','run.py','publication.json','review.json','investigator_decision.json','build_receipt.json','verification_receipt.json']:
         if (exp/name).is_file():files.add(exp/name)
     if (exp/'import_receipt.json').exists():
@@ -78,7 +79,7 @@ def grounding(root,experiment):
     return result
 
 
-def execute(sc,mode,experiment,request,output,initiator=None):
+def execute(sc,mode,experiment,request,output,initiator=None,proposal=None):
     if mode not in MODES:raise ValueError('unknown stage')
     output=Path(output)
     permitted=Path(sc.ROOT)/'campaigns/isles24-pilot/pipeline'
@@ -94,6 +95,15 @@ def execute(sc,mode,experiment,request,output,initiator=None):
             from orchestrator.campaign_lifecycle import require_review
             require_review(exp.parents[1],exp)
         context=grounding(sc.ROOT,experiment)
+        from orchestrator.research_context import proposal_context,evidence_context
+        context['related-evidence.json']=json.dumps(evidence_context(sc.ROOT,'isles24-prediction'))
+        if proposal:
+            if mode not in {'adoption','readiness','discuss','brief','curate'}: raise ValueError('PROPOSAL_PREVIEW_STAGE_ONLY')
+            context.update(proposal_context(sc.ROOT,proposal))
+            # The proposed scoped guidance is used, rather than contradictory legacy
+            # generation requirements. Historical inputs remain in the charter review.
+            for name in ['orchestrator/prompts/scout.md','docs/SCORING_RUBRIC.md']:
+                context.pop(name,None)
     except BaseException as e:
         (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'reason':'GROUNDING_FAILED'}))
         raise
@@ -131,6 +141,6 @@ def execute(sc,mode,experiment,request,output,initiator=None):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('mode',choices=MODES);p.add_argument('--experiment',choices=['P001','P002','P003'],required=True)
-    p.add_argument('--request',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p.add_argument('--proposal-context');p.add_argument('--request',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
     import scout
-    print(json.dumps(execute(scout,a.mode,a.experiment,a.request,a.output),indent=2))
+    print(json.dumps(execute(scout,a.mode,a.experiment,a.request,a.output,proposal=a.proposal_context),indent=2))

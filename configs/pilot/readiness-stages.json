@@ -1,0 +1,101 @@
+{
+  "scope": "SUPERVISED_METADATA_AND_SYNTHETIC_ONLY",
+  "auth_dependency": "Existing driver and reviewer authentication verified; not a gate for deterministic inventory",
+  "execution_handlers": "Fixed metadata handlers only. Blocked launch/import stages identify dependencies and cannot execute patients or imports. System proposal stages use campaign_pipeline, not this credential-free queue.",
+  "tasks": [
+    {
+      "id": "00-slow-synthetic",
+      "binding": {
+        "handler": "slow_synthetic",
+        "thread": "primary",
+        "parent": "deployment-closeout",
+        "dependencies": [],
+        "gates": [],
+        "seconds": 30
+      }
+    },
+    {
+      "id": "10-context-inventory",
+      "binding": {
+        "handler": "context_inventory",
+        "thread": "adjacent",
+        "parent": "cross-charter-evidence-propagation",
+        "dependencies": [],
+        "gates": [],
+        "seconds": 0
+      }
+    },
+    {
+      "id": "20-baseline-inventory",
+      "binding": {
+        "handler": "baseline_inventory",
+        "thread": "adjacent",
+        "parent": "isles24-prediction-charter",
+        "dependencies": [
+          "10-context-inventory"
+        ],
+        "gates": [],
+        "seconds": 0
+      }
+    },
+    {
+      "id": "30-phase-b-inventory",
+      "binding": {
+        "handler": "phase_b_inventory",
+        "thread": "adjacent",
+        "parent": "047b-evidence-and-lifecycle",
+        "dependencies": [
+          "20-baseline-inventory"
+        ],
+        "gates": [],
+        "seconds": 0
+      }
+    },
+    {
+      "id": "40-charter-ratification",
+      "binding": {
+        "handler": "baseline_inventory",
+        "thread": "primary",
+        "parent": "isles24-prediction-charter",
+        "dependencies": [],
+        "gates": [
+          "operator_charter_ratification"
+        ],
+        "seconds": 0
+      }
+    },
+    {
+      "id": "50-p001-launch",
+      "binding": {
+        "handler": "baseline_inventory",
+        "thread": "primary",
+        "parent": "isles24-prediction-charter",
+        "dependencies": [
+          "40-charter-ratification"
+        ],
+        "gates": [
+          "operator_patient_launch",
+          "input_backend_review"
+        ],
+        "seconds": 0
+      }
+    },
+    {
+      "id": "60-phase-b-import",
+      "binding": {
+        "handler": "phase_b_inventory",
+        "thread": "adjacent",
+        "parent": "047b-evidence-and-lifecycle",
+        "dependencies": [
+          "30-phase-b-inventory"
+        ],
+        "gates": [
+          "original_console",
+          "identity_disposition",
+          "scientific_landing"
+        ],
+        "seconds": 0
+      }
+    }
+  ]
+}

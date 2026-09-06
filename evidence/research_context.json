@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "id": "047b-candidate-conclusions",
+      "charters": ["isles24", "isles24-prediction"],
+      "tags": ["stroke", "admission-imaging", "heterogeneity", "prediction-context"],
+      "status": "PENDING_EVIDENCE",
+      "dependencies": ["exact_047b_identity", "original_successful_console", "exclusion_disposition", "scientific_landing", "reviewed_interpretation"],
+      "candidate_source": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+      "candidate_contract": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba"
+    }
+  ]
+}
