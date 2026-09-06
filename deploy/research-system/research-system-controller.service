@@ -1,0 +1,20 @@
+[Unit]
+Description=Research-system supervised synthetic controller (no model dispatch)
+After=network.target
+[Service]
+Type=oneshot
+User=research-controller
+Group=research-runtime
+WorkingDirectory=/opt/research-system/current
+EnvironmentFile=/etc/research-system/source.env
+ExecStart=/usr/bin/python3 -B -m orchestrator.remote_supervisor tick --state /var/lib/research-system/research-controller --requests /var/lib/research-system/requests --outputs /var/lib/research-system/outputs --source-root /opt/research-system/current --source ${SOURCE}
+UMask=0027
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateNetwork=true
+ReadWritePaths=/var/lib/research-system/research-controller /var/lib/research-system/requests
+MemoryMax=512M
+CPUQuota=100%
+TimeoutStartSec=30

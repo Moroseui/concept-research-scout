@@ -1,0 +1,22 @@
+[Unit]
+Description=Research-system bounded synthetic Linux worker
+After=research-system-controller.service
+[Service]
+Type=oneshot
+User=research-worker
+Group=research-runtime
+WorkingDirectory=/opt/research-system/current
+EnvironmentFile=/etc/research-system/source.env
+ExecStart=/usr/bin/python3 -B -m orchestrator.remote_supervisor worker --requests /var/lib/research-system/requests --outputs /var/lib/research-system/outputs --source-root /opt/research-system/current --source ${SOURCE}
+UMask=0027
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateNetwork=true
+ReadWritePaths=/var/lib/research-system/outputs
+MemoryMax=768M
+CPUQuota=200%
+TasksMax=32
+TimeoutStartSec=150
+KillMode=control-group
