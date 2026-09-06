@@ -1,0 +1,9 @@
+**Disposition: agree with limited synthetic evidence; broader operational acceptance remains unestablished.**
+
+- **Agree:** Supplied records support four successful synthetic jobs, one failure and one Colab block, including the constrained follow-up selection. Execution pin `6b555075…` is distinct from reporting pin `e7bff179…`; these receipts do not validate the newer worker’s v2 behavior.
+- **Agree:** Missing directory fsync, incomplete service hardening, unexercised recovery/reconciliation paths, and unsupported fixture-review provenance warrant follow-up. Old controllers reject v2 receipts, but an actual mixed deployment is not demonstrated.
+- **Disagree with stronger inferences:** `inactive/dead` can be normal between timer-triggered oneshot runs; it does not prove manual execution. Capability bounding sets are ceilings, not evidence of effective privileges. Wake counts cannot be established without a wake snapshot. The supplied report demonstrates provenance rendering, though downstream behavior remains unverified. Model identities require execution receipts beyond review prose.
+
+All reserved decisions remain unchanged: scientific acceptance, 047 landing and cleanup, charter ratification, patient/P001 launch, reserved-cohort access, publication and main merge, credentials and protected permissions, spending, limiter/reset authority and unattended activation. Historical approvals, scores, charters and frozen snapshots remain preserved.
+
+**One next action:** Prepare a bounded acceptance plan for the reporting pin covering controller/worker compatibility, v2 success/failure receipts, actual service invocation evidence, durability and wake reconciliation. This disposition executes nothing and grants no additional authority.

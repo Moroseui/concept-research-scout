@@ -1,0 +1,15 @@
+{
+  "authority": "OPERATOR_SUPERVISED_THREE_CALL_ACCEPTANCE",
+  "day": "2026-09-06",
+  "event": "7573e0bba1c34724bdd0f660fdbc0e75",
+  "event_sha256": "076e2fa83534247b8115bfba117f809069941997719e39a9bb362ce11e4dc386",
+  "executed_next_job": "41-closeout-followup",
+  "execution_source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+  "next_job": "41-closeout-followup",
+  "patient_execution": false,
+  "real_model_calls": 3,
+  "report": "ab3b6f03899e26f086de69ec8f0d0b9c6e79f5dc167a644915c6c4a58f06bfe4",
+  "source": "e7bff17940629479c939d6ae9b9f181dc6af93f9",
+  "status": "COMPLETE",
+  "unattended_activation": false
+}

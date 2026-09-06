@@ -55,10 +55,17 @@
     },
     {
       "job": "hosted-closeout-continuation",
-      "status": "OPEN_IMPLEMENTATION",
+      "status": "RESOLVED_BOUNDED_SYNTHETIC",
       "reason": "PRIVATE_CONTEXT_SIZE_REPAIR_REVIEW_PENDING",
-      "next_action": "Continue only from completed predecessor 7573e0bba1c34724bdd0f660fdbc0e75 after reviewed source-context fix; preserve failed units 02 and 03, no predecessor replay.",
-      "evidence": "CLOSEOUT_CONTEXT_FAILURE_20260906.json"
+      "next_action": "Completed at e7bff17 with one selected successor, three actual model calls and idempotent wake reconciliation. Standing operation still gated.",
+      "evidence": "HOSTED_CLOSEOUT_RESULT_20260906.md"
+    },
+    {
+      "job": "reporting-pin-acceptance",
+      "status": "OPEN_IMPLEMENTATION",
+      "reason": "HOSTED_REVIEW_NEXT_ACTION",
+      "next_action": "Prepare the bounded system-selected acceptance plan for reporting-pin controller/worker compatibility, v2 outcomes, durable writes and wake/recovery visibility. Later journal amendment supplies actual old-worker invocation evidence; no new worker deployment is inferred.",
+      "evidence": "hosted-closeout-20260906/disposition.md"
     }
   ]
 }

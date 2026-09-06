@@ -22,3 +22,17 @@ checkpoint. Existing server jobs were reconciled: three attempts, three outcomes
 no new closeout jobs; the prior reviewed wake remains processed. Scientific tasks
 and the frozen execution snapshot remain preserved. See the finite operations
 checklist and protected writer/admission proposal for the remaining gates.
+
+### Completed hosted closeout
+
+The actual repaired chain completed at e7bff17: existing newly completed trigger
+7573e0bba1c34724bdd0f660fdbc0e75, one Astra-selected successor
+10010973a12b491793b65f44f238fc53, system report, fresh Claude review and Astra
+response. Three actual model calls; no predecessor replay or patient execution.
+Both jobs and all model evidence hashes were verified against private originals.
+Wake reconciliation ran as the controller owner and its repeat was idempotent.
+The phone acknowledgment is also verified; operational replies remain disabled.
+CI for e7bff17 passed (34057593134). See HOSTED_CLOSEOUT_RESULT_20260906.md under
+docs/operations for measured resources, failures, review qualifications and the
+finite remaining gates. Newer worker behavior and unattended operation remain
+unproven; the system disposition records the next bounded acceptance-planning task.

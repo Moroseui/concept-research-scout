@@ -1,0 +1,9 @@
+{
+  "authority": "OPERATOR_SUPERVISED_THREE_CALL_ACCEPTANCE",
+  "day": "2026-09-06",
+  "event": "7573e0bba1c34724bdd0f660fdbc0e75",
+  "event_sha256": "076e2fa83534247b8115bfba117f809069941997719e39a9bb362ce11e4dc386",
+  "execution_source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+  "next_job": "41-closeout-followup",
+  "source": "e7bff17940629479c939d6ae9b9f181dc6af93f9"
+}

@@ -8,7 +8,7 @@ receipts remain unchanged and describe their original observations.
 | Credential-free Linux synthetic execution | Hosted completion/failure and resource receipts at execution pin `6b555075fcf553994ecac8e368f4676cbdffdc56`; no patient execution. |
 | Blocked Colab yields to Linux | Demonstrated in hosted synthetic jobs; remote Colab/browser authentication remains optional queued work. |
 | Real Astra → report → fresh Claude → Astra response | Demonstrated at reporting pin `ba079f88bad9d186613687e105dd6f2b551e45e5`; see HOSTED_CYCLE_RESULT_20260906.md. This earlier cycle assessed an existing completion. |
-| New completion selects and executes another eligible job | New predecessor completed at 83fdcd0; continuation failed before model calls on WAL snapshot reading. Failure preserved in CLOSEOUT_ATTEMPT_FAILURE_20260906.json. Repair at 3321f0f passes 37 targeted tests and focused Fable review. Successor remains absent. |
+| New completion selects and executes another eligible job | Passed at e7bff17 after two preserved pre-model setup failures. New predecessor completed, actual Astra selected one eligible successor, worker completed it, fresh Claude reviewed the system report, and Astra recorded its response. See HOSTED_CLOSEOUT_RESULT_20260906.md. |
 | Restart, missing/duplicate event, role isolation | Earlier hosted synthetic restart and reconciliation passed. New review-retry and complete evidence-context changes passed focused review. Recovery-aware wake closure and disposition-only recovery remain unimplemented; hosted continuation verification is pending. |
 | Authentication/quota failure | Local fail-closed fixtures and prior actual authentication blocks retained. No simulated failure is described as a hosted provider quota outage. |
 | Phone notification and authenticated response | Operator confirmed device delivery; actual App API accepted issue 4 comment 5561640345 and marked repeat duplicate. Notification/ACK only; automatic polling and operational replies are not activated. |
@@ -18,9 +18,9 @@ receipts remain unchanged and describe their original observations.
 | Backup recovery | Consistent application sample restored and identities verified. Provider backup/restore and account-security evidence remain pending. |
 | Laptop-independent operation | Ordinary synthetic timers survive SSH; bounded real model cycle proved. Persistent non-root model coordinator and 24–48 hour observation remain unproven. |
 
-The next hosted acceptance is limited to two new synthetic jobs and three model
-calls: selector, fresh Claude review, Astra disposition. It will preserve the
-installed execution snapshot and use a separately pinned reporting adapter.
+The hosted closeout completed two new synthetic jobs and three model calls:
+selector, fresh Claude review, Astra disposition. It preserved the installed
+execution snapshot and used a separately pinned reporting adapter.
 A transient setup unit is not the standing production coordinator. A failed or
 uncertain attempt requires reconciliation; no blind replay or additional patient
 launch follows.

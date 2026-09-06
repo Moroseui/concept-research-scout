@@ -1,0 +1,256 @@
+{
+  "packet_sha256": "39f87841a2d9637a706df13bd96681261a273f36ec6f6c960220f6ae2adf30c0",
+  "deployed_service_properties": {
+    "research-system-controller.service": {
+      "ActiveState": "inactive",
+      "CPUQuotaPerSecUSec": "1s",
+      "CapabilityBoundingSet": "cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore",
+      "LoadState": "loaded",
+      "MemoryMax": "536870912",
+      "NoNewPrivileges": "yes",
+      "PrivateDevices": "no",
+      "PrivateNetwork": "yes",
+      "ProtectHome": "yes",
+      "ProtectKernelTunables": "no",
+      "ProtectSystem": "strict",
+      "SubState": "dead",
+      "User": "research-controller"
+    },
+    "research-system-worker.service": {
+      "ActiveState": "inactive",
+      "CPUQuotaPerSecUSec": "2s",
+      "CapabilityBoundingSet": "cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore",
+      "LoadState": "loaded",
+      "MemoryMax": "805306368",
+      "NoNewPrivileges": "yes",
+      "PrivateDevices": "no",
+      "PrivateNetwork": "yes",
+      "ProtectHome": "yes",
+      "ProtectKernelTunables": "no",
+      "ProtectSystem": "strict",
+      "SubState": "dead",
+      "User": "research-worker"
+    }
+  },
+  "trigger": {
+    "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "attempt_id": "7573e0bba1c34724bdd0f660fdbc0e75",
+    "console_sha256": {
+      "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+      "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+    },
+    "cpu_seconds": 0.184292,
+    "job_id": "40-closeout-trigger",
+    "peak_rss_kib": 19200,
+    "request_sha256": "e5249decd1c700012a722860c0f30c118c1845629ccec1e2c234d6851c56b685",
+    "separate_retrieval": true,
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "status": "COMPLETE",
+    "version": 1,
+    "wall_seconds": 0.26195359799748985
+  },
+  "jobs": [
+    {
+      "artifact_sha256": null,
+      "attempt_id": null,
+      "backend": "colab",
+      "cpu_seconds": null,
+      "job_id": "00-colab-blocked",
+      "kind": "synthetic_success",
+      "peak_rss_kib": null,
+      "reason": "COLAB_BROWSER_DEPENDENCY",
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "BLOCKED",
+      "wall_seconds": null
+    },
+    {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "5f8e95fb78e744c6a23afcd6ca10fcee",
+      "backend": "linux",
+      "cpu_seconds": 0.150004,
+      "job_id": "10-linux-delay",
+      "kind": "synthetic_success",
+      "peak_rss_kib": 19200,
+      "reason": null,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "wall_seconds": 45.23859434000042
+    },
+    {
+      "artifact_sha256": null,
+      "attempt_id": "59dd8c5b51764005ad2eb3ca9051d2ea",
+      "backend": "linux",
+      "cpu_seconds": 0.214859,
+      "job_id": "20-linux-failure",
+      "kind": "synthetic_failure",
+      "peak_rss_kib": 31640,
+      "reason": "SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT",
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "FAILED",
+      "wall_seconds": 0.2190529540002899
+    },
+    {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "fee07efbb4ca4d13affed829b8da5ba9",
+      "backend": "linux",
+      "cpu_seconds": 0.151976,
+      "job_id": "30-linux-next",
+      "kind": "synthetic_success",
+      "peak_rss_kib": 19200,
+      "reason": null,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "wall_seconds": 0.23748125600104686
+    },
+    {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "7573e0bba1c34724bdd0f660fdbc0e75",
+      "backend": "linux",
+      "cpu_seconds": 0.184292,
+      "job_id": "40-closeout-trigger",
+      "kind": "synthetic_success",
+      "peak_rss_kib": 19200,
+      "reason": null,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "wall_seconds": 0.26195359799748985
+    },
+    {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "10010973a12b491793b65f44f238fc53",
+      "backend": "linux",
+      "cpu_seconds": 0.134244,
+      "job_id": "41-closeout-followup",
+      "kind": "synthetic_success",
+      "peak_rss_kib": 19200,
+      "reason": null,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "wall_seconds": 0.18693879599595675
+    }
+  ],
+  "verified_events": {
+    "10010973a12b491793b65f44f238fc53": {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "10010973a12b491793b65f44f238fc53",
+      "console_sha256": {
+        "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+        "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+      },
+      "cpu_seconds": 0.134244,
+      "job_id": "41-closeout-followup",
+      "peak_rss_kib": 19200,
+      "request_sha256": "efe8a5839487cd7504cccf7016f531d40dec6ca8f19880bb52bbb8bd300f83a2",
+      "separate_retrieval": true,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "version": 1,
+      "wall_seconds": 0.18693879599595675
+    },
+    "59dd8c5b51764005ad2eb3ca9051d2ea": {
+      "artifact_sha256": null,
+      "attempt_id": "59dd8c5b51764005ad2eb3ca9051d2ea",
+      "console_sha256": {
+        "console-0.stderr": "68e77de9e777372cac65d933bcd173b69ac2b276c6f6dc216112c58ba88dfc0d",
+        "console-0.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "cpu_seconds": 0.214859,
+      "job_id": "20-linux-failure",
+      "peak_rss_kib": 31640,
+      "request_sha256": "2efc33d42e9146dc3db08763029e460812c5cbd44cb187cfa80ac56c6334f5db",
+      "separate_retrieval": false,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "FAILED",
+      "version": 1,
+      "wall_seconds": 0.2190529540002899
+    },
+    "5f8e95fb78e744c6a23afcd6ca10fcee": {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "5f8e95fb78e744c6a23afcd6ca10fcee",
+      "console_sha256": {
+        "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+        "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+      },
+      "cpu_seconds": 0.150004,
+      "job_id": "10-linux-delay",
+      "peak_rss_kib": 19200,
+      "request_sha256": "ae2529ad543b366c99fd1be981d5bb6a2f09edb0785fc325850f8420cf19cbe6",
+      "separate_retrieval": true,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "version": 1,
+      "wall_seconds": 45.23859434000042
+    },
+    "7573e0bba1c34724bdd0f660fdbc0e75": {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "7573e0bba1c34724bdd0f660fdbc0e75",
+      "console_sha256": {
+        "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+        "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+      },
+      "cpu_seconds": 0.184292,
+      "job_id": "40-closeout-trigger",
+      "peak_rss_kib": 19200,
+      "request_sha256": "e5249decd1c700012a722860c0f30c118c1845629ccec1e2c234d6851c56b685",
+      "separate_retrieval": true,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "version": 1,
+      "wall_seconds": 0.26195359799748985
+    },
+    "fee07efbb4ca4d13affed829b8da5ba9": {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "fee07efbb4ca4d13affed829b8da5ba9",
+      "console_sha256": {
+        "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+        "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+      },
+      "cpu_seconds": 0.151976,
+      "job_id": "30-linux-next",
+      "peak_rss_kib": 19200,
+      "request_sha256": "9ebcf55aa09293c0fd8eb29b2372bd6b259298f51a63bc6eac79e3a25e185538",
+      "separate_retrieval": true,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "version": 1,
+      "wall_seconds": 0.23748125600104686
+    }
+  },
+  "execution_implementation_sha256": {
+    "campaigns/isles24-pilot/colab/smoke.py": "fadfc83d6f2cea974f006b4563cdf6b0bfb2242b0b9e50cb852ad2e50f749c61",
+    "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "c1e8671a75e3e4970be835b91cc82e138a014835a67aa4d2adf1bb61f0a65cdb",
+    "docs/operations/REMOTE_OPERATING_DIRECTION.md": "8fc06b9513719a023c262078b3ac9f16e09b0883763f66d37b6f735beeb84735",
+    "orchestrator/git_publication.py": "2850229d600497a586d253af8f6dcbd9bc9a8dff3e53ed0857c70764b4dbb8ce",
+    "orchestrator/hosted_cycle.py": null,
+    "orchestrator/hosted_cycle_reconcile.py": null,
+    "orchestrator/hosted_review_recovery.py": null,
+    "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+    "orchestrator/operations_report.py": "de5c65278d7663216326ea6b047652017fa13b9dc04bb1c64cffc3c39ca859b7",
+    "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+    "orchestrator/remote_supervisor.py": "1e99a79c3525d66035dba1a12711028251ebd641d3ec23dab0486d7efce890a0"
+  },
+  "implementation_sha256": {
+    "campaigns/isles24-pilot/colab/smoke.py": "fadfc83d6f2cea974f006b4563cdf6b0bfb2242b0b9e50cb852ad2e50f749c61",
+    "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+    "docs/operations/REMOTE_OPERATING_DIRECTION.md": "8fc06b9513719a023c262078b3ac9f16e09b0883763f66d37b6f735beeb84735",
+    "orchestrator/git_publication.py": "c6daec7fd16e2fc81cec1f626edfab8dd5f18f2c6fc1b5c740775cee91c0ac79",
+    "orchestrator/hosted_cycle.py": "fbd369252882f79486f4a565c2c96213868496db3e7b79dcdd29cd6765c8dfc8",
+    "orchestrator/hosted_cycle_reconcile.py": "271a3a5fdc1792ce19042ad155c7723c4a8a6b703f99cb94e31e1c8477273b06",
+    "orchestrator/hosted_review_recovery.py": "e63e483f45980011ba979b421f08e430ba8cdd88c939aec0efec5dd112421d30",
+    "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+    "orchestrator/operations_report.py": "df411c607f59407a806cfd7826c075bc433a94f2ab2806ce831bdce5b72a36e1",
+    "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+    "orchestrator/remote_supervisor.py": "06c0ee427d97e6be518e8ad037b46c09cc9f97b021cb848f67f2f007e7affcff"
+  },
+  "original_packet": "retained privately; implementation content is bound by Git source and hashes"
+}

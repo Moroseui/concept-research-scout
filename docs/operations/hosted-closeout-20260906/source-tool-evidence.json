@@ -1,0 +1,59 @@
+{
+  "amends_report_evidence": "ab3b6f03899e26f086de69ec8f0d0b9c6e79f5dc167a644915c6c4a58f06bfe4",
+  "execution_source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+  "reporting_source": "e7bff17940629479c939d6ae9b9f181dc6af93f9",
+  "implementation_comparison": {
+    "orchestrator/remote_supervisor.py": {
+      "sha256_by_source": {
+        "6b555075fcf553994ecac8e368f4676cbdffdc56": "1e99a79c3525d66035dba1a12711028251ebd641d3ec23dab0486d7efce890a0",
+        "e7bff17940629479c939d6ae9b9f181dc6af93f9": "06c0ee427d97e6be518e8ad037b46c09cc9f97b021cb848f67f2f007e7affcff"
+      },
+      "identical": false
+    },
+    "orchestrator/operations_report.py": {
+      "sha256_by_source": {
+        "6b555075fcf553994ecac8e368f4676cbdffdc56": "de5c65278d7663216326ea6b047652017fa13b9dc04bb1c64cffc3c39ca859b7",
+        "e7bff17940629479c939d6ae9b9f181dc6af93f9": "df411c607f59407a806cfd7826c075bc433a94f2ab2806ce831bdce5b72a36e1"
+      },
+      "identical": false
+    },
+    "campaigns/isles24-pilot/colab/smoke.py": {
+      "sha256_by_source": {
+        "6b555075fcf553994ecac8e368f4676cbdffdc56": "fadfc83d6f2cea974f006b4563cdf6b0bfb2242b0b9e50cb852ad2e50f749c61",
+        "e7bff17940629479c939d6ae9b9f181dc6af93f9": "fadfc83d6f2cea974f006b4563cdf6b0bfb2242b0b9e50cb852ad2e50f749c61"
+      },
+      "identical": true
+    },
+    "orchestrator/job_store.py": {
+      "sha256_by_source": {
+        "6b555075fcf553994ecac8e368f4676cbdffdc56": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+        "e7bff17940629479c939d6ae9b9f181dc6af93f9": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a"
+      },
+      "identical": true
+    },
+    "orchestrator/public_export.py": {
+      "sha256_by_source": {
+        "6b555075fcf553994ecac8e368f4676cbdffdc56": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+        "e7bff17940629479c939d6ae9b9f181dc6af93f9": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a"
+      },
+      "identical": true
+    },
+    "orchestrator/git_publication.py": {
+      "sha256_by_source": {
+        "6b555075fcf553994ecac8e368f4676cbdffdc56": "2850229d600497a586d253af8f6dcbd9bc9a8dff3e53ed0857c70764b4dbb8ce",
+        "e7bff17940629479c939d6ae9b9f181dc6af93f9": "c6daec7fd16e2fc81cec1f626edfab8dd5f18f2c6fc1b5c740775cee91c0ac79"
+      },
+      "identical": false
+    }
+  },
+  "claude_effective_configuration": {
+    "tools": [],
+    "mcp_servers": [],
+    "model": "claude-fable-5",
+    "permissionMode": "dontAsk"
+  },
+  "astra_model_identity": "gpt-6-astra was explicitly requested with no fallback; resolved identity is not independently reported by the captured protocol",
+  "original_review_preserved": true,
+  "model_call": false,
+  "new_review_or_approval": false
+}

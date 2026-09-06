@@ -1,0 +1,1 @@
+{"task_id":"41-closeout-followup","reason":"Predecessor 40-closeout-trigger completed; this is the only eligible bounded synthetic Linux follow-up. Colab remains unavailable, scientific tasks remain gated, and all reserved decisions are preserved."}

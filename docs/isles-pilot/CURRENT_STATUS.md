@@ -28,8 +28,10 @@ acknowledgment have now passed; operational phone decisions remain disabled.
 See [finite deployment checklist](../operations/DEPLOYMENT_CLOSEOUT_CHECKLIST.md)
 and [phone evidence](../operations/NOTIFICATION_APP_IDENTITY_20260906.json).
 
-The new-completion-to-selected-successor test is implemented and under review,
-not yet executed. Shared 48/96 admission and protected writer/reset activation,
+The new-completion-to-selected-successor test passed at `e7bff17`, followed by
+a real fresh Claude review and Astra disposition; see
+[closeout evidence](../operations/HOSTED_CLOSEOUT_RESULT_20260906.md).
+Two pre-model setup failures are preserved, and no predecessor was rerun. Shared 48/96 admission and protected writer/reset activation,
 recurring reporting and 24–48 hour laptop-disconnected observation remain pending.
 The queued prediction charter, 047b reconciliation and cross-charter findings
 propagation remain preserved. P001 remains unexecuted and separately gated.
