@@ -1,0 +1,82 @@
+{
+  "status": "HISTORICAL_SYSTEM_AUTHORING_EVIDENCE",
+  "runner_authored_by": "probe-build -> run_agent probe_code (Claude), opposing probe_review (Codex)",
+  "records": [
+    {
+      "output_commit": "285ab8fe18c89bd8d38c3d3e76d71bacebbafb8e",
+      "parent": "d9d2071cf466a28ee22c95bccb02b457e2f42421",
+      "stage": "probe_code",
+      "original_receipt": {
+        "attempts": [
+          {
+            "model": "claude-fable-5",
+            "returncode": 0
+          }
+        ],
+        "ci": false,
+        "duration_s": 587.556,
+        "exit_class": "ok",
+        "fallback": false,
+        "family_configured": "claude",
+        "family_effective": "claude",
+        "git_commit": "d9d2071cf466a28ee22c95bccb02b457e2f42421",
+        "model_requested": "claude-fable-5",
+        "model_used": "claude-fable-5",
+        "prompt_file": "prompt_probe_code.md",
+        "prompt_sha256": "834003f4fe9f4cff159d50029fa14789bccdb48a9da26bb1f7205675fbf5ffbe",
+        "receipt": 1,
+        "run_id": "05503e143aa4",
+        "stage": "probe_code",
+        "started_utc": "2026-09-02T04:52:03+00:00",
+        "tools": {
+          "claude": "2.1.222 (Claude Code)",
+          "codex": "codex-cli 0.146.0"
+        }
+      },
+      "prompt_hash_matches": true,
+      "original_log_sha256": "7fa648b882360499bbe3ee0c185a74984326c3885be5e6db7e89002fd72b2461"
+    },
+    {
+      "output_commit": "0bd88218a983a470455fa1bb08aa7f8991335ef1",
+      "parent": "285ab8fe18c89bd8d38c3d3e76d71bacebbafb8e",
+      "stage": "probe_review",
+      "original_receipt": {
+        "attempts": [
+          {
+            "model": null,
+            "returncode": 0
+          }
+        ],
+        "ci": false,
+        "duration_s": 96.692,
+        "exit_class": "ok",
+        "fallback": false,
+        "family_configured": "codex",
+        "family_effective": "codex",
+        "git_commit": "285ab8fe18c89bd8d38c3d3e76d71bacebbafb8e",
+        "model_requested": null,
+        "model_used": null,
+        "prompt_file": "prompt_probe_review.md",
+        "prompt_sha256": "957a87a054ca96aff83c3e3855313c5b38f8a01591db87fd07d3d74305cbe7f8",
+        "receipt": 1,
+        "run_id": "26acdac8ed74",
+        "stage": "probe_review",
+        "started_utc": "2026-09-02T05:01:51+00:00",
+        "tools": {
+          "claude": "2.1.222 (Claude Code)",
+          "codex": "codex-cli 0.146.0"
+        }
+      },
+      "prompt_hash_matches": true,
+      "original_log_sha256": "153368bd550dd24bf1f4389b5ade8cadf11b9738ab6c338101d1f1ad50c53671"
+    }
+  ],
+  "last_system_authored_run_blob": "42feb8756675c1bf5165d965177fdab2753e661e",
+  "pilot_change_commit": "194cdcd491a608190fca45c24ad216153431270e",
+  "pilot_change": "Four staging/fixture directory expressions moved outside output directory; direct infrastructure edit, not package-colab generation.",
+  "current_run_sha256": "dc4134de20a402138d85e0e1d72ca855110cdafae63e61a627d12f2fe99c64cf",
+  "unchanged_since_pilot_change": true,
+  "subsequent_review_execution": "docs/isles-pilot/reviews/cleanup-r4.execution.json",
+  "reviewed_run_hash_matches": true,
+  "limitation": "Historical receipts establish the system stages and recorded model selection, not deterministic LLM regeneration. No code-generation replay or original successful Colab log has been fabricated."
+}

@@ -72,3 +72,15 @@ branch for notebook acquisition and commit references.
 
 Public 047 cleanup is a separate leased ref replacement. This PR neither performs
 nor authorizes it, and cleanup does not accept 047's scientific results.
+
+## Closeout source-binding qualification
+
+The original source receipts remain immutable. Because this batch repairs the
+legacy push path in scout.py, the P001 review bound to that file cannot certify
+current HEAD for patient execution. The candidate verifier now verifies the
+original scientific/patient approval bytes at frozen source 1ecc3f9 and separately
+requires the current scientific gate to report its actual dependency-review block.
+It only tolerates the explicitly identified scout.py drift for infrastructure
+readiness; unrelated scientific drift fails verification. This is not a scientific
+approval upgrade or gate bypass. Existing P001 executable d6a1184 and notebook
+1a81c037 remain preserved. A fresh current-tree execution review is separate.

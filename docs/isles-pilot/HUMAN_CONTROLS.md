@@ -114,3 +114,23 @@ replaying old BLOCKED results until the request ID changes, and a job timeout th
 may expire before all four permitted model-stage timeouts. Raw CLI protocols are
 ephemeral, not claimed as durably returned. CLI-reported subscription cost equivalents
 are not billed charges; unavailable actual costs and intervention time remain null.
+
+## Closeout qualification
+
+The historical approvals above were real, author-operated Claude reviews. They
+are internal cross-family review, not the separate independent merge desk. The
+operator supplied a desk handoff for head 1ecc3f9; new closeout changes need a new
+candidate desk review and operator signature. Proposed governance is in
+CLOSEOUT_RULINGS_PROPOSED.md and is not ratified.
+
+Publication now has a shared text boundary for Summary/failure messages and a
+closed metadata boundary for the proposed limiter. The limiter preparatory step
+is inactive; n remains null and all workflow permissions remain read-only.
+No standing dispatch grant follows from this code. See DISPATCH_LIMITER.md.
+
+The legacy checkpoint push was repaired in scout.py. That changes a dependency
+bound by the original P001 scientific review, so patient execution from the new
+checkout correctly requires dependency review. Original executable/notebook and
+approved snapshot remain unchanged; original approvals are verified at their
+frozen source, not relabeled to cover the new tree. Interpretation/adoption gates
+are not bypassed to make the merge candidate green.

@@ -76,3 +76,24 @@ replay, readiness and invalid-source receipts are linked in
 suite passed 298 tests and 20 subtests. The earlier committed main-tree receipt
 certifies its named demonstration tree only; use the final exact-head integration
 pins reported in PR #2 before a merge decision. No merge is authorized here.
+
+## Bounded PR #2 closeout (supersedes earlier merge-readiness wording)
+
+PR remains held/unmerged. Proposed corrected R1–R4, N=48 recommendation and writer
+permission choices remain unratified. Controlled Git/checkpoint, artifact and
+Summary routes validate before publication; admin Git/API bypass remains outside
+that enforcement boundary. Post-push CI detects and cannot prevent exposure.
+
+The new shared limiter is implemented/tested but not activated or provisioned.
+The 047 notebook reproduces at cell-source level; random cell IDs prevent byte
+identity. run.py's separate system-authoring and reviewed staging change are
+recorded without regeneration claims. No unpublished 2a-state work was found in
+known checkouts; published 2a-state is already in main.
+
+The repaired scout.py invalidates using the original P001 review on this new tree.
+Patient execution from HEAD is BLOCKED_SCOUT_DEPENDENCY_REVIEW_REQUIRED. The frozen
+approved source and archive are preserved; no new execution or scientific result
+exists. Legacy human functionality exceptions remain as listed in HUMAN_CONTROLS.md.
+Independent desk review must cover the final closeout candidate, then the operator
+chooses ratification/permissions and whether to merge. None of this approves 047
+scientific landing, cleanup or P001 launch.
