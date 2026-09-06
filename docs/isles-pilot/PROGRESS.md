@@ -623,3 +623,26 @@ views and four registries. The earlier incorrect missing-approval diagnosis is
 explicitly corrected; source object retrieval is exact-SHA, shallow and blob-filtered.
 All historical approval/governance/scientific artifacts remain unchanged; only
 three derived view fingerprint pairs were regenerated through the built-in command.
+
+### Bounded main stabilization preparation (2026-09-06 UTC)
+
+Started clean at 42b5252d55d240a0dd0209ff914894c7d95b9999; public pilot matched,
+main remained 4f5b6b1dc67084a7882c099fb30a6f9465991a31 and was an ancestor.
+Current pilot CI 34002142555 is green. New CURRENT_STATUS.md supersedes obsolete
+runtime-local archive and pending CI instructions while frozen review-bound
+handoff documents remain byte-identical. MAIN_INTEGRATION.md inventories all eight
+workflows and changed user surfaces. Main intentionally keeps seven quarantines;
+local system routes remain supported and pilot-only publication is unchanged.
+New read-only integration verifier executes only closed diagnostic guards and
+checks merge parents/tree and existing source review bindings. Initial tests: six
+passed with three mutation subtests. Fresh independent review and isolated full
+integration checks follow. No Colab connection, job restart, P001 run or paid service.
+
+Ref cleanup refreshed all 12 advertised refs: only the 047 results branch reaches
+173 raw blobs. A fresh private rehearsal reproduced c812421207b6ddcba6516444897c777d8440275a,
+16 retained files and exact original failure/exclusions bytes; complete bundle
+verified. Raw removal is not anonymization: three retained audit files contain
+case-linked metadata. Their residual disposition and 047 acceptance remain explicit
+separate decisions. No remote rewrite. First metadata traversal failed on intentionally
+missing blobs; separate complete tree traversal plus explicit missing-blob accounting
+resolved it without payload acquisition. Partial attempt retained privately.

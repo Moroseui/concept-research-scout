@@ -3,8 +3,11 @@
 A human-supervised research discovery loop for finding **interesting,
 feasible, concept-focused medical-imaging projects** — run by two AI agent
 families (Claude and Codex) under strict evidence rules, operated entirely
-from a phone via three GitHub Actions buttons, with every artifact and
-decision versioned in this repository.
+through versioned local commands, with every artifact and decision recorded.
+The legacy GitHub Actions research buttons are quarantined in this milestone;
+only deterministic checks run remotely. See the [current status and supported
+routes](docs/isles-pilot/CURRENT_STATUS.md) and [main integration
+contract](docs/isles-pilot/MAIN_INTEGRATION.md).
 
 The system deliberately delays coding. It scouts literature-grounded ideas,
 audits their novelty by search, stress-tests survivors through cross-model
@@ -19,7 +22,7 @@ versus pending, `CHARTER.md` for the research scope and evidence rules.
 ## The loop
 
 ```
-        (nightly cron, or Run workflow)             (Run workflow)
+        (local cycle command)             (local pipeline)
  ┌─────────────── scout-cycle ───────────────┐   ┌─ idea-pipeline ─┐
  │ scout tracks: baseline | wide | fiction   │   │ shortlist top-N │
  │      -> merge -> novelty audit            │──>│ from BACKLOG    │
@@ -35,47 +38,25 @@ versus pending, `CHARTER.md` for the research scope and evidence rules.
                                                  human-approved probe
 ```
 
-Everything runs on GitHub-hosted runners using subscription (not API) agent
-auth. Every completed stage is a git commit — the commit *is* the
-checkpoint, so any failure (rate limit, timeout, job kill) costs one stage
-and the same button resumes it.
+Research stages use the authenticated local agent CLIs. Completed stages leave
+versioned artifacts and receipts; failed stages preserve evidence. A running local
+coordinator still depends on its host. Laptop-independent execution is unproven.
 
-## Operating it (the three buttons)
+## Operating it
 
-**scout-cycle** — feeds the queue. Inputs: `tracks`
-(`baseline`,`wide`,`fiction`, comma-separated) and `dry_run` (print the plan,
-spend nothing). Also runs nightly (baseline-only) on cron. Each cycle:
-scouts per track, merges candidates, audits novelty by literature search,
-and files everything into the cross-cycle backlog.
+Use the local commands below. `cycle` generates candidates; `pipeline` performs
+the critique/debate stages; `actioner` prepares an advisory brief; `librarian`
+curates the corpus. These commands remain available for their authorized scope.
+The pilot campaign uses its explicit campaign commands, not an inferred numbered
+idea approval. Do not dispatch the old Actions buttons: `scout-cycle`,
+`idea-pipeline`, `actioner`, `librarian`, `interpret`, `confer`, and
+`results-validate` remain disabled after this proposed merge. No nightly generation,
+automatic results PR, or main write is enabled. The integration document maps each
+workflow to its supported replacement and explains the gates.
 
-**idea-pipeline** — drains the queue. `top_n: N` processes the next N
-candidates from the *global ranked backlog* (best verdict first, then rubric
-score; in-flight ideas are finished before new ones are drawn, so the button
-doubles as resume). Or target `candidate: K` / `idea: N` with a `stages`
-list (`keystone,critique,revise,feasibility,debate`). Every idea first passes a **keystone screen** -- one cheap
-evidence-quoting agent pass (clone the repo, read the loader, check the
-release page) that can kill at screen prices before critique or debate is
-paid for. Debate summaries end in a
-machine-readable verdict that updates the ledger automatically; a REVISE
-verdict also auto-runs the revise stage in the same job, and a
-`revise_debt` toggle batch-syncs any stale REVISE-verdicted cards.
-
-**actioner** — synthesizes the state. Aggregates every pending human
-decision, unblock condition, near-miss, queue snapshot, and the latest
-librarian findings into one phone-readable brief (`evidence/actions.md`).
-With `propose_improvement` enabled it may additionally author **one pull
-request** — never a commit to main; the PR diff, the checks workflow's test
-run, and your merge button are the approval gate.
-
-**librarian** — curates the corpus. Manual-only (it costs tokens per entry).
-Reads a full-detail dossier of every idea and backlog candidate, writes a
-connection map, re-audits stale novelty verdicts (applied to the ledger),
-and leaves revival/recombination proposals that future scouting cycles may
-adopt.
-
-The human gates are: reading each idea's `consensus.md` before acting on it,
-`approve-probe` before any code is generated, and interpreting probe
-results. Nothing launches expensive compute without an explicit command.
+Historical numbered probes require human approval. The explicitly delegated ISLES
+campaign records agent authority and opposing-family review without creating human
+approval markers. Result acceptance and human ratification remain separate gates.
 
 ## Institutional memory (what the agents know)
 
@@ -272,15 +253,10 @@ infrastructure failure must not burn a good leg).
 
 ### Phone surfaces (GitHub Actions → Run workflow)
 
-`interpret` (idea, resume_review) and `confer` (idea, question) run the
-corresponding commands on Actions with tests-first and fail-closed
-push; `actioner` renders the operator brief. Codex participates in one
-leg of every confer and in interpret reviews. Durable auth: set the
-`OPENAI_API_KEY` repository secret and Actions uses it (no rotation, no
-refresh dance; local codex keeps the ChatGPT login untouched). Without
-it, workflows fall back to the `CODEX_AUTH_JSON` OAuth snapshot, which
-must be re-exported immediately before dispatch (single-use refresh
-chain).
+These legacy Actions routes are quarantined. Use local `scout.py interpret-build`
+and `scout.py confer` under their existing gates; use explicit campaign arguments
+for campaign interpretation. No Actions API key or new billing is needed for this
+milestone. See [the workflow inventory](docs/isles-pilot/MAIN_INTEGRATION.md).
 
 ### ISLES autonomous pilot publication safeguards
 

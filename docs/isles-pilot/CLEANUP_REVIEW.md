@@ -1,16 +1,18 @@
 # Fable review package and cleanup operation — approval pending
 
-Cleanup review APPROVE pin: **469d29df002ea78f64146731244769d7c82330d6**.
-Final integration review: **469d29df002ea78f64146731244769d7c82330d6**. Baseline: **4f5b6b1**.
-Review the full diff and `scripts/rehearse_047_cleanup.py`, the publication
-module, generated launcher, tests, dataset notice and this operation. Fable's
-review is advisory; neither it nor this campaign ratifies 047 acceptance.
+Current reconciliation: [2026-09-06 receipt](CLEANUP_RECONCILIATION_20260906.json).
+The fresh local rehearsal reproduced the exact replacement below, verified
+original evidence bytes and traversed all 12 currently advertised refs. Historical
+Fable approval at `469d29df002ea78f64146731244769d7c82330d6` remains advisory;
+this stabilization adds a fresh integration review. Neither review grants cleanup
+permission or ratifies 047 science. Main is still `4f5b6b1`.
 
 ## Concrete proposed operation
 
 Only `refs/heads/results/probe-047-dc586665d0be` contains the contaminated
-source commit among all refs advertised by origin, including its advertised
-pull-request ref. Verified using a separate blob-filtered mirror on 2026-09-05.
+source commit among all refs advertised by origin, including the advertised
+pull-request refs inspected. Verified using a fresh blob-filtered metadata
+repository on 2026-09-06.
 Remote main remains **4f5b6b1dc67084a7882c099fb30a6f9465991a31**.
 
 - Before: **940293b6d562f2d3dd6bfd9d8d8281ccf01e4783**.
@@ -121,3 +123,43 @@ registry attestation also remain open. No scientific acceptance is implied.
 Cleanup r4 and P001 r3 both returned actual APPROVE at the final reviewed
 implementation pin above. These verdicts and their exact source manifests are
 in reviews/. The proposed remote operation remains unchanged and unexecuted.
+
+## Current proposed metadata disposition
+
+| Artifact group | Proposed operation | Scientific acceptance consequence |
+|---|---|---|
+| 198 staged phenotype CSVs | Remove from replacement commit; complete originals remain in private bundle | Confirmed aggregate-only project publication-boundary violation; not needed as public outputs. |
+| `probe_exclusions.csv` | Quarantine exact original privately | Required audit remains unresolved; removing it does not satisfy import policy. |
+| `per_case_staging.csv`, `split_manifest.csv`, `staging_audit.json` | Retain exact bytes in this narrow operation, including case-linked usability/anomaly/stratum metadata | Explicit residual exposure; propose no new public copies or scientific acceptance until an operator disposition rules whether to retain or aggregate in a separate reviewed amendment/rehearsal. |
+| Other 13 top-level files | Retain exact bytes | Aggregates/audit evidence preserved, not newly accepted. |
+| Original failure console | Preserve parent history and add identical sibling file | Failure evidence only; missing successful console remains missing. |
+
+This is deliberately a **raw-payload cleanup**, not anonymization. Approval of the
+exact operation means accepting these residual public audit files for this narrow
+step; a broader metadata cleanup requires a different exact projection and fresh
+rehearsal. Frozen prior Phase-A and earlier scientific case-level records are not
+removed. No blanket case-data erasure is claimed.
+
+The confirmed issue is the project's aggregate-only publication boundary.
+A separate licensing violation has not been established. The pinned
+[Zenodo release](https://zenodo.org/records/16813698) and
+[dataset notice](DATASET_NOTICE.md) remain the attribution references; the license
+does not categorically ban redistribution. No overall repository license change
+is proposed.
+
+Fresh original bundle verification, exact path-change verification, 16 retained
+blob comparisons and separately stored exclusions/failure-byte comparisons passed.
+Fresh private evidence also exists at
+`/home/partho/concept-research-scout-v4/isles-pilot-private-evidence/stabilization-20260906-r2/rehearsal`.
+The prior approved operation may still be run from the original rehearsal repo
+specified above; both reproduce the same after pin. The first refresh attempt
+stopped because ordinary rev-list rejects intentionally omitted blobs. The second
+explicitly allowed missing blob reporting and separately required complete
+commit/tree traversal; it succeeded without downloading raw payloads. Its first
+partial metadata repository is retained privately, not represented as successful.
+
+Immediately before an approved push, repeat the affected-ref audit and bundle
+verification and require the exact before pin. Afterward verify remote branch/tree,
+retained bytes and unchanged unrelated refs. The new cleaned source identity must
+be used in future provenance declarations; old citations remain historical.
+Cached views, hidden refs, forks and copies need separate host/operator handling.

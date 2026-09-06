@@ -18,6 +18,8 @@ ALLOWED_FILES.update({'orchestrator/campaign_pipeline.py', '.github/workflows/ac
 
 ALLOWED_FILES.update({'scripts/colab_archive_preserve.py','orchestrator/archive_preserve.py','scripts/fetch_provenance.py','orchestrator/experiment_registry.py','configs/pilot/provenance-objects.json','ideas/023/state.json','ideas/045/state.json','ideas/046/state.json'})
 
+ALLOWED_FILES.add('scripts/verify_main_integration.py')
+
 EXTENSIONS={'.yml','.toml','.fish','.md','.py','.json','.yaml','.ipynb','.txt','.jsonl'}
 
 
