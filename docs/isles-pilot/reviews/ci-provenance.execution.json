@@ -1,0 +1,27 @@
+{
+  "reviewed_commit": "4e584f5c72f90d0bd786f88c773fe57b46c5a74e",
+  "returncode": 0,
+  "wall_seconds": 360.405033826999,
+  "input_file_sha256": {
+    "orchestrator/experiment_registry.py": "9682778ef3b68bfec06d85e3ec65dc55a3cbdbcd1baf2ed19e72f9bc53512455",
+    "scripts/fetch_provenance.py": "88818e189601335c9fb1118e492726175576c61462a0dc1bad572504d94f1251",
+    "configs/pilot/provenance-objects.json": "2855d5109ac2de31922593eed354531b69984daa97087e640c36a88d3eb0b790",
+    ".github/workflows/check.yml": "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648",
+    "tests/test_provenance_fetch.py": "d6e73a95ae41d6de25b6cc531f421cb7e47d135856c9b7c782bc1b5e77a2ba13",
+    "scripts/check_pilot_publication.py": "bd1f65ba2f54f06d94a49fc38beaf9e95078848c4cc3b0220f928a651c414223",
+    "docs/isles-pilot/CI_PROVENANCE_CORRECTION_20260906.md": "b432f44ba2c99f66a2eb730d46256b3c054749b25a6801d7c4d6d81370b2e36f",
+    "ideas/023/state.json": "527115d70ee645d0be8e9671569a6b8a26676d949f1c52a439eba840690c2a2b",
+    "ideas/045/state.json": "c84ed92092a34b24acf63def17dea041858b2c86dfdd9d894b8ba0b4b49dcbae",
+    "ideas/046/state.json": "2e963c0283ba0a546090c3f6aa241681564310d6cfad4ea8c5e617cc0e6695f4"
+  },
+  "response_sha256": "a832e7e03d2cd90cb5d23ff24d9c7155c4d84e4340ff2bea34c9f27ef2d807cd",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "69330e22147a10e78490ce1c5131910464fd8619bddbaf7dd7e7e039a886a136"
+}

@@ -551,3 +551,34 @@ Final code CI run 33999032538 at f4412ae89054e7d8e3fe906a89b2629a5ff73ec3 passed
 273 pytest tests, 214 orchestration tests and 16 isolation tests. Only the same
 historical idea 023 provenance check failed. The YAML workflow failure is fixed.
 Acquisition reports validated; no P001 metric/result import/interpretation exists.
+
+### Archive-preservation priority and corrected CI investigation (UTC 2026-09-06)
+
+User placed archive re-verification/persistence ahead of all P001 dispatch.
+P001 remains blocked; no dispatch performed. New system-owned archive route
+uses exact MD5/size pins, opaque byte hashing (no extraction), exclusive Drive
+copy/read-back, and separate fixed-path process/output/checkpoint metadata.
+Independent Fable approved source 1381c84e7d036fc50aed1483f56c62d02f1d842f.
+Actual remote launch completed in the original CPU Colab runtime, PID 87587,
+job archive-preservation-ec3e76e9b91f40ca847b490f9b5f7bfa under MyDrive/isles-pilot.
+Actual launch usage models: Haiku 4.5, Opus 5, Opus 4.8 (requested Fable).
+A first read-only poll was refused before tools because its source context was
+incomplete; no restart occurred. Fresh Fable approval at
+973fd8d4832adbfd7512cdf0e319595c97046f82 covers the clarified read-only handoff;
+the on-runtime verification script remains byte-identical. Final archive receipt
+is still pending at this checkpoint; historical VALIDATED is not proof.
+
+The previous CI diagnosis was WRONG: 5aa8b5a183876a991ea7e307d7a6c8a8d3a34c7a
+was unavailable, not missing its approval marker. Exact retrieval verified the
+marker and required binding. CI now fetches only reviewed full-SHA provenance
+snapshots with blob:none filtering, then the required byte-pinned marker blob.
+A real shallow synthetic fixture proves unrelated blob exclusion and unchanged
+HEAD. Validator diagnostics now distinguish unavailable objects/path lookups
+from absent contract text. Sanctioned state-materialize refreshed only two
+derived fingerprints in each of 023/045/046; all scientific/approval fields and
+authority bytes are preserved. 280 tests passed, all 47 state views verify, and
+all four registries validate. Additional handoff test suite: 5 passed.
+Fable requested changes at 99706ea; completed follow-up APPROVE at
+4e584f5c72f90d0bd786f88c773fe57b46c5a74e covers final CI/retrieval fixes.
+Original failed/review/worker evidence remains private under
+~/.local/share/isles-colab-mcp/archive-preservation-20260906.
