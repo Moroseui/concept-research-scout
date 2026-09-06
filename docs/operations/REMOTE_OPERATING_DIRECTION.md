@@ -123,3 +123,11 @@ packet and reporting schedule are proposals, not accepted instructions.
 Previously published dated direction notes remain historical, source-bound inputs
 to their original proposals. They are not a second current operating charter.
 Use this canonical file for new hosted turns and preserve those historical bytes.
+
+The operator additionally requires the versioned
+[Claude reviewer directive](CLAUDE_REVIEWER_DIRECTIVE.md) in every applicable fresh
+hosted review. It covers science, implementation, human usability and actual server
+operation. Missing evidence is requested through a bounded read-only collector;
+reviewers receive no unrestricted administration. Findings retain evidence, impact,
+affected task and minimal correction, and resolved items stay resolved absent new
+evidence. This is a review responsibility, not a new permission grant.

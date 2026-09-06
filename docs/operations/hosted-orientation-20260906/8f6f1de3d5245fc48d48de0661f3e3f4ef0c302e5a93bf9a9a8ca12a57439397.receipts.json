@@ -1,0 +1,93 @@
+[
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "00-slow-synthetic",
+    "kind": "readiness_metadata",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "status": "COMPLETE",
+    "wall_seconds": null
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "10-context-inventory",
+    "kind": "readiness_metadata",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "status": "COMPLETE",
+    "wall_seconds": null
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "20-baseline-inventory",
+    "kind": "readiness_metadata",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "status": "COMPLETE",
+    "wall_seconds": null
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "30-phase-b-inventory",
+    "kind": "readiness_metadata",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "status": "COMPLETE",
+    "wall_seconds": null
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "40-charter-ratification",
+    "kind": "readiness_metadata",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "status": "BLOCKED",
+    "wall_seconds": null
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "50-p001-launch",
+    "kind": "readiness_metadata",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "status": "BLOCKED",
+    "wall_seconds": null
+  },
+  {
+    "artifact_sha256": null,
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "60-phase-b-import",
+    "kind": "readiness_metadata",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "status": "BLOCKED",
+    "wall_seconds": null
+  }
+]

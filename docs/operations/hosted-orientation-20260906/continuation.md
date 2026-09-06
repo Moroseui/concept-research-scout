@@ -1,0 +1,21 @@
+{
+  "objective": "Advance exploratory prediction of follow-up infarct from admission CT inputs toward a reviewed baseline readiness packet by 9 September 2026, with a valid P001 result and reviewed interpretation only if separate gates resolve. Preserve prediction-charter readiness, 047b evidence reconciliation and cross-charter evidence propagation as persistent research goals.",
+  "next_eligible_task": "Prepare a bounded, proposal-only system readiness discussion packet for the existing prediction-charter and external-seed P001 adoption proposals, incorporating the supplied source-check amendment and metadata preflight. Distinguish supported timing and label provenance from unresolved Tmax voxel units, identify exact review and ratification dependencies, and retain 047b as pending evidence without conclusions. The four inventory jobs are complete; none of the three remaining blocked jobs is eligible for dispatch. This identifies desk work only and proposes no execution.",
+  "authority_limits": [
+    "The canonical REMOTE_OPERATING_DIRECTION.md and applicable scientific contracts govern; historical prompts, proposals, reviews and metadata receipts do not create authority. Supplied identities are evidence, not freshly verified files.",
+    "The continuing driver is Codex with exactly gpt-6-astra; preserve other system roles and use persistent system author, discussion and opposing-review routes for scientific decisions.",
+    "The prediction charter and conditional P001 adoption recommendation remain unratified. Preserve the existing charter, historical scores, authorship, approvals and frozen P001 bytes.",
+    "P001 is a deterministic Tmax >6 baseline, not a trained model or completed patient-outcome predictor. Metadata preflight establishes neither patient results nor execution-review clearance; exported Tmax units remain unresolved.",
+    "Preserve the frozen 99 exposed-outcome development cases, keep all 49 reserved cases untouched, prohibit outcome-derived prospective features, and retain the baseline-plus-at-most-two-follow-ups ceiling. Follow-ups require valid baseline evidence first.",
+    "Patient transfer and launch remain separately reserved, requiring applicable input/backend review, exact execution bindings, opposing-family review and ambiguous-dispatch reconciliation. No patient access, archive rehash, execution or automatic retry is proposed.",
+    "047b identity, original successful console, exclusion disposition, validation and reviewed interpretation remain unresolved. File presence is not scientific evidence or acceptance. Separate 047 landing approval remains required, and 047 acceptance is not a P001 prerequisite.",
+    "N=48 and hard threshold 96 are selected but inactive. Writer/reset design approval, shared initialization and hosted activation verification are all required; reset remains operator-only and the hard halt must survive UTC midnight. Unattended operation is unapproved.",
+    "Preserve one branch writer, immutable bindings, durable deduplicated completion and recovery, role separation and pre-publication checks. Main merges require independent candidate review and explicit operator approval; cleanup, protection changes, new credentials and spending remain separately gated.",
+    "Use the purchased DigitalOcean host within authorized bounded setup scope; create no second server or paid service. Root bootstrap does not grant ongoing sudo authority, and supplied transient-unit defaults do not establish executed sandbox properties or measured resource use.",
+    "Remote model authentication and synthetic device ACK are resolved in supplied evidence; do not infer a new sign-in requirement from historical reasons. Operational notification replies remain disabled, the reporting schedule is unselected, and provider recovery remains unverified.",
+    "Recover unavailable original handoffs before scientific decisions that depend on them; independent eligible desk work may continue. This response performs no actions and grants no reserved decision."
+  ],
+  "patient_launch_authorized": false,
+  "prediction_charter_ratified": false,
+  "unattended_activation_authorized": false
+}

@@ -6,6 +6,7 @@ from orchestrator.git_publication import scan
 from orchestrator.research_context import checked,evidence_context,proposal_context
 
 DOCUMENTS={
+ 'docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md':'OPERATOR_REVIEWER_DIRECTIVE',
  'docs/operations/REMOTE_OPERATING_DIRECTION.md':'APPROVED_OPERATING_DIRECTION',
  'docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md':'RATIFIED_CONDITIONAL_GOVERNANCE',
  'campaigns/isles24-pilot/CAMPAIGN.md':'EXISTING_SCIENTIFIC_CAMPAIGN',
@@ -43,7 +44,7 @@ def envelope(root,folder,prompt,verified_source=None):
         if p.exists():
             if p.is_symlink() or p.stat().st_size>1500000:raise ValueError('TASK_CONTEXT_PATH')
             packet=json.loads(p.read_text())
-            state={key:packet[key] for key in ('jobs','trigger','verified_events','executed_selection','decision_inbox','wakes') if key in packet}
+            state={key:packet[key] for key in ('jobs','trigger','verified_events','executed_selection','decision_inbox','wakes','reviewer_evidence','previous_findings') if key in packet}
             break
     if not state or not any(state.values()):raise ValueError('CURRENT_TASK_CONTEXT_REQUIRED')
     current=build(root,state)
