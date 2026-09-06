@@ -1,13 +1,13 @@
 {
-  "reviewed_commit": "973fd8d4832adbfd7512cdf0e319595c97046f82",
+  "reviewed_commit": "fd20d577c6691e874d50de4c01c21bc1c854867d",
   "returncode": 0,
-  "wall_seconds": 169.4102826390008,
+  "wall_seconds": 162.57576473399968,
   "input_file_sha256": {
     "scripts/colab_archive_preserve.py": "166acee0538001c46fbc32727ccb4a8a8d435f3a3b8a4f3cda5f74f01bbd2a8e",
-    "orchestrator/archive_preserve.py": "68a151ea55bed09f7730c19e8d54fa634a8330aafa07af8bbf1e4d5ff6de0ba0",
-    "tests/test_archive_preserve.py": "8878929b948c196c368f0219c2ad82456509f2a61bda4205f938f02719596242"
+    "orchestrator/archive_preserve.py": "e8c5b8c289ccdb1f9274b6d66fc7a44c69e2c4736a4c29e0d8f92d6fe54c280a",
+    "tests/test_archive_preserve.py": "3c77b0f3b9914d532b23cdea1be83a9fd76f9bd65914024aa699db3a0d1a5a34"
   },
-  "response_sha256": "acceddc84bf9a1277bc1ac13b4cac89782abe85901e77952829d06d809683572",
+  "response_sha256": "a7e7595f3bc86424459f0e43dcadb0a23735493562548ae0da867dff54dbf667",
   "requested_model": "claude-fable-5",
   "assistant_message_models": [
     "claude-fable-5"
@@ -16,5 +16,5 @@
     "claude-haiku-4-5-20251001",
     "claude-fable-5"
   ],
-  "protocol_sha256": "f5609540a7ac30ff5d101961ef90a32b4f00c7b9e8085303e365ba19d4eba233"
+  "protocol_sha256": "fbb032a3eaaf1cc58d1980e95467eb6a21f03368d1309422231b661adb849c7a"
 }
