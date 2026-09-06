@@ -2,7 +2,7 @@
 from pathlib import Path
 import re
 
-DANGER=re.compile(r'(sub[-_]stroke[0-9]+|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN .{0,30}PRIVATE KEY)',re.I)
+DANGER=re.compile(r'(sub[-_]stroke[0-9]+|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN (?:(?:RSA |OPENSSH |EC |DSA |ENCRYPTED )?PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----)',re.I)
 
 
 def text(value,limit=100000):

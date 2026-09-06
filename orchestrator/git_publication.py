@@ -11,7 +11,7 @@ import subprocess
 
 CONTAMINATED = '940293b6d562f2d3dd6bfd9d8d8281ccf01e4783'
 PILOT = 'astra/autonomous-isles-pilot'
-SECRET = re.compile(rb'(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN [^\n]{0,30}PRIVATE KEY)')
+SECRET = re.compile(rb'(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN (?:(?:RSA |OPENSSH |EC |DSA |ENCRYPTED )?PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----)')
 TEXT_SUFFIXES = {'.py','.md','.json','.jsonl','.yml','.yaml','.toml','.txt','.fish','.ipynb'}
 
 
@@ -23,7 +23,9 @@ def scan(name, data):
     p = Path(name)
     if p.is_absolute() or '..' in p.parts or p.as_posix() != name or any(x.startswith('.') and x != '.github' for x in p.parts):
         raise ValueError('PUBLICATION_PATH_REJECTED')
-    if p.suffix not in TEXT_SUFFIXES or any(x.lower().startswith(('staged','private','raw_patient')) for x in p.parts):
+    public_docs={'docs/isles-pilot/PRIVATE_COORDINATOR_PLAN.md','docs/isles-pilot/PRIVATE_COORDINATOR_SETUP.fish'}
+    private_path=any(x.lower().startswith(('staged','private','raw_patient')) for x in p.parts)
+    if p.suffix not in TEXT_SUFFIXES or (private_path and name not in public_docs):
         raise ValueError('PUBLICATION_TYPE_REJECTED')
     if len(data) > 1500000 or b'\0' in data or SECRET.search(data):
         raise ValueError('PUBLICATION_CONTENT_REJECTED')

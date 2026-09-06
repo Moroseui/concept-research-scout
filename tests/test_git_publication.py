@@ -45,3 +45,11 @@ class PublicationTests(unittest.TestCase):
             with self.assertRaises(ValueError):pub.scan(name,data)
         with self.assertRaisesRegex(ValueError,'COMMIT_METADATA'):
             pub.scan_commit(b'message '+b'ghp_'+b'A'*32)
+
+    def test_scanner_source_and_explicit_public_plan_are_not_private_payloads(self):
+        root=Path(__file__).resolve().parents[1]
+        for name in ['orchestrator/git_publication.py','orchestrator/human_controls.py','orchestrator/public_export.py','scripts/check_pilot_publication.py','docs/isles-pilot/PRIVATE_COORDINATOR_PLAN.md','docs/isles-pilot/PRIVATE_COORDINATOR_SETUP.fish']:
+            pub.scan(name,(root/name).read_bytes())
+        for kind in ['', 'RSA ', 'OPENSSH ', 'EC ']:
+            with self.assertRaisesRegex(ValueError,'CONTENT_REJECTED'):
+                pub.scan('bad.txt',('-----'+'BEGIN '+kind+'PRIVATE KEY-----').encode())

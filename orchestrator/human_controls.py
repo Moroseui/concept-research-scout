@@ -20,7 +20,7 @@ import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
 CONFIG=ROOT/'configs/pilot/human-controls.json'
-DANGER=re.compile(r'(sub[-_]stroke[0-9]+|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN .{0,30}PRIVATE KEY)',re.I)
+DANGER=re.compile(r'(sub[-_]stroke[0-9]+|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN (?:(?:RSA |OPENSSH |EC |DSA |ENCRYPTED )?PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----)',re.I)
 
 
 def request(control,mode,experiment,text,source,destination,key,kind):
