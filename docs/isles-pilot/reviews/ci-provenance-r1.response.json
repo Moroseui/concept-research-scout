@@ -1,0 +1,91 @@
+{
+  "is_error": false,
+  "duration_api_ms": 407074,
+  "num_turns": 4,
+  "stop_reason": "tool_use",
+  "session_id": "c562c0ea-911a-4a81-8bff-e11d28ba110b",
+  "total_cost_usd": 2.7091809999999996,
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 54706,
+    "cache_read_input_tokens": 27642,
+    "output_tokens": 31398,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 54706,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2748,
+        "cache_read_input_tokens": 26777,
+        "cache_creation_input_tokens": 28794,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 28794
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 17274,
+      "outputTokens": 41,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.017479,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 4,
+      "outputTokens": 31398,
+      "cacheReadInputTokens": 27642,
+      "cacheCreationInputTokens": 54706,
+      "webSearchRequests": 0,
+      "costUSD": 2.6917019999999994,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"ci-provenance\",\"reviewed_commit\":\"99706ead6d4eb4fa1ef635d921b74f63e07fb83b\",\"verdict\":\"REQUEST_CHANGES\",\"findings\":[\"P1 authority/identity-binding: terminal_statuses_if_approved matches bundles with unanchored b.endswith(rb); a path whose tail string-matches another node's results_bundle (e.g. 'myresults/047' vs 'results/047') inherits that node's terminal completion authority. Require a path boundary: b == rb or b.endswith('/' + rb).\",\"P1 CI-gate consistency: check.yml enforces `scout.py state-verify --require-all`, but CI_PROVENANCE_CORRECTION_20260906.md in the same commit reports a reproducible stale idea_card_sha256/source_fingerprint_sha256 view in ideas 023/045/046 with those state files deliberately preserved. Either the shipped gate is red on the shipped tree or state-verify does not check the fingerprint the code documents; regenerate the state files via the sanctioned refresh (doc confirms no node status or approval changes, so approvals are preserved) or reconcile the gate.\",\"P2 privacy surface: fetch_provenance's `git fetch --depth=1 origin <sha>` materializes the full snapshot tree of the results-branch commit (every blob, not only the bound HUMAN_APPROVED_PROBE) into the CI/local object store; prefer --filter=blob:none so only the single sha256-verified blob is fetched on demand. The contaminated-source guard also blocks only the one exact commit sha, not other snapshots embedding the same bytes \u2014 acceptable only while manifest entries stay review-gated.\",\"P2 doc/code divergence: derive_status accepts registry-declared terminal_statuses as terminal evidence without the A3 approval-binding gate (the gate exists only in terminal_statuses_if_approved), so an unapproved registry edit can steer a node into the terminal branch of derive_status/state_summary; mitigated by pin attestation and bundle validation but contradicts the module header's authority statement.\",\"P3 robustness: derive_status raises unhandled exceptions instead of reporting findings on wrong-shaped inputs \u2014 summary.json parsing to a JSON list hits AttributeError on summary.get, and an artifact dependency resolving to a directory makes artifact_issues' read_bytes raise IsADirectoryError.\",\"P3 test portability: test_exact_missing_object_retrieved_without_branch_history fetches a non-advertised sha from a file:// remote, relying on protocol v2's unrestricted wants; it fails if protocol.version is forced below 2 \u2014 set uploadpack.allowReachableSHA1InWant=true on the fixture source repo to pin the behavior.\",\"Sound (no change requested): GIT_OBJECT_UNAVAILABLE vs GIT_PATH_UNAVAILABLE split fails closed without disproving approvals; exact-SHA depth-1 retrieval with byte verification, closed manifest schema, and locked marker path; no ref/HEAD mutation (test-asserted); __SUPERSEDED__ ratification rows confer nothing silently while forged current-bytes rows fail loudly; publication audit remains read-only with the delta files correctly allowlisted.\"]}",
+  "structured_output": {
+    "scope": "ci-provenance",
+    "reviewed_commit": "99706ead6d4eb4fa1ef635d921b74f63e07fb83b",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "P1 authority/identity-binding: terminal_statuses_if_approved matches bundles with unanchored b.endswith(rb); a path whose tail string-matches another node's results_bundle (e.g. 'myresults/047' vs 'results/047') inherits that node's terminal completion authority. Require a path boundary: b == rb or b.endswith('/' + rb).",
+      "P1 CI-gate consistency: check.yml enforces `scout.py state-verify --require-all`, but CI_PROVENANCE_CORRECTION_20260906.md in the same commit reports a reproducible stale idea_card_sha256/source_fingerprint_sha256 view in ideas 023/045/046 with those state files deliberately preserved. Either the shipped gate is red on the shipped tree or state-verify does not check the fingerprint the code documents; regenerate the state files via the sanctioned refresh (doc confirms no node status or approval changes, so approvals are preserved) or reconcile the gate.",
+      "P2 privacy surface: fetch_provenance's `git fetch --depth=1 origin <sha>` materializes the full snapshot tree of the results-branch commit (every blob, not only the bound HUMAN_APPROVED_PROBE) into the CI/local object store; prefer --filter=blob:none so only the single sha256-verified blob is fetched on demand. The contaminated-source guard also blocks only the one exact commit sha, not other snapshots embedding the same bytes \u2014 acceptable only while manifest entries stay review-gated.",
+      "P2 doc/code divergence: derive_status accepts registry-declared terminal_statuses as terminal evidence without the A3 approval-binding gate (the gate exists only in terminal_statuses_if_approved), so an unapproved registry edit can steer a node into the terminal branch of derive_status/state_summary; mitigated by pin attestation and bundle validation but contradicts the module header's authority statement.",
+      "P3 robustness: derive_status raises unhandled exceptions instead of reporting findings on wrong-shaped inputs \u2014 summary.json parsing to a JSON list hits AttributeError on summary.get, and an artifact dependency resolving to a directory makes artifact_issues' read_bytes raise IsADirectoryError.",
+      "P3 test portability: test_exact_missing_object_retrieved_without_branch_history fetches a non-advertised sha from a file:// remote, relying on protocol v2's unrestricted wants; it fails if protocol.version is forced below 2 \u2014 set uploadpack.allowReachableSHA1InWant=true on the fixture source repo to pin the behavior.",
+      "Sound (no change requested): GIT_OBJECT_UNAVAILABLE vs GIT_PATH_UNAVAILABLE split fails closed without disproving approvals; exact-SHA depth-1 retrieval with byte verification, closed manifest schema, and locked marker path; no ref/HEAD mutation (test-asserted); __SUPERSEDED__ ratification rows confer nothing silently while forged current-bytes rows fail loudly; publication audit remains read-only with the delta files correctly allowlisted."
+    ]
+  },
+  "ttft_ms": 364551,
+  "ttft_stream_ms": 1589,
+  "time_to_request_ms": 130,
+  "type": "result",
+  "duration_ms": 405172,
+  "uuid": "2f514ef3-a308-4f1f-a4e7-a8bee6d1af1c"
+}

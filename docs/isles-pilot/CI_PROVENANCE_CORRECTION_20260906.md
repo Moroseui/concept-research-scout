@@ -12,8 +12,8 @@ GIT_PATH_UNAVAILABLE (commit available, path lookup failed), and checks binding
 content only after a successful read. A missing object never disproves an approval.
 
 CI now retrieves only explicitly reviewed full-SHA snapshots in
-configs/pilot/provenance-objects.json, at depth one with no tag/branch wildcard
-fetch, then verifies the marker's SHA-256. This adds no results branch checkout,
+configs/pilot/provenance-objects.json, at depth one with --filter=blob:none and no tag/branch wildcard
+fetch, then retrieves only the required marker blob and verifies its SHA-256. A synthetic unrelated snapshot blob remains absent after retrieval. This adds no results branch checkout,
 merge, or push. Existing approval and governance bytes remain unchanged. A real
 shallow synthetic repository test reproduces unavailable-object failure, retrieves
 the exact snapshot, verifies bytes, and confirms HEAD stays unchanged.
@@ -21,5 +21,15 @@ the exact snapshot, verifies bytes, and confirms HEAD stays unchanged.
 After retrieval, local registry validation passes for all four registries.
 State verification exposes a separate reproducible stale-view issue in 023/045/046:
 only idea_card_sha256 and its derived source_fingerprint_sha256 differ. No node
-status or approval differs. Those existing state files are preserved in this fix;
-this is not the missing-approval defect previously alleged.
+status or approval differs. Following independent review, the built-in state-materialize command refreshed
+only those two derived hash fields in each of the three views. All approval,
+registry, scientific status, and scientific artifact bytes remain unchanged;
+prior generated views remain in Git history. State verification is now green.
+This was not the missing-approval defect previously alleged.
+
+Additional review findings: terminal bundle matching now requires a path boundary;
+malformed summary mappings and directory-valued consumed artifacts fail closed.
+The derive_status docstring explains that candidate terminal detection delegates
+acceptance policy to its bundle_validator. The production scout.validate_bundle
+calls terminal_statuses_if_approved (scout.py:2378), enforcing the registry
+approval gate; this pre-existing injection interface is not a new approval route.

@@ -16,7 +16,7 @@ ALLOWED_FILES={'README.md','scout.py','probes/047/run.py','probes/047/README.md'
 ALLOWED_FILES.update({'orchestrator/__init__.py','scripts/pilot_review.py','scripts/pilot_tool_guard.py','scripts/future_worker_profile.py','orchestrator/pilot_jobs.py','configs/pilot/agents-unattended.toml','configs/pilot/colab-worker-future.json'})
 ALLOWED_FILES.update({'orchestrator/campaign_pipeline.py', '.github/workflows/actioner.yml', 'orchestrator/job_store.py', 'orchestrator/colab_acquire.py', '.github/workflows/scout-cycle.yml', '.github/workflows/librarian.yml', '.github/workflows/interpret.yml', 'scripts/colab_archive_acquire.py', 'scripts/p001_handoff_watch.py', '.github/workflows/results-validate.yml', '.github/workflows/idea-pipeline.yml', 'orchestrator/colab_worker.py', 'scripts/colab_archive_metadata.py', '.github/workflows/check.yml', '.github/workflows/confer.yml', 'orchestrator/colab_patient.py', 'scripts/workflow_boundary.py'})
 
-ALLOWED_FILES.update({'scripts/colab_archive_preserve.py','orchestrator/archive_preserve.py','scripts/fetch_provenance.py','orchestrator/experiment_registry.py','configs/pilot/provenance-objects.json'})
+ALLOWED_FILES.update({'scripts/colab_archive_preserve.py','orchestrator/archive_preserve.py','scripts/fetch_provenance.py','orchestrator/experiment_registry.py','configs/pilot/provenance-objects.json','ideas/023/state.json','ideas/045/state.json','ideas/046/state.json'})
 
 EXTENSIONS={'.yml','.toml','.fish','.md','.py','.json','.yaml','.ipynb','.txt','.jsonl'}
 

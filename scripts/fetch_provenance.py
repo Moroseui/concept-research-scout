@@ -22,8 +22,8 @@ def retrieve(root, manifest, fetch=False):
         if not present:
             if not fetch:raise ValueError('GIT_OBJECT_UNAVAILABLE: '+e['commit'])
             subprocess.run(['git','-c','credential.helper=', '-c','credential.helper=!gh auth git-credential',
-                            'fetch','--no-tags','--depth=1','origin',e['commit']],cwd=root,check=True,timeout=180)
-        raw=subprocess.check_output(['git','show',e['commit']+':'+e['path']],cwd=root,timeout=30)
+                            'fetch','--no-tags','--depth=1','--filter=blob:none','origin',e['commit']],cwd=root,check=True,timeout=180)
+        raw=subprocess.check_output(['git','-c','credential.helper=', '-c','credential.helper=!gh auth git-credential','show',e['commit']+':'+e['path']],cwd=root,timeout=60)
         if hashlib.sha256(raw).hexdigest()!=e['sha256']:raise ValueError('provenance artifact bytes differ')
         receipts.append({**e,'fetched':not present,'status':'VERIFIED'})
     return receipts

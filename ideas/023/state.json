@@ -13,12 +13,12 @@
   "materialization": {
     "event_count": 8,
     "materializer_version": 3,
-    "source_fingerprint_sha256": "24c10c930e227b81d5ea69ddd4bfe7c4ce51162c6bb45bb3e4d1bfd672892afa",
+    "source_fingerprint_sha256": "eba30be89af7665ccde1175b802eb8c2590d5ebabc832e524ecebd66c8e559d4",
     "sources": {
       "approval_sha256": "325703c888df79f90ec21e88c962b7bb5893b21e14c43f92633df27b7e1d9624",
       "contract_blob": "03d4545fe293f0067c69ce9e9e696ec97b894d7b",
       "governance_events_sha256": "233e74738657c2e62f9f313b94f084aad2e2ef45749c2fdf305def2c25ad4465",
-      "idea_card_sha256": "dc0619934d6870606fb5e22cff880dc529eeeb6cba8f0bfdf24401eeeb70c38d",
+      "idea_card_sha256": "b58afdc2e6bb6baa917d5d16b722b6313105e7ea5403efa5d0f6ee0823a0a0b6",
       "ledger_events_sha256": "985c22e63c8112cbb49ab6b1733a38bcf294864349fadb5bb5505ab1113af145",
       "registry_result_inputs": {
         "phase_c": {
