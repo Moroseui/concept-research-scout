@@ -228,6 +228,10 @@ def _git_show_bytes(root: Path, commit: str, rel: str):
     authority verification, never silent emptiness (round-10)."""
     import subprocess
     try:
+        available = subprocess.run(['git', 'cat-file', '-e', f'{commit}^{{commit}}'],
+                                   cwd=root, capture_output=True, timeout=30)
+        if available.returncode:
+            return None, f'GIT_OBJECT_UNAVAILABLE: referenced commit {commit}; retrieve the explicitly bound provenance object before judging marker presence'
         r = subprocess.run(['git', 'show', f'{commit}:{rel}'],
                            cwd=root, capture_output=True, timeout=30)
     except subprocess.TimeoutExpired:
@@ -235,7 +239,7 @@ def _git_show_bytes(root: Path, commit: str, rel: str):
     except OSError as e:
         return None, f'git unavailable: {e}'
     if r.returncode != 0:
-        return None, (f'git show {commit}:{rel} failed '
+        return None, (f'GIT_PATH_UNAVAILABLE: commit exists; git show {commit}:{rel} failed '
                       f'({r.stderr.decode(errors="replace").strip()[:80]})')
     return r.stdout, None
 
@@ -298,12 +302,12 @@ def verify_ratification_event(event: dict, idea_no: str, root: Path) -> list[str
         pin = pins.get(im.get('node'))
         raw, err = _git_show_bytes(root, im.get('source_commit', ''),
                                    marker_rel)
-        if err or not pin \
-                or f'contract_blob: {pin}'.encode() not in (raw or b''):
+        if err:
+            errs.append(f'event {event.get("event_id")} imports[{j}]: {err}')
+        elif not pin or f'contract_blob: {pin}'.encode() not in (raw or b''):
             errs.append(f'event {event.get("event_id")} imports[{j}]: '
-                        'source snapshot does not carry an approval '
-                        f'binding pin {str(pin)[:12]} '
-                        f'({err or "marker lacks pin"})')
+                        'source approval marker lacks required '
+                        f'contract binding pin {str(pin)[:12]}')
     return errs
 
 
