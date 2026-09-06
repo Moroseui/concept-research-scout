@@ -6,7 +6,7 @@ enabled = false
 stage_timeout = 900
 [codex]
 enabled = true
-command = ["codex", "exec", "--strict-config", "-s", "workspace-write", "-c", "approval_policy=\"never\"", "-c", "sandbox_workspace_write.network_access=false", "-"]
+command = ["codex", "exec", "--ignore-user-config", "--ignore-rules", "--model", "gpt-6-astra", "-s", "workspace-write", "-c", "approval_policy=\"never\"", "-c", "sandbox_workspace_write.network_access=false", "-"]
 [claude]
 enabled = true
 command = ["claude", "-p", "--model", "claude-fable-5", "--strict-mcp-config", "--mcp-config", "{\"mcpServers\":{}}", "--tools", "Read,Write,Edit", "--allowedTools", "Read(./**),Write(./**),Edit(./**)", "--permission-mode", "dontAsk", "--max-turns", "30"]

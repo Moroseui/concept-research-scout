@@ -28,3 +28,27 @@ class PipelineTests(unittest.TestCase):
     def test_future_proposal_requires_previous_result(self):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaises(FileNotFoundError):p.grounding(Path(d),'P002')
+
+
+class PredictionAuthoringTests(unittest.TestCase):
+    def test_charter_route_proposes_external_adoption_without_changing_runner(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);base=root/'campaigns/isles24-pilot';exp=base/'experiments/P001';exp.mkdir(parents=True)
+            (base/'CAMPAIGN.md').write_text('Frozen campaign')
+            (exp/'run.py').write_text('# historical externally seeded runner')
+            (root/'docs/science').mkdir(parents=True)
+            (root/'docs/science/PREDICTION_READINESS_DIRECTION_20260906.md').write_text('Operator prediction goal')
+            seen=[]
+            def fake(sc,out,family,stage,body,names):
+                seen.append(body)
+                for name in names:
+                    (out/name).write_text(json.dumps({'verdict':'APPROVE','rationale':'Synthetic review fixture'}) if name=='review.json' else 'PROPOSED synthetic charter artifact')
+                return {'family_effective':family,'exit_class':'ok','ci':False}
+            with patch.object(p,'system_stage',side_effect=fake):
+                r=p.execute(SimpleNamespace(ROOT=root),'charter','P001','Draft prospective linkage',base/'pipeline/charter')
+            self.assertEqual(r['status'],'REVIEWED_PROPOSAL_NOT_ADOPTED')
+            self.assertIn('externally seeded',seen[0]);self.assertIn('Operator prediction goal',seen[0])
+            self.assertIn('docs/science/PREDICTION_READINESS_DIRECTION_20260906.md',r['input_sha256'])
+            self.assertEqual((exp/'run.py').read_text(),'# historical externally seeded runner')
+            self.assertFalse((root/'charters/isles24-prediction/CHARTER.md').exists())
+            self.assertEqual(len(list((base/'pipeline/charter/round-1').glob('*.proposed.md'))),4)

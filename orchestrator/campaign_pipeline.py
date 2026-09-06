@@ -15,7 +15,10 @@ import os
 from orchestrator.campaign_lifecycle import run_isolated_stage
 from orchestrator.publication import inventory
 
-MODES={'propose':['proposal.md'],'specify':['SPEC.proposed.md'],
+MODES={'charter':['CHARTER.proposed.md','RUBRIC.proposed.md','P001_ADOPTION.proposed.md','PROMPTS.proposed.md'],
+       'readiness':['readiness.md','launch_decision.proposed.json'],
+       'adoption':['adoption.proposed.md'],
+       'propose':['proposal.md'],'specify':['SPEC.proposed.md'],
        'code':['run.proposed.py'],'repair':['repair.md','run.proposed.py'],
        'discuss':['discussion.md'], 'brief':['actions.md'], 'curate':['curation.md'], 'interpret':['interpretation.md','investigator_next_decision.json']}
 
@@ -55,7 +58,7 @@ def grounding(root,experiment):
         f=Path(root)/'docs/isles-pilot'/name
         if f.is_file():files.add(f)
     if experiment!='P001':files.add(prior/'interpretation_receipt.json')
-    for name in ['SPEC.md','run.py','publication.json']:
+    for name in ['SPEC.md','run.py','publication.json','review.json','investigator_decision.json','build_receipt.json','verification_receipt.json']:
         if (exp/name).is_file():files.add(exp/name)
     if (exp/'import_receipt.json').exists():
         if (exp/'import_receipt.json').is_symlink():raise ValueError('symlink import receipt')
@@ -65,6 +68,9 @@ def grounding(root,experiment):
         if bundle.is_symlink() or not bundle.resolve().is_relative_to((exp/'results').resolve()):raise ValueError('unsafe bundle')
         if inventory(bundle)!=r['bundle_file_sha256']:raise ValueError('aggregate import changed')
         files.update(bundle/name for name in r['bundle_file_sha256'])
+    for name in ['charters/isles24/CHARTER.md','docs/SCORING_RUBRIC.md','orchestrator/prompts/scout.md','docs/science/PREDICTION_READINESS_DIRECTION_20260906.md','docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json']:
+        f=Path(root)/name
+        if f.is_file():files.add(f)
     result={}
     for f in sorted(files):
         if f.is_symlink():raise ValueError('symlink input')
@@ -94,6 +100,8 @@ def execute(sc,mode,experiment,request,output,initiator=None):
     binding={k:hashlib.sha256(v.encode()).hexdigest() for k,v in context.items()}
     (output/'request.json').write_text(json.dumps({'mode':mode,'experiment':experiment,'request':request,'input_sha256':binding,'actor_type':'agent','family':'codex','authority':'campaign_delegated_investigator','status':'PROPOSAL_ONLY','initiator':initiator or {'kind':'agent','family':'codex'}},indent=2))
     body='You are the system campaign '+mode+' author. Produce a bounded proposal, not an approval or executable amendment. Preserve original experiment pins. No patient data, execution, remote writes, or human ratification. All scientific work is exploratory. Lead markdown with a short readable result card: question, evidence, limitations and next decision. Do not invent literature searches or measurements.\nREQUEST: '+request+'\nBOUND CONTEXT:\n'+json.dumps(context)
+    if mode in {'charter','adoption','readiness'}:
+        body+='\nP001 is externally seeded and operator-delegated, not system-authored. Preserve its historical origin and exact frozen scientific artifacts; propose prospective linkage only. Assess baseline adequacy and scientific value candidly. A proposal may recommend adoption, amendment or rejection, never supply charter ratification or launch approval. The legacy model-use prompt/rubric needs explicit prediction-scoped treatment; do not alter historical charters or scores. P001 does not depend on 047 acceptance.'
     if mode=='interpret':body+='\nInterpret only the bound validated aggregates. State measured performance, uncertainty and limitations with artifact citations. Write investigator_next_decision.json with exactly status PROPOSAL_ONLY and a nonempty rationale. Do not authorize a follow-up or claim human ratification.'
     try:
         for round in [1,2]:
