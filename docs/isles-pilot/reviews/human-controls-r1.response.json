@@ -1,0 +1,91 @@
+{
+  "is_error": false,
+  "duration_api_ms": 381258,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "8e6175cd-f7f9-4edc-b1d0-fb52d9d8e044",
+  "total_cost_usd": 2.1082729999999996,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 33756,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 28211,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 33756,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 28211,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 33756,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 33756
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 21643,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.021717999999999998,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 28211,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 33756,
+      "webSearchRequests": 0,
+      "costUSD": 2.0865549999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"human-controls\",\"reviewed_commit\":\"6c4d066b4962f3c4ea3180ad5b203f7bb3096a8f\",\"verdict\":\"APPROVE\",\"findings\":[\"Non-blocking (privacy/doc contradiction): human_controls.py's module docstring states 'Original agent protocols, prompts and partial outputs never enter Actions artifacts', but execute() includes prompt_<stage>.md files (full stage bodies with the entire bound context) in evidence.json's original_system_records; the records filter only excludes runner_* files. Content is repo-derived, DANGER-screened and size-capped, so no concrete new exposure at this commit, but either exclude prompt_* from the records collection (as the answer-assembly already does) or correct the docstring/HUMAN_CONTROLS.md invariant.\",\"Non-blocking (state leak): actions_runner.system_stage restores sc.STATE only when old_state is not None; if the scout module had no STATE attribute, it is left permanently pointing at the deleted temp workdir after the call. Restore or delete the attribute unconditionally in the finally block.\",\"Non-blocking (dead code): the local 'config' dict in actions_runner.system_stage is never used; the TOML profile string is what is written to AGENTS.toml.\",\"Non-blocking (recovery semantics): restore() reads a single artifact-listing page (per_page=100, no pagination). More than 100 same-name artifacts silently falls through to a fresh execution instead of replay \u2014 the safe direction given the documented caps, but worth knowing.\",\"Accepted limitation (trust boundary): reviewed() enforces adapter-review integrity via unsigned committed hash records (execution.json/response.json); anyone with write access to the two allowed branches could regenerate both records and the reviewed files together. Enforcement rests on branch protection and PR review, not cryptographic signing.\",\"Defense-in-depth (unverifiable pins): tool-free enforcement for the claude family relies entirely on pinned CLI flags (--tools '', strict empty MCP config, --permission-mode dontAsk) against CLI version 2.1.222, which cannot be verified source-only; unlike the codex path there is no post-hoc protocol-event scan raising UNEXPECTED_MODEL_TOOL_USE. An invalid flag fails closed to MODEL_EXECUTION_FAILED, but a silently ignored flag would go undetected \u2014 consider adding a claude-side event scan symmetric to codex's.\",\"Verified: artifact export is validated (exact file set, symlink/size/DANGER/hash checks) before the artifact name reaches GITHUB_OUTPUT, so upload cannot fire on unvalidated content; replay requires exact source SHA, originating control workflow path, workflow_dispatch provenance, and byte-hash matches, with all checks preceding any write; interpret hard-blocks; all receipts record human_ratification=False and patient_execution=False; grounding() enforces the predecessor interpretation hash chain; workflows are contents:read with persist-credentials:false and no Git publication path.\"]}",
+  "structured_output": {
+    "scope": "human-controls",
+    "reviewed_commit": "6c4d066b4962f3c4ea3180ad5b203f7bb3096a8f",
+    "verdict": "APPROVE",
+    "findings": [
+      "Non-blocking (privacy/doc contradiction): human_controls.py's module docstring states 'Original agent protocols, prompts and partial outputs never enter Actions artifacts', but execute() includes prompt_<stage>.md files (full stage bodies with the entire bound context) in evidence.json's original_system_records; the records filter only excludes runner_* files. Content is repo-derived, DANGER-screened and size-capped, so no concrete new exposure at this commit, but either exclude prompt_* from the records collection (as the answer-assembly already does) or correct the docstring/HUMAN_CONTROLS.md invariant.",
+      "Non-blocking (state leak): actions_runner.system_stage restores sc.STATE only when old_state is not None; if the scout module had no STATE attribute, it is left permanently pointing at the deleted temp workdir after the call. Restore or delete the attribute unconditionally in the finally block.",
+      "Non-blocking (dead code): the local 'config' dict in actions_runner.system_stage is never used; the TOML profile string is what is written to AGENTS.toml.",
+      "Non-blocking (recovery semantics): restore() reads a single artifact-listing page (per_page=100, no pagination). More than 100 same-name artifacts silently falls through to a fresh execution instead of replay \u2014 the safe direction given the documented caps, but worth knowing.",
+      "Accepted limitation (trust boundary): reviewed() enforces adapter-review integrity via unsigned committed hash records (execution.json/response.json); anyone with write access to the two allowed branches could regenerate both records and the reviewed files together. Enforcement rests on branch protection and PR review, not cryptographic signing.",
+      "Defense-in-depth (unverifiable pins): tool-free enforcement for the claude family relies entirely on pinned CLI flags (--tools '', strict empty MCP config, --permission-mode dontAsk) against CLI version 2.1.222, which cannot be verified source-only; unlike the codex path there is no post-hoc protocol-event scan raising UNEXPECTED_MODEL_TOOL_USE. An invalid flag fails closed to MODEL_EXECUTION_FAILED, but a silently ignored flag would go undetected \u2014 consider adding a claude-side event scan symmetric to codex's.",
+      "Verified: artifact export is validated (exact file set, symlink/size/DANGER/hash checks) before the artifact name reaches GITHUB_OUTPUT, so upload cannot fire on unvalidated content; replay requires exact source SHA, originating control workflow path, workflow_dispatch provenance, and byte-hash matches, with all checks preceding any write; interpret hard-blocks; all receipts record human_ratification=False and patient_execution=False; grounding() enforces the predecessor interpretation hash chain; workflows are contents:read with persist-credentials:false and no Git publication path."
+    ]
+  },
+  "ttft_ms": 354712,
+  "ttft_stream_ms": 1630,
+  "time_to_request_ms": 145,
+  "type": "result",
+  "duration_ms": 379892,
+  "uuid": "db1b21be-4ce8-4ad3-9612-35c7384ec94d"
+}

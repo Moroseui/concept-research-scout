@@ -50,7 +50,6 @@ def system_stage(sc,directory,family,stage,body,names):
     """Use scout.run_agent; only the process/output transport is hosted-specific."""
     execution=identity();review=reviewed()
     work=Path(tempfile.mkdtemp(prefix='hosted-campaign-'))
-    config={'default':{'agent':family},'rotation':{'enabled':False}}
     # A tiny TOML profile calls a source-pinned transport, never an ambient CLI profile.
     cmd=[sys.executable,str(ROOT/'scripts/actions_agent.py'),family,json.dumps(names)]
     profile='[default]\nagent = '+json.dumps(family)+'\n[rotation]\nenabled = false\n[limits]\nstage_timeout = 720\n['+family+']\nenabled = true\nstdin = true\ncommand = '+json.dumps(cmd)+'\n'
@@ -59,7 +58,7 @@ def system_stage(sc,directory,family,stage,body,names):
     subprocess.run(['git','init','-q',str(work)],check=True)
     subprocess.run(['git','add','.'],cwd=work,check=True)
     subprocess.run(['git','-c','user.name=Hosted campaign','-c','user.email=hosted@local.invalid','commit','-qm','Bound stage input'],cwd=work,check=True)
-    old_root=sc.ROOT; old_state=getattr(sc,'STATE',None)
+    old_root=sc.ROOT; had_state=hasattr(sc,'STATE'); old_state=getattr(sc,'STATE',None)
     try:
         sc.ROOT=work;sc.STATE=work/'state.json'
         # The ordinary primitive's stdout is captured privately, not sent to Actions logs.
@@ -71,7 +70,8 @@ def system_stage(sc,directory,family,stage,body,names):
         raise ValueError(code) from error
     finally:
         sc.ROOT=old_root
-        if old_state is not None:sc.STATE=old_state
+        if had_state:sc.STATE=old_state
+        else:del sc.STATE
         for src,dst in [('prompt.md','prompt_'+stage+'.md'),('stage_provenance.jsonl','stage_provenance.jsonl')]:
             if (work/src).exists():
                 with (directory/dst).open('ab') as f:f.write((work/src).read_bytes())

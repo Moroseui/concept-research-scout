@@ -42,14 +42,14 @@ The current main version still exposes its older form until the PR is merged.
 | actioner | Operator brief and optional improvement proposal/PR | `actioner`, brief: campaign evidence, blockers and next decisions through the author/reviewer pipeline | Reviewed readable brief. No automatic improvement PR or main push. |
 | librarian | Whole-corpus connection mapping and novelty re-audit | `librarian`, curate: campaign evidence/gap curation through the same reviewed pipeline | Reviewed campaign curation. Whole-corpus ledger updates and new searched novelty verdicts are not claimed. |
 | results-validate | Fetch raw results branch, validate, open import PR | `results-validate`, status: existing campaign grounding/import-integrity gate | Readable readiness result, including WAITING_FOR_RESULT. Private return transfer and full validate-bundle/record-result remain outside public Actions; no raw branch is fetched. |
-| interpret | Adversarial interpretation after import | `interpret` reports the missing import/hosted-acceptance gate explicitly | Not yet restored as hosted scientific acceptance: the frozen interpretation engine rejects CI receipts. A new acceptance-adapter review is required in addition to an actual validated import. No synthetic refusal is counted as restored interpretation. |
+| interpret | Adversarial interpretation after import | `interpret` invokes the shared campaign author/reviewer pipeline after existing scientific-review and aggregate-import integrity gates | Reviewed exploratory interpretation and proposed next decision; blocked on the currently missing P001 import. Adoption into the frozen acceptance lifecycle and human ratification remain separate. No CI receipt is relabeled local to satisfy the older acceptance engine. |
 | checks | Deterministic validation | Push/PR checks remain active | Tests and state/registry verification. |
 | Human ratification / Colab Run All | Explicit human decisions and notebook execution | Unchanged pinned notebook and authority commands | Not delegated to these buttons. No P001 execution in this amendment. |
 
 The restored controls provide real scoped campaign operations, not complete legacy
 corpus feature parity. These exceptions are deliberately visible. The present
 milestone supports direct human campaign use, while future broader restoration
-requires aggregate-safe grounding and scientific acceptance adapters.
+requires aggregate-safe grounding; the current hosted interpretation is a reviewed proposal, not an acceptance transaction.
 
 ## Shared system, attribution and execution provenance
 
@@ -85,3 +85,6 @@ requests; GitHub may cancel superseded pending runs, which are not successful ru
 After the 90-day artifact expiry a repeat can become a new execution, explicitly
 limited by the source's reviewed execution caps (two rounds, four model calls,
 30-minute job timeout). No unlimited retry loop is installed.
+
+An incomplete replay lookup (over 100 same-name artifacts with no eligible result
+on the inspected page) blocks rather than silently spending on a fresh execution.

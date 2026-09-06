@@ -30,7 +30,7 @@ def run(family,names,prompt):
     prompt='Return only JSON matching the supplied schema. File contents go in the matching string fields; the system writes the files. Do not use tools, read files, execute code, or access external services. Work only from the supplied evidence.\n'+prompt
     if family=='claude':
         env.pop('OPENAI_API_KEY',None)
-        command=['claude','-p','--model','claude-fable-5','--output-format','json','--json-schema',json.dumps(spec),'--strict-mcp-config','--mcp-config','{"mcpServers":{}}','--tools','','--permission-mode','dontAsk','--max-turns','3']
+        command=['claude','-p','--model','claude-fable-5','--output-format','stream-json','--verbose','--json-schema',json.dumps(spec),'--strict-mcp-config','--mcp-config','{"mcpServers":{}}','--tools','','--permission-mode','dontAsk','--max-turns','3']
     else:
         env.pop('CLAUDE_CODE_OAUTH_TOKEN',None)
         command=['codex','exec','--ignore-user-config','--ephemeral','--sandbox','read-only','--disable','shell_tool','--disable','unified_exec','-c','web_search="disabled"','-c','approval_policy="never"','--skip-git-repo-check','--json','--output-schema',str(private/'schema.json'),'--output-last-message',str(private/'answer.json'),'-']
@@ -42,7 +42,11 @@ def run(family,names,prompt):
         code='CODEX_ACCOUNT_UNFUNDED' if any(x in low for x in ['insufficient_quota','no credits','billing_hard_limit']) else 'MODEL_CREDENTIAL_REJECTED' if any(x in low for x in ['401','unauthorized','authentication']) else 'MODEL_EXECUTION_FAILED'
         raise ValueError(code)
     if family=='claude':
-        response=json.loads(result.stdout)
+        events=[json.loads(x) for x in result.stdout.splitlines() if x.strip()]
+        if any(b.get('type')=='tool_use' and b.get('name')!='StructuredOutput' for e in events if e.get('type')=='assistant' for b in e.get('message',{}).get('content',[])):raise ValueError('UNEXPECTED_MODEL_TOOL_USE')
+        responses=[e for e in events if e.get('type')=='result']
+        if len(responses)!=1:raise ValueError('MODEL_RESPONSE_FAILED')
+        response=responses[0]
         if response.get('subtype')!='success' or response.get('is_error'):raise ValueError('MODEL_RESPONSE_FAILED')
         answer=response.get('structured_output');usage=response.get('modelUsage',{})
     else:

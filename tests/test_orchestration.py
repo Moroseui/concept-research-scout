@@ -1164,10 +1164,14 @@ class TestBackpressure(Harness):
 
     def test_actioner_improvement_path_is_hard_gated_until_2b(self):
         text = Path(".github/workflows/actioner.yml").read_text()
-        self.assertIn("Campaign route required", text)
+        # Restored briefing is allowed; autonomous improvement publication is not.
+        self.assertIn("uses: ./.github/workflows/research-control.yml", text)
         self.assertNotIn("gh pr create", text)
-        self.assertNotIn("secrets.", text)
-        self.assertIn("exit 1",text)
+        shared = Path(".github/workflows/research-control.yml").read_text()
+        self.assertNotIn("git push", shared)
+        self.assertNotIn("contents: write", shared)
+        config = json.loads(Path("configs/pilot/human-controls.json").read_text())
+        self.assertEqual(config['controls']['actioner']['modes'], ['brief'])
 
 
 class TestExecutionReceipts(Harness):
@@ -3613,6 +3617,11 @@ class TestR2StateAndHygiene(Harness):
             for ln in f.read_text().splitlines():
                 if "uses:" in ln:
                     checked += 1
+                    # Local reusable workflows inherit the caller's exact commit;
+                    # GitHub syntax does not allow an @SHA suffix for this form.
+                    if ln.strip() == "uses: ./.github/workflows/research-control.yml":
+                        self.assertTrue((wf / 'research-control.yml').is_file())
+                        continue
                     self.assertRegex(
                         ln, r"@[0-9a-f]{40}\b",
                         f"{f.name}: action reference must be pinned by "

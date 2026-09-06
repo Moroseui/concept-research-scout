@@ -9,26 +9,25 @@ refer to existing commit identities. The isolated candidate must have the same
 tree as the reviewed pilot. If main or the PR head moves, repeat integration
 verification before approval. No main merge is performed by this preparation.
 
-## Every workflow after merging
+## Human controls supersede blanket quarantine
 
-| Workflow | Change from current main | Intended behavior and supported route |
-|---|---|---|
-| `check.yml` | Source-only ancestry, exact shallow/blob-filtered provenance retrieval, P001 synthetic dependencies and expanded tests | Runs on pushes and PRs, including main. Read-only token, no model/Colab calls. Missing objects are distinguished from absent approval text. |
-| `scout-cycle.yml` | Cron removed; model/auth/publication steps removed | Quarantined. Authorized local `scout.py cycle` / `resume`; campaign proposals use `orchestrator.campaign_pipeline propose`. |
-| `idea-pipeline.yml` | Model/auth/publication steps removed | Quarantined. Local `scout.py pipeline` for numbered ideas; explicit campaign system for campaign work. |
-| `librarian.yml` | Model/auth/publication steps removed | Quarantined. Authorized local `scout.py librarian`. |
-| `actioner.yml` | Main-specific publication and improvement PR automation removed | Quarantined. Local `scout.py actioner` produces advisory work, subject to existing scope. Efficiency proposals are never automatically applied. |
-| `interpret.yml` | Main pull/push and model/auth steps removed | Quarantined. Local `scout.py interpret-build`; explicit campaign arguments after validated import for P001. |
-| `confer.yml` | Main pull/push and model/auth steps removed | Quarantined. Local `scout.py confer IDEA QUESTION`; campaign discussion uses the campaign pipeline. |
-| `results-validate.yml` | Raw results checkout / main PR automation removed | Unconditionally disabled. Local `validate-bundle` then provenance-bound `record-result`, followed by `interpret-build`; 047 remains blocked. |
+The operator held PR #2 and required direct human/phone operation. See
+[HUMAN_CONTROLS.md](HUMAN_CONTROLS.md) for every former button, its scoped pipeline
+replacement, launch/result instructions and remaining exception. Seven named
+controls now share a reviewed workflow_call runner. Main and pilot require
+explicit workflow_dispatch; outputs go only to validated Actions artifacts and the
+run Summary, with source/run/actor/review bindings. No Git write permission,
+main/result push, patient input upload, P001 dispatch or automatic adoption is
+introduced. Deterministic check.yml remains push/PR read-only.
 
-The six model jobs are skipped on main regardless of repository variables. Even
-on the pilot with its opt-in variable set and exact source/destination bindings,
-the final diagnostic step exits 1. There is no live Actions research replacement
-in this milestone. Re-enabling remote stages needs a separate reviewed design.
-The existing publisher remains **pilot-only** and refuses main/results/merge
-history. It is not the main merge tool. Main integration requires the operator's
-PR merge decision. No broad branch restriction is removed.
+The pipeline accepts CI only through the explicit github-actions-v1 adapter and
+keeps ci=true in its evidence. The existing local helper is unchanged. Original
+scientific source/notebook/review pins remain intact. Workflow generation is
+versioned, exact wiring is tested, and fresh independent review is required before
+hosted model execution. The main integration verifier now verifies this reviewed
+wiring and the human-controls approval in addition to the prior scientific gates.
+The separate pilot Git publisher remains pilot-only; it is not an Actions result
+publisher or main merge tool.
 
 ## Other user-visible changes from main
 
@@ -60,7 +59,7 @@ from the local source. Create local `main` at the before pin and run
 Run `python -m scripts.verify_main_integration --main MAIN_SHA --pilot PILOT_SHA`
 from that isolated checkout. It checks ordered parents, tree identity, clean main,
 current scientific/patient/archive review bindings, complete workflow inventory,
-and executes only the closed diagnostic refusal cells. It never dispatches a job,
+and verifies the exact reviewed human-control wiring without launching a hosted job. It never dispatches a job,
 merges, pushes, or contacts Colab. Missing main commits or divergent main invalidate
 this particular integration contract.
 

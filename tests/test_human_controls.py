@@ -30,7 +30,7 @@ class HumanControlsTests(unittest.TestCase):
             with self.subTest(changes=changes),self.assertRaises(ValueError):self.req(**changes)
 
     def test_every_generation_control_traverses_real_pipeline(self):
-        for mode in pipeline.MODES:
+        for mode in set(pipeline.MODES)-{'interpret'}:
             with self.subTest(mode=mode),tempfile.TemporaryDirectory() as d:
                 root=Path(d);base=root/'campaigns/isles24-pilot';base.mkdir(parents=True)
                 (base/'CAMPAIGN.md').write_text('Synthetic bounded campaign')
@@ -101,3 +101,44 @@ class HumanControlsTests(unittest.TestCase):
                     receipt=h.validate_export(out)
                     self.assertEqual(receipt['model_calls_this_submission'],0)
                     self.assertEqual(receipt['submission_run_id'],'12')
+
+    def test_interpretation_requires_real_import_before_any_agent(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);base=root/'campaigns/isles24-pilot';base.mkdir(parents=True)
+            with patch.object(pipeline,'system_stage') as stage:
+                with self.assertRaisesRegex(ValueError,'RESULT_IMPORT_REQUIRED'):
+                    pipeline.execute(SimpleNamespace(ROOT=root),'interpret','P001','Explain result',base/'pipeline/missing')
+            stage.assert_not_called()
+            self.assertTrue((base/'pipeline/missing/blocked.json').exists())
+
+    def test_interpretation_uses_same_review_pipeline_after_import(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);exp=root/'campaigns/isles24-pilot/experiments/P001';exp.mkdir(parents=True)
+            (exp/'import_receipt.json').write_text('{}')
+            def stage(sc,out,family,name,body,names):
+                for n in names:
+                    value=json.dumps({'verdict':'APPROVE','rationale':'Synthetic review'}) if n=='review.json' else json.dumps({'status':'PROPOSAL_ONLY','rationale':'Synthetic next decision'}) if n.endswith('.json') else 'Synthetic aggregate interpretation'
+                    (out/n).write_text(value)
+                return {'ci':False,'family_effective':family,'exit_class':'ok'}
+            with patch.object(pipeline,'grounding',return_value={'synthetic_aggregate':'fixture only'}),patch('orchestrator.campaign_lifecycle.require_review'),patch.object(pipeline,'system_stage',side_effect=stage),patch.dict(os.environ,{'SCOUT_CI':''}):
+                r=pipeline.execute(SimpleNamespace(ROOT=root),'interpret','P001','Explain result',exp.parents[1]/'pipeline/synthetic-interpret')
+            self.assertEqual(r['status'],'REVIEWED_PROPOSAL_NOT_ADOPTED')
+            self.assertFalse((exp/'interpretation_receipt.json').exists())
+
+    def test_incomplete_replay_lookup_blocks_before_new_execution(self):
+        with tempfile.TemporaryDirectory() as d,patch.dict(os.environ,{'GH_TOKEN':'synthetic','GITHUB_REPOSITORY':'fixture/repo'}),patch.object(h,'api',return_value={'artifacts':[],'total_count':101}):
+            with self.assertRaisesRegex(ValueError,'REPLAY_LOOKUP_LIMIT'):h.restore(self.req(),Path(d))
+
+    def test_hosted_stage_restores_absent_state_and_preserves_ci(self):
+        from orchestrator import actions_runner as runner
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);out=root/'out';out.mkdir();sc=SimpleNamespace(ROOT=root)
+            def fake(prompt,family,stage,log_path):
+                (sc.ROOT/'answer.md').write_text('Synthetic artifact')
+                (sc.ROOT/'transport.json').write_text('{}')
+                (sc.ROOT/'stage_provenance.jsonl').write_text(json.dumps({'ci':True,'family_effective':family,'exit_class':'ok'})+'\n')
+            sc.run_agent=fake
+            with patch.object(runner,'identity',return_value={'adapter':'github-actions-v1','ci':True}),patch.object(runner,'reviewed',return_value='synthetic fixture'):
+                r=runner.system_stage(sc,out,'codex','synthetic','Synthetic prompt',['answer.md'])
+            self.assertFalse(hasattr(sc,'STATE'));self.assertEqual(sc.ROOT,root)
+            self.assertTrue(r['ci']);self.assertEqual((out/'answer.md').read_text(),'Synthetic artifact')

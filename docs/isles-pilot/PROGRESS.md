@@ -693,3 +693,14 @@ model calls. Fresh Fable review and real non-patient workflow_dispatch acceptanc
 are required before this amendment is presented as usable. Existing Actions Codex
 API authentication and Claude subscription OAuth are reused, without new credentials,
 spending changes, paid provisioning, P001 dispatch, or cleanup.
+
+Fable r1 completed APPROVE at 6c4d066 (actual claude-fable-5; source-only).
+Non-blocking findings were addressed: accurate prompt-export documentation,
+restoration of absent STATE, dead profile variable removal, bounded replay lookup
+refusal and Claude unexpected-tool protocol checks. Interpretation drafting now
+uses the same campaign author/reviewer pipeline after real import and existing
+scientific-review gates; it remains a proposal, not adoption/ratification. Legacy
+quarantine assertions were replaced with checks that still forbid improvement
+publication and require pinned remote actions / exact caller-bound local workflow.
+295 tests passed before the final two additional adapter cases. Follow-up review
+and live acceptance remain pending; no success receipt fabricated.

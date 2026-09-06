@@ -63,6 +63,9 @@ def verify(root):
     if names!=set(expected)|{'check.yml'}:raise ValueError('workflow inventory changed')
     for name,data in expected.items():
         if yaml.safe_load((Path(root)/'.github/workflows'/name).read_text())!=data:raise ValueError('reviewed workflow wiring differs: '+name)
+    check=yaml.safe_load((Path(root)/'.github/workflows/check.yml').read_text())
+    if check.get('on',check.get(True))!=['push','pull_request'] or check.get('permissions')!={'contents':'read'}:
+        raise ValueError('deterministic checks permissions or triggers changed')
     return {'human_controls':list(json.loads((ROOT/'configs/pilot/human-controls.json').read_text())['controls']),
             'on_main':'EXPLICIT_DISPATCH','destination':'actions-artifact','patient_execution':False,'git_publication':False}
 

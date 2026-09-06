@@ -33,12 +33,13 @@ def verify(root, main, pilot):
     from orchestrator.campaign_review import verify_receipt
     from orchestrator.colab_patient import require_patient_review
     from orchestrator.archive_preserve import reviewed
+    from orchestrator.actions_runner import reviewed as controls_review
     exp = root / 'campaigns/isles24-pilot/experiments/P001'
     verify_receipt(root, exp, json.loads((exp / 'review.json').read_text()))
     return {'main_before': main, 'pilot': pilot, 'candidate': git('rev-parse', 'HEAD'),
             'tree': git('rev-parse', 'HEAD^{tree}'), 'workflow_policy': workflow_policy(root),
             'scientific_approval': 'VERIFIED', 'patient_adapter_review': require_patient_review(),
-            'archive_review': reviewed(), 'patient_execution': False, 'remote_mutations': False}
+            'archive_review': reviewed(), 'human_controls_review': controls_review(), 'patient_execution': False, 'remote_mutations': False}
 
 
 if __name__ == '__main__':

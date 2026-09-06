@@ -4,8 +4,9 @@ A human-supervised research discovery loop for finding **interesting,
 feasible, concept-focused medical-imaging projects** — run by two AI agent
 families (Claude and Codex) under strict evidence rules, operated entirely
 through versioned local commands, with every artifact and decision recorded.
-The legacy GitHub Actions research buttons are quarantined in this milestone;
-only deterministic checks run remotely. See the [current status and supported
+The usability amendment restores scoped GitHub Actions campaign controls with
+validated, phone-readable artifacts and explicit hosted provenance. See
+[human controls and exceptions](docs/isles-pilot/HUMAN_CONTROLS.md). See the [current status and supported
 routes](docs/isles-pilot/CURRENT_STATUS.md) and [main integration
 contract](docs/isles-pilot/MAIN_INTEGRATION.md).
 
@@ -44,19 +45,26 @@ coordinator still depends on its host. Laptop-independent execution is unproven.
 
 ## Operating it
 
-Use the local commands below. `cycle` generates candidates; `pipeline` performs
-the critique/debate stages; `actioner` prepares an advisory brief; `librarian`
-curates the corpus. These commands remain available for their authorized scope.
-The pilot campaign uses its explicit campaign commands, not an inferred numbered
-idea approval. Do not dispatch the old Actions buttons: `scout-cycle`,
-`idea-pipeline`, `actioner`, `librarian`, `interpret`, `confer`, and
-`results-validate` remain disabled after this proposed merge. No nightly generation,
-automatic results PR, or main write is enabled. The integration document maps each
-workflow to its supported replacement and explains the gates.
+From a phone, open **Actions → confer → Run workflow** to ask the campaign a
+question. `actioner` gives a reviewed operator brief; `librarian` curates campaign
+evidence; `scout-cycle` proposes within the campaign; `idea-pipeline` prepares
+specification, code or repair proposals. Choose a registered experiment and request
+ID. Open the run Summary for the answer and independent review; download its
+validated artifact for original permitted system records. Before merging, select
+the pilot revision; after merging these controls are available on main.
 
-Historical numbered probes require human approval. The explicitly delegated ISLES
-campaign records agent authority and opposing-family review without creating human
-approval markers. Result acceptance and human ratification remain separate gates.
+These are scoped campaign replacements, not full restoration of global nightly
+scouting, numbered-idea Q&A or whole-corpus mutations. The
+[complete control inventory](docs/isles-pilot/HUMAN_CONTROLS.md) lists exceptions.
+`results-validate` reports actual import readiness; `interpret` can produce a
+reviewed interpretation draft only after a validated import. Patient return
+transfer, adoption, scientific acceptance and human ratification remain separate.
+No button pushes to main/results or dispatches P001.
+
+Codex and local operators use `python -m orchestrator.human_controls` or the same
+campaign pipeline directly. Human requests record the GitHub actor separately
+from the declared initiator; the author and opposing reviewer remain attributed
+agents. Historical numbered probes still use their existing human-approval gates.
 
 ## Institutional memory (what the agents know)
 
@@ -253,10 +261,10 @@ infrastructure failure must not burn a good leg).
 
 ### Phone surfaces (GitHub Actions → Run workflow)
 
-These legacy Actions routes are quarantined. Use local `scout.py interpret-build`
-and `scout.py confer` under their existing gates; use explicit campaign arguments
-for campaign interpretation. No Actions API key or new billing is needed for this
-milestone. See [the workflow inventory](docs/isles-pilot/MAIN_INTEGRATION.md).
+Scoped campaign controls now use one reviewed Actions runner and the same system
+pipeline as the autonomous operator. Results are shown in the run Summary and a
+validated artifact, not pushed to main. See [human controls](docs/isles-pilot/HUMAN_CONTROLS.md)
+for exact launch instructions, reuse behavior, authentication and exceptions.
 
 ### ISLES autonomous pilot publication safeguards
 
@@ -315,7 +323,7 @@ Never put private checkpoints or console bytes into Git or model prompts.
 astra/autonomous-isles-pilot --expected-remote FULL_BEFORE_SHA` checks complete
 outgoing history and performs an append-only expected-ref transaction. Main,
 results refs, merges, raw artifacts and unreviewed history are not publication
-routes. Legacy remote model workflows are quarantined; deterministic CI remains.
+routes. Hosted campaign results use the separate validated Actions-artifact route; deterministic CI remains.
 See [operating-model audit](docs/isles-pilot/OPERATING_MODEL_20260905.md),
 [future profiles](docs/isles-pilot/UNATTENDED_PROFILES.md), and
 [unprovisioned private coordinator plan](docs/isles-pilot/PRIVATE_COORDINATOR_PLAN.md).

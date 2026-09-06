@@ -2,8 +2,9 @@
 
 This is the current entry point. Dated receipts and PROGRESS.md preserve the history;
 older pending statuses and commands describe their checkpoints, not today's state.
-The infrastructure merge is proposed, not performed. See [main integration](MAIN_INTEGRATION.md)
-for the complete behavior change and disabled-workflow inventory.
+PR #2 is held for the human-usability amendment; no merge is authorized.
+[Human controls](HUMAN_CONTROLS.md) records the restored routes and explicit legacy exceptions. See [main integration](MAIN_INTEGRATION.md)
+for merge identity requirements; HUMAN_CONTROLS.md supersedes its earlier blanket quarantine policy.
 
 | Capability | Demonstrated evidence / current limit |
 |---|---|
@@ -15,7 +16,7 @@ for the complete behavior change and disabled-workflow inventory.
 | Input preservation | **Archive verified on mounted Drive** by destination read-back: 99,014,629,647 bytes, MD5 `36ae28b9a17f7340b8bbef62b595cb57`, 2026-09-06 00:34:31 UTC. This is not an independent provider durability API check. |
 | P001 | **Unexecuted.** Reviewed scientific source/notebook preserved. Dispatch worker refused before Colab tools; no patient result, metric, import or interpretation exists. Coordinator remains BLOCKED, zero retries, ambiguity inbox open. |
 | Job recovery | Synthetic lease/deduplication/retry/inbox tests pass. Ambiguous dispatch does not automatically retry. |
-| Autonomy | **Laptop-independent operation remains unproven.** Local coordinator and Claude worker still require their host and browser/Drive interactions. Cloud plan unprovisioned; efficiency reviewer proposes only. |
+| Autonomy | Hosted non-patient campaign controls are implemented; real Actions acceptance is pending in this checkpoint. End-to-end laptop-independent patient research remains unproven. Cloud plan unprovisioned. |
 | CI | Starting checkpoint `42b5252` passed run `34002142555`. The idea-023 historical marker exists: earlier failure was unavailable commit `5aa8b5a`, not absent approval. Exact bounded retrieval fixed the check. |
 
 ## Current execution instructions
@@ -48,7 +49,7 @@ No new download is necessary unless current integrity checks fail.
 ## Outstanding milestones and separate decisions
 
 1. Infrastructure PR approval: normal merge commit preserving reviewed history,
-   with seven remote research/results workflows intentionally disabled.
+   after demonstrated scoped human Actions controls; full legacy parity is not claimed.
 2. Separate public cleanup approval: [exact 047 operation](CLEANUP_REVIEW.md).
    Removes raw staging and privately quarantines exclusions; retained case-linked
    metadata is not anonymized. Current receipt is CLEANUP_RECONCILIATION_20260906.json.

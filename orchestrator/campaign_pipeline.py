@@ -17,7 +17,7 @@ from orchestrator.publication import inventory
 
 MODES={'propose':['proposal.md'],'specify':['SPEC.proposed.md'],
        'code':['run.proposed.py'],'repair':['repair.md','run.proposed.py'],
-       'discuss':['discussion.md'], 'brief':['actions.md'], 'curate':['curation.md']}
+       'discuss':['discussion.md'], 'brief':['actions.md'], 'curate':['curation.md'], 'interpret':['interpretation.md','investigator_next_decision.json']}
 
 
 def system_stage(sc,directory,family,stage,body,names):
@@ -81,17 +81,27 @@ def execute(sc,mode,experiment,request,output,initiator=None):
         if parent==Path(sc.ROOT):break
     if not output.resolve().is_relative_to(permitted.resolve()) or output.is_symlink():raise ValueError('pipeline output outside campaign')
     output.mkdir(parents=True,exist_ok=False)
-    try:context=grounding(sc.ROOT,experiment)
+    try:
+        if mode=='interpret':
+            exp=Path(sc.ROOT)/'campaigns/isles24-pilot/experiments'/experiment
+            if not (exp/'import_receipt.json').is_file():raise ValueError('RESULT_IMPORT_REQUIRED')
+            from orchestrator.campaign_lifecycle import require_review
+            require_review(exp.parents[1],exp)
+        context=grounding(sc.ROOT,experiment)
     except BaseException as e:
         (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'reason':'GROUNDING_FAILED'}))
         raise
     binding={k:hashlib.sha256(v.encode()).hexdigest() for k,v in context.items()}
     (output/'request.json').write_text(json.dumps({'mode':mode,'experiment':experiment,'request':request,'input_sha256':binding,'actor_type':'agent','family':'codex','authority':'campaign_delegated_investigator','status':'PROPOSAL_ONLY','initiator':initiator or {'kind':'agent','family':'codex'}},indent=2))
-    body='You are the system campaign '+mode+' author. Produce a bounded proposal, not an approval or executable amendment. Preserve original experiment pins. No patient data, execution, remote writes, or human ratification. All scientific work is exploratory.\nREQUEST: '+request+'\nBOUND CONTEXT:\n'+json.dumps(context)
+    body='You are the system campaign '+mode+' author. Produce a bounded proposal, not an approval or executable amendment. Preserve original experiment pins. No patient data, execution, remote writes, or human ratification. All scientific work is exploratory. Lead markdown with a short readable result card: question, evidence, limitations and next decision. Do not invent literature searches or measurements.\nREQUEST: '+request+'\nBOUND CONTEXT:\n'+json.dumps(context)
+    if mode=='interpret':body+='\nInterpret only the bound validated aggregates. State measured performance, uncertainty and limitations with artifact citations. Write investigator_next_decision.json with exactly status PROPOSAL_ONLY and a nonempty rationale. Do not authorize a follow-up or claim human ratification.'
     try:
         for round in [1,2]:
             directory=output/f'round-{round}';directory.mkdir()
             author=system_stage(sc,directory,'codex','campaign_'+mode,body,MODES[mode])
+            if mode=='interpret':
+                decision=json.loads((directory/'investigator_next_decision.json').read_text())
+                if set(decision)!={'status','rationale'} or decision['status']!='PROPOSAL_ONLY' or not isinstance(decision['rationale'],str) or not decision['rationale'].strip():raise ValueError('INVALID_INTERPRETATION_NEXT_DECISION')
             proposal='\n'.join(name+'\n'+(directory/name).read_text() for name in MODES[mode])
             if (directory/'review.json').exists():raise ValueError('author may not prepopulate reviewer output')
             reviewer=system_stage(sc,directory,'claude','campaign_'+mode+'_review',

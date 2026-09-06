@@ -1,0 +1,34 @@
+{
+  "reviewed_commit": "6c4d066b4962f3c4ea3180ad5b203f7bb3096a8f",
+  "returncode": 0,
+  "wall_seconds": 381.75707286800025,
+  "input_file_sha256": {
+    "orchestrator/actions_runner.py": "94c639a3af52d14badb347ddb128691f10936bba765f5be11bc90d4ce2e57e85",
+    "scripts/actions_agent.py": "329167a8e6fe574bbee7c6e96b67544e2650320cc4eb6d0579b8b304f7acf27d",
+    "orchestrator/human_controls.py": "652c4b0fba4d7bc262c0a72b306604b889cd7a6f50d375dbbbac578183155723",
+    "orchestrator/campaign_pipeline.py": "ebe6734b9f1b2cedb1a3d1a352a4096ba5ace11c9e4fe2f9ad40113c7f4b5abb",
+    "scripts/actions_auth.py": "66f27c4fdaac13c31f566e0e915defac28f45c5b2bba0d9304b351c51d275cdd",
+    "scripts/render_human_workflows.py": "a549012b153f0f4fe9c93eb748a2e278a95d474bb06f8ed599593ddf3265832f",
+    "configs/pilot/human-controls.json": "37f678805e774862e843982aba221e32e17c893de00872aa4d59fddc2ecbc5e6",
+    ".github/workflows/research-control.yml": "29c40d828eeb25af3b4d0dd8f5515c77499df87ecc80d44de3e277f269dc5da5",
+    ".github/workflows/actioner.yml": "8b0b05c62fb5680fc08fde55462742a3205a2d36c3c0efccb07798284fdd62ef",
+    ".github/workflows/confer.yml": "0b391dbf23693b5e29b7b4e21eafebcd813fd93a56e54c6d3a357f6794885e26",
+    ".github/workflows/idea-pipeline.yml": "4eb288307e47d22cba5357f9e3273beaac808266bee30da651f489150cb7e859",
+    ".github/workflows/interpret.yml": "5ac92e12e03442a252a7a43b631cea4c97e2f6a81daad7adfe877524fceaab4c",
+    ".github/workflows/librarian.yml": "95f4a09aef4ca9b08987edc11cf7328b4eb8a6063634bed807724562cfdd1aca",
+    ".github/workflows/scout-cycle.yml": "17f116d37acd02b1af6cb65b90e1856258c924c34d81fd13059ab6afd3ce6e96",
+    ".github/workflows/results-validate.yml": "d01c488797cb24bde244bd9eb0b51074da4402efefb3f18ac8f6842f0e93401c",
+    "tests/test_human_controls.py": "aa10af05175502b6bf1d46a4074fadc71ddd9140f78588144429c3e5755f6cf9",
+    "docs/isles-pilot/HUMAN_CONTROLS.md": "ac4ad72c0632641ddfc7167264af1ff824ab17fc0f3f760e3d8f263a77b536b3"
+  },
+  "response_sha256": "a74e10a5a3b833654e064de6586a86ccad24027d401848c8fb8c61d2406ed66a",
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "protocol_sha256": "b19ad51148f8adaeb9127426bc30c8c68ba9fe9b7f4e87442085d229455524f6"
+}

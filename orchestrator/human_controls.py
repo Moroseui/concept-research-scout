@@ -1,7 +1,9 @@
 """One explicit control route for human buttons and autonomous operator commands.
 
 Public export contains reviewed prose and sanitized execution metadata only.
-Original agent protocols, prompts and partial outputs never enter Actions artifacts.
+Low-level CLI protocols stay private. Permitted system prompts and proposal/review
+records are preserved in validated evidence.json; unreviewed answers are not shown
+as reviewed results.
 """
 import argparse
 import contextlib
@@ -72,6 +74,7 @@ def restore(req,out):
         receipt['reused_from_run']=run['id'];receipt['submission_run_id']=os.environ.get('GITHUB_RUN_ID');receipt['model_calls_this_submission']=0
         (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
         return True
+    if listing.get('total_count',len(listing['artifacts']))>100:raise ValueError('REPLAY_LOOKUP_LIMIT')
     return False
 
 
@@ -89,7 +92,8 @@ def save(out,req,status,answer,next_action,evidence=None):
              'github_actor':os.environ.get('GITHUB_ACTOR'), 'run_id':os.environ.get('GITHUB_RUN_ID'),
              'run_attempt':os.environ.get('GITHUB_RUN_ATTEMPT'),'ci':bool(os.environ.get('SCOUT_CI')),
              'result_sha256':hashlib.sha256(text.encode()).hexdigest(),'evidence_sha256':hashlib.sha256(public_evidence.encode()).hexdigest(),
-             'human_ratification':False,'patient_execution':False}
+             'human_ratification':False,'patient_execution':False,
+             'model_calls_this_submission':(evidence or {}).get('model_calls')}
     (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     return receipt
 
@@ -100,6 +104,7 @@ def execute(req,out):
     from orchestrator.actions_runner import reviewed,identity
     out=Path(out)
     out.mkdir(parents=True,exist_ok=False)
+    private=None
     try:
         actual=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
         if req['source']!=actual:raise ValueError('SOURCE_MISMATCH')
@@ -117,8 +122,6 @@ def execute(req,out):
             return save(out,req,'READY' if present else 'WAITING_FOR_RESULT',
                         'A bound aggregate import is present.' if present else 'No validated aggregate import exists. No patient run or scientific result is claimed.',
                         'Use the interpretation control.' if present else 'Return private checkpoints and original console through the approved private route, then run validate-bundle and record-result. Do not upload patient files to Actions.',{'import_present':present})
-        if req['mode']=='interpret':
-            raise ValueError('INTERPRETATION_IMPORT_AND_HOSTED_ACCEPTANCE_REQUIRED')
         private=ROOT/'campaigns/isles24-pilot/pipeline'/('actions-'+req['identity']+'-'+os.environ.get('GITHUB_RUN_ID','local'))
         initiator={'kind':req['initiator_kind'],'github_actor':os.environ.get('GITHUB_ACTOR'),'authority':'request_only_not_human_ratification'}
         with contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()):
@@ -131,16 +134,27 @@ def execute(req,out):
         critique=json.loads((folder/'review.json').read_text())
         answer+='\n\n## Independent system review\n'+critique['verdict']+': '+critique['rationale']
         records={}
+        runners={}
         for p in sorted(private.rglob('*')):
+            if p.is_file() and not p.is_symlink() and p.name.startswith('runner_'):
+                runners[p.relative_to(private).as_posix()]={k:v for k,v in json.loads(p.read_text()).items() if k!='private_evidence'}
             if p.is_file() and not p.is_symlink() and p.suffix in ['.md','.json','.jsonl','.py'] and not p.name.startswith('runner_'):
                 records[p.relative_to(private).as_posix()]=p.read_text()
         return save(out,req,'REVIEWED_PROPOSAL',answer,'Review this proposal. Adoption, experiment execution and human ratification are separate gates.',
-                    {'original_system_records':records,'adapter_review':review,'input_sha256':result['input_sha256'],'artifact_sha256':result['artifact_sha256'],
+                    {'original_system_records':records,'runner_metadata_projection':runners,
+                     'model_calls':sum(len(v.splitlines()) for k,v in records.items() if k.endswith('stage_provenance.jsonl')),'adapter_review':review,'input_sha256':result['input_sha256'],'artifact_sha256':result['artifact_sha256'],
                      'author_family':result['author_family'],'reviewer_family':result['reviewer_family'],'round':result['round'],'ci':result['ci']})
     except BaseException as error:
         code=str(error) if re.fullmatch('[A-Z_]+',str(error)) else type(error).__name__
+        failures={}
+        if private is not None and private.is_dir():
+            for p in private.rglob('*'):
+                if p.is_file() and not p.is_symlink() and p.suffix in ['.md','.json','.jsonl','.py'] and not p.name.startswith('runner_'):
+                    value=p.read_text()
+                    if not DANGER.search(value) and len(value.encode())<100000:failures[p.relative_to(private).as_posix()]=value
+        if len(json.dumps(failures).encode())>400000:failures={'retention_note':'Public failure evidence exceeds the bounded export; low-level originals remain ephemeral and are not claimed as durably retained.'}
         return save(out,req,'BLOCKED','The system stopped: '+code+'. No partial proposal is presented as reviewed.',
-                    'Inspect the named gate. Repair authentication or input/review bindings, then submit a new request ID. For interpretation, first import a validated result; hosted acceptance remains an explicit exception.',{'failure_code':code})
+                    'Inspect the named gate. Repair authentication or input/review bindings, then submit a new request ID. For interpretation, first import a validated result; proposal review never grants human ratification.',{'failure_code':code,'unreviewed_system_records':failures})
 
 
 def validate_export(out):
