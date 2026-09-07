@@ -17,6 +17,7 @@ import types
 BASE = 'd24ffb9003a2291f359afe3acf4bf491f2d7fd9f'
 SOURCE = 'ac8e0150eb2daf8ca2252c27b5c7ab4bde38f36d'
 TRUST = 'f62a4c418bc2eb25055a4b6ac5aa9a786fdcedfd'
+RULING_SHA256 = '2d34c03c724998b5f09844f8f9596cdd5fa2d2461fd5eed6b26d3bfeb36e7d7a'
 POLICY_SHA256 = '5622c1b700437a022c63c539f28bb1b7b8adc64de6386485293bf495005532f5'
 
 
@@ -37,6 +38,8 @@ def pinned_policy(root):
     if git(root, 'rev-parse', TRUST + '^').decode().strip() != SOURCE:
         raise ValueError('RULING_PARENT_MISMATCH')
     ruling = git(root, 'show', TRUST + ':evidence/decisions.md')
+    if sha(ruling) != RULING_SHA256:
+        raise ValueError('TRUSTED_RULING_IDENTITY_MISMATCH')
     module = types.ModuleType('pr5_pinned_publication_policy')
     exec(compile(raw, '<sha256-bound-publication-policy>', 'exec'), module.__dict__)
     return module, sha(ruling)
@@ -78,10 +81,23 @@ def scan_commits(root, commits, policy, trust):
             try:
                 path = name.decode('utf-8')
                 policy.scan_history_blob(root, trust, path, data)
-            except (ValueError, UnicodeError) as error:
-                reason = str(error) if isinstance(error, ValueError) and re.fullmatch('[A-Z_]+', str(error)) else 'NON_UTF8_PUBLICATION'
+            except (ValueError, UnicodeError, KeyError, TypeError, AttributeError) as error:
+                if isinstance(error, UnicodeError):
+                    reason = 'NON_UTF8_PUBLICATION'
+                elif isinstance(error, ValueError) and re.fullmatch('[A-Z_]+', str(error)):
+                    reason = str(error)
+                else:
+                    reason = 'MALFORMED_PUBLICATION_STRUCTURE'
                 findings.append({**record, 'reason': reason})
     return metadata, blobs, findings
+
+
+def require_parent_closure(root, additions, boundary):
+    allowed = set(additions) | set(boundary)
+    for pin in additions:
+        parents = git(root, 'rev-list', '--parents', '-n', '1', pin).decode().split()[1:]
+        if any(parent not in allowed for parent in parents):
+            raise ValueError('ADDITIONAL_HISTORY_NOT_CLOSED')
 
 
 def audit(root, additions):
@@ -94,7 +110,11 @@ def audit(root, additions):
     for pin in additions:
         if not re.fullmatch('[0-9a-f]{40}', pin) or pin in original:
             raise ValueError('INVALID_ADDITIONAL_COMMIT')
-        git(root, 'merge-base', '--is-ancestor', SOURCE, pin)
+        try:
+            git(root, 'merge-base', '--is-ancestor', SOURCE, pin)
+        except subprocess.CalledProcessError:
+            raise ValueError('ADDITIONAL_COMMIT_NOT_DESCENDANT') from None
+    require_parent_closure(root, additions, {BASE, SOURCE, *original})
     commits = original + additions
     metadata, blobs, findings = scan_commits(root, commits, policy, TRUST)
     return {'schema': 1, 'status': 'BLOCKED_FINDINGS' if findings else 'PASS',

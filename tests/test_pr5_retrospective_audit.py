@@ -3,7 +3,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
-from scripts.pr5_retrospective_audit import scan_commits
+from scripts.pr5_retrospective_audit import scan_commits, require_parent_closure
 
 
 class RecordingPolicy:
@@ -38,6 +38,9 @@ class RetrospectiveTests(unittest.TestCase):
             git('add', '-A')
             git('commit', '-m', 'safe final tree')
             second = git('rev-parse', 'HEAD')
+            with self.assertRaisesRegex(ValueError, 'ADDITIONAL_HISTORY_NOT_CLOSED'):
+                require_parent_closure(root, [second], set())
+            require_parent_closure(root, [first, second], set())
             policy = RecordingPolicy()
             metadata, blobs, findings = scan_commits(root, [first, second], policy, 'separate-trust')
             self.assertEqual(len(metadata), 2)
@@ -47,6 +50,12 @@ class RetrospectiveTests(unittest.TestCase):
                 {'COMMIT_METADATA_REJECTED', 'PUBLICATION_CONTENT_REJECTED'})
             self.assertEqual(policy.trusts, ['separate-trust', 'separate-trust'])
             self.assertNotIn('unsafe-fixture', str(findings))
+            class MalformedPolicy(RecordingPolicy):
+                def scan_history_blob(self, *args):
+                    raise KeyError('private rejected content')
+            _, _, malformed = scan_commits(root, [first, second], MalformedPolicy(), 'trust')
+            self.assertEqual(sum(f['reason'] == 'MALFORMED_PUBLICATION_STRUCTURE' for f in malformed), 2)
+            self.assertNotIn('private rejected content', str(malformed))
 
 
 if __name__ == '__main__':
