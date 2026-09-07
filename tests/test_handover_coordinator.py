@@ -51,3 +51,15 @@ def test_nightly_dedup_and_no_review_recursion(tmp_path):
     assert q.schedule(now,'America/New_York',21,0,b)['status']=='SCHEDULED'
     q.tick()
     assert q.schedule(now,'America/New_York',21,0,b)['status']=='ALREADY_SCHEDULED'
+
+
+def test_recover_queries_originals_and_never_replays_missing_execution(tmp_path):
+    calls=[]
+    def uncertain(*args):calls.append('started');raise ConnectionError()
+    q=Coordinator(tmp_path,{'review':uncertain},lambda b:{'status':'ADMITTED'})
+    b=binding(4,['review']);q.submit(b);q.tick()
+    assert q.recover(b['id'],lambda *a:{'status':'NOT_OBSERVED_NO_RETRY'})['status'].startswith('UNCERTAIN')
+    assert q.status()['tasks'][0]['status']=='BLOCKED'
+    assert q.recover(b['id'],lambda *a:{'status':'COMPLETE','answer':'original'})['model_calls']==0
+    assert q.tick()['status']=='COMPLETE'
+    assert calls==['started']

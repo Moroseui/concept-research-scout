@@ -112,10 +112,13 @@ def admit_server(store,config,event,now=None,max_retries=12):
     # and authenticates the requester. Live policy remains inactive until approved.
     policy(config)
     if config.get('server_semantics')!='OPERATOR_AUTHORIZED_V1':raise ValueError('SERVER_ADMISSION_NOT_AUTHORIZED')
-    if set(event)!={'turn_id','attempt','source','branch','kind'} or not re.fullmatch('[0-9a-f]{64}',event['turn_id']) or not re.fullmatch('[1-9][0-9]*',event['attempt']) or not re.fullmatch('[0-9a-f]{40}',event['source']) or event['branch']!='astra/infrastructure-milestone-record' or event['kind'] not in ['astra_turn','nightly_review']:
-        raise ValueError('LIMITER_SERVER_IDENTITY')
+    validate_server_event(event)
     return _admit(store,config,event,'server:'+event['turn_id']+':'+event['attempt'],now,max_retries)
 
+
+def validate_server_event(event):
+    if set(event)!={'turn_id','attempt','source','branch','kind'} or not re.fullmatch('[0-9a-f]{64}',event['turn_id']) or not re.fullmatch('[1-9][0-9]*',event['attempt']) or not re.fullmatch('[0-9a-f]{40}',event['source']) or event['branch']!='astra/infrastructure-milestone-record' or event['kind'] not in ['astra_turn','nightly_review']:
+        raise ValueError('LIMITER_SERVER_IDENTITY')
 
 def _admit(store,config,event,key,now,max_retries):
     n=policy(config)

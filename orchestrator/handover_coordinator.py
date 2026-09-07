@@ -107,6 +107,27 @@ class Coordinator:
         if set(value)!={'binding','position','output','output_sha256'} or value['binding']!=digest(binding) or value['position']!=position or digest(value['output'])!=value['output_sha256']:raise ValueError('STAGE_RECEIPT_CHANGED')
         text(json.dumps(value));return value
 
+    def recover(self, task, retrieve):
+        """Recover only original outcomes through an installed read-only handler.
+
+        Unknown execution stays blocked. Never turn absence into a retry decision.
+        """
+        with (self.root/'branch.lock').open('a') as lock:
+            fcntl.flock(lock,fcntl.LOCK_EX)
+            row=self.db.execute('SELECT * FROM tasks WHERE id=?',(task,)).fetchone()
+            if not row:raise ValueError('UNKNOWN_TASK')
+            binding=json.loads(row['binding'])
+            for stage in self.db.execute('SELECT position FROM stages WHERE task=?',(task,)).fetchall():
+                position=stage[0]
+                if self._receipt(task,position,binding) is not None:continue
+                output=retrieve(binding,position)
+                if output.get('status')!='COMPLETE':return {'status':'UNCERTAIN_STAGE_RECONCILE_NO_RETRY'}
+                value={'binding':digest(binding),'position':position,'output':output,'output_sha256':digest(output)}
+                immutable(self.root/(task+'-'+str(position)+'.json'),encoded(value))
+            if row['status']!='COMPLETE':
+                self.db.execute("UPDATE tasks SET status='QUEUED',reason=NULL WHERE id=?",(task,))
+            return {'status':'RECOVERED','model_calls':0}
+
     def reconcile(self,task):
         with (self.root/'branch.lock').open('a') as lock:
             fcntl.flock(lock,fcntl.LOCK_EX)

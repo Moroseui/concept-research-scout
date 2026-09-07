@@ -33,3 +33,14 @@ GitHub token-scoping implementation reference:
 [GitHub App installation token API](https://docs.github.com/en/rest/apps/apps#create-an-installation-access-token-for-an-app).
 The API supports explicit repository and permission restriction; a token or branch
 name alone does not enforce our publication branch boundary.
+
+Recovery wiring follow-up: a read-only broker status route verifies the original
+console, prompt, answer and context hashes before returning a completed stage.
+Absent evidence remains uncertain. Coordinator recovery records those originals
+without invoking a model. Socket client disconnection no longer kills successful
+bookkeeping. Report task identity excludes mutable review-queue status. Runtime
+and broker integration remain drafts; no live activation is claimed.
+
+The local Unix-socket regression needed sandbox permission for socketpair traffic
+(`Operation not permitted`); it passed when run with that permission. SSH access
+was restored by operator authentication. No model sign-in is currently requested.
