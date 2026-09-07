@@ -1,0 +1,96 @@
+{
+  "time_utc": "2026-09-07T19:08:42Z",
+  "auth": {
+    "research-driver": {
+      "returncode": 0,
+      "authenticated": true,
+      "subscription_reported": true
+    },
+    "research-reviewer": {
+      "returncode": 0,
+      "authenticated": true,
+      "subscription_reported": true
+    }
+  },
+  "units": {
+    "research-system-handover.service": {
+      "MainPID": "287603",
+      "Result": "success",
+      "User": "root",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "research-system-handover-controller.service": {
+      "MainPID": "0",
+      "Result": "success",
+      "User": "research-controller",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "research-system-completion-fixture.timer": {
+      "Result": "success",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "research-system-controller.timer": {
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "waiting"
+    },
+    "research-system-worker.timer": {
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "waiting"
+    }
+  },
+  "jobs": [
+    {
+      "id": "00-colab-blocked",
+      "status": "BLOCKED",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "10-linux-delay",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "20-linux-failure",
+      "status": "FAILED",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "30-linux-next",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "40-closeout-trigger",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "41-closeout-followup",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "50-handover-a0795e6",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "51-handover-a0795e6",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    }
+  ],
+  "working_source": "a94d886e0c4b8fdb504564288939df7e342d7e32",
+  "installed_handover": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+  "installed_executor": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+  "read_only": true,
+  "model_calls": 0,
+  "jobs_retried": 0,
+  "live_activation": false,
+  "private_capture_preserved": true
+}
