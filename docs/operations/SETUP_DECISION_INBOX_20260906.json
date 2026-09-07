@@ -25,7 +25,7 @@
       "job": "protected-publication-admission",
       "reason": "OPERATOR_WRITER_RESET_DESIGN_REQUIRED",
       "status": "OPEN",
-      "next_action": "Approve concrete shared writer/reset and notification authority before credentials or live 48/96 activation. Current proposal is incomplete; no standing admission granted."
+      "next_action": "Review the completed PROTECTED_WRITER_ADMISSION_DECISION.md packet and approve or amend the concrete writer/reset/server-admission design. No credential grant, initialization or activation has occurred."
     },
     {
       "job": "provider-recovery",
@@ -71,10 +71,10 @@
     },
     {
       "job": "handover-control-delivery-repair",
-      "status": "OPEN_REVIEW",
+      "status": "RESOLVED_SUPERVISED",
       "reason": "HOSTED_CLAUDE_CONTROL_FAILURE_FINDING",
-      "next_action": "Review and install the tested control-inbox-failure dispatch gate, fuller evidence context and checked report-delivery route. Preserve the completed synthetic pair; no repeat model cycle is required merely to supply missing historical receipts.",
-      "evidence": "HOSTED_COMPLETION_RESULT_20260907.md"
+      "next_action": "Control-failure and PATH repairs reviewed and installed at 9af868d; actual human controls and idle non-root tick passed without new model calls. Preserve original failed and successful evidence; live activation remains separate.",
+      "evidence": "hosted-final-handover-20260907/service.json"
     },
     {
       "job": "github-writer-enforcement",

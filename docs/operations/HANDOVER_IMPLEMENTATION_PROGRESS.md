@@ -281,3 +281,23 @@ publication audit. Remote infrastructure ref remains e478ad0; no push yet.
 The remaining permission packet now records main's observed lack of protection,
 repository-wide credential bypass limits, exact proposed App scopes and separate
 activation gates. All scientific tasks, source pins and reserved decisions remain.
+
+
+### Installed closeout
+
+ca8f989 and eb40b95 received genuine APPROVE verdicts. The eb40b95 idle update
+succeeded; its human verifier failed before controls because bare runuser was
+outside the scrubbed PATH. Original failure retained, no state change. The fixed
+absolute-path transport at 9af868d was separately APPROVED, installed with all
+three model turns still consumed, and passed actual status/pause/repeat/resume and
+invalid input. Control revision 2→4, no new model/job/timer. One subsequent non-root
+idle service tick passed, with no source/config write access for controller,
+driver, reviewer or worker identities. See hosted-final-handover-20260907.
+
+Private originals were preserved with archive SHA256
+789a6e896dec565b33bf611832e239f8e31a9995566a49ad9661b98ab8982877.
+The exact read-only collector and checked current service/controls receipts are
+supplied to the closing fresh Claude evidence review. The scientific successor
+chain is reused, not rerun. Orchestration runner: 214 tests OK; state 47/47 and
+registry 4/4 passed. Final changed runtime tests: 19 passed. No live grant,
+shared limiter initialization, permanent timer, patient work or new spending.

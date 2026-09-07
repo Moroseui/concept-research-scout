@@ -1,0 +1,15 @@
+{
+  "kind": "PRIVATE_ORIGINAL_PRESERVATION",
+  "archive_sha256": "789a6e896dec565b33bf611832e239f8e31a9995566a49ad9661b98ab8982877",
+  "archive_bytes": 13496,
+  "source": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+  "originals_retained": true,
+  "original_failure_retained": true,
+  "private_directory_published": false,
+  "checked_exports": {
+    "human-controls.json": "f69584ad936a8cf51f3b62a7ae74cbb16b169b8ad917115a9d60e4ace6a6280b",
+    "human-status-example.md": "4e8aa57cd4bf80ec691512401b01079af3c31e412111b7da189f8336115e2021",
+    "source-update.json": "d5b5d8ef221fbfa82fba66ca831766abd9e1de17dcf6c6f58402d76cbf0458f7",
+    "service.json": "434344b77e9a9ce4eb561c789d97296342f04118e529b918d4f2bdf8cf11ecac"
+  }
+}

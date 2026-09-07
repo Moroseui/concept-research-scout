@@ -16,8 +16,9 @@ or GitHub credential.
 ## Supported human route
 
 The final source supplies `/usr/local/bin/research-system-control`, an administrative
-convenience wrapper over the same versioned runtime. Its installation and actual
-verification must be recorded before claiming this shorter route is deployed.
+convenience wrapper over the same versioned runtime. It is installed at `9af868d47fecaf26c82c88a4d957183ea50962f5`; actual
+status/pause/repeat/resume and invalid-input verification passed. Original failure
+and success evidence is retained in [the final record](hosted-final-handover-20260907/human-controls.json).
 After authenticated operator SSH login:
 
 ```sh

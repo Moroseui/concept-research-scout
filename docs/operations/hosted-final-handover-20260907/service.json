@@ -1,0 +1,99 @@
+{
+  "status": "PASSED_SUPERVISED_IDLE_TICK",
+  "source": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+  "model_turns_before": 3,
+  "model_turns_after": 3,
+  "new_model_calls": 0,
+  "new_scientific_jobs": 0,
+  "units": {
+    "research-system-handover.service": {
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryMax": "4294967296",
+      "TasksMax": "128",
+      "User": "root",
+      "PrivateNetwork": "no",
+      "NoNewPrivileges": "no",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "research-system-handover-controller.service": {
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryMax": "536870912",
+      "TasksMax": "32",
+      "User": "research-controller",
+      "PrivateNetwork": "yes",
+      "NoNewPrivileges": "yes",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "research-system-handover-controller.timer": {
+      "Result": "success",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "research-system-completion-fixture.timer": {
+      "Result": "success",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    }
+  },
+  "role_write_boundaries": {
+    "research-controller": {
+      "identity_exists": true,
+      "installed_source_writable": false,
+      "broker_config_writable": false
+    },
+    "research-driver": {
+      "identity_exists": true,
+      "installed_source_writable": false,
+      "broker_config_writable": false
+    },
+    "research-reviewer": {
+      "identity_exists": true,
+      "installed_source_writable": false,
+      "broker_config_writable": false
+    },
+    "research-worker": {
+      "identity_exists": true,
+      "installed_source_writable": false,
+      "broker_config_writable": false
+    }
+  },
+  "configured": {
+    "writer": false,
+    "notifications": false,
+    "schedule": false,
+    "purpose": "SUPERVISED_COMPLETION_ACCEPTANCE",
+    "max_model_turns": 3
+  },
+  "control_state": [
+    4,
+    0
+  ],
+  "coordinator_tasks": [
+    [
+      "46f92feebb9d8475b2f979aa0d6225deaf1226b76fc71917858d64554920bafa",
+      "COMPLETE"
+    ],
+    [
+      "9ffd02745d3f6a68754d6dcf6c243e9345ea00cba21f3426f2c76f364fa5471a",
+      "COMPLETE"
+    ],
+    [
+      "5c8faa25661e33aaa77df889dafbd309823260bb4db7012b8e644fbd659151c2",
+      "COMPLETE"
+    ]
+  ],
+  "review_bookkeeping": [
+    [
+      "COMPLETE",
+      3
+    ]
+  ],
+  "service_evidence_sha256": "03215644717fa60bf92904ecfe8bbbb0dc9ffaf4d81d2b2ae4c090211300127c",
+  "unattended_observation": false
+}

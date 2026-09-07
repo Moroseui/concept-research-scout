@@ -1,0 +1,13 @@
+{
+  "status": "UPDATED_IDLE_CONSUMED_FIXTURE",
+  "before": "eb40b9549e2cf94145c5b886a7390f549f2123e4",
+  "source": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+  "retained_model_turns": 3,
+  "max_model_turns": 3,
+  "ledger_pin_unchanged": true,
+  "models_started": 0,
+  "timer_started": false,
+  "writer_credentials": false,
+  "live_activation": false,
+  "archive_sha256": "69b4500830c0bdae8e03382abb504a66a36d6ec48b27345d4a24a9f3c728c911"
+}

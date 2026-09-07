@@ -1,0 +1,72 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+    "returncode": 0,
+    "wall_seconds": 131.3849379900057,
+    "input_file_sha256": {
+      "docs/operations/HANDOVER_CONTROL_PATH_REPAIR_20260907.md": "c88e608efb7f0c9c369ca1a54dd61df0ab33454ca2a7f72b4747875e827f185e",
+      "orchestrator/handover_runtime.py": "c714ce87f8fb68037371499461a74f8b5971294499f65c13d4a40988383367b0",
+      "tests/test_handover_runtime.py": "19bec48ea06e61a82e2b43e2be1764f77ee80ebb7830555d7aa9fe3c7192adb6",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b"
+    },
+    "response_sha256": "45cd876ecfb30665e780b3ddba15d5c9fb3455b525f13449dd4bb034bec71fdb",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "2bc9384a9a78463d292d64bb85aa659b8770519b18611b335b6d53caa4be283d"
+  },
+  "review": {
+    "scope": "handover-fixed-control-executable",
+    "reviewed_commit": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified: controller_command now invokes /usr/sbin/runuser by absolute path, removing the parent-side PATH=/usr/bin:/bin dependency that caused the incident; child transport is unchanged (env -i with only PATH, PYTHONDONTWRITEBYTECODE, PYTHONPATH; absolute /usr/bin/python3 -B; fixed module and installed config; operation as tail argument). No PATH broadening, user change, sudo grant, or job start.",
+      "Verified: fail-closed boundaries around the exec are untouched \u2014 root-only invocation, operation whitelist (status/controls), controller_uid must resolve to the research-controller account via pwd, checked_source pins the source root before execution, and stdout is bounded at 100000 bytes.",
+      "Verified: recovery semantics preserved \u2014 TimeoutExpired/CalledProcessError still map to CONTROL_TRANSPORT_PENDING_CHECK_STATUS_NO_BLIND_RETRY; a missing /usr/sbin/runuser now fails loudly as FileNotFoundError instead of a masked pending state; the durably written root-owned request file plus control_delivery deduplication means a transport crash neither loses nor double-applies a control.",
+      "Verified: no scientific-approval surface is touched \u2014 admission, publication, notification, packet identity digest (source/packet/report), report immutability, and all separately gated scientific paths are unchanged, so prior approvals for unchanged source remain applicable.",
+      "Suggestion: the regression test pins the exact executable, the scrubbed-PATH string, and the operation position, but does not assert the env -i scrub or -u research-controller (the repair note's 'scrubbed child environment' claim is only partially enforced), and its subprocess fixture ignores check=True/timeout kwargs; asserting the full argv prefix would pin the whole transport.",
+      "Suggestion: env itself is still resolved via the parent's PATH by runuser (works because /usr/bin is inside the scrubbed PATH); using absolute /usr/bin/env would eliminate the last PATH-dependent resolution in this transport.",
+      "Observation (pre-existing, non-blocking): the child always reads the hardcoded /etc/research-system/handover-controller.json while parent-side identity/source checks validate the caller-supplied --config; no privilege impact since invocation is root-only and the child config must pass the root-owned configuration() check, but a parity assertion between the two config paths would prevent divergence confusion."
+    ]
+  },
+  "session_id": "2a85f61f-89cf-4ef2-8561-e4cbd66b4774",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 18933,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.019018,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 10243,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 31342,
+      "webSearchRequests": 0,
+      "costUSD": 1.13901,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "independent_merge_desk_review": false,
+  "investigator_disposition": {
+    "blocking_findings": 0,
+    "actual_verification": "Reviewed correction installed; real human status/pause/repeat/resume/invalid input passed, followed by one idle non-root service tick. No new model calls or jobs. See hosted-final-handover-20260907.",
+    "remaining_suggestions": "The fixed /usr/bin:/bin includes env, and the installed config is the hardcoded config. No new privilege or PATH broadening is needed. Preserve suggestions as maintenance notes, not new approval gates."
+  }
+}
