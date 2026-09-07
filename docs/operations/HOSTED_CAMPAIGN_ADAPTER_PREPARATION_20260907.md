@@ -47,3 +47,12 @@ turn budget or live configuration changes. The earlier eleven-test command was
 `pytest tests/test_hosted_campaign.py tests/test_campaign_pipeline.py
 tests/test_readiness_discussion.py`; the first review received only the first two
 test files, which explains its counting question.
+
+Recovery implementation now prepares a **separate derived projection** using only
+`stage_status`, never `model_stage`. The broker returns its original packet hash;
+the adapter verifies it with the event, model and answer identities. Recovery
+requires the original request and current scientific context hashes to match,
+refuses conflicting original files, and preserves the original incomplete tree.
+The projection explicitly records zero new model calls and no fresh review. A
+missing completion or wrong packet stays blocked. These are local synthetic tests,
+not a hosted recovery claim. Controller integration and real execution remain.

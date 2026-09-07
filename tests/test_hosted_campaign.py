@@ -3,15 +3,17 @@ import json
 from types import SimpleNamespace
 from unittest.mock import patch
 import pytest
-from orchestrator.hosted_campaign import BrokerStages, run_pipeline
+from orchestrator.hosted_campaign import BrokerStages, run_pipeline, recover_projection
+from orchestrator.hosted_cycle import encoded
 
 
 def client_for(answers):
-    calls=[]
+    calls=[];packet_hashes={}
     def call(socket,op,body):
         calls.append(body['stage']);answer=answers[len(calls)-1]
+        if 'packet' in body:packet_hashes['fixture']=hashlib.sha256(encoded(body['packet'])).hexdigest()
         model='claude-fable-5' if body['stage']=='review' else 'gpt-6-astra'
-        return {'status':'COMPLETE','duplicate':False,'answer':answer,'receipt':{'requested_model':model,
+        return {'status':'COMPLETE','duplicate':False,'answer':answer,'packet_sha256':packet_hashes['fixture'],'receipt':{'requested_model':model,
             'actual_model':model if model.startswith('claude') else None,'returncode':0,
             'answer_sha256':hashlib.sha256(answer.encode()).hexdigest(),'operating_context_sha256':'a'*64}}
     return call,calls
@@ -76,3 +78,59 @@ def test_socket_refusal_preserves_only_named_public_reason(monkeypatch,reason,ex
         def recv(self,*args):return (json.dumps({'status':'REFUSED','reason':reason})+'\n').encode()
     monkeypatch.setattr('orchestrator.handover_runtime.socket.socket',lambda *args:Socket())
     with pytest.raises(ValueError,match='^'+expected+'$'):request_broker('fixture','model_stage',{})
+
+
+def test_recovery_reads_original_replies_and_never_calls_model(tmp_path):
+    packet={'campaign_artifacts':{'version':1,'experiment':'P001','mode':'discuss'}}
+    replies=[json.dumps({'discussion.md':'Original checked proposal'}),json.dumps({'review.json':json.dumps({'verdict':'APPROVE','rationale':'Original review'})})]
+    responses={};base_client,_=client_for(replies)
+    def capture(socket,op,body):
+        response=base_client(socket,op,body);responses[body['stage']]=response;return response
+    original=tmp_path/'campaigns/isles24-pilot/pipeline/original'
+    with patch('orchestrator.campaign_pipeline.grounding',return_value={}),patch('orchestrator.research_context.evidence_context',return_value={}):
+        run_pipeline(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,BrokerStages('fixture',{},packet,client=capture))
+        # Model review completed; emulate lost final pipeline bookkeeping.
+        (original/'receipt.json').unlink()
+        requests=[]
+        def read(socket,op,body):
+            requests.append(op);assert op=='stage_status'
+            return dict(responses[body['stage']],duplicate=True)
+        output=original.parent/'recovery'
+        result=recover_projection(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,output,BrokerStages('fixture',{},packet,client=read,recovery=True))
+    assert requests==['stage_status','stage_status']
+    assert result['status']=='REVIEWED_PROPOSAL_NOT_ADOPTED'
+    assert (original/'round-1/discussion.md').read_bytes()==(output/'round-1/discussion.md').read_bytes()
+    assert json.loads((output/'recovery.json').read_text())['new_model_calls']==0
+    assert not (original/'receipt.json').exists()
+    (original/'round-1/discussion.md').write_text('Human correction awaiting review')
+    conflicted=original.parent/'conflict-recovery'
+    with patch('orchestrator.campaign_pipeline.grounding',return_value={}),patch('orchestrator.research_context.evidence_context',return_value={}):
+        with pytest.raises(ValueError,match='PRESERVES_CONFLICTING_ORIGINAL'):
+            recover_projection(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,conflicted,BrokerStages('fixture',{},packet,client=read,recovery=True))
+    assert not conflicted.exists()
+    assert (original/'round-1/discussion.md').read_text()=='Human correction awaiting review'
+
+
+def test_recovery_missing_completion_never_submits_model(tmp_path):
+    original=tmp_path/'campaigns/isles24-pilot/pipeline/original';original.mkdir(parents=True)
+    packet={'campaign_artifacts':{'version':1,'experiment':'P001','mode':'discuss'}}
+    hashes={'related-evidence.json':hashlib.sha256(json.dumps({}).encode()).hexdigest()}
+    (original/'request.json').write_text(json.dumps({'mode':'discuss','experiment':'P001','request':'Question','max_rounds':1,'input_sha256':hashes}))
+    def missing(socket,operation,body):
+        assert operation=='stage_status'
+        return {'status':'NOT_OBSERVED_NO_RETRY'}
+    output=original.parent/'recovery'
+    with patch('orchestrator.campaign_pipeline.grounding',return_value={}),patch('orchestrator.research_context.evidence_context',return_value={}):
+        with pytest.raises(ValueError,match='BLOCKED_RECONCILE_NO_RETRY'):
+            recover_projection(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,output,BrokerStages('fixture',{},packet,client=missing,recovery=True))
+    assert not output.exists()
+
+
+def test_packet_mismatch_refuses_recovered_reply_before_write(tmp_path):
+    answer=json.dumps({'discussion.md':'Wrong binding'})
+    def wrong(socket,operation,body):
+        assert operation=='stage_status'
+        return {'status':'COMPLETE','packet_sha256':'f'*64,'answer':answer,'receipt':{'returncode':0,'requested_model':'gpt-6-astra','answer_sha256':hashlib.sha256(answer.encode()).hexdigest(),'operating_context_sha256':'a'*64}}
+    with pytest.raises(ValueError,match='RECEIPT_BINDING'):
+        BrokerStages('fixture',{}, {},client=wrong,recovery=True)(None,tmp_path,'codex','campaign_discuss','Question',['discussion.md'])
+    assert not list(tmp_path.iterdir())

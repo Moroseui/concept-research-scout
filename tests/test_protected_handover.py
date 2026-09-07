@@ -58,7 +58,7 @@ def test_read_only_completion_recovery_checks_original_bytes(tmp_path):
     request={'operation':'stage_status','body':{'event':event,'stage':'review'}}
     assert b.handle(request,10001)['status']=='NOT_OBSERVED_NO_RETRY'
     folder=tmp_path/'turns'/(event['turn_id']+'-'+event['attempt']);folder.mkdir(parents=True)
-    (folder/'binding.json').write_text(json.dumps({'event':event}))
+    (folder/'binding.json').write_text(json.dumps({'event':event,'packet_sha256':'a'*64}))
     assert b.handle(request,10001)['status']=='NOT_STARTED_RECONCILIATION_REQUIRED'
     (folder/'review.started.json').write_text('{}')
     assert b.handle(request,10001)['status']=='UNCERTAIN_MODEL_RECONCILE_NO_RETRY'
@@ -68,6 +68,7 @@ def test_read_only_completion_recovery_checks_original_bytes(tmp_path):
         receipt[key]=hashlib.sha256(raw).hexdigest()
     (folder/'review.receipt.json').write_text(json.dumps(receipt))
     assert b.handle(request,10001)['status']=='COMPLETE'
+    assert b.handle(request,10001)['packet_sha256']=='a'*64
     (folder/'review.stdout').write_text('changed')
     with pytest.raises(ValueError,match='RECEIPT_CHANGED'):b.handle(request,10001)
 

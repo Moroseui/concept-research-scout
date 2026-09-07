@@ -204,7 +204,7 @@ class Broker:
             # controller's fixed synthetic adapter can consume it; no command or
             # patient runner can be selected through this transport format.
             answer,receipt=model_call(folder,stage,family,body['prompt'],output_format=output_format)
-            return {'status':'COMPLETE','duplicate':False,'answer':answer,'receipt':receipt}
+            return {'status':'COMPLETE','duplicate':False,'answer':answer,'receipt':receipt,'packet_sha256':binding['packet_sha256']}
 
     def stage_status(self,body):
         """Retrieve original completion only. This path cannot invoke a model."""
@@ -215,7 +215,9 @@ class Broker:
         if folder.is_symlink():raise ValueError('TURN_BINDING_CHANGED')
         if not folder.exists():return {'status':'NOT_OBSERVED_NO_RETRY'}
         binding_path=folder/'binding.json'
-        if binding_path.is_symlink() or json.loads(binding_path.read_text())['event']!=event:raise ValueError('TURN_BINDING_CHANGED')
+        if binding_path.is_symlink():raise ValueError('TURN_BINDING_CHANGED')
+        binding=json.loads(binding_path.read_text())
+        if binding['event']!=event:raise ValueError('TURN_BINDING_CHANGED')
         path=folder/(stage+'.receipt.json')
         if not path.exists():
             status='UNCERTAIN_MODEL_RECONCILE_NO_RETRY' if (folder/(stage+'.started.json')).exists() else 'NOT_STARTED_RECONCILIATION_REQUIRED'
@@ -225,7 +227,9 @@ class Broker:
         for suffix,key in [('.stdout','stdout_sha256'),('.stderr','stderr_sha256'),('.input.md','input_sha256'),('.md','answer_sha256'),('.operating-context.json','operating_context_sha256')]:
             file=folder/(stage+suffix)
             if file.is_symlink() or hashlib.sha256(file.read_bytes()).hexdigest()!=receipt[key]:raise ValueError('MODEL_RECEIPT_CHANGED')
-        return {'status':'COMPLETE','duplicate':True,'answer':(folder/(stage+'.md')).read_text(),'receipt':receipt}
+        packet_sha=binding.get('packet_sha256')
+        if not isinstance(packet_sha,str) or not re.fullmatch('[0-9a-f]{64}',packet_sha):raise ValueError('MODEL_PACKET_BINDING_MISSING')
+        return {'status':'COMPLETE','duplicate':True,'answer':(folder/(stage+'.md')).read_text(),'receipt':receipt,'packet_sha256':binding['packet_sha256']}
 
     def actions_admission(self,artifact,verified_run):
         # Trusted Actions API collector supplies verified_run; requester JSON does
