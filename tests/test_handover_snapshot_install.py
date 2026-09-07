@@ -34,3 +34,19 @@ def test_archive_link_and_expansion_refused():
 def test_ordinary_code_archive_allowed():
     item=tarfile.TarInfo('snapshot/code.py');item.size=100
     installer().validate_members(SimpleNamespace(getmembers=lambda:[item]))
+
+
+def test_source_modes_preserve_executable_identity_and_reject_links(tmp_path):
+    import os
+    root=tmp_path/'snapshot';root.mkdir(mode=0o700)
+    code=root/'module.py';code.write_text('pass\n');code.chmod(0o600)
+    executable=root/'launcher.py';executable.write_text('pass\n');executable.chmod(0o700)
+    installer().readable_source(root)
+    assert root.stat().st_mode & 0o777==0o755
+    assert code.stat().st_mode & 0o777==0o644
+    assert executable.stat().st_mode & 0o777==0o755
+    assert code.read_text()==executable.read_text()=='pass\n'
+    code.chmod(0o600);(root/'linked').symlink_to(code)
+    with pytest.raises(ValueError,match='REGULAR_SOURCE_TREE'):
+        installer().readable_source(root)
+    assert code.stat().st_mode & 0o777==0o600

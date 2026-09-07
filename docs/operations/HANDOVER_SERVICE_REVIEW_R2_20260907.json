@@ -1,0 +1,68 @@
+{
+  "kind": "AUTHOR_OPERATED_SOURCE_REVIEW",
+  "execution": {
+    "reviewed_commit": "6863968863ddfb1d82b25c7b358857e666c950a5",
+    "returncode": 0,
+    "wall_seconds": 458.64654996199533,
+    "input_file_sha256": {
+      "docs/operations/HANDOVER_SERVICE_REVIEW_R1_20260907.json": "72b27b3ae43261923b6a197c844b77552eb90b6a8214cf2f8b496b797f8a6e59",
+      "docs/operations/HANDOVER_SOCKET_SANDBOX_20260907.json": "70e0c758703a02ddb65666c73ef8aa44a3c32ac4dc53b11a8277a3d26a48228b",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "deploy/research-system/install_handover_fixture.py": "404c9a206e037ea3fefa0ad36422057b035261e05579380e71cfc1f3b979a471",
+      "scripts/prepare_handover_snapshot.py": "31a8257607580bbced9c25597efddcf238c18c4ece6c6569c554b2b98ddbe3e0",
+      "scripts/verify_handover_service.py": "5b08465c5ba02e4d9e800c9bb301dcf7708b40de545c01899ec3bfbdab07e65f",
+      "orchestrator/handover_runtime.py": "3c606da32835b79101f21c06bf022a58390563bf2248cfd714dea7e2136e5bf3",
+      "orchestrator/handover_coordinator.py": "d07ca14235e6339b53ac8185e32e0a40f590d0d475debf8af42c62256c62677f",
+      "orchestrator/protected_handover.py": "7064aa55e2c970277f049b9a0e2837ab7467d089e8a8d7e1b5e3e95d8538ca7a",
+      "orchestrator/dispatch_limiter.py": "0494b45723c1e5388dc51e9954104c28b4681cf5a09103f695a79b70e3968cde",
+      "orchestrator/hosted_cycle.py": "fb3d0b1de07aa9bfa4a6c0bf8edbb79f81e167d44968ab1c969cc1196695fabc",
+      "orchestrator/hosted_context.py": "13691305ca5b8a8e8ccd146888a4674f58a497260062b0136920676ecc6d7d78",
+      "orchestrator/operations_report.py": "df411c607f59407a806cfd7826c075bc433a94f2ab2806ce831bdce5b72a36e1",
+      "orchestrator/reviewer_evidence.py": "e8f16b1c56a293e42dbb64cdcb88ebf53f59052df376c0cc8ea36b26b92b5178",
+      "tests/test_handover_snapshot_install.py": "bbd412c33946c5b2c3bfdd75676875d9df9d9aeed0f3022f7cc5eba8b70e1460",
+      "tests/test_protected_handover.py": "690c8c2535ef161e9f71b6185684c530e96f71b28d3c3c1fab35c8d413b36a8b",
+      "tests/test_handover_runtime.py": "8c26ae2564f3adfc2b4096c84e28b409418757589af57c965b1d74300d79895c",
+      "tests/test_handover_service_acceptance.py": "c34aa4719edae4a7520448d7dbbd390c97f48027fac2b739c078a77aa0044021",
+      "deploy/research-system/research-system-handover.service": "98cc5f78b2e9ba48099b7ebb82be322e2a71a07dc4c28606e1ae0f92bc272f47",
+      "deploy/research-system/research-system-handover.socket": "d76585377fff037fa6aaa7752cff382fcd973d61f083edda807dcb630f7b028a",
+      "deploy/research-system/research-system-handover-controller.service": "67079cf12ec65165f1abeb6f9b713ab225ff380c9ab3e830108a246258f423e0"
+    },
+    "response_sha256": "5a6e8565f6126c23e9457f9a37d52252bd8cb5ec468eadabc746b05bb8b2ea34",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "b99f443fa31a82f0fa6065fc576c9edd9b8c92c0133f70036577db30c0d6b597"
+  },
+  "review": {
+    "scope": "Follow-up (R2) author-operated source-only review at commit 6863968, succeeding HANDOVER_SERVICE_REVIEW_R1_20260907 (commit 35d48fbd): verification of R1 finding resolutions in scripts/verify_handover_service.py, orchestrator/handover_runtime.py, handover_coordinator.py, protected_handover.py, reviewer_evidence.py, dispatch_limiter.py, operations_report.py, hosted_cycle.py, hosted_context.py, all three systemd units including the now-supplied research-system-handover.socket, associated tests; plus first review of deploy/research-system/install_handover_fixture.py and scripts/prepare_handover_snapshot.py. The hosted socket sandbox receipt (HANDOVER_SOCKET_SANDBOX_20260907.json) was assessed as supplied evidence. No execution, no tests run, no patient data. Still-unsupplied modules (job_store, remote_supervisor, git_publication, public_export, phone_notifications, protected_writer, research_context) reviewed only via call contracts. Source and installer approval only: actual installed service acceptance (both harness phases under the deployed units) remains pending, and live activation, writer/reset, limiter and unattended grants remain separately gated.",
+    "reviewed_commit": "6863968863ddfb1d82b25c7b358857e666c950a5",
+    "verdict": "APPROVE",
+    "findings": [
+      "RESOLVED (R1 blocker 1), verified from source \u2014 research-system-handover-controller.service now sets TasksMax=32, matching the harness requirement pids.max=='32' alongside MemoryMax=512M/CPUQuota=100%; reviewer_evidence PROPERTIES includes TasksMax so acceptance evidence covers it.",
+      "RESOLVED (R1 blocker 2), verified plus hosted receipt \u2014 the read-only /run inference was incorrect: the kernel's read-only-filesystem write refusal (EROFS) applies only to regular files, directories and symlinks, so connect(2) on an AF_UNIX socket inode succeeds on a read-only mount. The hosted fixture receipt confirms connect under ProtectSystem=strict with PrivateNetwork and read_write_exception=false, zero model calls; the first attempt's setup error (0700 non-traversable test directory) was preserved, and the deployed /run/research-system directory is systemd-created so that failure mode does not carry over. Retaining strict with no writable exception is correct.",
+      "RESOLVED (R1 blocker 3), verified from source \u2014 Broker.stage_status now calls the shared validate_server_event before any path formation; validate_server_event (supplied this round) pins turn_id to [0-9a-f]{64}, attempt to [1-9][0-9]*, source to 40-hex, fixed branch and kind. Regression test test_stage_status_rejects_traversal_via_shared_event_validator injects traversal in both turn_id and attempt.",
+      "RESOLVED (R1 suggestions), verified from source \u2014 Runtime.model reads predecessor outputs only through Coordinator._receipt and raises PREDECESSOR_RECEIPT_REQUIRED on absence (test: corrupted predecessor refused before any broker call); the non-activated serve() fallback is removed entirely (SYSTEMD_SOCKET_ACTIVATION_REQUIRED, plus getsockname/family verification); research-system-handover.socket is committed, supplied for review, and listed in reviewer_evidence SOURCES and UNITS.",
+      "RESOLVED, verified from source \u2014 dispatch_limiter.pending_notifications now sorts numerically by sequence (int of the key prefix) instead of lexicographically, with a comment explaining why sorted-JSON key order is not admission order.",
+      "ASSUMPTIONS DISCHARGED, verified from newly supplied source \u2014 operations_report.immutable is write-once and idempotent for identical bytes (same-day enqueue_report stability, repeated dispositions); dispatch_limiter._admit returns duplicate admissions without mutating count, which the harness recover phase's ledger-count-equality check depends on; the broker, not the client, pins the review stage to family 'claude', and model_stage requires predecessor receipts and admits before any model call under a one-turn budget (max_model_turns=1 counts turn folders, with three stages inside the single fixture turn).",
+      "VERIFIED POSITIVE \u2014 installer (install_handover_fixture.py) is appropriately narrow: uid-0 plus 40-hex pin required; archive symlink/size/sha256 checks; member validation (single 'snapshot' root, no traversal or absolute paths, files/dirs only, 2000-member/20MB caps) applied both before and inside extraction with tarfile filter='data', with regression tests; refuses any pre-existing target rather than repairing; creates no accounts, credentials or timer; never enables or starts units (systemd-analyze verify + daemon-reload only); broker config is SYNTHETIC_FIXTURE with writer_config None and publication root disabled; config files root-owned with modes matching the runtime's configuration() checks; returns INSTALLED_NOT_STARTED with models_invoked 0.",
+      "VERIFIED POSITIVE \u2014 snapshot preparation (prepare_handover_snapshot.py) is fail-closed against payload acquisition: refuses existing or inside-root destinations; pins HEAD==source on the authorized branch; whitelists exactly the approved-context documents, orchestrator modules, deploy units, harness, proposal round files and receipt-bound campaign/P001 inputs; scans every included blob; then verifies the physical blob set of the blob:none depth-1 clone equals the whitelist exactly, so no results branches or patient payloads can ride along; origin URL rewritten to the public repository; .git logs/hooks excluded; manifest binds the archive sha256 the installer later verifies.",
+      "VERIFIED POSITIVE \u2014 acceptance semantics re-verified end to end from source: harness refuses non-fixture ledger before any model call; first phase requires exactly three non-duplicate calls in canonical stage order with requested models ['gpt-6-astra','claude-fable-5','gpt-6-astra'] and actual review model claude-fable-5, then withholds the received disposition (recording the synthetic fault durably) so the task blocks with the broker retaining original evidence; recover phase forbids model_stage at the transport, recovers position 2 via hash-verified stage_status only, re-admission is a count-neutral duplicate, and the repeat tick plus bookkeeping (report claim/attach/disposition) complete with zero model calls.",
+      "SUGGESTION, verified from source (untested) \u2014 the installer neither creates nor checks /var/lib/research-system/model-work, which the broker unit lists in ReadWritePaths and hosted_cycle.model_call requires. On a host without prior setup the missing path is silently skipped by systemd and the first model_stage fails with EROFS surfaced only as generic BROKER_FAILURE_PRESERVED. Fail-closed but a confusing acceptance failure. Affected task: installed fixture acceptance. Smallest fix: create model-work (root-owned, 0711) in the installer and add it to the existing-setup target check.",
+      "SUGGESTION, verified from source \u2014 with the installed always-due schedule (UTC 00:00), running the recover phase on a later UTC day than the first phase enqueues a second nightly task: the recover tick still passes (recovered task processed first, duplicate admission count-neutral), but the repeat tick admits one fresh turn (ledger +1) and fails as DUPLICATE_ACCEPTANCE_FAILED \u2014 model-free and fail-closed, yet it leaves the fixture needing reconciliation. Affected task: fixture acceptance operation. Smallest fix: document that both phases must run within one UTC day, or have the harness refuse phase 'recover' when the scheduled day differs from the first-phase evidence.",
+      "SUGGESTION (minor), verified from source \u2014 the sparse snapshot's depth-1 commit still carries full tree metadata, i.e. every repository path name (never content) in .git tree objects. Blob whitelist verification prevents any content transfer; note only if path names ever encode sensitive identifiers. No action required for the synthetic fixture.",
+      "ASSUMPTION NOTED (narrowed, untested) \u2014 remaining verified properties depend on still-unsupplied modules: public_export.text (outbound sanitization), git_publication.scan/scan_commit, remote_supervisor.checked_source, research_context.checked/evidence_context/proposal_context, phone_notifications.protected_read, and job_store.Store. These retain their standing review dependency; prior assumptions on operations_report and dispatch_limiter are now closed by supplied source.",
+      "BOUNDARY RESTATED \u2014 this approval covers source, installer and snapshot preparation only. It is not deployed acceptance: the two-phase harness has not been asserted to run under the installed units, and patient launch, live limiter/writer activation, credentials, main merges and all other named gates remain separately reserved."
+    ]
+  },
+  "not_installed_acceptance": true,
+  "investigator_notes": [
+    "Shared validate_server_event was present before R1; R2 supplied the omitted dependency and regression evidence, rather than introducing new identity validation.",
+    "Existing model-work ownership is checked before fixture installation. Both acceptance phases will run in the same UTC day; no standing schedule is activated."
+  ]
+}

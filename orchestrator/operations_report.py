@@ -171,7 +171,7 @@ class Queue:
         # Neither reviewer output nor disposition schedules another review.
 
 
-def finalize(root, source, day, receipts, amendment_of=None):
+def finalize(root, source, day, receipts, amendment_of=None, *, task_state=None):
     pin(source, 40)
     if date.fromisoformat(day).isoformat() != day:
         raise ValueError('INVALID_REPORT_DATE')
@@ -202,12 +202,26 @@ def finalize(root, source, day, receipts, amendment_of=None):
     science = ('Only synthetic work is recorded; no patient experiment or measured scientific result is established.'
                if synthetic_only else 'Scientific progress is not established by these operational receipts; consult validated experiment results and interpretation artifacts.')
     execution_sources = sorted({r['source'] for r in rows if r['source']})
-    provenance = 'Execution receipt sources: '+', '.join('`'+p+'`' for p in execution_sources)+'. The reporting implementation pin is separate.\n\n'
+    provenance = ('Execution receipt sources: '+', '.join('`'+p+'`' for p in execution_sources)+'. The reporting implementation pin is separate.\n\n'
+                  if execution_sources else 'No execution receipts were supplied for this period. This does not establish an empty task queue.\n\n')
+    context_bytes=None;context_body=''
+    if task_state is not None:
+        if not isinstance(task_state,dict) or len(task_state)>64:raise ValueError('TASK_STATE_MAPPING_REQUIRED')
+        context_bytes=(json.dumps(task_state,sort_keys=True,indent=2)+'\n').encode()
+        text(context_bytes.decode(),limit=20000)
+        context_hash=digest(context_bytes)
+        lines=[]
+        for key,value in sorted(task_state.items()):
+            if isinstance(value,str):
+                lines.append('- '+key.replace('_',' ')+': '+value.replace('\n',' '))
+        context_body=('Bound task and decision state (recorded context, not new authority):\n\n'
+                      +'\n'.join(lines)+'\n\n'
+                      +f'[Complete task and decision state]({context_hash}.context.json); SHA-256 `{context_hash}`.\n\n')
     body = (f'# Research system daily report — {day}\n\nSource: `{source}` (reporting implementation).\n\n'
             +provenance
             +f"{counts['completed']} completed; {counts['failed']} failed; {counts['blocked']} blocked; {counts['other']} in other states.\n\n"
             + (f'Amendment of report `{amendment_of}`; original bytes remain preserved.\n\n' if amendment_of else '')
-            + table+'\n'+science+'\n\n'
+            + (table+'\n' if rows else '')+science+'\n\n'+context_body
             + 'Human intervention, model usage and cost measurements: unavailable. '
             'The table preserves per-job measurements; overlapping jobs are not summed as elapsed time.\n\n'
             + ('Recorded block or failure reasons: '+', '.join(dependencies)+'.\n\n' if dependencies else 'No named dependency was supplied; this does not prove all work is unblocked.\n\n')
@@ -220,6 +234,7 @@ def finalize(root, source, day, receipts, amendment_of=None):
     if amendment_of is not None:
         queue.status(amendment_of)
     immutable(queue.root/(receipt_hash+'.receipts.json'), receipt_bytes)
+    if context_bytes is not None:immutable(queue.root/(digest(context_bytes)+'.context.json'),context_bytes)
     immutable(queue.root/(report_id+'.md'), body.encode())
     queue.db.execute("INSERT OR IGNORE INTO reviews(id,source,report_sha256,status) VALUES(?,?,?,'QUEUED')", (report_id, source, report_id))
     return queue.status(report_id)

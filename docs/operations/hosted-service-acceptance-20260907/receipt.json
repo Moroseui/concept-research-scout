@@ -1,0 +1,94 @@
+{
+  "source": "6863968863ddfb1d82b25c7b358857e666c950a5",
+  "first": {
+    "coordinator_outcome": {
+      "status": "BLOCKED",
+      "task": "46f92feebb9d8475b2f979aa0d6225deaf1226b76fc71917858d64554920bafa"
+    },
+    "kind": "SUPERVISED_SERVICE_ACCEPTANCE",
+    "ledger_count_after": 1,
+    "ledger_count_before": 0,
+    "live_activation": false,
+    "model_calls": [
+      {
+        "actual_model": null,
+        "duplicate": false,
+        "receipt_sha256": "387c03a1c68d3a72daef2abd53eb9ef1ab9ef394fd4992c1019d34030ba5d046",
+        "requested_model": "gpt-6-astra",
+        "session_id": "01a079f0-3295-7cf1-a27d-2678e6e5533e",
+        "stage": "continuation"
+      },
+      {
+        "actual_model": "claude-fable-5",
+        "duplicate": false,
+        "receipt_sha256": "5d3536e229d5dd4541bac7cc4bc1037d8b8f794493b43fdc9b27b6e3eee885ad",
+        "requested_model": "claude-fable-5",
+        "session_id": "350626b9-899d-4a88-aeea-aef8eb7cb9ee",
+        "stage": "review"
+      },
+      {
+        "actual_model": null,
+        "duplicate": false,
+        "receipt_sha256": "a2deaccb190c5581e59491a917ff64d2d822589af1b47f316619779898650705",
+        "requested_model": "gpt-6-astra",
+        "session_id": "01a079f1-221d-7713-89d8-40e4508b3134",
+        "stage": "disposition"
+      }
+    ],
+    "patient_execution": false,
+    "phase": "first",
+    "resources": {
+      "cgroup": {
+        "cpu.max": "100000 100000",
+        "memory.max": "536870912",
+        "pids.max": "32"
+      },
+      "no_new_privileges": "1",
+      "uid": 997
+    },
+    "source": "6863968863ddfb1d82b25c7b358857e666c950a5",
+    "status": "PASS",
+    "wall_seconds": 78.44030748399382
+  },
+  "recover": {
+    "coordinator_outcome": {
+      "status": "COMPLETE",
+      "task": "46f92feebb9d8475b2f979aa0d6225deaf1226b76fc71917858d64554920bafa"
+    },
+    "kind": "SUPERVISED_SERVICE_ACCEPTANCE",
+    "ledger_count_after": 1,
+    "ledger_count_before": 1,
+    "live_activation": false,
+    "model_calls": [],
+    "patient_execution": false,
+    "phase": "recover",
+    "resources": {
+      "cgroup": {
+        "cpu.max": "100000 100000",
+        "memory.max": "536870912",
+        "pids.max": "32"
+      },
+      "no_new_privileges": "1",
+      "uid": 997
+    },
+    "source": "6863968863ddfb1d82b25c7b358857e666c950a5",
+    "status": "PASS",
+    "wall_seconds": 0.1015217580134049
+  },
+  "private_original_archive_sha256": "5c80845cd1551c61a96717733ceb54962c7f8221544dff0ed1f90244a616f547",
+  "original_consoles_preserved": true,
+  "private_originals_not_published": true,
+  "broker_restart": {
+    "source": "6863968863ddfb1d82b25c7b358857e666c950a5",
+    "unit": "research-system-handover-acceptance-recover-6863968",
+    "returncode": 0,
+    "broker_pid_before": "228837",
+    "broker_pid_after": "230927",
+    "timer_enabled": false
+  },
+  "limitations": [
+    "Supervised fixture, not live limiter/writer or unattended activation.",
+    "Astra model is explicitly requested; CLI receipts do not independently report its actual model.",
+    "The first launch failed before Python; original failed unit and setup evidence are preserved."
+  ]
+}

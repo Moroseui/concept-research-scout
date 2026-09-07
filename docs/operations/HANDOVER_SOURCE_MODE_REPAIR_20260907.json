@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "returncode": 0,
+  "source": "6863968863ddfb1d82b25c7b358857e666c950a5",
+  "bytes_unchanged": true,
+  "executable_bits_preserved": true,
+  "model_calls": 0,
+  "predecessor": {
+    "unit": "research-system-handover-acceptance-first-6863968",
+    "exit_status": 200,
+    "status": "CHDIR_FAILED_BEFORE_PYTHON",
+    "model_turns_observed": 0,
+    "original_unit_preserved": true
+  },
+  "scope": "Inspected immutable source permissions only; no state, credential or evidence mode changes."
+}

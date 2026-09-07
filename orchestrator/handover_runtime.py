@@ -91,7 +91,7 @@ class Runtime:
         return response
 
     def enqueue_report(self,day,receipts,task_state,reviewer_evidence=None):
-        finalized=finalize(self.state/'reports',self.config['source'],day,receipts)
+        finalized=finalize(self.state/'reports',self.config['source'],day,receipts,task_state=task_state)
         report={'id':finalized['id']}
         packet={'jobs':receipts,'trigger':'scheduled-report','decision_inbox':task_state}
         if reviewer_evidence is not None:packet['reviewer_evidence']=reviewer_evidence

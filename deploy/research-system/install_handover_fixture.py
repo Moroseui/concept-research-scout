@@ -29,6 +29,21 @@ def validate_members(bundle):
         if not (item.isfile() or item.isdir()):raise ValueError('SOURCE_ARCHIVE_TYPE')
 
 
+def readable_source(root):
+    """Expose inspected code to non-root roles without changing tracked exec bits.
+
+    This applies only to the root-owned source snapshot, never state/configuration,
+    credentials or evidence. A private preparing-user umask must not make installed
+    code inaccessible. Refuse links and special files before changing any modes.
+    """
+    paths=[Path(root),*Path(root).rglob('*')]
+    if any(p.is_symlink() or not (p.is_dir() or p.is_file()) for p in paths):
+        raise ValueError('REGULAR_SOURCE_TREE_REQUIRED')
+    for path in paths:
+        mode=0o755 if path.is_dir() or path.stat().st_mode & 0o111 else 0o644
+        os.chmod(path,mode)
+
+
 def install(source, archive, expected_sha256):
     if os.getuid()!=0 or not re.fullmatch('[0-9a-f]{40}',source):
         raise ValueError('SETUP_ADMIN_AND_PIN_REQUIRED')
@@ -60,6 +75,7 @@ def install(source, archive, expected_sha256):
         validate_members(bundle)
         bundle.extractall(release,filter='data')
     root=release/'snapshot'
+    readable_source(root)
     sys.path.insert(0,str(root))
     from orchestrator.remote_supervisor import checked_source
     from orchestrator.hosted_context import build
