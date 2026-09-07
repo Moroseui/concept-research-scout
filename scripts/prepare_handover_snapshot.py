@@ -36,6 +36,7 @@ def prepare(root, source, destination):
     names.update(n for n in tree if n.startswith('orchestrator/') and n.endswith('.py'))
     names.update(n for n in tree if n.startswith('deploy/research-system/') and n.endswith(('.service','.socket','.timer')))
     names.add('scripts/verify_handover_service.py')
+    names.add('scripts/verify_protected_intake.py')
     proposal = 'campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1'
     receipt = json.loads(git('show', source+':'+proposal+'/receipt.json'))
     names.add(proposal+'/receipt.json')
