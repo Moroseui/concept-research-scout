@@ -1,0 +1,9 @@
+[Unit]
+Description=Research-system deterministic worker polling
+[Timer]
+OnBootSec=10s
+OnUnitInactiveSec=5s
+AccuracySec=1s
+Unit=research-system-worker.service
+[Install]
+WantedBy=timers.target

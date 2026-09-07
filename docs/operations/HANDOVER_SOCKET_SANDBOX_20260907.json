@@ -1,0 +1,18 @@
+{
+  "kind": "HOSTED_READONLY_UNIX_SOCKET_TEST",
+  "returncode": 0,
+  "connected": true,
+  "protect_system": "strict",
+  "private_network": true,
+  "read_write_exception": false,
+  "model_calls": 0,
+  "patient_execution": false,
+  "reviewed_source": "35d48fbdb58b8920f02e3eb7a68470bc67635505",
+  "scope": "Standalone synthetic transport only; no broker/model service acceptance",
+  "first_attempt": {
+    "status": "FAILED_TEST_DIRECTORY_NOT_TRAVERSABLE",
+    "directory_mode": "0700",
+    "originals_preserved_on_server": true
+  },
+  "review_finding_disposition": "Read-only mount concern not reproduced; retain ProtectSystem=strict without a new writable socket-path exception."
+}

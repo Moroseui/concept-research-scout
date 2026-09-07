@@ -1,0 +1,31 @@
+{
+  "id": "human-idea-context-design",
+  "status": "RECORDED_DESIGN_TASK_NOT_ADOPTED",
+  "operator_source": "6 September 2026 clarification and supplied ROADMAP v2 excerpt",
+  "parent_task": "cross-charter-evidence-propagation",
+  "canonical_authority": "docs/operations/REMOTE_OPERATING_DIRECTION.md",
+  "design_hypothesis": "Scientific questions relate to broader areas through parent and cross-links; an idea may contribute by resolving evidenced uncertainty in any relevant context.",
+  "distinctions": {
+    "context": "Scientific landscape, unresolved questions, assumptions, sources and relationships; descriptive, not an experimental prescription.",
+    "charter": "Chosen objectives, scope and evaluation criteria; informal discussion does not require a new charter.",
+    "scientific_blocker": "Unresolved scientific question or assumption with supporting sources, last checked date and observable evidence of progress.",
+    "operational_dependency": "Access, authentication, server, resource or permission dependency; tracked separately from scientific merit."
+  },
+  "stages": [
+    {"handler": "campaign_pipeline discuss", "artifact": "reviewed design proposal", "action": "Inventory existing context index, librarian, grounding, charter, human controls and lifecycle. Assess the smallest intake and linked-context extension; demonstrate prediction plus an explicitly human-origin suggestion."},
+    {"handler": "campaign_pipeline discuss opposing Claude review", "artifact": "review.json and source-bound stage receipts", "action": "Assess contribution, validity, information gain, uncertainty, resources, assumption-challenging ideas, non-prescriptive context and human usability."},
+    {"handler": "implementation after proposal review", "artifact": "bounded shared intake/context adapter and tests", "action": "Preserve human origin, prior work, successor questions and task/source versions through debate, critique, revision, feasibility and experimental review. No automatic adoption."}
+  ],
+  "constraints": [
+    "No automatic score for keywords, parent linkage or consensus blocker proximity.",
+    "Scoring or charter changes are explicit proposals, not ratified by this task.",
+    "Retain existing campaign limits, frozen evidence and all named authority gates.",
+    "Verify specific philosophical attributions before using them; no named framework is required.",
+    "Supplied roadmap status and philosophical claims are historical assertions, not current verification or new permissions.",
+    "Later remote-server authorization supersedes the historical roadmap's no-server preference.",
+    "No complete context architecture prerequisite for P001 or other eligible scientific desk work."
+  ],
+  "execution_requirements": "Metadata/document-only system author/review using existing subscriptions; no patient access or new provisioning.",
+  "migration_status": "Pending explicit task-amendment route; do not mutate the existing three immutable server task bindings. Include this linked task in the next migrated queue/report update.",
+  "suggestion_provenance": "Use an actual operator-supplied suggestion with attribution; do not invent a human-origin scientific idea."
+}

@@ -29,6 +29,7 @@ class PublicationTests(unittest.TestCase):
             req={'source':source,'before':before,'destination':'feature/synthetic','remote':str(remote),'inventory':inventory}
             with self.assertRaisesRegex(ValueError,'AUTHORITY'):pub.publish(repo,req)
             authority={k:req[k] for k in ['source','before','destination','remote']}
+            git('config','remote.origin.pushurl',str(root/'wrong.git'))
             r=pub.publish(repo,req,authority);self.assertEqual(r['blob_versions'],1)
             (repo/'secret.txt').write_text('ghp_'+'A'*32);git('add','.');git('commit','-qm','unsafe')
             git('rm','-q','secret.txt');git('commit','-qm','delete before tip')
@@ -41,7 +42,9 @@ class PublicationTests(unittest.TestCase):
             raw.assert_not_called()
 
     def test_metadata_and_case_payload_scans(self):
-        for name,data in [('raw.json',b'{"case":"sub-stroke0123"}'),('payload.csv',b'synthetic'),('x.nii.gz',b'synthetic')]:
+        for suffix in ['.py','.md','.ipynb','.yml','.toml','.sh','.service','.socket']:
+            with self.assertRaises(ValueError):pub.scan('record'+suffix,('sub-stroke'+'0123').encode())
+        for name,data in [('raw.json',b'{"case":"sub-stroke'+b'0123"}'),('payload.csv',b'synthetic'),('x.nii.gz',b'synthetic')]:
             with self.assertRaises(ValueError):pub.scan(name,data)
         with self.assertRaisesRegex(ValueError,'COMMIT_METADATA'):
             pub.scan_commit(b'message '+b'ghp_'+b'A'*32)
@@ -53,3 +56,145 @@ class PublicationTests(unittest.TestCase):
         for kind in ['', 'RSA ', 'OPENSSH ', 'EC ']:
             with self.assertRaisesRegex(ValueError,'CONTENT_REJECTED'):
                 pub.scan('bad.txt',('-----'+'BEGIN '+kind+'PRIVATE KEY-----').encode())
+
+class CreationTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        self.root=Path(self.tmp.name)/'work';self.root.mkdir()
+        self.remote=Path(self.tmp.name)/'remote.git'
+        self.run_git('init','-q');self.run_git('config','user.name','Synthetic')
+        self.run_git('config','user.email','fixture@local.invalid')
+        (self.root/'README.md').write_text('public baseline')
+        self.run_git('add','.');self.run_git('commit','-qm','baseline')
+        self.base=self.run_git('rev-parse','HEAD')
+        subprocess.run(['git','init','-q','--bare',str(self.remote)],check=True)
+        self.run_git('remote','add','origin',str(self.remote))
+        self.run_git('push','-q','origin',self.base+':refs/heads/main')
+        (self.root/'README.md').write_text('permitted record')
+        self.run_git('commit','-qam','record')
+        self.ref='refs/heads/astra/record'
+
+    def run_git(self,*args):
+        return subprocess.check_output(['git',*args],cwd=self.root,text=True).strip()
+
+    def request(self):
+        source=self.run_git('rev-parse','HEAD');inventory={}
+        for commit in self.run_git('rev-list',self.base+'..'+source).splitlines():
+            for name in self.run_git('diff-tree','--no-commit-id','--name-only','-r',commit).splitlines():
+                if subprocess.run(['git','cat-file','-e',commit+':'+name],cwd=self.root,capture_output=True).returncode==0:
+                    data=subprocess.check_output(['git','show',commit+':'+name],cwd=self.root)
+                    inventory[commit+':'+name]=hashlib.sha256(data).hexdigest()
+        return {'operation':'create','source':source,'audit_baseline':self.base,
+                'baseline_ref':'refs/heads/main','destination':'astra/record',
+                'remote':str(self.remote),'expected_destination':'absent','inventory':inventory}
+
+    def publish(self,req=None):
+        req=self.request() if req is None else req
+        return pub.publish(self.root,req,{k:v for k,v in req.items() if k!='inventory'})
+
+    def test_create_and_verify_with_separate_public_baseline(self):
+        # A configured pushurl must not redirect this exact-repository operation.
+        self.run_git('config','remote.origin.pushurl',str(Path(self.tmp.name)/'wrong.git'))
+        r=self.publish()
+        self.assertEqual(r['audit_baseline'],self.base)
+        self.assertEqual(r['operation'],'create_if_absent')
+        self.assertTrue(r['remote_verified'])
+        self.assertEqual(self.run_git('ls-remote',str(self.remote),self.ref).split()[0],r['source'])
+        with self.assertRaisesRegex(ValueError,'DESTINATION_ALREADY_EXISTS'):self.publish()
+
+    def test_existing_other_tip_is_preserved(self):
+        self.run_git('push','-q','origin',self.base+':'+self.ref)
+        with self.assertRaisesRegex(ValueError,'DESTINATION_ALREADY_EXISTS'):self.publish()
+        self.assertEqual(self.run_git('ls-remote','origin',self.ref).split()[0],self.base)
+
+    def test_concurrent_creation_never_updates_or_claims_success(self):
+        for same_source in (False,True):
+            with self.subTest(same_source=same_source):
+                req=self.request();other=req['source'] if same_source else self.base
+                original=pub.git;attempts=[]
+                def raced(root,*args,**kw):
+                    if args[0]=='push':
+                        attempts.append(args)
+                        self.run_git('push','-q','origin',other+':'+self.ref)
+                    return original(root,*args,**kw)
+                with patch.object(pub,'git',side_effect=raced):
+                    expected=ValueError if same_source else subprocess.CalledProcessError
+                    with self.assertRaises(expected):self.publish(req)
+                self.assertEqual(len(attempts),1)
+                self.assertIn('--force-with-lease='+self.ref+':',attempts[0])
+                self.assertEqual(self.run_git('ls-remote','origin',self.ref).split()[0],other)
+                # Dispose only this synthetic fixture ref for the second case.
+                subprocess.run(['git','--git-dir='+str(self.remote),'update-ref','-d',self.ref],check=True)
+
+    def test_deleted_unsafe_history_rejected_before_creation(self):
+        (self.root/'secret.txt').write_text('ghp_'+'A'*32)
+        self.run_git('add','.');self.run_git('commit','-qm','unsafe intermediate')
+        self.run_git('rm','-q','secret.txt');self.run_git('commit','-qm','remove')
+        with self.assertRaisesRegex(ValueError,'CONTENT_REJECTED'):self.publish()
+        self.assertFalse(self.run_git('ls-remote','origin',self.ref))
+
+    def test_operation_inventory_and_baseline_bindings_fail_closed(self):
+        req=self.request()
+        with self.assertRaisesRegex(ValueError,'AUTHORITY'):pub.publish(self.root,req,{})
+        for field,value,error in [('audit_baseline',req['source'],'PUBLIC_AUDIT_BASELINE_CHANGED'),
+                                  ('expected_destination',self.base,'EXPECTED_ABSENCE_REQUIRED'),
+                                  ('remote',str(self.remote)+'-other','REMOTE_IDENTITY_CHANGED'),
+                                  ('destination','../main','INVALID_DESTINATION'),
+                                  ('inventory',{},'INVENTORY_MISMATCH')]:
+            with self.subTest(field=field):
+                bad={**req,field:value}
+                with self.assertRaisesRegex(ValueError,error):self.publish(bad)
+        self.assertFalse(self.run_git('ls-remote','origin',self.ref))
+
+class UnusualPathTests(CreationTests):
+    def test_glob_shaped_unsafe_filename_is_never_skipped(self):
+        for name in ['results[1].md', 'a\\b.md', ':(glob)x.md']:
+            with self.subTest(name=name):
+                before=self.run_git('rev-parse','HEAD')
+                (self.root/name).write_text('ghp_'+'A'*32)
+                self.run_git('add','--all');self.run_git('commit','-qm','unusual unsafe fixture')
+                with self.assertRaisesRegex(ValueError,'CONTENT_REJECTED'):pub.audit(self.root,self.run_git('rev-parse','HEAD'),before,{})
+                (self.root/name).unlink()
+    def test_pattern_shaped_symlink_mode_is_checked_on_exact_entry(self):
+        (self.root/'1.md').write_text('safe regular fixture')
+        (self.root/'[1].md').symlink_to('1.md')
+        self.run_git('add','--all');self.run_git('commit','-qm','unusual symlink fixture')
+        with self.assertRaisesRegex(ValueError,'NON_REGULAR'):pub.audit(self.root,self.run_git('rev-parse','HEAD'),self.base,{})
+
+class HistoricalEvidenceTests(unittest.TestCase):
+    def test_only_exact_public_prefix_is_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            def git(*args):return subprocess.check_output(['git',*args],cwd=root).decode().strip()
+            git('init','-q');git('config','user.name','Synthetic');git('config','user.email','fixture@local.invalid')
+            p=root/'evidence/decisions.md';p.parent.mkdir()
+            original=('Historical public record '+'sub-stroke'+'0123'+'\n').encode();p.write_bytes(original)
+            git('add','.');git('commit','-qm','already public fixture');base=git('rev-parse','HEAD')
+            with patch.object(pub,'PUBLIC_DECISION_BASELINE',base),patch.object(pub,'PUBLIC_DECISION_SHA256',hashlib.sha256(original).hexdigest()):
+                pub.scan_history_blob(root,base,'evidence/decisions.md',original+b'Sanitized append.\n')
+                for name,data in [('evidence/decisions.md',original+original),('evidence/decisions.md',b'changed '+original),('elsewhere.md',original),('evidence/decisions.md',original+('ghp_'+'A'*32).encode())]:
+                    with self.assertRaises(ValueError):pub.scan_history_blob(root,base,name,data)
+                with self.assertRaises(ValueError):pub.scan('evidence/decisions.md',original)
+
+    def test_historical_prefix_without_line_boundary_refuses(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            original=('Historical '+'sub-stroke'+'0123').encode()
+            with patch.object(pub,'PUBLIC_DECISION_SHA256',hashlib.sha256(original).hexdigest()),patch.object(pub,'git',return_value=original),patch.object(pub.subprocess,'run',return_value=subprocess.CompletedProcess([],0)):
+                with self.assertRaises(ValueError):pub.scan_history_blob(Path(tmp),'a'*40,'evidence/decisions.md',original+b'45')
+
+class HistoricalFixtureTests(unittest.TestCase):
+    def test_only_single_exact_public_test_line_survives_in_old_commits(self):
+        original=('fixture = "sub-stroke'+'0123"\n').encode()
+        with tempfile.TemporaryDirectory() as tmp,patch.object(pub,'PUBLIC_FIXTURE_SHA256',hashlib.sha256(original).hexdigest()),patch.object(pub,'git',return_value=original),patch.object(pub.subprocess,'run',return_value=subprocess.CompletedProcess([],0)):
+            pub.scan_history_blob(Path(tmp),'a'*40,'tests/test_git_publication.py',b'# before\n'+original+b'# after\n')
+            for name,data in [('tests/test_git_publication.py',original+original),('tests/test_git_publication.py',original+('x="sub-stroke'+'9876"').encode()),('other.py',original)]:
+                with self.assertRaises(ValueError):pub.scan_history_blob(Path(tmp),'a'*40,name,data)
+        for name in [('sub-stroke'+'0123.py'),('ghp_'+'A'*32+'.md'),'line\nname.md']:
+            with self.assertRaisesRegex(ValueError,'PATH_CONTENT'):pub.scan(name,b'')
+
+    def test_exact_reviewed_synthetic_report_fixture_only(self):
+        root=Path(__file__).resolve().parents[1]
+        raw=(root/'tests/test_operations_report.py').read_bytes()
+        pub.scan_history_blob(root,'a'*40,'tests/test_operations_report.py',raw)
+        with self.assertRaises(ValueError):pub.scan_history_blob(root,'a'*40,'other.py',raw)
+        with self.assertRaises(ValueError):pub.scan_history_blob(root,'a'*40,'tests/test_operations_report.py',raw+b'# changed')

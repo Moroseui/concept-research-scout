@@ -1,0 +1,123 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "540e26f52ead7b41d98598011200b5b9dca5b1d1",
+    "returncode": 0,
+    "wall_seconds": 400.68405743900803,
+    "input_file_sha256": {
+      "orchestrator/completion_bridge.py": "2c6426f046dac0eaa89f01c8c55b201cb0f6c6676753a62925434e49a05a0748",
+      "orchestrator/handover_runtime.py": "87a06ab57c81b3d4cff759a1cc85a71af7d68360a22826cab3c7ebe5419a285e",
+      "orchestrator/handover_coordinator.py": "d07ca14235e6339b53ac8185e32e0a40f590d0d475debf8af42c62256c62677f",
+      "orchestrator/hosted_cycle.py": "4dee7d124ec132d96e981d2d7729a4863a2bc0d162605acf6df2e26c23bab4e1",
+      "orchestrator/protected_handover.py": "f27941f506698acf6b39c530a57ac4f30a3e8b024063536c5cb5fe59e5d24c1a",
+      "orchestrator/protected_writer.py": "f064bb30432b77f0bb66739db4bf9fa12ef6e94a460a428d2b8f75ed7fe03f80",
+      "orchestrator/dispatch_limiter.py": "7bf3f1567242a659411ae11494ceffa7fc9b705dd17f14d0ae831bcdd60dc070",
+      "orchestrator/remote_supervisor.py": "06c0ee427d97e6be518e8ad037b46c09cc9f97b021cb848f67f2f007e7affcff",
+      "orchestrator/job_store.py": "c5767007f1d9bebcbd93faf2d8671d27d12a823665379c0c36479bc62e7df071",
+      "orchestrator/operations_report.py": "3fd4fd4a652e53706ff2b78d3faeafb043cb6d327c5b7e0e412bbf540f96065f",
+      "orchestrator/reviewer_evidence.py": "db45cd3c0ed6d2c2d0975303cce35167ba087eaaa09293f4095f03ff7835dcc9",
+      "orchestrator/hosted_context.py": "13691305ca5b8a8e8ccd146888a4674f58a497260062b0136920676ecc6d7d78",
+      "orchestrator/publication_candidate.py": "b3db02239c7a7e733805bfc0d80b13a8e86d5366cad04975ebd4cf26cebbf107",
+      "tests/test_completion_bridge.py": "b1bbd2e4588bae4a9b2dd94d50fd927225dfbe8a1a5904f1479310d4c9f0ea36",
+      "tests/test_handover_runtime.py": "9650036c228a7ff0d227edcd2d3a0389a5a84066da69ba5658c23a0527a47125",
+      "tests/test_handover_coordinator.py": "c5f75d73721545d661a8c9355fdc9bb3ac036c3287e3bd51f7f2a7272b80fe2e",
+      "tests/test_protected_handover.py": "44800f7d4f46ff4474e843aa10f316d002101522a87e806cbbe413a360043dba",
+      "deploy/research-system/research-system-handover-controller.service": "2e2114f02e5dec29fd7719fa2a213d8230dbad3d544ab8400dd0f0d5bf077a37",
+      "deploy/research-system/research-system-handover.service": "98cc5f78b2e9ba48099b7ebb82be322e2a71a07dc4c28606e1ae0f92bc272f47",
+      "deploy/research-system/research-system-handover.socket": "d76585377fff037fa6aaa7752cff382fcd973d61f083edda807dcb630f7b028a",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md": "dc33b4af48e592ea2ae2093d8eb4f5efdf861f6fde4d2ae02fa86c4d5e2e897e",
+      "docs/operations/hosted-service-acceptance-20260907/receipt.json": "7886c87a4700213fdfa3a408965dbbe80081c23faf036564ee8b995213899271",
+      "docs/operations/hosted-service-acceptance-20260907/protected-intake.json": "c50f15d486933a13434a4934897236a3e33d4ea64363d64c3bf8411a056ea06e"
+    },
+    "response_sha256": "e3a170a6a25eeba2283731044a2cfc9ec6ab442450afc84e12206124d498878e",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "990cdb7fd9aa49ca6bc680771cb59ff3b5e6f4c193bd4c359e21e96ec5b031c5"
+  },
+  "review": {
+    "scope": "handover-completion-bridge",
+    "reviewed_commit": "540e26f52ead7b41d98598011200b5b9dca5b1d1",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (authority): dispatch is bounded to the configured synthetic successor \u2014 advance() hardcodes Controller.submit with kind='synthetic_success'/backend='linux' at the pinned source, and both finish() and advance() re-derive the expected proposal from the root-owned installed config, failing closed (SYNTHETIC_PROPOSAL_CHANGED) on any drift. The model can only echo the configured successor id or decline (task_id null); select_next re-validation at dispatch time rejects everything else. Successors map to None in ingest()'s allowed set and the constructor rejects duplicates/cycles, so chains are bounded to one hop; FAILED predecessors get review tasks but never proposals; scheduled-report evidence cannot inject an execution_proposal and finish() no-ops without a matching completion_ingest row.",
+      "VERIFIED (recovery/idempotency): durable intent (immutable .selected-dispatch.json plus selected_dispatch row) precedes submission; Controller.register rejects changed bindings and deduplicates identical resubmission after a lost response, so the 3-attempt ceiling (then durable BLOCKED) cannot mint a second job identity. Pause is checked under admission.lock \u2014 the same lock control() takes \u2014 so pause cannot race a submission. Missing/changed evidence (absent receipts, tampered consoles, changed intent file) lands in blocks or reconciliation states, never re-execution, and one bad pair does not block the other.",
+      "VERIFIED (privacy): model packets carry hash-bound completion receipts (console_sha256 digests, never console bytes), and the model-authored selection text (selected_dispatch.binding) is excluded from status() and from the scheduled-report selected_work projection. No patient/scientific dispatch surface exists in this route and existing gates are not referenced or weakened.",
+      "SUGGESTION (fail-closed race in finish()): a declined selection is inserted as status='INTENT' and only afterwards updated to 'DECLINED' in separate autocommit statements without admission.lock; a concurrent advance() can observe the transient INTENT row. It cannot dispatch (select_next rejects task_id null) but it consumes durable attempts and can transiently mark the row BLOCKED before the DECLINED overwrite. Smallest fix: insert with the final status, or perform insert-and-decide in one transaction.",
+      "SUGGESTION (availability): sqlite3 exceptions escape every handler \u2014 ingest, advance, bookkeeping, and the tick phase wrapper catch only (ValueError, KeyError, TypeError, OSError). If the execution state DB is rebuilt and a configured job completes under a new attempt id, completion_ingest's UNIQUE(job) raises sqlite3.IntegrityError, which escapes both handlers and crashes every subsequent tick \u2014 a persistent fail-closed outage instead of a recorded completion_block. Smallest fix: add sqlite3.Error to the caught tuples or map IntegrityError to the reconciliation block.",
+      "SUGGESTION (artifact litter): ingest() binds the report day to datetime.now(utc) per attempt while enqueue_report/finalize write immutable report/task files and a QUEUED reviews row before the coordinator COMMIT; a crash inside the transaction plus a retry on a later UTC day permanently orphans the earlier report, its tasks/<id> directory, and an unclaimable review row. No authority leaks; derive the day from the verified completion event or document/collect orphans.",
+      "NOTE (as designed): finish() marks the wake and completion_ingest PROCESSED even when the first submission attempt fails; the pending/blocked dispatch stays visible via selected_dispatch in status() and scheduled reports, preserving operator visibility."
+    ]
+  },
+  "session_id": "981e468a-cc0c-4c30-91cf-6a87103e4eb4",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 95683,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 29756,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 95683,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 29756,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 95683,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 95683
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 63623,
+      "outputTokens": 18,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.063713,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 29756,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 95683,
+      "webSearchRequests": 0,
+      "costUSD": 3.4014800000000003,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "total_cost_usd_reported": 3.465193,
+  "independent_merge_desk_review": false,
+  "investigator_notes": [
+    "Approval covers reviewed source, not hosted installation or activation.",
+    "The suggested UNIQUE(job) failure scenario is an inference: the existing prior-job check normally skips that insertion. General SQLite errors were nevertheless not caught; follow-up records those failures and explicitly detects changed completion identity.",
+    "Follow-up stores declines in their final state and retains first-observation evidence across report retries. No prior scientific approval or completed model receipt is relabeled."
+  ]
+}

@@ -1,0 +1,117 @@
+[
+  {
+    "execution": {
+      "reviewed_commit": "044351836c78dbff31c62eb136d799056ab7be03",
+      "returncode": 0,
+      "wall_seconds": 217.86527597100212,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "33526a339598e7121930510628ea61633f7100d8fd6b405dc57726c17ebf8135",
+        "tests/test_hosted_cycle.py": "919a24a8bde0c315af065b88d5572e528e866366aaa4151ed03d387b403ec53e",
+        "orchestrator/operations_report.py": "de5c65278d7663216326ea6b047652017fa13b9dc04bb1c64cffc3c39ca859b7"
+      },
+      "response_sha256": "b685e35771c75c8dc7ebf4e4065c4f0d60fc25a383a6a7345787fddcc996c246",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "a7ec5fb3fc495e24e7e2e30c08d6987aab39dd06fbb3d3895cd577d38af09306"
+    },
+    "result": {
+      "scope": "supervised-hosted-cycle",
+      "reviewed_commit": "044351836c78dbff31c62eb136d799056ab7be03",
+      "verdict": "REQUEST_CHANGES",
+      "findings": [
+        "hosted_cycle.run: path traversal via unvalidated state-DB names \u2014 row['attempt_id'] is joined into Path(outputs) and into destination (the cycle folder later mkdir'd and written by root), and event['console_sha256'] keys are joined under the attempt dir, all without charset validation; a hostile/corrupt jobs.sqlite or event payload can place 0700 cycle artifacts outside the private destination (e.g. '../x') and hash-check arbitrary root-readable files (block/proceed content oracle). Validate attempt_id and console names with the identifier() pattern before any path join.",
+        "hosted_cycle.checked_packet ordering: packet['jobs'] embeds raw Controller.status() rows and is dispatched to Astra in the 'continuation' call before finalize() applies sanitized()'s field whitelist, so extra/sensitive row fields leak to external model APIs and schema violations are detected only after first dispatch. Sanitize rows before checked_packet and pass sanitized rows to finalize.",
+        "operations_report.immutable / hosted_cycle.claim: file data is fsynced but the containing directory entry (and the freshly created cycle folder) is not, so the 'durable before dispatch' guarantee for binding.json can be violated by a crash/power loss after dispatch began; fsync the parent directory after create.",
+        "hosted_cycle.claim: a crash between folder.mkdir and the binding.json write leaves a folder whose subsequent claims raise a bare FileNotFoundError instead of the reconciliation sentinel; fail-closed but unlabelled \u2014 treat missing binding.json as INCOMPLETE_CYCLE_RECONCILE.",
+        "hosted_cycle.run: Queue.claim can return None (unexpected status or attempts exhausted), after which review_claim['attempt_id'] fails with TypeError; fail-closed but should raise a labelled error.",
+        "hosted_cycle.model_call: CLI flags ('--tools \\'\\'', '--permission-mode dontAsk' for claude; codex config flags) need verification against deployed CLI versions; an invalid flag exits nonzero and blocks the cycle (safe, no fallback), but acceptance would stall \u2014 source-only note, no execution performed.",
+        "Verified sound: per-stage Claude model-identity check with hard mismatch failure; hash-bound receipts and Queue.attach transactional re-verification of source/report/review bindings; reconcile-never-retry recovery (claim sentinel, blocked.json, unavailable requiring exact stale attempt); root used only as setup transport with model processes dropped to dedicated users under env -i; report and prompts preserve reserved scientific decisions and assert no patient execution or unattended activation."
+      ]
+    },
+    "session_id": "ecb6eb82-4169-4ffd-8fd0-4edfb2bda51b",
+    "role": "author-operated implementation review, not independent main merge review",
+    "originals": "preserved privately",
+    "reported_total_cost_usd": 1.1150379999999998
+  },
+  {
+    "execution": {
+      "reviewed_commit": "95596dd8434f9c27625f6aeb5489e24fb764a93c",
+      "returncode": 0,
+      "wall_seconds": 416.5465817410004,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "5c1819f250185feeb0593b0cb0e90e75257a2ecf7557f6e91ea34532482708c1",
+        "tests/test_hosted_cycle.py": "ffb3d121f1bd2c71b94f7dc76f2cd401ff8582e07bad12fe0ce6af29d97d6427",
+        "orchestrator/operations_report.py": "de5c65278d7663216326ea6b047652017fa13b9dc04bb1c64cffc3c39ca859b7"
+      },
+      "response_sha256": "565bcd2b638546649d30d2b5a8e12e31e89b6209be185abae8b60ecdcf928bbb",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-opus-4-8"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-opus-5"
+      ],
+      "protocol_sha256": "db230ab1fb55cd3e51d12672f57591e29ff33afe6ac1cf492045dc581965798d"
+    },
+    "result": {
+      "scope": "supervised-hosted-cycle-revision (orchestrator/hosted_cycle.py, orchestrator/operations_report.py, tests/test_hosted_cycle.py); source-only review, no tools/tests executed",
+      "reviewed_commit": "95596dd8434f9c27625f6aeb5489e24fb764a93c",
+      "verdict": "REQUEST_CHANGES",
+      "findings": [
+        "PRIMARY (privacy/authority, fail-open boundary) \u2014 orchestrator/hosted_cycle.py, model_call(): the Astra answer is read as root via `answer = (work/'answer.md').read_text()`, where `work` under /home/research-driver was just os.chown'd to the unprivileged research-driver account. This read follows symlinks and has NO is_symlink()/owner/regular-file guard, unlike every other cross-boundary read in the codebase (checked_packet, the console_sha256 loop, synthetic-result.txt, Queue.attach report_path, immutable). If any process running as research-driver replaces answer.md with a symlink during the <=240s window, root ingests arbitrary root-readable file contents as the 'answer', which is then persisted (stage.md) and injected into the Claude review prompt \u2014 an arbitrary-file-read/exfil path that contradicts the system's own untrusted-account posture. Claude's branch avoids this by taking its answer from root-captured stdout. Fix: open with O_NOFOLLOW / verify st_uid==0 and regular file, or capture the Astra answer from root-owned stdout instead of the model-writable work dir. (Practical exploitability is reduced by the codex read-only sandbox, but the boundary itself is fail-open.)",
+        "SECONDARY (identity binding) \u2014 model_call() never verifies Astra's resolved model: actual_model stays None while the receipt stamps model_evidence='Exact requested model; protocol may omit resolved model identity'. The Claude branch enforces models == {MODELS['claude']} (CLAUDE_MODEL_MISMATCH); Astra has no equivalent check. Astra carries no grant authority and actual_model=None is honest, so this is disclosed rather than a false grant, but the assertive 'Exact requested model' wording overclaims what was actually verified. Recommend softening the string or capturing whatever model/thread identity codex does emit.",
+        "MINOR (integrity binding) \u2014 the Astra answer stored as <stage>.md and forwarded to the next model is not bound to the process receipt: the receipt hashes stdout/stderr/input but not answer.md, and answer.md is a separate file from the turn.completed stdout events. A truncated or inconsistent -o write would go undetected. Low risk given the single-writer flow, but consider hashing answer.md into the receipt for symmetry with the stdout-derived Claude answer.",
+        "POSITIVE (verified as sound) \u2014 recovery/artifact/authority invariants hold: claim() is durable-before-dispatch with binding-conflict detection and INCOMPLETE fail-closed (no automatic retry); complete.json gives idempotent short-circuit; blocked.json is written on any BaseException without complete.json so reconcile never auto-retries; synthetic-only enforcement via kind=='synthetic_success', PAYLOAD equality, and per-file console_sha256 pinning (all with symlink guards); private_root enforces owner-only non-symlink roots; immutable writes are content-addressed and fsync'd with parent-dir sync; the Queue state machine (claim/attach/unavailable/disposition) uses BEGIN IMMEDIATE with fail-closed STALE/REVIEW_REQUIRED transitions and attempts<=3; the Claude review is bound to source+report_sha256+review_sha256 with report-bytes re-verification; finalize never asserts scientific progress or grants and preserves original report bytes on amendment. Model context carries hash-bound receipts, not raw console bytes."
+      ]
+    },
+    "session_id": "d42a7f68-20b1-48e3-bee8-0e1360129ce4",
+    "role": "author-operated implementation review, not independent main merge review",
+    "originals": "preserved privately",
+    "reported_total_cost_usd": 0.9062054999999999
+  },
+  {
+    "execution": {
+      "reviewed_commit": "ba079f88bad9d186613687e105dd6f2b551e45e5",
+      "returncode": 0,
+      "wall_seconds": 176.17478740099614,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "086a5c9969d829714492c241eecdacba54f800f5b694828ad533ac3b250496b7"
+      },
+      "response_sha256": "3f052bae7425a32a2086ca9047b4b0b4440c400d0d3d3497ec3a5d5876ae8834",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "d8fd251f927ac9f2d29b0941f0e21d81234630f1adead68fae75f75b3689f8dd"
+    },
+    "result": {
+      "scope": "hosted-cycle-final-focused-review",
+      "reviewed_commit": "ba079f88bad9d186613687e105dd6f2b551e45e5",
+      "verdict": "APPROVE",
+      "findings": [
+        "VERIFIED FIX: Astra answer is taken solely from --json stdout events (last item.completed agent_message, gated on turn.completed), captured through a root-owned fd into the root-private cycle folder; nothing under the model user's home is read back, closing the cross-UID file read. Receipt binds stdout_sha256, input_sha256 and answer_sha256, written immutably before use.",
+        "Fail-closed boundaries hold: missing turn.completed/agent_message, empty answer, nonzero exit, and timeout (SIGKILL to the start_new_session process group) all raise into blocked.json with reconcile-only recovery; claim/binding durability and replay semantics are unchanged from the previously approved round.",
+        "Identity bindings intact: job->attempt->event hash in binding.json, validate_receipt against the bound request, symlink+hash checks on synthetic artifact and console files, and Claude assistant-event model verification against claude-fable-5.",
+        "Scientific approvals preserved: prompts forbid tool use and reserved decisions; disposition is recorded via the queue, never executed; result records real_model_calls=3, patient_execution=False, unattended_activation=False.",
+        "Non-blocking hardening: model_call does work.mkdir then path-based os.chown inside the model user's home \u2014 a chown-follows-symlink TOCTOU exploitable only by a pre-existing process running as that user (requires prior sandbox escape, since shell/tools are disabled). Prefer O_DIRECTORY|O_NOFOLLOW open + fchown, and clear stray per-user processes between cycles.",
+        "Non-blocking: the success path does not kill the child's session group; a leaked descendant would retain the inherited stdout write fd \u2014 receipts hash content at read time so recorded evidence is unaffected, but on-disk stdout could later diverge from its receipt hash.",
+        "Minor: bare next() for the thread.started event and the job-row lookup can raise unlabeled StopIteration; fail-closed but worth explicit error strings."
+      ]
+    },
+    "session_id": "95a7baaa-4bf2-4180-8b40-bd9d581f9b71",
+    "role": "author-operated implementation review, not independent main merge review",
+    "originals": "preserved privately",
+    "reported_total_cost_usd": 1.0720570000000003
+  }
+]

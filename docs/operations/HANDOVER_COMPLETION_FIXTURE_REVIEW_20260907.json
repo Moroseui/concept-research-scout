@@ -1,0 +1,83 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "a0795e69ed6c225fe353d438b5558f481340fe81",
+    "returncode": 0,
+    "wall_seconds": 339.17604187001416,
+    "input_file_sha256": {
+      "deploy/research-system/prepare_completion_fixture.py": "f926ca9eb670d67d3e5428e43c09a5ecd603c8d5f83e8c68f1b8d8c4b20dc7fe",
+      "deploy/research-system/start_completion_fixture.py": "2b2017833d7a4a7065a71fb52185469788e51212f4c9e0bf5fc41b94d6066070",
+      "deploy/research-system/install_handover_fixture.py": "fda22a3451b759a947aaad1d8e5f4034486b3a943a9148c651271fdb906a1a50",
+      "deploy/research-system/research-system-handover-controller.service": "2e2114f02e5dec29fd7719fa2a213d8230dbad3d544ab8400dd0f0d5bf077a37",
+      "tests/test_completion_fixture_plan.py": "477917274b1ef6c655db8978c166a818615e1fe03e5db2a98224c67ad4cd8816",
+      "tests/test_handover_snapshot_install.py": "417922acab157ad07f427a9fae0b31b66b56c6a8c899600ca9ffcb522b748dca",
+      "orchestrator/completion_bridge.py": "b1b4732f1cf59c446938471f24e4adbdc5688222da49826096aadf7f6f47e110",
+      "tests/test_completion_bridge.py": "940451f95e018abd80a051cb3b4ce432ba090d045d9afbc6ff25c051a22b0b97",
+      "docs/operations/HANDOVER_COMPLETION_BRIDGE_REVIEW_20260907.json": "2e0c9bb2669894eeff9ca88d9778f0fe2cf23a538f9336b3f035333542f3f8b6",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b"
+    },
+    "response_sha256": "be855c322d64c5e878a7678a32ad8160756ae738112d5e448ba341400bc371e9",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "75f19f0d72b316fa17183b7790f3dc3319193c6d320f9db9bddc5b9d00fec0f8"
+  },
+  "review": {
+    "scope": "handover-completion-fixture-focused",
+    "reviewed_commit": "a0795e69ed6c225fe353d438b5558f481340fe81",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (carry-forward): all three suggestions from the 540e26f5 review are resolved in the supplied completion_bridge.py \u2014 declines are inserted directly in their final 'DECLINED' state (no transient INTENT window); sqlite3.Error is caught in ingest() and advance() and mapped to durable completion_blocks/BLOCKED rows; changed completion identity is explicitly detected at re-ingest (COMPLETION_IDENTITY_CHANGED_NO_AUTOMATIC_REIMPORT) and re-checked in advance() before submit; report retries reuse the immutable first-observation file (day/rows/proposal/event digest bound, COMPLETION_OBSERVATION_CHANGED on drift) with test coverage of the crash-before-commit path. No resolved item was relabeled.",
+      "VERIFIED (prepare, fail-closed + preservation): prepare_completion_fixture requires the exact original consumed fixture (sources==[OLD], max_model_turns==1, writer_config None, runtime source OLD, no existing synthetic_execution), a new 40-hex pin distinct from OLD, the installed OLD symlink and pinned EXECUTOR, inactive controller service+timer, exactly one original turn with all three stage receipts and broker-verified COMPLETE status, ledger count 1, and no incomplete coordinator work \u2014 every check raises before mutation. Old configs, the old unit and previous-source are preserved in a 0700 root evidence dir before replacement; config and symlink swaps are atomic; newbroker only extends sources and raises max_model_turns to 3, preserving policy, disabled publication, ledger and original turn artifacts (scientific approvals untouched).",
+      "VERIFIED (prepare receipt honesty): PREPARED_NOT_DISPATCHED is accurate \u2014 no timer created or started, no job submitted, no model called; the only service action is stop/restart of the already-installed idle broker socket/service under the new bounded config, with the controller service and timer verified inactive and left inactive. additional_turn_limit 2 / additional_model_call_limit 6 are consistent with one parent/child pair \u00d7 three stage handlers and max_model_turns 3 (1 retained + 2 new).",
+      "VERIFIED (start, bounded + no-retry): start_completion_fixture refuses without the migrated bounded config (purpose, SYNTHETIC_FIXTURE, SUPERVISED, writer_config None, max_model_turns 3, report_schedule None, exactly one OPERATOR_SUPERVISED_SYNTHETIC_ONLY pair), refuses if the start marker, runtime timer unit, or either job id already exists, and never retries. The 30-minute transient stop is armed via systemd-run before the parent submit, matching the docstring; submission runs as the existing non-root research-controller identity with scrubbed env and PYTHONPATH pinned to the installed executor root; the temporary /run timer only triggers the non-root controller unit and cannot survive reboot. Receipt claims (no permanent timer, no live activation, no patient execution, max 6 new model calls) match the code.",
+      "VERIFIED (identity bindings): EXECUTOR is pinned by resolving /opt/research-system/current at prepare time and re-verified at every CompletionBridge construction via checked_source; advance() re-derives the expected proposal from root-owned installed config, re-checks the observed attempt id against the stored event, and byte-compares the durable intent file before the idempotent Controller.submit, so neither the model answer nor a mutated DB row can redirect dispatch; select_next re-validation limits the model to the configured successor or an explicit decline.",
+      "VERIFIED (privacy + persistent artifacts): evidence directories are root-only (0700); model-facing observation evidence carries hash-bound completion events (digests, not console bytes) in non-root controller state; no patient-data path exists in either script; and HANDOVER_COMPLETION_BRIDGE_REVIEW_20260907.json honestly records requested vs actual model usage (auxiliary claude-haiku call disclosed), its non-independent status, and inference-labeled investigator notes \u2014 no history rewritten as approval.",
+      "SUGGESTION (prepare archive TOCTOU, inferred): prepare hashes archive bytes via read_bytes() but reopens the path twice (validate_members and extractall) and, unlike install_handover_fixture, never refuses a symlinked archive; a swap between hash and extract would install unhashed bytes as root. Low likelihood for a one-time root-operated script with an operator-supplied path. Smallest fix: refuse symlinks and extract from the already-hashed bytes (tarfile.open(fileobj=BytesIO(raw))); install has the same read-then-reopen gap minus the symlink issue.",
+      "SUGGESTION (finish() retry, untested): finish() writes the selected-dispatch intent with immutable() without the read-if-exists pattern ingest() uses for observations; if immutable() refuses byte-identical rewrites, a crash between the intent write and the selected_dispatch insert leaves a task that can never finish \u2014 fail-closed availability only, no authority impact. Smallest fix: mirror ingest()'s exists-first reuse or confirm immutable() tolerates identical rewrites.",
+      "SUGGESTION (controller unit sandbox, untested): research-system-handover-controller.service sets ProtectSystem=strict with ReadWritePaths limited to the two state dirs; client connect() to the broker unix socket at /run/research-system/handover.sock from a read-only /run can fail with EROFS. Completed original-turn receipts suggest it works as deployed, so verify at activation only; if connects fail, smallest fix is ReadWritePaths=/run/research-system.",
+      "NOTE (coverage): test_completion_fixture_plan exercises broker-side tamper cases but not runtime-side ones (runtime source != OLD, pre-existing synthetic_execution); start_completion_fixture has no unit tests (root/systemd side effects); the observation filename embeds the controller-issued attempt_id without identifier() validation \u2014 trusted store, hardening only."
+    ]
+  },
+  "session_id": "acf84912-e560-4ee2-9234-760f3b64ebdf",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 21282,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.021366999999999997,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 26897,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 34218,
+      "webSearchRequests": 0,
+      "costUSD": 2.02923,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "independent_merge_desk_review": false,
+  "investigator_disposition": {
+    "blocking_findings": 0,
+    "archive_path_race": "Accepted hardening suggestion. This approved installation transfers exact hashed source bytes into a fresh root-owned 0700 directory with 0600 files; no untrusted writer receives that directory. A subsequent source correction will extract directly from hashed bytes.",
+    "immutable_retry": "No defect established: operations_report.immutable explicitly accepts byte-identical existing files. Existing completion retry tests pass; do not alter immutable scientific or execution evidence.",
+    "readonly_socket": "Already resolved with actual hosted evidence in HANDOVER_SOCKET_SANDBOX_20260907.json. No writable /run exception is introduced. The repeated suggestion supplied no new failure evidence.",
+    "additional_tests": "Runtime plan tamper cases and source archive byte handling will be added as bounded hardening; start behavior will be measured by this authorized finite hosted fixture."
+  }
+}

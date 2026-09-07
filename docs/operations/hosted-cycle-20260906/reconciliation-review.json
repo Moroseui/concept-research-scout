@@ -1,0 +1,38 @@
+{
+  "execution": {
+    "reviewed_commit": "cb5b6e349ccf0d8594beef91de32061b67badafe",
+    "returncode": 0,
+    "wall_seconds": 173.9233078729958,
+    "input_file_sha256": {
+      "orchestrator/hosted_cycle_reconcile.py": "271a3a5fdc1792ce19042ad155c7723c4a8a6b703f99cb94e31e1c8477273b06",
+      "tests/test_hosted_cycle_reconcile.py": "4b9079117b9eda6025ec9cb798829b8d0be453c9a38d8728a3a90d5513c8403e"
+    },
+    "response_sha256": "7576117af29923a0a189ba9c4dee0c18d63e077d3663899bfcc5710349e46e44",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "f10539caee70813097bc4bbb65432a12898f37e9c0f6f924ab5ae6de93fb3833"
+  },
+  "result": {
+    "scope": "Source-only review of orchestrator/hosted_cycle_reconcile.py and tests/test_hosted_cycle_reconcile.py \u2014 non-dispatching completed-wake reconciliation (evidence verification, identity bindings, wake consumption idempotency); imported helpers (Controller, Queue, lock, identifier, encoded, finalize) reviewed only as exercised by the supplied test; no tests executed.",
+    "reviewed_commit": "cb5b6e349ccf0d8594beef91de32061b67badafe",
+    "verdict": "APPROVE",
+    "findings": [
+      "Fail-closed ordering holds: all filesystem evidence (binding, complete, three receipts with sha256-verified stdout/stderr/input/answer, content-addressed report, queue row, byte-compared review/disposition) is verified before the state DB is opened, and the test asserts jobs.sqlite is not created on missing evidence.",
+      "Identity bindings are sound: binding pinned to event id, complete.json must agree with binding, DB event payload re-hashed via canonical encoded() against event_sha256, wake.job bound to event.job, report id is sha256 of the report file, and queue review/disposition artifacts must byte-match the receipt-hashed cycle artifacts \u2014 preserving the recorded approvals.",
+      "Recovery semantics are correct and idempotent: driver.lock plus BEGIN IMMEDIATE, duplicate accepted only when reason is SUPERVISED_CYCLE_<this report>, OTHER_CYCLE_ALREADY_PROCESSED refusal otherwise, rollback on any exception; the module never dispatches (model_calls=0, job_dispatches=0).",
+      "Advisory: actual_model is verified only for the review stage (claude-fable-5); continuation/disposition check requested_model alone, so a served-model substitution on the astra stages passes \u2014 tighten if the per-stage model plan is meant to bind all three stages.",
+      "Advisory: read_checked's REGULAR_PRIVATE_EVIDENCE_REQUIRED name overstates its guarantee \u2014 no permission/ownership check, hardlinks pass, and the symlink check is subject to a swap-after-check race (low risk under the single-writer lock).",
+      "Advisory: Controller is constructed after evidence checks, so valid evidence with a missing/foreign state DB creates an empty jobs.sqlite before refusing with TRIGGER_EVENT_CHANGED \u2014 a benign persistent artifact on a refusal path.",
+      "Caveat: receipts are unauthenticated (the test fabricates a passing fixture), so the checks defend against corruption/drift within a trusted destination folder rather than an adversary with write access; this matches the apparent trust model."
+    ]
+  },
+  "session_id": "e2d9e557-2292-476e-b428-339a7f7b6c35",
+  "role": "author-operated implementation review",
+  "originals": "retained privately"
+}

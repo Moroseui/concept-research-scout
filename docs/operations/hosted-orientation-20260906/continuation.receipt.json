@@ -1,0 +1,33 @@
+{
+  "actual_model": null,
+  "answer_sha256": "dfb1c21088ec00a6a3c3c5c7bfe51d969ba5fb3c28e132763ac0690f61d73ac7",
+  "input_sha256": "119a291d8154abb3e14d358e01398f7c859f82b0e54dc26304634d303e69dab9",
+  "model_evidence": "Requested model bound in command; resolved model not independently reported by this protocol",
+  "operating_context_sha256": "f1b1dc6a8bb4ed8c632c0e4a7f26be30228678729d80c3b567cdc2bf4dc1c8ad",
+  "requested_model": "gpt-6-astra",
+  "returncode": 0,
+  "session_id": "01a078ba-eaaf-7ef0-8a59-c60fb3b035a5",
+  "stage": "continuation",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "193b059739390ca0522b28de8efd4416bbfcef1ce02ca3c2ce7980e8c54d9752",
+  "supplied_document_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+    "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+    "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+    "docs/operations/REMOTE_OPERATING_DIRECTION.md": "c643bc41822f6f51e4df6d2fed44c080b174811645bbb677e99e58adeec9fe32",
+    "docs/operations/SETUP_DECISION_INBOX_20260906.json": "4f7799ddf242ef630ddad529b0b2a6a157a1c336abf1497b679b711208e232ae",
+    "docs/science/P001_METADATA_PREFLIGHT_20260906.json": "927d172efdaf9ce5701e069bd4ddb7e3941b650459455086c334f3171e5b1ea8",
+    "docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md": "3478bf7d662ab21c14f15371dcefa28740c4c4a74f10672f690303073e6fbc4f",
+    "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+  },
+  "usage": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 8960,
+    "input_tokens": 40436,
+    "output_tokens": 739,
+    "reasoning_output_tokens": 0
+  },
+  "wall_seconds": 29.166372841005796
+}

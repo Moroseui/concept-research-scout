@@ -756,3 +756,118 @@ Author-operated Fable completed APPROVE at `6ab1d3d4408abef1f94b67fe2f9f58fb6af3
 Accepted non-blocking limits remain documented: evidence size can still block a reviewed proposal without discarding original prompt/audit records; same-identity BLOCKED replay requires a new request ID after repair; ordinary GitHub JSON API requests assume no cross-host redirect (artifact redirects explicitly strip authorization); repository-stored review receipts are not cryptographic operator signatures. The SHA input confirms the selected branch revision, not an arbitrary revision selector. Current-science dependency review remains blocked after the scout.py repair, while original frozen approval bytes verify.
 
 Final packet in CLOSEOUT_DECISION_PACKET.md is prepared for a genuinely independent desk review of the actual final candidate and subsequent operator decision. It does not ratify R1–R4, choose N, grant state-write permissions, merge main, execute cleanup or start the queued 047/P001 work.
+
+
+### Infrastructure milestone completed — PR #2 merged (2026-09-06)
+
+Verified GitHub PR state MERGED at 2026-09-06 04:39:46 UTC, merge commit
+`d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`, parents `4f5b6b1` and `4a4da50`.
+Tree `1b4a76c9130ae562dfc8e918dbe3349352f42eab` exactly matches the isolated
+review candidate. Main push checks run 34012065748 completed successfully on that
+exact commit. See INFRASTRUCTURE_MERGED_20260906.json for full pins and CI link.
+
+Fetched only main/pilot refs; clean local main fast-forwarded without rewriting
+history. Local and public pilot tip remains `4a4da50`; frozen P001 worktree remains
+`0770c7d`. This housekeeping record is a separate local documentation branch,
+`astra/infrastructure-milestone-record`; no new branch was published. No work was
+discarded. The prior tests and actual successful main CI establish this unchanged
+infrastructure tree; documentation-only reconciliation did not rerun patient work.
+
+The actual merge message and operator report authorize the completed infrastructure
+merge only. They do not manufacture an independent desk receipt or ratify the
+proposed R1–R4. N remains null (recommendation 48); standing dispatch authority,
+state-writer/reset permissions and stronger exclusive publication enforcement are
+pending. Separate decisions remain for 047 cleanup, 047 scientific landing and
+P001 launch. P001 is unexecuted and current-tree scout.py dependency review remains
+required; archive/frozen approvals/private evidence were not modified or rechecked
+in Colab. Laptop-independent patient research remains unproven. No next work batch
+started and no remote write, cleanup, dispatch or provisioning was performed.
+
+
+### Bounded post-merge governance closeout — 2026-09-06
+
+Preserved cfadeb1 and recorded the operator's explicit ratification of corrected
+R1, R2 and R4; R3 selects N=48/hard 96 with conditional standing authority. Full
+text is GOVERNANCE_RATIFIED_20260906.md and the append-only decisions entry. No
+runtime policy activation: writer/reset permission design approval, initialized
+shared state and hosted verification remain required. Reset remains the operator's.
+Scientific/opposing-family gates and reserved cleanup/047/P001 decisions remain.
+
+Read-only current 047 target/protection checks match the existing rehearsal:
+940293b6 to c8124212, unchanged parent b652005. Ruleset 20885616 still blocks
+non-fast-forward and deletion with no bypass. Prepared one cleanup decision request,
+including an exact-ref exception with temporary deletion-only guard and restoration
+on success/failure. Retained case-linked metadata names are explicit. Existing
+review/original evidence is reused; no new projection or rehearsal was needed.
+No protection setting, results ref, archive or patient state changed.
+
+The authorized record branch is absent remotely. The existing generalized
+controlled publisher supports only an existing remote before pin; pilot wrapper
+also authorizes only pilot. Publication therefore has a capability dependency:
+new-ref support in a future bounded change, or an operator-created branch at the
+already-public main pin before controlled append. No direct Git/API bootstrap,
+existing-check bypass or runtime implementation change was attempted. This is
+not an approval rejection or lack of branch publication authorization. All other
+authorized record/recheck work is complete. Three fixed-metadata dependencies are
+persisted via the existing Store decision inbox, exported in
+POSTMERGE_DECISION_INBOX_20260906.json; the patient job store was not touched.
+
+This documentation remains local on astra/infrastructure-milestone-record for
+inclusion in the next appropriate milestone PR after publication is unblocked.
+No separate main merge, independent desk approval, active standing dispatch,
+scientific landing, patient execution, spending or provisioning is claimed.
+
+
+Controlled publication was actually attempted at 406c00a with explicit operator
+branch authority and exact source/before/inventory. The audit passed all 12 blob
+versions across cfadeb1 and the ratification commit. The existing publisher then
+refused with REMOTE_MOVED because the remote branch is absent, before any push.
+POSTMERGE_PUBLICATION_ATTEMPT_20260906.json preserves that exact attempt receipt;
+it does not certify later documentation commits. No approval system rejected the
+action and no bypass was used. The previously recorded inbox dependency remains.
+
+
+### Bounded controlled-branch creation repair
+
+The operator authorized exactly this missing capability and publication of
+astra/infrastructure-milestone-record. Repair commit 4bfdb85 preserves cfadeb1 and
+551be01. Creation separates public audit baseline from expected destination
+absence, binds repository/ref/source/baseline/operation authority, audits the full
+outgoing history and requires an atomic empty-old lease. It never falls back to
+updating an existing ref. A porcelain new-branch result also rejects Git's
+same-source concurrent-creation no-op. The bound URL avoids pushurl redirection.
+
+Real disposable Git tests cover successful creation, existing and concurrently
+created refs at identical/different commits, unsafe intermediate content later
+deleted, and binding/inventory failures. Initial test run had one assertion
+expecting the wrong invalid-ref error label; the fail-closed behavior was correct.
+After correcting that test expectation, targeted tests passed 13 tests/7 subtests;
+the full suite passed 315 tests/27 subtests. No patient or production ref was used
+in testing. Original logs and focused review protocol are retained privately.
+
+The old hosted adapter review includes the publisher's whole-file hash; this
+repair does not silently ratify a new hosted adapter binding. No hosted scientific
+or control dispatch is part of the repair. Existing gates remain fail-closed.
+
+
+Focused author-operated Claude Code review completed APPROVE at
+4bfdb85f0ef6df314c165d4476f3c7e096c15547, actual assistant claude-fable-5,
+267.28 seconds. Full source bindings and original response are committed as
+reviews/branch-creation.*; original protocol remains private. This is a focused
+internal publication review, not independent approval for a main merge. The
+reviewer did not run tests; local test results above are separate evidence.
+Non-blocking preexisting limits remain: identifier scanning is not universal
+across source/document formats, legacy updates use origin/pushurl, and malformed
+notebooks may raise non-ValueError exceptions while still refusing publication.
+No wider scanner or hosted adapter changes are smuggled into this repair.
+
+
+Controlled creation succeeded at a5a30305d33fd4bd29bc1cd2584d1e42001a5414 from
+public audit baseline d24ffb9, with expected destination absence, 20 outgoing blob
+versions checked and exact remote source verified. Receipt committed separately
+so it identifies the actual creation source without a self-referential hash.
+The publication decision dependency is resolved; original refusal and cfadeb1/
+551be01 remain in history. This receipt/inbox-only follow-up uses the existing
+controlled append route bound to the just-created remote pin, never a creation
+fallback or overwrite. Other reserved decisions remain open. No new permission,
+main update, protection change, limiter activation, cleanup or patient run occurred.

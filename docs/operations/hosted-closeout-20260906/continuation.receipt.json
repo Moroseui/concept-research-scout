@@ -1,0 +1,20 @@
+{
+  "actual_model": null,
+  "answer_sha256": "1e87c8d5f0d8c1bf9fbf44f433b1bf1931017d1cf42c7c56baa76d0c2d10da39",
+  "input_sha256": "4876878d848513f76f3940b25cb70dfa50fd1cbeb6f40755f8f62f061236a674",
+  "model_evidence": "Requested model bound in command; resolved model not independently reported by this protocol",
+  "requested_model": "gpt-6-astra",
+  "returncode": 0,
+  "session_id": "01a0785f-fa75-7570-b3f0-1c73124e2d36",
+  "stage": "continuation",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "83cde00e08deb3178dba0d233b9661f5c4bd7a9aabe75daf3840e18137a0fa82",
+  "usage": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 0,
+    "input_tokens": 50805,
+    "output_tokens": 55,
+    "reasoning_output_tokens": 0
+  },
+  "wall_seconds": 7.604339594996418
+}

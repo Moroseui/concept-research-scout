@@ -1,0 +1,41 @@
+{
+  "duplicate": false,
+  "execution_dispatched": false,
+  "report": {
+    "attempt_id": null,
+    "attempts": 0,
+    "id": "330438c314563b608c921baa446ae9f1e018bc36984a5779901189d27dc70e3a",
+    "reason": null,
+    "report_sha256": "330438c314563b608c921baa446ae9f1e018bc36984a5779901189d27dc70e3a",
+    "review_sha256": null,
+    "source": "ba079f88bad9d186613687e105dd6f2b551e45e5",
+    "status": "QUEUED"
+  },
+  "task_count": 3,
+  "tasks": [
+    {
+      "backend": "linux",
+      "job_id": "isles24-prediction-charter",
+      "kind": "queued_scientific_task",
+      "reason": "REMOTE_AUTH_SOURCE_RECOVERY_CLAUDE_ALIGNMENT_CHARTER_RATIFICATION",
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "BLOCKED"
+    },
+    {
+      "backend": "linux",
+      "job_id": "047b-evidence-and-lifecycle",
+      "kind": "queued_scientific_task",
+      "reason": "REMOTE_AUTH_047B_IDENTITY_ORIGINAL_CONSOLE_EXCLUSIONS_REGISTRY_LANDING_GATE",
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "BLOCKED"
+    },
+    {
+      "backend": "linux",
+      "job_id": "cross-charter-evidence-propagation",
+      "kind": "queued_scientific_task",
+      "reason": "CONTEXT_PATH_AUDIT_SOURCE_BINDINGS_PENDING_EVIDENCE_CLAUDE_REVIEW",
+      "source": "ba079f88bad9d186613687e105dd6f2b551e45e5",
+      "status": "BLOCKED"
+    }
+  ]
+}

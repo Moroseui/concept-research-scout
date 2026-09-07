@@ -1,0 +1,37 @@
+{
+  "source": "ca8f989927a8e6fb976baa7f4ce49741684a86e7",
+  "kind": "LOCAL_VERIFICATION",
+  "observed_utc": "2026-09-07T07:51:57.370031+00:00",
+  "focused_handover": {
+    "passed": 70,
+    "outside_sandbox": true,
+    "socket_test_passed": true
+  },
+  "admission_publication_reporting": {
+    "passed": 66,
+    "subtests_passed": 17
+  },
+  "full_suite": {
+    "passed": 485,
+    "subtests_passed": 40,
+    "failed": 1,
+    "failure": "test_disconnected_client_does_not_destroy_completed_operation",
+    "reason": "Managed sandbox denied socketpair.sendall with EPERM; identical test passed in focused outside-sandbox run."
+  },
+  "outgoing_audit": {
+    "baseline": "e478ad0844e771d37e80a4cb1eda9e4f42ebc02f",
+    "blob_versions": 167,
+    "passed": true,
+    "publication_performed": false
+  },
+  "hosted_reconciliation": {
+    "source": "a0795e69ed6c225fe353d438b5558f481340fe81",
+    "complete_report_tasks": 3,
+    "complete_new_jobs": 2,
+    "successor_submissions": 1,
+    "running_model_calls": 0,
+    "temporary_timer": "inactive",
+    "unattended_activation": false
+  },
+  "pending": "Fresh source reviews and consumed fixture update; no scientific acceptance inferred."
+}

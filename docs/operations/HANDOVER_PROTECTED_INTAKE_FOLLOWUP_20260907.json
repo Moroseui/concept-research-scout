@@ -1,0 +1,119 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "b9a51fc9cb0b1f8783a07ace2c17b535a0d9fd15",
+    "returncode": 0,
+    "wall_seconds": 291.2921605559968,
+    "input_file_sha256": {
+      "orchestrator/publication_candidate.py": "f68ea77791ab0826e29b44505d696b6d7b782c862661a0f5bb04b9e6691b754f",
+      "orchestrator/protected_handover.py": "cc32167a6f7c83059476277a0519903801444781a11582bc592e03abc12983e9",
+      "orchestrator/operations_backup.py": "cdb2f17856200822f2550fbe877dae21314dd84a0f9838bc71b1e04b6cb84aa2",
+      "orchestrator/actions_admission_collector.py": "3a1e9da842bbe52adffac93f6605f29ad40203516918223be97256b6d97f1f99",
+      "orchestrator/actions_admission_wait.py": "c73179f7a395f84bc6f1b39c936f874feb75a7fc404530e271597582725b3b86",
+      "orchestrator/actions_admission_transport.py": "17bea56070c4e72d1efa8b1a600da48cb3c0d8957f6b9e305dbebfd355904e1c",
+      "orchestrator/actions_admission.py": "f6df91a4f65a41fe03f8bed6b57febdf3bb54885819b2a6708520bc9aa51b9fe",
+      "orchestrator/dispatch_limiter.py": "7bf3f1567242a659411ae11494ceffa7fc9b705dd17f14d0ae831bcdd60dc070",
+      "orchestrator/handover_runtime.py": "87a9f815b106565b02bcc91a5e2c76d84440ba8dbd0ac2dbdbd5732f0aaf42c3",
+      "orchestrator/handover_coordinator.py": "d07ca14235e6339b53ac8185e32e0a40f590d0d475debf8af42c62256c62677f",
+      "orchestrator/operations_report.py": "3fd4fd4a652e53706ff2b78d3faeafb043cb6d327c5b7e0e412bbf540f96065f",
+      "tests/test_publication_candidate.py": "8a03ae702508d30d2c919b6a3d65a23e0e8be7e09afc088d33daf3575b0eea43",
+      "tests/test_protected_handover.py": "2eeee09e613628da9d2a87e5bc639c9c46df4cc8d03377bbf6bb32ff723087ae",
+      "tests/test_handover_backup.py": "cb2e882218940b8f947e7633f1c7dc879001321d15298adec11775a1b983d6c8",
+      "tests/test_actions_admission_collector.py": "5e262286fb27e2e234b20b70dd8d8930f9e4d11cfb745295b14a7951e52bf1ad",
+      "tests/test_actions_admission_wait.py": "4772be4ea591e61366b7c0c1cd15b89269c1648f6d6d61c6e30d48fbf575e15b",
+      "tests/test_handover_runtime.py": "6cf031f14ec5433a699370541f87a75c711bd1a0875b2838acba9f888ab2b53d",
+      "docs/operations/HANDOVER_PROTECTED_INTAKE_REVIEW_20260907.json": "6ded929fee64b5d9c15f0c5cdc351095973e8cfacf91e30e439354ef8fe6deef",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da"
+    },
+    "response_sha256": "7174ee252ecc69831e0eec2ac9ba331bf09bbd71bb83a442c78fa3c87c95f88c",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "a20db5a555cda3f54f58e2397ca81460287883315fe920ea842eb2ebc992c167"
+  },
+  "review": {
+    "scope": "Focused source-only follow-up at b9a51fc9: verification of the four suggestions from HANDOVER_PROTECTED_INTAKE_REVIEW_20260907 (sparse glob paths, named error codes, initialize flag scoping, backup top-level files) in orchestrator/publication_candidate.py, orchestrator/protected_handover.py, orchestrator/operations_backup.py; fresh review of newly prepared orchestrator/actions_admission_collector.py, orchestrator/actions_admission_wait.py, orchestrator/actions_admission_transport.py, Broker.actions_admission; and current coordinator report snapshot capture in handover_runtime.scheduled_report/operations_report.finalize, with supplied tests and the review artifact as context. No tests executed, no installation or activation claimed; Actions workflow wiring remains pending; scientific/credential/activation gates unchanged.",
+    "reviewed_commit": "b9a51fc9cb0b1f8783a07ace2c17b535a0d9fd15",
+    "verdict": "APPROVE",
+    "findings": [
+      "RESOLVED (verified in source): sparse-checkout glob finding \u2014 sparse_paths now rejects '*?[]\\\\' and CR/LF with LITERAL_SPARSE_PATH_REQUIRED on both prepare and receive, and the '/'-anchored patterns neutralize leading '!'/'#'; test_glob_paths_cannot_materialize_legacy_baseline covers '*.md', 'question?.md', '[abc].md'. Residual untested edge (suggestion, low): a path with a trailing space cannot be represented (gitignore trims trailing spaces; backslash escaping is rejected), so its file silently fails to materialize while receive still returns STAGED_NOT_PUBLISHED; no publication consequence since publish pushes commits, not the worktree. Smallest fix: reject leading/trailing whitespace in sparse_paths.",
+      "RESOLVED (verified in source): Broker.operator('initialize') now saves and restores ledger.allow_initialization in try/finally; test_initialization_permission_is_scoped_even_on_existing_state asserts the flag is False after LIMITER_STATE_ALREADY_EXISTS, so the absent-ref lease guard is no longer disarmed for the broker lifetime.",
+      "RESOLVED (verified in source): operations_backup.backup now copies top-level regular files under outputs and refuses special files (BACKUP_SPECIAL_FILE_REJECTED); test_legacy_backup_preserves_top_level_original_files verifies restored bytes.",
+      "PARTIALLY RESOLVED (verified in source): named fail-closed codes \u2014 publication_candidate.git now maps timeout/cat-file/bundle failures to CANDIDATE_GIT_TIMEOUT / CANDIDATE_GIT_OBJECT_UNAVAILABLE / CANDIDATE_BUNDLE_INVALID / CANDIDATE_GIT_OPERATION_FAILED and os.link OSError to CANDIDATE_BUNDLE_LINK_FAILED_OR_UNSUPPORTED. zipfile.BadZipFile in actions_admission.verify remains unwrapped (see next finding).",
+      "SUGGESTION (verified in source, untested; affected task: Actions collector): zipfile.BadZipFile (and zlib.error) from a corrupt artifact archive escapes actions_admission_collector._reconcile's except (ValueError,KeyError,TypeError,OSError), aborting the remaining manifest entries for that invocation without the durable blocked.json the docstring promises. The pre-network attempt marker persists, so the 3-read cap holds and behavior stays fail-closed with no credential/URL leak; consequence is one malformed artifact delaying independent requests to the next invocation plus an unnamed traceback. Smallest fix: wrap ZipFile parsing in verify with a named ValueError (e.g., ACTIONS_ARCHIVE_INVALID) or add zipfile.BadZipFile to the collector's except tuple.",
+      "SUGGESTION (verified in source, untested; affected task: scheduled reports): handover_runtime.scheduled_report embeds the full unbounded coordinator_tasks list into task_state, while operations_report.finalize enforces text(context_bytes, limit=20000); once the coordinator accumulates roughly 150-200 tasks the context exceeds the limit and the schedule phase blocks permanently with EVIDENCE_OR_CONFIGURATION_REQUIRES_RECONCILIATION. Fail-closed, but a self-inflicted loss of nightly reporting. Smallest fix: bound the snapshot (status counts plus a capped task list) before finalize.",
+      "OBSERVATION (verified in source, acknowledged in comments): a crash or race between enqueue_report and Coordinator.schedule leaves orphaned immutable packet/report files and an unreferenced QUEUED review row; coordinator_observed_at makes each retried same-day identity distinct, so orphans can accumulate one per failed attempt. No authority is conferred and losers converge on ALREADY_SCHEDULED; note for maintenance only. Similarly, receive() retains each failed incoming bundle (\u22641 MB, controller-authenticated) under cache.parent for private reconciliation \u2014 bounded per request but unbounded in aggregate.",
+      "VERIFIED POSITIVES (source) for the new collector/waiter: manifest bounded at 16 under an exclusive collector lock; read attempts persisted immutably before network access with a durable 3-read cap; admission identity established by the authenticated API (repository id 1323461276, run/attempt/source/branch/workflow_path binding, workflow bytes SHA-256, unique un-expired artifact, 64 KiB caps), never by requester JSON \u2014 broker.actions_admission additionally refuses non-pinned sources; failures persist fixed named reasons only, no API error text or signed URLs; lost local receipts reconcile through shared CAS duplicate_admission without a second charge (test-covered); transport never forwards Authorization to signed storage, captures rather than follows the redirect, and allowlists storage hosts; the waiter is credential-free, a timeout returns BLOCKED ADMISSION_WAIT_TIMEOUT and never admits, halt blocks new requests while an already-admitted attempt survives, and policy-pin or source/branch drift refuses with SHARED_POLICY_BINDING_CHANGED / SHARED_ADMISSION_BINDING_CHANGED. Workflow wiring remains pending and is not claimed active.",
+      "SNAPSHOT/ARTIFACT HONESTY (verified from supplied files): the coordinator snapshot exposes only task id/status/reason \u2014 no bindings, prompts, or private payloads \u2014 with an explicit evidence_scope disclaimer (test-covered); the HANDOVER_PROTECTED_INTAKE_REVIEW_20260907 artifact honestly records reviewed commit cba7043, mixed actual model usage (claude-haiku-4-5 subagent alongside claude-fable-5), not-yet-installed status, and investigator notes distinguishing the two pre-model failures. Existing scientific/credential/activation gates, operator-only reset/initialize, midnight-latched halt, and the single authorized publication branch/remote are preserved unchanged in this source. Source-only review: no tests executed, no hosted or installation evidence claimed."
+    ]
+  },
+  "session_id": "83543e00-1d09-4e22-9e9f-6e9637f56322",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 70403,
+    "cache_read_input_tokens": 865,
+    "output_tokens": 22995,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 70403,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 22995,
+        "cache_read_input_tokens": 865,
+        "cache_creation_input_tokens": 70403,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 70403
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 46905,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.046990000000000004,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 22995,
+      "cacheReadInputTokens": 865,
+      "cacheCreationInputTokens": 70403,
+      "webSearchRequests": 0,
+      "costUSD": 2.5586949999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "total_cost_usd_reported": 2.605685,
+  "independent_merge_desk_review": false,
+  "investigator_notes": [
+    "Actual assistant reviewer is claude-fable-5. Auxiliary usage is reported separately; the protocol does not establish an independent subagent reviewer.",
+    "Source approval is not installation or live activation. Subsequent CLI wrapper changes are outside this input binding."
+  ]
+}

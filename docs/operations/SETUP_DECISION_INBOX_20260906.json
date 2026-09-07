@@ -1,0 +1,86 @@
+{
+  "system_primitive": "orchestrator.job_store.Store",
+  "scope": "remote-synthetic-bootstrap",
+  "items": [
+    {
+      "job": "original-source-documents",
+      "reason": "ORIGINAL_ONBOARDING_SOURCE_UNAVAILABLE",
+      "status": "OPEN",
+      "next_action": "Recover named original onboarding/deployment handoffs before dependent scientific decisions; independent synthetic work continues."
+    },
+    {
+      "job": "patient-backend",
+      "reason": "PATIENT_TRANSFER_AND_LAUNCH_RESERVED",
+      "status": "OPEN",
+      "next_action": "P001 Linux transport/dependency review and execution reconciliation must precede separate patient transfer/launch approval."
+    },
+    {
+      "job": "phone-acceptance",
+      "reason": "AUTHENTICATED_PHONE_TEST_REQUIRED",
+      "status": "RESOLVED_SYNTHETIC_ONLY",
+      "next_action": "Device delivery reported by operator; App API verified bound issue-4 acknowledgment and duplicate suppression. Operational replies remain disabled.",
+      "evidence": "NOTIFICATION_APP_IDENTITY_20260906.json"
+    },
+    {
+      "job": "protected-publication-admission",
+      "reason": "OPERATOR_WRITER_RESET_DESIGN_REQUIRED",
+      "status": "OPEN",
+      "next_action": "Review the completed PROTECTED_WRITER_ADMISSION_DECISION.md packet and approve or amend the concrete writer/reset/server-admission design. No credential grant, initialization or activation has occurred."
+    },
+    {
+      "job": "provider-recovery",
+      "reason": "PROVIDER_BACKUP_STATUS_UNVERIFIED",
+      "status": "OPEN",
+      "next_action": "Operator confirms account two-factor and backup enablement/first backup. Application restore test does not prove provider recovery."
+    },
+    {
+      "job": "remote-model-auth",
+      "reason": "REMOTE_MODEL_SIGNIN_REQUIRED",
+      "status": "RESOLVED",
+      "next_action": "Both separate server accounts authenticated and used in actual bounded hosted cycle. Do not request sign-in again absent an actual authentication failure.",
+      "evidence": "HOSTED_CYCLE_RESULT_20260906.md"
+    },
+    {
+      "job": "report-schedule",
+      "reason": "REPORT_SCHEDULE_NOT_SELECTED",
+      "status": "OPEN",
+      "next_action": "Select nightly time; proposed 21:00 America/New_York. No timer for model reviews enabled."
+    },
+    {
+      "job": "review-recovery-closeout",
+      "status": "RESOLVED_SUPERVISED",
+      "reason": "ORIGINAL_REVIEW_AND_DISPOSITION_RECOVERED_NO_MODEL_REPLAY",
+      "next_action": "Reuse installed 6863968 lost-response/restart evidence: recovery used zero new calls. Final control-channel repair and full activation remain separately tracked.",
+      "evidence": "hosted-service-acceptance-20260907/receipt.json",
+      "prior_reason": "RECOVERED_WAKE_AND_DISPOSITION_RECOVERY_UNVERIFIED"
+    },
+    {
+      "job": "hosted-closeout-continuation",
+      "status": "RESOLVED_BOUNDED_SYNTHETIC",
+      "reason": "PRIVATE_CONTEXT_SIZE_REPAIR_REVIEW_PENDING",
+      "next_action": "Completed at e7bff17 with one selected successor, three actual model calls and idempotent wake reconciliation. Standing operation still gated.",
+      "evidence": "HOSTED_CLOSEOUT_RESULT_20260906.md"
+    },
+    {
+      "job": "reporting-pin-acceptance",
+      "status": "RESOLVED_BOUNDED_SYNTHETIC",
+      "reason": "PINNED_COMPLETION_SUCCESSOR_CHAIN_VERIFIED",
+      "next_action": "Reuse actual a0795e6 coordinator / 6b555075 executor pair and original evidence. No worker redeployment or patient result is inferred.",
+      "evidence": "HOSTED_COMPLETION_RESULT_20260907.md",
+      "prior_reason": "HOSTED_REVIEW_NEXT_ACTION"
+    },
+    {
+      "job": "handover-control-delivery-repair",
+      "status": "RESOLVED_SUPERVISED",
+      "reason": "HOSTED_CLAUDE_CONTROL_FAILURE_FINDING",
+      "next_action": "Control-failure and PATH repairs reviewed and installed at 9af868d; actual human controls and idle non-root tick passed without new model calls. Preserve original failed and successful evidence; live activation remains separate.",
+      "evidence": "hosted-final-handover-20260907/service.json"
+    },
+    {
+      "job": "github-writer-enforcement",
+      "status": "OPEN_PERMISSION_DESIGN",
+      "reason": "MAIN_UNPROTECTED_AND_MODEL_SECRETS_REPOSITORY_SCOPED",
+      "next_action": "Include exact repository protection and credential/environment limitations in the final grouped writer/admission packet. Authenticated read-only API found only results protection ruleset 20885616, main protection 404, and no environments. No protection or credential change was performed."
+    }
+  ]
+}

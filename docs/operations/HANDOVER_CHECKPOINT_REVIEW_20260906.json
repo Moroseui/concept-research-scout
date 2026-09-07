@@ -1,0 +1,53 @@
+{
+  "kind": "AUTHOR_OPERATED_BOUNDED_CHECKPOINT_REVIEW",
+  "execution": {
+    "reviewed_commit": "0720441ecb8ddaa742a87655ff13a1165d5ab595",
+    "returncode": 0,
+    "wall_seconds": 269.8830378799903,
+    "input_file_sha256": {
+      "orchestrator/dispatch_limiter.py": "a55b3fc696b16cbfbc01fda7c9e3516b141c61f52ab5bef37f62d20b358aee49",
+      "orchestrator/protected_writer.py": "f064bb30432b77f0bb66739db4bf9fa12ef6e94a460a428d2b8f75ed7fe03f80",
+      "orchestrator/handover_runtime.py": "7242ed86db944bb8322ba087b7724b94f0b856caefe50525833ad8f06580315c",
+      "scripts/verify_handover_fixture.py": "b2332a2e1d8a00784d1857434986adfa49db39e6e4dd7a0dd7cad283d603d9d2",
+      "scripts/pilot_review.py": "b93fb93669d62751edff82114ab624f0af77d801b5449fac6ba7f04f900f2591",
+      "tests/test_dispatch_limiter.py": "51855f9036f97b064c1a03e7e2d0226da9485cc3304b72a0726d6f9fb88d6ae7",
+      "tests/test_server_admission.py": "40e6cf68a3271e569c3a6106bfb484bebee650c6097f8ca32b57db3d80086890",
+      "tests/test_protected_writer.py": "bcaa29f7412710e69140784c887625d8690f4dde452b40e722236f5f8d0f84ed",
+      "tests/test_handover_runtime.py": "b9caf3eff0f8b173992490b86c7282339512065676bdc6dc8f5ee7c0af0d5bca",
+      "docs/operations/HANDOVER_HOSTED_COMPONENT_20260906.json": "0e12ba50ccc217eda7cd70941c6592a868e4e4b215bfddb0c98ffcc4c225e1a7",
+      "docs/operations/HANDOVER_RECOVERY_FOLLOWUP_20260906.json": "b017739fe8c90b3412bcd6d4d26a45313576c2805e81a4e20b2a3700ba01d40f",
+      "docs/operations/HANDOVER_IMPLEMENTATION_PROGRESS.md": "740211ecaac081bec0241f0ea08e3dbf3b68a2fe8796ce22e0927621d2905b18",
+      "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md": "8538e7a66ff6cbfcc127db2314d3ebf479a829464d1d7ec797d31bf19126cc7b",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da"
+    },
+    "response_sha256": "66dd703a5de48ebc25936a0064a0983ad0d26c243f6efb25047a0ba9ea094ae9",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "6e56bd5226a59fad8f913184db228a9bfce578452ce89a836ec6f9fd080283b5"
+  },
+  "review": {
+    "findings": [
+      "VERIFIED (limiter, prior r2 positives preserved): Actions and server admissions share one CAS ledger with disjoint key namespaces ('run:attempt' vs 'server:turn:attempt'); duplicate-binding equality includes kind; the halted check precedes day rollover so midnight never clears a latched halt; clock rollback, unratified policy, policy-hash change, CAS retry exhaustion and state-schema violations all fail closed; 48/96 semantics (48 warns, 96 admits+latches, 97 refuses, duplicate 96 uncharged, halt survives midnight) covered by test_selected_48_96_policy_in_private_fixture.",
+      "VERIFIED (protected writer adapter): credentials() pins repository_id 1323461276 and exact {contents:write, actions:read, metadata:read}, rejects non-'selected' installations and any scope drift in the returned token, never yields the token in the receipt, and restores the prior environment on every exit including exceptions (test_token_restricted_and_removed_on_failure). Matches the inactive proposal; no code path touches the notification App's permissions.",
+      "VERIFIED (per-task corruption isolation \u2014 closes the r2 suggestion with changed evidence): Runtime.recover's except path now sets the affected task BLOCKED with reason RECOVERY_EVIDENCE_UNAVAILABLE instead of leaving a corrupted RUNNING task to raise out of every tick; test_corrupt_running_task_isolated_from_independent_work shows a hash-mismatched stage receipt blocks only that task while an independent eligible task completes.",
+      "VERIFIED (hosted fixture and collected evidence honesty): verify_handover_fixture refuses root, never reuses an attempt directory (mkdir without exist_ok), proves recovery reuses the saved transport outcome with model_calls==0 and calls==[0,1], detects duplicate dispatch, and self-labels its limits. HANDOVER_HOSTED_COMPONENT_20260906.json matches (uid 997, model_calls 0, patient_files 0) and its unit_properties_observation explicitly disclaims post-exit systemctl defaults as resource/sandbox proof \u2014 the non-root/zero-model facts are recorded as observed inside execution, the unit properties as unavailable, exactly the required distinction. No installation or live-authorization claim appears.",
+      "VERIFIED (history preservation): the r1 REQUEST_CHANGES at 306504d and r2 APPROVE at 6442ad8 are both preserved \u2014 the progress record states the rejection was not self-approved and HANDOVER_RECOVERY_FOLLOWUP_20260906.json retains full execution bindings including the honest actual_usage_models listing claude-haiku-4-5 alongside claude-fable-5; r2's next-phase gaps (installation, live writer grant, Actions collection, pre-launch repair) remain listed as unfinished, and no resolved finding is rewritten.",
+      "VERIFIED (current draft permission wording): PROTECTED_WRITER_ADMISSION_DECISION.md remains a proposal \u2014 operator selected 48/96 but granted nothing; the repo-wide Contents-write limitation and broker-compromise bypass are stated rather than claimed away; dispatch_limiter.main() on a PROPOSED config prints PROPOSED_NOT_ACTIVE with standing_dispatch_grant:false, and a RATIFIED config alone cannot self-activate because the unprovisioned state ref fails closed (LIMITER_STATE_NOT_PROVISIONED) and remote initialization additionally requires allow_initialization plus operator approval and push permission.",
+      "SUGGESTION (limiter, verified in source, informational field only): pending_notifications takes the last 4 keys of the notifications dict, but state round-trips through json.dumps(sort_keys=True), so once sequence exceeds 9 the lexicographic key order ('10:N' < '9:N') can omit the newest notices from the slice. Consequence: operator display may show stale notices; ledger counting is unaffected. Smallest fix: sort keys by int(sequence-prefix) before slicing. Affected task: operator notification display.",
+      "SUGGESTION (runtime/policy wording consistency, verified in source): Runtime.event hard-codes attempt '1', so any future re-dispatch of a terminally failed stage under the same task id would be a duplicate admission and uncharged, while PROTECTED_WRITER_ADMISSION_DECISION.md says a retry after terminal model failure is a distinct attempt. No automatic retry path exists today and server semantics are inactive, so this is not reachable; reconcile the wording or derive the attempt number before live activation. Affected task: server admission accounting.",
+      "RETAINED MINORS from r2, unchanged evidence, not reopened: controller outage past local midnight silently skips that day's scheduled report (honest NOT_REVIEWED handling applies); controls() silently skips non-64-hex request filenames; limiter events/notifications maps grow until the fail-closed 10000-event/1.4MB capacity error requires operator maintenance (the error name states this).",
+      "SCOPE LIMITS: source-only review; no tests were executed and none are claimed. Approval covers the supplied source at 0720441 as a bounded checkpoint only \u2014 installed operation, live writer grant, shared-state initialization, limiter activation, protected Actions collection and unattended acceptance remain ungranted and unverified, exactly as the documents themselves state."
+    ],
+    "reviewed_commit": "0720441ecb8ddaa742a87655ff13a1165d5ab595",
+    "scope": "Bounded checkpoint review at 0720441 of the shared Actions/server dispatch limiter and protected writer adapter (prior review positives), final per-task corruption isolation in the handover runtime, the hosted non-root component fixture and its collected evidence records, observed-versus-unverified distinctions, preservation of the r1 rejection and r2 approval, and current draft permission wording. Source-only; no tests executed; not a full handover approval and no installation or live-authorization certification.",
+    "verdict": "APPROVE"
+  },
+  "activation_authority": false
+}

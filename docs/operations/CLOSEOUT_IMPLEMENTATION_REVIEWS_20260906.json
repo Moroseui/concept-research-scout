@@ -1,0 +1,271 @@
+[
+  {
+    "name": "phone-review",
+    "execution": {
+      "reviewed_commit": "f16bd11471c0a85cb88f2f3dfe528ad6a6a2e7b5",
+      "returncode": 0,
+      "wall_seconds": 218.96440366099705,
+      "input_file_sha256": {
+        "orchestrator/phone_notifications.py": "f061685e7b983814a830d663c7fc43093e1d871ed9dcf29117aa662589235296",
+        "tests/test_phone_notifications.py": "436eeb49ce1e0394b2bac71c0d7a665282bf6cb1ef3b79c4717e682c539d711f",
+        "docs/operations/NOTIFICATION_APP_REGISTRATION.md": "907e9a0773a54e79d76774e5bd4cee58403fa66c3882e192e56a2ee57715c666"
+      },
+      "response_sha256": "b7526726f6402bbd3c9965c093a20d151f68cf87ed83d9ceeb7a6a39b4580ea4",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "483222798319c67c16d036241173c14627038b2b5ee8a126dbce61e1051de488"
+    },
+    "review": {
+      "scope": "Notification-only GitHub App adapter: checked issue publication and synthetic acknowledgments (orchestrator/phone_notifications.py, tests/test_phone_notifications.py, docs/operations/NOTIFICATION_APP_REGISTRATION.md); operational replies not authorized; source-only review, no execution.",
+      "reviewed_commit": "f16bd11471c0a85cb88f2f3dfe528ad6a6a2e7b5",
+      "verdict": "APPROVE",
+      "findings": [
+        "No concrete correctness, privacy, or authority bug found; all stated boundaries verified in source.",
+        "Authority boundary holds: only inspect/send-synthetic/ack-synthetic entry points exist, mode pinned to NOTIFICATION_SYNTHETIC_ONLY by exact-schema config check, all results carry operational_authority: False, and acknowledgment is a local state transition with no dispatch, reset, or publication effect.",
+        "Identity bindings are complete: session() verifies app ID and exact permissions, installation binding and selected-repository scope, full repository listing under both inspection and final tokens, and live bot/operator numeric IDs; issues are bound by author ID, exact body, and repository URL; ACK comments by comment ID, operator numeric ID, issue URL, exact expected body, and created_at==updated_at (edited comments refused).",
+        "Recovery semantics are fail-closed: UNCERTAIN is durably committed before the network mutation, lost or unverifiable responses never auto-repost (UNCERTAIN_DELIVERY_RECONCILE_NO_REPOST), identical-packet resends are idempotent, same-ID different-packet sends conflict, ACK replay of the same comment is idempotent while a distinct second comment refuses via the state='SENT' guarded update, and expiry is re-checked at acknowledgment.",
+        "Privacy handling is sound: private key read with O_NOFOLLOW plus owner/mode checks and passed to openssl via anonymous pipe (never argv/logs/output), redirects refused, responses size-capped, tokens never printed, packet and issue body scanned before persistence or posting, umask 0o077 and private_root protect state, and send/ack refuse unless recorded verified-identities.json matches the live session.",
+        "Advisory: no in-tool reconciliation path exists for UNCERTAIN rows; operators must resolve manually. Acceptable fail-closed design and documented, but a written reconciliation procedure would help.",
+        "Advisory: minted installation tokens (inspection and issues) are not revoked after use and rely on their ~1-hour expiry.",
+        "Advisory: protected_read performs a single os.read of up to 100 KB; oversized files fail closed via JSON parse errors rather than an explicit size refusal.",
+        "Advisory: O_NOFOLLOW protects only the final path component; directory-level privacy depends on private_root guarantees, which are outside the supplied source.",
+        "Advisory: a concurrent send during an in-flight delivery surfaces the UNCERTAIN error to the second caller even when delivery later succeeds; tests explicitly accept this fail-closed behavior.",
+        "Caveat: scan() and private_root() were reviewed as trusted external contracts (source not supplied); tests were not executed."
+      ]
+    },
+    "session_id": "46f6c747-ea2a-41d2-8829-683cf6e5c088",
+    "reported_total_cost_usd": 1.09692,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true
+  },
+  {
+    "name": "closeout-continuation-review",
+    "execution": {
+      "reviewed_commit": "460deab9aa5fc2609d34781cbcf2c78fd247928d",
+      "returncode": 0,
+      "wall_seconds": 321.39729386200634,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "a3b5823d20316b7c63e741f5dd761dbb17859c90f3e030043a7533fd59ca30a5",
+        "orchestrator/hosted_review_recovery.py": "93773fd7d688066311670041545c6db067b31f744487962f13463421cb0a6f3b",
+        "orchestrator/hosted_cycle_reconcile.py": "271a3a5fdc1792ce19042ad155c7723c4a8a6b703f99cb94e31e1c8477273b06",
+        "orchestrator/operations_report.py": "df411c607f59407a806cfd7826c075bc433a94f2ab2806ce831bdce5b72a36e1",
+        "orchestrator/remote_supervisor.py": "06c0ee427d97e6be518e8ad037b46c09cc9f97b021cb848f67f2f007e7affcff",
+        "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+        "deploy/research-system/next_task_acceptance.py": "5e0f4fc9c02cd242201006a7df67fcc26e17f1e14f41eed6495e51740b02008c",
+        "tests/test_hosted_recovery.py": "38481c358d1b7e3e215b25caf0ce6d447e6a9b97ed817839c4b4b75c8bd89776",
+        "tests/test_remote_supervisor.py": "ea1220dd18a670121ac7b75a9fce6d08eb1cfaf53d48f490f0df63fbf74b06d5",
+        "tests/test_operations_report.py": "159246c86201491334dc3e18cb9ba9198ae21edeedf1c7a67c9b7e4ad7adedaf"
+      },
+      "response_sha256": "70c7892de32a7af8788455288d561c040e804aef31cd5b56102025d467ed0442",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "767f7dcf2f80f5e3c8c3a7ec85690fd7681765ff4445233b8bc59cb51272457e"
+    },
+    "review": {
+      "scope": "Source-only review at 460deab9 of the supervised closeout-continuation chain: hosted_cycle successor selection and bounded dispatch (next_task_acceptance 40-closeout-trigger \u2192 41-closeout-followup), remote_supervisor controller/worker, job_store, operations_report queue, hosted_review_recovery, hosted_cycle_reconcile, and supplied tests. No execution performed; hosted chain not run; scan()/text()/operations_backup/smoke.py bodies not supplied and relied on as previously reviewed.",
+      "reviewed_commit": "460deab9aa5fc2609d34781cbcf2c78fd247928d",
+      "verdict": "APPROVE",
+      "findings": [
+        "Non-blocking: recovery retry double-prefixes the prompt \u2014 recover() replays the already-prefixed review.input.md through model_call(), which prepends the instruction header again, so the retried review input is not byte-identical to the original; receipts bind the actual bytes, but this contradicts the stated byte-original replay.",
+        "Fail-closed gap: recovered cycles cannot be reconciled \u2014 recovery writes complete.json and retry receipts under review-recovery/, while hosted_cycle_reconcile requires folder-level complete.json with real_model_calls==3 and folder-level review/disposition evidence, so the trigger wake stays PENDING_AUTH with no documented closure path; needs an operator procedure or recovery-aware reconcile mode.",
+        "Fail-closed gap: a crash during the disposition stage is unrecoverable by the recovery tool (queue status REVIEWED -> REVIEW_NOT_RECOVERABLE), leaving the cycle without disposition or complete.json; manual reconciliation only.",
+        "Operational risk: run() opens the production controller SQLite as root (Store DDL + WAL pragma) and polls it during child execution; root-created -wal/-shm files under umask 0o077 can deny the controller/worker services access mid-cycle, and the fixed 240s child deadline depends on external tick cadence \u2014 both degrade to NEXT_JOB_UNCERTAIN_RECONCILE_NO_RETRY, wasting a supervised cycle but failing closed.",
+        "Minor race: two concurrent acceptance runs with distinct --destination values serialize on different driver.lock files; the jobs primary key plus identical binding prevents duplicate child dispatch and the loser blocks at REVIEW_CLAIM_UNAVAILABLE, but duplicate model calls are possible; acceptable for a supervised one-shot tool.",
+        "Verified: successor selection is closed (select_next enforces exact task_id and {task_id,reason} schema; NEXT_JOB_ALREADY_EXISTS checked before any model call; dispatch only via synthetic-only Controller.submit within the 16-job budget); claim() persists a durable binding including next_job with conflict detection and no automatic retry; model subprocess groups are SIGKILLed on all exits and recovery's boot-id+pgid liveness check runs under the shared driver.lock; model context carries hash-bound receipts and full pinned source, never console bytes; the child's wake remains PENDING_AUTH (no unattended activation); reconcile's binding equality covers next_job and its wake transition is idempotent with OTHER_CYCLE_ALREADY_PROCESSED protection.",
+        "Scope caveat: git_publication.scan, public_export.text, operations_backup, and campaigns/isles24-pilot/colab/smoke.py were not included in the supplied source; their privacy/publication guarantees are assumed from prior review."
+      ]
+    },
+    "session_id": "8ba44277-66f8-4290-8b35-ac0e46da8001",
+    "reported_total_cost_usd": 2.064564,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true
+  },
+  {
+    "name": "closeout-continuation-review-r2",
+    "execution": {
+      "reviewed_commit": "bd8ddf9492ddcca1d757884329d998c0a9fce925",
+      "returncode": 0,
+      "wall_seconds": 239.19682226299483,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "d0cecd05d0237007c1c4b78d6bcf4e7219d476a25c8c80d799f0d7cc4a591a2a",
+        "orchestrator/hosted_review_recovery.py": "e63e483f45980011ba979b421f08e430ba8cdd88c939aec0efec5dd112421d30",
+        "tests/test_hosted_recovery.py": "a2a9dc2bb869d4633d90a9d2b83c8f051f12e1dbc02f23af81ff9e199fcb6571"
+      },
+      "response_sha256": "ddb97e92aaab6ed869395452feeeb1d1e72bdf24bca319b947e528335fb15966",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "f574497df8611c5f7bf6b1cb54cbfa1a19d845db7bfdef57ecb1167206aee012"
+    },
+    "review": {
+      "scope": "Source-only follow-up review at bd8ddf9 (successor to APPROVE at 460deab): controller-UID SQLite snapshot replacing root WAL access, prepared retry prompt byte preservation, supervised two-job/three-call acceptance, and fail-closed recovery paths in orchestrator/hosted_cycle.py, orchestrator/hosted_review_recovery.py, tests/test_hosted_recovery.py",
+      "reviewed_commit": "bd8ddf9492ddcca1d757884329d998c0a9fce925",
+      "verdict": "APPROVE",
+      "findings": [
+        "Root-WAL ownership fix is correct: controller_snapshot opens jobs.sqlite only in a runuser research-controller subprocess via file: URI with mode=ro (cannot create WAL/shm), takes a consistent backup() into :memory:, and root deserializes into an in-memory view locked with PRAGMA query_only=ON; 16MB cap and check=True fail closed, and the polling loop re-snapshots through the same path.",
+        "Prepared retry prompt bytes preserved exactly: review.input.md stores the final dispatched prompt bytes; recover() replays them with prepared_prompt=True, skipping the instruction prefix, so the retry's input_sha256 matches the original receipt.",
+        "Recovery replay guards are ordered fail-closed: review-recovery directory existence is checked before the new queue claim, the single-retry budget (attempts != 1) is enforced, and RECOVERY_CLAIM_CHANGED (persisted claim attempt_id vs current queue row) closes even the power-loss race where the recovery dir is lost after the retry claim persisted.",
+        "Acknowledged limitations remain fail-closed and are not claimed demonstrated: live_group refuses on same-boot pgid reuse and treats /proc PermissionError as live; a missing review.process-identity.json refuses recovery; disposition-only failure (status REVIEWED) raises REVIEW_NOT_RECOVERABLE.",
+        "Two-job/three-call authority bound holds: exactly 3 model calls on both paths; next_job requires an explicit operator argument, is pre-checked absent in the snapshot, selection is constrained by select_next to the single pre-approved id, dispatch runs as controller UID, and 240s of uncertainty raises NEXT_JOB_UNCERTAIN_RECONCILE_NO_RETRY; a failed/blocked next job flows to review with no retry. Model context stays hash-bound (sanitized rows, console_sha256 digests, no console bytes).",
+        "Minor (non-blocking): mode=ro WAL opens can fail (SQLITE_CANTOPEN/SQLITE_READONLY_RECOVERY) if the controller service is down leaving a -wal without a usable -shm; this fails closed via check=True but can block snapshots, and the production URI path is untested because the test monkeypatches subprocess.run.",
+        "Minor (non-blocking): unlabeled failure modes \u2014 bare StopIteration from next() for an unknown --job and for a missing thread.started event; verified_jobs would TypeError on fetchone() returning None for missing event/request rows, whereas run()'s inline path raises labeled COMPLETION_EVENT_REQUIRED/BOUND_REQUEST_REQUIRED.",
+        "Minor (non-blocking): controller_snapshot and submit subprocesses inherit root's environment rather than using env -i as model_call does; no privilege gain, but PYTHONPATH leakage into the controller-UID python is a hardening inconsistency.",
+        "Minor (non-blocking): recover()'s recovery.mkdir omits the parent-directory fsync that claim() performs; the crash window is caught fail-closed by RECOVERY_CLAIM_CHANGED, so this is a durability nit only.",
+        "Source-only review: no tests were executed here; the '37 targeted tests passed' figure is the author's claim. Supplied tests cover snapshot UID + read-only enforcement, prepared-prompt retry, single-retry budget, and dual-source packet contents via fixtures only."
+      ]
+    },
+    "session_id": "62b15cab-0e66-46fa-a0d9-e96ea4522929",
+    "reported_total_cost_usd": 1.282426,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true
+  },
+  {
+    "name": "closeout-publication-review",
+    "execution": {
+      "reviewed_commit": "c57ff9f07ef37c33a4a5bea35f98b3df6a677cf1",
+      "returncode": 0,
+      "wall_seconds": 156.04924055499578,
+      "input_file_sha256": {
+        "orchestrator/git_publication.py": "c6daec7fd16e2fc81cec1f626edfab8dd5f18f2c6fc1b5c740775cee91c0ac79",
+        "tests/test_git_publication.py": "7d53a82aa544adc064389e9140871f930b4fbdf26ca38cca26822d69e5fcb0ff",
+        "tests/test_operations_report.py": "159246c86201491334dc3e18cb9ba9198ae21edeedf1c7a67c9b7e4ad7adedaf",
+        "docs/operations/HISTORICAL_PUBLICATION_PREFIX.md": "abdc15127605a9452692d5ad30379513fc32097cf4ad1049503cf4fbf41bb359"
+      },
+      "response_sha256": "defa747d2709f8015eda29f0fd500efaf57b8db4a7288990c0e11f80c4c2f06f",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "d53b9334a81aec6fb8f5db734fc1c3d50b31ec06f5bab19f262dc148012320af"
+    },
+    "review": {
+      "scope": "Focused publication fix at c57ff9f: add second exact SHA-256 (159246c86201491334dc3e18cb9ba9198ae21edeedf1c7a67c9b7e4ad7adedaf) allowlisted version of tests/test_operations_report.py to the history-scanner synthetic-fixture allowance, preserving the prior version 46aa7a14\u2026424b3d. Source-only review of orchestrator/git_publication.py, tests/test_git_publication.py, tests/test_operations_report.py, and docs/operations/HISTORICAL_PUBLICATION_PREFIX.md; no tests executed, no patient data touched.",
+      "reviewed_commit": "c57ff9f07ef37c33a4a5bea35f98b3df6a677cf1",
+      "verdict": "APPROVE",
+      "findings": [
+        "Allowance is correctly narrow: it triggers only on the exact error CASE_LEVEL_RECORD_REJECTED, only for the exact path tests/test_operations_report.py, and only when the blob SHA-256 is one of the two pinned hashes in the closed SYNTHETIC_REPORT_TEST_VERSIONS set; any other error, path, or byte change falls through to the unchanged raise path, so arbitrary additions refuse and no general or format-wide exemption exists.",
+        "Ordering in scan() guarantees secrets, oversize, NUL bytes, non-UTF-8, path, and type violations raise before the case-identifier check and therefore can never be exempted; the post-match re-scan of identifier-masked bytes re-applies all remaining checks and propagates any failure, keeping the branch fail-closed.",
+        "Direct scan(), scan_commit(), and summary routes retain no exemption: case identifiers in artifacts, summaries, or commit metadata still refuse; the evidence/decisions.md prefix allowance and the single public test-line allowance for tests/test_git_publication.py are byte-for-byte unchanged.",
+        "Scientific approvals and old history are preserved: the prior hash 46aa7a14\u2026424b3d remains allowlisted so already-reviewed commits stay publishable unmodified, no outgoing commit is rewritten, and HistoricalFixtureTests.test_exact_reviewed_synthetic_report_fixture_only binds the on-disk test file to the allowlist while asserting refusal for other paths and modified bytes.",
+        "Surrounding machinery shows no regression: audit retains byte-exact NUL-delimited tree membership, 100644/100755-only mode enforcement, blob reads by matched object id, exact inventory equality, contaminated-ancestry fail-closed handling, and exact 40-hex pins; publish/create retain exact authority-dict equality, clean-bound-HEAD, origin-URL identity, force-with-lease compare-and-swap, and porcelain-verified create-if-absent semantics.",
+        "Caveat (non-blocking): source-only review cannot recompute SHA-256, so the equality of 159246c8\u2026 with the supplied test bytes rests on the 460deab review attestation and the in-repo fixture test; a mismatch fails closed (audit refuses, fixture test fails), so the residual risk is refusal, not disclosure. Test results (21 tests, 17 subtests passing) are the author's attestation, not re-executed here.",
+        "Informational: the report-test allowance requires no public-baseline ancestry, unlike the decisions.md branch; this matches the documented rationale that the fixture is bytes-reviewed synthetic content rather than already-public baseline material, and the sole delta from the prior version is the renamed 'Recorded block or failure reasons' section assertion."
+      ]
+    },
+    "session_id": "eee79c5f-8106-4d6e-9c29-666137e3cce4",
+    "reported_total_cost_usd": 1.050569,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true
+  },
+  {
+    "name": "closeout-wal-review",
+    "execution": {
+      "reviewed_commit": "3321f0f84ae441b36b6407b7178ebf339597112b",
+      "returncode": 0,
+      "wall_seconds": 241.26845281999704,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "35e89da4a4499df178bf27d7f707c62883247e8e0a2e06f15f4afd55180f343e",
+        "tests/test_hosted_recovery.py": "1e776706cb7149cd9f938212f94aa4d431c9cf1a913fa0277673b04e6b425c13",
+        "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+        "orchestrator/remote_supervisor.py": "06c0ee427d97e6be518e8ad037b46c09cc9f97b021cb848f67f2f007e7affcff",
+        "docs/operations/CLOSEOUT_ATTEMPT_FAILURE_20260906.json": "90c233fe24fb1ee4b4059408873276cb2d0ce3092584bc2853e0e33a012204a6"
+      },
+      "response_sha256": "291f5294485ff54d1fd0f04287d5169798e1e0c0562b9cfd75afe14378682a25",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "a24dfc46495e63762fde073ee464d5f1c5a2febc37fd35c7918d2fb1914baa55"
+    },
+    "review": {
+      "scope": "Source-only review of the controller-snapshot repair (JSON row export under controller UID replacing WAL serialize/deserialize) and its bounded next-job continuation path in orchestrator/hosted_cycle.py, plus supplied remote_supervisor.py, job_store.py, tests/test_hosted_recovery.py, and the 20260906 closeout record. Not a merge decision; unsupplied modules (operations_report, git_publication, public_export, recovery/reconcile) assumed as previously reviewed; tests not executed by reviewer.",
+      "reviewed_commit": "3321f0f84ae441b36b6407b7178ebf339597112b",
+      "verdict": "APPROVE",
+      "findings": [
+        "Repair correctly addresses the recorded 83fdcd0 failure: snapshot subprocess opens the WAL database read-only under the controller UID (which owns the state dir and can service the -shm file a read-only WAL open needs), exports five fixed tables inside one deferred read transaction (all fetchall() calls complete before json.dump returns), and root never opens the WAL file, eliminating both the serialize/deserialize WAL-format defect and any root-owned journal artifact risk.",
+        "Reconstruction is fail-closed on the drift modes traced: column-count mismatch raises in executemany, NOT NULL violations raise IntegrityError, missing/extra tables fail the schema set check, oversized output fails the 16 MiB cap, and non-JSON types would fail serialization. Residual gap: a same-arity column reordering or type change between the deployed DB and the code-defined schema would misbind silently; exporting column names from the snapshot subprocess and comparing to PRAGMA table_info would close it. Minor, schema is code-owned.",
+        "PRAGMA query_only=ON on the private in-memory copy makes Controller's mutating methods (submit/register/claim/event/tick/block) raise if invoked on the snapshot, verified by the DELETE test. It is advisory within-process, but the authoritative database is unreachable through this handle, so accidental-write protection is the right claim and it holds.",
+        "Bounded continuation semantics preserved: predecessor evidence (event payload, bound request via validate_receipt, PAYLOAD artifact bytes, console hashes, symlink checks) is re-verified from one consistent snapshot; binding includes next_job and event_sha256 so a divergent re-run hits CYCLE_BINDING_CONFLICT; completed cycles return cached complete.json with zero model calls; duplicate successor dispatch is prevented by the NEXT_JOB_ALREADY_EXISTS check, register()'s binding-conflict rejection, and the linux_attempts job UNIQUE constraint; submit fixes kind=synthetic_success and Controller.submit independently enforces synthetic-only kinds, backend allowlist, and the 16-job budget, so scientific approvals and patient gating are untouched.",
+        "Minor hardening inconsistency: the successor-submit subprocess runs 'runuser ... env GIT_OPTIONAL_LOCKS=0 python3 ...' inheriting root's full environment and PATH-resolved python3, unlike the 'env -i PATH=/usr/bin:/bin' sanitization used for the snapshot and model calls. Not exploitable from untrusted input (root's own environment), but should be aligned.",
+        "Persistent-artifact gap (pre-existing, not worsened): a snapshot or verification failure before claim() leaves no durable artifact under the destination root, the same visibility gap the 83fdcd0 incident had (recorded only via the private journal and a manual closeout document). Acceptable for a supervised transport; consider a durable pre-claim failure record.",
+        "Test hygiene: monkeypatch.setattr(h.subprocess,'run',...) patches run on the shared stdlib subprocess module, through which check_output is also implemented; harmless in the current test because only the snapshot call occurs under the patch, but fragile if the test grows. The test otherwise genuinely executes the production export script against a real WAL database (journal_mode asserted) with only UID switching fixtured, and the argv slice args[8:] correctly preserves ['-c', script, uri].",
+        "Operational note: the successor is submitted at the predecessor's execution pin (row['source'], 6b555075...) to satisfy checked_packet's single-pin invariant; if the deployed controller ticks at a different pin the job blocks fail-closed with SOURCE_CHANGED and the cycle records the blocked outcome. Operator should confirm the deployed tick pin before the supervised run. Polling cost (~one controller-UID snapshot subprocess per 2 s for up to 240 s) is heavyweight but bounded.",
+        "Scope caveat: hosted_review_recovery.py, hosted_cycle_reconcile.py, operations_report.py, git_publication.py, and public_export.py are pinned in SOURCE_FILES but were not supplied; sanitized(), scan(), finalize(), Queue, and the recovery path are relied on as previously reviewed. The reported 37-test pass was not independently verified; this review is source-only."
+      ]
+    },
+    "session_id": "5f3c8e45-1a92-420b-b7d7-e053b720fca1",
+    "reported_total_cost_usd": 1.4438269999999997,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true
+  },
+  {
+    "name": "closeout-context-review",
+    "execution": {
+      "reviewed_commit": "d51e4a07132dc380b655a0e47e827a1a004fb987",
+      "returncode": 0,
+      "wall_seconds": 180.91077564399893,
+      "input_file_sha256": {
+        "orchestrator/hosted_cycle.py": "fbd369252882f79486f4a565c2c96213868496db3e7b79dcdd29cd6765c8dfc8",
+        "orchestrator/operations_report.py": "df411c607f59407a806cfd7826c075bc433a94f2ab2806ce831bdce5b72a36e1",
+        "orchestrator/git_publication.py": "c6daec7fd16e2fc81cec1f626edfab8dd5f18f2c6fc1b5c740775cee91c0ac79",
+        "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+        "tests/test_hosted_recovery.py": "78911df69a562a855905e5fd263b7a2c932090f8b27267f5d6a83cadcfb81b08",
+        "docs/operations/CLOSEOUT_CONTEXT_FAILURE_20260906.json": "12aad43a017e6bfd6102e6888b1947c63ecac37984d07317d862a62d42e1f721"
+      },
+      "response_sha256": "704436435c6be6921804a115a9cb8de562bfa7faa23032ed6d63be40abe97872",
+      "requested_model": "claude-fable-5",
+      "assistant_message_models": [
+        "claude-fable-5"
+      ],
+      "actual_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "protocol_sha256": "589b023276583d2d34e9162afd157ba1e81077042df765ea55e85bcfde25c5d4"
+    },
+    "review": {
+      "scope": "Privacy/size/ownership correctness of the new private immutable source-context storage in orchestrator/hosted_cycle.py (fix for pre-model PUBLIC_TEXT_REJECTED at 7fb5f2f), including unchanged public report/summary limits, fail-closed boundaries, identity bindings, recovery semantics, and preservation of scientific gating. Source-only review of the supplied files; no execution and no claim that tests were run. Standing activation/authority model out of scope per request.",
+      "reviewed_commit": "d51e4a07132dc380b655a0e47e827a1a004fb987",
+      "verdict": "APPROVE",
+      "findings": [
+        "hosted_cycle.immutable is correct on the reviewed axes: parent directory enforced owner-only and symlink-free via private_root (uid match, no group/other permission bits, ancestor symlink check re-run on every write); content validated before any write by both git_publication.scan (path rules, secret/case-identifier/NUL rejection, 1.5MB cap) and public_export.text at explicit limit=1500000; O_EXCL create at mode 0600; byte-identical repeat returns idempotently with symlink rejection, differing bytes raise IMMUTABLE_OUTPUT_CONFLICT; file fsync followed by parent-directory fsync.",
+        "Public boundaries are unchanged: operations_report.immutable still routes through text() at the 100,000-byte default and public_export.text/summary defaults are untouched; the 1.5MB bound applies only to the private cycle folder, matching the diagnosed failure where the expanded packet exceeded the 100k public writer.",
+        "Fail-closed ordering verified: scan and public_text run before os.open, so rejected content leaves no partial artifact (consistent with the test asserting rejected.md does not exist); a crash mid-write leaves bytes that fail equality on re-entry, forcing reconciliation instead of silent retry; blocked.json content is constant so the failure path is idempotent, and claim() routes partial folders to INCOMPLETE_CYCLE_RECONCILE_NO_AUTOMATIC_RETRY.",
+        "Identity bindings and recovery semantics intact: claim() enforces byte-equal binding.json with idempotent complete.json return; no code deletes prior failed unit directories (both failed attempts preserved); continuation is gated on an existing COMPLETE synthetic_success predecessor with validate_receipt, artifact/console hash re-verification, and NEXT_JOB_ALREADY_EXISTS_RECONCILE protection; packet scope and report science wording still deny scientific conclusions or grants.",
+        "Non-blocking: a model answer between 100k and 1.5MB is stored privately (stage .md at the 1.5MB bound) but then rejected by Queue.attach/disposition's 100k public text() check, consuming one of the three review attempts before the cycle blocks; fail-closed but an operational cost worth knowing.",
+        "Non-blocking, pre-existing: identifier() accepts dot-only strings ('.'/'..' match [A-Za-z0-9_.:-]{1,128}) and attempt/job ids are joined into filesystem paths (Path(outputs)/attempt_id, destination/attempt_id); downstream binding.json presence, symlink checks, and the trusted controller snapshot make this fail closed, but rejecting dot-only identifiers would be tighter.",
+        "Note: the whole packet remains bounded by scan('packet.json') at 1.5MB in checked_packet; if embedded sources grow past that, the cycle fails pre-model again at the higher bound \u2014 same failure class as 7fb5f2f but fail-closed and consistent with the stated design."
+      ]
+    },
+    "session_id": "f3577436-7b33-4451-be87-1b116f6b9e62",
+    "reported_total_cost_usd": 1.294411,
+    "review_role": "author-operated implementation review; not independent main-merge desk",
+    "source_only": true,
+    "investigator_qualification": "The dot-only identifier finding does not apply to hosted_cycle: it imports remote_supervisor.identifier, whose regex is [A-Za-z0-9_-]{1,64}. No identifier relaxation or historical code change was made."
+  }
+]

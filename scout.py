@@ -234,6 +234,8 @@ Write only the file the task names. Preserve all other files.
              ROOT/'evidence'/'cross_charter_index.md',
              ROOT/'evidence'/'librarian_proposals.md']
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
+    from orchestrator.research_context import evidence_context
+    context += '\n\n===== RELATED EVIDENCE (NO SCORE TRANSFER) =====\n' + json.dumps(evidence_context(ROOT, charter_for_target(target)))
     tctx = _target_context(stage, target)
     if tctx:
         context += '\n\n' + tctx
@@ -796,9 +798,12 @@ def shortlist(args):
 
 def stage_target(stage, idea):
     if stage in ('scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit'):
-        scouts=sorted((ROOT/'ideas').glob('scout-*'))
-        if not scouts: raise SystemExit('Run new-scout first.')
-        return scouts[-1]
+        # Legacy unqualified run targets baseline only; named cycles use an
+        # explicit reference. Lexical ordering across charters is not authority.
+        charter,number=_parse_scout_ref(idea) if idea is not None else (None,_latest_scout_no(None))
+        target=scout_dir(number,charter)
+        if not target.is_dir(): raise SystemExit('Requested scouting cycle does not exist.')
+        return target
     if idea is None:
         idea=load_state().get('selected_idea')
     if idea is None: raise SystemExit('--idea is required or shortlist an idea first.')
@@ -3265,7 +3270,7 @@ def _commit_all(message):
     r = _git('diff', '--cached', '--quiet', check=False)
     if r.returncode == 0:
         return False  # nothing to commit
-    _git('-c', 'user.name=Astra (OpenAI agent)', '-c', 'user.email=astra@agents.local.invalid', 'commit', '-q', '-m', message)
+    _git('-c', 'user.name=Research system (automated checkpoint)', '-c', 'user.email=research-system@agents.local.invalid', 'commit', '-q', '-m', message)
     if os.environ.get('SCOUT_CI'):
         _push_checkpoint()
     return True
@@ -4197,6 +4202,8 @@ def _dossier_entry_idea(d, entries):
 def write_librarian_dossier(target):
     entries = ledger_mod.load()
     chunks = ['# Librarian dossier (auto-generated)', '']
+    from orchestrator.research_context import evidence_context
+    chunks.append(json.dumps(evidence_context(ROOT, charter_for_target(target))))
     for d in sorted((ROOT/'ideas').glob('[0-9][0-9][0-9]')):
         chunks.append(_dossier_entry_idea(d, entries))
         chunks.append('')

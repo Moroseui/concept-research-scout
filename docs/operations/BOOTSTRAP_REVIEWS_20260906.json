@@ -1,0 +1,553 @@
+{
+  "reviews": [
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "ae1e5368d94cd3648bac5b7ed9da59f754932f2e",
+      "verdict": "REQUEST_CHANGES",
+      "scope": "research-system-synthetic-bootstrap: orchestrator/ (remote_supervisor, operations_report, operations_backup, job_store, public_export, git_publication), deploy/research-system/ (bootstrap.sh, install_release.py, systemd units/timers), tests/, docs/operations/. Source-only review of the supplied snapshot; no execution, no test runs, no patient data or tooling touched. smoke.py, scripts/workflow_boundary.py and dispatch-limiter.json referenced but not supplied \u2014 unreviewed.",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "5d4fd6f7-d44c-4c04-87ed-748d81f87fed",
+      "wall_seconds": 452.00601073199505,
+      "reported_total_cost_usd": 2.48046,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 39455,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 33293,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 39455,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 33293,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 39455,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 39455
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "orchestrator/remote_supervisor.py": "ca0d9abbde562d53192369dd5c477f194ce369ff04879e304b302e8013916645",
+        "orchestrator/operations_report.py": "80464dd4774bd5ec7e6574dfa633b8c626cd58644773d97dfeb4aac963b77dcb",
+        "orchestrator/operations_backup.py": "5e157bf4a62f369d8d8b9c0f88fa8a983acb01fb89004f9d9212fd6a4c4b47eb",
+        "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+        "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+        "orchestrator/git_publication.py": "18bd02f69e36de1da32a14f593f18fddee409097a1a74205ff9b0479256de1b1",
+        "deploy/research-system/bootstrap.sh": "0c05b8117c4afbcb6002f95d450c3a7b5cb9a2312f3676246fdd107b10e31a8e",
+        "deploy/research-system/install_release.py": "264f4d7ad9dde0304fb0298a3cd4c9f1b2f81eb25b4845b880e313eda8910725",
+        "deploy/research-system/research-system-controller.service": "ef60ce6a7e71e7b91c9366056f1680c6d376ae341489c1bc5f1bf6106dc89468",
+        "deploy/research-system/research-system-worker.service": "f41b85c7e66dd1b527fa5353f9f589c4d1c3757a840aa51f7edb67018c92af90",
+        "deploy/research-system/research-system-controller.timer": "ed30e43eb8b55099ad1c825a43c9ecb2a7d9e5451a8b2238a4e6117d171e5474",
+        "deploy/research-system/research-system-worker.timer": "2032cf1b5aa0401c52c920967510dddfd90f85556d4ac848b6066007da2e0eec",
+        "tests/test_remote_supervisor.py": "c16f9a60b8eb824e345d601074269a688d3d4aa0c9583c2398b72687e9127be5",
+        "tests/test_operations_report.py": "46aa7a14b8390cc16562f21863fb1c80499c73441209f3b727b50b8e00424b3d",
+        "docs/operations/LINUX_SYNTHETIC_BOOTSTRAP.md": "17a8a10de3c09278e9a63d13c8f2e3ecdcc6455cefc1bb9718236466a9afde3a",
+        "docs/operations/REPORTING.md": "673c9005fd5946b8f5f756e922620e4c312cc836d264ddd6c418d9ddfbadc509",
+        "docs/operations/PERMISSIONS_AND_EXTERNAL_STEPS.md": "4b34560b9af92f6656e822e74f51486ea63e9d051b04d5d7fa6235ec71ad5cbc"
+      },
+      "original_response_sha256": "a58db2a798cb3ff3ea72a6da8e3a8259483a17b9d438cad79501d20c49aee994",
+      "original_protocol_sha256": "1f74967ffbf1cddfe88ff081486a5b2fc18160e0e4051c6fafebe58b7f406990",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "1900522275c7f8b74836432cef5a8ebd605c1840",
+      "verdict": "APPROVE",
+      "scope": "research-system-synthetic-bootstrap-followup",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "606ee908-9aeb-49ce-8cc8-3678c59b986b",
+      "wall_seconds": 429.0007952090018,
+      "reported_total_cost_usd": 2.5576570000000003,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 47612,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 31447,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 47612,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 31447,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 47612,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 47612
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "orchestrator/remote_supervisor.py": "1e99a79c3525d66035dba1a12711028251ebd641d3ec23dab0486d7efce890a0",
+        "orchestrator/operations_report.py": "de5c65278d7663216326ea6b047652017fa13b9dc04bb1c64cffc3c39ca859b7",
+        "orchestrator/operations_backup.py": "890097f0de4042a40d58b61edea5444711ef4dbe3ef89ff3c14e9c2af5ff7fed",
+        "orchestrator/job_store.py": "309be4891ef64a483128aa8b510ba9f0e5ebdeb85085abdac95a29f288a0570a",
+        "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+        "orchestrator/git_publication.py": "69af5d3c30f73cf5af13ba2904797ba63ab03d76f425c523ab25d42c7c946b2b",
+        "scripts/workflow_boundary.py": "45b4dd2bc432dbd62801b5ab887ea7d2bedf69090f6b6e0414911cdf02a9313f",
+        "deploy/research-system/bootstrap.sh": "0c05b8117c4afbcb6002f95d450c3a7b5cb9a2312f3676246fdd107b10e31a8e",
+        "deploy/research-system/install_release.py": "264f4d7ad9dde0304fb0298a3cd4c9f1b2f81eb25b4845b880e313eda8910725",
+        "deploy/research-system/synthetic_acceptance.py": "697dda2c203ce02646020a767c9fb8a00e907b75f28405e820a321734696c0cb",
+        "deploy/research-system/synthetic_admission_test.py": "0a95447e96a139182dc8ed77c2a08fb0dc386a09d4d0f32332cdeeef87acee9f",
+        "deploy/research-system/research-system-controller.service": "ef60ce6a7e71e7b91c9366056f1680c6d376ae341489c1bc5f1bf6106dc89468",
+        "deploy/research-system/research-system-worker.service": "1f5b5faeabf2ecf4a5d2868bf38d215b8654f9228ceedbd7ce9525cf6d8419b6",
+        "deploy/research-system/research-system-controller.timer": "ed30e43eb8b55099ad1c825a43c9ecb2a7d9e5451a8b2238a4e6117d171e5474",
+        "deploy/research-system/research-system-worker.timer": "2032cf1b5aa0401c52c920967510dddfd90f85556d4ac848b6066007da2e0eec",
+        "tests/test_remote_supervisor.py": "461787ec6eb3247646b557550c91879b9ff32190e82e3efc806b5a765b5ab009",
+        "tests/test_operations_report.py": "46aa7a14b8390cc16562f21863fb1c80499c73441209f3b727b50b8e00424b3d",
+        "tests/test_git_publication.py": "785fcf93cd8464b38433c1e2aca7b614836d5437fbf2b672b1e6e90272eb8df8",
+        "campaigns/isles24-pilot/colab/smoke.py": "fadfc83d6f2cea974f006b4563cdf6b0bfb2242b0b9e50cb852ad2e50f749c61",
+        "configs/pilot/dispatch-limiter.json": "c04911c3374888f905e54b05d935fd91be3d9dbed87a63331b82f098e4d506e1",
+        "docs/operations/BOOTSTRAP_REVIEW_REPAIRS.md": "b7cc9aa66d38b4f95cb6624457db686a38a67f62d9fc54bfbb2b8711ffa04774"
+      },
+      "original_response_sha256": "fd6ec2b5cd96a1d8aa2ad5185c6492a86a66c822397ae0f210741e8715278999",
+      "original_protocol_sha256": "ca0aec71ebef681ffaff0bfb7f05e7d2fb0a38d04eef91ca5db2f442fc1d0618",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "16abf01ad45891a6524047fbc0de4ff8a9383c12",
+      "verdict": "REQUEST_CHANGES",
+      "scope": "historical-public-prefix-preservation",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "6479958d-e094-4d8a-b2b0-48671c8f34da",
+      "wall_seconds": 272.76571351799794,
+      "reported_total_cost_usd": 1.28517,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 13643,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 20069,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 13643,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 20069,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 13643,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 13643
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "orchestrator/git_publication.py": "acfe9d00ced5c4a95b9df7a9b33a96c1574295af2a9080af390bbfa62a05f831",
+        "tests/test_git_publication.py": "e0a0e0ff978f82dc397d30237d8e3aecb7211a01d37b048ab5f4bd103d192462",
+        "docs/operations/HISTORICAL_PUBLICATION_PREFIX.md": "8b1df24e3f4c0c36daf277047cc707879dc91ad97601f64749f787fee909b664"
+      },
+      "original_response_sha256": "aff757382300b1f1443b0cf6745d066972f7e5b00867ab9fd69689953edb1021",
+      "original_protocol_sha256": "8e1c8130b82be1b028f51f67ca54b8abc683cee469a9d7ff049bb5329f81733f",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "379df530367f60cefd060038d95c88158435ad88",
+      "verdict": "REQUEST_CHANGES",
+      "scope": "historical-public-prefix-boundary-followup",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "a12a8622-5fe6-40ed-96d2-83b80fedcf0e",
+      "wall_seconds": 373.3800478749981,
+      "reported_total_cost_usd": 1.6980039999999998,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 14083,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 28144,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 14083,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 28144,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 14083,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 14083
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "orchestrator/git_publication.py": "6d69a5444f68073badf7c8aa5a18299613df65f7c43d7a6159c77751f74e0d32",
+        "tests/test_git_publication.py": "4fd3bb25b45367be7a8779858949fbe074f5cc158d691962c40fe7d6a7ba564f",
+        "docs/operations/HISTORICAL_PUBLICATION_PREFIX.md": "64b11f7187f21259bcd8aaffbdd4b363e0afd7e85f71defad269bd856c548a45"
+      },
+      "original_response_sha256": "6b9fa5d1c36f33d016a2497084b2c52bdf8f0feb13b5b366dfddb47dea6308f7",
+      "original_protocol_sha256": "d1df9a3cd5086cf9189ce411c338f0106b1f797684ec508fb5844c0122d1e7db",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "1c8417759778de50bc8f5e13aad403498ac19ef7",
+      "verdict": "REQUEST_CHANGES",
+      "scope": "exact-tree-publication-followup",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "80abdc07-1c4e-4df6-a3cf-b89a4a53a18f",
+      "wall_seconds": 380.4397812650059,
+      "reported_total_cost_usd": 1.7123209999999998,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 14821,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 28124,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 14821,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 28124,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 14821,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 14821
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "orchestrator/git_publication.py": "5856da40c1b89d80cb48d2b8622be41e22460866c89acaf295ab7c995047b827",
+        "tests/test_git_publication.py": "f3d3a695e20f3d47a433d4ee93650263ba37b17c878c913a172b03adcbfdfbfc",
+        "docs/operations/HISTORICAL_PUBLICATION_PREFIX.md": "deadd505a71173a87a89247a22f7fd298227c8c8cdd4f19c9efb38d154f87c8b"
+      },
+      "original_response_sha256": "1d08a919cbcdab3246511e345c1afb40067c07c020a0e9b3f5e778528ff3d164",
+      "original_protocol_sha256": "c741648013bea003ddd515228628ad761fedb3936849445c4590e9c120c9861c",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "ec89e38797b499bb680d184882e93e25357d2fbb",
+      "verdict": "REQUEST_CHANGES",
+      "scope": "final-publication-fixture-bindings \u2014 source-only review of supplied files (orchestrator/git_publication.py, tests/test_git_publication.py, tests/test_operations_report.py, scripts/workflow_boundary.py, scripts/check_pilot_publication.py, docs/operations/HISTORICAL_PUBLICATION_PREFIX.md, docs/operations/BOOTSTRAP_REVIEW_REPAIRS.md). Referenced-but-unsupplied modules (orchestrator/operations_report.py, public_export.py, human_controls.py, scout.py, docs/isles-pilot payloads) assessed only via callers and tests. No tests executed; pinned SHA-256 constants not recomputed.",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "a5e75a26-54e0-4a65-9364-19700cbb9947",
+      "wall_seconds": 553.0908373960046,
+      "reported_total_cost_usd": 2.5866870000000004,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 24068,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 41780,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 24068,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 41780,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 24068,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 24068
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "orchestrator/git_publication.py": "2850229d600497a586d253af8f6dcbd9bc9a8dff3e53ed0857c70764b4dbb8ce",
+        "tests/test_git_publication.py": "7d53a82aa544adc064389e9140871f930b4fbdf26ca38cca26822d69e5fcb0ff",
+        "tests/test_operations_report.py": "46aa7a14b8390cc16562f21863fb1c80499c73441209f3b727b50b8e00424b3d",
+        "docs/operations/HISTORICAL_PUBLICATION_PREFIX.md": "c7fd42fb5f33694165e7304bc55f38b939d5ea50a97abb89f04dd004538621af",
+        "docs/operations/BOOTSTRAP_REVIEW_REPAIRS.md": "335fc2f832e3367a4e6ce1ad916578266a34f2e2908da1a778cc9512ddb0b762",
+        "scripts/workflow_boundary.py": "45b4dd2bc432dbd62801b5ab887ea7d2bedf69090f6b6e0414911cdf02a9313f",
+        "scripts/check_pilot_publication.py": "fe4d6a0d6c681f3c23c1e921ed781662d9d809300a6e18676d933f4b8b3a31a0"
+      },
+      "original_response_sha256": "96832fa5e2c608cf531577bb54d6576aa590fa0a43e5fd5375651b7fbe940351",
+      "original_protocol_sha256": "9513532fe0a01501453916eb723b6152345c95ce540c0cab82a69accd2c819dc",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "dde901e8fc6487073394b3f66e9735fe3f245dce",
+      "verdict": "APPROVE",
+      "scope": "complete-publication-repair-candidate: source-only review of supplied files (orchestrator/git_publication.py, scripts/workflow_boundary.py, scripts/check_pilot_publication.py, tests/test_git_publication.py, tests/test_operations_report.py, tests/test_pilot_publication_audit.py, docs/operations/*). No tests executed; orchestrator/operations_report.py not supplied and assessed only via its tests.",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "03c26101-b626-49db-af9e-35ebbab0a160",
+      "wall_seconds": 355.14806345800025,
+      "reported_total_cost_usd": 1.8577539999999997,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 25428,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 26637,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 25428,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 26637,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 25428,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 25428
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "orchestrator/git_publication.py": "2850229d600497a586d253af8f6dcbd9bc9a8dff3e53ed0857c70764b4dbb8ce",
+        "tests/test_git_publication.py": "7d53a82aa544adc064389e9140871f930b4fbdf26ca38cca26822d69e5fcb0ff",
+        "tests/test_operations_report.py": "46aa7a14b8390cc16562f21863fb1c80499c73441209f3b727b50b8e00424b3d",
+        "docs/operations/HISTORICAL_PUBLICATION_PREFIX.md": "69dbc535f75ac2c705fb42f6786a0fa9456014649b81130adc71664dec48ecb2",
+        "docs/operations/BOOTSTRAP_REVIEW_REPAIRS.md": "335fc2f832e3367a4e6ce1ad916578266a34f2e2908da1a778cc9512ddb0b762",
+        "scripts/workflow_boundary.py": "45b4dd2bc432dbd62801b5ab887ea7d2bedf69090f6b6e0414911cdf02a9313f",
+        "scripts/check_pilot_publication.py": "9e721dd230730b975ed54610d90713808ce0c63db0b24c3f4862e3758f6079d7",
+        "tests/test_pilot_publication_audit.py": "20eaa9b7fb8a19aa7c72673bb4416418816d03425e0806de5d97140a77eb8965"
+      },
+      "original_response_sha256": "5a42b850e8522104eae6cda61b6968b989130a5c750a4c701c2356ee5439caab",
+      "original_protocol_sha256": "ba12d8bd9a36f1aa8a70693756fc75c9d39ce0a9bc2ab1bb25c169f5195c4cfd",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "f3bec4becb15e5e1f9106d473e736c4b29e7dde0",
+      "verdict": "APPROVE",
+      "scope": "codex-userns-compatibility",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "6c7a96aa-052e-417d-99dd-899579736906",
+      "wall_seconds": 221.87703139299992,
+      "reported_total_cost_usd": 0.976959,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 7804,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 16323,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 7804,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 16323,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 7804,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 7804
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "deploy/research-system/codex_userns.py": "0f749ccfe3b1221915029c61a3600db0eefba96365787403a24fd7aaabd003a1",
+        "docs/operations/CODEX_SANDBOX_COMPATIBILITY.md": "7d1ef19a6cf1114dcc450b7fa4684f37ee282ad5de558724b72b6722d4900fe7",
+        "deploy/research-system/bootstrap.sh": "0c05b8117c4afbcb6002f95d450c3a7b5cb9a2312f3676246fdd107b10e31a8e"
+      },
+      "original_response_sha256": "03f3e7a026cfd7ba2e630845e08c57d61a1f43efa7501630fccea58274f3842e",
+      "original_protocol_sha256": "e679302573590fef4c098e3922f7c5d242577fc6279a95c88f52976777e8aa3e",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    },
+    {
+      "role": "author-operated implementation review; not independent main merge desk",
+      "reviewed_commit": "b670743d33a351944887b2ee8ab0d75af4fcd626",
+      "verdict": "APPROVE",
+      "scope": "hosted-startup-repairs",
+      "requested_model": "claude-fable-5",
+      "actual_assistant_models": [
+        "claude-fable-5"
+      ],
+      "reported_usage_models": [
+        "claude-haiku-4-5-20251001",
+        "claude-fable-5"
+      ],
+      "session_id": "6977bffa-dca7-4b1d-882d-a4ec6ae244e4",
+      "wall_seconds": 308.3508864260002,
+      "reported_total_cost_usd": 1.416974,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 12184,
+        "cache_read_input_tokens": 865,
+        "output_tokens": 23314,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 12184,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 23314,
+            "cache_read_input_tokens": 865,
+            "cache_creation_input_tokens": 12184,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 12184
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "input_file_sha256": {
+        "deploy/research-system/repair_sparse_ignore.py": "30f7c604a83d520690fdba05eadbdacd03af0c2f22a2029056cbc86c8420829f",
+        "deploy/research-system/install_release.py": "a2bf420dff3aedae22083481170793f1c83778da63104b9f1ace243a893f0823",
+        "deploy/research-system/codex_userns.py": "f417270ad0962a36c8ac338760388907d777cb69539e5a80a333f078164b2cca",
+        "docs/operations/LINUX_SYNTHETIC_BOOTSTRAP.md": "cffdeb4e783a01ecb4bbfd03f9bc05998869960d9c52f02d7af38fc3439c63e9",
+        "docs/operations/CODEX_SANDBOX_COMPATIBILITY.md": "4ff3023e48c35afa744907390199061506e851d0748f38d8793216cf9267ccef"
+      },
+      "original_response_sha256": "cf7f669271a07949f005c516d1a71ff6e8bea14f62d5905e1e66aec836f2cd19",
+      "original_protocol_sha256": "c9cefbd195ef86c71430588e29bdf3a59f9e061c841e1c417543068e7300f213",
+      "original_evidence": "retained privately; this is a metadata projection, not the original response",
+      "tests_run_by_reviewer": false
+    }
+  ],
+  "scientific_approval_changed": false,
+  "deployment_scope": "supervised synthetic only"
+}

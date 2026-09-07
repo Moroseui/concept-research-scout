@@ -1,0 +1,118 @@
+{
+  "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+  "unit": "research-system-readiness-20260906",
+  "properties": {
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "[not set]",
+    "CPUUsageNSec": "[not set]",
+    "User": "",
+    "PrivateNetwork": "no",
+    "ProtectSystem": "no",
+    "NoNewPrivileges": "no",
+    "ActiveState": "inactive"
+  },
+  "result": {
+    "source": "8de1822ff18be33d3834be901bbdefed4541440b",
+    "jobs": [
+      {
+        "id": "00-slow-synthetic",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "10-context-inventory",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "20-baseline-inventory",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "30-phase-b-inventory",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "40-charter-ratification",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "50-p001-launch",
+        "status": "BLOCKED"
+      },
+      {
+        "id": "60-phase-b-import",
+        "status": "BLOCKED"
+      }
+    ],
+    "processed_events": 4,
+    "inbox": [
+      {
+        "job": "20-baseline-inventory",
+        "reason": "WAIT_DEPENDENCIES_10-context-inventory",
+        "status": "RESOLVED"
+      },
+      {
+        "job": "30-phase-b-inventory",
+        "reason": "WAIT_DEPENDENCIES_20-baseline-inventory",
+        "status": "RESOLVED"
+      },
+      {
+        "job": "40-charter-ratification",
+        "reason": "REQUIRES_operator_charter_ratification",
+        "status": "OPEN"
+      },
+      {
+        "job": "50-p001-launch",
+        "reason": "REQUIRES_operator_patient_launch_input_backend_review",
+        "status": "OPEN"
+      },
+      {
+        "job": "60-phase-b-import",
+        "reason": "REQUIRES_original_console_identity_disposition_scientific_landing",
+        "status": "OPEN"
+      }
+    ],
+    "patient_execution": false,
+    "standing_activation": false
+  },
+  "independent_work_completed_during_wait": true,
+  "duplicate_added_events": 0,
+  "artifacts": {
+    "console.stdout": "adac28fbf7efddd2d12a0c401df182ffdaeeba91a2d64b8a2f2aa3a33b6db07c",
+    "reconcile.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "console.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reconcile.stdout": "adac28fbf7efddd2d12a0c401df182ffdaeeba91a2d64b8a2f2aa3a33b6db07c",
+    "10-context-inventory/result.json": "d40da314fcdbbf23c2ec324e55d5b2bd9bc0749797325cc3d4ca0cbfbf389ba4",
+    "10-context-inventory/attempt.json": "39b69eab05851f00e2fff6556e0a7f313a08ef565393f48f980413da55233f24",
+    "00-slow-synthetic/result.json": "50c591d0f0d7ad160e90a6ead93a2afe1d3e84c79a01140ff7e76af675acf1f9",
+    "00-slow-synthetic/attempt.json": "93729587a372d292c27c9f8caa39cd1ede2718eb622ece5e0b187efdff4283bf",
+    "30-phase-b-inventory/result.json": "f6dc6eca0305fb07b2726b378e7ea362acee7575b47bdc8827f971d59579a251",
+    "30-phase-b-inventory/attempt.json": "33328dd0dc6fc0e78870d4661abdf3c8c9e4d42c0c83216f6136747763446fb1",
+    "20-baseline-inventory/result.json": "4b2fd2e332bd72a9402921fc8b32ee223092f3b0ee92a917f71fc07fd0646aac",
+    "20-baseline-inventory/attempt.json": "bf8a8832ec7c8b361bbb2c600cd6741b5efb92d27fbb14e58876064fb86f1aef"
+  },
+  "intervals": {
+    "10-context-inventory": {
+      "started": 1788730438.60678,
+      "finished": 1788730438.6078973
+    },
+    "00-slow-synthetic": {
+      "started": 1788730438.601285,
+      "finished": 1788730468.6014483
+    },
+    "30-phase-b-inventory": {
+      "started": 1788730438.844995,
+      "finished": 1788730438.8457363
+    },
+    "20-baseline-inventory": {
+      "started": 1788730438.727829,
+      "finished": 1788730438.7291534
+    }
+  },
+  "model_calls": 0,
+  "patient_execution": false,
+  "standing_activation": false,
+  "properties_observation": "Collected after transient unit unload: default properties do not establish the executed UID or sandbox settings. Launch command and private console are preserved; no claim of measured peak resource use from these defaults.",
+  "observed_resource_usage_available": false
+}

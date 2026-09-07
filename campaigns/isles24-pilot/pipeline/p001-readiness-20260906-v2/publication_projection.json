@@ -1,0 +1,68 @@
+{
+  "status": "EXPLICIT_PROPOSAL_PUBLICATION_SUBSET",
+  "original_receipt_unchanged": true,
+  "files": [
+    {
+      "path": "receipt.json",
+      "sha256": "bcc3e14adc5b172af072bee7b1bcc744dffbc9b55824a50f234a079aa7586cb8",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "request.json",
+      "sha256": "ae40760a0d59488920b4406eeb7e5c84b9281de3e35c5135cfe04b631bd53981",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/launch_decision.proposed.json",
+      "sha256": "616c228bbd528af6cfc48b7792fbeab507117d8b1c70bf66ecbb2543eced1b7d",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/log_campaign_readiness.txt",
+      "sha256": "973d16be6871c0d4b819b935a22068069bdd803da915fafea56df478e9af6bd9",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/log_campaign_readiness_review.txt",
+      "sha256": "f53790a2f4c9fa9acd98415620fbc3aa1cbc9c64e59402b79de24f0d54654612",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/profile_campaign_readiness.json",
+      "sha256": "762b04f0246f046f2171db9615a5770feb489311517a9b8d2b1e40dd036796ca",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/profile_campaign_readiness_review.json",
+      "sha256": "5a8ea4673c7c93318be76a76faeabbb817b2a8d016228109c0ca91e64923e6dc",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/prompt_campaign_readiness.md",
+      "sha256": "1368bc1b3ec714c729fd03dd6687083594540bfbdd9502f09078a7e1078ad22e",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/prompt_campaign_readiness_review.md",
+      "sha256": "0b876391d69cffaa051fa8ec0c0f285b4364244d9f0e9d8a2bb3cef4b3d9c3a5",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/readiness.md",
+      "sha256": "53313249e1f71fba3ea521246426350eab7a156986e9794c899239b7c8987e2a",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/review.json",
+      "sha256": "65212b4659cedae5ea934231c3c767ba7247eb55134651923f29bff511cee16b",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/stage_provenance.jsonl",
+      "sha256": "84c79a553367e9b7ada7f01f6eb44343bd5ff7f0f392b7118182d9f5991f142e",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    }
+  ],
+  "private_originals_preserved": true,
+  "prior_attempt": "Local sandbox refused app-server initialization before scientific execution. Original failed bundle and console retained privately. Fresh bounded retry completed; no patient execution."
+}

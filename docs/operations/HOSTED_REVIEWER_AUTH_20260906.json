@@ -1,0 +1,8 @@
+{
+  "role": "research-reviewer",
+  "returncode": 0,
+  "authenticated": true,
+  "subscription_login_reported": true,
+  "auth_method": "claude.ai",
+  "model_invoked": false
+}

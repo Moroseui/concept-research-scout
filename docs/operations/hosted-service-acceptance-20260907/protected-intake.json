@@ -1,0 +1,30 @@
+{
+  "source": "386cde2f1cb90971fcdd14e7f537977d32cd3d34",
+  "returncode": 0,
+  "models_started": 0,
+  "service_changes": false,
+  "peer_checks": "direct broker fixture, not a new socket identity test",
+  "console_sha256": {
+    "console.stdout": "04a4e59fd7e4a35d5a70db0ecda7603c177d11e1f3936bbbad8e95f6d82b6e44",
+    "console.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "fixture": {
+    "status": "PASS",
+    "source": "386cde2f1cb90971fcdd14e7f537977d32cd3d34",
+    "kind": "SUPERVISED_PROTECTED_INTAKE_FIXTURE",
+    "synthetic_candidate_staged": true,
+    "unsafe_intermediate_rejected": true,
+    "denials": {
+      "wrong_peer": "BROKER_PEER_REFUSED",
+      "publication": "LIVE_PUBLICATION_NOT_AUTHORIZED",
+      "reset": "BROKER_OPERATION_REFUSED"
+    },
+    "live_configuration_changed": false,
+    "models_started": 0,
+    "git_remote_publications": 0,
+    "credentials_used": false,
+    "uid": 0,
+    "git_version": "git version 2.43.0"
+  },
+  "evidence_scope": "Actual deployed-host direct broker fixture. Numeric peer rejection is not a new socket OS-identity proof. Existing service/socket evidence remains separately bound."
+}

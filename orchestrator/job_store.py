@@ -52,8 +52,15 @@ class Store:
             self.db.execute('ROLLBACK');raise
 
     def block(self,job,reason):
-        self.db.execute("UPDATE jobs SET status='BLOCKED',lease=0 WHERE id=?",(job,))
-        self.db.execute("INSERT OR REPLACE INTO inbox VALUES(?,?,'OPEN')",(job,reason))
+        own=not self.db.in_transaction
+        if own:self.db.execute('BEGIN IMMEDIATE')
+        try:
+            self.db.execute("UPDATE jobs SET status='BLOCKED',lease=0 WHERE id=?",(job,))
+            self.db.execute("INSERT OR REPLACE INTO inbox VALUES(?,?,'OPEN')",(job,reason))
+            if own:self.db.execute('COMMIT')
+        except BaseException:
+            if own:self.db.execute('ROLLBACK')
+            raise
 
     def complete_event(self,job,event_id,result,now=None,*,lease=None):
         now=time.time() if now is None else now

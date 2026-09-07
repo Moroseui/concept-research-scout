@@ -1,0 +1,12 @@
+{
+  "source": "406c00a63f23aba4d600e04152897d68bdd2a925",
+  "before": "d24ffb9003a2291f359afe3acf4bf491f2d7fd9f",
+  "blob_versions": 12,
+  "inventory_sha256": "a17343dd0d66c7c447b58dfc7ff1102a53ad82321198ad45676f3185aec80483",
+  "destination": "astra/infrastructure-milestone-record",
+  "status": "BLOCKED_REMOTE_REF_PRECONDITION",
+  "publisher_error": "REMOTE_MOVED",
+  "remote_ref_exists": false,
+  "dependency": "Existing publisher cannot create absent remote branch; no bypass or bootstrap write attempted.",
+  "remote_mutation": false
+}

@@ -1,0 +1,20 @@
+{
+  "first": {
+    "event": "fee07efbb4ca4d13affed829b8da5ba9",
+    "status": "PROCESSED",
+    "report": "39ce1a9fd5c4cbabbbfc3cdd220f1cd59c752c4a8fe823879c1b96b0f3d63203",
+    "duplicate": false,
+    "model_calls": 0,
+    "job_dispatches": 0
+  },
+  "second": {
+    "event": "fee07efbb4ca4d13affed829b8da5ba9",
+    "status": "PROCESSED",
+    "report": "39ce1a9fd5c4cbabbbfc3cdd220f1cd59c752c4a8fe823879c1b96b0f3d63203",
+    "duplicate": true,
+    "model_calls": 0,
+    "job_dispatches": 0
+  },
+  "reviewed_source": "cb5b6e349ccf0d8594beef91de32061b67badafe",
+  "implementation_sha256": "271a3a5fdc1792ce19042ad155c7723c4a8a6b703f99cb94e31e1c8477273b06"
+}

@@ -1,0 +1,31 @@
+# Cross-family operational review — supervised acceptance cycle (trigger `fee07efb…`, job `30-linux-next`)
+
+**Verdict:** The receipt chain is internally consistent and the report is faithful to its generator, but this packet does not support full operational acceptance. The most load-bearing problem is that the reviewed implementation is not the code that produced the receipts, and several trust-boundary modules were not supplied at all. No tools were invoked for this review; everything below is from the supplied evidence.
+
+## Consistency checks that pass
+
+- Report table values, `%g` formatting, row ordering (sort by canonical JSON), counts (2/1/1/0), and the science/dependency boilerplate all match what `finalize()` in `operations_report.py` would deterministically produce from the supplied rows.
+- Trigger receipt fields (wall 0.2375 s, CPU 0.1520 s, RSS 19200 KiB, `separate_retrieval: true`) match the `30-linux-next` row. Both COMPLETE jobs share one artifact hash, consistent with the fixed `PAYLOAD`. Both stderr hashes are the SHA-256 of the empty string, as expected for clean runs.
+- The failure fixture failed and recorded no artifact; the Colab job blocked on `COLAB_BROWSER_DEPENDENCY` without preventing Linux completion, satisfying the operating direction's requirement.
+
+## Concrete defects
+
+1. **Source split between execution and review.** All four jobs and the trigger are pinned to `6b555075…`, but the report header and packet implementation come from HEAD `ba079f88…`. `checked_packet()` reads `SOURCE_FILES` from the *current* tree, so this review inspected code that is not proven to be the code the worker ran. The binding records `execution_source` honestly, but the report body never surfaces the discrepancy — the header source and the per-row sources in `receipts.json` silently disagree.
+2. **`Queue.unavailable` is unreachable.** If the Claude review call fails, `hosted_cycle.run` writes `blocked.json` and raises, leaving the review row stuck in `REVIEWING`. Nothing in the supplied code ever calls `unavailable()`, so the "honest unavailable reviews, retries capped at 3" behavior promised in the operating direction has no executable path; re-running the cycle is additionally blocked by `claim()`, so a single model failure permanently strands the report review absent manual database surgery.
+3. **Failure cause is discarded.** The worker's `except (ValueError, subprocess.TimeoutExpired, OSError): pass` swallows the exception type, so the outcome cannot distinguish child failure from timeout from I/O error — hence the conflated `SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT` reason Astra also flagged. The evidence exists in the private consoles but the receipt schema has no field for it.
+4. **`wakes` rows are write-only.** Every completion inserts `PENDING_AUTH` / `CODEX_AUTH_AND_BOUNDED_TURN_REQUIRED`, but no supplied code consumes or resolves wakes; `run()` selects its job from a CLI argument instead. Duplicate-cycle protection rests entirely on `claim()`, and the wakes table accumulates dead state that `status()` reports forever.
+5. **Only the trigger attempt is re-verified against bytes.** `run()` re-reads the artifact and console files for `fee07efb…` only; the `10-linux-delay` measurements in the report rest solely on the stored event row, not re-checked evidence.
+6. **Claude invocation flags and effective tool config are unverified.** `--permission-mode dontAsk` and `--tools ''` are not obviously valid Claude Code flags, and the receipt records no effective tool configuration. From this call's own vantage, the harness still presented file/shell tooling despite the intended empty toolset — the restriction relies on the prompt instruction, not on enforced configuration. The receipt should capture the resolved tool/permission state.
+7. **Minor durability gap:** `operations_report.immutable` fsyncs the file but not its directory; only `hosted_cycle` wraps it with `sync_dir`, so `attach()`/`disposition()` outputs (review, receipt, disposition files) lack directory-entry durability.
+
+## Acceptance gaps
+
+- **Unaudited trust boundaries.** `orchestrator/job_store.py` (Store: `register`, `block`, `inbox`, `events`/`jobs` schema), `orchestrator/public_export.py` (`text` sanitizer), `orchestrator/git_publication.py` (`scan`), and `campaigns/isles24-pilot/colab/smoke.py` are all load-bearing and absent from the packet. Claims about deduplication, blocking semantics, and content scanning cannot be confirmed from what was supplied.
+- **Service properties are thin.** Seven properties per unit show restricted users, `PrivateNetwork`, `ProtectSystem=strict`, and `NoNewPrivileges`, but there is no `LoadState`/`ActiveState` evidence that the units exist and run, and no coverage of device, kernel, or capability restrictions. More importantly, `hosted_cycle.run` itself executes as **root outside any sandbox unit**, spawning model CLIs via `runuser`; the deployed-properties evidence says nothing about the orchestrator's own confinement.
+- **This cycle's own receipts are absent, necessarily.** As Astra noted, the three-call cycle cannot include its own completion receipts; acceptance of the review/disposition mechanism requires a subsequent inspection of `complete.json`, the stage receipts, and the queue rows.
+- **Astra model identity remains unattested** (`model_evidence` honestly records that the resolved model is not independently reported), and **backlog migration is explicitly incomplete** per `QUEUED_SCIENTIFIC_TASKS_20260906.json`.
+- The report lists `SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT` under "Named dependencies," which is a failure reason, not a dependency; harmless but misleading wording from `finalize()`.
+
+## Reserved decisions
+
+All reserved decisions are preserved and none is advanced by this review: no scientific conclusion or grant, no P001/patient transfer or execution, no 047 landing or cleanup, no main merge, no new credentials, protected writer/reset permissions, spending, limiter activation, or unattended operation. This is not main merge approval. The suggested next actions are: bind future report generation to the execution source (or surface the split explicitly), add a reachable unavailability/reconciliation path for stranded reviews, and include the missing modules in the next acceptance packet.

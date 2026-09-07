@@ -1,0 +1,22 @@
+{
+  "first": {
+    "event": "7573e0bba1c34724bdd0f660fdbc0e75",
+    "status": "PROCESSED",
+    "report": "ab3b6f03899e26f086de69ec8f0d0b9c6e79f5dc167a644915c6c4a58f06bfe4",
+    "duplicate": false,
+    "model_calls": 0,
+    "job_dispatches": 0
+  },
+  "second": {
+    "event": "7573e0bba1c34724bdd0f660fdbc0e75",
+    "status": "PROCESSED",
+    "report": "ab3b6f03899e26f086de69ec8f0d0b9c6e79f5dc167a644915c6c4a58f06bfe4",
+    "duplicate": true,
+    "model_calls": 0,
+    "job_dispatches": 0
+  },
+  "execution_uid": "research-controller",
+  "originals_unchanged": true,
+  "reviewed_source": "cb5b6e349ccf0d8594beef91de32061b67badafe",
+  "implementation_sha256": "271a3a5fdc1792ce19042ad155c7723c4a8a6b703f99cb94e31e1c8477273b06"
+}

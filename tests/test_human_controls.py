@@ -34,6 +34,9 @@ class HumanControlsTests(unittest.TestCase):
             with self.subTest(mode=mode),tempfile.TemporaryDirectory() as d:
                 root=Path(d);base=root/'campaigns/isles24-pilot';base.mkdir(parents=True)
                 (base/'CAMPAIGN.md').write_text('Synthetic bounded campaign')
+                (root/'docs/operations').mkdir(parents=True)
+                for name in ['REMOTE_OPERATING_DIRECTION.md','CLAUDE_REVIEWER_DIRECTIVE.md']:
+                    (root/'docs/operations'/name).write_text(name+' synthetic context')
                 sc=SimpleNamespace(ROOT=root);seen=[]
                 def stage(sc,out,family,name,body,names):
                     seen.append(family)

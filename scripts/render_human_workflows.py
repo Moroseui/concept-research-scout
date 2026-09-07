@@ -51,15 +51,21 @@ def documents():
         {'name':'Explain infrastructure failure','if':"${{ failure() && steps.result.outputs.artifact_name == '' }}",'run':'python -m orchestrator.public_export'},
         {'name':'Remove ephemeral auth','if':'${{ always() }}','run':'python -c "import os,pathlib; p=pathlib.Path(os.environ.get(\'CODEX_HOME\',\'/nonexistent\'))/\'auth.json\'; p.unlink(missing_ok=True)"'}]}}}
     # Admission has no model credentials. Write permission remains ungranted;
-    # a ratified deployment can authorize this job without broadening model jobs.
+    # the protected collector writes state; this job only requests and waits.
     docs['research-control.yml']['jobs']['admission']={
-        'runs-on':'ubuntu-latest','timeout-minutes':5,
+        'runs-on':'ubuntu-latest','timeout-minutes':15,
         'permissions':{'contents':'read','actions':'read'},
         'steps':[
             {'uses':CHECKOUT,'with':{'ref':'${{ github.sha }}','fetch-depth':1,'persist-credentials':False}},
             {'uses':PYTHON,'with':{'python-version':'3.11'}},
             {'name':'Verify recorded adapter review','run':'python -c "from orchestrator.actions_runner import reviewed; reviewed()"'},
-            {'name':'Shared dispatch admission (inactive until ratified)','env':{'GH_TOKEN':'${{ github.token }}'},'run':'python -m orchestrator.dispatch_limiter --repo .'},
+            {'name':'Prepare checked shared admission request (inactive until ratified)','id':'admission_request',
+             'run':'python -m orchestrator.actions_admission_wait workflow-prepare --repository-cache . --output "$RUNNER_TEMP/research-admission"'},
+            {'name':'Save checked admission identity for protected collector','if':"${{ steps.admission_request.outputs.active == 'true' }}",'uses':UPLOAD,
+             'with':{'name':'${{ steps.admission_request.outputs.artifact_name }}','path':'${{ runner.temp }}/research-admission/admission.json','if-no-files-found':'error','retention-days':1}},
+            {'name':'Wait for exact shared admission (no state write credential)','if':"${{ steps.admission_request.outputs.active == 'true' }}",
+             'env':{'GH_TOKEN':'${{ github.token }}','POLICY_SHA256':'${{ steps.admission_request.outputs.policy_sha256 }}'},
+             'run':'python -m orchestrator.actions_admission_wait wait --repository-cache . --record "$RUNNER_TEMP/research-admission/admission.json" --policy-sha256 "$POLICY_SHA256"'},
             {'name':'Explain admission refusal','if':'${{ failure() }}','run':'python -m orchestrator.public_export'}]}
     return docs
 

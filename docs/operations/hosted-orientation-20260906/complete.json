@@ -1,0 +1,13 @@
+{
+  "actual_model_calls": 3,
+  "completion_event_set_sha256": "69a9fb9b822f55b9a7870d16fb9eecc1cb1d21ff916f90e384facfb3d8be783b",
+  "maximum_model_calls": 3,
+  "next_eligible_task": "Prepare a bounded, proposal-only system readiness discussion packet for the existing prediction-charter and external-seed P001 adoption proposals, incorporating the supplied source-check amendment and metadata preflight. Distinguish supported timing and label provenance from unresolved Tmax voxel units, identify exact review and ratification dependencies, and retain 047b as pending evidence without conclusions. The four inventory jobs are complete; none of the three remaining blocked jobs is eligible for dispatch. This identifies desk work only and proposes no execution.",
+  "objective": "Advance exploratory prediction of follow-up infarct from admission CT inputs toward a reviewed baseline readiness packet by 9 September 2026, with a valid P001 result and reviewed interpretation only if separate gates resolve. Preserve prediction-charter readiness, 047b evidence reconciliation and cross-charter evidence propagation as persistent research goals.",
+  "patient": false,
+  "report": "a7db66f558acaf865ec7d4135d39ed66386e1bac14b8d589bdc0757ae727205e",
+  "snapshot_reader_uid": 997,
+  "source": "dc116ca5be32799e0fefba52626768f7eff8d529",
+  "standing_activation": false,
+  "status": "COMPLETE"
+}

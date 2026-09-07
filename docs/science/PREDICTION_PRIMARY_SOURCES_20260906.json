@@ -1,0 +1,11 @@
+{
+  "status": "INVESTIGATOR_VERIFIED_PUBLIC_METADATA",
+  "verified_date": "2026-09-06",
+  "method": "Opened primary hosting record and arXiv abstract pages; no patient file downloaded",
+  "sources": [
+    {"url": "https://zenodo.org/records/16813698", "facts": ["Pinned v3 training release describes 149 cases, admission CT modalities/perfusion maps and follow-up MRI-derived infarct labels.", "The listed train.7z MD5 remains 36ae28b9a17f7340b8bbef62b595cb57.", "A newer release is advertised; it is not substituted for the frozen archive." ]},
+    {"url": "https://arxiv.org/abs/2408.11142", "title": "ISLES'24 -- A Real-World Longitudinal Multimodal Stroke Dataset", "disposition": "Verified title/identity; use this primary dataset source. Full-text timing and unit details require their own source check before stronger claims."},
+    {"url": "https://arxiv.org/abs/2408.10966", "title": "ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data. Where Do We Stand?", "disposition": "Verified challenge paper identity; no new performance number is asserted from the abstract."}
+  ],
+  "limitations": ["No fresh scientific novelty search or archive inspection was performed.", "The pinned release's free-text dataset citation differs from its related-work arXiv link; the linked 2408.11142 title was independently checked.", "No live Drive availability or provider durability claim follows from this metadata check."]
+}

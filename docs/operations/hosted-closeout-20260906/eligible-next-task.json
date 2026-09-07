@@ -1,0 +1,8 @@
+{
+  "backend": "linux",
+  "depends_on_event": "7573e0bba1c34724bdd0f660fdbc0e75",
+  "job": "41-closeout-followup",
+  "kind": "synthetic_success",
+  "maximum_dispatches": 1,
+  "source": "6b555075fcf553994ecac8e368f4676cbdffdc56"
+}

@@ -1,0 +1,9 @@
+**Partial operational completion:** supplied evidence records two completed synthetic jobs, one failure and one blocked job. It does not establish full hosted acceptance.
+
+- **Completed:** `10-linux-delay` and `30-linux-next` share the expected artifact hash. The triggering receipt for `30-linux-next` records separate retrieval, console hashes, 0.237 s elapsed, 0.152 s CPU and 19,200 KiB peak RSS. Evidence is supplied, not independently verified here.
+- **Failed:** `20-linux-failure` is the intentional failure fixture; no artifact is recorded. Its generic reason does not distinguish worker failure from timeout.
+- **Blocked:** `00-colab-blocked` has no attempt or measurements because of `COLAB_BROWSER_DEPENDENCY`. This dependency has not prevented Linux completion.
+- **Acceptance gaps:** service properties show distinct, restricted controller and worker accounts, but do not establish all runtime protections. The three-call review/disposition cycle has no completion receipts in this packet; Astra’s resolved model identity is not independently reported by the implementation. Scientific backlog migration explicitly remains incomplete.
+- **Next eligible action:** within the already supervised cycle, finalize the bound operational report and obtain the fresh Claude primary-evidence review, followed by Astra disposition. This is a recommendation only; no dispatch occurred. Ambiguous or incomplete calls require reconciliation, without automatic retry.
+
+All reserved decisions remain unchanged, including scientific adoption, patient transfer/execution, 047 landing and cleanup, main merge, credentials, protected writer/reset permissions, spending, limiter activation and unattended operation. No scientific conclusions or grants follow from these synthetic receipts.

@@ -1,0 +1,78 @@
+{
+  "status": "EXPLICIT_PROPOSAL_PUBLICATION_SUBSET",
+  "original_receipt_unchanged": true,
+  "files": [
+    {
+      "path": "receipt.json",
+      "sha256": "bc62ada3fa440a442dd2606ec9f2531ded3a088da20c2d6664b9c0bb0ac39767",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "request.json",
+      "sha256": "0e5eeed109abc6fa05aa8607df759ff95b4e6ae831a59dc01f61b10401c27fc9",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/CHARTER.proposed.md",
+      "sha256": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/P001_ADOPTION.proposed.md",
+      "sha256": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/PROMPTS.proposed.md",
+      "sha256": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/RUBRIC.proposed.md",
+      "sha256": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/log_campaign_charter.txt",
+      "sha256": "397a7791b88556455dc2fc29c64154557477be4a24ef97e62c00a3ad844248f6",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/log_campaign_charter_review.txt",
+      "sha256": "e1ddd5940d4fbfcf24d9ac198dcd1517cff710393dc05200be6a582e736fe0af",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/profile_campaign_charter.json",
+      "sha256": "f61a8149513e40648caa5286024b49da45b7e921069e342799a4c613f4b11940",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/profile_campaign_charter_review.json",
+      "sha256": "4716e4e206f01eb26f55d3eb0c39590ed928cc22b900ff2f8c1eab49c67b8ce8",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/prompt_campaign_charter.md",
+      "sha256": "8a2dcb806b97c50bcf10bb1773d2b6dcbb23fe38c5627010d7e54dcb7a094805",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/prompt_campaign_charter_review.md",
+      "sha256": "c39cbfb690890a63677c5175cff9fad91665efe157e885cb196df00a469cc7ba",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/review.json",
+      "sha256": "f03fe43f216bf80c34ea0d38203371def299d4fe2de7d5398c72d2d15dab0bed",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/stage_provenance.jsonl",
+      "sha256": "d3032236f6647b3ca08a6d28f73879d64252bff124c7cb61b72da48a5d41ccf3",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    }
+  ],
+  "private_originals_preserved": true,
+  "patient_execution": false
+}

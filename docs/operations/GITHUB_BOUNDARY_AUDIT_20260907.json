@@ -1,0 +1,32 @@
+{
+  "kind": "AUTHENTICATED_READ_ONLY_GITHUB_BOUNDARY_AUDIT",
+  "observed_utc": "2026-09-07T06:53:28.721670+00:00",
+  "repository": "Moroseui/concept-research-scout",
+  "active_rulesets": [
+    {
+      "id": 20885616,
+      "name": "protect-results-branches",
+      "enforcement": "active",
+      "include": [
+        "refs/heads/results/**"
+      ],
+      "exclude": [],
+      "bypass_actors": [],
+      "rules": [
+        "deletion",
+        "non_fast_forward"
+      ]
+    }
+  ],
+  "main_branch_protection": {
+    "http_status": 404,
+    "message": "Branch not protected"
+  },
+  "environments": [],
+  "limitations": [
+    "Repository-level credentials can bypass application-only publication and admission routes.",
+    "Results ruleset prevents deletion/non-fast-forward changes; it is not a patient-content filter.",
+    "No main protection, environment, credentials or permissions were changed."
+  ],
+  "next_action": "Include concrete main/environment and protected writer boundaries in the grouped operator packet before a live grant."
+}

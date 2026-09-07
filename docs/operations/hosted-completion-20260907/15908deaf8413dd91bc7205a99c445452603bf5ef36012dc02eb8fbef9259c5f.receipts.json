@@ -1,0 +1,15 @@
+[
+  {
+    "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+    "attempt_id": "84071c91732f4084a4b7c85bded25889",
+    "backend": "linux",
+    "cpu_seconds": 0.14717,
+    "job_id": "51-handover-a0795e6",
+    "kind": "synthetic_success",
+    "peak_rss_kib": 19200,
+    "reason": null,
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "status": "COMPLETE",
+    "wall_seconds": 0.24003730100230314
+  }
+]

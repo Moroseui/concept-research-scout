@@ -1,0 +1,37 @@
+{
+  "status": "PASSED",
+  "source": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+  "revision_before": 2,
+  "revision_after": 4,
+  "actual_commands": [
+    "status",
+    "pause",
+    "repeat-pause",
+    "resume",
+    "invalid-operation"
+  ],
+  "new_model_calls": 0,
+  "new_jobs": 0,
+  "timer_started": false,
+  "live_activation": false,
+  "original_output_sha256": {
+    "after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after.stdout": "075d73218a83469cf91f1329889c9cf22e466a73e562a5767f687ce59a8d3ece",
+    "before.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "before.stdout": "d34bc1ff1463261cccd32d60053ebbddc887ea3f78a65d16be34ba61eca0629b",
+    "human-status.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "human-status.stdout": "e9e3e75d956937d79bb38faa07725e49c39cf57b793c5bc288a75b4f58009f07",
+    "invalid.stderr": "4da04f86afc56a5a53a343a3db45e3990a69c89a7c062a270955aeba60229540",
+    "invalid.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pause.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pause.stdout": "b8d419753b95364ee3cc529c60771eb78d524fa0d19ede4005813132aa83a476",
+    "paused-state.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "paused-state.stdout": "c5faa9cdbd3eeddeb559cdcc13f9ea16e5444903a24708515427c1052104f6ed",
+    "repeat-pause.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repeat-pause.stdout": "569bb279947ef05244ab46cae35bc2a92738afaa26b2acc32a3a852e31316b47",
+    "repeated-state.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "repeated-state.stdout": "c5faa9cdbd3eeddeb559cdcc13f9ea16e5444903a24708515427c1052104f6ed",
+    "resume.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resume.stdout": "1e565a173c6a4b163ca79b0899ade1be379a6062ff3df1ba94132366f1d89ae0"
+  }
+}

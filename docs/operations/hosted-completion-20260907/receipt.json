@@ -1,0 +1,393 @@
+{
+  "kind": "SUPERVISED_PERSISTENT_COMPLETION_ACCEPTANCE",
+  "status": "PASS",
+  "source": "a0795e69ed6c225fe353d438b5558f481340fe81",
+  "collector_sha256": "8659142dbeb74529e6797f5258eaf30478d35583ca6f92d8bf73b54ff2c91de0",
+  "verified_utc": "2026-09-07T06:37:31.311113+00:00",
+  "jobs": [
+    {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "dead2b2dfc09434386eca27d6e974d9c",
+      "backend": "linux",
+      "cpu_seconds": 0.17315999999999998,
+      "job_id": "50-handover-a0795e6",
+      "kind": "synthetic_success",
+      "peak_rss_kib": 19200,
+      "reason": null,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "wall_seconds": 10.245424321998144
+    },
+    {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "84071c91732f4084a4b7c85bded25889",
+      "backend": "linux",
+      "cpu_seconds": 0.14717,
+      "job_id": "51-handover-a0795e6",
+      "kind": "synthetic_success",
+      "peak_rss_kib": 19200,
+      "reason": null,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "wall_seconds": 0.24003730100230314
+    }
+  ],
+  "events": {
+    "dead2b2dfc09434386eca27d6e974d9c": {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "dead2b2dfc09434386eca27d6e974d9c",
+      "console_sha256": {
+        "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+        "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+      },
+      "cpu_seconds": 0.17315999999999998,
+      "job_id": "50-handover-a0795e6",
+      "peak_rss_kib": 19200,
+      "request_sha256": "9c07417c1ecd99fdaf5f5790903a38bae8974c27e8cdf78b23da6d2feec50a4f",
+      "separate_retrieval": true,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "version": 1,
+      "wall_seconds": 10.245424321998144
+    },
+    "84071c91732f4084a4b7c85bded25889": {
+      "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800",
+      "attempt_id": "84071c91732f4084a4b7c85bded25889",
+      "console_sha256": {
+        "console-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-0.stdout": "bbc74df443ad8436a6abfaca3250df19763ecca400ce02dac254f5bd5c6fb809",
+        "console-1.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "console-1.stdout": "8c22af9f87acede68a2eda9cf2734c53d8c88fc1e12e94ca02c03063f3bfccf3"
+      },
+      "cpu_seconds": 0.14717,
+      "job_id": "51-handover-a0795e6",
+      "peak_rss_kib": 19200,
+      "request_sha256": "2e276fed4da11571ad877ab1450ab3d7ba5083da397a15b788ab3ad7c87525fa",
+      "separate_retrieval": true,
+      "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+      "status": "COMPLETE",
+      "version": 1,
+      "wall_seconds": 0.24003730100230314
+    }
+  },
+  "completion_ingest": [
+    {
+      "event": "dead2b2dfc09434386eca27d6e974d9c",
+      "job": "50-handover-a0795e6",
+      "task": "9ffd02745d3f6a68754d6dcf6c243e9345ea00cba21f3426f2c76f364fa5471a",
+      "status": "PROCESSED"
+    },
+    {
+      "event": "84071c91732f4084a4b7c85bded25889",
+      "job": "51-handover-a0795e6",
+      "task": "5c8faa25661e33aaa77df889dafbd309823260bb4db7012b8e644fbd659151c2",
+      "status": "PROCESSED"
+    }
+  ],
+  "selected_dispatch": [
+    {
+      "task": "9ffd02745d3f6a68754d6dcf6c243e9345ea00cba21f3426f2c76f364fa5471a",
+      "status": "SUBMITTED",
+      "attempts": 1
+    }
+  ],
+  "model_calls": [
+    {
+      "job": "50-handover-a0795e6",
+      "stage": "continuation",
+      "actual_model": null,
+      "answer_sha256": "e3cdad6e1f54cee931f86d39ff9349ef643326125690f77ef80d1825c840db56",
+      "input_sha256": "87c57de6204477d20ddda0a31aa75e5a286ce8a0763a5e7abce4ea1dbe188e6c",
+      "model_evidence": "Requested model bound in command; resolved model not independently reported by this protocol",
+      "operating_context_sha256": "2b56c3ffc93860361b759034cc3d2eb3c445e9ac529fc61e80f130d348d644bf",
+      "requested_model": "gpt-6-astra",
+      "returncode": 0,
+      "session_id": "01a07a8a-f5d7-7cd3-b7a3-cb0898304cf5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "22660aa78beedeabf3b64dc0357e9f30942400cd5ec7412b3cabca7f8c869385",
+      "supplied_document_sha256": {
+        "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+        "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+        "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+        "docs/operations/SETUP_DECISION_INBOX_20260906.json": "4f7799ddf242ef630ddad529b0b2a6a157a1c336abf1497b679b711208e232ae",
+        "docs/science/P001_METADATA_PREFLIGHT_20260906.json": "927d172efdaf9ce5701e069bd4ddb7e3941b650459455086c334f3171e5b1ea8",
+        "docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md": "3478bf7d662ab21c14f15371dcefa28740c4c4a74f10672f690303073e6fbc4f",
+        "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+      },
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 3840,
+        "input_tokens": 67530,
+        "output_tokens": 694,
+        "reasoning_output_tokens": 52
+      },
+      "wall_seconds": 35.20785687799798
+    },
+    {
+      "job": "50-handover-a0795e6",
+      "stage": "review",
+      "actual_model": "claude-fable-5",
+      "answer_sha256": "86d2eb9389b9ded174423828f65631e3f8e6d46c3ac8963c8f99dc4f3fdb1b0f",
+      "effective_mcp_servers": [],
+      "effective_tools": [],
+      "input_sha256": "76398b3471992bd420969364fa2a124488c1db0f252afd3fd9be6ccccd0b1f03",
+      "operating_context_sha256": "2b56c3ffc93860361b759034cc3d2eb3c445e9ac529fc61e80f130d348d644bf",
+      "permission_mode": "dontAsk",
+      "reported_total_cost_usd": 2.374893,
+      "requested_model": "claude-fable-5",
+      "returncode": 0,
+      "session_id": "16897bbe-e31e-4fd9-8695-83069984835a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "be591c982388e3e1bc3d0feee7ffee79b62278de8ca9e076de5cdb70c2363176",
+      "supplied_document_sha256": {
+        "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+        "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+        "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+        "docs/operations/SETUP_DECISION_INBOX_20260906.json": "4f7799ddf242ef630ddad529b0b2a6a157a1c336abf1497b679b711208e232ae",
+        "docs/science/P001_METADATA_PREFLIGHT_20260906.json": "927d172efdaf9ce5701e069bd4ddb7e3941b650459455086c334f3171e5b1ea8",
+        "docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md": "3478bf7d662ab21c14f15371dcefa28740c4c4a74f10672f690303073e6fbc4f",
+        "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+      },
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 99248,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 99248,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2,
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 99248,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 99248,
+            "cache_read_input_tokens": 0,
+            "input_tokens": 2,
+            "output_tokens": 6477,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 6477,
+        "server_tool_use": {
+          "web_fetch_requests": 0,
+          "web_search_requests": 0
+        },
+        "service_tier": "standard",
+        "speed": "standard"
+      },
+      "wall_seconds": 88.7405527660012
+    },
+    {
+      "job": "50-handover-a0795e6",
+      "stage": "disposition",
+      "actual_model": null,
+      "answer_sha256": "c3f7f4352da2040761614c39c391bc1f6f388d703e1fa6fd958e11c524ba278b",
+      "input_sha256": "617d9538712f7ec4c4b12f2571b3e134ae8a7c050950ad9dfea8b2c2147d78a9",
+      "model_evidence": "Requested model bound in command; resolved model not independently reported by this protocol",
+      "operating_context_sha256": "2b56c3ffc93860361b759034cc3d2eb3c445e9ac529fc61e80f130d348d644bf",
+      "requested_model": "gpt-6-astra",
+      "returncode": 0,
+      "session_id": "01a07a8c-d842-77d0-8300-4a7f6fe80db7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "71b8a99a9ca8193d106d138b92c0de06caacac07e0b24ef07a4e789b2db4338c",
+      "supplied_document_sha256": {
+        "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+        "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+        "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+        "docs/operations/SETUP_DECISION_INBOX_20260906.json": "4f7799ddf242ef630ddad529b0b2a6a157a1c336abf1497b679b711208e232ae",
+        "docs/science/P001_METADATA_PREFLIGHT_20260906.json": "927d172efdaf9ce5701e069bd4ddb7e3941b650459455086c334f3171e5b1ea8",
+        "docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md": "3478bf7d662ab21c14f15371dcefa28740c4c4a74f10672f690303073e6fbc4f",
+        "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+      },
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 3840,
+        "input_tokens": 69193,
+        "output_tokens": 201,
+        "reasoning_output_tokens": 0
+      },
+      "wall_seconds": 12.726871824997943
+    },
+    {
+      "job": "51-handover-a0795e6",
+      "stage": "continuation",
+      "actual_model": null,
+      "answer_sha256": "7f02b2c693235c1c092424a9b7c1bef93a1cbb3158344b8a557b801c50fff746",
+      "input_sha256": "14f196dc063c375764f4bc2257fdeca4965dd84c85f7fc8e1ed9be219ccff1b7",
+      "model_evidence": "Requested model bound in command; resolved model not independently reported by this protocol",
+      "operating_context_sha256": "778b8f1fc51819537732b12ce9dd8bd6a1e3b032f5a4290396df39461a39a0fc",
+      "requested_model": "gpt-6-astra",
+      "returncode": 0,
+      "session_id": "01a07a8d-3327-7262-8261-853dbed27651",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b1c6d9cdfaee280729f78eeba10021b6bbc674cb22df5fca3dcb36011107462e",
+      "supplied_document_sha256": {
+        "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+        "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+        "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+        "docs/operations/SETUP_DECISION_INBOX_20260906.json": "4f7799ddf242ef630ddad529b0b2a6a157a1c336abf1497b679b711208e232ae",
+        "docs/science/P001_METADATA_PREFLIGHT_20260906.json": "927d172efdaf9ce5701e069bd4ddb7e3941b650459455086c334f3171e5b1ea8",
+        "docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md": "3478bf7d662ab21c14f15371dcefa28740c4c4a74f10672f690303073e6fbc4f",
+        "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+      },
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 8960,
+        "input_tokens": 67190,
+        "output_tokens": 697,
+        "reasoning_output_tokens": 77
+      },
+      "wall_seconds": 28.5401892989903
+    },
+    {
+      "job": "51-handover-a0795e6",
+      "stage": "review",
+      "actual_model": "claude-fable-5",
+      "answer_sha256": "3df7cb38348180b7784fe2cc19e7ee646fa44961d65c5e40f866946d7bb8f7e3",
+      "effective_mcp_servers": [],
+      "effective_tools": [],
+      "input_sha256": "6ebf9c4760ae7f2d95830a6a602404d8ea06ac75b34220b6a45147236b570311",
+      "operating_context_sha256": "778b8f1fc51819537732b12ce9dd8bd6a1e3b032f5a4290396df39461a39a0fc",
+      "permission_mode": "dontAsk",
+      "reported_total_cost_usd": 2.32306,
+      "requested_model": "claude-fable-5",
+      "returncode": 0,
+      "session_id": "ac2cac93-2f35-44ed-9873-a5e41a5afdc7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0215dca9660d52b7962272220510abdd9de0f9932aee1a0f4144198859ac52d8",
+      "supplied_document_sha256": {
+        "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+        "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+        "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+        "docs/operations/SETUP_DECISION_INBOX_20260906.json": "4f7799ddf242ef630ddad529b0b2a6a157a1c336abf1497b679b711208e232ae",
+        "docs/science/P001_METADATA_PREFLIGHT_20260906.json": "927d172efdaf9ce5701e069bd4ddb7e3941b650459455086c334f3171e5b1ea8",
+        "docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md": "3478bf7d662ab21c14f15371dcefa28740c4c4a74f10672f690303073e6fbc4f",
+        "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+      },
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 99023,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 99023,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "not_available",
+        "input_tokens": 2,
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 99023,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 99023,
+            "cache_read_input_tokens": 0,
+            "input_tokens": 2,
+            "output_tokens": 5534,
+            "type": "message"
+          }
+        ],
+        "output_tokens": 5534,
+        "server_tool_use": {
+          "web_fetch_requests": 0,
+          "web_search_requests": 0
+        },
+        "service_tier": "standard",
+        "speed": "standard"
+      },
+      "wall_seconds": 77.34199200499279
+    },
+    {
+      "job": "51-handover-a0795e6",
+      "stage": "disposition",
+      "actual_model": null,
+      "answer_sha256": "435c924b5e00664ae77bba1935fed668b0d7a12f5baf4ff6c1a30d721777ff38",
+      "input_sha256": "a99d8c065fa47fc93cf34277d6d65b31150c92aa20ab0fcea77469d9aedfb47b",
+      "model_evidence": "Requested model bound in command; resolved model not independently reported by this protocol",
+      "operating_context_sha256": "778b8f1fc51819537732b12ce9dd8bd6a1e3b032f5a4290396df39461a39a0fc",
+      "requested_model": "gpt-6-astra",
+      "returncode": 0,
+      "session_id": "01a07a8e-d2ba-76e1-b067-0429ad0c92bf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a17b3ff0d85941e331b0d92b7710b564427c4d2b6bf21233f6f9d8222951a500",
+      "supplied_document_sha256": {
+        "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+        "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "charters/isles24/CHARTER.md": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+        "docs/operations/QUEUED_SCIENTIFIC_TASKS_20260906.json": "d8f5dc918f4950eed12fc03c1d4bf9165badfe0602a3971116d5324384ae1f85",
+        "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+        "docs/operations/SETUP_DECISION_INBOX_20260906.json": "4f7799ddf242ef630ddad529b0b2a6a157a1c336abf1497b679b711208e232ae",
+        "docs/science/P001_METADATA_PREFLIGHT_20260906.json": "927d172efdaf9ce5701e069bd4ddb7e3941b650459455086c334f3171e5b1ea8",
+        "docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md": "3478bf7d662ab21c14f15371dcefa28740c4c4a74f10672f690303073e6fbc4f",
+        "evidence/research_context.json": "198a3b2bae9b9e67a770d89c6b287b1be72631817c4c4f02d5d342c7d516faac"
+      },
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 8960,
+        "input_tokens": 69402,
+        "output_tokens": 634,
+        "reasoning_output_tokens": 33
+      },
+      "wall_seconds": 28.11740483500762
+    }
+  ],
+  "controller_observations": [
+    {
+      "cgroup": {
+        "cpu.max": "100000 100000",
+        "memory.max": "536870912",
+        "pids.max": "32"
+      },
+      "no_new_privileges": "1",
+      "observed_utc": "2026-09-07T06:25:20.205582+00:00",
+      "uid": 997
+    },
+    {
+      "cgroup": {
+        "cpu.max": "100000 100000",
+        "memory.max": "536870912",
+        "pids.max": "32"
+      },
+      "no_new_privileges": "1",
+      "observed_utc": "2026-09-07T06:27:48.137806+00:00",
+      "uid": 997
+    }
+  ],
+  "ledger_count": 3,
+  "new_model_calls": 6,
+  "original_stage_bytes_verified": true,
+  "temporary_timer_stopped": true,
+  "live_activation": false,
+  "patient_execution": false,
+  "limitations": [
+    "Astra was explicitly requested; this CLI does not independently report its resolved model.",
+    "Finite supervised service execution; not 24\u201348 hour disconnected acceptance.",
+    "No live writer credential or shared limiter activation."
+  ]
+}

@@ -1,5 +1,7 @@
 # Fable review package and cleanup operation — approval pending
 
+Post-merge current request: [one scoped cleanup decision](047_CLEANUP_DECISION_REQUEST.md) and [target/protection recheck](047_CLEANUP_POSTMERGE_RECHECK_20260906.json). The main pins and advertised-ref counts below describe earlier inspections; main has since merged PR #2. The cleanup projection is unchanged.
+
 Current reconciliation: [2026-09-06 receipt](CLEANUP_RECONCILIATION_20260906.json).
 The fresh local rehearsal reproduced the exact replacement below, verified
 original evidence bytes and traversed all 12 currently advertised refs. Historical

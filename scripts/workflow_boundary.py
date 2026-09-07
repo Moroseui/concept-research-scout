@@ -30,13 +30,13 @@ def publish(root, source, destination, expected_remote):
     try:
         audit.ROOT=Path(root);receipt=audit.audit(source)
     finally:audit.ROOT=old
-    remote=subprocess.check_output(['git','ls-remote','origin','refs/heads/'+destination],cwd=root,text=True).split()
+    remote=subprocess.check_output(['git','ls-remote',remote_url,'refs/heads/'+destination],cwd=root,text=True).split()
     if len(remote)!=2 or remote[1]!='refs/heads/'+destination or remote[0]!=expected_remote:raise ValueError('remote moved; reconcile without force')
     subprocess.run(['git','merge-base','--is-ancestor',expected_remote,source],cwd=root,check=True)
     # Atomic expected-old comparison. Ancestry above forbids history rewriting;
     # the lease only prevents a concurrent remote rewind from escaping the check.
     subprocess.run(['git','push','--force-with-lease=refs/heads/'+destination+':'+expected_remote,
-                    'origin',source+':refs/heads/'+destination],cwd=root,check=True)
+                    remote_url,source+':refs/heads/'+destination],cwd=root,check=True)
     return {**receipt,'destination':destination,'expected_remote':expected_remote,'operation':'append_only_compare_and_swap'}
 
 

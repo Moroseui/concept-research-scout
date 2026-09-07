@@ -1,0 +1,113 @@
+{
+  "status_returncode": 0,
+  "jobs": {
+    "jobs": [
+      {
+        "job_id": "00-colab-blocked",
+        "status": "BLOCKED",
+        "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+        "kind": "synthetic_success",
+        "backend": "colab",
+        "reason": "COLAB_BROWSER_DEPENDENCY",
+        "attempt_id": null,
+        "wall_seconds": null,
+        "cpu_seconds": null,
+        "peak_rss_kib": null,
+        "artifact_sha256": null
+      },
+      {
+        "job_id": "10-linux-delay",
+        "status": "COMPLETE",
+        "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+        "kind": "synthetic_success",
+        "backend": "linux",
+        "reason": null,
+        "attempt_id": "5f8e95fb78e744c6a23afcd6ca10fcee",
+        "wall_seconds": 45.23859434000042,
+        "cpu_seconds": 0.150004,
+        "peak_rss_kib": 19200,
+        "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800"
+      },
+      {
+        "job_id": "20-linux-failure",
+        "status": "FAILED",
+        "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+        "kind": "synthetic_failure",
+        "backend": "linux",
+        "reason": "SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT",
+        "attempt_id": "59dd8c5b51764005ad2eb3ca9051d2ea",
+        "wall_seconds": 0.2190529540002899,
+        "cpu_seconds": 0.214859,
+        "peak_rss_kib": 31640,
+        "artifact_sha256": null
+      },
+      {
+        "job_id": "30-linux-next",
+        "status": "COMPLETE",
+        "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+        "kind": "synthetic_success",
+        "backend": "linux",
+        "reason": null,
+        "attempt_id": "fee07efbb4ca4d13affed829b8da5ba9",
+        "wall_seconds": 0.23748125600104686,
+        "cpu_seconds": 0.151976,
+        "peak_rss_kib": 19200,
+        "artifact_sha256": "776c3a10f968497c0ced99011f78f8375079c6f7545dab2445921e298473a800"
+      }
+    ],
+    "wakes": [
+      {
+        "id": "5f8e95fb78e744c6a23afcd6ca10fcee",
+        "job": "10-linux-delay",
+        "status": "PENDING_AUTH",
+        "reason": "CODEX_AUTH_AND_BOUNDED_TURN_REQUIRED"
+      },
+      {
+        "id": "59dd8c5b51764005ad2eb3ca9051d2ea",
+        "job": "20-linux-failure",
+        "status": "PENDING_AUTH",
+        "reason": "CODEX_AUTH_AND_BOUNDED_TURN_REQUIRED"
+      },
+      {
+        "id": "fee07efbb4ca4d13affed829b8da5ba9",
+        "job": "30-linux-next",
+        "status": "PENDING_AUTH",
+        "reason": "CODEX_AUTH_AND_BOUNDED_TURN_REQUIRED"
+      }
+    ],
+    "inbox": [
+      {
+        "job": "00-colab-blocked",
+        "reason": "COLAB_BROWSER_DEPENDENCY",
+        "status": "OPEN"
+      },
+      {
+        "job": "20-linux-failure",
+        "reason": "SYNTHETIC_WORKER_FAILED_OR_TIMED_OUT",
+        "status": "OPEN"
+      }
+    ],
+    "patient_execution": false,
+    "model_execution": false
+  },
+  "services": {
+    "research-system-controller.service": {
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "errors": []
+    },
+    "research-system-worker.service": {
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "errors": []
+    }
+  },
+  "started_attempts": 3,
+  "outcomes": 3,
+  "observed_at_utc": "2026-09-06T09:58:41.159126+00:00",
+  "scope": "Read-only hosted checkpoint; not complete deployment acceptance"
+}

@@ -1,0 +1,31 @@
+{
+  "timers": {
+    "research-system-controller.timer": {
+      "Unit": "research-system-controller.service",
+      "LastTriggerUSec": "Sun 2026-09-06 20:30:31 UTC",
+      "ActiveState": "active",
+      "SubState": "waiting"
+    },
+    "research-system-worker.timer": {
+      "Unit": "research-system-worker.service",
+      "LastTriggerUSec": "Sun 2026-09-06 20:30:31 UTC",
+      "ActiveState": "active",
+      "SubState": "waiting"
+    }
+  },
+  "worker_journal_identity": [
+    {
+      "_PID": "140034",
+      "_UID": "995",
+      "_SYSTEMD_UNIT": "research-system-worker.service",
+      "_SYSTEMD_INVOCATION_ID": "08be7d8060974e0188c1c5f66b6ea3b0",
+      "__REALTIME_TIMESTAMP": "1788725959592637"
+    }
+  ],
+  "amends_report_evidence": "ab3b6f03899e26f086de69ec8f0d0b9c6e79f5dc167a644915c6c4a58f06bfe4",
+  "attempt": "10010973a12b491793b65f44f238fc53",
+  "started_receipt_sha256": "e587890cbca5442cb7784cbe5dc3f2b2e98f4916c03116f03cee3279ce6b7eea",
+  "recorded_worker_pid": 140034,
+  "original_review_preserved": true,
+  "new_review_or_approval": false
+}

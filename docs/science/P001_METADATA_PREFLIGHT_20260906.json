@@ -1,0 +1,17 @@
+{
+  "source": "0770c7dcabe781cbfb87de505755e7aafa758f2e",
+  "runner_sha256": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+  "returncode": 0,
+  "wall_seconds": 0.6394707119907252,
+  "stdout_sha256": "a715e7705725bbb90bcc0ff56084d067da7e4833164734253c716472d7959a29",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "patient_execution": false,
+  "archive_opened": false,
+  "review_gate_checked_by_preflight": false,
+  "selection": {
+    "eligible_cases": 99,
+    "selected_members": 198,
+    "patient_payloads_opened": 0,
+    "selection_scope": "exact frozen eligible IDs only"
+  }
+}

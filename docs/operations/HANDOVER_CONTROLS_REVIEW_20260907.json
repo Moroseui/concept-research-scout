@@ -1,0 +1,87 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "ca8f989927a8e6fb976baa7f4ce49741684a86e7",
+    "returncode": 0,
+    "wall_seconds": 528.1810925579921,
+    "input_file_sha256": {
+      "orchestrator/completion_bridge.py": "0190b8050b58d48d572b08df30d3d6e9d56e2553630e4ff8971c7ef0a5bd03e1",
+      "orchestrator/handover_runtime.py": "fc211db7404e3c98d1398fc999da63de38d4985d37698b28e75025d20bab05b7",
+      "orchestrator/report_delivery.py": "85c78e83f804375d924ef01acc4e52847d2d55dba82ef02058d59117fe0d7256",
+      "deploy/research-system/update_consumed_handover_fixture.py": "70482759f6d9826419fc7e241c4c7daa550cb697be41eb0b6e91b6fbce376b8e",
+      "deploy/research-system/install_handover_fixture.py": "522508be9075381a29400a3d115fb834de2da82ae3b0c9063786bbcc71a269d6",
+      "deploy/research-system/research-system-control.sh": "5e5f9dd9634c74ec0890e4ac2fdf82a04f9d5d8e243dd366bca4848ba1efefdc",
+      "tests/test_completion_bridge.py": "a453aaee799195103957efcdb0d4604aa775fde961db15fab1253b546d4ac9f6",
+      "tests/test_handover_runtime.py": "77a62c5552e7dc4cd7f6371cc51b76f82cac5963a49e56c145d4acdbc4d717fd",
+      "tests/test_report_delivery.py": "baa5bef1103b48e03df22b7a19afd6c391c1c85ed164056a7598710a72896b41",
+      "docs/operations/HOSTED_COMPLETION_RESULT_20260907.md": "4adf9aa51ab799f7d4d8d2037a453a28009b481b6e55499c9053a7f34ddb0b72",
+      "docs/operations/hosted-service-acceptance-20260907/receipt.json": "7886c87a4700213fdfa3a408965dbbe80081c23faf036564ee8b995213899271",
+      "docs/operations/hosted-service-acceptance-20260907/backup-recovery.json": "cab43f8f77bc1715c067d9ff737002858929081c36424bcdffef8ed250e08c8e",
+      "docs/operations/hosted-completion-20260907/50-handover-a0795e6-review.md": "86d2eb9389b9ded174423828f65631e3f8e6d46c3ac8963c8f99dc4f3fdb1b0f",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b"
+    },
+    "response_sha256": "fbfce41ca2747523c150d0f72e353e4120242815b40b66fed07caa24a7b5ef2d",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "419343bf5094d0ee66aaf8527ae1fb602e0f396c25840ee71cb413bf240607a3"
+  },
+  "review": {
+    "scope": "handover-controls-evidence-closeout",
+    "reviewed_commit": "ca8f989927a8e6fb976baa7f4ce49741684a86e7",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified closeout repair: the only path to controller.submit is CompletionBridge.advance(), and both routes into it (tick selected-work phase and finish() after disposition) check paused plus the runtime_blocks controls entry under admission.lock; a failed operator-inbox read blocks dispatch and holds durable INTENT at zero attempts.",
+      "Verified closeout repair: completion-triggered packets now carry the same bounded coordinator census as scheduled reports via the observation's coordinator_context (24-task cap, reason truncation, no private bindings).",
+      "Minor: completion_bridge.py ingest() skips already-ingested jobs via continue without clearing completion_blocks, so a block from an earlier transient failure or a reverted identity change persists indefinitely in status and the census; fail-closed but misleading to operators.",
+      "Suggestion: handover_runtime.py _bookkeep() stamps family:'claude' into the published review receipt unconditionally; the broker-reported actual_model is recorded but never verified to be a Claude model, so the published fresh-review identity rests entirely on broker routing. Verify actual_model before attach.",
+      "Minor: update_consumed_handover_fixture.py compares ledger_before/ledger_after only after systemctl start, so ADMISSION_CHANGED_DURING_UPDATE detects rather than prevents admission drift and leaves the new configuration live with no receipt; verify the ledger before restarting services.",
+      "Minor: Runtime.recover() overwrites a blocked task's original reason with RECOVERY_EVIDENCE_UNAVAILABLE on failed retrieval, losing the prior diagnostic, and re-polls permanently blocked tasks via stage_status every tick with no cap.",
+      "Minor: once one report's delivery hits the retry ceiling, subsequent reports fail preparation with REPORT_PUBLICATION_BASELINE_MOVED because the dedicated checkout HEAD retains the unpushed commit; correctly fail-closed (no wrong publication) but the delivery queue wedges until manual reconcile and deserves an explicit queued-behind-blocked reason.",
+      "Authority and approvals preserved: dispatch is limited to the single configured synthetic successor with exact-proposal equality and maximum_dispatches 1; declines are honored without dispatch; installer/updater refuse overwrite and partial state and add no timers, credentials, or model turns; scientific gates, patient-data exclusions, and live-activation gates are untouched."
+    ]
+  },
+  "session_id": "2cd558d2-30db-4721-99d7-b4cfdf5469c5",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 36871,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.036946,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 38785,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 56919,
+      "webSearchRequests": 0,
+      "costUSD": 3.0776499999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "independent_merge_desk_review": false,
+  "investigator_disposition": {
+    "blocking_findings": 0,
+    "control_failure": "Resolved by reviewed advance gate; actual historical review and evidence preserved.",
+    "completion_block": "Historical identity-change blocks intentionally remain visible pending reconciliation; do not silently clear an integrity finding solely because identity later matches.",
+    "review_family": "Accept small defensive actual-model check before attaching family attribution.",
+    "update_ledger": "Accept pre-restart equality check, preserving post-restart verification.",
+    "recovery": "Preserve prior diagnostic. Deterministic read-only polling of known uncertain work remains permitted; it spends no model admission and does not retry execution.",
+    "publication_queue": "Explicitly document queued-behind-unpublished candidate reconciliation. It must not overwrite or silently rebuild a blocked candidate."
+  }
+}

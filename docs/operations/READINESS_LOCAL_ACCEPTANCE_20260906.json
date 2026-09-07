@@ -1,0 +1,41 @@
+{
+  "source": "16c9f4d6da29acd83d18e078369050bf5091b59a",
+  "backend": "local isolated checkout",
+  "status": "PASSED_BOUNDED_METADATA_OVERLAP",
+  "slow_task_seconds": 30,
+  "completed_stages": [
+    "slow_synthetic",
+    "context_inventory",
+    "baseline_inventory",
+    "phase_b_inventory"
+  ],
+  "processed_events": 4,
+  "duplicate_reconciliation_added_events": 0,
+  "blocked_decisions": [
+    "charter_ratification",
+    "patient_launch_and_input_backend_review",
+    "047_original_console_identity_disposition_and_landing"
+  ],
+  "patient_execution": false,
+  "hosted_proof": false,
+  "prior_failure": "An incorrectly transcribed source argument was rejected with SOURCE_CHANGED before execution. Its state is retained separately; the corrected run used a fresh state directory and the actual Git source identity.",
+  "limitation": "Subsequent recovery/path repairs are covered by regression tests and require the separate reviewed hosted acceptance; this local receipt does not claim they ran at this older source.",
+  "observed_intervals": {
+    "30-phase-b-inventory": {
+      "started": 1788729310.6723328,
+      "finished": 1788729310.6735458
+    },
+    "20-baseline-inventory": {
+      "started": 1788729310.5684373,
+      "finished": 1788729310.5703483
+    },
+    "10-context-inventory": {
+      "started": 1788729310.4634628,
+      "finished": 1788729310.4655035
+    },
+    "00-slow-synthetic": {
+      "started": 1788729310.46184,
+      "finished": 1788729340.4623327
+    }
+  }
+}

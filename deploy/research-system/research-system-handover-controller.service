@@ -1,0 +1,22 @@
+[Unit]
+Description=Non-root bounded research handover continuation
+Requires=research-system-handover.socket
+After=research-system-handover.socket
+[Service]
+Type=oneshot
+User=research-controller
+Group=research-runtime
+WorkingDirectory=/opt/research-system/handover
+ExecStart=/usr/bin/python3 -B -m orchestrator.handover_runtime --config /etc/research-system/handover-controller.json tick
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateNetwork=true
+ReadWritePaths=/var/lib/research-system/handover-controller /var/lib/research-system/research-controller
+MemoryMax=512M
+CPUQuota=100%
+TasksMax=32
+TimeoutStartSec=16min
+KillMode=control-group

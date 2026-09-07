@@ -1,0 +1,9 @@
+[Unit]
+Description=Deterministic handover reconciliation (enable only after activation gates)
+[Timer]
+OnBootSec=60
+OnUnitInactiveSec=60
+Unit=research-system-handover-controller.service
+# Polling alone does not create model turns; only bound queued tasks are eligible.
+[Install]
+WantedBy=timers.target

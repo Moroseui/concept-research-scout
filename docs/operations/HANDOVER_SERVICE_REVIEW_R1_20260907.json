@@ -1,0 +1,50 @@
+{
+  "kind": "AUTHOR_OPERATED_SOURCE_REVIEW",
+  "execution": {
+    "reviewed_commit": "35d48fbdb58b8920f02e3eb7a68470bc67635505",
+    "returncode": 0,
+    "wall_seconds": 394.7233737459901,
+    "input_file_sha256": {
+      "scripts/verify_handover_service.py": "5b08465c5ba02e4d9e800c9bb301dcf7708b40de545c01899ec3bfbdab07e65f",
+      "tests/test_handover_service_acceptance.py": "c34aa4719edae4a7520448d7dbbd390c97f48027fac2b739c078a77aa0044021",
+      "orchestrator/handover_runtime.py": "a2613b4c4757170d7fff8453d8b6802d0a7c6528e0dfec575fa7b0d1887ed9e5",
+      "orchestrator/handover_coordinator.py": "d07ca14235e6339b53ac8185e32e0a40f590d0d475debf8af42c62256c62677f",
+      "orchestrator/protected_handover.py": "2c75775a98ab68c09fa0c7f156085380cd9377f3ac0fa3ea74aec16d8160e3b2",
+      "orchestrator/reviewer_evidence.py": "9fd26237c9e4b4e004a7c2fa565e4a8de183d6540fc2e069f25a28b1e0b64bd5",
+      "tests/test_reviewer_evidence.py": "4046bcc4bfe2c2ceb150bf28755cd8476cefb4a3fc52507d7761ba8c352cd9a7",
+      "tests/test_handover_runtime.py": "b7f5f5e27368a5dd748df29c7279af475d094b4cdd8d2cf49e24fbc350ba7413",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "deploy/research-system/research-system-handover.service": "98cc5f78b2e9ba48099b7ebb82be322e2a71a07dc4c28606e1ae0f92bc272f47",
+      "deploy/research-system/research-system-handover-controller.service": "d472fd2707aafd2a29f2738a7dcf60e4242318ee4c03b389886311262a22b0a0"
+    },
+    "response_sha256": "4bb53a222daafc27cb09990e71850970ba73cbb3c103b590abcfe2eefe69bda4",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "3dd99a2488a34fa84566625374642fb6d0d62ecdd62ea39e7c363966efb54bb6"
+  },
+  "review": {
+    "scope": "Source-only implementation review at commit 35d48fbd: supervised handover acceptance harness (scripts/verify_handover_service.py), controller runtime (orchestrator/handover_runtime.py), coordinator (orchestrator/handover_coordinator.py), protected broker (orchestrator/protected_handover.py), reviewer evidence collector (orchestrator/reviewer_evidence.py), associated tests, both systemd units, and the reviewer directive / operating direction documents. No execution, no tests run, no patient data touched. Unsupplied dependencies (dispatch_limiter, operations_report, hosted_cycle, public_export, job_store, remote_supervisor, git_publication, phone_notifications, protected_writer) were reviewed only via their call contracts. Actual service acceptance remains pending.",
+    "reviewed_commit": "35d48fbdb58b8920f02e3eb7a68470bc67635505",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKER, verified from source \u2014 acceptance resource bounds do not match the deployed controller unit. scripts/verify_handover_service.py requires observed pids.max == '32' (alongside memory.max 536870912 and cpu quota==period, which match MemoryMax=512M and CPUQuota=100%), but deploy/research-system/research-system-handover-controller.service sets no TasksMax. Consequence: acceptance either fails under the production controller sandbox, or runs in a different cgroup and attests a pids bound the deployed unit does not enforce; reviewer_evidence collects TasksMax and would expose the discrepancy. Affected task: service acceptance. Smallest fix: add TasksMax=32 to research-system-handover-controller.service (or align the harness check with the unit).",
+      "BLOCKER, inferred from source (untested) \u2014 the deployed controller likely cannot connect to the broker socket. research-system-handover-controller.service uses ProtectSystem=strict with ReadWritePaths listing only /var/lib/research-system/handover-controller, leaving /run read-only; connect(2) on an AF_UNIX socket requires write permission on the socket inode and fails with EROFS on a read-only mount, so every request_broker call to /run/research-system/handover.sock (status, admit_server, model_stage, stage_status) would fail. Consequence: the deployed tick degrades into a permanent ADMISSION_UNAVAILABLE / broker-failure loop; the harness run under this unit could never reach the fixture-ledger check. Affected task: deployed controller operation and acceptance. Smallest fix: add /run/research-system to the controller unit's ReadWritePaths.",
+      "BLOCKER, verified from source \u2014 path formation from unvalidated identity in the root broker. orchestrator/protected_handover.py Broker.model_stage regex-validates turn_id ([0-9a-f]{64}) and attempt ([1-9][0-9]*) with the explicit comment 'Validate identity before forming a path', but Broker.stage_status builds Path(turn_root)/(event['turn_id']+'-'+event['attempt']) with no equivalent check. Unless validate_server_event (not supplied for review) enforces the same shape, a compromised controller peer can steer the root broker into path traversal outside turn_root (probing existence, symlink checks, and reading hash-consistent receipt folders). Impact is bounded by the receipt hash validation but violates the code's own stated boundary between the non-root controller and root broker. Affected task: broker authority boundary. Smallest fix: apply the same regex validation in stage_status before any path use.",
+      "SUGGESTION, verified from source \u2014 Runtime.model assembles prompts by reading prior stage receipt files (state/{id}-{position}.json) directly with json.loads and no integrity validation, while Coordinator._receipt exists precisely to verify binding digest, position, and output_sha256. Consequence: a corrupted or tampered receipt file would silently feed altered 'original evidence' into later-stage prompts. Smallest fix: route prior-stage reads through Coordinator._receipt.",
+      "SUGGESTION, verified from source \u2014 the non-activated serve() fallback in protected_handover.py binds the socket and chmods 0o660 but never chgrps it to the runtime group, leaving a root:root socket the non-root controller cannot connect to. The systemd-activated path is unaffected and peer-uid checking mitigates; still, the fallback as written is unusable or inconsistent with the intended group model. Smallest fix: chown the socket to the runtime group in the fallback path, or drop the fallback.",
+      "SUGGESTION, verified from source \u2014 research-system-handover.socket is Required by both service units and defines the listening socket's ownership/mode (part of the peer-authentication boundary), but it is neither in the supplied review set nor in reviewer_evidence SOURCES['handover_implementation']. Smallest fix: commit the socket unit and add it to the evidence source list so acceptance reviews cover the actual socket permissions.",
+      "VERIFIED POSITIVE \u2014 live-state refusal: the harness checks broker status mode == 'SYNTHETIC_FIXTURE' before any model call and raises PRIVATE_FIXTURE_LEDGER_REQUIRED otherwise (covered by test asserting only 'status' was called); broker publish refuses outside LIVE_APPROVED; broker error paths return named uppercase codes only and never echo request data or exception text.",
+      "VERIFIED POSITIVE \u2014 recovery zero-call guarantee holds at three layers: the harness recover-phase transport raises RECOVERY_MODEL_CALL_FORBIDDEN on any model_stage; Runtime.recover/Coordinator.recover retrieve only via the read-only stage_status operation and never turn absence into retry (BLOCKED with NOT_STARTED/UNCERTAIN reasons); broker stage_status reads and hash-verifies existing receipt artifacts (stdout/stderr/input/answer/operating-context) and cannot invoke a model. The harness additionally verifies ledger count equality and a zero-call repeat tick plus completed bookkeeping.",
+      "VERIFIED POSITIVE \u2014 canonical role bindings and original evidence: validate_binding pins stages to ['continuation','review','disposition'] at submit and per-tick; the broker, not the client, pins the review stage to family 'claude' and later stages require predecessor receipts; the harness asserts requested models ['gpt-6-astra','claude-fable-5','gpt-6-astra'] and actual review model claude-fable-5; task id is digest(source+packet+report) re-verified before each model call, report id is the sha256 of the report text, and stage receipts bind binding-digest, position and output hash. Config, control-inbox requests and evidence files require root ownership, non-group/other-writable regular files opened O_NOFOLLOW; operator_request requires uid 0 and controls are deduplicated with revision checks.",
+      "ASSUMPTION NOTED (untested, unsupplied modules) \u2014 several verified properties depend on code outside this review: operations_report.immutable must be write-once-idempotent for identical bytes (enqueue_report same-day stability, duplicate model_stage requests), dispatch_limiter admit_server must deduplicate re-admission of the same turn/attempt (otherwise the harness's recovery ledger-equality check fails, which would fail closed), and public_export.text must actually sanitize outbound payloads. These should be confirmed in their own review before acceptance is treated as complete."
+    ]
+  },
+  "not_installed_acceptance": true
+}
