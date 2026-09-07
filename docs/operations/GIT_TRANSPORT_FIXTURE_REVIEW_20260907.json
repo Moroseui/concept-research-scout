@@ -1,0 +1,77 @@
+{
+  "execution": {
+    "reviewed_commit": "88de12a74d8828797da24b8529db3c2964f9bb45",
+    "returncode": 0,
+    "wall_seconds": 361.75097788601124,
+    "input_file_sha256": {
+      "deploy/research-system/verify_git_transport.py": "04bed7a58810922c721af962bc6eeb9d4a9e3bc134494d7fa98b388434682043",
+      "tests/test_git_transport_probe.py": "1866422a15e3e1a535839686fe08e589f44d0e3392905aec98fe49c290dd2a4d",
+      "orchestrator/git_diagnostics.py": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "orchestrator/dispatch_limiter.py": "250a9eb802af705de2d94063350a90fd815319a26076ce718369783ecc5ade45",
+      "docs/operations/GIT_TRANSPORT_HOSTED_CHECK_20260907.md": "e700b2a994281f067acbb2c9f662056f53d418f5b1959018c3d636c724451439",
+      "docs/operations/RESUME_RECONCILIATION_20260907.json": "6aea2c4d9de4b91374502bf14596e43636194e509de21d287f69d5294edc571f",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da"
+    },
+    "response_sha256": "85cec5260cea3a2790684604b4788f129589f86727752cede40679e98ad0b358",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "bf3249a9559753f5899161d58267231ac5050100bf9430e13ec540c67bd5e274"
+  },
+  "review": {
+    "scope": "Bounded hosted Git file-transport contention/recovery fixture and private stderr evidence; no live activation. Review fixture and existing diagnostic/ledger callers, source-only; original CI cause remains unknown.",
+    "reviewed_commit": "88de12a74d8828797da24b8529db3c2964f9bb45",
+    "verdict": "APPROVE",
+    "findings": [
+      "Fail-closed boundaries verified in source: verify() refuses before any mutation on a non-absolute or existing destination and on <512 MiB free capacity, matching the two refusal tests (which also confirm git_run is never invoked and existing bytes are preserved); all persistent artifacts (started.json, outcomes.json, summary.json, receipts, stderr captures) are created fresh under a 0700 root with umask 0o077, exclusive-open where it matters, and nothing is ever deleted or overwritten \u2014 a prior attempt directory blocks replay as documented.",
+      "Privacy holds: raw Git stderr goes only to 0600 files inside 0700 mkdtemp directories under the private diagnostics root; receipts record an argv SHA-256, not argv; invoke() records only error type and returncode; raised exceptions carry an opaque receipt name instead of arguments/stdout/stderr; result.stderr is blanked for callers; the stdout summary contains counts and hashes only. git_diagnostics rejects stdout/stderr/shell overrides and validates diagnostics-root ownership, mode 0700, non-symlink, and not-inside-a-checkout, failing closed on each.",
+      "Recovery and halt semantics are correct in _admit: the duplicate-key check precedes the halt check and returns without a CAS write, so a fresh client replays all eight admitted identities read-only (proved by the before==after pin comparison), and the halted check precedes day rollover, so the midnight event observes the latched halt with no automatic reset. Event identity binding (source/branch/kind) is re-verified on duplicate admission. Note deliberately: an already-admitted run_id:attempt replays as ADMITTED even after halt \u2014 intended deduplication, worth one explicit sentence in the ops doc.",
+      "Expected-count arithmetic checks out for N=4 over 24 distinct events: exactly 8 admissions with count 1..8, one N notice at 4 and one 2N notice at 8 (sequence==count, so notifications==2 exactly), halt latched at 8, remaining requests returned HALTED status (not errors). CAS verification is sound: force-with-lease with the exact old pin, porcelain single-status check bound to new+':'+REF, '=' treated as race, forced-update flag rejected, and the push-failure path correctly distinguishes a moved ref (retry) from write unavailability (raise), which is safe because the ref can only advance.",
+      "Authority preserved: the RATIFIED config is synthetic (operator_approval SYNTHETIC_ONLY) against a disposable local bare repository only; GIT_ALLOW_PROTOCOL=file, GIT_CONFIG_NOSYSTEM/GLOBAL isolation, GIT_TERMINAL_PROMPT=0 and expected_remote pinning confine transport; agent identity is honestly attributed with an .invalid email; the remote-ledger OPERATOR_MUST_INITIALIZE_STATE_REF guard, operator-only reset/initialize, server-semantics gate and hosted-only main() gates are untouched. Note the fixture initializes the ledger via the local update-ref path, so the remote initialization guard itself is not exercised by this fixture.",
+      "Suggestion (doc accuracy): GIT_TRANSPORT_HOSTED_CHECK_20260907.md says 'eight independent clients'; the code creates 24 per-invocation client repositories driven by 8 worker threads, plus one recovery client. Small wording fix avoids misreading the concurrency shape.",
+      "Suggestion (fixture robustness, fail-closed only): read() fetches the pinned SHA after ls-remote; if another writer advances the ref in between, the pin is no longer an advertised tip and the fetch depends on protocol v2 permitting non-tip wants. Under a protocol v0 fallback (old git or GIT_PROTOCOL override) this surfaces as an invocation error and a false-negative run \u2014 no privacy or state impact, but worth knowing when interpreting a hosted failure.",
+      "Suggestion (diagnostics completeness): in git_diagnostics.run, only TimeoutExpired and OSError are caught around subprocess.run; any other exception skips receipt.json, leaving an orphan stderr capture that the summary's receipt-glob hash/mode verification never inspects. Consider writing the receipt in a finally block.",
+      "Observation for operator follow-up (recorded evidence, not introduced by this change): RESUME_RECONCILIATION_20260907.json shows research-system-handover.service ActiveState=active with User=root, which sits uneasily with the stated non-root runtime-role requirement; the reconciliation itself is read-only with zero retries/model calls as claimed.",
+      "Limits of this review: source-only, no execution performed and none claimed; orchestrator.git_publication.scan_commit (imported inside GitLedger.cas) was not in the supplied bundle and is unverified; the ops doc's local-probe pass (947 receipts, base a94d886) is correctly labeled uncommitted-fixture evidence, and the original CI fetch exit-128 cause remains unknown \u2014 a passing fixture cannot identify it, as the doc honestly states."
+    ]
+  },
+  "session_id": "f0777725-7982-4d6f-8222-3368dbc3b0d2",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 25421,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 26397,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 25421,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 26397,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 25421,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 25421
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_estimate_usd": 1.843494,
+  "review_kind": "author_operated_source_review_not_independent_merge_desk"
+}

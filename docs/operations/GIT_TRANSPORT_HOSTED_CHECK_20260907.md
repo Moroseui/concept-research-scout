@@ -5,7 +5,7 @@ adapter is implemented; original failure evidence and the absence of its Git
 stderr remain recorded. A passing new fixture cannot identify that old cause.
 
 `deploy/research-system/verify_git_transport.py` reuses GitLedger with 24 requests
-and eight independent clients against an isolated file-transport bare repository.
+and eight worker threads with 24 independent client repositories against an isolated file-transport bare repository.
 The synthetic N=4 policy gives eight admissions, two durable notices and a latched
 halt. A fresh client recovers all admitted identities without another write and
 checks that midnight does not clear the halt. Actual stderr is retained privately
@@ -32,3 +32,19 @@ completed scientific-readiness and synthetic reviews are reused. The three
 scientific tasks remain preserved; no patient launch/transfer or 047 import is
 implied by this fixture. Shared live admission/reset, writer permissions and
 unattended operation remain separately gated.
+
+Actual hosted result: [receipt](GIT_TRANSPORT_HOSTED_RESULT_20260907.json).
+The first attempt failed before fixture execution because the installation umask
+made the source root 0700; originals are preserved. Explicit source-root chmod
+allowed the unchanged reviewed bytes to run once under the worker identity in a
+new attempt. Eight admissions, two notices, duplicate recovery with unchanged pin,
+midnight halt and 947 private diagnostic hash/mode checks passed on Git 2.43.0.
+Duplicate recovery returns the original admitted status even after halt; it does
+not authorize another execution. No unknown failed attempt was replayed.
+
+The successful transient unit was unloaded before property collection. Its returned
+default properties do not establish runtime resources; requested limits are in the
+private dispatch intent. Actual peak memory and CPU accounting were not retrieved.
+This is an explicit evidence limitation, not a reason to repeat the passing test.
+It is file-transport hosted proof, not GitHub credentialed enforcement, live
+48/96 activation, or a diagnosis of the original PR CI error.

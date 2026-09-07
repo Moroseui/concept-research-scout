@@ -1,0 +1,76 @@
+{
+  "execution": {
+    "reviewed_commit": "166c57ee1e95368f38da26be07b9dfc424647861",
+    "returncode": 0,
+    "wall_seconds": 200.32363583700499,
+    "input_file_sha256": {
+      "orchestrator/research_context.py": "f4eef22813e126a47dccd85c5ab839213e8aaf9989ada2cb0f45ee813f091273",
+      "orchestrator/campaign_pipeline.py": "6560aefe7018474b991b623c602fa89c0e124dc8b6ccf97448d526d624775034",
+      "tests/test_research_context.py": "273887928a9693b2d72ccb513dab80673274804b93cd5f1994e951e54c6f5ff0",
+      "campaigns/isles24-pilot/prediction_selection.json": "56fa21d431ad60f5c6241d059e144bf7de0c2956eda85cf871c6955498c5c643",
+      "docs/science/P001_EXECUTION_DECISION_20260907.md": "debd9e31185c0ae286ed27c568f8e34f41ba6dedc53a2a78dfed76e68a80a6e1",
+      "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da"
+    },
+    "response_sha256": "1d35c318fbd0a98877c29e377de05014fb0e8a7e63785884651375f7b7fb1c3e",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "b8e637294e1b661a2b595717ceafbd7424b319ce7873d2525d404c80e901fe4a"
+  },
+  "review": {
+    "scope": "Operator-authorized prediction charter selection linkage; verify exact approval scope, shared campaign prompts, no frozen code mutation or launch grant. User approval recorded at a94d886 packet. Source-only review.",
+    "reviewed_commit": "166c57ee1e95368f38da26be07b9dfc424647861",
+    "verdict": "APPROVE",
+    "findings": [
+      "Approval scope enforced exactly and fail-closed: selected_prediction_context requires literal status OPERATOR_RATIFIED_CHARTER_CONDITIONAL_ADOPTION, charter_ratified and conditional_external_seed_adoption exactly True, and patient_launch/new_backend_patient_transfer/reserved_cohort_access exactly False (missing keys reject via 'is not False'); disposition records launch_authorized: false and names the separate preflight/launch gates. Matches the a94d886 decision packet's stated grant.",
+      "Identity bindings complete: the selection binds decision packet (commit a94d886e, SHA-256), proposal receipt, all five round-1 artifacts, and frozen P001 SPEC.md/run.py/review.json/investigator_decision.json/build_receipt.json; every bound name is byte-verified via checked() with root-containment and symlink rejection; required.issubset(decision['artifact_sha256']) rejects partial bindings; proposal_context independently re-verifies receipt inputs, mode 'charter', REVIEWED_PROPOSAL_NOT_ADOPTED status, and APPROVE review verdict. Hashes are internally consistent with the adoption document's frozen-identity table.",
+      "No frozen code mutation or launch surface: context readers are pure; execute() writes only under campaigns/isles24-pilot/pipeline with symlink-ancestor checks, resolved containment, and mkdir(exist_ok=False); failures persist blocked.json without fabricating receipts; receipts only issue on opposing-family (codex author / claude reviewer) APPROVE with exit-class and CI-provenance checks.",
+      "Shared campaign prompts correctly scoped: with a selection present, grounding removes legacy charter/SCORING_RUBRIC/scout prompt and substitutes the ratified hash-bound proposal texts (including PROMPTS.proposed.md), all recorded in each stage receipt's input_sha256; the legacy scout/ideas path is unaffected.",
+      "Suggestion: when --proposal-context preview runs alongside an active selection, context.update overwrites context-disposition.json with the preview-only ratified:false disposition, masking the operator-selected status; error direction is conservative (under-claims authority) but distinct keys or a merge would avoid author confusion.",
+      "Suggestion: absence of prediction_selection.json silently reverts grounding to legacy charter/rubric/prompt with no marker; no authority is gained, but an accidental post-ratification deletion would be invisible to the pipeline \u2014 consider an explicit 'no selection' disposition entry.",
+      "Suggestion: the charter/adoption/readiness prompt still states the legacy prompt/rubric 'needs explicit prediction-scoped treatment', which is stale once the selection has replaced them; risks re-proposing solved work.",
+      "Minor hardening: proposal_context reads receipt.json twice without binding the second read to the first (acceptable under the documented single-writer assumption), and checked()'s 'if expected and ...' skips verification for empty-string hash values; current producers always emit real hashes.",
+      "Source-only review: tests were not executed; the supplied tests cover binding-tamper rejection, path traversal rejection, pending-evidence non-leakage, and the ratified-but-not-launch-authorized disposition."
+    ]
+  },
+  "session_id": "af33ee9b-e927-4e09-a9b6-99fc9829dcaa",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 28754,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 15834,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 28754,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 15834,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 28754,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 28754
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_estimate_usd": 1.38401,
+  "review_kind": "author_operated_source_review"
+}

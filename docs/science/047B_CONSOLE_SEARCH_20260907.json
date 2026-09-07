@@ -1,0 +1,10 @@
+{
+  "status": "BOUNDED_SEARCH_COMPLETE",
+  "files_checked": 509,
+  "files_skipped": 0,
+  "candidate_files": 0,
+  "original_successful_console_established": false,
+  "experiment_executed": false,
+  "inventory_sha256": "78e1772951ed7f729c778088e46c553c2e0eee2a9ac7dd6fd99b1f036dcf77fb",
+  "limits": "Only existing log/stream/notebook-output and named protocol files, 32 MiB each, 90-second read bound; candidate markers do not establish original provenance."
+}

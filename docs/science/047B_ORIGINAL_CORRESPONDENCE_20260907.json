@@ -1,0 +1,19 @@
+{
+  "source": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+  "contract": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+  "operator_run_label": "047b",
+  "naming_is_not_operator_hash_attestation": true,
+  "original_summary_status": "STUDY_COMPLETE",
+  "original_summary_phase": "B",
+  "resolved_config_contains_exact_contract": true,
+  "run_log_contains_exact_contract": true,
+  "file_sha256": {
+    "summary.json": "b960e4a86dad001c9b1e7722970f70b6b1f4b37cf3e2d4eaeb36008881a06244",
+    "resolved_config.json": "6362d00fcecccde39abfe00af002cc5c896be5396079b9dd9cc44e5ac2935cfd",
+    "run_log.txt": "3db0d617204f7cdab88a94e1a9c32302f17d7d7e0d4febffdced6ccc571347ba"
+  },
+  "original_bundle_verified_in_cleanup": true,
+  "successful_console_recovered": false,
+  "run_log_is_not_successful_console": true,
+  "scientific_import": false
+}

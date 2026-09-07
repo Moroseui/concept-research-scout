@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "schema": 1,
+    "scope": "HOST_LOCAL_FILE_TRANSPORT_SYNTHETIC_ONLY",
+    "source": "88de12a74d8828797da24b8529db3c2964f9bb45",
+    "uid": 995,
+    "requests": 24,
+    "workers": 8,
+    "admitted": 8,
+    "errors": 0,
+    "durable_count": 8,
+    "durable_events": 8,
+    "halted": true,
+    "notifications": 2,
+    "duplicate_recovery_all": true,
+    "recovery_unchanged_pin": true,
+    "midnight_halt": true,
+    "diagnostic_receipts": 947,
+    "nonzero_git_exits": 56,
+    "diagnostic_hashes_verified": true,
+    "diagnostic_modes_private": true,
+    "elapsed_seconds": 5.818148371006828,
+    "original_exit_128_cause": "UNRESOLVED",
+    "live_activation": false,
+    "network_protocols": [
+      "file"
+    ],
+    "outcomes_sha256": "c5d6f1067fa63a1d2f8928f483afaeda6a8f7e47c96365750dcc8c9c78fe8efe",
+    "passed": true
+  },
+  "unit": {
+    "RuntimeMaxUSec": "infinity",
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "MemoryPeak": "[not set]",
+    "CPUUsageNSec": "[not set]",
+    "CPUQuotaPerSecUSec": "infinity",
+    "MemoryMax": "infinity",
+    "TasksMax": "19144",
+    "User": "",
+    "PrivateNetwork": "no",
+    "NoNewPrivileges": "no",
+    "ActiveState": "inactive",
+    "SubState": "dead"
+  },
+  "git_version": "git version 2.43.0",
+  "original_console_sha256": {
+    "console.stdout": "4b9f249ed57377c532455f62620369a483ab805d249a4a098b1a9c13a73e7e3c",
+    "console.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "binding": {
+    "source": "88de12a74d8828797da24b8529db3c2964f9bb45",
+    "source_sha256": {
+      "deploy/research-system/verify_git_transport.py": "04bed7a58810922c721af962bc6eeb9d4a9e3bc134494d7fa98b388434682043",
+      "orchestrator/dispatch_limiter.py": "250a9eb802af705de2d94063350a90fd815319a26076ce718369783ecc5ade45",
+      "orchestrator/git_diagnostics.py": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "orchestrator/git_publication.py": "7685eb931462ac6c68f6c709941423abdaf1a3b109064818628359ce4a7bfa61",
+      "orchestrator/__init__.py": "e93ca2812ee2c8cfa4393b600305c65c9948a177278bd796f4a35815ba509383"
+    },
+    "unit": "research-system-transport-r2-88de12a7.service",
+    "scope": "SUPERVISED_SYNTHETIC_ONLY"
+  },
+  "originals_retained_on_host": true,
+  "unit_observation_limitation": "Transient successful unit was unloaded before collection; returned default properties are NOT evidence of runtime limits. Dispatch intent records requested limits; summary records actual non-root uid and completed Git checks.",
+  "first_attempt": {
+    "status": "FAILED_BEFORE_FIXTURE_START",
+    "exit": 2,
+    "diagnosis": "Source directory mkdir mode 0755 was masked to 0700 by private umask; explicit chmod corrected only this immutable fixture source root. Original failed unit and console preserved.",
+    "original_console_sha256": "e51b0bcacdf52d188f4710f7aa67d1e9393d538379ab820023e633f4f8fc3fb6"
+  }
+}

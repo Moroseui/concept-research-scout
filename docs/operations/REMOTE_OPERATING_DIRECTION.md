@@ -203,3 +203,27 @@ Its status and intervention routes must be documented and exercised beforehand.
 Existing phone authority remains notifications and synthetic acknowledgment only;
 operational phone decisions, live writer/reset and limiter/unattended grants remain
 separate. Continue independent authorized work while one dependency is blocked.
+
+## Operator decisions and verified progress — 7 September 2026 resumption
+
+The operator ratified the reviewed prediction charter, conditional adoption of the
+unchanged externally seeded P001 and bounded eligible-admission input preflight
+against the decision packet at `a94d886`. The exact selection and preserved
+scientific bindings are in `campaigns/isles24-pilot/prediction_selection.json`.
+Earlier references above to pending charter ratification describe the prior state.
+Patient launch and transfer to a new backend remain unapproved. Use the selected
+charter through the campaign context builder; historical proposal files stay intact.
+
+The operator clarified “047b” as the previously discussed successful run/bundle,
+without attesting hashes or successful-console evidence. Original bundle records
+support correspondence to historical source `940293b6` and contract `dc586665`;
+`docs/science/047B_ORIGINAL_CORRESPONDENCE_20260907.json` records this verification.
+The successful console remains unrecovered; run_log and prior failure are distinct.
+
+The operator separately authorized and the investigator executed the exact first
+047 cleanup, with before/after pins and restored protection recorded in
+`docs/isles-pilot/047_CLEANUP_EXECUTED_20260907.json`. No other ref changed.
+The accepted three residual case-linked metadata files remain public for this first
+cleanup; longer-term disposition, scientific landing and acceptance remain separate.
+There is no blanket new case-level publication authority or copied-history erasure.
+All other standing permission, launch, spending and activation gates remain intact.
