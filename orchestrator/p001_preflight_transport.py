@@ -82,7 +82,7 @@ def cells(pin, archive, job):
         "        raw=f.read_bytes()",
         "        expected=subprocess.check_output(['git','-C',str(path),'rev-parse',pin+':'+name],text=True,timeout=30).strip()",
         "        assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\\0'+raw).hexdigest()==expected, 'Existing source bytes changed'",
-        'acquire(frozen,'+repr(SOURCE_PIN)+','+repr(['campaigns/isles24-pilot/experiments/P001/run.py','orchestrator/__init__.py','orchestrator/campaign.py','probes/046/results/results_v3/per_case_contributions.csv','probes/023/results/results_v2/archive_manifest.csv'])+')',
+        'acquire(frozen,'+repr(SOURCE_PIN)+','+repr(['campaigns/isles24-pilot/experiments/P001/run.py','orchestrator/campaign.py','probes/046/results/results_v3/per_case_contributions.csv','probes/023/results/results_v2/archive_manifest.csv'])+')',
         'acquire(support,'+repr(pin)+','+repr(REVIEW_FILES+[REVIEW_PATH,'campaigns/isles24-pilot/prediction_selection.json'])+')',
         'review=json.loads((support/'+repr(REVIEW_PATH)+').read_text())',
         "assert review['review']['verdict']=='APPROVE' and review['execution']['returncode']==0",

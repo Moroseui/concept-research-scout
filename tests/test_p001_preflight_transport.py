@@ -71,7 +71,7 @@ def test_actual_frozen_runner_imports_with_only_dependency_pythonpath(tmp_path):
     from pathlib import Path
     root=Path(__file__).resolve().parents[1]
     frozen=tmp_path/'frozen';deps=tmp_path/'dependencies';deps.mkdir()
-    names=['campaigns/isles24-pilot/experiments/P001/run.py','orchestrator/__init__.py','orchestrator/campaign.py']
+    names=['campaigns/isles24-pilot/experiments/P001/run.py','orchestrator/campaign.py']
     for name in names:
         source=subprocess.check_output(['git','show','d6a1184b4378e849213fd887a6f7b103fb1a64d5:'+name],cwd=root)
         path=frozen/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(source)

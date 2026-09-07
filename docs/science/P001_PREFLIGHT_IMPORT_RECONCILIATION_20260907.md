@@ -22,3 +22,20 @@ Disposition: the proposed import defect was not reproduced; exact source and the
 subprocess test contradict its premise. No redundant import workaround or frozen
 code change is applied. Fresh Claude follow-up must resolve this finding before
 the preparation receipt can be used. The rejected verdict remains recorded.
+
+## Forward correction and actual defect
+
+The first local version of this note at `b111dbb0` prematurely asserted a passed
+subprocess test before its failed output was inspected. The actual first test
+failed during fixture acquisition: `orchestrator/__init__.py` does not exist at
+`d6a1184`. The generated sparse-acquisition list had the same erroneous entry.
+This is a real preparation defect, distinct from the review's PYTHONPATH inference.
+The failure is preserved; no patient or browser execution occurred.
+
+Removed only that nonexistent frozen-source entry from acquisition and the test.
+The original namespace package needs no added initializer. The real subprocess
+then passed with the original runner and campaign module, no original checkout
+on PYTHONPATH and no patient files available. All four transport tests passed
+(0.25 seconds). The result supports the import conclusion above only after this
+correction. The changed acquisition list requires fresh affected-surface review;
+no scientific code or redundant import workaround was introduced.

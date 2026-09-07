@@ -1,0 +1,16 @@
+{
+  "initial_failure": {
+    "commit": "b111dbb0",
+    "stage": "test fixture acquisition",
+    "stderr": "fatal: path orchestrator/__init__.py exists on disk, but not in pinned d6a1184 source",
+    "passed": false
+  },
+  "correction": "Remove nonexistent initializer from frozen sparse acquisition and import test; do not alter frozen source",
+  "subsequent_tests": {
+    "transport_tests": 4,
+    "passed": true,
+    "elapsed_seconds": 0.25
+  },
+  "patient_access": false,
+  "model_review_pending": true
+}
