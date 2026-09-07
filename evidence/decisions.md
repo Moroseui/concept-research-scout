@@ -2397,3 +2397,28 @@ to check and reviewed missing-evidence options. Do not reconstruct the console,
 confuse prior failure evidence with success, or rerun to fill this gap. No 047
 landing, cleanup, metadata disposition or historical registry attestation is granted.
 Independent P001 preparation continues.
+
+## 2026-09-07 — Operator authorizes the first exact 047 cleanup
+
+Authority: present operator message; recorder: Astra (OpenAI agent). The operator
+approves execution of `docs/isles-pilot/047_CLEANUP_DECISION_REQUEST.md` as it exists
+at `a94d886e0c4b8fdb504564288939df7e342d7e32`, solely for
+`refs/heads/results/probe-047-dc586665d0be`, from
+`940293b6d562f2d3dd6bfd9d8d8281ccf01e4783` to
+`c812421207b6ddcba6516444897c777d8440275a`. Preserve complete private originals;
+remove 198 staged phenotype files from the replacement, quarantine original
+exclusions privately, retain the 16 specified files unchanged and preserve failure
+evidence. The operator accepts the retained case-linked metadata in
+`per_case_staging.csv`, `split_manifest.csv` and `staging_audit.json` for this first
+cleanup only. Longer-term disposition remains open; this is not anonymization,
+complete erasure or blanket authority for new case-level publications.
+
+The exact temporary branch-specific protection exception is authorized. Verify
+pins, effective protection and private originals before mutation; a changed scope
+holds execution. Retain deletion protection throughout and other-ref protection;
+perform one exact force-with-lease update, with no automatic failed-push retry.
+Restore and verify original protection whether the push succeeds or fails; do not
+overwrite concurrent changes. On failed restoration retain deletion protection,
+stop mutations and notify the operator promptly. This authorizes no scientific
+landing, patient execution, broader cleanup, other-ref mutation or unattended
+activation. Execution outcome will be recorded separately from this authority.
