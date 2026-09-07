@@ -190,7 +190,7 @@ class Runtime:
             if row['status'] in ('BLOCKED','RUNNING'):
                 try:outcomes.append(self.q.recover(row['id'],retrieve))
                 except (ValueError,KeyError,TypeError,OSError):
-                    self.q.db.execute("UPDATE tasks SET reason='RECOVERY_EVIDENCE_UNAVAILABLE' WHERE id=?",(row['id'],))
+                    self.q.db.execute("UPDATE tasks SET status='BLOCKED',reason='RECOVERY_EVIDENCE_UNAVAILABLE' WHERE id=?",(row['id'],))
         return outcomes
 
     def tick(self):

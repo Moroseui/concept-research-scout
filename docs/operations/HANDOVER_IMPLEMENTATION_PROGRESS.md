@@ -61,3 +61,24 @@ The Actions artifact identity verifier is implemented and locally tested against
 synthetic API metadata; actual protected API collection and workflow integration
 remain unfinished. Socket unit contents now pass the same pre-publication text
 scanner as other service units; forbidden case strings remain rejected.
+
+Follow-up review at `6442ad8eae58577d8c2ec9cfb00998e9c851ef97` approved the
+source fixes, with explicit next-phase gaps and no deployed-acceptance claim.
+`HANDOVER_RECOVERY_FOLLOWUP_20260906.json` preserves the actual result.
+
+A new isolated hosted component fixture at
+`f1afc7bcb807057370efd549bb2b5c9eda4802ea` passed as UID 997, with zero model calls
+and zero patient files. It recovered a saved fixture outcome, preserved the
+completed predecessor, and rejected duplicate dispatch. Original five worker
+attempts/outcomes and existing services remained unchanged.
+`HANDOVER_HOSTED_COMPONENT_20260906.json` records the limits: operator controls
+were library fixtures, and after-exit transient-unit properties did not establish
+resource settings. Persistent broker/model/report service acceptance remains open.
+
+Setup failures were retained privately: script compilation, unavailable promised
+Git objects when locally packing the partial clone, missing prerequisite ref,
+thin-pack delta bases, and incomplete checkout. No fixture job started on those
+failures. A standard sparse clone prepared locally, with all 65 included blob
+objects inspected as component code/bootstrap metadata, resolved source staging.
+The partial snapshots and private command/console evidence remain preserved; none
+was substituted for the original installed execution snapshot.

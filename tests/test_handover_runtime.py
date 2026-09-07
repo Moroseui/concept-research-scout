@@ -119,3 +119,18 @@ def test_control_receipt_failure_is_recorded_and_next_request_applies(tmp_path,m
     assert results[1]['status']=='APPLIED'
     assert r.q.status()['revision']==2 and not r.q.status()['paused']
     assert r.controls()==[]
+
+
+def test_corrupt_running_task_isolated_from_independent_work(tmp_path,monkeypatch):
+    r=runtime(tmp_path,monkeypatch)
+    bad=r.enqueue_report('2026-09-06',[],{'fixture':'corrupt'})
+    good=r.enqueue_report('2026-09-07',[],{'fixture':'eligible'})
+    for binding in (bad,good):r.q.submit(binding)
+    r.q.db.execute("UPDATE tasks SET status='RUNNING' WHERE id=?",(bad['id'],))
+    r.q.db.execute("INSERT INTO stages VALUES(?,0,'STARTED',NULL)",(bad['id'],))
+    (r.state/(bad['id']+'-0.json')).write_text('{}')
+    r.recover()
+    assert r.q.db.execute('SELECT status FROM tasks WHERE id=?',(bad['id'],)).fetchone()[0]=='BLOCKED'
+    r.q.handlers={name:lambda *a:{'status':'COMPLETE','kind':'synthetic'} for name in good['stages']}
+    r.q.admission=lambda b:{'status':'ADMITTED'}
+    assert r.q.tick()=={'status':'COMPLETE','task':good['id']}

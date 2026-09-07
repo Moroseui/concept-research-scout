@@ -1,0 +1,55 @@
+{
+  "kind": "AUTHOR_OPERATED_SOURCE_REVIEW_NOT_DEPLOYED_ACCEPTANCE",
+  "execution": {
+    "reviewed_commit": "6442ad8eae58577d8c2ec9cfb00998e9c851ef97",
+    "returncode": 0,
+    "wall_seconds": 357.6477921750047,
+    "input_file_sha256": {
+      "orchestrator/handover_coordinator.py": "d07ca14235e6339b53ac8185e32e0a40f590d0d475debf8af42c62256c62677f",
+      "orchestrator/handover_runtime.py": "2f28969a0f0e577f7f7bd9dc0e313ffda0f19c291c36e4b05a745c499f4ff983",
+      "orchestrator/protected_handover.py": "c315861d9a6fcb20cdd3209d6c0a9d565840d6e2f3b3d23b0229c0faac31f6b7",
+      "orchestrator/actions_admission.py": "f6df91a4f65a41fe03f8bed6b57febdf3bb54885819b2a6708520bc9aa51b9fe",
+      "orchestrator/git_publication.py": "5622c1b700437a022c63c539f28bb1b7b8adc64de6386485293bf495005532f5",
+      "tests/test_handover_runtime.py": "cb828b4c297cb80db2521e492f8daf980ab8837545ae4ddf68ef048e3fca67c8",
+      "tests/test_protected_handover.py": "a56bfda16f0579c9ed0772c41725af86882f719b7a21a9436bd7b44831d5c526",
+      "tests/test_actions_admission.py": "e42e33f935cb19de37319679faeea694f7ce0daf92c94e1c98548c972c739441",
+      "tests/test_git_publication.py": "6cfaff92f51b627f1d06539cdee74354237622fa495f567b90661936c06cace6",
+      "deploy/research-system/research-system-handover.service": "98cc5f78b2e9ba48099b7ebb82be322e2a71a07dc4c28606e1ae0f92bc272f47",
+      "deploy/research-system/research-system-handover.socket": "d76585377fff037fa6aaa7752cff382fcd973d61f083edda807dcb630f7b028a",
+      "deploy/research-system/research-system-handover-controller.service": "d472fd2707aafd2a29f2738a7dcf60e4242318ee4c03b389886311262a22b0a0",
+      "deploy/research-system/research-system-handover-controller.timer": "8391b9b04ecf7c815ae700aca7297f49ab3faa793beb35b3b4351b36fcc575ab",
+      "docs/operations/HANDOVER_RECOVERY_REVIEW_20260906.json": "222e885dcabd630fc3357df10b9cf961f330240d48fe01f77a42e9b6304413c4",
+      "docs/operations/HANDOVER_SERVICE_DRAFT.md": "3ada9ec63c3f6903e681cdf93cd4f141cdb23e5afe0b6f834d7e96042775a203",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da"
+    },
+    "response_sha256": "cb9f61c777d294b2f8524c515ffb7db069ce4fbc6df290c804b6c08dab3bf0c4",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "4718f89d1ecd7b158a640ad9ba44fb4804c5d0960545316477fc0ecbd2504f90"
+  },
+  "review": {
+    "scope": "Source-only follow-up review at the supplied commit of the four HANDOVER_RECOVERY_REVIEW_20260906 blockers and their fixes, nightly scheduling wiring, and the proposed inactive systemd unit boundaries (handover_coordinator, handover_runtime, protected_handover, actions_admission, git_publication, supplied tests, deploy units, operator docs). Reviewed for correctness, privacy, authority boundaries, persistent artifacts, fail-closed behavior, identity bindings, recovery semantics, and preservation of scientific approvals. No tests executed; no installation, live writer grant, protected Actions API collection, or pre-launch repair handler certified as deployed.",
+    "reviewed_commit": "6442ad8eae58577d8c2ec9cfb00998e9c851ef97",
+    "verdict": "APPROVE",
+    "findings": [
+      "FIXED (blocker 1, verified in source): Runtime.model derives the stage from binding['stages'][position]; Runtime.validate_binding pins canonical ['continuation','review','disposition'], enforced at Coordinator.submit and re-checked each tick; the broker independently pins model family ('claude' only for the review stage), preserving fixed-role review identity. Covered by test_noncanonical_stages_refuse_before_admission.",
+      "FIXED (blocker 2, verified in source): bookkeeping is per-task isolated with an attempts cap (BLOCKED after 3), LIMIT 32 per tick, terminal entries never rescanned, and the failure path releases a stuck REVIEWING claim via Queue.unavailable so a claimed review never pretends to run. Covered by test_bookkeeping_failure_does_not_block_other_completed_task.",
+      "FIXED (blocker 3, status level): stage_status returns distinct NOT_STARTED_RECONCILIATION_REQUIRED when started.json is absent, and Coordinator.recover propagates it without retry. The bounded pre-launch repair handler remains explicitly unfinished; HANDOVER_SERVICE_DRAFT.md documents the operator reconciliation route and that the affected task stays blocked while other eligible work continues \u2014 acknowledged next-phase gap, not certified deployed. Minor: broker NOT_OBSERVED_NO_RETRY maps to the uncertain reason rather than not-started (conservative, informational only).",
+      "FIXED (blocker 4, verified in source): Runtime.controls wraps the receipt write; a failed write records WRITE_BLOCKED in the outcome and the SQLite control_delivery table, and processing continues to the next request instead of aborting the tick. Covered by test_control_receipt_failure_is_recorded_and_next_request_applies.",
+      "SCHEDULING (verified in source, previously an acknowledged gap): scheduled_report reads a root-owned installed evidence file bound to the pinned source, deduplicates per local day atomically (BEGIN IMMEDIATE) in Coordinator.schedule, submits the canonical nightly binding, and cannot be recursively triggered by review/disposition output; idle polling spends no model calls. Minor: a controller outage from the scheduled local time through local midnight silently skips that day's report (honest NOT_REVIEWED handling applies).",
+      "SYSTEMD BOUNDARIES (proposed, inactive \u2014 reviewed as source only): broker root confined to the fixed runuser launcher with ProtectSystem=strict, UMask=0077 and pinned ReadWritePaths; systemd-owned socket root:research-runtime 0660 plus SO_PEERCRED controller-uid check; controller non-root with PrivateNetwork, no sudo; timer documented as enable-only-after-activation-gates. Not certified installed or active.",
+      "PRESERVED: the publication .socket suffix addition retains all content checks \u2014 same secret/case-identifier/NUL/UTF-8 scans apply with no new exemption; test_metadata_and_case_payload_scans exercises '.socket'. Pinned publication destination/repository, contaminated-history rejection, exact-hash historical exemptions, and operator-only reset/initialize (unreachable via socket) all remain intact.",
+      "SUGGESTION (tamper-path liveness, not a blocker): a hash-mismatched or symlinked stage receipt on a RUNNING task raises out of Coordinator.tick before any per-task blocking \u2014 Runtime.recover's exception path sets a reason but leaves status RUNNING \u2014 stalling all tasks every tick until operator repair. Fail-closed and reachable only via private-state corruption, but it conflicts with block-only-the-affected-task; smallest fix is to set BLOCKED in Runtime.recover's except path or catch receipt-verification errors per task in tick.",
+      "RETAINED MINORS (unchanged from prior review, acceptable pre-installation): supervised model-turn budget counts refused turn folders with no reclamation route; pause takes effect at the next task's admission gate; non-activated socket has a brief pre-chmod window (mitigated by service UMask); controls() silently skips non-64-hex request filenames.",
+      "NEXT-PHASE (explicitly unfinished, not certified, distinct from blockers): actual installation and activation evidence, live writer grant and shared-state initialization, protected Actions API collection feeding actions_admission.verify/Broker.actions_admission, and the reviewed bounded pre-launch repair handler. No approval here extends to deployed behavior; this review ran no tests and claims none."
+    ]
+  },
+  "scope_limit": "Approval applies to supplied source at 6442ad8; installed operation, live grants, complete Actions collector and pre-launch repair remain unverified or unfinished."
+}

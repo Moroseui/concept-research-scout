@@ -1,0 +1,46 @@
+{
+  "source": "f1afc7bcb807057370efd549bb2b5c9eda4802ea",
+  "returncode": 0,
+  "unit": "research-system-handover-fixture-f1afc7bcb807",
+  "properties": {
+    "Result": "success",
+    "ExecMainStatus": "0",
+    "CPUQuotaPerSecUSec": "infinity",
+    "MemoryMax": "infinity",
+    "User": "",
+    "Group": "",
+    "PrivateNetwork": "no",
+    "NoNewPrivileges": "no"
+  },
+  "component": {
+    "controls": "library fixture only; OS operator path not established",
+    "duplicate": "no second dispatch",
+    "kind": "HOSTED_NONROOT_COMPONENT_FIXTURE",
+    "limits": "not an installed broker, scheduled model cycle, phone decision or unattended acceptance",
+    "model_calls": 0,
+    "patient_files": 0,
+    "peak_rss_kib": 20992,
+    "recovery": "original fixture outcome reused; completed predecessor not repeated",
+    "source": "f1afc7bcb807057370efd549bb2b5c9eda4802ea",
+    "status": "PASS",
+    "uid": 997,
+    "verified_utc": "2026-09-07T02:17:21.704341+00:00",
+    "version": 1,
+    "wall_seconds": 0.09419117699144408
+  },
+  "unit_properties_observation": {
+    "status": "UNAVAILABLE_AFTER_TRANSIENT_UNIT_EXIT",
+    "limitation": "Post-exit systemctl values are defaults/empty fields and do not establish applied resource or sandbox limits. The process UID and component outcome were observed inside execution."
+  },
+  "original_jobs_reconciled": {
+    "started_attempts": 5,
+    "outcomes": 5,
+    "source": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+    "original_services_unchanged": true
+  },
+  "source_transport": {
+    "scanned_component_blob_objects": 65,
+    "archive_bytes": 449698,
+    "sha256": "4a839bb72375fb197184a1c386bf263e72a54bb20ee9766f16bfe8d33650ced5"
+  }
+}
