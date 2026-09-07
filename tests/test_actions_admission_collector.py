@@ -59,3 +59,20 @@ def test_failed_network_reads_have_persistent_retry_cap(tmp_path):
         outcome=reconcile(broker,[{'run_id':'1'}],tmp_path/'state',fetch=unavailable)
     assert len(calls)==3 and broker.calls==0
     assert outcome[0]['outcome']['reason']=='ACTIONS_ADMISSION_READ_RETRY_LIMIT'
+
+
+def test_discovery_ignores_unapproved_runs_and_waits_for_artifact():
+    from orchestrator.actions_admission_collector import discover
+    allowed={'source':'a'*40,'branch':'main','workflow_path':'.github/workflows/confer.yml','workflow_sha256':'b'*64}
+    run={'id':1,'run_attempt':2,'repository':{'id':1323461276},'event':'workflow_dispatch',
+         'head_sha':'a'*40,'head_branch':'main','path':allowed['workflow_path']}
+    uploaded=[];calls=[]
+    def get(method,path,token):
+        calls.append(path)
+        if 'status=in_progress' in path:return {'workflow_runs':[run,{**run,'id':2,'head_sha':'c'*40}]}
+        assert '/runs/1/artifacts' in path
+        return {'artifacts':uploaded}
+    assert discover([allowed],'fixture',get=get)==[]
+    uploaded.append({'name':'research-admission-1-2'})
+    assert discover([allowed],'fixture',get=get)==[{**allowed,'run_id':'1','attempt':'2'}]
+    assert not any('/runs/2/' in path for path in calls)

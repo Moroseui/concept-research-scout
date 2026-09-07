@@ -38,7 +38,7 @@ def pins(source,before):
 def sparse_paths(entries):
     paths=sorted({name.split(':',1)[1] for name in entries})
     if not paths:raise ValueError('EMPTY_CANDIDATE')
-    if any(any(c in path for c in '*?[]\\\n\r') for path in paths):
+    if any(path!=path.strip() or any(c in path for c in '*?[]\\\n\r') for path in paths):
         raise ValueError('LITERAL_SPARSE_PATH_REQUIRED')
     return paths
 

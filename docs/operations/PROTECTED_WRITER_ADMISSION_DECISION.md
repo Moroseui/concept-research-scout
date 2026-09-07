@@ -18,7 +18,7 @@ Propose a separate repository-selected GitHub App with Contents write, Actions r
 read on `Moroseui/concept-research-scout` only. No Administration, Actions write,
 workflow-edit, pull-request-write or organization permissions. The exact App and
 installation IDs would be recorded after a separate operator creation step. Its
-key would be held solely by a non-login protected publisher identity, with code,
+key would be held solely by the protected broker identity described below, with code,
 policy and service units owned by root outside all model-writable paths. Models,
 scientific workers and ordinary Actions jobs must never receive that key or its
 installation token. No such credential is authorized or installed by this packet.
@@ -122,6 +122,62 @@ the existing separate driver/reviewer identities; it accepts no command, usernam
 or environment from clients. This is **not** the non-login publisher design above.
 Before any live writer grant, separate the model launcher from the writer service
 or explicitly review the narrower final privilege design and amend this packet.
-No agent receives sudo, no writer key has been created, and the draft service units
-are not installed. The controller's status/pause/resume and read-only completion
-recovery are being tested before a live permission request.
+No agent receives sudo and no writer key has been created. The supervised fixture
+units are now installed at source 6863968, without a timer, live ledger or writer.
+Actual status/pause/resume and read-only completion recovery passed. These are
+fixture proofs, not a live permission request.
+
+The smallest proposed final boundary retains the root-owned fixed broker rather
+than introducing another daemon: root is needed only for the existing fixed
+runuser launches into research-driver and research-reviewer. The broker accepts no
+caller-supplied command, user, executable path or environment. App credentials
+exist only inside its serialized authentication context, which closes before a
+model launch; model subprocesses use the existing empty-environment, separate-UID
+launcher. Root configuration, installed code, publication cache, ledger and reset
+request files are outside model/controller write access. This narrower combined
+privilege design requires explicit review and operator approval before any key is
+installed. It is not an assertion that a separate non-login publisher exists.
+No standing root shell or sudo capability is proposed for Astra. Source upgrades
+of the protected boundary remain administrative deployment operations, distinct
+from ordinary branch development and permitted scientific jobs.
+
+## Current implementation facts, 7 September
+
+Candidate staging and outgoing-history checks passed a fresh hosted direct-broker
+fixture at 386cde2, with no credentials, service change or Git publication. It is
+not a new Unix-socket identity test. Actual earlier socket, non-root recovery and
+human controls retain their separate evidence pins. Latest source suggestions
+bound report task histories and isolate malformed archive failures; these fixes
+need their final review/deployment evidence.
+
+The generated reusable Actions workflow now has a prepared request/upload/wait
+route. While policy is PROPOSED, existing authorized manual controls retain their
+inactive-limiter behavior; this grants no standing dispatch. The activated route
+requires a genuine updated human-controls review receipt, a protected reviewed
+source/workflow allowlist and initialized shared policy. The collector discovers
+only matching in-progress runs with uploaded request artifacts, then verifies the
+exact attempt and bytes before CAS. Each invocation bounds inspection and requests;
+failed reads have three durable attempts. The waiter times out after ten minutes
+and never writes state. This workflow change still needs the separately approved
+main integration before main's buttons use it.
+
+GitHub's [reusable workflow reference](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations)
+associates the github context with the caller. The request therefore binds the
+caller path from GITHUB_WORKFLOW_REF and its bytes at GITHUB_SHA; the protected
+allowlist must approve that caller and the same-commit reusable implementation.
+The existing reviewed-source check supplies the complete code binding, rather
+than treating a caller filename as scientific or permission authority.
+
+
+A necessary separate GitHub permission decision remains: repository-level model
+secrets let older or otherwise permitted workflows bypass shared admission. Before
+claiming shared enforcement, propose moving the existing Codex API and Claude
+subscription credentials into a dedicated environment restricted to reviewed main
+workflows, updating those jobs to request that environment, verifying a bounded
+canary, and only then removing the repository-level copies. Preserve the original
+private credentials throughout; this is a scope restriction, not new API billing.
+Legacy pilot workflows would then lack model credentials; their supported human
+replacement is the reviewed main controls. No secret relocation, environment
+creation, workflow dispatch or restriction change is executed by this proposal.
+Exact current GitHub protection capabilities and administrator bypass remain part
+of the final operator packet and hosted activation verification.

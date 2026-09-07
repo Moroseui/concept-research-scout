@@ -17,13 +17,18 @@ REVIEW_FILES = ['orchestrator/actions_runner.py', 'scripts/actions_agent.py',
                 'tests/test_human_controls.py', 'scripts/actions_auth.py', 'scripts/render_human_workflows.py',
                 'orchestrator/public_export.py', 'orchestrator/dispatch_limiter.py', 'orchestrator/git_publication.py', 'configs/pilot/dispatch-limiter.json',
                 'scout.py','orchestrator/campaign_lifecycle.py','orchestrator/publication.py',
-                'orchestrator/campaign_review.py','orchestrator/campaign.py']
+                'orchestrator/campaign_review.py','orchestrator/campaign.py',
+                'orchestrator/actions_admission_wait.py','orchestrator/operations_report.py',
+                'orchestrator/remote_supervisor.py','orchestrator/job_store.py']
 REVIEW_FILES += ['.github/workflows/' + n + '.yml' for n in
                  ['actioner','confer','idea-pipeline','interpret','librarian','scout-cycle','results-validate']]
 
 
 def reviewed(root=ROOT):
-    prefix=Path(root)/'docs/isles-pilot/reviews/human-controls-closeout'
+    # Prior approved inputs remain preserved under human-controls-closeout.
+    # This workflow revision needs its own genuine full-input review receipt.
+    prefix=Path(root)/'docs/isles-pilot/reviews/human-controls-handover'
+    if not Path(str(prefix)+'.execution.json').is_file():raise ValueError('REVIEW_REQUIRED')
     e=json.loads(Path(str(prefix)+'.execution.json').read_text())
     p=Path(str(prefix)+'.response.json'); r=json.loads(p.read_text()); v=r.get('structured_output',{})
     if (e['returncode'] or r.get('subtype')!='success' or r.get('is_error')

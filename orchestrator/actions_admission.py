@@ -9,6 +9,7 @@ import io
 import json
 import stat
 import zipfile
+import zlib
 from orchestrator.git_publication import scan
 
 REPOSITORY_ID=1323461276
@@ -33,12 +34,15 @@ def verify(run,artifact,archive,workflow,expected):
     if hashlib.sha256(workflow).hexdigest()!=expected['workflow_sha256']:
         raise ValueError('ACTIONS_REVIEWED_WORKFLOW_CHANGED')
     if len(archive)>65536:raise ValueError('ACTIONS_ARCHIVE_LIMIT')
-    with zipfile.ZipFile(io.BytesIO(archive)) as bundle:
-        files=bundle.infolist()
-        if len(files)!=1 or files[0].filename!='admission.json':raise ValueError('ACTIONS_ARCHIVE_MEMBERS')
-        item=files[0]
-        if item.file_size>4096 or item.flag_bits & 1 or stat.S_ISLNK(item.external_attr>>16):raise ValueError('ACTIONS_ARCHIVE_MEMBER_TYPE')
-        raw=bundle.read(item)
+    try:
+        with zipfile.ZipFile(io.BytesIO(archive)) as bundle:
+            files=bundle.infolist()
+            if len(files)!=1 or files[0].filename!='admission.json':raise ValueError('ACTIONS_ARCHIVE_MEMBERS')
+            item=files[0]
+            if item.file_size>4096 or item.flag_bits & 1 or stat.S_ISLNK(item.external_attr>>16):raise ValueError('ACTIONS_ARCHIVE_MEMBER_TYPE')
+            raw=bundle.read(item)
+    except (zipfile.BadZipFile,zlib.error,EOFError):
+        raise ValueError('ACTIONS_ARCHIVE_INVALID') from None
     scan('admission.json',raw)
     record=json.loads(raw)
     identity={'repository_id':REPOSITORY_ID,**{k:expected[k] for k in ('run_id','attempt','source','branch','workflow_sha256')}}

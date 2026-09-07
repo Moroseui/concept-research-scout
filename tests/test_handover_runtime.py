@@ -173,3 +173,20 @@ def test_prompt_rejects_corrupted_predecessor_before_broker(tmp_path,monkeypatch
     monkeypatch.setattr(module,'request_broker',lambda *args:pytest.fail('broker must not be called'))
     with pytest.raises(ValueError,match='STAGE_RECEIPT_CHANGED'):
         r.model(binding,1)
+
+
+
+def test_report_task_history_is_bounded_with_honest_omission_count(tmp_path,monkeypatch):
+    from datetime import datetime,timezone
+    import orchestrator.handover_runtime as module
+    r=runtime(tmp_path,monkeypatch)
+    for n in range(220):
+        r.q.db.execute('INSERT INTO tasks VALUES(?,?,?,?)',(format(n,'064x'),'{}','COMPLETE',None))
+    r.config['report_schedule']={'zone':'UTC','hour':0,'minute':0,'evidence_file':'synthetic'}
+    monkeypatch.setattr(module,'configuration',lambda path:{'source':'a'*40,'receipts':[],'task_state':{}})
+    scheduled=r.scheduled_report(datetime(2026,9,7,tzinfo=timezone.utc))
+    packet=json.loads((r.state/'tasks'/scheduled['task']/'packet.json').read_text())
+    state=packet['decision_inbox']
+    assert len(state['coordinator_tasks'])==24
+    assert state['coordinator_tasks_total']==220 and state['coordinator_tasks_omitted']==196
+    assert '220 complete' in state['coordinator_summary']

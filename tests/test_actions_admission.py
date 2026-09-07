@@ -31,3 +31,10 @@ def test_extra_archive_members_and_cross_run_artifact_refused():
     with zipfile.ZipFile(out,'a') as z:z.writestr('extra.txt','unexpected')
     with pytest.raises(ValueError,match='MEMBERS'):verify(*args[:2],out.getvalue(),*args[3:])
     with pytest.raises(ValueError,match='ARTIFACT_BINDING'):verify(args[0],{**args[1],'workflow_run':{'id':456}},*args[2:])
+
+
+
+def test_malformed_archive_is_a_named_recoverable_refusal():
+    args=fixture()
+    with pytest.raises(ValueError,match='ACTIONS_ARCHIVE_INVALID'):
+        verify(*args[:2],b'not a zip archive',*args[3:])

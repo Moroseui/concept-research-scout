@@ -91,3 +91,10 @@ def test_glob_paths_cannot_materialize_legacy_baseline(tmp_path,name):
     with pytest.raises(ValueError,match='LITERAL_SPARSE_PATH_REQUIRED'):
         prepare(author,source,before,tmp_path/'bundle')
     assert not (tmp_path/'bundle').exists()
+
+
+
+def test_sparse_trailing_whitespace_refused():
+    from orchestrator.publication_candidate import sparse_paths
+    with pytest.raises(ValueError,match='LITERAL_SPARSE_PATH_REQUIRED'):
+        sparse_paths({'a'*40+':name.md ':'b'*64})

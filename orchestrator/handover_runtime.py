@@ -188,7 +188,12 @@ class Runtime:
             state=self.q.status()
             task_state=dict(evidence['task_state'])
             task_state['coordinator_observed_at']=now.isoformat()
-            task_state['coordinator_tasks']=state['tasks']
+            priority={'RUNNING':0,'BLOCKED':1,'QUEUED':2,'COMPLETE':3}
+            selected=sorted(state['tasks'],key=lambda row:(priority.get(row['status'],4),row['id']))[:24]
+            task_state['coordinator_tasks']=[{**row,'reason':row['reason'] if row['reason'] is None or len(row['reason'])<=256
+                else 'REASON_TOO_LONG_SEE_PRIVATE_TASK_RECORD'} for row in selected]
+            task_state['coordinator_tasks_total']=len(state['tasks'])
+            task_state['coordinator_tasks_omitted']=len(state['tasks'])-len(selected)
             task_state['coordinator_control']={'revision':state['revision'],'paused':bool(state['paused'])}
             task_state['evidence_scope']='Installed evidence plus current coordinator metadata; not a census of other execution queues.'
             task_state['coordinator_summary']=', '.join(
