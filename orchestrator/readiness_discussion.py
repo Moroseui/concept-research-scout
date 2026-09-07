@@ -14,7 +14,7 @@ from orchestrator.hosted_context import build
 from orchestrator.hosted_cycle import immutable,encoded
 
 
-def discuss(sc,state,output,proposal):
+def discuss(sc,state,output,proposal=None):
     state=Path(state)
     with lock(state/'branch.lock'):
         q=Store(state/'readiness.sqlite')
@@ -32,7 +32,15 @@ def discuss(sc,state,output,proposal):
         from orchestrator.public_export import text
         text(json.dumps(packet))
         operating=build(sc.ROOT,{'jobs':packet,'decision_inbox':q.inbox()})
-        identity=hashlib.sha256(json.dumps(events,sort_keys=True).encode()).hexdigest()
+        selected=bool(operating.get('selected_scientific_context'))
+        if selected and proposal is not None:
+            raise ValueError('RATIFIED_CONTEXT_REFUSES_PROPOSAL_PREVIEW')
+        if not selected and proposal is None:
+            raise ValueError('SELECTED_OR_PREVIEW_CONTEXT_REQUIRED')
+        # Keep legacy event identities stable. In the ratified lane, a changed
+        # approved context is a new discussion, never a new scientific dispatch.
+        identity_input={'version':2,'events':events,'operating_context':operating} if selected else events
+        identity=hashlib.sha256(json.dumps(identity_input,sort_keys=True).encode()).hexdigest()
         q.db.execute('CREATE TABLE IF NOT EXISTS readiness_discussions(id TEXT PRIMARY KEY,status TEXT,output TEXT)')
         prior=q.db.execute('SELECT status,output FROM readiness_discussions WHERE id=?',(identity,)).fetchone()
         if prior:
@@ -40,7 +48,7 @@ def discuss(sc,state,output,proposal):
         contexts=state/'discussion-contexts';contexts.mkdir(mode=0o700,exist_ok=True)
         immutable(contexts/(identity+'.json'),encoded(operating))
         q.db.execute('INSERT INTO readiness_discussions VALUES(?,?,?)',(identity,'CLAIMED_RECONCILE_IF_INTERRUPTED',str(output)))
-        request=('CURRENT CANONICAL OPERATING CONTEXT:\n'+json.dumps(operating)+'\nProcess these actual completed readiness events through the system. Recommend the next eligible bounded task and explain priorities toward Wednesday. Distinguish metadata inventories from scientific results. Preserve pending charter ratification, patient launch, 047 landing and unattended activation. No execution, import or adoption. Include the relevant predecessor conclusions only when evidence gates pass. This is a proposed investigator disposition, not operator approval.\n'+json.dumps(packet)+'\nDecision inbox:\n'+json.dumps(q.inbox()))
+        request=('CURRENT CANONICAL OPERATING CONTEXT:\n'+json.dumps(operating)+'\nProcess these actual completed readiness events through the system. Recommend the next eligible bounded task and explain priorities toward Wednesday. Distinguish metadata inventories from scientific results. Use the supplied current charter disposition: do not re-request an already recorded ratification or infer new permission from a proposal. Preserve patient-launch, 047-landing and unattended-activation gates. No execution, import or adoption. Include the relevant predecessor conclusions only when evidence gates pass. This is a proposed investigator disposition, not operator approval.\n'+json.dumps(packet)+'\nDecision inbox:\n'+json.dumps(q.inbox()))
         try:
             result=execute(sc,'discuss','P001',request,output,proposal=proposal)
         except BaseException:
@@ -51,6 +59,6 @@ def discuss(sc,state,output,proposal):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--proposal',required=True)
+    p=argparse.ArgumentParser();p.add_argument('--state',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--proposal',help='Legacy unratified preview only; omit when a ratified selection is present')
     a=p.parse_args();import scout
     print(json.dumps(discuss(scout,a.state,a.output,a.proposal)))
