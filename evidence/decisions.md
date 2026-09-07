@@ -2303,3 +2303,69 @@ bootstrap, non-root roles, persistent system interfaces and supervised synthetic
 validation on the existing host, plus controlled development-branch publication.
 It grants no patient transfer/launch, reserved-data access, 047 landing/cleanup,
 main merge, new spending/credentials or live limiter/writer/reset activation.
+
+
+## 2026-09-07 — Operator confirms governance and narrowly disposes PR #5 fixture
+
+Human authority: the operator's present explicit message after supplying Claude's
+independent desk return for PR #5. Agent recorder: Astra. This is a new confirmation,
+not a rewrite of historical decisions or an inferred signature from the desk.
+
+The operator confirms that R1/R2/R4 and conditional R3 in
+`docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md` reflect their intentions,
+including selected thresholds 48/96 and all remaining activation requirements.
+Confirmed version: commit `ac8e0150eb2daf8ca2252c27b5c7ab4bde38f36d`, Git blob
+`73e0c48d0ba99b6037274f31aebf0819d81477db`, SHA-256
+`e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2`.
+Preserve that file and the earlier decisions entry unchanged. Separately, the
+hosted Codex account now uses the operator's ChatGPT subscription. This does not
+convert system API calls into subscription-funded calls, change existing API
+arrangements, or grant additional API spending, credentials or provisioning.
+
+The operator accepts the narrow historical synthetic rejection-fixture disposition:
+retain the existing pinned baseline and exact single-line rule, scan the remainder
+of every affected blob, preserve history and failure evidence, and introduce no
+broader exemption. The desk identified a synthetic scanner-rejection input with no
+patient values, dataset load or linkage. Its identifier is deliberately not copied
+into this public ruling. No historical result payload is accepted by this ruling.
+
+Exact references in `orchestrator/git_publication.py` at `ac8e015`:
+- Policy Git blob `a4de4b400dd4e7957889144dbfb47d7bb4156ebd`, SHA-256
+  `5622c1b700437a022c63c539f28bb1b7b8adc64de6386485293bf495005532f5`.
+- `PUBLIC_DECISION_BASELINE`: `2cb97cec43a07b3ab908329d38c509215237081f`.
+  Existing decisions-prefix SHA-256 remains
+  `dbb96211221407b5e13218a5e8c043afcf178700ee992aebab6479f95001ee7c`;
+  no prefix expansion is authorized.
+- Baseline `tests/test_git_publication.py` SHA-256 (`PUBLIC_FIXTURE_SHA256`):
+  `2e63b621c00522b27ffa7228c754976834c076651e6248e7f90e8fc8d83149ff`.
+  The one exact matched newline-terminated line has SHA-256
+  `d8400ed947e8146b5d206f6d3787253b521ae7e3cc6844ead098a9b52da76e96`.
+- Introducing commit `1c8417759778de50bc8f5e13aad403498ac19ef7`, fixture Git blob
+  `a0bc4c585fc5438075a729078dec2d634d1ba6f1`, SHA-256
+  `f3d3a695e20f3d47a433d4ee93650263ba37b17c878c913a172b03adcbfdfbfc`.
+  This differs from the baseline's full-file hash. The existing rule authenticates
+  the baseline bytes and replaces exactly one identical line in an affected blob,
+  then rescans its remainder; it is not an exemption for the entire affected blob.
+
+The retrospective audit remains an OUTSTANDING ACTIVATION CONDITION. Preserve
+exact original range
+`d24ffb9003a2291f359afe3acf4bf491f2d7fd9f..ac8e0150eb2daf8ca2252c27b5c7ab4bde38f36d`
+(82 commits, independently counted here), all outgoing blob versions and commit
+metadata, plus every added PR decision commit. Bind the trusted policy and this
+ruling separately from the scanned range. Do not substitute merged main as the
+baseline, omit historical versions/deleted-at-tip files, or call an empty or
+incremental audit completion. Any additional undispositioned finding stops
+activation. No successful retrospective audit is claimed by this record.
+
+Capability dependency: current `audit(root, source, before, inventory)` passes
+`before` into `scan_history_blob`, using that same value for exception ancestry.
+A tested, separately reviewable retrospective entry point must decouple the exact
+range endpoints from authenticated policy/ruling trust, preserve all scan checks,
+and produce a complete commit/blob inventory and disposition receipt. This is
+an audit capability requirement, not permission to loosen the publisher. Merging
+alone cannot resolve the unchanged range's ancestry check.
+
+The operator will perform the merge after final candidate desk confirmation.
+Astra is authorized only to publish this documentation update through the
+controlled route on the fixed PR branch. No merge, activation, patient launch,
+047 scientific landing or cleanup is authorized. The branch must be retained.
