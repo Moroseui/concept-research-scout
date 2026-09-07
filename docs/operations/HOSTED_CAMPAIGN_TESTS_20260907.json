@@ -1,0 +1,10 @@
+{
+  "source": "0464e0a093cf2b5f015fd1e8d1262e15c26023f7",
+  "pytest_passed": 516,
+  "subtests_passed": 40,
+  "elapsed_seconds": 296.1,
+  "original_console_sha256": "66a55d8372e8946e05f177752f619fa5274572fd165a83789afebc7862779db1",
+  "source_frozen_during_run": true,
+  "hosted_execution": false,
+  "prior_full_run": "512 passed and 40 subtests, but source was edited during that run; retained diagnostically, not used as exact-candidate evidence."
+}

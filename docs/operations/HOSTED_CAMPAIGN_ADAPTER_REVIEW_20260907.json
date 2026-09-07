@@ -1,0 +1,103 @@
+{
+  "execution": {
+    "reviewed_commit": "0464e0a093cf2b5f015fd1e8d1262e15c26023f7",
+    "returncode": 0,
+    "wall_seconds": 222.81225085799815,
+    "input_file_sha256": {
+      "orchestrator/hosted_campaign.py": "f9d138f27eacdc2d22001323f98c4528bf9ad2d72fd351bb7ff271003e6d69bb",
+      "orchestrator/campaign_pipeline.py": "0dcb4e4768c5947a4b4ee70a5d73541bd612e8ef5fb99f98a3eacff9fb2221ea",
+      "tests/test_hosted_campaign.py": "ad9dc9f2429cfc4f2d1b9448c96635025876b6c31702c86879a405208c46c2c8",
+      "tests/test_campaign_pipeline.py": "09cc72d3d55ba822ac96cce41feb7bc6a247ee503512b686313c02876258d86f",
+      "tests/test_readiness_discussion.py": "5d40ea59528b39b4fcad0202f4bf760dd2f4cf2d37ca754045dd2f92f707341c",
+      "orchestrator/protected_handover.py": "6f2142b6e06518455ca3a0dec4428c10ff092ddd184882928f76df6a573afe9f",
+      "orchestrator/hosted_cycle.py": "4dee7d124ec132d96e981d2d7729a4863a2bc0d162605acf6df2e26c23bab4e1",
+      "orchestrator/handover_runtime.py": "957c3a3352a743885052e1f521f1dfdb7ca0bf79289c953b94b9a0dc62fe37df",
+      "docs/operations/HOSTED_CAMPAIGN_ADAPTER_PREPARATION_20260907.md": "12d9840cf0c228a85bd268d31709281ffbda9f2d38ff5b1428227cd9de68ba2e",
+      "docs/operations/HOSTED_CAMPAIGN_ADAPTER_REVIEW_R1_20260907.json": "d5730fa0494d84fb04870804654185c993cc49450b415ee148c0b77121613413",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "856d74df2652956c02321ccc23f090370790f68d70bb4725984f6e618ab8819e",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "449457a35c3afaad1d49cd520ebcff55da241420b56f2ee3f1b0fb79368d8171"
+  },
+  "review": {
+    "scope": "Follow-up hosted campaign prototype at current commit. Verify R1 JSON/Markdown blocker fixed through validated P001 artifact contract before admission, nonstring and reviewer-stage checks, original turn/packet/duplicate provenance, named socket refusals and preserved one-round cap. No installation, credential grant, patient or live activation. Review source only; report any remaining integration blockers.",
+    "reviewed_commit": "0464e0a093cf2b5f015fd1e8d1262e15c26023f7",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED R1 BLOCKER FIX (protected_handover.model_output_format + model_stage): a strict campaign_artifacts contract (exactly {version,experiment,mode}; version type-strict int 1 excluding bools; experiment 'P001'; mode readiness|discuss; named CAMPAIGN_ARTIFACT_CONTRACT / CAMPAIGN_ARTIFACT_STAGE refusals) selects output_format='json' for continuation/review, so model_call now prepends 'Return one JSON object only', consistent with the adapter's one-JSON-object artifact instruction. model_stage computes the format after body-schema validation but before turn-folder creation, budget counting and admit_server, so a malformed contract fails closed before any admission or supervised turn budget is consumed. Legacy packets without campaign_artifacts retain markdown and the execution_proposal-disposition JSON path (asserted by test_campaign_json_format_is_explicit_and_legacy_unchanged). Source-only review; tests were not run.",
+      "VERIFIED PROVENANCE (hosted_campaign.BrokerStages): the <stage>.hosted-provenance.json record now binds the event (turn_id/attempt/source), packet_sha256 over the encoded packet, and broker_duplicate captured per stage from the broker response, alongside model_receipt_sha256/operating_context_sha256 with original_protocol_private true. Replayed completions are distinguishable from fresh calls, and the broker's binding.json check refuses a replay under a changed packet (TURN_BINDING_CHANGED), so the recovery adapter can bind artifacts to the exact protected turn without exposing private protocols.",
+      "VERIFIED NONSTRING AND REVIEWER-STAGE CHECKS: HOSTED_CAMPAIGN_FILE_SCHEMA now refuses non-dict answers, wrong key sets and any non-string value before any artifact write (test_nonstring_artifact_has_named_refusal asserts an empty directory on refusal); the reviewer index requires names==['review.json'] and stage=='campaign_<mode>_review' bound to the mode captured at the author index (HOSTED_CAMPAIGN_ARTIFACT_SCOPE), closing the R1 unvalidated-stage minor.",
+      "VERIFIED NAMED SOCKET REFUSALS: request_broker raises the broker's reason only when it matches [A-Z][A-Z0-9_]{1,100} (e.g. SUPERVISED_MODEL_BUDGET_EXHAUSTED) and collapses anything else to BROKER_REFUSED_RECONCILE; exchange() already sanitizes arbitrary exception text to BROKER_FAILURE_PRESERVED, so campaign blocked.json can distinguish named operational refusals while no request data or private diagnostic text can leak.",
+      "VERIFIED ONE-ROUND CAP AND AUTHORITY BOUNDARIES: execute keeps keyword-only max_rounds default 2 with bool-excluding validation (CAMPAIGN_ROUND_BOUND); run_pipeline pins max_rounds=1, P001 and readiness/discuss and requires the exact packet contract (HOSTED_CAMPAIGN_PACKET_CONTRACT); a single-round REVISE preserves the round-1 proposal, negative review.json and blocked.json with no hidden repair round; the stage counter leaves the broker's third stage for disposition and a reused BrokerStages fails closed (HOSTED_CAMPAIGN_AUTHOR_REVIEW_BOUND). No credential, admission grant, scheduler, patient handler or live activation is added, and under SCOUT_CI the adapter's hardcoded ci:False/adapter provenance is still refused by the pipeline's runner-provenance check.",
+      "MINOR / VERIFY BEFORE INTEGRATION (fail-closed, carried from R1): BrokerStages.call and __call__ still invoke text(answer)/text(content) with public_export's default limit while the broker transport and immutable writer use an explicit limit=1500000; public_export.py was not supplied, so confirm the default cannot refuse a legitimately large admitted answer. Unlike the R1 blocker, the completion remains recoverable via the broker's duplicate stage_status path after a code fix, so this is a pre-integration verification item, not a blocker.",
+      "MINOR (fail-closed naming nits): json.loads of the de-fenced answer can raise a raw JSONDecodeError whose text execute sanitizes to failure_code PIPELINE_STAGE_FAILED instead of a named HOSTED_CAMPAIGN_* code; and run_pipeline's dict-equality packet check would accept version=True (bool == 1), which the broker's type-strict contract then refuses at the first stage before admission. Both refuse safely; naming the parse failure and mirroring the broker's type-strict version check would keep failure codes exact."
+    ]
+  },
+  "session_id": "1d408eb2-ae69-4765-9cb8-30d6e640075f",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 62026,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 17841,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 62026,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 17841,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 62026,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 62026
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 39849,
+      "outputTokens": 16,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.039929,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 17841,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 62026,
+      "webSearchRequests": 0,
+      "costUSD": 2.13259,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "scope_limit": "PROTOTYPE_SOURCE_REVIEW_NOT_HOSTED_ACCEPTANCE_OR_ACTIVATION"
+}
