@@ -1,0 +1,17 @@
+{
+  "kind": "INCOMPLETE_AUTHOR_OPERATED_REVIEW",
+  "source": "a0795e69ed6c225fe353d438b5558f481340fe81",
+  "scope": "handover-completion-fixture",
+  "status": "TIMED_OUT_NO_VERDICT",
+  "timeout_seconds": 600,
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [],
+  "original_protocol_sha256": "eef25812e36787e8615f2a02526edf2c09b90cd0925eaf41dcadc8b905144f31",
+  "original_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_evidence_retained_privately": true,
+  "post_timeout_process_reconciled": true,
+  "review_process_remaining": false,
+  "unrelated_existing_interactive_colab_worker_preserved": true,
+  "approval": false,
+  "next_action": "One narrower source review of the fixture and completion corrections; no hosted dispatch until a completed approval."
+}

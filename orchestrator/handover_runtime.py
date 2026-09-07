@@ -53,6 +53,7 @@ class Runtime:
             CREATE TABLE IF NOT EXISTS bookkeeping(task TEXT PRIMARY KEY,status TEXT,attempts INTEGER,reason TEXT);
             CREATE TABLE IF NOT EXISTS control_delivery(id TEXT PRIMARY KEY,outcome TEXT);
             CREATE TABLE IF NOT EXISTS runtime_blocks(phase TEXT PRIMARY KEY,reason TEXT);
+            CREATE TABLE IF NOT EXISTS report_delivery(report TEXT PRIMARY KEY,status TEXT,attempts INTEGER,reason TEXT,commit_pin TEXT);
         ''')
         self.completions=None
         if config.get('synthetic_execution') is not None:
@@ -252,7 +253,44 @@ class Runtime:
         control_block=self.q.db.execute("SELECT 1 FROM runtime_blocks WHERE phase='controls'").fetchone()
         result={'status':'CONTROL_TRANSPORT_BLOCKED'} if control_block else self.q.tick()
         self.bookkeeping()
+        try:
+            if not control_block:self.deliver_reports()
+        except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):
+            self.q.db.execute("INSERT OR REPLACE INTO runtime_blocks VALUES('publication','DELIVERY_EVIDENCE_RECONCILIATION_REQUIRED')")
         return result
+
+    def deliver_reports(self):
+        """Separate checked delivery; unavailable publication never reruns models."""
+        from orchestrator.remote_supervisor import lock
+        with lock(self.state/'branch.lock'):
+            if self.q.status()['paused']:return
+            return self._deliver_reports()
+
+    def _deliver_reports(self):
+        from orchestrator.report_delivery import deliver
+        configured=self.config.get('publication')
+        if configured is not None and set(configured)!={'checkout','permission_sha256'}:
+            self.q.db.execute("INSERT OR REPLACE INTO runtime_blocks VALUES('publication','PUBLICATION_CONFIGURATION_REQUIRED')")
+            return
+        for row in self.q.db.execute("SELECT task FROM bookkeeping WHERE status='COMPLETE' ORDER BY rowid").fetchall():
+            report=json.loads((self.state/'tasks'/row['task']/'report.json').read_text())['id']
+            prior=self.q.db.execute('SELECT * FROM report_delivery WHERE report=?',(report,)).fetchone()
+            if prior and (prior['status']=='PUBLISHED' or prior['attempts']>=3):continue
+            if configured is None:
+                self.q.db.execute('INSERT OR IGNORE INTO report_delivery VALUES(?,?,0,?,NULL)',
+                    (report,'PRIVATE_ONLY','Writer permission and protected publication configuration remain reserved.'))
+                continue
+            attempt=(prior['attempts'] if prior else 0)+1
+            self.q.db.execute('INSERT OR REPLACE INTO report_delivery VALUES(?,?,?,NULL,NULL)',(report,'DELIVERING',attempt))
+            try:
+                result=deliver(self.state/'reports',report,configured['checkout'],self.state/'delivery',
+                    self.config['broker_socket'],configured['permission_sha256'])
+                self.q.db.execute('UPDATE report_delivery SET status=?,commit_pin=?,reason=NULL WHERE report=?',
+                    ('PUBLISHED',result['source'],report))
+            except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):
+                self.q.db.execute('UPDATE report_delivery SET status=?,reason=? WHERE report=?',
+                    ('BLOCKED' if attempt>=3 else 'RETRY','DELIVERY_PRESERVED_RECONCILE_BEFORE_NEW_COMMIT',report))
+            break  # At most one delivery per deterministic poll.
 
     def status(self):
         return {**self.q.status(),
@@ -261,6 +299,7 @@ class Runtime:
                 'completion_blocks':[] if self.completions is None else [dict(row) for row in self.q.db.execute('SELECT * FROM completion_blocks')],
                 'runtime_blocks':[dict(row) for row in self.q.db.execute('SELECT * FROM runtime_blocks')],
                 'bookkeeping':[dict(row) for row in self.q.db.execute('SELECT * FROM bookkeeping')],
+                'report_delivery':[dict(row) for row in self.q.db.execute('SELECT * FROM report_delivery')],
                 'controls':[json.loads(row[0]) for row in self.q.db.execute('SELECT outcome FROM control_delivery')]}
 
 

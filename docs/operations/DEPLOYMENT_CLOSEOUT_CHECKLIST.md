@@ -1,146 +1,81 @@
-# Deployment closeout — 6 September 2026
+# First remote handover — current acceptance checklist
 
-This is current acceptance accounting, not activation authority. Older dated
-receipts remain unchanged and describe their original observations.
+Updated 7 September 2026. This checklist supersedes older present-tense setup
+statements; the original dated receipts and Git history remain evidence. It is
+acceptance accounting, not activation or scientific authority. The canonical
+operating goals remain [REMOTE_OPERATING_DIRECTION.md](REMOTE_OPERATING_DIRECTION.md).
 
-| Requirement | Evidence and remaining work |
-| --- | --- |
-| Credential-free Linux synthetic execution | Hosted completion/failure and resource receipts at execution pin `6b555075fcf553994ecac8e368f4676cbdffdc56`; no patient execution. |
-| Blocked Colab yields to Linux | Demonstrated in hosted synthetic jobs; remote Colab/browser authentication remains optional queued work. |
-| Real Astra → report → fresh Claude → Astra response | Demonstrated at reporting pin `ba079f88bad9d186613687e105dd6f2b551e45e5`; see HOSTED_CYCLE_RESULT_20260906.md. This earlier cycle assessed an existing completion. |
-| New completion selects and executes another eligible job | Passed at e7bff17 after two preserved pre-model setup failures. New predecessor completed, actual Astra selected one eligible successor, worker completed it, fresh Claude reviewed the system report, and Astra recorded its response. See HOSTED_CLOSEOUT_RESULT_20260906.md. |
-| Restart, missing/duplicate event, role isolation | Earlier hosted synthetic restart and reconciliation passed. New review-retry and complete evidence-context changes passed focused review. Recovery-aware wake closure and disposition-only recovery remain unimplemented; hosted continuation verification is pending. |
-| Authentication/quota failure | Local fail-closed fixtures and prior actual authentication blocks retained. No simulated failure is described as a hosted provider quota outage. |
-| Phone notification and authenticated response | Operator confirmed device delivery; actual App API accepted issue 4 comment 5561640345 and marked repeat duplicate. Notification/ACK only; automatic polling and operational replies are not activated. |
-| Nightly report/review loop | Actual report/review/disposition proved for a supervised cycle. Schedule, protected recurring admission and unattended cycle remain pending. |
-| Publication isolation | Local controlled publication tested. Protected server Git writer not provisioned; driver and scientific worker have no writer credentials. No universal pre-publication enforcement claimed. |
-| Shared 48/96 admission and operator reset | Selected thresholds; inactive. Concrete permission approval, unified hosted state and activation tests required. |
-| Backup recovery | Consistent application sample restored and identities verified. Provider backup/restore and account-security evidence remain pending. |
-| Laptop-independent operation | Ordinary synthetic timers survive SSH; bounded real model cycle proved. Persistent non-root model coordinator and 24–48 hour observation remain unproven. |
-
-The hosted closeout completed two new synthetic jobs and three model calls:
-selector, fresh Claude review, Astra disposition. It preserved the installed
-execution snapshot and used a separately pinned reporting adapter.
-A transient setup unit is not the standing production coordinator. A failed or
-uncertain attempt requires reconciliation; no blind replay or additional patient
-launch follows.
-
-Remaining implementation/verification estimate: approximately 10–18 engineering
-hours, plus operator/provider waiting and the separately gated 24–48 hour
-observation. Indicative allocation: 2–4 hours final hosted recovery and follow-up
-checks; 4–7 hours protected shared admission/publication and non-root continuation;
-2–4 hours recurring report/review and failure/restart coverage; 2–3 hours recovery,
-status reconciliation and final review. These are estimates, not new scope or
-spending authority. The proposed reporting time remains 21:00 America/New_York,
-not a selected schedule.
-
-The prediction-charter alignment/review, 047b evidence reconciliation and gated
-import/interpretation, and cross-charter findings propagation remain in
-QUEUED_SCIENTIFIC_TASKS_20260906.json and the migrated server queue. None grants
-scientific acceptance, reserved-cohort access, P001 launch, history cleanup or a
-main merge. Original onboarding retrieval remains a dependent scientific task.
-
-## Human operation and reviewer-context update
-
-The fresh hosted orientation cycle at `dc116ca5be32799e0fefba52626768f7eff8d529`
-completed actual Astra, Claude and Astra calls. Its report, review, disposition and
-context verification are in `hosted-orientation-20260906/`. It correctly identified
-the prediction objective, next eligible desk task and reserved authority without
-laptop conversation. This is supervised evidence, not overnight acceptance.
-
-The canonical operating direction now explicitly requires human maintainability,
-readable science, shared interfaces, task-bound steering and recoverable operation.
-Reviewer directive v2 is supplied and hashed by the hosted context route and shared
-campaign author/reviewer route. The bounded evidence collector provides checked
-historical documents and fixed current service properties; it does not manufacture
-execution, backup or device-delivery proof. Fresh deployed v2 review completed at `a0d56c79a9ad73c2e950eb111866a8fe2ee26968`;
-its review, evidence-correction amendment, Astra disposition and verified receipts
-are in `hosted-reviewer-directive-20260906/`. The correction withdraws the mistaken
-missing-readiness-review finding: the original review existed but was omitted from
-the first supplied packet. No scientific review was rerun to resolve that omission.
-
-Open implementation work includes clearer report durations/block reasons already
-available in primary metadata, reconciliation of historical authentication wake
-labels, and representative deployed steering/interruption/takeover acceptance.
-These are implementation tasks, not additional human approval requirements. The
-protected writer/reset and unattended permission decisions remain separate. No
-P001 patient result is available; prospective charter/adoption ratification and
-input/backend/launch gates remain on the Wednesday critical path.
-
-
-## First handover boundary and remaining estimate
-
-Operator clarification: finish one usable persistent handover before broader
-context/collaboration development. The reviewed intake design and scientific desk
-work remain queued alongside it, not prerequisites. Scientific launch gates remain
-separate. No permission decision is requested for an unfinished implementation.
-
-| Essential | Actually available | Remaining before handover |
+| Essential | Implemented and verified | Remaining |
 |---|---|---|
-| Persistent coordinator | Deterministic non-root synthetic controller/worker timers; real bounded model continuations in separate identities | Replace setup-driven model invocation with a reviewed persistent bounded route, one branch writer and explicit admission before every governed turn. |
-| Recovery | Original hosted completion/failure/restart/dedup evidence; corrected own-packet/source checks; immutable failed attempts | Exercise the final installed coordinator's interrupted model/report/review recovery and ambiguous-start handling. Preserve known work instead of blind replay. |
-| Protected publisher/admission/reset | Controlled branch publisher, exact-history scanning, CAS ledger tests, inactive 48/96 policy, proposed permission design | Implement protected requester authentication, shared Actions/server identities, writer credential isolation, operator-only reset and final denial/concurrency tests. No live writer/limiter installed. |
-| Scheduled report/review | Real report/Claude/disposition cycles and explicit versioned reviewer context | Add recurring schedule to the protected coordinator, review dedup/retry/recovery, readable durations/dependency reasons and checked delivery. Time remains proposed. |
-| Minimum human operation | Main Actions controls, readable artifacts, actual phone notification and synthetic ACK | Consolidate status/takeover instructions and implement task-bound pause/resume requests with duplicate/stale/conflict checks. Operational phone replies require separate scoped approval. |
-| Observation and recovery | Application-state sample restore; supervised remote jobs and model calls | Final installed evidence, concrete permissions, initialized shared state, activation verification, then 24–48 hours disconnected; provider backup evidence remains separately unverified. |
+| Linux execution and continuation | Immutable executor `6b555075fcf553994ecac8e368f4676cbdffdc56`; actual successful/failed synthetic jobs, blocked Colab yielding to Linux, resource and original-console evidence. Earlier `e7bff17` cycle actually selected and executed a successor. | Exercise the new completion bridge through the installed persistent non-root service. Do not repeat the earlier successful jobs. |
+| Non-root protected service | Installed `6863968863ddfb1d82b25c7b358857e666c950a5`; one actual Astra → Claude → Astra cycle, with distinct identities, observed resource limits and original protocols. | Bounded fixture upgrade at `a0795e69ed6c225fe353d438b5558f481340fe81` awaits completed focused review before installation. |
+| Recovery and duplicate handling | Actual idle broker restart and lost-response recovery completed with **zero new model calls** and one total fixture admission. Unit tests cover idempotent successor submission after a lost response, pause, capped failures and stable first-observation evidence. | Verify final installed completion selection/bookkeeping. Uncertain starts stay blocked; neither missing receipts nor NOT_VISIBLE authorize a replay. |
+| Shared admission and protected reset | CAS ledger, Actions provenance collector/waiter, server identities, 48/96 warning/halt/UTC rollover/reset tests. Genuine human-controls review at `cb2019f`; generated workflows preserve inactive policy behavior. | Protected writer/reset permission approval, one shared live-state initialization, hosted activation verification. No live limiter ref/key is installed. Main's workflow update requires its separate merge approval. |
+| Publication | Existing controlled branch publisher; exact-history checks; actual hosted protected-cache intake and unsafe intermediate rejection at `386cde2`. Credentials absent from driver and scientific worker. | New reviewed-report delivery uses the same candidate/publisher route; local tests pass, fresh review/deployment pending. Live writer grant is separate. Repository-wide credentials can bypass application checks; post-push CI is only additional detection. |
+| Scheduled reports and fresh review | Explicit schedule/daily dedup, immutable reports, actual fresh Claude reviews and Astra dispositions, current coordinator metadata and versioned goals/directive. | Final checked delivery integration and deployed review. No permanent handover timer is enabled. Reporting time remains proposed, not selected. |
+| Human operation | Actual hosted status/pause/resume, repeat, stale and conflicting-request tests passed through shared coordinator state. Main's human Actions controls remain available. Actual GitHub Mobile delivery and authenticated synthetic ACK passed. | Consolidate short operating instructions and final installed evidence. Phone comments do not authorize operational controls or reset. |
+| Backup | Actual application restore verified 57 files, two consistent SQLite databases and retained model evidence, without launching anything. | Provider-side backup/restore and account-security checks remain unverified; do not repeat the application proof without a material change. |
+| Unattended observation | Ordinary deterministic Linux timers survive SSH; real bounded remote model cycles are proven. | **24–48 hours laptop-disconnected operation is not proven.** Requires the completed permission packet, initialized shared state, activation verification and separate unattended approval. |
 
-Revised estimate: **12–20 engineering hours**, plus operator/provider waiting and
-**24–48 hours of observation**. Approximately 5–8 hours for the protected
-writer/admission/reset integration; 3–5 for persistent coordination and recovery;
-2–4 for scheduled reporting and minimum human controls; 2–3 for installed
-verification, evidence packaging and fresh review, with overlap between checks.
-These are estimates, not new scope/spending grants or a measured completion date.
-The prior 10–18-hour estimate preceded the explicit shared broker and final human
-intervention requirements; passing source tests does not remove those deployment
-steps. No additional framework, dashboard or cloud product is required.
+Primary current evidence:
 
-Observation starts only after final implementation/review, approval of the exact
-permission packet, shared-state initialization, hosted activation verification and
-the separate unattended activation decision. Proposed observation interface:
-GitHub Mobile status/report links and checked notifications; authenticated,
-source/task-bound pause/resume requests that stop new admissions while preserving
-running attempts. Operator reset remains separately protected. These operational
-phone verbs are **not yet implemented or authorized**. The packet must provide the
-exact supported commands and demonstrate them before observation is requested;
-current synthetic ACKs must not be treated as operational approvals.
+- [Hosted service evidence](hosted-service-acceptance-20260907/receipt.json),
+  [human controls](hosted-service-acceptance-20260907/human-controls.json),
+  [backup recovery](hosted-service-acceptance-20260907/backup-recovery.json), and
+  [protected intake](hosted-service-acceptance-20260907/protected-intake.json).
+- [Approved completion bridge review](HANDOVER_COMPLETION_BRIDGE_REVIEW_20260907.json).
+  The subsequent broader fixture review timed out at 600 seconds **without a
+  verdict**; [its failure record](HANDOVER_COMPLETION_FIXTURE_REVIEW_TIMEOUT_20260907.json)
+  preserves that distinction. One narrower review is pending. These are
+  author-operated reviews, not independent main-merge desk approval.
+- [Permission design](PROTECTED_WRITER_ADMISSION_DECISION.md), still proposed.
 
+## Active setup and limits
 
-## 7 September evidence reconciliation — work remains in progress
+The installed fixture has consumed its one-turn allowance. Its broker is idle;
+original deterministic controller/worker timers remain active. Historical failed
+units and original private evidence are preserved. No new patient job or permanent
+handover timer is running. A prepared supervised test offers exactly one new
+synthetic predecessor/successor pair, at most two additional three-call model
+turns, with automatic temporary-poll shutdown after 30 minutes. It has **not yet
+started**. Partial installation or an uncertain attempt must be reconciled first.
 
-This dated reconciliation supersedes earlier present-tense RUNNING/not-installed
-statements; those entries remain historical evidence, not retry instructions.
+Current local follow-up work also prepares checked report delivery. Without a
+protected publication configuration, completed reports are recorded PRIVATE_ONLY;
+this does not turn a missing writer grant into a model failure or an extra review.
+The delivery candidate preserves original report/review/disposition bytes and
+uses one branch lock. A lost publication response checks the exact remote commit;
+it does not create a replacement commit.
 
-- Installed source `6863968863ddfb1d82b25c7b358857e666c950a5` completed one
-  supervised Astra/Claude/Astra service cycle. Recovery after deliberate response
-  loss and an idle broker restart completed with zero new calls and one total
-  fixture admission. Original protocols, console and state are preserved privately.
-- Actual non-root service status/pause/resume, repeated requests, stale revision
-  and conflicting request rejection passed. These are SSH/admin controls;
-  operational phone replies remain unauthorized and unimplemented.
-- A fresh application backup restored 57 verified files, two consistent SQLite
-  databases and all three original completed stage records. No services or models
-  started during restore. This does not establish provider backup recovery.
-- Candidate intake is implemented at `cba7043`: source bundle and every outgoing
-  history version are checked in a separate protected cache. No writer key or
-  live publication service is installed. Existing local controlled publication
-  remains the authorized route for this branch.
-- `3314f8d` adds current coordinator metadata to scheduled report context and
-  bounded protected Actions request reconciliation. The read-only waiter and
-  actual workflow integration remain under preparation. Existing human workflows
-  have not been replaced by a refusal-only control.
-- Fresh author-operated Claude review of candidate intake, CAS, retrieval and
-  deployed recovery/backup evidence is pending. It is not independent merge-desk
-  approval and will not be represented as complete until its actual result arrives.
+## Preserved scientific queue and Wednesday path
 
-No handover timer is enabled. The supervised fixture's one-turn allowance is
-consumed; do not restart it to obtain additional model calls. Original deterministic
-controller/worker timers remain unchanged. Research tasks remain queued: prediction
-charter/adoption, 047b reconciliation and gated lifecycle, cross-charter evidence
-propagation. None is authorized for patient launch or scientific acceptance here.
+The prediction-charter/adoption task, 047b evidence/lifecycle task and cross-charter
+findings-propagation task remain in the migrated server queue and
+[queued task record](QUEUED_SCIENTIFIC_TASKS_20260906.json). The broader context/intake
+proposal remains queued and is not a prerequisite for this first handover.
+Authentication was demonstrated; older PENDING_AUTH labels are historical records,
+not a reason to repeat sign-in or execution.
 
-Remaining essentials: integrate the protected Actions request/wait workflow and
-candidate cache on the host; connect persistent completion selection to eligible
-execution using existing handlers; finalize scheduled evidence/report publication;
-complete final deployed review and permission packet. Live writer/reset grants,
-shared-state initialization/activation and the disconnected observation remain
-separate operator decisions. No new permission is requested in this progress entry.
+P001 remains **unexecuted**, with no accepted result. The archive has a historical
+verified Drive preservation receipt, not a fresh live check in this setup batch.
+Prediction-charter/adoption ratification, input/backend review and a separate
+patient launch decision remain the scientific critical path. P001 does not depend
+on accepting 047. The 99 cases are exploratory; the reserved 49 remain untouched.
+047 cleanup, scientific landing, console/exclusion evidence, main merges and new
+spending retain their separate gates.
+
+## Remaining estimate and observation start
+
+Approximately **6–10 engineering hours** remain for bounded hosted completion
+acceptance and corrections, final delivery/operating integration, deployed review,
+publication and one concrete permission packet. Model/provider waiting and operator
+steps are additional. This estimate is revised as evidence arrives, not a resource
+or spending grant; it excludes the separately gated **24–48 hour observation**.
+
+Observation can begin only after final implementation/review, approval of the
+concrete writer/reset and server-admission design, shared-state initialization,
+hosted activation verification and explicit unattended approval. Status/report
+links remain phone-readable through GitHub. The demonstrated intervention route
+is authenticated SSH status/pause/resume; phone ACK is not a pause, launch, reset
+or scientific approval. Any proposed operational phone extension must appear
+explicitly in the permission packet before activation.

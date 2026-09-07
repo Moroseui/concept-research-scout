@@ -23,6 +23,24 @@ def test_report_identity_stable_after_review_queue_mutates(tmp_path,monkeypatch)
     assert first==second
 
 
+def test_completed_report_delivery_waits_for_permission_and_pause(tmp_path,monkeypatch):
+    import orchestrator.report_delivery as delivery
+    r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-07',[],{})
+    r.q.submit(binding)
+    r.q.db.execute('INSERT INTO bookkeeping VALUES(?,?,1,NULL)',(binding['id'],'COMPLETE'))
+    r.deliver_reports()
+    assert r.status()['report_delivery'][0]['status']=='PRIVATE_ONLY'
+    calls=[]
+    def perform(*args):calls.append(args);return {'source':'c'*40}
+    monkeypatch.setattr(delivery,'deliver',perform)
+    r.config['publication']={'checkout':'dedicated','permission_sha256':'d'*64}
+    r.q.db.execute('UPDATE controls SET paused=1')
+    r.deliver_reports();assert not calls
+    r.q.db.execute('UPDATE controls SET paused=0')
+    r.deliver_reports();r.deliver_reports()
+    assert len(calls)==1 and r.status()['report_delivery'][0]['commit_pin']=='c'*40
+
+
 def test_recovery_uses_status_operation_only(tmp_path,monkeypatch):
     import orchestrator.handover_runtime as module
     r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-06',[],{})

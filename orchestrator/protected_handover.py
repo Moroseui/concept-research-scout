@@ -61,6 +61,16 @@ class Broker:
             if body!={}:raise ValueError('STATUS_BODY')
             with self.authentication():pin,state=self.ledger.read()
             return {'mode':self.config['mode'],'pin':pin,'sequence':state['sequence'],'count':state['count'],'halted':state['halted'],'day':state['day']}
+        if op=='publication_status':
+            if body!={}:raise ValueError('PUBLICATION_STATUS_BODY')
+            if self.config['mode']!='LIVE_APPROVED':
+                return {'status':'PUBLICATION_NOT_AUTHORIZED'}
+            from orchestrator.publication_candidate import git
+            ref='refs/heads/'+BRANCH
+            observed=git(self.config['publication_root'],'ls-remote',REPOSITORY,ref).decode().split()
+            if len(observed)!=2 or observed[1]!=ref or not re.fullmatch('[0-9a-f]{40}',observed[0]):
+                raise ValueError('PUBLICATION_DESTINATION_UNAVAILABLE')
+            return {'status':'OBSERVED','source':observed[0],'repository':REPOSITORY,'branch':BRANCH}
         if op=='admit_server':
             if body.get('source') not in self.config['sources']:raise ValueError('REVIEWED_SOURCE_REQUIRED')
             with self.authentication():return admit_server(self.ledger,self.config['policy'],body)
