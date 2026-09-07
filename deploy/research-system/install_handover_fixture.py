@@ -55,7 +55,7 @@ def install(source, archive, expected_sha256):
     # Existing runtime group only; no accounts, sign-ins or privilege grants.
     import grp
     gid=grp.getgrnam('research-runtime').gr_gid
-    release.mkdir(mode=0o755)
+    release.mkdir(mode=0o755);os.chmod(release,0o755)
     with tarfile.open(archive) as bundle:
         validate_members(bundle)
         bundle.extractall(release,filter='data')
@@ -72,7 +72,7 @@ def install(source, archive, expected_sha256):
     ledger=base/'ledger';ledger.mkdir(mode=0o700)
     subprocess.run(['git','init','-q',str(ledger)],check=True)
     if not GitLedger(ledger).cas(None,initial()):raise ValueError('FIXTURE_LEDGER_CREATION_FAILED')
-    controls=configdir/'handover-controls';controls.mkdir(mode=0o750);os.chown(controls,0,gid)
+    controls=configdir/'handover-controls';controls.mkdir(mode=0o750);os.chown(controls,0,gid);os.chmod(controls,0o750)
     policy={'status':'RATIFIED','operator_approval':'SYNTHETIC_FIXTURE_ONLY_NOT_LIVE',
             'state_write_permission':'OPERATOR_AUTHORIZED','n':48,'window':'UTC_CALENDAR_DAY',
             'state_ref':REF,'reset_operators':['ssh-uid:0'],'server_semantics':'OPERATOR_AUTHORIZED_V1'}

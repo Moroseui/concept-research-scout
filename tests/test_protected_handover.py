@@ -67,3 +67,11 @@ def test_disconnected_client_does_not_destroy_completed_operation():
     right.sendall(b'{"operation":"fixture","body":{}}\n');right.close()
     with left:exchange(Fake(),left)
     assert completed==[True]
+
+
+def test_stage_status_rejects_traversal_via_shared_event_validator(tmp_path):
+    b=broker(tmp_path)
+    for key,value in [('turn_id','../outside'),('attempt','../../outside')]:
+        event={**server(1),key:value}
+        with pytest.raises(ValueError,match='SERVER_IDENTITY'):
+            b.stage_status({'event':event,'stage':'review'})

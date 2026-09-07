@@ -180,10 +180,7 @@ def serve(config_path,socket_path):
         server=socket.socket(fileno=3)
         if server.family!=socket.AF_UNIX or server.getsockname()!=socket_path:raise ValueError('ACTIVATED_SOCKET_MISMATCH')
     else:
-        path=Path(socket_path)
-        if path.exists() or path.is_symlink():raise ValueError('SOCKET_ALREADY_EXISTS_RECONCILE')
-        server=socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)
-        server.bind(str(path));os.chmod(path,0o660);server.listen(8)
+        raise ValueError('SYSTEMD_SOCKET_ACTIVATION_REQUIRED')
     with server:
         while True:
             connection,_=server.accept()

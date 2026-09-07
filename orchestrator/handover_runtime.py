@@ -83,7 +83,8 @@ class Runtime:
                 'disposition':'Record Astra disposition of the existing fresh review and the next eligible bounded task. No execution or ratification.'}[stage]
         prompt+='\nREPORT:\n'+report_text+'\nPRIMARY EVIDENCE:\n'+json.dumps(packet)
         for previous in ['continuation','review'][:position]:
-            prior=json.loads((self.state/(binding['id']+'-'+str(['continuation','review'].index(previous))+'.json')).read_text())
+            prior=self.q._receipt(binding['id'],['continuation','review'].index(previous),binding)
+            if prior is None:raise ValueError('PREDECESSOR_RECEIPT_REQUIRED')
             prompt+='\n'+previous.upper()+':\n'+prior['output']['answer']
         response=request_broker(self.config['broker_socket'],'model_stage',{'event':self.event(binding),'stage':stage,'packet':packet,'prompt':prompt})
         if response.get('status')!='COMPLETE':raise ValueError('MODEL_COMPLETION_REQUIRED')

@@ -14,7 +14,8 @@ from orchestrator.git_publication import scan
 SOURCES = {
     'handover_implementation': ('orchestrator/handover_runtime.py','orchestrator/handover_coordinator.py',
         'orchestrator/protected_handover.py','scripts/verify_handover_service.py','deploy/research-system/research-system-handover.service',
-        'deploy/research-system/research-system-handover-controller.service'),
+        'deploy/research-system/research-system-handover-controller.service',
+        'deploy/research-system/research-system-handover.socket'),
     'installed_sources': ('docs/operations/READINESS_HOSTED_ACCEPTANCE_20260906.json',),
     'service_runtime': ('docs/operations/READINESS_HOSTED_ACCEPTANCE_20260906.json',),
     'identity_boundaries': ('docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md',),

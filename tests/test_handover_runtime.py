@@ -143,3 +143,14 @@ def test_explicit_reviewer_evidence_is_part_of_task_identity(tmp_path,monkeypatc
     assert first['id']!=second['id']
     packet=json.loads((r.state/'tasks'/first['id']/'packet.json').read_text())
     assert packet['reviewer_evidence']=={'observation':'unavailable'}
+
+
+def test_prompt_rejects_corrupted_predecessor_before_broker(tmp_path,monkeypatch):
+    import pytest
+    import orchestrator.handover_runtime as module
+    r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-07',[],{})
+    (r.state/(binding['id']+'-0.json')).write_text(json.dumps({
+        'binding':'wrong','position':0,'output':{'answer':'changed'},'output_sha256':'wrong'}))
+    monkeypatch.setattr(module,'request_broker',lambda *args:pytest.fail('broker must not be called'))
+    with pytest.raises(ValueError,match='STAGE_RECEIPT_CHANGED'):
+        r.model(binding,1)
