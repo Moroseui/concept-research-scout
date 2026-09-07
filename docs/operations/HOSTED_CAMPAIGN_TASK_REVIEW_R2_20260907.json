@@ -1,0 +1,54 @@
+{
+  "execution": {
+    "reviewed_commit": "b79caae9de93d63c057222f18fc8e5cc36136869",
+    "returncode": 0,
+    "wall_seconds": 391.6843319680047,
+    "input_file_sha256": {
+      "orchestrator/hosted_campaign.py": "2f33adadf411716ed80ff85056b2378af7820349930a9d6aef9d202f760c48d8",
+      "orchestrator/hosted_campaign_task.py": "4ccaafbaa3cf0d1b8c4431097bc9aa5cab759768084175568aa8c565ffb2504c",
+      "orchestrator/handover_runtime.py": "209a6c97cf7a1eb1ffac3944a95ef645fc09117994e4ae8304195fecdbea1209",
+      "orchestrator/completion_bridge.py": "2b2be17481da662acc0207a8a3a4566cca3c8d01a40676454024deb3b54b36e4",
+      "orchestrator/campaign_pipeline.py": "0dcb4e4768c5947a4b4ee70a5d73541bd612e8ef5fb99f98a3eacff9fb2221ea",
+      "orchestrator/protected_handover.py": "0c6c848f52693937e669701ff36bd77f9d1a50bb59b8526d988af34a126add3c",
+      "orchestrator/git_diagnostics.py": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+      "scripts/prepare_handover_snapshot.py": "d5d6a5597a8fd3680bacc4ef6023a82af512c1fa260c2c8a81a3c37b721e1e43",
+      "tests/test_hosted_campaign.py": "d8645646e1d9090769736c427cf6a64904fd2a8d659f2b31da16d4be443c9696",
+      "tests/test_hosted_campaign_task.py": "e6a2cd3f81f3fcaece8103143d46664e543746ae44355f25590fd0374556ec71",
+      "tests/test_completion_bridge.py": "b14f9acb6ea2f087a53af678e3e58935a810af63db54e5d2b8234a711b18869e",
+      "docs/operations/HOSTED_CAMPAIGN_TASK_REVIEW_20260907.json": "6643926887ec11da6e6037d6aab4d24415948269945c833098c136b7464339d1",
+      "docs/operations/HOSTED_CAMPAIGN_SNAPSHOT_CHECK_20260907.json": "a65987c3a61f867f0c0b29b619927eb3bb9fdee586c39aee3d56f2674113402e",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "5db7f6498a22104c561b4b31e04b6f78afa2b0fb1b2757a9456d040e1b5da530",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "045a9d7b09c01d4dbd5ee0390d1bb3a8387cc2af6b2e2073127644989f817f97"
+  },
+  "review": {
+    "scope": "Follow-up completion adapter and actual sparse-context preparation. Verify original-reply comparison, missing-marker recovery, private exact source copy, bounded private Git stderr capture, terminal-trigger validation and escaped coordinator envelope. Prior c5 review approved source only; b79 changes are not installed. Review no patient execution or live grants.",
+    "reviewed_commit": "b79caae9de93d63c057222f18fc8e5cc36136869",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (original-reply comparison): every stage_result advancement, at all three positions, re-reads both original broker replies through a recovery-mode BrokerStages that can only issue stage_status, byte-compares each round-1 artifact against the parsed broker answer (CAMPAIGN_ARTIFACT_ORIGINAL_REPLY_MISMATCH), re-validates receipt bindings on each replay (per-stage requested_model, exact claude-fable-5 actual_model for review, returncode 0, answer_sha256, packet_sha256 against the caller packet, operating_context_sha256 format), and binds each on-disk provenance record to the live broker receipt via model_receipt_sha256 (CAMPAIGN_ORIGINAL_MODEL_RECEIPT_CHANGED). Combined with completed_pipeline's exact artifact-set/hash, request-context, initiator event/packet, and APPROVE checks, the mutable local receipt.json can no longer stand alone as proof; consistent local tampering of receipt plus artifacts still fails against the protected broker's originals before any coordinator advancement or bookkeeping.",
+      "VERIFIED (missing-marker recovery): the lost recovery.json completion in stage_result runs only when output is the projection, requires recovered_original:true in both provenance files that are themselves hash-bound into the verified artifact set (CAMPAIGN_RECOVERY_PROVENANCE_REQUIRED), requires symlink-free JSON equality between original and projection request.json (CAMPAIGN_RECOVERY_ORIGINAL_REQUEST_CHANGED), and rewrites byte-identical canonical content (same original_request_sha256/event/packet fields as recover_projection) so the immutable write is idempotent when the marker already exists. Preservation of scientific approvals holds: a REVISE original writes no receipt at the enforced max_rounds=1, completed_pipeline additionally requires verdict APPROVE, round 1 and status REVIEWED_PROPOSAL_NOT_ADOPTED, an incomplete projection blocks with CAMPAIGN_RECOVERY_INCOMPLETE_NO_RETRY, and conflicting or symlinked round-1 originals refuse before projection creation (RECOVERY_PRESERVES_CONFLICTING_ORIGINAL). This completes the prior review's third suggestion.",
+      "VERIFIED (private exact source copy): preparation_workspace inventories only git-tracked names, refuses absolute/'..'/'.git' components and symlinked leaf paths, skips unmaterialized entries, enforces 2MB per file / 50MB total / 2000-entry bounds, creates the destination 0700 under a private_root-verified parent with exclusive-create 0600 files, re-hashes source bytes at copy time (CAMPAIGN_SOURCE_CHANGED), and writes the immutable manifest last so a partial copy refuses as CAMPAIGN_WORKSPACE_RECONCILE_NO_RETRY instead of silently re-copying. Every reuse re-verifies each copied input's hash and symlink-free path (CAMPAIGN_WORKSPACE_INPUT_CHANGED), preserving human edits as named refusals; the exact copy including .gitignore stays private controller state, not model output or publication.",
+      "VERIFIED (bounded private Git stderr capture): git_diagnostics keeps stderr and a hashed JSON receipt in a directory validated as absolute, non-symlink (lstat after mkdir defeats the swap race), owner-matching, mode 0700, and not inside any git checkout; files are 0600 and fsynced. Exceptions carry only the opaque receipt directory name, never argv, stdout, or stderr; stdout/stderr/shell overrides are refused; callers receive empty stderr with stdout intact; timeouts and start failures produce distinct sanitized exceptions. preparation_workspace converts SubprocessError/RuntimeError into named CAMPAIGN_SOURCE_INVENTORY_UNAVAILABLE, and OSError/ValueError from the diagnostics root remain inside Runtime.recover's and tick's caught tuples \u2014 closing the prior uncaught-subprocess-error crash in the recovery path.",
+      "VERIFIED (terminal-trigger validation): Runtime.__init__ now refuses, before Coordinator or any state creation, an installed campaign_preparation whose trigger_job is not a configured synthetic_execution pair with a None successor (CAMPAIGN_TERMINAL_TRIGGER_CONFIGURATION_REQUIRED), eliminating the previously possible permanently blocked CAMPAIGN_COMPLETION_BINDING_REQUIRED combination where ingest builds an execution_proposal for the trigger. enqueue_report still requires trigger verified-completion with execution_proposal None, stage_result re-verifies exact equality with the root-owned installed contract and refuses synthetic successors (CAMPAIGN_TASK_REFUSES_SYNTHETIC_SUCCESSOR), and the broker independently re-validates the version-1 P001 readiness/discuss artifact contract. No new socket operation, credential, admission grant, scheduler, or patient route is added.",
+      "VERIFIED (escaped coordinator envelope): BrokerStages.call validates the escaped JSON of the entire broker response at 80000 bytes in both fresh and recovery modes \u2014 not only the unescaped answer \u2014 before any receipt-binding acceptance or artifact write, and the model prompt states the same budget. This leaves headroom under the shared 100000-byte public-text default for the coordinator's receipt wrapping and the small added campaign fields in stage_result's returned envelope; the CJK fixture demonstrates an answer whose UTF-8 bytes pass but whose escaped envelope refuses with PUBLIC_TEXT_REJECTED and no files written.",
+      "SUGGESTION (unnamed startup failure on explicit null): with campaign_preparation installed and synthetic_execution present but explicitly null, config.get('synthetic_execution',{}) returns None and .get('pairs',{}) raises an unnamed AttributeError instead of CAMPAIGN_TERMINAL_TRIGGER_CONFIGURATION_REQUIRED; elsewhere the runtime treats null as absent. Fail-closed (startup crash, no state created), but use (config.get('synthetic_execution') or {}) for the named refusal; a non-dict pairs value can similarly raise TypeError at pairs[trigger] before CompletionBridge validation runs.",
+      "SUGGESTION (minor residuals, all fail-closed): '-c safe.directory' is honored only in Git >=2.38 protected command scope, so older git fails the inventory as CAMPAIGN_SOURCE_INVENTORY_UNAVAILABLE on split-ownership checkouts rather than working as commented; the private stderr file is time-bounded by the caller's 30s timeout but has no byte cap; the first-pass source walk checks only leaf symlinks, relying on checked_source cleanliness for intermediate directories, while the destination-side reuse check does verify full parent chains; ancestor-wide is_symlink checks in recover_projection and workspace reuse can false-refuse under symlinked mount points; and handover_coordinator.py was again not supplied, so the coordinator's receipt persistence accommodating the <=80000-byte envelope plus added campaign fields is inferred from the shared text() default, not directly verified.",
+      "SCOPE NOTE: source-only author-operated review under the existing subscription; no tests were executed by this reviewer and none are claimed. The b79 changes are not installed \u2014 this APPROVE asserts source readiness only, grants no hosted execution proof, live writer/limiter/unattended authority, or patient-launch standing, and all three suggestions accepted from the prior c5 review (uncaught subprocess errors, recovery-marker ambiguity, terminal-trigger and envelope cross-validation) are reconciled in this source."
+    ]
+  },
+  "session_id": "6a1a7a4c-1427-4c7c-a4a3-93882f32cfee",
+  "total_cost_usd_reported": 3.22226,
+  "attribution": "Actual author-operated Claude review of source readiness; not independent merge-desk review or deployed acceptance."
+}
