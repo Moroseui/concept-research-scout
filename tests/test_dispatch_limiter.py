@@ -90,3 +90,12 @@ class LimiterTests(unittest.TestCase):
         old,_=self.store.read()
         with self.assertRaisesRegex(ValueError,'ALREADY_EXISTS'):initialize(self.store,c,approval)
         self.assertEqual(self.store.read()[0],old)
+
+
+def test_notice_order_survives_git_json_roundtrip():
+    from orchestrator.dispatch_limiter import pending_notifications
+    state = initial()
+    state['notifications'] = {str(n)+':N': {'threshold':'N','count':1,'day':'2026-09-06'}
+                              for n in [2,9,10,48,96,101]}
+    recovered = json.loads(json.dumps(state, sort_keys=True))
+    assert pending_notifications(recovered) == ['10:N','48:N','96:N','101:N']

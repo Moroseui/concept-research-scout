@@ -120,6 +120,11 @@ def validate_server_event(event):
     if set(event)!={'turn_id','attempt','source','branch','kind'} or not re.fullmatch('[0-9a-f]{64}',event['turn_id']) or not re.fullmatch('[1-9][0-9]*',event['attempt']) or not re.fullmatch('[0-9a-f]{40}',event['source']) or event['branch']!='astra/infrastructure-milestone-record' or event['kind'] not in ['astra_turn','nightly_review']:
         raise ValueError('LIMITER_SERVER_IDENTITY')
 
+def pending_notifications(state):
+    # Git JSON uses sorted keys: lexicographic order is not admission order.
+    return sorted(state['notifications'], key=lambda key:int(key.split(':',1)[0]))[-4:]
+
+
 def _admit(store,config,event,key,now,max_retries):
     n=policy(config)
     day=(now or datetime.now(timezone.utc)).astimezone(timezone.utc).date().isoformat()
@@ -131,7 +136,7 @@ def _admit(store,config,event,key,now,max_retries):
         if key in state['events']:
             e=state['events'][key]
             if any(e[k]!=event[k] for k in ['source','branch']) or e.get('kind')!=event.get('kind'):raise ValueError('LIMITER_EVENT_BINDING_CHANGED')
-            return {'status':'ADMITTED','duplicate_admission':True,**e,'state_before':old,'pending_notifications':list(state['notifications'])[-4:]}
+            return {'status':'ADMITTED','duplicate_admission':True,**e,'state_before':old,'pending_notifications':pending_notifications(state)}
         # Halt is latched across midnight. No automatic recovery/reset.
         if state['count']>2*n or (state['count']==2*n and not state['halted']):raise ValueError('LIMITER_STATE_INCONSISTENT')
         if state['halted']:return {'status':'HALTED_OPERATOR_RESET_REQUIRED','count':state['count'],'day':state['day']}
@@ -144,7 +149,7 @@ def _admit(store,config,event,key,now,max_retries):
         if 'kind' in event:e['kind']=event['kind']
         state['events'][key]=e
         if notice:state['notifications'][str(state['sequence'])+':'+notice]={'threshold':notice,'count':state['count'],'day':day}
-        if store.cas(old,state):return {'status':'ADMITTED','duplicate_admission':False,**e,'state_before':old,'pending_notifications':list(state['notifications'])[-4:]}
+        if store.cas(old,state):return {'status':'ADMITTED','duplicate_admission':False,**e,'state_before':old,'pending_notifications':pending_notifications(state)}
     raise ValueError('LIMITER_CAS_RETRY_EXHAUSTED')
 
 
