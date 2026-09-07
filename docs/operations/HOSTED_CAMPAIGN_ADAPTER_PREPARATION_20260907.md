@@ -36,3 +36,14 @@ socket use, duplicate/interruption reconciliation, response/report bookkeeping,
 and a fresh bounded hosted execution with primary evidence review. Existing
 consumed fixture allowances must not be reset or silently enlarged; any new
 supervised fixture must retain its own explicit finite scope and existing limits.
+
+The first review requested changes: contradictory Markdown framing for JSON
+artifacts, incomplete turn provenance and missing named type errors. That review
+is preserved. Corrections add a narrowly validated P001 readiness/discussion
+artifact-format contract in the existing broker, event/packet/duplicate bindings,
+strict string values and reviewer-stage identity. Socket refusal retains only an
+already-sanitized named code; arbitrary diagnostic text remains private. No grant,
+turn budget or live configuration changes. The earlier eleven-test command was
+`pytest tests/test_hosted_campaign.py tests/test_campaign_pipeline.py
+tests/test_readiness_discussion.py`; the first review received only the first two
+test files, which explains its counting question.

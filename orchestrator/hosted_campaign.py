@@ -18,7 +18,7 @@ from orchestrator.public_export import text
 class BrokerStages:
     def __init__(self, socket, event, packet, *, client=request_broker):
         self.socket=socket;self.event=event;self.packet=packet;self.client=client
-        self.completed=[]
+        self.completed=[];self.receipts={};self.mode=None
 
     def call(self, stage, prompt):
         expected=('continuation','review','disposition')
@@ -37,6 +37,7 @@ class BrokerStages:
             raise ValueError('HOSTED_CAMPAIGN_RECEIPT_BINDING')
         if stage=='review' and receipt.get('actual_model')!=model:
             raise ValueError('HOSTED_CAMPAIGN_REVIEW_MODEL')
+        self.receipts[stage]={'receipt':receipt,'duplicate':response.get('duplicate')}
         self.completed.append(stage)
         return answer,receipt
 
@@ -45,8 +46,9 @@ class BrokerStages:
         if index>=2 or family!=('codex','claude')[index]:
             raise ValueError('HOSTED_CAMPAIGN_AUTHOR_REVIEW_BOUND')
         if (index==0 and (stage not in ('campaign_readiness','campaign_discuss')
-                or names!=MODES[stage.removeprefix('campaign_')])) or (index==1 and names!=['review.json']):
+                or names!=MODES[stage.removeprefix('campaign_')])) or (index==1 and (names!=['review.json'] or stage!='campaign_'+str(self.mode)+'_review')):
             raise ValueError('HOSTED_CAMPAIGN_ARTIFACT_SCOPE')
+        if index==0:self.mode=stage.removeprefix('campaign_')
         prompt=('Produce the requested scientific artifact contents as ONE JSON object whose keys are exactly '
                 +json.dumps(names)+'. Each value must be a string containing that file body. '
                 'The controller writes these checked files; do not use tools or claim to have written them. '
@@ -58,7 +60,7 @@ class BrokerStages:
         match=re.fullmatch(r'```(?:json)?\s*\n(.*)\n```',raw,re.S)
         if match:raw=match.group(1)
         files=json.loads(raw)
-        if not isinstance(files,dict) or set(files)!=set(names):raise ValueError('HOSTED_CAMPAIGN_FILE_SCHEMA')
+        if not isinstance(files,dict) or set(files)!=set(names) or any(not isinstance(v,str) for v in files.values()):raise ValueError('HOSTED_CAMPAIGN_FILE_SCHEMA')
         for name,content in files.items():
             text(content)
             if not content.strip():raise ValueError('HOSTED_CAMPAIGN_EMPTY_ARTIFACT')
@@ -69,7 +71,9 @@ class BrokerStages:
                 'requested_model':receipt['requested_model'],'actual_model':receipt.get('actual_model'),
                 'model_receipt_sha256':hashlib.sha256(encoded(receipt)).hexdigest(),
                 'operating_context_sha256':receipt['operating_context_sha256'],
-                'original_protocol_private':True}
+                'original_protocol_private':True,'event':self.event,
+                'packet_sha256':hashlib.sha256(encoded(self.packet)).hexdigest(),
+                'broker_duplicate':self.receipts[('continuation','review')[index]]['duplicate']}
         for name,content in files.items():immutable(Path(directory)/name,content.encode())
         immutable(Path(directory)/(stage+'.hosted-provenance.json'),encoded(record))
         return record
@@ -77,6 +81,8 @@ class BrokerStages:
 
 def run_pipeline(sc, mode, request, output, stages):
     if mode not in ('readiness','discuss'):raise ValueError('HOSTED_CAMPAIGN_PREPARATION_ONLY')
+    if stages.packet.get('campaign_artifacts')!={'version':1,'experiment':'P001','mode':mode}:
+        raise ValueError('HOSTED_CAMPAIGN_PACKET_CONTRACT')
     return execute(sc,mode,'P001',request,output,max_rounds=1,stage_runner=stages,
                    initiator={'kind':'agent','family':'codex','model':'gpt-6-astra',
                               'route':'protected-hosted-campaign-v1'})

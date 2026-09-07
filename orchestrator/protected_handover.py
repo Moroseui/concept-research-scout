@@ -23,6 +23,20 @@ REPOSITORY='https://github.com/Moroseui/concept-research-scout.git'
 BRANCH='astra/infrastructure-milestone-record'
 
 
+
+def model_output_format(packet,stage):
+    """Only fixed scientific preparation contracts select JSON artifact output."""
+    if not isinstance(packet,dict):raise ValueError('MODEL_PACKET_SCHEMA')
+    if 'campaign_artifacts' in packet:
+        contract=packet['campaign_artifacts']
+        if (not isinstance(contract,dict) or set(contract)!={'version','experiment','mode'}
+                or type(contract['version']) is not int or contract['version']!=1
+                or contract['experiment']!='P001' or contract['mode'] not in ('readiness','discuss')):
+            raise ValueError('CAMPAIGN_ARTIFACT_CONTRACT')
+        if stage not in ('continuation','review','disposition'):raise ValueError('CAMPAIGN_ARTIFACT_STAGE')
+        return 'json' if stage in ('continuation','review') else 'markdown'
+    return 'json' if stage=='disposition' and packet.get('execution_proposal') is not None else 'markdown'
+
 class Broker:
     def __init__(self,config):
         required={'mode','repository','branch','controller_uid','operator_uids','sources','ledger_repo','publication_root','policy','writer_config','model_mode','turn_root','max_model_turns'}
@@ -152,6 +166,7 @@ class Broker:
         if self.config['model_mode'] not in ('SUPERVISED','GOVERNED') or os.getuid()!=0:raise ValueError('SUPERVISED_ROLE_LAUNCHER_REQUIRED')
         if set(body)!={'event','stage','packet','prompt'}:raise ValueError('MODEL_STAGE_SCHEMA')
         event=body['event'];stage=body['stage']
+        output_format=model_output_format(body['packet'],stage)
         validate_server_event(event)
         stages=['continuation','review','disposition']
         if stage not in stages or event.get('source') not in self.config['sources']:raise ValueError('MODEL_STAGE_SOURCE')
@@ -188,7 +203,6 @@ class Broker:
             # The typed selector remains a tool-free model response. Only the
             # controller's fixed synthetic adapter can consume it; no command or
             # patient runner can be selected through this transport format.
-            output_format='json' if stage=='disposition' and body['packet'].get('execution_proposal') is not None else 'markdown'
             answer,receipt=model_call(folder,stage,family,body['prompt'],output_format=output_format)
             return {'status':'COMPLETE','duplicate':False,'answer':answer,'receipt':receipt}
 

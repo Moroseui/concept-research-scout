@@ -1,0 +1,78 @@
+{
+  "execution": {
+    "reviewed_commit": "a967e71a341bbd84e866a4578d68fe2c18072dd5",
+    "returncode": 0,
+    "wall_seconds": 290.07009574699623,
+    "input_file_sha256": {
+      "orchestrator/hosted_campaign.py": "e3fe933aeaef440951d929589af4a51f4b3f82181c83be4ec20d3e15ba222101",
+      "orchestrator/campaign_pipeline.py": "0dc4bc0d099299080a60cdca147e7ae9cc8d1344d82d27c6bcd19f89671b84fa",
+      "tests/test_hosted_campaign.py": "eef9c3bda88183fd99f7a255c899c5fea9da8f340e3586f38cb2682dff00e236",
+      "tests/test_campaign_pipeline.py": "09cc72d3d55ba822ac96cce41feb7bc6a247ee503512b686313c02876258d86f",
+      "orchestrator/protected_handover.py": "40ef0f41b28b3243cc41c6c4836081f6e0c1e6385fed39bb18e6729044a47722",
+      "orchestrator/hosted_cycle.py": "4dee7d124ec132d96e981d2d7729a4863a2bc0d162605acf6df2e26c23bab4e1",
+      "orchestrator/handover_runtime.py": "c714ce87f8fb68037371499461a74f8b5971294499f65c13d4a40988383367b0",
+      "docs/operations/HOSTED_CAMPAIGN_ADAPTER_PREPARATION_20260907.md": "bc8395a9a067b0c4f7d99d586429de5fb6c6c023b110693611d3342efe2151b8",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "5c089d01f480a8bd2c89511c05c9cc548eb0a7eaf72cf9695688976c50573b20",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "e832f7356490e20363445855d05431315631d881bed60f3b4fb62c3d107f4d38"
+  },
+  "review": {
+    "scope": "Prototype hosted campaign adapter before integration or installation. Shared execute pipeline with one-round option, exact artifact schema and protected broker provenance under existing separate model accounts. Review source boundaries, cap/failure preservation and whether it really reuses scientific pipeline; do not claim hosted execution or live grants. Identify concrete corrections before completing controller/recovery adapter.",
+    "reviewed_commit": "a967e71a341bbd84e866a4578d68fe2c18072dd5",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "VERIFIED REUSE: run_pipeline delegates to campaign_pipeline.execute via the stage_runner hook, so grounding, the fail-closed REQUIRED_OPERATING_CONTEXT check, request.json input-hash binding, review schema validation, opposing-family receipt checks and blocked.json preservation all still execute on the hosted route. Only system_stage's local profile pinning is bypassed, replaced by broker receipt binding. Source-only review; no tests were run.",
+      "VERIFIED ONE-ROUND OPTION: max_rounds is keyword-only, strictly validated (type is int excludes bools; only 1 or 2 accepted), default 2 preserved for existing callers, and recorded in request.json. A single-round REVISE preserves the round-1 proposal, the negative review.json and blocked.json, and never consumes a hidden repair round (raises 'review revision limit reached').",
+      "BLOCKER (hosted_campaign.py + protected_handover.py model_stage): output_format='json' is selected only for disposition with an execution_proposal, so campaign author/review prompts get 'Return a concise Markdown assessment.' prepended, contradicting the adapter's strict one-JSON-object artifact instruction. The single-fence fullmatch tolerates a bare fence, but any surrounding prose fails HOSTED_CAMPAIGN_FILE_SCHEMA after the admission is consumed and the broker receipt is durably written; replaying the same turn/stage deterministically returns the same unparseable answer, permanently burning that turn. Recovery requires a fresh turn_id against the finite SUPERVISED max_model_turns budget the preparation doc says must not be reset or enlarged. Smallest fix: let the broker select json output for campaign artifact stages via a validated stage/packet field (or a prepared-prompt path) rather than the markdown preamble.",
+      "CORRECTION (hosted_campaign.py __call__): the <stage>.hosted-provenance.json record carries model_receipt_sha256 and operating_context_sha256 but omits the event identity (turn_id/attempt) and packet_sha256. The planned controller/recovery adapter cannot bind campaign artifacts back to the protected broker turn folder without searching all folders by receipt hash. Include the non-secret event binding in the provenance record (and ideally in request.json) before building reconciliation on top; this does not expose the private original protocols.",
+      "CORRECTION (hosted_campaign.py __call__): parsed artifact values are not validated as strings. A JSON object/number value reaches text(content)/content.strip() and fails with an unnamed AttributeError/TypeError instead of a named code. Fail-closed, but it violates the named-code failure-preservation convention used everywhere else; add an isinstance(content, str) check folded into HOSTED_CAMPAIGN_FILE_SCHEMA.",
+      "MINOR (hosted_campaign.py __call__): at reviewer index the stage argument is unvalidated (only names==['review.json'] is checked) yet it names the provenance file. Bind it to 'campaign_<mode>_review' consistent with the author-index binding for defense in depth.",
+      "MINOR (handover_runtime.request_broker, used as the adapter's default client): a REFUSED response raises generic BROKER_REFUSED_RECONCILE, discarding the broker's named reason even though exchange() already sanitizes reasons to [A-Z][A-Z0-9_]{1,100} codes. Campaign blocked.json then cannot distinguish e.g. SUPERVISED_MODEL_BUDGET_EXHAUSTED from MODEL_WRITER_BUSY without broker-side inspection. Propagating the sanitized code preserves failure fidelity without leaking request data.",
+      "MINOR (hosted_campaign.py call): the broker's duplicate flag is ignored, so a replayed prior completion is indistinguishable from a fresh model call in the hosted provenance record. Recording it would support the duplicate/interruption reconciliation the preparation doc lists as outstanding.",
+      "VERIFIED PRIVACY/AUTHORITY BOUNDARIES: no credential, admission grant, scheduler or model launcher is added; the adapter runs as an ordinary socket peer under the existing controller identity. Only answer+receipt cross the socket; campaign outputs contain no stdout/console bytes (test asserts none). Receipt binding checks requested_model per family, returncode 0, answer sha256, operating-context hash format, and Claude actual_model for the review stage. Artifact names are bound to MODES constants (no traversal); empty content refuses; the record stores the receipt hash with original_protocol_private true rather than raw broker protocol.",
+      "VERIFIED CAPS AND SCOPE: run_pipeline is hardcoded to P001 and refuses modes other than readiness/discuss (HOSTED_CAMPAIGN_PREPARATION_ONLY); the stage counter caps two artifact stages and leaves the broker's third stage for a disposition; a reused BrokerStages object fails closed (AUTHOR_REVIEW_BOUND); under SCOUT_CI the hardcoded ci:False/adapter name would be refused by the pipeline's runner-provenance check (fail-closed); broker turn budget, 10000-folder capacity and per-stage admission are untouched.",
+      "VERIFY BEFORE INTEGRATION: BrokerStages calls text(answer) and text(content) with the default public-export limit while immutable uses an explicit limit=1500000. If the default limit is smaller, a legitimate large readiness answer refuses only after the admission is consumed. Also, the preparation doc's 'eleven focused tests' count cannot be reconciled from the supplied test files alone, and the doc correctly claims no hosted execution proof \u2014 keep that framing."
+    ]
+  },
+  "session_id": "8553b39e-7be2-4ab5-9fdc-1ec341e34cb2",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 54717,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 22161,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 54717,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 22161,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 54717,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 54717
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  }
+}

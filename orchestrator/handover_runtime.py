@@ -8,6 +8,7 @@ from datetime import datetime,timezone
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import socket
 import stat
@@ -39,7 +40,10 @@ def request_broker(path,operation,body):
             if not chunk or len(result)+len(chunk)>1500000:raise ValueError('BROKER_RESPONSE_UNAVAILABLE')
             result+=chunk
     value=json.loads(result)
-    if value.get('status')=='REFUSED':raise ValueError('BROKER_REFUSED_RECONCILE')
+    if value.get('status')=='REFUSED':
+        reason=value.get('reason')
+        if isinstance(reason,str) and re.fullmatch('[A-Z][A-Z0-9_]{1,100}',reason):raise ValueError(reason)
+        raise ValueError('BROKER_REFUSED_RECONCILE')
     return value
 
 

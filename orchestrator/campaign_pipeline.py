@@ -157,7 +157,7 @@ def execute(sc,mode,experiment,request,output,initiator=None,proposal=None,*,max
             body+='\nPRIOR PROPOSAL:\n'+proposal+'\nREPAIR REQUIRED:\n'+review['rationale']
         raise ValueError('review revision limit reached')
     except BaseException as e:
-        (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'human_decision':'Inspect preserved stage evidence; do not treat partial output as approved.'}))
+        (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'failure_code':str(e) if re.fullmatch('[A-Z][A-Z0-9_]{1,100}',str(e)) else 'PIPELINE_STAGE_FAILED','human_decision':'Inspect preserved stage evidence; do not treat partial output as approved.'}))
         raise
 
 
