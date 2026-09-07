@@ -27,6 +27,8 @@ def prepare(root, source, destination):
         return subprocess.check_output(['git', *args], cwd=cwd)
     if git('rev-parse', 'HEAD').decode().strip() != source:
         raise ValueError('SOURCE_HEAD_CHANGED')
+    if git('diff', '--name-only', source):
+        raise ValueError('SOURCE_WORKTREE_CHANGED')
     if git('branch', '--show-current').decode().strip() != 'astra/infrastructure-milestone-record':
         raise ValueError('INFRASTRUCTURE_BRANCH_REQUIRED')
     names = set(DOCUMENTS)
@@ -34,6 +36,10 @@ def prepare(root, source, destination):
         names.update(paths)
     tree = git('ls-tree', '-r', '--name-only', source).decode().splitlines()
     names.update(n for n in tree if n.startswith('orchestrator/') and n.endswith('.py'))
+    # Reuse the scientific pipeline's actual context inventory; optional files
+    # present in the reviewed source must not silently disappear on the host.
+    from orchestrator.campaign_pipeline import grounding
+    names.update(name for name in grounding(root, 'P001') if name in tree)
     names.update(n for n in tree if n.startswith('deploy/research-system/') and n.endswith(('.service','.socket','.timer')))
     names.add('scripts/verify_handover_service.py')
     names.add('scripts/verify_protected_intake.py')

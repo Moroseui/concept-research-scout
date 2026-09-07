@@ -184,3 +184,19 @@ def test_report_retry_reuses_first_observation_and_original_report(tmp_path,monk
     r.completions.ingest()
     assert observations==first_observations and len(r.q.status()['tasks'])==1
     assert list((r.state/'reports').glob('*.md'))==reports
+
+
+def test_terminal_completion_binds_preparation_without_synthetic_successor(tmp_path,monkeypatch):
+    r,state,requests,outputs,source=configured(tmp_path,monkeypatch,{'preparation-trigger':None})
+    r.config['campaign_preparation']={'mode':'discuss','request':'Assess readiness within current approvals.',
+                                      'trigger_job':'preparation-trigger'}
+    r.completions.controller.submit('preparation-trigger','a'*40)
+    execute(r,state,requests,outputs,source)
+    r.completions.ingest();r.completions.ingest()
+    rows=r.q.status()['tasks'];assert len(rows)==1
+    packet=json.loads((r.state/'tasks'/rows[0]['id']/'packet.json').read_text())
+    assert packet['campaign_task']==r.config['campaign_preparation']
+    assert packet['campaign_artifacts']=={'version':1,'experiment':'P001','mode':'discuss'}
+    assert 'execution_proposal' not in packet
+    assert not list(r.q.db.execute('SELECT * FROM completion_blocks'))
+    assert len(r.completions.controller.status()['jobs'])==1

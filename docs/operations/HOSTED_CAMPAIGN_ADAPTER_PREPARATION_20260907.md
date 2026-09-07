@@ -88,3 +88,13 @@ Local synthetic replies exercised coordinator completion, shared campaign output
 report/review/disposition bookkeeping, repeated submission without duplicate model
 calls, missing final pipeline/coordinator receipt recovery, and conflicting output
 refusal. A fresh source review and actual hosted invocation remain required.
+
+Preparing the actual c5c99b1f sparse snapshot exposed a context mismatch: 17 of
+21 scientific grounding documents were materialized; the four omitted inputs were
+CURRENT_STATUS.md, 047_LIFECYCLE.md, PREDICTION_PRIMARY_SOURCES_20260906.json and
+PREDICTION_READINESS_DIRECTION_20260906.md. Present documents were byte-identical;
+related-evidence context also matched. The generator now derives its additional
+file inventory from the shared grounding function and refuses tracked worktree
+drift before using it. This preserves selected charter bindings and avoids a
+second manually maintained scientific context list. Corrected snapshot verification
+is pending at this record's commit. The earlier sparse bundle remains evidence.
