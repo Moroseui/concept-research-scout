@@ -31,10 +31,13 @@ def validate(state):
     if state['day'] is not None and not re.fullmatch(r'\d{4}-\d{2}-\d{2}',state['day']):raise ValueError('LIMITER_DAY')
     if len(state['events'])>10000 or len(json.dumps(state))>1400000:raise ValueError('LIMITER_CAPACITY_REQUIRES_MAINTENANCE')
     for key,v in state['events'].items():
-        if not re.fullmatch(r'\d+:\d+',key) or set(v)!={'source','branch','day','count','notification','halted'}:
+        server=bool(re.fullmatch(r'server:[0-9a-f]{64}:[1-9]\d*',key))
+        expected={'source','branch','day','count','notification','halted'} | ({'kind'} if server else set())
+        if (not server and not re.fullmatch(r'\d+:\d+',key)) or set(v)!=expected:
             raise ValueError('LIMITER_EVENT_SCHEMA')
-        if not re.fullmatch('[0-9a-f]{40}',v['source']) or v['branch'] not in ['main','astra/autonomous-isles-pilot'] or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']) or type(v['count']) is not int or v['notification'] not in [None,'N','2N'] or type(v['halted']) is not bool:
+        if not re.fullmatch('[0-9a-f]{40}',v['source']) or v['branch'] not in (['astra/infrastructure-milestone-record'] if server else ['main','astra/autonomous-isles-pilot']) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']) or type(v['count']) is not int or v['notification'] not in [None,'N','2N'] or type(v['halted']) is not bool:
             raise ValueError('LIMITER_EVENT_VALUES')
+        if server and v['kind'] not in ['astra_turn','nightly_review']:raise ValueError('LIMITER_SERVER_KIND')
     for key,v in state['notifications'].items():
         if not re.fullmatch(r'\d+:N|\d+:2N',key) or set(v)!={'threshold','count','day'} or v['threshold'] not in ['N','2N'] or type(v['count']) is not int or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']):raise ValueError('LIMITER_NOTICE_SCHEMA')
     for v in state['resets']:
@@ -101,8 +104,22 @@ def admit(store,config,event,now=None,max_retries=12):
     n=policy(config)
     if set(event)!={'run_id','attempt','source','branch'} or not re.fullmatch(r'\d+',event['run_id']) or not re.fullmatch(r'[1-9]\d*',event['attempt']) or not re.fullmatch('[0-9a-f]{40}',event['source']) or event['branch'] not in ['main','astra/autonomous-isles-pilot']:
         raise ValueError('LIMITER_EVENT_IDENTITY_REQUIRED')
+    return _admit(store,config,event,event['run_id']+':'+event['attempt'],now,max_retries)
+
+
+def admit_server(store,config,event,now=None,max_retries=12):
+    # This library is not the permission boundary: the protected broker owns config
+    # and authenticates the requester. Live policy remains inactive until approved.
+    policy(config)
+    if config.get('server_semantics')!='OPERATOR_AUTHORIZED_V1':raise ValueError('SERVER_ADMISSION_NOT_AUTHORIZED')
+    if set(event)!={'turn_id','attempt','source','branch','kind'} or not re.fullmatch('[0-9a-f]{64}',event['turn_id']) or not re.fullmatch('[1-9][0-9]*',event['attempt']) or not re.fullmatch('[0-9a-f]{40}',event['source']) or event['branch']!='astra/infrastructure-milestone-record' or event['kind'] not in ['astra_turn','nightly_review']:
+        raise ValueError('LIMITER_SERVER_IDENTITY')
+    return _admit(store,config,event,'server:'+event['turn_id']+':'+event['attempt'],now,max_retries)
+
+
+def _admit(store,config,event,key,now,max_retries):
+    n=policy(config)
     day=(now or datetime.now(timezone.utc)).astimezone(timezone.utc).date().isoformat()
-    key=event['run_id']+':'+event['attempt']
     for _ in range(max_retries):
         old,state=store.read()
         binding=hashlib.sha256(json.dumps(config,sort_keys=True).encode()).hexdigest()
@@ -110,7 +127,7 @@ def admit(store,config,event,now=None,max_retries=12):
         state['policy_sha256']=binding
         if key in state['events']:
             e=state['events'][key]
-            if any(e[k]!=event[k] for k in ['source','branch']):raise ValueError('LIMITER_EVENT_BINDING_CHANGED')
+            if any(e[k]!=event[k] for k in ['source','branch']) or e.get('kind')!=event.get('kind'):raise ValueError('LIMITER_EVENT_BINDING_CHANGED')
             return {'status':'ADMITTED','duplicate_admission':True,**e,'state_before':old,'pending_notifications':list(state['notifications'])[-4:]}
         # Halt is latched across midnight. No automatic recovery/reset.
         if state['count']>2*n or (state['count']==2*n and not state['halted']):raise ValueError('LIMITER_STATE_INCONSISTENT')
@@ -121,6 +138,7 @@ def admit(store,config,event,now=None,max_retries=12):
         notice='2N' if state['count']>=2*n else 'N' if state['count']==n else None
         state['halted']=state['count']>=2*n
         e={'source':event['source'],'branch':event['branch'],'day':day,'count':state['count'],'notification':notice,'halted':state['halted']}
+        if 'kind' in event:e['kind']=event['kind']
         state['events'][key]=e
         if notice:state['notifications'][str(state['sequence'])+':'+notice]={'threshold':notice,'count':state['count'],'day':day}
         if store.cas(old,state):return {'status':'ADMITTED','duplicate_admission':False,**e,'state_before':old,'pending_notifications':list(state['notifications'])[-4:]}

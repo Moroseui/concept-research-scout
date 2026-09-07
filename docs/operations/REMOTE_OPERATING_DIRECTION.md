@@ -185,3 +185,21 @@ assumption-challenging ideas; propose scoring changes explicitly. The supplied
 ROADMAP v2 is historical design input, not current verification or new authority.
 See the recorded `human-idea-context-design` task and its system-reviewed proposal;
 this work is not a prerequisite for P001 progress.
+
+## First usable handover priority — accepted 6 September 2026 clarification
+
+Finish the bounded remote handover: protected publication/shared admission/operator
+reset, persistent non-root coordination and recovery, scheduled reports with fresh
+Claude review and Astra disposition, and minimum usable status/pause/resume controls.
+Complete and review implementation plus actual deployed evidence before requesting
+live grants. Reuse completed verification; a resumed conversation is not a reason
+to repeat successful work. Broader intake/context and collaboration redesign are
+not handover prerequisites. Keep all three research tasks and their dependencies,
+while preserving separate scientific launch and other reserved decisions.
+
+Laptop-disconnected observation requires the completed reviewed implementation,
+concrete permission approval, initialized shared state and hosted activation checks.
+Its status and intervention routes must be documented and exercised beforehand.
+Existing phone authority remains notifications and synthetic acknowledgment only;
+operational phone decisions, live writer/reset and limiter/unattended grants remain
+separate. Continue independent authorized work while one dependency is blocked.
