@@ -102,7 +102,7 @@ def test_completion_task_runs_shared_pipeline_and_retrieves_review_once(tmp_path
 
 def test_workspace_refuses_nonprivate_parent_before_copy(tmp_path):
     root=source(tmp_path)
-    public=tmp_path/'nonprivate';public.mkdir(mode=0o755)
+    public=tmp_path/'nonprivate';public.mkdir(mode=0o755);public.chmod(0o755)
     with pytest.raises(ValueError,match='PRIVATE_OWNER_ONLY_ROOT_REQUIRED'):
         preparation_workspace(root,public/'workspace')
     assert not (public/'workspace').exists()

@@ -1,0 +1,17 @@
+{
+  "source_commit": "b79caae9de93d63c057222f18fc8e5cc36136869",
+  "kind": "LOCAL_FULL_SUITE_FAILURE_PRESERVED",
+  "passed": 528,
+  "failed": 1,
+  "subtests_passed": 40,
+  "seconds": 101.64,
+  "failed_test": "tests/test_hosted_campaign_task.py::test_workspace_refuses_nonprivate_parent_before_copy",
+  "observed_error": "DID NOT RAISE ValueError",
+  "diagnosis": "Fixture mkdir mode was reduced by the process umask; explicit chmod required to establish the deliberately nonprivate condition. Production guard unchanged.",
+  "original_console_sha256": "8e417aed0475013134fdf4f036d8fd0edb12fbcfba40fc03c5501847be9c6805",
+  "corrected_focused_suite": {
+    "passed": 6,
+    "seconds": 0.21
+  },
+  "full_rerun_pending": true
+}
