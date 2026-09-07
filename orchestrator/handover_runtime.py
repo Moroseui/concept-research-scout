@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import socket
 import stat
+import sqlite3
 
 from orchestrator.handover_coordinator import Coordinator,encoded,digest
 from orchestrator.operations_report import finalize,Queue,immutable
@@ -127,7 +128,7 @@ class Runtime:
             try:
                 self._bookkeep(row)
                 status,reason='COMPLETE',None
-            except (ValueError,KeyError,TypeError,OSError):
+            except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):
                 status='BLOCKED' if attempt>=3 else 'RETRY'
                 reason='BOOKKEEPING_EVIDENCE_PRESERVED'
                 # A failed attachment must not leave a claimed review pretending
@@ -136,7 +137,7 @@ class Runtime:
                     report=json.loads((self.state/'tasks'/row['id']/'report.json').read_text())
                     queue=Queue(self.state/'reports');claim=queue.status(report['id'])
                     if claim['status']=='REVIEWING':queue.unavailable(report['id'],claim['attempt_id'],'bookkeeping-preserved')
-                except (ValueError,KeyError,TypeError,OSError):pass
+                except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):pass
             self.q.db.execute('INSERT OR REPLACE INTO bookkeeping VALUES(?,?,?,?)',(row['id'],status,attempt,reason))
 
     def _bookkeep(self,row):
@@ -174,7 +175,7 @@ class Runtime:
                     raise ValueError('STALE_CONTROL_SOURCE')
                 result=self.q.control(request['control'],authenticated_operator=True)
                 outcome={'status':'APPLIED','request':path.stem,'revision':result['revision']}
-            except (ValueError,KeyError,TypeError,OSError):
+            except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):
                 outcome={'status':'BLOCKED','request':path.stem,
                     'reason':'CONTROL_INVALID_OR_STALE','next_action':'Submit a new operator request bound to current source and control revision.'}
             try:immutable(receipt,encoded(outcome))
@@ -234,7 +235,7 @@ class Runtime:
         for row in self.q.status()['tasks']:
             if row['status'] in ('BLOCKED','RUNNING'):
                 try:outcomes.append(self.q.recover(row['id'],retrieve))
-                except (ValueError,KeyError,TypeError,OSError):
+                except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):
                     self.q.db.execute("UPDATE tasks SET status='BLOCKED',reason='RECOVERY_EVIDENCE_UNAVAILABLE' WHERE id=?",(row['id'],))
         return outcomes
 
@@ -246,7 +247,7 @@ class Runtime:
             try:
                 operation()
                 self.q.db.execute('DELETE FROM runtime_blocks WHERE phase=?',(name,))
-            except (ValueError,KeyError,TypeError,OSError):
+            except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):
                 self.q.db.execute('INSERT OR REPLACE INTO runtime_blocks VALUES(?,?)',(name,'EVIDENCE_OR_CONFIGURATION_REQUIRES_RECONCILIATION'))
         control_block=self.q.db.execute("SELECT 1 FROM runtime_blocks WHERE phase='controls'").fetchone()
         result={'status':'CONTROL_TRANSPORT_BLOCKED'} if control_block else self.q.tick()

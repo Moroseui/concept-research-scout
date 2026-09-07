@@ -128,3 +128,38 @@ def test_submission_errors_have_a_durable_retry_ceiling(tmp_path,monkeypatch):
     assert len(attempted)==3
     row=r.q.db.execute('SELECT status,attempts FROM selected_dispatch').fetchone()
     assert tuple(row)==('BLOCKED',3)
+
+
+def test_sqlite_submission_failure_is_capped_and_visible(tmp_path,monkeypatch):
+    import sqlite3
+    r,state,requests,outputs,source=configured(tmp_path,monkeypatch)
+    controller=r.completions.controller;controller.submit('predecessor','a'*40)
+    execute(r,state,requests,outputs,source);handlers(r)
+    r.completions.ingest();r.q.tick()
+    def unavailable(*args):raise sqlite3.OperationalError('synthetic execution database unavailable')
+    monkeypatch.setattr(controller,'submit',unavailable)
+    r.bookkeeping()
+    for _ in range(5):r.completions.advance()
+    assert tuple(r.q.db.execute('SELECT status,attempts FROM selected_dispatch').fetchone())==('BLOCKED',3)
+
+
+def test_report_retry_reuses_first_observation_and_original_report(tmp_path,monkeypatch):
+    import sqlite3
+    import orchestrator.completion_bridge as module
+    r,state,requests,outputs,source=configured(tmp_path,monkeypatch)
+    r.completions.controller.submit('predecessor','a'*40)
+    execute(r,state,requests,outputs,source)
+    collect=module.collect;observations=[]
+    def counted(*args,**kwargs):observations.append(1);return collect(*args,**kwargs)
+    monkeypatch.setattr(module,'collect',counted)
+    submit=r.q.submit;failed=[False]
+    def fail_once(binding):
+        if not failed[0]:failed[0]=True;raise sqlite3.OperationalError('fixture before coordinator commit')
+        return submit(binding)
+    monkeypatch.setattr(r.q,'submit',fail_once)
+    r.completions.ingest()
+    assert r.q.status()['tasks']==[]
+    reports=list((r.state/'reports').glob('*.md'))
+    r.completions.ingest()
+    assert len(observations)==1 and len(r.q.status()['tasks'])==1
+    assert list((r.state/'reports').glob('*.md'))==reports
