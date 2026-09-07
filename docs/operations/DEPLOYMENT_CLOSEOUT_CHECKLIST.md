@@ -83,3 +83,59 @@ or scientific approval. Any proposed operational phone extension must appear
 explicitly in the permission packet before activation.
 
 Final installed evidence and readable status example: [hosted-final-handover-20260907](hosted-final-handover-20260907/human-status-example.md). The failed first status invocation is retained privately and explained in [path repair](HANDOVER_CONTROL_PATH_REPAIR_20260907.md).
+
+## 7 September resumed-work update
+
+This dated update corrects the pending-state rows above without rewriting their
+receipt history. Working source `687f826f451501eb3fd4aee34aba95c578eed327` is published;
+it is **not** the installed server source. The read-only server reconciliation
+observed installed handover `9af868d47fecaf26c82c88a4d957183ea50962f5` and executor
+`6b555075fcf553994ecac8e368f4676cbdffdc56`. No service allowance or timer changed.
+
+- The reviewed stderr-capture fixture actually passed on the existing host:
+  24 concurrent requests, eight admissions, duplicate recovery and midnight halt.
+  [Hosted evidence](GIT_TRANSPORT_HOSTED_RESULT_20260907.json) and
+  [fresh review](GIT_TRANSPORT_DEPLOYED_REVIEW_20260907.json) preserve the failed
+  first deployment and the successful isolated attempt. The original CI fetch
+  cause remains **OPEN**; this file-transport proof does not establish GitHub
+  credentialed transport. Successful transient-unit resource properties were
+  unavailable after unit unloading, so requested limits are not observed limits.
+- PR #5 already merged. Its merge is no longer a pending prerequisite. The
+  original-range retrospective audit's additional undispositioned historical
+  blob remains an operator decision; the scanner cannot silently exempt it.
+- The operator ratified the reviewed prediction charter and conditional adoption
+  and authorized admission-only preflight. The selected context now reaches
+  campaign and hosted context builders with hash-bound documents. This update
+  is source-reviewed and locally exercised, **not installed or exercised by a
+  new hosted scientific-task cycle**.
+- P001 remains unexecuted. The approved preflight transport has a fresh genuine
+  [Claude approval](../science/P001_PREFLIGHT_TRANSPORT_REVIEW_20260907.json).
+  Its rejected first review, actual sparse-acquisition defect and forward
+  correction remain recorded. Current Drive access and archive/header preflight
+  remain unverified. Exact launch authorization follows evidence assessment.
+- The first 047 cleanup is **complete**, with one leased update, original
+  protections restored and complete private originals verified.
+  [Execution receipt](../isles-pilot/047_CLEANUP_EXECUTED_20260907.json).
+  Three case-linked metadata files remain public under that narrow approval.
+  Scientific landing remains blocked by genuine successful-console evidence,
+  exclusion semantics, historical registry attestation and landing authority.
+  [Recovery options](../science/047B_CONSOLE_RECOVERY_20260907.md).
+
+The remaining handover is not just configuration: it includes a real scientific
+system-task adapter cycle, installing current approved context bindings, protected
+credentialed publication/shared admissions, activation verification, and the
+separate 24–48-hour disconnected observation. Budget approximately **6–12 further
+engineering hours**, plus operator/provider waits and the observation, for that
+finite scope; this is a revised estimate, not authority to extend resources.
+P001 preflight can proceed independently on the existing Colab route. A first
+scientific result additionally needs unit/provenance assessment and the exact
+launch decision; neither 047 acceptance nor unattended activation is its gate.
+
+Preflight status update: [actual same-session dispatch](../science/P001_PREFLIGHT_DISPATCH_20260907.json)
+was verified after the worker's preserved refusal was resolved by supplying readable
+source and direct authority/review evidence. No terminal preflight result has been
+retrieved. The three-request worker bound is consumed; generated manual read-only
+retrieval is prepared. Patient launch is still held. Readiness-discussion preview
+conflicts and inbox-only duplicate triggers are fixed and
+[source-reviewed](../science/READINESS_RATIFICATION_REVIEW_20260907.json); the
+[remaining real-adapter gap](REAL_SCIENTIFIC_ADAPTER_GAP_20260907.md) is explicit.

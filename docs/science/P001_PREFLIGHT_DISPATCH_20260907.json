@@ -1,0 +1,79 @@
+{
+  "status": "PREFLIGHT_DISPATCHED_NOT_COMPLETED",
+  "preparation_pin": "687f826f451501eb3fd4aee34aba95c578eed327",
+  "frozen_scientific_source": "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+  "patient_launch": false,
+  "preflight_terminal_receipt_retrieved": false,
+  "same_worker_session": true,
+  "cpu_cell_verified": true,
+  "source_readback_verified": true,
+  "launch_wrapper_source_hash_verified": true,
+  "original_console": "PRIVATE_DRIVE_CAPTURE",
+  "worker_kind": "EXECUTION_NOT_REVIEW",
+  "actual_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5",
+    "claude-opus-5",
+    "claude-opus-4-8"
+  ],
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 777,
+      "outputTokens": 18,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.000867,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 18,
+      "outputTokens": 4356,
+      "cacheReadInputTokens": 68940,
+      "cacheCreationInputTokens": 12138,
+      "webSearchRequests": 0,
+      "costUSD": 0.5296799999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    },
+    "claude-opus-5": {
+      "inputTokens": 2,
+      "outputTokens": 7358,
+      "cacheReadInputTokens": 12138,
+      "cacheCreationInputTokens": 3234,
+      "webSearchRequests": 0,
+      "costUSD": 0.2102415,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-opus-5",
+      "provider": "firstParty"
+    },
+    "claude-opus-4-8": {
+      "inputTokens": 28,
+      "outputTokens": 34938,
+      "cacheReadInputTokens": 1035869,
+      "cacheCreationInputTokens": 74734,
+      "webSearchRequests": 0,
+      "costUSD": 2.1388645,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-opus-4-8",
+      "provider": "firstParty"
+    }
+  },
+  "private_protocol_sha256": "58e93ec36a6d3b75ec7576adee9d6f5556506e8921e00824750b42d4b512008f",
+  "prior_refusal_preserved": true,
+  "requests_consumed": 3,
+  "request_limit": 3,
+  "retry_policy": "No further dispatch requests in this bounded client; separate read-only retrieval required.",
+  "limitations": [
+    "Dispatch is not terminal completion or a checksum result.",
+    "The owner helper initially exposed no continuation interface. Two explicit callers reused the reviewed Session submit/receive methods through verified existing CLI stdin and durable protocol under one exclusive submission lock. No MCP reconnect or process restart occurred. This supervised handoff is not a maintained hosted control interface.",
+    "A refused request consumed one submission; this client has no remaining request allowance. Manual generated retrieval remains available; a future retrieval worker requires its own bounded connection and never authorizes redispatch."
+  ]
+}

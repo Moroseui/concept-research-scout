@@ -84,27 +84,55 @@
     },
     {
       "job": "p001-prospective-adoption-20260907",
-      "status": "OPEN_SCIENTIFIC_DECISION",
-      "reason": "REVIEWED_PROPOSAL_NOT_ADOPTED",
-      "next_action": "Review P001_EXECUTION_DECISION_20260907.md: proposed charter/adoption and bounded input preflight; launch remains separate."
+      "status": "RESOLVED_CHARTER_CONDITIONAL_ADOPTION_PREFLIGHT_ONLY",
+      "reason": "OPERATOR_APPROVED_AT_A94_PACKET",
+      "next_action": "Recorded in prediction_selection.json and evidence/decisions.md; launch and new-backend transfer remain reserved. Preflight preparation source 687f826 is reviewed and published.",
+      "history": [
+        {
+          "status": "OPEN_SCIENTIFIC_DECISION",
+          "reason": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+          "next_action": "Review P001_EXECUTION_DECISION_20260907.md: proposed charter/adoption and bounded input preflight; launch remains separate."
+        }
+      ]
     },
     {
       "job": "colab-persistent-handoff-20260907",
-      "status": "OPEN_IMPLEMENTATION",
-      "reason": "ONE_SHOT_WORKER_CLOSES_MCP_BEFORE_LATER_RETRIEVAL",
-      "next_action": "Prepare a persistent bounded metadata handoff or use the reviewed human notebook route before another browser request. Operator reported Drive mounted; do not claim independent retrieval."
+      "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
+      "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
+      "next_action": "Same-session CPU and exact preflight dispatch verified after transparent source/authority resolved worker refusal. Three-request client exhausted; no automatic redispatch. Terminal receipt requires separate checked read-only retrieval through generated manual cell or a separately bounded connected worker.",
+      "history": [
+        {
+          "status": "OPEN_IMPLEMENTATION",
+          "reason": "ONE_SHOT_WORKER_CLOSES_MCP_BEFORE_LATER_RETRIEVAL",
+          "next_action": "Prepare a persistent bounded metadata handoff or use the reviewed human notebook route before another browser request. Operator reported Drive mounted; do not claim independent retrieval."
+        }
+      ]
     },
     {
       "job": "047b-original-console-20260907",
       "status": "OPEN_EVIDENCE_AND_DECISION",
-      "reason": "PRESERVED_SOURCE_MATCHES_BUT_SUCCESSFUL_CONSOLE_NOT_FOUND",
-      "next_action": "Confirm whether 047b names the pinned Phase-B source and locate original successful sibling console; then resolve historical registry attestation, metadata disposition and separate scientific landing. Reuse prior validator and policy refusal."
+      "reason": "ORIGINAL_CORRESPONDENCE_VERIFIED_SUCCESSFUL_CONSOLE_UNRECOVERED",
+      "next_action": "Operator naming clarification is not hash/console attestation. Original source/contract correspondence verified; bounded private search found no genuine successful console. See 047B_CONSOLE_RECOVERY_20260907.md. Cleanup complete; exclusions, registry attestation and scientific landing remain separate.",
+      "history": [
+        {
+          "status": "OPEN_EVIDENCE_AND_DECISION",
+          "reason": "PRESERVED_SOURCE_MATCHES_BUT_SUCCESSFUL_CONSOLE_NOT_FOUND",
+          "next_action": "Confirm whether 047b names the pinned Phase-B source and locate original successful sibling console; then resolve historical registry attestation, metadata disposition and separate scientific landing. Reuse prior validator and policy refusal."
+        }
+      ]
     },
     {
       "job": "pr5-ledger-transport-diagnostics",
-      "status": "OPEN_IMPLEMENTATION_AND_HOSTED_VERIFICATION",
-      "reason": "ORIGINAL_FETCH_EXIT_128_CAUSE_UNRESOLVED",
-      "next_action": "Implement reviewed private stderr capture across ledger/transport subprocess paths, then run isolated droplet contention/recovery. Original stderr unavailable; passing reruns do not diagnose cause. Limiter remains inactive."
+      "status": "OPEN_ORIGINAL_CAUSE_UNRESOLVED",
+      "reason": "HOSTED_FILE_TRANSPORT_PASSED_ORIGINAL_STDERR_UNAVAILABLE",
+      "next_action": "Private stderr capture reviewed; actual isolated host 24-request/eight-worker contention/recovery passed and fresh Claude review approved. Do not infer original cause or credentialed GitHub transport robustness; live activation remains held.",
+      "history": [
+        {
+          "status": "OPEN_IMPLEMENTATION_AND_HOSTED_VERIFICATION",
+          "reason": "ORIGINAL_FETCH_EXIT_128_CAUSE_UNRESOLVED",
+          "next_action": "Implement reviewed private stderr capture across ledger/transport subprocess paths, then run isolated droplet contention/recovery. Original stderr unavailable; passing reruns do not diagnose cause. Limiter remains inactive."
+        }
+      ]
     },
     {
       "job": "pr5-retrospective-audit",
@@ -114,9 +142,24 @@
     },
     {
       "job": "hosted-reconciliation-after-pr5",
-      "status": "BLOCKED_LOCAL_SSH_UNLOCK",
-      "reason": "SSH_AGENT_HAS_NO_IDENTITIES",
-      "next_action": "Operator re-unlocks existing laptop SSH identity; then inspect deployed bindings and jobs read-only before any retry. No server or model failure inferred."
+      "status": "RESOLVED_READ_ONLY_20260907",
+      "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
+      "next_action": "See RESUME_RECONCILIATION_20260907.json. Installed handover remains 9af868d and executor 6b555075; no jobs retried or new allowance granted.",
+      "history": [
+        {
+          "status": "BLOCKED_LOCAL_SSH_UNLOCK",
+          "reason": "SSH_AGENT_HAS_NO_IDENTITIES",
+          "next_action": "Operator re-unlocks existing laptop SSH identity; then inspect deployed bindings and jobs read-only before any retry. No server or model failure inferred."
+        }
+      ]
+    },
+    {
+      "job": "047-first-cleanup-20260907",
+      "status": "COMPLETE",
+      "reason": "EXACT_OPERATOR_AUTHORIZED_LEASED_REPLACEMENT_VERIFIED",
+      "next_action": "No retry. Remaining public three-file metadata disposition and scientific landing tracked separately.",
+      "evidence": "../isles-pilot/047_CLEANUP_EXECUTED_20260907.json"
     }
-  ]
+  ],
+  "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state."
 }

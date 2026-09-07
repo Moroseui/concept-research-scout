@@ -1,0 +1,15 @@
+{
+  "status": "WORKER_REFUSED_BEFORE_MCP_MUTATION",
+  "source": "687f826f451501eb3fd4aee34aba95c578eed327",
+  "actual_model_usage": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5",
+    "claude-opus-5"
+  ],
+  "reviewer_role": false,
+  "cli_permission_denials": 0,
+  "preflight_started_by_refused_request": false,
+  "reason": "Worker considered captured compile/exec cells opaque, lacked directly supplied authorization and objected to detached medical-data preflight without visible original console.",
+  "disposition": "Preserve refusal. Do not remove console privacy. Supply readable decoded source, expected hashes, invoked source, actual operator scope and genuine review. Final bounded request pending; not success.",
+  "private_original_response_sha256": "8ba3813c4c205ce6a49ba7c3888be16822fe86ba87a63cbabb171f3594e7d558"
+}
