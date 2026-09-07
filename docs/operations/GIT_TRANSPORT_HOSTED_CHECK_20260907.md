@@ -48,3 +48,10 @@ private dispatch intent. Actual peak memory and CPU accounting were not retrieve
 This is an explicit evidence limitation, not a reason to repeat the passing test.
 It is file-transport hosted proof, not GitHub credentialed enforcement, live
 48/96 activation, or a diagnosis of the original PR CI error.
+
+Follow-up to Claude’s coincidence question: the preserved local and hosted
+original summaries independently both record 947 receipts and 56 failed CAS
+iterations. Their outcomes SHA-256 identities differ (`ad67d4fa0a372f0f55734ff203fb21905de32d316d1b7cae915ddb2af438c5a0`
+and `c5d6f1067fa63a1d2f8928f483afaeda6a8f7e47c96365750dcc8c9c78fe8efe`). This was verified against both original
+files; no rerun or reuse of the local receipt as hosted evidence occurred. The
+matching count is an observation, not an inferred shared cause or timing proof.

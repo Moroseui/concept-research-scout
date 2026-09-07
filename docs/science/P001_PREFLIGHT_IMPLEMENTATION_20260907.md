@@ -37,3 +37,11 @@ materialization, and holds for existing/active execution. Fresh affected-surface
 Claude review and a generated human-usable, private-console transport wrapper are
 required before using this on the authorized input. No temporary browser or Drive
 connection has been requested for it yet.
+
+`--approval` is the exact `campaigns/isles24-pilot/prediction_selection.json`
+record at `0aa73786`, SHA-256
+`56fa21d431ad60f5c6241d059e144bf7de0c2956eda85cf871c6955498c5c643`.
+The first preflight review approved its source scope; its suggestions about
+failed evidence writes and derived execution-root process matching are corrected
+forward and included with the forthcoming transport review. No patient preflight
+has run while those execution bindings are being finalized.

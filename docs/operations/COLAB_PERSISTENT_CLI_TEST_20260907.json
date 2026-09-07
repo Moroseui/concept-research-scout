@@ -1,0 +1,83 @@
+{
+  "same_session": true,
+  "same_process_alive_between_turns": true,
+  "second_reply_matches": true,
+  "actual_models": [
+    [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ]
+  ],
+  "mcp_connected": false,
+  "scope": "ACTUAL_SUBSCRIPTION_CLI_TWO_TURNS_NO_TOOLS_NO_PATIENT",
+  "turns": 2,
+  "protocol_sha256": "c5944be1df922c2a2aeda86004a2a28c3b32385e17f4b47bdb706c23d3a74901",
+  "implementation_status": "uncommitted prototype exercised before final review",
+  "actual_execution": true,
+  "usage": [
+    {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3692,
+      "cache_read_input_tokens": 0,
+      "output_tokens": 4,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3692,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 4,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 3692,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3692
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 40,
+      "cache_read_input_tokens": 3692,
+      "output_tokens": 20,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 20,
+          "cache_read_input_tokens": 3692,
+          "cache_creation_input_tokens": 40,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 40
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    }
+  ]
+}

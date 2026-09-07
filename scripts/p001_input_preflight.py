@@ -61,7 +61,7 @@ def reconcile_runtime(execution_root, proc_root=Path('/proc')):
     for path in proc_root.glob('[0-9]*/cmdline'):
         try:
             args = path.read_bytes().split(b'\0')
-            if any(b'/experiments/P001/run.py' in arg or b'P001-v1.worker/launch.py' in arg for arg in args):
+            if any(b'/experiments/P001/run.py' in arg or (execution_root.name+'.worker/launch.py').encode() in arg for arg in args):
                 active += 1
         except FileNotFoundError:
             continue
@@ -81,6 +81,7 @@ def run(a):
         raise ValueError('AUTHORIZED_CPU_COLAB_REQUIRED')
     observation=reconcile_runtime(a.execution_root)
     if observation['disposition']!='NO_MATCH_IN_CHECKED_RUNTIME_AND_PATHS':raise ValueError('PREFLIGHT_EXISTING_EXECUTION_RECONCILIATION_REQUIRED')
+    if not shutil.which('7z'):raise ValueError('PREFLIGHT_7Z_REQUIRED')
     if digest(a.approval)!=APPROVAL_SHA:raise ValueError('PREFLIGHT_OPERATOR_BINDING')
     source=a.source_root/'campaigns/isles24-pilot/experiments/P001/run.py'
     if digest(source)!=RUNNER_SHA:raise ValueError('PREFLIGHT_FROZEN_SOURCE')
@@ -138,7 +139,7 @@ def main():
     p.add_argument('--execution-root',type=Path,required=True)
     a=p.parse_args()
     try:result=run(a)
-    except Exception as e:result={'status':'REFUSED_BEFORE_ATTEMPT','failure_type':type(e).__name__,'failure_code':str(e) if str(e).startswith(('PREFLIGHT_','AUTHORIZED_CPU_')) else 'PRIVATE_DIAGNOSTIC_REQUIRED','patient_launch':False}
+    except Exception as e:result={'status':'ATTEMPT_EVIDENCE_WRITE_FAILED' if a.attempt.exists() else 'REFUSED_BEFORE_ATTEMPT','failure_type':type(e).__name__,'failure_code':str(e) if str(e).startswith(('PREFLIGHT_','AUTHORIZED_CPU_')) else 'PRIVATE_DIAGNOSTIC_REQUIRED','patient_launch':False}
     print(json.dumps(result))
     return 0 if result['status']=='INPUT_INTEGRITY_AND_HEADERS_VERIFIED' else 1
 

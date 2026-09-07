@@ -1,0 +1,83 @@
+{
+  "execution": {
+    "reviewed_commit": "26ac70edbdb1beeb548ac1d3c3d6996cfe304a14",
+    "returncode": 0,
+    "wall_seconds": 298.3497932330065,
+    "input_file_sha256": {
+      "deploy/research-system/verify_git_transport.py": "04bed7a58810922c721af962bc6eeb9d4a9e3bc134494d7fa98b388434682043",
+      "orchestrator/git_diagnostics.py": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "orchestrator/dispatch_limiter.py": "250a9eb802af705de2d94063350a90fd815319a26076ce718369783ecc5ade45",
+      "orchestrator/git_publication.py": "7685eb931462ac6c68f6c709941423abdaf1a3b109064818628359ce4a7bfa61",
+      "docs/operations/GIT_TRANSPORT_HOSTED_RESULT_20260907.json": "20e24a64777841bfca0dac66bba2916a01b3cdd453cb9decda3cc7d1ca3dce9e",
+      "docs/operations/GIT_TRANSPORT_HOSTED_CHECK_20260907.md": "062d8cedf3e44b3cd63e344d3cbe065ed6328aa26e035922c1a9ca554a97c59c",
+      "docs/operations/GIT_TRANSPORT_FIXTURE_REVIEW_20260907.json": "22e90b486e421cd523af183b5c8440b78e06e6dcecebc773f0a43910d91dc255",
+      "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md": "4a50253be6b24255b807f3ae4e5052a9a4075fde48a9e57b96ad438f67c48835",
+      "docs/operations/RESUME_RECONCILIATION_20260907.json": "6aea2c4d9de4b91374502bf14596e43636194e509de21d287f69d5294edc571f",
+      "docs/isles-pilot/047_CLEANUP_EXECUTED_20260907.json": "dd4a07feb8206bd9abcdb0e0ef1914fd0a4553face59458ada7e048150753d15",
+      "docs/science/047B_ORIGINAL_CORRESPONDENCE_20260907.json": "460f63655ee74d4125392f1a15c834505fc0f90ed292430801b250e5fd21b1d1",
+      "docs/science/047B_CONSOLE_RECOVERY_20260907.md": "385ba892549f2305142f5fab72f74b9ada4cc0e3464f15ac9ca3f2bb70c0fee0",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "bb94baeb0072a7b5478b5663011a7faf1825a2123af5d65e8b04ec2343d44dcc",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "201f4dae4c90c78a2abb9cd9291a7249ccf23e5c93c85f25e0c49c7e9d135f22"
+  },
+  "review": {
+    "scope": "Actual hosted file-transport acceptance and cleanup/evidence reconciliation records. Review actual receipt facts, setup failure and fix, explicit transient-unit accounting limitation. Existing root fixed broker is previously disclosed proposed boundary, not non-root scientific execution. No live activation or scientific acceptance. Distinguish source-approved facts from unverified deployment properties.",
+    "reviewed_commit": "26ac70edbdb1beeb548ac1d3c3d6996cfe304a14",
+    "verdict": "APPROVE",
+    "findings": [
+      "Hosted receipt reconciles arithmetically with the reviewed fixture source: the fixture's deterministic Git-invocation count is 275 (bare init plus local initialization CAS = 6, 24 client setups = 48, 8 winning admissions at 11 calls, 16 final halted reads at 5 calls, recovery client setup = 2 plus 8 duplicate replays at 5 calls, two 3-call local ledger reads, one 5-call midnight read), and each failed compare-and-swap iteration adds exactly 12, so diagnostic_receipts=947 forces exactly 56 failed lease pushes \u2014 precisely the recorded nonzero_git_exits=56. The summary key set, ordering, and every conjunct of the 'passed' criterion match what verify() emits, and console.stderr's SHA-256 is the empty-string digest, consistent with all Git stderr going only to private 0600 receipts and nothing leaking to the console.",
+      "Identity bindings are textually consistent across records: the receipt's binding.source 88de12a7 and its per-file SHA-256s for verify_git_transport.py, dispatch_limiter.py and git_diagnostics.py equal the input-inventory hashes in the prior fixture review, so the executed bytes are claimed identical to the previously approved bytes, and uid 995 (non-root) is self-recorded by the fixture in started.json and the summary. That the run actually occurred on the host under the named transient unit, on Git 2.43.0, is receipt-attested deployment fact \u2014 not independently verifiable from source \u2014 and the records correctly keep that distinction explicit (source-approved facts vs originals_retained_on_host attestations).",
+      "Setup failure and fix are sound and honestly recorded: FAILED_BEFORE_FIXTURE_START with exit 2 is consistent with the worker identity being unable to read a 0700-masked source root (interpreter cannot open the script; the fixture itself exits only 0 or 1 after starting); the corrective chmod was limited to the immutable fixture source root; the failed unit and console are preserved with a hash; and re-running in a new attempt did not violate the no-replay-of-uncertain-invocations rule because the failure preceded any fixture mutation \u2014 the attempt destination was never created, so verify()'s fresh-absolute precondition held for the second attempt.",
+      "The transient-unit accounting limitation is explicitly and correctly recorded: the receipt's unit block shows unloaded-default properties (RuntimeMaxUSec/MemoryMax infinity, MemoryPeak/CPUUsageNSec not set, ActiveState inactive) and both the receipt and the check doc state these are NOT evidence of runtime limits, with requested limits only in the private dispatch intent. Suggestion: extend the limitation wording beyond 'runtime resources' \u2014 the same unloaded defaults (User empty, PrivateNetwork no, NoNewPrivileges no) equally fail to evidence identity and network sandboxing; the only identity evidence is the fixture's self-reported uid, and network confinement for this run rests on GIT_ALLOW_PROTOCOL=file inside the fixture, not on verified unit properties.",
+      "Root fixed broker reconciles as previously disclosed proposal, not a regression: RESUME_RECONCILIATION shows research-system-handover.service active with User=root, which matches the PROTECTED_WRITER_ADMISSION_DECISION packet's explicitly proposed root-owned combined fixed-broker boundary (fixed runuser launches only, no caller-supplied command/user/path/environment, credentials outside model-writable paths); no record claims non-root for that broker, while scientific and fixture execution remain non-root (uid 995; research-controller units). The prior review's operator follow-up on this point is resolved by disclosure and pending operator approval, not by silent change; no writer key is installed and reset/initialize remain operator-only in source.",
+      "Prior review suggestions were applied and one prior gap closed: the check doc now correctly describes 24 independent client repositories driven by 8 worker threads, and adds the explicit sentence that duplicate recovery after halt returns the original admitted status without authorizing another execution; orchestrator/git_publication.py (previously absent from the bundle) is now supplied, and scan_commit is verified \u2014 the ledger's fixed commit message passes it, and it bounds size and rejects secrets and case-level identifiers on every outgoing ledger commit. The CONTAMINATED constant it refuses equals the 047 cleanup 'before' pin, so publication code and the cleanup record are mutually consistent.",
+      "Carried-forward open suggestions, unchanged code and no new evidence to escalate: (a) git_diagnostics.run writes receipt.json only on success, TimeoutExpired or OSError, so any other exception leaves an orphan stderr capture invisible to the summary's receipt-glob hash/mode verification \u2014 write the receipt in a finally block; (b) GitLedger.read's remote path fetches the pinned SHA after ls-remote, so a ref advanced in between requires non-tip wants and can produce a false-negative invocation error under a protocol v0 fallback; (c) the fixture reads the after-pin before the midnight admission, so midnight non-mutation is established by code inspection (the halted return precedes any write) rather than by the pin comparison \u2014 re-read the pin after the midnight call in a future fixture revision.",
+      "Observation for operator confirmation (not a blocker): the earlier local development probe and the hosted run both report exactly 947 diagnostic receipts, implying identical 56 failed-push iterations for a timing-dependent race count on different machines; the local figure predates the hosted receipt in the reviewed doc history, so it is not transcription reuse in that direction, but the coincidence is surprising \u2014 confirm against the preserved local attempt's summary.json and annotate, since both attempt directories are required to be retained.",
+      "Cleanup and evidence reconciliation records preserve all scientific and authority gates: 047 cleanup shows a single lease push from the contaminated before-pin to c812421 with other refs unchanged, protection restored, temporary rule removed, originals verified, honest cached_or_copied_history_erased=false, scientific_landing=false, and the three residual case-linked metadata files explicitly left OPEN rather than newly authorized; 047B correspondence binds the bundle to source 940293b6 and contract dc586665 (matching the cleanup ref name) while recording scientific_import=false and the successful console still missing with run_log explicitly not relabeled as console; RESUME_RECONCILIATION is read-only with zero model calls and zero retries and honestly reports one FAILED and one BLOCKED job; the limiter stays PROPOSED-inactive with hosted-only gates, live_activation=false everywhere, and the fixture review JSON honestly records actual usage models including claude-haiku-4-5 alongside the requested claude-fable-5.",
+      "Limits of this review: source-only with no execution performed or claimed; SHA-256 bindings were checked for textual cross-record consistency, not recomputed; orchestrator/__init__.py (hashed in the binding), scripts.workflow_boundary and orchestrator.public_export (imported by checkpoint and the limiter CLI, neither exercised by this scope) were not in the supplied bundle and remain unverified; the original PR CI fetch exit-128 cause remains UNRESOLVED, and the records correctly state that this passing file-transport proof neither identifies that cause nor constitutes GitHub credentialed enforcement, live 48/96 activation, or scientific acceptance."
+    ]
+  },
+  "session_id": "1f3e0112-7533-4681-a65c-4737faf7efe6",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 44849,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 21864,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 44849,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 21864,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 44849,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 44849
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_estimate_usd": 2.019108,
+  "review_kind": "author_operated_review_of_supplied_source_and_receipts"
+}
