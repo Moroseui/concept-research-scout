@@ -53,6 +53,10 @@ class Runtime:
             CREATE TABLE IF NOT EXISTS control_delivery(id TEXT PRIMARY KEY,outcome TEXT);
             CREATE TABLE IF NOT EXISTS runtime_blocks(phase TEXT PRIMARY KEY,reason TEXT);
         ''')
+        self.completions=None
+        if config.get('synthetic_execution') is not None:
+            from orchestrator.completion_bridge import CompletionBridge
+            self.completions=CompletionBridge(self,config['synthetic_execution'])
 
     @staticmethod
     def validate_binding(binding):
@@ -81,6 +85,15 @@ class Runtime:
         prompt={'continuation':'Assess this report against approved goals, identify the next eligible task and limits. Do not execute or grant authority.',
                 'review':'Fresh Claude primary-evidence review under the supplied directive. Assess science, implementation and human operation; distinguish verified evidence and missing proof. Do not infer nonexistent evidence from omission.',
                 'disposition':'Record Astra disposition of the existing fresh review and the next eligible bounded task. No execution or ratification.'}[stage]
+        proposal=packet.get('execution_proposal')
+        if proposal is not None:
+            prompt+=' The installed supervised configuration offers exactly one synthetic successor; review its eligibility and boundaries.'
+            if stage=='disposition':
+                prompt=('Record your response to the fresh review and select the configured synthetic successor. '
+                        'Return exactly one JSON object with task_id equal to '+proposal['job']+
+                        ' and reason containing your review disposition and rationale; if a blocking concern remains, '
+                        'use task_id null and explain it in reason. The system validates the selection '
+                        'before submission. Do not select patient work, a different job or a new scope.')
         prompt+='\nREPORT:\n'+report_text+'\nPRIMARY EVIDENCE:\n'+json.dumps(packet)
         for previous in ['continuation','review'][:position]:
             prior=self.q._receipt(binding['id'],['continuation','review'].index(previous),binding)
@@ -90,11 +103,13 @@ class Runtime:
         if response.get('status')!='COMPLETE':raise ValueError('MODEL_COMPLETION_REQUIRED')
         return response
 
-    def enqueue_report(self,day,receipts,task_state,reviewer_evidence=None):
+    def enqueue_report(self,day,receipts,task_state,reviewer_evidence=None,execution_proposal=None,trigger='scheduled-report'):
+        if trigger not in ('scheduled-report','verified-completion'):raise ValueError('REPORT_TRIGGER_REQUIRED')
         finalized=finalize(self.state/'reports',self.config['source'],day,receipts,task_state=task_state)
         report={'id':finalized['id']}
-        packet={'jobs':receipts,'trigger':'scheduled-report','decision_inbox':task_state}
+        packet={'jobs':receipts,'trigger':trigger,'decision_inbox':task_state}
         if reviewer_evidence is not None:packet['reviewer_evidence']=reviewer_evidence
+        if execution_proposal is not None:packet['execution_proposal']=execution_proposal
         identity=digest({'source':self.config['source'],'packet':packet,'report':report})
         directory=self.state/'tasks'/identity;directory.mkdir(parents=True,mode=0o700,exist_ok=True)
         immutable(directory/'packet.json',encoded(packet));immutable(directory/'report.json',encoded(report))
@@ -139,6 +154,8 @@ class Runtime:
                 'session_id':r['session_id'],'status':'COMPLETE'})
         disposition=self.q._receipt(row['id'],2,binding)['output']['answer']
         queue.disposition(report['id'],disposition)
+        if self.completions is not None:
+            self.completions.finish(row['id'],json.loads((folder/'packet.json').read_text()),disposition)
 
 
     def controls(self):
@@ -199,6 +216,9 @@ class Runtime:
             task_state['coordinator_summary']=', '.join(
                 str(sum(row['status']==status for row in state['tasks']))+' '+status.lower()
                 for status in ('QUEUED','RUNNING','COMPLETE','BLOCKED'))
+            if self.completions is not None:
+                task_state['completion_blocks']=[dict(row) for row in self.q.db.execute('SELECT * FROM completion_blocks')]
+                task_state['selected_work']=[dict(row) for row in self.q.db.execute('SELECT task,status,attempts FROM selected_dispatch')]
             binding=self.enqueue_report(day,evidence['receipts'],task_state,evidence.get('reviewer_evidence'))
         finally:
             self.q.db.execute('ROLLBACK')
@@ -220,6 +240,8 @@ class Runtime:
 
     def tick(self):
         for name,operation in [('controls',self.controls),('recovery',self.recover),
+                               ('completions',lambda:self.completions.ingest() if self.completions else None),
+                               ('selected-work',lambda:self.completions.advance() if self.completions else None),
                                ('schedule',lambda:self.scheduled_report(datetime.now(timezone.utc)))]:
             try:
                 operation()
@@ -233,6 +255,9 @@ class Runtime:
 
     def status(self):
         return {**self.q.status(),
+                'completion_events':[] if self.completions is None else [dict(row) for row in self.q.db.execute('SELECT * FROM completion_ingest')],
+                'selected_work':[] if self.completions is None else [dict(row) for row in self.q.db.execute('SELECT task,status,attempts FROM selected_dispatch')],
+                'completion_blocks':[] if self.completions is None else [dict(row) for row in self.q.db.execute('SELECT * FROM completion_blocks')],
                 'runtime_blocks':[dict(row) for row in self.q.db.execute('SELECT * FROM runtime_blocks')],
                 'bookkeeping':[dict(row) for row in self.q.db.execute('SELECT * FROM bookkeeping')],
                 'controls':[json.loads(row[0]) for row in self.q.db.execute('SELECT outcome FROM control_delivery')]}

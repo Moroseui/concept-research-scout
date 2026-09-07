@@ -178,8 +178,9 @@ def model_call(folder, stage, family, prompt, output_format='markdown', prepared
     return answer, receipt
 
 
-def verified_jobs(controller,outputs):
+def verified_jobs(controller,outputs,job_ids=None):
     rows=[sanitized(row) for row in controller.status()['jobs']];events={}
+    if job_ids is not None:rows=[row for row in rows if row['job_id'] in job_ids]
     for row in rows:
         if row['status'] not in ('COMPLETE','FAILED'):continue
         attempt_id=identifier(row['attempt_id'])

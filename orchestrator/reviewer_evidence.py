@@ -6,6 +6,7 @@ Historical checked receipts are evidence, not proof of present deployment behavi
 import hashlib
 import json
 import subprocess
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from orchestrator.research_context import checked
@@ -13,6 +14,7 @@ from orchestrator.git_publication import scan
 
 SOURCES = {
     'handover_implementation': ('orchestrator/handover_runtime.py','orchestrator/handover_coordinator.py',
+        'orchestrator/completion_bridge.py',
         'orchestrator/protected_handover.py','scripts/verify_handover_service.py','deploy/research-system/research-system-handover.service',
         'deploy/research-system/research-system-handover-controller.service',
         'deploy/research-system/research-system-handover.socket'),
@@ -34,6 +36,27 @@ UNITS = ('research-system-controller.service', 'research-system-controller.timer
 PROPERTIES = ('LoadState', 'ActiveState', 'SubState', 'User', 'Result', 'ExecMainStatus',
               'MemoryMax', 'CPUQuotaPerSecUSec', 'NoNewPrivileges', 'ProtectSystem',
               'Group', 'PrivateNetwork', 'ProtectHome', 'TasksMax')
+
+
+def current_process():
+    """Observe this collector's identity/resources; no logs or other processes."""
+    result={'uid':os.getuid(),'observed_utc':datetime.now(timezone.utc).isoformat(),
+            'no_new_privileges':None,'cgroup':{}}
+    try:
+        fields=dict(line.split(':',1) for line in Path('/proc/self/status').read_text().splitlines() if ':' in line)
+        result['no_new_privileges']=fields.get('NoNewPrivs','').strip() or None
+        groups=Path('/proc/self/cgroup').read_text().splitlines()
+        unified=next(line.split(':',2)[2] for line in groups if line.startswith('0::'))
+        group=(Path('/sys/fs/cgroup')/unified.lstrip('/')).resolve()
+        if not group.is_relative_to('/sys/fs/cgroup'):
+            result['observation_incomplete']=True
+            return result
+        for name in ('cpu.max','memory.max','pids.max'):
+            path=group/name
+            result['cgroup'][name]=path.read_text().strip() if path.is_file() else None
+    except (OSError,StopIteration):result['observation_incomplete']=True
+    scan('current-process.json',json.dumps(result).encode())
+    return result
 
 
 def validate(request):

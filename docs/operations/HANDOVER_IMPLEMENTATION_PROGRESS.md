@@ -235,3 +235,24 @@ configuration uses it. Eight broker tests pass. This is preparation for the
 reserved decision, not a newly activated loop. Persistent completion-to-eligible
 execution integration and final deployed source review still remain; do not
 confuse the existing supervised report cycle with completion of those items.
+
+
+The genuine full human-controls review APPROVED cb2019f after 351.86 seconds;
+its original response/execution bytes are preserved as
+reviews/human-controls-handover in docs/isles-pilot. The actual adapter review gate
+passes that pin. Main remains unchanged. Investigator disposition: retain the
+existing duplicate-request behavior (a deliberate retry needs a new request ID),
+rather than silently relaunching BLOCKED requests; dependency-binding expansion
+and unusually large multi-file display remain bounded follow-up suggestions.
+
+The completion bridge now routes configured synthetic events through the existing
+Controller and report/review/disposition pipeline. Tests run actual harmless child
+processes with explicitly simulated model receipts: exactly one successor, response
+loss after submission, late completion, decline without execution, pause/resume,
+three-attempt submission ceiling, and independent progress after corrupt console
+evidence. No real model call or hosted installation of this new bridge is claimed.
+Latest related suites: 37 passed with one separately verified socket case excluded;
+22 completion/runtime/evidence checks passed after context collection was added.
+The 66,771-byte permitted implementation/process evidence packet passes the existing
+100 kB private packet check. Fresh review and hosted real-model acceptance are next.
+Original execution source and all previously completed jobs remain preserved.

@@ -128,7 +128,11 @@ class Broker:
             with self.authentication():admission=admit_server(self.ledger,self.config['policy'],event)
             if admission['status']!='ADMITTED':return admission
             family='claude' if stage=='review' else 'astra'
-            answer,receipt=model_call(folder,stage,family,body['prompt'])
+            # The typed selector remains a tool-free model response. Only the
+            # controller's fixed synthetic adapter can consume it; no command or
+            # patient runner can be selected through this transport format.
+            output_format='json' if stage=='disposition' and body['packet'].get('execution_proposal') is not None else 'markdown'
+            answer,receipt=model_call(folder,stage,family,body['prompt'],output_format=output_format)
             return {'status':'COMPLETE','duplicate':False,'answer':answer,'receipt':receipt}
 
     def stage_status(self,body):
