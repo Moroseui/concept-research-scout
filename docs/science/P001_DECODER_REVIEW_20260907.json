@@ -1,0 +1,89 @@
+{
+  "execution": {
+    "reviewed_commit": "809b9c7d57d62b95ec8c36da05ea5448741215eb",
+    "returncode": 0,
+    "wall_seconds": 342.45999277499504,
+    "input_file_sha256": {
+      "scripts/p001_decoder_check.py": "d75d7fc526a55676c5229591e3e9db49a8e9974bdc22702107716afffad2c739",
+      "docs/science/P001_DECODER_CHECK_20260907.json": "f4940d9770f5320e9e50259f568eeae98a914b715907f9d26e4e2d2d809183a9",
+      "docs/science/P001_TMAX_SOURCE_EVIDENCE_20260907.json": "23e4463e813761abb17128d152e05846ce2ffcd0b5cc405d1cad4351d983d23c",
+      "docs/science/P001_EXECUTION_DECISION_20260907.md": "debd9e31185c0ae286ed27c568f8e34f41ba6dedc53a2a78dfed76e68a80a6e1",
+      "docs/science/P001_DRIVE_ACCESS_CHECK_20260907.json": "c730646ca080ffd062f69221850bce6691fda2646017830e89624f3a78021bb4",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+      "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c"
+    },
+    "response_sha256": "135a5f394f340ee66b37946eae616346b7044c74aaa9d144dd238d7c7228ae0d",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "326b184eef01ce9e69658e1f6e6a91d1ec2705d68a00162f08d0df834e0ad273"
+  },
+  "review": {
+    "scope": "p001-decoder-and-execution-decision-20260907",
+    "reviewed_commit": "809b9c7d57d62b95ec8c36da05ea5448741215eb",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified (source-only): scripts/p001_decoder_check.py is fail-closed \u2014 exact numpy 2.3.3/nibabel 5.3.2 pins, SHA-256 pin on the frozen runner before import, every fixture mismatch raises \u2014 and opens no patient, cohort, label or archive data; exec_module of run.py is safe because its top level only inserts sys.path and imports, the __main__ guard keeps the CLI inert, and only predict() is invoked.",
+      "Verified (source-only reasoning, no tests run): fixture expectations are consistent with pinned nibabel 5.3.2 semantics \u2014 explicitly set non-NaN scl_slope/scl_inter are preserved on save, so decoded = stored*slope+intercept; the proxy decode np.asarray(dataobj, dtype=float32) matches get_fdata(dtype=float32) and matches the frozen runner's decode path; the single deterministic float32-vs-float64 disagreement at 6+1e-8 is recorded without amending the frozen strict >6.0 float32 policy.",
+      "Verified: P001_EXECUTION_DECISION_20260907.md grants no launch/transfer authority \u2014 charter ratification, input preflight, backend amendment, input transfer and launch are kept as separate named gates; frozen source/notebook/checkout hashes and historical approvals are preserved; the five-file publication envelope and baseline-plus-two cap match SPEC v1.1 and the operating direction.",
+      "Verified: receipts are honest about scope and negatives \u2014 decoder receipt limits its claim to synthetic scaling with an explicit limitation; Tmax evidence pins repo/commit/blob/sha256 and declines to import the starter's 9 s cutoff into the preregistered 6.0 threshold; Drive check records actual models used (including the Haiku subagent), drive_mounted false, empty candidate list not treated as evidence of absence, operator mount as unretrieved report, and cost as a CLI estimate rather than an invoice.",
+      "Unverified bindings (blocker for adoption only if they fail mechanical re-check, not for this review): runner_sha256 d54e3ea5\u2026, receipt check_sha256 d75d7fc5\u2026, and the readiness round-1 artifacts at working source 039c4f32\u2026 could not be recomputed or opened here; the adopting reviewer should confirm them in-repo.",
+      "Suggestion: the decision's link ../isles-pilot/CAMPAIGN_COMMANDS.md resolves to docs/isles-pilot/, which does not match the campaigns/isles24-pilot naming used elsewhere \u2014 confirm the target exists or correct the path.",
+      "Suggestion: the decision's proposed input preflight (archive path, disk capacity, admission Tmax header/scaling metadata) is broader than run.py --preflight, which opens zero patient payloads; if approved, the broader preflight requires its own reviewed implementation before any patient metadata is inspected.",
+      "Note for a future frozen-runner amendment (not a change request now): selection() interpolates case IDs into regexes without re.escape (risk contained by the hash-pinned cohort/manifest and exactly-one-match rule), and the decoder check's import chain executes orchestrator/campaign.py, which is not itself hash-pinned by the check."
+    ]
+  },
+  "session_id": "aa8c1fb9-a77d-4c04-8c1b-b19a149b16ae",
+  "cli_reported_cost_usd": 1.859321,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 24589,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 27058,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 24589,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 27058,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 24589,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 24589
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "mechanical_verification": {
+    "review_input_blobs_match_reviewed_commit": true,
+    "decoder_and_runner_hashes_match": true,
+    "readiness_artifacts_and_private_projection_match": true,
+    "existing_file_context_bindings_match": true,
+    "commands_link_exists": true
+  },
+  "investigator_disposition": [
+    "Accept approval for this bounded source/decision change, not independent merge-desk review or patient launch.",
+    "The command link resolves correctly; no path correction needed.",
+    "Broader admission-header preflight requires a separately reviewed implementation after its input-access grant. The existing run.py --preflight is metadata-only and insufficient for that task.",
+    "Keep import-chain and regex notes for a future justified amendment; no frozen scientific edit now."
+  ],
+  "patient_execution": false
+}
