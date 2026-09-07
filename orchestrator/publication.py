@@ -116,3 +116,41 @@ def export_session(source, destination, policy):
     if target.read_bytes() != data or console.read_bytes() != data:
         raise ValueError('console changed during export')
     return result
+
+
+def collect_console_handoff(console, destination, binding):
+    """Collect private original bytes before declaring an evidence handoff complete.
+
+    This receipt is private and is never added to the publication bundle. It binds
+    the collected console to the export inventory; it is not scientific acceptance.
+    Existing destinations are verified, never overwritten (including failed copies).
+    """
+    console, destination = Path(console), Path(destination)
+    if console.is_symlink() or not console.is_file() or not console.stat().st_size:
+        raise ValueError('NONEMPTY_ORIGINAL_CONSOLE_REQUIRED')
+    if destination.is_symlink():
+        raise ValueError('PRIVATE_EVIDENCE_SYMLINK')
+    if destination.resolve().is_relative_to(Path(__file__).resolve().parents[1]):
+        raise ValueError('CONSOLE_MUST_REMAIN_OUTSIDE_REPOSITORY')
+    data = console.read_bytes()
+    receipt = {'version': 1, 'status': 'PRIVATE_CONSOLE_COLLECTED',
+               'console_sha256': hashlib.sha256(data).hexdigest(),
+               'console_bytes': len(data), 'binding': binding,
+               'scientific_acceptance': False}
+    encoded = (json.dumps(receipt, sort_keys=True, indent=2)+'\n').encode()
+    if destination.exists():
+        if destination.stat().st_mode & 0o077:
+            raise ValueError('PRIVATE_EVIDENCE_PERMISSIONS_REQUIRED')
+        if inventory(destination) != {'console.log': receipt['console_sha256'],
+                                       'receipt.json': hashlib.sha256(encoded).hexdigest()}:
+            raise ValueError('PRIVATE_EVIDENCE_DIFFERS_OR_INCOMPLETE')
+    else:
+        destination.mkdir(mode=0o700)
+        for name, payload in [('console.log', data), ('receipt.json', encoded)]:
+            with (destination/name).open('xb') as handle:
+                os.chmod(destination/name, 0o600)
+                handle.write(payload)
+    if ((destination/'console.log').read_bytes() != data or
+            (destination/'receipt.json').read_bytes() != encoded or console.read_bytes() != data):
+        raise ValueError('CONSOLE_COLLECTION_CHANGED')
+    return receipt

@@ -227,3 +227,19 @@ The accepted three residual case-linked metadata files remain public for this fi
 cleanup; longer-term disposition, scientific landing and acceptance remain separate.
 There is no blanket new case-level publication authority or copied-history erasure.
 All other standing permission, launch, spending and activation gates remain intact.
+
+## Scientific stages belong to the system — operator clarification, 2026-09-07
+
+All scientific work uses versioned system workflows: idea evaluation, debate,
+experimental code generation, execution, result acceptance, analysis,
+interpretation, review and successor selection. Astra may steer, diagnose and
+implement a missing capability, but must verify and invoke that capability before
+claiming the corresponding scientific stage ran. Saving an ad hoc analysis later
+does not make it a system-produced analysis.
+
+Treat the recovered 047 notebook as incoming evidence. Preserve and validate it
+through the evidence pathway; then satisfy existing acceptance gates before
+analysis/interpretation and required opposing-family review. The same rule applies
+to P001. Reports must name actual stages and link their artifacts and receipts;
+steering, implementation and proposed conclusions remain distinguishable. This
+clarification grants no additional authority and does not ratify any result.

@@ -2224,16 +2224,19 @@ def package_colab(args):
         "# Publication is an explicit reviewed export; no automatic commit or push.\n"
         "# Failure evidence remains on Drive even when export is refused.\n"
         "import json, pathlib\n"
-        "from orchestrator.publication import export_session\n"
+        "from orchestrator.publication import export_session, collect_console_handoff\n"
         f"policy_path = pathlib.Path('probes/{nn}/publication.json')\n"
         "if not policy_path.is_file():\n"
         "    raise RuntimeError('No reviewed publication policy; retain local outputs')\n"
         "policy = json.loads(policy_path.read_text())\n"
         f"assert policy['contract_blob'] == '{chash}', 'Publication policy contract drift'\n"
         "EXPORT_DIR = OUTPUT_DIR.rstrip('/') + '.publication'\n"
-        "export_session(OUTPUT_DIR, EXPORT_DIR, policy)\n"
+        "export_inventory = export_session(OUTPUT_DIR, EXPORT_DIR, policy)\n"
+        "PRIVATE_EVIDENCE = OUTPUT_DIR.rstrip('/') + '.handoff-private'\n"
+        f"console_receipt = collect_console_handoff(OUTPUT_DIR.rstrip('/') + '.console.log', PRIVATE_EVIDENCE, {{'contract': policy['contract_blob'], 'source_commit': {pin!r}, 'export_inventory': export_inventory}})\n"
         "print('Verified export:', EXPORT_DIR)\n"
-        "print('Return this export AND the sibling console for validation/import.')\n"),
+        "print('Private console collection verified; retain its receipt outside Git.')\n"
+        "print('Return the export and private evidence directory separately for validation/import.')\n"),
       nbf.v4.new_markdown_cell(
         'Return the verified publication export and original sibling console. '
         'Validation and provenance-bound import precede interpretation. '

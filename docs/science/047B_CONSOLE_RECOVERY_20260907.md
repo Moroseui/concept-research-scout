@@ -38,3 +38,12 @@ reconstructed or relabeled as the successful console.
 Historical registry attestation, exclusions/audit semantics and explicit scientific
 landing remain open. The completed first cleanup does not resolve those gates.
 P001 preparation proceeds independently.
+
+## Subsequent recovery — 2026-09-07
+
+The operator subsequently located a saved notebook outside the earlier search
+inputs. The versioned [incoming-evidence stage](047B_NOTEBOOK_RECOVERY_20260907.md)
+verified saved Phase B output against both pinned bundles. The historical search
+above is preserved; its missing-evidence status is superseded to the extent stated
+in the new receipt. Scientific landing and original sibling-log verification are
+not implied.

@@ -2422,3 +2422,20 @@ overwrite concurrent changes. On failed restoration retain deletion protection,
 stop mutations and notify the operator promptly. This authorizes no scientific
 landing, patient execution, broader cleanup, other-ref mutation or unattended
 activation. Execution outcome will be recorded separately from this authority.
+
+## 2026-09-07 — operator clarifies system-owned scientific stages; 047 incoming evidence
+
+Operator instruction, recorded by Astra: all scientific stages must run through
+versioned system workflows. Missing capabilities must be implemented, verified
+and invoked; later storage cannot relabel ad hoc analysis as system output. The
+canonical REMOTE_OPERATING_DIRECTION.md and Claude reviewer directive record this
+clarification without adding authority. Hosted context already includes and hashes
+both documents; their new versions take effect in future snapshots, not by
+silently altering an installed or frozen source.
+
+The operator supplied a saved 047 notebook for read-only incoming evidence intake,
+not scientific ratification. See docs/science/047B_NOTEBOOK_RECOVERY_20260907.md and
+its stage receipt. Original saved outputs were preserved privately and the embedded
+summary matches both original and cleanup result bundles. No exit status is
+inferred, and no experiment, scientific import or interpretation is recorded here.
+Existing registry, exclusions/publication and scientific landing gates remain.

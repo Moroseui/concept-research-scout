@@ -77,3 +77,14 @@ proposed/exploratory/accepted/superseded labels. Report untested usability hones
 Prioritize observed obstacles to understanding, operation, maintenance or
 collaboration. Do not turn these responsibilities into redesign or extra routine
 approval gates. Preserve useful Actions, notebooks and phone summaries.
+
+### System-owned scientific stages — 2026-09-07 clarification
+
+Apply the canonical operating direction's scientific-stage requirement to every
+applicable fresh review. Check that claimed evaluation, debate, execution,
+acceptance, analysis, interpretation and successor selection actually ran through
+versioned system interfaces with source-bound artifacts. Incoming notebook output
+is evidence to validate, not acceptance or interpretation. Do not credit later
+storage of an ad hoc analysis as pipeline execution. Identify the actual stage,
+receipt and remaining gates; preserve the distinction between operator steering,
+implementation work and completed science. This adds no permission or review gate.
