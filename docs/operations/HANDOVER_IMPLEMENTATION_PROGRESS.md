@@ -44,3 +44,20 @@ and broker integration remain drafts; no live activation is claimed.
 The local Unix-socket regression needed sandbox permission for socketpair traffic
 (`Operation not permitted`); it passed when run with that permission. SSH access
 was restored by operator authentication. No model sign-in is currently requested.
+
+Fresh source review at `306504d2664a848860f1aa45f2819ee29224236c` returned
+REQUEST_CHANGES (actual reviewer `claude-fable-5`; author-operated, not merge desk).
+The original findings and execution bindings are recorded in
+`HANDOVER_RECOVERY_REVIEW_20260906.json`. Corrections enforce canonical role order,
+isolate/cap final bookkeeping, distinguish pre-launch refusal from uncertainty,
+and preserve control-write failures while processing subsequent valid requests.
+A follow-up review is required; these corrections are not self-approved.
+
+The selected 48/96 semantics passed a private synthetic ledger test: 48 warns,
+96 admits and latches halt, 97 refuses, duplicate 96 does not recharge, and midnight
+does not clear halt. No live ledger was initialized. Draft systemd units passed
+`systemd-analyze verify` without installation or service activation.
+The Actions artifact identity verifier is implemented and locally tested against
+synthetic API metadata; actual protected API collection and workflow integration
+remain unfinished. Socket unit contents now pass the same pre-publication text
+scanner as other service units; forbidden case strings remain rejected.

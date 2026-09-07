@@ -1,0 +1,25 @@
+[Unit]
+Description=Bounded protected research handover broker
+Requires=research-system-handover.socket
+After=network.target
+[Service]
+Type=simple
+User=root
+Group=research-runtime
+WorkingDirectory=/opt/research-system/handover
+ExecStart=/usr/bin/python3 -B -m orchestrator.protected_handover --config /etc/research-system/handover-broker.json serve --socket /run/research-system/handover.sock
+UMask=0077
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=true
+ReadWritePaths=/var/lib/research-system/handover-broker /var/lib/research-system/model-work /home/research-driver /home/research-reviewer
+MemoryMax=4G
+CPUQuota=200%
+TasksMax=128
+TimeoutStopSec=20
+KillMode=control-group
+Restart=on-failure
+RestartSec=10
+# Root is solely the fixed runuser launcher in supervised model mode. No client
+# supplies an executable, OS identity, working directory, or environment. This
+# is a proposed supervised service, not an installed standing permission grant.

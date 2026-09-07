@@ -36,3 +36,18 @@ def test_concurrent_shared_admission(tmp_path):
     with ThreadPoolExecutor(max_workers=8) as pool: rows=list(pool.map(run,range(1,25)))
     assert sum(r['status']=='ADMITTED' for r in rows)==8
     assert GitLedger(tmp_path).read()[1]['halted']
+
+
+def test_selected_48_96_policy_in_private_fixture(tmp_path):
+    subprocess.run(['git','init','-q',str(tmp_path)],check=True)
+    ledger=GitLedger(tmp_path);ledger.cas(None,initial())
+    c={**config(48),'server_semantics':'OPERATOR_AUTHORIZED_V1'}
+    notices=[]
+    for i in range(1,97):
+        result=admit_server(ledger,c,server(i),NOW)
+        assert result['status']=='ADMITTED'
+        if result['notification']:notices.append((i,result['notification']))
+    assert notices==[(48,'N'),(96,'2N')]
+    assert admit_server(ledger,c,server(97),NOW)['status']=='HALTED_OPERATOR_RESET_REQUIRED'
+    assert admit_server(ledger,c,server(96),NOW)['duplicate_admission']
+    assert admit_server(ledger,c,server(97),NOW+timedelta(days=1))['status']=='HALTED_OPERATOR_RESET_REQUIRED'

@@ -44,6 +44,8 @@ def test_read_only_completion_recovery_checks_original_bytes(tmp_path):
     assert b.handle(request,10001)['status']=='NOT_OBSERVED_NO_RETRY'
     folder=tmp_path/'turns'/(event['turn_id']+'-'+event['attempt']);folder.mkdir(parents=True)
     (folder/'binding.json').write_text(json.dumps({'event':event}))
+    assert b.handle(request,10001)['status']=='NOT_STARTED_RECONCILIATION_REQUIRED'
+    (folder/'review.started.json').write_text('{}')
     assert b.handle(request,10001)['status']=='UNCERTAIN_MODEL_RECONCILE_NO_RETRY'
     receipt={}
     for suffix,key in [('.stdout','stdout_sha256'),('.stderr','stderr_sha256'),('.input.md','input_sha256'),('.md','answer_sha256'),('.operating-context.json','operating_context_sha256')]:

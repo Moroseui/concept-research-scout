@@ -9,10 +9,10 @@ Metadata read only. Do not add Contents or Actions authority to that App.
 Use the existing Git CAS admission ledger at one metadata-only ref,
 `automation/dispatch-state`, for both Actions and server turns. Keep the existing
 controller, queue and validators; do not add a second database or independent
-server allowance. The ref is not initialized yet. Its schema must be extended
-and reviewed to distinguish Actions run/attempt identities from server turn
-identities before use; the current implementation accepts only Actions IDs and
-two branches and is not yet a server admission adapter.
+server allowance. The ref is not initialized yet. The draft adapter now distinguishes Actions run/attempt identities from server
+turn identities in the same CAS ledger. Synthetic shared-ceiling and concurrency
+tests pass. This is neither hosted activation nor approval of the server admission
+semantics; trusted Actions request collection and deployed integration remain open.
 
 Propose a separate repository-selected GitHub App with Contents write, Actions read and Metadata
 read on `Moroseui/concept-research-scout` only. No Administration, Actions write,
@@ -113,3 +113,15 @@ arrangements remain unchanged. No automatic paid fallback.
 No approval is requested for an incomplete broker/workflow implementation. Until these
 steps pass, supervised synthetic setup can continue under its bounded authority;
 standing dispatch, writer installation and limiter activation remain blocked.
+
+## Implementation reconciliation (still a proposal)
+
+The draft handover broker currently combines fixed model-role launching and the
+protected request interface. Its supervised model mode uses root solely to invoke
+the existing separate driver/reviewer identities; it accepts no command, username
+or environment from clients. This is **not** the non-login publisher design above.
+Before any live writer grant, separate the model launcher from the writer service
+or explicitly review the narrower final privilege design and amend this packet.
+No agent receives sudo, no writer key has been created, and the draft service units
+are not installed. The controller's status/pause/resume and read-only completion
+recovery are being tested before a live permission request.

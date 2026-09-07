@@ -42,7 +42,7 @@ class PublicationTests(unittest.TestCase):
             raw.assert_not_called()
 
     def test_metadata_and_case_payload_scans(self):
-        for suffix in ['.py','.md','.ipynb','.yml','.toml','.sh','.service']:
+        for suffix in ['.py','.md','.ipynb','.yml','.toml','.sh','.service','.socket']:
             with self.assertRaises(ValueError):pub.scan('record'+suffix,('sub-stroke'+'0123').encode())
         for name,data in [('raw.json',b'{"case":"sub-stroke'+b'0123"}'),('payload.csv',b'synthetic'),('x.nii.gz',b'synthetic')]:
             with self.assertRaises(ValueError):pub.scan(name,data)

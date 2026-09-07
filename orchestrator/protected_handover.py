@@ -26,8 +26,11 @@ class Broker:
     def __init__(self,config):
         required={'mode','repository','branch','controller_uid','operator_uids','sources','ledger_repo','publication_root','policy','writer_config','model_mode','turn_root','max_model_turns'}
         if set(config)!=required or config['mode'] not in ('SYNTHETIC_FIXTURE','LIVE_APPROVED') or config['repository']!=REPOSITORY or config['branch']!=BRANCH:raise ValueError('PROTECTED_CONFIG_SCHEMA')
-        if type(config['controller_uid']) is not int or not config['operator_uids'] or config['controller_uid'] in config['operator_uids']:raise ValueError('DISTINCT_OPERATOR_REQUIRED')
+        if type(config['controller_uid']) is not int or config['controller_uid']<=0 or not config['operator_uids'] or config['controller_uid'] in config['operator_uids']:raise ValueError('DISTINCT_OPERATOR_REQUIRED')
         if config['model_mode'] not in ('DISABLED','SUPERVISED') or type(config['max_model_turns']) is not int or not 0<=config['max_model_turns']<=4:raise ValueError('BOUNDED_MODEL_CONFIGURATION')
+        if not isinstance(config['sources'],list) or not config['sources'] or len(config['sources'])>16:raise ValueError('BOUNDED_REVIEWED_SOURCES')
+        import re
+        if any(not isinstance(pin,str) or not re.fullmatch('[0-9a-f]{40}',pin) for pin in config['sources']):raise ValueError('REVIEWED_SOURCE_REQUIRED')
         self.config=config
         self.ledger=GitLedger(config['ledger_repo'],remote=config['mode']=='LIVE_APPROVED',expected_remote=REPOSITORY)
 
@@ -111,7 +114,9 @@ class Broker:
         binding_path=folder/'binding.json'
         if binding_path.is_symlink() or json.loads(binding_path.read_text())['event']!=event:raise ValueError('TURN_BINDING_CHANGED')
         path=folder/(stage+'.receipt.json')
-        if not path.exists():return {'status':'UNCERTAIN_MODEL_RECONCILE_NO_RETRY'}
+        if not path.exists():
+            status='UNCERTAIN_MODEL_RECONCILE_NO_RETRY' if (folder/(stage+'.started.json')).exists() else 'NOT_STARTED_RECONCILIATION_REQUIRED'
+            return {'status':status}
         if path.is_symlink():raise ValueError('MODEL_RECEIPT_CHANGED')
         receipt=json.loads(path.read_text())
         for suffix,key in [('.stdout','stdout_sha256'),('.stderr','stderr_sha256'),('.input.md','input_sha256'),('.md','answer_sha256'),('.operating-context.json','operating_context_sha256')]:

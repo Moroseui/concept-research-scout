@@ -12,7 +12,7 @@ ROOT=Path.cwd();REVIEW_FILES=args.files
 if args.private_dir.resolve().is_relative_to(ROOT):raise ValueError('review evidence must remain private outside checkout')
 for name in REVIEW_FILES:
  path=ROOT/name
- if path.is_symlink() or not path.resolve().is_relative_to(ROOT) or path.suffix not in {'.py','.md','.json','.toml','.yml','.fish','.sh','.service','.timer'}:raise ValueError('unsupported review input')
+ if path.is_symlink() or not path.resolve().is_relative_to(ROOT) or path.suffix not in {'.py','.md','.json','.toml','.yml','.fish','.sh','.service','.timer','.socket'}:raise ValueError('unsupported review input')
 rev=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
 d=args.private_dir;d.mkdir(mode=0o700)
 content={f:(ROOT/f).read_text() for f in REVIEW_FILES}

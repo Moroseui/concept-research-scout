@@ -47,7 +47,17 @@ class Runtime:
         self.root=checked_source(config['source_root'],config['source'])
         if os.getuid()!=config['controller_uid']:raise ValueError('NONROOT_CONTROLLER_IDENTITY_REQUIRED')
         self.state=Path(config['state'])
-        self.q=Coordinator(self.state,{'continuation':self.model,'review':self.model,'disposition':self.model},self.admit)
+        self.q=Coordinator(self.state,{'continuation':self.model,'review':self.model,'disposition':self.model},self.admit,self.validate_binding)
+        self.q.db.executescript('''
+            CREATE TABLE IF NOT EXISTS bookkeeping(task TEXT PRIMARY KEY,status TEXT,attempts INTEGER,reason TEXT);
+            CREATE TABLE IF NOT EXISTS control_delivery(id TEXT PRIMARY KEY,outcome TEXT);
+            CREATE TABLE IF NOT EXISTS runtime_blocks(phase TEXT PRIMARY KEY,reason TEXT);
+        ''')
+
+    @staticmethod
+    def validate_binding(binding):
+        if binding['stages']!=['continuation','review','disposition']:
+            raise ValueError('CANONICAL_REPORT_STAGES_REQUIRED')
 
     def event(self,binding):
         return {'turn_id':binding['id'],'attempt':'1','source':binding['source'],
@@ -66,7 +76,8 @@ class Runtime:
         report_root=self.state/'reports'
         report_text=(report_root/(report['id']+'.md')).read_text()
         if hashlib.sha256(report_text.encode()).hexdigest()!=report['id']:raise ValueError('REPORT_CHANGED')
-        stage=['continuation','review','disposition'][position]
+        self.validate_binding(binding)
+        stage=binding['stages'][position]
         prompt={'continuation':'Assess this report against approved goals, identify the next eligible task and limits. Do not execute or grant authority.',
                 'review':'Fresh Claude primary-evidence review under the supplied directive. Assess science, implementation and human operation; distinguish verified evidence and missing proof. Do not infer nonexistent evidence from omission.',
                 'disposition':'Record Astra disposition of the existing fresh review and the next eligible bounded task. No execution or ratification.'}[stage]
@@ -89,22 +100,44 @@ class Runtime:
                 'dependencies':[],'stages':['continuation','review','disposition']}
 
     def bookkeeping(self):
-        # Resume artifact attachment after model success without another model call.
-        for row in self.q.status()['tasks']:
-            if row['status']!='COMPLETE':continue
-            folder=self.state/'tasks'/row['id'];report=json.loads((folder/'report.json').read_text())
-            queue=Queue(self.state/'reports');status=queue.status(report['id'])
-            review=json.loads((self.state/(row['id']+'-1.json')).read_text())['output']
-            if status['status']!='REVIEWED':
-                claim=status if status['status']=='REVIEWING' else queue.claim(report['id'])
-                if not claim:raise ValueError('REVIEW_BOOKKEEPING_CLAIM_REQUIRED')
-                r=review['receipt'];answer=review['answer']
-                queue.attach(report['id'],claim['attempt_id'],answer,{'family':'claude','model':r['actual_model'],'source':self.config['source'],
-                    'report_sha256':report['id'],'review_sha256':hashlib.sha256(answer.encode()).hexdigest(),
-                    'execution_receipt_sha256':hashlib.sha256((json.dumps(r,sort_keys=True,indent=2)+'\n').encode()).hexdigest(),
-                    'session_id':r['session_id'],'status':'COMPLETE'})
-            disposition=json.loads((self.state/(row['id']+'-2.json')).read_text())['output']['answer']
-            queue.disposition(report['id'],disposition)
+        # Capped, per-task finalization. Completed or blocked entries do not rescan
+        # model artifacts forever; scientific/model execution is never retried here.
+        rows=self.q.db.execute("""SELECT t.id FROM tasks t LEFT JOIN bookkeeping b ON t.id=b.task
+            WHERE t.status='COMPLETE' AND (b.status IS NULL OR b.status='RETRY') LIMIT 32""").fetchall()
+        for row in rows:
+            prior=self.q.db.execute('SELECT attempts FROM bookkeeping WHERE task=?',(row['id'],)).fetchone()
+            attempt=(prior[0] if prior else 0)+1
+            try:
+                self._bookkeep(row)
+                status,reason='COMPLETE',None
+            except (ValueError,KeyError,TypeError,OSError):
+                status='BLOCKED' if attempt>=3 else 'RETRY'
+                reason='BOOKKEEPING_EVIDENCE_PRESERVED'
+                # A failed attachment must not leave a claimed review pretending
+                # it is still running. Preserve its actual original review files.
+                try:
+                    report=json.loads((self.state/'tasks'/row['id']/'report.json').read_text())
+                    queue=Queue(self.state/'reports');claim=queue.status(report['id'])
+                    if claim['status']=='REVIEWING':queue.unavailable(report['id'],claim['attempt_id'],'bookkeeping-preserved')
+                except (ValueError,KeyError,TypeError,OSError):pass
+            self.q.db.execute('INSERT OR REPLACE INTO bookkeeping VALUES(?,?,?,?)',(row['id'],status,attempt,reason))
+
+    def _bookkeep(self,row):
+        folder=self.state/'tasks'/row['id'];report=json.loads((folder/'report.json').read_text())
+        queue=Queue(self.state/'reports');status=queue.status(report['id'])
+        binding=json.loads(self.q.db.execute('SELECT binding FROM tasks WHERE id=?',(row['id'],)).fetchone()[0])
+        review=self.q._receipt(row['id'],1,binding)['output']
+        if status['status']!='REVIEWED':
+            claim=status if status['status']=='REVIEWING' else queue.claim(report['id'])
+            if not claim:raise ValueError('REVIEW_BOOKKEEPING_CLAIM_REQUIRED')
+            r=review['receipt'];answer=review['answer']
+            queue.attach(report['id'],claim['attempt_id'],answer,{'family':'claude','model':r['actual_model'],'source':self.config['source'],
+                'report_sha256':report['id'],'review_sha256':hashlib.sha256(answer.encode()).hexdigest(),
+                'execution_receipt_sha256':hashlib.sha256((json.dumps(r,sort_keys=True,indent=2)+'\n').encode()).hexdigest(),
+                'session_id':r['session_id'],'status':'COMPLETE'})
+        disposition=self.q._receipt(row['id'],2,binding)['output']['answer']
+        queue.disposition(report['id'],disposition)
+
 
     def controls(self):
         results=[]
@@ -115,7 +148,7 @@ class Runtime:
             if len(path.stem)!=64 or any(c not in '0123456789abcdef' for c in path.stem):
                 continue
             receipt=self.state/('control-'+path.stem+'.json')
-            if receipt.exists():continue
+            if self.q.db.execute('SELECT 1 FROM control_delivery WHERE id=?',(path.stem,)).fetchone():continue
             try:
                 request=configuration(path)
                 if set(request)!={'source','control'} or request['source']!=self.config['source']:
@@ -125,8 +158,28 @@ class Runtime:
             except (ValueError,KeyError,TypeError,OSError):
                 outcome={'status':'BLOCKED','request':path.stem,
                     'reason':'CONTROL_INVALID_OR_STALE','next_action':'Submit a new operator request bound to current source and control revision.'}
-            immutable(receipt,encoded(outcome));results.append(outcome)
+            try:immutable(receipt,encoded(outcome))
+            except (ValueError,OSError):
+                outcome={**outcome,'receipt_status':'WRITE_BLOCKED','next_action':'Preserve the SQLite control record and repair the receipt destination.'}
+            self.q.db.execute('INSERT OR IGNORE INTO control_delivery VALUES(?,?)',(path.stem,encoded(outcome).decode()))
+            results.append(outcome)
         return results
+
+    def scheduled_report(self,now):
+        """Explicit installed schedule; deterministic polling spends no model call."""
+        from zoneinfo import ZoneInfo
+        schedule=self.config.get('report_schedule')
+        if schedule is None:return {'status':'SCHEDULE_DISABLED'}
+        if set(schedule)!={'zone','hour','minute','evidence_file'}:raise ValueError('SCHEDULE_SCHEMA')
+        local=now.astimezone(ZoneInfo(schedule['zone']))
+        if (local.hour,local.minute)<(schedule['hour'],schedule['minute']):return {'status':'NOT_DUE'}
+        day=local.date().isoformat()
+        prior=self.q.db.execute('SELECT task FROM schedules WHERE day=?',(day,)).fetchone()
+        if prior:return {'status':'ALREADY_SCHEDULED','task':prior[0]}
+        evidence=configuration(schedule['evidence_file'])
+        if set(evidence)!={'source','receipts','task_state'} or evidence['source']!=self.config['source']:raise ValueError('REPORT_EVIDENCE_SOURCE')
+        binding=self.enqueue_report(day,evidence['receipts'],evidence['task_state'])
+        return self.q.schedule(now,schedule['zone'],schedule['hour'],schedule['minute'],binding)
 
     def recover(self):
         outcomes=[]
@@ -135,14 +188,29 @@ class Runtime:
                 {'event':self.event(binding),'stage':binding['stages'][position]})
         for row in self.q.status()['tasks']:
             if row['status'] in ('BLOCKED','RUNNING'):
-                outcomes.append(self.q.recover(row['id'],retrieve))
+                try:outcomes.append(self.q.recover(row['id'],retrieve))
+                except (ValueError,KeyError,TypeError,OSError):
+                    self.q.db.execute("UPDATE tasks SET reason='RECOVERY_EVIDENCE_UNAVAILABLE' WHERE id=?",(row['id'],))
         return outcomes
 
     def tick(self):
-        self.controls()
-        self.recover()
-        result=self.q.tick();self.bookkeeping()
+        for name,operation in [('controls',self.controls),('recovery',self.recover),
+                               ('schedule',lambda:self.scheduled_report(datetime.now(timezone.utc)))]:
+            try:
+                operation()
+                self.q.db.execute('DELETE FROM runtime_blocks WHERE phase=?',(name,))
+            except (ValueError,KeyError,TypeError,OSError):
+                self.q.db.execute('INSERT OR REPLACE INTO runtime_blocks VALUES(?,?)',(name,'EVIDENCE_OR_CONFIGURATION_REQUIRES_RECONCILIATION'))
+        control_block=self.q.db.execute("SELECT 1 FROM runtime_blocks WHERE phase='controls'").fetchone()
+        result={'status':'CONTROL_TRANSPORT_BLOCKED'} if control_block else self.q.tick()
+        self.bookkeeping()
         return result
+
+    def status(self):
+        return {**self.q.status(),
+                'runtime_blocks':[dict(row) for row in self.q.db.execute('SELECT * FROM runtime_blocks')],
+                'bookkeeping':[dict(row) for row in self.q.db.execute('SELECT * FROM bookkeeping')],
+                'controls':[json.loads(row[0]) for row in self.q.db.execute('SELECT outcome FROM control_delivery')]}
 
 
 def operator_request(config,action,revision,request_id):
@@ -166,7 +234,7 @@ def main():
         result=operator_request(config,a.operation,a.revision,a.request_id)
     else:
         runtime=Runtime(config)
-        result=runtime.q.status() if a.operation=='status' else (runtime.tick() if a.operation=='tick' else runtime.controls())
+        result=runtime.status() if a.operation=='status' else (runtime.tick() if a.operation=='tick' else runtime.controls())
     print(text(json.dumps(result)))
 
 

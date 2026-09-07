@@ -23,10 +23,11 @@ def digest(value): return hashlib.sha256(encoded(value)).hexdigest()
 
 
 class Coordinator:
-    def __init__(self,root,handlers,admission):
+    def __init__(self,root,handlers,admission,validate_binding=None):
         self.root=private_root(root)
         self.store=Store(self.root/'coordinator.sqlite');self.db=self.store.db
         self.handlers=handlers;self.admission=admission
+        self.validate_binding=validate_binding or (lambda binding: None)
         self.db.executescript('''
           CREATE TABLE IF NOT EXISTS tasks(id TEXT PRIMARY KEY,binding TEXT NOT NULL,status TEXT NOT NULL,reason TEXT);
           CREATE TABLE IF NOT EXISTS stages(task TEXT,position INTEGER,state TEXT NOT NULL,receipt TEXT,PRIMARY KEY(task,position));
@@ -44,6 +45,7 @@ class Coordinator:
         if len(binding['source'])!=40 or any(c not in '0123456789abcdef' for c in binding['source']):raise ValueError('SOURCE_ID')
         if not 1<=len(binding['stages'])<=3 or any(s not in self.handlers for s in binding['stages']):raise ValueError('BOUNDED_INSTALLED_HANDLERS_REQUIRED')
         if len(binding['dependencies'])>32 or binding['id'] in binding['dependencies']:raise ValueError('DEPENDENCIES')
+        self.validate_binding(binding)
         raw=encoded(binding).decode();text(raw)
         inserted=self.db.execute('INSERT OR IGNORE INTO tasks VALUES(?,?,?,NULL)',(binding['id'],raw,'QUEUED')).rowcount
         old=self.db.execute('SELECT binding FROM tasks WHERE id=?',(binding['id'],)).fetchone()
@@ -121,7 +123,10 @@ class Coordinator:
                 position=stage[0]
                 if self._receipt(task,position,binding) is not None:continue
                 output=retrieve(binding,position)
-                if output.get('status')!='COMPLETE':return {'status':'UNCERTAIN_STAGE_RECONCILE_NO_RETRY'}
+                if output.get('status')!='COMPLETE':
+                    reason='NOT_STARTED_RECONCILIATION_REQUIRED' if output.get('status')=='NOT_STARTED_RECONCILIATION_REQUIRED' else 'UNCERTAIN_STAGE_RECONCILE_NO_RETRY'
+                    self.db.execute("UPDATE tasks SET status='BLOCKED',reason=? WHERE id=?",(reason,task))
+                    return {'status':reason}
                 value={'binding':digest(binding),'position':position,'output':output,'output_sha256':digest(output)}
                 immutable(self.root/(task+'-'+str(position)+'.json'),encoded(value))
             if row['status']!='COMPLETE':
@@ -148,13 +153,17 @@ class Coordinator:
             if self.status()['paused']:return {'status':'PAUSED'}
             for row in self.db.execute("SELECT * FROM tasks WHERE status IN ('QUEUED','RUNNING') ORDER BY rowid").fetchall():
                 task=row['id'];binding=json.loads(row['binding'])
+                self.validate_binding(binding)
                 deps=[self.db.execute('SELECT status FROM tasks WHERE id=?',(d,)).fetchone() for d in binding['dependencies']]
                 if any(not d or d[0]!='COMPLETE' for d in deps):
                     self.db.execute("UPDATE tasks SET reason='WAITING_DEPENDENCIES' WHERE id=?",(task,));continue
                 with (self.root/'admission.lock').open('a') as gate:
                     fcntl.flock(gate,fcntl.LOCK_EX)
                     if self.status()['paused']:return {'status':'PAUSED'}
-                    admitted=self.admission(binding)
+                    try:admitted=self.admission(binding)
+                    except (ValueError,OSError):
+                        self.db.execute("UPDATE tasks SET reason='ADMISSION_UNAVAILABLE' WHERE id=?",(task,))
+                        continue
                 if admitted['status']!='ADMITTED':
                     self.db.execute("UPDATE tasks SET reason=? WHERE id=?",(admitted['status'],task));continue
                 for position,handler in enumerate(binding['stages']):

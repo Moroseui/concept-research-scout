@@ -12,7 +12,7 @@ import subprocess
 CONTAMINATED = '940293b6d562f2d3dd6bfd9d8d8281ccf01e4783'
 PILOT = 'astra/autonomous-isles-pilot'
 SECRET = re.compile(rb'(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN (?:(?:RSA |OPENSSH |EC |DSA |ENCRYPTED )?PRIVATE KEY|PGP PRIVATE KEY BLOCK)-----)')
-TEXT_SUFFIXES = {'.py','.md','.json','.jsonl','.yml','.yaml','.toml','.txt','.fish','.ipynb','.sh','.service','.timer'}
+TEXT_SUFFIXES = {'.py','.md','.json','.jsonl','.yml','.yaml','.toml','.txt','.fish','.ipynb','.sh','.service','.timer','.socket'}
 
 
 def git(root, *args, **kw):

@@ -1,0 +1,53 @@
+{
+  "kind": "AUTHOR_OPERATED_IMPLEMENTATION_REVIEW_NOT_MERGE_DESK",
+  "execution": {
+    "reviewed_commit": "306504d2664a848860f1aa45f2819ee29224236c",
+    "returncode": 0,
+    "wall_seconds": 561.487505934012,
+    "input_file_sha256": {
+      "orchestrator/dispatch_limiter.py": "a55b3fc696b16cbfbc01fda7c9e3516b141c61f52ab5bef37f62d20b358aee49",
+      "orchestrator/handover_coordinator.py": "ac364b4ead9fe39808615334dc9cefc5ad69914e9e6cd6e9744cc633b8fba0f4",
+      "orchestrator/protected_handover.py": "eaae2c44d50b4dbf2bbd8ec24dc18c7ac07528560b83d0f87753869af88ef6bc",
+      "orchestrator/protected_writer.py": "f064bb30432b77f0bb66739db4bf9fa12ef6e94a460a428d2b8f75ed7fe03f80",
+      "orchestrator/handover_runtime.py": "91f70252b7e2fcde552c3f9340626cc89622482a5153ec3185d5cad92fc85c73",
+      "orchestrator/hosted_cycle.py": "fb3d0b1de07aa9bfa4a6c0bf8edbb79f81e167d44968ab1c969cc1196695fabc",
+      "orchestrator/operations_report.py": "df411c607f59407a806cfd7826c075bc433a94f2ab2806ce831bdce5b72a36e1",
+      "tests/test_server_admission.py": "9ab7a4f758862b2d1eb6cadf329aae03026de0784e5b274dc463375a7c40cb9b",
+      "tests/test_handover_coordinator.py": "c5f75d73721545d661a8c9355fdc9bb3ac036c3287e3bd51f7f2a7272b80fe2e",
+      "tests/test_protected_handover.py": "6fdd48a83459f07b0604b52d9f5710c0a092e7d17f1c6e41f40327af4122a5ef",
+      "tests/test_protected_writer.py": "bcaa29f7412710e69140784c887625d8690f4dde452b40e722236f5f8d0f84ed",
+      "tests/test_handover_runtime.py": "a6e99769a00ba1f45e6b7ae6a15b22f80dd35cb9ab05fc1077d388b4e32af8b4",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/HANDOVER_IMPLEMENTATION_PROGRESS.md": "b7ccf54a199b84b89b59afd252dca7b44985c6b24b269666ffab3d8451df4dbc"
+    },
+    "response_sha256": "53246b1340b621d70add7fa7df37d961df14dae5c3a8835779587a910c26931b",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "d60ddb2b49f20b396ab5d734c6b39426d51757738d2a2c15de484f8be079fd87"
+  },
+  "review": {
+    "scope": "Source-only review of the draft first-handover system (dispatch_limiter, handover_coordinator, protected_handover broker, protected_writer, handover_runtime, hosted_cycle, operations_report, supplied tests and operator directives). Reviewed for correctness, privacy, authority boundaries, persistent artifacts, fail-closed behavior, identity bindings, recovery semantics, and preservation of scientific approvals. No tests executed; no deployed behavior claimed; supporting modules (job_store, git_publication, public_export, phone_notifications, remote_supervisor, hosted_context) were not supplied and are assumed per their call sites.",
+    "reviewed_commit": "306504d2664a848860f1aa45f2819ee29224236c",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKER handover_runtime.Runtime.model: stage derived from hard-coded ['continuation','review','disposition'][position] while the coordinator dispatches handlers by name and Runtime.recover uses binding['stages'][position]. Coordinator.submit accepts any 1-3 ordered subset of installed handlers, so a legal binding like stages=['review'] executes an Astra continuation stage in place of the Claude review \u2014 wrong fixed-role model family \u2014 and bookkeeping then crashes on the missing -1.json receipt. Fix: derive stage from binding['stages'][position] and enforce the canonical stage prefix at submit/enqueue.",
+      "BLOCKER handover_runtime.Runtime.bookkeeping: no per-task failure isolation and no failure recording. Any COMPLETE task with missing -1/-2 receipts, an exhausted review claim, or a failing Queue.attach raises and aborts bookkeeping for all subsequent tasks on every tick, and the failure path never calls Queue.unavailable (unlike hosted_cycle.run), leaving the review row stuck in REVIEWING. Violates the directive's 'block only the affected task' requirement. Also rescans all COMPLETE tasks with file I/O every tick, unbounded over time.",
+      "BLOCKER protected_handover.Broker.stage_status: ignores the <stage>.started.json marker, so a turn folder created but refused before model launch (scan/predecessor/admission/envelope failure after binding.json but before started.json) reports UNCERTAIN_MODEL_RECONCILE_NO_RETRY even though no model provably ran. Combined with the runtime's hard-coded attempt='1' and no supplied operator route to advance attempts, one pre-launch refusal permanently blocks the task. Return a distinct not-started status when started.json is absent, or document the operator reconciliation route.",
+      "BLOCKER handover_runtime.Runtime.controls: the outcome receipt is written outside the try/except, so IMMUTABLE_OUTPUT_CONFLICT or OSError on the receipt write aborts all control processing and the whole tick instead of recording a BLOCKED outcome for that single request.",
+      "SUGGESTION (acknowledged gap): nightly flow is not executable end-to-end \u2014 nothing submits or schedules the enqueue_report binding (no q.submit/q.schedule call, no CLI enqueue operation). Progress doc acknowledges unfinished wiring; must be completed before any activation claim.",
+      "SUGGESTION protected_handover.model_stage: max_model_turns budget counts every turn folder ever created, including turns refused before any model call, with no lifecycle or reclamation route; after the cap all turns fail SUPERVISED_MODEL_BUDGET_EXHAUSTED. Intentional supervised bound, but an operator reclamation route should exist before deployment.",
+      "SUGGESTION protected_handover.serve: single-threaded request handling stalls status/pause queries behind 240 s model calls; runtime client timeout of 300 s barely covers one stage plus envelope overhead. (Client-timeout-mid-stage recovery itself works correctly: the receipt persists and stage_status retrieves it with zero model calls.)",
+      "SUGGESTION minor: dispatch_limiter._admit duplicate path does not persist a first-time policy_sha256 binding; serve's non-activated socket has a brief pre-chmod permission window; a pause applied mid-task takes effect only at the next task's admission gate so up to three 240 s stages continue after pause; controls() silently skips non-64-hex request filenames.",
+      "POSITIVE: authority/privacy boundaries hold \u2014 CAS ledger validates outgoing bytes pre-write with midnight-latched halt, clock-rollback rejection, and binding-checked duplicate admission; operator reset/initialize unreachable via socket and bound to OS uid; SO_PEERCRED peer check; publication destination/repository pinned constants; writer token scope verified and environment restored before any model spawn; broker errors emit named codes only; completed review survives disposition failure; recovery retrieves hash-verified original receipts with zero model calls."
+    ]
+  },
+  "outcome": "REQUEST_CHANGES; corrections in progress; no approval receipt created",
+  "usage_note": "Reviewer assistant identity is claude-fable-5. CLI usage metadata also reports an auxiliary claude-haiku-4-5-20251001 entry; not represented as an additional independent review."
+}

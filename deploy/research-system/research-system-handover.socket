@@ -1,0 +1,10 @@
+[Unit]
+Description=Protected research handover request socket (activation separately gated)
+[Socket]
+ListenStream=/run/research-system/handover.sock
+SocketUser=root
+SocketGroup=research-runtime
+SocketMode=0660
+RemoveOnStop=true
+[Install]
+WantedBy=sockets.target
