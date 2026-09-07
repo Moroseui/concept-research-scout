@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+from orchestrator.git_diagnostics import run as git_run
 
 REF = 'refs/heads/automation/dispatch-state'
 FILE = 'dispatch_state.json'
@@ -50,7 +51,7 @@ class GitLedger:
         self.repo=Path(repo);self.remote=remote;self.expected_remote=expected_remote;self.allow_initialization=allow_initialization
     def git(self,*args,input=None,check=True):
         auth=['-c','credential.helper=','-c','credential.helper=!gh auth git-credential'] if self.remote else []
-        return subprocess.run(['git',*IDENTITY,*auth,*args],cwd=self.repo,input=input,text=True,capture_output=True,check=check)
+        return git_run(['git',*IDENTITY,*auth,*args],cwd=self.repo,input=input,text=True,capture_output=True,check=check)
     def read(self):
         if self.remote:
             if self.expected_remote and self.git('remote','get-url','origin').stdout.strip()!=self.expected_remote:raise ValueError('LIMITER_REPOSITORY_MISMATCH')

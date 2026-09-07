@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+from orchestrator.git_diagnostics import run as git_run, output as git_output
 
 CONTAMINATED = '940293b6d562f2d3dd6bfd9d8d8281ccf01e4783'
 PILOT = 'astra/autonomous-isles-pilot'
@@ -16,7 +17,7 @@ TEXT_SUFFIXES = {'.py','.md','.json','.jsonl','.yml','.yaml','.toml','.txt','.fi
 
 
 def git(root, *args, **kw):
-    return subprocess.check_output(['git', *args], cwd=root, **kw)
+    return git_output(['git', *args], cwd=root, **kw)
 
 
 def scan(name, data):
@@ -69,7 +70,7 @@ def scan_history_blob(root, before, name, data):
             # Exact synthetic rejection fixtures, reviewed at 1900522 and 460deab; no patient input.
             scan(name,re.sub(rb'sub[-_]stroke[0-9]+',b'SYNTHETIC_REJECTION_FIXTURE',data,flags=re.I));return
         if str(error)!='CASE_LEVEL_RECORD_REJECTED' or name not in {'evidence/decisions.md','tests/test_git_publication.py'}:raise
-        if subprocess.run(['git','merge-base','--is-ancestor',PUBLIC_DECISION_BASELINE,before],cwd=root,capture_output=True).returncode:raise
+        if git_run(['git','merge-base','--is-ancestor',PUBLIC_DECISION_BASELINE,before],cwd=root,capture_output=True).returncode:raise
         original=git(root,'show',PUBLIC_DECISION_BASELINE+':'+name)
         if name=='evidence/decisions.md':
             if hashlib.sha256(original).hexdigest()!=PUBLIC_DECISION_SHA256 or not original.endswith(b'\n') or not data.startswith(original):raise
@@ -93,11 +94,11 @@ must be reviewed by the caller; matching hashes alone are not a privacy review.
 """
     if not all(re.fullmatch('[0-9a-f]{40}', x) for x in [source,before]):
         raise ValueError('EXACT_PINS_REQUIRED')
-    if subprocess.run(['git','merge-base','--is-ancestor',before,source],cwd=root,capture_output=True).returncode:
+    if git_run(['git','merge-base','--is-ancestor',before,source],cwd=root,capture_output=True).returncode:
         raise ValueError('NON_FAST_FORWARD_REJECTED')
     # cat-file first: an absent known bad object does not itself invalidate a clean repo.
-    if not subprocess.run(['git','cat-file','-e',CONTAMINATED+'^{commit}'],cwd=root,capture_output=True).returncode:
-        ancestry=subprocess.run(['git','merge-base','--is-ancestor',CONTAMINATED,source],cwd=root,capture_output=True).returncode
+    if not git_run(['git','cat-file','-e',CONTAMINATED+'^{commit}'],cwd=root,capture_output=True).returncode:
+        ancestry=git_run(['git','merge-base','--is-ancestor',CONTAMINATED,source],cwd=root,capture_output=True).returncode
         if ancestry==0:raise ValueError('CONTAMINATED_HISTORY_REJECTED')
         if ancestry!=1:raise ValueError('CONTAMINATED_ANCESTRY_UNAVAILABLE')
     observed = {}
@@ -151,7 +152,7 @@ function does not authenticate a human signer or create such a grant.
     ref = 'refs/heads/'+destination
     remote = git(root,'ls-remote',request['remote'],ref).decode().split()
     if remote != [before,ref]: raise ValueError('REMOTE_MOVED')
-    subprocess.run(['git','push','--force-with-lease='+ref+':'+before,request['remote'],source+':'+ref],cwd=root,check=True)
+    git_run(['git','push','--force-with-lease='+ref+':'+before,request['remote'],source+':'+ref],cwd=root,check=True)
     return {**receipt,'destination':destination,'operation':'append_only_compare_and_swap'}
 
 
@@ -182,7 +183,7 @@ def create(root, request, authority=None):
     if not isinstance(baseline_ref, str) or not baseline_ref.startswith('refs/heads/'):
         raise ValueError('INVALID_BASELINE_REF')
     for name in (ref, baseline_ref):
-        if subprocess.run(['git', 'check-ref-format', name], cwd=root,
+        if git_run(['git', 'check-ref-format', name], cwd=root,
                           capture_output=True).returncode:
             raise ValueError('INVALID_PUBLICATION_REF')
     if git(root, 'rev-parse', 'HEAD').decode().strip() != source or git(root, 'status', '--porcelain').strip():
