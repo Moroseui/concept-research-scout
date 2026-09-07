@@ -72,3 +72,13 @@ def test_missing_operating_context_blocks_before_model(tmp_path):
             p.execute(SimpleNamespace(ROOT=tmp_path),'discuss','P001','Question',base/'pipeline/missing')
         stage.assert_not_called()
     assert (base/'pipeline/missing/blocked.json').exists()
+
+
+def test_direct_pipeline_cannot_overwrite_ratified_selection_with_preview(tmp_path):
+    import pytest
+    out=tmp_path/'campaigns/isles24-pilot/pipeline/refused'
+    with patch.object(p,'grounding',return_value={}), patch('orchestrator.research_context.selected_prediction_context',return_value={'selected':'ratified'}), patch.object(p,'system_stage') as stage:
+        with pytest.raises(ValueError,match='RATIFIED_CONTEXT_REFUSES_PROPOSAL_PREVIEW'):
+            p.execute(SimpleNamespace(ROOT=tmp_path),'readiness','P001','question',out,proposal='stale')
+        stage.assert_not_called()
+    assert json.loads((out/'blocked.json').read_text())['reason']=='GROUNDING_FAILED'

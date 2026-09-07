@@ -1,0 +1,70 @@
+{
+  "execution": {
+    "reviewed_commit": "a62edd40a2e7bc771d61984cf3d8b3ff56093a14",
+    "returncode": 0,
+    "wall_seconds": 237.90313419999438,
+    "input_file_sha256": {
+      "orchestrator/readiness_discussion.py": "a2c02837e03da66b7f179b9e86aa3db9052ff16f893cc7713c02be8e97dec381",
+      "tests/test_readiness_discussion.py": "c341731ee7f73a4a4cc5101983c169bc3a3c0ed0b7d29c41a6087ce69709a524",
+      "orchestrator/hosted_context.py": "1a55f89d54d2c9cf1fd7ef406ad603c7a337e9468c4438ae81dda43c0662b078",
+      "orchestrator/research_context.py": "f4eef22813e126a47dccd85c5ab839213e8aaf9989ada2cb0f45ee813f091273",
+      "orchestrator/campaign_pipeline.py": "2d223867caba3448193f4779c9c032a911e7d0e5f873ba18646615b774448cfc",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "5a87c60452a806bd900887c05eb23b77004042e46cfd48a979cc533ae9b91db9",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "b5ab2bca67d022742cecd30133fa17c68fd9c83a85e2081fe40c1ad96fb10414"
+  },
+  "review": {
+    "scope": "Readiness discussion after operator charter ratification: optional legacy preview, fail closed on conflicting preview, stable legacy dedup and context-bound ratified discussion identities. Source-only review, no execution. Existing patient and standing activation gates remain held.",
+    "reviewed_commit": "a62edd40a2e7bc771d61984cf3d8b3ff56093a14",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKER (verified in supplied source): the conflicting-preview refusal exists only in orchestrator/readiness_discussion.py. orchestrator/campaign_pipeline.py execute() remains reachable with a proposal preview (including via its __main__ --proposal-context CLI for adoption/readiness/discuss/brief/curate modes) while a ratified selection is present: grounding() merges selected_prediction_context() into the context, then the 'if proposal:' block runs context.update(proposal_context(...)), whose context-disposition.json (EXPLICIT_PROPOSAL_PREVIEW_ONLY, ratified false, next_gate operator_charter_ratification) overwrites the ratified disposition (OPERATOR_SELECTED_CONDITIONAL_BASELINE, ratified true, launch_authorized false). Pre-ratification callers habitually passed exactly this preview path, so the same invocation now yields a bound context misrepresenting the operator's recorded ratification as pending, and a different proposal directory merges two competing charter contexts under colliding keys. No authority escalation (the overwrite downgrades authority), but the change's stated fail-closed invariant is broken on a supported entry point. Smallest correction: raise in execute()/grounding() when selected_prediction_context() is nonempty and proposal is not None, mirroring RATIFIED_CONTEXT_REFUSES_PROPOSAL_PREVIEW.",
+      "SUGGESTION: discuss() calls public_export.text(json.dumps(packet)) before the ratified/preview conflict check, the SELECTED_OR_PREVIEW_CONTEXT_REQUIRED check and the dedup lookup, so refused and duplicate invocations still re-export the packet externally on every call. Per-event METADATA_ONLY scope is checked first, so this is repeated export rather than a privacy leak; move the export after validation and the duplicate short-circuit or make it idempotent per identity.",
+      "SUGGESTION: the legacy identity is events-only (intentional for dedup stability), so a second legacy call with a different --proposal preview silently returns the first discussion as duplicate, and neither the readiness_discussions row nor the duplicate return records which preview the executed discussion actually used. Record the proposal path/receipt hash in the row or output, or fail closed when a differing preview targets an already-discussed event set.",
+      "SUGGESTION: the ratified identity hashes the entire operating context including task_state with the live decision_inbox and full document contents, so inbox churn or any unrelated document edit mints a new discussion identity and a new model call for an unchanged event set and unchanged ratified selection, weakening the one-discussion-per-completion-set bound. Bind version, events and the selected_scientific_context hashes (plus canonical document sha256s) instead of the raw operating packet.",
+      "SUGGESTION (partly inferred; immutable() source not supplied): the discussion-context artifact is written via immutable() before the CLAIMED row INSERT; a crash in that window leaves an orphan artifact and a rerun of the identical identity will presumably fail on the existing immutable file with no row explaining why. Fail-closed, but add an explicit reconcile path or write the artifact after the insert.",
+      "Verified sound (source-only, tests read not run): selected_prediction_context fails closed with exact status match, scope asserting charter_ratified/conditional_external_seed_adoption exactly true and patient_launch/new_backend_patient_transfer/reserved_cohort_access exactly false, complete hash binding of all proposal artifacts to the decision, and launch_authorized false in the disposition; build() preserves historical charter bytes under a relabeled disposition and drops the fixed-path preview when a selection exists; discuss() recovery is fail-closed via CLAIMED_RECONCILE_IF_INTERRUPTED/BLOCKED_RECONCILE_NO_AUTOMATIC_RETRY with no automatic retry; the request text restates patient-launch, 047-landing and unattended-activation gates and forbids re-requesting a recorded ratification; nothing in the change touches patient-data paths or held activation gates."
+    ]
+  },
+  "session_id": "d643a22a-b266-4830-af12-1a6dd15566a6",
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 40923,
+    "cache_read_input_tokens": 25286,
+    "output_tokens": 18816,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 40923,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3323,
+        "cache_read_input_tokens": 25286,
+        "cache_creation_input_tokens": 15637,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 15637
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  }
+}

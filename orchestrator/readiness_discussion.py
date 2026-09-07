@@ -39,7 +39,10 @@ def discuss(sc,state,output,proposal=None):
             raise ValueError('SELECTED_OR_PREVIEW_CONTEXT_REQUIRED')
         # Keep legacy event identities stable. In the ratified lane, a changed
         # approved context is a new discussion, never a new scientific dispatch.
-        identity_input={'version':2,'events':events,'operating_context':operating} if selected else events
+        identity_input={'version':3,'events':events,
+            'selected':{name:value['sha256'] for name,value in operating['selected_scientific_context'].items()},
+            'approved_documents':{name:value['sha256'] for name,value in operating.get('documents',{}).items()
+                if name in {'docs/operations/REMOTE_OPERATING_DIRECTION.md','docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md','evidence/decisions.md','docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md'}}} if selected else events
         identity=hashlib.sha256(json.dumps(identity_input,sort_keys=True).encode()).hexdigest()
         q.db.execute('CREATE TABLE IF NOT EXISTS readiness_discussions(id TEXT PRIMARY KEY,status TEXT,output TEXT)')
         prior=q.db.execute('SELECT status,output FROM readiness_discussions WHERE id=?',(identity,)).fetchone()

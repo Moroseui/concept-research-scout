@@ -36,6 +36,9 @@ def test_ratified_context_refuses_preview_and_binds_discussion_revision(tmp_path
         first=discuss(SimpleNamespace(ROOT=tmp_path),tmp_path,tmp_path/'first')
         again=discuss(SimpleNamespace(ROOT=tmp_path),tmp_path,tmp_path/'first')
         assert again['duplicate'] and call.call_count==1
+        context['task_state']={'decision_inbox':[{'status':'unrelated update'}]}
+        assert discuss(SimpleNamespace(ROOT=tmp_path),tmp_path,tmp_path/'first')['duplicate']
+        assert call.call_count==1
         context['selected_scientific_context']['selection']['sha256']='b'*64
         amended=discuss(SimpleNamespace(ROOT=tmp_path),tmp_path,tmp_path/'amended')
         assert amended['identity']!=first['identity'] and call.call_count==2

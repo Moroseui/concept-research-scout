@@ -111,7 +111,9 @@ def execute(sc,mode,experiment,request,output,initiator=None,proposal=None):
             from orchestrator.campaign_lifecycle import require_review
             require_review(exp.parents[1],exp)
         context=grounding(sc.ROOT,experiment)
-        from orchestrator.research_context import proposal_context,evidence_context
+        from orchestrator.research_context import proposal_context,evidence_context,selected_prediction_context
+        if proposal is not None and selected_prediction_context(sc.ROOT):
+            raise ValueError('RATIFIED_CONTEXT_REFUSES_PROPOSAL_PREVIEW')
         context['related-evidence.json']=json.dumps(evidence_context(sc.ROOT,'isles24-prediction'))
         if proposal:
             if mode not in {'adoption','readiness','discuss','brief','curate'}: raise ValueError('PROPOSAL_PREVIEW_STAGE_ONLY')
