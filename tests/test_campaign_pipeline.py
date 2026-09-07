@@ -82,3 +82,21 @@ def test_direct_pipeline_cannot_overwrite_ratified_selection_with_preview(tmp_pa
             p.execute(SimpleNamespace(ROOT=tmp_path),'readiness','P001','question',out,proposal='stale')
         stage.assert_not_called()
     assert json.loads((out/'blocked.json').read_text())['reason']=='GROUNDING_FAILED'
+
+
+def test_hosted_single_round_retains_negative_review_without_hidden_repair(tmp_path):
+    import pytest
+    out=tmp_path/'campaigns/isles24-pilot/pipeline/one-round'
+    calls=[]
+    def stage(sc,directory,family,name,body,names):
+        calls.append(family)
+        for filename in names:
+            (directory/filename).write_text(json.dumps({'verdict':'REVISE','rationale':'Needs additional evidence'}) if filename=='review.json' else 'Bounded readiness proposal')
+        return {'family_effective':family,'exit_class':'ok','ci':False}
+    with patch.object(p,'grounding',return_value={}), patch('orchestrator.research_context.evidence_context',return_value={}):
+        with pytest.raises(ValueError,match='revision limit'):
+            p.execute(SimpleNamespace(ROOT=tmp_path),'discuss','P001','question',out,max_rounds=1,stage_runner=stage)
+    assert calls==['codex','claude']
+    assert (out/'round-1/review.json').exists() and (out/'blocked.json').exists()
+    assert not (out/'round-2').exists()
+    assert json.loads((out/'request.json').read_text())['max_rounds']==1

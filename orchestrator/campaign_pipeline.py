@@ -95,15 +95,19 @@ def grounding(root,experiment):
     return result
 
 
-def execute(sc,mode,experiment,request,output,initiator=None,proposal=None):
+def execute(sc,mode,experiment,request,output,initiator=None,proposal=None,*,max_rounds=2,stage_runner=None):
     if mode not in MODES:raise ValueError('unknown stage')
+    if type(max_rounds) is not int or max_rounds not in (1,2):raise ValueError('CAMPAIGN_ROUND_BOUND')
+    # Trusted callers may supply the existing hosted model transport. This is not
+    # a task-supplied command, credential change or bypass of receipt checks.
+    run_stage=stage_runner or system_stage
     output=Path(output)
     permitted=Path(sc.ROOT)/'campaigns/isles24-pilot/pipeline'
     for parent in [permitted,*permitted.parents]:
         if parent.is_symlink():raise ValueError('symlink pipeline ancestor')
         if parent==Path(sc.ROOT):break
     if not output.resolve().is_relative_to(permitted.resolve()) or output.is_symlink():raise ValueError('pipeline output outside campaign')
-    output.mkdir(parents=True,exist_ok=False)
+    output.mkdir(parents=True,exist_ok=False,mode=0o700)
     try:
         if mode=='interpret':
             exp=Path(sc.ROOT)/'campaigns/isles24-pilot/experiments'/experiment
@@ -126,21 +130,21 @@ def execute(sc,mode,experiment,request,output,initiator=None,proposal=None):
         (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'reason':'GROUNDING_FAILED'}))
         raise
     binding={k:hashlib.sha256(v.encode()).hexdigest() for k,v in context.items()}
-    (output/'request.json').write_text(json.dumps({'mode':mode,'experiment':experiment,'request':request,'input_sha256':binding,'actor_type':'agent','family':'codex','authority':'campaign_delegated_investigator','status':'PROPOSAL_ONLY','initiator':initiator or {'kind':'agent','family':'codex'}},indent=2))
+    (output/'request.json').write_text(json.dumps({'mode':mode,'experiment':experiment,'request':request,'input_sha256':binding,'actor_type':'agent','family':'codex','authority':'campaign_delegated_investigator','status':'PROPOSAL_ONLY','max_rounds':max_rounds,'initiator':initiator or {'kind':'agent','family':'codex'}},indent=2))
     body='You are the system campaign '+mode+' author. Produce a bounded proposal, not an approval or executable amendment. Preserve original experiment pins. No patient data, execution, remote writes, or human ratification. All scientific work is exploratory. Lead markdown with a short readable result card: question, evidence, limitations and next decision. Do not invent literature searches or measurements.\nREQUEST: '+request+'\nBOUND CONTEXT:\n'+json.dumps(context)
     if mode in {'charter','adoption','readiness'}:
         body+='\nP001 is externally seeded and operator-delegated, not system-authored. Preserve its historical origin and exact frozen scientific artifacts; propose prospective linkage only. Assess baseline adequacy and scientific value candidly. A proposal may recommend adoption, amendment or rejection, never supply charter ratification or launch approval. Use the context-disposition and exact operator selection to distinguish already ratified guidance from proposals; do not re-request ratification of an unchanged selected charter or alter historical charters/scores. P001 does not depend on 047 acceptance.'
     if mode=='interpret':body+='\nInterpret only the bound validated aggregates. State measured performance, uncertainty and limitations with artifact citations. Write investigator_next_decision.json with exactly status PROPOSAL_ONLY and a nonempty rationale. Do not authorize a follow-up or claim human ratification.'
     try:
-        for round in [1,2]:
-            directory=output/f'round-{round}';directory.mkdir()
-            author=system_stage(sc,directory,'codex','campaign_'+mode,body,MODES[mode])
+        for round in range(1,max_rounds+1):
+            directory=output/f'round-{round}';directory.mkdir(mode=0o700)
+            author=run_stage(sc,directory,'codex','campaign_'+mode,body,MODES[mode])
             if mode=='interpret':
                 decision=json.loads((directory/'investigator_next_decision.json').read_text())
                 if set(decision)!={'status','rationale'} or decision['status']!='PROPOSAL_ONLY' or not isinstance(decision['rationale'],str) or not decision['rationale'].strip():raise ValueError('INVALID_INTERPRETATION_NEXT_DECISION')
             proposal='\n'.join(name+'\n'+(directory/name).read_text() for name in MODES[mode])
             if (directory/'review.json').exists():raise ValueError('author may not prepopulate reviewer output')
-            reviewer=system_stage(sc,directory,'claude','campaign_'+mode+'_review',
+            reviewer=run_stage(sc,directory,'claude','campaign_'+mode+'_review',
                 'Review this campaign proposal against its context. Write review.json with exactly verdict (APPROVE or REVISE) and rationale (nonempty string). Do not ratify or execute.\n'+body+'\nPROPOSAL:\n'+proposal,['review.json'])
             review=json.loads((directory/'review.json').read_text())
             if set(review)!={'verdict','rationale'} or review['verdict'] not in ['APPROVE','REVISE'] or not isinstance(review['rationale'],str) or not review['rationale'].strip():raise ValueError('malformed review')
