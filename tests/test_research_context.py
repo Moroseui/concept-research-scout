@@ -91,3 +91,15 @@ def test_operator_selected_campaign_uses_bound_prediction_guidance(tmp_path):
     (tmp_path/target).write_text('unapproved change')
     with pytest.raises(ValueError,match='BINDING_CHANGED'):
         selected_prediction_context(tmp_path)
+
+
+def test_hosted_envelope_supplies_current_selected_authority():
+    from orchestrator.hosted_context import build
+    root=Path(__file__).resolve().parents[1]
+    packet=build(root,{'jobs':[{'id':'synthetic-readiness','status':'READY'}]})
+    selection=packet['selected_scientific_context']
+    disposition=json.loads(selection['context-disposition.json']['content'])
+    assert disposition['ratified'] is True and disposition['launch_authorized'] is False
+    assert 'campaigns/isles24-pilot/prediction_selection.json' in selection
+    assert packet['proposed_context_not_authority']=={}
+    assert 'HISTORICAL_CHARTER' in packet['documents']['charters/isles24/CHARTER.md']['disposition']

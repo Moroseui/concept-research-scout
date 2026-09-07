@@ -49,6 +49,14 @@ def prepare(root, source, destination):
     names.update(n for n in tree if n in {
         'docs/science/P001_SOURCE_CHECK_AMENDMENT_20260906.md',
         'docs/science/P001_METADATA_PREFLIGHT_20260906.json'})
+    selection='campaigns/isles24-pilot/prediction_selection.json'
+    if selection in tree:
+        selected=json.loads(git('show',source+':'+selection))
+        names.add(selection)
+        names.update(selected['artifact_sha256'])
+    # Imported by the thin preflight transport; code only, no patient payloads.
+    if 'scripts/p001_input_preflight.py' in tree:
+        names.add('scripts/p001_input_preflight.py')
     metadata = {'.gitignore', '.gitattributes'} & set(tree)
     expected = {}
     for name in sorted(names | metadata):

@@ -4,7 +4,7 @@ import json
 import re
 from pathlib import Path
 from orchestrator.git_publication import scan
-from orchestrator.research_context import checked,evidence_context,proposal_context
+from orchestrator.research_context import checked,evidence_context,proposal_context,selected_prediction_context
 
 DOCUMENTS={
  'docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md':'OPERATOR_REVIEWER_DIRECTIVE',
@@ -30,9 +30,13 @@ def build(root,task_state):
         if (Path(root)/name).exists():
             raw=checked(root,name);scan(name,raw.encode())
             documents[name]={'sha256':hashlib.sha256(raw.encode()).hexdigest(),'disposition':'EVIDENCE_NOT_AUTHORITY','content':raw}
+    selected=selected_prediction_context(root)
+    if selected:
+        proposed={}
+        documents['charters/isles24/CHARTER.md']['disposition']='HISTORICAL_CHARTER_PRESERVED_PREDICTION_SELECTION_BELOW'
     findings=evidence_context(root,'isles24-prediction')
     packet={'version':1,'canonical_direction':'docs/operations/REMOTE_OPERATING_DIRECTION.md',
-            'documents':documents,'proposed_context_not_authority':{n:{'sha256':hashlib.sha256(v.encode()).hexdigest(),'content':v} for n,v in proposed.items()},'task_state':task_state,'permitted_findings':findings,
+            'documents':documents,'selected_scientific_context':{n:{'sha256':hashlib.sha256(v.encode()).hexdigest(),'content':v} for n,v in selected.items()},'proposed_context_not_authority':{n:{'sha256':hashlib.sha256(v.encode()).hexdigest(),'content':v} for n,v in proposed.items()},'task_state':task_state,'permitted_findings':findings,
             'precedence':'Approved operating direction and applicable frozen scientific contracts govern. Proposed artifacts and historical task reasons do not grant authority. No laptop conversation is assumed.'}
     scan('operating-context.json',json.dumps(packet).encode());return packet
 
