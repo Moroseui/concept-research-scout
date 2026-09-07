@@ -2369,3 +2369,9 @@ The operator will perform the merge after final candidate desk confirmation.
 Astra is authorized only to publish this documentation update through the
 controlled route on the fixed PR branch. No merge, activation, patient launch,
 047 scientific landing or cleanup is authorized. The branch must be retained.
+
+## Operator-supplied PR #5 closing disposition — 2026-09-07
+
+Astra records the operator's confirmation that PR #5 merged normally at `c17281a11dd2ed15e59cc38bbb526fb6c466b145`, reviewed head `f62a4c418bc2eb25055a4b6ac5aa9a786fdcedfd` into base `d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`, with successful main CI run 34111080470. Authenticated GitHub and Git inspection confirmed these bindings. The supplied Claude closing review approves that scoped merge, accepting the unresolved transport finding only with the limiter inactive and fetch failure denying admission. No new reviewer run, unspecified model identity, or transport-root-cause conclusion is claimed.
+
+The finding stays OPEN: normally reviewed private diagnostic capture and actual droplet contention/recovery remain activation dependencies. The original 82-commit retrospective range plus added decision commits is unchanged; trusted policy/ruling must be bound separately. Writer/reset grants, shared 48/96 deployment, protected credentials/main protection, real-task adapter execution and staged/disconnected activation retain their gates. No scientific launch, landing, cleanup or additional spending is authorized by the merge. See `docs/operations/PR5_MERGED_MILESTONE_20260907.md` for reconciliation and preserved evidence.

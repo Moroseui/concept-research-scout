@@ -99,6 +99,24 @@
       "status": "OPEN_EVIDENCE_AND_DECISION",
       "reason": "PRESERVED_SOURCE_MATCHES_BUT_SUCCESSFUL_CONSOLE_NOT_FOUND",
       "next_action": "Confirm whether 047b names the pinned Phase-B source and locate original successful sibling console; then resolve historical registry attestation, metadata disposition and separate scientific landing. Reuse prior validator and policy refusal."
+    },
+    {
+      "job": "pr5-ledger-transport-diagnostics",
+      "status": "OPEN_IMPLEMENTATION_AND_HOSTED_VERIFICATION",
+      "reason": "ORIGINAL_FETCH_EXIT_128_CAUSE_UNRESOLVED",
+      "next_action": "Implement reviewed private stderr capture across ledger/transport subprocess paths, then run isolated droplet contention/recovery. Original stderr unavailable; passing reruns do not diagnose cause. Limiter remains inactive."
+    },
+    {
+      "job": "pr5-retrospective-audit",
+      "status": "OPEN_IMPLEMENTATION_AND_AUDIT",
+      "reason": "POLICY_TRUST_AND_SCAN_RANGE_MUST_BE_SEPARATE",
+      "next_action": "Scan original d24ffb9003a2291f359afe3acf4bf491f2d7fd9f..ac8e0150eb2daf8ca2252c27b5c7ab4bde38f36d, all 82 commits and historical outgoing blobs, plus explicit added decision commits. Preserve narrow ruling; undispositioned findings block activation."
+    },
+    {
+      "job": "hosted-reconciliation-after-pr5",
+      "status": "BLOCKED_LOCAL_SSH_UNLOCK",
+      "reason": "SSH_AGENT_HAS_NO_IDENTITIES",
+      "next_action": "Operator re-unlocks existing laptop SSH identity; then inspect deployed bindings and jobs read-only before any retry. No server or model failure inferred."
     }
   ]
 }

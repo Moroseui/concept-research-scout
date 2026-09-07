@@ -1,6 +1,6 @@
 # First remote handover — current acceptance checklist
 
-Updated 7 September 2026. This checklist supersedes older present-tense setup
+Updated 7 September 2026. Post-merge correction: [PR #5 reconciliation](PR5_MERGED_MILESTONE_20260907.md) carries the OPEN transport and original-range audit conditions; implementation is not yet complete for activation. Hosted present-tense statements below describe their dated receipts, pending current access reconciliation. This checklist supersedes older present-tense setup
 statements; the original dated receipts and Git history remain evidence. It is
 acceptance accounting, not activation or scientific authority. The canonical
 operating goals remain [REMOTE_OPERATING_DIRECTION.md](REMOTE_OPERATING_DIRECTION.md).
@@ -65,7 +65,7 @@ spending retain their separate gates.
 
 ## Remaining estimate and observation start
 
-The authorized implementation and installed synthetic verification are complete.
+The merged supervised-cycle implementation and its dated synthetic verification are complete; the newly recorded stderr-capture, hosted transport verification and retrospective-audit capability remain implementation/verification work before activation.
 Source reviews approved the repairs; current installed evidence is retained for
 the final closing review. Publication and CI identities belong in the final
 milestone report rather than being inferred from local tests. The next
