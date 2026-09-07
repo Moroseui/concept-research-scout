@@ -70,6 +70,17 @@ class Runtime:
                 'branch':'astra/infrastructure-milestone-record','kind':binding['kind']}
 
     def admit(self,binding):
+        # Live reports are published with a content identity before fresh review.
+        # Supervised fixtures remain private and cannot acquire a writer grant.
+        if self.config.get('purpose')=='LIVE_APPROVED_HANDOVER':
+            from orchestrator.report_delivery import deliver
+            configured=self.config.get('publication')
+            if not configured or set(configured)!={'checkout','permission_sha256'}:
+                raise ValueError('LIVE_REPORT_PUBLICATION_CONFIGURATION_REQUIRED')
+            report=json.loads((self.state/'tasks'/binding['id']/'report.json').read_text())['id']
+            result=deliver(self.state/'reports',report,configured['checkout'],self.state/'delivery',
+                self.config['broker_socket'],configured['permission_sha256'],phase='finalized')
+            if result['status']!='PUBLISHED':raise ValueError('FINALIZED_REPORT_PUBLICATION_REQUIRED')
         return request_broker(self.config['broker_socket'],'admit_server',self.event(binding))
 
     def model(self,binding,position):
@@ -97,6 +108,11 @@ class Runtime:
                         'use task_id null and explain it in reason. The system validates the selection '
                         'before submission. Do not select patient work, a different job or a new scope.')
         prompt+='\nREPORT:\n'+report_text+'\nPRIMARY EVIDENCE:\n'+json.dumps(packet)
+        if self.config.get('purpose')=='LIVE_APPROVED_HANDOVER':
+            published=json.loads((self.state/'delivery'/(report['id']+'-finalized')/'published.json').read_text())
+            if published['report']!=report['id'] or published['phase']!='finalized':
+                raise ValueError('PUBLISHED_REPORT_BINDING_CHANGED')
+            prompt+='\nPUBLISHED REPORT IDENTITY:\n'+json.dumps(published)
         for previous in ['continuation','review'][:position]:
             prior=self.q._receipt(binding['id'],['continuation','review'].index(previous),binding)
             if prior is None:raise ValueError('PREDECESSOR_RECEIPT_REQUIRED')

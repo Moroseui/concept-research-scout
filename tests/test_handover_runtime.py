@@ -41,6 +41,24 @@ def test_completed_report_delivery_waits_for_permission_and_pause(tmp_path,monke
     assert len(calls)==1 and r.status()['report_delivery'][0]['commit_pin']=='c'*40
 
 
+def test_live_admission_requires_finalized_publication_first(tmp_path,monkeypatch):
+    import pytest
+    import orchestrator.report_delivery as delivery
+    import orchestrator.handover_runtime as module
+    r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-07',[],{})
+    r.config['purpose']='LIVE_APPROVED_HANDOVER'
+    calls=[]
+    monkeypatch.setattr(module,'request_broker',lambda *args:calls.append('admit') or {'status':'ADMITTED'})
+    with pytest.raises(ValueError,match='LIVE_REPORT_PUBLICATION_CONFIGURATION'):
+        r.admit(binding)
+    assert not calls
+    r.config['publication']={'checkout':'dedicated','permission_sha256':'d'*64}
+    def publish(*args,**kwargs):
+        assert kwargs['phase']=='finalized';calls.append('publish');return {'status':'PUBLISHED'}
+    monkeypatch.setattr(delivery,'deliver',publish)
+    assert r.admit(binding)['status']=='ADMITTED' and calls==['publish','admit']
+
+
 def test_recovery_uses_status_operation_only(tmp_path,monkeypatch):
     import orchestrator.handover_runtime as module
     r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-06',[],{})

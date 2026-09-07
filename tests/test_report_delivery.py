@@ -37,6 +37,13 @@ def test_linked_evidence_or_unreviewed_report_refuses(tmp_path):
     with pytest.raises(ValueError,match='REVIEW_REQUIRED'):assets(root,identity)
 
 
+def test_finalized_publication_precedes_review_without_fabricating_it(tmp_path):
+    root=tmp_path/'reports';row=finalize(root,'a'*40,'2026-09-07',[])
+    files=assets(root,row['id'],'finalized')
+    assert len(files)==2 and all('claude' not in name for name in files)
+    with pytest.raises(ValueError,match='REVIEW_REQUIRED'):assets(root,row['id'])
+
+
 def test_delivery_does_not_rebuild_partial_preparation(tmp_path):
     root,identity=report(tmp_path);state=tmp_path/'delivery';state.mkdir(mode=0o700)
     (state/identity).mkdir()

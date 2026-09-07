@@ -23,11 +23,13 @@ REMOTE='https://github.com/Moroseui/concept-research-scout.git'
 BRANCH='astra/infrastructure-milestone-record'
 
 
-def assets(reports,report_id):
+def assets(reports,report_id,phase='reviewed'):
     pin(report_id,64);queue=Queue(reports);record=queue.status(report_id)
-    if record['status']!='REVIEWED':raise ValueError('REPORT_REVIEW_REQUIRED')
-    names=[report_id+'.md',report_id+'.claude-review.md',report_id+'.claude-review.json',
-           report_id+'.astra-disposition.md']
+    if phase not in ('finalized','reviewed'):raise ValueError('REPORT_DELIVERY_PHASE')
+    if phase=='reviewed' and record['status']!='REVIEWED':raise ValueError('REPORT_REVIEW_REQUIRED')
+    names=[report_id+'.md']
+    if phase=='reviewed':names += [report_id+'.claude-review.md',report_id+'.claude-review.json',
+                                  report_id+'.astra-disposition.md']
     primary=queue.root/names[0]
     if primary.is_symlink() or hashlib.sha256(primary.read_bytes()).hexdigest()!=report_id:
         raise ValueError('REPORT_IDENTITY_CHANGED')
@@ -40,22 +42,24 @@ def assets(reports,report_id):
         if name.endswith(('.receipts.json','.context.json')) and hashlib.sha256(raw).hexdigest()!=name[:64]:
             raise ValueError('REPORT_LINKED_EVIDENCE_CHANGED')
         result[name]=raw
-    receipt=json.loads(result[report_id+'.claude-review.json'])
-    if (receipt['source']!=record['source'] or receipt['report_sha256']!=report_id
+    if phase=='reviewed':
+        receipt=json.loads(result[report_id+'.claude-review.json'])
+        if (receipt['source']!=record['source'] or receipt['report_sha256']!=report_id
             or receipt['family']!='claude' or receipt['status']!='COMPLETE'
             or receipt['review_sha256']!=record['review_sha256']
             or hashlib.sha256(result[report_id+'.claude-review.md']).hexdigest()!=record['review_sha256']):
-        raise ValueError('REPORT_REVIEW_CHANGED')
+            raise ValueError('REPORT_REVIEW_CHANGED')
     return result
 
 
-def deliver(reports,report_id,checkout,state,socket,permission_sha256,send=request_broker):
+def deliver(reports,report_id,checkout,state,socket,permission_sha256,send=request_broker,phase='reviewed'):
     """Called only from a root-configured publication service after its grant.
 
     The decision hash binds configuration; it does not authenticate or manufacture
     operator approval. SYNTHETIC_FIXTURE brokers refuse the final publish verb.
     """
     pin(permission_sha256,64);pin(report_id,64)
+    if phase not in ('finalized','reviewed'):raise ValueError('REPORT_DELIVERY_PHASE')
     state=private_root(state);checkout=Path(checkout).resolve()
     def observed():
         value=send(socket,'publication_status',{})
@@ -63,14 +67,14 @@ def deliver(reports,report_id,checkout,state,socket,permission_sha256,send=reque
                 or value.get('branch')!=BRANCH):raise ValueError('PUBLICATION_NOT_AUTHORIZED_OR_UNAVAILABLE')
         pin(value.get('source'),40);return value['source']
     with lock(state/'branch.lock'):
-        directory=state/report_id
+        directory=state/(report_id+('-finalized' if phase=='finalized' else ''))
         if directory.is_symlink():raise ValueError('DELIVERY_STATE_SYMLINK')
         receipt=directory/'published.json'
         if receipt.exists():return json.loads(receipt.read_text())
         pending=directory/'candidate.json'
         if not pending.exists():
             if directory.exists():raise ValueError('PARTIAL_REPORT_PREPARATION_RECONCILE')
-            content=assets(reports,report_id)
+            content=assets(reports,report_id,phase)
             if (git(checkout,'status','--porcelain') or
                     git(checkout,'branch','--show-current').decode().strip()!=BRANCH or
                     git(checkout,'remote','get-url','origin').decode().strip()!=REMOTE):
@@ -89,7 +93,7 @@ def deliver(reports,report_id,checkout,state,socket,permission_sha256,send=reque
             paths=['docs/operations/daily/'+n for n in sorted(content)]
             git(checkout,'add','--',*paths)
             git(checkout,'-c','user.name=Astra (OpenAI agent)',
-                '-c','user.email=astra@agents.local.invalid','commit','-m','Record reviewed system report '+report_id)
+                '-c','user.email=astra@agents.local.invalid','commit','-m','Record '+phase+' system report '+report_id)
             source=git(checkout,'rev-parse','HEAD').decode().strip()
             candidate=prepare(checkout,source,before,directory/'source.bundle')
             immutable(pending,(json.dumps({**candidate,'permission_sha256':permission_sha256},sort_keys=True)+'\n').encode())
@@ -116,6 +120,6 @@ def deliver(reports,report_id,checkout,state,socket,permission_sha256,send=reque
                 'destination':BRANCH,'remote':REMOTE,'inventory':candidate['inventory']})
             if observed()!=candidate['source']:
                 raise ValueError('DELIVERY_REMOTE_VERIFICATION_REQUIRED')
-        result={'status':'PUBLISHED','report':report_id,'source':candidate['source'],
+        result={'status':'PUBLISHED','phase':phase,'report':report_id,'source':candidate['source'],
                 'before':candidate['before'],'permission_sha256':permission_sha256}
         immutable(receipt,(json.dumps(result,sort_keys=True)+'\n').encode());return result
