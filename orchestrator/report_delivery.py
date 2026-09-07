@@ -9,6 +9,7 @@ response is resolved against the exact remote candidate, never by a new commit.
 import base64
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 
@@ -103,11 +104,14 @@ def deliver(reports,report_id,checkout,state,socket,permission_sha256,send=reque
             # Durable count before a potentially ambiguous remote operation.
             temporary=directory/'attempts.new'
             with temporary.open('x') as out:
-                import os
                 json.dump({'count':count+1},out);out.flush();os.fsync(out.fileno())
             temporary.replace(attempts)
+            fd=os.open(directory,os.O_RDONLY|os.O_DIRECTORY)
+            try:os.fsync(fd)
+            finally:os.close(fd)
             raw=(directory/'source.bundle').read_bytes()
-            send(socket,'stage_candidate',{**candidate,'bundle_base64':base64.b64encode(raw).decode()})
+            staged=send(socket,'stage_candidate',{**candidate,'bundle_base64':base64.b64encode(raw).decode()})
+            if staged.get('status')!='STAGED_NOT_PUBLISHED':raise ValueError('DELIVERY_STAGING_NOT_VERIFIED')
             send(socket,'publish',{'source':candidate['source'],'before':candidate['before'],
                 'destination':BRANCH,'remote':REMOTE,'inventory':candidate['inventory']})
             if observed()!=candidate['source']:

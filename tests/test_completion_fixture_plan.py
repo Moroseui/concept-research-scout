@@ -1,7 +1,6 @@
 """Fixture migration cannot quietly become live or reuse an expanded allowance."""
 import importlib.util
 from pathlib import Path
-import sys
 import pytest
 
 
@@ -26,3 +25,6 @@ def test_plan_preserves_old_and_bounds_new_turns(monkeypatch):
                       ('model_mode','GOVERNED')]:
         with pytest.raises(ValueError,match='ORIGINAL_CONSUMED'):
             m.planned({**b,key:value},r,'a'*40,'/fixed/source')
+    for changed in [{'source':'c'*40},{**r,'synthetic_execution':{}}]:
+        with pytest.raises(ValueError,match='ORIGINAL_CONSUMED'):
+            m.planned(b,changed,'a'*40,'/fixed/source')

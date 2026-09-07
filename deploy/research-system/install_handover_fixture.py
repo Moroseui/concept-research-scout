@@ -9,13 +9,29 @@ reconcile it before retrying.
 import argparse
 import hashlib
 import json
+import io
 import os
 from pathlib import Path
 import pwd
 import re
 import subprocess
 import sys
+import stat
 import tarfile
+
+
+def verified_archive(path,expected_sha256):
+    """Hash one bounded regular-file read; extraction uses these exact bytes."""
+    fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW)
+    with os.fdopen(fd,'rb') as stream:
+        info=os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_size>10000000:
+            raise ValueError('BOUNDED_SOURCE_ARCHIVE_REQUIRED')
+        raw=stream.read(10000001)
+    if len(raw)>10000000 or hashlib.sha256(raw).hexdigest()!=expected_sha256:
+        raise ValueError('SOURCE_ARCHIVE_CHANGED')
+    with tarfile.open(fileobj=io.BytesIO(raw)) as bundle:validate_members(bundle)
+    return raw
 
 
 def validate_members(bundle):
@@ -47,12 +63,7 @@ def readable_source(root):
 def install(source, archive, expected_sha256):
     if os.getuid()!=0 or not re.fullmatch('[0-9a-f]{40}',source):
         raise ValueError('SETUP_ADMIN_AND_PIN_REQUIRED')
-    archive=Path(archive)
-    if archive.is_symlink() or archive.stat().st_size>10000000:
-        raise ValueError('BOUNDED_SOURCE_ARCHIVE_REQUIRED')
-    if hashlib.sha256(archive.read_bytes()).hexdigest()!=expected_sha256:
-        raise ValueError('SOURCE_ARCHIVE_CHANGED')
-    with tarfile.open(archive) as bundle:validate_members(bundle)
+    raw=verified_archive(archive,expected_sha256)
     release=Path('/opt/research-system/releases')/(source+'-handover')
     link=Path('/opt/research-system/handover')
     base=Path('/var/lib/research-system/handover-broker')
@@ -71,7 +82,7 @@ def install(source, archive, expected_sha256):
     import grp
     gid=grp.getgrnam('research-runtime').gr_gid
     release.mkdir(mode=0o755);os.chmod(release,0o755)
-    with tarfile.open(archive) as bundle:
+    with tarfile.open(fileobj=io.BytesIO(raw)) as bundle:
         validate_members(bundle)
         bundle.extractall(release,filter='data')
     root=release/'snapshot'

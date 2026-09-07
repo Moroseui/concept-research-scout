@@ -50,3 +50,20 @@ def test_source_modes_preserve_executable_identity_and_reject_links(tmp_path):
     with pytest.raises(ValueError,match='REGULAR_SOURCE_TREE'):
         installer().readable_source(root)
     assert code.stat().st_mode & 0o777==0o600
+
+
+def test_archive_uses_only_verified_bytes_and_refuses_symlinks(tmp_path):
+    import hashlib,io
+    path=tmp_path/'source.tar';buffer=io.BytesIO()
+    with tarfile.open(fileobj=buffer,mode='w') as archive:
+        item=tarfile.TarInfo('snapshot/module.py');item.size=5
+        archive.addfile(item,io.BytesIO(b'pass\n'))
+    original=buffer.getvalue();path.write_bytes(original)
+    raw=installer().verified_archive(path,hashlib.sha256(original).hexdigest())
+    path.write_bytes(b'changed after verification')
+    with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
+        assert archive.extractfile('snapshot/module.py').read()==b'pass\n'
+    with pytest.raises(ValueError,match='SOURCE_ARCHIVE_CHANGED'):
+        installer().verified_archive(path,hashlib.sha256(original).hexdigest())
+    link=tmp_path/'linked.tar';link.symlink_to(path)
+    with pytest.raises(OSError):installer().verified_archive(link,'a'*64)

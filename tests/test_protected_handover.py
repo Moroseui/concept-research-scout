@@ -28,6 +28,17 @@ def test_peer_bound_admission_no_socket_reset_or_publication(tmp_path):
     with pytest.raises(ValueError,match='SOURCE'):b.handle({'operation':'admit_server','body':{**server(2),'source':'c'*40}},10001)
 
 
+def test_publication_status_has_fixed_peer_and_no_fixture_network(tmp_path,monkeypatch):
+    b=broker(tmp_path)
+    def forbidden(*args):raise AssertionError('No fixture network')
+    monkeypatch.setattr('orchestrator.publication_candidate.git',forbidden)
+    request={'operation':'publication_status','body':{}}
+    with pytest.raises(ValueError,match='PEER'):b.handle(request,10002)
+    assert b.handle(request,10001)=={'status':'PUBLICATION_NOT_AUTHORIZED'}
+    with pytest.raises(ValueError,match='STATUS_BODY'):
+        b.handle({'operation':'publication_status','body':{'branch':'main'}},10001)
+
+
 def test_operator_reset_sequence_and_action_provenance(tmp_path,monkeypatch):
     b=broker(tmp_path)
     b.handle({'operation':'admit_server','body':server(1)},10001)

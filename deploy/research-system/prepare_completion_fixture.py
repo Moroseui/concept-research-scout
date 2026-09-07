@@ -8,8 +8,8 @@ operation must follow inspection of its receipt. Partial setup is not retried.
 """
 import argparse
 import fcntl
-import hashlib
 import json
+import io
 import os
 from pathlib import Path
 import re
@@ -18,7 +18,7 @@ import subprocess
 import sys
 import tarfile
 
-from install_handover_fixture import validate_members,readable_source
+from install_handover_fixture import verified_archive,readable_source
 
 OLD='6863968863ddfb1d82b25c7b358857e666c950a5'
 EXECUTOR='6b555075fcf553994ecac8e368f4676cbdffdc56'
@@ -61,10 +61,7 @@ def prepare(source,archive,sha):
     for unit in ('research-system-handover-controller.service','research-system-handover-controller.timer'):
         if subprocess.run(['systemctl','is-active','--quiet',unit]).returncode==0:
             raise ValueError('CONTROLLER_OR_TIMER_ACTIVE')
-    raw=Path(archive).read_bytes()
-    if len(raw)>10000000 or hashlib.sha256(raw).hexdigest()!=sha:
-        raise ValueError('SOURCE_ARCHIVE_CHANGED_OR_OVERSIZED')
-    with tarfile.open(archive) as bundle:validate_members(bundle)
+    raw=verified_archive(archive,sha)
     with (base/'turns/branch.lock').open('a') as gate:
         fcntl.flock(gate,fcntl.LOCK_EX|fcntl.LOCK_NB)
         turns=list((base/'turns').glob('*/binding.json'))
@@ -84,7 +81,7 @@ def prepare(source,archive,sha):
         (evidence/unit).write_bytes((Path('/etc/systemd/system')/unit).read_bytes())
         (evidence/'previous-source.txt').write_text(str(link.resolve()))
         release.mkdir(mode=0o755);os.chmod(release,0o755)
-        with tarfile.open(archive) as bundle:bundle.extractall(release,filter='data')
+        with tarfile.open(fileobj=io.BytesIO(raw)) as bundle:bundle.extractall(release,filter='data')
         root=release/'snapshot';readable_source(root);sys.path.insert(0,str(root))
         from orchestrator.remote_supervisor import checked_source
         from orchestrator.protected_handover import Broker
