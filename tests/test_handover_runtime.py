@@ -134,3 +134,12 @@ def test_corrupt_running_task_isolated_from_independent_work(tmp_path,monkeypatc
     r.q.handlers={name:lambda *a:{'status':'COMPLETE','kind':'synthetic'} for name in good['stages']}
     r.q.admission=lambda b:{'status':'ADMITTED'}
     assert r.q.tick()=={'status':'COMPLETE','task':good['id']}
+
+
+def test_explicit_reviewer_evidence_is_part_of_task_identity(tmp_path,monkeypatch):
+    r=runtime(tmp_path,monkeypatch)
+    first=r.enqueue_report('2026-09-06',[],{},reviewer_evidence={'observation':'unavailable'})
+    second=r.enqueue_report('2026-09-06',[],{},reviewer_evidence={'observation':'configured only'})
+    assert first['id']!=second['id']
+    packet=json.loads((r.state/'tasks'/first['id']/'packet.json').read_text())
+    assert packet['reviewer_evidence']=={'observation':'unavailable'}

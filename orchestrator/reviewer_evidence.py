@@ -12,6 +12,9 @@ from orchestrator.research_context import checked
 from orchestrator.git_publication import scan
 
 SOURCES = {
+    'handover_implementation': ('orchestrator/handover_runtime.py','orchestrator/handover_coordinator.py',
+        'orchestrator/protected_handover.py','scripts/verify_handover_service.py','deploy/research-system/research-system-handover.service',
+        'deploy/research-system/research-system-handover-controller.service'),
     'installed_sources': ('docs/operations/READINESS_HOSTED_ACCEPTANCE_20260906.json',),
     'service_runtime': ('docs/operations/READINESS_HOSTED_ACCEPTANCE_20260906.json',),
     'identity_boundaries': ('docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md',),
@@ -24,9 +27,12 @@ SOURCES = {
     'laptop_independence': ('docs/operations/DEPLOYMENT_CLOSEOUT_CHECKLIST.md',),
 }
 UNITS = ('research-system-controller.service', 'research-system-controller.timer',
-         'research-system-orientation-20260906.service')
+         'research-system-orientation-20260906.service',
+         'research-system-handover.service','research-system-handover.socket',
+         'research-system-handover-controller.service')
 PROPERTIES = ('LoadState', 'ActiveState', 'SubState', 'User', 'Result', 'ExecMainStatus',
-              'MemoryMax', 'CPUQuotaPerSecUSec', 'NoNewPrivileges', 'ProtectSystem')
+              'MemoryMax', 'CPUQuotaPerSecUSec', 'NoNewPrivileges', 'ProtectSystem',
+              'Group', 'PrivateNetwork', 'ProtectHome', 'TasksMax')
 
 
 def validate(request):
@@ -52,7 +58,7 @@ def collect(root, request, *, hosted=False):
             records.append({'source': name, 'status': 'UNAVAILABLE'}); continue
         scan(name, raw.encode())
         records.append({'source': name, 'sha256': hashlib.sha256(raw.encode()).hexdigest(),
-                        'status': 'HISTORICAL_DOCUMENT_NOT_CURRENT_EXECUTION_PROOF', 'content': raw})
+                        'status': ('SOURCE_CODE_NOT_EXECUTION_PROOF' if request['kind']=='handover_implementation' else 'HISTORICAL_DOCUMENT_NOT_CURRENT_EXECUTION_PROOF'), 'content': raw})
     result = {'version': 1, 'request_id': identity, 'request': request,
               'collected_utc': datetime.now(timezone.utc).isoformat(), 'records': records,
               'current_observations': [],
@@ -73,9 +79,13 @@ def collect(root, request, *, hosted=False):
             for line in proc.stdout.splitlines():
                 key, sep, value = line.partition('=')
                 if sep and key in PROPERTIES: fields[key] = value
+            status='CURRENT_CONFIGURATION_ONLY'
+            if fields.get('LoadState')=='not-found':
+                status='UNIT_NOT_FOUND';fields={'LoadState':'not-found'}
+            elif proc.returncode or not fields.get('LoadState'):status='COLLECTION_FAILED'
             scan('service-properties.json', json.dumps(fields).encode())
             result['current_observations'].append({'unit': unit, 'returncode': proc.returncode,
-                'properties': fields, 'status': 'CURRENT_CONFIGURATION_ONLY',
+                'properties': fields, 'status': status,
                 'execution_proven': False})
     scan('evidence-response.json', json.dumps(result).encode())
     return result

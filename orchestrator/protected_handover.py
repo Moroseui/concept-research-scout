@@ -47,7 +47,7 @@ class Broker:
         if op=='status':
             if body!={}:raise ValueError('STATUS_BODY')
             with self.authentication():pin,state=self.ledger.read()
-            return {'pin':pin,'sequence':state['sequence'],'count':state['count'],'halted':state['halted'],'day':state['day']}
+            return {'mode':self.config['mode'],'pin':pin,'sequence':state['sequence'],'count':state['count'],'halted':state['halted'],'day':state['day']}
         if op=='admit_server':
             if body.get('source') not in self.config['sources']:raise ValueError('REVIEWED_SOURCE_REQUIRED')
             with self.authentication():return admit_server(self.ledger,self.config['policy'],body)

@@ -89,10 +89,11 @@ class Runtime:
         if response.get('status')!='COMPLETE':raise ValueError('MODEL_COMPLETION_REQUIRED')
         return response
 
-    def enqueue_report(self,day,receipts,task_state):
+    def enqueue_report(self,day,receipts,task_state,reviewer_evidence=None):
         finalized=finalize(self.state/'reports',self.config['source'],day,receipts)
         report={'id':finalized['id']}
         packet={'jobs':receipts,'trigger':'scheduled-report','decision_inbox':task_state}
+        if reviewer_evidence is not None:packet['reviewer_evidence']=reviewer_evidence
         identity=digest({'source':self.config['source'],'packet':packet,'report':report})
         directory=self.state/'tasks'/identity;directory.mkdir(parents=True,mode=0o700,exist_ok=True)
         immutable(directory/'packet.json',encoded(packet));immutable(directory/'report.json',encoded(report))
@@ -177,8 +178,8 @@ class Runtime:
         prior=self.q.db.execute('SELECT task FROM schedules WHERE day=?',(day,)).fetchone()
         if prior:return {'status':'ALREADY_SCHEDULED','task':prior[0]}
         evidence=configuration(schedule['evidence_file'])
-        if set(evidence)!={'source','receipts','task_state'} or evidence['source']!=self.config['source']:raise ValueError('REPORT_EVIDENCE_SOURCE')
-        binding=self.enqueue_report(day,evidence['receipts'],evidence['task_state'])
+        if set(evidence) not in ({'source','receipts','task_state'},{'source','receipts','task_state','reviewer_evidence'}) or evidence['source']!=self.config['source']:raise ValueError('REPORT_EVIDENCE_SOURCE')
+        binding=self.enqueue_report(day,evidence['receipts'],evidence['task_state'],evidence.get('reviewer_evidence'))
         return self.q.schedule(now,schedule['zone'],schedule['hour'],schedule['minute'],binding)
 
     def recover(self):
