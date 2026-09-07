@@ -61,3 +61,31 @@ def test_generated_acquisition_real_git_and_dirty_refusal(tmp_path,monkeypatch):
     with pytest.raises(AssertionError,match='source bytes changed'):
         namespace['acquire'](destination,pin,['wanted.txt'])
     assert (destination/'wanted.txt').read_text()=='preserve operator edit'
+
+
+def test_actual_frozen_runner_imports_with_only_dependency_pythonpath(tmp_path):
+    import hashlib
+    import os
+    import subprocess
+    import sys
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    frozen=tmp_path/'frozen';deps=tmp_path/'dependencies';deps.mkdir()
+    names=['campaigns/isles24-pilot/experiments/P001/run.py','orchestrator/__init__.py','orchestrator/campaign.py']
+    for name in names:
+        source=subprocess.check_output(['git','show','d6a1184b4378e849213fd887a6f7b103fb1a64d5:'+name],cwd=root)
+        path=frozen/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(source)
+    runner=frozen/names[0]
+    assert hashlib.sha256(runner.read_bytes()).hexdigest()=='d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0'
+    code="""import importlib.util,json,sys
+from pathlib import Path
+path=Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('frozen_p001_preflight',path)
+module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+assert Path(sys.modules['orchestrator.campaign'].__file__).resolve()==Path(sys.argv[2])/'orchestrator/campaign.py'
+assert module.ROOT==Path(sys.argv[2])
+print(json.dumps({'frozen_import_succeeded':True,'selection_called':False,'patient_files_available':False}))
+"""
+    r=subprocess.run([sys.executable,'-c',code,str(runner),str(frozen)],cwd=tmp_path,
+                     env={'PATH':os.environ['PATH'],'PYTHONPATH':str(deps),'PYTHONNOUSERSITE':'1'},capture_output=True,text=True,check=True)
+    assert json.loads(r.stdout)['frozen_import_succeeded'] is True
+    assert not (frozen/'probes').exists()
