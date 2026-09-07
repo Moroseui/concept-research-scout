@@ -1,0 +1,13 @@
+{
+  "amends": "service.json",
+  "amended_sha256": "434344b77e9a9ce4eb561c789d97296342f04118e529b918d4f2bdf8cf11ecac",
+  "original_preserved": true,
+  "source": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+  "clarifications": {
+    "new_model_calls": "Inferred from a fully consumed fixture, complete stages, unchanged turn bindings and one idle tick; collector does not independently count process launches.",
+    "new_scientific_jobs": "Inferred from synthetic-only configuration and no eligible unfinished coordinator task; collector does not independently census the scientific execution database.",
+    "role_boundaries": "All four expected accounts actually existed and both source/configuration write checks refused.",
+    "service_collector": "Exact historical executed source retained. Future general-purpose collectors should use explicit raises instead of assertions."
+  },
+  "effect_on_acceptance": "No change to the separately validated actual six-call successor chain, human-control results or existing restart/backup evidence. No unattended, patient or live-permission claim."
+}

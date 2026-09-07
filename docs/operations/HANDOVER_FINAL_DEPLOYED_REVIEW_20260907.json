@@ -1,0 +1,98 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "edbadf1f45b83ba3549c023e9e50fb6474438542",
+    "returncode": 0,
+    "wall_seconds": 206.8075000969984,
+    "input_file_sha256": {
+      "docs/operations/hosted-final-handover-20260907/service-collector.py": "068cb27abdca894d51c779262058b6b8d54f2bc64ab3ed5294a9e0c6d36438f6",
+      "docs/operations/hosted-final-handover-20260907/service.json": "434344b77e9a9ce4eb561c789d97296342f04118e529b918d4f2bdf8cf11ecac",
+      "docs/operations/hosted-final-handover-20260907/human-controls.json": "f69584ad936a8cf51f3b62a7ae74cbb16b169b8ad917115a9d60e4ace6a6280b",
+      "docs/operations/hosted-final-handover-20260907/human-status-example.md": "4e8aa57cd4bf80ec691512401b01079af3c31e412111b7da189f8336115e2021",
+      "docs/operations/hosted-final-handover-20260907/source-update.json": "d5b5d8ef221fbfa82fba66ca831766abd9e1de17dcf6c6f58402d76cbf0458f7",
+      "docs/operations/hosted-completion-20260907/receipt.json": "44c4c225d3762464f94245c91ff301dddd7e880f04b456f55d5e640a1603dc8f",
+      "docs/operations/HOSTED_COMPLETION_RESULT_20260907.md": "4adf9aa51ab799f7d4d8d2037a453a28009b481b6e55499c9053a7f34ddb0b72",
+      "docs/operations/hosted-service-acceptance-20260907/receipt.json": "7886c87a4700213fdfa3a408965dbbe80081c23faf036564ee8b995213899271",
+      "docs/operations/hosted-service-acceptance-20260907/backup-recovery.json": "cab43f8f77bc1715c067d9ff737002858929081c36424bcdffef8ed250e08c8e",
+      "docs/operations/DEPLOYMENT_CLOSEOUT_CHECKLIST.md": "272816622510f349f75cb313fd5d2544114a90819c89766e99375763d48015d9",
+      "docs/operations/HANDOVER_IMPLEMENTATION_PROGRESS.md": "33931cc396062246f2a06a86753b61302bcfe6ff0a1761ff50645f42f3571d5b",
+      "docs/operations/HANDOVER_SERVICE_DRAFT.md": "0b78e2a69ec2d0c917a6466fe023de6aef998484c95200a4dea8da4c0677e718",
+      "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md": "4a50253be6b24255b807f3ae4e5052a9a4075fde48a9e57b96ad438f67c48835",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "deploy/research-system/prepare_completion_fixture.py": "d1413f30e1a065060df301b304eadec2acd1d65d34e5b754ab31d5493caf7d03",
+      "scripts/pilot_review.py": "21a8425efabf7f353be43fc125d83f382f3da529324eb7307982c53f3510dd40",
+      "scripts/verify_completion_service.py": "8659142dbeb74529e6797f5258eaf30478d35583ca6f92d8bf73b54ff2c91de0",
+      "scripts/verify_protected_intake.py": "d95f728cab80f04eb86a4bee4db0e01026a1374c2f5526397682936f980e33ec",
+      "tests/test_actions_admission.py": "391515bc32b7c2eb74ee63fdbf4f8b303ac30c1bd4905d1680167143b6c5240f",
+      "tests/test_completion_fixture_plan.py": "49e03d9598b13d07dd8b73bd6eaa2be8d79cd518d66e592f05b8dd848f0a9b2f",
+      "tests/test_handover_notifications.py": "dc2379bb186776c4ed0fb298d927622f18bd866f853249aa07c423b33c867f61",
+      "tests/test_handover_snapshot_install.py": "2fb795286977dbbfd173ef61d797070080dfce70b583616c60e3cfaa1667ee4b",
+      "tests/test_publication_candidate.py": "f5da3bfd17dfcb8482983f2780149f96536fe51723b6426624f884cbe5393441",
+      "tests/test_reviewer_evidence.py": "4046bcc4bfe2c2ceb150bf28755cd8476cefb4a3fc52507d7761ba8c352cd9a7",
+      "tests/test_report_task_context.py": "2fa1574849fe4d3efebe26d60daa03f7ad7532c3217c92e3cb5dc9b76393f0a1"
+    },
+    "response_sha256": "4564595761edb67472fe2756e70b509b41bd7b4dddf1dbbb7f51407f9ec6f1fc",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "ccd77902122613c12c2c970b821b6682484ec18c396814b7efec18f4635a4977"
+  },
+  "review": {
+    "scope": "handover-final-deployed-evidence",
+    "reviewed_commit": "edbadf1f45b83ba3549c023e9e50fb6474438542",
+    "verdict": "APPROVE",
+    "findings": [
+      "Suggestion (verified, service-collector.py): every fail-closed gate is a bare `assert`, stripped under python -O/PYTHONOPTIMIZE; the script would then still run `systemctl start` and mint a PASSED_SUPERVISED_IDLE_TICK receipt with no checks. Siblings raise ValueError explicitly. Consequence: future reruns could fail open. Affected task: first-handover evidence tooling. Smallest correction: replace asserts with explicit raises (also applies to verify_protected_intake.py). Existing receipt is unaffected because its values cross-check against independent receipts.",
+      "Suggestion (verified, service-collector.py receipt): `new_scientific_jobs: 0` is hardcoded without observing the scientific controller state, and `new_model_calls: 0` is inferred from unchanged turn binding.json count, which counts turn admissions rather than stage calls. Smallest correction: observe executor state and mark inferred fields as inferred rather than measured.",
+      "Suggestion (verified, service-collector.py): when a role account is missing, the loop records identity_exists=false and skips the write-boundary assertion entirely, silently weakening boundary evidence. All four roles existed in the actual run. Smallest correction: fail or explicitly flag a missing expected role.",
+      "Suggestion (verified, scripts/pilot_review.py): reviewed_commit is bound to `git rev-parse HEAD` while inputs are read from the working tree; a dirty tree would attest modified bytes under the HEAD id in the schema-const binding. Per-file SHA-256 records mitigate misattribution. Smallest correction: refuse when `git status --porcelain -- <files>` is non-empty or hash against HEAD blobs. Affects future review receipts, not the hash-recorded existing ones.",
+      "Suggestion (verified, scripts/pilot_review.py): structured_output is printed without gating on CLI returncode/is_error; a consumer could treat an errored session's partial output as a verdict. Returncode is preserved in execution.json. Smallest correction: refuse to emit a review when returncode!=0 or is_error is set.",
+      "Suggestion (verified, historical, deploy/research-system/prepare_completion_fixture.py): the systemd unit file is overwritten non-atomically and there is no rollback between `systemctl stop` and `start`; a mid-window failure leaves the fixture stopped with mixed old/new config. The evidence-directory guard correctly blocks blind retry; reconciliation is manual. Already executed successfully; no action required beyond noting for future migrations.",
+      "Verified consistency: model-call wall times sum to 270.675 s as documented; ledger/turn count 3 (one retained + two new turns, nine stage calls total) consistent across receipts; control revision 2->4 matches human-controls.json, service.json control_state [4,0], and the revision-2 status excerpt; task/job identities match across completion receipt, coordinator census, and status example; exactly one successor dispatch with attempts=1; reviewer stages enforce actual_model==claude-fable-5 while Astra's unresolved model is honestly labeled a limitation.",
+      "Verified boundaries preserved: published artifacts contain only hashes/metadata (no consoles, credentials, or patient data; journals and configs go to 0700 private directories; exports pass the publication scan); no live writer, timer, credential, or allowance increase introduced (max_model_turns stays 3, writer_config null, timers inactive); recovery made zero new model calls; scientific approvals intact - P001 unexecuted, 49 reserved cases untouched, main merges and unattended activation remain separately gated. No 24-48 hour disconnected claim is made."
+    ]
+  },
+  "session_id": "9c62e8fb-ada9-4fc4-b249-eb8e36a078e9",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 47783,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.047858,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 15464,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 70268,
+      "webSearchRequests": 0,
+      "costUSD": 2.17858,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "independent_merge_desk_review": false,
+  "investigator_disposition": {
+    "blocking_findings": 0,
+    "collector_assertions": "The exact executed collector is retained as historical evidence, not advertised as a reusable production runner. Future collectors should use explicit refusal gates; do not alter the original artifact.",
+    "collector_inferences": "Amended separately: zero new calls/jobs in the idle collector are inference from code/configuration and unchanged completed turn state, not independent per-process counters. No false new measurement is claimed.",
+    "missing_roles": "All four expected accounts existed in the actual run and write checks refused. Missing-role handling remains a future collector hardening item.",
+    "review_source_binding": "All five new closeout reviews were independently rechecked against Git blobs at their exact reviewed commits; every input SHA matched. A future courier update should enforce this before launching and suppress verdict output on CLI errors. Existing publication consumers already check returncode, is_error, result subtype, verdict, response hash and ancestry.",
+    "historical_setup": "Original failure evidence and old configurations remain private; partial setup refuses retries. No historical artifact or approval is edited.",
+    "review_gate": "APPROVE applies to this bounded implementation/supervised evidence and permission preparation only. Live credentials, activation, patients, cleanup and main merges remain reserved."
+  }
+}
