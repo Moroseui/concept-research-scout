@@ -28,3 +28,19 @@ def test_plan_preserves_old_and_bounds_new_turns(monkeypatch):
     for changed in [{'source':'c'*40},{**r,'synthetic_execution':{}}]:
         with pytest.raises(ValueError,match='ORIGINAL_CONSUMED'):
             m.planned(b,changed,'a'*40,'/fixed/source')
+
+
+def test_consumed_update_cannot_expand_model_or_writer_authority(monkeypatch):
+    directory=Path(__file__).parents[1]/'deploy/research-system';monkeypatch.syspath_prepend(str(directory))
+    spec=importlib.util.spec_from_file_location('fixture_update',directory/'update_consumed_handover_fixture.py')
+    m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+    b={'mode':'SYNTHETIC_FIXTURE','model_mode':'SUPERVISED','writer_config':None,
+       'sources':['a'*40],'max_model_turns':3,'policy':{'n':48}}
+    r={'source':'a'*40,'purpose':'SUPERVISED_COMPLETION_ACCEPTANCE','report_schedule':None,
+       'synthetic_execution':{'unchanged':'binding'}}
+    new,config=m.plan(b,r,'a'*40,'b'*40,'/installed/source')
+    assert new['max_model_turns']==3 and new['policy']==b['policy'] and new['writer_config'] is None
+    assert config['synthetic_execution']==r['synthetic_execution']
+    for changed in [{**r,'publication':{}},{**r,'report_schedule':{}},{**r,'purpose':'LIVE_APPROVED_HANDOVER'}]:
+        with pytest.raises(ValueError,match='CONSUMED_SYNTHETIC'):
+            m.plan(b,changed,'a'*40,'b'*40,'/installed/source')

@@ -115,6 +115,25 @@ def test_pause_holds_selected_work_until_explicit_resume(tmp_path,monkeypatch):
     assert len(calls)==3
 
 
+def test_failed_control_read_holds_both_dispatch_paths_without_losing_review(tmp_path,monkeypatch):
+    r,state,requests,outputs,source=configured(tmp_path,monkeypatch)
+    controller=r.completions.controller;controller.submit('predecessor','a'*40)
+    execute(r,state,requests,outputs,source);calls=handlers(r)
+    r.completions.ingest();r.q.tick()
+    def unreadable():raise OSError('Synthetic unreadable operator inbox')
+    monkeypatch.setattr(r,'controls',unreadable)
+    assert r.tick()['status']=='CONTROL_TRANSPORT_BLOCKED'
+    # Bookkeeping retains the actual review/selection but cannot dispatch it.
+    assert r.q.db.execute('SELECT status,attempts FROM selected_dispatch').fetchone()[:]==('INTENT',0)
+    assert r.q.db.execute('SELECT status FROM bookkeeping').fetchone()[0]=='COMPLETE'
+    r.completions.advance();r.tick()
+    assert not controller.db.execute("SELECT 1 FROM jobs WHERE id='successor'").fetchone()
+    assert len(calls)==3
+    monkeypatch.setattr(r,'controls',lambda:[])
+    r.tick();r.tick()
+    assert controller.get('successor')['status']=='READY' and len(calls)==3
+
+
 def test_submission_errors_have_a_durable_retry_ceiling(tmp_path,monkeypatch):
     r,state,requests,outputs,source=configured(tmp_path,monkeypatch)
     controller=r.completions.controller;controller.submit('predecessor','a'*40)
@@ -150,7 +169,7 @@ def test_report_retry_reuses_first_observation_and_original_report(tmp_path,monk
     r.completions.controller.submit('predecessor','a'*40)
     execute(r,state,requests,outputs,source)
     collect=module.collect;observations=[]
-    def counted(*args,**kwargs):observations.append(1);return collect(*args,**kwargs)
+    def counted(*args,**kwargs):observations.append(args[1]['kind']);return collect(*args,**kwargs)
     monkeypatch.setattr(module,'collect',counted)
     submit=r.q.submit;failed=[False]
     def fail_once(binding):
@@ -159,7 +178,9 @@ def test_report_retry_reuses_first_observation_and_original_report(tmp_path,monk
     monkeypatch.setattr(r.q,'submit',fail_once)
     r.completions.ingest()
     assert r.q.status()['tasks']==[]
+    first_observations=list(observations)
+    assert set(first_observations)=={'handover_implementation','deployment_acceptance','service_runtime'}
     reports=list((r.state/'reports').glob('*.md'))
     r.completions.ingest()
-    assert len(observations)==1 and len(r.q.status()['tasks'])==1
+    assert observations==first_observations and len(r.q.status()['tasks'])==1
     assert list((r.state/'reports').glob('*.md'))==reports

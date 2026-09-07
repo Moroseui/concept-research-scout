@@ -26,9 +26,11 @@ BRANCH='astra/infrastructure-milestone-record'
 class Broker:
     def __init__(self,config):
         required={'mode','repository','branch','controller_uid','operator_uids','sources','ledger_repo','publication_root','policy','writer_config','model_mode','turn_root','max_model_turns'}
-        if set(config) not in (required,required|{'activation_decision_sha256'}) or config['mode'] not in ('SYNTHETIC_FIXTURE','LIVE_APPROVED') or config['repository']!=REPOSITORY or config['branch']!=BRANCH:raise ValueError('PROTECTED_CONFIG_SCHEMA')
+        if not required<=set(config) or set(config)-required-{'activation_decision_sha256','notification_config'} or config['mode'] not in ('SYNTHETIC_FIXTURE','LIVE_APPROVED') or config['repository']!=REPOSITORY or config['branch']!=BRANCH:raise ValueError('PROTECTED_CONFIG_SCHEMA')
         if type(config['controller_uid']) is not int or config['controller_uid']<=0 or not config['operator_uids'] or config['controller_uid'] in config['operator_uids']:raise ValueError('DISTINCT_OPERATOR_REQUIRED')
         if config['model_mode'] not in ('DISABLED','SUPERVISED','GOVERNED') or type(config['max_model_turns']) is not int or not 0<=config['max_model_turns']<=4:raise ValueError('BOUNDED_MODEL_CONFIGURATION')
+        if config.get('notification_config') is not None and (not isinstance(config['notification_config'],str)
+                or not Path(config['notification_config']).is_absolute()):raise ValueError('PROTECTED_NOTIFICATION_CONFIG_PATH')
         if config['model_mode']=='GOVERNED':
             if config['mode']!='LIVE_APPROVED' or config['max_model_turns']!=0:
                 raise ValueError('GOVERNED_MODE_REQUIRES_LIVE_PERMISSION')
@@ -71,6 +73,45 @@ class Broker:
             if len(observed)!=2 or observed[1]!=ref or not re.fullmatch('[0-9a-f]{40}',observed[0]):
                 raise ValueError('PUBLICATION_DESTINATION_UNAVAILABLE')
             return {'status':'OBSERVED','source':observed[0],'repository':REPOSITORY,'branch':BRANCH}
+        if op=='flush_notifications':
+            if body!={}:raise ValueError('NOTIFICATION_STATUS_BODY')
+            notices=self.notices()
+            if notices is None:return {'status':'NOTIFICATIONS_DISABLED'}
+            from orchestrator.dispatch_limiter import pending_notifications
+            with self.authentication():pin,state=self.ledger.read()
+            result=[]
+            for key in pending_notifications(state):
+                notice=state['notifications'][key]
+                summary=('Admission threshold '+notice['threshold']+' recorded at count '+str(notice['count'])+
+                    ' on '+notice['day']+'. '+('Subsequent admissions are halted pending operator reset.'
+                        if notice['threshold']=='2N' else 'Work continues; this is a job-count warning, not a dollar limit.'))
+                result.append(notices.send('admission:'+key,pin,summary))
+            return {'status':'NOTIFICATION_RECONCILIATION','deliveries':result}
+        if op=='notify_report':
+            if (set(body)!={'source','report','phase'} or body['phase'] not in ('finalized','reviewed')
+                    or not isinstance(body['source'],str) or not isinstance(body['report'],str)
+                    or not re.fullmatch('[0-9a-f]{40}',body['source'])
+                    or not re.fullmatch('[0-9a-f]{64}',body['report'])):raise ValueError('REPORT_NOTIFICATION_SCHEMA')
+            notices=self.notices()
+            if notices is None:return {'status':'NOTIFICATIONS_DISABLED'}
+            observed=self.handle({'operation':'publication_status','body':{}},peer_uid)
+            from orchestrator.publication_candidate import git
+            git(self.config['publication_root'],'merge-base','--is-ancestor',body['source'],observed['source'])
+            path='docs/operations/daily/'+body['report']+'.md'
+            raw=git(self.config['publication_root'],'show',body['source']+':'+path);scan(path,raw)
+            if hashlib.sha256(raw).hexdigest()!=body['report']:raise ValueError('PUBLISHED_REPORT_CHANGED')
+            summary=('A checked '+body['phase']+' system report is available: https://github.com/Moroseui/concept-research-scout/blob/'+body['source']+'/'+path)
+            return notices.send('report:'+body['report']+':'+body['phase'],body['source'],summary)
+        if op=='notify_task_block':
+            if (set(body)!={'source','task','reason'} or body['source'] not in self.config['sources']
+                    or not isinstance(body['task'],str) or not re.fullmatch('[0-9a-f]{64}',body['task'])
+                    or not isinstance(body['reason'],str) or not re.fullmatch('[A-Z0-9_]{1,80}',body['reason'])):
+                raise ValueError('BLOCK_NOTIFICATION_SCHEMA')
+            notices=self.notices()
+            if notices is None:return {'status':'NOTIFICATIONS_DISABLED'}
+            summary=('A handover task is blocked: '+body['task']+'. Reason: '+body['reason']+
+                '. Original evidence is preserved. Inspect the source-bound status and decision inbox; do not blindly retry uncertain execution.')
+            return notices.send('block:'+body['task']+':'+body['reason'],body['source'],summary)
         if op=='admit_server':
             if body.get('source') not in self.config['sources']:raise ValueError('REVIEWED_SOURCE_REQUIRED')
             with self.authentication():return admit_server(self.ledger,self.config['policy'],body)
@@ -98,6 +139,12 @@ class Broker:
             # Checkout is a fixed protected import/cache path, never a request path.
             with self.authentication():return publish(Path(self.config['publication_root']),body,{k:body[k] for k in keys})
         raise ValueError('BROKER_OPERATION_REFUSED')
+
+    def notices(self):
+        path=self.config.get('notification_config')
+        if self.config['mode']!='LIVE_APPROVED' or path is None:return None
+        from orchestrator.handover_notifications import Notices
+        return Notices(Path(self.config['turn_root']).parent/'notifications',path)
 
     def model_stage(self,body):
         from orchestrator.hosted_cycle import model_call,immutable,encoded

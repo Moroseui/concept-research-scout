@@ -23,6 +23,25 @@ def test_report_identity_stable_after_review_queue_mutates(tmp_path,monkeypatch)
     assert first==second
 
 
+def test_large_permitted_source_packet_keeps_public_report_small(tmp_path,monkeypatch):
+    r=runtime(tmp_path,monkeypatch)
+    binding=r.enqueue_report('2026-09-07',[],{},reviewer_evidence={'permitted_source':'x'*120000})
+    folder=r.state/'tasks'/binding['id']
+    assert (folder/'packet.json').stat().st_size>100000
+    report=json.loads((folder/'report.json').read_text())
+    assert (r.state/'reports'/(report['id']+'.md')).stat().st_size<100000
+
+
+def test_human_pause_command_detects_existing_state_without_new_request(tmp_path,monkeypatch):
+    import orchestrator.handover_runtime as module
+    monkeypatch.setattr(module.os,'getuid',lambda:0)
+    monkeypatch.setattr(module,'controller_command',lambda config,op:{'revision':7,'paused':True})
+    result=module.operator_request({'source':'a'*40},'pause')
+    assert result=={'status':'ALREADY_PAUSED','revision':7}
+    # No inbox or internal state file was needed or rewritten for this repeat.
+    assert list(tmp_path.iterdir())==[]
+
+
 def test_completed_report_delivery_waits_for_permission_and_pause(tmp_path,monkeypatch):
     import orchestrator.report_delivery as delivery
     r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-07',[],{})
@@ -57,6 +76,23 @@ def test_live_admission_requires_finalized_publication_first(tmp_path,monkeypatc
         assert kwargs['phase']=='finalized';calls.append('publish');return {'status':'PUBLISHED'}
     monkeypatch.setattr(delivery,'deliver',publish)
     assert r.admit(binding)['status']=='ADMITTED' and calls==['publish','admit']
+
+
+def test_notifications_are_optional_information_and_do_not_dispatch(tmp_path,monkeypatch):
+    import orchestrator.handover_runtime as module
+    r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-07',[],{});r.q.submit(binding)
+    r.q.db.execute("UPDATE tasks SET status='BLOCKED',reason='UNCERTAIN_STAGE_RECONCILE_NO_RETRY'")
+    calls=[]
+    def notify(path,operation,body):
+        calls.append(operation)
+        return {'status':'SENT','issue':7}
+    monkeypatch.setattr(module,'request_broker',notify)
+    r.notifications();assert not calls
+    r.config['notifications']=True
+    r.notifications();r.notifications()
+    assert calls==['flush_notifications','notify_task_block','flush_notifications']
+    assert r.q.status()['tasks'][0]['status']=='BLOCKED'
+    assert r.status()['notification_delivery'][0]['status']=='SENT'
 
 
 def test_recovery_uses_status_operation_only(tmp_path,monkeypatch):

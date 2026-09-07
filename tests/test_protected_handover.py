@@ -37,6 +37,9 @@ def test_publication_status_has_fixed_peer_and_no_fixture_network(tmp_path,monke
     assert b.handle(request,10001)=={'status':'PUBLICATION_NOT_AUTHORIZED'}
     with pytest.raises(ValueError,match='STATUS_BODY'):
         b.handle({'operation':'publication_status','body':{'branch':'main'}},10001)
+    assert b.handle({'operation':'flush_notifications','body':{}},10001)=={'status':'NOTIFICATIONS_DISABLED'}
+    with pytest.raises(ValueError,match='BLOCK_NOTIFICATION_SCHEMA'):
+        b.handle({'operation':'notify_task_block','body':{'source':'b'*40,'task':'a'*64,'reason':'run arbitrary shell'}},10001)
 
 
 def test_operator_reset_sequence_and_action_provenance(tmp_path,monkeypatch):

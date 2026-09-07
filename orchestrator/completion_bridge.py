@@ -13,6 +13,7 @@ from pathlib import Path
 
 from orchestrator.handover_coordinator import encoded,digest
 from orchestrator.hosted_cycle import verified_jobs,select_next
+from orchestrator.hosted_cycle import immutable as private_immutable
 from orchestrator.operations_report import immutable
 from orchestrator.remote_supervisor import Controller,checked_source,identifier,lock
 from orchestrator.reviewer_evidence import collect,current_process
@@ -64,14 +65,23 @@ class CompletionBridge:
                         if observation_path.is_symlink():raise ValueError('COMPLETION_OBSERVATION_SYMLINK')
                         observation=json.loads(observation_path.read_text())
                     else:
+                        now=datetime.now(timezone.utc)
                         observation={'source':r.config['source'],'event_sha256':digest(event),
-                            'day_first_observed':datetime.now(timezone.utc).date().isoformat(),
+                            'day_first_observed':now.date().isoformat(),
+                            'coordinator_context':r.coordinator_context(now),
                             'rows':rows,'proposal':proposal,'evidence':{'completion':event,
                                 'implementation':collect(r.root,{'kind':'handover_implementation',
                                     'purpose':'Review the actual bounded completion adapter and its authority limits.',
                                     'affected_task':job}),
+                                'prior_deployment_acceptance':collect(r.root,{'kind':'deployment_acceptance',
+                                    'purpose':'Reuse actual historical recovery, backup and human-control receipts; do not infer current activation.',
+                                    'affected_task':job}),
+                                'service_configuration':collect(r.root,{'kind':'service_runtime',
+                                    'purpose':'Observe current service configuration separately from original execution evidence.',
+                                    'affected_task':job},hosted=r.config.get('purpose') in
+                                        ('SUPERVISED_COMPLETION_ACCEPTANCE','LIVE_APPROVED_HANDOVER')),
                                 'controller_process':current_process()}}
-                        immutable(observation_path,encoded(observation))
+                        private_immutable(observation_path,encoded(observation))
                     if (observation['source']!=r.config['source'] or observation['event_sha256']!=digest(event)
                             or observation['proposal']!=proposal):raise ValueError('COMPLETION_OBSERVATION_CHANGED')
                     r.q.db.execute('BEGIN IMMEDIATE')
@@ -79,7 +89,7 @@ class CompletionBridge:
                         if r.q.db.execute('SELECT 1 FROM completion_ingest WHERE job=?',(job,)).fetchone():
                             r.q.db.execute('COMMIT');continue
                         binding=r.enqueue_report(observation['day_first_observed'],observation['rows'],
-                            {'trigger':'Verified synthetic completion '+job,
+                            {**observation.get('coordinator_context',{}),'trigger':'Verified synthetic completion '+job,
                              'event_sha256':digest(event),
                              'observation_timing':'Report day is the first verified observation, not an inferred execution date.',
                              'limits':'Configured synthetic successor only; scientific tasks keep their separate gates.'},
@@ -127,7 +137,8 @@ class CompletionBridge:
         """Pause-aware idempotent submission; no model retry or new job identity."""
         r=self.runtime
         with lock(r.state/'admission.lock'):
-            if r.q.status()['paused']:return
+            if (r.q.status()['paused'] or
+                    r.q.db.execute("SELECT 1 FROM runtime_blocks WHERE phase='controls'").fetchone()):return
             for row in r.q.db.execute("SELECT * FROM selected_dispatch WHERE status='INTENT' ORDER BY rowid LIMIT 4").fetchall():
                 attempt=row['attempts']+1
                 r.q.db.execute('UPDATE selected_dispatch SET attempts=? WHERE task=?',(attempt,row['task']))

@@ -31,7 +31,7 @@ def positive(value):
 
 def config_checked(c):
     if set(c)!={'repository','repository_id','app_id','installation_id','operator_id','bot_id','mode','private_key'}:raise ValueError('CONFIG_SCHEMA')
-    if c['repository']!=REPO or c['mode']!='NOTIFICATION_SYNTHETIC_ONLY':raise ValueError('NOTIFICATION_SCOPE')
+    if c['repository']!=REPO or c['mode'] not in ('NOTIFICATION_SYNTHETIC_ONLY','NOTIFICATION_ONLY'):raise ValueError('NOTIFICATION_SCOPE')
     for k in ['repository_id','app_id','installation_id','operator_id','bot_id']:positive(c[k])
     return c
 
@@ -109,8 +109,10 @@ def packet_checked(p,now=None):
     scan('notification.json',json.dumps(p).encode());return p
 
 
-def body_for(p):
-    return ('@Moroseui — synthetic notification test. No operational approval is requested.\n\n'+p['summary']+
+def body_for(p,*,synthetic=True):
+    return ('@Moroseui — '+('synthetic notification test.' if synthetic else 'checked research-system notification.')+
+      (' No operational approval is requested.\n\n' if synthetic else
+       ' Replies acknowledge information only; operational decisions use their separately authorized route.\n\n')+p['summary']+
       '\n\nSource: `'+p['source']+'`.\n\nReply exactly: `ACK '+p['id']+' '+p['nonce']+' '+digest(p)+'`\n\nNotification: '+digest(p))
 
 
@@ -120,7 +122,8 @@ class Outbox:
         self.db.row_factory=sqlite3.Row
         self.db.execute('CREATE TABLE IF NOT EXISTS notifications(id TEXT PRIMARY KEY,packet TEXT NOT NULL,state TEXT NOT NULL,issue INTEGER,ack INTEGER)')
     def send(self,p,c,token,call=api):
-        packet_checked(p);config_checked(c);body=body_for(p);scan('issue.md',body.encode())
+        packet_checked(p);config_checked(c);synthetic=c['mode']=='NOTIFICATION_SYNTHETIC_ONLY'
+        body=body_for(p,synthetic=synthetic);scan('issue.md',body.encode())
         self.db.execute('BEGIN IMMEDIATE')
         try:
             old=self.db.execute('SELECT * FROM notifications WHERE id=?',(p['id'],)).fetchone()
@@ -135,7 +138,7 @@ class Outbox:
             if self.db.in_transaction:self.db.execute('ROLLBACK')
             raise
         # Persist UNCERTAIN before network mutation. Failure never automatically reposts.
-        result=call('POST','/repos/'+REPO+'/issues',token,{'title':'Synthetic acknowledgment: '+p['id'],'body':body})
+        result=call('POST','/repos/'+REPO+'/issues',token,{'title':('Synthetic acknowledgment: ' if synthetic else 'Research system: ')+p['id'],'body':body})
         if result['user']['id']!=c['bot_id'] or result['body']!=body or result['repository_url']!='https://api.github.com/repos/'+REPO:raise ValueError('ISSUE_RESPONSE_BINDING')
         number=positive(result['number'])
         self.db.execute("UPDATE notifications SET state='SENT',issue=? WHERE id=?",(number,p['id']))
@@ -151,20 +154,24 @@ class Outbox:
             raise ValueError('ACK_IDENTITY_OR_VERSION_REJECTED')
         result=self.db.execute("UPDATE notifications SET state='ACKNOWLEDGED',ack=? WHERE id=? AND state='SENT'",(comment_id,key))
         if result.rowcount==0 and self.db.execute('SELECT ack FROM notifications WHERE id=?',(key,)).fetchone()[0]!=comment_id:raise ValueError('ACK_ALREADY_CONSUMED')
-        return {'status':'SYNTHETIC_ACKNOWLEDGED','comment_id':comment_id,'duplicate':result.rowcount==0,'operational_authority':False}
+        return {'status':'SYNTHETIC_ACKNOWLEDGED' if c['mode']=='NOTIFICATION_SYNTHETIC_ONLY' else 'INFORMATION_ACKNOWLEDGED',
+                'comment_id':comment_id,'duplicate':result.rowcount==0,'operational_authority':False}
 
 
 def main():
     os.umask(0o077)
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['inspect','send-synthetic','ack-synthetic']);p.add_argument('--config',required=True);p.add_argument('--state',required=True);p.add_argument('--packet');p.add_argument('--id');p.add_argument('--comment-id',type=int);a=p.parse_args()
-    c=config_checked(json.loads(protected_read(a.config)));token,identity=session(c,jwt(c))
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['inspect','send-synthetic','ack-synthetic','send-notification','ack-notification']);p.add_argument('--config',required=True);p.add_argument('--state',required=True);p.add_argument('--packet');p.add_argument('--id');p.add_argument('--comment-id',type=int);a=p.parse_args()
+    c=config_checked(json.loads(protected_read(a.config)))
+    if a.action!='inspect' and (a.action.endswith('synthetic'))!=(c['mode']=='NOTIFICATION_SYNTHETIC_ONLY'):
+        raise ValueError('NOTIFICATION_COMMAND_MODE_MISMATCH')
+    token,identity=session(c,jwt(c))
     root=private_root(a.state)
     if a.action=='inspect':
         (root/'verified-identities.json').write_text(json.dumps(identity,indent=2)+'\n');result=identity
     else:
         if json.loads(protected_read(root/'verified-identities.json'))!=identity:raise ValueError('RECORD_IDENTITIES_BEFORE_ACTIVATION')
         out=Outbox(root)
-        result=out.send(json.loads(Path(a.packet).read_text()),c,token) if a.action=='send-synthetic' else out.acknowledge(a.id,a.comment_id,c,token)
+        result=out.send(json.loads(Path(a.packet).read_text()),c,token) if a.action.startswith('send-') else out.acknowledge(a.id,a.comment_id,c,token)
     print(json.dumps(result))
 
 if __name__=='__main__':main()
