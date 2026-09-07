@@ -80,12 +80,18 @@ class GitLedger:
         if self.remote:
             if not old and not self.allow_initialization:raise ValueError('OPERATOR_MUST_INITIALIZE_STATE_REF')
             if self.expected_remote and self.git('remote','get-url','origin').stdout.strip()!=self.expected_remote:raise ValueError('LIMITER_REPOSITORY_MISMATCH')
-            r=self.git('push','--force-with-lease='+REF+':'+(old or ''),'origin',new+':'+REF,check=False)
+            r=self.git('push','--porcelain','--force-with-lease='+REF+':'+(old or ''),'origin',new+':'+REF,check=False)
             if r.returncode:
                 # Distinguish a real CAS race from unavailable permission/connectivity.
                 current=self.git('ls-remote','origin',REF).stdout.split()
                 if current and current[0]!=old:return False
                 raise ValueError('LIMITER_STATE_WRITE_UNAVAILABLE')
+            statuses=[line.split('\t') for line in r.stdout.splitlines() if '\t' in line]
+            if len(statuses)!=1 or statuses[0][1]!=new+':'+REF:raise ValueError('LIMITER_CAS_RESULT_UNVERIFIED')
+            # Git can report an already-identical ref as up-to-date without
+            # exercising the expected-old lease. Re-read it as a duplicate/race.
+            if statuses[0][0]=='=':return False
+            if statuses[0][0]!=('*' if old is None else ' '):raise ValueError('LIMITER_CAS_RESULT_UNVERIFIED')
         else:
             r=self.git('update-ref',REF,new,old or '0'*40,check=False)
             if r.returncode:return False

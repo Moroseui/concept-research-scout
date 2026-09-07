@@ -173,3 +173,20 @@ actual controller systemd unit. Revision moved 0 → 1 → 2 as expected; stale/
 requests remained blocked, completed tasks were preserved, and the fixture ledger
 pin/count were unchanged. Zero model calls. This is setup-authorized synthetic
 operator transport testing, not operational phone permission or a live reset grant.
+
+Current handover backup/restore acceptance passed using backup code at 72c023f
+against the actual completed 6863968 fixture. The restored private sample contains
+57 identity-verified files, one completed task, three completed stages, original
+model evidence and control revision 2. SQLite integrity checks passed. No service,
+model or authority was restored/activated; provider backup recovery is unproven.
+The code uses the existing backup module with explicit handover database handling.
+Original sample and restore remain private on the server. Receipt:
+`hosted-service-acceptance-20260907/backup-recovery.json`.
+
+All work continues under the active first-handover goal. The next implementation
+focus is protected candidate publication and shared Actions admission/polling,
+followed by completion-event scheduling and the final deployed-evidence review.
+No local/remote model call is pending at this checkpoint. The fixture broker/socket
+remain running but have no timer and their sole permitted model turn is consumed.
+Original synthetic controller/worker timers and scientific task stores remain
+untouched. Source review/deployed acceptance do not activate live permissions.

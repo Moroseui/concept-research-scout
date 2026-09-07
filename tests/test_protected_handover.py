@@ -9,11 +9,12 @@ from test_server_admission import server
 
 
 def broker(tmp_path):
-    subprocess.run(['git','init','-q',str(tmp_path)],check=True)
-    GitLedger(tmp_path).cas(None,initial())
+    ledger=tmp_path/'ledger';ledger.mkdir()
+    subprocess.run(['git','init','-q',str(ledger)],check=True)
+    GitLedger(ledger).cas(None,initial())
     return Broker({'mode':'SYNTHETIC_FIXTURE','repository':REPOSITORY,'branch':BRANCH,
                   'controller_uid':10001,'operator_uids':[os.getuid()],'sources':['b'*40],
-                  'ledger_repo':str(tmp_path),'publication_root':str(tmp_path),'writer_config':None,'model_mode':'DISABLED','turn_root':str(tmp_path/'turns'),'max_model_turns':0,
+                  'ledger_repo':str(ledger),'publication_root':str(tmp_path/'publication'),'writer_config':None,'model_mode':'DISABLED','turn_root':str(tmp_path/'turns'),'max_model_turns':0,
                   'policy':{**config(2),'server_semantics':'OPERATOR_AUTHORIZED_V1','reset_operators':['ssh-uid:'+str(os.getuid())]}})
 
 
@@ -75,3 +76,32 @@ def test_stage_status_rejects_traversal_via_shared_event_validator(tmp_path):
         event={**server(1),key:value}
         with pytest.raises(ValueError,match='SERVER_IDENTITY'):
             b.stage_status({'event':event,'stage':'review'})
+
+
+def test_publication_cache_cannot_overlap_execution_or_ledger(tmp_path):
+    from pathlib import Path
+    import orchestrator.protected_handover as module
+    b=broker(tmp_path)
+    for path in [b.config['ledger_repo'],str(tmp_path),str(Path(module.__file__).resolve().parents[1])]:
+        with pytest.raises(ValueError,match='PROTECTED_STATE_ROOTS|EXECUTION_SOURCE'):
+            Broker({**b.config,'publication_root':path})
+
+
+def test_candidate_pin_is_separate_from_installed_execution_pin(tmp_path,monkeypatch):
+    from contextlib import nullcontext
+    import orchestrator.protected_handover as module
+    b=broker(tmp_path)
+    # Synthetic fake authentication/publisher: no live credential or Git write.
+    b.config['mode']='LIVE_APPROVED'
+    monkeypatch.setattr(b,'authentication',lambda:nullcontext())
+    calls=[]
+    def checked_publish(root,request,authority):
+        calls.append((request,authority));return {'status':'fixture-delegated'}
+    monkeypatch.setattr(module,'publish',checked_publish)
+    request={'source':'c'*40,'before':'d'*40,'destination':BRANCH,'remote':REPOSITORY,'inventory':{}}
+    assert request['source'] not in b.config['sources']
+    assert b.handle({'operation':'publish','body':request},10001)['status']=='fixture-delegated'
+    assert calls[0][1]=={k:v for k,v in request.items() if k!='inventory'}
+    with pytest.raises(ValueError,match='DESTINATION_REFUSED'):
+        b.handle({'operation':'publish','body':{**request,'destination':'main'}},10001)
+    assert len(calls)==1

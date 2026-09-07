@@ -99,3 +99,20 @@ def test_notice_order_survives_git_json_roundtrip():
                               for n in [2,9,10,48,96,101]}
     recovered = json.loads(json.dumps(state, sort_keys=True))
     assert pending_notifications(recovered) == ['10:N','48:N','96:N','101:N']
+
+
+def test_remote_identical_creation_is_not_a_second_initialization(tmp_path,monkeypatch):
+    import os
+    remote=tmp_path/'remote.git';subprocess.run(['git','init','-q','--bare',str(remote)],check=True)
+    client=tmp_path/'client';client.mkdir();subprocess.run(['git','init','-q',str(client)],check=True)
+    subprocess.run(['git','-C',str(client),'remote','add','origin',str(remote)],check=True)
+    # Pin commit timestamps so both calls produce an identical candidate object.
+    monkeypatch.setenv('GIT_AUTHOR_DATE','2026-09-07T00:00:00Z')
+    monkeypatch.setenv('GIT_COMMITTER_DATE','2026-09-07T00:00:00Z')
+    store=GitLedger(client,remote=True,allow_initialization=True)
+    state=initial()
+    assert store.cas(None,state) is True
+    assert store.cas(None,state) is False
+    old,original=store.read();original['sequence']=1
+    assert store.cas(old,original) is True
+    assert store.cas(old,original) is False

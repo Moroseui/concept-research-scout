@@ -31,6 +31,11 @@ class Broker:
         if not isinstance(config['sources'],list) or not config['sources'] or len(config['sources'])>16:raise ValueError('BOUNDED_REVIEWED_SOURCES')
         import re
         if any(not isinstance(pin,str) or not re.fullmatch('[0-9a-f]{40}',pin) for pin in config['sources']):raise ValueError('REVIEWED_SOURCE_REQUIRED')
+        roots=[Path(config[name]).resolve() for name in ('publication_root','ledger_repo','turn_root')]
+        if any(a.is_relative_to(b) or b.is_relative_to(a) for i,a in enumerate(roots) for b in roots[i+1:]):
+            raise ValueError('DISTINCT_PROTECTED_STATE_ROOTS_REQUIRED')
+        if roots[0].is_relative_to(Path(__file__).resolve().parents[1]):
+            raise ValueError('PUBLICATION_CACHE_MUST_NOT_BE_EXECUTION_SOURCE')
         self.config=config
         self.ledger=GitLedger(config['ledger_repo'],remote=config['mode']=='LIVE_APPROVED',expected_remote=REPOSITORY)
 
@@ -53,10 +58,22 @@ class Broker:
             with self.authentication():return admit_server(self.ledger,self.config['policy'],body)
         if op=='stage_status':return self.stage_status(body)
         if op=='model_stage':return self.model_stage(body)
+        if op=='stage_candidate':
+            import base64
+            from orchestrator.publication_candidate import receive
+            if set(body)!={'source','before','inventory','bundle_sha256','bundle_base64'}:
+                raise ValueError('CANDIDATE_REQUEST_SCHEMA')
+            raw=base64.b64decode(body['bundle_base64'],validate=True)
+            # Fixed protected cache, no credentials and no remote publication.
+            return receive(self.config['publication_root'],body['source'],body['before'],
+                           body['inventory'],raw,body['bundle_sha256'])
         if op=='publish':
             if self.config['mode']!='LIVE_APPROVED':raise ValueError('LIVE_PUBLICATION_NOT_AUTHORIZED')
             policy(self.config['policy'])
-            if body.get('source') not in self.config['sources']:raise ValueError('REVIEWED_SOURCE_REQUIRED')
+            from orchestrator.publication_candidate import pins
+            # Installed execution sources are distinct from new branch commits.
+            # Every candidate still passes the complete audit and exact ref lease.
+            pins(body.get('source'),body.get('audit_baseline') if body.get('operation')=='create' else body.get('before'))
             if body.get('destination')!=BRANCH or body.get('remote')!=REPOSITORY:raise ValueError('PUBLICATION_DESTINATION_REFUSED')
             keys={'operation','source','audit_baseline','baseline_ref','destination','remote','expected_destination'} if body.get('operation')=='create' else {'source','before','destination','remote'}
             if set(body)!=keys|{'inventory'}:raise ValueError('PUBLICATION_SCHEMA')
