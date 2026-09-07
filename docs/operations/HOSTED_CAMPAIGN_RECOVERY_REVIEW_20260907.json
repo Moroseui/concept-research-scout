@@ -1,0 +1,46 @@
+{
+  "execution": {
+    "reviewed_commit": "e9232aff906e03a155eb90e01bb21670658ce27d",
+    "returncode": 0,
+    "wall_seconds": 338.1755569980014,
+    "input_file_sha256": {
+      "orchestrator/hosted_campaign.py": "217cec6b64dddb692724d059c259225067c2329858b72913019783d0689c45f4",
+      "orchestrator/campaign_pipeline.py": "0dcb4e4768c5947a4b4ee70a5d73541bd612e8ef5fb99f98a3eacff9fb2221ea",
+      "orchestrator/protected_handover.py": "0c6c848f52693937e669701ff36bd77f9d1a50bb59b8526d988af34a126add3c",
+      "orchestrator/handover_runtime.py": "957c3a3352a743885052e1f521f1dfdb7ca0bf79289c953b94b9a0dc62fe37df",
+      "tests/test_hosted_campaign.py": "6afcc2fa331438cd4b560c2f549382c021d0738296b87b6ddec6d600bf50ff5d",
+      "tests/test_protected_handover.py": "fcb2c9234190d827bb9e804d191dc5b5773f7a23caaf48a5da9b09d3e6f71cd8",
+      "docs/operations/HOSTED_CAMPAIGN_ADAPTER_PREPARATION_20260907.md": "1ba0aab387f9bdf75a39fc32e23864b87c9a19d72ae383b80da5a02503b50f9e",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "503d4a69d1ca3ea5a4417fa18b4f15b5965b1fe786c13d5d3e92456cfe63baa3",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "2d41a385c3cf7ae000029858ccf0dbd101378a6d91d0a3dd18bd2cc76f3edf23"
+  },
+  "review": {
+    "scope": "hosted-campaign-read-only-recovery",
+    "reviewed_commit": "e9232aff906e03a155eb90e01bb21670658ce27d",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (read-only, fail-closed): recovery=True forces BrokerStages.call onto stage_status only; the read_cached and replay clients in recover_projection raise RECOVERY_MODEL_CALL_FORBIDDEN for any other operation, and any non-COMPLETE broker status raises HOSTED_CAMPAIGN_BLOCKED_RECONCILE_NO_RETRY, so a missing or uncertain original stage blocks without a model retry and consumes no admission; the recovery.json new_model_calls:0 claim is structurally enforced.",
+      "VERIFIED (identity bindings): replayed answers are re-checked against the persisted receipt (answer_sha256, returncode, requested_model, exact claude-fable-5 actual_model for review, operating_context_sha256 format) and against the caller packet via packet_sha256 bound to the broker's binding.json; broker stage_status independently re-hashes persisted stdout/stderr/input/answer/operating-context files, enforces exact event equality, symlink refusal, and the controller-uid peer check; only answer plus receipt hashes cross the boundary, keeping original prompts/consoles private.",
+      "VERIFIED (recovery semantics preserve approvals): the original review verdict is replayed, never re-adjudicated (new_review:false); a REVISE original yields a blocked projection under the enforced max_rounds=1 rather than a hidden repair; the projected receipt stays REVIEWED_PROPOSAL_NOT_ADOPTED with no adoption or launch authority; packet contract, mode, request, max_rounds=1 and current grounding/evidence hashes must match the original request.json, so changed scientific context fails closed.",
+      "VERIFIED (original preservation): symlinked or byte-divergent round-1 originals are refused before the projection directory is created (conflict loop precedes run_pipeline; execute mkdirs with exist_ok=False), the original tree is never written, and concurrent recoveries into one output fail closed.",
+      "SUGGESTION: recover_projection refuses output==original but not output as a descendant of original; execute's mkdir(parents=True) can then create new directories inside the preserved original tree. Add a refusal when output.resolve().is_relative_to(original.resolve()).",
+      "SUGGESTION: request.json records no broker event/turn identity, so when the original crashed before any round-1 artifact the byte-equality guard is vacuous and the RECOVERED_ORIGINAL_MODEL_ARTIFACTS claim rests entirely on the trusted caller pairing the correct event with the directory. Persist the event/turn id in request.json or the initiator at creation and verify it during recovery.",
+      "SUGGESTION: execute writes the projection's receipt.json before recovery.json, so a crash between the two leaves a projection whose top-level receipt looks fresh; it remains auditable because the recovered_original:true per-stage provenance files are hash-bound into artifact_sha256, but a recovery marker inside the receipt itself would make the state unambiguous.",
+      "MINOR: grounding/evidence context is hashed once for verification in recover_projection and re-derived inside execute for the projection's request.json; a change between the two reads would be recorded unverified. Single-writer operation mitigates; passing the verified context through would remove the race."
+    ]
+  },
+  "session_id": "c7c63657-5b0b-4e1f-af0c-0a3cfd28414e",
+  "total_cost_usd_reported": 2.40983,
+  "attribution": "Actual author-operated Claude source review, not independent main-merge desk or hosted execution proof."
+}

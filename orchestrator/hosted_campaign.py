@@ -101,7 +101,8 @@ def run_pipeline(sc, mode, request, output, stages):
         raise ValueError('HOSTED_CAMPAIGN_PACKET_CONTRACT')
     return execute(sc,mode,'P001',request,output,max_rounds=1,stage_runner=stages,
                    initiator={'kind':'agent','family':'codex','model':'gpt-6-astra',
-                              'route':'protected-hosted-campaign-v1'})
+                              'route':'protected-hosted-campaign-v1','event':stages.event,
+                              'packet_sha256':hashlib.sha256(encoded(stages.packet)).hexdigest()})
 
 
 def recover_projection(sc,mode,request,original,output,stages):
@@ -119,11 +120,14 @@ def recover_projection(sc,mode,request,original,output,stages):
     permitted=Path(sc.ROOT)/'campaigns/isles24-pilot/pipeline'
     if any(p.is_symlink() for p in (original,*original.parents)) or not original.resolve().is_relative_to(permitted.resolve()):
         raise ValueError('RECOVERY_ORIGINAL_PATH')
-    if output.exists() or output.resolve()==original.resolve():raise ValueError('FRESH_RECOVERY_PROJECTION_REQUIRED')
+    if output.exists() or output.resolve().is_relative_to(original.resolve()):raise ValueError('FRESH_RECOVERY_PROJECTION_REQUIRED')
     if (original/'request.json').is_symlink() or (original/'round-1').is_symlink():
         raise ValueError('RECOVERY_ORIGINAL_PATH')
     prior_raw=(original/'request.json').read_bytes()
     prior=json.loads(prior_raw)
+    initiator=prior.get('initiator',{})
+    if (initiator.get('event')!=stages.event or initiator.get('packet_sha256')!=hashlib.sha256(encoded(stages.packet)).hexdigest()):
+        raise ValueError('RECOVERY_ORIGINAL_TURN_BINDING_REQUIRED')
     context=grounding(sc.ROOT,'P001')
     context['related-evidence.json']=json.dumps(evidence_context(sc.ROOT,'isles24-prediction'))
     hashes={k:hashlib.sha256(v.encode()).hexdigest() for k,v in context.items()}

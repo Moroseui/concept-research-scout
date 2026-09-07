@@ -56,3 +56,20 @@ refuses conflicting original files, and preserves the original incomplete tree.
 The projection explicitly records zero new model calls and no fresh review. A
 missing completion or wrong packet stays blocked. These are local synthetic tests,
 not a hosted recovery claim. Controller integration and real execution remain.
+
+The next controller integration is bounded to one installed P001 readiness or
+discussion request, triggered by a verified completion identity. The packet must
+include that exact request and context versions. The shared campaign pipeline
+consumes the existing author/reviewer stages; coordinator review bookkeeping
+retrieves the same original review, and the third stage records Astra's response.
+Recovery must validate the scientific artifacts before allowing the coordinator
+to advance: a broker completion alone does not prove pipeline completion. A
+negative scientific review remains blocked and cannot be converted to approval
+by recovery. This paragraph is an implementation plan, not installed behavior.
+
+Fresh Claude source review approved recovery at e9232aff. Two suggestions were
+then implemented: recovery cannot write beneath the original directory, and the
+original request now binds the exact broker event and packet hash. Unbound older
+requests refuse rather than acquiring invented provenance. Eighteen focused tests
+passed after these changes, including retained negative review and path/turn
+refusals. Controller integration remains an uninstalled working change.

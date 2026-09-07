@@ -115,7 +115,7 @@ def test_recovery_missing_completion_never_submits_model(tmp_path):
     original=tmp_path/'campaigns/isles24-pilot/pipeline/original';original.mkdir(parents=True)
     packet={'campaign_artifacts':{'version':1,'experiment':'P001','mode':'discuss'}}
     hashes={'related-evidence.json':hashlib.sha256(json.dumps({}).encode()).hexdigest()}
-    (original/'request.json').write_text(json.dumps({'mode':'discuss','experiment':'P001','request':'Question','max_rounds':1,'input_sha256':hashes}))
+    (original/'request.json').write_text(json.dumps({'mode':'discuss','experiment':'P001','request':'Question','max_rounds':1,'input_sha256':hashes,'initiator':{'event':{},'packet_sha256':hashlib.sha256(encoded(packet)).hexdigest()}}))
     def missing(socket,operation,body):
         assert operation=='stage_status'
         return {'status':'NOT_OBSERVED_NO_RETRY'}
@@ -134,3 +134,40 @@ def test_packet_mismatch_refuses_recovered_reply_before_write(tmp_path):
     with pytest.raises(ValueError,match='RECEIPT_BINDING'):
         BrokerStages('fixture',{}, {},client=wrong,recovery=True)(None,tmp_path,'codex','campaign_discuss','Question',['discussion.md'])
     assert not list(tmp_path.iterdir())
+
+
+def test_recovery_cannot_turn_negative_review_into_approval(tmp_path):
+    packet={'campaign_artifacts':{'version':1,'experiment':'P001','mode':'discuss'}}
+    answers=[json.dumps({'discussion.md':'Proposal requiring revision'}),
+             json.dumps({'review.json':json.dumps({'verdict':'REVISE','rationale':'Missing source evidence'})})]
+    responses={};base,_=client_for(answers)
+    def capture(socket,operation,body):
+        response=base(socket,operation,body);responses[body['stage']]=response;return response
+    original=tmp_path/'campaigns/isles24-pilot/pipeline/original'
+    with patch('orchestrator.campaign_pipeline.grounding',return_value={}),patch('orchestrator.research_context.evidence_context',return_value={}):
+        with pytest.raises(ValueError,match='revision limit'):
+            run_pipeline(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,BrokerStages('fixture',{},packet,client=capture))
+        before={p.relative_to(original):p.read_bytes() for p in original.rglob('*') if p.is_file()}
+        calls=[]
+        def read(socket,operation,body):
+            calls.append(operation);assert operation=='stage_status'
+            return dict(responses[body['stage']],duplicate=True)
+        output=original.parent/'recovery'
+        with pytest.raises(ValueError,match='revision limit'):
+            recover_projection(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,output,BrokerStages('fixture',{},packet,client=read,recovery=True))
+    assert calls==['stage_status','stage_status']
+    assert not (output/'receipt.json').exists()
+    assert (output/'blocked.json').exists()
+    assert {p.relative_to(original):p.read_bytes() for p in original.rglob('*') if p.is_file()}==before
+
+
+def test_recovery_refuses_nested_destination_and_unbound_original(tmp_path):
+    original=tmp_path/'campaigns/isles24-pilot/pipeline/original';original.mkdir(parents=True)
+    stages=BrokerStages('fixture',{'turn_id':'a'*64},{},client=lambda *args:pytest.fail('No broker access allowed'),recovery=True)
+    with pytest.raises(ValueError,match='FRESH_RECOVERY_PROJECTION_REQUIRED'):
+        recover_projection(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,original/'nested',stages)
+    assert not (original/'nested').exists()
+    (original/'request.json').write_text('{}')
+    with pytest.raises(ValueError,match='ORIGINAL_TURN_BINDING_REQUIRED'):
+        recover_projection(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,original.parent/'projection',stages)
+    assert not (original.parent/'projection').exists()

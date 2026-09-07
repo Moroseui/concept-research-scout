@@ -1,0 +1,26 @@
+{
+  "source_commit": "e9232aff906e03a155eb90e01bb21670658ce27d",
+  "kind": "LOCAL_SYNTHETIC_TESTS_NOT_HOSTED_EXECUTION",
+  "first_attempt": {
+    "passed": 44,
+    "failed": 1,
+    "reason": "Synthetic stage_status binding omitted the packet_sha256 production bindings already contain. Original failure retained."
+  },
+  "corrected_attempt": {
+    "passed": 45,
+    "failed": 0,
+    "seconds": 0.92
+  },
+  "command": "pytest -q tests/test_hosted_campaign.py tests/test_protected_handover.py tests/test_handover_runtime.py tests/test_campaign_pipeline.py",
+  "console_sha256": [
+    "40c02d8c59f5e7ec35aba4a84c13d9003542345527b71e6636ee35116edece61",
+    "e5d3ec36450381351d2c67982c39145e4de898fe046cb8be792d09617a896996"
+  ],
+  "additional_worktree_verification": {
+    "command": "pytest -q tests/test_hosted_campaign.py",
+    "passed": 11,
+    "seconds": 0.22,
+    "scope": "Adds negative-review recovery test; scientific implementation unchanged from source_commit.",
+    "reviewed_status": "Test added while source review pending"
+  }
+}
