@@ -1,0 +1,32 @@
+{
+  "checked_date": "2026-09-07",
+  "source": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+  "parent": "b652005fbcf6a87765a85e81b381a8596b4384ce",
+  "source_remote_unchanged": true,
+  "original_bundle_verify_exit": 0,
+  "original_bundle_sha256_matches_rehearsal": true,
+  "source_files": 215,
+  "staged_files": 198,
+  "top_level_files": 17,
+  "failure_original_matches_parent": true,
+  "successful_sibling_console_in_source": false,
+  "private_exclusion_original_present": true,
+  "prior_core_validation": "PASSED_REUSED_NOT_REPEATED",
+  "prior_import": "PUBLICATION_POLICY_REFUSAL_REUSED",
+  "operator_name_047b": "UNCONFIRMED_CANDIDATE",
+  "remaining_gates": [
+    "historical_registry_attestation",
+    "exclusions_and_case_linked_metadata_disposition",
+    "original_successful_console_recovery_or_explicit_missing_evidence_decision",
+    "separate_scientific_landing_approval"
+  ],
+  "patient_execution": false,
+  "import_attempted": false,
+  "cleanup_executed": false,
+  "registry_status_command": "scout.py registry-status 47",
+  "registry_status": {
+    "support_dictionary_a": "STALE_MISSING_HISTORICAL_ATTESTATION",
+    "clinical_profile_b": "BLOCKED_ON_PHASE_A"
+  },
+  "environment_note": "Initial system-Python invocation lacked PyYAML; existing pinned test environment succeeded. No historical approval was changed."
+}

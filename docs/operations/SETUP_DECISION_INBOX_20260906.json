@@ -81,6 +81,24 @@
       "status": "OPEN_PERMISSION_DESIGN",
       "reason": "MAIN_UNPROTECTED_AND_MODEL_SECRETS_REPOSITORY_SCOPED",
       "next_action": "Include exact repository protection and credential/environment limitations in the final grouped writer/admission packet. Authenticated read-only API found only results protection ruleset 20885616, main protection 404, and no environments. No protection or credential change was performed."
+    },
+    {
+      "job": "p001-prospective-adoption-20260907",
+      "status": "OPEN_SCIENTIFIC_DECISION",
+      "reason": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+      "next_action": "Review P001_EXECUTION_DECISION_20260907.md: proposed charter/adoption and bounded input preflight; launch remains separate."
+    },
+    {
+      "job": "colab-persistent-handoff-20260907",
+      "status": "OPEN_IMPLEMENTATION",
+      "reason": "ONE_SHOT_WORKER_CLOSES_MCP_BEFORE_LATER_RETRIEVAL",
+      "next_action": "Prepare a persistent bounded metadata handoff or use the reviewed human notebook route before another browser request. Operator reported Drive mounted; do not claim independent retrieval."
+    },
+    {
+      "job": "047b-original-console-20260907",
+      "status": "OPEN_EVIDENCE_AND_DECISION",
+      "reason": "PRESERVED_SOURCE_MATCHES_BUT_SUCCESSFUL_CONSOLE_NOT_FOUND",
+      "next_action": "Confirm whether 047b names the pinned Phase-B source and locate original successful sibling console; then resolve historical registry attestation, metadata disposition and separate scientific landing. Reuse prior validator and policy refusal."
     }
   ]
 }

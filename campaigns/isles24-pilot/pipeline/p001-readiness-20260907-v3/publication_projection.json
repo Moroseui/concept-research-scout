@@ -1,0 +1,67 @@
+{
+  "status": "EXPLICIT_PROPOSAL_PUBLICATION_SUBSET",
+  "original_receipt_unchanged": true,
+  "files": [
+    {
+      "path": "receipt.json",
+      "sha256": "5e1da9b5ccbeef499f45eaf99d6af7b500e6a121a4d3719f41bb9ad9575f80c9",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "request.json",
+      "sha256": "f150e60e5038ae862d75efa3ac20c7082cc5655a9136598a497b71a9d041793d",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/launch_decision.proposed.json",
+      "sha256": "f73018353ccd46b319336fe2cb3fdc95f3c2ad49a8e59ad6473167b035c4e545",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/log_campaign_readiness.txt",
+      "sha256": "52ec11af8321fcf1207e06c82b0541d13011955e805537953cbd925448878424",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/log_campaign_readiness_review.txt",
+      "sha256": "a32a3021d95558f42bf5b0c0432039936b2ad9be0beae1161a359060e49a4e52",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/profile_campaign_readiness.json",
+      "sha256": "762b04f0246f046f2171db9615a5770feb489311517a9b8d2b1e40dd036796ca",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/profile_campaign_readiness_review.json",
+      "sha256": "5a8ea4673c7c93318be76a76faeabbb817b2a8d016228109c0ca91e64923e6dc",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/prompt_campaign_readiness.md",
+      "sha256": "9a2a61cd18f05ae7d2f27b31b9bf783d1c49659c8361d85b795bb727500b42b1",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/prompt_campaign_readiness_review.md",
+      "sha256": "1ff95cde793a7ce629a685b3290ffa2e44dae0967473ab26689e2b2f210d57b7",
+      "disposition": "PRIVATE_ORIGINAL_CONSOLE_OR_PROMPT_RETAINED"
+    },
+    {
+      "path": "round-1/readiness.md",
+      "sha256": "f7ee26b9fc70d9b734fd2777c5ee78ebb1df5c8199a3fd3ff3c6714f1ea0d608",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/review.json",
+      "sha256": "c7c9d5f0beccc699140b0af084fb705f35f1ee1c4ada3b78340e155fe14db953",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    },
+    {
+      "path": "round-1/stage_provenance.jsonl",
+      "sha256": "98222de711ebf8f376ceacd09d59cda1f535a5c26c87f2e662cb6e92a7d216ee",
+      "disposition": "PUBLIC_CHECKED_PROPOSAL_METADATA"
+    }
+  ],
+  "private_originals_preserved": true
+}

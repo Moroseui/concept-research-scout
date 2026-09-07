@@ -1,0 +1,25 @@
+{
+  "status": "COMPLETE",
+  "returncode": 0,
+  "wall_seconds": 120.97737430898997,
+  "task": "locate_existing_archive",
+  "requested_model": "claude-fable-5",
+  "actual_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "discovery": {
+    "drive_mounted": false,
+    "scan_complete": true,
+    "archive_candidates": []
+  },
+  "cli_reported_cost_usd": 0.522965,
+  "checked_date": "2026-09-07",
+  "interpretation": "CPU and Colab cells passed; Drive absent, so preserved archive availability remains unverified. Empty candidate list is not evidence of missing Drive file.",
+  "patient_execution": false,
+  "drive_consent_initiated_by_worker": false,
+  "original_protocol": "RETAINED_PRIVATELY",
+  "billing_note": "CLI-reported usage estimate, not a new invoice or subscription charge.",
+  "subsequent_operator_report": "Drive mounted in connected tab; no later machine retrieval yet.",
+  "transport_dependency": "One-shot worker ended its MCP session; retain runtime, prepare persistent handoff or manual notebook route before another connection request."
+}
