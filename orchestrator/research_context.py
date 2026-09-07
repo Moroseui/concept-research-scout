@@ -38,6 +38,41 @@ def proposal_context(root, relative):
     return result
 
 
+def selected_prediction_context(root):
+    """Load the explicitly recorded operator selection, not an inferred approval.
+
+    The versioned decision is governance input under the normal branch/review
+    boundary. This reader verifies bytes and scope; it cannot authenticate a human
+    by itself and never grants patient execution.
+    """
+    relative = 'campaigns/isles24-pilot/prediction_selection.json'
+    if not (Path(root) / relative).exists():
+        return {}
+    decision_text = checked(root, relative)
+    decision = json.loads(decision_text)
+    if decision.get('status') != 'OPERATOR_RATIFIED_CHARTER_CONDITIONAL_ADOPTION':
+        raise ValueError('PREDICTION_SELECTION_NOT_RATIFIED')
+    scope = decision.get('scope', {})
+    if (scope.get('charter_ratified') is not True
+            or scope.get('conditional_external_seed_adoption') is not True
+            or any(scope.get(k) is not False for k in
+                   ['patient_launch', 'new_backend_patient_transfer', 'reserved_cohort_access'])):
+        raise ValueError('PREDICTION_SELECTION_AUTHORITY_SCOPE')
+    result = proposal_context(root, decision['proposal'])
+    for name, expected in decision['artifact_sha256'].items():
+        checked(root, name, expected)
+    required = set(result) - {'context-disposition.json'}
+    if not required.issubset(decision['artifact_sha256']):
+        raise ValueError('PREDICTION_SELECTION_INCOMPLETE_BINDING')
+    result[relative] = decision_text
+    result['context-disposition.json'] = json.dumps({
+        'status': 'OPERATOR_SELECTED_CONDITIONAL_BASELINE', 'ratified': True,
+        'origin': 'externally_seeded_operator_delegated_P001',
+        'historical_approvals': 'unchanged', 'launch_authorized': False,
+        'next_gate': 'eligible_input_preflight_then_separate_exact_launch_decision'})
+    return result
+
+
 def evidence_context(root, charter, *, blind=False):
     """Pending entries carry dependencies, never result prose. Scores stay local."""
     if blind: return {'status':'WITHHELD_DELIBERATE_BLINDING','entries':[]}

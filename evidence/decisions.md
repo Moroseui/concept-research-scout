@@ -2375,3 +2375,25 @@ controlled route on the fixed PR branch. No merge, activation, patient launch,
 Astra records the operator's confirmation that PR #5 merged normally at `c17281a11dd2ed15e59cc38bbb526fb6c466b145`, reviewed head `f62a4c418bc2eb25055a4b6ac5aa9a786fdcedfd` into base `d24ffb9003a2291f359afe3acf4bf491f2d7fd9f`, with successful main CI run 34111080470. Authenticated GitHub and Git inspection confirmed these bindings. The supplied Claude closing review approves that scoped merge, accepting the unresolved transport finding only with the limiter inactive and fetch failure denying admission. No new reviewer run, unspecified model identity, or transport-root-cause conclusion is claimed.
 
 The finding stays OPEN: normally reviewed private diagnostic capture and actual droplet contention/recovery remain activation dependencies. The original 82-commit retrospective range plus added decision commits is unchanged; trusted policy/ruling must be bound separately. Writer/reset grants, shared 48/96 deployment, protected credentials/main protection, real-task adapter execution and staged/disconnected activation retain their gates. No scientific launch, landing, cleanup or additional spending is authorized by the merge. See `docs/operations/PR5_MERGED_MILESTONE_20260907.md` for reconciliation and preserved evidence.
+
+## 2026-09-07 — Operator ratifies prediction readiness; 047b naming clarification
+
+Authority: present operator message, recorded by Astra (OpenAI agent), not an
+agent-manufactured human signature. The operator approves the reviewed prediction
+charter, conditional adoption of unchanged externally seeded P001, and bounded
+eligible-admission input preflight in `docs/science/P001_EXECUTION_DECISION_20260907.md`
+at `a94d886e0c4b8fdb504564288939df7e342d7e32`. Exact proposal, review and frozen
+experiment identities are recorded in `campaigns/isles24-pilot/prediction_selection.json`.
+Preserve the original source, approvals and exploratory 99-case status. This grants
+neither patient launch nor transfer to a new backend. Present the exact separate
+launch decision after preflight. Reserved cases remain untouched.
+
+“047b” denotes the previously discussed successful 047 run and preserved bundle.
+This is naming clarification, **not** operator attestation of source/contract
+hashes or successful-console evidence. Verify correspondence using original
+evidence. Search existing authorized private evidence and preserved notebook/session
+outputs for the genuine successful console. If absent, identify specific locations
+to check and reviewed missing-evidence options. Do not reconstruct the console,
+confuse prior failure evidence with success, or rerun to fill this gap. No 047
+landing, cleanup, metadata disposition or historical registry attestation is granted.
+Independent P001 preparation continues.

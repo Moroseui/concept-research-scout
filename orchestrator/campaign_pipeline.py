@@ -86,6 +86,12 @@ def grounding(root,experiment):
     for f in sorted(files):
         if f.is_symlink():raise ValueError('symlink input')
         result[f.relative_to(root).as_posix()]=f.read_bytes().decode('utf-8')
+    from orchestrator.research_context import selected_prediction_context
+    selected = selected_prediction_context(root)
+    if selected:
+        for name in ['charters/isles24/CHARTER.md', 'docs/SCORING_RUBRIC.md', 'orchestrator/prompts/scout.md']:
+            result.pop(name, None)
+        result.update(selected)
     return result
 
 

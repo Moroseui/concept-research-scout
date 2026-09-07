@@ -68,3 +68,26 @@ def test_legacy_stage_target_does_not_select_other_charter(tmp_path,monkeypatch)
     named=tmp_path/'ideas/scout-isles24-001';named.mkdir()
     assert scout.stage_target('scout',None)==baseline
     assert scout.stage_target('scout','isles24-001')==named
+
+
+def test_operator_selected_campaign_uses_bound_prediction_guidance(tmp_path):
+    import shutil
+    from orchestrator.research_context import selected_prediction_context
+    from orchestrator.campaign_pipeline import grounding
+    root=Path(__file__).resolve().parents[1]
+    r=selected_prediction_context(root)
+    assert json.loads(r['context-disposition.json'])['ratified'] is True
+    assert json.loads(r['context-disposition.json'])['launch_authorized'] is False
+    supplied=grounding(root,'P001')
+    assert 'docs/SCORING_RUBRIC.md' not in supplied
+    assert any(k.endswith('PROMPTS.proposed.md') for k in supplied)
+    # Copy only bound inputs, then corrupt an approved charter: refuse before a model.
+    decision=json.loads((root/'campaigns/isles24-pilot/prediction_selection.json').read_text())
+    proposal_receipt=json.loads((root/decision['proposal']/'receipt.json').read_text())
+    inputs=[name for name in proposal_receipt['input_sha256'] if name.startswith('campaigns/isles24-pilot/')]
+    for name in [*decision['artifact_sha256'],*inputs,'campaigns/isles24-pilot/prediction_selection.json']:
+        p=tmp_path/name;p.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/name,p)
+    target=next(k for k in decision['artifact_sha256'] if k.endswith('CHARTER.proposed.md'))
+    (tmp_path/target).write_text('unapproved change')
+    with pytest.raises(ValueError,match='BINDING_CHANGED'):
+        selected_prediction_context(tmp_path)
