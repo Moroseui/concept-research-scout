@@ -1,0 +1,1 @@
+{"status": "PASS", "source": "6863968863ddfb1d82b25c7b358857e666c950a5", "interface": "installed CLI and controller systemd unit", "paused_revision": 1, "resumed_revision": 2, "duplicate_refused_without_reapplication": true, "stale_and_conflicting_requests_blocked": true, "model_calls": 0, "ledger_unchanged": true, "phone_operational_authority": false}

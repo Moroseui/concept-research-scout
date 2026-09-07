@@ -166,3 +166,10 @@ workflow bytes and one bounded artifact through the GitHub API. Token-free signe
 storage retrieval is tested. It is not yet wired to polling/workflow admission or
 activated. Official API references: GitHub REST Actions artifact download and
 workflow-run-attempt endpoints. No writer credential or new API grant was used.
+
+Installed human CLI acceptance also passed: status, pause, duplicate pause, stale
+resume, conflicting request-ID reuse, and valid resume were exercised through the
+actual controller systemd unit. Revision moved 0 → 1 → 2 as expected; stale/conflicting
+requests remained blocked, completed tasks were preserved, and the fixture ledger
+pin/count were unchanged. Zero model calls. This is setup-authorized synthetic
+operator transport testing, not operational phone permission or a live reset grant.
