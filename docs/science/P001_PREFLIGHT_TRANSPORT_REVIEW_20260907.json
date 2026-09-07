@@ -1,0 +1,112 @@
+{
+  "execution": {
+    "reviewed_commit": "50a14e83774d9f33e29319878e0cc0e7958c20e4",
+    "returncode": 0,
+    "wall_seconds": 321.32151429599617,
+    "input_file_sha256": {
+      "scripts/p001_input_preflight.py": "f62b433cceb32ffd7a70dd498392f0fe39ea402749b57fe6e50f13877a4e2655",
+      "orchestrator/p001_preflight_transport.py": "de9688b66affc45ffba431cfb5c58638d8eb3d1bac1eb839cfd005b5dee1807f",
+      "orchestrator/colab_session_worker.py": "313fb02cd0d68a240f760f7038981967cb7a22caf56c236d9beda73e6299684e",
+      "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+      "orchestrator/campaign.py": "f18d46ec30c8a660b33d915195e985a1f35c52b925ff6b89e75f320a8e07d593",
+      "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+      "tests/test_colab_session_worker.py": "b774302ae299583f15c5e199ab4ded94b492921ae3601b3fc0fc6d9339525290",
+      "tests/test_p001_preflight_transport.py": "b092c63d893abcbc8903a0b713faebbe43dc041ec5b2ad875f2aed592e7bf538",
+      "tests/test_p001_input_preflight.py": "cf1890b3c839bc652e5d627e13b265bdc0044c5b95f8f65a202f4430e165ea9a",
+      "docs/science/P001_PREFLIGHT_TRANSPORT_REVIEW_R1_20260907.json": "a25c5177b669e3aee932a2c41e92fe0c791f99cf481be7a2ea08871daf5d0c5b",
+      "docs/science/P001_PREFLIGHT_IMPORT_RECONCILIATION_20260907.md": "bb1624b6670f114827d3d85a4e8ffb5e92e1a277b09335cc64dae299158208c6",
+      "docs/science/P001_PREFLIGHT_ACQUISITION_FIX_20260907.json": "160d53444ba1d257dd0d3367e4ea8906d5217e3941c9ff7fbf438d0881e7f1e1",
+      "orchestrator/hosted_context.py": "1a55f89d54d2c9cf1fd7ef406ad603c7a337e9468c4438ae81dda43c0662b078",
+      "orchestrator/research_context.py": "f4eef22813e126a47dccd85c5ab839213e8aaf9989ada2cb0f45ee813f091273",
+      "orchestrator/campaign_pipeline.py": "2d223867caba3448193f4779c9c032a911e7d0e5f873ba18646615b774448cfc",
+      "scripts/prepare_handover_snapshot.py": "84377bb6907139040e7ab7773f33c4fafefa7533c4d688b79b656b9171248e48",
+      "campaigns/isles24-pilot/prediction_selection.json": "56fa21d431ad60f5c6241d059e144bf7de0c2956eda85cf871c6955498c5c643",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "78f406612505f67f7ad82a562ffb5cd802987f6bf7bffa0839afdbf509f2f446",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "1b21f4a8d9968f9f415833f039ed46d542b0014b0563faba8c3aa0e8a1179288"
+  },
+  "review": {
+    "scope": "P001 preflight transport follow-up: preserve R1 REQUEST_CHANGES, resolve inferred PYTHONPATH blocker using actual frozen runner ROOT/sys.path insertion and isolated subprocess test; review real sparse-acquisition fix removing nonexistent initializer. No patient access. Also inspect newly ratified hosted-context/snapshot linkage. Return fresh verdict for current complete transport bindings, no launch authority.",
+    "reviewed_commit": "50a14e83774d9f33e29319878e0cc0e7958c20e4",
+    "verdict": "APPROVE",
+    "findings": [
+      "Resolved (verified from supplied frozen source): R1's blocker was an inference now contradicted by the actual runner bytes. campaigns/isles24-pilot/experiments/P001/run.py at RUNNER_SHA d54e3ea5\u2026 executes ROOT=Path(__file__).resolve().parents[4]; sys.path.insert(0,str(ROOT)) at module top level before `from orchestrator.campaign import verify_decision, sha`, and the preflight's exec_module runs that top level, so the launch cell's dependency-only PYTHONPATH (support/dependencies) is sufficient and the inferred ModuleNotFoundError cannot occur. tests/test_p001_preflight_transport.py::test_actual_frozen_runner_imports_with_only_dependency_pythonpath encodes exactly this: frozen bytes hash-bound to RUNNER_SHA, environment restricted to PATH plus an empty dependencies PYTHONPATH with PYTHONNOUSERSITE=1, and an assertion that sys.modules['orchestrator.campaign'].__file__ resolves inside the frozen tree \u2014 which also guards the one real namespace-package hazard (a regular `orchestrator` package anywhere on sys.path would beat the frozen namespace portion; none exists in support/scripts or the pip --target dependencies, and HOME=job keeps user site empty). Correctly, no redundant import workaround was added and no frozen bytes changed. R1's REQUEST_CHANGES is preserved verbatim at docs/science/P001_PREFLIGHT_TRANSPORT_REVIEW_R1_20260907.json, and the reconciliation note records the rejected verdict without rewriting it.",
+      "Verified (source): the sparse-acquisition fix is real and minimal. orchestrator/__init__.py does not exist at frozen pin d6a1184 (orchestrator is an implicit namespace package needing no initializer), so the previous acquisition entry made acquire() fail deterministically at checkout/blob verification; removing only that entry \u2014 not touching frozen source \u2014 is the smallest correction. The frozen acquisition list now names exactly the four files the preflight path uses: run.py, orchestrator/campaign.py, and the two probe CSVs that runner.selection() reads at frozen ROOT under its own pinned identities (COHORT_SHA sha256 and MEMBERS_BLOB git-blob sha1). verify_decision \u2014 the only path that imports campaign_review \u2014 is never called by the preflight. The forward-correction section and P001_PREFLIGHT_ACQUISITION_FIX_20260907.json honestly preserve the initial premature pass claim at b111dbb0 and the actual first failure.",
+      "Verified (source): identity bindings are coherent end to end. APPROVAL_SHA in scripts/p001_input_preflight.py equals the sha256 of campaigns/isles24-pilot/prediction_selection.json, whose artifact_sha256 pins run.py at exactly RUNNER_SHA; numpy 2.3.3/nibabel 5.3.2 pins are checked before the frozen root ever enters sys.path, so version verification cannot be shadowed. The setup cell requires a fresh transport-review receipt at REVIEW_PATH with verdict APPROVE, returncode 0, matching review/execution reviewed_commit, claude-fable-5 among assistant models, and sha256 equality for all three REVIEW_FILES, binding the executed preflight bytes to the review; generation is not permission to execute, launch_authorized is False everywhere, and this fresh receipt must be committed at docs/science/P001_PREFLIGHT_TRANSPORT_REVIEW_20260907.json before the notebook route can proceed.",
+      "Verified (source): the newly ratified hosted-context/snapshot linkage is fail-closed and authority-preserving. orchestrator/research_context.selected_prediction_context requires status OPERATOR_RATIFIED_CHARTER_CONDITIONAL_ADOPTION, exactly-True charter/adoption flags and exactly-False patient_launch/new_backend_patient_transfer/reserved_cohort_access (the `is not False` guard rejects 0/None/missing), re-verifies every bound artifact hash against current disk bytes via checked() (symlink/escape/size guarded), re-validates the underlying proposal receipt and APPROVE review, and requires the selection to bind every proposal artifact; its disposition still records launch_authorized False with a separate exact launch gate. hosted_context.build then drops the proposal preview, demotes the historical charter, and scans every emitted packet. scripts/prepare_handover_snapshot refuses an existing or in-root destination, pins HEAD and branch, includes the selection artifacts and the preflight script, scans each blob, and enforces physical-blob-set equality against the expected set after the filtered clone \u2014 so no unscanned bytes (patient payloads included) can ride along \u2014 before rewriting origin to the public URL and excluding .git logs/hooks from the archive.",
+      "Verified (source): R1's approved correctness/privacy properties are carried forward unchanged in the current files. Admission-only member selection (99 unique relative ses-01 *_tmax.nii.gz, labels never reach 7z/verify_file/nibabel), lexical-first single sample with no outcome input, proxy-only header reads, all case IDs/paths/console/exception text confined to 0700/0600 attempt-private files under umask 0o077 with exclusive creates, fixed public codes only on stdout, HOLD-on-anything runtime reconciliation before archive access, producer/consumer receipt schemas exactly matched with `is not False` and bool-excluding type checks, exclusive durable launch intent before Popen with no automatic retry, and the session worker's 3-submission/7200 s bounds with durable request intent before stdin write and no restart/reconnect path.",
+      "Suggestion (new, fail-safe): reconcile_runtime's cmdline patterns match '/experiments/P001/run.py' and '<execution_root>.worker/launch.py' but not a running p001_input_preflight.py process, so a second notebook generated under a different preparation pin with a fresh job id would pass the support-dir and job-dir freshness gates and could dispatch a concurrent duplicate preflight. Consequence is bounded: the archive is opened read-only, attempt directories are exclusive, and no label access can occur \u2014 wasted Drive bandwidth and a redundant 99 GB hash at worst. Affected task: duplicate preflight dispatch hygiene. Smallest correction: add the preflight script name to the reconcile_runtime match patterns.",
+      "Suggestions carried forward from R1, unchanged and non-blocking: (a) pip install --target pulls unpinned transitive dependencies; --no-deps with a fully pinned list is the smallest hardening, and the preflight's own version pins gate the two that matter; (b) the nvidia-smi presence check can spuriously refuse on CPU images that ship the binary \u2014 fail-safe; (c) Session.close from the daemon timer is unsynchronized with submit/receive and a Popen failure in __init__ leaks two open evidence handles \u2014 outcomes stay within the no-resubmit reconciliation semantics; (d) exception types outside the FAILED enum (e.g. FileExistsError, MemoryError) yield a receipt the transport refuses rather than passes \u2014 refusal, never leak.",
+      "Process note (source-only limits): tests were read for consistency but not executed by this review; the recorded four-test pass and 0.25 s timing are the author's preserved records in the reconciliation artifacts, and the subprocess test's design genuinely isolates the frozen import claim. orchestrator/git_publication.scan, colab_patient.CPU_CELL, campaign_review.verify_receipt and the deploy/service surfaces were not supplied here and are relied on per their prior reviews. No patient data, archive bytes, or execution were touched. This verdict approves the current preflight transport bindings only: patient launch, new-backend patient transfer, reserved-cohort access, main merges and all other named gates remain separately held."
+    ]
+  },
+  "review_kind": "AUTHOR_OPERATED_FRESH_CLAUDE_SOURCE_REVIEW_NOT_INDEPENDENT_MERGE_DESK",
+  "session_id": "6c1450a6-4fc1-4386-95af-985fe682970b",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 64390,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 25851,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 64390,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 25851,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 64390,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 64390
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 42242,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.042342000000000005,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 25851,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 64390,
+      "webSearchRequests": 0,
+      "costUSD": 2.58037,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "patient_launch_authorized": false
+}
