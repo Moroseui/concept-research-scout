@@ -29,10 +29,16 @@ def preparation_workspace(source, destination):
     outputs may be added, but changing a copied input causes a named refusal.
     """
     source=Path(source);destination=Path(destination)
+    from orchestrator.operations_report import private_root
+    private_root(destination.parent)
     marker=destination.parent/(destination.name+'-inputs.json')
     if destination.is_symlink() or marker.is_symlink():raise ValueError('CAMPAIGN_WORKSPACE_SYMLINK')
     entries={};total=0
-    tracked=subprocess.check_output(['git','-c','safe.directory='+str(source),'ls-files','-z'],cwd=source).decode().split('\0')
+    from orchestrator.git_diagnostics import output as git_output
+    try:
+        tracked=git_output(['git','-c','safe.directory='+str(source),'ls-files','-z'],cwd=source,timeout=30).decode().split('\0')
+    except (subprocess.SubprocessError,RuntimeError) as error:
+        raise ValueError('CAMPAIGN_SOURCE_INVENTORY_UNAVAILABLE') from error
     for name in sorted(set(tracked)-{''}):
         relative=Path(name)
         if relative.is_absolute() or '..' in relative.parts or '.git' in relative.parts:raise ValueError('CAMPAIGN_SOURCE_PATH')
@@ -58,7 +64,11 @@ def preparation_workspace(source, destination):
         raw=(source/name).read_bytes()
         if hashlib.sha256(raw).hexdigest()!=expected:raise ValueError('CAMPAIGN_SOURCE_CHANGED')
         path=destination/name;path.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
-        immutable(path,raw)
+        # This is an exact private copy of checked source, including Git
+        # metadata such as .gitignore; it is not model output or publication.
+        # Exclusive creation and the source digest preserve the copy boundary.
+        with path.open('xb') as stream:stream.write(raw)
+        path.chmod(0o600)
     immutable(marker,encoded(entries))
     return destination
 
@@ -95,7 +105,8 @@ def completed_pipeline(root,output,packet,event):
 
 def stage_result(runtime,binding,position,packet,*,read_only=False):
     """One existing campaign pipeline, original review retrieval, no patient route."""
-    from orchestrator.hosted_campaign import BrokerStages,run_pipeline,recover_projection
+    from orchestrator.hosted_campaign import BrokerStages,run_pipeline,recover_projection,artifact_files
+    from orchestrator.campaign_pipeline import MODES
     from orchestrator.handover_runtime import request_broker
     from orchestrator.handover_coordinator import digest
     report=json.loads((runtime.state/'tasks'/binding['id']/'report.json').read_text())
@@ -120,10 +131,32 @@ def stage_result(runtime,binding,position,packet,*,read_only=False):
         elif read_only or position!=0:raise ValueError('CAMPAIGN_OUTCOME_UNCERTAIN_NO_RETRY')
         else:run_pipeline(SimpleNamespace(ROOT=workspace),mode,request,original,stages(False))
     receipt=completed_pipeline(workspace,output,packet,event)
+    # A mutable local manifest is not independent proof of scientific bytes.
+    # Compare both artifacts to the protected broker's original model replies.
+    original_replies={};reader=stages(True)
+    for stage,names in [('continuation',MODES[mode]),('review',['review.json'])]:
+        answer,model_receipt=reader.call(stage,'')
+        for name,content in artifact_files(answer,names).items():
+            if (output/'round-1'/name).read_bytes()!=content.encode():
+                raise ValueError('CAMPAIGN_ARTIFACT_ORIGINAL_REPLY_MISMATCH')
+        label='campaign_'+mode+('_review' if stage=='review' else '')
+        provenance=json.loads((output/'round-1'/(label+'.hosted-provenance.json')).read_text())
+        if provenance.get('model_receipt_sha256')!=hashlib.sha256(encoded(model_receipt)).hexdigest():
+            raise ValueError('CAMPAIGN_ORIGINAL_MODEL_RECEIPT_CHANGED')
+        original_replies[stage]=(answer,model_receipt)
+    if output==projection:
+        # Finish a lost recovery marker only from the hash-validated projection.
+        for name in ['campaign_'+mode,'campaign_'+mode+'_review']:
+            provenance=json.loads((output/'round-1'/(name+'.hosted-provenance.json')).read_text())
+            if provenance.get('recovered_original') is not True:raise ValueError('CAMPAIGN_RECOVERY_PROVENANCE_REQUIRED')
+        if ((original/'request.json').is_symlink() or json.loads((original/'request.json').read_text())!=json.loads((output/'request.json').read_text())):
+            raise ValueError('CAMPAIGN_RECOVERY_ORIGINAL_REQUEST_CHANGED')
+        immutable(output/'recovery.json',encoded({'status':'RECOVERED_ORIGINAL_MODEL_ARTIFACTS',
+            'original_request_sha256':hashlib.sha256((original/'request.json').read_bytes()).hexdigest(),
+            'event':event,'packet_sha256':hashlib.sha256(encoded(packet)).hexdigest(),
+            'new_model_calls':0,'new_review':False,'original_preserved':True}))
     if position==2:return receipt
-    client=stages(True)
-    if position==1:client.completed=['continuation']
-    answer,model_receipt=client.call(('continuation','review')[position],'')
+    answer,model_receipt=original_replies[('continuation','review')[position]]
     return {'status':'COMPLETE','duplicate':True,'answer':answer,'receipt':model_receipt,
             'campaign_status':receipt['status'],'campaign_receipt_sha256':hashlib.sha256((output/'receipt.json').read_bytes()).hexdigest(),
             'campaign_output':output.relative_to(runtime.state).as_posix()}

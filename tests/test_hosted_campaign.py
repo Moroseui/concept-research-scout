@@ -171,3 +171,12 @@ def test_recovery_refuses_nested_destination_and_unbound_original(tmp_path):
     with pytest.raises(ValueError,match='ORIGINAL_TURN_BINDING_REQUIRED'):
         recover_projection(SimpleNamespace(ROOT=tmp_path),'discuss','Question',original,original.parent/'projection',stages)
     assert not (original.parent/'projection').exists()
+
+
+def test_escaped_response_budget_refuses_before_writing_artifacts(tmp_path):
+    answer=json.dumps({'discussion.md':'\u4e00'*15000},ensure_ascii=False)
+    client,_=client_for([answer])
+    assert len(answer.encode())<80000
+    with pytest.raises(ValueError,match='PUBLIC_TEXT_REJECTED'):
+        BrokerStages('fixture',{}, {},client=client).call('continuation','Question')
+    assert not list(tmp_path.iterdir())

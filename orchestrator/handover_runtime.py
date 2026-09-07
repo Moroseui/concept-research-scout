@@ -56,6 +56,10 @@ class Runtime:
         if config.get('campaign_preparation') is not None:
             from orchestrator.hosted_campaign_task import task_contract
             task_contract(config['campaign_preparation'])
+            pairs=config.get('synthetic_execution',{}).get('pairs',{})
+            trigger=config['campaign_preparation']['trigger_job']
+            if trigger not in pairs or pairs[trigger] is not None:
+                raise ValueError('CAMPAIGN_TERMINAL_TRIGGER_CONFIGURATION_REQUIRED')
         self.q=Coordinator(self.state,{'continuation':self.model,'review':self.model,'disposition':self.model},self.admit,self.validate_binding)
         self.q.db.executescript('''
             CREATE TABLE IF NOT EXISTS bookkeeping(task TEXT PRIMARY KEY,status TEXT,attempts INTEGER,reason TEXT);

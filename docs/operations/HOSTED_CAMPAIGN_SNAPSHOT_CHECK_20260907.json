@@ -1,0 +1,20 @@
+{
+  "input_snapshot_source": "92be8a4ca810558beab8636a3226675e21b3b054",
+  "archive_sha256": "960a981e0ce98f16f18ff74532a5afe1e29fd231232a597b973745c4952f80e7",
+  "archive_bytes": 636231,
+  "physical_blobs": 101,
+  "grounding_documents": 21,
+  "all_grounding_bytes_equal": true,
+  "related_evidence_equal": true,
+  "model_calls": 0,
+  "patient_access": false,
+  "installed": false,
+  "copier_source_sha256": "4ccaafbaa3cf0d1b8c4431097bc9aa5cab759768084175568aa8c565ffb2504c",
+  "copier_test": "Create and reuse actual sparse source under a private parent; source context unchanged.",
+  "preserved_failures": [
+    "Original sparse source omitted four optional grounding documents.",
+    "Artifact writer refused source metadata filename before source-copy correction.",
+    "Nonprivate test parent refused; precondition moved before copy."
+  ],
+  "evidence_kind": "Investigator-recorded local observations; not reconstructed original console or hosted acceptance."
+}

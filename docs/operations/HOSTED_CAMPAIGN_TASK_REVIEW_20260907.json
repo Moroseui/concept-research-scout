@@ -1,0 +1,52 @@
+{
+  "execution": {
+    "reviewed_commit": "c5c99b1febffdfa701f46c3b2dcf31b9265bb64b",
+    "returncode": 0,
+    "wall_seconds": 398.0106794369931,
+    "input_file_sha256": {
+      "orchestrator/hosted_campaign.py": "172fa118756cb6900ac3a81bef93d52e0a9506bc73860a1e599574dde019163f",
+      "orchestrator/hosted_campaign_task.py": "0d6edb13f9bf9294da27b5c8d0dfd899c564a751be25a8bac379442731e145cd",
+      "orchestrator/handover_runtime.py": "3c14a7e820b97e5ba7e136efb3efe5e5161f3cf858024ba68a0c76cb500127a1",
+      "orchestrator/completion_bridge.py": "2b2be17481da662acc0207a8a3a4566cca3c8d01a40676454024deb3b54b36e4",
+      "orchestrator/campaign_pipeline.py": "0dcb4e4768c5947a4b4ee70a5d73541bd612e8ef5fb99f98a3eacff9fb2221ea",
+      "orchestrator/protected_handover.py": "0c6c848f52693937e669701ff36bd77f9d1a50bb59b8526d988af34a126add3c",
+      "orchestrator/handover_coordinator.py": "d07ca14235e6339b53ac8185e32e0a40f590d0d475debf8af42c62256c62677f",
+      "tests/test_hosted_campaign_task.py": "efa4e492ea7afd6607ee60ba110e10417ca54618af138d5c2ce0145667dbe2c5",
+      "tests/test_hosted_campaign.py": "2da7de9dd1791fdc6e22d161108662d721523e39d37689b8c3ead74b2b2809f8",
+      "docs/operations/HOSTED_CAMPAIGN_ADAPTER_PREPARATION_20260907.md": "662ea8e730e5c2b372680f3eb8a360ec6381aab1e99c380319edbc6202049013",
+      "docs/operations/HOSTED_CAMPAIGN_RECOVERY_REVIEW_20260907.json": "2b86bd47bed3d71ac1ecbbb8ebb3949ee70dbdbfb17893800b3b9dffb3d20e2d",
+      "docs/operations/HOST_RECONCILIATION_R2_20260907.json": "46a06f9a89380c972bba86e026b4d5239cc27621bf9d789095b40e1b5615d9c0",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "f8808156d41ab6e4f0fe2252e0f655d34ef54566c690c174b8281372453f7e2c",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "64225fa0b060de2553d0cd62765192aee206ec4b14050bc9ffc37303462165f8"
+  },
+  "review": {
+    "scope": "Completion-bound P001 readiness or discussion through shared campaign pipeline; original-review recovery and proposal-only boundaries. Review source plus current host inspection as configuration evidence, not deployed execution of this change. Reconcile prior recovery suggestions; no live grant or patient launch.",
+    "reviewed_commit": "c5c99b1febffdfa701f46c3b2dcf31b9265bb64b",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (prior-suggestion reconciliation): both accepted e9232aff suggestions are implemented \u2014 recover_projection refuses a projection nested under the original (FRESH_RECOVERY_PROJECTION_REQUIRED now covers output.resolve().is_relative_to(original.resolve())) and the original request.json must bind the exact broker event and packet hash (RECOVERY_ORIGINAL_TURN_BINDING_REQUIRED). The earlier MINOR context-derivation race is effectively closed: completed_pipeline re-derives grounding/evidence hashes at advancement and requires equality with both request.json and receipt input_sha256, so drift between recovery-time verification and execute's re-read fails closed at the gate.",
+      "VERIFIED (completion binding and installed authority): campaign packets exist only via enqueue_report when task_state.completed_job equals the installed trigger_job with trigger verified-completion and execution_proposal None (CAMPAIGN_COMPLETION_BINDING_REQUIRED); stage_result re-verifies the task-id digest over source/packet/report, exact equality with root-owned campaign_preparation, task_contract-derived campaign_artifacts, and refuses synthetic successors (CAMPAIGN_TASK_REFUSES_SYNTHETIC_SUCCESSOR). The broker's model_output_format independently re-validates the version-1 P001 readiness/discuss contract. No new socket operation, credential, admission grant, scheduler, or patient route is added; admission and the SUPERVISED turn budget remain broker-enforced.",
+      "VERIFIED (fail-closed recovery semantics): recovery=True clients accept only stage_status (RECOVERY_MODEL_CALL_FORBIDDEN); any non-COMPLETE original stage raises HOSTED_CAMPAIGN_BLOCKED_RECONCILE_NO_RETRY before the projection directory is created; an incomplete projection blocks (CAMPAIGN_RECOVERY_INCOMPLETE_NO_RETRY); read_only or non-zero-position absence blocks (CAMPAIGN_OUTCOME_UNCERTAIN_NO_RETRY); and Coordinator.recover interrogates only stages with STARTED rows, so a task blocked before any stage started requeues without inventing a model call. Missing evidence never becomes a retry.",
+      "VERIFIED (identity bindings and privacy): every replayed or fresh answer is re-checked against requested_model per stage, exact claude-fable-5 actual_model for review, answer_sha256, packet_sha256 versus the caller packet, and operating_context_sha256 format; the broker enforces exact event equality, symlink refusal, per-file receipt re-hashing, controller-uid peer check, and named-code-only refusals. preparation_workspace copies only materialized tracked files, verifies every copied input hash on each reuse (CAMPAIGN_WORKSPACE_INPUT_CHANGED), and provenance records carry only receipt/context hashes \u2014 original consoles and prompts stay in the protected turn root.",
+      "VERIFIED (preservation of scientific approvals): a REVISE original review permanently blocks \u2014 execute writes no receipt at the enforced max_rounds=1, completed_pipeline additionally requires verdict APPROVE, round 1, exact artifact set/hashes, and status REVIEWED_PROPOSAL_NOT_ADOPTED \u2014 so recovery cannot convert a negative review into approval; conflicting or symlinked round-1 originals refuse before projection creation (RECOVERY_PRESERVES_CONFLICTING_ORIGINAL); grounding/predecessor pins, proposal-preview refusals, and the two-round default for existing campaign_pipeline callers are unchanged.",
+      "SUGGESTION (uncaught subprocess errors in recovery path): subprocess.CalledProcessError/TimeoutExpired from the git ls-files call in preparation_workspace is absent from the exception tuples in Runtime.recover and the tick phase loop (ValueError/KeyError/TypeError/OSError/sqlite3.Error), so a git failure while recovering a campaign task crashes the tick invocation instead of recording a runtime block. Fail-closed and evidence-preserving, but add subprocess.SubprocessError to those tuples or convert it to a named ValueError inside preparation_workspace. Related: '-c safe.directory=' is only honored in Git >=2.38 protected command scope; on older git a split-ownership checkout fails here rather than working as commented.",
+      "SUGGESTION (residual recovery-marker ambiguity from prior review): a crash between execute writing the projection's receipt.json and recover_projection writing immutable recovery.json leaves a projection that stage_result silently accepts as output with no top-level recovery marker; auditability then rests on the recovered_original:true per-stage provenance files hash-bound into artifact_sha256. Requiring recovery.json to exist whenever output==projection in stage_result/completed_pipeline (or writing an intent record before run_pipeline) would make the state unambiguous, completing the third prior suggestion.",
+      "SUGGESTION (configuration cross-validation): nothing at Runtime startup checks that the installed campaign_preparation trigger_job is not also a completion_bridge pair with a configured successor; that combination makes ingest build an execution_proposal and enqueue_report then permanently raises CAMPAIGN_COMPLETION_BINDING_REQUIRED, blocking the completion's ingestion until reconfiguration. Also verify that orchestrator.public_export.text's default limit in Coordinator._receipt accommodates the up-to-80000-byte campaign stage answers now persisted in coordinator receipts \u2014 that module was not supplied to this review and local tests only exercised small fixtures.",
+      "SCOPE NOTE (configuration evidence, not deployment): HOST_RECONCILIATION_R2 shows the broker in SYNTHETIC_FIXTURE mode with max_model_turns 3, the handover-controller service inactive with no campaign_preparation, publication, or report schedule configured, and installed sources differing from this development head. This APPROVE covers source readiness of the completion-bound preparation change only; it asserts no hosted execution, grants no live writer/limiter/unattended authority, and leaves patient launch and all separately gated decisions untouched. Source-only review; no tests were executed by this reviewer."
+    ]
+  },
+  "session_id": "cb958da2-1104-424b-879d-79a7dd5ef26b",
+  "total_cost_usd_reported": 2.9651769999999997,
+  "attribution": "Actual author-operated Claude source review; configuration inspection is not hosted execution proof."
+}

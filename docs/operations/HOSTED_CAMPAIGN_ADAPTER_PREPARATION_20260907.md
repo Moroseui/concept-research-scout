@@ -98,3 +98,23 @@ file inventory from the shared grounding function and refuses tracked worktree
 drift before using it. This preserves selected charter bindings and avoids a
 second manually maintained scientific context list. Corrected snapshot verification
 is pending at this record's commit. The earlier sparse bundle remains evidence.
+
+The corrected 92be8a4c snapshot contains all 21 grounding documents byte-identically
+and identical related-evidence context (101 physical blobs; no unselected blobs).
+Actual sparse-workspace testing then exposed source metadata being sent through
+the artifact publisher validator. Private source copying now uses exclusive writes
+of already checked tracked bytes and verifies them on reuse; the public publisher
+and model-artifact validation are unchanged. A second fixture correctly refused
+a nonprivate parent; the guard now runs before copying. Both failed directories
+remain preserved. Creation and reuse with a private parent passed on the actual
+sparse source. These observations are local preparation, not hosted execution.
+
+Claude approved the completion adapter at c5c99b1f with suggestions. Follow-up
+changes use the existing private Git diagnostic capture with a 30-second inventory
+bound and named failures, reject a preparation trigger configured with a synthetic
+successor, and finish a lost recovery marker only after validating original replies
+and recovered provenance. Every advancement now compares scientific bytes and
+model-receipt hashes against both original broker replies, independently of mutable
+local manifests. Escaped response size is checked with room for coordinator framing.
+The deployed controller must set RESEARCH_GIT_DIAGNOSTICS to its durable private
+state directory; no unit, credential or activation has been changed here.

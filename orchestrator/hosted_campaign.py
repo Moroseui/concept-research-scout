@@ -49,6 +49,9 @@ class BrokerStages:
                                                           'packet':self.packet,'prompt':prompt})
         if response.get('status')!='COMPLETE':
             raise ValueError('HOSTED_CAMPAIGN_BLOCKED_RECONCILE_NO_RETRY')
+        # Leave room for the coordinator's receipt envelope; validate escaped
+        # JSON size, not only the unescaped answer bytes. Originals stay private.
+        text(json.dumps(response),limit=80000)
         answer=response['answer'];receipt=response['receipt']
         text(answer,limit=80000)
         model='claude-fable-5' if stage=='review' else 'gpt-6-astra'
