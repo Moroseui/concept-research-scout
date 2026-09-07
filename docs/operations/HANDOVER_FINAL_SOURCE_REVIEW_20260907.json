@@ -1,0 +1,89 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "eb40b9549e2cf94145c5b886a7390f549f2123e4",
+    "returncode": 0,
+    "wall_seconds": 361.02942379900196,
+    "input_file_sha256": {
+      "docs/operations/HANDOVER_FINAL_REVIEW_INPUT.md": "5b57bba706e1407058041dae077ffccb25e0dfdbb842b4e37567b388f865a9cc",
+      "orchestrator/handover_notifications.py": "bcbe4a1b35b7425ed497f239db401f509b2ec98adde0664f36449a5478cd0c7a",
+      "orchestrator/handover_runtime.py": "af95a9e3b7cee1d9e19e4408268dff9a88c2cad93a648f2c9bd4a36bf4f3c687",
+      "orchestrator/reviewer_evidence.py": "c06b6d433d13207996bb36a57271961f85812d435903f1fce79cd48d4b789dc2",
+      "scripts/prepare_handover_snapshot.py": "9edb16c8bb408365d78b5d393eb807df8c6564be0fddf1562f6f761315a201b6",
+      "scripts/verify_handover_controls.py": "4b4e0a30900e9e5d1b165f8cae8e1d6d387b94fed90b644646d6b0c382ced20a",
+      "deploy/research-system/update_consumed_handover_fixture.py": "1b79446dc08474bee79d7e59652d856651d7e75b42b959205be6a6f37b3a20cb",
+      "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md": "4a50253be6b24255b807f3ae4e5052a9a4075fde48a9e57b96ad438f67c48835",
+      "docs/operations/HANDOVER_SERVICE_DRAFT.md": "6f24e99bb224b091807f6cadd58a8d69e20d397e1790dde85f01e410a155ee94",
+      "docs/operations/DEPLOYMENT_CLOSEOUT_CHECKLIST.md": "cf0cac5c7ebf28b1caf37780b6bce62dc69d53c2ce0c7bdac96346451292c7d4",
+      "docs/operations/REPORTING.md": "6199f9d5611fa80a08206ec1ab7f9671833c902976d4da85c82872020abb48ea",
+      "docs/operations/HANDOVER_CONTROLS_REVIEW_20260907.json": "11e8a64d0d0fed5850c031fde85d70daf6e50ee764cda6641421c919cfa3bb3b",
+      "docs/operations/HANDOVER_NOTIFICATION_REVIEW_20260907.json": "36590280645a6cbc1b514b099324d90225a41d543fb31fd788f019f2008ed0da",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b"
+    },
+    "response_sha256": "9ec5b37c9336519bd012bc5a07c27760af75b1e6ff43478e5f9ed17c47c1d8b1",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "767fba7e69a81d5797e14932b87ea329b132b31d1259f9e48ea27f0b67d1eb6d"
+  },
+  "review": {
+    "scope": "handover-final-corrections-permission-packet",
+    "reviewed_commit": "eb40b9549e2cf94145c5b886a7390f549f2123e4",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED: all four claimed corrections are present in supplied source \u2014 Notices._send records a bounded named reason (regex [A-Z0-9_]{1,80}, never provider/exception prose) and normalizes exhausted rows to BLOCKED with coalesce-preserved reasons; Runtime._bookkeep refuses a non-'claude-' actual_model before attaching family:'claude' to the published review receipt; Runtime.recover preserves the prior blocked reason via coalesce; update_consumed_handover_fixture checks ledger equality before systemctl start (ADMISSION_CHANGED_BEFORE_RESTART_RECONCILE) and again after.",
+      "VERIFIED: fail-closed boundaries hold \u2014 a controls-read failure blocks the admission tick and report delivery; per-key notification and delivery retries cap at three into durable BLOCKED rows; reviewer_evidence labels source/dated documents as non-execution-proof and marks hosted unit properties execution_proven:false while filtering to fixed properties and never returning stderr; the updater refuses active units, partial state, unit-file changes, and human-wrapper drift; verify_handover_controls starts no timer/model/job and asserts tasks, execution_jobs, and binding set are unchanged.",
+      "VERIFIED: authority and scientific approvals preserved \u2014 the permission packet remains proposal-only and discloses repo-wide credential bypass, absent main protection, and the missing aggregate notification cap; ACK packets expire at 24h and confer no operating authority; the disposition prompt forbids patient work, different jobs, or new scope; PRIVATE_ONLY recording persists without publication configuration; an unpushed candidate blocks later publication (DELIVERY_PRESERVED_RECONCILE_BEFORE_NEW_COMMIT) rather than overwriting; one recorded commit_pin is the notification identity and a different pin surfaces as a named conflict.",
+      "SUGGESTION (handover_notifications._send): a reused packet file is never checked against the supplied summary; after a crash between the immutable packet write and the first deliveries insert, a later send with a changed summary for the same key delivers the stale packet while recording the new summary as SENT \u2014 verify packet['summary']==summary when reusing an existing packet file.",
+      "SUGGESTION (handover_notifications): retries reuse the immutable packet whose expires timestamp was set at first attempt, so a delivery first succeeding on attempt 2+ can carry an already-expired 24-hour ACK window, yielding a confusing PACKET_EXPIRY on acknowledgment; harmless to authority but worth aligning or documenting.",
+      "SUGGESTION (handover_runtime.notifications): the runtime notification_delivery mirror lacks the PENDING\u2192BLOCKED normalization given to Notices \u2014 a crash between the PENDING insert and the status update leaves a terminal row displayed PENDING forever once attempts reach three, since the skip path (continue) never rewrites status; it also has no reason column, so blocked entries are unexplained in status output.",
+      "SUGGESTION (path reconciliation): reviewer_evidence.SOURCES['handover_implementation'] and prepare_handover_snapshot pin scripts/verify_handover_service.py while the supplied verification script is scripts/verify_handover_controls.py; if only the latter exists at eb40b95, snapshot preparation hard-fails on git show, and in either case the new controls script is omitted from the update snapshot and the handover_implementation evidence kind \u2014 reconcile before the idle source update, since the post-update human-controls verification depends on this script.",
+      "MINOR (prepare_handover_snapshot): deploy/research-system/*.py updater/installer tooling is excluded from the snapshot (only .service/.socket/.timer are globbed), so protected-boundary upgrade tooling travels out-of-band; consistent with the packet's administrative-deployment stance but should be stated explicitly in operating instructions.",
+      "MINOR (handover_runtime.scheduled_report): a crash between enqueue_report and q.schedule orphans an immutable report and a NOT_REVIEWED review-queue row, because coordinator_observed_at changes the task digest on the next attempt; the orphan grants no authority as the comment states, but orphans accumulate with no reconcile note. Also, verify_handover_controls' own checked_source import resolves before it sets PYTHONPATH, so the 'imported source and CLI source are identical' comment only holds for subprocesses \u2014 the operator must launch it with PYTHONPATH set to the installed root.",
+      "NOTE: the review input asserts distinct-notification behavior is tested, but no test files were supplied in this scope; that claim is unverifiable from the supplied source and is recorded as asserted, not confirmed. No tests were run for this review."
+    ]
+  },
+  "session_id": "a81c2040-cdc1-4226-a244-2e2939a2445a",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 34725,
+      "outputTokens": 15,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.0348,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 27921,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 54462,
+      "webSearchRequests": 0,
+      "costUSD": 2.48531,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "independent_merge_desk_review": false,
+  "investigator_disposition": {
+    "blocking_findings": 0,
+    "packet_reuse_and_runtime_mirror": "Nonblocking follow-up retained; notification configuration remains disabled. Exact original protected outbox is authoritative for uncertain delivery; do not repost or infer operational authority from a mirror status.",
+    "expiry": "Immutable packet expiry remains 24 hours from first preparation; late acknowledgment refuses. No operating decision is executed.",
+    "snapshot_paths": "Both verifier files exist. Inspected sparse snapshot preparation passed at eb40b95 with exactly 89 permitted blobs. Administrative updater and controls verifier are deliberately transferred separately as exact reviewed Git blobs with SHA-256 validation into fresh root-only directories. Runtime does not depend on their presence in its sparse snapshot.",
+    "import_source": "The prepared administrative transport explicitly sets PYTHONPATH to the resolved installed source before starting the verifier, then the verifier checks that source pin.",
+    "orphan_reports": "Preserved immutable report without coordinator schedule grants no admission or recursive review. Reconcile unused prepared reports if an interrupted finalization is observed; never discard originals silently.",
+    "test_claim": "The reviewer correctly did not claim tests run. Actual investigator verification is separately recorded: 34 affected tests passed at eb40b95; full prior suite and outside-sandbox socket result remain in their receipt."
+  }
+}

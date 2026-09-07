@@ -369,7 +369,7 @@ def controller_command(config,operation):
     import pwd
     if pwd.getpwuid(config['controller_uid']).pw_name!='research-controller':raise ValueError('CONTROLLER_ROLE_REQUIRED')
     checked_source(config['source_root'],config['source'])
-    command=['runuser','-u','research-controller','--','env','-i','PATH=/usr/bin:/bin',
+    command=['/usr/sbin/runuser','-u','research-controller','--','env','-i','PATH=/usr/bin:/bin',
         'PYTHONDONTWRITEBYTECODE=1','PYTHONPATH='+config['source_root'],'/usr/bin/python3','-B',
         '-m','orchestrator.handover_runtime','--config','/etc/research-system/handover-controller.json',operation]
     try:

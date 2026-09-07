@@ -276,3 +276,17 @@ def test_bookkeeping_rejects_non_claude_identity_and_keeps_prior_recovery_reason
     monkeypatch.setattr(r.q,'recover',failed)
     r.recover()
     assert r.q.status()['tasks'][0]['reason']=='ORIGINAL_FAILURE_PRESERVED'
+
+
+def test_operator_transport_uses_fixed_runuser_outside_scrubbed_path(tmp_path,monkeypatch):
+    import types,pwd
+    import orchestrator.handover_runtime as module
+    monkeypatch.setattr(module.os,'getuid',lambda:0)
+    monkeypatch.setattr(pwd,'getpwuid',lambda uid:types.SimpleNamespace(pw_name='research-controller'))
+    monkeypatch.setattr(module,'checked_source',lambda *args:None)
+    def execute(command,**kwargs):
+        assert command[0]=='/usr/sbin/runuser'
+        assert 'PATH=/usr/bin:/bin' in command and command[-1]=='status'
+        return types.SimpleNamespace(stdout=b'{"revision":2,"paused":false}')
+    monkeypatch.setattr(module.subprocess,'run',execute)
+    assert module.controller_command({'controller_uid':997,'source_root':'/fixed','source':'a'*40},'status')['revision']==2
