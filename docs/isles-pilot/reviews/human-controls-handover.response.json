@@ -1,0 +1,94 @@
+{
+  "is_error": false,
+  "duration_api_ms": 352382,
+  "num_turns": 2,
+  "stop_reason": "tool_use",
+  "session_id": "6ca4104e-5c86-41eb-bd63-53de5cf1d128",
+  "total_cost_usd": 6.088503000000001,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 228637,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 27102,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 228637,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 27102,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 228637,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 228637
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 160543,
+      "outputTokens": 20,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.16064299999999998,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 27102,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 228637,
+      "webSearchRequests": 0,
+      "costUSD": 5.927860000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "fast_mode_disabled_reason": "sdk_opt_in_required",
+  "subtype": "success",
+  "api_error_status": null,
+  "result": "{\"scope\":\"human-controls\",\"reviewed_commit\":\"cb2019f829c75b0b7198d3a37011bac3d2beab92\",\"verdict\":\"APPROVE\",\"findings\":[\"VERIFIED (export boundary, fail-closed): save/validate_export enforce an exact {RESULT.md, receipt.json, evidence.json} set, DANGER secret/patient-ID regex, control-character and byte-size limits, and sha256-bound receipts; every failure path either fails the workflow step with no artifact and a generic summary, or emits a BLOCKED artifact whose salvaged originals are individually public_text-filtered under 'unreviewed_system_records' and never relabeled as reviewed; oversized failure evidence collapses to a retention note within bounds.\",\"VERIFIED (identity binding and replay recovery): request identity hashes the full request body (control/mode/experiment/text/source/destination/request_id/initiator); restore() requires the identity-derived artifact name, run head_sha == req source == current checked-out HEAD, workflow_dispatch event, the exact per-control workflow path, byte-exact RESULT/evidence hashes against the receipt, re-scans DANGER, strips Authorization on cross-host redirects, bounds size at 1 MB/700 kB, and records model_calls_this_submission=0 so replays spend no model calls.\",\"VERIFIED (transport containment/privacy): scripts/actions_agent.py strips GH_TOKEN, GITHUB_TOKEN, ACTIONS_RUNTIME_TOKEN and ANTHROPIC_API_KEY plus the opposing family's credential, disables tools/MCP/web, rejects any unexpected tool_use event, and decode() confines writes to basename-only names with a 100 kB per-file cap; raw CLI protocol stays in the private tempdir with only its sha256 published, and runner_*.json projection removes private_evidence before export.\",\"VERIFIED (preservation of scientific approvals/authority): no reviewed path writes HUMAN_APPROVED_PROBE, interpretation_receipt.json, or any experiment artifact; interpret mode requires an existing validated import plus require_review; grounding enforces predecessor interpretation hash bindings and required operating-context docs; the author stage cannot prepopulate review.json; opposing-family (codex author / claude reviewer) and CI runner-provenance receipt checks are enforced; receipts always carry human_ratification:false, patient_execution:false, and REVIEWED_PROPOSAL_NOT_ADOPTED-class statuses.\",\"VERIFIED (workflow wiring): rendered and supplied YAML agree; contents:read/actions:read only, persist-credentials:false, pinned action SHAs and CLI versions, inputs passed as quoted environment variables (no shell interpolation/injection), artifact upload gated on a produced validated export, and the PROPOSED dispatch-limiter admission job is inert (PROPOSED_NOT_ACTIVE) granting no standing dispatch.\",\"SUGGESTION (binding scope, non-blocking): reviewed() binds only REVIEW_FILES, so unlisted runtime dependencies (requirements.txt, orchestrator/research_context.py, orchestrator/ledger.py, orchestrator/prompts/*) can change on a later commit without invalidating this receipt; consequence is limited to prompt-content and installed-dependency drift because all publication/authority gates live in bound files. Smallest fix: add requirements.txt and orchestrator/research_context.py to REVIEW_FILES.\",\"SUGGESTION (replay semantics, non-blocking): restore() checks run status=='completed' but not conclusion, so a BLOCKED artifact from a failed attempt replays indefinitely for the same request_id; content remains hash-bound and re-scanned and the documented remedy is a new request_id, but skipping replay when the restored receipt status is BLOCKED would let transient failures retry under the same id.\",\"SUGGESTION (usability edge, fail-closed, non-blocking): multi-file modes (e.g. charter with four outputs of up to 100 kB each) can join to an answer exceeding save()'s 100 kB RESULT.md limit, degrading the run to BLOCKED with per-file evidence instead of a one-page reviewed result; nothing is mislabeled.\",\"SUGGESTION (cosmetic, non-blocking): reviewed() raises a bare FileNotFoundError when a bound input file is absent instead of the named REVIEW_BINDING_CHANGED; still fail-closed.\",\"SCOPE NOTE: source-only review of the supplied files at cb2019f829c75b0b7198d3a37011bac3d2beab92; no tests were executed and no installation, hosted-execution, or activation evidence is claimed; separate gates (patient execution, charter ratification, live limiter/writer grants, main merges) are unchanged by this approval.\"]}",
+  "structured_output": {
+    "scope": "human-controls",
+    "reviewed_commit": "cb2019f829c75b0b7198d3a37011bac3d2beab92",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (export boundary, fail-closed): save/validate_export enforce an exact {RESULT.md, receipt.json, evidence.json} set, DANGER secret/patient-ID regex, control-character and byte-size limits, and sha256-bound receipts; every failure path either fails the workflow step with no artifact and a generic summary, or emits a BLOCKED artifact whose salvaged originals are individually public_text-filtered under 'unreviewed_system_records' and never relabeled as reviewed; oversized failure evidence collapses to a retention note within bounds.",
+      "VERIFIED (identity binding and replay recovery): request identity hashes the full request body (control/mode/experiment/text/source/destination/request_id/initiator); restore() requires the identity-derived artifact name, run head_sha == req source == current checked-out HEAD, workflow_dispatch event, the exact per-control workflow path, byte-exact RESULT/evidence hashes against the receipt, re-scans DANGER, strips Authorization on cross-host redirects, bounds size at 1 MB/700 kB, and records model_calls_this_submission=0 so replays spend no model calls.",
+      "VERIFIED (transport containment/privacy): scripts/actions_agent.py strips GH_TOKEN, GITHUB_TOKEN, ACTIONS_RUNTIME_TOKEN and ANTHROPIC_API_KEY plus the opposing family's credential, disables tools/MCP/web, rejects any unexpected tool_use event, and decode() confines writes to basename-only names with a 100 kB per-file cap; raw CLI protocol stays in the private tempdir with only its sha256 published, and runner_*.json projection removes private_evidence before export.",
+      "VERIFIED (preservation of scientific approvals/authority): no reviewed path writes HUMAN_APPROVED_PROBE, interpretation_receipt.json, or any experiment artifact; interpret mode requires an existing validated import plus require_review; grounding enforces predecessor interpretation hash bindings and required operating-context docs; the author stage cannot prepopulate review.json; opposing-family (codex author / claude reviewer) and CI runner-provenance receipt checks are enforced; receipts always carry human_ratification:false, patient_execution:false, and REVIEWED_PROPOSAL_NOT_ADOPTED-class statuses.",
+      "VERIFIED (workflow wiring): rendered and supplied YAML agree; contents:read/actions:read only, persist-credentials:false, pinned action SHAs and CLI versions, inputs passed as quoted environment variables (no shell interpolation/injection), artifact upload gated on a produced validated export, and the PROPOSED dispatch-limiter admission job is inert (PROPOSED_NOT_ACTIVE) granting no standing dispatch.",
+      "SUGGESTION (binding scope, non-blocking): reviewed() binds only REVIEW_FILES, so unlisted runtime dependencies (requirements.txt, orchestrator/research_context.py, orchestrator/ledger.py, orchestrator/prompts/*) can change on a later commit without invalidating this receipt; consequence is limited to prompt-content and installed-dependency drift because all publication/authority gates live in bound files. Smallest fix: add requirements.txt and orchestrator/research_context.py to REVIEW_FILES.",
+      "SUGGESTION (replay semantics, non-blocking): restore() checks run status=='completed' but not conclusion, so a BLOCKED artifact from a failed attempt replays indefinitely for the same request_id; content remains hash-bound and re-scanned and the documented remedy is a new request_id, but skipping replay when the restored receipt status is BLOCKED would let transient failures retry under the same id.",
+      "SUGGESTION (usability edge, fail-closed, non-blocking): multi-file modes (e.g. charter with four outputs of up to 100 kB each) can join to an answer exceeding save()'s 100 kB RESULT.md limit, degrading the run to BLOCKED with per-file evidence instead of a one-page reviewed result; nothing is mislabeled.",
+      "SUGGESTION (cosmetic, non-blocking): reviewed() raises a bare FileNotFoundError when a bound input file is absent instead of the named REVIEW_BINDING_CHANGED; still fail-closed.",
+      "SCOPE NOTE: source-only review of the supplied files at cb2019f829c75b0b7198d3a37011bac3d2beab92; no tests were executed and no installation, hosted-execution, or activation evidence is claimed; separate gates (patient execution, charter ratification, live limiter/writer grants, main merges) are unchanged by this approval."
+    ]
+  },
+  "ttft_ms": 317697,
+  "ttft_stream_ms": 4287,
+  "time_to_request_ms": 223,
+  "type": "result",
+  "duration_ms": 349183,
+  "uuid": "5825fe6d-fede-4ad4-925e-fecd355e9be2"
+}

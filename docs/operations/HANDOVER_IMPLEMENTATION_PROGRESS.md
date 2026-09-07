@@ -210,3 +210,28 @@ refusal, matching prior admission through a later halt, stale source/policy refu
 independent work after an API failure and recovery after local receipt loss.
 Workflow/host installation and final review remain outstanding. No human action is
 needed to continue the remaining authorized implementation.
+
+
+At 04:49 UTC the goal's recorded elapsed implementation time was approximately
+97 minutes (tool-reported active-goal time; not a provider invoice). The new hosted
+protected-intake fixture passed at source 386cde2 with no credentials, model calls,
+service changes or remote publication. Its checked receipt is
+hosted-service-acceptance-20260907/protected-intake.json; original console remains
+in the fresh private server attempt. Peer denials here are direct broker checks,
+not a newly exercised kernel socket identity boundary.
+
+Commit cb2019f wires the generated Actions request/upload/read-only-wait path and
+bounded protected discovery. Policy remains PROPOSED. The new human-controls review
+receipt is deliberately absent until its genuine full-input review completes;
+existing main has not changed. Review is running privately under the exact scope
+human-controls at cb2019f. Do not duplicate it. Broad workflow/human/adapter tests:
+48 passed, 17 subtests. Earlier integrated source checks: 64 passed, one previously
+verified socket test excluded because it requires sandbox escalation.
+
+A drafted GOVERNED model mode is now separate from the finite supervised fixture
+budget. It requires protected LIVE_APPROVED configuration, approved shared policy
+and server semantics, plus a separate activation-decision hash. No installed
+configuration uses it. Eight broker tests pass. This is preparation for the
+reserved decision, not a newly activated loop. Persistent completion-to-eligible
+execution integration and final deployed source review still remain; do not
+confuse the existing supervised report cycle with completion of those items.

@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import socket
 import struct
+import re
 
 from orchestrator.dispatch_limiter import GitLedger,admit_server,admit,reset,initialize,policy,validate_server_event
 from orchestrator.git_publication import publish,scan
@@ -25,11 +26,18 @@ BRANCH='astra/infrastructure-milestone-record'
 class Broker:
     def __init__(self,config):
         required={'mode','repository','branch','controller_uid','operator_uids','sources','ledger_repo','publication_root','policy','writer_config','model_mode','turn_root','max_model_turns'}
-        if set(config)!=required or config['mode'] not in ('SYNTHETIC_FIXTURE','LIVE_APPROVED') or config['repository']!=REPOSITORY or config['branch']!=BRANCH:raise ValueError('PROTECTED_CONFIG_SCHEMA')
+        if set(config) not in (required,required|{'activation_decision_sha256'}) or config['mode'] not in ('SYNTHETIC_FIXTURE','LIVE_APPROVED') or config['repository']!=REPOSITORY or config['branch']!=BRANCH:raise ValueError('PROTECTED_CONFIG_SCHEMA')
         if type(config['controller_uid']) is not int or config['controller_uid']<=0 or not config['operator_uids'] or config['controller_uid'] in config['operator_uids']:raise ValueError('DISTINCT_OPERATOR_REQUIRED')
-        if config['model_mode'] not in ('DISABLED','SUPERVISED') or type(config['max_model_turns']) is not int or not 0<=config['max_model_turns']<=4:raise ValueError('BOUNDED_MODEL_CONFIGURATION')
+        if config['model_mode'] not in ('DISABLED','SUPERVISED','GOVERNED') or type(config['max_model_turns']) is not int or not 0<=config['max_model_turns']<=4:raise ValueError('BOUNDED_MODEL_CONFIGURATION')
+        if config['model_mode']=='GOVERNED':
+            if config['mode']!='LIVE_APPROVED' or config['max_model_turns']!=0:
+                raise ValueError('GOVERNED_MODE_REQUIRES_LIVE_PERMISSION')
+            policy(config['policy'])
+            if config['policy'].get('server_semantics')!='OPERATOR_AUTHORIZED_V1':
+                raise ValueError('SERVER_ADMISSION_NOT_AUTHORIZED')
+            if not isinstance(config.get('activation_decision_sha256'),str) or not re.fullmatch('[0-9a-f]{64}',config['activation_decision_sha256']):
+                raise ValueError('SEPARATE_UNATTENDED_ACTIVATION_REQUIRED')
         if not isinstance(config['sources'],list) or not config['sources'] or len(config['sources'])>16:raise ValueError('BOUNDED_REVIEWED_SOURCES')
-        import re
         if any(not isinstance(pin,str) or not re.fullmatch('[0-9a-f]{40}',pin) for pin in config['sources']):raise ValueError('REVIEWED_SOURCE_REQUIRED')
         roots=[Path(config[name]).resolve() for name in ('publication_root','ledger_repo','turn_root')]
         if any(a.is_relative_to(b) or b.is_relative_to(a) for i,a in enumerate(roots) for b in roots[i+1:]):
@@ -84,7 +92,7 @@ class Broker:
     def model_stage(self,body):
         from orchestrator.hosted_cycle import model_call,immutable,encoded
         from orchestrator.operations_report import private_root
-        if self.config['model_mode']!='SUPERVISED' or os.getuid()!=0:raise ValueError('SUPERVISED_ROLE_LAUNCHER_REQUIRED')
+        if self.config['model_mode'] not in ('SUPERVISED','GOVERNED') or os.getuid()!=0:raise ValueError('SUPERVISED_ROLE_LAUNCHER_REQUIRED')
         if set(body)!={'event','stage','packet','prompt'}:raise ValueError('MODEL_STAGE_SCHEMA')
         event=body['event'];stage=body['stage']
         validate_server_event(event)
@@ -103,7 +111,10 @@ class Broker:
             folder=root/(event['turn_id']+'-'+event['attempt'])
             binding={'event':event,'packet_sha256':hashlib.sha256(encoded(body['packet'])).hexdigest()}
             if not folder.exists():
-                if len(list(root.glob('*/binding.json')))>=self.config['max_model_turns']:raise ValueError('SUPERVISED_MODEL_BUDGET_EXHAUSTED')
+                retained=len(list(root.glob('*/binding.json')))
+                if self.config['model_mode']=='SUPERVISED' and retained>=self.config['max_model_turns']:
+                    raise ValueError('SUPERVISED_MODEL_BUDGET_EXHAUSTED')
+                if retained>=10000:raise ValueError('MODEL_EVIDENCE_CAPACITY_REQUIRES_MAINTENANCE')
                 folder.mkdir(mode=0o700)
                 immutable(folder/'binding.json',encoded(binding))
                 immutable(folder/'packet.json',encoded(body['packet']))

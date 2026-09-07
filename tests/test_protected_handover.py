@@ -114,3 +114,18 @@ def test_initialization_permission_is_scoped_even_on_existing_state(tmp_path):
     with pytest.raises(ValueError,match='ALREADY_EXISTS'):
         b.operator('initialize',{'decision_ref':'synthetic operator request'})
     assert b.ledger.allow_initialization is False
+
+
+def test_governed_mode_cannot_replace_supervised_fixture_authority(tmp_path):
+    b=broker(tmp_path)
+    with pytest.raises(ValueError,match='GOVERNED_MODE_REQUIRES_LIVE_PERMISSION'):
+        Broker({**b.config,'model_mode':'GOVERNED'})
+    proposed={**b.config,'model_mode':'GOVERNED','mode':'LIVE_APPROVED'}
+    with pytest.raises(ValueError,match='RATIFICATION_AND_PERMISSION'):
+        Broker({**proposed,'policy':{**b.config['policy'],'status':'PROPOSED'}})
+    # Construction verifies the protected policy only. No key, state ref, model
+    # or live permission is created by this synthetic test.
+    with pytest.raises(ValueError,match='SEPARATE_UNATTENDED_ACTIVATION_REQUIRED'):
+        Broker(proposed)
+    governed=Broker({**proposed,'activation_decision_sha256':'e'*64})
+    assert governed.config['max_model_turns']==0
