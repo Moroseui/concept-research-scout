@@ -1,0 +1,78 @@
+{
+  "execution": {
+    "reviewed_commit": "1b4d55b2232643413e4d16d054f1900c29a11c79",
+    "returncode": 0,
+    "wall_seconds": 327.72442831601074,
+    "input_file_sha256": {
+      "scripts/pr5_retrospective_audit.py": "87f7ae092e198b6827d6f6c27d8dee8aa5904670337e1593165e5f60db1fc499",
+      "tests/test_pr5_retrospective_audit.py": "70e20d2a830bc05dc45483b905058a3465cdb8231eef1ceecd2572fb20b36091",
+      "orchestrator/git_publication.py": "1d33126570510df9e8444905ad16a84c9006fe68b0795ff993b6bfa608ac850a",
+      "orchestrator/dispatch_limiter.py": "feeaeeb97727b93480a0798c46f236d6d189da01c94782174e05d52cd660f870",
+      "orchestrator/private_git.py": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "scripts/fetch_provenance.py": "5652246ec6b82f80c6febdbd24cb3e6d81a90bb0df70f1b9c1ab2870e840bd7a",
+      "tests/test_private_git.py": "aab981a96aa78ab9dcf4ce6cb99ac751aee42d6a537bf063656dae8a408d4b90",
+      "docs/operations/PRIVATE_GIT_DIAGNOSTICS_20260907.md": "68c0007d47363172708c041c1e750584002d0f82db4be069669313b7d3553793",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da"
+    },
+    "response_sha256": "d08e8dd1251f1eb1748e1e74add755c4ee63e231bc7e43c8533d548411a2ab1d",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "31e77f690a8278d77b31915bd099f712f9ebe0430c60d19baf8a3c30ff3e31e7"
+  },
+  "review": {
+    "scope": "Follow-up audit closure/ruling/malformed findings fixes to rejected b80ef055 review, plus new private stderr capture across ledger/publication/provenance transport. Source-only; no hosted verification or activation claimed. Preserve open original exit-128 cause and all gates.",
+    "reviewed_commit": "1b4d55b2232643413e4d16d054f1900c29a11c79",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED: Closure defect fixed. require_parent_closure checks every parent of each additional commit (rev-list --parents) against additions plus the pinned {BASE, SOURCE, original} boundary, so no unscanned side history between SOURCE and the ruling. Additions must be unique 40-hex non-original descendants of SOURCE and must include TRUST; original range pinned to exactly 82 commits.",
+      "VERIFIED: Ruling binding fixed. pinned_policy binds policy blob and evidence/decisions.md bytes by SHA-256 and additionally requires rev-parse TRUST^ == SOURCE (RULING_PARENT_MISMATCH), anchoring the ruling to its exact reviewed commit rather than a working-tree file.",
+      "VERIFIED: Malformed-findings defect fixed with privacy preserved. scan_commits passes policy error text through only when it full-matches [A-Z_]+; UnicodeError maps to NON_UTF8_PUBLICATION and all other caught exceptions to MALFORMED_PUBLICATION_STRUCTURE. Findings carry path_sha256/byte hashes, never path text, rejected content, or subprocess output; tests assert redaction for both rejection and malformed-policy paths.",
+      "VERIFIED: private_git transport is fail-closed and opaque. Stderr goes to per-invocation 0600 files in a uid-owned 0700 non-symlink directory refused if inside a Git checkout, with refusal before execution (test confirms empty directory). Exceptions expose only exit status/timeout plus the receipt directory name (from None suppresses chaining); result.stderr is scrubbed; stdout/stderr/shell overrides rejected; timeout preserves pre-kill bytes with fsync; receipts record argv_sha256 and stderr_sha256, never arguments, input, or content. Ledger, publication (including create), and provenance retrieval all route through it.",
+      "VERIFIED: Authority and gates preserved. publish/create require byte-exact externally supplied authority dicts; create demands exact field set, absent-ref lease, porcelain '*' status, and post-push ls-remote re-verification; checkpoint remains pinned to the pilot destination; limiter requires RATIFIED + OPERATOR_AUTHORIZED (+OPERATOR_AUTHORIZED_V1 for server admission), halts latch across midnight, reset/initialize remain operator-approval routes, and PROPOSED config short-circuits inactive. Docs claim no hosted verification, no activation, and leave the original exit-128 transport finding OPEN with no root cause assigned, matching scope.",
+      "SUGGESTION: scan_commits records metadata findings as raw str(error) from policy.scan_commit without the [A-Z_]+ code filter applied to blob findings, and a non-ValueError there would abort the whole audit instead of being recorded. Harmless with the hash-pinned policy (only the fixed COMMIT_METADATA_REJECTED code is raised) but asymmetric hardening; apply the same filter/mapping.",
+      "SUGGESTION: private_git.run accepts and silently ignores capture_output, which git_publication, dispatch_limiter, and fetch_provenance all pass. Behavior is a compatible superset (stdout always piped, stderr always private), but explicitly rejecting or documenting the kwarg would prevent misreading.",
+      "SUGGESTION: Receipt directories accumulate one per Git invocation with no bound or rotation (a single admission can spawn a dozen under CAS retries). A full diagnostics filesystem makes open('xb')/mkdtemp fail and all Git transport refuse \u2014 fail-closed but a self-inflicted availability risk; bound or rotate before hosted use, consistent with the doc's retention caveat.",
+      "SUGGESTION: scripts/pr5_retrospective_audit.py's own git() helper still uses raw subprocess.check_output(stderr=PIPE) rather than the private transport. CalledProcessError.__str__ omits stderr so printed output does not leak, but the captured stderr rides on the exception object \u2014 inconsistent with the new transport for an operator-run script.",
+      "NOTE: Shell/file tools were disabled in this session; the working tree could not be independently confirmed against 1b4d55b2. Review binds to the supplied source bytes. No tests were executed; all verification is source-only reading."
+    ]
+  },
+  "session_id": "20789269-cafd-4bd2-a035-a2e2f165045f",
+  "is_error": false,
+  "subtype": "success",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 20308,
+      "outputTokens": 18,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.020398,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 4,
+      "outputTokens": 24440,
+      "cacheReadInputTokens": 32899,
+      "cacheCreationInputTokens": 54266,
+      "webSearchRequests": 0,
+      "costUSD": 2.3402589999999996,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "cost_usd_cli_estimate_not_invoice": 2.360657,
+  "review_kind": "AUTHOR_OPERATED_SOURCE_ONLY_NOT_INDEPENDENT_MERGE_DESK",
+  "hosted_verified": false
+}

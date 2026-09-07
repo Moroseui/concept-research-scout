@@ -1,0 +1,69 @@
+{
+  "execution": {
+    "reviewed_commit": "b80ef05527c44b9e685e11446c3f9446c865a1b4",
+    "returncode": 0,
+    "wall_seconds": 215.99824103800347,
+    "input_file_sha256": {
+      "scripts/pr5_retrospective_audit.py": "197903c6d381c4664541083b67f21c04b179ec85087b4eec7180ccad16407845",
+      "tests/test_pr5_retrospective_audit.py": "210b7ed7993e5c5c0df50e4a846a14a4db49b9dda678aa6e6c56602d63cfaf2b",
+      "orchestrator/git_publication.py": "5622c1b700437a022c63c539f28bb1b7b8adc64de6386485293bf495005532f5",
+      "docs/operations/PR5_DESK_RETURN_20260907.md": "2f4fbba546e49c7713f53cfbb047c540f945227a47fd5be246c12c80ec61ab15"
+    },
+    "response_sha256": "47fdce750273cd29d89f9fd7b0848da0b2b337dbd6f9d20fd628a254d03e932e",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "a8dc984c8ac784d52ebc4188852d6302a457dfb5dfc7471911a8ef1f5f9076c2"
+  },
+  "review": {
+    "scope": "PR5 retrospective audit only: fixed original 82-commit range, explicitly added decisions, independent hash-bound existing policy and ruling; detect extra findings without broadening publication exemptions",
+    "reviewed_commit": "b80ef05527c44b9e685e11446c3f9446c865a1b4",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKING: audit() validates each additional decision commit only as 40-hex, outside the original range, and descended from SOURCE; it never checks that every parent of each addition is SOURCE, an original-range commit, or another listed addition. An unlisted intermediate commit (or an unchecked second merge parent of TRUST, since pinned_policy binds only TRUST^) leaves its commit metadata, its deleted-before-tip blobs, and even content surviving unchanged into a listed addition's tree entirely unscanned, while the receipt still reports status PASS and claims full historical coverage. Add a fail-closed parent-closure check (rev-parse <pin>^@ subset of {SOURCE} \u222a original \u222a additions).",
+      "The ruling is not content-hash-pinned: the policy blob is verified against POLICY_SHA256 before exec, but evidence/decisions.md at TRUST is bound only by the SHA-1 commit id, with its SHA-256 self-reported into the receipt instead of verified against a pinned constant. The scope requires a hash-bound policy AND ruling; pin the expected decisions_sha256 and refuse on mismatch.",
+      "A historical .ipynb that parses as JSON but lacks 'cells' or has non-dict cells raises KeyError/TypeError/AttributeError inside the pinned policy's scan; scan_commits catches only (ValueError, UnicodeError), so one malformed notebook aborts the entire run and hides all remaining findings, contradicting the return-all-findings docstring (fail-closed, but incomplete reporting). Also json.JSONDecodeError is caught but mislabeled NON_UTF8_PUBLICATION by the [A-Z_]+ filter. Catch these structurally and emit a named finding (e.g., MALFORMED_NOTEBOOK_PUBLICATION).",
+      "Minor: a non-descendant additional commit fails via a bare subprocess.CalledProcessError from 'git merge-base --is-ancestor' rather than a named refusal code, inconsistent with the refusal-code discipline elsewhere; fail-closed, non-blocking.",
+      "Verified no exemption broadening: scan_history_blob receives TRUST as 'before', changing only the ancestry precondition for the grandfathered decisions/fixture branches; all exempted bytes remain pinned to exact SHA-256s of already-public content, the appended decisions.md remainder is still fully rescanned, and no new exemption names, hashes, or routes are introduced.",
+      "Verified fail-closed identity bindings and receipt hygiene: policy fetched from pinned SOURCE and executed only after SHA-256 verification (TRUSTED_POLICY_IDENTITY_MISMATCH otherwise); 82-commit count and TRUST membership enforced; receipts contain only path_sha256, object ids, blob SHA-256s, and named codes \u2014 no rejected content, raw paths, or subprocess output; non-UTF-8 paths/content collapse to NON_UTF8_PUBLICATION without leaking bytes.",
+      "Verified coverage mechanics within the original range and authority limits: full rev-list enumeration plus per-commit diff-tree --root -m with byte-exact tree membership covers merge side-branches, deleted intermediates, and empty-commit metadata; symlinks/gitlinks are flagged as NON_REGULAR_PUBLICATION; findings accumulate rather than stopping at first refusal; the RETROSPECTIVE_ONLY_NOT_PUBLICATION_OR_ACTIVATION scope and absence of any push/ratify path preserve existing approvals and activation gates. Source-only review: tests not run; pinned hashes not independently recomputed (all mismatches fail closed)."
+    ]
+  },
+  "session_id": "31ad9a98-c9b6-446d-8d1c-7394cce167f2",
+  "is_error": false,
+  "subtype": "success",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 8504,
+      "outputTokens": 16,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.008584,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 16885,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 15600,
+      "webSearchRequests": 0,
+      "costUSD": 1.1562700000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "cost_usd_cli_estimate_not_invoice": 1.164854,
+  "review_kind": "AUTHOR_OPERATED_SOURCE_ONLY_NOT_INDEPENDENT_MERGE_DESK",
+  "hosted_verified": false
+}

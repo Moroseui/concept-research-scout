@@ -108,9 +108,9 @@
     },
     {
       "job": "pr5-retrospective-audit",
-      "status": "OPEN_IMPLEMENTATION_AND_AUDIT",
+      "status": "BLOCKED_ADDITIONAL_HISTORICAL_DISPOSITION",
       "reason": "POLICY_TRUST_AND_SCAN_RANGE_MUST_BE_SEPARATE",
-      "next_action": "Scan original d24ffb9003a2291f359afe3acf4bf491f2d7fd9f..ac8e0150eb2daf8ca2252c27b5c7ab4bde38f36d, all 82 commits and historical outgoing blobs, plus explicit added decision commits. Preserve narrow ruling; undispositioned findings block activation."
+      "next_action": "Review PR5_AUDIT_DISPOSITION_REQUEST_20260907.md: one exact earlier decisions blob is a prefix of the existing approved baseline but outside its present exception. Audit implementation review remains in progress; no exemption added."
     },
     {
       "job": "hosted-reconciliation-after-pr5",
