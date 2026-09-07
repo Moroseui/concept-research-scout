@@ -1,0 +1,15 @@
+**The report supports one completed synthetic Linux job; it does not establish scientific progress or full handover acceptance.** This is a Codex assessment of supplied evidence, not a fresh Claude review or independent execution verification.
+
+The completion receipt binds `51-handover-a0795e6` to execution source `6b555075…`, with 0.240037 seconds elapsed. Reporting source `a0795e69…` is correctly separate. The supplied process observation records UID 997, `NoNewPrivileges=1`, and limits of one CPU, 512 MiB and 32 tasks. These observations do not establish restart recovery, backup recovery or laptop independence.
+
+| Severity / affected task | Evidence and status | Consequence / smallest corrective action |
+|---|---|---|
+| **Blocker — fail-closed control handling** | `handover_runtime.py`, SHA `ede92db9…`: verified source ordering; operational consequence **inferred**, untested. `tick()` runs selected-work advancement after a controls error; `bookkeeping()` can also reach `advance()`. | An unread pause request could leave dispatch using stale control state. Apply the control-transport block to every successor-submission route and verify with a bounded synthetic fault case. This does not invalidate the completed job. |
+| **Blocker — full handover acceptance** | Packet `cfa53c2d…` supplies implementation text and a process observation, but no matching acceptance-harness result or exercised human-control/recovery receipts. Those behaviors remain **untested here**. | Do not claim operational acceptance. Reconcile existing source-bound acceptance evidence first; collect only missing deployed evidence without replaying completed work. |
+| **Suggestion — scientific readiness priority** | P001 preflight `927d172e…` records 99 cases/198 members selected, zero payloads opened, and no review-gate check. Source amendment `3478bf7d…` supports timing provenance but leaves exported Tmax units unresolved. **Verified as supplied records; performance untested.** | Continue source clarification and exact-snapshot readiness review toward 9 September. Metadata selection establishes neither valid image inputs nor a baseline result. |
+
+**Next eligible task:** complete this report’s prescribed fresh Claude review and Astra disposition, then reconcile the bounded handover acceptance gaps above. No `execution_proposal` or successor identity is supplied, so no successor selection is justified. Review publication must not recursively trigger another review.
+
+Retain resolved authentication, synthetic phone ACK and bounded closeout findings without reopening them. Continue independent prediction-readiness, 047b reconciliation and evidence-propagation desk work; 047 conclusions remain pending, and P001 does not depend on 047 acceptance.
+
+All reserved decisions remain reserved: charter ratification; patient transfer/launch; 047 landing and cleanup; reserved data; main merges; protected writer/reset permissions; limiter and unattended activation; operational phone decisions; credentials and spending. The 48/96 limiter remains inactive, and reporting time remains unselected.

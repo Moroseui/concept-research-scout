@@ -48,10 +48,11 @@
     },
     {
       "job": "review-recovery-closeout",
-      "status": "OPEN_IMPLEMENTATION",
-      "reason": "RECOVERED_WAKE_AND_DISPOSITION_RECOVERY_UNVERIFIED",
-      "next_action": "Add and review a recovery-aware wake closure route and bounded disposition-only recovery. Do not replay scientific jobs or represent recovered cycles as automatically closed.",
-      "evidence": "CLOSEOUT_IMPLEMENTATION_REVIEWS_20260906.json"
+      "status": "RESOLVED_SUPERVISED",
+      "reason": "ORIGINAL_REVIEW_AND_DISPOSITION_RECOVERED_NO_MODEL_REPLAY",
+      "next_action": "Reuse installed 6863968 lost-response/restart evidence: recovery used zero new calls. Final control-channel repair and full activation remain separately tracked.",
+      "evidence": "hosted-service-acceptance-20260907/receipt.json",
+      "prior_reason": "RECOVERED_WAKE_AND_DISPOSITION_RECOVERY_UNVERIFIED"
     },
     {
       "job": "hosted-closeout-continuation",
@@ -62,10 +63,24 @@
     },
     {
       "job": "reporting-pin-acceptance",
-      "status": "OPEN_IMPLEMENTATION",
-      "reason": "HOSTED_REVIEW_NEXT_ACTION",
-      "next_action": "Prepare the bounded system-selected acceptance plan for reporting-pin controller/worker compatibility, v2 outcomes, durable writes and wake/recovery visibility. Later journal amendment supplies actual old-worker invocation evidence; no new worker deployment is inferred.",
-      "evidence": "hosted-closeout-20260906/disposition.md"
+      "status": "RESOLVED_BOUNDED_SYNTHETIC",
+      "reason": "PINNED_COMPLETION_SUCCESSOR_CHAIN_VERIFIED",
+      "next_action": "Reuse actual a0795e6 coordinator / 6b555075 executor pair and original evidence. No worker redeployment or patient result is inferred.",
+      "evidence": "HOSTED_COMPLETION_RESULT_20260907.md",
+      "prior_reason": "HOSTED_REVIEW_NEXT_ACTION"
+    },
+    {
+      "job": "handover-control-delivery-repair",
+      "status": "OPEN_REVIEW",
+      "reason": "HOSTED_CLAUDE_CONTROL_FAILURE_FINDING",
+      "next_action": "Review and install the tested control-inbox-failure dispatch gate, fuller evidence context and checked report-delivery route. Preserve the completed synthetic pair; no repeat model cycle is required merely to supply missing historical receipts.",
+      "evidence": "HOSTED_COMPLETION_RESULT_20260907.md"
+    },
+    {
+      "job": "github-writer-enforcement",
+      "status": "OPEN_PERMISSION_DESIGN",
+      "reason": "MAIN_UNPROTECTED_AND_MODEL_SECRETS_REPOSITORY_SCOPED",
+      "next_action": "Include exact repository protection and credential/environment limitations in the final grouped writer/admission packet. Authenticated read-only API found only results protection ruleset 20885616, main protection 404, and no environments. No protection or credential change was performed."
     }
   ]
 }

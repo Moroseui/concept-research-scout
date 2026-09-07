@@ -1,0 +1,36 @@
+# Fresh Claude review — report 2026-09-07 (task 51-handover-a0795e6)
+
+**Verdict: the packet verifies exactly one bounded synthetic completion under the configured non-root resource limits, and nothing more.** No scientific result, no deployed-operation acceptance, and no successor dispatch are established or claimed. The report is honest about this. I confirm the continuation's two blockers with one refinement, and add one implementation finding and one evidence-gap list of my own.
+
+**Review identity:** reviewer Claude (model `claude-fable-5`), fresh session, directive remote-reviewer/v2 (`81028cb8…`), canonical direction `b2639c83…`. Reviewed report source `a0795e69ed6c…`, execution source `6b555075…`, task packet `cfa53c2d…`, collector `db45cd3c…`. The continuation stage was Astra/Codex; this stage is the independent review it prescribed.
+
+## What is verified
+
+- **Completion (verified, source-bound):** job `51-handover-a0795e6`, attempt `84071c91…`, COMPLETE, 0.24 s wall / 0.147 s CPU / 19,200 KiB RSS, artifact `776c3a10…`, `separate_retrieval: true`. Console identities are hash-bound; both stderr hashes are the empty-input SHA-256, so stderr was empty. Hashes prove identity, not content — originals remain privately retained per directive, which is acceptable.
+- **Controller confinement (verified as a single point-in-time configuration observation, 06:27 UTC):** UID 997, `NoNewPrivileges=1`, `memory.max` 512 MiB, `cpu.max` 100000/100000, `pids.max` 32 — exactly matching the supplied controller unit file. This observes the collector's own process once; it is not proof of continuous confined operation.
+- **Recursion guard (verified in source, consistent with packet):** the packet carries no `execution_proposal`, so job 51 is a terminal successor; `finish()` marks the wake PROCESSED and no new report or dispatch follows this review chain. The continuation correctly declined to select a successor.
+- **Reporting discipline (verified):** trigger `verified-completion` is a permitted enum value; report day is stated as first-observation, not execution date; unavailable measurements are null, not invented.
+
+## Findings
+
+**1. Blocker — carried forward and confirmed: pause requests are not fail-closed against dispatch. Affected task: handover deployment. Status: inferred from verified source; untested.**
+Evidence: `handover_runtime.py` (`ede92db9…`) `tick()` and `completion_bridge.py` (`b1b4732f…`). If the `controls` phase fails, `tick()` records a runtime block but still runs `completions`/`selected-work` in the same pass, and `bookkeeping()` → `finish()` → `advance()` runs regardless of the control block. `advance()` checks the *persisted* paused flag, so a pause already applied holds — but a pause request that could not be read (protected-inbox fault) does not prevent successor submission in that same tick. Consequence: a stale control state can admit one dispatch the operator intended to stop. Smallest correction: gate `advance()` and `finish()`'s dispatch path on the controls phase having succeeded this tick, and verify with one bounded synthetic controls-fault fixture. This does not invalidate the completed job; only the deployment task is blocked on it.
+
+**2. Blocker — carried forward: no deployed-operation acceptance is established by this packet. Affected task: handover acceptance. Status: untested here.**
+All seven implementation records are explicitly `SOURCE_CODE_NOT_EXECUTION_PROOF`. The acceptance harness (`verify_handover_service.py`, `5b08465c…`) encodes the right test — three model calls, withheld disposition, restart recovery with zero model calls, duplicate suppression — but no fixture result for *this* source generation is supplied. Missing entirely: `service_runtime` (units enabled/active under systemd, socket activation), `restart_recovery`, `backup_recovery`, `reporting` delivery, `phone_notifications`, `laptop_independence`. No disconnection test of any duration or scope is in evidence. Consequence: no operational-acceptance or laptop-independence claim is supportable. Smallest correction: reconcile any existing source-bound acceptance receipts first (do not replay completed verification), then collect only what is missing. Evidence request: `{"kind":"service_runtime","purpose":"Confirm broker/controller units installed, enabled and socket-activated for the current source","affected_task":"handover-acceptance"}`.
+
+**3. Suggestion — new: `scheduled_report` writes immutable packet/report files inside a transaction it always rolls back. Affected task: handover deployment. Status: verified in source; consequence inferred.**
+`enqueue_report()` persists files via `finalize()`/`immutable()` while the coordinator DB transaction is later rolled back, relying on `q.schedule()` to re-derive the same identity. The in-code comment acknowledges an unused snapshot grants no authority, and identity is content-derived, so this is likely benign — but a crash between file write and `schedule()` leaves orphaned immutable state that recovery code never references. Smallest correction: document the orphan case or add a bounded reconciliation sweep; no behavior change to completed work.
+
+**4. Suggestion — carried forward: setup is consuming the runway to the 9 September prediction goal. Affected task: isles24-prediction-charter. Status: verified as supplied records; assessment.**
+This packet is the second consecutive review cycle whose content is entirely handover infrastructure. The scientific critical path items are desk work needing no new grants: resolving the exported Tmax unit question (amendment `3478bf7d…` leaves it open), and putting the reviewed-but-unadopted charter/adoption packet (`REVIEWED_PROPOSAL_NOT_ADOPTED`, receipt `bc62ada3…`) in front of the operator for the ratification decision only the operator can make. The preflight (`927d172e…`, 99 cases/198 members, zero payloads opened) is selection metadata, not input validity or a result. With two days remaining, the honest Wednesday fallback — reviewed proposal plus explicit unresolved gates, no invented baseline — should be treated as the likely deliverable unless the operator ratifies and the separately reserved launch gates resolve.
+
+**Human operation (untested, reported honestly):** supported routes exist in source — status/tick/pause/resume CLI, root-owned control inbox with receipts, error strings naming next actions, phone-readable report structure. None was exercised in this packet; I record that as untested rather than deficient.
+
+## Resolved items, unchanged
+
+Remote model authentication, the synthetic phone ACK (issue-4, duplicate-suppressed), and the bounded hosted closeout remain resolved; no new evidence reopens them. Stale `REMOTE_AUTH` reason strings are historical and do not justify a new sign-in request.
+
+## Reserved decisions — all preserved
+
+Charter ratification; patient transfer/launch; 047 landing and cleanup; reserved 49-case data; main merges; protected writer/reset; 48/96 limiter and unattended activation (all three R3 conditions still unmet, limiter inactive); operational phone decisions; new credentials, spending and provisioning; nightly report time (still unselected). Nothing in this review grants, infers, or requests any of them, and this review must not trigger another report review.

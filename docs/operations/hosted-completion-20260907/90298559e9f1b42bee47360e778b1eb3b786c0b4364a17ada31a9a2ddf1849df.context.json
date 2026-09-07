@@ -1,0 +1,6 @@
+{
+  "event_sha256": "6bf5ed79e55204aac7b2c1291b58e0413af17e19ce7de755970efbedc5728fe0",
+  "limits": "Configured synthetic successor only; scientific tasks keep their separate gates.",
+  "observation_timing": "Report day is the first verified observation, not an inferred execution date.",
+  "trigger": "Verified synthetic completion 51-handover-a0795e6"
+}
