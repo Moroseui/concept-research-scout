@@ -180,7 +180,25 @@ class Runtime:
         if prior:return {'status':'ALREADY_SCHEDULED','task':prior[0]}
         evidence=configuration(schedule['evidence_file'])
         if set(evidence) not in ({'source','receipts','task_state'},{'source','receipts','task_state','reviewer_evidence'}) or evidence['source']!=self.config['source']:raise ValueError('REPORT_EVIDENCE_SOURCE')
-        binding=self.enqueue_report(day,evidence['receipts'],evidence['task_state'],evidence.get('reviewer_evidence'))
+        # Installed evidence is a supplied snapshot, not a live queue census.
+        # Capture current coordinator state in the same transaction used for
+        # daily identity creation. Never read prompts or private job payloads.
+        self.q.db.execute('BEGIN IMMEDIATE')
+        try:
+            state=self.q.status()
+            task_state=dict(evidence['task_state'])
+            task_state['coordinator_observed_at']=now.isoformat()
+            task_state['coordinator_tasks']=state['tasks']
+            task_state['coordinator_control']={'revision':state['revision'],'paused':bool(state['paused'])}
+            task_state['evidence_scope']='Installed evidence plus current coordinator metadata; not a census of other execution queues.'
+            task_state['coordinator_summary']=', '.join(
+                str(sum(row['status']==status for row in state['tasks']))+' '+status.lower()
+                for status in ('QUEUED','RUNNING','COMPLETE','BLOCKED'))
+            binding=self.enqueue_report(day,evidence['receipts'],task_state,evidence.get('reviewer_evidence'))
+        finally:
+            self.q.db.execute('ROLLBACK')
+        # schedule owns its transaction. Concurrent callers converge on the
+        # already-persisted day; an unused immutable snapshot grants no authority.
         return self.q.schedule(now,schedule['zone'],schedule['hour'],schedule['minute'],binding)
 
     def recover(self):

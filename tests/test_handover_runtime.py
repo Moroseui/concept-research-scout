@@ -52,6 +52,25 @@ def test_schedule_disabled_by_default_and_daily_identity_deduplicates(tmp_path,m
     assert len(r.q.status()['tasks'])==1
 
 
+def test_scheduled_report_records_current_queue_without_private_binding(tmp_path,monkeypatch):
+    from datetime import datetime,timezone
+    import orchestrator.handover_runtime as module
+    r=runtime(tmp_path,monkeypatch)
+    pending=r.enqueue_report('2026-09-06',[],{'fixture':'pending'})
+    r.q.submit(pending)
+    r.q.db.execute("UPDATE tasks SET status='BLOCKED',reason='RECONCILE_ORIGINAL_RECEIPT'")
+    r.config['report_schedule']={'zone':'UTC','hour':0,'minute':0,'evidence_file':'synthetic'}
+    monkeypatch.setattr(module,'configuration',lambda path:{'source':'a'*40,'receipts':[],
+        'task_state':{'research_queue':'Recorded independent research remains queued.'}})
+    result=r.scheduled_report(datetime(2026,9,7,tzinfo=timezone.utc))
+    packet=json.loads((r.state/'tasks'/result['task']/'packet.json').read_text())
+    state=packet['decision_inbox']
+    assert state['coordinator_tasks']==[{'id':pending['id'],'status':'BLOCKED','reason':'RECONCILE_ORIGINAL_RECEIPT'}]
+    assert '1 blocked' in state['coordinator_summary']
+    assert 'not a census' in state['evidence_scope']
+    assert 'binding' not in state['coordinator_tasks'][0]
+
+
 def test_completed_review_bookkeeping_is_repeatable_without_models(tmp_path,monkeypatch):
     from orchestrator.operations_report import Queue
     r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-06',[],{})
