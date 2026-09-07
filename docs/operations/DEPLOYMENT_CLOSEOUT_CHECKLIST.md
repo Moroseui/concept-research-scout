@@ -103,3 +103,44 @@ running attempts. Operator reset remains separately protected. These operational
 phone verbs are **not yet implemented or authorized**. The packet must provide the
 exact supported commands and demonstrate them before observation is requested;
 current synthetic ACKs must not be treated as operational approvals.
+
+
+## 7 September evidence reconciliation — work remains in progress
+
+This dated reconciliation supersedes earlier present-tense RUNNING/not-installed
+statements; those entries remain historical evidence, not retry instructions.
+
+- Installed source `6863968863ddfb1d82b25c7b358857e666c950a5` completed one
+  supervised Astra/Claude/Astra service cycle. Recovery after deliberate response
+  loss and an idle broker restart completed with zero new calls and one total
+  fixture admission. Original protocols, console and state are preserved privately.
+- Actual non-root service status/pause/resume, repeated requests, stale revision
+  and conflicting request rejection passed. These are SSH/admin controls;
+  operational phone replies remain unauthorized and unimplemented.
+- A fresh application backup restored 57 verified files, two consistent SQLite
+  databases and all three original completed stage records. No services or models
+  started during restore. This does not establish provider backup recovery.
+- Candidate intake is implemented at `cba7043`: source bundle and every outgoing
+  history version are checked in a separate protected cache. No writer key or
+  live publication service is installed. Existing local controlled publication
+  remains the authorized route for this branch.
+- `3314f8d` adds current coordinator metadata to scheduled report context and
+  bounded protected Actions request reconciliation. The read-only waiter and
+  actual workflow integration remain under preparation. Existing human workflows
+  have not been replaced by a refusal-only control.
+- Fresh author-operated Claude review of candidate intake, CAS, retrieval and
+  deployed recovery/backup evidence is pending. It is not independent merge-desk
+  approval and will not be represented as complete until its actual result arrives.
+
+No handover timer is enabled. The supervised fixture's one-turn allowance is
+consumed; do not restart it to obtain additional model calls. Original deterministic
+controller/worker timers remain unchanged. Research tasks remain queued: prediction
+charter/adoption, 047b reconciliation and gated lifecycle, cross-charter evidence
+propagation. None is authorized for patient launch or scientific acceptance here.
+
+Remaining essentials: integrate the protected Actions request/wait workflow and
+candidate cache on the host; connect persistent completion selection to eligible
+execution using existing handlers; finalize scheduled evidence/report publication;
+complete final deployed review and permission packet. Live writer/reset grants,
+shared-state initialization/activation and the disconnected observation remain
+separate operator decisions. No new permission is requested in this progress entry.
