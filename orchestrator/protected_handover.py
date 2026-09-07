@@ -159,8 +159,11 @@ class Broker:
             with self.authentication():return reset(self.ledger,self.config['policy'],{'actor':actor,'role':'operator','expected_sequence':body['expected_sequence'],'decision_ref':body['decision_ref']})
         if operation=='initialize':
             if set(body)!={'decision_ref'}:raise ValueError('INITIALIZE_SCHEMA')
-            self.ledger.allow_initialization=True
-            with self.authentication():return initialize(self.ledger,self.config['policy'],{'actor':actor,'role':'operator',**body})
+            previous=self.ledger.allow_initialization
+            try:
+                self.ledger.allow_initialization=True
+                with self.authentication():return initialize(self.ledger,self.config['policy'],{'actor':actor,'role':'operator',**body})
+            finally:self.ledger.allow_initialization=previous
         raise ValueError('OPERATOR_OPERATION_REFUSED')
 
 

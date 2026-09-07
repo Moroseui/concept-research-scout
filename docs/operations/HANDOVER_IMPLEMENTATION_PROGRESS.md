@@ -190,3 +190,23 @@ No local/remote model call is pending at this checkpoint. The fixture broker/soc
 remain running but have no timer and their sole permitted model turn is consumed.
 Original synthetic controller/worker timers and scientific task stores remain
 untouched. Source review/deployed acceptance do not activate live permissions.
+
+
+Protected intake review completed at cba7043 (actual Claude Fable 5, 406.10 s,
+author-operated, no tool execution). The exact review and input identities are in
+HANDOVER_PROTECTED_INTAKE_REVIEW_20260907.json. Verdict APPROVE with suggestions;
+not a hosted installation or main-merge approval. Follow-up repairs reject glob
+metacharacters in sparse paths, name candidate Git/link failures, restore the
+initialization flag in finally, and preserve top-level original output files in
+the legacy backup route. The separate handover backup already preserved those
+bytes and its actual restore receipt remains valid.
+
+The report now snapshots current coordinator status without reading private
+payloads. Actions request collection has a per-request three-read-attempt ceiling,
+a serialized local receipt path and shared-CAS duplicate recovery. A checked
+request artifact and bounded read-only admission waiter are prepared; they neither
+activate policy nor alter the existing human workflows. Tests demonstrate timeout
+refusal, matching prior admission through a later halt, stale source/policy refusal,
+independent work after an API failure and recovery after local receipt loss.
+Workflow/host installation and final review remain outstanding. No human action is
+needed to continue the remaining authorized implementation.

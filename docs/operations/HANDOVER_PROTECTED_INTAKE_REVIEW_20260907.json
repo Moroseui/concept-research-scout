@@ -1,0 +1,115 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "cba7043fb4c401c8326cd9f8d71cab94f9dce657",
+    "returncode": 0,
+    "wall_seconds": 406.1007466769952,
+    "input_file_sha256": {
+      "orchestrator/publication_candidate.py": "ec39dafd4ed944866de1aa930f7bfe752650bca092e1b9f9622d9872a76148df",
+      "orchestrator/git_publication.py": "5622c1b700437a022c63c539f28bb1b7b8adc64de6386485293bf495005532f5",
+      "orchestrator/protected_handover.py": "b977afbf726d9e4bb14497c3ff5c12b9b25b0eb7900e72430d95733a2a8892d0",
+      "orchestrator/dispatch_limiter.py": "7bf3f1567242a659411ae11494ceffa7fc9b705dd17f14d0ae831bcdd60dc070",
+      "orchestrator/actions_admission.py": "f6df91a4f65a41fe03f8bed6b57febdf3bb54885819b2a6708520bc9aa51b9fe",
+      "orchestrator/actions_admission_transport.py": "17bea56070c4e72d1efa8b1a600da48cb3c0d8957f6b9e305dbebfd355904e1c",
+      "orchestrator/operations_backup.py": "db9c5aab0e6ddc64cdb3f38ab9955858183fd9b58e20b3b3f280061a64360c4d",
+      "tests/test_publication_candidate.py": "8e297f4c9e1a4ef959ca15e31c69a1b570257d67430bcbdb7f5a7a1e455a29c2",
+      "tests/test_protected_handover.py": "54344080b0bb647b960ff90cc45d2b6bcbf8550cfc03f42bd254cfce2be88ccb",
+      "tests/test_dispatch_limiter.py": "17d5fa4cdb2f8d64257e4e434d7a19480c048717784e9d6b39d199ad8ea8cb54",
+      "tests/test_actions_admission_transport.py": "3e41a24ee63908f583a37650fd666e2e3c106c966de4ddcc4c5a9de8c32504e3",
+      "tests/test_handover_backup.py": "79f9b0b95f4b977675eaea7febaa02446b22f97e52e0bd3fe956d3e1188f5bf4",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/hosted-service-acceptance-20260907/receipt.json": "7886c87a4700213fdfa3a408965dbbe80081c23faf036564ee8b995213899271",
+      "docs/operations/hosted-service-acceptance-20260907/review.md": "7c777e35e399b1e9ca6fd35349898571c51fbe90ced0393daa8015270333b3aa",
+      "docs/operations/hosted-service-acceptance-20260907/disposition.md": "f7e16c19507b5f86e0e47e97736503f26c46484dedfdb0d3af4964541ab66fed",
+      "docs/operations/hosted-service-acceptance-20260907/human-controls.json": "7c4b4fc954317e54ed8968e7381d34ac87a4f84918d7465f002aead25d913931",
+      "docs/operations/hosted-service-acceptance-20260907/backup-recovery.json": "cab43f8f77bc1715c067d9ff737002858929081c36424bcdffef8ed250e08c8e"
+    },
+    "response_sha256": "0209ffbb227d89817527f57c5a47c513a227f434328a36ca298ca6805fceec24",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "404ea61db22bb42536768892ba0bfce840dbc85c0d89a1a9a150ad2fe1fe5f8b"
+  },
+  "review": {
+    "findings": [
+      "SUGGESTION (untested inference, publication_candidate.receive): sparse-checkout patterns are the audited path names in --no-cone glob mode, but scan() permits fnmatch metacharacters (*, ?, [) in names; a * path can over-match and materialize unaudited baseline/legacy files into the protected cache worktree, and a [ path can silently fail to materialize its own file while still returning STAGED_NOT_PUBLISHED. No publication or exfiltration path results (worktree stays inside the protected cache; publish pushes commits, not the worktree). Smallest fix: reject or escape glob metacharacters when forming sparse patterns.",
+      "SUGGESTION (verified in source): several fail-closed refusals surface as unnamed errors rather than named codes \u2014 missing baseline commit in cache (cat-file -e via check_output), malformed bundle at list-heads, cross-filesystem os.link EXDEV in prepare, BadZipFile in actions verify \u2014 all become CalledProcessError/BROKER_FAILURE_PRESERVED. Behavior remains fail-closed; operator diagnosis is harder. Smallest fix: wrap in named ValueError codes.",
+      "SUGGESTION (verified in source): Broker.operator('initialize') sets ledger.allow_initialization=True permanently for the broker lifetime, disarming the OPERATOR_MUST_INITIALIZE_STATE_REF guard for any future cas(None, ...) path; currently only operator-authenticated initialize reaches it and existing-state overwrite still fails via the absent-ref lease (LIMITER_STATE_ALREADY_EXISTS). Smallest fix: clear the flag in try/finally.",
+      "SUGGESTION (verified in source): operations_backup.backup copies only directories under outputs (if p.is_dir()), silently omitting any top-level regular files from the backup while reporting success; backup_handover's turns copytree has no such gap. Smallest fix: copy or explicitly refuse top-level files in outputs.",
+      "EVIDENCE DISTINCTION (verified from supplied receipts): all hosted receipts bind to installed source 6863968863ddfb1d82b25c7b358857e666c950a5 (backup receipt additionally to backup code 72c023f4), not to cba7043. They demonstrate restart recovery (broker pid 228837\u2192230927, rc 0), duplicate-safe recovery (recover phase ledger_count 1\u21921, zero model calls, no replay), non-root bounded execution (uid 997, no_new_privileges=1, cgroup caps), restored original evidence bytes, and honest limitations including the prior launch failing before the model on a nonexistent input file. Nothing hosted covers cba7043: candidate intake, Actions transport, and current backup code rest on the supplied synthetic tests, which were not executed in this source-only review. Hosted verification of cba7043 is a required next step, not an inferred pass.",
+      "VERIFIED POSITIVES (source): receiver independently re-audits every candidate with exact pins, bundle head pinned to 'source HEAD', size/sha256 re-check, baseline-presence requirement, alternates/symlink/hardlink cache-independence checks, audit-before-checkout, and post-checkout clean-status gate, all through a hooks/credentials-disabled sanitized git wrapper; stage_candidate requires no credential and cannot publish; publish/create remain pinned to the single authorized branch/remote with exact-authority echo and force-with-lease CAS; Actions retrieval binds run/attempt/source/workflow-sha256/artifact-name with size caps and never forwards Authorization to signed storage (redirect captured, host allowlisted); limiter treats porcelain '=' as race/duplicate with re-read, replays duplicates from durable state, latches halt across midnight, refuses clock rollback, and restricts reset/initialize to operators; backups verify byte identity and DB integrity and honestly report authority_restored=false, models_started=0, provider_recovery_proven=false. Reserved gates and scientific approvals are preserved unchanged."
+    ],
+    "reviewed_commit": "cba7043fb4c401c8326cd9f8d71cab94f9dce657",
+    "scope": "Protected handover candidate intake (orchestrator/publication_candidate.py; broker stage_candidate/stage_status in orchestrator/protected_handover.py), Actions read-only admission retrieval (orchestrator/actions_admission.py, orchestrator/actions_admission_transport.py, Broker.actions_admission), CAS duplicate handling (orchestrator/dispatch_limiter.py), and application backup (orchestrator/operations_backup.py), with supplied tests and docs as context. Hosted receipts under docs/operations/hosted-service-acceptance-20260907/ assessed as recovery evidence for installed source 6863968, distinguished from reviewed cba7043. Source-only review: no tests executed, no live grants assessed or issued.",
+    "verdict": "APPROVE"
+  },
+  "session_id": "2078d03c-44ea-4117-b6a8-f9ba716c6031",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 53827,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 30336,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 53827,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 30336,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 53827,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 53827
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 35011,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.035096,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 30336,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 53827,
+      "webSearchRequests": 0,
+      "costUSD": 2.5933599999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "total_cost_usd_reported": 2.6284559999999995,
+  "independent_merge_desk_review": false,
+  "investigator_notes": [
+    "Approval is for supplied source and assessed receipts; new source is not yet installed.",
+    "The review conflates two distinct pre-model failures: hosted CHDIR mode failure and local review preparation with a missing input filename. Both originals are preserved; neither generated a model approval."
+  ]
+}

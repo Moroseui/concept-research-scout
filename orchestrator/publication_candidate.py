@@ -21,13 +21,26 @@ LIMIT=1000000
 def git(root,*args):
     env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','GIT_CONFIG_NOSYSTEM':'1',
          'GIT_CONFIG_GLOBAL':'/dev/null','GIT_TERMINAL_PROMPT':'0','GIT_NO_LAZY_FETCH':'1'}
-    return subprocess.check_output(['git','-c','core.hooksPath=/dev/null',
-        '-c','credential.helper=',*args],cwd=root,env=env,stderr=subprocess.PIPE,timeout=60)
+    try:
+        return subprocess.check_output(['git','-c','core.hooksPath=/dev/null',
+            '-c','credential.helper=',*args],cwd=root,env=env,stderr=subprocess.PIPE,timeout=60)
+    except subprocess.TimeoutExpired:raise ValueError('CANDIDATE_GIT_TIMEOUT') from None
+    except subprocess.CalledProcessError:
+        code={'cat-file':'CANDIDATE_GIT_OBJECT_UNAVAILABLE','bundle':'CANDIDATE_BUNDLE_INVALID'}.get(args[0],'CANDIDATE_GIT_OPERATION_FAILED')
+        raise ValueError(code) from None
 
 
 def pins(source,before):
     if not all(isinstance(p,str) and re.fullmatch('[0-9a-f]{40}',p) for p in (source,before)):
         raise ValueError('EXACT_CANDIDATE_PINS_REQUIRED')
+
+
+def sparse_paths(entries):
+    paths=sorted({name.split(':',1)[1] for name in entries})
+    if not paths:raise ValueError('EMPTY_CANDIDATE')
+    if any(any(c in path for c in '*?[]\\\n\r') for path in paths):
+        raise ValueError('LITERAL_SPARSE_PATH_REQUIRED')
+    return paths
 
 
 def inventory(root,source,before):
@@ -51,6 +64,7 @@ def prepare(root,source,before,destination):
     if git(root,'rev-parse','HEAD').decode().strip()!=source or git(root,'status','--porcelain'):
         raise ValueError('CLEAN_BOUND_SOURCE_REQUIRED')
     entries=inventory(root,source,before)
+    sparse_paths(entries)
     staging=Path(tempfile.mkdtemp(prefix='bundle-preparation-',dir=destination.parent))
     bundle=staging/'source.bundle'
     git(root,'bundle','create',str(bundle),'HEAD','^'+before)
@@ -58,6 +72,7 @@ def prepare(root,source,before,destination):
     if len(raw)>LIMIT:raise ValueError('CANDIDATE_BUNDLE_LIMIT')
     try:os.link(bundle,destination)
     except FileExistsError:raise ValueError('FRESH_EXTERNAL_BUNDLE_REQUIRED') from None
+    except OSError:raise ValueError('CANDIDATE_BUNDLE_LINK_FAILED_OR_UNSUPPORTED') from None
     return {'source':source,'before':before,'inventory':entries,
             'bundle_sha256':hashlib.sha256(raw).hexdigest()}
 
@@ -83,8 +98,7 @@ def receive(cache,source,before,entries,raw,expected_sha256):
     receipt=audit(cache,source,before,entries)
     # Audit precedes checkout: forbidden symlinks or source blobs cannot be staged
     # by an unchecked sender. Sparse checkout avoids materializing legacy data.
-    paths=sorted({name.split(':',1)[1] for name in entries})
-    if not paths:raise ValueError('EMPTY_CANDIDATE')
+    paths=sparse_paths(entries)
     git(cache,'sparse-checkout','set','--no-cone',*('/'+p for p in paths))
     git(cache,'checkout','--detach',source)
     if git(cache,'status','--porcelain'):raise ValueError('CANDIDATE_CACHE_DIRTY')

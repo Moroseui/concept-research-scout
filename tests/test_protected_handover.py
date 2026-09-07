@@ -105,3 +105,12 @@ def test_candidate_pin_is_separate_from_installed_execution_pin(tmp_path,monkeyp
     with pytest.raises(ValueError,match='DESTINATION_REFUSED'):
         b.handle({'operation':'publish','body':{**request,'destination':'main'}},10001)
     assert len(calls)==1
+
+
+
+def test_initialization_permission_is_scoped_even_on_existing_state(tmp_path):
+    b=broker(tmp_path)
+    assert b.ledger.allow_initialization is False
+    with pytest.raises(ValueError,match='ALREADY_EXISTS'):
+        b.operator('initialize',{'decision_ref':'synthetic operator request'})
+    assert b.ledger.allow_initialization is False

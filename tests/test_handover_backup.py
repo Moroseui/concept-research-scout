@@ -24,3 +24,17 @@ def test_consistent_database_and_original_evidence_restore(tmp_path):
     with pytest.raises(ValueError,match='IDENTITY_MISMATCH'):
         restore_handover(backup,tmp_path/'must-not-exist')
     assert not (tmp_path/'must-not-exist').exists()
+
+
+
+def test_legacy_backup_preserves_top_level_original_files(tmp_path):
+    from orchestrator.operations_backup import backup,restore
+    state=tmp_path/'state';outputs=tmp_path/'outputs'
+    state.mkdir();outputs.mkdir()
+    (state/'branch.lock').touch();(outputs/'worker.lock').touch()
+    with sqlite3.connect(state/'jobs.sqlite') as db:
+        db.execute('CREATE TABLE events(id TEXT)')
+    (outputs/'original.stdout').write_bytes(b'Original synthetic acquisition console\n')
+    saved=tmp_path/'saved';restored=tmp_path/'restored'
+    backup(state,outputs,saved);restore(saved,restored)
+    assert (restored/'outputs/original.stdout').read_bytes()==(outputs/'original.stdout').read_bytes()

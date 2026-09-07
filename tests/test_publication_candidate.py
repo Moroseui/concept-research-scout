@@ -80,3 +80,14 @@ def test_broker_stages_candidate_without_any_credential_or_push(tmp_path,monkeyp
     assert result['status']=='STAGED_NOT_PUBLISHED'
     with pytest.raises(ValueError,match='NOT_AUTHORIZED'):
         b.handle({'operation':'publish','body':{}},10001)
+
+
+@pytest.mark.parametrize('name',['*.md','question?.md','[abc].md'])
+def test_glob_paths_cannot_materialize_legacy_baseline(tmp_path,name):
+    author,cache,before=repositories(tmp_path)
+    (author/name).write_text('Permitted text under ambiguous sparse pattern\n')
+    git(author,'add','--',name);git(author,'commit','-qm','Ambiguous filename')
+    source=git(author,'rev-parse','HEAD')
+    with pytest.raises(ValueError,match='LITERAL_SPARSE_PATH_REQUIRED'):
+        prepare(author,source,before,tmp_path/'bundle')
+    assert not (tmp_path/'bundle').exists()

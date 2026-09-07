@@ -31,6 +31,10 @@ def backup(state,outputs,destination):
             if p.is_symlink():raise ValueError('BACKUP_SYMLINK_REJECTED')
             if p.is_dir():
                 identity(p);shutil.copytree(p,dest/'outputs'/p.name)
+            elif p.is_file():
+                (dest/'outputs').mkdir(mode=0o700,exist_ok=True)
+                shutil.copy2(p,dest/'outputs'/p.name)
+            else:raise ValueError('BACKUP_SPECIAL_FILE_REJECTED')
     data=identity(dest);(dest/'manifest.json').write_text(json.dumps(data,sort_keys=True,indent=2)+'\n')
     return {'files':len(data),'manifest_sha256':hashlib.sha256((dest/'manifest.json').read_bytes()).hexdigest(),'provider_recovery_proven':False}
 
