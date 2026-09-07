@@ -25,7 +25,7 @@ class CompletionBridge:
                 or config['authority']!='OPERATOR_SUPERVISED_SYNTHETIC_ONLY'
                 or not isinstance(config['pairs'],dict) or not 1<=len(config['pairs'])<=2):
             raise ValueError('BOUNDED_SYNTHETIC_COMPLETION_CONFIGURATION')
-        names=list(config['pairs'])+list(config['pairs'].values())
+        names=list(config['pairs'])+[name for name in config['pairs'].values() if name is not None]
         for name in names:identifier(name)
         if len(set(names))!=len(names):raise ValueError('SYNTHETIC_COMPLETION_CYCLE_OR_DUPLICATE')
         checked_source(config['source_root'],config['source'])
@@ -39,7 +39,7 @@ class CompletionBridge:
 
     def ingest(self):
         r=self.runtime
-        allowed={**self.config['pairs'],**{name:None for name in self.config['pairs'].values()}}
+        allowed={**self.config['pairs'],**{name:None for name in self.config['pairs'].values() if name is not None}}
         for job,next_job in allowed.items():
             prior=r.q.db.execute('SELECT event FROM completion_ingest WHERE job=?',(job,)).fetchone()
             if prior:
@@ -90,7 +90,7 @@ class CompletionBridge:
                             r.q.db.execute('COMMIT');continue
                         binding=r.enqueue_report(observation['day_first_observed'],observation['rows'],
                             {**observation.get('coordinator_context',{}),'trigger':'Verified synthetic completion '+job,
-                             'event_sha256':digest(event),
+                             'event_sha256':digest(event),'completed_job':job,
                              'observation_timing':'Report day is the first verified observation, not an inferred execution date.',
                              'limits':'Configured synthetic successor only; scientific tasks keep their separate gates.'},
                             reviewer_evidence=observation['evidence'],

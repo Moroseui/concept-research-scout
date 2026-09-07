@@ -53,6 +53,9 @@ class Runtime:
         self.root=checked_source(config['source_root'],config['source'])
         if os.getuid()!=config['controller_uid']:raise ValueError('NONROOT_CONTROLLER_IDENTITY_REQUIRED')
         self.state=Path(config['state'])
+        if config.get('campaign_preparation') is not None:
+            from orchestrator.hosted_campaign_task import task_contract
+            task_contract(config['campaign_preparation'])
         self.q=Coordinator(self.state,{'continuation':self.model,'review':self.model,'disposition':self.model},self.admit,self.validate_binding)
         self.q.db.executescript('''
             CREATE TABLE IF NOT EXISTS bookkeeping(task TEXT PRIMARY KEY,status TEXT,attempts INTEGER,reason TEXT);
@@ -101,6 +104,10 @@ class Runtime:
         if hashlib.sha256(report_text.encode()).hexdigest()!=report['id']:raise ValueError('REPORT_CHANGED')
         self.validate_binding(binding)
         stage=binding['stages'][position]
+        if 'campaign_task' in packet:
+            from orchestrator.hosted_campaign_task import stage_result
+            outcome=stage_result(self,binding,position,packet)
+            if position<2:return outcome
         prompt={'continuation':'Assess this report against approved goals, identify the next eligible task and limits. Do not execute or grant authority.',
                 'review':'Fresh Claude primary-evidence review under the supplied directive. Assess science, implementation and human operation; distinguish verified evidence and missing proof. Do not infer nonexistent evidence from omission.',
                 'disposition':'Record Astra disposition of the existing fresh review and the next eligible bounded task. No execution or ratification.'}[stage]
@@ -134,6 +141,12 @@ class Runtime:
         packet={'jobs':receipts,'trigger':trigger,'decision_inbox':task_state}
         if reviewer_evidence is not None:packet['reviewer_evidence']=reviewer_evidence
         if execution_proposal is not None:packet['execution_proposal']=execution_proposal
+        campaign=self.config.get('campaign_preparation')
+        if campaign is not None and task_state.get('completed_job')==campaign['trigger_job']:
+            from orchestrator.hosted_campaign_task import task_contract
+            if trigger!='verified-completion' or execution_proposal is not None:raise ValueError('CAMPAIGN_COMPLETION_BINDING_REQUIRED')
+            packet['campaign_task']=campaign
+            packet['campaign_artifacts']=task_contract(campaign)
         identity=digest({'source':self.config['source'],'packet':packet,'report':report})
         directory=self.state/'tasks'/identity;directory.mkdir(parents=True,mode=0o700,exist_ok=True)
         # Source/evidence packets use the existing bounded private-context route;
@@ -261,6 +274,11 @@ class Runtime:
     def recover(self):
         outcomes=[]
         def retrieve(binding,position):
+            packet=json.loads((self.state/'tasks'/binding['id']/'packet.json').read_text())
+            if 'campaign_task' in packet:
+                from orchestrator.hosted_campaign_task import stage_result
+                recovered=stage_result(self,binding,position,packet,read_only=True)
+                if position<2:return recovered
             return request_broker(self.config['broker_socket'],'stage_status',
                 {'event':self.event(binding),'stage':binding['stages'][position]})
         for row in self.q.status()['tasks']:

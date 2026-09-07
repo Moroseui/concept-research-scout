@@ -73,3 +73,18 @@ original request now binds the exact broker event and packet hash. Unbound older
 requests refuse rather than acquiring invented provenance. Eighteen focused tests
 passed after these changes, including retained negative review and path/turn
 refusals. Controller integration remains an uninstalled working change.
+
+The working controller integration uses an explicit installed `campaign_preparation`
+request (P001 readiness/discussion only) and a verified trigger job. A terminal
+synthetic trigger may have no synthetic successor. Its immutable report packet
+binds the selected request; author and reviewer use the shared campaign pipeline,
+then the coordinator retrieves that original review and records Astra's disposition.
+The controller copies only materialized tracked files from the checked sparse
+source, without fetching Git objects or copying untracked files/credentials. Every
+reuse verifies copied inputs. Output validation precedes advancement and recovery;
+conflicting artifacts block. These changes are not installed or activated.
+
+Local synthetic replies exercised coordinator completion, shared campaign output,
+report/review/disposition bookkeeping, repeated submission without duplicate model
+calls, missing final pipeline/coordinator receipt recovery, and conflicting output
+refusal. A fresh source review and actual hosted invocation remain required.
