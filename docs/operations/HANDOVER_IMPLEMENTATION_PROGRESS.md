@@ -256,3 +256,28 @@ Latest related suites: 37 passed with one separately verified socket case exclud
 The 66,771-byte permitted implementation/process evidence packet passes the existing
 100 kB private packet check. Fresh review and hosted real-model acceptance are next.
 Original execution source and all previously completed jobs remain preserved.
+
+
+## Final bounded closeout, 7 September
+
+Completed and preserved actual installed a0795e6 predecessor/successor chain:
+two new synthetic jobs, six real model-stage calls, exactly one selected dispatch,
+three total complete fixture report cycles including the retained earlier one.
+Temporary polling is stopped; no model is running. See
+HOSTED_COMPLETION_RESULT_20260907.md and original checked evidence links.
+
+Commit ca8f989 fixes the concrete hosted-review controls-read failure, adds shared
+bounded context to event reports, checked notification-only delivery, and simple
+human status/pause/resume over the same coordinator. A consumed-fixture updater
+preserves the allowance, old source/configuration and originals; it starts no
+models/timers and installs no credentials. Two fresh focused Fable source reviews
+are pending; do not manufacture approvals or repeat the completed hosted chain.
+
+Local verification: 70 focused tests passed outside the sandbox, including the
+Unix socket; 66 further tests and 17 subtests passed. The full suite had 485 tests
+and 40 subtests pass, with the known sandbox EPERM socket failure; that exact test
+passed outside the sandbox. All 167 outgoing blob versions through ca8f989 passed
+publication audit. Remote infrastructure ref remains e478ad0; no push yet.
+The remaining permission packet now records main's observed lack of protection,
+repository-wide credential bypass limits, exact proposed App scopes and separate
+activation gates. All scientific tasks, source pins and reserved decisions remain.

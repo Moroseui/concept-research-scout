@@ -1,42 +1,61 @@
-# Handover service integration — not installed or activated
+# Handover service — operation and remaining activation gates
 
-These units are review inputs, not proof of hosted operation. Keep the existing
-synthetic controller/worker and immutable execution snapshots intact. Do not enable
-these timers as an installation side effect.
+The synthetic fixture is installed and exercised; live operation remains inactive.
+[Current checklist](DEPLOYMENT_CLOSEOUT_CHECKLIST.md) and
+[actual completion result](HOSTED_COMPLETION_RESULT_20260907.md) distinguish installed
+source from pending repairs. Preserve old receipts and immutable execution sources.
 
-The controller runs as `research-controller` without network or sudo. It can use
-one local socket and its private state. The broker obtains the caller UID from
-the kernel. Client requests cannot choose a command, user, directory or environment.
-The proposed broker currently needs root only for its fixed `runuser` launcher,
-which runs model clients as the existing separate driver/reviewer identities.
-This differs from the earlier proposed non-login publisher service: it must be
-reviewed and either separated or explicitly included in the final permission
-packet. No new writer credential may be installed on the strength of this draft.
+The controller runs as `research-controller` without network or sudo. The protected
+broker receives the kernel peer UID and accepts fixed schema-bound operations.
+Its fixed root launcher selects only the configured driver/reviewer users and
+scrubbed environments. No client selects commands or users. A live writer key is
+absent; the [combined privilege design](PROTECTED_WRITER_ADMISSION_DECISION.md)
+requires explicit approval before installation. The scientific worker has no model
+or GitHub credential.
 
-The socket is owned by systemd, so a broker restart preserves the listening path
-without deleting an unknown socket. Broker crashes can leave a model outcome
-uncertain; the controller queries saved original receipts and never equates
-missing evidence with permission to retry. A timer is not evidence of recovery.
+## Supported human route
 
-The runtime's status and operator request commands share the coordinator's state.
-Pause/resume requires a root-owned request bound to the installed source and the
-current control revision. Pause stops new task admission and preserves already
-running work. Phone acknowledgment remains separate and cannot invoke these
-controls or reset the limiter. Operator reset is a separate protected command.
+The final source supplies `/usr/local/bin/research-system-control`, an administrative
+convenience wrapper over the same versioned runtime. Its installation and actual
+verification must be recorded before claiming this shorter route is deployed.
+After authenticated operator SSH login:
 
-Still required before installation acceptance: configuration validation, scheduled
-report/event ingestion, installed human CLI testing, shared Actions provenance
-collection, publication cache preparation, evidence-backed recovery and fresh
-review. The live writer/admission/reset decision remains pending; 48/96 is selected
-but inactive. No patient or unattended authority is conferred by these units.
+```sh
+research-system-control status
+research-system-control pause
+research-system-control resume
+```
 
-Pre-launch refusal is distinct from uncertain execution. `stage_status` reports
-`NOT_STARTED_RECONCILIATION_REQUIRED` when the original start marker is absent;
-it does not authorize a retry. The operator reconciliation route is to inspect
-the protected turn binding, stage request, process/start/end records and original
-private model-work directory, then record a bounded repair decision against that
-exact turn/source. Preserve all originals and any completed predecessor review.
-Until a reviewed repair handler is installed, the task stays blocked and other
-eligible work continues; do not edit SQLite or delete model-work directories to
-force a retry. This remains a named first-handover implementation gap, not a new
-scientific or permission requirement.
+Status is read-only and does not stop valid work. Pause/resume automatically bind
+the installed source and current control revision; repeated desired state is a
+no-op. Controls apply as the non-root controller. Pause blocks new admissions,
+including successor dispatch, while admitted computation and original evidence
+remain intact. Resume never turns on a timer, resets the limiter, authorizes a
+patient job or repairs uncertain execution. JSON detail is available through the
+same `python -m orchestrator.handover_runtime --config` interface without `--human`.
+No agent sudo or operational phone reply is enabled. GitHub Mobile supplies checked
+reports/notifications after separately gated publication configuration; the actual
+phone test proved informational delivery and authenticated synthetic acknowledgment.
+
+## Recovery and evidence
+
+The systemd socket survives broker restart. Durable stages and original receipts
+are reconciled before a new call. Actual lost-response recovery and duplicate
+processing passed with zero new model calls. A controls-read failure blocks new
+successor selection until repaired; final source tests cover that fault. A missing
+start marker or receipt does not authorize a retry. Inspect the exact protected
+turn/source, process/start/end evidence and coordinator status, then record a bounded
+repair. Never delete evidence or edit SQLite to force another run. Other eligible
+work can continue when only a task-specific dependency is blocked.
+
+Original private evidence resides under protected broker/attempt directories;
+controller reports are under `/var/lib/research-system/handover-controller/reports`.
+Publication selects only bound report, aggregate evidence, review and disposition
+assets; consoles, model protocols and credentials remain private. The current
+fixture allowance is consumed, its temporary timer is stopped, and no permanent
+handover timer is enabled. Ordinary deterministic executor timers remain running.
+
+The selected 48/96 policy is inactive. Writer/reset permission, shared-state
+initialization, activation verification and explicit unattended approval precede
+24–48 hours of laptop-disconnected observation. Application-state sample restore
+passed; provider recovery and full unattended operation remain unproven.

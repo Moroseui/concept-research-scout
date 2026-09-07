@@ -262,3 +262,17 @@ def test_report_task_history_is_bounded_with_honest_omission_count(tmp_path,monk
     assert len(state['coordinator_tasks'])==24
     assert state['coordinator_tasks_total']==220 and state['coordinator_tasks_omitted']==196
     assert '220 complete' in state['coordinator_summary']
+
+
+def test_bookkeeping_rejects_non_claude_identity_and_keeps_prior_recovery_reason(tmp_path,monkeypatch):
+    import pytest
+    import orchestrator.handover_runtime as module
+    r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-07',[],{});r.q.submit(binding)
+    monkeypatch.setattr(r.q,'_receipt',lambda *args:{'output':{'receipt':{'actual_model':'different-family'},'answer':'Fixture review'}})
+    with pytest.raises(ValueError,match='CLAUDE_REVIEW_MODEL_IDENTITY_REQUIRED'):
+        r._bookkeep({'id':binding['id']})
+    r.q.db.execute("UPDATE tasks SET status='BLOCKED',reason='ORIGINAL_FAILURE_PRESERVED'")
+    def failed(*args):raise OSError('Synthetic retrieval failure')
+    monkeypatch.setattr(r.q,'recover',failed)
+    r.recover()
+    assert r.q.status()['tasks'][0]['reason']=='ORIGINAL_FAILURE_PRESERVED'

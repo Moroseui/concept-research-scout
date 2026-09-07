@@ -93,6 +93,7 @@ def update(before,source,archive,sha):
         if not wrapper.exists():
             with wrapper.open('xb') as out:out.write(wrapper_bytes)
             os.chmod(wrapper,0o755)
+        if old.ledger.read()[0]!=ledger_before:raise ValueError('ADMISSION_CHANGED_BEFORE_RESTART_RECONCILE')
         subprocess.run(['systemctl','start','research-system-handover.socket','research-system-handover.service'],check=True)
         ledger_after,_=old.ledger.read()
         if ledger_before!=ledger_after:raise ValueError('ADMISSION_CHANGED_DURING_UPDATE')

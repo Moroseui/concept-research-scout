@@ -54,9 +54,22 @@ review nor disposition schedules another review, preventing recursive reviews.
 This is internal cross-family quality review and grants neither scientific
 acceptance nor independent main-merge approval.
 
-Implemented here: deterministic report bytes, immutable amendments, source-bound
-review queue, claim deduplication, honest unavailability, capped attempts and
-checked result attachment. Still requiring separate demonstrated integration:
-actual fresh Claude invocation and primary-evidence inspection, protected
-publication, remote wake/disposition, chosen scheduling time, phone delivery and
-authenticated operator response. A saved report does not prove any of those.
+The actual hosted integration is now demonstrated by the
+[completion result](HOSTED_COMPLETION_RESULT_20260907.md): a new completed Linux
+job triggered a real gpt-6-astra request, fresh Claude Fable review, recorded Astra
+disposition and exactly one selected successor, followed by its own complete cycle.
+The CLI did not return Astra's resolved model name; the exact requested model is
+recorded without claiming a resolved identity. Original protocols remain private.
+
+The handover runtime shares the same report/review queue. In the proposed live
+mode it publishes the finalized report through checked delivery before review,
+supplies that publication identity to the reviewer, then publishes checked review
+and disposition assets. Lost delivery responses reconcile the exact commit;
+bookkeeping never repeats completed model calls. Supervised fixtures remain
+PRIVATE_ONLY. Report/review publication does not schedule recursive reviews.
+
+Remaining acceptance is explicit: final repair/deployed review, live writer and
+shared-admission permissions, selected schedule, initialization/activation checks,
+and the separately approved laptop-disconnected observation. Actual phone delivery
+and synthetic acknowledgment passed; operational phone decisions are not enabled.
+A configured timer alone proves none of these behaviors.

@@ -1,0 +1,83 @@
+{
+  "kind": "AUTHOR_OPERATED_CLAUDE_REVIEW",
+  "execution": {
+    "reviewed_commit": "ca8f989927a8e6fb976baa7f4ce49741684a86e7",
+    "returncode": 0,
+    "wall_seconds": 436.0582848589984,
+    "input_file_sha256": {
+      "orchestrator/handover_notifications.py": "1e3794bda30e1249531bdd05430c011c19271ad17637047d35996eb798fe49a6",
+      "orchestrator/phone_notifications.py": "e3dca298fad4dc5ae82058bad7331d657996712472b135c0ed9af17d17567d10",
+      "orchestrator/protected_handover.py": "40ef0f41b28b3243cc41c6c4836081f6e0c1e6385fed39bb18e6729044a47722",
+      "tests/test_handover_notifications.py": "ce34977c5718204ae62308b6243963de7ce116cdbe715c55d91a79a7ceb347d0",
+      "tests/test_protected_handover.py": "0922a824962d9fcdefa827aaee5f1277ab0bed605d54e9ef70bdcaa499664d68",
+      "docs/operations/GITHUB_BOUNDARY_AUDIT_20260907.json": "490562f7eab5e8aebf4b4caae71766d2ce606e3d8a2079604120184791a999d8",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "b2639c8312c1da4781a4d069db237cb14cf6a58e4b5e4225d8ac80286f2c72da",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b"
+    },
+    "response_sha256": "bb42bdb57021f52d6df49decae71ec40aabdd5a5e1f41b1073b1876610911aa3",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "13dd9fbbc1e17d08454b0c94c5c2ddfaad909ae70946d9487777fc5ea9d5f84c"
+  },
+  "review": {
+    "scope": "handover-notification-boundary-closeout",
+    "reviewed_commit": "ca8f989927a8e6fb976baa7f4ce49741684a86e7",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED: Identity bindings are sound end to end \u2014 session() pins app/installation/repository/bot/operator IDs with strict permission equality and re-verifies repo scope with the issued token; Outbox binds the issue-creation response to bot_id, exact body, and repository; acknowledge binds comment id, operator id, exact issue URL, byte-exact ACK body, and unedited state (created_at==updated_at).",
+      "VERIFIED: Replies never become operating authority \u2014 the broker exposes no acknowledge route (ACK consumption is operator-CLI only), send/acknowledge return operational_authority:False, notify_task_block's [A-Z0-9_]{1,80} reason regex blocks free-text injection, and broker errors reduce to named codes with no request echo.",
+      "VERIFIED: No-repost/fail-closed recovery holds \u2014 UNCERTAIN persists under BEGIN IMMEDIATE before the network POST, UNCERTAIN refuses repost, Notices caps at three attempts into a durable BLOCKED row, and notification failure neither halts nor refunds admissions; model staging orders receipt/started/predecessor checks before admission and model invocation.",
+      "SUGGESTION (handover_notifications._send): the bare `except Exception` records config errors, identity drift, scan refusals, and UNCERTAIN reconciles as indistinguishable RETRY/BLOCKED rows; add a bounded named-code reason column so the durable block explains what happened, per the charter's error-explanation requirement.",
+      "SUGGESTION (handover_notifications._send): a crash between the PENDING insert and the status update leaves a terminal row reported forever as PENDING with attempts>=3 instead of BLOCKED; normalize the status on read or at insert.",
+      "SUGGESTION (tests): repeated-delivery correctness depends on immutable() (operations_report, not supplied) tolerating identical-content rewrites of verified-identities.json; the supplied tests exercise only one distinct key and would still pass if every delivery after the first failed \u2014 add a test delivering two distinct keys successfully.",
+      "SUGGESTION (protected_handover.notify_report): dedup key is report+phase but the summary embeds the caller-chosen source pin, so re-notifying the same report from a different containing commit raises NOTICE_IDENTITY_CHANGED instead of returning a duplicate; derive the summary from the dedup key or include source in the key.",
+      "SUGGESTION (rate bounding): no aggregate cap exists on distinct notification keys \u2014 each new 64-hex task or report hash opens a new GitHub issue with only per-key attempt caps; consider a daily issue-creation ceiling in Notices to bound a misbehaving controller loop.",
+      "OBSERVATION: flush_notifications never records successful delivery back into ledger state; idempotence rests entirely on Notices dedup and pending_notifications (dispatch_limiter, outside supplied source) \u2014 confirm its pending set is bounded and clearable.",
+      "OBSERVATION: acknowledge re-runs packet_checked, so the ACK window closes at packet expiry (24h); late ACKs fail with PACKET_EXPIRY rather than an explanatory code \u2014 document or rename if intentional.",
+      "OBSERVATION: GITHUB_BOUNDARY_AUDIT_20260907 honestly records absent main-branch protection and repo-credential bypass of the application route, correctly deferring remediation to the pre-live-grant operator packet, consistent with the charter's separate gates."
+    ]
+  },
+  "session_id": "0b739628-c205-4946-8293-d3278448545f",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 19118,
+      "outputTokens": 16,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.019198,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 33646,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 31627,
+      "webSearchRequests": 0,
+      "costUSD": 2.3148600000000004,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "independent_merge_desk_review": false,
+  "investigator_disposition": {
+    "blocking_findings": 0,
+    "durable_error_and_terminal_status": "Accepted bounded correction before live notification configuration.",
+    "two_distinct_notices": "Add regression test; immutable() already accepts identical bytes.",
+    "report_source_dedup": "The current runtime passes the one recorded publication pin; a different pin remains a named conflict, not an automatic duplicate or new issue.",
+    "notification_global_rate": "No new standing notification cadence is activated. Final permission packet must disclose per-key caps and bound configuration before activation.",
+    "pending_set": "dispatch_limiter.pending_notifications returns at most the four latest persisted threshold identities; protected Notices deduplicates successful sends without mutating the admission ledger.",
+    "late_ack": "24-hour acknowledgment expiry is intentional; operational decisions remain disabled."
+  }
+}

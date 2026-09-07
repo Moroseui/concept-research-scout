@@ -12,7 +12,7 @@ controller, queue and validators; do not add a second database or independent
 server allowance. The ref is not initialized yet. The draft adapter now distinguishes Actions run/attempt identities from server
 turn identities in the same CAS ledger. Synthetic shared-ceiling and concurrency
 tests pass. This is neither hosted activation nor approval of the server admission
-semantics; trusted Actions request collection and deployed integration remain open.
+semantics. Trusted Actions collection is implemented and tested; live credentials and hosted activation remain open.
 
 Propose a separate repository-selected GitHub App with Contents write, Actions read and Metadata
 read on `Moroseui/concept-research-scout` only. No Administration, Actions write,
@@ -34,9 +34,7 @@ Missing destination creation uses the existing absent-ref atomic publisher.
 **Actual limitation:** Contents write is repository-wide; the App credential alone
 cannot restrict writes to these two refs. A compromise of the protected broker or
 operator-held key can bypass application checks. Existing owner credentials and
-GitHub administration can also push directly. Preserve main/results protections;
-review installed rulesets and available plan capabilities before granting a bypass
-exception. Do not claim universal prevention from CI, hooks or branch naming.
+GitHub administration can also push directly. The current authenticated [boundary audit](GITHUB_BOUNDARY_AUDIT_20260907.json) found only results deletion/non-fast-forward protection, **no main branch protection**, and no environments. Preserve the results rules; main protection must be established under a separate approved setup step. Do not claim universal prevention from CI, hooks or branch naming.
 
 ## One narrow request interface, no model-held writer token
 
@@ -116,16 +114,11 @@ standing dispatch, writer installation and limiter activation remain blocked.
 
 ## Implementation reconciliation (still a proposal)
 
-The draft handover broker currently combines fixed model-role launching and the
-protected request interface. Its supervised model mode uses root solely to invoke
-the existing separate driver/reviewer identities; it accepts no command, username
-or environment from clients. This is **not** the non-login publisher design above.
-Before any live writer grant, separate the model launcher from the writer service
-or explicitly review the narrower final privilege design and amend this packet.
-No agent receives sudo and no writer key has been created. The supervised fixture
-units are now installed at source 6863968, without a timer, live ledger or writer.
-Actual status/pause/resume and read-only completion recovery passed. These are
-fixture proofs, not a live permission request.
+The installed synthetic handover broker combines fixed role launching and the
+protected request interface. This packet now explicitly proposes retaining that
+combined boundary; it does not claim a separate non-login publisher exists. The
+actual non-root service, recovery and human controls are evidenced in the dated
+receipts. No live writer key, shared remote ledger, or unattended timer is installed.
 
 The smallest proposed final boundary retains the root-owned fixed broker rather
 than introducing another daemon: root is needed only for the existing fixed
@@ -181,3 +174,57 @@ replacement is the reviewed main controls. No secret relocation, environment
 creation, workflow dispatch or restriction change is executed by this proposal.
 Exact current GitHub protection capabilities and administrator bypass remain part
 of the final operator packet and hosted activation verification.
+
+## Concrete grouped operator decision (not yet granted)
+
+Approve or amend the following design as one permission packet, separately from
+activation. The requested scope is preparation of the existing host's protected
+writer and shared admission/reset route; it does not authorize science or main merges.
+
+1. Create a **separate** repository-only writer App: Contents read/write, Actions
+   read, Metadata read; no Workflows, Administration, Issues, or Actions write.
+   Record its actual App/installation IDs before use. Keep its private key in a
+   root-only file under `/etc/research-system`, inaccessible to model identities.
+   The existing notification App remains unchanged. Without Workflows write,
+   commits changing Actions workflow files are a deliberate publication exception,
+   requiring a separately approved infrastructure publication route.
+2. Authorize the root-owned fixed broker design above and its two explicit refs.
+   Keep a separate protected Git cache and ledger; put the non-root report author
+   checkout under `/var/lib/research-system/handover-controller/author`, already
+   covered by the controller unit's state-path allowance. This is a checked
+   application boundary, not a claim that a repository-wide key cannot bypass it.
+3. Approve shared server admission semantics: one top-level turn contains at most
+   continuation, fresh Claude review, and Astra disposition; distinct async wakes
+   and nightly turns are new admissions. Duplicate recovery is not. Ratified
+   48/96, persistent halt, UTC counting and failure/no-refund rules remain unchanged.
+   An authenticated operator alone may use the fixed reset interface with expected
+   state sequence, policy hash and decision reference. No phone reset or agent sudo.
+4. Approve a separate GitHub restriction rollout: main requires a pull request and
+   the existing `basic` check, rejects force pushes/deletion, and grants no writer
+   App bypass. Independent desk review plus explicit operator merge approval remains
+   required even if GitHub's required reviewer count is zero for a solo maintainer.
+   Move existing model secrets into a dedicated environment restricted to reviewed
+   main controls, run a bounded canary, then remove repository-level copies. Preserve
+   originals privately throughout. No restriction or credential move has occurred.
+5. Approve informational threshold/report/block notices using the existing App.
+   Replies remain acknowledgment only. Select a nightly time; **21:00
+   America/New_York is proposed**, distinct from UTC admission accounting.
+
+After these decisions: one-time state initialization, deployed permission/identity
+and notification checks, then a **separate** explicit unattended activation decision
+before 24–48 hours of observation. Do not interpret design approval as activation.
+Existing owner credentials and administrators remain bypass routes; do not claim
+universal prevention. Current main workflows cannot consume the new admission route
+until their separately reviewed merge. No new subscription, model credit, paid
+service or broader scientific envelope is requested.
+
+Notification limitation: delivery deduplicates each exact event and caps its retries
+at three, but has no aggregate daily issue ceiling. The initial supervised fixture
+keeps notifications disabled. The proposed live configuration sends only fixed
+thresholds, checked reports and bounded task-block metadata; review the finite task
+allowlist/cadence at activation. Do not infer a global notification or dollar cap.
+Phone acknowledgments expire after 24 hours and never execute decisions.
+
+If report preparation leaves an unpushed candidate, subsequent publication remains
+queued behind that preserved candidate until exact remote/local reconciliation.
+No automated reset, overwrite or discard is authorized to clear that condition.

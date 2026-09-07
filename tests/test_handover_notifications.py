@@ -40,3 +40,14 @@ def test_uncertain_notification_never_reposts_and_caps_retry(tmp_path,monkeypatc
     assert result['status']=='BLOCKED' and result['attempts']==3 and len(posts)==1
     old=Outbox(notices.root).db.execute('SELECT state FROM notifications').fetchone()[0]
     assert old=='UNCERTAIN'
+
+
+def test_distinct_notices_reuse_verified_identity_and_exhausted_pending_normalizes(tmp_path,monkeypatch):
+    posts=setup(monkeypatch);notice=module.Notices(tmp_path/'notice','fixed-config')
+    first=notice.send('first','a'*40,'First checked report.')
+    second=notice.send('second','a'*40,'Second checked report.')
+    assert len(posts)==2 and first['status']==second['status']=='SENT'
+    notice.db.execute("UPDATE deliveries SET status='PENDING',attempts=3 WHERE id=?",(first['id'],))
+    exhausted=notice.send('first','a'*40,'First checked report.')
+    assert exhausted['status']=='BLOCKED' and exhausted['reason']=='ATTEMPT_LIMIT_RECONCILE_ORIGINAL_OUTBOX'
+    assert len(posts)==2

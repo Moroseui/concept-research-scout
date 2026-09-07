@@ -171,6 +171,8 @@ class Runtime:
             claim=status if status['status']=='REVIEWING' else queue.claim(report['id'])
             if not claim:raise ValueError('REVIEW_BOOKKEEPING_CLAIM_REQUIRED')
             r=review['receipt'];answer=review['answer']
+            if not isinstance(r.get('actual_model'),str) or not r['actual_model'].startswith('claude-'):
+                raise ValueError('CLAUDE_REVIEW_MODEL_IDENTITY_REQUIRED')
             queue.attach(report['id'],claim['attempt_id'],answer,{'family':'claude','model':r['actual_model'],'source':self.config['source'],
                 'report_sha256':report['id'],'review_sha256':hashlib.sha256(answer.encode()).hexdigest(),
                 'execution_receipt_sha256':hashlib.sha256((json.dumps(r,sort_keys=True,indent=2)+'\n').encode()).hexdigest(),
@@ -261,7 +263,7 @@ class Runtime:
             if row['status'] in ('BLOCKED','RUNNING'):
                 try:outcomes.append(self.q.recover(row['id'],retrieve))
                 except (ValueError,KeyError,TypeError,OSError,sqlite3.Error):
-                    self.q.db.execute("UPDATE tasks SET status='BLOCKED',reason='RECOVERY_EVIDENCE_UNAVAILABLE' WHERE id=?",(row['id'],))
+                    self.q.db.execute("UPDATE tasks SET status='BLOCKED',reason=coalesce(reason,'RECOVERY_EVIDENCE_UNAVAILABLE') WHERE id=?",(row['id'],))
         return outcomes
 
     def tick(self):
