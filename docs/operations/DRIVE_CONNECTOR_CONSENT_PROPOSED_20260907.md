@@ -2,7 +2,8 @@
 
 Use Google's supported Python client and its hosted desktop Picker, with only
 `https://www.googleapis.com/auth/drive.file`. Select the original 047 sibling console
-and existing archive once. Register their returned actual IDs privately; a path,
+and existing archive once. In the same batch, optionally select the existing P001
+preflight receipt, console and admission-header JSON if present (five files total). Register their returned actual IDs privately; a path,
 filename or placeholder ID is insufficient. Do not move or copy the 99 GB archive.
 New notebooks and bounded run bundles go into one fresh private `research-system`
 folder created by this app. New app-created outputs need no individual Picker grant.
@@ -27,6 +28,12 @@ authorization and a reviewed transport route.
    `scripts.drive_consent` helper through an SSH loopback tunnel. Its URL, callback,
    client secret and refresh token stay out of chat/Git. Select the actual original
    sibling console and existing archive in Google's Picker. No archive download.
+   Optional existing P001 selections: the receipt and admission-header JSON inside
+   the already-dispatched preflight's attempt directory, and its sibling preflight
+   console. These can contain a case identifier and imaging-header metadata; they
+   stay private. This proposed consent explicitly requests those small audit/header
+   records (JSON capped at 64 KiB), not image/voxel data or execution on Linux.
+   Missing files mean an unresolved attempt; do not retry the experiment.
 3. Permit one dedicated non-root `research-drive` service to use that grant for
    the registered evidence operations. Root owns its source, configuration and
    credential originals. systemd LoadCredential gives only this identity runtime
@@ -110,12 +117,14 @@ was terminated after edits; subsequent targeted tests passed.
 
 ## Concrete consent candidate
 
-Implementation pin: `9468a7e79d84ab2592a99da7ad2b53ba919af4a6`. Fresh
+Core adapter review pin: `9468a7e79d84ab2592a99da7ad2b53ba919af4a6`.
+The registration-only extension for optional existing P001 records receives its
+own final binding before consent; this document is not an activated grant. Fresh
 author-operated Claude reviews approved the base, recovery/staging changes and
 final small delta; see DRIVE_CONNECTOR_REVIEW_FINAL_20260908.json. Final tests:
 11 adapter tests, plus two actual Google-library tests using fake providers.
 No live credentials or services were installed. The separate grant must bind this
-implementation pin, capability `registered-drive-evidence-v1`, and only the
+final implementation pin, capability `registered-drive-evidence-v1`, and only the
 `drive.file` scope. Later documentation commits do not change that executable pin.
 
 First operator action: approve the four-part setup/consent scope above. Then open

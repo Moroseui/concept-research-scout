@@ -17,6 +17,11 @@ from orchestrator.phone_notifications import protected_read
 EXPECTED = {
     "047_B_dc586665d0be.console.log": ("047-console", "small-evidence-read"),
     "train.7z": ("p001-archive", "metadata-only"),
+    # Existing outputs from the separately authorized admission-only preflight.
+    # Selection registers evidence, not a new patient execution or image transfer.
+    "receipt.json": ("p001-preflight-receipt", "small-evidence-read"),
+    "preflight.console.log": ("p001-preflight-console", "small-evidence-read"),
+    "admission_headers.private.json": ("p001-preflight-headers", "small-evidence-read"),
 }
 
 
@@ -37,8 +42,9 @@ def register(consent_dir, destination):
     destination.mkdir(mode=0o700)
     metadata = []
     files = {}
-    for file_id in selected:
+    for ordinal, file_id in enumerate(selected):
         value = client.metadata(file_id)
+        private_write(destination / f"selected-{ordinal}.json", value)
         metadata.append(value)
         if value["name"] not in EXPECTED:
             continue
@@ -56,7 +62,15 @@ def register(consent_dir, destination):
             "id": file_id,
             "expected_name": value["name"],
             "access": access,
-            "max_bytes": 32 * 1024 * 1024 if access == "small-evidence-read" else 0,
+            "max_bytes": (
+                0
+                if access == "metadata-only"
+                else (
+                    65536
+                    if alias in ("p001-preflight-receipt", "p001-preflight-headers")
+                    else 32 * 1024 * 1024
+                )
+            ),
         }
     private_write(destination / "selected-metadata.json", metadata)
     if "047-console" not in files:
