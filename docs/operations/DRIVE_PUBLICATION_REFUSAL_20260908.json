@@ -1,0 +1,14 @@
+{
+  "status": "CONTROLLED_PUBLICATION_REFUSED_BEFORE_PUSH",
+  "source": "331ace92231d54e6abd85f711a825baec034c245",
+  "before": "27a443bcc28d31c01edf5ddc733b0aab1278f7a7",
+  "reason": "PUBLICATION_TYPE_REJECTED",
+  "artifact": "deploy/research-system/drive-requirements.lock",
+  "original_failure": "Recorded in tool response; not a separately captured console file",
+  "read_only_reproduction": {
+    "returncode": 1,
+    "stderr_sha256": "68edf4828e1167de478cd9e003d7fd62f89359e843f8a95c332add8917ee3dc9",
+    "network_or_push": false
+  },
+  "correction": "Only this exact lock path accepts bounded unique package==version lines, followed by unchanged secret/case/content and outgoing-history checks. No broad .lock exemption."
+}

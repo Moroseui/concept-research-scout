@@ -27,7 +27,16 @@ def scan(name, data):
         raise ValueError('PUBLICATION_PATH_REJECTED')
     public_docs={'docs/isles-pilot/PRIVATE_COORDINATOR_PLAN.md','docs/isles-pilot/PRIVATE_COORDINATOR_SETUP.fish'}
     private_path=any(x.lower().startswith(('staged','private','raw_patient')) for x in p.parts)
-    if p.suffix not in TEXT_SUFFIXES or (private_path and name not in public_docs):
+    dependency_lock = name == 'deploy/research-system/drive-requirements.lock'
+    if dependency_lock:
+        # One reviewed dependency artifact, not a general .lock exemption. Permit
+        # only bounded, unique package==version lines; no URLs/options/raw payloads.
+        if len(data) > 16384 or not re.fullmatch(rb'(?:[A-Za-z0-9][A-Za-z0-9_.-]*==[0-9][A-Za-z0-9_.+!-]*\n)+', data):
+            raise ValueError('PINNED_DEPENDENCY_LOCK_REQUIRED')
+        packages = [re.sub(rb'[-_.]+', b'-', line.split(b'==', 1)[0].lower()) for line in data.splitlines()]
+        if len(packages) > 128 or len(set(packages)) != len(packages):
+            raise ValueError('UNIQUE_BOUNDED_DEPENDENCIES_REQUIRED')
+    if (p.suffix not in TEXT_SUFFIXES and not dependency_lock) or (private_path and name not in public_docs):
         raise ValueError('PUBLICATION_TYPE_REJECTED')
     if len(data) > 1500000 or b'\0' in data or SECRET.search(data):
         raise ValueError('PUBLICATION_CONTENT_REJECTED')
