@@ -4,7 +4,7 @@
   "credentials_created": false,
   "service_installed": false,
   "adapter_tests": {
-    "passed": 8,
+    "passed": 10,
     "fixture_provider": true,
     "coverage": [
       "registered IDs",
@@ -15,7 +15,9 @@
       "restart status",
       "console-plus-receipt storage",
       "uncertain uploads",
-      "credential upload refusal"
+      "credential upload refusal",
+      "upload status after spool cleanup",
+      "controller staging permissions and unchanged originals"
     ]
   },
   "google_library_tests": {
@@ -40,5 +42,11 @@
   "limitations": [
     "No actual Google consent, selected IDs, runtime credential isolation, API readback or hosted restart has been demonstrated.",
     "These tests do not authorize activation, patient transfer or scientific acceptance."
-  ]
+  ],
+  "formatting": {
+    "tool": "black 26.5.1",
+    "multiprocess_run": "stalled after edits; verified formatter group terminated, no research process affected",
+    "before_after_ast_equal": true,
+    "post_format_tests": "10 adapter tests and 2 actual-library/fake-provider tests passed"
+  }
 }

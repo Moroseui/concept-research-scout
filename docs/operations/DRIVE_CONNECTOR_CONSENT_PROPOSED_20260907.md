@@ -33,6 +33,9 @@ authorization and a reviewed transport route.
    copies. Driver, reviewer and scientific workers receive no token or client file.
    The service can write its private evidence directory and read the controller's
    upload spool; it has no sudo, GitHub/model credentials or scientific launcher.
+   The controller receives membership in the research-drive group solely for
+   setgid staging (directories 2750, files 0640); credential and private evidence
+   directories remain owner-only, so group membership does not expose them.
 4. Permit creating the app-owned private output folder, collecting the original
    047 console, and a small synthetic storage/restart test. No sharing, publication,
    patient launch, archive transfer or unattended research activation is included.
@@ -68,7 +71,10 @@ consent, hosted credential isolation, token refresh, live storage or restart.
 peer-UID-checked broker exchange. `status` recovers that exact request; `metadata`
 can inspect the registered archive's metadata. `store --alias run-artifacts` uses
 a controller-produced bundle with console and receipt in its protected spool.
-Responses contain allowed metadata/hashes, never console contents. Scientific
+`stage --run-root PRIVATE_RUN --request-id RUN_ID` stages a bounded completed
+bundle as the controller, with group-readable copies and unchanged originals.
+`status --alias run-artifacts` reads a stored upload receipt even after spool
+cleanup. Responses contain allowed metadata/hashes, never console contents. Scientific
 acceptance and interpretation follow their existing pipelines after evidence gates.
 
 Drive access is separate from Colab. The demonstrated Claude MCP bridge can execute
@@ -89,3 +95,15 @@ Current read-only host inspection found no Drive config, credentials or service 
 the proposed locations, and no Google client libraries in the host's system Python.
 This does not claim an exhaustive search of all private credentials. Existing Colab
 mount authentication is not reused or exported as a server refresh grant.
+
+## Review disposition
+
+Author-operated Claude source review approved `0b427888`; the original review is
+retained in DRIVE_CONNECTOR_REVIEW_R1_20260907.json. Its live-API uncertainties do
+not supersede Google's explicit hosted Picker and preallocated-folder-ID
+documentation. Real consent/storage/restart remain untested acceptance steps.
+The upload-status recovery suggestion was implemented. A controller staging
+command now provides the private group permissions required for actual service
+access; the request does not require the operator to prepare each new output.
+Source formatting was checked for AST equality. A stalled formatter process group
+was terminated after edits; subsequent targeted tests passed.

@@ -243,3 +243,14 @@ analysis/interpretation and required opposing-family review. The same rule appli
 to P001. Reports must name actual stages and link their artifacts and receipts;
 steering, implementation and proposed conclusions remain distinguishable. This
 clarification grants no additional authority and does not ratify any result.
+
+## Persistent Drive evidence access — authorized preparation, 2026-09-07
+
+Prepare a registered Linux Drive capability for routine evidence retrieval and
+private output storage. Use actual selected file IDs and a private research-system
+output location; preserve existing originals and do not move the archive merely
+to organize folders. Console, output and receipt collection belong to system
+interfaces, not repeated operator cell execution and JSON relay. The concrete
+credential/file-access grant remains pending consent; this instruction permits
+implementation and review, not bulk patient transfer, scientific launch or public
+publication. Drive access and Colab compute are separate dependencies.
