@@ -79,6 +79,12 @@ class PublicationTests(unittest.TestCase):
                 env={'OUTPUT_DIR':str(out)}
                 exec(cell,env); exec(cell,env)
                 self.assertEqual(Path(str(out)+'.publication.console.log').read_text(),'actual console\n')
+                handoff=Path(str(out)+'.handoff-private')
+                self.assertEqual((handoff/'console.log').read_text(),'actual console\n')
+                receipt=json.loads((handoff/'receipt.json').read_text())
+                self.assertEqual(receipt['status'],'PRIVATE_CONSOLE_COLLECTED')
+                self.assertEqual(receipt['binding']['contract'],blob)
+                self.assertFalse((Path(str(out)+'.publication')/'receipt.json').exists())
                 (out/'raw.csv').write_text('private')
                 with self.assertRaises(ValueError): exec(cell,env)
             finally:

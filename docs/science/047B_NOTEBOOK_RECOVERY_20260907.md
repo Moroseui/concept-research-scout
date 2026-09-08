@@ -53,3 +53,25 @@ replacement commits, contract, the Phase B summary path, the preserved private
 Git repository, the original notebook path and a fresh private destination.
 The command never executes cells. It emits only a correspondence receipt; raw
 outputs and local source paths remain in the private evidence directory.
+
+## Review and validation
+
+The author-operated Claude review approved source and the permitted intake receipt
+at `7ed2605505a0a3b3beda3dd1443baa8cb136ab2c`. It did not receive the raw
+notebook/console, run tests, or grant scientific acceptance. See the attributed
+[review receipt](047B_NOTEBOOK_REVIEW_20260907.json). It agreed that the evidence
+resolves saved-output availability to the limited extent stated here.
+
+Eight focused tests passed, including real generated export, repeated collection,
+missing/conflicting/partial evidence refusal, and saved-output versus cell-source
+separation. The initial generated-cell test failed on an undefined CONSOLE name;
+the generator was corrected to derive the sibling path and embed its source pin,
+then passed. No frozen scientific code was changed.
+
+The public intake receipt's supplemental `intake_implementation_sha256` was added
+by Astra's recorder using Python hashlib over orchestrator/notebook_evidence.py
+at the reviewed commit. It is not a field emitted by the original intake function;
+the private stage receipt remains unchanged. Console collection binds the caller's
+supplied metadata; the generated caller obtains its inventory from export_session.
+Collection does not independently authenticate caller claims or replace scientific
+validation. These limits address the review's documentation suggestions.

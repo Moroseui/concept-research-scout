@@ -1,0 +1,18 @@
+{
+  "stage": "hosted-context-builder",
+  "models_invoked": 0,
+  "installed_source_updated": false,
+  "documents": {
+    "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": {
+      "sha256": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda",
+      "disposition": "OPERATOR_REVIEWER_DIRECTIVE",
+      "system_stage_requirement_present": true
+    },
+    "docs/operations/REMOTE_OPERATING_DIRECTION.md": {
+      "sha256": "55be497c15bbe8b8bf121511d62b2380b188dae82434bcc1cce662e576aef854",
+      "disposition": "APPROVED_OPERATING_DIRECTION",
+      "system_stage_requirement_present": true
+    }
+  },
+  "note": "Existing driver/reviewer envelope uses this builder. Current local documents verified; installed snapshot remains unchanged."
+}

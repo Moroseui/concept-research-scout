@@ -1,4 +1,4 @@
-# Claude reviewer directive — remote-reviewer/v2, 6 September 2026
+# Claude reviewer directive — remote-reviewer/v3, 7 September 2026
 
 Authority: operator instruction. Read the canonical
 [REMOTE_OPERATING_DIRECTION.md](REMOTE_OPERATING_DIRECTION.md), relevant scientific

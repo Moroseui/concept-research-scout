@@ -110,16 +110,21 @@
     },
     {
       "job": "047b-original-console-20260907",
-      "status": "OPEN_EVIDENCE_AND_DECISION",
+      "status": "EVIDENCE_RECOVERED_REVIEW_PENDING",
       "reason": "ORIGINAL_CORRESPONDENCE_VERIFIED_SUCCESSFUL_CONSOLE_UNRECOVERED",
-      "next_action": "Operator naming clarification is not hash/console attestation. Original source/contract correspondence verified; bounded private search found no genuine successful console. See 047B_CONSOLE_RECOVERY_20260907.md. Cleanup complete; exclusions, registry attestation and scientific landing remain separate.",
+      "next_action": "System incoming-notebook-evidence verified saved Phase-B output against original and replacement summaries. Review its limited evidence disposition; original sibling log remains unchecked. Registry attestation, exclusions/audit disposition and scientific landing remain separate gates.",
       "history": [
         {
           "status": "OPEN_EVIDENCE_AND_DECISION",
           "reason": "PRESERVED_SOURCE_MATCHES_BUT_SUCCESSFUL_CONSOLE_NOT_FOUND",
           "next_action": "Confirm whether 047b names the pinned Phase-B source and locate original successful sibling console; then resolve historical registry attestation, metadata disposition and separate scientific landing. Reuse prior validator and policy refusal."
+        },
+        {
+          "status": "OPEN_EVIDENCE_AND_DECISION",
+          "next_action": "Operator naming clarification is not hash/console attestation. Original source/contract correspondence verified; bounded private search found no genuine successful console. See 047B_CONSOLE_RECOVERY_20260907.md. Cleanup complete; exclusions, registry attestation and scientific landing remain separate."
         }
-      ]
+      ],
+      "evidence": "../science/047B_NOTEBOOK_INTAKE_20260907.json"
     },
     {
       "job": "pr5-ledger-transport-diagnostics",
