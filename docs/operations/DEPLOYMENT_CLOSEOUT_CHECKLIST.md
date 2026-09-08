@@ -139,3 +139,36 @@ retrieval is prepared. Patient launch is still held. Readiness-discussion previe
 conflicts and inbox-only duplicate triggers are fixed and
 [source-reviewed](../science/READINESS_RATIFICATION_REVIEW_20260907.json); the
 [remaining real-adapter gap](REAL_SCIENTIFIC_ADAPTER_GAP_20260907.md) is explicit.
+
+## 8 September — actual campaign adapter and Drive setup
+
+The previously missing real system-task adapter cycle has now run on installed
+handover source `251f899b29b292c7cbb79474d7b4ca6e40de2d54`. A fresh harmless
+Linux completion triggered the shared campaign `discuss` pipeline for P001,
+a fresh Claude review, and an Astra disposition. The pipeline's original result
+validator passed after collection; all three model protocol/output/context hashes
+were verified. Coordinator bookkeeping completed once. See
+[stage evidence and original generated artifacts](../science/hosted-p001-discussion-20260908/execution.json).
+This is reviewed scientific preparation, not patient execution or an accepted
+baseline result. Codex requested gpt-6-astra; resolved model identity remains
+unavailable in its CLI receipt. Claude's actual model is recorded.
+
+The source update preserved the original three consumed turns and unchanged
+synthetic ledger. One separate supervised turn was prepared with at most three
+model calls. No permanent timer, live writer or unattended activation was enabled.
+Preparation's first review rejected recovery defects; its forward repair and
+[follow-up approval](CAMPAIGN_PREPARATION_REVIEW_R2_20260908.json) are preserved.
+A failed read-only collection query was corrected without rerunning science.
+
+Drive access is now explicitly operator-approved at the bounded source pin; the
+Google project/OAuth setup is underway. [Actual hosted tools preparation](DRIVE_TOOLS_HOSTED_20260908.json)
+verified all 25 library pins and a non-root client import. This is not OAuth,
+Drive retrieval/storage, service isolation or refresh/restart acceptance.
+The original 047 saved notebook has already passed incoming-evidence intake;
+its original Drive sibling remains to be collected. Registry/exclusion semantics
+and scientific landing authority remain separate. P001's terminal preflight
+receipt remains unretrieved; its charter/adoption approval is not reopened.
+
+Shared live credentials/admissions, outstanding retrospective-audit disposition,
+activation verification and the separately approved disconnected observation
+remain outstanding. The new campaign discussion does not satisfy those gates.

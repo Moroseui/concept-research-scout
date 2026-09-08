@@ -1,0 +1,23 @@
+{
+  "actual_model": "claude-fable-5",
+  "broker_duplicate": false,
+  "ci": false,
+  "event": {
+    "attempt": "1",
+    "branch": "astra/infrastructure-milestone-record",
+    "kind": "astra_turn",
+    "source": "251f899b29b292c7cbb79474d7b4ca6e40de2d54",
+    "turn_id": "f41f846f05ab2377896102ab9ba1fd3f7c84371cf682be8d3981b261c76d7554"
+  },
+  "exit_class": "ok",
+  "family_effective": "claude",
+  "model_receipt_sha256": "88948e67fd83aa7ae5631b177850cef117b28452f4211fde28de8b2b18b60c48",
+  "operating_context_sha256": "e63bd6adaefb63eaf8f0cea8bbe8c94f5d5221cad6eb82113eb38ab39a82b6b6",
+  "original_protocol_private": true,
+  "packet_sha256": "3048557d75fc3dc7a076ed3fa04a7959caa2e36c56ae3175ce5766fc849769e8",
+  "recovered_original": false,
+  "requested_model": "claude-fable-5",
+  "runner": {
+    "adapter": "protected-hosted-campaign-v1"
+  }
+}
