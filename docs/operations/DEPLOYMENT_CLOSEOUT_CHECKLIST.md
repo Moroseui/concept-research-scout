@@ -172,3 +172,11 @@ receipt remains unretrieved; its charter/adoption approval is not reopened.
 Shared live credentials/admissions, outstanding retrospective-audit disposition,
 activation verification and the separately approved disconnected observation
 remain outstanding. The new campaign discussion does not satisfy those gates.
+
+## 8 September resumed reconciliation and OAuth window
+
+[Current read-only reconciliation](RESUME_RECONCILIATION_20260908.json) confirms installed handover `251f899b`, executor `6b555075`, four completed tasks, twelve completed stages and one bookkeeping attempt each. The existing SSH identity is unlocked; old authentication reasons do not authorize replay. All 185 preserved campaign files matched their manifest. No scientific job or model process was observed active.
+
+The operator reported the Google app published to Production; Desktop client and existing grant bytes are privately staged. [One-time Picker consent](GOOGLE_OAUTH_OPERATOR_WINDOW_20260908.md) is ready. Live retrieval, service isolation, storage and refresh/restart acceptance remain unproven. The reviewed P001-independent registration correction is source preparation, not an amended credential grant or installed capability.
+
+[Current workstream estimates and exact remaining milestones](RESUME_STATUS_20260908.md) supersede older remaining-effort estimates above: Drive 1.5–3 engineering hours, first P001 result/review 2–4 after evidence, 047b analysis/review 2–4 after evidence, and autonomous handover essentials 4–7. Authentication, operator decisions, experiment runtime and the separately approved 24–48-hour observation are distinct. Completed adapter/synthetic proofs are not included again.

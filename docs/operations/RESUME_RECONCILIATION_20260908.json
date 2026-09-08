@@ -1,0 +1,161 @@
+{
+  "observed_utc": "2026-09-08T23:38:49.053353+00:00",
+  "kind": "Read-only checkout and hosted reconciliation; no job or scientific model replay",
+  "reference_and_remote_milestone": "5fa55bfa1a12c8f3bde802ea1d6c2d0bac1cd998",
+  "local_reviewed_fix": "bef237350734341351f6029ea4bde2530acc7c0b",
+  "initial_checkouts_clean": true,
+  "remote_main": "c17281a11dd2ed15e59cc38bbb526fb6c466b145",
+  "installed_handover": "251f899b29b292c7cbb79474d7b4ca6e40de2d54",
+  "installed_executor": "6b555075fcf553994ecac8e368f4676cbdffdc56",
+  "drive_environment_present": true,
+  "drive_service_installed": false,
+  "drive_credentials_at_install_path": false,
+  "hosted_jobs": [
+    {
+      "id": "00-colab-blocked",
+      "phase": "linux_synthetic",
+      "status": "BLOCKED",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "10-linux-delay",
+      "phase": "linux_synthetic",
+      "status": "COMPLETE",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "20-linux-failure",
+      "phase": "linux_synthetic",
+      "status": "FAILED",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "30-linux-next",
+      "phase": "linux_synthetic",
+      "status": "COMPLETE",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "40-closeout-trigger",
+      "phase": "linux_synthetic",
+      "status": "COMPLETE",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "41-closeout-followup",
+      "phase": "linux_synthetic",
+      "status": "COMPLETE",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "50-handover-a0795e6",
+      "phase": "linux_synthetic",
+      "status": "COMPLETE",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "51-handover-a0795e6",
+      "phase": "linux_synthetic",
+      "status": "COMPLETE",
+      "retries": 0,
+      "lease": 0.0
+    },
+    {
+      "id": "60-campaign-251f899b29b2",
+      "phase": "linux_synthetic",
+      "status": "COMPLETE",
+      "retries": 0,
+      "lease": 0.0
+    }
+  ],
+  "hosted_tasks": [
+    {
+      "id": "46f92feebb9d8475b2f979aa0d6225deaf1226b76fc71917858d64554920bafa",
+      "status": "COMPLETE",
+      "reason": null
+    },
+    {
+      "id": "9ffd02745d3f6a68754d6dcf6c243e9345ea00cba21f3426f2c76f364fa5471a",
+      "status": "COMPLETE",
+      "reason": null
+    },
+    {
+      "id": "5c8faa25661e33aaa77df889dafbd309823260bb4db7012b8e644fbd659151c2",
+      "status": "COMPLETE",
+      "reason": null
+    },
+    {
+      "id": "f41f846f05ab2377896102ab9ba1fd3f7c84371cf682be8d3981b261c76d7554",
+      "status": "COMPLETE",
+      "reason": null
+    }
+  ],
+  "hosted_bookkeeping": [
+    {
+      "task": "46f92feebb9d8475b2f979aa0d6225deaf1226b76fc71917858d64554920bafa",
+      "status": "COMPLETE",
+      "attempts": 1,
+      "reason": null
+    },
+    {
+      "task": "9ffd02745d3f6a68754d6dcf6c243e9345ea00cba21f3426f2c76f364fa5471a",
+      "status": "COMPLETE",
+      "attempts": 1,
+      "reason": null
+    },
+    {
+      "task": "5c8faa25661e33aaa77df889dafbd309823260bb4db7012b8e644fbd659151c2",
+      "status": "COMPLETE",
+      "attempts": 1,
+      "reason": null
+    },
+    {
+      "task": "f41f846f05ab2377896102ab9ba1fd3f7c84371cf682be8d3981b261c76d7554",
+      "status": "COMPLETE",
+      "attempts": 1,
+      "reason": null
+    }
+  ],
+  "hosted_stages_complete": 12,
+  "research_model_processes_observed": false,
+  "permanent_handover_timer_active": false,
+  "deterministic_controller_worker_timers_active": true,
+  "original_campaign_manifest": {
+    "files_checked": 185,
+    "missing": 0,
+    "changed": 0
+  },
+  "local_recovery": {
+    "wsl_restarted": true,
+    "stale_ssh_socket_preserved": true,
+    "existing_identity_unlocked": true,
+    "temporary_worktree_directories_missing": true,
+    "worktree_records_not_pruned": true,
+    "frozen_source_objects_present": true
+  },
+  "old_auth_reason_strings": "Historical PENDING_AUTH and operator-task reasons remain in queue; not current authentication failures or replay authority.",
+  "new_review": {
+    "kind": "Author-operated implementation review through scripts/pilot_review.py and existing remote reviewer",
+    "verdict": "APPROVE",
+    "scientific_stage": false,
+    "receipt": "DRIVE_REGISTRATION_INDEPENDENCE_REVIEW_20260908.json"
+  },
+  "jobs_retried": 0,
+  "scientific_model_calls": 0,
+  "patient_launch": false,
+  "unattended_activation": false,
+  "private_capture_sha256": {
+    "server-remote.json": "b67c10a69c58b001cac42fbfb0df4673520058d0601f89b9d67c7cbe3d07b278",
+    "server-jobs.json": "dcccc8601a083431e5420142af83ed6f0137fe26d82b4e4df59df668d942b6c0"
+  },
+  "drive_active_source_link": false,
+  "prepared_drive_source": "6ea7566b7247286fac54c450ad8f388b129d130b",
+  "prepared_drive_source_verified": true
+}

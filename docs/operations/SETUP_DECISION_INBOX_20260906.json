@@ -165,9 +165,9 @@
     },
     {
       "job": "hosted-reconciliation-after-pr5",
-      "status": "RESOLVED_HOSTED_CAMPAIGN_20260908",
-      "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
-      "next_action": "Installed handover 251f899b, immutable executor 6b555075. New harmless completion and actual campaign discussion/review/disposition completed; earlier turns preserved. No live activation.",
+      "status": "RESOLVED_CURRENT_READ_ONLY_20260908",
+      "reason": "EXISTING_SSH_UNLOCKED_AND_ORIGINAL_TASKS_COMPLETE",
+      "next_action": "Current installed handover 251f899b and executor 6b555075 confirmed; all four tasks, twelve stages and one bookkeeping attempt each complete. Original 185-file campaign manifest passed. No job/model replay; old authentication reasons remain historical.",
       "history": [
         {
           "status": "BLOCKED_LOCAL_SSH_UNLOCK",
@@ -178,9 +178,14 @@
           "status": "RESOLVED_READ_ONLY_20260907",
           "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
           "next_action": "See RESUME_RECONCILIATION_20260907.json. Installed handover remains 9af868d and executor 6b555075; no jobs retried or new allowance granted."
+        },
+        {
+          "status": "RESOLVED_HOSTED_CAMPAIGN_20260908",
+          "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
+          "next_action": "Installed handover 251f899b, immutable executor 6b555075. New harmless completion and actual campaign discussion/review/disposition completed; earlier turns preserved. No live activation."
         }
       ],
-      "evidence": "../science/hosted-p001-discussion-20260908/execution.json"
+      "evidence": "RESUME_RECONCILIATION_20260908.json"
     },
     {
       "job": "047-first-cleanup-20260907",
@@ -191,9 +196,9 @@
     },
     {
       "job": "persistent-drive-evidence",
-      "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
-      "status": "APPROVED_WAITING_GOOGLE_SETUP",
-      "next_action": "Operator created the project and enabled Drive/Picker APIs and drive.file scope. Production transition is blocked by Google Branding missing information; await exact field names. Grant already approved; libraries/source installed, no credentials or service yet.",
+      "reason": "PRODUCTION_AND_DESKTOP_CLIENT_PREPARED",
+      "status": "APPROVED_WAITING_PICKER_CONSENT",
+      "next_action": "Reuse approved grant and installed source 6ea7566b. Operator reported Production; Desktop JSON privately installed and one-time consent helper ready. Await actual token/Picker completion; no live Drive retrieval claimed. See GOOGLE_OAUTH_OPERATOR_WINDOW_20260908.md.",
       "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json",
       "implementation_pin": "6ea7566b7247286fac54c450ad8f388b129d130b",
       "approval": "DRIVE_ACCESS_APPROVED_20260908.json",
@@ -202,6 +207,11 @@
           "status": "APPROVED_WAITING_GOOGLE_SETUP",
           "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
           "next_action": "Select existing operator-owned project, then guided API/Desktop client setup; grant is already approved. No repeat permission request."
+        },
+        {
+          "status": "APPROVED_WAITING_GOOGLE_SETUP",
+          "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
+          "next_action": "Operator created the project and enabled Drive/Picker APIs and drive.file scope. Production transition is blocked by Google Branding missing information; await exact field names. Grant already approved; libraries/source installed, no credentials or service yet."
         }
       ]
     }
