@@ -37,3 +37,34 @@ def test_live_or_changed_allowance_refuses(change):
     broker,runtime,source=configurations();broker.update(change)
     with pytest.raises(ValueError,match='CONSUMED_SYNTHETIC_CONFIGURATION_REQUIRED'):
         module.planned(broker,runtime,source)
+
+
+def test_partial_configuration_failure_restores_original_pair(tmp_path, monkeypatch):
+    monkeypatch.setattr(module.os, 'chown', lambda *args: None)
+    originals={'broker':b'old-broker', 'controller':b'old-controller'}
+    replacements={'broker':b'new-broker','controller':b'new-controller'}
+    for name,raw in originals.items():(tmp_path/name).write_bytes(raw)
+    def fail_after_first_write():
+        (tmp_path/'broker').write_bytes(replacements['broker'])
+        raise RuntimeError('synthetic failure')
+    with pytest.raises(RuntimeError,match='synthetic failure'):
+        module.configuration_transaction(tmp_path,originals,replacements,fail_after_first_write)
+    assert {n:(tmp_path/n).read_bytes() for n in originals}==originals
+
+
+def test_recovery_preserves_concurrent_operator_edit(tmp_path):
+    originals={'broker':b'old-broker','controller':b'old-controller'}
+    replacements={'broker':b'new-broker','controller':b'new-controller'}
+    for name,raw in originals.items():(tmp_path/name).write_bytes(raw)
+    (tmp_path/'broker').write_bytes(b'operator edit')
+    with pytest.raises(ValueError,match='CONCURRENT_CONFIGURATION_RECOVERY_HELD'):
+        module.restore_configuration(tmp_path,originals,replacements)
+    assert (tmp_path/'broker').read_bytes()==b'operator edit'
+    assert (tmp_path/'controller').read_bytes()==originals['controller']
+
+
+@pytest.mark.parametrize('state',['inactive','failed','activating','deactivating'])
+def test_preparation_never_activates_previously_stopped_broker(state):
+    with pytest.raises(ValueError,match='EXPECTED_ACTIVE_IDLE_BROKER_REQUIRED'):
+        module.require_active_broker({'socket':'active','service':state})
+    module.require_active_broker({'socket':'active','service':'active'})
