@@ -107,3 +107,25 @@ command now provides the private group permissions required for actual service
 access; the request does not require the operator to prepare each new output.
 Source formatting was checked for AST equality. A stalled formatter process group
 was terminated after edits; subsequent targeted tests passed.
+
+## Concrete consent candidate
+
+Implementation pin: `9468a7e79d84ab2592a99da7ad2b53ba919af4a6`. Fresh
+author-operated Claude reviews approved the base, recovery/staging changes and
+final small delta; see DRIVE_CONNECTOR_REVIEW_FINAL_20260908.json. Final tests:
+11 adapter tests, plus two actual Google-library tests using fake providers.
+No live credentials or services were installed. The separate grant must bind this
+implementation pin, capability `registered-drive-evidence-v1`, and only the
+`drive.file` scope. Later documentation commits do not change that executable pin.
+
+First operator action: approve the four-part setup/consent scope above. Then open
+Google Cloud Console and select the operator-owned project to use; setup proceeds
+one step at a time, with client/selected-file identities recorded privately.
+No existing original needs moving. Previously unselected existing files may need a
+one-time Picker grant later; new app-created outputs do not need individual grants.
+
+Remaining minor limitations: a malformed private receipt fails closed with a
+generic broker error, and staging-only IDs beginning with `upload-` are rejected
+when submitted to the broker. Use the supported run IDs. The existing positive
+status-after-spool-cleanup test passed; it was absent from the last review diff
+only because it had not changed. These are not untested claims of live recovery.

@@ -168,9 +168,10 @@
     {
       "job": "persistent-drive-evidence",
       "reason": "SEPARATE_GOOGLE_CREDENTIAL_AND_FILE_GRANT_REQUIRED",
-      "status": "PREPARING_REVIEW",
-      "next_action": "Review DRIVE_CONNECTOR_CONSENT_PROPOSED_20260907.md, then one personal Production OAuth/Picker consent batch. First live operation collects the registered 047 sibling console. Manual Colab JSON relay request is superseded.",
-      "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json"
+      "status": "WAITING_OPERATOR_ACCESS_GRANT",
+      "next_action": "Approve the reviewed four-part Drive consent packet; then select the Google Cloud project. No live credential, registered file ID or service activation exists yet. First operation is 047 original sibling-console collection.",
+      "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json",
+      "implementation_pin": "9468a7e79d84ab2592a99da7ad2b53ba919af4a6"
     }
   ],
   "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state."
