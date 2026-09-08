@@ -1,0 +1,10 @@
+[Unit]
+Description=Registered private Drive evidence requests (requires operator credential grant)
+[Socket]
+ListenStream=/run/research-system/drive.sock
+SocketUser=root
+SocketGroup=research-runtime
+SocketMode=0660
+RemoveOnStop=true
+[Install]
+WantedBy=sockets.target

@@ -41,6 +41,8 @@ def prepare(root, source, destination):
     from orchestrator.campaign_pipeline import grounding
     names.update(name for name in grounding(root, 'P001') if name in tree)
     names.update(n for n in tree if n.startswith('deploy/research-system/') and n.endswith(('.service','.socket','.timer')))
+    names.update(n for n in ('scripts/drive_consent.py','scripts/drive_register.py',
+                              'deploy/research-system/drive-requirements.lock') if n in tree)
     names.add('scripts/verify_handover_service.py')
     names.add('scripts/verify_protected_intake.py')
     names.add('deploy/research-system/research-system-control.sh')

@@ -1,0 +1,25 @@
+[Unit]
+Description=Private Drive evidence broker; no experiment execution
+Requires=research-system-drive.socket
+After=network-online.target
+[Service]
+User=research-drive
+Group=research-drive
+WorkingDirectory=/opt/research-system/drive
+ExecStart=/opt/research-system/drive-venv/bin/python -m orchestrator.drive_evidence serve --config ${CREDENTIALS_DIRECTORY}/drive-config.json --credentials ${CREDENTIALS_DIRECTORY}/oauth.json --socket /run/research-system/drive.sock
+LoadCredential=drive-config.json:/etc/research-system/drive/config.json
+LoadCredential=oauth.json:/etc/research-system/drive/oauth.json
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/research-system/drive-evidence
+ReadOnlyPaths=/var/lib/research-system/drive-upload-spool
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+MemoryMax=384M
+CPUQuota=50%
+TasksMax=16
+TimeoutStopSec=90
+Restart=on-failure
+RestartSec=30

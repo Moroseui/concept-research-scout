@@ -164,6 +164,13 @@
       "reason": "EXACT_OPERATOR_AUTHORIZED_LEASED_REPLACEMENT_VERIFIED",
       "next_action": "No retry. Remaining public three-file metadata disposition and scientific landing tracked separately.",
       "evidence": "../isles-pilot/047_CLEANUP_EXECUTED_20260907.json"
+    },
+    {
+      "job": "persistent-drive-evidence",
+      "reason": "SEPARATE_GOOGLE_CREDENTIAL_AND_FILE_GRANT_REQUIRED",
+      "status": "PREPARING_REVIEW",
+      "next_action": "Review DRIVE_CONNECTOR_CONSENT_PROPOSED_20260907.md, then one personal Production OAuth/Picker consent batch. First live operation collects the registered 047 sibling console. Manual Colab JSON relay request is superseded.",
+      "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json"
     }
   ],
   "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state."

@@ -1,0 +1,44 @@
+{
+  "stage": "drive-connector-preparation",
+  "live_access": false,
+  "credentials_created": false,
+  "service_installed": false,
+  "adapter_tests": {
+    "passed": 8,
+    "fixture_provider": true,
+    "coverage": [
+      "registered IDs",
+      "archive transfer refusal",
+      "private original/readback",
+      "changed remote version",
+      "concurrent duplicate",
+      "restart status",
+      "console-plus-receipt storage",
+      "uncertain uploads",
+      "credential upload refusal"
+    ]
+  },
+  "google_library_tests": {
+    "passed": 2,
+    "live_provider": false,
+    "coverage": [
+      "actual InstalledAppFlow Picker parameters and PKCE",
+      "actual Credentials refresh/reconstruction with fake provider"
+    ]
+  },
+  "dependencies_lock_sha256": "aef29ee756a34eca8a868f411c03a386a737a14305099a226fe7a6aee30d0ccb",
+  "host_inspection": {
+    "drive_config_present": false,
+    "drive_credential_present": false,
+    "drive_service_installed": false,
+    "libraries": {
+      "google-api-python-client": null,
+      "google-auth": null,
+      "google-auth-oauthlib": null
+    }
+  },
+  "limitations": [
+    "No actual Google consent, selected IDs, runtime credential isolation, API readback or hosted restart has been demonstrated.",
+    "These tests do not authorize activation, patient transfer or scientific acceptance."
+  ]
+}
