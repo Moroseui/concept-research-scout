@@ -73,8 +73,10 @@ def register(consent_dir, destination):
             ),
         }
     private_write(destination / "selected-metadata.json", metadata)
-    if "047-console" not in files:
-        raise ValueError("ORIGINAL_047_CONSOLE_NOT_SELECTED")
+    # A missing historical console must not block authorized P001 evidence.
+    # Unknown selections alone cannot create a destination folder.
+    if not files:
+        raise ValueError("NO_SUPPORTED_EVIDENCE_SELECTED")
     ids = client.allocate_ids(1)
     private_write(
         destination / "folder-intent.json",

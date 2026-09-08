@@ -77,3 +77,41 @@ def test_mismatched_archive_metadata_remains_preserved(registry_setup):
     ]
     assert any(v["name"] == "train.7z" and v["size"] == "1" for v in saved)
     assert not (parent / "registered" / "config.json").exists()
+
+
+def test_p001_registration_does_not_require_047_console(registry_setup, monkeypatch):
+    parent, metadata, _ = registry_setup
+    selected = [
+        key for key, value in metadata.items()
+        if value["name"] != "047_B_dc586665d0be.console.log"
+    ]
+    monkeypatch.setattr(
+        registration, "protected_read",
+        lambda p: json.dumps({"file_ids": selected}).encode(),
+    )
+    registration.register(parent / "consent", parent / "registered")
+    config = json.loads((parent / "registered" / "config.json").read_text())
+    assert "047-console" not in config["files"]
+    assert set(config["files"]) == {
+        "p001-archive", "p001-preflight-receipt", "p001-preflight-console",
+        "p001-preflight-headers",
+    }
+    assert config["files"]["p001-archive"]["access"] == "metadata-only"
+    assert config["files"]["p001-archive"]["max_bytes"] == 0
+
+
+def test_unknown_selection_refuses_before_folder_creation(registry_setup, monkeypatch):
+    parent, metadata, _ = registry_setup
+    for value in metadata.values():
+        value["name"] = "unregistered.txt"
+
+    def refuse_allocation(self, count):
+        pytest.fail("Unknown files must not allocate an output folder")
+
+    monkeypatch.setattr(
+        type(registration.GoogleDrive(None)), "allocate_ids", refuse_allocation,
+    )
+    with pytest.raises(ValueError, match="NO_SUPPORTED_EVIDENCE_SELECTED"):
+        registration.register(parent / "consent", parent / "registered")
+    assert not (parent / "registered" / "config.json").exists()
+    assert not (parent / "registered" / "folder-intent.json").exists()
