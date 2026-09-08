@@ -99,20 +99,25 @@
       "job": "colab-persistent-handoff-20260907",
       "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
       "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
-      "next_action": "Same-session CPU and exact preflight dispatch verified after transparent source/authority resolved worker refusal. Three-request client exhausted; no automatic redispatch. Terminal receipt requires separate checked read-only retrieval through generated manual cell or a separately bounded connected worker.",
+      "next_action": "Retrieve the existing terminal preflight evidence through the approved persistent Drive connector after Google consent/registration. No experiment redispatch; no routine manual Colab JSON relay.",
       "history": [
         {
           "status": "OPEN_IMPLEMENTATION",
           "reason": "ONE_SHOT_WORKER_CLOSES_MCP_BEFORE_LATER_RETRIEVAL",
           "next_action": "Prepare a persistent bounded metadata handoff or use the reviewed human notebook route before another browser request. Operator reported Drive mounted; do not claim independent retrieval."
+        },
+        {
+          "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
+          "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
+          "next_action": "Same-session CPU and exact preflight dispatch verified after transparent source/authority resolved worker refusal. Three-request client exhausted; no automatic redispatch. Terminal receipt requires separate checked read-only retrieval through generated manual cell or a separately bounded connected worker."
         }
       ]
     },
     {
       "job": "047b-original-console-20260907",
-      "status": "EVIDENCE_RECOVERED_REVIEW_PENDING",
-      "reason": "ORIGINAL_CORRESPONDENCE_VERIFIED_SUCCESSFUL_CONSOLE_UNRECOVERED",
-      "next_action": "System incoming-notebook-evidence verified saved Phase-B output against original and replacement summaries. Review its limited evidence disposition; original sibling log remains unchecked. Registry attestation, exclusions/audit disposition and scientific landing remain separate gates.",
+      "status": "SAVED_OUTPUT_REVIEWED_DRIVE_SIBLING_PENDING",
+      "reason": "INCOMING_NOTEBOOK_CORRESPONDENCE_AND_LIMITED_REVIEW_COMPLETE",
+      "next_action": "Reuse notebook intake and source review. Collect the genuine original sibling through the approved Drive route; then present remaining registry attestation, exclusion/audit disposition and separate scientific landing decisions. No rerun.",
       "history": [
         {
           "status": "OPEN_EVIDENCE_AND_DECISION",
@@ -122,9 +127,15 @@
         {
           "status": "OPEN_EVIDENCE_AND_DECISION",
           "next_action": "Operator naming clarification is not hash/console attestation. Original source/contract correspondence verified; bounded private search found no genuine successful console. See 047B_CONSOLE_RECOVERY_20260907.md. Cleanup complete; exclusions, registry attestation and scientific landing remain separate."
+        },
+        {
+          "status": "EVIDENCE_RECOVERED_REVIEW_PENDING",
+          "reason": "ORIGINAL_CORRESPONDENCE_VERIFIED_SUCCESSFUL_CONSOLE_UNRECOVERED",
+          "next_action": "System incoming-notebook-evidence verified saved Phase-B output against original and replacement summaries. Review its limited evidence disposition; original sibling log remains unchecked. Registry attestation, exclusions/audit disposition and scientific landing remain separate gates."
         }
       ],
-      "evidence": "../science/047B_NOTEBOOK_INTAKE_20260907.json"
+      "evidence": "../science/047B_NOTEBOOK_INTAKE_20260907.json",
+      "review": "../science/047B_NOTEBOOK_REVIEW_20260907.json"
     },
     {
       "job": "pr5-ledger-transport-diagnostics",
@@ -143,20 +154,33 @@
       "job": "pr5-retrospective-audit",
       "status": "BLOCKED_ADDITIONAL_HISTORICAL_DISPOSITION",
       "reason": "POLICY_TRUST_AND_SCAN_RANGE_MUST_BE_SEPARATE",
-      "next_action": "Review PR5_AUDIT_DISPOSITION_REQUEST_20260907.md: one exact earlier decisions blob is a prefix of the existing approved baseline but outside its present exception. Audit implementation review remains in progress; no exemption added."
+      "next_action": "Operator/desk disposition of exact historical blob in PR5_AUDIT_DISPOSITION_REQUEST_20260907.md remains required. Reviewed scanner covered original range plus added commits; no exemption or passing audit is claimed.",
+      "history": [
+        {
+          "status": "BLOCKED_ADDITIONAL_HISTORICAL_DISPOSITION",
+          "reason": "POLICY_TRUST_AND_SCAN_RANGE_MUST_BE_SEPARATE",
+          "next_action": "Review PR5_AUDIT_DISPOSITION_REQUEST_20260907.md: one exact earlier decisions blob is a prefix of the existing approved baseline but outside its present exception. Audit implementation review remains in progress; no exemption added."
+        }
+      ]
     },
     {
       "job": "hosted-reconciliation-after-pr5",
-      "status": "RESOLVED_READ_ONLY_20260907",
+      "status": "RESOLVED_HOSTED_CAMPAIGN_20260908",
       "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
-      "next_action": "See RESUME_RECONCILIATION_20260907.json. Installed handover remains 9af868d and executor 6b555075; no jobs retried or new allowance granted.",
+      "next_action": "Installed handover 251f899b, immutable executor 6b555075. New harmless completion and actual campaign discussion/review/disposition completed; earlier turns preserved. No live activation.",
       "history": [
         {
           "status": "BLOCKED_LOCAL_SSH_UNLOCK",
           "reason": "SSH_AGENT_HAS_NO_IDENTITIES",
           "next_action": "Operator re-unlocks existing laptop SSH identity; then inspect deployed bindings and jobs read-only before any retry. No server or model failure inferred."
+        },
+        {
+          "status": "RESOLVED_READ_ONLY_20260907",
+          "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
+          "next_action": "See RESUME_RECONCILIATION_20260907.json. Installed handover remains 9af868d and executor 6b555075; no jobs retried or new allowance granted."
         }
-      ]
+      ],
+      "evidence": "../science/hosted-p001-discussion-20260908/execution.json"
     },
     {
       "job": "047-first-cleanup-20260907",
@@ -169,10 +193,17 @@
       "job": "persistent-drive-evidence",
       "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
       "status": "APPROVED_WAITING_GOOGLE_SETUP",
-      "next_action": "Select existing operator-owned project, then guided API/Desktop client setup; grant is already approved. No repeat permission request.",
+      "next_action": "Operator created the project and enabled Drive/Picker APIs and drive.file scope. Production transition is blocked by Google Branding missing information; await exact field names. Grant already approved; libraries/source installed, no credentials or service yet.",
       "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json",
       "implementation_pin": "6ea7566b7247286fac54c450ad8f388b129d130b",
-      "approval": "DRIVE_ACCESS_APPROVED_20260908.json"
+      "approval": "DRIVE_ACCESS_APPROVED_20260908.json",
+      "history": [
+        {
+          "status": "APPROVED_WAITING_GOOGLE_SETUP",
+          "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
+          "next_action": "Select existing operator-owned project, then guided API/Desktop client setup; grant is already approved. No repeat permission request."
+        }
+      ]
     }
   ],
   "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state."
