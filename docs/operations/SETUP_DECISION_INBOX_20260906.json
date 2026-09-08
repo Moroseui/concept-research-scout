@@ -171,7 +171,7 @@
       "status": "WAITING_OPERATOR_ACCESS_GRANT",
       "next_action": "Approve the reviewed four-part Drive consent packet; then select the Google Cloud project. No live credential, registered file ID or service activation exists yet. First operation is 047 original sibling-console collection.",
       "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json",
-      "implementation_pin": "9468a7e79d84ab2592a99da7ad2b53ba919af4a6"
+      "implementation_pin": "6ea7566b7247286fac54c450ad8f388b129d130b"
     }
   ],
   "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state."

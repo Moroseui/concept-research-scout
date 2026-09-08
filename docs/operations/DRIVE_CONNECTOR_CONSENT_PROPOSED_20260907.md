@@ -118,8 +118,9 @@ was terminated after edits; subsequent targeted tests passed.
 ## Concrete consent candidate
 
 Core adapter review pin: `9468a7e79d84ab2592a99da7ad2b53ba919af4a6`.
-The registration-only extension for optional existing P001 records receives its
-own final binding before consent; this document is not an activated grant. Fresh
+Final executable/source grant pin: `6ea7566b7247286fac54c450ad8f388b129d130b`.
+The registration-only extension was approved in DRIVE_REGISTRATION_REVIEW_20260908.json;
+this document is not an activated grant. Fresh
 author-operated Claude reviews approved the base, recovery/staging changes and
 final small delta; see DRIVE_CONNECTOR_REVIEW_FINAL_20260908.json. Final tests:
 11 adapter tests, plus two actual Google-library tests using fake providers.
@@ -138,3 +139,10 @@ generic broker error, and staging-only IDs beginning with `upload-` are rejected
 when submitted to the broker. Use the supported run IDs. The existing positive
 status-after-spool-cleanup test passed; it was absent from the last review diff
 only because it had not changed. These are not untested claims of live recovery.
+
+Before registration, verify the existing controller/driver accounts and root-owned
+private setup directory. Inspect registered aliases against the intended selections
+before installation. If any setup attempt leaves a folder intent, reconcile that
+original intent before using a fresh destination; do not create a replacement blindly.
+The script permits fewer than all five files; an absent archive/preflight alias stays
+unavailable. It does not establish that a missing preflight attempt never ran.

@@ -49,5 +49,17 @@
     "multiprocess_run": "stalled after edits; verified formatter group terminated, no research process affected",
     "before_after_ast_equal": true,
     "post_format_tests": "10 adapter tests and 2 actual-library/fake-provider tests passed"
+  },
+  "registration_tests": {
+    "passed": 2,
+    "live_provider": false,
+    "coverage": [
+      "actual selected-ID aliases with no download method",
+      "archive identity mismatch retains original metadata"
+    ]
+  },
+  "publication_gate_tests": {
+    "passed": 9,
+    "coverage": "Exact-path pinned dependency schema plus existing credential/case content checks"
   }
 }
