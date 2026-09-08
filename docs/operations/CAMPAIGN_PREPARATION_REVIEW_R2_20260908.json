@@ -1,0 +1,46 @@
+{
+  "kind": "Author-operated source review, not hosted execution or independent merge desk",
+  "execution": {
+    "reviewed_commit": "eff48913771572da1d6e74618f0111f661c86199",
+    "returncode": 0,
+    "wall_seconds": 241.5152969250048,
+    "input_file_sha256": {
+      "deploy/research-system/prepare_campaign_acceptance.py": "2bae721ac7fe8f90c0c91c534fc718f29d77286fc7c45cfa618459edc7810c64",
+      "tests/test_campaign_acceptance_plan.py": "b22de70f9a810e0e42733ea09beae9bdc47fa131f716ca9c49cf45d774f440d6",
+      "docs/operations/CAMPAIGN_PREPARATION_REVIEW_R1_20260908.json": "3247d41249dc0f15d40e6b370bd17a3cbffc89fa9b41e64b54441faf8a249124",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "378c7bf4b80be588c327253b36ad801b0bab1fd35507f7b1cb460e0cf61a7645",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "5dc16f5775d521771810f8b9ee576b89618abe6aa5c0d7025f574f4774809f47"
+  },
+  "session_id": "46b2c370-d91d-4dea-bcc8-57d3c6b33b7d",
+  "review": {
+    "scope": "Follow-up of rejected 521c909 campaign preparation only: verify expected active broker guard, restoration of exact configuration bytes after failure, refusal to overwrite concurrent edits, persistent diagnostics and recorded prior state. Ten focused tests passed. No host setup or new model turn dispatched. Distinguish blockers from suggestions. SIGKILL/host-loss remains held for intent reconciliation, never automatic retry.",
+    "reviewed_commit": "eff48913771572da1d6e74618f0111f661c86199",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (R1 blocker 1 resolved): prior ActiveState of research-system-handover.socket/.service is captured before any stop, require_active_broker refuses unless every unit is exactly 'active' (empty state also refused; inactive/failed/activating/deactivating covered by 4 parametrized tests), and the observed state is persisted to evidence/prior-units.json before the stop and echoed in the receipt's prior_units. Success and recovery paths only start units just verified active, so preparation can never activate a previously stopped broker; controller service/timer and completion-fixture timer are separately required inactive/failed and never started.",
+      "VERIFIED (R1 blocker 2 resolved): configuration_transaction restores the config pair on any BaseException from mutate and re-raises; restore_configuration checks every file is byte-exact original-or-our-replacement before touching any, raising CONCURRENT_CONFIGURATION_RECOVERY_HELD on a third-party edit (test proves the operator edit is left in place and the untouched file is still restored-eligible), then restores via exclusive '.campaign-restore' temp + atomic os.replace preserving owner/mode. The outer failure handler re-restores idempotently, removes the drop-in only when byte-identical (else CONCURRENT_DROPIN_RECOVERY_HELD), daemon-reloads, restarts the verified-active units, and records ORIGINAL_CONFIGURATION_AND_ACTIVE_BROKER_RESTORED vs RECOVERY_HELD_INSPECT_PRIVATE_INTENT_NO_RETRY in failure.json. SIGKILL/host loss correctly remains held: preserved original bytes, intent.json and prior-units.json plus the evidence/newturns/drop preexistence refusal (EXISTING_PREPARATION_RECONCILE_NO_RETRY) prevent any automatic retry.",
+      "VERIFIED (R1 suggestions adopted): campaign-diagnostics.conf now lives under persistent /etc/systemd/system/research-system-handover-controller.service.d, is part of the preexistence refusal, and is recorded in the receipt (diagnostic_dropin); os.umask(0o077) is set inside prepare() so evidence/intent/receipt modes no longer depend on the caller; the admission pin is asserted via ADMISSION_CHANGED_DURING_SETUP and ADMISSION_CHANGED_DURING_RESTART before the receipt is written, so admission_pin_unchanged can no longer record False in a success receipt. planned() remains pure and fail-closed (input-mutation-free per deepcopy test; refuses live mode, writer credentials, changed 3-turn allowance, existing preparation/schedule/publication, malformed/unlisted source); all creation stays exclusive (mkdir without exist_ok, open('x')/'xb'); coordinator and jobs databases open read-only. The supplied test file enumerates to exactly ten tests (1+3+1+1+4 with parametrization), matching the stated count; source-only review, not re-executed here.",
+      "SUGGESTION: the recovery path calls 'systemctl start', which is a no-op on active units. In the ADMISSION_CHANGED_DURING_RESTART window (or any failure after the final successful start), the units are already running the new campaign configuration, so failure.json's ORIGINAL_CONFIGURATION_AND_ACTIVE_BROKER_RESTORED is verified for disk bytes but only inferred for the running process, which may keep the campaign config in memory until next restart (Broker's config-read timing is not in the supplied source). Consequence is bounded \u2014 the in-memory authority is strictly narrower (1 turn, discuss-only, 3 model calls, no writer credentials, controller/timers inactive) \u2014 hence not a blocker. Smallest fix: use 'systemctl restart' (or stop+start) in the recovery path; safe because prior state was verified active.",
+      "SUGGESTION: if restore_configuration raises inside configuration_transaction, its exception replaces the original mutate failure (the trailing 'raise' never runs), so failure.json's failure_type records the recovery hold rather than the root cause, which survives only as chained __context__ on the console. Record str(failure) and the context chain in failure.json. Relatedly, a failure between the exclusive temp write and os.replace strands a '.campaign-new'/'.campaign-restore' temp that is not recorded anywhere and will fail-closed future 'xb' opens \u2014 harmless but undocumented for reconciliation.",
+      "SUGGESTION (minor): guard refusals occurring after evidence.mkdir but before the try block (require_active_broker, the pre-stop CONCURRENT_CONFIGURATION_CHANGE re-check) leave an evidence directory with no failure.json; by design this blocks blind re-runs, but writing failure.json for those refusals too would aid operator reconciliation. dropdir.mkdir(mode=0o755) is masked by the 0o077 umask to 0o700 (harmless: only root reads it, and the drop file itself is chmod 0o644 explicitly). ActiveState-only systemctl checks still cannot distinguish a not-found unit for the must-be-inactive controller units (hard-coded names, low risk; the broker guard is unaffected since it demands 'active').",
+      "CARRIED FROM R1, OUT OF THIS FOLLOW-UP'S FILE SET: hosted_context.envelope() verified_source binding and documenting the import-before-checked_source limitation (sys.path insertion executes unverified tree code at import time) remain open suggestions; neither file was resupplied at this commit, so neither is re-assessed nor blocking here."
+    ]
+  },
+  "disposition": {
+    "blocking_findings": 0,
+    "recovery_limit": "After a post-start failure, restored disk configuration does not prove running broker reload; inspect and explicitly reconcile process state before any dispatch. No failure path is an automatic retry.",
+    "diagnostics": "Original subprocess stderr/chained exceptions stay private. Partial temporary files and missing terminal receipts require reconciliation.",
+    "source_binding": "Hosted caller verifies installed source before envelope construction; broader standalone envelope hardening remains a suggestion, not a new approval gate."
+  }
+}
