@@ -167,11 +167,12 @@
     },
     {
       "job": "persistent-drive-evidence",
-      "reason": "SEPARATE_GOOGLE_CREDENTIAL_AND_FILE_GRANT_REQUIRED",
-      "status": "WAITING_OPERATOR_ACCESS_GRANT",
-      "next_action": "Approve the reviewed four-part Drive consent packet; then select the Google Cloud project. No live credential, registered file ID or service activation exists yet. First operation is 047 original sibling-console collection.",
+      "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
+      "status": "APPROVED_WAITING_GOOGLE_SETUP",
+      "next_action": "Select existing operator-owned project, then guided API/Desktop client setup; grant is already approved. No repeat permission request.",
       "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json",
-      "implementation_pin": "6ea7566b7247286fac54c450ad8f388b129d130b"
+      "implementation_pin": "6ea7566b7247286fac54c450ad8f388b129d130b",
+      "approval": "DRIVE_ACCESS_APPROVED_20260908.json"
     }
   ],
   "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state."

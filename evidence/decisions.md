@@ -2439,3 +2439,18 @@ its stage receipt. Original saved outputs were preserved privately and the embed
 summary matches both original and cleanup result bundles. No exit status is
 inferred, and no experiment, scientific import or interpretation is recorded here.
 Existing registry, exclusions/publication and scientific landing gates remain.
+
+## 2026-09-08 — operator approves bounded persistent Drive evidence access
+
+Operator approval, recorded by Astra, binds capability `registered-drive-evidence-v1`
+to source `6ea7566b7247286fac54c450ad8f388b129d130b`, only Google `drive.file`,
+and the consent packet at `6181a7eae50d14891091d090e0b1e4e6656ae1be`.
+The operator authorizes its production Desktop OAuth setup, selected-file registration,
+protected non-root service, private bounded output storage and live verification.
+Originals remain read-only in the adapter; archive content download, movement and
+duplication are prohibited. The optional small case-linked preflight audit/header
+records stay private. First content retrieval is the existing 047 sibling console.
+Reconcile prior intents before retries. This grants no patient launch, bulk transfer,
+publication, spending or unattended activation. Actual consent/client/file identities
+and live acceptance remain separate evidence, not established by this approval.
+See docs/operations/DRIVE_ACCESS_APPROVED_20260908.json.

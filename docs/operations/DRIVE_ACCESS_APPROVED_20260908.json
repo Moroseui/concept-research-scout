@@ -1,0 +1,27 @@
+{
+  "kind": "operator-approval",
+  "recorder": "Astra (OpenAI agent)",
+  "authority": "Operator message in this conversation",
+  "capability": "registered-drive-evidence-v1",
+  "source": "6ea7566b7247286fac54c450ad8f388b129d130b",
+  "scope": "https://www.googleapis.com/auth/drive.file",
+  "status": "OPERATOR_APPROVED",
+  "approved_packet_commit": "6181a7eae50d14891091d090e0b1e4e6656ae1be",
+  "approved_packet_path": "docs/operations/DRIVE_CONNECTOR_CONSENT_PROPOSED_20260907.md",
+  "authorized": [
+    "Production desktop OAuth with offline refresh; Drive and Picker APIs; no billing activation",
+    "Selected original 047 console; metadata-only existing archive; optional existing bounded P001 preflight audit/header files",
+    "Dedicated non-root service with protected source/configuration/credentials and limited controller spool access",
+    "One private research-system folder and bounded app-created uploads with console and receipt together",
+    "Live evidence collection, synthetic storage, token-refresh and restart verification after consent and registration"
+  ],
+  "reserved": [
+    "Bulk patient transfer",
+    "Patient launch",
+    "Publication through this capability",
+    "New spending",
+    "Unattended activation"
+  ],
+  "actual_client_and_file_ids": "Pending operator setup; to be stored privately",
+  "live_demonstration": "Not performed"
+}
