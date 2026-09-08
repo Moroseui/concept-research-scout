@@ -229,3 +229,24 @@ def test_controller_staging_preserves_originals_and_sets_private_group_modes(set
         b.handle(request("store", "run-artifacts", "run-00001"), 42)["status"]
         == "PRIVATE_RUN_STORED"
     )
+
+
+def test_bookkeeping_namespace_and_reserved_alias(setup):
+    b, c, root, _ = setup
+    for operation, alias in [
+        ("collect", "047-console"),
+        ("store", "run-artifacts"),
+        ("status", "run-artifacts"),
+    ]:
+        with pytest.raises(ValueError, match="NAMESPACE"):
+            b.handle(request(operation, alias, "upload-run-0001"), 42)
+    bad = dict(b.config, files={"run-artifacts": b.config["files"]["047-console"]})
+    with pytest.raises(ValueError, match="RESERVED_DRIVE_ALIAS"):
+        DriveEvidence(bad, c)
+    folder = root / "upload-run-0001"
+    folder.mkdir()
+    (folder / "receipt.json").write_text(
+        json.dumps({"stage": "drive-evidence", "request_id": "run-0001"})
+    )
+    with pytest.raises(ValueError, match="RECEIPT_KIND"):
+        b.handle(request("status", "run-artifacts", "run-0001"), 42)

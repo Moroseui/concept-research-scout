@@ -4,7 +4,7 @@
   "credentials_created": false,
   "service_installed": false,
   "adapter_tests": {
-    "passed": 10,
+    "passed": 11,
     "fixture_provider": true,
     "coverage": [
       "registered IDs",
@@ -17,7 +17,8 @@
       "uncertain uploads",
       "credential upload refusal",
       "upload status after spool cleanup",
-      "controller staging permissions and unchanged originals"
+      "controller staging permissions and unchanged originals",
+      "separate request namespaces, reserved aliases and receipt-kind verification"
     ]
   },
   "google_library_tests": {

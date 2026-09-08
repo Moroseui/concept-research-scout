@@ -173,6 +173,8 @@ class DriveEvidence:
             or config.get("mode") != "REGISTERED_EVIDENCE_ONLY"
         ):
             raise ValueError("DRIVE_CAPABILITY_CONFIGURATION_REQUIRED")
+        if "run-artifacts" in config.get("files", {}):
+            raise ValueError("RESERVED_DRIVE_ALIAS")
         self.config, self.client = config, client
         self.root = Path(config["private_root"])
         if (
@@ -196,6 +198,8 @@ class DriveEvidence:
         if request["operation"] not in ("metadata", "collect", "status", "store"):
             raise ValueError("DRIVE_REQUEST_SCHEMA")
         alias, request_id = request["alias"], request["request_id"]
+        if isinstance(request_id, str) and request_id.startswith("upload-"):
+            raise ValueError("RESERVED_DRIVE_REQUEST_NAMESPACE")
         if not isinstance(request_id, str) or not re.fullmatch(
             "[a-z0-9][a-z0-9-]{7,79}", request_id
         ):
@@ -332,7 +336,13 @@ class DriveEvidence:
         if receipt.is_symlink():
             raise ValueError("DRIVE_EVIDENCE_SYMLINK")
         if receipt.is_file():
-            return json.loads(receipt.read_text())
+            result = json.loads(receipt.read_text())
+            if (
+                result.get("stage") != "drive-evidence-storage"
+                or "upload-" + result.get("request_id", "") != folder.name
+            ):
+                raise ValueError("UPLOAD_RECEIPT_KIND_OR_ID_MISMATCH")
+            return result
         return {
             "status": "UPLOAD_OUTCOME_UNCERTAIN",
             "next_action": "Inspect persisted remote IDs and failure evidence; no new upload is authorized by missing bookkeeping.",
@@ -449,6 +459,12 @@ def stage_run_bundle(source, spool_root, request_id):
             output.write(data)
             output.flush()
             os.fsync(output.fileno())
+    for directory in (destination, spool_root):
+        fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
     observed, _ = read_run_bundle(destination)
     if observed != files:
         raise ValueError("SPOOL_READBACK_MISMATCH")

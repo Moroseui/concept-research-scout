@@ -7,13 +7,11 @@ All selected identities and original receipts remain private.
 """
 
 import argparse
-import grp
 import hashlib
 import json
 import os
 from pathlib import Path
 import pwd
-import shutil
 import subprocess
 
 
@@ -25,6 +23,8 @@ def install(source_root, source, registration, consent, decision):
     from orchestrator.drive_evidence import private_write, SCOPE
 
     root = checked_source(source_root, source)
+    controller = pwd.getpwnam("research-controller")
+    pwd.getpwnam("research-driver")
     grant = json.loads(protected_read(decision))
     if (
         grant.get("status") != "OPERATOR_APPROVED"
@@ -89,7 +89,7 @@ def install(source_root, source, registration, consent, decision):
     paths[1].mkdir(mode=0o700)
     os.chown(paths[1], identity.pw_uid, identity.pw_gid)
     paths[2].mkdir(mode=0o2750)
-    os.chown(paths[2], pwd.getpwnam("research-controller").pw_uid, identity.pw_gid)
+    os.chown(paths[2], controller.pw_uid, identity.pw_gid)
     paths[2].chmod(0o2750)
     subprocess.run(
         ["usermod", "--append", "--groups", "research-drive", "research-controller"],
