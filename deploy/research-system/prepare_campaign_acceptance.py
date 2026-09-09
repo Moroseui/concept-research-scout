@@ -25,21 +25,34 @@ REQUEST = ('Through the ratified prediction charter and unchanged externally see
            'Keep the discussion concise and distinguish evidence gaps from operator decisions.')
 
 
-def planned(broker,runtime,source):
+def planned(broker,runtime,source,task=None):
+    bounded = task is not None
+    if bounded:
+        from orchestrator.hosted_campaign_task import task_contract
+        task_contract(task)
+        if runtime.get('campaign_preparation') == task:
+            raise ValueError('EXISTING_PREPARATION_RECONCILE_NO_RETRY')
     if (not re.fullmatch('[0-9a-f]{40}',source) or runtime['source']!=source
             or source not in broker['sources'] or broker['mode']!='SYNTHETIC_FIXTURE'
             or broker['model_mode']!='SUPERVISED' or broker['writer_config'] is not None
-            or broker['max_model_turns']!=3 or runtime.get('campaign_preparation') is not None
+            or (broker['max_model_turns'] != 1 if bounded else broker['max_model_turns'] != 3)
+            or (not isinstance(runtime.get('campaign_preparation'),dict) if bounded else runtime.get('campaign_preparation') is not None)
             or runtime.get('report_schedule') is not None or runtime.get('publication') is not None
             or runtime['purpose']!='SUPERVISED_COMPLETION_ACCEPTANCE'):
         raise ValueError('IDLE_CONSUMED_SYNTHETIC_CONFIGURATION_REQUIRED')
     execution=runtime.get('synthetic_execution')
     if not isinstance(execution,dict) or execution.get('authority')!='OPERATOR_SUPERVISED_SYNTHETIC_ONLY':
         raise ValueError('EXISTING_SYNTHETIC_EXECUTOR_REQUIRED')
-    job='60-campaign-'+source[:12]
-    newroot=Path(broker['turn_root']).parent/('campaign-turns-'+source)
+    if bounded:
+        task_contract(runtime['campaign_preparation'])
+        identity=hashlib.sha256(json.dumps({'source':source,'mode':task['mode'],'request':task['request']},sort_keys=True).encode()).hexdigest()
+        job='61-assessment-'+identity[:32]
+        if task['trigger_job'] != job:raise ValueError('BOUND_TASK_IDENTITY_REQUIRED')
+    else:
+        identity=source;job='60-campaign-'+source[:12]
+    newroot=Path(broker['turn_root']).parent/('campaign-turns-'+identity)
     return ({**broker,'turn_root':str(newroot),'max_model_turns':1},
-            {**runtime,'campaign_preparation':{'mode':'discuss','request':REQUEST,'trigger_job':job},
+            {**runtime,'campaign_preparation':(dict(task) if bounded else {'mode':'discuss','request':REQUEST,'trigger_job':job}),
              'synthetic_execution':{**execution,'pairs':{job:None}}})
 
 
@@ -76,7 +89,7 @@ def configuration_transaction(config, originals, replacements, mutate):
         raise
 
 
-def prepare(source):
+def prepare(source, task=None):
     if os.getuid()!=0:raise ValueError('SETUP_ADMIN_REQUIRED')
     os.umask(0o077)
     root=Path('/opt/research-system/handover').resolve();sys.path.insert(0,str(root))
@@ -86,12 +99,16 @@ def prepare(source):
     config=Path('/etc/research-system')
     originals={name:(config/name).read_bytes() for name in ('handover-broker.json','handover-controller.json')}
     broker,runtime=(json.loads(originals[name]) for name in ('handover-broker.json','handover-controller.json'))
-    newbroker,newruntime=planned(broker,runtime,source)
-    evidence=Path('/var/lib/research-system')/('campaign-preparation-'+source)
+    newbroker,newruntime=planned(broker,runtime,source,task)
+    evidence=Path('/var/lib/research-system')/('campaign-preparation-'+(newruntime['campaign_preparation']['trigger_job'] if task else source))
     newturns=Path(newbroker['turn_root'])
     dropdir=Path('/etc/systemd/system/research-system-handover-controller.service.d')
     drop=dropdir/'campaign-diagnostics.conf'
-    if any(p.exists() or p.is_symlink() for p in (evidence,newturns,drop)):
+    expected_drop='[Service]\nEnvironment=RESEARCH_GIT_DIAGNOSTICS='+runtime['state']+'/git-diagnostics\n'
+    existing_drop=drop.exists()
+    if drop.is_symlink() or (existing_drop and (task is None or drop.read_text()!=expected_drop)):
+        raise ValueError('EXISTING_DIAGNOSTIC_DROPIN_RECONCILE')
+    if any(p.exists() or p.is_symlink() for p in (evidence,newturns)):
         raise ValueError('EXISTING_PREPARATION_RECONCILE_NO_RETRY')
     for unit in ('research-system-handover-controller.service','research-system-handover-controller.timer','research-system-completion-fixture.timer'):
         state=subprocess.check_output(['systemctl','show',unit,'--property=ActiveState','--value'],text=True).strip()
@@ -101,7 +118,7 @@ def prepare(source):
     with (Path(broker['turn_root'])/'branch.lock').open('a') as gate:
         fcntl.flock(gate,fcntl.LOCK_EX|fcntl.LOCK_NB)
         turns=list(Path(broker['turn_root']).glob('*/binding.json'))
-        if len(turns)!=3:raise ValueError('OLD_FIXTURE_NOT_FULLY_CONSUMED')
+        if len(turns)!=broker['max_model_turns']:raise ValueError('OLD_FIXTURE_NOT_FULLY_CONSUMED')
         for path in turns:
             event=json.loads(path.read_text())['event']
             for stage in ('continuation','review','disposition'):
@@ -140,8 +157,11 @@ def prepare(source):
                 with temporary.open('xb') as stream:stream.write(replacements[name])
                 os.chown(temporary,info.st_uid,info.st_gid);os.chmod(temporary,info.st_mode&0o777);os.replace(temporary,target)
             dropdir.mkdir(mode=0o755,exist_ok=True)
-            with drop.open('x') as stream:stream.write('[Service]\nEnvironment=RESEARCH_GIT_DIAGNOSTICS='+runtime['state']+'/git-diagnostics\n')
-            drop.chmod(0o644)
+            if not existing_drop:
+                with drop.open('x') as stream:stream.write(expected_drop)
+                drop.chmod(0o644)
+            elif drop.is_symlink() or drop.read_text()!=expected_drop:
+                raise ValueError('CONCURRENT_DROPIN_RECOVERY_HELD')
             subprocess.run(['systemctl','daemon-reload'],check=True)
             if old.ledger.read()[0]!=before:raise ValueError('ADMISSION_CHANGED_DURING_SETUP')
         try:
@@ -154,7 +174,7 @@ def prepare(source):
             # Preserve intent/new turn root. Restore only byte-owned configuration.
             try:
                 restore_configuration(config,originals,replacements)
-                if drop.exists():
+                if not existing_drop and drop.exists():
                     expected='[Service]\nEnvironment=RESEARCH_GIT_DIAGNOSTICS='+runtime['state']+'/git-diagnostics\n'
                     if drop.read_text()!=expected:raise ValueError('CONCURRENT_DROPIN_RECOVERY_HELD')
                     drop.unlink()
@@ -166,13 +186,19 @@ def prepare(source):
             (evidence/'failure.json').write_text(json.dumps({'failure_type':type(failure).__name__,'recovery':recovery}))
             raise
         result={'status':'PREPARED_NOT_DISPATCHED','source':source,'job':newruntime['campaign_preparation']['trigger_job'],
-                'old_completed_turns_preserved':3,'new_fixture_turn_limit':1,'maximum_new_model_calls':3,
+                'old_completed_turns_preserved':len(turns),'new_fixture_turn_limit':1,'maximum_new_model_calls':3,
                 'admission_pin_unchanged':after==before,'prior_units':prior,'diagnostic_dropin':str(drop),'models_started':0,'jobs_submitted':0,
                 'timer_started':False,'live_activation':False,'writer_credentials':False,
-                'request_sha256':hashlib.sha256(REQUEST.encode()).hexdigest()}
+                'request_sha256':hashlib.sha256(newruntime['campaign_preparation']['request'].encode()).hexdigest()}
         (evidence/'receipt.json').write_text(json.dumps(result,indent=2));return result
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',required=True)
-    os.umask(0o077);print(json.dumps(prepare(p.parse_args().source)))
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--source',required=True);p.add_argument('--task-file',type=Path)
+    a=p.parse_args();os.umask(0o077)
+    task=None
+    if a.task_file:
+        if a.task_file.is_symlink() or a.task_file.stat().st_mode & 0o077 or a.task_file.stat().st_size>16000:
+            raise ValueError('PRIVATE_BOUNDED_TASK_REQUIRED')
+        task=json.loads(a.task_file.read_text())
+    print(json.dumps(prepare(a.source,task)))

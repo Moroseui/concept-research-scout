@@ -68,3 +68,31 @@ def test_preparation_never_activates_previously_stopped_broker(state):
     with pytest.raises(ValueError,match='EXPECTED_ACTIVE_IDLE_BROKER_REQUIRED'):
         module.require_active_broker({'socket':'active','service':state})
     module.require_active_broker({'socket':'active','service':'active'})
+
+
+def bounded_task(source,request='Assess the collected preflight without launch authority.'):
+    import hashlib,json
+    identity=hashlib.sha256(json.dumps({'source':source,'mode':'readiness','request':request},sort_keys=True).encode()).hexdigest()
+    return {'mode':'readiness','request':request,'trigger_job':'61-assessment-'+identity[:32]}
+
+
+def test_next_consumed_turn_is_request_bound_and_preserves_prior_configuration():
+    b,r,source=configurations();b,r=module.planned(b,r,source)
+    before=copy.deepcopy((b,r));task=bounded_task(source)
+    nb,nr=module.planned(b,r,source,task)
+    assert (b,r)==before and nb['max_model_turns']==1
+    assert nb['turn_root']!=b['turn_root'] and nr['campaign_preparation']==task
+    assert nb['ledger_repo']==b['ledger_repo'] and nb['policy']==b['policy']
+    assert nr['synthetic_execution']['pairs']=={task['trigger_job']:None}
+    with pytest.raises(ValueError,match='EXISTING_PREPARATION'):
+        module.planned(nb,nr,source,task)
+
+
+def test_new_task_cannot_reuse_identity_or_change_allowance():
+    b,r,source=configurations();b,r=module.planned(b,r,source);task=bounded_task(source)
+    task['request']='Changed request with old identity'
+    with pytest.raises(ValueError,match='BOUND_TASK_IDENTITY'):
+        module.planned(b,r,source,task)
+    b['max_model_turns']=4
+    with pytest.raises(ValueError,match='CONFIGURATION_REQUIRED'):
+        module.planned(b,r,source,bounded_task(source))
