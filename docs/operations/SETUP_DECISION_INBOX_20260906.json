@@ -23,9 +23,9 @@
     },
     {
       "job": "protected-publication-admission",
-      "reason": "OPERATOR_WRITER_RESET_DESIGN_REQUIRED",
-      "status": "OPEN",
-      "next_action": "Review the completed PROTECTED_WRITER_ADMISSION_DECISION.md packet and approve or amend the concrete writer/reset/server-admission design. No credential grant, initialization or activation has occurred."
+      "reason": "OPERATOR_APPROVED_DESIGN_20260908",
+      "status": "APPROVED_SETUP_PENDING_WRITER_IDENTITY",
+      "next_action": "Reuse PROTECTED_HANDOVER_APPROVED_20260908.json; obtain exact writer App identity/key through prepared operator window, then reviewed installation and shared admission checks. No repeat design approval; no unattended activation."
     },
     {
       "job": "provider-recovery",
@@ -42,9 +42,9 @@
     },
     {
       "job": "report-schedule",
-      "reason": "REPORT_SCHEDULE_NOT_SELECTED",
-      "status": "OPEN",
-      "next_action": "Select nightly time; proposed 21:00 America/New_York. No timer for model reviews enabled."
+      "reason": "OPERATOR_SELECTED_2100_NEW_YORK",
+      "status": "SELECTED_NOT_ACTIVATED",
+      "next_action": "Use approved 21:00 America/New_York when final report configuration is installed. Activation remains separate."
     },
     {
       "job": "review-recovery-closeout",
@@ -78,9 +78,10 @@
     },
     {
       "job": "github-writer-enforcement",
-      "status": "OPEN_PERMISSION_DESIGN",
-      "reason": "MAIN_UNPROTECTED_AND_MODEL_SECRETS_REPOSITORY_SCOPED",
-      "next_action": "Include exact repository protection and credential/environment limitations in the final grouped writer/admission packet. Authenticated read-only API found only results protection ruleset 20885616, main protection 404, and no environments. No protection or credential change was performed."
+      "status": "MAIN_PROTECTION_VERIFIED_ENVIRONMENT_ROLLOUT_PENDING",
+      "reason": "APPROVED_RESTRICTION_ROLLOUT",
+      "next_action": "Main PR/basic protection installed and read back, existing rulesets unchanged. Secret relocation requires reviewed main workflow integration, bounded canary, then repository-copy removal.",
+      "evidence": "MAIN_PROTECTION_INSTALLED_20260908.json"
     },
     {
       "job": "p001-prospective-adoption-20260907",
@@ -115,9 +116,9 @@
     },
     {
       "job": "047b-original-console-20260907",
-      "status": "SAVED_OUTPUT_REVIEWED_DRIVE_SIBLING_PENDING",
-      "reason": "INCOMING_NOTEBOOK_CORRESPONDENCE_AND_LIMITED_REVIEW_COMPLETE",
-      "next_action": "Reuse notebook intake and source review. Collect the genuine original sibling through the approved Drive route; then present remaining registry attestation, exclusion/audit disposition and separate scientific landing decisions. No rerun.",
+      "status": "ORIGINAL_CONSOLE_RECOVERED_ACCEPTANCE_DECISIONS_PENDING",
+      "reason": "DRIVE_SIBLING_MATCHES_REVIEWED_NOTEBOOK",
+      "next_action": "Reuse original sibling intake and completed cleanup. Historical registry attestation, exact exclusion/audit metadata treatment and scientific landing remain reserved.",
       "history": [
         {
           "status": "OPEN_EVIDENCE_AND_DECISION",
@@ -134,7 +135,7 @@
           "next_action": "System incoming-notebook-evidence verified saved Phase-B output against original and replacement summaries. Review its limited evidence disposition; original sibling log remains unchecked. Registry attestation, exclusions/audit disposition and scientific landing remain separate gates."
         }
       ],
-      "evidence": "../science/047B_NOTEBOOK_INTAKE_20260907.json",
+      "evidence": "../science/047B_DRIVE_SIBLING_INTAKE_20260908.json",
       "review": "../science/047B_NOTEBOOK_REVIEW_20260907.json"
     },
     {

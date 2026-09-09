@@ -1,0 +1,54 @@
+{
+  "status": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+  "mode": "readiness",
+  "experiment": "P001",
+  "input_sha256": {
+    "campaigns/isles24-pilot/CAMPAIGN.md": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/build_receipt.json": "fc35059a7254ca3e449a9445d654e92bdc789a81ae71d16d19d769b650bfde44",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "campaigns/isles24-pilot/experiments/P001/publication.json": "58d2dc48593637cc8618beaf3900545369bee07bc5baae535d0f5f6aed891f33",
+    "campaigns/isles24-pilot/experiments/P001/review.json": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "docs/isles-pilot/047_LIFECYCLE.md": "171574d42d0f025c0b39bc4eeaa6f126524251e94f9336241dadf8c0e746769e",
+    "docs/isles-pilot/CURRENT_STATUS.md": "46f4aa106e08cdac51459731cd3137eb0d4882b55739cb2dcb2310085038a82f",
+    "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda",
+    "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+    "docs/science/PREDICTION_PRIMARY_SOURCES_20260906.json": "da3e60fef3268c04edf7e02a3c50fdba5b4fba239fbb0be792c4d74cdeac50d4",
+    "docs/science/PREDICTION_READINESS_DIRECTION_20260906.md": "6cf9072fd9dcb6b0a9dc9e0a216796324234cfc6bbb4b04811a75f8701a03923",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/receipt.json": "bc62ada3fa440a442dd2606ec9f2531ded3a088da20c2d6664b9c0bb0ac39767",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/review.json": "f03fe43f216bf80c34ea0d38203371def299d4fe2de7d5398c72d2d15dab0bed",
+    "context-disposition.json": "fdb4086d8cc58844e1f041d682c42e2fc053b44ccffd40175693de284c85ce13",
+    "campaigns/isles24-pilot/prediction_selection.json": "56fa21d431ad60f5c6241d059e144bf7de0c2956eda85cf871c6955498c5c643",
+    "related-evidence.json": "5e8b77475a2748b545c1b16263136c1fc94ebc37b0d87991ec2c8d82b1af99e9"
+  },
+  "round": 1,
+  "artifact_sha256": {
+    "round-1/campaign_readiness.hosted-provenance.json": "630e65a9953af8e8b0e3888ed0e46ee7cb5b3e729492d991c9c6f74fa97cf1aa",
+    "round-1/readiness.md": "ab687285048ef857008351b8a0872a0893a1cbc269eb14e632597878c31ce9eb",
+    "round-1/campaign_readiness_review.hosted-provenance.json": "712adc5be7242c34412cae2e66e14a07ae9ac12af26398f9b1282451169ab0cc",
+    "round-1/launch_decision.proposed.json": "006ab9a17418721590de1577c8a946a9f4fb172d2633a5df93bc24a2018ed42e",
+    "round-1/review.json": "0fa666d73b3703e1e6b7231ee9a3b45f3199714a91aa2dadba4ceb826d6cd93e"
+  },
+  "author_family": "codex",
+  "reviewer_family": "claude",
+  "ci": false,
+  "initiator": {
+    "kind": "agent",
+    "family": "codex",
+    "model": "gpt-6-astra",
+    "route": "protected-hosted-campaign-v1",
+    "event": {
+      "turn_id": "3072584ae8713bc0608e2975f17ee30a90790587ba032d119c047017ef277241",
+      "attempt": "1",
+      "source": "6d0f0c508a6cfa624c96debc52f748b4cc0bfcd5",
+      "branch": "astra/infrastructure-milestone-record",
+      "kind": "astra_turn"
+    },
+    "packet_sha256": "a57641a4069e203c6f730ab8c23880f40160f84df444a095b7d889dc3a9676c5"
+  }
+}

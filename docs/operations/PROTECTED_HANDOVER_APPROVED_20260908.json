@@ -1,0 +1,24 @@
+{
+  "kind": "operator-approval",
+  "status": "OPERATOR_APPROVED_DESIGN_AND_SETUP",
+  "authority": "Operator reply in this conversation",
+  "operator_reply": "Approve the prepared design",
+  "approved_packet_commit": "6d0f0c508a6cfa624c96debc52f748b4cc0bfcd5",
+  "approved_packet_path": "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md",
+  "approved_packet_sha256": "4a50253be6b24255b807f3ae4e5052a9a4075fde48a9e57b96ad438f67c48835",
+  "repository": "Moroseui/concept-research-scout",
+  "selected_report_schedule": {
+    "hour": 21,
+    "minute": 0,
+    "zone": "America/New_York"
+  },
+  "scope": "All five numbered items in Concrete grouped operator decision; exact source review, identity verification and staged canaries remain required.",
+  "reserved": [
+    "Patient launches and new scientific authority",
+    "Main merges",
+    "Unattended activation and disconnected observation",
+    "Separate historical audit disposition"
+  ],
+  "actual_writer_app": "Not created or installed yet",
+  "credentials": "Keep private; never paste into chat"
+}
