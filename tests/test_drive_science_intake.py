@@ -39,3 +39,28 @@ def test_refuses_mismatch_or_unsafe_originals(tmp_path,kind):
         else:r['elapsed_seconds']=float('nan')
         for a in ['p001-preflight-receipt','p001-preflight-console']:original(tmp_path,a,json.dumps(r).encode())
     with pytest.raises(ValueError):m.p001(tmp_path)
+
+
+@pytest.mark.parametrize('changed',[False,True])
+def test_047_uses_exact_historical_summary_and_original_stream(tmp_path,monkeypatch,changed):
+    from orchestrator.notebook_evidence import inspect
+    summary=b'{"synthetic":true}'
+    contract='dc586665d0bece940d1a1f4b3b0572f8c951c2ba'
+    stream=contract+' STUDY_COMPLETE '+summary.decode()
+    notebook=json.dumps({'cells':[{'execution_count':7,'outputs':[{'output_type':'stream','text':stream}]}]}).encode()
+    matches,_=inspect(notebook,summary,contract)
+    prior={'source_commit':'940293b6d562f2d3dd6bfd9d8d8281ccf01e4783','replacement_commit':'c812421207b6ddcba6516444897c777d8440275a','contract':contract,'notebook_sha256':m.sha(notebook),'summary_sha256':m.sha(summary),'matches':matches}
+    d=tmp_path/'notebook';d.mkdir()
+    for name,raw in [('original.ipynb',notebook),('receipt.json',json.dumps(prior).encode())]:
+        (d/name).write_bytes(raw);(d/name).chmod(0o600)
+    original(tmp_path,'047-console',(stream+(' altered' if changed else '')).encode())
+    def git(args,**kwargs):
+        assert args[-1].endswith(':probes/047/results_v2/summary.json')
+        return summary
+    monkeypatch.setattr(m.subprocess,'check_output',git)
+    if changed:
+        with pytest.raises(ValueError,match='STREAM_DIFFERS'):m.sibling(tmp_path,d,tmp_path/'git')
+    else:
+        result=m.sibling(tmp_path,d,tmp_path/'git')
+        assert result['saved_stream_byte_identical'] and result['exit_status'] is None
+        assert not result['scientific_acceptance'] and not result['experiment_executed']

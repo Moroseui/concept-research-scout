@@ -93,7 +93,7 @@ def sibling(root, notebook_directory, git_dir):
     source = '940293b6d562f2d3dd6bfd9d8d8281ccf01e4783'
     replacement = 'c812421207b6ddcba6516444897c777d8440275a'
     contract = 'dc586665d0bece940d1a1f4b3b0572f8c951c2ba'
-    summary_path = 'probes/047/results/results_v2/summary.json'
+    summary_path = 'probes/047/results_v2/summary.json'
     summaries = [subprocess.check_output(['git','--git-dir',str(git_dir),'show',s+':'+summary_path],stderr=subprocess.PIPE,timeout=30) for s in (source,replacement)]
     if (summaries[0] != summaries[1] or prior.get('summary_sha256') != sha(summaries[0])
             or prior.get('notebook_sha256') != sha(notebook)
