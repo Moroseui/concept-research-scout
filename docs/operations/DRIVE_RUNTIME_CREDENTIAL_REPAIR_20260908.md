@@ -1,0 +1,13 @@
+# Drive service credential staging repair — 8 September 2026
+
+The first actual collection never reached the evidence broker: startup failed in the unchanged protected_read validator with PRIVATE_CONFIGURATION_REQUIRED. Original journals and request failure are retained privately. The Drive socket and service were stopped; no evidence request directory exists and no archive or evidence file was downloaded by that attempt. Original three consent records, combined registration, app-created folder intent/receipt and installed root credential originals remain intact.
+
+A bounded actual systemd probe found LoadCredential files root:root mode 0440 and their directory root:root mode 0550, accessible through the service's systemd-managed credential access. The shared validator deliberately rejects group/other bits. Do not relax it for all private files.
+
+The service-only correction adds RuntimeDirectory=research-system-drive with mode 0700, stages each systemd credential using /usr/bin/install -m 0600, and supplies those runtime paths to the unchanged Drive executable. User/group, scopes, source code, registered IDs, output folder and resource limits remain unchanged. Root originals remain protected; runtime copies disappear when the service stops. The additional copies are ephemeral and accessible only to the existing service identity and root.
+
+An actual bounded transient unit tested the same RuntimeDirectory and ExecStartPre staging under research-drive. Observed UID 992, directory 0700, both files 0600, five aliases loaded, refresh token present, root original inaccessible. The unit succeeded and its runtime directory was removed afterward. This is staging/isolation evidence, not Google refresh or evidence collection acceptance. Original successful test unit and journal are preserved separately.
+
+Executable/source grant remains 6ea7566b7247286fac54c450ad8f388b129d130b. The service-unit correction is a separately pinned deployment artifact; it must not be mislabeled as the original installed unit. Review this exact correction before installation and record any required narrow source-binding decision without asking for the Google/file-access grant again. The P001-independent registration change at bef23735 is not needed for this five-file registration and remains undeployed.
+
+Recovery after the correction: inspect the preserved first request and empty evidence directory, then submit the same request identity. Never replace an uncertain collection with a fresh ID. Continue the four requested collections, then synthetic storage/readback, forced token-refresh and restart checks. Patient execution and unattended research activation remain reserved.
