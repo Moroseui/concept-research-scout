@@ -30,10 +30,16 @@ def plan(config,selected,client):
         alias,maximum=EXPECTED[value['name']]
         if alias in config['files'] or alias in added or file_id in ids:
             raise ValueError('EXISTING_OR_AMBIGUOUS_ALIAS_RECONCILE')
-        if (not 0<int(value.get('size',0))<=maximum
+        size=int(value.get('size',-1))
+        empty_log=size==0 and value['name'] in ('launch.console.log','setup.console.log')
+        if ((not 0<size<=maximum and not empty_log)
                 or value.get('mimeType','').startswith('application/vnd.google-apps.')):
             raise ValueError('SMALL_ORIGINAL_BINARY_REQUIRED')
-        added[alias]={'id':file_id,'expected_name':value['name'],'access':'small-evidence-read','max_bytes':maximum}
+        # An empty original log is evidence of absence of content, not completion.
+        # Preserve its provider metadata using the already installed read-only route.
+        added[alias]={'id':file_id,'expected_name':value['name'],
+                      'access':'metadata-only' if empty_log else 'small-evidence-read',
+                      'max_bytes':0 if empty_log else maximum}
     return {**config,'files':{**config['files'],**added}},metadata,sorted(added)
 
 

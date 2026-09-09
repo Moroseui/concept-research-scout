@@ -29,3 +29,21 @@ def test_refuses_unrelated_or_repeated_selection(kind):
     before=copy.deepcopy(c)
     with pytest.raises(ValueError):plan(c,selected,client)
     assert c==before
+
+
+@pytest.mark.parametrize('name',['launch.console.log','setup.console.log'])
+def test_empty_original_logs_register_metadata_only_without_fabricated_content(name):
+    c,v,client=fixture();v['binding-file'].update(name=name,size='0')
+    new,metadata,aliases=plan(c,['binding-file'],client)
+    entry=new['files'][aliases[0]]
+    assert entry['access']=='metadata-only' and entry['max_bytes']==0
+    assert metadata[0]['size']=='0'
+    assert 'p001-preflight-binding' not in new['files']
+
+
+@pytest.mark.parametrize('name,size',[('binding.json','0'),('process.json','0'),('launch.console.log','-1'),('setup.console.log',None)])
+def test_empty_json_and_invalid_log_sizes_remain_refused(name,size):
+    c,v,client=fixture();v['binding-file']['name']=name
+    if size is None:del v['binding-file']['size']
+    else:v['binding-file']['size']=size
+    with pytest.raises(ValueError):plan(c,['binding-file'],client)
