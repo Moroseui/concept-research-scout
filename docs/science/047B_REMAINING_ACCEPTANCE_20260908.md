@@ -18,3 +18,7 @@ The exact historical approval and 17-file Phase-A manifest have now been checked
 ## Shortest supervised route — later 8 September checkpoint
 
 The [private acceptance packet](047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md) supersedes the derivative/hosted-routing preparation described above for the first Phase-B interpretation. All 17 original result/audit files can be imported privately without changing their representation; no new scientific discussion to invent a derivative is required. The four-file role/context/template change and preservation of the three Phase-A current outputs passed [source review](047B_SUPERVISED_SOURCE_REVIEW_20260908.json). One operator packet covers private audit retention, private scientific landing and historical registry attestation, in import-before-ratification order. Actual Phase-B interpretation and opposing review have not run.
+
+## Completed private acceptance and formal interpretation
+
+The [operator decision](047B_PRIVATE_ACCEPTANCE_APPROVED_20260908.json) was recorded and executed in the specified order. [Formal completion](047B_FORMAL_INTERPRETATION_COMPLETE_20260908.json) verifies private17-file import, registry attestation, then the actual existing interpretation/opposing-review workflow with first-round APPROVE. No acceptance/configuration work remains for this first supervised interpretation. Original Phase-A artifacts and result bytes are preserved. Proposed interpretation PAUSE ratification and any public scientific export remain separate.

@@ -1,0 +1,105 @@
+{
+  "status": "FORMAL_PHASE_B_INTERPRETATION_AND_OPPOSING_REVIEW_COMPLETE",
+  "workflow": "scout.py interpret-build 47",
+  "private_final_commit": "71008b72fc7d7883798d95469f65969e95b4f1ce",
+  "private_prepared_configuration_commit": "41c614283d3626d38e78c323ca831671ec478e5f",
+  "operator_approval": "047B_PRIVATE_ACCEPTANCE_APPROVED_20260908.json",
+  "source_commit": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+  "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+  "import_manifest_sha256": "56380f9fae381867df3b9b574e43efe653b96becfca17c5a4c6d8576f718d361",
+  "import_file_count": 17,
+  "staged_originals_preserved_separately": 198,
+  "import_transaction_commit": "e11ce24075a56c3584a2421119d800adcecedc08",
+  "registry_ratification_commit": "f8629f9b0abac8f311224306a39a26cccdf9c4ce",
+  "import_preceded_registry_ratification": true,
+  "review_verdict": "APPROVE",
+  "approved_round": 1,
+  "revision_rounds": 0,
+  "stage_receipts": [
+    {
+      "attempts": [
+        {
+          "model": "gpt-6-astra",
+          "returncode": 0
+        }
+      ],
+      "ci": false,
+      "duration_s": 478.934,
+      "exit_class": "ok",
+      "fallback": false,
+      "family_configured": "codex",
+      "family_effective": "codex",
+      "git_commit": "f8629f9b0abac8f311224306a39a26cccdf9c4ce",
+      "model_requested": "gpt-6-astra",
+      "model_used": "gpt-6-astra",
+      "prompt_file": "prompt_interpret.md",
+      "prompt_sha256": "1ea0a62b06f361cc9d913da13125e247c85bda8f03793dce5513a510ec717819",
+      "receipt": 1,
+      "run_id": "e7523113a516",
+      "stage": "interpret",
+      "started_utc": "2026-09-09T01:57:39+00:00",
+      "tools": {
+        "claude": "2.1.222 (Claude Code)",
+        "codex": "codex-cli 0.153.4"
+      }
+    },
+    {
+      "attempts": [
+        {
+          "model": "claude-fable-5",
+          "returncode": 0
+        }
+      ],
+      "ci": false,
+      "duration_s": 411.408,
+      "exit_class": "ok",
+      "fallback": false,
+      "family_configured": "claude",
+      "family_effective": "claude",
+      "git_commit": "8b8569241f8234a56e7054165c194690decefb5e",
+      "model_requested": "claude-fable-5",
+      "model_used": "claude-fable-5",
+      "prompt_file": "prompt_interpret_review.md",
+      "prompt_sha256": "d1a8b4778c3f54887738e22dd34d28d05f414fe6d6ab38f637145b75f6da4e6b",
+      "receipt": 1,
+      "run_id": "f1daad413117",
+      "stage": "interpret_review",
+      "started_utc": "2026-09-09T02:05:38+00:00",
+      "tools": {
+        "claude": "2.1.222 (Claude Code)",
+        "codex": "codex-cli 0.153.4"
+      }
+    }
+  ],
+  "stage_seconds": {
+    "interpretation": 478.934,
+    "opposing_review": 411.408,
+    "combined": 890.342
+  },
+  "historical_phase_a_combined_seconds": 480.451,
+  "artifact_sha256": {
+    "interpretation.md": "6bec4454121f145ba5b081dbece6cdc5197aa96c49185f85dcaeac2ab34b220f",
+    "interpret_review.md": "3e6177bda4cd9eba0b572885abd071674b2191350756db28ecb5f0797c0a78d1",
+    "decision.md": "7c399060f871578a15c30526a51dd2f5151e7737f58fccb6a139ab4b26b58776",
+    "stage_provenance.jsonl": "950828143983d73d9b853ef80b546cb801e61fcc2b943f74a9c7168f3d699757",
+    "log_interpret.txt": "e26ac502ada62857c8ff4bb90d1f4c58452564ed64122533c1c8b14615f687ba",
+    "log_interpret_review.txt": "8743a052bd2eccfc8e2c7659ea04355754f8be9f8107144f530eb7f7d5aaa546",
+    "prompt_interpret.md": "1ea0a62b06f361cc9d913da13125e247c85bda8f03793dce5513a510ec717819",
+    "prompt_interpret_review.md": "d1a8b4778c3f54887738e22dd34d28d05f414fe6d6ab38f637145b75f6da4e6b"
+  },
+  "model_identity_limit": "Stage receipts record configured/requested CLI model; scientific artifacts do not claim independent provider identity attestation.",
+  "mechanical_post_stage_checks": {
+    "current_phase_b_bundle_unchanged": true,
+    "phase_a_current_outputs_preserved_exactly_in_history": true,
+    "phase_a_provenance_is_unchanged_prefix": true,
+    "only_eight_designated_output_prompt_log_receipt_files_changed": true,
+    "private_worktree_clean": true,
+    "remotes": 0
+  },
+  "scientific_result_location": "Private checkout ideas/047/interpretation.md, interpret_review.md and decision.md; all original logs/receipts retained privately.",
+  "system_proposed_next_decision": "PAUSE this completed descriptive study; operator ratification remains pending.",
+  "interpretation_ratified": false,
+  "public_scientific_payload_exported": false,
+  "new_experiment_or_047_rerun": false,
+  "not_a_p001_or_unattended_gate": true
+}

@@ -1,0 +1,31 @@
+{
+  "decision_id": "047b-private-acceptance-20260908-v1",
+  "status": "OPERATOR_APPROVED",
+  "origin": "Authenticated operator reply in current session",
+  "operator": "Moroseui",
+  "reply": "Approve the reviewed private 047b packet",
+  "published_packet_commit": "ade33e9def8014710e1fcf1881b6b11bd1b72e8c",
+  "private_packet_sha256": "e4be5d973fe67a5b8a1ebcc8135b9b30871358fca40e56256d616d8ff3a53671",
+  "private_reviewed_preparation_commit": "41c614283d3626d38e78c323ca831671ec478e5f",
+  "scope": "PRIVATE_SUPERVISED_SYSTEM_ANALYSIS_WITHOUT_PUBLIC_RESULT_PUBLICATION",
+  "approved_decisions": [
+    "private_audit_metadata_disposition",
+    "phase_b_private_import_and_landing",
+    "historical_registry_attestation"
+  ],
+  "sequence": [
+    "Record the exact operator approval and reviewed scoped role/context configuration.",
+    "Apply only the approved private-import policy in the unpublished checkout.",
+    "Use record-result47 with exactexpected-blob/source-commit/publication-subset. It performs its required validation and provenance checks; no separate replay of already completed evidence intake.",
+    "Verify the exact current-contract Phase-B result resolver target, then ratify-registry47 under the authenticated operator decision, with both nodes satisfying its COMPLETE postcondition.",
+    "Run the existing interpret-build47 author/opposing-review workflow, with at most its existing one revision; preserve all new stage receipts. Review-only recovery uses its existing --resume-review mechanism only after inspecting original state.",
+    "Keep outputs private pending checked export/publication and any later ratification decisions."
+  ],
+  "reserved": [
+    "Any publiccase-level orpatientpayloadrelease",
+    "Main orotherprotectedbranchmerge",
+    "Newexperiment or rerun",
+    "Changes to scientificcontract",
+    "Unattendedactivation"
+  ]
+}

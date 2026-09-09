@@ -114,9 +114,9 @@
     },
     {
       "job": "colab-persistent-handoff-20260907",
-      "status": "CURRENT_RUNTIME_CHECKED_DRIVE_MOUNT_AND_SETUP_NEEDED",
-      "reason": "CPU_RUNTIME_SOURCE_ABSENT_DRIVE_NOT_VISIBLE",
-      "next_action": "Use P001_CURRENT_RUNTIME_INTAKE_20260908.json. Existing preflight evidence is system-reviewed; no replay. Operator reconnects original runtime if available or mounts Drive in current CPU runtime, then restore approved source/dependencies and exact launch bindings.",
+      "status": "MOUNT_CONFIRMED_FROZEN_RUNTIME_SETUP_SOURCE_REVIEW_PENDING",
+      "reason": "SAME_RUNTIME_DRIVE_VISIBLE_SOURCE_ABSENT_NO_MATCHING_PROCESS",
+      "next_action": "Use P001_MOUNT_CONFIRMED_20260908.json. Frozen0770 execution review verifies; versioned setup candidate prepares exact source/dependencies/default child environment. Complete source review, execute setup once with current guards, then exact launch packet. No preflight replay or repeat mount request.",
       "history": [
         {
           "status": "OPEN_IMPLEMENTATION",
@@ -137,15 +137,21 @@
           "status": "PREFLIGHT_ASSESSED_CURRENT_RUNTIME_RECONCILIATION_IN_PROGRESS",
           "reason": "ORIGINAL_PREFLIGHT_PROVENANCE_SUPPLEMENT_REVIEWED",
           "next_action": "Reuse completed Drive collection and the supplemental system author/opposing-review/disposition. Historical correspondence and successful computation/report gaps are closed; independent OS exit remains unobserved. Current runtime checking is underway before exact launch bindings and separate approval. No preflight replay, repeated Google consent or routine JSON relay."
+        },
+        {
+          "status": "CURRENT_RUNTIME_CHECKED_DRIVE_MOUNT_AND_SETUP_NEEDED",
+          "reason": "CPU_RUNTIME_SOURCE_ABSENT_DRIVE_NOT_VISIBLE",
+          "next_action": "Use P001_CURRENT_RUNTIME_INTAKE_20260908.json. Existing preflight evidence is system-reviewed; no replay. Operator reconnects original runtime if available or mounts Drive in current CPU runtime, then restore approved source/dependencies and exact launch bindings.",
+          "evidence": "../science/P001_CURRENT_RUNTIME_INTAKE_20260908.json"
         }
       ],
-      "evidence": "../science/P001_CURRENT_RUNTIME_INTAKE_20260908.json"
+      "evidence": "../science/P001_MOUNT_CONFIRMED_20260908.json"
     },
     {
       "job": "047b-original-console-20260907",
-      "status": "PRIVATE_ACCEPTANCE_PACKET_PREPARED_CONFIGURATION_REVIEW_RUNNING",
-      "reason": "EXACT_ORIGINAL_PRIVATE_IMPORT_USES_EXISTING_NUMBERED_IDEA_ROUTE",
-      "next_action": "Decide the exact private 17-file original-import/audit-retention/registry packet in 047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md. Scoped role/context configuration review is running. After approval and configuration review, record-result 47, verify exact Phase-B resolution, ratify-registry 47, then existing interpret-build 47 with opposing review. No Phase-B scientific analysis has run; hosted routing and autonomous handover are not prerequisites.",
+      "status": "FORMAL_PHASE_B_INTERPRETATION_REVIEW_COMPLETE",
+      "reason": "OPERATOR_ACCEPTED_PRIVATE_IMPORT_REGISTRY_RATIFIED_SYSTEM_REVIEW_APPROVE",
+      "next_action": "Reuse 047B_FORMAL_INTERPRETATION_COMPLETE_20260908.json: exact private17-file import then registry attestation completed; interpret-build approved round1 in890.342stage seconds. Phase-A originals preserved. Proposed PAUSE requires later interpretation ratification; public scientific export remains separate.",
       "history": [
         {
           "status": "OPEN_EVIDENCE_AND_DECISION",
@@ -166,9 +172,15 @@
           "reason": "DRIVE_SIBLING_MATCHES_REVIEWED_NOTEBOOK",
           "next_action": "Reuse original sibling intake and completed cleanup. Historical registry attestation, exact exclusion/audit metadata treatment and scientific landing remain reserved.",
           "evidence": "../science/047B_DRIVE_SIBLING_INTAKE_20260908.json"
+        },
+        {
+          "status": "PRIVATE_ACCEPTANCE_PACKET_PREPARED_CONFIGURATION_REVIEW_RUNNING",
+          "reason": "EXACT_ORIGINAL_PRIVATE_IMPORT_USES_EXISTING_NUMBERED_IDEA_ROUTE",
+          "next_action": "Decide the exact private 17-file original-import/audit-retention/registry packet in 047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md. Scoped role/context configuration review is running. After approval and configuration review, record-result 47, verify exact Phase-B resolution, ratify-registry 47, then existing interpret-build 47 with opposing review. No Phase-B scientific analysis has run; hosted routing and autonomous handover are not prerequisites.",
+          "evidence": "../science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md"
         }
       ],
-      "evidence": "../science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md",
+      "evidence": "../science/047B_FORMAL_INTERPRETATION_COMPLETE_20260908.json",
       "review": "../science/047B_NOTEBOOK_REVIEW_20260907.json"
     },
     {
