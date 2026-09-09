@@ -238,6 +238,7 @@ def observe_environment(request, child_source):
     import subprocess
     import sys
 
+    os.umask(0o077)
     destination = Path(request['setup_root'])
     with (destination / 'environment-intent.json').open('x') as handle:
         json.dump({'request_id': request['request_id'], 'status': 'ENVIRONMENT_OBSERVATION_INTENT'}, handle)
@@ -336,17 +337,26 @@ def verify_transcript(bound_packet, events, *, snapshot, runtime_packet, runtime
     allowed = ('__open_colab_browser_connection', '__get_cells', '__add_code_cell', '__run_code_cell')
     if any(not call['name'].endswith(allowed) for call in calls):
         raise ValueError('SETUP_UNEXPECTED_TOOL')
+    if sum(call['name'].endswith('__open_colab_browser_connection') for call in calls) > 1:
+        raise ValueError('SETUP_CONNECTION_REOPEN_REFUSED')
     if [call['input']['code'] for call in calls if call['name'].endswith('__add_code_cell')] != bound_packet['cells']:
         raise ValueError('SETUP_UNEXPECTED_CELL')
     runs = [call for call in calls if call['name'].endswith('__run_code_cell')]
     if json.loads(streams(results[runs[0]['id']])) != {'cpu_only': True, 'colab_runtime': True}:
         raise ValueError('SETUP_CPU_COLAB_REQUIRED')
     request = bound_packet['request']
-    setup_lines = streams(results[runs[1]['id']]).splitlines()
+    setup_stream = streams(results[runs[1]['id']])
+    if len(setup_stream.encode()) > 4096:
+        raise ValueError('SETUP_TRANSPORT_OUTPUT_BOUND')
+    setup_lines = setup_stream.splitlines()
     if len(setup_lines) != 4:
         raise ValueError('SETUP_TRANSPORT_OUTPUT_SCHEMA')
     for line, expected in zip(setup_lines[:3], request['source_sha256']):
-        if ast.literal_eval(line) != {'transport_status': 'COMPLETE', 'source_sha256': expected}:
+        try:
+            transport = ast.literal_eval(line)
+        except (ValueError, SyntaxError) as error:
+            raise ValueError('SETUP_TRANSPORT_OUTPUT_SCHEMA') from error
+        if transport != {'transport_status': 'COMPLETE', 'source_sha256': expected}:
             raise ValueError('SETUP_ORIGINAL_CELL_DID_NOT_COMPLETE')
     if json.loads(setup_lines[3]) != {'status': 'SOURCE_DEPENDENCY_SETUP_COMPLETE',
             'binding_sha256': request['binding_sha256'], 'patient_launch_authorized': False}:
@@ -377,6 +387,11 @@ def main():
     parser.add_argument('--protocol', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
+    required = ['snapshot', 'runtime_packet', 'runtime_receipt'] + (
+        ['request_id'] if args.mode == 'prepare' else ['packet', 'protocol'])
+    missing = [name for name in required if getattr(args, name) is None]
+    if missing:
+        parser.error(args.mode + ' requires ' + ', '.join('--' + name.replace('_', '-') for name in missing))
     if args.mode == 'prepare':
         value = packet(args.snapshot, json.loads(args.runtime_packet.read_text()),
                        json.loads(args.runtime_receipt.read_text()), args.request_id)
@@ -385,6 +400,7 @@ def main():
             for line in args.protocol.read_text().splitlines() if line.strip()], snapshot=args.snapshot,
             runtime_packet=json.loads(args.runtime_packet.read_text()), runtime_receipt=json.loads(args.runtime_receipt.read_text()))
     import os
+    os.umask(0o077)
     with args.output.open('x') as handle:
         os.chmod(args.output, 0o600)
         json.dump(value, handle, indent=2, allow_nan=False)

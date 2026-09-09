@@ -264,3 +264,58 @@ def test_child_environment_failure_keeps_private_diagnostics_and_no_retry(tmp_pa
     with pytest.raises(FileExistsError):
         setup.observe_environment(request, 'def child_environment(root): pass')
     assert (destination / 'environment-intent.json').read_bytes() == intent
+
+
+def test_existing_helper_rejects_trailing_duplicate_wrong_cell_and_missing_runs(inputs):
+    packet = make_packet(inputs)
+    events = transcript(packet, environment())
+    # These refusals are owned by the existing imported verify_cell_sources.
+    with pytest.raises(ValueError, match='executed source not bound'):
+        verify(packet, events + copy.deepcopy(events[-2:]), inputs)
+    wrong_cell = copy.deepcopy(events)
+    wrong_cell[10]['message']['content'][0]['input']['cellId'] = 'pre-existing-unbound-cell'
+    with pytest.raises(ValueError, match='executed source not bound'):
+        verify(packet, wrong_cell, inputs)
+    with pytest.raises(ValueError, match='execution sequence incomplete'):
+        verify(packet, events[:-2], inputs)
+
+
+def test_repeated_connection_open_is_refused(inputs):
+    packet = make_packet(inputs)
+    events = transcript(packet, environment())
+    def connection(identity):
+        return [
+            {'type': 'assistant', 'message': {'content': [{'type': 'tool_use', 'id': identity,
+                'name': 'mcp__colab-worker__open_colab_browser_connection', 'input': {}}]}},
+            {'type': 'user', 'message': {'content': [{'type': 'tool_result', 'tool_use_id': identity,
+                'content': '{}'}]}},
+        ]
+    assert verify(packet, connection('connection-1') + events, inputs)['patient_launch_authorized'] is False
+    with pytest.raises(ValueError, match='CONNECTION_REOPEN_REFUSED'):
+        verify(packet, connection('connection-1') + connection('connection-2') + events, inputs)
+
+
+@pytest.mark.parametrize('replacement,error', [('x' * 4097, 'OUTPUT_BOUND'), ('{', 'OUTPUT_SCHEMA')])
+def test_setup_stream_bound_and_literal_parse_failures_are_classified(inputs, replacement, error):
+    packet = make_packet(inputs)
+    events = transcript(packet, environment())
+    event = events[11]['message']['content'][0]
+    returned = json.loads(event['content'])
+    lines = returned['outputs'][0]['text'][0].splitlines()
+    lines[0] = replacement
+    returned['outputs'][0]['text'][0] = '\n'.join(lines)
+    event['content'] = json.dumps(returned)
+    with pytest.raises(ValueError, match='SETUP_TRANSPORT_' + error):
+        verify(packet, events, inputs)
+
+
+@pytest.mark.parametrize('mode', ['prepare', 'verify'])
+def test_cli_missing_mode_arguments_use_parser_error(tmp_path, monkeypatch, capsys, mode):
+    import sys
+    output = tmp_path / 'never-created.json'
+    monkeypatch.setattr(sys, 'argv', ['p001_runtime_setup', mode, '--output', str(output)])
+    with pytest.raises(SystemExit) as error:
+        setup.main()
+    assert error.value.code == 2
+    assert mode + ' requires --snapshot' in capsys.readouterr().err
+    assert not output.exists()
