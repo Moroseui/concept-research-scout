@@ -1,3 +1,5 @@
+**Current restart state:** [9 September recovery and continuation](RESTART_HANDOFF_20260909.md). Read this first; the dated evidence below remains historical.
+
 # Resumed research work — 8 September 2026
 
 **Current checkpoint:** [completed 047b interpretation, confirmed Drive mount, exact P001 blockers and refreshed estimates](CURRENT_MILESTONE_20260908.md). This later record supersedes pending-state statements and estimates below; original dated evidence is retained.

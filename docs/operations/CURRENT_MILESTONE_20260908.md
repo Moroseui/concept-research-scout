@@ -1,3 +1,5 @@
+**Current restart state:** [9 September recovery and continuation](RESTART_HANDOFF_20260909.md). Read this first; the dated evidence below remains historical.
+
 # Current milestone — 8 September 2026, late checkpoint
 
 This is the current acceptance summary. Earlier dated receipts remain historical evidence; [the operating direction](REMOTE_OPERATING_DIRECTION.md) and explicit operator approvals govern authority.

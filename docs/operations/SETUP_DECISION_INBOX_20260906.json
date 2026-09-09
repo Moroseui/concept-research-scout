@@ -308,15 +308,15 @@
   ],
   "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state.",
   "current_checkpoint": {
-    "date": "2026-09-08",
-    "current_summary": "CURRENT_MILESTONE_20260908.md",
+    "date": "2026-09-09",
+    "current_summary": "RESTART_HANDOFF_20260909.md",
     "p001_supplemental_system_stages": "COMPLETE_READINESS_ONLY",
-    "p001_current_runtime": "MOUNT_CONFIRMED_SETUP_NOT_EXECUTED_TRANSPARENT_ROUTE_PREPARED",
-    "p001_return": "LOCAL_INTAKE_TESTED_SOURCE_REVIEW_APPROVED_END_TO_END_BINDING_REQUIRED",
+    "p001_current_runtime": "FROZEN_SETUP_COMPLETED_NATIVE14_CALLS_CURRENT_LAUNCH_GUARD_PENDING",
+    "p001_return": "SYNTHETIC_NATIVE_COPY_COMPLETE_ORIGINAL_ID_COLLECTION_CONTINUING",
     "p001_launch": "SEPARATE_EXACT_DECISION_REQUIRED_NO_PREDICTION_RESULT",
     "047b": "FORMAL_PHASE_B_INTERPRETATION_AND_OPPOSING_REVIEW_COMPLETE_APPROVE",
     "drive": "COMPLETE_NO_AUTHENTICATION_ACTION_PENDING",
-    "writer_app": "VERIFIED_ROOT_PREPARATION_COMPLETE_NO_LIVE_WRITER",
+    "writer_app": "MODEL_DISABLED_PERSISTENT_SOCKET_STATUS_RESTART_VERIFIED_COUNT_ONE_RETAINED",
     "autonomy_dependency_for_047b": false,
     "remote_queue_mutated_by_this_record": false
   }
