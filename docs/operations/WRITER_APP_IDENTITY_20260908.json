@@ -1,0 +1,24 @@
+{
+  "status": "REPLACEMENT_KEY_AND_SELECTED_APP_VERIFIED_NOT_ACTIVATED",
+  "app_id": 4879374,
+  "installation_id": 160193942,
+  "repository_id": 1323461276,
+  "repository": "Moroseui/concept-research-scout",
+  "permissions": {
+    "contents": "write",
+    "actions": "read",
+    "metadata": "read"
+  },
+  "repository_selection": "selected",
+  "total_repositories": 1,
+  "key_root_only": true,
+  "role_reads_denied": {
+    "research-controller": true,
+    "research-driver": true,
+    "research-reviewer": true,
+    "research-worker": true
+  },
+  "live_writer_config_changed": false,
+  "repository_writes": 0,
+  "key_transport": "RAW_STDIN_SEPARATE_FROM_STATIC_SOURCE"
+}

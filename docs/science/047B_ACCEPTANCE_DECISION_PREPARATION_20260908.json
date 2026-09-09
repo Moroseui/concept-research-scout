@@ -1,0 +1,36 @@
+{
+  "status": "PREPARATION_NOT_RATIFICATION_OR_LANDING_AUTHORITY",
+  "purpose": "Make the historical registry binding and remaining 047b acceptance sequence reviewable. No scientific assessment or new operator approval is claimed.",
+  "phase_a": {
+    "node": "support_dictionary_a",
+    "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
+    "historical_approval_commit": "c81d44850c74b1bcc4062f900a35f78a6004d294",
+    "historical_approval_sha256": "4b3ec937d36ba73a45485a4c51b8fdfbd0434115240a8670f653f4c7524d154c",
+    "bundle": "probes/047/results/results_v2",
+    "manifest_sha256": "7888c925025ef2e30c0f025825fb4e43cd39b22b880a69b3285c7c76ea26eb85",
+    "file_count": 17,
+    "existing_approval_marker_binds_exact_contract": true,
+    "existing_bundle_matches_import_receipt": true
+  },
+  "registry_sha256": "936742c38c725b8ab5a9c98ff6d832176b1dd825b754cd888370e69ac9f18089",
+  "phase_b": {
+    "node": "clinical_profile_b",
+    "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+    "original_commit": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+    "cleanup_replacement": "c812421207b6ddcba6516444897c777d8440275a",
+    "intended_import": "probes/047/results/results_v2-dc586665d0be",
+    "original_sibling_intake": "docs/science/047B_DRIVE_SIBLING_INTAKE_20260908.json"
+  },
+  "sequence": [
+    "System discussion and opposing review prepare a concrete audit/metadata representation for all four affected files, retaining private originals and required scientific/audit information.",
+    "Implement and source-review only any necessary derivative/import support, then rehearse the exact proposed bundle and policy disposition.",
+    "Present one concrete packet for the historical registry attestation, exact audit disposition and separately identified scientific landing authority.",
+    "After approval, import the accepted Phase-B bundle with exact source/contract bindings. Run the existing registry-ratification transaction only when both nodes can satisfy its COMPLETE postcondition.",
+    "Run formal interpret-build and opposing review through the system, preserving historical interpretations and all new receipts."
+  ],
+  "transaction_constraint": "Current ratify-registry validates every pinned node and appends a governance row before requiring every node COMPLETE. Do not invoke it now as a Phase-A-only repair: Phase B has not been accepted/imported. Historical attestation is not a request to approve Phase A science again.",
+  "system_discussion_route": "Existing numbered-idea scout.py confer 47; current hosted campaign adapter is explicitly P001-only, so do not label a 047 task as P001. A reviewed transport/configuration must bind the numbered-idea evidence and current operating/reviewer instructions before execution.",
+  "scientific_landing": false,
+  "ratification_executed": false,
+  "rerun_required": false
+}
