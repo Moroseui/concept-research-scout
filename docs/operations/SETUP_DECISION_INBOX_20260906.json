@@ -10,9 +10,9 @@
     },
     {
       "job": "patient-backend",
-      "reason": "SETUP_ZERO_EXECUTION_AND_FULL_RETURN_TRANSPORT_INCOMPLETE",
-      "status": "OPEN_SETUP_RETURN_BINDINGS_THEN_EXACT_LAUNCH",
-      "next_action": "Reuse completed system preflight assessment and confirmed mount. Implement/review transparent fixed setup, finish exact app-owned206-member return binding/canary, then prepare one exact launch and derived-return decision. No preflight replay or dependency on047/activation.",
+      "reason": "SOURCE_DEPENDENCIES_DEFAULT_CHILD_VERIFIED_RETURN_CANARY_PENDING",
+      "status": "OPEN_RETURN_BINDINGS_THEN_EXACT_LAUNCH",
+      "next_action": "Native fixed setup completed at e1cccd29; do not rerun setup or preflight. Install approved two-slot return bindings and execute harmless original-ID canary, then exact launch/206-derived-return decision.",
       "history": [
         {
           "status": "OPEN",
@@ -24,6 +24,11 @@
           "reason": "CURRENT_RUNTIME_BINDINGS_AND_SEPARATE_LAUNCH_REQUIRED",
           "next_action": "P001 supplemental author/opposing review/disposition closed historical preflight correspondence and computation/report gaps. Complete the read-only current-runtime/dependency/input/output reconciliation, then prepare the exact separate launch decision. No Linux move, 047 acceptance or autonomous activation is required for the existing Colab path.",
           "evidence": "../science/hosted-p001-provenance-readiness-20260908/execution.json"
+        },
+        {
+          "status": "OPEN_SETUP_RETURN_BINDINGS_THEN_EXACT_LAUNCH",
+          "reason": "SETUP_ZERO_EXECUTION_AND_FULL_RETURN_TRANSPORT_INCOMPLETE",
+          "next_action": "Reuse completed system preflight assessment and confirmed mount. Implement/review transparent fixed setup, finish exact app-owned206-member return binding/canary, then prepare one exact launch and derived-return decision. No preflight replay or dependency on047/activation."
         }
       ],
       "evidence": "CURRENT_MILESTONE_20260908.md"
@@ -37,9 +42,9 @@
     },
     {
       "job": "protected-publication-admission",
-      "reason": "EXACT_REVIEWED_SOURCE_AND_PROTECTED_INPUT_CAS_VERIFIED",
-      "status": "ROOT_PRIVATE_PREPARATION_COMPLETE_LIVE_INSTALLATION_PENDING",
-      "next_action": "Standalone04d source and root-private proposal preparation completed on host; active configuration and live state unchanged. Reconcile writer identity/remote refs, then bounded live configuration/shared-admission checks within existing approval. Main merge and unattended activation remain separate.",
+      "reason": "EXACT_ONE_EVENT_AND_DUPLICATE_RECOVERY_VERIFIED",
+      "status": "SHARED_LIVE_CANARY_COMPLETE_PERSISTENT_SOCKET_PENDING",
+      "next_action": "Shared ledger initialized once at approved48/96 policy; live count1 retained, duplicate0. Install distinct model-disabled protected socket using exact existing state. No initialize/reset replay; main/activation separate.",
       "history": [
         {
           "status": "APPROVED_SETUP_PENDING_WRITER_IDENTITY",
@@ -51,9 +56,14 @@
           "reason": "SELECTED_REPOSITORY_WRITER_APP_VERIFIED",
           "next_action": "Reuse the approved design and verified App 4879374, installation 160193942, exact repository grant and privately staged replacement key. Live writer/shared state are not activated. Optional setup preparation is preserved on astra/pending-hosted-numbered-idea-20260908 at deb7dbd475d227f8252b25048c7add17ef66b383, not deployed; it does not gate supervised 047 analysis.",
           "evidence": "WRITER_APP_IDENTITY_20260908.json"
+        },
+        {
+          "status": "ROOT_PRIVATE_PREPARATION_COMPLETE_LIVE_INSTALLATION_PENDING",
+          "reason": "EXACT_REVIEWED_SOURCE_AND_PROTECTED_INPUT_CAS_VERIFIED",
+          "next_action": "Standalone04d source and root-private proposal preparation completed on host; active configuration and live state unchanged. Reconcile writer identity/remote refs, then bounded live configuration/shared-admission checks within existing approval. Main merge and unattended activation remain separate."
         }
       ],
-      "evidence": "STANDALONE_WRITER_ROOT_PREPARATION_20260908.json"
+      "evidence": "CURRENT_MILESTONE_20260908.md"
     },
     {
       "job": "provider-recovery",
@@ -126,9 +136,9 @@
     },
     {
       "job": "colab-persistent-handoff-20260907",
-      "status": "MOUNT_CONFIRMED_SETUP_STOPPED_WITH_ZERO_EXECUTION",
-      "reason": "TRANSPORT_DISCONNECT_THEN_WORKER_REFUSALS_PRESERVED",
-      "next_action": "All three workers ended with zero code-cell execution calls. Preserve their originals and existing approval; use the transparent route assessment for the smallest reviewed continuation. No further same-worker persuasion, repeated mount/grant or experiment launch.",
+      "status": "SOURCE_DEPENDENCIES_VERIFIED_NATIVE_TRANSPORT",
+      "reason": "FOUR_STAGES_14_NATIVE_CALLS_COMPLETE",
+      "next_action": "Reuse actual P001_RUNTIME_SETUP_COMPLETE_20260908.json and completed preflight assessment. Finish return canary and exact launch packet; no Google setup or sign-in currently needed.",
       "history": [
         {
           "status": "OPEN_IMPLEMENTATION",
@@ -161,9 +171,14 @@
           "reason": "SAME_RUNTIME_DRIVE_VISIBLE_SOURCE_ABSENT_NO_MATCHING_PROCESS",
           "next_action": "Use P001_MOUNT_CONFIRMED_20260908.json. Frozen0770 execution review verifies; versioned setup candidate prepares exact source/dependencies/default child environment. Complete source review, execute setup once with current guards, then exact launch packet. No preflight replay or repeat mount request.",
           "evidence": "../science/P001_MOUNT_CONFIRMED_20260908.json"
+        },
+        {
+          "status": "MOUNT_CONFIRMED_SETUP_STOPPED_WITH_ZERO_EXECUTION",
+          "reason": "TRANSPORT_DISCONNECT_THEN_WORKER_REFUSALS_PRESERVED",
+          "next_action": "All three workers ended with zero code-cell execution calls. Preserve their originals and existing approval; use the transparent route assessment for the smallest reviewed continuation. No further same-worker persuasion, repeated mount/grant or experiment launch."
         }
       ],
-      "evidence": "../science/P001_RUNTIME_SETUP_CURRENT_STOP_20260908.json"
+      "evidence": "CURRENT_MILESTONE_20260908.md"
     },
     {
       "job": "047b-original-console-20260907",

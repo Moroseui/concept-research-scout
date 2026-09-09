@@ -1,0 +1,55 @@
+{
+  "status": "MODEL_DISABLED_DIRECT_BROKER_LIVE_CANARY_COMPLETE_PERSISTENT_INSTALLATION_PENDING",
+  "result": {
+    "status": "MODEL_DISABLED_DIRECT_BROKER_LIVE_CANARY_COMPLETE_PERSISTENT_INSTALLATION_PENDING",
+    "source": "04d67a00422e862d62acf356bd9526a4af449fb1",
+    "publication_pin_unchanged": "879d45be364c2b676d913699e4a9b35d8ca3e53b",
+    "initial_state_pin": "10a0d437e86de3ed1d0d80346b186f2857fb5765",
+    "final_state_pin": "2a32e9548ee4f82712ff010b888a8784cb78d178",
+    "policy_sha256": "f1574ec4f9031f05cfe7b9279ca26114821678ed665b115b19a9dca3ac72bcdd",
+    "fixed_event": {
+      "turn_id": "93f735fa1b1a211b858f82c3dfd870def1d78c8b47b1f80e659a81367c2d0d35",
+      "attempt": "1",
+      "source": "04d67a00422e862d62acf356bd9526a4af449fb1",
+      "branch": "astra/infrastructure-milestone-record",
+      "kind": "astra_turn"
+    },
+    "live_count_added": 1,
+    "final_live_count": 1,
+    "duplicate_added_count": 0,
+    "successful_authentication_contexts": 4,
+    "minimum_api_calls_from_reviewed_writer_route": 8,
+    "token_payloads_recorded": false,
+    "effective_token_scope_verified_by_reviewed_writer": {
+      "repository_id": 1323461276,
+      "app_id": 4879374,
+      "installation_id": 160193942,
+      "permissions": {
+        "contents": "write",
+        "actions": "read",
+        "metadata": "read"
+      }
+    },
+    "key_read_boundary": "Only the existing reviewed protected writer authentication function reads/signs with the key; no bytes are emitted or recorded.",
+    "prior_selected_installation_identity_record_reused": true,
+    "full_installation_repository_count_requeried": false,
+    "models_called": 0,
+    "services_changed": false,
+    "active_configurations_changed": false,
+    "source_links_changed": false,
+    "reset_executed": false,
+    "code_publication_executed": false,
+    "persistent_live_socket_installed": false,
+    "main_workflow_integrated": false,
+    "unattended_activated": false,
+    "fixture_state_untouched": true
+  },
+  "root_wrapper_sha256": "a1466c6b1501ac721b32861141a8a3f7bfc254d72422a83f19468444bf70c1b5",
+  "root_wrapper_review": "Root inspected fixed administrative invocation of unchanged reviewed04d source; focused recovery/parent check amendment preserved original wrapper.",
+  "authority": "PROTECTED_HANDOVER_APPROVED_20260908.json",
+  "originals_collected": 17,
+  "original_bytes": 11964,
+  "original_receipt_sha256": "fccb4e153c442484cd8dec48179982a05763ec473faf98079b794fbb2895f9ec",
+  "collection_receipt_sha256": "33c2670beeb6c3f14d780f0d6acc2b1a37da405b1be0ca48137e571ff21f8557",
+  "next_action": "Install and exercise distinct protected model-disabled socket against retained live state. No initialization/reset replay. Main workflow/model-secret integration and unattended activation remain separate."
+}

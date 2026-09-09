@@ -1,0 +1,57 @@
+{
+  "status": "SOURCE_REVIEW_APPROVE",
+  "scope": "Two app-owned slots, fixed copy and terminal-first paired collection",
+  "review": {
+    "scope": "p001-full-return-transport-v1: Source-only review of the new fixed private return reservation/copy/collection module and tests. Existing source-reviewed full206-member local intake and frozen validation are unchanged. 80 combined tests passed including28new; actual frozen selection metadata produced exact206-member set. Existing persistent Drive OAuth/drive.file/output folder grant is approved and installed; no new consent or patient transfer authority inferred. This module uses protected API client to reserve only two app-owned nonempty marker slots, checks exact parent/ownership/IDs/readback, proposes aliases without installing them, emits CPU and fixed copy cells and collects terminal before ZIP through existing DriveEvidence. It requires existing private folder, exact pins/runtime and stopped processes; patient branch requires VALIDATED worker status/parameter hash and separate canary receipt and launch manifest bindings. It performs bounded exact206-member ZIP metadata check BEFORE patient copy, combined32MiB receipt+ZIP cap, explicit operational expansion cap, in-place existing-slot replacement, original-byte preservation, exclusive intent and no retry after uncertainty. Synthetic pair is separate harmless ZIP. Actual native Colab source/readback/protocol verification and protected installation wrapper are still separate required integration work, not claimed here. Collection establishes original Drive IDs/bytes, never OS exit or scientific acceptance; unchanged frozen validator runs later. Review concrete remaining command-generation correctness, dependency imports, private paths, cap and role scope, metadata identity/races, original preservation and recovery risks. No general adapter redesign or duplicate prior validation requested.",
+    "reviewed_commit": "e1cccd296a1b7924bb041af951ba78ed565099a7",
+    "verdict": "APPROVE",
+    "findings": [
+      "No blockers. Reservation binds nonce-derived marker content, exact names/IDs/parent/ownedByMe/owner-only permissions with size+md5 and byte-for-byte readback through the protected client; aliases are only proposed (config untouched, verified by test); slot Drive IDs and output_folder_id never appear in the copy packet or cells; binding_sha256 recomputation in validate_reservation covers request_id/purpose/nonce/parent_id/slots so any slot or parent substitution invalidates the receipt.",
+      "Command/cell generation is correct: the cell prelude imports stat/struct/zipfile/PurePosixPath and pins MEMBER_COUNT/DIRECTORY_CAP/AGGREGATES, and runtime_observation/check_directory/inspect_members/runtime_member_names/copy_return each import their remaining dependencies inside the function body, so the generated namespace is closed (traced name-by-name; compile() alone would not catch NameError). verify_packet exactness holds because prepare_copy is deterministic given pins (fixed-date synthetic ZIP, insertion-ordered repr, git-pinned runtime packet).",
+      "Ordering and caps hold: the exact-206 check_directory + inspect_members admission runs on the already-open source handle BEFORE the intent file or any slot write; the combined receipt+ZIP <= 32 MiB check precedes slot opens; collection re-derives sizes from pre-download metadata, refuses before either download on overflow, collects terminal first, then narrows the zip alias max_bytes to min(terminal-declared zip_bytes, remaining cap) in a deep-copied scoped registry, and cross-checks collected zip sha256/bytes against the terminal plus before/after slot metadata including parents/ownership.",
+      "Preservation and no-retry semantics are sound: patient source ZIP is opened read-only with O_NOFOLLOW and fstat/lstat identity capture, then rechecked (handle identity, path lstat identity, full re-hash, and worker_status re-read) after the ZIP copy but before the terminal receipt \u2014 the last slot write; intent is O_EXCL-created, fsynced with parent-directory fsync, and a pre-existing intent or consumed marker blocks retry (marker gate fires first after success, FileExistsError after interruption); reserve_slots persists binding before ID allocation and never re-allocates after an uncertain failure.",
+      "Minor diagnostics: the fixed cell's exception wrapper only passes codes matching P001_COPY_[A-Z_]+, so check_directory/inspect_members failures (P001_RETURN_ZIP_DIRECTORY, P001_RETURN_MEMBER_SET, P001_RETURN_EXPANSION_CAP, etc.) surface from the remote cell only as the generic P001_COPY_FAILED_PRESERVE_PRIVATE_STATE. Fail-closed and payload-free, but it hides the most reconciliation-relevant pre-copy admission cause; consider widening the regex to P001_(COPY|RETURN)_[A-Z_]+ (all such codes are fixed strings).",
+      "Minor recovery asymmetry: collect_pair returns BLOCKED_RECONCILE for any existing collection directory, including one holding a successful receipt.json, unlike reserve_slots which replays a verified prior receipt; a repeated status query therefore looks like a failure and forces manual inspection. Also, reserve_slots's recovery branch (read_json + validate_reservation of the old receipt) sits outside the try/except, so a truncated or corrupted receipt raises KeyError/JSONDecodeError to the caller instead of the module's structured BLOCKED_RECONCILE \u2014 fail-closed but inconsistent stop semantics.",
+      "Cap/role scope note: the installed zip alias carries max_bytes = TRANSFER_CAP, so a direct broker collect outside collect_pair could transfer up to 32 MiB + RECEIPT_CAP combined (16 KiB over the combined ceiling) and skips the terminal-first identity check; collect_pair itself enforces the combined cap. Negligible margin and operator-only route, but worth remembering that the combined-cap guarantee lives in collect_pair, not in the registry entry.",
+      "Namespace edge: request_identity accepts collection request_ids beginning with 'upload-' (and reserve request_ids likewise), which DriveEvidence reserves for its store path; such an id fails only inside the try after the intent/collection directory is created, leaving a blocked directory to reconcile. Cosmetic \u2014 an early refusal would be cleaner.",
+      "Metadata identity/race note (untested here, for the native canary): identity() includes st_mtime_ns/st_ctime_ns on Drive FUSE paths, so a FUSE metadata refresh between open and the post-copy recheck could spuriously raise P001_COPY_SOURCE_OR_STATUS_CHANGED or SLOT_PATH_REPLACED; similarly modifiedTime/version in slot_metadata before/after comparisons may be sensitive to backend metadata churn during collection. All failure modes are fail-closed BLOCKED_RECONCILE, but expect possible false stops on the real mount \u2014 exactly what the synthetic canary should measure.",
+      "Authority bindings are bindings only, as scoped: worker_parameters_sha256 is actually enforced against worker bytes in the patient cell, but canary_receipt_sha256 and launch_manifest_sha256 are caller-supplied hashes bound into the packet and terminal without content verification in this module \u2014 the separate launch-decision/installation wrapper must verify them before invoking the patient branch. os.umask(0o077) in copy_return mutates process-global state without restore (same note as the intake review; harmless in the single-purpose cell).",
+      "Test source note (no execution claimed): the 28 new cases (21 functions, 10 parametrized instances) cover reservation idempotence/no-reallocation, wrong parent/ownership/permissions, uncertain-create preservation, packet exactness and ID absence, marker/intent refusal without overwrite, combined-cap-before-write, partial-write interruption, replaced-source-before-terminal, FUSE-ID-replacement detection, extra-member refusal, collection cap/terminal-first ordering, and direct execution of the generated cell namespace for both purposes. Remaining gaps match the declared separate integration work: runtime_member_names is exercised only with a mocked subprocess and monkeypatched in copy tests, DriveEvidence is driven with a FakeDrive rather than the native client, and alias installation, launch-manifest verification and the actual Colab readback/protocol canary are not claimed by this module."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "e1cccd296a1b7924bb041af951ba78ed565099a7",
+    "returncode": 0,
+    "wall_seconds": 266.1101153799991,
+    "input_file_sha256": {
+      "orchestrator/p001_return_transport.py": "e8f4213d3d899d661d7a57aedaf674e2f584f060b2bf12460c723f71b7c04486",
+      "tests/test_p001_return_transport.py": "d621eddd225b379e69266bc8f811df649baee77d281b55617c159288417cc2f2",
+      "orchestrator/p001_return_intake.py": "ec932c2466c64dfd5a00fbec465f2194a32caf6ac8c2aad3ec62b34bd2794af7",
+      "orchestrator/drive_evidence.py": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+      "orchestrator/p001_runtime_intake.py": "6bd9d97fdae4972815d25121bf7971c495ea8c7245ea7cf15a89b94e943976c2",
+      "orchestrator/p001_runtime_setup.py": "ec8a3e88a4975771fd3642b4aa71c7486164aad8fc69cf6f8c0d18d55487c799",
+      "orchestrator/colab_patient.py": "3c98e19984352bffe46190823f45f2bfef8b421004ef81780eb9fa0faf3b0b5d",
+      "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+      "docs/science/P001_FULL_RETURN_BINDING_PLAN_20260908.md": "2d218fb1cec485fca356dece86efa71481daea8b23ecce3d90cd5fa87da10653",
+      "docs/science/P001_RETURN_INTAKE_SOURCE_REVIEW_20260908.json": "47b678ff1e46ed532ce1de9440db4e1e7cc42bedb28df2ca4ae8a28abaea22dc",
+      "docs/operations/DRIVE_ACCESS_APPROVED_20260908.json": "d34fbefc1d74b32e038027154e84bc48d8909e25ecdd1c8313dec36091bbf3eb",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "587f91268d1766a0730c7d9b4cd721f7dbeeac34bfb6016b9b169c6aac90bb88",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "46eeedb79c99e57b65771b39cb4dc22b09b849f85dbb91d39c9e4b9ff6dffce9"
+  },
+  "tests": "80 focused tests including28 new transport cases",
+  "test_originals_private": true,
+  "scientific_execution_authorized": false,
+  "live_transport_proven_by_this_review": false,
+  "review_kind": "Versioned pilot_review.py, author-operated opposing-family source review; not independent main-merge approval."
+}

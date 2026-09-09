@@ -1,0 +1,55 @@
+{
+  "status": "SOURCE_REVIEW_APPROVE",
+  "scope": "Fixed transparent setup renderer and native MCP client",
+  "review": {
+    "scope": "p001-transparent-setup-native-v1: Review only fixed transparent P001 source/dependency setup renderer and native MCP client, not patient launch or scientific interpretation. The existing approved CPU setup and same original request/root are preserved. Three earlier worker transports are terminal, zero code executions; no persuasion retry. This changes the concrete opacity/oversight issues: readable frozen AST statements, private per-command logs, checked stage outputs, actual original MCP JSON-RPC records, source-only notebook readback and serial bound new-cell execution. No synthetic model protocol is manufactured. Native official SDK initialization/list_tools and raw request ID recording were actually demonstrated without browser/tool/model calls. 85 combined local tests and actual frozen0770 packet preparation passed. Verify direct client imports/response shapes, fixed command instrumentation, source/runtime guards and exclusive intent, four stage output validation, original native evidence correlation, no automatic retry on uncertainty, and unchanged existing notebook cells. Current source supplies fixed code only; never accepts model-generated commands. Actual browser connection will use existing registered configuration and approved runtime authentication; any real sign-in/changed runtime failure stops. Separate return transport modules in same commit are out of this review scope and will receive their own review. Exact setup review required before execution. Identify concrete remaining correctness/privacy/authority defects and smallest necessary fixes; avoid general redesign or extra assumed grants.",
+    "reviewed_commit": "e1cccd296a1b7924bb041af951ba78ed565099a7",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified in source: native dispatch/verify enforce the fixed 14-call sequence (open, initial source-only get_cells, 4 exact appends, then per-stage readback+single run), exact append arguments bound to packet cells, new-cell identity uniqueness, readback equality including ordering, refusal of any 'outputs' key in cell reads, JSON-RPC ID/response reconciliation with serial ordering, error-response and unanswered-request refusal (NATIVE_UNCERTAIN_REQUEST_RECONCILE), and zero model calls; exclusive-create intents, Operation.failed poisoning, and empty-log preconditions make every uncertain or failed path terminal with no resubmission. Configuration is SHA-256-pinned and command-checked; patient_launch_authorized/scientific_acceptance remain False in all artifacts; existing notebook cells are never mutated or executed.",
+      "Non-blocking correctness: readable() instrumentation is purely syntactic \u2014 only direct `subprocess.run`/`subprocess.check_output` attribute calls are redirected to the Operation allowlist and private log. An aliased reference (`from subprocess import run`, `sp = subprocess`) or non-call reference would bypass instrumentation. Safe today only because all three sources are hash-pinned known frozen cells. Smallest fix: after transforming, walk the AST and raise if any remaining Name node 'subprocess' is loaded outside the intercepted call positions.",
+      "Non-blocking authority tightening: require_review accepts scope via startswith('p001-transparent-setup-native-v1'), so any longer scope sharing the prefix (e.g. a hypothetical '...-v10') would satisfy the gate. Smallest fix: match the exact scope identifier followed by a delimiter (': ') or compare the token with equality.",
+      "Non-blocking local TOCTOU: run() imports orchestrator.p001_transparent_setup before require_review verifies its current file bytes, and validate_stage re-reads Path(__file__) at validation time rather than the loaded module bytes; a file modified between import and check could diverge from the executing module. Only exploitable by an actor who already controls the local checkout. Smallest fix: call require_review before importing spec (or verify the digest of spec.__file__ immediately after import).",
+      "Non-blocking evidence gap: Journal.record raises NATIVE_UNEXPECTED_SERVER_REQUEST / NATIVE_PROTOCOL_BOUND before writing the offending row, so the frame that caused a stop is absent from the private journal; stopped.json records only error_type. Smallest fix: persist a bounded private refusal record (or the truncated offending frame in a separate 0600 file) before raising.",
+      "Non-blocking bound inconsistencies: (a) per-run read timeout is 900 s and four runs plus other calls can exceed the single 1800 s asyncio.timeout and the recorded max_wall_seconds, so the outer timeout is the real bound; (b) instrumented _command imposes check=True and timeout=180 defaults on frozen statements that may not have specified them \u2014 strictly fail-closed, but a slow pip/apt (>180 s) will terminally poison the operation with no retry, forcing manual reconcile of the claimed setup root. Acknowledge or align the recorded bounds; no safety impact.",
+      "Non-blocking verifier asymmetries: verify_native omits dispatch's len(initial) > 60 headroom bound and never checks the initialize/tools-list exchanges' contents; malformed journal rows missing 'rpc' or 'params' surface as uncaught KeyError rather than a classified NATIVE_* error. All fail closed on self-produced journals; smallest fix is mirroring the bound and wrapping row access in a classified guard.",
+      "Source-only review: the claimed 85 combined test passes and the frozen-0770 packet preparation were treated as author assertions and were not executed here; no tools, browser connection, or patient data were used. Approval covers only this fixed setup route at the reviewed commit; a real sign-in prompt, changed runtime fingerprint, or changed MCP configuration must stop execution, and patient launch plus the separate return-transport modules retain their own review gates."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "e1cccd296a1b7924bb041af951ba78ed565099a7",
+    "returncode": 0,
+    "wall_seconds": 314.4070415749993,
+    "input_file_sha256": {
+      "orchestrator/p001_native_setup.py": "284bc78a536b83b0923622994c6651dbe5eebaa3af7e0bc844ae8a4593a031c7",
+      "orchestrator/p001_transparent_setup.py": "b0d957ec0cf8af7a4e95b182ef18b355b5aca0fa5f6a4c8778c3a55fc13cb336",
+      "tests/test_p001_native_setup.py": "364dbf849506bbe8097e8d9e84dc9763c91ea61a195105fd8ef9c3ddcc959886",
+      "tests/test_p001_transparent_setup.py": "076290a3b182818ae0aff9368140de37197633b8a8979029f30ef89d8f646ff5",
+      "orchestrator/p001_runtime_setup.py": "ec8a3e88a4975771fd3642b4aa71c7486164aad8fc69cf6f8c0d18d55487c799",
+      "orchestrator/p001_runtime_intake.py": "6bd9d97fdae4972815d25121bf7971c495ea8c7245ea7cf15a89b94e943976c2",
+      "orchestrator/colab_patient.py": "3c98e19984352bffe46190823f45f2bfef8b421004ef81780eb9fa0faf3b0b5d",
+      "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+      "docs/science/P001_TRANSPARENT_SETUP_ROUTE_20260908.md": "713cff1f844f9ce5166742e1756929ef7e96d2a50dce1019c546c0be790cd5d2",
+      "docs/science/P001_RUNTIME_SETUP_CURRENT_STOP_20260908.json": "8b3a5818fa77c573d84dec7604ae2eb1efddd01ccde03b11f429082eedb27246",
+      "docs/science/P001_RUNTIME_SETUP_SOURCE_REVIEW_R2_20260908.json": "0d6770a2a293c4655679d862a6b6a0dfc2efeb6c8b9bc71dcf3f214ea01b3136",
+      "docs/science/P001_MOUNT_CONFIRMED_20260908.json": "7614c7a3d4e92b277a96d2ca403132eab7cf88e8d9bc51e1e2f7071ba91956e8",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "2bb275e8d5e9486e639527b31e5c3b9b76cf0a2596508b104444ae975c212b5b",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "32493be07dab5dfe08791e88542c7817d44f345ae0dc184721c513e410052522"
+  },
+  "tests": "85 focused tests plus actual frozen packet preparation",
+  "test_originals_private": true,
+  "scientific_execution_authorized": false,
+  "live_transport_proven_by_this_review": false,
+  "review_kind": "Versioned pilot_review.py, author-operated opposing-family source review; not independent main-merge approval."
+}
