@@ -1,5 +1,7 @@
 # First remote handover — current acceptance checklist
 
+**Current checkpoint:** [completed 047b interpretation, confirmed Drive mount, exact P001 blockers and refreshed estimates](CURRENT_MILESTONE_20260908.md). This later record supersedes pending-state statements and estimates below; original dated evidence is retained.
+
 Updated 7 September 2026. Post-merge correction: [PR #5 reconciliation](PR5_MERGED_MILESTONE_20260907.md) carries the OPEN transport and original-range audit conditions; implementation is not yet complete for activation. Hosted present-tense statements below describe their dated receipts, pending current access reconciliation. This checklist supersedes older present-tense setup
 statements; the original dated receipts and Git history remain evidence. It is
 acceptance accounting, not activation or scientific authority. The canonical

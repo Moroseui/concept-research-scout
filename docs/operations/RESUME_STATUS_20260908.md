@@ -1,5 +1,7 @@
 # Resumed research work — 8 September 2026
 
+**Current checkpoint:** [completed 047b interpretation, confirmed Drive mount, exact P001 blockers and refreshed estimates](CURRENT_MILESTONE_20260908.md). This later record supersedes pending-state statements and estimates below; original dated evidence is retained.
+
 The checkout initially matched published reference `5fa55bfa1a12c8f3bde802ea1d6c2d0bac1cd998` and was clean. All three project checkouts were clean. Remote main remains `c17281a11dd2ed15e59cc38bbb526fb6c466b145`. No ref was reset. Local unmerged diagnostic history remains preserved. Temporary worktree directories disappeared with the local restart; their Git worktree records and frozen source objects remain. No pruning, regeneration or experiment replay occurred.
 
 ## Demonstrated and reconciled

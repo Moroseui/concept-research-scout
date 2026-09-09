@@ -1,0 +1,20 @@
+{
+  "observed_at_utc": "2026-09-09T02:55:47.859934+00:00",
+  "handover_configured_source": "6d0f0c508a6cfa624c96debc52f748b4cc0bfcd5",
+  "task_count": 6,
+  "task_status_counts": {
+    "COMPLETE": 6
+  },
+  "stage_state_counts": {
+    "COMPLETE": 18
+  },
+  "incomplete_tasks": [],
+  "live_writer_configured": false,
+  "report_schedule": null,
+  "broker_mode": "SYNTHETIC_FIXTURE",
+  "broker_model_mode": "SUPERVISED",
+  "controller_service": "MainPID=0\nResult=success\nActiveState=inactive\nSubState=dead\n",
+  "handover_timer_enabled": "not-found",
+  "drive_socket_present": true,
+  "root_prepare_receipt_sha256": "7a5bf46881ad505955b8f9e5a86ed6bd9a086d685a88fd40a0d5ebd9521353fa"
+}

@@ -1,0 +1,63 @@
+{
+  "kind": "AUTHOR_OPERATED_SOURCE_REVIEW_NOT_SCIENTIFIC_INTERPRETATION_OR_MERGE_DESK",
+  "review": {
+    "scope": "Review only the new local full P001 return intake and its tests, not scientific interpretation or patient launch. It preserves exact full206 member validation inputs and emits unchanged frozen validator argv without executing validation. Frozen source0770 reviews and actual frozen cohort selection verified;63targetedtests pass including24new. Enforce combined32MiB ZIP+terminal cap and explicit operational extraction cap, exact member identities, regular files/path/type races, duplicate receipt keys, terminal launch-manifest binding, bounded central directory and decompression, exclusive private destination, partial-state preservation and unchangedoriginals. No Drive/API/Colab/model/patient execution by thismodule. Remaining reservation/copy/registeredpairtransport and transparentruntime setup are explicitlynotimplemented by it. Inspect concrete remaining correctness/privacy/recovery risks; do not replace full frozen validation with remote receipts, broaden capabilities or infer authority. Root has separately completed source-reviewed root-private writer preparation; unrelated to thisreview.",
+    "reviewed_commit": "3f02bcdcb469354e1f1f86becd2ae97bf1199604",
+    "verdict": "APPROVE",
+    "findings": [
+      "No blockers: exact 206-member set from the frozen selection() (run under -I in the review-verified snapshot, no model/patient execution), duplicate/traversal/backslash/directory/symlink/encrypted/non-DEFLATE members rejected, combined 32 MiB ZIP+receipt cap, declared and actual expansion enforced against the caller-supplied explicit cap, duplicate receipt keys rejected even with equal values, launch-manifest/runtime/request/cap bindings checked, bounded EOCD verified before the stdlib ZIP parser, exclusive 0700 destination outside ROOT/snapshot, and validation_executed/scientific_acceptance/transfer_authority_granted_by_intake all false with the frozen validate_return.py argv emitted unchanged and unexecuted.",
+      "TOCTOU handling is sound: regular_file rejects symlink ancestors/FIFOs and replacement races (O_NOFOLLOW|O_NONBLOCK plus before/after stat identity), and ZipFile, check_directory and hash_stream all operate on the returned handles rather than re-opening paths; post-extraction identity plus full re-hash of both originals converts any mid-extraction mutation into a preserved, flagged partial state (verified by the mutation test) instead of a success receipt.",
+      "Minor: os.umask(0o077) in extract mutates process-global state and is never restored \u2014 correct for the CLI but a lasting side effect for in-process library callers and the test process; consider saving/restoring or documenting it.",
+      "Minor diagnostics: a terminal receipt larger than RECEIPT_CAP surfaces as P001_RETURN_COMBINED_TRANSFER_CAP because extract's size gate fires before terminal_receipt's own bound; fail-closed but slightly misleading for reconciliation.",
+      "Minor naming: in check_directory the third EOCD 16-bit field bound as disk_count is actually 'entries on this disk'; enforcement (both it and the total must equal 206, zero disks, empty comment, offset+size accounting excluding any ZIP64 locator) is correct, but the name could mislead maintenance.",
+      "Recovery edge: if private_write of intake-failure.json itself fails inside the except block (e.g., disk exhaustion despite the 256 MiB reserve), the secondary exception masks the original error for library callers; the CLI still emits only the sanitized BLOCKED_RECONCILE JSON, and the exclusive-destination rule still forces manual reconcile.",
+      "Durability edge: extracted files and receipts are fsynced but their directories are not, so a crash at the wrong moment could lose directory entries; the exclusive-destination P001_RETURN_EXISTING_DESTINATION_RECONCILE rule prevents silent retry, making this a reconcile inconvenience rather than a correctness hole.",
+      "Small TOCTOU window on the caller-controlled destination parent: the 0o077 permission and disk-capacity checks are stat-then-mkdir; acceptable given the parent is a trusted private directory, and umask 0o077 bounds created modes regardless.",
+      "expected_members runs the frozen-review subprocess before any input file is opened or bound \u2014 wasted work on garbage inputs (fail-closed either way) \u2014 and captures stderr unbounded in memory, bounded only by the 60 s timeout on reviewed frozen code.",
+      "Test coverage note: the extraction tests monkeypatch expected_members with a synthetic 206-name set, so the real snapshot/selection integration is exercised only by the mocked test_frozen_selection_is_reused_without_scientific_run; an end-to-end run against a real frozen snapshot remains for the transport canary stage. Reservation, terminal copy, registered-pair collection and runtime setup are correctly absent from this module, matching the plan's explicit non-goals."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "3f02bcdcb469354e1f1f86becd2ae97bf1199604",
+    "returncode": 0,
+    "wall_seconds": 156.43169389800096,
+    "input_file_sha256": {
+      "orchestrator/p001_return_intake.py": "ec932c2466c64dfd5a00fbec465f2194a32caf6ac8c2aad3ec62b34bd2794af7",
+      "tests/test_p001_return_intake.py": "ed578af098cf5d49920846b44a2ea7724ba5480a3285b345d508e5cd41001c75",
+      "orchestrator/p001_runtime_setup.py": "ec8a3e88a4975771fd3642b4aa71c7486164aad8fc69cf6f8c0d18d55487c799",
+      "orchestrator/p001_runtime_intake.py": "6bd9d97fdae4972815d25121bf7971c495ea8c7245ea7cf15a89b94e943976c2",
+      "orchestrator/colab_patient.py": "3c98e19984352bffe46190823f45f2bfef8b421004ef81780eb9fa0faf3b0b5d",
+      "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+      "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+      "campaigns/isles24-pilot/experiments/P001/validate_return.py": "c021d2c8cce8f2e1c92df88108eb93ba473d05b0990233532060aeab82a0d9db",
+      "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+      "docs/science/P001_FULL_RETURN_BINDING_PLAN_20260908.md": "8b42bfc8074af5db6d279256752a214c50733d5f44da35423a5f0fc64347fc6f",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "4093311e04fef416520f927f3581c323fd083342a591a6ab3dbb2210e7af04f9",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "285aa7d0ba925988ef4e9850d42a5a2414b7e90fe672774f4cc516b00a52c9bc"
+  },
+  "local_verification": {
+    "reported_test_count": 63,
+    "new_intake_tests": 24,
+    "reported_seconds": 2.99,
+    "frozen_review_and_selection": "PASS",
+    "expected_member_count": 206,
+    "member_set_sha256": "39bf9801fee9e564689f54af2a556bfe591fffa46b7f03a0f719d26ecda42031",
+    "evidence_location": "Original execution tool outputs in the author conversation; no separate test/result log was saved. Source reviewer did not independently rerun tests.",
+    "not_a_remote_transport_canary": true
+  },
+  "transfer_executed": false,
+  "scientific_validation_executed": false,
+  "patient_launch_authorized": false,
+  "remaining": "Exact app-owned reservation/alias binding, terminal copy, bounded pair collection and actual synthetic canary; transparent runtime setup separately."
+}

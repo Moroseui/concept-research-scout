@@ -1,8 +1,8 @@
 # P001 full-return binding — finite plan and pending decision
 
-Status: **local intake implemented and tested, pending source review; complete transport not demonstrated or authorized for patient launch**.
+Status: **local intake implemented, tested and source-review APPROVED; complete transport not demonstrated or authorized for patient launch**.
 
-047b’s first formal interpretation and opposing review are complete. P001 source/dependency setup’s second source review is APPROVE; actual setup is underway and still requires its execution receipts. This plan identifies the remaining return path needed for a complete P001 launch decision; neither milestone substitutes for that decision.
+047b’s first formal interpretation and opposing review are complete. P001 source/dependency setup’s second source review is APPROVE, but all three transport attempts stopped with zero code execution. See the [preserved stop](P001_RUNTIME_SETUP_CURRENT_STOP_20260908.json) and [transparent route assessment](P001_TRANSPARENT_SETUP_ROUTE_20260908.md); existing operator authorization is retained. This plan identifies the remaining return path needed for a complete P001 launch decision; neither milestone substitutes for that decision.
 
 ## Preserve the existing scientific acceptance
 
@@ -63,3 +63,5 @@ Allow **1–2 additional engineering hours** for the return binding, focused tes
 The fixed `p001-full-return-terminal/v1` receipt contains exactly `schema`, `request_id`, `runtime_fingerprint_sha256`, `worker_status` (`VALIDATED`), `execution_snapshot`, `source_pin`, `notebook_pin`, `zip_name` (`P001-private-return.zip`), `zip_bytes`, `zip_sha256`, `launch_manifest_sha256` and `max_extracted_bytes`. The trusted caller supplies the expected request/runtime/manifest bindings and expansion cap. The prepared launch manifest must bind the exact launch-decision SHA, attempt identity, setup/environment receipt SHA, reserved slot/alias binding and that expansion cap. The manifest and transport receipt remain separate from approval itself.
 
 There is no finite maximum extracted byte size in the scientific specification or validator: 99 cases and finite 3D arrays impose no maximum voxel dimensions. Therefore the helper requires an explicit operational `max_extracted_bytes`, checks declared and actual expansion against it, and requires the declared bytes plus 64 KiB for intake records and a 256 MiB disk reserve before extraction. The eventual launch packet must bind that cap; it is not invented here. The combined compressed ZIP/terminal-receipt ceiling remains 32 MiB.
+
+The [actual local-intake source review](P001_RETURN_INTAKE_SOURCE_REVIEW_20260908.json) approved commit `3f02bcdcb469354e1f1f86becd2ae97bf1199604`. The code is unchanged; this later status correction records the stopped setup workers and completed intake review.
