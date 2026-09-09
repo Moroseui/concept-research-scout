@@ -187,3 +187,10 @@ The operator reported the Google app published to Production; Desktop client and
 The approved persistent connector now passes original collection, synthetic storage/readback, actual refresh, restart recovery and role isolation. [Acceptance receipt](DRIVE_LIVE_ACCEPTANCE_20260908.json). All Google actions are complete; reuse authentication. P001 original receipt/console/headers and 047 original sibling are collected privately and have deterministic intake receipts. They are ready for system assessment; neither a patient prediction nor 047 scientific acceptance is claimed. Exact source review approved the one-new-task preparation extension; previous jobs/model calls remain complete and preserved.
 
 The latest section of [resumed status](RESUME_STATUS_20260908.md) supersedes estimates above: Drive 0, P001 2–3.5, 047b 2–3 and remaining handover 4–6 engineering hours. Decisions, authentication when needed, experiment runtime and the separately approved 24–48-hour observation remain separate.
+
+
+## Completed P001 readiness and approved handover design
+
+The [P001 readiness author/review/disposition](../science/hosted-p001-readiness-20260908/execution.json) completed through the installed versioned system; original replies and context hashes verified, one bookkeeping attempt, no collection replay. Launch is held for retained provenance and exact runtime/dependency/private-output binding before its separate operator decision. The remaining files and approved writer App setup are consolidated in [one operator window](OPERATOR_WINDOW_READY_20260908.md).
+
+The operator approved the prepared protected-writer/shared-admission/reset/restriction design and 21:00 New York report time. Main PR/basic protection is now installed and verified; existing results rules remain unchanged. Writer App identity, reviewed workflow integration/canary/secret relocation, historical audit ruling, provider recovery and separate unattended activation remain. The updated [047 acceptance record](../science/047B_REMAINING_ACCEPTANCE_20260908.md) reuses recovered console evidence and preserves registry/audit/landing gates.
