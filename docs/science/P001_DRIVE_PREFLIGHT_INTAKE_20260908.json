@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "stage": "drive-p001-preflight-intake",
+  "status": "TERMINAL_REPORT_AND_HEADER_CORRESPONDENCE_VERIFIED",
+  "originals": {
+    "receipt": {
+      "sha256": "d824f5204619f812852d769f93fbc6f14b7d5e918bef363680de319968ffa941",
+      "bytes": 600,
+      "collection_receipt_sha256": "d63ece007bf5047b7d0a6a0ddf14fc778b3d5b070b3493ef83128d598c4212e2"
+    },
+    "console": {
+      "sha256": "76b202f2bafbd864c24b1b37059b597347790f43461740ba79795b053d7f52c5",
+      "bytes": 573,
+      "collection_receipt_sha256": "9c309e2e087f7992c7c1ebe0455fa98897ff8e598c9415a717c06a30b9c94675"
+    },
+    "headers": {
+      "sha256": "a2d4f339c0154407edca429a6f93a29a976403458a83310f9b49823f0bcedc9e",
+      "bytes": 340,
+      "collection_receipt_sha256": "f654f8d6e1ecdd24eb0def704d2141196614892cf9eb2f449bfc4c181a7df910"
+    }
+  },
+  "reported_preflight": {
+    "status": "INPUT_INTEGRITY_AND_HEADERS_VERIFIED",
+    "prediction_executed": false,
+    "labels_opened": false,
+    "reserved_access": false,
+    "archive_size": 99014629647,
+    "archive_md5": "36ae28b9a17f7340b8bbef62b595cb57",
+    "eligible_cohort_verified": 99,
+    "admission_members_checked": 1,
+    "selection_rule": "first_lexical_eligible_id_no_outcome_selection",
+    "headers_sha256": "a2d4f339c0154407edca429a6f93a29a976403458a83310f9b49823f0bcedc9e",
+    "unit_semantics": "HEADER_EVIDENCE_ONLY_REQUIRES_RELEASE_PROVENANCE_ASSESSMENT",
+    "launch_authorized": false,
+    "elapsed_seconds": 1445.406708583
+  },
+  "single_sample_header_without_case_identity": {
+    "shape": [
+      512,
+      605,
+      75
+    ],
+    "dtype": "float32",
+    "proxy_slope": 1.0,
+    "proxy_intercept": 0.0,
+    "xyzt_units": [
+      "mm",
+      "unknown"
+    ]
+  },
+  "private_member_sha256_retained_not_exported": true,
+  "original_attempt_binding_supplied": false,
+  "scientific_acceptance": false,
+  "launch_authorized": false,
+  "limitations": [
+    "Reported archive checksum and preflight observations, not a new archive examination.",
+    "Header schema and byte correspondence do not establish scalar Tmax units.",
+    "No original attempt binding or process-exit attestation supplied in these three files."
+  ],
+  "intake_implementation_sha256": "1c53c0391771a6052e59ca146b77d9228767d1d798934a813cedba4fb65cc167",
+  "original_intake_receipt_sha256": "7491053402e71d8ef1a538b7b54f6554fa0322433786f04eb86962364481f29d",
+  "invoked_source": "1ac989833a27fa2f56addd2c26e049682b7d9873"
+}

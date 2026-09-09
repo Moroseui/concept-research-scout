@@ -180,3 +180,10 @@ remain outstanding. The new campaign discussion does not satisfy those gates.
 The operator reported the Google app published to Production; Desktop client and existing grant bytes are privately staged. [One-time Picker consent](GOOGLE_OAUTH_OPERATOR_WINDOW_20260908.md) is ready. Live retrieval, service isolation, storage and refresh/restart acceptance remain unproven. The reviewed P001-independent registration correction is source preparation, not an amended credential grant or installed capability.
 
 [Current workstream estimates and exact remaining milestones](RESUME_STATUS_20260908.md) supersede older remaining-effort estimates above: Drive 1.5–3 engineering hours, first P001 result/review 2–4 after evidence, 047b analysis/review 2–4 after evidence, and autonomous handover essentials 4–7. Authentication, operator decisions, experiment runtime and the separately approved 24–48-hour observation are distinct. Completed adapter/synthetic proofs are not included again.
+
+
+## 8 September live Drive milestone
+
+The approved persistent connector now passes original collection, synthetic storage/readback, actual refresh, restart recovery and role isolation. [Acceptance receipt](DRIVE_LIVE_ACCEPTANCE_20260908.json). All Google actions are complete; reuse authentication. P001 original receipt/console/headers and 047 original sibling are collected privately and have deterministic intake receipts. They are ready for system assessment; neither a patient prediction nor 047 scientific acceptance is claimed. Exact source review approved the one-new-task preparation extension; previous jobs/model calls remain complete and preserved.
+
+The latest section of [resumed status](RESUME_STATUS_20260908.md) supersedes estimates above: Drive 0, P001 2–3.5, 047b 2–3 and remaining handover 4–6 engineering hours. Decisions, authentication when needed, experiment runtime and the separately approved 24–48-hour observation remain separate.

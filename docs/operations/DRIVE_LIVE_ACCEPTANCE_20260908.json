@@ -1,0 +1,138 @@
+{
+  "status": "LIVE_REGISTERED_DRIVE_CONNECTOR_VERIFIED",
+  "approved_source": "6ea7566b7247286fac54c450ad8f388b129d130b",
+  "approval": "DRIVE_ACCESS_APPROVED_20260908.json",
+  "access_grant_reused": true,
+  "scope": "https://www.googleapis.com/auth/drive.file",
+  "runtime_implementation_sha256": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+  "unit_repair_source": "e317f6157d2f75c90938ca9fbfbb4436e30df39b",
+  "unit_sha256": "3428d56c66dd9a9877cd6a0fbd188b3c1cea213685ae3ddfdae2dde2b84037cc",
+  "registered_alias_count": 5,
+  "original_collection_receipts": {
+    "p001-preflight-headers-original-0001": {
+      "alias": "p001-preflight-headers",
+      "bytes": 340,
+      "collected_at": "2026-09-09T00:06:41.657310+00:00",
+      "experiment_executed": false,
+      "file_id_sha256": "d545cddda0852f3d9594f77b3acef74375e4147146d0805e98f830409c1a7bc6",
+      "implementation_sha256": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+      "request_id": "p001-preflight-headers-original-0001",
+      "requester_uid": 997,
+      "scientific_acceptance": false,
+      "sha256": "a2d4f339c0154407edca429a6f93a29a976403458a83310f9b49823f0bcedc9e",
+      "stage": "drive-evidence",
+      "status": "PRIVATE_ORIGINAL_COLLECTED",
+      "version": "3"
+    },
+    "p001-preflight-console-original-0001": {
+      "alias": "p001-preflight-console",
+      "bytes": 573,
+      "collected_at": "2026-09-09T00:06:40.300733+00:00",
+      "experiment_executed": false,
+      "file_id_sha256": "9bf14d1bcea6362b58a6d4aec6c2b33c6f10f5c82f041c6873f254757ffd4a48",
+      "implementation_sha256": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+      "request_id": "p001-preflight-console-original-0001",
+      "requester_uid": 997,
+      "scientific_acceptance": false,
+      "sha256": "76b202f2bafbd864c24b1b37059b597347790f43461740ba79795b053d7f52c5",
+      "stage": "drive-evidence",
+      "status": "PRIVATE_ORIGINAL_COLLECTED",
+      "version": "7"
+    },
+    "p001-preflight-receipt-original-0001": {
+      "alias": "p001-preflight-receipt",
+      "bytes": 600,
+      "collected_at": "2026-09-09T00:06:39.017529+00:00",
+      "experiment_executed": false,
+      "file_id_sha256": "2c67f741eb1781f3121fe58dd3543b0f3ec6dba7b56c0fbb3c3f9413b9703343",
+      "implementation_sha256": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+      "request_id": "p001-preflight-receipt-original-0001",
+      "requester_uid": 997,
+      "scientific_acceptance": false,
+      "sha256": "d824f5204619f812852d769f93fbc6f14b7d5e918bef363680de319968ffa941",
+      "stage": "drive-evidence",
+      "status": "PRIVATE_ORIGINAL_COLLECTED",
+      "version": "3"
+    },
+    "047-console-original-0001": {
+      "alias": "047-console",
+      "bytes": 9466,
+      "collected_at": "2026-09-09T00:06:42.800888+00:00",
+      "experiment_executed": false,
+      "file_id_sha256": "652025791eac494c8d54510385145b1f7c8c1db2260d975516a5b6be01abcdd1",
+      "implementation_sha256": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+      "request_id": "047-console-original-0001",
+      "requester_uid": 997,
+      "scientific_acceptance": false,
+      "sha256": "00a247582691bdec7fff74633443cc0cfe9391ac7ea4bdd393274d6699a95bca",
+      "stage": "drive-evidence",
+      "status": "PRIVATE_ORIGINAL_COLLECTED",
+      "version": "4"
+    }
+  },
+  "synthetic_storage": {
+    "stage": {
+      "stage": "drive-bundle-staging",
+      "status": "STAGED_PRIVATELY",
+      "request_id": "drive-storage-acceptance-20260908",
+      "file_count": 2,
+      "inventory_sha256": "252f295609701adab16a497a0274849af50b7177f0e9065b5c019cca55f5b2e7",
+      "uploaded": false
+    },
+    "store": {
+      "stage": "drive-evidence-storage",
+      "status": "PRIVATE_RUN_STORED",
+      "collected_at": "2026-09-09T00:08:47.815501+00:00",
+      "implementation_sha256": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+      "requester_uid": 997,
+      "request_id": "drive-storage-acceptance-20260908",
+      "file_count": 2,
+      "inventory_sha256": "252f295609701adab16a497a0274849af50b7177f0e9065b5c019cca55f5b2e7",
+      "scientific_acceptance": false,
+      "publication": false
+    },
+    "restart_new_pid": true,
+    "recovered_exact_storage_receipt": true,
+    "recovered_original_count": 4,
+    "duplicate_returned_original_receipt": true,
+    "archive_metadata_only": true,
+    "archive_bytes": 99014629647,
+    "properties": "MainPID=743007\nCPUQuotaPerSecUSec=500ms\nMemoryMax=402653184\nTasksMax=16\nUser=research-drive\nGroup=research-drive\nProtectHome=yes\nProtectSystem=strict\nNoNewPrivileges=yes\nRuntimeDirectoryMode=0700\nActiveState=active\nSubState=running",
+    "patient_execution": false,
+    "unattended_research_activation": false
+  },
+  "refresh": {
+    "expired_before": true,
+    "real_metadata_request_valid_after_refresh": true,
+    "existing_refresh_token_reused": true,
+    "temporary_runtime_removed": true,
+    "journal_sha256": "f82e0f2c0846dd9a78ee3d9508d0601cb0e386a7274231c01c4b3e03feb729f0"
+  },
+  "role_isolation": {
+    "research-controller": {
+      "root_oauth": false,
+      "service_oauth": false,
+      "private_original": false
+    },
+    "research-reviewer": {
+      "root_oauth": false,
+      "service_oauth": false,
+      "private_original": false
+    },
+    "research-worker": {
+      "root_oauth": false,
+      "service_oauth": false,
+      "private_original": false
+    },
+    "research-driver": {
+      "root_oauth": false,
+      "service_oauth": false,
+      "private_original": false
+    }
+  },
+  "google_actions_remaining": [],
+  "patient_execution": false,
+  "scientific_acceptance": false,
+  "unattended_activation": false,
+  "first_failed_start": "Preserved before collection; same request ID recovered after reviewed credential staging repair."
+}

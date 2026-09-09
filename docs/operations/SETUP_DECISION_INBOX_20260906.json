@@ -196,10 +196,10 @@
     },
     {
       "job": "persistent-drive-evidence",
-      "reason": "PRODUCTION_AND_DESKTOP_CLIENT_PREPARED",
-      "status": "APPROVED_WAITING_PICKER_CONSENT",
-      "next_action": "Reuse approved grant and installed source 6ea7566b. Operator reported Production; Desktop JSON privately installed and one-time consent helper ready. Await actual token/Picker completion; no live Drive retrieval claimed. See GOOGLE_OAUTH_OPERATOR_WINDOW_20260908.md.",
-      "evidence": "DRIVE_CONNECTOR_PREPARATION_20260907.json",
+      "reason": "ORIGINALS_COLLECTED_REFRESH_STORAGE_RESTART_VERIFIED",
+      "status": "RESOLVED_LIVE_CONNECTOR_VERIFIED",
+      "next_action": "Reuse installed registered connector and preserved original receipts. No Google setup or repeated access approval remains. P001 intake and original 047 sibling correspondence pass; scientific review and acceptance remain separate.",
+      "evidence": "DRIVE_LIVE_ACCEPTANCE_20260908.json",
       "implementation_pin": "6ea7566b7247286fac54c450ad8f388b129d130b",
       "approval": "DRIVE_ACCESS_APPROVED_20260908.json",
       "history": [
@@ -212,6 +212,11 @@
           "status": "APPROVED_WAITING_GOOGLE_SETUP",
           "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
           "next_action": "Operator created the project and enabled Drive/Picker APIs and drive.file scope. Production transition is blocked by Google Branding missing information; await exact field names. Grant already approved; libraries/source installed, no credentials or service yet."
+        },
+        {
+          "status": "APPROVED_WAITING_PICKER_CONSENT",
+          "reason": "PRODUCTION_AND_DESKTOP_CLIENT_PREPARED",
+          "next_action": "Reuse approved grant and installed source 6ea7566b. Operator reported Production; Desktop JSON privately installed and one-time consent helper ready. Await actual token/Picker completion; no live Drive retrieval claimed. See GOOGLE_OAUTH_OPERATOR_WINDOW_20260908.md."
         }
       ]
     }
