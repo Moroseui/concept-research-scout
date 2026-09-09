@@ -1,0 +1,52 @@
+{
+  "kind": "AUTHOR_OPERATED_SOURCE_REVIEW_NOT_SCIENTIFIC_INTERPRETATION_OR_MERGE_DESK",
+  "review": {
+    "scope": "Review only the narrow supervised047 configuration and concrete private acceptancepacket, not new scientific interpretation or independentmainmerge. New changes pin gpt6astra author/Fable5opposingreview nofallback/rotation; supply currentoperatinginstructions; replace unrelatedretinalrules with governingcontract. Exact3PhaseAcurrentoutputs were moved byte-for-byte into ideas/047/history/phase-a-before-supervised-b and separatelybacked up; currentoutput paths nowabsent toprevent staleexistenceapproval. Existingunchanged command excerpts are supplied. Existingcleanup/consoleintake/prior17filecorevalidation/historicalAapproval are complete; do not repeat them or require newhostedrouting. Private17fileimport needs explicitpendingoperatorauditretention/scientificlanding/historicalregistryattestation decision. Importbefore registryratification; verify exactPhaseB resolver then existinginterpret-build. Evaluate whether thissmallchange is sufficient and preserves authority/provenance; concrete blockers only. No modelscience or import hasrun.",
+    "reviewed_commit": "81d1508e6fa76ebe43b2f314a9c18ab598d9a17f",
+    "verdict": "APPROVE",
+    "findings": [
+      "Resolver staging hazard (caution, not blocker): _result_bundle_for returns the legacy top-level probes/047/results_v2 unconditionally, BEFORE the contract-match logic, contradicting its own S2c comment that the legacy name is the fallback. Because the subset check requires the staged bundle's directory name to be 'results_v2' (expected_source_dir = probes/047/{bundle.name}), staging the 17-file bundle at the natural in-repo path probes/047/results_v2 and leaving it there would make interpret-build resolve the uncommitted staging tree instead of the receipt-bound import at probes/047/results/results_v2-dc586665d0be. Stage the bundle outside the repository (any parent dir with the directory named results_v2 satisfies the subset check), and run the packet's mandated resolver verification after import with no legacy path present.",
+      "Resolver contract precondition (caution): contract-match selection requires _contract_hash(ideas/047) to equal dc586665d0bece940d1a1f4b3b0572f8c951c2ba; otherwise discovery falls back to name/lexicographic-newest and interpret-build's validate_bundle is the only backstop (it fails closed). The verification step should explicitly confirm the current contract hash equals dc586665..., not only that the returned path matches.",
+      "interpret_review = \"claude\" in AGENTS.toml is decorative: interpret_build derives the reviewer as the family opposite roles.interpret and never reads the interpret_review key. Currently consistent (codex authors, claude reviews), but a future edit to roles.interpret alone would silently change the reviewer family while the config still claims otherwise. Suggestion: note this in the config comment or have interpret_build assert agreement.",
+      "Reviewer write-scope is prompt-enforced only: _check_scope runs after the interpret leg but not after interpret_review, and the claude command allows Write/Edit with --permission-mode acceptEdits, so 'modify no file other than interpret_review.md' relies on the prompt. Mitigated by per-round _commit_all making any tampering visible in the diff and by supervised operation; acceptable for this run.",
+      "Privacy/egress is environmental, not enforced (caution): both legs run network-capable over private case-level metadata (codex sandbox_workspace_write.network_access=true; claude has WebSearch, WebFetch and Bash(git:*)). The 'no remotes, no publication route' invariant does not technically prevent git remote add + push if any ambient credential helper exists, and network tools could leak bundle contents. Before invocation, confirm SCOUT_CI/ANTHROPIC_API_KEY unset as documented and that no GitHub credential is reachable from the checkout; supervised execution and the stated no-remote clone make this acceptable for this run.",
+      "Fail-closed boundaries verified in supplied source: operative publication.json remains blocked pending the operator decision; record-result enforces policy contract match, ancestry marker binding dc586665..., immutable destination, and (via publication_subset.verify) exactly-one-disposition coverage of all 215 source files, staged/-only exclusions with byte-bound private evidence, and required-audit-files-retained \u2014 matching requested decision 1. Ratification is ordered after import in both the packet and the execution sequence.",
+      "Authority and provenance preserved: the packet keeps all three actions explicitly PREPARED_NOT_APPROVED under one named decision ID with reserved gates (public release, merges, reruns, contract changes, unattended activation) intact; Phase-A outputs were moved with recorded SHA-256s rather than deleted, which both prevents stale files satisfying the new run's output-existence checks and makes --resume-review fail closed (no interpretation.md to review); Phase-A approvals/receipts remain in git history and the private manifest. Model identity is pinned with no fallback and allow_api_billing=false, so model unavailability is a named stop rather than a silent substitution. The identical determinism_manifest_start/end hashes in the retained set are consistent with the deterministic-procedure uncertainty rule in the revised interpret prompt.",
+      "Minor: record_result contains a redundant 'if policy_path.exists():' immediately after raising when it does not exist \u2014 harmless; and the interpret prompt's decisions.md append is deliberately deferred (round-1 restriction plus 'Human ratification of the decision entry remains yours'), so no automatic decision-registry write occurs without the human gate."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "81d1508e6fa76ebe43b2f314a9c18ab598d9a17f",
+    "returncode": 0,
+    "wall_seconds": 198.53247527299936,
+    "input_file_sha256": {
+      "AGENTS.toml": "6848f33c54fd241277a975b910eda7d793eb3357f17ef71ec8b4f3e8eb532f3b",
+      "ideas/047/SUPERVISED_PHASE_B_CONTEXT.md": "9f74731d758de00369573628e5e641bf6bb97ff4f9bd22e66330264b7717d43f",
+      "orchestrator/prompts/interpret.md": "894ca0cc76852c08858609d57ffb6f2bfb79462f0255cffd510d19da684eca8b",
+      "orchestrator/prompts/interpret_review.md": "5f8eb2c8d0f0a1d018a6edb9b33ae28f0e8c1412a1d77e7207ba4178b85a40da",
+      "docs/science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md": "aebf8e0d5c00acca77be213789a5f55a2c7a091934afa4c2ee21c84490b97f31",
+      "docs/science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.json": "df5f81c57b7b63bb3bb32685a8b7b48562b286d8c694549e689140669866f6ed",
+      "docs/science/047B_SUPERVISED_EXISTING_COMMANDS.md": "37340574268232b5596077d867e893b886f80c0defa13955b3691aabbb231f6f",
+      "orchestrator/publication.py": "4b0d9963df2d65c1998ef5a3fbc81c72f5681b6993252909dc4c4ddc62104796",
+      "orchestrator/publication_subset.py": "6b9c0bf90b7555230699a1b4bb31c853619818a005955aed16b01712ef05b34d"
+    },
+    "response_sha256": "de6fdca88dfed662d0cf8d25114336bf1e3e8d40c2752c848fa98845747a66ad",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "f054810a878b2fa7b65c73b281904facb93caf1c9b293ec189a11d78893dffda"
+  },
+  "preconditions": {
+    "staging_outside_checkout": true,
+    "legacy_results_path_absent": true,
+    "current_contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+    "exact_phase_b_resolver_check_required_after_import": true,
+    "ambient_git_credentials_disabled_for_model_invocation": "REQUIRED_AT_INVOCATION_NOT_YET_EXECUTED",
+    "private_import_approval": "PENDING_OPERATOR_DECISION"
+  }
+}

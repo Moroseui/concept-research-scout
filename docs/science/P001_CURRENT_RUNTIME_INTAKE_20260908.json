@@ -1,0 +1,37 @@
+{
+  "status": "READ_ONLY_RUNTIME_EVIDENCE_RECORDED",
+  "source_commit": "483e4ba7a3a2bbd66da71afa3d8a2cefc63ceec4",
+  "request_id": "p001-runtime-20260908-v2",
+  "packet_sha256": "24c981b531dc7c84c4d28daf539a49cbfde14865871ea231dbd98c41643da322",
+  "original_protocol_sha256": "1e93a887a8f8d70b6268d251992dbfec8edda07dd8815b3d15bb217f9ae5a033",
+  "original_verified_receipt_sha256": "25390dacc7ac366a3904eb17e7256cf4a47fa1b17e7d0a7fde93ebd220dcd27c",
+  "observed_stream_sha256": "faeb69edf51e0e7161d61628a30056e2eb004b874a2ddad37b08246da32422d8",
+  "observed_at_utc": "2026-09-09T01:49:48.547883+00:00",
+  "scope": "CONNECTED_RUNTIME_ONLY_NOT_OTHER_OR_PRIOR_RUNTIMES",
+  "runtime_fingerprint_sha256": "d3db37e0c1e0ae7aae7e00e11edaa438624c2c2456b3245fa51e1dcdad335b6c",
+  "cpu_guard": {
+    "colab_runtime": true,
+    "nvidia_smi_absent": true
+  },
+  "drive": {
+    "mounted": false,
+    "visible": false
+  },
+  "archive_state": "NOT_VISIBLE",
+  "source_files_expected": 9,
+  "source_files_present": 0,
+  "dependencies_root_state": "ABSENT_IN_VISIBLE_PARENT",
+  "execution_paths_visibility": "ALL_NOT_VISIBLE",
+  "current_process_scan_complete": true,
+  "current_matching_processes": 0,
+  "historical_pid_identity_verified": false,
+  "source_review": {
+    "verdict": "APPROVE",
+    "execution_sha256": "0ac69d89201f2b6f1ffe506c8195a31c24e21ce5da43c0d08f51d6a29df8c8ee"
+  },
+  "actual_collector_cells_run_once": 2,
+  "prediction_executed": false,
+  "launch_authorized": false,
+  "scientific_acceptance": false,
+  "next_action": "Reconnect existing P001 runtime if available, otherwise restore approved setup on current CPU runtime; operator mounts Drive, then exact source/dependency/input/output reconciliation and applicable review before separate launch decision. No preflight replay."
+}

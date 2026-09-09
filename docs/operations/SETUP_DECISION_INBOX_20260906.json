@@ -10,9 +10,17 @@
     },
     {
       "job": "patient-backend",
-      "reason": "PATIENT_TRANSFER_AND_LAUNCH_RESERVED",
-      "status": "OPEN",
-      "next_action": "P001 Linux transport/dependency review and execution reconciliation must precede separate patient transfer/launch approval."
+      "reason": "CURRENT_RUNTIME_BINDINGS_AND_SEPARATE_LAUNCH_REQUIRED",
+      "status": "OPEN_EXACT_LAUNCH_DECISION",
+      "next_action": "P001 supplemental author/opposing review/disposition closed historical preflight correspondence and computation/report gaps. Complete the read-only current-runtime/dependency/input/output reconciliation, then prepare the exact separate launch decision. No Linux move, 047 acceptance or autonomous activation is required for the existing Colab path.",
+      "history": [
+        {
+          "status": "OPEN",
+          "reason": "PATIENT_TRANSFER_AND_LAUNCH_RESERVED",
+          "next_action": "P001 Linux transport/dependency review and execution reconciliation must precede separate patient transfer/launch approval."
+        }
+      ],
+      "evidence": "../science/hosted-p001-provenance-readiness-20260908/execution.json"
     },
     {
       "job": "phone-acceptance",
@@ -23,9 +31,17 @@
     },
     {
       "job": "protected-publication-admission",
-      "reason": "OPERATOR_APPROVED_DESIGN_20260908",
-      "status": "APPROVED_SETUP_PENDING_WRITER_IDENTITY",
-      "next_action": "Reuse PROTECTED_HANDOVER_APPROVED_20260908.json; obtain exact writer App identity/key through prepared operator window, then reviewed installation and shared admission checks. No repeat design approval; no unattended activation."
+      "reason": "SELECTED_REPOSITORY_WRITER_APP_VERIFIED",
+      "status": "APPROVED_WRITER_IDENTITY_VERIFIED_LIVE_SETUP_PENDING",
+      "next_action": "Reuse the approved design and verified App 4879374, installation 160193942, exact repository grant and privately staged replacement key. Live writer/shared state are not activated. Optional setup preparation is preserved on astra/pending-hosted-numbered-idea-20260908 at deb7dbd475d227f8252b25048c7add17ef66b383, not deployed; it does not gate supervised 047 analysis.",
+      "history": [
+        {
+          "status": "APPROVED_SETUP_PENDING_WRITER_IDENTITY",
+          "reason": "OPERATOR_APPROVED_DESIGN_20260908",
+          "next_action": "Reuse PROTECTED_HANDOVER_APPROVED_20260908.json; obtain exact writer App identity/key through prepared operator window, then reviewed installation and shared admission checks. No repeat design approval; no unattended activation."
+        }
+      ],
+      "evidence": "WRITER_APP_IDENTITY_20260908.json"
     },
     {
       "job": "provider-recovery",
@@ -98,9 +114,9 @@
     },
     {
       "job": "colab-persistent-handoff-20260907",
-      "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
-      "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
-      "next_action": "Retrieve the existing terminal preflight evidence through the approved persistent Drive connector after Google consent/registration. No experiment redispatch; no routine manual Colab JSON relay.",
+      "status": "CURRENT_RUNTIME_CHECKED_DRIVE_MOUNT_AND_SETUP_NEEDED",
+      "reason": "CPU_RUNTIME_SOURCE_ABSENT_DRIVE_NOT_VISIBLE",
+      "next_action": "Use P001_CURRENT_RUNTIME_INTAKE_20260908.json. Existing preflight evidence is system-reviewed; no replay. Operator reconnects original runtime if available or mounts Drive in current CPU runtime, then restore approved source/dependencies and exact launch bindings.",
       "history": [
         {
           "status": "OPEN_IMPLEMENTATION",
@@ -111,14 +127,25 @@
           "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
           "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
           "next_action": "Same-session CPU and exact preflight dispatch verified after transparent source/authority resolved worker refusal. Three-request client exhausted; no automatic redispatch. Terminal receipt requires separate checked read-only retrieval through generated manual cell or a separately bounded connected worker."
+        },
+        {
+          "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
+          "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
+          "next_action": "Retrieve the existing terminal preflight evidence through the approved persistent Drive connector after Google consent/registration. No experiment redispatch; no routine manual Colab JSON relay."
+        },
+        {
+          "status": "PREFLIGHT_ASSESSED_CURRENT_RUNTIME_RECONCILIATION_IN_PROGRESS",
+          "reason": "ORIGINAL_PREFLIGHT_PROVENANCE_SUPPLEMENT_REVIEWED",
+          "next_action": "Reuse completed Drive collection and the supplemental system author/opposing-review/disposition. Historical correspondence and successful computation/report gaps are closed; independent OS exit remains unobserved. Current runtime checking is underway before exact launch bindings and separate approval. No preflight replay, repeated Google consent or routine JSON relay."
         }
-      ]
+      ],
+      "evidence": "../science/P001_CURRENT_RUNTIME_INTAKE_20260908.json"
     },
     {
       "job": "047b-original-console-20260907",
-      "status": "ORIGINAL_CONSOLE_RECOVERED_ACCEPTANCE_DECISIONS_PENDING",
-      "reason": "DRIVE_SIBLING_MATCHES_REVIEWED_NOTEBOOK",
-      "next_action": "Reuse original sibling intake and completed cleanup. Historical registry attestation, exact exclusion/audit metadata treatment and scientific landing remain reserved.",
+      "status": "PRIVATE_ACCEPTANCE_PACKET_PREPARED_CONFIGURATION_REVIEW_RUNNING",
+      "reason": "EXACT_ORIGINAL_PRIVATE_IMPORT_USES_EXISTING_NUMBERED_IDEA_ROUTE",
+      "next_action": "Decide the exact private 17-file original-import/audit-retention/registry packet in 047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md. Scoped role/context configuration review is running. After approval and configuration review, record-result 47, verify exact Phase-B resolution, ratify-registry 47, then existing interpret-build 47 with opposing review. No Phase-B scientific analysis has run; hosted routing and autonomous handover are not prerequisites.",
       "history": [
         {
           "status": "OPEN_EVIDENCE_AND_DECISION",
@@ -133,9 +160,15 @@
           "status": "EVIDENCE_RECOVERED_REVIEW_PENDING",
           "reason": "ORIGINAL_CORRESPONDENCE_VERIFIED_SUCCESSFUL_CONSOLE_UNRECOVERED",
           "next_action": "System incoming-notebook-evidence verified saved Phase-B output against original and replacement summaries. Review its limited evidence disposition; original sibling log remains unchecked. Registry attestation, exclusions/audit disposition and scientific landing remain separate gates."
+        },
+        {
+          "status": "ORIGINAL_CONSOLE_RECOVERED_ACCEPTANCE_DECISIONS_PENDING",
+          "reason": "DRIVE_SIBLING_MATCHES_REVIEWED_NOTEBOOK",
+          "next_action": "Reuse original sibling intake and completed cleanup. Historical registry attestation, exact exclusion/audit metadata treatment and scientific landing remain reserved.",
+          "evidence": "../science/047B_DRIVE_SIBLING_INTAKE_20260908.json"
         }
       ],
-      "evidence": "../science/047B_DRIVE_SIBLING_INTAKE_20260908.json",
+      "evidence": "../science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md",
       "review": "../science/047B_NOTEBOOK_REVIEW_20260907.json"
     },
     {
@@ -222,5 +255,17 @@
       ]
     }
   ],
-  "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state."
+  "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state.",
+  "current_checkpoint": {
+    "date": "2026-09-08",
+    "local_science_receipt_commit": "483e4ba7a3a2bbd66da71afa3d8a2cefc63ceec4",
+    "p001_supplemental_system_stages": "COMPLETE_READINESS_ONLY",
+    "p001_current_runtime": "READ_ONLY_RECONCILIATION_IN_PROGRESS",
+    "p001_launch": "SEPARATE_DECISION_REQUIRED_NO_PREDICTION_RESULT",
+    "047b": "PRIVATE_ACCEPTANCE_PACKET_PREPARED_ANALYSIS_NOT_RUN",
+    "drive": "COMPLETE_NO_AUTHENTICATION_ACTION_PENDING",
+    "writer_app": "VERIFIED_PRIVATE_KEY_STAGED_NO_LIVE_WRITER",
+    "autonomy_dependency_for_047b": false,
+    "remote_queue_mutated_by_this_record": false
+  }
 }

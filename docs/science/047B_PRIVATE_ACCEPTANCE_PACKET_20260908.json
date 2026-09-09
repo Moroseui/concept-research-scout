@@ -1,0 +1,130 @@
+{
+  "decision_id": "047b-private-acceptance-20260908-v1",
+  "status": "PREPARED_NOT_APPROVED",
+  "scope": "PRIVATE_SUPERVISED_SYSTEM_ANALYSIS_WITHOUT_PUBLIC_RESULT_PUBLICATION",
+  "private_packet_sha256": "e4be5d973fe67a5b8a1ebcc8135b9b30871358fca40e56256d616d8ff3a53671",
+  "checkout_base": "81d1508e6fa76ebe43b2f314a9c18ab598d9a17f",
+  "phase_b": {
+    "original_source": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+    "contract_blob": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+    "bundle_source_dir": "probes/047/results_v2",
+    "import_destination": "probes/047/results/results_v2-dc586665d0be",
+    "manifest_sha256": "56380f9fae381867df3b9b574e43efe653b96becfca17c5a4c6d8576f718d361",
+    "file_count": 17,
+    "retained_sha256": {
+      "clinical_estimation_table.csv": "6195744b0e91cadea4d53803af8cc3b80913a81ca6fabb988ac6c1f8dacc0c24",
+      "clinical_uncertainty.json": "fe80ab864c7f7490bdab8f8b875971aaa0427c96b4193ce84b4021488e1a4f47",
+      "determinism_manifest_end.json": "e418f258fe395af7ea78eb0a5f9846e9d2b9ea3473c95a4365635d24e8dc80eb",
+      "determinism_manifest_start.json": "e418f258fe395af7ea78eb0a5f9846e9d2b9ea3473c95a4365635d24e8dc80eb",
+      "environment.txt": "76e274785c6d3a6b2f80b476fe2b7a1802234d638b0b9a26846d3c076caef49a",
+      "input_manifest.csv": "b3e1d90d6c833d26bf6395ff3c7cffe0d4a64017c9aed244016d4a6279a5f6f1",
+      "per_case_staging.csv": "187cbf1352ca2594729232038e391ea7c5391972de534c441efadd6145274226",
+      "phenotype_schema_census.csv": "f8bd727ad8b33baec46b84484721064c588a2cce7d0e8237c242da6130845fd2",
+      "probe_exclusions.csv": "0e584ab9c95eb132d2cdd1199085ba198abf41a64e770ebca600dc4cae247698",
+      "resolved_config.json": "6362d00fcecccde39abfe00af002cc5c896be5396079b9dd9cc44e5ac2935cfd",
+      "run_log.txt": "3db0d617204f7cdab88a94e1a9c32302f17d7d7e0d4febffdced6ccc571347ba",
+      "split_manifest.csv": "ac8ac11afedd47b26f9f7c0d026c7599892d738d56cf38b433bde1617134e674",
+      "split_manifest.json": "be2a8814fa9e61277774464e74d557c5ac70bf3786a1f4ddeb1f8bad0af43461",
+      "staging_audit.json": "5addb8f01a9fe45ce1a935d23a863a8f26c9af93e096dbb1f9f315d44fb6e9ea",
+      "staging_extraction_log.txt": "582d43a0f6634b863edb786f731cf877425fa9927e3faff771e9e5572507e5b7",
+      "summary.json": "b960e4a86dad001c9b1e7722970f70b6b1f4b37cf3e2d4eaeb36008881a06244",
+      "suppression_log.csv": "ab09362ffab5981a6e0e63ebcc376e266403dc1dbb880ea5ffc78c3f625c7545"
+    },
+    "staged_private_file_count": 198,
+    "subset_declaration_sha256": "9a66574c56b9c96766eb6c6bca64523bb5af8cb239e114ca2a49725c0c84abc3"
+  },
+  "phase_a": {
+    "contract_blob": "b4887c05a21bfe870589b5d9982066943df679d5",
+    "approval_commit": "c81d44850c74b1bcc4062f900a35f78a6004d294",
+    "approval_sha256": "4b3ec937d36ba73a45485a4c51b8fdfbd0434115240a8670f653f4c7524d154c",
+    "bundle_manifest_sha256": "7888c925025ef2e30c0f025825fb4e43cd39b22b880a69b3285c7c76ea26eb85",
+    "import_first_add_commit": "6037f24122766fe1c68f16eb9f38d9a16c2c5e66",
+    "first_add_marker_binds_historical_contract": true
+  },
+  "registry_sha256": "936742c38c725b8ab5a9c98ff6d832176b1dd825b754cd888370e69ac9f18089",
+  "policy": {
+    "operative_policy_sha256": "e0c3f00ddb700cc87c094c68a8d3bd63b9f802a8f85b9f389035a3edd8ad02ee",
+    "proposed_policy_sha256": "f17688efc65a9c922b99cd094bb1d2999119e5e6bf111ab1eac9580a56d456ca",
+    "operative_policy_changed": false,
+    "artifact_allowlist_and_required_set_unchanged": true,
+    "cleared_hold_scope": "Only the named private local import; no public result/payload release"
+  },
+  "requested_decisions": [
+    {
+      "id": "private_audit_metadata_disposition",
+      "request": "Retain probe_exclusions.csv, per_case_staging.csv, staging_audit.json and split_manifest.csv byte-for-byte inside the private analysis record. Preserve two bookkeeping rows and two file-anomaly rows across three identities without recasting all as analyzed-case exclusions. Permit the system to interpret and review the existing data and its limitations; no amendment, row deletion, fabricated derivative or new public case-level release."
+    },
+    {
+      "id": "phase_b_private_import_and_landing",
+      "request": "Authorize exact17-file historical Phase-B import and scientific landing in the protected, unpublished supervised checkout using the source-complete subset; the198staged inputs remain preserved privately outside the imported interface. No experiment rerun, main merge or push."
+    },
+    {
+      "id": "historical_registry_attestation",
+      "request": "Attest the existing unchanged Phase-A approval/import bindings in the two-node registry only after the accepted Phase-B import. Preserve original approvals, interpretations, logs and stage receipts; no re-approval of Phase-A science or new scientific conclusion."
+    }
+  ],
+  "execution_sequence": [
+    "Record the exact operator approval and reviewed scoped role/context configuration.",
+    "Apply only the approved private-import policy in the unpublished checkout.",
+    "Use record-result47 with exactexpected-blob/source-commit/publication-subset. It performs its required validation and provenance checks; no separate replay of already completed evidence intake.",
+    "Verify the exact current-contract Phase-B result resolver target, then ratify-registry47 under the authenticated operator decision, with both nodes satisfying its COMPLETE postcondition.",
+    "Run the existing interpret-build47 author/opposing-review workflow, with at most its existing one revision; preserve all new stage receipts. Review-only recovery uses its existing --resume-review mechanism only after inspecting original state.",
+    "Keep outputs private pending checked export/publication and any later ratification decisions."
+  ],
+  "reserved": [
+    "Any publiccase-level orpatientpayloadrelease",
+    "Main orotherprotectedbranchmerge",
+    "Newexperiment or rerun",
+    "Changes to scientificcontract",
+    "Unattendedactivation"
+  ],
+  "reused_evidence": [
+    "047 cleanup complete",
+    "Original sibling console matches reviewed notebook stream",
+    "Prior17-file corevalidation",
+    "Historical Phase-Aapproval and its8-minute interpretation/review receipts"
+  ],
+  "new_preparation_checks": {
+    "subset_and_proposed_file_policy": {
+      "declaration_sha256": "9a66574c56b9c96766eb6c6bca64523bb5af8cb239e114ca2a49725c0c84abc3",
+      "source_commit": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+      "source_dir": "probes/047/results_v2",
+      "source_file_count": 215,
+      "retained_file_count": 17,
+      "excluded_file_count": 198,
+      "dispositions_verified": true
+    },
+    "core_scientific_validation_repeated": false,
+    "remote_or_model_calls": 0,
+    "import_or_ratification_executed": false
+  },
+  "phase_a_combined_stage_seconds": 480.451,
+  "estimates": {
+    "decision_preparation_engineering_minutes": [
+      30,
+      60
+    ],
+    "necessary_configuration_and_review_engineering_minutes": [
+      20,
+      45
+    ],
+    "initial_interpretation_opposing_review_elapsed_minutes": [
+      10,
+      25
+    ],
+    "autonomous_hosting_engineering_hours": [
+      2.5,
+      4.5
+    ],
+    "human_window_minutes": [
+      3,
+      5
+    ],
+    "authentication_minutes": 0,
+    "new_experiment_runtime_minutes": 0,
+    "autonomous_observation_hours": [
+      24,
+      48
+    ]
+  }
+}
