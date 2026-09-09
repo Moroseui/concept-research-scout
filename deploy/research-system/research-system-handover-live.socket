@@ -1,0 +1,11 @@
+[Unit]
+Description=Distinct protected live research request socket (installed disabled)
+[Socket]
+ListenStream=/run/research-system/handover-live.sock
+Service=research-system-handover-live.service
+SocketUser=root
+SocketGroup=research-runtime
+SocketMode=0660
+RemoveOnStop=true
+[Install]
+WantedBy=sockets.target
