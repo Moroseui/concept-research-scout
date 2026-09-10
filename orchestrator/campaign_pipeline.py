@@ -30,6 +30,8 @@ def system_stage(sc,directory,family,stage,body,names):
     separately reviewed profile/provenance adapter.
     """
     if os.environ.get('SCOUT_CI'):
+        from orchestrator.scientific_authority import stage_context
+        body=stage_context(sc.ROOT,directory,family,stage)+body
         from orchestrator.actions_runner import system_stage as hosted_stage
         return hosted_stage(sc,directory,family,stage,body,names)
     original=sc.ROOT
@@ -39,7 +41,7 @@ def system_stage(sc,directory,family,stage,body,names):
     (directory/('profile_'+stage+'.json')).write_text(json.dumps({'profile_sha256':hashlib.sha256((config_root/'AGENTS.toml').read_bytes()).hexdigest(),'profile_source':'configs/pilot/agents-unattended.toml','stage':stage}))
     try:
         sc.ROOT=config_root
-        return run_isolated_stage(sc,directory,family,stage,body,names)
+        return run_isolated_stage(sc,directory,family,stage,body,names,authority_root=original)
     finally:
         sc.ROOT=original
         shutil.rmtree(config_root)
@@ -59,6 +61,9 @@ def grounding(root,experiment):
             if r.get(key)!=hashlib.sha256((prior/name).read_bytes()).hexdigest():raise ValueError('predecessor binding stale')
         imported=json.loads((prior/'import_receipt.json').read_text())
         if imported.get('spec_sha256')!=hashlib.sha256((prior/'SPEC.md').read_bytes()).hexdigest():raise ValueError('predecessor specification changed')
+    from orchestrator.campaign import require_no_human_stop
+    from orchestrator.scientific_authority import context as current_authority
+    require_no_human_stop(root,experiment)
     files={base/'CAMPAIGN.md'}
     for name in ['CURRENT_STATUS.md','047_LIFECYCLE.md']:
         f=Path(root)/'docs/isles-pilot'/name
@@ -82,6 +87,9 @@ def grounding(root,experiment):
         f=Path(root)/name
         if not f.is_file():raise FileNotFoundError('REQUIRED_OPERATING_CONTEXT: '+name)
         files.add(f)
+    delegation=current_authority(root)
+    files.update((Path(root)/delegation['binding']['path'],
+                  Path(root)/delegation['policy']['direction_path']))
     result={}
     for f in sorted(files):
         if f.is_symlink():raise ValueError('symlink input')
@@ -138,12 +146,15 @@ def execute(sc,mode,experiment,request,output,initiator=None,proposal=None,*,max
     try:
         for round in range(1,max_rounds+1):
             directory=output/f'round-{round}';directory.mkdir(mode=0o700)
+            from orchestrator.campaign import require_no_human_stop
+            require_no_human_stop(sc.ROOT,experiment)
             author=run_stage(sc,directory,'codex','campaign_'+mode,body,MODES[mode])
             if mode=='interpret':
                 decision=json.loads((directory/'investigator_next_decision.json').read_text())
                 if set(decision)!={'status','rationale'} or decision['status']!='PROPOSAL_ONLY' or not isinstance(decision['rationale'],str) or not decision['rationale'].strip():raise ValueError('INVALID_INTERPRETATION_NEXT_DECISION')
             proposal='\n'.join(name+'\n'+(directory/name).read_text() for name in MODES[mode])
             if (directory/'review.json').exists():raise ValueError('author may not prepopulate reviewer output')
+            require_no_human_stop(sc.ROOT,experiment)
             reviewer=run_stage(sc,directory,'claude','campaign_'+mode+'_review',
                 'Review this campaign proposal against its context. Write review.json with exactly verdict (APPROVE or REVISE) and rationale (nonempty string). Do not ratify or execute.\n'+body+'\nPROPOSAL:\n'+proposal,['review.json'])
             review=json.loads((directory/'review.json').read_text())
@@ -159,6 +170,48 @@ def execute(sc,mode,experiment,request,output,initiator=None,proposal=None,*,max
     except BaseException as e:
         (output/'blocked.json').write_text(json.dumps({'status':'BLOCKED','failure_type':type(e).__name__,'failure_code':str(e) if re.fullmatch('[A-Z][A-Z0-9_]{1,100}',str(e)) else 'PIPELINE_STAGE_FAILED','human_decision':'Inspect preserved stage evidence; do not treat partial output as approved.'}))
         raise
+
+
+def reviewed_proposal(root, proposal, experiment):
+    """Read one completed proposal; adoption never changes its PROPOSAL_ONLY status."""
+    from orchestrator.scientific_authority import read, digest
+    root = Path(root).absolute()
+    proposal = Path(proposal)
+    if not proposal.is_absolute():
+        proposal = root / proposal
+    allowed = root / 'campaigns/isles24-pilot/pipeline'
+    if '..' in proposal.parts or not proposal.is_relative_to(allowed) or any(p.is_symlink() for p in (proposal, *proposal.parents)):
+        raise ValueError('CAMPAIGN_PROPOSAL_PATH')
+    raw = read(proposal / 'receipt.json')
+    receipt = json.loads(raw)
+    if (receipt.get('status') != 'REVIEWED_PROPOSAL_NOT_ADOPTED' or
+            receipt.get('experiment') != experiment or receipt.get('mode') not in MODES or
+            type(receipt.get('round')) is not int or receipt['round'] not in (1, 2) or
+            receipt.get('author_family') != 'codex' or receipt.get('reviewer_family') != 'claude'):
+        raise ValueError('REVIEWED_CAMPAIGN_PROPOSAL_REQUIRED')
+    request_raw = read(proposal / 'request.json')
+    request = json.loads(request_raw)
+    if (request.get('status') != 'PROPOSAL_ONLY' or request.get('mode') != receipt['mode'] or
+            request.get('experiment') != experiment):
+        raise ValueError('CAMPAIGN_ORIGINAL_PROPOSAL_REQUEST_REQUIRED')
+    hashes = receipt.get('artifact_sha256')
+    if not isinstance(hashes, dict) or not hashes:
+        raise ValueError('CAMPAIGN_PROPOSAL_ARTIFACTS_REQUIRED')
+    prefix = 'round-' + str(receipt['round']) + '/'
+    for name, expected in hashes.items():
+        relative = Path(name)
+        if (relative.is_absolute() or '..' in relative.parts or not name.startswith(prefix) or
+                digest(read(proposal / relative)) != expected):
+            raise ValueError('CAMPAIGN_PROPOSAL_ARTIFACT_CHANGED')
+    for name in [*MODES[receipt['mode']], 'review.json']:
+        if prefix + name not in hashes:
+            raise ValueError('CAMPAIGN_PROPOSAL_ARTIFACTS_REQUIRED')
+    review = json.loads(read(proposal / prefix / 'review.json'))
+    if review.get('verdict') != 'APPROVE' or not review.get('rationale'):
+        raise ValueError('CAMPAIGN_PROPOSAL_REVIEW_REQUIRED')
+    return {'path': str(proposal.relative_to(root)), 'receipt_sha256': digest(raw),
+            'request_sha256': digest(request_raw), 'mode': receipt['mode'], 'artifact_sha256': hashes}
+
 
 
 if __name__=='__main__':

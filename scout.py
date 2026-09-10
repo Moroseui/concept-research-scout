@@ -234,6 +234,11 @@ Write only the file the task names. Preserve all other files.
              ROOT/'evidence'/'cross_charter_index.md',
              ROOT/'evidence'/'librarian_proposals.md']
     context = '\n\n'.join(f'===== {p.relative_to(ROOT)} =====\n{read_text(p)}' for p in files)
+    if (ROOT / 'configs/scientific-delegation-20260909.json').exists():
+        from orchestrator.scientific_authority import policy
+        direction, binding = policy(ROOT)
+        context += '\n\n===== CURRENT SCIENTIFIC DELEGATION (OPERATING POLICY) =====\n' + json.dumps(
+            {'policy': direction, 'binding': binding})
     from orchestrator.research_context import evidence_context
     context += '\n\n===== RELATED EVIDENCE (NO SCORE TRANSFER) =====\n' + json.dumps(evidence_context(ROOT, charter_for_target(target)))
     tctx = _target_context(stage, target)
@@ -244,7 +249,8 @@ Repository root: {ROOT}
 Assigned output directory: {target.relative_to(ROOT)}
 Preserve existing files unless the task explicitly requires an update.
 Do not claim novelty without verified primary sources.
-Do not write code unless this is the probe_code stage and human approval exists.
+Do not write code unless this is the probe_code stage and its exact human or reviewed delegated-agent approval is verified.
+Routine scientific judgments use the delegated system route when its policy is present; never invent a human signature. Preserve explicit human stops and all resource/data gates. Unsupported ideas remain reversible deferrals with evidence and reconsideration conditions.
 
 {context}
 
@@ -810,10 +816,40 @@ def stage_target(stage, idea):
     return idea_dir(idea)
 
 
+def _scientific_condition_resolved(target):
+    """A reviewed resumption resolves only the unchanged prior scientific condition."""
+    if not target.name.isdigit() or ledger_mod.human_stopped(f'idea-{int(target.name):03d}'):
+        return False
+    lines = state_mod._idea_ledger_lines(ROOT, f'idea-{int(target.name):03d}')
+    if state_mod._merged_current(lines).get('status') not in ('ACTIVE', 'SHORTLISTED'):
+        return False
+    for index in range(len(lines) - 1, -1, -1):
+        event = json.loads(lines[index])
+        if event.get('kind') != 'AGENT_SCIENCE_RESUMED':
+            continue
+        try:
+            from orchestrator.scientific_authority import verify
+            path = _numbered_decision_path(event['authority_decision_path'])
+            if sha256_of(path) != event['authority_decision_sha256']:
+                return False
+            bindings = resume_science_bindings(int(target.name))
+            bindings['ledger_events_sha256'] = hashlib.sha256('\n'.join(lines[:index]).encode()).hexdigest()
+            verify(ROOT, path, action='resume_science', subject='idea:' + target.name,
+                   bindings=bindings, expected_transition=event['authority_transition'])
+            return True
+        except (ValueError, OSError, KeyError):
+            return False
+    return False
+
+
 def _pending_human_unblock(target):
-    """Latest debate/consensus verdict with a non-empty `unblock`
-    condition and verdict REVISE (round-10 P0: thinking ahead is
-    allowed; binding ahead is not)."""
+    """Legacy extraction of a model's REVISE condition.
+
+    This is not proof of a human stop. Reviewed delegated resumption may
+    resolve a scientific condition; explicit ledger human stops remain separate.
+    """
+    if _scientific_condition_resolved(target):
+        return None
     for name in ('consensus.md', 'debate.md'):
         f = target / name
         if not f.exists():
@@ -833,12 +869,103 @@ def _pending_human_unblock(target):
     return None
 
 
+def _numbered_decision_path(value):
+    p = Path(value)
+    if not p.is_absolute():
+        p = ROOT / p
+    if any(x.is_symlink() for x in (p, *p.parents)) or not p.resolve().is_relative_to(ROOT.resolve()):
+        raise SystemExit('NUMBERED_DECISION_MUST_STAY_IN_PRIVATE_CHECKOUT')
+    return p
+
+
+def _agent_applied(idea, decision_path, action):
+    """An identical applied decision is a historical receipt, never a new dispatch."""
+    digest = sha256_of(_numbered_decision_path(decision_path))
+    ledger = ROOT / 'ledger.jsonl'
+    if ledger.exists():
+        for line in ledger.read_text().splitlines():
+            row = json.loads(line)
+            if (row.get('ledger_id') == f'idea-{idea:03d}' and
+                    row.get('authority_action') == action and
+                    row.get('authority_decision_sha256') == digest):
+                print(f'ALREADY_APPLIED: idea-{idea:03d} {action} {digest[:12]}')
+                return True
+    return False
+
+
+def _agent_decision(idea, path, action, bindings, transition):
+    from orchestrator.scientific_authority import verify
+    if ledger_mod.human_stopped(f'idea-{idea:03d}'):
+        raise SystemExit('HUMAN_STOP_PRESERVED: an agent decision cannot release it')
+    try:
+        return verify(ROOT, _numbered_decision_path(path), action=action,
+                      subject=f'idea:{idea:03d}', bindings=bindings,
+                      expected_transition=transition)
+    except (ValueError, OSError) as error:
+        raise SystemExit('DELEGATED_SCIENTIFIC_DECISION_REFUSED: ' + str(error)) from error
+
+
+def _agent_event(decision):
+    return {'actor_type': 'agent', 'actor': decision['actor'],
+            'authority': decision['authority'], 'policy': decision['policy'],
+            'authority_action': decision['action'],
+            'authority_decision_sha256': decision['_decision_sha256'],
+            'authority_decision_path': str(Path(decision['_decision_path']).relative_to(ROOT)),
+            'authority_transition': decision['transition'],
+            'rationale': decision['rationale'], 'reconsideration': decision['reconsideration']}
+
+
+def resume_science_bindings(idea):
+    d = idea_dir(idea)
+    rows = state_mod._idea_ledger_lines(ROOT, f'idea-{idea:03d}')
+    values = {'ledger_events_sha256': hashlib.sha256('\n'.join(rows).encode()).hexdigest()}
+    blob = _contract_hash(d)
+    if blob:
+        values['contract_blob'] = blob
+    for name in ('consensus.md', 'debate.md'):
+        if (d / name).is_file():
+            values[name.replace('.md', '_sha256')] = sha256_of(d / name)
+    return values
+
+
+def resume_science(args):
+    if _agent_applied(args.idea, args.agent_decision, 'resume_science'):
+        return
+    _require_clean_tree('resume-science')
+    current = ledger_mod.load().get(f'idea-{args.idea:03d}', {}).get('status')
+    target = getattr(args, 'status', 'ACTIVE')
+    if current not in ('PAUSED', 'REJECTED', 'SHORTLISTED') or target not in ('ACTIVE', 'SHORTLISTED'):
+        raise SystemExit('SCIENTIFIC_RESUMPTION_REQUIRES_REVERSIBLE_DEFERRED_STATE')
+    decision = _agent_decision(args.idea, args.agent_decision, 'resume_science',
+                               resume_science_bindings(args.idea), {'from': current, 'to': target})
+    ledger_mod.append({'ledger_id': f'idea-{args.idea:03d}', 'kind': 'AGENT_SCIENCE_RESUMED',
+                       'status': target, 'notes': decision['rationale'], **_agent_event(decision)})
+    ledger_mod.digest()
+    state_mod.write_state(f'{args.idea:03d}', ROOT, **_state_kwargs())
+    errors = state_mod.verify_state(f'{args.idea:03d}', ROOT, **_state_kwargs())
+    if errors:
+        raise SystemExit('RESUMPTION_STATE_VERIFY_FAILED: ' + '; '.join(errors))
+    _commit_all(f'idea {args.idea:03d}: agent scientific resumption -> {target}')
+    print('Scientific state resumed; no completed job was rerun.')
+
+
 def run_stage(args):
     target=stage_target(args.stage,args.idea)
+    if target.name.isdigit() and ledger_mod.human_stopped(f'idea-{int(target.name):03d}'):
+        raise SystemExit('HUMAN_STOP_PRESERVED: release the explicit stop before running stages')
     if args.stage == 'revise':
+        agent_path = getattr(args, 'agent_decision', None)
+        if agent_path and _agent_applied(args.idea, agent_path, 'resume_science'):
+            print('No repeated model stage; reconcile any original revision receipt before a new request.')
+            return
         cond = _pending_human_unblock(target)
         ack = getattr(args, 'unblock_ack', None)
-        if cond and not ack:
+        agent_decision = getattr(args, 'agent_decision', None)
+        if agent_decision and ack:
+            raise SystemExit('CHOOSE_AGENT_DECISION_OR_EXPLICIT_HUMAN_RULING')
+        if cond and agent_decision:
+            resume_science(argparse.Namespace(idea=args.idea, agent_decision=agent_decision, status='ACTIVE'))
+        if cond and not ack and not agent_decision:
             raise SystemExit(
                 'HUMAN_UNBLOCK_REQUIRED: the debate conditioned this '
                 'revision on a human ruling -- ' + cond[:300] + ' -- '
@@ -851,9 +978,15 @@ def run_stage(args):
     if args.stage=='probe-code':
         approval=target/'HUMAN_APPROVED_PROBE'
         contract=target/'probe_contract.yaml'
-        if not approval.exists() or not contract.exists():
-            raise SystemExit('Probe code blocked: probe contract and HUMAN_APPROVED_PROBE are required.')
-        bound = next((ln.split(':',1)[1].strip() for ln in
+        delegated = None
+        if (target / 'agent_probe_approval.json').exists():
+            try:
+                delegated = reg_mod.agent_probe_approval(target.name, ROOT)
+            except (ValueError, OSError) as error:
+                raise SystemExit('Probe code blocked: ' + str(error)) from error
+        if (not approval.exists() and not delegated) or not contract.exists():
+            raise SystemExit('Probe code blocked: probe contract and HUMAN_APPROVED_PROBE or reviewed agent approval are required.')
+        bound = delegated['bindings']['contract_blob'] if delegated else next((ln.split(':',1)[1].strip() for ln in
                       approval.read_text().splitlines()
                       if ln.startswith('contract_blob:')), None)
         current = _contract_hash(target)
@@ -892,11 +1025,18 @@ def probe_build(args):
     """Generate Stage 0 probe code with cross-model adversarial review:
     probe-code (one family) -> probe-review (the other) -> at most one
     revision -> deterministic verify. The goal is fixed beforehand by the
-    human-approved feasibility memo + contract; review checks fidelity to
+    explicitly approved feasibility memo + contract; review checks fidelity to
     that goal, never expands it."""
     d = idea_dir(args.idea)
+    if ledger_mod.human_stopped(f'idea-{args.idea:03d}'):
+        raise SystemExit('HUMAN_STOP_PRESERVED')
     if not (d/'HUMAN_APPROVED_PROBE').exists():
-        raise SystemExit('Run approve-probe first: the human gate precedes any code.')
+        try:
+            delegated = reg_mod.agent_probe_approval(d.name, ROOT)
+        except (ValueError, OSError) as error:
+            raise SystemExit('Probe build blocked: ' + str(error)) from error
+        if not delegated:
+            raise SystemExit('Run approve-probe first: explicit human or reviewed delegated authority precedes code.')
     if not (d/'probe_contract.yaml').exists():
         raise SystemExit('probe_contract.yaml missing: run `run --stage probe-plan` first.')
     _require_clean_tree('probe-build')
@@ -989,7 +1129,7 @@ def _last_ledger_row(ledger_id, kind=None):
         except json.JSONDecodeError:
             continue
         if r.get('ledger_id') == ledger_id and \
-                (kind is None or r.get('kind') == kind):
+                (kind is None or r.get('kind') in ((kind,) if isinstance(kind, str) else kind)):
             last = r
     return last
 
@@ -1094,13 +1234,17 @@ def render_card(idea):
     A('')
     A('## Declared vs derived status')
     ks = card.get('keystone_status')
-    rat = _last_ledger_row(f'idea-{n}', kind='INTERPRETATION_RATIFIED')
+    rat = _last_ledger_row(f'idea-{n}', kind=('INTERPRETATION_RATIFIED', 'AGENT_INTERPRETATION_ACCEPTED'))
     verdict = _interpret_review_verdict(d) or {}
-    derived = (f'ratified -> {rat.get("status")}' if rat else
+    derived = ((('agent accepted' if rat.get('actor_type') == 'agent' else 'ratified') +
+                f' -> {rat.get("status")}') if rat else
                ('interpretation ' + verdict.get('verdict')
                 if verdict.get('verdict') else 'no interpretation'))
     A(f'- idea_card.keystone_status: {ks!r}')
     A(f'- system-derived: {derived}')
+    if rat and rat.get('actor_type') == 'agent':
+        A('- deciding model: ' + str((rat.get('actor') or {}).get('model')) +
+          '; decision ' + str(rat.get('authority_decision_sha256')))
     if rat and ks not in (None, '', rat.get('status')):
         A('- DRIFT: the card field predates the ratified outcome. '
           'Candidate operator update to idea_card.json (normal edit; '
@@ -1398,7 +1542,9 @@ def cmd_ratify_registry(args):
 
 
 def cmd_ratify_interpretation(args):
-    """M4 (round-8): the deterministic human-authority primitive that
+    """M4 transaction with distinct human and reviewed delegated-agent authority.
+
+    The existing human path and the explicit --agent-decision path both
     closes an interpretation. Verifies six identities -- interpretation,
     cross-family review, its APPROVE verdict, decision, governing
     contract, validated results bundle -- then performs ONE transaction:
@@ -1411,6 +1557,9 @@ def cmd_ratify_interpretation(args):
     class)."""
     n = f'{args.idea:03d}'
     d = idea_dir(args.idea)
+    agent_path = getattr(args, 'agent_decision', None)
+    if agent_path and _agent_applied(args.idea, agent_path, 'accept_interpretation'):
+        return
     _require_clean_tree('ratify-interpretation')
     status = args.status
     if status not in ledger_mod.STATUSES:
@@ -1438,16 +1587,44 @@ def cmd_ratify_interpretation(args):
     blob = _contract_hash(d)
     if not blob:
         raise SystemExit('ratify refused: no governing contract')
+    authority = {}
+    if agent_path:
+        if status == 'REJECTED':
+            raise SystemExit('AGENT_PERMANENT_REJECTION_FORBIDDEN: use PAUSED with reconsideration')
+        current = ledger_mod.load().get(f'idea-{n}', {}).get('status')
+        decision = _agent_decision(args.idea, agent_path, 'accept_interpretation',
+                                   interpretation_decision_bindings(args.idea, bundle),
+                                   {'from': current, 'to': status})
+        authority = _agent_event(decision)
+        context_receipt = {'status': 'AGENT_REVIEWED_NOT_HUMAN_RATIFIED',
+                           'interpretation_sha256': docs['interpretation.md'],
+                           'review_sha256': docs['interpret_review.md'],
+                           'proposal_sha256': docs['decision.md'],
+                           'contract_blob': blob, 'results_bundle': str(bundle.relative_to(ROOT)),
+                           'manifest_sha256': decision['bindings']['manifest_sha256'],
+                           'authority_decision_path': authority['authority_decision_path'],
+                           'authority_decision_sha256': decision['_decision_sha256'],
+                           'deciding_actor': decision['actor'],
+                           'authority_reviewer_provenance': decision['reviewer_provenance']}
+        source_stages = d / 'stage_provenance.jsonl'
+        if source_stages.exists():
+            stages = [json.loads(x) for x in source_stages.read_text().splitlines() if x.strip()]
+            context_receipt['original_stage_provenance_sha256'] = sha256_of(source_stages)
+            context_receipt['original_stage_ids'] = {stage: [x['run_id'] for x in stages
+                if x.get('stage') == stage and x.get('exit_class') == 'ok'][-1:]
+                for stage in ('interpret', 'interpret_review')}
+        (d / 'reviewed_context_receipt.json').write_text(json.dumps(context_receipt, indent=2, sort_keys=True) + '\n')
     ledger_mod.append({
         'ledger_id': f'idea-{n}', 'status': status,
-        'kind': 'INTERPRETATION_RATIFIED',
-        'notes': (f'operator ratified the machine-APPROVEd interpretation '
-                  f'-> {status}'),
+        'kind': 'AGENT_INTERPRETATION_ACCEPTED' if agent_path else 'INTERPRETATION_RATIFIED',
+        'notes': (f'agent accepted the reviewed interpretation -> {status}' if agent_path else
+                  f'operator ratified the machine-APPROVEd interpretation -> {status}'),
         'interpretation_sha256': docs['interpretation.md'],
         'review_sha256': docs['interpret_review.md'],
         'decision_sha256': docs['decision.md'],
         'contract_blob': blob,
         'results_bundle': str(bundle.relative_to(ROOT)),
+        **authority,
     })
     ledger_mod.digest()
     p = state_mod.write_state(n, ROOT, **_state_kwargs())
@@ -1455,14 +1632,30 @@ def cmd_ratify_interpretation(args):
     if errs:
         raise SystemExit('ratify TRANSACTION FAILED at state-verify: '
                          + '; '.join(errs))
-    _commit_all(f'idea {n}: interpretation ratified -> {status} '
-                '(M4 authority transaction)')
-    print(f'Ratified: idea-{n} -> {status}')
+    _commit_all(f'idea {n}: interpretation ' + ('agent accepted' if agent_path else 'ratified') +
+                f' -> {status} (M4 authority transaction)')
+    print(f'{"Agent accepted" if agent_path else "Ratified"}: idea-{n} -> {status}')
     print(f'  interpretation {docs["interpretation.md"][:12]}  '
           f'review {docs["interpret_review.md"][:12]}  '
           f'decision {docs["decision.md"][:12]}')
     print(f'  contract {blob[:12]}  bundle {bundle.relative_to(ROOT)}')
     print(f'  state re-materialized + verified: {p.relative_to(ROOT)}')
+
+
+def interpretation_decision_bindings(idea, bundle=None):
+    """Bind the original interpretation and exact already imported result bytes."""
+    d = idea_dir(idea)
+    bundle = Path(bundle) if bundle is not None else _result_bundle_for(idea)
+    if bundle is None or bundle.is_symlink() or not bundle.resolve().is_relative_to(ROOT.resolve()):
+        raise ValueError('PRIVATE_IMPORTED_BUNDLE_REQUIRED')
+    if any(p.is_symlink() for p in bundle.rglob('*')):
+        raise ValueError('RESULT_BUNDLE_SYMLINK')
+    manifest, _ = _bundle_manifest(bundle)
+    return {'contract_blob': _contract_hash(d),
+            'interpretation_sha256': sha256_of(d / 'interpretation.md'),
+            'review_sha256': sha256_of(d / 'interpret_review.md'),
+            'decision_sha256': sha256_of(d / 'decision.md'),
+            'results_bundle': str(bundle.relative_to(ROOT)), 'manifest_sha256': manifest}
 
 
 def _confer_prompt(n, tag, question, ctx):
@@ -1739,11 +1932,11 @@ def interpret_build(args):
             v = _interpret_review_verdict(d) or {}
             if v.get('verdict') == 'APPROVE':
                 print(f'Interpretation APPROVED on round {round_no}. '
-                      'Human ratification of the decision entry remains yours.')
+                      'Apply its reviewed model disposition through the delegated decision route, or use explicit human ratification.')
                 break
             if round_no == 2:
                 raise SystemExit('Interpretation still blocked after one revision round; '
-                                 'human review of interpret_review.md required.')
+                                 'preserve the review and record a bounded system repair or deferral.')
             print('Reviewer requested revision; running the one allowed round.')
     except SystemExit:
         _commit_all(f'idea {args.idea:03d}: interpret-build FAILED (partial output preserved)')
@@ -1757,6 +1950,28 @@ def approve_probe(args):
     if not ch:
         raise SystemExit('probe_contract.yaml missing: approval binds to a '
                          'specific contract; run probe-plan first.')
+    agent_path = getattr(args, 'agent_decision', None)
+    if agent_path:
+        if _agent_applied(args.idea, agent_path, 'approve_probe'):
+            return
+        _require_clean_tree('approve-probe')
+        decision = _agent_decision(args.idea, agent_path, 'approve_probe',
+                                   reg_mod.agent_probe_bindings(d.name, ROOT),
+                                   {'from': 'UNAPPROVED', 'to': 'APPROVED'})
+        reference = {'schema': 'agent-probe-approval-reference/v1',
+                     'decision_path': str(Path(decision['_decision_path']).relative_to(ROOT)),
+                     'decision_sha256': decision['_decision_sha256']}
+        (d / 'agent_probe_approval.json').write_text(json.dumps(reference, indent=2, sort_keys=True) + '\n')
+        ledger_mod.append({'ledger_id': f'idea-{d.name}', 'kind': 'AGENT_PROBE_APPROVED',
+                           'contract_blob': ch, **_agent_event(decision)})
+        ledger_mod.digest()
+        state_mod.write_state(d.name, ROOT, **_state_kwargs())
+        errors = state_mod.verify_state(d.name, ROOT, **_state_kwargs())
+        if errors:
+            raise SystemExit('AGENT_APPROVAL_STATE_VERIFY_FAILED: ' + '; '.join(errors))
+        _commit_all(f'idea {d.name}: delegated agent probe approval')
+        print(f'Agent approved probe for {d.name}; historical human marker unchanged.')
+        return
     marker=d/'HUMAN_APPROVED_PROBE'
     text = (f'Approved by human at {datetime.now(timezone.utc).isoformat()}\n'
             f'contract_blob: {ch}\n')
@@ -3944,6 +4159,40 @@ STAGE_DONE_MARKER = {'keystone': 'keystone_screen.md','critique': 'critique.md',
 PIPELINE_PROMPT = {'keystone': 'keystone_screen'}
 
 
+def _stage_verdict_evidence(idea, artifact, verdict, **fields):
+    """Preserve a stage verdict and actual provenance without making an approval."""
+    d = idea_dir(idea)
+    source = d / artifact
+    evidence = {'original_verdict': verdict, 'verdict_path': str(source.relative_to(ROOT)),
+                'verdict_sha256': sha256_of(source), **fields}
+    provenance = d / 'stage_provenance.jsonl'
+    if provenance.exists():
+        permitted = ('keystone', 'keystone_screen') if artifact == 'keystone_screen.md' else ('debate_summary', 'consensus')
+        rows = [(line, json.loads(line)) for line in provenance.read_text().splitlines() if line.strip()]
+        matches = [(line, rec) for line, rec in rows if rec.get('stage') in permitted and rec.get('exit_class') == 'ok']
+        if matches:
+            line, stage = matches[-1]
+            evidence['actor'] = {'kind': 'agent', 'family': stage.get('family_effective'),
+                                 'model': stage.get('model_used'), 'session_id': stage.get('run_id'),
+                                 'session_id_source': 'system_stage_run_id'}
+            evidence['stage_provenance'] = {'path': str(provenance.relative_to(ROOT)),
+                                             'record_sha256': hashlib.sha256(line.encode()).hexdigest()}
+    if 'actor' not in evidence:
+        evidence['attribution_status'] = 'ORIGINAL_STAGE_IDENTITY_UNAVAILABLE_NO_NEW_AUTHORITY'
+    if (ROOT / 'configs/scientific-delegation-20260909.json').exists():
+        from orchestrator.scientific_authority import policy
+        _, evidence['policy'] = policy(ROOT)
+    return evidence
+
+
+def _stage_deferral(idea, artifact, verdict, *, reason, reconsideration, **fields):
+    evidence = _stage_verdict_evidence(idea, artifact, verdict, **fields)
+    previous = _last_ledger_row(f'idea-{idea:03d}', kind='SCIENTIFIC_STAGE_DEFERRED')
+    if previous and previous.get('verdict_sha256') == evidence['verdict_sha256'] and previous.get('verdict_path') == evidence['verdict_path']:
+        return
+    ledger_mod.defer(f'idea-{idea:03d}', reason=reason, reconsideration=reconsideration, **evidence)
+
+
 def _apply_keystone_verdict(idea):
     import re
     body = read_text(idea_dir(idea)/'keystone_screen.md')
@@ -3963,10 +4212,11 @@ def _apply_keystone_verdict(idea):
     lid = f'idea-{int(idea):03d}'
     if verdict == 'KILL':
         code = v.get('kill_code') if v.get('kill_code') in ledger_mod.TAXONOMY else 'UNCLASSIFIED'
-        ledger_mod.append({'ledger_id': lid, 'status': 'REJECTED', 'kill_code': code,
-                           'kill_reason': ('keystone screen: ' + str(v.get('note', '')))[:400],
-                           'death_stage': 'keystone',
-                           'keystone_evidence': str(v.get('evidence', ''))[:500]})
+        reason = ('keystone screen: ' + str(v.get('note', '')))[:400]
+        _stage_deferral(idea, 'keystone_screen.md', verdict, reason=reason,
+                        reconsideration=str(v.get('reconsideration') or 'New evidence resolving the failed keystone, or a worthwhile linked question; retain this failed check.'),
+                        kill_code=code, kill_reason=reason, deferral_stage='keystone',
+                        keystone_evidence=str(v.get('evidence', ''))[:500])
         ledger_mod.digest()
     return verdict
 
@@ -4109,6 +4359,10 @@ def pipeline(args):
             return
     failures = []
     for idea in ideas:
+        state = ledger_mod.load().get(f'idea-{idea:03d}', {})
+        if ledger_mod.human_stopped(f'idea-{idea:03d}') or state.get('status') in ('PAUSED', 'REJECTED'):
+            print(f'idea {idea:03d} is deferred or human-stopped; preserve evidence and record an eligible resumption before stages.')
+            continue
         for stage in stages:
             marker = STAGE_DONE_MARKER.get(stage)
             if stage != 'revise' and marker and (idea_dir(idea)/marker).exists():
@@ -4125,8 +4379,8 @@ def pipeline(args):
             _commit_all(f'idea {idea:03d}: {stage} done')
             print(f'[done] idea {idea:03d} {stage} (checkpoint committed)')
             if stage == 'keystone':
-                if ledger_mod.load().get(f'idea-{idea:03d}', {}).get('status') == 'REJECTED':
-                    print(f'idea {idea:03d} killed at keystone screen; skipping remaining stages.')
+                if ledger_mod.load().get(f'idea-{idea:03d}', {}).get('status') in ('PAUSED', 'REJECTED'):
+                    print(f'idea {idea:03d} deferred at keystone screen; skipping remaining stages.')
                     break
             if stage == 'debate' and 'revise' not in stages:
                 e = ledger_mod.load().get(f'idea-{idea:03d}', {})
@@ -4192,7 +4446,9 @@ def _dossier_entry_idea(d, entries):
         if v:
             parts.append(f'- {k}: {json.dumps(v) if not isinstance(v, str) else v}'[:400])
     if e.get('kill_code'):
-        parts.append(f"- KILLED: {e['kill_code']} -- {e.get('kill_reason','')[:300]}")
+        label = 'HISTORICAL REJECTION' if e.get('status') == 'REJECTED' else 'PRESERVED NEGATIVE/DEFERRAL'
+        parts.append(f"- {label}: {e['kill_code']} -- {e.get('kill_reason','')[:300]}")
+        parts.append('- Reconsider only with new evidence or a worthwhile new question; retain the failed test. ' + e.get('reconsideration', ''))
     body = read_text(d/'consensus.md')
     if body:
         for header in ('Recommendation', 'Unresolved', 'Amendments made'):
@@ -4308,14 +4564,20 @@ def _apply_consensus_verdict(idea):
     note = ('debate: ' + str(v.get('unblock', v.get('reason', ''))))[:500]
     if verdict == 'KILL':
         code = v.get('kill_code') if v.get('kill_code') in ledger_mod.TAXONOMY else 'UNCLASSIFIED'
-        ledger_mod.append({'ledger_id': lid, 'status': 'REJECTED',
-                           'kill_code': code, 'kill_reason': note,
-                           'death_stage': 'debate'})
+        _stage_deferral(idea, 'consensus.md', verdict, reason=note,
+                        reconsideration=str(v.get('unblock') or 'New evidence or a worthwhile linked question; preserve the failed test.'),
+                        kill_code=code, kill_reason=note, deferral_stage='debate')
     elif verdict == 'PAUSE':
-        ledger_mod.append({'ledger_id': lid, 'status': 'PAUSED', 'notes': note})
+        _stage_deferral(idea, 'consensus.md', verdict, reason=note,
+                        reconsideration=str(v.get('unblock') or 'New evidence or a worthwhile next question.'))
     elif verdict in ('REVISE', 'PROCEED'):
+        observation = _stage_verdict_evidence(idea, 'consensus.md', verdict)
         rec = {'ledger_id': lid, 'status': 'SHORTLISTED' if verdict == 'REVISE' else 'ACTIVE',
-               'notes': note}
+               'notes': note, 'actor_type': 'agent', 'rationale': note, **observation}
+        current = ledger_mod.load().get(lid, {})
+        if ledger_mod.human_stopped(lid) or current.get('status') in ('PAUSED', 'REJECTED'):
+            rec.pop('status')
+            rec['scientific_resumption_required'] = True
         if verdict == 'REVISE':
             rec['card_synced'] = False
         ledger_mod.append(rec)
@@ -4439,8 +4701,8 @@ def main():
     p=sp.add_parser('doctor'); p.set_defaults(fn=doctor)
     p=sp.add_parser('new-scout'); p.set_defaults(fn=new_scout)
     p=sp.add_parser('shortlist'); p.add_argument('scout'); p.add_argument('candidate',type=int); p.add_argument('--track',choices=TRACKS); p.set_defaults(fn=shortlist)
-    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.add_argument('--unblock-ack',dest='unblock_ack'); p.set_defaults(fn=run_stage)
-    p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.set_defaults(fn=approve_probe)
+    p=sp.add_parser('run'); p.add_argument('stage',choices=['scout','wide-scout','fiction-scout','fiction-extract','fiction-refine','novelty-audit','critique','revise','feasibility','probe-plan','probe-code','interpret','context-memo','reconcile']); p.add_argument('--idea',type=int); p.add_argument('--agent',choices=['claude','codex']); p.add_argument('--unblock-ack',dest='unblock_ack'); p.add_argument('--agent-decision'); p.set_defaults(fn=run_stage)
+    p=sp.add_parser('approve-probe'); p.add_argument('idea',type=int); p.add_argument('--agent-decision'); p.set_defaults(fn=approve_probe)
     p=sp.add_parser('verify-probe'); p.add_argument('idea',type=int,nargs='?'); p.set_defaults(fn=verify_probe)
     p=sp.add_parser('package-colab'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--phase',default='B'); p.add_argument('--staging-zenodo',help='Zenodo concept id: generate Drive-persistent staging cells'); p.add_argument('--staging-suffixes',help='comma-separated filename suffixes to extract'); p.add_argument('--staging-record',help='immutable Zenodo child record id to pin (forbids runtime version drift)'); p.add_argument('--staging-mode',choices=['drive_fuse_cache','origin_direct'],default='drive_fuse_cache',help='archive transport: FUSE copy from the Drive cache (transitional) or direct download from the pinned origin'); p.add_argument('--phase-s-dir',help='Drive path holding the Phase-S bundle this phase must verify'); p.add_argument('--omit-phase-flag',action='store_true',help='probe run.py takes no --phase'); p.add_argument('--runner-args',default='',help='extra args appended verbatim to the run.py invocation ({PY_VARS} interpolate)'); p.add_argument('--runner-setup',default='',help='shell line emitted before the runner (e.g. apt installs)'); p.set_defaults(fn=package_colab)
     p=sp.add_parser('record-result'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--bundle'); p.add_argument('--expected-blob',dest='expected_blob'); p.add_argument('--source-commit',dest='source_commit'); p.add_argument('--publication-subset'); p.set_defaults(fn=record_result)
@@ -4461,7 +4723,8 @@ def main():
     p=sp.add_parser('librarian'); p.add_argument('--agent',choices=['claude','codex']); p.set_defaults(fn=librarian)
     p=sp.add_parser('probe-build'); p.add_argument('idea',type=int,nargs='?'); p.set_defaults(fn=probe_build)
     p=sp.add_parser('interpret-build'); p.add_argument('idea',type=int,nargs='?'); p.add_argument('--resume-review',action='store_true',dest='resume_review'); p.set_defaults(fn=interpret_build)
-    p=sp.add_parser('ratify-interpretation'); p.add_argument('idea',type=int); p.add_argument('--status',required=True); p.set_defaults(fn=cmd_ratify_interpretation)
+    p=sp.add_parser('ratify-interpretation'); p.add_argument('idea',type=int); p.add_argument('--status',required=True); p.add_argument('--agent-decision'); p.set_defaults(fn=cmd_ratify_interpretation)
+    p=sp.add_parser('resume-science'); p.add_argument('idea',type=int); p.add_argument('--status',choices=['ACTIVE','SHORTLISTED'],default='ACTIVE'); p.add_argument('--agent-decision',required=True); p.set_defaults(fn=resume_science)
     p=sp.add_parser('ratify-registry'); p.add_argument('idea',type=int); p.add_argument('--operator',required=True); p.set_defaults(fn=cmd_ratify_registry)
     p=sp.add_parser('card-materialize'); p.add_argument('idea',type=int); p.add_argument('--check',action='store_true'); p.set_defaults(fn=cmd_card_materialize)
     p=sp.add_parser('confer'); p.add_argument('idea',type=int); p.add_argument('question'); p.set_defaults(fn=cmd_confer)

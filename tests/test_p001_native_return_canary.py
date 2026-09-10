@@ -211,7 +211,7 @@ def reviewed_fixture(tmp_path, monkeypatch):
     hashes = {}
     for name in canary.REQUIRED_SOURCES:
         path = root / name
-        path.parent.mkdir(exist_ok=True)
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b"synthetic reviewed source\n")
         hashes[name] = native.digest(path.read_bytes())
     directory = tmp_path / "review"

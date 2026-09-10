@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 from orchestrator import campaign_pipeline as p
+from test_campaign_delegation import copy_policy
 
 
 class PipelineTests(unittest.TestCase):
@@ -12,7 +13,8 @@ class PipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);base=root/'campaigns/isles24-pilot';base.mkdir(parents=True)
             (base/'CAMPAIGN.md').write_text('synthetic campaign')
-            (root/'docs/operations').mkdir(parents=True)
+            copy_policy(root)
+            (root/'docs/operations').mkdir(parents=True,exist_ok=True)
             for name in ['REMOTE_OPERATING_DIRECTION.md','CLAUDE_REVIEWER_DIRECTIVE.md']:
                 (root/'docs/operations'/name).write_text(name+' required human context')
             sc=SimpleNamespace(ROOT=root);seen=[]
@@ -41,7 +43,8 @@ class PredictionAuthoringTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);base=root/'campaigns/isles24-pilot';exp=base/'experiments/P001';exp.mkdir(parents=True)
             (base/'CAMPAIGN.md').write_text('Frozen campaign')
-            (root/'docs/operations').mkdir(parents=True)
+            copy_policy(root)
+            (root/'docs/operations').mkdir(parents=True,exist_ok=True)
             for name in ['REMOTE_OPERATING_DIRECTION.md','CLAUDE_REVIEWER_DIRECTIVE.md']:
                 (root/'docs/operations'/name).write_text(name+' required human context')
             (exp/'run.py').write_text('# historical externally seeded runner')

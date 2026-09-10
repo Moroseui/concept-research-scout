@@ -1,5 +1,6 @@
 """Synthetic command plumbing: fake agent/validator adapters never grant real approval."""
 import argparse
+from importlib.metadata import version as installed_version
 import json
 from pathlib import Path
 import subprocess
@@ -9,11 +10,13 @@ import unittest
 from unittest.mock import patch
 from orchestrator import campaign_lifecycle as c
 from orchestrator.campaign import sha
+from test_campaign_delegation import copy_policy
 
 class LifecycleTests(unittest.TestCase):
     def test_full_synthetic_command_path(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); exp=root/'campaigns/isles24-pilot/experiments/P001'; exp.mkdir(parents=True)
+            copy_policy(root)
             base=exp.parents[1]; (base/'colab').mkdir()
             for path,body in [(base/'CAMPAIGN.md','synthetic'),(exp/'SPEC.md','synthetic'),(exp/'run.py','print("synthetic preflight")'),(exp/'review.json','{}'),(root/'AGENTS.toml','')]: path.write_text(body)
             d={'authority':'campaign_delegated_investigator','actor_type':'agent','family':'codex','model':'synthetic adapter','experiment':'P001','campaign_sha256':sha(base/'CAMPAIGN.md'),'spec_sha256':sha(exp/'SPEC.md'),'rationale':'synthetic plumbing only'}
@@ -32,6 +35,8 @@ class LifecycleTests(unittest.TestCase):
             sc._interpret_review_verdict=lambda e:{'verdict':'APPROVE'}
             def agent(prompt,family,stage,log_path):
                 work=prompt.parent
+                self.assertIn('CURRENT SCIENTIFIC DELEGATION',prompt.read_text())
+                self.assertIn('USER_DELEGATED_SCIENTIFIC_JUDGMENT',prompt.read_text())
                 self.assertEqual(json.loads(sc.STATE.read_text())['active_cycle'],0)
                 if family=='codex':
                     (work/'interpretation.md').write_text('Synthetic result only. No scientific finding.')
@@ -45,7 +50,7 @@ class LifecycleTests(unittest.TestCase):
             external=Path(td).with_name(Path(td).name+'-return'); bundle.rename(external)
             self.addCleanup(lambda: __import__('shutil').rmtree(external))
             args=argparse.Namespace(campaign='isles24-pilot',experiment='P001',idea=None,bundle=str(external),private='synthetic-private',console='synthetic-console')
-            with patch.object(c,'require_review'),patch.object(c,'load_validator',return_value=SimpleNamespace(verify=lambda *a:{'status':'SYNTHETIC_ADAPTER','file_sha256':c.inventory(external)})):
+            with patch('importlib.metadata.version',side_effect=lambda name:{'numpy':'2.3.3','nibabel':'5.3.2'}.get(name,installed_version(name))),patch.object(c,'require_review'),patch.object(c,'load_validator',return_value=SimpleNamespace(verify=lambda *a:{'status':'SYNTHETIC_ADAPTER','file_sha256':c.inventory(external)})):
                 for command in ('probe-build','verify-probe','package-colab','validate-bundle','record-result','interpret-build'):
                     args.cmd=command; c.dispatch(sc,args)
                 self.assertEqual(json.loads((exp/'interpretation_receipt.json').read_text())['status'],'AGENT_REVIEWED_NOT_HUMAN_RATIFIED')

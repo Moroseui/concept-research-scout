@@ -111,6 +111,13 @@ def load(*, include_invalid=False) -> dict[str, dict]:
 
 def append(rec: dict) -> dict:
     rec = dict(rec)
+    actor = rec.get('actor') if isinstance(rec.get('actor'), dict) else {}
+    if rec.get('actor_type') == 'agent' or actor.get('kind') == 'agent':
+        if rec.get('status') in ('REJECTED', 'INVALID_ROW', 'DELETED', 'KILLED'):
+            raise ValueError('AGENT_PERMANENT_REJECTION_FORBIDDEN')
+        if human_stopped(rec.get('ledger_id')) and (
+                rec.get('status') not in (None, 'PAUSED') or rec.get('human_stop') is False):
+            raise ValueError('HUMAN_STOP_PRESERVED')
     rec.setdefault('ledger_id', f"unset-{_now()}")
     rec['recorded_at'] = _now()
     kc = rec.get('kill_code')
@@ -123,6 +130,31 @@ def append(rec: dict) -> dict:
     with LEDGER.open('a') as f:
         f.write(json.dumps(rec, ensure_ascii=False) + '\n')
     return rec
+
+
+def human_stopped(ledger_id: str) -> bool:
+    """Only explicit human stop/release records govern this persistent boundary."""
+    stopped = False
+    for rec in _records():
+        if rec.get('ledger_id') != ledger_id:
+            continue
+        actor = rec.get('actor') if isinstance(rec.get('actor'), dict) else {}
+        human = rec.get('actor_type') == 'human' or actor.get('kind') == 'human'
+        if rec.get('human_stop') is True or (human and rec.get('status') == 'PAUSED'):
+            stopped = True
+        if human and rec.get('kind') == 'HUMAN_STOP_RELEASED' and rec.get('human_stop') is False:
+            stopped = False
+    return stopped
+
+
+def defer(ledger_id: str, *, reason: str, reconsideration: str, **evidence):
+    """Record an existing stage's reversible disposition; confer no new authority."""
+    if not reason.strip() or not reconsideration.strip():
+        raise ValueError('DEFERRAL_REASON_AND_RECONSIDERATION_REQUIRED')
+    return append({**evidence, 'ledger_id': ledger_id, 'status': 'PAUSED',
+                   'kind': 'SCIENTIFIC_STAGE_DEFERRED', 'actor_type': 'agent',
+                   'rationale': reason, 'reconsideration': reconsideration,
+                   'notes': reason, 'completed_job_rerun': False})
 
 
 def raise_scrutiny(ledger_id: str, level: str, note: str = '') -> None:
@@ -373,13 +405,17 @@ def cli(args) -> None:
     elif cmd == 'kill':
         if args.code not in TAXONOMY:
             raise SystemExit('Unknown kill code. Known:\n  ' + '\n  '.join(sorted(TAXONOMY)))
-        append({'ledger_id': args.id, 'status': 'REJECTED',
-                'kill_code': args.code, 'kill_reason': args.reason})
+        defer(args.id, reason=args.reason,
+              reconsideration='Reconsider only with new evidence or a worthwhile new question; preserve the failed test.',
+              kill_code=args.code, kill_reason=args.reason, original_verdict='KILL',
+              attribution_status='CLI_REQUEST_NOT_A_SCIENTIFIC_APPROVAL')
         digest()
-        print(f'Recorded kill for {args.id} ({args.code}); digest refreshed.')
+        print(f'Recorded reversible PAUSED disposition for {args.id} ({args.code}); evidence retained.')
     elif cmd == 'set-status':
         if args.status not in STATUSES:
             raise SystemExit('Unknown status. Known: ' + ', '.join(STATUSES))
+        if args.status == 'REJECTED':
+            raise SystemExit('PERMANENT_REJECTION_NOT_A_ROUTINE_COMMAND: use PAUSED with reconsideration')
         if args.id not in load():
             raise SystemExit(f'No ledger entry {args.id!r}. Try: python scout.py ledger list')
         append({'ledger_id': args.id, 'status': args.status,

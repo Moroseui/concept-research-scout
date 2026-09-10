@@ -180,20 +180,21 @@ subcommand is missing here.
 | `diversity` | report idea-space diversity metrics |
 | `doctor` | environment and configuration sanity checks |
 | `interpret-build` | cross-family adversarial interpretation of an imported bundle (`--resume-review` resumes at the review leg) |
-| `kill` | record a taxonomy-coded kill for an idea |
+| `kill` | legacy alias for reversible scientific deferral; preserves evidence and reconsideration conditions |
 | `ledger` | ledger operations (nested subcommands, e.g. `set-status`) |
 | `librarian` | build the whole-corpus dossier |
 | `new-scout` | seed a new scouted idea entry |
 | `package-colab` | render the frozen Colab launcher notebook for an approved probe |
 | `pipeline` | run shortlist → critique → debate over backlog picks |
 | `probe-build` | cross-family authoring of probe code under the approved contract |
-| `ratify-interpretation` | human authority transaction closing an interpretation: event + status + state, one commit |
+| `ratify-interpretation` | apply a human decision or an original reviewed `--agent-decision`: event + status + state, with separate attribution |
 | `run STAGE --idea N [--unblock-ack "ruling"]` | stages; `revise` refuses under a debate human-unblock until the ruling is acknowledged (round-10 P0) |
 | `ratify-registry` | registry-ratification authority transaction: mechanically verified bindings + imports, event, derive-to-COMPLETE, state, one commit |
 | `record-result` | validate and import a results bundle; PROBED + digest + state in one transaction |
 | `registry-status` | derive a per-idea experiment registry's node statuses |
 | `registry-validate` (round-10: mechanically re-proves every ratification's bindings and imports; forged-but-well-formed rows fail loudly) | validate registries (schema, containment, governance events) |
 | `resume` | resume an interrupted run |
+| `resume-science` | apply an exact reviewed `--agent-decision` to a scientific deferral; preserves human stops and completed jobs |
 | `run` | run a single named stage for an idea |
 | `search` | novelty/literature search stage |
 | `set-status` | (under `ledger`) append a lifecycle status transition |

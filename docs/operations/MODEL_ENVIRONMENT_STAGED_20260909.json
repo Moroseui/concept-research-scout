@@ -1,0 +1,28 @@
+{
+  "status": "EMPTY_RESEARCH_MODELS_ENVIRONMENT_MAIN_BRANCH_POLICY_VERIFIED",
+  "observed_utc": "2026-09-09T05:42:10.146461+00:00",
+  "repository": "Moroseui/concept-research-scout",
+  "environment": "research-models",
+  "environment_id": 21537367870,
+  "deployment_branch_policy": {
+    "protected_branches": false,
+    "custom_branch_policies": true
+  },
+  "allowed_branch_policies": [{"name": "main", "type": "branch"}],
+  "secret_count": 0,
+  "authority": "Existing design/setup approval in PROTECTED_HANDOVER_APPROVED_20260908.json, item 4",
+  "original_private_evidence": "recovery-20260909/workflow-environment/restricted-empty-environment",
+  "repository_secrets_modified": false,
+  "credential_bytes_read": false,
+  "new_credentials": false,
+  "workflows_dispatched": 0,
+  "models": 0,
+  "main_merge": false,
+  "limiter_or_unattended_activation": false,
+  "remaining": [
+    "Existing Actions secret originals are needed to stage OPENAI_API_KEY and CLAUDE_CODE_OAUTH_TOKEN; GitHub cannot return stored secret bytes.",
+    "Preserve and reconcile the legacy repository CODEX_AUTH_JSON credential; its absence from current workflows does not establish repository-wide restriction.",
+    "Complete exact independent main review, approved workflow publication and operator-approved merge, then bounded main canaries before removing repository copies."
+  ],
+  "limits": "This proves an empty environment and its main-only branch policy. It does not claim credential relocation, global enforcement, workflow execution or activation."
+}

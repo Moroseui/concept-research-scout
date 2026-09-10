@@ -7,7 +7,7 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 
-from orchestrator.campaign import sha, verify_decision
+from orchestrator.campaign import sha, verify_experiment
 from orchestrator.publication import copy_verified, inventory
 
 COMMANDS={'probe-build','verify-probe','package-colab','validate-bundle','record-result','interpret-build'}
@@ -20,7 +20,7 @@ def context(root, args):
     exp=base/'experiments'/args.experiment
     if exp.is_symlink() or not exp.resolve().is_relative_to(base.resolve()):
         raise ValueError('campaign experiment escapes its root')
-    d=verify_decision(base/'CAMPAIGN.md',exp/'SPEC.md',exp/'investigator_decision.json')
+    d=verify_experiment(root,args.experiment)
     if d['experiment'] != args.experiment:
         raise ValueError('investigator decision names a different experiment')
     if args.experiment != 'P001':
@@ -40,8 +40,10 @@ def write(path,obj):
 
 def event(exp,stage,decision,**fields):
     rec={'stage':stage,'actor_type':'agent','family':decision['family'],'model':decision['model'],
-         'authority':'campaign_delegated_investigator','campaign_sha256':decision['campaign_sha256'],
+         'authority':decision['authority'],'campaign_sha256':decision['campaign_sha256'],
          'spec_sha256':decision['spec_sha256'],'utc':datetime.now(timezone.utc).isoformat(),**fields}
+    if 'session_id' in decision: rec['session_id']=decision['session_id']
+    if 'decision_sha256' in decision: rec['decision_sha256']=decision['decision_sha256']
     with (exp/'lifecycle.jsonl').open('a') as f: f.write(json.dumps(rec,sort_keys=True)+'\n')
 
 
@@ -64,9 +66,11 @@ def commit(sc,exp,message,allowed):
     subprocess.run(['git','commit','-m',message],cwd=sc.ROOT,check=True,capture_output=True)
 
 
-def run_isolated_stage(sc,exp,family,stage,body,outputs):
+def run_isolated_stage(sc,exp,family,stage,body,outputs,*,authority_root=None):
     """Reuse scout's receipted agent primitive in an aggregate-only disposable repo."""
     import os, shutil, tempfile
+    from orchestrator.scientific_authority import stage_context
+    body=stage_context(authority_root or sc.ROOT,exp,family,stage)+body
     root=Path(tempfile.mkdtemp(prefix='scout-campaign-stage-'))
     source_root=sc.ROOT
     source_state=getattr(sc,"STATE",None)
@@ -106,7 +110,7 @@ def load_validator(exp):
 
 
 def require_review(base,exp):
-    verify_decision(base/'CAMPAIGN.md',exp/'SPEC.md',exp/'investigator_decision.json',exp/'review.json',exp/'run.py')
+    verify_experiment(exp.parents[3],exp.name,review=True)
 
 
 def _dispatch(sc,args):
@@ -121,7 +125,8 @@ def _dispatch(sc,args):
         # existing-code route. No fake HUMAN_APPROVED_PROBE is synthesized.
         require_review(base,exp)
         subprocess.run([sys.executable,'-m','py_compile',str(exp/'run.py')],check=True)
-        write(exp/'build_receipt.json',{'authority':'campaign_delegated_investigator','actor_type':'agent',
+        write(exp/'build_receipt.json',{'authority':d['authority'],'actor_type':'agent',
+              **{k:d[k] for k in ('session_id','decision_sha256','policy') if k in d},
               'family':d['family'],'model':d['model'],'spec_sha256':sha(exp/'SPEC.md'),
               'code_sha256':sha(exp/'run.py'),'review_sha256':sha(exp/'review.json')})
         event(exp,'PROBE_BUILT',d,review_sha256=sha(exp/'review.json'))
@@ -222,7 +227,7 @@ def _dispatch(sc,args):
               'interpretation_sha256':sha(exp/'interpretation.md'),'proposal_sha256':sha(exp/'investigator_next_decision.json'),'review_sha256':sha(exp/'interpret_review.md'),
               'author_family':author['family_effective'],'reviewer_family':reviewer['family_effective']})
         event(exp,'INTERPRETATION_REVIEWED',d)
-        commit(sc,exp,f'campaign {args.experiment}: opposing-family interpretation review',{'prompt_interpret.md','prompt_interpret_review.md','interpretation.md','investigator_next_decision.json','interpret_review.md','stage_provenance.jsonl','log_interpret.txt','log_interpret_review.txt','interpretation_receipt.json','lifecycle.jsonl'})
+        commit(sc,exp,f'campaign {args.experiment}: opposing-family interpretation review',{'context_interpret.json','context_interpret_review.json','prompt_interpret.md','prompt_interpret_review.md','interpretation.md','investigator_next_decision.json','interpret_review.md','stage_provenance.jsonl','log_interpret.txt','log_interpret_review.txt','interpretation_receipt.json','lifecycle.jsonl'})
         return
     raise ValueError('unsupported campaign command')
 
@@ -239,3 +244,106 @@ def dispatch(sc,args):
                 event(exp,'INTERPRETATION_FAILED',d,exception_type=type(error).__name__)
             except (OSError,ValueError,KeyError): pass
         raise
+
+
+
+def require_interpretation(exp):
+    """An acceptance never promotes unreviewed or changed result evidence."""
+    exp = Path(exp)
+    receipt = json.loads((exp / 'interpretation_receipt.json').read_text())
+    if receipt.get('status') != 'AGENT_REVIEWED_NOT_HUMAN_RATIFIED':
+        raise ValueError('CAMPAIGN_REVIEWED_INTERPRETATION_REQUIRED')
+    for key, name in [('import_receipt_sha256', 'import_receipt.json'),
+                      ('interpretation_sha256', 'interpretation.md'),
+                      ('review_sha256', 'interpret_review.md'),
+                      ('proposal_sha256', 'investigator_next_decision.json')]:
+        if receipt.get(key) != sha(exp / name):
+            raise ValueError('CAMPAIGN_INTERPRETATION_CHANGED')
+    if receipt.get('author_family') == receipt.get('reviewer_family') or set(
+            (receipt.get('author_family'), receipt.get('reviewer_family'))) != {'codex', 'claude'}:
+        raise ValueError('CAMPAIGN_OPPOSING_INTERPRETATION_REVIEW_REQUIRED')
+    proposal = json.loads((exp / 'investigator_next_decision.json').read_text())
+    if set(proposal) != {'status', 'rationale'} or proposal['status'] != 'PROPOSAL_ONLY' or not proposal['rationale']:
+        raise ValueError('CAMPAIGN_ORIGINAL_NEXT_PROPOSAL_REQUIRED')
+    return receipt
+
+
+def verify_application(root, experiment, path):
+    from orchestrator import campaign, scientific_authority as authority
+    exp = campaign.experiment_root(root, experiment)
+    record = json.loads(authority.read(path))
+    keys = {'schema', 'status', 'action', 'experiment', 'decision_sha256', 'decision_path',
+            'proposal', 'actor', 'policy', 'transition'}
+    if (set(record) != keys or record['schema'] != 'campaign-scientific-application/v1' or
+            record['experiment'] != experiment or record['status'] != 'AGENT_DECISION_APPLIED'):
+        raise ValueError('CAMPAIGN_APPLICATION_SCHEMA')
+    relative = Path(record['decision_path'])
+    if relative.is_absolute() or '..' in relative.parts:
+        raise ValueError('CAMPAIGN_APPLICATION_PATH')
+    decision = exp / relative
+    if decision.parent.parent != exp / 'delegated_decisions' or decision.name != 'decision.json':
+        raise ValueError('CAMPAIGN_APPLICATION_PATH')
+    request = campaign.decision_request(root, experiment, record['action'], record['proposal'])
+    checked = authority.verify(root, decision, action=request['action'], subject=request['subject'],
+                               bindings=request['bindings'], expected_transition=request['transition'])
+    if (record['decision_sha256'] != checked['_decision_sha256'] or
+            record['actor'] != checked['actor'] or record['policy'] != checked['policy'] or
+            record['transition'] != checked['transition']):
+        raise ValueError('CAMPAIGN_APPLICATION_BINDING')
+    return record, checked
+
+
+def apply_decision(root, experiment, action, decision_path, proposal=None):
+    """Apply an explicit reviewed judgment with exclusive receipts, never execution.
+
+    The original proposal and model packet remain intact. A completed duplicate
+    returns its checked receipt; an interrupted copy is retained for reconciliation.
+    No old investigator decision, scientific artifact or human marker is replaced.
+    """
+    import os
+    from orchestrator import campaign, scientific_authority as authority
+    exp = campaign.experiment_root(root, experiment)
+    request = campaign.decision_request(root, experiment, action, proposal)
+    checked = authority.verify(root, decision_path, action=action, subject=request['subject'],
+                               bindings=request['bindings'], expected_transition=request['transition'])
+    target = exp / ('agent_interpretation_acceptance.json' if action == 'accept_interpretation'
+                    else 'agent_adoption.json')
+    if target.exists() or target.is_symlink():
+        record, previous = verify_application(root, experiment, target)
+        if previous['_decision_sha256'] != checked['_decision_sha256']:
+            raise ValueError('CAMPAIGN_EXISTING_DECISION_PRESERVED')
+        return {**record, 'duplicate': True}
+    directory = exp / 'delegated_decisions' / checked['_decision_sha256']
+    if directory.parent.is_symlink():
+        raise ValueError('CAMPAIGN_SYMLINK_PATH')
+    directory.parent.mkdir(exist_ok=True, mode=0o700)
+    directory.mkdir(mode=0o700)  # Existing partial applications require explicit reconciliation.
+    original = Path(decision_path).absolute().parent
+    files = {'decision.json': authority.read(decision_path)}
+    for key in ('author_provenance', 'reviewer_provenance', 'judgment', 'review'):
+        descriptor = checked[key]
+        files[descriptor['path']] = authority.read(original / descriptor['path'])
+    for name, raw in files.items():
+        path = directory / name
+        path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        with path.open('xb') as handle:
+            os.chmod(path, 0o600)
+            handle.write(raw); handle.flush(); os.fsync(handle.fileno())
+    campaign.require_no_human_stop(root, experiment)
+    # Recheck source/evidence after copying, before creating the application receipt.
+    fresh = campaign.decision_request(root, experiment, action, proposal)
+    if fresh != request:
+        raise ValueError('CAMPAIGN_DECISION_INPUT_CHANGED')
+    record = {'schema': 'campaign-scientific-application/v1', 'status': 'AGENT_DECISION_APPLIED',
+              'action': action, 'experiment': experiment,
+              'decision_sha256': checked['_decision_sha256'],
+              'decision_path': str((directory / 'decision.json').relative_to(exp)),
+              'proposal': request['bindings']['proposal']['path'] if proposal is not None else None,
+              'actor': checked['actor'], 'policy': checked['policy'], 'transition': checked['transition']}
+    # Verify the copied original packet before the final exclusive application marker.
+    authority.verify(root, directory / 'decision.json', action=action, subject=request['subject'],
+                     bindings=request['bindings'], expected_transition=request['transition'])
+    with target.open('xb') as handle:
+        os.chmod(target, 0o600)
+        handle.write(authority.encoded(record) + b'\n'); handle.flush(); os.fsync(handle.fileno())
+    return {**record, 'duplicate': False}

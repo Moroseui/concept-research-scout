@@ -76,6 +76,18 @@ def _merged_current(lines: list[str]) -> dict:
 
 def _approval(idea_dir: Path) -> dict | None:
     marker = idea_dir / 'HUMAN_APPROVED_PROBE'
+    reference = idea_dir / 'agent_probe_approval.json'
+    if reference.exists():
+        try:
+            from orchestrator.experiment_registry import agent_probe_approval
+            decision = agent_probe_approval(idea_dir.name, idea_dir.parent.parent)
+            return {'contract_blob': decision['bindings']['contract_blob'],
+                    'actor_type': 'agent', 'actor': decision['actor'],
+                    'authority_decision_sha256': decision['_decision_sha256']}
+        except (ValueError, OSError) as error:
+            if not marker.exists():
+                return {'contract_blob': None, 'actor_type': 'agent',
+                        'authority_error': str(error), 'stale': True}
     if not marker.exists():
         return None
     m = re.search(r'contract_blob:\s*([0-9a-f]{40})', marker.read_text())
@@ -111,6 +123,10 @@ def materialize(idea_no: str, root: Path, *, charter_resolver,
         'approval_sha256': _fsha(idea_dir / 'HUMAN_APPROVED_PROBE'),
         'registry_sha256': _fsha(idea_dir / 'registry.yaml'),
     }
+    if (idea_dir / 'agent_probe_approval.json').exists():
+        sources['agent_approval_reference_sha256'] = _fsha(idea_dir / 'agent_probe_approval.json')
+        sources['agent_approval_verification_sha256'] = hashlib.sha256(
+            json.dumps(approval, sort_keys=True).encode()).hexdigest()
     if (idea_dir / 'registry.yaml').exists():
         # R2 (round-6): registry node statuses are derived from result
         # bundles and consumed artifacts; those inputs must move the

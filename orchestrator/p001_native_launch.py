@@ -1,7 +1,8 @@
 """Fixed supervised P001 launch, preserving the frozen 0770 launcher and child.
 
-Preparation grants no authority. One exact operator decision and a fresh scoped
-source review admit one launch, bounded status observations and one terminal copy.
+Preparation grants no authority. An exact human decision or a reviewed delegated
+model decision and fresh scoped source review admit one launch, bounded status
+observations and one terminal copy. Attribution is retained for both paths.
 Each operation appends two cells / eight native calls. Original-ID collection and
 frozen full return validation remain required; no OS exit or acceptance is inferred.
 """
@@ -23,6 +24,7 @@ from orchestrator import p001_runtime_setup as setup
 from orchestrator import p001_runtime_intake as intake
 from orchestrator import p001_return_transport as transport
 from orchestrator import research_context
+from orchestrator import scientific_authority
 from orchestrator.colab_patient import CPU_CELL
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +45,11 @@ REQUIRED_SOURCES = {
     "tests/test_p001_native_setup.py", "tests/test_p001_native_return_canary.py",
     "tests/test_p001_runtime_setup.py", "tests/test_p001_return_transport.py",
     "tests/test_p001_return_intake.py",
+    "orchestrator/scientific_authority.py", "orchestrator/scientific_decision.py",
+    "orchestrator/campaign.py", "tests/test_scientific_authority.py",
+    "tests/test_scientific_decision.py", "tests/test_p001_delegated_launch.py",
+    "configs/scientific-delegation-20260909.json",
+    "docs/operations/SCIENTIFIC_DELEGATION_20260909.md",
 }
 TOOL_SEQUENCE = [
     "open_colab_browser_connection", "get_cells", "add_code_cell", "add_code_cell",
@@ -347,7 +354,46 @@ def checked_packet(packet, *, context_root=ROOT):
     return packet
 
 
+def delegated_bindings(packet):
+    """Bind the unchanged reviewed core and its actual runtime/input/return scope."""
+    core = packet['core']
+    return {'core_manifest_sha256': packet['core_manifest_sha256'],
+            'launch_packet_sha256': native.digest(native.encoded(packet)),
+            **{k: core[k] for k in ('execution_snapshot', 'source_pin', 'notebook_pin',
+                'setup_receipt_sha256', 'environment_sha256', 'slot_binding_sha256',
+                'derived_member_count', 'combined_transfer_cap', 'max_extracted_bytes',
+                'private_validation_destination', 'raw_or_staged_input_transfer')},
+            'runtime_fingerprint_sha256': core['runtime_guard']['runtime_fingerprint_sha256'],
+            'input_archive_metadata_sha256': native.digest(native.encoded(core['runtime_guard']['archive_metadata']))}
+
+
+def _agent_decision(packet, approval):
+    if isinstance(approval, dict):
+        return None
+    # A path retains the original judgment/review/provenance artifacts. A copied
+    # JSON object alone cannot substitute for the bound decision directory.
+    native.private_file(approval)
+    decision = scientific_authority.verify(ROOT, approval, action='launch_p001',
+        subject='campaign:isles24-pilot:P001', bindings=delegated_bindings(packet),
+        expected_transition={'from': 'PREPARED', 'to': 'LAUNCH_AUTHORIZED'})
+    policy, _ = scientific_authority.policy(ROOT)
+    if (packet['core_manifest_sha256'] != policy['p001_exact_core_sha256'] or
+            packet['core']['combined_transfer_cap'] != policy['p001_combined_transfer_cap'] or
+            packet['core']['max_extracted_bytes'] != policy['p001_max_extracted_bytes']):
+        raise ValueError('LAUNCH_EXACT_DELEGATED_P001_SCOPE_REQUIRED')
+    from orchestrator.campaign import require_no_human_stop
+    require_no_human_stop(ROOT, 'P001')
+    return decision
+
+
 def require_authority(packet, approval):
+    # A later deliberate stop applies equally to an older human approval and a
+    # model decision. Only an explicit human release clears that control.
+    from orchestrator.campaign import require_no_human_stop
+    require_no_human_stop(ROOT, 'P001')
+    agent = _agent_decision(packet, approval)
+    if agent is not None:
+        return agent['_decision_sha256']
     expected = {"schema": "p001-exact-native-launch-approval/v1", "status": "OPERATOR_APPROVED",
         "core_manifest_sha256": packet["core_manifest_sha256"], "patient_launch": True,
         "derived_return_transfer_206_members": True,
@@ -379,6 +425,12 @@ def prepare_return(packet, approval):
             "private_validation_destination", "derived_member_count", "combined_transfer_cap",
             "max_extracted_bytes", "raw_or_staged_input_transfer")},
         "runtime_fingerprint_sha256": core["runtime_guard"]["runtime_fingerprint_sha256"]}
+    agent = _agent_decision(packet, approval)
+    if agent is not None:
+        manifest['schema'] = 'p001-delegated-launch-manifest/v1'
+        del manifest['operator_launch_decision_sha256']
+        manifest.update(agent_launch_decision_sha256=approval_sha,
+                        deciding_actor=agent['actor'], delegated_policy=agent['policy'])
     manifest_sha = native.digest(native.encoded(manifest))
     copy_packet = transport.prepare_copy(packet["return_reservation"], core["mounted_folder"],
         runtime_fingerprint=manifest["runtime_fingerprint_sha256"], launch_manifest_sha256=manifest_sha,
@@ -754,6 +806,8 @@ async def run(packet, approval, destination, review, operation="launch", complet
     reviewed = require_review(review)
     packet_value = checked_packet(native.read_json(native.private_file(packet)))
     approval_value = native.read_json(native.private_file(approval))
+    if approval_value.get('schema') == 'delegated-scientific-decision/v1':
+        approval_value = Path(approval).absolute()
     approval_sha = require_authority(packet_value, approval_value)
     return_binding = prepare_return(packet_value, approval_value)
     if operation == "copy":
@@ -791,8 +845,12 @@ async def run(packet, approval, destination, review, operation="launch", complet
     if completion_protocol is not None:
         with (destination / "completion-native-protocol.jsonl").open("xb") as handle:
             handle.write(completion_protocol)
+    agent = _agent_decision(packet_value, approval_value)
+    authority_metadata = ({'agent_decision_sha256': approval_sha, 'actor': agent['actor'],
+                           'policy': agent['policy'], 'original_decision_path': str(approval_value)}
+                          if agent else {'operator_approval_sha256': approval_sha})
     native.write_new(destination / "execution-intent.json", {"packet_sha256": native.digest(native.encoded(packet_value)),
-        "operator_approval_sha256": approval_sha,
+        **authority_metadata,
         "client_sha256": native.digest(Path(__file__).read_bytes()), "review": reviewed,
         "configuration_sha256": native.CONFIG_SHA256, "max_wall_seconds": 900,
         "operation": operation, "operation_packet_sha256": native.digest(native.encoded(selected)),

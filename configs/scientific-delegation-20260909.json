@@ -1,0 +1,34 @@
+{
+  "actions": [
+    "approve_probe",
+    "accept_interpretation",
+    "resume_science",
+    "adopt_followup",
+    "launch_p001",
+    "accept_external_evidence",
+    "assess_relevance"
+  ],
+  "attribution": "User delegates decisions. Each later judgment belongs to the deciding model and its recorded system stage; never synthesize human signatures.",
+  "direction_path": "docs/operations/SCIENTIFIC_DELEGATION_20260909.md",
+  "direction_sha256": "d936c1b9e79360f0d48debb2c6b3379c7e8098167a541121aaac7ccfc8d9db2a",
+  "human_stop": "An explicit human stop is preserved until a later explicit human release; a model scientific deferral is reversible with recorded rationale and reconsideration evidence.",
+  "p001_combined_transfer_cap": 33554432,
+  "p001_exact_core_sha256": "0cf2f64120976bc46d8bb25a543318af22c3f2e8cd8cad9fbf953ae02b400dfc",
+  "p001_max_extracted_bytes": 8589934592,
+  "schema": "research-scientific-delegation/v1",
+  "scientific_review": "Retain independent opposing-family review for consequential science, existing bounded revisions and dedup/resource controls.",
+  "scope": {
+    "existing_mission": true,
+    "limiter_reset": false,
+    "main_merge": false,
+    "new_dataset_access": false,
+    "new_paid_resources": false,
+    "override_human_stop": false,
+    "permanent_idea_rejection": false,
+    "public_private_data_export": false,
+    "reserved_cohort_access": false,
+    "unattended_activation": false
+  },
+  "status": "USER_DELEGATED_SCIENTIFIC_JUDGMENT",
+  "version": "20260909-meeting-v1"
+}

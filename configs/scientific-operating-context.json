@@ -1,0 +1,18 @@
+{
+  "schema": "scientific-operating-context/v1",
+  "version": "20260909-continuation-v2",
+  "authority_policy": {
+    "path": "configs/scientific-delegation-20260909.json",
+    "sha256": "285d671546767a7fd5e8b7538f525ff859ff789be431ec76f3796e30e09929f8",
+    "version": "20260909-meeting-v1"
+  },
+  "documents": {
+    "docs/operations/SHARED_WORKFLOW_CLARIFICATION_20260909.md": "4d217f6a59cd72fc12e6b402a1596316d3dc0bd13b494d6c5795e5b40fdcc839",
+    "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+    "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+  },
+  "roles": {
+    "codex": "System investigator and implementation driver: develop and explain ideas, use shared scientific workflows and checks, preserve versions and stops, apply authorized changes, and address independent criticism with recorded dispositions. Difficult ideas deserve clear explanations, not rejection for difficulty.",
+    "claude": "Independent opposing reviewer: challenge scientific reasoning, evidence, implementation, human usability and actual remote setup. Approve or require bounded revision with specific affected versions/results and the smallest correction. Shared policy does not require agreement. Pending review never supplies approval."
+  }
+}

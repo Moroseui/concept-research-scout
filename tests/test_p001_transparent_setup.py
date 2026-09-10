@@ -100,11 +100,11 @@ def test_claim_cell_preserves_existing_source_and_setup_intent(packet, inputs, t
     assert (tmp_path/'setup/intent.json').read_bytes()==before
 
 
-def operation(tmp_path):
+def operation(tmp_path, name='seven-zip'):
     request={'source_root':str(tmp_path/'source'),'setup_root':str(tmp_path/'setup'),
         'request_id':transparent.REQUEST_ID,'runtime_fingerprint_sha256':'a'*64,'binding_sha256':'b'*64}
     setup.claim_setup(request)
-    return transparent.Operation(request,'seven-zip','c'*64,'d'*64), request
+    return transparent.Operation(request,name,'c'*64,'d'*64), request
 
 
 def test_command_failure_preserves_original_log_without_printing_it(tmp_path,monkeypatch,capsys):
@@ -134,6 +134,23 @@ def test_operation_rejects_arbitrary_or_repeated_commands_before_subprocess(tmp_
         op.run(['apt-get','-qq','update'],check=True,timeout=180)
     assert len(calls)==1
     with pytest.raises(ValueError,match='SEQUENCE_INCOMPLETE'):op.finish()
+
+
+@pytest.mark.parametrize('interpreter',[
+    '/opt/hostedtoolcache/Python/3.11.16/x64/bin/python',
+    '/tmp/python3',
+])
+def test_dependencies_reject_other_python_domains_before_subprocess(tmp_path,monkeypatch,interpreter):
+    monkeypatch.setattr('sys.executable',interpreter)
+    op,request=operation(tmp_path,'dependencies');calls=[]
+    monkeypatch.setattr('subprocess.run',lambda *a,**kw:calls.append(a))
+    command=[interpreter,'-m','pip','install','-q','-r',
+        request['source_root']+'/campaigns/isles24-pilot/experiments/P001/requirements.txt']
+    with pytest.raises(ValueError,match='TRANSPARENT_SETUP_PYTHON_DOMAIN'):
+        op.run(command,check=True,timeout=180)
+    assert calls==[] and op.calls==0
+    assert (Path(request['setup_root'])/'dependencies.operation-intent.json').exists()
+    assert not (Path(request['setup_root'])/'dependencies.operation-result.json').exists()
 
 
 def test_operation_timeout_has_named_failure_and_preserved_intent(tmp_path,monkeypatch):
@@ -189,6 +206,8 @@ def test_per_stage_postconditions_and_child_environment_are_checked(packet,stage
 def test_generated_operations_execute_frozen_sequence_with_private_logs(packet,inputs,tmp_path,monkeypatch,capsys,seven_zip_exists):
     import subprocess,sys,shutil
     monkeypatch.setattr(sys,'path',list(sys.path))
+    # This cell simulates Colab; the CI runner's interpreter is outside its domain.
+    monkeypatch.setattr(sys,'executable','/usr/bin/python3')
     request=copy.deepcopy(packet['request'])
     prefix=str(tmp_path/'scout-pilot-')
     request['source_root']=prefix+setup.intake.SOURCE_PIN[:12]

@@ -131,4 +131,76 @@ def main():
     print(json.dumps({'status':result['status'],'receipt_sha256':sha(output.read_bytes()),'scientific_acceptance':False}))
 
 
+
+
+def external_collected(root, alias, request_id, *, implementation_sha256, expected_sha256, maximum):
+    """Read a newly registered external artifact using its actual collector binding.
+
+    Historical P001/047 intake retains its original fixed implementation check.
+    This path does not register an alias, widen a grant, download or execute.
+    """
+    if (not re.fullmatch(r'[a-z0-9][a-z0-9-]{7,79}', request_id)
+            or not re.fullmatch(r'[a-z0-9][a-z0-9-]{1,79}', alias)
+            or any(not re.fullmatch(r'[0-9a-f]{64}', x) for x in (implementation_sha256, expected_sha256))
+            or type(maximum) is not int or not 0 < maximum <= 32 * 1024 * 1024):
+        raise ValueError('EXTERNAL_COLLECTION_EXACT_BINDING_REQUIRED')
+    directory = Path(root) / request_id
+    raw = read(directory / 'original', maximum)
+    receipt_raw = read(directory / 'receipt.json')
+    receipt = json.loads(receipt_raw)
+    if (receipt.get('status') != 'PRIVATE_ORIGINAL_COLLECTED'
+            or receipt.get('sha256') != expected_sha256 or sha(raw) != expected_sha256
+            or receipt.get('bytes') != len(raw) or receipt.get('alias') != alias
+            or receipt.get('implementation_sha256') != implementation_sha256):
+        raise ValueError('EXTERNAL_ORIGINAL_COLLECTION_CHANGED')
+    return raw, {'sha256': sha(raw), 'bytes': len(raw), 'alias': alias,
+                 'request_id': request_id, 'origin': 'INSTALLED_DRIVE_ORIGINAL_COLLECTION',
+                 'collection_receipt_sha256': sha(receipt_raw),
+                 'implementation_sha256': implementation_sha256}
+
+
+def external_artifact(path, expected_sha256, *, maximum=32 * 1024 * 1024):
+    """Inspect bounded supplied originals, preserving case data outside model text."""
+    import csv
+    import io
+    import stat
+    import zipfile
+    from pathlib import PurePosixPath
+    if not re.fullmatch(r'[0-9a-f]{64}', expected_sha256):
+        raise ValueError('EXTERNAL_ARTIFACT_HASH_REQUIRED')
+    if type(maximum) is not int or not 0 < maximum <= 32 * 1024 * 1024:
+        raise ValueError('EXTERNAL_ARTIFACT_BOUND_REQUIRED')
+    raw = read(path, maximum)
+    if sha(raw) != expected_sha256:
+        raise ValueError('EXTERNAL_ARTIFACT_IDENTITY_CHANGED')
+    result = {'sha256': expected_sha256, 'bytes': len(raw),
+              'case_contents_retained_private': True, 'scientific_acceptance': False}
+    suffix = Path(path).suffix.lower()
+    if suffix == '.csv':
+        rows = list(csv.reader(io.StringIO(raw.decode('utf-8-sig'))))
+        if not rows or any(len(row) != len(rows[0]) for row in rows):
+            raise ValueError('EXTERNAL_CSV_SHAPE')
+        result.update(format='CSV', rows=len(rows) - 1, columns=rows[0])
+    elif suffix in ('.zip', '.pptx'):
+        with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+            members = archive.infolist()
+            if len(members) > 512 or sum(row.file_size for row in members) > 256 * 1024 * 1024:
+                raise ValueError('EXTERNAL_ARCHIVE_EXPANSION_BOUND')
+            names = set()
+            for member in members:
+                name = PurePosixPath(member.filename)
+                if (member.filename in names or name.is_absolute() or '..' in name.parts
+                        or '\\' in member.filename or stat.S_ISLNK(member.external_attr >> 16)
+                        or member.flag_bits & 1):
+                    raise ValueError('EXTERNAL_ARCHIVE_UNSAFE_MEMBER')
+                names.add(member.filename)
+            if archive.testzip() is not None:
+                raise ValueError('EXTERNAL_ARCHIVE_CRC')
+            result.update(format='PRESENTATION_DERIVED_SUMMARY' if suffix == '.pptx' else 'ZIP',
+                          archive_members=len(members), extracted=False, archive_crc_verified=True)
+    else:
+        result['format'] = 'ORIGINAL_BYTES'
+    return raw, result
+
+
 if __name__=='__main__':main()
