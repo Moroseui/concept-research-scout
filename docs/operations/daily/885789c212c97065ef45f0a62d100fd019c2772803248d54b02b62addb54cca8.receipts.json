@@ -1,0 +1,15 @@
+[
+  {
+    "artifact_sha256": "5a097b16f1e1df9281c0eb995e5e149e4d65f0370d042fdb9477899a544dbe6d",
+    "attempt_id": null,
+    "backend": "linux",
+    "cpu_seconds": null,
+    "job_id": "f3737d3b94992b217e3f93ca975c43550be4736e6c108fcd437a56ef74cabede",
+    "kind": "research_workflow",
+    "peak_rss_kib": null,
+    "reason": null,
+    "source": "9638264a79598ab7cb25db4f638b5810f5ae6da6",
+    "status": "COMPLETE",
+    "wall_seconds": null
+  }
+]
