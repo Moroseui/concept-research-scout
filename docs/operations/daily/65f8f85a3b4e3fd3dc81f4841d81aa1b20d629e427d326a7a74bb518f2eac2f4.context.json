@@ -1,0 +1,66 @@
+{
+  "continuing_operation_status": [],
+  "coordinator_control": {
+    "paused": false,
+    "revision": 6
+  },
+  "coordinator_observed_at": "2026-09-12T01:33:47.653545+00:00",
+  "coordinator_summary": "0 queued, 0 running, 2 complete, 1 blocked",
+  "coordinator_tasks": [
+    {
+      "id": "d5c32758b99b332c90e9ccd00e70d68a14e864d9e8254bc59a20160616928163",
+      "reason": "HISTORICAL_STAGES_INCOMPLETE_NO_RETRY",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "809c6f6a1d2e7186b3d6cb5af5561d4e9db1f43fca4f1a09b8e75e22d6d3f1ab",
+      "reason": null,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "f3737d3b94992b217e3f93ca975c43550be4736e6c108fcd437a56ef74cabede",
+      "reason": null,
+      "status": "COMPLETE"
+    }
+  ],
+  "coordinator_tasks_omitted": 0,
+  "coordinator_tasks_total": 3,
+  "evidence_scope": "Installed evidence plus current coordinator metadata; not a census of other execution queues.",
+  "legacy_evidence_preserved": true,
+  "new_scientific_claims_supplied": false,
+  "recorded_change_status": "125fb059cea05a83f6e57e9286312f04f6578e8094a607bc5fb9191fdcee4265: APPLIED, review PENDING; 1937dc1f87697df65f56d474589ac1ce628dbf1169c07f25f8d6a6b840e49992: APPLIED, review PENDING; 35afb10778894c888f6e056994ccb6cc9faff9a01449d4912cbe6e187a1d1ca1: APPLIED, review PENDING; 376a989b9b6c3cce3810e5e59c32b26966e4034f9522ae8f563cee095441da0c: SUBMITTED, review PENDING; 3c4e9c106ad3af203e00b573d7e9b1d6c976e7b668e3ea907b66fe60ce344480: APPLIED, review PENDING; 4213968b23bf8ca2e20e584266fa598eea9e4a4fe3fa59ced58f371edc3ebf75: APPLIED, review PENDING; 435cc225fb214b5260abc64f2d50eb0c8fb149066c5cd72f3f697f2bae563389: SUBMITTED, review PENDING; 5436bb2df7ba0abc88748bb1efc58b3478a42ffae6d3b2275c8e0f0241048ae9: APPLIED, review PENDING; 676ec1cefcaf28c03f39cbe94e6326bd476298c4fd8d818b7ea3e13abcb3df8c: APPLIED, review PENDING; 683bb8af0e0a25c07922017b8427d2cb33cc078b4de04a154de456c7b44e52a3: APPLIED, review PENDING; 786f4c9a194a2e35aeaf0800c5d816dfc15dad2450412f0df55f8e93b35656a8: APPLIED, review PENDING; 94f28df1a598fca619b29b48982d2b0acbc0a918bc4cb230c23dc79f802f0ee5: APPLIED, review PENDING; af027d3d2461bf9313cb77404addb5ba2ddd246ad581c37252b4017b9b74f724: APPLIED, review PENDING; af5e29ba0994627eaeb7878ea11fb8afeba23dd7cc9f990114ba9218e2da67ae: APPLIED, review PENDING; b1d8fadf83e2ef2c6e0f103a936d252a8b9f222607b531ad35072ae5c416a48c: APPLIED, review PENDING; bcd60e7f37e6fdc6f5d64a44ceb324de92fceb94d27b381fe0d5d2a51cb8c974: APPLIED, review PENDING; c588ba7070337d8650dde727e1d334765ef64866ca64cbf4fc618a53e1640f26: APPLIED, review PENDING; c78d1d718d9df68035f820ec7d5f1379e0f1263ba2e73688a2a595f595dd439d: APPLIED, review PENDING; c9ed40b47c0ada1e9d69c8f31691a83189bb1786efbc39250e5f3840bba7e3e0: APPLIED, review PENDING; cef7ed69e5daf4dac5adb0f92399748e3c28c881658d65d68b6b35116874aef6: SUBMITTED, review PENDING; Bounded change summary; omitted review states: {\"APPROVE\": 41, \"PENDING\": 4}; full private records require inspection before acceptance.",
+  "research_schedule": {
+    "admissions": 0,
+    "models": 0,
+    "observed_at": "2026-09-12T01:33:45.100529+00:00",
+    "requests": [
+      {
+        "reason": "CURRENT_INSTALLED_RESEARCH_AUTHORITY_SOURCE_REQUIRED",
+        "status": "BLOCKED",
+        "task_id": "p001-readiness-after-linux-handoff-20260910-v1"
+      }
+    ],
+    "source": "82bc88f5ca571117c9eaf3317634f15a31141a3c",
+    "status": "BLOCKED",
+    "submitted_task": null,
+    "task_ids": [
+      "p001-readiness-after-linux-handoff-20260910-v1"
+    ]
+  },
+  "research_task_scope": "The versioned scientific task record is supplied in operating context; it is not a fresh observation of a separate queue.",
+  "scientific_completion_count": 0,
+  "scientific_job_status": {
+    "age_seconds": 10024,
+    "analysis": [],
+    "attempts": [],
+    "automatic_retry": false,
+    "jobs": [],
+    "model_calls": 0,
+    "observed_at": "2026-09-11T22:46:42.741602+00:00",
+    "schema": "scientific-observation/v1",
+    "scientific_acceptance": false,
+    "source": "82bc88f5ca571117c9eaf3317634f15a31141a3c",
+    "status": "STALE_OBSERVATION"
+  },
+  "supplied_context_scope": "Exact already reviewed047b and two external exploratory notebook contexts plus original unresolved P001 state; current coordinator/continuation state is captured for each new admitted turn."
+}
