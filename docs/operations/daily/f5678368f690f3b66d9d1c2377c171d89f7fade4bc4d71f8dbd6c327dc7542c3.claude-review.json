@@ -1,0 +1,10 @@
+{
+  "execution_receipt_sha256": "f77f998f84dbb49531ca13ad423a45ca45cf60c67bfe9d0fcf882d89a807736d",
+  "family": "claude",
+  "model": "claude-fable-5",
+  "report_sha256": "f5678368f690f3b66d9d1c2377c171d89f7fade4bc4d71f8dbd6c327dc7542c3",
+  "review_sha256": "c874dade19955c46a2ff12605b407dadeb721651e34a21002eeb78bed11c03ff",
+  "session_id": "261aa9f8-a7b8-43cf-bc42-2cad733fc710",
+  "source": "82bc88f5ca571117c9eaf3317634f15a31141a3c",
+  "status": "COMPLETE"
+}
