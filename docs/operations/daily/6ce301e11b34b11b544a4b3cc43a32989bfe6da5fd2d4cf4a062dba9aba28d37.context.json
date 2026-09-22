@@ -1,0 +1,193 @@
+{
+  "continuing_operation_status": [
+    {
+      "kind": "AUTHORIZE_TASK",
+      "linked_replacement": {
+        "automatic_retry": false,
+        "directory": "/var/lib/research-system/handover-live-controller/continuing-operations/f714accdb8bcdfe2c8a45d3fdb3db3870957b4a98f7cd42e682174e477352105/replacement-2",
+        "models": 0,
+        "operation": "f714accdb8bcdfe2c8a45d3fdb3db3870957b4a98f7cd42e682174e477352105",
+        "original_source": "6005343a18553fd0575232ee52bf597560b6c1a9",
+        "position": 2,
+        "prior_replacement": {
+          "automatic_retry": false,
+          "directory": "/var/lib/research-system/handover-live-controller/continuing-operations/f714accdb8bcdfe2c8a45d3fdb3db3870957b4a98f7cd42e682174e477352105/replacement-1",
+          "models": 0,
+          "operation": "f714accdb8bcdfe2c8a45d3fdb3db3870957b4a98f7cd42e682174e477352105",
+          "original_source": "eff1871454b46e9e7d3f0f1ea5f16d6e632b48cd",
+          "position": 0,
+          "reason": "Request the one reviewed linked new-source authority replacement for preserved operation f714accdb8bcdfe2c8a45d3fdb3db3870957b4a98f7cd42e682174e477352105. Its original author completed with exit 0 but emitted a context digest missing one character; no opposing review or decision seal exists. Preserve that invalid attempt, the completed EFF investigator task and exact selected P001 comparison-evidence discussion unchanged. Obtain fresh source600534 author and independent review through the normal authority route; DEFER remains available. Do not repair the old judgment, repeat wake1946 registration, retry d5 readiness, reset an allowance, or claim scientific acceptance.",
+          "replacement": 1,
+          "request": "e602593a028c9ed893f30b5c961ca1f64f98a8394e4d9a85c792775df7e62159",
+          "requested_by": {
+            "family": "codex",
+            "identity_source": "recorded implementation driver, not hosted provider receipt",
+            "kind": "agent",
+            "model": "gpt-6",
+            "session_id": "additional19-authorized-audit-20260912-root"
+          },
+          "source": "6005343a18553fd0575232ee52bf597560b6c1a9",
+          "status": "RECONCILIATION_REQUIRED",
+          "step": "FRESH_CURRENT_SOURCE_AUTHORITY"
+        },
+        "reason": "Continue the same reviewed P001 comparison discussion through fixed replacement2 after exact reviewed56557 input-bound repair; preserve f714 malformed output and e602 conclusive preflight refusal, all consumed admissions and d5 no-retry block. Fresh ordinary Astra and Claude authority may APPLY or DEFER; no scientific judgment is supplied by this request.",
+        "replacement": 2,
+        "request": "8b9d479d66efaace886591712e1ab26e0325f35090d8d9cbb4cfcb4beb2b3fcd",
+        "requested_by": {
+          "family": "codex",
+          "identity_source": "authorized implementation driver via root authenticated transport; scientific judgment remains hosted stages",
+          "kind": "agent",
+          "model": "gpt-6",
+          "session_id": "additional19-authorized-audit-20260912-root"
+        },
+        "result": {
+          "new_model_calls": 0,
+          "registration": {
+            "admissions": 0,
+            "catalog_file_sha256": "8722a5e7b4c1fd07f0f93e1f9381866aee457448729815da7f23b7bd25c7081a",
+            "duplicate": false,
+            "eligibility": {
+              "actor": {
+                "actual_model": null,
+                "family": "codex",
+                "kind": "agent",
+                "model": "gpt-6-astra",
+                "model_identity_source": "requested_model; actual_model retained separately",
+                "requested_model": "gpt-6-astra",
+                "session_id": "01a095a9-4996-7d11-b9a5-b99f251fe1ca",
+                "session_id_source": "original_provider_receipt"
+              },
+              "entry_sha256": "21cc60bb4939d3c1a47c64dcb9771003cbfe26d7623e8180fe0310ef17f9db0d",
+              "rationale": "Codex investigator judgment under delegated policy 20260911-continuing-research-v3: p001-comparison-evidence-discussion-20260912-v1 is eligible for the bounded formal discussion specified in the current catalog. This judgment binds source 56557e45d5bc518d464bc04045ff7054e4c8cabb, catalog core 326c1780c5634d672e4fb15516b737e8083fccc06ead5267efd85a58f0b2688c and operation 7bee695806efd0b6734b9ac626bbeda286ea8070467543a20c5e97b4237f21d1. The supplied predecessor 1b623065122fbbc3f414e4e2d9f1269a06c1070cefa89a5ad1d7b374290c0822 has selection binding 7cf3ab108b776fb9850ed4b9b4d4722e26138825c05cc0badbad61d34df9cdf1 and APPROVED_PROPOSAL_ONLY disposition binding 5314e9fdbf365cc8cfa05d5593d587b1fd10ef1c5b8e185887a0d524137b632a. That supports considering this successor, not approving an experiment. Empty artifact references are acceptable for this discussion because the literal supplied context contains the frozen P001 specification and attributed 047b and external-notebook interpretations and relevance assessments; no artifact-dependent execution is selected. Differences in input rules, annotation assistance, grids, masking, filtering, fitting, evaluation membership and metric definitions justify a focused comparison-requirements discussion without patient access. The external notebooks retain their exploratory origin and internal 69/30 split of previously exposed development cases. Their aggregates are not P001 results. Missing paired observations, execution originals and two withheld external review texts restrict numerical ranking, reproduction and conclusions dependent on full review findings; they do not prevent all methodological discussion. The 047b material supplies contextual limitations only, including discordant disability summaries and field-specific missingness, without licensing outcome-selected features or repeated analysis. The linked repair records preserve the early REQUEST_CHANGES, subsequent exact material APPROVE and held installation for application 6c0d4df0465674ad3bedf2eadc7f67c4e86c850c92e83c62e69176b4505a0c06. These are attributed evidence, not grants or fresh verification of referenced originals. This is a fresh judgment for the explicitly linked second replacement, not acceptance or correction of the malformed f714 judgment or the conclusively refused e602 input. The useful next step is independent eligibility review and the existing decision seal, followed by protected registration/admission only when current guards pass, then the capped discussion/review/disposition route. This judgment neither performs that discussion nor claims registration, scientific acceptance, activation or human approval. Issue6 intake and prospective-protocol transport repairs remain scoped to their affected routes. Frozen P001, completed work, original failures and consumed accounting remain unchanged.",
+              "reference_sha256": "daddda11e1ab4478b3f3dcec5431dde1b3ef530fb6f6cc2ef08f954ffbd0c508",
+              "review_status": "APPROVE",
+              "source": "56557e45d5bc518d464bc04045ff7054e4c8cabb",
+              "status": "ELIGIBLE"
+            },
+            "entry_sha256": "21cc60bb4939d3c1a47c64dcb9771003cbfe26d7623e8180fe0310ef17f9db0d",
+            "model_calls": 0,
+            "selection": {
+              "artifact": "round-1/selection.json",
+              "sha256": "7cf3ab108b776fb9850ed4b9b4d4722e26138825c05cc0badbad61d34df9cdf1",
+              "task": "1b623065122fbbc3f414e4e2d9f1269a06c1070cefa89a5ad1d7b374290c0822"
+            },
+            "status": "REGISTERED"
+          },
+          "submission": {
+            "admissions": 0,
+            "controller_uid": 997,
+            "duplicate": false,
+            "model_calls": 0,
+            "paused": false,
+            "request_identity": "7581c3f26e7a64c2aaa5e1d49e3da66dbc2fc31d3b8136fea962ecbc0dae9bfc",
+            "request_initiator": {
+              "family": "codex",
+              "identity_source": "authorized implementation driver via root authenticated transport; scientific judgment remains hosted stages",
+              "kind": "agent",
+              "model": "gpt-6",
+              "session_id": "additional19-authorized-audit-20260912-root"
+            },
+            "status": "QUEUED",
+            "task": "921aebca29e588fd368bf2f25d9102e230e810609040dee0296c2d15bc53b9fb",
+            "task_id": "p001-comparison-evidence-discussion-20260912-v1"
+          }
+        },
+        "source": "56557e45d5bc518d464bc04045ff7054e4c8cabb",
+        "status": "COMPLETE"
+      },
+      "operation": "f714accdb8bcdfe2c8a45d3fdb3db3870957b4a98f7cd42e682174e477352105",
+      "position": 0,
+      "reason": "A saved attempt has no completion; inspect original receipts before continuation.",
+      "status": "RECONCILIATION_REQUIRED",
+      "step": "authority"
+    }
+  ],
+  "coordinator_control": {
+    "paused": false,
+    "revision": 28
+  },
+  "coordinator_observed_at": "2026-09-22T02:59:12.028859+00:00",
+  "coordinator_summary": "0 queued, 0 running, 6 complete, 2 blocked",
+  "coordinator_tasks": [
+    {
+      "id": "921aebca29e588fd368bf2f25d9102e230e810609040dee0296c2d15bc53b9fb",
+      "reason": "NOT_STARTED_RECONCILIATION_REQUIRED",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "d5c32758b99b332c90e9ccd00e70d68a14e864d9e8254bc59a20160616928163",
+      "reason": "HISTORICAL_STAGES_INCOMPLETE_NO_RETRY",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "1b623065122fbbc3f414e4e2d9f1269a06c1070cefa89a5ad1d7b374290c0822",
+      "reason": null,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "293dae042276df1da110ef97c859efaf73f1c4ed4e8cc17780b353dc14fb7674",
+      "reason": null,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "809c6f6a1d2e7186b3d6cb5af5561d4e9db1f43fca4f1a09b8e75e22d6d3f1ab",
+      "reason": null,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "93eb9e7536a665ea96ed6af51b968d351656abe21bb030618fb6cd8d6092f38d",
+      "reason": null,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "f3598b4289533417cb451116600e26e8f158b33684a405e7dba9edf238b77d72",
+      "reason": null,
+      "status": "COMPLETE"
+    },
+    {
+      "id": "f3737d3b94992b217e3f93ca975c43550be4736e6c108fcd437a56ef74cabede",
+      "reason": null,
+      "status": "COMPLETE"
+    }
+  ],
+  "coordinator_tasks_omitted": 0,
+  "coordinator_tasks_total": 8,
+  "evidence_scope": "Installed evidence plus current coordinator metadata; not a census of other execution queues.",
+  "legacy_evidence_preserved": true,
+  "new_scientific_claims_supplied": false,
+  "recorded_change_status": "125fb059cea05a83f6e57e9286312f04f6578e8094a607bc5fb9191fdcee4265: APPLIED, review PENDING; 1937dc1f87697df65f56d474589ac1ce628dbf1169c07f25f8d6a6b840e49992: APPLIED, review PENDING; 35afb10778894c888f6e056994ccb6cc9faff9a01449d4912cbe6e187a1d1ca1: APPLIED, review PENDING; 376a989b9b6c3cce3810e5e59c32b26966e4034f9522ae8f563cee095441da0c: SUBMITTED, review PENDING; 3c4e9c106ad3af203e00b573d7e9b1d6c976e7b668e3ea907b66fe60ce344480: APPLIED, review PENDING; 4213968b23bf8ca2e20e584266fa598eea9e4a4fe3fa59ced58f371edc3ebf75: APPLIED, review PENDING; 435cc225fb214b5260abc64f2d50eb0c8fb149066c5cd72f3f697f2bae563389: SUBMITTED, review PENDING; 5436bb2df7ba0abc88748bb1efc58b3478a42ffae6d3b2275c8e0f0241048ae9: APPLIED, review PENDING; 676ec1cefcaf28c03f39cbe94e6326bd476298c4fd8d818b7ea3e13abcb3df8c: APPLIED, review PENDING; 683bb8af0e0a25c07922017b8427d2cb33cc078b4de04a154de456c7b44e52a3: APPLIED, review PENDING; 786f4c9a194a2e35aeaf0800c5d816dfc15dad2450412f0df55f8e93b35656a8: APPLIED, review PENDING; 94f28df1a598fca619b29b48982d2b0acbc0a918bc4cb230c23dc79f802f0ee5: APPLIED, review PENDING; af027d3d2461bf9313cb77404addb5ba2ddd246ad581c37252b4017b9b74f724: APPLIED, review PENDING; af5e29ba0994627eaeb7878ea11fb8afeba23dd7cc9f990114ba9218e2da67ae: APPLIED, review PENDING; b1d8fadf83e2ef2c6e0f103a936d252a8b9f222607b531ad35072ae5c416a48c: APPLIED, review PENDING; bcd60e7f37e6fdc6f5d64a44ceb324de92fceb94d27b381fe0d5d2a51cb8c974: APPLIED, review PENDING; c588ba7070337d8650dde727e1d334765ef64866ca64cbf4fc618a53e1640f26: APPLIED, review PENDING; c78d1d718d9df68035f820ec7d5f1379e0f1263ba2e73688a2a595f595dd439d: APPLIED, review PENDING; c9ed40b47c0ada1e9d69c8f31691a83189bb1786efbc39250e5f3840bba7e3e0: APPLIED, review PENDING; cef7ed69e5daf4dac5adb0f92399748e3c28c881658d65d68b6b35116874aef6: SUBMITTED, review PENDING; Bounded change summary; omitted review states: {\"APPROVE\": 70, \"PENDING\": 4}; full private records require inspection before acceptance.",
+  "research_schedule": {
+    "admissions": 0,
+    "models": 0,
+    "observed_at": "2026-09-22T02:59:11.985409+00:00",
+    "requests": [
+      {
+        "reason": "CURRENT_INSTALLED_RESEARCH_AUTHORITY_SOURCE_REQUIRED",
+        "status": "BLOCKED",
+        "task_id": "p001-readiness-after-linux-handoff-20260910-v1"
+      }
+    ],
+    "source": "a472034dbf1444110ba0356379faf733796c6efc",
+    "status": "BLOCKED",
+    "submitted_task": null,
+    "task_ids": [
+      "p001-readiness-after-linux-handoff-20260910-v1"
+    ]
+  },
+  "research_task_scope": "The versioned scientific task record is supplied in operating context; it is not a fresh observation of a separate queue.",
+  "scientific_completion_count": 0,
+  "scientific_job_status": {
+    "age_seconds": 8,
+    "analysis": [],
+    "attempts": [],
+    "automatic_retry": false,
+    "jobs": [],
+    "model_calls": 0,
+    "observed_at": "2026-09-22T02:59:03.572587+00:00",
+    "schema": "scientific-observation/v1",
+    "scientific_acceptance": false,
+    "source": "a472034dbf1444110ba0356379faf733796c6efc",
+    "status": "OBSERVED"
+  },
+  "supplied_context_scope": "Exact already reviewed047b and two external exploratory notebook contexts plus original unresolved P001 state; current coordinator/continuation state is captured for each new admitted turn."
+}
