@@ -71,9 +71,10 @@ def test_halt_still_refuses(batch):
     with pytest.raises(ValueError,match='AUTONOMY_BATCH_HALTED'):reserve(batch)
 
 
-def test_no_role_cap_was_raised(monkeypatch):
+def test_no_role_cap_was_raised(tmp_path,monkeypatch):
     monkeypatch.setattr(manual_recovery,'permit',lambda *a:{'review_checkpoint':recovery.CHECKPOINT,'stage':recovery.STAGE})
-    assert all(manual_recovery.role_limit(None,recovery.RUN,s)==2 for s in ['run_spec_author','run_spec_review','result_interpretation_author','result_interpretation_review'])
+    store=ManualExecutor(tmp_path/'jobs.sqlite')
+    assert all(manual_recovery.role_limit(store,recovery.RUN,s)==2 for s in ['run_spec_author','run_spec_review','result_interpretation_author','result_interpretation_review'])
 
 
 def test_author_and_stage_binding_refuse_before_call(tmp_path):

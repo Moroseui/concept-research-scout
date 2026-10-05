@@ -1,0 +1,26 @@
+{
+  "schema": "item2-revision-checkpoint/v1",
+  "run_id": "stocktake-6b556dba36d299c05b8b7770",
+  "old_state": "/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-mcp-submit-4e92f2d7/lane",
+  "old_source": "4e92f2d7f601b9f4c8e9ed606e0d3634bba76729",
+  "config_sha256": "b1b407f9123b4cecb784012f196b7b6d105f7da375e26ab062a3486a4c740c4b",
+  "plan_sha256": "079d4bd69b4ab4348ddc17487803cb588f0d084f93061a6ccb758ea7fe7a59d6",
+  "owner_sha256": "41cc2405961d0903f21122296473dcae2f84cb94ff6f687c12f812eef1865770",
+  "tables": {
+    "manual_calls": "d2d643c699156c670bcb9eebd4d4e2f42d64fc83fe8766392de23d83a6bf9c38",
+    "manual_state": "a2c009ac66a6630adfa82b3f0d5760a8a32e97638bc138068548a6e23407f146",
+    "manual_account": "1c2f3c096d6515fe5f780a61472b8bf803f847d64086c8643c0b9993cd467cd4",
+    "manual_recoveries": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "call_rows": {
+    "42a7870328aab9d0002f8170be63203567fda1c90824ced5c4665d49fe09c098": "95c3681981a763cf611771f17bbac4a635bdd415dad56ddeef4d5edcd43c4106",
+    "69f4027368610313ee366801a6d0d3da8abc976dc8851c3ed15d7c2ac73b1f33": "9b39f1fcc579899267012810262dbcc01c0508b5931bd17704e75cc9a6136276"
+  },
+  "review_sha256": "78d2c082c82ae30e51a9582080ce18b4f9c48abad965c316cd97a16beea34cb0",
+  "context_sha256": "e58b7f57dc2c9b0fcace259b653f864efb260e244812cb0d4377908d8867b718",
+  "global_rows": {
+    "69f4027368610313ee366801a6d0d3da8abc976dc8851c3ed15d7c2ac73b1f33": "69669b900869bac3940f752163fccc8a6ee600422c3f7cacd89c4ef8ebe2fcfc",
+    "42a7870328aab9d0002f8170be63203567fda1c90824ced5c4665d49fe09c098": "4346687c8c0ec7d4803d0d9c1dc86ff577fbb2f96987f10eb7c5f6873a2bbd65"
+  },
+  "global_owner_sha256": "70a19ef6c00b66eb2beabb6ce437e439ca11276c5c3501c99cf6e5f2233ad417"
+}

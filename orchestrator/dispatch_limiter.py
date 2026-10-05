@@ -210,7 +210,7 @@ def validate_server_event(event):
     if set(event)!={'turn_id','attempt','source','branch','kind'} or not re.fullmatch('[0-9a-f]{64}',event['turn_id']) or not re.fullmatch('[1-9][0-9]*',event['attempt']) or not re.fullmatch('[0-9a-f]{40}',event['source']) or event['branch']!='astra/infrastructure-milestone-record' or event['kind'] not in ['astra_turn','nightly_review']:
         raise ValueError('LIMITER_SERVER_IDENTITY')
 
-def admit_manual(store, config, event, now=None):
+def admit_manual(store, config, event, now=None, *, allowance=None):
     """Explicit local acceptance allowance; never resets or uses server authority.
 
     Reuses the same CAS, validation, duplicate charging and latched halt engine.
@@ -225,7 +225,17 @@ def admit_manual(store, config, event, now=None):
             or not re.fullmatch('[0-9a-f]{40}',event['source'])
             or not re.fullmatch('astra/manual-[a-z0-9-]+',event['branch'])):
         raise ValueError('MANUAL_ACCOUNTING_BINDING')
-    return _admit(store,config,event,'manual:'+event['run_id']+':'+event['attempt'],now,12)
+    effective_n = None
+    if allowance is not None:
+        from orchestrator import autonomy_limits
+        autonomy_limits.authority()
+        if (set(allowance) != {'authority_sha256','run_limit'} or
+                allowance['authority_sha256'] != autonomy_limits.AUTHORITY or
+                type(allowance['run_limit']) is not int or allowance['run_limit'] not in (16,20)):
+            raise ValueError('MANUAL_LIMIT_AMENDMENT_BINDING')
+        effective_n = allowance['run_limit']//2
+    result = _admit(store,config,event,'manual:'+event['run_id']+':'+event['attempt'],now,12,effective_n=effective_n)
+    return {**result,'limit_amendment':allowance} if allowance is not None else result
 
 
 def pending_notifications(state):
@@ -233,8 +243,8 @@ def pending_notifications(state):
     return sorted(state['notifications'], key=lambda key:int(key.split(':',1)[0]))[-4:]
 
 
-def _admit(store,config,event,key,now,max_retries):
-    n=policy(config)
+def _admit(store,config,event,key,now,max_retries,*,effective_n=None):
+    n=policy(config) if effective_n is None else effective_n
     day=(now or datetime.now(timezone.utc)).astimezone(timezone.utc).date().isoformat()
     for _ in range(max_retries):
         old,state=store.read()

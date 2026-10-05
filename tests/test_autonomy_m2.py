@@ -63,13 +63,13 @@ def test_one_run_and_halt_and_acceptance_idempotence(tmp_path):
     with pytest.raises(ValueError,match='HALTED'):q.reserve_scientific('id','next','run_spec_author','s',{})
 
 
-@pytest.mark.parametrize('cap',[20,30])
+@pytest.mark.parametrize('cap',[30,60])
 def test_global_daily_and_batch_caps_are_not_reset_by_another_run(tmp_path,cap):
     q=BatchAccounts(tmp_path);q.register_run('new',{})
     today=datetime.now(timezone.utc).date().isoformat()
     for i in range(cap):
-        q.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)',(str(i),'scientific','old'+str(i),1,today if cap==20 else '2020-01-01','COMPLETE','{}','{}'))
-    with pytest.raises(ValueError,match='DAILY_CALL_LIMIT' if cap==20 else 'BATCH_30_CALL_LIMIT'):q.reserve_scientific('x','new','run_spec_author','s',{})
+        q.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)',(str(i),'scientific','old'+str(i),1,today if cap==30 else '2020-01-01','COMPLETE','{}','{}'))
+    with pytest.raises(ValueError,match='DAILY_CALL_LIMIT' if cap==30 else 'BATCH_CALL_LIMIT'):q.reserve_scientific('x','new','run_spec_author','s',{})
     assert q.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==cap
 
 

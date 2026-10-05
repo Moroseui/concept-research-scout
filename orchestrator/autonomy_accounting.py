@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 from orchestrator.autonomy_review_runner import ReviewQueue
 from orchestrator.manual_executor import digest
+from orchestrator import autonomy_limits as limits
 
 
 class BatchAccounts(ReviewQueue):
@@ -46,17 +47,18 @@ class BatchAccounts(ReviewQueue):
             closed=closed_ids(self,run,root=self.filesystem_root)
             if any(row['id'] not in allowed and row['id'] not in closed for row in pending):raise ValueError('BATCH_UNCERTAIN_OR_RUNNING_CALL')
             day=datetime.now(timezone.utc).date().isoformat()
-            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=20:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
-            if self.db.execute("SELECT count(*) FROM autonomy_calls WHERE kind='scientific'").fetchone()[0]>=30:raise ValueError('AUTONOMY_BATCH_30_CALL_LIMIT')
+            cap=limits.global_limit(self,run)
+            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=limits.DAILY:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
+            if self.db.execute("SELECT count(*) FROM autonomy_calls WHERE kind='scientific'").fetchone()[0]>=limits.SCIENTIFIC_BATCH:raise ValueError('AUTONOMY_BATCH_CALL_LIMIT')
             count=self.db.execute("SELECT count(*) FROM autonomy_calls WHERE kind='scientific' AND change_id=?",(run,)).fetchone()[0]
-            if count>=8:raise ValueError('AUTONOMY_RUN_8_CALL_LIMIT')
-            raw=json.dumps({'run_id':run,'stage':stage,'source':source,'input':receipt,'caps':{'batch':30,'run':8,'daily_all_roles':20}},sort_keys=True)
+            if count>=cap:raise ValueError('AUTONOMY_RUN_CALL_LIMIT')
+            raw=json.dumps({'run_id':run,'stage':stage,'source':source,'input':receipt,'caps':{'batch':limits.SCIENTIFIC_BATCH,'run':cap,'daily_all_roles':limits.DAILY,'operator_decision_sha256':limits.AUTHORITY}},sort_keys=True)
             self.db.execute("INSERT INTO jobs(id,binding,phase,status) VALUES(?,?,'dispatch','RUNNING')",(ident,raw))
             self.db.execute("INSERT INTO autonomy_calls VALUES(?,?,?,?,?,'RUNNING',?,NULL)",(ident,'scientific',run,count+1,day,raw))
             self.db.execute('INSERT INTO events VALUES(?,?,?)',(ident+':reserved',ident,json.dumps({'kind':'SCIENTIFIC_CALL_RESERVED','charged_units':1,'binding_sha256':digest(raw.encode())})))
             self.db.execute('COMMIT')
         except BaseException:self.db.execute('ROLLBACK');raise
-        return {'id':ident,'accounting_units':1,'batch_limit':30,'run_limit':8,'daily_limit':20}
+        return {'id':ident,'accounting_units':1,'batch_limit':limits.SCIENTIFIC_BATCH,'run_limit':cap,'daily_limit':limits.DAILY,'operator_decision_sha256':limits.AUTHORITY}
 
     def finish_scientific(self, ident, receipt, status):
         old=self.status(ident)

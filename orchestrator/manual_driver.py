@@ -222,6 +222,9 @@ class Driver:
         if (self.state/'HALT').exists():raise ValueError('OPERATOR_HALT: HALT file is present; no work started. Preserve state and request operator disposition before resuming.')
         c=self.config
         if self.store.batch is not None and (self.store.batch.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
+        if c.get('revision_continuation'):
+            from orchestrator.analysis_revision_transition import validate_driver
+            validate_driver(self)
         if c.get('execution_recovery'):
             from orchestrator.manual_recovery import validate_runtime
             validate_runtime(self)
@@ -241,7 +244,7 @@ class Driver:
     def status(self):
         from orchestrator.manual_host_guard import lane_status
         v=self.current();calls=[dict(r) for r in self.store.db.execute('SELECT * FROM manual_calls')]
-        return {'run_id':self.config['run_id'],'phase':v['phase'],'calls_used':len(calls),'call_limit':6 if self.config['policy'].get('manual_semantics')=='OPERATOR_SERVER_SPRINT10_MAX_SIX' else 8,'rounds':v['rounds'],
+        return {'run_id':self.config['run_id'],'phase':v['phase'],'calls_used':len(calls),'call_limit':__import__('orchestrator.autonomy_limits',fromlist=['selected_run_limit']).selected_run_limit(self.config,self.config['run_id']),'rounds':v['rounds'],
           'interventions':v['interventions'],'operator_halt':(self.state/'HALT').exists(),'host_controls':lane_status(self.state),'connectivity':__import__('orchestrator.connectivity',fromlist=['status']).status(self.state/'connectivity.json'),'reason':v.get('reason'),
           'decision_request':str(self.state/'DECISION_REQUEST.md') if v['phase']=='BLOCKED' else None,
           'next_action':('Server-owned CPU execution/collection; no Colab' if self.config.get('backend')=='cpu' and v['phase'] in {'WAIT_OUTPUTS','EXECUTE_CPU'} else 'Run the emitted notebook once in Colab; then advance --collect-folder PATH' if v['phase']=='WAIT_OUTPUTS' else v['phase']),
@@ -342,12 +345,24 @@ class Driver:
     def prepare_input(self,value,stage,work):
         return manual_context.prepare(self.context,stage=stage,idea_ids=self.config.get('idea_ids',['Sprint10']),task=self.task(stage,value),artifacts=value['artifacts'],workspace=work)
 
+    def finding_prefix(self,stage):
+        # Full run digest avoids path syntax and cross-run stage/round collisions.
+        return 'STEPD-'+digest(self.config['run_id'].encode())+'-'+stage+'-'
+
     def criticism(self,stage,round_no,raw):
         folder=self.context/PROFILE;registry=read(folder/'obligations.json');manifest=read(folder/'manifest.json')
-        name=f'current/finding-{stage}-{round_no}.json';write_once(self.context/name,raw)
-        registry['obligations'].append({'id':f'STEPD-{stage}-{round_no}','type':'adverse finding','status':'open','severity':'blocker',
+        ident=self.finding_prefix(stage)+str(round_no)
+        name='current/finding-'+ident+'.json'
+        expected={'id':ident,'type':'adverse finding','status':'open','severity':'blocker',
           'scope':{'project':['isles24-prediction'],'idea_ids':self.config.get('idea_ids',['Sprint10']),'stages':['*']},'text':raw.decode(),
-          'source':{'path':name,'sha256':digest(raw),'start':0,'end':len(raw),'original_path':name},'disposition':None})
+          'source':{'path':name,'sha256':digest(raw),'start':0,'end':len(raw),'original_path':name},'disposition':None}
+        matches=[row for row in registry['obligations'] if row['id']==ident]
+        if matches:
+            if len(matches)!=1 or matches[0]!=expected or (self.context/name).read_bytes()!=raw:
+                raise ValueError('EXISTING_FINDING_CONFLICT')
+            return
+        write_once(self.context/name,raw)
+        registry['obligations'].append(expected)
         atomic(folder/'obligations.json',registry);manifest['obligations']['sha256']=digest((folder/'obligations.json').read_bytes());atomic(folder/'manifest.json',manifest)
 
     def accept_completed(self,value):
@@ -402,7 +417,9 @@ class Driver:
                 review=scientific(raw);blockers=[x['category'] for x in review['findings']]
                 if review['verdict']!='APPROVE' or blockers:
                     self.criticism(stage,n,raw)
-                    value.update(phase='BLOCKED',reason='STRUCTURED_REVIEW_FINDING_OR_REJECTION',
+                    from orchestrator.analysis_revisions import enabled,review_transition
+                    next_phase,reason=review_transition(review,stage,n) if enabled(self.store,self.config['run_id']) else ('BLOCKED','STRUCTURED_REVIEW_FINDING_OR_REJECTION')
+                    value.update(phase=next_phase,reason=reason,
                                  review=str(work/'review.json'),blocker_categories=blockers)
                     value.pop('pending',None);self.save(value);return self.status()
             else:
@@ -415,9 +432,9 @@ class Driver:
                 # Only a later approving independent review closes its own round's
                 # recorded blockers, with the original approval bytes as citation.
                 folder=self.context/PROFILE;registry=read(folder/'obligations.json');manifest=read(folder/'manifest.json')
-                name=f'current/approval-{stage}-{n}.json';write_once(self.context/name,raw)
+                name='current/approval-'+self.finding_prefix(stage)+str(n)+'.json';write_once(self.context/name,raw)
                 for record in registry['obligations']:
-                    if record['id'].startswith('STEPD-'+stage+'-') and record['status']=='open':
+                    if record['id'].startswith(self.finding_prefix(stage)) and record['status']=='open':
                         record.update(status='closed',disposition={'path':name,'sha256':digest(raw),'start':0,'end':len(raw),'text':raw.decode()})
                 atomic(folder/'obligations.json',registry);manifest['obligations']['sha256']=digest((folder/'obligations.json').read_bytes());atomic(folder/'manifest.json',manifest)
                 value.update(phase='COMMIT_SPEC' if stage=='run_spec_review' else 'UPDATE_STATE',review=str(work/'review.json'),reason=None)

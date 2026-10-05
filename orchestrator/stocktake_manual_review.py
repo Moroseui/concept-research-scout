@@ -152,7 +152,8 @@ with sqlite3.connect('file:'+str(LEDGER)+'?mode=rw',uri=True) as db:
     db.execute('BEGIN IMMEDIATE')
     day=datetime.now(timezone.utc).date().isoformat()
     if (LEDGER.parent/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
-    if db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=20:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
+    if type(p['daily_limit']) is not int or p['daily_limit']!=30:raise ValueError('LEDGER_DAILY_LIMIT_BINDING')
+    if db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=p['daily_limit']:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
     prior=db.execute('SELECT status,binding,receipt FROM autonomy_calls WHERE change_id=? ORDER BY round',(CHANGE,)).fetchall()
     if len(prior)>=p['round_limit'] or manifest['round']!=len(prior)+1:raise ValueError('MANUAL_REVIEW_TWO_ROUND_LIMIT')
     if prior:
@@ -187,9 +188,11 @@ from contextlib import contextmanager
 @contextmanager
 def ledger_transaction(manifest,receipt,status,call):
     import subprocess
+    from orchestrator import autonomy_limits as limits
+    limits.authority()
     uid,options=_ledger_owner()
     change=manifest.get('change_id');_,approval,round_limit=scope(change);authority(change)
-    payload={'uid':uid,'ledger':str(LEDGER),'change':change,'approval':approval,'round_limit':round_limit,
+    payload={'uid':uid,'daily_limit':limits.DAILY,'ledger':str(LEDGER),'change':change,'approval':approval,'round_limit':round_limit,
         'manifest':manifest,'receipt':receipt,'status':status,'call':call,
         'raw_receipt':review.canonical(receipt).decode()}
     child=subprocess.Popen(['/usr/bin/python3','-I','-c',LEDGER_WRITER],cwd='/',

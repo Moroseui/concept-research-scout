@@ -198,9 +198,9 @@ def test_other_uncertainty_and_global_caps_remain(synthetic):
     with pytest.raises(ValueError,match='BATCH_UNCERTAIN_OR_RUNNING_CALL'):
         store.reserve_call(recovery.RUN,recovery.STAGE,'c'*40,'astra/manual-synthetic',policy,{})
     batch.db.execute("UPDATE autonomy_calls SET status='COMPLETE' WHERE id='another'")
-    for n in range(29):
+    for n in range(59):
         batch.db.execute("INSERT INTO autonomy_calls VALUES(?, 'scientific','other',1,'2026-01-01','COMPLETE','{}',NULL)",(f'prior{n}',))
-    with pytest.raises(ValueError,match='BATCH_30_CALL_LIMIT'):
+    with pytest.raises(ValueError,match='BATCH_CALL_LIMIT'):
         store.reserve_call(recovery.RUN,recovery.STAGE,'c'*40,'astra/manual-synthetic',policy,{})
 
 

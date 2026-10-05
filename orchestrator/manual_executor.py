@@ -80,7 +80,8 @@ class ManualExecutor(Store):
         preserved=recovery.get('preserved_failures',[excepted]) if recovery else [None]
         if any(row['status'] in {'RUNNING','UNCERTAIN'} and row['id'] not in preserved for row in rows):raise ValueError('UNCERTAIN_MODEL_CALL_NO_RETRY')
         n=sum(row['stage']==stage for row in rows)+1
-        cap=6 if policy.get('manual_semantics')=='OPERATOR_SERVER_SPRINT10_MAX_SIX' else 8
+        from orchestrator.autonomy_limits import local_limit
+        cap=local_limit(self,run_id,policy)
         if len(rows)>=cap or n>manual_recovery.role_limit(self,run_id,stage):raise ValueError('STEP_D_MODEL_CALL_LIMIT')
         if recovery and stage==recovery.get('stage',manual_recovery.STAGE):
             if recovery.get('stage')!='run_spec_author' or n==2:
@@ -102,7 +103,9 @@ class ManualExecutor(Store):
             receipt={**receipt,'batch_accounting':self.batch.reserve_scientific(ident,run_id,stage,source,receipt)}
         self.db.execute('INSERT INTO manual_calls VALUES(?,?,?,?,?)',(ident,stage,n,'RUNNING',json.dumps(receipt)))
         try:
-            charged=accounting.admit_manual(Accounts(self),policy,{'run_id':ident,'attempt':'1','source':source,'branch':branch})
+            from orchestrator.autonomy_limits import AUTHORITY
+            amendment={'authority_sha256':AUTHORITY,'run_limit':cap} if cap in (16,20) else None
+            charged=accounting.admit_manual(Accounts(self),policy,{'run_id':ident,'attempt':'1','source':source,'branch':branch},allowance=amendment)
             if charged['status']!='ADMITTED':raise ValueError('LOCAL_ALLOWANCE_HALTED')
             receipt={**receipt,'accounting':charged}
             self.db.execute('UPDATE manual_calls SET receipt=? WHERE id=?',(json.dumps(receipt),ident))

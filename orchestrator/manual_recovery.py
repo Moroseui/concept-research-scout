@@ -44,6 +44,8 @@ def permit(store,run):
 
 
 def role_limit(store,run,stage):
+    from orchestrator.analysis_revisions import enabled
+    if enabled(store,run):return 4
     value=permit(store,run)
     if value is not None and 'review_checkpoint' in value:return 2
     return 3 if value is not None and stage==value.get('stage',STAGE) else 2

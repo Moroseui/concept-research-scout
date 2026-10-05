@@ -1,0 +1,6 @@
+Continue BACKLOG item 2; the REVISE should be handled by the system.
+
+1. Fix the EXISTING_FINDING_CONFLICT recorder collision under the administrative-tooling rule: findings keyed uniquely per run and round, never overwriting an existing finding. Preserve the genuine verdict and both charged calls. Deterministic tests.
+2. Standing rule from now on: a REVISE goes back to the author, who addresses each finding, and then to re-review. At most 2 revise rounds per stage, within the run's call allowance and the daily cap.
+3. Then the proposal author and proposal review, the stop for me, and push the new outputs and debates to remote-server.
+   Stop and wait only on: a REJECT, a REVISE still unresolved after 2 rounds, a finding that needs me (privacy, patient data, caps or scope beyond item 2), or a call cap.

@@ -193,12 +193,13 @@ def initialize(root, state, engine_review, plan_path):
               'item_number': item.number, 'item_sha256': item.sha256,
               'workspace_root': str(state.parent/(state.name+'-scientific-workspaces'))}
     if item.number==2:
-        config.update(review_contract='bound-review/v1',accepted_stocktake=plan['accepted_stocktake'])
+        from orchestrator.analysis_revisions import POLICY
+        config.update(review_contract='bound-review/v1',accepted_stocktake=plan['accepted_stocktake'],revision_policy=POLICY)
     atomic(state/'lane.json', config)
     store.db.execute('INSERT INTO manual_state VALUES(1,?)', (json.dumps({'phase': STAGES[0], 'rounds': {},
         'artifacts': plan['artifacts'], 'interventions': []}),))
     store.db.close()
-    return {'status': 'READY', 'run_id': run_id, 'next': STAGES[0], 'calls_used': 0, 'call_limit': 8}
+    return {'status': 'READY', 'run_id': run_id, 'next': STAGES[0], 'calls_used': 0, 'call_limit': 16 if item.number==2 else 8}
 
 
 class AnalysisDriver(Driver):
@@ -240,22 +241,6 @@ class AnalysisDriver(Driver):
                 bound_file(self.context,ref)
 
 
-    def criticism(self, stage, round_no, raw):
-        # Reconcile an already-recorded finding after interruption without
-        # duplicating it or changing its judgment. Conflicting bytes refuse.
-        registry = read(self.context/PROFILE/'obligations.json')
-        ident = f'STEPD-{stage}-{round_no}'
-        matches = [r for r in registry['obligations'] if r['id'] == ident]
-        if matches:
-            expected_path = f'current/finding-{stage}-{round_no}.json'
-            if (len(matches) != 1 or matches[0]['text'] != raw.decode()
-                    or matches[0]['source']['path'] != expected_path
-                    or matches[0]['source']['sha256'] != digest(raw)
-                    or bound_file(self.context, {'path': expected_path, 'sha256': digest(raw)}) != raw):
-                raise ValueError('EXISTING_FINDING_CONFLICT')
-            return
-        return super().criticism(stage, round_no, raw)
-
     def task(self, stage, value):
         if self.config['item_number']==2:
             text=('Analysis-only next-steps proposal using the operator-reviewed stock-take and Sprint13 plan/code. '
@@ -266,12 +251,13 @@ class AnalysisDriver(Driver):
                 'GPU/CPU/memory rates, overhead, uncertainty and scientific model-call estimates. Distinguish estimates '
                 'from measured runtimes. No GPU/Modal/patient-level work, notebook execution or successor dispatch. '
                 'Read the original safe views; cite numeric sources and identify missing evidence. '
-                'Any listed finding, REVISE or REJECT stops for the operator. '
+                'The bound revision policy below supersedes earlier stop-on-REVISE instructions. '
                 'The next decision must be stop for operator review, not execution authority. ')
             if stage.startswith('run_spec'):
                 text+=('Write/review an analysis specification at most12000characters. Exact binding lines:\nrun_id: '
                     +self.config['run_id']+'\nanalysis_registry_sha256: '+self.config['private_intake']['sha256']+'\n')
-            return text
+            from orchestrator.analysis_revisions import instructions
+            return text+instructions(self.store,self.config['run_id'])
         text = ('Stock-take of the preserved external Sprints1–12b research, analysis only. '
                 'No training, notebook execution, new run or successor dispatch. Read the selected methods/results/plans/reviews; '
                 'state each question, measured answer and uncertainty, tentative versus supported findings, limitations, '
@@ -406,7 +392,7 @@ class AnalysisDriver(Driver):
                 elapsed = (datetime.now(timezone.utc)-datetime.fromisoformat(self.config['started_utc'])).total_seconds()
                 body = ('# Sprint13 proposal ready for operator review\n\n' if self.config['item_number']==2 else '# Stock-take ready for operator review\n\n')+Path(value['interpretation']).read_text()
                 body += '\n\n## Run record\nAnalysis only; no notebook, CPU or GPU execution. Operator review is required before any next backlog item.\n'
-                body += f'Calls: {len(receipts)}/8; elapsed seconds: {elapsed:.1f}; rounds: '+json.dumps(value['rounds'])+'.\n'
+                body += f'Calls: {len(receipts)}/{self.status()['call_limit']}; elapsed seconds: {elapsed:.1f}; rounds: '+json.dumps(value['rounds'])+'.\n'
                 body += '\n| Stage | Input characters | Outcome |\n| --- | ---: | --- |\n'
                 for row in receipts:
                     body += f'| {row["stage"]} | {row["input_characters"]} | {row["outcome"]} |\n'

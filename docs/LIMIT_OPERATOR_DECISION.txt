@@ -1,0 +1,10 @@
+Operator decision: raise the limits.
+
+- Per-run allowance: BACKLOG item 2 -> 16 calls; experiment runs (items 3/4) -> 20
+- Revise loop: up to 3 revise rounds per stage (was 2)
+- UTC-day calls: 20 -> 30
+- Batch scientific total: 30 -> 60
+  GPU dollar caps are unchanged.
+  Apply as an operator-authorized limit change with a recorded operator decision. If the limits are configuration read at admission: config change plus focused tests. If they're in source: one automated review through submit_review, then held promotion. Do not reset or relabel any past usage.
+  Also report the actual cost and billing route per call type (Claude reviewer, gpt-6-astra author, administrative), and how close we are to any subscription usage limit.
+  Then continue BACKLOG item 2 as already instructed.

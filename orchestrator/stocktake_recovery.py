@@ -206,6 +206,8 @@ def state_snapshot(state):
 
 def ledger_folder(config):
     from tools.deploy_manual_lane import bound
+    if config.get('revision_continuation'):
+        return bound(config['revision_filesystem_root'],config['batch_ledger'])
     recovery=config.get('execution_recovery',{})
     return bound(recovery.get('filesystem_root','/'),config['batch_ledger']) if recovery.get('kind')=='stocktake-transport' else Path(config['batch_ledger'])
 

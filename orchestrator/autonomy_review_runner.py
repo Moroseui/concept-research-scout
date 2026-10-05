@@ -9,6 +9,7 @@ import subprocess
 import time
 from orchestrator import autonomy_review as review, review_inspection
 from orchestrator.job_store import Store
+from orchestrator import autonomy_limits as limits
 from orchestrator.manual_executor import lock
 
 
@@ -29,6 +30,7 @@ class ReviewQueue(Store):
         return dict(row) if row else {'id':ident,'status':'NOT_RESERVED','charged_calls':0}
 
     def reserve(self, manifest, preflight):
+        limits.authority()
         ident=review.sha(review.canonical(manifest));day=datetime.now(timezone.utc).date().isoformat()
         self.db.execute('BEGIN IMMEDIATE')
         try:
@@ -38,7 +40,7 @@ class ReviewQueue(Store):
                 self.db.execute('COMMIT');return old,False
             from orchestrator.administrative_terminal import administrative_exceptions
             reconciled_scientific=administrative_exceptions(self.db,self.folder.parent/'scientific-terminal')
-            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=20:
+            if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=limits.DAILY:
                 raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
             rows=self.db.execute('SELECT * FROM autonomy_calls WHERE change_id=? ORDER BY round',(manifest['change_id'],)).fetchall()
             if len(rows)>=2 or manifest['round']!=len(rows)+1:raise ValueError('REVIEW_TWO_ROUND_LIMIT_OR_MISSING_PREDECESSOR')
@@ -84,7 +86,7 @@ class ReviewQueue(Store):
             from orchestrator import connectivity
             preflight={**preflight,'connectivity':connectivity.require(['claude'], self.folder/'connectivity.json')}
             binding={'manifest':manifest,'preflight':preflight,'administrative_only_reconciliations':reconciled_scientific,'accounting_unit':'one native Claude invocation',
-                     'scope':'implementation review; excluded from 30 M2-M6 scientific acceptance calls','daily_limit':20,'max_rounds':2}
+                     'scope':'implementation review; excluded from scientific batch call allowance','daily_limit':limits.DAILY,'max_rounds':2,'limit_authority_sha256':limits.AUTHORITY}
             raw=json.dumps(binding,sort_keys=True)
             self.db.execute("INSERT INTO jobs(id,binding,phase,status) VALUES(?,?,'dispatch','RUNNING')",(ident,raw))
             self.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,NULL)',
