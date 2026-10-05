@@ -1,0 +1,8 @@
+{
+  "operator_original_sha256": "c69fdc8d48d66dbb4b0955a9a1c82cef92e07240b22aa9f75d24b1bddacce74e",
+  "prepared_script_sha256": "c58a86528977f32615d81e82e491a4599d0b03e8f4b0b5aa7d6a674bd15f25f8",
+  "recorded_utc": "2026-09-28T07:18:21.111138+00:00",
+  "source": "a0737a5857bf38782508ea99a8794ddb91a936bc",
+  "scope": "Approved prepared environment correction; up to3 qualifying setup retries; all other stops unchanged",
+  "new_attempt": 1
+}

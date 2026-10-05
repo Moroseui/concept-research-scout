@@ -1,0 +1,19 @@
+{
+  "schema": "sprint10-private-exclusion-reference/v1",
+  "split_manifest": {
+    "path": "sprint10-inputs-PRIVATE/split_manifest.csv",
+    "sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843"
+  },
+  "exclusions": {
+    "path": "sprint10-inputs-PRIVATE/excluded_cases.json",
+    "sha256": "ee8d4f96b0c16620450c0e7e2e6a56993d2ee68e20913c78a1bb8fe7af0f1ab2",
+    "count": 1
+  },
+  "development_count": 99,
+  "private_membership_inline": false,
+  "original_run_ids": [
+    "875c56c278",
+    "0a60362503"
+  ],
+  "status": "PROPOSED_SOURCE_REPAIR_NOT_EXECUTED"
+}

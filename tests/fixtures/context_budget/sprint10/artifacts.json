@@ -1,0 +1,44 @@
+[
+  {
+    "id": "notebook-source",
+    "type": "notebook_source",
+    "version": 2,
+    "path": "tests/fixtures/context_budget/sprint10/notebook-source.txt",
+    "sha256": "b5a6d5b716f4fc1ba342f9aaa75d9ddcb04730e343cd5eae6441aa932c87e376"
+  },
+  {
+    "id": "configuration",
+    "type": "configuration",
+    "version": 2,
+    "path": "tests/fixtures/context_budget/sprint10/configuration.txt",
+    "sha256": "41481aaacdecbcd5f6404af27e660ef79ff951d8ea70cffe4ab8342040071e07"
+  },
+  {
+    "id": "run-spec",
+    "type": "run_spec",
+    "version": 2,
+    "path": "tests/fixtures/context_budget/sprint10/run-spec.txt",
+    "sha256": "f8a52f327625ee6512fc8d6c158d4bebfff2b78916291372bb98f4613e6ed5be"
+  },
+  {
+    "id": "saved-outputs",
+    "type": "result_tables",
+    "version": 2,
+    "path": "tests/fixtures/context_budget/sprint10/saved-outputs.txt",
+    "sha256": "ccdac3d65d703b4fe6469de2c95bd051f78c4e0ada7cb271e90fecdc3e60df3e"
+  },
+  {
+    "id": "external-proposed-spec",
+    "type": "proposed_run_spec",
+    "version": 2,
+    "path": "tests/fixtures/context_budget/sprint10/external-proposed-spec.txt",
+    "sha256": "f8a52f327625ee6512fc8d6c158d4bebfff2b78916291372bb98f4613e6ed5be"
+  },
+  {
+    "id": "external-interpretation-notes",
+    "type": "interpretation",
+    "version": 2,
+    "path": "tests/fixtures/context_budget/sprint10/external-interpretation-notes.txt",
+    "sha256": "2445fc67e510536d278a6ae3056ce9fc8cc74bf1d6c0111337eabab7ea7fa93f"
+  }
+]

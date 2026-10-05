@@ -1,0 +1,5 @@
+Approved: ONE_MANUAL_RECOVERY_REVIEW_DECISION.md (SHA256 814db048e4b0cc389bd8f85a8f60a78a38267852d3de473cadc5c02714afcfce) exactly as written. Prepare the manual review the same way as the aca3dff0 one: a ZIP with START.md, packet/prompt.txt and the prompt to paste, and tell me its path. Follow the packet policy (prior sessions and refusals referenced only by ID and hash). Keep the packet to the recovery integration diff, its callers and the test evidence, including the full-path dry-run results.
+
+After the stock-take, not now, propose through the ordinary process a reviewed distinction between a call proven to have failed before any model client launched and a genuinely uncertain call, so a proven pre-launch failure doesn't block administrative reviews. Do not relabel the current row.
+
+Continue deterministic verification meanwhile. All caps and stop conditions still apply.

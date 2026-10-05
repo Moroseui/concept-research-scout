@@ -1,0 +1,109 @@
+{
+  "time_utc": "2026-09-07T22:44:34Z",
+  "actual_source_heads": {
+    "handover": "9af868d47fecaf26c82c88a4d957183ea50962f5",
+    "current": "6b555075fcf553994ecac8e368f4676cbdffdc56"
+  },
+  "units": {
+    "research-system-handover.service": {
+      "MainPID": "287603",
+      "Result": "success",
+      "User": "root",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "research-system-handover-controller.service": {
+      "MainPID": "0",
+      "Result": "success",
+      "User": "research-controller",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "research-system-completion-fixture.timer": {
+      "Result": "success",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "research-system-controller.timer": {
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "research-system-worker.timer": {
+      "Result": "success",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "auth": {
+    "research-driver": {
+      "returncode": 0,
+      "authenticated": true,
+      "subscription_reported": true
+    },
+    "research-reviewer": {
+      "returncode": 0,
+      "authenticated": true,
+      "subscription_reported": true
+    }
+  },
+  "jobs": [
+    {
+      "id": "00-colab-blocked",
+      "status": "BLOCKED",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "10-linux-delay",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "20-linux-failure",
+      "status": "FAILED",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "30-linux-next",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "40-closeout-trigger",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "41-closeout-followup",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "50-handover-a0795e6",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    },
+    {
+      "id": "51-handover-a0795e6",
+      "status": "COMPLETE",
+      "phase": "linux_synthetic"
+    }
+  ],
+  "handover-broker": {
+    "mode": "SYNTHETIC_FIXTURE",
+    "source_commit": null,
+    "max_model_turns": 3,
+    "writer_configured": false,
+    "report_schedule_configured": false
+  },
+  "handover-controller": {
+    "mode": null,
+    "source_commit": null,
+    "max_model_turns": null,
+    "writer_configured": false,
+    "report_schedule_configured": false
+  },
+  "status": "READ_ONLY_CURRENT_INSPECTION",
+  "private_original_sha256": "507854c40b3b6be0bbfa63f8dc220c569a8aa0f1ded81d2a7b45503fba6d84ce",
+  "interpretation": "Installed sources differ from development. No service change or job retry performed. Authentication status does not grant live authority."
+}

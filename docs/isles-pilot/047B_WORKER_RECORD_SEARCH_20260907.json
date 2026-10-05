@@ -1,0 +1,11 @@
+{
+  "status": "BOUNDED_SEARCH_COMPLETE",
+  "files_checked": 144,
+  "files_skipped": 0,
+  "candidate_files": 0,
+  "original_successful_console_established": false,
+  "experiment_executed": false,
+  "inventory_sha256": "ede96b96bc236146ecdbe2a0a5e7edd0bea2cc7c77576ae5b373f1ae041ed804",
+  "limits": "Only existing log/stream/notebook-output and named protocol files, 32 MiB each, 90-second read bound; candidate markers do not establish original provenance.",
+  "scope": "Additional existing private Colab worker records, no raw console text published"
+}

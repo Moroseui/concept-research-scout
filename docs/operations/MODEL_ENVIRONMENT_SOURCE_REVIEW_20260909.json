@@ -1,0 +1,63 @@
+{
+  "status": "SOURCE_REVIEW_APPROVED_ADAPTER_RECEIPT_RECORDED_LOCAL_ONLY",
+  "scope": "human-controls",
+  "reviewed_commit": "bb37ecc49e8b1e839607757ff8526288c84453e3",
+  "review_operator": "author-operated existing-subscription source review",
+  "independent_main_desk_review": false,
+  "requested_model": "claude-fable-5",
+  "assistant_message_models": [
+    "claude-fable-5"
+  ],
+  "actual_usage_models": [
+    "claude-haiku-4-5-20251001",
+    "claude-fable-5"
+  ],
+  "source_review_response_sha256": "fce11cfe427ae3abbfc48b44a7d67ffebffef6eb9fbd586eea263abf1359a664",
+  "source_review_protocol_sha256": "1495d1d5cc05c9226c1b6ef0d5d1f2cf9570c0f64d6045690e88767a5f20286a",
+  "source_review_execution_sha256": "98ca7f61094cec03d68db2d08ab75831ac5ccb15ca5ae6fb8ded4dc85038ddea",
+  "wall_seconds": 94.37955054399208,
+  "adapter_review_verifier": {
+    "status": "PASSED",
+    "returned_reviewed_commit": "bb37ecc49e8b1e839607757ff8526288c84453e3",
+    "checked_source_files": 29
+  },
+  "prior_review_bytes_preserved_sha256": {
+    "docs/isles-pilot/reviews/human-controls-handover.execution.json": "7ee4880d762f14d62c4dea0dd652eeef6722e3c2cadd5c65527d51f4418853ce",
+    "docs/isles-pilot/reviews/human-controls-handover.response.json": "1ac0bf2b6ce47bb6b3aa59f5b3ea7ec3c566a0fbe7bcb0d2fb32f1a833bd80ce",
+    "docs/operations/MODEL_ENVIRONMENT_SOURCE_REVIEW_20260909.json": "0d718b9cef84f981abf3e07b4e9c783fe939a7cb28f019e410fb6d94af062d52"
+  },
+  "source_changes_since_review": false,
+  "delta_from_prior_review": [
+    "tests/test_human_controls.py"
+  ],
+  "reviewer_finding_disposition": "Original v2 findings are retained unchanged. Mechanical comparison confirms only tests/test_human_controls.py changed among all 29 bound files since 3eb07e32; the finding that git_publication.py also changed is incorrect. The intended missing-current-receipt gate is closed by recording this original genuine full-input receipt and passing reviewed().",
+  "focused_tests": {
+    "tests_passed": 15,
+    "subtests_passed": 23,
+    "seconds": 0.4,
+    "execution_sha256": "beebac19faa9ab4c4dc2bd18f2c93631cd291b25ffd388f935d4e0501d664130",
+    "purpose": "Retain rejection behavior after changing only the synthetic fixture spelling; prior broader workflow tests remain applicable"
+  },
+  "original_component_branches_preserved": true,
+  "publication_policy_expanded": false,
+  "environment_state_observed_separately": {
+    "status": "EMPTY_RESEARCH_MODELS_ENVIRONMENT_MAIN_BRANCH_POLICY_VERIFIED",
+    "environment_id": 21537367870,
+    "secret_count": 0,
+    "observed_utc": "2026-09-09T05:42:10.146461+00:00",
+    "not_part_of_source_review_inputs": true
+  },
+  "remaining": [
+    "Independent desk review of exact complete main candidate and full outgoing history",
+    "Explicit exact operator main merge decision and permitted workflow publication route",
+    "Privately supplied original Actions API key and Claude setup token; names-only legacy CODEX_AUTH_JSON disposition",
+    "Stage existing model secrets while preserving repository/private originals; bounded positive and negative canaries before final scope claim",
+    "Protected collector final source allowlist",
+    "Separate unattended/limiter activation decision and verification"
+  ],
+  "main_merge_performed": false,
+  "workflow_publication_performed": false,
+  "model_secret_changes": false,
+  "scientific_execution": false,
+  "unattended_activation": false
+}

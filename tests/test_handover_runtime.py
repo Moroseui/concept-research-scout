@@ -23,6 +23,36 @@ def test_report_identity_stable_after_review_queue_mutates(tmp_path,monkeypatch)
     assert first==second
 
 
+def test_recorded_change_reaches_private_task_and_public_status_without_proposal(tmp_path,monkeypatch):
+    from orchestrator import change_requests as changes
+    r=runtime(tmp_path,monkeypatch)
+    store=tmp_path/'changes';r.config['change_request_store']=str(store)
+    source=Path(__file__).resolve().parents[1]
+    actor={'kind':'human','identity':'fixture-operator'}
+    request=changes.submit(store,source,'remote-handover','Clarify this private task explanation.',
+                           actor,key='fixture-repair',scope_limits=['Explanation only'])
+    folder=store/request['identity']
+    changes.record(folder,'AUTHORIZED',actor,{'authority_reference':'fixture-only',
+        'rationale':'Eligible explanation repair','review_policy':'Deferred review pending'})
+    applied=changes.record(folder,'APPLIED',actor,{'modification':'Updated the explanation',
+        'checks':'Fixture check','result_binding':'Preserved original, revised version recorded','review_status':'PENDING'})
+    first=r.enqueue_report('2026-09-10',[],{'waiting':'review'})
+    task=r.state/'tasks'/first['id']
+    original=(task/'packet.json').read_bytes();packet=json.loads(original)
+    assert packet['recorded_changes']['requests'][0]['review_status']=='PENDING'
+    report=json.loads((task/'report.json').read_text())
+    public=(r.state/'reports'/(report['id']+'.md')).read_text()
+    assert request['identity'] in public and 'PENDING' in public
+    assert request['requested_change'] not in public
+    changes.record(folder,'REVIEW',actor,{'applied_event':applied['identity'],'verdict':'REQUEST_CHANGES',
+        'rationale':'Explanation is still ambiguous','review_evidence':'Fixture independent finding',
+        'affected_results':['Correct the revised explanation before dependent use']})
+    second=r.enqueue_report('2026-09-10',[],{'waiting':'review'})
+    assert second['id']!=first['id'] and (task/'packet.json').read_bytes()==original
+    revised=json.loads((r.state/'tasks'/second['id']/'packet.json').read_text())
+    assert revised['recorded_changes']['requests'][0]['review_status']=='REQUEST_CHANGES'
+
+
 def test_large_permitted_source_packet_keeps_public_report_small(tmp_path,monkeypatch):
     r=runtime(tmp_path,monkeypatch)
     binding=r.enqueue_report('2026-09-07',[],{},reviewer_evidence={'permitted_source':'x'*120000})
@@ -60,7 +90,7 @@ def test_completed_report_delivery_waits_for_permission_and_pause(tmp_path,monke
     assert len(calls)==1 and r.status()['report_delivery'][0]['commit_pin']=='c'*40
 
 
-def test_live_admission_requires_finalized_publication_first(tmp_path,monkeypatch):
+def test_live_report_requires_admission_then_publication_before_review(tmp_path,monkeypatch):
     import pytest
     import orchestrator.report_delivery as delivery
     import orchestrator.handover_runtime as module
@@ -75,7 +105,10 @@ def test_live_admission_requires_finalized_publication_first(tmp_path,monkeypatc
     def publish(*args,**kwargs):
         assert kwargs['phase']=='finalized';calls.append('publish');return {'status':'PUBLISHED'}
     monkeypatch.setattr(delivery,'deliver',publish)
-    assert r.admit(binding)['status']=='ADMITTED' and calls==['publish','admit']
+    assert r.admit(binding)['status']=='ADMITTED' and calls==['admit','publish']
+    calls.clear()
+    monkeypatch.setattr(module,'request_broker',lambda *args:calls.append('refused') or {'status':'HALTED'})
+    assert r.admit(binding)['status']=='HALTED' and calls==['refused']
 
 
 def test_notifications_are_optional_information_and_do_not_dispatch(tmp_path,monkeypatch):
@@ -117,7 +150,7 @@ def test_schedule_disabled_by_default_and_daily_identity_deduplicates(tmp_path,m
     r=runtime(tmp_path,monkeypatch);now=datetime(2026,9,7,2,tzinfo=timezone.utc)
     assert r.scheduled_report(now)['status']=='SCHEDULE_DISABLED'
     r.config['report_schedule']={'zone':'America/New_York','hour':21,'minute':0,'evidence_file':'synthetic'}
-    monkeypatch.setattr(module,'configuration',lambda path:{'source':'a'*40,'receipts':[],'task_state':{'blocked':'operator gate'}})
+    monkeypatch.setattr(module,'configuration',lambda path,**kwargs:{'source':'a'*40,'receipts':[],'task_state':{'blocked':'operator gate'}})
     first=r.scheduled_report(now)
     assert first['status']=='SCHEDULED'
     assert r.scheduled_report(now)=={'status':'ALREADY_SCHEDULED','task':first['task']}
@@ -132,7 +165,7 @@ def test_scheduled_report_records_current_queue_without_private_binding(tmp_path
     r.q.submit(pending)
     r.q.db.execute("UPDATE tasks SET status='BLOCKED',reason='RECONCILE_ORIGINAL_RECEIPT'")
     r.config['report_schedule']={'zone':'UTC','hour':0,'minute':0,'evidence_file':'synthetic'}
-    monkeypatch.setattr(module,'configuration',lambda path:{'source':'a'*40,'receipts':[],
+    monkeypatch.setattr(module,'configuration',lambda path,**kwargs:{'source':'a'*40,'receipts':[],
         'task_state':{'research_queue':'Recorded independent research remains queued.'}})
     result=r.scheduled_report(datetime(2026,9,7,tzinfo=timezone.utc))
     packet=json.loads((r.state/'tasks'/result['task']/'packet.json').read_text())
@@ -158,6 +191,78 @@ def test_completed_review_bookkeeping_is_repeatable_without_models(tmp_path,monk
     report=json.loads((r.state/'tasks'/binding['id']/'report.json').read_text())
     assert Queue(r.state/'reports').status(report['id'])['status']=='REVIEWED'
     assert calls==[0,1,2]
+
+
+def historical_report_fixture(tmp_path,monkeypatch):
+    """Synthetic model originals; exercise actual saved queue/report bindings."""
+    import hashlib
+    import orchestrator.handover_runtime as module
+    from orchestrator.hosted_cycle import encoded as broker_encoded
+    r=runtime(tmp_path,monkeypatch);binding=r.enqueue_report('2026-09-06',[],{})
+    packet=json.loads((r.state/'tasks'/binding['id']/'packet.json').read_bytes())
+    replies={}
+    def fixture(bound,position):
+        stage=binding['stages'][position]
+        answer='Synthetic original report assessment '+str(position)
+        model='claude-fable-5' if stage=='review' else 'gpt-6-astra'
+        output={'status':'COMPLETE','answer':answer,'packet_sha256':hashlib.sha256(broker_encoded(packet)).hexdigest(),
+            'receipt':{'requested_model':model,'actual_model':model,'returncode':0,
+                'session_id':'synthetic-report-session','answer_sha256':hashlib.sha256(answer.encode()).hexdigest(),
+                'operating_context_sha256':'c'*64}}
+        replies[stage]=output;return output
+    r.q.handlers={name:fixture for name in binding['stages']};r.q.admission=lambda b:{'status':'ADMITTED'}
+    r.q.submit(binding);assert r.q.tick()['status']=='COMPLETE'
+    # Complete originals exist, but derived report review has not yet attached.
+    r.q.db.execute("UPDATE tasks SET status='BLOCKED' WHERE id=?",(binding['id'],))
+    (r.state/(binding['id']+'-0.json')).unlink()
+    upgraded=module.Runtime({**r.config,'source':'b'*40})
+    calls=[]
+    def retrieve(socket,operation,body):
+        assert operation=='stage_status' and body['event']==r.event(binding)
+        calls.append(body['stage']);return {**replies[body['stage']],'duplicate':True}
+    monkeypatch.setattr(module,'request_broker',retrieve)
+    return upgraded,binding,replies,calls
+
+
+def test_completed_old_report_recovers_original_review_without_new_admission(tmp_path,monkeypatch):
+    import pytest
+    from orchestrator.operations_report import Queue
+    r,binding,replies,calls=historical_report_fixture(tmp_path,monkeypatch)
+    packet_path=r.state/'tasks'/binding['id']/'packet.json';original=packet_path.read_bytes()
+    r.recover()
+    assert r.q.status()['tasks'][0]['status']=='COMPLETE'
+    assert calls==['continuation','review','disposition']
+    r.bookkeeping()
+    report=json.loads((packet_path.parent/'report.json').read_text())['id']
+    assert Queue(r.state/'reports').status(report)['status']=='REVIEWED'
+    review=json.loads((r.state/'reports'/(report+'.claude-review.json')).read_bytes())
+    assert review['source']=='a'*40 and review['model']=='claude-fable-5'
+    assert packet_path.read_bytes()==original
+    assert r.q.tick()['status']=='WAITING_FOR_ELIGIBLE_WORK'
+    assert calls==['continuation','review','disposition']
+    with pytest.raises(ValueError,match='HISTORICAL_REPORT_SOURCE_READ_ONLY'):r.admit(binding)
+    with pytest.raises(ValueError,match='HISTORICAL_REPORT_SOURCE_READ_ONLY'):r.model(binding,0)
+
+
+def test_incomplete_old_report_and_changed_protected_reply_remain_blocked(tmp_path,monkeypatch):
+    r,binding,replies,calls=historical_report_fixture(tmp_path,monkeypatch)
+    r.q.db.execute('DELETE FROM stages WHERE task=? AND position=2',(binding['id'],))
+    r.recover()
+    assert calls==[]
+    assert r.q.status()['tasks'][0]['reason']=='HISTORICAL_STAGES_INCOMPLETE_NO_RETRY'
+    r.q.db.execute("INSERT INTO stages VALUES(?,2,'COMPLETE',NULL)",(binding['id'],))
+    replies['review']['packet_sha256']='d'*64
+    r.recover()
+    assert r.q.status()['tasks'][0]['status']=='BLOCKED'
+    assert calls==['continuation','review']
+
+
+def test_changed_old_report_content_refuses_before_original_retrieval(tmp_path,monkeypatch):
+    r,binding,replies,calls=historical_report_fixture(tmp_path,monkeypatch)
+    report=json.loads((r.state/'tasks'/binding['id']/'report.json').read_bytes())['id']
+    (r.state/'reports'/(report+'.md')).write_text('Changed report')
+    r.recover()
+    assert calls==[] and r.q.status()['tasks'][0]['status']=='BLOCKED'
 
 
 def test_noncanonical_stages_refuse_before_admission(tmp_path,monkeypatch):
@@ -199,7 +304,7 @@ def test_control_receipt_failure_is_recorded_and_next_request_applies(tmp_path,m
         if path==directory:return types.SimpleNamespace(st_uid=0,st_mode=stat.S_IFDIR|0o750)
         return real_stat(path,*a,**kw)
     monkeypatch.setattr(Path,'stat',fixture_stat)
-    monkeypatch.setattr(module,'configuration',lambda path:requests[str(path)])
+    monkeypatch.setattr(module,'configuration',lambda path,**kwargs:requests[str(path)])
     original=module.immutable
     def write(path,raw):
         if path.name=='control-'+format(1,'064x')+'.json':raise OSError('fixture receipt destination failure')
@@ -255,7 +360,7 @@ def test_report_task_history_is_bounded_with_honest_omission_count(tmp_path,monk
     for n in range(220):
         r.q.db.execute('INSERT INTO tasks VALUES(?,?,?,?)',(format(n,'064x'),'{}','COMPLETE',None))
     r.config['report_schedule']={'zone':'UTC','hour':0,'minute':0,'evidence_file':'synthetic'}
-    monkeypatch.setattr(module,'configuration',lambda path:{'source':'a'*40,'receipts':[],'task_state':{}})
+    monkeypatch.setattr(module,'configuration',lambda path,**kwargs:{'source':'a'*40,'receipts':[],'task_state':{}})
     scheduled=r.scheduled_report(datetime(2026,9,7,tzinfo=timezone.utc))
     packet=json.loads((r.state/'tasks'/scheduled['task']/'packet.json').read_text())
     state=packet['decision_inbox']

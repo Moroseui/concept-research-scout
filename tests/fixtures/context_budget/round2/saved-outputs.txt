@@ -1,0 +1,186 @@
+[
+  {
+    "cell": 2,
+    "execution_count": 2,
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "Mounted at /content/drive\n"
+        ]
+      }
+    ]
+  },
+  {
+    "cell": 4,
+    "execution_count": 4,
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "[+   1.1 min]   loaded 25/99 caches\n",
+          "[+   1.9 min]   loaded 50/99 caches\n",
+          "[+   2.6 min]   loaded 75/99 caches\n",
+          "Compatibility checks (a failure stops the notebook):\n",
+          "  [ok] sprint 8 cache identity matches the current cache\n",
+          "  [ok] sprint 9 cache identity matches the current cache\n",
+          "  [ok] same case list (and equal to the current 99)\n",
+          "  [ok] same grid\n",
+          "  [ok] same shuffles and fold count\n",
+          "  [ok] complete partition dictionaries identical\n",
+          "  [ok] partition keys are exactly the planned shuffle/fold pairs\n",
+          "  [ok] sprint 9 is a full-protocol run (not SMOKE)\n",
+          "Clinical-input checks (a failure only disables tree-versus-network clinical contrasts):\n",
+          "  [ok] parsed clinical table digest identical\n",
+          "  [ok] baseline and post-intervention field sets identical\n",
+          "  [ok] clinical header mapping identical\n",
+          "     sprint 8 fields {'baseline': ['age', 'sex', 'nihss_admission'], 'post-intervention': ['mtici', 'mtici_recorded']} | sprint 9 fields {'baseline': ['age', 'sex', 'nihss_admission'], 'post-intervention': ['mtici', 'mtici_recorded']} | digests d2f3171c19aa / d2f3171c19aa\n",
+          "[+   3.5 min] comparable: sprint 8 875c56c278 vs sprint 9 0a60362503; 10 identical partitions; clinical inputs identical: True -> /content/drive/MyDrive/isles-pilot/sprint10-comparison-PRIVATE/compare-875c56c278-0a60362503\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "/tmp/ipykernel_3657/1055274458.py:60: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n",
+          "  \"hard_checks\": HARD, \"partition_differences\": pdiff, \"clinical_checks\": CLIN, \"clinical_fields\": {\"sprint8\": clin_fields8, \"sprint9\": clin_fields9}, \"cache_identity\": CACHE_IDENTITY, \"utc\": datetime.datetime.utcnow().isoformat()},\n"
+        ]
+      }
+    ]
+  },
+  {
+    "cell": 5,
+    "execution_count": 5,
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "[+   3.5 min] sprint 8 execution records: 2 (parts ['part1', 'part2'], E run True, E seeds [1]); part 2 arms ['F_baseclin_broadcast', 'G_postint_broadcast', 'H_both_broadcast', 'K_D_amount_volonly', 'I_D_amount_baseclin', 'J_D_amount_both']\n",
+          "[+   3.5 min] sprint 9 arms and seeds from its manifest: {'U_base': [1, 2], 'U_bc_baseclin': [1], 'U_film_baseclin': [1], 'U_bc_postint': [1]}\n",
+          "[+   5.1 min] expected fold tables: 100 | complete 100\n"
+        ]
+      }
+    ]
+  },
+  {
+    "cell": 7,
+    "execution_count": 6,
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "[+  15.3 min] matched-amount combinations: 50 paired of 50 expected; rows built: 990\n"
+        ]
+      }
+    ]
+  },
+  {
+    "cell": 9,
+    "execution_count": 7,
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "Completion of every expected combination (from the manifests, execution records and arm lists):\n",
+          "state                                complete\n",
+          "run      group                               \n",
+          "sprint 8 part1 (B, C, D)                   20\n",
+          "         part1 E                           10\n",
+          "         part2 (clinical)                  20\n",
+          "sprint 9 U_base fold table                 20\n",
+          "         U_base score file                 20\n",
+          "         U_bc_baseclin fold table          10\n",
+          "         U_bc_baseclin score file          10\n",
+          "         U_bc_postint fold table           10\n",
+          "         U_bc_postint score file           10\n",
+          "         U_film_baseclin fold table        10\n",
+          "         U_film_baseclin score file        10\n",
+          "\n",
+          "RUN STATUS: all expected combinations complete and paired\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "/tmp/ipykernel_3657/2680044982.py:13: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.\n",
+          "  summ = per_pat.groupby(\"recipe\").apply(lambda g: pd.Series({\"patients\": len(g), \"repeats (mean)\": round(g.n_rep.mean(), 2), \"Dice / voxel F1 (95% CI)\": ci(g.dice), \"lesion-wise F1\": round(g.lesion_f1.mean(), 3),\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "\n",
+          "Per-recipe descriptive table (each patient's valid repeats averaged first; recipes differ in repeats, so compare with the matched contrasts below; EXPLORATORY intervals):\n",
+          "                             patients  repeats (mean) Dice / voxel F1 (95% CI)  lesion-wise F1        precision (valid)           recall (valid) feature-mask specificity (valid) feature-mask AUROC (valid) feature-mask avg precision (valid)  empty-prediction rate  median patient-mean abs vol err (ml)  median signed (ml)  lesion count diff            ASD mm (valid) Dice <5 ml (n) Dice >=5 ml (n)\n",
+          "recipe                                                                                                                                                                                                                                                                                                                                                                                                      \n",
+          "B_natural_scoresum                 99             4.0   0.177 (0.143 to 0.213)           0.012  0.222 (99 pts, 396 obs)  0.222 (98 pts, 392 obs)          0.982 (99 pts, 396 obs)    0.843 (97 pts, 388 obs)            0.204 (97 pts, 388 obs)                    0.0                                 15.27                6.89              58.66  15.506 (98 pts, 392 obs)     0.027 (29)      0.238 (70)\n",
+          "C_noslice_scoresum                 99             4.0   0.183 (0.149 to 0.218)           0.012  0.230 (99 pts, 396 obs)  0.230 (98 pts, 392 obs)          0.982 (99 pts, 396 obs)    0.845 (97 pts, 388 obs)            0.208 (97 pts, 388 obs)                    0.0                                 16.36                8.30              61.60  15.477 (98 pts, 392 obs)     0.026 (29)      0.247 (70)\n",
+          "D_noslice_smoothed                 99             4.0   0.206 (0.169 to 0.247)           0.112  0.257 (99 pts, 396 obs)  0.262 (98 pts, 392 obs)          0.983 (99 pts, 396 obs)    0.865 (97 pts, 388 obs)            0.252 (97 pts, 388 obs)                    0.0                                 16.36                8.30               7.56  16.560 (98 pts, 392 obs)     0.028 (29)      0.280 (70)\n",
+          "E_allvoxels_smoothed               99             2.0   0.206 (0.167 to 0.246)           0.110  0.258 (99 pts, 198 obs)  0.262 (98 pts, 196 obs)          0.982 (99 pts, 198 obs)    0.864 (97 pts, 194 obs)            0.253 (97 pts, 194 obs)                    0.0                                 16.26                7.78               7.69  16.723 (98 pts, 196 obs)     0.028 (29)      0.280 (70)\n",
+          "F_baseclin_broadcast               99             4.0   0.188 (0.153 to 0.225)           0.092  0.293 (99 pts, 396 obs)  0.209 (98 pts, 392 obs)          0.987 (99 pts, 396 obs)    0.874 (97 pts, 388 obs)            0.261 (97 pts, 388 obs)                    0.0                                 11.73               -0.81               8.08  17.507 (98 pts, 392 obs)     0.036 (29)      0.251 (70)\n",
+          "G_postint_broadcast                99             4.0   0.205 (0.167 to 0.244)           0.109  0.263 (99 pts, 396 obs)  0.251 (98 pts, 392 obs)          0.983 (99 pts, 396 obs)    0.871 (97 pts, 388 obs)            0.260 (97 pts, 388 obs)                    0.0                                 12.50                5.22               7.65  16.390 (98 pts, 392 obs)     0.033 (29)      0.276 (70)\n",
+          "H_both_broadcast                   99             4.0   0.194 (0.159 to 0.228)           0.112  0.300 (99 pts, 396 obs)  0.210 (98 pts, 392 obs)          0.988 (99 pts, 396 obs)    0.877 (97 pts, 388 obs)            0.269 (97 pts, 388 obs)                    0.0                                 10.21               -1.41               8.18  17.726 (98 pts, 392 obs)     0.041 (29)      0.258 (70)\n",
+          "I_D_amount_baseclin                99             4.0   0.175 (0.143 to 0.214)           0.091  0.280 (99 pts, 396 obs)  0.188 (98 pts, 392 obs)          0.989 (99 pts, 396 obs)    0.865 (97 pts, 388 obs)            0.252 (97 pts, 388 obs)                    0.0                                 10.51               -0.18               7.77  17.810 (98 pts, 392 obs)     0.032 (29)      0.235 (70)\n",
+          "J_D_amount_both                    99             4.0   0.173 (0.139 to 0.208)           0.074  0.278 (99 pts, 396 obs)  0.192 (98 pts, 392 obs)          0.988 (99 pts, 396 obs)    0.865 (97 pts, 388 obs)            0.252 (97 pts, 388 obs)                    0.0                                 11.08               -0.87               7.87  17.904 (98 pts, 392 obs)     0.030 (29)      0.232 (70)\n",
+          "K_D_amount_volonly                 99             4.0   0.177 (0.142 to 0.214)           0.092  0.289 (99 pts, 396 obs)  0.185 (98 pts, 392 obs)          0.990 (99 pts, 396 obs)    0.865 (97 pts, 388 obs)            0.252 (97 pts, 388 obs)                    0.0                                 10.21               -0.14               7.75  17.860 (98 pts, 392 obs)     0.030 (29)      0.238 (70)\n",
+          "U_base_at_D_amount                 99             4.0   0.196 (0.158 to 0.235)           0.098  0.247 (99 pts, 396 obs)  0.246 (98 pts, 392 obs)          0.982 (99 pts, 396 obs)    0.844 (97 pts, 388 obs)            0.232 (97 pts, 388 obs)                    0.0                                 16.36                8.30               7.90  18.313 (98 pts, 392 obs)     0.029 (29)      0.266 (70)\n",
+          "U_base_raw                         99             4.0   0.196 (0.161 to 0.236)           0.069  0.204 (99 pts, 396 obs)  0.330 (98 pts, 392 obs)          0.966 (99 pts, 396 obs)    0.822 (97 pts, 388 obs)            0.217 (97 pts, 388 obs)                    0.0                                 28.57               22.23              23.29  18.698 (98 pts, 392 obs)     0.030 (29)      0.265 (70)\n",
+          "U_base_smoothed                    99             4.0   0.204 (0.164 to 0.244)           0.094  0.214 (99 pts, 396 obs)  0.341 (98 pts, 392 obs)          0.966 (99 pts, 396 obs)    0.844 (97 pts, 388 obs)            0.232 (97 pts, 388 obs)                    0.0                                 28.57               22.23               8.00  18.688 (98 pts, 392 obs)     0.031 (29)      0.275 (70)\n",
+          "U_bc_baseclin_at_D_amount          99             2.0   0.198 (0.161 to 0.234)           0.101  0.244 (99 pts, 198 obs)  0.252 (98 pts, 196 obs)          0.982 (99 pts, 198 obs)    0.833 (97 pts, 194 obs)            0.229 (97 pts, 194 obs)                    0.0                                 16.43                8.32               8.91  18.000 (98 pts, 196 obs)     0.032 (29)      0.266 (70)\n",
+          "U_bc_baseclin_raw                  99             2.0   0.195 (0.155 to 0.236)           0.041  0.186 (99 pts, 198 obs)  0.365 (98 pts, 196 obs)          0.958 (99 pts, 198 obs)    0.810 (97 pts, 194 obs)            0.213 (97 pts, 194 obs)                    0.0                                 33.47               29.68              34.54  19.460 (98 pts, 196 obs)     0.025 (29)      0.265 (70)\n",
+          "U_bc_baseclin_smoothed             99             2.0   0.204 (0.165 to 0.249)           0.084  0.196 (99 pts, 198 obs)  0.380 (98 pts, 196 obs)          0.958 (99 pts, 198 obs)    0.833 (97 pts, 194 obs)            0.229 (97 pts, 194 obs)                    0.0                                 33.47               29.68               8.69  18.465 (98 pts, 196 obs)     0.027 (29)      0.277 (70)\n",
+          "U_bc_postint_at_D_amount           99             2.0   0.209 (0.169 to 0.251)           0.118  0.263 (99 pts, 198 obs)  0.258 (98 pts, 196 obs)          0.983 (99 pts, 198 obs)    0.852 (97 pts, 194 obs)            0.250 (97 pts, 194 obs)                    0.0                                 16.43                8.32               8.13  17.388 (98 pts, 196 obs)     0.022 (29)      0.287 (70)\n",
+          "U_bc_postint_raw                   99             2.0   0.211 (0.171 to 0.250)           0.077  0.216 (99 pts, 198 obs)  0.331 (98 pts, 196 obs)          0.968 (99 pts, 198 obs)    0.830 (97 pts, 194 obs)            0.231 (97 pts, 194 obs)                    0.0                                 19.99               14.39              18.30  17.184 (98 pts, 196 obs)     0.022 (29)      0.289 (70)\n",
+          "U_bc_postint_smoothed              99             2.0   0.220 (0.180 to 0.266)           0.115  0.230 (99 pts, 198 obs)  0.343 (98 pts, 196 obs)          0.968 (99 pts, 198 obs)    0.852 (97 pts, 194 obs)            0.250 (97 pts, 194 obs)                    0.0                                 19.99               14.39               7.89  17.139 (98 pts, 196 obs)     0.022 (29)      0.302 (70)\n",
+          "U_film_baseclin_at_D_amount        99             2.0   0.193 (0.156 to 0.231)           0.097  0.243 (99 pts, 198 obs)  0.241 (98 pts, 196 obs)          0.982 (99 pts, 198 obs)    0.847 (97 pts, 194 obs)            0.228 (97 pts, 194 obs)                    0.0                                 16.43                8.32               8.03  19.147 (98 pts, 196 obs)     0.028 (29)      0.261 (70)\n",
+          "U_film_baseclin_raw                99             2.0   0.193 (0.154 to 0.235)           0.073  0.221 (99 pts, 198 obs)  0.279 (98 pts, 196 obs)          0.974 (99 pts, 198 obs)    0.833 (97 pts, 194 obs)            0.215 (97 pts, 194 obs)                    0.0                                 17.26                8.15              12.11  19.326 (98 pts, 196 obs)     0.029 (29)      0.261 (70)\n",
+          "U_film_baseclin_smoothed           99             2.0   0.197 (0.157 to 0.240)           0.091  0.225 (99 pts, 198 obs)  0.283 (98 pts, 196 obs)          0.974 (99 pts, 198 obs)    0.847 (97 pts, 194 obs)            0.228 (97 pts, 194 obs)                    0.0                                 17.26                8.15               8.27  19.887 (98 pts, 196 obs)     0.028 (29)      0.267 (70)\n",
+          "\n",
+          "Matched contrasts (same shuffle, fold, training seed, patient; first minus second; within-patient averaging, then patients bootstrapped; negative volume-error differences favour the first-listed arm):\n",
+          "  U_base_smoothed - D_noslice_smoothed  [U-Net (own amount) vs tree reference D]: Dice -0.002 (-0.019 to +0.014); better/worse/tied 46/48/5 of 99 pts (396 obs); lesion F1 -0.019; precision -0.043 (99 pts); recall +0.079 (98 pts); abs-vol-error +11.1 ml (+6.9 to +14.0)\n",
+          "  U_base_at_D_amount - D_noslice_smoothed  [U-Net ranking at D's predicted amount vs D: placement with the amount held equal]: Dice -0.010 (-0.023 to +0.003); better/worse/tied 38/56/5 of 99 pts (396 obs); lesion F1 -0.014; precision -0.011 (99 pts); recall -0.017 (98 pts); abs-vol-error +0.0 ml (+0.0 to +0.0)\n",
+          "  U_base_at_D_amount - U_base_smoothed  [D's amount instead of the U-Net's own amount]: Dice -0.007 (-0.020 to +0.003); better/worse/tied 41/52/6 of 99 pts (396 obs); lesion F1 +0.005; precision +0.033 (99 pts); recall -0.095 (98 pts); abs-vol-error -11.1 ml (-14.0 to -6.1)\n",
+          "  U_bc_baseclin_at_D_amount - D_noslice_smoothed  [U_bc_baseclin ranking at D's predicted amount vs D]: Dice -0.008 (-0.022 to +0.006); better/worse/tied 41/53/5 of 99 pts (198 obs); lesion F1 -0.007; precision -0.014 (99 pts); recall -0.008 (98 pts); abs-vol-error +0.0 ml (+0.0 to +0.0)\n",
+          "  U_film_baseclin_at_D_amount - D_noslice_smoothed  [U_film_baseclin ranking at D's predicted amount vs D]: Dice -0.013 (-0.029 to +0.003); better/worse/tied 37/56/6 of 99 pts (198 obs); lesion F1 -0.011; precision -0.015 (99 pts); recall -0.020 (98 pts); abs-vol-error +0.0 ml (+0.0 to +0.0)\n",
+          "  U_bc_postint_at_D_amount - D_noslice_smoothed  [U_bc_postint ranking at D's predicted amount vs D]: Dice +0.003 (-0.010 to +0.017); better/worse/tied 44/49/6 of 99 pts (198 obs); lesion F1 +0.010; precision +0.006 (99 pts); recall -0.003 (98 pts); abs-vol-error +0.0 ml (+0.0 to +0.0)\n",
+          "  F_baseclin_broadcast - D_noslice_smoothed  [sprint 8: tree + baseline clinical vs D]: Dice -0.018 (-0.037 to +0.002); better/worse/tied 40/52/7 of 99 pts (396 obs); lesion F1 -0.020; precision +0.035 (99 pts); recall -0.053 (98 pts); abs-vol-error -2.0 ml (-4.4 to +2.8)\n",
+          "  G_postint_broadcast - D_noslice_smoothed  [sprint 8: tree + reperfusion vs D]: Dice -0.001 (-0.010 to +0.008); better/worse/tied 49/43/7 of 99 pts (396 obs); lesion F1 -0.003; precision +0.006 (99 pts); recall -0.011 (98 pts); abs-vol-error -1.6 ml (-2.9 to -0.4)\n",
+          "  K_D_amount_volonly - D_noslice_smoothed  [sprint 8: volume-only recalibration vs D]: Dice -0.029 (-0.040 to -0.018); better/worse/tied 23/68/8 of 99 pts (396 obs); lesion F1 -0.020; precision +0.032 (99 pts); recall -0.078 (98 pts); abs-vol-error -4.7 ml (-6.7 to -2.5)\n",
+          "  I_D_amount_baseclin - K_D_amount_volonly  [sprint 8: clinical amount vs volume-only control]: Dice -0.002 (-0.009 to +0.005); better/worse/tied 42/45/12 of 99 pts (396 obs); lesion F1 -0.001; precision -0.009 (99 pts); recall +0.003 (98 pts); abs-vol-error -0.1 ml (-0.7 to +1.1)\n",
+          "  U_bc_baseclin_smoothed - F_baseclin_broadcast  [network + baseline clinical vs tree + baseline clinical (both broadcast; matched on seed 1)]: Dice +0.015 (-0.007 to +0.040); better/worse/tied 46/48/5 of 99 pts (198 obs); lesion F1 -0.012; precision -0.097 (99 pts); recall +0.171 (98 pts); abs-vol-error +17.9 ml (+9.2 to +25.0)\n",
+          "  U_bc_postint_smoothed - G_postint_broadcast  [network + reperfusion vs tree + reperfusion (both broadcast; matched on seed 1)]: Dice +0.015 (-0.003 to +0.034); better/worse/tied 52/41/6 of 99 pts (198 obs); lesion F1 +0.007; precision -0.033 (99 pts); recall +0.093 (98 pts); abs-vol-error +6.9 ml (+3.8 to +8.6)\n",
+          "\n",
+          "Outputs: completion.csv, matched_amount_status.csv, compatibility_report.json, summary_by_recipe.csv, paired_contrasts.csv, all_percase.csv, comparison_reference.json. Development evidence on 99 patients; exploratory intervals; the 25 remain unscored.\n"
+        ]
+      },
+      {
+        "output_type": "stream",
+        "name": "stderr",
+        "text": [
+          "/tmp/ipykernel_3657/2680044982.py:43: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n",
+          "  \"states\": ST.state.value_counts().to_dict(), \"matched_amount\": PAIR.state.value_counts().to_dict(), \"rows\": {\"sprint8\": int(len(DF8)), \"sprint9\": int(len(DF9)), \"matched_amount\": int(len(DFM))}, \"utc\": datetime.datetime.utcnow().isoformat()},\n"
+        ]
+      }
+    ]
+  },
+  {
+    "cell": 11,
+    "execution_count": 8,
+    "outputs": [
+      {
+        "output_type": "stream",
+        "name": "stdout",
+        "text": [
+          "saved example_maps_trees_vs_unet.png\n"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[Unit]
+Description=Advance the reviewed Sprint10 manual lane
+
+[Timer]
+OnBootSec=60
+OnUnitInactiveSec=60
+Unit=research-manual-sprint10-rc3.service
+
+[Install]
+WantedBy=timers.target

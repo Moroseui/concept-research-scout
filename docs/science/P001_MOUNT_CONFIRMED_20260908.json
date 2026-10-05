@@ -1,0 +1,42 @@
+{
+  "status": "READ_ONLY_RUNTIME_EVIDENCE_RECORDED",
+  "source_commit": "483e4ba7a3a2bbd66da71afa3d8a2cefc63ceec4",
+  "request_id": "p001-runtime-20260908-v3",
+  "packet_sha256": "fc335c7b5ab38a5dc555391b41913af6ea556e1170d39b38e8e4bf4bd4a0453e",
+  "original_protocol_sha256": "9b5ae1e953c8e6999268355d35012a9b915a9366651e252536695a840a34ceae",
+  "original_verified_receipt_sha256": "e3b3cebc1b886ba994294a6e244181789a7abbaf1fb5a903a10a61af003ade76",
+  "observed_stream_sha256": "6a1dadab68d5b5c5d179352b0ff2f8864c61b288ad3544c2072337f681ce6fc7",
+  "observed_at_utc": "2026-09-09T02:00:58.927017+00:00",
+  "scope": "CONNECTED_RUNTIME_ONLY_NOT_OTHER_OR_PRIOR_RUNTIMES",
+  "runtime_fingerprint_sha256": "d3db37e0c1e0ae7aae7e00e11edaa438624c2c2456b3245fa51e1dcdad335b6c",
+  "cpu_guard": {
+    "colab_runtime": true,
+    "nvidia_smi_absent": true
+  },
+  "drive": {
+    "mounted": true,
+    "visible": true
+  },
+  "archive_state": "PRESENT",
+  "source_files_expected": 9,
+  "source_files_present": 0,
+  "dependencies_root_state": "ABSENT_IN_VISIBLE_PARENT",
+  "execution_paths_visibility": "PREDICTION_OUTPUT_PRIVATE_CHECKPOINT_WORKER_PATHS_ABSENT_IN_VISIBLE_PARENT; HISTORICAL_PREFLIGHT_ROOT_AND_PROCESS_RECORD_PRESENT",
+  "current_process_scan_complete": true,
+  "current_matching_processes": 0,
+  "historical_pid_identity_verified": false,
+  "source_review": {
+    "verdict": "APPROVE",
+    "execution_sha256": "0ac69d89201f2b6f1ffe506c8195a31c24e21ce5da43c0d08f51d6a29df8c8ee"
+  },
+  "actual_collector_cells_run_once": 2,
+  "prediction_executed": false,
+  "launch_authorized": false,
+  "scientific_acceptance": false,
+  "next_action": "Restore exact reviewed frozen source/dependencies and collect actual child environment evidence through versioned setup. No preflight replay; separate exact launch decision remains.",
+  "same_runtime_as_prior_observation": true,
+  "archive_size_bytes": 99014629647,
+  "archive_mtime_ns": 1788653730000000000,
+  "prior_observation": "P001_CURRENT_RUNTIME_INTAKE_20260908.json",
+  "operator_action": "Operator mounted Drive between the two source-bound observations; no credential or grant change."
+}

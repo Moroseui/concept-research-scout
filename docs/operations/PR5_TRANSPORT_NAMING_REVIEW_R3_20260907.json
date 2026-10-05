@@ -1,0 +1,68 @@
+{
+  "execution": {
+    "reviewed_commit": "83d0ead017632c8524a4da8b80f4a14d3146dae3",
+    "returncode": 0,
+    "wall_seconds": 130.80161679499724,
+    "input_file_sha256": {
+      "docs/operations/TRANSPORT_REVIEW_RENAMING_20260907.json": "0f0120254f19125746e12a6c312e9f6bd306c87bc72c884a1234cc6d901ec1a8",
+      "docs/operations/PR5_TRANSPORT_AUDIT_REVIEW_R2_20260907.json": "f65976da2842e5bee31ea9372b95167a32629beb787ce13f87e1739dfe7d69b5",
+      "orchestrator/git_diagnostics.py": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b"
+    },
+    "response_sha256": "b506f6e7725f64bf1c6c126eea88b44f9226bfb59e89b01099bb0144e02afd1d",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "6c20ac435a1ccf06364abf6599e4f4c6cd7ebfb94176de95f2c435cb6d022508"
+  },
+  "review": {
+    "scope": "Final naming-only follow-up: prior source review APPROVE at 1b4d55b2; 9705a591 changes only refused private-prefixed filenames and exact module imports, mechanically bound in supplied manifest. Confirm no change to approved behavior, no new publication exemption, accurate distinction of original reviewed source and current bindings. Do not reopen resolved findings without new evidence.",
+    "reviewed_commit": "83d0ead017632c8524a4da8b80f4a14d3146dae3",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED: Reviewed-source identity accurately preserved. Every reviewed_sha256 in TRANSPORT_REVIEW_RENAMING_20260907.json matches the input_file_sha256 recorded in the preserved R2 review artifact for the same six files, and both bind reviewed_commit 1b4d55b2232643413e4d16d054f1900c29a11c79. The R2 record is retained verbatim with original paths (historical record, not stale references), while the manifest carries current bindings \u2014 original reviewed source and current names are cleanly distinguished, and the original unpublished commit is kept as local-only evidence with no public history rewritten.",
+      "VERIFIED: No change to approved behavior in the one current file supplied. orchestrator/git_diagnostics.py matches every behavior R2 verified for orchestrator/private_git.py: fail-closed root validation (absolute non-symlink path, uid-owned 0700 dir, lstat re-check after mkdir, refusal inside any Git checkout before execution), rejection of stdout/stderr/shell overrides, per-invocation 0600 stderr and receipt files with fsync (including partial stderr on timeout), exceptions exposing only exit status/timeout plus the opaque receipt directory name with 'from None', result.stderr scrubbed, and receipts recording argv_sha256/stderr_sha256 only. Nothing in the content self-references the module filename, consistent with the identical-bytes claim; the stable PRIVATE_GIT_* error-code strings are content, not paths, and remain valid.",
+      "VERIFIED: No new publication exemption. The scanner's refusal of private-prefixed source/document paths is left intact; the fix renames exactly the two private-prefixed basenames (orchestrator/private_git.py -> orchestrator/git_diagnostics.py, PRIVATE_GIT_DIAGNOSTICS_20260907.md -> GIT_DIAGNOSTICS_20260907.md) and nothing else. tests/test_private_git.py is test_-prefixed, so it correctly retains its name and receives only the import replacement. The newly publishable content is the transport mechanism itself, not private data \u2014 'private' in the old name described what the module protects \u2014 so renaming rather than exempting is the correct fail-closed resolution.",
+      "NOTE: Manifest-bound claims not independently verifiable this session. Current bytes of git_publication.py, dispatch_limiter.py, fetch_provenance.py, tests/test_private_git.py, and the renamed doc were not supplied, and no hash tooling was available, so their current_sha256 values and 'module import name replacement' only_change claims rest on the supplied manifest, as the scope authorizes. The manifest's test_results line is author-reported; no tests were run in this review and none are claimed.",
+      "SUGGESTION: GIT_DIAGNOSTICS_20260907.md is byte-identical to the reviewed doc, so any internal mention of the old orchestrator/private_git.py path or module name is now stale (untested \u2014 doc content not supplied). A follow-up doc-text sweep would help; it does not affect behavior or the publication gate.",
+      "NOTE: R2 suggestions carry forward unchanged under the new name (capture_output accepted but ignored in run(); unbounded receipt-directory accumulation; audit script's own raw subprocess usage). They are visible in the supplied bytes exactly as previously recorded and are not reopened \u2014 no new evidence and no change in scope."
+    ]
+  },
+  "session_id": "e683e0a3-116a-4ee3-9990-1994293745eb",
+  "is_error": false,
+  "subtype": "success",
+  "usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 6837,
+      "outputTokens": 17,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.006922,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 2,
+      "outputTokens": 10589,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 13277,
+      "webSearchRequests": 0,
+      "costUSD": 0.79501,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  },
+  "cost_usd_cli_estimate_not_invoice": 0.801932,
+  "review_kind": "AUTHOR_OPERATED_SOURCE_ONLY_NOT_INDEPENDENT_MERGE_DESK",
+  "hosted_verified": false
+}

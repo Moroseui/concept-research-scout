@@ -1,0 +1,53 @@
+{
+  "kind": "Author-operated source review; not independent desk or live Google acceptance",
+  "execution": {
+    "reviewed_commit": "6ea7566b7247286fac54c450ad8f388b129d130b",
+    "returncode": 0,
+    "wall_seconds": 182.97640584700275,
+    "input_file_sha256": {
+      "scripts/drive_register.py": "55cc4315079b93094f008318f1914215f7dbaf19b795fcda2a736eba638f3c8d",
+      "tests/test_drive_registration.py": "9652955180531d81bf919cb1c4b09a1824eb3e0f0196f55e3626c78627758161",
+      "docs/operations/DRIVE_CONNECTOR_CONSENT_PROPOSED_20260907.md": "bd25723fcddac00149001ce9a5cbaca5c01521a0209eddbf0719a5e036442f1c",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "3ab21de1fdd958554b48dbc2e03e6915a84724f1dde09fae98568e013ba416db",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "a8f29824d6e5122d2f9e7807c24354146b0aae1a1ed959308bd3afebc2e29ebf"
+  },
+  "session_id": "8fb81771-50a3-42ff-bc7e-972b821c4387",
+  "review": {
+    "scope": "Focused registration delta only at 6ea7566b: optional existing P001 audit/header file IDs with 64KiB JSON caps, no archive download, preservation of selected metadata before validation, and explicit proposed consent. Core Drive adapter previously approved at 9468a7e7. Review source and tests; no live Google or patient execution. Identify blockers versus suggestions without inventing approval requirements.",
+    "reviewed_commit": "6ea7566b7247286fac54c450ad8f388b129d130b",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified: 64KiB caps correctly applied \u2014 p001-preflight-receipt and p001-preflight-headers get max_bytes 65536; the preflight console falls in the 32 MiB console tier, consistent with the consent text scoping the 64 KiB cap to JSON audit/header records. Both caps asserted in test_actual_selected_ids_registered_without_download.",
+      "Verified: no archive download \u2014 train.7z registered metadata-only with max_bytes 0, identity pinned to exact size 99014629647 and md5 36ae28b9a17f7340b8bbef62b595cb57, no download call in the script; mismatch fails closed with ARCHIVE_METADATA_IDENTITY_MISMATCH_NO_DOWNLOAD.",
+      "Verified: preservation before validation \u2014 each file's metadata is privately written to selected-{ordinal}.json before its trashed/identity checks; test_mismatched_archive_metadata_remains_preserved confirms the mismatched metadata survives and config.json is never written.",
+      "Verified: fail-closed registration boundary \u2014 root required; fresh destination inside a non-symlink owner-only parent (dangling-symlink destination fails closed via mkdir EEXIST); 1\u20135 selection bound; duplicate expected names and trashed files raise; missing consent file or parent fails closed.",
+      "Verified: recovery semantics and privacy \u2014 folder-intent.json records the preallocated folder ID before remote create; existing destination blocks repeating a partial setup; receipt states REGISTERED_NOT_INSTALLED with archive_downloaded false and originals_moved false; stdout omits file/folder IDs, which stay in the 0700 private destination.",
+      "Verified: consent document is consistently marked proposed, not an installed grant; binds the final implementation pin, capability registered-drive-evidence-v1, and drive.file scope only; distinguishes the delta's binding from the approved core at 9468a7e7.",
+      "Suggestion: pwd.getpwnam for research-controller/research-driver runs after allocate_ids/create, so a missing local user aborts after the remote folder exists and raises a bare KeyError; resolve caller UIDs before any remote mutation.",
+      "Suggestion: the consent batch mandates selecting the archive, but code only requires 047-console, so registration can finalize without p001-archive (registers less authority, not more); require it or record its absence explicitly in the receipt.",
+      "Suggestion: unrecognized selected names are silently skipped \u2014 metadata is preserved but neither receipt nor stdout discloses unmatched selections; add an unmatched count so a wrong pick surfaces at registration time.",
+      "Suggestion: parent-directory check verifies mode 0o077 and non-symlink but not root ownership; a non-root-owned 0700 parent passes. Minor hardening for a root-run script.",
+      "Suggestion: a rerun after failure between create() and the receipt allocates a new folder ID into a fresh destination, leaving a duplicate remote research-system folder; the intent file permits reconciliation but the script does not surface prior intents.",
+      "Suggestion: test gaps \u2014 no coverage for ambiguity, missing-console, selection-bounds, trashed, or existing-destination refusals; positive test does not assert the 32 MiB console caps or caller_uids.",
+      "Inferred, not verified: caller_uids including research-driver and the hardcoded private_root/upload_spool paths are assumed to match the core adapter schema approved at 9468a7e7; core source is outside this diff per scope."
+    ]
+  },
+  "reported_cost_usd": 1.11374,
+  "billing_note": "CLI estimate under existing subscription, not a new spending grant",
+  "disposition": {
+    "blocking_findings": 0,
+    "setup_sequence": "Check existing controller/driver accounts and root ownership of setup directory before invoking registration. Inspect actual aliases against intended selections before install. Reconcile any private folder intent before any fresh setup destination; do not retry registration blindly.",
+    "remaining_suggestions": "More diagnostic output and refusal-fixture coverage remain non-blocking improvements. No live recovery or Google acceptance claimed."
+  }
+}

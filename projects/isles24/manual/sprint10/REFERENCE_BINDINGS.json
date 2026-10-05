@@ -1,0 +1,38 @@
+{
+  "status": "PINNED_ORIGINALS",
+  "baseline_path": "/content/drive/MyDrive/isles-pilot/sprint10-comparison-PRIVATE/compare-875c56c278-0a60362503",
+  "sha256": {
+    "completion.csv": "150231afb5fa4659e053bf6e5b6ceffa47c1460643c379467eed99c840385447",
+    "matched_amount_status.csv": "faa1c29ccedf3a81a0e5431ee11ee02fa5511a0b5750b6d2c277b19e916443b6",
+    "summary_by_recipe.csv": "51c30fd96f55a0fcfc076351fedeea7b17d9ddbee900d4f616c22f8bdc6d1348",
+    "paired_contrasts.csv": "0056c3967a43d97def92abad4af4d97c683fa2af992e87e2539bce93a57c7073",
+    "all_percase.csv": "ca6a08951e2453c1ccdeab9d7513f3f63332d24179097d751913f589d19e9df9",
+    "comparison_reference.json": "d7e8e4f8f95a56a4e83b7ea75e0575a46d4b8df2e61046587b72681116b69aa6",
+    "compatibility_report.json": "7c7e3aebfcde612b7922207bb3a959c642acaa59130e1820ad362e1600d32fab"
+  },
+  "json_keys": {
+    "comparison_reference.json": [
+      "clinical_checks",
+      "code_version",
+      "hard_checks",
+      "matched_amount",
+      "provisional",
+      "rows",
+      "sprint8",
+      "sprint9",
+      "states",
+      "utc"
+    ],
+    "compatibility_report.json": [
+      "cache_identity",
+      "clinical_checks",
+      "clinical_fields",
+      "code_version",
+      "hard_checks",
+      "partition_differences",
+      "sprint8",
+      "sprint9",
+      "utc"
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "stage": "drive-connector-preparation",
+  "live_access": false,
+  "credentials_created": false,
+  "service_installed": false,
+  "adapter_tests": {
+    "passed": 11,
+    "fixture_provider": true,
+    "coverage": [
+      "registered IDs",
+      "archive transfer refusal",
+      "private original/readback",
+      "changed remote version",
+      "concurrent duplicate",
+      "restart status",
+      "console-plus-receipt storage",
+      "uncertain uploads",
+      "credential upload refusal",
+      "upload status after spool cleanup",
+      "controller staging permissions and unchanged originals",
+      "separate request namespaces, reserved aliases and receipt-kind verification"
+    ]
+  },
+  "google_library_tests": {
+    "passed": 2,
+    "live_provider": false,
+    "coverage": [
+      "actual InstalledAppFlow Picker parameters and PKCE",
+      "actual Credentials refresh/reconstruction with fake provider"
+    ]
+  },
+  "dependencies_lock_sha256": "aef29ee756a34eca8a868f411c03a386a737a14305099a226fe7a6aee30d0ccb",
+  "host_inspection": {
+    "drive_config_present": false,
+    "drive_credential_present": false,
+    "drive_service_installed": false,
+    "libraries": {
+      "google-api-python-client": null,
+      "google-auth": null,
+      "google-auth-oauthlib": null
+    }
+  },
+  "limitations": [
+    "No actual Google consent, selected IDs, runtime credential isolation, API readback or hosted restart has been demonstrated.",
+    "These tests do not authorize activation, patient transfer or scientific acceptance."
+  ],
+  "formatting": {
+    "tool": "black 26.5.1",
+    "multiprocess_run": "stalled after edits; verified formatter group terminated, no research process affected",
+    "before_after_ast_equal": true,
+    "post_format_tests": "10 adapter tests and 2 actual-library/fake-provider tests passed"
+  },
+  "registration_tests": {
+    "passed": 2,
+    "live_provider": false,
+    "coverage": [
+      "actual selected-ID aliases with no download method",
+      "archive identity mismatch retains original metadata"
+    ]
+  },
+  "publication_gate_tests": {
+    "passed": 9,
+    "coverage": "Exact-path pinned dependency schema plus existing credential/case content checks"
+  }
+}

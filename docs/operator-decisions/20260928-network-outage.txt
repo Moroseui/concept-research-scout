@@ -1,0 +1,9 @@
+The Droplet is reachable again. After roughly a day of broken networking (no outbound internet, DNS timeouts, intermittent SSH, web console not working), I powered it off and on last night; it has now been up 21h10m. A just-run check shows ping 1.1.1.1 3/3 received, HTTPS to api.github.com returns HTTP/2 200, load 0.00. No DigitalOcean incident was listed; the cause is unknown.
+
+Before continuing:
+
+1. Post-reboot verification (read-only): all 18 old units still inactive and disabled; RC6 lane service and timer inactive/disabled; scoped bwrap AppArmor profile loaded as expected and the global userns restriction still 1; needrestart exclusion present; the credential files (dedicated Codex/Claude driver logins, reviewer login, modal.json, github.json) present with the expected owner and mode 0600; old-state invariants unchanged. Record the reboot and outage in the progress log.
+2. Add to M1, as a fix for this observed failure: a network preflight (DNS resolution plus HTTPS reachability of the needed providers) before reserving any model call or submitting any job, refusing without charge; and have the nightly report (M5) include connectivity status.
+3. Use a single reused SSH connection (ControlMaster/ControlPersist) for your remote work rather than many separate connections.
+
+Then continue the batch from where you stopped (M0 installation/acceptance). My setup message with the reviewer login, Modal and GitHub details stands.

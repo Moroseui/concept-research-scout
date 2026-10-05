@@ -60,7 +60,16 @@ def readable_source(root):
         os.chmod(path,mode)
 
 
+def refuse_existing_live_installation():
+    """Legacy preparation cannot replace material parts of an existing live system."""
+    for name in ('controller.json', 'broker.json'):
+        path = Path('/etc/research-system/live-research')/name
+        if path.exists() or path.is_symlink():
+            raise ValueError('EXISTING_LIVE_INSTALLATION_REQUIRES_REVIEWED_DEPLOYMENT')
+
+
 def install(source, archive, expected_sha256):
+    refuse_existing_live_installation()
     if os.getuid()!=0 or not re.fullmatch('[0-9a-f]{40}',source):
         raise ValueError('SETUP_ADMIN_AND_PIN_REQUIRED')
     raw=verified_archive(archive,expected_sha256)

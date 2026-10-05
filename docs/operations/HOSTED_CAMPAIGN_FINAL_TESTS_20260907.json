@@ -1,0 +1,11 @@
+{
+  "source_commit": "029ec49003bf059544886cb5b2ab08f5a9a8be92",
+  "command": "/tmp/isles-worker-test-env/bin/python -m pytest -q",
+  "passed": 529,
+  "subtests_passed": 40,
+  "failed": 0,
+  "seconds": 103.87,
+  "original_console_sha256": "45fb929f94e8a510392679478825a2aa8c2db147a1bfc739805e1ce18d26feea",
+  "prior_failure": "docs/operations/HOSTED_CAMPAIGN_FULL_TEST_FAILURE_20260907.json",
+  "scope": "Local full suite, synthetic model replies; not actual hosted campaign execution."
+}

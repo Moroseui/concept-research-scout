@@ -1,0 +1,54 @@
+{
+  "review_kind": "author-operated cross-family source/evidence-receipt review; not independent merge desk or raw-evidence inspection",
+  "execution": {
+    "reviewed_commit": "7ed2605505a0a3b3beda3dd1443baa8cb136ab2c",
+    "returncode": 0,
+    "wall_seconds": 228.50680029499927,
+    "input_file_sha256": {
+      "orchestrator/notebook_evidence.py": "959ad7c19f88e270aebfe23997ed3380665db9da35c0cfccfea95ce2cd243e29",
+      "orchestrator/publication.py": "4b0d9963df2d65c1998ef5a3fbc81c72f5681b6993252909dc4c4ddc62104796",
+      "tests/test_notebook_evidence.py": "9ba0720e0f5a9bf9c8efffa3b521e3a89b84c2adfd5b3c2049cc09cf47be98ce",
+      "docs/science/047B_NOTEBOOK_INTAKE_20260907.json": "4bdc651372ef3e7c4250866539e3c4ebb561c3fbbedcace87b77a4268963bc5b",
+      "docs/science/047B_NOTEBOOK_RECOVERY_20260907.md": "8d39508ca2373a73d9071527bf57fdb9cb6bdca3c3b5833390cb49dad85e7cf0",
+      "docs/isles-pilot/047_LIFECYCLE.md": "171574d42d0f025c0b39bc4eeaa6f126524251e94f9336241dadf8c0e746769e",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "3d831a653dcef4c66596e97818e4598c797317619e97b3b0f2defad7f1b2d2b4",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "55be497c15bbe8b8bf121511d62b2380b188dae82434bcc1cce662e576aef854"
+    },
+    "response_sha256": "7e18d8d6cd4910b155b3916e607eee6319500a468ccdfe5ad91696dc6a59c30f",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "f3500231ab5648f335313521f8cb35e6c4d6858a3c858d1a74767df3daa626d6"
+  },
+  "session_id": "54d37941-d3a6-4442-9580-28c3a55955a5",
+  "review": {
+    "scope": "047 incoming notebook evidence and private console handoff; source-only review, not scientific acceptance. Review evidence limits, no inferred exit status, unchanged scientific gates, and system-owned stages. Assess whether saved original output resolves missing console to the stated extent.",
+    "reviewed_commit": "7ed2605505a0a3b3beda3dd1443baa8cb136ab2c",
+    "verdict": "APPROVE",
+    "findings": [
+      "Evidence limits verified in source: inspect() reads only saved cell outputs (never cell source); SAVED_OUTPUT_CORRESPONDENCE_VERIFIED requires exactly one embedded-summary match with the contract in the same stream, otherwise CORRESPONDENCE_UNRESOLVED; the receipt hardcodes exit_status null, sibling_log_verified false, experiment_executed false, scientific_acceptance false, and records STUDY_COMPLETE/traceback presence as observations only \u2014 no exit status is inferred anywhere.",
+      "Missing-console resolution matches the stated extent and no more: docs claim only saved-output correspondence (semantic summary equality, single 9,466-byte stream, contract present), explicitly not complete-process-output attestation, not Drive sibling-log identity, and null (not zero) exit status because the old tee launcher never captured it; the reviewed code cannot produce a stronger claim than the docs make.",
+      "Private artifacts are fail-closed: fresh non-repo 0o700 destination under a private-permission parent, 'xb' writes, per-file byte readback plus original-notebook re-read, retained-summary byte-identity across both 40-hex pins checked before any write, 32 MiB size bound; failed intakes leave partial directories that later runs refuse (FRESH_PRIVATE_DESTINATION_REQUIRED) rather than repair or delete. provenance.json with the local source path stays in the private destination; the public intake JSON and stdout receipt expose only hashes, sizes and pins.",
+      "Console handoff recovery semantics are correct and tested: deterministic timestamp-free sort_keys receipt makes reruns idempotent; differing console bytes or binding, partial destinations, symlinked/empty sources, and repo-relative destinations all refuse without modifying stored bytes; existing destinations are verified via full inventory equality, never overwritten. Publication boundary semantics unchanged: merges and unpermitted paths (including later-deleted files and staged paths) refused, destinations never deleted, private handoff receipt never enters the publication bundle.",
+      "Scientific gates and system-owned stages preserved: the stage is a named, versioned, read-only 'incoming-notebook-evidence' receipt-bound pathway consistent with the operator's 2026-09-07 incoming-evidence clarification; nothing expands the public allowlist, relabels the prior exit-7 log or run_log.txt, alters the 17-required-artifact policy, or ratifies 047 landing/cleanup/acceptance.",
+      "Suggestion (identity binding): docs/science/047B_NOTEBOOK_INTAKE_20260907.json contains intake_implementation_sha256, a field the reviewed intake() never emits, so the recovery doc's 'binds the implementation hash' rests on an out-of-source augmentation that cannot be verified from this source alone; record which tool/version computed and appended that field.",
+      "Suggestion (binding overstatement): collect_console_handoff records the caller-supplied binding dict verbatim without validating it against the export inventory the docstring says it binds to; an empty or mismatched binding still yields PRIVATE_CONSOLE_COLLECTED.",
+      "Suggestion (correspondence strictness): summary equality uses Python ==, which conflates true/1 and 1/1.0, slightly looser than strict JSON-type equality; and intake() accepts source == replacement, making the retained-summary invariance check vacuous for identical pins \u2014 consider requiring distinct pins or recording the degeneracy.",
+      "Minor (permissions, mitigated by the 0o700 destination directory): notebook intake chmods files to 0o600 only after writing while the console handoff chmods before writing, and the console handoff omits the private-parent permission check that notebook intake enforces."
+    ]
+  },
+  "raw_notebook_or_console_supplied": false,
+  "tests_run_by_reviewer": false,
+  "operator_acceptance": false,
+  "followup_disposition": {
+    "implementation_hash": "Public intake receipt augmentation by Astra used hashlib.sha256 on the versioned module bytes; private original stage receipt remains unchanged. See recovery document.",
+    "binding": "Caller supplies binding; generated export obtains inventory from export_session. This receipt is collection evidence, not independent validation of caller claims. Existing scientific validators remain required.",
+    "strict_json_types": "Suggestion retained; current original/replacement summaries and saved summary use expected numeric types. No broader validator equivalence claim.",
+    "permissions": "Private evidence directory protects file writes. Parent hardening suggestion deferred; existing repository prohibition and private directory remain."
+  }
+}

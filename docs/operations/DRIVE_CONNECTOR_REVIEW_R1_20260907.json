@@ -1,0 +1,55 @@
+{
+  "kind": "author-operated source review, not independent main desk",
+  "execution": {
+    "reviewed_commit": "0b427888fc9b68faf123a87c2eb157510adac906",
+    "returncode": 0,
+    "wall_seconds": 348.94605692799087,
+    "input_file_sha256": {
+      "orchestrator/drive_evidence.py": "27fcb50d83d4021ba8404b07a24d2d904284a174409d8986b11d56fb6aecfdab",
+      "scripts/drive_consent.py": "9478bd11d073f62eb84acf2da4120f553177f4ecef242ed479f0253c0368dba0",
+      "scripts/drive_register.py": "db87c257c47a541edc4cb0d46e0df3fcd413a4c9701fc21df55b50f3a371043b",
+      "deploy/research-system/install_drive_connector.py": "d0b95dfa29370e30371e1d67c38a39e7ca76dee0468ac8f0719071d28a9ea7b3",
+      "deploy/research-system/research-system-drive.service": "4309797d4df81a590e61487bf2ba33d2c54872df30ac4bdae16b2852f146b22c",
+      "deploy/research-system/research-system-drive.socket": "c1d403e53846f709621d06dee1c9c735182e2e3070352da225ff599d3544b9ae",
+      "tests/test_drive_evidence.py": "c832efb019b93b66c7c3185f439267a1ad8aa7d14ea790057e2faa6cc55692d6",
+      "tests/test_drive_google_client.py": "4b7311ecd99d20626f93c8c5d9c6221b2bdd6e5fb00b9c933f63e9bf29c1d1a7",
+      "docs/operations/DRIVE_CONNECTOR_CONSENT_PROPOSED_20260907.md": "23b6fa6346a9ecddf63f6bb3540b3c55427b55aa47a076b0ba647d55cd0c3dea",
+      "docs/operations/DRIVE_CONNECTOR_PREPARATION_20260907.json": "020a070d38f81c9c9811a691a7a2f7cad0942bd467c553397165b1c1c078a46c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "55be497c15bbe8b8bf121511d62b2380b188dae82434bcc1cce662e576aef854"
+    },
+    "response_sha256": "be0f24cfd1d094bf896a8278e1361ffd80fd90b017da426edac3805e7eae4c52",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "c27ac8b95c9de26854db3370611a508ea1a0a4d2ec8eb718e705c0480520dabf"
+  },
+  "session_id": "674aaae2-4cae-4f39-9d82-91f9c6fadc3c",
+  "review": {
+    "scope": "Persistent private Drive evidence capability and proposed permission boundary. Review supplied source and host-absence/test receipts; nothing is deployed or consented. Check narrow drive.file Picker offline auth, root credential installation, peer UID boundary, original/large-archive protection, output uploads/permissions, partial outcomes/duplicate recovery, data leakage, maintenance/usability and documented limits. Do not claim live Google or hosted tests.",
+    "reviewed_commit": "0b427888fc9b68faf123a87c2eb157510adac906",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified in source: drive.file is the sole scope, enforced at consent (PKCE, access_type=offline, prompt=consent, include_granted_scopes=false, granted_scopes check), at stored-token load, at every GoogleDrive service start, and at install; token endpoint pinned to https://oauth2.googleapis.com/token; Testing-grant 7-day expiry documented and gated behind an explicit --production-client-confirmed operator flag.",
+      "Verified in source: credential/config originals are root-owned 0700/0600 under /etc/research-system/drive; systemd LoadCredential gives runtime copies only to a dedicated non-root nologin research-drive identity; installer binds to the operator-approved exact source commit and scope, refuses any partially existing installation, and installs without enabling or starting anything (INSTALLED_NOT_STARTED, socket_started=false).",
+      "Verified in source: original/archive protection is structural \u2014 the GoogleDrive wrapper exposes only metadata, bounded download, generateIds and create (no update/delete/move/share); the 99 GB archive is metadata-only with max_bytes 0 and collect refused before any local state; registration pins archive size 99014629647 and md5 exactly with no download; collect verifies expected name, trashed flag, before/after metadata equality, md5, size and private readback, with min(max_bytes, 32 MiB) caps.",
+      "Verified in source: uploads accept only the registered spool subdirectory keyed by a regex-bound request_id (no arbitrary paths or Drive IDs), 32 MiB total and 64 flat allowlisted filenames with console.log and receipt.json required, credential-pattern scan (SECRET plus ya29./1// Google token patterns) before any network write, owner-only private destination re-verified before each file, response md5/size checks, and independent download readback of every uploaded file.",
+      "Verified in source: recovery is fail-closed \u2014 intent written before action, remote IDs preallocated and persisted before any mutation, duplicate request IDs return preserved receipts, interrupted or failed work returns BLOCKED_RECONCILE/UPLOAD_OUTCOME_UNCERTAIN with no automatic retry, binding or operation changes raise conflicts, and status verifies the stored original's digest against its receipt.",
+      "Verified in source: leakage controls \u2014 broker replies carry status/hashes/counts only (tests assert payload absence), raw evidence and provider error details are preserved privately with 0600 permissions and fsync, consent prints selection counts rather than file IDs, and receipts consistently record scientific_acceptance=false and no execution/publication claims.",
+      "Suggestion (untested live behavior, fails closed): the consent callback depends on nonstandard OAuth redirect fields (trigger_onepick, picked_file_ids) and store/register create folders using pregenerated files.generateIds IDs, which Google may reject for application/vnd.google-apps.folder; failure yields no installed credential or UPLOAD_OUTCOME_UNCERTAIN rather than a leak, but the capability would be blocked. Keep the proposed small synthetic storage/restart test as a mandatory gate before relying on registration or uploads. Affected task: consented setup.",
+      "Suggestion (recovery gap, fails closed): no broker route recovers a store receipt independent of the spool \u2014 status with alias run-artifacts raises DRIVE_FILE_NOT_REGISTERED, and a re-issued store revalidates the spool before checking for an existing receipt, so a cleaned or changed spool makes the preserved receipt unreachable via the API (it remains on disk privately). Smallest fix: return the existing upload receipt before spool revalidation or add a status route for upload-<request_id>. Affected task: duplicate/partial-outcome recovery usability.",
+      "Suggestion (minor, source-verified): concurrent duplicate collect raises raw FileExistsError out of handle (benign under the single-threaded accept loop but worth catching for a clean reconcile response); capabilities(canDownload) is fetched in FIELDS but never checked; caller UIDs are frozen from pwd at registration time; consent's granted_scopes-or-scopes fallback slightly weakens the grant check though every service start re-validates stored scopes.",
+      "Suggestion (maintenance): heavily compressed multi-statement code style conflicts with the charter's readable-code/human-maintenance requirement; module docstrings and the operations documents partially compensate and should be preserved.",
+      "Boundary dependency (inferred, not verified): peer-UID provenance and protected_read/exchange/inventory/SECRET/checked_source come from existing modules not supplied in this packet; the socket group research-runtime (0660) is broader than caller_uids, so the in-handler UID allowlist is the effective boundary and rests on exchange supplying authentic peer credentials (e.g., SO_PEERCRED).",
+      "Receipts honest: DRIVE_CONNECTOR_PREPARATION_20260907.json claims 8 adapter + 2 offline Google-library tests with fake providers, host absence of config/credentials/service, and explicit limitations (no consent, no selected IDs, no hosted restart, no activation authority) \u2014 consistent with the supplied test sources; not re-executed in this review, and no live Google or hosted test is claimed."
+    ]
+  },
+  "reported_cost_usd": 2.430926,
+  "billing_note": "CLI usage estimate under existing subscription; not proof of a new charge",
+  "live_google_or_hosted_execution_reviewed": false
+}

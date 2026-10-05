@@ -1,0 +1,16 @@
+Agreed: no more confirmations of the old kind. Tonight, pre-authorized:
+
+1. Design and implement ONE consolidated connections change on a branch:
+   (a) Reviewer output contract: the structured verdict and findings fields are authoritative, and prose is never marker-parsed. Any listed finding blocks; malformed, missing or ambiguous structure blocks. Trusted reviewer instructions and the validator match exactly. Test against every preserved failure (call 6, 001b9, 059a9 and the earlier ones).
+   (b) Promotion: an operator-accepted completed run's preserved FAILED/UNCERTAIN rows are terminal for that run only.
+   (c) An analysis-only selection path for BACKLOG item 2 in analysis_driver.
+   (d) Scientific admission: retained UNCERTAIN rows of an operator-accepted run are closed for that run only. No reset of allowances or caps, and no general bypass.
+   Keep the Sprint 13B outside-development literal on the approved safe-view path.
+
+2. After focused tests and both full server suites pass: ONE automated review of this change. Qualify it by the new rule (structured verdict APPROVE, findings empty, well-formed). Record it as operator-pre-authorized, because the installed qualifier is the thing being replaced. Any listed finding, REVISE or REJECT stops.
+
+3. Held promotion and installation.
+
+4. BACKLOG item 2: the analysis-only next-steps proposal. Note: I'm running 13A myself in Colab tonight, so treat 13A as operator-run and focus on 13B: screen first versus all arms, the second windows, the verdict rule and the repeat count, costing each option. Push back where the evidence warrants. At most 8 scientific calls, within the UTC-day cap. No GPU, Modal or patient-level work. Stop with the proposal.
+
+Stop and wait on: any real finding or rejection, a cap, a second failure with the same cause, or anything touching privacy, patient data or confinement widening. No reboot without telling me.

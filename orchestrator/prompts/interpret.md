@@ -7,7 +7,7 @@ Interpret the probe strictly against `probe_contract.yaml`. Separate:
 - positive and negative findings;
 - next decision.
 
-Do not turn an exploratory probe into a confirmatory claim. Report every authorized variant. Write `decision.md` and append a scoped entry to evidence/decisions.md. End with ADVANCE, REVISE, PAUSE, or REJECT.
+Do not turn an exploratory probe into a confirmatory claim. Report every authorized variant. Write `decision.md` and append a scoped entry to evidence/decisions.md. End with ADVANCE, REVISE, or PAUSE. Preserve unsupported ideas and failed evidence with conditions for reconsideration; never permanently reject or delete ideas. A completed descriptive study may be PAUSED with a useful linked successor proposed. Reviewed model acceptance uses the delegated scientific-decision route and must not claim human ratification. Preserve actual human stops and all reserved boundaries.
 
 ## Output structure (mandatory)
 

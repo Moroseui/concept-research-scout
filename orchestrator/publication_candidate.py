@@ -13,17 +13,17 @@ import re
 import subprocess
 import tempfile
 
-from orchestrator.git_publication import audit
+from orchestrator.git_publication import audit, scan_history_blob
 
 LIMIT=1000000
 
 
-def git(root,*args):
+def git(root,*args,input_data=None):
     env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','GIT_CONFIG_NOSYSTEM':'1',
          'GIT_CONFIG_GLOBAL':'/dev/null','GIT_TERMINAL_PROMPT':'0','GIT_NO_LAZY_FETCH':'1'}
     try:
         return subprocess.check_output(['git','-c','core.hooksPath=/dev/null',
-            '-c','credential.helper=',*args],cwd=root,env=env,stderr=subprocess.PIPE,timeout=60)
+            '-c','credential.helper=',*args],cwd=root,env=env,input=input_data,stderr=subprocess.PIPE,timeout=60)
     except subprocess.TimeoutExpired:raise ValueError('CANDIDATE_GIT_TIMEOUT') from None
     except subprocess.CalledProcessError:
         code={'cat-file':'CANDIDATE_GIT_OBJECT_UNAVAILABLE','bundle':'CANDIDATE_BUNDLE_INVALID'}.get(args[0],'CANDIDATE_GIT_OPERATION_FAILED')
@@ -64,11 +64,32 @@ def prepare(root,source,before,destination):
     if git(root,'rev-parse','HEAD').decode().strip()!=source or git(root,'status','--porcelain'):
         raise ValueError('CLEAN_BOUND_SOURCE_REQUIRED')
     entries=inventory(root,source,before)
-    sparse_paths(entries)
+    paths=set(sparse_paths(entries))
+    # The protected cache may retain only baseline metadata and previously
+    # selected blobs. Changing its sparse paths happens while HEAD is still
+    # `before`, so include exactly the old public blobs those paths require.
+    # Unselected baseline data must never be bundled as a convenience.
+    old_blobs=set()
+    for entry in git(root,'ls-tree','-r','-z',before).split(b'\0'):
+        if not entry:continue
+        metadata,name=entry.split(b'\t',1)
+        if name.decode() not in paths:continue
+        mode,kind,oid=metadata.decode().split()
+        if mode not in ('100644','100755') or kind!='blob':
+            raise ValueError('CANDIDATE_BASELINE_SOURCE_TYPE')
+        scan_history_blob(root,before,name.decode(),git(root,'cat-file','blob',oid))
+        old_blobs.add(oid)
     staging=Path(tempfile.mkdtemp(prefix='bundle-preparation-',dir=destination.parent))
     bundle=staging/'source.bundle'
     git(root,'bundle','create',str(bundle),'HEAD','^'+before)
-    raw=bundle.read_bytes();bundle.chmod(0o600)
+    # Keep Git's prerequisite/ref header, replacing its possibly thin pack with
+    # explicit objects. Disabling delta reuse also covers an already packed
+    # author checkout; no unavailable baseline delta is needed by the receiver.
+    header=bundle.read_bytes().split(b'\n\n',1)[0]+b'\n\n'
+    objects=set(git(root,'rev-list','--objects','--no-object-names',source,'^'+before).decode().splitlines())|old_blobs
+    pack=git(root,'pack-objects','--stdout','--window=0','--depth=0','--no-reuse-delta',
+             input_data=('\n'.join(sorted(objects))+'\n').encode())
+    raw=header+pack;bundle.write_bytes(raw);bundle.chmod(0o600)
     if len(raw)>LIMIT:raise ValueError('CANDIDATE_BUNDLE_LIMIT')
     try:os.link(bundle,destination)
     except FileExistsError:raise ValueError('FRESH_EXTERNAL_BUNDLE_REQUIRED') from None

@@ -1,0 +1,5 @@
+Approved: the bounded M0 parser/qualification repair exactly as described in OPERATOR_DECISION.md. Reuse the unchanged report and native bytes; preserve both failed rows and both charges; append a corrected-qualification receipt linked to the original refusal; test the genuine saved report plus all listed refusal cases (altered report or binding, missing/duplicate/conflicting verdict, an actual BLOCKER with APPROVE, incomplete or rejected native output); align the prompt and parser examples. No third RC6 review. If the genuine evidence cannot qualify without weakening a check, stop and report.
+
+Standing permission for the rest of the batch: when the reviewer's verdict is unambiguous and a failure is only a format or integration defect in our own validators, prompts or parsers, you may fix it, requalify the preserved evidence and continue without stopping, provided no evidence binding, blocker category or refusal case is relaxed and no extra model call is spent. Record each case in AUTONOMY_PROGRESS.md.
+
+Then continue with the planted-defect M0 acceptance and the rest of the batch.

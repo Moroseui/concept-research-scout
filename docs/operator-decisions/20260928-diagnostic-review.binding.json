@@ -1,0 +1,12 @@
+{
+  "operator_original_sha256": "3f4a134d9ae58eca48dbd0072ba766387dbd1370532bf15ee880ae1dad669812",
+  "max_diagnostic_calls": 3,
+  "model": "claude-fable-5",
+  "installed_reviewer_source": "b49fdd46a3fd44faae61ea5864b83464d33ea193",
+  "canary_first": true,
+  "stop_on_refusal": true,
+  "prior_packets": [
+    "c1f27eb6d936a025839b7d936a577b10059ccc0aa846430d215cf4640d6838cf",
+    "32501a40d912882ad718543238c18412876060cd8106165dc0600ca40d9fb21d"
+  ]
+}

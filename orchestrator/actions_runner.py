@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from scripts.actions_agent import MODELS
 
 ROOT = Path(__file__).resolve().parents[1]
 REVIEW_FILES = ['orchestrator/actions_runner.py', 'scripts/actions_agent.py',
@@ -22,6 +23,65 @@ REVIEW_FILES = ['orchestrator/actions_runner.py', 'scripts/actions_agent.py',
                 'orchestrator/remote_supervisor.py','orchestrator/job_store.py']
 REVIEW_FILES += ['.github/workflows/' + n + '.yml' for n in
                  ['actioner','confer','idea-pipeline','interpret','librarian','scout-cycle','results-validate']]
+REVIEW_FILES += ['orchestrator/scientific_authority.py', 'orchestrator/scientific_decision.py',
+                 'orchestrator/research_catalog.py', 'orchestrator/research_task_authority.py',
+                 'orchestrator/change_requests.py', 'orchestrator/hosted_context.py',
+                 'configs/scientific-operating-context.json',
+                 'configs/scientific-delegation-20260909.json',
+                 'docs/operations/SCIENTIFIC_DELEGATION_20260909.md']
+REVIEW_FILES += ['orchestrator/model_secret_relocation.py', 'tests/test_model_secret_relocation.py',
+                 '.github/workflows/model-secret-relocation.yml',
+                 'configs/model-secret-relocation-target.json',
+                 'configs/model-secret-relocation-requirements.txt',
+                 'docs/operations/MODEL_SECRET_RELOCATION_20260910.md',
+                 'docs/operations/PROTECTED_HANDOVER_APPROVED_20260908.json']
+# The final handoff review also covers the actual server route and its protected
+# transport. These are mandatory inputs, not an optional glob. Generated private
+# units/configuration and observed installation evidence require separate exact
+# reviewer inputs; reviewing a generator alone does not review deployed settings.
+REVIEW_FILES += ['orchestrator/handover_runtime.py', 'orchestrator/handover_coordinator.py',
+                 'orchestrator/protected_handover.py', 'orchestrator/hosted_cycle.py',
+                 'orchestrator/hosted_campaign.py', 'orchestrator/hosted_campaign_task.py',
+                 'orchestrator/completion_bridge.py', 'orchestrator/research_context.py',
+                 'orchestrator/reviewer_evidence.py', 'orchestrator/git_diagnostics.py',
+                 'orchestrator/report_delivery.py', 'orchestrator/publication_candidate.py',
+                 'orchestrator/protected_writer.py', 'orchestrator/handover_notifications.py',
+                 'orchestrator/phone_notifications.py', 'scripts/pilot_review.py',
+                 'scripts/prepare_handover_snapshot.py',
+                 'deploy/research-system/prepare_live_research.py',
+                 'deploy/research-system/install_live_research.py',
+                 'deploy/research-system/install_handover_fixture.py',
+                 'deploy/research-system/install_live_handover.py',
+                 'deploy/research-system/research-system-handover-live.socket',
+                 'deploy/research-system/research-system-control.sh']
+
+REVIEW_FILES += ['orchestrator/continuing_research.py', 'orchestrator/formal_decisions.py',
+                 'orchestrator/scientific_versions.py', 'orchestrator/scientific_materialization.py',
+                 'orchestrator/linux_scientific_jobs.py', 'orchestrator/issue_intake.py',
+                 'orchestrator/issue_intake_service.py', 'tests/test_continuing_broker.py']
+REVIEW_FILES += ['orchestrator/continuing_operations.py', 'orchestrator/protected_scientific_jobs.py',
+                 'orchestrator/scientific_job_inputs.py', 'orchestrator/scientific_job_results.py',
+                 'orchestrator/protocol_proposals.py', 'orchestrator/deployment_review.py',
+                 'tests/test_continuing_operations.py', 'tests/test_continuing_runtime.py',
+                 'tests/test_protected_scientific_jobs.py', 'tests/test_linux_scientific_jobs.py',
+                 'tests/test_scientific_materialization.py', 'tests/test_formal_scientific_versions.py',
+                 'tests/test_protocol_proposals.py', 'tests/test_protocol_proposal_pipeline.py',
+                 'tests/test_prospective_interpretation.py', 'tests/test_deployment_review.py',
+                 'tests/test_issue_intake.py', 'tests/test_prepare_handover_snapshot.py',
+                 'tests/test_continuing_review_inputs.py']
+
+
+def reviewed_files(root=ROOT):
+    """Bind the shared policy and the finite hosted/server handoff implementation."""
+    from orchestrator.hosted_context import policy_files
+    from scripts.prepare_handover_snapshot import REQUIRED_CONTINUING_SOURCE, scientific_support_files
+    root = Path(root)
+    # The sparse archive installs these modules. A new installed runtime or
+    # installer must not escape the actual review because a manual list is stale.
+    installed_modules = {path.relative_to(root).as_posix()
+                         for path in (root/'orchestrator').rglob('*.py')}
+    return sorted(set(REVIEW_FILES) | policy_files(root) | installed_modules
+                  | set(REQUIRED_CONTINUING_SOURCE) | scientific_support_files(root))
 
 
 def reviewed(root=ROOT):
@@ -37,9 +97,9 @@ def reviewed(root=ROOT):
             or 'claude-fable-5' not in e['assistant_message_models']
             or hashlib.sha256(p.read_bytes()).hexdigest()!=e['response_sha256']):
         raise ValueError('REVIEW_REQUIRED')
-    for name in REVIEW_FILES:
+    for name in reviewed_files(root):
         p=Path(root)/name
-        if p.is_symlink() or hashlib.sha256(p.read_bytes()).hexdigest()!=e['input_file_sha256'].get(name):
+        if p.is_symlink() or not p.is_file() or hashlib.sha256(p.read_bytes()).hexdigest()!=e['input_file_sha256'].get(name):
             raise ValueError('REVIEW_BINDING_CHANGED')
     return e['reviewed_commit']
 
@@ -59,7 +119,8 @@ def system_stage(sc,directory,family,stage,body,names):
     execution=identity();review=reviewed()
     work=Path(tempfile.mkdtemp(prefix='hosted-campaign-'))
     # A tiny TOML profile calls a source-pinned transport, never an ambient CLI profile.
-    cmd=[sys.executable,str(ROOT/'scripts/actions_agent.py'),family,json.dumps(names)]
+    model=MODELS[family]
+    cmd=[sys.executable,str(ROOT/'scripts/actions_agent.py'),family,json.dumps(names),'--model',model]
     profile='[default]\nagent = '+json.dumps(family)+'\n[rotation]\nenabled = false\n[limits]\nstage_timeout = 720\n['+family+']\nenabled = true\nstdin = true\ncommand = '+json.dumps(cmd)+'\n'
     (work/'AGENTS.toml').write_text(profile)
     (work/'prompt.md').write_text(body)
@@ -85,7 +146,12 @@ def system_stage(sc,directory,family,stage,body,names):
                 with (directory/dst).open('ab') as f:f.write((work/src).read_bytes())
         (directory/('runner_'+stage+'.json')).write_text(json.dumps({**execution,'reviewed_adapter':review,'profile_sha256':hashlib.sha256(profile.encode()).hexdigest(),'private_evidence':str(work)},indent=2))
     receipt=json.loads((work/'stage_provenance.jsonl').read_text().splitlines()[-1])
-    if receipt.get('ci') is not True or receipt.get('family_effective')!=family or receipt.get('exit_class')!='ok':raise ValueError('HOSTED_STAGE_RECEIPT_INVALID')
+    if (receipt.get('ci') is not True or receipt.get('family_effective')!=family or receipt.get('exit_class')!='ok'
+            or receipt.get('model_requested')!=model or receipt.get('model_used')!=model):
+        raise ValueError('HOSTED_STAGE_RECEIPT_INVALID')
+    transport=json.loads((work/'transport.json').read_text())
+    if transport.get('requested_model')!=model or transport.get('model_selection')!='explicit_cli_argument':
+        raise ValueError('HOSTED_MODEL_BINDING_INVALID')
     for name in names:
         p=work/name
         if not p.is_file() or p.is_symlink():raise ValueError('HOSTED_ARTIFACT_MISSING')

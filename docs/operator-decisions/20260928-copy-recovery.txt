@@ -1,0 +1,5 @@
+Approved: the copy recovery exactly as described in COPY_RECOVERY.md (fresh private destination, same frozen 759-asset list and hashes, shorter UNC path, terminating-error handling, refuse on any existing/unsafe/too-long path or hash mismatch, separate final hash pass plus independent WSL verification, original failure and partial output preserved). Also fix the helper so it can never write a success receipt unless every item verified.
+
+Standing permission extension: a failed local data-staging or copy operation may be retried once with a corrected tool without stopping, if no original was changed, nothing reached the server, the retry uses the frozen asset list and hashes, and full independent verification must pass before use. Record it in AUTONOMY_PROGRESS.md. A second failure of the same operation still stops.
+
+Continue the batch.

@@ -1,0 +1,28 @@
+{
+  "status": "ISOLATED_SOURCE_INSTALLED_AND_ROOT_PRIVATE_PREPARATION_COMPLETE_NOT_LIVE",
+  "result": {
+    "status": "ISOLATED_SOURCE_INSTALLED_AND_ROOT_PRIVATE_PREPARATION_COMPLETE_NOT_LIVE",
+    "source": "04d67a00422e862d62acf356bd9526a4af449fb1",
+    "bundle_sha256": "394ab45be1e0f7be375c2f4e827a5cb85415c83e6ab3bf59984aa532f9adc5e6",
+    "prepare_receipt_sha256": "7a5bf46881ad505955b8f9e5a86ed6bd9a086d685a88fd40a0d5ebd9521353fa",
+    "policy_sha256_normalized": "f1574ec4f9031f05cfe7b9279ca26114821678ed665b115b19a9dca3ac72bcdd",
+    "policy_sha256_raw": "09dcbd9052fb890a25366ae6631dbf92c94cd5ece11017d881dbcdbabacc0ab3",
+    "active_configuration_changed": false,
+    "source_links_changed": false,
+    "key_contents_read": false,
+    "tokens_minted": 0,
+    "api_calls": 0,
+    "models_called": 0,
+    "ledger_initialized": false,
+    "remote_refs_written": 0,
+    "services_changed": false,
+    "unattended_activated": false
+  },
+  "source_review": "STANDALONE_WRITER_PREPARATION_REVIEW_20260908.json",
+  "prior_local_plan_only_receipt_preserved": true,
+  "original_execution_result_sha256": "60c4c5fee9288d1bbc63d540277cc90beb2bdb1f3e8abc8c151dce427bde478f",
+  "verified_source_working_tree": "Root-private clean sparse checkout at exact04d67a; full self-contained Git object closure; all14 reviewed input hashes matched.",
+  "protected_input_verification": "Three configuration hashes and stat metadata, key metadata only, canonical destination absence and non-overlap checked before and after.",
+  "private_key_contents_read": false,
+  "next_action": "Reconcile writer identity and exact publication/ledger refs before installing model-disabled protected live configuration and exercising bounded credentialed canaries. Separate main merge, patient launch and unattended authority remain."
+}

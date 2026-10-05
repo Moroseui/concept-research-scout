@@ -51,3 +51,45 @@ def test_source_and_own_task_packet_required(tmp_path):
     _, packet=envelope(tmp_path,tmp_path,'bound',verified_source='a'*40)
     import hashlib
     assert packet['task_packet']['sha256']==hashlib.sha256((tmp_path/'packet.json').read_bytes()).hexdigest()
+
+
+def current_policy_fixture(root):
+    import shutil
+    from orchestrator.hosted_context import policy_files
+    source=Path(__file__).resolve().parents[1]
+    fixture(root)
+    for name in policy_files(source):
+        destination=root/name;destination.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(source/name,destination)
+
+
+def test_portable_current_policy_reaches_both_distinct_roles(tmp_path):
+    from orchestrator.hosted_context import policy_files
+    root=tmp_path/'snapshot';current_policy_fixture(root)
+    task=tmp_path/'task';task.mkdir()
+    changes={'schema':'research-change-request/v1','requests':[{'review_status':'PENDING'}]}
+    (task/'packet.json').write_text(json.dumps({'jobs':['desk'], 'recorded_changes':changes}))
+    author,a=envelope(root,task,'Analyze the bounded evidence',verified_source='a'*40,family='codex')
+    reviewer,b=envelope(root,task,'Independently challenge the analysis',verified_source='a'*40,family='claude')
+    assert a['shared_policy']==b['shared_policy']
+    assert a['role']['instruction']!=b['role']['instruction']
+    assert a['task_state']['recorded_changes']==b['task_state']['recorded_changes']==changes
+    assert 'Pending is not approval' in reviewer
+    assert 'MATERIAL_DEPLOYMENT_CLARIFICATION_20260911.md' in author
+    assert all((root/name).is_file() for name in policy_files(root))
+    assert 'configs/scientific-delegation-20260909.json' in policy_files(root)
+    with pytest.raises(ValueError,match='CURRENT_HOSTED_ROLE_REQUIRED'):
+        envelope(root,task,'Unattributed call',verified_source='a'*40)
+
+
+def test_current_snapshot_rejects_missing_or_changed_shared_policy(tmp_path):
+    current_policy_fixture(tmp_path)
+    name='docs/operations/MATERIAL_DEPLOYMENT_CLARIFICATION_20260911.md'
+    original=(tmp_path/name).read_bytes()
+    (tmp_path/name).write_text('Changed authority without a version binding')
+    with pytest.raises(ValueError,match='SCIENTIFIC_OPERATING_CONTEXT_CHANGED'):
+        build(tmp_path,{'jobs':['desk']})
+    (tmp_path/name).write_bytes(original)
+    (tmp_path/name).unlink()
+    with pytest.raises(ValueError,match='SCIENTIFIC_AUTHORITY_REGULAR_FILE_REQUIRED'):
+        build(tmp_path,{'jobs':['desk']})

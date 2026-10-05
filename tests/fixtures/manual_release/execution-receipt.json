@@ -1,0 +1,56 @@
+{
+  "run_id": "sprint10-stepd-a9123b81e3ef32ee",
+  "source": "3a2d5c33fe2a8bd4613b34ae4643324f5320bda4",
+  "spec_sha256": "b073f381e9e0d89928631f42659b9f5a57b3ccbffde2b417af991287e3d2703b",
+  "notebook_code_sha256": "f2d78ef52b1238dbd865c4e35bc5b56bc960d9c85dea15dd7e2146ae53f85eca",
+  "private_files": {
+    "excluded_cases.json": "ee8d4f96b0c16620450c0e7e2e6a56993d2ee68e20913c78a1bb8fe7af0f1ab2",
+    "split_manifest.csv": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843"
+  },
+  "manifest_sha256": "9571507c29fa0382c2fbbbb5adcb1a9eb3ed9b825b0aafae6700695f96b5abea",
+  "development_count": 99,
+  "training_performed": false,
+  "tolerance": {
+    "allowed_metadata_differences": [
+      "utc",
+      "code_version",
+      "fingerprint",
+      "run_identity"
+    ],
+    "allowed_path_difference": "only original/new comparison output directory prefix",
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 0,
+    "numeric_atol": 1e-10,
+    "numeric_rtol": 1e-09,
+    "row_and_column_order": "exact",
+    "strings_counts_and_formatted_intervals": "exact"
+  },
+  "baseline_sha256": {
+    "completion.csv": "150231afb5fa4659e053bf6e5b6ceffa47c1460643c379467eed99c840385447",
+    "matched_amount_status.csv": "faa1c29ccedf3a81a0e5431ee11ee02fa5511a0b5750b6d2c277b19e916443b6",
+    "summary_by_recipe.csv": "51c30fd96f55a0fcfc076351fedeea7b17d9ddbee900d4f616c22f8bdc6d1348",
+    "paired_contrasts.csv": "0056c3967a43d97def92abad4af4d97c683fa2af992e87e2539bce93a57c7073",
+    "all_percase.csv": "ca6a08951e2453c1ccdeab9d7513f3f63332d24179097d751913f589d19e9df9",
+    "comparison_reference.json": "d7e8e4f8f95a56a4e83b7ea75e0575a46d4b8df2e61046587b72681116b69aa6",
+    "compatibility_report.json": "7c7e3aebfcde612b7922207bb3a959c642acaa59130e1820ad362e1600d32fab"
+  },
+  "actual_sha256": {
+    "completion.csv": "150231afb5fa4659e053bf6e5b6ceffa47c1460643c379467eed99c840385447",
+    "matched_amount_status.csv": "faa1c29ccedf3a81a0e5431ee11ee02fa5511a0b5750b6d2c277b19e916443b6",
+    "summary_by_recipe.csv": "51c30fd96f55a0fcfc076351fedeea7b17d9ddbee900d4f616c22f8bdc6d1348",
+    "paired_contrasts.csv": "0056c3967a43d97def92abad4af4d97c683fa2af992e87e2539bce93a57c7073",
+    "all_percase.csv": "ca6a08951e2453c1ccdeab9d7513f3f63332d24179097d751913f589d19e9df9",
+    "comparison_reference.json": "1c69b564886b32ffa599636703c8711f283534c584556ec284acdebb76820be4",
+    "compatibility_report.json": "fe9dd76c267d018dc504b2d47d7d2646639a0023c13c73a57d1c193beda2bcf7"
+  },
+  "baseline_output_path": "/content/drive/MyDrive/isles-pilot/sprint10-comparison-PRIVATE/compare-875c56c278-0a60362503",
+  "actual_output_path": "/content/drive/MyDrive/isles-pilot/manual-step-d/sprint10-stepd-a9123b81e3ef32ee/comparison/compare-875c56c278-0a60362503-48109e175649",
+  "python": "3.13.15",
+  "packages": {
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "scipy": "1.16.3",
+    "scikit-learn": "1.6.1",
+    "nibabel": "5.4.2"
+  }
+}

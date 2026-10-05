@@ -20,9 +20,18 @@ PATTERNS=['/.gitignore','/orchestrator/','/deploy/research-system/','/docs/opera
 def run(*args,**kw):return subprocess.run(args,check=True,**kw)
 def output(*args,**kw):return subprocess.check_output(args,text=True,**kw).strip()
 
+def refuse_existing_live_installation():
+    """Legacy preparation cannot replace material parts of an existing live system."""
+    for name in ('controller.json', 'broker.json'):
+        path = Path('/etc/research-system/live-research')/name
+        if path.exists() or path.is_symlink():
+            raise ValueError('EXISTING_LIVE_INSTALLATION_REQUIRES_REVIEWED_DEPLOYMENT')
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--nonroot-access-verified',action='store_true');a=p.parse_args()
     if os.getuid()!=0 or not re.fullmatch('[0-9a-f]{40}',a.source):raise ValueError('ROOT_AND_EXACT_SOURCE_REQUIRED')
+    refuse_existing_live_installation()
     if output('git','ls-remote',REPOSITORY,BRANCH).split()!=[a.source,BRANCH]:raise ValueError('PUBLIC_SOURCE_MOVED')
     root=Path('/opt/research-system');release=root/'releases'/a.source
     if release.exists():raise ValueError('RELEASE_ALREADY_EXISTS_RECONCILE_BEFORE_RETRY')

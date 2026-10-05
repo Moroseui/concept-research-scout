@@ -1,0 +1,61 @@
+{
+  "status": "SETUP_NOT_EXECUTED_WORKER_REFUSAL_PRESERVED",
+  "source_review": "P001_RUNTIME_SETUP_SOURCE_REVIEW_R2_20260908.json",
+  "same_setup_request_id": "p001-runtime-setup-20260908-v1",
+  "attempts": [
+    {
+      "attempt": "execution-9b843d51",
+      "original_protocol_sha256": "f19081748c4b692d1fbcb4d7a0d91deaa5b9c859272d4a7a0177e6701873ec0d",
+      "verification": {
+        "status": "SETUP_NOT_VERIFIED_RECONCILE_BEFORE_RETRY",
+        "error_class": "ValueError",
+        "error": "MCP error",
+        "protocol_sha256": "f19081748c4b692d1fbcb4d7a0d91deaa5b9c859272d4a7a0177e6701873ec0d",
+        "automatic_retry": false
+      },
+      "tool_calls": 13,
+      "code_run_calls": 0,
+      "worker_terminated": true,
+      "original_result_sha256": "b9bd25ed2a32f63069c6e4bca43b0aed333e50b796fae9e424b44ef3cca32f70"
+    },
+    {
+      "attempt": "reconciled-9b843d51",
+      "original_protocol_sha256": "d82b5d7e14e4ee931d85f599f6b4ef5b0032f624d5040d5119933dd12e34e762",
+      "verification": {
+        "status": "SETUP_NOT_VERIFIED_RECONCILE_BEFORE_RETRY",
+        "error_class": "ValueError",
+        "error": "execution sequence incomplete",
+        "protocol_sha256": "d82b5d7e14e4ee931d85f599f6b4ef5b0032f624d5040d5119933dd12e34e762",
+        "automatic_retry": false
+      },
+      "tool_calls": 0,
+      "code_run_calls": 0,
+      "worker_terminated": true,
+      "original_result_sha256": "71263667eca316987564a6b22c08def91da6d35573b90489c24b89a053e0a2a4"
+    },
+    {
+      "attempt": "authority-clarified-9b843d51",
+      "original_protocol_sha256": "a1ca18cccc07690d3cc82a4a531dddcaf6c215596c523ea42983d1654aeb3656",
+      "verification": {
+        "status": "SETUP_NOT_VERIFIED_RECONCILE_BEFORE_RETRY",
+        "error_class": "ValueError",
+        "error": "execution sequence incomplete",
+        "protocol_sha256": "a1ca18cccc07690d3cc82a4a531dddcaf6c215596c523ea42983d1654aeb3656",
+        "automatic_retry": false
+      },
+      "tool_calls": 0,
+      "code_run_calls": 0,
+      "worker_terminated": true,
+      "original_result_sha256": "e8981b0030b8addbadcd63fd65cacdffa70227d62e22e9310a203d97d30fe2f1"
+    }
+  ],
+  "first_stop": "Browser MCP tool connection disappeared after one unexecuted CPU cell was appended; no run_code_cell call occurred. Prior transcript was reconciled before continuation.",
+  "subsequent_stops": "Execution worker requested direct authority and objected to private log capture. Existing approval, readable full source, exact source review, mounted-runtime receipt and inspection of new cell return values were supplied. Worker still declined before any tool call. No permission-denial tool result or authentication failure was reported.",
+  "existing_operator_approval_reopened": false,
+  "next_action": "Assess a transparent fixed setup route within the versioned system, preserving source/CPU/runtime/process/output guards and fresh source review. Do not keep retrying the refusing model worker or infer setup succeeded.",
+  "patient_launch_authorized": false,
+  "prediction_executed": false,
+  "setup_executed": false,
+  "google_setup_remaining": [],
+  "original_evidence_preserved": true
+}

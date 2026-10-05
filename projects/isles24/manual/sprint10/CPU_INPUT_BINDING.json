@@ -1,0 +1,13 @@
+{
+  "schema": "sprint10-cpu-input/v1",
+  "development_count": 99,
+  "asset_count": 759,
+  "transport_manifest_sha256": "6ecc6a37c21fff928721b8cf83853cfbf58ee193800c2dca6f0fa325db1efdde",
+  "cohort_manifest_sha256": "45c5746f60e2275383a2c4f4096295fe7a171da85a73737c5a35a8cc6fc9fe86",
+  "derived_split_sha256": "3ace11512d345b2cc0d8e78cf95b98f9f4afe45c581a1d4ab1f38c81cd3fd615",
+  "derived_exclusions_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "derived_exclusions_count": 0,
+  "membership_rule": "Exact verified development-only cohort; already excludes the original excluded census case. Original mixed-membership split is not mounted or transferred.",
+  "predecessor_split_sha256": "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843",
+  "predecessor_exclusions_sha256": "ee8d4f96b0c16620450c0e7e2e6a56993d2ee68e20913c78a1bb8fe7af0f1ab2"
+}

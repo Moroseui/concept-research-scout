@@ -11,10 +11,19 @@ def configured(tmp_path,monkeypatch,pairs=None):
     import orchestrator.completion_bridge as module
     import orchestrator.remote_supervisor as supervisor
     r=runtime(tmp_path,monkeypatch)
+    legacy = r.root/'orchestrator/hosted_context.py'
+    legacy.parent.mkdir(exist_ok=True)
+    legacy.write_text('# Explicit original-only presentation fixture.\n')
     source=tmp_path/'execution-source';(source/SMOKE).parent.mkdir(parents=True)
     shutil.copyfile(Path(__file__).resolve().parents[1]/SMOKE,source/SMOKE)
     monkeypatch.setattr(module,'checked_source',lambda root,pin:Path(root))
+    monkeypatch.setattr('orchestrator.hosted_context.build',
+        lambda root,state: {'task_state':state,'policy':'Synthetic completion context.'})
     monkeypatch.setattr(supervisor,'checked_source',lambda root,pin:Path(root))
+    # The successor route binds this import at module load; it must share the
+    # existing explicitly synthetic source boundary of the completion fixture.
+    monkeypatch.setattr('orchestrator.disposition_successors.checked_source',
+        lambda root,pin:Path(root))
     state=tmp_path/'execution-state';state.mkdir()
     requests=tmp_path/'requests';requests.mkdir()
     outputs=tmp_path/'outputs';outputs.mkdir()
@@ -98,6 +107,35 @@ def test_bad_console_does_not_block_other_configured_completion(tmp_path,monkeyp
     assert len(r.q.status()['tasks'])==1
     assert r.q.db.execute('SELECT job FROM completion_ingest').fetchone()[0]=='good'
     assert r.q.db.execute('SELECT job FROM completion_blocks').fetchone()[0]=='bad'
+
+
+def test_restored_original_ingest_identity_clears_only_its_stale_warning(tmp_path,monkeypatch):
+    r,state,requests,outputs,source=configured(tmp_path,monkeypatch)
+    controller=r.completions.controller;controller.submit('predecessor','a'*40)
+    execute(r,state,requests,outputs,source)
+    calls=handlers(r)
+    r.completions.ingest()
+    original=tuple(r.q.db.execute('SELECT * FROM completion_ingest').fetchone())
+    tasks=r.q.status()['tasks']
+    reports={p.name:p.read_bytes() for p in (r.state/'reports').glob('*.md')}
+    # An unresolved identity disagreement must remain blocked without reimport.
+    r.q.db.execute("UPDATE completion_ingest SET event='different-fixture-identity' WHERE job='predecessor'")
+    r.completions.ingest();r.completions.ingest()
+    assert r.q.db.execute('SELECT reason FROM completion_blocks').fetchone()[0]=='COMPLETION_IDENTITY_CHANGED_NO_AUTOMATIC_REIMPORT'
+    assert r.q.status()['tasks']==tasks and calls==[]
+    # Reconcile to the preserved original; matching it clears the stale warning.
+    r.q.db.execute("UPDATE completion_ingest SET event=? WHERE job='predecessor'",(original[0],))
+    r.completions.ingest();r.completions.ingest()
+    assert not list(r.q.db.execute('SELECT * FROM completion_blocks'))
+    assert tuple(r.q.db.execute('SELECT * FROM completion_ingest').fetchone())==original
+    assert r.q.status()['tasks']==tasks and calls==[]
+    assert {p.name:p.read_bytes() for p in (r.state/'reports').glob('*.md')}==reports
+    # Matching identity alone does not reconcile a separate evidence problem.
+    r.q.db.execute('INSERT INTO completion_blocks VALUES(?,?)',
+        ('predecessor','COMPLETION_EVIDENCE_RECONCILIATION_REQUIRED'))
+    r.completions.ingest()
+    assert r.q.db.execute('SELECT reason FROM completion_blocks').fetchone()[0]=='COMPLETION_EVIDENCE_RECONCILIATION_REQUIRED'
+    assert len(controller.status()['jobs'])==1 and calls==[]
 
 
 def test_pause_holds_selected_work_until_explicit_resume(tmp_path,monkeypatch):
@@ -184,3 +222,19 @@ def test_report_retry_reuses_first_observation_and_original_report(tmp_path,monk
     r.completions.ingest()
     assert observations==first_observations and len(r.q.status()['tasks'])==1
     assert list((r.state/'reports').glob('*.md'))==reports
+
+
+def test_terminal_completion_binds_preparation_without_synthetic_successor(tmp_path,monkeypatch):
+    r,state,requests,outputs,source=configured(tmp_path,monkeypatch,{'preparation-trigger':None})
+    r.config['campaign_preparation']={'mode':'discuss','request':'Assess readiness within current approvals.',
+                                      'trigger_job':'preparation-trigger'}
+    r.completions.controller.submit('preparation-trigger','a'*40)
+    execute(r,state,requests,outputs,source)
+    r.completions.ingest();r.completions.ingest()
+    rows=r.q.status()['tasks'];assert len(rows)==1
+    packet=json.loads((r.state/'tasks'/rows[0]['id']/'packet.json').read_text())
+    assert packet['campaign_task']==r.config['campaign_preparation']
+    assert packet['campaign_artifacts']=={'version':1,'experiment':'P001','mode':'discuss'}
+    assert 'execution_proposal' not in packet
+    assert not list(r.q.db.execute('SELECT * FROM completion_blocks'))
+    assert len(r.completions.controller.status()['jobs'])==1

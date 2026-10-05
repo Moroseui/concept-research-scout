@@ -1,0 +1,10 @@
+DRIVE_BASE = "/content/drive/MyDrive/isles-pilot"
+CACHE_DIR = f"{DRIVE_BASE}/feature-cache-2mm-v2"
+SPRINT8_RUN_DIR = f"{DRIVE_BASE}/sprint8-seeds-features-PRIVATE/run-875c56c278"
+SPRINT9_RUN_DIR = f"{DRIVE_BASE}/sprint9-unet-PRIVATE/run-0a60362503"
+OUT_BASE = f"{DRIVE_BASE}/sprint10-comparison-PRIVATE"
+FEATURE_CFG = {"target_mm": 2.0, "vessel_pct": 98.0, "core_thr": 0.30, "penumbra_tmax": 6.0, "schema": "isles24-features-2mm-v2"}
+REPO_URL, REPO_COMMIT = "https://github.com/Moroseui/concept-research-scout", "c17281a11dd2ed15e59cc38bbb526fb6c466b145"
+MAP_SHUFFLE, MAP_SEED = 101, 1
+PROB_TOL = 1e-6
+CODE_VERSION = "sprint10-r2"

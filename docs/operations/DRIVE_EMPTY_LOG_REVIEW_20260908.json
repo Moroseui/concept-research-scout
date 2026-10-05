@@ -1,0 +1,40 @@
+{
+  "review": {
+    "scope": "Source-only review of the narrow empty-original-log change. Live selected launch.console.log reports size zero; original binding/process/setup are nonempty. Permit empty launch/setup logs only as metadata-only aliases with max_bytes zero through existing installed connector, never collect or fabricate empty content or infer completion. Preserve current credential, prior aliases and output folder. Check exact delta, focused tests, and whether preparation followed by inspected config extension remains inside the original selected-file grant. No new scientific assessment or experimental authority.",
+    "reviewed_commit": "f127441e8d648f89d336f9efa7fb3ef9ae1ed944",
+    "verdict": "APPROVE",
+    "findings": [
+      "Delta is correctly bounded to the intended case. empty_log is true only when int(size,-1)==0 and the name is launch.console.log or setup.console.log; such files register with access 'metadata-only' and max_bytes 0, every other file keeps 'small-evidence-read' with its per-alias maximum. The size guard `not 0<size<=maximum and not empty_log` still rejects missing size (defaults to -1), negative size, and oversize, while the Google-native mimeType filter still applies to empty logs. Verified against the source.",
+      "Empty content can never be collected or fabricated through the delta. In orchestrator/drive_evidence.py, DriveEvidence.handle refuses `collect` whenever entry['access'] != 'small-evidence-read' (ARCHIVE_OR_UNAUTHORIZED_TRANSFER_REFUSED), which fires before mkdir for a fresh request; metadata-only empty logs therefore only ever expose provider metadata. min(max_bytes,LIMIT)=0 is never reached because collect is refused first. Matches the scope's never-collect/never-fabricate requirement.",
+      "No completion is inferred. The added entry carries no completion flag; the inline comment explicitly frames an empty log as absence of content, not completion, and the connector's metadata result records experiment_executed:false and scientific_acceptance:false. Consistent with 'no new scientific assessment or experimental authority.'",
+      "Stays inside the original selected-file grant. The empty launch/setup logs are among the P001 preflight files authorized in DRIVE_ACCESS_APPROVED under the existing drive.file scope; registering them metadata-only adds no new grant, and prepare() still preserves output_folder_id, caller_uids, mode, existing aliases, and the credential (receipt: credentials_changed false, files_downloaded 0, remote_objects_created 0). Added entries include expected_name, binding the later exact installation to the inspected name.",
+      "Focused tests cover the delta on both sides. test_empty_original_logs_register_metadata_only_without_fabricated_content asserts access 'metadata-only', max_bytes 0, and retained size=='0' metadata for both log names; test_empty_json_and_invalid_log_sizes_remain_refused asserts binding.json/process.json size 0, launch size '-1', and missing setup size all raise. Non-mutation and retained-grant assertions from the prior review remain.",
+      "Non-blocking, carried from the prior review and unchanged by this delta: selection is bound by name/size/mimeType but not parent folder or md5Checksum, and a missing mimeType passes the native-document filter via the empty-string default. The pre-install inspection of selected-metadata.json remains the step that must confirm these are the genuine P001 preflight originals; confirm at the separate installation review."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "f127441e8d648f89d336f9efa7fb3ef9ae1ed944",
+    "returncode": 0,
+    "wall_seconds": 74.28255783699933,
+    "input_file_sha256": {
+      "scripts/drive_register_provenance.py": "ed710158a9a117fabd3b9b36dcc9dd9b46a838badea54064358774e1ef93ecee",
+      "tests/test_drive_provenance_registration.py": "d835a5dc8db882d22dbf21c87aadecec7051e5b6eeaef343112d80de92f86f1c",
+      "orchestrator/drive_evidence.py": "4a69a4226ebdc5cdff1a6128f96e3f94fde172863690ec73b2f848250955a926",
+      "docs/operations/PROVENANCE_SETUP_REVIEW_20260908.json": "01c6fdb3bc98b4ea75dffbf303e55fd22afdbb5e5cd6f1a88203149a8cb18af3",
+      "docs/operations/DRIVE_ACCESS_APPROVED_20260908.json": "d34fbefc1d74b32e038027154e84bc48d8909e25ecdd1c8313dec36091bbf3eb",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "b9cab8cc9f1764ef53c5685116f3a7339af9ec814894bba248a5180226779906",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5",
+      "claude-opus-4-8"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-opus-5"
+    ],
+    "protocol_sha256": "32bcea79fb1c8632171d1f7c6eda9c0cb40a3ebc21e2b6ea1bf298690dc7402c"
+  },
+  "disposition": "Concur with the exact metadata-only empty-log delta. Selected-file IDs/names/sizes are verified. Parent-folder metadata is unavailable through the existing file-specific grant; private collection remains within the explicit selection, while source/attempt scientific acceptance is held until the recovered content is assessed."
+}

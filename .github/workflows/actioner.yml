@@ -56,6 +56,3 @@ jobs:
       source_sha: ${{ inputs.source_sha }}
       destination: ${{ inputs.destination }}
       initiator: ${{ inputs.initiator }}
-    secrets:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

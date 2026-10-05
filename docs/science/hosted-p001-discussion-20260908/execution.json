@@ -1,0 +1,21 @@
+{
+  "stage": "hosted-campaign-discussion",
+  "status": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+  "source": "251f899b29b292c7cbb79474d7b4ca6e40de2d54",
+  "task": "f41f846f05ab2377896102ab9ba1fd3f7c84371cf682be8d3981b261c76d7554",
+  "trigger_job": "60-campaign-251f899b29b2",
+  "trigger_job_status": "COMPLETE",
+  "bookkeeping": [
+    "COMPLETE",
+    1,
+    null
+  ],
+  "validation": "orchestrator.hosted_campaign_task.completed_pipeline passed on collected originals; all three model protocol/input/output/context receipt hashes verified",
+  "private_original_archive_sha256": "fc6942b1ed1f8b0c8515bead8fc2c98c72410fcf720f27e5f849d68988b50c08",
+  "actual_claude_model": "claude-fable-5",
+  "codex_model": "requested gpt-6-astra; CLI actual_model unresolved, not invented",
+  "patient_execution": false,
+  "preflight_terminal_receipt_supplied": false,
+  "live_activation": false,
+  "collection_failure": "First read-only collector queried nonexistent tasks.source; original stderr preserved. Corrected query reads source from binding JSON. No scientific/model execution repeated."
+}

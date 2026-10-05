@@ -1,0 +1,45 @@
+{
+  "kind": "AUTHOR_OPERATED_SOURCE_REVIEW_NOT_SCIENTIFIC_INTERPRETATION_OR_MERGE_DESK",
+  "review": {
+    "scope": "Follow-up only on P001 setup review64ac. Original requestchanges retained. Its claimed duplicate/unbound/missing run blocker is already enforced by importedverify_cell_sources in currentorchestrator/colab_patient.py; that sourcewas accidentally omittedfrom previousreviewinputs and isnow supplied. Newregressions proveall3refusals through existingguard withoutduplicatinglogic. Minimalnewfixes limitconnectionopen\u22641, boundsetupstream4096bytes/classifyparsefailures, requiredCLIargs andprivateumasks.22focused/43combinedtests pass; actualfrozen0770review/packetprepare pass again withv3 same-runtime mounted evidence, preservingcandidate1. Reviewconcrete remainingcorrectness/privacy/authority issues only; no runtime setup or prediction hasrun. Exactfrozennotebooksource/dependency setup andexistingreviewbindings unchanged; no newscientificreview/acceptance shortcut.",
+    "reviewed_commit": "9b843d5164d6e4e89f49098acd6d2744d95b8e0d",
+    "verdict": "APPROVE",
+    "findings": [
+      "Prior blocker confirmed resolved by existing code: verify_cell_sources in the now-supplied orchestrator/colab_patient.py refuses trailing/duplicate runs (run index >= len(sources) -> 'executed source not bound'), runs of pre-existing or unbound cells (code map and includeOutputs=false readback must both equal the packet source for that index), and missing runs ('execution sequence incomplete'). setup.verify_transcript invokes it before any stream parsing, so all three refusals hold without duplicated logic; the new regressions exercise the imported guard.",
+      "New guards verified in source: at most one __open_colab_browser_connection (SETUP_CONNECTION_REOPEN_REFUSED); setup stream bounded to 4096 bytes with ast.literal_eval parse failures classified as SETUP_TRANSPORT_OUTPUT_SCHEMA; environment stream bounded to 132096 bytes with strict schema/binding validation; mode-required CLI arguments enforced via parser.error; umask 0o077 with exclusive-create and chmod 0600 on all persistent artifacts.",
+      "Fail-closed and authority preservation verified: frozen_sources re-checks snapshot HEAD==EXECUTION_PIN, clean/no-remote state, frozen import-closure bytes, the 465a0c3b frozen review via an isolated (-I) subprocess, pinned requirements bytes and capture-wrapper module bytes at both prepare and verify time; environment cell re-runs check_observation(source_absent=False) requiring matches_expected on all frozen rows and absent prediction paths; claim_setup exclusive intent plus setup_root/fingerprint binding prevents retry and parallel duplicate setups; scientific_acceptance and patient_launch_authorized remain False in every artifact; the reviewed 7z apt lines are byte-bound to PREPARATION_PIN AST constants.",
+      "Suggestion (non-blocking): check_observation passes vacuously when frozen_rows is empty. setup.packet() validates the receipt hash against the rebuilt prior packet and runs intake.validate_fields, but does not re-check the observation's source_files paths against the prior request the way intake.verify_transcript did before writing the receipt, so a tampered local receipt file could yield zero frozen_rows. Remote cells are unaffected (paths derive from the bound runtime_request). Require nonempty frozen_rows or re-check the path binding.",
+      "Suggestion (non-blocking): setup_root embeds the literal '0770c7dcabe7' instead of deriving intake.EXECUTION_PIN[:12]; it would silently go stale if the execution pin changed. Similarly cosmetic: claim_setup.absent() raises an uncaught FileNotFoundError when a fixed parent is missing, and a run_code_cell event lacking a tool_result raises KeyError during verification \u2014 both fail closed but without classified error names.",
+      "Source-only review: the 22 focused / 43 combined test-pass and re-run prepare/review claims were treated as author assertions and not independently executed; no runtime setup, Colab connection, or patient data access was performed or authorized by this review."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "9b843d5164d6e4e89f49098acd6d2744d95b8e0d",
+    "returncode": 0,
+    "wall_seconds": 225.55831717799992,
+    "input_file_sha256": {
+      "orchestrator/p001_runtime_setup.py": "ec8a3e88a4975771fd3642b4aa71c7486164aad8fc69cf6f8c0d18d55487c799",
+      "tests/test_p001_runtime_setup.py": "886317d5c3f385ad8e199a58373d814be72598a913e61bc8da170c03180fc1d6",
+      "orchestrator/colab_patient.py": "3c98e19984352bffe46190823f45f2bfef8b421004ef81780eb9fa0faf3b0b5d",
+      "orchestrator/p001_runtime_intake.py": "6bd9d97fdae4972815d25121bf7971c495ea8c7245ea7cf15a89b94e943976c2",
+      "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+      "orchestrator/colab_session_worker.py": "313fb02cd0d68a240f760f7038981967cb7a22caf56c236d9beda73e6299684e",
+      "docs/science/P001_MOUNT_CONFIRMED_20260908.json": "7614c7a3d4e92b277a96d2ca403132eab7cf88e8d9bc51e1e2f7071ba91956e8",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "c7a8b909714e7cc1628fe41bab85a86ce67013d4c19b5c22cff18fefac9f63f2",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "ca0eca75cd9ddd2f59ea535a79767d999b3cf72bd08dc7d02364518ea5263c14"
+  },
+  "runtime_setup_proven_by_source_review": false,
+  "patient_launch_authorized": false,
+  "prior_review_preserved": true
+}

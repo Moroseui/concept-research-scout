@@ -10,9 +10,28 @@
     },
     {
       "job": "patient-backend",
-      "reason": "PATIENT_TRANSFER_AND_LAUNCH_RESERVED",
-      "status": "OPEN",
-      "next_action": "P001 Linux transport/dependency review and execution reconciliation must precede separate patient transfer/launch approval."
+      "reason": "SOURCE_DEPENDENCIES_DEFAULT_CHILD_VERIFIED_RETURN_CANARY_PENDING",
+      "status": "OPEN_RETURN_BINDINGS_THEN_EXACT_LAUNCH",
+      "next_action": "Native fixed setup completed at e1cccd29; do not rerun setup or preflight. Install approved two-slot return bindings and execute harmless original-ID canary, then exact launch/206-derived-return decision.",
+      "history": [
+        {
+          "status": "OPEN",
+          "reason": "PATIENT_TRANSFER_AND_LAUNCH_RESERVED",
+          "next_action": "P001 Linux transport/dependency review and execution reconciliation must precede separate patient transfer/launch approval."
+        },
+        {
+          "status": "OPEN_EXACT_LAUNCH_DECISION",
+          "reason": "CURRENT_RUNTIME_BINDINGS_AND_SEPARATE_LAUNCH_REQUIRED",
+          "next_action": "P001 supplemental author/opposing review/disposition closed historical preflight correspondence and computation/report gaps. Complete the read-only current-runtime/dependency/input/output reconciliation, then prepare the exact separate launch decision. No Linux move, 047 acceptance or autonomous activation is required for the existing Colab path.",
+          "evidence": "../science/hosted-p001-provenance-readiness-20260908/execution.json"
+        },
+        {
+          "status": "OPEN_SETUP_RETURN_BINDINGS_THEN_EXACT_LAUNCH",
+          "reason": "SETUP_ZERO_EXECUTION_AND_FULL_RETURN_TRANSPORT_INCOMPLETE",
+          "next_action": "Reuse completed system preflight assessment and confirmed mount. Implement/review transparent fixed setup, finish exact app-owned206-member return binding/canary, then prepare one exact launch and derived-return decision. No preflight replay or dependency on047/activation."
+        }
+      ],
+      "evidence": "CURRENT_MILESTONE_20260908.md"
     },
     {
       "job": "phone-acceptance",
@@ -23,9 +42,28 @@
     },
     {
       "job": "protected-publication-admission",
-      "reason": "OPERATOR_WRITER_RESET_DESIGN_REQUIRED",
-      "status": "OPEN",
-      "next_action": "Review the completed PROTECTED_WRITER_ADMISSION_DECISION.md packet and approve or amend the concrete writer/reset/server-admission design. No credential grant, initialization or activation has occurred."
+      "reason": "EXACT_ONE_EVENT_AND_DUPLICATE_RECOVERY_VERIFIED",
+      "status": "SHARED_LIVE_CANARY_COMPLETE_PERSISTENT_SOCKET_PENDING",
+      "next_action": "Shared ledger initialized once at approved48/96 policy; live count1 retained, duplicate0. Install distinct model-disabled protected socket using exact existing state. No initialize/reset replay; main/activation separate.",
+      "history": [
+        {
+          "status": "APPROVED_SETUP_PENDING_WRITER_IDENTITY",
+          "reason": "OPERATOR_APPROVED_DESIGN_20260908",
+          "next_action": "Reuse PROTECTED_HANDOVER_APPROVED_20260908.json; obtain exact writer App identity/key through prepared operator window, then reviewed installation and shared admission checks. No repeat design approval; no unattended activation."
+        },
+        {
+          "status": "APPROVED_WRITER_IDENTITY_VERIFIED_LIVE_SETUP_PENDING",
+          "reason": "SELECTED_REPOSITORY_WRITER_APP_VERIFIED",
+          "next_action": "Reuse the approved design and verified App 4879374, installation 160193942, exact repository grant and privately staged replacement key. Live writer/shared state are not activated. Optional setup preparation is preserved on astra/pending-hosted-numbered-idea-20260908 at deb7dbd475d227f8252b25048c7add17ef66b383, not deployed; it does not gate supervised 047 analysis.",
+          "evidence": "WRITER_APP_IDENTITY_20260908.json"
+        },
+        {
+          "status": "ROOT_PRIVATE_PREPARATION_COMPLETE_LIVE_INSTALLATION_PENDING",
+          "reason": "EXACT_REVIEWED_SOURCE_AND_PROTECTED_INPUT_CAS_VERIFIED",
+          "next_action": "Standalone04d source and root-private proposal preparation completed on host; active configuration and live state unchanged. Reconcile writer identity/remote refs, then bounded live configuration/shared-admission checks within existing approval. Main merge and unattended activation remain separate."
+        }
+      ],
+      "evidence": "CURRENT_MILESTONE_20260908.md"
     },
     {
       "job": "provider-recovery",
@@ -42,9 +80,9 @@
     },
     {
       "job": "report-schedule",
-      "reason": "REPORT_SCHEDULE_NOT_SELECTED",
-      "status": "OPEN",
-      "next_action": "Select nightly time; proposed 21:00 America/New_York. No timer for model reviews enabled."
+      "reason": "OPERATOR_SELECTED_2100_NEW_YORK",
+      "status": "SELECTED_NOT_ACTIVATED",
+      "next_action": "Use approved 21:00 America/New_York when final report configuration is installed. Activation remains separate."
     },
     {
       "job": "review-recovery-closeout",
@@ -78,9 +116,208 @@
     },
     {
       "job": "github-writer-enforcement",
-      "status": "OPEN_PERMISSION_DESIGN",
-      "reason": "MAIN_UNPROTECTED_AND_MODEL_SECRETS_REPOSITORY_SCOPED",
-      "next_action": "Include exact repository protection and credential/environment limitations in the final grouped writer/admission packet. Authenticated read-only API found only results protection ruleset 20885616, main protection 404, and no environments. No protection or credential change was performed."
+      "status": "MAIN_PROTECTION_VERIFIED_ENVIRONMENT_ROLLOUT_PENDING",
+      "reason": "APPROVED_RESTRICTION_ROLLOUT",
+      "next_action": "Main PR/basic protection installed and read back, existing rulesets unchanged. Secret relocation requires reviewed main workflow integration, bounded canary, then repository-copy removal.",
+      "evidence": "MAIN_PROTECTION_INSTALLED_20260908.json"
+    },
+    {
+      "job": "p001-prospective-adoption-20260907",
+      "status": "RESOLVED_CHARTER_CONDITIONAL_ADOPTION_PREFLIGHT_ONLY",
+      "reason": "OPERATOR_APPROVED_AT_A94_PACKET",
+      "next_action": "Recorded in prediction_selection.json and evidence/decisions.md; launch and new-backend transfer remain reserved. Preflight preparation source 687f826 is reviewed and published.",
+      "history": [
+        {
+          "status": "OPEN_SCIENTIFIC_DECISION",
+          "reason": "REVIEWED_PROPOSAL_NOT_ADOPTED",
+          "next_action": "Review P001_EXECUTION_DECISION_20260907.md: proposed charter/adoption and bounded input preflight; launch remains separate."
+        }
+      ]
+    },
+    {
+      "job": "colab-persistent-handoff-20260907",
+      "status": "SOURCE_DEPENDENCIES_VERIFIED_NATIVE_TRANSPORT",
+      "reason": "FOUR_STAGES_14_NATIVE_CALLS_COMPLETE",
+      "next_action": "Reuse actual P001_RUNTIME_SETUP_COMPLETE_20260908.json and completed preflight assessment. Finish return canary and exact launch packet; no Google setup or sign-in currently needed.",
+      "history": [
+        {
+          "status": "OPEN_IMPLEMENTATION",
+          "reason": "ONE_SHOT_WORKER_CLOSES_MCP_BEFORE_LATER_RETRIEVAL",
+          "next_action": "Prepare a persistent bounded metadata handoff or use the reviewed human notebook route before another browser request. Operator reported Drive mounted; do not claim independent retrieval."
+        },
+        {
+          "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
+          "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
+          "next_action": "Same-session CPU and exact preflight dispatch verified after transparent source/authority resolved worker refusal. Three-request client exhausted; no automatic redispatch. Terminal receipt requires separate checked read-only retrieval through generated manual cell or a separately bounded connected worker."
+        },
+        {
+          "status": "WAITING_PREFLIGHT_TERMINAL_RETRIEVAL",
+          "reason": "SAME_SESSION_CPU_VERIFIED_OPERATOR_DRIVE_MOUNT_REPORTED",
+          "next_action": "Retrieve the existing terminal preflight evidence through the approved persistent Drive connector after Google consent/registration. No experiment redispatch; no routine manual Colab JSON relay."
+        },
+        {
+          "status": "PREFLIGHT_ASSESSED_CURRENT_RUNTIME_RECONCILIATION_IN_PROGRESS",
+          "reason": "ORIGINAL_PREFLIGHT_PROVENANCE_SUPPLEMENT_REVIEWED",
+          "next_action": "Reuse completed Drive collection and the supplemental system author/opposing-review/disposition. Historical correspondence and successful computation/report gaps are closed; independent OS exit remains unobserved. Current runtime checking is underway before exact launch bindings and separate approval. No preflight replay, repeated Google consent or routine JSON relay."
+        },
+        {
+          "status": "CURRENT_RUNTIME_CHECKED_DRIVE_MOUNT_AND_SETUP_NEEDED",
+          "reason": "CPU_RUNTIME_SOURCE_ABSENT_DRIVE_NOT_VISIBLE",
+          "next_action": "Use P001_CURRENT_RUNTIME_INTAKE_20260908.json. Existing preflight evidence is system-reviewed; no replay. Operator reconnects original runtime if available or mounts Drive in current CPU runtime, then restore approved source/dependencies and exact launch bindings.",
+          "evidence": "../science/P001_CURRENT_RUNTIME_INTAKE_20260908.json"
+        },
+        {
+          "status": "MOUNT_CONFIRMED_FROZEN_RUNTIME_SETUP_SOURCE_REVIEW_PENDING",
+          "reason": "SAME_RUNTIME_DRIVE_VISIBLE_SOURCE_ABSENT_NO_MATCHING_PROCESS",
+          "next_action": "Use P001_MOUNT_CONFIRMED_20260908.json. Frozen0770 execution review verifies; versioned setup candidate prepares exact source/dependencies/default child environment. Complete source review, execute setup once with current guards, then exact launch packet. No preflight replay or repeat mount request.",
+          "evidence": "../science/P001_MOUNT_CONFIRMED_20260908.json"
+        },
+        {
+          "status": "MOUNT_CONFIRMED_SETUP_STOPPED_WITH_ZERO_EXECUTION",
+          "reason": "TRANSPORT_DISCONNECT_THEN_WORKER_REFUSALS_PRESERVED",
+          "next_action": "All three workers ended with zero code-cell execution calls. Preserve their originals and existing approval; use the transparent route assessment for the smallest reviewed continuation. No further same-worker persuasion, repeated mount/grant or experiment launch."
+        }
+      ],
+      "evidence": "CURRENT_MILESTONE_20260908.md"
+    },
+    {
+      "job": "047b-original-console-20260907",
+      "status": "FORMAL_PHASE_B_INTERPRETATION_REVIEW_COMPLETE",
+      "reason": "OPERATOR_ACCEPTED_PRIVATE_IMPORT_REGISTRY_RATIFIED_SYSTEM_REVIEW_APPROVE",
+      "next_action": "Reuse 047B_FORMAL_INTERPRETATION_COMPLETE_20260908.json: exact private17-file import then registry attestation completed; interpret-build approved round1 in890.342stage seconds. Phase-A originals preserved. Proposed PAUSE requires later interpretation ratification; public scientific export remains separate.",
+      "history": [
+        {
+          "status": "OPEN_EVIDENCE_AND_DECISION",
+          "reason": "PRESERVED_SOURCE_MATCHES_BUT_SUCCESSFUL_CONSOLE_NOT_FOUND",
+          "next_action": "Confirm whether 047b names the pinned Phase-B source and locate original successful sibling console; then resolve historical registry attestation, metadata disposition and separate scientific landing. Reuse prior validator and policy refusal."
+        },
+        {
+          "status": "OPEN_EVIDENCE_AND_DECISION",
+          "next_action": "Operator naming clarification is not hash/console attestation. Original source/contract correspondence verified; bounded private search found no genuine successful console. See 047B_CONSOLE_RECOVERY_20260907.md. Cleanup complete; exclusions, registry attestation and scientific landing remain separate."
+        },
+        {
+          "status": "EVIDENCE_RECOVERED_REVIEW_PENDING",
+          "reason": "ORIGINAL_CORRESPONDENCE_VERIFIED_SUCCESSFUL_CONSOLE_UNRECOVERED",
+          "next_action": "System incoming-notebook-evidence verified saved Phase-B output against original and replacement summaries. Review its limited evidence disposition; original sibling log remains unchecked. Registry attestation, exclusions/audit disposition and scientific landing remain separate gates."
+        },
+        {
+          "status": "ORIGINAL_CONSOLE_RECOVERED_ACCEPTANCE_DECISIONS_PENDING",
+          "reason": "DRIVE_SIBLING_MATCHES_REVIEWED_NOTEBOOK",
+          "next_action": "Reuse original sibling intake and completed cleanup. Historical registry attestation, exact exclusion/audit metadata treatment and scientific landing remain reserved.",
+          "evidence": "../science/047B_DRIVE_SIBLING_INTAKE_20260908.json"
+        },
+        {
+          "status": "PRIVATE_ACCEPTANCE_PACKET_PREPARED_CONFIGURATION_REVIEW_RUNNING",
+          "reason": "EXACT_ORIGINAL_PRIVATE_IMPORT_USES_EXISTING_NUMBERED_IDEA_ROUTE",
+          "next_action": "Decide the exact private 17-file original-import/audit-retention/registry packet in 047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md. Scoped role/context configuration review is running. After approval and configuration review, record-result 47, verify exact Phase-B resolution, ratify-registry 47, then existing interpret-build 47 with opposing review. No Phase-B scientific analysis has run; hosted routing and autonomous handover are not prerequisites.",
+          "evidence": "../science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md"
+        }
+      ],
+      "evidence": "../science/047B_FORMAL_INTERPRETATION_COMPLETE_20260908.json",
+      "review": "../science/047B_NOTEBOOK_REVIEW_20260907.json"
+    },
+    {
+      "job": "pr5-ledger-transport-diagnostics",
+      "status": "OPEN_ORIGINAL_CAUSE_UNRESOLVED",
+      "reason": "HOSTED_FILE_TRANSPORT_PASSED_ORIGINAL_STDERR_UNAVAILABLE",
+      "next_action": "Private stderr capture reviewed; actual isolated host 24-request/eight-worker contention/recovery passed and fresh Claude review approved. Do not infer original cause or credentialed GitHub transport robustness; live activation remains held.",
+      "history": [
+        {
+          "status": "OPEN_IMPLEMENTATION_AND_HOSTED_VERIFICATION",
+          "reason": "ORIGINAL_FETCH_EXIT_128_CAUSE_UNRESOLVED",
+          "next_action": "Implement reviewed private stderr capture across ledger/transport subprocess paths, then run isolated droplet contention/recovery. Original stderr unavailable; passing reruns do not diagnose cause. Limiter remains inactive."
+        }
+      ]
+    },
+    {
+      "job": "pr5-retrospective-audit",
+      "status": "BLOCKED_ADDITIONAL_HISTORICAL_DISPOSITION",
+      "reason": "POLICY_TRUST_AND_SCAN_RANGE_MUST_BE_SEPARATE",
+      "next_action": "Operator/desk disposition of exact historical blob in PR5_AUDIT_DISPOSITION_REQUEST_20260907.md remains required. Reviewed scanner covered original range plus added commits; no exemption or passing audit is claimed.",
+      "history": [
+        {
+          "status": "BLOCKED_ADDITIONAL_HISTORICAL_DISPOSITION",
+          "reason": "POLICY_TRUST_AND_SCAN_RANGE_MUST_BE_SEPARATE",
+          "next_action": "Review PR5_AUDIT_DISPOSITION_REQUEST_20260907.md: one exact earlier decisions blob is a prefix of the existing approved baseline but outside its present exception. Audit implementation review remains in progress; no exemption added."
+        }
+      ]
+    },
+    {
+      "job": "hosted-reconciliation-after-pr5",
+      "status": "RESOLVED_CURRENT_READ_ONLY_LATE_20260908",
+      "reason": "SIX_TASKS_EIGHTEEN_STAGES_COMPLETE_CONTROLLER_IDLE",
+      "next_action": "Configured source6d0f0c5, six tasks/18stagescomplete, no incomplete task, controllerinactive/success, no standing handover timer or live writer. Preserve originals; no job/model replay.",
+      "history": [
+        {
+          "status": "BLOCKED_LOCAL_SSH_UNLOCK",
+          "reason": "SSH_AGENT_HAS_NO_IDENTITIES",
+          "next_action": "Operator re-unlocks existing laptop SSH identity; then inspect deployed bindings and jobs read-only before any retry. No server or model failure inferred."
+        },
+        {
+          "status": "RESOLVED_READ_ONLY_20260907",
+          "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
+          "next_action": "See RESUME_RECONCILIATION_20260907.json. Installed handover remains 9af868d and executor 6b555075; no jobs retried or new allowance granted."
+        },
+        {
+          "status": "RESOLVED_HOSTED_CAMPAIGN_20260908",
+          "reason": "SSH_AND_BOTH_MODEL_AUTHENTICATIONS_VERIFIED",
+          "next_action": "Installed handover 251f899b, immutable executor 6b555075. New harmless completion and actual campaign discussion/review/disposition completed; earlier turns preserved. No live activation."
+        },
+        {
+          "status": "RESOLVED_CURRENT_READ_ONLY_20260908",
+          "reason": "EXISTING_SSH_UNLOCKED_AND_ORIGINAL_TASKS_COMPLETE",
+          "next_action": "Current installed handover 251f899b and executor 6b555075 confirmed; all four tasks, twelve stages and one bookkeeping attempt each complete. Original 185-file campaign manifest passed. No job/model replay; old authentication reasons remain historical.",
+          "evidence": "RESUME_RECONCILIATION_20260908.json"
+        }
+      ],
+      "evidence": "CURRENT_REMOTE_STATE_20260908.json"
+    },
+    {
+      "job": "047-first-cleanup-20260907",
+      "status": "COMPLETE",
+      "reason": "EXACT_OPERATOR_AUTHORIZED_LEASED_REPLACEMENT_VERIFIED",
+      "next_action": "No retry. Remaining public three-file metadata disposition and scientific landing tracked separately.",
+      "evidence": "../isles-pilot/047_CLEANUP_EXECUTED_20260907.json"
+    },
+    {
+      "job": "persistent-drive-evidence",
+      "reason": "ORIGINALS_COLLECTED_REFRESH_STORAGE_RESTART_VERIFIED",
+      "status": "RESOLVED_LIVE_CONNECTOR_VERIFIED",
+      "next_action": "Reuse installed registered connector and preserved original receipts. No Google setup or repeated access approval remains. P001 intake and original 047 sibling correspondence pass; scientific review and acceptance remain separate.",
+      "evidence": "DRIVE_LIVE_ACCEPTANCE_20260908.json",
+      "implementation_pin": "6ea7566b7247286fac54c450ad8f388b129d130b",
+      "approval": "DRIVE_ACCESS_APPROVED_20260908.json",
+      "history": [
+        {
+          "status": "APPROVED_WAITING_GOOGLE_SETUP",
+          "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
+          "next_action": "Select existing operator-owned project, then guided API/Desktop client setup; grant is already approved. No repeat permission request."
+        },
+        {
+          "status": "APPROVED_WAITING_GOOGLE_SETUP",
+          "reason": "OPERATOR_PROJECT_AND_OAUTH_CONSENT_REQUIRED",
+          "next_action": "Operator created the project and enabled Drive/Picker APIs and drive.file scope. Production transition is blocked by Google Branding missing information; await exact field names. Grant already approved; libraries/source installed, no credentials or service yet."
+        },
+        {
+          "status": "APPROVED_WAITING_PICKER_CONSENT",
+          "reason": "PRODUCTION_AND_DESKTOP_CLIENT_PREPARED",
+          "next_action": "Reuse approved grant and installed source 6ea7566b. Operator reported Production; Desktop JSON privately installed and one-time consent helper ready. Await actual token/Picker completion; no live Drive retrieval claimed. See GOOGLE_OAUTH_OPERATOR_WINDOW_20260908.md."
+        }
+      ]
     }
-  ]
+  ],
+  "update_scope": "Versioned decision-inbox reconciliation; this file update alone does not mutate installed server queue state.",
+  "current_checkpoint": {
+    "date": "2026-09-09",
+    "current_summary": "RESTART_HANDOFF_20260909.md",
+    "p001_supplemental_system_stages": "COMPLETE_READINESS_ONLY",
+    "p001_current_runtime": "FROZEN_SETUP_COMPLETED_NATIVE14_CALLS_CURRENT_LAUNCH_GUARD_PENDING",
+    "p001_return": "SYNTHETIC_NATIVE_COPY_COMPLETE_ORIGINAL_ID_COLLECTION_CONTINUING",
+    "p001_launch": "SEPARATE_EXACT_DECISION_REQUIRED_NO_PREDICTION_RESULT",
+    "047b": "FORMAL_PHASE_B_INTERPRETATION_AND_OPPOSING_REVIEW_COMPLETE_APPROVE",
+    "drive": "COMPLETE_NO_AUTHENTICATION_ACTION_PENDING",
+    "writer_app": "MODEL_DISABLED_PERSISTENT_SOCKET_STATUS_RESTART_VERIFIED_COUNT_ONE_RETAINED",
+    "autonomy_dependency_for_047b": false,
+    "remote_queue_mutated_by_this_record": false
+  }
 }

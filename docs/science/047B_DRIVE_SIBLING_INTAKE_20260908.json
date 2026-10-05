@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "stage": "drive-047-sibling-intake",
+  "status": "ORIGINAL_SIBLING_MATCHES_REVIEWED_NOTEBOOK_STREAM",
+  "original": {
+    "sha256": "00a247582691bdec7fff74633443cc0cfe9391ac7ea4bdd393274d6699a95bca",
+    "bytes": 9466,
+    "collection_receipt_sha256": "9d40106580119ddb806d8ae9ccf2a6ab7172bae46fb4174c88733f741ccc089c"
+  },
+  "prior_notebook_receipt_sha256": "1630e590d8f5b6e5f52a8e0174fa0b24cebf8a318ee685051d3acd719e3bb253",
+  "source": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+  "replacement": "c812421207b6ddcba6516444897c777d8440275a",
+  "contract": "dc586665d0bece940d1a1f4b3b0572f8c951c2ba",
+  "summary_sha256": "b960e4a86dad001c9b1e7722970f70b6b1f4b37cf3e2d4eaeb36008881a06244",
+  "saved_stream_byte_identical": true,
+  "contract_in_stream": true,
+  "study_complete_in_stream": true,
+  "traceback_in_stream": false,
+  "exit_status": null,
+  "scientific_acceptance": false,
+  "experiment_executed": false,
+  "limitation": "Collected original sibling bytes correspond to the reviewed saved stream; no independent process exit attestation or scientific acceptance.",
+  "intake_implementation_sha256": "463082d5d1fdf0ced1961d259ee8d182ae639f081ae13782e52a943bd0a1b7e8",
+  "original_intake_receipt_sha256": "a3ae4ee8b55d6b7c077a24d8cbdffabac10ca7189e793b1e0aa4b7f949932af1",
+  "invoked_source": "4fdfe0401aefa149773e674915fb86e15246b193"
+}

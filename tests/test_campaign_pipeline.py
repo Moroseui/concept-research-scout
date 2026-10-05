@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 from orchestrator import campaign_pipeline as p
+from test_campaign_delegation import copy_policy
 
 
 class PipelineTests(unittest.TestCase):
@@ -12,7 +13,8 @@ class PipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);base=root/'campaigns/isles24-pilot';base.mkdir(parents=True)
             (base/'CAMPAIGN.md').write_text('synthetic campaign')
-            (root/'docs/operations').mkdir(parents=True)
+            copy_policy(root)
+            (root/'docs/operations').mkdir(parents=True,exist_ok=True)
             for name in ['REMOTE_OPERATING_DIRECTION.md','CLAUDE_REVIEWER_DIRECTIVE.md']:
                 (root/'docs/operations'/name).write_text(name+' required human context')
             sc=SimpleNamespace(ROOT=root);seen=[]
@@ -41,7 +43,8 @@ class PredictionAuthoringTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);base=root/'campaigns/isles24-pilot';exp=base/'experiments/P001';exp.mkdir(parents=True)
             (base/'CAMPAIGN.md').write_text('Frozen campaign')
-            (root/'docs/operations').mkdir(parents=True)
+            copy_policy(root)
+            (root/'docs/operations').mkdir(parents=True,exist_ok=True)
             for name in ['REMOTE_OPERATING_DIRECTION.md','CLAUDE_REVIEWER_DIRECTIVE.md']:
                 (root/'docs/operations'/name).write_text(name+' required human context')
             (exp/'run.py').write_text('# historical externally seeded runner')
@@ -72,3 +75,31 @@ def test_missing_operating_context_blocks_before_model(tmp_path):
             p.execute(SimpleNamespace(ROOT=tmp_path),'discuss','P001','Question',base/'pipeline/missing')
         stage.assert_not_called()
     assert (base/'pipeline/missing/blocked.json').exists()
+
+
+def test_direct_pipeline_cannot_overwrite_ratified_selection_with_preview(tmp_path):
+    import pytest
+    out=tmp_path/'campaigns/isles24-pilot/pipeline/refused'
+    with patch.object(p,'grounding',return_value={}), patch('orchestrator.research_context.selected_prediction_context',return_value={'selected':'ratified'}), patch.object(p,'system_stage') as stage:
+        with pytest.raises(ValueError,match='RATIFIED_CONTEXT_REFUSES_PROPOSAL_PREVIEW'):
+            p.execute(SimpleNamespace(ROOT=tmp_path),'readiness','P001','question',out,proposal='stale')
+        stage.assert_not_called()
+    assert json.loads((out/'blocked.json').read_text())['reason']=='GROUNDING_FAILED'
+
+
+def test_hosted_single_round_retains_negative_review_without_hidden_repair(tmp_path):
+    import pytest
+    out=tmp_path/'campaigns/isles24-pilot/pipeline/one-round'
+    calls=[]
+    def stage(sc,directory,family,name,body,names):
+        calls.append(family)
+        for filename in names:
+            (directory/filename).write_text(json.dumps({'verdict':'REVISE','rationale':'Needs additional evidence'}) if filename=='review.json' else 'Bounded readiness proposal')
+        return {'family_effective':family,'exit_class':'ok','ci':False}
+    with patch.object(p,'grounding',return_value={}), patch('orchestrator.research_context.evidence_context',return_value={}):
+        with pytest.raises(ValueError,match='revision limit'):
+            p.execute(SimpleNamespace(ROOT=tmp_path),'discuss','P001','question',out,max_rounds=1,stage_runner=stage)
+    assert calls==['codex','claude']
+    assert (out/'round-1/review.json').exists() and (out/'blocked.json').exists()
+    assert not (out/'round-2').exists()
+    assert json.loads((out/'request.json').read_text())['max_rounds']==1

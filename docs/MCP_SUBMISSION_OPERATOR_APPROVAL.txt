@@ -1,0 +1,21 @@
+Agreed: don't weaken the validator or pick fragments. Fix delivery without changing the client, using a channel the client already enforces: an MCP tool's input schema.
+
+Pre-authorized overnight chain:
+
+1. On the existing confined evidence MCP server, add a submit_review tool:
+
+   - strict input schema: verdict enum, findings array with the fixed categories, required bindings;
+   - the server validates the schema and the bindings, and returns errors so the reviewer can correct them in the same session;
+   - exactly one accepted submission per call, recorded server-side; a second is refused;
+   - the verdict comes only from that record, never from prose; a call ending without an accepted submission is FAILED.
+     Update the trusted reviewer instructions to match.
+     Tests: schema refusals, a second submission refused, binding mismatch, findings block, and all preserved failures including 522e5b21 stay non-qualifying.
+     Then focused tests and both full suites on the server.
+
+2. ONE bootstrap review of 8322b43a plus this change, delivered through the candidate's own submit_review (pre-authorized, as before). If it qualifies with APPROVE and empty findings: install and promote through the normal held promotion, and seal the completed-run closure.
+
+3. Optional: take Downloads\sprint13a_share.zip through the existing aggregate intake. It is operator-run Sprint 13A output with aggregate tables and figures only. Skip it on any privacy flag.
+
+4. BACKLOG item 2: the analysis-only proposal, using the accepted stock-take and the 13A aggregates if ingested. Focus on 13B scope and push back where warranted. At most 8 scientific calls, within the UTC-day cap. No GPU, Modal or patient-level work. Stop with the proposal for me.
+
+Stop and wait on: any finding or rejection, a tool or transport failure, a second failure with the same cause, or a cap. No reboot without telling me. A client upgrade and native --json-schema can follow later through the ordinary process.

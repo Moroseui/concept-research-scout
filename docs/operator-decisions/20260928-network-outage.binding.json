@@ -1,0 +1,7 @@
+{
+  "at": "2026-09-28T04:00:33.389322+00:00",
+  "attribution": "operator user message",
+  "sha256": "d2969e3056b853116cad39bd227ef1017f208fe83006b962d8a989ca8a807995",
+  "source": "docs/operator-decisions/20260928-network-outage.txt",
+  "scope": "post-reboot read-only gates; M1 pre-admission network check; M5 connectivity reporting; SSH multiplexing"
+}

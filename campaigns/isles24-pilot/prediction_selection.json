@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "status": "OPERATOR_RATIFIED_CHARTER_CONDITIONAL_ADOPTION",
+  "authority_source": "operator message in existing conversation, 2026-09-07",
+  "operator": "Moroseui",
+  "recorder": {
+    "actor_type": "agent",
+    "family": "codex",
+    "model": "gpt-6-astra"
+  },
+  "decision_packet_commit": "a94d886e0c4b8fdb504564288939df7e342d7e32",
+  "decision_packet": "docs/science/P001_EXECUTION_DECISION_20260907.md",
+  "proposal": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1",
+  "artifact_sha256": {
+    "docs/science/P001_EXECUTION_DECISION_20260907.md": "debd9e31185c0ae286ed27c568f8e34f41ba6dedc53a2a78dfed76e68a80a6e1",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/receipt.json": "bc62ada3fa440a442dd2606ec9f2531ded3a088da20c2d6664b9c0bb0ac39767",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+    "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/review.json": "f03fe43f216bf80c34ea0d38203371def299d4fe2de7d5398c72d2d15dab0bed",
+    "campaigns/isles24-pilot/experiments/P001/SPEC.md": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+    "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+    "campaigns/isles24-pilot/experiments/P001/review.json": "18f6ace723871d9319a5eda995ffb99389af46bb95cd50b1e97e1a63d326d727",
+    "campaigns/isles24-pilot/experiments/P001/investigator_decision.json": "78da702da6a340da79a242aa049b64009b4b954a215e22fc1387212390dce68e",
+    "campaigns/isles24-pilot/experiments/P001/build_receipt.json": "fc35059a7254ca3e449a9445d654e92bdc789a81ae71d16d19d769b650bfde44"
+  },
+  "scope": {
+    "charter_ratified": true,
+    "conditional_external_seed_adoption": true,
+    "eligible_admission_input_preflight": true,
+    "patient_launch": false,
+    "new_backend_patient_transfer": false,
+    "reserved_cohort_access": false
+  },
+  "origin": "externally_seeded_operator_delegated_P001",
+  "exploratory": true,
+  "frozen_scientific_bytes_unchanged": true,
+  "next_gate": "verified eligible-input preflight, followed by separate exact launch decision"
+}

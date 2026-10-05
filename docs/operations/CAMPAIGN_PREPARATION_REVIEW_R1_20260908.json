@@ -1,0 +1,41 @@
+{
+  "kind": "Author-operated source review; original rejection preserved",
+  "execution": {
+    "reviewed_commit": "521c909cf09924c170034ebd47a6ad3d73a889d6",
+    "returncode": 0,
+    "wall_seconds": 257.89835695998045,
+    "input_file_sha256": {
+      "deploy/research-system/prepare_campaign_acceptance.py": "bebc733ddda393da84ee542fd22e5930fcd897aa5c6e32dd8c691b183090bf6a",
+      "tests/test_campaign_acceptance_plan.py": "ea74f72a080617f3d7abb7145993251df7c27f841fafb116d841ebb523b895f0",
+      "orchestrator/hosted_context.py": "1a55f89d54d2c9cf1fd7ef406ad603c7a337e9468c4438ae81dda43c0662b078",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "13215617e72fd947203f4370e0ee473e93b0e68e3cd99465003d1af07114ef71",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "acd6ded76f4cec66a220178d92460006158c9cf071a9ce8c198b9cf82c0bfbb9"
+  },
+  "review": {
+    "scope": "Review bounded supervised campaign setup adapter, not live activation. Prior consumed three-turn fixture and shared synthetic ledger must remain preserved; one fresh turn permits three bounded model stages only. No models, jobs, timers or writer credentials started by preparation. Current host is idle with three COMPLETE tasks, no prepared campaign attempt, installed a711d1. Review recovery, concurrency, permissions and exact-source bindings; inspect only source, no host or patient data. Four planning tests passed locally; do not infer actual deployed acceptance.",
+    "reviewed_commit": "521c909cf09924c170034ebd47a6ad3d73a889d6",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "BLOCKER: prepare() stops and then unconditionally starts research-system-handover.socket and research-system-handover.service without checking or recording their prior ActiveState; only the controller service/timer and completion-fixture timer are verified inactive. On the stated idle host, if those units were not running, preparation activates them \u2014 a runtime change outside the 'nothing started' boundary that the receipt fields (models_started/jobs_submitted 0, timer_started/live_activation False) do not cover. Smallest fix: capture each unit's ActiveState before stopping and restore exactly that state (or refuse unless the expected state is observed), recording it in the receipt.",
+      "BLOCKER (recovery): any failure between the systemctl stop and the final start (newturns.mkdir, either sequential config os.replace, drop-in write, daemon-reload, or the ADMISSION_CHANGED_DURING_SETUP check) leaves the handover units stopped and possibly a half-replaced config pair (new broker with old controller). The evidence directory correctly makes re-runs refuse, but nothing restores the byte-preserved originals, so a crash strands the host in a mixed stopped state requiring undocumented manual reconciliation. Smallest fix: on exception after the stop, best-effort restore the two original config files from the evidence copies and re-raise \u2014 a restore is not a retry and keeps the no-retry promise.",
+      "SUGGESTION: the campaign-diagnostics.conf drop-in is written under /run/systemd/system (tmpfs); it disappears on reboot while the /etc config changes persist, so a post-reboot campaign turn would silently run without RESEARCH_GIT_DIAGNOSTICS, and it is the only prepared artifact not recorded in intent.json/receipt.json. Persist it under /etc/systemd/system or record it in the receipt for reconciliation.",
+      "SUGGESTION (exact-source binding): hosted_context.envelope() only regex-format-checks verified_source and then embeds it as 'verified_source_commit' in the canonical operating context; it never binds the value to the installed tree (no checked_source call), so a caller mistake produces a context asserting a verification that did not occur. Verify against root inside envelope(); the preparation script does verify, but this is the canonical entry point for every hosted invocation.",
+      "SUGGESTION: prepare() inserts /opt/research-system/handover into sys.path and imports orchestrator modules before checked_source(root, source) runs, so unverified code executes at import time; partly inherent since the checker lives in the checked tree, but the limitation should be documented.",
+      "SUGGESTION: the receipt's admission_pin_unchanged is computed from a fresh fourth ledger read after the final assertion; a ledger change in that window would yield a successful PREPARED_NOT_DISPATCHED receipt recording False. Record the already-asserted result or raise instead.",
+      "SUGGESTION (minor): os.umask(0o077) is set only under __main__, so evidence/intent/receipt file modes depend on the caller's umask when prepare() is imported \u2014 set umask or explicit modes inside prepare(); systemctl checks read ActiveState but not LoadState, so a not-found unit reads 'inactive' and passes (unit names are hard-coded, low risk); and the activity/preexistence checks run before the flock is acquired, leaving a small pre-lock race only partially covered by the later config byte-compares.",
+      "VERIFIED-GOOD: planned() is pure and fail-closed (refuses live mode, writer credentials, changed three-turn allowance, existing preparation/schedule/publication, malformed or unlisted source); all filesystem creation is exclusive (mkdir without exist_ok, open('x')); coordinator and jobs databases are opened read-only; the consumed three-turn fixture (exactly three bindings, all stages COMPLETE), its original config bytes (backed up before any mutation) and the shared synthetic ledger pin are checked and preserved; no job row is inserted and no model or timer is started by this code itself \u2014 the trigger job exists only as a config pairs entry (the wholesale pairs replacement drops the old mapping from the new runtime, endorsed by tests and preserved in the evidence backup). The four supplied tests cover planned() only and, consistent with scope, prove nothing about deployed acceptance or the prepare() paths flagged above."
+    ]
+  },
+  "disposition": "Blocking prior-state and partial-configuration findings addressed in forward repair; follow-up review pending. No hosted preparation occurred."
+}

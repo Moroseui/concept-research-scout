@@ -1,0 +1,85 @@
+{
+  "execution": {
+    "reviewed_commit": "29eec99a5069c10e0af3a65aee0a0b7bc45a10b9",
+    "returncode": 0,
+    "wall_seconds": 395.19436964500346,
+    "input_file_sha256": {
+      "scripts/p001_input_preflight.py": "f62b433cceb32ffd7a70dd498392f0fe39ea402749b57fe6e50f13877a4e2655",
+      "orchestrator/p001_preflight_transport.py": "a29c901d67020787cd1954c88363ea1720ae0ee726a6ed945416b677d5389282",
+      "orchestrator/colab_session_worker.py": "313fb02cd0d68a240f760f7038981967cb7a22caf56c236d9beda73e6299684e",
+      "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+      "orchestrator/campaign.py": "f18d46ec30c8a660b33d915195e985a1f35c52b925ff6b89e75f320a8e07d593",
+      "tests/test_colab_session_worker.py": "b774302ae299583f15c5e199ab4ded94b492921ae3601b3fc0fc6d9339525290",
+      "tests/test_p001_preflight_transport.py": "4bab344199ade96cdc4c0ae1ad06a280a369accd8848fcb4baaee9274b4ae6c8",
+      "tests/test_p001_input_preflight.py": "cf1890b3c839bc652e5d627e13b265bdc0044c5b95f8f65a202f4430e165ea9a",
+      "docs/science/P001_PREFLIGHT_TRANSPORT_20260907.md": "1eb9e13e5d8c2da42954ceecc95d61c41303cd47c66ab282d6f3265610beda08",
+      "docs/science/P001_PREFLIGHT_IMPLEMENTATION_20260907.md": "f6c54114c45ad82d5f1f2f304919506590354043c14fdbb5e11fa4e4ddfc357b",
+      "docs/science/P001_PREFLIGHT_REVIEW_20260907.json": "d40944abf4bc56f636606c9166e31944e01e38fc3848da63f687f7a6d25e9d4c",
+      "docs/operations/COLAB_PERSISTENT_CLI_TEST_20260907.json": "59c205ab5f860ae669840fb506400c8da3b0f7400200aa4319f7cf519720072a",
+      "campaigns/isles24-pilot/prediction_selection.json": "56fa21d431ad60f5c6241d059e144bf7de0c2956eda85cf871c6955498c5c643",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "cb1646f65a1774e6036b2841cf1af90a3a1ed86d72f8d6b3d9ecc4807cc15ce4",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "714469e5665668a953f7ca8bc90905bf9adedf61bbc3a67ee9bec1ab19e71cd5"
+  },
+  "review": {
+    "scope": "Final affected-surface P001 preflight transport and persistent Claude worker review before authorized admission input access. No patient launch/new-backend transfer. Assess same-process consent wait, bounded submissions, pinned sparse acquisition, frozen imports, private console capture, duplicate/uncertain launch behavior, schema-safe separate retrieval and human notebook path. Include prior approved preflight suggestions and fixes. Source-only; no execution.",
+    "reviewed_commit": "29eec99a5069c10e0af3a65aee0a0b7bc45a10b9",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "Blocker (inferred from pinned evidence; failure mode is fail-safe): the launch cell in orchestrator/p001_preflight_transport.py sets PYTHONPATH only to support/dependencies, so the preflight child's import path is [support/scripts, support/dependencies, stdlib] and the frozen checkout root (/content/scout-pilot-<SOURCE_PIN[:12]>) is never importable. The frozen runner at RUNNER_SHA d54e3ea5\u2026 executes a top-level `from orchestrator.campaign import verify_decision, sha` (recorded in the included approved P001_PREFLIGHT_REVIEW for the identical bytes, and the evident reason the setup cell acquires orchestrator/__init__.py and orchestrator/campaign.py into the frozen checkout \u2014 they serve no other runtime purpose). exec_module therefore raises ModuleNotFoundError before attempt creation: deterministic REFUSED_BEFORE_ATTEMPT with PRIVATE_DIAGNOSTIC_REQUIRED, no receipt.json, retrieval reports NO_TERMINAL_RECEIPT_RECONCILE_DO_NOT_RETRY, and a consented Drive session is wasted on an opaque refusal. Never unsafe; no patient data touched. Affected task: the authorized admission preflight launch. Smallest correction: extend the launch-cell env to PYTHONPATH = support/dependencies + os.pathsep + frozen root (or insert --source-root into sys.path before exec_module in the script); regenerate the transport-review receipt afterward since the setup cell hash-binds these files to this review's input_file_sha256.",
+      "Verified (source): prior approved preflight suggestions and fixes are correctly carried forward. reconcile_runtime now matches cmdlines against both '/experiments/P001/run.py' and the derived execution_root.name+'.worker/launch.py' (suggestion 2 applied); main reports ATTEMPT_EVIDENCE_WRITE_FAILED when a.attempt exists and REFUSED_BEFORE_ATTEMPT otherwise (suggestion 3 applied); the implementation note documents --approval as prediction_selection.json at 0aa73786 with SHA-256 equal to APPROVAL_SHA, and that file's artifact table pins run.py at RUNNER_SHA, closing the provenance note; orchestrator/campaign.py is now supplied and its import surface is benign (stdlib-only top level, campaign_review imported lazily inside verify_decision which is never called, and verify_decision itself rejects manufactured human approval). The nvidia-smi presence check is unchanged: still a possible spurious AUTHORIZED_CPU_COLAB_REQUIRED refusal on CPU images that ship the binary, carried forward as a conditional, fail-safe suggestion per the prior review's own smallest-correction framing.",
+      "Verified (source): scripts/p001_input_preflight.py preserves the approved correctness/privacy/authority properties. All identity bindings (approval SHA, frozen RUNNER_SHA, numpy 2.3.3/nibabel 5.3.2, archive non-symlink regular file, fresh absolute attempt) plus HOLD-on-anything runtime reconciliation precede any archive byte access; admission_members enforces 99 unique relative ses-01 *_tmax.nii.gz members and eligible[:1] is lexical-first with no outcome input; labels/reserved members never reach 7z, verify_file or nibabel; header_record stays on the array proxy; case IDs, member paths, 7z console and exception text land only in 0700/0600 attempt-private files under umask 0o077 with exclusive creates; stdout carries only aggregates, fixed PREFLIGHT_*/AUTHORIZED_CPU_* codes or PRIVATE_DIAGNOSTIC_REQUIRED; launch_authorized is False and no run/predict/metrics function is invoked.",
+      "Verified (source): public_receipt is schema-exact and fail-closed. Exact key sets per status, `is not False` on prediction_executed/labels_opened/reserved_access (rejects 0/None), bool-excluding elapsed_seconds type-and-range check, typed expected success values including the pinned archive size/MD5 and launch_authorized False, 64-hex headers_sha256, and a fixed rejection message so no unknown or private text can reach a model. The producer's two receipt shapes (FAILED: common+failure_type; success: common+success keys) match exactly. Residual fail-closed edge: an exception type outside the FAILED enum (e.g. FileExistsError, KeyError from the frozen runner) yields a receipt the transport refuses rather than passes \u2014 refusal, never leak.",
+      "Verified (source): pinned sparse acquisition is exact and preserving. acquire() fetches by 40-hex commit with --no-tags --filter=blob:none --depth=1, sparse-checkouts only the enumerated files, detaches at FETCH_HEAD, rejects symlinks along each file path, and recomputes each git blob SHA-1 against `pin:name`; an existing checkout is verified (HEAD==pin) and never reset or fetched over. Before any launch, the setup cell requires the transport-review receipt at the preparation pin to have verdict APPROVE, returncode 0, matching review/execution reviewed_commit, claude-fable-5 among assistant models, and SHA-256 equality for all three REVIEW_FILES \u2014 so the executed preflight script bytes are bound to this review and generation alone is not permission to execute.",
+      "Verified (source): duplicate and uncertain launch behavior is fail-closed. The prepare cell's exclusive mkdir, the exclusive launch-intent.json written and fsynced before Popen, exclusive preflight.console.log/process.json, and start_new_session give refuse-on-rerun (FileExistsError) with DISPATCHED_NOT_COMPLETED recorded as dispatch-only evidence; setup refuses an existing support checkout and re-runs reconcile_runtime against the Drive execution root before any acquisition; retrieval maps unmounted Drive to NOT_VISIBLE_RECONCILE and a missing receipt to NO_TERMINAL_RECEIPT_RECONCILE_DO_NOT_RETRY, never to permission to redispatch.",
+      "Verified (source): private console capture holds on the human notebook path. Setup and launch cells are wrapped by capture_cell (compile check, fd-level dup2 of fds 1/2 plus redirect_stdout/stderr, restore in finally, symlink guard, 0600 log, emission limited to a fixed status plus source SHA-256, raise-on-failure so later cells stop); the retrieval cell is intentionally unwrapped and prints only the validated aggregate receipt and its file hash; rejection paths raise fixed-message ValueErrors without echoing receipt content. The six cells carry accurate human labels, the notebook warns against blind Run All after disconnect, the consent cell is human-run drive.mount kept distinct from execution, and notebook JSON is written with exclusive create.",
+      "Verified (source): the persistent session worker is bounded and identity-checked. Hard cap of 3 submissions and a 7200 s monotonic deadline enforced at submit plus a daemon Timer close; an exclusive durable request intent (id-charset checked, prompt stored as SHA-256 only) is written before any stdin write, so an interrupted delivery or duplicate request id refuses rather than resubmits (matching tests); receive requires a constant session_id across results (WORKER_SESSION_CHANGED otherwise), maps stream end to WORKER_STREAM_ENDED_OUTCOME_UNCERTAIN, always reports execution_proven False, and there is no restart/reconnect/paid-fallback path. Authority is bounded: --strict-mcp-config with the private config, tools limited to ToolSearch with --allowedTools mcp__colab-worker__* (empty mcpServers and no tools in synthetic mode), evidence directory forced outside the checkout at 0700 with 0600 files.",
+      "Untested but honestly recorded: same-process consent wait. The COLAB_PERSISTENT_CLI_TEST record shows one live CLI process/session across two real subscription turns with the correct nonce return, but mcp_connected is false; MCP continuity across the operator's browser/Drive consent, the --tools/permission-mode flag path under a connected MCP config, and the worker actually leaving the consent cell unexecuted (instruction-bound, not code-enforced) remain unexercised, and the transport document states exactly this limitation. No finding beyond confirming the honesty of the claim.",
+      "Suggestion (minor, fail-safe): the setup cell's `pip install --target` of numpy==2.3.3/nibabel==5.3.2 pulls nibabel's transitive dependencies unpinned (e.g. packaging); the preflight's own version pins gate the two that matter, and a drifted transitive dependency at worst causes a refusal. Optional smallest hardening: --no-deps with an explicit fully pinned list. Related minor note: the generated notebook itself is not hash-bound at runtime \u2014 the setup cell binds the support checkout and the launch executes hash-verified script bytes, but the inlined setup/retrieval wrapper text trusts the generating checkout; regenerating the notebook from the pinned commit before use, as documented, closes this.",
+      "Suggestion (minor, fail-closed races): Session.close invoked from the daemon timer is unsynchronized with submit/receive on the main thread; the worst outcomes are a write to a closed stdin raising into the caller or a submission accepted just before the deadline being cut mid-turn to WORKER_STREAM_ENDED_OUTCOME_UNCERTAIN \u2014 both consistent with the no-resubmit reconciliation semantics. A Popen failure in __init__ leaks the two open evidence file handles until GC. None of these affect privacy or authority; a lock around closed/pending and a try/finally in __init__ are the smallest cleanups if ever needed.",
+      "Process note (source-only limits): tests were read and are consistent with the implementation (durable-intent-before-mutation, admission-only selection, proxy-only headers, HOLD dispositions, schema rejection of private text) but were not executed; the frozen run.py bytes, live Claude CLI flag behavior, and Colab runtime facts were not re-verified here, and the blocker's premise (top-level orchestrator.campaign import in run.py) rests on the pinned prior review's recorded observation plus the acquisition list's intent. No patient data, archive bytes, or execution were touched. Because the setup cell asserts this review's verdict is APPROVE, the corrected commit requires a fresh transport-review receipt before the notebook route can proceed."
+    ]
+  },
+  "session_id": "c0ce469b-0ed2-4c4e-ac8f-52914c7a99ec",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 44675,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 30970,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 44675,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 30970,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 44675,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 44675
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_estimate_usd": 2.470796
+}

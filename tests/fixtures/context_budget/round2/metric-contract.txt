@@ -1,0 +1,102 @@
+def asd_mm(pred, truth, spacing):
+    if pred.sum() == 0 or truth.sum() == 0: return np.nan
+    def surface(m): return m & ~binary_erosion(m)
+    sp, st = surface(pred), surface(truth); dt_t = distance_transform_edt(~st, sampling=spacing); dt_p = distance_transform_edt(~sp, sampling=spacing)
+    return float(np.concatenate([dt_t[sp], dt_p[st]]).mean())
+def patient_scores(c, p, pred):
+    truth = c["lesion_full"]; mask = c["mask"]; ml = c["voxel_ml"]
+    tp = int((pred & truth).sum()); fp = int((pred & ~truth).sum()); fn = int((~pred & truth).sum()); tn = int((~pred & ~truth & mask).sum())
+    dsc = 2 * tp / (2 * tp + fp + fn) if (2 * tp + fp + fn) > 0 else 1.0
+    tv, pv = float(truth.sum() * ml), float(pred.sum() * ml); lf1, cdiff, _ = official_lesion_metrics(truth, pred, empty_value=1.0)
+    y = truth[mask].astype(int); mask_pos, mask_neg = int(y.sum()), int(y.size - y.sum()); auc = float(roc_auc_score(y, p)) if 0 < mask_pos < y.size else np.nan; ap = float(average_precision_score(y, p)) if 0 < mask_pos < y.size else np.nan
+    cov = float((truth & mask).sum() / truth.sum()) if truth.sum() else np.nan; bound = 2 * cov / (1 + cov) if truth.sum() else np.nan
+    return {"dice": dsc, "f1_voxel": dsc, "precision": tp / (tp + fp) if (tp + fp) else np.nan, "recall": tp / (tp + fn) if (tp + fn) else np.nan, "specificity": tn / (tn + fp) if (tn + fp) else np.nan,
+            "lesion_ml": tv, "pred_ml": pv, "abs_vol_err_ml": abs(pv - tv), "signed_vol_err_ml": pv - tv, "lesion_ge5ml": tv >= 5.0, "pred_empty": bool(pred.sum() == 0), "truth_empty": bool(truth.sum() == 0),
+            "lesion_f1": lf1, "lesion_count_diff": cdiff, "asd_mm": asd_mm(pred, truth, VOXEL_MM), "fm_auroc": auc, "fm_avg_precision": ap, "lesion_coverage_by_mask": cov, "lesion_ml_outside_mask": float((truth & ~mask).sum() * ml), "mask_dice_bound": bound, "mask_pos": mask_pos, "mask_neg": mask_neg, "tp": tp, "fp": fp, "fn": fn}
+ALWAYS_FINITE = ["dice", "f1_voxel", "abs_vol_err_ml", "signed_vol_err_ml", "lesion_ml", "pred_ml", "lesion_f1", "lesion_count_diff", "lesion_ml_outside_mask", "mask_pos", "mask_neg", "tp", "fp", "fn"]
+CONDITIONAL_NAN = {"recall": "truth_empty", "lesion_coverage_by_mask": "truth_empty", "mask_dice_bound": "truth_empty", "fm_auroc": "mask_one_class", "fm_avg_precision": "mask_one_class", "precision": "pred_empty", "specificity": "never", "asd_mm": "either_empty"}
+ALL_METRIC_COLS = ALWAYS_FINITE + list(CONDITIONAL_NAN) + ["lesion_ge5ml", "pred_empty", "truth_empty"]
+def fold_check(path, recipes, held, shuffle, fold, train_seed, fp):
+    """Validate one saved fold table. Returns (DataFrame or None, reason)."""
+    if not os.path.exists(path): return None, "pending: file absent"
+    try: df = pd.read_csv(path)
+    except Exception as e: return None, f"invalid: unreadable ({type(e).__name__})"
+    need = ["fingerprint", "shuffle", "fold", "train_seed", "recipe", "case"] + ALL_METRIC_COLS
+    miss = [c for c in need if c not in df]
+    if miss: return None, f"invalid: missing columns {miss[:6]}"
+    if (df.fingerprint.astype(str) != fp).any(): return None, "invalid: fingerprint differs from the run manifest"
+    if not ((df.shuffle == shuffle).all() and (df.fold == fold).all() and (df.train_seed == train_seed).all()): return None, "invalid: shuffle/fold/seed labels differ from the requested combination"
+    expected = {(r, c) for r in recipes for c in held}; got = list(zip(df.recipe, df.case))
+    if len(got) != len(set(got)): return None, "invalid: duplicate recipe-patient rows"
+    if set(got) != expected: return None, f"invalid: recipe-patient set differs (missing {len(expected - set(got))}, unexpected {len(set(got) - expected)})"
+    num = df[ALWAYS_FINITE + list(CONDITIONAL_NAN)].apply(pd.to_numeric, errors="coerce")
+    if np.isinf(num.values.astype(float)).any(): return None, "invalid: infinite value in a metric column"
+    if not np.isfinite(num[ALWAYS_FINITE].values.astype(float)).all(): return None, "invalid: missing value in an always-defined metric"
+    for col, cond in CONDITIONAL_NAN.items():
+        allowed = {"truth_empty": df.truth_empty, "pred_empty": df.pred_empty, "either_empty": df.truth_empty | df.pred_empty, "mask_one_class": df.truth_empty | (df.mask_pos == 0) | (df.mask_neg == 0), "never": pd.Series(False, index=df.index)}[cond].astype(bool)
+        if (num[col].isna() & ~allowed).any(): return None, f"invalid: {col} undefined outside its permitted condition"
+    return df, "complete"
+SMOOTH_GRID9 = [float(w) for w in c9.get("smooth_grid", [])]
+def score_check(path, arm, shuffle, fold, train_seed):
+    """Validate one Sprint 9 score archive against the requested partition and seed (review finding 1). Returns (scores dict or None, width, reason)."""
+    if not os.path.exists(path): return None, None, "pending: file absent"
+    m = re.search(r"_s(\d+)_f(\d+)_t(\d+)\.npz$", os.path.basename(path))
+    if not m or (int(m.group(1)), int(m.group(2)), int(m.group(3))) != (shuffle, fold, train_seed) or not os.path.basename(path).startswith(f"{arm}_s"): return None, None, "invalid: file name does not match the requested arm/shuffle/fold/seed"
+    try:
+        z = np.load(path, allow_pickle=False)
+        keys = set(z.files)
+        for k in ("fingerprint", "arm", "width", "best_epoch", "cases"):
+            if k not in keys: return None, None, f"invalid: missing field {k}"
+        if str(z["fingerprint"]) != R9["fp"]: return None, None, "invalid: fingerprint differs from the run manifest"
+        if str(z["arm"]) != arm: return None, None, "invalid: arm field differs"
+        width = float(z["width"])
+        if not any(abs(width - g) < 1e-9 for g in SMOOTH_GRID9): return None, None, f"invalid: smoothing width {width} not in the run's grid {SMOOTH_GRID9}"
+        be = int(z["best_epoch"])
+        if be < 1: return None, None, f"invalid: recorded training length {be}"
+        cases = [str(x) for x in z["cases"].tolist()]; held = INNER[(shuffle, fold)]["held"]
+        if len(cases) != len(set(cases)) or sorted(cases) != sorted(held): return None, None, "invalid: declared patients differ from the requested partition's held-out set"
+        out = {}
+        for c in held:
+            key = f"raw__{c}"
+            if key not in keys: return None, None, f"invalid: no scores stored for {c}"
+            v = np.asarray(z[key])
+            if v.shape != (int(CACHE[c]["mask"].sum()),): return None, None, f"invalid: score array for {c} has shape {v.shape}, expected ({int(CACHE[c]['mask'].sum())},)"
+            if not np.isfinite(v).all(): return None, None, f"invalid: non-finite scores for {c}"
+            if v.min() < -PROB_TOL or v.max() > 1 + PROB_TOL: return None, None, f"invalid: scores for {c} outside [0, 1]"
+            out[c] = v.astype(np.float32)
+        return out, width, "complete"
+    except Exception as e: return None, None, f"invalid: unreadable archive ({type(e).__name__})"
+
+# ---------------- expected combinations from both runs (review finding 3) ----------------
+ex8 = [e.get("execution", {}) for e in R8["executions"]]; ex9 = [e.get("execution", {}) for e in R9["executions"]]
+parts8 = sorted({p for e in ex8 for p in e.get("parts", [])}) or ["part1", "part2"]
+run_e = any(e.get("run_e") for e in ex8) if ex8 else True
+e_seeds = sorted({int(t) for e in ex8 if e.get("run_e") for t in e.get("e_seeds", [])}) or [1]
+part2_arms = json.load(open(f"{R8['dir']}/part2_arms.json"))["active"] if os.path.exists(f"{R8['dir']}/part2_arms.json") else []
+ARMS9 = {a: [int(t) for t in v.get("seeds", []) if int(t) in [int(x) for x in c9["train_seeds"]]] for a, v in c9["arms"].items()}
+log(f"sprint 8 execution records: {len(ex8)} (parts {parts8}, E run {run_e}, E seeds {e_seeds}); part 2 arms {part2_arms}")
+log(f"sprint 9 arms and seeds from its manifest: {ARMS9}")
+if not ex8: log("  note: no sprint 8 execution record found; assumed parts part1+part2 and E on seed 1 (the defaults)")
+STATES, frames8, frames9 = [], [], []
+def record(run, group, s_, k_, t_, reason, path):
+    STATES.append({"run": run, "group": group, "shuffle": s_, "fold": k_, "train_seed": t_, "state": reason.split(":")[0], "reason": reason, "file": os.path.basename(path)})
+for (s_, k_), P in sorted(INNER.items()):
+    for t_ in [int(x) for x in c8["train_seeds"]]:
+        if "part1" in parts8:
+            p = f"{R8['dir']}/folds/part1_s{s_}_f{k_}_t{t_}.csv"; df, why = fold_check(p, ["B_natural_scoresum", "C_noslice_scoresum", "D_noslice_smoothed"], P["held"], s_, k_, t_, R8["fp"]); record("sprint 8", "part1 (B, C, D)", s_, k_, t_, why, p); frames8 += [df] if df is not None else []
+        if "part1" in parts8 and run_e and t_ in e_seeds:
+            p = f"{R8['dir']}/folds/part1E_s{s_}_f{k_}_t{t_}.csv"; sk = p.replace(".csv", ".skipped.json")
+            if os.path.exists(sk) and not os.path.exists(p):
+                try: rs = json.load(open(sk)).get("reason", "")
+                except Exception: rs = "unreadable skip record"
+                record("sprint 8", "part1 E", s_, k_, t_, f"skipped: {rs}", p)
+            else: df, why = fold_check(p, ["E_allvoxels_smoothed"], P["held"], s_, k_, t_, R8["fp"]); record("sprint 8", "part1 E", s_, k_, t_, why, p); frames8 += [df] if df is not None else []
+        if "part2" in parts8 and part2_arms:
+            p = f"{R8['dir']}/folds/part2_s{s_}_f{k_}_t{t_}.csv"; df, why = fold_check(p, part2_arms, P["held"], s_, k_, t_, R8["fp"]); record("sprint 8", "part2 (clinical)", s_, k_, t_, why, p); frames8 += [df] if df is not None else []
+    for arm, seeds in ARMS9.items():
+        for t_ in seeds:
+            p = f"{R9['dir']}/folds/unet_{arm}_s{s_}_f{k_}_t{t_}.csv"; df, why = fold_check(p, [f"{arm}_raw", f"{arm}_smoothed"], P["held"], s_, k_, t_, R9["fp"]); record("sprint 9", f"{arm} fold table", s_, k_, t_, why, p); frames9 += [df] if df is not None else []
+DF8 = pd.concat(frames8) if frames8 else pd.DataFrame(); DF9 = pd.concat(frames9) if frames9 else pd.DataFrame()
+ST = pd.DataFrame(STATES); log(f"expected fold tables: {len(ST)} | " + ", ".join(f"{k} {v}" for k, v in ST.state.value_counts().items()))
+bad = ST[ST.state != "complete"]
+if len(bad): print("Not complete (listed explicitly):"); print(bad[["run", "group", "shuffle", "fold", "train_seed", "reason"]].to_string(index=False))

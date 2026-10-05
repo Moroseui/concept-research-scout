@@ -3,9 +3,48 @@
   "verified_date": "2026-09-06",
   "method": "Opened primary hosting record and arXiv abstract pages; no patient file downloaded",
   "sources": [
-    {"url": "https://zenodo.org/records/16813698", "facts": ["Pinned v3 training release describes 149 cases, admission CT modalities/perfusion maps and follow-up MRI-derived infarct labels.", "The listed train.7z MD5 remains 36ae28b9a17f7340b8bbef62b595cb57.", "A newer release is advertised; it is not substituted for the frozen archive." ]},
-    {"url": "https://arxiv.org/abs/2408.11142", "title": "ISLES'24 -- A Real-World Longitudinal Multimodal Stroke Dataset", "disposition": "Verified title/identity; use this primary dataset source. Full-text timing and unit details require their own source check before stronger claims."},
-    {"url": "https://arxiv.org/abs/2408.10966", "title": "ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data. Where Do We Stand?", "disposition": "Verified challenge paper identity; no new performance number is asserted from the abstract."}
+    {
+      "url": "https://zenodo.org/records/16813698",
+      "facts": [
+        "Pinned v3 training release describes 149 cases, admission CT modalities/perfusion maps and follow-up MRI-derived infarct labels.",
+        "The listed train.7z MD5 remains 36ae28b9a17f7340b8bbef62b595cb57.",
+        "A newer release is advertised; it is not substituted for the frozen archive."
+      ]
+    },
+    {
+      "url": "https://arxiv.org/abs/2408.11142",
+      "title": "ISLES'24 -- A Real-World Longitudinal Multimodal Stroke Dataset",
+      "disposition": "Verified title/identity; use this primary dataset source. Full-text timing and unit details require their own source check before stronger claims."
+    },
+    {
+      "url": "https://arxiv.org/abs/2408.10966",
+      "title": "ISLES'24: Final Infarct Prediction with Multimodal Imaging and Clinical Data. Where Do We Stand?",
+      "disposition": "Verified challenge paper identity; no new performance number is asserted from the abstract."
+    }
   ],
-  "limitations": ["No fresh scientific novelty search or archive inspection was performed.", "The pinned release's free-text dataset citation differs from its related-work arXiv link; the linked 2408.11142 title was independently checked.", "No live Drive availability or provider durability claim follows from this metadata check."]
+  "limitations": [
+    "No fresh scientific novelty search or archive inspection was performed.",
+    "The pinned release's free-text dataset citation differs from its related-work arXiv link; the linked 2408.11142 title was independently checked.",
+    "No live Drive availability or provider durability claim follows from this metadata check."
+  ],
+  "subsequent_checks": [
+    {
+      "checked_date": "2026-09-07",
+      "status": "PRIMARY_SOURCE_CONVENTION_SUPPORTED_NOT_ARCHIVE_VERIFICATION",
+      "repository": "ezequieldlrosa/isles24",
+      "commit": "34c66370e365bd5db4e9429154674928245e9915",
+      "path": "utils/isles24_evaluate.ipynb",
+      "git_blob": "f5f4ba2713389637f77419bea1fd5a0b506a3478",
+      "sha256": "e5ada81c5cf0cd134205886b452c6f1890d551887a17120287daa0ea9b2aa61e",
+      "url": "https://github.com/ezequieldlrosa/isles24/blob/34c66370e365bd5db4e9429154674928245e9915/utils/isles24_evaluate.ipynb",
+      "observation": "Official starter loads Tmax with nibabel get_fdata (cell 3) and compares decoded values directly with a cutoff described as 9 seconds (cell 5). No additional scaling between these cells.",
+      "disposition": "Supports decoded scalar seconds convention. Does not change preregistered P001 threshold 6.0. Submit to system readiness review.",
+      "limitations": [
+        "Notebook predates pinned v3 archive; archive-specific header and derivative identity not checked.",
+        "No patient archive opened or notebook executed.",
+        "Header time units alone do not establish scalar map units.",
+        "Adoption, current input and separate launch gates remain."
+      ]
+    }
+  ]
 }

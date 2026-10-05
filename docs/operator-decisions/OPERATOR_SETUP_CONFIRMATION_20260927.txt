@@ -1,0 +1,12 @@
+Operator setup complete (all done by me in a plain SSH terminal; no secrets shared):
+
+1. Reviewer Claude login: operator_setup.py reviewer succeeded (setup-token, expiry entered 2027-09-25T00:00:00+00:00).
+2. Modal: first attempt stored mismatched values; I revoked that token in Modal, removed the stored modal.json, created a new token, and stored it successfully. A prefix/length check shows token_id "ak-" (25 chars) and token_secret "as-" (25 chars), workspace moroseui. Remote authentication still needs your read-only verification. Usage & Billing (billing cycle Sep 1 – Oct 1, 2026): Starter plan, credits $30.00 remaining, total spend $0.00; usage limit $42.50 (gross, set by Modal for new accounts; auto-raises after the first $10 payment); spend limit $20 (set by me; workloads stop once charges exceed it after credits). Treat $42.50 as this month's effective ceiling; the batch caps still apply on top.
+3. GitHub: private repo [https://github.com/Moroseui/research-autonomy](https://github.com/Moroseui/research-autonomy), control issue [https://github.com/Moroseui/research-autonomy/issues/1](https://github.com/Moroseui/research-autonomy/issues/1). BACKLOG.md is committed on main (items 1 and 2 from the batch; item 2 nnU-Net full folds require my explicit cost approval, estimated $100–150). Fine-grained token stored via operator_setup.py github (only this repo; expiry 2026-12-26).
+   Deliberate change from your request: the token has Issues read/write and Contents READ-ONLY. On a free private repo there is no branch protection, so Contents write would let the engine alter BACKLOG.md or main. The batch needs only reading the backlog and posting to the issue. If branch publication is ever needed, propose it with the reason.
+
+Also add to M4, without H2's adoption machinery or old controller: (1) compatible inputs: a successor run may consume a prior run's outputs only if they are validated, accepted, and match its declared input contract (cohort, split, feature/cache identity, hashes), otherwise refuse; (2) deferral is not approval: a DEFER or proposal-only outcome never starts a run, only a reviewed next decision that matches a backlog item does. M4 acceptance includes tests showing both refuse. H2 stays archived, read-only.
+
+On data (section 5): prepare the exact 99-case development manifest and artifact list, and tell me if a scoped transfer is needed from me. Never include the 25/24 locked patients.
+
+Continue the batch.

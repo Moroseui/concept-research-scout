@@ -1,0 +1,120 @@
+# Hosted campaign adapter — preparation, not installed acceptance
+
+The prototype reuses `campaign_pipeline.execute` and the existing protected model
+broker. It does not introduce a model credential, paid fallback, patient handler,
+new service or live admission grant. The broker still controls the exact source,
+OS peer, model identities, stage order, original private evidence and admission.
+
+`BrokerStages` turns the broker's checked textual answer into the exact artifacts
+required by the existing campaign pipeline. Only P001 discussion/readiness is
+supported. Extra files, wrong families, altered answer hashes and empty content
+refuse. Codex's requested model remains gpt-6-astra; unavailable resolved-model
+identity stays null. Claude's reported model must match claude-fable-5. Original
+protocols remain in the protected broker; the candidate gets checked artifacts
+and attributed provenance hashes.
+
+The shared pipeline now accepts an explicit one-round bound for this transport;
+its default two-round behavior remains for existing callers. A negative first
+review preserves its proposal, review and blocked artifact without consuming a
+hidden repair round. Author and reviewer consume two of the broker's three
+stages; disposition remains the third. No caller-provided shell command is added.
+
+This avoids requiring the hosted snapshot to import scout.py or a second provider
+launcher: scientific generation and review still use the shared pipeline, while
+the already protected transport performs the actual subscription calls under
+separate accounts. The earlier inventory gap is preserved in
+REAL_SCIENTIFIC_ADAPTER_GAP_20260907.md as the pre-adapter observation.
+
+Local tests exercise the actual campaign function with synthetic broker replies,
+not real model calls. The initial fixture exposed a directory-mode mismatch with
+the existing private immutable writer; campaign output and round directories now
+explicitly use mode 0700. Eleven focused tests then passed. This is not hosted
+execution proof or a completed real-task adapter cycle.
+
+Remaining before acceptance: reviewed completion-to-task binding, actual non-root
+socket use, duplicate/interruption reconciliation, response/report bookkeeping,
+and a fresh bounded hosted execution with primary evidence review. Existing
+consumed fixture allowances must not be reset or silently enlarged; any new
+supervised fixture must retain its own explicit finite scope and existing limits.
+
+The first review requested changes: contradictory Markdown framing for JSON
+artifacts, incomplete turn provenance and missing named type errors. That review
+is preserved. Corrections add a narrowly validated P001 readiness/discussion
+artifact-format contract in the existing broker, event/packet/duplicate bindings,
+strict string values and reviewer-stage identity. Socket refusal retains only an
+already-sanitized named code; arbitrary diagnostic text remains private. No grant,
+turn budget or live configuration changes. The earlier eleven-test command was
+`pytest tests/test_hosted_campaign.py tests/test_campaign_pipeline.py
+tests/test_readiness_discussion.py`; the first review received only the first two
+test files, which explains its counting question.
+
+Recovery implementation now prepares a **separate derived projection** using only
+`stage_status`, never `model_stage`. The broker returns its original packet hash;
+the adapter verifies it with the event, model and answer identities. Recovery
+requires the original request and current scientific context hashes to match,
+refuses conflicting original files, and preserves the original incomplete tree.
+The projection explicitly records zero new model calls and no fresh review. A
+missing completion or wrong packet stays blocked. These are local synthetic tests,
+not a hosted recovery claim. Controller integration and real execution remain.
+
+The next controller integration is bounded to one installed P001 readiness or
+discussion request, triggered by a verified completion identity. The packet must
+include that exact request and context versions. The shared campaign pipeline
+consumes the existing author/reviewer stages; coordinator review bookkeeping
+retrieves the same original review, and the third stage records Astra's response.
+Recovery must validate the scientific artifacts before allowing the coordinator
+to advance: a broker completion alone does not prove pipeline completion. A
+negative scientific review remains blocked and cannot be converted to approval
+by recovery. This paragraph is an implementation plan, not installed behavior.
+
+Fresh Claude source review approved recovery at e9232aff. Two suggestions were
+then implemented: recovery cannot write beneath the original directory, and the
+original request now binds the exact broker event and packet hash. Unbound older
+requests refuse rather than acquiring invented provenance. Eighteen focused tests
+passed after these changes, including retained negative review and path/turn
+refusals. Controller integration remains an uninstalled working change.
+
+The working controller integration uses an explicit installed `campaign_preparation`
+request (P001 readiness/discussion only) and a verified trigger job. A terminal
+synthetic trigger may have no synthetic successor. Its immutable report packet
+binds the selected request; author and reviewer use the shared campaign pipeline,
+then the coordinator retrieves that original review and records Astra's disposition.
+The controller copies only materialized tracked files from the checked sparse
+source, without fetching Git objects or copying untracked files/credentials. Every
+reuse verifies copied inputs. Output validation precedes advancement and recovery;
+conflicting artifacts block. These changes are not installed or activated.
+
+Local synthetic replies exercised coordinator completion, shared campaign output,
+report/review/disposition bookkeeping, repeated submission without duplicate model
+calls, missing final pipeline/coordinator receipt recovery, and conflicting output
+refusal. A fresh source review and actual hosted invocation remain required.
+
+Preparing the actual c5c99b1f sparse snapshot exposed a context mismatch: 17 of
+21 scientific grounding documents were materialized; the four omitted inputs were
+CURRENT_STATUS.md, 047_LIFECYCLE.md, PREDICTION_PRIMARY_SOURCES_20260906.json and
+PREDICTION_READINESS_DIRECTION_20260906.md. Present documents were byte-identical;
+related-evidence context also matched. The generator now derives its additional
+file inventory from the shared grounding function and refuses tracked worktree
+drift before using it. This preserves selected charter bindings and avoids a
+second manually maintained scientific context list. Corrected snapshot verification
+is pending at this record's commit. The earlier sparse bundle remains evidence.
+
+The corrected 92be8a4c snapshot contains all 21 grounding documents byte-identically
+and identical related-evidence context (101 physical blobs; no unselected blobs).
+Actual sparse-workspace testing then exposed source metadata being sent through
+the artifact publisher validator. Private source copying now uses exclusive writes
+of already checked tracked bytes and verifies them on reuse; the public publisher
+and model-artifact validation are unchanged. A second fixture correctly refused
+a nonprivate parent; the guard now runs before copying. Both failed directories
+remain preserved. Creation and reuse with a private parent passed on the actual
+sparse source. These observations are local preparation, not hosted execution.
+
+Claude approved the completion adapter at c5c99b1f with suggestions. Follow-up
+changes use the existing private Git diagnostic capture with a 30-second inventory
+bound and named failures, reject a preparation trigger configured with a synthetic
+successor, and finish a lost recovery marker only after validating original replies
+and recovered provenance. Every advancement now compares scientific bytes and
+model-receipt hashes against both original broker replies, independently of mutable
+local manifests. Escaped response size is checked with room for coordinator framing.
+The deployed controller must set RESEARCH_GIT_DIAGNOSTICS to its durable private
+state directory; no unit, credential or activation has been changed here.

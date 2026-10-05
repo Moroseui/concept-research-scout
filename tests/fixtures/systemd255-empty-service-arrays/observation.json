@@ -1,0 +1,73 @@
+{
+  "description": "Observed systemd255 read-only metadata fixture. No model or approval evidence.",
+  "version": "systemd 255 (255.4-1ubuntu8.17)",
+  "original_sha256": {
+    "unit-fields-original.json": "a883d47e71cb6d290251de81229602f21a802aabedf282d6013889f54447a59e",
+    "typed-empty-property-observation.json": "e3a6d255eb1ac4edbe412207670340e2f7d7b3ece5412aca6ddc76ceb98909c6"
+  },
+  "fields": {
+    "MainPID": "1113803",
+    "ExecStart": "{ path=/usr/bin/python3 ; argv[]=/usr/bin/python3 -B -m orchestrator.protected_handover --config /etc/research-system/live-research/broker.json serve --socket /run/research-system/handover-live.sock ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }",
+    "ControlGroup": "/system.slice/research-system-handover-live.service",
+    "WorkingDirectory": "/opt/research-system/releases/03a18ba15a7c7703b67ed0d14d6c2b25a2dc023c-research-handover/snapshot",
+    "User": "root",
+    "Group": "research-runtime",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "running",
+    "FragmentPath": "/etc/systemd/system/research-system-handover-live.service",
+    "DropInPaths": "",
+    "UnitFileState": "static"
+  },
+  "object": {
+    "returncode": 0,
+    "stdout": "o \"/org/freedesktop/systemd1/unit/research_2dsystem_2dhandover_2dlive_2eservice\"\n",
+    "stderr": ""
+  },
+  "typed": {
+    "ExecStartPre": {
+      "returncode": 0,
+      "stdout": "a(sasbttttuii) 0\n",
+      "stderr": ""
+    },
+    "ExecStartPost": {
+      "returncode": 0,
+      "stdout": "a(sasbttttuii) 0\n",
+      "stderr": ""
+    },
+    "ExecStop": {
+      "returncode": 0,
+      "stdout": "a(sasbttttuii) 0\n",
+      "stderr": ""
+    },
+    "ExecStopPost": {
+      "returncode": 0,
+      "stdout": "a(sasbttttuii) 0\n",
+      "stderr": ""
+    },
+    "ExecCondition": {
+      "returncode": 0,
+      "stdout": "a(sasbttttuii) 0\n",
+      "stderr": ""
+    },
+    "EnvironmentFiles": {
+      "returncode": 0,
+      "stdout": "a(sb) 0\n",
+      "stderr": ""
+    }
+  },
+  "inactive_fields": {
+    "MainPID": "0",
+    "ExecStart": "{ path=/usr/bin/python3 ; argv[]=/usr/bin/python3 -B -m orchestrator.handover_runtime --config /etc/research-system/live-research/controller.json tick ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }",
+    "ControlGroup": "",
+    "WorkingDirectory": "/opt/research-system/releases/03a18ba15a7c7703b67ed0d14d6c2b25a2dc023c-research-handover/snapshot",
+    "User": "research-controller",
+    "Group": "research-runtime",
+    "LoadState": "loaded",
+    "ActiveState": "inactive",
+    "SubState": "dead",
+    "FragmentPath": "/etc/systemd/system/research-system-live-research.service",
+    "DropInPaths": "",
+    "UnitFileState": "static"
+  }
+}

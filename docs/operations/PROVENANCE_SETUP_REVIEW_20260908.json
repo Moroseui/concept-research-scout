@@ -1,0 +1,45 @@
+{
+  "review": {
+    "scope": "Review supplemental selected-file registration preparation only. Reuse existing live config/credential/output folder and add only bounded original preflight binding/process/setup/launch aliases. No API create/download, credential replacement or live configuration installation. Review exact main protection request and recorded readback against newly approved five-item design. P001 scientific assessment/review/disposition already complete; do not repeat scientific review. Check authority/privacy/recovery and whether any extra grant beyond actual selected original provenance files is necessary; do not reopen original Drive consent or approved writer design.",
+    "reviewed_commit": "03eb1d42ffc89e3e0c8b6697dd4037455f7a239d",
+    "verdict": "APPROVE",
+    "findings": [
+      "plan() is fail-closed and bounded: requires version-1 REGISTERED_EVIDENCE_ONLY registry, 1-4 unique string IDs, exact returned-ID match, name limited to the four approved preflight files, not trashed, non-Google-native, positive size within per-alias max_bytes (missing size rejected); alias/file-ID collisions with the live registry or within the selection raise before any write.",
+      "No extra grant needed: the proposal adds only bounded small-evidence-read with explicit max_bytes on the actual Picker-selected files under the existing drive.file scope; existing five aliases, output_folder_id, caller_uids and mode are preserved unmutated (tests assert non-mutation and retained grants).",
+      "No side effects beyond preparation: only Drive metadata reads (no download, no folder creation, no credential or live-config write); receipt claims (files_downloaded 0, remote_objects_created 0, credentials_changed false) match the code; installation remains a separate transaction.",
+      "Privacy sound: fresh root-only destination with umask 077, symlink and parent-permission checks, mkdir 0700, exclusive-create for the byte-exact original copy; stdout receipt carries only aliases and hashes, selected file IDs/names stay in the private destination.",
+      "Recovery fail-closed: existing destination refused so interrupted runs never overwrite; live registry re-read after planning detects concurrent change (LIVE_REGISTRY_CHANGED); recorded original/selection/proposal SHA-256 hashes bind the later exact installation to what was inspected.",
+      "Main protection request and readback match approved item 4: PR required with existing 'basic' check bound to app_id 15368 (GitHub Actions, unspoofable context), enforce_admins true, force pushes/deletion rejected, restrictions null with no writer-App bypass, zero GitHub reviewers explicitly compensated by recorded independent-desk-plus-operator merge approval; model secrets unchanged, correctly staged behind the separate canary.",
+      "Suggestion (non-blocking): selection is bound by name/size but not parent folder or md5Checksum, so the pre-install inspection of selected-metadata.json is the step that must confirm these are the P001 preflight originals; verify that at the installation-step review.",
+      "Suggestion (non-blocking): a missing mimeType passes the native-document filter via the empty-string default; size bound still enforced."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "03eb1d42ffc89e3e0c8b6697dd4037455f7a239d",
+    "returncode": 0,
+    "wall_seconds": 98.27744337900003,
+    "input_file_sha256": {
+      "scripts/drive_register_provenance.py": "847f6fc7b46a599aa26b017fd2ed001d56112841c7b30cb6ea95a28c00196c43",
+      "tests/test_drive_provenance_registration.py": "59df0b4655a5bf1112071be28b5c916518eb20fb5e463f1bb60837a016f14a63",
+      "docs/operations/OPERATOR_WINDOW_READY_20260908.md": "2bee0cd19e8174009a88b2cbb7fa796588375524033b443d830d7f25dd15e725",
+      "docs/operations/PROTECTED_HANDOVER_APPROVED_20260908.json": "0be99c7b0b4e5e9eb16d9ebf8b44e369f6ef07233b903173fcd5355536127d1a",
+      "deploy/research-system/main-protection.approved.json": "53622811ca94898aef5c7c7093ad7490620f35e26766e3ca60f820acd377ccdd",
+      "docs/operations/MAIN_PROTECTION_INSTALLED_20260908.json": "f418b43a9e1e6d4eeb502d5f1266074a712c5b52202e9ff1c06bbfa65b3501d8",
+      "docs/operations/DRIVE_ACCESS_APPROVED_20260908.json": "d34fbefc1d74b32e038027154e84bc48d8909e25ecdd1c8313dec36091bbf3eb",
+      "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md": "4a50253be6b24255b807f3ae4e5052a9a4075fde48a9e57b96ad438f67c48835",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "a2d968ff2add88d1ab19315e36728d6ee2f844b28bcac4c4d7aec6803ec9a2cb",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "632d75563858387207bf0e47e54fc4ca9bf3234719d162e5bedf600e6c6a4a2a"
+  },
+  "disposition": "Concur for exact preparation-only scope. Actual selected-file provenance must be checked before installing the candidate. App-ID binding constrains check producer but is not proof of an approved workflow and does not remove owner/administrator bypass. No scientific evaluation repeated."
+}

@@ -11,6 +11,8 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import stat
+from orchestrator.git_diagnostics import run as git_run
 
 REF = 'refs/heads/automation/dispatch-state'
 FILE = 'dispatch_state.json'
@@ -32,10 +34,11 @@ def validate(state):
     if len(state['events'])>10000 or len(json.dumps(state))>1400000:raise ValueError('LIMITER_CAPACITY_REQUIRES_MAINTENANCE')
     for key,v in state['events'].items():
         server=bool(re.fullmatch(r'server:[0-9a-f]{64}:[1-9]\d*',key))
+        manual=bool(re.fullmatch(r'manual:[0-9a-f]{64}:[1-8]',key))
         expected={'source','branch','day','count','notification','halted'} | ({'kind'} if server else set())
-        if (not server and not re.fullmatch(r'\d+:\d+',key)) or set(v)!=expected:
+        if (not server and not manual and not re.fullmatch(r'\d+:\d+',key)) or set(v)!=expected:
             raise ValueError('LIMITER_EVENT_SCHEMA')
-        if not re.fullmatch('[0-9a-f]{40}',v['source']) or v['branch'] not in (['astra/infrastructure-milestone-record'] if server else ['main','astra/autonomous-isles-pilot']) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']) or type(v['count']) is not int or v['notification'] not in [None,'N','2N'] or type(v['halted']) is not bool:
+        if not re.fullmatch('[0-9a-f]{40}',v['source']) or (not re.fullmatch(r'astra/manual-[a-z0-9-]+',v['branch']) if manual else v['branch'] not in (['astra/infrastructure-milestone-record'] if server else ['main','astra/autonomous-isles-pilot'])) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',v['day']) or type(v['count']) is not int or v['notification'] not in [None,'N','2N'] or type(v['halted']) is not bool:
             raise ValueError('LIMITER_EVENT_VALUES')
         if server and v['kind'] not in ['astra_turn','nightly_review']:raise ValueError('LIMITER_SERVER_KIND')
     for key,v in state['notifications'].items():
@@ -46,11 +49,92 @@ def validate(state):
 
 
 class GitLedger:
-    def __init__(self, repo, remote=False, expected_remote=None, allow_initialization=False):
+    def __init__(self, repo, remote=False, expected_remote=None, allow_initialization=False,
+                 *, protected_owner_group=False):
         self.repo=Path(repo);self.remote=remote;self.expected_remote=expected_remote;self.allow_initialization=allow_initialization
+        if type(protected_owner_group) is not bool:
+            raise ValueError('LIMITER_PROTECTED_GROUP_SELECTION_REQUIRED')
+        self.protected_owner_group=protected_owner_group
+
+    def _git_credentials(self):
+        # The root broker's primary group serves its socket, not its private ledger.
+        # Set only the Git child's group, before it creates/fetches any objects.
+        # Existing objects are never repaired here; all other callers keep defaults.
+        if not self.protected_owner_group:
+            return {}
+        if os.geteuid() != 0:
+            raise ValueError('LIMITER_PROTECTED_GROUP_ROOT_REQUIRED')
+        for path in (self.repo, self.repo/'.git', self.repo/'.git/objects'):
+            info=path.lstat()
+            if (not stat.S_ISDIR(info.st_mode) or info.st_uid != 0 or info.st_gid != 0
+                    or stat.S_IMODE(info.st_mode) & 0o022):
+                raise ValueError('LIMITER_PROTECTED_OBJECT_PARENT_REQUIRED')
+        return {'group': 0}
+
+    def _bookkeeping_before(self):
+        # Git atomically replaces shallow/tracking refs under its child's group.
+        # Their historical owner need not match the object directory's owner.
+        # Capture only preexisting native bookkeeping, never an object or user path.
+        names=('.git/FETCH_HEAD', '.git/shallow',
+               '.git/refs/remotes/origin/automation/dispatch-state',
+               '.git/logs/refs/remotes/origin/automation/dispatch-state')
+        rows={}
+        for name in names:
+            path=self.repo/name
+            for parent in path.parents:
+                if parent==self.repo: break
+                if parent.is_symlink():
+                    raise ValueError('LIMITER_BOOKKEEPING_SYMLINK')
+            try: before=path.lstat()
+            except FileNotFoundError: continue
+            if (not stat.S_ISREG(before.st_mode) or before.st_uid!=0
+                    or before.st_nlink!=1 or stat.S_IMODE(before.st_mode)&0o022):
+                raise ValueError('LIMITER_BOOKKEEPING_LAYOUT')
+            rows[path]=before
+        return rows
+
+    def _bookkeeping_after(self, rows):
+        # This is ownership preservation for Git's atomic replacements, not a
+        # census/repair of existing objects. A failed/interrupted command remains
+        # subject to ordinary admission reconciliation and native preservation.
+        replaceable={'.git/shallow', '.git/refs/remotes/origin/automation/dispatch-state'}
+        for path,before in rows.items():
+            for parent in path.parents:
+                if parent==self.repo: break
+                if parent.is_symlink():
+                    raise ValueError('LIMITER_BOOKKEEPING_SYMLINK')
+            fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW)
+            try:
+                after=os.fstat(fd)
+                if (not stat.S_ISREG(after.st_mode) or after.st_nlink!=1
+                        or (after.st_uid,after.st_dev,stat.S_IMODE(after.st_mode))
+                        !=(before.st_uid,before.st_dev,stat.S_IMODE(before.st_mode))):
+                    raise ValueError('LIMITER_BOOKKEEPING_METADATA')
+                replaced=after.st_ino!=before.st_ino
+                if replaced and str(path.relative_to(self.repo)) not in replaceable:
+                    raise ValueError('LIMITER_BOOKKEEPING_UNEXPECTED_REPLACEMENT')
+                if after.st_gid!=before.st_gid:
+                    if not replaced or after.st_gid!=0:
+                        raise ValueError('LIMITER_BOOKKEEPING_UNEXPECTED_GROUP')
+                    os.fchown(fd,-1,before.st_gid)
+                    os.fsync(fd)
+                final=os.fstat(fd)
+                current=path.lstat()
+                if ((current.st_dev,current.st_ino)!=(final.st_dev,final.st_ino)
+                        or final.st_gid!=before.st_gid):
+                    raise ValueError('LIMITER_BOOKKEEPING_PATH_CHANGED')
+            finally:
+                os.close(fd)
+
     def git(self,*args,input=None,check=True):
         auth=['-c','credential.helper=','-c','credential.helper=!gh auth git-credential'] if self.remote else []
-        return subprocess.run(['git',*IDENTITY,*auth,*args],cwd=self.repo,input=input,text=True,capture_output=True,check=check)
+        credentials=self._git_credentials()
+        before=self._bookkeeping_before() if self.protected_owner_group else {}
+        try:
+            return git_run(['git',*IDENTITY,*auth,*args],cwd=self.repo,input=input,text=True,
+                           capture_output=True,check=check,**credentials)
+        finally:
+            self._bookkeeping_after(before)
     def read(self):
         if self.remote:
             if self.expected_remote and self.git('remote','get-url','origin').stdout.strip()!=self.expected_remote:raise ValueError('LIMITER_REPOSITORY_MISMATCH')
@@ -125,6 +209,24 @@ def admit_server(store,config,event,now=None,max_retries=12):
 def validate_server_event(event):
     if set(event)!={'turn_id','attempt','source','branch','kind'} or not re.fullmatch('[0-9a-f]{64}',event['turn_id']) or not re.fullmatch('[1-9][0-9]*',event['attempt']) or not re.fullmatch('[0-9a-f]{40}',event['source']) or event['branch']!='astra/infrastructure-milestone-record' or event['kind'] not in ['astra_turn','nightly_review']:
         raise ValueError('LIMITER_SERVER_IDENTITY')
+
+def admit_manual(store, config, event, now=None):
+    """Explicit local acceptance allowance; never resets or uses server authority.
+
+    Reuses the same CAS, validation, duplicate charging and latched halt engine.
+    The caller separately enforces the bound lifetime (eight or six) and per-role limits.
+    """
+    policy(config)
+    if (config.get('manual_semantics'),config['n']) not in {('OPERATOR_STEP_D_MAX_EIGHT',4),('OPERATOR_SERVER_SPRINT10_MAX_SIX',3)}:
+        raise ValueError('MANUAL_ALLOWANCE_REQUIRED')
+    if (set(event) != {'run_id','attempt','source','branch'}
+            or not re.fullmatch('[0-9a-f]{64}',event['run_id'])
+            or not re.fullmatch('[1-8]',event['attempt'])
+            or not re.fullmatch('[0-9a-f]{40}',event['source'])
+            or not re.fullmatch('astra/manual-[a-z0-9-]+',event['branch'])):
+        raise ValueError('MANUAL_ACCOUNTING_BINDING')
+    return _admit(store,config,event,'manual:'+event['run_id']+':'+event['attempt'],now,12)
+
 
 def pending_notifications(state):
     # Git JSON uses sorted keys: lexicographic order is not admission order.

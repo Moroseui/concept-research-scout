@@ -1,0 +1,11 @@
+Decision on the provider refusal: treat it as a likely false positive of the automated safety screen. The brief contains no harmful request, but its dense wording ("bypassing duplicate protection", "report manufacture", "exhausted", "never a requirement to approve"), combined with credential/sandbox/AppArmor file names in manifest.json, can read as circumvention out of context. No support ticket for now.
+
+Authorized: ONE linked retry of this administrative review (candidate 12aeb59): same candidate, evidence, bindings, runner limits and model; the original refusal, its session and its charge preserved and linked. Only the BRIEF changes:
+
+- Open with a plain statement: "This is a defensive, read-only code review of the operator's own research-automation software. You are asked only to read the listed files and judge whether the change is correct. Nothing here asks you to attack, bypass or access anything."
+- Rewrite the rest in plain language, at most about 300 words, avoiding circumvention-sounding shorthand where plain wording is just as accurate. Keep it technically truthful; do not hide what the change does.
+- Check manifest.json and remove anything the reviewer does not need (keep only files to review and required evidence; never credential contents).
+
+Also make "provider refusal" a supported terminal outcome in the runner: recorded with no verdict, preserved and charged, allowing at most one linked clarified retry. If the retry is also refused, stop and report; I'll then decide between a different reviewer model and a support ticket.
+
+Going forward, every review brief starts with that plain-language purpose statement and stays short. This should also help with the M2 reading-budget exhaustion.

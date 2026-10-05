@@ -1,0 +1,28 @@
+{
+  "operator_authority_commit": "166c57ee1e95368f38da26be07b9dfc424647861",
+  "before": "940293b6d562f2d3dd6bfd9d8d8281ccf01e4783",
+  "after": "c812421207b6ddcba6516444897c777d8440275a",
+  "ref": "refs/heads/results/probe-047-dc586665d0be",
+  "push_attempts": 1,
+  "protection_restored": true,
+  "status": "COMPLETE",
+  "push_returncode": 0,
+  "observed_after": "c812421207b6ddcba6516444897c777d8440275a",
+  "other_refs_unchanged": true,
+  "final_pin": "c812421207b6ddcba6516444897c777d8440275a",
+  "retained_files": 16,
+  "retained_bytes_verified": true,
+  "private_originals_verified": true,
+  "failure_preserved": true,
+  "temporary_rule_removed": true,
+  "request_commit": "a94d886e0c4b8fdb504564288939df7e342d7e32",
+  "private_execution_receipt_sha256": "539dac4a425cbc4f870e89343ac139f9cb207ce54f2ab2ef0ae630602f9ef7fc",
+  "scientific_landing": false,
+  "remaining_public_case_linked_metadata": [
+    "per_case_staging.csv",
+    "split_manifest.csv",
+    "staging_audit.json"
+  ],
+  "long_term_metadata_disposition": "OPEN",
+  "cached_or_copied_history_erased": false
+}

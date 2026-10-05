@@ -1,5 +1,7 @@
 # Remote research-system operating direction — operator instruction, 2026-09-06
 
+> Current remote driver policy: [Continuing research policy,11September2026](CONTINUING_RESEARCH_POLICY_20260911.md), bound to the exact operator amendment and shared operating context 20260911-continuing-handoff-v10. It supersedes the dated finite-only/disabled-Actions/blanket-partition restrictions below within its stated scope. Earlier text is retained for historical decisions; do not treat it as a second current grant. The actual deployed version is established by stage receipts, not this edit.
+
 The operator's full deployment handoff is preserved privately, including connection
 configuration. This sanitized record supplements the existing primary charters and
 scientific contracts; it does not replace them. The purchased DigitalOcean Linux
@@ -203,3 +205,54 @@ Its status and intervention routes must be documented and exercised beforehand.
 Existing phone authority remains notifications and synthetic acknowledgment only;
 operational phone decisions, live writer/reset and limiter/unattended grants remain
 separate. Continue independent authorized work while one dependency is blocked.
+
+## Operator decisions and verified progress — 7 September 2026 resumption
+
+The operator ratified the reviewed prediction charter, conditional adoption of the
+unchanged externally seeded P001 and bounded eligible-admission input preflight
+against the decision packet at `a94d886`. The exact selection and preserved
+scientific bindings are in `campaigns/isles24-pilot/prediction_selection.json`.
+Earlier references above to pending charter ratification describe the prior state.
+Patient launch and transfer to a new backend remain unapproved. Use the selected
+charter through the campaign context builder; historical proposal files stay intact.
+
+The operator clarified “047b” as the previously discussed successful run/bundle,
+without attesting hashes or successful-console evidence. Original bundle records
+support correspondence to historical source `940293b6` and contract `dc586665`;
+`docs/science/047B_ORIGINAL_CORRESPONDENCE_20260907.json` records this verification.
+The successful console remains unrecovered; run_log and prior failure are distinct.
+
+The operator separately authorized and the investigator executed the exact first
+047 cleanup, with before/after pins and restored protection recorded in
+`docs/isles-pilot/047_CLEANUP_EXECUTED_20260907.json`. No other ref changed.
+The accepted three residual case-linked metadata files remain public for this first
+cleanup; longer-term disposition, scientific landing and acceptance remain separate.
+There is no blanket new case-level publication authority or copied-history erasure.
+All other standing permission, launch, spending and activation gates remain intact.
+
+## Scientific stages belong to the system — operator clarification, 2026-09-07
+
+All scientific work uses versioned system workflows: idea evaluation, debate,
+experimental code generation, execution, result acceptance, analysis,
+interpretation, review and successor selection. Astra may steer, diagnose and
+implement a missing capability, but must verify and invoke that capability before
+claiming the corresponding scientific stage ran. Saving an ad hoc analysis later
+does not make it a system-produced analysis.
+
+Treat the recovered 047 notebook as incoming evidence. Preserve and validate it
+through the evidence pathway; then satisfy existing acceptance gates before
+analysis/interpretation and required opposing-family review. The same rule applies
+to P001. Reports must name actual stages and link their artifacts and receipts;
+steering, implementation and proposed conclusions remain distinguishable. This
+clarification grants no additional authority and does not ratify any result.
+
+## Persistent Drive evidence access — authorized preparation, 2026-09-07
+
+Prepare a registered Linux Drive capability for routine evidence retrieval and
+private output storage. Use actual selected file IDs and a private research-system
+output location; preserve existing originals and do not move the archive merely
+to organize folders. Console, output and receipt collection belong to system
+interfaces, not repeated operator cell execution and JSON relay. The concrete
+credential/file-access grant remains pending consent; this instruction permits
+implementation and review, not bulk patient transfer, scientific launch or public
+publication. Drive access and Colab compute are separate dependencies.

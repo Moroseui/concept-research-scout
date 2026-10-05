@@ -1,0 +1,15 @@
+Approved: bounded parser correction and requalification of the saved call-6 review. No new scientific call.
+
+1. The correction is limited to this: explicitly negated statements (such as "No BLOCKER[...] is present") must not count as a positive blocker. A real BLOCKER[...] marker must still block. Anything ambiguous must still block. Do not change verdict semantics, categories or any other acceptance rule.
+
+2. Tests:
+   (a) the exact call-6 review text passes;
+   (b) a synthetic review with a real BLOCKER[...] still fails;
+   (c) ambiguous or mixed wording still fails.
+   Then the automated Opus administrative review and held promotion, as usual.
+
+3. Revalidate the exact saved call-6 review.json, verifying its hash first. Do not edit it.
+
+4. If it passes: record acceptance and update STATE through the normal path. The stock-take then stops for my review; report and wait. If revalidation fails for any other reason, stop and report.
+
+Still: no reboot without telling me; BACKLOG item 2 held; raw captures operator-only.

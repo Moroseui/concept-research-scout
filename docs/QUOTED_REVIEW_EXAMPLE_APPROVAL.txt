@@ -1,0 +1,7 @@
+Approved: the narrow quoted-example extension in negation-evidence/DECISION_REQUEST.md, exactly as proposed.
+
+Conditions: quoted or code-formatted BLOCKER[...] examples count as discussion only when the exact structured verdict and bindings are APPROVE, there is a standalone "None." findings declaration, and no unquoted marker appears. Actual or ambiguous findings still reject anywhere. Tests: the exact saved administrative report passes; positive, mixed and ambiguous cases still fail. Requalify the preserved report without editing it and without a new charge. Changed deployment source still goes through the normal automated review.
+
+Standing permission: apply the same finding-versus-example recognition (negations and quoted examples, under these same conditions and tests) to any other consumer that parses review markers, without stopping to ask. If it can't be done without relaxing a real-finding or ambiguity check, stop.
+
+Then continue the approved plan: promotion, requalify the saved call-6 review, acceptance and STATE update, then stop with the stock-take for my review.

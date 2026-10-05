@@ -1,0 +1,50 @@
+{
+  "reviewed_commit": "1b4d55b2232643413e4d16d054f1900c29a11c79",
+  "renamed_commit": "9705a5912b836f291489822232420e5940e7944e",
+  "reason": "Publication scanner refuses private-prefixed source/document paths. Original unpublished commit retained in local-only evidence ref; no public history rewritten and no exception added.",
+  "files": [
+    {
+      "reviewed_path": "orchestrator/private_git.py",
+      "current_path": "orchestrator/git_diagnostics.py",
+      "reviewed_sha256": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "current_sha256": "b068b02a1b31b1820f15e92d4d8447d0de2ecd9e88d3f1b7d294901cac03bfa4",
+      "only_change": "identical bytes"
+    },
+    {
+      "reviewed_path": "docs/operations/PRIVATE_GIT_DIAGNOSTICS_20260907.md",
+      "current_path": "docs/operations/GIT_DIAGNOSTICS_20260907.md",
+      "reviewed_sha256": "68c0007d47363172708c041c1e750584002d0f82db4be069669313b7d3553793",
+      "current_sha256": "68c0007d47363172708c041c1e750584002d0f82db4be069669313b7d3553793",
+      "only_change": "identical bytes"
+    },
+    {
+      "reviewed_path": "orchestrator/git_publication.py",
+      "current_path": "orchestrator/git_publication.py",
+      "reviewed_sha256": "1d33126570510df9e8444905ad16a84c9006fe68b0795ff993b6bfa608ac850a",
+      "current_sha256": "7685eb931462ac6c68f6c709941423abdaf1a3b109064818628359ce4a7bfa61",
+      "only_change": "module import name replacement"
+    },
+    {
+      "reviewed_path": "orchestrator/dispatch_limiter.py",
+      "current_path": "orchestrator/dispatch_limiter.py",
+      "reviewed_sha256": "feeaeeb97727b93480a0798c46f236d6d189da01c94782174e05d52cd660f870",
+      "current_sha256": "250a9eb802af705de2d94063350a90fd815319a26076ce718369783ecc5ade45",
+      "only_change": "module import name replacement"
+    },
+    {
+      "reviewed_path": "scripts/fetch_provenance.py",
+      "current_path": "scripts/fetch_provenance.py",
+      "reviewed_sha256": "5652246ec6b82f80c6febdbd24cb3e6d81a90bb0df70f1b9c1ab2870e840bd7a",
+      "current_sha256": "d612e89ba0aecfa3d6b8b362cf4a08c50cc281f12132a4582717679c8e2c2ae8",
+      "only_change": "module import name replacement"
+    },
+    {
+      "reviewed_path": "tests/test_private_git.py",
+      "current_path": "tests/test_private_git.py",
+      "reviewed_sha256": "aab981a96aa78ab9dcf4ce6cb99ac751aee42d6a537bf063656dae8a408d4b90",
+      "current_sha256": "c4837f5c3c5f35b2d914563889f3d8da1fd9db4c97b61e5694bbe460185fc3ee",
+      "only_change": "module import name replacement"
+    }
+  ],
+  "test_results": "492 full-suite tests and 40 subtests passed; one sandbox socket EPERM passed unchanged outside sandbox; 36 focused tests/17 subtests passed."
+}

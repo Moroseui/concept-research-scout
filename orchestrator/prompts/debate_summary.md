@@ -41,6 +41,12 @@ the orchestrator can update the ledger:
 {"verdict": "PAUSE|REVISE|KILL|PROCEED", "kill_code": "<taxonomy code, only for KILL>", "unblock": "<one line: the condition that would change the verdict>"}
 ```
 
+KILL is a retained verdict spelling for a reversible PAUSED disposition. Preserve
+the idea, negative evidence and an explicit condition for reconsideration; never
+permanently reject or delete it. An ordinary scientific `unblock` condition can
+be resolved by a reviewed delegated model decision. Distinguish actual recorded
+human stops and resource/data boundaries, which remain reserved.
+
 ## Closing section: "In plain terms" (required)
 
 End consensus.md with a section titled `## In plain terms` written

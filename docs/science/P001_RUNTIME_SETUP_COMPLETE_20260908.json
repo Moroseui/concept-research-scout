@@ -1,0 +1,127 @@
+{
+  "actual_tool_calls": 14,
+  "binding_sha256": "ce2063a09afd6f423e6de129370ad3929ce8c7abb29d7d4f4d0a2686711c9f32",
+  "environment_sha256": "04473f9688f3e44f8500507419ac2e8f0d847740361ffa582e3aba0e677d6e9e",
+  "model_calls": 0,
+  "native_exchange_sha256": "3f8f439ff2b52451840078335422f09e2a1d8055fe1cc4bab23775d51eab8515",
+  "native_protocol_sha256": "3f8f439ff2b52451840078335422f09e2a1d8055fe1cc4bab23775d51eab8515",
+  "original_setup_packet_sha256": "69b6f97c9bba7f065ce72e1eb5d64d4596f2617b809acef9deee163aa932e026",
+  "packet_sha256": "a5898cb8d096a7c3fa1c23c86c999898795148599ae7766078eca72fbf315627",
+  "patient_launch_authorized": false,
+  "request_id": "p001-runtime-setup-20260908-v1",
+  "route": "p001-transparent-setup/v1",
+  "runtime_fingerprint_sha256": "d3db37e0c1e0ae7aae7e00e11edaa438624c2c2456b3245fa51e1dcdad335b6c",
+  "scientific_acceptance": false,
+  "status": "SOURCE_DEPENDENCIES_AND_DEFAULT_CHILD_ENVIRONMENT_VERIFIED",
+  "transport": "NATIVE_MCP_JSONRPC_NOT_MODEL_OUTPUT",
+  "source": "e1cccd296a1b7924bb041af951ba78ed565099a7",
+  "execution_snapshot": "0770c7dcabe781cbfb87de505755e7aafa758f2e",
+  "scientific_source": "d6a1184b4378e849213fd887a6f7b103fb1a64d5",
+  "source_review": "P001_TRANSPARENT_NATIVE_SOURCE_REVIEW_20260908.json",
+  "verified_receipt_sha256": "fa6d0b96617d7d131fed9d7921e87be02919ba7a5f81c8148cfa3ebfb28de501",
+  "first_native_event_at": "2026-09-09T03:37:39.602744+00:00",
+  "last_native_event_at": "2026-09-09T03:38:13.543430+00:00",
+  "environment": {
+    "inventory_sha256": "51c55e4644eb1ba9f5823d5ef9e3a055b78a70e81d1c4584e31e930791ad1064",
+    "limitations": "Fresh child import probe; no scientific run, wheel-byte attestation or future environment immutability claim.",
+    "packages": [
+      {
+        "distribution_version": "2.3.3",
+        "import_version": "2.3.3",
+        "name": "numpy",
+        "origin": "/usr/local/lib/python3.13/dist-packages/numpy/__init__.py"
+      },
+      {
+        "distribution_version": "5.3.2",
+        "import_version": "5.3.2",
+        "name": "nibabel",
+        "origin": "/usr/local/lib/python3.13/dist-packages/nibabel/__init__.py"
+      }
+    ],
+    "patient_files_opened": false,
+    "prediction_executed": false,
+    "python_executable": "/usr/bin/python3.13",
+    "python_version": "3.13.15",
+    "schema": "p001-default-child-environment/v1",
+    "scope": "DEFAULT_CHILD_IMPORT_PROBE_AND_DISTRIBUTION_METADATA_NOT_SCIENTIFIC_EXECUTION",
+    "seven_zip": {
+      "path": "/usr/bin/7z",
+      "version": "16.02"
+    },
+    "source_root": "/content/scout-pilot-d6a1184b4378"
+  },
+  "environment_distribution_count": 659,
+  "completed_stages": [
+    {
+      "cell_sha256": "bae4af73ba92d338159ffbfdac466ce85be3e5e827d84af1c59cac98f1a5042b",
+      "index": 0,
+      "native_result_sha256": "5aac69663048e52c8b3dfb4460673b08339c50a0192f82d4c529d73dc4175004",
+      "packet_sha256": "a5898cb8d096a7c3fa1c23c86c999898795148599ae7766078eca72fbf315627",
+      "stage": "cpu",
+      "status": "CPU_COLAB_VERIFIED"
+    },
+    {
+      "cell_sha256": "914d1d0058169fa13e50478ce004cdfd414cacf74af0805e956bcb28fb4a31dc",
+      "index": 1,
+      "native_result_sha256": "0222a1863ba91c7c458967a4f6f4096036de7c4e87f26659b1d1ac41748602a4",
+      "packet_sha256": "a5898cb8d096a7c3fa1c23c86c999898795148599ae7766078eca72fbf315627",
+      "stage": "guard-and-claim",
+      "status": "EXCLUSIVE_SETUP_INTENT_CREATED"
+    },
+    {
+      "cell_sha256": "45670a9ecd3f26478cbd255821288fbc76a9e34ff53a34f9f9a34567c5341d1a",
+      "index": 2,
+      "native_result_sha256": "0a2c61fe9d3e066e44ee254da0bbe55b80150a9e4ff843696731156d2d1c544a",
+      "packet_sha256": "a5898cb8d096a7c3fa1c23c86c999898795148599ae7766078eca72fbf315627",
+      "stage": "source-and-dependencies",
+      "status": "SOURCE_DEPENDENCY_SETUP_COMPLETE"
+    },
+    {
+      "cell_sha256": "c3c4c6d8d2286aa20301e22e94f6a705dc5c72a04f70eff62f2743c414d56149",
+      "index": 3,
+      "native_result_sha256": "1ab9096e55f4865cc8266a39e7074a0fceda926812949119d3fa2dc127ad7e48",
+      "packet_sha256": "a5898cb8d096a7c3fa1c23c86c999898795148599ae7766078eca72fbf315627",
+      "stage": "default-child-environment",
+      "status": "DEFAULT_CHILD_ENVIRONMENT_OBSERVED"
+    }
+  ],
+  "setup_operations": [
+    {
+      "command_count": 7,
+      "elapsed_seconds": 5.615255,
+      "operation": "acquisition",
+      "original_log_private": true,
+      "presentation_sha256": "4da1f40e8c749440b19a44f69fe24f30d2e3ce26dc45c304b8c4de1b63ecbea5",
+      "returncode": 0,
+      "source_sha256": "dad9b540e4ced0969408652445897f2681e62a51bc6fb848e52153ca48ef62f4",
+      "status": "COMPLETE"
+    },
+    {
+      "command_count": 1,
+      "elapsed_seconds": 15.305567,
+      "operation": "dependencies",
+      "original_log_private": true,
+      "presentation_sha256": "3e6e0c8df4fc1963b45027b29e2a60032eebdfcc46df32b558e10288d7fc7170",
+      "returncode": 0,
+      "source_sha256": "2b95f36979374402f50feb93ab2293e319bc2790cd5659762bd24d684753408f",
+      "status": "COMPLETE"
+    },
+    {
+      "command_count": 0,
+      "elapsed_seconds": 0.010645,
+      "operation": "seven-zip",
+      "original_log_private": true,
+      "presentation_sha256": "f2c5d79f5ebdeb3a444b7304fb49f920f3b4f9a21f625b8dc77814f981cfba5f",
+      "returncode": 0,
+      "source_sha256": "f1876ab81400f6fa853cb78d978cb2af788fb36dc57522310ee2c94309497e28",
+      "status": "COMPLETE"
+    }
+  ],
+  "existing_mount_and_authentication_reused": true,
+  "preflight_replayed": false,
+  "prediction_started": false,
+  "prior_stopped_attempts_preserved": true,
+  "private_originals": "Original native requests/responses and exact source packet retained privately; setup command logs remain in the original exclusive private Drive setup root.",
+  "limits": "Known local source/review and fixed-source assumptions; timeout stops require reconciliation. Source review nonblocking observations remain recorded; no optional redesign was performed.",
+  "next_action": "Finish original-ID return canary/slot bindings, then exact launch and derived-return decision. Do not repeat completed setup."
+}

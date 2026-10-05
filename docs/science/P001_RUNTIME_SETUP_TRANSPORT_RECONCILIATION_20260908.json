@@ -1,0 +1,26 @@
+{
+  "status": "SETUP_TRANSPORT_STOP_RECONCILED_BEFORE_EXECUTION",
+  "review": "P001_RUNTIME_SETUP_SOURCE_REVIEW_R2_20260908.json",
+  "reviewed_commit": "9b843d5164d6e4e89f49098acd6d2744d95b8e0d",
+  "failure": {
+    "status": "SETUP_NOT_VERIFIED_RECONCILE_BEFORE_RETRY",
+    "error_class": "ValueError",
+    "error": "MCP error",
+    "protocol_sha256": "f19081748c4b692d1fbcb4d7a0d91deaa5b9c859272d4a7a0177e6701873ec0d",
+    "automatic_retry": false
+  },
+  "reconciliation": {
+    "status": "TRANSPORT_STOP_RECONCILED_NO_CODE_CELL_EXECUTION_SUBMITTED",
+    "protocol_sha256": "f19081748c4b692d1fbcb4d7a0d91deaa5b9c859272d4a7a0177e6701873ec0d",
+    "code_run_calls": 0,
+    "old_worker_terminated": true,
+    "preserve_appended_cpu_cell": true,
+    "same_setup_request_identity_reused": true,
+    "same_exclusive_runtime_setup_root_reused": true,
+    "next_action": "One supervised transport continuation with original packet; initial source-only notebook read; append only three exact packet cells; runtime fingerprint/process/output/source/intent guards before mutation. No reconnect or retry inside continuation."
+  },
+  "patient_launch_authorized": false,
+  "setup_executed": false,
+  "runtime_mount_prior_confirmation": "P001_MOUNT_CONFIRMED_20260908.json",
+  "continuation": "Same setup packet/request identity and exclusive runtime setup directory; new transport after no-execution reconciliation, no automatic retry. Outcome recorded separately."
+}

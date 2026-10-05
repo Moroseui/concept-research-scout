@@ -44,13 +44,15 @@ Do not generate probe code until all are present:
 - a reviewed idea card;
 - a feasibility memo;
 - a probe contract;
-- explicit human approval.
+- applicable human approval or an actual sealed, independently reviewed model decision under the current delegated policy.
+
+Use the [current continuing policy](operations/CONTINUING_RESEARCH_POLICY_20260911.md) for prospective scope and recorded human stops. Delegation does not remove the other stages or bind old approval to changed code.
 
 ## Experimental integrity
 
 - Freeze splits before model comparison.
 - Save configurations, seeds, environment, and per-case outputs.
-- Use validation for development and preserve an untouched test set.
+- Follow the independently reviewed, versioned evaluation protocol; preserve registry membership and all prior exposure history. A prospective partition change requires its applicable reviewed protocol decision. Never describe exposed/tuned outcomes as untouched evaluation.
 - Do not reinterpret an invalid run as a negative result.
 - Report every authorized variant, not only the best one.
 - Stop when the preregistered question is answered or the budget is exhausted.
@@ -62,3 +64,11 @@ supervising PI", "the lab". Direction is stated as program fact ("the
 current focus is X"), not narrated as personal suggestion. Formal
 attribution lives in the README and future citation files, not in
 working documents.
+
+## Formal implementation review
+
+Use the shared [direct-inspection policy](operations/DIRECT_INSPECTION_REVIEW.md)
+for the separately reviewed Claude inspection profile. Preserve actual reads,
+independent final judgments and the original change-request chain across continued
+turns. Source review, installed behavior and scientific acceptance are separate
+claims; obtain each at its applicable stage.

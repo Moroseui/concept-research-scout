@@ -109,7 +109,7 @@ class Coordinator:
         if set(value)!={'binding','position','output','output_sha256'} or value['binding']!=digest(binding) or value['position']!=position or digest(value['output'])!=value['output_sha256']:raise ValueError('STAGE_RECEIPT_CHANGED')
         text(json.dumps(value));return value
 
-    def recover(self, task, retrieve):
+    def recover(self, task, retrieve, *, completed_only=False):
         """Recover only original outcomes through an installed read-only handler.
 
         Unknown execution stays blocked. Never turn absence into a retry decision.
@@ -119,17 +119,35 @@ class Coordinator:
             row=self.db.execute('SELECT * FROM tasks WHERE id=?',(task,)).fetchone()
             if not row:raise ValueError('UNKNOWN_TASK')
             binding=json.loads(row['binding'])
+            if completed_only:
+                positions={r[0] for r in self.db.execute('SELECT position FROM stages WHERE task=?',(task,))}
+                if positions!=set(range(len(binding['stages']))):
+                    self.db.execute("UPDATE tasks SET status='BLOCKED',reason='HISTORICAL_STAGES_INCOMPLETE_NO_RETRY' WHERE id=?",(task,))
+                    return {'status':'HISTORICAL_STAGES_INCOMPLETE_NO_RETRY','model_calls':0}
             for stage in self.db.execute('SELECT position FROM stages WHERE task=?',(task,)).fetchall():
                 position=stage[0]
-                if self._receipt(task,position,binding) is not None:continue
+                saved=self._receipt(task,position,binding)
+                if saved is not None and not completed_only:continue
                 output=retrieve(binding,position)
                 if output.get('status')!='COMPLETE':
                     reason='NOT_STARTED_RECONCILIATION_REQUIRED' if output.get('status')=='NOT_STARTED_RECONCILIATION_REQUIRED' else 'UNCERTAIN_STAGE_RECONCILE_NO_RETRY'
                     self.db.execute("UPDATE tasks SET status='BLOCKED',reason=? WHERE id=?",(reason,task))
                     return {'status':reason}
+                if saved is not None:
+                    if any(key not in output or key not in saved['output']
+                            or saved['output'][key]!=output[key] for key in ('answer','receipt')):
+                        raise ValueError('HISTORICAL_ORIGINAL_RECEIPT_CHANGED')
+                    continue
                 value={'binding':digest(binding),'position':position,'output':output,'output_sha256':digest(output)}
                 immutable(self.root/(task+'-'+str(position)+'.json'),encoded(value))
-            if row['status']!='COMPLETE':
+            if completed_only:
+                for position in range(len(binding['stages'])):
+                    receipt=self._receipt(task,position,binding)
+                    if receipt is None:raise ValueError('HISTORICAL_ORIGINAL_RECEIPTS_REQUIRED')
+                    self.db.execute("UPDATE stages SET state='COMPLETE',receipt=? WHERE task=? AND position=?",
+                        (digest(receipt),task,position))
+                self.db.execute("UPDATE tasks SET status='COMPLETE',reason=NULL WHERE id=?",(task,))
+            elif row['status']!='COMPLETE':
                 self.db.execute("UPDATE tasks SET status='QUEUED',reason=NULL WHERE id=?",(task,))
             return {'status':'RECOVERED','model_calls':0}
 

@@ -1,0 +1,31 @@
+{
+  "kind": "Actual hosted dependency setup; not Drive access acceptance",
+  "observation": {
+    "unit": {
+      "Result": "success",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "receipt": {
+      "status": "TOOLS_PREPARED_NO_CREDENTIALS_OR_SERVICE",
+      "source": "6ea7566b7247286fac54c450ad8f388b129d130b",
+      "pinned_packages": 25,
+      "dependencies_match": true,
+      "patient_data_transferred": false,
+      "models_started": 0,
+      "service_started": false
+    },
+    "package_stderr_present": true
+  },
+  "limits": "No OAuth credentials, service operation, Google file retrieval or patient execution demonstrated.",
+  "nonroot_readability": {
+    "source": "6ea7566b7247286fac54c450ad8f388b129d130b",
+    "nonroot_client_import_returncode": 0,
+    "expected_output": true,
+    "files_with_modes_corrected": 4044,
+    "credentials_present": false,
+    "service_started": false
+  },
+  "setup_correction": "The setup umask left credential-free source/library paths owner-only. Their root ownership was preserved and read/execute permissions corrected before any service start; actual non-root client import then passed."
+}

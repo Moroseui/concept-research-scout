@@ -1,0 +1,80 @@
+{
+  "execution": {
+    "reviewed_commit": "f6714ae58a63c6b96f7f6b8d60d34989fccd2329",
+    "returncode": 0,
+    "wall_seconds": 299.62840961199254,
+    "input_file_sha256": {
+      "scripts/p001_input_preflight.py": "e77a6d09739231a1597443da8588f025c67f689c7596f261e12603a55fc2c0ac",
+      "tests/test_p001_input_preflight.py": "cf1890b3c839bc652e5d627e13b265bdc0044c5b95f8f65a202f4430e165ea9a",
+      "docs/science/P001_PREFLIGHT_IMPLEMENTATION_20260907.md": "6a776e21f8858a017d13aec89b34aacd8e4f1ab711cf81fc09c776f41c42bb46",
+      "campaigns/isles24-pilot/prediction_selection.json": "56fa21d431ad60f5c6241d059e144bf7de0c2956eda85cf871c6955498c5c643",
+      "campaigns/isles24-pilot/experiments/P001/run.py": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+      "docs/science/P001_EXECUTION_DECISION_20260907.md": "debd9e31185c0ae286ed27c568f8e34f41ba6dedc53a2a78dfed76e68a80a6e1",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "3ab55b4f1cc82812a684c9ee018c8334eedcfc0438ae279969bf5e702f7580b8",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "ab0f36a60669cafabd58b99a347455d7c20f4f9c2cf640c6b40c65314291d59e"
+  },
+  "review": {
+    "scope": "Fresh review before authorized P001 admission-only input preflight. Operator approved a94d886 packet and exact selection; no launch/new-backend transfer. Inspect sampling, frozen runner calls, archive/member integrity, nonmaterializing headers, private evidence, runtime reconciliation, time/capacity bounds. Source-only, no patient execution.",
+    "reviewed_commit": "f6714ae58a63c6b96f7f6b8d60d34989fccd2329",
+    "verdict": "APPROVE",
+    "findings": [
+      "Verified (source): identity bindings are correct and fail-closed. RUNNER_SHA d54e3ea5\u2026 equals the operator-ratified hash for campaigns/isles24-pilot/experiments/P001/run.py recorded in prediction_selection.json; ARCHIVE_SIZE/ARCHIVE_MD5 match the frozen runner's own constants; numpy 2.3.3/nibabel 5.3.2 pins match the recorded decoder-check environment. All approval/source/environment/archive/attempt checks precede any archive byte access, and each mismatch raises before the attempt directory exists, leaving no partial state.",
+      "Verified (source): sampling is admission-only and deterministic. admission_members takes only pair['tmax'], enforces relative ses-01 *_tmax.nii.gz paths, 99 unique members, and eligible[:1] selects the first lexical case ID with no outcome input, matching the receipt's selection_rule and admission_members_checked=1. Label and reserved members never reach the 7z argument list, verify_file, or nibabel; only one member is extracted, so no whole-archive extraction occurs.",
+      "Verified (source): frozen runner use is read-only and preserves scientific approvals. The runner is loaded under module name 'frozen_p001_preflight' so its __main__ block never executes; only selection() and verify_file() are called; predict/metrics/run and verify_decision are never invoked; no frozen bytes or the strict >6.0 threshold are touched. selection() re-verifies cohort SHA-256 and member-manifest git-blob identity from the digest-pinned checkout before any member is chosen.",
+      "Verified (source + synthetic test read, not executed): header access is nonmaterializing. header_record reads only dataobj.slope/inter, shape, get_data_dtype and xyzt_units, with finiteness/3D checks; the test poisons ArrayProxy.__array__ and Nifti1Image.get_fdata to enforce this. Receipt's unit_semantics correctly disclaims that header evidence alone establishes derivative units, consistent with the decision packet.",
+      "Verified (source): privacy boundaries hold. Case IDs, member paths, 7z console output, and exception text are written only to attempt-private files (binding.json, admission_headers.private.json, extraction.console.log, failure.private.txt) under umask 0o077 in a 0700 directory with exclusive-create opens; stdout carries only aggregate fields, headers file hash, and fixed PREFLIGHT_*/AUTHORIZED_CPU_* codes, with any other message replaced by PRIVATE_DIAGNOSTIC_REQUIRED.",
+      "Verified (source): runtime reconciliation and recovery semantics are fail-closed. Any matching /proc cmdline, any existing execution/.private/.worker path, or incomplete process visibility yields a HOLD disposition that refuses the preflight; disposition wording avoids claiming global nonexecution and the observation is preserved in binding.json. Fresh-attempt requirement plus open('x') everywhere prevents overwriting; there are no automatic retries; TimeoutError and subprocess timeout (which kills the child) are caught with receipt and private failure evidence retained.",
+      "Verified (source): time and capacity bounds are enforced. The 5400 s monotonic budget covers archive MD5 hashing (checked per 8 MiB block), extraction (timeout=max(1, remaining)), and per-member verification; disk_usage is checked on the attempt parent (the extraction filesystem) for the selected member size plus 512 MiB before any write. Full-archive size+MD5 match against the pinned identity, combined with the identity-verified member manifest and per-member size/CRC via the unchanged verify_file, supports the INPUT_INTEGRITY_AND_HEADERS_VERIFIED claim.",
+      "Suggestion (untested, fail-safe direction): the CPU-runtime guard `shutil.which('nvidia-smi')` can be truthy on Colab CPU images where the binary exists without an attached GPU, causing a false AUTHORIZED_CPU_COLAB_REQUIRED refusal. Consequence: possible spurious refusal, never unsafe execution. Affected task: running the preflight on the authorized runtime. Smallest correction if it fires: check for an actual device (e.g., /proc/driver/nvidia presence or `nvidia-smi -L` exit status) instead of binary presence; do not weaken the COLAB_RELEASE_TAG requirement.",
+      "Suggestion (inferred): reconcile_runtime's cmdline patterns hardcode 'P001-v1.worker/launch.py' while the path-existence check derives from --execution-root; a worker started under a differently named root is caught only by the path check, not the process scan. The docstring honestly documents incomplete visibility, and unreadable /proc entries already force HOLD. Smallest correction: additionally derive a cmdline substring from execution_root.name.",
+      "Suggestion (inferred edge case): if an exception escapes run() after binding.json exists (e.g., failure.private.txt or receipt.json write fails on a full disk), main reports status REFUSED_BEFORE_ATTEMPT even though the attempt directory was created with a STARTED binding; the printed label contradicts on-disk evidence. Evidence is still preserved and exit code is nonzero. Smallest correction: use a distinct failure status (e.g., ATTEMPT_EVIDENCE_WRITE_FAILED) when a.attempt exists.",
+      "Verification note (source-only limit): APPROVAL_SHA 56fa21d4\u2026 does not match any artifact hash recorded in the supplied packet; this is expected if it pins campaigns/isles24-pilot/prediction_selection.json itself (which cannot contain its own hash), but this review cannot confirm which file it binds. A wrong pin fails closed (PREFLIGHT_OPERATOR_BINDING). Smallest correction: document the expected --approval artifact path and its hash provenance in the script docstring or the implementation note before use.",
+      "Verification note (untested dependency): importing the frozen runner executes its top-level `from orchestrator.campaign import verify_decision, sha`; orchestrator/campaign.py was not supplied, so import-time side effects are unverified. Risk is low (verify_decision is imported, not called; the checkout is the digest-pinned frozen one), but the import surface is part of what runs during the preflight.",
+      "Process note: this is a source-only review; the synthetic tests in tests/test_p001_input_preflight.py were read and their assertions are consistent with the implementation, but they were not executed here and no patient data or archive bytes were touched."
+    ]
+  },
+  "session_id": "22a7b2c2-e806-4d3a-8acb-d7ad5245405f",
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 27025,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 23554,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 27025,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 23554,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 27025,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 27025
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "cost_estimate_usd": 1.7345409999999999,
+  "review_kind": "author_operated_review_of_supplied_source_and_receipts"
+}

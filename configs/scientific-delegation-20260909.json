@@ -1,0 +1,85 @@
+{
+  "actions": [
+    "accept_external_evidence",
+    "accept_interpretation",
+    "adopt_followup",
+    "approve_probe",
+    "approve_scientific_version",
+    "assess_relevance",
+    "authorize_protocol",
+    "authorize_research_task",
+    "launch_linux_job",
+    "launch_p001",
+    "resume_science"
+  ],
+  "attribution": "User delegates decisions. Each later judgment belongs to the deciding model and its recorded system stage; never synthesize human signatures.",
+  "direction_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+  "direction_sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+  "human_stop": "An explicit human stop is preserved until a later explicit human release; a model scientific deferral is reversible with recorded rationale and reconsideration evidence.",
+  "methodology_scope": {
+    "dataset": "existing_authorized_isles24_data",
+    "frozen_p001_preserved": true,
+    "no_opportunistic_outcome_tuning": true,
+    "no_untouched_claim_for_exposed_cases": true,
+    "preserve_prior_partitions_and_results": true,
+    "prospective_reviewed_protocol_required": true,
+    "recorded_reserved_count": 49,
+    "registry_membership_and_exposure_bound": true
+  },
+  "p001_combined_transfer_cap": 33554432,
+  "p001_exact_core_sha256": "0cf2f64120976bc46d8bb25a543318af22c3f2e8cd8cad9fbf953ae02b400dfc",
+  "p001_max_extracted_bytes": 8589934592,
+  "research_task_scope": {
+    "charter": "isles24-prediction",
+    "experiments": [
+      "P001",
+      "P002",
+      "P003"
+    ],
+    "installed_finite_task_only": false,
+    "modes": [
+      "adoption",
+      "brief",
+      "charter",
+      "code",
+      "code_bundle",
+      "curate",
+      "discuss",
+      "interpret",
+      "investigate",
+      "propose",
+      "protocol_proposal",
+      "readiness",
+      "repair",
+      "specify"
+    ],
+    "new_data_access": false,
+    "reviewed_successor_required": true,
+    "separate_execution_authority": true
+  },
+  "runtime_scope": {
+    "activation": "EXISTING_CONDITIONAL_HUMAN_GRANT_AFTER_REVIEWED_CHECKS",
+    "automatic_shared_actions_accounting_installed": false,
+    "autonomous_actions_dispatch": false,
+    "autonomous_backend": "linux",
+    "existing_admission_limits_and_halt_preserved": true,
+    "manual_actions": "NOTIFY_FIRST_WAIT_FOR_PRE_ADMISSION",
+    "polling_and_control_model_calls": 0
+  },
+  "schema": "research-scientific-delegation/v1",
+  "scientific_review": "Retain independent opposing-family review for consequential science, existing bounded revisions and dedup/resource controls.",
+  "scope": {
+    "existing_mission": true,
+    "limiter_reset": false,
+    "main_merge": false,
+    "new_dataset_access": false,
+    "new_paid_resources": false,
+    "override_human_stop": false,
+    "permanent_idea_rejection": false,
+    "public_private_data_export": false,
+    "reserved_cohort_access": true,
+    "unattended_activation": false
+  },
+  "status": "USER_DELEGATED_SCIENTIFIC_JUDGMENT",
+  "version": "20260911-continuing-research-v3"
+}

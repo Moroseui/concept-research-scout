@@ -16,7 +16,10 @@ file and any decision entries it names. The reviewer will check the
 contract against the requirements file line by line; an unmet
 requirement is a blocking finding. If a requirement is impossible or
 contradictory, do not silently deviate: stop and write the conflict into
-the contract draft as a blocking open question for the human.
+the contract draft as a blocking open question. Resolve ordinary scientific
+choices through the reviewed delegated model-decision route when the current
+policy covers them. Surface only a genuine remaining human, data, resource or
+privacy boundary to the operator; never manufacture a human approval marker.
 
 ## Right-sizing (2026-09-01 operator ruling, round-10 aligned)
 Prefer ONE contract with pre-registered ordered phases or decision

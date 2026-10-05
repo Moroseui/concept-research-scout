@@ -1,0 +1,3 @@
+Approve the prepared /var/tmp/m2t correction and continue the batch.
+
+Standing permission extension: failures in test-environment or fixture setup (temporary directories, path lengths, test-only environment variables, fixture data) that change no production code path, safeguard, credential, isolation setting, old unit or old state, and spend no model call or money, may be fixed and retried up to 3 times without stopping. Record each attempt in AUTONOMY_PROGRESS.md. If the same setup still fails after 3 attempts, stop with the recurring cause and the smallest remedy. All other stop conditions are unchanged.

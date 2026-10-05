@@ -1,0 +1,8 @@
+{
+  "status": "PROPOSAL_ONLY",
+  "proposed_action_type": "stop",
+  "action": "Stop the completed Sprint10 server-CPU known-case reproduction thread and preserve its returned comparison artifacts; do not repeat this run.",
+  "rationale": "The saved execution receipt and validation (prompt.md, current/execution-receipt.json and current/validation.json) report five byte-identical CSVs, exact JSON scientific content, 99 development cases and no training. The locally inspected package manifest canonical hash matches the receipt. The equality question is answered within this evidence scope. Reproduced aggregate results show U_base minus D Dice -0.002117 (exploratory 95% interval -0.018944 to 0.013841), not new efficacy or equivalence. Private return bytes and CPU resource measurements are unavailable in this stage; exposure, annotation-assisted features and seed coverage remain advisories, not reasons to rerun completed work.",
+  "charter_basis": "The selected follow-up infarct-tissue prediction charter seeks a credible reference measurement from information available by completion of admission CT (CHARTER.proposed.md, Purpose and envelope and Scientific contract, quoted in prompt.md under ISLES-070/071). This completed reproduction contributes reproducibility evidence to that aim; it does not add a new predictive comparison or a clinical-outcome result.",
+  "blocker_ids": []
+}

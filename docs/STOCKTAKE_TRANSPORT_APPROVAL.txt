@@ -1,0 +1,5 @@
+Approved: ONE_STOCKTAKE_TRANSPORT_RECOVERY_DECISION.md (SHA256 0c271019a9a31e70b0f68676d6a261ebec452be5fef65fd17567d46c9c5d4595) exactly as written, with all seven conditions.
+
+Addition: the pre-admission connection check must be a real full-path dry run on the installed server, before the replacement call. It uses the actual producer and the actual subprocess transport, sends into a hash-verifying sink, and launches no model client. Run it for every transport connection the stock-take will use (spec author, reviewer, interpretation, and any revision path), not only the first author call. Record the results with the release evidence. If any connection fails, fix it inside this same reviewed recovery integration before the replacement call.
+
+Then continue: focused review, held installation, live checks, both suites, dry run, the one linked replacement, and the rest of the BACKLOG item 1 stock-take. Stop for my review before item 2. All caps and stop conditions still apply.

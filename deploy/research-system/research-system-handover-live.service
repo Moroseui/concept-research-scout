@@ -1,0 +1,24 @@
+[Unit]
+Description=Protected model-disabled live research writer and admission broker
+Requires=research-system-handover-live.socket
+After=network.target
+[Service]
+Type=simple
+User=root
+Group=research-runtime
+WorkingDirectory=/opt/research-system/releases/04d67a00422e862d62acf356bd9526a4af449fb1-writer-preparation/snapshot
+ExecStart=/usr/bin/python3 -B -m orchestrator.protected_handover --config /etc/research-system/writer-setup-20260908/live-preparation-04d67a00/broker.proposed.json serve --socket /run/research-system/handover-live.sock
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/research-system/handover-broker/live-setup-04d67a00422e-f1574ec4f903
+MemoryMax=512M
+CPUQuota=100%
+TasksMax=32
+TimeoutStopSec=20
+KillMode=control-group
+Restart=on-failure
+RestartSec=10
+# Existing root-only credential boundary; no model or runuser launch is enabled.

@@ -1,0 +1,102 @@
+{
+  "execution": {
+    "reviewed_commit": "c165b495b330d8956ed5e4219114e5071bb2e0e7",
+    "returncode": 0,
+    "wall_seconds": 223.9517807559896,
+    "input_file_sha256": {
+      "orchestrator/readiness_discussion.py": "fb2c5294697d67fd66c2dcd1df1103f59b58103b6e7142868a3ff8f50d96873a",
+      "orchestrator/campaign_pipeline.py": "70177d7a67311bab7d94c4d6bf73b7b081d1423b7bd559dc19d34c9527e66d9b",
+      "tests/test_readiness_discussion.py": "5d40ea59528b39b4fcad0202f4bf760dd2f4cf2d37ca754045dd2f92f707341c",
+      "tests/test_campaign_pipeline.py": "3b4c5898a148203cdb436cb41fd01887743972b8386561ea700ae25b20dbba7e",
+      "orchestrator/hosted_context.py": "1a55f89d54d2c9cf1fd7ef406ad603c7a337e9468c4438ae81dda43c0662b078",
+      "orchestrator/research_context.py": "f4eef22813e126a47dccd85c5ab839213e8aaf9989ada2cb0f45ee813f091273",
+      "orchestrator/public_export.py": "5f994a6558af03da8db9e594c1f11c4cd34123f04bb43149fe4a41402529d00a",
+      "orchestrator/hosted_cycle.py": "4dee7d124ec132d96e981d2d7729a4863a2bc0d162605acf6df2e26c23bab4e1",
+      "docs/science/READINESS_RATIFICATION_REVIEW_R1_20260907.json": "ab333003418dd01bafdfb1de06da687e1468c8b6ac5039d70cf1ea55030d8bd7",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "81028cb8627ba9c97e78ca61d8e37812fbd31d11b13b379b6cbcf32c47a9278b",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "e351dd87731bb24e3cfe7d7ae310a1fce31adea49d4ab0118ed814994a9ea924"
+    },
+    "response_sha256": "e29f2c6d74191ac5d4c6dea4d2174c32f5373e2828a7da09b36d98e241217b6e",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "0e78c63cb9392599dd0bd4808413d39396680bef417a35b5e45017b8cd56ee7b"
+  },
+  "review": {
+    "scope": "Follow-up to preserved readiness ratification REQUEST_CHANGES at a62edd40. Verify direct execute refuses preview with ratified selection before model calls, inbox-only changes do not mint discussions, approved context changes do. public_export.text is a local validator not external export; immutable reuses exact equal bytes, so check those two inferred suggestions against supplied implementation. Preserve legacy identities, no launch or activation.",
+    "reviewed_commit": "c165b495b330d8956ed5e4219114e5071bb2e0e7",
+    "verdict": "APPROVE",
+    "findings": [
+      "RESOLVED R1 BLOCKER (verified in supplied source): campaign_pipeline.execute() now raises RATIFIED_CONTEXT_REFUSES_PROPOSAL_PREVIEW when proposal is not None and selected_prediction_context(sc.ROOT) is nonempty, immediately after grounding() and before any system_stage/model call, covering all entry points including the __main__ --proposal-context CLI; the failure is preserved in blocked.json with reason GROUNDING_FAILED. test_direct_pipeline_cannot_overwrite_ratified_selection_with_preview asserts the refusal, that system_stage is never called, and the blocked artifact. The R1 disposition-overwrite/context-collision path is closed.",
+      "RESOLVED R1 identity suggestion (verified): the ratified discussion identity hashes {version:3, events, selected_scientific_context sha256s, four approved-document sha256s} instead of the raw operating packet, so task_state/decision_inbox churn returns duplicate with zero model calls while a changed ratified selection or approved governance/direction document mints a new discussion; the legacy (unselected) identity remains exactly events-only, preserving prior identities. test_ratified_context_refuses_preview_and_binds_discussion_revision covers duplicate-on-inbox-change, new-identity-on-selection-change, proposal=None on the ratified path, and the preserved do-not-re-request instruction.",
+      "WITHDRAWN R1 suggestion 2 (verified against supplied public_export.py): text() is a pure local validator (size limit, control characters, secret and sub-stroke case-identifier patterns) with no I/O; only summary()/infrastructure_failure() write anywhere. The pre-dedup text(json.dumps(packet)) call in discuss() is a harmless fail-closed privacy screen, not repeated external export; no reordering needed. Note the default 100 KB limit fail-closes discussions for oversized event sets.",
+      "LARGELY RESOLVED R1 suggestion 5 (verified against supplied immutable()): immutable() silently reuses an existing non-symlink file with byte-identical content, so rerunning after a crash between the discussion-context write and the CLAIMED row insert succeeds when the packet re-encodes identically. Residual suggestion: the persisted artifact includes task_state/decision_inbox while the identity excludes them, so inbox churn inside that crash window yields IMMUTABLE_OUTPUT_CONFLICT with no readiness_discussions row explaining it \u2014 fail-closed but manual; exclude task_state from the persisted artifact or document the reconcile step.",
+      "SUGGESTION (verified): the ratified identity's approved_documents filter lists evidence/decisions.md, but hosted_context.build DOCUMENTS never produces that name, so edits to it can never mint a new discussion despite the code implying they should; drop the dead entry or add the file to DOCUMENTS.",
+      "SUGGESTION (inferred race, unreachable under single-writer discipline): selected_prediction_context() is evaluated twice per execute() \u2014 inside grounding() and again in the refusal check \u2014 with no lock on the direct CLI path; a selection deleted between the reads would let a preview merge over an already-merged selected context. Evaluate once and pass the result through.",
+      "NOTE: the legacy dedup row still records no preview binding (R1 suggestion 3), accepted per the preserved events-only legacy identity; the executed preview remains recoverable from the pipeline output's request.json input_sha256 and receipt bindings.",
+      "Verified sound / preserved (source-only, tests read not run): selected_prediction_context stays fail-closed with exact ratified status, charter_ratified/conditional_external_seed_adoption exactly true, patient_launch/new_backend_patient_transfer/reserved_cohort_access exactly false, complete artifact hash binding and launch_authorized false; refusals in discuss() occur before identity computation, row insert, artifact write or model call; recovery remains CLAIMED_RECONCILE_IF_INTERRUPTED/BLOCKED_RECONCILE_NO_AUTOMATIC_RETRY with no automatic retry; statuses remain REVIEWED_PROPOSAL_NOT_DISPATCHED/REVIEWED_PROPOSAL_NOT_ADOPTED; historical charter bytes are preserved under a relabeled disposition; nothing in the change touches patient data, launch, 047 landing, reserved cohorts or unattended-activation gates."
+    ]
+  },
+  "session_id": "5c546b8b-b463-4c33-8c69-75c2406f99b6",
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 55597,
+    "cache_read_input_tokens": 41013,
+    "output_tokens": 17799,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 55597,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3271,
+        "cache_read_input_tokens": 41013,
+        "cache_creation_input_tokens": 14584,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 14584
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 25354,
+      "outputTokens": 18,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.025444,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000,
+      "canonicalModel": "claude-haiku-4-5",
+      "provider": "firstParty"
+    },
+    "claude-fable-5": {
+      "inputTokens": 4,
+      "outputTokens": 17799,
+      "cacheReadInputTokens": 41013,
+      "cacheCreationInputTokens": 55597,
+      "webSearchRequests": 0,
+      "costUSD": 2.0429429999999997,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000,
+      "canonicalModel": "claude-fable-5",
+      "provider": "firstParty"
+    }
+  }
+}

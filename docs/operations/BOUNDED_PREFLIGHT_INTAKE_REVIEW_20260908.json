@@ -1,0 +1,47 @@
+{
+  "review": {
+    "scope": "Review exact implementation only: deterministic private Drive P001/047 intake and preparation of one additional bounded P001 readiness task after the prior campaign turn is fully consumed. Check task/source/request binding, refusal/recovery of existing jobs and stages, preservation of ledger/old turns and diagnostic drop-in on rollback, no patient/writer/reset/activation authority, no case identifiers exported, no acceptance inferred from correspondence. Actual P001 intake passed; 047 first refused because two historical summary paths exist, corrected to exact prior-bound probes/047/results_v2/summary.json, then passed. This is not scientific evaluation or launch authority.",
+    "reviewed_commit": "4fdfe0401aefa149773e674915fb86e15246b193",
+    "verdict": "APPROVE",
+    "findings": [
+      "Task/source/request binding verified: bounded task trigger job and new turn root derive from sha256({source, mode, request}); mismatched trigger_job refuses with BOUND_TASK_IDENTITY_REQUIRED (test-covered); planned() requires exact prior allowance (max_model_turns 3 unbounded / 1 bounded), SYNTHETIC_FIXTURE mode, SUPERVISED model mode, writer_config None, matching source pin.",
+      "Refusal/no-retry of existing work verified: distinct named refusals for existing preparation (matching campaign_preparation, evidence dir, new turn root), existing trigger job in jobs.sqlite, active handover units, incomplete turn stages, and incomplete coordinator tasks/bookkeeping; prior turn full consumption enforced (turn count equals old max_model_turns, continuation/review/disposition all COMPLETE) under an exclusive non-blocking flock.",
+      "Rollback preservation verified: restore_configuration overwrites only bytes it owns (original or own replacement) and holds with CONCURRENT_CONFIGURATION_RECOVERY_HELD on third-party edits; pre-existing exact diagnostic drop-in is reused and preserved on rollback while only a self-created drop-in is removed after content recheck; evidence/intent.json/failure.json preserved; admission ledger byte-compared before, during, and after restart with rollback on change; old turn root and ledger_repo carried unchanged.",
+      "No authority escalation verified: nothing dispatched (pairs {job: None}, models_started 0, jobs_submitted 0, timer_started False, writer_credentials False); require_active_broker refuses preparing against a stopped broker so the script never activates previously stopped units; recovery only restarts units it stopped itself; root check and umask 0o077 on both entry paths of the prepare script.",
+      "Privacy verified: p001() exports only the header schema dict, dropping the private case token key and member sha256 (test asserts neither appears in serialized output); 047 output carries only commit pins, contract, and hashes; notebook streams and receipts retained privately at 0o600 under 0o700 directories; no case identifiers in printed results.",
+      "No acceptance from correspondence verified: both intake receipts hard-code scientific_acceptance False, launch_authorized/experiment_executed False, exit_status None with explicit limitation text; completed_pipeline requires status REVIEWED_PROPOSAL_NOT_ADOPTED so a passing pipeline review never becomes adoption; execution_proposal in a packet is refused outright.",
+      "047 exactness verified: hard-coded prior-bound pins 940293b6/c8124212/dc586665 and the single summary path probes/047/results_v2/summary.json; summaries byte-compared across both historical commits and against the prior receipt's notebook/summary hashes; exactly one matching stream required and byte-compared to the collected original; duplicate identical streams refuse fail-closed (ORIGINAL_SIBLING_NOTEBOOK_STREAM_DIFFERS), consistent with the corrected rerun described in scope.",
+      "Suggestion (non-blocking): drive_science_intake.main() sets no restrictive umask, so the output receipt briefly exists with umask-dependent permissions before chmod 0o600; contents contain no case identifiers, but setting umask 0o077 as the prepare script does would close the window.",
+      "Suggestion (non-blocking): opening branch.lock with mode 'a' can create the lock file in the preserved old turn root even when subsequent checks refuse; benign operational artifact, but consider creating it only after the existence checks or documenting it.",
+      "Suggestion (non-blocking): omitting --git-dir in 047 mode fails only via the downstream git subprocess error rather than an argparse-level requirement; fail-closed but a clearer named refusal would help operators."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "4fdfe0401aefa149773e674915fb86e15246b193",
+    "returncode": 0,
+    "wall_seconds": 136.7134118439999,
+    "input_file_sha256": {
+      "orchestrator/drive_science_intake.py": "463082d5d1fdf0ced1961d259ee8d182ae639f081ae13782e52a943bd0a1b7e8",
+      "deploy/research-system/prepare_campaign_acceptance.py": "81f91caa1858b6c54baafc61df73b784e9e970eb6b15cd00cefe3a14cf8e968c",
+      "tests/test_drive_science_intake.py": "856d692663830b68119b5763ef2c2e9f5ed5d636c2e8bf4a39e7ea387479d2b6",
+      "tests/test_campaign_acceptance_plan.py": "37f5090765532d631ea23cab7e762f4799547909b3f6db35b58aaa13a3c8cfd4",
+      "orchestrator/hosted_campaign_task.py": "4ccaafbaa3cf0d1b8c4431097bc9aa5cab759768084175568aa8c565ffb2504c",
+      "orchestrator/notebook_evidence.py": "959ad7c19f88e270aebfe23997ed3380665db9da35c0cfccfea95ce2cd243e29",
+      "docs/operations/BOUNDED_PREFLIGHT_INTAKE_20260908.md": "385a379abf62dc83ef9548367e4f18c847d76e53d4c969ab15593d25b1ea9b75",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "fa0c807b856a8b9f9e912010955689c62e986f0ec5b2764b71e88653dd9589d9",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "f3d1980c557bd39c196b584aefb5bfd27272ba96f0c3893b4362c3bdade30381"
+  },
+  "disposition": "Concur within exact implementation scope. Scientific acceptance and reserved authority remain separate.",
+  "optional_suggestions": "Deferred; intake invoked beneath existing private 0700 parent. No additional infrastructure expansion."
+}

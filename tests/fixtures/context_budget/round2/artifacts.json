@@ -1,0 +1,100 @@
+[
+  {
+    "id": "notebook-source",
+    "type": "notebook_source",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/notebook-source.txt",
+    "sha256": "6891fa94d7a7bf19da696110f08351509864cb8d858f66424ce51d30138d6b5e"
+  },
+  {
+    "id": "saved-outputs",
+    "type": "result_tables",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/saved-outputs.txt",
+    "sha256": "6faa89dc1ee2ffdcdc5ffbab55a514f84908900353a114fb09e8e552cf39368e"
+  },
+  {
+    "id": "question",
+    "type": "question",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/question.txt",
+    "sha256": "f8a52f327625ee6512fc8d6c158d4bebfff2b78916291372bb98f4613e6ed5be"
+  },
+  {
+    "id": "configuration",
+    "type": "configuration",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/configuration.txt",
+    "sha256": "145429f5d5330775b019dfc1085a950cd1a133d24a3939a47135f74841cb1da5"
+  },
+  {
+    "id": "data-contract",
+    "type": "data_contract",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/data-contract.txt",
+    "sha256": "9bb6b7a431bd00b0841f9e7b90c6a1126877720fddbf889840b80afc4ee9edff"
+  },
+  {
+    "id": "validator",
+    "type": "validator",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/validator.txt",
+    "sha256": "9472ee26dabeaa86a30611fc41363bfae9e8dd8c60eea404c5c80a2bef47db99"
+  },
+  {
+    "id": "metric-contract",
+    "type": "metric_contract",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/metric-contract.txt",
+    "sha256": "376315e4421d41a646696f385d65fa51f399d6979d4d12416c3b1ef683f413cc"
+  },
+  {
+    "id": "run-spec-P001",
+    "type": "run_spec",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/run-spec-P001.txt",
+    "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c"
+  },
+  {
+    "id": "proposed-run-spec-P001",
+    "type": "proposed_run_spec",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/proposed-run-spec-P001.txt",
+    "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c"
+  },
+  {
+    "id": "execution-manifest-047",
+    "type": "execution_manifest",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/execution-manifest-047.txt",
+    "sha256": "e418f258fe395af7ea78eb0a5f9846e9d2b9ea3473c95a4365635d24e8dc80eb"
+  },
+  {
+    "id": "validation-result-047",
+    "type": "validation_result",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/validation-result-047.txt",
+    "sha256": "30cecc452f7784ece2b60584f8a6736c05a4b14648aad1f670996759e354ad24"
+  },
+  {
+    "id": "prior-results-047",
+    "type": "prior_results",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/prior-results-047.txt",
+    "sha256": "b960e4a86dad001c9b1e7722970f70b6b1f4b37cf3e2d4eaeb36008881a06244"
+  },
+  {
+    "id": "interpretation-047",
+    "type": "interpretation",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/interpretation-047.txt",
+    "sha256": "6bec4454121f145ba5b081dbece6cdc5197aa96c49185f85dcaeac2ab34b220f"
+  },
+  {
+    "id": "investigator-next-decision-047",
+    "type": "investigator_next_decision",
+    "version": 1,
+    "path": "tests/fixtures/context_budget/round2/investigator-next-decision-047.txt",
+    "sha256": "7c399060f871578a15c30526a51dd2f5151e7737f58fccb6a139ab4b26b58776"
+  }
+]

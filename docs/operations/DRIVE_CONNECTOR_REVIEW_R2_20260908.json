@@ -1,0 +1,47 @@
+{
+  "kind": "author-operated source review; not live Google or independent merge desk",
+  "execution": {
+    "reviewed_commit": "756abf09a9ed5d3d32ade07b8a6316ef8c7ad7c7",
+    "returncode": 0,
+    "wall_seconds": 208.55903663000208,
+    "input_file_sha256": {
+      "orchestrator/drive_evidence.py": "95b0d4bc9e0e0effcb9eb391e3a9a57dc228a30e1bb47c5f90f1632bdd974c11",
+      "scripts/drive_consent.py": "15a73f1ce8c3da9ac69839d9fb2b60f45c702e20c1f9a60331e6d7f219382770",
+      "deploy/research-system/install_drive_connector.py": "fab5c377258650b0ab38b06b9b44ebad1b745528d2cf019d517462fb40d7fe7f",
+      "tests/test_drive_evidence.py": "6a890e067b67a89450527370324d81ff98890e6cb4631c3f9658cd8f44206845",
+      "docs/operations/DRIVE_CONNECTOR_REVIEW_R1_20260907.json": "8de55a6826903b4845c27795e6b29d127e69c952e578f909fb6536ca23fffd4c",
+      "docs/operations/DRIVE_CONNECTOR_CONSENT_PROPOSED_20260907.md": "c33876e4cdcddd6ac187461387d28bcf1ac0dd7cb03d6fe7a474a5c0c5bcf4c4",
+      "docs/operations/DRIVE_CONNECTOR_PREPARATION_20260907.json": "0936c18900a7e349c41a6fed1919ede8dc059457fc50d4f0cdb734837aa18f0c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c"
+    },
+    "response_sha256": "eaf630f0faa560dfc89c669ac14e1a99989f294ff8348705345871947eb54978",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "6c5b546fa1d2f21938375ec6d6136aa7017df98f746d3c96cf5e01060991dbce"
+  },
+  "session_id": "9dba09a9-93ce-491b-94f3-092072de5148",
+  "review": {
+    "scope": "Final Drive connector follow-up to approved 0b427888: upload status independent of deleted spool, shared controller staging and group permissions, canonical supported Picker endpoint, readable formatted code. Review final permission packet and safeguards; no live Google consent or hosted deployment claimed. Prior source review approved; address only new concrete defects or unresolved findings.",
+    "reviewed_commit": "756abf09a9ed5d3d32ade07b8a6316ef8c7ad7c7",
+    "verdict": "APPROVE",
+    "findings": [
+      "Resolved (verified in source and supplied tests): upload receipt recovery independent of the spool. status with alias run-artifacts routes to upload_status, which reads only the private root (symlink refused), returns the preserved receipt, NOT_RECORDED for absent folders, and UPLOAD_OUTCOME_UNCERTAIN for incomplete bookkeeping while explicitly not authorizing a new upload; test_upload_status_survives_spool_cleanup_and_restart removes the spool and rebuilds the broker before asserting recovery. R1's DRIVE_FILE_NOT_REGISTERED dead end is gone.",
+      "Resolved (verified in source): controller staging and group permissions. stage_run_bundle requires a caller-owned setgid spool root, refuses existing destinations (EXISTING_STAGING_RECONCILE), stages through the same bounded 32 MiB / 64-file / allowlisted-name / credential-scanned read_run_bundle reader used at upload, applies 2750 directory and 0640 file modes with a post-write readback against the source inventory, and preserves source bytes. The installer creates the spool research-controller:research-drive 2750 (chmod after chown restores setgid) and grants the controller only research-drive supplementary membership; the credential directory (root 0700/0600) and evidence root (service-owned 0700) remain group-inaccessible, so the permission packet's isolation claim holds in source.",
+      "Resolved (verified in source): consent pins auth_uri to https://accounts.google.com/o/oauth2/v2/auth on the in-memory copy only, preserving the downloaded client file; token endpoint, single-scope, PKCE, offline access, and refuse-on-error/state-mismatch checks are unchanged. Code is black-formatted and materially more readable, addressing R1's maintenance suggestion; receipts claim AST equality (not re-executed here).",
+      "Carried forward, still untested against live Google (fails closed): the nonstandard hosted-Picker consent parameters (trigger_onepick, allow_multiple, picked_file_ids in the OAuth redirect) and folder creation with pregenerated files.generateIds IDs. A callback without picked file IDs yields CONSENT_NOT_COMPLETED with no token fetched; a rejected folder create yields UPLOAD_OUTCOME_UNCERTAIN. The proposed small synthetic storage/restart test remains a mandatory acceptance gate before relying on registration or uploads. Affected task: consented setup.",
+      "New suggestion (source-verified, fail-closed): request-id namespace collision. Collect/metadata bookkeeping lives at root/<request_id> and upload bookkeeping at root/upload-<request_id>, but the id grammar [a-z0-9][a-z0-9-]{7,79} admits ids beginning with 'upload-'. An authorized caller issuing collect with request_id 'upload-X' shares a folder with store request_id 'X': the later store raises KeyError('binding') on the foreign intent (unclean error; store blocked pending manual reconcile), the reverse direction raises KeyError('operation')/KeyError('alias') in handle/status, and upload_status returns the collect receipt as an upload status because it never checks receipt kind. No privilege or data exposure (same UID allowlist; receipts carry hashes only), but recovery replies can misreport. Smallest fix: refuse request_ids matching 'upload-.*' for non-store operations, or move upload bookkeeping to a distinct subdirectory and have upload_status verify the stored intent binding. Affected task: duplicate/partial-outcome recovery semantics.",
+      "New suggestions (minor, source-verified, all fail-closed): (a) DriveEvidence.__init__ does not reserve the alias 'run-artifacts', so a future registered file under that name would be shadowed for status and treated as a bundle by store \u2014 reject it at config validation; (b) the installer resolves pwd.getpwnam('research-controller') only after admin/config/credential writes, so a missing controller account aborts into the refuse-partial EXISTING_INSTALLATION state requiring manual cleanup \u2014 resolve both identities up front; (c) unused imports grp and shutil in the installer; (d) stage_run_bundle fsyncs files but not the destination directory, so a crash can leave a stale staging directory needing manual removal before restaging.",
+      "Carried boundary dependency (inferred, unchanged from R1): protected_read, exchange, inventory, SECRET, checked_source, and peer-UID provenance come from modules outside this packet; the serve accept loop's survival of handler exceptions (routine ValueError refusals and the KeyErrors above) rests on exchange catching them and returning error replies, as assumed in the approved R1 review.",
+      "Receipts honest: the preparation document claims 10 adapter plus 2 offline Google-library tests with fake providers, host absence of config/credentials/service, black AST-equal formatting with a terminated stalled formatter group, and explicitly no consent, selected IDs, hosted restart, or activation authority \u2014 consistent with the supplied sources. Not re-executed in this review; no live Google or hosted deployment is claimed."
+    ]
+  },
+  "reported_cost_usd": 1.6078780000000001,
+  "billing_note": "CLI usage estimate under existing subscription; not proof of a new charge"
+}

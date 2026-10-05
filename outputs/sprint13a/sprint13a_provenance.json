@@ -1,0 +1,105 @@
+{
+ "notebook_version": "sprint13a-complementarity-r4",
+ "cohort": "99 development patients, split 101; reserved patients not read",
+ "inputs": {
+  "tree": "Sprint 8 D scores and masks (seed 1)",
+  "small U-Net": "Sprint 9 U_base scores and masks (seed 1)",
+  "nnU-Net": {
+   "nnU-Net + CTA": "Sprint 12 A1_ct_maps_cta: fold-model probabilities, resampled linearly to the 2 mm grid; reported masks reloaded"
+  }
+ },
+ "primary": {
+  "P1": "nnU-Net + CTA, self-volume rule minus nnU-Net + CTA as reported (Dice): the total post-processing change (resampling + rule)",
+  "P2": "equal-weight average of tree and nnU-Net + CTA probabilities, self-volume rule, minus nnU-Net + CTA as reported (Dice): total change (combination + rule + resampling)"
+ },
+ "focused_exploratory": [
+  "resampling only: same 50% rule, probabilities resampled to 2 mm before thresholding: nnU-Net + CTA, 50% rule after resampling minus nnU-Net + CTA, as reported",
+  "rule only: self-volume vs 50% rule on the same resampled probabilities: nnU-Net + CTA, self-volume rule minus nnU-Net + CTA, 50% rule after resampling",
+  "does combining add anything beyond the rule? both self-volume: average tree + nnU-Net, self-volume minus nnU-Net + CTA, self-volume rule",
+  "does tuned combining beat tuning nnU-Net's cut-off alone?: tuned combination (weight and cut-off) minus nnU-Net + CTA, tuned cut-off only",
+  "does tuned combining beat tuning the tree's cut-off alone?: tuned combination (weight and cut-off) minus tree, tuned cut-off only"
+ ],
+ "oracle": "per-patient best of the two reported masks, chosen with the true infarct: an oracle model-selection reference, not an upper bound on voxel-level fusion",
+ "bootstrap": {
+  "resamples": 2000,
+  "rng": "numpy default_rng",
+  "seed": 0,
+  "intervals": "percentile, patient resampling; primaries also Bonferroni 97.5%"
+ },
+ "tuning": "leave-one-fold-out: weight and cut-off chosen on the other four folds' out-of-fold predictions. Those predictions come from fold models trained partly on the scored fold's patients, so the whole tuning procedure is not independent of the scored fold; its size is unknown. Tuned results are exploratory development estimates, not an unbiased held-out evaluation; confirmation needs a fully nested procedure or a frozen rule on untouched data.",
+ "grid": {
+  "nnU-Net weights": [
+   0.0,
+   0.1,
+   0.2,
+   0.3,
+   0.4,
+   0.5,
+   0.6,
+   0.7,
+   0.8,
+   0.9,
+   1.0
+  ],
+  "rules": [
+   [
+    "selfvol",
+    0.5
+   ],
+   [
+    "selfvol",
+    0.75
+   ],
+   [
+    "selfvol",
+    1.0
+   ],
+   [
+    "selfvol",
+    1.25
+   ],
+   [
+    "selfvol",
+    1.5
+   ],
+   [
+    "selfvol",
+    2.0
+   ],
+   [
+    "thresh",
+    0.05
+   ],
+   [
+    "thresh",
+    0.1
+   ],
+   [
+    "thresh",
+    0.2
+   ],
+   [
+    "thresh",
+    0.3
+   ],
+   [
+    "thresh",
+    0.4
+   ],
+   [
+    "thresh",
+    0.5
+   ],
+   [
+    "thresh",
+    0.6
+   ],
+   [
+    "thresh",
+    0.7
+   ]
+  ],
+  "candidate support": "tissue mask plus voxels with nnU-Net probability above 0.0001"
+ },
+ "metrics": "patient-level values averaged over patients; Dice, precision, recall and lesion F1 computed exactly as in the saved tables (official lesion matching, IoU >= 0.2)"
+}

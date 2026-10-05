@@ -1,0 +1,18 @@
+{
+  "status": "SYNTHETIC_ORIGINAL_IDS_AND_BYTES_VERIFIED",
+  "scope": "Synthetic transfer only; no patient launch or scientific acceptance",
+  "reservation_and_collection_source": "e1cccd296a1b7924bb041af951ba78ed565099a7",
+  "native_copy_source": "9051a1572cd9441d9d0b06e5ec02ef8355e48a77",
+  "original_pair_receipt_sha256": "f8ddb22a7d7173cb69d127f40822152cea317ff1bebfacdcb5c79cc1b99d6585",
+  "combined_transfer_bytes": 829,
+  "zip_sha256": "f73e97028552ca03e5973fdc01c9dec729f0c7a0e5f7cca5b9b5cabd0e4b27c0",
+  "terminal_sha256": "120019da3bf06eb6341504ea12234cc8525e700b231f7b2c823a871cf1d25496",
+  "originals_preserved": true,
+  "native_copy_repeated": false,
+  "models_called": 0,
+  "scientific_acceptance": false,
+  "patient_launch_authorized": false,
+  "recovery": "Original alias installer stopped before config mutation on retained TCP CLOSE_WAIT connections. Scoped continuation verified single-thread accept4/listener quiescence and performed one exact alias registry update/restart. Later readback process could not traverse the old private setup ancestor; original zero-execution stop preserved and executable packet placed separately under protected group traversal. Same original reservation IDs and copied bytes were retained throughout.",
+  "originals_private_directory": "../isles-pilot-private-evidence/recovery-20260909/p001-canary/alias-recovery/host-originals",
+  "next_action": "Finish separate empty patient return reservation and aliases, then exact reviewed launch/derived-return decision."
+}

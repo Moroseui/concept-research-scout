@@ -1,0 +1,11 @@
+# Sprint 10 r2 — comparison of the completed Sprint 8 (trees) and Sprint 9 (U-Net) runs
+
+Comparison only: reads the two completed run directories, never trains, never writes into either run. Everything is written to a new directory under `sprint10-comparison-PRIVATE`.
+
+**What it checks before comparing anything (review findings 2 and 3).** Cache content identity, case list, grid, the smoke flag, shuffles and folds, and the **complete** partition dictionaries (outer train and held-out lists, inner train and validation lists, volume folds, and any extra keys) must be identical, or the notebook stops. Clinical inputs are compared separately (parsed-table digest and field sets); a tree-versus-network clinical contrast is produced only if they are identical. Expected combinations are enumerated from each run's manifest, execution records and arm list, and every one is reported as complete, pending, invalid (with the reason) or skipped.
+
+**How saved outputs are validated (findings 1 and 4).** Fold tables: exactly one row per expected recipe and patient, labels matching the requested shuffle, fold and training seed, the run's fingerprint, finite values where always defined, no infinities anywhere, and missing values only under their stated condition. Network score files: readable archive, the run's fingerprint and arm, a smoothing width inside the run's grid, a recorded training length, exactly the requested partition's held-out patients, one score per eligible voxel, finite and within [0, 1]. Invalid files are listed with reasons and never used.
+
+**What it adds.** Matched-amount arms: each network arm's smoothed ranking re-selected at the tree reference D's predicted amount for the same patient, fold and seed (D's prediction, never the true lesion volume). Predeclared contrasts on matched observations. Full metric summaries with valid counts: Dice (= voxel F1), lesion-wise F1, precision, recall, feature-mask specificity, feature-mask AUROC and average precision, empty-prediction rate, volume errors, surface distance. Maps of the tree reference beside the network arms.
+
+Results are development evidence on 99 patients; intervals are exploratory; the 25 final-evaluation patients are not read.

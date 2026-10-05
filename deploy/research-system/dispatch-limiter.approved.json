@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "status": "RATIFIED",
+  "n": 48,
+  "window": "UTC_CALENDAR_DAY",
+  "state_ref": "refs/heads/automation/dispatch-state",
+  "state_write_permission": "OPERATOR_AUTHORIZED",
+  "operator_approval": "03eb1d42ffc89e3e0c8b6697dd4037455f7a239d:docs/operations/PROTECTED_HANDOVER_APPROVED_20260908.json#sha256=0be99c7b0b4e5e9eb16d9ebf8b44e369f6ef07233b903173fcd5355536127d1a",
+  "reset_operators": ["ssh-uid:0"],
+  "server_semantics": "OPERATOR_AUTHORIZED_V1",
+  "repository": "Moroseui/concept-research-scout"
+}

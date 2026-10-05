@@ -72,12 +72,63 @@ def registry_sha(idea_no: str, root: Path):
     return hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
 
 
+def agent_probe_bindings(idea_no: str, root: Path):
+    """Exact current scientific declarations; no human marker is involved."""
+    root = Path(root)
+    d = root / 'ideas' / idea_no
+    values = {}
+    for name, key in [('probe_contract.yaml', 'contract_blob'),
+                      ('feasibility.md', 'feasibility_sha256'),
+                      ('registry.yaml', 'registry_sha256')]:
+        p = d / name
+        if name == 'registry.yaml' and not p.exists():
+            continue
+        if p.is_symlink() or not p.is_file():
+            raise ValueError('AGENT_PROBE_DECLARATION_REQUIRED')
+        raw = p.read_bytes()
+        values[key] = (hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+                       if key == 'contract_blob' else hashlib.sha256(raw).hexdigest())
+    return values
+
+
+def agent_probe_approval(idea_no: str, root: Path):
+    """Verify a persistent reference to a genuine delegated scientific decision."""
+    root = Path(root).resolve()
+    p = root / 'ideas' / idea_no / 'agent_probe_approval.json'
+    if not p.exists():
+        return None
+    if p.is_symlink():
+        raise ValueError('AGENT_APPROVAL_SYMLINK')
+    reference = json.loads(p.read_text())
+    if set(reference) != {'schema', 'decision_path', 'decision_sha256'} or reference['schema'] != 'agent-probe-approval-reference/v1':
+        raise ValueError('AGENT_APPROVAL_REFERENCE_REQUIRED')
+    relative = reference['decision_path']
+    if not isinstance(relative, str) or not _canonical_rel(relative):
+        raise ValueError('AGENT_APPROVAL_REFERENCE_PATH')
+    decision = root / relative
+    if any(x.is_symlink() for x in [decision, *decision.parents] if x != root and root in x.parents):
+        raise ValueError('AGENT_APPROVAL_REFERENCE_PATH')
+    if not decision.resolve().is_relative_to(root) or hashlib.sha256(decision.read_bytes()).hexdigest() != reference['decision_sha256']:
+        raise ValueError('AGENT_APPROVAL_REFERENCE_CHANGED')
+    from orchestrator.scientific_authority import verify
+    return verify(root, decision, action='approve_probe', subject='idea:' + idea_no,
+                  bindings=agent_probe_bindings(idea_no, root),
+                  expected_transition={'from': 'UNAPPROVED', 'to': 'APPROVED'})
+
+
 def approved_registry_sha(idea_no: str, root: Path):
     m = Path(root) / 'ideas' / idea_no / 'HUMAN_APPROVED_PROBE'
-    if not m.exists():
-        return None
-    g = re.search(r'registry_sha256:\s*([0-9a-f]{64})', m.read_text())
-    return g.group(1) if g else None
+    if m.exists():
+        g = re.search(r'registry_sha256:\s*([0-9a-f]{64})', m.read_text())
+        if g and g.group(1) == registry_sha(idea_no, root):
+            return g.group(1)
+    try:
+        delegated = agent_probe_approval(idea_no, root)
+    except (ValueError, OSError):
+        delegated = None
+    if delegated:
+        return delegated['bindings'].get('registry_sha256')
+    return g.group(1) if m.exists() and g else None
 
 
 _GOVERNANCE_FILE = 'governance_events.jsonl'
@@ -340,6 +391,12 @@ def _attested_hashes(idea_dir: Path) -> set:
         out.update(re.findall(r'contract_blob:\s*([0-9a-f]{40})',
                               m.read_text()))
     root = idea_dir.parent.parent
+    try:
+        delegated = agent_probe_approval(idea_dir.name, root)
+    except (ValueError, OSError):
+        delegated = None
+    if delegated:
+        out.add(delegated['bindings']['contract_blob'])
     for obj in mechanically_verified_ratifications(idea_dir.name, root):
         for bd in obj.get('bindings') or []:
             cb = bd.get('contract_blob') if isinstance(bd, dict) else None

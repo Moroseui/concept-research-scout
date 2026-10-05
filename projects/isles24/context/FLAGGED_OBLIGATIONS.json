@@ -1,0 +1,145 @@
+{
+  "schema": "flagged-context-obligations/v1",
+  "obligations": [
+    {
+      "id": "ISLES-114-P2",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "*"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 34069,
+        "end": 34597,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-124-P1",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "*"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 45686,
+        "end": 46688,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-125-P1",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "*"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 46790,
+        "end": 47597,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-126-P1",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "implementation_review"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 48672,
+        "end": 50363,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-141-P6",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "*"
+        ],
+        "stages": [
+          "implementation_review"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 88496,
+        "end": 89487,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    }
+  ]
+}

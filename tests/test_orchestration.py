@@ -1972,7 +1972,7 @@ class TestKeystoneScreen(Harness):
         r = self.scout("pipeline", "--top", "1", action="cycle_auto",
                        FAKE_KEYSTONE_VERDICT="KILL")
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertIn("killed at keystone screen", r.stdout)
+        self.assertIn("deferred at keystone screen", r.stdout)
         d = self.repo / "ideas" / "002"
         self.assertTrue((d / "keystone_screen.md").exists())
         self.assertFalse((d / "critique.md").exists(),
@@ -1983,8 +1983,10 @@ class TestKeystoneScreen(Harness):
             rows.setdefault(rec["ledger_id"], {}).update(
                 {k: v for k, v in rec.items() if v is not None})
         e = rows["idea-002"]
-        self.assertEqual(e["status"], "REJECTED")
-        self.assertEqual(e["death_stage"], "keystone")
+        self.assertEqual(e["status"], "PAUSED")
+        self.assertEqual(e["deferral_stage"], "keystone")
+        self.assertEqual(e["original_verdict"], "KILL")
+        self.assertTrue(e["reconsideration"])
         self.assertEqual(e["kill_code"], "DATA_ACCESS")
         self.assertIn("quoted line", e.get("keystone_evidence", ""))
 
@@ -2110,7 +2112,7 @@ class TestVerdictAutomation(Harness):
             "```json\n{\"verdict\": \"KILL\", \"kill_code\": \"MADE_UP\", \"unblock\": \"n/a\"}\n```\n")
         self.assertEqual(sc._apply_consensus_verdict(1), "KILL")
         e = sc.ledger_mod.load()["idea-001"]
-        self.assertEqual(e["status"], "REJECTED")
+        self.assertEqual(e["status"], "PAUSED")
         self.assertEqual(e["kill_code"], "UNCLASSIFIED")
 
     def test_merge_demotes_unevidenced_keystone_and_stamps_seed_source(self):

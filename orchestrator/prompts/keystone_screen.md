@@ -30,6 +30,9 @@ block:
 {"verdict": "PASS|KILL|UNVERIFIABLE", "kill_code": "<taxonomy code, only for KILL>", "evidence": "<the single most load-bearing verbatim quote>", "source": "<URL and location>", "note": "<one line>"}
 ```
 
-`KILL` means the keystone is demonstrably false -- the idea dies now, at
-screen prices. `UNVERIFIABLE` is honest and passes the idea onward with the
+`KILL` is retained as a historical verdict spelling: it means the current
+keystone is demonstrably false and the system records a reversible PAUSED
+disposition. Preserve the idea and failed evidence; include `reconsideration`
+with the new evidence or worthwhile linked question that could justify return.
+Never delete or permanently reject an idea. `UNVERIFIABLE` is honest and passes the idea onward with the
 uncertainty recorded; never guess a verdict to seem decisive.

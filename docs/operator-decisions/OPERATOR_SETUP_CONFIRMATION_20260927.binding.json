@@ -1,0 +1,14 @@
+{
+    "recorded_at":  "2026-09-27T06:19:57.6841418Z",
+    "attribution":  "user message, transcribed without credential values",
+    "source_file":  "OPERATOR_SETUP_CONFIRMATION_20260927.txt",
+    "sha256":  "144d83eff459ebcb995e5f444909d7e229d52c61508cdc680fa19e66b98f2a36",
+    "confirmed_by_host_metadata":  "OPERATOR_SETUP_METADATA_VERIFICATION.json",
+    "effective_github_grant":  "Issues read/write; Contents READ-ONLY (operator-confirmed; remote API verification pending)",
+    "modal_gross_monthly_ceiling_usd":  42.5,
+    "modal_credit_remaining_usd":  30,
+    "modal_net_spend_limit_usd":  20,
+    "full_nnunet_folds":  "requires explicit operator cost approval",
+    "m4_binding":  "existing exact M4 decision retained; same requirements reaffirmed",
+    "credentials_changed_by_agent":  false
+}

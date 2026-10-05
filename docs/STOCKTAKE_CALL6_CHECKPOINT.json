@@ -1,0 +1,46 @@
+{
+  "selected": {
+    "hash_list": "/var/lib/research-system-manual-sprint10-deployment/research-manual-sprint10-report-edit-07044601/FILES.json",
+    "hash_list_sha256": "2a8de197c6da8171a02539168d870f5fc5961a1effd27a308e8300dd00118c98",
+    "release": "/opt/research-system/manual-sprint10/research-manual-sprint10-report-edit-07044601",
+    "runtime": "/etc/research-system-manual-sprint10/releases/research-manual-sprint10-report-edit-07044601/runtime.json",
+    "runtime_sha256": "dbd849b9267ece5ff231ca7d45710d1bdb24e9294caa8f2e0d694e7394dd595d",
+    "source": "07044601ef691e52f25e00d2ad9b81debf163c28",
+    "state": "/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-report-edit-07044601",
+    "units": [
+      "research-manual-sprint10-report-edit-07044601.service",
+      "research-manual-sprint10-report-edit-07044601.timer"
+    ]
+  },
+  "config_sha256": "791638058e5c11911838d281983cc474d1a6557e04437975aece5774dd149d54",
+  "state_sha256": "677b40ff55c300775b79e8613f11e7bdada6db7f5d889f8a5453171874078e71",
+  "local_calls": {
+    "2019f1b1b0c9439743811b6bfa7801fd1ed13c6ad9120e0ebfa5b52e0ed145b1": "15201af6f2df72872dc0ecd77583808d3f2624a97fe21cc97d37d2c60656fc6f",
+    "d5e44309f854349800326c6c8a1e4f1a3c16bf4c1cd7eb01fc0e779de7f8b1a9": "601830187d278170e25b3a58a0fb4f6ba23191251bea421612d9bc5974995eb5",
+    "4ca376785eb602739d3e301fd1a1af2056b83266058b3117e3afa1bca63316f0": "ced15906530af8ccc7deefcea8f174acce1ef6026eb32486efb70dcb8d235274",
+    "36630bd9426989dc8de86a295094c087d29f78c1a4d73619be173b4412c39332": "28a43f81971a2efed0f40be6ef598b05426944831fa03c9b47b0a2ba8aa73a51",
+    "a573c5023b98abda38e2233f991b765729e324032901ae8523f818387a3f3b72": "25106ddc6dfce439ab3976ab7dc3565dd15c2e352e913ea807fbf0e131a5695e",
+    "a9e2ec7f3eee9d538a2e039ac8aabb3fc4b754631745d88b6b99476a528c869b": "7b71fda420405312fd891938fa4586d9bc3d5a78831787d7ea794e408bb648fd"
+  },
+  "global_calls": {
+    "2019f1b1b0c9439743811b6bfa7801fd1ed13c6ad9120e0ebfa5b52e0ed145b1": "6601fe419d6855b93661067d2bf6f0b65671e51b8dcd534d767d23469f223bfb",
+    "d5e44309f854349800326c6c8a1e4f1a3c16bf4c1cd7eb01fc0e779de7f8b1a9": "347d27e9bac2c054600cb352f2654392e68e7ec4c3f2c2fc73f13a6a725d2db0",
+    "4ca376785eb602739d3e301fd1a1af2056b83266058b3117e3afa1bca63316f0": "1f52686c186360feba9fe8c4ee68fc48eccb3e64d4a21e682f2e0abc9ef35335",
+    "36630bd9426989dc8de86a295094c087d29f78c1a4d73619be173b4412c39332": "5345a9d26296fd6cc8eca3cafafefcb57457f51e402aafe703779b3b88df2a4b",
+    "a573c5023b98abda38e2233f991b765729e324032901ae8523f818387a3f3b72": "fe777cebbc74a3b97e0d856ce89f5b7d47a032ad463fff2acb7e1538a33f6d86",
+    "a9e2ec7f3eee9d538a2e039ac8aabb3fc4b754631745d88b6b99476a528c869b": "4c0965417163b26a708809787111e74681d1f800410332b29174dec3bc814cb7"
+  },
+  "account_sha256": "118c3665dfdb978ec5a79f7bbeb388a2b1bc5e1e3c45771b6f9c26b1f7a3c251",
+  "recoveries_sha256": "4b8880a93a1cdfd156de04eb05cae918a3b7019bfc8c5bde8c4ea5d58eca34a1",
+  "owner_sha256": "108cf7151992821f7df93c52cc38c3c2c67e578609cbdee7d482595c2b0fc1d2",
+  "snapshot_sha256": "704952692aa24c405b5eb2c8e3ac9e2b01aaefc43750bed57293214760ee6579",
+  "owner_file_sha256": "0bb5bfd78504f54834099150e9057cc2449e603a6bc3e69d1340ca3e1a24fa30",
+  "phase": "BLOCKED",
+  "pending": {
+    "id": "a9e2ec7f3eee9d538a2e039ac8aabb3fc4b754631745d88b6b99476a528c869b",
+    "stage": "result_interpretation_review",
+    "round": 2,
+    "workspace": "/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-report-edit-07044601/lane-scientific-workspaces/result_interpretation_review-2"
+  },
+  "reason": "OUTPUT_VALIDATION_REFUSED: REVIEW_CATEGORY_OR_VERDICT_CONFLICT"
+}

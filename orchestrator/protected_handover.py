@@ -23,10 +23,67 @@ REPOSITORY='https://github.com/Moroseui/concept-research-scout.git'
 BRANCH='astra/infrastructure-milestone-record'
 
 
+
+def model_output_format(packet, stage):
+    """Validate each installed typed workflow before selecting its output format."""
+    if not isinstance(packet, dict):
+        raise ValueError('MODEL_PACKET_SCHEMA')
+    from orchestrator.protected_disposition import successor_packet
+    if successor_packet(packet, stage):
+        return 'markdown'
+    if 'scientific_decision_artifacts' in packet:
+        contract = packet['scientific_decision_artifacts']
+        if ('campaign_artifacts' in packet or packet.get('execution_proposal') is not None
+                or not isinstance(contract, dict)):
+            raise ValueError('SCIENTIFIC_DECISION_CONTRACT')
+        if contract.get('version') == 3:
+            from orchestrator.formal_decisions import contract as formal_contract
+            formal_contract(contract)
+        elif contract.get('version') == 2:
+            from orchestrator.continuing_research import artifact_contract
+            if contract.get('action') != 'authorize_research_task':
+                raise ValueError('SCIENTIFIC_DECISION_CONTRACT')
+            artifact_contract({k: v for k, v in contract.items() if k != 'action'})
+        elif (set(contract) != {'version', 'action', 'experiment', 'mode'}
+                or type(contract['version']) is not int or contract['version'] != 1
+                or contract['action'] != 'authorize_research_task' or contract['experiment'] != 'P001'
+                or contract['mode'] not in ('discuss', 'readiness')):
+            raise ValueError('FINITE_SCIENTIFIC_DECISION_CONTRACT')
+        if stage not in ('continuation', 'review'):
+            raise ValueError('SCIENTIFIC_DECISION_TWO_STAGES_AND_SEAL')
+        return 'json'
+    if 'campaign_artifacts' in packet:
+        contract = packet['campaign_artifacts']
+        if not isinstance(contract, dict):
+            raise ValueError('CAMPAIGN_ARTIFACT_CONTRACT')
+        if contract.get('version') == 2:
+            from orchestrator.continuing_research import artifact_contract, task_contract
+            artifact_contract(contract)
+            if task_contract(packet.get('campaign_task')) != contract:
+                raise ValueError('CAMPAIGN_TASK_CONTRACT_CHANGED')
+        elif (set(contract) != {'version', 'experiment', 'mode'}
+                or type(contract['version']) is not int or contract['version'] != 1
+                or contract['experiment'] != 'P001' or contract['mode'] not in ('readiness', 'discuss')):
+            raise ValueError('CAMPAIGN_ARTIFACT_CONTRACT')
+        if stage not in ('continuation', 'review', 'disposition'):
+            raise ValueError('CAMPAIGN_ARTIFACT_STAGE')
+        return 'json' if stage in ('continuation', 'review') else 'markdown'
+    return 'json' if stage == 'disposition' and packet.get('execution_proposal') is not None else 'markdown'
+
+
+def scientific_timeout(config, packet):
+    """The protected installation selects a bound; a model request cannot raise it."""
+    value = config.get('scientific_model_timeout_seconds', 240)
+    if type(value) is not int or value not in (240, 600):
+        raise ValueError('BOUNDED_SCIENTIFIC_MODEL_TIMEOUT_REQUIRED')
+    from orchestrator.protected_disposition import successor_packet
+    return value if ('campaign_artifacts' in packet or 'scientific_decision_artifacts' in packet
+        or successor_packet(packet, 'disposition')) else 240
+
 class Broker:
-    def __init__(self,config):
+    def __init__(self,config, *, config_path=None):
         required={'mode','repository','branch','controller_uid','operator_uids','sources','ledger_repo','publication_root','policy','writer_config','model_mode','turn_root','max_model_turns'}
-        if not required<=set(config) or set(config)-required-{'activation_decision_sha256','notification_config'} or config['mode'] not in ('SYNTHETIC_FIXTURE','LIVE_APPROVED') or config['repository']!=REPOSITORY or config['branch']!=BRANCH:raise ValueError('PROTECTED_CONFIG_SCHEMA')
+        if not required<=set(config) or set(config)-required-{'activation_decision_sha256','notification_config','research_controller_config','scientific_jobs_config','scientific_model_timeout_seconds'} or config['mode'] not in ('SYNTHETIC_FIXTURE','LIVE_APPROVED') or config['repository']!=REPOSITORY or config['branch']!=BRANCH:raise ValueError('PROTECTED_CONFIG_SCHEMA')
         if type(config['controller_uid']) is not int or config['controller_uid']<=0 or not config['operator_uids'] or config['controller_uid'] in config['operator_uids']:raise ValueError('DISTINCT_OPERATOR_REQUIRED')
         if config['model_mode'] not in ('DISABLED','SUPERVISED','GOVERNED') or type(config['max_model_turns']) is not int or not 0<=config['max_model_turns']<=4:raise ValueError('BOUNDED_MODEL_CONFIGURATION')
         if config.get('notification_config') is not None and (not isinstance(config['notification_config'],str)
@@ -46,8 +103,39 @@ class Broker:
             raise ValueError('DISTINCT_PROTECTED_STATE_ROOTS_REQUIRED')
         if roots[0].is_relative_to(Path(__file__).resolve().parents[1]):
             raise ValueError('PUBLICATION_CACHE_MUST_NOT_BE_EXECUTION_SOURCE')
+        scientific_timeout(config, {})
+        for name in ('research_controller_config', 'scientific_jobs_config'):
+            if name in config and (not isinstance(config[name], str) or not Path(config[name]).is_absolute()
+                    or '..' in Path(config[name]).parts):
+                raise ValueError('PROTECTED_RESEARCH_CONFIG_PATH_REQUIRED')
+        self.config_path = None if config_path is None else str(Path(config_path).absolute())
         self.config=config
-        self.ledger=GitLedger(config['ledger_repo'],remote=config['mode']=='LIVE_APPROVED',expected_remote=REPOSITORY)
+        self.ledger=GitLedger(config['ledger_repo'],remote=config['mode']=='LIVE_APPROVED',
+            expected_remote=REPOSITORY,
+            protected_owner_group=config['mode']=='LIVE_APPROVED' and os.geteuid()==0)
+
+    def reviewed_deployment(self):
+        """Root verifies the actual installed review; no supplied verdict is accepted."""
+        if self.config['mode'] != 'LIVE_APPROVED':
+            return {'status': 'SYNTHETIC_FIXTURE_NO_LIVE_AUTHORITY', 'model_calls': 0}
+        if self.config_path != '/etc/research-system/live-research/broker.json':
+            raise ValueError('FIXED_LIVE_DEPLOYMENT_CONFIGURATION_REQUIRED')
+        from orchestrator.handover_runtime import configuration
+        from orchestrator.deployment_review import verify_installed
+        controller_path = self.config.get('research_controller_config')
+        if controller_path != '/etc/research-system/live-research/controller.json':
+            raise ValueError('FIXED_LIVE_CONTROLLER_CONFIGURATION_REQUIRED')
+        controller = configuration(controller_path)
+        root = Path(__file__).resolve().parents[1]
+        if Path(controller['source_root']) != root or controller['source'] not in self.config['sources']:
+            raise ValueError('DEPLOYMENT_CONTROLLER_SOURCE_CHANGED')
+        result = verify_installed(root, controller['source'], config_path=self.config_path, config=self.config)
+        return {'status': 'INSTALLED_REVIEW_VERIFIED', 'source': result['source'],
+            'proposal_sha256': result['proposal_sha256'], 'review_response_sha256': result['review_response_sha256'],
+            'review_session': result['review_session'], 'review_model': result['review_model'],
+            'running_broker': result['running_broker'],
+            'controller_config_sha256': hashlib.sha256(json.dumps(controller, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
+            'model_calls': 0, 'unattended_activation_authority': False}
 
     def authentication(self):
         if self.config['mode']=='SYNTHETIC_FIXTURE':return nullcontext()
@@ -59,6 +147,14 @@ class Broker:
         if peer_uid!=self.config['controller_uid']:raise ValueError('BROKER_PEER_REFUSED')
         op=request['operation'];body=request['body']
         if not isinstance(body,dict):raise ValueError('BROKER_BODY_SCHEMA')
+        if op == 'deployment_status':
+            if body != {}:raise ValueError('DEPLOYMENT_STATUS_BODY')
+            return self.reviewed_deployment()
+        if op in {'admit_server', 'model_stage', 'register_research', 'register_scientific_job',
+                'register_scientific_validation',
+                'dispatch_scientific_job', 'publish', 'stage_candidate', 'flush_notifications',
+                'notify_report', 'notify_task_block', 'observe_scientific_jobs', 'reserve_investigator', 'disposition_unstarted'}:
+            self.reviewed_deployment()
         if op=='status':
             if body!={}:raise ValueError('STATUS_BODY')
             with self.authentication():pin,state=self.ledger.read()
@@ -115,6 +211,24 @@ class Broker:
         if op=='admit_server':
             if body.get('source') not in self.config['sources']:raise ValueError('REVIEWED_SOURCE_REQUIRED')
             with self.authentication():return admit_server(self.ledger,self.config['policy'],body)
+        from orchestrator.protected_scientific_jobs import OPERATIONS as job_operations
+        if op in job_operations:
+            from orchestrator.protected_scientific_jobs import handle as scientific_job
+            return scientific_job(self, op, body)
+        if op in ('reserve_investigator','read_investigator_wake','list_recorded_steering',
+                  'read_recorded_steering','stage_failure','stage_input_refusal'):
+            from orchestrator.protected_investigator import handle as investigator_operation
+            return investigator_operation(self, op, body)
+        if op=='register_research':
+            from orchestrator.continuing_research import protected_register
+            return protected_register(self, body)
+        if op == 'disposition_unstarted':
+            from orchestrator.protected_disposition import disposition_unstarted
+            return disposition_unstarted(self, body)
+        if op == 'disposition_refusal':
+            from orchestrator.protected_disposition import disposition_refusal
+            return disposition_refusal(self, body)
+        if op=='stage_packet':return self.stage_packet(body)
         if op=='stage_status':return self.stage_status(body)
         if op=='model_stage':return self.model_stage(body)
         if op=='stage_candidate':
@@ -152,6 +266,7 @@ class Broker:
         if self.config['model_mode'] not in ('SUPERVISED','GOVERNED') or os.getuid()!=0:raise ValueError('SUPERVISED_ROLE_LAUNCHER_REQUIRED')
         if set(body)!={'event','stage','packet','prompt'}:raise ValueError('MODEL_STAGE_SCHEMA')
         event=body['event'];stage=body['stage']
+        output_format=model_output_format(body['packet'],stage)
         validate_server_event(event)
         stages=['continuation','review','disposition']
         if stage not in stages or event.get('source') not in self.config['sources']:raise ValueError('MODEL_STAGE_SOURCE')
@@ -165,6 +280,10 @@ class Broker:
         with (root/'branch.lock').open('a') as gate:
             try:fcntl.flock(gate,fcntl.LOCK_EX|fcntl.LOCK_NB)
             except BlockingIOError:raise ValueError('MODEL_WRITER_BUSY')
+            from orchestrator.protected_disposition import successor_packet, verify_successor_launch
+            linked = successor_packet(body['packet'], stage)
+            if linked:
+                verify_successor_launch(self, body, gate)
             folder=root/(event['turn_id']+'-'+event['attempt'])
             binding={'event':event,'packet_sha256':hashlib.sha256(encoded(body['packet'])).hexdigest()}
             if not folder.exists():
@@ -180,28 +299,97 @@ class Broker:
             receipt_path=folder/(stage+'.receipt.json')
             if receipt_path.exists():return self.stage_status({'event':event,'stage':stage})
             if (folder/(stage+'.started.json')).exists():raise ValueError('UNCERTAIN_MODEL_RECONCILE_NO_RETRY')
-            for prior in stages[:stages.index(stage)]:
-                if self.stage_status({'event':event,'stage':prior})['status']!='COMPLETE':raise ValueError('PREDECESSOR_MODEL_RECEIPT_REQUIRED')
+            refused = folder/(stage+'.input-refused.json')
+            if refused.exists() or refused.is_symlink():raise ValueError('INPUT_PREFLIGHT_RECONCILE_NO_RETRY')
+            if not linked:
+                for prior in stages[:stages.index(stage)]:
+                    if self.stage_status({'event':event,'stage':prior})['status']!='COMPLETE':raise ValueError('PREDECESSOR_MODEL_RECEIPT_REQUIRED')
+            from orchestrator.hosted_context import compose_input, measure_input, InputTooLarge
+            from orchestrator.scientific_output import contract as output_contract
+            family='claude' if stage=='review' else 'astra'
+            from orchestrator.scientific_evidence_runtime import broker_capture
+            evidence_access = broker_capture(self, body['packet'], source=event['source'],
+                                             folder=folder, stage=stage, disposition_lock=gate)
+            evidence_options = {} if evidence_access is None else {'evidence_access': evidence_access}
+            # Check the actual composed input before this broker's admission. The
+            # authority adapter also projects both roles before its first admission.
+            final, _ = compose_input(Path(__file__).resolve().parents[1], encoded(body['packet']),
+                body['prompt'], verified_source=event['source'], family=family,
+                prepared_prompt=False, output_format=output_format, **evidence_options)
+            try: measurement = measure_input(final, family, stage, task_state=body['packet'], output_contract=output_contract(body['packet'], stage))
+            except InputTooLarge as error:
+                immutable(refused, encoded({'status':'PREFLIGHT_INPUT_REFUSED',
+                    'measurement':error.measurement,'provider_calls':0,'automatic_retry':False}))
+                raise
+            immutable(folder/(stage+'.input-preflight.json'), encoded(measurement))
             with self.authentication():admission=admit_server(self.ledger,self.config['policy'],event)
             if admission['status']!='ADMITTED':return admission
-            family='claude' if stage=='review' else 'astra'
-            # The typed selector remains a tool-free model response. Only the
-            # controller's fixed synthetic adapter can consume it; no command or
-            # patient runner can be selected through this transport format.
-            output_format='json' if stage=='disposition' and body['packet'].get('execution_proposal') is not None else 'markdown'
-            answer,receipt=model_call(folder,stage,family,body['prompt'],output_format=output_format)
-            return {'status':'COMPLETE','duplicate':False,'answer':answer,'receipt':receipt}
+            # Read-only evidence tools confer no execution or selection authority.
+            # Existing typed selection, admission and patient gates remain separate.
+            answer,receipt=model_call(folder,stage,family,body['prompt'],output_format=output_format,
+                timeout_seconds=scientific_timeout(self.config, body['packet']), **evidence_options)
+            return {'status':'COMPLETE','duplicate':False,'answer':answer,'receipt':receipt,'packet_sha256':binding['packet_sha256']}
+
+    def historical_event(self, event):
+        """Allow an original read, never a launch, after execution-source retirement.
+
+        Active sources retain their existing unstarted/absence behavior. A retired
+        source needs its exact admitted identity in the authenticated ledger; the
+        caller must still verify the protected packet and original output hashes.
+        No growing historical allowlist is copied into runtime configuration.
+        """
+        from orchestrator.dispatch_limiter import validate
+        validate_server_event(event)
+        if event['source'] in self.config['sources']:
+            return
+        with self.authentication():
+            _, state = self.ledger.read()
+        validate(state)
+        expected_policy = hashlib.sha256(json.dumps(self.config['policy'], sort_keys=True).encode()).hexdigest()
+        row = state['events'].get('server:'+event['turn_id']+':'+event['attempt'])
+        if (state['policy_sha256'] != expected_policy or not isinstance(row, dict)
+                or any(row.get(key) != event[key] for key in ('source', 'branch', 'kind'))):
+            raise ValueError('MODEL_STAGE_HISTORICAL_ADMISSION_REQUIRED')
+
+    def stage_packet(self, body):
+        """Original packet proof for scientific lineage; read no caller-selected path."""
+        from orchestrator.hosted_cycle import encoded
+        if set(body) != {'event'}:
+            raise ValueError('STAGE_PACKET_SCHEMA')
+        event = body['event']
+        self.historical_event(event)
+        folder = Path(self.config['turn_root']) / (event['turn_id']+'-'+event['attempt'])
+        paths = (folder, folder/'binding.json', folder/'packet.json')
+        if any(path.is_symlink() for path in paths):
+            raise ValueError('TURN_BINDING_CHANGED')
+        if not folder.exists():
+            return {'status': 'NOT_OBSERVED_NO_RETRY'}
+        binding = json.loads((folder/'binding.json').read_bytes())
+        raw = (folder/'packet.json').read_bytes()
+        if len(raw) > 1500000:
+            raise ValueError('MODEL_PACKET_BOUND')
+        packet = json.loads(raw)
+        sha = hashlib.sha256(raw).hexdigest()
+        if (binding['event'] != event or sha != binding.get('packet_sha256')
+                or raw != encoded(packet)):
+            raise ValueError('MODEL_PACKET_BINDING_CHANGED')
+        # Existence is original packet evidence, not successful scientific review.
+        # Consumers separately require both actual stage replies and disposition.
+        return {'status': 'COMPLETE', 'packet_sha256': sha, 'packet': packet}
 
     def stage_status(self,body):
         """Retrieve original completion only. This path cannot invoke a model."""
         if set(body)!={'event','stage'}:raise ValueError('STAGE_STATUS_SCHEMA')
         event=body['event'];stage=body['stage'];validate_server_event(event)
-        if stage not in ('continuation','review','disposition') or event['source'] not in self.config['sources']:raise ValueError('MODEL_STAGE_SOURCE')
+        if stage not in ('continuation','review','disposition'):raise ValueError('MODEL_STAGE_SOURCE')
+        self.historical_event(event)
         folder=Path(self.config['turn_root'])/(event['turn_id']+'-'+event['attempt'])
         if folder.is_symlink():raise ValueError('TURN_BINDING_CHANGED')
         if not folder.exists():return {'status':'NOT_OBSERVED_NO_RETRY'}
         binding_path=folder/'binding.json'
-        if binding_path.is_symlink() or json.loads(binding_path.read_text())['event']!=event:raise ValueError('TURN_BINDING_CHANGED')
+        if binding_path.is_symlink():raise ValueError('TURN_BINDING_CHANGED')
+        binding=json.loads(binding_path.read_text())
+        if binding['event']!=event:raise ValueError('TURN_BINDING_CHANGED')
         path=folder/(stage+'.receipt.json')
         if not path.exists():
             status='UNCERTAIN_MODEL_RECONCILE_NO_RETRY' if (folder/(stage+'.started.json')).exists() else 'NOT_STARTED_RECONCILIATION_REQUIRED'
@@ -211,7 +399,9 @@ class Broker:
         for suffix,key in [('.stdout','stdout_sha256'),('.stderr','stderr_sha256'),('.input.md','input_sha256'),('.md','answer_sha256'),('.operating-context.json','operating_context_sha256')]:
             file=folder/(stage+suffix)
             if file.is_symlink() or hashlib.sha256(file.read_bytes()).hexdigest()!=receipt[key]:raise ValueError('MODEL_RECEIPT_CHANGED')
-        return {'status':'COMPLETE','duplicate':True,'answer':(folder/(stage+'.md')).read_text(),'receipt':receipt}
+        packet_sha=binding.get('packet_sha256')
+        if not isinstance(packet_sha,str) or not re.fullmatch('[0-9a-f]{64}',packet_sha):raise ValueError('MODEL_PACKET_BINDING_MISSING')
+        return {'status':'COMPLETE','duplicate':True,'answer':(folder/(stage+'.md')).read_text(),'receipt':receipt,'packet_sha256':binding['packet_sha256']}
 
     def actions_admission(self,artifact,verified_run):
         # Trusted Actions API collector supplies verified_run; requester JSON does
@@ -265,7 +455,7 @@ def exchange(broker,connection):
 
 
 def serve(config_path,socket_path):
-    broker=Broker(json.loads(protected_read(config_path)))
+    broker=Broker(json.loads(protected_read(config_path)), config_path=config_path)
     # systemd owns the socket across service restarts; no unlink-and-rebind race.
     activated=os.environ.get('LISTEN_PID')==str(os.getpid()) and os.environ.get('LISTEN_FDS')=='1'
     if activated:
@@ -285,5 +475,5 @@ if __name__=='__main__':
     a=p.parse_args()
     if a.operation=='serve':serve(a.config,a.socket)
     else:
-        broker=Broker(json.loads(protected_read(a.config)))
+        broker=Broker(json.loads(protected_read(a.config)), config_path=a.config)
         print(json.dumps(broker.operator(a.operation,json.loads(protected_read(a.request)))))

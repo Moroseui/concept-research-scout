@@ -1,4 +1,11 @@
-# Decision requested: one narrowly scoped 047 raw-payload cleanup
+# First 047 cleanup — historical decision request
+
+**Executed 7 September under the operator’s exact approval.** See
+[verified execution receipt](047_CLEANUP_EXECUTED_20260907.json). The original
+request below is retained as historical scope; its pending/current language
+describes preparation, not the present state. Scientific landing and longer-term
+metadata disposition remain separate.
+
 
 **Approve or decline the complete operation below, including its temporary
 branch-specific protection exception and the residual public metadata.** No

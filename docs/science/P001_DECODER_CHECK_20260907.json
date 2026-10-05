@@ -1,0 +1,32 @@
+{
+  "status": "PASS_SYNTHETIC_ONLY",
+  "numpy": "2.3.3",
+  "nibabel": "5.3.2",
+  "runner_sha256": "d54e3ea5c45c0d47fe8bace014058e1660d92b72abc36cc2fdc077acae3d47b0",
+  "check_sha256": "d75d7fc526a55676c5229591e3e9db49a8e9974bdc22702107716afffad2c739",
+  "fixtures": [
+    {
+      "fixture": "identity",
+      "passed": true,
+      "float64_threshold_differences": 0
+    },
+    {
+      "fixture": "scaled",
+      "passed": true,
+      "float64_threshold_differences": 0
+    },
+    {
+      "fixture": "offset",
+      "passed": true,
+      "float64_threshold_differences": 0
+    },
+    {
+      "fixture": "rounding",
+      "passed": true,
+      "float64_threshold_differences": 1
+    }
+  ],
+  "patient_files_opened": 0,
+  "conclusion": "Proxy scaling agrees with get_fdata at the frozen float32 precision. Float64 can differ at a rounding boundary; no precision amendment is implied.",
+  "limitation": "Does not verify archive-specific units, headers or current integrity."
+}

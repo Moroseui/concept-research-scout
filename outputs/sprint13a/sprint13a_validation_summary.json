@@ -1,0 +1,121 @@
+{
+ "notebook_version": "sprint13a-complementarity-r4",
+ "all_checks_passed": true,
+ "checks": {
+  "startup: Drive folder and the Sprint 8 partition file exist": {
+   "passed": 1,
+   "failed": 0
+  },
+  "startup: every required saved file exists": {
+   "passed": 1,
+   "failed": 0
+  },
+  "cohort: partition patients equal the Sprint 8 manifest's development cohort": {
+   "passed": 1,
+   "failed": 0
+  },
+  "cohort: expected size": {
+   "passed": 1,
+   "failed": 0
+  },
+  "cohort: every patient held out exactly once in split 101": {
+   "passed": 1,
+   "failed": 0
+  },
+  "identity: Sprint 8 and 9 fingerprints present": {
+   "passed": 1,
+   "failed": 0
+  },
+  "identity: Sprint 12 run reference lists all five folds": {
+   "passed": 1,
+   "failed": 0
+  },
+  "identity: each fold's model bundle belongs to the run and holds exactly that fold's patients": {
+   "passed": 5,
+   "failed": 0
+  },
+  "nnU-Net: known image reader (sets the probability axis order)": {
+   "passed": 1,
+   "failed": 0
+  },
+  "tables: result files found": {
+   "passed": 3,
+   "failed": 0
+  },
+  "identity: every table row matches the run's saved identity": {
+   "passed": 3,
+   "failed": 0
+  },
+  "tables: no conflicting duplicate patient rows": {
+   "passed": 3,
+   "failed": 0
+  },
+  "tables: one row per development patient": {
+   "passed": 3,
+   "failed": 0
+  },
+  "folds: each patient's table fold matches the saved partition": {
+   "passed": 3,
+   "failed": 0
+  },
+  "cache: schema and patient": {
+   "passed": 99,
+   "failed": 0
+  },
+  "tables: true infarct volume matches the scoring cache": {
+   "passed": 3,
+   "failed": 0
+  },
+  "identity: tree scores belong to the Sprint 8 run and hold exactly the fold's patients": {
+   "passed": 5,
+   "failed": 0
+  },
+  "identity: U-Net scores belong to the Sprint 9 run and hold exactly the fold's patients": {
+   "passed": 5,
+   "failed": 0
+  },
+  "scores: one finite score per tissue-mask voxel": {
+   "passed": 99,
+   "failed": 0
+  },
+  "cache: reused nnU-Net probabilities have the target grid, are finite and lie in [0, 1]": {
+   "passed": 99,
+   "failed": 0
+  },
+  "masks: identity, fold and grid match": {
+   "passed": 297,
+   "failed": 0
+  },
+  "rebuild: tree mask from saved scores equals the saved mask": {
+   "passed": 99,
+   "failed": 0
+  },
+  "rebuild: U-Net mask from saved scores equals the saved mask": {
+   "passed": 99,
+   "failed": 0
+  },
+  "rebuild: Dice, predicted volume and lesion F1 match the saved row": {
+   "passed": 297,
+   "failed": 0
+  },
+  "tuning: grid Dice equals the rebuilt mask's Dice": {
+   "passed": 297,
+   "failed": 0
+  },
+  "tuning: grid Dice equals the fixed method's Dice": {
+   "passed": 396,
+   "failed": 0
+  }
+ },
+ "note": "every check stops the notebook on its first failure, so a saved summary means every listed check passed",
+ "nnunet_prob_above_half_vs_reported_mask_mean_dice": {
+  "a1": 0.9187
+ },
+ "probability_cache": {
+  "built": 0,
+  "reused": 99,
+  "rebuilt (identity changed)": 0
+ },
+ "resample_version": "linear-order1-clip01-float16-v3",
+ "tolerance": 1e-06
+}

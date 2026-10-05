@@ -33,7 +33,16 @@ def plan(broker,runtime,before,source,root):
             {**runtime,'source':source,'source_root':str(root)})
 
 
+def refuse_existing_live_installation():
+    """Legacy preparation cannot replace material parts of an existing live system."""
+    for name in ('controller.json', 'broker.json'):
+        path = Path('/etc/research-system/live-research')/name
+        if path.exists() or path.is_symlink():
+            raise ValueError('EXISTING_LIVE_INSTALLATION_REQUIRES_REVIEWED_DEPLOYMENT')
+
+
 def update(before,source,archive,sha):
+    refuse_existing_live_installation()
     if os.getuid()!=0:raise ValueError('SETUP_ADMIN_REQUIRED')
     config=Path('/etc/research-system');link=Path('/opt/research-system/handover')
     oldroot=link.resolve();sys.path.insert(0,str(oldroot))

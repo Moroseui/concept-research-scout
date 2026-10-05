@@ -1,0 +1,22 @@
+{
+  "status": "APPROVED_MAIN_PROTECTION_INSTALLED_AND_READ_BACK",
+  "repository_id": 1323461276,
+  "branch": "main",
+  "required_check": {
+    "context": "basic",
+    "app_id": 15368
+  },
+  "pull_request_required": true,
+  "github_review_count": 0,
+  "independent_desk_and_operator_merge_approval_still_required": true,
+  "enforce_admins": true,
+  "force_pushes": false,
+  "deletion": false,
+  "writer_app_bypass": false,
+  "existing_rulesets_unchanged": true,
+  "request_sha256": "53622811ca94898aef5c7c7093ad7490620f35e26766e3ca60f820acd377ccdd",
+  "private_readback_sha256": "206ee0eea15f9847d648a789ffdc503b11be0d856f46f6110a81f92178741dfd",
+  "main_merge_performed": false,
+  "model_secrets_changed": false,
+  "unattended_activation": false
+}

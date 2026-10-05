@@ -1,0 +1,45 @@
+{
+  "kind": "AUTHOR_OPERATED_SOURCE_REVIEW_NOT_SCIENTIFIC_INTERPRETATION_OR_MERGE_DESK",
+  "review": {
+    "scope": "Source-only review of boundedP001 runtime source/dependency restoration at64ac3dbd afteractualsame-runtime Drive mount confirmed. No prediction/preflight/archivehash execution; reuse exactfrozen0770 adapterreview and d6a source/1a notebookcells1and3 plusreviewed7zprerequisite. Actualfrozen require_patient_review and packetprepare PASSED privately,16new/37combinedtests passed. Review newsetup and defaultchild environment observation, currentruntime/archive/source/process/output guards, exclusiveintents/logs, exactoriginal-cell capture and actualMCPtranscript verification. Existingacceptance/preflightunitprovenance reviews stayclosed; no newscientificreview isrequested. Focus concretecorrectness/privacy/authority/recoverybugs and smallestfix, notgeneraladapterhardening. Currentboundruntime sourceabsent,Drivevisible,expectedarchive metadata,no matchingprocess, predictionpathsabsentinvisibleparent. Stageonlysource/dependencies+environment; launchseparate.",
+    "reviewed_commit": "64ac3dbdac8a29154ae08ed01c98ed8865209ebe",
+    "verdict": "REQUEST_CHANGES",
+    "findings": [
+      "Blocker (correctness/recovery, p001_runtime_setup.verify_transcript): add_code_cell payloads are exact-matched but run_code_cell exchanges are neither counted nor bound to cells \u2014 only runs[0..2] are inspected. A transcript with additional trailing run_code_cell calls (retried setup/environment cell, or execution of a pre-existing notebook cell) or repeated __open_colab_browser_connection calls still yields SOURCE_DEPENDENCIES_AND_DEFAULT_CHILD_ENVIRONMENT_VERIFIED, contradicting the once-only/no-retry/no-reconnect worker contract the receipt attests, and fewer than three runs raises a bare IndexError instead of a classified SETUP_ error. In-cell guards make a second execution fail harmlessly, so this is receipt honesty, not immediate data exposure, but the receipt feeds the later launch-decision chain. Unless the frozen verify_cell_sources (0770, not supplied) provably enforces exactly-once execution bound by cellId \u2014 not evidenced in this module or its tests \u2014 add the smallest fix locally: require len(runs)==3, at most one connection-open, bind each runs[i]['input']['cellId'] to the i-th add_code_cell result's newCellId, and add a test rejecting a transcript with a duplicated trailing run.",
+      "Suggestion (correctness, main): prepare mode with missing --snapshot/--runtime-packet/--runtime-receipt/--request-id, or verify mode with missing --packet/--protocol, fails with TypeError/AttributeError on None rather than parser.error (the intake verify mode has this guard). Fail-closed but unclassified; add the same argument-presence check.",
+      "Suggestion (robustness/privacy, verify_transcript and main): the setup-run stream has no size bound before splitlines()/ast.literal_eval (environment output is bounded at 132096), and ast.literal_eval on malformed lines can raise SyntaxError, which is not caught as a classified failure; bound the setup output and catch SyntaxError as SETUP_TRANSPORT_OUTPUT_SCHEMA. The --output receipt is opened 'x' then chmod 0600 without setting umask, leaving a brief default-permission window (bounded metadata only, low impact).",
+      "Suggestion (recovery hygiene, observe_environment): environment-intent.json and environment.console.log receive 0600 permissions only via the os.umask(0o077) that claim_setup set in the prior cell of the same kernel; the coupling is sound because the fingerprint re-check binds both cells to the same kernel PID, but setting the umask locally in observe_environment removes the implicit cross-cell dependency.",
+      "Verified sound: frozen-byte checks before reusing capture_cell and notebook cells 1/3; reviewed 7z lines re-verified as AST constants at the preparation pin; exclusive 'x'-mode intents with reconcile-not-retry semantics and pre-created append-only logs; symlink refusal on all staged paths; child probe rejects shadowed import origins before importing and emits only schema-bounded metadata with private console retention; setup root bound to the runtime fingerprint preventing a second request from claiming a fresh directory; patient_launch_authorized and scientific_acceptance held False end-to-end with no frozen approval altered."
+    ]
+  },
+  "execution": {
+    "reviewed_commit": "64ac3dbdac8a29154ae08ed01c98ed8865209ebe",
+    "returncode": 0,
+    "wall_seconds": 330.4096982360006,
+    "input_file_sha256": {
+      "orchestrator/p001_runtime_setup.py": "8d18c67eb7a5f8d25ae376bc193e0f334b695332facd6f98688bd43013580c19",
+      "tests/test_p001_runtime_setup.py": "c7610b68b2c54ab3b84c85a7a04214b7e718cd17a4d2191850c6756317af7565",
+      "orchestrator/p001_runtime_intake.py": "6bd9d97fdae4972815d25121bf7971c495ea8c7245ea7cf15a89b94e943976c2",
+      "orchestrator/colab_worker.py": "61763588303d2256b6224d915ae3448545624b55d0b057504377ba6f6eeeb27a",
+      "orchestrator/colab_session_worker.py": "313fb02cd0d68a240f760f7038981967cb7a22caf56c236d9beda73e6299684e",
+      "orchestrator/p001_preflight_transport.py": "de9688b66affc45ffba431cfb5c58638d8eb3d1bac1eb839cfd005b5dee1807f",
+      "docs/science/P001_MOUNT_CONFIRMED_20260908.json": "7614c7a3d4e92b277a96d2ca403132eab7cf88e8d9bc51e1e2f7071ba91956e8",
+      "docs/science/hosted-p001-provenance-readiness-20260908/disposition.md": "1a7252335cda137ef77e3751924a0d57ce0898fe9b99644ce0be525dfd8b891a",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda"
+    },
+    "response_sha256": "10d1b318993bab8158e4595d75412bc4eff21d0f76aa3b653ec4c9cbd30a0c52",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "7b644371d0ce0b800f31789ee6fd2ebf8882dfc3a3e923bf7756d626c4de9ca1"
+  },
+  "runtime_setup_proven_by_source_review": false,
+  "patient_launch_authorized": false,
+  "prior_review_preserved": false
+}

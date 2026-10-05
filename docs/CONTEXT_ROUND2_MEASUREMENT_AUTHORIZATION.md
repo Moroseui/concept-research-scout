@@ -1,0 +1,3 @@
+They don't exist yet. Sprint 10 was run manually in Colab outside the system; the only artifacts are the executed notebook and saved tables under sprint10-comparison-PRIVATE/compare-875c56c278-0a60362503. There are no system run/validation records, interpretation, or investigator_next_decision.json for it. Producing those through the system is step (d). Preserve the absence; do not reconstruct them.
+
+For the headroom measurement only: use existing real system artifacts of the same types as size proxies (for example the 047 formal interpretation and its next-decision record from 2026-09-08), labeled as proxies in the report, alongside the real Sprint 10 notebook and tables. Report per-input sizes with the proxy portions identified, and the margin under 200,000.

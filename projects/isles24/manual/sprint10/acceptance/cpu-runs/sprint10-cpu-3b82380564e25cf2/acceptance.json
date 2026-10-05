@@ -1,0 +1,9 @@
+{
+  "interpretation_sha256": "86f2e1fd7798ea5678e56ecb3f753c41890341379c12cf6eee70f243d60c1717",
+  "meaning": "Known-case Sprint10 reproduction, independently reviewed; no new efficacy claim or follow-up execution authority",
+  "next_decision_sha256": "4cb61d7bd6e3b07487a660c4a998ddd2d5a5c2b328736867205a175a0262c00a",
+  "review_sha256": "9d4c2fd485953a8b68a3f21ecd5f3c5acc35cd92416b45b1999606ab767adbd9",
+  "run_id": "sprint10-cpu-3b82380564e25cf2",
+  "source": "7f781a56479ae3ae3cb272616b09ef66b2e39552",
+  "validation_sha256": "937daca25996305f9ce0061984bb08fc1063349d47ee715b42252bb2eb180314"
+}

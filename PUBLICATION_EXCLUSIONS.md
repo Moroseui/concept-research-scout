@@ -1,0 +1,886 @@
+# Publication exclusions
+
+Source exclusions below are relative paths only; no excluded contents are included.
+
+- `.gitattributes`: PUBLICATION_PATH_REJECTED
+- `.gitignore`: PUBLICATION_PATH_REJECTED
+- `AUTONOMY_PROGRESS.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `LICENSE`: PUBLICATION_TYPE_REJECTED
+- `Makefile`: PUBLICATION_TYPE_REJECTED
+- `OPERATOR_SETUP.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `REVAMP.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `configs/pilot/colab-worker-future.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/autonomy-review/review@.service.in`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `deploy/manual-lane/cpu-requirements.lock`: PUBLICATION_TYPE_REJECTED
+- `deploy/manual-lane/cpu-runtime.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/manual-lane/host-policy/admin.profile`: PUBLICATION_TYPE_REJECTED
+- `deploy/manual-lane/host-policy/vendor-original.profile`: PUBLICATION_TYPE_REJECTED
+- `deploy/manual-lane/research-manual-sprint10-rc3.service`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/manual-lane/runtime.promotion.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/manual-lane/runtime.rc4-review.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/manual-lane/versioned.service.in`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `deploy/manual-lane/versioned.timer.in`: PUBLICATION_TYPE_REJECTED
+- `deploy/modal-lane/run.service.in`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `deploy/modal-lane/run.timer.in`: PUBLICATION_TYPE_REJECTED
+- `deploy/research-system/bootstrap.sh`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/research-system/codex_userns.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/research-system/prepare_live_research.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/research-system/research-system-drive.service`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/research-system/research-system-handover.service`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `deploy/research-system/research-system-issue-intake.service.in`: PUBLICATION_TYPE_REJECTED
+- `deploy/research-system/research-system-scientific-job@.service.in`: PUBLICATION_TYPE_REJECTED
+- `deploy/research-system/synthetic_acceptance.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/M3_HOST_PROOF_TRANSITION.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/M3_INTERPRETATION_EVIDENCE.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/M4_PRIVATE_SCIENTIFIC_INTAKE.md`: EXCLUDED_RECORD_PATH
+- `docs/MANUAL_LOGIN.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/RC4_PORTABILITY_SWEEP.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/STEP_C_REVIEW.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/STEP_D_ISOLATION.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/STOCKTAKE_REVIEW_CONTINUATION.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/BRANCH_AND_AUTHORSHIP_20260906.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/CLAUDE_EXECUTION_WORKER.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/CLAUDE_WORKER_INTEGRATION_20260905.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/CLEANUP_RECONCILIATION_20260906.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/CLEANUP_REVIEW.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/COLAB_MCP.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/COLAB_MCP_CONNECTED_TEST_20260905.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/COLAB_MCP_TEST_20260905.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/COLAB_MCP_WINDOWS_HELPER_TEST_20260905.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/COLAB_MCP_WSL_TEST_20260905.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/MAIN_INTEGRATION_VERIFIED_20260906.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/P001_DISPATCH_BLOCKED_20260905.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/P001_DOWNLOAD_SYSTEM_BATCH_20260905.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/PROGRESS.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/reviews/human-controls-final-r1.response.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/isles-pilot/reviews/human-controls-final.response.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/CURRENT_MILESTONE_20260908.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/DEPLOYMENT_BUNDLE_PREPARATION.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/GOOGLE_OAUTH_OPERATOR_WINDOW_20260908.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/HOSTED_ACCEPTANCE_20260906.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/HOSTED_CYCLE_IMPLEMENTATION_REVIEWS_20260906.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/OPERATOR_WINDOW_READY_20260908.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/RESTART_HANDOFF_20260909.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/daily/30890a0470b97064428ba9d7dc09da95f1b46b4bfe65349311bc9b0222942b89.astra-disposition.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/hosted-completion-20260907/50-handover-a0795e6-continuation.operating-context.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/hosted-completion-20260907/50-handover-a0795e6-disposition.operating-context.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/hosted-completion-20260907/50-handover-a0795e6-review.operating-context.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/hosted-completion-20260907/51-handover-a0795e6-continuation.operating-context.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/hosted-completion-20260907/51-handover-a0795e6-disposition.operating-context.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operations/hosted-completion-20260907/51-handover-a0795e6-review.operating-context.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operator-decisions/20260927-m4-successor-contract.binding.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/operator-decisions/20260928-copy-recovery.binding.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `docs/science/047B_PRIVATE_ACCEPTANCE_APPROVED_20260908.json`: EXCLUDED_RECORD_PATH
+- `docs/science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.json`: EXCLUDED_RECORD_PATH
+- `docs/science/047B_PRIVATE_ACCEPTANCE_PACKET_20260908.md`: EXCLUDED_RECORD_PATH
+- `docs/science/P001_TRANSPARENT_NATIVE_SOURCE_REVIEW_20260908.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `evidence/actions.md`: EXCLUDED_RECORD_PATH
+- `evidence/cross_charter_index.md`: EXCLUDED_RECORD_PATH
+- `evidence/datasets.csv`: EXCLUDED_RECORD_PATH, PUBLICATION_TYPE_REJECTED
+- `evidence/decisions.md`: CASE_LEVEL_RECORD_REJECTED, EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `evidence/external_reviews/2026-08-17_normalization_construct_validity_brief.md`: EXCLUDED_RECORD_PATH
+- `evidence/external_reviews/2026-08-25_round4_repo_audit.pdf`: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `evidence/external_reviews/2026-08-25_round5_2a_deep_review.pdf`: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `evidence/external_reviews/2026-08-25_staging_review.md`: EXCLUDED_RECORD_PATH
+- `evidence/ledger_digest.md`: EXCLUDED_RECORD_PATH
+- `evidence/ledger_digest_baseline.md`: EXCLUDED_RECORD_PATH
+- `evidence/ledger_digest_isles24.md`: EXCLUDED_RECORD_PATH
+- `evidence/literature.csv`: EXCLUDED_RECORD_PATH, PUBLICATION_TYPE_REJECTED
+- `evidence/portfolio_brief.md`: EXCLUDED_RECORD_PATH
+- `evidence/portfolio_brief_baseline.md`: EXCLUDED_RECORD_PATH
+- `evidence/portfolio_brief_isles24.md`: EXCLUDED_RECORD_PATH
+- `evidence/research_context.json`: EXCLUDED_RECORD_PATH
+- `experiments/sprint9_modal/requirements.lock`: PUBLICATION_TYPE_REJECTED
+- `ideas/001/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/001/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/001/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/001/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/001/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/001/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/001/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/001/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/002/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/003/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/HUMAN_APPROVED_PROBE`: PUBLICATION_TYPE_REJECTED
+- `ideas/004/log_interpret.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/log_probe_code.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_context_memo.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_feasibility.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_interpret.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_interpret_review.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_probe_code.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_probe_plan.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_probe_review.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/004/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/005/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/006/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/006/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/007/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/008/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/009/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/010/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/010/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/010/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/010/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/010/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/010/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/011/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/012/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/012/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/012/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/012/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/012/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/012/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/012/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/013/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/014/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/015/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/015/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/015/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/015/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/015/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/015/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/016/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/016/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/016/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/016/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/016/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/016/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/017/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/018/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/019/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/020/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_feasibility.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/021/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/log_keystone.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/022/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/HUMAN_APPROVED_PROBE`: PUBLICATION_TYPE_REJECTED
+- `ideas/023/confer/q0001.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/confer/q0001_log.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/confer/q0001_prompt.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/confer/q0001_review.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/confer/q0001_review_prompt.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/confer/q0002.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/confer/q0002_prompt.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/confer/q0002_review_log.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/confer/q0002_review_prompt.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/confer/stage_provenance.jsonl`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/decision.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/interpret_review.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/interpretation.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/log_interpret.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/log_interpret_review.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/log_keystone.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/log_probe_code.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/log_probe_plan.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/log_reconcile.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/probe_contract.yaml`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/023/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_feasibility.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_interpret.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_interpret_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_probe_code.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_probe_plan.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_probe_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_reconcile.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/023/stage_provenance.jsonl`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/024/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/025/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/027/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/028/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/029/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/030/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/031/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/032/log_critique.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/prompt_critique.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/prompt_debate_r1_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/prompt_debate_r1_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/prompt_debate_r2_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/prompt_debate_r2_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/prompt_debate_summary.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/032/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/033/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/034/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/035/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/036/log_critique.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/prompt_critique.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/prompt_debate_r1_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/prompt_debate_r1_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/prompt_debate_r2_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/prompt_debate_r2_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/prompt_debate_summary.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/036/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/037/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/log_critique.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/038/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/log_keystone.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/039/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/040/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/041/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/log_revise.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/042/prompt_revise.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/043/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/043/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/log_keystone.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_critique.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_debate_r1_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_debate_r1_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_debate_r2_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_debate_r2_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_debate_r3_critic.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_debate_r3_proposer.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_debate_summary.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/044/prompt_keystone_screen.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/HUMAN_APPROVED_PROBE`: PUBLICATION_TYPE_REJECTED
+- `ideas/045/critique.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/decision.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/feasibility.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/interpret_review.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/interpretation.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/log_critique.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/log_feasibility.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/log_interpret.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/045/log_interpret_review.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/log_keystone.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/log_probe_code.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/log_probe_plan.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/log_revise.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_critique.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_debate_r1_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_debate_r1_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_debate_r2_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_debate_r2_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_debate_r3_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_debate_r3_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_debate_summary.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_feasibility.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_interpret.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_interpret_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_probe_code.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_probe_plan.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_probe_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/prompt_revise.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/045/stage_provenance.jsonl`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/HUMAN_APPROVED_PROBE`: PUBLICATION_TYPE_REJECTED
+- `ideas/046/decision.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/046/feasibility.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/046/interpret_review.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/046/interpretation.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/046/keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/046/log_interpret.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/046/log_interpret_review.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/log_keystone.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/log_probe_code.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/log_probe_plan.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/log_revise.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_critique.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_debate_r1_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_debate_r1_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_debate_r2_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_debate_r2_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_debate_r3_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_debate_r3_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_debate_summary.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_feasibility.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_interpret.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_interpret_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_probe_code.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_probe_plan.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_probe_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/046/prompt_revise.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/HUMAN_APPROVED_PROBE`: PUBLICATION_TYPE_REJECTED
+- `ideas/047/debate.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/decision.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/feasibility.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/idea_card.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/interpret_review.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/interpretation.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/log_critique.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/log_feasibility.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/log_interpret.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/log_interpret_review.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/log_probe_code.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/log_probe_review.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/log_revise.txt`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/probe_contract.yaml`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/047/prompt_critique.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_debate_r1_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_debate_r1_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_debate_r2_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_debate_r2_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_debate_r3_critic.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_debate_r3_proposer.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_debate_summary.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_feasibility.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_interpret.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_interpret_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_keystone_screen.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_probe_code.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_probe_plan.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_probe_review.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/prompt_revise.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/047/revision.md`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/actioner-001/log_actioner.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/actioner-001/prompt_actioner.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/actioner-002/log_actioner.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/actioner-002/prompt_actioner.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/librarian-001/log_librarian.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/librarian-001/prompt_librarian.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-001/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-002/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-003/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-004/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-005/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-005/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-006/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-006/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-006/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/log_fiction_refine.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/log_wide_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/prompt_fiction_extract.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/prompt_fiction_refine.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/prompt_fiction_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-007/prompt_wide_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-008/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-008/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-008/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/log_fiction_refine.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/log_wide_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/prompt_fiction_extract.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/prompt_fiction_refine.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/prompt_fiction_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-009/prompt_wide_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-010/candidates_all.json`: PUBLICATION_CONTENT_REJECTED
+- `ideas/scout-010/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_CONTENT_REJECTED
+- `ideas/scout-010/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_CONTENT_REJECTED
+- `ideas/scout-010/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-010/scout_candidates.json`: PUBLICATION_CONTENT_REJECTED
+- `ideas/scout-011/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_CONTENT_REJECTED
+- `ideas/scout-011/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-011/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-012/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-012/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-012/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-013/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-013/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-013/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-014/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-014/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-014/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-015/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-015/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-015/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-016/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-016/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-016/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-017/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-017/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-017/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-018/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-018/log_scout.txt`: PUBLICATION_CONTENT_REJECTED
+- `ideas/scout-018/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-018/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-019/log_scout.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-019/prompt_novelty_audit.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-019/prompt_scout.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/log_fiction_refine.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/log_wide_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/prompt_fiction_extract.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/prompt_fiction_refine.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/prompt_fiction_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-001/prompt_wide_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-002/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-002/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-002/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-002/prompt_wide_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-003/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-003/log_wide_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-003/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-003/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-003/prompt_wide_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-004/log_novelty_audit.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-004/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-004/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-004/prompt_wide_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-005/log_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-005/log_wide_scout.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-005/prompt_novelty_audit.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-005/prompt_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-005/prompt_wide_scout.md`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-006/scout_candidates.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/scout-isles24-008/candidates_all.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/scout-isles24-008/log_novelty_audit.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-008/prompt_novelty_audit.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-008/prompt_scout.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-008/prompt_wide_scout.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-008/scout_candidates.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/scout-isles24-008/wide_candidates.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/scout-isles24-009/candidates_all.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/scout-isles24-009/log_wide_scout.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-009/prompt_novelty_audit.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-009/prompt_wide_scout.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-009/wide_candidates.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/scout-isles24-010/candidates_all.json`: CASE_LEVEL_RECORD_REJECTED
+- `ideas/scout-isles24-010/log_novelty_audit.txt`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-010/prompt_novelty_audit.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-010/prompt_wide_scout.md`: CASE_LEVEL_RECORD_REJECTED, INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `ideas/scout-isles24-010/wide_candidates.json`: CASE_LEVEL_RECORD_REJECTED
+- `ledger.jsonl`: EXCLUDED_RECORD_PATH
+- `orchestrator/colab_worker.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/cpu_isolation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/inspection_access.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/inspection_runtime.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/manual_auth.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/manual_isolation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/manual_runtime.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/manual_stage.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/p001_native_setup.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/private_records.py`: PUBLICATION_TYPE_REJECTED
+- `portfolio/ideas.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/.gitignore`: PUBLICATION_PATH_REJECTED
+- `probes/004/results/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/analysis/tier1_bootstrap.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/analysis/tier1_differences.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/analysis/tier1_stats.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/analysis/tier2_auroc.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/analysis/tier2_excluded_cells.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/anchor/anchor_log.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_01/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_01/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_02/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_02/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_03/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_03/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_04/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_04/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_05/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_05/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_06/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_06/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_07/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_07/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_08/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_08/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_09/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_09/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_10/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_10/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_11/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_11/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_12/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_12/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_13/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_13/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_14/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_14/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_15/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_15/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_16/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_16/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_17/chunk_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/chunks/chunk_17/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/driver_console.log`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/manifest/pair_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/scores/download_accounting.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/scores/input_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/scores/per_sample.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/004/results_v2/sessions/session_attempts.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/README.md`: CASE_LEVEL_RECORD_REJECTED
+- `probes/023/results/results_v2-0e223c82f9eb/driver_console.log`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2-0e223c82f9eb/simulation_operating_characteristics.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/archive_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/bin_tissue_audit.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/driver_console.log`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/exclusions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/identity_residual_distribution.svg`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/identity_residual_summary.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/native_support.svg`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/per_patient.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/per_stratum_summary.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/run_log.txt`: CASE_LEVEL_RECORD_REJECTED
+- `probes/023/results/results_v2/schema_census.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/split_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/results/results_v2/support_summary.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/023/run.py`: CASE_LEVEL_RECORD_REJECTED
+- `probes/045/results/results_v2/design_diagnostics.json`: CASE_LEVEL_RECORD_REJECTED
+- `probes/045/results/results_v2/determinism_manifest_end.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v2/determinism_manifest_start.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v2/exclusions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v2/input_manifest.csv`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v2/per_row_design.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v2/resolved_config.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v2/split_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v3/design_diagnostics.json`: CASE_LEVEL_RECORD_REJECTED
+- `probes/045/results/results_v3/determinism_manifest_end.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v3/determinism_manifest_start.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v3/exclusions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v3/input_manifest.csv`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v3/per_row_design.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v3/resolved_config.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v3/split_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v4/determinism_manifest_end.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v4/determinism_manifest_start.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v4/exclusions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v4/input_manifest.csv`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v4/per_patient_attribution.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/045/results/results_v4/resolved_config.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/045/results/results_v4/split_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v2/determinism_manifest_end.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v2/determinism_manifest_start.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v2/environment.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v2/exclusions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v2/input_manifest.csv`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v2/resolved_config.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v2/sample_audit.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v2/split_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v3/absolute_lorenz_curve.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v3/determinism_manifest_end.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v3/determinism_manifest_start.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v3/environment.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v3/exclusions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v3/input_manifest.csv`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v3/per_case_contributions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v3/positive_mass_curve.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v3/resolved_config.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/046/results/results_v3/signed_cumulative_curve.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/046/results/results_v3/split_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/047/README.md`: CASE_LEVEL_RECORD_REJECTED
+- `probes/047/results/results_v2/clinical_data-description.xlsx`: PUBLICATION_TYPE_REJECTED
+- `probes/047/results/results_v2/determinism_manifest_end.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/047/results/results_v2/determinism_manifest_start.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/047/results/results_v2/dictionary_inventory.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/047/results/results_v2/environment.txt`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/047/results/results_v2/input_manifest.csv`: INFRASTRUCTURE_OR_CREDENTIAL_PATH, PUBLICATION_TYPE_REJECTED
+- `probes/047/results/results_v2/per_case_support.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/047/results/results_v2/probe_exclusions.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/047/results/results_v2/proposed_variable_freeze.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/047/results/results_v2/provenance_gate.json`: CASE_LEVEL_RECORD_REJECTED
+- `probes/047/results/results_v2/rank_discrepancy.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/047/results/results_v2/resolved_config.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `probes/047/results/results_v2/run_log.txt`: CASE_LEVEL_RECORD_REJECTED
+- `probes/047/results/results_v2/split_manifest.csv`: PUBLICATION_TYPE_REJECTED
+- `probes/047/results/results_v2/support_shares.json`: CASE_LEVEL_RECORD_REJECTED
+- `probes/047/run.py`: CASE_LEVEL_RECORD_REJECTED
+- `projects/isles24/context/obligations.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `projects/isles24/manual/sprint10/EXCLUSION_DISPOSITION.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/fixtures/context_budget/round2/PROVENANCE.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/fixtures/context_budget/sprint10/PROVENANCE.json`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_autonomy_m1.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_autonomy_review.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_inspection_access.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_inspection_canary.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_inspection_runner_offline.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_inspection_runtime.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_issue_intake.py`: CASE_LEVEL_RECORD_REJECTED
+- `tests/test_ledger_object_group.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_linux_scientific_jobs.py`: CASE_LEVEL_RECORD_REJECTED
+- `tests/test_live_handover_install.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_live_research_preparation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_manual_isolation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_manual_promotion.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_manual_rc2.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_manual_rc3.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_manual_release.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_mcp_review_pipeline.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_modal_runtime_schema.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_operations_report.py`: CASE_LEVEL_RECORD_REJECTED
+- `tests/test_p001_native_launch.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_private_git.py`: EXCLUDED_RECORD_PATH
+- `tests/test_private_records.py`: EXCLUDED_RECORD_PATH
+- `tests/test_reviewed_deployment_install.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_scientific_intake.py`: PUBLICATION_CONTENT_REJECTED
+- `tools/autonomy_review_host.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tools/deploy_autonomy_review.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tools/install_m3_post_smoke_host.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tools/install_modal_provider.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tools/install_modal_transition.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tools/manual_promotion.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tools/private_checkout.py`: PUBLICATION_TYPE_REJECTED
+
+## Requested outputs
+
+- `outputs/sprint13a/sprint13a_methods.csv`: PUBLICATION_TYPE_REJECTED
+- `outputs/sprint13a/sprint13a_paired.csv`: PUBLICATION_TYPE_REJECTED
+- `outputs/sprint13a/sprint13a_complementarity.csv`: PUBLICATION_TYPE_REJECTED
+- `outputs/sprint13a/sprint13a_tuned_choices.csv`: PUBLICATION_TYPE_REJECTED
+- `outputs/sprint13a/sprint13a_precision_recall.png`: PUBLICATION_TYPE_REJECTED
+- `outputs/sprint13a/sprint13a_dice_tree_vs_nnunet.png`: PUBLICATION_TYPE_REJECTED

@@ -1,0 +1,5 @@
+{
+  "operator_original_sha256": "e918a80927a1007d8f67853a45a9139ea5723ee53b6409d778f323e93c8cb00c",
+  "proposal_sha256": "b53a1f750a0dac80e04d7854df3b63155ca0ed8458c99bef831bfaa532f858a7",
+  "scope": "bounded M0 format/integration correction; no extra model call; preserved failed rows and charges; subsequent standing permission exactly as recorded"
+}

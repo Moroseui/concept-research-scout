@@ -1,0 +1,139 @@
+{
+  "kind": "sanitized author-operated source review and local preparation receipt; not independent main-merge review or deployed execution evidence",
+  "status": "EXACT_LOCAL_PLAN_PREPARED_FROM_CURRENT_HOST_METADATA_NOT_ROOT_PREPARED",
+  "source": "04d67a00422e862d62acf356bd9526a4af449fb1",
+  "source_base": "ade33e9def8014710e1fcf1881b6b11bd1b72e8c",
+  "execution": {
+    "reviewed_commit": "04d67a00422e862d62acf356bd9526a4af449fb1",
+    "returncode": 0,
+    "wall_seconds": 225.20933312800116,
+    "input_file_sha256": {
+      "deploy/research-system/prepare_live_handover_setup.py": "fa00b0764f366a97cb896057718e28db116f092a75a1e6f551b3df0df296ccf3",
+      "deploy/research-system/dispatch-limiter.approved.json": "09dcbd9052fb890a25366ae6631dbf92c94cd5ece11017d881dbcdbabacc0ab3",
+      "tests/test_live_handover_setup.py": "035546f448002aa419d913d1a8b90cee6c664a0da083e31aa9dc90e2c3d5523b",
+      "docs/operations/PROTECTED_HANDOVER_APPROVED_20260908.json": "0be99c7b0b4e5e9eb16d9ebf8b44e369f6ef07233b903173fcd5355536127d1a",
+      "docs/operations/PROTECTED_WRITER_ADMISSION_DECISION.md": "4a50253be6b24255b807f3ae4e5052a9a4075fde48a9e57b96ad438f67c48835",
+      "docs/operations/WRITER_APP_IDENTITY_20260908.json": "741dc485af9cf819776f9bc3dd76d0480b36107596ed9ca4ec2f4cc0b82074d6",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda",
+      "orchestrator/remote_supervisor.py": "06c0ee427d97e6be518e8ad037b46c09cc9f97b021cb848f67f2f007e7affcff",
+      "orchestrator/protected_handover.py": "0c6c848f52693937e669701ff36bd77f9d1a50bb59b8526d988af34a126add3c",
+      "orchestrator/protected_writer.py": "f064bb30432b77f0bb66739db4bf9fa12ef6e94a460a428d2b8f75ed7fe03f80",
+      "orchestrator/dispatch_limiter.py": "250a9eb802af705de2d94063350a90fd815319a26076ce718369783ecc5ade45",
+      "orchestrator/actions_admission_wait.py": "a599aec2b69b316adb9d359bcb8f4fa3ac42662ebf5ed59e776fcfceb777d4bf",
+      "orchestrator/phone_notifications.py": "e3dca298fad4dc5ae82058bad7331d657996712472b135c0ed9af17d17567d10"
+    },
+    "response_sha256": "535eead93f8d46f512943167774d7ec55e79d00c6d51e606cfb7a7bbd7fdea77",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "3879cd872a63a632bdff9a953fad9f3bc508c312f178c77759cd5388ac1f9420"
+  },
+  "session_id": "4c032f7e-5bfd-4995-9321-af91cb114b7c",
+  "review": {
+    "scope": "Only the standalone preparation helper, approved shared policy, focused tests and source-bound existing consumers. The deferred numbered-idea hosted adapter and scientific workflows are excluded.",
+    "reviewed_commit": "04d67a00422e862d62acf356bd9526a4af449fb1",
+    "verdict": "APPROVE",
+    "summary": "Source review approved preparation-only behavior: exclusive private proposal creation; preservation and rechecking of existing configuration; refusal of partial, changed or concurrent inputs; metadata-only key checks; exact approval and whole-policy binding; and a separate model-disabled/max-zero proposal. No live host behavior was exercised by the reviewer.",
+    "nonblocking_follow_up": [
+      "Before any state creation, repeat overlap and absence checks using resolved canonical paths.",
+      "Distinguish the normalized whole-policy digest used by admission consumers from the raw copied-file digest.",
+      "Use canonical paths consistently when reconciling proposed and installed configuration."
+    ],
+    "reviewer_executed_tests": false,
+    "reviewer_executed_host_operations": false,
+    "independent_main_merge_review": false
+  },
+  "approval_binding": {
+    "record": "docs/operations/PROTECTED_HANDOVER_APPROVED_20260908.json",
+    "record_commit": "03eb1d42ffc89e3e0c8b6697dd4037455f7a239d",
+    "record_sha256": "0be99c7b0b4e5e9eb16d9ebf8b44e369f6ef07233b903173fcd5355536127d1a",
+    "writer_identity_record": "docs/operations/WRITER_APP_IDENTITY_20260908.json",
+    "app_id": 4879374,
+    "installation_id": 160193942,
+    "repository": "Moroseui/concept-research-scout",
+    "scope": "Existing approved five-item design and setup; this receipt adds no authority or authentication grant."
+  },
+  "policy_binding": {
+    "source_path": "deploy/research-system/dispatch-limiter.approved.json",
+    "raw_file_sha256": "09dcbd9052fb890a25366ae6631dbf92c94cd5ece11017d881dbcdbabacc0ab3",
+    "normalized_whole_policy_sha256": "f1574ec4f9031f05cfe7b9279ca26114821678ed665b115b19a9dca3ac72bcdd",
+    "normalization": "SHA256(json.dumps(policy, sort_keys=True).encode()); includes the entire policy object using default JSON separators.",
+    "required_consumer_binding": "Future main configuration and protected admission consumers must use the exact approved policy object; verify raw-file integrity separately.",
+    "n": 48,
+    "hard_limit": 96,
+    "window": "UTC_CALENDAR_DAY",
+    "reset_operators": [
+      "ssh-uid:0"
+    ],
+    "shared_policy_activated": false
+  },
+  "host_observation": {
+    "observed_at": "2026-09-09T02:13:42.713704+00:00",
+    "fresh_host_collection_for_this_public_receipt": false,
+    "installed_handover_source": "6d0f0c508a6cfa624c96debc52f748b4cc0bfcd5",
+    "reviewed_preparation_source_present": false,
+    "active_broker_mode": "SYNTHETIC_FIXTURE",
+    "active_broker_model_mode": "SUPERVISED",
+    "active_broker_max_model_turns": 1,
+    "active_writer_configured": false,
+    "configuration_sha256": {
+      "broker": "2e6257e8e458316352183432bd1e232bffc1d30e0e77e10a8205183d1b804c28",
+      "runtime": "4b67acfe868aacc5e4a5562d9fc59b18c63f92ab24d310615954a1fd859b671c",
+      "writer": "13cc1d68d7fa6f98d77129af67c31d7d43d5de92f4b00ad947d7f520084d080c"
+    },
+    "writer_key_root_owned_mode_0600": true,
+    "key_contents_read": false,
+    "proposed_destinations_absent": true,
+    "resolved_overlap_absent": true,
+    "inputs_stable_during_collection": true,
+    "limitation": "These facts describe the preserved timestamped read-only observation, not a new host verification or installed preparation."
+  },
+  "local_plan": {
+    "reviewed_function_invoked": "plan only; prepare not invoked",
+    "root_preparation_invoked": false,
+    "reason": "The reviewed helper requires its own clean source checkout at the bound commit. That snapshot was absent on the host; copying the helper and policy alone would not satisfy checked_source(ROOT).",
+    "proposed_mode": "LIVE_APPROVED",
+    "proposed_model_mode": "DISABLED",
+    "proposed_max_model_turns": 0,
+    "proposed_operator_uids": [
+      0
+    ],
+    "existing_science_configuration_and_consumed_turns_modified": false,
+    "host_mutations": 0,
+    "source_installed": false,
+    "tokens_minted": 0,
+    "github_api_calls": 0,
+    "ledger_initialized": false,
+    "refs_published": 0,
+    "models_called": 0,
+    "services_changed": false,
+    "private_original_sha256": {
+      "local_plan_receipt": "00cedf943907556ae20dd994f98d5ee7c81c1e954883c60ca3f56896e0c97c2f",
+      "host_metadata": "99bd30121d78e2b7a79f226a412101595fab76d8532daa9762052353581e6b60",
+      "broker_proposal": "325cca0f4fa0b9ced2fe52d84ad944637bcf4900ed6be2b3446d1455829718cd",
+      "deployment_plan": "632eb1d04125378861b9e8323e27f55cf73ff29795af1758e21d381a4c89d7b4",
+      "initialize_request_proposal": "c8ecc9b6d3db19301a4bdc23d3063575c16fbee18db64b596f384e847c795c38",
+      "review_execution": "030a4159bc0c10ddb965b320fdeb9eac5b87e1a7df03bc828915a360bcdd2def"
+    }
+  },
+  "next_requirement": [
+    "Reconcile current protected configuration, key metadata, source and canonical destination/overlap checks; preserve any existing or partial preparation before retrying.",
+    "Satisfy the reviewed clean source-checkout precondition at the exact bound source through a separately bounded source-staging step, then invoke root-private preparation. The preserved local plan is neither root preparation nor installed configuration.",
+    "Before separate installation or initialization, reconcile writer identity and exact remote publication/ledger refs, preserve active science state and consumed turns, and retain the reviewed policy object and operator-only reset semantics.",
+    "Live canaries and activation evidence remain outstanding. This source review does not satisfy main-merge review, authorize a main merge, launch patients or activate unattended operation."
+  ],
+  "receipt_preparation": {
+    "new_model_calls": 0,
+    "tests_rerun": 0,
+    "host_calls": 0,
+    "credentials_read": false,
+    "private_originals_preserved": true
+  },
+  "privacy": "Private key locations, credential contents, original host output, model protocol and private proposal files are not published; only selected metadata and integrity hashes are included."
+}

@@ -7,8 +7,8 @@ import time
 
 
 class Store:
-    def __init__(self,path):
-        self.db=sqlite3.connect(path,timeout=30,isolation_level=None)
+    def __init__(self,path,connection_factory=sqlite3.Connection):
+        self.db=sqlite3.connect(path,timeout=30,isolation_level=None,factory=connection_factory)
         self.db.row_factory=sqlite3.Row
         self.db.executescript('''PRAGMA journal_mode=WAL;
         CREATE TABLE IF NOT EXISTS jobs(id TEXT PRIMARY KEY, binding TEXT NOT NULL,

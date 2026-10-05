@@ -1,0 +1,39 @@
+{
+  "kind": "Author-operated Claude publication repair review; not independent merge-desk approval",
+  "execution": {
+    "reviewed_commit": "0af0f79967a5367609c620bb485445690a1e8ad0",
+    "returncode": 0,
+    "wall_seconds": 183.2249516750162,
+    "input_file_sha256": {
+      "orchestrator/git_publication.py": "fe5e3b0f3cd57de46757c527e13bd6659ea2beb2da4279558e509c2b7975be0c",
+      "tests/test_drive_dependency_publication.py": "e0944675e8d3ce73f9d0f7d1639f17593c56b131f9ea92fa81222c0614c12e92",
+      "docs/operations/DRIVE_PUBLICATION_REFUSAL_20260908.json": "a35c96b263174d5eed147e0c2447cc1f696584aa21655b71fafc57c0413c02c3",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c"
+    },
+    "response_sha256": "5a156534a4bb115f2222e7f26021273a708f2252252453ba5942046821b26389",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "ca5b771e417da7e2f68890666b0c525efa9a4b602a81dcaa883f8ecbbc3d55a5"
+  },
+  "session_id": "03ea3b3b-0f7d-4fe8-a7e9-47e107287fa9",
+  "verdict": "APPROVE",
+  "findings_summary_by": "Astra, from original private review",
+  "findings_summary": [
+    "Exact dependency-lock path and bounded pinned-package schema approved; no general lock exemption.",
+    "All existing outgoing-history, byte, credential and case-record checks remain active.",
+    "Publication authority, source/repository/destination bindings and compare-and-swap remain unchanged.",
+    "Review covered the publication gate; the concrete dependency set remains covered by the separately bound Drive implementation review."
+  ],
+  "validation": {
+    "command": "pytest tests/test_drive_dependency_publication.py",
+    "passed": 9
+  },
+  "original_review": "Private response and protocol preserved; hashes in execution record. Raw fixture strings are intentionally not repeated in this summary."
+}

@@ -1,0 +1,11 @@
+Approved: one focused manual implementation review of the paged-JSON navigation/provenance correction and same-run continuation, exactly as described in reviewer-navigation-reconciliation/DECISION_REQUEST.md and READONLY_RECONCILIATION.md. One-off manual evidence, not queue-qualified; no further round; all limits, call rows and charges unchanged.
+
+Conditions on the scientific side:
+
+1. Report whether the spec author had the same evidence-navigation limitation as the reviewer.
+2. The next stage must read the numeric evidence through the corrected navigation and explicitly verify every numeric claim carried in the approved spec.
+3. If the approved spec relies on numbers that neither the author nor the reviewer could actually read, repeat the spec review once with the corrected navigation, within the existing 8-call cap, instead of carrying forward an approval made without the numbers. Record which path you took and why.
+
+If another administrative review becomes necessary before the stock-take finishes, propose the reviewed distinction between a call proven to have failed before any model client launched and a genuinely uncertain call, rather than another one-off manual review.
+
+Prepare the review packet as before and give me the ZIP path. All caps and stop conditions still apply.

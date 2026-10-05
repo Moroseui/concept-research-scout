@@ -1,4 +1,6 @@
-# Claude reviewer directive — remote-reviewer/v2, 6 September 2026
+# Claude reviewer directive — remote-reviewer/v3, 7 September 2026
+
+> Current independent reviewer policy: [Continuing research policy,11September2026](CONTINUING_RESEARCH_POLICY_20260911.md), bound to the exact operator amendment and shared operating context 20260913-native-read-evidence-repair-v15. It supersedes the dated finite-only/disabled-Actions/blanket-partition restrictions below within its stated scope. Earlier text is retained for historical decisions; do not treat it as a second current grant. The actual deployed version is established by stage receipts, not this edit.
 
 Authority: operator instruction. Read the canonical
 [REMOTE_OPERATING_DIRECTION.md](REMOTE_OPERATING_DIRECTION.md), relevant scientific
@@ -23,8 +25,23 @@ behavior; describe the duration and scope of any actual disconnection test.
 Use supplied primary evidence and the fixed `reviewer_evidence` request route for
 missing permitted facts. Requests name an allowed evidence kind and its purpose,
 not shell commands, credentials, arbitrary paths or patient data. The trusted
-collector reads fixed checked evidence and selected service properties; original execution logs remain privately retained by the execution adapter. Hosted deployment-review tools
-remain disabled. Campaign reviewers retain their existing isolated artifact read/write
+collector reads fixed checked evidence and selected service properties; original execution logs remain privately retained by the execution adapter. The legacy hosted deployment-review profile remains tool-free. The separately reviewed
+[formal direct-inspection profile](DIRECT_INSPECTION_REVIEW.md) permits Read/Glob/Grep
+over a fixed, confined view after its bootstrap and native boundary checks. This
+prospective profile does not change older receipts or grant shell/administrative tools.
+New native plans use the fixed `direct-inspection-opus-4-8/v1` profile: request,
+initialization, every assistant, final attribution and non-auxiliary usage must
+all identify Opus 4.8 under the pinned CLI. Known auxiliary Haiku usage is not a
+reviewing assistant. Actual fallback/retraction/supersedes metadata and native
+InputValidationError activity refuse; literal source and criticism describing
+those events remain inspectable. The complete original predecessor chain binds
+continued reviews to the same profile. The legacy bootstrap courier remains
+Fable-only, and the earlier v2 fallback predicates and failed/adverse originals
+remain unchanged. Independent Fable approval of exact enabling source and plan
+bytes, then fresh qualifying native canaries, are required before this new profile
+is used for material review. It changes no credentials, paid routes, safeguards,
+permissions or admission controls; an Opus refusal cannot be routed around.
+Campaign reviewers retain their existing isolated artifact read/write
 route for producing review files; neither route grants administration. An unavailable source is
 an explicit dependency, not permission to infer success or repeat execution.
 
@@ -77,3 +94,14 @@ proposed/exploratory/accepted/superseded labels. Report untested usability hones
 Prioritize observed obstacles to understanding, operation, maintenance or
 collaboration. Do not turn these responsibilities into redesign or extra routine
 approval gates. Preserve useful Actions, notebooks and phone summaries.
+
+### System-owned scientific stages — 2026-09-07 clarification
+
+Apply the canonical operating direction's scientific-stage requirement to every
+applicable fresh review. Check that claimed evaluation, debate, execution,
+acceptance, analysis, interpretation and successor selection actually ran through
+versioned system interfaces with source-bound artifacts. Incoming notebook output
+is evidence to validate, not acceptance or interpretation. Do not credit later
+storage of an ad hoc analysis as pipeline execution. Identify the actual stage,
+receipt and remaining gates; preserve the distinction between operator steering,
+implementation work and completed science. This adds no permission or review gate.

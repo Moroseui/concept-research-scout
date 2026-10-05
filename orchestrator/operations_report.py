@@ -214,17 +214,39 @@ def finalize(root, source, day, receipts, amendment_of=None, *, task_state=None)
         for key,value in sorted(task_state.items()):
             if isinstance(value,str):
                 lines.append('- '+key.replace('_',' ')+': '+value.replace('\n',' '))
+        for key in ('coordinator_tasks_total','coordinator_tasks_omitted'):
+            value=task_state.get(key)
+            if type(value) is int and value>=0:
+                lines.append('- '+key.replace('_',' ')+': '+str(value))
+        schedule=task_state.get('research_schedule')
+        schedule=schedule if isinstance(schedule,dict) else {}
+        if isinstance(schedule.get('status'),str):
+            lines.append('- research schedule: '+schedule['status'].replace('\n',' '))
+        for label,records,identity in (
+                ('scheduled request',schedule.get('requests'),'task_id'),
+                ('coordinator task',task_state.get('coordinator_tasks'),'id')):
+            if not isinstance(records,list):continue
+            for row in records[:24]:
+                if not isinstance(row,dict):continue
+                name=row.get(identity);status=row.get('status');reason=row.get('reason')
+                name=name.replace('\n',' ') if isinstance(name,str) else 'identity unavailable'
+                status=status.replace('\n',' ') if isinstance(status,str) else 'status unavailable'
+                detail='; reason: '+reason.replace('\n',' ') if isinstance(reason,str) and reason else ''
+                lines.append('- '+label+' '+name+': '+status+detail)
+            if len(records)>24:
+                lines.append('- '+str(len(records)-24)+' additional '+label+' rows remain in the complete linked context.')
         context_body=('Bound task and decision state (recorded context, not new authority):\n\n'
                       +'\n'.join(lines)+'\n\n'
                       +f'[Complete task and decision state]({context_hash}.context.json); SHA-256 `{context_hash}`.\n\n')
     body = (f'# Research system daily report — {day}\n\nSource: `{source}` (reporting implementation).\n\n'
             +provenance
-            +f"{counts['completed']} completed; {counts['failed']} failed; {counts['blocked']} blocked; {counts['other']} in other states.\n\n"
-            + (f'Amendment of report `{amendment_of}`; original bytes remain preserved.\n\n' if amendment_of else '')
+            +f"Supplied execution receipts ({len(rows)}): {counts['completed']} completed; {counts['failed']} failed; {counts['blocked']} blocked; {counts['other']} in other states.\n\n"
+            + (f'Amendment of report [{amendment_of}]({amendment_of}.md); original bytes remain preserved.\n\n' if amendment_of else '')
             + (table+'\n' if rows else '')+science+'\n\n'+context_body
             + 'Human intervention, model usage and cost measurements: unavailable. '
             'The table preserves per-job measurements; overlapping jobs are not summed as elapsed time.\n\n'
-            + ('Recorded block or failure reasons: '+', '.join(dependencies)+'.\n\n' if dependencies else 'No named dependency was supplied; this does not prove all work is unblocked.\n\n')
+            + 'Dependencies in supplied execution receipts:\n\n'
+            + ('Recorded block or failure reasons: '+', '.join(dependencies)+'.\n\n' if dependencies else 'No named dependency was supplied in the execution receipts; this does not establish that other queues are unblocked.\n\n')
             +f'Primary evidence: [{receipt_hash}.receipts.json]({receipt_hash}.receipts.json); SHA-256 `{receipt_hash}`.\n\n'
             + 'Next action: review the bound primary receipts and resolve their named dependencies. '
             'Phone delivery, unattended execution and fresh model review require separate evidence.\n')

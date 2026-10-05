@@ -1,0 +1,929 @@
+CELL 0 markdown
+# Sprint 10 r2 — comparison of the completed Sprint 8 (trees) and Sprint 9 (U-Net) runs
+
+Comparison only: reads the two completed run directories, never trains, never writes into either run. Everything is written to a new directory under `sprint10-comparison-PRIVATE`.
+
+**What it checks before comparing anything (review findings 2 and 3).** Cache content identity, case list, grid, the smoke flag, shuffles and folds, and the **complete** partition dictionaries (outer train and held-out lists, inner train and validation lists, volume folds, and any extra keys) must be identical, or the notebook stops. Clinical inputs are compared separately (parsed-table digest and field sets); a tree-versus-network clinical contrast is produced only if they are identical. Expected combinations are enumerated from each run's manifest, execution records and arm list, and every one is reported as complete, pending, invalid (with the reason) or skipped.
+
+**How saved outputs are validated (findings 1 and 4).** Fold tables: exactly one row per expected recipe and patient, labels matching the requested shuffle, fold and training seed, the run's fingerprint, finite values where always defined, no infinities anywhere, and missing values only under their stated condition. Network score files: readable archive, the run's fingerprint and arm, a smoothing width inside the run's grid, a recorded training length, exactly the requested partition's held-out patients, one score per eligible voxel, finite and within [0, 1]. Invalid files are listed with reasons and never used.
+
+**What it adds.** Matched-amount arms: each network arm's smoothed ranking re-selected at the tree reference D's predicted amount for the same patient, fold and seed (D's prediction, never the true lesion volume). Predeclared contrasts on matched observations. Full metric summaries with valid counts: Dice (= voxel F1), lesion-wise F1, precision, recall, feature-mask specificity, feature-mask AUROC and average precision, empty-prediction rate, volume errors, surface distance. Maps of the tree reference beside the network arms.
+
+Results are development evidence on 99 patients; intervals are exploratory; the 25 final-evaluation patients are not read.
+
+CELL 1 code
+# ---------------- CONFIG ----------------
+DRIVE_BASE = "/content/drive/MyDrive/isles-pilot"
+CACHE_DIR = f"{DRIVE_BASE}/feature-cache-2mm-v2"
+SPRINT8_RUN_DIR = f"{DRIVE_BASE}/sprint8-seeds-features-PRIVATE/run-875c56c278"        # completed tree run (r3, continued by r4)
+SPRINT9_RUN_DIR = f"{DRIVE_BASE}/sprint9-unet-PRIVATE/run-0a60362503"                   # completed FULL-protocol network run (not a -SMOKE directory)
+OUT_BASE = f"{DRIVE_BASE}/sprint10-comparison-PRIVATE"
+FEATURE_CFG = {"target_mm": 2.0, "vessel_pct": 98.0, "core_thr": 0.30, "penumbra_tmax": 6.0, "schema": "isles24-features-2mm-v2"}
+REPO_URL, REPO_COMMIT = "https://github.com/Moroseui/concept-research-scout", "c17281a11dd2ed15e59cc38bbb526fb6c466b145"
+MAP_SHUFFLE, MAP_SEED = 101, 1
+PRIVATE_INPUT_DIR = f"{DRIVE_BASE}/sprint10-inputs-PRIVATE"
+SPLIT_MANIFEST_PATH = f"{PRIVATE_INPUT_DIR}/split_manifest.csv"
+SPLIT_MANIFEST_SHA256 = "da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843"
+EXCLUSIONS = {"path": f"{PRIVATE_INPUT_DIR}/excluded_cases.json", "sha256": "ee8d4f96b0c16620450c0e7e2e6a56993d2ee68e20913c78a1bb8fe7af0f1ab2", "count": 1}
+PROB_TOL = 1e-6                                                                              # score files must lie within [0 - tol, 1 + tol]
+CODE_VERSION = "sprint10-r2-exclusion-reference-v1"
+
+CELL 2 code
+import os, json, time, hashlib, glob, subprocess, sys, datetime, re, collections
+from google.colab import drive
+drive.mount('/content/drive')
+if not os.path.isdir("scout-repo"):
+    subprocess.run(f"git init -q scout-repo && cd scout-repo && git remote add origin {REPO_URL} && git fetch -q --depth 1 origin {REPO_COMMIT} && git checkout -q FETCH_HEAD", shell=True, check=True)
+import numpy as np, pandas as pd
+from scipy.ndimage import gaussian_filter, distance_transform_edt, binary_erosion
+from sklearn.metrics import roc_auc_score, average_precision_score
+T0 = time.time()
+def log(m): print(f"[+{(time.time()-T0)/60:6.1f} min] {m}")
+FEATURE_HASH = hashlib.sha256(json.dumps(FEATURE_CFG, sort_keys=True).encode()).hexdigest()[:12]
+"""Deterministic private membership and comparison-identity validation.
+
+No patient computation, model invocation or modification of original results.
+"""
+import hashlib
+import json
+from pathlib import Path
+
+
+def load_exclusions(reference, split_manifest_path, split_sha256):
+    if set(reference) != {"path", "sha256", "count"} or type(reference["count"]) is not int or reference["count"] < 0:
+        raise ValueError("EXCLUSIONS_REFERENCE_INVALID")
+    path = Path(reference["path"])
+    split_path = Path(split_manifest_path)
+    if path.is_symlink() or split_path.is_symlink() or path.resolve().parent != split_path.resolve().parent:
+        raise ValueError("EXCLUSIONS_MUST_BE_BESIDE_SPLIT_MANIFEST")
+    split_raw = split_path.read_bytes()
+    if hashlib.sha256(split_raw).hexdigest() != split_sha256:
+        raise ValueError("SPLIT_MANIFEST_HASH_MISMATCH")
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != reference["sha256"]:
+        raise ValueError("EXCLUSIONS_HASH_MISMATCH")
+    values = json.loads(raw)
+    if (not isinstance(values, list) or any(not isinstance(v, str) or not v for v in values)
+            or len(set(values)) != len(values) or len(values) != reference["count"]):
+        raise ValueError("EXCLUSIONS_COUNT_OR_MEMBERSHIP_INVALID")
+    return frozenset(values)
+
+
+def comparison_fingerprint(identity):
+    return hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()[:12]
+
+
+def validate_comparison_reference(record, reference, split_manifest_path, split_sha256):
+    # Reread the private reference so a stale report never authorizes changed membership.
+    load_exclusions(reference, split_manifest_path, split_sha256)
+    identity = record["run_identity"]
+    if (identity.get("exclusions_sha256") != reference["sha256"]
+            or identity.get("exclusions_count") != reference["count"]
+            or identity.get("split_manifest_sha256") != split_sha256):
+        raise ValueError("COMPARISON_EXCLUSIONS_BINDING_MISMATCH")
+    if record.get("fingerprint") != comparison_fingerprint(identity):
+        raise ValueError("COMPARISON_FINGERPRINT_MISMATCH")
+    return {"status": "REFERENCE_INTEGRITY_VALID", "scientific_acceptance": False,
+            "exclusions_sha256": reference["sha256"], "exclusions_count": reference["count"],
+            "split_manifest_sha256": split_sha256, "fingerprint": record["fingerprint"]}
+
+EXCLUDED = load_exclusions(EXCLUSIONS, SPLIT_MANIFEST_PATH, SPLIT_MANIFEST_SHA256)
+split_manifest = pd.read_csv(SPLIT_MANIFEST_PATH)
+CASES = sorted(set(split_manifest.loc[split_manifest.population == "census", "case_id"]) - set(EXCLUDED)); assert len(CASES) == 99, len(CASES)
+
+CELL 3 code
+# ===================== Shared utilities v2 (plain numpy/scipy/nibabel; every function has a purpose line) =====================
+# Repairs vs v1 (Astra review 2026-09-09): complete lesion truth is cached separately from the feature mask;
+# caches are bound to a schema version + configuration hash and validated on load; float32 storage (no float16
+# overflow); finite-value checks; unique temporary filenames.
+import os, json, glob, time, traceback, uuid, hashlib
+import numpy as np
+import nibabel as nib
+from nibabel.processing import resample_from_to, resample_to_output
+from scipy.ndimage import (gaussian_filter, uniform_filter, distance_transform_edt,
+                           label as cc_label, binary_fill_holes)
+
+CACHE_SCHEMA = "isles24-features-2mm-v2"
+
+FEATURE_NAMES = [
+    "cbf", "cbv", "mtt", "tmax", "ncct_hu",
+    "rel_cbf", "rel_tmax", "rel_hu",
+    "tissue_class",
+    "z_cbf", "z_cbv", "z_tmax", "z_hu",
+    "dist_occlusion_mm",
+    "affected_side",
+    "core_rule", "penumbra_rule",
+    "local_mean_tmax", "local_std_tmax", "local_mean_relcbf",
+    "slice_pos",
+]
+Z_COLUMNS = ["z_cbf", "z_cbv", "z_tmax", "z_hu"]
+
+def config_hash(cfg: dict) -> str:
+    """Short stable hash of the settings that change what a cache file contains."""
+    return hashlib.sha256(json.dumps(cfg, sort_keys=True).encode()).hexdigest()[:12]
+
+def lr_flip_axis(affine):
+    """Which voxel axis runs left-right? The one most aligned with world x (this is NOT hemisphere registration)."""
+    return int(np.argmax(np.abs(affine[0, :3])))
+
+def dice(a, b):
+    a, b = a.astype(bool), b.astype(bool)
+    s = a.sum() + b.sum()
+    return 1.0 if s == 0 else float(2.0 * (a & b).sum() / s)
+
+def drop_small_components(binary, min_vox):
+    lab, n = cc_label(binary)
+    if n == 0:
+        return binary
+    sizes = np.bincount(lab.ravel()); sizes[0] = 0
+    return np.isin(lab, np.where(sizes >= min_vox)[0])
+
+def largest_component(binary):
+    lab, n = cc_label(binary)
+    if n == 0:
+        return binary
+    sizes = np.bincount(lab.ravel()); sizes[0] = 0
+    return lab == int(np.argmax(sizes))
+
+def brain_mask_from_ncct(hu, cbf, cbv):
+    """Cheap skull-strip: soft-tissue HU band, finite perfusion, largest blob, holes filled."""
+    cand = np.isfinite(hu) & (hu > 0) & (hu < 80) & np.isfinite(cbf) & np.isfinite(cbv) & (cbf > 0)
+    return binary_fill_holes(largest_component(cand))
+
+def tissue_class_from_hu(hu, mask, sigma=1.0):
+    """0 = CSF (<18 HU), 1 = white matter (18-33), 2 = gray matter (>33), after light smoothing."""
+    sm = gaussian_filter(np.where(np.isfinite(hu), hu, 0.0), sigma)
+    cls = np.full(hu.shape, -1, dtype=np.int8)
+    cls[mask & (sm < 18)] = 0
+    cls[mask & (sm >= 18) & (sm < 33)] = 1
+    cls[mask & (sm >= 33)] = 2
+    return cls
+
+def mirror_relative(vol, flip_axis, mask, eps=1e-2, sigma=1.0):
+    """Value / smoothed mirrored value. Approximates the opposite side; assumes rough midline symmetry."""
+    mirrored = np.flip(vol, axis=flip_axis)
+    denom = gaussian_filter(np.where(np.isfinite(mirrored), mirrored, 0.0), sigma) + eps
+    rel = np.where(mask, vol / denom, 0.0)
+    return np.clip(np.nan_to_num(rel), 0.0, 3.0).astype(np.float32)
+
+def hemisphere_index(shape, flip_axis):
+    idx = np.arange(shape[flip_axis]); half = idx >= shape[flip_axis] // 2
+    reshape = [1, 1, 1]; reshape[flip_axis] = -1
+    return np.broadcast_to(half.reshape(reshape), shape)
+
+def affected_side_mask(shape, flip_axis, lvo, tmax, brain):
+    """Stroke side: LVO-mask centroid when present (an annotation input, disclosed), else Tmax>6 asymmetry."""
+    high = hemisphere_index(shape, flip_axis)
+    if lvo is not None and lvo.sum() >= 5:
+        centroid = np.argwhere(lvo).mean(axis=0)[flip_axis]
+        side_high, method = centroid >= shape[flip_axis] / 2, "lvo_centroid"
+    else:
+        hot = (tmax > 6) & brain
+        side_high, method = hot[high].sum() >= hot[~high].sum(), "tmax_asymmetry"
+    return (high if side_high else ~high), method
+
+def signed_distance_mm(lesion, voxel_mm, clip=40.0):
+    """Positive outside the lesion, negative inside, in mm (Model-2 target), from the COMPLETE lesion."""
+    if lesion.sum() == 0:
+        return np.full(lesion.shape, clip, dtype=np.float32)
+    outside = distance_transform_edt(~lesion, sampling=voxel_mm)
+    inside = distance_transform_edt(lesion, sampling=voxel_mm)
+    return np.clip(outside - inside, -clip, clip).astype(np.float32)
+
+def find_member(extract_root, case, suffix):
+    hits = glob.glob(f"{extract_root}/**/{case}*{suffix}", recursive=True)
+    return hits[0] if len(hits) == 1 else None
+
+def load_case_2mm(extract_root, case, target_mm=2.0):
+    """Load every volume for one case, resampled onto a shared 2 mm grid built from its CBF map."""
+    paths = {m: find_member(extract_root, case, f"_space-ncct_{m}.nii.gz") for m in ("cbf", "cbv", "mtt", "tmax")}
+    paths["ncct"] = find_member(extract_root, case, "_ncct.nii.gz")
+    paths["lesion"] = find_member(extract_root, case, "_space-ncct_lesion-msk.nii.gz")
+    paths["lvo"] = find_member(extract_root, case, "_space-ncct_lvo-msk.nii.gz")
+    paths["cow"] = find_member(extract_root, case, "_space-ncct_cow-msk.nii.gz")
+    missing = [k for k in ("cbf", "cbv", "mtt", "tmax", "ncct", "lesion") if paths[k] is None]
+    if missing:
+        raise FileNotFoundError(f"{case}: missing {missing}")
+    ref = resample_to_output(nib.load(paths["cbf"]), voxel_sizes=(target_mm,) * 3, order=1)
+    out = {"affine": ref.affine, "shape": ref.shape, "voxel_mm": (target_mm,) * 3,
+           "voxel_ml": target_mm ** 3 / 1000.0, "flip_axis": lr_flip_axis(ref.affine),
+           "cbf": ref.get_fdata(dtype=np.float32)}
+    for m in ("cbv", "mtt", "tmax", "ncct"):
+        out[m] = resample_from_to(nib.load(paths[m]), ref, order=1).get_fdata(dtype=np.float32)
+    out["lesion"] = resample_from_to(nib.load(paths["lesion"]), ref, order=0).get_fdata(dtype=np.float32) > 0.5
+    out["lvo"] = (resample_from_to(nib.load(paths["lvo"]), ref, order=0).get_fdata(dtype=np.float32) > 0.5
+                  if paths["lvo"] else None)
+    out["cow"] = (resample_from_to(nib.load(paths["cow"]), ref, order=0).get_fdata(dtype=np.float32).round().astype(np.int16)
+                  if paths["cow"] else None)
+    return out
+
+def compute_case_features(d, vessel_pct=98.0, core_thr=0.30, penumbra_tmax=6.0):
+    """One loaded case -> per-voxel feature table (inside the tissue mask) + COMPLETE lesion truth + summary.
+    z_* columns are left at zero here; they are filled per training fold later (never from held-out patients)."""
+    cbf, cbv, mtt, tmax, hu = d["cbf"], d["cbv"], d["mtt"], d["tmax"], d["ncct"]
+    brain = brain_mask_from_ncct(hu, cbf, cbv)
+    pos_cbv = cbv[brain & np.isfinite(cbv) & (cbv > 0)]
+    vessel_p98 = float(np.percentile(pos_cbv, vessel_pct)) if pos_cbv.size else np.inf
+    tissue = brain & ~(np.isfinite(cbv) & (cbv > vessel_p98))
+    fa = d["flip_axis"]
+    rel_cbf, rel_tmax, rel_hu = (mirror_relative(v, fa, tissue) for v in (cbf, tmax, hu))
+    cls = tissue_class_from_hu(hu, tissue)
+    side, side_method = affected_side_mask(d["shape"], fa, d["lvo"], tmax, tissue)
+    lvo_present = bool(d["lvo"] is not None and d["lvo"].sum() >= 5)
+    dist_occ = (distance_transform_edt(~d["lvo"], sampling=d["voxel_mm"]).astype(np.float32)
+                if lvo_present else np.full(d["shape"], 150.0, dtype=np.float32))
+    core_rule = (rel_cbf < core_thr) & (rel_cbf > 0) & tissue
+    penumbra_rule = (tmax > penumbra_tmax) & tissue & ~core_rule
+    tmax_f = np.where(np.isfinite(tmax), tmax, 0.0)
+    loc_mean_t = uniform_filter(tmax_f, size=5)
+    loc_std_t = np.sqrt(np.maximum(uniform_filter(tmax_f ** 2, size=5) - loc_mean_t ** 2, 0))
+    loc_mean_rc = uniform_filter(rel_cbf, size=5)
+    z_axis = int(np.argmax(np.abs(d["affine"][2, :3])))
+    slice_idx = np.arange(d["shape"][z_axis], dtype=np.float32) / max(d["shape"][z_axis] - 1, 1)
+    reshape = [1, 1, 1]; reshape[z_axis] = -1
+    slice_pos = np.broadcast_to(slice_idx.reshape(reshape), d["shape"])
+    m = tissue
+    zeros = np.zeros(m.sum(), dtype=np.float32)
+    cols = [cbf[m], cbv[m], mtt[m], tmax[m], hu[m], rel_cbf[m], rel_tmax[m], rel_hu[m], cls[m].astype(np.float32),
+            zeros, zeros, zeros, zeros, dist_occ[m], side[m].astype(np.float32),
+            core_rule[m].astype(np.float32), penumbra_rule[m].astype(np.float32),
+            loc_mean_t[m], loc_std_t[m], loc_mean_rc[m], slice_pos[m]]
+    X = np.stack(cols, axis=1).astype(np.float32)
+    nonfinite = int((~np.isfinite(X)).sum())
+    X = np.nan_to_num(X, copy=False, nan=0.0, posinf=0.0, neginf=0.0)   # counted and reported, not silent
+    lesion_full = d["lesion"]
+    sdt = signed_distance_mm(lesion_full, d["voxel_mm"])
+    covered = float((lesion_full & m).sum() / max(lesion_full.sum(), 1))
+    cow_segments = 0
+    if d["cow"] is not None:
+        _, counts = np.unique(d["cow"][d["cow"] > 0], return_counts=True)
+        cow_segments = int((counts >= 5).sum())
+    summary = {"lesion_ml": float(lesion_full.sum() * d["voxel_ml"]),
+               "lesion_fraction_inside_feature_mask": covered,
+               "core_rule_ml": float(core_rule.sum() * d["voxel_ml"]),
+               "penumbra_rule_ml": float(penumbra_rule.sum() * d["voxel_ml"]),
+               "tissue_mask_ml": float(m.sum() * d["voxel_ml"]), "side_method": side_method,
+               "lvo_present": lvo_present, "cow_segments_present": cow_segments,
+               "vessel_cbv_p98": vessel_p98, "nonfinite_feature_values_zeroed": nonfinite}
+    return {"X": X, "y": lesion_full[m].astype(np.uint8), "sdt": sdt[m], "mask": m, "lesion_full": lesion_full,
+            "healthy_side": (~side)[m], "shape": d["shape"], "affine": d["affine"],
+            "voxel_ml": d["voxel_ml"], "summary": summary}
+
+def save_cache(path, feat, case, cfg_hash):
+    """Atomic, schema- and config-tagged write (unique temp name, then rename)."""
+    tmp = f"{path}.{uuid.uuid4().hex}.tmp.npz"
+    np.savez_compressed(tmp, X=feat["X"].astype(np.float32), y=feat["y"], sdt=feat["sdt"].astype(np.float32),
+                        mask=np.packbits(feat["mask"]), lesion_full=np.packbits(feat["lesion_full"]),
+                        mask_shape=np.array(feat["shape"]), healthy_side=feat["healthy_side"], affine=feat["affine"],
+                        voxel_ml=np.array(feat["voxel_ml"]), summary=json.dumps(feat["summary"]),
+                        meta=json.dumps({"schema": CACHE_SCHEMA, "config_hash": cfg_hash, "case": case,
+                                         "features": FEATURE_NAMES}))
+    os.replace(tmp, path)
+
+def load_cache(path, expect_hash, expect_case=None):
+    """Load and VALIDATE a cache: schema, config hash, case, shapes, finite values. Raises on any mismatch."""
+    z = np.load(path, allow_pickle=False)
+    meta = json.loads(str(z["meta"]))
+    if meta.get("schema") != CACHE_SCHEMA or meta.get("config_hash") != expect_hash or meta.get("features") != FEATURE_NAMES:
+        raise ValueError(f"cache {os.path.basename(path)} does not match schema/config ({meta.get('schema')}, {meta.get('config_hash')})")
+    if expect_case and meta.get("case") != expect_case:
+        raise ValueError(f"cache {os.path.basename(path)} belongs to {meta.get('case')}, expected {expect_case}")
+    shape = tuple(int(s) for s in z["mask_shape"]); n = int(np.prod(shape))
+    mask = np.unpackbits(z["mask"])[:n].reshape(shape).astype(bool)
+    lesion_full = np.unpackbits(z["lesion_full"])[:n].reshape(shape).astype(bool)
+    X = z["X"].astype(np.float32)
+    if X.shape != (int(mask.sum()), len(FEATURE_NAMES)) or not np.isfinite(X).all():
+        raise ValueError(f"cache {os.path.basename(path)} has bad shape or non-finite values")
+    return {"X": X, "y": z["y"], "sdt": z["sdt"].astype(np.float32), "mask": mask, "lesion_full": lesion_full,
+            "shape": shape, "healthy_side": z["healthy_side"], "affine": z["affine"],
+            "voxel_ml": float(z["voxel_ml"]), "summary": json.loads(str(z["summary"])), "meta": meta}
+
+def apply_normative(X, norm):
+    """Fill z_* columns from per-tissue-class robust stats (median, MAD) supplied by the caller."""
+    X = X.copy()
+    cls = X[:, FEATURE_NAMES.index("tissue_class")].astype(int)
+    for feat, zname in (("cbf", "z_cbf"), ("cbv", "z_cbv"), ("tmax", "z_tmax"), ("ncct_hu", "z_hu")):
+        src = X[:, FEATURE_NAMES.index(feat)]; zcol = np.zeros_like(src)
+        for c in (0, 1, 2):
+            med, mad = norm[feat][str(c)]; sel = cls == c
+            zcol[sel] = (src[sel] - med) / (1.4826 * mad + 1e-3)
+        X[:, FEATURE_NAMES.index(zname)] = np.clip(zcol, -10, 10)
+    return X
+
+def compute_normative(caches, per_case=20000, seed=0):
+    """Healthy-hemisphere, non-lesion voxels of the GIVEN caches only (call it with training patients only)."""
+    rng = np.random.default_rng(seed)
+    pools = {f: {c: [] for c in (0, 1, 2)} for f in ("cbf", "cbv", "tmax", "ncct_hu")}
+    for c in caches:
+        healthy = c["healthy_side"] & (c["y"] == 0)
+        idx = np.where(healthy)[0]
+        if idx.size == 0:
+            continue
+        idx = rng.choice(idx, min(per_case, idx.size), replace=False)
+        cls = c["X"][idx, FEATURE_NAMES.index("tissue_class")].astype(int)
+        for f in pools:
+            vals = c["X"][idx, FEATURE_NAMES.index(f)]
+            for k in (0, 1, 2):
+                pools[f][k].append(vals[cls == k])
+    norm = {}
+    for f in pools:
+        norm[f] = {}
+        for k in (0, 1, 2):
+            v = np.concatenate(pools[f][k]) if pools[f][k] else np.array([])
+            if v.size < 10:
+                norm[f][str(k)] = (0.0, 1.0); continue
+            med = float(np.median(v)); mad = float(np.median(np.abs(v - med)))
+            norm[f][str(k)] = (med, mad if mad > 0 else float(np.std(v) + 1e-3))
+    return norm
+
+def bootstrap_mean_ci(values, reps=2000, seed=0):
+    """Patient-level bootstrap 95% CI for a mean (P001 convention)."""
+    v = np.asarray(values, dtype=float); rng = np.random.default_rng(seed)
+    if v.size == 0:
+        return (float("nan"), float("nan"))
+    means = [rng.choice(v, v.size, replace=True).mean() for _ in range(reps)]
+    return (float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5)))
+
+# ===================== Notebook 3 stages (cache-only experiments) =====================
+# Reuses the v2 cache format (core2) and adds: natural-prevalence ("calibrated") training, territory-restricted
+# training, feature-subset ablations, the volume-matched hybrid decision rule, average surface distance, a
+# size-floored primary metric, and a results ledger. Everything is resumable per experiment.
+import os, json, time, glob, uuid, datetime
+import numpy as np, pandas as pd
+import xgboost as xgb
+from scipy.ndimage import distance_transform_edt, binary_erosion
+
+# ---------- models / device ----------
+def xgb_device_probe(log=print):
+    X = np.random.default_rng(0).normal(size=(2000, 4)).astype(np.float32); y = (X[:, 0] > 0).astype(int)
+    import subprocess
+    try: has_gpu = subprocess.run(["nvidia-smi", "-L"], capture_output=True, text=True).returncode == 0
+    except FileNotFoundError: has_gpu = False
+    if not has_gpu: log("no GPU visible; XGBoost will train on CPU (expect roughly 10x slower fits)")
+    for dev in (("cuda", "cpu") if has_gpu else ("cpu",)):
+        try:
+            t0 = time.time(); m = make_classifier(dev, 0, n_estimators=20); m.fit(X, y); m.predict_proba(X[:10])
+            log(f"XGBoost {xgb.__version__} preflight fit OK on {dev} ({time.time()-t0:.1f}s)"); return dev
+        except Exception as e:
+            log(f"XGBoost on {dev} failed: {e!r}")
+    raise RuntimeError("XGBoost cannot train on any device")
+
+def make_classifier(device, seed, n_estimators=400):
+    common = dict(n_estimators=n_estimators, max_depth=6, learning_rate=0.08, subsample=0.8, colsample_bytree=0.8,
+                  min_child_weight=20, random_state=seed, objective="binary:logistic")
+    if int(xgb.__version__.split(".")[0]) >= 2: common.update(tree_method="hist", device=device)
+    else: common.update(tree_method="gpu_hist" if device == "cuda" else "hist")
+    return xgb.XGBClassifier(**common)
+
+# ---------- sampling regimes ----------
+def territory_mask(c):
+    """The at-risk territory: clinical core OR penumbra flag."""
+    X = c["X"]; return (X[:, FEATURE_NAMES.index("core_rule")] > 0.5) | (X[:, FEATURE_NAMES.index("penumbra_rule")] > 0.5)
+
+def sample_rows(c, rng, regime, per_case):
+    """Which voxels of a training case enter the table.
+    balanced  : v2 behaviour (all lesion up to cap, penumbra slice, background slice) -> inflated scores
+    natural   : uniform random sample of tissue voxels at their natural dead/alive proportions -> calibrated scores
+    territory : uniform sample restricted to the at-risk territory (stage 2 of territory-then-fate)"""
+    n = c["y"].size
+    if regime == "balanced":
+        y = c["y"]; pen = c["X"][:, FEATURE_NAMES.index("penumbra_rule")] > 0.5
+        pos = np.where(y == 1)[0]; bg = np.where((y == 0) & ~pen)[0]; pen_idx = np.where((y == 0) & pen)[0]
+        take = []
+        if pos.size: take.append(rng.choice(pos, min(30_000, pos.size), replace=False))
+        if pen_idx.size: take.append(rng.choice(pen_idx, min(20_000, pen_idx.size), replace=False))
+        if bg.size: take.append(rng.choice(bg, min(40_000, bg.size), replace=False))
+        return np.concatenate(take) if take else np.array([], dtype=int)
+    pool = np.where(territory_mask(c))[0] if regime == "territory" else np.arange(n)
+    if pool.size == 0: return pool
+    return rng.choice(pool, min(per_case, pool.size), replace=False)
+
+def build_table(caches, norm, rng, regime, per_case, feature_idx, extra=None):
+    """extra: optional dict case -> scalar appended as a patient-level column (used only by the explanatory TICI model)."""
+    Xs, ys = [], []
+    for c in caches:
+        idx = sample_rows(c, rng, regime, per_case)
+        if idx.size == 0: continue
+        X = apply_normative(c["X"][idx], norm)[:, feature_idx]
+        if extra is not None: X = np.hstack([X, np.full((X.shape[0], 1), extra[c["meta"]["case"]], np.float32)])
+        Xs.append(X); ys.append(c["y"][idx])
+    return np.concatenate(Xs), np.concatenate(ys)
+
+def predict_scores(c, norm, model, feature_idx, regime, extra_value=None):
+    X = apply_normative(c["X"], norm)[:, feature_idx]
+    if extra_value is not None: X = np.hstack([X, np.full((X.shape[0], 1), extra_value, np.float32)])
+    p = model.predict_proba(X)[:, 1].astype(np.float32)
+    if regime == "territory": p = np.where(territory_mask(c), p, 0.0).astype(np.float32)   # outside the territory: never dead
+    return p
+
+# ---------- persistence ----------
+def _scores_valid(path, cache_dir, cfg_hash, case):
+    try:
+        pr = load_scores(path); c = get_cache(cache_dir, cfg_hash, case)
+        return bool(pr["case"] == case and pr["shape"] == c["shape"] and pr["mask"].sum() == c["mask"].sum()
+                    and pr["p"].shape == (int(c["mask"].sum()),) and np.isfinite(pr["p"]).all())
+    except Exception:
+        return False
+
+def save_scores(path, c, case, p):
+    tmp = f"{path}.{uuid.uuid4().hex}.tmp.npz"
+    np.savez_compressed(tmp, case=case, affine=c["affine"], mask_shape=np.array(c["shape"]), mask=np.packbits(c["mask"]),
+                        lesion_full=np.packbits(c["lesion_full"]), voxel_ml=np.array(c["voxel_ml"]), p=p.astype(np.float32))
+    os.replace(tmp, path)
+
+def load_scores(path):
+    z = np.load(path, allow_pickle=False); shape = tuple(int(v) for v in z["mask_shape"]); n = int(np.prod(shape))
+    return {"case": str(z["case"]), "affine": z["affine"], "shape": shape, "voxel_ml": float(z["voxel_ml"]),
+            "mask": np.unpackbits(z["mask"])[:n].reshape(shape).astype(bool),
+            "lesion_full": np.unpackbits(z["lesion_full"])[:n].reshape(shape).astype(bool), "p": z["p"]}
+
+def load_v2_prediction(path):
+    """v2 prediction files hold m1_prob and m2_sdt; expose the same interface as load_scores."""
+    z = np.load(path, allow_pickle=False); shape = tuple(int(v) for v in z["mask_shape"]); n = int(np.prod(shape))
+    return {"case": str(z["case"]), "affine": z["affine"], "shape": shape, "voxel_ml": float(z["voxel_ml"]),
+            "mask": np.unpackbits(z["mask"])[:n].reshape(shape).astype(bool),
+            "lesion_full": np.unpackbits(z["lesion_full"])[:n].reshape(shape).astype(bool),
+            "m1_prob": z["m1_prob"] if "m1_prob" in z else None, "m2_sdt": z["m2_sdt"] if "m2_sdt" in z else None}
+
+# ---------- decision rules ----------
+def vol_from_flat(pr, flat_bool):
+    v = np.zeros(pr["shape"], dtype=bool); v[pr["mask"]] = flat_bool; return v
+
+def rule_cutoff(pr, p, cutoff, min_vox):
+    return drop_small_components(vol_from_flat(pr, p >= cutoff), min_vox)
+
+def rule_volume_matched(pr, p, target_ml):
+    """The hybrid: call dead exactly the k highest-scoring voxels, where k realises the target volume."""
+    k = int(round(max(target_ml, 0.0) / pr["voxel_ml"]))
+    flat = np.zeros(p.size, dtype=bool)
+    if k > 0:
+        flat[np.argpartition(-p, min(k, p.size) - 1)[:min(k, p.size)]] = True
+    return vol_from_flat(pr, flat)
+
+def expected_volume_ml(pr, p):
+    """For calibrated scores, the sum of probabilities is the model's own volume estimate."""
+    return float(p.sum() * pr["voxel_ml"])
+
+def m2_volume_ml(pr2, offset, min_vox):
+    """Model 2's volume AFTER the same small-component cleanup used when Model 2 is scored on its own."""
+    if pr2["m2_sdt"] is None: return np.nan
+    return float(drop_small_components(vol_from_flat(pr2, pr2["m2_sdt"] < offset), min_vox).sum() * pr2["voxel_ml"])
+
+# ---------- metrics ----------
+def surface_distance_mm(pred, truth, voxel_mm):
+    """Average symmetric surface distance in mm; nan if either region is empty."""
+    if pred.sum() == 0 or truth.sum() == 0: return np.nan
+    ps = pred & ~binary_erosion(pred); ts = truth & ~binary_erosion(truth)
+    d_to_t = distance_transform_edt(~ts, sampling=voxel_mm); d_to_p = distance_transform_edt(~ps, sampling=voxel_mm)
+    return float((d_to_t[ps].sum() + d_to_p[ts].sum()) / (ps.sum() + ts.sum()))
+
+def case_metrics(pr, pred_vol, p=None, c=None):
+    truth = pr["lesion_full"]; ml = pr["voxel_ml"]; tv, pv = float(truth.sum() * ml), float(pred_vol.sum() * ml)
+    row = {"lesion_ml": tv, "pred_ml": pv, "signed_vol_err_ml": pv - tv, "abs_vol_err_ml": abs(pv - tv),
+           "dice": dice(pred_vol, truth), "asd_mm": surface_distance_mm(pred_vol, truth, (2.0, 2.0, 2.0)),
+           "lesion_ge5ml": bool(tv >= 5.0)}
+    if p is not None and c is not None:
+        pen = c["X"][:, FEATURE_NAMES.index("penumbra_rule")] > 0.5; y = c["y"]
+        if pen.sum() > 50 and 0 < y[pen].mean() < 1:
+            from sklearn.metrics import roc_auc_score; row["penumbra_auc"] = float(roc_auc_score(y[pen], p[pen]))
+        else: row["penumbra_auc"] = np.nan
+        if 0 < y.mean() < 1:
+            from sklearn.metrics import roc_auc_score; row["mask_auc"] = float(roc_auc_score(y, p))   # inside the feature mask only
+    row["pred_empty"] = bool(pred_vol.sum() == 0)
+    return row
+
+def summarize(df):
+    out = {"n_test": int(len(df))}
+    for name, sub in (("all", df), ("ge5", df[df.lesion_ge5ml])):
+        v = sub["dice"]; lo, hi = bootstrap_mean_ci(v); out[f"mean_dice_{name}"] = float(v.mean()) if len(v) else np.nan
+        out[f"dice_{name}_ci_lo"], out[f"dice_{name}_ci_hi"], out[f"n_{name}"] = lo, hi, int(len(v))
+    lt = df[~df.lesion_ge5ml]["dice"]; out["mean_dice_lt5"] = float(lt.mean()) if len(lt) else np.nan
+    out["median_abs_vol_err_ml"] = float(df.abs_vol_err_ml.median()); out["median_signed_vol_err_ml"] = float(df.signed_vol_err_ml.median())
+    out["mean_asd_mm"] = float(df.asd_mm.mean()) if df.asd_mm.notna().any() else np.nan
+    out["n_asd_valid"] = int(df.asd_mm.notna().sum()); out["n_pred_empty"] = int(df.pred_empty.sum()) if "pred_empty" in df else 0
+    if "penumbra_auc" in df: out["penumbra_auc_mean"] = float(df.penumbra_auc.mean())
+    if "mask_auc" in df: out["mask_auc_mean"] = float(df.mask_auc.mean())
+    return out
+
+def tune_cutoff(preds, cutoffs, min_vox):
+    """Cutoff maximising mean full-truth Dice over ALL supplied OOF cases (the primary metric)."""
+    def score(t):
+        vals = [dice(rule_cutoff(pr, pr["p"], t, min_vox), pr["lesion_full"]) for pr in preds]
+        return np.mean(vals) if vals else -1
+    best = max(cutoffs, key=score); return float(best), float(score(best))
+
+# ---------- in-memory cache memo (validated once per session) ----------
+CACHE_MEMO = {}
+def get_cache(cache_dir, cfg_hash, case):
+    if case not in CACHE_MEMO:
+        CACHE_MEMO[case] = load_cache(f"{cache_dir}/{case}.npz", cfg_hash, case)
+    return CACHE_MEMO[case]
+
+# ---------- cross-validation for a training configuration ----------
+def cross_validate(dev_cases, cache_dir, cfg_hash, out_dir, n_folds, seed, device, n_trees, regime, per_case,
+                   feature_idx, extra=None, log=print, run_hash=None):
+    """Patient-level K-fold producing out-of-fold scores for every dev case. Normative stats per fold from training
+    patients only. Completed folds are reused when their marker matches this configuration and files validate."""
+    os.makedirs(out_dir, exist_ok=True)
+    order = list(dev_cases); np.random.default_rng(seed).shuffle(order)
+    folds = [order[i::n_folds] for i in range(n_folds)]
+    for k, held in enumerate(folds):
+        marker = f"{out_dir}/fold_{k}.done.json"
+        if os.path.exists(marker):
+            m = json.load(open(marker))
+            ok = m.get("run_hash") == run_hash and m.get("held") == held and all(_scores_valid(f"{out_dir}/{c}.npz", cache_dir, cfg_hash, c) for c in held)
+            if ok: log(f"  fold {k+1}/{n_folds}: valid, reused"); continue
+            log(f"  fold {k+1}/{n_folds}: marker or files invalid for this configuration -> recomputing"); os.remove(marker)
+        t0 = time.time(); train = [c for c in order if c not in held]
+        rng = np.random.default_rng([seed, k])                      # fold-local stream: independent of which folds ran before
+        train_caches = [get_cache(cache_dir, cfg_hash, c) for c in train]
+        norm = compute_normative(train_caches, seed=seed + k)
+        X, y = build_table(train_caches, norm, rng, regime, per_case, feature_idx, extra)
+        model = make_classifier(device, seed + k, n_trees); model.fit(X, y)
+        for c in held:
+            hc = get_cache(cache_dir, cfg_hash, c)
+            save_scores(f"{out_dir}/{c}.npz", hc, c, predict_scores(hc, norm, model, feature_idx, regime, None if extra is None else extra[c]))
+        json.dump({"fold": k, "held": held, "n_train_voxels": int(X.shape[0]), "positives": float(y.mean()), "seconds": time.time() - t0,
+                   "run_hash": run_hash}, open(marker, "w"))
+        log(f"  fold {k+1}/{n_folds}: {X.shape[0]:,} voxels ({y.mean():.1%} dead) -> {len(held)} held-out in {time.time()-t0:.0f}s")
+        del X, y
+    return folds
+
+def fit_final(dev_cases, cache_dir, cfg_hash, seed, device, n_trees, regime, per_case, feature_idx, extra=None):
+    caches = [get_cache(cache_dir, cfg_hash, c) for c in dev_cases]
+    norm = compute_normative(caches, seed=seed); rng = np.random.default_rng(seed)
+    X, y = build_table(caches, norm, rng, regime, per_case, feature_idx, extra)
+    model = make_classifier(device, seed, n_trees); model.fit(X, y)
+    return model, norm, {"n_train_voxels": int(X.shape[0]), "positives": float(y.mean())}
+
+# ---------- ledger ----------
+LEDGER_COLS = ["experiment", "variant", "training_regime", "decision_rule", "features", "n_test", "mean_dice_all", "dice_all_ci_lo", "dice_all_ci_hi",
+               "median_abs_vol_err_ml", "median_signed_vol_err_ml", "n_ge5", "mean_dice_ge5", "dice_ge5_ci_lo", "dice_ge5_ci_hi", "mean_dice_lt5",
+               "mean_asd_mm", "n_asd_valid", "n_pred_empty", "penumbra_auc_mean", "mask_auc_mean", "comparable", "note", "fingerprint", "utc"]
+def ledger_append(path, row):
+    """Append one row; a rerun of the same experiment+variant replaces its earlier row instead of duplicating it."""
+    row = {k: row.get(k, np.nan) for k in LEDGER_COLS}; row["utc"] = datetime.datetime.utcnow().isoformat()
+    old = pd.read_csv(path) if os.path.exists(path) else pd.DataFrame(columns=LEDGER_COLS)
+    old = old[~((old.experiment == row["experiment"]) & (old.variant == row["variant"]))]
+    pd.concat([old, pd.DataFrame([row])], ignore_index=True).to_csv(path, index=False)
+
+# ---------- phenotype (TICI) ----------
+def read_case_phenotype(root, case):
+    """All CSVs under a case folder (the PRIVATE copies) merged into one dict; keys prefixed by file stem."""
+    merged = {}
+    for path in sorted(glob.glob(f"{root}/**/{case}/**/*.csv", recursive=True)):
+        df = pd.read_csv(path); stem = os.path.basename(path).split(f"{case}_")[-1].replace(".csv", "")
+        rec = ({str(k): v for k, v in zip(df.iloc[:, 0], df.iloc[:, 1])} if (df.shape[1] == 2 and df.shape[0] > 1) else df.iloc[0].to_dict())
+        merged.update({f"{stem}::{k}": v for k, v in rec.items()})
+    return merged
+
+def tici_grade(v):
+    """mTICI reperfusion grade -> ordinal 0..5 (0, 1, 2a, 2b, 2c, 3). Accepts '2b', 'TICI 2c', '3', '3.0', 3.0."""
+    if v is None or (isinstance(v, float) and np.isnan(v)): return np.nan
+    s = str(v).strip().lower().replace("mtici", "").replace("tici", "").replace(" ", "")
+    if s.endswith(".0"): s = s[:-2]
+    table = {"0": 0, "1": 1, "2a": 2, "2b": 3, "2c": 4, "3": 5}
+    return float(table[s]) if s in table else np.nan
+
+def find_tici_column(rec):
+    """Exactly the documented post-treatment field ('mTici postinterventional', 047 normalisation); None if absent."""
+    import re
+    norm = lambda h: re.sub(r"\s+", " ", str(h).split("::")[-1].replace("\ufeff", "").strip()).casefold()
+    hits = [k for k in rec if norm(k) == "mtici postinterventional"]
+    return hits[0] if len(hits) == 1 else None
+
+# ---------- shared deterministic tie rule (Astra, sprint-5 review) ----------
+def rank_order(p):
+    """One truth-independent ordering used by BOTH the top-k rule and the prefix diagnostic: score descending, voxel index ascending."""
+    return np.lexsort((np.arange(p.size), -p))
+
+def rule_topk_lexsort(pr, p, target_ml):
+    """Call dead exactly the k highest-scoring voxels under rank_order (k realises the target volume)."""
+    k = int(round(max(target_ml, 0.0) / pr["voxel_ml"])); flat = np.zeros(p.size, dtype=bool)
+    if k > 0: flat[rank_order(p)[:min(k, p.size)]] = True
+    return vol_from_flat(pr, flat)
+
+def percase_valid(path, expected_cases):
+    try:
+        df = pd.read_csv(path); return bool(set(df.case) == set(expected_cases) and df.case.is_unique and np.isfinite(df[["dice", "abs_vol_err_ml", "lesion_ml"]].values).all())
+    except Exception:
+        return False
+
+
+def official_lesion_metrics(truth, pred, empty_value=1.0):
+    """Exact semantics of the pinned official `compute_dice_f1_instance_difference`: 26-connected components (cc3d default) on truth and
+    prediction; overlapping (truth, pred) component pairs scored by IoU, sorted descending, matched greedily one-to-one when IoU >= 0.2;
+    F1 = TP / (TP + 0.5 FP + 0.5 FN); lesion-count difference = |n_truth - n_pred|; Dice = global binary Dice; both-empty -> empty_value."""
+    from scipy.ndimage import label as _lab
+    truth = np.asarray(truth).astype(bool); pred = np.asarray(pred).astype(bool); s = np.ones((3, 3, 3), bool)
+    lt, nt = _lab(truth, structure=s) if truth.any() else (np.zeros(truth.shape, np.int32), 0); lp, npd = _lab(pred, structure=s) if pred.any() else (np.zeros(pred.shape, np.int32), 0)
+    count_diff = abs(nt - npd)
+    if nt == 0 and npd == 0: return float(empty_value), int(count_diff), float(empty_value)
+    inter = float((truth & pred).sum()); dsc = 2 * inter / (truth.sum() + pred.sum()) if (truth.sum() + pred.sum()) > 0 else float(empty_value)
+    pairs = []
+    if nt and npd:
+        both = truth & pred; rl, pl = lt[both], lp[both]; combos = np.unique(np.stack([rl, pl], 1), axis=0) if both.any() else np.zeros((0, 2), int)
+        vt = np.bincount(lt.ravel()); vp = np.bincount(lp.ravel())
+        for r, p in combos:
+            i = float(((lt == r) & (lp == p)).sum()); u = float(vt[r] + vp[p] - i); pairs.append((i / u if u > 0 else 0.0, int(r), int(p)))
+    pairs.sort(key=lambda x: -x[0]); mr, mp, tp = set(), set(), 0
+    for iou, r, p in pairs:
+        if r in mr or p in mp: continue
+        if iou >= 0.2: mr.add(r); mp.add(p); tp += 1
+    fp, fn = npd - tp, nt - tp; f1 = 0.0 if tp == 0 else tp / (tp + 0.5 * fp + 0.5 * fn)
+    return float(f1), int(count_diff), float(dsc)
+
+
+def smooth_scores(pr, p, sigma_mm, voxel_mm=2.0):
+    if sigma_mm <= 0: return p
+    vol = np.zeros(pr["shape"], np.float32); vol[pr["mask"]] = p; m = pr["mask"].astype(np.float32); sg = sigma_mm / voxel_mm
+    return np.clip((gaussian_filter(vol, sg) / (gaussian_filter(m, sg) + 1e-6))[pr["mask"]], 0, 1).astype(np.float32)
+_MEMO = None
+
+CELL 4 code
+# ---------------- caches, the two runs, and compatibility checks (review finding 2) ----------------
+CACHE = {}
+for i, c in enumerate(CASES, 1):
+    CACHE[c] = load_cache(f"{CACHE_DIR}/{c}.npz", FEATURE_HASH, c)
+    if i % 25 == 0: log(f"  loaded {i}/{len(CASES)} caches")
+def spacing_of(c): return tuple(float(abs(v)) for v in np.diag(np.asarray(c["affine"]))[:3])
+VOXEL_MM = spacing_of(CACHE[CASES[0]]); VOXEL_ML = CACHE[CASES[0]]["voxel_ml"]
+def _file_sha(path, chunk=1 << 22):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for b in iter(lambda: f.read(chunk), b""): h.update(b)
+    return h.hexdigest()
+CACHE_IDENTITY = hashlib.sha256(json.dumps({c: _file_sha(f"{CACHE_DIR}/{c}.npz") for c in CASES}, sort_keys=True).encode()).hexdigest()[:12]
+def load_run(d):
+    m = json.load(open(f"{d}/run_manifest.json")); p = json.load(open(f"{d}/partitions.json"))
+    ex = []
+    for f in sorted(glob.glob(f"{d}/execution_*.json")):
+        try: ex.append(json.load(open(f)))
+        except Exception as e: log(f"  unreadable execution record {os.path.basename(f)}: {e!r}")
+    return {"dir": d, "fp": m["fingerprint"], "config": m["config"], "partitions": p, "executions": ex}
+R8, R9 = load_run(SPRINT8_RUN_DIR), load_run(SPRINT9_RUN_DIR)
+RUN_IDENTITY = {"code_version": CODE_VERSION, "sprint8_fingerprint": R8["fp"], "sprint9_fingerprint": R9["fp"],
+                "exclusions_sha256": EXCLUSIONS["sha256"], "exclusions_count": EXCLUSIONS["count"], "split_manifest_sha256": SPLIT_MANIFEST_SHA256}
+FINGERPRINT = comparison_fingerprint(RUN_IDENTITY)
+OUT_DIR = f"{OUT_BASE}/compare-{R8['fp']}-{R9['fp']}-{FINGERPRINT}"; FIG_DIR = f"{OUT_DIR}/figures"
+for rd in (R8["dir"], R9["dir"]): assert not os.path.abspath(OUT_DIR).startswith(os.path.abspath(rd)), "output must not be inside a training run directory"
+os.makedirs(FIG_DIR, exist_ok=True)
+
+def partition_diff(p8, p9):
+    # compare the COMPLETE partition dictionaries: every key and every field (train, held, inner_train, inner_val, vol_folds, extras)
+    out = []
+    if set(p8) != set(p9): out.append(f"partition keys differ: only sprint 8 {sorted(set(p8) - set(p9))}, only sprint 9 {sorted(set(p9) - set(p8))}")
+    for k in sorted(set(p8) & set(p9)):
+        a, b = p8[k], p9[k]
+        if set(a) != set(b): out.append(f"{k}: fields differ ({sorted(set(a) ^ set(b))})")
+        for f in sorted(set(a) & set(b)):
+            if a[f] != b[f]: out.append(f"{k}.{f} differs")
+    return out
+c8, c9 = R8["config"], R9["config"]; pdiff = partition_diff(R8["partitions"], R9["partitions"])
+exp_keys = {f"{s_}_{k_}" for s_ in c8.get("shuffles", []) for k_ in range(int(c8.get("n_folds", 0)))}
+HARD = {
+    "sprint 8 cache identity matches the current cache": c8.get("cache_identity") == CACHE_IDENTITY,
+    "sprint 9 cache identity matches the current cache": c9.get("cache_identity") == CACHE_IDENTITY,
+    "same case list (and equal to the current 99)": c8.get("cases") == CASES == c9.get("cases"),
+    "same grid": tuple(c8.get("voxel_mm", ())) == tuple(c9.get("voxel_mm", ())) == tuple(VOXEL_MM),
+    "same shuffles and fold count": c8.get("shuffles") == c9.get("shuffles") and c8.get("n_folds") == c9.get("n_folds"),
+    "complete partition dictionaries identical": not pdiff,
+    "partition keys are exactly the planned shuffle/fold pairs": set(R8["partitions"]) == exp_keys,
+    "sprint 9 is a full-protocol run (not SMOKE)": c9.get("smoke") is False,
+}
+clin_fields8 = {"baseline": c8.get("baseline_fields"), "post-intervention": c8.get("treat_fields")}; clin_fields9 = {"baseline": c9.get("baseline_fields"), "post-intervention": c9.get("treat_fields")}
+CLIN = {"parsed clinical table digest identical": c8.get("clinical_table_digest") == c9.get("clinical_table_digest") and c8.get("clinical_table_digest") not in (None, "none"),
+        "baseline and post-intervention field sets identical": clin_fields8 == clin_fields9,
+        "clinical header mapping identical": json.dumps(c8.get("clinical_mapping"), sort_keys=True) == json.dumps(c9.get("clinical_mapping"), sort_keys=True)}
+CLIN_IDENTICAL = all(CLIN.values())
+print("Compatibility checks (a failure stops the notebook):")
+for k, v in HARD.items(): print(f"  [{'ok' if v else 'FAIL'}] {k}")
+for d in pdiff[:20]: print(f"     partition difference: {d}")
+print("Clinical-input checks (a failure only disables tree-versus-network clinical contrasts):")
+for k, v in CLIN.items(): print(f"  [{'ok' if v else 'differs'}] {k}")
+print(f"     sprint 8 fields {clin_fields8} | sprint 9 fields {clin_fields9} | digests {c8.get('clinical_table_digest')} / {c9.get('clinical_table_digest')}")
+json.dump({"fingerprint": FINGERPRINT, "run_identity": RUN_IDENTITY, "code_version": CODE_VERSION, "sprint8": {"dir": R8["dir"], "fingerprint": R8["fp"], "code_version": c8.get("code_version")}, "sprint9": {"dir": R9["dir"], "fingerprint": R9["fp"], "code_version": c9.get("code_version")},
+           "hard_checks": HARD, "partition_differences": pdiff, "clinical_checks": CLIN, "clinical_fields": {"sprint8": clin_fields8, "sprint9": clin_fields9}, "cache_identity": CACHE_IDENTITY, "utc": datetime.datetime.utcnow().isoformat()},
+          open(f"{OUT_DIR}/compatibility_report.json", "w"), indent=1, default=str)
+assert all(HARD.values()), f"runs are not comparable: {[k for k, v in HARD.items() if not v]} (see compatibility_report.json)"
+INNER = {tuple(int(x) for x in k.split("_")): v for k, v in R8["partitions"].items()}; SHUFFLES = sorted({s_ for s_, _ in INNER}); N_FOLDS = int(c8["n_folds"])
+log(f"comparable: sprint 8 {R8['fp']} vs sprint 9 {R9['fp']}; {len(INNER)} identical partitions; clinical inputs identical: {CLIN_IDENTICAL} -> {OUT_DIR}")
+
+CELL 5 code
+def asd_mm(pred, truth, spacing):
+    if pred.sum() == 0 or truth.sum() == 0: return np.nan
+    def surface(m): return m & ~binary_erosion(m)
+    sp, st = surface(pred), surface(truth); dt_t = distance_transform_edt(~st, sampling=spacing); dt_p = distance_transform_edt(~sp, sampling=spacing)
+    return float(np.concatenate([dt_t[sp], dt_p[st]]).mean())
+def patient_scores(c, p, pred):
+    truth = c["lesion_full"]; mask = c["mask"]; ml = c["voxel_ml"]
+    tp = int((pred & truth).sum()); fp = int((pred & ~truth).sum()); fn = int((~pred & truth).sum()); tn = int((~pred & ~truth & mask).sum())
+    dsc = 2 * tp / (2 * tp + fp + fn) if (2 * tp + fp + fn) > 0 else 1.0
+    tv, pv = float(truth.sum() * ml), float(pred.sum() * ml); lf1, cdiff, _ = official_lesion_metrics(truth, pred, empty_value=1.0)
+    y = truth[mask].astype(int); mask_pos, mask_neg = int(y.sum()), int(y.size - y.sum()); auc = float(roc_auc_score(y, p)) if 0 < mask_pos < y.size else np.nan; ap = float(average_precision_score(y, p)) if 0 < mask_pos < y.size else np.nan
+    cov = float((truth & mask).sum() / truth.sum()) if truth.sum() else np.nan; bound = 2 * cov / (1 + cov) if truth.sum() else np.nan
+    return {"dice": dsc, "f1_voxel": dsc, "precision": tp / (tp + fp) if (tp + fp) else np.nan, "recall": tp / (tp + fn) if (tp + fn) else np.nan, "specificity": tn / (tn + fp) if (tn + fp) else np.nan,
+            "lesion_ml": tv, "pred_ml": pv, "abs_vol_err_ml": abs(pv - tv), "signed_vol_err_ml": pv - tv, "lesion_ge5ml": tv >= 5.0, "pred_empty": bool(pred.sum() == 0), "truth_empty": bool(truth.sum() == 0),
+            "lesion_f1": lf1, "lesion_count_diff": cdiff, "asd_mm": asd_mm(pred, truth, VOXEL_MM), "fm_auroc": auc, "fm_avg_precision": ap, "lesion_coverage_by_mask": cov, "lesion_ml_outside_mask": float((truth & ~mask).sum() * ml), "mask_dice_bound": bound, "mask_pos": mask_pos, "mask_neg": mask_neg, "tp": tp, "fp": fp, "fn": fn}
+ALWAYS_FINITE = ["dice", "f1_voxel", "abs_vol_err_ml", "signed_vol_err_ml", "lesion_ml", "pred_ml", "lesion_f1", "lesion_count_diff", "lesion_ml_outside_mask", "mask_pos", "mask_neg", "tp", "fp", "fn"]
+CONDITIONAL_NAN = {"recall": "truth_empty", "lesion_coverage_by_mask": "truth_empty", "mask_dice_bound": "truth_empty", "fm_auroc": "mask_one_class", "fm_avg_precision": "mask_one_class", "precision": "pred_empty", "specificity": "never", "asd_mm": "either_empty"}
+ALL_METRIC_COLS = ALWAYS_FINITE + list(CONDITIONAL_NAN) + ["lesion_ge5ml", "pred_empty", "truth_empty"]
+def fold_check(path, recipes, held, shuffle, fold, train_seed, fp):
+    """Validate one saved fold table. Returns (DataFrame or None, reason)."""
+    if not os.path.exists(path): return None, "pending: file absent"
+    try: df = pd.read_csv(path)
+    except Exception as e: return None, f"invalid: unreadable ({type(e).__name__})"
+    need = ["fingerprint", "shuffle", "fold", "train_seed", "recipe", "case"] + ALL_METRIC_COLS
+    miss = [c for c in need if c not in df]
+    if miss: return None, f"invalid: missing columns {miss[:6]}"
+    if (df.fingerprint.astype(str) != fp).any(): return None, "invalid: fingerprint differs from the run manifest"
+    if not ((df.shuffle == shuffle).all() and (df.fold == fold).all() and (df.train_seed == train_seed).all()): return None, "invalid: shuffle/fold/seed labels differ from the requested combination"
+    expected = {(r, c) for r in recipes for c in held}; got = list(zip(df.recipe, df.case))
+    if len(got) != len(set(got)): return None, "invalid: duplicate recipe-patient rows"
+    if set(got) != expected: return None, f"invalid: recipe-patient set differs (missing {len(expected - set(got))}, unexpected {len(set(got) - expected)})"
+    num = df[ALWAYS_FINITE + list(CONDITIONAL_NAN)].apply(pd.to_numeric, errors="coerce")
+    if np.isinf(num.values.astype(float)).any(): return None, "invalid: infinite value in a metric column"
+    if not np.isfinite(num[ALWAYS_FINITE].values.astype(float)).all(): return None, "invalid: missing value in an always-defined metric"
+    for col, cond in CONDITIONAL_NAN.items():
+        allowed = {"truth_empty": df.truth_empty, "pred_empty": df.pred_empty, "either_empty": df.truth_empty | df.pred_empty, "mask_one_class": df.truth_empty | (df.mask_pos == 0) | (df.mask_neg == 0), "never": pd.Series(False, index=df.index)}[cond].astype(bool)
+        if (num[col].isna() & ~allowed).any(): return None, f"invalid: {col} undefined outside its permitted condition"
+    return df, "complete"
+SMOOTH_GRID9 = [float(w) for w in c9.get("smooth_grid", [])]
+def score_check(path, arm, shuffle, fold, train_seed):
+    """Validate one Sprint 9 score archive against the requested partition and seed (review finding 1). Returns (scores dict or None, width, reason)."""
+    if not os.path.exists(path): return None, None, "pending: file absent"
+    m = re.search(r"_s(\d+)_f(\d+)_t(\d+)\.npz$", os.path.basename(path))
+    if not m or (int(m.group(1)), int(m.group(2)), int(m.group(3))) != (shuffle, fold, train_seed) or not os.path.basename(path).startswith(f"{arm}_s"): return None, None, "invalid: file name does not match the requested arm/shuffle/fold/seed"
+    try:
+        z = np.load(path, allow_pickle=False)
+        keys = set(z.files)
+        for k in ("fingerprint", "arm", "width", "best_epoch", "cases"):
+            if k not in keys: return None, None, f"invalid: missing field {k}"
+        if str(z["fingerprint"]) != R9["fp"]: return None, None, "invalid: fingerprint differs from the run manifest"
+        if str(z["arm"]) != arm: return None, None, "invalid: arm field differs"
+        width = float(z["width"])
+        if not any(abs(width - g) < 1e-9 for g in SMOOTH_GRID9): return None, None, f"invalid: smoothing width {width} not in the run's grid {SMOOTH_GRID9}"
+        be = int(z["best_epoch"])
+        if be < 1: return None, None, f"invalid: recorded training length {be}"
+        cases = [str(x) for x in z["cases"].tolist()]; held = INNER[(shuffle, fold)]["held"]
+        if len(cases) != len(set(cases)) or sorted(cases) != sorted(held): return None, None, "invalid: declared patients differ from the requested partition's held-out set"
+        out = {}
+        for c in held:
+            key = f"raw__{c}"
+            if key not in keys: return None, None, f"invalid: no scores stored for {c}"
+            v = np.asarray(z[key])
+            if v.shape != (int(CACHE[c]["mask"].sum()),): return None, None, f"invalid: score array for {c} has shape {v.shape}, expected ({int(CACHE[c]['mask'].sum())},)"
+            if not np.isfinite(v).all(): return None, None, f"invalid: non-finite scores for {c}"
+            if v.min() < -PROB_TOL or v.max() > 1 + PROB_TOL: return None, None, f"invalid: scores for {c} outside [0, 1]"
+            out[c] = v.astype(np.float32)
+        return out, width, "complete"
+    except Exception as e: return None, None, f"invalid: unreadable archive ({type(e).__name__})"
+
+# ---------------- expected combinations from both runs (review finding 3) ----------------
+ex8 = [e.get("execution", {}) for e in R8["executions"]]; ex9 = [e.get("execution", {}) for e in R9["executions"]]
+parts8 = sorted({p for e in ex8 for p in e.get("parts", [])}) or ["part1", "part2"]
+run_e = any(e.get("run_e") for e in ex8) if ex8 else True
+e_seeds = sorted({int(t) for e in ex8 if e.get("run_e") for t in e.get("e_seeds", [])}) or [1]
+part2_arms = json.load(open(f"{R8['dir']}/part2_arms.json"))["active"] if os.path.exists(f"{R8['dir']}/part2_arms.json") else []
+ARMS9 = {a: [int(t) for t in v.get("seeds", []) if int(t) in [int(x) for x in c9["train_seeds"]]] for a, v in c9["arms"].items()}
+log(f"sprint 8 execution records: {len(ex8)} (parts {parts8}, E run {run_e}, E seeds {e_seeds}); part 2 arms {part2_arms}")
+log(f"sprint 9 arms and seeds from its manifest: {ARMS9}")
+if not ex8: log("  note: no sprint 8 execution record found; assumed parts part1+part2 and E on seed 1 (the defaults)")
+STATES, frames8, frames9 = [], [], []
+def record(run, group, s_, k_, t_, reason, path):
+    STATES.append({"run": run, "group": group, "shuffle": s_, "fold": k_, "train_seed": t_, "state": reason.split(":")[0], "reason": reason, "file": os.path.basename(path)})
+for (s_, k_), P in sorted(INNER.items()):
+    for t_ in [int(x) for x in c8["train_seeds"]]:
+        if "part1" in parts8:
+            p = f"{R8['dir']}/folds/part1_s{s_}_f{k_}_t{t_}.csv"; df, why = fold_check(p, ["B_natural_scoresum", "C_noslice_scoresum", "D_noslice_smoothed"], P["held"], s_, k_, t_, R8["fp"]); record("sprint 8", "part1 (B, C, D)", s_, k_, t_, why, p); frames8 += [df] if df is not None else []
+        if "part1" in parts8 and run_e and t_ in e_seeds:
+            p = f"{R8['dir']}/folds/part1E_s{s_}_f{k_}_t{t_}.csv"; sk = p.replace(".csv", ".skipped.json")
+            if os.path.exists(sk) and not os.path.exists(p):
+                try: rs = json.load(open(sk)).get("reason", "")
+                except Exception: rs = "unreadable skip record"
+                record("sprint 8", "part1 E", s_, k_, t_, f"skipped: {rs}", p)
+            else: df, why = fold_check(p, ["E_allvoxels_smoothed"], P["held"], s_, k_, t_, R8["fp"]); record("sprint 8", "part1 E", s_, k_, t_, why, p); frames8 += [df] if df is not None else []
+        if "part2" in parts8 and part2_arms:
+            p = f"{R8['dir']}/folds/part2_s{s_}_f{k_}_t{t_}.csv"; df, why = fold_check(p, part2_arms, P["held"], s_, k_, t_, R8["fp"]); record("sprint 8", "part2 (clinical)", s_, k_, t_, why, p); frames8 += [df] if df is not None else []
+    for arm, seeds in ARMS9.items():
+        for t_ in seeds:
+            p = f"{R9['dir']}/folds/unet_{arm}_s{s_}_f{k_}_t{t_}.csv"; df, why = fold_check(p, [f"{arm}_raw", f"{arm}_smoothed"], P["held"], s_, k_, t_, R9["fp"]); record("sprint 9", f"{arm} fold table", s_, k_, t_, why, p); frames9 += [df] if df is not None else []
+DF8 = pd.concat(frames8) if frames8 else pd.DataFrame(); DF9 = pd.concat(frames9) if frames9 else pd.DataFrame()
+ST = pd.DataFrame(STATES); log(f"expected fold tables: {len(ST)} | " + ", ".join(f"{k} {v}" for k, v in ST.state.value_counts().items()))
+bad = ST[ST.state != "complete"]
+if len(bad): print("Not complete (listed explicitly):"); print(bad[["run", "group", "shuffle", "fold", "train_seed", "reason"]].to_string(index=False))
+
+CELL 6 markdown
+## Matched-amount arms from Sprint 9's validated saved scores at Sprint 8 D's predicted amount (no training)
+
+CELL 7 code
+def pr_of(c): return {"shape": c["shape"], "mask": c["mask"], "lesion_full": c["lesion_full"], "voxel_ml": c["voxel_ml"]}
+D = DF8[DF8.recipe == "D_noslice_smoothed"].set_index(["shuffle", "fold", "train_seed", "case"]) if len(DF8) else pd.DataFrame()
+D_OK = {(r["shuffle"], r["fold"], r["train_seed"]) for r in STATES if r["group"] == "part1 (B, C, D)" and r["state"] == "complete"}
+rows, MASKS, PAIR = [], {}, []
+for arm, seeds in ARMS9.items():
+    for (s_, k_), P in sorted(INNER.items()):
+        for t_ in seeds:
+            f = f"{R9['dir']}/uscores/{arm}_s{s_}_f{k_}_t{t_}.npz"; scores, width, why = score_check(f, arm, s_, k_, t_)
+            record("sprint 9", f"{arm} score file", s_, k_, t_, why, f)
+            if scores is None: PAIR.append({"arm": arm, "shuffle": s_, "fold": k_, "train_seed": t_, "state": "not paired", "reason": f"score file {why}"}); continue
+            if (s_, k_, t_) not in D_OK: PAIR.append({"arm": arm, "shuffle": s_, "fold": k_, "train_seed": t_, "state": "not paired", "reason": "tree reference D fold table not complete for this shuffle/fold/seed"}); continue
+            for h in P["held"]:
+                c = CACHE[h]; pr = pr_of(c); ps = smooth_scores(pr, scores[h], width); target = float(D.loc[(s_, k_, t_, h), "pred_ml"]); pred = rule_topk_lexsort(pr, ps, target)
+                rows.append(dict(fingerprint=f"{R8['fp']}+{R9['fp']}", shuffle=s_, fold=k_, train_seed=t_, case=h, recipe=f"{arm}_at_D_amount", note=f"sprint 9 {arm} smoothed ranking (width {width} mm) at sprint 8 D's predicted amount", **patient_scores(c, ps, pred)))
+                if s_ == MAP_SHUFFLE and t_ == MAP_SEED: MASKS[(f"{arm}_at_D_amount", h)] = pred
+            PAIR.append({"arm": arm, "shuffle": s_, "fold": k_, "train_seed": t_, "state": "paired", "reason": ""})
+DFM = pd.DataFrame(rows); PAIR = pd.DataFrame(PAIR); PAIR.to_csv(f"{OUT_DIR}/matched_amount_status.csv", index=False)
+log(f"matched-amount combinations: {int((PAIR.state == 'paired').sum())} paired of {len(PAIR)} expected; rows built: {len(DFM)}")
+if (PAIR.state != "paired").any(): print("Not paired (listed explicitly):"); print(PAIR[PAIR.state != "paired"].to_string(index=False))
+ALL = pd.concat([DF8, DF9, DFM]); ALL.to_csv(f"{OUT_DIR}/all_percase.csv", index=False)
+
+CELL 8 markdown
+## Completion of every expected combination, per-recipe table with full metrics, and predeclared contrasts on matched observations
+
+CELL 9 code
+rng = np.random.default_rng(0); pd.set_option("display.width", 260); pd.set_option("display.max_columns", 40)
+ST = pd.DataFrame(STATES); ST.to_csv(f"{OUT_DIR}/completion.csv", index=False)
+tab = ST.pivot_table(index=["run", "group"], columns="state", values="file", aggfunc="count", fill_value=0)
+print("Completion of every expected combination (from the manifests, execution records and arm lists):"); print(tab.to_string())
+PROVISIONAL = (ST.state != "complete").any() or (PAIR.state != "paired").any()
+print("\nRUN STATUS:", "PROVISIONAL: some expected combinations are pending, invalid, skipped or unpaired; comparisons below use matched valid observations only" if PROVISIONAL else "all expected combinations complete and paired")
+per_pat = ALL.groupby(["recipe", "case"]).agg(dice=("dice", "mean"), precision=("precision", "mean"), recall=("recall", "mean"), specificity=("specificity", "mean"), fm_auroc=("fm_auroc", "mean"), fm_ap=("fm_avg_precision", "mean"),
+    abs_vol=("abs_vol_err_ml", "mean"), signed=("signed_vol_err_ml", "mean"), lesion_f1=("lesion_f1", "mean"), count_diff=("lesion_count_diff", "mean"), asd=("asd_mm", "mean"), empty_rate=("pred_empty", "mean"), lesion_ml=("lesion_ml", "first"), ge5=("lesion_ge5ml", "first"),
+    n_rep=("dice", "count"), n_prec=("precision", "count"), n_rec=("recall", "count"), n_spec=("specificity", "count"), n_auc=("fm_auroc", "count"), n_ap=("fm_avg_precision", "count"), n_asd=("asd_mm", "count")).reset_index()
+def ci(v):
+    v = np.asarray(v, float); v = v[np.isfinite(v)]; b = [rng.choice(v, v.size, replace=True).mean() for _ in range(2000)]; return f"{v.mean():.3f} ({np.percentile(b, 2.5):.3f} to {np.percentile(b, 97.5):.3f})"
+def mean_n(g, col, ncol): v = g[col]; return f"{np.nanmean(v):.3f} ({int(v.notna().sum())} pts, {int(g[ncol].sum())} obs)" if v.notna().any() else "n/a"
+summ = per_pat.groupby("recipe").apply(lambda g: pd.Series({"patients": len(g), "repeats (mean)": round(g.n_rep.mean(), 2), "Dice / voxel F1 (95% CI)": ci(g.dice), "lesion-wise F1": round(g.lesion_f1.mean(), 3),
+    "precision (valid)": mean_n(g, "precision", "n_prec"), "recall (valid)": mean_n(g, "recall", "n_rec"), "feature-mask specificity (valid)": mean_n(g, "specificity", "n_spec"), "feature-mask AUROC (valid)": mean_n(g, "fm_auroc", "n_auc"), "feature-mask avg precision (valid)": mean_n(g, "fm_ap", "n_ap"),
+    "empty-prediction rate": round(g.empty_rate.mean(), 3), "median patient-mean abs vol err (ml)": round(g.abs_vol.median(), 2), "median signed (ml)": round(g.signed.median(), 2), "lesion count diff": round(g.count_diff.mean(), 2), "ASD mm (valid)": mean_n(g, "asd", "n_asd"),
+    "Dice <5 ml (n)": f"{g.loc[~g.ge5.astype(bool), 'dice'].mean():.3f} ({int((~g.ge5.astype(bool)).sum())})", "Dice >=5 ml (n)": f"{g.loc[g.ge5.astype(bool), 'dice'].mean():.3f} ({int(g.ge5.astype(bool).sum())})"}))
+print("\nPer-recipe descriptive table (each patient's valid repeats averaged first; recipes differ in repeats, so compare with the matched contrasts below; EXPLORATORY intervals):"); print(summ.to_string()); summ.to_csv(f"{OUT_DIR}/summary_by_recipe.csv")
+arms9 = list(ARMS9)
+CONTRASTS = [("U_base_smoothed", "D_noslice_smoothed", "U-Net (own amount) vs tree reference D"), ("U_base_at_D_amount", "D_noslice_smoothed", "U-Net ranking at D's predicted amount vs D: placement with the amount held equal"), ("U_base_at_D_amount", "U_base_smoothed", "D's amount instead of the U-Net's own amount")]
+CONTRASTS += [(f"{a}_at_D_amount", "D_noslice_smoothed", f"{a} ranking at D's predicted amount vs D") for a in arms9 if a != "U_base"]
+CONTRASTS += [("F_baseclin_broadcast", "D_noslice_smoothed", "sprint 8: tree + baseline clinical vs D"), ("G_postint_broadcast", "D_noslice_smoothed", "sprint 8: tree + reperfusion vs D"), ("K_D_amount_volonly", "D_noslice_smoothed", "sprint 8: volume-only recalibration vs D"), ("I_D_amount_baseclin", "K_D_amount_volonly", "sprint 8: clinical amount vs volume-only control")]
+CROSS = [("U_bc_baseclin_smoothed", "F_baseclin_broadcast", "network + baseline clinical vs tree + baseline clinical (both broadcast; matched on seed 1)"), ("U_bc_postint_smoothed", "G_postint_broadcast", "network + reperfusion vs tree + reperfusion (both broadcast; matched on seed 1)")]
+if CLIN_IDENTICAL: CONTRASTS += CROSS
+else: print("\nTree-versus-network clinical contrasts NOT produced: the two runs' parsed clinical inputs are not verified identical (see compatibility_report.json).")
+EXTRA = ["precision", "recall", "specificity", "fm_auroc", "fm_avg_precision"]
+rows = []; print("\nMatched contrasts (same shuffle, fold, training seed, patient; first minus second; within-patient averaging, then patients bootstrapped; negative volume-error differences favour the first-listed arm):")
+for a, b, q in CONTRASTS:
+    if a not in set(ALL.recipe) or b not in set(ALL.recipe): print(f"  {a} - {b}: not available (one side has no valid observations)"); continue
+    m = ALL[ALL.recipe == a].merge(ALL[ALL.recipe == b], on=["shuffle", "fold", "train_seed", "case"], suffixes=("_a", "_b"))
+    if not len(m): print(f"  {a} - {b}: no matched observations"); continue
+    agg = {"d": ("d", "mean"), "dv": ("dv", "mean"), "dlf": ("dlf", "mean"), "n": ("d", "count")}; mm = m.assign(d=m.dice_a - m.dice_b, dv=m.abs_vol_err_ml_a - m.abs_vol_err_ml_b, dlf=m.lesion_f1_a - m.lesion_f1_b, de=m.pred_empty_a.astype(float) - m.pred_empty_b.astype(float))
+    for x in EXTRA: mm[f"d_{x}"] = mm[f"{x}_a"] - mm[f"{x}_b"]; agg[f"d_{x}"] = (f"d_{x}", "mean")
+    agg["de"] = ("de", "mean"); g = mm.groupby("case").agg(**agg)
+    bd = [rng.choice(g.d.values, len(g), replace=True).mean() for _ in range(2000)]; bv = [np.median(rng.choice(g.dv.values, len(g), replace=True)) for _ in range(2000)]; bl = [rng.choice(g.dlf.values, len(g), replace=True).mean() for _ in range(2000)]
+    row = {"arm": a, "reference": b, "question": q, "patients": len(g), "matched_obs": int(g.n.sum()), "dice_diff": g.d.mean(), "dice_ci_lo": np.percentile(bd, 2.5), "dice_ci_hi": np.percentile(bd, 97.5), "better": int((g.d > 0).sum()), "worse": int((g.d < 0).sum()), "tied": int((g.d == 0).sum()),
+           "lesion_f1_diff": g.dlf.mean(), "lesion_f1_ci_lo": np.percentile(bl, 2.5), "lesion_f1_ci_hi": np.percentile(bl, 97.5), "median_patient_absvol_diff_ml": float(np.median(g.dv)), "absvol_ci_lo": np.percentile(bv, 2.5), "absvol_ci_hi": np.percentile(bv, 97.5), "empty_rate_diff": g.de.mean()}
+    for x in EXTRA: v = g[f"d_{x}"]; row[f"{x}_diff"] = float(np.nanmean(v)) if v.notna().any() else np.nan; row[f"{x}_valid_patients"] = int(v.notna().sum())
+    rows.append(row)
+    print(f"  {a} - {b}  [{q}]: Dice {row['dice_diff']:+.3f} ({row['dice_ci_lo']:+.3f} to {row['dice_ci_hi']:+.3f}); better/worse/tied {row['better']}/{row['worse']}/{row['tied']} of {len(g)} pts ({row['matched_obs']} obs); lesion F1 {row['lesion_f1_diff']:+.3f}; "
+          f"precision {row['precision_diff']:+.3f} ({row['precision_valid_patients']} pts); recall {row['recall_diff']:+.3f} ({row['recall_valid_patients']} pts); abs-vol-error {row['median_patient_absvol_diff_ml']:+.1f} ml ({row['absvol_ci_lo']:+.1f} to {row['absvol_ci_hi']:+.1f})")
+pd.DataFrame(rows).to_csv(f"{OUT_DIR}/paired_contrasts.csv", index=False)
+json.dump({"fingerprint": FINGERPRINT, "run_identity": RUN_IDENTITY, "code_version": CODE_VERSION, "sprint8": {"dir": R8["dir"], "fingerprint": R8["fp"]}, "sprint9": {"dir": R9["dir"], "fingerprint": R9["fp"]}, "hard_checks": HARD, "clinical_checks": CLIN, "provisional": bool(PROVISIONAL),
+           "states": ST.state.value_counts().to_dict(), "matched_amount": PAIR.state.value_counts().to_dict(), "rows": {"sprint8": int(len(DF8)), "sprint9": int(len(DF9)), "matched_amount": int(len(DFM))}, "utc": datetime.datetime.utcnow().isoformat()},
+          open(f"{OUT_DIR}/comparison_reference.json", "w"), indent=1, default=str)
+print("\nOutputs: completion.csv, matched_amount_status.csv, compatibility_report.json, summary_by_recipe.csv, paired_contrasts.csv, all_percase.csv, comparison_reference.json. Development evidence on 99 patients; exploratory intervals; the 25 remain unscored.")
+# Mechanical identity validation; not scientific result acceptance.
+REFERENCE_CHECK = validate_comparison_reference(json.load(open(f"{OUT_DIR}/comparison_reference.json")), EXCLUSIONS, SPLIT_MANIFEST_PATH, SPLIT_MANIFEST_SHA256)
+
+
+CELL 10 markdown
+## Maps: sprint 8's D beside the sprint 9 arms and the matched-amount arm on the same patients
+
+CELL 11 code
+import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+def fold_of(case): return next(k_ for (s_, k_), P in INNER.items() if s_ == MAP_SHUFFLE and case in P["held"])
+def load_mask_from(run, recipe, case):
+    p = f"{run['dir']}/masks/{recipe}__s{MAP_SHUFFLE}_t{MAP_SEED}__{case}.npz"
+    if not os.path.exists(p): return None
+    z = np.load(p, allow_pickle=False); shape = tuple(int(s) for s in z["shape"])
+    ok = str(z["fingerprint"]) == run["fp"] and int(z["shuffle"]) == MAP_SHUFFLE and int(z["train_seed"]) == MAP_SEED and int(z["fold"]) == fold_of(case) and str(z["recipe"]) == recipe and shape == tuple(CACHE[case]["shape"])
+    return np.unpackbits(z["pred"])[:int(np.prod(shape))].reshape(shape).astype(bool) if ok else None
+PANEL = [("D_noslice_smoothed", R8, "D tree reference (sprint 8)"), ("U_base_smoothed", R9, "U-Net base"), ("U_base_at_D_amount", None, "U-Net at D's amount")] + [(f"{a}_smoothed", R9, a.replace("U_", "U-Net ")) for a in list(ARMS9) if a != "U_base"]
+def get_mask(recipe, run, case): return MASKS.get((recipe, case)) if run is None else load_mask_from(run, recipe, case)
+scored = sorted({c for (s_, k_), P in INNER.items() if s_ == MAP_SHUFFLE for c in P["held"] if get_mask("U_base_smoothed", R9, c) is not None and get_mask("D_noslice_smoothed", R8, c) is not None})
+if scored:
+    vols = pd.Series({c: float(CACHE[c]["lesion_full"].sum() * CACHE[c]["voxel_ml"]) for c in scored}).sort_values(); nz = vols[vols > 0]
+    picks = [nz.index[int(q * (len(nz) - 1))] for q in (0.02, 0.2, 0.4, 0.6, 0.8, 0.98)]; examples = [(c, f"case {i+1}") for i, c in enumerate(dict.fromkeys(picks))]; json.dump({a: c for c, a in examples}, open(f"{OUT_DIR}/example_case_aliases_PRIVATE.json", "w"), indent=1)
+    cols = [("ground truth", None, "ground truth")] + [p for p in PANEL if any(get_mask(p[0], p[1], c) is not None for c, _ in examples)]; tmax_i = FEATURE_NAMES.index("tmax"); cmap = ListedColormap([(0, 0, 0, 0), (0.42, 0.56, 0.14, 0.75), (0.89, 0.34, 0.18, 0.75), (0.11, 0.45, 0.58, 0.8)])
+    fig, axes = plt.subplots(len(examples), len(cols), figsize=(2.6 * len(cols), 2.7 * len(examples)), squeeze=False)
+    for r, (case, alias) in enumerate(examples):
+        c = CACHE[case]; truth = c["lesion_full"]; z = int(np.argmax(truth.sum(axis=(0, 1)))); bg = np.full(c["shape"], np.nan, np.float32); bg[c["mask"]] = c["X"][:, tmax_i]
+        for j, (recipe, run, label) in enumerate(cols):
+            ax = axes[r, j]; ax.imshow(bg[:, :, z].T, cmap="gray", origin="lower", vmin=0, vmax=12); ax.contour(c["mask"][:, :, z].T.astype(float), levels=[0.5], colors="white", linewidths=0.5, linestyles="dashed")
+            if recipe == "ground truth": ax.contour(truth[:, :, z].T, levels=[0.5], colors="#6B8E23", linewidths=1.3); ax.set_title(f"{alias}: lesion {vols[case]:.1f} ml\n(slice of max lesion area)", fontsize=8)
+            else:
+                pred = get_mask(recipe, run, case)
+                if pred is None: ax.set_title(f"{label}\n(no valid mask)", fontsize=8)
+                else:
+                    ov = np.zeros(truth[:, :, z].shape, np.uint8); ov[(pred[:, :, z] & truth[:, :, z])] = 1; ov[(pred[:, :, z] & ~truth[:, :, z])] = 2; ov[(~pred[:, :, z] & truth[:, :, z])] = 3; ax.imshow(ov.T, cmap=cmap, origin="lower", vmin=0, vmax=3, interpolation="nearest")
+                    ax.set_title(f"{label}\n3-D Dice {dice(pred, truth):.2f}, lesion F1 {official_lesion_metrics(truth, pred, 1.0)[0]:.2f}" + ("\n(empty prediction)" if pred.sum() == 0 else ""), fontsize=8)
+            ax.set_xticks([]); ax.set_yticks([])
+    plt.suptitle(f"Held-out predictions, shuffle {MAP_SHUFFLE}, training seed {MAP_SEED}; six rule-selected patients; sprint 8 {R8['fp']} and sprint 9 {R9['fp']}.\nGreen = correct overlap, orange = prediction outside the reference, blue = reference infarct missed. Dashed white = eligible-mask boundary. Panel scores are 3-D.", fontsize=9); plt.tight_layout()
+    fig.savefig(f"{FIG_DIR}/example_maps_trees_vs_unet.png", dpi=140); plt.close(fig); print("saved example_maps_trees_vs_unet.png")
+else: print("no patient has valid masks from both runs for the requested shuffle/seed yet")

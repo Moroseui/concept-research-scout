@@ -1,0 +1,11 @@
+[Unit]
+Description=Poll the research report issue without model calls
+
+[Timer]
+OnBootSec=30s
+OnUnitInactiveSec=60s
+AccuracySec=5s
+Unit=research-system-issue-intake.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,45 @@
+{
+  "kind": "author-operated delta review, not independent main desk or live execution review",
+  "execution": {
+    "reviewed_commit": "9468a7e79d84ab2592a99da7ad2b53ba919af4a6",
+    "returncode": 0,
+    "wall_seconds": 137.16731029600487,
+    "input_file_sha256": {
+      "REVIEW_INPUT.md": "9417d10b9a23b43c32f532240b92865aaf9e5318a13325ad736956bed57451f2",
+      "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md": "436b3d7511aad098b775028f7a04ac6d634669fcd524497831b0d8bdf2c00bda",
+      "docs/operations/REMOTE_OPERATING_DIRECTION.md": "0690a6d7e8c1c8ab18236d47e9dc9fd1329c0a2ff77dda197164b90527d6239c"
+    },
+    "response_sha256": "0ee89ec28ba89d637be9353d2cb9f22076f7aaa64fcd342ead9b8005904d559c",
+    "requested_model": "claude-fable-5",
+    "assistant_message_models": [
+      "claude-fable-5"
+    ],
+    "actual_usage_models": [
+      "claude-haiku-4-5-20251001",
+      "claude-fable-5"
+    ],
+    "protocol_sha256": "f52d70e23d07156b7304031b98eacb7701d1fb266b7de51cf4f9d64a6d3e2bd5"
+  },
+  "session_id": "59fe1f77-6a03-4c6b-a24b-a7263e938afd",
+  "review": {
+    "scope": "Final bounded Drive delta after approved 756abf09; assess only supplied source/test diff and pinned file hashes. Prior reviews approved surrounding code. No live Google or host evidence claimed.",
+    "reviewed_commit": "9468a7e79d84ab2592a99da7ad2b53ba919af4a6",
+    "verdict": "APPROVE",
+    "findings": [
+      "VERIFIED (diff text): all five prior recommendations implemented correctly and fail-closed \u2014 upload- request-ID namespace rejected before schema regex; run-artifacts alias rejected at construction before config adoption; receipts honored only with stage drive-evidence-storage and folder-name-bound request_id, preserving UPLOAD_OUTCOME_UNCERTAIN recovery for missing (not wrong-kind) bookkeeping; research-controller/research-driver resolved before any mkdir/chown/usermod host write; destination-then-spool-root directory fsync in correct child-first order with fd closed in finally. No authority, credential, consent, or scope expansion in the delta; consistent with pending-consent Drive preparation authorization.",
+      "Suggestion \u2014 untested, drive_evidence.py:342 \u2014 a persisted receipt whose request_id key exists but is non-string raises TypeError from string concatenation instead of the controlled ValueError; fail-closed but uncontrolled exception type at the receipt boundary. Consequence: unexpected error class crossing recovery path. Affected task: Drive connector hardening. Smallest fix: add isinstance(result.get(\"request_id\"), str) to the mismatch condition.",
+      "Suggestion \u2014 inferred \u2014 the delta adds only a negative receipt test; nothing supplied confirms the unchanged receipt writer emits stage \"drive-evidence-storage\" with matching ID, so a constant mismatch would turn every legitimate status recovery into a raise. The \"11 connector tests pass\" statement is author-asserted; this review ran nothing. Affected task: recovery-semantics verification before hosted use. Smallest fix: one status-after-store test reading back a genuine receipt.",
+      "Suggestion \u2014 inferred \u2014 removal of grp/shutil imports in install_drive_connector.py is safe only if the pinned file (ba5879b7\u2026) retains no usages; the diff alone cannot show this and installer coverage by connector tests is unclear. Affected task: installer integrity at the eventual main-merge gate. Smallest fix: full-file grep or lint pass recorded alongside the pin.",
+      "Suggestion \u2014 inferred \u2014 RESERVED_DRIVE_REQUEST_NAMESPACE is enforced only in handle(); if module-level stage_run_bundle is reachable from any other call site, an upload--prefixed request_id could still create a colliding spool directory. Affected task: Drive connector hardening. Smallest fix: confirm sole call site or duplicate the one-line guard in stage_run_bundle.",
+      "Provenance: reviewer Claude Fable 5 (claude-fable-5), fresh reviewer session under remote-reviewer/v3, distinct from execution-worker sessions. Delta-only review against supplied diff and pinned hashes; surrounding code carries the prior 756abf09 approval. No tests executed; no live Google/host/consent evidence claimed. This approval covers implementation review only and grants nothing toward the credential/file-access consent, patient transfer, launch, or main-merge gates, which remain separately held."
+    ]
+  },
+  "reported_cost_usd": 0.8716070000000001,
+  "billing_note": "CLI estimate under existing subscription, not evidence of a new charge",
+  "disposition": {
+    "positive_status_test": "Existing test_upload_status_survives_spool_cleanup_and_restart passed in the 11-test suite; omitted from the tiny review diff because unchanged.",
+    "removed_imports": "Full installer source contains no grp/shutil references after removal.",
+    "invalid_receipt_type": "Deferred fail-closed diagnostic polish; existing broker maps exceptions to a controlled refusal. No bad receipt accepted.",
+    "reserved_staging_prefix": "Known fail-closed usability limitation: a staging-only upload-prefixed ID is rejected at broker admission. Supported coordinator IDs do not use that prefix."
+  }
+}

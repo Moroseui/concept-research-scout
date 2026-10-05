@@ -1,0 +1,2694 @@
+{
+  "meaning": "Mechanical record/source-span index, not automatic semantic proof that no obligation was omitted. Operator manual review uses originals and the full appendix.",
+  "records": [
+    {
+      "id": "ISLES-001",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 60,
+        "end": 564,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-002",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 566,
+        "end": 1129,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-003",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 1131,
+        "end": 1848,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-004",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 1850,
+        "end": 2567,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-005",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 2569,
+        "end": 3316,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-006",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 3318,
+        "end": 4015,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-007",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 4017,
+        "end": 4558,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-008",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 4560,
+        "end": 5148,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-009",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 5150,
+        "end": 5585,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-010",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 5587,
+        "end": 6268,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-011",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 6270,
+        "end": 6983,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-012",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 6985,
+        "end": 7610,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-013",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 7612,
+        "end": 8267,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-014",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 8269,
+        "end": 8834,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-015",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 8836,
+        "end": 9687,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-016",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 9689,
+        "end": 10543,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-017",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 10545,
+        "end": 11110,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-018",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md",
+        "sha256": "a42607272153358b2dcefcf7f566cc131007d6b3f7c65c53bb9d38bcbcc98598",
+        "start": 11112,
+        "end": 11723,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_POLICY_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-020",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 22,
+        "end": 160,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-021",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 160,
+        "end": 333,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-022",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 333,
+        "end": 631,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-023",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 631,
+        "end": 1017,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-024",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 1017,
+        "end": 1492,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-025",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 1492,
+        "end": 2096,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-026",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 2096,
+        "end": 2426,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-027",
+      "status": "open",
+      "source": {
+        "path": "docs/COLLABORATOR_RULES.md",
+        "sha256": "522da3894fd21d375c8c0b282b5d131e36564b01b4121275477b7a3b5a85bd0b",
+        "start": 2426,
+        "end": 2827,
+        "original_path": "docs/COLLABORATOR_RULES.md"
+      }
+    },
+    {
+      "id": "ISLES-028",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 0,
+        "end": 22608,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-029",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/DIRECT_INSPECTION_AUTHORIZATION_20260912.md",
+        "sha256": "5700d2aa82fde86d8fd4014d4c1f7f0475e9e594b238f9ea1a73ba6f0296252f",
+        "start": 0,
+        "end": 7685,
+        "original_path": "docs/operations/DIRECT_INSPECTION_AUTHORIZATION_20260912.md"
+      }
+    },
+    {
+      "id": "ISLES-030",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/DIRECT_INSPECTION_REVIEW.md",
+        "sha256": "eeeacdc01c7e6d6b6b46737a9cd3ed2bdbc530c391ddc26d0573308354a929ff",
+        "start": 0,
+        "end": 737,
+        "original_path": "docs/operations/DIRECT_INSPECTION_REVIEW.md"
+      }
+    },
+    {
+      "id": "ISLES-031",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/DIRECT_INSPECTION_REVIEW.md",
+        "sha256": "eeeacdc01c7e6d6b6b46737a9cd3ed2bdbc530c391ddc26d0573308354a929ff",
+        "start": 737,
+        "end": 5650,
+        "original_path": "docs/operations/DIRECT_INSPECTION_REVIEW.md"
+      }
+    },
+    {
+      "id": "ISLES-032",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/DIRECT_INSPECTION_REVIEW.md",
+        "sha256": "eeeacdc01c7e6d6b6b46737a9cd3ed2bdbc530c391ddc26d0573308354a929ff",
+        "start": 5650,
+        "end": 7885,
+        "original_path": "docs/operations/DIRECT_INSPECTION_REVIEW.md"
+      }
+    },
+    {
+      "id": "ISLES-033",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/DIRECT_INSPECTION_REVIEW.md",
+        "sha256": "eeeacdc01c7e6d6b6b46737a9cd3ed2bdbc530c391ddc26d0573308354a929ff",
+        "start": 7885,
+        "end": 12921,
+        "original_path": "docs/operations/DIRECT_INSPECTION_REVIEW.md"
+      }
+    },
+    {
+      "id": "ISLES-034",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/DIRECT_INSPECTION_REVIEW.md",
+        "sha256": "eeeacdc01c7e6d6b6b46737a9cd3ed2bdbc530c391ddc26d0573308354a929ff",
+        "start": 12921,
+        "end": 25247,
+        "original_path": "docs/operations/DIRECT_INSPECTION_REVIEW.md"
+      }
+    },
+    {
+      "id": "ISLES-035",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/INVESTIGATOR_CONTINUATION.md",
+        "sha256": "be9e14ab478d2bd55d08388a91ab6222a7212f0e70cc73632d3087dc26b78d9b",
+        "start": 0,
+        "end": 946,
+        "original_path": "docs/operations/INVESTIGATOR_CONTINUATION.md"
+      }
+    },
+    {
+      "id": "ISLES-036",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/INVESTIGATOR_CONTINUATION.md",
+        "sha256": "be9e14ab478d2bd55d08388a91ab6222a7212f0e70cc73632d3087dc26b78d9b",
+        "start": 946,
+        "end": 2889,
+        "original_path": "docs/operations/INVESTIGATOR_CONTINUATION.md"
+      }
+    },
+    {
+      "id": "ISLES-037",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/INVESTIGATOR_CONTINUATION.md",
+        "sha256": "be9e14ab478d2bd55d08388a91ab6222a7212f0e70cc73632d3087dc26b78d9b",
+        "start": 2889,
+        "end": 5312,
+        "original_path": "docs/operations/INVESTIGATOR_CONTINUATION.md"
+      }
+    },
+    {
+      "id": "ISLES-038",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/INVESTIGATOR_CONTINUATION.md",
+        "sha256": "be9e14ab478d2bd55d08388a91ab6222a7212f0e70cc73632d3087dc26b78d9b",
+        "start": 5312,
+        "end": 6454,
+        "original_path": "docs/operations/INVESTIGATOR_CONTINUATION.md"
+      }
+    },
+    {
+      "id": "ISLES-039",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/INVESTIGATOR_CONTINUATION.md",
+        "sha256": "be9e14ab478d2bd55d08388a91ab6222a7212f0e70cc73632d3087dc26b78d9b",
+        "start": 6454,
+        "end": 8361,
+        "original_path": "docs/operations/INVESTIGATOR_CONTINUATION.md"
+      }
+    },
+    {
+      "id": "ISLES-040",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/INVESTIGATOR_CONTINUATION.md",
+        "sha256": "be9e14ab478d2bd55d08388a91ab6222a7212f0e70cc73632d3087dc26b78d9b",
+        "start": 8361,
+        "end": 9026,
+        "original_path": "docs/operations/INVESTIGATOR_CONTINUATION.md"
+      }
+    },
+    {
+      "id": "ISLES-041",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/ISSUE6_INTAKE.md",
+        "sha256": "f4c7b5b7b183ef3b332fb25133354ec504de81cdb71347ee983cbdba31df5444",
+        "start": 0,
+        "end": 5157,
+        "original_path": "docs/operations/ISSUE6_INTAKE.md"
+      }
+    },
+    {
+      "id": "ISLES-042",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/ISSUE6_INTAKE.md",
+        "sha256": "f4c7b5b7b183ef3b332fb25133354ec504de81cdb71347ee983cbdba31df5444",
+        "start": 5157,
+        "end": 7463,
+        "original_path": "docs/operations/ISSUE6_INTAKE.md"
+      }
+    },
+    {
+      "id": "ISLES-043",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/MATERIAL_DEPLOYMENT_CLARIFICATION_20260911.md",
+        "sha256": "714b92d3f78c23a948c386b4875916534dee036c2267faad8da068583b2405f2",
+        "start": 0,
+        "end": 2245,
+        "original_path": "docs/operations/MATERIAL_DEPLOYMENT_CLARIFICATION_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-044",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/RECORDED_STEERING_RECONSIDERATION.md",
+        "sha256": "5b3de5aaaa2ce0a38f1099b25e01f1c8dba83ae4e8981b3bc52b9ee6696f9f0e",
+        "start": 0,
+        "end": 3215,
+        "original_path": "docs/operations/RECORDED_STEERING_RECONSIDERATION.md"
+      }
+    },
+    {
+      "id": "ISLES-045",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/SHARED_WORKFLOW_CLARIFICATION_20260909.md",
+        "sha256": "4d217f6a59cd72fc12e6b402a1596316d3dc0bd13b494d6c5795e5b40fdcc839",
+        "start": 0,
+        "end": 4146,
+        "original_path": "docs/operations/SHARED_WORKFLOW_CLARIFICATION_20260909.md"
+      }
+    },
+    {
+      "id": "ISLES-046",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/TERMINAL_REVIEW_IMPORT.md",
+        "sha256": "e061f01551f4b1788aca76c4495830b86084bcbd1e35a356ec8dfa145bd2220b",
+        "start": 0,
+        "end": 1217,
+        "original_path": "docs/operations/TERMINAL_REVIEW_IMPORT.md"
+      }
+    },
+    {
+      "id": "ISLES-047",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/TERMINAL_REVIEW_IMPORT.md",
+        "sha256": "e061f01551f4b1788aca76c4495830b86084bcbd1e35a356ec8dfa145bd2220b",
+        "start": 1217,
+        "end": 4464,
+        "original_path": "docs/operations/TERMINAL_REVIEW_IMPORT.md"
+      }
+    },
+    {
+      "id": "ISLES-048",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/TERMINAL_REVIEW_IMPORT.md",
+        "sha256": "e061f01551f4b1788aca76c4495830b86084bcbd1e35a356ec8dfa145bd2220b",
+        "start": 4464,
+        "end": 6417,
+        "original_path": "docs/operations/TERMINAL_REVIEW_IMPORT.md"
+      }
+    },
+    {
+      "id": "ISLES-049",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/TERMINAL_REVIEW_IMPORT.md",
+        "sha256": "e061f01551f4b1788aca76c4495830b86084bcbd1e35a356ec8dfa145bd2220b",
+        "start": 6417,
+        "end": 7019,
+        "original_path": "docs/operations/TERMINAL_REVIEW_IMPORT.md"
+      }
+    },
+    {
+      "id": "ISLES-050",
+      "status": "open",
+      "source": {
+        "path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md",
+        "sha256": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "start": 0,
+        "end": 587,
+        "original_path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md"
+      }
+    },
+    {
+      "id": "ISLES-051",
+      "status": "open",
+      "source": {
+        "path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md",
+        "sha256": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "start": 587,
+        "end": 1828,
+        "original_path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md"
+      }
+    },
+    {
+      "id": "ISLES-052",
+      "status": "open",
+      "source": {
+        "path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md",
+        "sha256": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "start": 1828,
+        "end": 2388,
+        "original_path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md"
+      }
+    },
+    {
+      "id": "ISLES-053",
+      "status": "open",
+      "source": {
+        "path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md",
+        "sha256": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "start": 2388,
+        "end": 4608,
+        "original_path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md"
+      }
+    },
+    {
+      "id": "ISLES-054",
+      "status": "open",
+      "source": {
+        "path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md",
+        "sha256": "e82909597105d2bae795b45c38b61c52cedef98e59ae3119092bd1a8952e9da2",
+        "start": 4608,
+        "end": 5084,
+        "original_path": "docs/isles-pilot/GOVERNANCE_RATIFIED_20260906.md"
+      }
+    },
+    {
+      "id": "ISLES-055",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/CAMPAIGN.md",
+        "sha256": "7350da8a2b6f883393ef997963df5821fa25f027e776d31adaa2f26cd4b4fb32",
+        "start": 0,
+        "end": 3421,
+        "original_path": "campaigns/isles24-pilot/CAMPAIGN.md"
+      }
+    },
+    {
+      "id": "ISLES-056",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/experiments/P001/SPEC.md",
+        "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "start": 0,
+        "end": 557,
+        "original_path": "campaigns/isles24-pilot/experiments/P001/SPEC.md"
+      }
+    },
+    {
+      "id": "ISLES-057",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/experiments/P001/SPEC.md",
+        "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "start": 557,
+        "end": 1258,
+        "original_path": "campaigns/isles24-pilot/experiments/P001/SPEC.md"
+      }
+    },
+    {
+      "id": "ISLES-058",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/experiments/P001/SPEC.md",
+        "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "start": 1258,
+        "end": 2209,
+        "original_path": "campaigns/isles24-pilot/experiments/P001/SPEC.md"
+      }
+    },
+    {
+      "id": "ISLES-059",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/experiments/P001/SPEC.md",
+        "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "start": 2209,
+        "end": 3664,
+        "original_path": "campaigns/isles24-pilot/experiments/P001/SPEC.md"
+      }
+    },
+    {
+      "id": "ISLES-060",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/experiments/P001/SPEC.md",
+        "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "start": 3664,
+        "end": 4795,
+        "original_path": "campaigns/isles24-pilot/experiments/P001/SPEC.md"
+      }
+    },
+    {
+      "id": "ISLES-061",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/experiments/P001/SPEC.md",
+        "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "start": 4795,
+        "end": 5707,
+        "original_path": "campaigns/isles24-pilot/experiments/P001/SPEC.md"
+      }
+    },
+    {
+      "id": "ISLES-062",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/experiments/P001/SPEC.md",
+        "sha256": "d76cf92b35c8aabe443b91d734285af2e5653de00bbadc13360e87fa6e45f56c",
+        "start": 5707,
+        "end": 6056,
+        "original_path": "campaigns/isles24-pilot/experiments/P001/SPEC.md"
+      }
+    },
+    {
+      "id": "ISLES-063",
+      "status": "open",
+      "source": {
+        "path": "charters/isles24/CHARTER.md",
+        "sha256": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "start": 0,
+        "end": 269,
+        "original_path": "charters/isles24/CHARTER.md"
+      }
+    },
+    {
+      "id": "ISLES-064",
+      "status": "open",
+      "source": {
+        "path": "charters/isles24/CHARTER.md",
+        "sha256": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "start": 269,
+        "end": 1109,
+        "original_path": "charters/isles24/CHARTER.md"
+      }
+    },
+    {
+      "id": "ISLES-065",
+      "status": "open",
+      "source": {
+        "path": "charters/isles24/CHARTER.md",
+        "sha256": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "start": 1109,
+        "end": 1932,
+        "original_path": "charters/isles24/CHARTER.md"
+      }
+    },
+    {
+      "id": "ISLES-066",
+      "status": "open",
+      "source": {
+        "path": "charters/isles24/CHARTER.md",
+        "sha256": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "start": 1932,
+        "end": 2524,
+        "original_path": "charters/isles24/CHARTER.md"
+      }
+    },
+    {
+      "id": "ISLES-067",
+      "status": "open",
+      "source": {
+        "path": "charters/isles24/CHARTER.md",
+        "sha256": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "start": 2524,
+        "end": 2893,
+        "original_path": "charters/isles24/CHARTER.md"
+      }
+    },
+    {
+      "id": "ISLES-068",
+      "status": "open",
+      "source": {
+        "path": "charters/isles24/CHARTER.md",
+        "sha256": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "start": 2893,
+        "end": 3307,
+        "original_path": "charters/isles24/CHARTER.md"
+      }
+    },
+    {
+      "id": "ISLES-069",
+      "status": "open",
+      "source": {
+        "path": "charters/isles24/CHARTER.md",
+        "sha256": "3ec687c22fa6d7aac4781b00c57776dd281c65b49f58f1125c95ac0cbc286520",
+        "start": 3307,
+        "end": 3780,
+        "original_path": "charters/isles24/CHARTER.md"
+      }
+    },
+    {
+      "id": "ISLES-070",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md",
+        "sha256": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+        "start": 670,
+        "end": 1904,
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md"
+      }
+    },
+    {
+      "id": "ISLES-071",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md",
+        "sha256": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+        "start": 1904,
+        "end": 3531,
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md"
+      }
+    },
+    {
+      "id": "ISLES-072",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md",
+        "sha256": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+        "start": 3531,
+        "end": 4754,
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md"
+      }
+    },
+    {
+      "id": "ISLES-073",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md",
+        "sha256": "b012e573b47dbee1dbcfe56f82069980fb5d4389aba8c86bee683ee2e9ee0b27",
+        "start": 6212,
+        "end": 7944,
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/CHARTER.proposed.md"
+      }
+    },
+    {
+      "id": "ISLES-074",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md",
+        "sha256": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+        "start": 927,
+        "end": 3412,
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md"
+      }
+    },
+    {
+      "id": "ISLES-075",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md",
+        "sha256": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+        "start": 3412,
+        "end": 5163,
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md"
+      }
+    },
+    {
+      "id": "ISLES-076",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md",
+        "sha256": "6befd920a9687bb392a47afd317d938c171b845c6cd3f5486585e2441715d698",
+        "start": 5163,
+        "end": 6084,
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/RUBRIC.proposed.md"
+      }
+    },
+    {
+      "id": "ISLES-077",
+      "status": "open",
+      "source": {
+        "path": "docs/SCORING_RUBRIC.md",
+        "sha256": "57b26b6b9cda3140e6bf11c0d8babec08843aaa774a69d22d856d1a6f22addaf",
+        "start": 0,
+        "end": 1387,
+        "original_path": "docs/SCORING_RUBRIC.md"
+      }
+    },
+    {
+      "id": "ISLES-078",
+      "status": "open",
+      "source": {
+        "path": "docs/SCORING_RUBRIC.md",
+        "sha256": "57b26b6b9cda3140e6bf11c0d8babec08843aaa774a69d22d856d1a6f22addaf",
+        "start": 1387,
+        "end": 1633,
+        "original_path": "docs/SCORING_RUBRIC.md"
+      }
+    },
+    {
+      "id": "ISLES-079",
+      "status": "open",
+      "source": {
+        "path": "docs/SCORING_RUBRIC.md",
+        "sha256": "57b26b6b9cda3140e6bf11c0d8babec08843aaa774a69d22d856d1a6f22addaf",
+        "start": 1633,
+        "end": 2212,
+        "original_path": "docs/SCORING_RUBRIC.md"
+      }
+    },
+    {
+      "id": "ISLES-080",
+      "status": "open",
+      "source": {
+        "path": "docs/SCORING_RUBRIC.md",
+        "sha256": "57b26b6b9cda3140e6bf11c0d8babec08843aaa774a69d22d856d1a6f22addaf",
+        "start": 2212,
+        "end": 3090,
+        "original_path": "docs/SCORING_RUBRIC.md"
+      }
+    },
+    {
+      "id": "ISLES-081",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 281,
+        "end": 1117,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-082",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 1117,
+        "end": 1931,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-083",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 1931,
+        "end": 2215,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-084",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 2215,
+        "end": 2487,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-085",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 2487,
+        "end": 2861,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-086",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 2861,
+        "end": 3612,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-087",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 3612,
+        "end": 4364,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-088",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 4364,
+        "end": 5335,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-089",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 5335,
+        "end": 5822,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-090",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 5822,
+        "end": 6636,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-091",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 6636,
+        "end": 7613,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-092",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 7613,
+        "end": 8695,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-093",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 8695,
+        "end": 9800,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-094",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 9800,
+        "end": 10939,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-095",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 10939,
+        "end": 12282,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-096",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 12282,
+        "end": 14284,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-097",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 14284,
+        "end": 15114,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-098",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 15114,
+        "end": 16992,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-099",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 16992,
+        "end": 17655,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-100",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 17655,
+        "end": 18850,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-101",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 18850,
+        "end": 19536,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-102",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 19536,
+        "end": 20726,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-103",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 20726,
+        "end": 21862,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-104",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 21862,
+        "end": 23332,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-105",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 23332,
+        "end": 25606,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-106",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 25606,
+        "end": 26125,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-107",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 26125,
+        "end": 27123,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-108",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 27123,
+        "end": 28113,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-109",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 28113,
+        "end": 28605,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-110",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 28605,
+        "end": 29515,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-111",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 29515,
+        "end": 31119,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-112",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 31119,
+        "end": 32685,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-113",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 32685,
+        "end": 33582,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-115",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 35348,
+        "end": 36252,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-116",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 36252,
+        "end": 37043,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-117",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 37043,
+        "end": 38202,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-118",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 38202,
+        "end": 39503,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-119",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 39503,
+        "end": 40924,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-120",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 40924,
+        "end": 42026,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-121",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 42026,
+        "end": 43548,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-122",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 43548,
+        "end": 44308,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-123",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 44308,
+        "end": 45593,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-127",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 50365,
+        "end": 51441,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-128",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 51441,
+        "end": 53176,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-129",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 53176,
+        "end": 55201,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-130",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 55201,
+        "end": 55748,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-131",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 55748,
+        "end": 56992,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-132",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 56992,
+        "end": 63556,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-133",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 63556,
+        "end": 65899,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-134",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 65899,
+        "end": 68652,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-135",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 68652,
+        "end": 70957,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-136",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 70957,
+        "end": 75813,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-137",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 75813,
+        "end": 78985,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-138",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 78985,
+        "end": 79973,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-139",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 79973,
+        "end": 81111,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-140",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 81111,
+        "end": 82812,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-142",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 90422,
+        "end": 92234,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-143",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 92234,
+        "end": 94127,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-144",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 94127,
+        "end": 96952,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-145",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 96952,
+        "end": 99004,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-146",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 99004,
+        "end": 100355,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-147",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 100355,
+        "end": 101648,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-148",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 101648,
+        "end": 103040,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-149",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 103040,
+        "end": 107883,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-150",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 107883,
+        "end": 111238,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-151",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 111238,
+        "end": 112978,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-152",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 112978,
+        "end": 114687,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-153",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 114687,
+        "end": 116573,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-154",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 116573,
+        "end": 117741,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-155",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 117741,
+        "end": 122316,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-156",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 122316,
+        "end": 123842,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-157",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 123842,
+        "end": 126446,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-158",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 126446,
+        "end": 129254,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-159",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 129254,
+        "end": 130895,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-160",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 130895,
+        "end": 132553,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-161",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 132553,
+        "end": 134001,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-162",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 134001,
+        "end": 134746,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-163",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 134746,
+        "end": 136524,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-164",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 136524,
+        "end": 137327,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-165",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 137327,
+        "end": 141548,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-166",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 141548,
+        "end": 142846,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-167",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 142846,
+        "end": 144356,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-168",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 144356,
+        "end": 146010,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-169",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 146010,
+        "end": 147122,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-170",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 147122,
+        "end": 148162,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-171",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/REMOTE_OPERATING_DIRECTION.md",
+        "sha256": "4988f2e3cd099bfe1167d732d210aed9ed1672d5f89026d7b92087885e7fc962",
+        "start": 10189,
+        "end": 10582,
+        "original_path": "docs/operations/REMOTE_OPERATING_DIRECTION.md"
+      }
+    },
+    {
+      "id": "ISLES-172",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/REMOTE_OPERATING_DIRECTION.md",
+        "sha256": "4988f2e3cd099bfe1167d732d210aed9ed1672d5f89026d7b92087885e7fc962",
+        "start": 4880,
+        "end": 5327,
+        "original_path": "docs/operations/REMOTE_OPERATING_DIRECTION.md"
+      }
+    },
+    {
+      "id": "ISLES-173",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md",
+        "sha256": "68b7fd582a840e907d09818b89af02866b84ca01aa1b3483dba97af8a5782906",
+        "start": 3864,
+        "end": 4352,
+        "original_path": "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md"
+      }
+    },
+    {
+      "id": "ISLES-174",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md",
+        "sha256": "68b7fd582a840e907d09818b89af02866b84ca01aa1b3483dba97af8a5782906",
+        "start": 4354,
+        "end": 4811,
+        "original_path": "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md"
+      }
+    },
+    {
+      "id": "ISLES-175",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md",
+        "sha256": "68b7fd582a840e907d09818b89af02866b84ca01aa1b3483dba97af8a5782906",
+        "start": 6077,
+        "end": 6650,
+        "original_path": "docs/operations/CLAUDE_REVIEWER_DIRECTIVE.md"
+      }
+    },
+    {
+      "id": "ISLES-176",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 11070,
+        "end": 11496,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-177",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 10313,
+        "end": 11069,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-178",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 6786,
+        "end": 7239,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-179",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 8586,
+        "end": 9001,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-180",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 13515,
+        "end": 14206,
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md"
+      }
+    },
+    {
+      "id": "ISLES-114-P1",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 33681,
+        "end": 34067,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-114-P3",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 34599,
+        "end": 34941,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-114-P4",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 34943,
+        "end": 35346,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-125-P2",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 47599,
+        "end": 47850,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-125-P3",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 47852,
+        "end": 48551,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-141-P1",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 82880,
+        "end": 83766,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-141-P2",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 83768,
+        "end": 84654,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-141-P3",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 84656,
+        "end": 85268,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-141-P4",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 85270,
+        "end": 87962,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-141-P5",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 87964,
+        "end": 88494,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-141-P7",
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 89489,
+        "end": 90419,
+        "original_path": "evidence/decisions.md"
+      }
+    },
+    {
+      "id": "ISLES-ADOPTION-01",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "sha256": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+        "start": 0,
+        "end": 742
+      }
+    },
+    {
+      "id": "ISLES-ADOPTION-02",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "sha256": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+        "start": 742,
+        "end": 2370
+      }
+    },
+    {
+      "id": "ISLES-ADOPTION-03",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "sha256": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+        "start": 2370,
+        "end": 3973
+      }
+    },
+    {
+      "id": "ISLES-ADOPTION-04",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "sha256": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+        "start": 3973,
+        "end": 6365
+      }
+    },
+    {
+      "id": "ISLES-ADOPTION-05",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/P001_ADOPTION.proposed.md",
+        "sha256": "3ceb3e27a53f70564f4711a036bb4c408d20f1167b55cda0c85618be4bc9a2be",
+        "start": 6365,
+        "end": 8279
+      }
+    },
+    {
+      "id": "ISLES-PROMPTS-01",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "sha256": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+        "start": 0,
+        "end": 870
+      }
+    },
+    {
+      "id": "ISLES-PROMPTS-02",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "sha256": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+        "start": 870,
+        "end": 4026
+      }
+    },
+    {
+      "id": "ISLES-PROMPTS-03",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "sha256": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+        "start": 4026,
+        "end": 4963
+      }
+    },
+    {
+      "id": "ISLES-PROMPTS-04",
+      "status": "open",
+      "source": {
+        "path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "original_path": "campaigns/isles24-pilot/pipeline/prediction-charter-20260906-v1/round-1/PROMPTS.proposed.md",
+        "sha256": "78237e34c00ad63f61390de8c5bc9cd0cd2597bf41473dda40ed9078c67079ed",
+        "start": 4963,
+        "end": 6344
+      }
+    },
+    {
+      "id": "S9-01",
+      "status": "closed",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "sha256": "c399c2aa12a89404c0771146679ba318248dbcb522ea8866dc6922b46e354d20",
+        "start": 4477,
+        "end": 6246
+      }
+    },
+    {
+      "id": "S9-02",
+      "status": "closed",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "sha256": "c399c2aa12a89404c0771146679ba318248dbcb522ea8866dc6922b46e354d20",
+        "start": 6248,
+        "end": 8249
+      }
+    },
+    {
+      "id": "S9-03",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "sha256": "c399c2aa12a89404c0771146679ba318248dbcb522ea8866dc6922b46e354d20",
+        "start": 8251,
+        "end": 9615
+      }
+    },
+    {
+      "id": "S9-04.1",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "sha256": "c399c2aa12a89404c0771146679ba318248dbcb522ea8866dc6922b46e354d20",
+        "start": 9815,
+        "end": 10707
+      }
+    },
+    {
+      "id": "S9-04.2",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "sha256": "c399c2aa12a89404c0771146679ba318248dbcb522ea8866dc6922b46e354d20",
+        "start": 10709,
+        "end": 11170
+      }
+    },
+    {
+      "id": "S9-04.3",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "sha256": "c399c2aa12a89404c0771146679ba318248dbcb522ea8866dc6922b46e354d20",
+        "start": 11172,
+        "end": 11924
+      }
+    },
+    {
+      "id": "S10-R4-01",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 10765,
+        "end": 11338
+      }
+    },
+    {
+      "id": "S10-R4-02",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 11339,
+        "end": 11745
+      }
+    },
+    {
+      "id": "S10-R4-03",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 11746,
+        "end": 12044
+      }
+    },
+    {
+      "id": "S10-R4-04",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 12045,
+        "end": 12362
+      }
+    },
+    {
+      "id": "S9-R4-01",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 7889,
+        "end": 7908
+      }
+    },
+    {
+      "id": "S9-R4-02",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 7909,
+        "end": 8419
+      }
+    },
+    {
+      "id": "S9-R4-03",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 8420,
+        "end": 8908
+      }
+    },
+    {
+      "id": "S9-R4-04",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 8909,
+        "end": 9160
+      }
+    },
+    {
+      "id": "S9-R4-05",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 9161,
+        "end": 9520
+      }
+    },
+    {
+      "id": "S9-R4-06",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 9521,
+        "end": 9918
+      }
+    },
+    {
+      "id": "S9-R4-LIMIT-01",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 444,
+        "end": 773
+      }
+    },
+    {
+      "id": "S9-R4-LIMIT-02",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 4919,
+        "end": 5339
+      }
+    },
+    {
+      "id": "S9-R4-LIMIT-03",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 5341,
+        "end": 5665
+      }
+    },
+    {
+      "id": "S9-R4-LIMIT-04",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 13826,
+        "end": 14384
+      }
+    },
+    {
+      "id": "S9-R4-LIMIT-05",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 12682,
+        "end": 13136
+      }
+    },
+    {
+      "id": "S9-R4-LIMIT-06",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_R4_READINESS_REVIEW_FOR_CLAUDE.md",
+        "sha256": "bfb9b3432d53e4c174274f0850ea9d1baa4519b715a9818ff32311ea261bd5d7",
+        "start": 13138,
+        "end": 13436
+      }
+    },
+    {
+      "id": "ISLES-AUTH-SCI-01",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 6309,
+        "end": 6785
+      }
+    },
+    {
+      "id": "ISLES-AUTH-SCI-02",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 6786,
+        "end": 7239
+      }
+    },
+    {
+      "id": "ISLES-AUTH-SCI-03",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 8192,
+        "end": 8585
+      }
+    },
+    {
+      "id": "ISLES-AUTH-SCI-04",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 8586,
+        "end": 9001
+      }
+    },
+    {
+      "id": "ISLES-AUTH-SCI-05",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 9002,
+        "end": 9402
+      }
+    },
+    {
+      "id": "ISLES-AUTH-SCI-06",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 9861,
+        "end": 10312
+      }
+    },
+    {
+      "id": "ISLES-AUTH-SCI-07",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 10313,
+        "end": 11069
+      }
+    },
+    {
+      "id": "SPRINT10-EXCLUDED",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/manual/sprint10/configuration.py",
+        "original_path": "projects/isles24/manual/sprint10/configuration.py",
+        "sha256": "145429f5d5330775b019dfc1085a950cd1a133d24a3939a47135f74841cb1da5",
+        "start": 975,
+        "end": 1130
+      }
+    },
+    {
+      "id": "SPRINT10-EXCLUSION-INTEGRITY",
+      "status": "open",
+      "source": {
+        "path": "docs/CONTEXT_ROUND1_OPERATOR_DECISION.md",
+        "original_path": "docs/CONTEXT_ROUND1_OPERATOR_DECISION.md",
+        "sha256": "0a04b0f1d47a8cd3cc9fc65d7d410e086ee80e3d4066fb0b6ceeb8f2657a2e7f",
+        "start": 183,
+        "end": 575
+      }
+    },
+    {
+      "id": "ISLES-EXTERNAL-EXPOSURE-01",
+      "status": "open",
+      "source": {
+        "path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "original_path": "docs/operations/CONTINUING_RESEARCH_AUTHORIZATION_20260911.md",
+        "sha256": "3813037a2f51aa86b92a9cbc10bc95b8487c3b1c36ecf76a21b1d4d8546dec01",
+        "start": 16822,
+        "end": 17495
+      }
+    },
+    {
+      "id": "ISLES-SPRINT-LOCK-01",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "original_path": "projects/isles24/context/sources/ISLES24_SPRINT9_CNN_REVIEW_FOR_CLAUDE.md",
+        "sha256": "c399c2aa12a89404c0771146679ba318248dbcb522ea8866dc6922b46e354d20",
+        "start": 13681,
+        "end": 13744
+      }
+    },
+    {
+      "id": "ISLES-SPRINT-EXPOSURE-01",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/SPRINT9_R4_AND_SPRINT10_NOTES.md",
+        "original_path": "projects/isles24/context/sources/SPRINT9_R4_AND_SPRINT10_NOTES.md",
+        "sha256": "2445fc67e510536d278a6ae3056ce9fc8cc74bf1d6c0111337eabab7ea7fa93f",
+        "start": 4936,
+        "end": 5411
+      }
+    },
+    {
+      "id": "FORMAL047-LIMIT-01",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/FORMAL047_INTERPRETATION_20260908.md",
+        "original_path": "projects/isles24/context/sources/FORMAL047_INTERPRETATION_20260908.md",
+        "sha256": "6bec4454121f145ba5b081dbece6cdc5197aa96c49185f85dcaeac2ab34b220f",
+        "start": 18121,
+        "end": 18580
+      }
+    },
+    {
+      "id": "FORMAL047-LIMIT-02",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/FORMAL047_INTERPRETATION_20260908.md",
+        "original_path": "projects/isles24/context/sources/FORMAL047_INTERPRETATION_20260908.md",
+        "sha256": "6bec4454121f145ba5b081dbece6cdc5197aa96c49185f85dcaeac2ab34b220f",
+        "start": 15929,
+        "end": 16586
+      }
+    },
+    {
+      "id": "FORMAL047-LIMIT-03",
+      "status": "open",
+      "source": {
+        "path": "projects/isles24/context/sources/FORMAL047_INTERPRETATION_20260908.md",
+        "original_path": "projects/isles24/context/sources/FORMAL047_INTERPRETATION_20260908.md",
+        "sha256": "6bec4454121f145ba5b081dbece6cdc5197aa96c49185f85dcaeac2ab34b220f",
+        "start": 11243,
+        "end": 11801
+      }
+    }
+  ],
+  "flagged": [
+    {
+      "id": "ISLES-114-P2",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "*"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 34069,
+        "end": 34597,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-124-P1",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "*"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 45686,
+        "end": 46688,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-125-P1",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "*"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 46790,
+        "end": 47597,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-126-P1",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "023"
+        ],
+        "stages": [
+          "implementation_review"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 48672,
+        "end": 50363,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    },
+    {
+      "id": "ISLES-141-P6",
+      "type": "protocol amendment",
+      "scope": {
+        "project": [
+          "isles24",
+          "isles24-prediction"
+        ],
+        "idea_ids": [
+          "*"
+        ],
+        "stages": [
+          "implementation_review"
+        ]
+      },
+      "status": "open",
+      "source": {
+        "path": "evidence/decisions.md",
+        "sha256": "b72673a30407336b57e0348020e9ff4201b28ad9246bf566f418467620f37b2e",
+        "start": 88496,
+        "end": 89487,
+        "original_path": "evidence/decisions.md"
+      },
+      "rule": "CASE_LEVEL_RECORD_REJECTED",
+      "classification": "FLAGGED",
+      "content_type": "Case-linked diagnostic filenames or individual-case observations in a historical decision paragraph; original is operator-readable only.",
+      "decision": "PENDING_OPERATOR_DISPOSITION"
+    }
+  ],
+  "excluded_non_obligation": [
+    {
+      "id": "ISLES-019",
+      "reason": "Document title only, not operative text; the earlier closed-header record is preserved in the private pre-narrowing draft."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "status": "EXACT_PRIMARY_BYTES_RETRIEVED_NOT_ARCHIVE_UNITS_ACCEPTANCE",
+  "source": {
+    "checked_date": "2026-09-07",
+    "status": "PRIMARY_SOURCE_CONVENTION_SUPPORTED_NOT_ARCHIVE_VERIFICATION",
+    "repository": "ezequieldlrosa/isles24",
+    "commit": "34c66370e365bd5db4e9429154674928245e9915",
+    "path": "utils/isles24_evaluate.ipynb",
+    "git_blob": "f5f4ba2713389637f77419bea1fd5a0b506a3478",
+    "sha256": "e5ada81c5cf0cd134205886b452c6f1890d551887a17120287daa0ea9b2aa61e",
+    "url": "https://github.com/ezequieldlrosa/isles24/blob/34c66370e365bd5db4e9429154674928245e9915/utils/isles24_evaluate.ipynb",
+    "observation": "Official starter loads Tmax with nibabel get_fdata (cell 3) and compares decoded values directly with a cutoff described as 9 seconds (cell 5). No additional scaling between these cells.",
+    "disposition": "Supports decoded scalar seconds convention. Does not change preregistered P001 threshold 6.0. Submit to system readiness review.",
+    "limitations": [
+      "Notebook predates pinned v3 archive; archive-specific header and derivative identity not checked.",
+      "No patient archive opened or notebook executed.",
+      "Header time units alone do not establish scalar map units.",
+      "Adoption, current input and separate launch gates remain."
+    ]
+  },
+  "excerpts": [
+    {
+      "cell_index": 3,
+      "excerpt": "tmax_image = nib.load(tmax_path).get_fdata()"
+    },
+    {
+      "cell_index": 5,
+      "excerpt": "cutoff at 9 seconds."
+    },
+    {
+      "cell_index": 5,
+      "excerpt": "cutoff = 9"
+    },
+    {
+      "cell_index": 5,
+      "excerpt": "segmented_image = tmax_image > cutoff"
+    }
+  ],
+  "notebook_executed": false
+}

@@ -98,3 +98,92 @@ def test_sparse_trailing_whitespace_refused():
     from orchestrator.publication_candidate import sparse_paths
     with pytest.raises(ValueError,match='LITERAL_SPARSE_PATH_REQUIRED'):
         sparse_paths({'a'*40+':name.md ':'b'*64})
+
+
+def sparse_metadata_cache(tmp_path,author,before):
+    """Actual cache shape: all Git metadata, only one selected baseline blob."""
+    cache=tmp_path/'sparse-cache';cache.mkdir();git(cache,'init','-q')
+    names=git(author,'rev-list','--objects','--no-object-names',before).splitlines()
+    objects=[oid for oid in names if git(author,'cat-file','-t',oid)!='blob']
+    objects.append(git(author,'rev-parse',before+':README.md'))
+    raw=subprocess.check_output(['git','pack-objects','--stdout','--window=0','--depth=0'],
+        cwd=author,input=('\n'.join(objects)+'\n').encode())
+    subprocess.run(['git','index-pack','--stdin','--promisor'],cwd=cache,input=raw,
+        check=True,capture_output=True)
+    git(cache,'update-ref','HEAD',before)
+    git(cache,'sparse-checkout','set','--no-cone','/README.md')
+    git(cache,'checkout','--detach',before)
+    return cache
+
+
+def test_sparse_transition_receives_exact_scanned_old_blob(tmp_path):
+    author,unused,before=repositories(tmp_path)
+    report=author/'docs/operations/daily/summary.md';report.parent.mkdir(parents=True)
+    report.write_text('Original public report\n')
+    (author/'unselected.txt').write_text('Unselected original stays out of transport\n')
+    git(author,'add','.');git(author,'commit','-qm','Public baseline report')
+    before=git(author,'rev-parse','HEAD');old=git(author,'rev-parse',before+':docs/operations/daily/summary.md')
+    unselected=git(author,'rev-parse',before+':unselected.txt')
+    cache=sparse_metadata_cache(tmp_path,author,before)
+    assert subprocess.run(['git','cat-file','-e',old],cwd=cache,capture_output=True).returncode
+    report.write_text('Revised public report\n');git(author,'commit','-qam','Report revision')
+    source=git(author,'rev-parse','HEAD')
+    # A non-delta ordinary bundle still lacks the old blob needed during
+    # sparse-checkout set. Preserve the failed fixture before testing the fix.
+    legacy=tmp_path/'legacy.bundle'
+    git(author,'-c','pack.window=0','-c','pack.depth=0','bundle','create',str(legacy),'HEAD','^'+before)
+    from orchestrator.publication_candidate import inventory
+    entries=inventory(author,source,before)
+    with pytest.raises(ValueError,match='CANDIDATE_GIT_OPERATION_FAILED'):
+        receive(cache,source,before,entries,legacy.read_bytes(),hashlib.sha256(legacy.read_bytes()).hexdigest())
+    assert git(cache,'rev-parse','HEAD')==before
+    # A failed sparse transition can leave worktree removals behind. Preserve
+    # it for reconciliation; the corrected proposal starts from a fresh exact
+    # baseline fixture instead of overwriting or retrying that partial cache.
+    corrected=tmp_path/'corrected';corrected.mkdir()
+    cache=sparse_metadata_cache(corrected,author,before)
+    fixed=tmp_path/'fixed.bundle';request=prepare(author,source,before,fixed)
+    result=receive(cache,source,before,request['inventory'],fixed.read_bytes(),request['bundle_sha256'])
+    assert result['status']=='STAGED_NOT_PUBLISHED'
+    assert request['inventory']==entries
+    assert git(cache,'rev-parse','HEAD')==source
+    assert (cache/'docs/operations/daily/summary.md').read_text()=='Revised public report\n'
+    assert git(cache,'cat-file','-e',old)==''
+    assert subprocess.run(['git','cat-file','-e',unselected],cwd=cache,capture_output=True).returncode
+    assert legacy.exists()
+
+
+def test_pack_has_no_delta_bases_even_from_repacked_author(tmp_path):
+    import random, string
+    author,unused,before=repositories(tmp_path)
+    rng=random.Random(71)
+    content=''.join(rng.choice(string.ascii_letters+' ') for _ in range(60000))+'\n'
+    (author/'report.txt').write_text(content)
+    git(author,'add','.');git(author,'commit','-qm','Original report')
+    before=git(author,'rev-parse','HEAD')
+    (author/'report.txt').write_text(content[:30000]+'Revised evidence '+content[30017:])
+    git(author,'commit','-qam','Small report revision');source=git(author,'rev-parse','HEAD')
+    git(author,'repack','-adf','--window=250','--depth=50')
+    index=next((author/'.git/objects/pack').glob('*.idx'))
+    assert any(len(line.split())==7 for line in git(author,'verify-pack','-v',str(index)).splitlines())
+    bundle=tmp_path/'safe.bundle';request=prepare(author,source,before,bundle)
+    raw=bundle.read_bytes().split(b'\n\n',1)[1]
+    pack=tmp_path/'checked.pack';pack.write_bytes(raw)
+    git(author,'index-pack',str(pack))
+    rows=git(author,'verify-pack','-v',str(pack.with_suffix('.idx'))).splitlines()
+    assert not any(len(line.split())==7 for line in rows)
+    cache=sparse_metadata_cache(tmp_path,author,before)
+    result=receive(cache,source,before,request['inventory'],bundle.read_bytes(),request['bundle_sha256'])
+    assert result['status']=='STAGED_NOT_PUBLISHED'
+
+
+def test_unscanned_old_sparse_blob_refuses_before_bundle(tmp_path):
+    author,unused,before=repositories(tmp_path)
+    path=author/'older.txt';path.write_text('gh'+'p_'+'x'*40)
+    git(author,'add','.');git(author,'commit','-qm','Unacceptable baseline input')
+    before=git(author,'rev-parse','HEAD')
+    path.write_text('Safe revision\n');git(author,'commit','-qam','Safe current text')
+    source=git(author,'rev-parse','HEAD');bundle=tmp_path/'refused.bundle'
+    with pytest.raises(ValueError,match='CONTENT_REJECTED'):
+        prepare(author,source,before,bundle)
+    assert not bundle.exists()

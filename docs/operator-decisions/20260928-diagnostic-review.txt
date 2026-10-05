@@ -1,0 +1,9 @@
+Decision on the repeated refusal. Both refusals happened at 14.9s after reading only manifest.json and BRIEF.md, and the second used a short plain brief, so wording is probably not the trigger. The difference from all previously successful reviews is that these packets include raw AI-session material: prior native streams/transcripts and, in the second, the refusal text itself. Treat that as the leading hypothesis.
+
+Authorized, up to 3 diagnostic reviewer calls in total, same reviewer login and model, each preserved and charged, stopping at the first unambiguous result:
+
+1. Canary: a tiny benign packet (for example a one-line documentation change) through the unchanged installed reviewer. If refused, stop and report: the problem is the route or login, not the content.
+2. Minimal packet for 5d27484: only candidate.diff, the changed source files, the tests and a short plain brief with the purpose statement. Exclude all native streams, transcripts, prior reports, refusal texts and credential-related paths from what the reviewer is shown. Those stay preserved and hash-bound in your records; the reviewer judges the code and tests, not the history. The manifest lists only what the reviewer needs.
+3. If the minimal packet is refused, stop and report. I'll choose between a different reviewer model and a one-off manual review.
+
+Policy going forward: review packets never include raw AI-session transcripts, native streams or refusal texts. Summarize any needed evidence in one or two plain sentences with hashes, and keep the originals in the records. Apply this to the prepared 12aeb59 retry too, keeping all other bindings unchanged.

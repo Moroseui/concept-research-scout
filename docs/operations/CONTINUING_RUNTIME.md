@@ -1,0 +1,11 @@
+# Continuing research runtime connection
+
+The controller uses the same saved coordinator tasks and operator controls. A timer invocation processes one queued campaign/report task, or?when the coordinator reports no eligible queued work?one recorded continuing-operation step. Formal decisions acquire their existing admission and writer locks after the coordinator releases its branch lock. Missing original outcomes remain reconciliation work, never a polling retry.
+
+Approved catalog reviewer evidence remains unchanged. A separate immutable `continuing_context` records saved operation outcomes and the protected completion metadata available at submission. Both hosted roles receive this snapshot; subsequent references must match it and the actual original result before use. Protocol proposal/debate is an eligible task mode, with no implied cohort access or execution authority. Missing originals require deferral.
+
+The independent root completion service invokes `python3 -B -m orchestrator.protected_scientific_jobs --poll-completions --controller-config /etc/research-system/live-research/controller.json`. Before registry effects it verifies the exact installed material review. It observes original job outcomes, publishes metadata atomically into the preinstalled root-owned `scientific-observation/status.json` directory under controller state, and never starts a process, requests a model, retries a job or accepts a scientific result. The directory must be root:controller-group 0750; its status file is 0640. Status reading requires no broker socket. Observations older than five minutes are labelled stale.
+
+The timer/service configuration and initial eligible research task remain separate reviewed deployment inputs. This source change does not activate unattended research. Existing historical source, receipts, human stops, admission counters and control revisions remain preserved.
+
+Humans and agents inspect `research-system-live-control operation-status`. After inspecting an uncertain saved authority attempt, `research-system-live-control operation-recover <64-character-operation-id>` retrieves complete original replies only; it cannot request another model, relaunch a process, or turn later criticism into approval. Existing status/pause/resume controls retain their independent route.

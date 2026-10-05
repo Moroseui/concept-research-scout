@@ -1,0 +1,15 @@
+Decision on DECISION_REQUEST.md and ADMIN_REVIEW_ADMISSION_PROPOSAL.md:
+
+1. Authorized: one final operator bootstrap manual review (run by me, same process as before) of a single combined administrative candidate containing:
+   a. The admission distinction from ADMIN_REVIEW_ADMISSION_PROPOSAL.md, items 1?4. Positively proven pre-client failures and positively terminal launched-without-verdict scientific calls no longer block ADMINISTRATIVE reviews. Every original row, charge and refusal is preserved. Active, RUNNING or unproven calls still refuse. All scientific no-retry and admission controls are unchanged, and administrative admission can never admit a scientific successor.
+   b. Bounded, read-only, workspace-confined evidence search (Grep/Glob or equivalent) for the scientific reviewer roles, with no access outside the existing workspace and no write or execute capability.
+   c. A turn budget of 60 for the result_interpretation review role, matching the administrative reviewer. No change to the character caps, call caps or charges.
+   Prove it with the deterministic acceptance tests you listed, on private copies of the real ledger including sidecars, and rehearse a reviewer search session on the real workspace without a model call where possible.
+
+2. This is the last manual review in M4. After it is approved and installed, administrative reviews go through the automated queue.
+
+3. Authorized: one explicitly linked replacement result_interpretation review of the unchanged author output (call 6 of 8), after the candidate above is installed and verified. If it ends without a verdict again, stop and report; no further replacement without my decision. The numeric-audit instructions (cite the original files and views) stay in force.
+
+4. Now, without waiting: give me a private copy of the draft stock-take interpretation (the author output from call 4), clearly labelled UNREVIEWED DRAFT, with its numeric audit, as a file I can read on my laptop. Don't change its scientific status; it stays unaccepted.
+
+Prepare the review packet as before and give me the ZIP path. All caps and stop conditions still apply. BACKLOG item 2 stays gated on my review.
