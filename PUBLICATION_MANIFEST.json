@@ -274,6 +274,22 @@
       "public_sha256": "e873fed951c4a7a0fadce8f105e849c5c769353be5389e4a956a1fc00e81987f",
       "status": "byte-exact",
       "redacted_lines": []
+    },
+    {
+      "output": "outputs/implementation-reviews/notebook-capability-a9738ce4.json",
+      "origin": "independent-notebook-capability-review/report.md",
+      "original_sha256": "2c2f6c084949a7dfc31e1107a9b5f7f8afd346b812260e77fd8976193cb4005c",
+      "public_sha256": "2c2f6c084949a7dfc31e1107a9b5f7f8afd346b812260e77fd8976193cb4005c",
+      "status": "byte-exact",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/checkpoints/notebook-promotion-integration-20261005.md",
+      "origin": "derived-current-checkpoint",
+      "original_sha256": "1fab49a2d4fbaa250eb9052efff5cb5cb15329f1a57f6c6407c03c54e9da1d01",
+      "public_sha256": "1fab49a2d4fbaa250eb9052efff5cb5cb15329f1a57f6c6407c03c54e9da1d01",
+      "status": "derived-status",
+      "redacted_lines": []
     }
   ],
   "source_included": [
