@@ -1,0 +1,3 @@
+> Public derivative: server artifact path redacted. Original SHA256: 7da60aac572ebacc4be465313cde4d32fcad28bbddca00650039e28efb8613df
+
+Decision needed for stocktake-6b556dba36d299c05b8b7770: stage run_spec_review, round 1, reason OUTPUT_VALIDATION_REFUSED: EXISTING_FINDING_CONFLICT; categories execution authority/provenance (operational refusal). Existing evidence: [private stage-provenance file] Call id: 42a7870328aab9d0002f8170be63203567fda1c90824ced5c4665d49fe09c098. No automatic retry, extra call or execution is authorized. Please inspect this saved outcome and decide whether to defer, reject, or authorize a specifically bounded recovery.

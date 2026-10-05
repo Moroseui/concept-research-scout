@@ -884,3 +884,9 @@ Source exclusions below are relative paths only; no excluded contents are includ
 - `outputs/sprint13a/sprint13a_tuned_choices.csv`: PUBLICATION_TYPE_REJECTED
 - `outputs/sprint13a/sprint13a_precision_recall.png`: PUBLICATION_TYPE_REJECTED
 - `outputs/sprint13a/sprint13a_dice_tree_vs_nnunet.png`: PUBLICATION_TYPE_REJECTED
+
+## Later stop update
+
+- All twelve discovered astra/m4-* branches remain private. Four histories were fully scanned; the others have excluded-file witnesses.
+- `outputs/sprint13-proposal/DECISION_REQUEST.md`: private server artifact path replaced with a labelled placeholder; reason and call identity unchanged.
+- Native evidence, submission internals and accounting records remain private.

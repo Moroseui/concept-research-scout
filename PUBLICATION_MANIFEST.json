@@ -181,17 +181,55 @@
       "output": "REMOTE_SERVER.md",
       "origin": "publication description",
       "original_sha256": "db0c3e8a55c89733345e3594399115e4fef36df145df1ca873a4fd993f194f45",
-      "public_sha256": "db0c3e8a55c89733345e3594399115e4fef36df145df1ca873a4fd993f194f45",
-      "status": "byte-exact",
-      "redacted_lines": []
+      "public_sha256": "4a034cfe6f2fd5a69bffe789467f90f65dac687e24af74ea6be282f5bf1708f8",
+      "status": "updated checkpoint metadata",
+      "redacted_lines": [],
+      "previous_public_sha256": [
+        "db0c3e8a55c89733345e3594399115e4fef36df145df1ca873a4fd993f194f45"
+      ]
     },
     {
       "output": "PUBLICATION_EXCLUSIONS.md",
       "origin": "exclusion inventory",
       "original_sha256": "c48157b89c0d195ee60385fa26d129e0ddb1b6bef6a288cf294756e79f0c8da5",
-      "public_sha256": "c48157b89c0d195ee60385fa26d129e0ddb1b6bef6a288cf294756e79f0c8da5",
+      "public_sha256": "555c1a84c98b87981267aa27edb73114a882b51ea43297edbaf5cfe9450d4176",
+      "status": "updated checkpoint metadata",
+      "redacted_lines": [],
+      "previous_public_sha256": [
+        "c48157b89c0d195ee60385fa26d129e0ddb1b6bef6a288cf294756e79f0c8da5"
+      ]
+    },
+    {
+      "output": "outputs/sprint13-proposal/SPEC.proposed.md",
+      "origin": "stopped-item2/SPEC.proposed.md",
+      "original_sha256": "18e9ee29dba4fe5b7c9a9328a3cf30357173de4bb1f53f1071d12ae59f545c5e",
+      "public_sha256": "18e9ee29dba4fe5b7c9a9328a3cf30357173de4bb1f53f1071d12ae59f545c5e",
       "status": "byte-exact",
-      "redacted_lines": []
+      "scientific_status": "unaccepted; independent spec review REVISE"
+    },
+    {
+      "output": "outputs/sprint13-proposal/spec-review.json",
+      "origin": "stopped-item2/spec-review.json",
+      "original_sha256": "78d2c082c82ae30e51a9582080ce18b4f9c48abad965c316cd97a16beea34cb0",
+      "public_sha256": "78d2c082c82ae30e51a9582080ce18b4f9c48abad965c316cd97a16beea34cb0",
+      "status": "byte-exact",
+      "scientific_status": "unaccepted; independent spec review REVISE"
+    },
+    {
+      "output": "outputs/sprint13-proposal/ONE_PAGE_REPORT.md",
+      "origin": "stopped-item2/ONE_PAGE_REPORT.md",
+      "original_sha256": "96edab67f94d6b6df31af059cffd59ee8bc42e2326468a67a40f38e51126e128",
+      "public_sha256": "96edab67f94d6b6df31af059cffd59ee8bc42e2326468a67a40f38e51126e128",
+      "status": "byte-exact",
+      "scientific_status": "unaccepted; independent spec review REVISE"
+    },
+    {
+      "output": "outputs/sprint13-proposal/DECISION_REQUEST.md",
+      "origin": "stopped-item2/DECISION_REQUEST.md",
+      "original_sha256": "7da60aac572ebacc4be465313cde4d32fcad28bbddca00650039e28efb8613df",
+      "public_sha256": "9a6d7b6fc7c4ae1dd77e45c361c1c4d3aa96d96bf6073727fa983cc09e40a100",
+      "status": "infrastructure-path redacted",
+      "scientific_status": "unaccepted; independent spec review REVISE"
     }
   ],
   "source_included": [
