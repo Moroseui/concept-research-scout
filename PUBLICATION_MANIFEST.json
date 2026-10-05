@@ -230,6 +230,14 @@
       "public_sha256": "9a6d7b6fc7c4ae1dd77e45c361c1c4d3aa96d96bf6073727fa983cc09e40a100",
       "status": "infrastructure-path redacted",
       "scientific_status": "unaccepted; independent spec review REVISE"
+    },
+    {
+      "output": "outputs/checkpoints/scoped-revisions/DECISION_REQUEST.md",
+      "origin": "scoped-revisions/DECISION_REQUEST.md",
+      "original_sha256": "84472993f5b02fc067fb072946672dfe066002a681892786c01f766db31f0f78",
+      "public_sha256": "84472993f5b02fc067fb072946672dfe066002a681892786c01f766db31f0f78",
+      "status": "byte-exact",
+      "redacted_lines": []
     }
   ],
   "source_included": [

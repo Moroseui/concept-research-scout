@@ -30,3 +30,12 @@ Source: 1979 files initially eligible; 873 excluded. See PUBLICATION_MANIFEST.js
 ## Latest stop
 
 Admission repair is operational without a source change. The analysis-only proposal is stopped for the operator after a genuine REVISE. Findings and charges are preserved. The service is inactive, its timer disabled, and no experiment was launched. See [the checkpoint report](outputs/sprint13-proposal/ONE_PAGE_REPORT.md), [draft specification](outputs/sprint13-proposal/SPEC.proposed.md), and [independent review](outputs/sprint13-proposal/spec-review.json).
+
+
+## Superseding checkpoint: 2026-10-05 11:22 UTC
+
+The operator authorized continuing the genuine REVISE and selected larger limits: item2 16 calls, experiment items3/4 20 calls, three revise rounds per stage, 30 UTC-day calls and 60 batch scientific calls. GPU limits are unchanged. Candidate `72ac1c11211414f92ce730d2ae8879c53efe23f8` implements the correction but is unreviewed and uninstalled. No further scientific result has been produced. Installed source remains the version stated above; the public source snapshot has not changed.
+
+Focused tests passed (349, plus 14 subtests; seven skips). The full suite stopped after 578 passes at a missing historical Git fixture, the same preparation cause that had already received a partial repair. No further retry was attempted. See [the current decision request](outputs/checkpoints/scoped-revisions/DECISION_REQUEST.md). The proposed remedy is a complete private test-history synchronization from the existing source, followed by both suites and the already-authorized single implementation review. No call, promotion, allowance reset or scientific acceptance occurred. Item2 still has two charged calls and its genuine REVISE.
+
+The new `astra/m4-scoped-revisions-20261005` history is also withheld: it descends from the already-flagged private installed ancestry. This stop publishes only the screened decision request and status; private logs, billing metadata, fixture history and review evidence stay private. Earlier stop reports remain preserved as historical records.

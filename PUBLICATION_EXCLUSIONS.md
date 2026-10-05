@@ -890,3 +890,6 @@ Source exclusions below are relative paths only; no excluded contents are includ
 - All twelve discovered astra/m4-* branches remain private. Four histories were fully scanned; the others have excluded-file witnesses.
 - `outputs/sprint13-proposal/DECISION_REQUEST.md`: private server artifact path replaced with a labelled placeholder; reason and call identity unchanged.
 - Native evidence, submission internals and accounting records remain private.
+
+
+Latest checkpoint: `astra/m4-scoped-revisions-20261005` at `72ac1c11211414f92ce730d2ae8879c53efe23f8` is withheld because its reachable ancestry includes previously flagged private material. No claim is made that its full history is clean. Test logs, fixture bundles, ledger records and account-usage metadata are not public outputs.
