@@ -2,7 +2,8 @@
 
 Original asset row/charge/status and provider records are never rewritten. A
 new reservation counts both attempts in the unchanged item4 caps. This module
-cannot authorize scientific calls or another recovery of a recovery.
+cannot authorize scientific calls. The separate mount correction selects only
+one exact, proven terminal child; generic retries remain refused.
 """
 from pathlib import Path
 import json
@@ -30,6 +31,8 @@ def bound(ref, *, root=Path('/')):
 
 
 def selection(config, *, root=Path('/'), require_held=True):
+    from orchestrator import modal_mount_recovery as mount
+    if mount.selected(config):return mount.selection(config,root=root,require_held=require_held)
     from orchestrator.modal_direct_continuation import mapped, predecessor, held
     ref=config.get('recovery_from')
     if not isinstance(ref,dict) or set(ref)!={'config','terminal_proof','binding_sha256'} or ref['binding_sha256']!=PARENT:
@@ -87,6 +90,8 @@ def selection(config, *, root=Path('/'), require_held=True):
 
 
 def parent(accounts, config, *, root=Path('/')):
+    from orchestrator import modal_mount_recovery as mount
+    if mount.selected(config):return mount.parent(accounts,config,root=root)
     result=selection(config,root=root)
     binding=result['binding']
     row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(PARENT,)).fetchone()
@@ -104,13 +109,15 @@ def parent(accounts, config, *, root=Path('/')):
 def preflight(config, *, root=Path('/')):
     # Root reads trusted files; ledger reads/writes remain with the service owner.
     result=selection(config,root=root)
-    return {'status':'PASS','parent_binding_sha256':PARENT,'run_id':result['binding']['run_id'],
+    return {'status':'PASS','parent_binding_sha256':result.get('parent_id',PARENT),'run_id':result['binding']['run_id'],
             'fresh_state':config['state'],'no_reservation_or_launch':True}
 
 
 def live_empty(provider, result):
+    if 'ancestor' in result:live_empty(provider,result['ancestor'])
+    expected_exit=result.get('terminal_exit',2)
     h=result['handle'];sb=provider._sandbox(h['provider_id'])
-    if sb.poll()!=2:raise ValueError('DIRECT_RECOVERY_PROVIDER_NOT_TERMINAL')
+    if sb.poll()!=expected_exit:raise ValueError('DIRECT_RECOVERY_PROVIDER_NOT_TERMINAL')
     # Live stdio is served by the container's command router and can disappear
     # after termination. Query archived entrypoint logs with the same pinned SDK.
     # This recovery is scoped to PARENT's exact 2026-10-06 incident, not a generic
@@ -128,15 +135,19 @@ def live_empty(provider, result):
         total += len(entry.message.encode('utf-8'))
         if total > 1024 * 1024: raise ValueError('DIRECT_RECOVERY_LOG_SIZE')
         if entry.source in streams: streams[entry.source].append(entry.message)
-    if ''.join(streams['stdout'])!='' or ''.join(streams['stderr'])!=ERROR:
+    if (digest(''.join(streams['stdout']).encode())!=result.get('stdout_sha256',digest(b''))
+            or digest(''.join(streams['stderr']).encode())!=result.get('stderr_sha256',digest(ERROR.encode()))):
         raise ValueError('DIRECT_RECOVERY_PROVIDER_PROOF_CHANGED')
     if list(provider._volume(h['data_volume_id']).listdir('/',recursive=True)):
         raise ValueError('DIRECT_RECOVERY_ORIGINAL_VOLUME_NOT_EMPTY')
-    if sb.poll()!=2:raise ValueError('DIRECT_RECOVERY_PROVIDER_NOT_TERMINAL')
+    if sb.poll()!=expected_exit:raise ValueError('DIRECT_RECOVERY_PROVIDER_NOT_TERMINAL')
     return True
 
 
 def check_child(binding, result):
+    if 'ancestor' in result:
+        from orchestrator.modal_mount_recovery import check_child as check_mount
+        return check_mount(binding,result)
     old=result['binding']
     if binding.get('recovery')!=result['reference']:
         raise ValueError('DIRECT_RECOVERY_CHILD_BINDING')
@@ -160,8 +171,9 @@ def resolved_failure_ids(accounts, *, root=Path('/')):
         check_child(binding,result)
         receipt=json.loads(child['receipt'])
         if (receipt.get('status')!='VERIFIED' or receipt.get('binding_sha256')!=child['id']
-                or digest(canonical(binding))!=child['id'] or receipt.get('recovery_of')!=PARENT):
+                or digest(canonical(binding))!=child['id'] or receipt.get('recovery_of')!=result.get('parent_id',PARENT)):
             raise ValueError('DIRECT_RECOVERY_COMPLETION_BINDING')
-        if PARENT in closed:raise ValueError('DIRECT_RECOVERY_DUPLICATE_CHILD')
-        closed.add(PARENT)
+        ancestors=result.get('ancestor_ids',{PARENT})
+        if ancestors & closed:raise ValueError('DIRECT_RECOVERY_DUPLICATE_CHILD')
+        closed.update(ancestors)
     return closed

@@ -146,7 +146,7 @@ def tick(config,provider,accounts,*,host_proof,now=None):
         if result['status']=='VERIFIED':
             result={**result,'binding_sha256':ident,'source':config['source'],'asset_expires_utc':binding['asset_expires_utc'],
                     'data_volume_id':handle['data_volume_id'],'package_volume_id':handle['package_volume_id']}
-            if recovery is not None:result['recovery_of']=linked.PARENT
+            if recovery is not None:result['recovery_of']=recovery.get('parent_id',linked.PARENT)
             write_once(state/'VERIFIED.json',canonical(result))
             accounts.finish_assets(ident,'READY',result)
             accounts.batch.complete_run(binding['run_id'],result)

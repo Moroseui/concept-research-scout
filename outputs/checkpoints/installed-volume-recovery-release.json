@@ -1,0 +1,16 @@
+{
+  "source": "fbb539893611cfab56c5a574313fc6b717b095e9",
+  "tag": "research-manual-sprint10-recovery-mount-fbb53989",
+  "files_sha256": "f4d74a8aaa58536ff7bf3f5f5dcd534abf3b13bbd4f737dd25f93aa34c251c0f",
+  "review_report_sha256": "e58ffbf22d28c4888f61dd9aa647ae11697cdad9bbc6ffcc70c6b194b9c9ec8d",
+  "status": "INSTALLED_HELD_FULL_VERIFICATION_RUNNING",
+  "private_history_not_published": true,
+  "excluded_changed_files": [
+    {
+      "path": "tests/test_modal_mount_recovery.py",
+      "reasons": [
+        "INFRASTRUCTURE_OR_CREDENTIAL_PATH"
+      ]
+    }
+  ]
+}

@@ -96,7 +96,7 @@ def launch(provider,accounts,binding,prepared,record_root):
     provider._verify_volume(volumes['package'].object_id,expected)
     record(root,'upload',{'files':expected,'verified':True})
     # The pinned base image installs Ubuntu python3, not a Conda tree.
-    args=('/usr/bin/python3','-I','-S','-B','/reviewed/run.py',binding['package_manifest_sha256'],'all')
+    args=('/usr/bin/python3','-I','-S','-B','/reviewed/run.py',binding['package_manifest_sha256'],'all',volumes['data'].object_id)
     record(root,'sandbox-intent',{'binding_sha256':ident,'args':args,'resources':RESOURCES,
            'domains':DOMAINS,'volumes':{k:v.object_id for k,v in volumes.items()},'no_credentials':True})
     sb=provider.modal.Sandbox.create(*args,app=app,name='download-'+ident[:32],image=image,

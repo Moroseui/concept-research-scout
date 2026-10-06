@@ -6,12 +6,12 @@ from orchestrator import private_records, modal_ctp_download
 from orchestrator.modal_ctp_download import encoded, identifier
 
 MODULES=('__init__.py','private_records.py',
-         'modal_development_inputs.py','review_contract.py','modal_ctp_download.py')
+         'modal_development_inputs.py','review_contract.py','modal_ctp_download.py','modal_volume_path.py')
 LAUNCHER=b'''import hashlib,json,sys
 from pathlib import Path
 root=Path(__file__).resolve().parent
 manifest=json.loads((root/'manifest.json').read_bytes())
-if len(sys.argv)!=3 or hashlib.sha256((root/'manifest.json').read_bytes()).hexdigest()!=sys.argv[1]:
+if len(sys.argv)!=4 or hashlib.sha256((root/'manifest.json').read_bytes()).hexdigest()!=sys.argv[1]:
     raise ValueError('DOWNLOAD_PACKAGE_MANIFEST_PIN')
 files={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file() and p!=root/'manifest.json'}
 if any(p.is_symlink() for p in root.rglob('*')) or files!=manifest['files']:
@@ -24,7 +24,8 @@ scopes=sorted(manifest['plans'],key=lambda x:x!='images') if scope=='all' else [
 if any(x not in manifest['plans'] for x in scopes):raise ValueError('DOWNLOAD_PACKAGE_SCOPE')
 from orchestrator import private_records
 from orchestrator.modal_ctp_download import volume_commit
-osroot=Path('/volume')
+from orchestrator.modal_volume_path import bound_root
+osroot=bound_root('/volume',sys.argv[3])
 # Mount root is provider-owned; create only fresh owner-private subdirectories.
 # CTP and image member sets remain disjoint and are checked independently.
 results={}
@@ -36,7 +37,7 @@ for scope in scopes:
     target=osroot/scope
     private_records.mkdir(target,exist_ok=True)
     results[scope]=download(plan,cohort,target,manifest['attempt']+'-'+scope,
-                           plan_sha256=ref['sha256'])
+                           plan_sha256=ref['sha256'],commit=lambda unused:volume_commit(osroot))
 private_records.write_bytes(osroot/'DOWNLOAD_COMPLETE.json',encoded({
     'schema':'private-development-download-result/v1','manifest_sha256':sys.argv[1],
     'results':results,'patient_computation':False}))
