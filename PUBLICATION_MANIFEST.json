@@ -320,7 +320,7 @@
       "origin": "author3-and-controller/13B-execution-conditions-3.json",
       "original_sha256": "077b82acb5d028c1c645e9598e6abd4c472f6bce6027708752cb24362cd2d6d2",
       "public_sha256": "077b82acb5d028c1c645e9598e6abd4c472f6bce6027708752cb24362cd2d6d2",
-      "status": "byte-exact unreviewed candidate",
+      "status": "byte-exact; independently reviewed proposal scope, execution not approved",
       "redacted_lines": []
     },
     {
@@ -328,7 +328,7 @@
       "origin": "author3-and-controller/13B-patch-3.json",
       "original_sha256": "9d9a7d64a6ff125f550f2796c835f9f7c6f216e740f665cf2149dac351038492",
       "public_sha256": "9d9a7d64a6ff125f550f2796c835f9f7c6f216e740f665cf2149dac351038492",
-      "status": "byte-exact unreviewed candidate",
+      "status": "byte-exact; independently reviewed proposal scope, execution not approved",
       "redacted_lines": []
     },
     {
@@ -336,7 +336,7 @@
       "origin": "author3-and-controller/13B-provenance-3.json",
       "original_sha256": "2c2a241b17d18c5430e2a8d9e27fcae48b4f4ec34bd121a9b0d617b138d88f82",
       "public_sha256": "2c2a241b17d18c5430e2a8d9e27fcae48b4f4ec34bd121a9b0d617b138d88f82",
-      "status": "byte-exact unreviewed candidate",
+      "status": "byte-exact; independently reviewed proposal scope, execution not approved",
       "redacted_lines": []
     },
     {
@@ -344,7 +344,7 @@
       "origin": "author3-and-controller/13B-tests-3.json",
       "original_sha256": "b2a5ce6ae645ab2d91f8c388b8f525f6bc7214f58adf2b5659e72820a546adf3",
       "public_sha256": "b2a5ce6ae645ab2d91f8c388b8f525f6bc7214f58adf2b5659e72820a546adf3",
-      "status": "byte-exact unreviewed candidate",
+      "status": "byte-exact; independently reviewed proposal scope, execution not approved",
       "redacted_lines": []
     },
     {
@@ -352,7 +352,7 @@
       "origin": "author3-and-controller/ANALYSIS-SPEC-3.md",
       "original_sha256": "9de9e42208fe2bbf41b15230dccaf7738da70ab27978612b157b9f9fc0a24478",
       "public_sha256": "9de9e42208fe2bbf41b15230dccaf7738da70ab27978612b157b9f9fc0a24478",
-      "status": "byte-exact unreviewed candidate",
+      "status": "byte-exact; independently reviewed proposal scope, execution not approved",
       "redacted_lines": []
     },
     {
@@ -360,15 +360,55 @@
       "origin": "author3-and-controller/revised-13B-3.ipynb",
       "original_sha256": "9e62bec160153ae605d0e4f5a3121977256fbc08e5a25a9421279a127c169a46",
       "public_sha256": "9e62bec160153ae605d0e4f5a3121977256fbc08e5a25a9421279a127c169a46",
-      "status": "byte-exact unreviewed candidate",
+      "status": "byte-exact; independently reviewed proposal scope, execution not approved",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/final/REPORT.md",
+      "origin": "completed-item2",
+      "original_sha256": "9ef811065c5db13634e16d493080070d6f7f167f0bdcf3c3704c205d9b427e4b",
+      "public_sha256": "9ef811065c5db13634e16d493080070d6f7f167f0bdcf3c3704c205d9b427e4b",
+      "status": "byte-exact",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/final/interpretation-review.json",
+      "origin": "completed-item2",
+      "original_sha256": "231a308cb75565c5f24b0c0ca16c8f12da1e9d8fc7c25f2a0c3b97997cc0cecc",
+      "public_sha256": "231a308cb75565c5f24b0c0ca16c8f12da1e9d8fc7c25f2a0c3b97997cc0cecc",
+      "status": "byte-exact",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/final/investigator_next_decision.json",
+      "origin": "completed-item2",
+      "original_sha256": "78c01dd83d86521af5ceaa0a1c18874c9f22d7ba6a20e08ca9fc2235a8db51cf",
+      "public_sha256": "78c01dd83d86521af5ceaa0a1c18874c9f22d7ba6a20e08ca9fc2235a8db51cf",
+      "status": "byte-exact",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/spec-review.json",
+      "origin": "completed-item2",
+      "original_sha256": "2bce3d6d24e9e4edc37f9424f2dfc32bbb3494e2ba271b138fca193c6a9647f2",
+      "public_sha256": "2bce3d6d24e9e4edc37f9424f2dfc32bbb3494e2ba271b138fca193c6a9647f2",
+      "status": "byte-exact",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/final/ONE_PAGE_REPORT.md",
+      "origin": "completed-item2",
+      "original_sha256": "59f60f6872199baa39de4fca3272bd9ee37a50169b7881b4bbeb669313ab227a",
+      "public_sha256": "59f60f6872199baa39de4fca3272bd9ee37a50169b7881b4bbeb669313ab227a",
+      "status": "controller summary",
       "redacted_lines": []
     },
     {
       "output": "outputs/sprint13-proposal/round-3/STATUS.md",
-      "origin": "controller-checkpoint",
-      "original_sha256": "f47276c5fcfeafde5947237ed876cc8ffa3ea1f09178075dbf4ec5ef78857093",
-      "public_sha256": "f47276c5fcfeafde5947237ed876cc8ffa3ea1f09178075dbf4ec5ef78857093",
-      "status": "byte-exact",
+      "origin": "completed-item2",
+      "original_sha256": "85e35788d6ef682446df6e1a35c79f5a11f50e06c9ccb5162255ae1f6ee8ef06",
+      "public_sha256": "85e35788d6ef682446df6e1a35c79f5a11f50e06c9ccb5162255ae1f6ee8ef06",
+      "status": "controller summary",
       "redacted_lines": []
     }
   ],

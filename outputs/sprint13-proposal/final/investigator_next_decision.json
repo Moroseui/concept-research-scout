@@ -1,0 +1,8 @@
+{
+  "status": "PROPOSAL_ONLY",
+  "proposed_action_type": "stop",
+  "action": "Stop for operator review of the completed Sprint13B three-arm normalization-screen proposal, preserved v3 notebook patch, controller synthetic evidence and carried item4 conditions.",
+  "rationale": "Modify to repeat, z-score and histogram equalization; defer the multiwindow bundle, L and optional CT normalization. The same-patient evidence supports a bounded exploratory comparison, not all-arm commitment. The independent v3 review closed the supplied findings, while real coverage, baseline/environment, smoke/recovery, measured timing and budget evidence remain outstanding item4 conditions. Do not schedule or rerun operator-completed 13A.",
+  "charter_basis": "Selected follow-up infarct-tissue prediction charter: assess prediction from information available by completion of admission CT and whether a fitted predictor merits investment. This handoff stops for operator assessment of the bounded proposal.",
+  "blocker_ids": []
+}
