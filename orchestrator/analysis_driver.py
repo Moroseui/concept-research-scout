@@ -32,7 +32,9 @@ def bound_file(root, ref):
 def verify_plan(plan):
     fields = {'schema', 'context', 'context_files', 'backlog', 'backlog_binding', 'operator',
               'item_number', 'item_sha256', 'private_intake', 'idea_ids', 'artifacts', 'batch_ledger'}
-    if isinstance(plan,dict) and plan.get('item_number')==2: fields=fields|{'accepted_stocktake'}
+    if isinstance(plan,dict) and plan.get('item_number')==2:
+        fields=fields|{'accepted_stocktake'}
+        if 'notebook_revision' in plan: fields=fields|{'notebook_revision'}
     if not isinstance(plan, dict) or set(plan) != fields or plan['schema'] != 'stocktake-analysis/v1':
         raise ValueError('ANALYSIS_PLAN_FIELDS')
     scopes={1:'sprints-stocktake',2:'sprint13-proposal'}
@@ -44,6 +46,9 @@ def verify_plan(plan):
     observed = {str(p.relative_to(root)): digest(p.read_bytes()) for p in root.rglob('*') if p.is_file()}
     if observed != plan['context_files'] or any(p.is_symlink() for p in [root, *root.rglob('*')]):
         raise ValueError('ANALYSIS_CONTEXT_INVENTORY_CHANGED')
+    if 'notebook_revision' in plan:
+        from orchestrator.notebook_revision import validate_config
+        validate_config(root, plan['notebook_revision'])
     raw = bound_file(root, plan['backlog'])
     authority = bound_file(root, plan['operator'])
     if plan['item_number']==2:
@@ -145,6 +150,8 @@ def initialize(root, state, engine_review, plan_path):
     if review_manifest['files'].get('evidence/analysis-plan.json') != digest(plan_raw):
         raise ValueError('REVIEWED_ANALYSIS_PLAN_REQUIRED')
     backlog, item = verify_plan(plan)
+    if plan.get("notebook_revision"):
+        raise ValueError("NOTEBOOK_SCOPE_USES_SAME_RUN_CONTINUATION_ONLY")
     if item.number==2:
         from orchestrator.completed_run import validate as completed
         if completed() is None: raise ValueError('ITEM2_COMPLETED_RUN_CLOSURE_REQUIRED')
@@ -209,7 +216,8 @@ class AnalysisDriver(Driver):
             raise ValueError('ANALYSIS_LANE_REQUIRED')
         self.root = Path(self.config['root']); self.context = Path(self.config['context'])
         from orchestrator.stocktake_recovery import ledger_folder
-        self.store = ManualExecutor(self.state/'jobs.sqlite', batch=BatchAccounts(ledger_folder(self.config)))
+        self.store = ManualExecutor(self.state/'jobs.sqlite', batch=BatchAccounts(ledger_folder(self.config),
+            filesystem_root=Path(self.config.get('notebook_filesystem_root','/'))))
         self.runner = runner or manual_stage.invoke
 
     def guard(self):
@@ -229,6 +237,11 @@ class AnalysisDriver(Driver):
             json.loads(bound_file(self.context, self.config['backlog_binding'])), bound_file(self.context, self.config['operator']))
         autonomy_backlog.require_item(backlog, self.config['item_number'], self.config['item_sha256'], 'analysis',
             completed_items=(1,) if self.config['item_number'] == 2 else ())
+        if self.config.get('notebook_revision'):
+            from orchestrator.notebook_revision import validate_config
+            if self.config['notebook_revision'] != plan.get('notebook_revision'):
+                raise ValueError('NOTEBOOK_REVISION_PLAN_CHANGED')
+            validate_config(self.context,self.config['notebook_revision'])
         load_views(self.context, self.config['private_intake'], stage='run_spec_author', idea_ids=self.config['idea_ids'])
         if self.config['item_number']==2:
             from orchestrator.completed_run import validate as completed
@@ -244,7 +257,7 @@ class AnalysisDriver(Driver):
     def task(self, stage, value):
         if self.config['item_number']==2:
             text=('Analysis-only next-steps proposal using the operator-reviewed stock-take and Sprint13 plan/code. '
-                '13A is being run by the operator in Colab; do not schedule, rerun or claim its unprovided results. '
+                '13A is operator-run; do not schedule or rerun it. Use only its supplied, registered aggregate outputs. '
                 'Focus on 13B: screen first versus all arms, second windows, verdict rule, repeat count and L configuration. '
                 'Answer all eight plan questions, flag Sprint12b overlap and recommend advance/modify/reject with evidence. '
                 'Challenge the proposed scope where warranted. Cost each option with explicit runtime assumptions, '
@@ -257,7 +270,15 @@ class AnalysisDriver(Driver):
                 text+=('Write/review an analysis specification at most12000characters. Exact binding lines:\nrun_id: '
                     +self.config['run_id']+'\nanalysis_registry_sha256: '+self.config['private_intake']['sha256']+'\n')
             from orchestrator.analysis_revisions import instructions
-            return text+instructions(self.store,self.config['run_id'])
+            text += instructions(self.store,self.config['run_id'], notebook_revision=bool(self.config.get('notebook_revision')))
+            if self.config.get('notebook_revision'):
+                text=text.replace('No GPU/Modal/patient-level work, notebook execution or successor dispatch.', 'No GPU/Modal/patient-level work or successor dispatch. Only controller-run synthetic CPU tests are authorized.')
+                from orchestrator.notebook_revision import instructions as notebook_instructions
+                text += notebook_instructions()
+                text += (' The latest explicit notebook-revision authority governs the revised copy. '
+                    'No real-data notebook execution is permitted; only the controller runs the bound synthetic checks. '
+                    'A passing synthetic receipt does not prove full pipeline execution. Review actual call-site wiring as well as tests. ')
+            return text
         text = ('Stock-take of the preserved external Sprints1–12b research, analysis only. '
                 'No training, notebook execution, new run or successor dispatch. Read the selected methods/results/plans/reviews; '
                 'state each question, measured answer and uncertainty, tentative versus supported findings, limitations, '
@@ -284,16 +305,27 @@ class AnalysisDriver(Driver):
                      'cited numeric evidence through the paged index, checking completeness against the spec. ')
         return text
 
+    def output_names(self, stage):
+        return super().output_names(stage) + (("notebook.patch.json",) if self.config.get("notebook_revision") and stage=="run_spec_author" else ())
+
     def prepare_input(self, value, stage, work):
         if self.config['item_number'] == 2:
             require_stocktake_delivery(value['artifacts'], self.config['accepted_stocktake']['report'])
+        if self.config.get("notebook_revision"):
+            from orchestrator.cpu_isolation import verify_environment
+            verify_environment(self.config["notebook_revision"]["environment"])
         return manual_context.prepare(self.context, stage=stage, idea_ids=self.config['idea_ids'],
             task=self.task(stage, value), artifacts=value['artifacts'], workspace=work, private_intake=self.config['private_intake'],
             structured_review=self.config.get('review_contract')=='bound-review/v1',
-            reference_prior_results=self.config['item_number']==2)
+            reference_prior_results=self.config['item_number']==2,
+            notebook_patch=bool(self.config.get('notebook_revision')) and stage=='run_spec_author')
 
     def _accept_completed(self, value):
         pending = value['pending']
+        if pending['stage'] == 'run_spec_review' and self.config.get('notebook_revision'):
+            review=read(Path(pending['workspace'])/'review.json')
+            if review.get('verdict')=='APPROVE' and value.get('notebook_revision_result',{}).get('synthetic_status')!='PASS':
+                raise ValueError('NOTEBOOK_APPROVAL_REQUIRES_SYNTHETIC_PASS')
         if pending['stage'] != 'run_spec_author':
             if pending['stage'] == 'result_interpretation_author':
                 decision = read(Path(pending['workspace'])/'investigator_next_decision.json')
@@ -313,6 +345,11 @@ class AnalysisDriver(Driver):
         for required in ['run_id: '+self.config['run_id'], 'analysis_registry_sha256: '+self.config['private_intake']['sha256']]:
             if spec.splitlines().count(required) != 1:
                 raise ValueError('ANALYSIS_SPEC_BINDING_REQUIRED')
+        if self.config.get('notebook_revision'):
+            from orchestrator.notebook_revision import prepare_artifacts
+            from orchestrator.scientific_intake import cohort
+            registry=read(self.context/self.config['private_intake']['path'])
+            prepare_artifacts(self,value,pending,cohort((self.context/registry['cohort']).read_bytes()))
         n = pending['round']; value['rounds']['run_spec_author'] = n
         for kind in ('run_spec', 'proposed_run_spec'):
             self.artifact(value, kind, 'ANALYSIS-SPEC-'+str(n)+'.md', raw, n)
@@ -323,7 +360,7 @@ class AnalysisDriver(Driver):
     def status(self):
         value = super().status()
         value.update(next_action='Operator review required; no successor dispatch' if value['phase'] == 'COMPLETE' else value['phase'],
-                     package=None, collection_inbox=None, execution_backend='none: saved-evidence analysis only')
+                     package=None, collection_inbox=None, execution_backend=('synthetic CPU only: no patient/experiment execution' if self.config.get('notebook_revision') else 'none: saved-evidence analysis only'))
         return value
 
     def acceptance_path(self, kind):
@@ -348,6 +385,14 @@ class AnalysisDriver(Driver):
             target = self.acceptance_path('spec')
             write_once(target/'SPEC.md', Path(value['spec']).read_bytes())
             write_once(target/'review.json', Path(value['spec_review']).read_bytes())
+            if self.config.get('notebook_revision'):
+                names={'notebook_source':'revised13B.ipynb','notebook_diff':'notebook.diff',
+                       'notebook_patch':'notebook.patch.json','synthetic_tests':'synthetic-tests.json',
+                       'notebook_provenance':'patch-provenance.json','execution_conditions':'carried-conditions.json'}
+                for typ,name in names.items():
+                    matches=[row for row in value['artifacts'] if row['type']==typ]
+                    if len(matches)!=1: raise ValueError('NOTEBOOK_ACCEPTED_ARTIFACT_REQUIRED:'+typ)
+                    write_once(target/name,bound_file(self.context,{k:matches[0][k] for k in ('path','sha256')}))
             self._commit(target, 'Record reviewed stock-take analysis specification')
             # This validates delivery identities, not scientific truth or a new
             # computation. It cannot be confused with a CPU/GPU execution receipt.
@@ -391,7 +436,7 @@ class AnalysisDriver(Driver):
                 receipts = [json.loads(r['receipt']) for r in self.store.db.execute('SELECT receipt FROM manual_calls')]
                 elapsed = (datetime.now(timezone.utc)-datetime.fromisoformat(self.config['started_utc'])).total_seconds()
                 body = ('# Sprint13 proposal ready for operator review\n\n' if self.config['item_number']==2 else '# Stock-take ready for operator review\n\n')+Path(value['interpretation']).read_text()
-                body += '\n\n## Run record\nAnalysis only; no notebook, CPU or GPU execution. Operator review is required before any next backlog item.\n'
+                body += ('\n\n## Run record\nAnalysis plus a new notebook copy and isolated synthetic CPU tests only; no real-data notebook, GPU or Modal execution. ' if self.config.get('notebook_revision') else '\n\n## Run record\nAnalysis only; no notebook, CPU or GPU execution. ') + 'Operator review is required before any next backlog item.\n'
                 body += f'Calls: {len(receipts)}/{self.status()['call_limit']}; elapsed seconds: {elapsed:.1f}; rounds: '+json.dumps(value['rounds'])+'.\n'
                 body += '\n| Stage | Input characters | Outcome |\n| --- | ---: | --- |\n'
                 for row in receipts:

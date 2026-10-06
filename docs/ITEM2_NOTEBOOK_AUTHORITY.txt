@@ -1,0 +1,9 @@
+Decision on item 2's second REVISE: widen item 2 so the system revises the 13B notebook itself.
+
+1. Update BACKLOG item 2, verbatim: "2. Next-steps proposal on the Sprint 13 plan, including a revised copy of the 13B notebook that addresses the reviewers' findings, tested on synthetic data only (no GPU, no real or patient data, no execution on real data). Stop for Partho."
+2. The author produces a patch against the safe view of isles24_sprint13b_nnunet_preprocessing_and_L.ipynb. The controller applies it privately to the original to create a NEW copy (the original is untouched). The flagged outside-development literal must never enter a model workspace.
+3. The patched copy passes the privacy/secret scans, then compile checks, then CPU tests on synthetic data inside the sandbox: fold completeness, the revised verdict/ratio rule, coverage handling, plus the notebook's existing unit checks.
+4. The reviewer re-reviews the actual diff and the test results. Smoke-stage execution evidence remains a carried-forward condition for item 4, not a blocker here.
+5. If this needs new system capability (patch output, a synthetic test harness), build it, run focused and full tests, ONE automated review through submit_review, then held promotion.
+6. Continue within item 2's 16 calls and the revise loop. Then the proposal author and review, stop for me, and push the proposal, the revised notebook copy, the diff, the test results and the debates to remote-server.
+   Stop on: REJECT, a REVISE unresolved after 3 rounds, privacy or patient-data issues, or a cap.

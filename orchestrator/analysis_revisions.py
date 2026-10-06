@@ -36,9 +36,9 @@ def review_transition(review,stage,round_no):
     return stage.replace('_review','_author'),'REVISION_REQUIRED'
 
 
-def instructions(store,run):
+def instructions(store,run,*,notebook_revision=False):
     if not enabled(store,run):return 'Any listed finding, REVISE or REJECT stops for the operator. '
-    return ('Latest operator limit decision SHA256 '+AUTHORITY+': item2 sixteen calls, '
+    text = ('Latest operator limit decision SHA256 '+AUTHORITY+': item2 sixteen calls, '
         'experiment items3/4 twenty, UTC-day thirty across all roles, scientific batch sixty; '
         'GPU dollar caps unchanged. These figures supersede earlier limits in preserved history; '
         'past usage remains counted and this grants no experiment execution. '
@@ -56,3 +56,7 @@ def instructions(store,run):
         'do not claim the executable was fixed, tested or approved. Preserve genuine criticism. '
         'If completing this analysis itself requires scope beyond item2, reject with that '
         'specific reason. No patient work, GPU/Modal job or experiment is authorized. ')
+
+    if notebook_revision:
+        text=text.replace('Address future experiment defects with concrete proposed corrections and explicit execution holds; do not claim the executable was fixed, tested or approved.', 'Revise the actual notebook copy and cite controller-produced synthetic evidence; retain unfulfilled real-execution conditions for item4.')
+    return text

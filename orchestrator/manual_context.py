@@ -17,7 +17,12 @@ STAGE_ARTIFACT_TYPES = {
     "result_interpretation_author": ("question", "run_spec", "notebook_source", "configuration", "metric_contract", "execution_manifest", "execution_receipt", "package_manifest", "result_tables", "validation_result", "prior_results"),
     "result_interpretation_review": ("question", "run_spec", "notebook_source", "configuration", "metric_contract", "execution_manifest", "execution_receipt", "package_manifest", "result_tables", "validation_result", "prior_results", "interpretation", "investigator_next_decision", "interpretation_original", "interpretation_format_repair"),
 }
-WORKSPACE_TYPES = {"notebook_source", "result_tables", "package_manifest", "interpretation_original"}
+NOTEBOOK_TYPES = ("notebook_diff", "notebook_patch", "synthetic_tests", "notebook_provenance", "execution_conditions")
+for _stage in STAGE_ARTIFACT_TYPES:
+    STAGE_ARTIFACT_TYPES[_stage] += NOTEBOOK_TYPES
+
+WORKSPACE_TYPES = {"notebook_source", "result_tables", "package_manifest", "interpretation",
+                   "investigator_next_decision", "interpretation_original", *NOTEBOOK_TYPES}
 
 OUTPUTS = {
     "run_spec_author": ("SPEC.proposed.md",),
@@ -110,7 +115,7 @@ def selected_artifacts(stage, artifacts):
     return [latest[key] for key in sorted(latest)]
 
 
-def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="isles24-prediction", private_intake=None, structured_review=False, reference_prior_results=False):
+def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="isles24-prediction", private_intake=None, structured_review=False, reference_prior_results=False, notebook_patch=False):
     """Complete file-writing model input, with scanner and final character bound.
 
     Artifact files must be source-bound current views or originals under root.
@@ -119,7 +124,10 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
     """
     if not idea_ids or any(not isinstance(x, str) or not x for x in idea_ids):
         raise budget.ContextError("MANUAL_CONTEXT_TARGET")
+    if notebook_patch and (stage != "run_spec_author" or not structured_review or private_intake is None):
+        raise budget.ContextError("NOTEBOOK_PATCH_OUTPUT_SCOPE")
     selected = selected_artifacts(stage, artifacts)
+    outputs = OUTPUTS[stage] + (("notebook.patch.json",) if notebook_patch else ())
     pieces = []
     if stage in {'run_spec_review', 'result_interpretation_review'}:
         from orchestrator.scientific_search import INSTRUCTION
@@ -230,7 +238,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
                 instruction += ("Check every required per-file validation entry (including both JSON records for Sprint10), "
                     "execution receipt and package manifest. ")
     else:
-        instruction += "Write " + ", ".join(OUTPUTS[stage]) + ". "
+        instruction += "Write " + ", ".join(outputs) + ". "
     instruction = "Work only in this stage workspace; do not execute experiments or other model calls.\n" + instruction
     instruction += ('\nHistorical statements about findings describe their original time. '
         'Use the current finding status index and inspect its exact finding/closure records. '
@@ -245,7 +253,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
     # Materialization is part of input preparation, not an executor or admission.
     delivered = _workspace_files(workspace, files) if files else []
     return body, {**measured, "stage": stage, "selected_artifacts": selected,
-        "artifact_types": list(STAGE_ARTIFACT_TYPES[stage]), "outputs": list(OUTPUTS[stage]),
+        "artifact_types": list(STAGE_ARTIFACT_TYPES[stage]), "outputs": list(outputs),
         "workspace_files": delivered, "finding_status": finding_index,
         **({'private_scientific_views': private_descriptors, 'private_scientific_index': private_index}
            if private_intake is not None else {})}

@@ -222,6 +222,9 @@ class Driver:
         if (self.state/'HALT').exists():raise ValueError('OPERATOR_HALT: HALT file is present; no work started. Preserve state and request operator disposition before resuming.')
         c=self.config
         if self.store.batch is not None and (self.store.batch.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
+        if c.get('notebook_revision_continuation'):
+            from orchestrator.notebook_revision_transition import validate_driver
+            validate_driver(self)
         if c.get('revision_continuation'):
             from orchestrator.analysis_revision_transition import validate_driver
             validate_driver(self)
@@ -324,7 +327,7 @@ class Driver:
             for ref in measurement['workspace_files']:
                 if digest((work/ref['path']).read_bytes())!=ref['sha256']:raise ValueError('MODEL_ALTERED_BOUND_EVIDENCE')
             output={}
-            for name in manual_context.OUTPUTS[stage]:
+            for name in self.output_names(stage):
                 path=work/name
                 if path.is_symlink() or not path.is_file():raise ValueError('MISSING_REGULAR_MODEL_OUTPUT')
                 raw=path.read_bytes();scan('context/'+name,raw)
@@ -341,6 +344,9 @@ class Driver:
             self.store.finish_call(ident,receipt,'UNCERTAIN')
             value.update(phase='BLOCKED',reason='MODEL_FAILED_OR_UNCERTAIN_NO_RETRY');self.save(value);raise
         return self.accept_completed(value)
+
+    def output_names(self, stage):
+        return manual_context.OUTPUTS[stage]
 
     def prepare_input(self,value,stage,work):
         return manual_context.prepare(self.context,stage=stage,idea_ids=self.config.get('idea_ids',['Sprint10']),task=self.task(stage,value),artifacts=value['artifacts'],workspace=work)

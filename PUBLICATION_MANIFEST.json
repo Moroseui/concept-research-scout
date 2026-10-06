@@ -1,6 +1,6 @@
 {
   "schema": "sanitized-public-snapshot/v1",
-  "installed_source": "963322bb4a1df1bdbaae2e33e079f87f645a2e9d",
+  "installed_source": "d3ec9259a0b19bd1e20ed3d63ed4968fd38038f1",
   "not_deployable": true,
   "outputs": [
     {
@@ -289,6 +289,14 @@
       "original_sha256": "1fab49a2d4fbaa250eb9052efff5cb5cb15329f1a57f6c6407c03c54e9da1d01",
       "public_sha256": "1fab49a2d4fbaa250eb9052efff5cb5cb15329f1a57f6c6407c03c54e9da1d01",
       "status": "derived-status",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/implementation-reviews/notebook-predecessors-d3ec9259.json",
+      "origin": "qualified-written-review",
+      "original_sha256": "86891f98424d46eef62beccc692f67b2137ccf024e668eb90680f87d66968fe3",
+      "public_sha256": "86891f98424d46eef62beccc692f67b2137ccf024e668eb90680f87d66968fe3",
+      "status": "byte-exact",
       "redacted_lines": []
     }
   ],
@@ -962,6 +970,14 @@
       "sha256": "1dcda984e03e8d85d8fc8b2444f4174d04d0cf9e3c1d8b0ac43ea6b2f3233a52"
     },
     {
+      "path": "docs/ITEM2_NOTEBOOK_AUTHORITY.txt",
+      "sha256": "1a21e40fa29e7d4dec9f444b46604ab2d3b4167fa97f9f05fb21699f6ac90a42"
+    },
+    {
+      "path": "docs/ITEM2_NOTEBOOK_CHECKPOINT.json",
+      "sha256": "b846782f0b0cf1be25c56682e6b91b530806b6cafa05b846a3608b33710cfc18"
+    },
+    {
       "path": "docs/ITEM2_REVISION_CHECKPOINT.json",
       "sha256": "248ccca5690f4fcb8bdbc8d0bb1082f219a652c310377ba78c82ceee2937e768"
     },
@@ -1006,6 +1022,10 @@
       "sha256": "b268cb104c140c069adcfac2414e6307505ac566f3f30e6ea4acf039f83c5581"
     },
     {
+      "path": "docs/NOTEBOOK_SYNTHETIC_CONTRACT.md",
+      "sha256": "82d9a2673949ba5840ee0e4ac14bdb306c676ba01dfdaf2ad0a8ac3a491c58d8"
+    },
+    {
       "path": "docs/QUOTED_REVIEW_EXAMPLE_APPROVAL.txt",
       "sha256": "cfa9c7d49a54d60d1eb88742695740e6b9b7b3a4b905453badb49615252d03ab"
     },
@@ -1044,6 +1064,10 @@
     {
       "path": "docs/SPRINT10_SMALL_FIX_BATCH.md",
       "sha256": "c8f7787ecb3e7f72e2d6aae288f12bb45ffdde9d5fc223dd6ab2c62c1cb199be"
+    },
+    {
+      "path": "docs/STANDING_AUTONOMY_CHARTER.md",
+      "sha256": "401d55db9f1e36a799bb5b618bdc8dc465ea6097ec58b03f4919f8734aef966c"
     },
     {
       "path": "docs/STEP_D_AUTHORIZATION.md",
@@ -5671,7 +5695,7 @@
     },
     {
       "path": "orchestrator/analysis_driver.py",
-      "sha256": "50b42204dbbfddeac90d25ef9c7317c2ef54b995f6675138d6b7ede59810c4df"
+      "sha256": "aec0133e66f88011a0fc3fc3fb609c88fbcc3c60ebf4efc20b0ce3cbc9b6f3ed"
     },
     {
       "path": "orchestrator/analysis_revision_transition.py",
@@ -5679,7 +5703,7 @@
     },
     {
       "path": "orchestrator/analysis_revisions.py",
-      "sha256": "eadc91d483d7f96cdef95bb917d520dfb02f777ae1b05ebc86bbf5d67a9a61c5"
+      "sha256": "b67773bcff5957c3b5bad06852d6aba8cbaac498f861e6ba302e1ad9eaf01652"
     },
     {
       "path": "orchestrator/archive_preserve.py",
@@ -5951,7 +5975,7 @@
     },
     {
       "path": "orchestrator/manual_context.py",
-      "sha256": "eebe110702a72d55b2f9e46bdb1613e2fbc20c6e4e704670df1f19f0a97a2bf1"
+      "sha256": "d067d78c7440b9e004507be2afd761a1fbe10b4648e726abf6469920e14e3702"
     },
     {
       "path": "orchestrator/manual_contract.py",
@@ -5959,7 +5983,7 @@
     },
     {
       "path": "orchestrator/manual_driver.py",
-      "sha256": "a4b4e3db13e214f5d8dfe2ea0aac0ff28850b69bde06b07b8719a1fe295dd412"
+      "sha256": "73eab9fdd3ae3359283e11dbd7cb80387750c8ee784a9df8f780e08d420f4d2c"
     },
     {
       "path": "orchestrator/manual_executor.py",
@@ -6020,6 +6044,18 @@
     {
       "path": "orchestrator/notebook_evidence.py",
       "sha256": "26b10ab243c4c81642a85dc724fbca1a692b25a8e97dbb38891c539bbfa9232a"
+    },
+    {
+      "path": "orchestrator/notebook_revision.py",
+      "sha256": "14fcba2a304d950fd93af7955652d73a320c71dc00d3c29dac8e17fb020c8a23"
+    },
+    {
+      "path": "orchestrator/notebook_revision_transition.py",
+      "sha256": "61264bb4018ad0461f4c87a204c52668007968f00ab646d5c63c1f49948de8e2"
+    },
+    {
+      "path": "orchestrator/notebook_synthetic_harness.py",
+      "sha256": "61739d4064c85ccecdf5085260ea125aaa453ca5914d2f01d19117dcb3659bbf"
     },
     {
       "path": "orchestrator/operations_backup.py",
@@ -6375,7 +6411,7 @@
     },
     {
       "path": "orchestrator/stocktake_recovery.py",
-      "sha256": "560cdbe5af41fb6c4d9e689b7348af705039d7ba7787b132c99883cb107ee878"
+      "sha256": "7fa527e15de1b8518f010a65ca780d41aa13d32be9459b4958b32683bd6a6d75"
     },
     {
       "path": "orchestrator/stocktake_review_recovery.py",
@@ -7687,7 +7723,7 @@
     },
     {
       "path": "tests/test_manual_context.py",
-      "sha256": "1669f10d6b299b4a829f289edb79da77e2b82dd92f43574e149d3613006d4d4b"
+      "sha256": "35ef51bd582e3aa9b094a9f2aca7b664b7c67f94b393abee8ca8c762704f8985"
     },
     {
       "path": "tests/test_manual_json_navigation.py",
@@ -7772,6 +7808,14 @@
     {
       "path": "tests/test_notebook_evidence.py",
       "sha256": "9ba0720e0f5a9bf9c8efffa3b521e3a89b84c2adfd5b3c2049cc09cf47be98ce"
+    },
+    {
+      "path": "tests/test_notebook_revision_transition.py",
+      "sha256": "fe6fa00278c80ba0db3fa86c00a726ec8dd397e61d2a5dcc27f5bf67417302a7"
+    },
+    {
+      "path": "tests/test_notebook_synthetic.py",
+      "sha256": "c053e6eceaadacab3fdfef11a24ffaeff95f7c64f586b022cc233def85b57fe1"
     },
     {
       "path": "tests/test_numbered_delegation.py",

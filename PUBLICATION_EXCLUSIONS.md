@@ -893,3 +893,8 @@ Source exclusions below are relative paths only; no excluded contents are includ
 
 
 Latest checkpoint: `astra/m4-scoped-revisions-20261005` at `72ac1c11211414f92ce730d2ae8879c53efe23f8` is withheld because its reachable ancestry includes previously flagged private material. No claim is made that its full history is clean. Test logs, fixture bundles, ledger records and account-usage metadata are not public outputs.
+
+
+## Installed notebook release d3ec9259
+
+The refreshed scan includes 1,996 source files and excludes 875. The additional omitted source records are docs/ITEM2_NOTEBOOK_AUTHORITY.txt and docs/ITEM2_NOTEBOOK_CHECKPOINT.json because they contain private infrastructure references. All earlier exclusion categories remain unchanged. The complete hash-bound exclusion inventory is preserved privately.
