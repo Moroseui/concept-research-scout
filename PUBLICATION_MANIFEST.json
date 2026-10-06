@@ -426,6 +426,14 @@
       "public_sha256": "688d37ef6539c19d7a8d2b2e615f24e7336a4416a07eb3bee4adbcb89a039468",
       "status": "new aggregate status",
       "redacted_lines": []
+    },
+    {
+      "output": "outputs/directions-diagnostics-20261006/INTAKE_STATUS.md",
+      "origin": "operator-approved-diagnostics-intake-status",
+      "original_sha256": "ee3cc99f53821ff66b7e360717b6259acfce2a43ecba07a40f70f2d40d9d6ac7",
+      "public_sha256": "ee3cc99f53821ff66b7e360717b6259acfce2a43ecba07a40f70f2d40d9d6ac7",
+      "status": "aggregate-status-only",
+      "redacted_lines": []
     }
   ],
   "source_included": [
