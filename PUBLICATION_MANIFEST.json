@@ -8397,5 +8397,19 @@
       "path": "transitional_debt.yaml",
       "sha256": "1c27ffb1aec0c6d7d101f10bfc40332e4994fa4d2bb8856a4afc31cd4ecbd62d"
     }
+  ],
+  "publication_overrides": [
+    {
+      "path": ".github/workflows/check.yml",
+      "installed_sha256": "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648",
+      "public_sha256": "9b19ca01a07fc4e7fed50a089b3aeaa17925b0afe2bb361616d9da989db6cf85",
+      "reason": "Operator-requested snapshot push exclusion and Python3.12 minimum; server observed3.12.3; no installed runtime change"
+    },
+    {
+      "path": "README.md",
+      "installed_sha256": "2c0309421367954b0b0d45f1ecefb04534f0209dccb4d70419303520aa48d2d7",
+      "public_sha256": "0cd55bb860ab3032ce95dfdb205b2c229c14cb0ef575fbb29aa0b5e01b2a31cf",
+      "reason": "Operator-requested snapshot push exclusion and Python3.12 minimum; server observed3.12.3; no installed runtime change"
+    }
   ]
 }

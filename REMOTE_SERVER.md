@@ -1,6 +1,6 @@
 # Remote research system: public archive
 
-This branch is a **sanitized, incomplete public snapshot**, not a deployable release or a complete private backup. Selected installed source: `d3ec9259a0b19bd1e20ed3d63ed4968fd38038f1`. Private ancestry is withheld. Included source files retain exact installed bytes; missing files can prevent this tree from running.
+This branch is a **sanitized, incomplete public snapshot**, not a deployable release or a complete private backup. Selected installed source: `d3ec9259a0b19bd1e20ed3d63ed4968fd38038f1`. Private ancestry is withheld. Included runtime source files retain exact installed bytes; the workflow and README have operator-requested publication-only overrides recorded in the manifest; missing files can prevent this tree from running.
 
 The notebook-revision capability and its predecessor-preservation connection each received an independent structured APPROVE with no findings. The final source passed 5,639 tests plus 322 subtests (42 skips), and 214 orchestration tests before promotion. Held promotion and live native/isolation checks passed. Both post-install full suites passed with the same counts. All four continued input/transport checks passed. These are engineering results, not scientific findings. See the genuine reviews under outputs/implementation-reviews.
 
@@ -23,3 +23,5 @@ Sprint 13A results were run by the operator and remain imported external evidenc
 ## Publication limits
 
 The unchanged privacy scanner and a secret/infrastructure scan apply before every push. Main is unchanged. This snapshot contains 1,996 eligible source files; 875 source files are excluded. Private working-branch histories remain withheld. Four Sprint 13A CSVs and two figures remain excluded under the existing rules. Native streams, captures, ledgers, private evidence, images and caches remain private. See PUBLICATION_MANIFEST.json and PUBLICATION_EXCLUSIONS.md.
+
+The checks workflow excludes remote-server pushes because this snapshot omits private prerequisites. Other push branches and pull requests retain the checks. Python3.12 is the minimum; the observed deployed interpreter is3.12.3. This documentation/CI change does not alter the installed release.

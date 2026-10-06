@@ -1,5 +1,7 @@
 # Concept Research Scout
 
+Runtime requirement: **Python 3.12 or newer**. The deployed Ubuntu lane uses Python 3.12.3; CI uses Python 3.12. The `remote-server` branch is an incomplete public snapshot and is excluded from the `checks` push trigger because private evidence and ledgers are intentionally absent.
+
 A human-supervised research discovery loop for finding **interesting,
 feasible, concept-focused medical-imaging projects** — run by two AI agent
 families (Claude and Codex) under strict evidence rules, operated entirely
