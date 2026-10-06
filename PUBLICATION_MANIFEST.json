@@ -298,6 +298,14 @@
       "public_sha256": "86891f98424d46eef62beccc692f67b2137ccf024e668eb90680f87d66968fe3",
       "status": "byte-exact",
       "redacted_lines": []
+    },
+    {
+      "output": "outputs/checkpoints/notebook-live-revision-20261006.md",
+      "origin": "deterministic-installed-gates-and-live-call-status",
+      "original_sha256": "6537c39a6aee36d2e3eee142aa05d6f585a923e33dcd85c4e39fbd574988c511",
+      "public_sha256": "6537c39a6aee36d2e3eee142aa05d6f585a923e33dcd85c4e39fbd574988c511",
+      "status": "byte-exact",
+      "redacted_lines": []
     }
   ],
   "source_included": [
