@@ -1,0 +1,8 @@
+{
+  "status": "PROPOSAL_ONLY",
+  "proposed_action_type": "stop",
+  "action": "Stop for the operator's decision on the ranked directions and the two proposed saved-prediction diagnostics; defer size-specialist training.",
+  "rationale": "Fusion and small-lesion evidence support cheap diagnostic work, but do not establish a benefit from specialist training. Preserve Phase1 and the original disagreements. The current delivery validates identities only; the registry transition and executed r4 source remain unavailable. No experiment is selected for execution.",
+  "charter_basis": "The selected question is prediction of released follow-up infarct tissue from information available by completion of admission CT, and whether a fitted predictor merits further investment. This handoff stops at the investment decision.",
+  "blocker_ids": []
+}
