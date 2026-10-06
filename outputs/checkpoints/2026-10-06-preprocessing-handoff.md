@@ -1,6 +1,6 @@
 # Development-data retrieval and execution handoff
 
-The existing private download completed normally with 792 per-file verification receipts and a completion marker. The frozen payload is 54.32 GB. These are the selected development images and matching CTP inputs; no final-evaluation or reserve cases were selected. Controller-side final verification and accounting were still running at this checkpoint, so the inputs are not yet declared ready for execution.
+The existing private download completed normally with 792 per-file verification receipts and a completion marker. The frozen payload is 54.32 GB. These are the selected development images and matching CTP inputs; no final-evaluation or reserve cases were selected. Controller-side verification has now passed: 693 image files and 99 CTP files, with exact sizes and hashes verified. The asset record is READY and the retrieval operation is COMPLETE. Earlier failed attempts and their accounting remain preserved. No image payload passed through the controller or laptop. Preprocessing and experiment admission are still separate requirements.
 
 A private engineering commit now connects validated preprocessing records to the fit driver's runtime handoff. Preparation rechecks the actual reviewed code, frozen fits, input and environment identities, validation receipt and launch size. Publication makes the complete selection available atomically. Repeated publication verifies the existing result; changed or incomplete records refuse. This change creates neither a scientific approval nor a spending allowance.
 
