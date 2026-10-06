@@ -253,7 +253,8 @@ def test_synthetic_full_driver_through_package_collection_interpretation_and_rep
     assert d.advance(incoming)['phase']=='result_interpretation_author'
     evidence={r['type']:r for r in d.current()['artifacts']}
     for kind,name in [('execution_receipt','execution-receipt.json'),('package_manifest','package-manifest.json')]:
-        assert evidence[kind]['sha256']==executor.digest((d.context/'current'/name).read_bytes())
+        assert Path(evidence[kind]['path']).name==name
+        assert evidence[kind]['sha256']==executor.digest((d.context/evidence[kind]['path']).read_bytes())
         assert kind in driver.manual_context.STAGE_ARTIFACT_TYPES['result_interpretation_author']
         assert kind in driver.manual_context.STAGE_ARTIFACT_TYPES['result_interpretation_review']
     def interpret(work,*args):

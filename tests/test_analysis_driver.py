@@ -407,3 +407,73 @@ def test_item2_any_structured_finding_or_negative_verdict_stops(item2_lane,verdi
     d.runner=model
     assert d.advance()['phase']=='BLOCKED'
     assert d.advance()['calls_used']==2
+
+
+def test_generated_artifacts_do_not_collide_with_preserved_predecessor(analysis_lane):
+    """Real driver, context assembly and ledger; only native model output is synthetic."""
+    d = analysis_lane
+    originals = {}
+    for name in ['ANALYSIS-SPEC-1.md', 'intake-validation.json',
+                 'interpretation-1.md', 'next-decision-1.json']:
+        path = d.context/'current'/name
+        private_records.write_text(path, 'Preserved predecessor: '+name)
+        originals[path] = path.read_bytes()
+    for phase in ['run_spec_review', 'COMMIT_SPEC', 'result_interpretation_author',
+                  'result_interpretation_review', 'UPDATE_STATE', 'REPORT', 'COMPLETE']:
+        result = d.advance()
+        assert result['phase'] == phase, result
+    assert {path: path.read_bytes() for path in originals} == originals
+    prefix = 'current/runs/'+digest(d.config['run_id'].encode())+'/'
+    assert all(row['path'].startswith(prefix) for row in d.current()['artifacts'])
+    assert d.status()['calls_used'] == 4
+    assert d.advance()['calls_used'] == 4
+
+
+def test_run_namespace_preserves_same_run_immutable_refusal(analysis_lane):
+    d = analysis_lane; value = d.current()
+    raw = b'Synthetic immutable output.'
+    d.artifact(value, 'run_spec', 'SPEC-1.md', raw, 1)
+    first = dict(value['artifacts'][-1])
+    d.artifact(value, 'proposed_run_spec', 'SPEC-1.md', raw, 1)
+    assert value['artifacts'][-1]['path'] == first['path']
+    with pytest.raises(ValueError, match='^IMMUTABLE_ARTIFACT_CONFLICT$'):
+        d.artifact(value, 'run_spec', 'SPEC-1.md', b'Changed output.', 1)
+    assert (d.context/first['path']).read_bytes() == raw
+    d.config['run_id'] += '-distinct'
+    d.artifact(value, 'run_spec', 'SPEC-1.md', b'Distinct run output.', 1)
+    assert value['artifacts'][-1]['path'] != first['path']
+    assert (d.context/first['path']).read_bytes() == raw
+    assert d.status()['calls_used'] == 0
+
+
+def test_saved_completed_author_requalifies_without_another_call(analysis_lane, monkeypatch):
+    """Reproduce the old path defect with synthetic native output, then use real acceptance."""
+    from orchestrator.manual_driver import write_once
+    d = analysis_lane
+    old_path = d.context/'current/ANALYSIS-SPEC-1.md'
+    private_records.write_bytes(old_path, b'Immutable predecessor specification.')
+    def old_recorder(value, kind, name, raw, version):
+        write_once(d.context/'current'/name, raw)
+    with monkeypatch.context() as patch:
+        patch.setattr(d, 'artifact', old_recorder)
+        result = d.advance()
+    assert result['phase'] == 'BLOCKED'
+    assert result['reason'] == 'OUTPUT_VALIDATION_REFUSED: IMMUTABLE_ARTIFACT_CONFLICT'
+    pending = d.current()['pending']
+    before = [tuple(row) for row in d.store.db.execute('SELECT * FROM manual_calls')]
+    charges = [tuple(row) for row in d.store.batch.db.execute('SELECT * FROM autonomy_calls')]
+    assert len(before) == len(charges) == 1
+    assert d.store.db.execute('SELECT status FROM manual_calls').fetchone()[0] == 'COMPLETE'
+    raw = (Path(pending['workspace'])/'SPEC.proposed.md').read_bytes()
+    def forbidden(*args, **kwargs):
+        pytest.fail('Requalification must not launch a model')
+    d.runner = forbidden
+    assert d.accept_completed(d.current())['phase'] == 'run_spec_review'
+    assert [tuple(row) for row in d.store.db.execute('SELECT * FROM manual_calls')] == before
+    assert [tuple(row) for row in d.store.batch.db.execute('SELECT * FROM autonomy_calls')] == charges
+    assert (Path(pending['workspace'])/'SPEC.proposed.md').read_bytes() == raw
+    assert old_path.read_bytes() == b'Immutable predecessor specification.'
+    assert 'pending' not in d.current()
+    with pytest.raises(KeyError):
+        d.accept_completed(d.current())
+    assert d.status()['calls_used'] == 1

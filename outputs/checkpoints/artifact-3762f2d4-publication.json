@@ -1,0 +1,27 @@
+{
+  "installed_source": "3762f2d4ff0d1a52c361580735375e633ad49588",
+  "included_changed_paths": [
+    "docs/ARTIFACT_RUN_NAMESPACE.md",
+    "docs/ITEM5_ARTIFACT_CHECKPOINT.json",
+    "orchestrator/analysis_driver.py",
+    "orchestrator/artifact_recording_transition.py",
+    "orchestrator/manual_driver.py",
+    "orchestrator/stocktake_recovery.py",
+    "tests/test_analysis_driver.py",
+    "tests/test_artifact_recording_transition.py",
+    "tests/test_manual_lane.py",
+    "outputs/status/2026-10-06-coverage-ownership-and-installed-checks.md"
+  ],
+  "excluded_changed_paths": [
+    {
+      "path": "tools/manual_promotion.py",
+      "sha256": "f552ba5190821a30d936affe2b5929145bb403f421f776d88294b91cdd919f0f",
+      "rules": [
+        "INFRASTRUCTURE_OR_CREDENTIAL_PATH"
+      ]
+    }
+  ],
+  "private_ancestry_pushed": false,
+  "science_input_status": "queued, not delivered",
+  "at": "2026-10-06T05:56:30.614748+00:00"
+}

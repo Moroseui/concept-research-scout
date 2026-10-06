@@ -225,7 +225,7 @@ class AnalysisDriver(Driver):
         self.root = Path(self.config['root']); self.context = Path(self.config['context'])
         from orchestrator.stocktake_recovery import ledger_folder
         self.store = ManualExecutor(self.state/'jobs.sqlite', batch=BatchAccounts(ledger_folder(self.config),
-            filesystem_root=Path(self.config.get('notebook_filesystem_root','/'))))
+            filesystem_root=Path(self.config.get('artifact_filesystem_root',self.config.get('notebook_filesystem_root','/')))))
         self.runner = runner or manual_stage.invoke
 
     def guard(self):

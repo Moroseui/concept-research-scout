@@ -222,6 +222,9 @@ class Driver:
         if (self.state/'HALT').exists():raise ValueError('OPERATOR_HALT: HALT file is present; no work started. Preserve state and request operator disposition before resuming.')
         c=self.config
         if self.store.batch is not None and (self.store.batch.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
+        if c.get('artifact_continuation'):
+            from orchestrator.artifact_recording_transition import validate_driver
+            validate_driver(self)
         if c.get('notebook_revision_continuation'):
             from orchestrator.notebook_revision_transition import validate_driver
             validate_driver(self)
@@ -255,7 +258,12 @@ class Driver:
 
     def artifact(self,value,kind,name,raw,version):
         scan('context/current.txt',raw)
-        relative='current/'+name;write_once(self.context/relative,raw)
+        # Seed context may retain predecessor outputs with the same stage/round
+        # name. New writes belong to this run; immutable predecessor paths stay
+        # readable and unchanged. Hash the run ID rather than interpreting it
+        # as a filesystem path. Artifact IDs remain the current selection keys.
+        relative='current/runs/'+digest(self.config['run_id'].encode())+'/'+name
+        write_once(self.context/relative,raw)
         row={'id':kind,'type':kind,'version':version,'path':relative,'sha256':digest(raw)}
         value['artifacts']=[r for r in value['artifacts'] if r['id']!=kind]+[row]
 

@@ -206,6 +206,8 @@ def state_snapshot(state):
 
 def ledger_folder(config):
     from tools.deploy_manual_lane import bound
+    if config.get('artifact_continuation'):
+        return bound(config['artifact_filesystem_root'],config['batch_ledger'])
     if config.get('notebook_revision_continuation'):
         return bound(config['notebook_filesystem_root'],config['batch_ledger'])
     if config.get('revision_continuation'):

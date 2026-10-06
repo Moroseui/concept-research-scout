@@ -1,0 +1,35 @@
+{
+  "boot_id": "4e8d2dcd-0a4a-4840-a7bd-1cd7453d07c3",
+  "call_rows": [
+    "e91ad34e62bde5d6b98050e95b88cb839dea78f70a9741c16291c342935ab179"
+  ],
+  "config_sha256": "83bed7f3b8f711f5eaccec36c9671ecd68d33ed32ce889986a93b7eeb562dcb6",
+  "context_sha256": "dd5a6b4102226fa63b3e937760616871f2f0a7bde5a95faa0720512f963435f9",
+  "global_owner_sha256": "f4f2fe9100b7d1110ff5eec58ff46434f9ddee4317b1b53fad5274dddf20ffed",
+  "global_rows": {
+    "e91ad34e62bde5d6b98050e95b88cb839dea78f70a9741c16291c342935ab179": "4d7cf4574b2aa0ef355105a64dc06b907ae19820a9c5e4a4194ab09eeff0d6f1"
+  },
+  "item_number": 5,
+  "old_source": "0fe6a0007ff50fdfc43cd070572974fa2ddedf47",
+  "old_state": "/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-directions-0fe6a000/lane",
+  "output_sha256": {
+    "SPEC.proposed.md": "018821e74757a1547aee355368abda80f48ad11210dec450616d4c10fc5a3adf"
+  },
+  "owner_sha256": "08f4dcf1a409bf5bc7b4cfe772f57ba2cdcc424e8da2149f851f8b7c7e312cb5",
+  "phase": "BLOCKED",
+  "plan_sha256": "bbfd61987b3d7d2d32709b33b7c244d5ff29b21efde0e2dafd3dbb262963f9d5",
+  "reason": "OUTPUT_VALIDATION_REFUSED: IMMUTABLE_ARTIFACT_CONFLICT",
+  "run_id": "stocktake-132a97b7aef9935ec8469dbf",
+  "schema": "artifact-recording-checkpoint/v1",
+  "tables": {
+    "manual_account": "f65050335cfe7c97d89d8ca3bd1e790bdb84b20bf2c19feafaccafc187aa055f",
+    "manual_calls": "b756d258a392ecf89850b2c193038455b220e68852c47de28e1602640d3493da",
+    "manual_recoveries": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "manual_state": "44d23e926411ee0d5fe24fbac16f22d2605bc8e3e82fa843c2c1e847eb937f9e"
+  },
+  "units": [
+    "research-manual-sprint10-directions-0fe6a000.service",
+    "research-manual-sprint10-directions-0fe6a000.timer"
+  ],
+  "workspace": "/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-directions-0fe6a000/lane-scientific-workspaces/run_spec_author-1"
+}
