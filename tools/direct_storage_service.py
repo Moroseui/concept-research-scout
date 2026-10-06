@@ -80,7 +80,7 @@ def install(root,config):
     if not state.startswith('/var/lib/research-system-manual-sprint10/direct-inputs/'):
         raise ValueError('DIRECT_INSTALL_STATE_SCOPE')
     if 'prepared_from' not in config and state!=('/var/lib/research-system-manual-sprint10/direct-inputs/'+source):raise ValueError('DIRECT_INSTALL_STATE_BINDING')
-    if set(config)-{'prepared_from'}!={'schema','source','release','installation_record','installation_sha256','package',
+    if set(config)-{'prepared_from','recovery_from'}!={'schema','source','release','installation_record','installation_sha256','package',
                      'package_manifest_sha256','batch_ledger','state','provider'}:
         raise ValueError('DIRECT_INSTALL_CONFIG_FIELDS')
     if config['schema']!='direct-development-storage/v1':raise ValueError('DIRECT_INSTALL_SCHEMA')
@@ -101,6 +101,10 @@ def install(root,config):
     values=dict(zip(services,(service,timer)))
     final={**config,'units':{n:{'sha256':hashlib.sha256(v).hexdigest()} for n,v in values.items()}}
     continuation=None
+    if 'prepared_from' in config and 'recovery_from' in config:raise ValueError('DIRECT_INSTALL_ONE_CONTINUATION')
+    if 'recovery_from' in config:
+        from orchestrator.modal_direct_recovery import preflight
+        preflight(config,root=root)
     if 'prepared_from' in config:
         from orchestrator.modal_direct_continuation import preflight
         continuation=preflight(config,root=root)

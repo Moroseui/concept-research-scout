@@ -1,6 +1,6 @@
 {
   "schema": "sanitized-public-snapshot/v1",
-  "installed_source": "8b7c9c4a6630307f2172bc661240bbfc8cf3a302",
+  "installed_source": "9497dc1de8472513366cbad45bb40dacf885593c",
   "not_deployable": true,
   "outputs": [
     {
@@ -1112,6 +1112,18 @@
     {
       "path": "docs/DIRECTIONS_OPERATOR_DECISION.txt",
       "sha256": "b00e7a398e77e67ae2e23d877a072e8be6981984acc08c4059c0063114f71b97"
+    },
+    {
+      "path": "docs/DIRECT_DOWNLOAD_IMAGE_LAUNCH.md",
+      "sha256": "a9f7e68f3548ce9e0634c12e28e780b3c3fb97b7a59e25801d18a4862419769c"
+    },
+    {
+      "path": "docs/DIRECT_DOWNLOAD_RECOVERY.md",
+      "sha256": "9e0a544ca7847d610aec6208837b54212d68ce48f092fcb70826088c152bb15d"
+    },
+    {
+      "path": "docs/DIRECT_INPUT_CONTINUATION.md",
+      "sha256": "4393a6bb57ab06c9fd50afd7bb24752f950eddb06ab85626f5b38423376ab0b4"
     },
     {
       "path": "docs/HANDOFF_TO_CLAUDE.md",
@@ -6187,7 +6199,7 @@
     },
     {
       "path": "orchestrator/modal_budget.py",
-      "sha256": "c956680693a9606301d6abd50230d0578ad22e801c0b3db9e8d892613ab3196f"
+      "sha256": "9c860855aa53c60d9cf90fd97773dbee9d47490329255cfc1fff0e6f0b89f9f3"
     },
     {
       "path": "orchestrator/modal_cleanup.py",
@@ -6203,7 +6215,15 @@
     },
     {
       "path": "orchestrator/modal_direct_budget.py",
-      "sha256": "137be98d30f66e04d4afcc033b8b299f71854957d566241bdbf59be7255c3e45"
+      "sha256": "11641eef114d8fcd10e5522daa8d83832376e5ddaec0060f57d08cb928ce94e2"
+    },
+    {
+      "path": "orchestrator/modal_direct_continuation.py",
+      "sha256": "72b86bba79be1d0c22235288be8f28f6329dc649a1777c057adc9531198b45de"
+    },
+    {
+      "path": "orchestrator/modal_direct_recovery.py",
+      "sha256": "a3037dd688d24d349210a311cb502663ade4ce98d0cd2910ddceebd67a18314c"
     },
     {
       "path": "orchestrator/modal_direct_retention.py",
@@ -6211,7 +6231,7 @@
     },
     {
       "path": "orchestrator/modal_direct_storage.py",
-      "sha256": "c50801c786da07a698cc4d6f8e31edaa69c498ef0ea7d985ccbcbbaf45f31f31"
+      "sha256": "15c28b95db47ffd775ccbe7311e559c756908c57f986ac2ed89205e8ae7b1a50"
     },
     {
       "path": "orchestrator/modal_download_package.py",
@@ -6219,7 +6239,7 @@
     },
     {
       "path": "orchestrator/modal_download_provider.py",
-      "sha256": "a7a4890f6e372ddf6b75343329f216433a2597b0f55baa35839ba4f207da667e"
+      "sha256": "761f447e5e4233c4b72f61001b6afa0dbeea465ee1db574b1e1bc8d353a46fc1"
     },
     {
       "path": "orchestrator/modal_driver.py",
@@ -7622,6 +7642,10 @@
       "sha256": "a42e2bfa6d183a2fbaa560f7b7efa266d6f1b7c3b25118206cbd008fe7195606"
     },
     {
+      "path": "tests/test_direct_storage_continuation.py",
+      "sha256": "975491de7c4069253e3ae446995d463046eb7efd23a38e6f1ddf354f8d354e0d"
+    },
+    {
       "path": "tests/test_directions_analysis.py",
       "sha256": "afee0bcee81911de7ebf30ea9344c336db81e6000de38bf38599049958665263"
     },
@@ -7990,12 +8014,16 @@
       "sha256": "9da22d25cb961b59544123e65987b1d8d20e7ee18d0f6b61fb96b9bac5abb132"
     },
     {
+      "path": "tests/test_modal_direct_recovery.py",
+      "sha256": "46a1c72bf0b7b0d9373ae907c856bcdabbc1a8805fd68e7a699f89cb61b3c0b4"
+    },
+    {
       "path": "tests/test_modal_download_package.py",
       "sha256": "8a02fbff039ddd7522b267295fd764834430281d2fb370f191aa020584330f93"
     },
     {
       "path": "tests/test_modal_download_provider.py",
-      "sha256": "57545de296ace3d572b800969c6b1eb23ef157a70a7a0affbfe2b9f02e72e7cd"
+      "sha256": "88eecbc7b7e99b6dfbc87b75f95226e754116c7dd2528d0004a067405edefd41"
     },
     {
       "path": "tests/test_modal_driver.py",
@@ -8463,7 +8491,7 @@
     },
     {
       "path": "tools/direct_storage_service.py",
-      "sha256": "0fc56610c91f75dc49c9db85a2d050559bc607f850c035fc0cd33327c62a7157"
+      "sha256": "51240ac83f04673f98c308962ecfa8375aa7a23637746d76e2f8e4b32f0f33fc"
     },
     {
       "path": "tools/install_m3_evidence.py",
@@ -8520,18 +8548,6 @@
     {
       "path": "transitional_debt.yaml",
       "sha256": "1c27ffb1aec0c6d7d101f10bfc40332e4994fa4d2bb8856a4afc31cd4ecbd62d"
-    },
-    {
-      "path": "docs/DIRECT_INPUT_CONTINUATION.md",
-      "sha256": "4393a6bb57ab06c9fd50afd7bb24752f950eddb06ab85626f5b38423376ab0b4"
-    },
-    {
-      "path": "orchestrator/modal_direct_continuation.py",
-      "sha256": "72b86bba79be1d0c22235288be8f28f6329dc649a1777c057adc9531198b45de"
-    },
-    {
-      "path": "tests/test_direct_storage_continuation.py",
-      "sha256": "975491de7c4069253e3ae446995d463046eb7efd23a38e6f1ddf354f8d354e0d"
     }
   ],
   "publication_overrides": []

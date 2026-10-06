@@ -28,9 +28,10 @@ def host_check(path):
     from orchestrator.manual_host_guard import trusted
     from tools.manual_promotion import manifest_check
     path=trusted(Path(path));config=read(path)
-    if set(config)-{'prepared_from'}!={'schema','source','release','installation_record','installation_sha256',
+    if set(config)-{'prepared_from','recovery_from'}!={'schema','source','release','installation_record','installation_sha256',
                      'package','package_manifest_sha256','batch_ledger','state','provider','units'}:
         raise ValueError('DIRECT_STORAGE_CONFIG_FIELDS')
+    if 'prepared_from' in config and 'recovery_from' in config:raise ValueError('DIRECT_INSTALL_ONE_CONTINUATION')
     if config['schema']!='direct-development-storage/v1':raise ValueError('DIRECT_STORAGE_SCHEMA')
     install=trusted(Path(config['installation_record'])/'installed.json')
     if digest(install.read_bytes())!=config['installation_sha256']:raise ValueError('DIRECT_STORAGE_INSTALL_CHANGED')
@@ -58,6 +59,9 @@ def host_check(path):
     if 'prepared_from' in config:
         from orchestrator.modal_direct_continuation import predecessor
         predecessor(config)
+    if 'recovery_from' in config:
+        from orchestrator.modal_direct_recovery import preflight
+        preflight(config)
     package.verify(config['package'],config['package_manifest_sha256'])
     return config,{'status':'PASS','source':config['source'],'config_sha256':digest(path.read_bytes()),
                    'installation_sha256':config['installation_sha256'],'timer':timers[0]}
@@ -78,6 +82,10 @@ def tick(config,provider,accounts,*,host_proof,now=None):
     with lock(state/'tick.lock'):
         private_records.check(state/'tick.lock')
         manifest=package.verify(config['package'],config['package_manifest_sha256'])
+        recovery=None
+        if 'recovery_from' in config:
+            from orchestrator import modal_direct_recovery as linked
+            recovery=linked.parent(accounts,config)
         bind_path=state/'binding.json'
         if 'prepared_from' in config and not bind_path.is_file():
             raise ValueError('DIRECT_CONTINUATION_BINDING_MISSING')
@@ -93,6 +101,9 @@ def tick(config,provider,accounts,*,host_proof,now=None):
                 'package_manifest_sha256':config['package_manifest_sha256'],
                 'installed_config_sha256':host_proof['config_sha256'],
                 'asset_expires_utc':(now+timedelta(days=30)).isoformat()}
+            if recovery is not None:
+                binding.update(run_id=recovery['binding']['run_id'],asset_expires_utc=recovery['binding']['asset_expires_utc'],recovery=config['recovery_from'])
+                linked.check_child(binding,recovery)
             write_once(state/'initial-billing.json',canonical(view))
             write_once(bind_path,canonical(binding))
         binding=read(bind_path);ident=digest(canonical(binding))
@@ -103,6 +114,7 @@ def tick(config,provider,accounts,*,host_proof,now=None):
         elif (binding['source']!=config['source'] or binding['package_manifest_sha256']!=config['package_manifest_sha256'] or
                 binding['installed_config_sha256']!=host_proof['config_sha256']):
             raise ValueError('DIRECT_STORAGE_EXISTING_BINDING_CHANGED')
+        if recovery is not None:linked.check_child(binding,recovery)
         if now>=datetime.fromisoformat(binding['asset_expires_utc']):
             from orchestrator.modal_direct_retention import expire
             return expire(provider,accounts,binding,config['package'],state,now=now)
@@ -110,9 +122,10 @@ def tick(config,provider,accounts,*,host_proof,now=None):
         if row is None:
             owner={'purpose':budget.PURPOSE,'authority_sha256':budget.AUTHORITY,'source':binding['source'],
                    'binding_sha256':ident,'no_scientific_allowance':True}
-            accounts.batch.register_run(binding['run_id'],owner)
+            if recovery is None:accounts.batch.register_run(binding['run_id'],owner)
+            else:linked.live_empty(provider,recovery)
             snapshot = provider.billing_snapshot()
-            if not budget.reserve(accounts,ident,binding['run_id'],binding,billing_snapshot=snapshot,now=clock()):
+            if not budget.reserve(accounts,ident,binding['run_id'],binding,billing_snapshot=snapshot,now=clock(),recovery=config if recovery is not None else None):
                 raise ValueError('DIRECT_STORAGE_RESERVATION_RACE')
             row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(ident,)).fetchone()
         if row['binding']!=canonical(binding).decode():raise ValueError('DIRECT_STORAGE_LEDGER_BINDING')
@@ -133,6 +146,7 @@ def tick(config,provider,accounts,*,host_proof,now=None):
         if result['status']=='VERIFIED':
             result={**result,'binding_sha256':ident,'source':config['source'],'asset_expires_utc':binding['asset_expires_utc'],
                     'data_volume_id':handle['data_volume_id'],'package_volume_id':handle['package_volume_id']}
+            if recovery is not None:result['recovery_of']=linked.PARENT
             write_once(state/'VERIFIED.json',canonical(result))
             accounts.finish_assets(ident,'READY',result)
             accounts.batch.complete_run(binding['run_id'],result)

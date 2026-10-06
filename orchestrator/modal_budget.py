@@ -61,7 +61,9 @@ class ComputeAccounts:
             if self.db.execute("SELECT 1 FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN')").fetchone():raise ValueError('BATCH_UNCERTAIN_OR_RUNNING_CALL')
             if self.db.execute("SELECT 1 FROM autonomy_compute WHERE status NOT IN ('COLLECTED','ACCOUNTED')").fetchone():raise ValueError('ONE_ACTIVE_OR_UNCERTAIN_GPU_EXECUTION')
             assets=self.db.execute('SELECT * FROM autonomy_assets').fetchall()
-            if any(x['status']!='READY' for x in assets):raise ValueError('MODAL_UNCERTAIN_ASSET_PREPARATION')
+            from orchestrator.modal_direct_recovery import resolved_failure_ids
+            resolved=resolved_failure_ids(self,root=self.batch.filesystem_root)
+            if any(x['status']!='READY' and x['id'] not in resolved for x in assets):raise ValueError('MODAL_UNCERTAIN_ASSET_PREPARATION')
             rows=self.db.execute('SELECT * FROM autonomy_compute').fetchall()
             asset_total=sum(x['reserved_micro_usd'] for x in assets)
             run_assets=sum(x['reserved_micro_usd'] for x in assets if x['run']==run)
@@ -99,7 +101,9 @@ class ComputeAccounts:
             if self.db.execute('SELECT 1 FROM autonomy_assets WHERE run=?',(run,)).fetchone():raise ValueError('ONE_ASSET_PREPARATION_PER_RUN')
             if self.db.execute("SELECT 1 FROM autonomy_compute WHERE status NOT IN ('COLLECTED','ACCOUNTED')").fetchone():raise ValueError('ONE_ACTIVE_OR_UNCERTAIN_GPU_EXECUTION')
             assets=self.db.execute('SELECT * FROM autonomy_assets').fetchall()
-            if any(x['status']!='READY' for x in assets):raise ValueError('MODAL_UNCERTAIN_ASSET_PREPARATION')
+            from orchestrator.modal_direct_recovery import resolved_failure_ids
+            resolved=resolved_failure_ids(self,root=self.batch.filesystem_root)
+            if any(x['status']!='READY' and x['id'] not in resolved for x in assets):raise ValueError('MODAL_UNCERTAIN_ASSET_PREPARATION')
             compute=self.db.execute('SELECT * FROM autonomy_compute').fetchall()
             total=sum(x['reserved_micro_usd'] for x in assets)+sum(max(x['reserved_micro_usd'],x['actual_micro_usd'] or 0) for x in compute)
             run_total=sum(max(x['reserved_micro_usd'],x['actual_micro_usd'] or 0) for x in compute if x['run']==run)

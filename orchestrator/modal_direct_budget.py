@@ -41,7 +41,7 @@ def envelope(download_bytes,rates):
             'registry_headroom_micro_usd':1000000,'receipt_egress_bound_bytes':4*1024**2}
 
 
-def reserve(accounts,ident,run,binding,*,billing_snapshot,now=None):
+def reserve(accounts,ident,run,binding,*,billing_snapshot,now=None,recovery=None):
     now=now or datetime.now(timezone.utc)
     expected=envelope(binding.get('download_bytes'),billing_snapshot['rates'])
     if (binding.get('purpose')!=PURPOSE or binding.get('authority_sha256')!=AUTHORITY or
@@ -66,11 +66,18 @@ def reserve(accounts,ident,run,binding,*,billing_snapshot,now=None):
         closed=closed_ids(accounts.batch,run,root=accounts.batch.filesystem_root)
         pending=db.execute("SELECT * FROM autonomy_calls WHERE status IN ('RUNNING','UNCERTAIN')").fetchall()
         if any(x['id'] not in closed for x in pending):raise ValueError('BATCH_UNCERTAIN_OR_RUNNING_CALL')
+        predecessor_id=None
+        if recovery is not None:
+            from orchestrator import modal_direct_recovery as linked
+            proof=linked.parent(accounts,recovery,root=accounts.batch.filesystem_root)
+            linked.check_child(binding,proof)
+            predecessor_id=linked.PARENT
+        elif 'recovery' in binding:raise ValueError('DIRECT_RECOVERY_SELECTION_REQUIRED')
         assets=db.execute('SELECT * FROM autonomy_assets').fetchall()
         compute=db.execute('SELECT * FROM autonomy_compute').fetchall()
-        if any(x['status']!='READY' for x in assets):raise ValueError('MODAL_UNCERTAIN_ASSET_PREPARATION')
+        if any(x['status']!='READY' and x['id']!=predecessor_id for x in assets):raise ValueError('MODAL_UNCERTAIN_ASSET_PREPARATION')
         if any(x['status'] not in ('COLLECTED','ACCOUNTED') for x in compute):raise ValueError('MODAL_ACTIVE_OR_UNCERTAIN_COMPUTE')
-        if any(selected_asset(x) for x in assets):raise ValueError('DIRECT_ASSET_ALREADY_PREPARED_NO_NEW_RESERVATION')
+        if any(selected_asset(x) and x['id']!=predecessor_id for x in assets):raise ValueError('DIRECT_ASSET_ALREADY_PREPARED_NO_NEW_RESERVATION')
         item_compute=[x for x in compute if json.loads(x['binding']).get('experiment',{}).get('authority_sha256')==AUTHORITY]
         old_assets=sum(x['reserved_micro_usd'] for x in assets if selected_asset(x))
         total=old_assets+sum(max(x['reserved_micro_usd'],x['actual_micro_usd'] or 0) for x in item_compute)

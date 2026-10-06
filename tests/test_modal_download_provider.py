@@ -96,7 +96,7 @@ def complete(f,handle):
 
 def test_provider_is_bound_cpu_only_and_no_credentials(fixture):
     f=fixture;handle=launch(f);args,kw=f.calls[-1][1:]
-    assert args==('/opt/conda/bin/python','-I','-S','-B','/reviewed/run.py',f.binding['package_manifest_sha256'],'all')
+    assert args==('/usr/bin/python3','-I','-S','-B','/reviewed/run.py',f.binding['package_manifest_sha256'],'all')
     assert kw['gpu'] is None and kw['cpu']==(1,1) and kw['memory']==(2048,2048) and kw['timeout']==21600
     assert kw['secrets']==[] and kw['env']=={} and kw['include_oidc_identity_token'] is False
     assert kw['outbound_cidr_allowlist']==[] and kw['outbound_domain_allowlist']==list(route.DOMAINS)
