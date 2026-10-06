@@ -79,8 +79,8 @@ def install(root,config):
     state=config['state'];safe(state)
     if not state.startswith('/var/lib/research-system-manual-sprint10/direct-inputs/'):
         raise ValueError('DIRECT_INSTALL_STATE_SCOPE')
-    if state!=('/var/lib/research-system-manual-sprint10/direct-inputs/'+source):raise ValueError('DIRECT_INSTALL_STATE_BINDING')
-    if set(config)!={'schema','source','release','installation_record','installation_sha256','package',
+    if 'prepared_from' not in config and state!=('/var/lib/research-system-manual-sprint10/direct-inputs/'+source):raise ValueError('DIRECT_INSTALL_STATE_BINDING')
+    if set(config)-{'prepared_from'}!={'schema','source','release','installation_record','installation_sha256','package',
                      'package_manifest_sha256','batch_ledger','state','provider'}:
         raise ValueError('DIRECT_INSTALL_CONFIG_FIELDS')
     if config['schema']!='direct-development-storage/v1':raise ValueError('DIRECT_INSTALL_SCHEMA')
@@ -100,7 +100,12 @@ def install(root,config):
     service,timer=rendered(config,config_path)
     values=dict(zip(services,(service,timer)))
     final={**config,'units':{n:{'sha256':hashlib.sha256(v).hexdigest()} for n,v in values.items()}}
-    destinations=[at(directory),at(state),*[at('/etc/systemd/system/'+n) for n in values]]
+    continuation=None
+    if 'prepared_from' in config:
+        from orchestrator.modal_direct_continuation import preflight
+        continuation=preflight(config,root=root)
+    destinations=[at(directory),*[at('/etc/systemd/system/'+n) for n in values]]
+    if continuation is None:destinations.append(at(state))
     if any(p.exists() for p in destinations):raise ValueError('DIRECT_INSTALL_DESTINATION_EXISTS')
     # Every path and complete source/package pin has passed before any write.
     def mkdir(p,owner=False):
@@ -115,13 +120,15 @@ def install(root,config):
         if live:os.chown(p,0,1003);os.chmod(p,0o440)
         from orchestrator.private_records import check
         check(p)
-    mkdir(at(directory));mkdir(at(state),owner=True)
+    mkdir(at(directory))
+    if continuation is None:mkdir(at(state),owner=True)
     for name,raw in values.items():write(at('/etc/systemd/system/'+name),raw)
     write(at(config_path),canonical(final))
     hashes={str(p.relative_to(root)):{'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'mode':stat.S_IMODE(p.stat().st_mode)}
             for p in [at(config_path),*[at('/etc/systemd/system/'+n) for n in values]]}
     result={'source':source,'config':config_path,'state':state,'files':hashes,
-            'units':list(values),'installed_disabled':True,'systemctl_operations':0}
+            'units':list(values),'installed_disabled':True,'systemctl_operations':0,
+            'preparation_continuation':continuation}
     write(at(directory+'/installation.json'),canonical(result))
     for name,item in hashes.items():
         p=root/name

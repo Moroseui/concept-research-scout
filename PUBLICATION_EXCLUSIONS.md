@@ -878,3 +878,9 @@ All imaging, per-patient QC, native streams, captures, ledgers, private records 
 - `tools/install_modal_transition.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `tools/manual_promotion.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `tools/private_checkout.py`: PUBLICATION_TYPE_REJECTED
+
+
+## Installed retrieval correction 8b7c9c4a6630307f2172bc661240bbfc8cf3a302
+
+Private ancestry and all raw records remain excluded. Changed files withheld by the scans:
+- tests/test_modal_direct_storage.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH

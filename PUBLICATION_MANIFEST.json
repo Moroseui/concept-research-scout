@@ -1,6 +1,6 @@
 {
   "schema": "sanitized-public-snapshot/v1",
-  "installed_source": "a029f66b488cca9586dfed46cafc70e5285cdd5a",
+  "installed_source": "8b7c9c4a6630307f2172bc661240bbfc8cf3a302",
   "not_deployable": true,
   "outputs": [
     {
@@ -6211,7 +6211,7 @@
     },
     {
       "path": "orchestrator/modal_direct_storage.py",
-      "sha256": "24785360b1f6bb1a402fafb56839d2b92d15f14e03a5d1902e6ec6d0085049f5"
+      "sha256": "c50801c786da07a698cc4d6f8e31edaa69c498ef0ea7d985ccbcbbaf45f31f31"
     },
     {
       "path": "orchestrator/modal_download_package.py",
@@ -8463,7 +8463,7 @@
     },
     {
       "path": "tools/direct_storage_service.py",
-      "sha256": "d2e306a9e28088f87e3d32f68f733c9352021a0a5a1bec58f2e380eb5788d98b"
+      "sha256": "0fc56610c91f75dc49c9db85a2d050559bc607f850c035fc0cd33327c62a7157"
     },
     {
       "path": "tools/install_m3_evidence.py",
@@ -8520,6 +8520,18 @@
     {
       "path": "transitional_debt.yaml",
       "sha256": "1c27ffb1aec0c6d7d101f10bfc40332e4994fa4d2bb8856a4afc31cd4ecbd62d"
+    },
+    {
+      "path": "docs/DIRECT_INPUT_CONTINUATION.md",
+      "sha256": "4393a6bb57ab06c9fd50afd7bb24752f950eddb06ab85626f5b38423376ab0b4"
+    },
+    {
+      "path": "orchestrator/modal_direct_continuation.py",
+      "sha256": "72b86bba79be1d0c22235288be8f28f6329dc649a1777c057adc9531198b45de"
+    },
+    {
+      "path": "tests/test_direct_storage_continuation.py",
+      "sha256": "975491de7c4069253e3ae446995d463046eb7efd23a38e6f1ddf354f8d354e0d"
     }
   ],
   "publication_overrides": []

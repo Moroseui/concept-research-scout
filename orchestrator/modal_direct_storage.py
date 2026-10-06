@@ -28,7 +28,7 @@ def host_check(path):
     from orchestrator.manual_host_guard import trusted
     from tools.manual_promotion import manifest_check
     path=trusted(Path(path));config=read(path)
-    if set(config)!={'schema','source','release','installation_record','installation_sha256',
+    if set(config)-{'prepared_from'}!={'schema','source','release','installation_record','installation_sha256',
                      'package','package_manifest_sha256','batch_ledger','state','provider','units'}:
         raise ValueError('DIRECT_STORAGE_CONFIG_FIELDS')
     if config['schema']!='direct-development-storage/v1':raise ValueError('DIRECT_STORAGE_SCHEMA')
@@ -55,6 +55,9 @@ def host_check(path):
     observed=subprocess.check_output(['/usr/bin/systemctl','show',services[0],'--property='+','.join(props)],text=True)
     if dict(line.split('=',1) for line in observed.splitlines() if '=' in line)!=props:
         raise ValueError('DIRECT_STORAGE_SERVICE_RESTRICTIONS')
+    if 'prepared_from' in config:
+        from orchestrator.modal_direct_continuation import predecessor
+        predecessor(config)
     package.verify(config['package'],config['package_manifest_sha256'])
     return config,{'status':'PASS','source':config['source'],'config_sha256':digest(path.read_bytes()),
                    'installation_sha256':config['installation_sha256'],'timer':timers[0]}
@@ -63,7 +66,11 @@ def host_check(path):
 @private_records.private_umask
 def tick(config,provider,accounts,*,host_proof,now=None):
     """Deterministic controller; injected provider is the only external boundary."""
-    now=now or utc();state=Path(config['state'])
+    # A live billing query occurs after the tick starts. Compare its timestamp
+    # with a fresh local clock AFTER the response, not the earlier tick time.
+    # Explicit now remains a fixed clock only for deterministic callers/tests.
+    clock = (lambda: now) if now is not None else utc
+    now=clock();state=Path(config['state'])
     private_records.check(state)
     if (host_proof.get('status')!='PASS' or host_proof.get('source')!=config['source'] or
             host_proof.get('installation_sha256')!=config['installation_sha256']):
@@ -72,6 +79,8 @@ def tick(config,provider,accounts,*,host_proof,now=None):
         private_records.check(state/'tick.lock')
         manifest=package.verify(config['package'],config['package_manifest_sha256'])
         bind_path=state/'binding.json'
+        if 'prepared_from' in config and not bind_path.is_file():
+            raise ValueError('DIRECT_CONTINUATION_BINDING_MISSING')
         if not bind_path.exists():
             if (accounts.batch.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
             view=read(state/'initial-billing.json') if (state/'initial-billing.json').exists() else provider.billing_snapshot()
@@ -87,7 +96,11 @@ def tick(config,provider,accounts,*,host_proof,now=None):
             write_once(state/'initial-billing.json',canonical(view))
             write_once(bind_path,canonical(binding))
         binding=read(bind_path);ident=digest(canonical(binding))
-        if (binding['source']!=config['source'] or binding['package_manifest_sha256']!=config['package_manifest_sha256'] or
+        if 'prepared_from' in config:
+            from orchestrator.modal_direct_continuation import predecessor,check_binding
+            old=predecessor(config)
+            check_binding(config,old,binding,bind_path.read_bytes())
+        elif (binding['source']!=config['source'] or binding['package_manifest_sha256']!=config['package_manifest_sha256'] or
                 binding['installed_config_sha256']!=host_proof['config_sha256']):
             raise ValueError('DIRECT_STORAGE_EXISTING_BINDING_CHANGED')
         if now>=datetime.fromisoformat(binding['asset_expires_utc']):
@@ -95,10 +108,11 @@ def tick(config,provider,accounts,*,host_proof,now=None):
             return expire(provider,accounts,binding,config['package'],state,now=now)
         row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(ident,)).fetchone()
         if row is None:
-            owner={'purpose':budget.PURPOSE,'authority_sha256':budget.AUTHORITY,'source':config['source'],
+            owner={'purpose':budget.PURPOSE,'authority_sha256':budget.AUTHORITY,'source':binding['source'],
                    'binding_sha256':ident,'no_scientific_allowance':True}
             accounts.batch.register_run(binding['run_id'],owner)
-            if not budget.reserve(accounts,ident,binding['run_id'],binding,billing_snapshot=provider.billing_snapshot(),now=now):
+            snapshot = provider.billing_snapshot()
+            if not budget.reserve(accounts,ident,binding['run_id'],binding,billing_snapshot=snapshot,now=clock()):
                 raise ValueError('DIRECT_STORAGE_RESERVATION_RACE')
             row=accounts.db.execute('SELECT * FROM autonomy_assets WHERE id=?',(ident,)).fetchone()
         if row['binding']!=canonical(binding).decode():raise ValueError('DIRECT_STORAGE_LEDGER_BINDING')
