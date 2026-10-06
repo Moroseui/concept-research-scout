@@ -17,3 +17,24 @@ The dedicated author login requires operator renewal before scientific author ca
 ## Publication scope
 
 This checkpoint includes the three changed installed source/test files and the genuine structured implementation review. Private histories, raw streams, evidence records, credentials, infrastructure details and patient-level content remain excluded. No main-branch merge.
+
+## Dispatch connection checkpoint
+
+The private implementation draft now connects the experiment driver's reviewed
+package to the existing fit executor: preparation, upload, accounted submission
+and repeated observation. Runtime selection must match the frozen fit list and
+exact reviewed package. Unknown status does not resubmit a fit; completion moves
+to collection, not acceptance.
+
+Draft source: 98b68acbfe2c40309e108ffcec15228fd69a0343. Final focused regression:
+395 passed, six native-only skips. The actual internal seal-to-driver-to-package
+test found a missing parent-directory creation, which was fixed in the draft;
+the original failed test remains preserved. This draft is not installed or yet
+independently reviewed. Preprocessing, runtime provisioning, health/resume,
+collection/validation and interpretation/reporting connections remain unfinished.
+
+The installed retrieval correction's full suites are still running under the
+same verified invocation. A bounded watcher will enable the single authorized
+download recovery only after their completion and final invariant checks. No
+new experiment, GPU work, scientific call or paid job ran in this checkpoint.
+Author-login renewal remains an outstanding operator action; engineering continues.
