@@ -897,4 +897,4 @@ Latest checkpoint: `astra/m4-scoped-revisions-20261005` at `72ac1c11211414f92ce7
 
 ## Installed notebook release d3ec9259
 
-The refreshed scan includes 1,996 source files and excludes 875. The additional omitted source records are docs/ITEM2_NOTEBOOK_AUTHORITY.txt and docs/ITEM2_NOTEBOOK_CHECKPOINT.json because they contain private infrastructure references. All earlier exclusion categories remain unchanged. The complete hash-bound exclusion inventory is preserved privately.
+The refreshed scan includes 1,996 source files and excludes 875. The two additional exclusions are orchestrator/notebook_synthetic.py (infrastructure paths) and tests/test_notebook_revision.py (case-shaped and secret-shaped test fixtures). The authority and checkpoint source documents passed scanning and are included. This corrects the preceding local documentation commit; the scanner inventory itself was correct. All earlier exclusion categories remain unchanged. The complete hash-bound exclusion inventory is preserved privately.
