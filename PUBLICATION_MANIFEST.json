@@ -306,6 +306,70 @@
       "public_sha256": "6537c39a6aee36d2e3eee142aa05d6f585a923e33dcd85c4e39fbd574988c511",
       "status": "byte-exact",
       "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/notebook-diff.md",
+      "origin": "author3-and-controller/13B-diff-3.patch",
+      "original_sha256": "a67bb73a24409fae1277087c282d1f6b89a951a3563fb172b501d5441cb68435",
+      "public_sha256": "57710938b5c85e8641b336ea7100ae0343b6924fa33a6eace092818bf671daad",
+      "status": "full byte-preserved diff in Markdown wrapper",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/13B-execution-conditions-3.json",
+      "origin": "author3-and-controller/13B-execution-conditions-3.json",
+      "original_sha256": "077b82acb5d028c1c645e9598e6abd4c472f6bce6027708752cb24362cd2d6d2",
+      "public_sha256": "077b82acb5d028c1c645e9598e6abd4c472f6bce6027708752cb24362cd2d6d2",
+      "status": "byte-exact unreviewed candidate",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/13B-patch-3.json",
+      "origin": "author3-and-controller/13B-patch-3.json",
+      "original_sha256": "9d9a7d64a6ff125f550f2796c835f9f7c6f216e740f665cf2149dac351038492",
+      "public_sha256": "9d9a7d64a6ff125f550f2796c835f9f7c6f216e740f665cf2149dac351038492",
+      "status": "byte-exact unreviewed candidate",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/13B-provenance-3.json",
+      "origin": "author3-and-controller/13B-provenance-3.json",
+      "original_sha256": "2c2a241b17d18c5430e2a8d9e27fcae48b4f4ec34bd121a9b0d617b138d88f82",
+      "public_sha256": "2c2a241b17d18c5430e2a8d9e27fcae48b4f4ec34bd121a9b0d617b138d88f82",
+      "status": "byte-exact unreviewed candidate",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/13B-tests-3.json",
+      "origin": "author3-and-controller/13B-tests-3.json",
+      "original_sha256": "b2a5ce6ae645ab2d91f8c388b8f525f6bc7214f58adf2b5659e72820a546adf3",
+      "public_sha256": "b2a5ce6ae645ab2d91f8c388b8f525f6bc7214f58adf2b5659e72820a546adf3",
+      "status": "byte-exact unreviewed candidate",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/ANALYSIS-SPEC-3.md",
+      "origin": "author3-and-controller/ANALYSIS-SPEC-3.md",
+      "original_sha256": "9de9e42208fe2bbf41b15230dccaf7738da70ab27978612b157b9f9fc0a24478",
+      "public_sha256": "9de9e42208fe2bbf41b15230dccaf7738da70ab27978612b157b9f9fc0a24478",
+      "status": "byte-exact unreviewed candidate",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/revised-13B-3.ipynb",
+      "origin": "author3-and-controller/revised-13B-3.ipynb",
+      "original_sha256": "9e62bec160153ae605d0e4f5a3121977256fbc08e5a25a9421279a127c169a46",
+      "public_sha256": "9e62bec160153ae605d0e4f5a3121977256fbc08e5a25a9421279a127c169a46",
+      "status": "byte-exact unreviewed candidate",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/sprint13-proposal/round-3/STATUS.md",
+      "origin": "controller-checkpoint",
+      "original_sha256": "f47276c5fcfeafde5947237ed876cc8ffa3ea1f09178075dbf4ec5ef78857093",
+      "public_sha256": "f47276c5fcfeafde5947237ed876cc8ffa3ea1f09178075dbf4ec5ef78857093",
+      "status": "byte-exact",
+      "redacted_lines": []
     }
   ],
   "source_included": [
