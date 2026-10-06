@@ -28,7 +28,10 @@ def linked(controlled,monkeypatch):
     old_binding=read(f.state/'binding.json');parent=digest(canonical(old_binding));monkeypatch.setattr(recovery,'PARENT',parent)
     original_state=f.state;original_config=copy.deepcopy(f.config)
     handle=read(f.state/'provider/sandbox.json');failed=read(f.state/'FAILED.json')
-    old_sb=f.sandbox;old_sb.stdout=NS(read=lambda:'');old_sb.stderr=NS(read=lambda:recovery.ERROR)
+    old_sb=f.sandbox
+    old_sb.log_entries=[NS(object_id=handle['provider_id'],source='stderr',message=recovery.ERROR,
+        timestamp=recovery.datetime(2026,10,6,11,tzinfo=recovery.timezone.utc))]
+    old_sb.logs=NS(fetch=lambda **kw:iter(old_sb.log_entries))
     f.sandbox=NS(object_id='sb-second',poll=lambda:None)
     original_create=f.provider.modal.Sandbox.create
     def create(*a,**kw):original_create(*a,**kw);return f.sandbox
@@ -87,7 +90,7 @@ def test_predecessor_drift_never_reserves_or_creates(linked,fault):
     elif fault=='receipt':f.batch.db.execute("UPDATE autonomy_assets SET receipt='{}'")
     elif fault=='owner':f.batch.db.execute("UPDATE autonomy_runs SET binding='{}'")
     elif fault=='provider-live':f.old_sb.poll=lambda:None
-    elif fault=='logs':f.old_sb.stderr.read=lambda:'different failure'
+    elif fault=='logs':f.old_sb.log_entries[0].message='different failure'
     else:
         v=f.volumes[f.parent_result['handle']['data_volume_id']];pr.write_bytes(v.root/'unexpected',b'x')
     before=[tuple(x) for x in f.batch.db.execute('SELECT * FROM autonomy_assets')]

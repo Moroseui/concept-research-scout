@@ -6,6 +6,7 @@ cannot authorize scientific calls or another recovery of a recovery.
 """
 from pathlib import Path
 import json
+from datetime import datetime, timezone
 from orchestrator import private_records as pr
 from orchestrator.manual_executor import digest, read
 from orchestrator.modal_executor import canonical
@@ -110,10 +111,28 @@ def preflight(config, *, root=Path('/')):
 def live_empty(provider, result):
     h=result['handle'];sb=provider._sandbox(h['provider_id'])
     if sb.poll()!=2:raise ValueError('DIRECT_RECOVERY_PROVIDER_NOT_TERMINAL')
-    if sb.stdout.read()!='' or sb.stderr.read()!=ERROR:
+    # Live stdio is served by the container's command router and can disappear
+    # after termination. Query archived entrypoint logs with the same pinned SDK.
+    # This recovery is scoped to PARENT's exact 2026-10-06 incident, not a generic
+    # retry path. Keep the preserved proof and require the full fresh streams to
+    # match it exactly; unavailable, incomplete or changed evidence still refuses.
+    since = datetime(2026, 10, 6, tzinfo=timezone.utc)
+    until = datetime.now(timezone.utc)
+    streams = {'stdout': [], 'stderr': []}
+    total = 0
+    for entry in sb.logs.fetch(since=since, until=until):
+        if (entry.object_id != h['provider_id'] or entry.source not in {'stdout', 'stderr', 'system'}
+                or not isinstance(entry.timestamp, datetime) or entry.timestamp.tzinfo is None
+                or not since <= entry.timestamp <= until or not isinstance(entry.message, str)):
+            raise ValueError('DIRECT_RECOVERY_LOG_BINDING')
+        total += len(entry.message.encode('utf-8'))
+        if total > 1024 * 1024: raise ValueError('DIRECT_RECOVERY_LOG_SIZE')
+        if entry.source in streams: streams[entry.source].append(entry.message)
+    if ''.join(streams['stdout'])!='' or ''.join(streams['stderr'])!=ERROR:
         raise ValueError('DIRECT_RECOVERY_PROVIDER_PROOF_CHANGED')
     if list(provider._volume(h['data_volume_id']).listdir('/',recursive=True)):
         raise ValueError('DIRECT_RECOVERY_ORIGINAL_VOLUME_NOT_EMPTY')
+    if sb.poll()!=2:raise ValueError('DIRECT_RECOVERY_PROVIDER_NOT_TERMINAL')
     return True
 
 

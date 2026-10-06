@@ -1,0 +1,12 @@
+{
+  "installed_full_suites": "RUNNING",
+  "review_sha256": "3988ec2ba143c283f52028f342040349e5cd90191380b2ef932df6d913bdc61b",
+  "source": "2d0de4e1a6cfef8d3d657ef6df24796a7a052d7e",
+  "source_files": {
+    "orchestrator/modal_direct_recovery.py": "f50f02affbbf5e03c7434e09f12b60ceba3e28ac75bef4ca0b00fa0be11cf638",
+    "tests/test_modal_direct_recovery.py": "29d8f4dff71e53f9a90e7f7704df402c6c7fbb8ebd6efae399e3a84191e05557",
+    "tests/test_recovery_archived_logs.py": "ea5e4744cde20f76b7dd158cbaade5b5de8c0f9ed329e9942bffc78eaf5128ad"
+  },
+  "status": "HELD_INSTALLED",
+  "tag": "research-manual-sprint10-recovery-logapi-2d0de4e1"
+}
