@@ -1,0 +1,7 @@
+# Staged execution checkpoint
+
+The private execution draft now supports append-only runtime selections for already-reviewed fits. Each fit names its preprocessing dependency, so a completed prerequisite can support an independent fit while unrelated coverage work remains pending. Earlier selections cannot be replaced. Completed aggregate returns collect through the existing validation and accounting path while other fits run. Partial selection is never final scientific acceptance.
+
+The production change passed 1,053 portable tests and 31 subtests, with 11 platform or permission skips. Native-root wave tests passed all 17 checks after correcting a synthetic second-runtime fixture. The Ubuntu native dependency tests passed all 48 checks using the existing pinned Python tool package; no host package or production isolation change was needed. Full server suites are now running. Original failed test records remain preserved, and the candidate is unreviewed and uninstalled.
+
+Next: connect the genuine GPU benchmark and measured full-run projection to the existing admission gates, finish source/dependency provisioning, then complete independent review and deployment. Existing smoke and total dollar caps remain unchanged. No new model calls, paid jobs, GPU fits or directions diagnostics ran in this change. The previously verified development downloads and external notebook evidence remain preserved.
