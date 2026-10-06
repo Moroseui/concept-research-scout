@@ -12,12 +12,13 @@ import tempfile
 import yaml
 
 
-CHECK_WORKFLOW_SHA256 = "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648"
+CHECK_WORKFLOW_SHA256 = "9b19ca01a07fc4e7fed50a089b3aeaa17925b0afe2bb361616d9da989db6cf85"
 
 def workflow_policy(root):
     from scripts.render_human_workflows import verify as verify_controls
     result = verify_controls(root)
-    # Retain the pre-amendment deterministic-CI boundaries as well as the controls.
+    # Bind the operator-approved backup-branch exclusion and Python3.12 update;
+    # retain all deterministic-CI permission and publication boundaries.
     path = Path(root) / '.github/workflows/check.yml'
     if path.is_symlink() or hashlib.sha256(path.read_bytes()).hexdigest() != CHECK_WORKFLOW_SHA256:
         raise ValueError('deterministic CI differs from reviewed bytes')

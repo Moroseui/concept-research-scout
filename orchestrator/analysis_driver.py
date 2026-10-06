@@ -32,12 +32,13 @@ def bound_file(root, ref):
 def verify_plan(plan):
     fields = {'schema', 'context', 'context_files', 'backlog', 'backlog_binding', 'operator',
               'item_number', 'item_sha256', 'private_intake', 'idea_ids', 'artifacts', 'batch_ledger'}
-    if isinstance(plan,dict) and plan.get('item_number')==2:
+    if isinstance(plan,dict) and plan.get('item_number') in (2,5):
         fields=fields|{'accepted_stocktake'}
-        if 'notebook_revision' in plan: fields=fields|{'notebook_revision'}
+        if plan['item_number']==5: fields=fields|{'directions'}
+        elif 'notebook_revision' in plan: fields=fields|{'notebook_revision'}
     if not isinstance(plan, dict) or set(plan) != fields or plan['schema'] != 'stocktake-analysis/v1':
         raise ValueError('ANALYSIS_PLAN_FIELDS')
-    scopes={1:'sprints-stocktake',2:'sprint13-proposal'}
+    scopes={1:'sprints-stocktake',2:'sprint13-proposal',5:'research-directions'}
     if (type(plan['item_number']) is not int or plan['item_number'] not in scopes
             or not isinstance(plan['idea_ids'],list) or not plan['idea_ids']
             or plan['idea_ids'][0]!=scopes[plan['item_number']]):
@@ -51,10 +52,10 @@ def verify_plan(plan):
         validate_config(root, plan['notebook_revision'])
     raw = bound_file(root, plan['backlog'])
     authority = bound_file(root, plan['operator'])
-    if plan['item_number']==2:
+    if plan['item_number'] in (2,5):
         from orchestrator.completed_run import AUTHORITY,RUN
         accepted=plan['accepted_stocktake']
-        if set(accepted)!={'run_id','report','operator_review'} or accepted['run_id']!=RUN or digest(authority)!=AUTHORITY:
+        if set(accepted)!={'run_id','report','operator_review'} or accepted['run_id']!=RUN or (plan['item_number']==2 and digest(authority)!=AUTHORITY):
             raise ValueError('ITEM2_OPERATOR_RELEASE_REQUIRED')
         report=bound_file(root,accepted['report'])
         review=json.loads(bound_file(root,accepted['operator_review']))
@@ -62,13 +63,16 @@ def verify_plan(plan):
                 or review.get('accepted_report_sha256')!=digest(report)):
             raise ValueError('ITEM2_ACCEPTED_STOCKTAKE_REQUIRED')
 
+    if plan['item_number']==5:
+        from orchestrator.directions_analysis import validate_plan
+        validate_plan(plan)
     binding = json.loads(bound_file(root, plan['backlog_binding']))
     backlog = autonomy_backlog.load(raw, binding, authority)
-    item = autonomy_backlog.require_item(backlog, plan['item_number'], plan['item_sha256'], 'analysis', completed_items=(1,) if plan['item_number'] == 2 else ())
+    item = autonomy_backlog.require_item(backlog, plan['item_number'], plan['item_sha256'], 'analysis', completed_items=(1,2,3) if plan['item_number']==5 else (1,) if plan['item_number'] == 2 else ())
     # Validate actual views and ordinary artifacts before any owner or allowance
     # record is created. Workspace materialization happens only after preflight.
     load_views(root, plan['private_intake'], stage='run_spec_author', idea_ids=plan['idea_ids'])
-    if plan['item_number']==2:
+    if plan['item_number'] in (2,5):
         registry=json.loads(bound_file(root,plan['private_intake']))
         for row in registry['views']:
             manifest=json.loads(bound_file(root,{'path':row['manifest'],'sha256':row['manifest_sha256']}))
@@ -77,7 +81,7 @@ def verify_plan(plan):
     for artifact in plan['artifacts']:
         bound_file(root, {k: artifact[k] for k in ('path', 'sha256')})
     manual_context.selected_artifacts('run_spec_author', plan['artifacts'])
-    if plan['item_number'] == 2:
+    if plan['item_number'] in (2,5):
         require_stocktake_delivery(plan['artifacts'], plan['accepted_stocktake']['report'])
     context_budget.load(root)
     return backlog, item
@@ -152,7 +156,7 @@ def initialize(root, state, engine_review, plan_path):
     backlog, item = verify_plan(plan)
     if plan.get("notebook_revision"):
         raise ValueError("NOTEBOOK_SCOPE_USES_SAME_RUN_CONTINUATION_ONLY")
-    if item.number==2:
+    if item.number in (2,5):
         from orchestrator.completed_run import validate as completed
         if completed() is None: raise ValueError('ITEM2_COMPLETED_RUN_CLOSURE_REQUIRED')
 
@@ -163,6 +167,9 @@ def initialize(root, state, engine_review, plan_path):
     clients = manual_stage.preflight()
     run_id = 'stocktake-' + digest((backlog.sha256 + ':' + item.sha256).encode())[:24]
     batch = BatchAccounts(plan['batch_ledger'])
+    if item.number==5:
+        from orchestrator.directions_analysis import require_item2_complete
+        require_item2_complete(batch, Path(plan['context']), plan['directions'])
     if batch.db.execute('SELECT 1 FROM autonomy_runs WHERE id=?', (run_id,)).fetchone():
         raise ValueError('EXISTING_ANALYSIS_OWNER_NO_NEW_ALLOWANCE')
     if (batch.folder/'HALT').exists():
@@ -199,14 +206,15 @@ def initialize(root, state, engine_review, plan_path):
               'backlog': plan['backlog'], 'backlog_binding': plan['backlog_binding'], 'operator': plan['operator'],
               'item_number': item.number, 'item_sha256': item.sha256,
               'workspace_root': str(state.parent/(state.name+'-scientific-workspaces'))}
-    if item.number==2:
+    if item.number in (2,5):
         from orchestrator.analysis_revisions import POLICY
         config.update(review_contract='bound-review/v1',accepted_stocktake=plan['accepted_stocktake'],revision_policy=POLICY)
+    if item.number==5: config['directions']=plan['directions']
     atomic(state/'lane.json', config)
     store.db.execute('INSERT INTO manual_state VALUES(1,?)', (json.dumps({'phase': STAGES[0], 'rounds': {},
         'artifacts': plan['artifacts'], 'interventions': []}),))
     store.db.close()
-    return {'status': 'READY', 'run_id': run_id, 'next': STAGES[0], 'calls_used': 0, 'call_limit': 16 if item.number==2 else 8}
+    return {'status': 'READY', 'run_id': run_id, 'next': STAGES[0], 'calls_used': 0, 'call_limit': 16 if item.number in (2,5) else 8}
 
 
 class AnalysisDriver(Driver):
@@ -236,14 +244,20 @@ class AnalysisDriver(Driver):
         backlog = autonomy_backlog.load(bound_file(self.context, self.config['backlog']),
             json.loads(bound_file(self.context, self.config['backlog_binding'])), bound_file(self.context, self.config['operator']))
         autonomy_backlog.require_item(backlog, self.config['item_number'], self.config['item_sha256'], 'analysis',
-            completed_items=(1,) if self.config['item_number'] == 2 else ())
+            completed_items=(1,2,3) if self.config['item_number']==5 else (1,) if self.config['item_number'] == 2 else ())
         if self.config.get('notebook_revision'):
             from orchestrator.notebook_revision import validate_config
             if self.config['notebook_revision'] != plan.get('notebook_revision'):
                 raise ValueError('NOTEBOOK_REVISION_PLAN_CHANGED')
             validate_config(self.context,self.config['notebook_revision'])
         load_views(self.context, self.config['private_intake'], stage='run_spec_author', idea_ids=self.config['idea_ids'])
-        if self.config['item_number']==2:
+        if self.config['item_number']==5:
+            from orchestrator.directions_analysis import validate_plan, require_item2_complete
+            if self.config.get('directions')!=plan['directions']:
+                raise ValueError('DIRECTIONS_CONFIGURATION_CHANGED')
+            validate_plan({**plan, 'context': str(self.context)})
+            require_item2_complete(self.store.batch, self.context, self.config['directions'])
+        if self.config['item_number'] in (2,5):
             from orchestrator.completed_run import validate as completed
             if (self.config.get('review_contract')!='bound-review/v1' or
                     self.config.get('accepted_stocktake')!=plan['accepted_stocktake'] or completed() is None):
@@ -255,6 +269,14 @@ class AnalysisDriver(Driver):
 
 
     def task(self, stage, value):
+        if self.config['item_number']==5:
+            from orchestrator.directions_analysis import instructions
+            from orchestrator.analysis_revisions import instructions as revisions
+            text=instructions(stage)+revisions(self.store,self.config['run_id'])
+            if stage.startswith('run_spec'):
+                text+=('Write/review independent directions in SPEC.proposed.md, at most12000characters. Exact binding lines:\nrun_id: '
+                    +self.config['run_id']+'\nanalysis_registry_sha256: '+self.config['private_intake']['sha256']+'\n')
+            return text
         if self.config['item_number']==2:
             text=('Analysis-only next-steps proposal using the operator-reviewed stock-take and Sprint13 plan/code. '
                 '13A is operator-run; do not schedule or rerun it. Use only its supplied, registered aggregate outputs. '
@@ -309,16 +331,24 @@ class AnalysisDriver(Driver):
         return super().output_names(stage) + (("notebook.patch.json",) if self.config.get("notebook_revision") and stage=="run_spec_author" else ())
 
     def prepare_input(self, value, stage, work):
-        if self.config['item_number'] == 2:
+        if self.config['item_number'] in (2,5):
             require_stocktake_delivery(value['artifacts'], self.config['accepted_stocktake']['report'])
         if self.config.get("notebook_revision"):
             from orchestrator.cpu_isolation import verify_environment
             verify_environment(self.config["notebook_revision"]["environment"])
-        return manual_context.prepare(self.context, stage=stage, idea_ids=self.config['idea_ids'],
-            task=self.task(stage, value), artifacts=value['artifacts'], workspace=work, private_intake=self.config['private_intake'],
+        intake=self.config['private_intake']
+        if self.config['item_number']==5:
+            from orchestrator.directions_analysis import registry
+            intake=registry(self,value,stage)
+        result=manual_context.prepare(self.context, stage=stage, idea_ids=self.config['idea_ids'],
+            task=self.task(stage, value), artifacts=value['artifacts'], workspace=work, private_intake=intake,
             structured_review=self.config.get('review_contract')=='bound-review/v1',
-            reference_prior_results=self.config['item_number']==2,
+            reference_prior_results=self.config['item_number'] in (2,5),
             notebook_patch=bool(self.config.get('notebook_revision')) and stage=='run_spec_author')
+        if self.config['item_number']==5:
+            from orchestrator.directions_analysis import check_delivery
+            check_delivery(self,stage,*result,work)
+        return result
 
     def _accept_completed(self, value):
         pending = value['pending']
@@ -394,11 +424,18 @@ class AnalysisDriver(Driver):
                     if len(matches)!=1: raise ValueError('NOTEBOOK_ACCEPTED_ARTIFACT_REQUIRED:'+typ)
                     write_once(target/name,bound_file(self.context,{k:matches[0][k] for k in ('path','sha256')}))
             self._commit(target, 'Record reviewed stock-take analysis specification')
+            intake=self.config['private_intake']
+            if self.config['item_number']==5:
+                from orchestrator.directions_analysis import phase1_receipt
+                value['spec_commit']=git(self.root, 'rev-parse', 'HEAD')
+                proof=phase1_receipt(self,value)
+                write_once(self.state/'independent-directions.json', json.dumps(proof,sort_keys=True).encode())
+                intake=self.config['directions']['phase2_intake']
             # This validates delivery identities, not scientific truth or a new
             # computation. It cannot be confused with a CPU/GPU execution receipt.
-            views, _ = load_views(self.context, self.config['private_intake'], stage='result_interpretation_author', idea_ids=self.config['idea_ids'])
+            views, _ = load_views(self.context, intake, stage='result_interpretation_author', idea_ids=self.config['idea_ids'])
             validation = {'status': 'VALID', 'kind': 'SAVED_EVIDENCE_IDENTITY_ONLY',
-                          'registry_sha256': self.config['private_intake']['sha256'], 'views': views,
+                          'registry_sha256': intake['sha256'], 'views': views,
                           'scientific_acceptance': False, 'execution_performed': False}
             atomic(self.state/'validation.json', validation)
             self.artifact(value, 'validation_result', 'intake-validation.json', json.dumps(validation, sort_keys=True).encode(), 1)
@@ -410,7 +447,11 @@ class AnalysisDriver(Driver):
             target = self.acceptance_path('interpretation')
             record = {'run_id': self.config['run_id'], 'source': self.config['source'],
                       'registry_sha256': self.config['private_intake']['sha256'], 'operator_review_pending': True,
-                      'meaning': ('Independently reviewed Sprint13 next-steps proposal; 13A remains operator-run; no experiment or successor authorized.' if self.config['item_number']==2 else 'Independently reviewed stock-take analysis; original external execution attribution and limitations retained. No new experiment or successor authorized.')}
+                      'meaning': ('Independently reviewed two-phase research directions; operator comparison follows preserved independent directions. No experiment authorized.' if self.config['item_number']==5 else 'Independently reviewed Sprint13 next-steps proposal; 13A remains operator-run; no experiment or successor authorized.' if self.config['item_number']==2 else 'Independently reviewed stock-take analysis; original external execution attribution and limitations retained. No new experiment or successor authorized.')}
+            if self.config['item_number']==5:
+                from orchestrator.directions_analysis import registry, phase1_receipt
+                record['registry_sha256']=registry(self,value,'result_interpretation_review')['sha256']
+                record['independent_phase1']=phase1_receipt(self,value)
             for name, key in [('interpretation.md', 'interpretation'), ('review.json', 'review'), ('investigator_next_decision.json', 'next_decision')]:
                 raw = Path(value[key]).read_bytes(); write_once(target/name, raw); record[name+'_sha256'] = digest(raw)
             for artifact in value['artifacts']:
@@ -418,7 +459,7 @@ class AnalysisDriver(Driver):
                     write_once(target/Path(artifact['path']).name, bound_file(self.context, {k: artifact[k] for k in ('path', 'sha256')}))
             write_once(target/'record.json', json.dumps(record, sort_keys=True).encode())
             state = self.root/PROFILE/'STATE.md'
-            addition = ('\n\n## Sprint13 proposal awaiting operator review\n' if self.config['item_number']==2 else '\n\n## Stock-take awaiting operator review\n')+record['meaning']+'\nRecord: '+str((target/'record.json').relative_to(self.root))+' SHA256 '+digest((target/'record.json').read_bytes())+'\n'
+            addition = ('\n\n## Research directions awaiting operator review\n' if self.config['item_number']==5 else '\n\n## Sprint13 proposal awaiting operator review\n' if self.config['item_number']==2 else '\n\n## Stock-take awaiting operator review\n')+record['meaning']+'\nRecord: '+str((target/'record.json').relative_to(self.root))+' SHA256 '+digest((target/'record.json').read_bytes())+'\n'
             # Start with the prepared current state (including already completed
             # M3), not the implementation checkout's older seed snapshot.
             body = (self.context/PROFILE/'STATE.md').read_text()
@@ -435,7 +476,7 @@ class AnalysisDriver(Driver):
             if phase == 'REPORT':
                 receipts = [json.loads(r['receipt']) for r in self.store.db.execute('SELECT receipt FROM manual_calls')]
                 elapsed = (datetime.now(timezone.utc)-datetime.fromisoformat(self.config['started_utc'])).total_seconds()
-                body = ('# Sprint13 proposal ready for operator review\n\n' if self.config['item_number']==2 else '# Stock-take ready for operator review\n\n')+Path(value['interpretation']).read_text()
+                body = ('# Research directions ready for operator review\n\n' if self.config['item_number']==5 else '# Sprint13 proposal ready for operator review\n\n' if self.config['item_number']==2 else '# Stock-take ready for operator review\n\n')+Path(value['interpretation']).read_text()
                 body += ('\n\n## Run record\nAnalysis plus a new notebook copy and isolated synthetic CPU tests only; no real-data notebook, GPU or Modal execution. ' if self.config.get('notebook_revision') else '\n\n## Run record\nAnalysis only; no notebook, CPU or GPU execution. ') + 'Operator review is required before any next backlog item.\n'
                 body += f'Calls: {len(receipts)}/{self.status()['call_limit']}; elapsed seconds: {elapsed:.1f}; rounds: '+json.dumps(value['rounds'])+'.\n'
                 body += '\n| Stage | Input characters | Outcome |\n| --- | ---: | --- |\n'

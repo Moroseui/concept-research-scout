@@ -24,6 +24,10 @@ def selected_run_limit(config, run):
     if config.get('run_id') != run:
         raise ValueError('LIMIT_RUN_BINDING')
     item = config.get('item_number')
+    if type(item) is int and item == 5 and config.get('backend') == 'analysis':
+        from orchestrator.directions_analysis import authority as directions_authority
+        directions_authority()
+        return 16
     if type(item) is int and item == 2 and config.get('backend') == 'analysis':
         return 16
     if type(item) is int and item in (3, 4) and config.get('backend') in ('cpu', 'modal'):

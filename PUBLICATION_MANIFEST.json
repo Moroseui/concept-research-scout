@@ -1,6 +1,6 @@
 {
   "schema": "sanitized-public-snapshot/v1",
-  "installed_source": "d3ec9259a0b19bd1e20ed3d63ed4968fd38038f1",
+  "installed_source": "0fe6a0007ff50fdfc43cd070572974fa2ddedf47",
   "not_deployable": true,
   "outputs": [
     {
@@ -410,6 +410,22 @@
       "public_sha256": "85e35788d6ef682446df6e1a35c79f5a11f50e06c9ccb5162255ae1f6ee8ef06",
       "status": "controller summary",
       "redacted_lines": []
+    },
+    {
+      "output": "outputs/implementation-reviews/directions-completed-predecessor-review.json",
+      "origin": "directions-completed-predecessor-review",
+      "original_sha256": "7e1eee6b6d5c4bd5778335d5dd4098ede6e628b4c1c8c8c67507f21b01a0ad82",
+      "public_sha256": "7e1eee6b6d5c4bd5778335d5dd4098ede6e628b4c1c8c8c67507f21b01a0ad82",
+      "status": "byte-exact",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/checkpoints/directions-held-20261006.md",
+      "origin": "directions-held-checkpoint",
+      "original_sha256": "688d37ef6539c19d7a8d2b2e615f24e7336a4416a07eb3bee4adbcb89a039468",
+      "public_sha256": "688d37ef6539c19d7a8d2b2e615f24e7336a4416a07eb3bee4adbcb89a039468",
+      "status": "new aggregate status",
+      "redacted_lines": []
     }
   ],
   "source_included": [
@@ -419,7 +435,7 @@
     },
     {
       "path": ".github/workflows/check.yml",
-      "sha256": "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648"
+      "sha256": "9b19ca01a07fc4e7fed50a089b3aeaa17925b0afe2bb361616d9da989db6cf85"
     },
     {
       "path": ".github/workflows/confer.yml",
@@ -471,7 +487,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "2c0309421367954b0b0d45f1ecefb04534f0209dccb4d70419303520aa48d2d7"
+      "sha256": "0cd55bb860ab3032ce95dfdb205b2c229c14cb0ef575fbb29aa0b5e01b2a31cf"
     },
     {
       "path": "campaigns/isles24-pilot/CAMPAIGN.md",
@@ -1078,6 +1094,10 @@
       "sha256": "0f31280ed7d9fda442e6b1d2fdc9c5c589643365e3f9e5096a5674b0cd60a248"
     },
     {
+      "path": "docs/DIRECTIONS_OPERATOR_DECISION.txt",
+      "sha256": "b00e7a398e77e67ae2e23d877a072e8be6981984acc08c4059c0063114f71b97"
+    },
+    {
       "path": "docs/HANDOFF_TO_CLAUDE.md",
       "sha256": "1dcda984e03e8d85d8fc8b2444f4174d04d0cf9e3c1d8b0ac43ea6b2f3233a52"
     },
@@ -1092,6 +1112,10 @@
     {
       "path": "docs/ITEM2_REVISION_CHECKPOINT.json",
       "sha256": "248ccca5690f4fcb8bdbc8d0bb1082f219a652c310377ba78c82ceee2937e768"
+    },
+    {
+      "path": "docs/ITEM5_PROMOTION_CONNECTION.md",
+      "sha256": "978fd0c718dee8c67e22f883b2e38011e1557f6b18a4067931ddd725217804a0"
     },
     {
       "path": "docs/LIMIT_OPERATOR_DECISION.txt",
@@ -5807,7 +5831,7 @@
     },
     {
       "path": "orchestrator/analysis_driver.py",
-      "sha256": "aec0133e66f88011a0fc3fc3fb609c88fbcc3c60ebf4efc20b0ce3cbc9b6f3ed"
+      "sha256": "a93d191344a46cab8688e29719c3085705b4f3b72155572e43ca499861af3669"
     },
     {
       "path": "orchestrator/analysis_revision_transition.py",
@@ -5815,7 +5839,7 @@
     },
     {
       "path": "orchestrator/analysis_revisions.py",
-      "sha256": "b67773bcff5957c3b5bad06852d6aba8cbaac498f861e6ba302e1ad9eaf01652"
+      "sha256": "e1771fc7e218c306b518adc975497a0f52ce190e2147d967cf4f2478637e228c"
     },
     {
       "path": "orchestrator/archive_preserve.py",
@@ -5835,7 +5859,7 @@
     },
     {
       "path": "orchestrator/autonomy_limits.py",
-      "sha256": "a7b72024176487cb0e19c3ce44e8dead4d297f75e03199c044430442a43288ad"
+      "sha256": "f2c900c7b3ec16f798e33df53bdbc01633ec856baa7d52c22c6e6623a60dbcd7"
     },
     {
       "path": "orchestrator/autonomy_review.py",
@@ -5920,6 +5944,10 @@
     {
       "path": "orchestrator/deployment_review.py",
       "sha256": "8fa3bced3522b4a0b4ffc22c649cb346948ed8f5429e88014e8baf22ec8314fc"
+    },
+    {
+      "path": "orchestrator/directions_analysis.py",
+      "sha256": "7984f115fca719765cb80ba82661abe960c0aaf9abcd35cfe8898bfdf8c2ccac"
     },
     {
       "path": "orchestrator/dispatch_limiter.py",
@@ -6163,7 +6191,7 @@
     },
     {
       "path": "orchestrator/notebook_revision_transition.py",
-      "sha256": "61264bb4018ad0461f4c87a204c52668007968f00ab646d5c63c1f49948de8e2"
+      "sha256": "91849140b5cb622a97a530901b844659ddb6bda54d1653afeafece08f86a67e1"
     },
     {
       "path": "orchestrator/notebook_synthetic_harness.py",
@@ -6447,7 +6475,7 @@
     },
     {
       "path": "orchestrator/scientific_intake.py",
-      "sha256": "5c0f550f13e36ae0a05f91a4b5e205a49b8bfcc76932ccc5c1951df7d360768c"
+      "sha256": "1d60211b5907bd61728ccc489acabcf0f27325c7895268030d4ba02e767c0a92"
     },
     {
       "path": "orchestrator/scientific_job_inputs.py",
@@ -7115,7 +7143,7 @@
     },
     {
       "path": "scripts/render_human_workflows.py",
-      "sha256": "c2e8b5ab68a3e4b77300ce0a78a2757f58de1849a1e5a47caacf11c6e77889ed"
+      "sha256": "ae6f15ded275405f493556a47a265662500b23d184e921e28e60d13e0ca75e2c"
     },
     {
       "path": "scripts/repair_charter_ledger_v2.py",
@@ -7143,7 +7171,7 @@
     },
     {
       "path": "scripts/verify_main_integration.py",
-      "sha256": "44dffb6048db4bbe1d3dd5cc8724055e3a7ef7dd56a46e08c1ea8c232a8c2dea"
+      "sha256": "f0c44126e2175299bd1cc75c9ddd326e7cfb60555d0f9d1c08fa1d81433c4e8b"
     },
     {
       "path": "scripts/verify_protected_intake.py",
@@ -7418,6 +7446,10 @@
       "sha256": "25256b0681e345bc041d392bffdcdada68548efef0d8a68c4769a7845e3b12c8"
     },
     {
+      "path": "tests/test_completed_notebook_promotion.py",
+      "sha256": "75e0e05a25ed4789ba5c36e2c9d197b96a965a2958fe85c0df8f0c3a73763f97"
+    },
+    {
       "path": "tests/test_completed_run.py",
       "sha256": "d24d4258f979d0fcedeb67bd0beff512690b3d1b3710d6816981330e6248f64b"
     },
@@ -7520,6 +7552,10 @@
     {
       "path": "tests/test_deployment_review.py",
       "sha256": "a42e2bfa6d183a2fbaa560f7b7efa266d6f1b7c3b25118206cbd008fe7195606"
+    },
+    {
+      "path": "tests/test_directions_analysis.py",
+      "sha256": "afee0bcee81911de7ebf30ea9344c336db81e6000de38bf38599049958665263"
     },
     {
       "path": "tests/test_dispatch_limiter.py",
@@ -7667,7 +7703,7 @@
     },
     {
       "path": "tests/test_human_controls.py",
-      "sha256": "4dc7702781f179399d1cf968ed3e18a299be2f09d877178fc3cb9dc6b036255d"
+      "sha256": "ed2bd9ac4610852425e156ddc74515737342261f72f71b2cd5b3825ac91a06b6"
     },
     {
       "path": "tests/test_implementation_host_read.py",
@@ -8398,18 +8434,5 @@
       "sha256": "1c27ffb1aec0c6d7d101f10bfc40332e4994fa4d2bb8856a4afc31cd4ecbd62d"
     }
   ],
-  "publication_overrides": [
-    {
-      "path": ".github/workflows/check.yml",
-      "installed_sha256": "363ae27a48575aa4105860aa76f4239cb2baec8a9e5e28bd1dce58e0efb3b648",
-      "public_sha256": "9b19ca01a07fc4e7fed50a089b3aeaa17925b0afe2bb361616d9da989db6cf85",
-      "reason": "Operator-requested snapshot push exclusion and Python3.12 minimum; server observed3.12.3; no installed runtime change"
-    },
-    {
-      "path": "README.md",
-      "installed_sha256": "2c0309421367954b0b0d45f1ecefb04534f0209dccb4d70419303520aa48d2d7",
-      "public_sha256": "0cd55bb860ab3032ce95dfdb205b2c229c14cb0ef575fbb29aa0b5e01b2a31cf",
-      "reason": "Operator-requested snapshot push exclusion and Python3.12 minimum; server observed3.12.3; no installed runtime change"
-    }
-  ]
+  "publication_overrides": []
 }

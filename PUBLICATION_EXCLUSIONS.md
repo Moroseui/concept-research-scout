@@ -1,6 +1,7 @@
 # Publication exclusions
 
-Source exclusions below are relative paths only; no excluded contents are included.
+875 release/output files excluded. Private ancestry remains withheld.
+All imaging, per-patient QC, native streams, captures, ledgers, private records and caches remain private.
 
 - `.gitattributes`: PUBLICATION_PATH_REJECTED
 - `.gitignore`: PUBLICATION_PATH_REJECTED
@@ -713,6 +714,7 @@ Source exclusions below are relative paths only; no excluded contents are includ
 - `orchestrator/manual_isolation.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `orchestrator/manual_runtime.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `orchestrator/manual_stage.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `orchestrator/notebook_synthetic.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `orchestrator/p001_native_setup.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `orchestrator/private_records.py`: PUBLICATION_TYPE_REJECTED
 - `portfolio/ideas.csv`: PUBLICATION_TYPE_REJECTED
@@ -862,6 +864,7 @@ Source exclusions below are relative paths only; no excluded contents are includ
 - `tests/test_manual_release.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `tests/test_mcp_review_pipeline.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `tests/test_modal_runtime_schema.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- `tests/test_notebook_revision.py`: CASE_LEVEL_RECORD_REJECTED, SECRET_SHAPED_CONTENT
 - `tests/test_operations_report.py`: CASE_LEVEL_RECORD_REJECTED
 - `tests/test_p001_native_launch.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `tests/test_private_git.py`: EXCLUDED_RECORD_PATH
@@ -875,26 +878,3 @@ Source exclusions below are relative paths only; no excluded contents are includ
 - `tools/install_modal_transition.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `tools/manual_promotion.py`: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - `tools/private_checkout.py`: PUBLICATION_TYPE_REJECTED
-
-## Requested outputs
-
-- `outputs/sprint13a/sprint13a_methods.csv`: PUBLICATION_TYPE_REJECTED
-- `outputs/sprint13a/sprint13a_paired.csv`: PUBLICATION_TYPE_REJECTED
-- `outputs/sprint13a/sprint13a_complementarity.csv`: PUBLICATION_TYPE_REJECTED
-- `outputs/sprint13a/sprint13a_tuned_choices.csv`: PUBLICATION_TYPE_REJECTED
-- `outputs/sprint13a/sprint13a_precision_recall.png`: PUBLICATION_TYPE_REJECTED
-- `outputs/sprint13a/sprint13a_dice_tree_vs_nnunet.png`: PUBLICATION_TYPE_REJECTED
-
-## Later stop update
-
-- All twelve discovered astra/m4-* branches remain private. Four histories were fully scanned; the others have excluded-file witnesses.
-- `outputs/sprint13-proposal/DECISION_REQUEST.md`: private server artifact path replaced with a labelled placeholder; reason and call identity unchanged.
-- Native evidence, submission internals and accounting records remain private.
-
-
-Latest checkpoint: `astra/m4-scoped-revisions-20261005` at `72ac1c11211414f92ce730d2ae8879c53efe23f8` is withheld because its reachable ancestry includes previously flagged private material. No claim is made that its full history is clean. Test logs, fixture bundles, ledger records and account-usage metadata are not public outputs.
-
-
-## Installed notebook release d3ec9259
-
-The refreshed scan includes 1,996 source files and excludes 875. The two additional exclusions are orchestrator/notebook_synthetic.py (infrastructure paths) and tests/test_notebook_revision.py (case-shaped and secret-shaped test fixtures). The authority and checkpoint source documents passed scanning and are included. This corrects the preceding local documentation commit; the scanner inventory itself was correct. All earlier exclusion categories remain unchanged. The complete hash-bound exclusion inventory is preserved privately.

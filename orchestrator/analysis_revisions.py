@@ -15,12 +15,15 @@ def enabled(store,run):
     config=json.loads(path.read_bytes())
     if 'revision_policy' not in config:return False
     if (config['revision_policy']!=POLICY or config.get('backend')!='analysis'
-            or config.get('item_number')!=2 or config.get('run_id')!=run
+            or config.get('item_number') not in (2,5) or config.get('run_id')!=run
             or config.get('review_contract')!='bound-review/v1'):
         raise ValueError('ANALYSIS_REVISION_POLICY_SCOPE')
     authority=Path(config['root'])/DOCUMENT
     if authority.is_symlink() or hashlib.sha256(authority.read_bytes()).hexdigest()!=AUTHORITY:
         raise ValueError('ANALYSIS_REVISION_AUTHORITY_CHANGED')
+    if config['item_number']==5:
+        from orchestrator.directions_analysis import authority
+        authority(config['root'])
     return True
 
 
@@ -57,6 +60,10 @@ def instructions(store,run,*,notebook_revision=False):
         'If completing this analysis itself requires scope beyond item2, reject with that '
         'specific reason. No patient work, GPU/Modal job or experiment is authorized. ')
 
+    config=json.loads((Path(store.path).parent/'lane.json').read_bytes())
+    if config['item_number']==5:
+        text=text.replace('item2','item5').replace('Item2','Item5')
+        text += 'Item5 allowance16 is separately authorized by docs/DIRECTIONS_OPERATOR_DECISION.txt. Preserve Phase1 before operator-idea reveal. '
     if notebook_revision:
         text=text.replace('Address future experiment defects with concrete proposed corrections and explicit execution holds; do not claim the executable was fixed, tested or approved.', 'Revise the actual notebook copy and cite controller-produced synthetic evidence; retain unfulfilled real-execution conditions for item4.')
     return text

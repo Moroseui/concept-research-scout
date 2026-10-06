@@ -84,6 +84,25 @@ class HumanControlsTests(unittest.TestCase):
             p=root/'.github/workflows/confer.yml';p.write_text(p.read_text().replace('contents: read','contents: write'))
             with self.assertRaises(ValueError):verify(root)
 
+    def test_checks_exclude_only_backup_pushes_and_keep_read_only_permissions(self):
+        import yaml
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            shutil.copytree(h.ROOT/'.github/workflows', root/'.github/workflows')
+            path = root/'.github/workflows/check.yml'
+            original = yaml.safe_load(path.read_text())
+            event_key = 'on' if 'on' in original else True
+            self.assertEqual(original[event_key], {'push': {'branches-ignore': ['remote-server']}, 'pull_request': None})
+            self.assertEqual(verify(root)['destination'], 'actions-artifact')
+            for events in [ ['push', 'pull_request'], {'push': {'branches-ignore': ['remote-server', 'main']}, 'pull_request': None}, {'push': {'branches-ignore': ['remote-server']}} ]:
+                changed = {**original, event_key: events}
+                path.write_text(yaml.safe_dump(changed))
+                with self.assertRaisesRegex(ValueError, 'permissions or triggers changed'):
+                    verify(root)
+            path.write_text(yaml.safe_dump({**original, 'permissions': {'contents': 'write'}}))
+            with self.assertRaisesRegex(ValueError, 'permissions or triggers changed'):
+                verify(root)
+
     def test_model_secrets_are_only_consumed_by_reviewed_main_environment_job(self):
         docs=documents();reusable=docs['research-control.yml'];jobs=reusable['jobs']
         self.assertNotIn('secrets',reusable['on']['workflow_call'])

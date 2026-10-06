@@ -205,7 +205,7 @@ def load_views(root, registry_ref, *, stage, idea_ids):
     """Called by manual_context before workspace delivery on every invocation.
 
     The registry hash is a protected, reviewed configuration binding. Neither
-    the model nor a notebook may supply it. Only the two authorized analysis
+    the model nor a notebook may supply it. Only the authorized analysis
     tasks and their author/reviewer stages can consume this route.
     """
     if stage not in STAGES:
@@ -220,7 +220,7 @@ def load_views(root, registry_ref, *, stage, idea_ids):
             or registry['schema'] != 'private-scientific-intake/v1'
             or registry['decision_sha256'] != DECISION_SHA256
             or registry['operator_sha256'] != OPERATOR_SHA256
-            or registry['task'] not in {'sprints-stocktake', 'sprint13-proposal'}
+            or registry['task'] not in {'sprints-stocktake', 'sprint13-proposal', 'research-directions'}
             or not isinstance(registry['idea_ids'], list) or not registry['idea_ids']
             or registry['idea_ids'][0] != registry['task']
             or any(not isinstance(x, str) or not x for x in registry['idea_ids'])

@@ -78,6 +78,77 @@ def preserved_predecessors(host):
     return [bound(host,p['old_state']),bound(host,ancestor['old_state'])]
 
 
+def completed_predecessors(host):
+    """Read-only closure of the exact two frozen generations after acceptance.
+
+    This is a promotion-only connection. It grants no scientific admission,
+    migration, new allowance or changed historical outcome.
+    """
+    from orchestrator import analysis_revision_transition as earlier
+    from tools.deploy_manual_lane import system
+    host=Path(host).resolve();p=checkpoint();ancestor=earlier.checkpoint()
+    ledger=bound(host,'/var/lib/research-system-autonomy/reviews/jobs.sqlite')
+    if not ledger.exists():return set()
+    with connect(ledger) as db:
+        row=db.execute('SELECT job,payload FROM events WHERE id=?',(KEY,)).fetchone()
+        if row is None:return set()
+        run=db.execute('SELECT status FROM autonomy_runs WHERE id=?',(p['run_id'],)).fetchone()
+        if run is None or run['status']!='COMPLETE':return set()
+        binding=json.loads(row['payload'])
+        if row['job']!=p['run_id']:raise ValueError('NOTEBOOK_CLOSURE_EVENT_RUN')
+        accepted=db.execute('SELECT job,payload FROM events WHERE id=?',(p['run_id']+':accepted',)).fetchone()
+        if accepted is None or accepted['job']!=p['run_id']:
+            raise ValueError('NOTEBOOK_CLOSURE_ACCEPTANCE_REQUIRED')
+        acceptance=json.loads(accepted['payload'])
+        global_calls=[dict(x) for x in db.execute('SELECT * FROM autonomy_calls WHERE change_id=?',(p['run_id'],))]
+        prior_event=db.execute('SELECT job,payload FROM events WHERE id=?',(earlier.KEY,)).fetchone()
+    # These existing verifiers bind every predecessor row, original review,
+    # context, owner, hold and plan. Completion changes only the owner status.
+    before,_=prior(host,completed=True);earlier.prior(host,completed=True)
+    if (before.get('revision_continuation')!=earlier.KEY or ancestor['run_id']!=p['run_id']
+            or ancestor['old_state']==p['old_state']):
+        raise ValueError('NOTEBOOK_PREDECESSOR_CHAIN_CHANGED')
+    state_name=binding.get('state','')
+    if (not state_name.startswith('/var/lib/research-system-manual-sprint10/releases/')
+            or not state_name.endswith('/lane') or '..' in Path(state_name).parts):
+        raise ValueError('NOTEBOOK_CLOSURE_DESTINATION')
+    state=bound(host,state_name)
+    if state.is_symlink() or (state/'lane.json').is_symlink():raise ValueError('NOTEBOOK_CLOSURE_ALIAS')
+    config=read(state/'lane.json')
+    expected={'kind':KEY,'run_id':p['run_id'],'source':config['source'],'state':state_name,
+        'filesystem_root':'/','config_sha256':sha(config),'checkpoint_sha256':CHECKPOINT,
+        'operator_decision_sha256':AUTHORITY,'preserved_call_ids':p['call_rows'],'allowance_reset':False}
+    if (binding!=expected or read(state/'notebook-continuation.json')!=binding
+            or config.get('notebook_revision_continuation')!=KEY
+            or config.get('run_id')!=p['run_id'] or config.get('item_number')!=2):
+        raise ValueError('NOTEBOOK_CLOSURE_CONTINUATION_CHANGED')
+    predecessor=bound(host,p['old_state'])
+    if (prior_event is None or prior_event['job']!=p['run_id']
+            or json.loads(prior_event['payload'])!=read(predecessor/'revision-continuation.json')):
+        raise ValueError('NOTEBOOK_CLOSURE_PREDECESSOR_EVENT_CHANGED')
+    if digest((state/'REPORT.md').read_bytes())!=acceptance.get('report_sha256'):
+        raise ValueError('NOTEBOOK_CLOSURE_REPORT_CHANGED')
+    with connect(state/'jobs.sqlite') as db:
+        current=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
+        calls=rows(db,'manual_calls')
+    if current.get('phase')!='COMPLETE' or not calls or any(c['status']!='COMPLETE' for c in calls):
+        raise ValueError('NOTEBOOK_CLOSURE_NOT_TERMINAL')
+    if (any(c['kind']!='scientific' or c['status']!='COMPLETE' for c in global_calls)
+            or {c['id'] for c in calls}!={c['id'] for c in global_calls}
+            or not set(p['call_rows']).issubset({c['id'] for c in calls})):
+        raise ValueError('NOTEBOOK_CLOSURE_CALL_SET_CHANGED')
+    # The continuation copied these original calls without editing them.
+    with connect(predecessor/'jobs.sqlite') as db:preserved=rows(db,'manual_calls')
+    if any(row not in calls for row in preserved):raise ValueError('NOTEBOOK_CLOSURE_COPIED_CALL_CHANGED')
+    paths={bound(host,p['old_state']),bound(host,ancestor['old_state'])}
+    if state in paths:raise ValueError('NOTEBOOK_CLOSURE_DESTINATION')
+    for lane in [*paths,state]:
+        for suffix in ('.service','.timer'):
+            if system(host,'state',lane.parent.name+suffix)!={'enabled':False,'active':False}:
+                raise ValueError('NOTEBOOK_CLOSURE_UNITS_NOT_HELD')
+    return paths
+
+
 def promotion_check(host,previous,source,entrypoint,report):
     p=checkpoint();preserved=preserved_predecessors(host);autonomy_limits.authority(source)
     if (entrypoint!='analysis' or previous['source']!=p['old_source']

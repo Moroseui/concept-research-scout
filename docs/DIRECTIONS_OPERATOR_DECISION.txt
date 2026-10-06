@@ -1,0 +1,8 @@
+5. Directions review (analysis only; stop for Partho).
+   Using the accepted stock-take and the 13A results, generate and rank research directions for the ISLES'24 infarct-prediction project beyond the current Sprint 13B plan.
+   Phase 1, independent: before seeing any operator ideas, propose your own directions. For each, give the supporting and opposing evidence, the cheapest informative first test (prefer post-hoc tests on saved predictions or CPU work), the expected cost, the risks, and a recommendation.
+   Phase 2, operator idea: then judge Partho's idea, lesion-size specialist models (small/medium/large) combined by routing on predicted size or by union, against a single model trained with size-aware losses, using the same criteria. Compare it with your own directions.
+   Finish with a ranked shortlist and which one or two to test first.
+   Allowance: 16 calls. No GPU, Modal or patient-level work.
+
+It should be item 5, not 4. The "4" came from list formatting renumbering my text. Keep item 4 (Sprint 13B, not yet approved) exactly as it is. Commit the directions review as item 5, with that one number changed and the rest of the text verbatim. And yes: run item 5 after item 2 stops, keeping the sequencing hold until then.
