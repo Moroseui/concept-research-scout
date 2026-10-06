@@ -1,0 +1,28 @@
+BACKLOG item 4: Sprint 13B exhaustive screen (approved)
+
+Arms:
+
+- A1 repeat and a second A1 repeat (noise controls);
+- z-score, histogram equalization, extra windowing (multiwin);
+- the L preset, run as its own whole preset;
+- CT normalization (pnormct), with a fresh pnorm_v2 comparator run in the same environment.
+
+Keep the reviewed conjunctive verdict rule. Update the multiple-comparison family to the actual number of candidate arms, through the normal review.
+
+Window and reference choices: set the multiwin windows and the CT-normalization reference rules before any training. Base them on label-blind units and clipping checks, with no tuning on outcomes, and record the rationale.
+
+Engineering first: finish the holds (frozen split hash, authenticated perfusion coverage and loader, environment receipts) through the normal test and review path.
+
+Hardware:
+
+- Run independent fits in parallel on Modal, up to the account's concurrency limit.
+- In the smoke stage, time one real epoch on A100-80GB, H100 and B200, with enough CPU cores that data loading isn't the bottleneck.
+- Use the fastest GPU that meaningfully shortens runtime (at least 20% faster than the next-cheaper option). Never pay more for no speed gain.
+
+Budget:
+
+- Stage 1 (smoke runs for all arms, plus the GPU benchmark): hard cap $75.
+- Stage 2: if the measured projection for the full run is at or under $1,200, proceed without waiting for me and report the projection. If it's over, stop and report.
+- Hard total cap: $1,275.
+
+Item 5 (directions review) may run in parallel, since it's analysis only.

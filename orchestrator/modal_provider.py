@@ -79,6 +79,18 @@ class ModalProvider:
         # Credential values are never returned, logged, included in a manifest,
         # or passed through Sandbox secrets/env. They remain in the SDK client.
 
+    def verify_development_volume(self, volume_id, cohort_raw, source_raw, authority_raw):
+        from orchestrator.modal_development_inputs import verify_volume
+        return verify_volume(self, volume_id, cohort_raw, source_raw, authority_raw)
+
+    def billing_snapshot(self):
+        """Authenticated read-only Team billing, preserved by the caller."""
+        from orchestrator.modal_billing import capture
+        self.client.hello()
+        workspace = self.modal.Workspace.from_context(client=self.client)
+        workspace.hydrate(client=self.client)
+        return capture(workspace, self.config['workspace'])
+
     def build_registry_image(self,app,registry):
         # Supported builder selection; the pinned native implementation must
         # compose FROM only. Older builders add package-install RUN commands.

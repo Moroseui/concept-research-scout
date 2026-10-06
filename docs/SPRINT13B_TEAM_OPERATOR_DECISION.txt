@@ -1,0 +1,7 @@
+**Update for item 4:** I upgraded Modal to the Team plan.
+
+- **Limits:** usage limit $1,000 including credits (about $88 of credits this month). It auto-raises after $500 in charges. Spend limit set to about $900.
+- **Concurrency:** up to 50 GPUs at once.
+- **Billing access:** Team allows billing reports through the `modal billing` CLI and the `Workspace.billing` API. Use the actual billing data for headroom and pacing instead of estimates, and record it in receipts.
+
+The earlier interruption-safe rules (checkpoints, auto-resume, notify me when blocked) and item 4's caps still apply.

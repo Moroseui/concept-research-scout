@@ -1,6 +1,6 @@
 {
   "schema": "sanitized-public-snapshot/v1",
-  "installed_source": "0fe6a0007ff50fdfc43cd070572974fa2ddedf47",
+  "installed_source": "a029f66b488cca9586dfed46cafc70e5285cdd5a",
   "not_deployable": true,
   "outputs": [
     {
@@ -432,6 +432,14 @@
       "origin": "operator-approved-diagnostics-intake-status",
       "original_sha256": "239901a017306c6d6930ab486c7d7cf009f60d1854351fa4796e377e2271575d",
       "public_sha256": "239901a017306c6d6930ab486c7d7cf009f60d1854351fa4796e377e2271575d",
+      "status": "aggregate-status-only",
+      "redacted_lines": []
+    },
+    {
+      "output": "outputs/checkpoints/direct-retrieval-installed-20261006.md",
+      "origin": "direct-retrieval-installed-checkpoint",
+      "original_sha256": "4e12c64e7648c6eb71cd8ce3f6ff39d1a27b2d46ff86625dd1d99588ca2e92a3",
+      "public_sha256": "4e12c64e7648c6eb71cd8ce3f6ff39d1a27b2d46ff86625dd1d99588ca2e92a3",
       "status": "aggregate-status-only",
       "redacted_lines": []
     }
@@ -1208,6 +1216,22 @@
     {
       "path": "docs/SPRINT10_SMALL_FIX_BATCH.md",
       "sha256": "c8f7787ecb3e7f72e2d6aae288f12bb45ffdde9d5fc223dd6ab2c62c1cb199be"
+    },
+    {
+      "path": "docs/SPRINT13B_DIRECT_RETRIEVAL.md",
+      "sha256": "ef52cc8d5bc0e79a21402dc7cf4566a5d2f46c1d5a2d0b27506b053c872afaba"
+    },
+    {
+      "path": "docs/SPRINT13B_DIRECT_RETRIEVAL_OPERATOR_DECISION.txt",
+      "sha256": "fa23a858ca16da34b768cd0ec2dc9cd49b0228a6ec21ebbf1d4acd33dfad84ca"
+    },
+    {
+      "path": "docs/SPRINT13B_EXECUTION_OPERATOR_DECISION.txt",
+      "sha256": "a74959ac4546a982af4ae13719108f93d50bc91e264200c48afeb660fae51b59"
+    },
+    {
+      "path": "docs/SPRINT13B_TEAM_OPERATOR_DECISION.txt",
+      "sha256": "a9bb4359c8218f263ee04591211820db7886b779894b73170b4ac9495fe10fc6"
     },
     {
       "path": "docs/STANDING_AUTONOMY_CHARTER.md",
@@ -5859,7 +5883,7 @@
     },
     {
       "path": "orchestrator/autonomy_accounting.py",
-      "sha256": "51f6fbc3fd08bbd7d255f46b8fe2234fe09f73886e91374f8ba3826f99b2574e"
+      "sha256": "c13140726c46bf3b12b431bd7ee8d10a791c50ccfab5b24db1517936a58ad0cd"
     },
     {
       "path": "orchestrator/autonomy_backlog.py",
@@ -6158,12 +6182,44 @@
       "sha256": "05fa85f217d148e27354c5e9a68ea34e673ae8ea010e22d742704c8840e3d0af"
     },
     {
+      "path": "orchestrator/modal_billing.py",
+      "sha256": "8553e2f9fdedfdb968659a915227e329125d0ac3e3d731c9286f9577689b4849"
+    },
+    {
       "path": "orchestrator/modal_budget.py",
       "sha256": "c956680693a9606301d6abd50230d0578ad22e801c0b3db9e8d892613ab3196f"
     },
     {
       "path": "orchestrator/modal_cleanup.py",
       "sha256": "fc0b26415f54ebf46e414d8c1c39bff0ae5f58347bd8492d762c7a78baa1f330"
+    },
+    {
+      "path": "orchestrator/modal_ctp_download.py",
+      "sha256": "9fb1aa7d5f8ca6792dafe1dee6a206cced37b8c7c070731813476e63400f3a14"
+    },
+    {
+      "path": "orchestrator/modal_development_inputs.py",
+      "sha256": "91a9b039102713be07e965d7a4b71c5f1fe7815657d20734e4a03cd5186f8463"
+    },
+    {
+      "path": "orchestrator/modal_direct_budget.py",
+      "sha256": "137be98d30f66e04d4afcc033b8b299f71854957d566241bdbf59be7255c3e45"
+    },
+    {
+      "path": "orchestrator/modal_direct_retention.py",
+      "sha256": "b28e26ed9de89a567d6b8ead0bb9fdd5cddfa854db82ddb4da9eb1013ad41de5"
+    },
+    {
+      "path": "orchestrator/modal_direct_storage.py",
+      "sha256": "24785360b1f6bb1a402fafb56839d2b92d15f14e03a5d1902e6ec6d0085049f5"
+    },
+    {
+      "path": "orchestrator/modal_download_package.py",
+      "sha256": "4d6c975c130bd4159609bb5534d22b6034f1699fa0525574e4d7e98664771237"
+    },
+    {
+      "path": "orchestrator/modal_download_provider.py",
+      "sha256": "a7a4890f6e372ddf6b75343329f216433a2597b0f55baa35839ba4f207da667e"
     },
     {
       "path": "orchestrator/modal_driver.py",
@@ -6178,12 +6234,16 @@
       "sha256": "22d4874a688fb34c853a361afca350a073c162aaa82db255dea28b64abe7d960"
     },
     {
+      "path": "orchestrator/modal_item4_policy.py",
+      "sha256": "08aa7cfd2cdfdaefcd2ebf9a86cafdaaf186e34a32bb2aaa815f960ae6579f8d"
+    },
+    {
       "path": "orchestrator/modal_package.py",
       "sha256": "624f994c84b68cb0416f15ff39ceb522262fd11fb52b85e7cd029c8df7bb409f"
     },
     {
       "path": "orchestrator/modal_provider.py",
-      "sha256": "79979c6607a74156c9fd86788b8a2816f276d10a639324c6e5569b948293f913"
+      "sha256": "2f798be967c0ccba5716a492bddefea80d1bdf561204bd77d4880dba8f6558da"
     },
     {
       "path": "orchestrator/model_secret_relocation.py",
@@ -7914,12 +7974,28 @@
       "sha256": "9e74fe092404ae45553f5d155731b72dc283f751415665ea9f398511c40ae839"
     },
     {
+      "path": "tests/test_modal_billing.py",
+      "sha256": "1f750eb4123a5c10a6f7c7cbd56b7c9dcf9ab657fff83a8889fbd0a856d26429"
+    },
+    {
       "path": "tests/test_modal_cleanup.py",
       "sha256": "de115431ec9f7faf5d4445cb2b56a397fff91ade7b296a6c6d476d7f67e02ca2"
     },
     {
       "path": "tests/test_modal_collected_recovery.py",
       "sha256": "f5987749745353e8fa18a58ced495d2862c2ccb52553ba4ff52e7d3fbf9d9451"
+    },
+    {
+      "path": "tests/test_modal_direct_budget.py",
+      "sha256": "9da22d25cb961b59544123e65987b1d8d20e7ee18d0f6b61fb96b9bac5abb132"
+    },
+    {
+      "path": "tests/test_modal_download_package.py",
+      "sha256": "8a02fbff039ddd7522b267295fd764834430281d2fb370f191aa020584330f93"
+    },
+    {
+      "path": "tests/test_modal_download_provider.py",
+      "sha256": "57545de296ace3d572b800969c6b1eb23ef157a70a7a0affbfe2b9f02e72e7cd"
     },
     {
       "path": "tests/test_modal_driver.py",
@@ -8384,6 +8460,10 @@
     {
       "path": "tools/deploy_manual_lane.py",
       "sha256": "63879495118132a4b65c1f6dc7e9afd4adedae5c10ba9c7c75d23e6a9e98cc41"
+    },
+    {
+      "path": "tools/direct_storage_service.py",
+      "sha256": "d2e306a9e28088f87e3d32f68f733c9352021a0a5a1bec58f2e380eb5788d98b"
     },
     {
       "path": "tools/install_m3_evidence.py",

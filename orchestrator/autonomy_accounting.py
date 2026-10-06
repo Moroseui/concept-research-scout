@@ -35,8 +35,10 @@ class BatchAccounts(ReviewQueue):
         self.db.execute('BEGIN IMMEDIATE')
         try:
             if (self.folder/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
-            active=self.db.execute('SELECT status FROM autonomy_runs WHERE id=?',(run,)).fetchone()
+            active=self.db.execute('SELECT status,binding FROM autonomy_runs WHERE id=?',(run,)).fetchone()
             if not active or active[0]!='ACTIVE':raise ValueError('BATCH_ACTIVE_RUN_REQUIRED')
+            if json.loads(active['binding']).get('purpose')=='M4_ITEM4_DIRECT_INPUTS':
+                raise ValueError('ADMINISTRATIVE_INPUT_OWNER_CANNOT_ADMIT_SCIENCE')
             if self.status(ident)['status']!='NOT_RESERVED':raise ValueError('PARTIAL_OR_DUPLICATE_GLOBAL_RESERVATION_NO_RETRY')
             from orchestrator.stocktake_recovery import global_exception
             from orchestrator.stocktake_review_recovery import admission
