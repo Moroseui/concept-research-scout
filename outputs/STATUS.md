@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B author 14 proposes base preparation, three GPU benchmarks, then repeat/resume smoke tests.
-Author 14 passed its submission and controller checks; scientific review 10 is running now.
-Coverage-dependent arms remain held; all full training waits for scientific review of actual smoke results.
-Confirmed actual provider spend is incomplete; $35.348053 remains reserved within the $75 smoke cap. No GPU job has started.
-Next result: the scientific staging decision, expected about 5-15 minutes after the review's admission.
-Claude's latest direction is PROCEED; no action is needed from the operator.
+13B author 14 proposed base preparation, GPU benchmarks and repeat/resume smoke; its controller checks passed.
+Review 10 called that staging scientifically well-formed but returned REVISE because the wider findings remain open.
+Claude approved developing a narrow validation-only admission; its implementation and independent review are next. No GPU job is running.
+Coverage arms remain held, and all full training waits for independent review of actual smoke results.
+Confirmed provider costs remain incomplete; $35.348053 is reserved within $75. Review 10's model estimate was $4.743943, separately counted.
+Next result: first base preparation after the tested and reviewed patch, tentatively in 1-2 hours. Latest Claude direction: PROCEED; no operator action needed.
 
-Updated 2026-10-09T08:45:17.283966+00:00. Detailed audit follows.
+Updated 2026-10-09T08:59:34.032641+00:00. Detailed audit follows.
 
 ## Results and current work
 
@@ -24,7 +24,11 @@ Final327 affected checks passed. Actual server read-only original-accounting/pre
 
 Author14 completed and was accepted. Its native submission was requalified against the original console and output hashes; 19 author files and 27 controller files are preserved privately. Accepted submission a668703633a7928581bb2b237d5c32792c9c8cd983e5056f2ed11c2a0c8ea680; SPEC a442fdc8ca28169ca3ff6d7d16b1bee14b151b5b4ff13b5feeda02bd913aa05d. The plan, patch, executable notebook and module remain unchanged. The controller passed; installed native-equivalence verification passed, allowing reuse of the genuine historical CPU proof.
 
-Scientificreview10 was requested once and admitted under normal accounting. Latest observation: both call rows RUNNING,24local/62global scientific calls,day25. It judges author14's base preparation, three benchmarks and repeat/resume smoke staging; this is not scientific approval yet. No GPU smoke or full training has started. Existing execution and FULL gates remain; the required independent review of actual smoke results must precede FULL. The current post-execution interpretation slots do not automatically authorize an early smoke review.
+Scientificreview10 completed with genuine REVISE, requalified against the accepted native submission and immutable call/delivery. Report bd6252dee2df5f0323fdc285731e3309e36d3bc95068c09502a39232f415bd77; submission e41d2040c32e1da05c45ff8f9b2b6efd47f830deca353829f099b04a6b411e40. Fourteen originals are preserved privately. The reviewer expressly judges the proposed base-only staging scientifically well-formed and identifies the authorized smoke as the vehicle for real integration evidence, but its schema requires a clean whole-plan APPROVE with no findings. U1, U2 and U3 remain unresolved. No REVISE is relabeled or finding closed.
+
+The execution gate currently requires that clean whole-plan approval before any validation stage. R43 received genuine administrative direction APPROVE and explicit PROCEED, one round, agreed, for the smallest safe process connection: an exact validation-only admission with retained findings, all current artifact and protection checks, ordinary reservations, explicit base preparation and benchmark/repeat-smoke scope, and enforced coverage/FULL prohibitions. Alternatively it must specify the smallest structured scientific permission needed. This is documentation-only direction approval, not an installed implementation or execution admission. Source0def0557211dc0fef6f48348f77fb1852e1ff6fc; started once after terminal reconciliation. Actual inspection64filesPASS. Raw commits/diff stats, goal/charter, full scientific report, author proposal and existing proof supplied. R43 review7653ab6622decd4105f495789ce2428cd4df31ec8a88495a262b44aaf806ad8c was requalified, with11originals preserved. Its operational answer is explicit: proceed with the bounded validation-admission replacement, preserving findings and every ordinary protection. It does not require another author rewrite or standalone scientific call before developing that patch. Concrete implementation, if justified, still requires tests and independent approval before installation.
+
+No GPU smoke or full training has started. Existing execution and FULL gates remain. Scientific review of actual smoke results must precede FULL; final post-execution interpretation slots do not automatically serve as an early smoke review. Native/source/image work is reused where verified; no unnecessary reruns or separate production-provenance package before the run.
 
 ## Spending
 
@@ -38,15 +42,15 @@ Scientificreview10 was requested once and admitted under normal accounting. Late
 | Item 6 preparation | $5.000000 | Actual preparation cost not isolated |
 | Item 6 image | $1.178425 | Complete actual unavailable |
 
-No reservation released. Only provider-confirmed actual cost of a closed attempt permits excess release, preserving original/actual/released figures. Open or uncertain attempts retain full reservations. Item4 caps remain$75smoke/$1200projection/$1275total; its separate$15retry allowance does not apply. No new provider reservation or execution in this recovery. R42 administrative model estimate$7.7660665 is counted, separate from provider invoices. Author14 is complete; its original usage is preserved but its dollar cost has not yet been extracted. Review10 is an open model call. All original attempts and charges remain counted.
+No reservation released. Only provider-confirmed actual cost of a closed attempt permits excess release, preserving original/actual/released figures. Open or uncertain attempts retain full reservations. Item4 caps remain$75smoke/$1200projection/$1275total; its separate$15retry allowance does not apply. No new provider reservation or execution in this recovery. R42 administrative model estimate$7.7660665 is counted, separate from provider invoices. Author14 is complete; its original usage is preserved but its dollar cost has not yet been extracted. Review10 completed in26turns with model estimate4.74394275USD. R43 completed in24turns with model estimate3.247747USD; all charges remain counted. All original attempts and charges remain counted.
 
 ## Calls, blockers and judgment calls
 
-UTC October9:25/50 =3scientific authors(author12/13 native corrections;author14 completed staging response),4scientific reviewers(review7 REVISE,review8 reader-limit failure,review9 genuine REVISE,review10 current staging judgment),15implementation reviews and3standalone scope/direction opinions. No reset or relabeling. Scientific batch62includes all60originals plus author14/review10.
+UTC October9:26/50 =3scientific authors(author12/13 native corrections;author14 completed staging response),4scientific reviewers(review7 REVISE,review8 reader-limit failure,review9 genuine REVISE,review10 genuine staging REVISE),15implementation reviews and4standalone scope/direction opinions. No reset or relabeling. Scientific batch62includes all60originals plus author14/review10.
 
-Implementation purposes: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source initialization; proof/context delivery; reader-limit recovery; workspace selector/restoration(disqualified); linked mechanical successor; R41 response/historical-proof/context delivery; R42 exact batch continuation/unadmitted-author recovery/operator context. Standalone purposes: retry authority, next-result plan and documentation-only staging. All required direction/opinion in R42 was folded into its necessary implementation review. Administrative work dominates; keep related repairs batched and defer optional infrastructure.
+Implementation purposes: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source initialization; proof/context delivery; reader-limit recovery; workspace selector/restoration(disqualified); linked mechanical successor; R41 response/historical-proof/context delivery; R42 exact batch continuation/unadmitted-author recovery/operator context. Standalone purposes: retry authority, next-result plan, documentation-only staging and the completed precise validation-admission decision after review10. All required direction/opinion in R42 was folded into its necessary implementation review. Administrative work dominates; keep related repairs batched and defer optional infrastructure.
 
-Latest Claude direction: R42 PROCEED,1round, agreed. It explicitly judged the exact bounded process exception and preservation of every original charge/refusal as proportionate. Judgment: do not bypass or reset the batch check; use the independently approved exact four-slot continuation, preserve the old preparation and original grant, and bind new operator instructions into a new immutable input for the same unspent call. No scientific finding is waived. Latest judgment: reuse the unchanged executable's historical native proof only after the actual installed equivalence check and new controller PASS; no additional administrative call for the already-installed scientific stage. No operator action pending. Next priority is scientific output and GPU smoke evidence under the accepted staging.
+Latest Claude direction: R43 PROCEED,1round, agreed. What changed: develop the exact validation-only gate, preserving the genuine REVISE rather than trying another generic author/review cycle to obtain evidence that only execution can produce. It explicitly judged the exact bounded process exception and preservation of every original charge/refusal as proportionate. Judgment: do not bypass or reset the batch check; use the independently approved exact four-slot continuation, preserve the old preparation and original grant, and bind new operator instructions into a new immutable input for the same unspent call. No scientific finding is waived. Latest judgment: reuse the unchanged executable's historical native proof only after the actual installed equivalence check and new controller PASS; no additional administrative call for the already-installed scientific stage. No operator action pending. New judgment: the positive scientific staging language does not turn the genuine REVISE into an APPROVE; consult Claude about the exact gate separation before engineering it. Next priority is admission of real smoke evidence, with no optional infrastructure.
 
 ## Publication scope and omissions
 
@@ -306,3 +310,7 @@ Evidence folders, ledgers, review packets, native streams, private records, pati
 - Raw astra/item4-batch-continuation-20261009 history and docs > ITEM4_BATCH_CONTINUATION_PRIVATE.json are withheld: private accounting and preparation hashes. Exact safe draft source is on the corresponding public astra branch.
 
 - R42 raw working ancestry and docs > ITEM4_BATCH_CONTINUATION_PRIVATE.json remain withheld; safe source/tests/report are projected. Original workspaces, ledgers, packets and streams are not public.
+
+- docs > ITEM4_SMOKE_ADMISSION_DIRECTION_20261009.txt ? CREDENTIAL_OR_HOST_REFERENCE; withheld, original source0def0557211dc0fef6f48348f77fb1852e1ff6fc remains private.
+
+- outputs > implementation-reviews > item4-smoke-admission-direction-20261009.json ? CREDENTIAL_OR_HOST_REFERENCE; genuine original preserved privately and its decision summarized above.
