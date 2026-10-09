@@ -145,6 +145,18 @@
       "role": "item4-preprocessing-checkpoint-connection-20261009",
       "review": "d54661f1c30999926fa601e246b5d62a29689d25f4ee9c08522ac160b1ef8560",
       "selection": "Reviewed safe source projection; private contract and flagged fixtures withheld; installed held, entrypoint follow-up required"
+    },
+    {
+      "source": "24305b0b6c24d239cbed1268395f98c91598ad1c",
+      "role": "R55 cold checkpoint command SDK bootstrap",
+      "review": "8d71e63918382bfecf53cab9651fcf4e442895ec17f39bcf02c8e8f7f903eeca",
+      "status": "APPROVED_INSTALLED_RECONCILED",
+      "public_source_branch": "astra/public-checkpoint-sdk-bootstrap-20261009",
+      "tests": 103,
+      "withheld": [
+        "prior-unit fixture: infrastructure",
+        "private contract and evidence"
+      ]
     }
   ],
   "source_files_count": 1369,
@@ -452,5 +464,5 @@
       "private_checkpoint_omitted": true
     }
   ],
-  "latest_backup_at": "2026-10-09T11:01:56.894405+00:00"
+  "latest_backup_at": "2026-10-09T16:05:07.875209+00:00"
 }

@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B preprocessing verified its frozen inputs and pinned image, then committed 92 steps before a confirmed time limit.
-No compute is running. The checkpoint repair is installed, but reconciliation stopped at SDK initialization before changing the ledger.
-GPU smoke awaits validated preparation; coverage-dependent arms stay held, and full training awaits scientific smoke review.
-Earlier confirmed CPU charges are $2.33879894; other actual costs remain unsettled. Effective item-4 exposure remains $58.029253 of $75.
-Next expected result: resumed preprocessing after a focused SDK bootstrap correction and review, estimated 30-45 minutes, then remaining computation.
-No operator action needed. Latest Claude review: R54 APPROVE; a bootstrap correction is next. Today: 38/50 calls, all terminal.
+13B preprocessing verified its frozen inputs and pinned image and saved 92 steps before its time limit.
+The reviewed repair is installed; reconciliation passed, and the system is scheduling one checkpoint continuation.
+GPU smoke awaits completed preparation; coverage-dependent arms stay held, and full training awaits scientific smoke review.
+Confirmed earlier CPU spend is $2.33879894; other actual costs remain unsettled. Current item-4 exposure is $58.029253 of $75.
+Next result: completed preprocessing, estimated 10-20 minutes after continuation launch, plus preparation and verification time.
+No operator action needed. Latest Claude direction: PROCEED. Today: 39/50 calls, all terminal.
 
-Updated 2026-10-09T15:30:50.082457+00:00. Detailed audit follows.
+Updated 2026-10-09T16:05:07.863964+00:00. Detailed audit follows.
 
 ## Results and execution
 
@@ -30,6 +30,10 @@ The two initial test runs exposed an identity-connection defect and a synthetic 
 
 Safe pending source history is on astra/public-preprocessing-checkpoint-connection-20261009 at632904fe3d70a8ecb845d16bb2d13ebfca1175b6; its reviewed safe source is now merged into this branch as installed history; it is not scientific approval.
 
+R55 source24305b0b6c24d239cbed1268395f98c91598ad1c received genuine independent APPROVE 8d71e63918382bfecf53cab9651fcf4e442895ec17f39bcf02c8e8f7f903eeca and explicit PROCEED. Installation and post-install verification passed. The two-line correction loads the already-pinned SDK path before the existing provider performs its unchanged identity, ownership, version and hash checks. All 103 focused tests passed. The fresh-process command rehearsal exercised actual command admission and provider construction; future installation/approval and the mutating reconciliation boundary were explicitly simulated. The reviewer did not execute tests and assessed some unchanged modules through pins and prior coverage; these limitations remain in the accepted report.
+
+Actual owner reconciliation subsequently passed. Exactly the timed-out attempt became accounted and interrupted, with one native checkpoint event appended. All original reservations, bindings, calls and existing events were preserved. One scheduling transition is in progress; no successor compute has launched yet. Proposed continuation reservation remains $10.342400 through ordinary admission, giving illustrative exposure $68.371653/$75 before fresh billing. The earlier SDK failure and packet-format recovery remain preserved; the latter failed before registration and consumed no model call.
+
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
@@ -40,20 +44,20 @@ Safe pending source history is on astra/public-preprocessing-checkpoint-connecti
 | Item 6 preparation | $5.000000 | Actual not isolated |
 | Item 6 image | $1.178425 | Actual not settled |
 
-Provider billing observed $2.33879894 for the preparation application through completed hourly records ($0.58471212 for the first stopped attempt and $1.75408682 for the second). This is not final settlement or complete research spend. Only $8.346000 of confirmed closed CPU reservation excess was released; all original reservation rows remain preserved. Closed attempts may release excess only after confirmed actual cost; open or uncertain attempts retain the full reservation. Caps stay $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry allowance. Model charges are separate; R52's recorded estimate is $4.514707; R53's is $3.601068; R54's is $4.659651.
+Provider billing observed $2.33879894 for the preparation application through completed hourly records ($0.58471212 for the first stopped attempt and $1.75408682 for the second). This is not final settlement or complete research spend. Only $8.346000 of confirmed closed CPU reservation excess was released; all original reservation rows remain preserved. Closed attempts may release excess only after confirmed actual cost; open or uncertain attempts retain the full reservation. Caps stay $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry allowance. Model charges are separate; R52's recorded estimate is $4.514707; R53's is $3.601068; R54's is $4.659651; R55's is $3.243410.
 
 ## Calls and judgment log highlights
 
-UTC October 9: 38/50 model calls, all terminal. No resets or relabeling.
+UTC October 9: 39/50 model calls, all terminal. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
 | Scientific reviewer | 4 | Review 7 REVISE; review 8 reader failure; reviews 9/10 REVISE |
-| Administrative implementation review | 26 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging R53 closed-compute reconciliation and R54 checkpoint connection; includes original disqualified/REVISE calls |
+| Administrative implementation review | 27 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging R53 closed-compute reconciliation and R54 checkpoint connection and R55 SDK bootstrap; includes original disqualified/REVISE calls |
 | Standalone direction | 5 | Retry authority, next-result plan, staging, validation admission, output-root recovery |
 
-Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest check: R54, one round, APPROVE with no findings; its rationale endorsed the narrow connection but did not use a separate PROCEED keyword. The follow-up SDK bootstrap opinion/direction check will be folded into its implementation review. R54 judgment: preserve92steps after the actual lifetime timeout and reconnect native continuation, with a bundled Claude opinion because accounting/identity safeguards are touched; retain unconfirmed overhead and the live reservation, and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
+Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest check: R55, one round, APPROVE and explicit PROCEED, no findings or cuts. Judgment: correct only the missing SDK bootstrap, test the actual cold command, and reuse the native checkpoint path. Claude was consulted in the implementation review because this connects accounting and safeguard code. R54 judgment: preserve92steps after the actual lifetime timeout and reconnect native continuation, with a bundled Claude opinion because accounting/identity safeguards are touched; retain unconfirmed overhead and the live reservation, and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
 
 ## Publication scope and withheld files
 
@@ -346,3 +350,5 @@ R54 publication omissions:
 - tests/test_experiment_preprocessing_dispatch.py: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 
 Latest judgment: the actual entry-point failure is a diagnosed engineering bootstrap defect, not permission to bypass SDK verification. Preserve it, initialize only the existing hash-bound SDK path, exercise the cold command itself, and obtain independent approval before the follow-up is installed. No new credential, cap or reservation is authorized by this judgment.
+
+- R55 prior-unit fixture withheld: infrastructure reference. Private contract and original evidence remain excluded. Safe source is on astra/public-checkpoint-sdk-bootstrap-20261009.
