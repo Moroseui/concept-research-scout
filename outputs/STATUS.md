@@ -2,13 +2,13 @@
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B verified every frozen input and its pinned environment; the package-permission repair is approved and installed.
-Scientific CPU preprocessing has started after input and environment verification. GPU smoke is next; coverage-dependent arms stay held.
+Scientific CPU preprocessing has committed 43 steps and is still running without a failure. Coverage-dependent arms stay held.
 Full training awaits scientific review of real smoke results; no separate provenance package is required first.
 Provider billing observed $2.33879894 for the two stopped CPU attempts. Other actual costs remain unsettled; item 4 retains $66.375253 of $75.
-Next expected result: CPU preparation, then base-only GPU smoke, roughly 1-2 hours if preparation passes.
-No operator action needed. Latest Claude direction: PROCEED. Today: 36/50 model calls.
+Next expected result: this CPU attempt completes or reaches its time bound in about 25 minutes; GPU smoke follows verified preparation and admission.
+No operator action needed. Latest Claude direction: PROCEED. Today: 37/50 model calls; one combined accounting and implementation review is running.
 
-Updated 2026-10-09T14:21:43.357753+00:00. Detailed audit follows.
+Updated 2026-10-09T14:43:35.756920+00:00. Detailed audit follows.
 
 ## Results and execution
 
@@ -18,7 +18,7 @@ Author 14 proposed coverage-independent staging. Scientific review 10 returned g
 
 Both earlier CPU attempts stopped before science and are positively terminal. Their full reservations and original records remain counted. The second attempt verified all input hashes and environment, but provider file permissions conflicted with the unchanged private-record check. Its precise exception was reproduced diagnostically, not recovered from original stderr.
 
-R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent APPROVE 69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92. Claude explicitly recommended PROCEED and judged the owner-only invocation copies equivalent-or-stronger protection. The patch copies only exact hash-verified code and the selected partition record into a temporary private directory; original mounted files and all downstream checks stay unchanged. Real installation verification and activation passed. Package preparation and upload passed. The third CPU attempt was admitted normally and submitted once; both local and provider accounting records confirm RUNNING. Its first input-proof observation refused an incomplete record without causing a restart. At 14:08 UTC the current attempt verified all 893 input files and its pinned environment, then recorded scientific preprocessing start. At 14:19 UTC no failure or completed result was reported; zero completed step records. A subsequent process observation confirmed the same worker active with increasing CPU time. No restart or new compute request occurred.
+R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent APPROVE 69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92. Claude explicitly recommended PROCEED and judged the owner-only invocation copies equivalent-or-stronger protection. The patch copies only exact hash-verified code and the selected partition record into a temporary private directory; original mounted files and all downstream checks stay unchanged. Real installation verification and activation passed. Package preparation and upload passed. The third CPU attempt was admitted normally and submitted once; both local and provider accounting records confirm RUNNING. Its first input-proof observation refused an incomplete record without causing a restart. At 14:08 UTC the current attempt verified all 893 input files and its pinned environment, then recorded scientific preprocessing start. At 14:40 UTC the same attempt had 43 committed steps, no failure and no completed result. Earlier process observations confirmed increasing CPU time. No restart or new compute request occurred.
 
 Final tests: 232 passed, two disclosed environment-dependent skips. The complete connection and admission rehearsal preserved both old charges and refused an over-cap launch. Provider creation and future upload were explicitly simulated; prior authority and input/image/billing checks ran for real. Original failed tests/rehearsals and all charges are preserved. The public source projection is audit history, not a deployable combined release.
 
@@ -36,13 +36,13 @@ Provider billing observed $2.33879894 for the preparation application through co
 
 ## Calls and judgment log highlights
 
-UTC October 9: 36/50 model calls, all terminal. No resets or relabeling.
+UTC October 9: 37/50 model calls; 36 terminal and one administrative review running. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
 | Scientific reviewer | 4 | Review 7 REVISE; review 8 reader failure; reviews 9/10 REVISE |
-| Administrative implementation review | 24 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging; includes original disqualified/REVISE calls |
+| Administrative implementation review | 25 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging and current R53 closed-compute reconciliation; includes original disqualified/REVISE calls |
 | Standalone direction | 5 | Retry authority, next-result plan, staging, validation admission, output-root recovery |
 
 Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest check: R52, one round, PROCEED; keep the patch narrow and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
@@ -325,4 +325,9 @@ DATA_NOTICE.md applies. Exact safe code and tests from the approved working proj
 
 The provider records now isolate both stopped CPU attempts in disjoint completed hourly intervals. Their observed CPU/memory costs are $0.58471212 and $1.75408682. The current attempt began after those intervals and remains fully reserved. The proposed patch would preserve every original row and charge, append those actual amounts, and retain the unconfirmed $5 overhead allowance for each stopped attempt. After upward rounding, the proposed excess release is $8.346000; this has NOT happened. Current retained total remains $66.375253/$75.
 
-The existing accounting code has no applicable release path for these pre-science stops. A narrow patch, focused tests including over-cap refusal, and combined independent accounting/implementation review are required before use. The current scientific job continues unchanged. No new subsystem, scientific call, provider job, credential change or cap change is proposed. The proposal is under outputs/proposals/. Latest completed Claude direction remains R52 PROCEED; consultation on this draft is pending and will be batched with implementation review. Daily calls remain 36/50.
+The existing accounting code has no applicable release path for these pre-science stops. The narrow candidate is now complete: 87 tests passed, and the real server entrypoint and ordinary-admission rehearsal passed on disposable accounting copies. An over-cap reservation was refused. Real ledgers were unchanged. Future installation/own approval/protected paths were explicit test fixtures, and the already-submitted third reservation was removed only from a clone to replay admission. No real provider job or reservation was created by testing. The current scientific job continues unchanged. No new subsystem, scientific call, provider job, credential change or cap change is proposed. The proposal is under outputs/proposals/. Latest completed Claude direction remains R52 PROCEED. One combined accounting/implementation/direction review is now RUNNING, started once. Source f22faee797ce70c6cdd237a0425f6feb724c492c, packet 0ecfe12dba748ec5b430137ec1d45d4ae17fceda46a218394845402894c1cddd. No installation or release before genuine APPROVE. Daily calls are 37/50.
+
+Safe candidate code/tests are on astra/public-closed-attempt-billing-20261009 at 8a8b9066db58e40ba157b4fde69e310245a95345. This is uninstalled draft history, not an accepted release. The following files are withheld; no scanner was relaxed:
+
+- docs/ITEM4_CLOSED_BILLING.json: PRIVATE_ACCOUNTING_OR_EVIDENCE_RECORD.
+- tests/fixtures/item4_closed_billing_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
