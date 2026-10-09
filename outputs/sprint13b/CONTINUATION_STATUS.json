@@ -1,6 +1,6 @@
 {
   "schema": "sprint13b-continuation-status/v1",
-  "at": "2026-10-09T03:27:32.766584+00:00",
+  "at": "2026-10-09T03:57:00.795840+00:00",
   "author_attempt": 13,
   "author_status": "ACCEPTED",
   "controller_tests": {
@@ -10,7 +10,7 @@
   },
   "native_status": "VERIFIED",
   "native_attempt_reservation_usd": "1.118950",
-  "item4_retained_asset_reservations_usd": "32.026723",
+  "item4_retained_asset_reservations_usd": "35.348053",
   "source_composition": "RUNNING",
   "brain_source_rehash": {
     "files": 99,
@@ -31,6 +31,7 @@
   "laptop_files_staged": 101,
   "laptop_bytes_staged": 19708168,
   "source_local_progress": null,
-  "source_implementation": "f62f923b999aac56f7ae64826c6bbdc1e15b4669",
-  "source_implementation_review": "a58f8e8a5f532cc624ab313e88df5eaa09972c55bec3da2c7359e1def7377837"
+  "source_implementation": "28726e3d5cdf32f1d80c63187f5abd9146cbfcd0",
+  "source_implementation_review": "fd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e",
+  "previous_source_attempt": "TERMINAL_PRECREATE_FAILURE_FULL_RESERVATION_RETAINED"
 }

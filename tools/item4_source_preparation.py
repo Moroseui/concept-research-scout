@@ -2,8 +2,8 @@
 from pathlib import Path
 from datetime import datetime,timezone,timedelta
 import importlib.util,json,os,sys,subprocess,stat,hashlib
-CHANGE='item4-source-preparation-20261009'
-REVIEW_CHANGE='item4-source-install-repair-20261009'
+CHANGE='item4-source-hydration-retry-20261009'
+REVIEW_CHANGE='item4-source-hydration-retry-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
@@ -16,11 +16,11 @@ DIRECT_STATE=Path('/var/lib/research-system-manual-sprint10/direct-inputs/fbb539
 DIRECT_CONFIG=Path('/etc/research-system-manual-sprint10/direct-inputs/fbb539893611cfab56c5a574313fc6b717b095e9/config.json')
 DIRECT_CONFIG_SHA='b128ec14d1758f5ee4710f284515b6a6b97d357abb588eee2ed7798a29a4432b'
 CACHE=Path('/var/lib/research-system-manual-sprint10-deployment/item6-input-provisioning-20261007/state/data/inputs/feature-cache-2mm-v2')
-FILES=('orchestrator/modal_development_inputs.py','orchestrator/modal_source_composition.py','orchestrator/modal_source_budget.py',
+FILES=('docs/ITEM4_SOURCE_HYDRATION_PREDECESSOR_20261009.json','orchestrator/modal_development_inputs.py','orchestrator/modal_source_composition.py','orchestrator/modal_source_budget.py',
        'tools/item4_source_preparation.py','tools/install_item4_source_preparation.py')
-UNIT='research-item4-source-preparation.service'
-CLEANUP='research-item4-source-retention.service'
-TIMER='research-item4-source-retention.timer'
+UNIT='research-item4-source-hydration-retry.service'
+CLEANUP='research-item4-source-hydration-retention.service'
+TIMER='research-item4-source-hydration-retention.timer'
 PROPS={'User':'partho','Group':'partho','UMask':'0077','NoNewPrivileges':'yes','ProtectSystem':'strict',
        'PrivateTmp':'yes','ProtectHome':'read-only','RestrictSUIDSGID':'yes','LockPersonality':'yes'}
 
@@ -153,7 +153,7 @@ def prepare(accounts,provider,config):
     require(row['status']=='RESERVED' and not (STATE/'prepare-intent.json').exists(),'EXISTING_ATTEMPT_NO_RETRY')
     require(datetime.now(timezone.utc)<datetime.fromisoformat(binding['expires_at']),'EXPIRED')
     require(not accounts.db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone(),'MODEL_RUNNING')
-    budget.native_qualification(accounts,binding)
+    budget.native_qualification(accounts,binding);budget.source_predecessor(accounts,binding)
     files,membership=source.contract(METADATA);images,brain,cache,baseline=source.partitions(files)
     staged=json.loads(pr.check(STATE/'STAGED.json').read_bytes());require(staged['binding_sha256']==ident,'STAGE_BINDING')
     local_files(STATE/'incoming',{**brain,**baseline})

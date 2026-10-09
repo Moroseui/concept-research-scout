@@ -25,6 +25,9 @@ def prepared(unreserved,monkeypatch):
         'owner_sha256':f.binding['owner_sha256'],'config_sha256':'c'*64,'inventory_sha256':source.INVENTORY,
         'native_asset_id':q.NATIVE_ID,'direct_asset_id':ident,'source_volume_id':q.DIRECT_VOLUME,
         'envelope':q.envelope(v['rates']),'created_at':NOW.isoformat(),'expires_at':(NOW+timedelta(days=30)).isoformat()}
+    original={'purpose':q.PURPOSE,'operation_id':'item4-frozen-base-source-v1'}
+    f.accounts.db.execute("INSERT INTO autonomy_assets VALUES(?,?,?,'UNCERTAIN',3321330,'{}')",(q.SOURCE_PREDECESSOR_ID,q.RUN,canonical(original).decode()))
+    monkeypatch.setattr(q,'source_predecessor',lambda *a:q.SOURCE_PREDECESSOR_ID)
     f.view=v;return f
 
 def reserve(f):return q.reserve(f.accounts,f.source_binding,billing_snapshot=f.view,now=NOW)
@@ -35,16 +38,16 @@ def test_normal_admission_once_preserves_originals_and_owner(prepared):
     assert [tuple(r) for r in db.execute('SELECT * FROM autonomy_assets')][:len(before)]==before
     assert [tuple(r) for r in db.execute('SELECT * FROM autonomy_runs')]==owners
     assert db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==0 and not f.calls
-    assert sum(r['reserved_micro_usd'] for r in db.execute('SELECT * FROM autonomy_assets'))==1000000+f.source_binding['envelope']['reserved_micro_usd']
+    assert sum(r['reserved_micro_usd'] for r in db.execute('SELECT * FROM autonomy_assets'))==1000000+3321330+f.source_binding['envelope']['reserved_micro_usd']
     f.source_binding['config_sha256']='e'*64
     with pytest.raises(ValueError,match='ALREADY_PREPARED_NO_RETRY'):reserve(f)
 
 @pytest.mark.parametrize('kind',['download','smoke','full','owned-assets'])
 def test_overcap_refused_with_every_previous_liability(prepared,kind):
     f=prepared;amount=f.source_binding['envelope']['reserved_micro_usd'];db=f.accounts.db
-    if kind=='download':asset(f.accounts.batch,q.SMOKE_CAP-1000000-amount+1)
-    elif kind=='owned-assets':db.execute("INSERT INTO autonomy_assets VALUES('other',?,'{}','READY',?,NULL)",(q.RUN,q.SMOKE_CAP-1000000-amount+1))
-    else:compute(f.accounts.batch,(q.TOTAL_CAP if kind=='full' else q.SMOKE_CAP)-1000000-amount+1,stage=kind.upper())
+    if kind=='download':asset(f.accounts.batch,q.SMOKE_CAP-1000000-3321330-amount+1)
+    elif kind=='owned-assets':db.execute("INSERT INTO autonomy_assets VALUES('other',?,'{}','READY',?,NULL)",(q.RUN,q.SMOKE_CAP-1000000-3321330-amount+1))
+    else:compute(f.accounts.batch,(q.TOTAL_CAP if kind=='full' else q.SMOKE_CAP)-1000000-3321330-amount+1,stage=kind.upper())
     before=[tuple(r) for r in db.execute('SELECT * FROM autonomy_assets')]
     with pytest.raises(ValueError,match='ITEM4_HARD_COST_CAP'):reserve(f)
     assert before==[tuple(r) for r in db.execute('SELECT * FROM autonomy_assets')] and not f.calls

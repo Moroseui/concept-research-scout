@@ -22,7 +22,7 @@ from orchestrator.manual_executor import digest
 from orchestrator.manual_driver import write_once
 from orchestrator.modal_assets import local_files, upload
 
-OPERATION='item4-frozen-base-source-v1'
+OPERATION='item4-frozen-base-source-hydrated-v2'
 PURPOSE='M4_ITEM4_SOURCE_COMPOSITION'
 COHORT=frozen.COHORT
 SPLIT='da79e94bdae3f59d23db497d5f26f0d57aa4f279847fe57ec9a8d05ebcf18843'
@@ -115,8 +115,10 @@ def ingest_tar(stream,root,expected):
 def copy_images(provider,volume_id,root,images):
     """Read only693 exact frozen paths from the preserved download volume."""
     volume=provider._volume(volume_id)
-    require(volume.object_id==volume_id,'SOURCE_VOLUME_ID')
+    # The pinned SDK lazily hydrates from_id handles on the first metadata read.
+    # Verify identity immediately afterwards, still before reading any payload.
     before=volume.listdir('/',recursive=True)
+    require(volume.object_id==volume_id,'SOURCE_VOLUME_ID')
     require(all(x.type.name in {'FILE','DIRECTORY'} for x in before),'SOURCE_MEMBER_TYPE')
     names=[x.path.lstrip('/') for x in before if x.type.name=='FILE']
     require(len(names)==len(set(names)),'SOURCE_DUPLICATE_MEMBER')

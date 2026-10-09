@@ -61,6 +61,12 @@
       "role": "installed frozen source preparation with authenticated service-owned review originals",
       "review": "a58f8e8a5f532cc624ab313e88df5eaa09972c55bec3da2c7359e1def7377837",
       "selection": "exact safe projection; private originals and raw ancestry withheld"
+    },
+    {
+      "source": "28726e3d5cdf32f1d80c63187f5abd9146cbfcd0",
+      "role": "installed lazy Volume handle repair and exact preserved-failure successor",
+      "review": "fd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e",
+      "selection": "exact safe projection; private originals and raw ancestry withheld"
     }
   ],
   "source_files_count": 1369,
@@ -186,8 +192,13 @@
       "source": "genuine administrative report or aggregate preparation status; no scientific approval"
     },
     {
+      "path": "outputs/implementation-reviews/item4-source-hydration-retry-20261009.json",
+      "sha256": "fd7c8b60ac7e11981733794ec8e57797c009a27164474395a85398b381da364e",
+      "source": "genuine administrative report or aggregate preparation status; no scientific approval"
+    },
+    {
       "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
-      "sha256": "87d75edf4c32ea345863e4f0e615482d22956acab53e5659ea3bf6502e45e134",
+      "sha256": "3cf16bf2f0225545ab2953ddbf5b86ad8689b1672076b87dc95f6d5bcbd508bd",
       "source": "genuine administrative report or aggregate preparation status; no scientific approval"
     }
   ],
