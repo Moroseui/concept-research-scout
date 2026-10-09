@@ -6,8 +6,8 @@
   "native_terminal_exit": 137,
   "progress_volume_empty_before_stop": true,
   "reservation_usd": "12.842400",
-  "actual_cost_usd": null,
-  "reservation_fully_retained": true,
+  "actual_cost_usd": "0.39647718",
+  "reservation_fully_retained": false,
   "original_error_type": "InvalidError",
   "original_error_message_recorded": false,
   "diagnostic_reproduction": {
@@ -19,5 +19,8 @@
     "ledger_mutations": 0
   },
   "resubmissions": 0,
-  "scope": "Infrastructure failure; no scientific conclusion or acceptance."
+  "scope": "Infrastructure failure; no scientific conclusion or acceptance.",
+  "original_reservation_preserved": true,
+  "retained_effective_usd": "5.396478",
+  "reconciliation": "Positive terminal proof and closed-hour provider billing; five-dollar unsettled allowance retained."
 }

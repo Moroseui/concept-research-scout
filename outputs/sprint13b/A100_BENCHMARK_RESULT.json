@@ -1,0 +1,19 @@
+{
+  "schema": "aggregate-benchmark-progress/v1",
+  "fit": "benchmark-A100-80GB",
+  "status": "RUNNING",
+  "observed_at": "2026-10-09T19:27:05.718808+00:00",
+  "epoch_started": 0,
+  "epoch_completed": null,
+  "total_epochs": 1,
+  "scientific_result": false,
+  "scientific_acceptance": false,
+  "reservation_usd": "12.842400",
+  "actual_cost_usd": null,
+  "item4_exposure_usd": "70.409066",
+  "smoke_cap_usd": "75",
+  "prior_attempt_and_charge_preserved": true,
+  "source_sha": "99cd2f52d190a99d3ef6c71ea7359bea29319a09",
+  "implementation_review_sha256": "8c37a6c932009dbb3d133ef7838c744b3a8714c58682dc3b11745c4458b12ac8",
+  "scope": "Aggregate progress only; no patient-level data or scientific conclusion."
+}
