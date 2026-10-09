@@ -20,7 +20,7 @@ def validate_allowance(accounts,event,allowance):
     require(_validate is not None,'NOT_CONNECTED')
     _validate(accounts,event,allowance)
 
-def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=None,response_approval=None):
+def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=None,response_approval=None,batch_extension=None,batch_approval=None):
     """Only called from the hash-verified installed helper; once per process."""
     global _validate
     from orchestrator import autonomy_limits as limits
@@ -32,6 +32,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
     old_local,old_global,old_allowance,old_authority=(limits.local_limit,limits.global_limit,
         limits.allowance,limits.cap_authority)
     old_reserve,old_batch=ManualExecutor.reserve_call,BatchAccounts.reserve_scientific
+    old_batch_allowance=limits.scientific_batch_allowance
     active={}
     from orchestrator import item4_review8_recovery as repair
     if mechanical is not None:repair.binding(mechanical,mechanical_approval)
@@ -49,6 +50,14 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             ('result_interpretation_author',1),('result_interpretation_review',1))
         cap=26
 
+
+    if batch_extension is not None:
+        require(response is not None and batch_extension.get('schema')=='item4-batch-continuation/v1'
+            and batch_extension.get('run_id')==RUN and batch_extension.get('authority_sha256')==continuation.AUTHORITY
+            and len(batch_extension.get('global_calls',{}))==60,'BATCH_EXTENSION_SCOPE')
+        require(isinstance(batch_approval,str) and len(batch_approval)==64 and
+            all(c in '0123456789abcdef' for c in batch_approval),'BATCH_EXTENSION_APPROVAL')
+    else:require(batch_approval is None,'UNBOUND_BATCH_APPROVAL')
 
     def snapshot(store,*,inserted=False):
         rows=continuation.originals(store,RUN,frozen)
@@ -119,6 +128,23 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         snapshot(active['store'])
         return cap
 
+    def batch_allowance(batch,run,stage,ident,source,receipt):
+        if batch_extension is None or run!=RUN:
+            return old_batch_allowance(batch,run,stage,ident,source,receipt)
+        require(active.get('store') is not None and active['store'].batch is batch and
+            (ident,stage,source)==(active['id'],active['stage'],active['source']),'BATCH_EXTENSION_OWNER')
+        require(next_call(active['store'],stage)==ident,'BATCH_EXTENSION_NEXT')
+        rows=[dict(r) for r in batch.db.execute("SELECT * FROM autonomy_calls WHERE kind='scientific' ORDER BY rowid")]
+        pins=batch_extension['global_calls'];by_id={r['id']:r for r in rows}
+        require(all(i in by_id and continuation.sha(continuation.canonical(by_id[i]))==h
+            for i,h in pins.items()),'BATCH_ORIGINAL_CHANGED')
+        tail=[r for r in rows if r['id'] not in pins]
+        expected=[continuation.sha((RUN+':'+st+':'+str(n)).encode()) for st,n in sequence]
+        require(len(tail)<4 and len(rows)==60+len(tail) and
+            [r['id'] for r in tail]==expected[:len(tail)] and ident==expected[len(tail)],'BATCH_EXTENSION_SEQUENCE')
+        return {'limit':64,'authority_sha256':continuation.AUTHORITY,'review_sha256':batch_approval,
+            'checkpoint_sha256':continuation.sha(continuation.canonical(batch_extension)),'scoped_run_id':RUN}
+
     def amendment(store,run,policy):
         if run!=RUN:return old_allowance(store,run,policy)
         require(active.get('store') is store,'ALLOWANCE_OWNER')
@@ -150,6 +176,7 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
             require(next_call(active['store'],stage)==ident,'GLOBAL_NEXT_CALL')
         return old_batch(batch,ident,run,stage,source,receipt)
 
+    if batch_extension is not None:limits.scientific_batch_allowance=batch_allowance
     limits.local_limit=local;limits.global_limit=global_limit;limits.allowance=amendment
     limits.cap_authority=lambda selected:continuation.AUTHORITY if selected==cap else old_authority(selected)
     ManualExecutor.reserve_call=reserve;BatchAccounts.reserve_scientific=batch_reserve

@@ -1,5 +1,1 @@
-# Current research status
-
-See [outputs/STATUS.md](outputs/STATUS.md) for the plain-language summary and detailed audit.
-
-Item 6 is complete. 13B author14 is held before admission at the batch call cap, with no new charge. The operator has directed coverage-independent GPU smoke within $75, proposed by author14 and judged scientifically, with coverage-dependent arms held and review of smoke results before full training. A bounded process continuation is in development; no GPU smoke is running.
+See [outputs/STATUS.md](outputs/STATUS.md) for the seven-line summary and detailed audit. Item6 complete; 13B author14 still unadmitted at batch60. Operator directs coverage-independent GPU smoke inside $75 and scientific review before full training. The draft admission/context patch passed30 focused checks; exact pre-admission recovery and independent implementation review remain. No new model/provider call or charge.

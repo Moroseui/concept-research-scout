@@ -3,7 +3,7 @@
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B passed source verification and synthetic CPU checks; GPU smoke has not run yet.
 Nothing is running. Author 14 stopped before a model call because the batch call limit is exhausted.
-A bounded continuation and reuse of the prepared workspace need one independent Claude review.
+The continuation draft passed 30 focused checks; recovery of the unspent author call and one Claude review remain.
 Confirmed actual provider spend is not yet available; $35.348053 remains reserved against the $75 smoke cap. No new charge came from this refusal.
 Next: author 14 proposes GPU smoke for coverage-independent arms, with coverage-dependent arms held and scientific review before full training.
 Estimate: 45-90 minutes to clear admission, then 15-30 minutes for the proposal; GPU smoke timing follows scientific review.
@@ -27,6 +27,16 @@ The author service started ONCE, then stopped BEFORE admission with AUTONOMY_BAT
 All429 prepared workspace files and the submission-runtime pins remain preserved and hash-recorded. Do not restart the same service or recreate its prepared workspace without an independently approved bounded continuation. No batch limit has been raised, reset or relabeled.
 
 Next: judge a narrow process continuation with Claude under standing delegation, bundling any necessary accounting and exact pre-admission recovery in one implementation/direction review. Only the already-approved remaining item4 scientific slots would be considered; every original batch call/charge and all dollar caps/refusals must stay counted. No new provider work. Estimate45-90minutes for that reviewed continuation, then15-30minutes for author response if admitted. Smoke timing remains dependent on scientific staging.
+
+## Current staging and admission draft
+
+Operator decision12457759a381afd91b722ba050a040ed1d1bf58a148ee89ba0082aab8c419e4d is preserved verbatim in docs/ITEM4_GPU_SMOKE_STAGING_OPERATOR_DECISION_20261009.txt. It directs coverage-independent GPU smoke inside $75, coverage arms held, author14 proposal and independent scientific judgment, then review of smoke results before any full training. No separate production-provenance package is required beyond the run's records; ordinary protections remain.
+
+Draft source85f558323b20ad030fa118c2d9aac8784d532821 binds that exact decision into both author and reviewer context and refuses changed authority text. The admission draft grants only the four existing item4 slots up to64 counted scientific batch calls, preserving all60 originals. Default60 for other purposes, run26, day50, uncertain-call, halt and duplicate refusals remain.27 batch/continuation checks and3 operator-context checks passed. The first test fixture incorrectly nested old recovery hooks; it was corrected, with the failed run preserved. No new model call, provider reservation or charge.
+
+This is not an installed or approved release. Exact pre-admission recovery, preservation of the original grant approval, a separate exclusive author14 preparation containing the new decision, runtime/installer integration and independent review remain. The original429 prepared files and pins are untouched. Existing final interpretation slots retain complete-execution checks and do not silently authorize an early smoke-result review or full training. The scientific author/reviewer own the staged plan; its execution connection must enforce the smoke-review gate.
+
+Judgment: preserve the working cap refusal, bind a narrow exception to the exact remaining calls, and deliver new operator steering in new immutable input. Claude opinion and direction will be folded into the necessary implementation review; no separate proposal call. Latest completed direction remains R41 PROCEED.
 
 ## Spending
 
@@ -305,3 +315,5 @@ Evidence folders, ledgers, review packets, native streams, private records, pati
 - Raw astra/item4-staged-validation-direction-20261009 and astra/item4-review9-staged-continuation-20261009 histories have private ancestry; exact safe projections are retained on public astra branches.
 - Full test logs, native proof receipts and accounting snapshots remain private.
 - docs > ITEM4_REVIEW9_CONTINUATION.json: PRIVATE_ACCOUNTING_CHECKPOINT_WITHHELD
+
+- Raw astra/item4-batch-continuation-20261009 history and docs > ITEM4_BATCH_CONTINUATION_PRIVATE.json are withheld: private accounting and preparation hashes. Exact safe draft source is on the corresponding public astra branch.

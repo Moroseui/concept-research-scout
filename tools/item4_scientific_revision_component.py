@@ -10,6 +10,8 @@ import sys
 CHANGE='item4-author7-and-image-recovery-20261008'
 REVIEW_CHANGE='item4-review9-staged-continuation-20261009'
 RESPONSE_DOCUMENT='docs/ITEM4_REVIEW9_CONTINUATION.json'
+STAGING_DOCUMENT='docs/ITEM4_GPU_SMOKE_STAGING_OPERATOR_DECISION_20261009.txt'
+STAGING_SHA='12457759a381afd91b722ba050a040ed1d1bf58a148ee89ba0082aab8c419e4d'
 PRE_ADMISSION_DOCUMENT='docs/ITEM4_REVIEW9_PRE_ADMISSION.json'
 MECHANICAL_SOURCE='ed9ad9aead00c9df8d0ecae1a25ecd782aef169c'
 MECHANICAL_REVIEW='6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf'
@@ -44,7 +46,7 @@ FILES=tuple(dict.fromkeys(FILES+tuple('orchestrator/'+n+'.py' for n in RUNTIME_M
         'orchestrator/item4_review4_continuation.py','docs/ITEM4_REVIEW4_CONTINUATION.json',SECOND_DOCUMENT,THIRD_DOCUMENT,CONTINUATION_DOCUMENT,
         'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
         'tools/item4_review8_proof.py',PROOF_DOCUMENT,
-        'orchestrator/item4_review8_recovery.py',RECOVERY_DOCUMENT,PRE_ADMISSION_DOCUMENT,RESPONSE_DOCUMENT,)))
+        'orchestrator/item4_review8_recovery.py',RECOVERY_DOCUMENT,PRE_ADMISSION_DOCUMENT,RESPONSE_DOCUMENT,STAGING_DOCUMENT,)))
 
 GUIDANCE=(
  'Respond to genuine scientific REVISE9 and every still-open finding. Read the exact full report, '
@@ -110,9 +112,18 @@ def evidence_navigation():
         'retain unresolved findings if evidence is insufficient. No prior partial commentary is a verdict.\n'+
         '\n'.join(DIRECT_REVIEW_EVIDENCE)+'\n')
 
+def operator_staging():
+    """Deliver the exact operator decision; never substitute it for scientific review."""
+    path=Path(__file__).resolve().parents[1]/STAGING_DOCUMENT
+    require(not path.is_symlink() and sha(path.read_bytes())==STAGING_SHA,'OPERATOR_STAGING_CHANGED')
+    return ('Read this verbatim operator staging decision. The author proposes the staging and the '
+        'scientific reviewer judges it. Ordinary privacy, input, confinement and spending checks remain. '
+        'GPU smoke results require scientific review before full training.\n\n'+path.read_text()+'\n\n')
+
+
 def guidance(stage,base):
     from orchestrator.author_output_schema import schema
-    return ((GUIDANCE+'Exact output schema: '+json.dumps(schema(),sort_keys=True)+'\n') if stage=='run_spec_author' else evidence_navigation()+REVIEW_GUIDANCE) + base
+    return operator_staging()+((GUIDANCE+'Exact output schema: '+json.dumps(schema(),sort_keys=True)+'\n') if stage=='run_spec_author' else evidence_navigation()+REVIEW_GUIDANCE) + base
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':')).encode()
