@@ -1,36 +1,37 @@
 # Research status
 
-Updated 2026-10-09T02:38:56.363663+00:00. This file is updated in place for the daily audit.
+Updated 2026-10-09T03:27:32.766584+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
-Item6 is complete with independent scientific APPROVE. Mean Dice improved from 0.20630608 to 0.24674415, gain 0.04043807 (95% interval 0.02796645 to 0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. Accepted interpretation stops this diagnostic branch, without clinical or specialist-training promotion. Accepted reports and aggregate comparison remain in outputs/item6/.
+Item6 is complete with independent scientific APPROVE. Mean Dice improved from0.20630608 to0.24674415, gain0.04043807 (95% interval0.02796645 to0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. Accepted interpretation stops this diagnostic branch, without clinical or specialist-training promotion. Reports and aggregate comparison remain under outputs/item6/.
 
-13B author13 completed and was authenticated. The controller passed23 tests with zero skips. The author corrected the dataset API and audited adjacent native interfaces. Its proposed code and report await scientific approval. The proposal starts with A1_repeat preparation and benchmarks, then other coverage-independent arms; coverage-dependent arms remain held and the full objective is retained.
+13B author13 is accepted with23 controller tests. Its native CPU integration PASSED:99 generated fixtures,300 prepared files, reuse checks, interruption/resume from epoch1 and scoring. This is runtime evidence, not patient efficacy, GPU or production-main evidence. The pinned image is unchanged. The author proposes coverage-independent smoke first; coverage-dependent arms remain held and full-training commitments remain. Scientific reviewer8 has not run.
 
-The existing native adapter was installed after genuine independent APPROVE, report8ceab8b02142b886ae3f5365aa696b9d4ca4f02be0c94b36adde923f7fa891b6, source7e49eeb17f1fea1f8caa8709ec0422912bc17f3d.335 checks passed across full334 and the corrected synthetic-fixture rerun1. The third native CPU attempt is VERIFIED. It uses the unchanged pinned image, worker and confinement, no patient mounts or GPU. Both earlier failures and full reservations remain preserved. No duplicate launch is permitted.
+Frozen-source preparation is RUNNING. Independently reviewed implementation is installed, sourcef62f923b999aac56f7ae64826c6bbdc1e15b4669, approvala58f8e8a5f532cc624ab313e88df5eaa09972c55bec3da2c7359e1def7377837. Original feature checks209PASS; installer repair adds4, with45 focused checks passing. Real-server preflight verified frozen893 metadata,99 development,49 exclusions with zero overlap, and authentic native proof. All101 laptop files (19,708,168bytes) were staged and hash-verified. The server composes existing caches and downloaded images into the exact893-file source (7,202,931,657bytes), hashing every copy and reading back the destination. Originals remain unchanged. The single service runs independently of the laptop; do not duplicate an uncertain launch.
 
-Native integration completed successfully:300 prepared files, reuse checks, interrupted training, resume from epoch1 and scoring on generated fixtures. These are runtime checks, not efficacy results. Review8 remains held for authentic composed-source verification; the reviewer must judge both proofs. All99 frozen brain files rehashed successfully:19,679,031bytes, no overlap with49 excluded identifiers, no transfers. Existing image downloads and server caches still need composition into the exact893-file base source. No source-composition implementation is installed. No GPU smoke or full training has begun.
+Next: complete actual source verification, deliver authentic source/native evidence through a reviewed connection to the existing scientific reviewer, then preprocessing/GPU smoke after scientific acceptance. Review8 is held until both proofs are delivered. No GPU smoke/full training has started. Expected verified-source result by about04:42UTC; scientific review and GPU smoke follow.
 
 ## Spending
 
-| Scope | Retained reservation | Provider observation | Treatment |
-|---|---:|---:|---|
-| Item4 assets: three input attempts, image, three native attempts | $28.705393 | Complete actual total unavailable | All counted inside $75 smoke cap |
-| Third native attempt, included above | $1.118950 | Pending | Full reservation retained |
-| First native attempt, included above | $1.118950 | $0.01258041 | Historical hourly observation; no release |
-| Second native attempt, included above | $1.118950 | Not reconciled | Full reservation retained |
-| Item4 image, included above | $1.178425 | $0.00669028 | Historical hourly observation; no release |
-| Item6 three CPU attempts | $5.854800 | Shared preparation/CPU observation $0.38602155 | Not separable per attempt; no release |
-| Item6 input preparation | $5.000000 | Included in shared observation | Actual preparation cost not isolated |
+| Scope | Retained reservation | Actual-cost status |
+|---|---:|---|
+| Item4 assets including current preparation | $32.026723 | Complete confirmed actual total unavailable; all counted inside $75 smoke cap |
+| Current source preparation, included above | $3.321330 | Open attempt; no release |
+| Three native CPU attempts, included above | $3.356850 | First historical observation $0.01258041; others not settled |
+| Item4 image, included above | $1.178425 | Historical observation $0.00669028; not final settlement |
+| Item6 three CPU attempts | $5.854800 | Shared preparation/CPU observation $0.38602155; not separable per attempt |
+| Item6 input preparation | $5.000000 | Actual preparation cost not isolated |
 
-Observations are not final invoices or complete actuals. No reservation was released. Only confirmed actual cost of a closed attempt may release excess, retaining both figures; never release open or uncertain attempts. Item4 caps remain $75 smoke, $1,200 projection and $1,275 total. The separate $15 retry allowance does not apply to item4. This retry addresses the distinct missing keys() API, with safeguards unchanged. Model-call estimates are separate: this implementation review reported $3.95376175, not invoice settlement or a complete model-spend total.
+No reservation was released. Only provider-confirmed actual cost of a closed attempt can release excess, retaining both figures; open or uncertain attempts retain full reservations. Caps unchanged: item4 $75 smoke, $1,200 projection, $1,275 total; the separate $15 retry allowance does not apply. Model estimates are separate and not invoice settlement.
 
 ## Calls, blockers and judgment calls
 
-UTC October9:11/50 calls:2 scientific authors (author12, author13),1 scientific reviewer (review7 REVISE),6 implementation reviews (native successor, hourly billing range, installer import binding, exact configuration delivery, scoped continuation/accounting/navigation, author13 native successor),2 scope/direction opinions (retry authority and next-result plan). All original calls and charges remain counted. October8 closed47:9authors,7scientificreviewers,27implementation,4scope/direction.
+UTC October9:13/50 calls:2 scientific authors (author12, author13);1 scientific review (review7 REVISE);8 implementation reviews (native successor, hourly billing range, installer import binding, configuration delivery, continuation/accounting/context, author13 native adapter, frozen source/accounting/retention, review-original ownership repair);2 scope/direction calls (retry authority and next-result plan). All originals and charges remain counted. October8 closed47:9authors,7scientificreviews,27implementation,4scope/direction.
 
-Latest Claude direction: PROCEED, one round, folded into this implementation review. Agreed: run corrected code using the existing adapter while source composition develops; no new subsystem or standalone direction call. Judgment highlights: exact qualification of both original terminal failures, full charges retained, no cap change, reuse authorized Drive fallback, review8 held for genuine proofs. Next expected result is verified composed inputs, estimated2hours including implementation review. GPU smoke follows source preparation and scientific approval.
+Latest Claude direction: PROCEED, one round, folded into the installer repair review. Agreed: minimal ownership repair, then actual source verification; no optional subsystem. Both source implementation reviews independently APPROVED. Original preflight/installer refusals are retained: explicit auxiliary-reader binding, launcher namespace setup, and an inappropriate root-ownership assumption on authenticated reviewer originals. No reservation/transfer occurred during those failures. A reservation invocation then omitted the existing SDK search path; it refused before provider initialization/reservation, then succeeded using the reviewed unit environment. No installed code or safeguard changed for that invocation correction.
+
+Judgment highlights: reuse existing streaming/upload, accounting and cleanup; exact99/893 frozen scope; new private copies only; retention installed before reservation; no cap or credential change. The next delivery connection will preserve prior scientific allowances and approvals. Scientific code and conclusions remain author/reviewer-owned.
 
 ## Publication scope and limitations
 
@@ -280,3 +281,10 @@ Safe aggregate implementation report, scope, code and tests are included. Eviden
 - astra/item4-native-author13-retry-20261009: raw history contains private records; exact safe projection published.
 - astra/item4-source-composition-20261009: private ancestry withheld; no executable changes yet.
 - docs > ITEM4_NATIVE_AUTHOR13_PREDECESSOR_20261009.json: PRIVATE_LEDGER_SNAPSHOT
+
+### Current preparation exclusions
+
+- Raw astra/item4-source-preparation-20261009 history contains private ancestry; exact safe projection is published.
+- astra/item4-review8-source-native-delivery-20261009 has private ancestry and no executable changes yet.
+- Private inventories, review packets, native streams, accounting records and transfer receipts remain withheld.
+- docs > ITEM4_SOURCE_PREPARATION_SCOPE_20261009.txt: CREDENTIAL_OR_HOST_REFERENCE

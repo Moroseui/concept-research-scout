@@ -1,6 +1,6 @@
 {
   "schema": "sprint13b-continuation-status/v1",
-  "at": "2026-10-09T02:38:56.363663+00:00",
+  "at": "2026-10-09T03:27:32.766584+00:00",
   "author_attempt": 13,
   "author_status": "ACCEPTED",
   "controller_tests": {
@@ -10,8 +10,8 @@
   },
   "native_status": "VERIFIED",
   "native_attempt_reservation_usd": "1.118950",
-  "item4_retained_asset_reservations_usd": "28.705393",
-  "source_composition": "NOT_YET_CREATED",
+  "item4_retained_asset_reservations_usd": "32.026723",
+  "source_composition": "RUNNING",
   "brain_source_rehash": {
     "files": 99,
     "bytes": 19679031,
@@ -19,10 +19,18 @@
     "overlap": 0,
     "transferred_files": 0
   },
-  "scientific_review8": "HELD_FOR_SOURCE_AND_NATIVE_PROOFS",
+  "scientific_review8": "HELD_FOR_AUTHENTICATED_SOURCE_AND_NATIVE_EVIDENCE_CONNECTION",
   "scientific_approval": false,
   "gpu_smoke_started": false,
   "direction": "PROCEED",
   "implementation_source": "7e49eeb17f1fea1f8caa8709ec0422912bc17f3d",
-  "implementation_review": "8ceab8b02142b886ae3f5365aa696b9d4ca4f02be0c94b36adde923f7fa891b6"
+  "implementation_review": "8ceab8b02142b886ae3f5365aa696b9d4ca4f02be0c94b36adde923f7fa891b6",
+  "source_preparation_reservation_usd": "3.321330",
+  "source_files_expected": 893,
+  "source_bytes_expected": 7202931657,
+  "laptop_files_staged": 101,
+  "laptop_bytes_staged": 19708168,
+  "source_local_progress": null,
+  "source_implementation": "f62f923b999aac56f7ae64826c6bbdc1e15b4669",
+  "source_implementation_review": "a58f8e8a5f532cc624ab313e88df5eaa09972c55bec3da2c7359e1def7377837"
 }

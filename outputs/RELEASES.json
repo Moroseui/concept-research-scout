@@ -55,6 +55,12 @@
       "role": "installed fixed author13 native adapter with both original failed reservations retained",
       "review": "8ceab8b02142b886ae3f5365aa696b9d4ca4f02be0c94b36adde923f7fa891b6",
       "selection": "exact safe source; actual predecessor ledger snapshot and private ancestry withheld"
+    },
+    {
+      "source": "f62f923b999aac56f7ae64826c6bbdc1e15b4669",
+      "role": "installed frozen source preparation with authenticated service-owned review originals",
+      "review": "a58f8e8a5f532cc624ab313e88df5eaa09972c55bec3da2c7359e1def7377837",
+      "selection": "exact safe projection; private originals and raw ancestry withheld"
     }
   ],
   "source_files_count": 1369,
@@ -170,9 +176,19 @@
       "source": "author13 accepted proposal/module or reviewed infrastructure aggregate; no new scientific approval"
     },
     {
+      "path": "outputs/implementation-reviews/item4-source-preparation-20261009.json",
+      "sha256": "f948c49466e19d52c42ea08caccab31acce325393f409b7cd352b5c40b3701d1",
+      "source": "genuine administrative report or aggregate preparation status; no scientific approval"
+    },
+    {
+      "path": "outputs/implementation-reviews/item4-source-install-repair-20261009.json",
+      "sha256": "a58f8e8a5f532cc624ab313e88df5eaa09972c55bec3da2c7359e1def7377837",
+      "source": "genuine administrative report or aggregate preparation status; no scientific approval"
+    },
+    {
       "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
-      "sha256": "d9749a3887d27a9d19c03ee9dd35fccdfe2a99c7d74981ecc88efaa0d90070c1",
-      "source": "author13 accepted proposal/module or reviewed infrastructure aggregate; no new scientific approval"
+      "sha256": "87d75edf4c32ea345863e4f0e615482d22956acab53e5659ea3bf6502e45e134",
+      "source": "genuine administrative report or aggregate preparation status; no scientific approval"
     }
   ],
   "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release."
