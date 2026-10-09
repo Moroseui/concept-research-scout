@@ -1,0 +1,4 @@
+Two things:
+
+1. **13B staging (operator decision):** review 9 keeps asking for real execution and integration evidence that only a real run can produce. Run the GPU smoke stage, inside the approved $75 stage-1 cap, as that evidence. Start with the arms that don't depend on CTP coverage, keeping coverage-dependent arms held. The scientific reviewer then judges the smoke results before any full training. The author should propose this staging in author 14, and the reviewer judges it scientifically. Don't wait for a separate production-provenance package before the smoke run, beyond what the run itself records.
+2. **Human-readable status:** start `outputs/STATUS.md` with a short plain-language section of five to eight lines: what was learned, what's running, what's blocked and why, money actually spent, and the next expected result with a time estimate. Keep the detailed audit text below it.
