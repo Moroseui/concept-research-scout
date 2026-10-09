@@ -2,13 +2,13 @@
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B verified every frozen input and its pinned environment; the package-permission repair is approved and installed.
-Server preparation is running. GPU smoke has not started; coverage-dependent arms remain held.
+CPU preprocessing is confirmed running after one submission. GPU smoke has not started; coverage-dependent arms remain held.
 Full training awaits scientific review of real smoke results; no separate provenance package is required first.
-Provider billing observed $2.20523893 through completed hourly records. Final actual spend is unsettled; item 4 retains $56.032853 of $75.
+Provider billing observed $2.20523893 through completed hourly records. Final actual spend is unsettled; item 4 retains $66.375253 of $75.
 Next expected result: CPU preparation, then base-only GPU smoke, roughly 1-2 hours if preparation passes.
 No operator action needed. Latest Claude direction: PROCEED. Today: 36/50 model calls.
 
-Updated 2026-10-09T13:58:15.196195+00:00. Detailed audit follows.
+Updated 2026-10-09T14:07:04.423751+00:00. Detailed audit follows.
 
 ## Results and execution
 
@@ -18,7 +18,7 @@ Author 14 proposed coverage-independent staging. Scientific review 10 returned g
 
 Both earlier CPU attempts stopped before science and are positively terminal. Their full reservations and original records remain counted. The second attempt verified all input hashes and environment, but provider file permissions conflicted with the unchanged private-record check. Its precise exception was reproduced diagnostically, not recovered from original stderr.
 
-R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent APPROVE 69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92. Claude explicitly recommended PROCEED and judged the owner-only invocation copies equivalent-or-stronger protection. The patch copies only exact hash-verified code and the selected partition record into a temporary private directory; original mounted files and all downstream checks stay unchanged. Real installation verification and activation passed. Preparation was requested once and is running; no third compute submission has occurred.
+R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent APPROVE 69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92. Claude explicitly recommended PROCEED and judged the owner-only invocation copies equivalent-or-stronger protection. The patch copies only exact hash-verified code and the selected partition record into a temporary private directory; original mounted files and all downstream checks stay unchanged. Real installation verification and activation passed. Package preparation and upload passed. The third CPU attempt was admitted normally and submitted once; both local and provider accounting records confirm RUNNING. Its first input-proof observation refused an incomplete record, which does not establish job failure or permit resubmission.
 
 Final tests: 232 passed, two disclosed environment-dependent skips. The complete connection and admission rehearsal preserved both old charges and refused an over-cap launch. Provider creation and future upload were explicitly simulated; prior authority and input/image/billing checks ran for real. Original failed tests/rehearsals and all charges are preserved. The public source projection is audit history, not a deployable combined release.
 
@@ -26,8 +26,8 @@ Final tests: 232 passed, two disclosed environment-dependent skips. The complete
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item 4 assets and two CPU attempts | $56.032853 | Final item actual total unsettled |
-| Next CPU attempt, not yet admitted | Up to $10.342400 | Would bring retained total to $66.375253 |
+| Item 4 assets and three CPU attempts | $66.375253 | Final item actual total unsettled |
+| Current CPU attempt, included above | $10.342400 | Running; full reservation retained |
 | Item 6 CPU attempts | $5.854800 | Shared $0.38602155 observation cannot be isolated |
 | Item 6 preparation | $5.000000 | Actual not isolated |
 | Item 6 image | $1.178425 | Actual not settled |
