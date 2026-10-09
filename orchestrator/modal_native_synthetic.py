@@ -9,12 +9,12 @@ from orchestrator.review_contract import strict_json
 from tools import item4_native_worker as worker
 
 PURPOSE='M4_ITEM4_NATIVE_SYNTHETIC'
-OPERATION='item4-author12-native-synthetic-v1'
+OPERATION='item4-author13-native-synthetic-v1'
 SCHEMA='item4-native-synthetic-operation/v1'
 from orchestrator.experiment_context import ITEM4_RUN as RUN
 RESOURCES={'gpu':None,'cpu':2,'memory_mib':8192,'timeout_seconds':900}
 SELECTION=Path(__file__).resolve().parents[1]/'docs/ITEM4_NATIVE_SYNTHETIC_SELECTION_20261008.json'
-SELECTION_SHA='1caf229abaf20c8316a354aa7e317503ed7a396aafbdbb00704d38183bc23688'
+SELECTION_SHA='dec5c80e690fb13ea3ba68e7e1b784225f301c302de6a871145866b2e9a762f8'
 BUNDLE=Path('/var/lib/research-system-manual-sprint10-deployment/item4-native-cpu-rehearsal-20261008/code-bundle.json')
 
 

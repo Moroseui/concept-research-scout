@@ -75,11 +75,11 @@ def install(packet,review,source,bundle):
  return {'status':'INSTALLED_DISABLED','unit':unit.name,'provider_calls':0,'model_calls':0}
 
 
-PRIOR_SOURCE='e16bb77f5c7363d7b306e354db960827291095d5'
+PRIOR_SOURCE='37251e6e8236519b255beed87a7f7a87753d2dba'
 
 
 def upgrade(packet,review,source,raw,approval,config,code):
- """Replace only the known stopped author11 helper; retain all originals/costs."""
+ """Replace only the known stopped author12 helper; retain all originals/costs."""
  from orchestrator.manual_host_guard import trusted
  from orchestrator.manual_executor import digest
  from orchestrator.autonomy_review import canonical
@@ -104,7 +104,7 @@ print(json.dumps({'proof':proof,'config':c,'files':h.FILES}))
  checked=json.loads(subprocess.check_output(cmd+[program],text=True))
  h.require(checked['proof']['helper_source']==PRIOR_SOURCE,'UPGRADE_OLD_PROOF')
  # Fresh process: actual candidate modules, real UID1003 readonly ledger,
- # unchanged old terminal files and accepted author12/image before mutations.
+ # unchanged old terminal files and accepted author13/image before mutations.
  candidate=f"""import os,sys,json,sqlite3
 from pathlib import Path
 from types import SimpleNamespace
@@ -134,7 +134,7 @@ with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite
   with p.open('xb') as out:out.write(body)
   os.chown(p,0,1003);p.chmod(0o440)
  put(history/'UPGRADE_INTENT.json',canonical({'source':source,'review':approval,'prior':old,
-  'scope':'exact author12 successor; no model/provider/reservation mutation; original state and full costs retained'}))
+  'scope':'exact author13 successor; no model/provider/reservation mutation; original state and full costs retained'}))
  for name in checked['files']:put(history/'source'/name,trusted(h.ROOT/name).read_bytes())
  for name in ('installed.json','COMPLETE.json','START_INTENT.json','START_RECOVERY_INTENT.json','code-bundle.json'):
   put(history/name,trusted(h.RECORD/name).read_bytes())

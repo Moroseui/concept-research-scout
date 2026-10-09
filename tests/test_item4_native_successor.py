@@ -24,13 +24,25 @@ def successor(unreserved,monkeypatch,tmp_path):
  for name,v in records.items():pr.write_bytes(state/name,canonical(v))
  proof={'asset':old,'asset_sha256':digest(canonical(old)),'files':{x.relative_to(state).as_posix():{'bytes':x.stat().st_size,'sha256':digest(x.read_bytes())} for x in state.rglob('*') if x.is_file()}}
  monkeypatch.setattr(q,'OLD_STATE',state);monkeypatch.setattr(q,'proof',lambda:proof)
- f.predecessor=old;f.proof=proof;f.oldstate=state;return f
+ secondstate=tmp_path/'second-original';pr.mkdir(secondstate);pr.mkdir(secondstate/'provider')
+ secondbinding=copy.deepcopy(f.binding);secondbinding['operation_id']='item4-author12-native-synthetic-v1'
+ second={**old,'id':q.SECOND_ID,'binding':canonical(secondbinding).decode()}
+ f.accounts.db.execute('INSERT INTO autonomy_assets VALUES(?,?,?,?,?,?)',tuple(second.values()))
+ secondrecords=copy.deepcopy(records)
+ secondrecords['provider/stdout.bin']['failure']="AttributeError: 'nnUNetDatasetBlosc2' object has no attribute 'keys'"
+ secondrecords['provider/sandbox.json']={'binding_sha256':q.SECOND_ID,'provider_id':'sb-01M4F2SETPJC7D6C62Y0APCC06'}
+ secondrecords['FAILED.json']['provider_id']='sb-01M4F2SETPJC7D6C62Y0APCC06'
+ for name,v in secondrecords.items():pr.write_bytes(secondstate/name,canonical(v))
+ secondproof={'asset':second,'asset_sha256':digest(canonical(second)),'files':{x.relative_to(secondstate).as_posix():{'bytes':x.stat().st_size,'sha256':digest(x.read_bytes())} for x in secondstate.rglob('*') if x.is_file()}}
+ monkeypatch.setattr(q,'SECOND_STATE',secondstate);monkeypatch.setattr(q,'second_proof',lambda:secondproof)
+ f.predecessor=old;f.second=second;f.proof=proof;f.secondproof=secondproof;f.oldstate=state;f.secondstate=secondstate;return f
 
 def test_successor_admits_once_and_never_releases_original(successor):
  f=successor;assert reserve(f) is True
  rows=[dict(x) for x in f.accounts.db.execute('SELECT * FROM autonomy_assets')]
  assert next(x for x in rows if x['id']==q.OLD_ID)==f.predecessor
- assert sum(x['reserved_micro_usd'] for x in rows)==1118950+f.binding['envelope']['cost']['reserved_micro_usd']
+ assert next(x for x in rows if x['id']==q.SECOND_ID)==f.second
+ assert sum(x['reserved_micro_usd'] for x in rows)==2*1118950+f.binding['envelope']['cost']['reserved_micro_usd']
  assert reserve(f) is False and not f.calls
  f.binding['installed_config_sha256']='f'*64
  with pytest.raises(ValueError,match='ALREADY_RESERVED_NO_RETRY'):reserve(f)
@@ -61,7 +73,7 @@ def test_unknown_changed_or_active_previous_cannot_admit(successor,monkeypatch,d
 
 def test_retry_that_exceeds_smoke_cap_still_refused(successor):
  f=successor;amount=f.binding['envelope']['cost']['reserved_micro_usd']
- asset(f.accounts.batch,budget.SMOKE_CAP-1118950-amount+1)
+ asset(f.accounts.batch,budget.SMOKE_CAP-2*1118950-amount+1)
  rows=[tuple(x) for x in f.accounts.db.execute('SELECT * FROM autonomy_assets')]
  with pytest.raises(ValueError,match='ITEM4_HARD_COST_CAP'):reserve(f)
  assert rows==[tuple(x) for x in f.accounts.db.execute('SELECT * FROM autonomy_assets')] and not f.calls
@@ -114,3 +126,29 @@ def test_candidate_preflight_uses_installed_guard_despite_review_copy(tmp_path):
  unsafe=prefix.replace('from orchestrator import spending_continuation\n','')
  result=subprocess.run([sys.executable,'-s','-B','-c',unsafe+check],capture_output=True,text=True)
  assert result.returncode!=0 and 'review copy must never execute' in result.stderr
+
+@pytest.mark.parametrize('damage',['missing','active','cost','receipt','file','cause','scope','extra'])
+def test_second_predecessor_must_also_be_exact_and_terminal(successor,damage):
+ f=successor
+ if damage=='missing':f.accounts.db.execute('DELETE FROM autonomy_assets WHERE id=?',(q.SECOND_ID,))
+ elif damage=='active':f.accounts.db.execute("UPDATE autonomy_assets SET status='RESERVED' WHERE id=?",(q.SECOND_ID,))
+ elif damage=='cost':f.accounts.db.execute('UPDATE autonomy_assets SET reserved_micro_usd=1 WHERE id=?',(q.SECOND_ID,))
+ elif damage=='receipt':f.accounts.db.execute("UPDATE autonomy_assets SET receipt='{}' WHERE id=?",(q.SECOND_ID,))
+ elif damage=='file':pr.write_bytes(f.secondstate/'provider/terminal.json',b'{}')
+ elif damage=='extra':pr.write_bytes(f.secondstate/'extra.json',b'{}')
+ elif damage=='scope':
+  v=json.loads(f.second['binding']);v['image_id']='im-changed';f.second['binding']=canonical(v).decode()
+  f.secondproof['asset_sha256']=digest(canonical(f.second))
+  f.accounts.db.execute('UPDATE autonomy_assets SET binding=? WHERE id=?',(f.second['binding'],q.SECOND_ID))
+ else:
+  v=json.loads((f.secondstate/'provider/stdout.bin').read_bytes());v['failure']='same original cause, not the diagnosed keys failure'
+  raw=canonical(v);pr.write_bytes(f.secondstate/'provider/stdout.bin',raw)
+  f.secondproof['files']['provider/stdout.bin']={'bytes':len(raw),'sha256':digest(raw)}
+ rows=[tuple(x) for x in f.accounts.db.execute('SELECT * FROM autonomy_assets')]
+ with pytest.raises(ValueError):reserve(f)
+ assert rows==[tuple(x) for x in f.accounts.db.execute('SELECT * FROM autonomy_assets')] and not f.calls
+
+def test_second_production_proof_tamper_refuses(tmp_path,monkeypatch):
+ v=q.second_proof();assert v['asset']['id']==q.SECOND_ID and v['asset']['reserved_micro_usd']==1118950
+ p=tmp_path/'second.json';p.write_bytes(q.SECOND_PROOF.read_bytes()+b' ');monkeypatch.setattr(q,'SECOND_PROOF',p)
+ with pytest.raises(ValueError,match='SECOND_PROOF_CHANGED'):q.second_proof()
