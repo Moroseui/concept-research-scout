@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import stat
 import time
+import tempfile
 
 SUPPORT_FILES = (
     'orchestrator/__init__.py', 'orchestrator/private_records.py',
@@ -47,6 +48,32 @@ def read_regular(path):
 def save(path, value):
     with Path(path).open("xb") as stream:
         stream.write(encoded(value)); stream.flush(); os.fsync(stream.fileno())
+
+
+@contextlib.contextmanager
+def private_preprocessing_files(package, pins, *, partitions):
+    """Copy only pinned invocation files; provider mount modes are not private.
+
+    The worker verifies complete package membership and hashes before entry.
+    Source mounts stay untouched. Each copy is exclusive, private, independently
+    rehashed and temporary; the preprocessing adapter retains all its checks.
+    """
+    names = ['execution.py'] + (['frozen-partitions.json'] if partitions else [])
+    with tempfile.TemporaryDirectory(prefix='reviewed-preprocessing-') as directory:
+        private = Path(directory)
+        if private.is_symlink() or stat.S_IMODE(private.stat().st_mode) != 0o700:
+            raise ValueError('EXPERIMENT_PRIVATE_PACKAGE_MODE')
+        for name in names:
+            raw = read_regular(Path(package)/name)
+            if sha(raw) != pins.get(name):
+                raise ValueError('EXPERIMENT_PRIVATE_PACKAGE_HASH')
+            target = private/name
+            descriptor = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            with os.fdopen(descriptor, 'wb') as stream:
+                stream.write(raw); stream.flush(); os.fsync(stream.fileno())
+            if sha(read_regular(target)) != pins[name]:
+                raise ValueError('EXPERIMENT_PRIVATE_PACKAGE_HASH')
+        yield private
 
 
 def execute(package, inputs, progress, binding_sha256, *, execution_manifest=None):
@@ -101,11 +128,12 @@ def execute(package, inputs, progress, binding_sha256, *, execution_manifest=Non
                 raise ValueError('EXPERIMENT_PARTITIONS_WORKER_HASH')
         elif 'frozen-partitions.json' in actual:
             raise ValueError('EXPERIMENT_PARTITIONS_UNSELECTED')
-        return preprocess(package/execution['module'],inputs,progress,binding,plan,
-            cohort_raw=read_regular(package/'cohort.json'),
-            input_files=json.loads(read_regular(package/'input-inventory.json')),
-            frozen_partitions=(package/'frozen-partitions.json'
-                if binding['preprocessing'].get('schema') == 'reviewed-preprocessing-partitions/v1' else None))
+        partitions = binding['preprocessing'].get('schema') == 'reviewed-preprocessing-partitions/v1'
+        with private_preprocessing_files(package, actual, partitions=partitions) as private:
+            return preprocess(private/execution['module'],inputs,progress,binding,plan,
+                cohort_raw=read_regular(package/'cohort.json'),
+                input_files=json.loads(read_regular(package/'input-inventory.json')),
+                frozen_partitions=private/'frozen-partitions.json' if partitions else None)
     selected(plan, binding)  # Refuse a missing reviewed result contract before execution.
     scope = progress_scope(binding)
     segment = binding['experiment']['segment']

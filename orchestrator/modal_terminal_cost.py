@@ -107,6 +107,9 @@ def record(accounts,ident,work):
     if db.execute('SELECT 1 FROM events WHERE id=?',(ident+':pre-science-stop',)).fetchone():
         from orchestrator import item4_preprocessing_fresh_start as fresh
         p=fresh.contract()
+        if ident!=p['old_row']['id']:
+            from orchestrator.item4_private_staging_retry import terminal_contract
+            p=terminal_contract(accounts,ident)
         fresh.require(ident==p['old_row']['id'],'COST_ORIGINAL_IDENTITY')
         fresh.retained(db,p)
         intent=Path(work)/'create-intent.json'
