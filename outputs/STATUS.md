@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-Base preprocessing was submitted successfully; its provider outcome is being checked.
-Claude approved the spending repair and recommended proceeding; it is installed.
-Coverage arms await source evidence; full training awaits scientific review of actual smoke results.
-Observed workspace workload is $1.33511986 this month, fully credited; item-specific actual spending remains unsettled.
-Item 4 retains $45.690453 of its $75 smoke cap; original reservations remain counted.
-Next result: verified base preprocessing, estimated by 12:00 UTC if execution succeeds. No operator action needed.
+13B reached its first real preparation launch, but produced no scientific output.
+The guard requires private output permissions; the provider created its empty root with broader permissions.
+The idle sandbox is stopped. Claude is reviewing a narrow repair and a truthful fresh-start recovery.
+Coverage arms remain held; full training awaits scientific review of actual smoke results.
+Workspace metered workload is $2.01511986, offset by credits; item actuals remain unsettled. Item 4 retains $45.690453 of $75.
+Next result: verified preparation in an estimated 1-2 hours, conditional on review and execution. No operator action needed.
 
-Updated 2026-10-09T11:04:04.205546+00:00. Detailed audit follows.
+Updated 2026-10-09T11:19:17.656644+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -26,7 +26,7 @@ Normal admission then refused before a compute reservation because the spending 
 
 R47 source eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f received genuine independent APPROVE 3e3569d6f4284987e6dd96d71480f0764e2e82d825b27134386f4c66d6cbcda8. Claude explicitly recommended PROCEED, one round agreed. Held installation and verification succeeded; the existing package and upload are reused. The failed predecessor remains preserved. All 181 affected tests passed. Two unrelated image-fixture failures reproduce unchanged on the parent and are disclosed. The complete normal reservation path passed on an in-memory copy of actual accounting; a separate over-cap attempt was refused. Live global and local records were hashed before and after and were unchanged. This is admission evidence, not scientific or GPU evidence.
 
-Next are base preprocessing, the declared GPU benchmarks and repeated smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. Current observation: Base preprocessing was submitted successfully; its provider outcome is being checked. Newly reserved compute is $10.342400; all original reservations remain retained. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
+Next is a reviewed repair of the output-root permission mismatch, then base preprocessing, declared GPU benchmarks and repeated smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. The first preprocessing attempt submitted once, but its guard exited before any output record. Read-only observations established an empty output volume and only idle processes. The sandbox was positively terminated; no scientific result or retry is claimed. Newly reserved compute is $10.342400; all original reservations remain retained. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
 
 ## Spending
 
@@ -40,24 +40,24 @@ Next are base preprocessing, the declared GPU benchmarks and repeated smoke. The
 | Item 6 preparation | $5.000000 | Actual not isolated |
 | Item 6 image | $1.178425 | Actual not settled |
 
-Authenticated billing observed $1.33511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
+Authenticated billing observed $2.01511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
 
 Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. Every original attempt and charge remains counted.
 
 ## Calls, blockers and judgment calls
 
-UTC October 9: 30/50 calls; all are terminal. No resets or relabeling.
+UTC October 9: 31/50 calls; R48 direction/scope opinion is running. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
 | Scientific reviewer | 4 | Review 7 REVISE; review 8 reader-limit failure; reviews 9/10 genuine REVISE |
 | Administrative implementation review | 19 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding |
-| Standalone direction/scope | 4 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction |
+| Standalone direction/scope | 5 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction; R48 output-root initialization and positively stopped zero-step recovery |
 
 Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest direction is R47 PROCEED, one round agreed: use the reviewed connection and original terminal proofs to reach the next scientific result; no extra subsystem or provenance package.
 
-Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending.
+Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending. R48 asks for the simplest safe handling of the provider root and zero-step recovery; it cannot approve installation of an unwritten repair. A draft that initializes only a verified empty output root to private permissions passed 36 focused tests, retaining the original strict guard. It is not reviewed or installed. Original launch stderr was discarded, so the precise original exception is inferred from the demonstrated root-mode conflict. The ordinary committed-step continuation cannot be used to fabricate missing records.
 
 ## Publication scope and omissions
 
@@ -336,3 +336,9 @@ Evidence folders, ledgers, review packets, native streams, private records, pati
 
 - tests > fixtures > item4_execution_billing_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
 - outputs > implementation-reviews > item4-execution-billing-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
+
+### Current draft and reconciliation
+
+The first attempt remains fully reserved at $10.342400 after verified termination. The hourly billing report ends before that attempt, so no excess is released. Current workspace metered workload is $2.01511986, offset by credits; subscription is separate. Complete item-specific actuals remain unsettled. A same-size retry would bring retained item 4 exposure to $56.032853, subject to normal admission. No retry has been launched.
+
+The published root-initialization code and tests are a working draft, not an installed release. Claude scope consultation is running because this touches private-output safeguards and zero-step accounting. Keep this repair narrow; no new subsystem or extra production-provenance package.

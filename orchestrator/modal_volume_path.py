@@ -57,4 +57,42 @@ def bound_fit_roots(volume_ids):
     # Verify every alias again after resolving the set. Child checks stay strict.
     if any(_bound_root(aliases[k],volume_ids[k],set(aliases.values()))!=v for k,v in roots.items()):
         raise ValueError('FIT_VOLUME_ROLE_CHANGED')
+    initialize_empty_progress(roots['progress'], volume_ids['progress'])
+    if _bound_root(aliases['progress'], volume_ids['progress'], set(aliases.values())) != roots['progress']:
+        raise ValueError('FIT_VOLUME_ROLE_CHANGED')
     return roots
+
+
+def initialize_empty_progress(root, volume_id):
+    """Make a newly dedicated empty output root satisfy existing private checks.
+
+    Never repair an existing record, change an input mount, or accept a weaker
+    permission mode. The exact bound provider root is the only chmod target.
+    """
+    root = Path(root)
+    if (not isinstance(volume_id, str) or not re.fullmatch(r'vo-[A-Za-z0-9]{1,80}', volume_id)
+            or root != Path('/__modal/volumes') / volume_id):
+        raise ValueError('FIT_PROGRESS_INITIALIZATION_IDENTITY')
+    if any(path.is_symlink() for path in [root, *root.parents]):
+        raise ValueError('FIT_PROGRESS_INITIALIZATION_ALIAS')
+    fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        before = os.fstat(fd)
+        if stat.S_IMODE(before.st_mode) == 0o700:
+            return  # All ordinary existing child/record checks still run.
+        if (not stat.S_ISDIR(before.st_mode) or stat.S_IMODE(before.st_mode) != 0o755
+                or before.st_uid != os.getuid() or before.st_gid != os.getgid()
+                or os.listdir(fd)):
+            raise ValueError('FIT_PROGRESS_INITIALIZATION_NOT_NEW_EMPTY')
+        os.fchmod(fd, 0o700)
+        after = os.fstat(fd)
+        current = root.lstat()
+        if (stat.S_IMODE(after.st_mode) != 0o700 or os.listdir(fd)
+                or (before.st_dev, before.st_ino, before.st_uid, before.st_gid) !=
+                   (after.st_dev, after.st_ino, after.st_uid, after.st_gid)
+                or (current.st_dev, current.st_ino, current.st_mode) !=
+                   (after.st_dev, after.st_ino, after.st_mode)):
+            raise ValueError('FIT_PROGRESS_INITIALIZATION_CHANGED')
+        os.fsync(fd)
+    finally:
+        os.close(fd)
