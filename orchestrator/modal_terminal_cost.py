@@ -142,7 +142,10 @@ def record(accounts,ident,work):
     return saved
 
 
-def effective(db,row,rates):
+def effective(db,row,rates,*,snapshot=None):
+    from orchestrator.item4_closed_attempt_billing import effective as closed_billing
+    reconciled=closed_billing(db,row,snapshot)
+    if reconciled is not None:return max(reconciled,row['actual_micro_usd'] or 0)
     old=db.execute('SELECT job,payload FROM events WHERE id=?',(row['id']+':terminal-exposure',)).fetchone()
     if old is None:return max(row['reserved_micro_usd'],row['actual_micro_usd'] or 0)
     saved=strict_json(old['payload']);binding=strict_json(row['binding'])
@@ -202,7 +205,7 @@ def exposure(db,rows,snapshot):
     groups={};by_run={};smoke={};commitments={};proofs={}
     for row in rows:
         binding=strict_json(row['binding']);scope=binding.get('experiment')
-        cost=effective(db,row,snapshot['rates'])
+        cost=effective(db,row,snapshot['rates'],snapshot=snapshot)
         if scope:
             key=scope['billing_object_id'];identity=(row['run'],scope['fit_id'],scope['stage'])
             prior=groups.setdefault(key,{'identity':identity,'terminal':0,'active':0})
@@ -211,7 +214,8 @@ def exposure(db,rows,snapshot):
         else:
             key='legacy-reservation:'+row['id'];commitments[key]=cost
             by_run[row['run']]=by_run.get(row['run'],0)+cost
-        if db.execute('SELECT 1 FROM events WHERE id=?',(row['id']+':terminal-exposure',)).fetchone():
+        if (db.execute('SELECT 1 FROM events WHERE id=?',(row['id']+':terminal-exposure',)).fetchone() or
+                db.execute('SELECT 1 FROM events WHERE id=?',(row['id']+':confirmed-closed-compute',)).fetchone()):
             proofs[row['id']]=cost
     seen=highwater(db);cycle=datetime.fromisoformat(snapshot['observed_at']).strftime('%Y-%m')
     underestimated=[]
