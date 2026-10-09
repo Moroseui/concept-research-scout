@@ -89,7 +89,7 @@ def upgrade_fixture(tmp_path,monkeypatch):
     calls=[]
     def check(cmd,**kw):
         calls.append(cmd)
-        return 'ActiveState=inactive\nMainPID=0\nControlGroup=\n' if cmd[0]=='systemctl' else 'GENUINE_REVISE9_NO_RUNNING_CALL\n'
+        return 'ActiveState=inactive\nMainPID=0\nControlGroup=\n' if cmd[0]=='systemctl' else 'EXACT_UNADMITTED_AUTHOR14_BATCH_REFUSAL\n'
     monkeypatch.setattr(i.subprocess,'check_output',check)
     monkeypatch.setattr(i.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout='verified',stderr=''))
     return i,root,record,review,statefile,bodies,evidence,calls
@@ -138,7 +138,7 @@ def test_upgrade_refuses_before_mutation(upgrade_fixture,fault,monkeypatch):
 def test_stopped_failed_unit_can_update_but_nonempty_cgroup_still_refuses(upgrade_fixture,monkeypatch):
     i,root,record,review,statefile,bodies,evidence,calls=upgrade_fixture
     def failed(cmd,**kw):
-        return 'ActiveState=failed\nMainPID=0\nControlGroup=/still-present\n' if cmd[0]=='systemctl' else 'GENUINE_REVISE9_NO_RUNNING_CALL\n'
+        return 'ActiveState=failed\nMainPID=0\nControlGroup=/still-present\n' if cmd[0]=='systemctl' else 'EXACT_UNADMITTED_AUTHOR14_BATCH_REFUSAL\n'
     monkeypatch.setattr(i.subprocess,'check_output',failed)
     with pytest.raises(ValueError,match='AUTHOR_UPGRADE_ACTIVE'):
         i.upgrade(bodies,evidence,review,{'report_sha256':'new-review'},'new-source')

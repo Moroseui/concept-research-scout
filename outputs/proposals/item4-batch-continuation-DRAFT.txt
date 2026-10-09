@@ -1,3 +1,5 @@
+REVIEWED AND INSTALLED: sourceeb835b81d019cc8088a53a246f45b790dbfffa4c, genuine APPROVEa2b2da904ba4974850e7b0455921692b473567bde43605207535bbb18551f479. Explicit PROCEED, one round, agreed. Original proposal follows for history; author14 is now admitted and running, not yet scientifically reviewed.
+
 DRAFT: bounded batch admission and exact unadmitted author14 recovery
 
 Operator staging decision is recorded verbatim and hash-pinned. Author14 must propose coverage-independent GPU smoke within $75, coverage arms held, then independent scientific review of smoke results before full training. No separate production-provenance package is a prerequisite beyond the run's records. Ordinary privacy, input, image, confinement and spending checks remain.

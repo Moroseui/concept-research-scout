@@ -91,6 +91,12 @@
       "role": "bounded scientific response, historical proof and complete obligation delivery",
       "review": "7303aa4386824db878e24225025ffbd93c5b04c54b0543cb5c5d3aa373446646",
       "selection": "exact safe projection; private accounting checkpoint and original ancestry withheld"
+    },
+    {
+      "source": "eb835b81d019cc8088a53a246f45b790dbfffa4c",
+      "role": "installed bounded batch continuation and exact unadmitted-author recovery with operator smoke staging",
+      "review": "a2b2da904ba4974850e7b0455921692b473567bde43605207535bbb18551f479",
+      "selection": "exact safe projection; private accounting/preparation checkpoint and raw ancestry withheld"
     }
   ],
   "source_files_count": 1369,
@@ -261,14 +267,19 @@
       "source": "genuine administrative approval or reconciled aggregate status; no scientific acceptance"
     },
     {
-      "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
-      "sha256": "12a1549129fe02e243c2ad7b95fb5d84b6aa90c4c1850ef064b8c6c816f5c3a8",
-      "source": "genuine administrative approval or reconciled aggregate status; no scientific acceptance"
-    },
-    {
       "path": "outputs/implementation-reviews/item4-review9-staged-continuation-20261009.json",
       "sha256": "7303aa4386824db878e24225025ffbd93c5b04c54b0543cb5c5d3aa373446646",
       "source": "genuine administrative approval or reconciled aggregate status; no scientific acceptance"
+    },
+    {
+      "path": "outputs/implementation-reviews/item4-batch-continuation-20261009.json",
+      "sha256": "a2b2da904ba4974850e7b0455921692b473567bde43605207535bbb18551f479",
+      "source": "genuine implementation approval or reconciled aggregate status; not scientific acceptance"
+    },
+    {
+      "path": "outputs/sprint13b/CONTINUATION_STATUS.json",
+      "sha256": "aafadd6cdf59fd7211d3be9bc771090e9cb3fd167a3ee838b397fb8c05b567ed",
+      "source": "genuine implementation approval or reconciled aggregate status; not scientific acceptance"
     }
   ],
   "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release.",
@@ -388,5 +399,5 @@
       "private_checkpoint_omitted": true
     }
   ],
-  "latest_backup_at": "2026-10-09T07:29:23.541179+00:00"
+  "latest_backup_at": "2026-10-09T08:22:56.930149+00:00"
 }

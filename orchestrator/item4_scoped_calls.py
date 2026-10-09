@@ -134,6 +134,8 @@ def connect(frozen,approval,*,mechanical=None,mechanical_approval=None,response=
         require(active.get('store') is not None and active['store'].batch is batch and
             (ident,stage,source)==(active['id'],active['stage'],active['source']),'BATCH_EXTENSION_OWNER')
         require(next_call(active['store'],stage)==ident,'BATCH_EXTENSION_NEXT')
+        from orchestrator import item4_batch_recovery
+        item4_batch_recovery.granted(active['store'],batch_extension,batch_approval)
         rows=[dict(r) for r in batch.db.execute("SELECT * FROM autonomy_calls WHERE kind='scientific' ORDER BY rowid")]
         pins=batch_extension['global_calls'];by_id={r['id']:r for r in rows}
         require(all(i in by_id and continuation.sha(continuation.canonical(by_id[i]))==h
