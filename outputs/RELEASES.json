@@ -37,6 +37,12 @@
       "role": "installed native author12 CPU rehearsal; includes billing query and import repair",
       "review": "6d57ff879660157e8b1ad3ca3924987ff32381ff48de5fc9a0f5c97b98258a4f",
       "selection": "safe exact source only; accounting proof excluded"
+    },
+    {
+      "source": "93fc27fa247584342a340e384e20d8ef8dea38c6",
+      "role": "installed exact configuration delivery for existing review7",
+      "review": "c403ec593e91345910c013bb70d2f6eada103b909286440996ac38c429d9e99c",
+      "selection": "safe exact source only; no private ancestry"
     }
   ],
   "source_files_count": 1365,

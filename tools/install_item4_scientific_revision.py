@@ -53,7 +53,7 @@ def upgrade(bodies, evidence_bodies, review, approved, source):
         trusted(ROOT/'tools/item4_scientific_revision_component.py'))
     prior=importlib.util.module_from_spec(prior_spec);prior_spec.loader.exec_module(prior)
     old,checkpoint,manifest=prior.verified()
-    require(old['source']==_contract.SECOND_SOURCE and old['review_sha256']==_contract.SECOND_REVIEW, 'AUTHOR_UPGRADE_PRIOR_SOURCE')
+    require(old['source']==_contract.THIRD_SOURCE and old['review_sha256']==_contract.THIRD_REVIEW, 'AUTHOR_UPGRADE_PRIOR_SOURCE')
     replacement=json.loads(bodies['docs/ITEM4_REVISION_CHECKPOINT.json'])
     require({k:v for k,v in replacement.items() if k!='evidence_manifest_sha256'}==
         {k:v for k,v in checkpoint.items() if k!='evidence_manifest_sha256'},'AUTHOR_UPGRADE_CHECKPOINT_CHANGED')
@@ -75,14 +75,15 @@ assert os.getuid()==os.getgid()==1003
 p=Path('/var/lib/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/item4/lane')
 with sqlite3.connect((p/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
  v=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
- assert v['phase']=='BLOCKED' and v['reason']=='UNRESOLVED_AFTER_THREE_REVISIONS' and not v.get('pending') and v['rounds']=={'run_spec_author':11,'run_spec_review':6}
- assert db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==17
+ assert v['phase']=='run_spec_review' and not v.get('pending') and v['rounds']=={'run_spec_author':12,'run_spec_review':6}
+ assert any(a['id']=='validator' and a['version']==3 and a['sha256']=='43e307ed1ce8a1afae76be2d4e38ef2d36352cdae27989137a85ac2b5b64af14' for a in v['artifacts'])
+ assert db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==18
 with sqlite3.connect('file:/var/lib/research-system-autonomy/reviews/jobs.sqlite?mode=ro',uri=True) as db:
  assert not db.execute("SELECT 1 FROM autonomy_calls WHERE status='RUNNING'").fetchone()
-print('HELD_REVIEW6_NO_RUNNING_CALL')
+print('HELD_REVIEW7_NO_RUNNING_CALL')
 """
     require(subprocess.check_output(['runuser','-u','partho','--','python3','-s','-B','-c',check],text=True).strip()==
-        'HELD_REVIEW6_NO_RUNNING_CALL','AUTHOR_UPGRADE_RECONCILIATION')
+        'HELD_REVIEW7_NO_RUNNING_CALL','AUTHOR_UPGRADE_RECONCILIATION')
     history=RECORD/'history'/old['source'];staged=RECORD/('upgrade-staged-'+source)
     require(not history.exists() and not staged.exists(),'AUTHOR_UPGRADE_EXISTS_RECONCILE')
     put(history/'UPGRADE_INTENT.json',json.dumps({'source':source,'review':approved,

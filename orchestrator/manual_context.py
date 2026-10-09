@@ -46,7 +46,11 @@ def workspace_artifact(kind, *, artifact_id=None, private_intake=None, reference
     """One delivery rule shared by assembly and downstream evidence checks."""
     return (kind in WORKSPACE_TYPES or (reference_prior_results and kind=='prior_results')
             or (private_intake is not None and kind=='validation_result')
-            or (kind=='configuration' and artifact_id in {'authored-execution-plan','provenance-validators','current-six-item-backlog'})
+            or (kind=='configuration' and ((private_intake is not None and artifact_id in {
+                'current-reviewed-notebook-selection','item4-current-backlog-selection',
+                'item4-operator-document-1','item4-operator-document-2','item4-operator-document-3',
+                'item4-operator-document-4','item4-operator-document-5','spec-size-guidance','provenance-guidance'})
+                or artifact_id in {'authored-execution-plan','provenance-validators','current-six-item-backlog'}))
             or (kind=='validator' and artifact_id=='validator')
             or (kind in {'run_spec','proposed_run_spec'} and (artifact_id==kind or
                 (kind=='run_spec' and artifact_id=='author5-original-SPEC.proposed.md'))))
