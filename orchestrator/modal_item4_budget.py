@@ -86,7 +86,10 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
                         predecessors.append((row, data))
         if scope['segment'] == 1:
             if 'fresh_start' in binding:
-                from orchestrator.item4_preprocessing_fresh_start import validate_reservation
+                if 'preprocessing' in binding:
+                    from orchestrator.item4_preprocessing_fresh_start import validate_reservation
+                else:
+                    from orchestrator.item4_fit_transport_recovery import validate_reservation
                 validate_reservation(accounts,predecessors,binding)
             elif predecessors:raise ValueError('ITEM4_FIT_ALREADY_EXISTS_NO_RESTART')
             if 'resume' in binding:raise ValueError('ITEM4_INITIAL_HAS_RESUME_BINDING')

@@ -43,7 +43,8 @@ def load(driver, value):
         selected=waves.read(driver,value,root,'fit')['selected']
         if selected is None:return None
         from orchestrator.experiment_continuation import resolve
-        return resolve(driver,value,selected)
+        from orchestrator.item4_fit_transport_recovery import resolve as fit_recovery
+        return fit_recovery(driver,value,resolve(driver,value,selected))
     if value.get('fit_selection_waves'):raise ValueError('EXPERIMENT_INCREMENTAL_PLAN_REQUIRED')
     path = root/'READY.json'
     if not path.exists(): return None
@@ -51,7 +52,8 @@ def load(driver, value):
     raw = path.read_bytes()
     selected = validate_selection(driver, value, raw)
     from orchestrator.experiment_continuation import resolve
-    return resolve(driver, value, selected)
+    from orchestrator.item4_fit_transport_recovery import resolve as fit_recovery
+    return fit_recovery(driver,value,resolve(driver,value,selected))
 
 
 

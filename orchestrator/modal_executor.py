@@ -73,7 +73,12 @@ def item4_job(binding):
     identity={'run':run,'fit':fit,'segment':segment}
     if 'fresh_start' in binding:
         link=binding['fresh_start']
-        if ('preprocessing' not in binding or (segment==1 and 'resume' in binding)
+        if 'preprocessing' not in binding:
+            from orchestrator.item4_fit_transport_recovery import validate_identity, ORIGINAL_ID
+            if not isinstance(link,dict) or link.get('previous_binding_sha256')!=ORIGINAL_ID:
+                raise ValueError('ITEM4_FRESH_START_IDENTITY')
+            validate_identity(binding)
+        if ((segment==1 and 'resume' in binding)
                 or (segment!=1 and 'resume' not in binding)
                 or not isinstance(link,dict) or set(link)!={'previous_binding_sha256','terminal_event_sha256'}
                 or any(not isinstance(v,str) or not re.fullmatch('[a-f0-9]{64}',v) for v in link.values())):
