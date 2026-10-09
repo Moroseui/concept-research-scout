@@ -1,0 +1,33 @@
+{
+  "schema": "aggregate-hardware-selection/v1",
+  "source_record_sha256": "c2ea6bbc9ae0b72f626142065210d20f206a59423643f7a5f7db7e351fe0e2f3",
+  "calculation": {
+    "benchmarks": [
+      {
+        "epoch_seconds": "278.167062373",
+        "fit_id": "benchmark-A100-80GB",
+        "gpu": "A100-80GB",
+        "next_cheaper_fit_id": null,
+        "qualifies": true
+      },
+      {
+        "epoch_seconds": "228.13786939",
+        "fit_id": "benchmark-H100",
+        "gpu": "H100",
+        "next_cheaper_fit_id": "benchmark-A100-80GB",
+        "qualifies": false
+      },
+      {
+        "epoch_seconds": "166.28362007700002",
+        "fit_id": "benchmark-B200",
+        "gpu": "B200",
+        "next_cheaper_fit_id": "benchmark-H100",
+        "qualifies": true
+      }
+    ],
+    "selected_gpu": "B200"
+  },
+  "scientifically_accepted": false,
+  "execution_admitted": false,
+  "basis": "Three original collected and hash-verified one-epoch benchmarks; unchanged authored hardware rule."
+}

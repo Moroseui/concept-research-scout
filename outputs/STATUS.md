@@ -1,6 +1,35 @@
 # Research status
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
+All three GPU benchmarks are collected and closed: A100 278.17 s, H100 228.14 s, B200 166.28 s for their first epochs.
+The authenticated, unchanged hardware rule selects B200; it is about 27% faster than H100.
+The reviewed $1-bounded smoke setup is in progress; no GPU training has launched.
+Before base smoke can launch, the deliberate interruption command needs testing and review; coverage arms and full training stay held.
+Identified provider compute is $13.97; last verified exposure is $81.74 of $150 before the new setup reservation, with B200 billing pending.
+Next result: base smoke with real interruption/resume and repeat, estimated 1?2 hours. Claude says PROCEED; 49/50 calls today.
+
+Updated 2026-10-09T22:32:24.023612+00:00.
+
+## Completed benchmarks and next smoke operation
+
+B200 completed one native epoch in 166.28362007700002 seconds with 250 training and 50 validation iterations; loader wait was 0.692260330000039 seconds. All seven validation checks passed. Collection hashes, original receipt and positive termination were verified. Its original $16.5924 reservation remains recorded; the installed closed-attempt accounting uses a conservative $10.039474 bound including unsettled obligations. Effective item exposure fell to $81.742729 without changing any original charge or reservation. The final B200 provider bill is still pending.
+
+Authenticated hardware selection c2ea6bbc9ae0b72f626142065210d20f206a59423643f7a5f7db7e351fe0e2f3 selects B200. A100 qualifies as the lowest-price reference; H100 does not meet the 20% improvement over A100; B200 meets it relative to H100. This is the frozen hardware calculation, not scientific smoke acceptance or a full-training admission. Raw safe aggregate outputs are preserved alongside this calculation. First-epoch warm-up remains included; steady-state smoke measurements are not yet available.
+
+The first hardware-calculation command stopped because its launch environment omitted the SDK path already supplied by the normal service. The same installed service environment was then used, its exact SDK import checked, and the normal calculation succeeded. The failed attempt is preserved privately. No installed source, safeguard, credential, budget or scientific choice changed; no extra model call or compute was used.
+
+Required next connection: existing monitoring handles stalls, while the authored base smoke requires a deliberate stop after a committed epoch and a genuine linked resume. The native checkpoint, termination, interruption-record and continuation APIs already exist; the specific deliberate-stop command is missing. Earlier planning assumed ordinary monitoring supplied it; source inspection corrected that assumption before launch. Implement and test only that bounded connection, with independent implementation/accounting review before installation or use. Do not alter the five-epoch scientific code or fabricate interruption evidence. No new timer or subsystem is planned.
+
+The approved two-fit asset setup can proceed independently under its normal bounded reservation. The reviewed $1-bounded smoke setup is in progress; no GPU training has launched. Full training still requires scientific smoke acceptance, a measured projection within $1,200 and total admission within $1,275. All existing patient, credential and network protections remain unchanged.
+
+
+## Earlier detailed audit
+
+The following entries predate the current state above.
+
+# Research status
+
+Item 6 is complete; all 352 comparable values match the independent Colab run.
 A100 and H100 first epochs measured 278.17 and 228.14 seconds; neither supplies a steady-state smoke estimate yet.
 B200 is running on its original submission; a provider storage error has temporarily prevented a complete progress read.
 The smoke connection is independently approved, installed and verified; coverage-dependent arms and full training remain held.
