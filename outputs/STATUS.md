@@ -1,14 +1,37 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B now has a real A100 benchmark: one measured epoch took 278.17 seconds, with 0.066% loader wait.
-The outputs passed seven declared checks, were collected and hash-verified, and the sandbox was terminated; nothing is running.
-H100 is held because its next reservation would exceed $75; coverage-dependent arms and full training also remain held.
-Known provider compute is $9.87340853, excluding the newly closed A100 bill and unsettled assets; bounded exposure is $64.596977/$75.
-Next: check closed billing after 20:00 UTC and settle the budget path; an H100 result is roughly 30-45 minutes after admission, which is not yet assured.
-No operator action yet. Latest implementation review: APPROVE; latest explicit direction: PROCEED from the preceding review. Today: 44/50 calls, all terminal.
+13B has a collected A100 benchmark: one measured epoch took 278.17 seconds, with 0.066% loader wait and seven checks passed.
+Nothing is running. The next H100 reservation would exceed $75; coverage-dependent arms and full training remain held.
+Action needed: decide the proposed $150 stage-1 cap; the $1,275 total and $1,200 projection limit would remain unchanged.
+Identified provider compute is $11.89064926, including $2.01724073 for the completed A100; unsettled assets remain reserved. Exposure is $64.596977/$75.
+Next: H100 timing roughly 30-45 minutes after an approved, reviewed cap change and normal admission; the money decision is pending.
+Claude resolved both accounting findings in round 2; no direction recommendation was issued. Today: 46/50 calls, all terminal.
 
-Updated 2026-10-09T19:42:44.213222+00:00. Detailed audit follows.
+Updated 2026-10-09T20:01:46.678329+00:00. Detailed audit follows.
+
+## Pending money decision and direction consultation
+
+The operator has been asked to raise stage-1 from $75 to $150, with total and projection limits unchanged. The concrete proposal is outputs/proposals/item4-stage1-budget-20261009.md and the arithmetic is outputs/sprint13b/STAGE1_BUDGET_SCENARIO.json. A $146.258977 conservative scenario covers current exposure, the remaining two hardware benchmarks, three base-smoke segments including genuine interruption/resume and the repeat control, plus provisional preparation. It assumes no new historical credit. Exact runtime and preparation bounds still need verification before admission. This is not a guarantee of finishing every later arm or a scientific full-training projection. No cap, runtime, code or reservation has changed.
+
+Even the theoretical release of all $6.678180 reserved for the old source failure and three synthetic rehearsals, which would not be justified without counting their actual costs and remaining obligations, leaves at least $82.918797 after the five future $5 segment allowances, before compute. Pursuing only those credits cannot fund the next complete staged milestone under $75. Further credit engineering is deferred. Money approval is required by the operator's standing rule; no process permission is being requested.
+
+The bundled accounting/direction consultation used two genuine rounds. Round 1 returned REVISE because determinative reference modules were absent; it also questioned an actual-cost floor it could not inspect. Round 2 included those modules and tests, resolved both findings, and returned APPROVE of the inspected existing accounting logic, report 9f3250e581ad21c237750f5065d7aedbc7e6f4b9e79f248fe7eb7a0f817f7264. It did not approve a cap change, new credit or installation. Claude declined the explicit direction question as outside this code-review remit; no PROCEED or SIMPLIFY outcome is invented. The latest explicit direction remains R58 PROCEED at 18:07 UTC. The two recorded model estimates are $3.53543075 and $2.90587650, both preserved.
+
+UTC-day calls now total 46/50: 3 scientific author, 4 scientific reviewer, 34 administrative and 5 standalone direction. All are terminal. The two new administrative calls were the accounting/direction opinion and its genuine REVISE response; neither launched compute. Judgment: assess the whole next milestone, defer further accounting repairs that cannot fund it alone, and bring only the concrete cap decision to the operator. The initial local quote calculation correctly refused an incomplete A100-only rate subset; the corrected read-only calculation used the complete original admission billing snapshot. No ledger changed.
+
+Round-2 exact report withheld from public backup: outputs/implementation-reviews/item4-stage1-budget-opinion-round2-20261009.json was flagged CREDENTIAL_OR_HOST_REFERENCE. Its original remains private; verdict, hash, resolved findings and limitations are summarized here. Read-only static assessment did not execute tests or recompute a live ledger; private contract contents and some transport modules were outside its inspection. The round-1 report passed scans and is preserved publicly as historical, resolved feedback. Raw evidence, review packets, native streams, ledgers and patient-level data remain excluded.
+
+The read-only daily receipt audit finds $151.76705750 in model-reported cost estimates across 38 of 46 calls. These are usage estimates, not confirmed invoices or complete research spend. Seven scientific calls and one administrative failure have no such estimate in their global receipts; absence is not zero cost. The breakdown below preserves the existing call classification, without relabeling usage:
+
+| Call type | Count | Available reported estimate | Purpose |
+|---|---:|---:|---|
+| Scientific author | 3 | Not available in these receipts | Authors 12/13 native corrections and 14 staging |
+| Scientific reviewer | 4 | Not available in these receipts | Reviews 7, reader-failed 8, 9 and 10 |
+| Administrative review | 34 | $139.35154550 across 33 calls | Implementation, accounting and process repairs; latest two are the budget consultation |
+| Standalone direction | 5 | $12.41551200 across all five | Retry authority, next-result plan, staging, validation admission and output-root recovery |
+
+Administrative work dominates the available estimates. Further historical-credit engineering is deferred; any cap implementation and necessary accounting/direction assessment should share one review rather than create separate review cycles. The public round-2 report remains withheld after the unchanged scan; no scanner was relaxed.
 
 ## Current result and blocker
 
@@ -16,13 +39,13 @@ The A100 benchmark completed and was collected through the installed dispatcher.
 
 The saved epoch-timing artifact reports 278.167062373 seconds, 250 training iterations, 50 validation iterations, 16 physical CPUs, 128 GiB memory, and 0.183597061 seconds of measured loader wait (0.0660024%). The earlier 273.09-second value came from a progress log; use the collected timing artifact for benchmark comparisons. Exact aggregate originals are in outputs/sprint13b/A100/. Their source hashes and collection receipt hash are recorded in A100_BENCHMARK_RESULT.json. Scientific interpretation and hardware selection belong to the author and reviewer; no efficacy conclusion is made here.
 
-Normal collection recorded a conservative closed-run bound of $7.030311, including the unchanged $5 allowance for unsettled obligations. This is an elapsed-lifetime bound, not a confirmed invoice. The original $12.842400 reservation remains unchanged and preserved. Read-only replay of installed accounting with the admission billing snapshot gives $64.596977 total stage-1 exposure and no underestimated billing application. The next frozen H100 reservation is $14.292400, giving $78.889377, above the $75 cap; no H100 launch or reservation was attempted. Current A100 billing is not yet in a completed hourly interval. Historical preparation and synthetic rehearsal records may support further reconciliation, but no new credit has been taken.
+Normal collection recorded a conservative closed-run bound of $7.030311, including the unchanged $5 allowance for unsettled obligations. This is an elapsed-lifetime bound, not a confirmed invoice. The original $12.842400 reservation remains unchanged and preserved. Read-only replay of installed accounting with the admission billing snapshot gives $64.596977 total stage-1 exposure and no underestimated billing application. The next frozen H100 reservation is $14.292400, giving $78.889377, above the $75 cap; no H100 launch or reservation was attempted. The completed 19:00-20:00 UTC billing interval now reports $2.01724073 for this A100 run. Fresh installed exposure remains $64.596977; the observed actual is preserved alongside the original reservation, with no additional credit or accounting patch. Historical preparation and synthetic rehearsal records may support further reconciliation, but no new credit has been taken.
 
-The original failed A100 attempt remains preserved and accounted. Its confirmed compute was $0.39647718, rounded upward to 396,478 microdollars in accounting, with $5 unsettled obligations retained. Known earlier provider compute totals $9.87340853, excluding the newly closed A100 run, unsettled asset costs and model charges. Caps stay $75 smoke, $1,200 projection and $1,275 total. No amount, original reservation, charge or refusal has been reset or weakened.
+The original failed A100 attempt remains preserved and accounted. Its confirmed compute was $0.39647718, rounded upward to 396,478 microdollars in accounting, with $5 unsettled obligations retained. Known earlier provider compute was $9.87340853; the newly observed $2.01724073 makes identified compute $11.89064926, still excluding unsettled asset costs and model charges. Caps stay $75 smoke, $1,200 projection and $1,275 total. No amount, original reservation, charge or refusal has been reset or weakened.
 
 Installed source 99cd2f52d190a99d3ef6c71ea7359bea29319a09 passed 254 distinct tests and independent implementation review 8c37a6c932009dbb3d133ef7838c744b3a8714c58682dc3b11745c4458b12ac8, genuine APPROVE with no findings. Installation, exact predecessor reconciliation and normal admission all passed. The scientific guard, code, frozen inputs, image and resources were unchanged. The existing retention timer remains the sole cleanup owner. No new model or GPU call was made to observe or collect the completed result.
 
-Today's calls remain 44/50: 3 scientific authors (12/13 native corrections and 14 staging), 4 scientific reviews (7, preserved reader failure 8, 9 and 10), 32 administrative reviews for implementation, accounting and process repairs, and 5 standalone direction checks. All are terminal. The latest administrative review estimate is $7.52719125, separate from provider compute. Administrative calls dominate; necessary opinions and direction questions stay batched with implementation reviews. At 50 calls, wait for the UTC reset.
+Before the budget consultation, calls were 44/50: 3 scientific authors (12/13 native corrections and 14 staging), 4 scientific reviews (7, preserved reader failure 8, 9 and 10), 32 administrative and 5 standalone directions. The two additional administrative calls are counted above, bringing the current total to 46/50, all terminal. The latest administrative review estimate is $7.52719125, separate from provider compute. Administrative calls dominate; necessary opinions and direction questions stay batched with implementation reviews. At 50 calls, wait for the UTC reset.
 
 Latest explicit direction remains R58 PROCEED at 18:07 UTC. R59 returned implementation APPROVE but omitted the requested direction keyword; that omission remains logged for the next necessary review rather than prompting a separate call. Judgment at this stop: collect the positively complete A100 once, verify its originals read-only, retain all unsettled obligations, and hold further admission that would exceed the cap. No code or safeguard change required another consultation. Assessment of closed historical costs is read-only so far.
 

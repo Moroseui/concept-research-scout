@@ -9,7 +9,7 @@
   "scientific_result": true,
   "scientific_acceptance": false,
   "reservation_usd": "12.842400",
-  "actual_cost_usd": null,
+  "actual_cost_usd": "2.01724073",
   "item4_exposure_usd": "64.596977",
   "smoke_cap_usd": "75",
   "prior_attempt_and_charge_preserved": true,
@@ -36,5 +36,7 @@
       "bytes": 1107,
       "sha256": "8d2a0e9fca54c3a5762e03dd04ef3d121df21fafae00d27d5e4b4f3248c25b38"
     }
-  }
+  },
+  "actual_cost_scope": "Observed provider compute for completed 19:00-20:00 UTC hour; excludes unsettled noncompute obligations and is not a final invoice.",
+  "billing_observed_at": "2026-10-09T20:00:21.940637+00:00"
 }

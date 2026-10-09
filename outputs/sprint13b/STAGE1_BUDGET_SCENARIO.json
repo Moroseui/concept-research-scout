@@ -1,0 +1,68 @@
+{
+  "at": "2026-10-09T19:53:43.020007+00:00",
+  "schema": "prospective-budget-scenario/v1",
+  "current_verified_exposure_micro_usd": 64596977,
+  "old_unqualified_asset_reservations_micro_usd": 6678180,
+  "theoretical_minimum_after_entire_asset_release_and_five_future_overheads_micro_usd": 82918797,
+  "quotes_3600_seconds": {
+    "A100-80GB": {
+      "compute_micro_usd": 7842400,
+      "overhead_micro_usd": 5000000,
+      "reserved_micro_usd": 12842400,
+      "rates": {
+        "cpu_hour_cost_sandbox": "0.141900",
+        "mem_gib_hour_cost_sandbox": "0.024000",
+        "gpu_hour_cost_a100_80gb": "2.50000"
+      },
+      "basis": "hard Sandbox CPU/RAM maxima and lifetime, plus storage/transfer/probe overhead"
+    },
+    "H100": {
+      "compute_micro_usd": 9292400,
+      "overhead_micro_usd": 5000000,
+      "reserved_micro_usd": 14292400,
+      "rates": {
+        "cpu_hour_cost_sandbox": "0.141900",
+        "mem_gib_hour_cost_sandbox": "0.024000",
+        "gpu_hour_cost_h100": "3.95000"
+      },
+      "basis": "hard Sandbox CPU/RAM maxima and lifetime, plus storage/transfer/probe overhead"
+    },
+    "B200": {
+      "compute_micro_usd": 11592400,
+      "overhead_micro_usd": 5000000,
+      "reserved_micro_usd": 16592400,
+      "rates": {
+        "cpu_hour_cost_sandbox": "0.141900",
+        "mem_gib_hour_cost_sandbox": "0.024000",
+        "gpu_hour_cost_b200": "6.25000"
+      },
+      "basis": "hard Sandbox CPU/RAM maxima and lifetime, plus storage/transfer/probe overhead"
+    }
+  },
+  "future_count": {
+    "H100_benchmark": 1,
+    "B200_benchmark": 1,
+    "base_repeat_smoke_segments_at_max_B200_rate": 3
+  },
+  "provisional_new_setup_bound_micro_usd": 1000000,
+  "no_credit_scenario_total_micro_usd": 146258977,
+  "proposed_stage1_cap_micro_usd": 150000000,
+  "current_stage1_cap_micro_usd": 75000000,
+  "unchanged_total_cap_micro_usd": 1275000000,
+  "unchanged_projection_limit_micro_usd": 1200000000,
+  "billing_snapshot_sha256": "d118e998420c1d384b80de6b4314c3c5fd27e5b1a3bcddb668abe7c0768a2583",
+  "source_sha": "99cd2f52d190a99d3ef6c71ea7359bea29319a09",
+  "not_a_scientific_projection": true,
+  "execution_admitted": false,
+  "ledger_changes": 0,
+  "model_calls": 0,
+  "qualification_required_before_admission": [
+    "fresh actual provider rates",
+    "independent implementation approval of authorized cap patch",
+    "exact unchanged scientific identity and resource selection",
+    "one-hour segment timeout and setup bound qualification",
+    "all actual spend and open/unsettled reservations counted",
+    "normal budget and full-training refusals remain"
+  ],
+  "local_calculation_note": "Initial in-memory calculation used A100-only binding rate subset and was refused with ITEM4_ACTUAL_RATES_REQUIRED. No state mutation. Corrected calculation uses complete original admission billing snapshot."
+}
