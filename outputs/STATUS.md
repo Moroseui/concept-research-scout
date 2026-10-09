@@ -2,13 +2,17 @@
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B has a collected A100 benchmark: one measured epoch took 278.17 seconds, with 0.066% loader wait and seven checks passed.
-Nothing is running. The next H100 reservation would exceed $75; coverage-dependent arms and full training remain held.
+Server is verified idle. The goal is blocked on the cap decision; coverage-dependent arms and full training remain held.
 Action needed: decide the proposed $150 stage-1 cap; the $1,275 total and $1,200 projection limit would remain unchanged.
 Identified provider compute is $11.89064926, including $2.01724073 for the completed A100; unsettled assets remain reserved. Exposure is $64.596977/$75.
 Next: H100 timing roughly 30-45 minutes after an approved, reviewed cap change and normal admission; the money decision is pending.
 Claude resolved both accounting findings in round 2; no direction recommendation was issued. Today: 46/50 calls, all terminal.
 
-Updated 2026-10-09T20:01:46.678329+00:00. Detailed audit follows.
+Updated 2026-10-09T20:05:59.349408+00:00. Detailed audit follows.
+
+## Verified idle stop
+
+The money block has persisted across three goal turns; the goal is now marked blocked pending the operator decision, not complete. No model or compute job is live. A fresh server check found two historical item-6 rows still labelled RUNNING; direct queries of both original provider handles returned terminal exit 137. These are stale ledger labels, not active jobs or permission to restart. Their original reservations and rows remain unchanged and fully counted. No model call, new compute, accounting mutation or repair was made for this check. Cleanup remains with the existing retention timer. The next scientific result remains conditional on the pending cap decision and the normal implementation/admission gates.
 
 ## Pending money decision and direction consultation
 
