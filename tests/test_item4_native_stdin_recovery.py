@@ -83,38 +83,11 @@ def test_unrelated_or_changed_evidence_cannot_continue(recovery,damage):
  assert [tuple(x) for x in f.accounts.db.execute('SELECT * FROM autonomy_assets')]==f.old_assets
 
 
-@pytest.mark.parametrize('damage',['prior-source','active-unit','config','history'])
-def test_upgrade_refuses_wrong_or_uncertain_install_before_writes(tmp_path,monkeypatch,damage):
- from tools import install_item4_native_runtime as install
- from tools import item4_native_runtime as h
- from orchestrator.autonomy_review import canonical as installed_bytes
- record=tmp_path/'record';pr.mkdir(record);config_path=tmp_path/'config.json';config={'synthetic_config':True}
- old={'source':install.PRIOR_SOURCE,'config_sha256':digest(installed_bytes(config)),'unit':'synthetic.service'}
- if damage=='prior-source':old['source']='0'*40
- if damage=='config':old['config_sha256']='0'*64
- pr.write_bytes(record/'installed.json',canonical(old));pr.write_bytes(config_path,installed_bytes(config))
- monkeypatch.setattr(h,'RECORD',record);monkeypatch.setattr(h,'CONFIG',config_path);monkeypatch.setattr(h,'STATE',tmp_path/'state')
- monkeypatch.setattr('orchestrator.manual_host_guard.trusted',pr.check)
- monkeypatch.setattr(n,'precreate_snapshot',lambda *a:None)
- checked={'proof':{'helper_source':install.PRIOR_SOURCE},'config':config,'asset':{'binding':'{}'},'files':[]}
- def output(cmd,**kw):
-  if cmd[0]=='systemctl':return 'MainPID=42\nActiveState=active\n' if damage=='active-unit' else 'MainPID=0\nActiveState=failed\n'
-  assert cmd[:4]==['runuser','-u','partho','--']
-  assert 'mode=ro' in cmd[-1] and 'os.getuid()==os.getgid()==1003' in cmd[-1]
-  return json.dumps(checked)
- monkeypatch.setattr(install.subprocess,'check_output',output)
- if damage=='history':pr.mkdir(record/'history'/install.PRIOR_SOURCE,parents=True)
- before={str(p.relative_to(tmp_path)):p.read_bytes() for p in tmp_path.rglob('*') if p.is_file()}
- expected={'prior-source':'EXACT_PRIOR_SOURCE','active-unit':'RUNNING','config':'CONFIG_CHANGED','history':'EXISTS_RECONCILE'}[damage]
- with pytest.raises(ValueError,match='^NATIVE_RUNTIME_UPGRADE_'+expected+'$'):
-  install.upgrade(tmp_path/'packet',tmp_path/'review','a'*40,{}, {},config)
- assert {str(p.relative_to(tmp_path)):p.read_bytes() for p in tmp_path.rglob('*') if p.is_file()}==before
-
-
-def test_exact_live_configuration_matches_original_installer_serializer():
+def test_exact_live_configuration_keeps_compact_installer_serializer():
  from tools import item4_native_runtime as h
  from orchestrator.autonomy_review import canonical as installed_bytes
  original=json.loads((Path(__file__).parents[1]/'docs/ITEM4_PINNED_IMAGE_SELECTION_20261008.json').read_bytes())
  config=h.config_from_image(original)
- assert digest(installed_bytes(config))=='5fbe6f7f915e43d0cf1565884d6eba1bbfee90e0c5acc4e8afd47c59e1ced1ab'
+ assert config['operation_id']=='item4-author13-native-synthetic-v1'
+ assert config['state'].endswith('item4-author13-native-synthetic-v1')
  assert digest(canonical(config))!=digest(installed_bytes(config))

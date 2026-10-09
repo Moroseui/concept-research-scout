@@ -1,27 +1,28 @@
 {
-  "implementation": "item4-review7-continuation-20261009",
-  "source_sha": "46583c209b65a75c98c29aa3ea0b47802ace251f",
-  "implementation_verdict": "APPROVE",
-  "implementation_review_sha256": "27aedad79b9021e61458d884c2acab2d7e9c9cb131322c7d8edbf9a8042e6096",
-  "installed": true,
-  "tests": {
-    "unique_checks_passed": 268,
-    "method": "267 passed in complete regression run; missing synthetic parent fixture corrected and its single test passed; no production fix from that test failure"
+  "schema": "sprint13b-continuation-status/v1",
+  "at": "2026-10-09T02:38:56.363663+00:00",
+  "author_attempt": 13,
+  "author_status": "ACCEPTED",
+  "controller_tests": {
+    "status": "PASS",
+    "tests": 23,
+    "skipped": 0
   },
-  "installed_author_context": {
-    "characters": 199119,
-    "limit": 200000,
-    "file_hashes_verified": 385,
-    "state_and_prior_calls_unchanged": true
+  "native_status": "VERIFIED",
+  "native_attempt_reservation_usd": "1.118950",
+  "item4_retained_asset_reservations_usd": "28.705393",
+  "source_composition": "NOT_YET_CREATED",
+  "brain_source_rehash": {
+    "files": 99,
+    "bytes": 19679031,
+    "excluded_union_count": 49,
+    "overlap": 0,
+    "transferred_files": 0
   },
-  "continuation": {
-    "preserved_run_calls": 19,
-    "fixed_author_attempt": 13,
-    "fixed_review_attempt": 8,
-    "run_call_cap": 23,
-    "later_slots": "one ordinary interpretation pair after complete verified execution",
-    "service_scope": "author13 only; review8 held until authentic source and native integration proofs"
-  },
-  "science": "Review7 remains REVISE. Author13 is RUNNING in both call records, run call20. No result yet; pinned image unchanged.",
-  "utc_day_calls": 10
+  "scientific_review8": "HELD_FOR_SOURCE_AND_NATIVE_PROOFS",
+  "scientific_approval": false,
+  "gpu_smoke_started": false,
+  "direction": "PROCEED",
+  "implementation_source": "7e49eeb17f1fea1f8caa8709ec0422912bc17f3d",
+  "implementation_review": "8ceab8b02142b886ae3f5365aa696b9d4ca4f02be0c94b36adde923f7fa891b6"
 }

@@ -1,12 +1,12 @@
-"""Fixed author12 rehearsal; verifies both reviewed patch and existing image."""
+"""Fixed author13 rehearsal; verifies both reviewed patch and existing image."""
 from pathlib import Path
 import importlib.util,json,os,subprocess,sys,time
 CHANGE='item4-native-cpu-rehearsal-20261008'
-REVIEW_CHANGE='item4-native-import-binding-20261009'
+REVIEW_CHANGE='item4-native-author13-retry-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONFIG=Path('/etc/research-system-manual-sprint10')/CHANGE/'config.json'
-STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author12-native-synthetic-v1')
+STATE=Path('/var/lib/research-system-manual-sprint10/environment-inventory/item4-author13-native-synthetic-v1')
 BASE=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4')
 IMAGE_ROOT=Path('/opt/research-system/manual-repair-helpers/item4-image-runtime-20261008')
 IMAGE_HELPER_SHA='26e0172ad5986463ec618ffb9c7d5c48d333c04645461df3b14c3e6a571e7c51'
@@ -16,7 +16,7 @@ FILES=('orchestrator/modal_environment_budget.py','orchestrator/modal_environmen
  'orchestrator/modal_environment_provider.py','orchestrator/modal_pinned_image.py','orchestrator/modal_native_synthetic.py',
  'tools/item4_native_worker.py','tools/item4_native_runtime.py','tools/install_item4_native_runtime.py',
  'docs/ITEM4_NATIVE_PRECREATE_REFUSAL_20261008.json','docs/ITEM4_NATIVE_SYNTHETIC_SELECTION_20261008.json','docs/ITEM4_PINNED_IMAGE_SELECTION_20261008.json',
- 'orchestrator/modal_billing.py','orchestrator/modal_native_successor.py','docs/ITEM4_NATIVE_AUTHOR12_PREDECESSOR_20261009.json',
+ 'orchestrator/modal_billing.py','orchestrator/modal_native_successor.py','docs/ITEM4_NATIVE_AUTHOR12_PREDECESSOR_20261009.json','docs/ITEM4_NATIVE_AUTHOR13_PREDECESSOR_20261009.json',
  'docs/OVERNIGHT_AUTONOMY_OPERATOR_DECISION_20261008.txt','docs/ITEM4_SMOKE_RETRY_OPERATOR_DECISION_20261009.txt')
 PROPS={'User':'partho','Group':'partho','UMask':'0077','NoNewPrivileges':'yes','ProtectSystem':'strict',
  'PrivateTmp':'yes','ProtectHome':'read-only','RestrictSUIDSGID':'yes','LockPersonality':'yes'}
@@ -59,7 +59,7 @@ def config_from_image(old):
 
 def rendered(config):
  return f"""[Unit]
-Description=Fixed author12 synthetic CPU rehearsal
+Description=Fixed author13 synthetic CPU rehearsal
 After=network-online.target
 Wants=network-online.target
 [Service]
@@ -124,11 +124,11 @@ def author_and_image(accounts):
  with sqlite3.connect((LANE/'jobs.sqlite').as_uri()+'?mode=ro',uri=True) as db:
   db.row_factory=sqlite3.Row
   row=db.execute('SELECT * FROM manual_calls WHERE id=?',(s['author_call_id'],)).fetchone()
-  require(row is not None and row['status']=='COMPLETE' and row['stage']=='run_spec_author' and row['attempt']==12,'ACCEPTED_AUTHOR')
+  require(row is not None and row['status']=='COMPLETE' and row['stage']=='run_spec_author' and row['attempt']==13,'ACCEPTED_AUTHOR')
   receipt=json.loads(row['receipt']);accepted=receipt['native']['author_submission']
   require(accepted['status']=='ACCEPTED' and accepted['record_sha256']==s['accepted_submission_sha256'],'SUBMISSION_BINDING')
   state=json.loads(db.execute('SELECT payload FROM manual_state WHERE id=1').fetchone()[0])
-  require(state['phase']=='run_spec_review' and state['rounds']['run_spec_author']==12 and state['rounds']['run_spec_review']==6,'HELD_REVIEW7')
+  require(state['phase']=='run_spec_review' and state['rounds']['run_spec_author']==13 and state['rounds']['run_spec_review']==7,'HELD_REVIEW8')
   require(any(a['id']=='synthetic_tests' and a['sha256']==s['controller_receipt_sha256'] for a in state['artifacts']),'CONTROLLER_RECEIPT')
  globalrow=accounts.db.execute('SELECT * FROM autonomy_calls WHERE id=?',(s['author_call_id'],)).fetchone()
  require(globalrow is not None and globalrow['status']=='COMPLETE','GLOBAL_AUTHOR_TERMINAL')

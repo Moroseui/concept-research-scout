@@ -1,10 +1,10 @@
 {
-  "accepted_submission_sha256": "34b2e51bbff7aa93414fdb16e890b8b8f3d59ddabd94a64f7ac9662a6b08d000",
-  "author_attempt": 11,
-  "author_call_id": "816de00d07b9d24995f1627f8bdeebf54e44f37e8e07eb9aec4f581824f5326f",
-  "code_bundle_bytes": 217653,
-  "code_bundle_sha256": "42ad150b9800d6737335b5875c0eb0f4a353ca5883260c185f866026a3dc43a8",
-  "controller_receipt_sha256": "c67e60a6623f997f0e12a210208ebb49de72bdc5f36995d215403c1e44dbf4ce",
+  "accepted_submission_sha256": "90d58b7bc5ab384afde2246a82fe54934fb59f9c5ccae18a086e179a77fd3a54",
+  "author_attempt": 13,
+  "author_call_id": "f7bc13bca907209fa60c006aad26f409ab8d42b1fa821dbea260569a721b4bb0",
+  "code_bundle_bytes": 217819,
+  "code_bundle_sha256": "5efaaf6ec396ec59120a2aac85b13fd9bf76644ac6a42d78b94a35f152d6d75a",
+  "controller_receipt_sha256": "5aa1e5cdbe5e7efc1f2e4e8bbd80014697e47051fb542c13c64bdeae48cf065b",
   "entrypoint": "native_synthetic_integration",
   "environment": {
     "base_image": "pytorch/pytorch@sha256:eee11b3b3872a8c838e35ef48f08b2d5def2080902c7f666831310ca1a0ef2be",
@@ -131,7 +131,7 @@
     "selection_sha256": "593476dae32917976aec153cc4972cfef7d6398381e9af258fb19eb73a940299"
   },
   "files": {
-    "execution.py": "69123dacce25470bb0a48bfb6858030f42d0c49fc4aeadfb7ff2828b8237a703",
+    "execution.py": "3925313395199992195412e5db908e764e8215df52f59c408ba27619653993d8",
     "orchestrator/__init__.py": "e93ca2812ee2c8cfa4393b600305c65c9948a177278bd796f4a35815ba509383",
     "orchestrator/experiment_environment_requirements.py": "2376606b56304fe9abb4625957102ae0d1adada003b6d4edd632b27477b82b4c",
     "orchestrator/experiment_preprocessing.py": "5379206c7dd2dc4119c5b5657f9e6c8fe31027221a5970e23da3dc82c87d66eb",
@@ -154,8 +154,8 @@
   "image_binding_sha256": "30131a1fb75074409fb834b7a8adb4dc363a9b99ce9cffe2ac864e194410187a",
   "image_consumer_proof_sha256": "cf52d2e04f0a1052ca533af0e7b91af71a8b6eb18bc5762aedb72179fdf615ef",
   "image_id": "im-Yhslx2XCmdhO6U5ToJJi0C",
-  "module_sha256": "69123dacce25470bb0a48bfb6858030f42d0c49fc4aeadfb7ff2828b8237a703",
-  "notebook_sha256": "220ac100aab40625814e8353f61a0ff30c84110ec6d861ce1721b0909202bf9d",
+  "module_sha256": "3925313395199992195412e5db908e764e8215df52f59c408ba27619653993d8",
+  "notebook_sha256": "fca431baa0b6f8fc9ed44f42cb7147920755895f1636c427ed2f866697d79d5e",
   "patient_payload": false,
   "schema": "item4-native-synthetic-selection/v1",
   "scientific_approval": false

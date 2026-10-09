@@ -1,39 +1,36 @@
 # Research status
 
-Updated 2026-10-09T02:14:04.282775+00:00. This file is updated in place for the daily audit. Earlier dated checkpoints are historical.
+Updated 2026-10-09T02:38:56.363663+00:00. This file is updated in place for the daily audit.
 
-## Current work and results
+## Results and current work
 
-Item 6 CPU diagnostics are complete, independently scientifically APPROVED. The primary mean Dice improved from 0.20630608 to 0.24674415, paired gain 0.04043807 (95% bootstrap interval 0.02796645 to 0.05423991). The accepted interpretation stops this diagnostic branch without clinical, router or specialist-training promotion. The later comparison with the operator's Colab Sprint 14 run matches all 352 selected comparable point estimates at reported precision. Different support domains, bootstrap ordering and endpoint definitions explain other differences; this is independent execution on reused development predictions, not an independent cohort. Full accepted report, aggregate JSONs and comparison are in outputs/item6/.
+Item6 is complete with independent scientific APPROVE. Mean Dice improved from 0.20630608 to 0.24674415, gain 0.04043807 (95% interval 0.02796645 to 0.05423991). All352 comparable Colab Sprint14 point estimates match at reported precision. Accepted interpretation stops this diagnostic branch, without clinical or specialist-training promotion. Accepted reports and aggregate comparison remain in outputs/item6/.
 
-13B: author13 is RUNNING, confirmed in both normal call records, as run call20 under the newly installed scoped23 ceiling. It owns the correction to the pinned dataset API and audits the adjacent native interfaces using exact public library source. No author13 result or new scientific approval exists yet. The pinned image is unchanged. No GPU smoke or full training has begun.
+13B author13 completed and was authenticated. The controller passed23 tests with zero skips. The author corrected the dataset API and audited adjacent native interfaces. Its proposed code and report await scientific approval. The proposal starts with A1_repeat preparation and benchmarks, then other coverage-independent arms; coverage-dependent arms remain held and the full objective is retained.
 
-Scientific review7 remains genuine REVISE. It confirmed author12 fixed the original constructor keyword, but the real native rehearsal failed before training because the dataset object lacks keys(). Both native failures and all prior charges remain preserved. U1 requires an actual composed source volume with byte/identity verification; U2 requires corrected native integration; U3 holds coverage-dependent arms. Existing downloads and verified auxiliary metadata have not yet been composed. The coordinator has not changed scientific code.
+The existing native adapter was installed after genuine independent APPROVE, report8ceab8b02142b886ae3f5365aa696b9d4ca4f02be0c94b36adde923f7fa891b6, source7e49eeb17f1fea1f8caa8709ec0422912bc17f3d.335 checks passed across full334 and the corrected synthetic-fixture rerun1. The third native CPU attempt is VERIFIED. It uses the unchanged pinned image, worker and confinement, no patient mounts or GPU. Both earlier failures and full reservations remain preserved. No duplicate launch is permitted.
 
-R31 passed independent implementation APPROVE (report27aedad79b9021e61458d884c2acab2d7e9c9cb131322c7d8edbf9a8042e6096), 268 checks across the regression run and its corrected synthetic-fixture rerun, and installation of source46583c209b65a75c98c29aa3ea0b47802ace251f. The exact continuation permits author13/review8 and one ordinary interpretation pair after verified complete execution; no generic/day/batch/dollar limit changes or usage resets. All19 prior call records remain pinned. This service launches author13 only: review8 is explicitly held until the genuine composed-source proof and successful native result are supplied through a reviewed connection. The installed author input passed at199119 characters, all385 file hashes checked. The earlier207876-character refusal cost no model call; the same review bundled the exact read-only navigation/task delivery fix, retaining every open obligation inline and the200000-character limit.
+Native integration completed successfully:300 prepared files, reuse checks, interrupted training, resume from epoch1 and scoring on generated fixtures. These are runtime checks, not efficacy results. Review8 remains held for authentic composed-source verification; the reviewer must judge both proofs. All99 frozen brain files rehashed successfully:19,679,031bytes, no overlap with49 excluded identifiers, no transfers. Existing image downloads and server caches still need composition into the exact893-file base source. No source-composition implementation is installed. No GPU smoke or full training has begun.
 
-The latest operator money decision removes the separate $15 retry allowance for item4: stage1 actual spend plus open reservations must stay within $75. Each retry still requires a different diagnosed cause, unchanged safeguards and reporting. Other item4 limits remain $1,200 full-training projection and $1,275 total. Money authority is settled. The bounded successor, billing-window and import-binding repairs received genuine independent APPROVE decisions, passed 235 focused tests, and were installed. One new CPU rehearsal was admitted normally and is now terminal; no automatic retry is running.
-
-## Spending and reservations
+## Spending
 
 | Scope | Retained reservation | Provider observation | Treatment |
 |---|---:|---:|---|
-| Item4 asset preparation, including three input attempts, image and two native CPU rehearsals | $27.586443 | Complete item total not reconciled | All reservations retained |
-| Item4 first native CPU rehearsal, included above | $1.118950 | $0.01258041 | Terminal failure known; accounting classification remains uncertain, no release |
-| Item4 second native CPU rehearsal, included above | $1.118950 | Not yet reconciled | Terminal failure known; accounting classification uncertain, no release |
-| Item4 image preparation, included above | $1.178425 | $0.00669028 | Hourly observation only; no release |
-| Item6 three CPU attempts | $5.854800 | Shared preparation/CPU application reports $0.38602155 | Not separable by attempt; no release |
-| Item6 frozen-input preparation | $5.000000 | Included in shared observation above | Actual preparation cost not yet isolated |
+| Item4 assets: three input attempts, image, three native attempts | $28.705393 | Complete actual total unavailable | All counted inside $75 smoke cap |
+| Third native attempt, included above | $1.118950 | Pending | Full reservation retained |
+| First native attempt, included above | $1.118950 | $0.01258041 | Historical hourly observation; no release |
+| Second native attempt, included above | $1.118950 | Not reconciled | Full reservation retained |
+| Item4 image, included above | $1.178425 | $0.00669028 | Historical hourly observation; no release |
+| Item6 three CPU attempts | $5.854800 | Shared preparation/CPU observation $0.38602155 | Not separable per attempt; no release |
+| Item6 input preparation | $5.000000 | Included in shared observation | Actual preparation cost not isolated |
 
-Provider observations are through October8 23:00 UTC and are not final invoices or complete item costs. The second CPU rehearsal reserved $1.11895, bringing retained asset reservations to $27.586443. Both native reservations remain fully counted. Model-call costs are separate from these provider figures; a complete reconciled model-spend total is not yet available here.
-
-New reconciliation rule: only provider-confirmed actual cost of a closed attempt may replace its reserved amount in admission totals; retain original reservation, actual cost and released excess in the record. Never release for an open or uncertain attempt. This accounting change remains to be tested and independently reviewed before installation; no reservation was released at this checkpoint.
+Observations are not final invoices or complete actuals. No reservation was released. Only confirmed actual cost of a closed attempt may release excess, retaining both figures; never release open or uncertain attempts. Item4 caps remain $75 smoke, $1,200 projection and $1,275 total. The separate $15 retry allowance does not apply to item4. This retry addresses the distinct missing keys() API, with safeguards unchanged. Model-call estimates are separate: this implementation review reported $3.95376175, not invoice settlement or a complete model-spend total.
 
 ## Calls, blockers and judgment calls
 
-UTC October9: 10/50 verified: two scientific authors (author12 revision; author13 API correction, RUNNING), one scientific reviewer (review7 COMPLETE/REVISE), five administrative implementation reviews (bounded native successor/admission, hourly billing range, installer import binding, exact configuration delivery, R31 bounded continuation/accounting/navigation), two administrative scope/direction opinions (retry allowance, subsequently settled by operator; next-result process and minimum input preparation). UTC October8 closed at47:9 scientific authors,7 scientific reviewers,27 administrative implementation reviews,4 direction/scope checks. All attempts and charges remain counted.
+UTC October9:11/50 calls:2 scientific authors (author12, author13),1 scientific reviewer (review7 REVISE),6 implementation reviews (native successor, hourly billing range, installer import binding, exact configuration delivery, scoped continuation/accounting/navigation, author13 native successor),2 scope/direction opinions (retry authority and next-result plan). All original calls and charges remain counted. October8 closed47:9authors,7scientificreviewers,27implementation,4scope/direction.
 
-Latest Claude direction remains R30 APPROVE/PROCEED with a SIMPLIFY caveat, one round, agreed: minimum composed-source verification alongside the author correction; let author/reviewer formalize coverage-independent next smoke while retaining the full research objective. No new confinement or workflow subsystem. R31 received implementation APPROVE in one round; it is not scientific acceptance. Judgment highlights: combined the continuation, scoped accounting and discovered context-size repair in one review; preserved all earlier approvals and charges; kept review8 held for real evidence. The source-composition worktree has notes only, with no transfer or compute launched. Existing feature caches are already available; the99 frozen brain files total about20MB and still need current source verification. Public library references are exact release files, not installed-image source attestations.
+Latest Claude direction: PROCEED, one round, folded into this implementation review. Agreed: run corrected code using the existing adapter while source composition develops; no new subsystem or standalone direction call. Judgment highlights: exact qualification of both original terminal failures, full charges retained, no cap change, reuse authorized Drive fallback, review8 held for genuine proofs. Next expected result is verified composed inputs, estimated2hours including implementation review. GPU smoke follows source preparation and scientific approval.
 
 ## Publication scope and limitations
 
@@ -277,3 +274,9 @@ Additional publication omissions for R31:
 - astra/item4-review7-continuation-20261009 and astra/item4-source-composition-20261009: raw private ancestry withheld; safe installed bytes are backed up on astra/public-review7-continuation-20261009 and merged into remote-server.
 
 Safe aggregate implementation report, scope, code and tests are included. Evidence folders, call records, review packets, native streams and patient-level material remain excluded.
+
+### Latest exclusions
+
+- astra/item4-native-author13-retry-20261009: raw history contains private records; exact safe projection published.
+- astra/item4-source-composition-20261009: private ancestry withheld; no executable changes yet.
+- docs > ITEM4_NATIVE_AUTHOR13_PREDECESSOR_20261009.json: PRIVATE_LEDGER_SNAPSHOT
