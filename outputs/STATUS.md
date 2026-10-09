@@ -2,27 +2,33 @@
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B preprocessing finished all 100 steps and produced 300 validated files; its container is stopped.
-The GPU handoff passed independent review, but installation stopped on a malformed cleanup timer before any GPU work.
-Claude is reviewing the narrow timer repair; 75 focused tests and the native parser checks passed. Coverage-dependent arms remain held.
-Observed CPU preparation spend is $9.47683888; other costs remain unsettled. Conservative item-4 exposure is $64.832313 of $75, unchanged.
-Next result: the first GPU benchmark, provisionally by 18:40 UTC if repair approval and setup pass; full smoke timing follows measured GPU performance.
-No operator action needed. Latest completed Claude direction: PROCEED. Today: 42/50 calls, including the repair review.
+The GPU handoff and timer repair passed independent review and installation; benchmark asset setup is now running.
+No GPU has launched yet. Coverage-dependent arms remain held; full training awaits scientific review of smoke results.
+Observed CPU preparation spend is $9.47683888, plus $0.00009247 from two old transfers. Other costs remain unsettled; effective item-4 exposure before setup is $51.170188 of $75.
+Next result: the first GPU benchmark, provisionally by 18:40 UTC if setup and normal admission pass; full smoke timing follows measured GPU performance.
+No operator action needed. Latest Claude direction: PROCEED at 17:45 UTC. Today: 42/50 calls, all terminal.
 
-Updated 2026-10-09T17:45:13.613258+00:00. Detailed audit follows.
+Updated 2026-10-09T17:50:18.239488+00:00. Detailed audit follows.
 
-## Current implementation and blocker
+## Current installation and execution
 
-The GPU handoff source 36c4c7487175714887691a923b030e59310ecf2a received genuine independent APPROVE, report 77a64f6b09504ca2fbe3a440e4323a752a39ce18baa6fbaafdae4b1075ee5b9a, and explicit PROCEED. It passed 130 tests and a native handoff rehearsal with the previously disclosed simulations. Its partial installation verified successfully, then the retention timer was rejected because it contained literal newline escapes. All units are inactive. The failed installation, original review and charge are preserved. No reconciliation, new asset reservation, asset creation or GPU launch occurred.
+The timer repair aef085635ae0a1b2d7f351b6e59831d33a526edd received genuine independent APPROVE with no findings, report 993d646883b4b763aef73ecc0ca51f140b852fb90f5531f7f1667b5e648ff1a9. Installation and post-install verification passed, and the retention timer is active. The preceding handoff source 36c4c7487175714887691a923b030e59310ecf2a was independently approved, report 77a64f6b09504ca2fbe3a440e4323a752a39ce18baa6fbaafdae4b1075ee5b9a, but its malformed timer prevented complete installation. That failed installation, original review and charge remain preserved.
 
-The successor repair aef085635ae0a1b2d7f351b6e59831d33a526edd renders real lines and checks every exact rendered unit with the native systemd parser before the first production installation write. It reuses the same runtime base and unchanged contracts, caps, scientific code, image and protections. All 75 focused tests pass. The actual server parser accepts the corrected units and rejects the malformed negative control. One independent implementation and direction review is running. Installation and provider actions remain held until genuine APPROVE.
+Validation: the handoff passed 130 tests and a native rehearsal with future authority/provider identities explicitly simulated. The narrow timer successor passed 75 focused tests. The actual server parser accepts the exact corrected units and rejects the malformed negative control. The installed repair now checks exact rendered units before the first production installation write. The reviewer relied on these captured results, did not run tests or provider actions, and treated prior review references with the limitations recorded in its report. This is implementation approval, not scientific acceptance.
 
-After approval and successful installation: qualify two closed empty transfers without changing their original records; reserve $1 before setup; use ordinary separate admission for sequential GPU benchmarks. Qualified accounting would reduce those two effective amounts from $16.113412 together to $2.451287, retaining actual compute and conservative storage, registry and transfer obligations. This has not yet occurred. The first A100 quote is $12.842400. Full training still requires scientific review of actual smoke results.
+Actual reconciliation succeeded. Exactly two qualified closed-empty-transfer events were appended; all original asset and compute rows, calls, lane state and prior events were verified unchanged. Their original reservations remain visible at $8.056706 each; their effective retained amounts are now $1.225678 and $1.225609. The released excess is $13.662125. Actual compute, conservative storage, registry and transfer obligations remain counted, and later upward billing remains counted. Invoice settlement is not claimed.
 
-Daily call breakdown: 3 scientific authors (revisions 12, 13 and 14), 4 scientific reviews (7, the preserved reader failure 8, 9 and 10), 30 administrative calls (implementation and accounting repairs, including the running timer repair), and 5 standalone direction checks. Administrative work dominates; direction and accounting opinions are now bundled into necessary implementation reviews, with no separate provenance package. The preceding handoff review's model estimate was $5.1798595, separate from provider compute; the current review charge is pending.
+The reviewed asset-setup command has started once. It must reserve $1 before creating benchmark assets. Its final result is pending; no duplicate is permitted. After successful setup, use the existing preparation/publication and normal separate GPU admission. The first A100 maximum quote is $12.842400; collect its result before advancing other hardware. Scientific review of actual smoke results is required before FULL, and CTP coverage-dependent arms remain held.
 
-Judgment log: fix the diagnosed timer serialization defect and test the actual parser; preserve the failed installation and all charges; use one combined review before the immutable successor installation. Claude was consulted through the existing route. The last completed direction recommendation was PROCEED at 17:31 UTC.
+Daily calls: 3 scientific authors (revisions 12, 13 and 14), 4 scientific reviews (7, preserved reader failure 8, 9 and 10), 30 administrative calls (implementation/accounting/process repairs, including the handoff and timer), and 5 standalone direction checks. Administrative work dominates; necessary accounting and direction opinions are bundled into implementation reviews. The latest two model-call estimates are $5.1798595 for the handoff and $2.8320075 for the timer, separate from provider compute.
 
-Safe pending history: astra/public-benchmark-handoff-20261009 at d4c75ecb3f6cce86fb5f132a31c9e08b291237dc and astra/public-benchmark-timer-format-20261009 at 64ef26ab6ced09ea8c39ed7b9db38f67d99c4144. They are not successful installed-release history yet; public projections are not deployable releases. The new timer prior-unit fixture is withheld under the privacy and infrastructure rules. The earlier private contracts and fixture exclusions remain below.
+Judgment log: repair the timer's diagnosed serialization error, strengthen pre-install parser validation, preserve the failed installation and obtain one independent review. Claude agreed PROCEED in one round. Use the already-reviewed closed-transfer reconciliation and bounded asset setup to reach the first GPU result; add no provenance subsystem.
+
+Safe source history is merged here from astra/public-benchmark-handoff-20261009 at d4c75ecb3f6cce86fb5f132a31c9e08b291237dc and astra/public-benchmark-timer-format-20261009 at 64ef26ab6ced09ea8c39ed7b9db38f67d99c4144. The public projection excludes private contracts and is not a deployable release. Both private prior-unit fixtures and previously listed exclusions stay withheld.
+
+Latest accepted-report exclusions:
+
+- outputs/implementation-reviews/item4-benchmark-handoff-20261009.json: CREDENTIAL_OR_HOST_REFERENCE, INFRASTRUCTURE_OR_CREDENTIAL_PATH.
 
 ## Historical audit detail
 

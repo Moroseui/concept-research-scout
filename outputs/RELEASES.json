@@ -157,6 +157,12 @@
         "prior-unit fixture: infrastructure",
         "private contract and evidence"
       ]
+    },
+    {
+      "source": "aef085635ae0a1b2d7f351b6e59831d33a526edd",
+      "role": "installed benchmark handoff and native retention-unit validation; failed predecessor preserved",
+      "review": "993d646883b4b763aef73ecc0ca51f140b852fb90f5531f7f1667b5e648ff1a9",
+      "selection": "exact safe projection; private contracts, evidence and ancestry excluded"
     }
   ],
   "source_files_count": 1369,
@@ -464,5 +470,5 @@
       "private_checkpoint_omitted": true
     }
   ],
-  "latest_backup_at": "2026-10-09T16:05:07.875209+00:00"
+  "latest_backup_at": "2026-10-09T17:50:18.239065+00:00"
 }
