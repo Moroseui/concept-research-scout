@@ -126,7 +126,9 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
             raise ValueError('ITEM4_GPU_CONCURRENCY_LIMIT')
         from orchestrator.modal_direct_budget import selected_asset
         from orchestrator.modal_environment_budget import selected_asset as environment_asset
-        asset_total = sum(row['reserved_micro_usd'] for row in assets
+        from orchestrator.item4_closed_asset_billing import effective as asset_effective
+        asset_amounts = {row['id']:asset_effective(accounts,row,billing_snapshot,now) for row in assets}
+        asset_total = sum(asset_amounts[row['id']] for row in assets
                           if row['run']==run or selected_asset(row) or environment_asset(row))
         exposure = modal_terminal_cost.exposure(db,rows,billing_snapshot)
         commitments = exposure['commitments']
@@ -141,7 +143,7 @@ def reserve(accounts, ident, run, binding, *, billing_snapshot, now=None):
             from orchestrator.experiment_full_admission import verify_reservation
             full_admission=verify_reservation(accounts,run,binding,billing_snapshot)
         for row in assets:
-            commitments['asset-reservation:'+row['id']] = row['reserved_micro_usd']
+            commitments['asset-reservation:'+row['id']] = asset_amounts[row['id']]
         view = headroom(billing_snapshot, now=now,usage_limit_micro=USAGE_CEILING,
                         spend_limit_micro=SPEND_CEILING, commitments=commitments)
         if amount > min(view['usage_headroom_micro'],view['spend_headroom_micro']):

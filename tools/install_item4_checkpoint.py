@@ -8,11 +8,11 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-checkpoint-sdk-bootstrap-20261009'
+CHANGE='item4-benchmark-handoff-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-preprocessing-checkpoint-connection-20261009.service')
-PRIOR_UNIT_SHA='57faa31c95036b83d3d5bd31a000c24a894b6acbd8b37c96b7261b357a74fcf7'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-checkpoint-sdk-bootstrap-20261009.service')
+PRIOR_UNIT_SHA='7af8604d335f1323f97b96fd2e7ce2e478f444fc5a5a64d8ac12ed6184cfc1ee'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -32,7 +32,7 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-preprocessing-checkpoint-connection-20261009/tools/item4_checkpoint_runtime.py advance'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-checkpoint-sdk-bootstrap-20261009/tools/item4_checkpoint_runtime.py advance'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
@@ -45,10 +45,27 @@ def put(path,raw):
     os.chown(path,0,1003);path.chmod(0o440)
 
 
+def read_inputs(raw_contract):
+    handoff=json.loads(raw_contract)
+    inputs={}
+    for name,ref in handoff['preprocessing_records'].items():
+        require(name in {'preprocessing.json','validation.json','result.json'},'INPUT_RECORD_NAME')
+        path=Path(ref['path'])
+        for parent in [path,*path.parents]:
+            st=parent.lstat()
+            require(not parent.is_symlink() and st.st_uid in {0,1003} and not st.st_mode&0o022,'INPUT_PROVENANCE')
+        raw=path.read_bytes();require(sha(raw)==ref['sha256'],'INPUT_CHANGED')
+        inputs[name]=raw
+
+    return inputs
+
+
 def install(source,review):
     require(os.geteuid()==0,'ROOT_REQUIRED')
     source=trusted(source);review=Path(review)
-    require(not ROOT.exists() and not RECORD.exists() and not UNIT.exists(),'EXISTS_RECONCILE')
+    retention_service=UNIT.with_name('research-'+CHANGE+'-retention.service')
+    retention_timer=UNIT.with_name('research-'+CHANGE+'-retention.timer')
+    require(not any(p.exists() or p.is_symlink() for p in (ROOT,RECORD,UNIT,retention_service,retention_timer)),'EXISTS_RECONCILE')
     sys.path.insert(0,str(ENGINE))
     from orchestrator.autonomy_review import verify_result
     approved=verify_result(review)
@@ -66,6 +83,12 @@ def install(source,review):
         '-p','ActiveState','-p','MainPID','-p','ControlGroup'],text=True).splitlines())
     require(props.get('MainPID')=='0' and props.get('ControlGroup')=='' and props.get('ActiveState') in {'inactive','failed'},'PRIOR_ACTIVE')
     rendered=unit_bytes(trusted(PRIOR_UNIT).read_bytes())
+    retention=rendered.replace((str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance').encode(),
+                              (str(ROOT/'tools/item4_checkpoint_runtime.py')+' cleanup-benchmark-package').encode())
+    timer=('[Unit]\\nDescription=Private benchmark package retention\\n[Timer]\\nOnBootSec=5min\\nOnUnitActiveSec=1h\\nUnit='+
+           retention_service.name+'\\n[Install]\\nWantedBy=timers.target\\n').encode()
+    units={UNIT:rendered,retention_service:retention,retention_timer:timer}
+    inputs=read_inputs(bodies['docs/ITEM4_BENCHMARK_HANDOFF_PRIVATE.json'])
     # No ledger is opened by root. The existing activated R45 seal stays intact;
     # this held installation does not activate or dispatch any work.
     put(RECORD/'INSTALL_INTENT.json',json.dumps({'source':approved['source_sha'],'review_sha256':approved['report_sha256']},sort_keys=True).encode())
@@ -74,10 +97,11 @@ def install(source,review):
         for path in origin.iterdir():
             require(path.is_file() and not path.is_symlink(),'REVIEW_MEMBER')
             put(RECORD/dest/path.name,path.read_bytes())
-    put(UNIT,rendered)
+    for path,raw in units.items():put(path,raw)
+    for name,raw in inputs.items():put(RECORD/'inputs'/name,raw)
     installed={'schema':'item4-execution-billing-install/v1','source':approved['source_sha'],
         'review_sha256':approved['report_sha256'],'files':{name:sha(raw) for name,raw in bodies.items()},
-        'units':{str(UNIT):sha(rendered)},'status':'INSTALLED_HELD'}
+        'units':{str(path):sha(raw) for path,raw in units.items()},'status':'INSTALLED_HELD'}
     put(RECORD/'installed.json',json.dumps(installed,sort_keys=True).encode())
     for root in (ROOT,RECORD):
         for path in [root,*[p for p in root.rglob('*') if p.is_dir()]]:
@@ -88,6 +112,7 @@ def install(source,review):
     result=subprocess.run(cmd,capture_output=True,text=True)
     put(RECORD/'VERIFY.stdout',result.stdout.encode());put(RECORD/'VERIFY.stderr',result.stderr.encode())
     require(result.returncode==0,'POSTINSTALL_VERIFY')
+    subprocess.run(['systemctl','enable','--now',retention_timer.name],check=True)
     put(RECORD/'COMPLETE.json',b'{"status":"INSTALLED_HELD","model_calls":0,"provider_calls":0}')
     return {'status':'INSTALLED_HELD','model_calls':0,'provider_calls':0}
 
