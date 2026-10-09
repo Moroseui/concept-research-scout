@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-The server is checking preserved approvals before admission; compute has not launched.
+Base preprocessing was submitted successfully; its provider outcome is being checked.
 Claude approved the spending repair and recommended proceeding; it is installed.
 Coverage arms await source evidence; full training awaits scientific review of actual smoke results.
 Observed workspace workload is $1.33511986 this month, fully credited; item-specific actual spending remains unsettled.
-Item 4 retains $35.348053 of its $75 smoke cap; original reservations remain counted.
+Item 4 retains $45.690453 of its $75 smoke cap; original reservations remain counted.
 Next result: verified base preprocessing, estimated by 12:00 UTC if execution succeeds. No operator action needed.
 
-Updated 2026-10-09T11:01:56.894405+00:00. Detailed audit follows.
+Updated 2026-10-09T11:04:04.205546+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -26,13 +26,13 @@ Normal admission then refused before a compute reservation because the spending 
 
 R47 source eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f received genuine independent APPROVE 3e3569d6f4284987e6dd96d71480f0764e2e82d825b27134386f4c66d6cbcda8. Claude explicitly recommended PROCEED, one round agreed. Held installation and verification succeeded; the existing package and upload are reused. The failed predecessor remains preserved. All 181 affected tests passed. Two unrelated image-fixture failures reproduce unchanged on the parent and are disclosed. The complete normal reservation path passed on an in-memory copy of actual accounting; a separate over-cap attempt was refused. Live global and local records were hashed before and after and were unchanged. This is admission evidence, not scientific or GPU evidence.
 
-Next are base preprocessing, the declared GPU benchmarks and repeated smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. Current observation: The server is checking preserved approvals before admission; compute has not launched. Newly reserved compute is $0.000000. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
+Next are base preprocessing, the declared GPU benchmarks and repeated smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. Current observation: Base preprocessing was submitted successfully; its provider outcome is being checked. Newly reserved compute is $10.342400; all original reservations remain retained. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
 
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item 4 assets and admitted compute | $35.348053 | Complete per-item actual total unsettled |
+| Item 4 assets and admitted compute | $45.690453 | Complete per-item actual total unsettled |
 | Both source attempts, included above | $6.642660 | Both retained |
 | Three native attempts, included above | $3.356850 | Historical observation $0.01258041, not settlement |
 | Item 4 image, included above | $1.178425 | Historical observation $0.00669028, not settlement |
