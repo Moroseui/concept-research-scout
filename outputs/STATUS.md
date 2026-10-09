@@ -1,14 +1,26 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B preprocessing completed all 100 steps and produced 300 validated files, reusing its 92 saved steps.
-The result is collected and its container is stopped; no compute or model call is running.
-GPU benchmarks await production asset setup and budget reconciliation. Coverage-dependent arms remain held; full training awaits scientific smoke review.
-Observed CPU preparation spend is $7.67823095 through completed billing hours; the final continuation bill and other costs remain unsettled. Conservative item-4 exposure is $64.832313 of $75.
-Next result: the first GPU benchmark after the narrow setup/accounting connection and independent review; provisional estimate 1-2 hours. Full smoke timing follows measured GPU performance.
-No operator action needed. Latest Claude direction: PROCEED. Today: 39/50 calls, all terminal.
+13B preprocessing finished all 100 steps and produced 300 validated files; its container is stopped.
+Claude is reviewing the GPU handoff and accounting repair together. The candidate passed 130 tests and a native handoff rehearsal; no GPU is running.
+GPU launch awaits that implementation approval. Coverage-dependent arms remain held, and full training awaits scientific smoke review.
+Observed CPU preparation spend is $9.47683888 through completed hourly billing; other costs remain unsettled. Current conservative item-4 exposure is $64.832313 of $75.
+Next result: the first GPU benchmark, provisionally by 18:40 UTC if review and installation pass; full smoke timing follows measured GPU performance.
+No operator action needed. Latest Claude direction: PROCEED on scope; implementation review pending. Today: 41/50 calls.
 
-Updated 2026-10-09T16:39:58.214755+00:00. Detailed audit follows.
+Updated 2026-10-09T17:32:42.250994+00:00. Detailed audit follows.
+
+## Current implementation review
+
+Source 36c4c7487175714887691a923b030e59310ecf2a is under one administrative implementation, accounting and direction review. It supplies only the three frozen benchmark assets and connects the actual completed preprocessing to existing preparation, publication and compute admission. It reuses the pinned image and scientific code. No asset, new reservation, accounting adjustment or installation has occurred.
+
+The proposed setup reserves $1 before creating empty benchmark assets. Each GPU run remains separately admitted inside the unchanged smoke cap. The current A100 maximum quote is $12.842400. Benchmarks will be observed and collected one at a time. The proposal reconciles only two positively terminal empty input transfers, retaining their original rows, actual compute and conservative storage, registry and transfer obligations. If approved and qualified, their effective amounts become $1.225678 and $1.225609; current production exposure still counts both original $8.056706 reservations.
+
+Validation:124 focused tests,5 root-publication boundary tests and1 native root-publication test passed. The native server rehearsal exercised the actual completed preprocessing, closed-asset proofs and all three package handoffs, with both ledgers unchanged. Future candidate authority, root ownership and provider creation were explicitly simulated. A subsequent naming-only correction passed the actual pinned SDK validator and focused tests. No scientific or real GPU success is inferred.
+
+A local rehearsal connection expired before the server finished. The original process was positively reconciled as exited, with no new asset, event, compute, call or lane-state change. Its lost output is not counted as success. A read-only rerun saved its outcome on the server and passed. A separate root test initially refused a public scratch directory; it passed in protected scratch without changing the guard. All originals remain preserved.
+
+Safe pending code and tests are on astra/public-benchmark-handoff-20261009 at d4c75ecb3f6cce86fb5f132a31c9e08b291237dc. They are not installed-release history until independent approval and installation. The public projection is not a deployable release.
 
 ## Results and execution
 
@@ -36,11 +48,11 @@ Actual owner reconciliation subsequently passed. Exactly the timed-out attempt b
 
 The CPU continuation is now COMPLETE, COLLECTED and positively terminated through the existing collector. Independent metadata replay passed: 300 files, 8,085,002,333 bytes, 100 committed steps and 614.3626 seconds of continuation preprocessing including restoration and validation. All 92 predecessor steps were preserved and reused; all 893 input files and the pinned environment verified again. The result hash is5a23ce42443b8d56af7eebfae29825c33f862bda4c922d4cd4820cfdcea97987. Only metadata was collected; patient payloads remain in the private volume. This is preparation evidence, not a completed GPU fit or scientific acceptance. The aggregate is in outputs/sprint13b/PREPROCESSING_RESULT.json.
 
-The installed terminal-cost calculation now bounds the closed continuation at $6.803060, including its unchanged $5 overhead. This is an elapsed-lifetime upper bound, not an actual invoice or a rewritten reservation. All four original CPU reservations remain recorded at a total $41.369600. Effective item-4 exposure is $64.832313; provider billing has not yet reported the continuation's current hour.
+The installed terminal-cost calculation now bounds the closed continuation at $6.803060, including its unchanged $5 overhead. This is an elapsed-lifetime upper bound, not an actual invoice or a rewritten reservation. All four original CPU reservations remain recorded at a total $41.369600. Effective item-4 exposure is $64.832313; the latest completed-hour continuation charge is $1.79860793, below that retained bound. Other obligations remain reserved.
 
 Read-only reconciliation found two old input-download failures with positive terminal exits, disabled launch services, empty data volumes and combined observed compute of $0.00009247, while each still retains $8.056706. Their small package copies and other obligations remain counted. Original/native proofs and fresh billing are preserved privately; no accounting adjustment was made. A local evidence-serialization failure occurred before writing its observation; the first empty destination and error were preserved, and a second capture converted only a set of identifiers to a sorted list. No model call or compute launch resulted.
 
-The existing GPU handoff validates completed preprocessing and frozen fit bindings, but a production fit-asset preparation route has not yet been found. The M3 preparation guard cannot be reused to bypass item-4 accounting. Next work is the smallest required connection for distinct fit billing/progress assets and the immutable GPU package, with any needed closed-reservation adjustment batched into its implementation/accounting/direction review. No GPU asset, new spending reservation or scientific code change has been made.
+At the preceding stop, the existing GPU handoff validated completed preprocessing and frozen fit bindings but lacked a production fit-asset producer. The R56 candidate described above now supplies that connection and is under review. The M3 preparation guard cannot be reused to bypass item-4 accounting. Next work is the smallest required connection for distinct fit billing/progress assets and the immutable GPU package, with any needed closed-reservation adjustment batched into its implementation/accounting/direction review. No GPU asset, new spending reservation or scientific code change has been made.
 
 ## Spending
 
@@ -57,16 +69,16 @@ Provider billing observed $7.67823095 for the preparation application through co
 
 ## Calls and judgment log highlights
 
-UTC October 9: 39/50 model calls, all terminal. No resets or relabeling.
+UTC October 9: 41/50 model calls; 40 terminal and one implementation review running at this observation. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
 | Scientific reviewer | 4 | Review 7 REVISE; review 8 reader failure; reviews 9/10 REVISE |
-| Administrative implementation review | 27 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging R53 closed-compute reconciliation and R54 checkpoint connection and R55 SDK bootstrap; includes original disqualified/REVISE calls |
+| Administrative review | 29 | Native, billing, installer, delivery, continuation/accounting, adapter, source preparation, reader recovery, validation admission, spending connection, output initialization, terminal-cost handling, bootstrap order, R52 package staging R53 closed-compute reconciliation and R54 checkpoint connection and R55 SDK bootstrap; R56 scope opinion and current R56 implementation/accounting/direction review; includes original disqualified/REVISE calls |
 | Standalone direction | 5 | Retry authority, next-result plan, staging, validation admission, output-root recovery |
 
-Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest check: R55, one round, APPROVE and explicit PROCEED, no findings or cuts. Judgment: correct only the missing SDK bootstrap, test the actual cold command, and reuse the native checkpoint path. Claude was consulted in the implementation review because this connects accounting and safeguard code. R54 judgment: preserve92steps after the actual lifetime timeout and reconnect native continuation, with a bundled Claude opinion because accounting/identity safeguards are touched; retain unconfirmed overhead and the live reservation, and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
+Administrative calls dominate. Required accounting/privacy/direction opinions are batched with implementation reviews; optional infrastructure and separate provenance work are deferred. Latest completed direction: R56 scope opinion, one round, explicit PROCEED; its approval covers the proposal only. The combined implementation/direction review is running. Judgment: correct only the missing SDK bootstrap, test the actual cold command, and reuse the native checkpoint path. Claude was consulted in the implementation review because this connects accounting and safeguard code. R54 judgment: preserve92steps after the actual lifetime timeout and reconnect native continuation, with a bundled Claude opinion because accounting/identity safeguards are touched; retain unconfirmed overhead and the live reservation, and use the existing execution path. Judgment: retain both complete original charges, select only the positively bound successor, and use normal admission. Claude was consulted because the repair touches privacy and accounting. No unresolved implementation disagreement or operator decision remains.
 
 ## Publication scope and withheld files
 
@@ -362,3 +374,14 @@ Latest judgment: the actual entry-point failure is a diagnosed engineering boots
 
 - R55 prior-unit fixture withheld: infrastructure reference. Private contract and original evidence remain excluded. Safe source is on astra/public-checkpoint-sdk-bootstrap-20261009.
 - R55 accepted implementation report withheld: secret/infrastructure scan flagged an infrastructure reference. Its approval, findings and limitations are summarized above; the exact original remains private.
+
+
+Latest billing observation at17:30 UTC includes $1.79860793 for the closed continuation, bringing observed preparation-app compute to $9.47683888 through completed hours ending17:00 UTC. This is a known subset of actual provider spending, not total research spend or final settlement. The two old empty download apps add observed compute of $0.00009247; their original full reservations are still counted pending implementation approval. Scope-opinion model estimate:$2.84783875, separate from provider compute; current review charge is not yet available.
+
+R56 judgment: use the existing frozen handoff and normal GPU admission, add only missing asset setup, reconcile exactly qualified closed transfers, preserve checkpoint data, and batch accounting/privacy/direction review. Claude was consulted for the accounting and safeguard connections; scope PROCEED, implementation pending. No separate production-provenance package or new scientific call was added.
+
+R56 withheld files (scanner and semantic privacy exclusions remain unchanged):
+- docs/ITEM4_BENCHMARK_HANDOFF_PRIVATE.json: CREDENTIAL_OR_HOST_REFERENCE, EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+- docs/ITEM4_CLOSED_EMPTY_ASSETS.json: PRIVATE_NATIVE_EVIDENCE_REFERENCE.
+- docs/ITEM4_BENCHMARK_HANDOFF.md: INFRASTRUCTURE_OR_CREDENTIAL_PATH.
+- tests/fixtures/item4_benchmark_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
