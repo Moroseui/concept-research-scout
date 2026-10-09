@@ -1,6 +1,14 @@
 # Research status
 
-Updated 2026-10-09T07:29:23.541179+00:00. Updated in place for the daily audit.
+Item 6 is complete: all 352 comparable results match the independent Colab run.
+13B passed source verification and synthetic CPU checks; GPU smoke has not run yet.
+Nothing is running. Author 14 stopped before a model call because the batch call limit is exhausted.
+A bounded continuation and reuse of the prepared workspace need one independent Claude review.
+Confirmed actual provider spend is not yet available; $35.348053 remains reserved against the $75 smoke cap. No new charge came from this refusal.
+Next: author 14 proposes GPU smoke for coverage-independent arms, with coverage-dependent arms held and scientific review before full training.
+Estimate: 45-90 minutes to clear admission, then 15-30 minutes for the proposal; GPU smoke timing follows scientific review.
+
+Updated 2026-10-09T07:36:38.772601+00:00. Detailed audit follows.
 
 ## Results and current work
 
@@ -8,7 +16,7 @@ Item6 is complete with independent scientific APPROVE. Mean Dice0.20630608 to0.2
 
 13B base source preparation is verified:893 frozen files,99 development patients,49 excluded and zero overlap; hashes and complete byte readback passed. Author13 native CPU integration passed on generated fixtures, including preparation, reuse, genuine interruption/resume and scoring. This is not GPU, production, patient-efficacy or scientific acceptance. Pinned image unchanged; coverage-dependent arms held; full51fits/sevenpreparations/40FULL objective retained. No GPU smoke/full training yet.
 
-Scientific review9 remains a genuine REVISE. It closes the concrete native API defect and acknowledges the base-source/native CPU evidence; open findings concern production-root provenance/confinement, real integration and missing coverage originals for held arms. Author/reviewer must decide scientifically defensible staging. No finding is waived by engineering.
+Scientific review9 remains a genuine REVISE. It closes the concrete native API defect and acknowledges the base-source/native CPU evidence; open findings concern production-root provenance/confinement, real integration and missing coverage originals for held arms. The operator now directs GPU smoke within the existing $75 cap for coverage-independent arms, with coverage-dependent arms held. Author14 proposes the staging and the scientific reviewer judges it; smoke results need scientific review before full training. No separate production-provenance package is required beyond the run's own records; ordinary input, privacy, confinement and spending checks remain in force.
 
 R41 received genuine implementation APPROVE7303aa4386824db878e24225025ffbd93c5b04c54b0543cb5c5d3aa373446646 and explicit PROCEED, one round. Installed source7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3. The exact author14/review10 continuation was activated with all22 original scientific calls/charges preserved. Installer and activation made zero model/provider calls. Original grants remain separately authenticated.
 
