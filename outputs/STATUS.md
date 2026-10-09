@@ -2,13 +2,13 @@
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B preprocessing verified its frozen inputs and pinned image and saved 92 steps before its time limit.
-The reviewed repair is installed; reconciliation passed, and the system is scheduling one checkpoint continuation.
-GPU smoke awaits completed preparation; coverage-dependent arms stay held, and full training awaits scientific smoke review.
-Confirmed earlier CPU spend is $2.33879894; other actual costs remain unsettled. Current item-4 exposure is $58.029253 of $75.
-Next result: completed preprocessing, estimated 10-20 minutes after continuation launch, plus preparation and verification time.
+One CPU checkpoint continuation is now running after the reviewed repair and successful reconciliation.
+GPU smoke awaits validated preparation and budget admission; coverage-dependent arms stay held, and full training awaits scientific smoke review.
+Provider billing shows $7.67823095 for CPU preparation through the last completed hour; other actuals remain unsettled. Conservative item-4 exposure is $68.371653 of $75.
+Next result: completed preprocessing, estimated 10-20 minutes from launch, including checkpoint restoration and validation.
 No operator action needed. Latest Claude direction: PROCEED. Today: 39/50 calls, all terminal.
 
-Updated 2026-10-09T16:05:07.863964+00:00. Detailed audit follows.
+Updated 2026-10-09T16:20:01.708245+00:00. Detailed audit follows.
 
 ## Results and execution
 
@@ -32,19 +32,20 @@ Safe pending source history is on astra/public-preprocessing-checkpoint-connecti
 
 R55 source24305b0b6c24d239cbed1268395f98c91598ad1c received genuine independent APPROVE 8d71e63918382bfecf53cab9651fcf4e442895ec17f39bcf02c8e8f7f903eeca and explicit PROCEED. Installation and post-install verification passed. The two-line correction loads the already-pinned SDK path before the existing provider performs its unchanged identity, ownership, version and hash checks. All 103 focused tests passed. The fresh-process command rehearsal exercised actual command admission and provider construction; future installation/approval and the mutating reconciliation boundary were explicitly simulated. The reviewer did not execute tests and assessed some unchanged modules through pins and prior coverage; these limitations remain in the accepted report.
 
-Actual owner reconciliation subsequently passed. Exactly the timed-out attempt became accounted and interrupted, with one native checkpoint event appended. All original reservations, bindings, calls and existing events were preserved. One scheduling transition is in progress; no successor compute has launched yet. Proposed continuation reservation remains $10.342400 through ordinary admission, giving illustrative exposure $68.371653/$75 before fresh billing. The earlier SDK failure and packet-format recovery remain preserved; the latter failed before registration and consumed no model call.
+Actual owner reconciliation subsequently passed. Exactly the timed-out attempt became accounted and interrupted, with one native checkpoint event appended. All original reservations, bindings, calls and existing events were preserved. Scheduling, preparation and upload all passed. The single continuation was admitted and submitted successfully; provider identity and both accounting records agree. Its maximum reservation is $10.342400 through ordinary admission. Effective exposure is now $68.371653/$75. No GPU has launched. The earlier SDK failure and packet-format recovery remain preserved; the latter failed before registration and consumed no model call.
 
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item 4 effective assets and compute exposure | $58.029253 | Closed CPU charges reconciled; other actuals unsettled |
-| Current CPU attempt, included above | $10.342400 | Positively timed out; full reservation retained pending reconciliation |
+| Item 4 effective assets and compute exposure | $68.371653 | One continuation open; other actuals partly unsettled |
+| Timed-out CPU segment, included above | $10.342400 | Positively terminal; full reservation retained |
+| Running CPU continuation, included above | $10.342400 | Open reservation retained in full |
 | Item 6 CPU attempts | $5.854800 | Shared $0.38602155 observation cannot be isolated |
 | Item 6 preparation | $5.000000 | Actual not isolated |
 | Item 6 image | $1.178425 | Actual not settled |
 
-Provider billing observed $2.33879894 for the preparation application through completed hourly records ($0.58471212 for the first stopped attempt and $1.75408682 for the second). This is not final settlement or complete research spend. Only $8.346000 of confirmed closed CPU reservation excess was released; all original reservation rows remain preserved. Closed attempts may release excess only after confirmed actual cost; open or uncertain attempts retain the full reservation. Caps stay $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry allowance. Model charges are separate; R52's recorded estimate is $4.514707; R53's is $3.601068; R54's is $4.659651; R55's is $3.243410.
+Provider billing observed $7.67823095 for the preparation application through completed hourly records ending at16:00 UTC: $0.58471212 for the first stopped attempt, $1.75408682 for the second and $5.33943201 in the exclusive hours covering the third, timed-out attempt. The continuation started later and is not in that observation. The third observation is preserved; its reservation has not been released. This is not final settlement or complete research spend. Only $8.346000 of confirmed closed CPU reservation excess was released; all original reservation rows remain preserved. Closed attempts may release excess only after confirmed actual cost; open or uncertain attempts retain the full reservation. Caps stay $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry allowance. Model charges are separate; R52's recorded estimate is $4.514707; R53's is $3.601068; R54's is $4.659651; R55's is $3.243410.
 
 ## Calls and judgment log highlights
 
