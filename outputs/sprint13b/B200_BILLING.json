@@ -1,0 +1,19 @@
+{
+  "schema": "closed-benchmark-billing-observation/v1",
+  "fit": "benchmark-B200",
+  "provider_observed_at": "2026-10-09T23:00:25.695632+00:00",
+  "billing_observation_sha256": "78dc95b801685f963afb266299d03d5af52c43ac50c5dd279f46f6ea2a13e1ea",
+  "collected_proof_sha256": "81d3d9a222be60d3c5626fcf2c6d22a9df4d258cbcafa24f1196e406e3b0749d",
+  "original_reservation_usd": "16.5924",
+  "retained_conservative_bound_usd": "10.039474",
+  "provider_compute_observed_usd": "2.00291173",
+  "known_identified_provider_compute_usd": "15.96905903",
+  "effective_item4_usd": "82.742729",
+  "provider_invoice_final": false,
+  "original_rows_changed": false,
+  "reservation_release": "No additional release claimed from a partial hourly billing observation; installed closed-attempt bound remains authoritative.",
+  "limitations": [
+    "Observed compute is for the completed reporting interval, not a final all-cost invoice.",
+    "Asset and model charges are separate. No open or uncertain reservation is released."
+  ]
+}

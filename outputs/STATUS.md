@@ -2,29 +2,29 @@
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
 A100, H100 and B200 benchmarks are complete: first epochs took 278.17, 228.14 and 166.28 seconds; the fixed rule selects B200.
-Both smoke runs are provisioned; the first base-smoke package is being prepared for normal GPU admission.
+Base-smoke package preparation and upload passed; one normal B200 submission is pending, with no duplicate request.
 Claude approved the deliberate interruption/resume control; it is installed and verified. Coverage-dependent arms and full training remain held.
-Identified provider compute is $13.97; later billing is pending. Verified exposure is $82.74 including the setup reservation, within $150.
+Identified provider compute is $15.97. Verified exposure was $82.74 before the pending smoke reservation; the stage-one cap is $150.
 Next expected result: five-epoch smoke with real interruption/resume and repeat, about 1-2 hours, subject to provider startup.
 Today: 50/50 model calls. Latest direction: PROCEED. Further model calls wait for the UTC reset.
 
-Updated 2026-10-09T22:50:01.781893+00:00.
+Updated 2026-10-09T23:04:53.034079+00:00.
 
 ## Results and readiness
 
 All three benchmark outputs are collected, hash-verified and positively terminated. B200 completed 250 training and 50 validation iterations in 166.28362007700002 seconds; loader wait was 0.692260330000039 seconds and all seven validation checks passed. The unchanged hardware calculation selects B200. These are first-epoch measurements, not steady-state smoke results or scientific acceptance of full training. Safe aggregate outputs are under outputs/sprint13b/.
 
-The installed smoke connection is source aa833acb4980520f67256f43fe13a20a818b4d03, independently approved by report 8d1b54f44b373ed169f172ee7eb697ed7f8162eaccafa707af61c76e5276fef8. Both new smoke identities are now READY under a normal $1 setup reservation, with the same image, frozen inputs, preprocessing and shared package. Runtime publication and execution preparation completed; no setup action was duplicated. Root wave publication completed with the original guards and no provider calls; normal base-smoke package preparation has started. No GPU smoke has launched yet.
+The installed smoke connection is source aa833acb4980520f67256f43fe13a20a818b4d03, independently approved by report 8d1b54f44b373ed169f172ee7eb697ed7f8162eaccafa707af61c76e5276fef8. Both new smoke identities are now READY under a normal $1 setup reservation, with the same image, frozen inputs, preprocessing and shared package. Runtime publication and execution preparation completed; no setup action was duplicated. Root wave publication completed with the original guards and no provider calls; base-smoke preparation and upload completed. Submission was requested once through normal admission; launch and interruption outcomes are still pending.
 
 Candidate 2e6bfd6a66610e775ad8c4b64fcd75ec3cbd437f connects the existing checkpoint, termination and continuation APIs for the first base smoke. It stops only after an authenticated partial checkpoint, records an exclusive stop intent, refuses uncertain repeat termination and verifies the full terminal checkpoint before ordinary accounting and resume. It adds no timer or subsystem. 187 tests passed with two skips; 40 focused tests passed after a runtime loader typo was caught and corrected. Exact final cold connection, native unit parsing and read-only replay of the actual two-fit publisher passed. Only future candidate approval was simulated; no scientific result or approval was fabricated. The combined independent implementation/accounting/safeguard review returned a genuine APPROVE with no findings: report 30b4cdea7bab3dbd5c666f61b42202978014221e80f98b61739256c5fb19f3c1. The exact source is installed and verification passed; its safe projection is merged into remote-server. The model call estimate is $3.9525135, preserved separately from provider billing.
 
 ## Timing and provisional full-plan cost
 
-A100 first-epoch timing includes unseparated in-epoch warm-up and excludes initialization before the epoch timer. Sprint 12 A1 had measured epoch medians of 36 seconds across its five folds; fold training durations were 2.69, 2.69, 2.72, 2.74 and 2.72 hours. Naively extending the A100 first epoch over 40 fits of 250 epochs gives 772.686 epoch GPU-hours plus 40 fixed hours, or 812.686 hours total. GPU-only cost is about $1,931.72; the current full resource and fixed-allowance calculation is about $6,573.41, above the $1,200 gate. This is a provisional diagnostic extrapolation, not an accepted full-training projection. Steady-state smoke measurements and author/reviewer judgment remain required.
+A100 first-epoch timing includes unseparated in-epoch warm-up and excludes initialization before the epoch timer. Sprint 12 A1 had measured epoch medians of 36 seconds across its five folds; fold training durations were 2.69, 2.69, 2.72, 2.74 and 2.72 hours. Naively extending the A100 first epoch over 40 fits of 250 epochs gives 772.686 epoch GPU-hours plus 40 fixed hours, or 812.686 hours total. GPU-only cost for the training epochs, excluding the fixed-hour allowances, is about $1,931.72; the current full resource and fixed-allowance calculation is about $6,573.41, above the $1,200 gate. This is a provisional diagnostic extrapolation, not an accepted full-training projection. Steady-state smoke measurements and author/reviewer judgment remain required.
 
 ## Money and model calls
 
-Stage-one cap $150, full-training projection gate $1,200 and total cap $1,275 are unchanged. Fresh verified effective exposure is $82.742729 including the $1 setup reservation; this is conservative accounting exposure, not an invoice. Original compute reservations totaling $97.9392 remain preserved. B200 retains its original $16.5924 reservation alongside a closed-attempt conservative bound of $10.039474, including unsettled obligations. Identified provider compute is $13.96614730, including H100 $2.07549804; B200 final billing, assets and model charges are not included in that partial compute total. No open or uncertain reservation is released.
+Stage-one cap $150, full-training projection gate $1,200 and total cap $1,275 are unchanged. Fresh verified effective exposure is $82.742729 including the $1 setup reservation; this is conservative accounting exposure, not an invoice. Original compute reservations totaling $97.9392 remain preserved. B200 retains its original $16.5924 reservation alongside a closed-attempt conservative bound of $10.039474, including unsettled obligations. Identified provider compute is $15.96905903, including H100 $2.07549804 and B200 $2.00291173 from its completed reporting hour. This is a partial compute total, not a final all-cost invoice; assets and model charges are separate. No open or uncertain reservation is released.
 
 Daily calls: 3 scientific authors (native corrections 12/13 and staging 14); 4 scientific reviewers (7, reader-failed 8, 9 and 10); 37 administrative reviews (implementation, accounting and process repairs, including the approved deliberate-stop bundle); 6 standalone direction checks (retry authority and next-result planning). Administrative reviews dominate; required controller, accounting and publisher changes are bundled into this single call, with no extra direction call. At 50, wait for UTC reset without resetting or relabeling usage.
 
@@ -32,7 +32,7 @@ Daily calls: 3 scientific authors (native corrections 12/13 and staging 14); 4 s
 
 Latest direction at 22:13 UTC: PROCEED with the original B200 then approved smoke; defer unrelated infrastructure, accounting refinements and new watchers. The benchmark finished. Judgment: prepare already-approved smoke assets and runtime records while implementing only the missing deliberate-stop connection; consult Claude in its required implementation review because it touches termination safeguards and accounting. Preserve every original attempt and charge. Earlier assumptions that the stall monitor supplied deliberate interruption were corrected by source inspection before launch. The runtime-wiring typo was caught during final native rehearsal, corrected before review, and its original commit and failure retained.
 
-No implementation approval is pending. Normal base-smoke preparation, upload and admitted submission are next; the installed control then performs the genuine interruption. Scientific review calls wait for the UTC reset because the daily allowance is used. Full training separately requires scientifically accepted smoke results and a projection within its gate. No money decision is pending. No main merge, BACKLOG edit, credential change, patient restriction change or safeguard relaxation. Public source projections omit private dependencies and are not deployable combined releases.
+No implementation approval is pending. One base-smoke submission is pending after successful preparation and upload; the installed control performs the genuine interruption after successful submission. Scientific review calls wait for the UTC reset because the daily allowance is used. Full training separately requires scientifically accepted smoke results and a projection within its gate. No money decision is pending. No main merge, BACKLOG edit, credential change, patient restriction change or safeguard relaxation. Public source projections omit private dependencies and are not deployable combined releases.
 
 ## Files withheld from public backup
 
@@ -182,3 +182,7 @@ No implementation approval is pending. Normal base-smoke preparation, upload and
 - tools/item4_private_staging_runtime.py ? EXCLUDED_RECORD_PATH, PRIVATE_RECORD_PATH.
 
 Earlier detailed checkpoints and accepted reports remain in branch history and outputs/. Current status is maintained here in place.
+
+Operational judgment: an upload command wrapper initially used the wrong JSON spacing for its expected job ID and refused before dispatch. The wrapper was corrected to the native identity, both prepared job IDs were cross-checked, and upload then completed once. Original error and intent preserved; no installed code, admission check, charge or model-call change.
+
+Billing reconciliation: B200 completed-hour compute is $2.00291173. Its original $16.5924 reservation and $10.039474 conservative closed-attempt bound remain recorded. No additional credit is claimed from partial hourly billing; uncertain/open reservations are untouched.
