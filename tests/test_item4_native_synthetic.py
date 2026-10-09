@@ -40,6 +40,9 @@ def result(b):
 @pytest.fixture
 def unreserved(unreserved_fixture,monkeypatch):
  f=unreserved_fixture;b=f.binding
+ # Generic lifecycle tests isolate the separate fixed-predecessor qualifier;
+ # test_item4_native_successor exercises it with real SQLite and file checks.
+ monkeypatch.setattr(budget.successor,'qualify',lambda accounts,binding:set())
  b.pop('image_build');b.update(purpose=rehearsal.PURPOSE,operation_id=rehearsal.OPERATION,run_id=rehearsal.RUN,
  native_synthetic=rehearsal.selected(),worker_sha256=rehearsal.worker_sha256(),image_id=rehearsal.selected()['image_id'],
  envelope=rehearsal.envelope(view()['rates']))

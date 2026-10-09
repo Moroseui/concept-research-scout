@@ -1,34 +1,35 @@
 # Research status
 
-Updated 2026-10-09T00:29:15.135087+00:00. This file is updated in place for the daily audit. Earlier dated checkpoints are historical.
+Updated 2026-10-09T01:05:13.297310+00:00. This file is updated in place for the daily audit. Earlier dated checkpoints are historical.
 
 ## Current work and results
 
 Item 6 CPU diagnostics are complete, independently scientifically APPROVED. The primary mean Dice improved from 0.20630608 to 0.24674415, paired gain 0.04043807 (95% bootstrap interval 0.02796645 to 0.05423991). The accepted interpretation stops this diagnostic branch without clinical, router or specialist-training promotion. The later comparison with the operator's Colab Sprint 14 run matches all 352 selected comparable point estimates at reported precision. Different support domains, bootstrap ordering and endpoint definitions explain other differences; this is independent execution on reused development predictions, not an independent cohort. Full accepted report, aggregate JSONs and comparison are in outputs/item6/.
 
-13B: pinned scientific image ready. Author12 submission accepted by the submission controller; 22 controller tests passed, zero skipped. This is not scientific approval. The previous real synthetic CPU rehearsal failed before training on an unsupported dataset-constructor keyword; author12 removed that keyword while retaining exact membership validation. Exact revised package checked without execution. Scientific review7 remains pending the real native rehearsal. No GPU smoke or full training has begun. Coverage-dependent arms remain held; the reviewer still owns the open scientific findings.
+13B: pinned scientific image ready. Author12 submission accepted by the submission controller; 22 controller tests passed, zero skipped. This is not scientific approval. The previous real synthetic CPU rehearsal failed before training on an unsupported dataset-constructor keyword; author12 removed that keyword while retaining exact membership validation. The author12 real native rehearsal ran with the same image and unchanged package. It reached preprocessing but failed before training because the pinned dataset object lacks keys(). Both native failures are preserved. Scientific review7 is held at input preparation: the complete context measured 206,782 characters against the unchanged 200,000-character limit. The refusal occurred before a model call. A narrow exact-file delivery repair is being prepared; no scientific correction has been made. No GPU smoke or full training has begun. Coverage-dependent arms remain held; the reviewer still owns the open scientific findings.
 
-The latest operator money decision removes the separate $15 retry allowance for item4: stage1 actual spend plus open reservations must stay within $75. Each retry still requires a different diagnosed cause, unchanged safeguards and reporting. Other item4 limits remain $1,200 full-training projection and $1,275 total. Money authority is settled; a narrow successor admission/install patch, tests and independent implementation review remain before the next CPU reservation. The research work resumes after this requested backup.
+The latest operator money decision removes the separate $15 retry allowance for item4: stage1 actual spend plus open reservations must stay within $75. Each retry still requires a different diagnosed cause, unchanged safeguards and reporting. Other item4 limits remain $1,200 full-training projection and $1,275 total. Money authority is settled. The bounded successor, billing-window and import-binding repairs received genuine independent APPROVE decisions, passed 235 focused tests, and were installed. One new CPU rehearsal was admitted normally and is now terminal; no automatic retry is running.
 
 ## Spending and reservations
 
 | Scope | Retained reservation | Provider observation | Treatment |
 |---|---:|---:|---|
-| Item4 asset preparation, including three input attempts, image and first native CPU rehearsal | $26.467493 | Complete item total not reconciled | All reservations retained |
+| Item4 asset preparation, including three input attempts, image and two native CPU rehearsals | $27.586443 | Complete item total not reconciled | All reservations retained |
 | Item4 first native CPU rehearsal, included above | $1.118950 | $0.01258041 | Terminal failure known; accounting classification remains uncertain, no release |
+| Item4 second native CPU rehearsal, included above | $1.118950 | Not yet reconciled | Terminal failure known; accounting classification uncertain, no release |
 | Item4 image preparation, included above | $1.178425 | $0.00669028 | Hourly observation only; no release |
 | Item6 three CPU attempts | $5.854800 | Shared preparation/CPU application reports $0.38602155 | Not separable by attempt; no release |
 | Item6 frozen-input preparation | $5.000000 | Included in shared observation above | Actual preparation cost not yet isolated |
 
-Provider observations are through October8 23:00 UTC and are not final invoices or complete item costs. The proposed item4 retry reserves at most $1.11895, bringing retained asset reservations to $27.586443 before any qualified reconciliation. No new retry has been reserved. Model-call costs are separate from these provider figures; a complete reconciled model-spend total is not yet available here.
+Provider observations are through October8 23:00 UTC and are not final invoices or complete item costs. The second CPU rehearsal reserved $1.11895, bringing retained asset reservations to $27.586443. Both native reservations remain fully counted. Model-call costs are separate from these provider figures; a complete reconciled model-spend total is not yet available here.
 
 New reconciliation rule: only provider-confirmed actual cost of a closed attempt may replace its reserved amount in admission totals; retain original reservation, actual cost and released excess in the record. Never release for an open or uncertain attempt. This accounting change remains to be tested and independently reviewed before installation; no reservation was released at this checkpoint.
 
 ## Calls, blockers and judgment calls
 
-UTC October9: 2/50 calls: one scientific author (13B revision), zero scientific reviewers, zero implementation reviews, one administrative scope opinion (retry money authority). UTC October8 closed at47: 9scientific authors, 7scientific reviewers, 27administrative implementation reviews, 4direction/scope checks. Prior attempts and charges remain counted. Administrative work dominates; bundle necessary accounting, retry and direction opinions into the next implementation review and defer optional infrastructure.
+UTC October9: 5/50 calls: one scientific author (13B author12 revision), zero scientific reviewers, three administrative implementation reviews (bounded successor/admission, hourly billing range, installer import binding), one administrative scope opinion (retry allowance, subsequently settled by operator). UTC October8 closed at 47: 9 scientific authors, 7 scientific reviewers, 27 administrative implementation reviews, 4 direction/scope checks. All attempts and charges remain counted.
 
-Latest Claude scope opinion was ASK PARTHO on cumulative retry allowance; root agreed and held execution. The operator has now resolved it with the stage1 cap rule. Earlier bundled implementation direction was PROCEED. Judgment highlights: preserve original failure and all reservations; use accepted author-owned correction; keep the image pinned; no new subsystem; export aggregate-only results and exclude flagged history. No new model or compute job was launched during backup.
+Latest explicit Claude direction: R26 PROCEED. The direction question was repeated within R28 after consecutive repair cycles; Claude called the import fix minimal and found no scope creep, without issuing a separate advisory label. Judgment: continue directly to the native result and scientific review; defer optional infrastructure. The native result now exposes a second dataset API incompatibility, which belongs to the scientific author/reviewer. No scientific source was changed by the coordinator. The full failed outcome is preserved for review.
 
 ## Publication scope and limitations
 
@@ -245,3 +246,15 @@ Additional exclusions identified during full publication audit (call-accounting 
 - docs > ITEM4_REVIEW6_CONTINUATION.json ? embedded call-accounting record; omitted from public history
 - docs > ITEM4_REVISION_CHECKPOINT.json ? embedded call-accounting record; omitted from public history
 - tools > ITEM4_AUTHOR5_BINDINGS.json ? embedded call-accounting record; omitted from public history
+
+### Additional omissions from installed native repair
+
+- docs > ITEM4_NATIVE_AUTHOR12_PREDECESSOR_20261009.json : PRESERVED_ACCOUNTING_RECORD
+- docs > ITEM4_NATIVE_AUTHOR12_RETRY_SCOPE_20261009.txt : CREDENTIAL_OR_HOST_REFERENCE
+- docs > ITEM4_NATIVE_BILLING_WINDOW_20261009.txt : CREDENTIAL_OR_HOST_REFERENCE
+- docs > ITEM4_NATIVE_IMPORT_BINDING_20261009.txt : CREDENTIAL_OR_HOST_REFERENCE
+- outputs > implementation-reviews > item4-native-author12-retry-20261009.json : CREDENTIAL_OR_HOST_REFERENCE
+- outputs > implementation-reviews > item4-native-billing-window-20261009.json : CREDENTIAL_OR_HOST_REFERENCE
+- outputs > implementation-reviews > item4-native-import-binding-20261009.json : CREDENTIAL_OR_HOST_REFERENCE
+
+- astra/item4-native-author12-retry-20261009 @ 37251e6e8236 : private ancestry and accounting records withheld; safe source projection only.

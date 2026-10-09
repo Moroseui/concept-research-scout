@@ -31,6 +31,12 @@
       "source": "e16bb77f5c7363d7b306e354db960827291095d5",
       "role": "item4-native-install-serialization-20261008",
       "selection": "reviewed component source; private files excluded"
+    },
+    {
+      "source": "37251e6e8236519b255beed87a7f7a87753d2dba",
+      "role": "installed native author12 CPU rehearsal; includes billing query and import repair",
+      "review": "6d57ff879660157e8b1ad3ca3924987ff32381ff48de5fc9a0f5c97b98258a4f",
+      "selection": "safe exact source only; accounting proof excluded"
     }
   ],
   "source_files_count": 1365,

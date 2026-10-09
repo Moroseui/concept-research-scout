@@ -1,3 +1,1 @@
-# Current state
-
-See [outputs/STATUS.md](outputs/STATUS.md) for current results, spending, blockers and exclusions. It is updated in place. DATA_NOTICE.md governs aggregate outputs.
+Current public research status is maintained in [outputs/STATUS.md](outputs/STATUS.md). Item6 is complete. The second 13B native CPU rehearsal failed before training; scientific review preparation hit the input-size guard before any model call. This is a filtered audit snapshot, not a deployable release.
