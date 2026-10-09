@@ -8,7 +8,7 @@ import re
 import sys
 
 CHANGE='item4-author7-and-image-recovery-20261008'
-REVIEW_CHANGE='item4-review9-workspace-repair-20261009'
+REVIEW_CHANGE='item4-review9-reader-recovery-20261009'
 PRE_ADMISSION_DOCUMENT='docs/ITEM4_REVIEW9_PRE_ADMISSION.json'
 MECHANICAL_SOURCE='ed9ad9aead00c9df8d0ecae1a25ecd782aef169c'
 MECHANICAL_REVIEW='6f7742d5f7f7ceaead77a75e66e2ef068f5ff6ef50915945fbc9dcebbeacf4cf'
