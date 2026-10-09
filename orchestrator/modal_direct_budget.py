@@ -79,7 +79,8 @@ def reserve(accounts,ident,run,binding,*,billing_snapshot,now=None,recovery=None
         if any(x['status'] not in ('COLLECTED','ACCOUNTED') for x in compute):raise ValueError('MODAL_ACTIVE_OR_UNCERTAIN_COMPUTE')
         if any(selected_asset(x) and x['id'] not in predecessor_ids for x in assets):raise ValueError('DIRECT_ASSET_ALREADY_PREPARED_NO_NEW_RESERVATION')
         item_compute=[x for x in compute if json.loads(x['binding']).get('experiment',{}).get('authority_sha256')==AUTHORITY]
-        old_assets=sum(x['reserved_micro_usd'] for x in assets if selected_asset(x))
+        from orchestrator.modal_environment_budget import selected_asset as environment_asset
+        old_assets=sum(x['reserved_micro_usd'] for x in assets if selected_asset(x) or environment_asset(x))
         total=old_assets+sum(max(x['reserved_micro_usd'],x['actual_micro_usd'] or 0) for x in item_compute)
         smoke=old_assets+sum(max(x['reserved_micro_usd'],x['actual_micro_usd'] or 0) for x in item_compute if json.loads(x['binding'])['experiment']['stage']=='SMOKE')
         if total+amount>TOTAL_CAP or smoke+amount>SMOKE_CAP:raise ValueError('ITEM4_HARD_COST_CAP')

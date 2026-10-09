@@ -1,0 +1,7 @@
+Approved, as scoped: frozen development inputs, a preparation reservation of at most $5 inside item 6's existing $100 cap, and recognition of the existing credential-file path. Conditions:
+1. The frozen inputs are the 99 development patients only. Verify by identifier that none of the 25 locked or 24 reserve patients are included.
+2. The credential change is a path reference only: no new credential, no copying, printing or logging of its contents, no change to ownership or permissions, and it is read only by the existing service account.
+3. The independent implementation review must pass before installation or transfer. A REJECT, or a finding about privacy, credentials or caps, stops for the operator.
+4. Report actual spend against the $5 reservation.
+Reconciling the 13B input records while waiting is fine: no model calls, no changes to scientific outputs.
+When item 6 finishes, compare its results with Colab Sprint 14 project doc sprint14_results_2026-10-07.md as an independent reproduction. Report where numbers match and explain differences.

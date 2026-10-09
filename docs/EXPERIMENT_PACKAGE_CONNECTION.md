@@ -1,0 +1,9 @@
+# Reviewed experiment package connection
+
+The item4/6 driver now commits the exact reviewed specification, structured review and immutable code binding, then prepares a private experiment-package/v1. It preserves the frozen execution plan, author code, selected review artifacts and original synthetic-test evidence byte for byte. No old prompt or native transcript enters the package. Repeated preparation verifies the complete existing package; changed or partial packages refuse instead of rebuilding. A completed identical Git commit can be recovered after interruption before the saved phase without a duplicate commit. Unrelated working-tree edits refuse.
+
+This is connected to Driver._advance after its ordinary guard. It never reaches the historical Sprint10 package/executor or analysis-only saved-evidence validator. Package verification revalidates the original admitted review submission and tested-code binding. No new call, compute reservation or scientific judgment is created by packaging.
+
+Implementation remains incomplete: EXECUTE_EXPERIMENT still refuses until the actual provider admission, server-owned status/collection, output validation, interpretation delivery and final STATE/report are connected. The protected real-plan initializer and authorized parallel ownership are also required. These draft changes require the full suites and normal automated review before installation or scientific use. This is not M4 acceptance.
+
+Tests use labelled synthetic scientific outputs with real assembly, local ledger, MCP submission validation, package files and Git operations. Outer host/source setup is explicitly a fixture; it does not claim native isolation or live scientific execution. The former context test's COMMIT_SPEC refusal is replaced by these actual commit/package transition checks; legacy and unimplemented execution paths still refuse.

@@ -20,31 +20,7 @@ from orchestrator.manual_executor import digest, read, inventory
 from orchestrator.modal_executor import canonical
 from orchestrator.modal_budget import RATES, estimate
 
-MAX_FILE = 64 * 1024 * 1024
-MAX_TOTAL = 256 * 1024 * 1024
-
-
-def safe_name(name):
-    if (not isinstance(name,str) or not name or len(name)>240 or
-        str(PurePosixPath(name))!=name or name.startswith('/') or
-        any(x in {'','.','..'} for x in name.split('/')) or
-        not re.fullmatch(r'[a-zA-Z0-9_./-]+',name)):
-        raise ValueError('MODAL_MEMBER_PATH')
-    return name
-
-
-def member_map(value, *, maximum=MAX_TOTAL):
-    if not isinstance(value,dict) or not 1<=len(value)<=1024:raise ValueError('MODAL_MEMBER_COUNT')
-    total=0
-    for name,item in value.items():
-        safe_name(name)
-        if (not isinstance(item,dict) or set(item)!={'sha256','bytes'} or
-            not isinstance(item['sha256'],str) or not re.fullmatch('[a-f0-9]{64}',item['sha256']) or
-            type(item['bytes']) is not int or not 0<=item['bytes']<=MAX_FILE):
-            raise ValueError('MODAL_MEMBER_IDENTITY')
-        total+=item['bytes']
-    if total>maximum:raise ValueError('MODAL_MEMBERS_TOO_LARGE')
-    return value
+from orchestrator.modal_files import MAX_FILE, MAX_TOTAL, safe_name, member_map
 
 
 def verified_sdk(config):
@@ -83,6 +59,18 @@ class ModalProvider:
         from orchestrator.modal_development_inputs import verify_volume
         return verify_volume(self, volume_id, cohort_raw, source_raw, authority_raw)
 
+    def terminal_preprocessing_steps(self, provider_id, binding):
+        from orchestrator.modal_preprocessing_provider import terminal_steps
+        return terminal_steps(self, provider_id, binding)
+
+    def terminal_fit_checkpoint(self, provider_id, binding):
+        from orchestrator.modal_fit_provider import terminal_checkpoint
+        return terminal_checkpoint(self, provider_id, binding)
+
+    def fit_health(self, provider_id, binding, log_path=None, *, now=None):
+        from orchestrator.modal_fit_health import observe
+        return observe(self, provider_id, binding, log_path, now=now)
+
     def billing_snapshot(self):
         """Authenticated read-only Team billing, preserved by the caller."""
         from orchestrator.modal_billing import capture
@@ -113,12 +101,17 @@ class ModalProvider:
     def _sandbox(self,ident):
         return self.modal.Sandbox.from_id(ident,client=self.client)
 
-    def _verify_volume(self,ident,expected):
+    def _verify_volume_members(self,ident,expected):
         volume=self._volume(ident)
         entries=volume.listdir('/',recursive=True)
+        names=[x.path.lstrip('/') for x in entries if x.type.name=='FILE']
         actual={x.path.lstrip('/'):x.size for x in entries if x.type.name=='FILE'}
         others=[x for x in entries if x.type.name not in {'FILE','DIRECTORY'}]
-        if others or actual!={k:v['bytes'] for k,v in expected.items()}:raise ValueError('MODAL_VOLUME_MEMBER_SET')
+        if others or len(names)!=len(set(names)) or actual!={k:v['bytes'] for k,v in expected.items()}:raise ValueError('MODAL_VOLUME_MEMBER_SET')
+        return volume
+
+    def _verify_volume(self,ident,expected):
+        volume=self._verify_volume_members(ident,expected)
         for name,item in expected.items():
             hashed=hashlib.sha256();size=0
             for chunk in volume.read_file('/'+name):
@@ -129,6 +122,12 @@ class ModalProvider:
         return volume
 
     def preflight(self,config,binding,prepared):
+        if binding.get('purpose')=='M4_ITEM6_CPU':
+            from orchestrator.diagnostics_modal import preflight
+            return preflight(self,config,binding,prepared)
+        if binding.get("purpose")=="M4_ITEM4":
+            from orchestrator.modal_item4_provider import preflight
+            return preflight(self,config,binding,prepared)
         if config!=self.config or digest(canonical(config))!=binding['runtime_sha256']:raise ValueError('MODAL_PROVIDER_RUNTIME')
         if binding['cost']!=estimate(binding['resources'],binding['overhead_micro_usd']):raise ValueError('MODAL_PROVIDER_ESTIMATE')
         # Data authority is bound by the reviewed run's complete input contract,
@@ -172,6 +171,12 @@ class ModalProvider:
                 'checked_at':datetime.now(timezone.utc).isoformat()}
 
     def create(self,config,binding,package):
+        if binding.get('purpose')=='M4_ITEM6_CPU':
+            from orchestrator.diagnostics_modal import create
+            return create(self,config,binding,package)
+        if binding.get("purpose")=="M4_ITEM4":
+            from orchestrator.modal_item4_provider import create
+            return create(self,config,binding,package)
         if config!=self.config:raise ValueError('MODAL_PROVIDER_RUNTIME')
         # Immutable, prebuilt assets only; no image build or upload at dispatch.
         resources=binding['resources']
@@ -190,6 +195,12 @@ class ModalProvider:
         return {'provider_id':sb.object_id,'entrypoint':'idle-only','binding_sha256':digest(canonical(binding))}
 
     def launch(self,provider_id,binding):
+        if binding.get('purpose')=='M4_ITEM6_CPU':
+            from orchestrator.diagnostics_modal import launch
+            return launch(self,provider_id,binding)
+        if binding.get('purpose')=='M4_ITEM4':
+            from orchestrator.modal_item4_provider import launch
+            return launch(self,provider_id,binding)
         sb=self._sandbox(provider_id)
         # Only this method launches science. The caller durably records intent
         # first and never calls it again after an uncertain return. SDK internal
@@ -220,6 +231,12 @@ class ModalProvider:
         return result
 
     def status(self,provider_id,binding):
+        if binding.get('purpose')=='M4_ITEM4' and 'preprocessing' in binding:
+            from orchestrator.modal_preprocessing_provider import status as preprocess
+            return preprocess(self,provider_id,binding)
+        if binding.get("purpose")=="M4_ITEM4":
+            from orchestrator.modal_fit_result import status
+            return status(self,provider_id,binding)
         sb=self._sandbox(provider_id)
         try:result=self._result(sb,binding);state=result['status']
         except self.modal.exception.SandboxFilesystemNotFoundError:
@@ -228,8 +245,18 @@ class ModalProvider:
 
     @private_records.private_umask
     def collect(self,provider_id,binding,destination):
+        if binding.get('purpose')=='M4_ITEM4' and 'preprocessing' in binding:
+            from orchestrator.modal_preprocessing_provider import collect as preprocess
+            return preprocess(self,provider_id,binding,destination)
+        if binding.get("purpose")=="M4_ITEM4":
+            from orchestrator.modal_fit_result import collect
+            return collect(self,provider_id,binding,destination)
         sb=self._sandbox(provider_id);result=self._result(sb,binding)
         if result['status']!='COMPLETE':raise ValueError('MODAL_RESULT_NOT_COMPLETE')
+        native=None
+        if binding.get('purpose')=='M4_ITEM6_CPU':
+            from orchestrator.diagnostics_modal import native_proof
+            native=native_proof(self,sb,binding)
         if sb.filesystem.stat('/tmp/outputs').type.value!='directory':raise ValueError('MODAL_OUTPUT_ROOT_ALIAS')
         for name,item in result['files'].items():
             # Verify each parent is a directory; no alias out of output root.
@@ -243,7 +270,8 @@ class ModalProvider:
             private_records.write_bytes(target,data)
         if self._result(sb,binding)!=result:raise ValueError('MODAL_RESULT_CHANGED_DURING_COLLECTION')
         return {'provider_id':provider_id,'binding_sha256':result['binding_sha256'],
-                'file_sha256':{k:v['sha256'] for k,v in result['files'].items()}}
+                'file_sha256':{k:v['sha256'] for k,v in result['files'].items()},
+                **({'native_preflight':native} if native is not None else {})}
 
     def terminate(self,provider_id):
         sb=self._sandbox(provider_id);sb.terminate(wait=True)

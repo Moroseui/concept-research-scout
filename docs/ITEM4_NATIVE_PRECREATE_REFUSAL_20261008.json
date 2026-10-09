@@ -1,0 +1,25 @@
+{
+  "app_id": "ap-a7WU85NFzymj1JnHJ4QxxP",
+  "at": "2026-10-08T14:57:33.614247+00:00",
+  "binding_sha256": "5679c16fedb876f53ac9fcc39fac4c885c1cb245292e3fde7cc0664403b3a46f",
+  "bytes": 147376,
+  "failure_record_sha256": "956c8c3253b453e88371384b71d1e5a17b7f0fdea9d1a0d51bbb84961059a05b",
+  "image_id": "im-Yhslx2XCmdhO6U5ToJJi0C",
+  "ledger_mutations": 0,
+  "limitation": "Name lookup proves no current named sandbox; original SDK validation traceback/source establish refusal before create RPC.",
+  "original_reservation_retained": true,
+  "provider_files": {
+    "app-intent.json": "4335d03075250b35f4fca46eb23d444b784fc55e5f23f97049cdc8c829b4ce17",
+    "app.json": "a948997db81b78dc28a838c106c8ccbc898b67631a0ccaa2d3a29855eb6aabd4",
+    "image-intent.json": "e02dc9fac5002c5a1d50ca1c96bf14659c1aaea451048000fe0991d477a48ffa",
+    "image.json": "ea0482684971383f9f3f9199578851f5a1f673d93c2572afb62594ddd49d0fdc",
+    "intent.json": "b7c7dadb6fa74b534cf6f3f356abe7a5d8a51fa8e4032cdbf74673be10add34e",
+    "sandbox-intent.json": "4293c2896fc5b5234c420bf037b9c770c879f92481b2a8e014f4f4f9ec9cd9f9"
+  },
+  "provider_mutations": 0,
+  "recorded_argument_length": 96135,
+  "sandbox_lookup": "NOT_FOUND",
+  "sandbox_py_sha256": "247a8ea555b4069c82c63da068675618d1203a7338a6f94d61a00505914d5e9a",
+  "sdk_argument_limit": 65536,
+  "status": "SDK_PRECREATE_ARGUMENT_REFUSAL_CONFIRMED"
+}

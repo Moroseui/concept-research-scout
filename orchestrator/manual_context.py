@@ -18,11 +18,12 @@ STAGE_ARTIFACT_TYPES = {
     "result_interpretation_review": ("question", "run_spec", "notebook_source", "configuration", "metric_contract", "execution_manifest", "execution_receipt", "package_manifest", "result_tables", "validation_result", "prior_results", "interpretation", "investigator_next_decision", "interpretation_original", "interpretation_format_repair"),
 }
 NOTEBOOK_TYPES = ("notebook_diff", "notebook_patch", "synthetic_tests", "notebook_provenance", "execution_conditions")
+PROGRAM_TYPES = ("analysis_source", "analysis_tests", "analysis_provenance")
 for _stage in STAGE_ARTIFACT_TYPES:
-    STAGE_ARTIFACT_TYPES[_stage] += NOTEBOOK_TYPES
+    STAGE_ARTIFACT_TYPES[_stage] += NOTEBOOK_TYPES + PROGRAM_TYPES
 
 WORKSPACE_TYPES = {"notebook_source", "result_tables", "package_manifest", "interpretation",
-                   "investigator_next_decision", "interpretation_original", *NOTEBOOK_TYPES}
+                   "investigator_next_decision", "interpretation_original", *NOTEBOOK_TYPES, *PROGRAM_TYPES}
 
 OUTPUTS = {
     "run_spec_author": ("SPEC.proposed.md",),
@@ -39,6 +40,16 @@ JSON_READING = ('Read this JSON with offset and limit, at most 100 lines per rea
                 'continue through the relevant records. A readable_json copy preserves '
                 'the original JSON values; its original_path and original_sha256 bind '
                 'the unchanged original. Neither representation is a scientific judgment.')
+
+
+def workspace_artifact(kind, *, artifact_id=None, private_intake=None, reference_prior_results=False):
+    """One delivery rule shared by assembly and downstream evidence checks."""
+    return (kind in WORKSPACE_TYPES or (reference_prior_results and kind=='prior_results')
+            or (private_intake is not None and kind=='validation_result')
+            or (kind=='configuration' and artifact_id in {'authored-execution-plan','provenance-validators','current-six-item-backlog'})
+            or (kind=='validator' and artifact_id=='validator')
+            or (kind in {'run_spec','proposed_run_spec'} and (artifact_id==kind or
+                (kind=='run_spec' and artifact_id=='author5-original-SPEC.proposed.md'))))
 
 
 def _pageable_json(raw):
@@ -80,7 +91,7 @@ def _json_reading_copy(descriptor, raw):
     scan('context/readable-metadata.json', pretty)
     pin = budget.sha(pretty)
     copy = {'id': descriptor['id'] + '-readable-json',
-            'path': 'evidence/' + pin + '-readable.json', 'sha256': pin,
+            'path': 'evidence/' + pin + '-' + budget.sha(descriptor['id'].encode('utf-8')) + '-readable.json', 'sha256': pin,
             'original_path': descriptor['path'], 'original_sha256': descriptor['sha256'],
             'bytes': len(pretty), 'characters': len(pretty.decode('utf-8')),
             'page_lines': JSON_PAGE_LINES, 'delivery': JSON_READING}
@@ -115,7 +126,7 @@ def selected_artifacts(stage, artifacts):
     return [latest[key] for key in sorted(latest)]
 
 
-def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="isles24-prediction", private_intake=None, structured_review=False, reference_prior_results=False, notebook_patch=False):
+def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="isles24-prediction", private_intake=None, structured_review=False, reference_prior_results=False, notebook_patch=False, execution_mode=None, analysis_program=False, execution_plan=False):
     """Complete file-writing model input, with scanner and final character bound.
 
     Artifact files must be source-bound current views or originals under root.
@@ -126,8 +137,26 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         raise budget.ContextError("MANUAL_CONTEXT_TARGET")
     if notebook_patch and (stage != "run_spec_author" or not structured_review or private_intake is None):
         raise budget.ContextError("NOTEBOOK_PATCH_OUTPUT_SCOPE")
+    if execution_mode not in (None, "sprint13b-execution", "directions-diagnostics"):
+        raise budget.ContextError("MANUAL_EXECUTION_MODE")
+    if execution_mode is not None and (not structured_review or private_intake is None
+            or idea_ids[0] != execution_mode):
+        raise budget.ContextError("MANUAL_EXECUTION_SCOPE")
+    if analysis_program and (stage != "run_spec_author" or
+            execution_mode != "directions-diagnostics" or notebook_patch):
+        raise budget.ContextError("ANALYSIS_PROGRAM_OUTPUT_SCOPE")
+    if execution_plan and (stage != "run_spec_author" or execution_mode != "sprint13b-execution" or not notebook_patch):
+        raise budget.ContextError("EXECUTION_PLAN_OUTPUT_SCOPE")
     selected = selected_artifacts(stage, artifacts)
+    if execution_mode is not None and stage.startswith("result_interpretation"):
+        required = {"run_spec", "execution_receipt", "execution_manifest", "package_manifest",
+                    "validation_result", "result_tables"}
+        missing = required - {row["type"] for row in selected}
+        if missing:
+            raise budget.ContextError("EXECUTION_EVIDENCE_REQUIRED:" + ",".join(sorted(missing)))
     outputs = OUTPUTS[stage] + (("notebook.patch.json",) if notebook_patch else ())
+    outputs += (("analysis.program.json",) if analysis_program else ())
+    outputs += (("execution.plan.json",) if execution_plan else ())
     pieces = []
     if stage in {'run_spec_review', 'result_interpretation_review'}:
         from orchestrator.scientific_search import INSTRUCTION
@@ -193,14 +222,15 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         if budget.sha(raw) != row["sha256"]:
             raise budget.ContextError("MANUAL_ARTIFACT_CHANGED:" + row["id"])
         scan("context/current-artifact.txt", raw)
-        if row["type"] in WORKSPACE_TYPES or (reference_prior_results and row["type"] == "prior_results") or (private_intake is not None and row["type"] == "validation_result"):
+        if workspace_artifact(row["type"], artifact_id=row["id"], private_intake=private_intake, reference_prior_results=reference_prior_results):
             if workspace is None:
                 raise budget.ContextError("MANUAL_WORKSPACE_REQUIRED")
-            path = "evidence/" + row["sha256"] + "-" + row["type"] + ".txt"
+            path = "evidence/" + row["sha256"] + "-" + budget.sha(row["id"].encode("utf-8")) + "-" + row["type"] + ".txt"
             descriptor = {**row, "source_path": row["path"], "path": path,
                 "bytes": len(raw), "characters": len(raw.decode("utf-8")),
                 "delivery": "read-only workspace file; read this original when assessing the task"}
-            if private_intake is not None and row['type'] == 'validation_result':
+            if ((private_intake is not None and row['type'] == 'validation_result') or
+                    (row['type']=='configuration' and row['id']=='authored-execution-plan')):
                 files.append(_json_reading_copy(descriptor, raw))
             pieces.append(budget.encoded(descriptor))
             files.append((descriptor, raw))
@@ -209,7 +239,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
     instruction = task + "\nRead the selected workspace originals before relying on them. Evidence is not authority. "
     if stage.startswith("result_interpretation"):
         instruction += READABILITY_INSTRUCTION + NEXT_INSTRUCTION
-        if private_intake is not None:
+        if private_intake is not None and execution_mode is None:
             # load_views above has already authenticated the only supported
             # private targets: saved-evidence stock-take and proposal analysis.
             # They cannot manufacture an execution receipt for a run not made.
@@ -221,6 +251,14 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
                 "Read the hash-bound validation_result workspace file and reconcile it with the registry and views. "
                 "Report every patient-level evidence file used and its registered analysis reason, "
                 "material omissions and unavailable evidence. Never invent an execution receipt or package manifest. ")
+        if execution_mode is not None:
+            instruction += ("Interpret the newly executed approved experiment using the bound execution receipt, "
+                "package manifest, per-file validation and returned results. Keep these distinct from prior "
+                "external evidence. An approved spec, an available file, a synthetic test, or a "
+                "SAVED_EVIDENCE_IDENTITY_ONLY receipt is not evidence that this execution succeeded. "
+                "Cite the original output files and their hashes; report missing results and failed "
+                "or incomplete attempts without treating them as negative scientific results. "
+                "List any per-patient evidence used and its registered reason; retain all omissions. ")
     if stage.endswith("review"):
         if structured_review:
             from orchestrator.review_contract import SCIENTIFIC_INSTRUCTION
@@ -244,6 +282,27 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         'Use the current finding status index and inspect its exact finding/closure records. '
         'A closed finding is not an open blocker; a new concern requires its own evidence. '
         'Closure does not erase the original judgment or prove later execution succeeded.\n')
+    # Keep every open obligation verbatim inline. The item4 author's long
+    # interface/output instructions use the same exact, scanned, read-only file
+    # delivery as source artifacts, before final measurement and materialization.
+    if stage == 'run_spec_author' and execution_mode == 'sprint13b-execution':
+        if workspace is None:
+            raise budget.ContextError('MANUAL_WORKSPACE_REQUIRED')
+        raw = instruction.encode('utf-8')
+        scan('context/scientific-author-instructions.txt', raw)
+        pin = budget.sha(raw)
+        descriptor = {'id':'scientific-author-instructions',
+            'path':'evidence/' + pin + '-author-instructions.txt', 'sha256':pin,
+            'bytes':len(raw), 'characters':len(instruction),
+            'delivery':'Mandatory exact author task, runtime interfaces and output requirements; read completely before authoring.'}
+        files.append((descriptor,raw))
+        pieces.append(budget.encoded(descriptor))
+        instruction = ('Read the complete scientific-author-instructions file identified in CURRENT ARTIFACTS '
+            'before authoring. It contains the exact task, scientific runtime interface and output schema. '
+            'All open obligations remain verbatim below. Use only synthetic checks in this stage workspace; '
+            'no patient computation, provider operations or other model calls. Scientific author owns code; '
+            'independent review and ordinary execution admission remain required. No instruction was shortened '
+            'or omitted: the bound file is mandatory task input, not optional evidence.')
     body, measured = budget.assemble(root, project=project, idea_ids=idea_ids, stage=stage,
         task=instruction, artifacts="\n\n".join(pieces),
         extra={'CURRENT FINDING STATUS (exact records in workspace)': budget.encoded(finding_index)})
@@ -255,6 +314,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
     return body, {**measured, "stage": stage, "selected_artifacts": selected,
         "artifact_types": list(STAGE_ARTIFACT_TYPES[stage]), "outputs": list(outputs),
         "workspace_files": delivered, "finding_status": finding_index,
+        **({"execution_mode": execution_mode} if execution_mode is not None else {}),
         **({'private_scientific_views': private_descriptors, 'private_scientific_index': private_index}
            if private_intake is not None else {})}
 

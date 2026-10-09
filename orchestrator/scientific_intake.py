@@ -18,12 +18,7 @@ from orchestrator.git_publication import SECRET
 DECISION_SHA256 = 'ca3857db236cdc7796655217ec5932caddceae7ef6d801542fd07d127d73eb06'
 OPERATOR_SHA256 = '8426b69c263f12749c8717a548e68da4a55360c42e8d1d831eb3001cc3ecde69'
 COHORT_SHA256 = '45c5746f60e2275383a2c4f4096295fe7a171da85a73737c5a35a8cc6fc9fe86'
-KINDS = {'code', 'aggregate', 'plan', 'review', 'per_patient'}
-STAGES = {'run_spec_author', 'run_spec_review', 'result_interpretation_author', 'result_interpretation_review'}
-ID = re.compile(r'(?i)(?:sub[-_])?stroke[-_]?[0-9]+')
-TOKEN = re.compile(r'(?:ya29\.[A-Za-z0-9_-]+|eyJ[A-Za-z0-9_-]{16,}\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|(?:ak|as)-[A-Za-z0-9_-]{20,}|sk-ant-[A-Za-z0-9_-]+)')
-ASSIGNMENT = re.compile(r'''(?ix)["']?(?:token|access_token|refresh_token|id_token|token_secret|client_secret|api_key|private_key|authorization|password)["']?\s*[:=]\s*["']?([^\s,"'}\]]+)''')
-
+from orchestrator.scientific_view_scan import KINDS, STAGES, ID, TOKEN, ASSIGNMENT
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -44,44 +39,7 @@ def cohort(raw):
     return frozenset(cases)
 
 
-def scan(raw, cases, *, kind, reason=''):
-    """Two mandatory fail-closed scans; returns counts, never rejected values.
-
-    This is a known-secret/identifier detector, not a claim that arbitrary opaque
-    data can be proven safe. Opaque formats are refused; evidence registration
-    and review must also establish the development-only content provenance.
-    """
-    if kind not in KINDS or not isinstance(raw, bytes) or len(raw) > 1_500_000 or b'\0' in raw:
-        raise ValueError('PRIVATE_INTAKE_TEXT_TYPE_OR_LIMIT')
-    if kind == 'per_patient' and (not isinstance(reason, str) or not reason.strip()):
-        raise ValueError('PRIVATE_INTAKE_ANALYSIS_REASON_REQUIRED')
-    text = raw.decode('utf-8')
-    # Notebook JSON is decoded before this function. Also inspect common textual
-    # escaping so a literal escaped identifier/token cannot evade the check.
-    variants = [text]
-    for _ in range(2):
-        decoded = html.unescape(unquote(variants[-1]))
-        decoded = re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m[1], 16)), decoded)
-        if decoded == variants[-1]:
-            break
-        variants.append(decoded)
-    found = set()
-    for value in variants:
-        if SECRET.search(value.encode()) or TOKEN.search(value) or ASSIGNMENT.search(value):
-            raise ValueError('PRIVATE_INTAKE_SECRET_REJECTED')
-        # Long encoded blobs cannot be inspected as plain scientific text.
-        if re.search(r'[A-Za-z0-9+/]{256,}={0,2}', value):
-            raise ValueError('PRIVATE_INTAKE_OPAQUE_PAYLOAD_REJECTED')
-        for match in ID.finditer(value):
-            digits = re.search(r'[0-9]+', match[0])[0]
-            normalized = 'sub-stroke' + digits
-            if normalized not in cases or match[0] != normalized:
-                raise ValueError('PRIVATE_INTAKE_NONDEVELOPMENT_OR_NONCANONICAL_ID')
-            found.add(normalized)
-    if found and kind not in {'code', 'per_patient'}:
-        raise ValueError('PRIVATE_INTAKE_PATIENT_LEVEL_CLASSIFICATION_REQUIRED')
-    return {'secret_scan': 'PASS', 'locked_and_unknown_id_scan': 'PASS',
-            'development_identifiers': len(found), 'bytes': len(raw), 'characters': len(text)}
+from orchestrator.scientific_view_scan import scan
 
 
 def notebook_units(raw):
@@ -220,7 +178,8 @@ def load_views(root, registry_ref, *, stage, idea_ids):
             or registry['schema'] != 'private-scientific-intake/v1'
             or registry['decision_sha256'] != DECISION_SHA256
             or registry['operator_sha256'] != OPERATOR_SHA256
-            or registry['task'] not in {'sprints-stocktake', 'sprint13-proposal', 'research-directions'}
+            or registry['task'] not in {'sprints-stocktake', 'sprint13-proposal', 'research-directions',
+                                        'sprint13b-execution', 'directions-diagnostics'}
             or not isinstance(registry['idea_ids'], list) or not registry['idea_ids']
             or registry['idea_ids'][0] != registry['task']
             or any(not isinstance(x, str) or not x for x in registry['idea_ids'])

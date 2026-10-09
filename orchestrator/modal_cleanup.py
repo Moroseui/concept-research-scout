@@ -22,6 +22,28 @@ def expired(runtime,now=None):
     return (now or datetime.now(timezone.utc))>=datetime.fromisoformat(runtime['asset_expires_utc'])
 
 
+def remove_members(provider,volume_id,files,record,kind):
+    """Exact members only; callers retain their admission/dependency guards."""
+    record=Path(record)
+    volume=provider._volume(volume_id)
+    entries=volume.listdir('/',recursive=True)
+    if any(x.type.name not in {'FILE','DIRECTORY'} for x in entries):raise ValueError('MODAL_CLEANUP_MEMBER_TYPE')
+    remaining={x.path.lstrip('/'):{'bytes':x.size,'sha256':files[x.path.lstrip('/')]['sha256']} for x in entries if x.type.name=='FILE' and x.path.lstrip('/') in files}
+    if len(remaining)!=sum(x.type.name=='FILE' for x in entries):raise ValueError('MODAL_CLEANUP_UNEXPECTED_MEMBER')
+    provider._verify_volume(volume_id,remaining)
+    for name,item in files.items():
+        ident=digest(canonical({'kind':kind,'name':name,'identity':item}))
+        path=record/(ident+'.intent.json')
+        payload={'volume_id':volume_id,'name':name,**item}
+        if name not in remaining:
+            if not path.exists() or read(path)!=payload:raise ValueError('MODAL_CLEANUP_UNEXPLAINED_ABSENCE')
+            continue
+        write_once(path,canonical(payload))
+        # Bound object ID, exact authorized file; no recursive deletion.
+        volume.remove_file('/'+name,recursive=False)
+    provider._verify_volume(volume_id,{})
+
+
 @private_records.private_umask
 def clear_copies(provider,runtime,record,*,collected=False,now=None):
     record=Path(record)
@@ -59,23 +81,7 @@ def clear_copies(provider,runtime,record,*,collected=False,now=None):
             for kind,files in expected.items():provider._verify_volume(runtime[VOLUME_KEYS[kind]],files)
             write_once(intent_path,canonical(intent))
         for kind,files in expected.items():
-            volume=provider._volume(runtime[VOLUME_KEYS[kind]])
-            entries=volume.listdir('/',recursive=True)
-            if any(x.type.name not in {'FILE','DIRECTORY'} for x in entries):raise ValueError('MODAL_CLEANUP_MEMBER_TYPE')
-            remaining={x.path.lstrip('/'):{'bytes':x.size,'sha256':files[x.path.lstrip('/')]['sha256']} for x in entries if x.type.name=='FILE' and x.path.lstrip('/') in files}
-            if len(remaining)!=sum(x.type.name=='FILE' for x in entries):raise ValueError('MODAL_CLEANUP_UNEXPECTED_MEMBER')
-            provider._verify_volume(runtime[VOLUME_KEYS[kind]],remaining)
-            for name,item in files.items():
-                ident=digest(canonical({'kind':kind,'name':name,'identity':item}))
-                path=record/(ident+'.intent.json')
-                payload={'volume_id':runtime[VOLUME_KEYS[kind]],'name':name,**item}
-                if name not in remaining:
-                    if not path.exists() or read(path)!=payload:raise ValueError('MODAL_CLEANUP_UNEXPLAINED_ABSENCE')
-                    continue
-                write_once(path,canonical(payload))
-                # Bound object ID, exact authorized file; no recursive deletion.
-                volume.remove_file('/'+name,recursive=False)
-            provider._verify_volume(runtime[VOLUME_KEYS[kind]],{})
+            remove_members(provider,runtime[VOLUME_KEYS[kind]],files,record,kind)
         done={'status':'CLEARED','runtime_sha256':pin,'originals_preserved':True,'named_volumes_retained_empty':True}
         write_once(record/'COMPLETE.json',canonical(done));return done
 

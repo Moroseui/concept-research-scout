@@ -79,3 +79,44 @@ def test_administrative_reconciliation_is_readonly_and_scientific_guard_stays(pr
 def test_unknown_preclient_claim_is_not_positive_proof():
     row,b=fixture();row['id']=terminal.PRECLIENT_ID
     with pytest.raises(ValueError,match='ADMIN_PRECLIENT_BINDING'):terminal.proof_kind(row,b)
+
+
+@pytest.fixture
+def exact_timeout(monkeypatch):
+    row,b=fixture();row['id']=terminal.AUTHOR_TIMEOUT_ID
+    row['binding']=json.dumps({'stage':'run_spec_author','input':{'input_sha256':PIN}})
+    b={'console.log':b'synthetic timeout; not a scientific verdict',
+       'stage_provenance.jsonl':json.dumps({'stage':'run_spec_author','family_effective':'codex',
+        'exit_class':'timeout','exit_detail':'Agent timed out after 900s.','prompt_sha256':PIN}).encode(),
+       'sent-input.json':json.dumps({'input_sha256':PIN}).encode()}
+    monkeypatch.setattr(terminal,'AUTHOR_TIMEOUT_ROW',terminal.row_hash(row))
+    monkeypatch.setattr(terminal,'AUTHOR_TIMEOUT_PINS',{n:terminal.digest(v) for n,v in b.items()})
+    return row,b
+
+
+def test_exact_timeout_is_readonly_and_only_administrative(exact_timeout):
+    row,b=exact_timeout;before=copy.deepcopy((row,b))
+    assert terminal.proof_kind(row,b)=='PROVEN_EXACT_AUTHOR_TIMEOUT_ADMIN_ONLY'
+    assert (row,b)==before and row['status']=='UNCERTAIN'
+
+
+@pytest.mark.parametrize('damage',['row','id','running','missing','file','authority'])
+def test_exact_timeout_drift_refuses(exact_timeout,monkeypatch,damage):
+    row,b=exact_timeout
+    if damage=='row':row['receipt']='changed'
+    elif damage=='id':row['id']='c'*64
+    elif damage=='running':row['status']='RUNNING'
+    elif damage=='missing':b.pop('console.log')
+    elif damage=='file':b['console.log']+=b'changed'
+    else:monkeypatch.setattr(terminal,'AUTHOR_TIMEOUT_AUTHORITY','0'*64)
+    with pytest.raises((ValueError,KeyError)):terminal.proof_kind(row,b)
+
+
+def test_exact_timeout_does_not_bypass_scientific_admission(exact_timeout,tmp_path):
+    row,b=exact_timeout;q=BatchAccounts(tmp_path/'ledger')
+    q.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)',tuple(row.values()))
+    q.db.execute("INSERT INTO autonomy_runs VALUES('run','{}','ACTIVE')")
+    before=[tuple(x) for x in q.db.execute('SELECT * FROM autonomy_calls')]
+    with pytest.raises(ValueError,match='BATCH_UNCERTAIN_OR_RUNNING_CALL'):
+        q.reserve_scientific('new','run','run_spec_author','c'*40,{})
+    assert [tuple(x) for x in q.db.execute('SELECT * FROM autonomy_calls')]==before

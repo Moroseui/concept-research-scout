@@ -31,6 +31,7 @@ class ReviewQueue(Store):
 
     def reserve(self, manifest, preflight):
         limits.authority()
+        round_authority=review.round_authority()
         ident=review.sha(review.canonical(manifest));day=datetime.now(timezone.utc).date().isoformat()
         self.db.execute('BEGIN IMMEDIATE')
         try:
@@ -43,32 +44,45 @@ class ReviewQueue(Store):
             if self.db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=limits.DAILY:
                 raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
             rows=self.db.execute('SELECT * FROM autonomy_calls WHERE change_id=? ORDER BY round',(manifest['change_id'],)).fetchall()
-            if len(rows)>=2 or manifest['round']!=len(rows)+1:raise ValueError('REVIEW_TWO_ROUND_LIMIT_OR_MISSING_PREDECESSOR')
+            if (type(manifest['round']) is not int or len(rows)>=review.MAX_ROUNDS or manifest['round']!=len(rows)+1
+                    or [r['round'] for r in rows]!=list(range(1,len(rows)+1))):
+                raise ValueError('REVIEW_THREE_ROUND_LIMIT_OR_MISSING_PREDECESSOR')
             if rows:
-                prior=manifest['predecessor'];prior_folder=self.folder/rows[0]['id']
+                prior=manifest['predecessor'];prior_folder=self.folder/rows[-1]['id']
+                if manifest['round']==3 and prior.get('kind') is not None:
+                    raise ValueError('THIRD_ROUND_REQUIRES_GENUINE_REVISE')
                 if prior.get('kind') in ('known_terminal_30_turn_exhaustion','known_terminal_60_turn_exhaustion'):
-                    saved=json.loads(rows[0]['receipt']) if rows[0]['receipt'] else {}
-                    if (rows[0]['status']!='FAILED' or saved.get('uncertain') is not False or
+                    saved=json.loads(rows[-1]['receipt']) if rows[-1]['receipt'] else {}
+                    if (rows[-1]['status']!='FAILED' or saved.get('uncertain') is not False or
                         saved.get('exit_code')!=0 or saved.get('reason')!='REVIEW_INCOMPLETE_NO_RETRY' or
                         saved.get('native_stream_sha256')!=prior['native_stream_sha256'] or
                         review.verify_turn_exhaustion(prior_folder)!=prior):
                         raise ValueError('TURN_EXHAUSTION_LEDGER_BINDING')
                     # Historical 30-turn receipts retain their original shape, but
                     # every new completion must bind the original candidate too.
-                    original=json.loads(rows[0]['binding'])['manifest']
-                    if review.sha(review.canonical(original))!=prior['packet_sha256'] or rows[0]['id']!=prior['packet_sha256']:
+                    original=json.loads(rows[-1]['binding'])['manifest']
+                    if review.sha(review.canonical(original))!=prior['packet_sha256'] or rows[-1]['id']!=prior['packet_sha256']:
                         raise ValueError('TURN_EXHAUSTION_ORIGINAL_MANIFEST_BINDING')
                     review.verify_completion_scope(manifest,original)
+                elif prior.get('kind') == 'authorized_manifest_reader_recovery':
+                    # Exact original reservation and charge are retained. Existing
+                    # two-round/global/daily admission applies unchanged.
+                    if (review.sha(review.canonical(dict(rows[-1]))) != review.MANIFEST_RECOVERY_ROW or
+                            rows[-1]['id'] != review.MANIFEST_RECOVERY_PACKET or
+                            review.verify_manifest_reader_failure(prior_folder) != prior):
+                        raise ValueError('MANIFEST_RECOVERY_LEDGER_BINDING')
+                    original = json.loads(rows[-1]['binding'])['manifest']
+                    review.verify_manifest_recovery_scope(manifest, original)
                 elif prior.get('kind')=='provider_refusal':
-                    saved=json.loads(rows[0]['receipt']) if rows[0]['receipt'] else {}
-                    original=json.loads(rows[0]['binding'])['manifest']
-                    if (rows[0]['status']!='FAILED' or saved.get('uncertain') is not False or
+                    saved=json.loads(rows[-1]['receipt']) if rows[-1]['receipt'] else {}
+                    original=json.loads(rows[-1]['binding'])['manifest']
+                    if (rows[-1]['status']!='FAILED' or saved.get('uncertain') is not False or
                         saved.get('exit_code')!=1 or saved.get('reason') not in
                         ('REVIEW_INCOMPLETE_NO_RETRY','PROVIDER_REFUSAL_NO_VERDICT') or
                         saved.get('native_stream_sha256')!=prior['native_stream_sha256'] or
                         review.provider_refusal_evidence(prior_folder)!=prior or
                         review.sha(review.canonical(original))!=prior['packet_sha256'] or
-                        rows[0]['id']!=prior['packet_sha256']):
+                        rows[-1]['id']!=prior['packet_sha256']):
                         raise ValueError('PROVIDER_REFUSAL_LEDGER_BINDING')
                     review.verify_provider_retry_scope(manifest,original)
                     review.provider_permit(manifest)
@@ -78,15 +92,16 @@ class ReviewQueue(Store):
                         if review.verify_packet(original_packet) != original:
                             raise ValueError('PROVIDER_RETRY_PRESERVED_ORIGINAL_CHANGED')
                 else:
-                    if rows[0]['status']!='COMPLETE':raise ValueError('INCOMPLETE_REVIEW_NO_SUCCESSOR')
+                    if rows[-1]['status']!='COMPLETE':raise ValueError('INCOMPLETE_REVIEW_NO_SUCCESSOR')
                     previous=review.verify_result(prior_folder)
                     if (previous['verdict'] not in ('CHANGES REQUIRED','REVISE') or
+                        previous['change_id']!=manifest['change_id'] or previous['round']!=manifest['round']-1 or
                         prior['receipt_sha256']!=review.sha((prior_folder/'receipt.json').read_bytes()) or
                         prior['report_sha256']!=previous['report_sha256']):raise ValueError('REVIEW_PREDECESSOR_BINDING')
             from orchestrator import connectivity
             preflight={**preflight,'connectivity':connectivity.require(['claude'], self.folder/'connectivity.json')}
             binding={'manifest':manifest,'preflight':preflight,'administrative_only_reconciliations':reconciled_scientific,'accounting_unit':'one native Claude invocation',
-                     'scope':'implementation review; excluded from scientific batch call allowance','daily_limit':limits.DAILY,'max_rounds':2,'limit_authority_sha256':limits.AUTHORITY}
+                     'scope':'implementation review; excluded from scientific batch call allowance','daily_limit':limits.DAILY,'max_rounds':review.MAX_ROUNDS,'round_authority_sha256':round_authority,'limit_authority_sha256':limits.AUTHORITY,'daily_limit_authority_sha256':limits.DAILY_AUTHORITY}
             raw=json.dumps(binding,sort_keys=True)
             self.db.execute("INSERT INTO jobs(id,binding,phase,status) VALUES(?,?,'dispatch','RUNNING')",(ident,raw))
             self.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,NULL)',

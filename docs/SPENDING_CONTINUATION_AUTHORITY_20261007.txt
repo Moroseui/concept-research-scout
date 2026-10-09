@@ -1,0 +1,9 @@
+Approved: the bounded spending-admission repair in spending-continuation-scope-20261007/PROPOSED_SCOPE.md, on these conditions:
+
+- No cap changes: item 6 stays at $100, and item 4 stays at $75 smoke, $1,200 projection and $1,275 total.
+- All original charges and reservations stay preserved and counted.
+- The repair can't raise a limit or skip a reservation.
+- It gets the normal independent implementation review before installation.
+- It includes a test showing that a launch that would exceed a cap is still refused.
+
+Then run item 6's CPU execution.

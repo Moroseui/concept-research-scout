@@ -7,11 +7,13 @@ import math
 import sys
 import traceback
 from pathlib import Path
-import numpy as np
-import pandas as pd
 
 
 def module(notebook, index):
+    # Pure interface checks do not require the scientific test dependencies.
+    global np, pd
+    import numpy as np
+    import pandas as pd
     source = ''.join(notebook['cells'][index]['source'])
     lines = source.splitlines(True)
     if lines and lines[0].startswith('%%writefile '):
@@ -128,11 +130,40 @@ def test_existing_unit_checks(nb):
     return {'original_fixture_cases': 6, 'values': observed}
 
 
+def test_execution_module(nb):
+    """Run author-supplied CPU tests against the exact exported module.
+
+    This process already runs in the private, no-network synthetic sandbox.
+    No other notebook cell is executed and no real data path is mounted.
+    """
+    import importlib.util
+    import unittest
+    sys.path.insert(0, '/package')
+    path = Path('/package/execution.py')
+    spec = importlib.util.spec_from_file_location('execution', path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules['execution'] = module
+    spec.loader.exec_module(module)
+    suite = module.synthetic_tests()
+    if not isinstance(suite, unittest.TestSuite) or suite.countTestCases() < 1:
+        raise ValueError('NOTEBOOK_EXECUTION_SYNTHETIC_TESTS_REQUIRED')
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    if (not result.wasSuccessful() or result.testsRun < 1 or result.skipped
+            or result.expectedFailures or result.unexpectedSuccesses):
+        raise ValueError('NOTEBOOK_EXECUTION_SYNTHETIC_TESTS_FAILED')
+    return {'module_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+            'tests_run':result.testsRun,'failures':0,'errors':0,'skipped':0,
+            'expected_failures':0,'unexpected_successes':0,
+            'patient_data':False,'network':False}
+
+
 def main():
     raw=Path('/package/revised.ipynb').read_bytes()
     nb=json.loads(raw)
     records=[]
-    for name in ('test_fold_completeness','test_verdict_rule','test_coverage_handling','test_existing_unit_checks'):
+    names = ['test_fold_completeness','test_verdict_rule','test_coverage_handling','test_existing_unit_checks']
+    if Path('/package/execution.py').exists(): names.append('test_execution_module')
+    for name in names:
         try:
             details=globals()[name](nb)
             records.append({'test':name,'status':'PASS','details':details})

@@ -1,0 +1,7 @@
+Approved: one further item 6 CPU attempt with the tested contract-forwarding repair, as scoped. At most $1.9516 through normal admission, inside the existing $100 cap. Both earlier reservations stay counted (CPU total $5.8548). Unchanged code, inputs, image and protections; reuse the hash-pinned synthetic controls. Independent APPROVE before installation or launch.
+Standing clarification (operator decision): spending inside an item's already-approved dollar cap is not "new spending" under the charter. After a reviewed repair, you may retry an approved run without asking me, under these conditions:
+- each retry addresses a different, diagnosed cause (the same cause twice still stops);
+- retries for one item total no more than $15 beyond the first attempt, within the item's cap;
+- every safeguard, input and scientific choice stays unchanged;
+- each retry is reported at the next stop with its cause and cost.
+Raising a cap, a new item, or retries beyond that allowance still come to me.

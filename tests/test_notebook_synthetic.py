@@ -78,6 +78,31 @@ class SyntheticHarnessTests(unittest.TestCase):
             self.assertEqual(sandbox.run(folder,json.dumps(nb).encode(),ENVIRONMENT),receipt)
             return receipt
 
+    def test_actual_exported_module_and_author_tests_in_native_sandbox(self):
+        from test_notebook_execution import SOURCE
+        from orchestrator.notebook_execution import extract, tests_passed
+        import hashlib
+        nb=fixture()
+        nb['cells'].append({'cell_type':'code','source':[
+            '%%writefile /content/sprint13_pipeline.py\n'+
+            'from orchestrator.modal_fit_progress import FitProgress\n'+
+            'from orchestrator.modal_nnunet import run_fit\n'+
+            'assert callable(run_fit) and callable(FitProgress)\n'+SOURCE]})
+        raw=json.dumps(nb).encode()
+        with tempfile.TemporaryDirectory(prefix='nb-execution-') as temporary:
+            folder=Path(temporary)/'run'
+            receipt=sandbox.run(folder,raw,ENVIRONMENT,execution=True)
+            self.assertEqual(receipt['status'],'PASS',receipt['tests'])
+            self.assertEqual(receipt['isolation']['status'],'ISOLATED')
+            module=extract(raw)
+            self.assertEqual((folder/'package/execution.py').read_bytes(),module)
+            from orchestrator.experiment_modal_package import support_files
+            for name,data in support_files().items():
+                self.assertEqual((folder/'package'/name).read_bytes(),data)
+                self.assertEqual(receipt['binding']['files'][name],hashlib.sha256(data).hexdigest())
+            self.assertTrue(tests_passed(receipt['tests'],hashlib.sha256(module).hexdigest()))
+            self.assertEqual(sandbox.run(folder,raw,ENVIRONMENT,execution=True),receipt)
+
     def test_positive_control_all_groups(self):
         result=self.check(fixture())
         self.assertEqual(result['status'],'PASS',result['tests'])

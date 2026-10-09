@@ -1,0 +1,140 @@
+{
+  "schema": "sanitized-public-catchup/v1",
+  "not_deployable": true,
+  "installed_releases": [
+    {
+      "source": "c1a712bc65a9baedf0788aaacd14fe9334801b55",
+      "role": "installed scientific revision helper and source snapshot",
+      "review": "d1b610fd3480254cbc5aa9700b42fa546d3c5e938e824faa223624b885824c5f"
+    },
+    {
+      "source": "fa433422fe2c668807050063a4291369d7a28c98",
+      "role": "item6-input-provisioning-20261007",
+      "selection": "reviewed component source; private files excluded"
+    },
+    {
+      "source": "1c3e3566fe7f5c2a747e296892638c168a805bbd",
+      "role": "item6-input-install-path-repair-20261007",
+      "selection": "reviewed component source; private files excluded"
+    },
+    {
+      "source": "bd3eb21acefe4f396024e52bfc7c88cca2ff3271",
+      "role": "item6-contract-service-identity-20261008",
+      "selection": "reviewed component source; private files excluded"
+    },
+    {
+      "source": "bcd7119ef4ed234adc925d0adbd86687620fc0de",
+      "role": "item4-image-terminal-compute-20261008",
+      "selection": "reviewed component source; private files excluded"
+    },
+    {
+      "source": "e16bb77f5c7363d7b306e354db960827291095d5",
+      "role": "item4-native-install-serialization-20261008",
+      "selection": "reviewed component source; private files excluded"
+    }
+  ],
+  "source_files_count": 1365,
+  "outputs": [
+    {
+      "path": "outputs/item6/components.json",
+      "sha256": "fafdab70bde096e34a6932cafb5fb0a414bc61fdd4e001138ac2ef890efc69e7",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/calibration.json",
+      "sha256": "7b3d7d66e29b97be8945c449daa44850b874efe6ee3da8003414d8c1142d7b94",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/coverage.json",
+      "sha256": "d20b391ae0eca0242c2d701848e8e188c74cbc702ac5b6d3383daeb82e66892a",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/integrity.json",
+      "sha256": "97e936cf17ffe02acfa786438ebea1308fa1c186717236acebcdb2bb1abcc69b",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/placement.json",
+      "sha256": "e5569c84f299539deb1362e212c6aceabe62068bdbaf3a2ccab28327640ced56",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/availability.json",
+      "sha256": "a618bf8f5918d707aaf96a692db9c6656353f55399ad26f26b121a3886f601a1",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/validation.json",
+      "sha256": "6068f12dbd653c29a45dff3088190427b50d08844544f29e6dbfc5895db5ae6b",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/limitations.md",
+      "sha256": "bc67b55bcad8121e364546d62fca9c18636dd420454c0b6258beaf3d022633c2",
+      "source": "item6 independently reviewed aggregate"
+    },
+    {
+      "path": "outputs/item6/REPORT.md",
+      "sha256": "0f8b798b574e1c358721546e2a8db20fac8c3f617881bdf00e6ebc39dd51d56d",
+      "source": "item6 accepted scientific interpretation"
+    },
+    {
+      "path": "outputs/item6/interpretation.md",
+      "sha256": "2c820bb310e875f914d55ccf96d3c6defe5699729e68530325a5296d277fda17",
+      "source": "item6 accepted scientific interpretation"
+    },
+    {
+      "path": "outputs/item6/investigator_next_decision.json",
+      "sha256": "4ab7811993f069d83021ec5bde35b2963d1005c05c9361edfc89b983aa2e3100",
+      "source": "item6 accepted scientific interpretation"
+    },
+    {
+      "path": "outputs/item6/interpretation-review.json",
+      "sha256": "8dad1a467fc3c5c2947cf8a34f8892b3b77fe2caf2f18bc3ec1f599f63395ae2",
+      "source": "item6 accepted scientific interpretation"
+    },
+    {
+      "path": "outputs/item6/SPRINT14_COMPARISON.txt",
+      "sha256": "c256ca8e48f9706ad45f09dbdd473f14459d9c9c0bc8f589025e582b38db4518",
+      "source": "post-approval comparison of aggregate outputs"
+    },
+    {
+      "path": "outputs/item6/SPRINT14_COMPARISON.json",
+      "sha256": "d8a3320af6eb9dc40001f761213b58cdfbd88bbea25a6a2a5ced9b941ef6e799",
+      "source": "aggregate comparison with path-only projection"
+    },
+    {
+      "path": "outputs/sprint13b/SPEC.proposed.md",
+      "sha256": "35ccedd2f73dd26d34f413ce165823703219cb964e9d3332cf9614d94a29ebb6",
+      "source": "accepted author12 submission, not yet scientific approval"
+    },
+    {
+      "path": "outputs/sprint13b/execution.plan.json",
+      "sha256": "6710273c50f343b9d4b96db07560ca35566e856be02490d39ab2180bc5b81acb",
+      "source": "accepted author12 submission, not yet scientific approval"
+    },
+    {
+      "path": "outputs/sprint13b/execution.py",
+      "sha256": "18dafec774d8a0bc62a50644d0719bcea787efe72381821810707b27690d0048",
+      "source": "author12 exact scientific module, pending scientific approval"
+    },
+    {
+      "path": "outputs/implementation-reviews/item6-contract-service-identity-20261008.json",
+      "sha256": "5ab1f6851b897edfe9373304962d9a5540d3fe7b331b8cf0f47ba3276dc3c64d",
+      "source": "genuine independent implementation report; no raw packet or stream"
+    },
+    {
+      "path": "outputs/implementation-reviews/item4-review6-continuation-20261008.json",
+      "sha256": "d1b610fd3480254cbc5aa9700b42fa546d3c5e938e824faa223624b885824c5f",
+      "source": "genuine independent implementation report; no raw packet or stream"
+    },
+    {
+      "path": "outputs/implementation-reviews/item4-native-install-serialization-20261008.json",
+      "sha256": "0c7c8a31f160f7b12636e841449beee545d4dbf87ab5096378ed5d1ce2f8d1ab",
+      "source": "genuine independent implementation report; no raw packet or stream"
+    }
+  ],
+  "history_policy": "Exact safe source bytes only; private release ancestry and working branch histories excluded. Current public source is an audit snapshot, not a deployable combined release."
+}

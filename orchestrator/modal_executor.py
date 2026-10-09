@@ -19,14 +19,41 @@ def canonical(value):return json.dumps(value,sort_keys=True).encode()
 def verify_package(package, binding):
     package=Path(package);private_records.check_tree(package)
     manifest=read(package/'manifest.json')
-    if manifest.get('schema')!='modal-run/v1' or manifest.get('binding')!=binding:raise ValueError('MODAL_PACKAGE_BINDING')
+    package_binding=binding
+    if binding.get('purpose')=='M4_ITEM6_CPU':
+        from orchestrator.diagnostics_mount_retry import parent_binding
+        package_binding=parent_binding(binding)
+    if manifest.get('schema')!='modal-run/v1' or manifest.get('binding')!=package_binding:raise ValueError('MODAL_PACKAGE_BINDING')
     files=inventory(package);files.pop('manifest.json',None)
     if files!=manifest.get('files'):raise ValueError('MODAL_PACKAGE_MEMBER_OR_HASH_CHANGED')
     for name,key in [('SPEC.md','spec_sha256'),('review.json','review_sha256')]:
         if digest((package/name).read_bytes())!=binding.get(key):raise ValueError('MODAL_APPROVAL_BINDING')
-    review=read(package/'review.json')
-    if set(review)!={'verdict','rationale'} or review['verdict']!='APPROVE' or not isinstance(review['rationale'],str) or 'BLOCKER[' in review['rationale']:
-        raise ValueError('MODAL_APPROVED_SCIENTIFIC_SPEC_REQUIRED')
+    if binding.get('purpose') == 'M4_ITEM6_CPU':
+        from orchestrator.diagnostics_execution import verify_prepared
+        verify_prepared(package,binding)
+        return manifest
+    if binding.get('purpose') == 'M4_ITEM4':
+        from orchestrator.review_contract import scientific
+        from orchestrator.modal_item4_budget import AUTHORITY, TEAM_AUTHORITY
+        scope = binding.get('experiment')
+        if (not isinstance(scope,dict) or scope.get('backlog_item') != 4 or
+                scope.get('authority_sha256') != AUTHORITY or scope.get('team_authority_sha256') != TEAM_AUTHORITY):
+            raise ValueError('MODAL_ITEM4_SELECTED_SCOPE_REQUIRED')
+        review = scientific((package/'review.json').read_bytes())
+        if review['verdict'] != 'APPROVE' or review['findings']:
+            raise ValueError('MODAL_APPROVED_SCIENTIFIC_SPEC_REQUIRED')
+    else:
+        if 'experiment' in binding:
+            raise ValueError('MODAL_ITEM4_SELECTED_SCOPE_REQUIRED')
+        # Preserve the earlier M3 package contract at its original scope.
+        review=read(package/'review.json')
+        if set(review)!={'verdict','rationale'} or review['verdict']!='APPROVE' or not isinstance(review['rationale'],str) or 'BLOCKER[' in review['rationale']:
+            raise ValueError('MODAL_APPROVED_SCIENTIFIC_SPEC_REQUIRED')
+    if 'execution' in binding:
+        from orchestrator.experiment_modal_package import verify
+        verify(package,binding,files)
+        if not re.fullmatch(r'[0-9a-f]{40}',binding['source']):raise ValueError('MODAL_SOURCE_PIN')
+        return manifest
     spec=(package/'SPEC.md').read_text().splitlines()
     for line in ['run_id: '+binding['run_id'],'notebook_code_sha256: '+binding['code_sha256']]:
         if spec.count(line)!=1:raise ValueError('MODAL_SPEC_CODE_BINDING')
@@ -34,6 +61,19 @@ def verify_package(package, binding):
     if not code or digest(canonical(code))!=binding['code_sha256'] or 'run.py' not in code:raise ValueError('MODAL_CODE_IDENTITY')
     if not re.fullmatch(r'[0-9a-f]{40}',binding['source']):raise ValueError('MODAL_SOURCE_PIN')
     return manifest
+
+
+def item4_job(binding):
+    """One local job per fit segment, inside the single approved global run."""
+    scope=binding.get('experiment',{})
+    run=binding.get('run_id');fit=scope.get('fit_id');segment=scope.get('segment')
+    if (binding.get('purpose')!='M4_ITEM4' or not isinstance(run,str) or
+            not re.fullmatch('[a-z0-9][a-z0-9-]{1,100}',run) or not isinstance(fit,str) or
+            not re.fullmatch('[a-zA-Z0-9_-]{1,96}',fit) or type(segment) is not int or segment<1):
+        raise ValueError('ITEM4_JOB_SCOPE')
+    # Deliberately excludes mutable resources/quote: changing them cannot create
+    # another job for an already submitted realization/segment.
+    return 'item4-'+digest(canonical({'run':run,'fit':fit,'segment':segment}))[:40]
 
 
 class ModalExecutor(ManualExecutor):
@@ -54,6 +94,8 @@ class ModalExecutor(ManualExecutor):
         work=self._paths(job)
         with lock(self.path.parent/'modal-executor.lock'):
             self._guard()
+            if binding.get('purpose') in {'M4_ITEM4','M4_ITEM6_CPU'}:
+                return self._submit_item4(job,binding,prepared,package,work)
             if binding.get('run_id')!=job or binding.get('runtime_sha256')!=digest(canonical(self.config)):
                 raise ValueError('MODAL_RUNTIME_BINDING')
             manifest=verify_package(prepared,binding)
@@ -99,12 +141,93 @@ class ModalExecutor(ManualExecutor):
                 raise ValueError('MODAL_UNCERTAIN_SUBMISSION_NO_RESUBMISSION') from None
             return {'status':'SUBMITTED','job':job,'provider_id':provider_id,'cost_reserved_micro_usd':binding['cost']['reserved_micro_usd']}
 
+    def _submit_item4(self,job,binding,prepared,package,work):
+        # Called only under submit's private umask and the existing executor lock.
+        item6=binding.get('purpose')=='M4_ITEM6_CPU'
+        if item6:
+            from orchestrator.diagnostics_mount_retry import job as diagnostics_job
+            expected_job=diagnostics_job(binding)
+        else:expected_job=item4_job(binding)
+        if expected_job!=job or binding.get('runtime_sha256')!=digest(canonical(self.config)):
+            raise ValueError('MODAL_RUNTIME_BINDING')
+        verify_package(prepared,binding)
+        self.register(job,binding)
+        prior=self.db.execute('SELECT manifest FROM manual_packages WHERE job=?',(job,)).fetchone()
+        if prior:
+            if inventory(package)!=json.loads(prior[0]):raise ValueError('MODAL_EMITTED_PACKAGE_CHANGED')
+            return self._status(job,work)
+        if work.exists() or Path(package).exists() or self.get(job)['phase']!='acquisition' or self.get(job)['status']!='READY':
+            self.block(job,'MODAL_PARTIAL_SUBMISSION_RECONCILE')
+            raise ValueError('MODAL_PARTIAL_SUBMISSION_RECONCILE')
+        # Reconcile known terminal segments before ordinary next-wave admission.
+        # Missing legacy clocks retain their reservations; no provider is called.
+        from orchestrator import modal_terminal_cost
+        for prior_row in self.costs.db.execute("SELECT * FROM autonomy_compute WHERE run=? AND status IN ('COLLECTED','ACCOUNTED')",(binding['run_id'],)).fetchall():
+            previous=json.loads(prior_row['binding'])
+            if previous.get('purpose')=='M4_ITEM4':
+                modal_terminal_cost.record(self.costs,prior_row['id'],self._paths(item4_job(previous)))
+        observation=self.provider.preflight(self.config,binding,prepared)
+        if observation.get('status')!='READY' or 'billing_snapshot' not in observation:
+            raise ValueError('ITEM4_PROVIDER_BILLING_PREFLIGHT')
+        ident=digest(canonical(binding))
+        try:
+            if item6:
+                from orchestrator.diagnostics_budget import reserve
+                reserved=reserve(self.costs,ident,binding['run_id'],binding,billing_snapshot=observation['billing_snapshot'])
+            else:
+                reserved=self.costs.reserve_item4(ident,binding['run_id'],binding,
+                    billing_snapshot=observation['billing_snapshot'])
+        except ValueError as error:
+            if str(error) not in {'ITEM4_PROVIDER_HEADROOM_WAIT','DIAGNOSTICS_PROVIDER_HEADROOM_WAIT'}:raise
+            # No package, event claim, spending row or provider creation exists.
+            # The same job can be checked later after a new billing observation.
+            return {'status':'WAIT_PROVIDER_HEADROOM','job':job,'run_id':binding['run_id'],
+                    'reason':str(error),'reserved':False,'provider_created':False}
+        if not reserved:
+            self.block(job,'MODAL_EXISTING_RESERVATION_NO_RESUBMISSION')
+            raise ValueError('MODAL_EXISTING_RESERVATION_NO_RESUBMISSION')
+        provider_id=None
+        try:
+            private_records.copytree(prepared,package)
+            if inventory(package)!=inventory(prepared):raise ValueError('MODAL_PACKAGE_COPY_CHANGED')
+            private_records.mkdir(work,parents=True)
+            self.db.execute('INSERT INTO manual_packages VALUES(?,?)',(job,json.dumps(inventory(package),sort_keys=True)))
+            first=self.claim(job);self.complete_event(job,job+':gpu-acquired','VALIDATED',lease=first['lease'])
+            claimed=self.claim(job)
+            if not claimed:raise ValueError('MODAL_DISPATCH_NOT_CLAIMED')
+            intent={'job':job,'run_id':binding['run_id'],'binding_sha256':ident,
+                    'lease':claimed['lease'],'package_sha256':digest(canonical(inventory(package))),
+                    'preflight':observation,'cost_clock':modal_terminal_cost.clock()}
+            write_once(work/'create-intent.json',canonical(intent))
+            created=self.provider.create(self.config,binding,package)
+            provider_id=created['provider_id']
+            if not isinstance(provider_id,str) or not provider_id:raise ValueError('MODAL_PROVIDER_ID_REQUIRED')
+            write_once(work/'created.json',canonical({'provider_id':provider_id,'binding_sha256':ident,'receipt':created}))
+            self.costs.observe(ident,'CREATED',provider_id)
+            write_once(work/'execute-intent.json',canonical({'provider_id':provider_id,'binding_sha256':ident}))
+            launched=self.provider.launch(provider_id,binding)
+            write_once(work/'launched.json',canonical({'provider_id':provider_id,'binding_sha256':ident,'receipt':launched}))
+            self.costs.observe(ident,'RUNNING',provider_id)
+            self.complete_event(job,job+':gpu-submitted','DISPATCHED',lease=claimed['lease'])
+        except BaseException as error:
+            private_records.mkdir(work,parents=True,exist_ok=True)
+            write_once(work/'submission-uncertain.json',canonical({'binding_sha256':ident,
+                'provider_id':provider_id,'error_type':type(error).__name__,'resubmitted':False}))
+            self.costs.observe(ident,'UNCERTAIN',provider_id)
+            self.block(job,'MODAL_UNCERTAIN_SUBMISSION_NO_RESUBMISSION')
+            raise ValueError('MODAL_UNCERTAIN_SUBMISSION_NO_RESUBMISSION') from None
+        return {'status':'SUBMITTED','job':job,'run_id':binding['run_id'],'provider_id':provider_id,
+                'cost_reserved_micro_usd':binding['cost']['reserved_micro_usd']}
+
     def _status(self,job,work):
         if not (work/'created.json').is_file():
             return {'status':'UNRESOLVED_SUBMISSION','job':job,'may_resubmit':False}
         saved=read(work/'created.json');record=self.get(job)
         if saved['binding_sha256']!=digest(record['binding'].encode()):raise ValueError('MODAL_CREATED_RECEIPT_CHANGED')
-        try:result=self.provider.status(saved['provider_id'],json.loads(record['binding']))
+        binding=json.loads(record['binding'])
+        if binding.get('purpose')=='M4_ITEM4' and (work/'failed-outcome.json').exists():
+            return self._failed_item4(job,work,binding,saved,None)
+        try:result=self.provider.status(saved['provider_id'],binding)
         except ValueError:
             # Content/binding violations are real invariants, not a network wait.
             raise
@@ -114,10 +237,23 @@ class ModalExecutor(ManualExecutor):
         if result.get('provider_id')!=saved['provider_id'] or result.get('binding_sha256')!=saved['binding_sha256']:
             raise ValueError('MODAL_OBSERVATION_BINDING')
         if result.get('status') not in {'RUNNING','COMPLETE','FAILED','UNKNOWN'}:raise ValueError('MODAL_OBSERVATION_STATE')
+        if result['status']=='FAILED' and binding.get('purpose')=='M4_ITEM4':
+            return self._failed_item4(job,work,binding,saved,result)
         return {**result,'job':job,'may_resubmit':False}
 
+    @private_records.private_umask
+    def _failed_item4(self,job,work,binding,created,observation):
+        from orchestrator.modal_failure import reconcile
+        return reconcile(self,job,work,binding,created,observation)
+
+    def monitor_fit(self,job,log_path=None):
+        from orchestrator.modal_fit_monitor import tick
+        return tick(self,job,log_path)
+
+    @private_records.private_umask
     def remote_status(self,job):
-        return self._status(job,self._paths(job))
+        with lock(self.path.parent/'modal-executor.lock'):
+            return self._status(job,self._paths(job))
 
     @private_records.private_umask
     def collect_remote(self,job,package,destination,validate):
@@ -159,3 +295,6 @@ class ModalExecutor(ManualExecutor):
             if stopped.get('provider_id')!=provider_id or stopped.get('terminated') is not True:
                 raise ValueError('MODAL_TERMINATION_RECEIPT_CHANGED')
         self.costs.observe(digest(canonical(binding)),'COLLECTED',provider_id)
+        if binding.get('purpose')=='M4_ITEM4':
+            from orchestrator.modal_terminal_cost import record
+            record(self.costs,digest(canonical(binding)),work)

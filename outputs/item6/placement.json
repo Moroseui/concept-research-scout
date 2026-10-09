@@ -1,0 +1,7526 @@
+{
+  "common_domain_infeasible": 0,
+  "equal_voxel_count_comparisons": 594,
+  "groups": {
+    "50_or_more": {
+      "equal_candidate_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              44.46802,
+              89.66539999999999
+            ],
+            "mean": 65.69919999999999,
+            "median": 38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 17
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 20,
+            "n_valid": 2
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.3944813357357366,
+              0.5501817494787199
+            ],
+            "mean": 0.4757040518333371,
+            "median": 0.5372889417633038,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fn_components": {
+            "ci95_mean": [
+              4.148750000000001,
+              10.801249999999994
+            ],
+            "mean": 7.15,
+            "median": 5.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fp_components": {
+            "ci95_mean": [
+              0.5,
+              1.701249999999993
+            ],
+            "mean": 1.05,
+            "median": 0.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.1873908313908314,
+              0.4614861111111109
+            ],
+            "mean": 0.3160994560994561,
+            "median": 0.2111111111111111,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.5,
+              0.9
+            ],
+            "mean": 0.7,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.14879527417027416,
+              0.44869990079365063
+            ],
+            "mean": 0.2835209235209235,
+            "median": 0.125,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "merges": {
+            "ci95_mean": [
+              0.0,
+              0.25
+            ],
+            "mean": 0.1,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "precision": {
+            "ci95_mean": [
+              0.718763100643188,
+              0.8389659992543034
+            ],
+            "mean": 0.7824535090544601,
+            "median": 0.7934389661540849,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_components": {
+            "ci95_mean": [
+              1.3,
+              2.4
+            ],
+            "mean": 1.8,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              40.420249999999996,
+              71.96352999999998
+            ],
+            "mean": 55.1356,
+            "median": 50.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2985477656080497,
+              0.47079445200143866
+            ],
+            "mean": 0.3848206537521154,
+            "median": 0.40926022015354196,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -87.13353000000001,
+              -38.57598000000002
+            ],
+            "mean": -62.096799999999995,
+            "median": -38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "splits": {
+            "ci95_mean": [
+              0.2,
+              0.6
+            ],
+            "mean": 0.4,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              3.89875,
+              10.3
+            ],
+            "mean": 6.8,
+            "median": 5.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.4
+            ],
+            "mean": 0.15,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.85,
+              1.0
+            ],
+            "mean": 0.95,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_components": {
+            "ci95_mean": [
+              4.95,
+              11.55
+            ],
+            "mean": 7.9,
+            "median": 6.5,
+            "n_total": 20,
+            "n_valid": 20
+          }
+        },
+        "n": 20
+      },
+      "equal_candidate_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              44.46802,
+              89.66539999999999
+            ],
+            "mean": 65.69919999999999,
+            "median": 38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 17
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 20,
+            "n_valid": 2
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.36755439819933405,
+              0.5286910646602652
+            ],
+            "mean": 0.4531022358908247,
+            "median": 0.49595556149672054,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fn_components": {
+            "ci95_mean": [
+              4.148750000000001,
+              10.801249999999994
+            ],
+            "mean": 7.15,
+            "median": 5.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fp_components": {
+            "ci95_mean": [
+              0.95,
+              2.8
+            ],
+            "mean": 1.8,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.17509800944669365,
+              0.43780555555555545
+            ],
+            "mean": 0.29726833108412054,
+            "median": 0.2111111111111111,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.5,
+              0.9
+            ],
+            "mean": 0.7,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.14879527417027416,
+              0.44869990079365063
+            ],
+            "mean": 0.2835209235209235,
+            "median": 0.125,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "merges": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "precision": {
+            "ci95_mean": [
+              0.6649374112277711,
+              0.7991619478207725
+            ],
+            "mean": 0.7323026277886725,
+            "median": 0.7752195027884539,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_components": {
+            "ci95_mean": [
+              1.8,
+              3.45
+            ],
+            "mean": 2.55,
+            "median": 2.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              40.420249999999996,
+              71.96352999999998
+            ],
+            "mean": 55.1356,
+            "median": 50.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "recall": {
+            "ci95_mean": [
+              0.28264836257550097,
+              0.4485798155870992
+            ],
+            "mean": 0.367684501932224,
+            "median": 0.40402631327419153,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -87.13353000000001,
+              -38.57598000000002
+            ],
+            "mean": -62.096799999999995,
+            "median": -38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "splits": {
+            "ci95_mean": [
+              0.3,
+              0.7
+            ],
+            "mean": 0.5,
+            "median": 0.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              3.89875,
+              10.3
+            ],
+            "mean": 6.8,
+            "median": 5.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.4
+            ],
+            "mean": 0.15,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.85,
+              1.0
+            ],
+            "mean": 0.95,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_components": {
+            "ci95_mean": [
+              4.95,
+              11.55
+            ],
+            "mean": 7.9,
+            "median": 6.5,
+            "n_total": 20,
+            "n_valid": 20
+          }
+        },
+        "n": 20
+      },
+      "equal_candidate_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              44.46802,
+              89.66539999999999
+            ],
+            "mean": 65.69919999999999,
+            "median": 38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 17
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 20,
+            "n_valid": 2
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.47368421052631576,
+              0.8947368421052632
+            ],
+            "mean": 0.6842105263157895,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.3594992820613874,
+              0.505012978717516
+            ],
+            "mean": 0.434100338438268,
+            "median": 0.4585336850341645,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fn_components": {
+            "ci95_mean": [
+              4.19875,
+              10.85
+            ],
+            "mean": 7.2,
+            "median": 5.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fp_components": {
+            "ci95_mean": [
+              0.45,
+              1.45
+            ],
+            "mean": 0.9,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.16935548048048046,
+              0.45334534534534526
+            ],
+            "mean": 0.3004804804804805,
+            "median": 0.18333333333333335,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.45,
+              0.85
+            ],
+            "mean": 0.65,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.11672497294372296,
+              0.38029135101010086
+            ],
+            "mean": 0.23352092352092346,
+            "median": 0.11805555555555555,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "merges": {
+            "ci95_mean": [
+              0.0,
+              0.25
+            ],
+            "mean": 0.1,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "precision": {
+            "ci95_mean": [
+              0.6497988609878124,
+              0.8097961895407172
+            ],
+            "mean": 0.7320036066222027,
+            "median": 0.7452562620003915,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_components": {
+            "ci95_mean": [
+              1.25,
+              2.05
+            ],
+            "mean": 1.6,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              40.420249999999996,
+              71.96352999999998
+            ],
+            "mean": 55.1356,
+            "median": 50.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2701454706322226,
+              0.43189373924149865
+            ],
+            "mean": 0.3501259092423804,
+            "median": 0.3587825333239628,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -87.13353000000001,
+              -38.57598000000002
+            ],
+            "mean": -62.096799999999995,
+            "median": -38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "splits": {
+            "ci95_mean": [
+              0.1,
+              0.45
+            ],
+            "mean": 0.25,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              3.89875,
+              10.3
+            ],
+            "mean": 6.8,
+            "median": 5.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.4
+            ],
+            "mean": 0.15,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.85,
+              1.0
+            ],
+            "mean": 0.95,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_components": {
+            "ci95_mean": [
+              4.95,
+              11.55
+            ],
+            "mean": 7.9,
+            "median": 6.5,
+            "n_total": 20,
+            "n_valid": 20
+          }
+        },
+        "n": 20
+      },
+      "equal_common_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              44.46802,
+              89.66539999999999
+            ],
+            "mean": 65.69919999999999,
+            "median": 38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 17
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 20,
+            "n_valid": 2
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.3975868710041079,
+              0.5537830113681528
+            ],
+            "mean": 0.47799420142638704,
+            "median": 0.5383731140119422,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fn_components": {
+            "ci95_mean": [
+              4.148750000000001,
+              10.801249999999994
+            ],
+            "mean": 7.15,
+            "median": 5.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fp_components": {
+            "ci95_mean": [
+              0.65,
+              1.85
+            ],
+            "mean": 1.2,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.18700320512820515,
+              0.45615598290598286
+            ],
+            "mean": 0.31136752136752144,
+            "median": 0.2111111111111111,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.5,
+              0.9
+            ],
+            "mean": 0.7,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.14879527417027416,
+              0.44869990079365063
+            ],
+            "mean": 0.2835209235209235,
+            "median": 0.125,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "merges": {
+            "ci95_mean": [
+              0.0,
+              0.25
+            ],
+            "mean": 0.1,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "precision": {
+            "ci95_mean": [
+              0.7268382675629361,
+              0.8449947182877118
+            ],
+            "mean": 0.7891758090995338,
+            "median": 0.7982437187448208,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_components": {
+            "ci95_mean": [
+              1.5,
+              2.5
+            ],
+            "mean": 1.95,
+            "median": 2.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              40.420249999999996,
+              71.96352999999998
+            ],
+            "mean": 55.1356,
+            "median": 50.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "recall": {
+            "ci95_mean": [
+              0.30021225742323326,
+              0.47396825716120977
+            ],
+            "mean": 0.38725590870432736,
+            "median": 0.40423422236876405,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -87.13353000000001,
+              -38.57598000000002
+            ],
+            "mean": -62.096799999999995,
+            "median": -38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "splits": {
+            "ci95_mean": [
+              0.3987500000000001,
+              0.8
+            ],
+            "mean": 0.6,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              3.89875,
+              10.3
+            ],
+            "mean": 6.8,
+            "median": 5.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.4
+            ],
+            "mean": 0.15,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.85,
+              1.0
+            ],
+            "mean": 0.95,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_components": {
+            "ci95_mean": [
+              4.95,
+              11.55
+            ],
+            "mean": 7.9,
+            "median": 6.5,
+            "n_total": 20,
+            "n_valid": 20
+          }
+        },
+        "n": 20
+      },
+      "equal_common_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              44.46802,
+              89.66539999999999
+            ],
+            "mean": 65.69919999999999,
+            "median": 38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 17
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 20,
+            "n_valid": 2
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.37170955408968537,
+              0.5311391504781167
+            ],
+            "mean": 0.4557017103163571,
+            "median": 0.5087772301390279,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fn_components": {
+            "ci95_mean": [
+              4.148750000000001,
+              10.801249999999994
+            ],
+            "mean": 7.15,
+            "median": 5.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fp_components": {
+            "ci95_mean": [
+              0.95,
+              2.45
+            ],
+            "mean": 1.65,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.16871477937267412,
+              0.40379116826156264
+            ],
+            "mean": 0.2803335991493886,
+            "median": 0.2111111111111111,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.5,
+              0.9
+            ],
+            "mean": 0.7,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.14879527417027416,
+              0.44869990079365063
+            ],
+            "mean": 0.2835209235209235,
+            "median": 0.125,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "merges": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "precision": {
+            "ci95_mean": [
+              0.672509873657397,
+              0.8083145305082313
+            ],
+            "mean": 0.7410484877650488,
+            "median": 0.7794447600187955,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_components": {
+            "ci95_mean": [
+              1.8,
+              3.05
+            ],
+            "mean": 2.4,
+            "median": 2.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              40.420249999999996,
+              71.96352999999998
+            ],
+            "mean": 55.1356,
+            "median": 50.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2836338835479479,
+              0.45320713481345226
+            ],
+            "mean": 0.37034740176834846,
+            "median": 0.40451998277576273,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -87.13353000000001,
+              -38.57598000000002
+            ],
+            "mean": -62.096799999999995,
+            "median": -38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "splits": {
+            "ci95_mean": [
+              0.35,
+              0.75
+            ],
+            "mean": 0.55,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              3.89875,
+              10.3
+            ],
+            "mean": 6.8,
+            "median": 5.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.4
+            ],
+            "mean": 0.15,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.85,
+              1.0
+            ],
+            "mean": 0.95,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_components": {
+            "ci95_mean": [
+              4.95,
+              11.55
+            ],
+            "mean": 7.9,
+            "median": 6.5,
+            "n_total": 20,
+            "n_valid": 20
+          }
+        },
+        "n": 20
+      },
+      "equal_common_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              44.46802,
+              89.66539999999999
+            ],
+            "mean": 65.69919999999999,
+            "median": 38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 17
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 20,
+            "n_valid": 2
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.47368421052631576,
+              0.8947368421052632
+            ],
+            "mean": 0.6842105263157895,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.36677136767992163,
+              0.5111195697823384
+            ],
+            "mean": 0.4403789791985376,
+            "median": 0.46262393440743266,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fn_components": {
+            "ci95_mean": [
+              4.19875,
+              10.85
+            ],
+            "mean": 7.2,
+            "median": 5.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "fp_components": {
+            "ci95_mean": [
+              0.5,
+              1.5
+            ],
+            "mean": 0.95,
+            "median": 0.5,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.16610923423423424,
+              0.4455518018018014
+            ],
+            "mean": 0.29548048048048053,
+            "median": 0.18333333333333335,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.15
+            ],
+            "mean": 0.05,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.45,
+              0.85
+            ],
+            "mean": 0.65,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.11672497294372296,
+              0.38029135101010086
+            ],
+            "mean": 0.23352092352092346,
+            "median": 0.11805555555555555,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "merges": {
+            "ci95_mean": [
+              0.0,
+              0.25
+            ],
+            "mean": 0.1,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "precision": {
+            "ci95_mean": [
+              0.6606636160222602,
+              0.8161064556402949
+            ],
+            "mean": 0.7403200343014801,
+            "median": 0.7596472152474694,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_components": {
+            "ci95_mean": [
+              1.3,
+              2.1
+            ],
+            "mean": 1.65,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              40.420249999999996,
+              71.96352999999998
+            ],
+            "mean": 55.1356,
+            "median": 50.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "recall": {
+            "ci95_mean": [
+              0.273590924431918,
+              0.43819645672508717
+            ],
+            "mean": 0.35576493907732337,
+            "median": 0.36449486512737617,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -87.13353000000001,
+              -38.57598000000002
+            ],
+            "mean": -62.096799999999995,
+            "median": -38.928,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "splits": {
+            "ci95_mean": [
+              0.1,
+              0.5
+            ],
+            "mean": 0.3,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              3.89875,
+              10.3
+            ],
+            "mean": 6.8,
+            "median": 5.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.4
+            ],
+            "mean": 0.15,
+            "median": 0.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.85,
+              1.0
+            ],
+            "mean": 0.95,
+            "median": 1.0,
+            "n_total": 20,
+            "n_valid": 20
+          },
+          "truth_components": {
+            "ci95_mean": [
+              4.95,
+              11.55
+            ],
+            "mean": 7.9,
+            "median": 6.5,
+            "n_total": 20,
+            "n_valid": 20
+          }
+        },
+        "n": 20
+      }
+    },
+    "5_to_under50": {
+      "equal_candidate_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              10.624884,
+              16.375372
+            ],
+            "mean": 13.274560000000003,
+            "median": 12.068000000000001,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.03125
+            ],
+            "mean": 0.010416666666666666,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 48
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.3333333333333333,
+              0.6190476190476191
+            ],
+            "mean": 0.47619047619047616,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 42
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 50,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.2145057423450127,
+              0.32930340607155345
+            ],
+            "mean": 0.2705550138237624,
+            "median": 0.2075672865076807,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.7595,
+              13.3
+            ],
+            "mean": 10.38,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.04,
+              3.840499999999997
+            ],
+            "mean": 2.88,
+            "median": 2.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0853994965560755,
+              0.19287536235694128
+            ],
+            "mean": 0.1368458909511541,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.12
+            ],
+            "mean": 0.04,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.26,
+              0.54
+            ],
+            "mean": 0.4,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.06792950244200244,
+              0.19433776709401698
+            ],
+            "mean": 0.1268678266178266,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "merges": {
+            "ci95_mean": [
+              0.26,
+              0.58
+            ],
+            "mean": 0.42,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "precision": {
+            "ci95_mean": [
+              0.19790126199091723,
+              0.3234427792205571
+            ],
+            "mean": 0.2576601435673591,
+            "median": 0.20614862975391499,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.52,
+              4.26
+            ],
+            "mean": 3.32,
+            "median": 2.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              21.816636000000003,
+              29.869348
+            ],
+            "mean": 25.57776,
+            "median": 22.136000000000003,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2858664734381987,
+              0.44195446159708257
+            ],
+            "mean": 0.3612704873915306,
+            "median": 0.2655537833982451,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              2.518948000000001,
+              10.884503999999998
+            ],
+            "mean": 6.54816,
+            "median": 5.628,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "splits": {
+            "ci95_mean": [
+              0.02,
+              0.18
+            ],
+            "mean": 0.1,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.359500000000001,
+              12.76
+            ],
+            "mean": 9.94,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.76,
+              1.0
+            ],
+            "mean": 0.88,
+            "median": 1.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.2595,
+              13.660499999999997
+            ],
+            "mean": 10.82,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          }
+        },
+        "n": 50
+      },
+      "equal_candidate_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              10.624884,
+              16.375372
+            ],
+            "mean": 13.274560000000003,
+            "median": 12.068000000000001,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.022569444444444444
+            ],
+            "mean": 0.008680555555555554,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 48
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.35714285714285715,
+              0.6666666666666666
+            ],
+            "mean": 0.5,
+            "median": 0.5,
+            "n_total": 50,
+            "n_valid": 42
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 50,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.19484318478940038,
+              0.31234773883776934
+            ],
+            "mean": 0.25228486640836084,
+            "median": 0.20056092248183166,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.72,
+              13.260499999999997
+            ],
+            "mean": 10.36,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.92,
+              4.700499999999997
+            ],
+            "mean": 3.78,
+            "median": 3.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0842503292029608,
+              0.18710594354475918
+            ],
+            "mean": 0.13289042244305402,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.1
+            ],
+            "mean": 0.04,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.28,
+              0.56
+            ],
+            "mean": 0.42,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.07031167582417581,
+              0.19112976190476183
+            ],
+            "mean": 0.12489560439560439,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "merges": {
+            "ci95_mean": [
+              0.22,
+              0.5
+            ],
+            "mean": 0.36,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "precision": {
+            "ci95_mean": [
+              0.18089392176802382,
+              0.3093614807368648
+            ],
+            "mean": 0.2426544341736317,
+            "median": 0.18469794198688627,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_components": {
+            "ci95_mean": [
+              3.46,
+              5.140499999999997
+            ],
+            "mean": 4.24,
+            "median": 3.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              21.816636000000003,
+              29.869348
+            ],
+            "mean": 25.57776,
+            "median": 22.136000000000003,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2579567389471808,
+              0.41325131148741046
+            ],
+            "mean": 0.33349214361110563,
+            "median": 0.2875295443033663,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              2.518948000000001,
+              10.884503999999998
+            ],
+            "mean": 6.54816,
+            "median": 5.628,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "splits": {
+            "ci95_mean": [
+              0.02,
+              0.16
+            ],
+            "mean": 0.08,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.359500000000001,
+              12.76
+            ],
+            "mean": 9.94,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.76,
+              1.0
+            ],
+            "mean": 0.88,
+            "median": 1.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.2595,
+              13.660499999999997
+            ],
+            "mean": 10.82,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          }
+        },
+        "n": 50
+      },
+      "equal_candidate_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              10.624884,
+              16.375372
+            ],
+            "mean": 13.274560000000003,
+            "median": 12.068000000000001,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.015625
+            ],
+            "mean": 0.005208333333333333,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 48
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.21428571428571427,
+              0.47619047619047616
+            ],
+            "mean": 0.3333333333333333,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 42
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 50,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.17319112610422402,
+              0.2695544008361972
+            ],
+            "mean": 0.2193403576337546,
+            "median": 0.19302401097247163,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.92,
+              13.400499999999997
+            ],
+            "mean": 10.52,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fp_components": {
+            "ci95_mean": [
+              1.98,
+              3.460499999999997
+            ],
+            "mean": 2.66,
+            "median": 2.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.05044733044733045,
+              0.1434863636363636
+            ],
+            "mean": 0.09495382395382394,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.06
+            ],
+            "mean": 0.02,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.16,
+              0.42
+            ],
+            "mean": 0.28,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.03899947344322344,
+              0.14066673534798532
+            ],
+            "mean": 0.08420115995115995,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "merges": {
+            "ci95_mean": [
+              0.28,
+              0.5604999999999973
+            ],
+            "mean": 0.42,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "precision": {
+            "ci95_mean": [
+              0.15582701721249123,
+              0.26429389373965323
+            ],
+            "mean": 0.20491065687860022,
+            "median": 0.1686203006003949,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.3,
+              3.7404999999999973
+            ],
+            "mean": 2.96,
+            "median": 2.5,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              21.816636000000003,
+              29.869348
+            ],
+            "mean": 25.57776,
+            "median": 22.136000000000003,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2338614251704533,
+              0.3677275928618177
+            ],
+            "mean": 0.29807785264602105,
+            "median": 0.2399534972718786,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              2.518948000000001,
+              10.884503999999998
+            ],
+            "mean": 6.54816,
+            "median": 5.628,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "splits": {
+            "ci95_mean": [
+              0.04,
+              0.22
+            ],
+            "mean": 0.12,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.359500000000001,
+              12.76
+            ],
+            "mean": 9.94,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.76,
+              1.0
+            ],
+            "mean": 0.88,
+            "median": 1.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.2595,
+              13.660499999999997
+            ],
+            "mean": 10.82,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          }
+        },
+        "n": 50
+      },
+      "equal_common_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              10.624884,
+              16.375372
+            ],
+            "mean": 13.274560000000003,
+            "median": 12.068000000000001,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.03125
+            ],
+            "mean": 0.010416666666666666,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 48
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.3333333333333333,
+              0.6190476190476191
+            ],
+            "mean": 0.47619047619047616,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 42
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 50,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.2155753444038885,
+              0.3285976615763601
+            ],
+            "mean": 0.26988637165282736,
+            "median": 0.2103055698146844,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.7595,
+              13.3
+            ],
+            "mean": 10.38,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fp_components": {
+            "ci95_mean": [
+              1.98,
+              3.56
+            ],
+            "mean": 2.72,
+            "median": 2.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.08640726028357608,
+              0.19397268740031887
+            ],
+            "mean": 0.13793110398373554,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.12
+            ],
+            "mean": 0.04,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.26,
+              0.54
+            ],
+            "mean": 0.4,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.06792950244200244,
+              0.19433776709401698
+            ],
+            "mean": 0.1268678266178266,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "merges": {
+            "ci95_mean": [
+              0.2795000000000001,
+              0.62
+            ],
+            "mean": 0.44,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "precision": {
+            "ci95_mean": [
+              0.19827730266212396,
+              0.32200922396219694
+            ],
+            "mean": 0.2569645411532478,
+            "median": 0.20726719798657717,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.48,
+              3.96
+            ],
+            "mean": 3.16,
+            "median": 2.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              21.816636000000003,
+              29.869348
+            ],
+            "mean": 25.57776,
+            "median": 22.136000000000003,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2848892067496618,
+              0.4391538541021665
+            ],
+            "mean": 0.36049075848309864,
+            "median": 0.2638322837808006,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              2.518948000000001,
+              10.884503999999998
+            ],
+            "mean": 6.54816,
+            "median": 5.628,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "splits": {
+            "ci95_mean": [
+              0.06,
+              0.24
+            ],
+            "mean": 0.14,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.359500000000001,
+              12.76
+            ],
+            "mean": 9.94,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.76,
+              1.0
+            ],
+            "mean": 0.88,
+            "median": 1.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.2595,
+              13.660499999999997
+            ],
+            "mean": 10.82,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          }
+        },
+        "n": 50
+      },
+      "equal_common_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              10.624884,
+              16.375372
+            ],
+            "mean": 13.274560000000003,
+            "median": 12.068000000000001,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.022569444444444444
+            ],
+            "mean": 0.008680555555555554,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 48
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.35714285714285715,
+              0.6666666666666666
+            ],
+            "mean": 0.5,
+            "median": 0.5,
+            "n_total": 50,
+            "n_valid": 42
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 50,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.19878613489023142,
+              0.31549108935290077
+            ],
+            "mean": 0.2551214736798173,
+            "median": 0.20241544596050026,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.72,
+              13.260499999999997
+            ],
+            "mean": 10.36,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.44,
+              3.74
+            ],
+            "mean": 3.08,
+            "median": 2.5,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.09258416339273116,
+              0.21465534789166504
+            ],
+            "mean": 0.1490915166106982,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.1
+            ],
+            "mean": 0.04,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.28,
+              0.56
+            ],
+            "mean": 0.42,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.07031167582417581,
+              0.19112976190476183
+            ],
+            "mean": 0.12489560439560439,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "merges": {
+            "ci95_mean": [
+              0.22,
+              0.5
+            ],
+            "mean": 0.36,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "precision": {
+            "ci95_mean": [
+              0.18443295611067365,
+              0.31193301163000686
+            ],
+            "mean": 0.24545356930608273,
+            "median": 0.18912461068902534,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.98,
+              4.1
+            ],
+            "mean": 3.54,
+            "median": 3.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              21.816636000000003,
+              29.869348
+            ],
+            "mean": 25.57776,
+            "median": 22.136000000000003,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "recall": {
+            "ci95_mean": [
+              0.26255558372308124,
+              0.4167855602956944
+            ],
+            "mean": 0.3373020493013662,
+            "median": 0.2874764533925933,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              2.518948000000001,
+              10.884503999999998
+            ],
+            "mean": 6.54816,
+            "median": 5.628,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "splits": {
+            "ci95_mean": [
+              0.02,
+              0.16
+            ],
+            "mean": 0.08,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.359500000000001,
+              12.76
+            ],
+            "mean": 9.94,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.76,
+              1.0
+            ],
+            "mean": 0.88,
+            "median": 1.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.2595,
+              13.660499999999997
+            ],
+            "mean": 10.82,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          }
+        },
+        "n": 50
+      },
+      "equal_common_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              10.624884,
+              16.375372
+            ],
+            "mean": 13.274560000000003,
+            "median": 12.068000000000001,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.015625
+            ],
+            "mean": 0.005208333333333333,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 48
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.21428571428571427,
+              0.5
+            ],
+            "mean": 0.35714285714285715,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 42
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 50,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.17434009556702576,
+              0.2701649263981947
+            ],
+            "mean": 0.22059293239257471,
+            "median": 0.19405070501764618,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.899500000000001,
+              13.380999999999995
+            ],
+            "mean": 10.5,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "fp_components": {
+            "ci95_mean": [
+              1.9995,
+              3.5
+            ],
+            "mean": 2.68,
+            "median": 2.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.053816592617908394,
+              0.14463913761676914
+            ],
+            "mean": 0.09680656185919342,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.06
+            ],
+            "mean": 0.02,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.18,
+              0.44
+            ],
+            "mean": 0.3,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.04248482142857143,
+              0.14401601037851036
+            ],
+            "mean": 0.08820115995115994,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "merges": {
+            "ci95_mean": [
+              0.28,
+              0.56
+            ],
+            "mean": 0.42,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "precision": {
+            "ci95_mean": [
+              0.15644161767076295,
+              0.26472535291351657
+            ],
+            "mean": 0.20600091028263656,
+            "median": 0.16781220629256327,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.3594999999999997,
+              3.76
+            ],
+            "mean": 3.0,
+            "median": 2.5,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              21.816636000000003,
+              29.869348
+            ],
+            "mean": 25.57776,
+            "median": 22.136000000000003,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "recall": {
+            "ci95_mean": [
+              0.23545373405017503,
+              0.36940441474165925
+            ],
+            "mean": 0.2996524942852064,
+            "median": 0.2399100096832364,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              2.518948000000001,
+              10.884503999999998
+            ],
+            "mean": 6.54816,
+            "median": 5.628,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "splits": {
+            "ci95_mean": [
+              0.06,
+              0.24
+            ],
+            "mean": 0.14,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.359500000000001,
+              12.76
+            ],
+            "mean": 9.94,
+            "median": 7.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.76,
+              1.0
+            ],
+            "mean": 0.88,
+            "median": 1.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 50,
+            "n_valid": 50
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.2595,
+              13.660499999999997
+            ],
+            "mean": 10.82,
+            "median": 8.0,
+            "n_total": 50,
+            "n_valid": 50
+          }
+        },
+        "n": 50
+      }
+    },
+    "all": {
+      "equal_candidate_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              19.59272727272727,
+              32.49270303030301
+            ],
+            "mean": 25.676848484848485,
+            "median": 16.352,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.01971326164874552
+            ],
+            "mean": 0.007168458781362007,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.3181818181818182,
+              0.6136363636363636
+            ],
+            "mean": 0.4659090909090909,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 44
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 99,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.2034594375700693,
+              0.2894253608895718
+            ],
+            "mean": 0.24674415094334268,
+            "median": 0.18237783762985763,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.707070707070707,
+              11.343434343434344
+            ],
+            "mean": 9.464646464646465,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.292929292929293,
+              3.4749999999999988
+            ],
+            "mean": 2.8484848484848486,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.09225959911964696,
+              0.17723891229273997
+            ],
+            "mean": 0.13465606400215652,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.08080808080808081
+            ],
+            "mean": 0.030303030303030304,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.13131313131313133,
+              0.30303030303030304
+            ],
+            "mean": 0.21212121212121213,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.08080808080808081,
+              0.21212121212121213
+            ],
+            "mean": 0.1414141414141414,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.07972345185993145,
+              0.17355243148291613
+            ],
+            "mean": 0.1242905762038415,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "merges": {
+            "ci95_mean": [
+              0.2828282828282828,
+              0.5050505050505051
+            ],
+            "mean": 0.3838383838383838,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "precision": {
+            "ci95_mean": [
+              0.23552451203535518,
+              0.357776047415191
+            ],
+            "mean": 0.2967405536428526,
+            "median": 0.17505924170616113,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.707070707070707,
+              3.8484848484848486
+            ],
+            "mean": 3.2323232323232323,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              25.929743434343436,
+              35.15106262626263
+            ],
+            "mean": 30.388444444444445,
+            "median": 25.496000000000002,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2644638707830183,
+              0.37278395555794863
+            ],
+            "mean": 0.31749522233647437,
+            "median": 0.2318212937222522,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -11.935418181818182,
+              4.386773737373736
+            ],
+            "mean": -3.537696969696971,
+            "median": 8.232,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "splits": {
+            "ci95_mean": [
+              0.08080808080808081,
+              0.21212121212121213
+            ],
+            "mean": 0.1414141414141414,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.474747474747475,
+              11.05050505050505
+            ],
+            "mean": 9.181818181818182,
+            "median": 6.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.37348484848484853,
+              0.5858585858585859
+            ],
+            "mean": 0.47474747474747475,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.12121212121212122,
+              0.2727272727272727
+            ],
+            "mean": 0.1919191919191919,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.141414141414142,
+              11.696969696969697
+            ],
+            "mean": 9.848484848484848,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "equal_candidate_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              19.59272727272727,
+              32.49270303030301
+            ],
+            "mean": 25.676848484848485,
+            "median": 16.352,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.013463261648745398
+            ],
+            "mean": 0.006272401433691756,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.3409090909090909,
+              0.6363636363636364
+            ],
+            "mean": 0.48863636363636365,
+            "median": 0.25,
+            "n_total": 99,
+            "n_valid": 44
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 99,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.18976250398900277,
+              0.2751459239292862
+            ],
+            "mean": 0.23320300988901244,
+            "median": 0.17190177041690463,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.7169191919191915,
+              11.313383838383837
+            ],
+            "mean": 9.454545454545455,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fp_components": {
+            "ci95_mean": [
+              3.0505050505050506,
+              4.202020202020202
+            ],
+            "mean": 3.595959595959596,
+            "median": 3.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.08992417658984644,
+              0.17063070409860676
+            ],
+            "mean": 0.1294152521823973,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0707070707070707
+            ],
+            "mean": 0.030303030303030304,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.1414141414141414,
+              0.31313131313131315
+            ],
+            "mean": 0.2222222222222222,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.08080808080808081,
+              0.21212121212121213
+            ],
+            "mean": 0.1414141414141414,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.07975244993102136,
+              0.17144045509479183
+            ],
+            "mean": 0.12328434037617708,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "merges": {
+            "ci95_mean": [
+              0.20202020202020202,
+              0.3838383838383838
+            ],
+            "mean": 0.29292929292929293,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "precision": {
+            "ci95_mean": [
+              0.21930895325214697,
+              0.33705873327036473
+            ],
+            "mean": 0.2793119090218888,
+            "median": 0.13031161473087818,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_components": {
+            "ci95_mean": [
+              3.474747474747475,
+              4.56590909090909
+            ],
+            "mean": 3.98989898989899,
+            "median": 3.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              25.929743434343436,
+              35.15106262626263
+            ],
+            "mean": 30.388444444444445,
+            "median": 25.496000000000002,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "recall": {
+            "ci95_mean": [
+              0.24299515947404285,
+              0.34834543512244365
+            ],
+            "mean": 0.2946390868858688,
+            "median": 0.2618505056402795,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -11.935418181818182,
+              4.386773737373736
+            ],
+            "mean": -3.537696969696971,
+            "median": 8.232,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "splits": {
+            "ci95_mean": [
+              0.10101010101010101,
+              0.25252525252525254
+            ],
+            "mean": 0.1717171717171717,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.474747474747475,
+              11.05050505050505
+            ],
+            "mean": 9.181818181818182,
+            "median": 6.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.37348484848484853,
+              0.5858585858585859
+            ],
+            "mean": 0.47474747474747475,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.12121212121212122,
+              0.2727272727272727
+            ],
+            "mean": 0.1919191919191919,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.141414141414142,
+              11.696969696969697
+            ],
+            "mean": 9.848484848484848,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "equal_candidate_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              19.59272727272727,
+              32.49270303030301
+            ],
+            "mean": 25.676848484848485,
+            "median": 16.352,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.008064516129032258
+            ],
+            "mean": 0.002688172043010753,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.20454545454545456,
+              0.4772727272727273
+            ],
+            "mean": 0.32954545454545453,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 44
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.47368421052631576,
+              0.8947368421052632
+            ],
+            "mean": 0.6842105263157895,
+            "median": 1.0,
+            "n_total": 99,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.16795317411718277,
+              0.24486241368915468
+            ],
+            "mean": 0.20630608056877775,
+            "median": 0.1391465677179963,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.818181818181818,
+              11.414141414141413
+            ],
+            "mean": 9.555555555555555,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.1313131313131315,
+              3.3333333333333335
+            ],
+            "mean": 2.707070707070707,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.07126958865595229,
+              0.15357703581188425
+            ],
+            "mean": 0.10865960411414956,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.030303030303030304
+            ],
+            "mean": 0.010101010101010102,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.08080808080808081,
+              0.2222222222222222
+            ],
+            "mean": 0.15151515151515152,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0707070707070707,
+              0.20202020202020202
+            ],
+            "mean": 0.13131313131313133,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.05414293720735047,
+              0.134035299309534
+            ],
+            "mean": 0.09061710681608641,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "merges": {
+            "ci95_mean": [
+              0.26262626262626265,
+              0.48484848484848486
+            ],
+            "mean": 0.36363636363636365,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "precision": {
+            "ci95_mean": [
+              0.19796605625917932,
+              0.3145657540554031
+            ],
+            "mean": 0.2559833747701228,
+            "median": 0.10595358224016145,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.4545454545454546,
+              3.595959595959596
+            ],
+            "mean": 3.0,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              25.929743434343436,
+              35.15106262626263
+            ],
+            "mean": 30.388444444444445,
+            "median": 25.496000000000002,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2171531020703468,
+              0.3085759283008698
+            ],
+            "mean": 0.2628890124503628,
+            "median": 0.20613322802774142,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -11.935418181818182,
+              4.386773737373736
+            ],
+            "mean": -3.537696969696971,
+            "median": 8.232,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "splits": {
+            "ci95_mean": [
+              0.06060606060606061,
+              0.18181818181818182
+            ],
+            "mean": 0.1111111111111111,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.474747474747475,
+              11.05050505050505
+            ],
+            "mean": 9.181818181818182,
+            "median": 6.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.37348484848484853,
+              0.5858585858585859
+            ],
+            "mean": 0.47474747474747475,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.12121212121212122,
+              0.2727272727272727
+            ],
+            "mean": 0.1919191919191919,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.141414141414142,
+              11.696969696969697
+            ],
+            "mean": 9.848484848484848,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "equal_common_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              19.59272727272727,
+              32.49270303030301
+            ],
+            "mean": 25.676848484848485,
+            "median": 16.352,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.01971326164874552
+            ],
+            "mean": 0.007168458781362007,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.3181818181818182,
+              0.6136363636363636
+            ],
+            "mean": 0.4659090909090909,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 44
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 99,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.2033924740111332,
+              0.2899064519106425
+            ],
+            "mean": 0.24714265277457867,
+            "median": 0.18237783762985763,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.707070707070707,
+              11.343434343434344
+            ],
+            "mean": 9.464646464646465,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.242171717171717,
+              3.323232323232323
+            ],
+            "mean": 2.7474747474747474,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.09193636743078527,
+              0.17728475597295368
+            ],
+            "mean": 0.13424820498185727,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.08080808080808081
+            ],
+            "mean": 0.030303030303030304,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.13131313131313133,
+              0.30303030303030304
+            ],
+            "mean": 0.21212121212121213,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.08080808080808081,
+              0.21212121212121213
+            ],
+            "mean": 0.1414141414141414,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.07972345185993145,
+              0.17355243148291613
+            ],
+            "mean": 0.1242905762038415,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "merges": {
+            "ci95_mean": [
+              0.29292929292929293,
+              0.5252525252525253
+            ],
+            "mean": 0.40404040404040403,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "precision": {
+            "ci95_mean": [
+              0.23550965804969481,
+              0.3600098568211694
+            ],
+            "mean": 0.2979147969426359,
+            "median": 0.17505924170616113,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.6563131313131314,
+              3.696969696969697
+            ],
+            "mean": 3.1313131313131315,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              25.929743434343436,
+              35.15106262626263
+            ],
+            "mean": 30.388444444444445,
+            "median": 25.496000000000002,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "recall": {
+            "ci95_mean": [
+              0.2650076666327886,
+              0.3734192244754477
+            ],
+            "mean": 0.3187150273188254,
+            "median": 0.23354604714118551,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -11.935418181818182,
+              4.386773737373736
+            ],
+            "mean": -3.537696969696971,
+            "median": 8.232,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "splits": {
+            "ci95_mean": [
+              0.13131313131313133,
+              0.2828282828282828
+            ],
+            "mean": 0.20202020202020202,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.474747474747475,
+              11.05050505050505
+            ],
+            "mean": 9.181818181818182,
+            "median": 6.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.37348484848484853,
+              0.5858585858585859
+            ],
+            "mean": 0.47474747474747475,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.12121212121212122,
+              0.2727272727272727
+            ],
+            "mean": 0.1919191919191919,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.141414141414142,
+              11.696969696969697
+            ],
+            "mean": 9.848484848484848,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "equal_common_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              19.59272727272727,
+              32.49270303030301
+            ],
+            "mean": 25.676848484848485,
+            "median": 16.352,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.013463261648745398
+            ],
+            "mean": 0.006272401433691756,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.3409090909090909,
+              0.6363636363636364
+            ],
+            "mean": 0.48863636363636365,
+            "median": 0.25,
+            "n_total": 99,
+            "n_valid": 44
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.5263157894736842,
+              0.8947368421052632
+            ],
+            "mean": 0.7368421052631579,
+            "median": 1.0,
+            "n_total": 99,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.19423325440706024,
+              0.2796559292546632
+            ],
+            "mean": 0.23712449243881126,
+            "median": 0.17914438502673796,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.7169191919191915,
+              11.313383838383837
+            ],
+            "mean": 9.454545454545455,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.4845959595959597,
+              3.3333333333333335
+            ],
+            "mean": 2.898989898989899,
+            "median": 3.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.09432931619049086,
+              0.17710835873480119
+            ],
+            "mean": 0.13417646500752428,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0707070707070707
+            ],
+            "mean": 0.030303030303030304,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.1414141414141414,
+              0.31313131313131315
+            ],
+            "mean": 0.2222222222222222,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.08080808080808081,
+              0.21212121212121213
+            ],
+            "mean": 0.1414141414141414,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.07975244993102136,
+              0.17144045509479183
+            ],
+            "mean": 0.12328434037617708,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "merges": {
+            "ci95_mean": [
+              0.2222222222222222,
+              0.41414141414141414
+            ],
+            "mean": 0.31313131313131315,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "precision": {
+            "ci95_mean": [
+              0.22393268855073972,
+              0.34233323940841975
+            ],
+            "mean": 0.2838033819961514,
+            "median": 0.14803358373840036,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.919191919191919,
+              3.6770202020202007
+            ],
+            "mean": 3.292929292929293,
+            "median": 3.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              25.929743434343436,
+              35.15106262626263
+            ],
+            "mean": 30.388444444444445,
+            "median": 25.496000000000002,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "recall": {
+            "ci95_mean": [
+              0.25061818320171875,
+              0.35376652042098167
+            ],
+            "mean": 0.3016639091617477,
+            "median": 0.2686966283719959,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -11.935418181818182,
+              4.386773737373736
+            ],
+            "mean": -3.537696969696971,
+            "median": 8.232,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "splits": {
+            "ci95_mean": [
+              0.10101010101010101,
+              0.24242424242424243
+            ],
+            "mean": 0.1717171717171717,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.474747474747475,
+              11.05050505050505
+            ],
+            "mean": 9.181818181818182,
+            "median": 6.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.37348484848484853,
+              0.5858585858585859
+            ],
+            "mean": 0.47474747474747475,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.12121212121212122,
+              0.2727272727272727
+            ],
+            "mean": 0.1919191919191919,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.141414141414142,
+              11.696969696969697
+            ],
+            "mean": 9.848484848484848,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      },
+      "equal_common_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              19.59272727272727,
+              32.49270303030301
+            ],
+            "mean": 25.676848484848485,
+            "median": 16.352,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.008064516129032258
+            ],
+            "mean": 0.002688172043010753,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 93
+          },
+          "component_recall_bin2": {
+            "ci95_mean": [
+              0.2159090909090909,
+              0.5
+            ],
+            "mean": 0.3522727272727273,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 44
+          },
+          "component_recall_bin3": {
+            "ci95_mean": [
+              0.47368421052631576,
+              0.8947368421052632
+            ],
+            "mean": 0.6842105263157895,
+            "median": 1.0,
+            "n_total": 99,
+            "n_valid": 19
+          },
+          "dice": {
+            "ci95_mean": [
+              0.16931011911816427,
+              0.2466025681037765
+            ],
+            "mean": 0.20820467296467934,
+            "median": 0.13903399501727878,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fn_components": {
+            "ci95_mean": [
+              7.817929292929293,
+              11.404040404040405
+            ],
+            "mean": 9.545454545454545,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.1714646464646465,
+              3.3638888888888876
+            ],
+            "mean": 2.7373737373737375,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.07109712925502398,
+              0.15211718364629048
+            ],
+            "mean": 0.10858522931888163,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.030303030303030304
+            ],
+            "mean": 0.010101010101010102,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.09090909090909091,
+              0.24242424242424243
+            ],
+            "mean": 0.16161616161616163,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0707070707070707,
+              0.20202020202020202
+            ],
+            "mean": 0.13131313131313133,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.056012192880815326,
+              0.1357695100392804
+            ],
+            "mean": 0.09265792314261702,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "merges": {
+            "ci95_mean": [
+              0.2727272727272727,
+              0.48510101010100876
+            ],
+            "mean": 0.37373737373737376,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "precision": {
+            "ci95_mean": [
+              0.1996561841765022,
+              0.3174782413612871
+            ],
+            "mean": 0.2582119964722051,
+            "median": 0.10595358224016145,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.494949494949495,
+              3.6464646464646466
+            ],
+            "mean": 3.04040404040404,
+            "median": 2.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              25.929743434343436,
+              35.15106262626263
+            ],
+            "mean": 30.388444444444445,
+            "median": 25.496000000000002,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "recall": {
+            "ci95_mean": [
+              0.21871972030449915,
+              0.31120234666674274
+            ],
+            "mean": 0.26490446318934785,
+            "median": 0.19143961300457055,
+            "n_total": 99,
+            "n_valid": 98
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              -11.935418181818182,
+              4.386773737373736
+            ],
+            "mean": -3.537696969696971,
+            "median": 8.232,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "splits": {
+            "ci95_mean": [
+              0.0707070707070707,
+              0.20202020202020202
+            ],
+            "mean": 0.13131313131313133,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              7.474747474747475,
+              11.05050505050505
+            ],
+            "mean": 9.181818181818182,
+            "median": 6.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.37348484848484853,
+              0.5858585858585859
+            ],
+            "mean": 0.47474747474747475,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.12121212121212122,
+              0.2727272727272727
+            ],
+            "mean": 0.1919191919191919,
+            "median": 0.0,
+            "n_total": 99,
+            "n_valid": 99
+          },
+          "truth_components": {
+            "ci95_mean": [
+              8.141414141414142,
+              11.696969696969697
+            ],
+            "mean": 9.848484848484848,
+            "median": 7.0,
+            "n_total": 99,
+            "n_valid": 99
+          }
+        },
+        "n": 99
+      }
+    },
+    "empty": {
+      "equal_candidate_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "component_recall_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fn_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fp_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "lesion_f1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "merges": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "precision": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "signed_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "splits": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          }
+        },
+        "n": 1
+      },
+      "equal_candidate_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "component_recall_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fn_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fp_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "lesion_f1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "merges": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "precision": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "signed_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "splits": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          }
+        },
+        "n": 1
+      },
+      "equal_candidate_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "component_recall_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fn_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fp_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "lesion_f1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "merges": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "precision": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "signed_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "splits": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          }
+        },
+        "n": 1
+      },
+      "equal_common_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "component_recall_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fn_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fp_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "lesion_f1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "merges": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "precision": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "signed_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "splits": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          }
+        },
+        "n": 1
+      },
+      "equal_common_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "component_recall_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fn_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fp_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "lesion_f1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "merges": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "precision": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "signed_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "splits": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          }
+        },
+        "n": 1
+      },
+      "equal_common_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "component_recall_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fn_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "fp_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "lesion_f1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "matched_recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "merges": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "precision": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "pred_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "recall": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 0
+          },
+          "signed_error_ml": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "splits": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin1": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_component_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          },
+          "truth_components": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 1,
+            "n_valid": 1
+          }
+        },
+        "n": 1
+      }
+    },
+    "positive_under5": {
+      "equal_candidate_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.023685294651804654,
+              0.08312851937704067
+            ],
+            "mean": 0.049494257697716496,
+            "median": 0.023988224196566765,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fn_components": {
+            "ci95_mean": [
+              6.821428571428571,
+              13.428571428571429
+            ],
+            "mean": 9.821428571428571,
+            "median": 5.5,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.8214285714285716,
+              5.035714285714286
+            ],
+            "mean": 3.892857142857143,
+            "median": 3.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.10714285714285714
+            ],
+            "mean": 0.03571428571428571,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "merges": {
+            "ci95_mean": [
+              0.32142857142857145,
+              0.75
+            ],
+            "mean": 0.5357142857142857,
+            "median": 0.5,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "precision": {
+            "ci95_mean": [
+              0.014007132032287647,
+              0.052254601338216064
+            ],
+            "mean": 0.0301870518280448,
+            "median": 0.013227931488801054,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.857142857142857,
+              5.071428571428571
+            ],
+            "mean": 3.9285714285714284,
+            "median": 3.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              17.77092857142857,
+              26.25690714285714
+            ],
+            "mean": 21.84171428571429,
+            "median": 18.380000000000003,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "recall": {
+            "ci95_mean": [
+              0.11079104595267204,
+              0.28561646571488036
+            ],
+            "mean": 0.1912355122984162,
+            "median": 0.11247344540900628,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "splits": {
+            "ci95_mean": [
+              0.0,
+              0.10714285714285714
+            ],
+            "mean": 0.03571428571428571,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          }
+        },
+        "n": 28
+      },
+      "equal_candidate_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.023105374844493227,
+              0.08621707895214532
+            ],
+            "mean": 0.050386069313488845,
+            "median": 0.008085716415497157,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fn_components": {
+            "ci95_mean": [
+              6.821428571428571,
+              13.428571428571429
+            ],
+            "mean": 9.821428571428571,
+            "median": 5.5,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fp_components": {
+            "ci95_mean": [
+              3.5714285714285716,
+              5.357142857142857
+            ],
+            "mean": 4.428571428571429,
+            "median": 4.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0,
+              0.023809523809523808
+            ],
+            "mean": 0.007936507936507936,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.10714285714285714
+            ],
+            "mean": 0.03571428571428571,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "merges": {
+            "ci95_mean": [
+              0.17857142857142858,
+              0.5357142857142857
+            ],
+            "mean": 0.35714285714285715,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "precision": {
+            "ci95_mean": [
+              0.01386965868435709,
+              0.05428271245431037
+            ],
+            "mean": 0.031182311739712695,
+            "median": 0.004110772775903218,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_components": {
+            "ci95_mean": [
+              3.6419642857142858,
+              5.392857142857143
+            ],
+            "mean": 4.464285714285714,
+            "median": 4.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              17.77092857142857,
+              26.25690714285714
+            ],
+            "mean": 21.84171428571429,
+            "median": 18.380000000000003,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "recall": {
+            "ci95_mean": [
+              0.0980226506791639,
+              0.2625998322683148
+            ],
+            "mean": 0.1730833319862636,
+            "median": 0.09018630280766203,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "splits": {
+            "ci95_mean": [
+              0.0,
+              0.21428571428571427
+            ],
+            "mean": 0.10714285714285714,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          }
+        },
+        "n": 28
+      },
+      "equal_candidate_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.013383724711558432,
+              0.045130695218603856
+            ],
+            "mean": 0.027688475923425306,
+            "median": 0.01050649768103963,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fn_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.642857142857143,
+              5.392857142857143
+            ],
+            "mean": 3.892857142857143,
+            "median": 2.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "merges": {
+            "ci95_mean": [
+              0.25,
+              0.7142857142857143
+            ],
+            "mean": 0.4642857142857143,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "precision": {
+            "ci95_mean": [
+              0.0076822907421277625,
+              0.02688422677357137
+            ],
+            "mean": 0.016312468781003477,
+            "median": 0.006485801714678253,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.642857142857143,
+              5.392857142857143
+            ],
+            "mean": 3.892857142857143,
+            "median": 2.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              17.77092857142857,
+              26.25690714285714
+            ],
+            "mean": 21.84171428571429,
+            "median": 18.380000000000003,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "recall": {
+            "ci95_mean": [
+              0.07379104000634047,
+              0.21430422274838207
+            ],
+            "mean": 0.13773972867810338,
+            "median": 0.05813374318689607,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "splits": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          }
+        },
+        "n": 28
+      },
+      "equal_common_fusion": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.02457365554443147,
+              0.08395800495826604
+            ],
+            "mean": 0.050461429054077904,
+            "median": 0.023988224196566765,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fn_components": {
+            "ci95_mean": [
+              6.821428571428571,
+              13.428571428571429
+            ],
+            "mean": 9.821428571428571,
+            "median": 5.5,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.6785714285714284,
+              4.857142857142857
+            ],
+            "mean": 3.7142857142857144,
+            "median": 2.5,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.10714285714285714
+            ],
+            "mean": 0.03571428571428571,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "merges": {
+            "ci95_mean": [
+              0.35714285714285715,
+              0.7857142857142857
+            ],
+            "mean": 0.5714285714285714,
+            "median": 1.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "precision": {
+            "ci95_mean": [
+              0.014459838997703372,
+              0.05296001642393189
+            ],
+            "mean": 0.03077934491671,
+            "median": 0.013227931488801054,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.6785714285714284,
+              4.928571428571429
+            ],
+            "mean": 3.75,
+            "median": 2.5,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              17.77092857142857,
+              26.25690714285714
+            ],
+            "mean": 21.84171428571429,
+            "median": 18.380000000000003,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "recall": {
+            "ci95_mean": [
+              0.11364024638725449,
+              0.28923855210180804
+            ],
+            "mean": 0.19515773496440758,
+            "median": 0.12201998478848121,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "splits": {
+            "ci95_mean": [
+              0.0,
+              0.10714285714285714
+            ],
+            "mean": 0.03571428571428571,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          }
+        },
+        "n": 28
+      },
+      "equal_common_nn": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.02606191647502027,
+              0.09446370926144157
+            ],
+            "mean": 0.05732917361158265,
+            "median": 0.009609659049820054,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fn_components": {
+            "ci95_mean": [
+              6.821428571428571,
+              13.428571428571429
+            ],
+            "mean": 9.821428571428571,
+            "median": 5.5,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.75,
+              4.035714285714286
+            ],
+            "mean": 3.357142857142857,
+            "median": 3.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0,
+              0.023809523809523808
+            ],
+            "mean": 0.007936507936507936,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.10714285714285714
+            ],
+            "mean": 0.03571428571428571,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.0,
+              0.017857142857142856
+            ],
+            "mean": 0.005952380952380952,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "merges": {
+            "ci95_mean": [
+              0.25,
+              0.6071428571428571
+            ],
+            "mean": 0.42857142857142855,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "precision": {
+            "ci95_mean": [
+              0.015729243838896134,
+              0.059953945326863295
+            ],
+            "mean": 0.03581737846478133,
+            "median": 0.005173875476643278,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.8205357142857146,
+              4.036607142857138
+            ],
+            "mean": 3.392857142857143,
+            "median": 3.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              17.77092857142857,
+              26.25690714285714
+            ],
+            "mean": 21.84171428571429,
+            "median": 18.380000000000003,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "recall": {
+            "ci95_mean": [
+              0.10830275241819472,
+              0.28576545106464774
+            ],
+            "mean": 0.18896473562199953,
+            "median": 0.08713040600176522,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "splits": {
+            "ci95_mean": [
+              0.0,
+              0.17857142857142858
+            ],
+            "mean": 0.07142857142857142,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          }
+        },
+        "n": 28
+      },
+      "equal_common_tree": {
+        "metrics": {
+          "absolute_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "component_recall_bin2": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "component_recall_bin3": {
+            "ci95_mean": null,
+            "mean": null,
+            "median": null,
+            "n_total": 28,
+            "n_valid": 0
+          },
+          "dice": {
+            "ci95_mean": [
+              0.013488700581163601,
+              0.04520966122089985
+            ],
+            "mean": 0.027679872139420338,
+            "median": 0.010009726692465363,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fn_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "fp_components": {
+            "ci95_mean": [
+              2.6785714285714284,
+              5.428571428571429
+            ],
+            "mean": 3.9285714285714284,
+            "median": 2.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "lesion_f1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin1": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "matched_recall": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "merges": {
+            "ci95_mean": [
+              0.2857142857142857,
+              0.75
+            ],
+            "mean": 0.5,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "precision": {
+            "ci95_mean": [
+              0.007636668000222893,
+              0.02689461063008076
+            ],
+            "mean": 0.01630505180667444,
+            "median": 0.006186937399077535,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_components": {
+            "ci95_mean": [
+              2.6785714285714284,
+              5.428571428571429
+            ],
+            "mean": 3.9285714285714284,
+            "median": 2.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "pred_ml": {
+            "ci95_mean": [
+              17.77092857142857,
+              26.25690714285714
+            ],
+            "mean": 21.84171428571429,
+            "median": 18.380000000000003,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "recall": {
+            "ci95_mean": [
+              0.07370220543963477,
+              0.21471663978171351
+            ],
+            "mean": 0.1379540677410464,
+            "median": 0.05813374318689607,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "signed_error_ml": {
+            "ci95_mean": [
+              15.5151,
+              24.037371428571426
+            ],
+            "mean": 19.607428571428567,
+            "median": 17.128,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "splits": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin1": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin2": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_component_bin3": {
+            "ci95_mean": [
+              0.0,
+              0.0
+            ],
+            "mean": 0.0,
+            "median": 0.0,
+            "n_total": 28,
+            "n_valid": 28
+          },
+          "truth_components": {
+            "ci95_mean": [
+              6.857142857142857,
+              13.464285714285714
+            ],
+            "mean": 9.857142857142858,
+            "median": 6.0,
+            "n_total": 28,
+            "n_valid": 28
+          }
+        },
+        "n": 28
+      }
+    }
+  },
+  "max_voxel_count_difference": 0.0,
+  "note": "Candidate domain is tissue support union nn probability >1e-4; common sensitivity is tissue support. Full truth always scored.",
+  "paired": {
+    "candidate_fusion_minus_tree": {
+      "metrics": {
+        "absolute_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "component_recall_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.01164874551971326
+          ],
+          "mean": 0.004480286738351254,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 93
+        },
+        "component_recall_bin2": {
+          "ci95_mean": [
+            0.045454545454545456,
+            0.25
+          ],
+          "mean": 0.13636363636363635,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 44
+        },
+        "component_recall_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.15789473684210525
+          ],
+          "mean": 0.05263157894736842,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 19
+        },
+        "dice": {
+          "ci95_mean": [
+            0.02796645426920591,
+            0.054239909120968335
+          ],
+          "mean": 0.04043807037456493,
+          "median": 0.012751953928424518,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fn_components": {
+          "ci95_mean": [
+            -0.15151515151515152,
+            -0.04040404040404041
+          ],
+          "mean": -0.09090909090909091,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fp_components": {
+          "ci95_mean": [
+            -0.20202020202020202,
+            0.46464646464646464
+          ],
+          "mean": 0.1414141414141414,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "lesion_f1": {
+          "ci95_mean": [
+            -0.002776752860484916,
+            0.055297338911772645
+          ],
+          "mean": 0.02599645988800694,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.050505050505050504
+          ],
+          "mean": 0.020202020202020204,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin2": {
+          "ci95_mean": [
+            0.020202020202020204,
+            0.1111111111111111
+          ],
+          "mean": 0.06060606060606061,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.030303030303030304
+          ],
+          "mean": 0.010101010101010102,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_recall": {
+          "ci95_mean": [
+            0.009179421768707483,
+            0.06497874149659857
+          ],
+          "mean": 0.0336734693877551,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "merges": {
+          "ci95_mean": [
+            -0.050505050505050504,
+            0.09090909090909091
+          ],
+          "mean": 0.020202020202020204,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "precision": {
+          "ci95_mean": [
+            0.028041166979849985,
+            0.05497186387968535
+          ],
+          "mean": 0.04075717887272982,
+          "median": 0.011272141706924317,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_components": {
+          "ci95_mean": [
+            -0.10101010101010101,
+            0.5454545454545454
+          ],
+          "mean": 0.23232323232323232,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "recall": {
+          "ci95_mean": [
+            0.03520936484803398,
+            0.07689963245698336
+          ],
+          "mean": 0.054606209886111555,
+          "median": 0.022490072897528628,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "signed_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "splits": {
+          "ci95_mean": [
+            -0.04040404040404041,
+            0.10101010101010101
+          ],
+          "mean": 0.030303030303030304,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin2": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_components": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        }
+      },
+      "n": 99
+    },
+    "candidate_nn_minus_tree": {
+      "metrics": {
+        "absolute_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "component_recall_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.008960573476702509
+          ],
+          "mean": 0.0035842293906810036,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 93
+        },
+        "component_recall_bin2": {
+          "ci95_mean": [
+            0.022727272727272728,
+            0.29545454545454547
+          ],
+          "mean": 0.1590909090909091,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 44
+        },
+        "component_recall_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.15789473684210525
+          ],
+          "mean": 0.05263157894736842,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 19
+        },
+        "dice": {
+          "ci95_mean": [
+            0.007818047491804394,
+            0.04680257588253138
+          ],
+          "mean": 0.02689692932023464,
+          "median": 0.00826787928896238,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fn_components": {
+          "ci95_mean": [
+            -0.1717171717171717,
+            -0.030303030303030304
+          ],
+          "mean": -0.10101010101010101,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fp_components": {
+          "ci95_mean": [
+            0.2522727272727273,
+            1.4952020202020189
+          ],
+          "mean": 0.8888888888888888,
+          "median": 1.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "lesion_f1": {
+          "ci95_mean": [
+            -0.010426714118899129,
+            0.05292509607700995
+          ],
+          "mean": 0.02075564806824775,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.050505050505050504
+          ],
+          "mean": 0.020202020202020204,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin2": {
+          "ci95_mean": [
+            0.010101010101010102,
+            0.13131313131313133
+          ],
+          "mean": 0.0707070707070707,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.030303030303030304
+          ],
+          "mean": 0.010101010101010102,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_recall": {
+          "ci95_mean": [
+            0.00447845804988662,
+            0.06545316043083897
+          ],
+          "mean": 0.0326672335600907,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "merges": {
+          "ci95_mean": [
+            -0.1717171717171717,
+            0.030303030303030304
+          ],
+          "mean": -0.0707070707070707,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "precision": {
+          "ci95_mean": [
+            0.0011158746165191866,
+            0.044614008593043604
+          ],
+          "mean": 0.023328534251765946,
+          "median": 0.00536768652710682,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_components": {
+          "ci95_mean": [
+            0.35353535353535354,
+            1.5962121212121199
+          ],
+          "mean": 0.98989898989899,
+          "median": 1.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "recall": {
+          "ci95_mean": [
+            -0.002485416798389293,
+            0.06741318251927843
+          ],
+          "mean": 0.031750074435505975,
+          "median": 0.011783416037199096,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "signed_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "splits": {
+          "ci95_mean": [
+            -0.020202020202020204,
+            0.1414141414141414
+          ],
+          "mean": 0.06060606060606061,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin2": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_components": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        }
+      },
+      "n": 99
+    },
+    "common_fusion_minus_tree": {
+      "metrics": {
+        "absolute_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "component_recall_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.01164874551971326
+          ],
+          "mean": 0.004480286738351254,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 93
+        },
+        "component_recall_bin2": {
+          "ci95_mean": [
+            0.022727272727272728,
+            0.22727272727272727
+          ],
+          "mean": 0.11363636363636363,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 44
+        },
+        "component_recall_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.15789473684210525
+          ],
+          "mean": 0.05263157894736842,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 19
+        },
+        "dice": {
+          "ci95_mean": [
+            0.027149931739316634,
+            0.05223086120850601
+          ],
+          "mean": 0.03893797980989933,
+          "median": 0.012383488681757648,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fn_components": {
+          "ci95_mean": [
+            -0.13131313131313133,
+            -0.030303030303030304
+          ],
+          "mean": -0.08080808080808081,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fp_components": {
+          "ci95_mean": [
+            -0.28308080808080804,
+            0.2828282828282828
+          ],
+          "mean": 0.010101010101010102,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "lesion_f1": {
+          "ci95_mean": [
+            -0.00020488770488770564,
+            0.052489448739448705
+          ],
+          "mean": 0.02566297566297566,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.050505050505050504
+          ],
+          "mean": 0.020202020202020204,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin2": {
+          "ci95_mean": [
+            0.010101010101010102,
+            0.10101010101010101
+          ],
+          "mean": 0.050505050505050504,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.030303030303030304
+          ],
+          "mean": 0.010101010101010102,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_recall": {
+          "ci95_mean": [
+            0.007397959183673469,
+            0.0631122448979591
+          ],
+          "mean": 0.03163265306122449,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "merges": {
+          "ci95_mean": [
+            -0.030303030303030304,
+            0.09090909090909091
+          ],
+          "mean": 0.030303030303030304,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "precision": {
+          "ci95_mean": [
+            0.027530331041220962,
+            0.05312779611697912
+          ],
+          "mean": 0.03970280047043063,
+          "median": 0.011272141706924317,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_components": {
+          "ci95_mean": [
+            -0.20227272727272724,
+            0.35353535353535354
+          ],
+          "mean": 0.09090909090909091,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "recall": {
+          "ci95_mean": [
+            0.035023399195729575,
+            0.07604933337765436
+          ],
+          "mean": 0.05381056412947751,
+          "median": 0.015721235378110543,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "signed_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "splits": {
+          "ci95_mean": [
+            0.0,
+            0.1414141414141414
+          ],
+          "mean": 0.0707070707070707,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin2": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_components": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        }
+      },
+      "n": 99
+    },
+    "common_nn_minus_tree": {
+      "metrics": {
+        "absolute_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "component_recall_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.008960573476702509
+          ],
+          "mean": 0.0035842293906810036,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 93
+        },
+        "component_recall_bin2": {
+          "ci95_mean": [
+            0.0,
+            0.2727272727272727
+          ],
+          "mean": 0.13636363636363635,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 44
+        },
+        "component_recall_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.15789473684210525
+          ],
+          "mean": 0.05263157894736842,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 19
+        },
+        "dice": {
+          "ci95_mean": [
+            0.00953161386350543,
+            0.04841863148400659
+          ],
+          "mean": 0.02891981947413197,
+          "median": 0.00826787928896238,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fn_components": {
+          "ci95_mean": [
+            -0.15151515151515152,
+            -0.030303030303030304
+          ],
+          "mean": -0.09090909090909091,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "fp_components": {
+          "ci95_mean": [
+            -0.45454545454545453,
+            0.7578282828282814
+          ],
+          "mean": 0.16161616161616163,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "lesion_f1": {
+          "ci95_mean": [
+            -0.0044928558772952395,
+            0.05743491286068084
+          ],
+          "mean": 0.025591235688642657,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.050505050505050504
+          ],
+          "mean": 0.020202020202020204,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin2": {
+          "ci95_mean": [
+            0.0,
+            0.12121212121212122
+          ],
+          "mean": 0.06060606060606061,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.030303030303030304
+          ],
+          "mean": 0.010101010101010102,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "matched_recall": {
+          "ci95_mean": [
+            0.002842616213151928,
+            0.06311437074829929
+          ],
+          "mean": 0.030626417233560087,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "merges": {
+          "ci95_mean": [
+            -0.1717171717171717,
+            0.04040404040404041
+          ],
+          "mean": -0.06060606060606061,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "precision": {
+          "ci95_mean": [
+            0.003497249493709911,
+            0.04642022621695708
+          ],
+          "mean": 0.025591385523946217,
+          "median": 0.008490930142802028,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_components": {
+          "ci95_mean": [
+            -0.373989898989899,
+            0.8585858585858586
+          ],
+          "mean": 0.25252525252525254,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "pred_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "recall": {
+          "ci95_mean": [
+            0.002226799977339901,
+            0.07227302276041497
+          ],
+          "mean": 0.03675944597239978,
+          "median": 0.013947186196054246,
+          "n_total": 99,
+          "n_valid": 98
+        },
+        "signed_error_ml": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "splits": {
+          "ci95_mean": [
+            -0.04040404040404041,
+            0.12121212121212122
+          ],
+          "mean": 0.04040404040404041,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin1": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin2": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_component_bin3": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        },
+        "truth_components": {
+          "ci95_mean": [
+            0.0,
+            0.0
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "n_total": 99,
+          "n_valid": 99
+        }
+      },
+      "n": 99
+    }
+  },
+  "patients": 99,
+  "primary": "equal_candidate_fusion minus equal_candidate_tree Dice"
+}

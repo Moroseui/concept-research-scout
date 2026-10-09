@@ -83,3 +83,40 @@ def test_missing_closure_never_closes_generic_uncertainty(tmp_path):
     batch.register_run('new',{})
     batch.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)',('other','scientific','old',1,'2000-01-01','UNCERTAIN','{}','{}'))
     with pytest.raises(ValueError,match='UNCERTAIN'):batch.reserve_scientific('newcall','new','run_spec_author','a'*40,{})
+
+
+def test_item4_compute_reuses_exact_closure_without_rewriting_rows(closed):
+    from orchestrator.modal_budget import ComputeAccounts
+    from orchestrator import modal_item4_budget as item4
+    from test_modal_item4_budget import bound as fit_binding, reserve
+    root,batch,lane=closed
+    before=c.rows(batch.db,'autonomy_calls',c.RUN)
+    batch.register_run('item4',{'backlog_item':4,'experiment_authority_sha256':item4.AUTHORITY})
+    accounts=ComputeAccounts(batch)
+    assert reserve(accounts,fit_binding()) is True
+    assert reserve(accounts,fit_binding()) is False
+    assert c.rows(batch.db,'autonomy_calls',c.RUN)==before
+    assert batch.db.execute('SELECT count(*) FROM autonomy_calls').fetchone()[0]==3
+    assert batch.db.execute('SELECT count(*) FROM autonomy_compute').fetchone()[0]==1
+
+
+@pytest.mark.parametrize('damage',['global-row','local-row','report','new-uncertain','new-running'])
+def test_item4_compute_retains_closure_and_generic_uncertainty_refusals(closed,damage):
+    from orchestrator.modal_budget import ComputeAccounts
+    from orchestrator import modal_item4_budget as item4
+    from test_modal_item4_budget import bound as fit_binding, reserve
+    root,batch,lane=closed
+    batch.register_run('item4',{'backlog_item':4,'experiment_authority_sha256':item4.AUTHORITY})
+    accounts=ComputeAccounts(batch)
+    if damage=='global-row':batch.db.execute("UPDATE autonomy_calls SET binding='changed' WHERE id='old0'")
+    elif damage=='local-row':
+        with sqlite3.connect(bound(root,lane+'/jobs.sqlite')) as db:db.execute("UPDATE manual_calls SET status='RUNNING' WHERE id='old0'")
+    elif damage=='report':bound(root,lane+'/REPORT.md').write_text('changed')
+    else:
+        status='UNCERTAIN' if damage=='new-uncertain' else 'RUNNING'
+        batch.db.execute('INSERT INTO autonomy_calls VALUES(?,?,?,?,?,?,?,?)',('unrelated','scientific','another',1,'2000-01-01',status,'{}','{}'))
+    before=c.rows(batch.db,'autonomy_calls')
+    with pytest.raises(ValueError,match='CLOSURE_|BATCH_UNCERTAIN_OR_RUNNING_CALL'):
+        reserve(accounts,fit_binding())
+    assert c.rows(batch.db,'autonomy_calls')==before
+    assert batch.db.execute('SELECT count(*) FROM autonomy_compute').fetchone()[0]==0

@@ -15,7 +15,8 @@ CATEGORIES = ('test-set/leakage', 'code/spec mismatch', 'metric/statistic',
               'privacy/secret', 'budget', 'execution authority/provenance')
 TOOLS = ('Read', 'Glob', 'Grep')
 MAX_INPUT_CHARACTERS = 200_000
-MAX_ROUNDS = 2
+MAX_ROUNDS = 3
+ROUND_AUTHORITY = '12b6804474fe3f16092891e831d387b4edc02b9d3dc0e9b36f28d84e224a7e6b'
 MAX_READ_TURNS = 60
 BRIEF_PURPOSE = ("This is a defensive, read-only code review of the operator's own "
                  "research-automation software. You are asked only to read the listed "
@@ -222,6 +223,15 @@ def write_once(path, raw):
     path.chmod(0o400)
 
 
+
+def round_authority():
+    # Direct operator text binding for new admission; historical receipts remain valid.
+    path = Path(__file__).resolve().parents[1]/'docs/ADMINISTRATIVE_REVIEW_OPERATOR_DECISION_20261008.txt'
+    if sha(regular(path).read_bytes()) != ROUND_AUTHORITY:
+        raise ValueError('ADMINISTRATIVE_ROUND_AUTHORITY_CHANGED')
+    return ROUND_AUTHORITY
+
+
 def prepare(repo, source_sha, runtime_file, evidence, source_files, destination,
             brief, *, change_id, round_number=1, predecessor=None, prompt_version=6):
     """Snapshot named source from Git; retain original evidence bytes and bindings.
@@ -235,19 +245,23 @@ def prepare(repo, source_sha, runtime_file, evidence, source_files, destination,
         raise ValueError('FULL_SOURCE_SHA_REQUIRED')
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,100}', change_id):
         raise ValueError('REVIEW_CHANGE_ID_REQUIRED')
-    if type(round_number) is not int or round_number not in (1, 2):
-        raise ValueError('REVIEW_TWO_ROUND_LIMIT')
-    if round_number == 2:
+    round_authority()
+    if type(round_number) is not int or not 1 <= round_number <= MAX_ROUNDS:
+        raise ValueError('REVIEW_THREE_ROUND_LIMIT')
+    if round_number > 1:
         if not predecessor or not brief.strip():
             raise ValueError('REPAIR_AND_PREDECESSOR_REQUIRED')
         if (Path(predecessor)/'receipt.json').exists():
             prior = verify_result(Path(predecessor))
-            if prior['verdict'] not in ('CHANGES REQUIRED','REVISE') or prior['change_id'] != change_id or prior['round'] != 1:
+            if prior['verdict'] not in ('CHANGES REQUIRED','REVISE') or prior['change_id'] != change_id or prior['round'] != round_number - 1:
                 raise ValueError('REVIEW_PREDECESSOR_SCOPE')
             prior_binding = {'receipt_sha256': sha(regular(Path(predecessor)/'receipt.json').read_bytes()),
                              'report_sha256': prior['report_sha256']}
         else:
-            prior_binding = verify_turn_exhaustion(Path(predecessor))
+            original_raw = regular(Path(predecessor)/'packet-manifest.json').read_bytes()
+            prior_binding = (verify_manifest_reader_failure(Path(predecessor))
+                             if sha(original_raw) == MANIFEST_RECOVERY_PACKET
+                             else verify_turn_exhaustion(Path(predecessor)))
             if prior_binding['change_id'] != change_id or prior_binding['round'] != 1:
                 raise ValueError('REVIEW_PREDECESSOR_SCOPE')
         prior_manifest = json.loads(regular(Path(predecessor)/'packet-manifest.json').read_text())
@@ -288,7 +302,9 @@ def prepare(repo, source_sha, runtime_file, evidence, source_files, destination,
                 'predecessor': prior_binding, 'source_files': source_rows,
                 'scope': 'only the listed source files and affected connections accessible here',
                 'files': {k: sha(v) for k, v in sorted(bodies.items())}}
-    if round_number == 2:
+    if round_number > 1:
+        if prior_binding.get('kind') == 'authorized_manifest_reader_recovery':
+            verify_manifest_recovery_scope(manifest, prior_manifest)
         if prior_binding.get('kind') in ('known_terminal_30_turn_exhaustion', 'known_terminal_60_turn_exhaustion'):
             verify_completion_scope(manifest, prior_manifest)
         substantive = lambda m: (m['source_sha'], m['runtime_sha256'], {k:v for k,v in m['files'].items() if k != 'BRIEF.md'})
@@ -521,6 +537,56 @@ def report_verdict(report, manifest):
     if verdicts[0] == 'CHANGES REQUIRED' and not blockers:
         raise ValueError('REVIEW_BLOCKER_EVIDENCE_REQUIRED')
     return verdicts[0]
+
+
+# One-use operator authorization, 2026-10-07. This is intentionally not a
+# general retry policy. The reviewed constants bind the only authorized failed
+# attempt and original accounting row; neither an unusable verdict nor a new
+# caller-supplied permit can qualify any other failure for resubmission.
+MANIFEST_RECOVERY_PACKET = '4fb4de6db46a0d52a96fafea6855f5ff8903a978b8418c85c9573f5442e57fa7'
+MANIFEST_RECOVERY_AUTHORITY = 'acdf5d6e5208514a469c14276ddf6702c4f0e76ce11c58d0e0b17abfd62bdd53'
+MANIFEST_RECOVERY_ROW = 'efb841b033c142506bda72d20868c5715e1e400813103759ffcab5200859650d'
+MANIFEST_RECOVERY_FILES = {
+    'credential-cleanup.json': 'aed8222370e60ccfef17617c0f02c078f985873223ff4572252187f0c780a1e4',
+    'final-prose.txt': 'f37e8b19412fc1840cf040edbefb4dea778468d71c2db139c41f5e45e3fe50c9',
+    'inspection-binding.json': 'e1fa26f2b82a3ffdd78677dcc61ce7cef979acaf38becf758c81bb938f127c1f',
+    'native-stderr.log': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+    'native-stream.jsonl': '9ae765654574348c8ae8003683304da228406473e307d6372b5f6fecfd278d82',
+    'packet-manifest.json': '4fb4de6db46a0d52a96fafea6855f5ff8903a978b8418c85c9573f5442e57fa7',
+    'process-exit.json': '7c265ccb0b8e84fe2e857c85e1fc12636d1f06cd5fd7501a230b8ff9ce167037',
+    'process.json': 'de3d0e70c5e62e1510265caa3ab959707bb1656b6475e258860821cc16150f5d',
+    'submission.json': '04a3e8712de38fab6faa116a2e76aac62276a2dda96a5a6bb2ab201f38427f21',
+}
+
+
+def verify_manifest_reader_failure(folder):
+    folder = Path(folder)
+    if (folder/'receipt.json').exists() or (folder/'report.md').exists():
+        raise ValueError('MANIFEST_RECOVERY_ALREADY_QUALIFIED')
+    for name, expected in MANIFEST_RECOVERY_FILES.items():
+        if sha(regular(folder/name).read_bytes()) != expected:
+            raise ValueError('MANIFEST_RECOVERY_ORIGINAL_CHANGED')
+    original = json.loads(regular(folder/'packet-manifest.json').read_text())
+    exit_record = json.loads(regular(folder/'process-exit.json').read_text())
+    submission = json.loads(regular(folder/'submission.json').read_text())['submission']
+    if (sha(canonical(original)) != MANIFEST_RECOVERY_PACKET or original['round'] != 1 or
+            exit_record.get('exit_code') != 0 or exit_record.get('uncertain') is not False or
+            submission.get('verdict') != 'APPROVE' or submission.get('findings') != []):
+        raise ValueError('MANIFEST_RECOVERY_NOT_AUTHORIZED')
+    return {'kind': 'authorized_manifest_reader_recovery',
+            'packet_sha256': MANIFEST_RECOVERY_PACKET,
+            'authority_sha256': MANIFEST_RECOVERY_AUTHORITY,
+            'original_row_sha256': MANIFEST_RECOVERY_ROW,
+            'original_files': dict(MANIFEST_RECOVERY_FILES),
+            'change_id': original['change_id'], 'round': 1, 'completion_round': 2}
+
+
+def verify_manifest_recovery_scope(manifest, original):
+    verify_completion_scope(manifest, original)
+    if (manifest.get('round') != 2 or original.get('round') != 1 or
+            sha(canonical(original)) != MANIFEST_RECOVERY_PACKET or
+            manifest['files'].get('evidence/MECHANICAL_RETRY_AUTHORITY.txt') != MANIFEST_RECOVERY_AUTHORITY):
+        raise ValueError('MANIFEST_RECOVERY_SCOPE_OR_AUTHORITY')
 
 
 def verify_turn_exhaustion(folder):

@@ -152,7 +152,7 @@ with sqlite3.connect('file:'+str(LEDGER)+'?mode=rw',uri=True) as db:
     db.execute('BEGIN IMMEDIATE')
     day=datetime.now(timezone.utc).date().isoformat()
     if (LEDGER.parent/'HALT').exists():raise ValueError('AUTONOMY_BATCH_HALTED')
-    if type(p['daily_limit']) is not int or p['daily_limit']!=30:raise ValueError('LEDGER_DAILY_LIMIT_BINDING')
+    if type(p['daily_limit']) is not int or p['daily_limit']!=50:raise ValueError('LEDGER_DAILY_LIMIT_BINDING')
     if db.execute('SELECT count(*) FROM autonomy_calls WHERE day=?',(day,)).fetchone()[0]>=p['daily_limit']:raise ValueError('AUTONOMY_DAILY_CALL_LIMIT')
     prior=db.execute('SELECT status,binding,receipt FROM autonomy_calls WHERE change_id=? ORDER BY round',(CHANGE,)).fetchall()
     if len(prior)>=p['round_limit'] or manifest['round']!=len(prior)+1:raise ValueError('MANUAL_REVIEW_TWO_ROUND_LIMIT')

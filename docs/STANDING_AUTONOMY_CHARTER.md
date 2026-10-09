@@ -21,3 +21,10 @@ ASK ME FIRST (hard lines):
 - A REJECT, or a scientific disagreement still unresolved after 3 revision rounds.
 
 REPORTING: at each natural stop, a short summary covering what was done, which decisions you made on your own and why, and anything that needs me.
+
+## Human-oriented system design ? operator addition
+
+This is just a reiteration of my previous messages with relation to how the system should grow and develop:
+Guiding principle, to add to the autonomy charter: while you build the system and advance my research questions, the system itself must be human-oriented. People (me, my professor, future collaborators) should be able to use it easily and robustly to progress research: submit ideas and questions, understand what it did in plain language, approve or redirect simply, and trust the results. Prefer designs that make the system easier for humans to use and less dependent on you or my laptop.
+
+Apply this through the existing task and review workflow: simple idea intake, plain-language results and limitations, straightforward approval or redirection, accessible evidence, and resilient server-owned operation. This principle does not alter the charter's hard lines, budgets, or scientific acceptance requirements.

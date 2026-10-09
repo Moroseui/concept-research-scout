@@ -1,0 +1,418 @@
+# Factual context prepared for the next authorized author continuation
+
+No scientific artifact has been edited or accepted by infrastructure. Original author3 plan/spec/notebook patch are preserved. The native author3 failure is OUTPUT_VALIDATION_REFUSED: EXPERIMENT_DECLARED_PREPROCESSING_SCOPE; seven preprocessing rows have null input_contract_sha256 and source_capture_sha256. The exact installed validator remains unchanged.
+
+Both frozen input inventory candidates already use the canonical encoding expected by experiment_preprocessing.execute: base792files SHA0bb9724ca066429f2ee1a7145a7984b5d6f8bb21b39342b4e13213e826f601df; withCTP891files SHAd2a8a97ac7fcee0c21b4b061215f347e965b4308fcf2fbbe2f3cf70fe375af92. Both map exactly to frozen99, excluded49 overlap0. Authentic source capture SHA b252b308815e983df2d9d86975a6d590e20d2600ea2f118696263797e8509f5c. These records were absent from author3 prompt. They are candidate inventory facts, not native Volume readiness, scientific arm choices or execution approval. Author must select applicable records and validate all required source modalities.
+
+All seven proposed partition hashes2c197a9addf40af4d75dd220a095b62130b0ca58ffbe5dce8eb73dff570f64f8 match the existing authenticated development-only capture. Record PARTITION_PROVENANCE_RECONCILED.json pins source readiness evidence and prior scan; no mixed original file reread. Author3 proposed split output hashd339296ca3b1672fc744e14188b36c1860b379a38b807eca67d8b73038007c86 also matches existing full-five-fold candidate membership encoded exactly as author's canonical() does (sorted JSON keys, compact separators, newline). Different older raw candidatehash is serialization, not contradictory membership. SPLIT_SERIALIZATION_RECONCILIATION.json records this without executing or modifying scientific code.
+
+For next author context, deliver authentic inventories/source metadata, partition capture and these factual receipts through the existing private artifact route, together with current installed declaration validator and exact preprocessing/fit adapter interfaces. Include actual source of experiment_preprocessing.execute contract construction and output validator; author must align its notebook functions with those genuine interfaces. Do not fill hashes inside the scientific plan ourselves or claim tests/native execution passed. Full independent scientific review still required.
+
+Native continuation not yet applied. Old item4-plan-format-recovery helper pins author2; never replay it against author3. Any bounded continuation must preserve author3 originals, all rounds/charges, owner/caps and genuine validator, with independent implementation review before application. No model call, state mutation or input provisioning here.
+
+
+Installed controller source8e042339; experiment_plan_output.py SHA256 c1fae037f23d9d395027779dbc5fa8878829c868f4708c9c379d0af1f489e0db
+"""Author-owned item4 plan output, separate from immutable operator selection.
+
+Only the explicitly selected new preparation mode uses this connection. No
+fit, scientific parameter, runtime selection or execution approval is invented.
+"""
+import re
+from pathlib import Path
+from orchestrator import context_budget as cb, manual_context as mc, private_records as pr
+from orchestrator.manual_executor import digest
+from orchestrator.review_contract import strict_json
+
+MODE = "author-output/v1"
+OUTPUT = "execution.plan.json"
+ARTIFACT = "authored-execution-plan"
+LIMIT = 80000
+
+
+def enabled(config):
+    mode = config.get("authored_execution_plan")
+    if mode is not None and (mode != MODE or config.get("item_number") != 4):
+        raise ValueError("EXPERIMENT_AUTHORED_PLAN_MODE")
+    return mode == MODE
+
+
+def cohort(driver):
+    from orchestrator import scientific_intake as intake
+    ref = driver.config["private_intake"]
+    raw = cb.relative_file(driver.context, ref["path"]).read_bytes()
+    if digest(raw) != ref["sha256"]: raise ValueError("EXPERIMENT_REGISTRY_CHANGED")
+    registry = strict_json(raw)
+    original = cb.relative_file(driver.context, registry["cohort"]).read_bytes()
+    return original, intake.cohort(original)
+
+
+def validate(raw, selected, cases, cohort_raw, *, partitions_sha256=None):
+    """Check delivery/schema using the same fit/result/projection consumers."""
+    from orchestrator import scientific_intake, experiment_result
+    from orchestrator.experiment_preprocessing import scope
+    from orchestrator import experiment_environment_requirements as requirements
+    if not isinstance(raw, bytes) or len(raw) > LIMIT:
+        raise ValueError("EXPERIMENT_AUTHORED_PLAN_LIMIT")
+    scientific_intake.scan(raw, cases, kind="plan")
+    from orchestrator.git_publication import scan
+    scan("context/execution.plan.json", raw)
+    plan = strict_json(raw)
+    fields = {"schema", "run_id", "operator_scope_sha256", "dispatch_mode", "fits", "preprocessing", "full_training"}
+    declared = isinstance(plan, dict) and plan.get("schema") == requirements.PLAN_SCHEMA
+    if declared: fields.add("environment_requirements")
+    if (not isinstance(plan, dict) or set(plan) != fields
+            or plan["schema"] not in {"scientific-execution-plan/v1", requirements.PLAN_SCHEMA}
+            or plan["run_id"] != selected["run_id"]
+            or plan["operator_scope_sha256"] != selected["plan_sha256"]
+            or plan["dispatch_mode"] != "incremental"
+            or not isinstance(plan["fits"], list) or not plan["fits"]
+            or not isinstance(plan["preprocessing"], list)):
+        raise ValueError("EXPERIMENT_AUTHORED_PLAN_BINDING")
+    if declared:
+        requirements.validate(plan["environment_requirements"])
+        if partitions_sha256 is None or not plan["preprocessing"]:
+            raise ValueError("EXPERIMENT_DECLARED_PARTITIONS_REQUIRED")
+    from orchestrator.experiment_plan_validation import validate_fits, contract
+    validate_fits(plan, incremental=True)
+    fit_ids = [f["fit_id"] for f in plan["fits"]]
+    ids = [p.get("id") for p in plan["preprocessing"] if isinstance(p, dict)]
+    if (len(ids) != len(plan["preprocessing"]) or len(set(ids)) != len(ids)
+            or len(set(fit_ids)) != len(fit_ids)
+            or any(not isinstance(x, str) or not re.fullmatch("[a-zA-Z0-9_-]{1,96}", x) for x in fit_ids)
+            or (ids and set(ids) != {f.get("preprocessing_id") for f in plan["fits"]})):
+        raise ValueError("EXPERIMENT_AUTHORED_PLAN_IDENTITIES")
+    from orchestrator.experiment_partition_input import require_plan
+    require_plan(plan, partitions_sha256)
+    for row in plan["preprocessing"]:
+        if declared:
+            requirements.preprocessing(row, plan, cohort_raw)
+        else:
+            scope({"preprocessing": row, "resources": {"gpu": None}, "experiment": {"stage": "SMOKE"}}, plan, cohort_raw)
+    for fit in plan["fits"]:
+        experiment_result.selected(plan, {"experiment": {"fit_id": fit["fit_id"]}, "outputs": fit["outputs"]})
+    contract(plan)
+    return plan
+
+
+def ref(driver, value):
+    rows = [r for r in mc.selected_artifacts("run_spec_review", value["artifacts"])
+            if r["id"] == ARTIFACT and r["type"] == "configuration"]
+    if len(rows) != 1: raise ValueError("EXPERIMENT_AUTHORED_PLAN_REQUIRED")
+    row = rows[0]
+    raw = pr.check(cb.relative_file(driver.context, row["path"])).read_bytes()
+    if digest(raw) != row["sha256"]: raise ValueError("EXPERIMENT_AUTHORED_PLAN_CHANGED")
+    from orchestrator.experiment_context import selection
+    original, cases = cohort(driver)
+    from orchestrator.experiment_partition_input import plan_pin
+    validate(raw, selection(driver), cases, original, partitions_sha256=plan_pin(driver.config, driver.context))
+    return row
+
+
+def preserve(driver, value, pending, raw):
+    from orchestrator.manual_driver import write_once
+    from orchestrator.experiment_context import selection
+    original, cases = cohort(driver)
+    from orchestrator.experiment_partition_input import plan_pin
+    validate(raw, selection(driver), cases, original, partitions_sha256=plan_pin(driver.config, driver.context))
+    relative = "current/runs/" + digest(driver.config["run_id"].encode()) + "/execution-plan-" + str(pending["round"]) + ".json"
+    write_once(driver.context/relative, raw)
+    row = {"id": ARTIFACT, "type": "configuration", "version": pending["round"],
+           "path": relative, "sha256": digest(raw)}
+    # Keep each prior version; selected_artifacts delivers only the newest.
+    if row not in value["artifacts"]: value["artifacts"].append(row)
+    if ref(driver, value) != row: raise ValueError("EXPERIMENT_AUTHORED_PLAN_VERSION")
+    return row
+
+
+def instructions(selected):
+    return ("Write execution.plan.json as strict JSON (at most 80000 bytes; no duplicate keys). "
+        "This is your scientific plan; the separately supplied original execution selection is operator constraints, "
+        "not an invented or already approved fit plan. Use exactly schema, run_id, operator_scope_sha256, "
+        "dispatch_mode, fits, preprocessing, full_training and environment_requirements. "
+        "schema is scientific-execution-plan/v2; "
+        "run_id is " + selected["run_id"] + "; operator_scope_sha256 is " + selected["plan_sha256"] + ". "
+        "dispatch_mode is incremental. Choose the complete scientific fits, preprocessing and full_training "
+        "under the supplied operator constraints and recorded evidence. Each fit contains only fit_id, stage "
+        "(SMOKE or FULL), arm, fold, realization, outputs and validation_checks; include preprocessing_id "
+        "when preprocessing is declared. Use declared-preprocessing-partitions/v1 and measured-full-training/v1. "
+        "environment_requirements uses scientific-environment-requirements/v1 with exactly schema, python "
+        "(major.minor), packages (canonical distribution names to exact versions), and cuda (major.minor). "
+        "Choose scientifically justified dependencies; the existing runtime requires nnunetv2 2.8.1 and torch. "
+        "These are declared requirements, not an observed image. The supplied synthetic CPU environment "
+        "tests your code; its hash is not the future execution environment. Each preprocessing row uses "
+        "environment_requirements_sha256, the SHA256 of its requirements encoded as sorted compact JSON "
+        "with a final newline, instead of environment_sha256. Preserve all real original input, cohort, "
+        "source, split and partition bindings. A later root-selected image must satisfy these exact reviewed "
+        "requirements with genuine native evidence before execution. Approval and sealing here do not "
+        "admit execution and never rewrite the approved plan to insert a future image. "
+        "Do not invent missing input or split hashes: report any missing "
+        "prerequisite explicitly. The independent reviewer must judge this exact plan, actual code and tests. "
+        "SPEC.proposed.md must contain exactly one run_id line, one operator_scope_sha256 line with the "
+        "original operator constraint hash above, and one execution_plan_sha256 line with SHA256 of the "
+        "exact execution.plan.json bytes you wrote. A revised plan is a new preserved version and needs review. ")
+
+
+Installed controller source8e042339; experiment_environment_requirements.py SHA256 b09b0c84c6134a603f741b61e099fba02b42670ea6dabd7014c0186783f7848e
+"""Declared item4 dependencies, not a native image or execution approval.
+
+The author chooses requirements; the existing synthetic environment tests code.
+These pure checks neither resolve an image nor construct a provider. The actual
+runtime proof and its trusted selection remain separate execution prerequisites.
+"""
+import hashlib
+import json
+import re
+
+PLAN_SCHEMA = "scientific-execution-plan/v2"
+SCHEMA = "scientific-environment-requirements/v1"
+PREPROCESSING_SCHEMA = "declared-preprocessing-partitions/v1"
+
+
+def encoded(value):
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False)+"\n").encode()
+
+
+def digest(value):
+    return hashlib.sha256(encoded(value)).hexdigest()
+
+
+def validate(value):
+    if (not isinstance(value, dict) or set(value) != {"schema", "python", "packages", "cuda"}
+            or value["schema"] != SCHEMA
+            or not isinstance(value["python"], str) or not re.fullmatch(r"3\.[0-9]{1,2}", value["python"])
+            or not isinstance(value["cuda"], str) or not re.fullmatch(r"[0-9]{1,2}\.[0-9]{1,2}", value["cuda"])
+            or not isinstance(value["packages"], dict) or not 1 <= len(value["packages"]) <= 300):
+        raise ValueError("EXPERIMENT_ENVIRONMENT_REQUIREMENTS")
+    for name, version in value["packages"].items():
+        # Canonical distribution names prevent two spellings from selecting
+        # conflicting requirements. Exact versions do not claim installation.
+        if (not isinstance(name, str) or not re.fullmatch("[a-z0-9][a-z0-9-]{0,99}", name)
+                or not isinstance(version, str) or not re.fullmatch(r"[0-9][A-Za-z0-9.+!_-]{0,79}", version)):
+            raise ValueError("EXPERIMENT_ENVIRONMENT_REQUIREMENTS")
+    # The already-existing item4 native gate requires this nnU-Net release and
+    # torch. Keep that contract visible to the author rather than invent pins.
+    if value["packages"].get("nnunetv2") != "2.8.1" or "torch" not in value["packages"]:
+        raise ValueError("EXPERIMENT_ENVIRONMENT_REQUIREMENTS")
+    return value
+
+
+def preprocessing(value, plan, cohort_raw):
+    # Reuse the existing immutable cohort/source selection. This is deliberately
+    # separate from executable scope(): no placeholder native environment hash.
+    from orchestrator.experiment_preprocessing import COHORT, SOURCE
+    fields = {"schema", "id", "input_contract_sha256", "environment_requirements_sha256",
+              "split_sha256", "plans_name", "cohort_sha256", "source_capture_sha256", "partitions_sha256"}
+    requirements = validate(plan["environment_requirements"])
+    if (not isinstance(value, dict) or set(value) != fields or value["schema"] != PREPROCESSING_SCHEMA
+            or not isinstance(value["id"], str) or not re.fullmatch("[a-zA-Z0-9_-]{1,96}", value["id"])
+            or value["cohort_sha256"] != COHORT or hashlib.sha256(cohort_raw).hexdigest() != COHORT
+            or value["source_capture_sha256"] != SOURCE
+            or value["environment_requirements_sha256"] != digest(requirements)
+            or any(not isinstance(value[k], str) or not re.fullmatch("[a-f0-9]{64}", value[k])
+                   for k in ("input_contract_sha256", "split_sha256", "partitions_sha256"))
+            or not isinstance(value["plans_name"], str) or not re.fullmatch("[a-zA-Z0-9_-]{1,96}", value["plans_name"])):
+        raise ValueError("EXPERIMENT_DECLARED_PREPROCESSING_SCOPE")
+    if [row for row in plan["preprocessing"] if row.get("id") == value["id"]] != [value]:
+        raise ValueError("EXPERIMENT_DECLARED_PREPROCESSING_BINDING")
+    return value
+
+
+def matches_native(requirements, actual):
+    """Compare requirements with metadata; this does NOT qualify its provenance.
+
+A caller must independently authenticate the pinned image and native proof.
+Returning metadata from this pure function cannot authorize execution.
+"""
+    validate(requirements)
+    if (not isinstance(actual, dict) or set(actual) != {"python", "packages", "cuda"}
+            or not isinstance(actual["python"], str)
+            or re.match(r"^"+re.escape(requirements["python"])+r"\.[0-9]+(?:\s|$)", actual["python"]) is None
+            or actual["cuda"] != requirements["cuda"] or not isinstance(actual["packages"], dict)
+            or any(actual["packages"].get(k) != v for k, v in requirements["packages"].items())):
+        raise ValueError("EXPERIMENT_ENVIRONMENT_REQUIREMENTS_UNSATISFIED")
+    return actual
+
+
+Installed controller source8e042339; experiment_partition_input.py SHA256 ffa15a1dfe27c42ee78ed910949b091919515938f948e110992af1e63c801338
+"""One registered membership original, sealed only after actual review delivery.
+
+No split generation, provider access or arbitrary host paths. Legacy selections
+remain unchanged; the new input is available only through an explicit item4 plan.
+"""
+import json
+import re
+from pathlib import Path
+from orchestrator import context_budget as cb, scientific_intake as intake
+from orchestrator.manual_executor import digest
+from orchestrator import private_records as pr
+
+FILE = "frozen-partitions.json"
+MODE = "registered-partitions/v1"
+SCHEMA = "reviewed-preprocessing-partitions/v1"
+
+
+def enabled(config):
+    ref = config.get("frozen_partitions")
+    if ref is None: return False
+    from orchestrator.experiment_plan_output import enabled as authored
+    if (not authored(config) or config.get("item_number") != 4
+            or not isinstance(ref, dict) or set(ref) != {"schema", "view_id", "sha256", "manifest_sha256"}
+            or ref["schema"] != MODE or not isinstance(ref["view_id"], str)
+            or not re.fullmatch("[A-Za-z0-9-]{1,80}", ref["view_id"])
+            or any(not isinstance(ref[k], str) or not re.fullmatch("[a-f0-9]{64}", ref[k])
+                   for k in ("sha256", "manifest_sha256"))):
+        raise ValueError("EXPERIMENT_PARTITIONS_SELECTION")
+    return True
+
+
+def resolve(config, root):
+    """Re-scan the protected registered bytes; selection does not approve science."""
+    if not enabled(config): return None
+    ref = config["frozen_partitions"]
+    descriptors, files = intake.load_views(root, config["private_intake"],
+        stage="run_spec_review", idea_ids=config["idea_ids"])
+    # Reproduce the real producer's authenticated navigation descriptors.
+    from orchestrator.manual_context import _json_reading_copy
+    for descriptor, content in files:
+        if descriptor["path"].endswith("-omissions.json"):
+            _json_reading_copy(descriptor, content)
+    registry = json.loads(cb.relative_file(root, config["private_intake"]["path"]).read_bytes())
+    matches = [row for row in registry["views"] if row["id"] == ref["view_id"]]
+    if len(matches) != 1: raise ValueError("EXPERIMENT_PARTITIONS_REGISTERED_INPUT_REQUIRED")
+    row = matches[0]
+    if any(row[k] != ref[k] for k in ("sha256", "manifest_sha256")):
+        raise ValueError("EXPERIMENT_PARTITIONS_REGISTRATION_CHANGED")
+    raw = pr.check(cb.relative_file(root, row["path"])).read_bytes()
+    manifest = json.loads(pr.check(cb.relative_file(root, row["manifest"])).read_bytes())
+    spans = manifest["spans"]
+    if (manifest["original_sha256"] != ref["sha256"] or manifest["view_sha256"] != ref["sha256"]
+            or manifest["omitted_units"] or len(spans) != 1
+            or spans[0]["start"] != 0 or spans[0]["end"] != len(raw)
+            or spans[0]["sha256"] != digest(raw) or not spans[0]["keep"]
+            or spans[0]["kind"] != "per_patient"):
+        raise ValueError("EXPERIMENT_PARTITIONS_EXACT_ORIGINAL_REQUIRED")
+    selected = [d for d in descriptors if d["id"] in
+                {ref["view_id"]+"-view.txt", ref["view_id"]+"-omissions.json"}]
+    if len(selected) != 2: raise ValueError("EXPERIMENT_PARTITIONS_DESCRIPTOR_REQUIRED")
+    seal = {"schema":MODE, "package_name":FILE, "registry_sha256":config["private_intake"]["sha256"],
+        "view_id":row["id"], "source_path":row["path"], "sha256":row["sha256"],
+        "manifest_path":row["manifest"], "manifest_sha256":row["manifest_sha256"],
+        "cohort_sha256":manifest["cohort_sha256"]}
+    return seal, raw, descriptors, selected
+
+
+def reviewed(config, root, workspace, measurement, prompt):
+    resolved = resolve(config, root)
+    if resolved is None: return None
+    seal, raw, descriptors, selected = resolved
+    index = measurement.get("private_scientific_index")
+    if (not isinstance(index, dict) or index.get("registry_sha256") != seal["registry_sha256"]
+            or cb.encoded(index) not in prompt
+            or measurement.get("private_scientific_views") != descriptors):
+        raise ValueError("EXPERIMENT_PARTITIONS_REVIEW_DELIVERY_REQUIRED")
+    index_raw = pr.check(cb.relative_file(workspace, index["path"])).read_bytes()
+    if (digest(index_raw) != index["sha256"] or json.loads(index_raw) != {
+            "schema":"private-scientific-navigation/v1", "registry_sha256":seal["registry_sha256"],
+            "views":descriptors}):
+        raise ValueError("EXPERIMENT_PARTITIONS_REVIEW_DELIVERY_CHANGED")
+    for descriptor in [index, *selected]:
+        if measurement.get("workspace_files", []).count(descriptor) != 1:
+            raise ValueError("EXPERIMENT_PARTITIONS_REVIEW_DELIVERY_REQUIRED")
+        delivered = pr.check(cb.relative_file(workspace, descriptor["path"])).read_bytes()
+        if digest(delivered) != descriptor["sha256"]:
+            raise ValueError("EXPERIMENT_PARTITIONS_REVIEW_DELIVERY_CHANGED")
+    return seal
+
+
+def plan_pin(config, root):
+    resolved = resolve(config, root)
+    return resolved[0]["sha256"] if resolved else None
+
+
+def require_plan(plan, pin):
+    from orchestrator.experiment_environment_requirements import PLAN_SCHEMA, PREPROCESSING_SCHEMA
+    expected_schema = PREPROCESSING_SCHEMA if plan.get("schema") == PLAN_SCHEMA else SCHEMA
+    rows = plan.get("preprocessing", [])
+    if pin is None:
+        if any(r.get("schema") in {SCHEMA, PREPROCESSING_SCHEMA} or "partitions_sha256" in r for r in rows):
+            raise ValueError("EXPERIMENT_PARTITIONS_UNSELECTED")
+    elif not rows or any(r.get("schema") != expected_schema or r.get("partitions_sha256") != pin for r in rows):
+        raise ValueError("EXPERIMENT_PARTITIONS_PLAN_BINDING")
+
+
+Installed adapter source excerpts (infrastructure contracts, not scientific code):
+
+orchestrator/experiment_preprocessing.py SHA256 d4290313a41cd3117a23d051c745b4b86bd8ab38fbb460d5a56a338045997af7
+    matches=[row for row in selected if row.get('id')==value['id']]
+    if matches!=[value]:raise ValueError('EXPERIMENT_PREPROCESSING_PLAN_BINDING')
+    if binding['resources']['gpu'] is not None or binding['experiment']['stage']!='SMOKE':
+        raise ValueError('EXPERIMENT_PREPROCESSING_CPU_ONLY')
+    return value
+
+
+@pr.private_umask
+def execute(module_path,inputs,progress,binding,plan,*,cohort_raw,input_files,frozen_partitions=None):
+    """Called after the parent worker's complete package/hash verification.
+
+    A repeated or interrupted invocation is never a fresh execution. Durable
+    completed-step records remain available for explicitly admitted recovery;
+    this function itself neither retries nor changes an accounting outcome.
+    """
+    selected=scope(binding,plan,cohort_raw)
+    module_path=pr.check(module_path);inputs=Path(inputs);progress=pr.check(progress)
+    partition_contract = None
+    if selected["schema"] == "reviewed-preprocessing-partitions/v1":
+        expected_path = module_path.parent/"frozen-partitions.json"
+        if frozen_partitions is None or Path(frozen_partitions) != expected_path:
+            raise ValueError("EXPERIMENT_PARTITIONS_WORKER_PATH")
+        raw = pr.check(expected_path).read_bytes()
+        if sha(raw) != selected["partitions_sha256"]:
+            raise ValueError("EXPERIMENT_PARTITIONS_WORKER_HASH")
+        from orchestrator.scientific_view_scan import scan
+        scan(raw, frozenset(json.loads(cohort_raw)["cases"]), kind="per_patient",
+             reason="Reproduce the reviewed development-only fold membership; no outcomes or clinical fields.")
+        partition_contract = {"path":str(expected_path), "sha256":sha(raw)}
+    elif frozen_partitions is not None:
+        raise ValueError("EXPERIMENT_PARTITIONS_UNSELECTED")
+    pin=binding['execution']['module_sha256']
+
+orchestrator/experiment_preprocessing.py SHA256 d4290313a41cd3117a23d051c745b4b86bd8ab38fbb460d5a56a338045997af7
+        from orchestrator.modal_input_guard import validate_inventory
+        validate_inventory(files);pr.check_tree(artifacts)
+        for path,item in files.items():
+            target=pr.check(artifacts/path)
+            if not target.is_file() or target.stat().st_size!=item['bytes']:
+                raise ValueError('EXPERIMENT_PREPROCESSING_STEP_CHANGED')
+            if file_hash(target)!=item['sha256']:raise ValueError('EXPERIMENT_PREPROCESSING_STEP_CHANGED')
+            with target.open('rb') as stream:os.fsync(stream.fileno())
+        write_step(records,name,{'binding_sha256':ident,'step':name,'files':files})
+        commit(progress);completed[name]=json.loads(encoded(files))
+    contract={'execution_plan':plan,'runtime':binding,'cohort':json.loads(cohort_raw),
+              'preprocessing':selected,'checkpoint':checkpoint}
+    if partition_contract is not None: contract['frozen_partitions'] = partition_contract
+    try:
+        from orchestrator.preprocessing_checkpoints import restore
+        inherited,snapshot=restore(progress,artifacts,binding)
+        for name,files in inherited.items():
+            write_step(records,name,{'binding_sha256':ident,'step':name,'files':files})
+        completed.update(inherited)
+        contract['completed_steps']=json.loads(encoded(completed))
+        if snapshot is not None:
+            write(attempt/'inherited.json',{'resume':binding['resume'],'snapshot':snapshot})
+            commit(progress)
+        with pr.open_file(attempt/'console.log','x') as console:
+            with contextlib.redirect_stdout(console),contextlib.redirect_stderr(console):
+                loaded=importlib.util.spec_from_file_location('reviewed_preprocessing',module_path)
+                module=importlib.util.module_from_spec(loaded);loaded.loader.exec_module(module)
+                module.preprocess(inputs,artifacts,contract)
+                returned=module.validate_preprocessing(artifacts,contract)
+        # Preserve returned evidence before qualification; never reconstruct a
+        # passing scientific receipt from a zero process exit status.
+        write(attempt/'author-validation.json',returned)
+        if not isinstance(returned,dict) or set(returned)!={'proposed','validation'}:
+            raise ValueError('EXPERIMENT_PREPROCESSING_RETURN')
+        assets={'preprocessing_code_sha256':pin,'plans_name':selected['plans_name'],
+                'split_sha256':selected['split_sha256']}
+        files=validate_preprocessed(returned['proposed'],cohort_raw,assets,
+            {k:selected[k] for k in ('input_contract_sha256','environment_sha256')},
+            cohort_sha256=COHORT,source_sha256=SOURCE)

@@ -9,9 +9,9 @@ import re
 import stat
 
 
-def bound_root(alias, volume_id):
+def _bound_root(alias, volume_id, allowed):
     alias=Path(alias)
-    if str(alias) not in {'/volume'}:
+    if str(alias) not in allowed:
         raise ValueError('DOWNLOAD_VOLUME_ALIAS')
     if not isinstance(volume_id,str) or not re.fullmatch(r'vo-[A-Za-z0-9]{1,80}',volume_id):
         raise ValueError('DOWNLOAD_VOLUME_ID')
@@ -37,3 +37,24 @@ def bound_root(alias, volume_id):
     if alias.resolve(strict=True)!=expected or alias.stat()[:3]!=target[:3]:
         raise ValueError('DOWNLOAD_VOLUME_ALIAS_CHANGED')
     return expected
+
+
+def bound_root(alias, volume_id):
+    # Preserve the downloader's one-alias contract exactly.
+    return _bound_root(alias, volume_id, {'/volume'})
+
+
+def bound_fit_roots(volume_ids):
+    """Bind only already-mounted fit roles; wheels are read-only dependency input."""
+    aliases={'inputs':'/preprocessed','progress':'/progress','package':'/reviewed'}
+    if isinstance(volume_ids,dict) and 'wheels' in volume_ids:aliases['wheels']='/wheels'
+    if (not isinstance(volume_ids,dict) or set(volume_ids)!=set(aliases)
+            or any(not isinstance(v,str) or not re.fullmatch(r'vo-[A-Za-z0-9]{1,80}',v)
+                   for v in volume_ids.values()) or len(set(volume_ids.values()))!=len(aliases)):
+        raise ValueError('FIT_VOLUME_ROLE_BINDING')
+    roots={role:_bound_root(alias,volume_ids[role],set(aliases.values()))
+           for role,alias in aliases.items()}
+    # Verify every alias again after resolving the set. Child checks stay strict.
+    if any(_bound_root(aliases[k],volume_ids[k],set(aliases.values()))!=v for k,v in roots.items()):
+        raise ValueError('FIT_VOLUME_ROLE_CHANGED')
+    return roots

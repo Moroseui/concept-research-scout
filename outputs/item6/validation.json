@@ -1,0 +1,104 @@
+{
+  "schema": "diagnostics-validation/v1",
+  "run_id": "diagnostics-b203ee1ce27e909d9d78d44a",
+  "source": "8e0423395d650bf757780c8c0877d7801815514a",
+  "spec_sha256": "4956d0d133f11de517486865858857f26f1f49e3549964ca0ac971ce90dc263f",
+  "code_sha256": "ef1c1eb749bb477d83baffbdde771824234b6dfd75fb30fd80665860d27f61cc",
+  "execution_plan_sha256": "613bb59adc7836c8a4120e0ff9e6e2df5befe6d643bb263e0a86cc84dca228a5",
+  "input_contract_sha256": "8c9a1eb91016f435baaf4fe03bb82109ece7c70d09d42488fea327c067df186e",
+  "environment_sha256": "a995dca9bf3e4fdc01af0d8f1094682bf71d534d0a029e369ea2eebddf7ca258",
+  "files": {
+    "integrity.json": {
+      "sha256": "97e936cf17ffe02acfa786438ebea1308fa1c186717236acebcdb2bb1abcc69b",
+      "bytes": 939
+    },
+    "placement.json": {
+      "sha256": "e5569c84f299539deb1362e212c6aceabe62068bdbaf3a2ccab28327640ced56",
+      "bytes": 191923
+    },
+    "components.json": {
+      "sha256": "fafdab70bde096e34a6932cafb5fb0a414bc61fdd4e001138ac2ef890efc69e7",
+      "bytes": 367241
+    },
+    "calibration.json": {
+      "sha256": "7b3d7d66e29b97be8945c449daa44850b874efe6ee3da8003414d8c1142d7b94",
+      "bytes": 77171
+    },
+    "coverage.json": {
+      "sha256": "d20b391ae0eca0242c2d701848e8e188c74cbc702ac5b6d3383daeb82e66892a",
+      "bytes": 32690
+    },
+    "availability.json": {
+      "sha256": "a618bf8f5918d707aaf96a692db9c6656353f55399ad26f26b121a3886f601a1",
+      "bytes": 1809
+    },
+    "limitations.md": {
+      "sha256": "bc67b55bcad8121e364546d62fca9c18636dd420454c0b6258beaf3d022633c2",
+      "bytes": 4293
+    }
+  },
+  "checks": [
+    {
+      "id": "binding_environment",
+      "status": "PASS",
+      "evidence": [
+        "integrity.json"
+      ]
+    },
+    {
+      "id": "saved_input_integrity",
+      "status": "PASS",
+      "evidence": [
+        "integrity.json"
+      ]
+    },
+    {
+      "id": "equal_amount",
+      "status": "PASS",
+      "evidence": [
+        "placement.json"
+      ]
+    },
+    {
+      "id": "components_router",
+      "status": "PASS",
+      "evidence": [
+        "components.json"
+      ]
+    },
+    {
+      "id": "calibration_accounting",
+      "status": "PASS",
+      "evidence": [
+        "calibration.json"
+      ]
+    },
+    {
+      "id": "coverage_accounting",
+      "status": "PASS",
+      "evidence": [
+        "coverage.json"
+      ]
+    },
+    {
+      "id": "availability_trace",
+      "status": "PASS",
+      "evidence": [
+        "availability.json"
+      ]
+    },
+    {
+      "id": "aggregate_return",
+      "status": "PASS",
+      "evidence": [
+        "integrity.json",
+        "placement.json",
+        "components.json",
+        "calibration.json",
+        "coverage.json",
+        "availability.json",
+        "limitations.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+New standing rule (operator decision), replacing case-by-case approval for repairs:
+
+**Use your own judgment** for any fix or engineering change that serves the end goal (a human-oriented research system that progresses the research), as long as it stays inside these hard lines, which still come to me:
+
+- new spending or a higher cap;
+- any access to the locked 25 or reserve 24 patients;
+- new or changed credentials;
+- publishing anything patient-derived;
+- merges to main;
+- BACKLOG content;
+- weakening any safeguard, check or refusal.
+
+Fixes to spending or accounting code that don't change amounts, limits or refusals are covered by this rule. Never relax a check just to get past a block. If a check blocks you and you think it's wrong, ask.
+
+**Get a second opinion from Claude** (through the existing reviewer route, as an administrative call) when you're unsure a fix fits the goal or the rules, when it touches safeguards, accounting, confinement or privacy code, when the same problem has recurred twice, or when the change is large, such as a new subsystem rather than a patch. Otherwise don't. Disagreement follows the existing rule: up to 3 rounds while positions move, then escalate to me.
+
+Tests and independent review before installation stay as they are. Log each judgment call in one line (what, why, whether Claude was consulted), and summarise them at each stop.

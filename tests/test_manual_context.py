@@ -130,7 +130,7 @@ def test_real_sprint10_all_four_inputs_fit_scanner_and_history_growth(root):
         # This unchanged real artifact fixture required no automatic repair.
         # Repair originals/provenance are conditional; the six-call RC3 test
         # separately proves both are supplied when a repair actually occurs.
-        conditional={"interpretation_original","interpretation_format_repair", *manual.NOTEBOOK_TYPES}
+        conditional={"interpretation_original","interpretation_format_repair", *manual.NOTEBOOK_TYPES, *manual.PROGRAM_TYPES}
         assert {x["type"] for x in measurement["selected_artifacts"]}==set(manual.STAGE_ARTIFACT_TYPES[stage])-conditional
         assert measurement["utf8_bytes"]==len(body.encode())
         assert "S10-R4-01" in body and "S9-R4-01" in body
@@ -209,7 +209,11 @@ def test_selected_new_connections_and_instruction_anchor(root,monkeypatch):
         assert "BOUND investigator_next_decision" not in body
         assert any(f["path"].endswith("-investigator_next_decision.txt") for f in measure["workspace_files"])==(stage=="result_interpretation_review")
         assert ("BOUND data_contract" in body)==stage.startswith("run_spec")
-        assert ("BOUND validator" in body)==stage.startswith("run_spec")
+        assert "BOUND validator" not in body
+        delivered=[f for f in measure["workspace_files"] if f["path"].endswith("-validator.txt")]
+        assert bool(delivered)==stage.startswith("run_spec")
+        if delivered:
+            assert (root/"workspaces"/stage/delivered[0]["path"]).read_text()=="BOUND validator"
     body,_=build(root,"result_interpretation_author")
     assert "proposed_action_type" in body and "# Summary" in body
     assert not hasattr(manual,"author_body")  # no legacy schema/prompt wrapper
