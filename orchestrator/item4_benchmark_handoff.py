@@ -16,7 +16,7 @@ from orchestrator.modal_executor import canonical
 from orchestrator.manual_driver import write_once
 from orchestrator.review_contract import strict_json
 
-CHANGE = 'item4-benchmark-handoff-20261009'
+CHANGE = 'item4-benchmark-timer-format-20261009'
 ROOT = Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD = Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 CONTRACT_SHA = '62c241b1e75372635f7a662245ad41437ee09a417b72de00cdd3496d59f07da4'

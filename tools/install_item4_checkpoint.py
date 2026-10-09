@@ -8,11 +8,11 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-benchmark-handoff-20261009'
+CHANGE='item4-benchmark-timer-format-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-checkpoint-sdk-bootstrap-20261009.service')
-PRIOR_UNIT_SHA='7af8604d335f1323f97b96fd2e7ce2e478f444fc5a5a64d8ac12ed6184cfc1ee'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-benchmark-handoff-20261009.service')
+PRIOR_UNIT_SHA='a6d467b79b4cb7ef6f8b0cbd33a8c28c322dab6dad0ffb5f4b560b406760c6bb'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -32,11 +32,37 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-checkpoint-sdk-bootstrap-20261009/tools/item4_checkpoint_runtime.py advance'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-benchmark-handoff-20261009/tools/item4_checkpoint_runtime.py advance'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
         'Description=Reviewed coverage-independent validation transition').encode()
+
+
+
+def retention_units(rendered):
+    service=UNIT.with_name('research-'+CHANGE+'-retention.service')
+    timer=UNIT.with_name('research-'+CHANGE+'-retention.timer')
+    before=(str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance').encode()
+    after=(str(ROOT/'tools/item4_checkpoint_runtime.py')+' cleanup-benchmark-package').encode()
+    require(rendered.count(before)==1,'RETENTION_COMMAND_SHAPE')
+    body=chr(10).join(['[Unit]','Description=Private benchmark package retention',
+        '[Timer]','OnBootSec=5min','OnUnitActiveSec=1h','Unit='+service.name,
+        '[Install]','WantedBy=timers.target','']).encode()
+    return {UNIT:rendered,service:rendered.replace(before,after),timer:body}
+
+
+def verify_units(units):
+    """Parse every exact rendered unit before the first installation write."""
+    import tempfile
+    with tempfile.TemporaryDirectory(prefix='item4-reviewed-unit-check-') as folder:
+        files=[]
+        for destination,raw in units.items():
+            path=Path(folder)/destination.name
+            with path.open('xb') as stream:stream.write(raw)
+            path.chmod(0o600);files.append(str(path))
+        result=subprocess.run(['systemd-analyze','verify',*files],text=True,capture_output=True)
+        require(result.returncode==0,'RENDERED_UNIT_INVALID: '+result.stderr)
 
 
 def put(path,raw):
@@ -83,11 +109,8 @@ def install(source,review):
         '-p','ActiveState','-p','MainPID','-p','ControlGroup'],text=True).splitlines())
     require(props.get('MainPID')=='0' and props.get('ControlGroup')=='' and props.get('ActiveState') in {'inactive','failed'},'PRIOR_ACTIVE')
     rendered=unit_bytes(trusted(PRIOR_UNIT).read_bytes())
-    retention=rendered.replace((str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance').encode(),
-                              (str(ROOT/'tools/item4_checkpoint_runtime.py')+' cleanup-benchmark-package').encode())
-    timer=('[Unit]\\nDescription=Private benchmark package retention\\n[Timer]\\nOnBootSec=5min\\nOnUnitActiveSec=1h\\nUnit='+
-           retention_service.name+'\\n[Install]\\nWantedBy=timers.target\\n').encode()
-    units={UNIT:rendered,retention_service:retention,retention_timer:timer}
+    units=retention_units(rendered)
+    verify_units(units)
     inputs=read_inputs(bodies['docs/ITEM4_BENCHMARK_HANDOFF_PRIVATE.json'])
     # No ledger is opened by root. The existing activated R45 seal stays intact;
     # this held installation does not activate or dispatch any work.

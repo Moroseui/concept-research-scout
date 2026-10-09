@@ -4,10 +4,10 @@ import pytest
 from tools import item4_checkpoint_runtime as route,install_item4_checkpoint as installer
 
 def test_installer_preserves_every_other_unit_line():
-    old=Path(__file__).with_name('fixtures')/'item4_benchmark_prior_unit_PRIVATE.txt'
+    old=Path(__file__).with_name('fixtures')/'item4_benchmark_timer_prior_unit_PRIVATE.txt'
     raw=old.read_bytes();new=installer.unit_bytes(raw)
-    before=b'/item4-checkpoint-sdk-bootstrap-20261009/tools/item4_checkpoint_runtime.py advance'
-    after=b'/item4-benchmark-handoff-20261009/tools/item4_checkpoint_runtime.py advance'
+    before=b'/item4-benchmark-handoff-20261009/tools/item4_checkpoint_runtime.py advance'
+    after=b'/item4-benchmark-timer-format-20261009/tools/item4_checkpoint_runtime.py advance'
     assert new==raw.replace(before,after)
     with pytest.raises(ValueError,match='PRIOR_UNIT_CHANGED'):installer.unit_bytes(raw+b' ')
 
@@ -56,10 +56,11 @@ def test_successor_requires_positive_terminal_prior_before_first_write(tmp_path,
     (review/'packet-manifest.json').write_text(json.dumps({'source_sha':'a'*40,'source_files':files}))
     monkeypatch.setattr(installer.os,'geteuid',lambda:0)
     for key in ['ROOT','RECORD','UNIT']:monkeypatch.setattr(installer,key,tmp_path/('absent-'+key))
-    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_benchmark_prior_unit_PRIVATE.txt').read_bytes())
+    prior=tmp_path/'prior-unit';prior.write_bytes((Path(__file__).with_name('fixtures')/'item4_benchmark_timer_prior_unit_PRIVATE.txt').read_bytes())
     monkeypatch.setattr(installer,'PRIOR_UNIT',prior)
     monkeypatch.setattr(installer,'trusted',lambda path:Path(path));monkeypatch.setattr(autonomy_review,'verify_result',lambda path:result)
     monkeypatch.setattr(installer.subprocess,'check_output',lambda *a,**kw:f'MainPID={pid}\nControlGroup={group}\nActiveState={state}\n')
+    monkeypatch.setattr(installer,'verify_units',lambda units:None) # Native parser tested separately.
     monkeypatch.setattr(installer,'read_inputs',lambda raw: {'preprocessing.json':b'Synthetic metadata only'})
     writes=[]
     def stop(path,raw):writes.append(path);raise RuntimeError('FIRST_WRITE_BOUNDARY')
@@ -117,3 +118,26 @@ def test_root_runtime_publication_freezes_only_expected_owner_export(tmp_path,mo
     else:
         with pytest.raises(ValueError):route.publish_runtimes()
         assert writes==[]
+
+def test_retention_timer_contains_real_lines_and_exact_cleanup_target():
+    raw=(Path(__file__).with_name('fixtures')/'item4_benchmark_timer_prior_unit_PRIVATE.txt').read_bytes()
+    rendered=installer.unit_bytes(raw);units=installer.retention_units(rendered)
+    timer=next(v for p,v in units.items() if p.suffix=='.timer')
+    assert bytes([92,110]) not in timer
+    assert timer.splitlines()==[b'[Unit]',b'Description=Private benchmark package retention',
+        b'[Timer]',b'OnBootSec=5min',b'OnUnitActiveSec=1h',
+        ('Unit=research-'+installer.CHANGE+'-retention.service').encode(),
+        b'[Install]',b'WantedBy=timers.target']
+    services=[v for p,v in units.items() if p.suffix=='.service']
+    assert rendered in services
+    cleanup=next(v for v in services if v!=rendered)
+    assert cleanup==rendered.replace(b'item4_checkpoint_runtime.py advance',
+                                    b'item4_checkpoint_runtime.py cleanup-benchmark-package')
+
+
+def test_native_parser_refusal_is_a_hard_preinstallation_error(monkeypatch):
+    from types import SimpleNamespace
+    monkeypatch.setattr(installer.subprocess,'run',lambda *args,**kwargs:
+                        SimpleNamespace(returncode=1,stderr='synthetic malformed timer'))
+    with pytest.raises(ValueError,match='RENDERED_UNIT_INVALID'):
+        installer.verify_units({Path('/synthetic/refused.timer'):b'not a unit'})

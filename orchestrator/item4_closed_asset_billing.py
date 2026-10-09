@@ -12,7 +12,7 @@ from orchestrator.review_contract import strict_json
 from orchestrator.modal_executor import canonical as binding_bytes
 from orchestrator.item4_closed_attempt_billing import snapshot, instant
 
-ROOT = Path('/opt/research-system/manual-repair-helpers/item4-benchmark-handoff-20261009')
+ROOT = Path('/opt/research-system/manual-repair-helpers/item4-benchmark-timer-format-20261009')
 CONTRACT_SHA = 'd776712dc05681eba7bb920af0b540d9cda68f7bed85a942dad3c6136fb7ae02'
 SUFFIX = ':confirmed-closed-empty-asset'
 
