@@ -1,6 +1,6 @@
 # Research status
 
-Updated 2026-10-09T06:38:47.628539+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T07:10:34.592953+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
@@ -14,9 +14,17 @@ Read-only reconciliation at06:35:47UTC: scientific and administrative services i
 
 Installed source remains8e25c24bc519c63cd7fbfb4c0a5669626366b909, implementation APPROVE193bac0749e414c2d86ef1e7f8291a8cb38f32bb811dd9e67973757693309e28. R40 received documentation-only APPROVE: the proposed bounded response fits delegation. It did not answer the staging question and is not scientific approval, implementation approval or an executable grant.
 
-R41 is a partial engineering draft, not installed or reviewed. It proposes exactly author14/review10, preserving22 original calls and final interpretation slots. Focused tests:72 passed,6 failed. All six expose the unfinished admission-layer connection to the proposed bound26-call form. Helper routing, historical evidence qualification, context and installation integration are still required. Draft code and tests are backed up for history; this combined audit tree is not a deployable release.
+R41 candidate source7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3 is complete and tested, pending independent approval; NOT installed or activated. It proposes exactly author14/review10 with all22 existing scientific calls and final interpretation slots preserved. Exact original grants, genuine REVISE9 binding, admission, cap and uncertain-call refusals remain. Author/reviewer own scientific choices.
 
-Next: complete and test the narrow continuation, obtain one batched implementation/process/direction review, then let the scientific author answer REVISE and the reviewer judge it. No installation or scientific call before genuine implementation APPROVE. GPU-smoke timing cannot yet be estimated reliably because scientific staging remains unresolved.
+The old current-stage pin on historical native evidence is replaced by original-row, submission, controller, notebook, module/support and image authentication, plus a separate exact live-stage check. Changed author14 executable/support/environment requires fresh applicable native evidence. The full read-only server prerequisite check passed against all eight original source/native proof files; zero model/provider calls.
+
+Current findings exceeded the200000-character input limit. Item4-only mandatory ordered pages retain every original byte, hash and obligation ID, with whole-original and per-page privacy scans, exact reconstruction, unchanged stop/privacy preflight and final input cap. Other requests retain their prior representation. Server context-only check passed:author34681/reviewer24540characters, sixteen pages each, preserving187752/191545original obligation bytes. This uses current author13/review9 artifacts; future author14 does not yet exist and will face ordinary context measurement.
+
+Final focused regression:291 passed in249.34seconds. Earlier failures remain recorded: missing admission connection, stale fixture expectations, and a multiple-target routing mismatch. The narrow routing correction passed61 focused checks before the complete291-test rerun. No failures are reported as passes.
+
+One batched administrative implementation/process/check-equivalence/direction review started once07:08:53UTC. Confirmed RUNNING07:09:22UTC, day22calls. No installation, activation, science or provider action before genuine APPROVE. Claude must judge equivalent protection and the bounded process authorization explicitly. Complete mandatory file delivery is not a claim that a model inspected every file.
+
+Next: genuine administrative verdict, then held installation and exact activation if approved, scientific author14 response and independent review10. The full research plan and coverage holds remain. Administrative verdict estimate5-15minutes from launch; GPU-smoke timing still depends on scientific staging and execution preparation.
 
 ## Spending
 
@@ -33,16 +41,16 @@ No reservation released. Only provider-confirmed actual cost of a closed attempt
 
 ## Calls, blockers and judgment calls
 
-UTC October9:21/50, reconciled06:35:47UTC:
+UTC October9:22/50, reconciled07:09:22UTC:
 
 - Scientific authors2: author12 and13 native-library corrections preserving the research plan.
 - Scientific reviewers3: review7 genuine REVISE; review8 reading-limit failure without submission; review9 genuine REVISE on source, native and production validation evidence.
-- Administrative implementation reviews13: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source initialization; proof/context delivery; reader-limit recovery; workspace selector/restoration (disqualified); linked mechanical successor (APPROVE).
+- Administrative implementation reviews14 (including the current RUNNING call): native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source initialization; proof/context delivery; reader-limit recovery; workspace selector/restoration (disqualified); linked mechanical successor (APPROVE); current bounded response/accounting/proof/context repair (RUNNING).
 - Standalone scope/direction checks3: retry authority, next-result plan and staged-validation proposal. The last approved the documentation only and left the precise staging question unanswered.
 
-October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction. No reset or relabeling. Administrative work dominates. Batch the concrete continuation, process authorization and direction in one necessary review; do not spend another standalone call re-reviewing the proposal.
+October8 closed47:9authors,7scientific reviews,27implementation,4scope/direction. No reset or relabeling. Administrative work dominates. The concrete continuation, process authorization and direction are now in one necessary review. No additional standalone proposal review was used.
 
-Latest explicit qualified Claude direction remains R39 PROCEED/SIMPLIFY, one round, agreed: defer the local transport-environment rebuild, billing dashboard and generic retry framework. Judgment highlights: preserve genuine REVISE; do not infer an unanswered scientific/process ruling from R40; carry staging to the scientific author; preserve original grants and accounting in the continuation; publish the unfinished draft truthfully with failing checks. No operator decision is pending.
+Latest explicit qualified Claude direction remains R39 PROCEED/SIMPLIFY, one round, agreed: defer the local transport-environment rebuild, billing dashboard and generic retry framework. Judgment highlights: preserve genuine REVISE; do not infer an unanswered scientific/process ruling from R40; carry staging to the scientific author; preserve original grants and accounting in the continuation; preserve every earlier failed check, then publish the tested candidate with its pending-review status. The new accounting, historical-proof and lossless context repairs are batched because each blocks the next scientific response. No operator decision is pending.
 
 ## Publication scope and omissions
 

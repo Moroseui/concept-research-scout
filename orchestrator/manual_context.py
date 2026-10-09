@@ -130,6 +130,22 @@ def selected_artifacts(stage, artifacts):
     return [latest[key] for key in sorted(latest)]
 
 
+def obligation_pages(root,project,idea_ids,stage):
+    """Lossless UTF-8 chunks small enough for a single native reader call."""
+    text='\n\n'.join(budget.open_obligation_text(row) for row in budget.obligations(root,project,idea_ids,stage))
+    files=[]
+    while text:
+        count=min(len(text),12000)
+        while len(text[:count].encode('utf-8'))>12000:count-=1
+        raw=text[:count].encode('utf-8');text=text[count:];pin=budget.sha(raw);index=len(files)+1
+        descriptor={'id':'open-obligations-page-'+str(index),
+            'path':'evidence/'+pin+'-open-obligations-'+str(index)+'.txt',
+            'sha256':pin,'bytes':len(raw),'characters':len(raw.decode('utf-8')),
+            'delivery':'Mandatory verbatim open obligations; read this entire page in order before acting.'}
+        files.append((descriptor,raw))
+    return files
+
+
 def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="isles24-prediction", private_intake=None, structured_review=False, reference_prior_results=False, notebook_patch=False, execution_mode=None, analysis_program=False, execution_plan=False):
     """Complete file-writing model input, with scanner and final character bound.
 
@@ -307,7 +323,7 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         'Use the current finding status index and inspect its exact finding/closure records. '
         'A closed finding is not an open blocker; a new concern requires its own evidence. '
         'Closure does not erase the original judgment or prove later execution succeeded.\n')
-    # Keep every open obligation verbatim inline. The item4 author's long
+    # Keep every open obligation verbatim; item4 uses mandatory exact pages. Its long
     # interface/output instructions (and the exact review task) use scanned, read-only file
     # delivery as source artifacts, before final measurement and materialization.
     if stage in {'run_spec_author','run_spec_review'} and execution_mode == 'sprint13b-execution':
@@ -325,13 +341,13 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         pieces.append(budget.encoded(descriptor))
         instruction = ('Read the complete scientific-'+role+'-instructions file identified in CURRENT ARTIFACTS '
             'before this stage. It contains the exact task, scientific runtime interface and output schema. '
-            'All open obligations remain verbatim below. Use only synthetic checks in this stage workspace; '
+            'All open obligations remain verbatim in this input or the mandatory ordered pages listed below. Use only synthetic checks in this stage workspace; '
             'no patient computation, provider operations or other model calls. Scientific author owns code; '
             'independent review and ordinary execution admission remain required. No instruction was shortened '
             'or omitted: the bound file is mandatory task input, not optional evidence.')
     artifacts = "\n\n".join(pieces)
     if stage == 'run_spec_review' and execution_mode == 'sprint13b-execution':
-        # Move exact navigation, never open findings, into a mandatory bound file.
+        # Move exact navigation into a mandatory bound file; findings use separate exact pages.
         # This uses the existing immutable workspace route and reader byte bound.
         raw = artifacts.encode('utf-8')
         scan('context/scientific-review-artifact-index.txt', raw)
@@ -352,9 +368,13 @@ def build(root, *, stage, idea_ids, task, artifacts, workspace=None, project="is
         instruction = ('First read the complete scientific-review-artifact-index file named in CURRENT ARTIFACTS. '
             'It contains the exact artifact navigation and mandatory instruction-file reference. ' +
             instruction.replace('identified in CURRENT ARTIFACTS', 'identified in that artifact index'))
+    pages=(obligation_pages(root,project,idea_ids,stage) if compact_navigation
+        and project=='isles24-prediction' and idea_ids==['sprint13b-execution'] else None)
+    if pages is not None:files.extend(pages)
     body, measured = budget.assemble(root, project=project, idea_ids=idea_ids, stage=stage,
         task=instruction, artifacts=artifacts,
-        extra={'CURRENT FINDING STATUS (exact records in workspace)': budget.encoded(finding_navigation)})
+        extra={'CURRENT FINDING STATUS (exact records in workspace)': budget.encoded(finding_navigation)},
+        obligation_files=pages)
     # No caller may append hidden history/schema after this final measurement.
     budget.dispatch_preflight(root, project=project, idea_ids=idea_ids, stage=stage, text=body)
     # No sendable input is returned, or workspace material delivered, on a stop.

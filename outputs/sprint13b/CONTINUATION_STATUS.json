@@ -1,6 +1,6 @@
 {
   "schema": "sprint13b-continuation-status/v1",
-  "at": "2026-10-09T06:38:47.628539+00:00",
+  "at": "2026-10-09T07:10:34.592953+00:00",
   "author_attempt": 13,
   "author_status": "ACCEPTED",
   "controller_tests": {
@@ -57,8 +57,10 @@
   "scientific_review9_sha256": "7d57c78c13455f0f39f81bf2a18c9ff83ef13ad178058e44b8f77358b69139f7",
   "scientific_lane": "BLOCKED_UNRESOLVED_AFTER_THREE_REVISIONS",
   "scientific_calls": 22,
-  "utc_day_model_calls": 21,
+  "utc_day_model_calls": 22,
   "native_cpu": "PASSED_SYNTHETIC_ONLY",
   "scope_opinion": "R40_DOCUMENTATION_APPROVE_STAGING_QUESTION_UNANSWERED",
-  "continuation_draft": "UNINSTALLED_UNREVIEWED_72_PASS_6_FAIL"
+  "continuation_draft": "TESTED_291_PASS_PENDING_INDEPENDENT_REVIEW_UNINSTALLED",
+  "continuation_source": "7442fbcfcc5aa1fc530ac1883369a6d16dfcdbf3",
+  "administrative_review": "RUNNING"
 }
