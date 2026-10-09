@@ -8,7 +8,8 @@ import re
 import sys
 
 CHANGE='item4-author7-and-image-recovery-20261008'
-REVIEW_CHANGE='item4-review7-continuation-20261009'
+REVIEW_CHANGE='item4-review8-source-native-delivery-20261009'
+PROOF_DOCUMENT='docs/ITEM4_REVIEW8_PREREQUISITES.json'
 CONTINUATION_DOCUMENT='docs/ITEM4_REVIEW7_CONTINUATION.json'
 THIRD_DOCUMENT='docs/ITEM4_REVIEW6_CONTINUATION.json'
 SECOND_DOCUMENT='docs/ITEM4_REVIEW5_CONTINUATION.json'
@@ -36,7 +37,8 @@ RUNTIME_MODULES=('experiment_preprocessing','experiment_preprocessing_dispatch',
 FILES=tuple(dict.fromkeys(FILES+tuple('orchestrator/'+n+'.py' for n in RUNTIME_MODULES)
     +SUPPORT_FILES+('orchestrator/experiment_modal_package.py','orchestrator/manual_context.py',
         'orchestrator/item4_review4_continuation.py','docs/ITEM4_REVIEW4_CONTINUATION.json',SECOND_DOCUMENT,THIRD_DOCUMENT,CONTINUATION_DOCUMENT,
-        'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',)))
+        'orchestrator/item4_scoped_calls.py','orchestrator/dispatch_limiter.py',
+        'tools/item4_review8_proof.py',PROOF_DOCUMENT,)))
 
 GUIDANCE=(
  'Read the exact validator artifact and full current-six-item-backlog via their hashed workspace paths. '
@@ -88,6 +90,12 @@ REVIEW_GUIDANCE=(
  'For repeated U1, inspect actual source and authenticated underlying receipts: distinguish a missing '
  'historical manifest from a prospective author-owned manifest grounded in original hashes. Accept neither '
  'format alone nor an invented history; state the specific unsupported binding if provenance remains inadequate. '
+ 'Read SOURCE_BINDING.json, SOURCE_VERIFIED.json, SOURCE_LOCAL_VERIFIED.json and SOURCE_VOLUME.json; '
+ 'the reviewed service bound these originals to the frozen inventory and full composed-volume byte readback. '
+ 'Read NATIVE_OUTPUT.json, NATIVE_VERIFIED.json, NATIVE_BINDING.json and NATIVE_TERMINAL.json for actual '
+ 'author13 synthetic native CPU execution in the pinned image. These are original receipts, not patient '
+ 'efficacy, GPU validation, production-main execution or scientific approval. Judge U1/U2 against these '
+ 'new proofs; preserve U3 coverage holds and distinct later execution/confinement/budget gates. '
  'Only genuine independent APPROVE closes findings. Preserve coverage holds and all other limitations. ')
 
 def guidance(stage,base):
@@ -148,13 +156,13 @@ def load():
     third=json.loads((ROOT/THIRD_DOCUMENT).read_bytes())
     continuation.connect(accounting,mr,third,held_third_continuation_approval())
     current=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
-    continuation.connect(accounting,mr,current,v['review_sha256'])
+    continuation.connect(accounting,mr,current,held_fourth_continuation_approval())
     from orchestrator import dispatch_limiter
     limiter=module('_revision_dispatch_limiter',ROOT/'orchestrator/dispatch_limiter.py')
     dispatch_limiter.admit_manual=limiter.admit_manual
     dispatch_limiter.validate=limiter.validate
     calls=module('orchestrator.item4_scoped_calls',ROOT/'orchestrator/item4_scoped_calls.py')
-    calls.connect(current,v['review_sha256'])
+    calls.connect(current,held_fourth_continuation_approval())
     connect_runtime()
     return v,b,evidence,h,old,rec
 
@@ -231,7 +239,7 @@ def continue_review7():
         with lock(LANE/'driver.lock'):
             d.guard();originals(d,b,h,old,rec);held_application()
             frozen=json.loads((ROOT/CONTINUATION_DOCUMENT).read_bytes())
-            return continuation.activate(d,frozen,v['review_sha256'],STATE/'item4'/'item4-review7-continuation-20261009')
+            return continuation.activate(d,frozen,held_fourth_continuation_approval(),STATE/'item4'/'item4-review7-continuation-20261009')
     finally:d.store.db.close();d.store.batch.db.close()
 
 
@@ -332,6 +340,40 @@ def held_third_continuation_approval():
     return THIRD_REVIEW
 
 
+
+FOURTH_SOURCE='46583c209b65a75c98c29aa3ea0b47802ace251f'
+FOURTH_REVIEW='27aedad79b9021e61458d884c2acab2d7e9c9cb131322c7d8edbf9a8042e6096'
+
+def held_fourth_continuation_approval():
+    """Delivery approval cannot replace or expand the existing author13/review8 grant."""
+    from orchestrator.manual_host_guard import trusted
+    from orchestrator.autonomy_review import verify_result
+    proof=verify_result(trusted(RECORD/'history'/FOURTH_SOURCE/'original-review-directory'))
+    require(proof['verdict']=='APPROVE' and proof['change_id']=='item4-review7-continuation-20261009'
+        and proof['source_sha']==FOURTH_SOURCE and proof['report_sha256']==FOURTH_REVIEW,
+        'HELD_FOURTH_CONTINUATION_APPROVAL')
+    return FOURTH_REVIEW
+
+def review8_prerequisites(driver,evidence):
+    """Equivalent concrete replacement for the temporary no-proof review hold."""
+    import subprocess
+    from orchestrator.manual_host_guard import trusted
+    current=driver.current()
+    require(current['phase']=='run_spec_review' and not current.get('pending')
+        and current['rounds']=={'run_spec_author':13,'run_spec_review':7}
+        and driver.store.db.execute('SELECT count(*) FROM manual_calls').fetchone()[0]==20,
+        'REVIEW8_EXACT_STAGE')
+    expected=json.loads(trusted(ROOT/PROOF_DOCUMENT).read_bytes())
+    result=subprocess.run([sys.executable,'-s','-B',str(ROOT/'tools/item4_review8_proof.py')],
+        capture_output=True,text=True,timeout=180)
+    require(result.returncode==0,'REVIEW8_PREREQUISITES_FAILED')
+    require(json.loads(result.stdout)==expected,'REVIEW8_PREREQUISITES_CHANGED')
+    rows={row['name']:row for row in evidence['files']}
+    for name,pin in expected['files'].items():
+        require(name in rows and {k:rows[name][k] for k in ('sha256','bytes')}==pin,
+            'REVIEW8_PROOF_NOT_DELIVERED')
+    return expected
+
 def run():
     v,b,e,h,old,rec=load()
     from orchestrator import manual_recovery as mr,stocktake_review_recovery as sr,manual_stage as ms
@@ -393,17 +435,14 @@ def run():
             return body,measurement
         def _advance(self,*args,**kwargs):
             self.guard();originals(self,b,h,old,rec)
-            # This release launches author13 only. Review8 stays held until the
-            # separately reviewed source/native binding delivers both real proofs.
-            require(self.current()['phase']=='run_spec_author' and not self.current().get('pending'),
-                'REVIEW8_HELD_FOR_AUTHENTICATED_SOURCE_AND_NATIVE')
+            review8_prerequisites(self,e)
             return super()._advance(*args,**kwargs)
     try:
         d=RevisionDriver(LANE)
         held_application()
         mr.permit,sr.admission,ms._invoke,ms.transport_profile,intake.load_views=permit,admission,invoke,profile,views
         analysis_revisions.review_transition=lambda review,stage,n:continuation.terminal_transition(
-            prior_transition,d,review,stage,n,frozen,v['review_sha256'])
+            prior_transition,d,review,stage,n,frozen,held_fourth_continuation_approval())
         return d.advance()
     finally:
         analysis_revisions.review_transition=prior_transition
