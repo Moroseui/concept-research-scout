@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B verified all frozen inputs and its pinned environment; CPU preprocessing has committed 64 steps.
+13B verified all frozen inputs and its pinned environment; CPU preprocessing has committed 78 steps.
 The same CPU job is running without a failure. GPU smoke is next; coverage-dependent arms stay held.
 Full training awaits scientific review of real smoke results; no separate provenance package is required first.
 Confirmed closed-attempt CPU charges are $2.33879894; other actual costs remain unsettled. Effective item-4 exposure is $58.029253 of $75.
-Next expected result: this CPU attempt completes or reaches its time bound in about 15 minutes; GPU work follows verified preparation.
+Next expected result: this CPU attempt completes or reaches its time bound by approximately 15:06 UTC; GPU work follows verified preparation.
 No operator action needed. Latest Claude direction: R53 PROCEED. Today: 37/50 calls, all terminal.
 
-Updated 2026-10-09T14:51:59.664537+00:00. Detailed audit follows.
+Updated 2026-10-09T14:59:33.879745+00:00. Detailed audit follows.
 
 ## Results and execution
 
@@ -18,7 +18,7 @@ Author 14 proposed coverage-independent staging. Scientific review 10 returned g
 
 Both earlier CPU attempts stopped before science and are positively terminal. Their original reservations and records remain preserved; confirmed closed compute is reconciled as detailed below. The second attempt verified all input hashes and environment, but provider file permissions conflicted with the unchanged private-record check. Its precise exception was reproduced diagnostically, not recovered from original stderr.
 
-R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent APPROVE 69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92. Claude explicitly recommended PROCEED and judged the owner-only invocation copies equivalent-or-stronger protection. The patch copies only exact hash-verified code and the selected partition record into a temporary private directory; original mounted files and all downstream checks stay unchanged. Real installation verification and activation passed. Package preparation and upload passed. The third CPU attempt was admitted normally and submitted once; both local and provider accounting records confirm RUNNING. Its first input-proof observation refused an incomplete record without causing a restart. At 14:08 UTC the current attempt verified all 893 input files and its pinned environment, then recorded scientific preprocessing start. At 14:50 UTC the same attempt had 64 committed steps, no failure and no completed result. Earlier process observations confirmed increasing CPU time. No restart or new compute request occurred.
+R52 source 05818c497ac287ee639d24bdeb66d36a9d717bf1 received genuine independent APPROVE 69369d365a4ff9dae5e85cc464e8bbd3758dace82f1e1c601124536cf3256a92. Claude explicitly recommended PROCEED and judged the owner-only invocation copies equivalent-or-stronger protection. The patch copies only exact hash-verified code and the selected partition record into a temporary private directory; original mounted files and all downstream checks stay unchanged. Real installation verification and activation passed. Package preparation and upload passed. The third CPU attempt was admitted normally and submitted once; both local and provider accounting records confirm RUNNING. Its first input-proof observation refused an incomplete record without causing a restart. At 14:08 UTC the current attempt verified all 893 input files and its pinned environment, then recorded scientific preprocessing start. At 14:57 UTC the same attempt had 78 committed steps, no failure and no completed result. Earlier process observations confirmed increasing CPU time. No restart or new compute request occurred.
 
 Final tests: 232 passed, two disclosed environment-dependent skips. The complete connection and admission rehearsal preserved both old charges and refused an over-cap launch. Provider creation and future upload were explicitly simulated; prior authority and input/image/billing checks ran for real. Original failed tests/rehearsals and all charges are preserved. The public source projection is audit history, not a deployable combined release.
 
