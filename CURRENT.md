@@ -1,1 +1,3 @@
-See [outputs/STATUS.md](outputs/STATUS.md). Item6 complete. 13B first A100 container positively stopped after SDK command-size refusal; no scientific result. Full12.842400 reservation retained; effective exposure65.012588/75, latest GPU actual unsettled. Bounded stdin draft passes11 tests and native SDK checks for all3 frozen payloads with simulated endpoints. Unreviewed, unconnected and uninstalled; exact recovery/accounting work and combined Claude review remain. No GPU/model call running;43/50 calls today. First benchmark provisionally19:45-20:00 UTC, subject to approval/reconciliation. Coverage/FULL held.
+Current human-readable research state is maintained in outputs/STATUS.md.
+
+Item 6 complete; 13B GPU repair under independent review, no GPU running. Current candidate is uninstalled.
