@@ -1,6 +1,6 @@
 # Research status
 
-Updated 2026-10-09T06:05:43.305730+00:00. Updated in place for the daily audit.
+Updated 2026-10-09T06:08:28.616950+00:00. Updated in place for the daily audit.
 
 ## Results and current work
 
@@ -14,7 +14,7 @@ The narrow repair now has genuine independent APPROVE and is installed: source 8
 
 Exact restoration preserved all 21 scientific calls and added no allowance or charge. Live installed checks passed: actual attempt 9, accepted-review counter 7, original grant independently authenticated, source/native/author/image proof, and 403 context files totaling 192769 characters. A local wait timeout was reconciled against the durable passing result and ended server processes; the check was not duplicated.
 
-Scientific review 9 start was issued ONCE. Latest observation06:04:49UTC: service active/preparing, model admission not yet recorded, still21scientific calls. Do not duplicate it. Scientific acceptance is required before patient preprocessing, GPU benchmark and smoke. Verdict estimate15-30minutes after start; smoke timing depends on that verdict and preparation outcomes.
+Scientific review 9 was admitted normally at06:06:35UTC and is RUNNING, confirmed06:08:02UTC in both call records. Local scientific count22. Live transport, isolation, search and submission checks passed before admission. The replacement is linked to the original failed review and its separately authenticated grant. Do not duplicate it. Scientific acceptance is required before patient preprocessing, GPU benchmark and smoke. Verdict estimate15-30minutes after start; smoke timing depends on that verdict and preparation outcomes.
 
 Validation:13 new actual model-step/reservation/restoration regression tests passed and passed again after the successor binding. Related suites141pass/1skip/16unchanged local transport refusals, representative reproduced on unchanged parent; those16 are NOT passes. Normal live transport qualification remains required at admission.
 
@@ -33,10 +33,10 @@ No reservation released. Only provider-confirmed actual cost of a closed attempt
 
 ## Calls, direction and judgment
 
-UTC October 9:19/50 at the latest observation, before scientific review9 admission:
+UTC October 9:20/50 at06:08:02UTC:
 
 - Scientific authors2: author12 and13 native-library corrections preserving the research plan.
-- Scientific reviewers2: review7 genuine REVISE on source/native evidence; review8 reading-limit failure without submission.
+- Scientific reviewers3: review7 genuine REVISE on source/native evidence; review8 reading-limit failure without submission; review9 replacement currently RUNNING.
 - Administrative implementation reviews13: native successor; billing range; installer import binding; configuration delivery; continuation/accounting/context; author13 native adapter; source composition; review-original ownership; source initialization; proof/context delivery; reader-limit recovery; workspace selector/restoration (disqualified); linked mechanical successor (APPROVE).
 - Standalone scope/direction checks2: retry authority and next-result plan. Later direction checks folded into implementation reviews.
 
