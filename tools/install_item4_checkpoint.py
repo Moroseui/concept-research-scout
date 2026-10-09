@@ -8,11 +8,11 @@ import os
 import subprocess
 import sys
 
-CHANGE='item4-benchmark-timer-format-20261009'
+CHANGE='item4-fit-stdin-recovery-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
-PRIOR_UNIT=Path('/etc/systemd/system/research-item4-benchmark-handoff-20261009.service')
-PRIOR_UNIT_SHA='a6d467b79b4cb7ef6f8b0cbd33a8c28c322dab6dad0ffb5f4b560b406760c6bb'
+PRIOR_UNIT=Path('/etc/systemd/system/research-item4-benchmark-timer-format-20261009.service')
+PRIOR_UNIT_SHA='65565930020dea7c7d74a43823853469b1a5d60164fd54f6acc7f4e9f521b93e'
 UNIT=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
 ENGINE=Path('/opt/research-system/autonomy-review/d08b91bdc1d0')
 RUNTIME='/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
@@ -32,7 +32,7 @@ def trusted(path):
 
 def unit_bytes(raw):
     require(sha(raw)==PRIOR_UNIT_SHA,'PRIOR_UNIT_CHANGED')
-    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-benchmark-handoff-20261009/tools/item4_checkpoint_runtime.py advance'
+    before='ExecStart=/usr/bin/python3 -s -B /opt/research-system/manual-repair-helpers/item4-benchmark-timer-format-20261009/tools/item4_checkpoint_runtime.py advance'
     after='ExecStart=/usr/bin/python3 -s -B '+str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance'
     body=raw.decode();require(body.count(before)==1,'PRIOR_UNIT_SHAPE')
     return body.replace(before,after).replace('Description=Reviewed experiment authoring (execution provisioning held)',
@@ -41,15 +41,8 @@ def unit_bytes(raw):
 
 
 def retention_units(rendered):
-    service=UNIT.with_name('research-'+CHANGE+'-retention.service')
-    timer=UNIT.with_name('research-'+CHANGE+'-retention.timer')
-    before=(str(ROOT/'tools/item4_checkpoint_runtime.py')+' advance').encode()
-    after=(str(ROOT/'tools/item4_checkpoint_runtime.py')+' cleanup-benchmark-package').encode()
-    require(rendered.count(before)==1,'RETENTION_COMMAND_SHAPE')
-    body=chr(10).join(['[Unit]','Description=Private benchmark package retention',
-        '[Timer]','OnBootSec=5min','OnUnitActiveSec=1h','Unit='+service.name,
-        '[Install]','WantedBy=timers.target','']).encode()
-    return {UNIT:rendered,service:rendered.replace(before,after),timer:body}
+    # Existing R57 retention remains active; no duplicate watcher or timer.
+    return {UNIT:rendered}
 
 
 def verify_units(units):
@@ -135,7 +128,6 @@ def install(source,review):
     result=subprocess.run(cmd,capture_output=True,text=True)
     put(RECORD/'VERIFY.stdout',result.stdout.encode());put(RECORD/'VERIFY.stderr',result.stderr.encode())
     require(result.returncode==0,'POSTINSTALL_VERIFY')
-    subprocess.run(['systemctl','enable','--now',retention_timer.name],check=True)
     put(RECORD/'COMPLETE.json',b'{"status":"INSTALLED_HELD","model_calls":0,"provider_calls":0}')
     return {'status':'INSTALLED_HELD','model_calls':0,'provider_calls':0}
 

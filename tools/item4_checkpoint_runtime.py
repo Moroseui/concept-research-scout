@@ -5,13 +5,13 @@ import importlib.util
 import json
 import os
 import sys
-CHANGE='item4-benchmark-timer-format-20261009'
+CHANGE='item4-fit-stdin-recovery-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-closed-attempt-billing-20261009/tools/item4_closed_billing_runtime.py')
 PRIOR_SHA='a3e0945e4511c2fe7367bd058cf08b1a5e87386f85c94e2cc08fa4aa795cc7f7'
 PRIOR_REVIEW='08ba6c4fa437586c0cd8a44e9fb627a735c6827ecb45fe5333587053fff1cdc5'
-FILES=('tools/item4_checkpoint_runtime.py', 'tools/install_item4_checkpoint.py', 'orchestrator/item4_checkpoint_connection.py', 'orchestrator/modal_item4_budget.py', 'orchestrator/modal_executor.py', 'docs/ITEM4_CHECKPOINT_CONNECTION.json', 'orchestrator/item4_closed_asset_billing.py', 'orchestrator/item4_benchmark_handoff.py', 'orchestrator/modal_terminal_cost.py', 'docs/ITEM4_CLOSED_EMPTY_ASSETS.json', 'docs/ITEM4_BENCHMARK_HANDOFF_PRIVATE.json')
+FILES=('tools/item4_checkpoint_runtime.py', 'tools/install_item4_checkpoint.py', 'orchestrator/item4_checkpoint_connection.py', 'orchestrator/modal_item4_budget.py', 'orchestrator/modal_executor.py', 'docs/ITEM4_CHECKPOINT_CONNECTION.json', 'orchestrator/item4_closed_asset_billing.py', 'orchestrator/item4_benchmark_handoff.py', 'orchestrator/modal_terminal_cost.py', 'docs/ITEM4_CLOSED_EMPTY_ASSETS.json', 'docs/ITEM4_BENCHMARK_HANDOFF_PRIVATE.json', 'orchestrator/modal_fit_stdin.py', 'orchestrator/modal_item4_provider.py', 'orchestrator/item4_fit_transport_recovery.py', 'orchestrator/experiment_dispatch.py', 'docs/ITEM4_FIT_TRANSPORT_RECOVERY_PRIVATE.json')
 
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
@@ -40,7 +40,7 @@ def authority():
         require(sha(trusted(ROOT/name).read_bytes())==installed['files'][name]==manifest['source_files'][name],'SOURCE_CHANGED')
     require(Path(__file__).resolve()==ROOT/FILES[0],'EXECUTED_SOURCE')
     unit=Path('/etc/systemd/system')/('research-'+CHANGE+'.service')
-    units=[unit,unit.with_name('research-'+CHANGE+'-retention.service'),unit.with_name('research-'+CHANGE+'-retention.timer')]
+    units=[unit] # Existing reviewed retention timer remains the sole cleanup owner.
     require(installed['units']=={str(p):sha(trusted(p).read_bytes()) for p in units},'UNIT_CHANGED')
     return result
 
@@ -62,6 +62,9 @@ def connect():
         candidate_cost=module('_benchmark_terminal_cost',ROOT/'orchestrator/modal_terminal_cost.py')
         require(not candidate_cost.observe_billing.__code__.co_freevars,'COST_CLOSURE')
         modal_terminal_cost.observe_billing.__code__=candidate_cost.observe_billing.__code__
+        for name in ('effective','record','exposure'):
+            function=getattr(candidate_cost,name);require(not function.__code__.co_freevars,'COST_CLOSURE')
+            getattr(modal_terminal_cost,name).__code__=function.__code__
         from orchestrator import preprocessing_continuation,modal_item4_budget,modal_executor
         helper=module('orchestrator.item4_checkpoint_connection',ROOT/'orchestrator/item4_checkpoint_connection.py')
         orchestrator.item4_checkpoint_connection=helper;helper.authority=authority
@@ -82,46 +85,28 @@ def connect():
         candidate_executor=module('_checkpoint_executor',ROOT/'orchestrator/modal_executor.py')
         require(not candidate_executor.item4_job.__code__.co_freevars,'IDENTITY_CLOSURE')
         modal_executor.item4_job.__code__=candidate_executor.item4_job.__code__
+        for name in ('modal_fit_stdin','item4_fit_transport_recovery'):
+            loaded=module('orchestrator.'+name,ROOT/('orchestrator/'+name+'.py'))
+            setattr(orchestrator,name,loaded)
+        recovery=orchestrator.item4_fit_transport_recovery;recovery.authority=authority;recovery.contract()
+        from orchestrator import modal_item4_provider,experiment_dispatch
+        expected_sources={'orchestrator.modal_item4_provider':'307bf7cdda63948531ceb4241a387a6d9ce9c7873bed61eaf1b01ec826ffc854',
+            'orchestrator.experiment_dispatch':'9acf06307fb561593c4b20eee18c6b971597751b346189533fc8d9374f8c7be7'}
+        for target,names in ((modal_item4_provider,('preflight','launch')),(experiment_dispatch,('load',))):
+            require(sha(trusted(Path(target.__file__)).read_bytes())==expected_sources[target.__name__],'PRIOR_TRANSPORT_SOURCE')
+            candidate=module('_fit_transport_'+target.__name__.split('.')[-1],ROOT/('orchestrator/'+target.__name__.split('.')[-1]+'.py'))
+            for name in names:
+                function=getattr(candidate,name);require(not function.__code__.co_freevars,'TRANSPORT_CLOSURE')
+                getattr(target,name).__code__=function.__code__
         return result
     prior.connect=wired
     return prior
 
-def publish_runtimes():
-    """Root invokes only a read-only owner export, then freezes its exact bytes."""
-    import subprocess
-    require(os.geteuid()==0,'ROOT_REQUIRED')
-    sys.path.insert(0,'/opt/research-system/autonomy-review/d08b91bdc1d0')
-    approved=authority()
-    env='RESEARCH_MANUAL_RUNTIME_CONFIG=/etc/research-system-manual-sprint10/releases/research-manual-sprint10-timeout-continuation-8e042339/runtime.json'
-    result=subprocess.run(['runuser','-u','partho','--','env',env,'PYTHONDONTWRITEBYTECODE=1',
-        '/usr/bin/python3','-s','-B',str(ROOT/FILES[0]),'export-runtimes'],capture_output=True)
-    require(result.returncode==0,'OWNER_EXPORT_FAILED')
-    proposal=json.loads(result.stdout)
-    contract=json.loads(trusted(ROOT/'docs/ITEM4_BENCHMARK_HANDOFF_PRIVATE.json').read_bytes())
-    require(proposal['schema']=='item4-benchmark-runtime-proposal/v1' and proposal['provider_calls']==0 and
-        proposal['contract_sha256']==sha(trusted(ROOT/'docs/ITEM4_BENCHMARK_HANDOFF_PRIVATE.json').read_bytes()) and
-        [x['fit'] for x in proposal['rows']]==[x['fit_id'] for x in contract['fits']],'EXPORT_SCOPE')
-    target=RECORD/'runtimes';require(not target.exists() and not target.is_symlink(),'RUNTIMES_EXIST_RECONCILE')
-    installer=module('_benchmark_publisher',ROOT/'tools/install_item4_checkpoint.py')
-    encoded=lambda value:json.dumps(value,sort_keys=True).encode()
-    jobs=[]
-    for row in proposal['rows']:
-        path=target/(row['fit']+'.json');raw=encoded(row['runtime'])
-        installer.put(path,raw)
-        jobs.append({'runtime':{'path':str(path),'sha256':sha(raw)},'binding':row['binding']})
-    installer.put(target/'proposal.json',result.stdout)
-    installer.put(target/'jobs.json',encoded(jobs))
-    os.chown(target,0,1003);target.chmod(0o550)
-    return {'status':'RUNTIME_RECORDS_PUBLISHED','jobs':str(target/'jobs.json'),
-            'provider_calls':0,'scientific_acceptance':False}
-
 
 def main(argv=None):
     argv=list(sys.argv[1:] if argv is None else argv)
-    if argv==['publish-runtimes']:
-        print(json.dumps(publish_runtimes(),sort_keys=True));return
     require(os.getuid()==os.getgid()==1003 and Path(__file__).resolve()==ROOT/FILES[0],'SERVICE_IDENTITY')
-    extra={'reconcile-empty-assets','prepare-benchmark-assets','export-runtimes','cleanup-benchmark-package'}
+    extra={'reconcile-fit-transport'}
     require(argv and argv[0] in {'verify','advance','prepare-execution','measure-benchmark'}|extra,'ACTION_SCOPE')
     prior=connect()
     if argv[0] not in extra:return prior.main(argv)
@@ -137,18 +122,10 @@ def main(argv=None):
         with lock(driver.state/'driver.lock'):
             driver.guard();c.originals(driver,*original);base.connect_evidence(driver,c,evidence)
             accounts=ComputeAccounts(driver.store.batch);value=driver.current()
-            if argv[0]=='cleanup-benchmark-package':
-                p=handoff.contract();sys.path.insert(0,p['preprocessing_runtime']['sdk_package'])
-                from orchestrator.modal_provider import ModalProvider
-                result=handoff.cleanup_package(accounts,ModalProvider(p['preprocessing_runtime']))
-            else:
-                p=handoff.contract();handoff.checked_driver(driver,value,p)
-                if argv[0]=='reconcile-empty-assets':result=assets.record(accounts)
-                elif argv[0]=='export-runtimes':result=handoff.export_runtimes(driver,value,accounts)
-                else:
-                    sys.path.insert(0,p['preprocessing_runtime']['sdk_package'])
-                    from orchestrator.modal_provider import ModalProvider
-                    result=handoff.prepare_assets(driver,value,accounts,ModalProvider(p['preprocessing_runtime']))
+            from orchestrator import item4_fit_transport_recovery as recovery
+            p=recovery.contract();sys.path.insert(0,p['runtime']['sdk_package'])
+            from orchestrator.modal_provider import ModalProvider
+            result=recovery.activate(driver,ModalProvider(p['runtime']))
         print(json.dumps(result,sort_keys=True))
     finally:driver.store.db.close();driver.store.batch.db.close()
 

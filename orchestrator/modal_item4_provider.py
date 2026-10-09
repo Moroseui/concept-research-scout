@@ -158,7 +158,11 @@ def preflight(provider, config, binding, prepared):
     from orchestrator.modal_provider import member_map
     from orchestrator.manual_executor import inventory
     assets=scope(provider,config,binding)
-    environment_scope(provider,binding,required=True)
+    environment=environment_scope(provider,binding,required=True)
+    from orchestrator.modal_fit_stdin import arguments
+    prepared_guard=guard_payload(provider,binding)
+    arguments(environment['python_executable'] if environment else '/usr/bin/python3',
+              guard_program(),canonical(prepared_guard))
     files=input_files(config,binding)
     provider.client.hello()
     app=existing_app(provider,assets)
@@ -171,7 +175,6 @@ def preflight(provider, config, binding, prepared):
     verify_input_members(provider,assets,files)
     provider._verify_volume(config['package_volume_id'],package)
     if not image_environment(binding):provider._verify_volume(config['wheel_volume_id'],member_map(config['wheel_files']))
-    prepared_guard=guard_payload(provider,binding) # Bound transport must fit before spending.
     image=provider.modal.Image.from_id(config['image_id'],client=provider.client);image.build(app)
     if image.object_id!=config['image_id']:raise ValueError('MODAL_IMAGE_ID_CHANGED')
     # Hash large inputs inside the actual worker before code execution; only
@@ -251,7 +254,7 @@ def launch(provider, provider_id, binding):
     if 'preprocessing' in binding:
         from orchestrator.modal_preprocessing_provider import launch as preprocess
         return preprocess(provider,provider_id,binding)
-    from orchestrator import modal_input_guard
+    from orchestrator.modal_fit_stdin import arguments, send
     environment=environment_scope(provider,binding,required=True)
     payload=guard_payload(provider,binding)
     source=guard_program()
@@ -260,11 +263,12 @@ def launch(provider, provider_id, binding):
     # One exec, same durable executor intent, same timeout and confinement.
     # The stdlib guard does not load the reviewed program until hashes pass.
     interpreter=environment['python_executable'] if environment else '/usr/bin/python3'
-    sandbox.exec(interpreter,'-B','-s','-c',source,canonical(payload).decode(),
+    raw=canonical(payload)
+    transport=send(sandbox,arguments(interpreter,source,raw),raw,
         timeout=binding['resources']['timeout_seconds'],workdir='/tmp',
         stdout=provider.modal.stream_type.StreamType.DEVNULL,
         stderr=provider.modal.stream_type.StreamType.DEVNULL)
-    return {'provider_id':provider_id,'submitted':True,'binding_sha256':payload['binding_sha256'],
+    return {'provider_id':provider_id,'submitted':True,'transport':transport,'binding_sha256':payload['binding_sha256'],
             'input_guard_sha256':payload['guard_sha256'],
             'input_inventory_sha256':hashlib.sha256(canonical(payload['files'])).hexdigest()}
 

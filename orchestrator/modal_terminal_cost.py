@@ -101,6 +101,12 @@ def record(accounts,ident,work):
     """Append once, as the ledger owner. No provider call or new admission."""
     db=accounts.db;row=db.execute('SELECT * FROM autonomy_compute WHERE id=?',(ident,)).fetchone()
     if row is None:raise ValueError('ITEM4_EXPOSURE_ROW_REQUIRED')
+    if db.execute('SELECT 1 FROM events WHERE id=?',(ident+':fit-transport-stop',)).fetchone():
+        from orchestrator import item4_fit_transport_recovery as recovery
+        recovery.require(ident==recovery.ORIGINAL_ID,'COST_SCOPE')
+        p=recovery.contract()
+        recovery.require(str(Path(work)/'create-intent.json') in p['evidence_files'],'COST_WORK')
+        return recovery.saved_cost(db,p)[0]
     # This fixed pre-science stop has no checkpoint and earns no exposure credit.
     # Requalify its independent authority and every original proof; keep the full
     # reservation. Missing/foreign/changed proofs still refuse, never fall back.
@@ -143,6 +149,9 @@ def record(accounts,ident,work):
 
 
 def effective(db,row,rates,*,snapshot=None):
+    from orchestrator.item4_fit_transport_recovery import effective as fit_recovery
+    fit_amount=fit_recovery(db,row,snapshot)
+    if fit_amount is not None:return fit_amount
     from orchestrator.item4_closed_attempt_billing import effective as closed_billing
     reconciled=closed_billing(db,row,snapshot)
     if reconciled is not None:return max(reconciled,row['actual_micro_usd'] or 0)
@@ -219,7 +228,8 @@ def exposure(db,rows,snapshot):
             key='legacy-reservation:'+row['id'];commitments[key]=cost
             by_run[row['run']]=by_run.get(row['run'],0)+cost
         if (db.execute('SELECT 1 FROM events WHERE id=?',(row['id']+':terminal-exposure',)).fetchone() or
-                db.execute('SELECT 1 FROM events WHERE id=?',(row['id']+':confirmed-closed-compute',)).fetchone()):
+                db.execute('SELECT 1 FROM events WHERE id=?',(row['id']+':confirmed-closed-compute',)).fetchone() or
+                db.execute('SELECT 1 FROM events WHERE id=?',(row['id']+':fit-transport-stop',)).fetchone()):
             proofs[row['id']]=cost
     seen=highwater(db);cycle=datetime.fromisoformat(snapshot['observed_at']).strftime('%Y-%m')
     underestimated=[]
