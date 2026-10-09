@@ -65,13 +65,32 @@ def resolve(config, root):
     return seal, raw, descriptors, selected
 
 
+
+def delivered_navigation(workspace,measurement,prompt,index):
+    """Exact inline descriptor or the producer's one authenticated index file."""
+    encoded=cb.encoded(index)
+    if encoded in prompt:return True
+    matches=[d for d in measurement.get('workspace_files',[])
+        if d.get('id')=='scientific-review-artifact-index']
+    if len(matches)!=1:return False
+    nav=matches[0]
+    if (set(nav)!={'id','path','sha256','bytes','characters','page_lines','delivery'}
+            or cb.encoded(nav) not in prompt or type(nav['page_lines']) is not int
+            or not 1<=nav['page_lines']<=100):return False
+    raw=pr.check(cb.relative_file(workspace,nav['path'])).read_bytes()
+    if (digest(raw)!=nav['sha256'] or len(raw)!=nav['bytes'] or
+            len(raw.decode())!=nav['characters']):
+        raise ValueError('EXPERIMENT_PARTITIONS_REVIEW_DELIVERY_CHANGED')
+    return raw.decode().split('\n\n').count(encoded)==1
+
+
 def reviewed(config, root, workspace, measurement, prompt):
     resolved = resolve(config, root)
     if resolved is None: return None
     seal, raw, descriptors, selected = resolved
     index = measurement.get("private_scientific_index")
     if (not isinstance(index, dict) or index.get("registry_sha256") != seal["registry_sha256"]
-            or cb.encoded(index) not in prompt
+            or not delivered_navigation(workspace,measurement,prompt,index)
             or measurement.get("private_scientific_views") != descriptors):
         raise ValueError("EXPERIMENT_PARTITIONS_REVIEW_DELIVERY_REQUIRED")
     index_raw = pr.check(cb.relative_file(workspace, index["path"])).read_bytes()
