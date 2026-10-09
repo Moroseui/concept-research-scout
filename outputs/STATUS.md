@@ -3,7 +3,7 @@
 Item 6 is complete: all 352 comparable results match the independent Colab run.
 13B reached its first real preparation launch, but produced no scientific output.
 The guard requires private output permissions; the provider created its empty root with broader permissions.
-The idle sandbox is stopped. Claude is reviewing a narrow repair and a truthful fresh-start recovery.
+The idle sandbox is stopped. Claude agreed to the narrow repair and truthful fresh-start recovery; implementation is in progress.
 Coverage arms remain held; full training awaits scientific review of actual smoke results.
 Workspace metered workload is $2.01511986, offset by credits; item actuals remain unsettled. Item 4 retains $45.690453 of $75.
 Next result: verified preparation in an estimated 1-2 hours, conditional on review and execution. No operator action needed.
@@ -42,11 +42,11 @@ Next is a reviewed repair of the output-root permission mismatch, then base prep
 
 Authenticated billing observed $2.01511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
 
-Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. Every original attempt and charge remains counted.
+Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. R48 direction estimate is $3.03873325. Every original attempt and charge remains counted.
 
 ## Calls, blockers and judgment calls
 
-UTC October 9: 31/50 calls; R48 direction/scope opinion is running. No resets or relabeling.
+UTC October 9: 31/50 calls, all terminal. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -55,9 +55,9 @@ UTC October 9: 31/50 calls; R48 direction/scope opinion is running. No resets or
 | Administrative implementation review | 19 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding |
 | Standalone direction/scope | 5 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction; R48 output-root initialization and positively stopped zero-step recovery |
 
-Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest direction is R47 PROCEED, one round agreed: use the reviewed connection and original terminal proofs to reach the next scientific result; no extra subsystem or provenance package.
+Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest direction is R48 PROCEED, one round agreed: initialize only the exact new empty output root to private permissions, keep every existing check, and connect a narrowly scoped fresh start to positive terminal evidence. No new recovery subsystem. Tests and independent implementation approval are still required.
 
-Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending. R48 asks for the simplest safe handling of the provider root and zero-step recovery; it cannot approve installation of an unwritten repair. A draft that initializes only a verified empty output root to private permissions passed 36 focused tests, retaining the original strict guard. It is not reviewed or installed. Original launch stderr was discarded, so the precise original exception is inferred from the demonstrated root-mode conflict. The ordinary committed-step continuation cannot be used to fabricate missing records.
+Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending. R48 recommended PROCEED for the simplest safe handling of the provider root and zero-step recovery; it cannot approve installation of an unwritten repair. A draft that initializes only a verified empty output root to private permissions passed 36 focused tests, retaining the original strict guard. It is not reviewed or installed. Original launch stderr was discarded, so the precise original exception is inferred from the demonstrated root-mode conflict. The ordinary committed-step continuation cannot be used to fabricate missing records.
 
 ## Publication scope and omissions
 
@@ -341,4 +341,8 @@ Evidence folders, ledgers, review packets, native streams, private records, pati
 
 The first attempt remains fully reserved at $10.342400 after verified termination. The hourly billing report ends before that attempt, so no excess is released. Current workspace metered workload is $2.01511986, offset by credits; subscription is separate. Complete item-specific actuals remain unsettled. A same-size retry would bring retained item 4 exposure to $56.032853, subject to normal admission. No retry has been launched.
 
-The published root-initialization code and tests are a working draft, not an installed release. Claude scope consultation is running because this touches private-output safeguards and zero-step accounting. Keep this repair narrow; no new subsystem or extra production-provenance package.
+The published root-initialization code and tests are a working draft, not an installed release. Claude scope consultation returned PROCEED, one round agreed. This is direction agreement, not implementation approval. Keep this repair narrow; no new subsystem or extra production-provenance package.
+
+The direction proposal was assistant-authored; Git author configuration is not operator authorization. The reviewer inferred authorship from that metadata incorrectly. Authority remains the existing verbatim operator decisions. Further source inspection found static package upload explicitly uses mode 0440; the next implementation review will assess strict package-reader compatibility together with root initialization and recovery, rather than assume local file modes are preserved. No installed permission check has changed.
+
+- Withheld outputs > implementation-reviews > item4-preprocessing-root-direction-20261009.json: CREDENTIAL_OR_HOST_REFERENCE
