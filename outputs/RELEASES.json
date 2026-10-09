@@ -109,6 +109,12 @@
       "role": "installed bounded billing reader connection",
       "review": "b2525fd51c1848465e5ed0eed9e5cf4e801f15c13d892d7425618f55d0fb4e0c",
       "selection": "exact safe projection; private originals and ancestry withheld"
+    },
+    {
+      "source": "eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f",
+      "role": "installed original spending and terminal-proof connection with producer-compatible row encoding",
+      "review": "3e3569d6f4284987e6dd96d71480f0764e2e82d825b27134386f4c66d6cbcda8",
+      "selection": "exact safe projection; private originals and ancestry withheld"
     }
   ],
   "source_files_count": 1369,
@@ -411,5 +417,5 @@
       "private_checkpoint_omitted": true
     }
   ],
-  "latest_backup_at": "2026-10-09T08:22:56.930149+00:00"
+  "latest_backup_at": "2026-10-09T11:01:56.894405+00:00"
 }

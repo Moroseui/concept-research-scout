@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B's staged package, code upload and provider preflight passed; no compute is running.
-Spending admission stopped before reserving money because reviewed control connections were missing.
-The combined repair now passes full admission on a ledger copy and still refuses an over-cap launch; Claude is reviewing it.
-Coverage arms await source evidence, and full training awaits scientific review of smoke results.
-Observed workspace workload is $1.33511986 this month, fully credited; item-specific actuals remain unsettled. Item 4 retains $35.348053 of its $75 cap.
-Next result: base preprocessing after approval and normal admission, estimated 11:15?12:00 UTC. No operator action needed.
+The server is checking preserved approvals before admission; compute has not launched.
+Claude approved the spending repair and recommended proceeding; it is installed.
+Coverage arms await source evidence; full training awaits scientific review of actual smoke results.
+Observed workspace workload is $1.33511986 this month, fully credited; item-specific actual spending remains unsettled.
+Item 4 retains $35.348053 of its $75 smoke cap; original reservations remain counted.
+Next result: verified base preprocessing, estimated by 12:00 UTC if execution succeeds. No operator action needed.
 
-Updated 2026-10-09T10:53:59.538169+00:00. Detailed audit follows.
+Updated 2026-10-09T11:01:56.894405+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -18,21 +18,21 @@ Item 6 is scientifically approved. Mean Dice rose from 0.20630608 to 0.24674415,
 
 Author 14 proposed base-only staging. Scientific review 10 judged that staging well-formed but returned a genuine REVISE for open provenance, real integration and coverage findings. The exact operator instruction authorizes smoke as the integration evidence; it does not require a separate production-provenance package. No finding has been relabeled or closed. Coverage arms and all FULL jobs remain refused, and actual smoke results require scientific review before full training.
 
-R43 gave explicit PROCEED for the smallest validation-only admission. R44 implemented it with independent APPROVE, preserving all findings, original charges and ordinary safeguards. Its first activation safely refused a mismatch between the evidence producer and partition-delivery consumer. R45 reconnects the existing supplemental evidence producer and verifies the exact mandatory index delivery. All 238 original descriptors are checked; no arbitrary superset or skipped hash/membership check. Its independent implementation APPROVE is 5dab94cbfd162c837f42f4e87debe9ead36a2833e8cb2eddb5fd78371e69636d, source 5a96cc372b94e31176759315c92db1ae6b75c241. All 140 distinct affected checks passed after disclosed test-fixture corrections. Installed verification, one activation, private specification commit and package emission succeeded. The lane is EXECUTE_EXPERIMENT. No provider compute has launched.
+R43 gave explicit PROCEED for the smallest validation-only admission. R44 implemented it with independent APPROVE, preserving all findings, original charges and ordinary safeguards. Its first activation safely refused a mismatch between the evidence producer and partition-delivery consumer. R45 reconnects the existing supplemental evidence producer and verifies the exact mandatory index delivery. All 238 original descriptors are checked; no arbitrary superset or skipped hash/membership check. Its independent implementation APPROVE is 5dab94cbfd162c837f42f4e87debe9ead36a2833e8cb2eddb5fd78371e69636d, source 5a96cc372b94e31176759315c92db1ae6b75c241. All 140 distinct affected checks passed after disclosed test-fixture corrections. Installed verification, one activation, private specification commit and package emission succeeded. The lane is EXECUTE_EXPERIMENT. The current execution observation is recorded below.
 
 A read-only execution billing query then failed because its older reader requested more than seven days of hourly data at once. The already-reviewed reader in the source/native route succeeds by querying contiguous bounded windows. R46 connects those exact bytes through a small wrapper around R45, keeping the existing activated authority, seal, source files and unit intact. It changes no amount, cap, reservation or refusal. All 126 distinct affected checks passed. Source 15c1bb893546ce87649fe5ee2df14e0348dc5ac0 received genuine independent APPROVE b2525fd51c1848465e5ed0eed9e5cf4e801f15c13d892d7425618f55d0fb4e0c, installed held and verified. The existing handoff was prepared, root-inspected and published. Immutable code upload and provider preflight passed. No new subsystem, image build or provenance job is planned.
 
 Normal admission then refused before a compute reservation because the spending module was absent from the execution import path. The failed service and all original records are preserved; no provider job was created. R47 connects that original protected, independently reviewed module. Full admission rehearsal also exposed two related gaps: the old author 5 terminal proof was not connected to spending, and the retained-row producer and consumer used different JSON spacing. The same bundle reuses the exact existing native-terminal proof and aligns row encoding, preserving every original row, charge, comparison and refusal. It keeps the active validation seal unchanged.
 
-R47 source eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f is under one independent implementation/accounting/equivalent-check review, with direction folded in. All 181 affected tests passed. Two unrelated image-fixture failures reproduce unchanged on the parent and are disclosed. The complete normal reservation path passed on an in-memory copy of actual accounting; a separate over-cap attempt was refused. Live global and local records were hashed before and after and were unchanged. This is admission evidence, not scientific or GPU evidence.
+R47 source eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f received genuine independent APPROVE 3e3569d6f4284987e6dd96d71480f0764e2e82d825b27134386f4c66d6cbcda8. Claude explicitly recommended PROCEED, one round agreed. Held installation and verification succeeded; the existing package and upload are reused. The failed predecessor remains preserved. All 181 affected tests passed. Two unrelated image-fixture failures reproduce unchanged on the parent and are disclosed. The complete normal reservation path passed on an in-memory copy of actual accounting; a separate over-cap attempt was refused. Live global and local records were hashed before and after and were unchanged. This is admission evidence, not scientific or GPU evidence.
 
-Next is the reviewed connection and normal admission for base preprocessing, followed by the declared GPU benchmarks and repeated smoke. A read-only quote for 16 CPUs, 128 GiB and a maximum hour plus $5 overhead is $10.342400; no reservation has been made. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
+Next are base preprocessing, the declared GPU benchmarks and repeated smoke. The maximum quote for 16 CPUs, 128 GiB and an hour plus $5 overhead is $10.342400. Current observation: The server is checking preserved approvals before admission; compute has not launched. Newly reserved compute is $0.000000. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
 
 ## Spending
 
 | Scope | Retained reservation | Actual-cost status |
 |---|---:|---|
-| Item 4 assets | $35.348053 | Complete per-item actual total unsettled |
+| Item 4 assets and admitted compute | $35.348053 | Complete per-item actual total unsettled |
 | Both source attempts, included above | $6.642660 | Both retained |
 | Three native attempts, included above | $3.356850 | Historical observation $0.01258041, not settlement |
 | Item 4 image, included above | $1.178425 | Historical observation $0.00669028, not settlement |
@@ -42,11 +42,11 @@ Next is the reviewed connection and normal admission for base preprocessing, fol
 
 Authenticated billing observed $1.33511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
 
-Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 is running. Every original attempt and charge remains counted.
+Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 completed with model estimate $5.4677175. Every original attempt and charge remains counted.
 
 ## Calls, blockers and judgment calls
 
-UTC October 9: 30/50 calls, including the running R47 review. No resets or relabeling.
+UTC October 9: 30/50 calls; all are terminal. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
@@ -55,7 +55,7 @@ UTC October 9: 30/50 calls, including the running R47 review. No resets or relab
 | Administrative implementation review | 19 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding |
 | Standalone direction/scope | 4 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction |
 
-Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest explicit direction remains R43 PROCEED, one round agreed. R44 and R45 implementation approvals upheld that scope but did not supply a new explicit direction label. R46 independently approved the required accounting repair but also omitted an explicit direction label. R47 is expressly required to state PROCEED, SIMPLIFY or ASK PARTHO in its rationale.
+Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest direction is R47 PROCEED, one round agreed: use the reviewed connection and original terminal proofs to reach the next scientific result; no extra subsystem or provenance package.
 
 Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending.
 
