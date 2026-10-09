@@ -1,14 +1,14 @@
 # Research status
 
 Item 6 is complete: all 352 comparable results match the independent Colab run.
-13B's base-only staging is ready for execution; its scientific findings remain open.
-The delivery repair passed review, installed, and produced the staged execution package.
-Claude is reviewing the connection to an existing billing repair; no compute is running.
-Coverage-dependent arms are held for source evidence; full training waits for reviewed smoke results.
-Provider workload observed this month is $1.33511986 across the workspace, fully credited; item-specific actuals remain unsettled. Item 4 retains $35.348053 of its $75 cap.
-Next result: base preprocessing after this review and normal admission, estimated 10:45?11:45 UTC. No operator action needed.
+13B's staged package, code upload and provider preflight passed; no compute is running.
+Spending admission stopped before reserving money because reviewed control connections were missing.
+The combined repair now passes full admission on a ledger copy and still refuses an over-cap launch; Claude is reviewing it.
+Coverage arms await source evidence, and full training awaits scientific review of smoke results.
+Observed workspace workload is $1.33511986 this month, fully credited; item-specific actuals remain unsettled. Item 4 retains $35.348053 of its $75 cap.
+Next result: base preprocessing after approval and normal admission, estimated 11:15?12:00 UTC. No operator action needed.
 
-Updated 2026-10-09T10:20:04.838202+00:00. Detailed audit follows.
+Updated 2026-10-09T10:53:59.538169+00:00. Detailed audit follows.
 
 ## Results and current state
 
@@ -20,9 +20,13 @@ Author 14 proposed base-only staging. Scientific review 10 judged that staging w
 
 R43 gave explicit PROCEED for the smallest validation-only admission. R44 implemented it with independent APPROVE, preserving all findings, original charges and ordinary safeguards. Its first activation safely refused a mismatch between the evidence producer and partition-delivery consumer. R45 reconnects the existing supplemental evidence producer and verifies the exact mandatory index delivery. All 238 original descriptors are checked; no arbitrary superset or skipped hash/membership check. Its independent implementation APPROVE is 5dab94cbfd162c837f42f4e87debe9ead36a2833e8cb2eddb5fd78371e69636d, source 5a96cc372b94e31176759315c92db1ae6b75c241. All 140 distinct affected checks passed after disclosed test-fixture corrections. Installed verification, one activation, private specification commit and package emission succeeded. The lane is EXECUTE_EXPERIMENT. No provider compute has launched.
 
-A read-only execution billing query then failed because its older reader requested more than seven days of hourly data at once. The already-reviewed reader in the source/native route succeeds by querying contiguous bounded windows. R46 connects those exact bytes through a small wrapper around R45, keeping the existing activated authority, seal, source files and unit intact. It changes no amount, cap, reservation or refusal. All 126 distinct affected checks passed. Source 15c1bb893546ce87649fe5ee2df14e0348dc5ac0 is under independent implementation/accounting review, with a direction check folded into that same call. It is not installed. No new subsystem, image build or provenance job is planned.
+A read-only execution billing query then failed because its older reader requested more than seven days of hourly data at once. The already-reviewed reader in the source/native route succeeds by querying contiguous bounded windows. R46 connects those exact bytes through a small wrapper around R45, keeping the existing activated authority, seal, source files and unit intact. It changes no amount, cap, reservation or refusal. All 126 distinct affected checks passed. Source 15c1bb893546ce87649fe5ee2df14e0348dc5ac0 received genuine independent APPROVE b2525fd51c1848465e5ed0eed9e5cf4e801f15c13d892d7425618f55d0fb4e0c, installed held and verified. The existing handoff was prepared, root-inspected and published. Immutable code upload and provider preflight passed. No new subsystem, image build or provenance job is planned.
 
-Next is root-selected runtime preparation and normal admission for base preprocessing, followed by the declared GPU benchmarks and repeated smoke. A read-only quote for 16 CPUs, 128 GiB and a maximum hour plus $5 overhead is $10.342400; no reservation has been made. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
+Normal admission then refused before a compute reservation because the spending module was absent from the execution import path. The failed service and all original records are preserved; no provider job was created. R47 connects that original protected, independently reviewed module. Full admission rehearsal also exposed two related gaps: the old author 5 terminal proof was not connected to spending, and the retained-row producer and consumer used different JSON spacing. The same bundle reuses the exact existing native-terminal proof and aligns row encoding, preserving every original row, charge, comparison and refusal. It keeps the active validation seal unchanged.
+
+R47 source eef3a4d807773e32b7dc01b1eb7ca2dc016daa6f is under one independent implementation/accounting/equivalent-check review, with direction folded in. All 181 affected tests passed. Two unrelated image-fixture failures reproduce unchanged on the parent and are disclosed. The complete normal reservation path passed on an in-memory copy of actual accounting; a separate over-cap attempt was refused. Live global and local records were hashed before and after and were unchanged. This is admission evidence, not scientific or GPU evidence.
+
+Next is the reviewed connection and normal admission for base preprocessing, followed by the declared GPU benchmarks and repeated smoke. A read-only quote for 16 CPUs, 128 GiB and a maximum hour plus $5 overhead is $10.342400; no reservation has been made. Scientific work is not reduced to fit the provisional duration. FULL remains prohibited until actual smoke review and ordinary projection admission.
 
 ## Spending
 
@@ -38,22 +42,22 @@ Next is root-selected runtime preparation and normal admission for base preproce
 
 Authenticated billing observed $1.33511986 in workspace metered workload this month, offset by reported credits and allowances. This is workspace-wide, not an item-specific settlement. The provider also lists $209.67741935 in subscription charges; these are not reported as experiment compute. No reservation is released. Only provider-confirmed actual cost for a closed attempt can release its excess; open or uncertain attempts retain the full amount. Caps remain $75 smoke, $1,200 projection and $1,275 total. Item 4 has no separate $15 retry limit.
 
-Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 is still running. Every original attempt and charge remains counted.
+Model estimates are separate from provider workload. Recent completed calls: R42 $7.7660665, scientific review 10 $4.74394275, R43 $3.247747, R44 $5.2889295 and R45 $4.27838375. Author 14 usage is preserved; its dollar estimate has not been extracted. R46 completed with model estimate $3.49669325. R47 is running. Every original attempt and charge remains counted.
 
 ## Calls, blockers and judgment calls
 
-UTC October 9: 29/50 calls, including the running R46 review. No resets or relabeling.
+UTC October 9: 30/50 calls, including the running R47 review. No resets or relabeling.
 
 | Type | Count | Purpose |
 |---|---:|---|
 | Scientific author | 3 | Authors 12/13 native corrections; author 14 staging response |
 | Scientific reviewer | 4 | Review 7 REVISE; review 8 reader-limit failure; reviews 9/10 genuine REVISE |
-| Administrative implementation review | 18 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection |
+| Administrative implementation review | 19 | Native successor; billing range; installer binding; configuration delivery; continuation/accounting/context; native adapter; source composition; review ownership; source initialization; proof delivery; reader recovery; workspace restoration (disqualified); linked recovery; R41 continuation; R42 batch/preparation recovery; R44 validation admission; R45 exact delivery; R46 billing connection; R47 original spending/terminal proof and row encoding |
 | Standalone direction/scope | 4 | Retry authority, next-result plan, documentation-only staging, precise validation-admission direction |
 
-Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest explicit direction remains R43 PROCEED, one round agreed. R44 and R45 implementation approvals upheld that scope but did not supply a new explicit direction label. R46 is asked to give an explicit direction decision.
+Administrative work dominates. Required accounting and direction opinions are batched with the concrete implementation review; optional infrastructure and extra provenance work are deferred. Latest explicit direction remains R43 PROCEED, one round agreed. R44 and R45 implementation approvals upheld that scope but did not supply a new explicit direction label. R46 independently approved the required accounting repair but also omitted an explicit direction label. R47 is expressly required to state PROCEED, SIMPLIFY or ASK PARTHO in its rationale.
 
-Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. No operator decision is pending.
+Judgment highlights: retain the genuine scientific REVISE while admitting only the operator-authorized validation stage; reconstruct exact original delivery rather than skip the check; reuse the existing bounded billing reader and preserve the active seal; retain all unsettled reservations. Claude was consulted for each safeguard/accounting patch. Latest judgment: test the full actual spending route on a memory-only ledger before review, and batch all diagnosed connections; never restart the failed service or relax a refusal. No operator decision is pending.
 
 ## Publication scope and omissions
 
@@ -327,3 +331,8 @@ Evidence folders, ledgers, review packets, native streams, private records, pati
 ### Latest withheld versions
 
 - tests > fixtures > item4_execution_billing_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+
+### Current connection exclusions
+
+- tests > fixtures > item4_execution_billing_prior_unit.txt: INFRASTRUCTURE_OR_CREDENTIAL_PATH
+- outputs > implementation-reviews > item4-execution-billing-20261009.json: CREDENTIAL_OR_HOST_REFERENCE

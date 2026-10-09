@@ -6,14 +6,18 @@ import json
 import os
 import sys
 
-CHANGE='item4-execution-billing-20261009'
+CHANGE='item4-spending-module-20261009'
 ROOT=Path('/opt/research-system/manual-repair-helpers')/CHANGE
 RECORD=Path('/var/lib/research-system-manual-sprint10-deployment')/CHANGE
 PRIOR=Path('/opt/research-system/manual-repair-helpers/item4-partition-delivery-20261009/tools/item4_validation_runtime.py')
 PRIOR_SHA='8f3b690fc85ce10fa6a806cad5859366291299129d885444708c58c68e42ad99'
 PRIOR_REVIEW='5dab94cbfd162c837f42f4e87debe9ead36a2833e8cb2eddb5fd78371e69636d'
 BILLING_SHA='ca613aa0bcabdfd4b59147f5fb52537feb6d2d0a1b9b73d2f798ef7f5de9e7c4'
-FILES=('tools/item4_execution_billing.py','tools/install_item4_execution_billing.py','orchestrator/modal_billing.py')
+SPENDING=Path('/opt/research-system/manual-sprint10/research-manual-sprint10-spending-a51ac44279e4/orchestrator/spending_continuation.py')
+SPENDING_SHA='5ce8348bb0f5301052ee62b548811fb99da904dcddb358e7c2948cda4fe34bfc'
+SPENDING_SOURCE='a51ac44279e47a0df52dc2cfa012ecfa12defee5'
+SPENDING_REVIEW='19102515cbca9862653905eb3733d4c4806757ef14fe85415fe365d07259d5cc'
+FILES=('tools/item4_execution_billing.py','tools/install_item4_execution_billing.py','orchestrator/modal_billing.py','orchestrator/item4_terminal_row_encoding.py')
 
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def require(ok,why):
@@ -45,6 +49,47 @@ def authority():
     require(installed['units']=={str(unit):sha(trusted(unit).read_bytes())},'UNIT_CHANGED')
     return result
 
+def connect_spending():
+    # Import the original protected module at its original path. Its own
+    # implementation() authenticates the whole installed spending release,
+    # operator grant, selected runtime, unchanged owner and review ancestry.
+    require(sha(trusted(SPENDING).read_bytes())==SPENDING_SHA,'SPENDING_SOURCE_CHANGED')
+    spending=module('orchestrator.spending_continuation',SPENDING)
+    installed=spending.implementation()
+    require(installed['source']==SPENDING_SOURCE and installed['review_sha256']==SPENDING_REVIEW,'SPENDING_APPROVAL')
+    import orchestrator
+    orchestrator.spending_continuation=spending
+    return spending
+
+def connect_original_call(spending,c,original):
+    """Replay the existing qualified author5 terminal proof at spending admission.
+
+    The original UNCERTAIN row and its full charge stay unchanged. Unknown,
+    running, altered, or unrelated calls remain refused by the ordinary guard.
+    """
+    previous=spending.closed_ids
+    def closed(batch,run):
+        result=set(previous(batch,run))
+        if run!=c.RUN:return result
+        import sqlite3
+        from types import SimpleNamespace
+        from orchestrator import private_records as pr
+        require(batch.filesystem_root==Path('/') and batch.folder.resolve()==Path('/var/lib/research-system-autonomy/reviews'),'CALL_LEDGER_SCOPE')
+        config=json.loads(pr.check(c.LANE/'lane.json').read_bytes())
+        local=sqlite3.connect(pr.check(c.LANE/'jobs.sqlite').as_uri()+'?mode=ro',uri=True)
+        local.row_factory=sqlite3.Row
+        try:
+            driver=SimpleNamespace(state=c.LANE,config=config,store=SimpleNamespace(db=local,batch=batch))
+            # This already-reviewed method requalifies preserved local/global
+            # rows, native terminal stream/output pins and the approved grant.
+            c.originals(driver,*original)
+            call=original[3].CALL
+            require(call=='49cc364b033bf52198fbc44c5470bb72b9cfec03826294f71f2dd2286d244524','CALL_SCOPE')
+            result.add(call)
+            return result
+        finally:local.close()
+    spending.closed_ids=closed
+
 def connect(prior_load):
     # Preserve the existing activated authority/seal; never substitute this
     # accounting review for the R45 validation admission or scientific decision.
@@ -56,6 +101,11 @@ def connect(prior_load):
     # Keep all existing module references/headroom accounting. capture retains
     # its own reviewed globals, including contiguous report_rows, not old ones.
     modal_billing.capture=fresh.capture
+    spending=connect_spending()
+    connect_original_call(spending,result[0],result[2])
+    rows=module('_execution_terminal_rows',ROOT/'orchestrator/item4_terminal_row_encoding.py')
+    from orchestrator import item4_validation_admission
+    item4_validation_admission.retained_terminal=rows.retained_terminal
     return result
 
 def main(argv=None):
