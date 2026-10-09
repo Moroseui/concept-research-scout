@@ -1,6 +1,37 @@
 # Research status
 
 Item 6 is complete; all 352 comparable values match the independent Colab run.
+A100 and H100 first epochs measured 278.17 and 228.14 seconds; steady-state smoke timings are still pending.
+B200 has one original sandbox and a $16.59 reservation; submission is pending, and it has not been retried.
+Claude is reviewing the required timing-reader and two-run smoke setup repair; coverage-dependent arms and full training stay held.
+Confirmed provider compute is $11.89, with later billing still pending; the last pre-B200 effective exposure was $71.70, plus its $16.59 reservation, within $150.
+Next expected result: B200 benchmark after provider startup, provisionally another 20?30 minutes; startup delay makes this uncertain.
+Today: 48/50 model calls. The current administrative review includes the direction check; latest completed direction remains PROCEED.
+
+Updated 2026-10-09T22:04:58.816688+00:00.
+
+## Current work and judgment calls
+
+Candidate aa833acb4980520f67256f43fe13a20a818b4d03 passed 199 tests and a read-only replay on the actual installed chain. The original A100/H100 timing records are accepted without rewriting their bytes or changing the mean-duration calculation. The native unit parser passed. Future candidate approval and proposed unit bytes alone were simulated in that rehearsal. The candidate is not installed; one independent implementation/accounting/safeguard review is running. Its source is preserved separately on the public working branch, not merged as an installed release.
+
+Judgment: combine the required timing compatibility repair with two frozen base-smoke run identities. Reuse the existing image, preprocessing and package. Use ordinary preparation admission and strengthen the existing cleanup guard to include every consumer of the shared package. Keep the same timer, original reservations, $150 stage-1 cap, $1,200 projection gate and $1,275 total. No optional infrastructure. Claude second opinion and direction check are bundled into the implementation review. Existing B200 execution is unaffected and is not relaunched.
+
+Daily model calls: 3 scientific authors (native corrections 12/13 and smoke staging 14); 4 scientific reviewers (7, reader-failed 8, 9, 10); 36 administrative reviews (implementation, accounting and process repairs, including the current smoke connection bundle); 5 standalone direction checks (retry authority and next-result planning). The latest direction request is included in an administrative review, not counted again. At 50 calls, wait for UTC reset. All original attempts and charges remain counted.
+
+The current $88.30 figure is a conservative accounting exposure using the last verified pre-B200 calculation plus its new reservation, not an invoice. Open or uncertain reservations are not released. Provider-confirmed compute excludes pending later billing, asset charges and model charges. The earlier A100 timing comparison and provisional full-plan estimate remain below; smoke steady-state measurements are not yet available.
+
+Withheld from the working-branch projection after the unchanged scans:
+
+- tests > fixtures > item4_smoke_prior_unit_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+- tests > fixtures > item4_smoke_retention_PRIVATE.txt: EXCLUDED_RECORD_PATH, INFRASTRUCTURE_OR_CREDENTIAL_PATH, PRIVATE_RECORD_PATH.
+
+## Earlier detailed audit
+
+The following entries predate the current state above.
+
+# Research status
+
+Item 6 is complete; all 352 comparable values match the independent Colab run.
 A100 and H100 benchmarks are collected: first epochs took 278.17 and 228.14 seconds respectively; H100 was about 18% shorter.
 B200 preparation is running through the existing dispatcher. H100 is positively terminated.
 A timing-reader format mismatch needs a tested, independently reviewed fix before hardware calculation; B200 is unaffected.
